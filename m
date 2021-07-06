@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E166B3BDFD8
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:49:29 +0200 (CEST)
-Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 922163BDFDE
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:51:40 +0200 (CEST)
+Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0uoi-0008NO-Dk
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:49:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52614)
+	id 1m0uqp-0003Sq-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:51:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m0uns-0007j2-Cz
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:48:36 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:32975)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m0unp-0006Qv-Ny
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:48:36 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 8251F5C00C4;
- Tue,  6 Jul 2021 19:48:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 06 Jul 2021 19:48:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-id:content-type:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=Mo1ou33PjZ7XntOfJzjuu4VpLbJu2s3NUydf7BbYhoU=; b=hR3+jnXO
- hjky21d6w3/XD87s2RLtQRKnEYf6vT6Ypng2Nzc36yQjbb7gYaG3NnFLvcTTcFUi
- GxfaNIg2FmpqmHAhqjY0/XmwAxHYeRe+MXr3uz6JYS5/rOb88NoftmR9N3TbqU5e
- oyHs4oXhFbIxNDz4wRj8vLm8a4YQqiHLJ0v7AY983ZksxQQ1Kw+L1idy23IN/CiW
- k8n6ewC+hwz6KB2Eg7GKQ1RGxXs/j0ZzWCgmZfW+MvrseQ29Ktn/iiZiRQV1LqLY
- tFDvkeGeg2+zsuA38oY0C0jOwDS/27bHnF5NdMlGY19Omj3JeRjVTLoPBwg6hTD2
- ZLp8HFJsol2iLw==
-X-ME-Sender: <xms:zuvkYPR6hM9H-Oiy2NlgT5bIlvUk4EGvsS_7HiY7AkDhMm6tJy5P1Q>
- <xme:zuvkYAyuxZpuzOXHGXw8uJ02hzo0Q2BbaaN-plFklqw92i9Ds7IT3mynsQItQSNhz
- ltGGIFXnwOyzdB3bVI>
-X-ME-Received: <xmr:zuvkYE07-lJjDOQq0ekpH2GZI1pRpSpyszAceVp9lbRXvS8ageqWfaFJvEHilnQ5LdfOZNi1cZ2W3E_74NwHxH_jDlhvwqBzbEA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddugddujecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvufgjkfhfgggtsehmtderredttdejnecuhfhrohhmpefhihhnnhcuvfhh
- rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
- gvrhhnpeefffejiefgheevheefvefhteeggfeijeeiveeihfffffdugfefkeelfffhgfeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfth
- hhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:zuvkYPDZsdsN9K0u12CzUzPqFKZLfCYa735ipoK9m2IbdRTnt6S9LQ>
- <xmx:zuvkYIgvC5o5QZyttp8LuRgPRdfO6GmCZJOXcH-Mg4MekqpeaHzcBA>
- <xmx:zuvkYDoJvuXDoUzMMbw5DEDgKD-VVayS5q6oXNzB7hOOe8xyLQRIpw>
- <xmx:z-vkYLulaeGT8x07RngyA2eGpL7KJG7Gtz38Xj3PYeAtbv7qLU5k_Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 19:48:28 -0400 (EDT)
-Date: Wed, 7 Jul 2021 09:48:10 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 3/4] dp8393x: Store CAM registers as 16-bit
-In-Reply-To: <20210705214929.17222-4-mark.cave-ayland@ilande.co.uk>
-Message-ID: <687af4d-a483-c7ff-b89c-59c0e442141@linux-m68k.org>
-References: <20210705214929.17222-1-mark.cave-ayland@ilande.co.uk>
- <20210705214929.17222-4-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m0uos-0000iB-TZ
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:38 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:33559)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m0uop-0006aq-7S
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:38 -0400
+Received: by mail-pf1-x436.google.com with SMTP id 145so583053pfv.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M/z5vZfJtdxcIfY7kwN4wEll30P9yfPdrm2rcsjhrUE=;
+ b=XUUSm6NP4Dc+10hzx/+Mso6urll/5SV2aCKKVre+vHhf2wf3yGltC51nZfBXGcUvSk
+ V6b/T+Lmw4LJo9SNeDH9aEcOjr5LyaR8orG4D3J47ipjf+tZt39D0iKNVNfxrSUwqZJU
+ JpqMMr0pKAfNE+bT7HF9xzFcyi/Nby75VdBKpktX0jrvyleC6ow8YzKJDdYfttwDstgv
+ jzqI+rEdsbi8oOKPdZ1Xq9q4BrHc0ZIVeGUcXV7EN9sU7lYgDMSVeltAJ4RGST8t9vss
+ qtE6Bmd4fAhKSyr7MF4j6NrHqZ1ROWsCz7Yr/1sJQ6vRrYeGCWjVYkrdIuQTM0aDkLVH
+ 8LHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M/z5vZfJtdxcIfY7kwN4wEll30P9yfPdrm2rcsjhrUE=;
+ b=by3ibHDWO9UY+NbYo7Mu5WxuovJgGB7jJ5btpy064rzb5OyAegAsSihqghZvVTGVZh
+ RAEbUdF5LcNFnuf1niGhD6X1fyOUomTiuB9EoQ6nwSNOGLlo8a7Of9iNRLTNAY6913B2
+ hi23djhL1LSnPAs5WXxvkObdq++HXRXcD0DcvQ0i8Xu4nAJBPBw+/9AXzXZ5A83N59CF
+ foQy0RRMXK2nrsN4YMyufMob2FuizyJ5VX0LWZ/+MypVOyoDPO2ecUYS/+DAGVbLtHNj
+ J07KEKuLXTsMR+vC/8UHLlWgoDkoQRAzhVfWMA5nC7feFk62ROPSODhh+xGKUaAGMAxV
+ S64Q==
+X-Gm-Message-State: AOAM532PchY0Qh8DMkRvw3G2ZKzfVENU9i6CQQfp3vbtww1cDMDb5trP
+ OpvLZdO750YBY16ZAUK0YqfzqMzNZlkbIg==
+X-Google-Smtp-Source: ABdhPJw2qTQthrEpCwFDgp5E+gY/QNdDHeGXG+MTQMnCzYwTxn86DrbhiW43CZQJ519DcWfEycXp1w==
+X-Received: by 2002:a63:4a18:: with SMTP id x24mr23047560pga.303.1625615373495; 
+ Tue, 06 Jul 2021 16:49:33 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 16:49:33 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/36] linux-user: Signal trampolines and vdsos
+Date: Tue,  6 Jul 2021 16:48:56 -0700
+Message-Id: <20210706234932.356913-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="-1463811774-204753470-1625614741=:6"
-Content-ID: <d05d5c88-3b-e7a-1e80-37996177168@nippy.intranet>
-Received-SPF: none client-ip=66.111.4.26; envelope-from=fthain@linux-m68k.org;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,119 +81,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Supercedes: <20210619034329.532318-1-richard.henderson@linaro.org>
+("[PATCH 00/12] linux-user: Load a vdso for x86_64 and hppa")
 
----1463811774-204753470-1625614741=:6
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <274ecaa-16b-62b2-6523-976944d8a714@nippy.intranet>
+Supercedes: <20210618192951.125651-1-richard.henderson@linaro.org>
+("[PATCH v2 00/23] linux-user: Move signal trampolines to new page")
 
-On Mon, 5 Jul 2021, Mark Cave-Ayland wrote:
+Changes for v2:
+  * Add vdsos for aarch64, arm, i386, riscv.
+  * Drop setup_sigtramp for any target with a vdso.
+  * Drop arm v1 signal support.
+  * Simplify ppc encode_trampoline.
 
-> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->=20
-> Per the DP83932C datasheet from July 1995:
->=20
->   4.0 SONIC Registers
->   4.1 THE CAM UNIT
->=20
->     The Content Addressable Memory (CAM) consists of sixteen
->     48-bit entries for complete address filtering of network
->     packets. Each entry corresponds to a 48-bit destination
->     address that is user programmable and can contain any
->     combination of Multicast or Physical addresses. Each entry
->     is partitioned into three 16-bit CAM cells accessible
->     through CAM Address Ports (CAP 2, CAP 1 and CAP 0) with
->     CAP0 corresponding to the least significant 16 bits of
->     the Destination Address and CAP2 corresponding to the
->     most significant bits.
->=20
-> Store the CAM registers as 16-bit as it simplifies the code.
-> There is no change in the migration stream.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  hw/net/dp8393x.c | 23 ++++++++++-------------
->  1 file changed, 10 insertions(+), 13 deletions(-)
->=20
-> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index cc7c001edb..22ceea338c 100644
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -157,7 +157,7 @@ struct dp8393xState {
->      MemoryRegion mmio;
-> =20
->      /* Registers */
-> -    uint8_t cam[16][6];
-> +    uint16_t cam[16][3];
->      uint16_t regs[0x40];
-> =20
->      /* Temporaries */
-> @@ -280,15 +280,13 @@ static void dp8393x_do_load_cam(dp8393xState *s)
->          address_space_read(&s->as, dp8393x_cdp(s),
->                             MEMTXATTRS_UNSPECIFIED, s->data, size);
->          index =3D dp8393x_get(s, width, 0) & 0xf;
-> -        s->cam[index][0] =3D dp8393x_get(s, width, 1) & 0xff;
-> -        s->cam[index][1] =3D dp8393x_get(s, width, 1) >> 8;
-> -        s->cam[index][2] =3D dp8393x_get(s, width, 2) & 0xff;
-> -        s->cam[index][3] =3D dp8393x_get(s, width, 2) >> 8;
-> -        s->cam[index][4] =3D dp8393x_get(s, width, 3) & 0xff;
-> -        s->cam[index][5] =3D dp8393x_get(s, width, 3) >> 8;
-> -        trace_dp8393x_load_cam(index, s->cam[index][0], s->cam[index][1]=
-,
-> -                               s->cam[index][2], s->cam[index][3],
-> -                               s->cam[index][4], s->cam[index][5]);
-> +        s->cam[index][0] =3D dp8393x_get(s, width, 1);
-> +        s->cam[index][1] =3D dp8393x_get(s, width, 2);
-> +        s->cam[index][2] =3D dp8393x_get(s, width, 3);
-> +        trace_dp8393x_load_cam(index,
-> +                               s->cam[index][0] >> 8, s->cam[index][0] &=
- 0xff,
-> +                               s->cam[index][1] >> 8, s->cam[index][1] &=
- 0xff,
-> +                               s->cam[index][2] >> 8, s->cam[index][2] &=
- 0xff);
->          /* Move to next entry */
->          s->regs[SONIC_CDC]--;
->          s->regs[SONIC_CDP] +=3D size;
-> @@ -591,8 +589,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr add=
-r, unsigned int size)
->      case SONIC_CAP1:
->      case SONIC_CAP0:
->          if (s->regs[SONIC_CR] & SONIC_CR_RST) {
-> -            val =3D s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - r=
-eg) + 1] << 8;
-> -            val |=3D s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - =
-reg)];
-> +            val =3D s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - r=
-eg)];
->          }
->          break;
->      /* All other registers have no special contraints */
+The remaining linux kernel targets that support vdsos are:
 
-This patch incorrectly alters the behaviour of the jazzsonic.c driver=20
-which reads the MAC address from the CAP registers in sonic_probe1().
+MIPS is particularly troublesome because of a multitude of ISAs.
+The kernel doesn't even support them all, disabling the vdso for
+micromips (and probably ignores nanomips entirely).  Though I'll
+note that linux-user/mips does not handle any of the modern
+ISAs -- install_sigtramp is strictly MIPS I.  In addition there
+are 3 ELF ABIs, so there's some combinatorial explosion in the
+set of vdsos that would need to be pre-built.  Perhaps put this
+off until we can build these on demand.
 
-With mainline QEMU, the driver reports:
-SONIC ethernet @e0001000, MAC 00:00:00:44:33:22, IRQ 28
+PPC is troublesome because of __kernel_get_syscall_map.
+In addition to needing to collect the set of syscalls that qemu
+supports, we'd need to update the vdso every time we add support
+for a new syscall.  And then there are the 3 ELF ABIs.  So again
+put this off until we can build these on demand.
 
-With this patch:
-SONIC ethernet @e0001000, MAC 00:00:33:22:00:00, IRQ 28
+S390x shouldn't be troublesome, I just didn't finish them all.
 
-> @@ -990,7 +987,7 @@ static const VMStateDescription vmstate_dp8393x =3D {
->      .version_id =3D 0,
->      .minimum_version_id =3D 0,
->      .fields =3D (VMStateField []) {
-> -        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
-> +        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 3 * 2),
->          VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
->          VMSTATE_END_OF_LIST()
->      }
->=20
----1463811774-204753470-1625614741=:6--
+
+r~
+
+
+Richard Henderson (36):
+  linux-user: Add infrastructure for a signal trampoline page
+  linux-user: Fix style problems in linuxload.c
+  linux-user: Introduce imgsrc_read, imgsrc_read_alloc
+  linux-user: Tidy loader_exec
+  linux-user: Do not clobber bprm_buf swapping ehdr
+  linux-user: Use ImageSource in load_elf_image
+  linux-user: Use ImageSource in load_symbols
+  linux-user: Replace bprm->fd with bprm->src.fd
+  linux-user: Introduce imgsrc_mmap
+  linux-user: Load vdso image if available
+  linux-user: Add gen-vdso tool
+  linux-user/aarch64: Add vdso and use it for rt_sigreturn
+  linux-user/arm: Drop v1 signal frames
+  linux-user/arm: Drop "_v2" from symbols in signal.c
+  target/arm: Add isar_feature_aa32_a32
+  linux-user/arm: Add vdso and use it for rt_sigreturn
+  linux-user/alpha: Implement setup_sigtramp
+  linux-user/cris: Implement setup_sigtramp
+  linux-user/hexagon: Implement setup_sigtramp
+  linux-user/hppa: Add vdso and use it for rt_sigreturn
+  linux-user/x86_64: Raise SIGSEGV if SA_RESTORER not set
+  linux-user/i386: Add vdso and use it for sigreturn
+  linux-user/x86_64: Add vdso
+  linux-user/m68k: Implement setup_sigtramp
+  linux-user/microblaze: Implement setup_sigtramp
+  linux-user/mips: Tidy install_sigtramp
+  linux-user/mips: Implement setup_sigtramp
+  linux-user/nios2: Document non-use of setup_sigtramp
+  linux-user/openrisc: Implement setup_sigtramp
+  target/ppc: Simplify encode_trampoline
+  linux-user/ppc: Implement setup_sigtramp
+  linux-user/riscv: Add vdso and use it for sigreturn
+  linux-user/s390x: Implement setup_sigtramp
+  linux-user/sh4: Implement setup_sigtramp
+  linux-user/sparc: Implement setup_sigtramp
+  linux-user/xtensa: Implement setup_sigtramp
+
+ linux-user/alpha/target_signal.h      |   1 +
+ linux-user/cris/target_signal.h       |   2 +
+ linux-user/hexagon/target_signal.h    |   2 +
+ linux-user/m68k/target_signal.h       |   2 +
+ linux-user/microblaze/target_signal.h |   2 +
+ linux-user/mips/target_signal.h       |   1 +
+ linux-user/mips64/target_signal.h     |   2 +
+ linux-user/nios2/target_signal.h      |   3 +
+ linux-user/openrisc/target_signal.h   |   2 +
+ linux-user/ppc/target_signal.h        |   2 +
+ linux-user/qemu.h                     |  67 +++-
+ linux-user/s390x/target_signal.h      |   2 +
+ linux-user/sh4/target_signal.h        |   2 +
+ linux-user/sparc/target_signal.h      |   4 +
+ linux-user/xtensa/target_signal.h     |   2 +
+ target/arm/cpu.h                      |   5 +
+ linux-user/aarch64/signal.c           |  17 +-
+ linux-user/alpha/signal.c             |  34 +-
+ linux-user/arm/signal.c               | 500 ++++++--------------------
+ linux-user/cris/signal.c              |  29 +-
+ linux-user/elfload.c                  | 367 ++++++++++++-------
+ linux-user/flatload.c                 |   8 +-
+ linux-user/gen-vdso.c                 | 223 ++++++++++++
+ linux-user/hexagon/signal.c           |  19 +-
+ linux-user/hppa/signal.c              |   8 +-
+ linux-user/i386/signal.c              |  50 +--
+ linux-user/linuxload.c                | 171 ++++++---
+ linux-user/m68k/signal.c              |  47 ++-
+ linux-user/microblaze/signal.c        |  24 +-
+ linux-user/mips/signal.c              |  39 +-
+ linux-user/openrisc/signal.c          |  24 +-
+ linux-user/ppc/signal.c               |  40 +--
+ linux-user/riscv/signal.c             |  10 +-
+ linux-user/s390x/signal.c             |  24 +-
+ linux-user/sh4/signal.c               |  40 ++-
+ linux-user/signal.c                   |   3 +
+ linux-user/sparc/signal.c             |  32 +-
+ linux-user/xtensa/signal.c            |  50 +--
+ target/arm/cpu_tcg.c                  |   7 +
+ linux-user/gen-vdso-elfn.c.inc        | 306 ++++++++++++++++
+ linux-user/aarch64/Makefile.vdso      |  11 +
+ linux-user/aarch64/meson.build        |  11 +
+ linux-user/aarch64/vdso-be.so         | Bin 0 -> 6000 bytes
+ linux-user/aarch64/vdso-le.so         | Bin 0 -> 6000 bytes
+ linux-user/aarch64/vdso.S             |  77 ++++
+ linux-user/aarch64/vdso.ld            |  74 ++++
+ linux-user/arm/Makefile.vdso          |  17 +
+ linux-user/arm/meson.build            |  18 +
+ linux-user/arm/vdso-arm-be.so         | Bin 0 -> 5648 bytes
+ linux-user/arm/vdso-arm-le.so         | Bin 0 -> 5648 bytes
+ linux-user/arm/vdso-thm-be.so         | Bin 0 -> 5620 bytes
+ linux-user/arm/vdso-thm-le.so         | Bin 0 -> 5620 bytes
+ linux-user/arm/vdso.S                 | 209 +++++++++++
+ linux-user/arm/vdso.ld                |  74 ++++
+ linux-user/hppa/Makefile.vdso         |   6 +
+ linux-user/hppa/meson.build           |   6 +
+ linux-user/hppa/vdso.S                | 149 ++++++++
+ linux-user/hppa/vdso.ld               |  75 ++++
+ linux-user/hppa/vdso.so               | Bin 0 -> 5196 bytes
+ linux-user/i386/Makefile.vdso         |   5 +
+ linux-user/i386/meson.build           |   7 +
+ linux-user/i386/vdso.S                | 149 ++++++++
+ linux-user/i386/vdso.ld               |  76 ++++
+ linux-user/i386/vdso.so               | Bin 0 -> 5528 bytes
+ linux-user/meson.build                |   8 +-
+ linux-user/riscv/Makefile.vdso        |  11 +
+ linux-user/riscv/meson.build          |   9 +
+ linux-user/riscv/vdso-32.so           | Bin 0 -> 5624 bytes
+ linux-user/riscv/vdso-64.so           | Bin 0 -> 6120 bytes
+ linux-user/riscv/vdso.S               | 207 +++++++++++
+ linux-user/riscv/vdso.ld              |  76 ++++
+ linux-user/x86_64/Makefile.vdso       |   5 +
+ linux-user/x86_64/meson.build         |   6 +
+ linux-user/x86_64/vdso.S              | 122 +++++++
+ linux-user/x86_64/vdso.ld             |  74 ++++
+ linux-user/x86_64/vdso.so             | Bin 0 -> 6008 bytes
+ 76 files changed, 2866 insertions(+), 789 deletions(-)
+ create mode 100644 linux-user/gen-vdso.c
+ create mode 100644 linux-user/gen-vdso-elfn.c.inc
+ create mode 100644 linux-user/aarch64/Makefile.vdso
+ create mode 100644 linux-user/aarch64/meson.build
+ create mode 100755 linux-user/aarch64/vdso-be.so
+ create mode 100755 linux-user/aarch64/vdso-le.so
+ create mode 100644 linux-user/aarch64/vdso.S
+ create mode 100644 linux-user/aarch64/vdso.ld
+ create mode 100644 linux-user/arm/Makefile.vdso
+ create mode 100755 linux-user/arm/vdso-arm-be.so
+ create mode 100755 linux-user/arm/vdso-arm-le.so
+ create mode 100755 linux-user/arm/vdso-thm-be.so
+ create mode 100755 linux-user/arm/vdso-thm-le.so
+ create mode 100644 linux-user/arm/vdso.S
+ create mode 100644 linux-user/arm/vdso.ld
+ create mode 100644 linux-user/hppa/Makefile.vdso
+ create mode 100644 linux-user/hppa/vdso.S
+ create mode 100644 linux-user/hppa/vdso.ld
+ create mode 100755 linux-user/hppa/vdso.so
+ create mode 100644 linux-user/i386/Makefile.vdso
+ create mode 100644 linux-user/i386/vdso.S
+ create mode 100644 linux-user/i386/vdso.ld
+ create mode 100755 linux-user/i386/vdso.so
+ create mode 100644 linux-user/riscv/Makefile.vdso
+ create mode 100644 linux-user/riscv/meson.build
+ create mode 100755 linux-user/riscv/vdso-32.so
+ create mode 100755 linux-user/riscv/vdso-64.so
+ create mode 100644 linux-user/riscv/vdso.S
+ create mode 100644 linux-user/riscv/vdso.ld
+ create mode 100644 linux-user/x86_64/Makefile.vdso
+ create mode 100644 linux-user/x86_64/vdso.S
+ create mode 100644 linux-user/x86_64/vdso.ld
+ create mode 100755 linux-user/x86_64/vdso.so
+
+-- 
+2.25.1
+
 
