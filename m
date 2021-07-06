@@ -2,84 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626613BD80E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:56:49 +0200 (CEST)
-Received: from localhost ([::1]:38046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254553BD811
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:59:06 +0200 (CEST)
+Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0lZA-00072q-F4
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:56:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46672)
+	id 1m0lbL-00026t-TL
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:59:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0lY4-00060t-Vw
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:55:41 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0lY0-0000lp-Tw
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:55:40 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- b14-20020a1c1b0e0000b02901fc3a62af78so1787452wmb.3
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=iAW5aJabVfEanAo2KfoV2LZajh9Ko5kld9g+gM3Q+HA=;
- b=D2ZvP6DjvStU93KBaTjwDL8juSTP5k1gNE4YKlR3SxZtkcZLz7YULkhI55MeP45pjE
- FLQsiUFFo33LozzpwovpNOUpwIE6nqclZFYi9lRj2qARbSlJgyjkTb7GdlbyBVeldUOm
- ceug/0ujf8XGCv4Vgi4+JKVI3qJO6N9uhOYCFr4t+a/tTac01S8z98Ih7wWonZkyXL5R
- S7EvZlM0KJ6stOIM3qGTwf9sO42YJux72dS8SygQ4jE26WTP26sC34+pvKUoIMldx02L
- A8xclI3L9QQ1jqc6x9RqW3b0LHuZRrMLuPUQLUK9Rqk5+enxnzH6LEuiy46Bn8OQvOKO
- cv7A==
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1m0lZp-0000Fv-PW
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:57:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31929)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1m0lZn-0001pc-Vu
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:57:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625579847;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zf73c2qEnhewkd7KXlkdMtw71o8gG4q2X37har4kq5I=;
+ b=dumGXpoTO4GZn+lIhVll1U0K4y9q1gL3yCas1hysZv1PQ2IuCcSbbAQr8nil+q44li+8r2
+ bZDmCIB5ZzrjwFqYjh9xlrzM5IiVNSYEPghDsJ+TF/3hd/DPVFTCfi/IX8A8C4nxqty+73
+ IrzR1UBh+WtNwfX77L5OrJM0rzxSy6s=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-kiuPybbwMu6rFwMSEmOh_w-1; Tue, 06 Jul 2021 09:57:25 -0400
+X-MC-Unique: kiuPybbwMu6rFwMSEmOh_w-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ u13-20020a5d6dad0000b029012e76845945so5113389wrs.11
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:57:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=iAW5aJabVfEanAo2KfoV2LZajh9Ko5kld9g+gM3Q+HA=;
- b=J1LuDqSQm/QVEnLblaGjuNpY1d845z+cGJIAUfMEgf40ocP7NiG87hzmSKLlnfzqBf
- JT20tKtdLArTsvMnEnaFSYxamvH2naaZe/VoOzUcyeqdQnkYdECp5E4kbUL/ZQydnKvI
- /C3k7cGjJHrf57dB3G/cPXyvbuHP+ARgOm+fO4qmQSiXiH7nv8qN27lYY/Pq6mNArYcH
- hOv/iTh8GSpR5dunRdYZ2OyJyNvWQBGSBhe7pnbQ79LVndqkM7J6Mw/XR3gNQGnYmDn6
- SJPPc1gxfmzvrd5JYwhUM18uxGmkfc3J3vzq9D7zIg/bcjQb7QNedK0w8CUm727Ynh/e
- 5OpQ==
-X-Gm-Message-State: AOAM530l4Qlfzz2Vp9zxCwSLpISopwVqsXJdx65PwxLdFeh11r1aIqnS
- X/toL1M+p10oEtiIaI3xkD7Cng==
-X-Google-Smtp-Source: ABdhPJy/Utv2ojGBXaiBT5a73gi4jqKZyzZBbA+xS/7bJJMc+viwVdIyjmv81DDpDe2/ubxJZk8RBA==
-X-Received: by 2002:a05:600c:4f0c:: with SMTP id
- l12mr20036833wmq.105.1625579733856; 
- Tue, 06 Jul 2021 06:55:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j1sm2860292wms.7.2021.07.06.06.55.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 06:55:33 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8D6F51FF7E;
- Tue,  6 Jul 2021 14:55:32 +0100 (BST)
-References: <20210621152120.4465-1-alex.bennee@linaro.org>
- <20210621152120.4465-2-alex.bennee@linaro.org>
- <c3d33a80-b3bb-5aa5-50c7-7c1a379814ba@redhat.com>
- <8d018805-8e1f-4c1e-b1a4-45a34c8d2e63@amsat.org>
- <bd97210a-04d4-939f-b3b7-1e250d7d250a@redhat.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v1 1/5] meson: Introduce target-specific Kconfig
-Date: Tue, 06 Jul 2021 14:52:19 +0100
-In-reply-to: <bd97210a-04d4-939f-b3b7-1e250d7d250a@redhat.com>
-Message-ID: <87fswrtuln.fsf@linaro.org>
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=zf73c2qEnhewkd7KXlkdMtw71o8gG4q2X37har4kq5I=;
+ b=suj5f8cPygqf6DAZaT1DwNdLsV0hzZrqr9ovu1AyCZIZRfLm5q9acPNnDBCXNqrPo0
+ EJAtkiLCoYPGGPHMkxrVmXcipCrzbA40fKVBTgUQkEckIU+07yELN0VgcSW2owqy8xkf
+ Q71oF45LAiDt3l9j0jVJ2nsYcf3JZRuV9CbEN91OCT+bR5tUsiqCVRzYjsgwopZ/7qQw
+ Oa3vxBwuBFBiUpu9aatX9reK8K+5joPO7lGnIs467c7FfldBVR6URMjAMIweQadrUcNv
+ drQ5iYbC6q3K8EekG7eTPGvEWtO2MyLW6duMHmWXE90CgHS/0QJwrfwhweVFGMeHcxxs
+ 6cVA==
+X-Gm-Message-State: AOAM531AZJw+tpbkwNKu4JPT1RRcB+KSgH5aUH9E1BBpjHxy+NMEPo0s
+ QLc0ZYBxbfdOv0fCIrpMRzL3FltysqqwmgPotktZw7ZYg8wms/UloIqEg6QyAEUMJvt2mnQawBS
+ fPTgHzKK6bSW4caI=
+X-Received: by 2002:adf:f606:: with SMTP id t6mr21931600wrp.52.1625579844703; 
+ Tue, 06 Jul 2021 06:57:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2/ldj8mtYE9N0FmrUgL6u270hWBc8wXKBC9spzAVW0Dq1VdgrvT98axjBkghcG8j3uO8LJg==
+X-Received: by 2002:adf:f606:: with SMTP id t6mr21931575wrp.52.1625579844509; 
+ Tue, 06 Jul 2021 06:57:24 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id i12sm2078383wrp.57.2021.07.06.06.57.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 06:57:23 -0700 (PDT)
+Subject: Re: [PATCH v5 3/4] avocado_qemu: Add SMMUv3 tests
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ eric.auger.pro@gmail.com, qemu-devel@nongnu.org, crosa@redhat.com,
+ wainersm@redhat.com
+References: <20210706131729.30749-1-eric.auger@redhat.com>
+ <20210706131729.30749-4-eric.auger@redhat.com>
+ <cc5d8c32-4014-96aa-73cd-da0c4d41a59a@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <43273a56-8deb-3db5-2a90-96f508b3a2d4@redhat.com>
+Date: Tue, 6 Jul 2021 15:57:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <cc5d8c32-4014-96aa-73cd-da0c4d41a59a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,127 +105,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "open
- list:S390 general arch..." <qemu-s390x@nongnu.org>, "open list:ARM TCG
- CPUs" <qemu-arm@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>, pbonzini@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: eric.auger@redhat.com
+Cc: wrampazz@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Philippe,
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 06/07/2021 14.47, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 7/6/21 12:52 PM, Thomas Huth wrote:
->>> On 21/06/2021 17.21, Alex Benn=C3=A9e wrote:
->>>> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>>>
->>>> Add a target-specific Kconfig. We need the definitions in Kconfig so
->>>> the minikconf tool can verify they exit. However CONFIG_FOO is only
->>>
->>> s/exit/exist/ ?
->>>
->>>> enabled for target foo via the meson.build rules.
->>>>
->>>> Two architecture have a particularity, ARM and MIPS:
->>>> their 64-bit version include the 32-bit subset.
->>>
->>> Why do you mention these here, but not x86, Sparc, PPC and RISC-V which
->>> also have 32-bit and 64-bit variants?
->> Because we consider them as different targets, they don't include
->> (kselect) the subset.
+On 7/6/21 3:34 PM, Philippe Mathieu-Daudé wrote:
+> On 7/6/21 3:17 PM, Eric Auger wrote:
+>> Add new tests checking the good behavior of the SMMUv3 protecting
+>> 2 virtio pci devices (block and net). We check the guest boots and
+>> we are able to install a package. Different guest configs are tested:
+>> standard, passthrough an strict=0. This is tested with both fedora 31 and
+>> 33. The former uses a 5.3 kernel without range invalidation whereas the
+>> latter uses a 5.8 kernel that features range invalidation.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>>
+>> ---
+>>
+>> v4 -> v5:
+>> - Added the skipIf statement (William) and William's R-b
+>> - added Wainer's R-b and T-b
+>> ---
+>>  tests/acceptance/smmu.py | 133 +++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 133 insertions(+)
+>>  create mode 100644 tests/acceptance/smmu.py
+>> +    def run_and_check(self):
+>> +        if self.kernel_path:
+>> +            self.vm.add_args('-kernel', self.kernel_path,
+>> +                             '-append', self.kernel_params,
+>> +                             '-initrd', self.initrd_path)
+>> +        self.launch_and_wait()
+> IIUC above is the 'run' part and below is the 'check' part?
 >
-> And why is that done this way? There is certainly a big difference
-> between Sparc and Sparc64, but for x86 and PPC, the 64-bit variant is
-> a superset of the 32-bit variant, so why is it done different here
-> compared to ARM and MIPS?
-
-Both ARM and MIPS have a somewhat separated set of translate.c functions
-which means they can be built as individual units. AFAICT all the others
-have a unified translate.c that handles all ISA variants so they
-couldn't be built as standalone units if they wanted to.
-
-You are right for AArch64 at least we have to include translate.c to
-support AArch32 encoding. But for qemu-arm we skip all the 64 bit stuff
-by compilation units:
-
-arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-  'cpu64.c',
-  'gdbstub64.c',
-  'helper-a64.c',
-  'mte_helper.c',
-  'pauth_helper.c',
-  'sve_helper.c',
-  'translate-a64.c',
-  'translate-sve.c',
-))
-
-
+> So the check succeed if the VM booted, right?
 >
->  Thomas
->
->
->>>
->>> The patch itself looks fine to me, so once you've clarified the commit
->>> message:
->>>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>>
->>>
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>>> Message-Id: <20210131111316.232778-6-f4bug@amsat.org>
->>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>>>
->>>> ---
->>>> vajb:
->>>>  =C2=A0=C2=A0 - removed targets that no longer exist
->>>>  =C2=A0=C2=A0 - reword commit message to show why we need the Kconfigs
->>>> ---
->>=20
->>>> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
->>>> new file mode 100644
->>>> index 0000000000..3f3394a22b
->>>> --- /dev/null
->>>> +++ b/target/arm/Kconfig
->>>> @@ -0,0 +1,6 @@
->>>> +config ARM
->>>> +=C2=A0=C2=A0=C2=A0 bool
->>>> +
->>>> +config AARCH64
->>>> +=C2=A0=C2=A0=C2=A0 bool
->>>> +=C2=A0=C2=A0=C2=A0 select ARM
->>=20
->>>> diff --git a/target/mips/Kconfig b/target/mips/Kconfig
->>>> new file mode 100644
->>>> index 0000000000..6adf145354
->>>> --- /dev/null
->>>> +++ b/target/mips/Kconfig
->>>> @@ -0,0 +1,6 @@
->>>> +config MIPS
->>>> +=C2=A0=C2=A0=C2=A0 bool
->>>> +
->>>> +config MIPS64
->>>> +=C2=A0=C2=A0=C2=A0 bool
->>>> +=C2=A0=C2=A0=C2=A0 select MIPS
->>=20
+>> +        self.ssh_command('cat /proc/cmdline')
+>> +        self.ssh_command('dnf -y install numactl-devel')
 
+For the test to succeed, the guests needs to boot, the ssh connection
+needs to be established and  the dnf command needs to complete.
+See launch_and_wait() in __init__.py
 
---=20
-Alex Benn=C3=A9e
+Thanks
+
+Eric
+>> +
+>> +
+>> +    # 5.3 kernel without RIL #
+>> +
+>> +    def test_smmu_noril(self):
+>> +        """
+>> +        :avocado: tags=smmu_noril
+>> +        :avocado: tags=smmu_noril_tests
+>> +        :avocado: tags=distro_version:31
+>> +        """
+>> +        self.common_vm_setup()
+>> +        self.run_and_check()
+
 
