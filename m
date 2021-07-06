@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFD23BC5A8
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:41:47 +0200 (CEST)
-Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C343BC59A
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:37:16 +0200 (CEST)
+Received: from localhost ([::1]:48422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cu2-0007OK-HO
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46670)
+	id 1m0cpf-0002We-Rn
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:37:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cff-0000KZ-Cj
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52676)
+ id 1m0cfi-0000YG-NP
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfd-0003RA-Ud
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:55 -0400
+ id 1m0cfe-0003Rt-Iy
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:58 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfQ-0004xA-9t
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:40 +0000
+ id 1m0cfR-0004xi-2p
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 820AE2E8342
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:19 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 274E42E8432
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:20 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:28 -0000
-From: Launchpad Bug Tracker <1870477@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:29 -0000
+From: Launchpad Bug Tracker <1869782@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor kionias th-huth
-X-Launchpad-Bug-Reporter: Donghun Kwak (kionias)
+X-Launchpad-Bug-Commenters: janitor manuel-reimer pmaydell th-huth
+X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158589020097.22925.10247032490435356173.malonedeb@wampee.canonical.com>
-Message-Id: <162554504864.7821.14784809438404768117.malone@loganberry.canonical.com>
-Subject: [Bug 1870477] Re: qemu-arm hangs when golang running test
+References: <158559478745.21027.13296208481863226077.malonedeb@gac.canonical.com>
+Message-Id: <162554504925.7821.14001016886832628450.malone@loganberry.canonical.com>
+Subject: [Bug 1869782] Re: qemu-arm-static crashes "segmentation fault" when
+ running "svn checkout"
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: bb9bfa8ec604f07ae547621cbfca0409459c1a8a
+X-Launchpad-Hash: 716e235467544d3fb37a7fbe02fcd4637388021b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1870477 <1870477@bugs.launchpad.net>
+Reply-To: Bug 1869782 <1869782@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,52 +85,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1870477
+https://bugs.launchpad.net/bugs/1869782
 
 Title:
-  qemu-arm hangs when golang running test
+  qemu-arm-static crashes "segmentation fault" when running "svn
+  checkout"
 
 Status in QEMU:
   Expired
 
 Bug description:
-  =
+  I'm not actually sure how far I can help as I so far failed to
+  reproduce the issue on my local VM but I get it on Travis CI every
+  time. I even went through the hassle of hacking a Debian repository
+  into their Ubuntu Bionic VM to get qemu 4.2 as I hoped a new version
+  could fix this.
 
-  1. Environment:
-  Ubuntu 16.04.5 X86_64
-  qemu-arm version 4.2.0
-  go version go 1.14.1 linux/arm
+  This build runs in an armv6h chroot. I don't get the segfault if I do
+  the same on an armv7h chroot for some reason.
 
-  2. Summary:
-  Sometimes "go run test.go" command hang
+  Here is where the error occured: https://travis-
+  ci.com/github/VDR4Arch/vdr4arch/jobs/309106220#L5420
 
-  =
+  Maybe now I'll just try to remove all uses of svn in my build
+  scripts...
 
-  3. Reproduction Method (Attempts: 500 Occurred: 1 ): Frequency: 1/500
+  Is it actually a viable solution to cross-build with qemu? I'm
+  starting to doubt it...
 
-  =
-
-  test.go
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  package main
-  import "fmt"
-  func main(){
-          for i:=3D0; i<1000; i++ {
-                  fmt.Printf("[%d] Hello world\n", i)
-          }
-  }
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  i tested "go run test.go" command called  500 times at qemu arm env.
-  qemu hangs about 200~300.
-
-  attached strace log.
-
-  please check.
-  thanks
+  Would it help if I manage to get this core dump out of Travis somehow
+  (maybe make Travis push it to some GIT or upload it to my webserver)?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1870477/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1869782/+subscriptions
 
