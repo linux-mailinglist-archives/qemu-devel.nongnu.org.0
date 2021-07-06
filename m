@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00573BC5A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:39:55 +0200 (CEST)
-Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A396F3BC588
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:33:54 +0200 (CEST)
+Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0csE-00020q-RY
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:39:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46600)
+	id 1m0cmP-0007zG-Ix
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfa-0000G4-Q3
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52324)
+ id 1m0cfd-0000HZ-0F
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfZ-0003N6-AY
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:50 -0400
+ id 1m0cfZ-0003Nq-QY
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfK-0004xb-EC
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:34 +0000
+ id 1m0cfL-0004wq-KH
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:36 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 53B422E83EE
+ by loganberry.canonical.com (Postfix) with ESMTP id E80AF2E83F6
  for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 06 Jul 2021 04:17:36 -0000
-From: Launchpad Bug Tracker <1874904@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1874504@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: sparc64 vfio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jbytibidi th-huth
-X-Launchpad-Bug-Reporter: Jean-Yves BAUDY (jbytibidi)
+X-Launchpad-Bug-Commenters: atar4qemu gh975223 janitor
+X-Launchpad-Bug-Reporter: Graeme Brett Houston BSc (gh975223)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158776006238.17831.1947739599630021875.malonedeb@wampee.canonical.com>
-Message-Id: <162554505695.7821.9941358536563634660.malone@loganberry.canonical.com>
-Subject: [Bug 1874904] Re: qemu windows with gtk and french keypad not working
- as expected
+References: <158766417277.8728.12362820918014730192.malonedeb@gac.canonical.com>
+Message-Id: <162554505620.7821.14708721304232834444.malone@loganberry.canonical.com>
+Subject: [Bug 1874504] Re: VFIO passthrough spits out thousands of messages
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: ad48ef3aa51fe9cd9166694f94980195b74bf889
+X-Launchpad-Hash: 9fcb5478df2b7a0fd853b67ebf08a65b0b04fb0f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874904 <1874904@bugs.launchpad.net>
+Reply-To: Bug 1874504 <1874504@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,29 +84,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874904
+https://bugs.launchpad.net/bugs/1874504
 
 Title:
-  qemu windows with gtk and french keypad not working as expected
+  VFIO passthrough spits out thousands of messages
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When I use qemu on Windows 10 with a French AZERTY keypad with the
-  correct options the emulated system keypad still QWERTY. If I use sdl
-  it works fine the emulated keypad is AZERTY.
+  started qemu as:
+  sudo qemu-system-sparc64 -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,b=
+us=3DpciB
 
-  Example of command with ubuntu live cd:
-  -> qemu-system-x86_64.exe  -m 4G ubuntu-18.04.4-desktop-amd64.iso -displa=
-y gtk -k fr
+  messages received thousands of times:
 
-  NOTES:
-  =C2=A0- Using the same command on Linux works fine. The emulated keypad i=
-s AZERTY.
+  qemu-system-sparc64: -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,bus=
+=3DpciB: iommu has granularity incompatible with target AS
+  qemu-system-sparc64: -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,bus=
+=3DpciB: iommu map to non memory area 4079c000
 
-  Qemu version : 4.2.0 on Windows 10
+  qemu version (think telling a lie as sure its 5.0)
+  QEMU emulator version 4.2.92
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+
+  pci device being passed through:
+
+  0b:05.0 Display controller [0380]: 3DLabs Permedia II 2D+3D [3d3d:0009] (=
+rev 01)
+  	Subsystem: Tech-Source Permedia II 2D+3D [1227:0006]
+  	Flags: medium devsel, IRQ 11
+  	Memory at 83000000 (32-bit, non-prefetchable) [disabled] [size=3D128K]
+  	Memory at 82800000 (32-bit, non-prefetchable) [disabled] [size=3D8M]
+  	Memory at 82000000 (32-bit, non-prefetchable) [disabled] [size=3D8M]
+  	Expansion ROM at 83020000 [disabled] [size=3D64K]
+  	Capabilities: <access denied>
+  	Kernel driver in use: vfio-pci
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874904/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1874504/+subscriptions
 
