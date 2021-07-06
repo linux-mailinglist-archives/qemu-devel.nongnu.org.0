@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4453BDA55
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:38:54 +0200 (CEST)
-Received: from localhost ([::1]:38172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578C63BDA4D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:36:09 +0200 (CEST)
+Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0n9x-0007q5-Lk
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:38:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38768)
+	id 1m0n7H-00009C-HX
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:36:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mp7-0002QN-UC
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:22 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35654)
+ id 1m0moo-0002Mb-S9
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:03 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mop-0004sn-So
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:16 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id q17so6122491wrv.2
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:17:02 -0700 (PDT)
+ id 1m0mom-0004qO-0M
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:17:02 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ b14-20020a1c1b0e0000b02901fc3a62af78so2019291wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=P9Upb7I6HMRjCcJjpxGvstVHkB7w6Pb+oVKK25wH7Y4=;
- b=xbd43Pk52PsokX/c1MFMChCGHn58nclzeHXQ6KjlU1U0A5wNRxPi3910ekQrO3zsBf
- 6B0ic89Egk5xgpsqr/nwNao1Jok+zD59DgdFqXc9yEgXmnESfaDljE/FBOW7R/G+sjjh
- QiEO3o8l2SlmpZEEs1IQqONPcY4cO3fcvayz/6oNIYT07z7inYTRHQYl1kSK9ur/gRFG
- X8mM3EP5PNn+8DB/bPjX5q/D1gXbAqrjZAwLjykLS00PJSso0GxeVjU3LgKb0KDyKw0k
- zykkkO8XtUn9zeq9vpGQ2wJu3tYok2FJskuF22h4cdFY+wcVjWDBAsOfsNOSh+tj8Yia
- r5tA==
+ bh=OsQYMRRF2LqfhugUabYWk+fOdkK5koC/O99HVRocaM4=;
+ b=gARORN8AFiQ86ohPNMOAfzjb3+YsOohcxtV7DiiLwrSV9fwK983DoztMHlsXbg3+dW
+ n4KItquriE+W7j8WfzYkfQV3Hy5srpZdD1jNksTsoE2laiq+ndKU0mScdevwXCYWyUrl
+ JkwBWe0fj7IIWE3IAQX+P6bj3E0fAPGDz3ze7l1ET5YduPa/mmzzi9N1V1/P7b4/D1cP
+ QHavbaqJ8NfdbTmWf+l6MLIgMiPBsfgJhAZQHi6nhfR8Iyp0/QFg2fHjIWYZmWUHwp9M
+ Nn8Bwen6rD4vMKWNw8rTFBv/UalQGIxrbdTdFOx3taVVdD6Yw8VOIlYBaSBqhcRppBpV
+ HT5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P9Upb7I6HMRjCcJjpxGvstVHkB7w6Pb+oVKK25wH7Y4=;
- b=FglaToSw5k5DTewORu04MYzwz6mEtCk1Qi74g52b5iyrXj4r2nNH0sbWbYF8F12cZc
- bjzA5tl80WF0nC4gQUcU8hnBkwZSVOIxTtKvh5XkaYMcQGnbsBTvoGzQnf59UcGq4/ky
- d5HENPKZgDecnXUuXJJojd53IRatx3ywce2R4wFb9JWfpEUES1dJ3x2MvlfLF0X9Qbn7
- V+1EUhxu0zKU0dNm4aTQCDEV4OIZ71LHDr8c4L7d1FcFrdsc+5bR0OrW+G4Pv2Rfa6YC
- ELjfZHG3ds0JUVCrF3tFbNVXD6hhXEnLoVd9t/6Z+X0244nCzKXYEmNUgr2rwS7LH3tt
- Qmcw==
-X-Gm-Message-State: AOAM530Etkr9IROuNY2MEjUJmuwgLEcp/iS8m5EARW+/JnelazQ5u2mA
- S3Dh0FBwAZ99nU7cDW82n5bfSQ==
-X-Google-Smtp-Source: ABdhPJynr/yZTk/3jGQVjE5b9AdYxMwsKEPbSOrey0i6AJt3XHl0DMYHU/Cth8pJ18XCZeGoAWQbMA==
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr20888424wri.101.1625584621818; 
- Tue, 06 Jul 2021 08:17:01 -0700 (PDT)
+ bh=OsQYMRRF2LqfhugUabYWk+fOdkK5koC/O99HVRocaM4=;
+ b=Cfk7G+zNJeisM6G573XMbD/DlLN3FDfti0JSWnGkst+sgrbWFSX/LQf/Th+2klldt2
+ wsb4Wj/8GcIAleYBoWjYw3u8QBgUjE59dlLdsk9RbaOBih/9UpwUZmOMu6JtJ7r0OOKr
+ fCGJmrAKbAWmGpfblYzmxRtJ2Md1LHTANlQYsE0pWtc+TbEpBG/bf7s5eK+pEYVRsJdi
+ c7EqKEdA/Fy+A6IMEvNJ56BnGg3HMF4nJSSJKlTM3Q+xm6aijpMoxdw8JitJFQ8qltw8
+ /w5pNkb0alHdCsdWxQZpUazALj5KQTEL0H+YdiRdQOi68bMlGAvcKzvSR6lb3OU1Crt6
+ bGPg==
+X-Gm-Message-State: AOAM533Tz4QxrVyGtqvYRZIQ0ef2/cHuhYhFyxliOckmdx4rtLWX8WOE
+ b7cQ9CQPoEEfyLLZ7L/LUoJjfg==
+X-Google-Smtp-Source: ABdhPJwNnLVKNOpSl//CkILbLpUwO2yOp2q50EHiK2eQLEbTJ5TrB2iVCB5YdhT+Vq3GHKJEhqOvSg==
+X-Received: by 2002:a7b:cc09:: with SMTP id f9mr21156737wmh.104.1625584617557; 
+ Tue, 06 Jul 2021 08:16:57 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c10sm15617088wmb.40.2021.07.06.08.16.55
+ by smtp.gmail.com with ESMTPSA id r16sm20301818wrx.63.2021.07.06.08.16.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Jul 2021 08:16:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD5961FFA5;
- Tue,  6 Jul 2021 15:58:19 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 759DE1FFAC;
+ Tue,  6 Jul 2021 15:58:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 18/39] tests/docker: remove mingw packages from Fedora
-Date: Tue,  6 Jul 2021 15:57:56 +0100
-Message-Id: <20210706145817.24109-19-alex.bennee@linaro.org>
+Subject: [PATCH  v1 24/39] tests/vm: update NetBSD to 9.2
+Date: Tue,  6 Jul 2021 15:58:02 +0100
+Message-Id: <20210706145817.24109-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,62 +89,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
  f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+ Willian Rampazzo <willianr@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ Ryo ONODERA <ryoon@netbsd.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net,
+ Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Brad Smith <brad@comstyle.com>
 
-There are dedicated containers providing mingw packages for Fedora.
+tests/vm: update NetBSD to 9.2
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-11-berrange@redhat.com>
+Signed-off-by: Brad Smith <brad@comstyle.com>
+Message-Id: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/fedora.docker | 27 --------------------------
- 1 file changed, 27 deletions(-)
+ tests/vm/netbsd | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index f667f03cc5..5849ea7617 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -52,33 +52,6 @@ ENV PACKAGES \
-     lzo-devel \
-     make \
-     meson \
--    mingw32-bzip2 \
--    mingw32-curl \
--    mingw32-glib2 \
--    mingw32-gmp \
--    mingw32-gnutls \
--    mingw32-gtk3 \
--    mingw32-libjpeg-turbo \
--    mingw32-libpng \
--    mingw32-libtasn1 \
--    mingw32-nettle \
--    mingw32-nsis \
--    mingw32-pixman \
--    mingw32-pkg-config \
--    mingw32-SDL2 \
--    mingw64-bzip2 \
--    mingw64-curl \
--    mingw64-glib2 \
--    mingw64-gmp \
--    mingw64-gnutls \
--    mingw64-gtk3 \
--    mingw64-libjpeg-turbo \
--    mingw64-libpng \
--    mingw64-libtasn1 \
--    mingw64-nettle \
--    mingw64-pixman \
--    mingw64-pkg-config \
--    mingw64-SDL2 \
-     ncurses-devel \
-     nettle-devel \
-     ninja-build \
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index b9efc269d2..4cc58df130 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
+     name = "netbsd"
+     arch = "x86_64"
+ 
+-    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso"
+-    csum = "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23399e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9"
++    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.2/images/NetBSD-9.2-amd64.iso"
++    csum = "5ee0ea101f73386b9b424f5d1041e371db3c42fdd6f4e4518dc79c4a08f31d43091ebe93425c9f0dcaaed2b51131836fe6774f33f89030b58d64709b35fda72f"
+     size = "20G"
+     pkgs = [
+         # tools
 -- 
 2.20.1
 
