@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5283BD03A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 13:30:24 +0200 (CEST)
-Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B6C3BD03C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 13:30:26 +0200 (CEST)
+Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0jHT-0006K6-9j
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 07:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60378)
+	id 1m0jHV-0006PT-BI
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 07:30:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0jBW-0003Lp-N6
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 07:24:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34574)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0jBY-0003Rh-D1
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 07:24:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0jBL-0000dl-N7
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 07:24:14 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0jBP-0000iM-0R
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 07:24:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625570641;
+ s=mimecast20190719; t=1625570646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8iG9zy1p5JRPY7FWIgreir70GQghbFVFI2c9rtrqHh4=;
- b=SbZ4SirFvkyT/crq6/2PFAZYvMTqVXpXEoV/H/Duzf6Ct12T7F1dBfaXN5lYxwShVp3E+M
- LK3mLDw8sC/SGTX1bCrOcLwbsmsP1mWY1yCUE7kT3xjRYYe/vRB0vUEZmCHUjcHSEmbkoK
- GeO8MNQcLQ9qXb+7TgQTRXZ/UXRGkKg=
+ bh=tsRtgrJMMwT25pSXyctNDCNZ+oJh564je2oy/bdluHE=;
+ b=YKg3DxuoIq7kJwDxiHBMsQDDuWS3AqzmBqeAK8ZQs3OsO+xXZ+GpWZCHOANuOUvtm7KuwJ
+ Am9LITdpdPnqJkpZisbgGSWckD6LDNPAd3Lg6LlIDsjuFZZE/gi7F+j/wcWv0P44E7krec
+ 1jMxoXgxnz6QBivPpcXk0mxnq/XhF/4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-NwPcz8EDNj6uUjI0zmUFkw-1; Tue, 06 Jul 2021 07:23:59 -0400
-X-MC-Unique: NwPcz8EDNj6uUjI0zmUFkw-1
+ us-mta-7-1ijALHDpMGCPik4GoNWDzQ-1; Tue, 06 Jul 2021 07:24:05 -0400
+X-MC-Unique: 1ijALHDpMGCPik4GoNWDzQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8655B101F005;
- Tue,  6 Jul 2021 11:23:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FB00193F598;
+ Tue,  6 Jul 2021 11:24:00 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-253.ams2.redhat.com [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 477E160E3A;
- Tue,  6 Jul 2021 11:23:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE56D60CC9;
+ Tue,  6 Jul 2021 11:23:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 5/6] iotests: Test reopening multiple devices at the same
- time
-Date: Tue,  6 Jul 2021 13:23:39 +0200
-Message-Id: <20210706112340.223334-6-kwolf@redhat.com>
+Subject: [PATCH v5 6/6] block: Make blockdev-reopen stable API
+Date: Tue,  6 Jul 2021 13:23:40 +0200
+Message-Id: <20210706112340.223334-7-kwolf@redhat.com>
 In-Reply-To: <20210706112340.223334-1-kwolf@redhat.com>
 References: <20210706112340.223334-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,91 +83,203 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-This test swaps the images used by two active block devices.
-
-This is now possible thanks to the new ability to run
-x-blockdev-reopen on multiple devices at the same time.
+This patch drops the 'x-' prefix from x-blockdev-reopen.
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/245     | 47 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/245.out |  4 ++--
- 2 files changed, 49 insertions(+), 2 deletions(-)
+ qapi/block-core.json                                |  6 +++---
+ blockdev.c                                          |  2 +-
+ tests/qemu-iotests/155                              |  2 +-
+ tests/qemu-iotests/165                              |  2 +-
+ tests/qemu-iotests/245                              | 10 +++++-----
+ tests/qemu-iotests/248                              |  2 +-
+ tests/qemu-iotests/248.out                          |  2 +-
+ tests/qemu-iotests/296                              |  2 +-
+ tests/qemu-iotests/298                              |  2 +-
+ tests/qemu-iotests/tests/remove-bitmap-from-backing |  4 ++--
+ 10 files changed, 17 insertions(+), 17 deletions(-)
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 052520331e..2eb399f0d4 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -4219,7 +4219,7 @@
+ { 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true }
+ 
+ ##
+-# @x-blockdev-reopen:
++# @blockdev-reopen:
+ #
+ # Reopens one or more block devices using the given set of options.
+ # Any option not specified will be reset to its default value regardless
+@@ -4257,9 +4257,9 @@
+ # image does not have a default backing file name as part of its
+ # metadata.
+ #
+-# Since: 4.0
++# Since: 6.0
+ ##
+-{ 'command': 'x-blockdev-reopen',
++{ 'command': 'blockdev-reopen',
+   'data': { 'options': ['BlockdevOptions'] } }
+ 
+ ##
+diff --git a/blockdev.c b/blockdev.c
+index 1e8c946828..7639f2108e 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3560,7 +3560,7 @@ fail:
+     visit_free(v);
+ }
+ 
+-void qmp_x_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
++void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
+ {
+     BlockReopenQueue *queue = NULL;
+     GSList *drained = NULL;
+diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
+index 3400b0312a..fec43d662d 100755
+--- a/tests/qemu-iotests/155
++++ b/tests/qemu-iotests/155
+@@ -261,7 +261,7 @@ class TestBlockdevMirrorReopen(MirrorBaseClass):
+             result = self.vm.qmp('blockdev-add', node_name="backing",
+                                  driver="null-co")
+             self.assert_qmp(result, 'return', {})
+-            result = self.vm.qmp('x-blockdev-reopen', options = [{
++            result = self.vm.qmp('blockdev-reopen', options = [{
+                                      'node-name': "target",
+                                      'driver': iotests.imgfmt,
+                                      'file': "target-file",
+diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
+index 57aa88ecae..92a431315b 100755
+--- a/tests/qemu-iotests/165
++++ b/tests/qemu-iotests/165
+@@ -137,7 +137,7 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
+         assert sha256_1 == self.getSha256()
+ 
+         # Reopen to RW
+-        result = self.vm.qmp('x-blockdev-reopen', options = [{
++        result = self.vm.qmp('blockdev-reopen', options = [{
+             'node-name': 'node0',
+             'driver': iotests.imgfmt,
+             'file': {
 diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index b81fde8f12..6eff352099 100755
+index 6eff352099..28a116a6aa 100755
 --- a/tests/qemu-iotests/245
 +++ b/tests/qemu-iotests/245
-@@ -649,6 +649,53 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-                                          '-c', 'read -P 0x40 0x40008 1',
-                                          '-c', 'read -P 0x80 0x40010 1', hd_path[0])
+@@ -1,7 +1,7 @@
+ #!/usr/bin/env python3
+ # group: rw
+ #
+-# Test cases for the QMP 'x-blockdev-reopen' command
++# Test cases for the QMP 'blockdev-reopen' command
+ #
+ # Copyright (C) 2018-2019 Igalia, S.L.
+ # Author: Alberto Garcia <berto@igalia.com>
+@@ -85,16 +85,16 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+                          "Expected output of %d qemu-io commands, found %d" %
+                          (found, self.total_io_cmds))
  
-+    # Swap the disk images of two active block devices
-+    def test_swap_files(self):
-+        # Add hd0 and hd2 (none of them with backing files)
-+        opts0 = hd_opts(0)
-+        result = self.vm.qmp('blockdev-add', conv_keys = False, **opts0)
-+        self.assert_qmp(result, 'return', {})
-+
-+        opts2 = hd_opts(2)
-+        result = self.vm.qmp('blockdev-add', conv_keys = False, **opts2)
-+        self.assert_qmp(result, 'return', {})
-+
-+        # Write different data to both block devices
-+        self.run_qemu_io("hd0", "write -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "write -P 0xa2 0 1k")
-+
-+        # Check that the data reads correctly
-+        self.run_qemu_io("hd0", "read  -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa2 0 1k")
-+
-+        # It's not possible to make a block device use an image that
-+        # is already being used by the other device.
-+        self.reopen(opts0, {'file': 'hd2-file'},
-+                    "Permission conflict on node 'hd2-file': permissions "
-+                    "'write, resize' are both required by node 'hd2' (uses "
-+                    "node 'hd2-file' as 'file' child) and unshared by node "
-+                    "'hd0' (uses node 'hd2-file' as 'file' child).")
-+        self.reopen(opts2, {'file': 'hd0-file'},
-+                    "Permission conflict on node 'hd0-file': permissions "
-+                    "'write, resize' are both required by node 'hd0' (uses "
-+                    "node 'hd0-file' as 'file' child) and unshared by node "
-+                    "'hd2' (uses node 'hd0-file' as 'file' child).")
-+
-+        # But we can swap the images if we reopen both devices at the
-+        # same time
-+        opts0['file'] = 'hd2-file'
-+        opts2['file'] = 'hd0-file'
-+        self.reopenMultiple([opts0, opts2])
-+        self.run_qemu_io("hd0", "read  -P 0xa2 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa0 0 1k")
-+
-+        # And we can of course come back to the original state
-+        opts0['file'] = 'hd0-file'
-+        opts2['file'] = 'hd2-file'
-+        self.reopenMultiple([opts0, opts2])
-+        self.run_qemu_io("hd0", "read  -P 0xa0 0 1k")
-+        self.run_qemu_io("hd2", "read  -P 0xa2 0 1k")
-+
-     # Misc reopen tests with different block drivers
-     @iotests.skip_if_unsupported(['quorum', 'throttle'])
-     def test_misc_drivers(self):
-diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
-index daf1e51922..4eced19294 100644
---- a/tests/qemu-iotests/245.out
-+++ b/tests/qemu-iotests/245.out
-@@ -17,8 +17,8 @@ read 1/1 bytes at offset 262152
- read 1/1 bytes at offset 262160
- 1 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-    # Run x-blockdev-reopen on a list of block devices
++    # Run blockdev-reopen on a list of block devices
+     def reopenMultiple(self, opts, errmsg = None):
+-        result = self.vm.qmp('x-blockdev-reopen', conv_keys = False, options = opts)
++        result = self.vm.qmp('blockdev-reopen', conv_keys = False, options = opts)
+         if errmsg:
+             self.assert_qmp(result, 'error/class', 'GenericError')
+             self.assert_qmp(result, 'error/desc', errmsg)
+         else:
+             self.assert_qmp(result, 'return', {})
  
--..............
-+...............
- ----------------------------------------------------------------------
--Ran 24 tests
-+Ran 25 tests
+-    # Run x-blockdev-reopen on a single block device (specified by
++    # Run blockdev-reopen on a single block device (specified by
+     # 'opts') but applying 'newopts' on top of it. The original 'opts'
+     # dict is unmodified
+     def reopen(self, opts, newopts = {}, errmsg = None):
+@@ -161,7 +161,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.reopen(opts, {'file.locking': 'off'}, "Cannot change the option 'locking'")
+         self.reopen(opts, {'file.filename': None}, "Invalid parameter type for 'options[0].file.filename', expected: string")
  
- OK
+-        # node-name is optional in BlockdevOptions, but x-blockdev-reopen needs it
++        # node-name is optional in BlockdevOptions, but blockdev-reopen needs it
+         del opts['node-name']
+         self.reopen(opts, {}, "node-name not specified")
+ 
+diff --git a/tests/qemu-iotests/248 b/tests/qemu-iotests/248
+index 03911333c4..2ec2416e8a 100755
+--- a/tests/qemu-iotests/248
++++ b/tests/qemu-iotests/248
+@@ -62,7 +62,7 @@ vm.event_wait('JOB_STATUS_CHANGE', timeout=3.0,
+ vm.get_qmp_events()
+ 
+ del blockdev_opts['file']['size']
+-vm.qmp_log('x-blockdev-reopen', filters=[filter_qmp_testfiles],
++vm.qmp_log('blockdev-reopen', filters=[filter_qmp_testfiles],
+            options = [ blockdev_opts ])
+ 
+ vm.qmp_log('block-job-resume', device='drive0')
+diff --git a/tests/qemu-iotests/248.out b/tests/qemu-iotests/248.out
+index 893f625347..66e94ccd7e 100644
+--- a/tests/qemu-iotests/248.out
++++ b/tests/qemu-iotests/248.out
+@@ -2,7 +2,7 @@
+ {"return": {}}
+ {"execute": "blockdev-mirror", "arguments": {"device": "drive0", "on-target-error": "enospc", "sync": "full", "target": "target"}}
+ {"return": {}}
+-{"execute": "x-blockdev-reopen", "arguments": {"options": [{"driver": "qcow2", "file": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-target"}}, "node-name": "target"}]}}
++{"execute": "blockdev-reopen", "arguments": {"options": [{"driver": "qcow2", "file": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-target"}}, "node-name": "target"}]}}
+ {"return": {}}
+ {"execute": "block-job-resume", "arguments": {"device": "drive0"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
+index 74b74511b6..9206ddb954 100755
+--- a/tests/qemu-iotests/296
++++ b/tests/qemu-iotests/296
+@@ -118,7 +118,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
+     def openImageQmp(self, vm, id, file, secret,
+                      readOnly = False, reOpen = False):
+ 
+-        command = 'x-blockdev-reopen' if reOpen else 'blockdev-add'
++        command = 'blockdev-reopen' if reOpen else 'blockdev-add'
+ 
+         opts = {
+                 'driver': iotests.imgfmt,
+diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
+index 4efdb35b91..b4d8bd9b55 100755
+--- a/tests/qemu-iotests/298
++++ b/tests/qemu-iotests/298
+@@ -98,7 +98,7 @@ class TestPreallocateFilter(TestPreallocateBase):
+         self.check_big()
+ 
+     def test_reopen_opts(self):
+-        result = self.vm.qmp('x-blockdev-reopen', options = [{
++        result = self.vm.qmp('blockdev-reopen', options = [{
+             'node-name': 'disk',
+             'driver': iotests.imgfmt,
+             'file': {
+diff --git a/tests/qemu-iotests/tests/remove-bitmap-from-backing b/tests/qemu-iotests/tests/remove-bitmap-from-backing
+index 0b07f7e836..8d48fc0f3c 100755
+--- a/tests/qemu-iotests/tests/remove-bitmap-from-backing
++++ b/tests/qemu-iotests/tests/remove-bitmap-from-backing
+@@ -53,7 +53,7 @@ new_base_opts = {
+ }
+ 
+ # Don't want to bother with filtering qmp_log for reopen command
+-result = vm.qmp('x-blockdev-reopen', **new_base_opts)
++result = vm.qmp('blockdev-reopen', **new_base_opts)
+ if result != {'return': {}}:
+     log('Failed to reopen: ' + str(result))
+ 
+@@ -61,7 +61,7 @@ log('Remove persistent bitmap from base node reopened to RW:')
+ vm.qmp_log('block-dirty-bitmap-remove', node='base', name='bitmap0')
+ 
+ new_base_opts['options'][0]['read-only'] = True
+-result = vm.qmp('x-blockdev-reopen', **new_base_opts)
++result = vm.qmp('blockdev-reopen', **new_base_opts)
+ if result != {'return': {}}:
+     log('Failed to reopen: ' + str(result))
+ 
 -- 
 2.31.1
 
