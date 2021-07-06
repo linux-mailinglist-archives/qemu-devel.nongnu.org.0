@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B6C3BD03C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 13:30:26 +0200 (CEST)
-Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DB43BCF63
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 13:28:34 +0200 (CEST)
+Received: from localhost ([::1]:39122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0jHV-0006PT-BI
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 07:30:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60424)
+	id 1m0jFh-0002Rj-RU
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 07:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0jBY-0003Rh-D1
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 07:24:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49794)
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1m0jCE-0005Ku-TG; Tue, 06 Jul 2021 07:24:59 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64816
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0jBP-0000iM-0R
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 07:24:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625570646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tsRtgrJMMwT25pSXyctNDCNZ+oJh564je2oy/bdluHE=;
- b=YKg3DxuoIq7kJwDxiHBMsQDDuWS3AqzmBqeAK8ZQs3OsO+xXZ+GpWZCHOANuOUvtm7KuwJ
- Am9LITdpdPnqJkpZisbgGSWckD6LDNPAd3Lg6LlIDsjuFZZE/gi7F+j/wcWv0P44E7krec
- 1jMxoXgxnz6QBivPpcXk0mxnq/XhF/4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-1ijALHDpMGCPik4GoNWDzQ-1; Tue, 06 Jul 2021 07:24:05 -0400
-X-MC-Unique: 1ijALHDpMGCPik4GoNWDzQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FB00193F598;
- Tue,  6 Jul 2021 11:24:00 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-113-253.ams2.redhat.com [10.36.113.253])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE56D60CC9;
- Tue,  6 Jul 2021 11:23:58 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v5 6/6] block: Make blockdev-reopen stable API
-Date: Tue,  6 Jul 2021 13:23:40 +0200
-Message-Id: <20210706112340.223334-7-kwolf@redhat.com>
-In-Reply-To: <20210706112340.223334-1-kwolf@redhat.com>
-References: <20210706112340.223334-1-kwolf@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1m0jCB-00019C-Kh; Tue, 06 Jul 2021 07:24:58 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 166BE7GW011901; Tue, 6 Jul 2021 07:24:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=nZy+4KL6klvt+8FqSTQtkWQanqPL1uesbVAaPufgDgQ=;
+ b=AAY8vr6s0shWPXKqCz3q5aQhy2c2Pl7JVqMibayE0LNl1eMu6sXhkkUrskFysWHaiR1N
+ IHEkXLnrKYKGXr1zLeI6J6u5Sv+d8rfQx7w9GBHxExGhM6APzNhn14s23DGMli3NAvqA
+ GW9/52+a09fQegQ4PkV9QGQ9r/o0zlARY2CdxNexaqbJFRfoUSUaUzeBaNIdxISdoLwo
+ XGJY5aCjZP+88k6xbZQqo33rNOfeS1EhOPg5XLN/ydchuL6LpRCLJDftwjBOaK2e8i34
+ +MYjv8yB9AGv2fStR8AFCqtjUs/KkUOucXLaYWF4bD51OGGQ9R4OgVmBkL3NKKPAAaKE CA== 
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39m8xstf96-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jul 2021 07:24:49 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 166BKZOw021384;
+ Tue, 6 Jul 2021 11:24:48 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03fra.de.ibm.com with ESMTP id 39jfh88ncb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 06 Jul 2021 11:24:48 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 166BOjWU31457738
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 6 Jul 2021 11:24:45 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B0C694204B;
+ Tue,  6 Jul 2021 11:24:45 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C8E4242041;
+ Tue,  6 Jul 2021 11:24:44 +0000 (GMT)
+Received: from bharata.ibmuc.com (unknown [9.199.34.138])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  6 Jul 2021 11:24:44 +0000 (GMT)
+From: Bharata B Rao <bharata@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/2] Enable support for H_RPT_INVALIDATE hcall
+Date: Tue,  6 Jul 2021 16:54:38 +0530
+Message-Id: <20210706112440.1449562-1-bharata@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: tG6obsEOjajzdt51TIyMb5zJaG4tqFxk
+X-Proofpoint-GUID: tG6obsEOjajzdt51TIyMb5zJaG4tqFxk
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-06_06:2021-07-02,
+ 2021-07-06 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 adultscore=0
+ malwarescore=0 phishscore=0 priorityscore=1501 spamscore=0 impostorscore=0
+ mlxlogscore=914 suspectscore=0 lowpriorityscore=0 mlxscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107060054
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=bharata@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,210 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Bharata B Rao <bharata@linux.ibm.com>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alberto Garcia <berto@igalia.com>
+Hi,
 
-This patch drops the 'x-' prefix from x-blockdev-reopen.
+This series enables the support for H_RPT_INVALIDATE hcall
+which was added to upstream kernel recently.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qapi/block-core.json                                |  6 +++---
- blockdev.c                                          |  2 +-
- tests/qemu-iotests/155                              |  2 +-
- tests/qemu-iotests/165                              |  2 +-
- tests/qemu-iotests/245                              | 10 +++++-----
- tests/qemu-iotests/248                              |  2 +-
- tests/qemu-iotests/248.out                          |  2 +-
- tests/qemu-iotests/296                              |  2 +-
- tests/qemu-iotests/298                              |  2 +-
- tests/qemu-iotests/tests/remove-bitmap-from-backing |  4 ++--
- 10 files changed, 17 insertions(+), 17 deletions(-)
+It adds a new sPAPR machine capability cap-rpt-invalidate
+and if it is set by the user, checks for the availability
+of H_RPT_INVALIDATE hcall in the hypervisor (via
+KVM_CAP_RPT_INVALIDATE KVM capability) and enables the same.
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 052520331e..2eb399f0d4 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -4219,7 +4219,7 @@
- { 'command': 'blockdev-add', 'data': 'BlockdevOptions', 'boxed': true }
- 
- ##
--# @x-blockdev-reopen:
-+# @blockdev-reopen:
- #
- # Reopens one or more block devices using the given set of options.
- # Any option not specified will be reset to its default value regardless
-@@ -4257,9 +4257,9 @@
- # image does not have a default backing file name as part of its
- # metadata.
- #
--# Since: 4.0
-+# Since: 6.0
- ##
--{ 'command': 'x-blockdev-reopen',
-+{ 'command': 'blockdev-reopen',
-   'data': { 'options': ['BlockdevOptions'] } }
- 
- ##
-diff --git a/blockdev.c b/blockdev.c
-index 1e8c946828..7639f2108e 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -3560,7 +3560,7 @@ fail:
-     visit_free(v);
- }
- 
--void qmp_x_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
-+void qmp_blockdev_reopen(BlockdevOptionsList *reopen_list, Error **errp)
- {
-     BlockReopenQueue *queue = NULL;
-     GSList *drained = NULL;
-diff --git a/tests/qemu-iotests/155 b/tests/qemu-iotests/155
-index 3400b0312a..fec43d662d 100755
---- a/tests/qemu-iotests/155
-+++ b/tests/qemu-iotests/155
-@@ -261,7 +261,7 @@ class TestBlockdevMirrorReopen(MirrorBaseClass):
-             result = self.vm.qmp('blockdev-add', node_name="backing",
-                                  driver="null-co")
-             self.assert_qmp(result, 'return', {})
--            result = self.vm.qmp('x-blockdev-reopen', options = [{
-+            result = self.vm.qmp('blockdev-reopen', options = [{
-                                      'node-name': "target",
-                                      'driver': iotests.imgfmt,
-                                      'file': "target-file",
-diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
-index 57aa88ecae..92a431315b 100755
---- a/tests/qemu-iotests/165
-+++ b/tests/qemu-iotests/165
-@@ -137,7 +137,7 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
-         assert sha256_1 == self.getSha256()
- 
-         # Reopen to RW
--        result = self.vm.qmp('x-blockdev-reopen', options = [{
-+        result = self.vm.qmp('blockdev-reopen', options = [{
-             'node-name': 'node0',
-             'driver': iotests.imgfmt,
-             'file': {
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index 6eff352099..28a116a6aa 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -1,7 +1,7 @@
- #!/usr/bin/env python3
- # group: rw
- #
--# Test cases for the QMP 'x-blockdev-reopen' command
-+# Test cases for the QMP 'blockdev-reopen' command
- #
- # Copyright (C) 2018-2019 Igalia, S.L.
- # Author: Alberto Garcia <berto@igalia.com>
-@@ -85,16 +85,16 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-                          "Expected output of %d qemu-io commands, found %d" %
-                          (found, self.total_io_cmds))
- 
--    # Run x-blockdev-reopen on a list of block devices
-+    # Run blockdev-reopen on a list of block devices
-     def reopenMultiple(self, opts, errmsg = None):
--        result = self.vm.qmp('x-blockdev-reopen', conv_keys = False, options = opts)
-+        result = self.vm.qmp('blockdev-reopen', conv_keys = False, options = opts)
-         if errmsg:
-             self.assert_qmp(result, 'error/class', 'GenericError')
-             self.assert_qmp(result, 'error/desc', errmsg)
-         else:
-             self.assert_qmp(result, 'return', {})
- 
--    # Run x-blockdev-reopen on a single block device (specified by
-+    # Run blockdev-reopen on a single block device (specified by
-     # 'opts') but applying 'newopts' on top of it. The original 'opts'
-     # dict is unmodified
-     def reopen(self, opts, newopts = {}, errmsg = None):
-@@ -161,7 +161,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.reopen(opts, {'file.locking': 'off'}, "Cannot change the option 'locking'")
-         self.reopen(opts, {'file.filename': None}, "Invalid parameter type for 'options[0].file.filename', expected: string")
- 
--        # node-name is optional in BlockdevOptions, but x-blockdev-reopen needs it
-+        # node-name is optional in BlockdevOptions, but blockdev-reopen needs it
-         del opts['node-name']
-         self.reopen(opts, {}, "node-name not specified")
- 
-diff --git a/tests/qemu-iotests/248 b/tests/qemu-iotests/248
-index 03911333c4..2ec2416e8a 100755
---- a/tests/qemu-iotests/248
-+++ b/tests/qemu-iotests/248
-@@ -62,7 +62,7 @@ vm.event_wait('JOB_STATUS_CHANGE', timeout=3.0,
- vm.get_qmp_events()
- 
- del blockdev_opts['file']['size']
--vm.qmp_log('x-blockdev-reopen', filters=[filter_qmp_testfiles],
-+vm.qmp_log('blockdev-reopen', filters=[filter_qmp_testfiles],
-            options = [ blockdev_opts ])
- 
- vm.qmp_log('block-job-resume', device='drive0')
-diff --git a/tests/qemu-iotests/248.out b/tests/qemu-iotests/248.out
-index 893f625347..66e94ccd7e 100644
---- a/tests/qemu-iotests/248.out
-+++ b/tests/qemu-iotests/248.out
-@@ -2,7 +2,7 @@
- {"return": {}}
- {"execute": "blockdev-mirror", "arguments": {"device": "drive0", "on-target-error": "enospc", "sync": "full", "target": "target"}}
- {"return": {}}
--{"execute": "x-blockdev-reopen", "arguments": {"options": [{"driver": "qcow2", "file": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-target"}}, "node-name": "target"}]}}
-+{"execute": "blockdev-reopen", "arguments": {"options": [{"driver": "qcow2", "file": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-target"}}, "node-name": "target"}]}}
- {"return": {}}
- {"execute": "block-job-resume", "arguments": {"device": "drive0"}}
- {"return": {}}
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-index 74b74511b6..9206ddb954 100755
---- a/tests/qemu-iotests/296
-+++ b/tests/qemu-iotests/296
-@@ -118,7 +118,7 @@ class EncryptionSetupTestCase(iotests.QMPTestCase):
-     def openImageQmp(self, vm, id, file, secret,
-                      readOnly = False, reOpen = False):
- 
--        command = 'x-blockdev-reopen' if reOpen else 'blockdev-add'
-+        command = 'blockdev-reopen' if reOpen else 'blockdev-add'
- 
-         opts = {
-                 'driver': iotests.imgfmt,
-diff --git a/tests/qemu-iotests/298 b/tests/qemu-iotests/298
-index 4efdb35b91..b4d8bd9b55 100755
---- a/tests/qemu-iotests/298
-+++ b/tests/qemu-iotests/298
-@@ -98,7 +98,7 @@ class TestPreallocateFilter(TestPreallocateBase):
-         self.check_big()
- 
-     def test_reopen_opts(self):
--        result = self.vm.qmp('x-blockdev-reopen', options = [{
-+        result = self.vm.qmp('blockdev-reopen', options = [{
-             'node-name': 'disk',
-             'driver': iotests.imgfmt,
-             'file': {
-diff --git a/tests/qemu-iotests/tests/remove-bitmap-from-backing b/tests/qemu-iotests/tests/remove-bitmap-from-backing
-index 0b07f7e836..8d48fc0f3c 100755
---- a/tests/qemu-iotests/tests/remove-bitmap-from-backing
-+++ b/tests/qemu-iotests/tests/remove-bitmap-from-backing
-@@ -53,7 +53,7 @@ new_base_opts = {
- }
- 
- # Don't want to bother with filtering qmp_log for reopen command
--result = vm.qmp('x-blockdev-reopen', **new_base_opts)
-+result = vm.qmp('blockdev-reopen', **new_base_opts)
- if result != {'return': {}}:
-     log('Failed to reopen: ' + str(result))
- 
-@@ -61,7 +61,7 @@ log('Remove persistent bitmap from base node reopened to RW:')
- vm.qmp_log('block-dirty-bitmap-remove', node='base', name='bitmap0')
- 
- new_base_opts['options'][0]['read-only'] = True
--result = vm.qmp('x-blockdev-reopen', **new_base_opts)
-+result = vm.qmp('blockdev-reopen', **new_base_opts)
- if result != {'return': {}}:
-     log('Failed to reopen: ' + str(result))
- 
+Headers update is needed for KVM_CAP_PPC_RPT_INVALIDATE.
+
+v0: https://lore.kernel.org/qemu-devel/20210106085910.2200795-1-bharata@linux.ibm.com/
+
+Bharata B Rao (2):
+  linux-headers: Update
+  target/ppc: Support for H_RPT_INVALIDATE hcall
+
+ hw/ppc/spapr.c                                |   6 +
+ hw/ppc/spapr_caps.c                           |  41 +++++++
+ include/hw/ppc/spapr.h                        |   8 +-
+ include/standard-headers/asm-x86/kvm_para.h   |  13 +++
+ include/standard-headers/drm/drm_fourcc.h     |   7 ++
+ include/standard-headers/linux/ethtool.h      |   4 +-
+ .../linux/input-event-codes.h                 |   1 +
+ include/standard-headers/linux/virtio_ids.h   |   2 +-
+ include/standard-headers/linux/virtio_vsock.h |   9 ++
+ linux-headers/asm-arm64/kvm.h                 |  11 ++
+ linux-headers/asm-generic/mman-common.h       |   3 +
+ linux-headers/asm-generic/unistd.h            |   4 +-
+ linux-headers/asm-mips/mman.h                 |   3 +
+ linux-headers/asm-mips/unistd_n32.h           |   1 +
+ linux-headers/asm-mips/unistd_n64.h           |   1 +
+ linux-headers/asm-mips/unistd_o32.h           |   1 +
+ linux-headers/asm-powerpc/unistd_32.h         |   1 +
+ linux-headers/asm-powerpc/unistd_64.h         |   1 +
+ linux-headers/asm-s390/unistd_32.h            |   1 +
+ linux-headers/asm-s390/unistd_64.h            |   1 +
+ linux-headers/asm-x86/kvm.h                   |  13 +++
+ linux-headers/asm-x86/unistd_32.h             |   7 +-
+ linux-headers/asm-x86/unistd_64.h             |   7 +-
+ linux-headers/asm-x86/unistd_x32.h            |   7 +-
+ linux-headers/linux/kvm.h                     | 105 ++++++++++++++++++
+ linux-headers/linux/userfaultfd.h             |  11 +-
+ target/ppc/kvm.c                              |  12 ++
+ target/ppc/kvm_ppc.h                          |  12 ++
+ 28 files changed, 274 insertions(+), 19 deletions(-)
+
 -- 
 2.31.1
 
