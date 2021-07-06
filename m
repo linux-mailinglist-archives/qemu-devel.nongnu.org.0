@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7513BC57C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:29:41 +0200 (CEST)
-Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9E83BC577
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:28:11 +0200 (CEST)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0ciK-00077s-95
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46314)
+	id 1m0cgs-0002zw-Lz
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:28:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf4-0007TL-P1
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50728)
+ id 1m0cfW-00008o-2T
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf3-00035k-2o
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:18 -0400
+ id 1m0cfU-0003JR-68
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cev-0004x6-IK
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:09 +0000
+ id 1m0cfG-0004wu-J9
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:30 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9139B2E82C7
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:25:57 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1AFE52E83B4
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:14 -0000
-From: Launchpad Bug Tracker <1891749@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:34 -0000
+From: Launchpad Bug Tracker <1877052@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: graphics i386
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Expired; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: qemu-20.10
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor th-huth xyz378537
-X-Launchpad-Bug-Reporter: - (xyz378537)
+X-Launchpad-Bug-Commenters: janitor paelzer weller-andreas-weller
+X-Launchpad-Bug-Reporter: Andreas Weller (weller-andreas-weller)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159749153602.26349.12174585441877803100.malonedeb@soybean.canonical.com>
-Message-Id: <162554503593.7821.9930406238065989258.malone@loganberry.canonical.com>
-Subject: [Bug 1891749] Re: CGA Mode 6 is only 100 pixels tall,
- when it's supposed to be 200
+References: <158875190128.5304.17617014708809905297.malonedeb@soybean.canonical.com>
+Message-Id: <162554505427.7821.4198145641179009080.malone@loganberry.canonical.com>
+Subject: [Bug 1877052] Re: KVM Win 10 guest pauses after kernel upgrade
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 3b54140791663aa0a0993e52d5740241e4d5c918
+X-Launchpad-Hash: ebaed6f4d5ba21eeabc7a07e4ebcee748ff3aa4a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,33 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891749 <1891749@bugs.launchpad.net>
+Reply-To: Bug 1877052 <1877052@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for qemu (Ubuntu) because there has been no activity for 60
+days.]
 
-** Changed in: qemu
+** Changed in: qemu (Ubuntu)
        Status: Incomplete =3D> Expired
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891749
+https://bugs.launchpad.net/bugs/1877052
 
 Title:
-  CGA Mode 6 is only 100 pixels tall, when it's supposed to be 200
+  KVM Win 10 guest pauses after kernel upgrade
 
 Status in QEMU:
   Expired
+Status in qemu package in Ubuntu:
+  Expired
 
 Bug description:
-  I have written a program that used CGA Mode 6 (640x200 black and
-  white). However qemu-system-i386 only displays the first 100 pixels,
-  effectively limiting the resolution of mode 6 to 640x100. When running
-  the same program on a real computer it uses the whole 640x200 pixels.
+  Hello!
+  Unfortunately the bug has apparently reappeared. I have a Windows 10 runn=
+ing in a VM, which after my today's "apt upgrade" goes into pause mode afte=
+r a few seconds of running time.
+
+  Until yesterday it used to work and I was able to boot the VM. During
+  the kernel update (from 5.4.0-28.33 to 5.4.0-29.34) the VM was active
+  and then went into pause mode. Even after a reboot of my host system
+  the problem still persists: the VM boots for a few seconds and then
+  switches to pause mode.
+
+  Current Kernel: Linux andreas-laptop 5.4.0-29-generic #33-Ubuntu SMP
+  Wed Apr 29 14:32:27 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+  Maybe relevant logfile lines:
+  2020-05-06T07:46:42.857574Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-06T07:46:42.857718Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-06T07:46:42.860567Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(48FH).vmx-exit-load-perf-global-ctrl [bit 12]
+  2020-05-06T07:46:42.860582Z qemu-system-x86_64: warning: host doesn't sup=
+port requested feature: MSR(490H).vmx-entry-load-perf-global-ctrl [bit 13]
+  2020-05-06T07:47:22.901057Z qemu-system-x86_64: terminating on signal 15 =
+from pid 1593 (/usr/sbin/libvirtd)
+  2020-05-06 07:47:23.101+0000: shutting down, reason=3Ddestroyed
+
+
+  Kind regards,
+  =C2=A0=C2=A0=C2=A0Andreas
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891749/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1877052/+subscriptions
 
