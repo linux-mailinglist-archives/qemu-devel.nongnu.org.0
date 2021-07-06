@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 388DE3BDED6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 23:18:40 +0200 (CEST)
-Received: from localhost ([::1]:39192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF153BDEE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 23:26:30 +0200 (CEST)
+Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0sSl-0002sa-9L
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 17:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56588)
+	id 1m0saL-0006sa-3U
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 17:26:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0sRT-0001zo-BZ
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 17:17:19 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44948)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m0sYu-0005q1-V5; Tue, 06 Jul 2021 17:25:00 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m0sRQ-0004kG-OP
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 17:17:18 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id l24so478596edr.11
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 14:17:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1Gf2wVP/NJzFITJYF6X9w0QkG1vGm8mFLAdhuAlaBGw=;
- b=E6XK0QtdmJBzh8m0ooFzCINe/vg8B1T6t+B3cqry29qFyFSIq4rXOCKDkVhLCKYmU1
- sj7KN+tcjGjfuJe3+umzZ3oqQgtzAJE/e4ut6U8GqDf2jX/dJXdn8EgFR5thlWof07tj
- jdt5NL0xLcrtvW9zQ/y7WfZwrR1c2fNX1GTRKDAqTdcraupThzJQ/SjEkaPUrLGRpc8u
- QcSdxjJQqHdr/CGSQ3fDwy8wt+hamvtw/0EN9aFG1phFMTgn3dJ7e7QAxke4PFh03gAi
- 558CfdVRWJJyhxcMe/AzjiiCnC9qff+08jN6VdCaxYrgEX8ZkwJpC4KC9vzzJl2SHbQh
- WGGQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m0sYt-00057k-5N; Tue, 06 Jul 2021 17:25:00 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id f17so582916wrt.6;
+ Tue, 06 Jul 2021 14:24:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7VYZNGbFoL5cGqEzswc/n3mhhPontMBo01UGOUHMrXg=;
+ b=JcSQvuBI1v0i5DKpWKpIWHsWKOUqp+hstBzLeThBGOUgM4R0nN3VSSOzTYv4M2i5ct
+ 4zxl0ze1uP9cbi7xOVzqrvwACesCigcX/+zEAFd586rvBpAOUTOc+m9soJ4IdzSy94NX
+ CEI/iiVzFIsDd/QdlfimDnt8E+m0st2xrnSdLGMbXbPX40+58ygLtOvJChtplKDMs6bQ
+ iIzTon8Y4j/lbF/v9T0UEpE5DXvLfGNbyllyL9ampxsuFDxB2fNrnCRlxhy8F155OQ8T
+ 79s6gcBSgK+mvtAIWp4H91etFxghg+XvdDzMHGFfD3wqbk3eWYrT1c7ViphwOod65bS4
+ pu1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1Gf2wVP/NJzFITJYF6X9w0QkG1vGm8mFLAdhuAlaBGw=;
- b=FOngQQ//RFJmx4vv6TqDnGIPrpNevCSmUYx2ui77njXmg9o9XwAlutdUEKxYw+T0RA
- 1qOGw6BNbnzNB8j4dhYFg0TIkiiHVjHws+L7qTwACbEjAv/XxI5tsd/erNrqflyQIEW0
- UDjtuKEtbj6ppbhtgMM/vBVoQu6wmOyOBg3oKJMywchuACrvBFYyKZG/nJeYvtfqvme9
- gCsKirfYnvruvPLRG4gHla168C4t3m3lqFX1aPpzRjNuqYQOtY0o5+Q8weAHfYZ7Mb3u
- 2AMMAWT8DrSW2V0MHPtyuzbbV3t/sL4qD0VCmaE886f5trNW7HZUl5T+FY9ao0CaGehp
- PJGQ==
-X-Gm-Message-State: AOAM530hAzdMxP4lNPMR3dLj45jVAagwferuRxtaWU3V2x5QxlJ6HXZ1
- AH/QYMxhFB1MQYnuoM3LiblAbzT5S5g+aWFVfgwNDQ==
-X-Google-Smtp-Source: ABdhPJzDQ4t7LXcpzfSE3d+q1qvkF/9cn+Tk56gR2DobnH+GBlNsI7eW0m0ooncw+Mfq2/gYrUZK2FYJq/Yv+p6ewJY=
-X-Received: by 2002:a05:6402:1911:: with SMTP id
- e17mr25532315edz.36.1625606234961; 
- Tue, 06 Jul 2021 14:17:14 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7VYZNGbFoL5cGqEzswc/n3mhhPontMBo01UGOUHMrXg=;
+ b=Cdc2o84klh7U9D+ymEyw1gigKWJpuDoy7aaa9CfS0ul8v7AjCAl1xK945BurZ84j7j
+ Vdd5G9CIm48BwuNcusj5n89vKo2cAQYLfsRKiqyK63iBIEkqPK+NhPPg72NSh8UDNRR6
+ sTtLtSpHypYYV01rfx4qBzQEZ++k7WztY82QgTdqonlJAFnuxbKVpfJABNhtoCujExNQ
+ kRLFY0O/mSXR/ERUW1tkl4x/3FJUIvhZ2pLTuXRZIFLfjGnLzNAUuYYVKQNR5Ak555Fl
+ TZVhfaFj+YC5sZic+pkMh3zc8v+ebeeE7atbTILUgSOPcPUFAxAUffrS2B4NEuLkxKyt
+ in9w==
+X-Gm-Message-State: AOAM532uxLFb0WFEmXx0TkpbEbIMF5ajiaDBIqiez3gANwx0ASNtC+bs
+ YvjlPmZCLer3CL0NwjZdz58=
+X-Google-Smtp-Source: ABdhPJxBuK5CaI2zhZjKsMYZS0oogmV/sEoGqe0i1m2wR5u/aV3PBC5K9vu29nXtS5A3Zpc5YBCsKw==
+X-Received: by 2002:a5d:5701:: with SMTP id a1mr23842504wrv.216.1625606696848; 
+ Tue, 06 Jul 2021 14:24:56 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id 12sm4378009wme.28.2021.07.06.14.24.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 14:24:55 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 1/7] hw/misc: Add device to help managing aliased
+ memory regions
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210419094329.1402767-1-f4bug@amsat.org>
+ <20210419094329.1402767-2-f4bug@amsat.org>
+ <2b3a6aec-aef9-6f31-1537-310757d6aa83@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b9dba106-de0e-54d7-da9a-1519cd71b9fd@amsat.org>
+Date: Tue, 6 Jul 2021 23:24:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210706200558.GT2921206@minyard.net>
-In-Reply-To: <20210706200558.GT2921206@minyard.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 6 Jul 2021 22:16:36 +0100
-Message-ID: <CAFEAcA-dvSPpKoJ-+ATYcBs6UuLJY1ZKwx-9WYvPyJ+0MYU4ew@mail.gmail.com>
-Subject: Re: [GIT PULL] I2C/IPMI bug fixes for QEMU 6.1
-To: Corey Minyard <minyard@acm.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <2b3a6aec-aef9-6f31-1537-310757d6aa83@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,63 +89,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stephen Checkoway <stephen.checkoway@oberlin.edu>, qemu-block@nongnu.org,
+ Peter Xu <peterx@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Jul 2021 at 21:06, Corey Minyard <minyard@acm.org> wrote:
->
-> The following changes since commit 38848ce565849e5b867a5e08022b3c755039c11a:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210616' into staging (2021-06-16 17:02:30 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cminyard/qemu.git tags/for-qemu-6.1-1
->
-> for you to fetch changes up to 7051d605e6b03259e0185dd574f760b93d15fa10:
->
->   ipmi/sim: fix watchdog_expired data type error in IPMIBmcSim struct (2021-06-25 08:54:57 -0500)
->
-> ----------------------------------------------------------------
-> Some qemu updates for IPMI and I2C
->
-> Move some ADC file to where they belong and move some sensors to a
-> sensor directory, since with new BMCs coming in lots of different
-> sensors should be coming in.  Keep from cluttering things up.
->
-> Add support for I2C PMBus devices.
->
-> Replace the confusing and error-prone i2c_send_recv and i2c_transfer with
-> specific send and receive functions.  Several errors have already been
-> made with these, avoid any new errors.
->
-> Fix the watchdog_expired field in the IPMI watchdog, it's not a bool,
-> it's a u8.  After a vmstate transfer, the new value could be wrong.
->
+On 4/22/21 3:33 AM, Richard Henderson wrote:
+> On 4/19/21 2:43 AM, Philippe Mathieu-Daudé wrote:
+>> Not really RFC, simply that I'v to add the technical description,
+>> but I'd like to know if there could be a possibility to not accept
+>> this device (because I missed something) before keeping working on
+>> it. So far it is only used in hobbyist boards.
+>>
+>> Cc: Peter Xu<peterx@redhat.com>
+>> Cc: Paolo Bonzini<pbonzini@redhat.com>
+>> ---
+>>   include/hw/misc/aliased_region.h |  87 ++++++++++++++++++++
+>>   hw/misc/aliased_region.c         | 132 +++++++++++++++++++++++++++++++
+>>   MAINTAINERS                      |   6 ++
+>>   hw/misc/Kconfig                  |   3 +
+>>   hw/misc/meson.build              |   1 +
+>>   5 files changed, 229 insertions(+)
+>>   create mode 100644 include/hw/misc/aliased_region.h
+>>   create mode 100644 hw/misc/aliased_region.c
+> 
+> Looks reasonable to me.
+> 
+> 
+>> +    subregion_bits = 64 - clz64(s->span_size - 1);
+>> +    s->mem.count = s->region_size >> subregion_bits;
+>> +    assert(s->mem.count > 1);
+>> +    subregion_size = 1ULL << subregion_bits;
+> 
+> So... subregion_size = pow2floor(s->span_size)?
 
-Hi; this fails to compile on 32-bit hosts:
+No... should be subregion_size = pow2ceil(s->span_size).
 
-../../hw/sensor/max34451.c: In function 'max34451_init':
-/home/peter.maydell/qemu/include/qemu/bitops.h:22:38: error: left
-shift count >= width of type [-Werror=shift-count-overflow]
- #define BIT(nr)                 (1UL << (nr))
-                                      ^
-/home/peter.maydell/qemu/include/hw/i2c/pmbus_device.h:253:36: note:
-in expansion of macro 'BIT'
- #define PB_HAS_TEMPERATURE         BIT(40)
-                                    ^~~
-../../hw/sensor/max34451.c:725:37: note: in expansion of macro
-'PB_HAS_TEMPERATURE'
-         pmbus_page_config(pmdev, i, PB_HAS_TEMPERATURE | PB_HAS_VOUT_MODE);
-                                     ^~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
+> Why use a floor-ish computation here and pow2ceil later in
+> aliased_mr_realize?
 
-You probably wanted to define PB_HAS_TEMPERATURE using BIT_ULL().
+I missed it :)
 
-Sample gitlab CI job failure with this error:
-https://gitlab.com/qemu-project/qemu/-/jobs/1403927147
+> Why use either floor or ceil as opposed to
+> asserting that the size is in fact a power of 2?
 
-thanks
--- PMM
+Unfortunately not all memory regions are power of 2 :(
+
+See for example the armv7m_systick device (size 0xe0).
+
+> Why must the region be
+> a power of 2, as opposed to e.g. a multiple of page_size?
+
+I/O regions don't have to be multiple of page_size... See
+AVR devices for example:
+
+(qemu) info mtree
+address-space: memory
+  0000000000000000-ffffffffffffffff (prio 0, i/o): system
+    0000000000000000-0000000000007fff (prio 0, rom): flash
+    0000000000800000-00000000008000ff (prio -1234, i/o): I/O
+    0000000000800023-0000000000800025 (prio -1000, i/o): atmega-gpio-b
+    0000000000800026-0000000000800028 (prio -1000, i/o): atmega-gpio-c
+    0000000000800029-000000000080002b (prio -1000, i/o): atmega-gpio-d
+    0000000000800035-0000000000800035 (prio -1000, i/o): avr-timer8-intflag
+    0000000000800036-0000000000800036 (prio 0, i/o): avr-timer16-intflag
+    0000000000800037-0000000000800037 (prio -1000, i/o): avr-timer8-intflag
+    000000000080003f-0000000000800041 (prio -1000, i/o): avr-eeprom
+    0000000000800044-0000000000800048 (prio -1000, i/o): avr-timer8
+    000000000080004c-000000000080004e (prio -1000, i/o): avr-spi
+    0000000000800060-0000000000800060 (prio -1000, i/o): avr-watchdog
+    0000000000800064-0000000000800064 (prio 0, i/o): avr-power
+    000000000080006e-000000000080006e (prio -1000, i/o): avr-timer8-intmask
+    000000000080006f-000000000080006f (prio 0, i/o): avr-timer16-intmask
+    0000000000800070-0000000000800070 (prio -1000, i/o): avr-timer8-intmask
+    0000000000800074-0000000000800075 (prio -1000, i/o): avr-ext-mem-ctrl
+    0000000000800078-000000000080007f (prio -1000, i/o): avr-adc
+    0000000000800080-000000000080008d (prio 0, i/o): avr-timer16
+    00000000008000b0-00000000008000b4 (prio -1000, i/o): avr-timer8
+    00000000008000b8-00000000008000bd (prio -1000, i/o): avr-twi
+    00000000008000c0-00000000008000c6 (prio 0, i/o): avr-usart
+    0000000000800100-00000000008008ff (prio 0, ram): sram
+
+> Or just the
+> most basic requirement that region_size be a multiple of span_size?
+
+OK.
+
+Thanks for the review! Now I need to fill the documentation part :/
+
+Phil.
 
