@@ -2,53 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C4663BC4A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 03:42:12 +0200 (CEST)
-Received: from localhost ([::1]:34626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 027753BC4EE
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 04:54:00 +0200 (CEST)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0a6E-000430-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 21:42:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1m0bDi-0003PO-GW
+	for lists+qemu-devel@lfdr.de; Mon, 05 Jul 2021 22:53:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0a3G-0003Ar-2m; Mon, 05 Jul 2021 21:39:06 -0400
-Received: from ozlabs.org ([203.11.71.1]:51435)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m0bCk-0002ku-OJ
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 22:52:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m0a3D-0006lQ-Bt; Mon, 05 Jul 2021 21:39:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GJlZm3JMKz9shx; Tue,  6 Jul 2021 11:38:56 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1625535536;
- bh=yJefDq6a38yJ93BzsebXE+AwKoOFYycrAS3Hz2ccXco=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=m3y7Hd7bj2NpSy+ki4v6Oo2TiqycBY58nTBg+eIEY/j1fQd38ZfTIedC3e3vWkAxJ
- ZJJ8WtSMK9sRO2ZZw0uG5KHz9HHGvUG6iiQXvznW5ENPJWNhMxx9v7+qv9jWPBOtcJ
- vA0jYhC2SMCTa9YdDCwpJG2bq59epVtIvkzABq6M=
-Date: Tue, 6 Jul 2021 11:35:14 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bruno Piazera Larsen <bruno.larsen@eldorado.org.br>
-Subject: Re: [PATCH v4 2/3] target/ppc: change ppc_hash32_xlate to use mmu_idx
-Message-ID: <YOOzUrQTgwVOD+Wg@yekko>
-References: <20210628133610.1143-1-bruno.larsen@eldorado.org.br>
- <20210628133610.1143-3-bruno.larsen@eldorado.org.br>
- <YOKJco6ebWubvDwx@yekko>
- <893bd8b3-d2be-309a-dd35-59aba1712be6@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m0bCh-0005nH-Hx
+ for qemu-devel@nongnu.org; Mon, 05 Jul 2021 22:52:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625539973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FKkC5RK2i5n4axh0wCHh6HEmW3hBQ7B0OZoTQLTmEUk=;
+ b=MpXguXENtSzo5ieGRlt2NC2AfNcrKMLvcfhzWrtLHRJ044qiBv9Isj/Wrkg+Uh+moNjGHA
+ 1Ma2F1Ya9G+K4vMzrCC/cUtoZ+jQ1nQGaFPYuucY8NTYKTu7FiEoetJF+pDlr9cCOUoQ+X
+ c8W0ledBJ9HUaNEk5YGjRAP6JtnKdhY=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-7uhqyQe9PNqd1tao0QvH_w-1; Mon, 05 Jul 2021 22:52:51 -0400
+X-MC-Unique: 7uhqyQe9PNqd1tao0QvH_w-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ x9-20020a6541490000b0290222fe6234d6so15018363pgp.14
+ for <qemu-devel@nongnu.org>; Mon, 05 Jul 2021 19:52:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=FKkC5RK2i5n4axh0wCHh6HEmW3hBQ7B0OZoTQLTmEUk=;
+ b=CQ3/M/GObOBoqCJU4BgwOPcNO5G6wQ3YH/TN3XR7vkt8kjX2GplF0TglscflYt+mEc
+ ziCG402OuXf2XPYA3gAWIKz+GGfWA/YeTSj2bizDxonaTtdxig8XJ7uYKPgDAHae2F69
+ 71TV8i+d5EEYjnfHradT51FDdqJbtKwRU+f54EoHrPamaGmpLbXPuLB7WlGnah7QcqWt
+ CJvK5Wdjppk8qmpLL09YAsOWFCr6CMlT9mp9/ceriF82j1mwpH+BrwRE9Lb2SYY5A8CM
+ qCJwv/xbUEPB8sJlnkysm4SdBA0AuR9qw1Z9kSKeIfUdI1bbKYsQYeN0I8oXdj6Zq8re
+ O9rw==
+X-Gm-Message-State: AOAM533CDz+hOlV1X07cD47aPfXcliMSwjxJfOFATkRzFB5wT81bhq7B
+ Xg0yC025jARjwl0blCjVGDoFetdtepNwz94r6ulZ7AQCR4q5eKC4DF7ANdCC9m48eNTt/4PV/jw
+ TXCGwfuXPctPfIB8=
+X-Received: by 2002:a17:902:ec88:b029:129:a87d:f0b4 with SMTP id
+ x8-20020a170902ec88b0290129a87df0b4mr1332044plg.3.1625539970728; 
+ Mon, 05 Jul 2021 19:52:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOzc+wFIN8oWCH+D8GSoC9AbBGerwjsMCgO67sIqUddm+NBBUQHJXYuU90HHLoCByJ20XRTg==
+X-Received: by 2002:a17:902:ec88:b029:129:a87d:f0b4 with SMTP id
+ x8-20020a170902ec88b0290129a87df0b4mr1332027plg.3.1625539970501; 
+ Mon, 05 Jul 2021 19:52:50 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id p3sm867530pjt.0.2021.07.05.19.52.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 05 Jul 2021 19:52:50 -0700 (PDT)
+Subject: Re: [PATCH] migration: failover: reset partially_hotplugged
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20210629152937.619193-1-lvivier@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <fe63f84b-a4ff-b068-8608-2864dbb28a64@redhat.com>
+Date: Tue, 6 Jul 2021 10:52:41 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/RabdQ8M2O8tweXP"
-Content-Disposition: inline
-In-Reply-To: <893bd8b3-d2be-309a-dd35-59aba1712be6@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+In-Reply-To: <20210629152937.619193-1-lvivier@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,81 +101,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, lucas.araujo@eldorado.org.br,
- fernando.valle@eldorado.org.br, qemu-ppc@nongnu.org,
- matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
+Cc: Jens Freimann <jfreimann@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---/RabdQ8M2O8tweXP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ÔÚ 2021/6/29 ÏÂÎç11:29, Laurent Vivier Ð´µÀ:
+> When the card is plugged back, reset the partially_hotplugged flag to false
+>
+> Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1787194
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>   hw/net/virtio-net.c | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index bd7958b9f0ee..16d20cdee52a 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3234,6 +3234,7 @@ static bool failover_replug_primary(VirtIONet *n, DeviceState *dev,
+>           }
+>           hotplug_handler_plug(hotplug_ctrl, dev, &err);
+>       }
+> +    pdev->partially_hotplugged = false;
+>   
+>   out:
+>       error_propagate(errp, err);
 
-On Mon, Jul 05, 2021 at 11:31:13AM -0300, Bruno Piazera Larsen wrote:
->=20
-> On 05/07/2021 01:24, David Gibson wrote:
->=20
-> > > Changed hash32 address translation to use the supplied mmu_idx, inste=
-ad
-> > > of using what was stored in the msr, for parity purposes (radix64
-> > > already uses that).
->=20
-> > Well.. parity and conceptual correctness.  The translation is supposed
-> > to use mmu_idx, not look at the CPU again to get the right context.
-> > AFAIK there isn't a situation in hash32 where they'll get out of sync,
-> > but nothing guarantees that.
->=20
->=20
-> Fair point, I can change the description if I do end up with a new
-> version, but
->=20
-> > I think the right approach is to duplicate the helper macros in
-> > mmu-hash32.h for now.  We can unify them later with a more thorough
-> > review (which would probably involve creating a new header for things
-> > common to all BookS family MMUs).
->=20
-> This doesn't work directly. I'd need to put in an ifndef
-> PPC_MMU_BOOK3S_V3_H, which also feels a bit dubious to me. I can go
-> with whichever one you prefer
 
-Ah... good point, because both headers are included in some places.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-Ok, in that case let's jump ahead instead.  Let's create a new
-mmu-books.h to cover all MMUs based on the "classic" powerpc model,
-and put them in there.  hash32 and book3s-v3 can include that, BookE,
-4xx etc. will not.
 
-For now these will be the only things in there, but there will
-probably be more we can add later on.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---/RabdQ8M2O8tweXP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDjs08ACgkQbDjKyiDZ
-s5KwSQ//QcaqHMnkAPR2586oNhqFmdK+qmGsZhPUYNKQbGhcnmODuELA8jRvu1xn
-2MxwjcUCQ9m4u8AWUht3OfraUdHi3zsmIhj97esZeGqUf2Fx18bMfgAVmHHeK5SS
-vjUx9TcRcft7Tky9RUOv0TrBxig3A8MNypVeKKdbjt/A72wwh16Voob9BKrThCos
-oT354Uz1nVau+fROAfv/qFJyQEqtDA5ruLlwM+79V+4/6f56NZl2dvcIEFLD+uAj
-Y+DasslCiyQgpSBvZ3bP2ovk3uqZqIJjjdm1UYg1C6ZHO6c58BX9M5keFkmLzLkU
-PwIxQNRQJKcDqmo7owm921gpN6sw39T09DhTHRsghUm9+3iJMB+dSsl4UFBDs5wd
-G02Up5II2yHKGJDoR+Kq5R/1lnkATWXXS9gn4NMgAAU1kbeqFoexO9meQMhADJNo
-6AciJicedB4v93xftYIEN7PHIGOXIrrinKsutEtqtEyZ203EWwrp7uEIY1ruST3r
-KX5mhFJ3gviRj7OblMLtzLqnWUSj6qQ+6BMKqC6gF3uPSQ2wNfSD8fp/ywutChdz
-LdFGaWZXOIRHo8TE61x9vQwnlu0tB+x0p9xKTLm6O2O5uGF5FU04LlP2WfIUESIu
-uEPg/qzLu6+Nz8+R/2DNsWxNurfVhZ77XHU0cxeIeFVdk+bxzXg=
-=8be/
------END PGP SIGNATURE-----
-
---/RabdQ8M2O8tweXP--
 
