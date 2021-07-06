@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19AD13BD70A
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 14:49:03 +0200 (CEST)
-Received: from localhost ([::1]:50172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76CCE3BD710
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 14:49:37 +0200 (CEST)
+Received: from localhost ([::1]:52340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0kVZ-00049R-JQ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 08:49:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
+	id 1m0kW8-0005b9-HH
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 08:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0kTP-0001x1-6R
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 08:46:47 -0400
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:46982)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m0kUf-0003qO-Ro; Tue, 06 Jul 2021 08:48:05 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0kTN-0008JS-5m
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 08:46:46 -0400
-Received: by mail-qv1-xf2c.google.com with SMTP id g15so7244779qvi.13
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 05:46:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FZvSYb+hW9K3pqMvjXjMIprxKCR8cZoFIlSVsBdwFqw=;
- b=vP/OHT0gak9SPVmxnS9mFkodJg5csXm7GwDsryxX0JNFfYyGGx6tMl40+bo5ZUQxwt
- mWrAP/+XT1qiQdii67bnTpOOYmlB2xLfpsouZFmDBL7ybRnzMFBqLCOR10J+AzJ17+G9
- UlOGBG37MxINtBFoskE2DbmEp+of7oC7epczfhv/3GvxUuSfRgsXocN5fezycXLYficQ
- l2W+z3WZhGTowu7dM6BawiaYcqoQV8RYGmEgoTaNPSSjgIkMXbwirDO9q7WQTBJfjCsp
- w02l5Pc3xNIeWuytwh2RPzPs1JbTNuVJO2MzQlgZrx/mSadFTmRhsBk604BzrJjYvp2q
- ABrg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m0kUe-0000ZJ-85; Tue, 06 Jul 2021 08:48:05 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ t14-20020a05600c198eb029020c8aac53d4so4240871wmq.1; 
+ Tue, 06 Jul 2021 05:48:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NEhc5WhDYlEEKVlhSzUmANOUr6OiHh9Mh0E8nMqQW6U=;
+ b=qBJ5s8dBix/ei+6rR/Fi/5PkDB8J6MDTafEpTEMru3KoB8fgdZCPWUxonYyjrp+Ijc
+ yGW6wY6y29XYuPmJOTojJv8yUi85vHDhz2gZx5oUJiVMiTW2Z3ofL9jAfXryhIGXQEy6
+ T3dMHNwoW9KepwkcpxmYAP1QOt9o+0wabXHifHtV6MBR0R/vYTQsCF6Q8kwwhHoX4nO+
+ FInEh6+8wCTr/oy7N95L2/Ug/PpLdR9WtCu0mFtSqxcfwn4ZqvWg1Ggw5YFb0yFw8c5h
+ LKvzFYVS9TDA3Oho23Fwyq6yvN0X8AX3eHc0mPgnh/ImCyIgjGggGgn0BVrhjxtb0pu0
+ u+xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FZvSYb+hW9K3pqMvjXjMIprxKCR8cZoFIlSVsBdwFqw=;
- b=O/SwQsqVhzSTwl3JEsM2R2OocyvIOrvNgkmIEGdMkSMX95tOghGgJpHu7RUbw4ORVC
- eRqhMVdjfnTiJRo9uvfU4lHZhDmUiLWePrsRGCZ7zESVEKf+dst+66JAG0AXvrkwCWsZ
- isTGBkfkalYbqbmWchXgY8I886fROIfS/+9qy01RSBeGQ2hPQEe4O/gPVl39kBDpQKhE
- LdnAgnocPz3m/77IB3zqzIV+u6p9DYEbRlbatcnZFyXepLfki+HfoNWBjig0pJLjZuKi
- UMjwzkXPyor9bnKq8AkzxAdcZxI+T/StmRheJGr3mcr/e36ShRIXlA6O8Csl6s6+3Gb7
- w6Lg==
-X-Gm-Message-State: AOAM530nOUqXCwtJC3t0lTeQJnnDdKdU6P52MUWzQfBtjVaVvYiuU4FO
- /ASpkVrEwmU5jaozSosmL58y/w==
-X-Google-Smtp-Source: ABdhPJwsddpHFYR5oDW41ROGdEL3D34F3aQEOZAi7gsiHUdOfgz445ajROxqjlihMpKIAbtr4yaREQ==
-X-Received: by 2002:a0c:d7c4:: with SMTP id g4mr17587887qvj.23.1625575604018; 
- Tue, 06 Jul 2021 05:46:44 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.gmail.com with ESMTPSA id l190sm4909548qkc.120.2021.07.06.05.46.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 05:46:43 -0700 (PDT)
-Message-ID: <781518f186454dc31c97b34c088f89577fbb66ab.camel@linaro.org>
-Subject: Re: [PATCH v5 04/10] hw/intc: GICv3 ITS Command processing
-From: shashi.mallela@linaro.org
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 06 Jul 2021 08:46:42 -0400
-In-Reply-To: <CAFEAcA-xC_v2z=QaD=_dkFWx2Hr+UFd0h_YTtSi6MNPhk6-Sbg@mail.gmail.com>
-References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-5-shashi.mallela@linaro.org>
- <CAFEAcA-ZeKEMTp5X0VWXu+hip9ryzQLTLNwd_bsKQybyT_k7CQ@mail.gmail.com>
- <bbb32d79ed60fb90128b3662ec925f60ca258e8a.camel@linaro.org>
- <287eb50c0b99a3daec986ec29ede33cb2bdfd025.camel@linaro.org>
- <CAFEAcA-xC_v2z=QaD=_dkFWx2Hr+UFd0h_YTtSi6MNPhk6-Sbg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qv1-xf2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NEhc5WhDYlEEKVlhSzUmANOUr6OiHh9Mh0E8nMqQW6U=;
+ b=EZ2LGekUtcm7poRyMQm1E7PHNCqoR2GqAVoHD6727Y9pD9E8AblEprY7rmR7lOy5Fr
+ 9vUKVxTFuxh+FGz00jOmEUgBCinyP8ScbGFe3lQRqjvrOE9mfCszYUbPue1G49knWKYo
+ Me5nT09rO2oeFKTrW+uuM+DGJww/qC3uYeVPrfyd2tYOOcACIG8jAa8K+xtN1kx5O0BG
+ 1r4TPelIIN3NhLaZBE6oY5vyOnSt12KUFmebhV1rdnIIRqmtw3V4fmEG+qSK9EjqiBdO
+ Hy3vvViMxRl8EYyBJJyq4Hc42F/278d96l/4rieIX49cTFPGd8bSAVcy0HxiKCVXWqmg
+ syOQ==
+X-Gm-Message-State: AOAM531ANxjgdfAOzlTSRRJ/tr7k9B0KrN2+9MpkMhMH6wpzQ/qSZrNG
+ 6IdBjPQtiCr3Oul4n92XoEE=
+X-Google-Smtp-Source: ABdhPJzA7h0Ajc7fujgjB/Xv1LlickoIHZuPkeEk8lL+ygfFTP6GlWEZlOHZ24Au2tMaRm7f2Lw/QA==
+X-Received: by 2002:a05:600c:b48:: with SMTP id
+ k8mr507814wmr.180.1625575679578; 
+ Tue, 06 Jul 2021 05:47:59 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id h21sm14983105wmq.38.2021.07.06.05.47.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 05:47:58 -0700 (PDT)
+Subject: Re: [PATCH v1 1/5] meson: Introduce target-specific Kconfig
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20210621152120.4465-1-alex.bennee@linaro.org>
+ <20210621152120.4465-2-alex.bennee@linaro.org>
+ <c3d33a80-b3bb-5aa5-50c7-7c1a379814ba@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8d018805-8e1f-4c1e-b1a4-45a34c8d2e63@amsat.org>
+Date: Tue, 6 Jul 2021 14:47:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <c3d33a80-b3bb-5aa5-50c7-7c1a379814ba@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,84 +91,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Leif Lindholm <leif@nuviainc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>, pbonzini@redhat.com,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2021-07-06 at 10:19 +0100, Peter Maydell wrote:
-> On Tue, 6 Jul 2021 at 04:25, <shashi.mallela@linaro.org> wrote:
-> > On Mon, 2021-07-05 at 20:47 -0400, shashi.mallela@linaro.org wrote:
-> > > On Mon, 2021-07-05 at 15:54 +0100, Peter Maydell wrote:
-> > > > I missed this the first time around, but I don't think this is
-> > > > right.
-> > > > Different CPUs could have different GICR_PROPBASER values, so
-> > > > checking
-> > > > against just one of them is wrong. The pseudocode only tests
-> > > > LPIOutOfRange()
-> > > > which is documented as testing "larger than GICD_TYPER.IDbits
-> > > > or
-> > > > not
-> > > > in
-> > > > the LPI range and not 1023". So I don't think we should be
-> > > > looking
-> > > > at the GICR_PROPBASER field here.
-> > > > 
-> > > > More generally, "s->gicv3->cpu->something" is usually going to
-> > > > be
-> > > > wrong, because it is implicitly looking at CPU 0; often either
-> > > > there
-> > > > should be something else telling is which CPU to use (as in
-> > > > &s->gicv3->cpu[rdbase] where the CTE told us which
-> > > > redistributor),
-> > > > or we might need to operate on all CPUs/redistributors. The
-> > > > only
-> > > > exception is where we can guarantee that all the CPUs are the
-> > > > same
-> > > > (eg when looking at GICR_TYPER.PLPIS.)
-> > Please ignore my last comment.
-> > 
-> > To address this scenario,i think the feasible option would be to
-> > call
-> > get_cte() to get the rdbase corresponding to icid value passed to
-> > mapti
-> > command.Since each icid is mapped to a rdbase(by virtue of calling
-> > MAPC
-> > command),if the collection table has a valid mapping for this icid
-> > we
-> > continue processing this MAPTI command using &s->gicv3->cpu[rdbase]
-> > applicable propbaser value to validate idbits, else return without
-> > further processing.
+On 7/6/21 12:52 PM, Thomas Huth wrote:
+> On 21/06/2021 17.21, Alex Bennée wrote:
+>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>
+>> Add a target-specific Kconfig. We need the definitions in Kconfig so
+>> the minikconf tool can verify they exit. However CONFIG_FOO is only
 > 
-> But the pseudocode for MAPTI does not say anywhere that we should
-> be checking the pIntID against any CPU's GICR_PROPBASER field.
-> It is checked only by the checks in LPIOutOfRange(), which tests:
->  * is it larger than permitted by GICD_TYPER.IDbits
->  * is it not in the LPI range and not 1023
+> s/exit/exist/ ?
 > 
-> Checking whether the intID is too big and would cause us to index
-> off the end of the redistributor's configuration table should be done
-> later, only when the ITS actually sends the interrupt to a particular
-> redistributor, I think.
+>> enabled for target foo via the meson.build rules.
+>>
+>> Two architecture have a particularity, ARM and MIPS:
+>> their 64-bit version include the 32-bit subset.
 > 
-> (You can't rely on the guest having done the MAPC before the MAPTI;
-> and in any case the guest could choose to do a MAPC to a different
-> redistributor after it's done the MAPTI.)
-> 
-> thanks
-> -- PMM
-We already have the "intID too big check" in place within the
-redistributor processing when ITS sends the interrupt trigger.
-"the LPI range and not 1023" is also handled in this function,but for
-validating "is it larger than permitted by GICD_TYPER.IDbits",the
-source of GICD_TYPER.IDbits is GICR_PROPBASER because we pick up min of
-GICR_PROPBASER.IDbits and GICD_TYPER.IDBits.
+> Why do you mention these here, but not x86, Sparc, PPC and RISC-V which
+> also have 32-bit and 64-bit variants?
 
-If we are to not use gicr_propbaser,then are we good to just accept the
-intID value here since we are validating the same during interrupt
-processing?
+Because we consider them as different targets, they don't include
+(kselect) the subset.
 
+> 
+> The patch itself looks fine to me, so once you've clarified the commit
+> message:
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> 
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> Message-Id: <20210131111316.232778-6-f4bug@amsat.org>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>
+>> ---
+>> vajb:
+>>    - removed targets that no longer exist
+>>    - reword commit message to show why we need the Kconfigs
+>> ---
 
+>> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+>> new file mode 100644
+>> index 0000000000..3f3394a22b
+>> --- /dev/null
+>> +++ b/target/arm/Kconfig
+>> @@ -0,0 +1,6 @@
+>> +config ARM
+>> +    bool
+>> +
+>> +config AARCH64
+>> +    bool
+>> +    select ARM
+
+>> diff --git a/target/mips/Kconfig b/target/mips/Kconfig
+>> new file mode 100644
+>> index 0000000000..6adf145354
+>> --- /dev/null
+>> +++ b/target/mips/Kconfig
+>> @@ -0,0 +1,6 @@
+>> +config MIPS
+>> +    bool
+>> +
+>> +config MIPS64
+>> +    bool
+>> +    select MIPS
 
