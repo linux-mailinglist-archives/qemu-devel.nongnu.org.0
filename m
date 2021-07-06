@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1886B3BDA33
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:29:28 +0200 (CEST)
-Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1893BDA0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:22:19 +0200 (CEST)
+Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0n0p-0003GT-1u
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:29:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
+	id 1m0mtt-00024m-4R
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:22:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mfU-0005kJ-Kg
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:24 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54012)
+ id 1m0mfE-0005HR-03
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:08 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mfO-0007GU-HS
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:24 -0400
-Received: by mail-wm1-x329.google.com with SMTP id w13so13807617wmc.3
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:07:17 -0700 (PDT)
+ id 1m0mfC-00077j-0h
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:07 -0400
+Received: by mail-wr1-x433.google.com with SMTP id f17so1875580wrt.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:07:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2VymeSF+HdKxVWyy9+ZA+5+qTRIVWKC1/sXMZ3ShAgc=;
- b=inVrLCvZ3um+Z2JhemhX7Y8shk+Q07CoD/IXnPguGjLTHHS1+UktHhmrfEZv0Ai1f/
- 6twbYCFI3tes/EdKfUTfl1TKHfv+8i51tcZA/eUh7NG0jrg6EC5dpGILTdpNtapG2nRV
- p5/lvk8FghHdeP2HSAQ7EI9WhHAqsbkhqO5ItQp9dv4rSYtalxA+nB9SA18UzWQJHSKu
- PDizFgag5szAbPrdpooEpY9FfE5Hj1XSxVYn7gvZ8WN+coVdsWgPd+Qxj5vJzJb1hEVP
- RM+bJrcFkkpdIcmWE2SO/j87ZxenEyURwVCp/EblbtWA2koDJSoCPKltoZiG2qE5hmQ8
- czyg==
+ bh=xE0TnieLHvCOXePCMLwmdgueEmPs2D/V6rLGpH6wEAg=;
+ b=ya+TBbNbb8CqVpGPyP0rhz/m/cYtPoevzikVbePStoKnagVdAJNopA4ZICqTRfIpt3
+ xDep0Bx0kTpNVbZRlTuMdQANpG/iakrjtc+U0xZvJukf4LTh+lGmFTCnnanbc717i0KF
+ twtJiqHHxyROlF8h+fl/FVRqZ9jj9W6FYxQ+PSdA9OD0mhBaVNLbyOWuWwkMIVHiLJCi
+ Aj33W6XajAaNWSYWTPj58z0/piwHW4/cT/ZtGHiFkt0jAC2KtlwPKwy1RRBe+3yg/Q4G
+ XfNu4NsEfMChPomCPwZB3tCcK5A+lJVI6v+tHhkxBwjDoAG9xh1Cut3arVWLIxXrsSFG
+ 0FCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2VymeSF+HdKxVWyy9+ZA+5+qTRIVWKC1/sXMZ3ShAgc=;
- b=gO9ltncqLK6+nWueUDpuq9W9nGrxRiEjI5Kd1GCKaDCzuFowqLdY14Pp4e6UdP7U8U
- 5EVFZG3f3qG9kZumYUuALRTSGgKo1Ei/CzL/EUjY3SSY3cb2wT9EIIZ+GqHOAD0mWV8o
- aD2qaQS+Zis1u6BwWWOb7OUzjdZtCVD54n5GWGw9alODoR0ISgWJ9CGPg66aBJ8O37Bj
- 6eVTJr85kNGBwGm/+HqI5nHQXVG320il60bYUcie3uvaWjCU8FSPQy51i76S5kQOZLef
- nYsTLkhGaolPmFn73/fkWqXI3hFZE1h36UZQRj8RIULk7I+juxuNIQW7oAl1kCGsm3DK
- Kc6Q==
-X-Gm-Message-State: AOAM532HHzp3oRR+fgHlLzmV2qHPC/tCwa6AGroJNiKWmK2+V+57X5Ug
- g4yeD0aj4ysiCwiDGgwGXMLDFQ==
-X-Google-Smtp-Source: ABdhPJySLtRg7qlQbYIk2Wpq9BQ0b8QDS+KSKXS9nsvyUVx/Hjzn2PxA5b+ZoPE7zdP0YYy1BWEvEg==
-X-Received: by 2002:a05:600c:35c1:: with SMTP id
- r1mr1276378wmq.181.1625584036751; 
- Tue, 06 Jul 2021 08:07:16 -0700 (PDT)
+ bh=xE0TnieLHvCOXePCMLwmdgueEmPs2D/V6rLGpH6wEAg=;
+ b=EWy2vID/FQHPQVSglKASeinQpWb1EZqOkMEknrlXFgjM+ZL4MMT00ED7BqSJy49xOe
+ fqEtTJRs4l9QVsIe/b5EokWo7hnXwFeNvmLcAkN5uoLduygvaEAivFyV9g1JLWA4CU2t
+ T3lmpEJv2LrkEsepoT8MS1LxD0AKQJ95i3H+tesz7kUmrzRzqxi72deDCo7hpy82TPqG
+ pOWlbSykC2Gct4c00BDUs7JjQSITxHgw0eftAIat2WYYAfr1QjG22qCXlfpjyO43Qlr8
+ tpYvkdQHBjBQF3bgWXWsK1GFuP2x+XDIB7/gtKzw4ltlHaestNdoR2aSF3IbSS4Q4frC
+ VT7w==
+X-Gm-Message-State: AOAM532gaYZzkHjIBFWgRLJuPAU+CLO3OEdCM/eieBSOT/gDReHDQGVe
+ 5AqrtoLH6qMO6qZLB1yi09cgZQ==
+X-Google-Smtp-Source: ABdhPJzGXWdELpfuNNnU0rjnGFYLDtdTaEBrRcgl4ArUQ9qXqOExDzdQvfzFw4by01JT28sEhMkdGA==
+X-Received: by 2002:a5d:5043:: with SMTP id h3mr22431888wrt.333.1625584024623; 
+ Tue, 06 Jul 2021 08:07:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l20sm16160991wmq.3.2021.07.06.08.07.03
+ by smtp.gmail.com with ESMTPSA id s7sm17518597wrp.97.2021.07.06.08.07.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 08:07:12 -0700 (PDT)
+ Tue, 06 Jul 2021 08:07:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BD5A01FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id D40931FFB3;
  Tue,  6 Jul 2021 15:58:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 27/39] plugins: fix-up handling of internal hostaddr for 32
- bit
-Date: Tue,  6 Jul 2021 15:58:05 +0100
-Message-Id: <20210706145817.24109-28-alex.bennee@linaro.org>
+Subject: [PATCH  v1 28/39] meson.build: move TCG plugin summary output
+Date: Tue,  6 Jul 2021 15:58:06 +0100
+Message-Id: <20210706145817.24109-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,71 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- Mahmoud Mandour <ma.mandourr@gmail.com>, Alexandre Iooss <erdnaxe@crans.org>,
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The compiler rightly complains when we build on 32 bit that casting
-uint64_t into a void is a bad idea. We are really dealing with a host
-pointer at this point so treat it as such. This does involve
-a uintptr_t cast of the result of the TLB addend as we know that has
-to point to the host memory.
+Let's put it with the rest of the TCG related output with the
+accelerator.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/qemu/plugin-memory.h | 2 +-
- accel/tcg/cputlb.c           | 2 +-
- plugins/api.c                | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
-index b36def27d7..0f59226727 100644
---- a/include/qemu/plugin-memory.h
-+++ b/include/qemu/plugin-memory.h
-@@ -18,7 +18,7 @@ struct qemu_plugin_hwaddr {
-             hwaddr    offset;
-         } io;
-         struct {
--            uint64_t hostaddr;
-+            void *hostaddr;
-         } ram;
-     } v;
- };
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index b6d5fc6326..b4e15b6aad 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1728,7 +1728,7 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
-             data->v.io.offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
-         } else {
-             data->is_io = false;
--            data->v.ram.hostaddr = addr + tlbe->addend;
-+            data->v.ram.hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
-         }
-         return true;
-     } else {
-diff --git a/plugins/api.c b/plugins/api.c
-index 332e2c60e2..78b563c5c5 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -308,11 +308,11 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
-         if (!haddr->is_io) {
-             RAMBlock *block;
-             ram_addr_t offset;
--            void *hostaddr = (void *) haddr->v.ram.hostaddr;
-+            void *hostaddr = haddr->v.ram.hostaddr;
- 
-             block = qemu_ram_block_from_host(hostaddr, false, &offset);
-             if (!block) {
--                error_report("Bad ram pointer %"PRIx64"", haddr->v.ram.hostaddr);
-+                error_report("Bad host ram pointer %p", haddr->v.ram.hostaddr);
-                 abort();
-             }
- 
+diff --git a/meson.build b/meson.build
+index 2748721d71..9b5d53b6d0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2737,7 +2737,6 @@ summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
+ if config_host.has_key('CONFIG_MODULES')
+   summary_info += {'alternative module path': config_host.has_key('CONFIG_MODULE_UPGRADES')}
+ endif
+-summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
+ summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
+ if have_system
+   summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
+@@ -2853,6 +2852,7 @@ if config_all.has_key('CONFIG_TCG')
+   else
+     summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
+   endif
++  summary_info += {'TCG plugins': config_host.has_key('CONFIG_PLUGIN')}
+   summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
+ endif
+ summary_info += {'target list':       ' '.join(target_dirs)}
 -- 
 2.20.1
 
