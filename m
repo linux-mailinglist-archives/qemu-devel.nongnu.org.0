@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34F433BC776
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 09:49:38 +0200 (CEST)
-Received: from localhost ([::1]:34570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D853BC77C
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 09:52:41 +0200 (CEST)
+Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0fpp-0005vu-7p
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 03:49:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44124)
+	id 1m0fsm-0008JH-7Q
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 03:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0fn0-0003ZO-Ms
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:46:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33980)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0fmy-0005rQ-0O
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:46:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625557598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V42HAV6mZN+Ni8VzhjlNhDn3Ci6K3dGgSx0E6xQDl14=;
- b=RmJbL17Usq7XUbTbPU3BCZw7+Whg//f+Vq0Kf6mqTIJ8xZe6BPtjlo/HdNQeTRHyRBRFUh
- epoyA3CRGObQXRv+rPx1xDLWoqfZdjUtoFGou1M9snVaE8+XP5An9vX3UqCi4v5XJQfx0G
- URmjy7AC6JSVIwuymnZo9NRNzxQh2BI=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-4Q6JwSxEOTS1z6-UnrL05Q-1; Tue, 06 Jul 2021 03:46:37 -0400
-X-MC-Unique: 4Q6JwSxEOTS1z6-UnrL05Q-1
-Received: by mail-pg1-f199.google.com with SMTP id
- k9-20020a63d1090000b029021091ebb84cso15550619pgg.3
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 00:46:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m0frg-0007eH-3G
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:51:32 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:33369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m0fre-0000l9-C5
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:51:31 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id r135so33044762ybc.0
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 00:51:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=EiCuxx4t1SB71bsNdkTCc+wA7zxuwIav4KQe9TvuimI=;
+ b=dELJUT7MYVQS25AaG2LL1I9PCNzveh+ZBoIS6HSME7DximcI3RrPhFlMfpUpeUzQAi
+ 3VKqbeDyX1Wb2mT8tPG9gPQRfkXRsbbDfNtVh8/aKG1lQ3fUciZIiRwX9dRn2KrnZxDv
+ Obdn41Pb0yoL8VSzR0pQuZAtCntAdPZ+lkjPEKHUahJAUaHD2AMaPg4luVhnN/9In+V2
+ O/835MD4jtf22UvoX6Ih4060NeRBg8G+2UZ3/crtVyj611shKP5fzi8MTtlYNwLUBCOb
+ u/x8QTernrbQHeBKu0AV00XbVAZJQVBU2MHvmDz8OgzkBIr3LUub6c+YhVZCQN7HlDuy
+ G8kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=V42HAV6mZN+Ni8VzhjlNhDn3Ci6K3dGgSx0E6xQDl14=;
- b=Iz+KYJtBI9nkbzjsKT6PMQVgTJ2cPY7n02gdlVLICLQbmHYabTKjcsOyxlKvHoehmg
- 1nw9RCRu3zj4kA/OysL2vVTknE/hwh1HO9I5LTr6c9BtdEWXk776Wkq72k1jsv1GED92
- WfklwIipMwRPLic6lYLGYr8k39W9vNcnEzH0363oMeacyQ6r3hCMtmbHyEnHY9exnjcM
- gnyJJ3Af8MXGOiU701RzDXpLD7XBe2VrcC2xpykW3N42GL55jm2FNYQRdj54LicQI1Ce
- Gcrr8Ba7z885M84z/EIMRVxJyIRc9ido5tMu0h9P+ZOeU8bvi2w8pC0QtWuQ3DLc7bUp
- c1uw==
-X-Gm-Message-State: AOAM533QcpBxRfwrU3mRNTe4IKCKeRmJQH9tbNVAeTKHnTo/BVcAy7UH
- jF3HqqAfAD6xwlSEgcD0/VYJQO/YM/Bxf80neIVKV1K71pL7zXeaF7GW5NpxIn33AKt0hRo6VdA
- 0BzbO4HO7YFLc5Sw=
-X-Received: by 2002:a17:90a:ea8a:: with SMTP id
- h10mr19106563pjz.61.1625557596801; 
- Tue, 06 Jul 2021 00:46:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzURnuv0g86m1aJ7iMb2A+Wk3I7Gt/i4dXpTHeT7KO9ziaPBMUH/Tly4FnEV5Gf3tYvDFjjgA==
-X-Received: by 2002:a17:90a:ea8a:: with SMTP id
- h10mr19106552pjz.61.1625557596573; 
- Tue, 06 Jul 2021 00:46:36 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id b202sm4869801pfb.155.2021.07.06.00.46.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 00:46:35 -0700 (PDT)
-Subject: Re: [PATCH 18/18] vhost-vdpa: multiqueue support
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-19-jasowang@redhat.com>
- <CAJaqyWeT+VhXSzu9VA7UrJMFeOCUwNXUoN9-yWZzp9Rg4pBZWQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <9b46d3a4-19e1-b96d-88f2-f1e9f82d5ecc@redhat.com>
-Date: Tue, 6 Jul 2021 15:46:29 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=EiCuxx4t1SB71bsNdkTCc+wA7zxuwIav4KQe9TvuimI=;
+ b=NQx+bQnHcvUTdEArTwzlEGHfgTHZlcGF6/CDTG25DHQQJlNBpAzEE3uEZxfTpjO5e6
+ Ia0N3oYnjA625/g9qbvDTDQooeil3Eefb8G0rDeRNGVygKpElAyppWQN/guGil/EPEWy
+ J3bqFws/f1w9gq44JOe2qKInof/808MIE/iWuf9IpUE45OOlzc2cksv4x/+NwejXgqnF
+ wZZXlsdD6/XmQsgEIP0YgY54W13EF9sbKEVlW1CiwDQEg6EojgvCq2sZAsfRMsxTkLUC
+ Ia4YEAGWBt0+G+4Of2pC79gxNEGas8MJtB5wlppeNHv00Uh+zio5tbovAxPRuFmJKl4A
+ Ty2A==
+X-Gm-Message-State: AOAM533wn8x1ij+zJwNk7iX9DEeXWclVSfp2FgBqmfUkFOf3y3H2eJHt
+ mOcvQxfp5Aoj3L+NioFyECrAU+UHGL+7yXhWML4=
+X-Google-Smtp-Source: ABdhPJzlPPM41kzkE0ZK8V4qyW6z6SX7GmSoLhRB/7cHAv2RHyXrEE21yvuYWdlw3mQj32pbjlWR+d+6p7Th93C8FCE=
+X-Received: by 2002:a25:b701:: with SMTP id t1mr21663550ybj.517.1625557888850; 
+ Tue, 06 Jul 2021 00:51:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWeT+VhXSzu9VA7UrJMFeOCUwNXUoN9-yWZzp9Rg4pBZWQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210706043124.1871866-1-bmeng.cn@gmail.com>
+ <81f41bef-454f-928f-0f93-0deef3ab7716@redhat.com>
+In-Reply-To: <81f41bef-454f-928f-0f93-0deef3ab7716@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 6 Jul 2021 15:51:17 +0800
+Message-ID: <CAEUhbmWr-G-AuAHQ7RK1+WtY7r6-Uid00whvMm8EUGJCcXwuhQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] roms/u-boot: Bump ppce500 u-boot to v2021.07 to add
+ eTSEC support
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,60 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eli Cohen <elic@nvidia.com>, Cindy Lu <lulu@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, lingshan.zhu@intel.com,
- Michael Tsirkin <mst@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Philippe,
 
-在 2021/7/1 下午2:51, Eugenio Perez Martin 写道:
->>        * provide control queue via peers as well.
->>        */
->>       if (n->nic_conf.peers.queues) {
->> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
->> index cc11b2ec40..048344b4bc 100644
->> --- a/net/vhost-vdpa.c
->> +++ b/net/vhost-vdpa.c
->> @@ -18,6 +18,7 @@
->>   #include "qemu/error-report.h"
->>   #include "qemu/option.h"
->>   #include "qapi/error.h"
->> +#include <linux/vhost.h>
->>   #include <sys/ioctl.h>
->>   #include <err.h>
->>   #include "standard-headers/linux/virtio_net.h"
->> @@ -52,6 +53,8 @@ const int vdpa_feature_bits[] = {
->>       VIRTIO_NET_F_HOST_UFO,
->>       VIRTIO_NET_F_MRG_RXBUF,
->>       VIRTIO_NET_F_MTU,
->> +    VIRTIO_NET_F_MQ,
->> +    VIRTIO_NET_F_CTRL_VQ,
-> Hi!
+On Tue, Jul 6, 2021 at 3:41 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
 >
-> I'm not sure if it's qemu the one that must control it, but I cannot
-> use vdpa_sim of linux 5.13 (i.e., with no control vq patches) with
-> this series applied:
+> Hi Bin,
 >
-> [    3.967421] virtio_net virtio0: device advertises feature
-> VIRTIO_NET_F_CTRL_RX but not VIRTIO_NET_F_CTRL_VQ
-> [    3.968613] virtio_net: probe of virtio0 failed with error -22
+> On 7/6/21 6:31 AM, Bin Meng wrote:
+> > Update the QEMU shipped u-boot.e500 image built from U-Boot mainline
+> > v2021.07 release, which added eTSEC support to the QEMU ppce500 target,
+> > via the following U-Boot series:
+> >
+> >   http://patchwork.ozlabs.org/project/uboot/list/?series=3D233875&state=
+=3D*
+> >
+> > The cross-compilation toolchain used to build the U-Boot image is:
+> > https://mirrors.edge.kernel.org/pub/tools/crosstool/files/bin/x86_64/10=
+.1.0/x86_64-gcc-10.1.0-nolibc-powerpc-linux.tar.xz
 >
-> Did you mention it somewhere else and I've missed it? or is it
-> actually a bug in the device? In this second case, I think we should
-> still workaround it in qemu, because old vdpasim_net with no
-> VIRTIO_NET_F_CTRL_VQ still works ok without this patch.
+> Ideally the process to update a firmware blob is (*):
 >
-> Thanks!
+> - Add a CI job (as you did for .gitlab-ci.d/opensbi.yml)
+> - Commit the submodule new hash including "git shortlog current..new"
+>   in description
+> - Run the CI, download the almost-reproducible blob
+> - Test the blob locally
+> - Amend to the previous commit the CI blob
 
+Thanks for the guideline!
 
-So the problem is we need not only validating MQ but also all the 
-features that depends on the CTRL VQ here (rx filters, mac, rss, 
-announce etc).
+>
+> Since soft freeze is in 1 week, you might won't have enough time
+> to add a CI job, so this current patch is acceptable, but please
+> include the "git shortlog current..new" output.
 
-I will fix this in the next version.
+I did consider including the shotlogs here, just like what I did for
+OpenSBI update. But I am afraid it is a toooo long list because unlike
+OpenSBI U-Boot is a very active community. Hence I chose not to
+mention it in the commit message.
 
-Thanks
+>
+> Regards,
+>
+> Phil.
+>
+> (*) Yes we should document this somewhere. Wiki or docs?
 
+Either should be okay. If we put in the docs, we should probably
+collect some other development processes (e.g.: submitting patches)
+and put there, like what is done in the Linux kernel.
 
+Regards,
+Bin
 
