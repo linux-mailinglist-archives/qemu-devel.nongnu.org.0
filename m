@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 107BE3BDFFF
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:02:17 +0200 (CEST)
-Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010CA3BE003
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:03:52 +0200 (CEST)
+Received: from localhost ([::1]:54518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0v16-0000eX-3I
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
+	id 1m0v2c-0006d8-SN
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:03:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uox-0000sg-9E
+ id 1m0uox-0000tz-ML
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:43 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:43653)
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:39933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uou-0006bx-HP
+ id 1m0uov-0006ca-KW
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:43 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id i13so46243plb.10
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id a2so402871pgi.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jaeBKd2588gwtTJA1dNcYNPRKjLEqNsjOOLvdzic+bk=;
- b=ZjuhVCKkQfznQsgOgmFV77pmONWIQPaYd813tDpYCQaQg1LgaK3tcI8svsP+SocvEA
- PQaifbNeDES7uvA4/2lNed65J7kFLqAivYt+39P6N+dpxH35wcJmjEEuZKkZje90CqTS
- 9uxE5XrrG+wYLl9xxl2Z9H2GMypkNtGGy9tfGXrwmWo2dI/A/HtJLbmNqoY0luqlJtVp
- G6tav5BjqlI/Vg9CRFaGmoTT9/5H4E71TIsGiVApwigtkpyIsyeitm7hC1Y1XRGyZ0GY
- 3n5ZGCVi6XNJ2eaI+S5H/1ZwXg2A5HJ5zC7t2ZIt1djPMtIlYAUHQfZuTntqAK2e/SyG
- y4yQ==
+ bh=tFcDGdeVO1+L5j0MeCoRvjHxmx8xNNu9D1iWMQlVWww=;
+ b=kPFvBsX4P4djFhjN+9L3FbeHGQaxNd7Q2ogpgUdUoPht39Yg38NMmCCRT9B8Yh1Bfh
+ sy9Q1PhWwF4nOQUOPQBgryZ5aY+G6Le249ytuaauDfU5t2aDa/YxHOWGy3atgSH8fLv+
+ iesp/LvqHxsrSUF6uKbfBYVcYrgmIDiqysnJGcTardUHztkwNalZ56WhG6XL0g6+A2Al
+ NIQz2HB8hH90mbr6PVD1nS2y+88WiAw88rat05Xu+h3B0/O57TNZJTkwBpf127C5FcLw
+ 3Qaao70vQZbvJR1QOhKqMQsxA51Cw8lOtTAHc/TU4NxornpIK2loLRi6bZmHQyCqUNtp
+ dYMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jaeBKd2588gwtTJA1dNcYNPRKjLEqNsjOOLvdzic+bk=;
- b=AFk7qO/STZET+maYl/aKD4SiwUqZkfBDzq7QUwaGWeamcrvo8w5/qNec5mCNFJh8+9
- HvPBpCurgFt7yUVy/N5C0AlHsE+FB+AZrsLNvHcIIW6b2/JJ/aJkauSS/lS2e0MQ8o3/
- UnzFXNHJXl5wSynWOxYoJaRS9YIQxwwgOh9JXukdsv6Y6dcp2hyCfwTuRj4Dwpu6jIm6
- 2faSnQG6Ym77HHoeDKOCFk+a2AkaIlsbVZoDu48TkiMT0k+PEs+m9ezSLO8mkFCbBJiE
- bf4bbkxXYw06lvjhPnQF83YhOzHMq3kX0ViSXuvORjmjqfZsOT0vGDvQmwBOEhUo3IFT
- QphA==
-X-Gm-Message-State: AOAM530WC48HDER5ahVA1kQTnMheBqeifM2FD1eQ93ktrZaxd8sJkaSS
- QIePD6xG6oTLRmEY9HaBhXlu6jGL6MpJ0w==
-X-Google-Smtp-Source: ABdhPJxb+1DrHblksGsYtrKN5kf45/lddOJ8SDufhxZVqAQ/sw5DHLraAUsj1EgRWKr6YbklidnOIA==
-X-Received: by 2002:a17:90a:8417:: with SMTP id
- j23mr18325344pjn.168.1625615379216; 
- Tue, 06 Jul 2021 16:49:39 -0700 (PDT)
+ bh=tFcDGdeVO1+L5j0MeCoRvjHxmx8xNNu9D1iWMQlVWww=;
+ b=PzSRnQY6NNt41G/JRv41kvOO1HQOvcuYgrXWQM9ThXMFU7Ym0Uy1GUt0gHGYiT7nCM
+ za9l5Re2ysUCbM4VYst9ywsfexO9Zzi4mDtjX2aDvQUVyYcasxMpZoK3tk3wmUTPqT8S
+ N/yXrgd0Hb7YAHwNLR8HUrfEKcMpcyloU9A4Hx2gjYzGwg7/JjjpZAt3K4WXYzE6D9kS
+ U76vDDq5Nux+qxoe907iHH9yp59sSWR+q4FbO5MGbVO7zBqiOKKtad4U7xfyfqXBUsT0
+ f0MCiisHlS0K2A84LvJP7zU4ebupmhvWLJGViBRRIh/Ul2+y1xGHUNMrRwq5nZeCXVNE
+ fzoQ==
+X-Gm-Message-State: AOAM532cA5a77srbkmt4GqcWhl1geMfFMJQZ+DQR9ePmZIJKo1tUqCkx
+ 7pRhh9pPP6/9LT9e2VTp7pfM+66+3gdHuw==
+X-Google-Smtp-Source: ABdhPJxUdZC2XrYLfZ9ngmDjK/TomSLVt4MVQNZcChmTIgHzpKOnW4iJ3/8uqcw4YLEAWA6WIL8yPw==
+X-Received: by 2002:a62:3344:0:b029:24c:735c:4546 with SMTP id
+ z65-20020a6233440000b029024c735c4546mr22734657pfz.1.1625615380380; 
+ Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.38
+ by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 16:49:38 -0700 (PDT)
+ Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/36] linux-user: Replace bprm->fd with bprm->src.fd
-Date: Tue,  6 Jul 2021 16:49:04 -0700
-Message-Id: <20210706234932.356913-9-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/36] linux-user: Load vdso image if available
+Date: Tue,  6 Jul 2021 16:49:06 -0700
+Message-Id: <20210706234932.356913-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210706234932.356913-1-richard.henderson@linaro.org>
 References: <20210706234932.356913-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,99 +83,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are only a couple of uses of bprm->fd remaining.
-Migrate to the other field.
+The vdso image will be pre-processed into a C data array, with
+a simple list of relocations to perform, and identifying the
+location of signal trampolines.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/qemu.h      | 1 -
- linux-user/flatload.c  | 8 ++++----
- linux-user/linuxload.c | 5 ++---
- 3 files changed, 6 insertions(+), 8 deletions(-)
+ linux-user/elfload.c | 80 +++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 72 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index f4cdfb16b3..dafaae6293 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -211,7 +211,6 @@ struct linux_binprm {
-     char buf[BPRM_BUF_SIZE] __attribute__((aligned));
-     ImageSource src;
-     abi_ulong p;
--    int fd;
-     int e_uid, e_gid;
-     int argc, envc;
-     char **argv;
-diff --git a/linux-user/flatload.c b/linux-user/flatload.c
-index 3e5594cf89..58d0d9352c 100644
---- a/linux-user/flatload.c
-+++ b/linux-user/flatload.c
-@@ -460,7 +460,7 @@ static int load_flat_file(struct linux_binprm * bprm,
-         DBG_FLT("BINFMT_FLAT: ROM mapping of file (we hope)\n");
- 
-         textpos = target_mmap(0, text_len, PROT_READ|PROT_EXEC,
--                              MAP_PRIVATE, bprm->fd, 0);
-+                              MAP_PRIVATE, bprm->src.fd, 0);
-         if (textpos == -1) {
-             fprintf(stderr, "Unable to mmap process text\n");
-             return -1;
-@@ -487,7 +487,7 @@ static int load_flat_file(struct linux_binprm * bprm,
-         } else
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index ec4b5f9d54..f76281fe40 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -30,6 +30,15 @@
+ #define TARGET_ARCH_HAS_SIGTRAMP_PAGE 0
  #endif
-         {
--            result = target_pread(bprm->fd, datapos,
-+            result = target_pread(bprm->src.fd, datapos,
-                                   data_len + (relocs * sizeof(abi_ulong)),
-                                   fpos);
-         }
-@@ -537,10 +537,10 @@ static int load_flat_file(struct linux_binprm * bprm,
-         else
- #endif
-         {
--            result = target_pread(bprm->fd, textpos,
-+            result = target_pread(bprm->src.fd, textpos,
-                                   text_len, 0);
-             if (result >= 0) {
--                result = target_pread(bprm->fd, datapos,
-+                result = target_pread(bprm->src.fd, datapos,
-                     data_len + (relocs * sizeof(abi_ulong)),
-                     ntohl(hdr->data_start));
-             }
-diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
-index 8b93b9704c..d0d3f2ed0e 100644
---- a/linux-user/linuxload.c
-+++ b/linux-user/linuxload.c
-@@ -36,7 +36,7 @@ static int prepare_binprm(struct linux_binprm *bprm)
-     int mode;
-     int retval;
  
--    if (fstat(bprm->fd, &st) < 0) {
-+    if (fstat(bprm->src.fd, &st) < 0) {
-         return -errno;
-     }
++typedef struct {
++    const uint8_t *image;
++    const uint32_t *relocs;
++    unsigned image_size;
++    unsigned reloc_count;
++    unsigned sigreturn_ofs;
++    unsigned rt_sigreturn_ofs;
++} VdsoImageInfo;
++
+ #define ELF_OSABI   ELFOSABI_SYSV
  
-@@ -66,7 +66,7 @@ static int prepare_binprm(struct linux_binprm *bprm)
-         bprm->e_gid = st.st_gid;
-     }
- 
--    retval = read(bprm->fd, bprm->buf, BPRM_BUF_SIZE);
-+    retval = read(bprm->src.fd, bprm->buf, BPRM_BUF_SIZE);
-     if (retval < 0) {
-         perror("prepare_binprm");
-         exit(-1);
-@@ -133,7 +133,6 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
+ /* from personality.h */
+@@ -1971,7 +1980,8 @@ static abi_ulong loader_build_fdpic_loadmap(struct image_info *info, abi_ulong s
+ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+                                    struct elfhdr *exec,
+                                    struct image_info *info,
+-                                   struct image_info *interp_info)
++                                   struct image_info *interp_info,
++                                   struct image_info *vdso_info)
  {
-     int retval;
+     abi_ulong sp;
+     abi_ulong u_argc, u_argv, u_envp, u_auxv;
+@@ -2043,8 +2053,12 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+     }
  
--    bprm->fd = fdexec;
-     bprm->src.fd = fdexec;
-     bprm->filename = (char *)filename;
-     bprm->argc = count(argv);
+     size = (DLINFO_ITEMS + 1) * 2;
+-    if (k_platform)
++    if (k_platform) {
+         size += 2;
++    }
++    if (vdso_info) {
++        size += 2;
++    }
+ #ifdef DLINFO_ARCH_ITEMS
+     size += DLINFO_ARCH_ITEMS * 2;
+ #endif
+@@ -2121,6 +2135,9 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+     if (u_platform) {
+         NEW_AUX_ENT(AT_PLATFORM, u_platform);
+     }
++    if (vdso_info) {
++        NEW_AUX_ENT(AT_SYSINFO_EHDR, vdso_info->load_addr);
++    }
+     NEW_AUX_ENT (AT_NULL, 0);
+ #undef NEW_AUX_ENT
+ 
+@@ -2947,6 +2964,49 @@ static void load_elf_interp(const char *filename, struct image_info *info,
+     load_elf_image(filename, &src, info, &ehdr, NULL);
+ }
+ 
++#ifndef vdso_image_info
++#define vdso_image_info()    NULL
++#endif
++
++static void load_elf_vdso(struct image_info *info, const VdsoImageInfo *vdso)
++{
++    ImageSource src;
++    struct elfhdr ehdr;
++    abi_ulong load_bias, load_addr;
++
++    src.fd = -1;
++    src.cache = vdso->image;
++    src.cache_size = vdso->image_size;
++
++    load_elf_image("<internal-vdso>", &src, info, &ehdr, NULL);
++    load_addr = info->load_addr;
++    load_bias = info->load_bias;
++
++    /*
++     * We need to relocate the VDSO image.  The one built into the kernel
++     * is built for a fixed address.  The one built for QEMU is not, since
++     * that requires close control of the guest address space.
++     * We pre-processed the image to locate all of the addresses that need
++     * to be updated.
++     */
++    for (unsigned i = 0, n = vdso->reloc_count; i < n; i++) {
++        abi_ulong *addr = g2h_untagged(load_addr + vdso->relocs[i]);
++        *addr = tswapal(tswapal(*addr) + load_bias);
++    }
++
++    /* Install signal trampolines, if present. */
++    if (vdso->sigreturn_ofs) {
++        default_sigreturn = load_addr + vdso->sigreturn_ofs;
++    }
++    if (vdso->rt_sigreturn_ofs) {
++        default_rt_sigreturn = load_addr + vdso->rt_sigreturn_ofs;
++    }
++
++    /* Mark the VDSO writable segment read-only. */
++    target_mprotect(info->start_data, info->end_data - info->start_data,
++                    PROT_READ);
++}
++
+ static int symfind(const void *s0, const void *s1)
+ {
+     target_ulong addr = *(target_ulong *)s0;
+@@ -3151,7 +3211,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+      * and let elf_load_image do any swapping that may be required.
+      */
+     struct elfhdr ehdr;
+-    struct image_info interp_info;
++    struct image_info interp_info, vdso_info;
+     char *elf_interpreter = NULL;
+     char *scratch;
+ 
+@@ -3221,10 +3281,13 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+     }
+ 
+     /*
+-     * TODO: load a vdso, which would also contain the signal trampolines.
+-     * Otherwise, allocate a private page to hold them.
++     * Load a vdso if available, which will amongst other things contain the
++     * signal trampolines.  Otherwise, allocate a separate page for them.
+      */
+-    if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
++    const VdsoImageInfo *vdso = vdso_image_info();
++    if (vdso) {
++        load_elf_vdso(&vdso_info, vdso);
++    } else if (TARGET_ARCH_HAS_SIGTRAMP_PAGE) {
+         abi_ulong tramp_page = target_mmap(0, TARGET_PAGE_SIZE,
+                                            PROT_READ | PROT_WRITE,
+                                            MAP_PRIVATE | MAP_ANON, -1, 0);
+@@ -3232,8 +3295,9 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+         target_mprotect(tramp_page, TARGET_PAGE_SIZE, PROT_READ | PROT_EXEC);
+     }
+ 
+-    bprm->p = create_elf_tables(bprm->p, bprm->argc, bprm->envc, &ehdr,
+-                                info, (elf_interpreter ? &interp_info : NULL));
++    bprm->p = create_elf_tables(bprm->p, bprm->argc, bprm->envc, &ehdr, info,
++                                elf_interpreter ? &interp_info : NULL,
++                                vdso ? &vdso_info : NULL);
+     info->start_stack = bprm->p;
+ 
+     /* If we have an interpreter, set that as the program's entry point.
 -- 
 2.25.1
 
