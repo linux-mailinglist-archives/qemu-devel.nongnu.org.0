@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C793BE018
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:11:14 +0200 (CEST)
-Received: from localhost ([::1]:53862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CFBA3BE025
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:17:42 +0200 (CEST)
+Received: from localhost ([::1]:43164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0v9l-0007ui-AT
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:11:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53776)
+	id 1m0vG1-0002YR-9N
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:17:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m0uqw-0005fo-Af
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:51:47 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54119)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1m0utp-0004St-U7
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:54:45 -0400
+Received: from mga03.intel.com ([134.134.136.65]:40659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m0uqu-0006ox-29
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:51:46 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3D15F5C0045;
- Tue,  6 Jul 2021 19:51:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 06 Jul 2021 19:51:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=pCtfT/
- HwgRbJTW90WfFGasDklQ3t+TXTkgWMEOsJvO4=; b=Jh9ZhF2WmQoU3c70x7x/Mm
- WKxMJkQ9IDliIA9ScM8eMgcSjayYgiR30hYHlN2mSijQAvxodnHn/gFhxGn7p9tM
- 3YayzCj2kzsi4olx2zl+v4mnh5WxDxpafbeTKT3zXOwa9a5xjjdDKh4Dryoo688N
- Bh8juFMsIQ9htVItMl2tsh7JjpfGHy6+d0ljZcG0gp4ijw2W0V8zCTfS9+VH4/A7
- dco8HtO/8S50HN4sY6M9+pxz9ws+uAE2qZMR0/JhV8RzOopQT51oLojbFmAB9kls
- DeClJGheZn2bbuFwiHdKbVOB+hhjaHk476ee9P/MY99aXJYW6hVP11MZEL8iMxew
- ==
-X-ME-Sender: <xms:jezkYHcUomF8zSFLAfjdlbU3NrH3qISnj0iiHLJopufmKQOQIIZ15w>
- <xme:jezkYNO8D4iiByPq5UgyXTbrV8r7LDGt3kQO_6ajZLrPfhpqSdNswo3V0M-8UYNRq
- 6jUWTqY-t_NF5VcLzo>
-X-ME-Received: <xmr:jezkYAhQPRYZIMp8mNOHtuG_h1WtgxyerPI1V7pH08cJXyOiszGdzBNqXjzcl6MABahdN69AE1BgvlSrcleKfQPaOS86GGbS4kE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddugddukecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvufgjkfhfgggtsehttdertddttddvnecuhfhrohhmpefhihhnnhcuvfhh
- rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
- gvrhhnpeffudfhgeefvdeitedugfelueegheekkeefveffhfeiveetledvhfdtveffteeu
- udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfth
- hhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:jezkYI-vRYrVz51Br4p3EDEraygUky345MGI0jnWxcHQ13MZ64ZhSQ>
- <xmx:jezkYDv-fZHyPYI3ogDLYWxK132meH3zeqfgmyf9boRyTkV4kCJf7g>
- <xmx:jezkYHHdWC5TrcsyW2Oqv8aa7jFkUasrfXEsqvmIXi5CQn8B6R1q1A>
- <xmx:juzkYM53diKsyu7rMrdYKVoPCmjUjSj6cHkiKWaQtLOE-PG-7CbegQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 6 Jul 2021 19:51:38 -0400 (EDT)
-Date: Wed, 7 Jul 2021 09:51:36 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 1/4] dp8393x: don't force 32-bit register access
-In-Reply-To: <20210705214929.17222-2-mark.cave-ayland@ilande.co.uk>
-Message-ID: <49104070-ee40-3bcf-f043-225f247a1de7@linux-m68k.org>
-References: <20210705214929.17222-1-mark.cave-ayland@ilande.co.uk>
- <20210705214929.17222-2-mark.cave-ayland@ilande.co.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=66.111.4.26; envelope-from=fthain@linux-m68k.org;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1m0utn-0006wB-C3
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:54:45 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="209256417"
+X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="209256417"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 16:54:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="627838211"
+Received: from dw-tiger-lake-client-platform.fm.intel.com ([10.105.205.215])
+ by orsmga005.jf.intel.com with ESMTP; 06 Jul 2021 16:54:34 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] virtio-gpu: splitting one extended mode guest fb into
+ n-scanouts
+Date: Tue,  6 Jul 2021 16:52:54 -0700
+Message-Id: <20210706235255.7575-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=134.134.136.65;
+ envelope-from=dongwon.kim@intel.com; helo=mga03.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,117 +54,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 5 Jul 2021, Mark Cave-Ayland wrote:
+When guest is running Linux/X11 with extended multiple displays mode enabled,
+the guest shares one scanout resource each time containing whole surface
+rather than sharing individual display output separately. This extended frame
+is properly splited and rendered on the corresponding scanout surfaces but
+not in case of blob-resource (zero copy).
 
-> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" set .impl.min_access_size
-> and .impl.max_access_size to 4 to try and fix the Linux jazzsonic driver which uses
-> 32-bit accesses.
-> 
-> The problem with forcing the register access to 32-bit in this way is that since the
-> dp8393x uses 16-bit registers, a manual endian swap is required for devices on big
-> endian machines with 32-bit accesses.
-> 
-> For both access sizes and machine endians the QEMU memory API can do the right thing
-> automatically: all that is needed is to set .impl.min_access_size to 2 to declare that
-> the dp8393x implements 16-bit registers.
-> 
-> Normally .impl.max_access_size should also be set to 2, however that doesn't quite
-> work in this case since the register stride is specified using a (dynamic) it_shift
-> property which is applied during the MMIO access itself. The effect of this is that
-> for a 32-bit access the memory API performs 2 x 16-bit accesses, but the use of
-> it_shift within the MMIO access itself causes the register value to be repeated in both
-> the top 16-bits and bottom 16-bits. The Linux jazzsonic driver expects the stride to be
-> zero-extended up to access size and therefore fails to correctly detect the dp8393x
-> device due to the extra data in the top 16-bits.
-> 
-> The solution here is to remove .impl.max_access_size so that the memory API will
-> correctly zero-extend the 16-bit registers to the access size up to and including
-> it_shift. Since it_shift is never greater than 2 than this will always do the right
-> thing for both 16-bit and 32-bit accesses regardless of the machine endian, allowing
-> the manual endian swap code to be removed.
-> 
+This code change lets the qemu split this one large surface data into multiple
+in case of blob-resource as well so that each sub frame then can be blitted
+properly to each scanout.
 
-IIUC, this patch replaces an explicit word swap with an implicit byte 
-swap. The explicit word swap was conditional on the big_endian flag.
+Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+---
+ hw/display/virtio-gpu-udmabuf.c | 19 +++++++++++--------
+ hw/display/virtio-gpu.c         |  5 +++--
+ include/hw/virtio/virtio-gpu.h  |  5 +++--
+ include/ui/console.h            |  4 ++++
+ stubs/virtio-gpu-udmabuf.c      |  3 ++-
+ 5 files changed, 23 insertions(+), 13 deletions(-)
 
-This flag seems to work like the chip's BMODE pin which switches between 
-Intel and Motorola bus modes (not just byte ordering but bus signalling in 
-general). The BMODE pin or big_endian flag should effect a byte swap not a 
-word swap so there must be a bug though it's not clear how that manifests.
+diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
+index 3c01a415e7..a64194c6de 100644
+--- a/hw/display/virtio-gpu-udmabuf.c
++++ b/hw/display/virtio-gpu-udmabuf.c
+@@ -171,7 +171,8 @@ static VGPUDMABuf
+ *virtio_gpu_create_dmabuf(VirtIOGPU *g,
+                           uint32_t scanout_id,
+                           struct virtio_gpu_simple_resource *res,
+-                          struct virtio_gpu_framebuffer *fb)
++                          struct virtio_gpu_framebuffer *fb,
++                          struct virtio_gpu_rect *r)
+ {
+     VGPUDMABuf *dmabuf;
+ 
+@@ -183,6 +184,10 @@ static VGPUDMABuf
+     dmabuf->buf.width = fb->width;
+     dmabuf->buf.height = fb->height;
+     dmabuf->buf.stride = fb->stride;
++    dmabuf->buf.x = r->x;
++    dmabuf->buf.y = r->y;
++    dmabuf->buf.scanout_width;
++    dmabuf->buf.scanout_height;
+     dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
+     dmabuf->buf.fd = res->dmabuf_fd;
+ 
+@@ -195,24 +200,22 @@ static VGPUDMABuf
+ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
+                              uint32_t scanout_id,
+                              struct virtio_gpu_simple_resource *res,
+-                             struct virtio_gpu_framebuffer *fb)
++                             struct virtio_gpu_framebuffer *fb,
++                             struct virtio_gpu_rect *r)
+ {
+     struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
+     VGPUDMABuf *new_primary, *old_primary = NULL;
+ 
+-    new_primary = virtio_gpu_create_dmabuf(g, scanout_id, res, fb);
++    new_primary = virtio_gpu_create_dmabuf(g, scanout_id, res, fb, r);
+     if (!new_primary) {
+         return -EINVAL;
+     }
+ 
+     if (g->dmabuf.primary) {
+-        old_primary = g->dmabuf.primary;
++        old_primary = g->dmabuf.primary[scanout_id];
+     }
+ 
+-    g->dmabuf.primary = new_primary;
+-    qemu_console_resize(scanout->con,
+-                        new_primary->buf.width,
+-                        new_primary->buf.height);
++    g->dmabuf.primary[scanout_id] = new_primary;
+     dpy_gl_scanout_dmabuf(scanout->con, &new_primary->buf);
+ 
+     if (old_primary) {
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index e183f4ecda..11a87dad79 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -523,9 +523,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+                 console_has_gl(scanout->con)) {
+                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
+                               scanout->height);
+-                return;
+             }
+         }
++        return;
+     }
+ 
+     if (!res->blob &&
+@@ -598,6 +598,7 @@ static void virtio_gpu_update_scanout(VirtIOGPU *g,
+     scanout->y = r->y;
+     scanout->width = r->width;
+     scanout->height = r->height;
++    qemu_console_resize(scanout->con, scanout->width, scanout->height);
+ }
+ 
+ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
+@@ -633,7 +634,7 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
+ 
+     if (res->blob) {
+         if (console_has_gl(scanout->con)) {
+-            if (!virtio_gpu_update_dmabuf(g, scanout_id, res, fb)) {
++            if (!virtio_gpu_update_dmabuf(g, scanout_id, res, fb, r)) {
+                 virtio_gpu_update_scanout(g, scanout_id, res, r);
+                 return;
+             }
+diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
+index bcf54d970f..6372f4bbb5 100644
+--- a/include/hw/virtio/virtio-gpu.h
++++ b/include/hw/virtio/virtio-gpu.h
+@@ -187,7 +187,7 @@ struct VirtIOGPU {
+ 
+     struct {
+         QTAILQ_HEAD(, VGPUDMABuf) bufs;
+-        VGPUDMABuf *primary;
++        VGPUDMABuf *primary[VIRTIO_GPU_MAX_SCANOUTS];
+     } dmabuf;
+ };
+ 
+@@ -273,7 +273,8 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res);
+ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
+                              uint32_t scanout_id,
+                              struct virtio_gpu_simple_resource *res,
+-                             struct virtio_gpu_framebuffer *fb);
++                             struct virtio_gpu_framebuffer *fb,
++                             struct virtio_gpu_rect *r);
+ 
+ /* virtio-gpu-3d.c */
+ void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
+diff --git a/include/ui/console.h b/include/ui/console.h
+index b30b63976a..87316aef83 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -167,6 +167,10 @@ typedef struct QemuDmaBuf {
+     uint32_t  fourcc;
+     uint64_t  modifier;
+     uint32_t  texture;
++    uint32_t  x;
++    uint32_t  y;
++    uint32_t  scanout_width;
++    uint32_t  scanout_height;
+     bool      y0_top;
+ } QemuDmaBuf;
+ 
+diff --git a/stubs/virtio-gpu-udmabuf.c b/stubs/virtio-gpu-udmabuf.c
+index 81f661441a..f692e13510 100644
+--- a/stubs/virtio-gpu-udmabuf.c
++++ b/stubs/virtio-gpu-udmabuf.c
+@@ -20,7 +20,8 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
+ int virtio_gpu_update_dmabuf(VirtIOGPU *g,
+                              uint32_t scanout_id,
+                              struct virtio_gpu_simple_resource *res,
+-                             struct virtio_gpu_framebuffer *fb)
++                             struct virtio_gpu_framebuffer *fb,
++                             struct virtio_gpu_rect *r)
+ {
+     /* nothing (stub) */
+     return 0;
+-- 
+2.17.1
 
-Regardless of this patch, the big_endian flag also controls byte swapping 
-during DMA by the device. IIUC, the flag is set to indicate that RAM is 
-big_endian, so it's not actually a property of the dp8393x but of the 
-RAM...
-
-The Magnum hardware can run in big endian or little endian mode. But the 
-SONIC chip must remain in little endian mode always because asserting 
-BMODE would invoke Motorola signalling and that would contradict 
-Philippe's datasheet which says that the SONIC device is attached to an 
-"i386 compatible bus".
-
-This seems contrary to mips_jazz_init(), which sets the dp8393x big_endian 
-flag whenever TARGET_WORDS_BIGENDIAN is defined, i.e. risc/os guest. 
-
-QEMU's dp8393x device has native endianness, so perhaps a big endian guest 
-or a big endian host could trigger the bug that's being addressed in this 
-patch.
-
-Anyway, I think that this patch is heading in the right direction but 
-can't it go further? Shouldn't the big_endian flag disappear altogether so 
-that the memory API can also take care of the byte swapping needed by 
-dp8393x_get() and dp8393x_put() for DMA?
-
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Fixes: 3fe9a838ec ("dp8393x: Always use 32-bit accesses")
-> ---
->  hw/net/dp8393x.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index 11810c9b60..44a1955015 100644
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -602,15 +602,14 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
->  
->      trace_dp8393x_read(reg, reg_names[reg], val, size);
->  
-> -    return s->big_endian ? val << 16 : val;
-> +    return val;
->  }
->  
-> -static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-> +static void dp8393x_write(void *opaque, hwaddr addr, uint64_t val,
->                            unsigned int size)
->  {
->      dp8393xState *s = opaque;
->      int reg = addr >> s->it_shift;
-> -    uint32_t val = s->big_endian ? data >> 16 : data;
->  
->      trace_dp8393x_write(reg, reg_names[reg], val, size);
->  
-> @@ -691,11 +690,16 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
->      }
->  }
->  
-> +/*
-> + * Since .impl.max_access_size is effectively controlled by the it_shift
-> + * property, leave it unspecified for now to allow the memory API to
-> + * correctly zero extend the 16-bit register values to the access size up to and
-> + * including it_shift.
-> + */
->  static const MemoryRegionOps dp8393x_ops = {
->      .read = dp8393x_read,
->      .write = dp8393x_write,
-> -    .impl.min_access_size = 4,
-> -    .impl.max_access_size = 4,
-> +    .impl.min_access_size = 2,
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->  
-> 
 
