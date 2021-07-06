@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F18FA3BC575
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:27:49 +0200 (CEST)
-Received: from localhost ([::1]:36888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E987D3BC576
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:27:50 +0200 (CEST)
+Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cgW-0001a6-TW
+	id 1m0cgW-0001ZV-UA
 	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46256)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf1-0007Rq-Uw
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:15 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50568)
+ id 1m0cf3-0007S2-Bx
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:17 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cez-00032T-8g
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:15 -0400
+ id 1m0cez-00033e-R4
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:17 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cer-0004xX-Il
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:06 +0000
+ id 1m0ceu-0004xO-BM
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:08 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 88D712E829C
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:25:55 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E432F2E82B5
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:25:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:39 -0000
+Date: Tue, 06 Jul 2021 04:17:40 -0000
 From: Launchpad Bug Tracker <1904259@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,7 +44,7 @@ X-Launchpad-Bug-Commenters: janitor oceanfish81 th-huth
 X-Launchpad-Bug-Reporter: Ivan Serdyuk (oceanfish81)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <160532517027.32164.5994775965173619452.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162554505937.7821.11204010588424681631.malone@loganberry.canonical.com>
+Message-Id: <162554506071.7821.15559952299351895711.malone@loganberry.canonical.com>
 Subject: [Bug 1904259] Re: include/qemu/atomic.h:495:5: error: misaligned
  atomic operation may incur significant performance penalty (Clang 11;
  Ubuntu 16 i686)
@@ -53,7 +53,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 5e11d793edca808f18b910e399ebaecd6ed52b5b
+X-Launchpad-Hash: c4851b74730bd24ae796fedec2687430740d4ea6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -78,9 +78,9 @@ Reply-To: Bug 1904259 <1904259@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for Ubuntu because there has been no activity for 60 days.]
 
-** Changed in: qemu
+** Changed in: ubuntu
        Status: Incomplete =3D> Expired
 
 -- =
