@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A403BC593
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:34:31 +0200 (CEST)
-Received: from localhost ([::1]:34424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0DDA3BC592
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:34:29 +0200 (CEST)
+Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cn0-0001i3-08
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:34:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46410)
+	id 1m0cmz-0001fF-1k
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfM-0008Or-DF
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:36 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51428)
+ id 1m0cfL-0008Lr-GC
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfK-0003C7-T0
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:36 -0400
+ id 1m0cfJ-0003Bw-PQ
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cf6-0004xl-NP
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:21 +0000
+ id 1m0cf5-0004xA-Ip
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:19 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D00CE2E8359
+ by loganberry.canonical.com (Postfix) with ESMTP id 255C92E8346
  for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:04 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 06 Jul 2021 04:17:45 -0000
-From: Launchpad Bug Tracker <1882350@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1882497@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: ide-hd
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eblake janitor th-huth winndows
-X-Launchpad-Bug-Reporter: marshell (winndows)
+X-Launchpad-Bug-Commenters: janitor laurent-vivier th-huth voltagex
+X-Launchpad-Bug-Reporter: Adam Baxter (voltagex)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159144063074.3735.15991486640962003601.malonedeb@soybean.canonical.com>
-Message-Id: <162554506512.7821.6875975874199102822.malone@loganberry.canonical.com>
-Subject: [Bug 1882350] Re: it always create sdx device when I configure ide
- device with hdx name
+References: <159159970619.31789.307920822254818587.malonedeb@gac.canonical.com>
+Message-Id: <162554506581.7821.8521969934146917112.malone@loganberry.canonical.com>
+Subject: [Bug 1882497] Re: Missing 'cmp' utility makes build take 10 times as
+ long
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 19c485e93243dbb7e014ce769527608152370055
+X-Launchpad-Hash: 7c59ddc4dcc71808a3e459d726370d26867e0f7b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882350 <1882350@bugs.launchpad.net>
+Reply-To: Bug 1882497 <1882497@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,58 +84,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882350
+https://bugs.launchpad.net/bugs/1882497
 
 Title:
-  it always create sdx device when I configure ide device with hdx name
+  Missing 'cmp' utility makes build take 10 times as long
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I have configured 2 ide disks with name starting with hd, but when the
-  vm boots up, it shows disks whose name starting with sd.
+  I have been doing some work cross compiling qemu for Windows using a
+  minimal Fedora container. Recently I started hitting some timeouts on
+  the CI service and noticed a build of all targets was going over 1
+  hour.
 
-  1. ide disks in vm xml:
+  It seems like the 'cmp' utility from diffutils is used somewhere in
+  the process and if it's missing, either a configure or a make gets run
+  way too many times - I'll try to pull logs from the CI system at some
+  stage soon.
 
-      <disk type=3D'file' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'raw'/>
-        <source file=3D'/data3_raw.qcow2'/>
-        <target dev=3D'hdc' bus=3D'ide'/>
-      </disk>
-      <disk type=3D'file' device=3D'disk'>
-        <driver name=3D'qemu' type=3D'qcow2'/>
-        <source file=3D'/data2.qcow2'/>
-        <target dev=3D'hdb' bus=3D'ide'/>
-      </disk>
-
-  =
-
-  2. in VM:
-
-  sda            8:0    0    2G  0 disk
-  sdb            8:16   0    1G  0 disk
-
-  =
-
-  3. from vm.log:
-
-  le=3D/data2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-ide0-0-1 -device id=
-e-
-  hd,bus=3Dide.0,unit=3D1,drive=3Ddrive-ide0-0-1,id=3Dide0-0-1 -drive
-  file=3D/data3_raw.qcow2,format=3Draw,if=3Dnone,id=3Ddrive-ide0-1-0 -device
-  ide-hd,bus=3Dide.1,unit=3D0,drive=3Ddrive-ide0-1-0,id=3Dide0-1-0 -netdev t
-
-  =
-
-  4. rpm info: (I got the same issue on 2 diff envs)
-  (1) env1
-  qemu-kvm-1.5.3-105
-  libvirt-3.2.0-14.el7
-  (2) env2
-  libvirt-5.9.0-1.el8
-  qemu-4.1.0-1.el8
+  Could a warning or error be added if cmp is missing?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882350/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1882497/+subscriptions
 
