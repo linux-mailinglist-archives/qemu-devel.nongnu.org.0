@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FD53BDDB3
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:01:39 +0200 (CEST)
-Received: from localhost ([::1]:48262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BBD3BDDCA
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:08:46 +0200 (CEST)
+Received: from localhost ([::1]:51000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0qK9-0007Ye-UC
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33054)
+	id 1m0qR2-0001CU-V8
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:08:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joannekoong@gmail.com>)
- id 1m0qJ1-0006pN-8O; Tue, 06 Jul 2021 15:00:27 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41673)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joannekoong@gmail.com>)
- id 1m0qIz-0003Eg-D7; Tue, 06 Jul 2021 15:00:26 -0400
-Received: by mail-ed1-x532.google.com with SMTP id m1so19979edq.8;
- Tue, 06 Jul 2021 12:00:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DJEISK8+jDVaCvGe0tp/3/x8RBFkwmgNzYWnIKfFPik=;
- b=XhpsJtyZk+7Uh5AI0hERS5a4pKgPjYbvwKlR/f9EeHYtMZnOEUaUlnZ4knJRv2TzVN
- EBYMfb8Hro0OGbcxZYxJlYMsZ+azM3s4gcJzrJhoYzgF6NOWXwG7AwKL0BHNaMOr8jna
- CatnJDSSWmhLEG5cEYiADgm/j5UXx+CzUzv033lb41F5Ixvqj8zGpGuKLxZBc4nUkz8B
- Xt1SYPI5hsBn3G/i6tHHIcEammiHvVOu37Qxl+oO1SQW1ef1e0TSf1CKrq63m4SZ/kK2
- h244n/OpRo1It4Ub1QLfsmLhJvkFkn3ZQFlqN9zwvGvTu1WdGH9D6Kbg5Xix3+pzIiEq
- sTTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DJEISK8+jDVaCvGe0tp/3/x8RBFkwmgNzYWnIKfFPik=;
- b=CHAjfHILB3GFSg8P/OkI7o85cejDsjWVbm8FJP8RAEsDU+novHnfhScYwl1+vgEZNH
- Jo6ZpeHjjzN1tIRENSwlXQY8Bd/LSV8mkz7fF+MH3JVbkD987XwuRE2vjC51Tip+AaCp
- ldxF2sU1vxVm64dczHj2IIYm0OVULcJLbtietFa/ReuxkHSuCR5KD1ESoPOwROfwxOAS
- 5F7EOfAICxLmfDqMUAeumj1+EaEJMVmC7YwlH+I2h1q3vuOp9QWI+JSkTA258KjEDyQW
- 7h5lc/e+2eIxq6pHmwVxAQN57TVuPY2HvEd16MwdHOX50IUNnMQqMkZvH/ssDuHzUrl+
- uaUA==
-X-Gm-Message-State: AOAM530EzWiuYRo9IauKhtjPkIvBvLT55koKykD/qKcXc8JLc92sNNhT
- upLEVMcKMSctGPWuebbbu5+uNU521ZqoFdQFfNc=
-X-Google-Smtp-Source: ABdhPJyNfIVXIwjcOyTLOG3nOm9CmmNsDyo1A3xQvN3PJhbGiopWsNgoaecBxu2znfecgs8N0lUFdf2Ilo96OKbvcGA=
-X-Received: by 2002:a50:ff0a:: with SMTP id a10mr25333732edu.273.1625598022356; 
- Tue, 06 Jul 2021 12:00:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1m0qPM-0000Sa-ND
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:07:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1m0qPK-0003WB-Ab
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:06:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625598417;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YyhG+M8nVcpsAVybwnL3VozwfpwR/4r5MJhaBcsug+8=;
+ b=REZ6qh6M7wWW9aTxBxj2knmZ2Dea1hgCzYCRllQxJGN0TAUyrvNWF3nRq9J5fzYQRPCgkT
+ oalV4fKK/uZkRSZWmhoNUJmDzTAcNe+YxXWdYy2Qsnc3BqpEbxWmJXC9gCB8l2sXPMZ4uQ
+ 5fu8gmcccREoO3ALxnYn5DqyaXTgePw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-EL3LjK8MNwGpKXjPDt21PA-1; Tue, 06 Jul 2021 15:06:56 -0400
+X-MC-Unique: EL3LjK8MNwGpKXjPDt21PA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F85980414B;
+ Tue,  6 Jul 2021 19:06:55 +0000 (UTC)
+Received: from wrampazz.redhat.com (ovpn-114-66.rdu2.redhat.com [10.10.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC9285D703;
+ Tue,  6 Jul 2021 19:06:48 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: alex.bennee@linaro.org, f4bug@amsat.org, crosa@redhat.com,
+ thuth@redhat.com, wainersm@redhat.com, qemu-devel@nongnu.org,
+ philmd@redhat.com
+Subject: [PATCH] tests/acceptance: allow control over tags during
+ check-acceptance
+Date: Tue,  6 Jul 2021 16:06:46 -0300
+Message-Id: <20210706190646.209440-1-willianr@redhat.com>
 MIME-Version: 1.0
-References: <20210623185921.24113-1-joannekoong@gmail.com>
- <063df3cc-cb5b-1181-6cfa-a6f02959e70d@amsat.org>
-In-Reply-To: <063df3cc-cb5b-1181-6cfa-a6f02959e70d@amsat.org>
-From: Joanne Koong <joannekoong@gmail.com>
-Date: Tue, 6 Jul 2021 12:00:11 -0700
-Message-ID: <CAFAxGOdqMY4+7SOZWfWzC0RXDvRUcq=4oVVx+of1x1s=kA0AhQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: sdhci: Enable 64-bit system bus capability in the
- default SD/MMC host controller
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000ab931705c67908e8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=joannekoong@gmail.com; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=willianr@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,64 +78,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ab931705c67908e8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Although it is possible to run a specific test using the avocado
+command-line, a user may want to use a specific tag while running the
+``make check-acceptance`` during the development or debugging.
 
-Awesome! Thank you, Philippe and Bin!
+This allows using the TAGS environment variable where the user takes
+total control of which tests should run based on the tags defined.
 
-On Mon, Jul 5, 2021 at 2:54 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
->
-wrote:
+This also makes the check-acceptance command flexible to restrict tests
+based on tags while running on CI.
 
-> On 6/23/21 8:59 PM, Joanne Koong wrote:
-> > The default SD/MMC host controller uses SD spec v2.00. 64-bit system bu=
-s
-> capability
-> > was added in v2.
-> >
-> > In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1ul
-> << 28))
-> > where 28 represents the BUS64BIT SDHC_CAPAB field.
-> >
-> > Signed-off-by: Joanne Koong <joannekoong@gmail.com>
-> > ---
-> >  hw/sd/sdhci-internal.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> Thanks, series applied to sdmmc-next tree.
->
+e.g.:
 
---000000000000ab931705c67908e8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+TAGS="foo bar baz" make check-acceptance
 
-<div dir=3D"ltr">Awesome! Thank you, Philippe and Bin!</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 5, 2021 =
-at 2:54 AM Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.or=
-g">f4bug@amsat.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 6/23/21 8:59 PM, Joanne Koong wrote:<br>
-&gt; The default SD/MMC host controller uses SD spec v2.00. 64-bit system b=
-us capability<br>
-&gt; was added in v2.<br>
-&gt; <br>
-&gt; In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1u=
-l &lt;&lt; 28))<br>
-&gt; where 28 represents the BUS64BIT SDHC_CAPAB field.<br>
-&gt; <br>
-&gt; Signed-off-by: Joanne Koong &lt;<a href=3D"mailto:joannekoong@gmail.co=
-m" target=3D"_blank">joannekoong@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/sd/sdhci-internal.h | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-Thanks, series applied to sdmmc-next tree.<br>
-</blockquote></div>
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+---
+ docs/devel/testing.rst |  7 +++++++
+ tests/Makefile.include | 10 ++++++++--
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
---000000000000ab931705c67908e8--
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4e42392810..6e03c3449b 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -760,6 +760,13 @@ in the current directory, tagged as "quick", run:
+ 
+   avocado run -t quick .
+ 
++It is also possible to run tests based on tags using the
++``make check-acceptance`` command and the ``TAGS`` environment variable:
++
++.. code::
++
++   TAGS=quick make check-acceptance
++
+ The ``avocado_qemu.Test`` base test class
+ -----------------------------------------
+ 
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 8f220e15d1..5869ab8a04 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -92,7 +92,11 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+ AVOCADO_SHOW=app
+-AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
++ifndef TAGS
++	AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
++else
++	AVOCADO_TAGS=$(addprefix -t , $(TAGS))
++endif
+ 
+ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+ 	$(call quiet-command, \
+@@ -125,10 +129,12 @@ get-vm-image-fedora-31-%: check-venv
+ get-vm-images: check-venv $(patsubst %,get-vm-image-fedora-31-%, $(FEDORA_31_DOWNLOAD))
+ 
+ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
++	@echo "AVOCADO_TAGS $(AVOCADO_TAGS)"
+ 	$(call quiet-command, \
+             $(TESTS_VENV_DIR)/bin/python -m avocado \
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+-            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
++            $(if $(TAGS),, --filter-by-tags-include-empty \
++			--filter-by-tags-include-empty-key) \
+             $(AVOCADO_TAGS) \
+             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
+-- 
+2.31.1
+
 
