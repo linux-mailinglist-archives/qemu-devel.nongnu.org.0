@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6883BC580
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:31:30 +0200 (CEST)
-Received: from localhost ([::1]:50796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A403BC593
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:34:31 +0200 (CEST)
+Received: from localhost ([::1]:34424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0ck5-0002Gg-9b
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1m0cn0-0001i3-08
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:34:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfZ-0000Cj-Fk
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52248)
+ id 1m0cfM-0008Or-DF
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfY-0003MB-02
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:49 -0400
+ id 1m0cfK-0003C7-T0
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:36 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfJ-0004x6-AI
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:33 +0000
+ id 1m0cf6-0004xl-NP
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:21 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B16CC2E8203
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:14 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D00CE2E8359
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:04 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:38 -0000
-From: Launchpad Bug Tracker <1875080@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:45 -0000
+From: Launchpad Bug Tracker <1882350@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: usb
+X-Launchpad-Bug-Tags: ide-hd
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor lnxosk th-huth
-X-Launchpad-Bug-Reporter: Armin (lnxosk)
+X-Launchpad-Bug-Commenters: eblake janitor th-huth winndows
+X-Launchpad-Bug-Reporter: marshell (winndows)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158784259621.25418.6669697742767544234.malonedeb@soybean.canonical.com>
-Message-Id: <162554505836.7821.13330403430794225702.malone@loganberry.canonical.com>
-Subject: [Bug 1875080] Re: USB host device data transfer with control endpoint
+References: <159144063074.3735.15991486640962003601.malonedeb@soybean.canonical.com>
+Message-Id: <162554506512.7821.6875975874199102822.malone@loganberry.canonical.com>
+Subject: [Bug 1882350] Re: it always create sdx device when I configure ide
+ device with hdx name
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 044811dc8634cf7035a57e8fc7c732cf0acfab04
+X-Launchpad-Hash: 19c485e93243dbb7e014ce769527608152370055
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1875080 <1875080@bugs.launchpad.net>
+Reply-To: Bug 1882350 <1882350@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,25 +85,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1875080
+https://bugs.launchpad.net/bugs/1882350
 
 Title:
-  USB host device data transfer with control endpoint
+  it always create sdx device when I configure ide device with hdx name
 
 Status in QEMU:
   Expired
 
 Bug description:
-  QEMU emulator version 4.2.0
-  Host -> Arch Linux kernel version: 5.4.34-1-lts
-  Guest -> Various Linux Distros
+  I have configured 2 ide disks with name starting with hd, but when the
+  vm boots up, it shows disks whose name starting with sd.
 
-  I sent a control message with data through endpoint zero.
-  On the other side message is received with all fields correct except data=
- buffer.
-  I've tested the data field inside guest with usbmon and data field was co=
-rrect but after packet leaved qemu, data filed is lost.
+  1. ide disks in vm xml:
+
+      <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'raw'/>
+        <source file=3D'/data3_raw.qcow2'/>
+        <target dev=3D'hdc' bus=3D'ide'/>
+      </disk>
+      <disk type=3D'file' device=3D'disk'>
+        <driver name=3D'qemu' type=3D'qcow2'/>
+        <source file=3D'/data2.qcow2'/>
+        <target dev=3D'hdb' bus=3D'ide'/>
+      </disk>
+
+  =
+
+  2. in VM:
+
+  sda            8:0    0    2G  0 disk
+  sdb            8:16   0    1G  0 disk
+
+  =
+
+  3. from vm.log:
+
+  le=3D/data2.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-ide0-0-1 -device id=
+e-
+  hd,bus=3Dide.0,unit=3D1,drive=3Ddrive-ide0-0-1,id=3Dide0-0-1 -drive
+  file=3D/data3_raw.qcow2,format=3Draw,if=3Dnone,id=3Ddrive-ide0-1-0 -device
+  ide-hd,bus=3Dide.1,unit=3D0,drive=3Ddrive-ide0-1-0,id=3Dide0-1-0 -netdev t
+
+  =
+
+  4. rpm info: (I got the same issue on 2 diff envs)
+  (1) env1
+  qemu-kvm-1.5.3-105
+  libvirt-3.2.0-14.el7
+  (2) env2
+  libvirt-5.9.0-1.el8
+  qemu-4.1.0-1.el8
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1875080/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1882350/+subscriptions
 
