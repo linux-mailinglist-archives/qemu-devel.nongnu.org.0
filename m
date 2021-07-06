@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91F13BD950
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:01:34 +0200 (CEST)
-Received: from localhost ([::1]:52764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F4243BD958
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:04:46 +0200 (CEST)
+Received: from localhost ([::1]:33228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mZp-0007Wc-Bx
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33080)
+	id 1m0mcv-0004yQ-Gf
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mWm-0004ax-ER
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:26 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40504)
+ id 1m0mWz-0004ef-Lk
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:38 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mWj-00020V-Fa
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:24 -0400
-Received: by mail-wr1-x431.google.com with SMTP id l5so9675344wrv.7
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:58:21 -0700 (PDT)
+ id 1m0mWl-00022M-L2
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:58:36 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id j34so13765173wms.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:58:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M+Bmwitpli/El3tfQx09X6m1DsmvT8z7wFQh9OyOsVo=;
- b=EahyWPQaxFBQLQS7c8MPMmpKDxz0MD7WM6y77XNIzI72zUJ9GxyM9HHEFPb8fYhB3E
- NXlzTG3Rljw532z9dxla73wx6ZIXQGCBb+SVZHNL4vTO/c3Az3TkVnkWFuRU/RCtLZ/r
- aB6tMkOn6GIIYyp8dz7qymmIo053sK16fc6OCIuJSg6hZimdIBbnL541yTTisIku+DZE
- DHLIZtMlIpf3ZzSKYVrkvtnY7QveWN2C/rZgRUymFwTmy7AFAznxdHs2jaHsXXXAl32n
- aMhlOV5JQ9gRzA7rY7WnTxKqPw73pYKgm13v+HNnQ3vG3TlupsYo4RDb8/n4KF1rczGF
- ewOg==
+ bh=OJ+a2HwSuRNejGfA9xMEuP+rnbpPniiuWoFoxeydpO0=;
+ b=ZsTzpG3+wrOCUHovDttmLdau8dzLHzKTofNv9dhnmqakTkMc4Tm6CKgIPHS4veD1Nn
+ +XlPAsYCW1Cd08FJaE3itFphF8Z9dsuZFxsPMCpZqZ1JDH4D+b+TqAPn116HQOzycKWH
+ t0dVPowesnXajd42iiwN9w4+lqkENGyxs0AKBthnh5lUttaSPrxrDrQdYiC2qBecvMsw
+ GlQ96MkPCqBGMY3VpOD8dV7OMXN/UvmBAH9EExOSldX/WlWqLMRR/BotdwWwQfZhftft
+ pM8W9N22VQzuiqh0uNXdLOclyRoJ+x3M7QUli2lBBj5BAcEOt4Eze9np7qvU2HLdXOLG
+ VpXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M+Bmwitpli/El3tfQx09X6m1DsmvT8z7wFQh9OyOsVo=;
- b=E3J8pAVh/56xJMyhnIDCUVSv+dFTsdp9AD2ZcjfwIebJUtENFPgrBQfHSUBeuxGPM2
- WYdls9s9prfQ4FdO84sNYlIgv/6CzdRz6j1ixMgNE3pp58KKfGzOwd2x6mVqIdIxn9lB
- Pp9+idtapDUB4zOUijR3iAr1l9EnFfwwbeLg2Dzmtd7whjZAivvqDi5kGLWu8BsD6zu/
- 0D4VcIS5hiNe/bP9coErBe3THQlqRTPJw+MXkhI6gi0NKqEWAzcDDlEEK0OQn+MqSiq5
- jDkLqvyaY2zy5wtAZlS6NQPEaB49WRpFkNGvRoADsEZ195iY60fFd3WDwT8C/ovshfL+
- 9Rng==
-X-Gm-Message-State: AOAM533oEIRs/MzLps54zT24LapVtgtU1x9O8bRBjX6lo7Bl43QRTTL+
- os2MyFIO38bSuXctAujw3hsrjg==
-X-Google-Smtp-Source: ABdhPJwaMwB40tfkF371CTYsuKxtjyUxnyw77B2y+nXfVjG0jZYbk2gX3/aIG1Cu90q9JlLjXnQNgQ==
-X-Received: by 2002:adf:ef8b:: with SMTP id d11mr22299838wro.346.1625583499950; 
- Tue, 06 Jul 2021 07:58:19 -0700 (PDT)
+ bh=OJ+a2HwSuRNejGfA9xMEuP+rnbpPniiuWoFoxeydpO0=;
+ b=k2Y2qkZQiKOaKJ55PGrEt/lvCXsLfS0sJKW2xlyuLHE08uPvNVGymtXhnAYXm5z/N2
+ p4ETH3QX0s/7fjEAfwKtKTg4pVDnYMlIfZdIGzI3kCJBK+5tIoDWbeX8EUvbPHn2lVsh
+ uxrr0Fc2Aa1eWt1cW1dtpCMPyrDxyzxSsRfK+LLPLb8UXYDa+hqNt9sF2oXXhT/Fkexx
+ XJlhLmdI4h/Ez3jmGwJCfuFJZ5cZNP1lr4cio8QnHpzb30XEFMqT2UuzGytnIkX/Yc3k
+ BunmeVUhmASb1Eu2IP8FeuimKl87pdyWdgfTlz1V0pfto3tvDkcXrhIqX18EdJ2QK2es
+ MHow==
+X-Gm-Message-State: AOAM532tGy0NmXQeqrp3S4nWuxb7RtS056N+F5huPV4+GGLQ6oSRVlLg
+ oKyzcVEianWe4fT6J7ZJeYTIbQ==
+X-Google-Smtp-Source: ABdhPJxkhEMp7uCN4yeyiRVdUnXkg8cbCY66DrID2iXoC2OITWQtWjQDGqysFgoSKNuZ9qg8uBLnTQ==
+X-Received: by 2002:a7b:cc08:: with SMTP id f8mr21237212wmh.58.1625583501642; 
+ Tue, 06 Jul 2021 07:58:21 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n16sm1008224wrr.73.2021.07.06.07.58.18
+ by smtp.gmail.com with ESMTPSA id l20sm16137777wmq.3.2021.07.06.07.58.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 07:58:18 -0700 (PDT)
+ Tue, 06 Jul 2021 07:58:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D3BD61FF87;
+ by zen.linaroharston (Postfix) with ESMTP id F21A11FF8C;
  Tue,  6 Jul 2021 15:58:17 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 01/39] Jobs based on custom runners: documentation and
- configuration placeholder
-Date: Tue,  6 Jul 2021 15:57:39 +0100
-Message-Id: <20210706145817.24109-2-alex.bennee@linaro.org>
+Subject: [PATCH v1 02/39] Jobs based on custom runners: build environment docs
+ and playbook
+Date: Tue,  6 Jul 2021 15:57:40 +0100
+Message-Id: <20210706145817.24109-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,112 +97,217 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-As described in the included documentation, the "custom runner" jobs
-extend the GitLab CI jobs already in place.  One of their primary
-goals of catching and preventing regressions on a wider number of host
-systems than the ones provided by GitLab's shared runners.
+To run basic jobs on custom runners, the environment needs to be
+properly set up.  The most common requirement is having the right
+packages installed.
 
-This sets the stage in which other community members can add their own
-machine configuration documentation/scripts, and accompanying job
-definitions.  As a general rule, those newly added contributed jobs
-should run as "non-gating", until their reliability is verified (AKA
-"allow_failure: true").
+The playbook introduced here covers the QEMU's project s390x and
+aarch64 machines.  At the time this is being proposed, those machines
+have already had this playbook applied to them.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
+Tested-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210630012619.115262-2-crosa@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210630012619.115262-3-crosa@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/devel/ci.rst               | 32 ++++++++++++++++++++++++++++++++
- docs/devel/index.rst            |  1 +
- .gitlab-ci.d/custom-runners.yml | 14 ++++++++++++++
- .gitlab-ci.d/qemu-project.yml   |  1 +
- 4 files changed, 48 insertions(+)
- create mode 100644 docs/devel/ci.rst
- create mode 100644 .gitlab-ci.d/custom-runners.yml
+ docs/devel/ci.rst                      |  40 +++++++++
+ scripts/ci/setup/.gitignore            |   2 +
+ scripts/ci/setup/build-environment.yml | 116 +++++++++++++++++++++++++
+ scripts/ci/setup/inventory.template    |   1 +
+ 4 files changed, 159 insertions(+)
+ create mode 100644 scripts/ci/setup/.gitignore
+ create mode 100644 scripts/ci/setup/build-environment.yml
+ create mode 100644 scripts/ci/setup/inventory.template
 
 diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-new file mode 100644
-index 0000000000..064ffa9988
---- /dev/null
+index 064ffa9988..bfedbb1025 100644
+--- a/docs/devel/ci.rst
 +++ b/docs/devel/ci.rst
-@@ -0,0 +1,32 @@
-+==
-+CI
-+==
+@@ -30,3 +30,43 @@ The GitLab CI jobs definition for the custom runners are located under::
+ Custom runners entail custom machines.  To see a list of the machines
+ currently deployed in the QEMU GitLab CI and their maintainers, please
+ refer to the QEMU `wiki <https://wiki.qemu.org/AdminContacts>`__.
 +
-+QEMU has configurations enabled for a number of different CI services.
-+The most up to date information about them and their status can be
-+found at::
++Machine Setup Howto
++-------------------
 +
-+   https://wiki.qemu.org/Testing/CI
++For all Linux based systems, the setup can be mostly automated by the
++execution of two Ansible playbooks.  Create an ``inventory`` file
++under ``scripts/ci/setup``, such as this::
 +
-+Jobs on Custom Runners
-+======================
++  fully.qualified.domain
++  other.machine.hostname
 +
-+Besides the jobs run under the various CI systems listed before, there
-+are a number additional jobs that will run before an actual merge.
-+These use the same GitLab CI's service/framework already used for all
-+other GitLab based CI jobs, but rely on additional systems, not the
-+ones provided by GitLab as "shared runners".
++You may need to set some variables in the inventory file itself.  One
++very common need is to tell Ansible to use a Python 3 interpreter on
++those hosts.  This would look like::
 +
-+The architecture of GitLab's CI service allows different machines to
-+be set up with GitLab's "agent", called gitlab-runner, which will take
-+care of running jobs created by events such as a push to a branch.
-+Here, the combination of a machine, properly configured with GitLab's
-+gitlab-runner, is called a "custom runner".
++  fully.qualified.domain ansible_python_interpreter=/usr/bin/python3
++  other.machine.hostname ansible_python_interpreter=/usr/bin/python3
 +
-+The GitLab CI jobs definition for the custom runners are located under::
++Build environment
++~~~~~~~~~~~~~~~~~
 +
-+  .gitlab-ci.d/custom-runners.yml
++The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
++set up machines with the environment needed to perform builds and run
++QEMU tests.  This playbook consists on the installation of various
++required packages (and a general package update while at it).  It
++currently covers a number of different Linux distributions, but it can
++be expanded to cover other systems.
 +
-+Custom runners entail custom machines.  To see a list of the machines
-+currently deployed in the QEMU GitLab CI and their maintainers, please
-+refer to the QEMU `wiki <https://wiki.qemu.org/AdminContacts>`__.
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 977c3893bd..da15273786 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -27,6 +27,7 @@ Contents:
-    migration
-    atomics
-    stable-process
-+   ci
-    qtest
-    decodetree
-    secure-coding-practices
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
++The minimum required version of Ansible successfully tested in this
++playbook is 2.8.0 (a version check is embedded within the playbook
++itself).  To run the playbook, execute::
++
++  cd scripts/ci/setup
++  ansible-playbook -i inventory build-environment.yml
++
++Please note that most of the tasks in the playbook require superuser
++privileges, such as those from the ``root`` account or those obtained
++by ``sudo``.  If necessary, please refer to ``ansible-playbook``
++options such as ``--become``, ``--become-method``, ``--become-user``
++and ``--ask-become-pass``.
+diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
 new file mode 100644
-index 0000000000..a07b27384c
+index 0000000000..ee088604d1
 --- /dev/null
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -0,0 +1,14 @@
-+# The CI jobs defined here require GitLab runners installed and
-+# registered on machines that match their operating system names,
-+# versions and architectures.  This is in contrast to the other CI
-+# jobs that are intended to run on GitLab's "shared" runners.
++++ b/scripts/ci/setup/.gitignore
+@@ -0,0 +1,2 @@
++inventory
 +
-+# Different than the default approach on "shared" runners, based on
-+# containers, the custom runners have no such *requirement*, as those
-+# jobs should be capable of running on operating systems with no
-+# compatible container implementation, or no support from
-+# gitlab-runner.  To avoid problems that gitlab-runner can cause while
-+# reusing the GIT repository, let's enable the clone strategy, which
-+# guarantees a fresh repository on each job run.
-+variables:
-+  GIT_STRATEGY: clone
-diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
-index 64cb2ba1da..dde8270301 100644
---- a/.gitlab-ci.d/qemu-project.yml
-+++ b/.gitlab-ci.d/qemu-project.yml
-@@ -9,3 +9,4 @@ include:
-   - local: '/.gitlab-ci.d/crossbuilds.yml'
-   - local: '/.gitlab-ci.d/buildtest.yml'
-   - local: '/.gitlab-ci.d/static_checks.yml'
-+  - local: '/.gitlab-ci.d/custom-runners.yml'
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+new file mode 100644
+index 0000000000..581c1c75d1
+--- /dev/null
++++ b/scripts/ci/setup/build-environment.yml
+@@ -0,0 +1,116 @@
++# Copyright (c) 2021 Red Hat, Inc.
++#
++# Author:
++#  Cleber Rosa <crosa@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++#
++# This is an ansible playbook file.  Run it to set up systems with the
++# environment needed to build QEMU.
++---
++- name: Installation of basic packages to build QEMU
++  hosts: all
++  tasks:
++    - name: Check for suitable ansible version
++      delegate_to: localhost
++      assert:
++        that:
++          - '((ansible_version.major == 2) and (ansible_version.minor >= 8)) or (ansible_version.major >= 3)'
++        msg: "Unsuitable ansible version, please use version 2.8.0 or later"
++
++    - name: Update apt cache / upgrade packages via apt
++      apt:
++        update_cache: yes
++        upgrade: yes
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++
++    - name: Install basic packages to build QEMU on Ubuntu 18.04/20.04
++      package:
++        name:
++        # Originally from tests/docker/dockerfiles/ubuntu1804.docker
++          - ccache
++          - gcc
++          - gettext
++          - git
++          - glusterfs-common
++          - libaio-dev
++          - libattr1-dev
++          - libbrlapi-dev
++          - libbz2-dev
++          - libcacard-dev
++          - libcap-ng-dev
++          - libcurl4-gnutls-dev
++          - libdrm-dev
++          - libepoxy-dev
++          - libfdt-dev
++          - libgbm-dev
++          - libgtk-3-dev
++          - libibverbs-dev
++          - libiscsi-dev
++          - libjemalloc-dev
++          - libjpeg-turbo8-dev
++          - liblzo2-dev
++          - libncurses5-dev
++          - libncursesw5-dev
++          - libnfs-dev
++          - libnss3-dev
++          - libnuma-dev
++          - libpixman-1-dev
++          - librados-dev
++          - librbd-dev
++          - librdmacm-dev
++          - libsasl2-dev
++          - libsdl2-dev
++          - libseccomp-dev
++          - libsnappy-dev
++          - libspice-protocol-dev
++          - libssh-dev
++          - libusb-1.0-0-dev
++          - libusbredirhost-dev
++          - libvdeplug-dev
++          - libvte-2.91-dev
++          - libzstd-dev
++          - make
++          - python3-yaml
++          - python3-sphinx
++          - python3-sphinx-rtd-theme
++          - ninja-build
++          - sparse
++          - xfslibs-dev
++        state: present
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++
++    - name: Install packages to build QEMU on Ubuntu 18.04/20.04 on non-s390x
++      package:
++        name:
++          - libspice-server-dev
++          - libxen-dev
++        state: present
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++        - ansible_facts['architecture'] != 's390x'
++
++    - name: Install basic packages to build QEMU on Ubuntu 18.04
++      package:
++        name:
++        # Originally from tests/docker/dockerfiles/ubuntu1804.docker
++          - clang
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++        - ansible_facts['distribution_version'] == '18.04'
++
++    - name: Install basic packages to build QEMU on Ubuntu 20.04
++      package:
++        name:
++        # Originally from tests/docker/dockerfiles/ubuntu2004.docker
++          - clang-10
++          - genisoimage
++          - liblttng-ust-dev
++          - libslirp-dev
++          - netcat-openbsd
++      when:
++        - ansible_facts['distribution'] == 'Ubuntu'
++        - ansible_facts['distribution_version'] == '20.04'
+diff --git a/scripts/ci/setup/inventory.template b/scripts/ci/setup/inventory.template
+new file mode 100644
+index 0000000000..2fbb50c4a8
+--- /dev/null
++++ b/scripts/ci/setup/inventory.template
+@@ -0,0 +1 @@
++localhost
 -- 
 2.20.1
 
