@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3633BDC7E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 19:48:32 +0200 (CEST)
-Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28CC3BDC96
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 20:01:12 +0200 (CEST)
+Received: from localhost ([::1]:50578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0pBP-0007Rc-Ik
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 13:48:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43218)
+	id 1m0pNb-0005L8-Hk
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 14:01:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m0pAA-0006jC-0C
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 13:47:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43234)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m0pMN-0004O8-Ks
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 13:59:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m0pA7-0004jT-98
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 13:47:12 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m0pMK-0005yG-TS
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 13:59:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625593629;
+ s=mimecast20190719; t=1625594387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K3Iw1IdMOfMPtY+mMTnRJENxPWpJvU33jHcw4Gv8mX0=;
- b=SQ7lcfDQ1oaTVm7q7cnGO/r5/TiCUx1zTxOVH2zQHQ1mNZbH3fMUp/1DgC6UzMZZoFBvBo
- TtTUYQEPE4ByXRtjUq7wgzi2x2G2zwMTnh1f3s595Ni1mE+yOlFkeMegIbxtbHYDsgg4qw
- lrM9kGE8+nYqfeuVfL/UUTSZ/yiRTHs=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-R8aqFGtWO1i8WHdCC9z35Q-1; Tue, 06 Jul 2021 13:47:08 -0400
-X-MC-Unique: R8aqFGtWO1i8WHdCC9z35Q-1
-Received: by mail-qt1-f199.google.com with SMTP id
- u18-20020a05622a1992b029024f5f5d3a48so2446qtc.2
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 10:47:08 -0700 (PDT)
+ bh=YKDspksISOhYd9XMgXqRkSW7XCsqd6ok8nd9vjRj+hU=;
+ b=Zs10CbYfhL83bwqc/6z+uPoQXHZgmEHNZI3SmUtYIu4yOiaWgh10uh5Wh2WcAxjDp+8CRr
+ 11ibqqmaM3+w42j/dNem6iguG1q0JEGun86SQG5ISal9V7G6w/82MIFYdl9VKOkr59TJR7
+ mPZsoPgLi9f80ulV0tSe2qvtipGjKpg=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-397-x_cJRzJzPHGB8gF8NDrECw-1; Tue, 06 Jul 2021 13:59:46 -0400
+X-MC-Unique: x_cJRzJzPHGB8gF8NDrECw-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ f10-20020a05620a15aab02903b3210e44dcso10595091qkk.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 10:59:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=K3Iw1IdMOfMPtY+mMTnRJENxPWpJvU33jHcw4Gv8mX0=;
- b=VECtYhUvTSlc/Ea3AjUT9Az5gi7iiYRkO0uIGSffAm+uhdvFGhMLaZqz2eEE38kxkf
- n0CsynEu3nNNVQlNVMqyXg5yLFAsaSG6RDCvyQIF6bQR2RSNJUgP97rCKaiUbfqAmXLS
- ENmYNH4n6DiSApdn/aaylwqRgXEBh98HGQmmTGhagYzUtR4+wizlODiOb1qIgO3LgFoD
- tSPD2BSENslepUE/8ovfH+8mAqKfHmAdC+zB4YrHrcaefgsFRhCoTcP9d5xqoTutLwib
- W5qdyv6hfJ66Im7L6w46AXvNLsRZgtUwIK6WrhOACUz9mlu0+DcMX3GQb9yoqfwVhRUm
- W2gw==
-X-Gm-Message-State: AOAM533JShptTfxCGBhncHx49MqbNeumU2yo4L78tbcbKrN4571vuNBB
- VocfCKfTJrFmAJ7VYCukMvg7A0+GUIOKDwl1xyQ/Y0Ao+NiLp9VTJscNMZmzpLlgODjXi0W5P1k
- X4rPpyctosH8Rrjk=
-X-Received: by 2002:a05:6214:309:: with SMTP id
- i9mr19715428qvu.18.1625593628134; 
- Tue, 06 Jul 2021 10:47:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxg6BTlpFgn6yHo+5B0hgUY2XJd76rGo2Gkuwx4aJy7MHLmnqr6eQYSYYbN0yjTdRxU7moj7g==
-X-Received: by 2002:a05:6214:309:: with SMTP id
- i9mr19715407qvu.18.1625593627934; 
- Tue, 06 Jul 2021 10:47:07 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=YKDspksISOhYd9XMgXqRkSW7XCsqd6ok8nd9vjRj+hU=;
+ b=DuGbOVjQyFXjJTLM0CPkxa+mdSAdTeHKc0jn5W6qkB33y/JCREKKuh6lv1SDElWYQh
+ YMuKpk0CpX4qLvG7DL3dCh8ZdzwzmImzvpOOs3prpu09gnriiyCfabC4wHwUp8sGG28x
+ YjKQG+s8s+grrgC1V6AQzqDR9ZbLEL4k+1chbT3vl6ZqAYsnDoLUb30MHEJ5Eosq3YUg
+ cDuFFSr3NKDIY0eobpTimLMDzDlIbC1b9o3wagh18rtwGTQdC2Mp3FetGBOe739iVPNV
+ /5IGKnmCmsJ4tmlpIXwDtg9TjtpWkSs4ItzoIOri/pFxH59M3dTTzcro/Cwb0WB7lp7t
+ CDJA==
+X-Gm-Message-State: AOAM530C/smGqtnHM7Zkt32G6ItjRaec8V8Fi+/DNw0OTyE0XvQE8R5J
+ C0NGJYznH+XeIwue2XkJ1PU3+l1VioC7JKyaWSnjdJCnH4yyCMNUqZyFHJ7oPmfU480gqJj4M2P
+ Wi4EkPpgqAxWjUZ8=
+X-Received: by 2002:a05:622a:1349:: with SMTP id
+ w9mr18599773qtk.73.1625594385655; 
+ Tue, 06 Jul 2021 10:59:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyUQfacczsf/wdt2PsGLFXm7r+mGc4h+L7YARGmJYNAh/bJlRGAcxsPfi9VNbXBtUV3lxDIHQ==
+X-Received: by 2002:a05:622a:1349:: with SMTP id
+ w9mr18599752qtk.73.1625594385435; 
+ Tue, 06 Jul 2021 10:59:45 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id j27sm7156544qkl.76.2021.07.06.10.47.06
+ by smtp.gmail.com with ESMTPSA id h2sm7374865qkf.106.2021.07.06.10.59.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 10:47:07 -0700 (PDT)
-Date: Tue, 6 Jul 2021 13:47:06 -0400
+ Tue, 06 Jul 2021 10:59:44 -0700 (PDT)
+Date: Tue, 6 Jul 2021 13:59:43 -0400
 From: Peter Xu <peterx@redhat.com>
 To: "Wang, Wei W" <wei.w.wang@intel.com>
 Subject: Re: [PATCH] migration: Move bitmap_mutex out of
  migration_bitmap_clear_dirty()
-Message-ID: <YOSXGpEB323VWepM@t490s>
+Message-ID: <YOSaDzCd4ZmcRQHl@t490s>
 References: <20210630200805.280905-1-peterx@redhat.com>
  <33f137dae5c346078a3a7a658bb5f1ab@intel.com>
  <YN26SDxZS1aShbHi@t490s>
- <304fc749-03a0-b58d-05cc-f0d78350e015@redhat.com>
- <604935aa45114d889800f6ccc23c6b13@intel.com>
- <824a1d77-eab0-239f-5104-49c49d6ad285@redhat.com>
- <562b42cbd5674853af21be3297fbaada@intel.com>
+ <27cb8a0141fa493a8d4bb6bb918e8a82@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <562b42cbd5674853af21be3297fbaada@intel.com>
+In-Reply-To: <27cb8a0141fa493a8d4bb6bb918e8a82@intel.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
@@ -102,139 +102,115 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
  "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 03, 2021 at 02:53:27AM +0000, Wang, Wei W wrote:
-> On Friday, July 2, 2021 3:07 PM, David Hildenbrand wrote:
-> > On 02.07.21 04:48, Wang, Wei W wrote:
-> > > On Thursday, July 1, 2021 10:22 PM, David Hildenbrand wrote:
-> > >> On 01.07.21 14:51, Peter Xu wrote:
+On Fri, Jul 02, 2021 at 02:29:41AM +0000, Wang, Wei W wrote:
+> On Thursday, July 1, 2021 8:51 PM, Peter Xu wrote:
+> > On Thu, Jul 01, 2021 at 04:42:38AM +0000, Wang, Wei W wrote:
+> > > On Thursday, July 1, 2021 4:08 AM, Peter Xu wrote:
+> > > > Taking the mutex every time for each dirty bit to clear is too slow,
+> > > > especially we'll take/release even if the dirty bit is cleared.  So
+> > > > far it's only used to sync with special cases with
+> > > > qemu_guest_free_page_hint() against migration thread, nothing really that
+> > serious yet.  Let's move the lock to be upper.
+> > > >
+> > > > There're two callers of migration_bitmap_clear_dirty().
+> > > >
+> > > > For migration, move it into ram_save_iterate().  With the help of
+> > > > MAX_WAIT logic, we'll only run ram_save_iterate() for no more than
+> > > > 50ms-ish time, so taking the lock once there at the entry.  It also
+> > > > means any call sites to
+> > > > qemu_guest_free_page_hint() can be delayed; but it should be very
+> > > > rare, only during migration, and I don't see a problem with it.
+> > > >
+> > > > For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot
+> > > > to take that lock even when calling ramblock_sync_dirty_bitmap(),
+> > > > where another example is migration_bitmap_sync() who took it right.
+> > > > So let the mutex cover both the
+> > > > ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.
+> > > >
+> > > > It's even possible to drop the lock so we use atomic operations upon
+> > > > rb->bmap and the variable migration_dirty_pages.  I didn't do it
+> > > > just to still be safe, also not predictable whether the frequent atomic ops
+> > could bring overhead too e.g.
+> > > > on huge vms when it happens very often.  When that really comes, we
+> > > > can keep a local counter and periodically call atomic ops.  Keep it simple for
+> > now.
+> > > >
+> > >
+> > > If free page opt is enabled, 50ms waiting time might be too long for handling
+> > just one hint (via qemu_guest_free_page_hint)?
+> > > How about making the lock conditionally?
+> > > e.g.
+> > > #define QEMU_LOCK_GUARD_COND (lock, cond) {
+> > > 	if (cond)
+> > > 		QEMU_LOCK_GUARD(lock);
+> > > }
+> > > Then in migration_bitmap_clear_dirty:
+> > > QEMU_LOCK_GUARD_COND(&rs->bitmap_mutex, rs->fpo_enabled);
 > > 
-> > I think that clearly shows the issue.
+> > Yeah that's indeed some kind of comment I'd like to get from either you or David
+> > when I add the cc list.. :)
 > > 
-> > My theory I did not verify yet: Assume we have 1GB chunks in the clear bmap.
-> > Assume the VM reports all pages within a 1GB chunk as free (easy with a fresh
-> > VM). While processing hints, we will clear the bits from the dirty bmap in the
-> > RAMBlock. As we will never migrate any page of that 1GB chunk, we will not
-> > actually clear the dirty bitmap of the memory region. When re-syncing, we will
-> > set all bits bits in the dirty bmap again from the dirty bitmap in the memory
-> > region. Thus, many of our hints end up being mostly ignored. The smaller the
-> > clear bmap chunk, the more extreme the issue.
+> > I was curious how that would affect the guest when the free page hint helper can
+> > stuck for a while.  Per my understanding it's fully async as the blocked thread
+> > here is asynchronously with the guest since both virtio-balloon and virtio-mem
+> > are fully async. If so, would it really affect the guest a lot?  Is it still tolerable if it
+> > only happens during migration?
 > 
-> OK, that looks possible. We need to clear the related bits from the memory region
-> bitmap before skipping the free pages. Could you try with below patch:
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index ace8ad431c..a1f6df3e6c 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -811,6 +811,26 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
->      return next;
->  }
-> 
-> +
-> +static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
-> +                                                       RAMBlock *rb,
-> +                                                      unsigned long page)
-> +{
-> +    uint8_t shift;
-> +    hwaddr size, start;
-> +
-> +    if (!rb->clear_bmap || !clear_bmap_test_and_clear(rb, page))
-> +        return;
-> +
-> +    shift = rb->clear_bmap_shift;
-> +    assert(shift >= 6);
-> +
-> +    size = 1ULL << (TARGET_PAGE_BITS + shift);
-> +    start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
-> +    trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
-> +    memory_region_clear_dirty_bitmap(rb->mr, start, size);
-> +}
-> +
->  static inline bool migration_bitmap_clear_dirty(RAMState *rs,
->                                                  RAMBlock *rb,
->                                                  unsigned long page)
-> @@ -827,26 +847,9 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
->       * the page in the chunk we clear the remote dirty bitmap for all.
->       * Clearing it earlier won't be a problem, but too late will.
->       */
-> -    if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
-> -        uint8_t shift = rb->clear_bmap_shift;
-> -        hwaddr size = 1ULL << (TARGET_PAGE_BITS + shift);
-> -        hwaddr start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
-> -
-> -        /*
-> -         * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
-> -         * can make things easier sometimes since then start address
-> -         * of the small chunk will always be 64 pages aligned so the
-> -         * bitmap will always be aligned to unsigned long.  We should
-> -         * even be able to remove this restriction but I'm simply
-> -         * keeping it.
-> -         */
-> -        assert(shift >= 6);
-> -        trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
-> -        memory_region_clear_dirty_bitmap(rb->mr, start, size);
-> -    }
-> +    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
-> 
->      ret = test_and_clear_bit(page, rb->bmap);
-> -
->      if (ret) {
->          rs->migration_dirty_pages--;
->      }
-> @@ -2746,7 +2749,7 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
->  {
->      RAMBlock *block;
->      ram_addr_t offset;
-> -    size_t used_len, start, npages;
-> +    size_t used_len, start, npages, page_to_clear, i = 0;
->      MigrationState *s = migrate_get_current();
-> 
->      /* This function is currently expected to be used during live migration */
-> @@ -2775,6 +2778,19 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
->          start = offset >> TARGET_PAGE_BITS;
->          npages = used_len >> TARGET_PAGE_BITS;
-> 
-> +        /*
-> +         * The skipped free pages are equavelent to be sent from clear_bmap's
-> +        * perspective, so clear the bits from the memory region bitmap which
-> +        * are initially set. Otherwise those skipped pages will be sent in
-> +        * the next round after syncing from the memory region bitmap.
-> +        */
-> +        /*
-> +         * The skipped free pages are equavelent to be sent from clear_bmap's
-> +        * perspective, so clear the bits from the memory region bitmap which
-> +        * are initially set. Otherwise those skipped pages will be sent in
-> +        * the next round after syncing from the memory region bitmap.
-> +        */
-> +       do {
-> +            page_to_clear = start + (i++ << block->clear_bmap_shift);
+> Yes, it is async and won't block the guest. But it will make the optimization doesn’t run as expected.
+> The intention is to have the migration thread skip the transfer of the free pages, but now the migration
+> thread is kind of using the 50ms lock to prevent the clearing of free pages while it is likely just sending free pages inside the lock.
+> (the reported free pages are better to be cleared in the bitmap in time in case they have already sent)
 
-Why "i" needs to be shifted?
+Yes it would be great of the page can be hinted for clean.  However I think
+that's an tradeoff - the migration thread is not less important from that pov.
+50ms is not some random number I chose, it's something existed there so I don't
+even to bother with thinking a saner period. :) However if there's a known good
+suggested number from any balloon developers I'd be love to cooperate.
 
-> +            migration_clear_memory_region_dirty_bitmap(ram_state,
-> +                                                       block,
-> +                                                       page_to_clear);
-> +       } while (i <= npages >> block->clear_bmap_shift);
+> 
+> > 
+> > Taking that mutex for each dirty bit is still an overkill to me, irrelevant of whether
+> > it's "conditional" or not.  
+> 
+> With that, if free page opt is off, the mutex is skipped, isn't it?
 
-I agree with David that this should be better put into the mutex section, if so
-we'd also touch up comment for bitmap_mutex.  Or is it a reason to explicitly
-not do so?
+Yes, but when free page is on, it'll check once per page.  As I mentioned I
+still don't think it's the right thing to do.
 
-> +
->          qemu_mutex_lock(&ram_state->bitmap_mutex);
->          ram_state->migration_dirty_pages -=
->                        bitmap_count_one_with_offset(block->bmap, start, npages);
+We encountered this problem when migrating a 3tb vm and the mutex spins and
+eats tons of cpu resources.  It shouldn't happen with/without balloon, imho.
 
-After my patch (move mutex out of migration_bitmap_clear_dirty()), maybe we can
-call migration_bitmap_clear_dirty() directly here rather than introducing a new
-helper?  It'll done all the dirty/clear bmap ops including dirty page accounting.
+Not to mention the hard migration issues are mostly with non-idle guest, in
+that case having the balloon in the guest will be disastrous from this pov
+since it'll start to take mutex for each page, while balloon would hardly
+report anything valid since most guest pages are being used.
+
+> 
+> > If I'm the cloud admin, I would more prefer migration
+> > finishes earlier, imho, rather than freeing some more pages on the host (after
+> > migration all pages will be gone!).  If it still blocks the guest in some unhealthy
+> > way I still prefer to take the lock here, however maybe make it shorter than
+> > 50ms.
+> > 
+> 
+> Yes, with the optimization, migration will be finished earlier.
+> Why it needs to free pages on the host?
+> (just skip sending the page)
+
+However again I would still think lock once per page is too much.  If 50ms is
+not acceptable, do you have a best interval number?
+
+Or it would be great if we can start with 50ms interval because that introduces
+the least changes, so we separate the problems, on: (1) resolving the mutex
+spinning issue with this patch, and (2) finding a suitable period for migration
+thread to release the mutex so balloon can perform the best.
 
 Thanks,
 
