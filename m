@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A396F3BC588
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:33:54 +0200 (CEST)
-Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6B03BC596
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:35:34 +0200 (CEST)
+Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cmP-0007zG-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46628)
+	id 1m0co1-0005Cx-Se
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:35:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfd-0000HZ-0F
+ id 1m0cfc-0000HW-2c
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52398)
+Received: from indium.canonical.com ([91.189.90.7]:52166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfZ-0003Nq-QY
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:52 -0400
+ id 1m0cfW-0003LP-Hc
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfL-0004wq-KH
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:36 +0000
+ id 1m0cfI-0004xb-D9
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:32 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E80AF2E83F6
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:15 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0E53F2E83D0
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:14 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:36 -0000
-From: Launchpad Bug Tracker <1874504@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:37 -0000
+From: Launchpad Bug Tracker <1876568@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: sparc64 vfio
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: atar4qemu gh975223 janitor
-X-Launchpad-Bug-Reporter: Graeme Brett Houston BSc (gh975223)
+X-Launchpad-Bug-Commenters: janitor manuel-reimer th-huth
+X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158766417277.8728.12362820918014730192.malonedeb@gac.canonical.com>
-Message-Id: <162554505620.7821.14708721304232834444.malone@loganberry.canonical.com>
-Subject: [Bug 1874504] Re: VFIO passthrough spits out thousands of messages
+References: <158850298589.4878.18034033813424107508.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162554505765.7821.8640853520595661686.malone@loganberry.canonical.com>
+Subject: [Bug 1876568] Re: "semtimedop" implementation missing in qemu?
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 9fcb5478df2b7a0fd853b67ebf08a65b0b04fb0f
+X-Launchpad-Hash: 239572e3117ef3358985ac437c4b2bad259437db
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1874504 <1874504@bugs.launchpad.net>
+Reply-To: Bug 1876568 <1876568@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,43 +83,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1874504
+https://bugs.launchpad.net/bugs/1876568
 
 Title:
-  VFIO passthrough spits out thousands of messages
+  "semtimedop" implementation missing in qemu?
 
 Status in QEMU:
   Expired
 
 Bug description:
-  started qemu as:
-  sudo qemu-system-sparc64 -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,b=
-us=3DpciB
+  I was trying to do an ARMv6 cross compile with qemu-user-static when I
+  ran into this:
 
-  messages received thousands of times:
+  https://travis-ci.com/github/VDR4Arch/vdr4arch/jobs/326884620#L1596
 
-  qemu-system-sparc64: -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,bus=
-=3DpciB: iommu has granularity incompatible with target AS
-  qemu-system-sparc64: -device vfio-pci,host=3D0b:05.0,x-no-mmap=3Don,bus=
-=3DpciB: iommu map to non memory area 4079c000
+  I was close to giving up when I found the following:
 
-  qemu version (think telling a lie as sure its 5.0)
-  QEMU emulator version 4.2.92
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+  https://github.com/osrf/multiarch-docker-image-generation/issues/36
 
-  pci device being passed through:
+  Most important comment may be this one:
 
-  0b:05.0 Display controller [0380]: 3DLabs Permedia II 2D+3D [3d3d:0009] (=
-rev 01)
-  	Subsystem: Tech-Source Permedia II 2D+3D [1227:0006]
-  	Flags: medium devsel, IRQ 11
-  	Memory at 83000000 (32-bit, non-prefetchable) [disabled] [size=3D128K]
-  	Memory at 82800000 (32-bit, non-prefetchable) [disabled] [size=3D8M]
-  	Memory at 82000000 (32-bit, non-prefetchable) [disabled] [size=3D8M]
-  	Expansion ROM at 83020000 [disabled] [size=3D64K]
-  	Capabilities: <access denied>
-  	Kernel driver in use: vfio-pci
+  https://github.com/osrf/multiarch-docker-image-
+  generation/issues/36#issuecomment-610626796
+
+  > The "correct" way to fix this does seem to be to implement
+  semtimedop in qemu.
+
+  I don't know how much involved the people, discussing there, are in
+  the qemu development but I thought it may be a good idea to bring this
+  to your attention. If this is already fixed (I haven't found any bug
+  about "semtimedop"), then please just close this one and tell me in
+  which version the fix will be included.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1874504/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1876568/+subscriptions
 
