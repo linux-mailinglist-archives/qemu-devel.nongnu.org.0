@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45F1B3BC5AC
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:43:26 +0200 (CEST)
-Received: from localhost ([::1]:48906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F7013BC5C2
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:49:40 +0200 (CEST)
+Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cvd-0004Zo-Ab
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:43:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46784)
+	id 1m0d1f-0005J0-8q
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:49:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfo-0000ro-0Z
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53226)
+ id 1m0cfn-0000ov-89
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:03 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfm-0003Zf-CR
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:03 -0400
+ id 1m0cfk-0003Wv-4P
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:02 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfY-0004wt-Ln
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:49 +0000
+ id 1m0cfW-0004xG-Ey
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id ECF812E8473
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:25 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 1EB4E2E845E
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:24 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:20 -0000
-From: Launchpad Bug Tracker <1865188@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:21 -0000
+From: Launchpad Bug Tracker <1865626@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: s390x
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor laurent-vivier tebounet th-huth
-X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
+X-Launchpad-Bug-Commenters: janitor liangy th-huth
+X-Launchpad-Bug-Reporter: liang yan (liangy)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158291064909.26276.9623855364402088462.malonedeb@gac.canonical.com>
-Message-Id: <162554504045.7821.14528962531647800282.malone@loganberry.canonical.com>
-Subject: [Bug 1865188] Re: Switching from the monitor to the emulated machine
- with a French keyboard (AZERTY)
+References: <158319312084.12323.11221527653494995336.malonedeb@soybean.canonical.com>
+Message-Id: <162554504211.7821.5185079922232404638.malone@loganberry.canonical.com>
+Subject: [Bug 1865626] Re: s390x guest hang when ipl boot from a mdev dasd
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 1a2530fc004e571700acb49fdb9a431e53a76c86
+X-Launchpad-Hash: 557ca51673bfd6eccd6bb3ecd9a3c123ce394a73
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1865188 <1865188@bugs.launchpad.net>
+Reply-To: Bug 1865626 <1865626@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,39 +84,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1865188
+https://bugs.launchpad.net/bugs/1865626
 
 Title:
-  Switching from the monitor to the emulated machine with a French
-  keyboard (AZERTY)
+  s390x guest hang when ipl boot from a mdev dasd
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hi,
-  I run qemu in an xterm terminal, with TERM=3Dvt100. My keyboard is french=
- AZERTY.
+  qemu latest
+  kernel 5.3.18
 
-  sudo ./qemu-system-hppa -monitor /dev/pts/2 -k fr  -boot d -drive
-  if=3Dscsi,bus=3D0,index=3D5,file=3D../../hpux_11iv1.img,format=3Draw -ser=
-ial
-  mon:stdio -D qemu1.log -nographic -m 512 -d nochain -cdrom
-  ../../distri/11iv1/'HP-
-  UX_11iv1_B.11.11_TCOE_September_2005_1of4_Core_OS
-  _Install&Recovery_B6821-10046.iso' -net nic,model=3Dtulip  -net tap
+  I am using a passthrough dasd as boot device, the installment looks
+  fine and gets into reboot process. However VM could not boot and just
+  hang as below after that. I have been checking on "s390: vfio-ccw dasd
+  ipl support" series right now but no clue yet. Could anyone take a
+  look for it? Thanks.
 
-  When I want to use the monitor (to change cdrom during the hp-ux
-  installation process), the characters I type are misinterpreted. For
-  example, I enter "2" at hp-ux prompt, I see : "412691;82;22".
-  Impossible to switch from monitor to hp-ux with Ctrl+Alt+1 and
-  Ctrl+Alt+2.
 
-  I tried with Debian and Fedora host, TERM=3Dxterm and TERM=3Dvt100, qemu =
-options -alt-grab and -ctrl-grab, -monitor in the same terminal or an other=
- terminal than hp-ux. Nothing works.
-  Best regards.
+  s390vsw188:~ # bash test.sh
+  LOADPARM=3D[        ]
+  executing ccw chain at : 0x0000000000000018
+  executing ccw chain at : 0x000000000000e000
+
+  2020-03-01T06:24:56.879314Z qemu-system-s390x: warning: vfio-ccw
+  (devno fe.0.0000): PFCH flag forced
+
+
+  s390zp12:~ # cat test.sh
+  /root/qemu/s390x-softmmu/qemu-system-s390x \
+  -machine s390-ccw-virtio,accel=3Dkvm \
+  -nographic \
+  -bios /root/qemu/pc-bios/s390-ccw/s390-ccw.img \
+  -device vfio-ccw,id=3Dhostdev0,sysfsdev=3D/sys/bus/mdev/devices/08e8c006-=
+146d-48d3-b21a-c005f9d3a04b,,devno=3Dfe.0.0000,bootindex=3D1 \
+  -global vfio-ccw.force-orb-pfch=3Dyes \
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1865188/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1865626/+subscriptions
 
