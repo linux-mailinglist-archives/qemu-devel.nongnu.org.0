@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC063BC936
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:12:37 +0200 (CEST)
-Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CD353BC940
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:13:12 +0200 (CEST)
+Received: from localhost ([::1]:57614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0i4C-0005jt-Ex
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:12:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41790)
+	id 1m0i4l-0007gq-1O
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0hs7-0005ci-HP
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:00:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37822)
+ id 1m0hs6-0005b4-TA
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:00:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0hs3-00017u-9f
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:00:07 -0400
+ id 1m0hs3-000189-MR
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:00:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1625565602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xpOdXS6IWnRTQTmRoi+12pEKhmDZzyBVRhaBH2rAPwk=;
- b=gO8xtsKp6Ys4DGvc6zSGRSJiPo+tFUC84telBvsXUT5g4f5dhJZ5DRTBhsXdCW8/24TSYP
- x8lqOA2qignYtrhQH3nI3u9JGYJMztWYCh1ugprX1NZMJz2dEpwVhPbttL4uy29Es+UC79
- 2bFPa3GYvF00Fj6aKodMSkHxyhjH4AU=
+ bh=NO3k4FsZx4YkcjhzFkVa3V5z82l0fgnmDrL0vN6JSPY=;
+ b=UuUtNEzFHZaEhYEtZW0xwqRR3pHVvo/gL0PWhKCkPyVT52X9EkHvjgR9GzgD/Jk6+al/H6
+ ATcgbKf4XduVSJtJR2T5Ec3G+DFib0OgdouQJf3PIJbuEXDjMMHXggg7JoQJlqDCV05h77
+ FsQUnp5osoGs1fnZKEih0meJ4Bq2ztw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-2kB6rDkQPdy0WryYQsRbyg-1; Tue, 06 Jul 2021 06:00:00 -0400
-X-MC-Unique: 2kB6rDkQPdy0WryYQsRbyg-1
+ us-mta-147-BSh6JGLUO4SGOZIKkFOj8Q-1; Tue, 06 Jul 2021 06:00:01 -0400
+X-MC-Unique: BSh6JGLUO4SGOZIKkFOj8Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C5A362FA
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 09:59:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C77A362FE
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 10:00:00 +0000 (UTC)
 Received: from domokun.gsslab.fab.redhat.com (gx270-2.gsslab.fab.redhat.com
  [10.33.8.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D6F85D6A1;
- Tue,  6 Jul 2021 09:59:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A39B1ABD2;
+ Tue,  6 Jul 2021 09:59:59 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/18] crypto: add gnutls cipher provider
-Date: Tue,  6 Jul 2021 10:59:20 +0100
-Message-Id: <20210706095924.764117-15-berrange@redhat.com>
+Subject: [PATCH 15/18] crypto: add gnutls hash provider
+Date: Tue,  6 Jul 2021 10:59:21 +0100
+Message-Id: <20210706095924.764117-16-berrange@redhat.com>
 In-Reply-To: <20210706095924.764117-1-berrange@redhat.com>
 References: <20210706095924.764117-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -85,28 +85,26 @@ Cc: Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an implementation of the QEMU cipher APIs to the gnutls
-crypto backend. XTS support is only available for gnutls
-version >= 3.6.8. Since ECB mode is not exposed by gnutls
-APIs, we can't use the private XTS code for compatibility.
+This adds support for using gnutls as a provider of the crypto
+hash APIs.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- crypto/cipher-gnutls.c.inc | 325 +++++++++++++++++++++++++++++++++++++
- crypto/cipher.c            |   2 +
- 2 files changed, 327 insertions(+)
- create mode 100644 crypto/cipher-gnutls.c.inc
+ crypto/hash-gnutls.c | 104 +++++++++++++++++++++++++++++++++++++++++++
+ crypto/meson.build   |   2 +
+ 2 files changed, 106 insertions(+)
+ create mode 100644 crypto/hash-gnutls.c
 
-diff --git a/crypto/cipher-gnutls.c.inc b/crypto/cipher-gnutls.c.inc
+diff --git a/crypto/hash-gnutls.c b/crypto/hash-gnutls.c
 new file mode 100644
-index 0000000000..eb6eb49546
+index 0000000000..f88db71f00
 --- /dev/null
-+++ b/crypto/cipher-gnutls.c.inc
-@@ -0,0 +1,325 @@
++++ b/crypto/hash-gnutls.c
+@@ -0,0 +1,104 @@
 +/*
-+ * QEMU Crypto cipher gnutls algorithms
++ * QEMU Crypto hash algorithms
 + *
-+ * Copyright (c) 2021 Red Hat, Inc.
++ * Copyright (c) 2016 Red Hat, Inc.
 + *
 + * This library is free software; you can redistribute it and/or
 + * modify it under the terms of the GNU Lesser General Public
@@ -124,323 +122,102 @@ index 0000000000..eb6eb49546
 + */
 +
 +#include "qemu/osdep.h"
-+#include "cipherpriv.h"
-+
 +#include <gnutls/crypto.h>
++#include "qapi/error.h"
++#include "crypto/hash.h"
++#include "hashpriv.h"
 +
-+#if GNUTLS_VERSION_NUMBER >= 0x030608
-+#define QEMU_GNUTLS_XTS
-+#endif
 +
-+bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
-+                             QCryptoCipherMode mode)
++static int qcrypto_hash_alg_map[QCRYPTO_HASH_ALG__MAX] = {
++    [QCRYPTO_HASH_ALG_MD5] = GNUTLS_DIG_MD5,
++    [QCRYPTO_HASH_ALG_SHA1] = GNUTLS_DIG_SHA1,
++    [QCRYPTO_HASH_ALG_SHA224] = GNUTLS_DIG_SHA224,
++    [QCRYPTO_HASH_ALG_SHA256] = GNUTLS_DIG_SHA256,
++    [QCRYPTO_HASH_ALG_SHA384] = GNUTLS_DIG_SHA384,
++    [QCRYPTO_HASH_ALG_SHA512] = GNUTLS_DIG_SHA512,
++    [QCRYPTO_HASH_ALG_RIPEMD160] = GNUTLS_DIG_RMD160,
++};
++
++gboolean qcrypto_hash_supports(QCryptoHashAlgorithm alg)
 +{
-+
-+    switch (mode) {
-+    case QCRYPTO_CIPHER_MODE_ECB:
-+    case QCRYPTO_CIPHER_MODE_CBC:
-+        switch (alg) {
-+        case QCRYPTO_CIPHER_ALG_AES_128:
-+        case QCRYPTO_CIPHER_ALG_AES_192:
-+        case QCRYPTO_CIPHER_ALG_AES_256:
-+        case QCRYPTO_CIPHER_ALG_DES:
-+        case QCRYPTO_CIPHER_ALG_3DES:
-+            return true;
-+        default:
-+            return false;
-+        }
-+#ifdef QEMU_GNUTLS_XTS
-+    case QCRYPTO_CIPHER_MODE_XTS:
-+        switch (alg) {
-+        case QCRYPTO_CIPHER_ALG_AES_128:
-+        case QCRYPTO_CIPHER_ALG_AES_256:
-+            return true;
-+        default:
-+            return false;
-+        }
-+        return true;
-+#endif
-+    default:
++    size_t i;
++    const gnutls_digest_algorithm_t *algs;
++    if (alg >= G_N_ELEMENTS(qcrypto_hash_alg_map) ||
++        qcrypto_hash_alg_map[alg] == GNUTLS_DIG_UNKNOWN) {
 +        return false;
 +    }
++    algs = gnutls_digest_list();
++    for (i = 0; algs[i] != GNUTLS_DIG_UNKNOWN; i++) {
++        if (algs[i] == qcrypto_hash_alg_map[alg]) {
++            return true;
++        }
++    }
++    return false;
 +}
 +
-+typedef struct QCryptoCipherGnutls QCryptoCipherGnutls;
-+struct QCryptoCipherGnutls {
-+    QCryptoCipher base;
-+    gnutls_cipher_hd_t handle; /* XTS & CBC mode */
-+    gnutls_cipher_algorithm_t galg; /* ECB mode */
-+    guint8 *key; /* ECB mode */
-+    size_t nkey; /* ECB mode */
-+    size_t blocksize;
++
++static int
++qcrypto_gnutls_hash_bytesv(QCryptoHashAlgorithm alg,
++                           const struct iovec *iov,
++                           size_t niov,
++                           uint8_t **result,
++                           size_t *resultlen,
++                           Error **errp)
++{
++    int i, ret;
++    gnutls_hash_hd_t hash;
++
++    if (!qcrypto_hash_supports(alg)) {
++        error_setg(errp,
++                   "Unknown hash algorithm %d",
++                   alg);
++        return -1;
++    }
++
++    ret = gnutls_hash_get_len(qcrypto_hash_alg_map[alg]);
++    if (*resultlen == 0) {
++        *resultlen = ret;
++        *result = g_new0(uint8_t, *resultlen);
++    } else if (*resultlen != ret) {
++        error_setg(errp,
++                   "Result buffer size %zu is smaller than hash %d",
++                   *resultlen, ret);
++        return -1;
++    }
++
++    ret = gnutls_hash_init(&hash, qcrypto_hash_alg_map[alg]);
++    if (ret < 0) {
++        error_setg(errp,
++                   "Unable to initialize hash algorithm: %s",
++                   gnutls_strerror(ret));
++        return -1;
++    }
++
++    for (i = 0; i < niov; i++) {
++        gnutls_hash(hash, iov[i].iov_base, iov[i].iov_len);
++    }
++
++    gnutls_hash_deinit(hash, *result);
++    return 0;
++}
++
++
++QCryptoHashDriver qcrypto_hash_lib_driver = {
++    .hash_bytesv = qcrypto_gnutls_hash_bytesv,
 +};
-+
-+
-+static void
-+qcrypto_gnutls_cipher_free(QCryptoCipher *cipher)
-+{
-+    QCryptoCipherGnutls *ctx = container_of(cipher, QCryptoCipherGnutls, base);
-+
-+    g_free(ctx->key);
-+    if (ctx->handle) {
-+        gnutls_cipher_deinit(ctx->handle);
-+    }
-+    g_free(ctx);
-+}
-+
-+
-+static int
-+qcrypto_gnutls_cipher_encrypt(QCryptoCipher *cipher,
-+                              const void *in,
-+                              void *out,
-+                              size_t len,
-+                              Error **errp)
-+{
-+    QCryptoCipherGnutls *ctx = container_of(cipher, QCryptoCipherGnutls, base);
-+    int err;
-+
-+    if (len % ctx->blocksize) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, ctx->blocksize);
-+        return -1;
-+    }
-+
-+    if (ctx->handle) { /* CBC / XTS mode */
-+        err = gnutls_cipher_encrypt2(ctx->handle,
-+                                     in, len,
-+                                     out, len);
-+        if (err != 0) {
-+            error_setg(errp, "Cannot encrypt data: %s",
-+                       gnutls_strerror(err));
-+            return -1;
-+        }
-+    } else { /* ECB mode very inefficiently faked with CBC */
-+        g_autofree unsigned char *iv = g_new0(unsigned char, ctx->blocksize);
-+        while (len) {
-+            gnutls_cipher_hd_t handle;
-+            gnutls_datum_t gkey = { (unsigned char *)ctx->key, ctx->nkey };
-+            int err = gnutls_cipher_init(&handle, ctx->galg, &gkey, NULL);
-+            if (err != 0) {
-+                error_setg(errp, "Cannot initialize cipher: %s",
-+                           gnutls_strerror(err));
-+                return -1;
-+            }
-+
-+            gnutls_cipher_set_iv(handle, iv, ctx->blocksize);
-+
-+            err = gnutls_cipher_encrypt2(handle,
-+                                         in, ctx->blocksize,
-+                                         out, ctx->blocksize);
-+            if (err != 0) {
-+                gnutls_cipher_deinit(handle);
-+                error_setg(errp, "Cannot encrypt data: %s",
-+                           gnutls_strerror(err));
-+                return -1;
-+            }
-+            gnutls_cipher_deinit(handle);
-+
-+            len -= ctx->blocksize;
-+            in += ctx->blocksize;
-+            out += ctx->blocksize;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+
-+static int
-+qcrypto_gnutls_cipher_decrypt(QCryptoCipher *cipher,
-+                              const void *in,
-+                              void *out,
-+                              size_t len,
-+                              Error **errp)
-+{
-+    QCryptoCipherGnutls *ctx = container_of(cipher, QCryptoCipherGnutls, base);
-+    int err;
-+
-+    if (len % ctx->blocksize) {
-+        error_setg(errp, "Length %zu must be a multiple of block size %zu",
-+                   len, ctx->blocksize);
-+        return -1;
-+    }
-+
-+    if (ctx->handle) { /* CBC / XTS mode */
-+        err = gnutls_cipher_decrypt2(ctx->handle,
-+                                     in, len,
-+                                     out, len);
-+
-+        if (err != 0) {
-+            error_setg(errp, "Cannot decrypt data: %s",
-+                       gnutls_strerror(err));
-+            return -1;
-+        }
-+    } else { /* ECB mode very inefficiently faked with CBC */
-+        g_autofree unsigned char *iv = g_new0(unsigned char, ctx->blocksize);
-+        while (len) {
-+            gnutls_cipher_hd_t handle;
-+            gnutls_datum_t gkey = { (unsigned char *)ctx->key, ctx->nkey };
-+            int err = gnutls_cipher_init(&handle, ctx->galg, &gkey, NULL);
-+            if (err != 0) {
-+                error_setg(errp, "Cannot initialize cipher: %s",
-+                           gnutls_strerror(err));
-+                return -1;
-+            }
-+
-+            gnutls_cipher_set_iv(handle, iv, ctx->blocksize);
-+
-+            err = gnutls_cipher_decrypt2(handle,
-+                                         in, ctx->blocksize,
-+                                         out, ctx->blocksize);
-+            if (err != 0) {
-+                gnutls_cipher_deinit(handle);
-+                error_setg(errp, "Cannot encrypt data: %s",
-+                           gnutls_strerror(err));
-+                return -1;
-+            }
-+            gnutls_cipher_deinit(handle);
-+
-+            len -= ctx->blocksize;
-+            in += ctx->blocksize;
-+            out += ctx->blocksize;
-+        }
-+    }
-+
-+    return 0;
-+}
-+
-+static int
-+qcrypto_gnutls_cipher_setiv(QCryptoCipher *cipher,
-+                            const uint8_t *iv, size_t niv,
-+                            Error **errp)
-+{
-+    QCryptoCipherGnutls *ctx = container_of(cipher, QCryptoCipherGnutls, base);
-+
-+    if (niv != ctx->blocksize) {
-+        error_setg(errp, "Expected IV size %zu not %zu",
-+                   ctx->blocksize, niv);
-+        return -1;
-+    }
-+
-+    gnutls_cipher_set_iv(ctx->handle, (unsigned char *)iv, niv);
-+
-+    return 0;
-+}
-+
-+
-+static struct QCryptoCipherDriver gnutls_driver = {
-+    .cipher_encrypt = qcrypto_gnutls_cipher_encrypt,
-+    .cipher_decrypt = qcrypto_gnutls_cipher_decrypt,
-+    .cipher_setiv = qcrypto_gnutls_cipher_setiv,
-+    .cipher_free = qcrypto_gnutls_cipher_free,
-+};
-+
-+static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
-+                                             QCryptoCipherMode mode,
-+                                             const uint8_t *key,
-+                                             size_t nkey,
-+                                             Error **errp)
-+{
-+    QCryptoCipherGnutls *ctx;
-+    gnutls_datum_t gkey = { (unsigned char *)key, nkey };
-+    gnutls_cipher_algorithm_t galg = GNUTLS_CIPHER_UNKNOWN;
-+    int err;
-+
-+    switch (mode) {
-+#ifdef QEMU_GNUTLS_XTS
-+    case QCRYPTO_CIPHER_MODE_XTS:
-+        switch (alg) {
-+        case QCRYPTO_CIPHER_ALG_AES_128:
-+            galg = GNUTLS_CIPHER_AES_128_XTS;
-+            break;
-+        case QCRYPTO_CIPHER_ALG_AES_256:
-+            galg = GNUTLS_CIPHER_AES_256_XTS;
-+            break;
-+        default:
-+            break;
-+        }
-+        break;
-+#endif
-+
-+    case QCRYPTO_CIPHER_MODE_ECB:
-+    case QCRYPTO_CIPHER_MODE_CBC:
-+        switch (alg) {
-+        case QCRYPTO_CIPHER_ALG_AES_128:
-+            galg = GNUTLS_CIPHER_AES_128_CBC;
-+            break;
-+        case QCRYPTO_CIPHER_ALG_AES_192:
-+            galg = GNUTLS_CIPHER_AES_192_CBC;
-+            break;
-+        case QCRYPTO_CIPHER_ALG_AES_256:
-+            galg = GNUTLS_CIPHER_AES_256_CBC;
-+            break;
-+        case QCRYPTO_CIPHER_ALG_DES:
-+            galg = GNUTLS_CIPHER_DES_CBC;
-+            break;
-+        case QCRYPTO_CIPHER_ALG_3DES:
-+            galg = GNUTLS_CIPHER_3DES_CBC;
-+            break;
-+        default:
-+            break;
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    if (galg == GNUTLS_CIPHER_UNKNOWN) {
-+        error_setg(errp, "Unsupported cipher algorithm %s with %s mode",
-+                   QCryptoCipherAlgorithm_str(alg),
-+                   QCryptoCipherMode_str(mode));
-+        return NULL;
-+    }
-+
-+    if (!qcrypto_cipher_validate_key_length(alg, mode, nkey, errp)) {
-+        return NULL;
-+    }
-+
-+    ctx = g_new0(QCryptoCipherGnutls, 1);
-+    ctx->base.driver = &gnutls_driver;
-+
-+    if (mode == QCRYPTO_CIPHER_MODE_ECB) {
-+        ctx->key = g_new0(guint8, nkey);
-+        memcpy(ctx->key, key, nkey);
-+        ctx->nkey = nkey;
-+        ctx->galg = galg;
-+    } else {
-+        err = gnutls_cipher_init(&ctx->handle, galg, &gkey, NULL);
-+        if (err != 0) {
-+            error_setg(errp, "Cannot initialize cipher: %s",
-+                       gnutls_strerror(err));
-+            goto error;
-+        }
-+    }
-+
-+    if (alg == QCRYPTO_CIPHER_ALG_DES ||
-+        alg == QCRYPTO_CIPHER_ALG_3DES)
-+        ctx->blocksize = 8;
-+    else
-+        ctx->blocksize = 16;
-+
-+    return &ctx->base;
-+
-+ error:
-+    qcrypto_gnutls_cipher_free(&ctx->base);
-+    return NULL;
-+}
-diff --git a/crypto/cipher.c b/crypto/cipher.c
-index 1f5528be49..74b09a5b26 100644
---- a/crypto/cipher.c
-+++ b/crypto/cipher.c
-@@ -136,6 +136,8 @@ qcrypto_cipher_validate_key_length(QCryptoCipherAlgorithm alg,
- #include "cipher-gcrypt.c.inc"
- #elif defined CONFIG_NETTLE
- #include "cipher-nettle.c.inc"
-+#elif defined CONFIG_GNUTLS_CRYPTO
-+#include "cipher-gnutls.c.inc"
- #else
- #include "cipher-builtin.c.inc"
- #endif
+diff --git a/crypto/meson.build b/crypto/meson.build
+index fc8de287e1..d6df83f2ab 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -28,6 +28,8 @@ if nettle.found()
+   endif
+ elif gcrypt.found()
+   crypto_ss.add(gcrypt, files('hash-gcrypt.c', 'hmac-gcrypt.c', 'pbkdf-gcrypt.c'))
++elif gnutls_crypto.found()
++  crypto_ss.add(gnutls, files('hash-gnutls.c', 'hmac-glib.c', 'pbkdf-stub.c')
+ else
+   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
 -- 
 2.31.1
 
