@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172833BC9F1
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:30:27 +0200 (CEST)
-Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70B2A3BC93B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:12:40 +0200 (CEST)
+Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0iLS-0004h1-0I
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:30:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42470)
+	id 1m0i4F-0005vY-CW
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:12:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0hu3-0001Kx-0z
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:07 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0htz-0002Pt-Ry
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:06 -0400
-Received: by mail-wm1-x332.google.com with SMTP id n33so5669838wms.1
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dWfQhBashspj92n3O9gjSje6wEHhYNIVjiIMVmNraZU=;
- b=F5Y+G9lPO3zabhOXsjY2BTJLZoWQpS5FfRjuU2zPsIOFRX0M4/FTTlrwc0J/2Nf67/
- OjWhy9bi19rzYmk2xpS40e2J3cEaNzrPVZQVjxdvpI/vGk5KC6AOE+9PbHyifcScQqbS
- ZSZr0f/7bNr/4cPw4ot0RdXSJCWXULNZ0NonPobd+QkYhaSWePtEuNJrPgymjxUwkd6/
- SHffYqkDOqM2rAaXipdcpaY8aS6p/YkHQJnFriFMRlqSfdAQ6p3bOCp2DirO25I6az8j
- HRqYTE92e/VRv5MBLs4INTIQG+6JpeS2ZfUU91Gl/Ggr57Z+NddPEGJzDcjBMGxB8QXn
- JSSg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0htg-0000Gn-Hy
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:01:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24538)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0hte-0002Ah-7J
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:01:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625565701;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FFu5RNQqZsGoFOI18nL0NPlQOOpfG3+9TPD/odtERBc=;
+ b=VkRu37KA3vUGT8TnHGDbxwms2/I9hKBnKugOHT4axoKUnsLjtdBHLCnwuphMQCH5zCJapK
+ TbyvyRhJz7keScaNlhtyPUvyn7ZjAWujHW+DzDGH5DxGySUNUCkOYGHPiVPl8jR7TTQ6BN
+ /Dy4uuleQ+4f/U7vo4hhJT/i4EFDAj0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-115-xbmf4N8YNdyXFaifKvSrTg-1; Tue, 06 Jul 2021 06:01:40 -0400
+X-MC-Unique: xbmf4N8YNdyXFaifKvSrTg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y5-20020adfe6c50000b02901258bf1d760so6978737wrm.14
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:01:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dWfQhBashspj92n3O9gjSje6wEHhYNIVjiIMVmNraZU=;
- b=rO2jmyMT+blYhdeB7zJqht9VXLvDHdly0ENUcLeFrUKiMDh32fluJ04Qv5EI7zp/a9
- cStyxSq6+QOrm8weVcEaP/kZe7QYmPOO1adQQcC/jTHj5/0F3HIkhn0FadmPKX8Q5dQD
- RIqhx94koHXeZigCJy5nb+kQllhy9L1KT5wPwnSiscmcNZDfvcNX7sJyKLgrIa4j1Kla
- m/holUg0UvGrog0+f0woD2+Q9tLYkWP0LDYsGUdZwDGF1wMzs2dcgVLTKqSoiFNZDWjs
- ug9TcCSFY1/JCYlxGDBg63XFFTXMoLdTKhWBQfzLPDGU6wHZjtR0RpcE3ALaQ3R80fLn
- EmTw==
-X-Gm-Message-State: AOAM533m548MDhFLXRdsp80xL9h85TSRyioZOsHUXAp6J/4H3uY+xEMF
- MOj3FL3jwkKhHT0l+qDaMFIDI/eT1Mc=
-X-Google-Smtp-Source: ABdhPJzKx+6BHRGgNHY4IS1ZCzzAZ+v0gzjV5YsKMybxrwt4LcuwaODgdpFXIZfrY9RVuSXh8JwXwA==
-X-Received: by 2002:a7b:ca4e:: with SMTP id m14mr3813246wml.93.1625565722356; 
- Tue, 06 Jul 2021 03:02:02 -0700 (PDT)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- v15sm2331268wmj.39.2021.07.06.03.02.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 03:02:02 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 30/40] configure: convert compiler tests to meson, part 4
-Date: Tue,  6 Jul 2021 12:01:31 +0200
-Message-Id: <20210706100141.303960-31-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210706100141.303960-1-pbonzini@redhat.com>
-References: <20210706100141.303960-1-pbonzini@redhat.com>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FFu5RNQqZsGoFOI18nL0NPlQOOpfG3+9TPD/odtERBc=;
+ b=Y/RlOhO1rli3rDtoTYJoMXd5hw9t6YUB6eGNT1OlD25ToJjU7oZHLubmYHRze/fai/
+ VqOfY4blu14UZXaaVtaI4QtUsHlS3Fq0sRQo+ciCAQndac7CbvHwiehw3DFvqJ7/S4q6
+ 0iNds0JGV4Pprrj/18znN9ciNJxZqK045SutVtU74DV95APYWryXP4V0+k83ENCX7Zwj
+ D5oe3cRqosOHrn2AOTJGc744ZbNNOEBtJMUzX+lNAr6o4FSLCi4FLM4le4b5wQdDMzxI
+ vJ+rpsXhEHeQ9ZWKEsTai39p5/AuaYaGve2SHZYseLAHQ3SzmCIST83Zu74kPCIWxowU
+ eFSA==
+X-Gm-Message-State: AOAM5310yCABmBAydhGHvWZ69XkfsJKUJAI2xXRPbyef1KX/1/8ucb2D
+ HOZDi41fHfpt1U1e43A0UYAWZnzJk46d9Fv6rBsDibC4DXR2vj6TG+H8bWZMaUEqtpTndPtw9en
+ sywNSZQoz/0K8Xcg=
+X-Received: by 2002:adf:e8cc:: with SMTP id k12mr20575466wrn.163.1625565699199; 
+ Tue, 06 Jul 2021 03:01:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwr42jxWriQdmVe+fUd69k+2Mc0EgT6fBqq+iN7eIcqULO1E06Iy3tMv1iiYmjEXpzBzDjYnw==
+X-Received: by 2002:adf:e8cc:: with SMTP id k12mr20575434wrn.163.1625565698986; 
+ Tue, 06 Jul 2021 03:01:38 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id j17sm2192181wmi.41.2021.07.06.03.01.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 03:01:38 -0700 (PDT)
+Subject: Re: [RFC PATCH] hw/display/virtio-gpu: Fix memory leak (CID 1453811)
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <20210531101928.1662732-1-philmd@redhat.com>
+ <e69a7f99-7d35-12f8-21af-48cc95172e6d@redhat.com>
+ <ce1d8148-ef68-bee4-1b10-ce4b92cc1c7a@redhat.com>
+Message-ID: <35384ebd-a4a4-f87a-f969-2df7dd48bfd1@redhat.com>
+Date: Tue, 6 Jul 2021 12:01:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <ce1d8148-ef68-bee4-1b10-ce4b92cc1c7a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,272 +102,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And remove them from the summary, since now their outcome is verbosely
-included in the meson output.
+If this is not a proper fix, what would be the correct one?
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure   | 137 ----------------------------------------------------
- meson.build |  39 +++++++++++++--
- 2 files changed, 34 insertions(+), 142 deletions(-)
-
-diff --git a/configure b/configure
-index cf7f71fe40..83168ceb52 100755
---- a/configure
-+++ b/configure
-@@ -3511,59 +3511,6 @@ elif test "$jemalloc" = "yes" ; then
-     malloc=jemalloc
- fi
- 
--##########################################
--# signalfd probe
--signalfd="no"
--cat > $TMPC << EOF
--#include <unistd.h>
--#include <sys/syscall.h>
--#include <signal.h>
--int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }
--EOF
--
--if compile_prog "" "" ; then
--  signalfd=yes
--fi
--
--# check if optreset global is declared by <getopt.h>
--optreset="no"
--cat > $TMPC << EOF
--#include <getopt.h>
--int main(void) { return optreset; }
--EOF
--
--if compile_prog "" "" ; then
--  optreset=yes
--fi
--
--# check if eventfd is supported
--eventfd=no
--cat > $TMPC << EOF
--#include <sys/eventfd.h>
--
--int main(void)
--{
--    return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
--}
--EOF
--if compile_prog "" "" ; then
--  eventfd=yes
--fi
--
--# check if memfd is supported
--memfd=no
--cat > $TMPC << EOF
--#include <sys/mman.h>
--
--int main(void)
--{
--    return memfd_create("foo", MFD_ALLOW_SEALING);
--}
--EOF
--if compile_prog "" "" ; then
--  memfd=yes
--fi
--
- # check for usbfs
- have_usbfs=no
- if test "$linux_user" = "yes"; then
-@@ -3711,66 +3658,6 @@ case "$capstone" in
-     ;;
- esac
- 
--##########################################
--# check if we have fdatasync
--
--fdatasync=no
--cat > $TMPC << EOF
--#include <unistd.h>
--int main(void) {
--#if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
--return fdatasync(0);
--#else
--#error Not supported
--#endif
--}
--EOF
--if compile_prog "" "" ; then
--    fdatasync=yes
--fi
--
--##########################################
--# check if we have madvise
--
--madvise=no
--cat > $TMPC << EOF
--#include <sys/types.h>
--#include <sys/mman.h>
--#include <stddef.h>
--int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }
--EOF
--if compile_prog "" "" ; then
--    madvise=yes
--fi
--
--##########################################
--# check if we have posix_madvise
--
--posix_madvise=no
--cat > $TMPC << EOF
--#include <sys/mman.h>
--#include <stddef.h>
--int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }
--EOF
--if compile_prog "" "" ; then
--    posix_madvise=yes
--fi
--
--##########################################
--# check if we have posix_memalign()
--
--posix_memalign=no
--cat > $TMPC << EOF
--#include <stdlib.h>
--int main(void) {
--    void *p;
--    return posix_memalign(&p, 8, 8);
--}
--EOF
--if compile_prog "" "" ; then
--    posix_memalign=yes
--fi
--
- ##########################################
- # check if we have posix_syslog
- 
-@@ -4842,12 +4729,6 @@ fi
- if test "$splice" = "yes" ; then
-   echo "CONFIG_SPLICE=y" >> $config_host_mak
- fi
--if test "$eventfd" = "yes" ; then
--  echo "CONFIG_EVENTFD=y" >> $config_host_mak
--fi
--if test "$memfd" = "yes" ; then
--  echo "CONFIG_MEMFD=y" >> $config_host_mak
--fi
- if test "$have_usbfs" = "yes" ; then
-   echo "CONFIG_USBFS=y" >> $config_host_mak
- fi
-@@ -4922,27 +4803,9 @@ fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
--if test "$signalfd" = "yes" ; then
--  echo "CONFIG_SIGNALFD=y" >> $config_host_mak
--fi
--if test "$optreset" = "yes" ; then
--  echo "HAVE_OPTRESET=y" >> $config_host_mak
--fi
- if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
-   echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
- fi
--if test "$fdatasync" = "yes" ; then
--  echo "CONFIG_FDATASYNC=y" >> $config_host_mak
--fi
--if test "$madvise" = "yes" ; then
--  echo "CONFIG_MADVISE=y" >> $config_host_mak
--fi
--if test "$posix_madvise" = "yes" ; then
--  echo "CONFIG_POSIX_MADVISE=y" >> $config_host_mak
--fi
--if test "$posix_memalign" = "yes" ; then
--  echo "CONFIG_POSIX_MEMALIGN=y" >> $config_host_mak
--fi
- 
- if test "$spice_protocol" = "yes" ; then
-   echo "CONFIG_SPICE_PROTOCOL=y" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 5fec46bb65..cb50a2e473 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1272,6 +1272,7 @@ config_host_data.set('CONFIG_CLOCK_ADJTIME', cc.has_function('clock_adjtime'))
- config_host_data.set('CONFIG_DUP3', cc.has_function('dup3'))
- config_host_data.set('CONFIG_FALLOCATE', cc.has_function('fallocate'))
- config_host_data.set('CONFIG_POSIX_FALLOCATE', cc.has_function('posix_fallocate'))
-+config_host_data.set('CONFIG_POSIX_MEMALIGN', cc.has_function('posix_memalign'))
- config_host_data.set('CONFIG_PPOLL', cc.has_function('ppoll'))
- config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
- config_host_data.set('CONFIG_SEM_TIMEDWAIT', cc.has_function('sem_timedwait', dependencies: threads))
-@@ -1311,6 +1312,8 @@ config_host_data.set('CONFIG_RTNETLINK',
-                      cc.has_header_symbol('linux/rtnetlink.h', 'IFLA_PROTO_DOWN'))
- config_host_data.set('CONFIG_SYSMACROS',
-                      cc.has_header_symbol('sys/sysmacros.h', 'makedev'))
-+config_host_data.set('HAVE_OPTRESET',
-+                     cc.has_header_symbol('getopt.h', 'optreset'))
- config_host_data.set('HAVE_UTMPX',
-                      cc.has_header_symbol('utmpx.h', 'struct utmpx'))
- 
-@@ -1322,6 +1325,36 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
-                      cc.has_member('struct stat', 'st_atim',
-                                    prefix: '#include <sys/stat.h>'))
- 
-+config_host_data.set('CONFIG_EVENTFD', cc.compiles('''
-+  #include <sys/eventfd.h>
-+  int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
-+config_host_data.set('CONFIG_FDATASYNC', cc.compiles(gnu_source_prefix + '''
-+  #include <unistd.h>
-+  int main(void) {
-+  #if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
-+  return fdatasync(0);
-+  #else
-+  #error Not supported
-+  #endif
-+  }'''))
-+config_host_data.set('CONFIG_MADVISE', cc.compiles(gnu_source_prefix + '''
-+  #include <sys/types.h>
-+  #include <sys/mman.h>
-+  #include <stddef.h>
-+  int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }'''))
-+config_host_data.set('CONFIG_MEMFD', cc.compiles(gnu_source_prefix + '''
-+  #include <sys/mman.h>
-+  int main(void) { return memfd_create("foo", MFD_ALLOW_SEALING); }'''))
-+config_host_data.set('CONFIG_POSIX_MADVISE', cc.compiles(gnu_source_prefix + '''
-+  #include <sys/mman.h>
-+  #include <stddef.h>
-+  int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
-+config_host_data.set('CONFIG_SIGNALFD', cc.compiles(gnu_source_prefix + '''
-+  #include <unistd.h>
-+  #include <sys/syscall.h>
-+  #include <signal.h>
-+  int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }'''))
-+
- # Some versions of Mac OS X incorrectly define SIZE_MAX
- config_host_data.set('HAVE_BROKEN_SIZE_MAX', not cc.compiles('''
-     #include <stdint.h>
-@@ -1398,7 +1431,7 @@ if link_language == 'cpp'
-   }
- endif
- 
--have_ivshmem = config_host.has_key('CONFIG_EVENTFD')
-+have_ivshmem = config_host_data.get('CONFIG_EVENTFD')
- host_kconfig = \
-   ('CONFIG_TPM' in config_host ? ['CONFIG_TPM=y'] : []) + \
-   ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
-@@ -2711,10 +2744,6 @@ summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
--summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
--summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
--summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
--summary_info += {'posix_memalign':    config_host.has_key('CONFIG_POSIX_MEMALIGN')}
- summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
- summary_info += {'mutex debugging':   config_host.has_key('CONFIG_DEBUG_MUTEX')}
- summary_info += {'memory allocator':  get_option('malloc')}
--- 
-2.31.1
-
+On 6/21/21 11:59 AM, Philippe Mathieu-Daudé wrote:
+> ping?
+> 
+> On 6/14/21 12:52 PM, Philippe Mathieu-Daudé wrote:
+>> ping?
+>>
+>> On 5/31/21 12:19 PM, Philippe Mathieu-Daudé wrote:
+>>> To avoid leaking memory on the error path, reorder the
+>>> code as:
+>>> - check the parameters first
+>>> - check resource already existing
+>>> - finally allocate memory
+>>>
+>>> Reported-by: Coverity (CID 1453811: RESOURCE_LEAK)
+>>> Fixes: e0933d91b1c ("virtio-gpu: Add virtio_gpu_resource_create_blob")
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>> RFC because the s->iov check is dubious.
+>>> ---
+>>>  hw/display/virtio-gpu.c | 28 +++++++++++-----------------
+>>>  1 file changed, 11 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+>>> index 4d549377cbc..8d047007bbb 100644
+>>> --- a/hw/display/virtio-gpu.c
+>>> +++ b/hw/display/virtio-gpu.c
+>>> @@ -340,8 +340,15 @@ static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
+>>>          return;
+>>>      }
+>>>  
+>>> -    res = virtio_gpu_find_resource(g, cblob.resource_id);
+>>> -    if (res) {
+>>> +    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
+>>> +        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
+>>> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
+>>> +                      __func__);
+>>> +        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    if (virtio_gpu_find_resource(g, cblob.resource_id)) {
+>>>          qemu_log_mask(LOG_GUEST_ERROR, "%s: resource already exists %d\n",
+>>>                        __func__, cblob.resource_id);
+>>>          cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_RESOURCE_ID;
+>>> @@ -352,25 +359,12 @@ static void virtio_gpu_resource_create_blob(VirtIOGPU *g,
+>>>      res->resource_id = cblob.resource_id;
+>>>      res->blob_size = cblob.size;
+>>>  
+>>> -    if (cblob.blob_mem != VIRTIO_GPU_BLOB_MEM_GUEST &&
+>>> -        cblob.blob_flags != VIRTIO_GPU_BLOB_FLAG_USE_SHAREABLE) {
+>>> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid memory type\n",
+>>> -                      __func__);
+>>> -        cmd->error = VIRTIO_GPU_RESP_ERR_INVALID_PARAMETER;
+>>> -        g_free(res);
+>>> -        return;
+>>> -    }
+>>> -
+>>> -    if (res->iov) {
+>>> -        cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+>>> -        return;
+>>> -    }
+>>> -
+>>>      ret = virtio_gpu_create_mapping_iov(g, cblob.nr_entries, sizeof(cblob),
+>>>                                          cmd, &res->addrs, &res->iov,
+>>>                                          &res->iov_cnt);
+>>> -    if (ret != 0) {
+>>> +    if (ret != 0 || res->iov) {
+>>>          cmd->error = VIRTIO_GPU_RESP_ERR_UNSPEC;
+>>> +        g_free(res);
+>>>          return;
+>>>      }
+>>>  
+>>>
+>>
+> 
 
 
