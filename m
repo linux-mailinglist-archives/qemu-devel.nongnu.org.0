@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3C23BC80D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:43:30 +0200 (CEST)
-Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BF33BC80F
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:45:20 +0200 (CEST)
+Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0gfw-0005hJ-D8
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:43:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52236)
+	id 1m0ghi-0007Ph-2S
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:45:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gS3-0003LZ-JM
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:29:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33953)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0gZx-0003eX-U2
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:37:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gS0-0003C9-Hu
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:29:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0gZq-0000Vg-R1
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:37:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625560143;
+ s=mimecast20190719; t=1625560629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P+0GjnQW0atJpiccjtty/mD1ayY63S41qsJkiRQTbx8=;
- b=YJt5lrKUaz4+R1Cr0IYqYbOkUmfiOA72S4yBqIS5CiS89Oy78WdZWy/SkoTyqH/S4eJ2Dl
- GyXIHC+J7PG31dgSDCMZjcmanVwcB+92PfGIUCXBYjiUye2jf+/9Tk3luY0EzU2sAdU/KM
- xWIJo3NZUEHxXf1NZaD4lARyKRhmwE4=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-iC6zzgRIPQCefqdam-gHmg-1; Tue, 06 Jul 2021 04:29:02 -0400
-X-MC-Unique: iC6zzgRIPQCefqdam-gHmg-1
-Received: by mail-lj1-f198.google.com with SMTP id
- q13-20020a2e914d0000b02901752c889bcdso8421477ljg.20
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 01:29:02 -0700 (PDT)
+ bh=B4yFrqXJ6r7LTxh+1PWYXEOYPxGShtLbumvfXtAg9EQ=;
+ b=Xk5bijx+OA06Mh9g4SlEaW2ga4qznVlY7rG7Mi2qxj2hPZuEWMWLiZOlWyUySk9v+KIlDj
+ J+K2RI1hWUQI0/qUmt4BdHS8MSSYjUr94PKTEi4prJg2pr5oNdH5f/9hr3NTNiGKSLs0c0
+ 4PtTyyUDTGHsJ2YqZHutkcsNdv69eBM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-B0OVvlx9PLKq-BVMWTiMJQ-1; Tue, 06 Jul 2021 04:37:06 -0400
+X-MC-Unique: B0OVvlx9PLKq-BVMWTiMJQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ d16-20020a1c73100000b02901f2d21e46efso609186wmb.6
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 01:37:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=P+0GjnQW0atJpiccjtty/mD1ayY63S41qsJkiRQTbx8=;
- b=IsmYUJIK5FLvvbJS22pHAmsIPbT3V13OJEAyLxwCcD7QEHMLWzT3HKje9869yg/cM0
- 0bFWa8RfxgdCtzvUSJKbTV3R+PAnToUnstP7vN9e1V16zMU45HOG0rg8hfN3mbmcj4LT
- EAX2QEWFeu5N1+6i763LnCy+CnVnUdiWBYY+45ddHB9b5wt5uuKWizPiaHpge6wPyR40
- pGjsCvPZKVFcMEAXjMzjOfuR1e38QZ+2tTrQH/9+z3cjpMxVnhcqgaSvvDgZ0pcy7Av2
- ze5ZOM7NdCN/HYVpHrMPYJIB9WAr+x6SHcLae1J3IX8+epWaSmD6IWGo5Qy/RmQYKDbh
- kSgw==
-X-Gm-Message-State: AOAM531e8g/rWMxwqX93ba1+Bsj3cqaYJOjgbDfDm/7ohgpbhffFCS/r
- jbEXPnwDxAcdPVxj7xGc9WfD8BGt3j+LiFiCqsvXZ8z2FjpcaVx5wxbIQcGY4iDAabs35f7jGwX
- yy08a/sypi7hRmYYRnWan6RvtwijvnKM=
-X-Received: by 2002:a2e:a233:: with SMTP id i19mr14479588ljm.261.1625560141301; 
- Tue, 06 Jul 2021 01:29:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybTsvQGKkWfdrzpCDnyGqqLHr1EQNxZy58Jm9DB8ULGi+4OAUFcT1BYnjWzvMExE3xVg/y+/yPH1kIP8aBL6w=
-X-Received: by 2002:a2e:a233:: with SMTP id i19mr14479572ljm.261.1625560141053; 
- Tue, 06 Jul 2021 01:29:01 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=B4yFrqXJ6r7LTxh+1PWYXEOYPxGShtLbumvfXtAg9EQ=;
+ b=puK93vMjqgDVrN/2wJOFYRrOHlQ7Va85CJV9DNc0J275fa9O5EzFnbXTu05QGnmLRv
+ 0v68o+k08of02CimcJe3GmSxbPrcsJxZSllkNRFsb2sVhGdlTdRzimKBAKbJtvYgB/e0
+ ONxMELV0kgCQBztZxY9d91h+m1FpFDMzFFfvo8yxz+ya0XcoJqJp1yfxUmT1bvSxhtCu
+ YvrkffnIR+Btyb8uf7NH4R17DXnbMUKCvQzxD8bxb93SbkRfE/dXNtpLmBNAnP6GTF0L
+ o/G1MkQSOCyOecMgoxLL7kRz1ReY0w4q0UiHwdNJNMoWkzQlZM9sVhHTNIsRq8c/Tec8
+ AfyQ==
+X-Gm-Message-State: AOAM530u2KPap44jHQD0kpgifgLTDHHwQLznGhi/k6pxRNUIAFpkONBB
+ AAp3hz7qSMinARiu8zi+DldUCRs9V61OnDhLtkauraePXJqTed2VTJY1lG4dv5NbNPGZkytRApq
+ ZJI2fHiAjrqm3VCk=
+X-Received: by 2002:a1c:208a:: with SMTP id g132mr3462222wmg.140.1625560624914; 
+ Tue, 06 Jul 2021 01:37:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznFYfjCkjM6+PulpjNWpFqmgG2YfMz+bvDS6mTsvMkCmGBbd3vcRLEjUAp0zcE29xn+dLONA==
+X-Received: by 2002:a1c:208a:: with SMTP id g132mr3462197wmg.140.1625560624747; 
+ Tue, 06 Jul 2021 01:37:04 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id y66sm15164976wmy.39.2021.07.06.01.37.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 01:37:04 -0700 (PDT)
+Subject: Re: [PATCH] hw/ide: Fix crash when plugging a piix3-ide device into
+ the x-remote machine
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210416125256.2039734-1-thuth@redhat.com>
+ <a8c1e845-bf1a-dde6-64a1-dfc89686f6f4@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e6091448-00d3-fb47-c830-a473f426a539@redhat.com>
+Date: Tue, 6 Jul 2021 10:37:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210621041650.5826-1-jasowang@redhat.com>
- <20210621041650.5826-8-jasowang@redhat.com>
- <20210623150312.7g43l5qjwacxhw43@steredhat>
- <208edb63-a0d1-6d6b-e451-b17cb24708ed@redhat.com>
- <12f1b265-3dd0-9c9e-cfbe-e004e08ec7f1@redhat.com>
- <20210706082703.julcfywtatytczbo@steredhat>
-In-Reply-To: <20210706082703.julcfywtatytczbo@steredhat>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 6 Jul 2021 16:28:50 +0800
-Message-ID: <CACGkMEuTEatgLSKXVysghtcJq3NHiZnP=GmU=sAwNoY99hYUpw@mail.gmail.com>
-Subject: Re: [PATCH 07/18] vhost-vdpa: tweak the error label in
- vhost_vdpa_add()
-To: Stefano Garzarella <sgarzare@redhat.com>
+In-Reply-To: <a8c1e845-bf1a-dde6-64a1-dfc89686f6f4@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,87 +101,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cindy Lu <lulu@redhat.com>, mst <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, eperezma <eperezma@redhat.com>,
- Eli Cohen <elic@nvidia.com>, Zhu Lingshan <lingshan.zhu@intel.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 6, 2021 at 4:27 PM Stefano Garzarella <sgarzare@redhat.com> wro=
-te:
->
-> On Tue, Jul 06, 2021 at 04:10:22PM +0800, Jason Wang wrote:
-> >
-> >=E5=9C=A8 2021/7/6 =E4=B8=8B=E5=8D=884:03, Jason Wang =E5=86=99=E9=81=93=
-:
-> >>
-> >>=E5=9C=A8 2021/6/23 =E4=B8=8B=E5=8D=8811:03, Stefano Garzarella =E5=86=
-=99=E9=81=93:
-> >>>On Mon, Jun 21, 2021 at 12:16:39PM +0800, Jason Wang wrote:
-> >>>>Introduce new error label to avoid the unnecessary checking of net
-> >>>>pointer.
-> >>>>
-> >>>>Fixes: 1e0a84ea49b68 ("vhost-vdpa: introduce vhost-vdpa net client")
-> >>>>Signed-off-by: Jason Wang <jasowang@redhat.com>
-> >>>>---
-> >>>>net/vhost-vdpa.c | 13 ++++++-------
-> >>>>1 file changed, 6 insertions(+), 7 deletions(-)
-> >>>>
-> >>>>diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> >>>>index 21f09c546f..0da7bc347a 100644
-> >>>>--- a/net/vhost-vdpa.c
-> >>>>+++ b/net/vhost-vdpa.c
-> >>>>@@ -100,19 +100,18 @@ static int vhost_vdpa_add(NetClientState
-> >>>>*ncs, void *be)
-> >>>>    net =3D vhost_net_init(&options);
-> >>>>    if (!net) {
-> >>>>        error_report("failed to init vhost_net for queue");
-> >>>>-        goto err;
-> >>>>+        goto err_init;
-> >>>>    }
-> >>>>    s->vhost_net =3D net;
-> >>>>    ret =3D vhost_vdpa_net_check_device_id(net);
-> >>>>    if (ret) {
-> >>>>-        goto err;
-> >>>>+        goto err_check;
-> >>>>    }
-> >>>>    return 0;
-> >>>>-err:
-> >>>>-    if (net) {
-> >>>>-        vhost_net_cleanup(net);
-> >>>>-        g_free(net);
-> >>>>-    }
-> >>>>+err_check:
-> >>>>+    vhost_net_cleanup(net);
-> >>>>+    g_free(net);
-> >>>
-> >>>Should we set s->vhost_net to NULL to avoid use after free?
-> >>>
-> >>>Then we should also remove the `assert(s->vhost_net)` in
-> >>>net_vhost_vdpa_init() since we can fail.
-> >>
-> >>
-> >>Right, will do this in a separate patch.
-> >
-> >
-> >I just forget the job has been done in the next patch :)
->
-> I saw it later too ;-)
->
-> >
-> >So we are fine here.
->
-> Yep for the assert(), but what about setting s->vhost_net to NULL?
-> Or just move the s->vhost_net assignment just before the `return 0`.
+On 7/6/21 10:24 AM, Thomas Huth wrote:
+> On 16/04/2021 14.52, Thomas Huth wrote:
+>> QEMU currently crashes when the user tries to do something like:
+>>
+>>   qemu-system-x86_64 -M x-remote -device piix3-ide
+> 
+> It's now several months later already, and this crash has still not been
+> fixed yet. The next softfreeze is around the corner and the
+> "device-crash-test" still stumbles accross this problem.
+> If the other solutions are not mergable yet (what's the status here?),
 
-We can do, I've posted V2. If it has comment, I will do that in V3.
-Otherwise I will send a separate patch for this.
+See this big thread about ISA vs PCI IDE modelling / design:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg809678.html
 
-Thanks
+TL;DR: short term we are screwed. long term, not worth it.
 
->
-> Thanks,
-> Stefano
->
+Stefan, IIRC the multi-process conclusion was we have to reject
+PCI devices briding another (non-PCI) bus, such ISA / I2C / USB
+/ SD / ... because QEMU register the bus type globally and the
+command line machinery resolves it to plug user-creatable devices,
+so we can not share such buses. Is that correct?
+
+> could we please include my patch for QEMU v6.1 instead, so that we get
+> this silenced in the device-crash-test script?
+
+Yes please.
+
+Regards,
+
+Phil.
+
+>> This happens because the "isabus" variable is not initialized with
+>> the x-remote machine yet. Add a proper check for this condition
+>> and propagate the error to the caller, so we can fail there gracefully.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   hw/ide/ioport.c           | 16 ++++++++++------
+>>   hw/ide/piix.c             | 22 +++++++++++++++++-----
+>>   hw/isa/isa-bus.c          | 14 ++++++++++----
+>>   include/hw/ide/internal.h |  2 +-
+>>   include/hw/isa/isa.h      | 13 ++++++++-----
+>>   5 files changed, 46 insertions(+), 21 deletions(-)
 
 
