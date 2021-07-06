@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715E03BDA1B
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:24:54 +0200 (CEST)
-Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D5383BDA04
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 17:21:01 +0200 (CEST)
+Received: from localhost ([::1]:59438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0mwP-0001B5-FS
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36160)
+	id 1m0mse-0007vA-GU
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 11:21:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mfO-0005Yf-Ql
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:19 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40590)
+ id 1m0mfJ-0005RA-NY
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:14 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m0mfL-0007Fq-If
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:17 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id l5so9712099wrv.7
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:07:15 -0700 (PDT)
+ id 1m0mfH-0007D7-Oi
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 11:07:13 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ r9-20020a7bc0890000b02901f347b31d55so2009691wmh.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 08:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7hYG9gx99ZdrMKH78PnqlgUjRUSFo9m2QUAYrIofBos=;
- b=XY/WQuKsFNQcZHYMfzje3q7DeLZyFSNZtDd0YXinlaNv+kKwQJBSuZCGSc7NVFquHP
- DWZuw5nNfeH+XrvaIkoShB4ylWNdqBAowEVIGRlD/Laqy2VoKzJt14wETQ16O2bqmbI7
- kBb9NvJpoh05FpeQ39O1aYSrqUxBteRmj7Nl3WDhoXi8U/e33TIMspnfmYDG8bp5jNKZ
- H1N3VpWISZ5fHalnb4F6vCk9gnHQbxh2jkLFjrW/u8+21oSiilNsOZQwik/5ATWKmcB8
- soVVVST7oTaOO04ADmqqJUZzW5Q6DhiEkqVdQLRCpUERUutOp4jPH2iRh8Kp/2GSTX5K
- uUXQ==
+ bh=KVqTslJtY4FYTYh9yN/AgrJpuhlasOrPI7zLw6S0HIc=;
+ b=bh0vCDd4ys4vhyrP0NOBDo5lY1mEJvTGuVTX0PlfJ2IVgSH8SOAt4pSC7tXAhR1CDw
+ 72Mau83TyUodva77bXQJwO8rwPHHX5DgOxy+gtvkL7No6wCCgB02dPqjBe8YHxsW+nWO
+ pOK108lW4H47bSwtUAMQ2dFN9rh5Nfi7+HnCzoJY2dAnNSG4W+mLPT+ZdTUDParN6VBc
+ DuUBuDiClFWas0KR+ZJRD1fz5VBf3O8ya2z47uNlLXAV8V0xvOqaAqcrhQbMAGylEwW7
+ HIQ10DoTwIqKCLZfZO0U1tEmDdswHv3BlLMe74fO9oCY7GUJV0PQzJ9t88wCyEg2q1gj
+ UkIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7hYG9gx99ZdrMKH78PnqlgUjRUSFo9m2QUAYrIofBos=;
- b=oAfYadtuBIYszLxZSeBh+MexvVn3xodSlTrLdVFQF89otEHMbbjacZNVw3f9hSWRku
- XQiZ5o0uiu9zM4jZzT8wsMm2ZaqQU0gDkZCR77hJj57Rj4hRDFgcGAOn4btwZtZnn5uP
- H8rxkfDK3D5mrc4i8hLX/gWgT1vVRexgkDY9Ksl/LMCSzHKClfdHvZDeKTWDDpMRfKvn
- EtotwEp8VwxDjnNcq7EFYwj6HEYvpRvcO3gzhF6/SQtsbHEDUx9ERkd7V2qAI6zniNYs
- mXfbKiR71sK6u6IwafwKNEvoBfXq5pBLwxEXEJDwbop5mPeu01ccuFtafku8k4gUc52K
- 6eng==
-X-Gm-Message-State: AOAM532l1OW1ifWL7mXj5okqO17tCKUGeiAlc8P7LF7Zt3nx0vvbdlaJ
- CIT4n5K6OMdmnfP1lre7Hxrtrw==
-X-Google-Smtp-Source: ABdhPJxSW7/WnGuyJ2ixczRkDual0GXNcD13Tmpx+nxFT1Q23YMZECWBnwKau2k9r5U+hkYQS09tvw==
-X-Received: by 2002:adf:ba43:: with SMTP id t3mr17193812wrg.184.1625584034186; 
- Tue, 06 Jul 2021 08:07:14 -0700 (PDT)
+ bh=KVqTslJtY4FYTYh9yN/AgrJpuhlasOrPI7zLw6S0HIc=;
+ b=HdaGbNcfURauEZ1bo4hx6xW7TDBJisA12J6ltPcE6T/zMthnMu/d/1nJoAZyLlRJ9j
+ 1cRFNY21M8HCw6jhMqx/31lhAbY2QF/SlqH5iCfYIFBunBrN7fpJSvsCMfiWn4AEOwxS
+ An4V6i4iLlBLsMGaobJ53nFv/46QOhp+6JnJo/+pdFkv/6+PJRKxrZTGXOBq5JPG7qj5
+ HVg5KZ5t51ism48CxPOVdRLIEp+nErf2bZ1puoVbZQ3fAiHy5aaS8W7bh8G42uLbq206
+ J2Lo/6wqZuzkrPpZk6PtXrZewE9UA/NhvyUel8cDMevyGpoU5E5RBZyuEZyw9nKLKi2u
+ gzSA==
+X-Gm-Message-State: AOAM532Y9bqZleKE5cUkHlAPOnUjVcTcfFASlpjHxp29Vp1rlifTCqLx
+ AuvxfPp0kmBDnp6d+IwFU4J9fg==
+X-Google-Smtp-Source: ABdhPJyHd1wTsu7wRfCeJsIEzB9nwCAPbK1IY9n6MgI/v/Hfu+Cc/TdqcmzfnbTO7w6ZCweZe+YNuA==
+X-Received: by 2002:a7b:c5d2:: with SMTP id n18mr1298361wmk.97.1625584030310; 
+ Tue, 06 Jul 2021 08:07:10 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y8sm16932969wrr.76.2021.07.06.08.07.02
+ by smtp.gmail.com with ESMTPSA id m18sm15728584wmq.45.2021.07.06.08.06.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 08:07:12 -0700 (PDT)
+ Tue, 06 Jul 2021 08:07:02 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AC4681FF9E;
- Tue,  6 Jul 2021 15:58:19 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0141C1FFA6;
+ Tue,  6 Jul 2021 15:58:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 16/39] tests/docker: fix mistakes in fedora package list
-Date: Tue,  6 Jul 2021 15:57:54 +0100
-Message-Id: <20210706145817.24109-17-alex.bennee@linaro.org>
+Subject: [PATCH  v1 19/39] tests/docker: expand centos8 package list
+Date: Tue,  6 Jul 2021 15:57:57 +0100
+Message-Id: <20210706145817.24109-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210706145817.24109-1-alex.bennee@linaro.org>
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,31 +99,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-libblockdev-mpath-devel is not used by QEMU, rather it wants
-device-mapper-multipath-devel.
+This is the fully expanded list of build pre-requisites QEMU can
+conceivably use in any scenario.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20210623142245.307776-12-berrange@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-9-berrange@redhat.com>
+[AJB: added centos-release-advanced-virtualization/epel-release]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/fedora.docker | 1 -
- 1 file changed, 1 deletion(-)
+ tests/docker/dockerfiles/centos8.docker | 70 +++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 4a0a84eb43..f667f03cc5 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -28,7 +28,6 @@ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 5f1c57b4ad..46398c61ee 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -3,39 +3,109 @@ FROM docker.io/centos:8
+ RUN dnf -y update
+ ENV PACKAGES \
+     SDL2-devel \
++    alsa-lib-devel \
++    bc \
++    brlapi-devel \
+     bzip2 \
+     bzip2-devel \
++    ca-certificates \
++    capstone-devel \
++    ccache \
++    clang \
++    ctags \
++    cyrus-sasl-devel \
++    daxctl-devel \
+     dbus-daemon \
++    device-mapper-multipath-devel \
+     diffutils \
++    findutils \
+     gcc \
+     gcc-c++ \
+     genisoimage \
+     gettext \
+     git \
+     glib2-devel \
++    glibc-langpack-en \
++    glibc-static \
++    glusterfs-api-devel \
++    gnutls-devel \
++    gtk3-devel \
++    hostname \
++    jemalloc-devel \
      libaio-devel \
-     libasan \
-     libattr-devel \
--    libblockdev-mpath-devel \
-     libcacard-devel \
-     libcap-ng-devel \
-     libcurl-devel \
++    libasan \
++    libattr-devel \
+     libbpf-devel \
++    libcacard-devel \
++    libcap-ng-devel \
++    libcurl-devel \
++    libdrm-devel \
+     libepoxy-devel \
+     libfdt-devel \
+     libffi-devel \
+     libgcrypt-devel \
++    libiscsi-devel \
++    libjpeg-devel \
++    libnfs-devel \
++    libpmem-devel \
++    libpng-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libslirp-devel \
++    libssh-devel \
++    libtasn1-devel \
++    libubsan \
++    libudev-devel \
++    libusbx-devel \
++    libxml2-devel \
++    libzstd-devel \
++    llvm \
+     lzo-devel \
+     make \
+     mesa-libgbm-devel \
++    ncurses-devel \
+     nettle-devel \
+     ninja-build \
+     nmap-ncat \
++    numactl-devel \
++    openssh-clients \
++    pam-devel \
++    perl \
+     perl-Test-Harness \
+     pixman-devel \
++    pkgconfig \
++    pulseaudio-libs-devel \
+     python3 \
++    python3-PyYAML \
++    python3-numpy \
++    python3-pillow \
++    python3-pip \
++    python3-setuptools \
++    python3-sphinx \
++    python3-sphinx_rtd_theme \
++    python3-virtualenv \
++    python3-wheel \
+     rdma-core-devel \
++    rpm \
++    sed \
++    snappy-devel \
+     spice-protocol \
+     spice-server-devel \
++    systemd-devel \
+     systemtap-sdt-devel \
+     tar \
++    texinfo \
++    usbredir-devel \
++    util-linux \
++    virglrenderer-devel \
++    vte291-devel \
++    which \
++    xfsprogs-devel \
+     zlib-devel
+ 
+ RUN dnf install -y dnf-plugins-core && \
+   dnf config-manager --set-enabled powertools && \
++  dnf install -y centos-release-advanced-virtualization && \
++  dnf install -y epel-release && \
+   dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
 -- 
 2.20.1
 
