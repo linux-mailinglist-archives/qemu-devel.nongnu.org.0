@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFBA3BE025
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:17:42 +0200 (CEST)
-Received: from localhost ([::1]:43164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B5B73BE026
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:18:20 +0200 (CEST)
+Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0vG1-0002YR-9N
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:17:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54190)
+	id 1m0vGd-0003lR-AQ
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:18:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m0utp-0004St-U7
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:54:45 -0400
-Received: from mga03.intel.com ([134.134.136.65]:40659)
+ id 1m0uty-0004xl-7M
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:54:54 -0400
+Received: from mga01.intel.com ([192.55.52.88]:36232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m0utn-0006wB-C3
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:54:45 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="209256417"
-X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="209256417"
+ id 1m0utv-0006xG-Uo
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:54:53 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="230949842"
+X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="230949842"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jul 2021 16:54:34 -0700
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jul 2021 16:54:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="627838211"
+X-IronPort-AV: E=Sophos;i="5.83,330,1616482800"; d="scan'208";a="627838231"
 Received: from dw-tiger-lake-client-platform.fm.intel.com ([10.105.205.215])
- by orsmga005.jf.intel.com with ESMTP; 06 Jul 2021 16:54:34 -0700
+ by orsmga005.jf.intel.com with ESMTP; 06 Jul 2021 16:54:46 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] virtio-gpu: splitting one extended mode guest fb into
- n-scanouts
-Date: Tue,  6 Jul 2021 16:52:54 -0700
-Message-Id: <20210706235255.7575-1-dongwon.kim@intel.com>
+Subject: [PATCH 2/2] ui/gtk-egl: blitting partial guest fb to the proper
+ scanout surface
+Date: Tue,  6 Jul 2021 16:52:55 -0700
+Message-Id: <20210706235255.7575-2-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=134.134.136.65;
- envelope-from=dongwon.kim@intel.com; helo=mga03.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210706235255.7575-1-dongwon.kim@intel.com>
+References: <20210706235255.7575-1-dongwon.kim@intel.com>
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=dongwon.kim@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,164 +61,134 @@ Cc: Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When guest is running Linux/X11 with extended multiple displays mode enabled,
-the guest shares one scanout resource each time containing whole surface
-rather than sharing individual display output separately. This extended frame
-is properly splited and rendered on the corresponding scanout surfaces but
-not in case of blob-resource (zero copy).
-
-This code change lets the qemu split this one large surface data into multiple
-in case of blob-resource as well so that each sub frame then can be blitted
-properly to each scanout.
+eb_fb_blit needs more parameters which describe x and y offsets and width
+and height of the actual scanout to specify the size and cordination of
+partial image to blit in the guest fb in case the guest fb contains multiple
+display outputs.
 
 Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
 ---
- hw/display/virtio-gpu-udmabuf.c | 19 +++++++++++--------
- hw/display/virtio-gpu.c         |  5 +++--
- include/hw/virtio/virtio-gpu.h  |  5 +++--
- include/ui/console.h            |  4 ++++
- stubs/virtio-gpu-udmabuf.c      |  3 ++-
- 5 files changed, 23 insertions(+), 13 deletions(-)
+ hw/display/virtio-gpu-udmabuf.c |  4 ++--
+ include/ui/egl-helpers.h        |  2 +-
+ ui/egl-headless.c               |  2 +-
+ ui/egl-helpers.c                | 10 ++++++----
+ ui/gtk-egl.c                    |  7 ++++---
+ ui/sdl2-gl.c                    |  2 +-
+ 6 files changed, 15 insertions(+), 12 deletions(-)
 
 diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
-index 3c01a415e7..a64194c6de 100644
+index a64194c6de..3ea6e76371 100644
 --- a/hw/display/virtio-gpu-udmabuf.c
 +++ b/hw/display/virtio-gpu-udmabuf.c
-@@ -171,7 +171,8 @@ static VGPUDMABuf
- *virtio_gpu_create_dmabuf(VirtIOGPU *g,
-                           uint32_t scanout_id,
-                           struct virtio_gpu_simple_resource *res,
--                          struct virtio_gpu_framebuffer *fb)
-+                          struct virtio_gpu_framebuffer *fb,
-+                          struct virtio_gpu_rect *r)
- {
-     VGPUDMABuf *dmabuf;
- 
-@@ -183,6 +184,10 @@ static VGPUDMABuf
-     dmabuf->buf.width = fb->width;
-     dmabuf->buf.height = fb->height;
+@@ -186,8 +186,8 @@ static VGPUDMABuf
      dmabuf->buf.stride = fb->stride;
-+    dmabuf->buf.x = r->x;
-+    dmabuf->buf.y = r->y;
-+    dmabuf->buf.scanout_width;
-+    dmabuf->buf.scanout_height;
+     dmabuf->buf.x = r->x;
+     dmabuf->buf.y = r->y;
+-    dmabuf->buf.scanout_width;
+-    dmabuf->buf.scanout_height;
++    dmabuf->buf.scanout_width = r->width;
++    dmabuf->buf.scanout_height = r->height;
      dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
      dmabuf->buf.fd = res->dmabuf_fd;
  
-@@ -195,24 +200,22 @@ static VGPUDMABuf
- int virtio_gpu_update_dmabuf(VirtIOGPU *g,
-                              uint32_t scanout_id,
-                              struct virtio_gpu_simple_resource *res,
--                             struct virtio_gpu_framebuffer *fb)
-+                             struct virtio_gpu_framebuffer *fb,
-+                             struct virtio_gpu_rect *r)
- {
-     struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
-     VGPUDMABuf *new_primary, *old_primary = NULL;
+diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+index f1bf8f97fc..e21118501e 100644
+--- a/include/ui/egl-helpers.h
++++ b/include/ui/egl-helpers.h
+@@ -26,7 +26,7 @@ void egl_fb_setup_default(egl_fb *fb, int width, int height);
+ void egl_fb_setup_for_tex(egl_fb *fb, int width, int height,
+                           GLuint texture, bool delete);
+ void egl_fb_setup_new_tex(egl_fb *fb, int width, int height);
+-void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip);
++void egl_fb_blit(egl_fb *dst, egl_fb *src, int x, int y, int w, int h, bool flip);
+ void egl_fb_read(DisplaySurface *dst, egl_fb *src);
  
--    new_primary = virtio_gpu_create_dmabuf(g, scanout_id, res, fb);
-+    new_primary = virtio_gpu_create_dmabuf(g, scanout_id, res, fb, r);
-     if (!new_primary) {
-         return -EINVAL;
+ void egl_texture_blit(QemuGLShader *gls, egl_fb *dst, egl_fb *src, bool flip);
+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
+index da377a74af..bdf10fec84 100644
+--- a/ui/egl-headless.c
++++ b/ui/egl-headless.c
+@@ -144,7 +144,7 @@ static void egl_scanout_flush(DisplayChangeListener *dcl,
+                           1.0, 1.0);
+     } else {
+         /* no cursor -> use simple framebuffer blit */
+-        egl_fb_blit(&edpy->blit_fb, &edpy->guest_fb, edpy->y_0_top);
++        egl_fb_blit(&edpy->blit_fb, &edpy->guest_fb, x, y, w, h, edpy->y_0_top);
      }
  
-     if (g->dmabuf.primary) {
--        old_primary = g->dmabuf.primary;
-+        old_primary = g->dmabuf.primary[scanout_id];
-     }
- 
--    g->dmabuf.primary = new_primary;
--    qemu_console_resize(scanout->con,
--                        new_primary->buf.width,
--                        new_primary->buf.height);
-+    g->dmabuf.primary[scanout_id] = new_primary;
-     dpy_gl_scanout_dmabuf(scanout->con, &new_primary->buf);
- 
-     if (old_primary) {
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index e183f4ecda..11a87dad79 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -523,9 +523,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
-                 console_has_gl(scanout->con)) {
-                 dpy_gl_update(scanout->con, 0, 0, scanout->width,
-                               scanout->height);
--                return;
-             }
-         }
-+        return;
-     }
- 
-     if (!res->blob &&
-@@ -598,6 +598,7 @@ static void virtio_gpu_update_scanout(VirtIOGPU *g,
-     scanout->y = r->y;
-     scanout->width = r->width;
-     scanout->height = r->height;
-+    qemu_console_resize(scanout->con, scanout->width, scanout->height);
+     egl_fb_read(edpy->ds, &edpy->blit_fb);
+diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+index 6d0cb2b5cb..2af3dcc0a6 100644
+--- a/ui/egl-helpers.c
++++ b/ui/egl-helpers.c
+@@ -88,16 +88,18 @@ void egl_fb_setup_new_tex(egl_fb *fb, int width, int height)
+     egl_fb_setup_for_tex(fb, width, height, texture, true);
  }
  
- static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
-@@ -633,7 +634,7 @@ static void virtio_gpu_do_set_scanout(VirtIOGPU *g,
- 
-     if (res->blob) {
-         if (console_has_gl(scanout->con)) {
--            if (!virtio_gpu_update_dmabuf(g, scanout_id, res, fb)) {
-+            if (!virtio_gpu_update_dmabuf(g, scanout_id, res, fb, r)) {
-                 virtio_gpu_update_scanout(g, scanout_id, res, r);
-                 return;
-             }
-diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-index bcf54d970f..6372f4bbb5 100644
---- a/include/hw/virtio/virtio-gpu.h
-+++ b/include/hw/virtio/virtio-gpu.h
-@@ -187,7 +187,7 @@ struct VirtIOGPU {
- 
-     struct {
-         QTAILQ_HEAD(, VGPUDMABuf) bufs;
--        VGPUDMABuf *primary;
-+        VGPUDMABuf *primary[VIRTIO_GPU_MAX_SCANOUTS];
-     } dmabuf;
- };
- 
-@@ -273,7 +273,8 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res);
- int virtio_gpu_update_dmabuf(VirtIOGPU *g,
-                              uint32_t scanout_id,
-                              struct virtio_gpu_simple_resource *res,
--                             struct virtio_gpu_framebuffer *fb);
-+                             struct virtio_gpu_framebuffer *fb,
-+                             struct virtio_gpu_rect *r);
- 
- /* virtio-gpu-3d.c */
- void virtio_gpu_virgl_process_cmd(VirtIOGPU *g,
-diff --git a/include/ui/console.h b/include/ui/console.h
-index b30b63976a..87316aef83 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -167,6 +167,10 @@ typedef struct QemuDmaBuf {
-     uint32_t  fourcc;
-     uint64_t  modifier;
-     uint32_t  texture;
-+    uint32_t  x;
-+    uint32_t  y;
-+    uint32_t  scanout_width;
-+    uint32_t  scanout_height;
-     bool      y0_top;
- } QemuDmaBuf;
- 
-diff --git a/stubs/virtio-gpu-udmabuf.c b/stubs/virtio-gpu-udmabuf.c
-index 81f661441a..f692e13510 100644
---- a/stubs/virtio-gpu-udmabuf.c
-+++ b/stubs/virtio-gpu-udmabuf.c
-@@ -20,7 +20,8 @@ void virtio_gpu_fini_udmabuf(struct virtio_gpu_simple_resource *res)
- int virtio_gpu_update_dmabuf(VirtIOGPU *g,
-                              uint32_t scanout_id,
-                              struct virtio_gpu_simple_resource *res,
--                             struct virtio_gpu_framebuffer *fb)
-+                             struct virtio_gpu_framebuffer *fb,
-+                             struct virtio_gpu_rect *r)
+-void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip)
++void egl_fb_blit(egl_fb *dst, egl_fb *src, int x, int y, int w, int h, bool flip)
  {
-     /* nothing (stub) */
-     return 0;
+     GLuint y1, y2;
+ 
+     glBindFramebuffer(GL_READ_FRAMEBUFFER, src->framebuffer);
+     glBindFramebuffer(GL_DRAW_FRAMEBUFFER, dst->framebuffer);
+     glViewport(0, 0, dst->width, dst->height);
+-    y1 = flip ? src->height : 0;
+-    y2 = flip ? 0 : src->height;
+-    glBlitFramebuffer(0, y1, src->width, y2,
++    w = (x + w) > src->width ? src->width - x : w;
++    h = (y + h) > src->height ? src->height - y : h;
++    y1 = flip ? h + y : y;
++    y2 = flip ? y : h + y;
++    glBlitFramebuffer(x, y1, x + w, y2,
+                       0, 0, dst->width, dst->height,
+                       GL_COLOR_BUFFER_BIT, GL_LINEAR);
+ }
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 2a2e6d3a17..ceb52b1045 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -73,7 +73,7 @@ void gd_egl_draw(VirtualConsole *vc)
+     wh = gdk_window_get_height(window);
+ 
+     if (vc->gfx.scanout_mode) {
+-        gd_egl_scanout_flush(&vc->gfx.dcl, 0, 0, vc->gfx.w, vc->gfx.h);
++       gd_egl_scanout_flush(&vc->gfx.dcl, vc->gfx.x, vc->gfx.y, vc->gfx.w, vc->gfx.h);
+ 
+         vc->gfx.scale_x = (double)ww / vc->gfx.w;
+         vc->gfx.scale_y = (double)wh / vc->gfx.h;
+@@ -216,7 +216,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+ 
+     gd_egl_scanout_texture(dcl, dmabuf->texture,
+                            false, dmabuf->width, dmabuf->height,
+-                           0, 0, dmabuf->width, dmabuf->height);
++                           dmabuf->x, dmabuf->y, dmabuf->scanout_width,
++                           dmabuf->scanout_height);
+ #endif
+ }
+ 
+@@ -286,7 +287,7 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+                           vc->gfx.cursor_x, vc->gfx.cursor_y,
+                           vc->gfx.scale_x, vc->gfx.scale_y);
+     } else {
+-        egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, !vc->gfx.y0_top);
++        egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, x, y, w, h, !vc->gfx.y0_top);
+     }
+ 
+     eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
+diff --git a/ui/sdl2-gl.c b/ui/sdl2-gl.c
+index a21d2deed9..67bc8b5f4e 100644
+--- a/ui/sdl2-gl.c
++++ b/ui/sdl2-gl.c
+@@ -238,7 +238,7 @@ void sdl2_gl_scanout_flush(DisplayChangeListener *dcl,
+ 
+     SDL_GetWindowSize(scon->real_window, &ww, &wh);
+     egl_fb_setup_default(&scon->win_fb, ww, wh);
+-    egl_fb_blit(&scon->win_fb, &scon->guest_fb, !scon->y0_top);
++    egl_fb_blit(&scon->win_fb, &scon->guest_fb, x, y, w, h, !scon->y0_top);
+ 
+     SDL_GL_SwapWindow(scon->real_window);
+     graphic_hw_gl_flushed(dcl->con);
 -- 
 2.17.1
 
