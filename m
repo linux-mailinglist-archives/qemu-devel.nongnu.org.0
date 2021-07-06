@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B277B3BD7F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:42:01 +0200 (CEST)
-Received: from localhost ([::1]:51636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADC33BD7FC
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:44:23 +0200 (CEST)
+Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0lKq-0005Cp-Ph
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43488)
+	id 1m0lN8-0007On-5Q
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m0lJY-0003z4-9C; Tue, 06 Jul 2021 09:40:40 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52913)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m0lJS-0001pP-2i; Tue, 06 Jul 2021 09:40:39 -0400
-Received: by mail-wm1-x331.google.com with SMTP id g10so7758091wmh.2;
- Tue, 06 Jul 2021 06:40:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mG8uwHwLtZdbbJXrNqeL0PlbQ4feuU2jH9RDQnv5Qao=;
- b=MLfs/Vxww/TFSoNf4P8ql/1R9v+zVvXPEjlPABnkTfGpHY3Gbz4pHp4LVBYuJACnob
- ad1sT1EmCZBewQR0i6wcImK4sbfLRICmSgiW7nCdioRjai/AARAxeHuvKNgCBxfLGNIz
- R03is1igWFUKADx1FPTPZpEZxgxhHonxVrjjokCRnZRje0GSLYv7hHqfsSDCXhmOgc6G
- 067araEjZuNd9pbV2UYyKXvhcGghV3K04lWoSNY+HGA/iHO3ASSfqmj98M8UtHJqjEop
- jqTIQ+9DPJT/apSzzuHf7XGO/GQ1lRlAhcM9I84K406OqdosJR6czlzgHKi3r/FRJh60
- GhyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mG8uwHwLtZdbbJXrNqeL0PlbQ4feuU2jH9RDQnv5Qao=;
- b=bGcEyOrmWN9XLsJNkjC36np3E9gtBSsU5N+1YjsGongyo4LIHXDW/n78tFT4J+0S5O
- CcAF2YZr2cIdciAgsSZza4LghOiXE2LesECuZYunHXWZOwntdmy9iDYg1iRgjePi1FrG
- inBT6wj4d5a38g2ygNVV0vzxZJUhmax3TKAdCKEW0HJbvKAbFcKwZf/rlM9RH5LlLbdN
- y/VlZWI9CGnjcpdJOHm5YiXsa+AGyQGpNE3+kXDkhU7zMzLtoF88SGUBAvR4LA0WiaS0
- //KmcDT38m2q0wl0eeVvJlBEyU5j9Ze7G6ihsOU6ZF3mX7fanc+IqaMP9o6G7AFue78H
- hIow==
-X-Gm-Message-State: AOAM532rjPyQCo/tqiBg2Ab/ORySLK+HAUqZOlIW62vnllekRGdbUL7u
- k7U7AfhFNVb7XZplHnHv8EA=
-X-Google-Smtp-Source: ABdhPJwQtC6NNBrNsDqRvuXI5Ir2okga/KjJe1cEm0SYBG4+SFPp5vGkrJQRpzuzZoOvbmIUEQmKNQ==
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr831039wms.130.1625578830900; 
- Tue, 06 Jul 2021 06:40:30 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id b15sm20214959wrr.27.2021.07.06.06.40.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 06:40:30 -0700 (PDT)
-Subject: Re: [PATCH v1 1/5] meson: Introduce target-specific Kconfig
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20210621152120.4465-1-alex.bennee@linaro.org>
- <20210621152120.4465-2-alex.bennee@linaro.org>
- <c3d33a80-b3bb-5aa5-50c7-7c1a379814ba@redhat.com>
- <8d018805-8e1f-4c1e-b1a4-45a34c8d2e63@amsat.org>
- <bd97210a-04d4-939f-b3b7-1e250d7d250a@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b0b09bf7-71d7-1bd9-1aaf-717b66692304@amsat.org>
-Date: Tue, 6 Jul 2021 15:40:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0lM2-0006ae-9t
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:43:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m0lLz-0003F3-AP
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:43:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625578990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3HUnIPUu5ZAm72271XjwUtAOAl7HP+jYQNp54LkyphI=;
+ b=VXECx+FivTspm1aYbxNRxCmTrOOkhVpb9dNFri0oArmz4abdwP8uxwQS0G8/yCwl4wBglq
+ aD3PZ3KvniWkQ+qFBE31QQahyv1At/t/wXgyjfacusAa7djMugJW9nLLooYeHvr9Wlkv8F
+ QoD94jVyYfvEn5ml09sY0g1CtShfjtw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-328-135aehr9PLaJt4ZJrk1vUA-1; Tue, 06 Jul 2021 09:43:07 -0400
+X-MC-Unique: 135aehr9PLaJt4ZJrk1vUA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01E641084F58;
+ Tue,  6 Jul 2021 13:43:06 +0000 (UTC)
+Received: from redhat.com (ovpn-113-253.ams2.redhat.com [10.36.113.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF8AB60CC9;
+ Tue,  6 Jul 2021 13:43:04 +0000 (UTC)
+Date: Tue, 6 Jul 2021 15:43:03 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v5 1/6] qcow2: Fix dangling pointer after reopen for 'file'
+Message-ID: <YORd55VP0OFy6noV@redhat.com>
+References: <20210706112340.223334-1-kwolf@redhat.com>
+ <20210706112340.223334-2-kwolf@redhat.com>
+ <9b8d2ae9-d4fe-8643-b384-5de2e8bea5ce@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <bd97210a-04d4-939f-b3b7-1e250d7d250a@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <9b8d2ae9-d4fe-8643-b384-5de2e8bea5ce@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,54 +77,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
- David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "open list:S390 general arch..." <qemu-s390x@nongnu.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>, pbonzini@redhat.com,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: berto@igalia.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/21 3:10 PM, Thomas Huth wrote:
-> On 06/07/2021 14.47, Philippe Mathieu-Daudé wrote:
->> On 7/6/21 12:52 PM, Thomas Huth wrote:
->>> On 21/06/2021 17.21, Alex Bennée wrote:
->>>> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>
->>>> Add a target-specific Kconfig. We need the definitions in Kconfig so
->>>> the minikconf tool can verify they exit. However CONFIG_FOO is only
->>>
->>> s/exit/exist/ ?
->>>
->>>> enabled for target foo via the meson.build rules.
->>>>
->>>> Two architecture have a particularity, ARM and MIPS:
->>>> their 64-bit version include the 32-bit subset.
->>>
->>> Why do you mention these here, but not x86, Sparc, PPC and RISC-V which
->>> also have 32-bit and 64-bit variants?
->>
->> Because we consider them as different targets, they don't include
->> (kselect) the subset.
+Am 06.07.2021 um 15:12 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 06.07.2021 14:23, Kevin Wolf wrote:
+> > Without an external data file, s->data_file is a second pointer with the
+> > same value as bs->file. When changing bs->file to a different BdrvChild
+> > and freeing the old BdrvChild, s->data_file must also be updated,
+> > otherwise it points to freed memory and causes crashes.
+> > 
+> > This problem was caught by iotests case 245.
+> > 
+> > Fixes: df2b7086f169239ebad5d150efa29c9bb6d4f820
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > 
-> And why is that done this way? There is certainly a big difference
-> between Sparc and Sparc64, but for x86 and PPC, the 64-bit variant is a
-> superset of the 32-bit variant, so why is it done different here
-> compared to ARM and MIPS?
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> Still, some ideas below:
+> 
+> > ---
+> >   block/qcow2.c | 14 ++++++++++++++
+> >   1 file changed, 14 insertions(+)
+> > 
+> > diff --git a/block/qcow2.c b/block/qcow2.c
+> > index ee4530cdbd..cb459ef6a6 100644
+> > --- a/block/qcow2.c
+> > +++ b/block/qcow2.c
+> > @@ -962,6 +962,7 @@ static bool read_cache_sizes(BlockDriverState *bs, QemuOpts *opts,
+> >   }
+> >   typedef struct Qcow2ReopenState {
+> > +    bool had_data_file;
+> >       Qcow2Cache *l2_table_cache;
+> >       Qcow2Cache *refcount_block_cache;
+> >       int l2_slice_size; /* Number of entries in a slice of the L2 table */
+> > @@ -1932,6 +1933,8 @@ static int qcow2_reopen_prepare(BDRVReopenState *state,
+> >       r = g_new0(Qcow2ReopenState, 1);
+> >       state->opaque = r;
+> > +    r->had_data_file = has_data_file(state->bs);
+> > +
+> 
+> So, during reopen, at some moment s->data_file become invalid. So, we
+> shouldn't rely on it..
+> 
+> Maybe we need
+> 
+>        s->data_file = NULL;
+> 
+> here..
 
-I don't know these targets well. Maybe the 64-bit variants do include
-their 32-bit subset. If you know, I can easily send a new patch.
+"need" is a strong word, but I guess we shouldn't access it between
+prepare and commit, so I agree setting it to NULL would make bugs in
+this area very visible.
+
+In fact, we wouldn't even need r->had_data_file then because commit
+could just set s->data_file = state->bs->file if it's NULL.
+
+> >       ret = qcow2_update_options_prepare(state->bs, r, state->options,
+> >                                          state->flags, errp);
+> >       if (ret < 0) {
+> > @@ -1966,7 +1969,18 @@ fail:
+> >   static void qcow2_reopen_commit(BDRVReopenState *state)
+> >   {
+> > +    BDRVQcow2State *s = state->bs->opaque;
+> > +    Qcow2ReopenState *r = state->opaque;
+> > +
+> >       qcow2_update_options_commit(state->bs, state->opaque);
+> 
+> Worth doing
+> 
+>        assert(r->had_data_file == has_data_file(state->bs));
+> 
+> here, to be double sure?
+
+This would be wrong because at the time that this runs, state->bs->file
+is already updated and this is what has_data_file() checks against. So
+you can't use has_data_file() any more until it's synced again with the
+code below.
+
+In fact, this is why I even added r->had_data_file. At first I directly
+used has_data_file(state->bs) here and watched it break.
+
+> > +    if (!r->had_data_file && s->data_file != state->bs->file) {
+> > +        /*
+> > +         * If s->data_file is just a second pointer to bs->file (which is the
+> > +         * case without an external data file), it may need to be updated.
+> > +         */
+> > +        s->data_file = state->bs->file;
+> > +        assert(!has_data_file(state->bs));
+> > +    }
+> >       g_free(state->opaque);
+> >   }
+
+Kevin
+
 
