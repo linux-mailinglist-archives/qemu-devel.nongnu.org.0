@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055A63BD830
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 16:22:17 +0200 (CEST)
-Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BD53BD832
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 16:23:56 +0200 (CEST)
+Received: from localhost ([::1]:37338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0lxn-0000IQ-PP
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 10:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53114)
+	id 1m0lzP-0001lO-2G
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 10:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1m0lvx-0007OJ-Gf
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:20:21 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:35496)
+ id 1m0lw1-0007QQ-Rk
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:20:26 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:45965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
- id 1m0lvs-0004rw-TI
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:20:21 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id i4so34490928ybe.2
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:20:14 -0700 (PDT)
+ id 1m0lvz-0004zB-Mi
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 10:20:25 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id k184so34396382ybf.12
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 07:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7i7R4Vs6YJwDtOPxQ8DS4R/pN8EgL3C6ICby2sTH0s4=;
- b=aX/5QQpHdUU8Nefj/wIMfQUqrkC1mWCY9mRkAu0/ovrupwR4pHL6srGosO3t5RLuwc
- +CyW6Mg4KI4jdpBSNtcaTjOKt0yrmQ3QiwINRzUHpgw1qwVct1biOsHb12YcMfjdgcwr
- xN5qEBHuD0MhD+hFlS9ZK1A5AgaT76dMjjAYG3TQzSPMf2oj4Q51+Sh9VSyXjS3tIgk0
- AqlBXw2+lVa7LgU7PTtA2nlEwwZvesB/HS+25mgQ7TrMGQaVxe/24tTafsiciWWmNxB6
- mjwEqSeY43EXVWmXkboB6rImTWBH0pOjgZ4CTdBdL7flPij/5rCOXQwuD+pVoyG2Gsmq
- MyNg==
+ :cc; bh=QOz8fQyHntpcI1nkp4urrd5HTbXIuOTTCN+RXjqAreU=;
+ b=WnvmwTwdnG7ae+d/whTan1wy8/5KUwvOcgubqfNMDjOMshG/eOAtP7tPJsiVGBA3Df
+ VvAC1yIaX0nzSsZ0SwYo+FNOGGDcD1sLr51wW3NGsTtjShAdBcqoZ4CXXiuCQS1O03n+
+ bCGOmeSe2wqo47wzyH/EZ9IGe0a1AF81/GF8XnwZXK74OFOkwDixPIJfEjYrQSAFd5l8
+ WOKjC+usBkzrtKK6pSVxKOxFj8O4+/LYjvYdwdJ+7KQ6a32lrbZSqoX/TFVJ31u4L312
+ GY+k9w4qMvZOnGcawJIei1oBbGC6INUTYcmZ8FzW/HGGlrOxcFlVaWq4nEYGxhpzvEsN
+ oetA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7i7R4Vs6YJwDtOPxQ8DS4R/pN8EgL3C6ICby2sTH0s4=;
- b=Z5N/E/a/wlcX/h1o7btqz0Y9yhF60EA5kUfn5QBupSYNRmRjqKUUBVYUp7B9LQ4zE1
- wBuGRmFhb+wnbsKlZN16W6Ny7i7GU7NWYZTVgSzHOgyzJDZwXmkAAsBXXz/HOPZag6kF
- kWIAb4TonepCOngBvrzpaqGrxxVnHO9CRy+PLLAGCAQu6YPP19KSwe45jS0Y1V7l0fV9
- FhD7nmT0cbJ/LDowRNwvYysOODElm72CIszWLdNwRo/KH1P0rSa19fZIBWXi/QY2a8GO
- oNFo15Z/p808/dy2qgfSbSbIi+gE3SWg11QpGO7Yu1ce69yxmzm/0ockX0jUvOxBrM6u
- 8Qdw==
-X-Gm-Message-State: AOAM530Z+7PKQEkkpatwXDoF2f9iyqkGSZRRatPlFalrthNx64yFzgVn
- p6pXqYjmquY2LzyHALQTDUOsiXOd7tQlQbRRyP3116oJ
-X-Google-Smtp-Source: ABdhPJzv4r6FMOBBbeY5bzRdLVPo3SU5izpn512vwt19WqpnFBihmNq5Tm8COmrTQNj7PzVbeoJ5GF/DnH7SYLCVb+E=
-X-Received: by 2002:a25:9942:: with SMTP id n2mr25196043ybo.230.1625581213992; 
- Tue, 06 Jul 2021 07:20:13 -0700 (PDT)
+ bh=QOz8fQyHntpcI1nkp4urrd5HTbXIuOTTCN+RXjqAreU=;
+ b=Kvx1A4HFkMx9UIXAmOXesHoxJ1osrz03TXm+07FxQ9o/SCVR+sCe58jDE9fBIMHO+u
+ KbTVa4OrIz1JQJLrkkuK8bSjiqlJQjy98uS6/qksrESYyB9QvvKWXYUWnzkwVwAb3vLt
+ T6YALTUN1coYYH3UupK/86gyQXi/KeqFEvOQKI6BuQ9nRu2vAKOwYjlughHZVm3tJiRN
+ 8LIfAEzukzSCU/pkjkf2MLc63tPhLniU/cy2sywJr4uzTvFNrKQPbRuebBqGqh2Ec7ms
+ NhBDBG5tc+Z7MskxgdpyqEEPS4ZknBZZ08WT6IueF3vdzD7xRiPQuJcDaAsgrEEOeBHn
+ U6qA==
+X-Gm-Message-State: AOAM533lTr46spkrmukCQI6bG4PHtF7jXR27NlMNscF77i6+ja8hO+Jl
+ GwXAAre3+zOnQ6pc4ToBnRgppPgcHpMi760Dca8eIK8N
+X-Google-Smtp-Source: ABdhPJxB+LUJcxC9JFk/pYG3MHRgKIqtsjudQx+Fn780OSUCee2wxdd94DkC0rojQDfe4Z144hzKouRcphcFRmqIc6w=
+X-Received: by 2002:a25:dc8c:: with SMTP id
+ y134mr21874581ybe.301.1625581222532; 
+ Tue, 06 Jul 2021 07:20:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210530150112.74411-1-ziqiaokong@gmail.com>
- <CAM0BWNCP3c9zmpi4gcOkOuCFXOe4Q5pyjht7qTmUi5EHwOx3HA@mail.gmail.com>
- <CAM0BWNBJP49HQRESGxHPS56duQEGFx5fUcfzOrjg2v8-ifvGEg@mail.gmail.com>
- <CAM0BWNBjaCTnuy611PwAk8RF-UcQAG_CNiMyMShKEj-9z6Am3Q@mail.gmail.com>
- <CAM0BWNANJZi=ZdjQghguJM9OxuXQBSJaZ8G+55EJ84t3oyt_Ow@mail.gmail.com>
-In-Reply-To: <CAM0BWNANJZi=ZdjQghguJM9OxuXQBSJaZ8G+55EJ84t3oyt_Ow@mail.gmail.com>
+ <20210530150112.74411-2-ziqiaokong@gmail.com>
+ <CAM0BWNAu5YCXnp+fxcQcWeQnosjJq_VegiibW77bh6mdZpQ3Ow@mail.gmail.com>
+ <CAM0BWNBdENZwQ-p3M3owrjCfw3u_=vZvnCceP82gAbQ123TqSw@mail.gmail.com>
+ <CAM0BWNCZLmAP-XV7TA_DTes+9X3-bARo4jhbP2nxxCUGCcoydQ@mail.gmail.com>
+ <CAM0BWNA7YsJf=fF0=TnX5rOyCbuNVzWTZRPBiKxF-HwT1jB3iA@mail.gmail.com>
+In-Reply-To: <CAM0BWNA7YsJf=fF0=TnX5rOyCbuNVzWTZRPBiKxF-HwT1jB3iA@mail.gmail.com>
 From: Ziqiao Kong <ziqiaokong@gmail.com>
-Date: Tue, 6 Jul 2021 22:20:02 +0800
-Message-ID: <CAM0BWNCHPpS5Gim2YNQsW7qe3Yst08oeNu2=GRtqm5=cnHQ1pg@mail.gmail.com>
-Subject: Re: [PATCH v7 1/2] target/i386: Trivial code motion and code style fix
+Date: Tue, 6 Jul 2021 22:20:11 +0800
+Message-ID: <CAM0BWNC3shiQJaEsBE1UJaWEZuwoYFSX43ocoKyptX8zBEwMUQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/2] target/i386: Correct implementation for FCS, FIP, 
+ FDS and FDP
 To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,1016 +111,226 @@ On Thu, Jul 1, 2021 at 9:58 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
 > > > >
 > > > > Sorry again for the previous duplicate emails.
 > > > >
-> > > > On Sun, May 30, 2021 at 11:03 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
+> > > > On Sun, May 30, 2021 at 11:05 PM Ziqiao Kong <ziqiaokong@gmail.com> wrote:
 > > > > >
-> > > > > A new pair of braces has to be added to declare variables in the case block.
-> > > > > The code style is also fixed according to the transalte.c itself during the
-> > > > > code motion.
+> > > > > Update FCS:FIP and FDS:FDP according to the Intel Manual Vol.1 8.1.8. Note that
+> > > > > CPUID.(EAX=07H,ECX=0H):EBX[bit 13] is not implemented by design in this patch
+> > > > > and will be added along with TCG features flag in a separate patch later.
 > > > > >
 > > > > > Signed-off-by: Ziqiao Kong <ziqiaokong@gmail.com>
 > > > > > ---
 > > > > > Sorry for the duplicate emails due to my bad network. The v7 has no
 > > > > > difference from v6 and is sent just for clarification.
 > > > > > Changes since v5:
-> > > > > - None
+> > > > > - Improve code indention in translate.c.
 > > > > > Changes since v4:
-> > > > > - Rewrite commit message to specify the reason to add the braces.
+> > > > > - Remove the dead code about CPUID_7_0_EBX_FCS_FDS.
+> > > > > - Rewrite the commit message.
 > > > > > ---
-> > > > >  target/i386/tcg/translate.c | 957 ++++++++++++++++++------------------
-> > > > >  1 file changed, 484 insertions(+), 473 deletions(-)
+> > > > >  target/i386/cpu.h            |  2 ++
+> > > > >  target/i386/tcg/fpu_helper.c | 32 +++++++++++--------------
+> > > > >  target/i386/tcg/translate.c  | 45 +++++++++++++++++++++++++++++++++++-
+> > > > >  3 files changed, 59 insertions(+), 20 deletions(-)
 > > > > >
+> > > > > diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> > > > > index da72aa5228..147dadcce0 100644
+> > > > > --- a/target/i386/cpu.h
+> > > > > +++ b/target/i386/cpu.h
+> > > > > @@ -1455,6 +1455,8 @@ typedef struct CPUX86State {
+> > > > >      FPReg fpregs[8];
+> > > > >      /* KVM-only so far */
+> > > > >      uint16_t fpop;
+> > > > > +    uint16_t fpcs;
+> > > > > +    uint16_t fpds;
+> > > > >      uint64_t fpip;
+> > > > >      uint64_t fpdp;
+> > > > >
+> > > > > diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+> > > > > index 1b30f1bb73..d953f04bb5 100644
+> > > > > --- a/target/i386/tcg/fpu_helper.c
+> > > > > +++ b/target/i386/tcg/fpu_helper.c
+> > > > > @@ -728,6 +728,10 @@ void helper_fninit(CPUX86State *env)
+> > > > >  {
+> > > > >      env->fpus = 0;
+> > > > >      env->fpstt = 0;
+> > > > > +    env->fpcs = 0;
+> > > > > +    env->fpds = 0;
+> > > > > +    env->fpip = 0;
+> > > > > +    env->fpdp = 0;
+> > > > >      cpu_set_fpuc(env, 0x37f);
+> > > > >      env->fptags[0] = 1;
+> > > > >      env->fptags[1] = 1;
+> > > > > @@ -2357,19 +2361,19 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
+> > > > >          cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
+> > > > >          cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
+> > > > >          cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
+> > > > > -        cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
+> > > > > -        cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
+> > > > > -        cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
+> > > > > -        cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
+> > > > > +        cpu_stl_data_ra(env, ptr + 12, env->fpip, retaddr); /* fpip */
+> > > > > +        cpu_stl_data_ra(env, ptr + 16, env->fpcs, retaddr); /* fpcs */
+> > > > > +        cpu_stl_data_ra(env, ptr + 20, env->fpdp, retaddr); /* fpoo */
+> > > > > +        cpu_stl_data_ra(env, ptr + 24, env->fpds, retaddr); /* fpos */
+> > > > >      } else {
+> > > > >          /* 16 bit */
+> > > > >          cpu_stw_data_ra(env, ptr, env->fpuc, retaddr);
+> > > > >          cpu_stw_data_ra(env, ptr + 2, fpus, retaddr);
+> > > > >          cpu_stw_data_ra(env, ptr + 4, fptag, retaddr);
+> > > > > -        cpu_stw_data_ra(env, ptr + 6, 0, retaddr);
+> > > > > -        cpu_stw_data_ra(env, ptr + 8, 0, retaddr);
+> > > > > -        cpu_stw_data_ra(env, ptr + 10, 0, retaddr);
+> > > > > -        cpu_stw_data_ra(env, ptr + 12, 0, retaddr);
+> > > > > +        cpu_stw_data_ra(env, ptr + 6, env->fpip, retaddr);
+> > > > > +        cpu_stw_data_ra(env, ptr + 8, env->fpcs, retaddr);
+> > > > > +        cpu_stw_data_ra(env, ptr + 10, env->fpdp, retaddr);
+> > > > > +        cpu_stw_data_ra(env, ptr + 12, env->fpds, retaddr);
+> > > > >      }
+> > > > >  }
+> > > > >
+> > > > > @@ -2436,17 +2440,7 @@ static void do_fsave(CPUX86State *env, target_ulong ptr, int data32,
+> > > > >      }
+> > > > >
+> > > > >      /* fninit */
+> > > > > -    env->fpus = 0;
+> > > > > -    env->fpstt = 0;
+> > > > > -    cpu_set_fpuc(env, 0x37f);
+> > > > > -    env->fptags[0] = 1;
+> > > > > -    env->fptags[1] = 1;
+> > > > > -    env->fptags[2] = 1;
+> > > > > -    env->fptags[3] = 1;
+> > > > > -    env->fptags[4] = 1;
+> > > > > -    env->fptags[5] = 1;
+> > > > > -    env->fptags[6] = 1;
+> > > > > -    env->fptags[7] = 1;
+> > > > > +    helper_fninit(env);
+> > > > >  }
+> > > > >
+> > > > >  void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
 > > > > > diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> > > > > index 834186bcae..5c1b7b87c5 100644
+> > > > > index 5c1b7b87c5..4c57ee5c26 100644
 > > > > > --- a/target/i386/tcg/translate.c
 > > > > > +++ b/target/i386/tcg/translate.c
-> > > > > @@ -5929,503 +5929,514 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-> > > > >          /************************/
+> > > > > @@ -5930,6 +5930,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
 > > > > >          /* floats */
 > > > > >      case 0xd8 ... 0xdf:
-> > > > > -        if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
-> > > > > -            /* if CR0.EM or CR0.TS are set, generate an FPU exception */
-> > > > > -            /* XXX: what to do if illegal op ? */
-> > > > > -            gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
-> > > > > -            break;
-> > > > > -        }
-> > > > > -        modrm = x86_ldub_code(env, s);
-> > > > > -        mod = (modrm >> 6) & 3;
-> > > > > -        rm = modrm & 7;
-> > > > > -        op = ((b & 7) << 3) | ((modrm >> 3) & 7);
-> > > > > -        if (mod != 3) {
-> > > > > -            /* memory op */
-> > > > > -            gen_lea_modrm(env, s, modrm);
-> > > > > -            switch(op) {
-> > > > > -            case 0x00 ... 0x07: /* fxxxs */
-> > > > > -            case 0x10 ... 0x17: /* fixxxl */
-> > > > > -            case 0x20 ... 0x27: /* fxxxl */
-> > > > > -            case 0x30 ... 0x37: /* fixxx */
-> > > > > -                {
-> > > > > -                    int op1;
-> > > > > -                    op1 = op & 7;
-> > > > > -
-> > > > > -                    switch(op >> 4) {
-> > > > > -                    case 0:
-> > > > > -                        tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        gen_helper_flds_FT0(cpu_env, s->tmp2_i32);
-> > > > > -                        break;
-> > > > > -                    case 1:
-> > > > > -                        tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        gen_helper_fildl_FT0(cpu_env, s->tmp2_i32);
-> > > > > -                        break;
-> > > > > -                    case 2:
-> > > > > -                        tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0,
-> > > > > -                                            s->mem_index, MO_LEQ);
-> > > > > -                        gen_helper_fldl_FT0(cpu_env, s->tmp1_i64);
-> > > > > -                        break;
-> > > > > -                    case 3:
-> > > > > -                    default:
-> > > > > -                        tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LESW);
-> > > > > -                        gen_helper_fildl_FT0(cpu_env, s->tmp2_i32);
-> > > > > -                        break;
-> > > > > -                    }
-> > > > > -
-> > > > > -                    gen_helper_fp_arith_ST0_FT0(op1);
-> > > > > -                    if (op1 == 3) {
-> > > > > -                        /* fcomp needs pop */
-> > > > > -                        gen_helper_fpop(cpu_env);
-> > > > > -                    }
-> > > > > -                }
-> > > > > +        {
-> > > > > +            if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
-> > > > > +                /* if CR0.EM or CR0.TS are set, generate an FPU exception */
-> > > > > +                /* XXX: what to do if illegal op ? */
-> > > > > +                gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
-> > > > >                  break;
-> > > > > -            case 0x08: /* flds */
-> > > > > -            case 0x0a: /* fsts */
-> > > > > -            case 0x0b: /* fstps */
-> > > > > -            case 0x18 ... 0x1b: /* fildl, fisttpl, fistl, fistpl */
-> > > > > -            case 0x28 ... 0x2b: /* fldl, fisttpll, fstl, fstpl */
-> > > > > -            case 0x38 ... 0x3b: /* filds, fisttps, fists, fistps */
-> > > > > -                switch(op & 7) {
-> > > > > -                case 0:
-> > > > > -                    switch(op >> 4) {
-> > > > > -                    case 0:
-> > > > > -                        tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        gen_helper_flds_ST0(cpu_env, s->tmp2_i32);
-> > > > > -                        break;
-> > > > > -                    case 1:
-> > > > > -                        tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        gen_helper_fildl_ST0(cpu_env, s->tmp2_i32);
-> > > > > -                        break;
-> > > > > -                    case 2:
-> > > > > -                        tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0,
-> > > > > -                                            s->mem_index, MO_LEQ);
-> > > > > -                        gen_helper_fldl_ST0(cpu_env, s->tmp1_i64);
-> > > > > -                        break;
-> > > > > -                    case 3:
-> > > > > -                    default:
-> > > > > -                        tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LESW);
-> > > > > -                        gen_helper_fildl_ST0(cpu_env, s->tmp2_i32);
-> > > > > -                        break;
-> > > > > -                    }
-> > > > > -                    break;
-> > > > > -                case 1:
-> > > > > -                    /* XXX: the corresponding CPUID bit must be tested ! */
-> > > > > -                    switch(op >> 4) {
-> > > > > -                    case 1:
-> > > > > -                        gen_helper_fisttl_ST0(s->tmp2_i32, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        break;
-> > > > > -                    case 2:
-> > > > > -                        gen_helper_fisttll_ST0(s->tmp1_i64, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0,
-> > > > > -                                            s->mem_index, MO_LEQ);
-> > > > > -                        break;
-> > > > > -                    case 3:
-> > > > > -                    default:
-> > > > > -                        gen_helper_fistt_ST0(s->tmp2_i32, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUW);
-> > > > > -                        break;
-> > > > > -                    }
-> > > > > -                    gen_helper_fpop(cpu_env);
-> > > > > -                    break;
-> > > > > -                default:
-> > > > > -                    switch(op >> 4) {
-> > > > > -                    case 0:
-> > > > > -                        gen_helper_fsts_ST0(s->tmp2_i32, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        break;
-> > > > > -                    case 1:
-> > > > > -                        gen_helper_fistl_ST0(s->tmp2_i32, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUL);
-> > > > > -                        break;
-> > > > > -                    case 2:
-> > > > > -                        gen_helper_fstl_ST0(s->tmp1_i64, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0,
-> > > > > -                                            s->mem_index, MO_LEQ);
-> > > > > -                        break;
-> > > > > -                    case 3:
-> > > > > -                    default:
-> > > > > -                        gen_helper_fist_ST0(s->tmp2_i32, cpu_env);
-> > > > > -                        tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                            s->mem_index, MO_LEUW);
-> > > > > -                        break;
-> > > > > -                    }
-> > > > > -                    if ((op & 7) == 3)
-> > > > > -                        gen_helper_fpop(cpu_env);
-> > > > > -                    break;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x0c: /* fldenv mem */
-> > > > > -                gen_helper_fldenv(cpu_env, s->A0, tcg_const_i32(dflag - 1));
-> > > > > -                break;
-> > > > > -            case 0x0d: /* fldcw mem */
-> > > > > -                tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > -                                    s->mem_index, MO_LEUW);
-> > > > > -                gen_helper_fldcw(cpu_env, s->tmp2_i32);
-> > > > > -                break;
-> > > > > -            case 0x0e: /* fnstenv mem */
-> > > > > -                gen_helper_fstenv(cpu_env, s->A0, tcg_const_i32(dflag - 1));
-> > > > > -                break;
-> > > > > -            case 0x0f: /* fnstcw mem */
-> > > > > -                gen_helper_fnstcw(s->tmp2_i32, cpu_env);
-> > > > > -                tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                    s->mem_index, MO_LEUW);
-> > > > > -                break;
-> > > > > -            case 0x1d: /* fldt mem */
-> > > > > -                gen_helper_fldt_ST0(cpu_env, s->A0);
-> > > > > -                break;
-> > > > > -            case 0x1f: /* fstpt mem */
-> > > > > -                gen_helper_fstt_ST0(cpu_env, s->A0);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x2c: /* frstor mem */
-> > > > > -                gen_helper_frstor(cpu_env, s->A0, tcg_const_i32(dflag - 1));
-> > > > > -                break;
-> > > > > -            case 0x2e: /* fnsave mem */
-> > > > > -                gen_helper_fsave(cpu_env, s->A0, tcg_const_i32(dflag - 1));
-> > > > > -                break;
-> > > > > -            case 0x2f: /* fnstsw mem */
-> > > > > -                gen_helper_fnstsw(s->tmp2_i32, cpu_env);
-> > > > > -                tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > -                                    s->mem_index, MO_LEUW);
-> > > > > -                break;
-> > > > > -            case 0x3c: /* fbld */
-> > > > > -                gen_helper_fbld_ST0(cpu_env, s->A0);
-> > > > > -                break;
-> > > > > -            case 0x3e: /* fbstp */
-> > > > > -                gen_helper_fbst_ST0(cpu_env, s->A0);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x3d: /* fildll */
-> > > > > -                tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEQ);
-> > > > > -                gen_helper_fildll_ST0(cpu_env, s->tmp1_i64);
-> > > > > -                break;
-> > > > > -            case 0x3f: /* fistpll */
-> > > > > -                gen_helper_fistll_ST0(s->tmp1_i64, cpu_env);
-> > > > > -                tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0, s->mem_index, MO_LEQ);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            default:
-> > > > > -                goto unknown_op;
-> > > > >              }
-> > > > > -        } else {
-> > > > > -            /* register float ops */
-> > > > > -            opreg = rm;
-> > > > > +            modrm = x86_ldub_code(env, s);
-> > > > > +            mod = (modrm >> 6) & 3;
-> > > > > +            rm = modrm & 7;
-> > > > > +            op = ((b & 7) << 3) | ((modrm >> 3) & 7);
-> > > > > +            if (mod != 3) {
-> > > > > +                /* memory op */
-> > > > > +                gen_lea_modrm(env, s, modrm);
-> > > > > +                switch (op) {
-> > > > > +                case 0x00 ... 0x07: /* fxxxs */
-> > > > > +                case 0x10 ... 0x17: /* fixxxl */
-> > > > > +                case 0x20 ... 0x27: /* fxxxl */
-> > > > > +                case 0x30 ... 0x37: /* fixxx */
-> > > > > +                    {
-> > > > > +                        int op1;
-> > > > > +                        op1 = op & 7;
-> > > > >
-> > > > > -            switch(op) {
-> > > > > -            case 0x08: /* fld sti */
-> > > > > -                gen_helper_fpush(cpu_env);
-> > > > > -                gen_helper_fmov_ST0_STN(cpu_env,
-> > > > > -                                        tcg_const_i32((opreg + 1) & 7));
-> > > > > -                break;
-> > > > > -            case 0x09: /* fxchg sti */
-> > > > > -            case 0x29: /* fxchg4 sti, undocumented op */
-> > > > > -            case 0x39: /* fxchg7 sti, undocumented op */
-> > > > > -                gen_helper_fxchg_ST0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                break;
-> > > > > -            case 0x0a: /* grp d9/2 */
-> > > > > -                switch(rm) {
-> > > > > -                case 0: /* fnop */
-> > > > > -                    /* check exceptions (FreeBSD FPU probe) */
-> > > > > -                    gen_helper_fwait(cpu_env);
-> > > > > -                    break;
-> > > > > -                default:
-> > > > > -                    goto unknown_op;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x0c: /* grp d9/4 */
-> > > > > -                switch(rm) {
-> > > > > -                case 0: /* fchs */
-> > > > > -                    gen_helper_fchs_ST0(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 1: /* fabs */
-> > > > > -                    gen_helper_fabs_ST0(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 4: /* ftst */
-> > > > > -                    gen_helper_fldz_FT0(cpu_env);
-> > > > > -                    gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 5: /* fxam */
-> > > > > -                    gen_helper_fxam_ST0(cpu_env);
-> > > > > -                    break;
-> > > > > -                default:
-> > > > > -                    goto unknown_op;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x0d: /* grp d9/5 */
-> > > > > -                {
-> > > > > -                    switch(rm) {
-> > > > > -                    case 0:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fld1_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    case 1:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fldl2t_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    case 2:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fldl2e_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    case 3:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fldpi_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    case 4:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fldlg2_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    case 5:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fldln2_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    case 6:
-> > > > > -                        gen_helper_fpush(cpu_env);
-> > > > > -                        gen_helper_fldz_ST0(cpu_env);
-> > > > > -                        break;
-> > > > > -                    default:
-> > > > > -                        goto unknown_op;
-> > > > > -                    }
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x0e: /* grp d9/6 */
-> > > > > -                switch(rm) {
-> > > > > -                case 0: /* f2xm1 */
-> > > > > -                    gen_helper_f2xm1(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 1: /* fyl2x */
-> > > > > -                    gen_helper_fyl2x(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 2: /* fptan */
-> > > > > -                    gen_helper_fptan(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 3: /* fpatan */
-> > > > > -                    gen_helper_fpatan(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 4: /* fxtract */
-> > > > > -                    gen_helper_fxtract(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 5: /* fprem1 */
-> > > > > -                    gen_helper_fprem1(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 6: /* fdecstp */
-> > > > > -                    gen_helper_fdecstp(cpu_env);
-> > > > > -                    break;
-> > > > > -                default:
-> > > > > -                case 7: /* fincstp */
-> > > > > -                    gen_helper_fincstp(cpu_env);
-> > > > > -                    break;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x0f: /* grp d9/7 */
-> > > > > -                switch(rm) {
-> > > > > -                case 0: /* fprem */
-> > > > > -                    gen_helper_fprem(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 1: /* fyl2xp1 */
-> > > > > -                    gen_helper_fyl2xp1(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 2: /* fsqrt */
-> > > > > -                    gen_helper_fsqrt(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 3: /* fsincos */
-> > > > > -                    gen_helper_fsincos(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 5: /* fscale */
-> > > > > -                    gen_helper_fscale(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 4: /* frndint */
-> > > > > -                    gen_helper_frndint(cpu_env);
-> > > > > -                    break;
-> > > > > -                case 6: /* fsin */
-> > > > > -                    gen_helper_fsin(cpu_env);
-> > > > > -                    break;
-> > > > > -                default:
-> > > > > -                case 7: /* fcos */
-> > > > > -                    gen_helper_fcos(cpu_env);
-> > > > > -                    break;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x00: case 0x01: case 0x04 ... 0x07: /* fxxx st, sti */
-> > > > > -            case 0x20: case 0x21: case 0x24 ... 0x27: /* fxxx sti, st */
-> > > > > -            case 0x30: case 0x31: case 0x34 ... 0x37: /* fxxxp sti, st */
-> > > > > -                {
-> > > > > -                    int op1;
-> > > > > +                        switch (op >> 4) {
-> > > > > +                        case 0:
-> > > > > +                            tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            gen_helper_flds_FT0(cpu_env, s->tmp2_i32);
-> > > > > +                            break;
-> > > > > +                        case 1:
-> > > > > +                            tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            gen_helper_fildl_FT0(cpu_env, s->tmp2_i32);
-> > > > > +                            break;
-> > > > > +                        case 2:
-> > > > > +                            tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0,
-> > > > > +                                                s->mem_index, MO_LEQ);
-> > > > > +                            gen_helper_fldl_FT0(cpu_env, s->tmp1_i64);
-> > > > > +                            break;
-> > > > > +                        case 3:
-> > > > > +                        default:
-> > > > > +                            tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LESW);
-> > > > > +                            gen_helper_fildl_FT0(cpu_env, s->tmp2_i32);
-> > > > > +                            break;
-> > > > > +                        }
-> > > > >
-> > > > > -                    op1 = op & 7;
-> > > > > -                    if (op >= 0x20) {
-> > > > > -                        gen_helper_fp_arith_STN_ST0(op1, opreg);
-> > > > > -                        if (op >= 0x30)
-> > > > > -                            gen_helper_fpop(cpu_env);
-> > > > > -                    } else {
-> > > > > -                        gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > >                          gen_helper_fp_arith_ST0_FT0(op1);
-> > > > > +                        if (op1 == 3) {
-> > > > > +                            /* fcomp needs pop */
-> > > > > +                            gen_helper_fpop(cpu_env);
-> > > > > +                        }
-> > > > >                      }
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x02: /* fcom */
-> > > > > -            case 0x22: /* fcom2, undocumented op */
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x03: /* fcomp */
-> > > > > -            case 0x23: /* fcomp3, undocumented op */
-> > > > > -            case 0x32: /* fcomp5, undocumented op */
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x15: /* da/5 */
-> > > > > -                switch(rm) {
-> > > > > -                case 1: /* fucompp */
-> > > > > -                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(1));
-> > > > > -                    gen_helper_fucom_ST0_FT0(cpu_env);
-> > > > > -                    gen_helper_fpop(cpu_env);
-> > > > > -                    gen_helper_fpop(cpu_env);
+> > > > >          {
+> > > > > +            TCGv last_addr = tcg_temp_new();
+> > > > > +            int last_seg;
+> > > > > +            bool update_fdp = false;
+> > > > > +            bool update_fip = true;
+> > > > > +
+> > > > >              if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
+> > > > >                  /* if CR0.EM or CR0.TS are set, generate an FPU exception */
+> > > > >                  /* XXX: what to do if illegal op ? */
+> > > > > @@ -5942,7 +5947,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > > > >              op = ((b & 7) << 3) | ((modrm >> 3) & 7);
+> > > > >              if (mod != 3) {
+> > > > >                  /* memory op */
+> > > > > -                gen_lea_modrm(env, s, modrm);
+> > > > > +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
+> > > > > +                TCGv ea = gen_lea_modrm_1(s, a);
+> > > > > +
+> > > > > +                update_fdp = true;
+> > > > > +                last_seg = a.def_seg;
+> > > > > +                tcg_gen_mov_tl(last_addr, ea);
+> > > > > +                gen_lea_v_seg(s, s->aflag, ea, a.def_seg, s->override);
+> > > > > +
+> > > > >                  switch (op) {
+> > > > >                  case 0x00 ... 0x07: /* fxxxs */
+> > > > >                  case 0x10 ... 0x17: /* fixxxl */
+> > > > > @@ -6070,20 +6082,24 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > > > >                  case 0x0c: /* fldenv mem */
+> > > > >                      gen_helper_fldenv(cpu_env, s->A0,
+> > > > >                                        tcg_const_i32(dflag - 1));
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > > -                default:
-> > > > > -                    goto unknown_op;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x1c:
-> > > > > -                switch(rm) {
-> > > > > -                case 0: /* feni (287 only, just do nop here) */
-> > > > > +                case 0x08: /* flds */
-> > > > > +                case 0x0a: /* fsts */
-> > > > > +                case 0x0b: /* fstps */
-> > > > > +                case 0x18 ... 0x1b: /* fildl, fisttpl, fistl, fistpl */
-> > > > > +                case 0x28 ... 0x2b: /* fldl, fisttpll, fstl, fstpl */
-> > > > > +                case 0x38 ... 0x3b: /* filds, fisttps, fists, fistps */
-> > > > > +                    switch (op & 7) {
-> > > > > +                    case 0:
-> > > > > +                        switch (op >> 4) {
-> > > > > +                        case 0:
-> > > > > +                            tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            gen_helper_flds_ST0(cpu_env, s->tmp2_i32);
-> > > > > +                            break;
-> > > > > +                        case 1:
-> > > > > +                            tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            gen_helper_fildl_ST0(cpu_env, s->tmp2_i32);
-> > > > > +                            break;
-> > > > > +                        case 2:
-> > > > > +                            tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0,
-> > > > > +                                                s->mem_index, MO_LEQ);
-> > > > > +                            gen_helper_fldl_ST0(cpu_env, s->tmp1_i64);
-> > > > > +                            break;
-> > > > > +                        case 3:
-> > > > > +                        default:
-> > > > > +                            tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LESW);
-> > > > > +                            gen_helper_fildl_ST0(cpu_env, s->tmp2_i32);
-> > > > > +                            break;
-> > > > > +                        }
-> > > > > +                        break;
-> > > > > +                    case 1:
-> > > > > +                        /* XXX: the corresponding CPUID bit must be tested ! */
-> > > > > +                        switch (op >> 4) {
-> > > > > +                        case 1:
-> > > > > +                            gen_helper_fisttl_ST0(s->tmp2_i32, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            break;
-> > > > > +                        case 2:
-> > > > > +                            gen_helper_fisttll_ST0(s->tmp1_i64, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0,
-> > > > > +                                                s->mem_index, MO_LEQ);
-> > > > > +                            break;
-> > > > > +                        case 3:
-> > > > > +                        default:
-> > > > > +                            gen_helper_fistt_ST0(s->tmp2_i32, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUW);
-> > > > > +                            break;
-> > > > > +                        }
-> > > > > +                        gen_helper_fpop(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        switch (op >> 4) {
-> > > > > +                        case 0:
-> > > > > +                            gen_helper_fsts_ST0(s->tmp2_i32, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            break;
-> > > > > +                        case 1:
-> > > > > +                            gen_helper_fistl_ST0(s->tmp2_i32, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUL);
-> > > > > +                            break;
-> > > > > +                        case 2:
-> > > > > +                            gen_helper_fstl_ST0(s->tmp1_i64, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0,
-> > > > > +                                                s->mem_index, MO_LEQ);
-> > > > > +                            break;
-> > > > > +                        case 3:
-> > > > > +                        default:
-> > > > > +                            gen_helper_fist_ST0(s->tmp2_i32, cpu_env);
-> > > > > +                            tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                                s->mem_index, MO_LEUW);
-> > > > > +                            break;
-> > > > > +                        }
-> > > > > +                        if ((op & 7) == 3) {
-> > > > > +                            gen_helper_fpop(cpu_env);
-> > > > > +                        }
-> > > > > +                        break;
-> > > > > +                    }
+> > > > >                  case 0x0d: /* fldcw mem */
+> > > > >                      tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
+> > > > >                                          s->mem_index, MO_LEUW);
+> > > > >                      gen_helper_fldcw(cpu_env, s->tmp2_i32);
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > > -                case 1: /* fdisi (287 only, just do nop here) */
-> > > > > +                case 0x0c: /* fldenv mem */
-> > > > > +                    gen_helper_fldenv(cpu_env, s->A0,
-> > > > > +                                      tcg_const_i32(dflag - 1));
+> > > > >                  case 0x0e: /* fnstenv mem */
+> > > > >                      gen_helper_fstenv(cpu_env, s->A0,
+> > > > >                                        tcg_const_i32(dflag - 1));
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > > -                case 2: /* fclex */
-> > > > > -                    gen_helper_fclex(cpu_env);
-> > > > > +                case 0x0d: /* fldcw mem */
-> > > > > +                    tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
-> > > > > +                                        s->mem_index, MO_LEUW);
-> > > > > +                    gen_helper_fldcw(cpu_env, s->tmp2_i32);
+> > > > >                  case 0x0f: /* fnstcw mem */
+> > > > >                      gen_helper_fnstcw(s->tmp2_i32, cpu_env);
+> > > > >                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
+> > > > >                                          s->mem_index, MO_LEUW);
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > > -                case 3: /* fninit */
-> > > > > -                    gen_helper_fninit(cpu_env);
-> > > > > +                case 0x0e: /* fnstenv mem */
-> > > > > +                    gen_helper_fstenv(cpu_env, s->A0,
-> > > > > +                                      tcg_const_i32(dflag - 1));
+> > > > >                  case 0x1d: /* fldt mem */
+> > > > >                      gen_helper_fldt_ST0(cpu_env, s->A0);
+> > > > > @@ -6095,15 +6111,18 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > > > >                  case 0x2c: /* frstor mem */
+> > > > >                      gen_helper_frstor(cpu_env, s->A0,
+> > > > >                                        tcg_const_i32(dflag - 1));
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > > -                case 4: /* fsetpm (287 only, just do nop here) */
-> > > > > +                case 0x0f: /* fnstcw mem */
-> > > > > +                    gen_helper_fnstcw(s->tmp2_i32, cpu_env);
-> > > > > +                    tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                        s->mem_index, MO_LEUW);
+> > > > >                  case 0x2e: /* fnsave mem */
+> > > > >                      gen_helper_fsave(cpu_env, s->A0,
+> > > > >                                       tcg_const_i32(dflag - 1));
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > > -                default:
-> > > > > -                    goto unknown_op;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x1d: /* fucomi */
-> > > > > -                if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > -                    goto illegal_op;
-> > > > > -                }
-> > > > > -                gen_update_cc_op(s);
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fucomi_ST0_FT0(cpu_env);
-> > > > > -                set_cc_op(s, CC_OP_EFLAGS);
-> > > > > -                break;
-> > > > > -            case 0x1e: /* fcomi */
-> > > > > -                if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > -                    goto illegal_op;
-> > > > > -                }
-> > > > > -                gen_update_cc_op(s);
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fcomi_ST0_FT0(cpu_env);
-> > > > > -                set_cc_op(s, CC_OP_EFLAGS);
-> > > > > -                break;
-> > > > > -            case 0x28: /* ffree sti */
-> > > > > -                gen_helper_ffree_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                break;
-> > > > > -            case 0x2a: /* fst sti */
-> > > > > -                gen_helper_fmov_STN_ST0(cpu_env, tcg_const_i32(opreg));
-> > > > > -                break;
-> > > > > -            case 0x2b: /* fstp sti */
-> > > > > -            case 0x0b: /* fstp1 sti, undocumented op */
-> > > > > -            case 0x3a: /* fstp8 sti, undocumented op */
-> > > > > -            case 0x3b: /* fstp9 sti, undocumented op */
-> > > > > -                gen_helper_fmov_STN_ST0(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x2c: /* fucom st(i) */
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fucom_ST0_FT0(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x2d: /* fucomp st(i) */
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fucom_ST0_FT0(cpu_env);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x33: /* de/3 */
-> > > > > -                switch(rm) {
-> > > > > -                case 1: /* fcompp */
-> > > > > -                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(1));
-> > > > > -                    gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > -                    gen_helper_fpop(cpu_env);
-> > > > > +                case 0x1d: /* fldt mem */
-> > > > > +                    gen_helper_fldt_ST0(cpu_env, s->A0);
-> > > > > +                    break;
-> > > > > +                case 0x1f: /* fstpt mem */
-> > > > > +                    gen_helper_fstt_ST0(cpu_env, s->A0);
-> > > > >                      gen_helper_fpop(cpu_env);
-> > > > >                      break;
-> > > > > -                default:
-> > > > > -                    goto unknown_op;
-> > > > > -                }
-> > > > > -                break;
-> > > > > -            case 0x38: /* ffreep sti, undocumented op */
-> > > > > -                gen_helper_ffree_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                break;
-> > > > > -            case 0x3c: /* df/4 */
-> > > > > -                switch(rm) {
-> > > > > -                case 0:
-> > > > > +                case 0x2c: /* frstor mem */
-> > > > > +                    gen_helper_frstor(cpu_env, s->A0,
-> > > > > +                                      tcg_const_i32(dflag - 1));
-> > > > > +                    break;
-> > > > > +                case 0x2e: /* fnsave mem */
-> > > > > +                    gen_helper_fsave(cpu_env, s->A0,
-> > > > > +                                     tcg_const_i32(dflag - 1));
-> > > > > +                    break;
-> > > > > +                case 0x2f: /* fnstsw mem */
+> > > > >                  case 0x2f: /* fnstsw mem */
 > > > > >                      gen_helper_fnstsw(s->tmp2_i32, cpu_env);
-> > > > > -                    tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
-> > > > > -                    gen_op_mov_reg_v(s, MO_16, R_EAX, s->T0);
-> > > > > +                    tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
-> > > > > +                                        s->mem_index, MO_LEUW);
-> > > > > +                    break;
-> > > > > +                case 0x3c: /* fbld */
-> > > > > +                    gen_helper_fbld_ST0(cpu_env, s->A0);
-> > > > > +                    break;
-> > > > > +                case 0x3e: /* fbstp */
-> > > > > +                    gen_helper_fbst_ST0(cpu_env, s->A0);
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x3d: /* fildll */
-> > > > > +                    tcg_gen_qemu_ld_i64(s->tmp1_i64, s->A0,
-> > > > > +                                        s->mem_index, MO_LEQ);
-> > > > > +                    gen_helper_fildll_ST0(cpu_env, s->tmp1_i64);
-> > > > > +                    break;
-> > > > > +                case 0x3f: /* fistpll */
-> > > > > +                    gen_helper_fistll_ST0(s->tmp1_i64, cpu_env);
-> > > > > +                    tcg_gen_qemu_st_i64(s->tmp1_i64, s->A0,
-> > > > > +                                        s->mem_index, MO_LEQ);
-> > > > > +                    gen_helper_fpop(cpu_env);
+> > > > >                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
+> > > > >                                          s->mem_index, MO_LEUW);
+> > > > > +                    update_fip = update_fdp = false;
 > > > > >                      break;
-> > > > >                  default:
+> > > > >                  case 0x3c: /* fbld */
+> > > > >                      gen_helper_fbld_ST0(cpu_env, s->A0);
+> > > > > @@ -6146,6 +6165,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > > > >                      case 0: /* fnop */
+> > > > >                          /* check exceptions (FreeBSD FPU probe) */
+> > > > >                          gen_helper_fwait(cpu_env);
+> > > > > +                        update_fip = update_fdp = false;
+> > > > >                          break;
+> > > > >                      default:
+> > > > >                          goto unknown_op;
+> > > > > @@ -6315,9 +6335,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+> > > > >                          break;
+> > > > >                      case 2: /* fclex */
+> > > > >                          gen_helper_fclex(cpu_env);
+> > > > > +                        update_fip = update_fdp = false;
+> > > > >                          break;
+> > > > >                      case 3: /* fninit */
+> > > > >                          gen_helper_fninit(cpu_env);
+> > > > > +                        update_fip = update_fdp = false;
+> > > > >                          break;
+> > > > >                      case 4: /* fsetpm (287 only, just do nop here) */
+> > > > >                          break;
+> > > > > @@ -6438,6 +6460,27 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
 > > > > >                      goto unknown_op;
 > > > > >                  }
-> > > > > -                break;
-> > > > > -            case 0x3d: /* fucomip */
-> > > > > -                if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > -                    goto illegal_op;
-> > > > > -                }
-> > > > > -                gen_update_cc_op(s);
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fucomi_ST0_FT0(cpu_env);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                set_cc_op(s, CC_OP_EFLAGS);
-> > > > > -                break;
-> > > > > -            case 0x3e: /* fcomip */
-> > > > > -                if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > -                    goto illegal_op;
-> > > > > -                }
-> > > > > -                gen_update_cc_op(s);
-> > > > > -                gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                gen_helper_fcomi_ST0_FT0(cpu_env);
-> > > > > -                gen_helper_fpop(cpu_env);
-> > > > > -                set_cc_op(s, CC_OP_EFLAGS);
-> > > > > -                break;
-> > > > > -            case 0x10 ... 0x13: /* fcmovxx */
-> > > > > -            case 0x18 ... 0x1b:
-> > > > > -                {
-> > > > > -                    int op1;
-> > > > > -                    TCGLabel *l1;
-> > > > > -                    static const uint8_t fcmov_cc[8] = {
-> > > > > -                        (JCC_B << 1),
-> > > > > -                        (JCC_Z << 1),
-> > > > > -                        (JCC_BE << 1),
-> > > > > -                        (JCC_P << 1),
-> > > > > -                    };
-> > > > > +            } else {
-> > > > > +                /* register float ops */
-> > > > > +                opreg = rm;
-> > > > > +
-> > > > > +                switch (op) {
-> > > > > +                case 0x08: /* fld sti */
-> > > > > +                    gen_helper_fpush(cpu_env);
-> > > > > +                    gen_helper_fmov_ST0_STN(cpu_env,
-> > > > > +                                            tcg_const_i32((opreg + 1) & 7));
-> > > > > +                    break;
-> > > > > +                case 0x09: /* fxchg sti */
-> > > > > +                case 0x29: /* fxchg4 sti, undocumented op */
-> > > > > +                case 0x39: /* fxchg7 sti, undocumented op */
-> > > > > +                    gen_helper_fxchg_ST0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    break;
-> > > > > +                case 0x0a: /* grp d9/2 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 0: /* fnop */
-> > > > > +                        /* check exceptions (FreeBSD FPU probe) */
-> > > > > +                        gen_helper_fwait(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        goto unknown_op;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x0c: /* grp d9/4 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 0: /* fchs */
-> > > > > +                        gen_helper_fchs_ST0(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 1: /* fabs */
-> > > > > +                        gen_helper_fabs_ST0(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 4: /* ftst */
-> > > > > +                        gen_helper_fldz_FT0(cpu_env);
-> > > > > +                        gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 5: /* fxam */
-> > > > > +                        gen_helper_fxam_ST0(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        goto unknown_op;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x0d: /* grp d9/5 */
-> > > > > +                    {
-> > > > > +                        switch (rm) {
-> > > > > +                        case 0:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fld1_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        case 1:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fldl2t_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        case 2:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fldl2e_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        case 3:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fldpi_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        case 4:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fldlg2_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        case 5:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fldln2_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        case 6:
-> > > > > +                            gen_helper_fpush(cpu_env);
-> > > > > +                            gen_helper_fldz_ST0(cpu_env);
-> > > > > +                            break;
-> > > > > +                        default:
-> > > > > +                            goto unknown_op;
-> > > > > +                        }
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x0e: /* grp d9/6 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 0: /* f2xm1 */
-> > > > > +                        gen_helper_f2xm1(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 1: /* fyl2x */
-> > > > > +                        gen_helper_fyl2x(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 2: /* fptan */
-> > > > > +                        gen_helper_fptan(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 3: /* fpatan */
-> > > > > +                        gen_helper_fpatan(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 4: /* fxtract */
-> > > > > +                        gen_helper_fxtract(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 5: /* fprem1 */
-> > > > > +                        gen_helper_fprem1(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 6: /* fdecstp */
-> > > > > +                        gen_helper_fdecstp(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                    case 7: /* fincstp */
-> > > > > +                        gen_helper_fincstp(cpu_env);
-> > > > > +                        break;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x0f: /* grp d9/7 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 0: /* fprem */
-> > > > > +                        gen_helper_fprem(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 1: /* fyl2xp1 */
-> > > > > +                        gen_helper_fyl2xp1(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 2: /* fsqrt */
-> > > > > +                        gen_helper_fsqrt(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 3: /* fsincos */
-> > > > > +                        gen_helper_fsincos(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 5: /* fscale */
-> > > > > +                        gen_helper_fscale(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 4: /* frndint */
-> > > > > +                        gen_helper_frndint(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 6: /* fsin */
-> > > > > +                        gen_helper_fsin(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                    case 7: /* fcos */
-> > > > > +                        gen_helper_fcos(cpu_env);
-> > > > > +                        break;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x00: case 0x01: case 0x04 ... 0x07: /* fxxx st, sti */
-> > > > > +                case 0x20: case 0x21: case 0x24 ... 0x27: /* fxxx sti, st */
-> > > > > +                case 0x30: case 0x31: case 0x34 ... 0x37: /* fxxxp sti, st */
-> > > > > +                    {
-> > > > > +                        int op1;
-> > > > >
-> > > > > +                        op1 = op & 7;
-> > > > > +                        if (op >= 0x20) {
-> > > > > +                            gen_helper_fp_arith_STN_ST0(op1, opreg);
-> > > > > +                            if (op >= 0x30) {
-> > > > > +                                gen_helper_fpop(cpu_env);
-> > > > > +                            }
-> > > > > +                        } else {
-> > > > > +                            gen_helper_fmov_FT0_STN(cpu_env,
-> > > > > +                                                    tcg_const_i32(opreg));
-> > > > > +                            gen_helper_fp_arith_ST0_FT0(op1);
-> > > > > +                        }
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x02: /* fcom */
-> > > > > +                case 0x22: /* fcom2, undocumented op */
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x03: /* fcomp */
-> > > > > +                case 0x23: /* fcomp3, undocumented op */
-> > > > > +                case 0x32: /* fcomp5, undocumented op */
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x15: /* da/5 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 1: /* fucompp */
-> > > > > +                        gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(1));
-> > > > > +                        gen_helper_fucom_ST0_FT0(cpu_env);
-> > > > > +                        gen_helper_fpop(cpu_env);
-> > > > > +                        gen_helper_fpop(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        goto unknown_op;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x1c:
-> > > > > +                    switch (rm) {
-> > > > > +                    case 0: /* feni (287 only, just do nop here) */
-> > > > > +                        break;
-> > > > > +                    case 1: /* fdisi (287 only, just do nop here) */
-> > > > > +                        break;
-> > > > > +                    case 2: /* fclex */
-> > > > > +                        gen_helper_fclex(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 3: /* fninit */
-> > > > > +                        gen_helper_fninit(cpu_env);
-> > > > > +                        break;
-> > > > > +                    case 4: /* fsetpm (287 only, just do nop here) */
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        goto unknown_op;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x1d: /* fucomi */
-> > > > >                      if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > >                          goto illegal_op;
-> > > > >                      }
-> > > > > -                    op1 = fcmov_cc[op & 3] | (((op >> 3) & 1) ^ 1);
-> > > > > -                    l1 = gen_new_label();
-> > > > > -                    gen_jcc1_noeob(s, op1, l1);
-> > > > > -                    gen_helper_fmov_ST0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > -                    gen_set_label(l1);
-> > > > > +                    gen_update_cc_op(s);
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fucomi_ST0_FT0(cpu_env);
-> > > > > +                    set_cc_op(s, CC_OP_EFLAGS);
-> > > > > +                    break;
-> > > > > +                case 0x1e: /* fcomi */
-> > > > > +                    if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > +                        goto illegal_op;
-> > > > > +                    }
-> > > > > +                    gen_update_cc_op(s);
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fcomi_ST0_FT0(cpu_env);
-> > > > > +                    set_cc_op(s, CC_OP_EFLAGS);
-> > > > > +                    break;
-> > > > > +                case 0x28: /* ffree sti */
-> > > > > +                    gen_helper_ffree_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    break;
-> > > > > +                case 0x2a: /* fst sti */
-> > > > > +                    gen_helper_fmov_STN_ST0(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    break;
-> > > > > +                case 0x2b: /* fstp sti */
-> > > > > +                case 0x0b: /* fstp1 sti, undocumented op */
-> > > > > +                case 0x3a: /* fstp8 sti, undocumented op */
-> > > > > +                case 0x3b: /* fstp9 sti, undocumented op */
-> > > > > +                    gen_helper_fmov_STN_ST0(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x2c: /* fucom st(i) */
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fucom_ST0_FT0(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x2d: /* fucomp st(i) */
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fucom_ST0_FT0(cpu_env);
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x33: /* de/3 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 1: /* fcompp */
-> > > > > +                        gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(1));
-> > > > > +                        gen_helper_fcom_ST0_FT0(cpu_env);
-> > > > > +                        gen_helper_fpop(cpu_env);
-> > > > > +                        gen_helper_fpop(cpu_env);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        goto unknown_op;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x38: /* ffreep sti, undocumented op */
-> > > > > +                    gen_helper_ffree_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    break;
-> > > > > +                case 0x3c: /* df/4 */
-> > > > > +                    switch (rm) {
-> > > > > +                    case 0:
-> > > > > +                        gen_helper_fnstsw(s->tmp2_i32, cpu_env);
-> > > > > +                        tcg_gen_extu_i32_tl(s->T0, s->tmp2_i32);
-> > > > > +                        gen_op_mov_reg_v(s, MO_16, R_EAX, s->T0);
-> > > > > +                        break;
-> > > > > +                    default:
-> > > > > +                        goto unknown_op;
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                case 0x3d: /* fucomip */
-> > > > > +                    if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > +                        goto illegal_op;
-> > > > > +                    }
-> > > > > +                    gen_update_cc_op(s);
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fucomi_ST0_FT0(cpu_env);
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    set_cc_op(s, CC_OP_EFLAGS);
-> > > > > +                    break;
-> > > > > +                case 0x3e: /* fcomip */
-> > > > > +                    if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > +                        goto illegal_op;
-> > > > > +                    }
-> > > > > +                    gen_update_cc_op(s);
-> > > > > +                    gen_helper_fmov_FT0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                    gen_helper_fcomi_ST0_FT0(cpu_env);
-> > > > > +                    gen_helper_fpop(cpu_env);
-> > > > > +                    set_cc_op(s, CC_OP_EFLAGS);
-> > > > > +                    break;
-> > > > > +                case 0x10 ... 0x13: /* fcmovxx */
-> > > > > +                case 0x18 ... 0x1b:
-> > > > > +                    {
-> > > > > +                        int op1;
-> > > > > +                        TCGLabel *l1;
-> > > > > +                        static const uint8_t fcmov_cc[8] = {
-> > > > > +                            (JCC_B << 1),
-> > > > > +                            (JCC_Z << 1),
-> > > > > +                            (JCC_BE << 1),
-> > > > > +                            (JCC_P << 1),
-> > > > > +                        };
-> > > > > +
-> > > > > +                        if (!(s->cpuid_features & CPUID_CMOV)) {
-> > > > > +                            goto illegal_op;
-> > > > > +                        }
-> > > > > +                        op1 = fcmov_cc[op & 3] | (((op >> 3) & 1) ^ 1);
-> > > > > +                        l1 = gen_new_label();
-> > > > > +                        gen_jcc1_noeob(s, op1, l1);
-> > > > > +                        gen_helper_fmov_ST0_STN(cpu_env, tcg_const_i32(opreg));
-> > > > > +                        gen_set_label(l1);
-> > > > > +                    }
-> > > > > +                    break;
-> > > > > +                default:
-> > > > > +                    goto unknown_op;
-> > > > >                  }
-> > > > > -                break;
-> > > > > -            default:
-> > > > > -                goto unknown_op;
 > > > > >              }
+> > > > > +
+> > > > > +            if (update_fip) {
+> > > > > +                tcg_gen_ld32u_tl(s->T0, cpu_env,
+> > > > > +                                 offsetof(CPUX86State, segs[R_CS].selector));
+> > > > > +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpcs));
+> > > > > +
+> > > > > +                tcg_gen_movi_tl(s->T0, pc_start - s->cs_base);
+> > > > > +                tcg_gen_st_tl(s->T0, cpu_env, offsetof(CPUX86State, fpip));
+> > > > > +            }
+> > > > > +
+> > > > > +            if (update_fdp) {
+> > > > > +                if (s->override >= 0) {
+> > > > > +                    last_seg = s->override;
+> > > > > +                }
+> > > > > +                tcg_gen_ld32u_tl(s->T0, cpu_env,
+> > > > > +                                 offsetof(CPUX86State,
+> > > > > +                                 segs[last_seg].selector));
+> > > > > +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpds));
+> > > > > +
+> > > > > +                tcg_gen_st_tl(last_addr, cpu_env, offsetof(CPUX86State, fpdp));
+> > > > > +            }
 > > > > >          }
 > > > > >          break;
+> > > > >          /************************/
 > > > > > --
 > > > > > 2.25.1
 > > > > >
