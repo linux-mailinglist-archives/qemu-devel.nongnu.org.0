@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56A83BC5B4
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:47:56 +0200 (CEST)
-Received: from localhost ([::1]:38152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 527A53BC5A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:41:03 +0200 (CEST)
+Received: from localhost ([::1]:37420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0czz-0007xa-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46774)
+	id 1m0ctJ-0005Q1-0s
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:41:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfn-0000oR-2B
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53112)
+ id 1m0cfl-0000lS-Nm
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:01 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfk-0003XZ-CR
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:02 -0400
+ id 1m0cfi-0003Wn-W6
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:01 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfX-0004xN-3l
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:47 +0000
+ id 1m0cfV-0004xC-Jq
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:45 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B63B22E82A8
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:24 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7FC372E8370
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:23 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:22 -0000
-From: Launchpad Bug Tracker <1865350@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:23 -0000
+From: Launchpad Bug Tracker <1866577@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: f1outsourcing janitor th-huth
-X-Launchpad-Bug-Reporter: f1outsourcing (f1outsourcing)
+X-Launchpad-Bug-Commenters: janitor luoyonggang th-huth
+X-Launchpad-Bug-Reporter: Yonggang Luo (luoyonggang)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158307617196.25994.14347393969000973600.malonedeb@gac.canonical.com>
-Message-Id: <162554504278.7821.5423332406878060716.malone@loganberry.canonical.com>
-Subject: [Bug 1865350] Re: fstrim not working with image mounted to path?
+References: <158371718383.12217.15072587639340612485.malonedeb@wampee.canonical.com>
+Message-Id: <162554504344.7821.12566862156435360821.malone@loganberry.canonical.com>
+Subject: [Bug 1866577] Re: powerpc-none-eabi-gdb.exe GDB 9.1 with QEMU 4.2
+ gdb-stub comes with Reply contains invalid hex digit 79
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 419a092f4bfef9e243545e6b38c826a8888ad043
+X-Launchpad-Hash: fd34b529a859c87d11f579ca20154a9d01f15a9e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1865350 <1865350@bugs.launchpad.net>
+Reply-To: Bug 1866577 <1866577@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,59 +84,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1865350
+https://bugs.launchpad.net/bugs/1866577
 
 Title:
-  fstrim not working with image mounted to path?
+  powerpc-none-eabi-gdb.exe GDB 9.1 with QEMU 4.2 gdb-stub comes with
+  Reply contains invalid hex digit 79
 
 Status in QEMU:
   Expired
 
 Bug description:
-  =
+  I am using powerpc-none-eabi-gdb with qemu 4.2, but it comes with =
 
-  guest os: windows server standard 2016
-  qemu agent version 100.0.0
+  the following error:
 
-  os supports trimming
-  path mounted image does not support trimming
+  undefinedC:\CI-Tools\msys64\powerpc-none-eabi\usr\local\bin\powerpc-
+  none-eabi-gdb.exe: warning: Couldn't determine a path for the index
+  cache directory.
 
-  C:\Users\Administrator>fsutil behavior query disabledeletenotify
-  NTFS DisableDeleteNotify =3D 0
-  ReFS DisableDeleteNotify =3D 1
+  ```Not implemented stop reason (assuming exception): undefined```
+  The target architecture is assumed to be powerpc:603
 
-  =
-
-  [@ ~]# virsh qemu-agent-command vps-xxx '{"execute":"guest-fstrim"}'
-  {"return":{"paths":[{"path":"C:\\"},{"path":"C:\\Program Files\\Microsoft=
-\\Exchange Server\\V15\\Mailbox\\xxxx\\","error":"The given volume path is =
-invalid. (0x89000001)"}]}}
-
-  =
-
-  Looks like the fstrim does not like/check images mounted on a path? Nor d=
-etects if image trimming is supported. xxxx is a ReFS mounted image without=
- trimming support. =
-
-
-  If I enable trimming on the ReFS image, and configure it win2016, the
-  result is still the same.
-
-  =
-
-  C:\Users\Administrator>fsutil behavior query disabledeletenotify
-  NTFS DisableDeleteNotify =3D 0
-  ReFS DisableDeleteNotify =3D 0
-
-  [root@c03 ~]# virsh qemu-agent-command vps-xxx '{"execute":"guest-fstrim"=
-}'
-  {"return":{"paths":[{"path":"C:\\"},{"path":"C:\\Program Files\\Microsoft=
-\\Exchange Server\\V15\\Mailbox\\xxxx\\","error":"The given volume path is =
-invalid. (0x89000001)"}]}}
-
-  PS. tried this on a win 2016 std server with just one fs, no problems
-  then.
+  ```
+  Reply contains invalid hex digit 79
+  ```
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1865350/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1866577/+subscriptions
 
