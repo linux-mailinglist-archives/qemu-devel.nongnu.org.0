@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E987D3BC576
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:27:50 +0200 (CEST)
-Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059EF3BC57B
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:29:38 +0200 (CEST)
+Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cgW-0001ZV-UA
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:27:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46284)
+	id 1m0ciG-000777-OH
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cf3-0007S2-Bx
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:17 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50674)
+ id 1m0cf4-0007Sb-Gd
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cez-00033e-R4
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:17 -0400
+ id 1m0cf1-00035w-RW
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:18 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0ceu-0004xO-BM
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:08 +0000
+ id 1m0cew-0004xO-S4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E432F2E82B5
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:25:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3C8112E8248
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:25:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:40 -0000
-From: Launchpad Bug Tracker <1904259@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:41 -0000
+From: Launchpad Bug Tracker <1888492@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
- status=Expired; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Tags: haxm windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor oceanfish81 th-huth
-X-Launchpad-Bug-Reporter: Ivan Serdyuk (oceanfish81)
+X-Launchpad-Bug-Commenters: janitor th-huth zhaosq
+X-Launchpad-Bug-Reporter: ZhaoSQ-CH (zhaosq)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160532517027.32164.5994775965173619452.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162554506071.7821.15559952299351895711.malone@loganberry.canonical.com>
-Subject: [Bug 1904259] Re: include/qemu/atomic.h:495:5: error: misaligned
- atomic operation may incur significant performance penalty (Clang 11;
- Ubuntu 16 i686)
+References: <159541364991.32738.5508954702379988107.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162554506177.7821.15492359133841061932.malone@loganberry.canonical.com>
+Subject: [Bug 1888492] Re: After installing Ubuntu,
+ restart and pop up the CMD command prompt
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: c4851b74730bd24ae796fedec2687430740d4ea6
+X-Launchpad-Hash: 95b2236ee70604d92b9782c761bbcd397bc88683
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,88 +72,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904259 <1904259@bugs.launchpad.net>
+Reply-To: Bug 1888492 <1888492@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for Ubuntu because there has been no activity for 60 days.]
+[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: ubuntu
+** Changed in: qemu
        Status: Incomplete =3D> Expired
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904259
+https://bugs.launchpad.net/bugs/1888492
 
 Title:
-  include/qemu/atomic.h:495:5: error: misaligned atomic operation may
-  incur significant performance penalty (Clang 11; Ubuntu 16 i686)
+  After installing Ubuntu, restart and pop up the CMD command prompt
 
 Status in QEMU:
   Expired
-Status in Ubuntu:
-  Expired
 
 Bug description:
-  Hello.
-  I haven't found any "official" executables, for emulating RISC-V (32bit; =
-64bit) so I had to compile those myself.
+  QEMU release version=EF=BC=9A V5.1.0
+  time=EF=BC=9A2020=E5=B9=B47=E6=9C=8822=E6=97=A510:34:40
+  Operation: =E5=AE=89=E8=A3=85=E5=AE=8CUbuntu=E5=90=8E=E9=87=8D=E6=96=B0=
+=E5=90=AF=E5=8A=A8=EF=BC=8C=E5=B9=B6=E5=BC=B9=E5=87=BACMD=E5=91=BD=E4=BB=A4=
+=E6=8F=90=E7=A4=BA=E7=AC=A6
+  use Ubuntu release version =EF=BC=9AV20.04-desktop.
+  use windows release version: windows 10.
+  Question:
+  Command used=EF=BC=9Aqemu-system-x86_64.exe -name test -m 4096 -machine a=
+ccel=3Dhax -cdrom .\workspace\ubuntu\ubuntu-20.04-desktop-amd64.iso .\works=
+pace\img\ubuntu.img
+  HAX is working and emulator runs in fast virt mode.
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
 
-  I found that auto-generated build scripts, for Ninja, contained some
-  warnings interpreted as errors:
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
 
-  =
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
 
-  oceanfish81@gollvm:~/Desktop/qemu/build$ ninja -j 1
-  [2/1977] Compiling C object libqemuutil.a.p/util_qsp.c.o
-  FAILED: libqemuutil.a.p/util_qsp.c.o =
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
 
-  clang-11 -Ilibqemuutil.a.p -I. -I.. -Iqapi -Itrace -Iui -Iui/shader -I/us=
-r/include/glib-2.0 -I/usr/lib/i386-linux-gnu/glib-2.0/include -I/usr/includ=
-e/gio-unix-2.0/ -Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -Werr=
-or -std=3Dgnu99 -O2 -g -m32 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGE=
-FILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -=
-Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-de=
-finition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored=
--qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-def=
-ined -Wno-initializer-overrides -Wno-missing-include-dirs -Wno-shift-negati=
-ve-value -Wno-string-plus-int -Wno-typedef-redefinition -Wno-tautological-t=
-ype-limit-compare -Wno-psabi -fstack-protector-strong -isystem /home/oceanf=
-ish81/Desktop/qemu/linux-headers -isystem linux-headers -iquote /home/ocean=
-fish81/Desktop/qemu/tcg/i386 -iquote . -iquote /home/oceanfish81/Desktop/qe=
-mu -iquote /home/oceanfish81/Desktop/qemu/accel/tcg -iquote /home/oceanfish=
-81/Desktop/qemu/include -iquote /home/oceanfish81/Desktop/qemu/disas/libvix=
-l -pthread -Wno-unused-function -fPIC -MD -MQ libqemuutil.a.p/util_qsp.c.o =
--MF libqemuutil.a.p/util_qsp.c.o.d -o libqemuutil.a.p/util_qsp.c.o -c ../ut=
-il/qsp.c
-  In file included from ../util/qsp.c:62:
-  In file included from /home/oceanfish81/Desktop/qemu/include/qemu/thread.=
-h:4:
-  In file included from /home/oceanfish81/Desktop/qemu/include/qemu/process=
-or.h:10:
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:495:5: error: misali=
-gned atomic operation may incur significant performance penalty [-Werror,-W=
-atomic-alignment]
-      qatomic_set__nocheck(ptr, val);
-      ^
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:138:5: note: expande=
-d from macro 'qatomic_set__nocheck'
-      __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
-      ^
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:485:12: error: misal=
-igned atomic operation may incur significant performance penalty [-Werror,-=
-Watomic-alignment]
-      return qatomic_read__nocheck(ptr);
-             ^
-  /home/oceanfish81/Desktop/qemu/include/qemu/atomic.h:129:5: note: expande=
-d from macro 'qatomic_read__nocheck'
-      __atomic_load_n(ptr, __ATOMIC_RELAXED)
-      ^
-  2 errors generated.
-  ninja: build stopped: subcommand failed.
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  *** BUG ***
+  In pixman_region32_init_rect: Invalid rectangle passed
+  Set a breakpoint on '_pixman_log_error' to debug
+
+  (qemu:660): Gtk-WARNING **: Negative content width -7 (allocation 1,
+  extents 4x4) while allocating gadget (node headerbar, owner
+  GtkHeaderBar)
+
+  (qemu:660): Gtk-WARNING **: gtk_widget_size_allocate(): attempt to
+  allocate widget with width -102 and height 16
+
+  (qemu:660): Gtk-WARNING **: Negative content width -23 (allocation 1, ext=
+ents 12x12) while allocating gadget (node label, owner GtkLabel)
+  qemu-system-x86_64.exe: Gtk: gtk_distribute_natural_allocation: assertion=
+ 'extra_space >=3D 0' failed
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904259/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1888492/+subscriptions
 
