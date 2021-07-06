@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DFA3BC86E
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 11:20:24 +0200 (CEST)
-Received: from localhost ([::1]:38100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 994F43BC872
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 11:22:36 +0200 (CEST)
+Received: from localhost ([::1]:41610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0hFf-0003gH-Df
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 05:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32850)
+	id 1m0hHn-00066I-L4
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 05:22:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1m0hEa-00031L-M5; Tue, 06 Jul 2021 05:19:16 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:60318)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0hFd-0004Ny-61
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:20:21 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:35464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1m0hEY-0006Pb-TB; Tue, 06 Jul 2021 05:19:16 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4005F1FF37;
- Tue,  6 Jul 2021 09:19:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625563151; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q9GfnC8ZVhqplPHXhloMFLqPJ10pK8ChB9vsvh6VfDc=;
- b=n0Wmg3imoR/7b8pA7piak4/EXod0haCGq3rUF7T2gZXMqeytWP6BniGt7Q84WoPIg5bGTX
- CUp3xDYmwTpVefoyf0jMN8qBqo3tuHypT6Gg0e/SyPZ9UhVeXvxRVWQhHsG+6u6wYLUbn2
- QeaQKi603IQWBqZDEv5k1SW+D5HGc1o=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625563151;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q9GfnC8ZVhqplPHXhloMFLqPJ10pK8ChB9vsvh6VfDc=;
- b=oORf+p5pzOUhOYyYdNo94SccsRLG6iOCvUo9QY+xAjd/4CILJOI2SsqwymfQsQHVLAZNxq
- WJ60V01sKymIrLAA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 0041A1367E;
- Tue,  6 Jul 2021 09:19:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id sFtgOQ4g5GDgTgAAGKfGzw
- (envelope-from <cfontana@suse.de>); Tue, 06 Jul 2021 09:19:10 +0000
-Subject: Re: [RFC v6 08/13] target/s390x: split cpu-dump from helper.c
-To: Thomas Huth <thuth@redhat.com>, Al Cho <ACho@suse.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-s390x@nongnu.org" <qemu-s390x@nongnu.org>
-References: <20210629141931.4489-1-acho@suse.com>
- <20210629141931.4489-9-acho@suse.com>
- <f4848e38-ecce-c6b1-254b-e93fe45711ca@redhat.com>
- <1fc14922aa88d7cd6cbfe3e5e76e10aa8150fe4a.camel@suse.com>
- <101135a9-2b08-ab8b-dd48-8fc1d8f00358@suse.de>
- <27d64c9b946b8d7183b6f7d5154aa36fad9dec23.camel@suse.com>
- <7083a732-53ff-39a7-bffc-f47946949fec@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <08b9c847-55f2-31b6-9db9-456fa43ab37a@suse.de>
-Date: Tue, 6 Jul 2021 11:19:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m0hFa-0007BW-8g
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:20:20 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id gn32so33140219ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 02:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j8utvUwGmnSj4i0ZNghCpjrtWVvYQiBM5G3dLKA3ykk=;
+ b=TwgZ9V3CxKaK66UCIpKjanNEn389PncQ0xG9Anzox/WetZT3ALZA1NKyjAWKHmTtPc
+ o19Y2W7Bhyz4xF6dS/7gjdrQUQtBo7hBj0nEQwjOYGkdQhZnhi9vYE/PCjOkuG817BBu
+ Zqw4HGwjJmLMbnDkVJctBfbANFDnqoafKaC+U0Q5cm3gCMqGDSlJnJOnb0f0qvEfAEa4
+ YY695X79XpeBrdTRC3TPdUZoZAGoWJQYoBCcMBrBt9pyeuCDUK6G+SZeGHGlP00DEBsR
+ qo3aXQzJ92Ewll95aSwFklIem40YUZfkQLwbPwb2rJ1vgYvkjEMm5M2IriC5MMLBbDpN
+ BE+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j8utvUwGmnSj4i0ZNghCpjrtWVvYQiBM5G3dLKA3ykk=;
+ b=rI5ikoYhoI5SriLihXVCIxnTrbr84grawUqyIK2MTwBnjYeVKSJzscwVE2ftxZ1d2s
+ NjOsLVFgJtR9xDoChpm6FB4N/xecb68caZsCJ4PL6A9D0A2f7h/9YYuJ/P6ZmY3CRaWB
+ IT1xoVUbaAmOM9horpQy0BkyANMRYSsGG/cBNpyI0swyCkaz7Xzkr3AQHFjfMdzS3H1A
+ 1zoxd58xuU5MXgcyFDTe8gVpzH73k76LeGIS3QAE1O7xh78v06ulQefeWNLM45tZ1S92
+ a/cxfjqRZhvtKHGKg5iZ48K7KMZ9USUp7X8AidOg65Fic7Atu2MBKUoes5FG0dYYmopr
+ CQ9A==
+X-Gm-Message-State: AOAM533IHYHOZ7FN4MA4hgVrKZhJGDfJbLsIGi4c0WpXBod2A57n5WxZ
+ DmlfsvxoWGJSDS+vegH91lS0halOqVMjXUtQrNFuug==
+X-Google-Smtp-Source: ABdhPJz/OIS4BTJVnZn47D4aMLL+Xf/wTvE8jUeK/b+N0rSvnhyYbzRcF3fHPwjzCoElia62nLIePgcNLnenrbHuPRQ=
+X-Received: by 2002:a17:907:3e02:: with SMTP id
+ hp2mr17384935ejc.4.1625563215570; 
+ Tue, 06 Jul 2021 02:20:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7083a732-53ff-39a7-bffc-f47946949fec@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+ <20210630153156.9421-5-shashi.mallela@linaro.org>
+ <CAFEAcA-ZeKEMTp5X0VWXu+hip9ryzQLTLNwd_bsKQybyT_k7CQ@mail.gmail.com>
+ <bbb32d79ed60fb90128b3662ec925f60ca258e8a.camel@linaro.org>
+ <287eb50c0b99a3daec986ec29ede33cb2bdfd025.camel@linaro.org>
+In-Reply-To: <287eb50c0b99a3daec986ec29ede33cb2bdfd025.camel@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 6 Jul 2021 10:19:37 +0100
+Message-ID: <CAFEAcA-xC_v2z=QaD=_dkFWx2Hr+UFd0h_YTtSi6MNPhk6-Sbg@mail.gmail.com>
+Subject: Re: [PATCH v5 04/10] hw/intc: GICv3 ITS Command processing
+To: Shashi Mallela <shashi.mallela@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,76 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Claudio Fontana <Claudio.Fontana@suse.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>,
- =?UTF-8?Q?Jos=c3=a9_Ricardo_Ziviani?= <jose.ziviani@suse.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/21 11:06 AM, Thomas Huth wrote:
-> On 06/07/2021 10.47, Al Cho wrote:
->> On Mon, 2021-07-05 at 08:25 +0200, Claudio Fontana wrote:
->>> On 7/2/21 9:25 AM, Al Cho wrote:
->>>> On Thu, 2021-07-01 at 14:35 +0200, Thomas Huth wrote:
->>>>> On 29/06/2021 16.19, Cho, Yu-Chen wrote:
->>>>>> Splitting this functionality also allows us to make helper.c
->>>>>> sysemu-
->>>>>> only.
->>>>>>
->>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>>>>> Signed-off-by: Cho, Yu-Chen <acho@suse.com>
->>>>>> Acked-by: Cornelia Huck <cohuck@redhat.com>
->>>>>> ---
->>>>>>    target/s390x/cpu-dump.c  | 176
->>>>>> +++++++++++++++++++++++++++++++++++++++
->>>>>
->>>>> Apart from the dump() function, the other functions here are are
->>>>> used
->>>>> in
->>>>> other contexts, too, so maybe the name is not very appropriate
->>>>> here...
->>>>> What
->>>>> about naming it "cpu-state.c" instead? Or include the functions
->>>>> in
->>>>> cpu.c
->>>>> directly?
->>>>>
->>>>
->>>> ok, I think naming it "cpu-state.c" would make more sense.
->>>>
->>>> Thanks,
->>>>              AL
->>>>
->>>
->>> For context, cpu-dump.c mimics how this is done on x86,
->>>
->>> so rather than coming up with creative new names for each
->>> architecture,
->>
->> I think Claudio is right, I didn't recognize it before. sorry.
->>
->>> I'd rather either put the code into cpu.c, or just keep the existing
->>> "cpu-dump.c" as in the initially proposed patch, which looks like the
->>> best option to me.
->>>
->>
->> For me just keep the existing "cpu-dump.c" as in the initially proposed
->> patch would be the better one option.
->> But it's also good to me if we keep the dump() function in cpu-dump.c
->> and put other functions into cpu.c.
-> 
-> FWIW, if you don't like cpu-state.c, I'd vote for putting the dump() 
-> function into cpu-dump.c and put the other functions into cpu.c instead.
-> 
->   Thomas
-> 
+On Tue, 6 Jul 2021 at 04:25, <shashi.mallela@linaro.org> wrote:
+>
+> On Mon, 2021-07-05 at 20:47 -0400, shashi.mallela@linaro.org wrote:
+> > On Mon, 2021-07-05 at 15:54 +0100, Peter Maydell wrote:
+> > > I missed this the first time around, but I don't think this is
+> > > right.
+> > > Different CPUs could have different GICR_PROPBASER values, so
+> > > checking
+> > > against just one of them is wrong. The pseudocode only tests
+> > > LPIOutOfRange()
+> > > which is documented as testing "larger than GICD_TYPER.IDbits or
+> > > not
+> > > in
+> > > the LPI range and not 1023". So I don't think we should be looking
+> > > at the GICR_PROPBASER field here.
+> > >
+> > > More generally, "s->gicv3->cpu->something" is usually going to be
+> > > wrong, because it is implicitly looking at CPU 0; often either
+> > > there
+> > > should be something else telling is which CPU to use (as in
+> > > &s->gicv3->cpu[rdbase] where the CTE told us which redistributor),
+> > > or we might need to operate on all CPUs/redistributors. The only
+> > > exception is where we can guarantee that all the CPUs are the same
+> > > (eg when looking at GICR_TYPER.PLPIS.)
 
-Ah I see the issue now, the patch currently includes functions in cpu-dump.c that are not really cpu dump functions,
-and should go back into cpu.c .
+> Please ignore my last comment.
+>
+> To address this scenario,i think the feasible option would be to call
+> get_cte() to get the rdbase corresponding to icid value passed to mapti
+> command.Since each icid is mapped to a rdbase(by virtue of calling MAPC
+> command),if the collection table has a valid mapping for this icid we
+> continue processing this MAPTI command using &s->gicv3->cpu[rdbase]
+> applicable propbaser value to validate idbits, else return without
+> further processing.
 
-Agreed, this seems to be the next step.
+But the pseudocode for MAPTI does not say anywhere that we should
+be checking the pIntID against any CPU's GICR_PROPBASER field.
+It is checked only by the checks in LPIOutOfRange(), which tests:
+ * is it larger than permitted by GICD_TYPER.IDbits
+ * is it not in the LPI range and not 1023
 
-Thanks,
+Checking whether the intID is too big and would cause us to index
+off the end of the redistributor's configuration table should be done
+later, only when the ITS actually sends the interrupt to a particular
+redistributor, I think.
 
-Claudio
+(You can't rely on the guest having done the MAPC before the MAPTI;
+and in any case the guest could choose to do a MAPC to a different
+redistributor after it's done the MAPTI.)
+
+thanks
+-- PMM
 
