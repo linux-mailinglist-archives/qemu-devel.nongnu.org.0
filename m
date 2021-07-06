@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DC33BDE0D
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:30:00 +0200 (CEST)
-Received: from localhost ([::1]:37714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EF53BDE35
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 21:54:12 +0200 (CEST)
+Received: from localhost ([::1]:43216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0qlb-0003WD-R0
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:29:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
+	id 1m0r90-0007LR-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 15:54:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1m0qkX-0002lE-Su
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:28:53 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:39688)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>)
+ id 1m0r7d-0006Ql-U1; Tue, 06 Jul 2021 15:52:45 -0400
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:34550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
- id 1m0qkV-000554-SX
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 15:28:53 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id x192so8076951ybe.6
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 12:28:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mrolnik@gmail.com>)
+ id 1m0r7c-0006mq-5K; Tue, 06 Jul 2021 15:52:45 -0400
+Received: by mail-qk1-x732.google.com with SMTP id g4so21440132qkl.1;
+ Tue, 06 Jul 2021 12:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z8QWHIPn8YA6r2/tN1MzPJSyJjrvroHghg6y3PqwyP8=;
- b=ixZbFJHgi/Y1T3pQaj/0GpwQ4JKl6XsLcgTGRJMmj2lx4JHzmrFqFcHzuVEawIqDD0
- hSD16dxd1zyn1smJVE05PJ35NnGRICBtb06EWM/vAbotdx5LjuZ7B0WLUVsnmbD/Htb/
- vsPHqsGggVTdpfb87U68ce1NGeHQ9WDqPkZlvmk+RETnOgjisivVl0APxuSaveE+zs3R
- oMkoPC/bITdP7jSQpK7u4R0Q7Xzu2sm4OviGL4eUm3IqSTQM0cnTN4uMzk/T/r/RRZDC
- TWzu7o+Ad6VlkcHUmD03zkZZIkYA43a0m6x1nEEXRVyTyQlg9T/CoWzfpF7aXURCAcBF
- xA5g==
+ :cc; bh=yx6qXRndyM6IhQcG11KPBRzCyVmq3uxLQ9K3a+CywqU=;
+ b=H6S0pxdUSVpxoO6e4raZZ3T3U01u0s9kQip3caII2LUuWEjH/6sVeA+ExP7xjGjhUB
+ gOrS5xqFiRQCvH/CY2YvJlXmgS9shXKoku4QipdCpP2jlhs5UCSOgJLlj0XycppB+f31
+ mlh9AoQJpOsfRu3uspi5A2mmEHcP8mhP3sxny3dIE181NicsA5FSR7mGWU6nRfNQxUyk
+ WwVQk9ptqCp+Vn770tP2Ee9mVStW0wQ3ndMMwhHah6sekJ2vtSHEaf6z0jzUgYlQTUvz
+ qnswYDMody8/vTiSE2wRHfgaDCeY7dRmSovG0iSrogTnknh2ZM9PunU8X1ZLe6Uk42jQ
+ ABsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z8QWHIPn8YA6r2/tN1MzPJSyJjrvroHghg6y3PqwyP8=;
- b=TOdX4IoyuAWcUa/HtMeQ3PhLgqbXPOoMRZ42Q0Y8kx45Gk+AzJcDOwnmhzUxzFD01O
- S2ZqzUYxdfI4KXyojuDDVgOyudi7/33ppNPtBIzbZgK20FM7zAjZqMqEnIOfnfSYWXju
- nRIufhle2FGAFAp3JjGzbTXdj5iu8Lgb7TpQR0L6HHsWP9gQIpgCFA8+HmCua5koPdJb
- pkLcZsmR/20cSC7mtCsgkhcsF7ldmYZ2f0hmESt4IMDxyRYsykIDrA5qFFU24ZKAdgpW
- aOEMbCCbXp9p6bbd3GXNcurdVKj0+mUX6TxRDIAaHruTMTB3DHNsDHD/5UK1T+pgF/nO
- oJ5w==
-X-Gm-Message-State: AOAM531+XJnmZoNTjvQeP357lncS8m7+1kneZORs0mUDGq4DfRir6HD+
- gx8EcN11VSM2BITwIa5KK+yAWHb3l045fFFCfco=
-X-Google-Smtp-Source: ABdhPJwo+sOqWo8cQBrjkXtORKqagFKs2HJuAuUOBsdQdCoscAqvXq2JHQ32ldMV2EyKzVy9yp3ViybZCdva2krxV2s=
-X-Received: by 2002:a25:3103:: with SMTP id x3mr27338815ybx.8.1625599730712;
- Tue, 06 Jul 2021 12:28:50 -0700 (PDT)
+ bh=yx6qXRndyM6IhQcG11KPBRzCyVmq3uxLQ9K3a+CywqU=;
+ b=AMCUrs9vgZhTCxLJR38ts4OAAERXDDsjTEjRp21SsLmKnmUd4FWAc6D8OPLADP+mo+
+ p5/gLA8VT2juu3oqcbsxiHcwkN4mJxstuhOVGDAx6iaJzKD7MCvWZGfvI138gru5piyE
+ 6YpduuU2TXLViMl3rSlemhmrlbPBku47sdn7Qsy/I1Hou46jgyhlek2sL7ZLCb9nK19w
+ B/hJcFGaZ+Fh6e4yh1nEzqT+A79/GEuQZH7Vzh3LvZjJNnp/+kDtzrYHfxtNIun7pIWP
+ zBL2e5jfhyCBqjbe+1KhZEF1bamRp6Eg8fSi+sWdHEWBF6mT6NjHz8AlKP8OV0dym0Fi
+ DfRw==
+X-Gm-Message-State: AOAM530+KPtyTHEVyeqyPTflIBZ8yK7e+C+IXZWqsbWw0wYau8q/UYL1
+ sRjcKWDgUuz9lHOV5LNjI5imolpOexK39nDLBRo=
+X-Google-Smtp-Source: ABdhPJwTqC0YIwxLWzUzXu3wWaCOiMujU/sPQJ5muQQu1WZt+dxlupvkLIgeU6P0IC4vEN40iPsaeIh8dinremdZ+2w=
+X-Received: by 2002:a37:c51:: with SMTP id 78mr4256059qkm.489.1625601162462;
+ Tue, 06 Jul 2021 12:52:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210706191452.127893-1-li.zhang@ionos.com>
-In-Reply-To: <20210706191452.127893-1-li.zhang@ionos.com>
-From: Li Zhang <zhlcindy@gmail.com>
-Date: Tue, 6 Jul 2021 21:28:40 +0200
-Message-ID: <CAD8of+r08zaKNKeuqGVvDos8wMGodycOp3q+Cm8aZ0_UvZvkrw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] qmp: Support chardev-change for QMP device
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
- pankaj.gupta.linux@gmail.com, QEMU <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=zhlcindy@gmail.com; helo=mail-yb1-xb31.google.com
+References: <20210706180936.249912-1-sw@weilnetz.de>
+In-Reply-To: <20210706180936.249912-1-sw@weilnetz.de>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Tue, 6 Jul 2021 22:52:06 +0300
+Message-ID: <CAK4993j2cbgkFrGdVx1wiHhjam45NrGwos=e2w-DhhcEVsDnZA@mail.gmail.com>
+Subject: Re: [PATCH] target/avr: Fix compiler errors (-Werror=enum-conversion)
+To: Stefan Weil <sw@weilnetz.de>
+Content-Type: multipart/alternative; boundary="000000000000d5c9f105c679c3d6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
+ envelope-from=mrolnik@gmail.com; helo=mail-qk1-x732.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,197 +74,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <li.zhang@ionos.com>
+Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Markus,
+--000000000000d5c9f105c679c3d6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry for the late update because of other tasks. Please review the patcheset.
-About the indentation problem, I found that the email shows different
-from my patches.
-The source code which is not changed also shows different indentation
-in email.
-I checked a lot of times, I still don't know what the problem is.
+Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 
-On Tue, Jul 6, 2021 at 9:15 PM Li Zhang <zhlcindy@gmail.com> wrote:
+On Tue, Jul 6, 2021 at 9:09 PM Stefan Weil <sw@weilnetz.de> wrote:
+
+> ../target/avr/translate.c: In function =E2=80=98gen_jmp_ez=E2=80=99:
+> ../target/avr/translate.c:1012:22: error: implicit conversion from =E2=80=
+=98enum
+> <anonymous>=E2=80=99 to =E2=80=98DisasJumpType=E2=80=99 [-Werror=3Denum-c=
+onversion]
+>  1012 |     ctx->base.is_jmp =3D DISAS_LOOKUP;
+>       |                      ^
 >
-> For some scenarios, we'd like to hot-add a monitor device.  But QEMU
-> doesn't support that, yet.  It does support hot-swapping character
-> backends with QMP command chardev-change.  This lets us pre-add a
-> monitor with a null character backend, then chardev-change to a
-> socket backend.  Except the chardev-change fails with "Chardev user
-> does not support chardev hotswap" because monitors don't provide the
-> required callback.  Implement it for QMP monitors.
->
-> Signed-off-by: Li Zhang <li.zhang@ionos.com>
+> Signed-off-by: Stefan Weil <sw@weilnetz.de>
 > ---
-> v3 -> v2:
->   * rework the patch according.
->   * refactor the source code of chardev.
 >
->  monitor/monitor-internal.h |  1 +
->  monitor/monitor.c          |  4 +-
->  monitor/qmp.c              | 83 +++++++++++++++++++++++++++-----------
->  3 files changed, 62 insertions(+), 26 deletions(-)
+> -Werror=3Denum-conversion is not enabled by -Wall, but by -Weverything
+> with clang for example.
 >
-> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-> index 9c3a09cb01..162f73119b 100644
-> --- a/monitor/monitor-internal.h
-> +++ b/monitor/monitor-internal.h
-> @@ -182,5 +182,6 @@ int get_monitor_def(Monitor *mon, int64_t *pval, const char *name);
->  void help_cmd(Monitor *mon, const char *name);
->  void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
->  int hmp_compare_cmd(const char *name, const char *list);
-> +void monitor_flush_locked(Monitor *mon);
+> As other targets use similar define statements, I think that's a simple
+> fix.
 >
->  #endif
-> diff --git a/monitor/monitor.c b/monitor/monitor.c
-> index b90c0f4051..1b05ef3bdb 100644
-> --- a/monitor/monitor.c
-> +++ b/monitor/monitor.c
-> @@ -154,8 +154,6 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
->      return !monitor_uses_readline(container_of(mon, MonitorHMP, common));
->  }
+> Regards,
+> Stefan
 >
-> -static void monitor_flush_locked(Monitor *mon);
-> -
->  static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
->                                    void *opaque)
->  {
-> @@ -169,7 +167,7 @@ static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
->  }
 >
->  /* Caller must hold mon->mon_lock */
-> -static void monitor_flush_locked(Monitor *mon)
-> +void monitor_flush_locked(Monitor *mon)
->  {
->      int rc;
->      size_t len;
-> diff --git a/monitor/qmp.c b/monitor/qmp.c
-> index 092c527b6f..92c704373f 100644
-> --- a/monitor/qmp.c
-> +++ b/monitor/qmp.c
-> @@ -46,6 +46,8 @@ struct QMPRequest {
->  typedef struct QMPRequest QMPRequest;
+>  target/avr/translate.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 >
->  QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
-> +static void monitor_qmp_setup_handlers_bh(void *opaque);
-> +static void monitor_backend_init(MonitorQMP *mon, Chardev *chr);
+> diff --git a/target/avr/translate.c b/target/avr/translate.c
+> index c06ce45bc7..fcc839ac36 100644
+> --- a/target/avr/translate.c
+> +++ b/target/avr/translate.c
+> @@ -70,11 +70,9 @@ static const char reg_names[NUMBER_OF_CPU_REGISTERS][8=
+]
+> =3D {
+>  };
+>  #define REG(x) (cpu_r[x])
 >
->  static bool qmp_oob_enabled(MonitorQMP *mon)
->  {
-> @@ -481,6 +483,35 @@ void monitor_data_destroy_qmp(MonitorQMP *mon)
->      g_queue_free(mon->qmp_requests);
->  }
+> -enum {
+> -    DISAS_EXIT   =3D DISAS_TARGET_0,  /* We want return to the cpu main
+> loop.  */
+> -    DISAS_LOOKUP =3D DISAS_TARGET_1,  /* We have a variable condition
+> exit.  */
+> -    DISAS_CHAIN  =3D DISAS_TARGET_2,  /* We have a single condition exit=
+.
+> */
+> -};
+> +#define DISAS_EXIT   DISAS_TARGET_0  /* We want return to the cpu main
+> loop.  */
+> +#define DISAS_LOOKUP DISAS_TARGET_1  /* We have a variable condition
+> exit.  */
+> +#define DISAS_CHAIN  DISAS_TARGET_2  /* We have a single condition exit.
+> */
 >
-> +static bool mointor_in_list(Monitor *mon)
-> +{
-> +    Monitor *mon_tmp;
-> +    QTAILQ_FOREACH(mon_tmp, &mon_list, entry) {
-> +        if (mon_tmp == mon) {
-> +            return true;
-> +        }
-> +    }
-> +    return false;
-> +}
-> +
-> +static int monitor_qmp_change(void *opaque)
-> +{
-> +    MonitorQMP *mon = opaque;
-> +
-> +    monitor_data_init(&mon->common, true, false,
-> +            qemu_chr_has_feature(mon->common.chr.chr,
-> +                                 QEMU_CHAR_FEATURE_GCONTEXT));
-> +    monitor_backend_init(mon, mon->common.chr.chr);
-> +    qemu_mutex_lock(&mon->common.mon_lock);
-> +    if (mon->common.out_watch) {
-> +        mon->common.out_watch = 0;
-> +        monitor_flush_locked(&mon->common);
-> +    }
-> +    qemu_mutex_unlock(&mon->common.mon_lock);
-> +
-> +    return 0;
-> +}
-> +
->  static void monitor_qmp_setup_handlers_bh(void *opaque)
->  {
->      MonitorQMP *mon = opaque;
-> @@ -491,30 +522,14 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
->      assert(context);
->      qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
->                               monitor_qmp_read, monitor_qmp_event,
-> -                             NULL, &mon->common, context, true);
-> -    monitor_list_append(&mon->common);
-> +                             monitor_qmp_change, &mon->common, context, true);
-> +
-> +    if (!mointor_in_list(&mon->common))
-> +        monitor_list_append(&mon->common);
->  }
+>  typedef struct DisasContext DisasContext;
 >
-> -void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-> +static void monitor_backend_init(MonitorQMP *mon, Chardev *chr)
->  {
-> -    MonitorQMP *mon = g_new0(MonitorQMP, 1);
-> -
-> -    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
-> -        g_free(mon);
-> -        return;
-> -    }
-> -    qemu_chr_fe_set_echo(&mon->common.chr, true);
-> -
-> -    /* Note: we run QMP monitor in I/O thread when @chr supports that */
-> -    monitor_data_init(&mon->common, true, false,
-> -                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
-> -
-> -    mon->pretty = pretty;
-> -
-> -    qemu_mutex_init(&mon->qmp_queue_lock);
-> -    mon->qmp_requests = g_queue_new();
-> -
-> -    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
->      if (mon->common.use_io_thread) {
->          /*
->           * Make sure the old iowatch is gone.  It's possible when
-> @@ -532,7 +547,29 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
->      } else {
->          qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
->                                   monitor_qmp_read, monitor_qmp_event,
-> -                                 NULL, &mon->common, NULL, true);
-> -        monitor_list_append(&mon->common);
-> +                                 monitor_qmp_change, &mon->common, NULL, true);
-> +        if (!mointor_in_list(&mon->common)) {
-> +            monitor_list_append(&mon->common);
-> +        }
-> +    }
-> +}
-> +
-> +void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-> +{
-> +    MonitorQMP *mon = g_new0(MonitorQMP, 1);
-> +
-> +    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
-> +        g_free(mon);
-> +        return;
->      }
-> +    qemu_chr_fe_set_echo(&mon->common.chr, true);
-> +     /* Note: we run QMP monitor in I/O thread when @chr supports that */
-> +    monitor_data_init(&mon->common, true, false,
-> +                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
-> +
-> +    mon->pretty = pretty;
-> +    qemu_mutex_init(&mon->qmp_queue_lock);
-> +    mon->qmp_requests = g_queue_new();
-> +    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
-> +    monitor_backend_init(mon, chr);
->  }
 > --
-> 2.25.1
+> 2.30.2
+>
 >
 
+--=20
+Best Regards,
+Michael Rolnik
 
--- 
+--000000000000d5c9f105c679c3d6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Best Regards
--Li
+<div dir=3D"ltr">Reviewed-by: Michael Rolnik &lt;<a href=3D"mailto:mrolnik@=
+gmail.com">mrolnik@gmail.com</a>&gt;</div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 6, 2021 at 9:09 PM Stefan W=
+eil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weilnetz.de</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">../target/avr/trans=
+late.c: In function =E2=80=98gen_jmp_ez=E2=80=99:<br>
+../target/avr/translate.c:1012:22: error: implicit conversion from =E2=80=
+=98enum &lt;anonymous&gt;=E2=80=99 to =E2=80=98DisasJumpType=E2=80=99 [-Wer=
+ror=3Denum-conversion]<br>
+=C2=A01012 |=C2=A0 =C2=A0 =C2=A0ctx-&gt;base.is_jmp =3D DISAS_LOOKUP;<br>
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>
+<br>
+Signed-off-by: Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de" target=3D"=
+_blank">sw@weilnetz.de</a>&gt;<br>
+---<br>
+<br>
+-Werror=3Denum-conversion is not enabled by -Wall, but by -Weverything<br>
+with clang for example.<br>
+<br>
+As other targets use similar define statements, I think that&#39;s a simple=
+ fix.<br>
+<br>
+Regards,<br>
+Stefan<br>
+<br>
+<br>
+=C2=A0target/avr/translate.c | 8 +++-----<br>
+=C2=A01 file changed, 3 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/target/avr/translate.c b/target/avr/translate.c<br>
+index c06ce45bc7..fcc839ac36 100644<br>
+--- a/target/avr/translate.c<br>
++++ b/target/avr/translate.c<br>
+@@ -70,11 +70,9 @@ static const char reg_names[NUMBER_OF_CPU_REGISTERS][8] =
+=3D {<br>
+=C2=A0};<br>
+=C2=A0#define REG(x) (cpu_r[x])<br>
+<br>
+-enum {<br>
+-=C2=A0 =C2=A0 DISAS_EXIT=C2=A0 =C2=A0=3D DISAS_TARGET_0,=C2=A0 /* We want =
+return to the cpu main loop.=C2=A0 */<br>
+-=C2=A0 =C2=A0 DISAS_LOOKUP =3D DISAS_TARGET_1,=C2=A0 /* We have a variable=
+ condition exit.=C2=A0 */<br>
+-=C2=A0 =C2=A0 DISAS_CHAIN=C2=A0 =3D DISAS_TARGET_2,=C2=A0 /* We have a sin=
+gle condition exit.=C2=A0 */<br>
+-};<br>
++#define DISAS_EXIT=C2=A0 =C2=A0DISAS_TARGET_0=C2=A0 /* We want return to t=
+he cpu main loop.=C2=A0 */<br>
++#define DISAS_LOOKUP DISAS_TARGET_1=C2=A0 /* We have a variable condition =
+exit.=C2=A0 */<br>
++#define DISAS_CHAIN=C2=A0 DISAS_TARGET_2=C2=A0 /* We have a single conditi=
+on exit.=C2=A0 */<br>
+<br>
+=C2=A0typedef struct DisasContext DisasContext;<br>
+<br>
+-- <br>
+2.30.2<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">Best Regards,<br>Michael Rolnik</div>
+
+--000000000000d5c9f105c679c3d6--
 
