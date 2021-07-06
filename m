@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3223BC746
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 09:34:01 +0200 (CEST)
-Received: from localhost ([::1]:45186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32073BC74D
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 09:35:00 +0200 (CEST)
+Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0fai-0001jZ-94
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 03:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41648)
+	id 1m0fbg-00038j-2c
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 03:35:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m0fYq-0000Si-FB
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:32:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56045)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0fZd-0001PV-GL
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:32:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m0fYn-0003bZ-Eu
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:32:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0fZb-0004B1-1W
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 03:32:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625556720;
+ s=mimecast20190719; t=1625556770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cPWS48xyHJPcaLp1sBYohywsr40Y8GFu+h4AF/SahzU=;
- b=Fo1V8UY0t4p8bGyjnTS8iMTuidAysSdS7w0/BjpO2nZFL9nc6cweK0ijH9AUA4MgcoIiBX
- XQq2NTOt8Ieyr6tlUKZZiw8Pn6EGF7qA6D+6TAf7AInt2MWXzQSzaSzBUYeiPf1Kk1+EV7
- Ie+Mkd6/hvUlSgOca8LNWUILVUd+Jyw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-wodxfyCbNCy1kxu505ImtQ-1; Tue, 06 Jul 2021 03:31:59 -0400
-X-MC-Unique: wodxfyCbNCy1kxu505ImtQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- d16-20020a1c73100000b02901f2d21e46efso537971wmb.6
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 00:31:59 -0700 (PDT)
+ bh=wwdjxq0fIdVBg5EpmSPTCzctGDKnbANO6zEWljKS/iI=;
+ b=YjFvXXqMagXdIdwFjPM0XEMClGtIXjkLFmCPqC1cNBmvWDvjcHQkK9GFI213O2cVPHU8OL
+ 4ilZoR2R7YNkW2k7d+OR1l6TM8EJcsDYqBok2/P5+5Zh0M72dmvh4SS0+kbVfX8/49C4el
+ TRPG09ybeEnmK0AT1tefB0hOFJV9FXw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-570--moWhQbyMmmcoGEuq2ey7w-1; Tue, 06 Jul 2021 03:32:49 -0400
+X-MC-Unique: -moWhQbyMmmcoGEuq2ey7w-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 13-20020a1c010d0000b02901eca51685daso774889wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 00:32:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cPWS48xyHJPcaLp1sBYohywsr40Y8GFu+h4AF/SahzU=;
- b=g/i6LPoqZYeSmJOqNX5P7ugEW0jb3zyayqRt5lg7iiSPT+jC2iVIZ2+Chf0ACHoC+O
- k3BncsATqendv7s4HaWWJzeS5V8QParWnXbM+q4nNaHjevlBAiRfj4hXPpBTCdmdCFPX
- xXkG7NP56jwO9Giz8qZhWrjXYTto4dxZtgypBWFZ8W8DaIxeh3govwl+ApJmbIUvMpKk
- B/2OsSXj9XvAiJBip+tASfnNP2izvFX2E6iWI+mdyp2sHNdXaPAH95FkN6EMUDBdqVqe
- uMJg4oz9X72dKP3ZU9MgRBNAFFFSEVtwetBxG44CoecLFnqVKZS2MgWAdz/rlEWaZOVE
- BOdQ==
-X-Gm-Message-State: AOAM531OQ+z1DUtTm9YpQhrkrgVxnk/yEjeWdJRHLssGxbQDCpUYbR3i
- PUd4u602NbLOimYNNkw5wZLyuwpW/HjU4dccCgmdSIOf9D4fL+WHUH4ua+6bpjbxX+iz5HzQThM
- Ho8Jw2YJZPj96JSE=
-X-Received: by 2002:a7b:c34d:: with SMTP id l13mr3150201wmj.99.1625556718289; 
- Tue, 06 Jul 2021 00:31:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztOf24+lpgNpDE4vlgF7YlTWPcztiWuTcSy/b1fJvgdNZM62EvLJmRQJ06YZZkSBAHo4uGIA==
-X-Received: by 2002:a7b:c34d:: with SMTP id l13mr3150168wmj.99.1625556718041; 
- Tue, 06 Jul 2021 00:31:58 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w9sm15024137wmc.19.2021.07.06.00.31.57
+ bh=wwdjxq0fIdVBg5EpmSPTCzctGDKnbANO6zEWljKS/iI=;
+ b=VCy3g6gvqzJ26SdMcbevNKpi0kQZh8e1HE9dc382viYDE1Sb1BoqT0mNkW3UsgUV+X
+ GSrG354T+0P4nvHo276nGzxM3t8lpFoQ9261HuKiuYeK1BGELJann9DSbhNlfjDNIOtG
+ 2coRFINNxaL4PSI4xWhaYbWOAbtng290XDJcaLPTRPZaenAvPo1Ww3rMSgabTJ9h23UQ
+ /NpoKXwdzlTfhfO41a052BGz/V9X9Mb/fPrLWRJH/xwpERsVwyUQ+rcKzCk0FFzBfHH2
+ h4ZEKFVGeVveOp5a6k6roP2Kh2QkOLo/KVl+PaUB+WBMpp9mQWTt/CzCm4voDQTaFB3Y
+ qfvg==
+X-Gm-Message-State: AOAM5339B9ItBSd73K7+cegEllLGzx+n1bFn9cxOyVNQ9hYvvrlf+0PM
+ APbQ4nySoa1cMBObQupYe3lf0Jpxnapz/ngxIT9IjeKD703Sg4SrAiHrpXKELP9ifoZN2CgwjDy
+ g7JaN00g+0oxAMlI=
+X-Received: by 2002:a5d:448c:: with SMTP id j12mr20902663wrq.105.1625556768240; 
+ Tue, 06 Jul 2021 00:32:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/sHM1vonLAQMos7+97ZaFB8JD8AL3AhckCwpodo+QDedNpgLEDTaqirJLT1uCQRyJx/lBjA==
+X-Received: by 2002:a5d:448c:: with SMTP id j12mr20902629wrq.105.1625556767940; 
+ Tue, 06 Jul 2021 00:32:47 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id x187sm5897308wmb.47.2021.07.06.00.32.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 00:31:57 -0700 (PDT)
+ Tue, 06 Jul 2021 00:32:47 -0700 (PDT)
 Subject: Re: [PATCH] configure: Remove the OBJCC variable from config-host.mak
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20210706071934.1054496-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <61e0202e-aeea-f66b-bd76-615a66690df4@redhat.com>
-Date: Tue, 6 Jul 2021 09:31:56 +0200
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e16094bb-2bda-db40-8ad6-93faf19a8f9d@redhat.com>
+Date: Tue, 6 Jul 2021 09:32:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
 In-Reply-To: <20210706071934.1054496-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -100,38 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org
+Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/07/21 09:19, Thomas Huth wrote:
+On 7/6/21 9:19 AM, Thomas Huth wrote:
 > The last user of this variable has been removed in commit
 > 660f793093 ("Makefile: inline the relevant parts of rules.mak"),
 > so we don't need this variable in config-host.mak anymore.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-There's quite a few more: CXX, OBJCC, ARFLAGS, RANLIB, NM, PKG_CONFIG, 
-WINDRES if I didn't miss anything.
-
-Paolo
-
 > ---
->   configure | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index e799d908a3..068716a56c 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5888,7 +5888,6 @@ if $iasl -h > /dev/null 2>&1; then
->     echo "CONFIG_IASL=$iasl" >> $config_host_mak
->   fi
->   echo "CXX=$cxx" >> $config_host_mak
-> -echo "OBJCC=$objcc" >> $config_host_mak
->   echo "AR=$ar" >> $config_host_mak
->   echo "ARFLAGS=$ARFLAGS" >> $config_host_mak
->   echo "AS=$as" >> $config_host_mak
-> 
+>  configure | 1 -
+>  1 file changed, 1 deletion(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
