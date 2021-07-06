@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460993BC5FA
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 07:14:41 +0200 (CEST)
-Received: from localhost ([::1]:40726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9473BC638
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 07:52:23 +0200 (CEST)
+Received: from localhost ([::1]:48362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0dPr-00045p-TG
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 01:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
+	id 1m0e0M-0002wY-0L
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 01:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1m0dOu-0003GN-My; Tue, 06 Jul 2021 01:13:40 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:34716)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m0dzH-0002H9-Su; Tue, 06 Jul 2021 01:51:15 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:44867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
- id 1m0dOp-0005Os-J3; Tue, 06 Jul 2021 01:13:40 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso1004092pjx.1; 
- Mon, 05 Jul 2021 22:13:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m0dzG-0001MC-2b; Tue, 06 Jul 2021 01:51:15 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id g19so32487978ybe.11;
+ Mon, 05 Jul 2021 22:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0Fu3++mMjNV9I44zT406SHDo87putMPRAkZS5u6QnHQ=;
- b=nbEnheEpQrgntXDJhhtsftgILDtbvnmyHpIcyGNWDQvxkgT3+mGbLavoy+9mQJePHF
- uWHsGJ4ffQLGPDUHTgZX0lJoSaudYC6g+V0L/hxEVY4QtBwAxs86e0AKIkWQrBkZ8Vju
- pSWvJpZ2/iH03yk5q02TeaDzz61AL31/ClQHgnP7wpqAU4/n9j11wL7+uoxUpstRKpHb
- 81GWQFu6z9C9cxDEglfKVmq4jS0Eak88+hBq+XvOKJekMass7MxFgPrJ+EUFxyhEWc6z
- 5BP+NDQOUBa70Q/bOGJvVXtfMH40NJivaPXlxfd3L63YlJoX4s/8bhmIVQIHs0vU5Z/z
- oU1Q==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rs7CgglGZGHMEXtjP9nb8ttTdEeYUOYnRKc6v6qD+IQ=;
+ b=IPZRUpyF2zp3JD551D8m3wsktqh5las08p+H0Pi2rdFrnib0jGSsMCeYJPLkr9XYos
+ 6kf84BWFbvSFr2XL7BWxJCo0GrXt7TW5NEPyf8tQF2WjgnpEbPxD/aBV1xfgTQMNI7Sn
+ YKkU1iqp8zoXxw9TmpFV+6U9/6rzrdHE2MB2YBuXSbr4yxL3ypMfPyMeHS8llckmrVUy
+ pm25erdc7Xsfh0vYVkplpu14KO5o0/F6Cz800sIfiyqmfEuxtCA9gfRmS09sIdljC7eI
+ 5NghoZrD4DOGCBLZRCyoJorPRA5Lzg4Mb6veTZhIkpFIq5QXkVKkTMuxn/wiITHk065B
+ g+8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0Fu3++mMjNV9I44zT406SHDo87putMPRAkZS5u6QnHQ=;
- b=LAPGg2WebuVIncrBDuCrYYxcvYIB2685NLOZR2IRk0O8NTVQzM4vj5B7RfAPecFzhJ
- JUBUYlV2OV9cH1i31HkA0s8zzdBYduRS1DIgipKFFMjMOlFRR6NsBFcOiUrYta/kF3QG
- XhjKN6bKjKqYVPbkmNIkAXLDpLVMbw3q+BCjQ88ekkr41dDBJNxSKOXV1isBE1jMjJk3
- ZxlCHoqGPoJg6paj0Di23kPrXRo4QK2SmZdKIiVkP0TcePGharbyUtbGFhf+32iDSL0e
- fJzZYFjHOJj3YhZePMkto1bRKUsQjpWGJil5I3EHixkUoVa17ethVwG8YWXAPlxYfp8a
- cWsQ==
-X-Gm-Message-State: AOAM532/dy91gN2pYRq78DQaOvlEQERYK6kEzYXpkRUMUeulM6S3/T3R
- TGt7HwtMq5zfT3P+wfOHY0NALWEY9ogW6w==
-X-Google-Smtp-Source: ABdhPJzx1ovIAtodvJokt7ph9BbtZnUg5x1SpqhxCFipwV4JwSvvLRsYLP+RIUsld57pOYQLASE28Q==
-X-Received: by 2002:a17:902:c38c:b029:128:fd55:f54b with SMTP id
- g12-20020a170902c38cb0290128fd55f54bmr15365069plg.24.1625548408079; 
- Mon, 05 Jul 2021 22:13:28 -0700 (PDT)
-Received: from bobo.ozlabs.ibm.com ([202.168.10.200])
- by smtp.gmail.com with ESMTPSA id y7sm14068095pfi.204.2021.07.05.22.13.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 05 Jul 2021 22:13:27 -0700 (PDT)
-From: Nicholas Piggin <npiggin@gmail.com>
-To: qemu-ppc@nongnu.org
-Subject: [PATCH] target/ppc: mtmsrd is an illegal instruction on BookE
-Date: Tue,  6 Jul 2021 15:13:21 +1000
-Message-Id: <20210706051321.609046-1-npiggin@gmail.com>
-X-Mailer: git-send-email 2.23.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rs7CgglGZGHMEXtjP9nb8ttTdEeYUOYnRKc6v6qD+IQ=;
+ b=UiXJ2lat4ArdNPftdTKdIBSvSQ1qGnQcC/v3FcDbtgo7MtJ/ZkLKW657zCDx6gNkYA
+ UQgudKyCQkICRyRTvGBxfckwuwETomaYAUYcHfgLMykbCnzGlAlLYWVDOjGKLnUitYco
+ SLQ3gRKkx/kSW3UPfiVwgNi0eDk1qBjr/bVIeu9T+6Ks8ybfrURtTH8Na7QixkwYPCe4
+ m6CqOGIoKV4VSKfvy+WhXXzi25Ctf6Ji08k3MIWp/9zgakfjsJDYnKVPRs5eDAFF4ZnF
+ XZCbfp5vKp0cCMRMWJrdfNo39qlym4a4tQSrK9fBCg8Nb0+MWeyd90I8vujkn2k6rGYL
+ HkiA==
+X-Gm-Message-State: AOAM530v712GnsrbEPL0t9oJ8vzC3zcSY5VFyy9EAT/ZI2o3tfT1cBNC
+ MuUFZ9enx2Y+IMg9KMU8sgMekgT4zZJ2Nt2P7BA=
+X-Google-Smtp-Source: ABdhPJyMbdfd3RSlCxTj5E4OBTbXjWUp5SZ/XXXa7LU/8R9JoP2S0oQOCismOCoNk4Gjshb3Ko+eucz4JC0P5f7ZR20=
+X-Received: by 2002:a25:6c04:: with SMTP id h4mr22839624ybc.122.1625550672686; 
+ Mon, 05 Jul 2021 22:51:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=npiggin@gmail.com; helo=mail-pj1-x102f.google.com
+References: <20210706035015.122899-1-kito.cheng@sifive.com>
+In-Reply-To: <20210706035015.122899-1-kito.cheng@sifive.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 6 Jul 2021 13:51:01 +0800
+Message-ID: <CAEUhbmWxsKV26wN2viPVtTLfWsbZHEghM-nGJePH7qROEp7MFg@mail.gmail.com>
+Subject: Re: [PATCH v3] linux-user/elfload: Implement ELF_HWCAP for RISC-V
+To: Kito Cheng <kito.cheng@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,37 +74,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Zigotzky <chzigotzky@xenosoft.de>, qemu-devel@nongnu.org,
- Nicholas Piggin <npiggin@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>, frank.chang@sifive.com,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MSR is a 32-bit register in BookE and there is no mtmsrd instruction.
+On Tue, Jul 6, 2021 at 11:50 AM Kito Cheng <kito.cheng@sifive.com> wrote:
+>
+> Set I, M, A, F, D and C bit for hwcap if misa is set.
+>
+> V3 Changes:
+> - Simplify logic of getting hwcap.
+>
+> V2 Changes:
+> - Only set imafdc bits, sync with upstream linux kernel.
 
-Cc: Christian Zigotzky <chzigotzky@xenosoft.de>
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
----
- target/ppc/translate.c | 5 +++++
- 1 file changed, 5 insertions(+)
+These changelogs should not be in the commit message, but should be
+put below ---
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index f65d1e81ea..d1f482b0f3 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4940,6 +4940,11 @@ static void gen_mtcrf(DisasContext *ctx)
- #if defined(TARGET_PPC64)
- static void gen_mtmsrd(DisasContext *ctx)
- {
-+    if (unlikely(!is_book3s_arch2x(ctx))) {
-+        gen_invalid(ctx);
-+        return;
-+    }
-+
-     CHK_SV;
- 
- #if !defined(CONFIG_USER_ONLY)
--- 
-2.23.0
+>
+> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+> ---
+>  linux-user/elfload.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 598ab8aa13..42ef2a1148 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -1434,6 +1434,19 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
+>  #define ELF_CLASS ELFCLASS64
+>  #endif
+>
+> +#define ELF_HWCAP get_elf_hwcap()
+> +
+> +static uint32_t get_elf_hwcap(void)
+> +{
+> +#define MISA_BIT(EXT) (1 << (EXT - 'A'))
+> +    RISCVCPU *cpu = RISCV_CPU(thread_cpu);
+> +    uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
+> +                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
+> +
+> +    return cpu->env.misa & mask;
+> +#undef MISA_BIT
+> +}
+> +
+>  static inline void init_thread(struct target_pt_regs *regs,
+>                                 struct image_info *infop)
+>  {
 
+Regards,
+Bin
 
