@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7013BC5C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:49:40 +0200 (CEST)
-Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492793BC5C1
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:49:37 +0200 (CEST)
+Received: from localhost ([::1]:46710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0d1f-0005J0-8q
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:49:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46780)
+	id 1m0d1c-00057O-BV
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:49:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfn-0000ov-89
+ id 1m0cfn-0000pj-Gj
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:03 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53076)
+Received: from indium.canonical.com ([91.189.90.7]:53184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfk-0003Wv-4P
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:02 -0400
+ id 1m0cfl-0003YO-Q8
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:27:03 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cfW-0004xG-Ey
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:46 +0000
+ id 1m0cfX-0004wp-W0
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1EB4E2E845E
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:24 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 556EE2E8383
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:25 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 06 Jul 2021 04:17:21 -0000
-From: Launchpad Bug Tracker <1865626@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1865348@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: s390x
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor liangy th-huth
-X-Launchpad-Bug-Reporter: liang yan (liangy)
+X-Launchpad-Bug-Commenters: f1outsourcing janitor th-huth
+X-Launchpad-Bug-Reporter: f1outsourcing (f1outsourcing)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158319312084.12323.11221527653494995336.malonedeb@soybean.canonical.com>
-Message-Id: <162554504211.7821.5185079922232404638.malone@loganberry.canonical.com>
-Subject: [Bug 1865626] Re: s390x guest hang when ipl boot from a mdev dasd
+References: <158307448781.11876.11413888488198775469.malonedeb@soybean.canonical.com>
+Message-Id: <162554504128.7821.6511079625513205704.malone@loganberry.canonical.com>
+Subject: [Bug 1865348] Re: virsh domfsinfo testdom crashes the guest agent
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 557ca51673bfd6eccd6bb3ecd9a3c123ce394a73
+X-Launchpad-Hash: eb6290b433c0feae8603d754d09ea4a73d0dc828
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1865626 <1865626@bugs.launchpad.net>
+Reply-To: Bug 1865348 <1865348@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,43 +83,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1865626
+https://bugs.launchpad.net/bugs/1865348
 
 Title:
-  s390x guest hang when ipl boot from a mdev dasd
+  virsh domfsinfo testdom crashes the guest agent
 
 Status in QEMU:
   Expired
 
 Bug description:
-  qemu latest
-  kernel 5.3.18
 
-  I am using a passthrough dasd as boot device, the installment looks
-  fine and gets into reboot process. However VM could not boot and just
-  hang as below after that. I have been checking on "s390: vfio-ccw dasd
-  ipl support" series right now but no clue yet. Could anyone take a
-  look for it? Thanks.
+  [@ ~]# virsh qemu-agent-command vps-01 '{"execute":"guest-get-
+  fsinfo"}'
+
+  =
+
+  error: Guest agent is not responding: Guest agent disappeared while execu=
+ting command
+
+  [@ ~]# virsh domfsinfo vps-01
+  error: Unable to get filesystem information
+  error: Guest agent is not responding: Guest agent disappeared while execu=
+ting command
+
+  =
+
+  Fault bucket , type 0
+  Event Name: APPCRASH
+  Response: Not available
+  Cab Id: 0
+
+  Problem signature:
+  P1: qemu-ga.exe
+  P2: 100.0.0.0
+  P3: 5c473543
+  P4: KERNELBASE.dll
+  P5: 6.1.7601.24545
+  P6: 5e0eb6bd
+  P7: c0000005
+  P8: 000000000000c4d2
+  P9: =
+
+  P10: =
 
 
-  s390vsw188:~ # bash test.sh
-  LOADPARM=3D[        ]
-  executing ccw chain at : 0x0000000000000018
-  executing ccw chain at : 0x000000000000e000
+  Attached files:
 
-  2020-03-01T06:24:56.879314Z qemu-system-s390x: warning: vfio-ccw
-  (devno fe.0.0000): PFCH flag forced
+  These files may be available here:
+  C:\ProgramData\Microsoft\Windows\WER\ReportQueue\AppCrash_qemu-ga.exe_bd2=
+e6535bdb93328680e0285e89e08f2866db83_49df29e2
 
+  Analysis symbol: =
 
-  s390zp12:~ # cat test.sh
-  /root/qemu/s390x-softmmu/qemu-system-s390x \
-  -machine s390-ccw-virtio,accel=3Dkvm \
-  -nographic \
-  -bios /root/qemu/pc-bios/s390-ccw/s390-ccw.img \
-  -device vfio-ccw,id=3Dhostdev0,sysfsdev=3D/sys/bus/mdev/devices/08e8c006-=
-146d-48d3-b21a-c005f9d3a04b,,devno=3Dfe.0.0000,bootindex=3D1 \
-  -global vfio-ccw.force-orb-pfch=3Dyes \
+  Rechecking for solution: 0
+  Report Id: 2ad29522-5bcc-11ea-bca6-525400e83365
+  Report Status: 0
+
+  =
+
+  guest os: windows server std 2008r2
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1865626/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1865348/+subscriptions
 
