@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DDA3BC592
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:34:29 +0200 (CEST)
-Received: from localhost ([::1]:34352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA1F73BC585
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:32:32 +0200 (CEST)
+Received: from localhost ([::1]:54086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cmz-0001fF-1k
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:34:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
+	id 1m0cl5-0004W3-LK
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:32:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfL-0008Lr-GC
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51360)
+ id 1m0cf9-0007iH-Gl
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:23 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfJ-0003Bw-PQ
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:35 -0400
+ id 1m0cf7-00039l-Gg
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:23 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cf5-0004xA-Ip
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:19 +0000
+ id 1m0cf2-0004wn-NN
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:17 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 255C92E8346
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 984122E825E
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:45 -0000
-From: Launchpad Bug Tracker <1882497@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:46 -0000
+From: Launchpad Bug Tracker <1884425@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor laurent-vivier th-huth voltagex
-X-Launchpad-Bug-Reporter: Adam Baxter (voltagex)
+X-Launchpad-Bug-Commenters: cutefatseal331 janitor th-huth
+X-Launchpad-Bug-Reporter: Seal Sealy (cutefatseal331)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159159970619.31789.307920822254818587.malonedeb@gac.canonical.com>
-Message-Id: <162554506581.7821.8521969934146917112.malone@loganberry.canonical.com>
-Subject: [Bug 1882497] Re: Missing 'cmp' utility makes build take 10 times as
- long
+References: <159273949988.14781.1194342587449588493.malonedeb@wampee.canonical.com>
+Message-Id: <162554506711.7821.1672364127806521997.malone@loganberry.canonical.com>
+Subject: [Bug 1884425] Re: MIPS64EL emu hangs at reboot
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 7c59ddc4dcc71808a3e459d726370d26867e0f7b
+X-Launchpad-Hash: 5674a09d33ea59e89ec3214e367aaa901f15fe4b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882497 <1882497@bugs.launchpad.net>
+Reply-To: Bug 1884425 <1884425@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,27 +83,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882497
+https://bugs.launchpad.net/bugs/1884425
 
 Title:
-  Missing 'cmp' utility makes build take 10 times as long
+  MIPS64EL emu hangs at reboot
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I have been doing some work cross compiling qemu for Windows using a
-  minimal Fedora container. Recently I started hitting some timeouts on
-  the CI service and noticed a build of all targets was going over 1
-  hour.
+  QEMU Release version: 5.0.50 (v5.0.0-1411-g26bf4a2921-dirty)
 
-  It seems like the 'cmp' utility from diffutils is used somewhere in
-  the process and if it's missing, either a configure or a make gets run
-  way too many times - I'll try to pull logs from the CI system at some
-  stage soon.
+  Full command line: qemu-system-mips64el -hda nt4svr.qcow2 -M magnum -L
+  . -global ds1225y.filename=3Dnvram  -global ds1225y.size=3D8200 -net nic
+  -net user -cdrom en_winnt_4.0_svr.iso
 
-  Could a warning or error be added if cmp is missing?
+  Host machine: Windows 10 1909 64-bit, QEMU running under WSL with the
+  latest Kali distro and the latest Xming.
+
+  Guest machine: MIPS64EL Magnum machine, no OS needs to be installed to
+  reproduce - just change some stuff in the Setup program and try to
+  exit
+
+  Note: Custom ROM with Windows NT support used, NTPROM.RAW used from
+  http://hpoussineau.free.fr/qemu/firmware/magnum-4000/setup.zip
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882497/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1884425/+subscriptions
 
