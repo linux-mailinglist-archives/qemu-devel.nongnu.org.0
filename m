@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D4FF3BC7E7
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:34:24 +0200 (CEST)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD12F3BC7E3
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 10:33:26 +0200 (CEST)
+Received: from localhost ([::1]:58756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0gX9-0003KC-5n
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:34:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
+	id 1m0gWD-0000oB-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 04:33:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gQg-0000HW-5J
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:27:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33773)
+ id 1m0gR8-0000hB-K9
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:28:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0gQe-0002Gj-Ag
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:27:41 -0400
+ id 1m0gR5-0002Wv-8F
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 04:28:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625560059;
+ s=mimecast20190719; t=1625560084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RYA+bLP1tB1tTVpsuCIJkBogfKNlEByEsYMNQdKmpdo=;
- b=SBTiw8TXwPV7neeKYAgPkGjIx9MStoDJX0DnEzhzIhv50yYf6qwoiyawVrqi4bofoDndpe
- zSV4r+OUHto/lLuKT4gmvfUghTB/FxQqdOixMF2HtxlObaxQQFyJUak0tVVsQ+f+TNwQUm
- Jje+dPSZby6dGsl7ycHowNpzfYGFNiQ=
+ bh=cU9ZDMaXNVuHgqJBXyphTysFWQ+IRY5NTt7bdDrWhco=;
+ b=SzxcMIwKujuGG3U8U1Jgh+37qJM94AsUlgVdkR2NWNbIBMXqH1WY7lG2p50ufEKTr0BkwA
+ zxOb3wqvQ+wtfuXPmxcBhMSgk2zcEOCcWX1+YCIWivm/chVzndN1SiXX8SeqpjrU7pMqzg
+ lZ8ce+dwfUNunGxrCcSOiHgS3tfxsEQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-rIV5--T8MZyxhrDNRrWz8A-1; Tue, 06 Jul 2021 04:27:36 -0400
-X-MC-Unique: rIV5--T8MZyxhrDNRrWz8A-1
+ us-mta-83-1ZnYBLr-PpiJVPqyEyimcg-1; Tue, 06 Jul 2021 04:28:03 -0400
+X-MC-Unique: 1ZnYBLr-PpiJVPqyEyimcg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EEAE800C78;
- Tue,  6 Jul 2021 08:27:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 502FA10C1ADC;
+ Tue,  6 Jul 2021 08:27:56 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-227.pek2.redhat.com
  [10.72.13.227])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4816517A70;
- Tue,  6 Jul 2021 08:27:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BC7317A70;
+ Tue,  6 Jul 2021 08:27:53 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	mst@redhat.com,
 	jasowang@redhat.com
-Subject: [PATCH V2 01/18] vhost_net: remove the meaningless assignment in
- vhost_net_start_one()
-Date: Tue,  6 Jul 2021 16:27:00 +0800
-Message-Id: <20210706082717.37730-2-jasowang@redhat.com>
+Subject: [PATCH V2 05/18] vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
+Date: Tue,  6 Jul 2021 16:27:04 +0800
+Message-Id: <20210706082717.37730-6-jasowang@redhat.com>
 In-Reply-To: <20210706082717.37730-1-jasowang@redhat.com>
 References: <20210706082717.37730-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -83,34 +82,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
- lulu@redhat.com
+ lulu@redhat.com, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nvqs and vqs have been initialized during vhost_net_init() and are
-not expected to change during the life cycle of vhost_net
-structure. So this patch removes the meaningless assignment.
+The previous vhost_net_cleanup is sufficient for freeing, calling
+vhost_vdpa_del() in this case will lead an extra round of free. Note
+that this kind of "double free" is safe since vhost_dev_cleanup() zero
+the whole structure.
 
-Reviewed-by: Eli Cohen <elic@nvidia.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/vhost_net.c | 3 ---
- 1 file changed, 3 deletions(-)
+ net/vhost-vdpa.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 44c1ed92dc..6bd4184f96 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -238,9 +238,6 @@ static int vhost_net_start_one(struct vhost_net *net,
-     struct vhost_vring_file file = { };
-     int r;
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 728e63ff54..f5689a7c32 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -82,16 +82,6 @@ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
+     return ret;
+ }
  
--    net->dev.nvqs = 2;
--    net->dev.vqs = net->vqs;
+-static void vhost_vdpa_del(NetClientState *ncs)
+-{
+-    VhostVDPAState *s;
+-    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+-    s = DO_UPCAST(VhostVDPAState, nc, ncs);
+-    if (s->vhost_net) {
+-        vhost_net_cleanup(s->vhost_net);
+-    }
+-}
 -
-     r = vhost_dev_enable_notifiers(&net->dev, dev);
-     if (r < 0) {
-         goto fail_notifiers;
+ static int vhost_vdpa_add(NetClientState *ncs, void *be)
+ {
+     VhostNetOptions options;
+@@ -122,7 +112,6 @@ err:
+     if (net) {
+         vhost_net_cleanup(net);
+     }
+-    vhost_vdpa_del(ncs);
+     return -1;
+ }
+ 
 -- 
 2.25.1
 
