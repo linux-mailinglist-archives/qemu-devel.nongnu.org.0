@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 258AA3BC599
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:36:12 +0200 (CEST)
-Received: from localhost ([::1]:43092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 506713BC598
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 06:36:11 +0200 (CEST)
+Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0cod-0007TN-63
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46418)
+	id 1m0coc-0007PZ-8N
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 00:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfM-0008QB-UK
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:37 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51454)
+ id 1m0cfJ-0008HT-Sa
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0cfL-0003CS-8U
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:36 -0400
+ id 1m0cfI-0003Bg-BG
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 00:26:33 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0cf7-0004xe-LJ
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:21 +0000
+ id 1m0cf4-0004xX-Hi
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 04:26:18 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A055A2E8224
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 709F22E833D
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 04:26:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Jul 2021 04:17:50 -0000
-From: Launchpad Bug Tracker <1882241@bugs.launchpad.net>
+Date: Tue, 06 Jul 2021 04:17:52 -0000
+From: Launchpad Bug Tracker <1883784@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: i82551
+X-Launchpad-Bug-Tags: ppc64le tcg testcase
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor stefanha th-huth tim-tree-of-life
-X-Launchpad-Bug-Reporter: timsoft (tim-tree-of-life)
+X-Launchpad-Bug-Commenters: janitor laurent-vivier misterc nemequ th-huth
+X-Launchpad-Bug-Reporter: Evan Nemerson (nemequ)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159136023930.32294.17616621945608188739.malonedeb@gac.canonical.com>
-Message-Id: <162554507046.7821.4786949561937916484.malone@loganberry.canonical.com>
-Subject: [Bug 1882241] Re: file transfer over cifs to 64bit guest corrupts
- large files
+References: <159233926606.29237.7012634601262116409.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162554507264.7821.14615649870529168092.malone@loganberry.canonical.com>
+Subject: [Bug 1883784] Re: [ppc64le] qemu behavior differs from ppc64le
+ hardware
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 56151f173820bf0ca875505b19ef0bdb955e6092
+X-Launchpad-Hash: 278dc0a12a9a8e79be9c510848b6ead0b8197e8c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882241 <1882241@bugs.launchpad.net>
+Reply-To: Bug 1883784 <1883784@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,55 +85,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882241
+https://bugs.launchpad.net/bugs/1883784
 
 Title:
-  file transfer over cifs to 64bit guest corrupts large files
+  [ppc64le] qemu behavior differs from ppc64le hardware
 
 Status in QEMU:
   Expired
 
 Bug description:
-  qemu 4.0 compiled fom source.
-  vm called by
-  qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive file=3D/data/images/sl=
-ack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom /mnt/smb1/slackware/iso/slac=
-kware64-14.2-install-dvd.iso -boot c -net nic,macaddr=3D02:00:00:11:11:17,m=
-odel=3Di82551 -net bridge,br=3Dbr0 -enable-kvm -k en-gb -display vnc=3D:3 -=
-monitor telnet:localhost:7103,server,nowait,nodelay
+  I have some code which passes my test suite on PPC64LE hardware when
+  compiled with GCC 10, but the saem binary fails with both qemu-ppc64le
+  4.2 (on Fedora 32) and qemu-ppc64le-static 5.0.0 (Debian testing).
 
-  copying large files eg 2.4gb or reading them on a cifs mount in the guest=
- causes corruption every time. For smaller files 40-60mb corruption is more=
- than 50% of the time. tested by md5sum on cifs server, or on host machine =
-vs. on guest vm.
-  corruption is seen only with 64bit guest using cifs with i82551 emulated =
-network device
-  ie. 32bit guest using cifs with i82551 emulated network device gives no c=
-orruption.
+  I'm not getting any errors about illegal instructions or anything,
+  like that; the results are just silently different on qemu.
 
-  changing the emulated device to vmxnet3 removes the data corruption
-  (see below)
+  I've generated a reduced test case, which is attached along with the
+  binaries (both are the same code, one is just statically linked).
+  They should execute successufully on PPC64LE hardware, but on qemu
+  they hit a __builtin_abort (because the computed value doesn't match
+  the expected value).
 
-  qemu-system-x86_64 -cpu qemu64 -smp 4 -m 4G -drive
-  file=3D/data/images/slack14.2_64bit_test.qcow2,format=3Dqcow2 -cdrom
-  /mnt/smb1/slackware/iso/slackware64-14.2-install-dvd.iso -boot c -net
-  nic,macaddr=3D02:00:00:11:11:17,model=3Dvmxnet3 -net bridge,br=3Dbr0
-  -enable-kvm -k en-gb -display vnc=3D:3 -monitor
-  telnet:localhost:7103,server,nowait,nodelay
-
-  this corruption is repeatable. ie. I created new vm, call using top examp=
-le, installed 64bit linux, mounted cifs share and copied 2.4gb file to /tmp=
- then run md5sum "filecopied"
-  the md5sum is different every time. copy same file to the host, or to a 3=
-2bit guest with the same virtual network device and bridge and md5sums are =
-correct. The host pysical network adapter is
-  lspci|grep Ether
-  1e:00.0 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168=
-/8411 PCI Express Gigabit Ethernet Controller (rev 11)
-
-  physically connected via gigabit ethernet to cifs server (via gigabit
-  switch)
+  Without being familiar with PPC assembly I'm not sure what else I can
+  do, but if there is anything please let me know.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882241/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1883784/+subscriptions
 
