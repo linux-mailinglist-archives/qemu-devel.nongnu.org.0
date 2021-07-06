@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32A43BD7E6
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:39:07 +0200 (CEST)
-Received: from localhost ([::1]:46550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE823BD7DB
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:36:42 +0200 (CEST)
+Received: from localhost ([::1]:43028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0lI3-0001gc-29
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:39:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42390)
+	id 1m0lFh-0007m8-6h
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:36:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0lGJ-0000BI-KB
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:37:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47859)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0lEl-000761-QE
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:35:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0lGD-0000S8-Ee
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:37:19 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0lEh-00082r-BH
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:35:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625578632;
+ s=mimecast20190719; t=1625578536;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gw3XDlZDzB4iM2tGiaOzZyrNKe60PWQnmqbXvqEwTpc=;
- b=X9cHBCbEy8N4kNzfRDHllDiqRQh0zp4LIpx4WwHgkzaabY5uyi1LrBwkjpmZ3F4Yk8hK7F
- DBV1tJeAtMO81BSNvSZAbHOCB1oqNXAIUExyxnsgNGI5v5yrd/ZdGR/0cvgnOI9HsbiyAB
- K6VOUkJeOMreitu00nsvyoqlWDYFNYs=
+ bh=GkhfrzKum7FBRHQXUBFenPdwxgikJsV+xY8tK4RLXLE=;
+ b=eDlAHsYnwDH19hyzIXLgSj/2RJ8zxXJCrneOuqPhehiV6OtfAYhcin80izwxZXagWfi0/R
+ +NdfixUlBrPwVahI7U3cVj+m3yzqGeOHGlY+BH9/Zsf5tW6Lb59Lw8+O6GUsG/374T608c
+ c8kei7Vtoer8k+HqsIqce83R3M2+pGE=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-rXi-1DgaPeuNE61T0wwK9A-1; Tue, 06 Jul 2021 09:36:34 -0400
-X-MC-Unique: rXi-1DgaPeuNE61T0wwK9A-1
+ us-mta-307-HLXdDTZJMECRto5ycyWbgg-1; Tue, 06 Jul 2021 09:35:35 -0400
+X-MC-Unique: HLXdDTZJMECRto5ycyWbgg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- r5-20020a05600c35c5b029020fcaed9f61so615134wmq.1
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:36:31 -0700 (PDT)
+ m31-20020a05600c3b1fb02902082e9b2132so1105720wms.5
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:35:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Gw3XDlZDzB4iM2tGiaOzZyrNKe60PWQnmqbXvqEwTpc=;
- b=fPuRqLBL9Ew/zNFWfNNSsRvC8PPhC5NOy3yNCAB/KMa6gB3jyDiRi+4P6E+634uTbY
- HduvGnYlSWG9OBNYkxMayP1RElHyuIAYzUZhfHv9SbGuY5alwxuqIIuRHINDdE5NKogj
- Zit6kCqrQoBUPJ4APXF5ty7SOfw7QcyDtrpOhTuOhUBbyxI9TNnov5lzkkaktU3BiooE
- mXvRPygCcuTmXcbQlonNwpzew8/TT37YGyxuvJrgWr1EiaJ/O5qVckQFpELhtVHsxDbx
- 2gwMojUDC4aOgb6FBmnbub9dPIEDXV06jTMwrYTFOkXxs3YaZbdPHyv74Lo7DUWaObnm
- 6yNw==
-X-Gm-Message-State: AOAM532PslPK1nIaqUKloFeoBPwpuDP7pS1jXbpedQz1Hqamsxuxq7xQ
- nhrxYllp0beJIuwgH5TGVvVwmhWyBk9TX5pr3GL7Urjbu5xl2JK7MYWARwa8W/llXteQ/9w49a8
- DNW7ssiBu6vpOTuU=
-X-Received: by 2002:a05:6000:10:: with SMTP id
- h16mr21621891wrx.367.1625578495309; 
- Tue, 06 Jul 2021 06:34:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKATTprRWu+jpVW4HNTTAbEZRXgGAkg0HXROpdiAntGEjQoH4Yt5wYP7WOJYytGTA3e+zhNg==
-X-Received: by 2002:a05:6000:10:: with SMTP id
- h16mr21621879wrx.367.1625578495170; 
- Tue, 06 Jul 2021 06:34:55 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n20sm15254526wmk.12.2021.07.06.06.34.54
+ bh=GkhfrzKum7FBRHQXUBFenPdwxgikJsV+xY8tK4RLXLE=;
+ b=A9glvwAEBEKEDIyiuXkkMlCmhCoLO9mnXcCQufzdWkHL528nxwecYHJFU6S/5dBSTD
+ 6PwiU5fE+J6E3+DyO4u03+2NeMAJ8Lics0BRCUOgS5oMP3Zf+Lf1TCy4J53dBMgbnqxp
+ LWE8iNOdPcy60f6Wj7cxhb+GTBVlu0OlwdCPB6i9Yf8xwkdgwSY0UbLcLrS3Adx4wi34
+ g8fgtCgVTfRIClFaKx2cp45EjHetCkcnflVDkrQVYca2ZK5SBbDTRcd8viKxfaqGlFOA
+ Jq0/xhq3YxplTCjDaeDKillqtpZCuDDc3kb03uMW3dudO5NpuATmQs+dfpjFsr0wZ2cR
+ 0M5w==
+X-Gm-Message-State: AOAM532AvF9DWkgEyMVTMtWFGtwAg67umxFE8YPFzcFp0uQaITFN10iK
+ IwY0Dmk6QXYSRaw5n2etraZOmeQ3yMp5IUJWZj+646kXAAo6cK7dBPxKeQTUxl1DrP523dCXeh9
+ UkZdtVAOyWRkNiEM=
+X-Received: by 2002:adf:ea46:: with SMTP id j6mr21000368wrn.81.1625578534121; 
+ Tue, 06 Jul 2021 06:35:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyh9c/djbTkhMXZh/aRQ5SUJm4gQxo7ztyAtFg+sc7jrA+EI9+LW1OLCIuQDhlqXsEgy3Dpqg==
+X-Received: by 2002:adf:ea46:: with SMTP id j6mr21000340wrn.81.1625578533886; 
+ Tue, 06 Jul 2021 06:35:33 -0700 (PDT)
+Received: from thuth.remote.csb (pd9575e24.dip0.t-ipconnect.de. [217.87.94.36])
+ by smtp.gmail.com with ESMTPSA id n18sm2702929wms.3.2021.07.06.06.35.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 06:34:54 -0700 (PDT)
-Subject: Re: [PATCH v5 3/4] avocado_qemu: Add SMMUv3 tests
-To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
- qemu-devel@nongnu.org, crosa@redhat.com, wainersm@redhat.com
-References: <20210706131729.30749-1-eric.auger@redhat.com>
- <20210706131729.30749-4-eric.auger@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cc5d8c32-4014-96aa-73cd-da0c4d41a59a@redhat.com>
-Date: Tue, 6 Jul 2021 15:34:53 +0200
+ Tue, 06 Jul 2021 06:35:33 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210706130723.1178961-1-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] target/mips: Rewrite UHI errno_mips() using switch
+ statement
+Message-ID: <143016a0-710d-90c6-4dd8-d7be4d4157b6@redhat.com>
+Date: Tue, 6 Jul 2021 15:35:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706131729.30749-4-eric.auger@redhat.com>
+In-Reply-To: <20210706130723.1178961-1-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -102,57 +99,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, peterx@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Alexander von Gluck IV <kallisti5@unixzen.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Richard Zak <richard.j.zak@gmail.com>, Leon Alrae <leon.alrae@imgtec.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/6/21 3:17 PM, Eric Auger wrote:
-> Add new tests checking the good behavior of the SMMUv3 protecting
-> 2 virtio pci devices (block and net). We check the guest boots and
-> we are able to install a package. Different guest configs are tested:
-> standard, passthrough an strict=0. This is tested with both fedora 31 and
-> 33. The former uses a 5.3 kernel without range invalidation whereas the
-> latter uses a 5.8 kernel that features range invalidation.
+On 06/07/2021 15.07, Philippe Mathieu-Daudé wrote:
+> Linking on Haiku OS fails:
 > 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>    /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
+>    error: libqemu-mips-softmmu.fa.p/target_mips_tcg_sysemu_mips-semi.c.o(.rodata) is too large (0xffff405a bytes)
+>    /boot/system/develop/tools/bin/../lib/gcc/x86_64-unknown-haiku/8.3.0/../../../../x86_64-unknown-haiku/bin/ld:
+>    final link failed: memory exhausted
+>    collect2: error: ld returned 1 exit status
 > 
+> This is because the host_to_mips_errno[] uses errno as index,
+> for example:
+> 
+>    static const uint16_t host_to_mips_errno[] = {
+>        [ENAMETOOLONG] = 91,
+>        ...
+> 
+> and Haiku defines [*] ENAMETOOLONG as:
+> 
+>     12 /* Error baselines */
+>     13 #define B_GENERAL_ERROR_BASE              INT_MIN
+>     ..
+>     22 #define B_STORAGE_ERROR_BASE              (B_GENERAL_ERROR_BASE + 0x6000)
+>    ...
+>    106 #define B_NAME_TOO_LONG                   (B_STORAGE_ERROR_BASE + 4)
+>    ...
+>    211 #define ENAMETOOLONG                      B_TO_POSIX_ERROR(B_NAME_TOO_LONG)
+> 
+> so the array ends up beeing indeed too big.
+> 
+> Since POSIX errno can't be use as indexes on Haiku,
+> rewrite errno_mips() using a switch statement.
+> 
+> [*] https://github.com/haiku/haiku/blob/r1beta3/headers/os/support/Errors.h#L130
+> 
+> Reported-by: Richard Zak <richard.j.zak@gmail.com>
+> Suggested-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> 
-> v4 -> v5:
-> - Added the skipIf statement (William) and William's R-b
-> - added Wainer's R-b and T-b
+> Supersedes: <20210704170736.617895-4-f4bug@amsat.org>
 > ---
->  tests/acceptance/smmu.py | 133 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 133 insertions(+)
->  create mode 100644 tests/acceptance/smmu.py
+>   target/mips/tcg/sysemu/mips-semi.c | 24 +++++++++---------------
+>   1 file changed, 9 insertions(+), 15 deletions(-)
+> 
+> diff --git a/target/mips/tcg/sysemu/mips-semi.c b/target/mips/tcg/sysemu/mips-semi.c
+> index 77108b0b1a9..b4a383ae90c 100644
+> --- a/target/mips/tcg/sysemu/mips-semi.c
+> +++ b/target/mips/tcg/sysemu/mips-semi.c
+> @@ -74,25 +74,19 @@ enum UHIOpenFlags {
+>       UHIOpen_EXCL   = 0x800
+>   };
+>   
+> -/* Errno values taken from asm-mips/errno.h */
+> -static const uint16_t host_to_mips_errno[] = {
+> -    [ENAMETOOLONG] = 78,
+> +static int errno_mips(int host_errno)
+> +{
+> +    /* Errno values taken from asm-mips/errno.h */
+> +    switch (host_errno) {
+> +    case 0:             return 0;
+> +    case ENAMETOOLONG:  return 78;
+>   #ifdef EOVERFLOW
+> -    [EOVERFLOW]    = 79,
+> +    case EOVERFLOW:     return 79;
+>   #endif
+>   #ifdef ELOOP
+> -    [ELOOP]        = 90,
+> +    case ELOOP:         return 90;
+>   #endif
+> -};
+> -
+> -static int errno_mips(int err)
+> -{
+> -    if (err < 0 || err >= ARRAY_SIZE(host_to_mips_errno)) {
+> -        return EINVAL;
+> -    } else if (host_to_mips_errno[err]) {
+> -        return host_to_mips_errno[err];
+> -    } else {
+> -        return err;
+> +    default:            return EINVAL;
+>       }
+>   }
 
-> +    def run_and_check(self):
-> +        if self.kernel_path:
-> +            self.vm.add_args('-kernel', self.kernel_path,
-> +                             '-append', self.kernel_params,
-> +                             '-initrd', self.initrd_path)
-> +        self.launch_and_wait()
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-IIUC above is the 'run' part and below is the 'check' part?
-
-So the check succeed if the VM booted, right?
-
-> +        self.ssh_command('cat /proc/cmdline')
-> +        self.ssh_command('dnf -y install numactl-devel')
-> +
-> +
-> +    # 5.3 kernel without RIL #
-> +
-> +    def test_smmu_noril(self):
-> +        """
-> +        :avocado: tags=smmu_noril
-> +        :avocado: tags=smmu_noril_tests
-> +        :avocado: tags=distro_version:31
-> +        """
-> +        self.common_vm_setup()
-> +        self.run_and_check()
+I assume you'll do the number fixup (your previous "target/mips: Fix UHI 
+error values" patch) on top of this now?
 
 
