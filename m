@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F7A3BC8F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:02:13 +0200 (CEST)
-Received: from localhost ([::1]:49002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02333BC901
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:04:56 +0200 (CEST)
+Received: from localhost ([::1]:57484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0hu8-0007kD-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:02:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41584)
+	id 1m0hwl-0005F0-QN
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0hro-000508-Kt
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:59:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55383)
+ id 1m0hrp-00050I-MR
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:59:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m0hrh-0000yD-Nj
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:59:43 -0400
+ id 1m0hri-0000yv-7S
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 05:59:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625565580;
+ s=mimecast20190719; t=1625565581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5MZY9JS1Pu+7mjMKLLrNsbFztuWSYlvCXNl6v8KUS6c=;
- b=bn44kFTs9c16shl2kG4CrGOsIZl5CP1S3pBzjkYzg1oj4I1cDFDHn+K1QsWvuNpQC9GHeg
- 40HRNG6kO0DeJQY+loWRwUoyFcPF6bdPGWWXdCQPUD7B32IOXuyLluB+7vhjUb+4h0GpqI
- iokYP0wpf+i9UZ+r5K+u+NHK5iXKBWk=
+ bh=NS9n7LlDC/WsACvoP9ACQZgFXpSBNp+MNDLvFWzrHsk=;
+ b=CjyX5W2SXOSHYABt62EgOgvpjuM7uXdsdDmtsAhy+XTChKyTW+5z5yhk/AffPGqdXVbQps
+ Ar6y3Ces9YyeJxUCA0kci2LXzm8OE8WiCP6BUYSdCYkIcGdqJB9ijt8tWHNMO9dnMT+AU2
+ ONGx94QuaQo9c9GlcOPGnGBQt+jVDIA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-aXL0f7MIN3OTZbtRWF7DCQ-1; Tue, 06 Jul 2021 05:59:39 -0400
-X-MC-Unique: aXL0f7MIN3OTZbtRWF7DCQ-1
+ us-mta-386-w7smIvJ5OdSzHjJqFsmw4g-1; Tue, 06 Jul 2021 05:59:40 -0400
+X-MC-Unique: w7smIvJ5OdSzHjJqFsmw4g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37AF2106B7DC
- for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 09:59:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75FD18030B0
+ for <qemu-devel@nongnu.org>; Tue,  6 Jul 2021 09:59:39 +0000 (UTC)
 Received: from domokun.gsslab.fab.redhat.com (gx270-2.gsslab.fab.redhat.com
  [10.33.8.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45E4B5D6A1;
- Tue,  6 Jul 2021 09:59:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 730F15D6A1;
+ Tue,  6 Jul 2021 09:59:38 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/18] crypto: remove conditional around 3DES crypto test cases
-Date: Tue,  6 Jul 2021 10:59:07 +0100
-Message-Id: <20210706095924.764117-2-berrange@redhat.com>
+Subject: [PATCH 02/18] crypto: remove obsolete crypto test condition
+Date: Tue,  6 Jul 2021 10:59:08 +0100
+Message-Id: <20210706095924.764117-3-berrange@redhat.com>
 In-Reply-To: <20210706095924.764117-1-berrange@redhat.com>
 References: <20210706095924.764117-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -85,34 +85,38 @@ Cc: Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The main method checks whether the cipher choice is supported
-at runtime, so there is no need for compile time conditions.
+Since we now require gcrypt >= 1.8.0, there is no need
+to exclude the pbkdf test case.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/unit/test-crypto-cipher.c | 2 --
- 1 file changed, 2 deletions(-)
+ tests/unit/test-crypto-pbkdf.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/tests/unit/test-crypto-cipher.c b/tests/unit/test-crypto-cipher.c
-index 280319a223..fd0a8de34c 100644
---- a/tests/unit/test-crypto-cipher.c
-+++ b/tests/unit/test-crypto-cipher.c
-@@ -165,7 +165,6 @@ static QCryptoCipherTestData test_data[] = {
-             "ffd29f1bb5596ad94ea2d8e6196b7f09"
-             "30d8ed0bf2773af36dd82a6280c20926",
+diff --git a/tests/unit/test-crypto-pbkdf.c b/tests/unit/test-crypto-pbkdf.c
+index c50fd639d2..43c417f6b4 100644
+--- a/tests/unit/test-crypto-pbkdf.c
++++ b/tests/unit/test-crypto-pbkdf.c
+@@ -229,10 +229,8 @@ static QCryptoPbkdfTestData test_data[] = {
      },
--#if defined(CONFIG_NETTLE) || defined(CONFIG_GCRYPT)
+ 
+     /* non-RFC misc test data */
+-#ifdef CONFIG_NETTLE
      {
-         /* Borrowed from linux-kernel crypto/testmgr.h */
-         .path = "/crypto/cipher/3des-cbc",
-@@ -283,7 +282,6 @@ static QCryptoCipherTestData test_data[] = {
-             "407772c2ea0e3a7846b991b6e73d5142"
-             "fd51b0c62c6313785ceefccfc4700034",
+-        /* empty password test.
+-         * Broken with libgcrypt <= 1.5.0, hence CONFIG_NETTLE */
++        /* empty password test. */
+         .path = "/crypto/pbkdf/nonrfc/sha1/iter2",
+         .hash = QCRYPTO_HASH_ALG_SHA1,
+         .iterations = 2,
+@@ -244,7 +242,6 @@ static QCryptoPbkdfTestData test_data[] = {
+                "\xbf\x03\xe1\x1c\x71\xca\x79\x4e\x07\x97",
+         .nout = 20
      },
 -#endif
      {
-         /* RFC 2144, Appendix B.1 */
-         .path = "/crypto/cipher/cast5-128",
+         /* Password exceeds block size test */
+         .path = "/crypto/pbkdf/nonrfc/sha256/iter1200",
 -- 
 2.31.1
 
