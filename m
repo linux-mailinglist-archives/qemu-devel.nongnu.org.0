@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B496C3BD7B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:24:38 +0200 (CEST)
-Received: from localhost ([::1]:55636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AB63BD79E
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:19:45 +0200 (CEST)
+Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0l41-0004AX-Q1
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:24:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
+	id 1m0kzI-0003rS-L9
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:19:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1m0kxj-0002AT-LW
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:18:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60096)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m0kxP-0001x3-2T
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:17:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1m0kxg-0007rU-Fg
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:18:07 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m0kxM-0007i0-LT
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:17:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625577483;
+ s=mimecast20190719; t=1625577462;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=52OlAWPyUSED172AQIxU9FUULofFk+qa0gHUmdfuPWI=;
- b=PZRMuC0tPWodZyzRSTwWGnYLg4V409tr7buZUiZ3+cmDrsN1+fugLLYtswVbLF85ev1Sa3
- 5KKtP2cmnMIGYjrlIVyWipAz+VWN1pdXnps34p1RqLhOd32vYcpGiFWniQp/eWAezztqxH
- uR6aDWaNJKrWtzra+OAzqggnZz9hdCo=
+ bh=e97GQ+IHODc9x35zVDACZpSYPSrt8xL1gpa9wmUDCpM=;
+ b=KQYjpu5Pjf1JKAig40UVkOFgCKhEpHqVINXkzHLQz6GD++mSTWRDHWF8DyrweCBtSCre4k
+ y5aKDgxwzmHMGQlLj2V3eNx5qjunRPRNMT60j4o1reSQ4qhDrfNv4jQ+SJu1lzX4VbvWHf
+ j8NOIG2+IoaR+kq5BkLYMWz1STY6MjQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-sbCeCpcpNoKchwb6EsIM-Q-1; Tue, 06 Jul 2021 09:18:01 -0400
-X-MC-Unique: sbCeCpcpNoKchwb6EsIM-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-63-FXygoYwuNouRd-cyK5cJxQ-1; Tue, 06 Jul 2021 09:17:38 -0400
+X-MC-Unique: FXygoYwuNouRd-cyK5cJxQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD2B01018723;
- Tue,  6 Jul 2021 13:18:00 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-113-159.ams2.redhat.com [10.36.113.159])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 596E769CB8;
- Tue,  6 Jul 2021 13:17:55 +0000 (UTC)
-From: Eric Auger <eric.auger@redhat.com>
-To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
- philmd@redhat.com, crosa@redhat.com, wainersm@redhat.com
-Subject: [PATCH v5 4/4] avocado_qemu: Add Intel iommu tests
-Date: Tue,  6 Jul 2021 15:17:29 +0200
-Message-Id: <20210706131729.30749-5-eric.auger@redhat.com>
-In-Reply-To: <20210706131729.30749-1-eric.auger@redhat.com>
-References: <20210706131729.30749-1-eric.auger@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 778361023F41;
+ Tue,  6 Jul 2021 13:17:37 +0000 (UTC)
+Received: from localhost (ovpn-115-23.ams2.redhat.com [10.36.115.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBEBA5D6A1;
+ Tue,  6 Jul 2021 13:17:36 +0000 (UTC)
+Date: Tue, 6 Jul 2021 14:17:35 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v5 1/3] block/file-posix: Optimize for macOS
+Message-ID: <YORX7+meEPuaHi5o@stefanha-x1.localdomain>
+References: <20210705130458.97642-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210705130458.97642-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="aY+l2FPpLhLY9yyI"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -79,153 +78,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wrampazz@redhat.com, peterx@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ pkrempa@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Konstantin Nazarov <mail@knazarov.com>,
+ shajnocz <shajnocz@redhat.com>, John Snow <jsnow@redhat.com>,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add Intel IOMMU functional tests based on fedora 31.
-Different configs are checked:
-- strict
-- caching mode, strict
-- passthrough.
+--aY+l2FPpLhLY9yyI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-Acked-by: Peter Xu <peterx@redhat.com>
+On Mon, Jul 05, 2021 at 10:04:56PM +0900, Akihiko Odaki wrote:
+> This commit introduces "punch hole" operation and optimizes transfer
+> block size for macOS.
+>=20
+> Thanks to Konstantin Nazarov for detailed analysis of a flaw in an
+> old version of this change:
+> https://gist.github.com/akihikodaki/87df4149e7ca87f18dc56807ec5a1bc5#gist=
+comment-3654667
+>=20
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> ---
+>  block/file-posix.c | 27 +++++++++++++++++++++++++--
+>  1 file changed, 25 insertions(+), 2 deletions(-)
 
----
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
 
-v4 -> v5:
-- import cleanup (William)
-- IntelIOMMU becomes the class name (William)
-- Added William's Sob
----
- tests/acceptance/intel_iommu.py | 115 ++++++++++++++++++++++++++++++++
- 1 file changed, 115 insertions(+)
- create mode 100644 tests/acceptance/intel_iommu.py
+Stefan
 
-diff --git a/tests/acceptance/intel_iommu.py b/tests/acceptance/intel_iommu.py
-new file mode 100644
-index 0000000000..ad10491d89
---- /dev/null
-+++ b/tests/acceptance/intel_iommu.py
-@@ -0,0 +1,115 @@
-+# INTEL_IOMMU Functional tests
-+#
-+# Copyright (c) 2021 Red Hat, Inc.
-+#
-+# Author:
-+#  Eric Auger <eric.auger@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+import os
-+
-+from avocado import skipIf
-+from avocado_qemu import LinuxTest
-+
-+@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-+class IntelIOMMU(LinuxTest):
-+    """
-+    :avocado: tags=arch:x86_64
-+    :avocado: tags=distro:fedora
-+    :avocado: tags=distro_version:31
-+    :avocado: tags=machine:q35
-+    :avocado: tags=accel:kvm
-+    :avocado: tags=intel_iommu
-+    """
-+
-+    IOMMU_ADDON = ',iommu_platform=on,disable-modern=off,disable-legacy=on'
-+    kernel_path = None
-+    initrd_path = None
-+    kernel_params = None
-+
-+    def set_up_boot(self):
-+        path = self.download_boot()
-+        self.vm.add_args('-device', 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
-+                         'drive=drv0,id=virtio-disk0,bootindex=1,'
-+                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
-+        self.vm.add_args('-device', 'virtio-gpu-pci' + self.IOMMU_ADDON)
-+        self.vm.add_args('-drive',
-+                         'file=%s,if=none,cache=writethrough,id=drv0' % path)
-+
-+    def setUp(self):
-+        super(IntelIOMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
-+
-+    def add_common_args(self):
-+        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
-+        self.vm.add_args('-object',
-+                         'rng-random,id=rng0,filename=/dev/urandom')
-+
-+    def common_vm_setup(self, custom_kernel=None):
-+        self.require_accelerator("kvm")
-+        self.add_common_args()
-+        self.vm.add_args("-accel", "kvm")
-+
-+        if custom_kernel is None:
-+            return
-+
-+        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
-+        initrd_url = self.distro.pxeboot_url + 'initrd.img'
-+        self.kernel_path = self.fetch_asset(kernel_url)
-+        self.initrd_path = self.fetch_asset(initrd_url)
-+
-+    def run_and_check(self):
-+        if self.kernel_path:
-+            self.vm.add_args('-kernel', self.kernel_path,
-+                             '-append', self.kernel_params,
-+                             '-initrd', self.initrd_path)
-+        self.launch_and_wait()
-+        self.ssh_command('cat /proc/cmdline')
-+        self.ssh_command('dmesg | grep -e DMAR -e IOMMU')
-+        self.ssh_command('find /sys/kernel/iommu_groups/ -type l')
-+        self.ssh_command('dnf -y install numactl-devel')
-+
-+    def test_intel_iommu(self):
-+        """
-+        :avocado: tags=intel_iommu_intremap
-+        """
-+
-+        self.common_vm_setup(True)
-+        self.vm.add_args('-device', 'intel-iommu,intremap=on')
-+        self.vm.add_args('-machine', 'kernel_irqchip=split')
-+
-+        self.kernel_params = self.distro.default_kernel_params + ' quiet intel_iommu=on'
-+        self.run_and_check()
-+
-+    def test_intel_iommu_strict(self):
-+        """
-+        :avocado: tags=intel_iommu_strict
-+        """
-+
-+        self.common_vm_setup(True)
-+        self.vm.add_args('-device', 'intel-iommu,intremap=on')
-+        self.vm.add_args('-machine', 'kernel_irqchip=split')
-+        self.kernel_params = self.distro.default_kernel_params + ' quiet intel_iommu=on,strict'
-+        self.run_and_check()
-+
-+    def test_intel_iommu_strict_cm(self):
-+        """
-+        :avocado: tags=intel_iommu_strict_cm
-+        """
-+
-+        self.common_vm_setup(True)
-+        self.vm.add_args('-device', 'intel-iommu,intremap=on,caching-mode=on')
-+        self.vm.add_args('-machine', 'kernel_irqchip=split')
-+        self.kernel_params = self.distro.default_kernel_params + ' quiet intel_iommu=on,strict'
-+        self.run_and_check()
-+
-+    def test_intel_iommu_pt(self):
-+        """
-+        :avocado: tags=intel_iommu_pt
-+        """
-+
-+        self.common_vm_setup(True)
-+        self.vm.add_args('-device', 'intel-iommu,intremap=on')
-+        self.vm.add_args('-machine', 'kernel_irqchip=split')
-+        self.kernel_params = self.distro.default_kernel_params + ' quiet intel_iommu=on iommu=pt'
-+        self.run_and_check()
--- 
-2.26.3
+--aY+l2FPpLhLY9yyI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDkV+8ACgkQnKSrs4Gr
+c8hUMgf+KaE3Wpa+A3Py3i72pgmo8WlhhlAskEK/01zspnBSj1/NiAlD2yhZTpPt
+Ly75sFLLpqyHblSj8WYmvNvHdOKhOQaKOiky2TX8EvvylM+Wc2cBo41h+or+sTG3
+efvuyTa8Z2FDAzjQD9FWsNc7KfEkGvP4uDLDdgsaY+EH7hA2q6d4vvsSsOkHz4v4
+GEhzVN38iT/0OcBIZ8qha3S+6MEJXkmX3Xr461SVAmAwER6+4NDehGwE6TgcP9Xe
+kJsPjY9fv8wz6C6pJXRh9hsDDxtoraq+SGR6zMPclvAVX3wARtyEOqA7vxV6wio3
+2h8drAuuLeDcTbHBhRSDGvU9BD3c8Q==
+=jkeB
+-----END PGP SIGNATURE-----
+
+--aY+l2FPpLhLY9yyI--
 
 
