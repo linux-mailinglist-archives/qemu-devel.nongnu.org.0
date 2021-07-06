@@ -2,67 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720A53BD7D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:32:27 +0200 (CEST)
-Received: from localhost ([::1]:38930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F32A43BD7E6
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 15:39:07 +0200 (CEST)
+Received: from localhost ([::1]:46550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0lBa-0004sb-AE
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:32:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40610)
+	id 1m0lI3-0001gc-29
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 09:39:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1m0l9n-0003Pu-UB
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:30:37 -0400
-Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:40448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcel.apfelbaum@gmail.com>)
- id 1m0l9k-0005ZL-K3
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:30:35 -0400
-Received: by mail-oi1-x22e.google.com with SMTP id l26so21918298oic.7
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:30:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hq98K53qJd88jdd2gUR8XHVXLAPCMF1bS5TpOfnDRP8=;
- b=onwVf03nas49BfYmDJXWc1WDUFWFLxjv7d//aHCZrytFoHKvkC9mwHgxt9R8SYo+Jk
- mgaazY+nxRkCWInk/w3Gvu9BlpBtIgrPZ1peWvyb7P+pBFry2HBpkoywydXEwPkDGGTS
- GWwGFMsFxKUM4yOliVTG0Ss+vbbhuXPdzMvBEMllm81/86hFSi8S/M2IGlhcm2ygI3gr
- zhheguOsHg5zBVL2bdHbmHCUqk+9heUezqwKTdyl1VwmeGr4pwCWmIKZb6AIG9cEHeg5
- HbQdrVfcIk9Kp5GHZwsq6iLkwmAzZyeukclzSUFBJIzyLRCXMZhjSYnEA3YX/RbPBPeZ
- 8Hiw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0lGJ-0000BI-KB
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:37:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m0lGD-0000S8-Ee
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 09:37:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625578632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gw3XDlZDzB4iM2tGiaOzZyrNKe60PWQnmqbXvqEwTpc=;
+ b=X9cHBCbEy8N4kNzfRDHllDiqRQh0zp4LIpx4WwHgkzaabY5uyi1LrBwkjpmZ3F4Yk8hK7F
+ DBV1tJeAtMO81BSNvSZAbHOCB1oqNXAIUExyxnsgNGI5v5yrd/ZdGR/0cvgnOI9HsbiyAB
+ K6VOUkJeOMreitu00nsvyoqlWDYFNYs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-79-rXi-1DgaPeuNE61T0wwK9A-1; Tue, 06 Jul 2021 09:36:34 -0400
+X-MC-Unique: rXi-1DgaPeuNE61T0wwK9A-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r5-20020a05600c35c5b029020fcaed9f61so615134wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 06:36:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hq98K53qJd88jdd2gUR8XHVXLAPCMF1bS5TpOfnDRP8=;
- b=TGM72ZeIMIi33mFRfgIdHzs8HyGeD6gU8eeiWZJUKZq7R+GuuAqZna/NxLwalB5AUL
- vCJ7D8K0ShNMiwZaEqXdjkZT3om83N9GaQCkVOmCniJ61lylph3l4/+9CLcRFKmk4xeI
- OKqU5GsctITpkbd5epogomfoOjdhIywulBt0bnYq0JfPsahVxQcoBMiwIZduTnrI/o60
- HlYu8Q3I1ebKxut2u0KKofcDy7S0nnC7XF2mrYzF0CMH/bVWGSD8dfS7YG9o/kp2fPuI
- SNRXjQo7LCrdLjTZtlcEWDZkvZWNEEEsPvplKVbjftqnu8N8iN7x7vs1taLAB9AZwg73
- 7cYw==
-X-Gm-Message-State: AOAM531NmT3q9Z75SahlqY6/svOu0gxPx2yt+O58ACkKCPZ6p3wRMvSp
- A7WYgWGmSnBQm8tZ2cowa9FJIN44HwHLBGFnx54=
-X-Google-Smtp-Source: ABdhPJxU3tXbRrk3v8bHGd2CAuPa0KHx5u9vCHKM/pUsW6K/IEg+mtC+UemI5tSTrM/ulbuX7nGfnlrclazA74Gt+pU=
-X-Received: by 2002:aca:d9d7:: with SMTP id q206mr8331055oig.93.1625578230123; 
- Tue, 06 Jul 2021 06:30:30 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Gw3XDlZDzB4iM2tGiaOzZyrNKe60PWQnmqbXvqEwTpc=;
+ b=fPuRqLBL9Ew/zNFWfNNSsRvC8PPhC5NOy3yNCAB/KMa6gB3jyDiRi+4P6E+634uTbY
+ HduvGnYlSWG9OBNYkxMayP1RElHyuIAYzUZhfHv9SbGuY5alwxuqIIuRHINDdE5NKogj
+ Zit6kCqrQoBUPJ4APXF5ty7SOfw7QcyDtrpOhTuOhUBbyxI9TNnov5lzkkaktU3BiooE
+ mXvRPygCcuTmXcbQlonNwpzew8/TT37YGyxuvJrgWr1EiaJ/O5qVckQFpELhtVHsxDbx
+ 2gwMojUDC4aOgb6FBmnbub9dPIEDXV06jTMwrYTFOkXxs3YaZbdPHyv74Lo7DUWaObnm
+ 6yNw==
+X-Gm-Message-State: AOAM532PslPK1nIaqUKloFeoBPwpuDP7pS1jXbpedQz1Hqamsxuxq7xQ
+ nhrxYllp0beJIuwgH5TGVvVwmhWyBk9TX5pr3GL7Urjbu5xl2JK7MYWARwa8W/llXteQ/9w49a8
+ DNW7ssiBu6vpOTuU=
+X-Received: by 2002:a05:6000:10:: with SMTP id
+ h16mr21621891wrx.367.1625578495309; 
+ Tue, 06 Jul 2021 06:34:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKATTprRWu+jpVW4HNTTAbEZRXgGAkg0HXROpdiAntGEjQoH4Yt5wYP7WOJYytGTA3e+zhNg==
+X-Received: by 2002:a05:6000:10:: with SMTP id
+ h16mr21621879wrx.367.1625578495170; 
+ Tue, 06 Jul 2021 06:34:55 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id n20sm15254526wmk.12.2021.07.06.06.34.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 06 Jul 2021 06:34:54 -0700 (PDT)
+Subject: Re: [PATCH v5 3/4] avocado_qemu: Add SMMUv3 tests
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ qemu-devel@nongnu.org, crosa@redhat.com, wainersm@redhat.com
+References: <20210706131729.30749-1-eric.auger@redhat.com>
+ <20210706131729.30749-4-eric.auger@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <cc5d8c32-4014-96aa-73cd-da0c4d41a59a@redhat.com>
+Date: Tue, 6 Jul 2021 15:34:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210617190739.3673064-1-jusual@redhat.com>
-In-Reply-To: <20210617190739.3673064-1-jusual@redhat.com>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Date: Tue, 6 Jul 2021 16:30:19 +0300
-Message-ID: <CAC_L=vXCYSw4UXNXfyv_PfROBA0sNUWrht2me=KvzcwNEkoVJw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] Use ACPI PCI hot-plug for Q35
-To: Julia Suvorova <jusual@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f610dc05c6746cd9"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22e;
- envelope-from=marcel.apfelbaum@gmail.com; helo=mail-oi1-x22e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210706131729.30749-4-eric.auger@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,85 +102,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, David Gibson <dgibson@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: wrampazz@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f610dc05c6746cd9
-Content-Type: text/plain; charset="UTF-8"
+On 7/6/21 3:17 PM, Eric Auger wrote:
+> Add new tests checking the good behavior of the SMMUv3 protecting
+> 2 virtio pci devices (block and net). We check the guest boots and
+> we are able to install a package. Different guest configs are tested:
+> standard, passthrough an strict=0. This is tested with both fedora 31 and
+> 33. The former uses a 5.3 kernel without range invalidation whereas the
+> latter uses a 5.8 kernel that features range invalidation.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> 
+> ---
+> 
+> v4 -> v5:
+> - Added the skipIf statement (William) and William's R-b
+> - added Wainer's R-b and T-b
+> ---
+>  tests/acceptance/smmu.py | 133 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 133 insertions(+)
+>  create mode 100644 tests/acceptance/smmu.py
 
-Hi Julia,
+> +    def run_and_check(self):
+> +        if self.kernel_path:
+> +            self.vm.add_args('-kernel', self.kernel_path,
+> +                             '-append', self.kernel_params,
+> +                             '-initrd', self.initrd_path)
+> +        self.launch_and_wait()
 
-On Thu, Jun 17, 2021 at 10:07 PM Julia Suvorova <jusual@redhat.com> wrote:
+IIUC above is the 'run' part and below is the 'check' part?
 
-> The patch set consists of two parts:
-> patches 1-4: introduce new feature
->              'acpi-pci-hotplug-with-bridge-support' on Q35
-> patches 5-7: make the feature default along with changes in ACPI tables
->
->
-I have tested the patches and I noticed 2 issues:
-1. The changes allow to hotplug a device into the pcie.0 bus (device_add
-e1000)
-    - The device can be seen using `info qtree` but is not visible in guest.
-   pcie.0 bus should not support hotplug at all.
-  Before the series we get:
-       Error: Bus 'pcie.0' does not support hotplugging
-2.  The devices hotplugged into a pcie-root-port are not allocated IO space:
-    device_add e1000,id=e1,bus=rp1
-    In dmesg I see:
-         [   24.699178] pci 0000:01:00.0: BAR 1: no space for [io  size
-0x0040]
-         [  24.699753] pci 0000:01:00.0: BAR 1: failed to assign [io  size
-0x0040]
-   And in lspci I see:
-        I/O ports at <unassigned> [disabled]
-  Before the series:
-      I/O ports at 1000 [size=64]
+So the check succeed if the VM booted, right?
 
+> +        self.ssh_command('cat /proc/cmdline')
+> +        self.ssh_command('dnf -y install numactl-devel')
+> +
+> +
+> +    # 5.3 kernel without RIL #
+> +
+> +    def test_smmu_noril(self):
+> +        """
+> +        :avocado: tags=smmu_noril
+> +        :avocado: tags=smmu_noril_tests
+> +        :avocado: tags=distro_version:31
+> +        """
+> +        self.common_vm_setup()
+> +        self.run_and_check()
 
-Could you please check?
-
-Thanks,
-Marcel
-
---000000000000f610dc05c6746cd9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Julia,</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 17, 2021 at 10:07 PM=
- Julia Suvorova &lt;<a href=3D"mailto:jusual@redhat.com">jusual@redhat.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">T=
-he patch set consists of two parts:<br>
-patches 1-4: introduce new feature<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;acpi-pci-hotplug-with-=
-bridge-support&#39; on Q35<br>
-patches 5-7: make the feature default along with changes in ACPI tables<br>
-<br></blockquote><div><br></div><div>I have tested the patches and I notice=
-d 2 issues:</div><div>1. The changes allow to hotplug a device into the pci=
-e.0 bus (device_add e1000)</div><div>=C2=A0 =C2=A0 - The device can be seen=
- using `info qtree` but is not visible in guest.</div><div>=C2=A0 =C2=A0pci=
-e.0 bus should not support hotplug at all.</div><div>=C2=A0 Before the seri=
-es we get:</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0Error: Bus &#39;pcie.0&#39;=
- does not support hotplugging</div><div>2.=C2=A0 The devices hotplugged int=
-o a pcie-root-port are not allocated IO space:</div><div>=C2=A0 =C2=A0=C2=
-=A0device_add e1000,id=3De1,bus=3Drp1</div><div>=C2=A0 =C2=A0 In dmesg I se=
-e:</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[ =C2=A0 24.699178] pci 0000=
-:01:00.0: BAR 1: no space for [io =C2=A0size 0x0040]</div>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0[=C2=A0 24.699753] pci 0000:01:00.0: BAR 1: failed to assi=
-gn [io =C2=A0size 0x0040]<br>=C2=A0 =C2=A0And in lspci I see:</div><div cla=
-ss=3D"gmail_quote">=C2=A0 =C2=A0 =C2=A0 =C2=A0 I/O ports at &lt;unassigned&=
-gt; [disabled]</div><div class=3D"gmail_quote">=C2=A0 Before the series:</d=
-iv><div class=3D"gmail_quote">=C2=A0 =C2=A0 =C2=A0=C2=A0I/O ports at 1000 [=
-size=3D64]</div><div class=3D"gmail_quote">=C2=A0 =C2=A0=C2=A0</div><div cl=
-ass=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Could you please c=
-heck?=C2=A0=C2=A0</div><div class=3D"gmail_quote"><br></div><div class=3D"g=
-mail_quote">Thanks,</div><div class=3D"gmail_quote">Marcel</div><div class=
-=3D"gmail_quote">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0</div></div>
-
---000000000000f610dc05c6746cd9--
 
