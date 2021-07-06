@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F8F3BDFE7
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:54:11 +0200 (CEST)
-Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DDE3BDFE5
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 01:54:09 +0200 (CEST)
+Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0utG-0000ij-As
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:54:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52926)
+	id 1m0utE-0000Xp-PO
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 19:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uov-0000or-TW
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:41 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:38782)
+ id 1m0uow-0000rj-R8
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:42 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:36486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0uot-0006bf-AN
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:41 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id h4so407826pgp.5
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:38 -0700 (PDT)
+ id 1m0uov-0006cK-1U
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 19:49:42 -0400
+Received: by mail-pl1-x629.google.com with SMTP id u19so62086plc.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 16:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9RcoFmxGQXgPRY+jmXRZEPO1LtZWOQX+pDz9H/4119E=;
- b=R7sZRA70v7H1x5y9EUN8f/2nDivfeG6gN+hH8Jj0y7JHd0hgMKyTUX7SIHS96aIqmI
- 5umG1S84pOBlYh4ofSX6lGZy9VSh/JiY/K5b81qpSfw73o7nwlM8hhYwdEEFjQuerOYK
- Zp45NEqds390dVkQ04Q6gvrHcz9HbSjE581Wivi1EJFTf1RckAO7FECgRkpUdu+kZJVh
- gpFCKZQkPUU5J9Zjb0aQc4EnapRTp4KO6Mp+Rg5+PEvIfNJ1EXNRMFN8Sa6au0Gxpj4T
- N7Fxb/xhgn8oyj/7dkGshdZgGZ6nhWCGBTfvGP/jzPwdxGKTc28sG9448ogXJJGYBHXn
- Yzfw==
+ bh=VyCrJ1NajI+6XPdRKaz4cUDALrALvSj8LgDRn36KsCA=;
+ b=e75WIOqizxDggPB8V7ozizTlxn9hyjg0LF+clVFcY+Cax7cC6TK/DlECCqNv5iRF+q
+ dxzi70UPNGr/RilaixTzHExfnn9oEa7T7/ucK8wFE3qn+yl5+J4xFF00oJo36h62AVkM
+ OWABSjzQzv85YNvklICjbW9MAzq8QFB2nij8kPGeZw4l4CS5H5ztgCJ/yL5PRLkrccO9
+ cK8nC5kuh5/xRuaycyTk8GiMOBaEwSO3idbkuS15Zg0mGPIygXXGZdqGR5oOxI2vPBIt
+ JH7AwXcLZXyOhXXUcb/HBybqCsAwu9KnpUS4lDrCnXezekFcXgm+uiAF8YICYxGZdGFE
+ pX/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9RcoFmxGQXgPRY+jmXRZEPO1LtZWOQX+pDz9H/4119E=;
- b=V3aoI2c+qXOMf5B9plLN8limPfmPGDmn5hc+O0MoZOKNmoM+Gk6XFS5mgEd/B/DA/U
- kTktWfeaTTNnjkaXEiDhKq4IG/y6QBhF+FIbePQfq6IkVMfc7Gxcekq6nFTHquTfIZG8
- l94bnYl14b4An+hHYfwVXDfFUSUOIcSULtQvfMeKHNelbfdFLVFSPdjJ4nLAUu8sAWFo
- 5zF/WQ8DQqN2FwbZ6UOtXgQh0r05UC555gEwfdmzOZvE/RmJbcYWnyOatI8bmQz4aqm1
- 5UuUZWOX8dzjgHiSLTSVJthZ1FOs+xLFwH9goAOgldNkMjNo/JKlmuJPEorQACW8/Ehk
- QOkg==
-X-Gm-Message-State: AOAM533hGYLbXgigENiBTuf6QqGuE9U4BUkqiYHzLBcI7PN1w5cn7CY9
- 3isNT1NMZReJv3g7iJhGqP5NO3dgBefHWQ==
-X-Google-Smtp-Source: ABdhPJyF1KQFaNBZT31bfAQYNPQutfkCJZ/+zrTY0jJXLejeWi9nRHam3xVk3cAF/rl/u8uWvVkhBw==
-X-Received: by 2002:a63:303:: with SMTP id 3mr22609238pgd.111.1625615377979;
- Tue, 06 Jul 2021 16:49:37 -0700 (PDT)
+ bh=VyCrJ1NajI+6XPdRKaz4cUDALrALvSj8LgDRn36KsCA=;
+ b=ZQivgJWrrBDeI5tgY3WPEjmB6L0sazZCJupcD4h74lFbYd5zxGMUenY/VjkXblsKyC
+ fj3xOijWUMPfXxHTrXRLgddvBFmMv3FHoFOAgB8IKR+LXveKI1hMCjigKiVUPP+g9A5b
+ 3LOvcYq99we2plD0B2UboF42bJ5raMFr6Job93G40H3RfKPnuNLrxZMOK/B73E99BW0J
+ Qy1nnPOL8UZkYrZRWe43a8Vyl8CDeZAE8GWyr/cOcG4tEmG9NKEOufI99A9F97ZX0RVO
+ o1xDdNYV0J7CX6Xm8tK3HChuhsTzAlJuvsnUblz+IFpU5w9Rtgq7jenCdmbuCBiWYtHh
+ TbfQ==
+X-Gm-Message-State: AOAM533frfxE9cOujZyO81AFM/jp1HEyLoyFXFTpTgdZVgNhnj6YtS7g
+ urd+0MbE1pQFMS3PsO+urxl2RnrdMYcarw==
+X-Google-Smtp-Source: ABdhPJyAaW4EWClHSFQ/VMJIoNHQgUBm+hMSuOljWHNGUC8yKUe72Yn4jCBz4G+hlX64BG7HSK9ecw==
+X-Received: by 2002:a17:90b:e05:: with SMTP id
+ ge5mr2865876pjb.93.1625615379797; 
+ Tue, 06 Jul 2021 16:49:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.37
+ by smtp.gmail.com with ESMTPSA id b3sm18058114pfi.179.2021.07.06.16.49.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 16:49:37 -0700 (PDT)
+ Tue, 06 Jul 2021 16:49:39 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/36] linux-user: Use ImageSource in load_symbols
-Date: Tue,  6 Jul 2021 16:49:03 -0700
-Message-Id: <20210706234932.356913-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 09/36] linux-user: Introduce imgsrc_mmap
+Date: Tue,  6 Jul 2021 16:49:05 -0700
+Message-Id: <20210706234932.356913-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210706234932.356913-1-richard.henderson@linaro.org>
 References: <20210706234932.356913-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,167 +87,103 @@ Cc: alex.bennee@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Aside from the section headers, we're unlikely to hit the
-ImageSource cache on guest executables.  But the interface
-for imgsrc_read_* is better.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/elfload.c | 87 ++++++++++++++++++++++++--------------------
- 1 file changed, 48 insertions(+), 39 deletions(-)
+ linux-user/qemu.h      | 11 +++++++++++
+ linux-user/elfload.c   |  4 ++--
+ linux-user/linuxload.c | 44 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 57 insertions(+), 2 deletions(-)
 
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index dafaae6293..255182e133 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -199,6 +199,17 @@ bool imgsrc_read(void *dst, off_t offset, size_t len,
+ void *imgsrc_read_alloc(off_t offset, size_t len,
+                         const ImageSource *img, Error **errp);
+ 
++/**
++ * imgsrc_mmap: Map from ImageSource
++ *
++ * If @src has a file descriptor, pass on to target_mmap.  Otherwise,
++ * this is "mapping" from a host buffer, which resolves to memcpy.
++ * Therefore, flags must be MAP_PRIVATE | MAP_FIXED; the argument is
++ * retained for clarity.
++ */
++abi_long imgsrc_mmap(abi_ulong start, abi_ulong len, int prot,
++                     int flags, const ImageSource *src, abi_ulong offset);
++
+ /* Read a good amount of data initially, to hopefully get all the
+    program headers loaded.  */
+ #define BPRM_BUF_SIZE  1024
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 9113bf82f1..490b374d13 100644
+index 490b374d13..ec4b5f9d54 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -1734,7 +1734,8 @@ static inline void bswap_mips_abiflags(Mips_elf_abiflags_v0 *abiflags) { }
- #ifdef USE_ELF_CORE_DUMP
- static int elf_core_dump(int, const CPUArchState *);
- #endif /* USE_ELF_CORE_DUMP */
--static void load_symbols(struct elfhdr *hdr, int fd, abi_ulong load_bias);
-+static void load_symbols(struct elfhdr *hdr, const ImageSource *src,
-+                         abi_ulong load_bias);
+@@ -2837,9 +2837,9 @@ static void load_elf_image(const char *image_name, const ImageSource *src,
+              */
+             if (eppnt->p_filesz != 0) {
+                 vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+-                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
++                error = imgsrc_mmap(vaddr_ps, vaddr_len, elf_prot,
+                                     MAP_PRIVATE | MAP_FIXED,
+-                                    src->fd, eppnt->p_offset - vaddr_po);
++                                    src, eppnt->p_offset - vaddr_po);
  
- /* Verify the portions of EHDR within E_IDENT for the target.
-    This can be performed before bswapping the entire header.  */
-@@ -2901,7 +2902,7 @@ static void load_elf_image(const char *image_name, const ImageSource *src,
+                 if (error == -1) {
+                     goto exit_mmap;
+diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
+index d0d3f2ed0e..a437a22b49 100644
+--- a/linux-user/linuxload.c
++++ b/linux-user/linuxload.c
+@@ -208,3 +208,47 @@ void *imgsrc_read_alloc(off_t offset, size_t len,
      }
- 
-     if (qemu_log_enabled()) {
--        load_symbols(ehdr, src->fd, load_bias);
-+        load_symbols(ehdr, src, load_bias);
-     }
- 
-     mmap_unlock();
-@@ -2989,19 +2990,20 @@ static int symcmp(const void *s0, const void *s1)
+     return alloc;
  }
- 
- /* Best attempt to load symbols from this ELF object. */
--static void load_symbols(struct elfhdr *hdr, int fd, abi_ulong load_bias)
-+static void load_symbols(struct elfhdr *hdr, const ImageSource *src,
-+                         abi_ulong load_bias)
- {
-     int i, shnum, nsyms, sym_idx = 0, str_idx = 0;
--    uint64_t segsz;
--    struct elf_shdr *shdr;
-+    g_autofree struct elf_shdr *shdr = NULL;
-     char *strings = NULL;
--    struct syminfo *s = NULL;
--    struct elf_sym *new_syms, *syms = NULL;
-+    struct elf_sym *syms = NULL;
-+    struct elf_sym *new_syms;
-+    uint64_t segsz;
- 
-     shnum = hdr->e_shnum;
--    i = shnum * sizeof(struct elf_shdr);
--    shdr = (struct elf_shdr *)alloca(i);
--    if (pread(fd, shdr, i, hdr->e_shoff) != i) {
-+    shdr = imgsrc_read_alloc(hdr->e_shoff, shnum * sizeof(struct elf_shdr),
-+                             src, NULL);
-+    if (shdr == NULL) {
-         return;
-     }
- 
-@@ -3019,31 +3021,33 @@ static void load_symbols(struct elfhdr *hdr, int fd, abi_ulong load_bias)
- 
-  found:
-     /* Now know where the strtab and symtab are.  Snarf them.  */
--    s = g_try_new(struct syminfo, 1);
--    if (!s) {
--        goto give_up;
--    }
- 
-     segsz = shdr[str_idx].sh_size;
--    s->disas_strtab = strings = g_try_malloc(segsz);
--    if (!strings ||
--        pread(fd, strings, segsz, shdr[str_idx].sh_offset) != segsz) {
-+    strings = g_try_malloc(segsz);
-+    if (!strings) {
-+        goto give_up;
-+    }
-+    if (!imgsrc_read(strings, shdr[str_idx].sh_offset, segsz, src, NULL)) {
-         goto give_up;
-     }
- 
-     segsz = shdr[sym_idx].sh_size;
--    syms = g_try_malloc(segsz);
--    if (!syms || pread(fd, syms, segsz, shdr[sym_idx].sh_offset) != segsz) {
--        goto give_up;
--    }
--
-     if (segsz / sizeof(struct elf_sym) > INT_MAX) {
--        /* Implausibly large symbol table: give up rather than ploughing
--         * on with the number of symbols calculation overflowing
-+        /*
-+         * Implausibly large symbol table: give up rather than ploughing
-+         * on with the number of symbols calculation overflowing.
-          */
-         goto give_up;
-     }
-     nsyms = segsz / sizeof(struct elf_sym);
-+    syms = g_try_malloc(segsz);
-+    if (!syms) {
-+        goto give_up;
-+    }
-+    if (!imgsrc_read(syms, shdr[sym_idx].sh_offset, segsz, src, NULL)) {
-+        goto give_up;
++
++abi_long imgsrc_mmap(abi_ulong start, abi_ulong len, int prot,
++                     int flags, const ImageSource *src, abi_ulong offset)
++{
++    abi_long ret;
++    int prot_write;
++    void *haddr;
++
++    assert(flags == (MAP_PRIVATE | MAP_FIXED));
++
++    if (src->fd >= 0) {
++        return target_mmap(start, len, prot, flags, src->fd, offset);
 +    }
 +
-     for (i = 0; i < nsyms; ) {
-         bswap_sym(syms + i);
-         /* Throw away entries which we do not need.  */
-@@ -3068,10 +3072,12 @@ static void load_symbols(struct elfhdr *hdr, int fd, abi_ulong load_bias)
-         goto give_up;
-     }
- 
--    /* Attempt to free the storage associated with the local symbols
--       that we threw away.  Whether or not this has any effect on the
--       memory allocation depends on the malloc implementation and how
--       many symbols we managed to discard.  */
 +    /*
-+     * Attempt to free the storage associated with the local symbols
-+     * that we threw away.  Whether or not this has any effect on the
-+     * memory allocation depends on the malloc implementation and how
-+     * many symbols we managed to discard.
++     * This case is for the vdso; we don't expect bad images.
++     * The mmap may extend beyond the end of the image, especially
++     * to the end of the page.  Zero fill.
 +     */
-     new_syms = g_try_renew(struct elf_sym, syms, nsyms);
-     if (new_syms == NULL) {
-         goto give_up;
-@@ -3080,20 +3086,23 @@ static void load_symbols(struct elfhdr *hdr, int fd, abi_ulong load_bias)
- 
-     qsort(syms, nsyms, sizeof(*syms), symcmp);
- 
--    s->disas_num_syms = nsyms;
--#if ELF_CLASS == ELFCLASS32
--    s->disas_symtab.elf32 = syms;
--#else
--    s->disas_symtab.elf64 = syms;
--#endif
--    s->lookup_symbol = lookup_symbolxx;
--    s->next = syminfos;
--    syminfos = s;
-+    {
-+        struct syminfo *s = g_new(struct syminfo, 1);
- 
-+        s->disas_strtab = strings;
-+        s->disas_num_syms = nsyms;
-+#if ELF_CLASS == ELFCLASS32
-+        s->disas_symtab.elf32 = syms;
-+#else
-+        s->disas_symtab.elf64 = syms;
-+#endif
-+        s->lookup_symbol = lookup_symbolxx;
-+        s->next = syminfos;
-+        syminfos = s;
++    assert(offset < src->cache_size);
++
++    prot_write = prot | PROT_WRITE;
++    ret = target_mmap(start, len, prot_write, flags | MAP_ANON, -1, 0);
++    if (ret == -1) {
++        return ret;
 +    }
-     return;
- 
--give_up:
--    g_free(s);
-+ give_up:
-     g_free(strings);
-     g_free(syms);
- }
++
++    haddr = lock_user(VERIFY_WRITE, start, len, 0);
++    assert(haddr != NULL);
++    if (offset + len < src->cache_size) {
++        memcpy(haddr, src->cache + offset, len);
++    } else {
++        size_t rest = src->cache_size - offset;
++        memcpy(haddr, src->cache + offset, rest);
++        memset(haddr + rest, 0, len - rest);
++    }
++    unlock_user(haddr, start, len);
++
++    if (prot != prot_write) {
++        target_mprotect(start, len, prot);
++    }
++
++    return ret;
++}
 -- 
 2.25.1
 
