@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E89EC3BCA2C
-	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:36:19 +0200 (CEST)
-Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850343BCA08
+	for <lists+qemu-devel@lfdr.de>; Tue,  6 Jul 2021 12:34:09 +0200 (CEST)
+Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0iR8-00088Y-SH
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:36:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42602)
+	id 1m0iP2-00038P-Gv
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 06:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0huA-0001ht-BF
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:14 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54949)
+ id 1m0hu9-0001fV-LU
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:13 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m0hu7-0002X6-R3
+ id 1m0hu7-0002Wk-0Q
  for qemu-devel@nongnu.org; Tue, 06 Jul 2021 06:02:13 -0400
-Received: by mail-wm1-x331.google.com with SMTP id l1so13138306wme.4
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:11 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id l1so13138318wme.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 03:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IDPNHb+HPzR8VO7xPUhdfTuo9DK5TmK3Ukrht2Or98o=;
- b=mZw45Skp6QQwkYAH5uCQhE+UT+wVna9uVKxZj1yDGOgxOQgnnoVcS6QhfMdxVFq/3r
- XRDmImEySQTn6MqeU3+mzhhhY0i3EWdXNq74v3TiV4FhFCTTG2PicjZHa4CgSUBEdoZ1
- nBY6l6f6px3K5NW9QBtZdyosev4wGRlwm6JfVbTgtYEPVCU6+Q0NPntS2kzManDcAz9w
- aYldlDT39F8maKKCXOhtS9lENEt1O4RgNreqymbm1jc7fhlEpBjK4dsv/df78V7L9UUS
- tMF97B0BucTZ6Bz8GGlhTrRUNQ2Z8pMjvDlQSKa+dbiXvKIBTigMoNvFyLzw/1Ojs0NR
- h7bA==
+ bh=S4a4DETRAyhHFXba3Piw4UbV8J7nicTVM9Gs0MaTHSM=;
+ b=SCVWJ0je2KnVWwOq2zGyAD8uX7DIGqd7Bquwz3eoE5TCgODXaW1QzTf44qNRc6PTRM
+ AfDGaPk6ev1HvVd6ytMi+aJf79hJ4d3cJw7ZHLaRc9uzcJYd3xuSrBdQLEiHGKEkQXAN
+ aM2o5agVdXIGmS90+N0CwAnFOoCBfniwPpyPI6/mBCzCHR90ybYyNnB5qa1VwrSt9EVw
+ 5LGtcUa7dQlypTaPCWWY4QR40bSwpoOGqW4SgEj03/iWH0EDIqa9ZnBXONGt8+8sXmkW
+ ex/x2I3GGvj3ijMKSE5CEJRFUCg2OBhuZu8OPuPkqfFwvckYBCUti5zmC7XQ4GR6vTWF
+ oznw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IDPNHb+HPzR8VO7xPUhdfTuo9DK5TmK3Ukrht2Or98o=;
- b=jzt56VnHcHJkvaObh9CHvOxoFoEqEDxBoKU/aTudXpTJD6ocsEja08I13k/3vSBm+A
- nwFrnUU1+GRRAwe8GAGgh2ZlLs37zpETxL5boOzgkRaOTpgo3S/FJo1ZSIPwISRrXoqR
- z8jwWGKXbyNPREp7NDrQHIwARKfg+ylQZbwYzLyM8Xv2ne3fp1OjO/zLt1UBaRHGtVHk
- kb4KVIjcyuRIYgZyI1vEkSQAGJ7zzUL29toKGqhZL27FaISDZf6M4/4ELKdoGNdHpgfS
- udVAvCP+YQEoAzSB70ecFjcQIG8sFJDdNxYdC3fH5k63AzC6sESVubt4x7TsjEEYeF4t
- 9+IA==
-X-Gm-Message-State: AOAM530LXnnNklOXYZy46SsVvxJmefUizc82pQAc9YfbL4p7MeCGPR93
- voJP7dxUgxHBqbPB/opEfDQEIaJXD1k=
-X-Google-Smtp-Source: ABdhPJxNTPg3vdgyx+3+fvE0NY+731a/1R2wZemBHHLpRkq44w98iJFvuaT1k3F+EWg3+h0koG6fQg==
-X-Received: by 2002:a7b:c1c1:: with SMTP id a1mr19870966wmj.187.1625565729061; 
+ bh=S4a4DETRAyhHFXba3Piw4UbV8J7nicTVM9Gs0MaTHSM=;
+ b=IrO0m180yi74dKRKe+js8qZB3CxtlI4aIQjS/TNlzao53m6B78I6kH920lf2+1D49q
+ IAY2fEZ99xExZsMioO+E+3Bd5Blngj694XYE9Z93a6K+76HglxE+PPgJmVM5PdfRT56x
+ J7x812xU2JIg9mmfQ4H9Oe2H7C4MnVmYM9pgi4KmpjzqhpRPgv315FIDAxgiSgxo39sy
+ /RmtF1YDk/L9j2dVnHgsIHdAUuNeYO1tCB4DyT/f/BoqHxEyakfGN1kE5dAaEgWGgWGZ
+ UZovyn7j+nIVhV5h8Idmp/QNtjY8IGawSFK22UnBCsE3ZKno7S0Hxj0Q4DnwlRPZ831W
+ eRWg==
+X-Gm-Message-State: AOAM5311eza3x/Ydoto/hsOsAHa6xMv3PgJWLuWtn/+NolG//2DeDNfr
+ a88kn/lJJtUOBxhgaR7ChzIwZIPMJBc=
+X-Google-Smtp-Source: ABdhPJybRse/haUz3VL2CjODs4qa9cbyCFtjF0VmYCZy0fU0mJ1RCrNSJFvl7kjubbl4qUe5TyQscA==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr3845238wmh.69.1625565729766;
  Tue, 06 Jul 2021 03:02:09 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- v15sm2331268wmj.39.2021.07.06.03.02.08 for <qemu-devel@nongnu.org>
+ v15sm2331268wmj.39.2021.07.06.03.02.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 03:02:08 -0700 (PDT)
+ Tue, 06 Jul 2021 03:02:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 38/40] qemu-option: remove now-dead code
-Date: Tue,  6 Jul 2021 12:01:39 +0200
-Message-Id: <20210706100141.303960-39-pbonzini@redhat.com>
+Subject: [PULL 39/40] Set icon for QEMU binary on Mac OS
+Date: Tue,  6 Jul 2021 12:01:40 +0200
+Message-Id: <20210706100141.303960-40-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210706100141.303960-1-pbonzini@redhat.com>
 References: <20210706100141.303960-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,233 +84,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: John Arbuckle <programmingkidx@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--M was the sole user of qemu_opts_set and qemu_opts_set_defaults,
-remove them and the arguments that they used.
+From: John Arbuckle <programmingkidx@gmail.com>
 
+Before switching the build system over to Meson, an icon was
+added to the QEMU binary on Mac OS. This patch adds back that
+feature; it piggybacks on the existing scripts/entitlement.sh,
+which already does in-place changes to the executable on Darwin.
+
+Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
+Message-Id: <20210705195328.36442-1-programmingkidx@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/option.h       |  3 ---
- tests/unit/test-qemu-opts.c | 35 -------------------------
- util/qemu-option.c          | 51 ++++++++-----------------------------
- 3 files changed, 10 insertions(+), 79 deletions(-)
+ meson.build            | 15 ++++++++++-----
+ scripts/entitlement.sh | 10 +++++++++-
+ 2 files changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/include/qemu/option.h b/include/qemu/option.h
-index fffb03d848..306bf07575 100644
---- a/include/qemu/option.h
-+++ b/include/qemu/option.h
-@@ -119,7 +119,6 @@ QemuOpts *qemu_opts_create(QemuOptsList *list, const char *id,
-                            int fail_if_exists, Error **errp);
- void qemu_opts_reset(QemuOptsList *list);
- void qemu_opts_loc_restore(QemuOpts *opts);
--bool qemu_opts_set(QemuOptsList *list, const char *name, const char *value, Error **errp);
- const char *qemu_opts_id(QemuOpts *opts);
- void qemu_opts_set_id(QemuOpts *opts, char *id);
- void qemu_opts_del(QemuOpts *opts);
-@@ -130,8 +129,6 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-                                   bool permit_abbrev);
- QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
-                           bool permit_abbrev, Error **errp);
--void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
--                            int permit_abbrev);
- QemuOpts *qemu_opts_from_qdict(QemuOptsList *list, const QDict *qdict,
-                                Error **errp);
- QDict *qemu_opts_to_qdict_filtered(QemuOpts *opts, QDict *qdict,
-diff --git a/tests/unit/test-qemu-opts.c b/tests/unit/test-qemu-opts.c
-index 6568e31a72..828d40e928 100644
---- a/tests/unit/test-qemu-opts.c
-+++ b/tests/unit/test-qemu-opts.c
-@@ -410,40 +410,6 @@ static void test_qemu_opts_reset(void)
-     g_assert(opts == NULL);
- }
+diff --git a/meson.build b/meson.build
+index 1651496800..8b61fdb4be 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2507,8 +2507,7 @@ foreach target : target_dirs
+   endif
+   foreach exe: execs
+     exe_name = exe['name']
+-    exe_sign = 'CONFIG_HVF' in config_target
+-    if exe_sign
++    if targetos == 'darwin'
+       exe_name += '-unsigned'
+     endif
  
--static void test_qemu_opts_set(void)
--{
--    QemuOptsList *list;
--    QemuOpts *opts;
--    const char *opt;
--
--    list = qemu_find_opts("opts_list_04");
--    g_assert(list != NULL);
--    g_assert(QTAILQ_EMPTY(&list->head));
--    g_assert_cmpstr(list->name, ==, "opts_list_04");
--
--    /* should not find anything at this point */
--    opts = qemu_opts_find(list, NULL);
--    g_assert(opts == NULL);
--
--    /* implicitly create opts and set str3 value */
--    qemu_opts_set(list, "str3", "value", &error_abort);
--    g_assert(!QTAILQ_EMPTY(&list->head));
--
--    /* get the just created opts */
--    opts = qemu_opts_find(list, NULL);
--    g_assert(opts != NULL);
--
--    /* check the str3 value */
--    opt = qemu_opt_get(opts, "str3");
--    g_assert_cmpstr(opt, ==, "value");
--
--    qemu_opts_del(opts);
--
--    /* should not find anything at this point */
--    opts = qemu_opts_find(list, NULL);
--    g_assert(opts == NULL);
--}
--
- static int opts_count_iter(void *opaque, const char *name, const char *value,
-                            Error **errp)
- {
-@@ -1041,7 +1007,6 @@ int main(int argc, char *argv[])
-     g_test_add_func("/qemu-opts/opt_get_size", test_qemu_opt_get_size);
-     g_test_add_func("/qemu-opts/opt_unset", test_qemu_opt_unset);
-     g_test_add_func("/qemu-opts/opts_reset", test_qemu_opts_reset);
--    g_test_add_func("/qemu-opts/opts_set", test_qemu_opts_set);
-     g_test_add_func("/qemu-opts/opts_parse/general", test_opts_parse);
-     g_test_add_func("/qemu-opts/opts_parse/bool", test_opts_parse_bool);
-     g_test_add_func("/qemu-opts/opts_parse/number", test_opts_parse_number);
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 4944015a25..ee78e42216 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -479,19 +479,14 @@ int qemu_opt_unset(QemuOpts *opts, const char *name)
-     }
- }
+@@ -2522,7 +2521,13 @@ foreach target : target_dirs
+                link_args: link_args,
+                gui_app: exe['gui'])
  
--static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value,
--                           bool prepend)
-+static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value)
- {
-     QemuOpt *opt = g_malloc0(sizeof(*opt));
+-    if exe_sign
++    if 'CONFIG_HVF' in config_target
++      entitlements = meson.current_source_dir() / 'accel/hvf/entitlements.plist'
++    else
++      entitlements = '/dev/null'
++    endif
++    if targetos == 'darwin'
++      icon = meson.current_source_dir() / 'pc-bios/qemu.rsrc'
+       emulators += {exe['name'] : custom_target(exe['name'],
+                    depends: emulator,
+                    output: exe['name'],
+@@ -2530,14 +2535,14 @@ foreach target : target_dirs
+                      meson.current_source_dir() / 'scripts/entitlement.sh',
+                      meson.current_build_dir() / exe_name,
+                      meson.current_build_dir() / exe['name'],
+-                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
++                     entitlements, icon
+                    ])
+       }
  
-     opt->name = g_strdup(name);
-     opt->str = value;
-     opt->opts = opts;
--    if (prepend) {
--        QTAILQ_INSERT_HEAD(&opts->head, opt, next);
--    } else {
--        QTAILQ_INSERT_TAIL(&opts->head, opt, next);
--    }
-+    QTAILQ_INSERT_TAIL(&opts->head, opt, next);
+       meson.add_install_script('scripts/entitlement.sh', '--install',
+                                get_option('bindir') / exe_name,
+                                get_option('bindir') / exe['name'],
+-                               meson.current_source_dir() / 'accel/hvf/entitlements.plist')
++                               entitlements, icon)
+     else
+       emulators += {exe['name']: emulator}
+     endif
+diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
+index f7aaaf2766..d2a7079ce3 100755
+--- a/scripts/entitlement.sh
++++ b/scripts/entitlement.sh
+@@ -11,6 +11,7 @@ fi
+ SRC="$1"
+ DST="$2"
+ ENTITLEMENT="$3"
++ICON="$4"
  
-     return opt;
- }
-@@ -518,7 +513,7 @@ static bool opt_validate(QemuOpt *opt, Error **errp)
- bool qemu_opt_set(QemuOpts *opts, const char *name, const char *value,
-                   Error **errp)
- {
--    QemuOpt *opt = opt_create(opts, name, g_strdup(value), false);
-+    QemuOpt *opt = opt_create(opts, name, g_strdup(value));
+ if $in_place; then
+   trap 'rm "$DST.tmp"' exit
+@@ -20,6 +21,13 @@ else
+   cd "$MESON_INSTALL_DESTDIR_PREFIX"
+ fi
  
-     if (!opt_validate(opt, errp)) {
-         qemu_opt_del(opt);
-@@ -662,15 +657,6 @@ void qemu_opts_loc_restore(QemuOpts *opts)
-     loc_restore(&opts->loc);
- }
- 
--bool qemu_opts_set(QemuOptsList *list, const char *name, const char *value, Error **errp)
--{
--    QemuOpts *opts;
--
--    assert(list->merge_lists);
--    opts = qemu_opts_create(list, NULL, 0, &error_abort);
--    return qemu_opt_set(opts, name, value, errp);
--}
--
- const char *qemu_opts_id(QemuOpts *opts)
- {
-     return opts->id;
-@@ -811,7 +797,7 @@ static const char *get_opt_name_value(const char *params,
- }
- 
- static bool opts_do_parse(QemuOpts *opts, const char *params,
--                          const char *firstname, bool prepend,
-+                          const char *firstname,
-                           bool warn_on_flag, bool *help_wanted, Error **errp)
- {
-     char *option, *value;
-@@ -833,7 +819,7 @@ static bool opts_do_parse(QemuOpts *opts, const char *params,
-             continue;
-         }
- 
--        opt = opt_create(opts, option, value, prepend);
-+        opt = opt_create(opts, option, value);
-         g_free(option);
-         if (!opt_validate(opt, errp)) {
-             qemu_opt_del(opt);
-@@ -889,11 +875,11 @@ bool has_help_option(const char *params)
- bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
-                        const char *firstname, Error **errp)
- {
--    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
-+    return opts_do_parse(opts, params, firstname, false, NULL, errp);
- }
- 
- static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
--                            bool permit_abbrev, bool defaults,
-+                            bool permit_abbrev,
-                             bool warn_on_flag, bool *help_wanted, Error **errp)
- {
-     const char *firstname;
-@@ -903,21 +889,13 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-     assert(!permit_abbrev || list->implied_opt_name);
-     firstname = permit_abbrev ? list->implied_opt_name : NULL;
- 
--    /*
--     * This code doesn't work for defaults && !list->merge_lists: when
--     * params has no id=, and list has an element with !opts->id, it
--     * appends a new element instead of returning the existing opts.
--     * However, we got no use for this case.  Guard against possible
--     * (if unlikely) future misuse:
--     */
--    assert(!defaults || list->merge_lists);
-     opts = qemu_opts_create(list, id, !list->merge_lists, errp);
-     g_free(id);
-     if (opts == NULL) {
-         return NULL;
-     }
- 
--    if (!opts_do_parse(opts, params, firstname, defaults,
-+    if (!opts_do_parse(opts, params, firstname,
-                        warn_on_flag, help_wanted, errp)) {
-         qemu_opts_del(opts);
-         return NULL;
-@@ -936,7 +914,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
- QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
-                           bool permit_abbrev, Error **errp)
- {
--    return opts_parse(list, params, permit_abbrev, false, false, NULL, errp);
-+    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
- }
- 
- /**
-@@ -954,7 +932,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-     QemuOpts *opts;
-     bool help_wanted = false;
- 
--    opts = opts_parse(list, params, permit_abbrev, false, true,
-+    opts = opts_parse(list, params, permit_abbrev, true,
-                       opts_accepts_any(list) ? NULL : &help_wanted,
-                       &err);
-     if (!opts) {
-@@ -968,15 +946,6 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-     return opts;
- }
- 
--void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
--                            int permit_abbrev)
--{
--    QemuOpts *opts;
--
--    opts = opts_parse(list, params, permit_abbrev, true, false, NULL, NULL);
--    assert(opts);
--}
--
- static bool qemu_opts_from_qdict_entry(QemuOpts *opts,
-                                        const QDictEntry *entry,
-                                        Error **errp)
+-codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
++if test "$ENTITLEMENT" != '/dev/null'; then
++  codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
++fi
++
++# Add the QEMU icon to the binary on Mac OS
++Rez -append "$ICON" -o "$SRC"
++SetFile -a C "$SRC"
++
+ mv -f "$SRC" "$DST"
+ trap '' exit
 -- 
 2.31.1
 
