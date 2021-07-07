@@ -2,158 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552803BED72
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:51:08 +0200 (CEST)
-Received: from localhost ([::1]:44098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 470F53BED52
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:43:44 +0200 (CEST)
+Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1BhT-0002Td-Cu
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:51:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48300)
+	id 1m1BaJ-0007HW-8u
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m1BKs-00011B-6h
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:47 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:6856)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1m1BKu-00011v-VZ
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24644)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m1BKp-0006w8-Ah
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:45 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 167HCNlT029342; Wed, 7 Jul 2021 17:27:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2020-01-29;
- bh=33ac1/KIJzNlxDFVBmbSwz4lG/xFXh8i0U5a+3z26Vw=;
- b=WWcGrBZ6roRsPL4WWoPvJKBuYh6DJxgCDqMY1ZQ01/aiKRSWDdoAcleZkyhJp5m/C6RM
- JtBJkY46skmzd/FsfNSB4IaHruTYTTmOxrHP58Pn4q8jlwcO2YhCrRJ7ovI4bTSfHLdr
- +Qr3M28wsrvdjANzxoTwiu96D4c3jyxj6fU35JciO6F+mU6TEAa8wAjXAs2U0iZZ2Rgs
- KuFvPDYf2JNuAuHAUYkFGD6N1yZB8pqvaeVx++iL6M7pUaAaIoZVN6RMmMCfCOSaqXsb
- bz3S7rEDvbczAuZCCYHrETVDMCCA7uJmPJUSAig5qjUoWHRdtw7vIgAno3txyyYy7FPB rQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 39m2aacpbg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 07 Jul 2021 17:27:29 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 167HAYvf155353;
- Wed, 7 Jul 2021 17:27:28 GMT
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by userp3020.oracle.com with ESMTP id 39k1nxjvcn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 07 Jul 2021 17:27:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TFSySMRLwSXuSOzp9dkjOLl0At9k2AfaM6mbQpZug1EJ77IZJbsPU5ZEUeIh4bkGEoqweZhTliFzfDexspKePIh7OnNSrRAvLclPrvQq6gv+SlGwDk8k227u2jz9O0GfHLdKy9gt3xMz7ofLyfufsCk2YFbtCNBo6uw2vQ13L19Mc9ofxj0rdGoHRrkmsy7Cb1dFHw7qE2+cWKFMbrxzUBsNzMu6+GbwzjCKLedbJ3sBrzCGO1jJggdLnpbZztDRnj0/gXbAqF36wyUC+vY4ObLV1ILOC2kL/XL8/b90a4vKliO0tgNjJh9jkgTifik+kl9qXfijZV4cIGnfkfXfJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=33ac1/KIJzNlxDFVBmbSwz4lG/xFXh8i0U5a+3z26Vw=;
- b=EUs3096Fe7CgSPpY/P1vtPhLFJAU0O3G8OH6EseX9IVwjBvAnJx4P9s6TBWxjCOE6pvokVBSmkUdOucmZluPCzXUBo/Ci0K3MIjhad4/9FNdAZzD/5xkwrtTqLqjdxwGRiKHWCOGN6Bp/d9KnqNJfPhqMSJvtAG1u6G8fMj0pOnBk0kSp4b0pKHMkeoMfstGjj6xwfkYfY3GIKepMM7+S0W1wQUKQGfdy4GQvnEOrmWvCn0ojI++cBQFm0i6xT/mCgzSsVaqOKDEik2aBm3v2ulOAxv1oSzAKHe8aOdodTxAjztrtJxHOz5oJNeCol0AjgbCsU4cks471Vy8d+4SbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=33ac1/KIJzNlxDFVBmbSwz4lG/xFXh8i0U5a+3z26Vw=;
- b=ytfCXuok3Rj33/kfeJkveLeGA8eWgakAAxvIUtHsuS9lPzkmHeaDVEvg71bAUIG5gQbm2rhi6rmN3c42fPf8xNGjilWks0V9Uo3mACvwS3GkgWvoqPIdGsGt5pMRYLpCpfZ6EQ0qU/ZpETmXUWYC2FuuTX5cujqPP9vh7oTDuig=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BYAPR10MB2677.namprd10.prod.outlook.com (2603:10b6:a02:b7::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Wed, 7 Jul
- 2021 17:27:24 +0000
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::59e7:5c8c:71fb:a6ba]) by BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::59e7:5c8c:71fb:a6ba%7]) with mapi id 15.20.4287.033; Wed, 7 Jul 2021
- 17:27:24 +0000
-From: Steve Sistare <steven.sistare@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH V5 25/25] simplify savevm
-Date: Wed,  7 Jul 2021 10:20:34 -0700
-Message-Id: <1625678434-240960-26-git-send-email-steven.sistare@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
-References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0104.namprd03.prod.outlook.com
- (2603:10b6:a03:333::19) To BYAPR10MB3240.namprd10.prod.outlook.com
- (2603:10b6:a03:155::17)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1m1BKq-0006xZ-O1
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625678863;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0omSRNHAGrR0Vt5hpF9H9B/yhkPl6LOPNcbo7PgHcyM=;
+ b=HXdttZZW0ddr8WUCk2l5JySkXCePqamY2tLcOvi5ahjdv3+4xRjgozE1PRIHmIy4gapwbj
+ VUjUFMof1U+Os8e7sxrKalzjhukWUySRhmQNgLHzSiMcpKjovOCtyVK5npcrQz2gNW8EnE
+ fN6YH92JMmkyDZGLtirKwj6X5eDOMUQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-TzZSwB2iOnWf-XxL9jVbqQ-1; Wed, 07 Jul 2021 13:27:42 -0400
+X-MC-Unique: TzZSwB2iOnWf-XxL9jVbqQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ y5-20020adfe6c50000b02901258bf1d760so1021864wrm.14
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 10:27:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=0omSRNHAGrR0Vt5hpF9H9B/yhkPl6LOPNcbo7PgHcyM=;
+ b=Trfbww2AbdyIdARDhKfRSFoGUCi84dlD2st/G0kJLKJjvhf1ivyy6WAkops5EQFmEJ
+ a8ujsLgORaZdoggUPrkoS5UuLgG6SNr1uEZcJx4QccmvEaXfDrEO9mKJHTON6GY53/wV
+ XOjpERxcdiz1ajxCN0QZQ0RwpG4rjPoh4D7y1AferLJcKJM0k/Bv7O9lEgOISODrTMRX
+ 73furZWZa6o8MNxrrMDVeNukc2LdFWSAKBVnWzYtKBoxU3mn4Vpvwe2G0rDzJnam+LuE
+ gDvwNmVv9Ca7HrHUZtcueyDUW3Hxq9Pkeh8wo1NFhDLQea1p45yNC6BL6AdXsHf9xABU
+ 5Z6A==
+X-Gm-Message-State: AOAM532nSR0MO51hA90z9uoVvaroNVrbgTXBUmYRqT34JIYlirH8WpIs
+ 6MPe5ESebXPlzis1kM5O2diVvuHOl1rCZVQ6raz9mh+3vi4HvYFRSyY6aGkPeHgoyK2ahiqC/bA
+ JD3UcuQMjjLO2FsM=
+X-Received: by 2002:adf:e743:: with SMTP id c3mr10412142wrn.354.1625678860834; 
+ Wed, 07 Jul 2021 10:27:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWwxD8PKaKOknpavHHltwx+/Gi/pwW6xn1jwkNJe+WMa+0pfusLIifQuygH3S3QeNfYZ7b/A==
+X-Received: by 2002:adf:e743:: with SMTP id c3mr10412129wrn.354.1625678860602; 
+ Wed, 07 Jul 2021 10:27:40 -0700 (PDT)
+Received: from steredhat.lan (host-87-7-214-34.retail.telecomitalia.it.
+ [87.7.214.34])
+ by smtp.gmail.com with ESMTPSA id c8sm20454206wri.91.2021.07.07.10.27.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 10:27:40 -0700 (PDT)
+Date: Wed, 7 Jul 2021 19:27:37 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: "Jiang Wang ." <jiang.wang@bytedance.com>
+Subject: Re: [RFC v3] virtio/vsock: add two more queues for datagram types
+Message-ID: <20210707172737.j2xpyd45wmufdqc5@steredhat.lan>
+References: <20210706222607.1058040-1-jiang.wang@bytedance.com>
+ <20210707083312.algmreafmfofg7el@steredhat>
+ <CAP_N_Z-NbofkoDbWby9Pe=VH1CjYQL6-gSbrwWDBZBNDwcnmuA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-dev63.us.oracle.com (148.87.23.13) by
- SJ0PR03CA0104.namprd03.prod.outlook.com (2603:10b6:a03:333::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21 via Frontend
- Transport; Wed, 7 Jul 2021 17:27:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 278e89b9-a1a9-49c5-aed6-08d9416c7b8c
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2677:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB267787195DFCD9AAC78BA903F91A9@BYAPR10MB2677.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fWR0LZGPgco2J4eCd2hVvJP+mvja0XvMoWfLtGsP0o3v73pDAYH8o0ufmW0biQWdC8Qmj2f4AJKHO4ydc9liDKus3ld/slPPlOlveI1c16ruLnxu/d1NS2ZoM0W6L2hc/gHPbGqh0dEjAdtJEOFbRRQKC8ia8kDAzl1qKqkSQIIpxR2nGwVnWSo1lwilb+TaNvNS7i1jSmjC3mm2w0twEyOVue3Zhp4Z82rjXmRPZWm/vsOfanatvHysB3UiM7sHOGLyEe3UI1Qvup9JkiVvowPWJRdE5pNoFXnEJV/2E0b3AS2EicCQnrUYNSIZ/3GWSluH5vB5nzx+6DgVDiuYO7+vUvyFq0Y1Tu7/CAuNGIrnEJLBRfTIq4ZVjnNZp6f2uAC/U9tw64xrnXhSCugWJ78O8S9gJYb0AFI5CvKpNN/gsmIBjvR+Ug2L8VCBrrO39Xm/UhiSjK777uLCXAPgnkLuwCxPHQovbWqM0RrxrO4RusJfZ6tk5ZBM0VZ7cEWvXnZLnpzOD6v/4f1DRkFvgr4qsAX36kpfTa2o7ii6eCuFnB37rByP+6Of+LWQPIIen1SEP4EbXR6iyGOidtMZ9IAoio+twKfMssQW6oDyqPupMfDL8AUqt3vkTXdu+Ism3HFPR1/WF0U7kjGH4b2brW+m5sKrP4MOYCFo9icT0hMfVbMrYL+8JnPXJmDPTYYS
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(376002)(39860400002)(366004)(346002)(6916009)(107886003)(38100700002)(66946007)(7416002)(4326008)(6486002)(478600001)(2616005)(7696005)(83380400001)(36756003)(52116002)(956004)(8936002)(2906002)(86362001)(186003)(8676002)(66556008)(6666004)(54906003)(316002)(66476007)(5660300002)(38350700002)(26005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3gS4K4E6Ff/nY0hNHcKRO3HDt496HXmavqnxBnKGsHUxARdzvnXsveabbIel?=
- =?us-ascii?Q?g/J+mxRyAvotnlP3SBd/ZasMOsqhyLSDeZJCSl78rE9ZLbw0fv71ZuEyMruo?=
- =?us-ascii?Q?/Tvae+UK8ZmnPY//IlDQvVv2bgzC9+bu7LB9HK0QVQJv44mTzppQA9dCEF5n?=
- =?us-ascii?Q?DKM20+4/dvdE3nnimAb/68c9uN68YdEbjjHw+9CKzlrlYnY9XJZpMy1FuZZw?=
- =?us-ascii?Q?utq7knIKMN13zRpjcpVJT+TNNqBb3I1YOou9M7EF7oEw+c32qn7QV5Bx9HYJ?=
- =?us-ascii?Q?OhVAGXRM2Ge3m7s5s8yLQ+6f7egcDOiLsf9vLHw8Ni4+dIf2/07+A0Was+g3?=
- =?us-ascii?Q?lNdHYioAzTF6S6dg7DJfr44HjAK/BANwvkrFwoOMMd3FmLmYwBW6IlxarZKj?=
- =?us-ascii?Q?6bCl6zOrjWZQH5uCu+cO9//hmMu8XAysgi5dBsAW/y7Tkv5iJ/QWXaNSKtNp?=
- =?us-ascii?Q?XfeBD0GTuxc6O1lagr+d71wOg99nuPK4VWXRUzrsAfzQ7D/dFRyv7FSRIGsZ?=
- =?us-ascii?Q?iqFLuX7iMMdsEcBKDK5PIu9y9yLYHO+LhEPElMXN35TcK5DTfqVeMGnYKfwt?=
- =?us-ascii?Q?aXdusz5b69DNqsy2i6oZKJIMdE75lqu6DvsEhoUb70Px9Zjp2uH6JCPXiYYn?=
- =?us-ascii?Q?CS4SXJPFotOqn94iJzlroNMAptYgMs73ofzkebcjfT+y4tSnPK8qJMA9tLmA?=
- =?us-ascii?Q?fydnd9C3F2HQVBVsco9nyAgAA6q/BMX6CkNHPBo6r/OJvQvtquApJArtYVmj?=
- =?us-ascii?Q?ckuifmuU+0EB3Aqxb24J9iZd45RKX35lwcOt33bTeXUuYSXMszp6at9NzR+f?=
- =?us-ascii?Q?06pz6T2gvZDNRqOWlS/H7bHBcfsAXzYTWHuBdS33Wz+3mbBblx0EQPcYXAhp?=
- =?us-ascii?Q?1VQMPf88cGGacA1ZXzQIgocLlBWW8juzD4aBXXv/WVbxQs9Bo4h18S8nc15y?=
- =?us-ascii?Q?7mEFzk6+CjRB0VDIDBiKQkL6wplP7BUoqxJl1ivbb4W7kE6wLWpY7aLlrDU8?=
- =?us-ascii?Q?ZHEgmKu1uFLBDx91aCpRCSKdFfsn1hcxiXtgAa140zZyJmNA1MoViRGRaVYy?=
- =?us-ascii?Q?PdINrD5+W/3cvqvujHyciBGlve5V3voXpMsFs4d4bF2ffvTr/ToOIUfU0VAI?=
- =?us-ascii?Q?fmAS8zGNbivh61NtteLEzQyYz4iHK/4atDANzlQnKtT9qUeKL0DKatMoJ8W6?=
- =?us-ascii?Q?pno3Pzr+8w28q76/baegHasC/QdKJ4iXHHNdSbTOOq3t0nj5KarGFJM2FmY2?=
- =?us-ascii?Q?F1Ghj0h4OXtTTGE0i+i8/8MjB0RKryFy5E+Wa3bOXMSERf7W86DtC4qVa9ib?=
- =?us-ascii?Q?UeHz7KT+wgPmrYM+EYXwcJ4f?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 278e89b9-a1a9-49c5-aed6-08d9416c7b8c
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2021 17:27:23.5816 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SiOtWglRFRGhj7a6NNeuLvaAZ3CvtDMdAMWHdQUizmQQ6lVDjCPdEYqgkLlk596ff8lvG/7Sy+xMCWYMOmZRbF9ucZ44baobxprbu1+hukE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2677
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10037
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0 phishscore=0
- adultscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107070100
-X-Proofpoint-ORIG-GUID: ZhXJ4BP4svo7scwzWjznKoTMaOE5gAns
-X-Proofpoint-GUID: ZhXJ4BP4svo7scwzWjznKoTMaOE5gAns
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAP_N_Z-NbofkoDbWby9Pe=VH1CjYQL6-gSbrwWDBZBNDwcnmuA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -166,89 +96,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Steve Sistare <steven.sistare@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use qf_file_open to simplify a few functions in savevm.c.
-No functional change.
+On Wed, Jul 07, 2021 at 09:52:46AM -0700, Jiang Wang . wrote:
+>On Wed, Jul 7, 2021 at 1:33 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>>
+>> On Tue, Jul 06, 2021 at 10:26:07PM +0000, Jiang Wang wrote:
+>> >Datagram sockets are connectionless and unreliable.
+>> >The sender does not know the capacity of the receiver
+>> >and may send more packets than the receiver can handle.
+>> >
+>> >Add two more dedicate virtqueues for datagram sockets,
+>> >so that it will not unfairly steal resources from
+>> >stream and future connection-oriented sockets.
+>> >---
+>> >v1 -> v2: use qemu cmd option to control number of queues,
+>> >        removed configuration settings for dgram.
+>> >v2 -> v3: use ioctl to get features and decie numbr of
+>> >       virt queues, instead of qemu cmd option.
+>> >
+>> >btw: this patch is based on Arseny's SEQPACKET patch.
+>> >
+>> > hw/virtio/vhost-vsock-common.c                | 53 ++++++++++++++++++++++++++-
+>> > hw/virtio/vhost-vsock.c                       |  3 ++
+>> > include/hw/virtio/vhost-vsock-common.h        |  3 +-
+>> > include/hw/virtio/vhost-vsock.h               |  4 ++
+>> > include/standard-headers/linux/virtio_vsock.h |  3 ++
+>> > 5 files changed, 63 insertions(+), 3 deletions(-)
+>> >
+>> >diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+>> >index 4ad6e234ad..8164e09445 100644
+>> >--- a/hw/virtio/vhost-vsock-common.c
+>> >+++ b/hw/virtio/vhost-vsock-common.c
+>> >@@ -17,6 +17,8 @@
+>> > #include "hw/virtio/vhost-vsock.h"
+>> > #include "qemu/iov.h"
+>> > #include "monitor/monitor.h"
+>> >+#include <sys/ioctl.h>
+>> >+#include <linux/vhost.h>
+>> >
+>> > int vhost_vsock_common_start(VirtIODevice *vdev)
+>> > {
+>> >@@ -196,9 +198,36 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
+>> >     return 0;
+>> > }
+>> >
+>> >+static int vhost_vsock_get_max_qps(void)
+>> >+{
+>> >+    uint64_t features;
+>> >+    int ret;
+>> >+    int fd = -1;
+>> >+
+>> >+    fd = qemu_open_old("/dev/vhost-vsock", O_RDONLY);
+>> >+    if (fd == -1) {
+>> >+        error_report("vhost-vsock: failed to open device. %s", strerror(errno));
+>> >+        return -1;
+>> >+    }
+>>
+>> You should use the `vhostfd` already opened in
+>> vhost_vsock_device_realize(), since QEMU may not have permission to
+>> access to the device, and the file descriptor can be passed from the
+>> management layer.
+>>
+>Sure. Will do.
+>
+>> >+
+>> >+    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
+>> >+    if (ret) {
+>> >+        error_report("vhost-vsock: failed to read  device. %s", strerror(errno));
+>> >+        qemu_close(fd);
+>> >+        return ret;
+>> >+    }
+>> >+
+>> >+    qemu_close(fd);
+>> >+    if (features & (1 << VIRTIO_VSOCK_F_DGRAM))
+>> >+        return MAX_VQS_WITH_DGRAM;
+>> >+
+>> >+    return MAX_VQS_WITHOUT_DGRAM;
+>> >+}
+>> >+
+>> > void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
+>> > {
+>> >     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>> >+    int nvqs = MAX_VQS_WITHOUT_DGRAM;
+>> >
+>> >     virtio_init(vdev, name, VIRTIO_ID_VSOCK,
+>> >                 sizeof(struct virtio_vsock_config));
+>> >@@ -209,12 +238,24 @@ void vhost_vsock_common_realize(VirtIODevice 
+>> >*vdev, const char *name)
+>> >     vvc->trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>> >                                        vhost_vsock_common_handle_output);
+>> >
+>> >+    nvqs = vhost_vsock_get_max_qps();
+>>
+>> You can't do this here, since the vhost-vsock-common.c functions are
+>> used also by vhost-user-vsock, that doesn't use the /dev/vhost-vsock
+>> device since the device is emulated in a separate user process.
+>>
+>> I think you can use something similar to what you did in v2, where you
+>> passed a parameter to vhost_vsock_common_realize() to enable or not the
+>> datagram queues.
+>>
+>Just to make sure, the qemu parameter will only be used for vhost-user-vsock,
+>right? I think for the vhost-vsock kernel module, we will use ioctl and ignore
+>the qemu parameter?
 
-Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
----
- migration/savevm.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+No, I mean a function parameter in vhost_vsock_common_realize() that we 
+set to true when datagram is supported by the backend.
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 72848b9..ba5250d 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2901,8 +2901,9 @@ bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
- void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-                                 Error **errp)
- {
-+    const char *ioc_name = "migration-xen-save-state";
-+    int flags = O_WRONLY | O_CREAT | O_TRUNC;
-     QEMUFile *f;
--    QIOChannelFile *ioc;
-     int saved_vm_running;
-     int ret;
- 
-@@ -2916,14 +2917,10 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
-     vm_stop(RUN_STATE_SAVE_VM);
-     global_state_store_running();
- 
--    ioc = qio_channel_file_new_path(filename, O_WRONLY | O_CREAT | O_TRUNC,
--                                    0660, errp);
--    if (!ioc) {
-+    f = qf_file_open(filename, flags, 0660, ioc_name, errp);
-+    if (!f) {
-         goto the_end;
-     }
--    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-save-state");
--    f = qemu_fopen_channel_output(QIO_CHANNEL(ioc));
--    object_unref(OBJECT(ioc));
-     ret = qemu_save_device_state(f);
-     if (ret < 0 || qemu_fclose(f) < 0) {
-         error_setg(errp, QERR_IO_ERROR);
-@@ -2951,8 +2948,8 @@ void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
- 
- void qmp_xen_load_devices_state(const char *filename, Error **errp)
- {
-+    const char *ioc_name = "migration-xen-load-state";
-     QEMUFile *f;
--    QIOChannelFile *ioc;
-     int ret;
- 
-     /* Guest must be paused before loading the device state; the RAM state
-@@ -2964,14 +2961,10 @@ void qmp_xen_load_devices_state(const char *filename, Error **errp)
-     }
-     vm_stop(RUN_STATE_RESTORE_VM);
- 
--    ioc = qio_channel_file_new_path(filename, O_RDONLY | O_BINARY, 0, errp);
--    if (!ioc) {
-+    f = qf_file_open(filename, O_RDONLY | O_BINARY, 0, ioc_name, errp);
-+    if (!f) {
-         return;
-     }
--    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-xen-load-state");
--    f = qemu_fopen_channel_input(QIO_CHANNEL(ioc));
--    object_unref(OBJECT(ioc));
--
-     ret = qemu_loadvm_state(f);
-     qemu_fclose(f);
-     if (ret < 0) {
--- 
-1.8.3.1
+You can move the vhost_vsock_get_max_qps() call in 
+vhost_vsock_device_realize(), just before call 
+vhost_vsock_common_realize() where we can pass a parameter to specify if 
+datagram is supported or not.
+
+For now in vhost-user-vsock you can always pass `false`. When we will 
+support it, we can add something similar to discover the features.
+
+Just to be clear, we don't need any QEMU command line parameter.
+
+>
+>> >+
+>> >+    if (nvqs < 0)
+>> >+        nvqs = MAX_VQS_WITHOUT_DGRAM;
+>> >+
+>> >+    if (nvqs == MAX_VQS_WITH_DGRAM) {
+>> >+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>> >+                                              vhost_vsock_common_handle_output);
+>> >+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>> >+                                               vhost_vsock_common_handle_output);
+>> >+    }
+>> >+
+>> >     /* The event queue belongs to QEMU */
+>> >     vvc->event_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+>> >                                        vhost_vsock_common_handle_output);
+>>
+>> Did you do a test with a guest that doesn't support datagram with QEMU
+>> and hosts that do?
+>>
+>Yes, and it works.
+>
+>> I repost my thoughts that I had on v2:
+>>
+>>      What happen if the guest doesn't support dgram?
+>>
+>>      I think we should dynamically use the 3rd queue or the 5th queue for
+>>      the events at runtime after the guest acked the features.
+>>
+>>      Maybe better to switch to an array of VirtQueue.
+>>
+>I think in current V3, it  already dynamically use 3rd or 5th queue 
+>depending
+>on the feature bit.
+
+I'm not sure. IIUC when vhost_vsock_common_realize() is called, we don't 
+know the features acked by the guest, so how can it be dynamic?
+
+Here we should know only if the host kernel supports it.
+
+Maybe it works, because in QEMU we use the event queue only after a 
+migration to send a reset event, so you can try to migrate a guest to 
+check this path.
+
+I'll be off until July 16th, after that I'll check better, but I think 
+there is something wrong here and we should use the 3rd or 5th queue for 
+events only after the guest acked the features.
+
+>
+>> >
+>> >-    vvc->vhost_dev.nvqs = ARRAY_SIZE(vvc->vhost_vqs);
+>> >-    vvc->vhost_dev.vqs = vvc->vhost_vqs;
+>> >+    vvc->vhost_dev.nvqs = nvqs;
+>> >+    vvc->vhost_dev.vqs = g_new0(struct vhost_virtqueue, vvc->vhost_dev.nvqs);
+>> >
+>> >     vvc->post_load_timer = NULL;
+>> > }
+>> >@@ -227,6 +268,14 @@ void vhost_vsock_common_unrealize(VirtIODevice *vdev)
+>> >
+>> >     virtio_delete_queue(vvc->recv_vq);
+>> >     virtio_delete_queue(vvc->trans_vq);
+>> >+    if (vvc->vhost_dev.nvqs == MAX_VQS_WITH_DGRAM) {
+>> >+        virtio_delete_queue(vvc->dgram_recv_vq);
+>> >+        virtio_delete_queue(vvc->dgram_trans_vq);
+>> >+    }
+>> >+
+>> >+    if (vvc->vhost_dev.vqs)
+>>
+>> g_free() already handles NULL pointers, so you can remove this check.
+>>
+>Got it.
+>
+>> >+        g_free(vvc->vhost_dev.vqs);
+>> >+
+>> >     virtio_delete_queue(vvc->event_vq);
+>> >     virtio_cleanup(vdev);
+>> > }
+>> >diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+>> >index 1b1a5c70ed..33bbe16983 100644
+>> >--- a/hw/virtio/vhost-vsock.c
+>> >+++ b/hw/virtio/vhost-vsock.c
+>> >@@ -23,6 +23,7 @@
+>> >
+>> > const int feature_bits[] = {
+>> >     VIRTIO_VSOCK_F_SEQPACKET,
+>> >+    VIRTIO_VSOCK_F_DGRAM,
+>> >     VHOST_INVALID_FEATURE_BIT
+>> > };
+>> >
+>> >@@ -116,6 +117,8 @@ static uint64_t vhost_vsock_get_features(VirtIODevice *vdev,
+>> >     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>> >
+>> >     virtio_add_feature(&requested_features, 
+>> >     VIRTIO_VSOCK_F_SEQPACKET);
+>> >+    if (vvc->vhost_dev.nvqs == MAX_VQS_WITH_DGRAM)
+>> >+        virtio_add_feature(&requested_features, VIRTIO_VSOCK_F_DGRAM);
+>> >     return vhost_get_features(&vvc->vhost_dev, feature_bits,
+>> >                                 requested_features);
+>> > }
+>> >diff --git a/include/hw/virtio/vhost-vsock-common.h b/include/hw/virtio/vhost-vsock-common.h
+>> >index e412b5ee98..798715241f 100644
+>> >--- a/include/hw/virtio/vhost-vsock-common.h
+>> >+++ b/include/hw/virtio/vhost-vsock-common.h
+>> >@@ -27,12 +27,13 @@ enum {
+>> > struct VHostVSockCommon {
+>> >     VirtIODevice parent;
+>> >
+>> >-    struct vhost_virtqueue vhost_vqs[2];
+>> >     struct vhost_dev vhost_dev;
+>> >
+>> >     VirtQueue *event_vq;
+>> >     VirtQueue *recv_vq;
+>> >     VirtQueue *trans_vq;
+>> >+    VirtQueue *dgram_recv_vq;
+>> >+    VirtQueue *dgram_trans_vq;
+>> >
+>> >     QEMUTimer *post_load_timer;
+>> > };
+>> >diff --git a/include/hw/virtio/vhost-vsock.h b/include/hw/virtio/vhost-vsock.h
+>> >index 84f4e727c7..e10319785d 100644
+>> >--- a/include/hw/virtio/vhost-vsock.h
+>> >+++ b/include/hw/virtio/vhost-vsock.h
+>> >@@ -23,6 +23,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(VHostVSock, VHOST_VSOCK)
+>> > typedef struct {
+>> >     uint64_t guest_cid;
+>> >     char *vhostfd;
+>> >+    bool enable_dgram;
+>>
+>> Leftover?
+>>
+>Right, but to support vhost-vsock-user, I think I will add this 
+>parameter back?
+
+I'm not sure it is needed.
+
+>
+>> > } VHostVSockConf;
+>> >
+>> > struct VHostVSock {
+>> >@@ -33,4 +34,7 @@ struct VHostVSock {
+>> >     /*< public >*/
+>> > };
+>> >
+>> >+#define MAX_VQS_WITHOUT_DGRAM 2
+>> >+#define MAX_VQS_WITH_DGRAM 4
+>> >+
+>> > #endif /* QEMU_VHOST_VSOCK_H */
+>> >diff --git a/include/standard-headers/linux/virtio_vsock.h b/include/standard-headers/linux/virtio_vsock.h
+>> >index 5eac522ee2..6ff8c5084c 100644
+>> >--- a/include/standard-headers/linux/virtio_vsock.h
+>> >+++ b/include/standard-headers/linux/virtio_vsock.h
+>> >@@ -41,6 +41,9 @@
+>> > /* The feature bitmap for virtio vsock */
+>> > #define VIRTIO_VSOCK_F_SEQPACKET       1       /* SOCK_SEQPACKET 
+>> > supported */
+>> >
+>> >+/* Feature bits */
+>> >+#define VIRTIO_VSOCK_F_DGRAM 0 /*Does vsock support dgram */
+>>
+>> Bit 0 is reserved for STREAM, IIRC also in the virtio-spec proposal you
+>> used bit 2 for DGRAM.
+>>
+>My bad, I did not update the code here yet.
+>
+
+No problems :-)
+
+Thanks,
+Stefano
 
 
