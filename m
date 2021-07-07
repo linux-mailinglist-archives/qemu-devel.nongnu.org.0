@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D032D3BEBA0
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:54:12 +0200 (CEST)
-Received: from localhost ([::1]:58146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB2843BEBBD
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:59:26 +0200 (CEST)
+Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19sJ-0002nK-Mg
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:54:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
+	id 1m19xN-0007wD-NZ
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m19o1-000050-Nx; Wed, 07 Jul 2021 11:49:45 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:37775)
+ id 1m19o3-00007i-Uk; Wed, 07 Jul 2021 11:49:47 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:35971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m19o0-0003EN-57; Wed, 07 Jul 2021 11:49:45 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 8393232009A5;
- Wed,  7 Jul 2021 11:49:42 -0400 (EDT)
+ id 1m19o2-0003Ee-F9; Wed, 07 Jul 2021 11:49:47 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id D29E732009B4;
+ Wed,  7 Jul 2021 11:49:44 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 07 Jul 2021 11:49:42 -0400
+ by compute6.internal (MEProxy); Wed, 07 Jul 2021 11:49:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=xzP35CbRRWuuo
- R3gzE4VsQTCJWGZJMrnrDE5SrPKt2c=; b=GlRyqTVhypCgoyNdxT3/mw3uYMj4t
- 4xkreiVFxPZf1Rqi4iO/MY3g9tiW7mG8AKmqBuuecthxxdT9/Bdd/gn1ucefZIsp
- GQ68A9XZa23XJsUNJ24XBQOg60X+28LVGf0xZ0+8ItftF4rf6hOYbCNt9aaw4/yD
- NvFnYKcRcG0Iygad37w7MgsuHI0rcKiVduyJ6aQtudKHv0HsIohgV5uKateuEdu4
- HTPbVfLbg00gZTnMeQ7xNKA/6lZXUJGp8sHz+NZCz7q93E7fz6znFvXgzdyUStKi
- eSgUdvKv/JjjTFsKeBKpnc0194oTZdYfIX3MPIgvSIhSfgVq/gkRBdduQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=h8t2938WpU3UU
+ zpsqciYJT+0fzYoMfhS77cmgL5tVOs=; b=kiBugl8LU9Abra5AkwV6AgBvn0YPU
+ FzIA//hemjx5HP146RrOl0Y6Yx79EL+C/wcFz0bib17K8w8AXjXMfEmSHX6Xa1Fn
+ 4qWo6r1FfkFz9XJ2L0PWTyVgd4WUNXo3yIsvhoNoPabvqxZv6XW+vdR9j9H7W7PY
+ ur4bng349jIY+cjAY7o52ZmzCr52gzIz6egMdFfkl+Enrl4427XADNfOHW9NSqaP
+ OE8VKHCr0ou2ICWbd2NZbU+H7vfOz4Y2Vj4AElhRQWwpZbs8hZOo8GY7JAPH+feo
+ M8FCkJ/lfR9rYRPy0gi6l9NAGVTmF5axQ4s2VNrNOApXe76MOsCclmptQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=xzP35CbRRWuuoR3gzE4VsQTCJWGZJMrnrDE5SrPKt2c=; b=iYSJ86gf
- XHICYmLuh97hR/qaSyP/pIHS/KQVzqH/T/7N2pVnVLfIobIMPrbrvL1XDyg+fFrZ
- Qxi7QQufwq7TJGCXgBKunK7QmsKEFmQ+9FVnLEbd5aYQ5sGdsLZyxmT+t/XcUe5E
- 3E/Tf1w/szSqbrsmS+zi9q54p2H7pCLCp3ta/1EH3K6YEjViexNIlrqL00dTyWw1
- PKYSgB50qbRsk+5QBCm5QRuMtYK06riYKTtBsK8qo62HfnhzVBJBsh5npMcq4rHW
- 7mTS8zHHBg8Zpc+jKQcW4+tc5IJVCzrz2xLdfUbDY/rUFYIiq+mpqDceXwYbp/BP
- g+31CmxrW98sYA==
-X-ME-Sender: <xms:Fs3lYLqIDEs_Y-ibaBJvoNc9GchY66SRdSg09Vlzt9uuNWOZIBNKIw>
- <xme:Fs3lYFpvm9baLl47CoWSasyTKCKdCqD0MDC2nkwVWgwakw4db8Kl2s9482LkS42PI
- hFRiS3gtL7fwWnwWGc>
-X-ME-Received: <xmr:Fs3lYIOdkbBNl7pPl1jc4BWbFu4pzyVui6kWXDCmkiB5jeyoWFv4CI_sHmRu_3RdYhxrc9cogdYLEe8NJ2TeBxZta54SiJRbEsGji3Dw6w>
+ fm3; bh=h8t2938WpU3UUzpsqciYJT+0fzYoMfhS77cmgL5tVOs=; b=u4CqAemX
+ e88/BlX8HBn0zNcTtdxqhhIL3uj/uR3GdGqFgQuhiJxnGliN7R11jm1pps64BVgA
+ 8KlUlW0H/q5dms48TPqNU44+2oym4gZ69Z84bJBOhO4kbL7rCJa86N8Zxsxm3m9t
+ o7fLM3yk5W4b0WzVzrNu6VbQdG7BpS6p1R3w2e3K5d83gJieQGtqadTGFe3fa5cp
+ LT+pmJ1IQ0lPc2X+2JUA7chFbRvUbfAQm3EOPKJxMrSYRTJ9Cr7iHu8ppJmq5+Gr
+ ogr6YMZFbQOoPfhW3xXjoaCznvAxW7ABhOIxFP+lfvcSej2wsqc9xfw4PI1R1XfA
+ P/0/i2HwoTd7EA==
+X-ME-Sender: <xms:GM3lYPHAw1SnAFQ_Sz2ImVWK3bNlWtsdFYUmkuDgR17Upc23L30lFQ>
+ <xme:GM3lYMXI0xov4M_KBmNAsldrwpaF7_7ywS14AvC0gs9v5FllqoIVLQ3dltPcpCzKP
+ Dme_nXxCzPJNv_cufc>
+X-ME-Received: <xmr:GM3lYBLSiZVLK6G0qAZKSxsHhZhcHuABxu7TXnhQ06Fy0pyzHRXzMGxemJFOBQLTPOlYBzHcipOk8O6OzDVex_mivcCDjMUDChZN4I298Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgdelvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -54,18 +54,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgdelvdcutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
  esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Fs3lYO4uKxXnezATu0sOb0Yqvl4LlobrCy5KCePQ2w8bEbhSgQTZXg>
- <xmx:Fs3lYK6TOLMlo552ZJnIgD2eIXi2S2nfzfYVmx0gpjocOfAFAqaLpA>
- <xmx:Fs3lYGjRE61nNBYHcPYmplXcn2ftvZbeHRXYuRD27X8U3jFvKNFHjw>
- <xmx:Fs3lYF0FhBB9lns-RkYed6oHd2YFNQcHTblW1PYF_NkDtlMN5Amfeg>
+X-ME-Proxy: <xmx:GM3lYNEJ5ge99LSWBGYmN_JeF9tS3HbOPAaGuhT3fT8OsRcVmieLjg>
+ <xmx:GM3lYFW4s5DHe61M9YlujDDMk87ld-WaosaP-CZS_rBF_I0qYhlIwA>
+ <xmx:GM3lYIN2ZDmUjNysXURR1ldH9FPSPZfHU7HHODf1yG6PY1doMDjsfw>
+ <xmx:GM3lYLxEAlai_fy4RPwXGkj447lGddhNEFudJiXeVFBkQiQ13SWuuw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 11:49:41 -0400 (EDT)
+ 7 Jul 2021 11:49:43 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] hw/nvme: remove NvmeCtrl parameter from ns setup/check
- functions
-Date: Wed,  7 Jul 2021 17:49:33 +0200
-Message-Id: <20210707154936.200166-2-its@irrelevant.dk>
+Subject: [PATCH v2 2/4] hw/nvme: mark nvme-subsys non-hotpluggable
+Date: Wed,  7 Jul 2021 17:49:34 +0200
+Message-Id: <20210707154936.200166-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210707154936.200166-1-its@irrelevant.dk>
 References: <20210707154936.200166-1-its@irrelevant.dk>
@@ -100,113 +99,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The nvme_ns_setup and nvme_ns_check_constraints should not depend on the
-controller state. Refactor and remove it.
+We currently lack the infrastructure to handle subsystem hotplugging, so
+disable it.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/nvme.h |  2 +-
- hw/nvme/ctrl.c |  2 +-
- hw/nvme/ns.c   | 37 ++++++++++++++++++-------------------
- 3 files changed, 20 insertions(+), 21 deletions(-)
+ hw/nvme/subsys.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
-index 56f8eceed2ad..0868359a1e86 100644
---- a/hw/nvme/nvme.h
-+++ b/hw/nvme/nvme.h
-@@ -246,7 +246,7 @@ static inline void nvme_aor_dec_active(NvmeNamespace *ns)
+diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+index 192223d17ca1..dc7a96862f37 100644
+--- a/hw/nvme/subsys.c
++++ b/hw/nvme/subsys.c
+@@ -61,6 +61,7 @@ static void nvme_subsys_class_init(ObjectClass *oc, void *data)
+ 
+     dc->realize = nvme_subsys_realize;
+     dc->desc = "Virtual NVMe subsystem";
++    dc->hotpluggable = false;
+ 
+     device_class_set_props(dc, nvme_subsystem_props);
  }
- 
- void nvme_ns_init_format(NvmeNamespace *ns);
--int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
-+int nvme_ns_setup(NvmeNamespace *ns, Error **errp);
- void nvme_ns_drain(NvmeNamespace *ns);
- void nvme_ns_shutdown(NvmeNamespace *ns);
- void nvme_ns_cleanup(NvmeNamespace *ns);
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 629b0d38c2a2..dd1801510032 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -6498,7 +6498,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
-         ns = &n->namespace;
-         ns->params.nsid = 1;
- 
--        if (nvme_ns_setup(n, ns, errp)) {
-+        if (nvme_ns_setup(ns, errp)) {
-             return;
-         }
- 
-diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
-index 4275c3db6301..3c4f5b8c714a 100644
---- a/hw/nvme/ns.c
-+++ b/hw/nvme/ns.c
-@@ -346,8 +346,7 @@ static void nvme_zoned_ns_shutdown(NvmeNamespace *ns)
-     assert(ns->nr_open_zones == 0);
- }
- 
--static int nvme_ns_check_constraints(NvmeCtrl *n, NvmeNamespace *ns,
--                                     Error **errp)
-+static int nvme_ns_check_constraints(NvmeNamespace *ns, Error **errp)
- {
-     if (!ns->blkconf.blk) {
-         error_setg(errp, "block backend not configured");
-@@ -366,20 +365,6 @@ static int nvme_ns_check_constraints(NvmeCtrl *n, NvmeNamespace *ns,
-         return -1;
-     }
- 
--    if (!n->subsys) {
--        if (ns->params.detached) {
--            error_setg(errp, "detached requires that the nvme device is "
--                       "linked to an nvme-subsys device");
--            return -1;
--        }
--
--        if (ns->params.shared) {
--            error_setg(errp, "shared requires that the nvme device is "
--                       "linked to an nvme-subsys device");
--            return -1;
--        }
--    }
--
-     if (ns->params.zoned) {
-         if (ns->params.max_active_zones) {
-             if (ns->params.max_open_zones > ns->params.max_active_zones) {
-@@ -411,9 +396,9 @@ static int nvme_ns_check_constraints(NvmeCtrl *n, NvmeNamespace *ns,
-     return 0;
- }
- 
--int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-+int nvme_ns_setup(NvmeNamespace *ns, Error **errp)
- {
--    if (nvme_ns_check_constraints(n, ns, errp)) {
-+    if (nvme_ns_check_constraints(ns, errp)) {
-         return -1;
-     }
- 
-@@ -465,7 +450,21 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
-     uint32_t nsid = ns->params.nsid;
-     int i;
- 
--    if (nvme_ns_setup(n, ns, errp)) {
-+    if (!n->subsys) {
-+        if (ns->params.detached) {
-+            error_setg(errp, "detached requires that the nvme device is "
-+                       "linked to an nvme-subsys device");
-+            return;
-+        }
-+
-+        if (ns->params.shared) {
-+            error_setg(errp, "shared requires that the nvme device is "
-+                       "linked to an nvme-subsys device");
-+            return;
-+        }
-+    }
-+
-+    if (nvme_ns_setup(ns, errp)) {
-         return;
-     }
- 
 -- 
 2.32.0
 
