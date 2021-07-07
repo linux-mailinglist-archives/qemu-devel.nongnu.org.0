@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D81303BE221
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:33:37 +0200 (CEST)
-Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3843BE223
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:37:02 +0200 (CEST)
+Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0zFg-0004XF-IK
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:33:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51032)
+	id 1m0zIz-0006Lg-VO
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:37:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zEe-0003rp-Ts
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:32:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41188)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zIF-0005gX-1P
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:36:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zEc-00045v-EZ
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:32:31 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zID-0004FM-FJ
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:36:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625632349;
+ s=mimecast20190719; t=1625632572;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cq8BnSZBOHxwjEtPzR6FgvDSx9oHbY/VDV4bi2ouA1Q=;
- b=Zugw7THVGCJAJul0enqRDGHb6PnSDlFVyTg0Fxxy1AUG7zyK1wfaVaKexir9eIUsSRr25O
- gr9nfRhNDTGhW0OiQ7Ora9tqCzQiG7oFgaStuhzwNKmH/m53eLX+huRWvu00+ey1Zg7I/K
- g2zlcJ+l5kUGCltdPPrXcklVE2g5lCQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-04SSDE24P0ipGjYBf1HtGQ-1; Wed, 07 Jul 2021 00:32:27 -0400
-X-MC-Unique: 04SSDE24P0ipGjYBf1HtGQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- l21-20020a0560000235b029013564642c78so381451wrz.9
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 21:32:27 -0700 (PDT)
+ bh=5B6YYPRsEJqxNNGukI5cMjj/ptZLGGUFmgJk3BDxpqs=;
+ b=eY3dbWtrQm5qBUaZkKJlbUp5WBqAOvmSl7xudiV9HXnbn6uqLcHT2+Q8Beaaxvhhl+ky+4
+ xU8h+iEUNUTZtsyg9ZR89oy1DbECbJZfX3gp046ZTPiAJVEVDwdVCBbbZWBdXQYfuBEVbX
+ nBqYzMJre8w99c3HsWCLjqkrXhhDnL8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-xPZGIfaXOFayEU5wx6jBkA-1; Wed, 07 Jul 2021 00:36:11 -0400
+X-MC-Unique: xPZGIfaXOFayEU5wx6jBkA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v25-20020a1cf7190000b0290197a4be97b7so404305wmh.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 21:36:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Cq8BnSZBOHxwjEtPzR6FgvDSx9oHbY/VDV4bi2ouA1Q=;
- b=i87eiwsDtzyurPWQnhpjmiOmfl+Z6gMHghIfawY7vPaR5nmLtP3YOSMwMo56qzlwsd
- ODa8zXXFOwUjkwU61ckHkgHgQEZ5w63vmMhY/6M6y7OwPQgxMvUdxaewbMWLW3izaH2P
- iMxpbKhb0u3GMR++RGgBpTi1WBu8vLj05kVzBh93O6x3uBbqFoCJJnenpiTqNtcFZcOG
- cwdKtTcdpJ4QsfbEYDPfzFSNWHQvczNr9fbQd6qZEA4tZKYa0pA9ma7DQSpW35HXbpDb
- UVbB1HdvEspkzcanlr6kkZUwkVJXzE8NWTnMum7lFOvo//UCVmMKiUutkr+tKXUlvUAt
- 4jSQ==
-X-Gm-Message-State: AOAM531ordFMC9N/D6RSZWYN5tGi+AY3QQnOc/PzORPKgE+Bwlff/Kd/
- HzhYY+a97jylLf/tW9xtZB1cwjlt6rAk1if0SPBp2GgXkRVmbconcRPXCRM6/zGtnvlGD9uax4c
- 5iMM33s4Dt33ks0U=
-X-Received: by 2002:a05:6000:110:: with SMTP id
- o16mr8319967wrx.284.1625632346669; 
- Tue, 06 Jul 2021 21:32:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxwWzdbZgHEmHjD1LZyb0/oeZQnFolILxyUua5+UvIb1BqiB6HVfdLndF+/r6LePqNEi0GyyA==
-X-Received: by 2002:a05:6000:110:: with SMTP id
- o16mr8319947wrx.284.1625632346493; 
- Tue, 06 Jul 2021 21:32:26 -0700 (PDT)
+ bh=5B6YYPRsEJqxNNGukI5cMjj/ptZLGGUFmgJk3BDxpqs=;
+ b=lorzmG5nJri7ALXu15ZvTxUZX8GK1KBZF3Bp7vD3KrP5FwNRUlTN5cwN+i0qSp2YyW
+ ijHq47od1tCS+I1wwlGqFAChcn6QZkuczArCpEIfXypL/X+i+9CdG8yJQX5z/oahx6t3
+ cG8vGP1AhLForIAdAJcy5A4KW2WIXvpBEpFJ+GHtxMrWOFe+7H2NraRRa0muZADIR1Et
+ TaasBGOxbsn5Ti95EpSHDWbZJJy0Rdq8e9nzN2/ZtcBZfmBezc2TDThSivyQXxiBG5kn
+ E2IlrImCdtxGFfHk8z7aq4xQEkDrC4/zWt25c1L+Ex6c2f2XPgpVqroZbrnvX68oQLOX
+ +K/g==
+X-Gm-Message-State: AOAM532JTRrq01aZybXhy5g0586dwiIXrlmWC3NvdLrse5faGEUiwVCp
+ S6aqkFtJTeRNGHzcUiMEcLfXMSd111h+Kef6GvCeWwoJP7FKwd86ySOCO43+qleCwbF44rlIhBT
+ lMT7Z82z2Jy1X/3E=
+X-Received: by 2002:a05:600c:3541:: with SMTP id
+ i1mr4372285wmq.135.1625632570099; 
+ Tue, 06 Jul 2021 21:36:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwgVU2gt5cZe9vj6ALMrl6sBPIArxWr5Ku6vrK587HliOyZVfk4Yk02mKfgoeBiAbL6jQAB0Q==
+X-Received: by 2002:a05:600c:3541:: with SMTP id
+ i1mr4372270wmq.135.1625632569975; 
+ Tue, 06 Jul 2021 21:36:09 -0700 (PDT)
 Received: from thuth.remote.csb (pd9575ead.dip0.t-ipconnect.de.
  [217.87.94.173])
- by smtp.gmail.com with ESMTPSA id n23sm4829852wmi.29.2021.07.06.21.32.25
+ by smtp.gmail.com with ESMTPSA id a64sm3802957wme.8.2021.07.06.21.36.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 21:32:26 -0700 (PDT)
-Subject: Re: [PATCH v1 31/39] tcg/plugins: enable by default for TCG builds
+ Tue, 06 Jul 2021 21:36:09 -0700 (PDT)
+Subject: Re: [PATCH v1 32/39] contrib/plugins: enable -Wall for building
+ plugins
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
- <20210706145817.24109-32-alex.bennee@linaro.org>
+ <20210706145817.24109-33-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <38827f08-6f3c-8589-9141-3390fc23d198@redhat.com>
-Date: Wed, 7 Jul 2021 06:32:24 +0200
+Message-ID: <35647c46-fbfc-ad8f-a0de-a50cdec2caac@redhat.com>
+Date: Wed, 7 Jul 2021 06:36:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706145817.24109-32-alex.bennee@linaro.org>
+In-Reply-To: <20210706145817.24109-33-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -102,130 +103,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
  Alexandre Iooss <erdnaxe@crans.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 06/07/2021 16.58, Alex Bennée wrote:
-> Aside from a minor bloat to file size the ability to have TCG plugins
-> has no real impact on performance unless a plugin is actively loaded.
-> Even then the libempty.so plugin shows only a minor degradation in
-> performance caused by the extra book keeping the TCG has to do to keep
-> track of instructions. As it's a useful feature lets just enable it by
-> default and reduce our testing matrix a little.
+> Lets spot the obvious errors.
 > 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
 > ---
-> v2
->    - properly handle plugins being ""
->    - make the test for linker support handle default case
->    - move linker tests to before the glib-modules test
-> ---
->   docs/devel/tcg-plugins.rst |   3 +-
->   configure                  | 125 ++++++++++++++++++++-----------------
->   .gitlab-ci.d/buildtest.yml |  23 -------
->   3 files changed, 71 insertions(+), 80 deletions(-)
+>   contrib/plugins/Makefile | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-> index 18c6581d85..0cd77c77d2 100644
-> --- a/docs/devel/tcg-plugins.rst
-> +++ b/docs/devel/tcg-plugins.rst
-> @@ -71,7 +71,8 @@ API
->   Usage
->   =====
->   
-> -The QEMU binary needs to be compiled for plugin support::
-> +Any QEMU binary with TCG support has plugins enabled by default.
-> +Earlier releases needed to be explicitly enabled with::
->   
->     configure --enable-plugins
->   
-> diff --git a/configure b/configure
-> index 9d72b31a9f..0ce6c1ff65 100755
-> --- a/configure
-> +++ b/configure
-> @@ -429,7 +429,7 @@ libxml2="auto"
->   debug_mutex="no"
->   libpmem="auto"
->   default_devices="true"
-> -plugins="no"
-> +plugins="$default_feature"
->   fuzzing="no"
->   rng_none="no"
->   secret_keyring="$default_feature"
-> @@ -3085,6 +3085,73 @@ for drv in $audio_drv_list; do
->       esac
->   done
->   
-> +##########################################
-> +# plugin linker support probe
-> +
-> +if test "$plugins" != "no"; then
-> +
-> +    #########################################
-> +    # See if --dynamic-list is supported by the linker
-> +
-> +    ld_dynamic_list="no"
-> +    if test "$static" = "no" ; then
-> +        cat > $TMPTXT <<EOF
-> +{
-> +  foo;
-> +};
-> +EOF
-> +
-> +        cat > $TMPC <<EOF
-> +#include <stdio.h>
-> +void foo(void);
-> +
-> +void foo(void)
-> +{
-> +  printf("foo\n");
-> +}
-> +
-> +int main(void)
-> +{
-> +  foo();
-> +  return 0;
-> +}
-> +EOF
-> +
-> +        if compile_prog "" "-Wl,--dynamic-list=$TMPTXT" ; then
-> +            ld_dynamic_list="yes"
-> +        fi
-> +    fi
-> +
-> +    #########################################
-> +    # See if -exported_symbols_list is supported by the linker
-> +
-> +    ld_exported_symbols_list="no"
-> +    if test "$static" = "no" ; then
-> +        cat > $TMPTXT <<EOF
-> +  _foo
-> +EOF
-> +
-> +        if compile_prog "" "-Wl,-exported_symbols_list,$TMPTXT" ; then
-> +            ld_exported_symbols_list="yes"
-> +        fi
-> +    fi
-> +
-> +    if test "$ld_dynamic_list" = "no" &&
-> +       test "$ld_exported_symbols_list" = "no" ; then
-> +        if test "$plugins" = "yes"; then
-> +            error_exit \
-> +                "Plugin ($plugins) support requires dynamic linking and specifying a set of symbols " \
+> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+> index b9d7935e5e..17e6e2ec4f 100644
+> --- a/contrib/plugins/Makefile
+> +++ b/contrib/plugins/Makefile
+> @@ -24,7 +24,7 @@ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+>   # The main QEMU uses Glib extensively so it's perfectly fine to use it
+>   # in plugins (which many example do).
+>   CFLAGS = $(GLIB_CFLAGS)
+> -CFLAGS += -fPIC
+> +CFLAGS += -fPIC -Wall
 
-Printing "($plugins)" here does not make much sense to me (it will always 
-result in "(yes)", won't it?) ... but apart from that, the patch looks fine 
-to me.
+In pc-bios/s390-ccw/Makefile we're using:
 
-So with that "($plugins)" removed:
+  -Wall $(filter -W%, $(QEMU_CFLAGS))
 
+to also get the other warning options from config-host.mak. You might want 
+to consider to do that here, too.
+
+Anyway:
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
