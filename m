@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 986703BF129
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 23:02:29 +0200 (CEST)
-Received: from localhost ([::1]:57834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D973BF13C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 23:09:59 +0200 (CEST)
+Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Ege-0004H4-Mi
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 17:02:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60052)
+	id 1m1Enu-0008SS-DK
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 17:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1EfU-0003Gv-DK
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:01:16 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:36732)
+ id 1m1EmV-00074m-TR
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:08:31 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1EfR-0002sK-Vx
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:01:16 -0400
-Received: by mail-pg1-x530.google.com with SMTP id f5so3610511pgv.3
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 14:01:13 -0700 (PDT)
+ id 1m1EmU-0003Y3-8h
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:08:31 -0400
+Received: by mail-pf1-x433.google.com with SMTP id 21so3432165pfp.3
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 14:08:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ZDkzHyfD/TORuF0Q4vScv2YV5nWpwNlSXWF5Cg54K4c=;
- b=hFGXmOivz5OdxwGNUu3mdeT5zgsC7JNCWAGFOfAGUQJzpROp8trAoSrOyhOBBJpd3A
- kLRfMaBp7bE0w0MLtQ9WiBV9sUaQRFbTWMxpQDYu25MqkWPa6E4p+ZezwLDIAGJcWgzp
- 3++xtXC1ocKhDS3ztAWnqRc0pKmP7luO14opVMPSAYnRn+jBJJi1Hd+wpZ/nGr9UaIJk
- L0tsw7RyUAX32WX8SIQ8OwKbRkEF9bVmWMXmOSoZ0AgyBCSAlTOzwDoHFqrOJ2OxsYoV
- 1ASxCUnKURHWV6P+zmY/7Q/pPCy7ucbD0c+xD00ezOjSs4xWNGa5I+63yfWT86JEz5Uq
- XZ4g==
+ bh=uEaeVWcswi2S7NlBPD2BIduTnNEYLCeYr2L1OnERT9s=;
+ b=HENiRv4bp40WQ715BjGXDS2kcAo6lKJrjzUYHCOdZctXkGQBusOQLW079I9Xcb4efj
+ PVS3DGHtRkIFpBpgEu98gsuij+DhExHcE9DaRbCU2hoJj6e+4MECAonSnN67WIbSMrZ4
+ 3kG34pBzdIoUNPXDg+0DFtDqlVbvdVp7sVGVgbNdFdaqpB9/CMcInHv8RBemjVeWZuAA
+ sVYT7j79CQKOby4dkOe3VObPp6mj3YjoAkvxXgQ90RIt34wsy7oHRe5RrD3eUPWEXHI5
+ qmRFlGB/mbicAAnOnBNcX/uVXC/gzh10sL9niw2wPd2boJTlsrQy9kbAJP75eonNV4q5
+ ZZoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ZDkzHyfD/TORuF0Q4vScv2YV5nWpwNlSXWF5Cg54K4c=;
- b=FgIwaVsU7pi9/kAHp9NRMiwEzvXtdD9tHxxFN8NfXKCnsN9oG4ov6g1siWscOfpaI4
- Y4+vQI08jMRDqNupAfnAtdrUyLIDj71Txo41n8Hs+P1mchCcucVc5Q5yW7iSBrWe/pse
- Ddi2P49fLHrzzB8UMJk5oYz39nTAD/pU4WPpIFpjHuV5wUxdbQ1MQQaN7u0Sp5PpAFOj
- cXzYykhrRNKYMAeBIZ/iDIbmjQgAbbwJ04l8WxrW7VNrdmKx2LixOl2QxMIUBa0jsJjR
- YsxWH5MZQKSWVUCaUBv8HFAZMrBPYrHNMb01JhSrf55MHmxvJYUTgs+RteFw6VCwwml9
- oDOg==
-X-Gm-Message-State: AOAM533e/sZmTklD9d0LL1iVXrksqz9uVYECy8qeJ5uqgiBNf8ZhkHHe
- +DEeeMWrUtaShqMaRFyzTfFImw==
-X-Google-Smtp-Source: ABdhPJy7l63GFZFcwpOMjcp82JrijUmdHxHTVgA6/v70mc3O81ai4Z3VePm7OYyhNvfpVYbsn8/D0g==
-X-Received: by 2002:a63:5511:: with SMTP id j17mr28464159pgb.191.1625691672181; 
- Wed, 07 Jul 2021 14:01:12 -0700 (PDT)
+ bh=uEaeVWcswi2S7NlBPD2BIduTnNEYLCeYr2L1OnERT9s=;
+ b=HenQO6TOaTzBLVXtQ2FBffmoV8VE68ho5HA2CvQYGHyJaha/GCCZ/2/PCvVpmo0exG
+ uH5g6xlMkBCOCO1vqzMDAYZZlVwzihJlQBo1uAd1PseYSv9VGhXopWF6vNo6i/ZbMCQJ
+ iZ46yr++yjo5ALMNtBoMIfWjVo40FyD4N2HzIhufnF3tMFiosh36x65ozWs3WrjEsbAr
+ fWesQwVK4Do2icRWOcFHl5Kt+C6Okw+3s3NmJTW1+SVDbm/WOAGDGc1lQHRbNqj8RWdT
+ xFpQEA89RDvG+1A3vt9yTFhQz7gRfUVGzTnb4eA/btTVA2LvIrqNUgMQRaA0dUCYWABE
+ JFcA==
+X-Gm-Message-State: AOAM53046LR+J3/dEKoqn6ePelv+EHm+sEsPQIVJA4WAqczICmd3UVsr
+ 87tNn1/3+YCHLJGy0qMPCq2n6w==
+X-Google-Smtp-Source: ABdhPJwfsUpnfBkgHkFNfa6bXQqviLoo5VfdaBGVuAtaPVYZAz1kdCJ2gZtgyGKmQgMYYdh+BeWP/w==
+X-Received: by 2002:aa7:9e1a:0:b029:31d:144d:da08 with SMTP id
+ y26-20020aa79e1a0000b029031d144dda08mr20668116pfq.11.1625692108646; 
+ Wed, 07 Jul 2021 14:08:28 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id p14sm99354pfo.101.2021.07.07.14.01.11
+ by smtp.gmail.com with ESMTPSA id k10sm102454pfc.169.2021.07.07.14.08.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 14:01:11 -0700 (PDT)
-Subject: Re: [PATCH v7 1/2] target/i386: Trivial code motion and code style fix
+ Wed, 07 Jul 2021 14:08:28 -0700 (PDT)
+Subject: Re: [PATCH v7 2/2] target/i386: Correct implementation for FCS, FIP, 
+ FDS and FDP
 To: Ziqiao Kong <ziqiaokong@gmail.com>, qemu-devel@nongnu.org
 References: <20210530150112.74411-1-ziqiaokong@gmail.com>
+ <20210530150112.74411-2-ziqiaokong@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1647d7e2-2ea0-f7bb-6cfc-92c56f9e11ae@linaro.org>
-Date: Wed, 7 Jul 2021 14:01:10 -0700
+Message-ID: <56f215ae-8535-90ee-44f7-a30e712e0318@linaro.org>
+Date: Wed, 7 Jul 2021 14:08:26 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210530150112.74411-1-ziqiaokong@gmail.com>
+In-Reply-To: <20210530150112.74411-2-ziqiaokong@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,23 +94,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/30/21 8:01 AM, Ziqiao Kong wrote:
-> A new pair of braces has to be added to declare variables in the case block.
-> The code style is also fixed according to the transalte.c itself during the
-> code motion.
-> 
-> Signed-off-by: Ziqiao Kong<ziqiaokong@gmail.com>
-> ---
-> Sorry for the duplicate emails due to my bad network. The v7 has no
-> difference from v6 and is sent just for clarification.
-> Changes since v5:
-> - None
-> Changes since v4:
-> - Rewrite commit message to specify the reason to add the braces.
-> ---
->   target/i386/tcg/translate.c | 957 ++++++++++++++++++------------------
->   1 file changed, 484 insertions(+), 473 deletions(-)
+>       /* fninit */
+> -    env->fpus = 0;
+> -    env->fpstt = 0;
+> -    cpu_set_fpuc(env, 0x37f);
+> -    env->fptags[0] = 1;
+> -    env->fptags[1] = 1;
+> -    env->fptags[2] = 1;
+> -    env->fptags[3] = 1;
+> -    env->fptags[4] = 1;
+> -    env->fptags[5] = 1;
+> -    env->fptags[6] = 1;
+> -    env->fptags[7] = 1;
+> +    helper_fninit(env);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Directly calling a function named "helper" is bad practice.  Those should only be called 
+from TCG generated code.  In this case it happens to be ok, since helper_fninit does not 
+use GETPC(), but really we should break out a "do_fninit" function to share.
+
+
+>       case 0xd8 ... 0xdf:
+>           {
+> +            TCGv last_addr = tcg_temp_new();
+> +            int last_seg;
+> +            bool update_fdp = false;
+
+These belong...
+
+> @@ -5942,7 +5947,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>               op = ((b & 7) << 3) | ((modrm >> 3) & 7);
+>               if (mod != 3) {
+>                   /* memory op */
+> -                gen_lea_modrm(env, s, modrm);
+> +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
+
+... here, within the section that deals with memory operands.
+
+> +            if (update_fip) {
+> +                tcg_gen_ld32u_tl(s->T0, cpu_env,
+> +                                 offsetof(CPUX86State, segs[R_CS].selector));
+> +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpcs));
+> +
+> +                tcg_gen_movi_tl(s->T0, pc_start - s->cs_base);
+> +                tcg_gen_st_tl(s->T0, cpu_env, offsetof(CPUX86State, fpip));
+> +            }
+> +
+> +            if (update_fdp) {
+> +                if (s->override >= 0) {
+> +                    last_seg = s->override;
+> +                }
+> +                tcg_gen_ld32u_tl(s->T0, cpu_env,
+> +                                 offsetof(CPUX86State,
+> +                                 segs[last_seg].selector));
+> +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpds));
+> +
+> +                tcg_gen_st_tl(last_addr, cpu_env, offsetof(CPUX86State, fpdp));
+> +            }
+
+Similarly the update_fdp test belongs at the end of the memory op block.
+
 
 r~
 
