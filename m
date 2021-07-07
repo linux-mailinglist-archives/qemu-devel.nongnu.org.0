@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1365C3BE900
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:49:45 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB123BE92E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 16:01:11 +0200 (CEST)
+Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m17vs-0005EH-5N
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:49:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1m186v-00021P-SY
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 10:01:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m17uz-0004Z2-T2
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:48:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m17ux-0006b4-OS
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:48:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625665726;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zFpWkfg36IapJrt8ZcF7l+LiUnUY7WO1wMsSRjKfx2E=;
- b=R3sU9nmrA+sTuepsagFh00qddGG8CPCFIqDpZzSuiitZh/sMErzUdOdD32MIHMWmJ/xtNS
- 0HXWth8DoUFuVSzFvNbKKYZkpWPVTxqH34kmUA9yWn79DW1F4HR70rezYu+RE74Rs2Q+vr
- dfdfLh3p4kkvrdEa2Q4Zn6j1ScavMBI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-oWwkz5ZpM-aO851S9RhXyQ-1; Wed, 07 Jul 2021 09:48:45 -0400
-X-MC-Unique: oWwkz5ZpM-aO851S9RhXyQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A91198042DE
- for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 13:48:44 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A040F5D9D3;
- Wed,  7 Jul 2021 13:48:39 +0000 (UTC)
-Date: Wed, 7 Jul 2021 14:48:37 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 11/18] crypto: rename des-rfb cipher to just des
-Message-ID: <YOWwtTuTvFsiCHdb@redhat.com>
-References: <20210706095924.764117-1-berrange@redhat.com>
- <20210706095924.764117-12-berrange@redhat.com>
- <87eecaffzg.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m184Z-0000Z1-Rx
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:58:43 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m184Y-0007Ne-24
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:58:43 -0400
+Received: by mail-wr1-x432.google.com with SMTP id t15so3160013wry.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 06:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4Ddh1zOm4qprYPp5asbsnS5VCnnSZyf0ePYUVLuTxbk=;
+ b=BtAANsOFh5az85XjL+ABKHQ8MEVkWbkYQ5h9JQQXUwIdOKgO+e/s+gjbEpSQImawS4
+ SRMYhiYTxUrToxyo5jKT3OaDyIHrFuLwSpj1MUPrfcEAtI9Jz06XMu0SHQ2d6BouxZTR
+ 4Z03hnd667n8rBmuxNGDPjkpaTAIiZngzdQ7l7iwalF6z6tM4MUT3+GsLmYfIgq1uhGe
+ T9oAOtHRXguTJgYqtyJXD44xQF+ydfwgPRwjBzB4WISMFG65GMox82kdmzPhL0BFE0Bm
+ R8FrI78AaUroI4Uq6sHjqBpqvqxFtUoWwiLEe4vBuNXAKToUR+0YapdgRBEzOqzxBSZO
+ o5mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4Ddh1zOm4qprYPp5asbsnS5VCnnSZyf0ePYUVLuTxbk=;
+ b=gLAKX5APgp5OMcZAQBKRsXNmGqxGUt92ZS/y1z+NCrJlvK0ez7TyuHj4FxLLr+mNA9
+ lb5UCS3hsmSvBbeDs/MgkRb1OhD+ET5/BwncL9272umvEmwiWCieEkoSDYqn3IxbX5Pn
+ 0Gw9u6284UNYEsAsDg122u27rZiEUR2kX7bfxh1NFCTodNyAGXCW1qT13gKPJOuyEsjH
+ n7pn4MbJVhpiKggUssgKJNKOoDkZlX9Ybd3eeZjygU+YDWzgBc+ULzAJJ6/IryQqH8sZ
+ 71oD2U71xnpZx/RedMTCBMw53I8WxZJOgXFoBnOgrjsiHlc2VFrxxofKCh/h8yz6T/bk
+ AJ3Q==
+X-Gm-Message-State: AOAM530SLwHoroCZU1WFzAVT7Jj0dbfptVg7yVcGVBmZrXi1rdfCTN6y
+ w2bJuc07keeA+qlr7ZKyPSQ=
+X-Google-Smtp-Source: ABdhPJxwtukZBHifEf6jhqJ9kP80nFykJwHj3KYmn1QKsL61NXH9WUn4jHOqUZc642c88acvrumVMQ==
+X-Received: by 2002:a5d:688c:: with SMTP id h12mr27714010wru.11.1625666319740; 
+ Wed, 07 Jul 2021 06:58:39 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id o35sm679983wms.29.2021.07.07.06.58.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jul 2021 06:58:38 -0700 (PDT)
+Subject: Re: [PATCH v4] memory: Directly dispatch alias accesses on origin
+ memory region
+To: qemu-devel@nongnu.org
+References: <20210418055708.820980-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6305a06b-c8a0-bcf7-f693-244aa34b16f4@amsat.org>
+Date: Wed, 7 Jul 2021 15:58:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <87eecaffzg.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210418055708.820980-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,121 +89,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 02:47:15PM +0200, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
+Peter Xu already reviewed, but Cc'ing Peter Maydell too due to
+his last comment on v3:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg800482.html
+
+On 4/18/21 7:57 AM, Philippe Mathieu-Daudé wrote:
+> Since commit 2cdfcf272d ("memory: assign MemoryRegionOps to all
+> regions"), all newly created regions are assigned with
+> unassigned_mem_ops (which might be then overwritten).
 > 
-> > Currently the crypto layer exposes support for a 'des-rfb'
-> > algorithm which is just normal single-DES, with the bits
-> > in each key byte reversed. This special key munging is
-> > required by the RFB protocol password authentication
-> > mechanism.
-> >
-> > Since the crypto layer is generic shared code, it makes
-> > more sense to do the key byte munging in the VNC server
-> > code, and expose normal single-DES support.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
+> When using aliased container regions, and there is no region mapped
+> at address 0 in the container, the memory_region_dispatch_read()
+> and memory_region_dispatch_write() calls incorrectly return the
+> container unassigned_mem_ops, because the alias offset is not used.
 > 
-> [...]
+> Consider the following setup:
 > 
-> > diff --git a/qapi/crypto.json b/qapi/crypto.json
-> > index 7116ae9a46..6b3fadabac 100644
-> > --- a/qapi/crypto.json
-> > +++ b/qapi/crypto.json
-> > @@ -66,7 +66,7 @@
-> >  # @aes-128: AES with 128 bit / 16 byte keys
-> >  # @aes-192: AES with 192 bit / 24 byte keys
-> >  # @aes-256: AES with 256 bit / 32 byte keys
-> > -# @des-rfb: RFB specific variant of single DES. Do not use except in VNC.
-> > +# @des: DES with 56 bit / 8 byte keys. Do not use except in VNC.
-> >  # @3des: 3DES(EDE) with 192 bit / 24 byte keys (since 2.9)
-> >  # @cast5-128: Cast5 with 128 bit / 16 byte keys
-> >  # @serpent-128: Serpent with 128 bit / 16 byte keys
-> > @@ -80,7 +80,7 @@
-> >  { 'enum': 'QCryptoCipherAlgorithm',
-> >    'prefix': 'QCRYPTO_CIPHER_ALG',
-> >    'data': ['aes-128', 'aes-192', 'aes-256',
-> > -           'des-rfb', '3des',
-> > +           'des', '3des',
-> >             'cast5-128',
-> >             'serpent-128', 'serpent-192', 'serpent-256',
-> >             'twofish-128', 'twofish-192', 'twofish-256']}
+>     +--------------------+ < - - - - - - - - - - - +
+>     |     Container      |  mr
+>     |  (unassigned_mem)  |                         |
+>     |                    |
+>     |                    |                         |
+>     |                    |  alias_offset
+>     +                    + <- - - - - - +----------+---------+
+>     | +----------------+ |              |                    |
+>     | |  MemoryRegion0 | |              |                    |
+>     | +----------------+ |              |       Alias        |  addr1
+>     | |  MemoryRegion1 | | <~ ~  ~  ~ ~ |                    | <~~~~~~
+>     | +----------------+ |              |                    |
+>     |                    |              +--------------------+
+>     |                    |
+>     |                    |
+>     |                    |
+>     |                    |
+>     | +----------------+ |
+>     | |  MemoryRegionX | |
+>     | +----------------+ |
+>     | |  MemoryRegionY | |
+>     | +----------------+ |
+>     | |  MemoryRegionZ | |
+>     | +----------------+ |
+>     +--------------------+
 > 
-> Is enum value "des-rfb" part of any external interface?
-
-Strictly speaking, yes, but in reality it doesn't matter.
-
-
-The only place in QEMU that actually uses DES-RFB is the
-VNC server code. That is an indirect usage when the user
-sets the "password" option flag in QemuOpts. The fact that
-it uses DES-RFB is an internal impl detail.
-
-The one place that does publically expose ability to set a
-field using the QCryptoCipherAlgorithm enum type is the
-LUKS support in the block layer:
-
-{ 'struct': 'QCryptoBlockCreateOptionsLUKS',
-  'base': 'QCryptoBlockOptionsLUKS',
-  'data': { '*cipher-alg': 'QCryptoCipherAlgorithm',
-            '*cipher-mode': 'QCryptoCipherMode',
-            '*ivgen-alg': 'QCryptoIVGenAlgorithm',
-            '*ivgen-hash-alg': 'QCryptoHashAlgorithm',
-            '*hash-alg': 'QCryptoHashAlgorithm',
-            '*iter-time': 'int'}}
-
-eg exposed on CLI as:
-
-  $ qemu-img create -f luks -o cipher-alg=NNN foo.luks 1G
-
-or equivalant with QMP blockdev-create
-
-While the QMP schema allows any valid QCryptoCipherAlgorithm
-string to be set, the actual implementation does not.
-
-The crypto/block-luks.c code has a map between cipher algs
-and LUKS format algoritm names:
-
-
-static const QCryptoBlockLUKSCipherNameMap
-qcrypto_block_luks_cipher_name_map[] = {
-    { "aes", qcrypto_block_luks_cipher_size_map_aes },
-    { "cast5", qcrypto_block_luks_cipher_size_map_cast5 },
-    { "serpent", qcrypto_block_luks_cipher_size_map_serpent },
-    { "twofish", qcrypto_block_luks_cipher_size_map_twofish },
-};
-
-If it isn't in that table, it can't be used. IOW, the only
-scenario we're affecting in this rename is one which would
-already result in an error condition
-
-Original behaviour:
-
- $ qemu-img create -f luks --object secret,id=sec0,data=123 -o cipher-alg=des-rfb,key-secret=sec0 demo.luks 1G
-Formatting 'demo.luks', fmt=luks size=1073741824 key-secret=sec0 cipher-alg=des-rfb
-qemu-img: demo.luks: Algorithm 'des-rfb' not supported
-
-New behaviour:
-
-$ qemu-img create -f luks --object secret,id=sec0,data=123 -o cipher-alg=des-rfb,key-secret=sec0 demo.luks 1G
-Formatting 'demo.luks', fmt=luks size=1073741824 key-secret=sec0 cipher-alg=des-fish
-qemu-img: demo.luks: Invalid parameter 'des-rfb'
-
-I considered this incompatibility to be acceptable, and thus
-not worth going through a deprecation dance.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> The memory_region_init_alias() flow is:
+> 
+>   memory_region_init_alias()
+>   -> memory_region_init()
+>      -> object_initialize(TYPE_MEMORY_REGION)
+>         -> memory_region_initfn()
+>            -> mr->ops = &unassigned_mem_ops;
+> 
+> Later when accessing offset=addr1 via the alias, we expect to hit
+> MemoryRegion1. The memory_region_dispatch_read() flow is:
+> 
+>   memory_region_dispatch_read(addr1)
+>   -> memory_region_access_valid(mr)   <- addr1 offset is ignored
+>      -> mr->ops->valid.accepts()
+>         -> unassigned_mem_accepts()
+>         <- false
+>      <- false
+>    <- MEMTX_DECODE_ERROR
+> 
+> The caller gets a MEMTX_DECODE_ERROR while the access is OK.
+> 
+> Fix by dispatching aliases recursively, accessing its origin region
+> after adding the alias offset.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> v4:
+> - added ASCII schema
+> v3:
+> - reworded, mentioning the "alias to container" case
+> - use recursive call instead of while(), because easier when debugging
+>   therefore reset Richard R-b tag.
+> v2:
+> - use while()
+> ---
+>  softmmu/memory.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index d4493ef9e43..b899ca6a6b7 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1442,6 +1442,11 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
+>      unsigned size = memop_size(op);
+>      MemTxResult r;
+>  
+> +    if (mr->alias) {
+> +        return memory_region_dispatch_read(mr->alias,
+> +                                           mr->alias_offset + addr,
+> +                                           pval, op, attrs);
+> +    }
+>      if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
+>          *pval = unassigned_mem_read(mr, addr, size);
+>          return MEMTX_DECODE_ERROR;
+> @@ -1486,6 +1491,11 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
+>  {
+>      unsigned size = memop_size(op);
+>  
+> +    if (mr->alias) {
+> +        return memory_region_dispatch_write(mr->alias,
+> +                                            mr->alias_offset + addr,
+> +                                            data, op, attrs);
+> +    }
+>      if (!memory_region_access_valid(mr, addr, size, true, attrs)) {
+>          unassigned_mem_write(mr, addr, data, size);
+>          return MEMTX_DECODE_ERROR;
+> 
 
