@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B68843BEA7D
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:14:32 +0200 (CEST)
-Received: from localhost ([::1]:59846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFD463BEA82
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:16:27 +0200 (CEST)
+Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19Fv-0000wc-Qg
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:14:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38134)
+	id 1m19Hm-0002Ne-Qa
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:16:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m19Bf-0002LT-9W
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:10:07 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:55049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m19Bb-0007SY-6h
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:10:06 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id g24so1720510pji.4
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:10:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=caJxtZUVCx/fNijleFqHimQSXrTENRVdwHE0GhMAjWU=;
- b=NRuRRtHCgH0sDLfpJDO6w/mAAGtUmGQDlhlA0xumpaZAQD/3yzZUarWHW/MiHbLpA5
- /ur/u7I2IruJQ7sD0bjISpcwX+8LMhuUBVzItAfpiOuMrEbycd8F3NjZL7IFSdUujD09
- sB6iWQyw6OqbwsV/u67DUJKarh7u0z8VTmwcC7D9bX1fpeswh2EvgsEt+24ziULkrUPl
- v2p4zKHFZr8ytF8smw0BvRiCAgx426kjM6mbTuRUzhGS/OF+A+kV92QwOlsZunemEDUX
- 7+80C+1xVag/4DFEyuQgALYNuXveEmHgO0YtRB5iLeGXemlH427+2BGkC2pKPReeP3AX
- LP1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=caJxtZUVCx/fNijleFqHimQSXrTENRVdwHE0GhMAjWU=;
- b=eKMXDlTotKenVaz+ZfAM5eVyonmJN4Go5ZuYkBqXSvQ9ZQr4er6meg/kYv+npHONGQ
- MiTWFQS3RXq06W0M4nnvIMckK74OrNKt5mjRKkh71nMlC3XWdcw/OCvU32VwHtv7DASX
- 6q0eu1afFC0AsG4l8rP051Zl9V0BgKmaw2CrDikrsgd1yfPmMKGGPRcj9vizIhF/pq6O
- QLXCtGC+7vjAXDk/R1WSDiglqPH5cZ3YF8h84S4C/sd4fbTksKVPnOZZVOF6aIGI6A+6
- a7ij+PPP5ozl4DO3AYema7dPEvkQeNvbOKdA/pMx0H44jXJde440CXf1QU/y9DeasowG
- DI8w==
-X-Gm-Message-State: AOAM530KrmuJpy85UQoB1mP6c1Qh7F0QrGkifREpG0J7tNYC6yZyJCc7
- w0GYB8Bm9NI4i8PcLaKClOMiFQ==
-X-Google-Smtp-Source: ABdhPJwfHkD1s/9CCkG2LFt8laRKru9Mi3GI/OebKZtCcDmttRH2/ucoSCidCCDqNhWTluRjsRl+oA==
-X-Received: by 2002:a17:90b:350e:: with SMTP id
- ls14mr12325675pjb.31.1625670601577; 
- Wed, 07 Jul 2021 08:10:01 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id v11sm18127709pjs.13.2021.07.07.08.10.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 08:10:01 -0700 (PDT)
-Subject: Re: [PATCH v2 4/5] configs: rename default-configs to configs and
- reorganise
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, pbonzini@redhat.com
-References: <20210707131744.26027-1-alex.bennee@linaro.org>
- <20210707131744.26027-5-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <064ce1ea-3e6d-406e-e264-12ae1943e7f0@linaro.org>
-Date: Wed, 7 Jul 2021 08:09:59 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m19Cg-0003zs-AO
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:11:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m19Cb-0007dt-6Q
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:11:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625670664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0m5lJuaoSCGNbF3I3vXvrsB1NZ7O+DJtEdGruxHpop0=;
+ b=cw2O823Ff85zlkgi4LP+lulP4vyi+VBoRrwVmnvZHL5y4aIvSHhkIY/UNTPC6LNk+Lc8sS
+ koiMv/zcQqfefXx047ar3eOyzUCQxUj2c+q/Wsz3x5NfoTDNigxrm3s+RnUsguygHYIGQC
+ 6qIH9+BhTfY4HTjl/yA66dSgad+1Im0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-404-JHzpQuyCNSaZAVuPhd20zQ-1; Wed, 07 Jul 2021 11:11:01 -0400
+X-MC-Unique: JHzpQuyCNSaZAVuPhd20zQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66B9DA40C1;
+ Wed,  7 Jul 2021 15:11:00 +0000 (UTC)
+Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B69EA84A01;
+ Wed,  7 Jul 2021 15:10:59 +0000 (UTC)
+Date: Wed, 7 Jul 2021 10:10:57 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 2/2] qemu-img: Make unallocated part of backing chain
+ obvious in map
+Message-ID: <20210707151057.n3vpooy4nb3diint@redhat.com>
+References: <20210701190655.2131223-1-eblake@redhat.com>
+ <20210701190655.2131223-3-eblake@redhat.com>
+ <481dc6cf-a353-b4a0-732c-b758f8750ff6@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210707131744.26027-5-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <481dc6cf-a353-b4a0-732c-b758f8750ff6@virtuozzo.com>
+User-Agent: NeoMutt/20210205-556-f84451-dirty
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,27 +79,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ nsoffer@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/21 6:17 AM, Alex Bennée wrote:
-> In preparation for offering variation to our build configurations lets
-> move everything and rename it to default. Common included base configs
-> are also renamed.
-> 
-> During the cleanup the stale usb.mak and pci.mak references were
-> removed from MAINTAINERS.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Paolo Bonzini<pbonzini@redhat.com>
-> Message-Id:<20210621152120.4465-5-alex.bennee@linaro.org>
-> ---
+On Sat, Jul 03, 2021 at 10:25:28AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+...
+> > An obvious solution is to make 'qemu-img map --output=json' add an
+> > additional "present":false designation to any cluster lacking an
+> > allocation anywhere in the chain, without any change to the "depth"
+> > parameter to avoid breaking existing clients.  The iotests have
+> > several examples where this distinction demonstrates the additional
+> > accuracy.
+> > 
+> > Signed-off-by: Eric Blake <eblake@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > +++ b/docs/tools/qemu-img.rst
+> > @@ -597,6 +597,9 @@ Command description:
+> >       if false, the sectors are either unallocated or stored as optimized
+> >       all-zero clusters);
+> >     - whether the data is known to read as zero (boolean field ``zero``);
+> > +  - whether the data is actually present (boolean field ``present``);
+> > +    if false, rebasing the backing chain onto a deeper file would pick
+> > +    up data from the deeper file;
+> 
+> Preexisting, but rather strange style of documentation, when described option doesn't go first in the paragraph..
 
-r~
+Yeah.  I'll send a followup email with a rewording of those paragraphs
+for consideration.
+
+> > +++ b/qemu-img.c
+> > @@ -2980,8 +2980,9 @@ static int dump_map_entry(OutputFormat output_format, MapEntry *e,
+> >           break;
+> >       case OFORMAT_JSON:
+> >           printf("{ \"start\": %"PRId64", \"length\": %"PRId64","
+> > -               " \"depth\": %"PRId64", \"zero\": %s, \"data\": %s",
+> > -               e->start, e->length, e->depth,
+> > +               " \"depth\": %"PRId64", \"present\": %s, \"zero\": %s,"
+> > +               "\"data\": %s", e->start, e->length, e->depth,
+> > +               e->present ? "true" : "false",
+> 
+> Didn't you want to put present at the end? Still, this shouldn't be significant. And it make sense to keep present, zero and data together.
+
+I wanted it before anything optional, which "offset" is, so it already
+can't be at the end.  If I understood Nir correctly, it was more
+important to always be present (it's easy to write a parser that
+searches for terms in the same position, and tolerates a missing term
+from an older verseion, but harder to parse a term that might or might
+not be present).
+
+> 
+> You missied a whitespace after '"zero": %s,', which is obvious from further test diff hunks.
+> 
+> With it fixed:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+Thanks for catching that.  I've updated that, and will queue through
+my NBD tree.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
