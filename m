@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AFC3BF01C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:16:41 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1AAE3BF020
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:18:27 +0200 (CEST)
+Received: from localhost ([::1]:34138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1D2G-0007pK-W9
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41988)
+	id 1m1D3z-0000qM-08
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1m1D1M-00070A-2B; Wed, 07 Jul 2021 15:15:44 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:60865)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1D2s-0000Ai-V0
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:17:18 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:55077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1m1D1K-0005HJ-Am; Wed, 07 Jul 2021 15:15:43 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1D2r-0005OQ-HD
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:17:18 -0400
 Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MMWgb-1liiGV2Jnj-00Ja2m; Wed, 07 Jul 2021 21:15:36 +0200
-Subject: Re: [PATCH v3] linux-user/elfload: Implement ELF_HWCAP for RISC-V
-To: Kito Cheng <kito.cheng@sifive.com>, alistair.francis@wdc.com,
- palmer@dabbelt.com, frank.chang@sifive.com, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, richard.henderson@linaro.org
-References: <20210706035015.122899-1-kito.cheng@sifive.com>
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mg6i8-1lXtZ63v7W-00haJ9; Wed, 07 Jul 2021 21:17:15 +0200
+Subject: Re: [PATCH] linux-user: fill ppid field in /proc/self/stat
+To: Andreas Schwab <schwab@suse.de>
+References: <mvmwnqnef5g.fsf@suse.de>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <2a78bbd7-6de8-a352-acbf-9fe623c1f34f@vivier.eu>
-Date: Wed, 7 Jul 2021 21:15:34 +0200
+Message-ID: <91f3b13d-3652-fc6b-3bee-e2ab5a6faf33@vivier.eu>
+Date: Wed, 7 Jul 2021 21:17:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706035015.122899-1-kito.cheng@sifive.com>
+In-Reply-To: <mvmwnqnef5g.fsf@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pLSpjv0CA+ihiN7D0HliSck0vdHi8+TBVEcrnccETxNUGPvc4Ft
- JtceQl4O91gb4wEQM7OmGj05vMJhRrZDUV82NSJAh2T16NsAExjsiU/V7PSwmHPlctgmFBg
- snI/79nAFxifofAIkK2lBoaDinV4BNwTcAlyBSR0EphAaxExQNMU5V8gi663kK+jO9KhMGT
- v1Ea8dCoxcQmnc683za2w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FsF9jB2O2AU=:hrJkeTuPyByPmdOcvoH+rT
- CSEqWK+RvHJNdwdI9JFN79krDFjDr313gzDW9OpfV3Ov99wY0iCf9aV+VX12QeQTavptjYk5b
- vudewrgFPN+QalxY3Qd5JRl6o15t9I/isE8KncLMIuZLAmaImhtiMECe5zQGncReOxRIqn2TJ
- KZfa1SiLPIXq9Mz094cSs+5VnPUyIL2241ai7qzA4KE5+z0u93WfLUHQnoCiYHLNhM0sxcSH+
- kfDDa59dTLAH037GDYm10nuAXfFgFaVPTy/dQ0hjSw991jFB1K+1NrGD9PNUq3N9TkxCRWV0v
- CugD1lNZKvdWKC6sAci9x0m9LSvyGrWz7JbMFQUx6nKZt2VBTHqmtzD/5sQXwsodn13mBqixA
- iqzp7GX3ueldcZiXPEU672fL/uNXJnPfJbNKuFw7Kh6gd2ppBHXkFWaMLeRtp6R/o/SU6Nanl
- wamuv0NyMDAlz07RR7LhVn3LfylzPAfrjdgtHAnpxw6GWMjp62Vgz8v9U76JooPgugaleFW+Y
- xynEngqigG5TXdlAwq9FAPN7nDciusB+yEcL7G7j/hYiDZsHIkP0b2MKe2MecLGqSrLnrxNQX
- WxgknnCPt3uvfXXIT68VdjEl/IgirRemHbJjmnwtaygiCX2sC8/Kew0j1XVt9bCc1rb0BE8y5
- 6xvUHAXMbNfEQaHxdYTRWtITEz6NirTLurqm/n0LCpDb5IfxuMTt0a1PaunqT081x3vYJ0rtp
- HFHUdY3o0FCAA4Py+hSNxoW05K+vdneQ01uTdShUfHv4frnWp4duc8x/w1VLz9rG+C4bv2tgi
- Jop1UAWvIqk+aYOKZlZPemwnQpgZVvza4DkRd3ta/GL1Pvp9p+AtSmoupxNnJjXqLZJGg0y
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:zM0eCTmDa6q4o6DXqrcpuChYE7YDuQ1YocqPLHh11IG3gRIeEx7
+ AfC97kKRyV8IdijPp2lQ1FdITvgmmBqtSzc4wye91a4YC4YTR2JjQtHJilBNpNdp82xRcMY
+ ZUiGGgxtdwdcAhmZv/kiWtTcqXHWShg+RHjQTHocQVGJG6Fnclw10KPjb4j9WSqPkYeo2D7
+ 2Ig/kkqAR5wT8NBZPv5qQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gjwbYDN8s4g=:Pay9NMny7MNumvds8J2nXP
+ S5pALnPaKk/hCwB61FE7qwbQuitAm4n54Oy+3o4j194d0i9UGNfw809ZlbKlKqpKyO2frcn1F
+ 8BGdpixbCdVBZ9t0PatlZ7GYG+aUA6VSyrrD6y3ZBnoogpDzwVJfCaNNtxnEAZKquwpxkLIIc
+ I2ZdW3RvANsgVDkdDFsUo8S5UM05/lqrUU1Wh26fNiGqk9iq5h0mYc3lmmtHmzB5o4I5mUuFC
+ ZC4jtuzEabJhRDEweUkWdiNDf7IorxwyK4QdFxqGpnUo5m6EfscSmQ8QTslDn2wHQZ26UtUit
+ ZuvOIC5JBEyRgyjLuk5fs+BsjPk8prYOJQdDeZVrmF/pNhBbFrMtkI6n3OD9GHkbG6qyvawzf
+ 9AYAtgvtf0wQ9uP0d+0N1BKJqSDEZuBpP4Hk8EgLCMWdEkVpV3itsfmbxjGKRwaaWonicwsX2
+ babLEwPMpt9IfcFgXfJfb4k1vEgD5D/P8IXvtKeN/sW+M+fJo9t1TposcU1RY7G4Kj8q5ba8w
+ JKN9RT9nCzbSelS5RugiwzJqMNs46q7oDif2ti8ec7R67uuzKQpGksXRu1ALm6AdLGZdKHTM3
+ CasPbKtw3fYC3Gbzx01mE2042oLXSASoBamwo3q/5nY9O7KFsHKHBunV0z+0uITTqxfwoDwe/
+ 3ldAVqrsF19pv5SOirqzLcyJby40viBwtkyyMp0NA6hZs1WGPabHkMvPQrs08FrcWb3pMJRIh
+ ZkrGkubcJLX7fs0Nz2scBznp5ZE2goKVKyRPnxonry3jwSjt5MMJl5mCOUXRP26eRyv1l3tep
+ KoXOOXdTtoD0yXKwR5smyMbeFuKvUXZx/C9wTdaEYxT1VYf4Z/nt+jqrjSeok7c92+ekuYx
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,53 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/07/2021 à 05:50, Kito Cheng a écrit :
-> Set I, M, A, F, D and C bit for hwcap if misa is set.
-> 
-> V3 Changes:
-> - Simplify logic of getting hwcap.
-> 
-> V2 Changes:
-> - Only set imafdc bits, sync with upstream linux kernel.
-> 
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+Le 21/06/2021 à 11:32, Andreas Schwab a écrit :
+> Signed-off-by: Andreas Schwab <schwab@suse.de>
 > ---
->  linux-user/elfload.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+>  linux-user/syscall.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 598ab8aa13..42ef2a1148 100644
-> --- a/linux-user/elfload.c
-> +++ b/linux-user/elfload.c
-> @@ -1434,6 +1434,19 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
->  #define ELF_CLASS ELFCLASS64
->  #endif
->  
-> +#define ELF_HWCAP get_elf_hwcap()
-> +
-> +static uint32_t get_elf_hwcap(void)
-> +{
-> +#define MISA_BIT(EXT) (1 << (EXT - 'A'))
-> +    RISCVCPU *cpu = RISCV_CPU(thread_cpu);
-> +    uint32_t mask = MISA_BIT('I') | MISA_BIT('M') | MISA_BIT('A')
-> +                    | MISA_BIT('F') | MISA_BIT('D') | MISA_BIT('C');
-> +
-> +    return cpu->env.misa & mask;
-> +#undef MISA_BIT
-> +}
-> +
->  static inline void init_thread(struct target_pt_regs *regs,
->                                 struct image_info *infop)
->  {
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 974dd46c9a..dababe463c 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7940,6 +7940,9 @@ static int open_self_stat(void *cpu_env, int fd)
+>              gchar *bin = g_strrstr(ts->bprm->argv[0], "/");
+>              bin = bin ? bin + 1 : ts->bprm->argv[0];
+>              g_string_printf(buf, "(%.15s) ", bin);
+> +        } else if (i == 3) {
+> +            /* ppid */
+> +            g_string_printf(buf, FMT_pid " ", getppid());
+>          } else if (i == 27) {
+>              /* stack bottom */
+>              g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
 > 
 
 Applied to my linux-user-for-6.1 branch.
-(I have removed the history from the commit message)
 
 Thanks,
 Laurent
-
 
