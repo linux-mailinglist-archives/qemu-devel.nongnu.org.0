@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD4C3BE0A6
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 03:47:11 +0200 (CEST)
-Received: from localhost ([::1]:33952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87CF3BE0A7
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 03:47:23 +0200 (CEST)
+Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0wec-0004BE-RI
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 21:47:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44198)
+	id 1m0weo-0004gE-RE
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 21:47:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0wdJ-0002I3-Br
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:45:49 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:40483)
+ id 1m0wdo-0002xY-Ay
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:46:20 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:39638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0wdH-0006vH-Ad
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:45:49 -0400
-Received: by mail-pf1-x433.google.com with SMTP id j199so732534pfd.7
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 18:45:46 -0700 (PDT)
+ id 1m0wdi-0006wo-4e
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:46:19 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ p14-20020a17090ad30eb02901731c776526so384903pju.4
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 18:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WlDT3HrmhaaNp4oGaUrAYVsPv4wMx23SX4FpHr94OO0=;
- b=YgldMNeiPV/qrpBLqSFjkflpeOoAqUAv4Iz0eKAgV8A7u/BcMS7y8f78lAytSy2iHd
- sEsCygbg4QpAeLQHh+7HTPf+R7PnGfw8C8hNqs3nLr2eWRbBYxewOWT0nTeRv38V4jxc
- OLq4471UKW3HTr/+I4FMcEuM9nZCywgu5ESJzpFfGXzHA3oiN63bG01HQlFsImJM6SNU
- j4jNAdNvbCpLUULarDJjSc15tHAuU1+jPePdJewHD8WjgpcP0hZ7pmrdWUHe94nOpcvp
- RKVTd3Jb4SRItopkSJdKJiG4cZGTmZ6G4rnNCvsf+UXcrXrJyoIBEF2WvETq6cSnAz57
- Bfkg==
+ bh=ni3jkoCWynQRMxZ88zqDCiJgdi2y2t0GHVIzhjWQLMU=;
+ b=cYgYrPZJOeI2v4e7948COXT9HdJojnqt0atdxOLMAI6XPwgLvfk1+fbkcYRvENcXt5
+ tLEa624XkEST8AWn2gHERoyx7v3aUUmR4h06B5sjDyvIHlmkNcDXAZ/g7xVz4KaKjcYL
+ DQE3k/bTj7LIV+SxVBV/rtmJlri5Q+k2GAEBd/E2XV2h7JBFfmk5ysFKSiYMvlM+dRFz
+ xcjSDrboi2hHH30N2vqiThpBgN5LTwDE7v+aQAyJqmpQZjQOE8CShqT0+y+QXQG7NmZC
+ tPF02QYrQvXowwoRQjtuMpskjzuNwwvISFCIm9mVcDDEs9GIirf8A/aB1utCU2qqvII8
+ zf1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WlDT3HrmhaaNp4oGaUrAYVsPv4wMx23SX4FpHr94OO0=;
- b=PJ/014QlR+/cNIYzPVzXVtbmKSVF/kUYLvTph6B0Kc6xf1LMfQu2PGa1/OSeHhTha2
- v/eTwguXD1XWutgi4TygAIqFThsJGRPpkOBXjP/RAiLM7HTaxNWsOicGLhwUI0t86JUE
- kcbd+WBdHdklXHWj5NfyI/F9iUSe6wvM4i+ZxhrEPlbQqpuElwPajW8uralCRuAp5Z1u
- +KGrC1NjEJSmepQuek6NlwUMqnYUb56o2DYx5MekuVJ3lPkncVnMSZF5r86o7UkdQ+6s
- zNVZoLgSqsRknlLAL3DM3bObruTkqorL8PK69CwldYpNiA3rC/XJOYqIZMYoTQowKriL
- f7rQ==
-X-Gm-Message-State: AOAM532Xs35+V3f+QFRp3LbM6a6mSh1CQJiT/UzHaVQ1m03JJEIOprIc
- gigZEooCAlvrEJGfBhM9SJMfJinnKjhBig==
-X-Google-Smtp-Source: ABdhPJwnseDbnLzioev+KCHN8v5LSPws/0AgtUN2WzXnnSuWkga8ciGEOQh29kEss7/BHsGI3YV0GQ==
-X-Received: by 2002:aa7:96c5:0:b029:31e:f7e9:3ef7 with SMTP id
- h5-20020aa796c50000b029031ef7e93ef7mr13755541pfq.47.1625622345463; 
- Tue, 06 Jul 2021 18:45:45 -0700 (PDT)
+ bh=ni3jkoCWynQRMxZ88zqDCiJgdi2y2t0GHVIzhjWQLMU=;
+ b=FDCXS0mfh3Cr9uB4z9/vJdiW/7QSJTmVjfLtLwC9vdJVicJvsiEvxg+Ro3nu0eyPAo
+ HGUScqFBbPPZcX2L8qwPk6Y5YKybLqEUTl4BRymAImLwnPchbHoHjC5psMrKXO0i4I/d
+ DDYpnfCYBrqIOusQSwW/Ga73LxG7wk2o/AwCa1cCPVY3Is7/HrsWCmJLeq2EetRgJlle
+ yCFRaAIOMTXhahHpwv8m4RBbNcFScSh4jmHzKAtspdpTyRFz1QemE6RxFuEEBBR15Ig2
+ u3MRpcB4jBo/IO0xDK3J3uJL+eoBiURpX/gcPbJHVtIT3PRdUZzfoA2Fm2s84nbYuzjv
+ 3C3A==
+X-Gm-Message-State: AOAM532nw9Hjju8aSSGAafZPUM1cKZBMfWnipvmPDEiRXITiUZobrn59
+ UP7psbG98OcD5rjZmaVw9haPqg==
+X-Google-Smtp-Source: ABdhPJzGjYBhIIL33nNiLoFdosoaMFfylUTJW5h6+Jlt7/ySccvyiGpwMrH7OsjVzpCed31QsLxxJQ==
+X-Received: by 2002:a17:90a:590d:: with SMTP id
+ k13mr23496261pji.56.1625622372180; 
+ Tue, 06 Jul 2021 18:46:12 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id k189sm16591525pgk.14.2021.07.06.18.45.44
+ by smtp.gmail.com with ESMTPSA id f193sm9570068pfa.185.2021.07.06.18.46.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 18:45:45 -0700 (PDT)
-Subject: Re: [PATCH 03/12] linux-user/mips: Handle TARGET_EWOULDBLOCK as
- TARGET_EAGAIN
+ Tue, 06 Jul 2021 18:46:11 -0700 (PDT)
+Subject: Re: [PATCH 06/12] linux-user/alpha: Remove hardcoded tabs (code style)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210704183755.655002-1-f4bug@amsat.org>
- <20210704183755.655002-4-f4bug@amsat.org>
+ <20210704183755.655002-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f8b6e176-dce4-c04b-24be-ad4b22b700fa@linaro.org>
-Date: Tue, 6 Jul 2021 18:45:43 -0700
+Message-ID: <6f56a158-a752-b3c7-138e-c49d14883401@linaro.org>
+Date: Tue, 6 Jul 2021 18:46:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210704183755.655002-4-f4bug@amsat.org>
+In-Reply-To: <20210704183755.655002-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,13 +97,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/4/21 11:37 AM, Philippe Mathieu-Daudé wrote:
-> Linux kernel defines EWOULDBLOCK as EAGAIN (since before v2.6.12-rc2).
+> We are going to move this code, fix its style first.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   linux-user/mips/target_syscall.h   | 2 ++
->   linux-user/mips64/target_syscall.h | 2 ++
->   2 files changed, 4 insertions(+)
+> Patch trivial to review using 'git-diff --ignore-all-space'
+> ---
+>   linux-user/alpha/target_syscall.h | 196 +++++++++++++++---------------
+>   1 file changed, 97 insertions(+), 99 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
