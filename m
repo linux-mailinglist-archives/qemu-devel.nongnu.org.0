@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48F33BF0C4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 22:32:20 +0200 (CEST)
-Received: from localhost ([::1]:47812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CBA3BF0E3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 22:41:04 +0200 (CEST)
+Received: from localhost ([::1]:50868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1EDT-0004GG-Qi
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 16:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56210)
+	id 1m1ELv-0006Zh-1k
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 16:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m1ECX-000335-JC
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 16:31:21 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:46751)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m1ECS-0007Q3-Od
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 16:31:21 -0400
-Received: by mail-io1-xd33.google.com with SMTP id y8so5271060iop.13
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 13:31:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DjEBOJ1E1qX03Q+pn/HmFwSv8DIfSrON60FHdg2Bhb8=;
- b=ZRLqR+QMAL1+jnoKiAiZXI8f92/oEsMWDdvU8WxtWT79dSKMC191tqaBdDSznma/+r
- jK5PZEKYWspOmR/HYYDhHhWnzFfv0/AFG2o1nCmCxcRVSJrK2rpYz+bP3XVtU9SlGo2F
- sxCN0vH2u8jmNMuBwS1szEUNgCiU5F2HdSm7m+6l3QewC+MiaYSZr1Qg7G3v+LimVR9S
- iXO3y3f6yLv81FXok+oSobqvY/dvxJaCpMfWUNC4/Ww2W/Ko+QEzVmimfpl9xB56/PB6
- sQrXV3cXjG0Lo0ZE6QvJXJThokxowPdcziRpsZUnawOnr97j2jmZKfUC9c+izYt2StgU
- g79A==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1m1EKk-0005lt-Do
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 16:39:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1m1EKg-0008Ce-0x
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 16:39:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625690384;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tK2cEpeJbeIBRudU8QHN4T2Gl2MfQnV6BZQivjDP+C0=;
+ b=VxzNaYRrsB+an1t+oxhbvroPQnNYL9n5llfOrCLiN7w/FeBcg8VveZaOks5bq3j5f8kiMe
+ aCkWSh6r8OtPXO2mZb+LuL+y4ks8iNCdqqAWxeVCKY1mppZ9HRJkQ5gd2hSqNvI4Vn+GbS
+ zkUgyoL0lrEZHH62oZQD1LPE2I/OLBY=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-280-K0rh1P7bMSmIIwOdGsxzMA-1; Wed, 07 Jul 2021 16:39:42 -0400
+X-MC-Unique: K0rh1P7bMSmIIwOdGsxzMA-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ p17-20020a0568301311b0290467775813d3so2419257otq.9
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 13:39:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DjEBOJ1E1qX03Q+pn/HmFwSv8DIfSrON60FHdg2Bhb8=;
- b=LA7jkqcqkDNEk7x7tFHI54DERXjZFGVdleLcwy8mEBeMVldR7TZYV8MX6+9MxXL3EE
- pvNS4dTgbeB9dlxjgFWd8oL7tfmEnSCEKMBtv+6JwvpzU+7coHPS3tiyf8Nw+RYrhpxG
- 1lVjMyZS5hnqXV83fkDUd+hov6eIdhv9ZL6GroBzTLF+si4HBP9Bd61efsAp3BTTymwv
- sEvmNjBXH4V03FYO8h/zZFXBJxu3CxdHVU7DvJw37Hp1kkYbuuGDNPA/TqU82I8gqfkW
- yl50NT8HhxKwNYC/57AfLbk0ikXoW5dqq81UMnOZfDjgRt/yk06L0L3ZSN7lELdw1j51
- fX5A==
-X-Gm-Message-State: AOAM533Q0yi6KR/+X8oHjNBumE5M1S+fD3oX1yVYk+xEvL9vjCWmNHRQ
- VU6v47vxF/BYE01IKuro5WUV2CvSdENFZ7kSIKc=
-X-Google-Smtp-Source: ABdhPJxhOo3rdTC6BiN5WLeKvJ6JHmgudLSVm3j4c6LPt6AVF9ItXp5NCDdnbavYI3iUvhuLIANB5WHfVE5xURu5pCo=
-X-Received: by 2002:a5d:9c96:: with SMTP id p22mr16029731iop.67.1625689870752; 
- Wed, 07 Jul 2021 13:31:10 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=tK2cEpeJbeIBRudU8QHN4T2Gl2MfQnV6BZQivjDP+C0=;
+ b=M8AX8WFDpet+JRCZzGIC7Q2aqkVb2KWgvH7B2eMcoLCyQnI0V4+PlyhkrGHeQzb9V4
+ cSNUliquoXAX1lgN7WbfvFiK0qC5xfBNkaEQmj9kL5ookdViBCyLn0STPzjmrUDyqXSY
+ 4/3y1OGynZpox7c05Sxadrb9lnsXxJtjml80CD0C3/7gRjc8cFx/owhUdynDdCXUrj96
+ u4SUBK93+bnckzpPnZ+EXjgBDMKxeBOm5JavIrGw0nllB/gfXH4S8Tymk4r4uR2wJrzN
+ N/yfATVmvv14XGOVbb83jD3eWDzl/xRInFMTLvxrMmFtvN1d3gf6gCPoUPugsF6xATa6
+ /t4A==
+X-Gm-Message-State: AOAM531DDSQEgK4QPSFo2+Me8mFhD+VNGAhstZx/W/UwGW8MpgSz9KD6
+ 8ijSIGhNp20ZTjREW+ZbyGGujtZcZfbhaiJj3a+q+8IJ20lJ5I2JmQys5TaMVKpmyT+KW1MWuv8
+ riN7Ubh3SE8OXUN2aT+PigXJS9SVec68=
+X-Received: by 2002:aca:5b07:: with SMTP id p7mr20676708oib.118.1625690382260; 
+ Wed, 07 Jul 2021 13:39:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3NQQqAOtT7op2agMFsJ3aQJmYds9TB7odnVbaJb9zkVSU1aAvqEE/rHZYQNzJD1GIWXvtB7PP3wAY9s2VgM4=
+X-Received: by 2002:aca:5b07:: with SMTP id p7mr20676699oib.118.1625690382120; 
+ Wed, 07 Jul 2021 13:39:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210707140655.30982-1-david@redhat.com>
- <20210707140655.30982-2-david@redhat.com>
-In-Reply-To: <20210707140655.30982-2-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 7 Jul 2021 22:30:59 +0200
-Message-ID: <CAM9Jb+henYoJx45f1n8WmYjUf_o34VevQmyMNp2S+VdOeqjoAQ@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] migration/postcopy-ram: define type for "struct
- PostcopyNotifyData"
-To: David Hildenbrand <david@redhat.com>
+References: <20210701190655.2131223-1-eblake@redhat.com>
+ <20210707184125.2551140-1-eblake@redhat.com>
+In-Reply-To: <20210707184125.2551140-1-eblake@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Wed, 7 Jul 2021 23:39:26 +0300
+Message-ID: <CAMRbyyvNaxr_KLLN3dv7DuxqVCZdL6Ug9+OUKcgn49iLf7CAcQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/2] qemu-img: Reword 'qemu-img map --output=json' docs
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,78 +89,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Qemu Developers <qemu-devel@nongnu.org>,
- Alexander Duyck <alexander.duyck@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wei Wang <wei.w.wang@intel.com>, Peter Xu <peterx@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Let's define a proper type, just as we do for PrecopyNotifyData already.
+On Wed, Jul 7, 2021 at 9:41 PM Eric Blake <eblake@redhat.com> wrote:
 >
-> Cc: Wei Wang <wei.w.wang@intel.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Cc: Alexander Duyck <alexander.duyck@gmail.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> Reword the paragraphs to list the JSON key first, rather than in the
+> middle of prose.
+>
+> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
 > ---
->  hw/virtio/vhost-user.c   | 2 +-
->  migration/postcopy-ram.c | 2 +-
->  migration/postcopy-ram.h | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
+>  docs/tools/qemu-img.rst | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 >
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index 1ac4a2ebec..42dad711bf 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1827,9 +1827,9 @@ static int vhost_user_postcopy_end(struct vhost_dev=
- *dev, Error **errp)
->  static int vhost_user_postcopy_notifier(NotifierWithReturn *notifier,
->                                          void *opaque)
->  {
-> -    struct PostcopyNotifyData *pnd =3D opaque;
->      struct vhost_user *u =3D container_of(notifier, struct vhost_user,
->                                           postcopy_notifier);
-> +    PostcopyNotifyData *pnd =3D opaque;
->      struct vhost_dev *dev =3D u->dev;
+> diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
+> index d6300f7ee03d..1d8470eada0e 100644
+> --- a/docs/tools/qemu-img.rst
+> +++ b/docs/tools/qemu-img.rst
+> @@ -593,16 +593,16 @@ Command description:
+>    the ``start``, ``length``, ``offset`` fields;
+>    it will also include other more specific information:
 >
->      switch (pnd->reason) {
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 2e9697bdd2..ee4e1c7cf5 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -69,7 +69,7 @@ void postcopy_remove_notifier(NotifierWithReturn *n)
+> -  - whether the sectors contain actual data or not (boolean field ``data``;
+> -    if false, the sectors are either unallocated or stored as optimized
+> -    all-zero clusters);
+> -  - whether the data is known to read as zero (boolean field ``zero``);
+> -  - whether the data is actually present (boolean field ``present``);
+> -    if false, rebasing the backing chain onto a deeper file would pick
+> -    up data from the deeper file;
+> -  - in order to make the output shorter, the target file is expressed as
+> -    a ``depth``; for example, a depth of 2 refers to the backing file
+> -    of the backing file of *FILENAME*.
+> +  - boolean field ``data``: true if the sectors contain actual data,
+> +    false if the sectors are either unallocated or stored as optimized
+> +    all-zero clusters
+> +  - boolean field ``zero``: true if the data is known to read as zero
+> +  - boolean field ``present``: true if the data belongs to the backing
+> +    chain, false if rebasing the backing chain onto a deeper file
+> +    would pick up data from the deeper file;
+> +  - integer field ``depth``: the depth within the backing chain at
+> +    which the data was resolved; for example, a depth of 2 refers to
+> +    the backing file of the backing file of *FILENAME*.
 >
->  int postcopy_notify(enum PostcopyNotifyReason reason, Error **errp)
->  {
-> -    struct PostcopyNotifyData pnd;
-> +    PostcopyNotifyData pnd;
->      pnd.reason =3D reason;
->      pnd.errp =3D errp;
->
-> diff --git a/migration/postcopy-ram.h b/migration/postcopy-ram.h
-> index 6d2b3cf124..01829c3562 100644
-> --- a/migration/postcopy-ram.h
-> +++ b/migration/postcopy-ram.h
-> @@ -125,10 +125,10 @@ enum PostcopyNotifyReason {
->      POSTCOPY_NOTIFY_INBOUND_END,
->  };
->
-> -struct PostcopyNotifyData {
-> +typedef struct PostcopyNotifyData {
->      enum PostcopyNotifyReason reason;
->      Error **errp;
-> -};
-> +} PostcopyNotifyData;
->
->  void postcopy_add_notifier(NotifierWithReturn *nn);
->  void postcopy_remove_notifier(NotifierWithReturn *n);
+>    In JSON format, the ``offset`` field is optional; it is absent in
+>    cases where ``human`` format would omit the entry or exit with an error.
 > --
+> 2.31.1
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Would be nice if this could be generated from the json schema instead
+of repeating the type and description of the fields, but this is a nice
+improvement.
+
+Reviewed-by: Nir Soffer <nsoffer@redhat.com>
+
 
