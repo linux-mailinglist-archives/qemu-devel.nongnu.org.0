@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC2F3BE632
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:12:27 +0200 (CEST)
-Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7204B3BE630
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:12:17 +0200 (CEST)
+Received: from localhost ([::1]:48858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m14Xa-0005Vc-Gs
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:12:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
+	id 1m14XQ-0005Ll-9q
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:12:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m14Vh-0003vN-At
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:10:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44759)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m14Vi-0003xp-RP
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:10:30 -0400
+Received: from forward4-smtp.messagingengine.com ([66.111.4.238]:52383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m14Ve-0006Nw-Gg
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:10:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625652623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1WPKt3M4QT0YV642F/7hw6ApqGve7qSZ5u5Xw4tZqds=;
- b=J5drfRFuqgqiQC0eou7MbtIrky7Lk1Xx/UoVdJmZ0MRFx+S8uDkP3HElyUbXOOMe6Dzmjg
- hit5/nve6ZAeal/zFD1AU6PbnA9qGBCrX7es8p4PcQcssEaD6Ou/zh6pg7Skk2KvgTr+ov
- zOjIJxhp016L6btCiAwF9qAs4mp42O0=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-ZdZOg4hmPomKvKa2fmiUdA-1; Wed, 07 Jul 2021 06:10:22 -0400
-X-MC-Unique: ZdZOg4hmPomKvKa2fmiUdA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- d21-20020a1709063455b02904c609ed19f1so348773ejb.11
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 03:10:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1WPKt3M4QT0YV642F/7hw6ApqGve7qSZ5u5Xw4tZqds=;
- b=qsk6ZNt4FbDED7aikKCBRorJEBCLm5yPVobwUQH2x6Qx909R8IYItdMq4idDYARTRT
- VeNwcmXdaWQ7O8xvAkrXgLTvEiIBLE6oO3ROYv+OtLiEBVaqWODShWumqP0hv9W3YYXB
- t76sg0j5U1bADqToXjjG9CwDyyb3zzYq10GC9+F9Wz5HPvFwxS2Sv0rc+jkDx8HJRnv8
- d6Kax75apCdi8VInz2xMutooVIU7NdQTApLAz33e+8ZVDvy1qoPHY1AKSn2wuDSQW7+f
- dG9BXdtq/mY0TbXWFafWY4w3izxK5AdNkopTHUhNxvlOWXUXvSpkfryceqH2tzInifL3
- +MrA==
-X-Gm-Message-State: AOAM533XSeeSgLeaSU9wiMoeDBTAa6dLw9f6Idy4zc2cDBHpRCJUdF7M
- ZoXIdXoqoS0GfxdnpjhNOTbiEcqXigfl3C1LhuIJu2OeL8c6uDxPrg4FoiXvF1h28m1jAHlImVQ
- mzFmMpW+Iz9+ExZU=
-X-Received: by 2002:a17:906:c212:: with SMTP id
- d18mr23120340ejz.291.1625652621007; 
- Wed, 07 Jul 2021 03:10:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdkYWBQcy5Qi7RLGsqP5qJZLUtmM5XCyDKZCngpup2OoofxIpCt8ZkBxI8ywnsn/YVyB9ing==
-X-Received: by 2002:a17:906:c212:: with SMTP id
- d18mr23120328ejz.291.1625652620788; 
- Wed, 07 Jul 2021 03:10:20 -0700 (PDT)
-Received: from redhat.com ([2.55.8.91])
- by smtp.gmail.com with ESMTPSA id cn17sm6067048edb.29.2021.07.07.03.10.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 03:10:20 -0700 (PDT)
-Date: Wed, 7 Jul 2021 06:10:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-Subject: Re: [PATCH v0] vhost: make SET_VRING_ADDR, SET_[PROTOCOL_]FEATEURES
- send replies
-Message-ID: <20210707060936-mutt-send-email-mst@kernel.org>
-References: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m14Vf-0006O0-6q
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:10:30 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailforward.nyi.internal (Postfix) with ESMTP id C6B031940A95;
+ Wed,  7 Jul 2021 06:10:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 07 Jul 2021 06:10:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=4WFZkI
+ qFucvxApFj10Psye5LSKg2fXRNlu/SJZTJ6Ws=; b=WMrXGTYFDiKAuUUWbEfH+v
+ zxGWvHtFEZoe+xvOUtB/W2K7vJBRGzUTS3CwqavSdhnRyr/g0qvU1/rzSKZ0aJGB
+ WXgxiIZNyVr6OP2vqI4gy5lh6pyjFT+FKhaGBLFUw2/spwVDUG2D1wdMVT+z7RRN
+ m3dv2U+Ucpx1EYSTw4bKqZtMiCzX8g2z/fU1c3kDWeOn0OXr5kqrrOiREdlAwM3H
+ rY2KWiqAJelR/Ts2MqM/D0wfABQFIPK598VP6kXadxS53EM2DUH7B2f1baMYaDh6
+ mLeU6dHkB5iulimIzPD9ZV7PstTBXNoBco5d1cHMUnCtWHOh0Akw1XPRqiV08wtA
+ ==
+X-ME-Sender: <xms:kH3lYNczy8Rmnr92EN3NifG5X48Rog3Xm9pzF0B90p2IbWJwpTMxlg>
+ <xme:kH3lYLNYQt8LENRYiS9cZofsxhEsauMoTUTK_kJB7fAZCfITJ-DLJ2-4d8I9bg1k-
+ AyWttkypfwYmON6rSc>
+X-ME-Received: <xmr:kH3lYGjuVKG09eL7XEPDdAWEU7Du_wrvDrNhDA5S2EOfx3f9Gh7nNAc9ZJ_azClXI4BArOjBqhW-s7afdPhiTAXEbdhkrzyuoR6VC0WrU5M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddvgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefvufgjfhfhfffkgggtsehttdertddttddtnecuhfhrohhmpeffrghvihguucfg
+ ughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnhephf
+ ekgeeutddvgeffffetheejvdejieetgfefgfffudegffffgeduheegteegleeknecuvehl
+ uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepughmvgesughmvg
+ drohhrgh
+X-ME-Proxy: <xmx:kH3lYG9eHjyTum8BgmjTLEGkRgkNUAD8HOnD65FqSbiYBV_RZ7XSMw>
+ <xmx:kH3lYJuzXW4b-Bc1bmFpMTGBZ4pFtCVS5JySFq686rTmLOonTQtXZA>
+ <xmx:kH3lYFFXDasi371bjWJwxdpP5yxzsJlcYSl4r6z3ZNzBgTROBDPkNw>
+ <xmx:kH3lYKli1NMLlsQcgLXp_WRnZF9MPKEuZGR42SKoAMTBYDCZM-LWzQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jul 2021 06:10:23 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id ad53b2bc;
+ Wed, 7 Jul 2021 10:10:21 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 8/8] target/i386: Move X86XSaveArea into TCG
+In-Reply-To: <0d75c3ab-926b-d4cd-244a-8c8b603535f9@linaro.org>
+References: <20210705104632.2902400-1-david.edmondson@oracle.com>
+ <20210705104632.2902400-9-david.edmondson@oracle.com>
+ <0d75c3ab-926b-d4cd-244a-8c8b603535f9@linaro.org>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Wed, 07 Jul 2021 11:10:21 +0100
+Message-ID: <m2czru4epe.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: neutral client-ip=66.111.4.238; envelope-from=dme@dme.org;
+ helo=forward4-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,83 +86,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Michael Roth <michael.roth@amd.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, babu.moger@amd.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jun 25, 2021 at 11:52:10AM +0300, Denis Plotnikov wrote:
-> On vhost-user-blk migration, qemu normally sends a number of commands
-> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
-> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
-> VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
-> data logging.
-> The issue is that qemu doesn't wait for reply from the vhost daemon
-> for these commands which may result in races between qemu expectation
-> of logging starting and actual login starting in vhost daemon.
+On Tuesday, 2021-07-06 at 18:09:42 -07, Richard Henderson wrote:
 
-Could you be more explicit please? What kind of race have you
-observed? Getting a reply slows down the setup considerably and
-should not be done lightly.
+> On 7/5/21 3:46 AM, David Edmondson wrote:
+>> Given that TCG is now the only consumer of X86XSaveArea, move the
+>> structure definition and associated offset declarations and checks to a
+>> TCG specific header.
+>> 
+>> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+>> ---
+>>   target/i386/cpu.h            | 57 ------------------------------------
+>>   target/i386/tcg/fpu_helper.c |  1 +
+>>   target/i386/tcg/tcg-cpu.h    | 57 ++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 58 insertions(+), 57 deletions(-)
+>> 
+>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+>> index 96b672f8bd..0f7ddbfeae 100644
+>> --- a/target/i386/cpu.h
+>> +++ b/target/i386/cpu.h
+>> @@ -1305,48 +1305,6 @@ typedef struct XSavePKRU {
+>>       uint32_t padding;
+>>   } XSavePKRU;
+>>   
+>> -#define XSAVE_FCW_FSW_OFFSET    0x000
+>> -#define XSAVE_FTW_FOP_OFFSET    0x004
+>> -#define XSAVE_CWD_RIP_OFFSET    0x008
+>> -#define XSAVE_CWD_RDP_OFFSET    0x010
+>> -#define XSAVE_MXCSR_OFFSET      0x018
+>> -#define XSAVE_ST_SPACE_OFFSET   0x020
+>> -#define XSAVE_XMM_SPACE_OFFSET  0x0a0
+>> -#define XSAVE_XSTATE_BV_OFFSET  0x200
+>> -#define XSAVE_AVX_OFFSET        0x240
+>> -#define XSAVE_BNDREG_OFFSET     0x3c0
+>> -#define XSAVE_BNDCSR_OFFSET     0x400
+>> -#define XSAVE_OPMASK_OFFSET     0x440
+>> -#define XSAVE_ZMM_HI256_OFFSET  0x480
+>> -#define XSAVE_HI16_ZMM_OFFSET   0x680
+>> -#define XSAVE_PKRU_OFFSET       0xa80
+>> -
+>> -typedef struct X86XSaveArea {
+>> -    X86LegacyXSaveArea legacy;
+>> -    X86XSaveHeader header;
+>> -
+>> -    /* Extended save areas: */
+>> -
+>> -    /* AVX State: */
+>> -    XSaveAVX avx_state;
+>> -
+>> -    /* Ensure that XSaveBNDREG is properly aligned. */
+>> -    uint8_t padding[XSAVE_BNDREG_OFFSET
+>> -                    - sizeof(X86LegacyXSaveArea)
+>> -                    - sizeof(X86XSaveHeader)
+>> -                    - sizeof(XSaveAVX)];
+>> -
+>> -    /* MPX State: */
+>> -    XSaveBNDREG bndreg_state;
+>> -    XSaveBNDCSR bndcsr_state;
+>> -    /* AVX-512 State: */
+>> -    XSaveOpmask opmask_state;
+>> -    XSaveZMM_Hi256 zmm_hi256_state;
+>> -    XSaveHi16_ZMM hi16_zmm_state;
+>> -    /* PKRU State: */
+>> -    XSavePKRU pkru_state;
+>> -} X86XSaveArea;
+>> -
+>>   QEMU_BUILD_BUG_ON(sizeof(XSaveAVX) != 0x100);
+>>   QEMU_BUILD_BUG_ON(sizeof(XSaveBNDREG) != 0x40);
+>>   QEMU_BUILD_BUG_ON(sizeof(XSaveBNDCSR) != 0x40);
+>> @@ -1355,21 +1313,6 @@ QEMU_BUILD_BUG_ON(sizeof(XSaveZMM_Hi256) != 0x200);
+>>   QEMU_BUILD_BUG_ON(sizeof(XSaveHi16_ZMM) != 0x400);
+>>   QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
+>>   
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fcw) != XSAVE_FCW_FSW_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.ftw) != XSAVE_FTW_FOP_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpip) != XSAVE_CWD_RIP_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpdp) != XSAVE_CWD_RDP_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.mxcsr) != XSAVE_MXCSR_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpregs) != XSAVE_ST_SPACE_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.xmm_regs) != XSAVE_XMM_SPACE_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, avx_state) != XSAVE_AVX_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndreg_state) != XSAVE_BNDREG_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndcsr_state) != XSAVE_BNDCSR_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, opmask_state) != XSAVE_OPMASK_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, zmm_hi256_state) != XSAVE_ZMM_HI256_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, hi16_zmm_state) != XSAVE_HI16_ZMM_OFFSET);
+>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, pkru_state) != XSAVE_PKRU_OFFSET);
+>> -
+>>   typedef struct ExtSaveArea {
+>>       uint32_t feature, bits;
+>>       uint32_t offset, size;
+>> diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+>> index 4e11965067..74bbe94b80 100644
+>> --- a/target/i386/tcg/fpu_helper.c
+>> +++ b/target/i386/tcg/fpu_helper.c
+>> @@ -20,6 +20,7 @@
+>>   #include "qemu/osdep.h"
+>>   #include <math.h>
+>>   #include "cpu.h"
+>> +#include "tcg-cpu.h"
+>>   #include "exec/helper-proto.h"
+>>   #include "fpu/softfloat.h"
+>>   #include "fpu/softfloat-macros.h"
+>> diff --git a/target/i386/tcg/tcg-cpu.h b/target/i386/tcg/tcg-cpu.h
+>> index 36bd300af0..53a8494455 100644
+>> --- a/target/i386/tcg/tcg-cpu.h
+>> +++ b/target/i386/tcg/tcg-cpu.h
+>> @@ -19,6 +19,63 @@
+>>   #ifndef TCG_CPU_H
+>>   #define TCG_CPU_H
+>>   
+>> +#define XSAVE_FCW_FSW_OFFSET    0x000
+>> +#define XSAVE_FTW_FOP_OFFSET    0x004
+>> +#define XSAVE_CWD_RIP_OFFSET    0x008
+>> +#define XSAVE_CWD_RDP_OFFSET    0x010
+>> +#define XSAVE_MXCSR_OFFSET      0x018
+>> +#define XSAVE_ST_SPACE_OFFSET   0x020
+>> +#define XSAVE_XMM_SPACE_OFFSET  0x0a0
+>> +#define XSAVE_XSTATE_BV_OFFSET  0x200
+>> +#define XSAVE_AVX_OFFSET        0x240
+>> +#define XSAVE_BNDREG_OFFSET     0x3c0
+>> +#define XSAVE_BNDCSR_OFFSET     0x400
+>> +#define XSAVE_OPMASK_OFFSET     0x440
+>> +#define XSAVE_ZMM_HI256_OFFSET  0x480
+>> +#define XSAVE_HI16_ZMM_OFFSET   0x680
+>> +#define XSAVE_PKRU_OFFSET       0xa80
+>> +
+>> +typedef struct X86XSaveArea {
+>> +    X86LegacyXSaveArea legacy;
+>> +    X86XSaveHeader header;
+>> +
+>> +    /* Extended save areas: */
+>> +
+>> +    /* AVX State: */
+>> +    XSaveAVX avx_state;
+>> +
+>> +    /* Ensure that XSaveBNDREG is properly aligned. */
+>> +    uint8_t padding[XSAVE_BNDREG_OFFSET
+>> +                    - sizeof(X86LegacyXSaveArea)
+>> +                    - sizeof(X86XSaveHeader)
+>> +                    - sizeof(XSaveAVX)];
+>> +
+>> +    /* MPX State: */
+>> +    XSaveBNDREG bndreg_state;
+>> +    XSaveBNDCSR bndcsr_state;
+>> +    /* AVX-512 State: */
+>> +    XSaveOpmask opmask_state;
+>> +    XSaveZMM_Hi256 zmm_hi256_state;
+>> +    XSaveHi16_ZMM hi16_zmm_state;
+>> +    /* PKRU State: */
+>> +    XSavePKRU pkru_state;
+>> +} X86XSaveArea;
+>> +
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fcw) != XSAVE_FCW_FSW_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.ftw) != XSAVE_FTW_FOP_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpip) != XSAVE_CWD_RIP_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpdp) != XSAVE_CWD_RDP_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.mxcsr) != XSAVE_MXCSR_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpregs) != XSAVE_ST_SPACE_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.xmm_regs) != XSAVE_XMM_SPACE_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, avx_state) != XSAVE_AVX_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndreg_state) != XSAVE_BNDREG_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndcsr_state) != XSAVE_BNDCSR_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, opmask_state) != XSAVE_OPMASK_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, zmm_hi256_state) != XSAVE_ZMM_HI256_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, hi16_zmm_state) != XSAVE_HI16_ZMM_OFFSET);
+>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, pkru_state) != XSAVE_PKRU_OFFSET);
+>
+> My only quibble is that these offsets are otherwise unused.  This just becomes validation 
+> of compiler layout.
 
-Thanks!
+Yes.
 
-> To resolve this issue, this patch makes qemu wait for the commands result
-> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
-> Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
-> command to make the features setting functions work similary.
-> 
-> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-> ---
->  hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> index ee57abe04526..e47b82adab00 100644
-> --- a/hw/virtio/vhost-user.c
-> +++ b/hw/virtio/vhost-user.c
-> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->          .hdr.size = sizeof(msg.payload.addr),
->      };
->  
-> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
-> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-> +    if (reply_supported) {
-> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-> +    }
-> +
->      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->          return -1;
->      }
->  
-> +    if (reply_supported) {
-> +        return process_message_reply(dev, &msg);
-> +    }
-> +
->      return 0;
->  }
->  
-> @@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
->          .hdr.size = sizeof(msg.payload.u64),
->      };
->  
-> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
-> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-> +    if (reply_supported) {
-> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-> +    }
-> +
->      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->          return -1;
->      }
->  
-> +    if (reply_supported) {
-> +        return process_message_reply(dev, &msg);
-> +    }
-> +
->      return 0;
->  }
->  
-> -- 
-> 2.25.1
+> I presume that XSAVE_BNDREG_OFFSET is not merely ROUND_UP(offsetof(avx_state) + 
+> sizeof(avx_state), some_pow2)?
 
+The offsets were just extracted from a CPU at some point in the
+past. It's likely that things are as you describe, but that is not
+defined anywhere.
+
+> Do these offsets need to be migrated?  Otherwise, how can one start a vm with kvm and then 
+> migrate to tcg?  I presume the offsets above are constant for a given cpu, and that 
+> whatever cpu provides different offsets is not supported by tcg?  Given the lack of avx, 
+> that's trivial these days...
+
+For TCG I think that the offsets used should be derived from the CPU
+model selected, rather than being the same for all CPU models.
+
+If that was done, then in principle it should be possible to migrate
+XSAVE state between same CPU model KVM and TCG environments.
+
+dme.
+-- 
+Tonight I'm gonna bury that horse in the ground.
 
