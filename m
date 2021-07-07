@@ -2,58 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126C63BE61B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:03:37 +0200 (CEST)
-Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E863BE625
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:07:39 +0200 (CEST)
+Received: from localhost ([::1]:44506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m14P2-0000z1-4B
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
+	id 1m14Sw-0002Pl-HY
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m14OA-0000AV-IP
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:02:42 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50586
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m14OA-0000Ac-SN; Wed, 07 Jul 2021 06:02:42 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:55201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m14O7-0005gK-Iw
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:02:42 -0400
-Received: from host86-145-86-170.range86-145.btcentralplus.com
- ([86.145.86.170] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m14O2-000CSb-HA; Wed, 07 Jul 2021 11:02:35 +0100
-To: Finn Thain <fthain@linux-m68k.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210705214929.17222-1-mark.cave-ayland@ilande.co.uk>
- <20210705214929.17222-2-mark.cave-ayland@ilande.co.uk>
- <49104070-ee40-3bcf-f043-225f247a1de7@linux-m68k.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <7b74db54-6afd-d20c-bd10-85bb6c3621cc@ilande.co.uk>
-Date: Wed, 7 Jul 2021 11:02:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m14O8-0005gT-N9; Wed, 07 Jul 2021 06:02:42 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 64A9F5C0131;
+ Wed,  7 Jul 2021 06:02:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 07 Jul 2021 06:02:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=PPIbKszdVwTKS7BB6fK6SBdoL9/
+ tZAsRbDWynaeeoZ4=; b=XjnTyPMIWTgV1AxN3CRZjrVY2O2yYic1T5PKpr2ok5b
+ uFhGXcrJtzwVxJORDI09zEXBAJWRO7FidDh5XZ/HPf4ofeOsej+qrwlvpRmaz36/
+ +Gwjh+HmVWLugRhQzPgI+aAa2ghvwcM9iM7iO7FhyfCauhIpvMa6j5DSZWoKSyYq
+ sGvC2HDikKPDQzL5RXFKOnHXhaY3Ht+ZK4Cub6OVRgY+Y1TgtTg9wqaNZY7nCI0t
+ tzPTR/FU7c1Pqejs27/FqsKn33ZYEZe9zQtiKSi67UVOY1ZOSV6WBk28GsITjzc4
+ cV3h2FJh8l+SGNV2hECmk9pnfvSQk7ltY8I+p7BTX0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=PPIbKs
+ zdVwTKS7BB6fK6SBdoL9/tZAsRbDWynaeeoZ4=; b=bKBdA6fU65VZAW9+Bbp3UL
+ ex39lbOSQfoVHOTWUVAiIgjMeyzAX9G6F0QawOhJS0G9yMmhber9zU5YOcBEiPiO
+ wR3q3w1KtigOeF2h9MeJp4a8EOIGZ93Ziqh3bikVk4o2pKzmJCr/DD2p4XjSZTcd
+ YEqdU+SO7ffGMTMCbabEF5kme8wYYfwop8sJRoa+7MEKMd4uwMoAzUZQq2Z9+OtT
+ yDoVMYRpgbSVMso2B2lVpXYaYsJ5c+puUrZfYeHjcPP2McvGzeaZ6XTJnRcdfyjC
+ oYpFaazbEp0qvSfKiZTnOltCiEcA+Z1pTd270IBa+x3f32v2+ioE2js4EnTZ2vSA
+ ==
+X-ME-Sender: <xms:vnvlYKHFVlI0g516tKpx_tSovW9SEUxatnoK2OXbd_rOW7xBxM_2iQ>
+ <xme:vnvlYLXn4ho8kp3PfZfiMe4GpOU5d7Y5wQhxKcUo2qKKDvIsVtLN9VD3mrX_xOFgr
+ 8DRekfdFUmINLgFCik>
+X-ME-Received: <xmr:vnvlYEKeBdeeyMaJ-TyylFd0XMc2yz3NSNipdeWGHjgyQQ3jHpnPQtbSKVZqIC-ssKaDraxnrGrZ8prduTJLWXDJ-LU5pnpH_YEu_JSysozUHvMVKA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddvudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:vnvlYEEaT_9rQAdUzli1wchKSq8iLdPbfxN242NC6UB1qa_6JZmOhQ>
+ <xmx:vnvlYAVYdJQ_2jrhKTYWX8GptMUvkrK7dlJ0IvoNSGDlEKqi5X4YpA>
+ <xmx:vnvlYHOUILinL9aSxD8jhkgQNkgR56Igec3c63P8Xbx207oJRM1GGQ>
+ <xmx:v3vlYOxZG59HJfZNCrLc_yT2gBvjkHdhltBd3xdtG9XkOhI1o-ZmFA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jul 2021 06:02:37 -0400 (EDT)
+Date: Wed, 7 Jul 2021 12:02:35 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 4/4] hw/nvme: fix controller hot unplugging
+Message-ID: <YOV7uzejwmV9pT11@apples.localdomain>
+References: <20210706093358.1036387-1-its@irrelevant.dk>
+ <20210706093358.1036387-5-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <49104070-ee40-3bcf-f043-225f247a1de7@linux-m68k.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.145.86.170
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/4] dp8393x: don't force 32-bit register access
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Tv8xOeKVrr0EfKJ2"
+Content-Disposition: inline
+In-Reply-To: <20210706093358.1036387-5-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,106 +93,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ Hannes Reinecke <hare@suse.de>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/07/2021 00:51, Finn Thain wrote:
 
-> On Mon, 5 Jul 2021, Mark Cave-Ayland wrote:
-> 
->> Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" set .impl.min_access_size
->> and .impl.max_access_size to 4 to try and fix the Linux jazzsonic driver which uses
->> 32-bit accesses.
->>
->> The problem with forcing the register access to 32-bit in this way is that since the
->> dp8393x uses 16-bit registers, a manual endian swap is required for devices on big
->> endian machines with 32-bit accesses.
->>
->> For both access sizes and machine endians the QEMU memory API can do the right thing
->> automatically: all that is needed is to set .impl.min_access_size to 2 to declare that
->> the dp8393x implements 16-bit registers.
->>
->> Normally .impl.max_access_size should also be set to 2, however that doesn't quite
->> work in this case since the register stride is specified using a (dynamic) it_shift
->> property which is applied during the MMIO access itself. The effect of this is that
->> for a 32-bit access the memory API performs 2 x 16-bit accesses, but the use of
->> it_shift within the MMIO access itself causes the register value to be repeated in both
->> the top 16-bits and bottom 16-bits. The Linux jazzsonic driver expects the stride to be
->> zero-extended up to access size and therefore fails to correctly detect the dp8393x
->> device due to the extra data in the top 16-bits.
->>
->> The solution here is to remove .impl.max_access_size so that the memory API will
->> correctly zero-extend the 16-bit registers to the access size up to and including
->> it_shift. Since it_shift is never greater than 2 than this will always do the right
->> thing for both 16-bit and 32-bit accesses regardless of the machine endian, allowing
->> the manual endian swap code to be removed.
->>
-> 
-> IIUC, this patch replaces an explicit word swap with an implicit byte
-> swap. The explicit word swap was conditional on the big_endian flag.
-> 
-> This flag seems to work like the chip's BMODE pin which switches between
-> Intel and Motorola bus modes (not just byte ordering but bus signalling in
-> general). The BMODE pin or big_endian flag should effect a byte swap not a
-> word swap so there must be a bug though it's not clear how that manifests.
-> 
-> Regardless of this patch, the big_endian flag also controls byte swapping
-> during DMA by the device. IIUC, the flag is set to indicate that RAM is
-> big_endian, so it's not actually a property of the dp8393x but of the
-> RAM...
-> 
-> The Magnum hardware can run in big endian or little endian mode. But the
-> SONIC chip must remain in little endian mode always because asserting
-> BMODE would invoke Motorola signalling and that would contradict
-> Philippe's datasheet which says that the SONIC device is attached to an
-> "i386 compatible bus".
-> 
-> This seems contrary to mips_jazz_init(), which sets the dp8393x big_endian
-> flag whenever TARGET_WORDS_BIGENDIAN is defined, i.e. risc/os guest.
-> 
-> QEMU's dp8393x device has native endianness, so perhaps a big endian guest
-> or a big endian host could trigger the bug that's being addressed in this
-> patch.
-> 
-> Anyway, I think that this patch is heading in the right direction but
-> can't it go further? Shouldn't the big_endian flag disappear altogether so
-> that the memory API can also take care of the byte swapping needed by
-> dp8393x_get() and dp8393x_put() for DMA?
+--Tv8xOeKVrr0EfKJ2
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Currently in QEMU the dp8393x device is connected directly to the system bus i.e. in 
-effect the CPU. The CPU issues either a big-endian or little-endian access, the 
-device declares what it would like to receive, and the memory API handles all the 
-intermediate layers. In this case DEVICE_NATIVE_ENDIAN specifies it expects to 
-receive accesses in the same endian as the machine and so everything "just works".
+On Jul  6 11:33, Klaus Jensen wrote:
+>From: Klaus Jensen <k.jensen@samsung.com>
+>
+>Prior to this patch the nvme-ns devices are always children of the
+>NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
+>unrealized when the parent device is removed. However, when subsystems
+>are involved, this is not what we want since the namespaces may be
+>attached to other controllers as well.
+>
+>This patch adds an additional NvmeBus on the subsystem device. When
+>nvme-ns devices are realized, if the parent controller device is linked
+>to a subsystem, the parent bus is set to the subsystem one instead. This
+>makes sure that namespaces are kept alive and not unrealized.
+>
+>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>---
+> hw/nvme/nvme.h   | 18 ++++++++++--------
+> hw/nvme/ctrl.c   |  8 +++++---
+> hw/nvme/ns.c     | 32 +++++++++++++++++++++++++-------
+> hw/nvme/subsys.c |  4 ++++
+> 4 files changed, 44 insertions(+), 18 deletions(-)
+>
+>diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>index c4065467d877..9401e212f9f7 100644
+>--- a/hw/nvme/nvme.h
+>+++ b/hw/nvme/nvme.h
+>@@ -33,12 +33,21 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROA=
+DCAST - 1);
+> typedef struct NvmeCtrl NvmeCtrl;
+> typedef struct NvmeNamespace NvmeNamespace;
+>
+>+#define TYPE_NVME_BUS "nvme-bus"
+>+OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
+>+
+>+typedef struct NvmeBus {
+>+    BusState parent_bus;
+>+    bool     is_subsys;
+>+} NvmeBus;
+>+
+> #define TYPE_NVME_SUBSYS "nvme-subsys"
+> #define NVME_SUBSYS(obj) \
+>     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
+>
+> typedef struct NvmeSubsystem {
+>     DeviceState parent_obj;
+>+    NvmeBus     bus;
+>     uint8_t     subnqn[256];
+>
+>     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+>@@ -365,13 +374,6 @@ typedef struct NvmeCQueue {
+>     QTAILQ_HEAD(, NvmeRequest) req_list;
+> } NvmeCQueue;
+>
+>-#define TYPE_NVME_BUS "nvme-bus"
+>-#define NVME_BUS(obj) OBJECT_CHECK(NvmeBus, (obj), TYPE_NVME_BUS)
+>-
+>-typedef struct NvmeBus {
+>-    BusState parent_bus;
+>-} NvmeBus;
+>-
+> #define TYPE_NVME "nvme"
+> #define NVME(obj) \
+>         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+>@@ -463,7 +465,7 @@ typedef struct NvmeCtrl {
+>
+> static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+> {
+>-    if (!nsid || nsid > NVME_MAX_NAMESPACES) {
+>+    if (!n || !nsid || nsid > NVME_MAX_NAMESPACES) {
+>         return NULL;
+>     }
+>
+>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>index 90e3ee2b70ee..7c8fca36d9a5 100644
+>--- a/hw/nvme/ctrl.c
+>+++ b/hw/nvme/ctrl.c
+>@@ -6516,11 +6516,13 @@ static void nvme_exit(PCIDevice *pci_dev)
+>
+>     for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
+>         ns =3D nvme_ns(n, i);
+>-        if (!ns) {
+>-            continue;
+>+        if (ns) {
+>+            ns->attached--;
+>         }
+>+    }
+>
+>-        nvme_ns_cleanup(ns);
+>+    if (n->subsys) {
+>+        nvme_subsys_unregister_ctrl(n->subsys, n);
+>     }
+>
+>     if (n->subsys) {
+>diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+>index 3c4f5b8c714a..612a2786d75d 100644
+>--- a/hw/nvme/ns.c
+>+++ b/hw/nvme/ns.c
+>@@ -444,13 +444,29 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
+> static void nvme_ns_realize(DeviceState *dev, Error **errp)
+> {
+>     NvmeNamespace *ns =3D NVME_NS(dev);
+>-    BusState *s =3D qdev_get_parent_bus(dev);
+>-    NvmeCtrl *n =3D NVME(s->parent);
+>-    NvmeSubsystem *subsys =3D n->subsys;
+>+    BusState *qbus =3D qdev_get_parent_bus(dev);
+>+    NvmeBus *bus =3D NVME_BUS(qbus);
+>+    NvmeCtrl *n =3D NULL;
+>+    NvmeSubsystem *subsys =3D NULL;
+>     uint32_t nsid =3D ns->params.nsid;
+>     int i;
+>
+>-    if (!n->subsys) {
+>+    if (bus->is_subsys) {
+>+        subsys =3D NVME_SUBSYS(qbus->parent);
+>+    } else {
+>+        n =3D NVME(qbus->parent);
+>+        subsys =3D n->subsys;
+>+    }
 
-For this reason MMIO accesses generally shouldn't need any explicit byte swapping: if 
-you're doing this then it's a good indicator that something is wrong. There are some 
-special cases around for things like virtio, but we can ignore those for now.
+So, I realized that this if is not needed, since the device will always=20
+attach to the bus from the nvme device, never the 'fake' one from the=20
+subsystem.
 
-The dp8393x_get() and dp8393x_put() functions are for bus master accesses from the 
-device to the RAM, and these accesses are controlled by the "big_endian" property and 
-the DW bit. As you point out the "big_endian" property is effectively the BMODE bit: 
-in my datasheet I see nothing about this pin changing the signalling, only that it 
-affects the byte ordering for RAM accesses.
+>+
+>+    if (subsys) {
+>+        /*
+>+         * If this namespace belongs to a subsystem (through a link on the
+>+         * controller device), reparent the device.
+>+         */
+>+        if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
+>+            return;
+>+        }
+>+    } else {
+>         if (ns->params.detached) {
+>             error_setg(errp, "detached requires that the nvme device is "
+>                        "linked to an nvme-subsys device");
+>@@ -470,7 +486,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **=
+errp)
+>
+>     if (!nsid) {
+>         for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
+>-            if (nvme_ns(n, i) || nvme_subsys_ns(subsys, i)) {
+>+            if (nvme_subsys_ns(subsys, i) || nvme_ns(n, i)) {
+>                 continue;
+>             }
+>
+>@@ -483,7 +499,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **=
+errp)
+>             return;
+>         }
+>     } else {
+>-        if (nvme_ns(n, nsid) || nvme_subsys_ns(subsys, nsid)) {
+>+        if (nvme_subsys_ns(subsys, nsid) || nvme_ns(n, nsid)) {
+>             error_setg(errp, "namespace id '%d' already allocated", nsid);
+>             return;
+>         }
+>@@ -509,7 +525,9 @@ static void nvme_ns_realize(DeviceState *dev, Error **=
+errp)
+>         }
+>     }
+>
+>-    nvme_attach_ns(n, ns);
+>+    if (n) {
+>+        nvme_attach_ns(n, ns);
+>+    }
+> }
+>
+> static Property nvme_ns_props[] =3D {
+>diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+>index 92caa604a280..fb7c3a7c55fc 100644
+>--- a/hw/nvme/subsys.c
+>+++ b/hw/nvme/subsys.c
+>@@ -50,6 +50,10 @@ static void nvme_subsys_realize(DeviceState *dev, Error=
+ **errp)
+> {
+>     NvmeSubsystem *subsys =3D NVME_SUBSYS(dev);
+>
+>+    qbus_create_inplace(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev,
+>+                        dev->id);
+>+    subsys->bus.is_subsys =3D true;
+>+
+>     nvme_subsys_setup(subsys);
+> }
+>
+>--=20
+>2.32.0
+>
+>
 
-Now it is highly likely that the BMODE bit should match the target endian, in which 
-case we could eliminate the "big_endian" property as you suggest. However this 
-conflicts with what you mention above that the SONIC is hard-coded into little-endian 
-mode, in which case we would still need to keep it.
+--Tv8xOeKVrr0EfKJ2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I've sent a fix for the CAP registers, but other than that I'm happy that the first 
-patchset works fine here, and the consolidation of most of the endian swaps is a good 
-tidy-up. If this works for you then I suggest we merge the first patchset including 
-the CAP fix in time for freeze next week and go from there.
+-----BEGIN PGP SIGNATURE-----
 
-Certainly we can look to improve things in the future, but without anyone having a 
-working big-endian MIPS image to test against, I don't think it's worth guessing what 
-changes are required as we can easily double the length of this thread and still have 
-no idea if any changes we've made are correct.
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDle7kACgkQTeGvMW1P
+DekNrAf/RCJ8N6pvTVx/9x0ET/D93PNY442yX5F/WIHQDDPnOsNiBp5OuTyZoy9q
+80dsu6CxtUL8fB1BF6Jwmd8fiVNHp3/gW22U+l4mGLYOKQhXdAg19PDiekmXfP7f
+WI44Nm2vEwqCjY2Ff8CBNVhRtxxaQqsZ9ZOfswGjbfZ47PY04DCuTLw1jxoYBPx8
+0papd7Jyfzdbf8l9SRkNZUom9/CeBnSU8cPlQJjV+kIaQXrYX6t9eI0r3sHClb16
+birug+ezF8SyTwjnFIu1wzy98n1cJOJDIFx4t/YbGaWK1La3JKNb2BE9+Ijm3CWE
+UF3vPNbDEZTknCA3Bk3CCgqIyHYYTQ==
+=D4Rz
+-----END PGP SIGNATURE-----
 
-
-ATB,
-
-Mark.
+--Tv8xOeKVrr0EfKJ2--
 
