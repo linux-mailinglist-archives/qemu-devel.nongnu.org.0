@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C385D3BE054
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:38:29 +0200 (CEST)
-Received: from localhost ([::1]:38358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D0F3BE055
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:39:49 +0200 (CEST)
+Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0va8-0001rM-PZ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60660)
+	id 1m0vbQ-0003I0-3I
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1m0vVW-0004nt-7p; Tue, 06 Jul 2021 20:33:42 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37452)
+ id 1m0vVZ-0004rr-PN; Tue, 06 Jul 2021 20:33:49 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:34417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1m0vVT-0001PS-Ts; Tue, 06 Jul 2021 20:33:42 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id 17so623343pfz.4;
- Tue, 06 Jul 2021 17:33:39 -0700 (PDT)
+ id 1m0vVX-0001QZ-Ds; Tue, 06 Jul 2021 20:33:45 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso2516179pjx.1; 
+ Tue, 06 Jul 2021 17:33:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R4QKEhIXYz4bPh2oxMeDqNLW7Ym0Fnk9LSFZ9G/1Tbc=;
- b=juTuJniVdj+qfyLWq2mBHWTi5iklikIA8b8utwauAUT5ujnHb0VXdDf2rGPBUEDkXX
- ZX2ERdu817wn3DiEL5Kv1Oa4DQ4/tPli3nV6P1zjYdD4KhN2GkC5WzozhvaGTc8heW67
- vVFdGLJ8bnv2gCS6tBQtAyhoyJG2fRE11RW8NYiAmDhEv06m/iayYMTGokWYtOaJDqHz
- m3k7ClYV59/N23t6axh74KiE5/DTc22VWwXx3piWoKegy39PCpfgXJygLVrGP5B/rlik
- m5YfXwr40CzdIF4P2GugJOOOaatWgvVSxurklp4afRrqKIOo5XFl8eAwrNuYzdUcMwyd
- oqBg==
+ bh=1QTX+UnLiIoOH0MxdsoyMTOCoon+Kk8iQXgj5XX0WP8=;
+ b=NpoK06rJrNpaj04ghKrb9gAmDiGdoCFm73jiGaQ+jyho8TGOsITaM44mHh0B4HW3CV
+ qY4uIHUcdG2cOHriC5ZtzaoXE+9U58Z731NnnMdRpejQcDgxcn5ddpvNksfdOFF8b8Wy
+ UhZWEBbtadhb1mB31iLfr3tu21mTWyvGwjYKCewNUrNIF4A3GVX9R4Fq6qJWqYo+SUt0
+ kef/bzBiCFPOnv9wTF49v06JIxCBc9ctS07pTd/a/cflMdCJcAfcXjtobkuLkUNaiJfC
+ pT1adzHJDi2hyOz4C5WzUgr2uYmIF95ZBQ2naEdtpbuFZ7DD+ff/70s4IIDzUeXwgwhI
+ pZhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R4QKEhIXYz4bPh2oxMeDqNLW7Ym0Fnk9LSFZ9G/1Tbc=;
- b=DbmrOzFMds0OGvv7X1qw/BUmQzpY0Do6xyy7mvFrUEHA1HdaY8c2FrY4N5dkXCS1gh
- t1A9ey0FyiWXLhZhsXnN4hmBzXXhI0J+XL3No7iRXQP7Mu+bRbH+TJXurst7+XLzq/LF
- IPEw7usWGzI3TKiPslHsIRZEr4qqpzCKdWeGmpG7UkzCvNvqn8h7mR7V1lBOJeylX9/c
- qglH0HL2nXl8nNbH1ejlXgFkPhn0dhBV6AAd9PVXsvjy7JRe4K+wKi+28BJAY67G8W7r
- MzxhvrpsTQ7wNaDFMFyIguTIjkNydno4qG1IVK43zt9JEbakoSHemH4EE8DJM913i09W
- 8ftQ==
-X-Gm-Message-State: AOAM531zoRBYxXQ2X74KsJH7NM74YFjDf0X5LN4KWPEe1y/fgP/dzDgm
- 1+CWphRaCC0H1aWePPxmKei7fbg7jgQOcw==
-X-Google-Smtp-Source: ABdhPJwjgIXae/saa9m81FWcim3E5tKS/u2qqo8vWQGt9dq5KMXumQt0OqgWdQ14Gtb+YreL3yUr8A==
-X-Received: by 2002:a63:d014:: with SMTP id z20mr23346943pgf.203.1625618018268; 
- Tue, 06 Jul 2021 17:33:38 -0700 (PDT)
+ bh=1QTX+UnLiIoOH0MxdsoyMTOCoon+Kk8iQXgj5XX0WP8=;
+ b=PBGh1p+LGfBN8cPIl5mCaNQA3ux/hjYe3z7IQMrd8qdocGjefZWw0bFmnZI5edYOe5
+ C8sjuK0YcGlVGVuo54d2KJjz/bTUJ9MezkbUrM/Uez5j03jdEUCuHI371sVSwRTo2XVZ
+ 3qbO9WGIjtJo4HqN27VVhO6AdECsb8IZRPP8yBSWX5jjIcyjyu6z1DgL7IdAqT4aytmP
+ ogrQmxk/COpfvIq0hHjqwkmFeSSTqzVtNZfL3Nvic+xJ3OjX+QBkumcqeSfcJHmJwBtK
+ BZYZGW1sYrOYK6mzSa1MopLK/pYk0uKIk/mak7GGVnZKBEyxc+KJ+KsQdAf/151dpKqb
+ ZsrA==
+X-Gm-Message-State: AOAM530cQEH+Sl1H7Qz94RviWEh7ccLadJHdcmoSvUXV40xpHt4YFy3d
+ qqemQL+UTvPXxGlG7ELKIcydA6hwbTn2vg==
+X-Google-Smtp-Source: ABdhPJz8o1LLY14dN/caHAP+wI8/rWnH+eAso8H7xWWdwypbE8j09jVXP47L2ZQvJXxl2RRdU5Ov0Q==
+X-Received: by 2002:a17:90a:e649:: with SMTP id
+ ep9mr3019612pjb.9.1625618021644; 
+ Tue, 06 Jul 2021 17:33:41 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:7611:b123:7cbc:3065:30b1])
- by smtp.gmail.com with ESMTPSA id co12sm4004871pjb.33.2021.07.06.17.33.35
+ by smtp.gmail.com with ESMTPSA id co12sm4004871pjb.33.2021.07.06.17.33.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 17:33:38 -0700 (PDT)
+ Tue, 06 Jul 2021 17:33:41 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/3] spapr: use DEVICE_UNPLUG_ERROR to report unplug errors
-Date: Tue,  6 Jul 2021 21:33:13 -0300
-Message-Id: <20210707003314.37110-3-danielhb413@gmail.com>
+Subject: [PATCH v4 3/3] memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
+ acpi_memory_hotplug_write()
+Date: Tue,  6 Jul 2021 21:33:14 -0300
+Message-Id: <20210707003314.37110-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210707003314.37110-1-danielhb413@gmail.com>
 References: <20210707003314.37110-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=danielhb413@gmail.com; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=danielhb413@gmail.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -81,98 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, armbru@redhat.com,
- groug@kaod.org, qemu-ppc@nongnu.org, eblake@redhat.com,
- david@gibson.dropbear.id.au
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, armbru@redhat.com,
+ groug@kaod.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ eblake@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux Kernel 5.12 is now unisolating CPU DRCs in the device_removal
-error path, signalling that the hotunplug process wasn't successful.
-This allow us to send a DEVICE_UNPLUG_ERROR in drc_unisolate_logical()
-to signal this error to the management layer.
+MEM_UNPLUG_ERROR is deprecated since the introduction of
+DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
+MEM_UNPLUG_ERROR is pending.
 
-We also have another error path in spapr_memory_unplug_rollback() for
-configured LMB DRCs. Kernels older than 5.13 will not unisolate the LMBs
-in the hotunplug error path, but it will reconfigure them. Let's send
-the DEVICE_UNPLUG_ERROR event in that code path as well to cover the
-case of older kernels.
-
+CC: Michael S. Tsirkin <mst@redhat.com>
+CC: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c     |  8 ++++++++
- hw/ppc/spapr_drc.c | 15 +++++++++------
- 2 files changed, 17 insertions(+), 6 deletions(-)
+ hw/acpi/memory_hotplug.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4dd90b75cc..fc071a1767 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -29,6 +29,7 @@
- #include "qemu/datadir.h"
+diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+index af37889423..fb9f4d2de7 100644
+--- a/hw/acpi/memory_hotplug.c
++++ b/hw/acpi/memory_hotplug.c
+@@ -8,6 +8,7 @@
  #include "qapi/error.h"
+ #include "qapi/qapi-events-acpi.h"
  #include "qapi/qapi-events-machine.h"
 +#include "qapi/qapi-events-qdev.h"
- #include "qapi/visitor.h"
- #include "sysemu/sysemu.h"
- #include "sysemu/hostmem.h"
-@@ -3641,7 +3642,14 @@ void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
-      */
-     qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
-                                  "for device %s", dev->id);
-+
-+    /*
-+     * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
-+     * while the deprecation of MEM_UNPLUG_ERROR is
-+     * pending.
-+     */
-     qapi_event_send_mem_unplug_error(dev->id, qapi_error);
-+    qapi_event_send_device_unplug_error(dev->id, qapi_error);
- }
  
- /* Callback to be called during DRC release. */
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index a2f2634601..45a7b1aa16 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -17,6 +17,8 @@
- #include "hw/ppc/spapr_drc.h"
- #include "qom/object.h"
- #include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-events-qdev.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
- #include "hw/ppc/spapr.h" /* for RTAS return codes */
-@@ -160,6 +162,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
-          * means that the kernel is refusing the removal.
-          */
-         if (drc->unplug_requested && drc->dev) {
-+            const char qapi_error_fmt[] = "Device hotunplug rejected by the "
-+                                          "guest for device %s";
-+            g_autofree char *qapi_error = NULL;
+ #define MEMORY_SLOTS_NUMBER          "MDNR"
+ #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+@@ -177,9 +178,17 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
+             /* call pc-dimm unplug cb */
+             hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
+             if (local_err) {
++                const char *error_pretty = error_get_pretty(local_err);
 +
-             if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB) {
-                 spapr = SPAPR_MACHINE(qdev_get_machine());
- 
-@@ -167,13 +173,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+                 trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+-                qapi_event_send_mem_unplug_error(dev->id,
+-                                                 error_get_pretty(local_err));
++
++                /*
++                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
++                 * while the deprecation of MEM_UNPLUG_ERROR is
++                 * pending.
++                 */
++                qapi_event_send_mem_unplug_error(dev->id, error_pretty);
++                qapi_event_send_device_unplug_error(dev->id, error_pretty);
+                 error_free(local_err);
+                 break;
              }
- 
-             drc->unplug_requested = false;
--            error_report("Device hotunplug rejected by the guest "
--                         "for device %s", drc->dev->id);
-+            error_report(qapi_error_fmt, drc->dev->id);
- 
--            /*
--             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
--             * it is implemented.
--             */
-+            qapi_error = g_strdup_printf(qapi_error_fmt, drc->dev->id);
-+            qapi_event_send_device_unplug_error(drc->dev->id, qapi_error);
-         }
- 
-         return RTAS_OUT_SUCCESS; /* Nothing to do */
 -- 
 2.31.1
 
