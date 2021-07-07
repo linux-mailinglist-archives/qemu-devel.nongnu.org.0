@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E0B3BE0C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 04:11:13 +0200 (CEST)
-Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 673A83BE0D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 04:20:57 +0200 (CEST)
+Received: from localhost ([::1]:55770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0x1s-0006J0-KY
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 22:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
+	id 1m0xBH-0002jx-Tf
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 22:20:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0wzo-0004HZ-RP
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:09:04 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:37741)
+ id 1m0x95-00008K-FM
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:18:39 -0400
+Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:41480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0wzl-0000es-JM
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:09:04 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id a6so466887qka.4
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 19:09:01 -0700 (PDT)
+ id 1m0x8j-0001NU-VS
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:18:39 -0400
+Received: by mail-qk1-x72c.google.com with SMTP id j13so474033qka.8
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 19:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LXvQ0SaPTMV5jCaR3hdFzAiZekRi5YGsoyJErSSd5mw=;
- b=SA25Sj7P2HxoY6gNUzt6dnKfstQ3UONtrkVASNnsGNgo/HMMHj/JMAziVATJ/RfLrK
- qbCTuNh8N1LgMPK+Q4Jdy7Jogxvc2LV1CsEv65Ob4ueW9umCCBJD/H8dGcCkv1PHJ+P0
- wz0BrizZhqc34ke211+a+FWOZBBtc8kEkjodvNq//wAHjL/D00/6w2f9xG6/EXWNQm8o
- U4z/Py+glHD0+AHaFMgbj256EakSA8n7S+MbY72K7XU2kDwmXuHiA7iX3PfCZJiTK+Dk
- +t94Bsz2+cQsfQFmf3mSzQAroMfpllgQuczWm2+HNjoN/qIQucMjKjNqj9JIvcBBqSeO
- jjBQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LlfYE6GosY6ASC/rsUukB4KR+vpFhOf0HuSrLzk2U+g=;
+ b=XeBnAqjD/CnU+Gt0WuQYZsOAhGSxzVCOsOiqLbjUDarcmy/I8Xb6FxLl1Vr9Va45CU
+ 2H6pdWOrujbIg2hdD1KLwM5g/YT/u1kpnyEOhNQxJDonkbRAf+js79u40nzQTI3fBme1
+ 2uwvcHm+z8GD4wfR0Rb03uUzSNiYFsIf+NLCg/+OSKJq43qmfQzqVwdGNzuLQ6sH9L/q
+ obzTbt56hunJbuMfMaNTsKuMs0RdhMN2ebrdqi+QnyV+MNcMVMLlzl8fufxgnekdXQI8
+ bT6Lvv07z/UddhkQlSRpXVb/nuEet3XjMa9EL2CWpQ0piwYjznBYCsMBjdJN4mKBtdO+
+ da5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LXvQ0SaPTMV5jCaR3hdFzAiZekRi5YGsoyJErSSd5mw=;
- b=FzED/4kN9loAZWB3wfnBRsGPoN/ksEFAYf2WcqDQkvHV1fuzLobbFVxjcbzAMuenFz
- NbMMHicFnaTLZNU5lWSAn6gXI7Kt36IaE3BjXoKZC5ENuppCPNYpC7E7ZsBVunZaEOZ4
- f5gNDa7nmq1XUp99X1De847CiIlBKHixQx6+ni05mDDAJ6JcL2zOp4jamS76WqUsoN4o
- HMD2s7jPy/3Km7K6zfljfRYjik8icIBP2Kl8SrGXvV9DY7aNTSw43xtU2J4oOXmJCnh6
- F+LG3rQReYW1lZcQOYqmtzaEv7RqqHM0gx9SqtDVoph9qfP/Ju5/2CMTLuNCSwvKgnUI
- 1WeA==
-X-Gm-Message-State: AOAM532pPJfcnQE1zuPboEJHwSrJmBh6v4a45ncUSJJFP7kXyLXemYZe
- RxHsTWD11OUSk2b24wbaKMno5g==
-X-Google-Smtp-Source: ABdhPJwvgKpbygiUfqZPCZnxgIjw9NybLLU07duZq7eGQ1mmWer8j+GDEM7RpzL3UwAoXAUR+wIllw==
-X-Received: by 2002:a05:620a:988:: with SMTP id
- x8mr5426637qkx.97.1625623740820; 
- Tue, 06 Jul 2021 19:09:00 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LlfYE6GosY6ASC/rsUukB4KR+vpFhOf0HuSrLzk2U+g=;
+ b=WsS22tkrkj6d7tFmfCUGHoGZTE90ESTanRFNTa89+E6N2sg6GYqoDlRueFWaH+A2xb
+ b2noDoD2YBortMW/fW+Nr5zVC9rYmIYlDJOi/SFKtEND8UQPSiko5dcc6PnCsnqMwyyX
+ 2gqo4GckkxUzev0wScmN2J4sp9Lk4PJOBmaO0bGe9ErdVV85Vv8F+P3xjf6AtqfHtXZJ
+ 2H/0AG+JAYdbW1zAxTiEC1+Fnm/JhX8HD8bspSBugKmaFj82g6zpDbmeybb8nDczfbbd
+ 49myCs/CSiWz00skQ/YKAyGyYGnRqB2VDgekglfn1N0R/jDHZpaAveM/2rR1aD2eMs6R
+ h4kA==
+X-Gm-Message-State: AOAM533hvmWfYF2exVhuVcroEEoALy3tTIc7FozAAbmIzL9OYASBW5fN
+ yPTddyYVfey3wInIPuP+KqnTPA==
+X-Google-Smtp-Source: ABdhPJyns1IF5zL4gvQkez4mfFL8/gQwuxdCXTktNksd2i5L32ly9RVOEY4uB8ir8FfsQCq+YZWGEg==
+X-Received: by 2002:a37:ac14:: with SMTP id e20mr23303315qkm.362.1625624296998; 
+ Tue, 06 Jul 2021 19:18:16 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.gmail.com with ESMTPSA id z6sm7758851qke.24.2021.07.06.19.08.59
+ by smtp.googlemail.com with ESMTPSA id z6sm7768613qke.24.2021.07.06.19.18.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 19:09:00 -0700 (PDT)
-Message-ID: <cce17ddb37749aa8528e1d7f01a1bfda19053b16.camel@linaro.org>
-Subject: Re: [PATCH v5 01/10] hw/intc: GICv3 ITS initial framework
-From: shashi.mallela@linaro.org
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 06 Jul 2021 22:08:59 -0400
-In-Reply-To: <CAFEAcA_s+8DGZ0pJ2pj4-BT2W07UXGUEGcWjTSYk9DRdgX6rEg@mail.gmail.com>
-References: <20210630153156.9421-1-shashi.mallela@linaro.org>
- <20210630153156.9421-2-shashi.mallela@linaro.org>
- <CAFEAcA_u=3f6sborqD9opCQv1kJHQm0+Gm1ytWx2zSzjXJTd1A@mail.gmail.com>
- <a0dca113df5b0470668095ed1f759fd7a6f102f7.camel@linaro.org>
- <CAFEAcA_vuHRWRjg-aQ4yk4UT6h_9bPdTT4wJS5SMLyPdADZVaw@mail.gmail.com>
- <916a2c2eb368835dbd17fe0b90be541abbebde93.camel@linaro.org>
- <CAFEAcA_s+8DGZ0pJ2pj4-BT2W07UXGUEGcWjTSYk9DRdgX6rEg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x72e.google.com
+ Tue, 06 Jul 2021 19:18:16 -0700 (PDT)
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
+ mst@redhat.com, imammedo@redhat.com
+Subject: [PATCH v6 00/10] GICv3 LPI and ITS feature implementation
+Date: Tue,  6 Jul 2021 22:18:05 -0400
+Message-Id: <20210707021815.45938-1-shashi.mallela@linaro.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x72c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,74 +82,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- Leif Lindholm <leif@nuviainc.com>
+Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-07-05 at 19:58 +0100, Peter Maydell wrote:
-> On Mon, 5 Jul 2021 at 18:04, <shashi.mallela@linaro.org> wrote:
-> > On Mon, 2021-07-05 at 17:25 +0100, Peter Maydell wrote:
-> > > On Mon, 5 Jul 2021 at 16:55, <shashi.mallela@linaro.org> wrote:
-> > > > On Mon, 2021-07-05 at 15:58 +0100, Peter Maydell wrote:
-> > > > > On Wed, 30 Jun 2021 at 16:32, Shashi Mallela <
-> > > > > shashi.mallela@linaro.org> wrote:
-> > > > > > Added register definitions relevant to ITS,implemented
-> > > > > > overall
-> > > > > > ITS device framework with stubs for ITS control and
-> > > > > > translater
-> > > > > > regions read/write,extended ITS common to handle mmio init
-> > > > > > between
-> > > > > > existing kvm device and newer qemu device.
-> > > > > > 
-> > > > > > Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-> > > > > > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > > > > > +static void gicv3_arm_its_realize(DeviceState *dev, Error
-> > > > > > **errp)
-> > > > > > +{
-> > > > > > +    GICv3ITSState *s = ARM_GICV3_ITS_COMMON(dev);
-> > > > > > +
-> > > > > > +    gicv3_its_init_mmio(s, &gicv3_its_control_ops,
-> > > > > > &gicv3_its_translation_ops);
-> > > > > > +
-> > > > > > +    if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
-> > > > > 
-> > > > > Can you remind me why we make this check, please? When would
-> > > > > we
-> > > > > have created an ITS device but not have a GICv3 with LPI
-> > > > > support?
-> > > > This check applies to GIC's physical LPI support only as
-> > > > against
-> > > > GIC's
-> > > > virtual LPI support.
-> > > 
-> > > Right, but when would we have a GIC with no physical LPI support
-> > > but an ITS is present ?
-> > If we only support Direct injection of virtual interrupts (which
-> > can
-> > have their own vPEID and the vPE table),then the ITS present could
-> > havejust virtual LPI support
-> 
-> This patchset does not support a virtual-LPI-only ITS, though:
-> it doesn't support virtual LPIs at all.
-> If you use it with CPUs without physical LPI support , this code will
-> skip
-> entirely setting GITS_TYPER and will make reset do nothing, and then
-> the
-> rest of the ITS implementation will misbehave.
-> 
-> I think what we should do is:
->  * in realize, check every CPU to make sure its redistributor
->    supports physical LPIs, and return an error from realize if not
->  * in reset, don't check anything
-Done
-> 
-> If we add virtual-LPI-only ITS support later, we can always update
-> this code appropriately.
-> 
-> thanks
-> -- PMM
+This patchset implements qemu device model for enabling physical
+LPI support and ITS functionality in GIC as per GICv3 specification.
+Both flat table and 2 level tables are implemented.The ITS commands
+for adding/deleting ITS table entries,trigerring LPI interrupts are
+implemented.Translated LPI interrupt ids are processed by redistributor
+to determine priority and set pending state appropriately before
+forwarding the same to cpu interface.
+The ITS feature support has been added to sbsa-ref platform as well as
+virt platform,wherein the emulated functionality co-exists with kvm
+kernel functionality.
+
+Changes in v6:
+ - made changes to masking scheme being used in all relevant sections
+ - updated process_mapti to validate idbits based on GICD_TYPER.IDbits
+   instead of GICR_PROPBASER.IDbits
+ - updated its_realize() to check every CPU for physical LPI support in
+   each associated redistibutor and return error if not
+ - removed GICR_TYPER_PLPIS check in its_reset()
+ - addressed pending v4 comments in gicv3_internal.h #defines
+ - refactored gicv3_redist_lpi_pending() as per v5 comments
+ - added iasl disassembly for new IORT.pxb file
+ - addressed all v5 comments around code formatting and
+   gicv3_internal.h #defines 
+ - All kvm_unit_tests PASS
+
+Shashi Mallela (10):
+  hw/intc: GICv3 ITS initial framework
+  hw/intc: GICv3 ITS register definitions added
+  hw/intc: GICv3 ITS command queue framework
+  hw/intc: GICv3 ITS Command processing
+  hw/intc: GICv3 ITS Feature enablement
+  hw/intc: GICv3 redistributor ITS processing
+  hw/arm/sbsa-ref: add ITS support in SBSA GIC
+  tests/data/acpi/virt: Add IORT files for ITS
+  hw/arm/virt: add ITS support in virt GIC
+  tests/data/acpi/virt: Update IORT files for ITS
+
+ hw/arm/sbsa-ref.c                      |   26 +-
+ hw/arm/virt.c                          |   28 +-
+ hw/intc/arm_gicv3.c                    |   14 +
+ hw/intc/arm_gicv3_common.c             |   13 +
+ hw/intc/arm_gicv3_cpuif.c              |    7 +-
+ hw/intc/arm_gicv3_dist.c               |    5 +-
+ hw/intc/arm_gicv3_its.c                | 1301 ++++++++++++++++++++++++
+ hw/intc/arm_gicv3_its_common.c         |    7 +-
+ hw/intc/arm_gicv3_its_kvm.c            |    2 +-
+ hw/intc/arm_gicv3_redist.c             |  154 ++-
+ hw/intc/gicv3_internal.h               |  189 +++-
+ hw/intc/meson.build                    |    1 +
+ include/hw/arm/virt.h                  |    2 +
+ include/hw/intc/arm_gicv3_common.h     |   13 +
+ include/hw/intc/arm_gicv3_its_common.h |   32 +-
+ target/arm/kvm_arm.h                   |    4 +-
+ tests/data/acpi/virt/IORT              |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.memhp        |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.numamem      |  Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.pxb          |  Bin 0 -> 124 bytes
+ 20 files changed, 1771 insertions(+), 27 deletions(-)
+ create mode 100644 hw/intc/arm_gicv3_its.c
+ create mode 100644 tests/data/acpi/virt/IORT
+ create mode 100644 tests/data/acpi/virt/IORT.memhp
+ create mode 100644 tests/data/acpi/virt/IORT.numamem
+ create mode 100644 tests/data/acpi/virt/IORT.pxb
+
+-- 
+2.27.0
 
 
