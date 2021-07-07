@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710913BF05E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:38:29 +0200 (CEST)
-Received: from localhost ([::1]:46564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F453BF064
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:41:55 +0200 (CEST)
+Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1DNM-0003xR-H2
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
+	id 1m1DQh-0001j3-00
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1DJJ-0003TT-UG
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:34:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40417)
+ id 1m1DJZ-0004BO-H3
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:34:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1DJE-0007mq-HU
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:34:17 -0400
+ id 1m1DJW-0007nv-HU
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:34:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625686451;
+ s=mimecast20190719; t=1625686470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2+8IfqQN0CCqbn+cyAHI5vCXe7BGvi3hH9f/m9ZiP5M=;
- b=bj+zVE+7dTCwFPJJGS2NX1hT/NP3FYxARO+stGOvDRKtzYfwx5di/F53PgnEyk/YQMCemu
- a2EXoaLukT56djSgLLs7A1rmYDmK6Wwdd+l4NO+BK3Ev89sBW9vhW+kz4f297jkppldfBK
- X+IyeSZ0u9J+mCxfkllTQgleRjSQ5w0=
+ bh=muJDJ7+wfZs2/M1m0FdspOh9UZ+U4wDZmyCZZIiyx5A=;
+ b=RFXgj1NTysGWtxp+oDG2fb1kpPAemvmHf6mAHAoriOqlWT1/9Cmfb6rmnKyYjlaFIHSdA2
+ BjGuS+zMHpWgsSxIrZwNbWZrYa6u4yis3X5rGBMoFidnzQomViCzP12uZ9jcZ1l95kq5iG
+ bjU2c7UWM9LGuYLEuN2b5McIdIYhdCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-NESVKRfCMpyol0wkRhpNAw-1; Wed, 07 Jul 2021 15:34:10 -0400
-X-MC-Unique: NESVKRfCMpyol0wkRhpNAw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-505-kQaNX9OPPUKCenRNG8JFYQ-1; Wed, 07 Jul 2021 15:34:28 -0400
+X-MC-Unique: kQaNX9OPPUKCenRNG8JFYQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E467510C1ADC;
- Wed,  7 Jul 2021 19:34:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0C821023F45;
+ Wed,  7 Jul 2021 19:34:26 +0000 (UTC)
 Received: from localhost (ovpn-113-79.rdu2.redhat.com [10.10.113.79])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C6F7D369A;
- Wed,  7 Jul 2021 19:33:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B90BD100EBB0;
+ Wed,  7 Jul 2021 19:34:09 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 11/15] vfio: Support for RamDiscardManager in the vIOMMU case
-Date: Wed,  7 Jul 2021 15:32:37 -0400
-Message-Id: <20210707193241.2659335-12-ehabkost@redhat.com>
+Subject: [PULL 12/15] softmmu/physmem: Don't use atomic operations in
+ ram_block_discard_(disable|require)
+Date: Wed,  7 Jul 2021 15:32:38 -0400
+Message-Id: <20210707193241.2659335-13-ehabkost@redhat.com>
 In-Reply-To: <20210707193241.2659335-1-ehabkost@redhat.com>
 References: <20210707193241.2659335-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,11 +81,12 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
  teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
  Wei Yang <richard.weiyang@linux.alibaba.com>
@@ -93,32 +95,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-vIOMMU support works already with RamDiscardManager as long as guests only
-map populated memory. Both, populated and discarded memory is mapped
-into &address_space_memory, where vfio_get_xlat_addr() will find that
-memory, to create the vfio mapping.
+We have users in migration context that don't hold the BQL (when
+finishing migration). To prepare for further changes, use a dedicated mutex
+instead of atomic operations. Keep using qatomic_read ("READ_ONCE") for the
+functions that only extract the current state (e.g., used by
+virtio-balloon), locking isn't necessary.
 
-Sane guests will never map discarded memory (e.g., unplugged memory
-blocks in virtio-mem) into an IOMMU - or keep it mapped into an IOMMU while
-memory is getting discarded. However, there are two cases where a malicious
-guests could trigger pinning of more memory than intended.
+While at it, split up the counter into two variables to make it easier
+to understand.
 
-One case is easy to handle: the guest trying to map discarded memory
-into an IOMMU.
-
-The other case is harder to handle: the guest keeping memory mapped in
-the IOMMU while it is getting discarded. We would have to walk over all
-mappings when discarding memory and identify if any mapping would be a
-violation. Let's keep it simple for now and print a warning, indicating
-that setting RLIMIT_MEMLOCK can mitigate such attacks.
-
-We have to take care of incoming migration: at the point the
-IOMMUs get restored and start creating mappings in vfio, RamDiscardManager
-implementations might not be back up and running yet: let's add runstate
-priorities to enforce the order when restoring.
-
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+Suggested-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -132,95 +120,112 @@ Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
 Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210413095531.25603-10-david@redhat.com>
+Message-Id: <20210413095531.25603-11-david@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/migration/vmstate.h |  1 +
- hw/vfio/common.c            | 39 +++++++++++++++++++++++++++++++++++++
- hw/virtio/virtio-mem.c      |  1 +
- 3 files changed, 41 insertions(+)
+ softmmu/physmem.c | 70 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 39 insertions(+), 31 deletions(-)
 
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 8df7b69f389..017c03675ca 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -153,6 +153,7 @@ typedef enum {
-     MIG_PRI_DEFAULT = 0,
-     MIG_PRI_IOMMU,              /* Must happen before PCI devices */
-     MIG_PRI_PCI_BUS,            /* Must happen before IOMMU */
-+    MIG_PRI_VIRTIO_MEM,         /* Must happen before IOMMU */
-     MIG_PRI_GICV3_ITS,          /* Must happen before PCI devices */
-     MIG_PRI_GICV3,              /* Must happen before the ITS */
-     MIG_PRI_MAX,
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index f8a2fe8441a..8a9bbf27918 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -36,6 +36,7 @@
- #include "qemu/range.h"
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
-+#include "sysemu/runstate.h"
- #include "trace.h"
- #include "qapi/error.h"
- #include "migration/migration.h"
-@@ -569,6 +570,44 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
-         error_report("iommu map to non memory area %"HWADDR_PRIx"",
-                      xlat);
-         return false;
-+    } else if (memory_region_has_ram_discard_manager(mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(mr);
-+        MemoryRegionSection tmp = {
-+            .mr = mr,
-+            .offset_within_region = xlat,
-+            .size = int128_make64(len),
-+        };
-+
-+        /*
-+         * Malicious VMs can map memory into the IOMMU, which is expected
-+         * to remain discarded. vfio will pin all pages, populating memory.
-+         * Disallow that. vmstate priorities make sure any RamDiscardManager
-+         * were already restored before IOMMUs are restored.
-+         */
-+        if (!ram_discard_manager_is_populated(rdm, &tmp)) {
-+            error_report("iommu map to discarded memory (e.g., unplugged via"
-+                         " virtio-mem): %"HWADDR_PRIx"",
-+                         iotlb->translated_addr);
-+            return false;
-+        }
-+
-+        /*
-+         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
-+         * pages will remain pinned inside vfio until unmapped, resulting in a
-+         * higher memory consumption than expected. If memory would get
-+         * populated again later, there would be an inconsistency between pages
-+         * pinned by vfio and pages seen by QEMU. This is the case until
-+         * unmapped from the IOMMU (e.g., during device reset).
-+         *
-+         * With malicious guests, we really only care about pinning more memory
-+         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
-+         * exceeded and can be used to mitigate this problem.
-+         */
-+        warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
-+                         " RAM (e.g., virtio-mem) works, however, malicious"
-+                         " guests can trigger pinning of more memory than"
-+                         " intended via an IOMMU. It's possible to mitigate "
-+                         " by setting/adjusting RLIMIT_MEMLOCK.");
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 9b171c9dbe5..f1275b61f84 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3684,56 +3684,64 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
      }
+ }
  
-     /*
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index f60cb8a3fc0..368ae1db903 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -886,6 +886,7 @@ static const VMStateDescription vmstate_virtio_mem_device = {
-     .name = "virtio-mem-device",
-     .minimum_version_id = 1,
-     .version_id = 1,
-+    .priority = MIG_PRI_VIRTIO_MEM,
-     .post_load = virtio_mem_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_WITH_TMP(VirtIOMEM, VirtIOMEMMigSanityChecks,
+-/*
+- * If positive, discarding RAM is disabled. If negative, discarding RAM is
+- * required to work and cannot be disabled.
+- */
+-static int ram_block_discard_disabled;
++static unsigned int ram_block_discard_required_cnt;
++static unsigned int ram_block_discard_disabled_cnt;
++static QemuMutex ram_block_discard_disable_mutex;
++
++static void ram_block_discard_disable_mutex_lock(void)
++{
++    static gsize initialized;
++
++    if (g_once_init_enter(&initialized)) {
++        qemu_mutex_init(&ram_block_discard_disable_mutex);
++        g_once_init_leave(&initialized, 1);
++    }
++    qemu_mutex_lock(&ram_block_discard_disable_mutex);
++}
++
++static void ram_block_discard_disable_mutex_unlock(void)
++{
++    qemu_mutex_unlock(&ram_block_discard_disable_mutex);
++}
+ 
+ int ram_block_discard_disable(bool state)
+ {
+-    int old;
++    int ret = 0;
+ 
++    ram_block_discard_disable_mutex_lock();
+     if (!state) {
+-        qatomic_dec(&ram_block_discard_disabled);
+-        return 0;
++        ram_block_discard_disabled_cnt--;
++    } else if (!ram_block_discard_required_cnt) {
++        ram_block_discard_disabled_cnt++;
++    } else {
++        ret = -EBUSY;
+     }
+-
+-    do {
+-        old = qatomic_read(&ram_block_discard_disabled);
+-        if (old < 0) {
+-            return -EBUSY;
+-        }
+-    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
+-                             old, old + 1) != old);
+-    return 0;
++    ram_block_discard_disable_mutex_unlock();
++    return ret;
+ }
+ 
+ int ram_block_discard_require(bool state)
+ {
+-    int old;
++    int ret = 0;
+ 
++    ram_block_discard_disable_mutex_lock();
+     if (!state) {
+-        qatomic_inc(&ram_block_discard_disabled);
+-        return 0;
++        ram_block_discard_required_cnt--;
++    } else if (!ram_block_discard_disabled_cnt) {
++        ram_block_discard_required_cnt++;
++    } else {
++        ret = -EBUSY;
+     }
+-
+-    do {
+-        old = qatomic_read(&ram_block_discard_disabled);
+-        if (old > 0) {
+-            return -EBUSY;
+-        }
+-    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
+-                             old, old - 1) != old);
+-    return 0;
++    ram_block_discard_disable_mutex_unlock();
++    return ret;
+ }
+ 
+ bool ram_block_discard_is_disabled(void)
+ {
+-    return qatomic_read(&ram_block_discard_disabled) > 0;
++    return qatomic_read(&ram_block_discard_disabled_cnt);
+ }
+ 
+ bool ram_block_discard_is_required(void)
+ {
+-    return qatomic_read(&ram_block_discard_disabled) < 0;
++    return qatomic_read(&ram_block_discard_required_cnt);
+ }
 -- 
 2.31.1
 
