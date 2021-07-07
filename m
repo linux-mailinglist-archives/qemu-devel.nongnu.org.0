@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3843BE223
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:37:02 +0200 (CEST)
-Received: from localhost ([::1]:44556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94993BE22B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:43:39 +0200 (CEST)
+Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0zIz-0006Lg-VO
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51502)
+	id 1m0zPO-0007xl-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:43:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zIF-0005gX-1P
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:36:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27739)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zOf-0007It-6g
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:42:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zID-0004FM-FJ
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:36:14 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0zOd-0004Zj-JB
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:42:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625632572;
+ s=mimecast20190719; t=1625632970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5B6YYPRsEJqxNNGukI5cMjj/ptZLGGUFmgJk3BDxpqs=;
- b=eY3dbWtrQm5qBUaZkKJlbUp5WBqAOvmSl7xudiV9HXnbn6uqLcHT2+Q8Beaaxvhhl+ky+4
- xU8h+iEUNUTZtsyg9ZR89oy1DbECbJZfX3gp046ZTPiAJVEVDwdVCBbbZWBdXQYfuBEVbX
- nBqYzMJre8w99c3HsWCLjqkrXhhDnL8=
+ bh=zcBvLUXlJfhYJeAwwKDvWGqHE474mwfgrp8R9HHoLXU=;
+ b=AErajzO9YfK/Qp2Jipl/OXCRIxbBv6c6/IwaB6MTPwh9hU3KMkXogTu9c61Qa/spDiP7aJ
+ QDJjqE4PW+uhyKpupOZ8LsYj5d9wdEdlj53TSLSRPxCmx+NUhgfZfZt5s59bhRPNMWgDSj
+ NHzn6LjXzuiMkXkzqAQ+V+OKmwqnW9c=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-xPZGIfaXOFayEU5wx6jBkA-1; Wed, 07 Jul 2021 00:36:11 -0400
-X-MC-Unique: xPZGIfaXOFayEU5wx6jBkA-1
+ us-mta-31--hV_G8ILOpeC3_PQyTUpNQ-1; Wed, 07 Jul 2021 00:42:48 -0400
+X-MC-Unique: -hV_G8ILOpeC3_PQyTUpNQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so404305wmh.9
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 21:36:10 -0700 (PDT)
+ v25-20020a1cf7190000b0290197a4be97b7so410843wmh.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 21:42:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5B6YYPRsEJqxNNGukI5cMjj/ptZLGGUFmgJk3BDxpqs=;
- b=lorzmG5nJri7ALXu15ZvTxUZX8GK1KBZF3Bp7vD3KrP5FwNRUlTN5cwN+i0qSp2YyW
- ijHq47od1tCS+I1wwlGqFAChcn6QZkuczArCpEIfXypL/X+i+9CdG8yJQX5z/oahx6t3
- cG8vGP1AhLForIAdAJcy5A4KW2WIXvpBEpFJ+GHtxMrWOFe+7H2NraRRa0muZADIR1Et
- TaasBGOxbsn5Ti95EpSHDWbZJJy0Rdq8e9nzN2/ZtcBZfmBezc2TDThSivyQXxiBG5kn
- E2IlrImCdtxGFfHk8z7aq4xQEkDrC4/zWt25c1L+Ex6c2f2XPgpVqroZbrnvX68oQLOX
- +K/g==
-X-Gm-Message-State: AOAM532JTRrq01aZybXhy5g0586dwiIXrlmWC3NvdLrse5faGEUiwVCp
- S6aqkFtJTeRNGHzcUiMEcLfXMSd111h+Kef6GvCeWwoJP7FKwd86ySOCO43+qleCwbF44rlIhBT
- lMT7Z82z2Jy1X/3E=
-X-Received: by 2002:a05:600c:3541:: with SMTP id
- i1mr4372285wmq.135.1625632570099; 
- Tue, 06 Jul 2021 21:36:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwgVU2gt5cZe9vj6ALMrl6sBPIArxWr5Ku6vrK587HliOyZVfk4Yk02mKfgoeBiAbL6jQAB0Q==
-X-Received: by 2002:a05:600c:3541:: with SMTP id
- i1mr4372270wmq.135.1625632569975; 
- Tue, 06 Jul 2021 21:36:09 -0700 (PDT)
+ bh=zcBvLUXlJfhYJeAwwKDvWGqHE474mwfgrp8R9HHoLXU=;
+ b=ele4Yca31L2bjIt51KW2KB03bJfpsZPgAYa9x/2nm+jtq8EbdgvlHI/LMwCnMQ6LJ3
+ RpbXfKzQQ5d+8VE3R7zGBK9YtUCy83lJeq1F8DSSRcK09M065pppr2+qMIuKx2l8NRqD
+ AtC9goCFR8f4y8+jxKflM0sNxXyFzOUwARTSId9m2w6fhMSNuK0p2alV2u8hcmhCHYjK
+ +5XkqbLnOBW2YW6p7wmX28395RLwAHt5935O7uUv+QC3O/lbhHT+J6zZDlFh5cdoHdgk
+ 6jD3bk2ttrk+G1zz1gcR0t++tqbdF9Wz01R8fXb7u6mjDHX6PyGyikDTdWDM4ECJuZqg
+ 9Gpw==
+X-Gm-Message-State: AOAM533RpDTMMHC2K0IgfMkW9eJyaWAvrwOP0ht4UL8sZe4Ifybww5a/
+ OH/6fKMEobzY1ZlXGbPSG4fh4kHckOYf1mLso52i1RFzAfEoAiiKtA9WB/np610YdSYbYUmwJ/k
+ cPuJdOa46Qo0W53mf/V594YPa5ril48sbnJ/jEqQaoiNv+7hXcKv45uRRjBBOPVk=
+X-Received: by 2002:a7b:ce0d:: with SMTP id m13mr4394636wmc.59.1625632967023; 
+ Tue, 06 Jul 2021 21:42:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxavBVBEtCno4zTcA1zZbZWs0vmsSfTGyJ0asnXuwhzKm2GcScjgk5u+eA8AdCnLmKnfcMgkg==
+X-Received: by 2002:a7b:ce0d:: with SMTP id m13mr4394623wmc.59.1625632966788; 
+ Tue, 06 Jul 2021 21:42:46 -0700 (PDT)
 Received: from thuth.remote.csb (pd9575ead.dip0.t-ipconnect.de.
  [217.87.94.173])
- by smtp.gmail.com with ESMTPSA id a64sm3802957wme.8.2021.07.06.21.36.09
+ by smtp.gmail.com with ESMTPSA id z11sm4578428wru.65.2021.07.06.21.42.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 21:36:09 -0700 (PDT)
-Subject: Re: [PATCH v1 32/39] contrib/plugins: enable -Wall for building
- plugins
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210706145817.24109-1-alex.bennee@linaro.org>
- <20210706145817.24109-33-alex.bennee@linaro.org>
+ Tue, 06 Jul 2021 21:42:46 -0700 (PDT)
+Subject: Re: pipe2 & configure script
+To: Richard Zak <richard.j.zak@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAOakUfMKduLQe=juj-sZzVSkD-bSi48-k7SNiKkDKE-fTaiQ+A@mail.gmail.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <35647c46-fbfc-ad8f-a0de-a50cdec2caac@redhat.com>
-Date: Wed, 7 Jul 2021 06:36:08 +0200
+Message-ID: <75613b21-f747-46d0-3120-88b18c41a293@redhat.com>
+Date: Wed, 7 Jul 2021 06:42:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706145817.24109-33-alex.bennee@linaro.org>
+In-Reply-To: <CAOakUfMKduLQe=juj-sZzVSkD-bSi48-k7SNiKkDKE-fTaiQ+A@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
@@ -103,39 +99,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/07/2021 16.58, Alex Bennée wrote:
-> Lets spot the obvious errors.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   contrib/plugins/Makefile | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
-> index b9d7935e5e..17e6e2ec4f 100644
-> --- a/contrib/plugins/Makefile
-> +++ b/contrib/plugins/Makefile
-> @@ -24,7 +24,7 @@ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
->   # The main QEMU uses Glib extensively so it's perfectly fine to use it
->   # in plugins (which many example do).
->   CFLAGS = $(GLIB_CFLAGS)
-> -CFLAGS += -fPIC
-> +CFLAGS += -fPIC -Wall
+On 07/07/2021 05.24, Richard Zak wrote:
+> What conditions are required for "#define CONFIG_PIPE2" to be set in 
+> build/config-host.h? It prevents building for Haiku as pipe2() doesn't 
+> exist. I didn't see anything in the configure script regarding pipe2. I also 
+> updated my code to the latest in the repository and this issue just popped up.
 
-In pc-bios/s390-ccw/Makefile we're using:
+CONFIG_PIPE2 is set from meson.build instead of the configure script. But 
+why is this blocking your build? The only relevant spot is in 
+util/oslib-posix.c and there is a fallback to the normal pipe() function 
+there...
 
-  -Wall $(filter -W%, $(QEMU_CFLAGS))
-
-to also get the other warning options from config-host.mak. You might want 
-to consider to do that here, too.
-
-Anyway:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Thomas
 
 
