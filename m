@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98E863BE625
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:07:39 +0200 (CEST)
-Received: from localhost ([::1]:44506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC2F3BE632
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:12:27 +0200 (CEST)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m14Sw-0002Pl-HY
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:07:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
+	id 1m14Xa-0005Vc-Gs
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:12:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m14OA-0000Ac-SN; Wed, 07 Jul 2021 06:02:42 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:55201)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m14Vh-0003vN-At
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:10:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m14O8-0005gT-N9; Wed, 07 Jul 2021 06:02:42 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 64A9F5C0131;
- Wed,  7 Jul 2021 06:02:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 07 Jul 2021 06:02:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=PPIbKszdVwTKS7BB6fK6SBdoL9/
- tZAsRbDWynaeeoZ4=; b=XjnTyPMIWTgV1AxN3CRZjrVY2O2yYic1T5PKpr2ok5b
- uFhGXcrJtzwVxJORDI09zEXBAJWRO7FidDh5XZ/HPf4ofeOsej+qrwlvpRmaz36/
- +Gwjh+HmVWLugRhQzPgI+aAa2ghvwcM9iM7iO7FhyfCauhIpvMa6j5DSZWoKSyYq
- sGvC2HDikKPDQzL5RXFKOnHXhaY3Ht+ZK4Cub6OVRgY+Y1TgtTg9wqaNZY7nCI0t
- tzPTR/FU7c1Pqejs27/FqsKn33ZYEZe9zQtiKSi67UVOY1ZOSV6WBk28GsITjzc4
- cV3h2FJh8l+SGNV2hECmk9pnfvSQk7ltY8I+p7BTX0g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=PPIbKs
- zdVwTKS7BB6fK6SBdoL9/tZAsRbDWynaeeoZ4=; b=bKBdA6fU65VZAW9+Bbp3UL
- ex39lbOSQfoVHOTWUVAiIgjMeyzAX9G6F0QawOhJS0G9yMmhber9zU5YOcBEiPiO
- wR3q3w1KtigOeF2h9MeJp4a8EOIGZ93Ziqh3bikVk4o2pKzmJCr/DD2p4XjSZTcd
- YEqdU+SO7ffGMTMCbabEF5kme8wYYfwop8sJRoa+7MEKMd4uwMoAzUZQq2Z9+OtT
- yDoVMYRpgbSVMso2B2lVpXYaYsJ5c+puUrZfYeHjcPP2McvGzeaZ6XTJnRcdfyjC
- oYpFaazbEp0qvSfKiZTnOltCiEcA+Z1pTd270IBa+x3f32v2+ioE2js4EnTZ2vSA
- ==
-X-ME-Sender: <xms:vnvlYKHFVlI0g516tKpx_tSovW9SEUxatnoK2OXbd_rOW7xBxM_2iQ>
- <xme:vnvlYLXn4ho8kp3PfZfiMe4GpOU5d7Y5wQhxKcUo2qKKDvIsVtLN9VD3mrX_xOFgr
- 8DRekfdFUmINLgFCik>
-X-ME-Received: <xmr:vnvlYEKeBdeeyMaJ-TyylFd0XMc2yz3NSNipdeWGHjgyQQ3jHpnPQtbSKVZqIC-ssKaDraxnrGrZ8prduTJLWXDJ-LU5pnpH_YEu_JSysozUHvMVKA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:vnvlYEEaT_9rQAdUzli1wchKSq8iLdPbfxN242NC6UB1qa_6JZmOhQ>
- <xmx:vnvlYAVYdJQ_2jrhKTYWX8GptMUvkrK7dlJ0IvoNSGDlEKqi5X4YpA>
- <xmx:vnvlYHOUILinL9aSxD8jhkgQNkgR56Igec3c63P8Xbx207oJRM1GGQ>
- <xmx:v3vlYOxZG59HJfZNCrLc_yT2gBvjkHdhltBd3xdtG9XkOhI1o-ZmFA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 06:02:37 -0400 (EDT)
-Date: Wed, 7 Jul 2021 12:02:35 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 4/4] hw/nvme: fix controller hot unplugging
-Message-ID: <YOV7uzejwmV9pT11@apples.localdomain>
-References: <20210706093358.1036387-1-its@irrelevant.dk>
- <20210706093358.1036387-5-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m14Ve-0006Nw-Gg
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:10:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625652623;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1WPKt3M4QT0YV642F/7hw6ApqGve7qSZ5u5Xw4tZqds=;
+ b=J5drfRFuqgqiQC0eou7MbtIrky7Lk1Xx/UoVdJmZ0MRFx+S8uDkP3HElyUbXOOMe6Dzmjg
+ hit5/nve6ZAeal/zFD1AU6PbnA9qGBCrX7es8p4PcQcssEaD6Ou/zh6pg7Skk2KvgTr+ov
+ zOjIJxhp016L6btCiAwF9qAs4mp42O0=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-ZdZOg4hmPomKvKa2fmiUdA-1; Wed, 07 Jul 2021 06:10:22 -0400
+X-MC-Unique: ZdZOg4hmPomKvKa2fmiUdA-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ d21-20020a1709063455b02904c609ed19f1so348773ejb.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 03:10:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1WPKt3M4QT0YV642F/7hw6ApqGve7qSZ5u5Xw4tZqds=;
+ b=qsk6ZNt4FbDED7aikKCBRorJEBCLm5yPVobwUQH2x6Qx909R8IYItdMq4idDYARTRT
+ VeNwcmXdaWQ7O8xvAkrXgLTvEiIBLE6oO3ROYv+OtLiEBVaqWODShWumqP0hv9W3YYXB
+ t76sg0j5U1bADqToXjjG9CwDyyb3zzYq10GC9+F9Wz5HPvFwxS2Sv0rc+jkDx8HJRnv8
+ d6Kax75apCdi8VInz2xMutooVIU7NdQTApLAz33e+8ZVDvy1qoPHY1AKSn2wuDSQW7+f
+ dG9BXdtq/mY0TbXWFafWY4w3izxK5AdNkopTHUhNxvlOWXUXvSpkfryceqH2tzInifL3
+ +MrA==
+X-Gm-Message-State: AOAM533XSeeSgLeaSU9wiMoeDBTAa6dLw9f6Idy4zc2cDBHpRCJUdF7M
+ ZoXIdXoqoS0GfxdnpjhNOTbiEcqXigfl3C1LhuIJu2OeL8c6uDxPrg4FoiXvF1h28m1jAHlImVQ
+ mzFmMpW+Iz9+ExZU=
+X-Received: by 2002:a17:906:c212:: with SMTP id
+ d18mr23120340ejz.291.1625652621007; 
+ Wed, 07 Jul 2021 03:10:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxdkYWBQcy5Qi7RLGsqP5qJZLUtmM5XCyDKZCngpup2OoofxIpCt8ZkBxI8ywnsn/YVyB9ing==
+X-Received: by 2002:a17:906:c212:: with SMTP id
+ d18mr23120328ejz.291.1625652620788; 
+ Wed, 07 Jul 2021 03:10:20 -0700 (PDT)
+Received: from redhat.com ([2.55.8.91])
+ by smtp.gmail.com with ESMTPSA id cn17sm6067048edb.29.2021.07.07.03.10.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 03:10:20 -0700 (PDT)
+Date: Wed, 7 Jul 2021 06:10:17 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Subject: Re: [PATCH v0] vhost: make SET_VRING_ADDR, SET_[PROTOCOL_]FEATEURES
+ send replies
+Message-ID: <20210707060936-mutt-send-email-mst@kernel.org>
+References: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Tv8xOeKVrr0EfKJ2"
+In-Reply-To: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210706093358.1036387-5-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,220 +94,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Hannes Reinecke <hare@suse.de>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jun 25, 2021 at 11:52:10AM +0300, Denis Plotnikov wrote:
+> On vhost-user-blk migration, qemu normally sends a number of commands
+> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+> VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
+> data logging.
+> The issue is that qemu doesn't wait for reply from the vhost daemon
+> for these commands which may result in races between qemu expectation
+> of logging starting and actual login starting in vhost daemon.
 
---Tv8xOeKVrr0EfKJ2
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Could you be more explicit please? What kind of race have you
+observed? Getting a reply slows down the setup considerably and
+should not be done lightly.
 
-On Jul  6 11:33, Klaus Jensen wrote:
->From: Klaus Jensen <k.jensen@samsung.com>
->
->Prior to this patch the nvme-ns devices are always children of the
->NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
->unrealized when the parent device is removed. However, when subsystems
->are involved, this is not what we want since the namespaces may be
->attached to other controllers as well.
->
->This patch adds an additional NvmeBus on the subsystem device. When
->nvme-ns devices are realized, if the parent controller device is linked
->to a subsystem, the parent bus is set to the subsystem one instead. This
->makes sure that namespaces are kept alive and not unrealized.
->
->Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->---
-> hw/nvme/nvme.h   | 18 ++++++++++--------
-> hw/nvme/ctrl.c   |  8 +++++---
-> hw/nvme/ns.c     | 32 +++++++++++++++++++++++++-------
-> hw/nvme/subsys.c |  4 ++++
-> 4 files changed, 44 insertions(+), 18 deletions(-)
->
->diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
->index c4065467d877..9401e212f9f7 100644
->--- a/hw/nvme/nvme.h
->+++ b/hw/nvme/nvme.h
->@@ -33,12 +33,21 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BROA=
-DCAST - 1);
-> typedef struct NvmeCtrl NvmeCtrl;
-> typedef struct NvmeNamespace NvmeNamespace;
->
->+#define TYPE_NVME_BUS "nvme-bus"
->+OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
->+
->+typedef struct NvmeBus {
->+    BusState parent_bus;
->+    bool     is_subsys;
->+} NvmeBus;
->+
-> #define TYPE_NVME_SUBSYS "nvme-subsys"
-> #define NVME_SUBSYS(obj) \
->     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
->
-> typedef struct NvmeSubsystem {
->     DeviceState parent_obj;
->+    NvmeBus     bus;
->     uint8_t     subnqn[256];
->
->     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
->@@ -365,13 +374,6 @@ typedef struct NvmeCQueue {
->     QTAILQ_HEAD(, NvmeRequest) req_list;
-> } NvmeCQueue;
->
->-#define TYPE_NVME_BUS "nvme-bus"
->-#define NVME_BUS(obj) OBJECT_CHECK(NvmeBus, (obj), TYPE_NVME_BUS)
->-
->-typedef struct NvmeBus {
->-    BusState parent_bus;
->-} NvmeBus;
->-
-> #define TYPE_NVME "nvme"
-> #define NVME(obj) \
->         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
->@@ -463,7 +465,7 @@ typedef struct NvmeCtrl {
->
-> static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
-> {
->-    if (!nsid || nsid > NVME_MAX_NAMESPACES) {
->+    if (!n || !nsid || nsid > NVME_MAX_NAMESPACES) {
->         return NULL;
->     }
->
->diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->index 90e3ee2b70ee..7c8fca36d9a5 100644
->--- a/hw/nvme/ctrl.c
->+++ b/hw/nvme/ctrl.c
->@@ -6516,11 +6516,13 @@ static void nvme_exit(PCIDevice *pci_dev)
->
->     for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
->         ns =3D nvme_ns(n, i);
->-        if (!ns) {
->-            continue;
->+        if (ns) {
->+            ns->attached--;
->         }
->+    }
->
->-        nvme_ns_cleanup(ns);
->+    if (n->subsys) {
->+        nvme_subsys_unregister_ctrl(n->subsys, n);
->     }
->
->     if (n->subsys) {
->diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
->index 3c4f5b8c714a..612a2786d75d 100644
->--- a/hw/nvme/ns.c
->+++ b/hw/nvme/ns.c
->@@ -444,13 +444,29 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
-> static void nvme_ns_realize(DeviceState *dev, Error **errp)
-> {
->     NvmeNamespace *ns =3D NVME_NS(dev);
->-    BusState *s =3D qdev_get_parent_bus(dev);
->-    NvmeCtrl *n =3D NVME(s->parent);
->-    NvmeSubsystem *subsys =3D n->subsys;
->+    BusState *qbus =3D qdev_get_parent_bus(dev);
->+    NvmeBus *bus =3D NVME_BUS(qbus);
->+    NvmeCtrl *n =3D NULL;
->+    NvmeSubsystem *subsys =3D NULL;
->     uint32_t nsid =3D ns->params.nsid;
->     int i;
->
->-    if (!n->subsys) {
->+    if (bus->is_subsys) {
->+        subsys =3D NVME_SUBSYS(qbus->parent);
->+    } else {
->+        n =3D NVME(qbus->parent);
->+        subsys =3D n->subsys;
->+    }
+Thanks!
 
-So, I realized that this if is not needed, since the device will always=20
-attach to the bus from the nvme device, never the 'fake' one from the=20
-subsystem.
+> To resolve this issue, this patch makes qemu wait for the commands result
+> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
+> Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
+> command to make the features setting functions work similary.
+> 
+> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> ---
+>  hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index ee57abe04526..e47b82adab00 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+>          .hdr.size = sizeof(msg.payload.addr),
+>      };
+>  
+> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> +    if (reply_supported) {
+> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> +    }
+> +
+>      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>          return -1;
+>      }
+>  
+> +    if (reply_supported) {
+> +        return process_message_reply(dev, &msg);
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> @@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+>          .hdr.size = sizeof(msg.payload.u64),
+>      };
+>  
+> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> +    if (reply_supported) {
+> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> +    }
+> +
+>      if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>          return -1;
+>      }
+>  
+> +    if (reply_supported) {
+> +        return process_message_reply(dev, &msg);
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> -- 
+> 2.25.1
 
->+
->+    if (subsys) {
->+        /*
->+         * If this namespace belongs to a subsystem (through a link on the
->+         * controller device), reparent the device.
->+         */
->+        if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
->+            return;
->+        }
->+    } else {
->         if (ns->params.detached) {
->             error_setg(errp, "detached requires that the nvme device is "
->                        "linked to an nvme-subsys device");
->@@ -470,7 +486,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **=
-errp)
->
->     if (!nsid) {
->         for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
->-            if (nvme_ns(n, i) || nvme_subsys_ns(subsys, i)) {
->+            if (nvme_subsys_ns(subsys, i) || nvme_ns(n, i)) {
->                 continue;
->             }
->
->@@ -483,7 +499,7 @@ static void nvme_ns_realize(DeviceState *dev, Error **=
-errp)
->             return;
->         }
->     } else {
->-        if (nvme_ns(n, nsid) || nvme_subsys_ns(subsys, nsid)) {
->+        if (nvme_subsys_ns(subsys, nsid) || nvme_ns(n, nsid)) {
->             error_setg(errp, "namespace id '%d' already allocated", nsid);
->             return;
->         }
->@@ -509,7 +525,9 @@ static void nvme_ns_realize(DeviceState *dev, Error **=
-errp)
->         }
->     }
->
->-    nvme_attach_ns(n, ns);
->+    if (n) {
->+        nvme_attach_ns(n, ns);
->+    }
-> }
->
-> static Property nvme_ns_props[] =3D {
->diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
->index 92caa604a280..fb7c3a7c55fc 100644
->--- a/hw/nvme/subsys.c
->+++ b/hw/nvme/subsys.c
->@@ -50,6 +50,10 @@ static void nvme_subsys_realize(DeviceState *dev, Error=
- **errp)
-> {
->     NvmeSubsystem *subsys =3D NVME_SUBSYS(dev);
->
->+    qbus_create_inplace(&subsys->bus, sizeof(NvmeBus), TYPE_NVME_BUS, dev,
->+                        dev->id);
->+    subsys->bus.is_subsys =3D true;
->+
->     nvme_subsys_setup(subsys);
-> }
->
->--=20
->2.32.0
->
->
-
---Tv8xOeKVrr0EfKJ2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDle7kACgkQTeGvMW1P
-DekNrAf/RCJ8N6pvTVx/9x0ET/D93PNY442yX5F/WIHQDDPnOsNiBp5OuTyZoy9q
-80dsu6CxtUL8fB1BF6Jwmd8fiVNHp3/gW22U+l4mGLYOKQhXdAg19PDiekmXfP7f
-WI44Nm2vEwqCjY2Ff8CBNVhRtxxaQqsZ9ZOfswGjbfZ47PY04DCuTLw1jxoYBPx8
-0papd7Jyfzdbf8l9SRkNZUom9/CeBnSU8cPlQJjV+kIaQXrYX6t9eI0r3sHClb16
-birug+ezF8SyTwjnFIu1wzy98n1cJOJDIFx4t/YbGaWK1La3JKNb2BE9+Ijm3CWE
-UF3vPNbDEZTknCA3Bk3CCgqIyHYYTQ==
-=D4Rz
------END PGP SIGNATURE-----
-
---Tv8xOeKVrr0EfKJ2--
 
