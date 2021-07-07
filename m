@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6747B3BEA68
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:09:18 +0200 (CEST)
-Received: from localhost ([::1]:42032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C302B3BEA7A
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:12:07 +0200 (CEST)
+Received: from localhost ([::1]:53676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19Ar-0005xs-CU
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36622)
+	id 1m19Da-0005Hv-Rc
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:12:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195E-0000yJ-BV
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53201)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195G-00010Y-5K
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195B-0006dS-AY
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:28 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195E-0006dd-29
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670204;
+ s=mimecast20190719; t=1625670206;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zmpRm6Bp0OUCMLI+CGNHcboqes++B9pawrnMEvKwPBY=;
- b=Nw62eRnsN0mLCZykNTkb1GYCGCKNCzg4Ug+TugzanTkws4q7x+ealT/0zCg2Q9wSbeQ9TM
- znrBGgb0BOXlTaXqm10xGlYtXfwZdcFwNoI/lEf9W1p04d5jEW7skm/ZYHZdymL1tuVtcs
- rDERTU+AFkM+vZYjcdqur7ARv48Hg2o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-g4Akphf7P6uGbxxXZ9ceOA-1; Wed, 07 Jul 2021 11:03:22 -0400
-X-MC-Unique: g4Akphf7P6uGbxxXZ9ceOA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j2-20020a0560001242b029012c82df4dbbso861202wrx.23
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:21 -0700 (PDT)
+ bh=WWeA2pIPO0IzUBt1/L/ZYIXmbfW8GvdQP3WWUiJJGag=;
+ b=fzgeuwSoYooOGSjg2WKO8um81ud7N7zn6cCYsVsOJGotYxryttPbozLSnKYI1m8EEQ4KDA
+ 471aHwyV4D+uKzREAISq8frkQmYwXeLYETs3F1f1x1f+1ZLQRo13e5g7KshWZ7iR0hicRz
+ RwG/tmahCTlNuGOU9sKGzTkqfp4UmRU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-424-8u-rkQmxNe-YJMPtE2tIJg-1; Wed, 07 Jul 2021 11:03:25 -0400
+X-MC-Unique: 8u-rkQmxNe-YJMPtE2tIJg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ g4-20020a5d64e40000b029013398ce8904so872389wri.16
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zmpRm6Bp0OUCMLI+CGNHcboqes++B9pawrnMEvKwPBY=;
- b=mIGQ3MYpt8KOPaboDsxdUdpSQISc19sGAFeBISGreIzutDdZanyunIZKQGcYF/Ia+p
- 7LqtlkEIzUoRPKESNA8f37AMyeYrBYu86IIyjQ9DqvZDy13cQJjRjCa2eGjEnKlDletj
- 73dK1/DYLJS1TaCT62Birr/7X3L4DK6BpHvhlekIHHXMmmiQ7atNfkfHv43HHMuSpCEs
- pyks7HEZwWGPMJS3jmJFpllZWY9RO72VU9Af/228SwyBYGr2AS/IeV0Jx0yDhBXw9yQ/
- rKLk1DcUaPokaWykPIsJoZVP9CDBU+RUfbZhR9snFBvSHLS3CnkNdTMA6PKpi90/O1Wl
- Cgog==
-X-Gm-Message-State: AOAM533/Dt2FEogWVNViMtZP8fkjVxiprXpYwKpTEOqS4uD6Fq/Rg0zi
- 2Eseu9ZLdiMZ4jUpkyGMRxaHHzps+AZr/2xpOZ/iqcMqBYKcd+lXO4nNX05uJGSo9Bykq01l16C
- F+DePeaB0Rymsth6FlM1ValZbamLhovAeIbByHylVFgq1a3MWUBWtUtKgEoF8
-X-Received: by 2002:a5d:4a4c:: with SMTP id v12mr2915963wrs.256.1625670200804; 
- Wed, 07 Jul 2021 08:03:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwBstri0nh/6cyE1UkYCO4YBAfNeSuFiIVeyC9EWIVZ0R84BSzAIl+cxB7pMxhUJ2bEOG/Lpw==
-X-Received: by 2002:a5d:4a4c:: with SMTP id v12mr2915924wrs.256.1625670200612; 
- Wed, 07 Jul 2021 08:03:20 -0700 (PDT)
+ bh=WWeA2pIPO0IzUBt1/L/ZYIXmbfW8GvdQP3WWUiJJGag=;
+ b=M+lCL4XeYW2h2ftIuiAWJgkU0P4GSG+dxqG3fUcCzz3S4KrR8dsyHAcq09m2OPe00x
+ 3zDOgZ02ox8exDtzTwlp57S4JWKOvvYNOGA++Vji8g4u5ZyJVjiisolXe/WpN5zrFwNL
+ HBsEmy50ppKzSMv6VMlSatVEFcGddWo95qDuAH+nWsjPPN61yOP5/pa/UWt8q2XXa3ZM
+ NchnTBT7XdJjq64RIDLKSsJ8Joy4pev+YkT5p8/F30rFqP1cAfeqDV1p1/bPFJdPue+j
+ fct6uCIoadX9rR65TCkCWdIaJbr+RpGk4LA1MCerY9N+O4zCXjvoIplXjjaKqGAKL/Zk
+ b7zw==
+X-Gm-Message-State: AOAM530Rl8TdSCDe1My7t4zR8Yhpqjhetv8lBGq4aa+gjngf3cjYgBEm
+ ozMYVuInFxfOgo8krsEmFCcppA3y2pM9RZKoPx70WN3mmdecjxnVa+8f9i2oC+92g7ZXaitAFxP
+ dnJ/MEFdDM2q2k3ycMw74/1n17eC/oy+T6QcW8fIyL8KN40YYz7p+Kg7lJNFQ
+X-Received: by 2002:a05:6000:1867:: with SMTP id
+ d7mr21558826wri.263.1625670204072; 
+ Wed, 07 Jul 2021 08:03:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyaFAnUIZgI4vkVVyngx6WjflrFHqUq8rwmqpW/BMuUyIGvmJE/+8ccWLurU05AOquLbWt+Ug==
+X-Received: by 2002:a05:6000:1867:: with SMTP id
+ d7mr21558804wri.263.1625670203914; 
+ Wed, 07 Jul 2021 08:03:23 -0700 (PDT)
 Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id e8sm20813490wrq.10.2021.07.07.08.03.19
+ by smtp.gmail.com with ESMTPSA id p18sm18874739wrt.18.2021.07.07.08.03.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:03:20 -0700 (PDT)
-Date: Wed, 7 Jul 2021 11:03:17 -0400
+ Wed, 07 Jul 2021 08:03:23 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:03:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/13] migration: failover: reset partially_hotplugged
-Message-ID: <20210707150157.52328-8-mst@redhat.com>
+Subject: [PULL 08/13] tests: acpi: prepare for changing DSDT tables
+Message-ID: <20210707150157.52328-9-mst@redhat.com>
 References: <20210707150157.52328-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210707150157.52328-1-mst@redhat.com>
@@ -72,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -93,38 +95,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ John Sucaet <john.sucaet@ekinops.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-When the card is plugged back, reset the partially_hotplugged flag to false
-
-Bug: https://bugzilla.redhat.com/show_bug.cgi?id=1787194
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20210629152937.619193-1-lvivier@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20210624204229.998824-2-imammedo@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Tested-by: John Sucaet <john.sucaet@ekinops.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/net/virtio-net.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/bios-tables-test-allowed-diff.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index bd7958b9f0..16d20cdee5 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3234,6 +3234,7 @@ static bool failover_replug_primary(VirtIONet *n, DeviceState *dev,
-         }
-         hotplug_handler_plug(hotplug_ctrl, dev, &err);
-     }
-+    pdev->partially_hotplugged = false;
- 
- out:
-     error_propagate(errp, err);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..6c83a3ef76 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,11 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/pc/DSDT",
++"tests/data/acpi/pc/DSDT.bridge",
++"tests/data/acpi/pc/DSDT.ipmikcs",
++"tests/data/acpi/pc/DSDT.cphp",
++"tests/data/acpi/pc/DSDT.memhp",
++"tests/data/acpi/pc/DSDT.numamem",
++"tests/data/acpi/pc/DSDT.nohpet",
++"tests/data/acpi/pc/DSDT.dimmpxm",
++"tests/data/acpi/pc/DSDT.acpihmat",
++"tests/data/acpi/pc/DSDT.hpbridge",
 -- 
 MST
 
