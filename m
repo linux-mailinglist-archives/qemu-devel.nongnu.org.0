@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3902E3BEA78
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:11:54 +0200 (CEST)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DDC3BEA45
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:04:29 +0200 (CEST)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19DN-0004qe-5j
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37252)
+	id 1m196C-0002C6-2o
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:04:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m197n-0000qp-Ra
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:06:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27458)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m194m-00080K-5v
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m197m-0006zA-CC
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:06:07 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m194k-0006VR-HF
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:02:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670365;
+ s=mimecast20190719; t=1625670178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gAqW+8N7iMGcapAeP6vWVExIRFMEhdprQula/BM34oc=;
- b=geWp8P+9RcNwQsGeDqkgqu5uJb5XXlqyryA0vlSI0v6fPnA3TfoPpof+qB76wzRRynF59J
- yh+zU+/WbD7CNP4ZrEU5bR4BgMzeuusE6UtDcqSlHTx0jGV+dIDHIkQ8/qI9SvlWtLxiGB
- +cbm/juUyX7zTQQkKJYByKhoko3ImB0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-b6srM__7NXSS-54W7VQQew-1; Wed, 07 Jul 2021 11:02:53 -0400
-X-MC-Unique: b6srM__7NXSS-54W7VQQew-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j1-20020adfb3010000b02901232ed22e14so887065wrd.5
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:02:53 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+iEPP4M9ior+MIHFEOM1ekdojNuqm/4Nu9pGBAaPet4=;
+ b=GZ/KA4xRRC4NEKvN9hmy3E5JBjCvBsku+6384Wv7xtyL5KsQZufPB1LL7UVJUjavoc+PdS
+ t/a0wnqSzQtyGBxjPNJk6SoLHn8s3whUWRQyc6nAnzD41Cqof0julxTjd7z5afE3dQIH5q
+ NBbBfyxBWFBvgN57Rh3ALPfcCMWvhUU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-uDs0LZAJOg2h9R7aAQ8nLw-1; Wed, 07 Jul 2021 11:02:56 -0400
+X-MC-Unique: uDs0LZAJOg2h9R7aAQ8nLw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r11-20020a5d52cb0000b02901309f5e7298so899937wrv.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:02:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=gAqW+8N7iMGcapAeP6vWVExIRFMEhdprQula/BM34oc=;
- b=ikTUAr+KbSiElIoEbeNhhqi+dctnrXgZYkY0ZRCnsHK0Lv4PKEN1I61mHucMoiPzab
- aCjo4JGZ69q+eALUN+jii8j26oNpmygEg8iRtFgFuAv1i+jY6SiErLt6cfAcqVnZ1tnx
- dLeBZoMv2/Q5IuRLqXfuvCyV/eK4nAqhs+3efJNJrj6LxSmEaOzsd60ouaxbo0bThdpD
- vkToAqrOjgPw0f7uETTErONpaeUj4Avr5QKFRed9QORnn8JjUbS+fqj/dF79J1IE5xpA
- NyBzFqdG772EXm9xo1HH3RQ1hoT46Xrj4/DSf2Uc8ltf2SaLGw3JhbmnIOrRdGJCKMb/
- XlaA==
-X-Gm-Message-State: AOAM531XaEJ2YyWzfQE2KIjS4kao+5SBlcLb8sC4OTMTY8G9pvczsrwe
- tP5i8tWF+N0i2F1iZvvMoMjiC9tb/39/WIRJ/u5vTtgLaW7+gdcbCvxiCShLvATK3pM2s6ErX/n
- ClJEWltKFiKLwxrOZ27/UVvNBqtK/HZ16F5v9gtsD9DuPzzKlaP4Ur1duAx7C
-X-Received: by 2002:a7b:c318:: with SMTP id k24mr27401556wmj.144.1625670172124; 
- Wed, 07 Jul 2021 08:02:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEF5shu7RpfGUXtc8eCYCQX2yt+2+b/5HQWW+pW0cV01LKqnNeDk02UsEzx3kX3qBmszAh6Q==
-X-Received: by 2002:a7b:c318:: with SMTP id k24mr27401531wmj.144.1625670171943; 
- Wed, 07 Jul 2021 08:02:51 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=+iEPP4M9ior+MIHFEOM1ekdojNuqm/4Nu9pGBAaPet4=;
+ b=a8BRY9KSSykoD2MOVBAEbCwIst2CN8xTWZ17G7f2VSKMcnCKdJuOeLkFP3XCsVoYAK
+ T6h/Eg4mItprKEW23NpEGH78HoFHqPetlNCXsTx70PNRxNFQLHvQ63nJFn5Xs50/YEiz
+ 1fSMK0g5YFOhHASAWKciqIfr8Pd9ivxPxwwOyIcP7+zt6O6L3yL6OuC6/XpmTZYiRogk
+ 6hYI6MiPniXuRmT39DQO3JMYTKGxLshBu+S67XmiWjuk/SKakfMKn1AD7Q0mtjQY8+JD
+ Gy8nnvfaNNwPucTO0slFpVOM7OmZVnGNbM9nwCWo7TYabOIa62pjYfkQz3fvIhF4+LFK
+ m2SQ==
+X-Gm-Message-State: AOAM531A2F6FPrNmzmFR9+nAuNiHhEogllkUE3ifw0oyOxHJxpVDIiyV
+ Woe1B15iyesBAXorH22eofV231hryPkRh0YJ7zeH/JzfgupkW+VOyFazkobJ9XbS3cI1WO0p5ON
+ 4Z1Ttrrg2Cfi9XkvmTqF0KPvO4X8uZn5CLln2fRnj8mU7p18eSycT+ENzxY7s
+X-Received: by 2002:adf:f149:: with SMTP id y9mr27921887wro.85.1625670175116; 
+ Wed, 07 Jul 2021 08:02:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz459ozAQDR0xxARh4WVxfJoAKrsB6ZMmdR83sa68qVjq0l/zhGM5dXFGSS07jlBdIQALFOCA==
+X-Received: by 2002:adf:f149:: with SMTP id y9mr27921862wro.85.1625670174950; 
+ Wed, 07 Jul 2021 08:02:54 -0700 (PDT)
 Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id f12sm6331193wmg.16.2021.07.07.08.02.49
+ by smtp.gmail.com with ESMTPSA id h15sm19983846wrq.88.2021.07.07.08.02.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:02:50 -0700 (PDT)
-Date: Wed, 7 Jul 2021 11:02:47 -0400
+ Wed, 07 Jul 2021 08:02:54 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:02:52 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/16] virtio-blk: Fix rollback path in
- virtio_blk_data_plane_start()
-Message-ID: <20210514160245.91918-9-mst@redhat.com>
-References: <20210514160245.91918-1-mst@redhat.com>
+Subject: [PULL 00/13] pc,pci,virtio: bugfixes, improvements
+Message-ID: <20210707150157.52328-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210514160245.91918-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -81,7 +79,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,76 +92,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Greg Kurz <groug@kaod.org>,
- Max Reitz <mreitz@redhat.com>, stefanha@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+The following changes since commit 9c2647f75004c4f7d64c9c0ec55f8c6f0739a8b1:
 
-When dataplane multiqueue support was added in QEMU 2.7, the path
-that would rollback guest notifiers assignment in case of error
-simply got dropped.
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-07-02 11:46:32 +0100)
 
-Later on, when Error was added to blk_set_aio_context() in QEMU 4.1,
-another error path was introduced, but it ommits to rollback both
-host and guest notifiers.
+are available in the Git repository at:
 
-It seems cleaner to fix the rollback path in one go. The patch is
-simple enough that it can be adjusted if backported to a pre-4.1
-QEMU.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-Fixes: 51b04ac5c6a6 ("virtio-blk: dataplane multiqueue support")
-Cc: stefanha@redhat.com
-Fixes: 97896a4887a0 ("block: Add Error to blk_set_aio_context()")
-Cc: kwolf@redhat.com
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20210407143501.244343-2-groug@kaod.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+for you to fetch changes up to e3e01466bff42b5ea977340d8d7d90df482b0c97:
+
+  MAINTAINERS: Add maintainer for vhost-user RNG implementation (2021-07-07 06:11:22 -0400)
+
+----------------------------------------------------------------
+pc,pci,virtio: bugfixes, improvements
+
+vhost-user-rng support.
+Fixes all over the place.
+
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/block/dataplane/virtio-blk.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
-index e9050c8987..d7b5c95d26 100644
---- a/hw/block/dataplane/virtio-blk.c
-+++ b/hw/block/dataplane/virtio-blk.c
-@@ -207,7 +207,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-                 virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-                 virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-             }
--            goto fail_guest_notifiers;
-+            goto fail_host_notifiers;
-         }
-     }
- 
-@@ -221,7 +221,7 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     aio_context_release(old_context);
-     if (r < 0) {
-         error_report_err(local_err);
--        goto fail_guest_notifiers;
-+        goto fail_aio_context;
-     }
- 
-     /* Process queued requests before the ones in vring */
-@@ -245,6 +245,13 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
-     aio_context_release(s->ctx);
-     return 0;
- 
-+  fail_aio_context:
-+    for (i = 0; i < nvqs; i++) {
-+        virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
-+        virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
-+    }
-+  fail_host_notifiers:
-+    k->set_guest_notifiers(qbus->parent, nvqs, false);
-   fail_guest_notifiers:
-     /*
-      * If we failed to set up the guest notifiers queued requests will be
--- 
-MST
+----------------------------------------------------------------
+Andrew Melnychenko (3):
+      virtio-pci: Added check for virtio device presence in mm callbacks.
+      virtio-pci: Added check for virtio device in PCI config cbs.
+      virtio-pci: Changed return values for "notify", "device" and "isr" read.
+
+Gerd Hoffmann (1):
+      acpi/ged: fix reset cause
+
+Greg Kurz (1):
+      virtio: Clarify MR transaction optimization
+
+Igor Mammedov (3):
+      tests: acpi: prepare for changing DSDT tables
+      acpi: pc: revert back to v5.2 PCI slot enumeration
+      tests: acpi: pc: update expected DSDT blobs
+
+Laurent Vivier (1):
+      migration: failover: reset partially_hotplugged
+
+Mathieu Poirier (1):
+      MAINTAINERS: Add maintainer for vhost-user RNG implementation
+
+Pavel Dovgalyuk (1):
+      virtio: disable ioeventfd for record/replay
+
+Philippe Mathieu-Daudé (1):
+      hw/pci-host/q35: Ignore write of reserved PCIEXBAR LENGTH field
+
+Vincent Bernat (1):
+      docs: add slot when adding new PCIe root port
+
+ docs/pcie_pci_bridge.txt         |   6 +++---
+ hw/acpi/generic_event_device.c   |   2 +-
+ hw/block/dataplane/virtio-blk.c  |  16 ++++++++++++++++
+ hw/i386/acpi-build.c             |   9 +++++++--
+ hw/net/virtio-net.c              |   1 +
+ hw/pci-host/q35.c                |   3 +++
+ hw/s390x/virtio-ccw.c            |   6 ++++++
+ hw/scsi/virtio-scsi-dataplane.c  |  16 ++++++++++++++++
+ hw/virtio/virtio-mmio.c          |   6 ++++++
+ hw/virtio/virtio-pci.c           |  33 +++++++++++++++++++++++++++++++--
+ hw/virtio/virtio.c               |  16 ++++++++++++++++
+ MAINTAINERS                      |   9 +++++++++
+ tests/data/acpi/pc/DSDT          | Bin 6002 -> 6002 bytes
+ tests/data/acpi/pc/DSDT.acpihmat | Bin 7327 -> 7327 bytes
+ tests/data/acpi/pc/DSDT.bridge   | Bin 8668 -> 8668 bytes
+ tests/data/acpi/pc/DSDT.cphp     | Bin 6466 -> 6466 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm  | Bin 7656 -> 7656 bytes
+ tests/data/acpi/pc/DSDT.hpbridge | Bin 5969 -> 5969 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs  | Bin 6074 -> 6074 bytes
+ tests/data/acpi/pc/DSDT.memhp    | Bin 7361 -> 7361 bytes
+ tests/data/acpi/pc/DSDT.nohpet   | Bin 5860 -> 5860 bytes
+ tests/data/acpi/pc/DSDT.numamem  | Bin 6008 -> 6008 bytes
+ 22 files changed, 115 insertions(+), 8 deletions(-)
 
 
