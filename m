@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF2C3BEA5B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:06:45 +0200 (CEST)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 398603BEA66
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:09:05 +0200 (CEST)
+Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m198O-0000Xh-82
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36434)
+	id 1m19Ae-000568-1W
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:09:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m194q-0008DK-6R
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58675)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1955-0000lT-EE
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m194o-0006Xz-Gh
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:03 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1953-0006bz-HQ
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670182;
+ s=mimecast20190719; t=1625670197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QReaygTvgIPiu+t7rp1+oUfbV4YTyblPRgcOq0uWDBw=;
- b=H32e0jPcN3teaIaPzP0XkMXWSQb/MOcZgDwLgZYIyDSowMwcs6RWRVvBdzF2ZvC8yRCPHf
- 3/E3byQoctdARfeIigXn6eQfGmi1uJBaj9cRNvu5bwfZxjE6eB2VnPGcyiueo8+uQlTQ+v
- sv98/SBvnyH/SoujoYCGKhYcgDdhSQI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-kMYLvm36MbSjsmhNEVVHXg-1; Wed, 07 Jul 2021 11:03:00 -0400
-X-MC-Unique: kMYLvm36MbSjsmhNEVVHXg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n5-20020a05600c3b85b02902152e9caa1dso929563wms.3
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:00 -0700 (PDT)
+ bh=A3MGUCJtgBhwKzEbRcOjG3DpxML933D/5Xe7a2aplEo=;
+ b=TbDiiP8U2pcHhKKbdLY2wbXIH+7PVJrwn6IT6VIv6JPuxlb1IvaLDUFMg67AYSJDeU/iuS
+ YCl8J5vLMhCEAzuBnJ2Jv+brKn+oEzn6gKdej7vsmFuqeAHb49jO+us0OZRzs+eCO2u+Gy
+ HsVbJdhFk4Qv0phiqOcoWDInwaooCcc=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-45--bpzJqiNNKm7CGnNe5SkhQ-1; Wed, 07 Jul 2021 11:03:04 -0400
+X-MC-Unique: -bpzJqiNNKm7CGnNe5SkhQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z127-20020a1c7e850000b02901e46e4d52c0so2560059wmc.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=QReaygTvgIPiu+t7rp1+oUfbV4YTyblPRgcOq0uWDBw=;
- b=mrMIuc//PsLVkGYCYDjOpRohK4e/Svoab3sbkm25gf2JEb7+uLe9MhpPsPoLV7DMQR
- IQtPfSZ2ubMB388suinEkbsYXV9srbZGT1NWV4C/AQHe9sie8yGGfi8AUjlHLoa1N2AX
- uwWNc9t/f+18KtDLL/9zwCTsGp+euc75yI90KunEnsEL7/YebPBbDmzzV+rwGCZS+3AP
- hzITCsh6xMpFrZrJjV2MvmwxDkBYockoEHxgZkw4aJNyVlc3je8l14mdfefs5Y61u/3j
- NXqLsY4WYyfibo1A7qqPx/0zrxJJ3qt3LPY4LZsGpqWMMeoIkCquVrJYCMsCQzN7ulQR
- K2qA==
-X-Gm-Message-State: AOAM533zYeCXaiNzyfRFAu6Q4exxrraTUCr1tlB3A6Iy/Eh/5x77G/NS
- QjXHrrirXCk+NXn0Rte4pvVIXGz15WHXvhQc0XnOyVqvfQFbIT81Rqnk3ETg1dgxgwQD3neo2TK
- wAxBCVMKHe052pfqDpubAieEHhcm5p9QSo0HrjGuwupfuBcKMGd+NxEWclm/w
-X-Received: by 2002:a1c:1bc3:: with SMTP id b186mr52390wmb.27.1625670179168;
- Wed, 07 Jul 2021 08:02:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz4Q8XrrpGrdQaAIPd7jvyUNXvz1y0/jXVMo8yTwl0oacs31GgeqeuCun9qePvejWxFX5g0wg==
-X-Received: by 2002:a1c:1bc3:: with SMTP id b186mr52341wmb.27.1625670178903;
- Wed, 07 Jul 2021 08:02:58 -0700 (PDT)
+ bh=A3MGUCJtgBhwKzEbRcOjG3DpxML933D/5Xe7a2aplEo=;
+ b=O8N0xY/CMKeQtZLHn3LdtxyDzgTBiy0kdYY2fci4KC76L8oXD2wE8TbMVmLw2rvP+p
+ VNE2h+vwirD5lAWBfmeR2GT9hxLjkdWPGwzplpmPgaGWKEKbZ9Ce9ySAiIxecVCzD9NZ
+ 1Tuvk3lD2Ex9O8wy0FaMozEtekaYG75mX6sz04lW+Yxf8GwijXnH8fHVjjObZQx28P2o
+ ZlbEVL/uawy5gsHnUCw2wv/JGv4MvQ6qKp1FuxOqiYhRpwO9Yn2PiE6j8ApHCMPaGAIB
+ 4uJJuYnkTczOdWO7ROcw5Mz+q6fbFijO71JtgPxp1RTG3vOV+VuAePSDp5I7eHwRN5bC
+ X8+g==
+X-Gm-Message-State: AOAM531j93qZtgrvJJbl6LYXk08Rd7wMFzhDtPgFezx2+rL6JOpGSOrh
+ 5dzYaqa69vOPz5N3DcdO3qDAafCX7BuPps1TsATy383UkzjvTALtrj4kTeMjujmMYcsaBt08tgW
+ Ut+PL0uf4yv9kMGk5ZuHaKAzQmwjCNrwPXH5WKJ7dnWDD72OmL0fzkFs+txvh
+X-Received: by 2002:a5d:5102:: with SMTP id s2mr3466683wrt.214.1625670183087; 
+ Wed, 07 Jul 2021 08:03:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy04joxzZk06KKOZB9XvnV5GZGW/yZswUGhV0Oz2Ap/YEQZDRiy8OyBImG977M/NehwWKn7Cw==
+X-Received: by 2002:a5d:5102:: with SMTP id s2mr3466640wrt.214.1625670182803; 
+ Wed, 07 Jul 2021 08:03:02 -0700 (PDT)
 Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id o35sm859428wms.29.2021.07.07.08.02.56
+ by smtp.gmail.com with ESMTPSA id v2sm20186590wru.16.2021.07.07.08.03.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:02:58 -0700 (PDT)
-Date: Wed, 7 Jul 2021 11:02:55 -0400
+ Wed, 07 Jul 2021 08:03:02 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:02:59 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/13] virtio: disable ioeventfd for record/replay
-Message-ID: <20210707150157.52328-2-mst@redhat.com>
+Subject: [PULL 02/13] virtio: Clarify MR transaction optimization
+Message-ID: <20210707150157.52328-3-mst@redhat.com>
 References: <20210707150157.52328-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210707150157.52328-1-mst@redhat.com>
@@ -93,105 +93,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+From: Greg Kurz <groug@kaod.org>
 
-virtio devices support separate iothreads waiting for
-events from file descriptors. These are asynchronous
-events that can't be recorded and replayed, therefore
-this patch disables ioeventfd for all devices when
-record or replay is enabled.
+The device model batching its ioeventfds in a single MR transaction is
+an optimization. Clarify this in virtio-scsi, virtio-blk and generic
+virtio code. Also clarify that the transaction must commit before
+closing ioeventfds so that no one is tempted to merge the loops
+in the start functions error path and in the stop functions.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <162125678869.1252810.4317416444097392406.stgit@pasha-ThinkPad-X280>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <162125799728.1394228.339855768563326832.stgit@bahia.lan>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/s390x/virtio-ccw.c   | 6 ++++++
- hw/virtio/virtio-mmio.c | 6 ++++++
- hw/virtio/virtio-pci.c  | 6 ++++++
- 3 files changed, 18 insertions(+)
+ hw/block/dataplane/virtio-blk.c | 16 ++++++++++++++++
+ hw/scsi/virtio-scsi-dataplane.c | 16 ++++++++++++++++
+ hw/virtio/virtio.c              | 16 ++++++++++++++++
+ 3 files changed, 48 insertions(+)
 
-diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-index d68888fccd..6a2df1c1e9 100644
---- a/hw/s390x/virtio-ccw.c
-+++ b/hw/s390x/virtio-ccw.c
-@@ -31,6 +31,7 @@
- #include "trace.h"
- #include "hw/s390x/css-bridge.h"
- #include "hw/s390x/s390-virtio-ccw.h"
-+#include "sysemu/replay.h"
- 
- #define NR_CLASSIC_INDICATOR_BITS 64
- 
-@@ -770,6 +771,11 @@ static void virtio_ccw_device_realize(VirtioCcwDevice *dev, Error **errp)
-         dev->flags &= ~VIRTIO_CCW_FLAG_USE_IOEVENTFD;
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index cd81893d1d..252c3a7a23 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -198,6 +198,10 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+         goto fail_guest_notifiers;
      }
  
-+    /* fd-based ioevents can't be synchronized in record/replay */
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        dev->flags &= ~VIRTIO_CCW_FLAG_USE_IOEVENTFD;
-+    }
-+
-     if (k->realize) {
-         k->realize(dev, &err);
-         if (err) {
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 5952471b38..1af48a1b04 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -29,6 +29,7 @@
- #include "qemu/host-utils.h"
- #include "qemu/module.h"
- #include "sysemu/kvm.h"
-+#include "sysemu/replay.h"
- #include "hw/virtio/virtio-mmio.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-@@ -740,6 +741,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
-         proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
++    /*
++     * Batch all the host notifiers in a single transaction to avoid
++     * quadratic time complexity in address_space_update_ioeventfds().
++     */
+     memory_region_transaction_begin();
+ 
+     /* Set up virtqueue notify */
+@@ -211,6 +215,10 @@ int virtio_blk_data_plane_start(VirtIODevice *vdev)
+                 virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
+             }
+ 
++            /*
++             * The transaction expects the ioeventfds to be open when it
++             * commits. Do it now, before the cleanup loop.
++             */
+             memory_region_transaction_commit();
+ 
+             while (j--) {
+@@ -330,12 +338,20 @@ void virtio_blk_data_plane_stop(VirtIODevice *vdev)
+ 
+     aio_context_release(s->ctx);
+ 
++    /*
++     * Batch all the host notifiers in a single transaction to avoid
++     * quadratic time complexity in address_space_update_ioeventfds().
++     */
+     memory_region_transaction_begin();
+ 
+     for (i = 0; i < nvqs; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
      }
  
-+    /* fd-based ioevents can't be synchronized in record/replay */
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
-+    }
-+
-     if (proxy->legacy) {
-         memory_region_init_io(&proxy->iomem, OBJECT(d),
-                               &virtio_legacy_mem_ops, proxy,
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index b321604d9b..f1e105fa52 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -37,6 +37,7 @@
- #include "qemu/range.h"
- #include "hw/virtio/virtio-bus.h"
- #include "qapi/visitor.h"
-+#include "sysemu/replay.h"
++    /*
++     * The transaction expects the ioeventfds to be open when it
++     * commits. Do it now, before the cleanup loop.
++     */
+     memory_region_transaction_commit();
  
- #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
- 
-@@ -1760,6 +1761,11 @@ static void virtio_pci_realize(PCIDevice *pci_dev, Error **errp)
-         proxy->flags &= ~VIRTIO_PCI_FLAG_USE_IOEVENTFD;
+     for (i = 0; i < nvqs; i++) {
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index 28e003250a..18eb824c97 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -152,6 +152,10 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+         goto fail_guest_notifiers;
      }
  
-+    /* fd-based ioevents can't be synchronized in record/replay */
-+    if (replay_mode != REPLAY_MODE_NONE) {
-+        proxy->flags &= ~VIRTIO_PCI_FLAG_USE_IOEVENTFD;
-+    }
-+
-     /*
-      * virtio pci bar layout used by default.
-      * subclasses can re-arrange things if needed.
++    /*
++     * Batch all the host notifiers in a single transaction to avoid
++     * quadratic time complexity in address_space_update_ioeventfds().
++     */
+     memory_region_transaction_begin();
+ 
+     rc = virtio_scsi_set_host_notifier(s, vs->ctrl_vq, 0);
+@@ -198,6 +202,10 @@ fail_host_notifiers:
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
+     }
+ 
++    /*
++     * The transaction expects the ioeventfds to be open when it
++     * commits. Do it now, before the cleanup loop.
++     */
+     memory_region_transaction_commit();
+ 
+     for (i = 0; i < vq_init_count; i++) {
+@@ -238,12 +246,20 @@ void virtio_scsi_dataplane_stop(VirtIODevice *vdev)
+ 
+     blk_drain_all(); /* ensure there are no in-flight requests */
+ 
++    /*
++     * Batch all the host notifiers in a single transaction to avoid
++     * quadratic time complexity in address_space_update_ioeventfds().
++     */
+     memory_region_transaction_begin();
+ 
+     for (i = 0; i < vs->conf.num_queues + 2; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
+     }
+ 
++    /*
++     * The transaction expects the ioeventfds to be open when it
++     * commits. Do it now, before the cleanup loop.
++     */
+     memory_region_transaction_commit();
+ 
+     for (i = 0; i < vs->conf.num_queues + 2; i++) {
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index ab516ac614..6dcf3baf56 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3728,6 +3728,10 @@ static int virtio_device_start_ioeventfd_impl(VirtIODevice *vdev)
+     VirtioBusState *qbus = VIRTIO_BUS(qdev_get_parent_bus(DEVICE(vdev)));
+     int i, n, r, err;
+ 
++    /*
++     * Batch all the host notifiers in a single transaction to avoid
++     * quadratic time complexity in address_space_update_ioeventfds().
++     */
+     memory_region_transaction_begin();
+     for (n = 0; n < VIRTIO_QUEUE_MAX; n++) {
+         VirtQueue *vq = &vdev->vq[n];
+@@ -3766,6 +3770,10 @@ assign_error:
+         r = virtio_bus_set_host_notifier(qbus, n, false);
+         assert(r >= 0);
+     }
++    /*
++     * The transaction expects the ioeventfds to be open when it
++     * commits. Do it now, before the cleanup loop.
++     */
+     memory_region_transaction_commit();
+ 
+     while (--i >= 0) {
+@@ -3790,6 +3798,10 @@ static void virtio_device_stop_ioeventfd_impl(VirtIODevice *vdev)
+     VirtioBusState *qbus = VIRTIO_BUS(qdev_get_parent_bus(DEVICE(vdev)));
+     int n, r;
+ 
++    /*
++     * Batch all the host notifiers in a single transaction to avoid
++     * quadratic time complexity in address_space_update_ioeventfds().
++     */
+     memory_region_transaction_begin();
+     for (n = 0; n < VIRTIO_QUEUE_MAX; n++) {
+         VirtQueue *vq = &vdev->vq[n];
+@@ -3801,6 +3813,10 @@ static void virtio_device_stop_ioeventfd_impl(VirtIODevice *vdev)
+         r = virtio_bus_set_host_notifier(qbus, n, false);
+         assert(r >= 0);
+     }
++    /*
++     * The transaction expects the ioeventfds to be open when it
++     * commits. Do it now, before the cleanup loop.
++     */
+     memory_region_transaction_commit();
+ 
+     for (n = 0; n < VIRTIO_QUEUE_MAX; n++) {
 -- 
 MST
 
