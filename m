@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B2AB3BEFA9
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 20:43:51 +0200 (CEST)
-Received: from localhost ([::1]:48562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1D23BEFD3
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 20:49:57 +0200 (CEST)
+Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1CWT-0004Qo-SV
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 14:43:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34322)
+	id 1m1CcO-0004ZI-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 14:49:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1CUO-0003Mp-AF
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:41:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34395)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1CX4-0005l3-DE
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:44:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1CUG-0008Qu-Vm
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:41:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1CX0-0000Xj-FQ
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:44:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625683291;
+ s=mimecast20190719; t=1625683461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q57HXQLW6EDFClC6hqrVqwIib6U6wzhs2opsh1ey9Mk=;
- b=S4jHC4Ooo/nQfyNLDda9f75O0Up1i9NHxlC5ov45QqesyEuqB4CCGg/2//maB/TZ5GLJqq
- I1CGoUWjEU2W13+uMBwYdUvmORhZVwI17GIS8ZzvrWuXmX6sHQIODPn9bXuGgaCKSmkCVK
- nqhpNpA8ukmdigfLz2zCeccY0X07yXw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-iKNjnSh5NFmUTlzp1ShD7Q-1; Wed, 07 Jul 2021 14:41:30 -0400
-X-MC-Unique: iKNjnSh5NFmUTlzp1ShD7Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32EC0102C888;
- Wed,  7 Jul 2021 18:41:29 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5D35C5D6AB;
- Wed,  7 Jul 2021 18:41:28 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/2] qemu-img: Reword 'qemu-img map --output=json' docs
-Date: Wed,  7 Jul 2021 13:41:25 -0500
-Message-Id: <20210707184125.2551140-1-eblake@redhat.com>
-In-Reply-To: <20210701190655.2131223-1-eblake@redhat.com>
-References: <20210701190655.2131223-1-eblake@redhat.com>
+ bh=pTPm2OB4bI0SLMECP8hOxQQpJIQsuDGb0f1MoMExTkA=;
+ b=egX7TQpr80apQMl3YjZ3z7rmGv9UOOHCnglDfIJTEKi1a3EZk7l5gfvGbLgloxJfyoOAOI
+ 8ywFHLDRJW8sdQVgN11jc+uVD9cFGgRgW3jkviL4HrCbuP0H9tbB0yUim7oyu3joi/Spgv
+ 45zPkEbbGeDLx2JbmUekHw2+FnuF2TE=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-sagnGYhaP5i7qXddSVK1UQ-1; Wed, 07 Jul 2021 14:44:20 -0400
+X-MC-Unique: sagnGYhaP5i7qXddSVK1UQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z2-20020a5d4d020000b0290130e19b0ddbso1070252wrt.17
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 11:44:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=pTPm2OB4bI0SLMECP8hOxQQpJIQsuDGb0f1MoMExTkA=;
+ b=DQW4KBB8pHmj/L+UNRsGW+7/7DYqtGNnS7oL9nsVObsJfxwnrXS8Q2e9fH3Uuwk9B9
+ +IPS4wBUg5PqSwNMec5wwsJrlhq8EWJtrgJMoTRRF+T663ET8meSiQJDsP46y+3joDDB
+ VK9ubSKxiG1TsXT2oIgHvfBs8BODjt7/Jx0ir0oU846bc/U9aHlog/rnSZ98lRANPzRY
+ hpuXhSYpUEuGlJ0CUwnl/CIMsb5S1Qatfpe34i/zdFBP5T12a7QeHxO4B+Kk71nTWSAk
+ 2h8FMkDkxIhdSrhHZ2gTVpsT2GSDoWKSdhrvhVLxbS75BkHV/JPGGgJK2bQ7u2W8Q9gd
+ /azw==
+X-Gm-Message-State: AOAM531iREyupffyTCPsR/13h1J9FAmochYIh1mlCX+QZFZGj20OmzZ6
+ iQ5TY5HTYFpxGs5+Pp9Q2Vj4Q56spxvxXGe2ayZKOGGfMMFIxgoN4RnCvCDXLNnKtxGCsh5DBh2
+ DMp7sOfp/o8oAZwo=
+X-Received: by 2002:a7b:c76b:: with SMTP id x11mr549041wmk.66.1625683459309;
+ Wed, 07 Jul 2021 11:44:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwYEX38//27700VEJeVJRxoWjBNxE2auDvvPRWu6cQ3+1rvNafTQzYE5wD1tZDVqcK1MItWig==
+X-Received: by 2002:a7b:c76b:: with SMTP id x11mr549014wmk.66.1625683459010;
+ Wed, 07 Jul 2021 11:44:19 -0700 (PDT)
+Received: from redhat.com ([2.55.150.102])
+ by smtp.gmail.com with ESMTPSA id y16sm20167253wrw.42.2021.07.07.11.44.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 11:44:18 -0700 (PDT)
+Date: Wed, 7 Jul 2021 14:44:15 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Subject: Re: [PATCH v0] vhost: make SET_VRING_ADDR, SET_[PROTOCOL_]FEATEURES
+ send replies
+Message-ID: <20210707144355-mutt-send-email-mst@kernel.org>
+References: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
+ <20210707060936-mutt-send-email-mst@kernel.org>
+ <d7d3deec-f1d1-4fce-dbf0-a0cbd8063504@yandex-team.ru>
+ <20210707103555-mutt-send-email-mst@kernel.org>
+ <13c22772-5642-06b9-2ba3-864995544cd2@yandex-team.ru>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <13c22772-5642-06b9-2ba3-864995544cd2@yandex-team.ru>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -76,52 +99,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- armbru@redhat.com, mreitz@redhat.com, nsoffer@redhat.com
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reword the paragraphs to list the JSON key first, rather than in the
-middle of prose.
+On Wed, Jul 07, 2021 at 05:58:50PM +0300, Denis Plotnikov wrote:
+> 
+> On 07.07.2021 17:39, Michael S. Tsirkin wrote:
+> > On Wed, Jul 07, 2021 at 03:19:20PM +0300, Denis Plotnikov wrote:
+> > > On 07.07.2021 13:10, Michael S. Tsirkin wrote:
+> > > > On Fri, Jun 25, 2021 at 11:52:10AM +0300, Denis Plotnikov wrote:
+> > > > > On vhost-user-blk migration, qemu normally sends a number of commands
+> > > > > to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+> > > > > Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+> > > > > VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
+> > > > > data logging.
+> > > > > The issue is that qemu doesn't wait for reply from the vhost daemon
+> > > > > for these commands which may result in races between qemu expectation
+> > > > > of logging starting and actual login starting in vhost daemon.
+> > > > Could you be more explicit please? What kind of race have you
+> > > > observed? Getting a reply slows down the setup considerably and
+> > > > should not be done lightly.
+> > > I'm talking about the vhost-user-blk case. On migration setup, we enable
+> > > logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
+> > > vhost-user-blk daemon immediately and the daemon needs some time turn the
+> > > logging on internally. If qemu doesn't wait for reply, after sending the
+> > > command qemu may start migrate memory pages. At this time the logging may
+> > > not be actually turned on in the daemon  but some guest pages, which the
+> > > daemon is about to write to, may be already transferred without logging to a
+> > > destination. Since the logging wasn't turned on, those pages won't be
+> > > transferred again as dirty. So we may end up with corrupted data on the
+> > > destination.
+> > > 
+> > > Have I managed to explain the case clearly?
+> > > 
+> > > Thanks!
+> > > 
+> > > Denis
+> > OK so this is just about enabling logging. It would be cleaner to
+> > defer migrating memory until response ... if that is too hard,
+> > at least document why we are doing this please.
+> > And, let's wait for an ack just in that case then - why not?
+> > 
+> > And what about VHOST_USER_SET_PROTOCOL_FEATURES?
+> 
+> The code uses the same path for both VHOST_USER_SET_PROTOCOL_FEATURES and
+> VHOST_USER_SET_FEATURES via vhost_user_set_u64(). So, I decided to suggest
+> adding reply to both of them, so both feature setting commands work
+> similarly as it doesn't contradicts with vhost-user spec.
+> 
+> I'm not sure that it worth doing that, so if you think it's not I'll just
+> remove them.
+> 
+> 
+> Denis
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- docs/tools/qemu-img.rst | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index d6300f7ee03d..1d8470eada0e 100644
---- a/docs/tools/qemu-img.rst
-+++ b/docs/tools/qemu-img.rst
-@@ -593,16 +593,16 @@ Command description:
-   the ``start``, ``length``, ``offset`` fields;
-   it will also include other more specific information:
+I'm inclined to say let's not add to the latency of setting up the
+device unnecessarily.
 
--  - whether the sectors contain actual data or not (boolean field ``data``;
--    if false, the sectors are either unallocated or stored as optimized
--    all-zero clusters);
--  - whether the data is known to read as zero (boolean field ``zero``);
--  - whether the data is actually present (boolean field ``present``);
--    if false, rebasing the backing chain onto a deeper file would pick
--    up data from the deeper file;
--  - in order to make the output shorter, the target file is expressed as
--    a ``depth``; for example, a depth of 2 refers to the backing file
--    of the backing file of *FILENAME*.
-+  - boolean field ``data``: true if the sectors contain actual data,
-+    false if the sectors are either unallocated or stored as optimized
-+    all-zero clusters
-+  - boolean field ``zero``: true if the data is known to read as zero
-+  - boolean field ``present``: true if the data belongs to the backing
-+    chain, false if rebasing the backing chain onto a deeper file
-+    would pick up data from the deeper file;
-+  - integer field ``depth``: the depth within the backing chain at
-+    which the data was resolved; for example, a depth of 2 refers to
-+    the backing file of the backing file of *FILENAME*.
-
-   In JSON format, the ``offset`` field is optional; it is absent in
-   cases where ``human`` format would omit the entry or exit with an error.
--- 
-2.31.1
+> > 
+> > 
+> > > > Thanks!
+> > > > 
+> > > > > To resolve this issue, this patch makes qemu wait for the commands result
+> > > > > explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
+> > > > > Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
+> > > > > command to make the features setting functions work similary.
+> > > > > 
+> > > > > Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+> > > > > ---
+> > > > >    hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
+> > > > >    1 file changed, 20 insertions(+)
+> > > > > 
+> > > > > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> > > > > index ee57abe04526..e47b82adab00 100644
+> > > > > --- a/hw/virtio/vhost-user.c
+> > > > > +++ b/hw/virtio/vhost-user.c
+> > > > > @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+> > > > >            .hdr.size = sizeof(msg.payload.addr),
+> > > > >        };
+> > > > > +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> > > > > +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> > > > > +    if (reply_supported) {
+> > > > > +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> > > > > +    }
+> > > > > +
+> > > > >        if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+> > > > >            return -1;
+> > > > >        }
+> > > > > +    if (reply_supported) {
+> > > > > +        return process_message_reply(dev, &msg);
+> > > > > +    }
+> > > > > +
+> > > > >        return 0;
+> > > > >    }
+> > > > > @@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+> > > > >            .hdr.size = sizeof(msg.payload.u64),
+> > > > >        };
+> > > > > +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+> > > > > +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> > > > > +    if (reply_supported) {
+> > > > > +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+> > > > > +    }
+> > > > > +
+> > > > >        if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+> > > > >            return -1;
+> > > > >        }
+> > > > > +    if (reply_supported) {
+> > > > > +        return process_message_reply(dev, &msg);
+> > > > > +    }
+> > > > > +
+> > > > >        return 0;
+> > > > >    }
+> > > > > -- 
+> > > > > 2.25.1
 
 
