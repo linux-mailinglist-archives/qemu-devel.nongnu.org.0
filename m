@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDF53BEB25
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:42:21 +0200 (CEST)
-Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0758C3BEB3F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:46:57 +0200 (CEST)
+Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19gq-0005AQ-BL
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
+	id 1m19lH-0007S7-UM
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:46:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m19fu-0004L4-Pq
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:41:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45391)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m19fy-0004Oc-Ek; Wed, 07 Jul 2021 11:41:26 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:49281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m19ft-0002TX-0v
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:41:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625672480;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3ihkGAZ0f6xrwWK710pxEhrMVwaZ2kV4RuRtcgrHzyE=;
- b=cS/EIrPtKTgt/vrMHy68b4mRKzX0ESkoLjlD8HrH8717WsC1YGSIc3goaD08IqwFHzBquH
- b8mzNFGeoFsKBF2N1fTE8SvXuXxpXxG4diC8aNkbBGo0O+Lbq34hLPoVnCy7nKaKhGPzcz
- ZTIki7H+f+Kb8VmonnFTfS8PMW1Eof8=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-V8OsAQ3BNyyctKxpMNSQug-1; Wed, 07 Jul 2021 11:41:19 -0400
-X-MC-Unique: V8OsAQ3BNyyctKxpMNSQug-1
-Received: by mail-qv1-f70.google.com with SMTP id
- s14-20020ad4438e0000b02902c3cd066c0bso1252148qvr.18
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:41:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3ihkGAZ0f6xrwWK710pxEhrMVwaZ2kV4RuRtcgrHzyE=;
- b=RX3L8OPEd7OLbMc8rt6pYIeMTjK8XqdmuDurmspUuce0VvFTzbP03iJj2jlLb7u2Qw
- kmp35VtMXNVoWjBSftIxubNmuPLuCMErqrNAdkpx2zOkz0G/blspbGTReJGz9GDbvwvn
- X9RWmIe2gNObSLqaV3Q7qp1FIqgzAru1xFYIzqI6YvcuuMK2qtStuKUSIVMOJSqmI6dm
- BPoNTK3RJOTtMS4r5R0/fgt6gC09QEaF33S1hQQMYGR17/I4glNOs//vmq3WF3lKu3w0
- Vk8MMKKPcGX6oDpVAtobH5HjzxrdlEAQWlhYxl7C2a+70c83V7wsaIbMlLsgeVKmBcSn
- djQw==
-X-Gm-Message-State: AOAM533u0uM2C8weCo79agu7gobq53WyhMJiXdOfbQlgANHVhXI+z7LR
- s9wLvjP5wZ6wmVTIny99QkGE7q0DsJCy6maCUFHFFxZAlAf13juNI3mxKb93VJI30FY4QRBjSzt
- gUeekb3XE5SJd1ST7gFwnU1MeurSFRe5o9RYMwPrqIzu0oyG3NzAZXW+Li1AsZw1l
-X-Received: by 2002:a05:620a:201c:: with SMTP id
- c28mr1426442qka.345.1625672478068; 
- Wed, 07 Jul 2021 08:41:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwojfy+YBGOk/GwdZnszp7IelSTU3xpP+w5siTr6HpAxcL3WuX1HvceTHfEDaEn9bWWlHXLnA==
-X-Received: by 2002:a05:620a:201c:: with SMTP id
- c28mr1426420qka.345.1625672477812; 
- Wed, 07 Jul 2021 08:41:17 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id x20sm8614057qkp.15.2021.07.07.08.41.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:41:17 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] docs: Add '-device intel-iommu' entry
-Date: Wed,  7 Jul 2021 11:41:14 -0400
-Message-Id: <20210707154114.197580-1-peterx@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m19fv-0002Tg-9M; Wed, 07 Jul 2021 11:41:26 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 579293200302;
+ Wed,  7 Jul 2021 11:41:20 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 07 Jul 2021 11:41:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=B2xDA7YiV6usTH0JphThm8HDKYJ
+ +Kb10ZVi4SgVg4EE=; b=QvoEj2esxAwK7k3RBDn8jjE/j2ZfT+N3B//iH+zpWXq
+ 5JBiNBIcm73fvpLpM0VMqArx/Cgg07z/yV/Essv0Oq+5qsdc3N6CiniSqzigAfoy
+ LhN3qFDwNW2TQVu7oGMZjkTpxLObbkUmLYYELCBEe7hhgR/6hPgDEVjZ8vvJMaZk
+ k8Yqm+DiCweUwzXT+SrupJvhRo0sFoxo/idFp/GNtd2FW7aBCzJ/7D5bVtXzW3kl
+ LTbGY3Ntk1NLG09Jgx9ovHMYuPs9dBtReTycn8AwXvcoMcgDKhPmtljJyyCPdtum
+ EfnIFECmHMCoWQdkrkGlaVM6UyqPWR2hNN0WT/1kGSw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=B2xDA7
+ YiV6usTH0JphThm8HDKYJ+Kb10ZVi4SgVg4EE=; b=v9zeGl0yjkwjV0DVNV6rlY
+ cQmufPOf2tNsP7TJjVpUvK2umSkliUpcP0M3aUSWLohdOOoGm9H3AP/CX8EL89CC
+ f6EA+06Htwa3j7DctKHCf+wfNjXuok7NtVNX0GVUxmqKYTLR8r/DT+VzQ4Ci4guk
+ 7VGb89+UUMDE+vSIFrNEjByyjm9Js/Dj+caqXTXv3lQr0vjuxt+4oTzuDaFQ5FPS
+ D15ZzJA/gA1fgGJ7pIh8bypoveR+8qEb8foua8rfqaS1o2FS9Gbz+asEIV/SBGU1
+ KnT4EMlvj+ww45sl6gnSwzJWyYjlEvObX3eriAh4POw4uPbxAjnHMsyvGLBXZ5hQ
+ ==
+X-ME-Sender: <xms:HsvlYPq7sw6Do0U7bdVIsSzH6aETAn9xFtxqeZnanR6Q1Z7Unarisw>
+ <xme:HsvlYJrB1xumAsQ9VJ9RzN1IK1w8a4Kr9OxA4gtTNDZ5teLoNd10DPQ5vip4AFJKb
+ nytOuNeziJaeC6bsrk>
+X-ME-Received: <xmr:HsvlYMMiJrA5wb3m_PinC81WRJwyLbt1HGgMk-ESXJHDM6zOfVs8mi8PrfdxG8AnVYWnImG_zL9tlJDpj3tl1-C_1Bztx2nz01Ka6ClintYFydn4Zw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgdeltdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtroertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueeuffeihffggfetheejieevleduhfetfffhheeigfehteejieetvddtgedvhedt
+ necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
+ esihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:HsvlYC5rH64nmN5yvGZDMpBS8N74frM4VXHR6kH-fv-fWL7Jg2zbbg>
+ <xmx:HsvlYO66V0wGhGgBMzf4E1SefqG5B-XUjRm1MjzP5VEnWU0SOthiKw>
+ <xmx:HsvlYKgHm4sFnTqjLqQ7mMzMKopD4Bf06fw8l_CLrsptCsXw-8w40g>
+ <xmx:IMvlYFbmfC23fjsnDqTETse4gFaJSo0CHpl2YgqQaSdyCBWEUL2lgA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 7 Jul 2021 11:41:17 -0400 (EDT)
+Date: Wed, 7 Jul 2021 17:41:15 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Hannes Reinecke <hare@suse.de>
+Subject: Re: [PATCH 4/4] hw/nvme: fix controller hot unplugging
+Message-ID: <YOXLGwNmbccoMhjC@apples.localdomain>
+References: <20210706093358.1036387-1-its@irrelevant.dk>
+ <20210706093358.1036387-5-its@irrelevant.dk>
+ <f468bbdc-fa33-a7e6-a392-394a736a06be@suse.de>
+ <YOV5qZj8pcnH1aAE@apples.localdomain>
+ <9fecd4b6-b36f-2101-4139-0666f741cf8e@suse.de>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="j/vMYfFZsLjAyQ73"
+Content-Disposition: inline
+In-Reply-To: <9fecd4b6-b36f-2101-4139-0666f741cf8e@suse.de>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,83 +96,318 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yi Liu <yi.l.liu@intel.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, peterx@redhat.com,
- Alex Williamson <alex.williamson@redhat.com>, Jing Zhao <jinzhao@redhat.com>,
- Lei Yang <leiyang@redhat.com>, Chao Yang <chayang@redhat.com>
+Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The parameters of intel-iommu device are non-trivial to understand.  Add an
-entry for it so that people can reference to it when using.
 
-There're actually a few more options there, but I hide them explicitly because
-they shouldn't be used by normal QEMU users.
+--j/vMYfFZsLjAyQ73
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cc: Chao Yang <chayang@redhat.com>
-Cc: Lei Yang <leiyang@redhat.com>
-Cc: Jing Zhao <jinzhao@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Yi Liu <yi.l.liu@intel.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
-v2:
-- Drop "in the guest" in intremap entry [Jason]
-- Explain how the default value of intremap is chosen [Eric]
-- Add r-bs for Jason and Yi
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- qemu-options.hx | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+On Jul  7 12:43, Hannes Reinecke wrote:
+>On 7/7/21 11:53 AM, Klaus Jensen wrote:
+>>On Jul=C2=A0 7 09:49, Hannes Reinecke wrote:
+>>>On 7/6/21 11:33 AM, Klaus Jensen wrote:
+>>>>From: Klaus Jensen <k.jensen@samsung.com>
+>>>>
+>>>>Prior to this patch the nvme-ns devices are always children of the
+>>>>NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
+>>>>unrealized when the parent device is removed. However, when subsystems
+>>>>are involved, this is not what we want since the namespaces may be
+>>>>attached to other controllers as well.
+>>>>
+>>>>This patch adds an additional NvmeBus on the subsystem device. When
+>>>>nvme-ns devices are realized, if the parent controller device is linked
+>>>>to a subsystem, the parent bus is set to the subsystem one instead. This
+>>>>makes sure that namespaces are kept alive and not unrealized.
+>>>>
+>>>>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>>>>---
+>>>>=C2=A0hw/nvme/nvme.h=C2=A0=C2=A0 | 18 ++++++++++--------
+>>>>=C2=A0hw/nvme/ctrl.c=C2=A0=C2=A0 |=C2=A0 8 +++++---
+>>>>=C2=A0hw/nvme/ns.c=C2=A0=C2=A0=C2=A0=C2=A0 | 32 +++++++++++++++++++++++=
+++-------
+>>>>=C2=A0hw/nvme/subsys.c |=C2=A0 4 ++++
+>>>>=C2=A04 files changed, 44 insertions(+), 18 deletions(-)
+>>>>
+>>>>diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>>>>index c4065467d877..9401e212f9f7 100644
+>>>>--- a/hw/nvme/nvme.h
+>>>>+++ b/hw/nvme/nvme.h
+>>>>@@ -33,12 +33,21 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES >=20
+>>>>NVME_NSID_BROADCAST - 1);
+>>>>=C2=A0typedef struct NvmeCtrl NvmeCtrl;
+>>>>=C2=A0typedef struct NvmeNamespace NvmeNamespace;
+>>>>+#define TYPE_NVME_BUS "nvme-bus"
+>>>>+OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
+>>>>+
+>>>>+typedef struct NvmeBus {
+>>>>+=C2=A0=C2=A0=C2=A0 BusState parent_bus;
+>>>>+=C2=A0=C2=A0=C2=A0 bool=C2=A0=C2=A0=C2=A0=C2=A0 is_subsys;
+>>>>+} NvmeBus;
+>>>>+
+>>>>=C2=A0#define TYPE_NVME_SUBSYS "nvme-subsys"
+>>>>=C2=A0#define NVME_SUBSYS(obj) \
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_S=
+UBSYS)
+>>>>=C2=A0typedef struct NvmeSubsystem {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 DeviceState parent_obj;
+>>>>+=C2=A0=C2=A0=C2=A0 NvmeBus=C2=A0=C2=A0=C2=A0=C2=A0 bus;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t=C2=A0=C2=A0=C2=A0=C2=A0 subnqn[256];
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 NvmeCtrl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *ctrls[=
+NVME_MAX_CONTROLLERS];
+>>>>@@ -365,13 +374,6 @@ typedef struct NvmeCQueue {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 QTAILQ_HEAD(, NvmeRequest) req_list;
+>>>>=C2=A0} NvmeCQueue;
+>>>>-#define TYPE_NVME_BUS "nvme-bus"
+>>>>-#define NVME_BUS(obj) OBJECT_CHECK(NvmeBus, (obj), TYPE_NVME_BUS)
+>>>>-
+>>>>-typedef struct NvmeBus {
+>>>>-=C2=A0=C2=A0=C2=A0 BusState parent_bus;
+>>>>-} NvmeBus;
+>>>>-
+>>>>=C2=A0#define TYPE_NVME "nvme"
+>>>>=C2=A0#define NVME(obj) \
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OBJECT_CHECK(NvmeCtrl,=
+ (obj), TYPE_NVME)
+>>>>@@ -463,7 +465,7 @@ typedef struct NvmeCtrl {
+>>>>=C2=A0static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+>>>>=C2=A0{
+>>>>-=C2=A0=C2=A0=C2=A0 if (!nsid || nsid > NVME_MAX_NAMESPACES) {
+>>>>+=C2=A0=C2=A0=C2=A0 if (!n || !nsid || nsid > NVME_MAX_NAMESPACES) {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>>>>index 90e3ee2b70ee..7c8fca36d9a5 100644
+>>>>--- a/hw/nvme/ctrl.c
+>>>>+++ b/hw/nvme/ctrl.c
+>>>>@@ -6516,11 +6516,13 @@ static void nvme_exit(PCIDevice *pci_dev)
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++)=
+ {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ns =3D nvme_ns(n, i);
+>>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!ns) {
+>>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 con=
+tinue;
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ns) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ns-=
+>attached--;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>+=C2=A0=C2=A0=C2=A0 }
+>>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme_ns_cleanup(ns);
+>>>>+=C2=A0=C2=A0=C2=A0 if (n->subsys) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme_subsys_unregister_ctrl=
+(n->subsys, n);
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 if (n->subsys) {
+>>>>diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+>>>>index 3c4f5b8c714a..612a2786d75d 100644
+>>>>--- a/hw/nvme/ns.c
+>>>>+++ b/hw/nvme/ns.c
+>>>>@@ -444,13 +444,29 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
+>>>>=C2=A0static void nvme_ns_realize(DeviceState *dev, Error **errp)
+>>>>=C2=A0{
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 NvmeNamespace *ns =3D NVME_NS(dev);
+>>>>-=C2=A0=C2=A0=C2=A0 BusState *s =3D qdev_get_parent_bus(dev);
+>>>>-=C2=A0=C2=A0=C2=A0 NvmeCtrl *n =3D NVME(s->parent);
+>>>>-=C2=A0=C2=A0=C2=A0 NvmeSubsystem *subsys =3D n->subsys;
+>>>>+=C2=A0=C2=A0=C2=A0 BusState *qbus =3D qdev_get_parent_bus(dev);
+>>>>+=C2=A0=C2=A0=C2=A0 NvmeBus *bus =3D NVME_BUS(qbus);
+>>>>+=C2=A0=C2=A0=C2=A0 NvmeCtrl *n =3D NULL;
+>>>>+=C2=A0=C2=A0=C2=A0 NvmeSubsystem *subsys =3D NULL;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 uint32_t nsid =3D ns->params.nsid;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 int i;
+>>>>-=C2=A0=C2=A0=C2=A0 if (!n->subsys) {
+>>>>+=C2=A0=C2=A0=C2=A0 if (bus->is_subsys) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 subsys =3D NVME_SUBSYS(qbus=
+->parent);
+>>>>+=C2=A0=C2=A0=C2=A0 } else {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 n =3D NVME(qbus->parent);
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 subsys =3D n->subsys;
+>>>>+=C2=A0=C2=A0=C2=A0 }
+>>>>+
+>>>>+=C2=A0=C2=A0=C2=A0 if (subsys) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * If this namespace b=
+elongs to a subsystem (through a=20
+>>>>link on the
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * controller device),=
+ reparent the device.
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!qdev_set_parent_bus(de=
+v, &subsys->bus.parent_bus, errp)) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
+urn;
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>+=C2=A0=C2=A0=C2=A0 } else {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ns->params.detache=
+d) {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 error_setg(errp, "detached requires that the nvme=20
+>>>>device is "
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "link=
+ed to an nvme-subsys device");
+>>>>@@ -470,7 +486,7 @@ static void nvme_ns_realize(DeviceState=20
+>>>>*dev, Error **errp)
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 if (!nsid) {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for (i =3D 1; i <=3D N=
+VME_MAX_NAMESPACES; i++) {
+>>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+(nvme_ns(n, i) || nvme_subsys_ns(subsys, i)) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
+(nvme_subsys_ns(subsys, i) || nvme_ns(n, i)) {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 continue;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 }
+>>>>@@ -483,7 +499,7 @@ static void nvme_ns_realize(DeviceState=20
+>>>>*dev, Error **errp)
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 return;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+>>>>-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (nvme_ns(n, nsid) || nvm=
+e_subsys_ns(subsys, nsid)) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (nvme_subsys_ns(subsys, =
+nsid) || nvme_ns(n, nsid)) {
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 error_setg(errp, "namespace id '%d' already=20
+>>>>allocated", nsid);
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 return;
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>@@ -509,7 +525,9 @@ static void nvme_ns_realize(DeviceState=20
+>>>>*dev, Error **errp)
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>-=C2=A0=C2=A0=C2=A0 nvme_attach_ns(n, ns);
+>>>>+=C2=A0=C2=A0=C2=A0 if (n) {
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 nvme_attach_ns(n, ns);
+>>>>+=C2=A0=C2=A0=C2=A0 }
+>>>>=C2=A0}
+>>>>=C2=A0static Property nvme_ns_props[] =3D {
+>>>>diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+>>>>index 92caa604a280..fb7c3a7c55fc 100644
+>>>>--- a/hw/nvme/subsys.c
+>>>>+++ b/hw/nvme/subsys.c
+>>>>@@ -50,6 +50,10 @@ static void nvme_subsys_realize(DeviceState=20
+>>>>*dev, Error **errp)
+>>>>=C2=A0{
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 NvmeSubsystem *subsys =3D NVME_SUBSYS(dev);
+>>>>+=C2=A0=C2=A0=C2=A0 qbus_create_inplace(&subsys->bus, sizeof(NvmeBus),=
+=20
+>>>>TYPE_NVME_BUS, dev,
+>>>>+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev->=
+id);
+>>>>+=C2=A0=C2=A0=C2=A0 subsys->bus.is_subsys =3D true;
+>>>>+
+>>>>=C2=A0=C2=A0=C2=A0=C2=A0 nvme_subsys_setup(subsys);
+>>>>=C2=A0}
+>>>>
+>>>Why not always create a subsystem, and distinguish between=20
+>>>'shared' and 'non-shared' subsystems instead of the ->subsys=20
+>>>pointer?
+>>>That way all namespaces can be children of the subsystem, we won't=20
+>>>need any reparenting, and the whole thing will be more in-line=20
+>>>with qdev, no?
+>>>
+>>
+>>Hi Hannes,
+>>
+>>Thanks for your reviews and comments!
+>>
+>>So, I have actually considered what you suggest.
+>>
+>>The problem is that the nvme-ns device currently expects to plug=20
+>>into a bus (an 'nvme-bus') and we cannot really get rid of that=20
+>>'bus' parameter without breaking compatibility. I experimented with=20
+>>removing the bus from the nvme device and instead creating it in the=20
+>>nvme-subsys device. My idea here was to implicitly always create an=20
+>>nvme-subsys if not explicitly created by the user, but since=20
+>>nvme-subsys does not plug into any bus itself, it is not exposed in=20
+>>the qtree and thus not reachable (i.e., when realizing the nvme-ns=20
+>>device, it will complain that there are no 'nvme-bus' available to=20
+>>plug into). To make this work, I believe we'd have to have the=20
+>>nvme-subsys plug into the main system bus (or some other bus rooted=20
+>>at main-system-bus), and I'd prefer not to do that since this is=20
+>>already a flawed design and I think it would be more intrusive than=20
+>>what my patch does.
+>>
+>Sigh.
+>_Again_.
+>
+>I seem to trip over issues for which no patch can possibly be accepted=20
+>as first the infrastructure has to be reworked.
+>
+>... there is a reason why I'm avoiding posting patches to qemu-devel :-(
+>
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 8965dabc83..0fcc8973dd 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -926,6 +926,39 @@ SRST
- 
- ``-device pci-ipmi-bt,bmc=id``
-     Like the KCS interface, but defines a BT interface on the PCI bus.
-+
-+``-device intel-iommu[,option=...]``
-+    This is only supported by ``-machine q35``, which will enable Intel VT-d
-+    emulation within the guest.  It supports below options:
-+
-+    ``intremap=on|off`` (default: auto)
-+        This enables interrupt remapping feature.  It's required to enable
-+        complete x2apic.  Currently it only supports kvm kernel-irqchip modes
-+        ``off`` or ``split``, while full kernel-irqchip is not yet supported.
-+        The default value is "auto", which will be decided by the mode of
-+        kernel-irqchip.
-+
-+    ``caching-mode=on|off`` (default: off)
-+        This enables caching mode for the VT-d emulated device.  When
-+        caching-mode is enabled, each guest DMA buffer mapping will generate an
-+        IOTLB invalidation from the guest IOMMU driver to the vIOMMU device in
-+        a synchronous way.  It is required for ``-device vfio-pci`` to work
-+        with the VT-d device, because host assigned devices requires to setup
-+        the DMA mapping on the host before guest DMA starts.
-+
-+    ``device-iotlb=on|off`` (default: off)
-+        This enables device-iotlb capability for the emulated VT-d device.  So
-+        far virtio/vhost should be the only real user for this parameter,
-+        paired with ats=on configured for the device.
-+
-+    ``aw-bits=39|48`` (default: 39)
-+        This decides the address width of IOVA address space.  The address
-+        space has 39 bits width for 3-level IOMMU page tables, and 48 bits for
-+        4-level IOMMU page tables.
-+
-+    Please also refer to the wiki page for general scenarios of VT-d
-+    emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
-+
- ERST
- 
- DEF("name", HAS_ARG, QEMU_OPTION_name,
--- 
-2.31.1
+Actually, I'm the one to blame for making nvme-ns a -device and partly=20
+for why nvme-subsys is one as well... It's made sense at the time and=20
+thats why the infrastructure is biting me in the behind now ;)
 
+>>I raised these issues on the mailinglist some time ago[1]. We didn't=20
+>>really find a good solution, but I think the conclusion is that the=20
+>>bus/device design of subsystems and namespaces is flawed. That's why=20
+>>I am working on an "objectification" of the two devices as suggested=20
+>>by Stefan[2] as a proper fix for this mess.
+>>
+>Actually, I _do_ think that it would be good to have an nvme-subsystem=20
+>bus, providinga list of all namespaces for that subsystem.
+
+My goal was to *not* use a qbus I don't think the subsystem should be=20
+modelled as a device. The same can be accomplished with -objects and=20
+links.
+
+>Creating a controller would then mean that one has to create a=20
+>controller and a namespace _separately_, as then the namespace would=20
+>_not_ be a child of the controller.
+>But that's arguably a good thing, as the namespaces _do_ have a=20
+>separate lifetime from controllers.
+>And the lifetime of the subsystem could be completely self-contained;=20
+>the controller would be looking up subsystems via the subsystem NQN if=20
+>present; I guess we'll need to create ad-hoc subsystems for PCIe.
+>But nothing insurmountable.
+>And certainly nothing which require a large-scale rework of qemu=20
+>internals, I would think.
+>
+
+Yes, exactly, totally agree.
+
+>But _if_ you work on the rework, please ensure that not only NVMe is=20
+>represented here. SCSI multipathing has the same issue currently;=20
+>there is a strict host->lun->block->OS device relationship currently=20
+>in SCSI, making it impossible to represent a multipathed SCSI device=20
+>in qemu.
+>The only sneaky way is to allow for a shared OS device (ie specifying=20
+>the filename more than once), but that completely sidesteps qemu=20
+>internals, too.
+>
+
+I'm only very superficially familiar with hw/scsi, but this sounds more=20
+like the scsi subsystem also has some similar design problems like=20
+hw/nvme, not an inherent issue with QDEV/QOM.
+
+--j/vMYfFZsLjAyQ73
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDlyxkACgkQTeGvMW1P
+DekVSQf/QdcpHjqO2DWakAdyQc+S/sqEJnMJ/VB6Q147fujwJcVN1vfaYHs99mFQ
+XHwUVMN4CcJsRgmCy7ap7x1RgBM1WV8sZcZ956MIwvJChi60ShOmVpH2CwTBMZhB
+DKNvjriYDl9EsZADUDZjZJrlVOPPxvlf3uiN5e7EbDVbkQQyPMqjbStl+b+OaeRB
+HKLVB3l3KcbsGzyzpfobYQrPfwGCW03U0QGUGbhSi01yLZKAulHtjIUvxVQcFNmo
+c50kzdMfmY3W0nuzYa3ucgrQ2V+UxbmyW6E8NOP/axRmARSNLIkdX5aL3ixyIxkw
+1MoYiHY6ENqrSbuckMEVwQ3QD8nRsQ==
+=4mYo
+-----END PGP SIGNATURE-----
+
+--j/vMYfFZsLjAyQ73--
 
