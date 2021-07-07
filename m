@@ -2,89 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF29D3BF16F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 23:37:52 +0200 (CEST)
-Received: from localhost ([::1]:56298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0ACD3BF17B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 23:42:34 +0200 (CEST)
+Received: from localhost ([::1]:59074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1FEs-0007ou-Ro
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 17:37:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37122)
+	id 1m1FJR-0001Pw-Qe
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 17:42:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m1FE6-00079g-5v
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:37:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m1FE3-00075l-Ar
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:37:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625693817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SzAl90AxQ9l7JjwPuv7JL2YYtP8TJaZlXf+QmabIjac=;
- b=Wt8vavdj+/rik4GSAND03M4SzpcBXeBG0Pf5u43c8CJBCZRecWuxywfe9y0fCo+DmefQnP
- RH3QuEbsEiYd3dyagr8/eME2iAfsfMr8iq3yJXQ49Yt5kOpSkDcbWAEhJ7n8VaJiloUxrG
- YfFsgcc80Ob350yIQT2++Nc3BgdtCRo=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-dGrXQN7BOGeROYnltdJD0w-1; Wed, 07 Jul 2021 17:36:56 -0400
-X-MC-Unique: dGrXQN7BOGeROYnltdJD0w-1
-Received: by mail-pj1-f70.google.com with SMTP id
- x1-20020a17090ab001b02901726198443cso4615236pjq.8
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 14:36:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1FIe-0000k7-95
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:41:44 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1FIc-0007Ym-4i
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:41:43 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id d12so3698630pgd.9
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 14:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=X/BphWnv/1htSOjfxwVrCY/gdAVowlE2uA0ZPSetJYI=;
+ b=eDQPBqWu7ggm7LPnTsi3l5BILwrKGGExvqtsXcSY6deNEvsehEv7tzaX5D9S4kBVms
+ HRsBijf5bLhkiqFQPA/MC+MGZeEWBHeOVVEuCjg8k7PSfcbJ8OXYkQ02L1vSCAonuiGc
+ IRsjCJuC0iOcS89/dLVd7/bFYSTjFki5AJM1UBHv1zk7UawEu8lp3wxddeR1bElJgkfq
+ IuVbJ7clTNvYGEHXZ67qzgscPsNTPnKh2Mc8yb/zvhicyUqGCbqzWzv+OUTiaAy05i3f
+ VnOgWVHtqgR13eVZbcj7QHTairBZk17bBF+BGioOm06mDkdk6XodYYNfm9CUd8UATkUJ
+ HVHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SzAl90AxQ9l7JjwPuv7JL2YYtP8TJaZlXf+QmabIjac=;
- b=aTxGXTpU3bQiagppNaUKghjw51/pzRWyBCJoOTjJVmFLyl/wFamni7jtXeNV0B9TJe
- 0gWmOLuO3NpLTXJjEa24jY0BwZy97PUEZ+h8FxdO/WKNiPrb6U7A39CvlVIUY8TkoaDv
- yaIECjwu4iPoY6EV/G9rixhj6zYFT2Z5glAFTOzF0c8UDGNEHXkRACsFTpWzLWiYi4VU
- bNJE0vuP/U34PFJIyJvQqMLPwZ5Y+epcYO3i6RMXaKs9Ukei/o2hV0C8f1G7TQRRhLmx
- urr9vWccmrKwXO5vYWq4BF7H6uFax3EGuQET9S5sEe5GqHNzi26LymiQ93GpJCL8iaiX
- Ynyg==
-X-Gm-Message-State: AOAM533z5ffWg+bdskLVUUmEBDuwVrhWy6lL8znRMP8DRF95iz6dziYJ
- gkjpJ1mEEePj/wjhHl+8b2siucb1mjEvrDJH51ILmi88SZHK01/fyOhQe6W+aCxkd6hAZc8vT8/
- tR5zM7eLb0u8jXJqpgVWw96Ltzv7+pD9CY2ynTivXJCy2WZFZHRBrdxIDYvBCJWQb
-X-Received: by 2002:a63:d915:: with SMTP id r21mr28323648pgg.283.1625693815248; 
- Wed, 07 Jul 2021 14:36:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy56s/wZP9XX3aTplGGSohTQunwMXibJCVoOFGqtkUc3Rj7/LpJ4lI1nhh6cG6eZK9be6SHWg==
-X-Received: by 2002:a63:d915:: with SMTP id r21mr28323627pgg.283.1625693814907; 
- Wed, 07 Jul 2021 14:36:54 -0700 (PDT)
-Received: from [192.168.1.183] (c-76-27-223-100.hsd1.or.comcast.net.
- [76.27.223.100])
- by smtp.gmail.com with ESMTPSA id k141sm136609pfd.189.2021.07.07.14.36.54
+ bh=X/BphWnv/1htSOjfxwVrCY/gdAVowlE2uA0ZPSetJYI=;
+ b=lUR5GK5JDCui21dqabfGFOAMji78n8+J4DyMZrf8i7EDXYtdjPFdhwcnrQQho+gyUp
+ jTlMtYKDefQdGBnUwVo7hKQkvSLGHxMBdZzW/mgFyGPKD5T43Pxlo1a4ZWamnyM6jkG6
+ A157mWljaEUIsYLHwAcf7SF90J5mzkuEcVDreK2cUxXIr4OGmgykf8sBH+ovFY7NmULR
+ sidc0gCxmVg+Nr/pp/npg2NP7nF6sQKcbdhEPn25CJmlODepqJcZL77x9i9lXLYPWtj0
+ k3nrU5/j/jMgzeyQJjcxWm7W5f90pmomH2LIyKBmsnELTL0B+Z2JGlhmU3orAQjaJbjq
+ 2j8A==
+X-Gm-Message-State: AOAM5310S4PJPAG+KMcLSGzqi5bVZgDMYi0ejfelgyEzB1LKj8afjDQw
+ ckQC/QK9hBFRVtviGRjAHjb4SA==
+X-Google-Smtp-Source: ABdhPJwV5CqHR7YHa1Bgg1G/tRv/QfhmuFCXCtrbmbYwxSo5ps2DLs+YnCuuHWPVsPSjxkcWfz8jMQ==
+X-Received: by 2002:a63:494d:: with SMTP id y13mr28989183pgk.248.1625694100260; 
+ Wed, 07 Jul 2021 14:41:40 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id w123sm157629pfb.109.2021.07.07.14.41.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 14:36:54 -0700 (PDT)
-Subject: Re: [PATCH 0/2] Remove deprecated qemu-img backing file without format
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210503213600.569128-1-eblake@redhat.com>
-From: Connor Kuehl <ckuehl@redhat.com>
-Message-ID: <d71cd3aa-bbe5-5fa5-ea9d-098e879d72f5@redhat.com>
-Date: Wed, 7 Jul 2021 14:36:52 -0700
+ Wed, 07 Jul 2021 14:41:40 -0700 (PDT)
+Subject: Re: [PATCH v2 00/28] accel/tcg: Introduce translator_use_goto_tb
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210630183226.3290849-1-richard.henderson@linaro.org>
+Message-ID: <c39af1e3-3f45-77e6-c35f-3e0f9053f00c@linaro.org>
+Date: Wed, 7 Jul 2021 14:41:38 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210503213600.569128-1-eblake@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210630183226.3290849-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ckuehl@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,33 +90,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/3/21 2:35 PM, Eric Blake wrote:
-> We've gone enough release cycles without noticeable pushback on our
-> intentions, so time to make it harder to create images that can form a
-> security hole due to a need for format probing rather than an explicit
-> format.
-> 
-> Eric Blake (2):
->   qcow2: Prohibit backing file changes in 'qemu-img amend'
->   qemu-img: Require -F with -b backing image
-> 
->  docs/system/deprecated.rst       | 32 ---------------------------
->  docs/system/removed-features.rst | 31 ++++++++++++++++++++++++++
->  block.c                          | 37 ++++++++++----------------------
->  block/qcow2.c                    | 13 ++++-------
->  qemu-img.c                       |  6 ++++--
->  tests/qemu-iotests/061           |  3 +++
->  tests/qemu-iotests/061.out       |  3 ++-
->  tests/qemu-iotests/082.out       |  6 ++++--
->  tests/qemu-iotests/114           | 18 ++++++++--------
->  tests/qemu-iotests/114.out       | 11 ++++------
->  tests/qemu-iotests/301           |  4 +---
->  tests/qemu-iotests/301.out       | 16 ++------------
->  12 files changed, 75 insertions(+), 105 deletions(-)
-> 
+Ping.  FWIW, the 3 target/arm patches are the only major target for which I do not have 
+reviews, or am not also the maintainer.
 
-For the series + the squash attached to patch 2:
+r~
 
-Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+On 6/30/21 11:31 AM, Richard Henderson wrote:
+> Based-on: <20210629185455.3131172-1-richard.henderson@linaro.org>
+> ("[PULL 00/63] tcg patch queue")
+> 
+> There are a number of inconsistencies with goto_tb usage, and I
+> plan to make changes in order to better support breakpoints.
+> 
+> (1) Testing CF_LAST_IO is a hold-over from since before ba3e7926691
+>      ("icount: clean up cpu_can_io at the entry to the block").
+>      Several targets still have this test.
+> 
+> (2) Testing singlestep is superfluous, as it doesn't mean anything
+>      besides limiting max_insns to 1.
+> 
+> (3) Not testing page crossing for CONFIG_USER_ONLY is wrong, because
+>      mmap and mprotect can change page permissions.  It's a very
+>      uncommon case wrt executables, but it's still wrong.
+> 
+> (4) Not testing page crossing for non-mmu targets (where page
+>      permissions literally cannot change) is not currently wrong,
+>      but will be after the breakpoint changes.
+> 
+> (5) When the TB does cross two pages, considering non-page crossing
+>      from the second page is not currently wrong, but will be after
+>      the breakpoint changes.
+> 
+> Changes for v2:
+>    * Fix aarch32 ISB, SB insns vs single-stepping.
+>    * Drop use_goto_tb for aarch32
+>    * Retain use_goto_tb for aarch64.
+> 
+> Patches lacking review:
+>    02-target-alpha-Remove-use_exit_tb.patch
+>    03-target-alpha-Remove-in_superpage.patch
+>    04-target-alpha-Use-translator_use_goto_tb.patch
+>    05-target-arm-Use-gen_jmp-for-ISB-and-SB.patch
+>    06-target-arm-Use-translator_use_goto_tb-for-aarch64.patch
+>    07-target-arm-Use-translator_use_goto_tb-for-aarch32.patch
+>    08-target-avr-Use-translator_use_goto_tb.patch
+>    10-target-cris-Use-translator_use_goto_tb.patch
+>    11-target-hppa-Use-translator_use_goto_tb.patch
+>    12-target-i386-Use-translator_use_goto_tb.patch
+>    14-target-microblaze-Use-translator_use_goto_tb.patch
+>    15-target-mips-Use-translator_use_goto_tb.patch
+>    17-target-nios2-Use-translator_use_goto_tb.patch
+>    18-target-openrisc-Use-translator_use_goto_tb.patch
+>    21-target-rx-Use-translator_use_goto_tb.patch
+>    22-target-s390x-Use-translator_use_goto_tb.patch
+>    23-target-s390x-Remove-use_exit_tb.patch
+>    24-target-sh4-Use-translator_use_goto_tb.patch
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (28):
+>    accel/tcg: Introduce translator_use_goto_tb
+>    target/alpha: Remove use_exit_tb
+>    target/alpha: Remove in_superpage
+>    target/alpha: Use translator_use_goto_tb
+>    target/arm: Use gen_jmp for ISB and SB
+>    target/arm: Use translator_use_goto_tb for aarch64
+>    target/arm: Use translator_use_goto_tb for aarch32
+>    target/avr: Use translator_use_goto_tb
+>    target/avr: Mark some helpers noreturn
+>    target/cris: Use translator_use_goto_tb
+>    target/hppa: Use translator_use_goto_tb
+>    target/i386: Use translator_use_goto_tb
+>    target/m68k: Use translator_use_goto_tb
+>    target/microblaze: Use translator_use_goto_tb
+>    target/mips: Use translator_use_goto_tb
+>    target/mips: Fix missing else in gen_goto_tb
+>    target/nios2: Use translator_use_goto_tb
+>    target/openrisc: Use translator_use_goto_tb
+>    target/ppc: Use translator_use_goto_tb
+>    target/riscv: Use translator_use_goto_tb
+>    target/rx: Use translator_use_goto_tb
+>    target/s390x: Use translator_use_goto_tb
+>    target/s390x: Remove use_exit_tb
+>    target/sh4: Use translator_use_goto_tb
+>    target/sparc: Use translator_use_goto_tb
+>    target/tricore: Use translator_use_goto_tb
+>    target/tricore: Use tcg_gen_lookup_and_goto_ptr
+>    target/xtensa: Use translator_use_goto_tb
+> 
+>   include/exec/translator.h     | 10 ++++++++
+>   target/avr/helper.h           |  8 +++---
+>   accel/tcg/translator.c        | 11 +++++++++
+>   target/alpha/translate.c      | 46 ++++-------------------------------
+>   target/arm/translate-a64.c    | 25 ++++---------------
+>   target/arm/translate.c        | 16 +++---------
+>   target/avr/translate.c        |  9 ++++---
+>   target/cris/translate.c       |  5 ++--
+>   target/hppa/translate.c       |  5 +---
+>   target/i386/tcg/translate.c   | 14 ++---------
+>   target/m68k/translate.c       | 12 +--------
+>   target/microblaze/translate.c | 11 +--------
+>   target/mips/tcg/translate.c   | 20 +++------------
+>   target/nios2/translate.c      | 15 +-----------
+>   target/openrisc/translate.c   | 15 ++++++------
+>   target/ppc/translate.c        | 10 +-------
+>   target/riscv/translate.c      | 20 +--------------
+>   target/rx/translate.c         | 11 +--------
+>   target/s390x/translate.c      | 18 +++-----------
+>   target/sh4/translate.c        | 11 +++------
+>   target/sparc/translate.c      | 19 ++++-----------
+>   target/tricore/translate.c    | 20 +++------------
+>   target/xtensa/translate.c     |  6 +----
+>   23 files changed, 83 insertions(+), 254 deletions(-)
+> 
 
 
