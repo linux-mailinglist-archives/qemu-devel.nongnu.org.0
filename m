@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645823BEA6F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:10:32 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 815BB3BEA7C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:13:15 +0200 (CEST)
+Received: from localhost ([::1]:56848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19C2-0001GZ-I3
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:10:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36810)
+	id 1m19Eg-0007Pu-KU
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:13:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195Y-0001qD-WB
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23489)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195d-00028v-6F
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195X-0006my-5Z
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:48 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195b-0006oo-M7
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670226;
+ s=mimecast20190719; t=1625670231;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rlOjOiVbbAonidOYbIgJ5XNMANyIS28wLAUEMBTpCng=;
- b=OKD+cPbfuclzHa0Ew83pvWg9e8nyllh9HE2UfGRd3CC9QId+wy7piSqweBaklPIj/9K/OE
- 4ljnQeoQPlsaC5RGV4NZtjVNnuL6VX1hdsuR6foYCtMHuYHrM1XOr6ev9+EPcgmfJ2V9vR
- 1pJtTBobActxox1OwJK1r7hZkgop628=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-GRiR_d94MUm7QqLLhFNM9g-1; Wed, 07 Jul 2021 11:03:45 -0400
-X-MC-Unique: GRiR_d94MUm7QqLLhFNM9g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n11-20020a05600c3b8bb02901ec5ef98aa0so612810wms.0
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:45 -0700 (PDT)
+ bh=5H0fdYuijAXulte1JclETA5lCUTHsEIrRVNFxTZaj64=;
+ b=YNT6A5cemUj2uDdcoJCEH/AWJaSE0FhfUxAFXfV+Oxpwl0YpeSN96FbXLfunPbQnFImUGa
+ 2RX1eatBT7woMJAXiSLx6XTF7wGAXbAiECPjqh2Yp+WeH/hcIZBCJQOLHYGTqvXU0UanDR
+ MKvWoe6PHYf+e2o63d2nKgBD4twSsOs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-517-O3dzKCYQOje-337HJYRAtg-1; Wed, 07 Jul 2021 11:03:49 -0400
+X-MC-Unique: O3dzKCYQOje-337HJYRAtg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ y5-20020adfe6c50000b02901258bf1d760so873479wrm.14
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=rlOjOiVbbAonidOYbIgJ5XNMANyIS28wLAUEMBTpCng=;
- b=OjdmI9BMWcXsq5hyygD+QJ+5JdmkhFSZNI1bI5F5x/XcuP2wM++AANeFpz7ZBHTFGD
- iqALvd2DuBIKG7qSQYIl6NbsmZEN17312N19CzVHEeIxQ2VImf5/lpnK0H2mO0xGlJwC
- NuOkNnwL+gTB/9ifW0m6Uw7ECdDQeXA1yytKeqo7Vb9U716qztVcuGyHa6kB2isH03VL
- kh09MwrkY5ZNRaPzfo4FVpyXrT/iCXfILujP4NEi+6SzU2S8fEz5bHZi0ZzeMAE8tDBj
- l+gnncg542wDKfkWQ74GTj0cV3YOGB7MBV5+0AcEig1xeL9kNsduzsmslXmIY9mr8EdQ
- 0ssg==
-X-Gm-Message-State: AOAM530Hr6WaIV77X1VZj1o+w7X3/+BozZ7x86skYyEjrJlkIAQjfuBy
- f6S5LyfDOYYH+aPWIgklb6/OdtknBQPs3Q92VhI8n+J3rdAKKREpwaerHIrut7WF6awXQ7u+1uK
- IxOJFC2UROPRuZILqL9vxKryh8qDv9D2jz98dKsz/yuX3zGlhTY7mEjrExG27
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr26363350wmh.183.1625670224040; 
- Wed, 07 Jul 2021 08:03:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyv/+spCHzrDfA7qH6wvY1DQaa7vvzA90m11twXLw5HhyDltLLA5VAnv1KDGzfV0V5xoTJ4ng==
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr26363326wmh.183.1625670223892; 
- Wed, 07 Jul 2021 08:03:43 -0700 (PDT)
+ bh=5H0fdYuijAXulte1JclETA5lCUTHsEIrRVNFxTZaj64=;
+ b=YnXhuO94b92G2uidWR2Y1kEfAhV3m5DCC1TySFH1IEYN2goJWZtoMqX7aFRwn5wQLo
+ /KM5uR/vrD6BG8t0CTdWE6r1W0kfyEEjFvLBN+EYMyBnX97HZ5eMi84PhX6/vEl3Cp2V
+ FP+Z7jEoDyD+TL+PwzUSEx94/QJOglcpXE39RdyXyPCfvy4khdUtbKeIBhIdlBuDrILh
+ B+XS0oL/OJ0HfIGshU/4Cie3g0GvwJJIdokA+RKqDc5qCO1+Azi8j66WcKAoioj0EA3Q
+ GAlThK7UzTUsYWpros5dIYg3JIqT/TtJ09RzGT2Fk7s3XP/W+ROZL6nIjBT/rMHaIr/B
+ BsPw==
+X-Gm-Message-State: AOAM531ksg8cCQijRwaXWlJwTUL27RlJN0QfP/GU6xijHfiNrGaJQTeS
+ wl2jWMwi6HDUimtILMPV641Q2VXAgkNsIUKDjQ8wtitjFNtLPymPZ9+GwHCZ5lCCwUPVXSKdtJI
+ JfeQ0U+uH+XYVbwPnlFh0+w0OmoxuVJEs0yNChmltuS1odNwnVbV62MYSnLnc
+X-Received: by 2002:a1c:1f8a:: with SMTP id f132mr26241270wmf.56.1625670228272; 
+ Wed, 07 Jul 2021 08:03:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhKhMXnsL89iDqH8LqEATh5mz29gfWeZ5jKuvOgLuZ2Ny05r9QCvOjlcu7VdPkxtah1SoaUQ==
+X-Received: by 2002:a1c:1f8a:: with SMTP id f132mr26241240wmf.56.1625670228075; 
+ Wed, 07 Jul 2021 08:03:48 -0700 (PDT)
 Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id l20sm19537178wmq.3.2021.07.07.08.03.42
+ by smtp.gmail.com with ESMTPSA id i11sm7297835wmg.18.2021.07.07.08.03.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:03:43 -0700 (PDT)
-Date: Wed, 7 Jul 2021 11:03:40 -0400
+ Wed, 07 Jul 2021 08:03:47 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:03:44 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] docs: add slot when adding new PCIe root port
-Message-ID: <20210707150157.52328-13-mst@redhat.com>
+Subject: [PULL 13/13] MAINTAINERS: Add maintainer for vhost-user RNG
+ implementation
+Message-ID: <20210707150157.52328-14-mst@redhat.com>
 References: <20210707150157.52328-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210707150157.52328-1-mst@redhat.com>
@@ -72,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -93,50 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vincent Bernat <vincent@bernat.ch>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vincent Bernat <vincent@bernat.ch>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-Without providing a specific slot, QEMU won't be able to create the
-second additional PCIe root port with the following error:
+This patch adds entry for the vhost-user-rng related files.
 
-    $ qemu-system-x86_64 [...] -machine q35 \
-    >    -device pcie-root-port,bus=pcie.0,id=rp1 \
-    >    -device pcie-root-port,bus=pcie.0,id=rp2
-    qemu-system-x86_64: -device pcie-root-port,bus=pcie.0,id=rp2:
-    Can't add chassis slot, error -16
-
-This is due to the fact they both try to use slot 0. Update the
-documentation to specify a slot for each new PCIe root port.
-
-Signed-off-by: Vincent Bernat <vincent@bernat.ch>
-Message-Id: <20210614114357.1146725-1-vincent@bernat.ch>
+Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Message-Id: <20210614202842.581640-6-mathieu.poirier@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- docs/pcie_pci_bridge.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/docs/pcie_pci_bridge.txt b/docs/pcie_pci_bridge.txt
-index ab35ebf3ca..1aa08fc5f0 100644
---- a/docs/pcie_pci_bridge.txt
-+++ b/docs/pcie_pci_bridge.txt
-@@ -70,9 +70,9 @@ A detailed command line would be:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cfbf7ef79b..517f22b2e7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1949,6 +1949,15 @@ F: include/sysemu/rng*.h
+ F: backends/rng*.c
+ F: tests/qtest/virtio-rng-test.c
  
- [qemu-bin + storage options] \
- -m 2G \
---device pcie-root-port,bus=pcie.0,id=rp1 \
---device pcie-root-port,bus=pcie.0,id=rp2 \
---device pcie-root-port,bus=pcie.0,id=rp3,bus-reserve=1 \
-+-device pcie-root-port,bus=pcie.0,id=rp1,slot=1 \
-+-device pcie-root-port,bus=pcie.0,id=rp2,slot=2 \
-+-device pcie-root-port,bus=pcie.0,id=rp3,slot=3,bus-reserve=1 \
- -device pcie-pci-bridge,id=br1,bus=rp1 \
- -device pcie-pci-bridge,id=br2,bus=rp2 \
- -device e1000,bus=br1,addr=8
++vhost-user-rng
++M: Mathieu Poirier <mathieu.poirier@linaro.org>
++S: Supported
++F: docs/tools/vhost-user-rng.rst
++F: hw/virtio/vhost-user-rng.c
++F: hw/virtio/vhost-user-rng-pci.c
++F: include/hw/virtio/vhost-user-rng.h
++F: tools/vhost-user-rng/*
++
+ virtio-crypto
+ M: Gonglei <arei.gonglei@huawei.com>
+ S: Supported
 -- 
 MST
 
