@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957073BE08F
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 03:27:51 +0200 (CEST)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981153BE090
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 03:29:04 +0200 (CEST)
+Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0wLu-0004fQ-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 21:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41060)
+	id 1m0wN5-00071e-MF
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 21:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0wKU-00038w-Fp
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:26:23 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:33469)
+ id 1m0wL2-00040z-UD
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:26:56 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0wKQ-0005OU-1b
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:26:22 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- mn20-20020a17090b1894b02901707fc074e8so2592921pjb.0
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 18:26:17 -0700 (PDT)
+ id 1m0wL1-0005Uo-7P
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 21:26:56 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ cs1-20020a17090af501b0290170856e1a8aso2676004pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 18:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=97dWQTK0WkbE88a9uFtTKzUR61elIjKO5cQBqs1RizU=;
- b=e40eV8azd2K7uCpj4OLF33hiFy073hYvBKgoc4Ld9NMggoU2g6e13FRjg8s5OkodD5
- vy9QadOZyOEIxUCAIit93/Da3CHG+/VpW8R5Vw7a2t2BbpQ4wsqTB46oeA7U5zP6m8sW
- vFA9IY0Dhuu509idwwm5gy6u/ZwFzwx44vgoz65XzBKXHwXxR4VpRGwNWuuyi9qvnmPf
- RnqkR7Rm/WdhV78exsqvvOgzmLtl175B+EKJzUWJb/oea+QlXo7KUo2hGwInSq2KPusn
- LtCalL9296LMf1QKaZE5Se07I3npXhdciXKwXyD135/JkNgv/+/auJlyUKLHgjZQ+BYn
- F8hQ==
+ bh=B3HHX395898sL1hA+VtQvlcegUrojS5XQ8U5oVvMMzk=;
+ b=HmLrgSwmT78g2/O3zEsq6GHqorsG9VWKXAWkSJaTce7ZHqHDma7WgKV29lE+aMTexn
+ gCLUIPYleFIDzCkrc96bvp3Awagfh14lysGjqzyckpk34cFNxdYY+qONVaVGT+Uxo96Y
+ fxkSxZcvWmlsDu269xyrep0G0DY36Oe+GjEICWzonulbe9XX7IOb4A/0BZXcA6tFkYaR
+ vrFu+H7uj0Ob8/c3PA6cLerFVb2q8eU1xioF/PwQslwP/tG1b/vK0ONcx0+JZsiU2ksm
+ EtCjC8PyNt1zyOCtZLh4gUn+aoYomMcFUBCPuBNxypDdEt2HeNUtmK1pTVyO8tbOYN5J
+ 8ZLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=97dWQTK0WkbE88a9uFtTKzUR61elIjKO5cQBqs1RizU=;
- b=rI7NWGLGEKQQdRMvAaX84eHvl3CEsAQKWdCzhTUUBwn9TCpwHt+gkcppRvODuM4QRF
- aaev13hCYEscXTgg53FPcXgq7TKCa2F7/tGO6oCED7jvQrTo53FQAir8PEKO7NSUPzEE
- 3YvjmUyvUSaG0Aj679Spr372KggIl1vMKHuDc7jNw7k6EQlEhRiGnGSDW8U1yaQhamG6
- GkHSQB/Y2pephnWa+Gi9XqwecMT4jPnkoSnPH2iepHm0dSPa9Fw7qsoDw+JwBUlX3z/Z
- M7b0ulPoKbUpbDdLYDsaXPtK0o0kxZXdwzprRLas9bcdre0063ybuzkHPp0dSQsJIM2d
- PtPA==
-X-Gm-Message-State: AOAM532i6a23okBb0S+uBrBHekN9nyloAkfPIvMSoytu8/4/NHRcgZEk
- X93AklOUqzSPLzwq/5uEo4tbszt7/TDCyw==
-X-Google-Smtp-Source: ABdhPJzQ8/uvQg2YJ6ZqJmDdooLaV8V8YYqsam3AXw8EcsXjr7Vysa087QmkzYlyjnQn/UtdaK6qBg==
-X-Received: by 2002:a17:90a:5401:: with SMTP id
- z1mr22642502pjh.7.1625621176824; 
- Tue, 06 Jul 2021 18:26:16 -0700 (PDT)
+ bh=B3HHX395898sL1hA+VtQvlcegUrojS5XQ8U5oVvMMzk=;
+ b=GiVcKyucd/sz3VohMXUHfgFhQ+c5Ox+Xhs1bi8HK5JPNgNNm8qbB5D19MO7RJncHbO
+ czFPNcCyrQmSD53NXP8Q3KgqHv7YkrcgGw7lRsdxiJY4Vl5/+ecpBPU0H0waSO58quKC
+ jPTzQuy83bLZezn25zJSudyG3LzStkbOpgeicIiRcEh+XklS/WofXPuoET9AMbKrzQr0
+ r6gDyf9xXEVd3PjYBBfKtpjE7AFCPpoULEz8iMjNAizUL17Ibdsn6EZXo7TLQxwUVm89
+ A7TJJMXScjx1GfAWYmxiJNkDM9zI9/SDo48ZX9Iqs9Yk/RmEzvSvJSyF/C+EUuN4jYnp
+ 8SSA==
+X-Gm-Message-State: AOAM532UqHudpcoGxHTg0Fm1uDBDMkchOOjYXA3fFSADUQYbNqZFWdGf
+ obNw4Td1f9q8j85FDGSaGpLqvw==
+X-Google-Smtp-Source: ABdhPJwaP4LtU/GZnEVbg8syhFbLl1R7IHZXqQvy6IJaOz5qJ9qjiSC13g4hnb8/cbowIpWHrw4rOA==
+X-Received: by 2002:a17:90a:17c1:: with SMTP id
+ q59mr22540354pja.231.1625621213803; 
+ Tue, 06 Jul 2021 18:26:53 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id m9sm17484569pfk.20.2021.07.06.18.26.16
+ by smtp.gmail.com with ESMTPSA id z1sm15074159pfn.126.2021.07.06.18.26.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 18:26:16 -0700 (PDT)
-Subject: Re: [PATCH 04/11] hw/gpio/pl061: Add tracepoints for register read
- and write
+ Tue, 06 Jul 2021 18:26:53 -0700 (PDT)
+Subject: Re: [PATCH 05/11] hw/gpio/pl061: Document the interface of this device
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210702104018.19881-1-peter.maydell@linaro.org>
- <20210702104018.19881-5-peter.maydell@linaro.org>
+ <20210702104018.19881-6-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <744821fd-9780-fc60-81e4-d4d751b3e490@linaro.org>
-Date: Tue, 6 Jul 2021 18:26:15 -0700
+Message-ID: <3d1f0efe-a59d-499d-0f63-f7df4f4e151f@linaro.org>
+Date: Tue, 6 Jul 2021 18:26:52 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210702104018.19881-5-peter.maydell@linaro.org>
+In-Reply-To: <20210702104018.19881-6-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,15 +95,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/2/21 3:40 AM, Peter Maydell wrote:
-> Add tracepoints for reads and writes to the PL061 registers. This requires
-> restructuring pl061_read() to only return after the tracepoint, rather
-> than having lots of early-returns.
+> Add a comment documenting the "QEMU interface" of this device:
+> which MMIO regions, IRQ lines, GPIO lines, etc it exposes.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   hw/gpio/pl061.c      | 70 ++++++++++++++++++++++++++++++--------------
->   hw/gpio/trace-events |  2 ++
->   2 files changed, 50 insertions(+), 22 deletions(-)
+>   hw/gpio/pl061.c | 7 +++++++
+>   1 file changed, 7 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
