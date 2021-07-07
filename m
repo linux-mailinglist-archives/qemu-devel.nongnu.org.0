@@ -2,70 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6391D3BE8F0
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:43:24 +0200 (CEST)
-Received: from localhost ([::1]:58964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8263BE8F4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:44:31 +0200 (CEST)
+Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m17pj-0006tU-Em
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:43:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
+	id 1m17qo-0001SL-Dt
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:44:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1m17nO-0003PT-VH
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:40:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20385)
+ (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
+ id 1m17pa-0007GK-Vo; Wed, 07 Jul 2021 09:43:15 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1m17nL-0005pa-BE
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:40:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625665254;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JA2dEBiX752pGOKGQK1EWz6l4XO4kSrIh3rxrRRVnAI=;
- b=ekhHv3/x6MNcZsZ/OnsNxTp8TqbUb6wtDSv+WLAuKRoT9G/Apl5K5gMnYknX1n1tMqD9iw
- ZTbf7NDFiTQaNF3ntfp3UY/+SyDSVVrt6krn7YB2evCyxPaUuPnSWaUEZHT3OXa0iSMexr
- Sfc8f+pTYjZXqFeifF9e1FGDZc/MUyo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-TPo8IhRCPauN-aZGm6aMmg-1; Wed, 07 Jul 2021 09:40:52 -0400
-X-MC-Unique: TPo8IhRCPauN-aZGm6aMmg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B8D618414A0;
- Wed,  7 Jul 2021 13:40:51 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 705405D6AB;
- Wed,  7 Jul 2021 13:40:50 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
+ id 1m17pY-00064c-VQ; Wed, 07 Jul 2021 09:43:14 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 167DXt6n165619; Wed, 7 Jul 2021 09:43:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=EkfUU9O8RRN+okx00YPbIU6DbbiarlUXswhpQ5ci+UQ=;
+ b=f7qfDtW+dwoopAczTEpXNjgjLCRDAZm/vTz+L5n4kI+lpZjwPGS2SuR9UuJvroJWHVLZ
+ dHhJlD3kgWzDQjT8Qb1vGN2BwZQJjb+6mFNxr40Jnak/bNicH8T4Uh2SFl+gEizHCLSF
+ yqE055DNqnFCI8FWM+9/rNp+AO8ViBKJ8/j87u6y6DAkE2780uqPLeQjptILZEcsw6EA
+ ooGE5cLXUJxRAalrQjJWzM/zCr/wFg132hAri5DSn/4sg8RmRomudN5p6xS8b2jy50hD
+ e9HhPqtVvTwpTkGxMpNHnK+4RIvYrq/CNUx42qmFtE78ybY30UfOovxzsZ//vLt4hxQy Lg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39mts0ke6q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Jul 2021 09:43:07 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 167DYD3G166854;
+ Wed, 7 Jul 2021 09:43:07 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39mts0ke62-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Jul 2021 09:43:07 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 167DWJ9V008071;
+ Wed, 7 Jul 2021 13:43:06 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 39jfhcj3fr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 07 Jul 2021 13:43:06 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 167Dh3SK10944862
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 7 Jul 2021 13:43:03 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DAE6328059;
+ Wed,  7 Jul 2021 13:43:03 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1B7DF28065;
+ Wed,  7 Jul 2021 13:43:03 +0000 (GMT)
+Received: from LAPTOP-K4LLPL5U.localdomain (unknown [9.77.134.179])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed,  7 Jul 2021 13:43:02 +0000 (GMT)
+From: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] numa: Parse initiator= attribute before cpus= attribute
-Date: Wed,  7 Jul 2021 15:40:30 +0200
-Message-Id: <b27a6a88986d63e3f610a728c845e01ff8d92e2e.1625662776.git.mprivozn@redhat.com>
-In-Reply-To: <cover.1625662776.git.mprivozn@redhat.com>
-References: <cover.1625662776.git.mprivozn@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: [PATCH v2 0/2] linux-user/s390x: signal with SIGFPE on
+ compare-and-trap
+Date: Wed,  7 Jul 2021 09:42:29 -0400
+Message-Id: <20210707134231.1835-1-jonathan.albrecht@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Xljmg3x1nHvMG9Znlk9j3zYpe_2r1POE
+X-Proofpoint-GUID: tnI0dMmEAc1OeJ4HLHTmHV9V6K-jHv_g
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-07_06:2021-07-06,
+ 2021-07-07 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ lowpriorityscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
+ phishscore=0 priorityscore=1501 clxscore=1015 adultscore=0 impostorscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107070081
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=jonathan.albrecht@linux.vnet.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,108 +107,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, tao3.xu@intel.com, ehabkost@redhat.com
+Cc: ruixin.bao@ibm.com,
+ Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>, iii@linux.ibm.com,
+ david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ krebbel@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When parsing cpus= attribute of -numa object couple of checks
-is performed, such as correct initiator setting (see the if()
-statement at the end of for() loop in
-machine_set_cpu_numa_node()).
+qemu-s390x signals with SIGILL on compare-and-trap instructions. This
+breaks OpenJDK which expects SIGFPE in its implementation of implicit
+exceptions.
 
-However, with the current code cpus= attribute is parsed before
-initiator= attribute and thus the check may fail even though it
-is not obvious why. But since parsing the initiator= attribute
-does not depend on the cpus= attribute we can swap the order of
-the two.
+This patch depends on [PATCH v6 0/2] target/s390x: Fix SIGILL and SIGFPE
+psw.addr reporting
+https://lore.kernel.org/qemu-devel/20210705210434.45824-1-iii@linux.ibm.com/
 
-It's fairly easy to reproduce with the following command line
-(snippet of an actual cmd line):
+Based-on: 20210705210434.45824-1-iii@linux.ibm.com
 
-  -smp 4,sockets=4,cores=1,threads=1 \
-  -object '{"qom-type":"memory-backend-ram","id":"ram-node0","size":2147483648}' \
-  -numa node,nodeid=0,cpus=0-1,initiator=0,memdev=ram-node0 \
-  -object '{"qom-type":"memory-backend-ram","id":"ram-node1","size":2147483648}' \
-  -numa node,nodeid=1,cpus=2-3,initiator=1,memdev=ram-node1 \
-  -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=5 \
-  -numa hmat-lb,initiator=0,target=0,hierarchy=first-level,data-type=access-latency,latency=10 \
-  -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=5 \
-  -numa hmat-lb,initiator=1,target=1,hierarchy=first-level,data-type=access-latency,latency=10 \
-  -numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=204800K \
-  -numa hmat-lb,initiator=0,target=0,hierarchy=first-level,data-type=access-bandwidth,bandwidth=208896K \
-  -numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=204800K \
-  -numa hmat-lb,initiator=1,target=1,hierarchy=first-level,data-type=access-bandwidth,bandwidth=208896K \
-  -numa hmat-cache,node-id=0,size=10K,level=1,associativity=direct,policy=write-back,line=8 \
-  -numa hmat-cache,node-id=1,size=10K,level=1,associativity=direct,policy=write-back,line=8 \
+v1 -> v2:
+- Update to latest version of '... psw.addr reporting' patch
+- Rebase to master and fix conflicts in tests/tcg/s390x/Makefile.target
 
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
- hw/core/numa.c | 45 +++++++++++++++++++++++----------------------
- 1 file changed, 23 insertions(+), 22 deletions(-)
+Jonathan Albrecht (2):
+  linux-user/s390x: signal with SIGFPE on compare-and-trap
+  tests/tcg: Test that compare-and-trap raises SIGFPE
 
-diff --git a/hw/core/numa.c b/hw/core/numa.c
-index 1058d3697b..510d096a88 100644
---- a/hw/core/numa.c
-+++ b/hw/core/numa.c
-@@ -88,6 +88,29 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-         return;
-     }
- 
-+    /*
-+     * If not set the initiator, set it to MAX_NODES. And if
-+     * HMAT is enabled and this node has no cpus, QEMU will raise error.
-+     */
-+    numa_info[nodenr].initiator = MAX_NODES;
-+    if (node->has_initiator) {
-+        if (!ms->numa_state->hmat_enabled) {
-+            error_setg(errp, "ACPI Heterogeneous Memory Attribute Table "
-+                       "(HMAT) is disabled, enable it with -machine hmat=on "
-+                       "before using any of hmat specific options");
-+            return;
-+        }
-+
-+        if (node->initiator >= MAX_NODES) {
-+            error_report("The initiator id %" PRIu16 " expects an integer "
-+                         "between 0 and %d", node->initiator,
-+                         MAX_NODES - 1);
-+            return;
-+        }
-+
-+        numa_info[nodenr].initiator = node->initiator;
-+    }
-+
-     for (cpus = node->cpus; cpus; cpus = cpus->next) {
-         CpuInstanceProperties props;
-         if (cpus->value >= max_cpus) {
-@@ -142,28 +165,6 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-         numa_info[nodenr].node_memdev = MEMORY_BACKEND(o);
-     }
- 
--    /*
--     * If not set the initiator, set it to MAX_NODES. And if
--     * HMAT is enabled and this node has no cpus, QEMU will raise error.
--     */
--    numa_info[nodenr].initiator = MAX_NODES;
--    if (node->has_initiator) {
--        if (!ms->numa_state->hmat_enabled) {
--            error_setg(errp, "ACPI Heterogeneous Memory Attribute Table "
--                       "(HMAT) is disabled, enable it with -machine hmat=on "
--                       "before using any of hmat specific options");
--            return;
--        }
--
--        if (node->initiator >= MAX_NODES) {
--            error_report("The initiator id %" PRIu16 " expects an integer "
--                         "between 0 and %d", node->initiator,
--                         MAX_NODES - 1);
--            return;
--        }
--
--        numa_info[nodenr].initiator = node->initiator;
--    }
-     numa_info[nodenr].present = true;
-     max_numa_nodeid = MAX(max_numa_nodeid, nodenr + 1);
-     ms->numa_state->num_nodes++;
+ linux-user/s390x/cpu_loop.c     |  19 +++---
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/trap.c          | 102 ++++++++++++++++++++++++++++++++
+ 3 files changed, 113 insertions(+), 9 deletions(-)
+ create mode 100644 tests/tcg/s390x/trap.c
+
 -- 
 2.31.1
 
