@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778923BEA87
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:17:58 +0200 (CEST)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 102D03BEAA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:26:14 +0200 (CEST)
+Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19JF-0003yt-IC
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:17:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
+	id 1m19RF-0005YO-52
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m19Hr-00035b-ME
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:16:31 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:41863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m19Hp-0008UH-Gv
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:16:31 -0400
-Received: by mail-pl1-x631.google.com with SMTP id y2so1237824plc.8
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:16:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cE/oZqCyRrQhGJ0F2xVASQWnscaPE8Xbwch6Tuysiv4=;
- b=lLakqZC9ZL4vfFn3DqofzmUahZkPIPDefKlgYVuigf6omkVBnt9hNCOg0nSKv+O/uS
- qrLPp11ae5JaQKAtP8nfJlKzmxfltpJcabZ+9vpYbjjVx7I86ZGTyforbND5f3/SXbgs
- Q2aXYXQrIhs1k74nksOIg7aw+CoHiqOQfvDtIiSCdeDH2mB5S1k9go+Is0Fta8QBTIVE
- Kli2NViA2qHK/NzguUUM6u18Ki55RaWyHKLAnLeYizKNrlPyu+RVpJTEHqZZVoJHATCE
- l2PVkGGwPu9C7hoiC2tGXb4x6PxNSbaJWI5xxaCdw9WfKGOtLvrWVqGm6WcTJ1YZ6alQ
- wctg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cE/oZqCyRrQhGJ0F2xVASQWnscaPE8Xbwch6Tuysiv4=;
- b=cBMxL9OT+WHCkFkx18jMUAgsQRe/77xscNPm3IVdtghuVl3c37ROZUx7dcA7lsoE4q
- ghKoD78ipvALCnMBcg92Pf50In9ijPDprci/YqemvJGoo9TQIAETlVeiwPgjXsmYxpC8
- 0GFyWx3z61sRMLGivAN224tX1PlmijkPdiCDWE3JVTiy8Ah4Y/k8+SXS6SXG9kd1wcgd
- P2rMDxtQQytM5fOgFDd3ZkF5oW+kyD+/3j7uoCST6mOgyZBG/Y/Jigp+9kg8J/OXF3c+
- 6E+ojhYk/z+ieOvVLC0ZlnpVtvWPvlzRBvY/HB9lICq4dacVhhv+vJnc0l4seRN+dcOf
- 8crA==
-X-Gm-Message-State: AOAM530EoMx4Jy6k/Kl1Cxi/GnL9rO3PbLjcoO5ncE3skEj/Efd4ocS1
- w+YwHvN0vGYqa/i14uMU/n5jmA==
-X-Google-Smtp-Source: ABdhPJzd+Ptti9xCoK7fxOu7hpTHhgDJJeRJ1v7kEon1MxjrFo/NVzhI8iq0UWglCyyC/4YMlv6g0A==
-X-Received: by 2002:a17:902:a582:b029:129:c8a4:1e48 with SMTP id
- az2-20020a170902a582b0290129c8a41e48mr1954776plb.19.1625670987892; 
- Wed, 07 Jul 2021 08:16:27 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id d2sm23285889pgh.59.2021.07.07.08.16.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 08:16:27 -0700 (PDT)
-Subject: Re: [PATCH v2 5/5] configure: allow the selection of alternate config
- in the build
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, pbonzini@redhat.com
-References: <20210707131744.26027-1-alex.bennee@linaro.org>
- <20210707131744.26027-6-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <85d9f5fb-36a7-4c25-411e-f3cd9cbcecd7@linaro.org>
-Date: Wed, 7 Jul 2021 08:16:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1m19QI-0004th-1A
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:25:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1m19QC-0000cY-Sr
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:25:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625671506;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Cf4wx6ApY9ZhvhbAGr6o8CDySPylQF+sFGUKb7JfC2w=;
+ b=NMB4IlZl91FfP7NOYOn0zbqlJ1YXgGgMJ3LLxwLVaC84Jobaw2kqF5znVLFr2IMgPHYjfH
+ w12W/iKIT2WNCiSO8t734BcxeDQyxwqA7PO3bvVl8K+EMqBZmn8K+MRas2Uv+AVmTi+GER
+ 009LivIUlqocIJTjbg41nvSmEHTZkP0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-60liiH3DObWPe-WtSkr7-Q-1; Wed, 07 Jul 2021 11:25:05 -0400
+X-MC-Unique: 60liiH3DObWPe-WtSkr7-Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9B1E100CA88;
+ Wed,  7 Jul 2021 15:25:04 +0000 (UTC)
+Received: from wrampazz.redhat.com (ovpn-113-218.rdu2.redhat.com
+ [10.10.113.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 667431017CE5;
+ Wed,  7 Jul 2021 15:24:56 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: alex.bennee@linaro.org, qemu-devel@nongnu.org, thuth@redhat.com,
+ wainersm@redhat.com, crosa@redhat.com, philmd@redhat.com, f4bug@amsat.org
+Subject: [PATCH v2] tests/acceptance: allow control over tags during
+ check-acceptance
+Date: Wed,  7 Jul 2021 12:24:54 -0300
+Message-Id: <20210707152454.246519-1-willianr@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210707131744.26027-6-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=willianr@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,45 +78,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/21 6:17 AM, Alex Bennée wrote:
-> While the default config works well enough it does end up enabling a
-> lot of stuff. For more minimal builds we can select a different list
-> of devices and let Kconfig work out what we want. For example:
-> 
->    ../../configure --without-default-features \
->      --target-list=arm-softmmu,aarch64-softmmu \
->      --with-devices-aarch64=minimal
-> 
-> will override the aarch64-softmmu default set of devices with a more
-> minimal set of devices that just enables the virt and sbsa-ref models.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> Cc: Philippe Mathieu-Daudé<philmd@redhat.com>
-> Cc: Paolo Bonzini<pbonzini@redhat.com>
-> Message-Id:<20210621152120.4465-6-alex.bennee@linaro.org>
+Although it is possible to run a specific test using the avocado
+command-line, a user may want to use a specific tag while running the
+``make check-acceptance`` during the development or debugging.
 
-I guess I can just follow the shell scripting.  It's a shame we can't just put together 
-the properties section contents while we're parsing the command-line, and instead have to 
-break it up into N variables.
+This allows using the AVOCADO_TAGS environment variable where the user
+takes total control of which tests should run based on the tags defined.
 
-> +  # unroll any custom device configs
-> +  if test -n "$device_archs"; then
-> +      for a in $device_archs; do
-> +          eval "c=\$devices_${a}"
-> +          echo "${a}-softmmu = '$c'" >> $cross
-> +      done
-> +  fi
+This also makes the check-acceptance command flexible to restrict tests
+based on tags while running on CI.
 
-Do you really need the IF around the FOR?  Shouldn't the loop iterate zero times if 
-$device_archs is empty?
+e.g.:
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+AVOCADO_TAGS="foo bar baz" make check-acceptance
 
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+---
+ docs/devel/testing.rst |  8 ++++++++
+ tests/Makefile.include | 12 +++++++++---
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-r~
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4e42392810..f6e4fc08a7 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -760,6 +760,14 @@ in the current directory, tagged as "quick", run:
+ 
+   avocado run -t quick .
+ 
++It is also possible to run tests based on tags using the
++``make check-acceptance`` command and the ``AVOCADO_TAGS`` environment
++variable:
++
++.. code::
++
++   AVOCADO_TAGS=quick make check-acceptance
++
+ The ``avocado_qemu.Test`` base test class
+ -----------------------------------------
+ 
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 8f220e15d1..d464f06e4a 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -92,7 +92,12 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+ AVOCADO_SHOW=app
+-AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
++ifndef AVOCADO_TAGS
++	AVOCADO_CMDLINE_TAGS=$(patsubst %-softmmu,-t arch:%, \
++						 $(filter %-softmmu,$(TARGETS)))
++else
++	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
++endif
+ 
+ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+ 	$(call quiet-command, \
+@@ -128,8 +133,9 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+ 	$(call quiet-command, \
+             $(TESTS_VENV_DIR)/bin/python -m avocado \
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+-            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+-            $(AVOCADO_TAGS) \
++            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
++			--filter-by-tags-include-empty-key) \
++            $(AVOCADO_CMDLINE_TAGS) \
+             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
+ 
+-- 
+2.31.1
+
 
