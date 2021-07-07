@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A0233BE213
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:27:30 +0200 (CEST)
-Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE6973BE217
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:28:34 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0z9l-0000OK-9R
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50064)
+	id 1m0zAn-0004EB-SF
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:28:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0z8E-0006qZ-QE
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:25:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:42298)
+ id 1m0z8H-0006rk-Dz
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:25:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m0z8C-0003HJ-8x
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:25:54 -0400
+ id 1m0z8E-0003HR-AS
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:25:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m0z89-0006km-D0
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 04:25:49 +0000
+ id 1m0z8B-0006kl-Ba
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 04:25:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EC9F02E8180
- for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 04:25:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3A1802E8169
+ for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 04:25:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 07 Jul 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1889943@bugs.launchpad.net>
+Date: Wed, 07 Jul 2021 04:17:20 -0000
+From: Launchpad Bug Tracker <1889033@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor patmagauran th-huth
-X-Launchpad-Bug-Reporter: Patrick Magauran (patmagauran)
+X-Launchpad-Bug-Commenters: hgkamath janitor th-huth
+X-Launchpad-Bug-Reporter: Hgkamath (hgkamath)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159622949743.5060.8912306868276612545.malonedeb@soybean.canonical.com>
-Message-Id: <162563143989.23671.16775311038903597350.malone@loganberry.canonical.com>
-Subject: [Bug 1889943] Re: Improper TCP/IP packet splitting on e1000e/vmxnet3
+References: <159582569332.29849.16382151377697591855.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162563144053.23671.11545316917453108027.malone@loganberry.canonical.com>
+Subject: [Bug 1889033] Re: qemu-img permission denied on vmdk creation on CIFS
+ share
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: a22f09ab0b93a339dcbc191de2796b118bb38341
+X-Launchpad-Hash: 81381f3490a0749b2a80cf45f2b7735eaf2c3526
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1889943 <1889943@bugs.launchpad.net>
+Reply-To: Bug 1889033 <1889033@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,102 +84,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1889943
+https://bugs.launchpad.net/bugs/1889033
 
 Title:
-  Improper TCP/IP packet splitting on e1000e/vmxnet3
+  qemu-img permission denied on vmdk creation on CIFS share
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Update: The sw implementation of fragmentation also creates malformed
-  IPv6 packets when their size is above the MTU. See comment #3
+  =
 
-  Problem Description:
-  When using a tap interface and the guest sends a TCP packet that would ne=
-ed to be segmented, it is fragmented using IP fragmentation. The host does =
-not reassemble the IP fragments and forwards them to the next hop. This cau=
-ses issues on certain ISPs, which seemingly reject IP fragments(Verizon Fio=
-s).
-  This issue occurs on the e1000e and vmxnet3 NIC models, and possibly othe=
-rs. It does not occur on the virtio(which passes the entire packet through =
-to the host w/o fragmentation or segmentation) or the e1000 model().
+  - on a CIFS mount qemu-img claims not to have permissions to write into a=
+ file.
+  - VMDK sparse file creation succeeds
+  - VMDK Flat file creation create the flat-file, but fails to write the de=
+scription-file
+  - VMDK flat file creation succeeds on native linux mount such as ~/tmp or=
+ /tmp
+  - same effect as root or non-root
+  - same effect with selinux setenforce 0
 
-  Test scenario:
-  Setup a tap and network bridge using the directions here: https://gist.gi=
-thub.com/extremecoders-re/e8fd8a67a515fee0c873dcafc81d811c
-  Boot the machine into any modern guest(a Fedora 31 live iso was used for =
-testing)
-  Begin a wireshark capture on the host machine
-  On the host(or another machine on the network) run: npx http-echo-server(=
-See https://github.com/watson/http-echo-server)
-  On the guest run
-  Curl -d =E2=80=9CLorem ipsum dolor sit amet, consectetur adipiscing elit.=
- Maecenas venenatis viverra ipsum, ac tincidunt est rhoncus eu. Suspendisse=
- vehicula congue ante, non rhoncus elit tempus vitae. Duis ac leo massa. Do=
-nec rutrum condimentum turpis nec ultricies. Duis laoreet elit eu arcu pulv=
-inar, vitae congue neque mattis. Mauris sed ante nunc. Vestibulum vitae urn=
-a a tellus maximus sagittis. Vivamus luctus pellentesque neque, vel tempor =
-purus porta ut. Phasellus at quam bibendum, fermentum libero sit amet, ulla=
-mcorper mauris. In rutrum sit amet dui id maximus. Ut lectus ligula, hendre=
-rit nec aliquam non, finibus a turpis. Proin scelerisque convallis ante, et=
- pharetra elit. Donec nunc nisl, viverra vitae dui at, posuere rhoncus nibh=
-. Mauris in massa quis neque posuere placerat quis quis massa. Donec quis l=
-acus ligula. Donec mollis vel nisi eget elementum. Nam id magna porta nunc =
-consectetur efficitur ac quis lorem. Cras faucibus vel ex porttitor mattis.=
- Praesent in mattis tortor. In venenatis convallis quam, in posuere nibh. P=
-roin non dignissim massa. Cras at mi ut lorem tristique fringilla. Nulla ac=
- quam condimentum metus tincidunt vulputate ut at leo. Nunc pellentesque, n=
-unc vel rhoncus condimentum, arcu sem molestie augue, in suscipit mauris od=
-io mollis odio. Integer hendrerit lectus a leo facilisis, in accumsan urna =
-maximus. Nam nec odio volutpat, varius est id, tempus libero. Vestibulum lo=
-bortis tortor quam, ac scelerisque urna rhoncus in. Etiam tempor, est sit a=
-met vulputate molestie, urna neque sodales leo, sit amet blandit risus feli=
-s sed est. Nulla eu eros nec tortor dapibus maximus faucibus ut erat. Ut ph=
-aretra tempor massa in bibendum. Interdum et malesuada fames ac ante ipsum =
-primis in faucibus. Etiam mattis molestie felis eu efficitur. Morbi tincidu=
-nt consectetur diam tincidunt feugiat. Morbi euismod ut lorem finibus pelle=
-ntesque. Aliquam eu porta ex. Aliquam cursus, orci sit amet volutpat egesta=
-s, est est pulvinar erat, sed luctus nisl ligula eget justo vestibulum.=E2=
-=80=9D <ECHOSERVERIP:PORT>
+  a) I would have expected that the monolithic flat would have created only=
+ one large file just like sparse, but it seems to create a description file=
+, in addition to the storing file.
+  b) I am aware that qemu-img may have problem opening very large files on =
+CIFS, however, this file is not very large
 
-  2000 bytes of Lorem Ipsum taken from https://www.lipsum.com/
+  Windows-10 latest updated 2004 19041.388
+  Linux VM, Fedora-32 in Virtualbox 6.1.12 =
 
-  Compare results from an e1000, a virtio, and a e1000e card:
-  +--------+-----------+---------+------------+
-  | Model  | Fragment  | Segment | Wire Size  |
-  +--------+-----------+---------+------------+
-  | e1000e | Yes       | NO      | 1484 + 621 |
-  +--------+-----------+---------+------------+
-  | e1000  | No        | Yes     | 1516 + 620 |
-  +--------+-----------+---------+------------+
-  | Virtio | NO        | NO      | 2068       |
-  +--------+-----------+---------+------------+
+  # rpm -qa | grep  qemu-img
+  qemu-img-4.2.0-7.fc32.x86_64
 
-  Expected Results:
-  TCP Segment to proper size OR pass full size to host and let the host spl=
-it if necessary.
+  mount options: =
 
-  Configuration changes that did not work:
-  Disable host, guest, router firewalls
-  Different Hosts
-  Different Physical NICs
-  Libvirt based NAT/Routed modes
-  Fedora 32 vs 31
-  Qemu 4.2.0 vs github commit d74824cf7c8b352f9045e949dc636c7207a41eee
+  mount -t cifs //10.x,x,x/$shname  /mnt/hshare -o defaults,username=3Dgana=
+,rw,uid=3D1000,gid=3D1000,vers=3D3.0
 
-  System Information:
-  lsb_release -rd
-  Description:	Fedora release 32 (Thirty Two)
-  Release:	32
+  [root@fedora ~]# cd /mnt/hshare/some/folder/createvmdk/
+  [root@fedora createvmdk]# qemu-img create -f vmdk test1.vmdk 100M -o subf=
+ormat=3DmonolithicFlat
+  Formatting 'test1.vmdk', fmt=3Dvmdk size=3D104857600 compat6=3Doff hwvers=
+ion=3Dundefined subformat=3DmonolithicFlat
+  qemu-img: test1.vmdk: Could not write description: Permission denied
+  [root@fedora createvmdk]# ls -l test1*.*
+  -rwxr-xr-x. 1 gana gana 104857600 Jul 26 23:02 test1-flat.vmdk
+  -rwxr-xr-x. 1 gana gana         0 Jul 26 23:02 test1.vmdk
+  [root@fedora createvmdk]# du -k test1*.*
+  0       test1-flat.vmdk
+  0       test1.vmdk
+  # (doesn't seem to be really flat)
 
-  uname -a
-  Linux pats-laptop-linux 5.7.10-201.fc32.x86_64 #1 SMP Thu Jul 23 00:58:39=
- UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+  creation in /tmp works
+  # cd /tmp
+  [root@fedora tmp]# qemu-img create -f vmdk test1.vmdk 100M -o subformat=
+=3DmonolithicFlat
+  Formatting 'test1.vmdk', fmt=3Dvmdk size=3D104857600 compat6=3Doff hwvers=
+ion=3Dundefined subformat=3DmonolithicFlat
+  [root@fedora tmp]# ls -l /tmp/test1*.*
+  -rw-r--r--. 1 root root 104857600 Jul 26 22:43 /tmp/test1-flat.vmdk
+  -rw-r--r--. 1 root root       313 Jul 26 22:43 /tmp/test1.vmdk
+  [root@fedora createvmdk]# du -k /tmp/test1*.*
+  4       /tmp/test1-flat.vmdk
+  4       /tmp/test1.vmdk
 
-  I can provide additional logs, debug info, etc. if needed.
+  [root@fedora createvmdk]# cat /tmp/test1.vmdk
+  # Disk DescriptorFile
+  version=3D1
+  CID=3D5f13c13d
+  parentCID=3Dffffffff
+  createType=3D"monolithicFlat"
+
+  # Extent description
+  RW 204800 FLAT "test1-flat.vmdk" 0
+
+  # The Disk Data Base
+  #DDB
+
+  ddb.virtualHWVersion =3D "4"
+  ddb.geometry.cylinders =3D "203"
+  ddb.geometry.heads =3D "16"
+  ddb.geometry.sectors =3D "63"
+  ddb.adapterType =3D "ide"
+
+  =
+
+  On the other-hand creating a sparse file works
+  cd /mnt/hshare/some/folder/createvmdk/
+  [root@fedora createvmdk]# qemu-img create -f vmdk test2.vmdk 100M -o subf=
+ormat=3DmonolithicSparse
+  Formatting 'test2.vmdk', fmt=3Dvmdk size=3D104857600 compat6=3Doff hwvers=
+ion=3Dundefined subformat=3DmonolithicSparse
+  [root@fedora createvmdk]# ls l test2*.*
+  -rwxr-xr-x. 1 gana gana     65536 Jul 26 22:52 test2.vmdk
+  [root@fedora createvmdk]#  du -k  /tmp/test2*.*
+  12      /tmp/test2.vmdk
+
+  test2.vmdk is a binary file
+  inside it, located among garbled ascii characters is an embedded VMDK des=
+cription
+  ````
+  # Disk DescriptorFile
+  version=3D1
+  CID=3Dcf302a20
+  parentCID=3Dffffffff
+  createType=3D"monolithicSparse"
+
+  # Extent description
+  RW 204800 SPARSE "test2.vmdk"
+
+  # The Disk Data Base
+  #DDB
+
+  ddb.virtualHWVersion =3D "4"
+  ddb.geometry.cylinders =3D "203"
+  ddb.geometry.heads =3D "16"
+  ddb.geometry.sectors =3D "63"
+  ddb.adapterType =3D "ide"
+  ```
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1889943/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1889033/+subscriptions
 
