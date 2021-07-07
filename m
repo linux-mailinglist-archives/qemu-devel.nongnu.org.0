@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3770F3BEA5A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:06:39 +0200 (CEST)
-Received: from localhost ([::1]:33532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A91F63BEA70
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:10:56 +0200 (CEST)
+Received: from localhost ([::1]:48622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m198I-0000Mb-8b
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36576)
+	id 1m19CR-0001um-PZ
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1954-0000iz-R2
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50601)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195A-0000tB-HG
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1953-0006bq-81
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:18 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1957-0006dC-Ba
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670196;
+ s=mimecast20190719; t=1625670200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r8YtJo3PAzaP/cJrC4HQaYAbQLl82vsk2k1/IS5JPV8=;
- b=M4zCMrBwpYXonMN3yrsVgiy7VzUzgS9ggcRLBnMC2ao+MQOBEk5h7l1/HmC0IQyCEookZv
- bHjtfYjmtdYNW/QRf8gPocNcN7Ia8XPc/6yN6O4QQoPJR44wt4cYKxKiPVKI1ufFOkNe6O
- jq+p00iHBNFn4fVGk5GLXR3OK+lQlbg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-220-6rZL2uGyOTOetLOfy6tB1w-1; Wed, 07 Jul 2021 11:03:15 -0400
-X-MC-Unique: 6rZL2uGyOTOetLOfy6tB1w-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h104-20020adf90710000b029010de8455a3aso874446wrh.12
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:15 -0700 (PDT)
+ bh=PjAi9rnzMN7LIiVgFWQPrUw5J76tkcgx1USiXKE9mXs=;
+ b=HzB1jCy0ERdVD4euOUAYOEdrucPVFZwUJMN1PVafiEGBzMA/E7XXnunLfKl4UxWLI+7HhU
+ TKYQGR6B5z9YFGn0sCaAeHumaR6w+IFAyYsknTpuKirVnjI4/1PGWQSvbTFUscq4FVrz7C
+ JBB/R/twueuUSIJu4SJTNwN8TdZjRp0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-uAsuWbSMPeWOqFye_tXw_Q-1; Wed, 07 Jul 2021 11:03:19 -0400
+X-MC-Unique: uAsuWbSMPeWOqFye_tXw_Q-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j141-20020a1c23930000b0290212502cb19aso1110584wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=r8YtJo3PAzaP/cJrC4HQaYAbQLl82vsk2k1/IS5JPV8=;
- b=VGyMmQAH7M6GjPaEFqIRqeDf0w9r3dP1ZR7+EDSPea/RqUBR0cvZ2LfWDYzRswtfTA
- OHWmjqku6iDqnDF/r5aIhdMaE+YPvaSjnkAOt855+WmAKHXn6WBVbmwKvl5G7GPx8Xk4
- Z5v6/jKL68vr4zuwOTFX2SIyRiLfIQhMKvOCmVroyMO1ld1GLrbf5HYHbefCw473z+2R
- vtlB7olv+4Lk2GXXbeYWNl1nGYKz+YmTUhSfBT9qunuFJih2CcP551a78rjw3TQQ/OSt
- jHnpgsIKw2zHTTWPAU3I5380E74QKzh99tYDnvJoc1FChh0mwXphjCahonVVahnRSd9A
- Xz9g==
-X-Gm-Message-State: AOAM532c69yVSw237FiZD2M8jvSLcmZ0WzVD1YXlx4IYk+a3ZEzkvyFv
- Cg0ZMuN64ekdsiyWg5Othjq3q9swpf1o2KZmdrEQhuh8wRuaVLlTaOZdx4vhCoIx+ETzWbKOUkE
- hYgyTJp9mLi+HoCpelzgi7eL/H+CQC2W9b/bWQYmHe0/1I2l8B+T5K2dDdeZo
-X-Received: by 2002:adf:eb82:: with SMTP id t2mr28360113wrn.337.1625670193964; 
- Wed, 07 Jul 2021 08:03:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3YbU1uyMgKlXwm1wvne+ZvzCa8rn8EYiuLKM7Ph+PG2lZE7ckG9xkeuKVwmoMf1uy0/qHuQ==
-X-Received: by 2002:adf:eb82:: with SMTP id t2mr28360091wrn.337.1625670193767; 
- Wed, 07 Jul 2021 08:03:13 -0700 (PDT)
+ bh=PjAi9rnzMN7LIiVgFWQPrUw5J76tkcgx1USiXKE9mXs=;
+ b=VD1OPU0E6g9PWcs7w62kimNnOvQDif5r8k4eG0hpTIltNtlgwFm4oBAfTvUyVP3p5E
+ quyRztXUIFsXPNp1dObceo/OxrfcnY9BCYczmEjBHOmfzeC3W/oVwEs4FdyKDitlPt8T
+ V3K7vpFrEIhxRSRhCRcjBoxIqkPnUQ3/NHusAOjwjj9n4qkMRTI0om1LdbSlh2ZQi4au
+ hiB7ZP+AGNTjavpZj2WneXUMJ9Nbdhuyu4KBh9jh55iriLXgUv069CfiM0nWRxbHIHQ4
+ rLCBQ/ewtglFS8uqAzxQp98phDGQX7wiZgWBjen/k6lUaiMQZ+Mx9aLWpS3+GrNumHUR
+ YnXw==
+X-Gm-Message-State: AOAM530nHd1C1aV7lJ2ftpIimWgVoJ/+LynEYiKzDFij9chesAVqPc1T
+ RTS2JSHoy5gQ4JwXHP8wjB0p+xuk/uQO/taEGvnvcDN8cDPIQx5GO08dRwaGHQaQyiRBTWyNwk6
+ 2PjlY0a9V52e+MyEOWEZAQtB6vn8Hji5zBbOR2CY0rEHoyP2DN5KGVRgbeB+N
+X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr27641002wmk.51.1625670197424; 
+ Wed, 07 Jul 2021 08:03:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy3tT1Zem7yI48HYY/Zst6l1sF8WT7ZtArqHlGRndkQ6Qb4yOqHZhrYHuvbupDJZL66u4OKeA==
+X-Received: by 2002:a7b:c5d8:: with SMTP id n24mr27640969wmk.51.1625670197232; 
+ Wed, 07 Jul 2021 08:03:17 -0700 (PDT)
 Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id h15sm19984573wrq.88.2021.07.07.08.03.11
+ by smtp.gmail.com with ESMTPSA id o14sm1318292wmq.31.2021.07.07.08.03.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:03:13 -0700 (PDT)
-Date: Wed, 7 Jul 2021 11:03:09 -0400
+ Wed, 07 Jul 2021 08:03:16 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:03:14 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/13] virtio-pci: Added check for virtio device in PCI config
- cbs.
-Message-ID: <20210707150157.52328-6-mst@redhat.com>
+Subject: [PULL 06/13] virtio-pci: Changed return values for "notify",
+ "device" and "isr" read.
+Message-ID: <20210707150157.52328-7-mst@redhat.com>
 References: <20210707150157.52328-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210707150157.52328-1-mst@redhat.com>
@@ -95,52 +95,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Andrew Melnychenko <andrew@daynix.com>
+ Andrew Melnychenko <andrew@daynix.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Melnychenko <andrew@daynix.com>
 
-Now, if virtio device is not present on virtio-bus - pci config callbacks
-will not lead to possible crush. The read will return "-1" which should be
-interpreted by a driver that pci device may be unplugged.
+At some point, after unplugging virtio-pci the virtio device may be unrealised,
+but the memory regions may be present in flatview. So, it's a possible situation
+when memory region's callbacks are called for "unplugged" device.
+
+Previous two patches made sure this case does not cause QEMU to crash.
+This patch adds check for "notify" memory region. Now reads will return "-1" if a virtio
+device is not present on a virtio bus.
+
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1938042
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1743098
 
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-Message-Id: <20210609095843.141378-3-andrew@daynix.com>
+Message-Id: <20210609095843.141378-4-andrew@daynix.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pci.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/virtio/virtio-pci.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 1bef7a2be8..c0d9c47df7 100644
+index c0d9c47df7..433060ac02 100644
 --- a/hw/virtio/virtio-pci.c
 +++ b/hw/virtio/virtio-pci.c
-@@ -424,6 +424,11 @@ static uint64_t virtio_pci_config_read(void *opaque, hwaddr addr,
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     uint32_t config = VIRTIO_PCI_CONFIG_SIZE(&proxy->pci_dev);
-     uint64_t val = 0;
-+
-+    if (vdev == NULL) {
+@@ -1349,6 +1349,11 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
+ static uint64_t virtio_pci_notify_read(void *opaque, hwaddr addr,
+                                        unsigned size)
+ {
++    VirtIOPCIProxy *proxy = opaque;
++    if (virtio_bus_get_device(&proxy->bus) == NULL) {
 +        return UINT64_MAX;
 +    }
 +
-     if (addr < config) {
-         return virtio_ioport_read(proxy, addr);
+     return 0;
+ }
+ 
+@@ -1386,7 +1391,7 @@ static uint64_t virtio_pci_isr_read(void *opaque, hwaddr addr,
+     uint64_t val;
+ 
+     if (vdev == NULL) {
+-        return 0;
++        return UINT64_MAX;
      }
-@@ -455,6 +460,11 @@ static void virtio_pci_config_write(void *opaque, hwaddr addr,
-     VirtIOPCIProxy *proxy = opaque;
-     uint32_t config = VIRTIO_PCI_CONFIG_SIZE(&proxy->pci_dev);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+
-+    if (vdev == NULL) {
-+        return;
-+    }
-+
-     if (addr < config) {
-         virtio_ioport_write(proxy, addr, val);
-         return;
+ 
+     val = qatomic_xchg(&vdev->isr, 0);
+@@ -1407,7 +1412,7 @@ static uint64_t virtio_pci_device_read(void *opaque, hwaddr addr,
+     uint64_t val;
+ 
+     if (vdev == NULL) {
+-        return 0;
++        return UINT64_MAX;
+     }
+ 
+     switch (size) {
 -- 
 MST
 
