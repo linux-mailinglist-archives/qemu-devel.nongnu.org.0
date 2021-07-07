@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 282BC3BED24
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:33:52 +0200 (CEST)
-Received: from localhost ([::1]:56428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB4873BED1B
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:32:14 +0200 (CEST)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1BQl-0006cw-69
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:33:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48056)
+	id 1m1BPC-0000ms-1K
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m1BKX-0000Mv-41
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:25 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:52620)
+ id 1m1BKY-0000RE-DN
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:26 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m1BKT-0006kY-0a
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:24 -0400
+ id 1m1BKU-0006lL-69
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:26 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 167HCNpL027395; Wed, 7 Jul 2021 17:27:18 GMT
+ 167HCNpM027395; Wed, 7 Jul 2021 17:27:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=Ql4BaF/gK2L7/cYlLylEl2VIg9AptK3OxZelqg16maQ=;
- b=xipHHSMwGUAiNq2Ifzwvq8CH2BsHT564qmH1PRFLy+GgInJbi24msrrWu8uo+0FNlFf6
- IAhGp+deto9Cw5xyK597fUlgA7n+0LVAQiknGKi83h/uIPczQdOLwJVrqvbJ8zuW2XGY
- tkC97RDjl/R1j30GNqLyFO2AXyqOl9DlabX8CQBHpJ2T0u3vk8So1bDcK34kiUWdwarc
- NYwywUeFIuCyImdsSxLnWGEjek79H39hz57DBTf6rcwLzSDq2iBiVqM4Tl+J7m+6TD3G
- DBbmHokWDRAoPBIhB8DDIXA5Qsku5yVp4YC2TxgJ5QsddziF4Gj5Gn6sRO0SPoj5d40W 9g== 
+ bh=BBeWnLRn9nNNpOjCplQJxzFvlhXSUah4N1iMBB359ns=;
+ b=eECbLmCqBt/ZVTL3Z7hcAdOFK1/j/T7lJ+GdvzvdEnUriP4ijcQGLla4BNjg/iTkFwiD
+ ScDfZu1L4vPZirV/grL6ZZaIWwrmmYatTQU3231XJw/IrSSlONXLyzmjAvUqj9lWDerJ
+ wsQ2O1Onq8vmbGvpB0f4i/5ykhCnntqeLH1SNr4JYDyAXvPWmu4Dz4cgRFrLlYtlljK1
+ uC+v0Sm+Bn+naTMwEi2z5Kpwuk6gcyqt/aXc2MLDyKsqgLFXLO4pFPbdS/VLAyclEFyb
+ si/JF6psPcB/1uH8fkOdDDyg08UpzDshhpDkv+19ANMbWlzLAJDISjQj2rD7U4tKk77A LA== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 39m2smmq72-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 39m2smmq74-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 07 Jul 2021 17:27:18 +0000
+ Wed, 07 Jul 2021 17:27:19 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 167HAKTD068866;
- Wed, 7 Jul 2021 17:27:18 GMT
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 167HAKTF068866;
+ Wed, 7 Jul 2021 17:27:19 GMT
 Received: from nam12-mw2-obe.outbound.protection.outlook.com
  (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
- by aserp3020.oracle.com with ESMTP id 39jfqayy1b-1
+ by aserp3020.oracle.com with ESMTP id 39jfqayy1b-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 07 Jul 2021 17:27:17 +0000
+ Wed, 07 Jul 2021 17:27:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V33PLQRimgdgR9HxFj5xL0L1oBBtIGEcoJ6Anqjh2Epe/Vvkhc51nP+Ra9gQyNIjiMR4BZF5envwtUswnwYuL89oKkSkGqvWUs1ryj1ewf5BG1VTFOTVo48xcrqwC3k8EdVcLCSkQhljLBPInbbhDyMqueYdMayi8oHU+szrcDKFtAWXgv5Xq8XvZmUojtPmIPLDwOQvsuKH0VSIT4gmiBMVDS9Dr3wotGEQfo5alRQzRROksgT+opfJgZCSPPaZaG5kRJTi8VOriRom9fFKsAWi6EZU7TXewA9K1rVS+l6/5vhyZ/nypt6SGNXqMKhgqNmEviPfbXVR7IDnUKO6/Q==
+ b=CyhsnV7cQgjw25kusADxx/ucFDwKm7WwyHU+BpN6ALMDqH+hiepaeeDYxHq2M8DZkMTpAIOnmr6RjOS6VwfhDwqCcl0Ma48dX9bCIxkCC0UfOSqkEr35M4MnZC+bwsPPLtsY42d/7s3OMR5JtvYvKXOdy473hM+HIiiOmDTvLy5gzJ1YkHJlkNDGg638ofAGFFuodpb1GxS4tcqrFn54w7HfoFaavLYl+rnFEaGDi4xyr7nBYWxLtOf0VT4z7IoUiR/Xt6fEoIvPDhEwR6hmFNjN9AEHFmRF3EuJ/IL1OKNyVN/3/O39Kfj69dV5i5IGKUeTBwQfOCLlauZlJ4Yw4w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ql4BaF/gK2L7/cYlLylEl2VIg9AptK3OxZelqg16maQ=;
- b=OTEv/gnYsqY7I2OKhRWFBVD7LPtK7KP7j3gVpT2fYhnNTVu0gBoE9OOAtP5DDXr/SjqvLh12YvndUE+l36PJLByhNHKNLcblZnEDRuXdGKdi+T0bK0O3it63msgae5NXOC3zKakmNuhVcjUyxp4k1kkwN8bjxy2HyN8TqyuZjREZxraido0u5YAFuMpxrIy38TycxkQcQBEW/9Zwgzwdh0lCwlWKYysB3CrIRpT3OGBOewp37iIIdwAAiKAqBwPeJP5fRQy0kY6sTaMGLq74NHoOb+QBC8hnA4an21padGTua+xqcJJajH1HMXy3ES1rcy1ps8YQoo+gdQMEVGZWfA==
+ bh=BBeWnLRn9nNNpOjCplQJxzFvlhXSUah4N1iMBB359ns=;
+ b=lqXKgvJAkKoEZr7nxFKki1VlXkHC+cyGFM6n6EvKj30svL5bKMEhuUOGC+2GTj9/hb98ldvfqS7yAOmOrTxh4K6T+GQ46aXI/sQB7oP0rBAAsDfMsxIIGkVHZYqqB/uYq7yVHfkZ9mjrowiWNf9GeXM9kSvPVYqkmvkVM2Kxg6K1GKJR7eXwyL9hVSMJapfc388uPJzA7HNb2x8ByKlbAzsWNSzYUgcaiSVaMEXQJxTpG4UJ6NxiJMj87O9686dJDInRvtIeezshuuq3ujXtRH3xjVRfcXusK17ORCj8E5Ie5TTLj264EEL8QaPYFhg4Aw87nhBb5AvUrFVOHc19PA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ql4BaF/gK2L7/cYlLylEl2VIg9AptK3OxZelqg16maQ=;
- b=s7r5s4akNh+qeblo3FkSpRF0JkRfRXPgTSKX20PYTlyak27fU7o8BJCjPH35lVYhj7MYChJ+h9jfJDtR5aRDZj949AT4pxmFbCzLBPAgTTfz1If1qyaa2Q6mySNBdaHb8Qihyec6nn/2EEmnRy+rauGTPwayNCarc1AmonUEVD4=
+ bh=BBeWnLRn9nNNpOjCplQJxzFvlhXSUah4N1iMBB359ns=;
+ b=rlFSiKYYQQYpk2xUNScEa2l2cbeXuXT792fSbNRlbt6lHORbLLg+B+W8aBXkZzDjSfBDJT4xLxZexREHScSRJsmy7J06V/uUNsiEqlSwEqB67bhY8Y0b4q5qKZIXkP9YPJ6719tpAoarA/J8HNb/yCk3/a8fSZNLy0UfeEQFr0o=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BYAPR10MB4104.namprd10.prod.outlook.com (2603:10b6:a03:11b::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Wed, 7 Jul
- 2021 17:27:15 +0000
+ 2021 17:27:16 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::59e7:5c8c:71fb:a6ba]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::59e7:5c8c:71fb:a6ba%7]) with mapi id 15.20.4287.033; Wed, 7 Jul 2021
- 17:27:15 +0000
+ 17:27:16 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V5 12/25] cpr: QMP interfaces for restart
-Date: Wed,  7 Jul 2021 10:20:21 -0700
-Message-Id: <1625678434-240960-13-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V5 13/25] cpr: HMP interfaces for restart
+Date: Wed,  7 Jul 2021 10:20:22 -0700
+Message-Id: <1625678434-240960-14-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
 References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
@@ -90,51 +90,51 @@ Received: from ca-dev63.us.oracle.com (148.87.23.13) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21 via Frontend
  Transport; Wed, 7 Jul 2021 17:27:15 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a50d6463-fe2f-48f8-b9df-08d9416c76b0
+X-MS-Office365-Filtering-Correlation-Id: 77bea887-b7ff-4c5f-ca20-08d9416c7700
 X-MS-TrafficTypeDiagnostic: BYAPR10MB4104:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB41048865A1132C2834478BF3F91A9@BYAPR10MB4104.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB4104FFBDACFB6822DB31250CF91A9@BYAPR10MB4104.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:327;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d0hbcMmMGImudvYRMFU5aOtzAImGtkVa2sOq2Jiao8uBH7hFeNVxvYaVETs9kDPs6uA5uQZJykpi1Pc3KyWEfEm71HqvDkt+2RH8Oc3U1ByN2epxpOjbQ2YBkebtNbi/91a9DgRlP0p2BOPN8GqI34xt1aVsr9Sh4f7R/1JxV9jhm6iCfl+WVEvEyeImt3mR2aNCdqu9LNclGnuozxcQ9oSghliQLuh4kfz/HHuQt3rbac6EkoutqAm5C0qLoIo2wLhiXkjmjByH1PMqu/g8hRK3a2rtOECzRGCZ2NwwDav/uzFWdh5iOqr/8GQhija6IDPEKcPDAXIVYsFrEpkJevu0xFoXnoI2iXcDAauAOxo4gfZ+X57xzoaWHEPuxc42T1knE1Rrf8I4klvq/15Dl+TjwWlcUviAsm+evQztht0tCaWXPnQja/IVRI69sN6xIk9vpZsZ0HTC+OvyUwMDGqvjMoFf+MxCNSgB4WnOEfP+E+LZhROQfTupNGiWFoOGdl6aRdqpMVAEJ7p5p14lNselwh1haU/yLrv3XbbmLRt54Cj+FL4JvNfZdVF8DjQwcgHL5xKmT30vPpJ2TDzyJTmNPC/M7lShUvA4QfkAH3Uwef0v3usKYftiu6c5KymJVhIRjLs9iDP5/cMY4KM0YInE0vvu13gfzL+0bNTRXHC9DBnK8vNzo4M3YMy32plLLMsAeK5JfoUz6ePXFIRXoA==
+X-Microsoft-Antispam-Message-Info: bdYITMFtfbNqpyD7aR8XvcvTDcmAQvOXDuBxg/3s0bX77hiH9YiFGP66Ow0nUfjqysIdxBgcdVew6LSYFk7YQlfC/JpSTt14qFaBKbEwD24Bkatt73SU9JdLEk/zUy2IOYpnfwbvrQBIME97sWQvtgIwY7BDBK6h2DHjYIzt9/iCjyZiueJro8r9CsKOVNKLkLqdUeLBLA29Mm6QHZXDM+ngCacNsb7wr5864Ossk1pZ6WcbTNH3XI8Ro9ZguxSCto7JwLBiCUwcPlR8PBNlWQ3RW3O9vlcXkvbxjEYWAWKyref3L39eGYu8ru79aPEIrWauQ3SGZSxG4nQXKUYhOjDjvf5Oa736FYVuzjEfmgdVlYR4sKrdGEtLnqOHmkYaMU23an2afkDNV9k4DiVYFTENKSLLxKRNgOn2zzDl6yAYMQ9nOV+4E6coOJfliaAwtOwDEso5yMlyQCoEN03f8SeOqaPv0Mntypat5a1aGYlCq3FUvZSMuk0zTnx4csyiRYQGTpyZjc8jH7+QLNlY6d8Qu1tYXLbEz9WUzEYzDwatqErZ+/8M2c1XdVK2rXYrjm6Zfbw7jSG0Mmo5AcRLwFjuO0OMyjYkgZIGnnNN4B00lOW8hSveWj7uER8anwd0frL2XYiuTJXw8CupRzz58FZTP7+EJfmHmTIJrPyw1Y1bIndpbBJThoJx6OJ8ji/gvhBjs9IiUjsSv9fdiZNn6w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(39860400002)(376002)(136003)(396003)(346002)(478600001)(36756003)(2906002)(2616005)(38100700002)(186003)(6486002)(66946007)(8676002)(7696005)(6916009)(956004)(8936002)(26005)(66556008)(7416002)(38350700002)(66476007)(5660300002)(52116002)(54906003)(4326008)(107886003)(86362001)(316002)(83380400001)(6666004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Og0g67iTIR+EQOCNnisBvdJD+3TvDyqcEik9VyTh0gPNqu9GfsJmlUwm09Ns?=
- =?us-ascii?Q?XJWC4YfFBS2ro0rvI5nB0e/wAlFajf9YjzUxs/HPgB8FJ468nD5i405IuyPG?=
- =?us-ascii?Q?xaDTjaGtXnAHogUYEgZTKLuzSrKgWtkgBqrkFbHi2VqSlczmu3Od4a5pWKve?=
- =?us-ascii?Q?hldDQzdWC/6DksypVWjWeqzZqcwTHNyhFpbtmZoX40ygeMtYQnfZnvvgktas?=
- =?us-ascii?Q?e3bdvoB4bNdBI/TrzfK8hpGjcPEeFkN+We51Sv7tNcXeyF2pqln8PgSU7GOr?=
- =?us-ascii?Q?mswDxe09Vy93V8IyG22UXvXUya7jF5L+DVgwMuk4hX/Q6WDZ8Z79isTRR6OY?=
- =?us-ascii?Q?1irlD38h4UkPwGJqaroblVA6ig9eDVZiEvkFvrkTlBTOIEmefuIYD2WuQOyM?=
- =?us-ascii?Q?6dmML0/sNMbdgu2zvIqSF+bYaFnQgV47GIv0a03P2qCMwcGEJkaAaiQWdBBx?=
- =?us-ascii?Q?h0LuYkymsRAsMyWxpIIrCAA7a/tANnW+w+NYMYc3TDBfExwqKfnHRVS6perU?=
- =?us-ascii?Q?miy/z+Shao25HNmG+UrGnxuZJ0aWMg15Ht/4oWxB+Hn07aU5cQffICEw9Zdl?=
- =?us-ascii?Q?iWiTgNE5n0BW9nr7+L9JiDDejJkn60UdwwTYTk875O7iT0nlRVnd/anVrdWh?=
- =?us-ascii?Q?o1eb1Y+7Vp0LYrfF7WnglE8QrAsKSYQORrlz2cD0ujXeSCc37g3pugS70+el?=
- =?us-ascii?Q?O1bMT4sN817E/qhCFMJ7suZEvK/qCo6zVR5k5qUwLX5hwWT1gyLOHwJhotkm?=
- =?us-ascii?Q?dCd5AsZL5ar287EOBnAaq27pR0VYF06Gm4negz4phKVp3hGRTOXvJSeRWVjW?=
- =?us-ascii?Q?pyRsyCJbCjDyIEV612jV15Lo4H8sBG3BWxuLGvmQCPZ2rOvUvQmXXcpNI2Pd?=
- =?us-ascii?Q?399RbCQeqfzsX2FHvrsPsBEfYUcGr0ZvXoIulyhF0rgXVh7C7vljQ0EFu9Eb?=
- =?us-ascii?Q?KZLMhyxh5on+SBDtONfjHksBM/Es3I9vIZWfhlofv4lfxllKU5ohkGujGhGt?=
- =?us-ascii?Q?MGlJnCoS2a4MGNUFXsOE02iklxVLJOcs8J5zIZf73kT1NeDtHn4jzKP6Hw8m?=
- =?us-ascii?Q?re+7Kr9dUk4BvmXlIzRMiRlgT8rqmbsrDyypPCVKogPaYHEkE9Wv3ywU5Cuj?=
- =?us-ascii?Q?ibPt46b5RPpc9VNpWttl68SAQgZaK3vQpAEP3UFTOl1HBxdRsbs5/U2DQASw?=
- =?us-ascii?Q?kyi17Qt4KxswLVcbUcdBxyXJLByNtJ3ZY9/1eMatThgNTVAaN1qfMBlRVFvv?=
- =?us-ascii?Q?8CXwGhFfu/khLDHCsN4cRjg6yCHe315bwjTAt/gapr11U3xkJ9Ox8cgRF0A4?=
- =?us-ascii?Q?AgCdifCGdlDgUJHC1QkIQi2B?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1W6gOfvgCunqjHUU8GuKNIvd3pL2RU+/IQ0KWtSzuDZtGEVhdoGOy7tKUx5V?=
+ =?us-ascii?Q?/yldVHd/A3sAnH3jB0mB6o1SELPyEfmWSJErFoOv94bX5fHo7KhOOn4DjRL9?=
+ =?us-ascii?Q?gqrOUf1HbcPIyLG5Zq8wS3Rim9b+MxCWgZxv1BPR5CpfnMrl6L2M+rrsNrOK?=
+ =?us-ascii?Q?RCMD8mVp9Z4Lh0rsgJ5IHKfVihhbrBXIFydyea0d5/rnezS9C4ivMqrNn1jf?=
+ =?us-ascii?Q?nzCTf9bYFmY7Hvuka4C/Ya1jwhk+/daBuc0doB3iDB6en82jqUu3Phm5zmT+?=
+ =?us-ascii?Q?Z230/v1NWnjarNXVapgCYyULEoOGB0ub3a3WiVAoQ4vMtB2CsJH9E2zSao2Q?=
+ =?us-ascii?Q?PkyiPt2wn7Mt8OIqBFWgjeuy/wetysofGDq+j/SJAuwmvgviaJJ5RfxMDzRI?=
+ =?us-ascii?Q?4BMGVJGmlHSCrX5MFeQycU3aKEnHf2HHP7kmIaR91TftfRVdDJUrLef/Vd4U?=
+ =?us-ascii?Q?8X8OhGRC3tOP7agj9F30U1jLd2Viw5WwwgXUMYUr2asUqeVn+cl173ArSxhN?=
+ =?us-ascii?Q?XtObCNsp/hmsSyrGRyj1dMzyUi+RdSzhz0gQSqvhw1QuW3TWmZ24oOJ5J8ab?=
+ =?us-ascii?Q?Fj9DrmYbR4kfTcvARN7xH/DxRfWgYRm/9djZYr664WJEIwY8AwKQkePsqJo6?=
+ =?us-ascii?Q?NZ0PrFpI3QaSQNwqqnhWSmpzwEh92SSKWysRX+MXFFCKnlbC/f+iNMxYgtAJ?=
+ =?us-ascii?Q?1HNxLP4rKrTqZDkudpiJBRQI1+MqQebKJLuL9GonihIhbq2EFIU+iiB8aNOW?=
+ =?us-ascii?Q?Wfre74GpYosT3zusji0ohC/YmQDxOb/uva7LtboUQxzDyt/m4lWcTKrZQN8E?=
+ =?us-ascii?Q?FZ0D89XejCWMgLbAbd9i/YScujIvVQJhzWhRTrsxjdSNnKJSszjFtL7Bdgj+?=
+ =?us-ascii?Q?ZYLkxzwboP45f5rJKDYu5pdX85bQZ67isxO1/M2aBVmVUCCV0GOL8QpCr6dD?=
+ =?us-ascii?Q?cy2XJTuGmJsmBwN8m+Fxf3t3qxiRCdMIM4l+dx8Y+haUZCfpSXyHZCGbg+t8?=
+ =?us-ascii?Q?O+5q5d/TmBf9fVwnpAwIRA3z6ONFdcXTjAUJmnuN4pWwcmvhrdL9qig3KCCY?=
+ =?us-ascii?Q?zXTUxLj35mPFpbx418EPab90SAYpKyBJz8caMtI1tQgLzKv8ABMOTPOr3Geb?=
+ =?us-ascii?Q?nOmbK23YtWyLA4FvNFgi/Xaxc9TrIV+BaOwDjJsyl6HCq7GY+ET2QL12Wdq5?=
+ =?us-ascii?Q?UFsW94MO5vExqQReR9rhaz0C1t6/NsKbf82YHKr6D0nbDk1Jc274Osqst2zU?=
+ =?us-ascii?Q?tkMAC5IJx55ue0PCG8y5HY4Rs2WqcAoLh8xRudjQtBeKV71Jinf2enEQdYrh?=
+ =?us-ascii?Q?umdEPPO4n7B65SvBTyINE3zz?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a50d6463-fe2f-48f8-b9df-08d9416c76b0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77bea887-b7ff-4c5f-ca20-08d9416c7700
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2021 17:27:15.4621 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2021 17:27:16.0998 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FkBbvqDB067lb9/CbUIB9SacAKYFpr8zq0VIEDq9iuTyECP5YwKWLfmwrm/lg0D1NG6YGAh2GPgpg5m5FhyqeCa08P5gMQbAXW7N0+auE3M=
+X-MS-Exchange-CrossTenant-UserPrincipalName: h2CJ31efuyq2mtp+skzQefNkwkr3lr2DfY/gAc+O4sGjh7QtkqMf6OZZ9CS6GbzKNV/GWZu1mDbi+Q8G56NQOQIKkaZVY1DKv6JdhmJZ0dw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB4104
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10037
  signatures=668682
@@ -143,8 +143,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  mlxscore=0 bulkscore=0 malwarescore=0 adultscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2107070100
-X-Proofpoint-GUID: HGXKVT_jyeJZQvRaknTW1QWYCmQdozo-
-X-Proofpoint-ORIG-GUID: HGXKVT_jyeJZQvRaknTW1QWYCmQdozo-
+X-Proofpoint-GUID: mCuuVS-UdjLW5Kn7_Lb1Ju6Fi42BkCTw
+X-Proofpoint-ORIG-GUID: mCuuVS-UdjLW5Kn7_Lb1Ju6Fi42BkCTw
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -181,71 +181,93 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cprexec calls cprexec().  Syntax:
-  { 'command': 'cprexec', 'data': { 'argv': [ 'str' ] } }
+cprsave <file> <mode>
+  mode may be "restart"
 
-Add the restart mode:
-  { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
+cprexec <command>
+  Call cprexec().
+  Arguments:
+    command : command line to execute, with space-separated arguments
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- monitor/qmp-cmds.c |  5 +++++
- qapi/cpr.json      | 16 +++++++++++++++-
- 2 files changed, 20 insertions(+), 1 deletion(-)
+ hmp-commands.hx       | 20 +++++++++++++++++++-
+ include/monitor/hmp.h |  1 +
+ monitor/hmp-cmds.c    | 11 +++++++++++
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 1128604..7326f7d 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -179,6 +179,11 @@ void qmp_cprsave(const char *file, CprMode mode, Error **errp)
-     cprsave(file, mode, errp);
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 11827ae..d956405 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -366,7 +366,7 @@ ERST
+     {
+         .name       = "cprsave",
+         .args_type  = "file:s,mode:s",
+-        .params     = "file 'reboot'",
++        .params     = "file 'restart'|'reboot'",
+         .help       = "create a checkpoint of the VM in file",
+         .cmd        = hmp_cprsave,
+     },
+@@ -379,6 +379,24 @@ If *mode* is 'reboot', the checkpoint remains valid after a host kexec
+ reboot, and guest ram must be backed by persistant shared memory.  To
+ resume from the checkpoint, issue the quit command, reboot the system,
+ and issue the cprload command.
++
++If *mode* is 'restart', the checkpoint remains valid after restarting qemu,
++and guest ram must be allocated with the memfd-alloc machine option.  To
++resume from the checkpoint, issue the cprexec command to restart, and issue
++the cprload command.
++ERST
++
++    {
++        .name       = "cprexec",
++        .args_type  = "command:S",
++        .params     = "command",
++        .help       = "Restart qemu by directly exec'ing command",
++        .cmd        = hmp_cprexec,
++    },
++
++SRST
++``cprexec`` *command*
++Restart qemu by directly exec'ing *command*, replacing the qemu process.
+ ERST
+ 
+     {
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 98bb775..ffc5eb1 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -60,6 +60,7 @@ void hmp_savevm(Monitor *mon, const QDict *qdict);
+ void hmp_delvm(Monitor *mon, const QDict *qdict);
+ void hmp_cprinfo(Monitor *mon, const QDict *qdict);
+ void hmp_cprsave(Monitor *mon, const QDict *qdict);
++void hmp_cprexec(Monitor *mon, const QDict *qdict);
+ void hmp_cprload(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_cancel(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index a56f83c..163564e 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1217,6 +1217,17 @@ out:
+     hmp_handle_error(mon, err);
  }
  
-+void qmp_cprexec(strList *args, Error **errp)
++void hmp_cprexec(Monitor *mon, const QDict *qdict)
 +{
-+    cprexec(args, errp);
++    Error *err = NULL;
++    const char *command = qdict_get_try_str(qdict, "command");
++    strList *args = strList_from_string(command, ' ');
++
++    qmp_cprexec(args, &err);
++    qapi_free_strList(args);
++    hmp_handle_error(mon, err);
 +}
 +
- void qmp_cprload(const char *file, Error **errp)
+ void hmp_cprload(Monitor *mon, const QDict *qdict)
  {
-     cprload(file, errp);
-diff --git a/qapi/cpr.json b/qapi/cpr.json
-index b6fdc89..2467e48 100644
---- a/qapi/cpr.json
-+++ b/qapi/cpr.json
-@@ -16,10 +16,12 @@
- #
- # @reboot: checkpoint can be cprload'ed after a host kexec reboot.
- #
-+# @restart: checkpoint can be cprload'ed after restarting qemu.
-+#
- # Since: 6.1
- ##
- { 'enum': 'CprMode',
--  'data': [ 'reboot' ] }
-+  'data': [ 'reboot', 'restart' ] }
- 
- 
- ##
-@@ -61,6 +63,18 @@
-             'mode': 'CprMode' } }
- 
- ##
-+# @cprexec:
-+#
-+# Restart qemu.
-+#
-+# @argv: arguments to exec
-+#
-+# Since: 6.1
-+##
-+{ 'command': 'cprexec',
-+  'data': { 'argv': [ 'str' ] } }
-+
-+##
- # @cprload:
- #
- # Start virtual machine from checkpoint file that was created earlier using
+     Error *err = NULL;
 -- 
 1.8.3.1
 
