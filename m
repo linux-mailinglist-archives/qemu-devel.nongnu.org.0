@@ -2,100 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB663BE8F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:44:33 +0200 (CEST)
-Received: from localhost ([::1]:35550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1365C3BE900
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:49:45 +0200 (CEST)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m17qq-0001cy-V8
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44844)
+	id 1m17vs-0005EH-5N
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:49:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1m17pd-0007MJ-CE; Wed, 07 Jul 2021 09:43:17 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:63826)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m17uz-0004Z2-T2
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:48:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
- id 1m17pb-00064y-Gk; Wed, 07 Jul 2021 09:43:17 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 167DXtvf165678; Wed, 7 Jul 2021 09:43:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=PPvyftQaSoVUV5zvRZWbw99RoIbePRuZu1v4EQhjEOA=;
- b=kWalRqnWCsvT5tLc4mXCKf7UUt4B8j1Y6qwAanTDfSVpVKKR1O2wD7Y9PtO2rUM3CsNK
- L/u7j1xh4IWJNFFp7PX6zNDRCTyXcW6dm4+Afi8GHWWkZeyHa9+CmTZNfQ8PLNfsyWQ+
- L/ozndooPSCZE6fRapL87Zc3sCq0uvXfAVGbBMJ4YthOPWilDK7AIEMjR6Xisbv1t4mB
- Sfz0nH+lM7YJpJflt4Cx4QJh4X5ZX3Tl/nUbRWOf1kcn4KdFJl3GQ3nYTJVk9LiHCHTf
- 0KiNQ8kMvnSmFUM3CYjSC1WuhXVfPUH33eWp6uAdglVKNExTpifwiEOLInW6nMHJm7rY CQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39mts0ke9h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jul 2021 09:43:13 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 167DY5Fq166214;
- Wed, 7 Jul 2021 09:43:13 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39mts0ke96-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jul 2021 09:43:12 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 167DXwVb012938;
- Wed, 7 Jul 2021 13:43:12 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04dal.us.ibm.com with ESMTP id 39jfhd27f1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jul 2021 13:43:12 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 167DhAQr35979622
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Jul 2021 13:43:11 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DBE192805A;
- Wed,  7 Jul 2021 13:43:10 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3DF5F28065;
- Wed,  7 Jul 2021 13:43:10 +0000 (GMT)
-Received: from LAPTOP-K4LLPL5U.localdomain (unknown [9.77.134.179])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  7 Jul 2021 13:43:10 +0000 (GMT)
-From: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] tests/tcg: Test that compare-and-trap raises SIGFPE
-Date: Wed,  7 Jul 2021 09:42:31 -0400
-Message-Id: <20210707134231.1835-3-jonathan.albrecht@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210707134231.1835-1-jonathan.albrecht@linux.vnet.ibm.com>
-References: <20210707134231.1835-1-jonathan.albrecht@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m17ux-0006b4-OS
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:48:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625665726;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zFpWkfg36IapJrt8ZcF7l+LiUnUY7WO1wMsSRjKfx2E=;
+ b=R3sU9nmrA+sTuepsagFh00qddGG8CPCFIqDpZzSuiitZh/sMErzUdOdD32MIHMWmJ/xtNS
+ 0HXWth8DoUFuVSzFvNbKKYZkpWPVTxqH34kmUA9yWn79DW1F4HR70rezYu+RE74Rs2Q+vr
+ dfdfLh3p4kkvrdEa2Q4Zn6j1ScavMBI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-oWwkz5ZpM-aO851S9RhXyQ-1; Wed, 07 Jul 2021 09:48:45 -0400
+X-MC-Unique: oWwkz5ZpM-aO851S9RhXyQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A91198042DE
+ for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 13:48:44 +0000 (UTC)
+Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A040F5D9D3;
+ Wed,  7 Jul 2021 13:48:39 +0000 (UTC)
+Date: Wed, 7 Jul 2021 14:48:37 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 11/18] crypto: rename des-rfb cipher to just des
+Message-ID: <YOWwtTuTvFsiCHdb@redhat.com>
+References: <20210706095924.764117-1-berrange@redhat.com>
+ <20210706095924.764117-12-berrange@redhat.com>
+ <87eecaffzg.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87eecaffzg.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 2R3JQxPkfue5HQcNVcUQVyg3H2Bf9M18
-X-Proofpoint-GUID: CaPXvVMZKGPPzzxsUxOLfGCqTPyJBglK
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-07_06:2021-07-06,
- 2021-07-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- lowpriorityscore=0 spamscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0
- phishscore=0 priorityscore=1501 clxscore=1015 adultscore=0 impostorscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107070081
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=jonathan.albrecht@linux.vnet.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,142 +83,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruixin.bao@ibm.com,
- Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>, iii@linux.ibm.com,
- david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- krebbel@linux.ibm.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
----
- tests/tcg/s390x/Makefile.target |   1 +
- tests/tcg/s390x/trap.c          | 102 ++++++++++++++++++++++++++++++++
- 2 files changed, 103 insertions(+)
- create mode 100644 tests/tcg/s390x/trap.c
+On Wed, Jul 07, 2021 at 02:47:15PM +0200, Markus Armbruster wrote:
+> Daniel P. Berrangé <berrange@redhat.com> writes:
+> 
+> > Currently the crypto layer exposes support for a 'des-rfb'
+> > algorithm which is just normal single-DES, with the bits
+> > in each key byte reversed. This special key munging is
+> > required by the RFB protocol password authentication
+> > mechanism.
+> >
+> > Since the crypto layer is generic shared code, it makes
+> > more sense to do the key byte munging in the VNC server
+> > code, and expose normal single-DES support.
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> 
+> [...]
+> 
+> > diff --git a/qapi/crypto.json b/qapi/crypto.json
+> > index 7116ae9a46..6b3fadabac 100644
+> > --- a/qapi/crypto.json
+> > +++ b/qapi/crypto.json
+> > @@ -66,7 +66,7 @@
+> >  # @aes-128: AES with 128 bit / 16 byte keys
+> >  # @aes-192: AES with 192 bit / 24 byte keys
+> >  # @aes-256: AES with 256 bit / 32 byte keys
+> > -# @des-rfb: RFB specific variant of single DES. Do not use except in VNC.
+> > +# @des: DES with 56 bit / 8 byte keys. Do not use except in VNC.
+> >  # @3des: 3DES(EDE) with 192 bit / 24 byte keys (since 2.9)
+> >  # @cast5-128: Cast5 with 128 bit / 16 byte keys
+> >  # @serpent-128: Serpent with 128 bit / 16 byte keys
+> > @@ -80,7 +80,7 @@
+> >  { 'enum': 'QCryptoCipherAlgorithm',
+> >    'prefix': 'QCRYPTO_CIPHER_ALG',
+> >    'data': ['aes-128', 'aes-192', 'aes-256',
+> > -           'des-rfb', '3des',
+> > +           'des', '3des',
+> >             'cast5-128',
+> >             'serpent-128', 'serpent-192', 'serpent-256',
+> >             'twofish-128', 'twofish-192', 'twofish-256']}
+> 
+> Is enum value "des-rfb" part of any external interface?
 
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 0a5b25c156..d440ecd6f7 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -9,6 +9,7 @@ TESTS+=exrl-trtr
- TESTS+=pack
- TESTS+=mvo
- TESTS+=mvc
-+TESTS+=trap
- 
- # This triggers failures on s390x hosts about 4% of the time
- run-signals: signals
-diff --git a/tests/tcg/s390x/trap.c b/tests/tcg/s390x/trap.c
-new file mode 100644
-index 0000000000..d4c61c7f52
---- /dev/null
-+++ b/tests/tcg/s390x/trap.c
-@@ -0,0 +1,102 @@
-+/*
-+ * Copyright 2021 IBM Corp.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or (at
-+ * your option) any later version. See the COPYING file in the top-level
-+ * directory.
-+ */
-+
-+#include <stdarg.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <unistd.h>
-+#include <errno.h>
-+#include <string.h>
-+#include <signal.h>
-+
-+static void error1(const char *filename, int line, const char *fmt, ...)
-+{
-+    va_list ap;
-+    va_start(ap, fmt);
-+    fprintf(stderr, "%s:%d: ", filename, line);
-+    vfprintf(stderr, fmt, ap);
-+    fprintf(stderr, "\n");
-+    va_end(ap);
-+    exit(1);
-+}
-+
-+static int __chk_error(const char *filename, int line, int ret)
-+{
-+    if (ret < 0) {
-+        error1(filename, line, "%m (ret=%d, errno=%d/%s)",
-+               ret, errno, strerror(errno));
-+    }
-+    return ret;
-+}
-+
-+#define error(fmt, ...) error1(__FILE__, __LINE__, fmt, ## __VA_ARGS__)
-+
-+#define chk_error(ret) __chk_error(__FILE__, __LINE__, (ret))
-+
-+int sigfpe_count;
-+int sigill_count;
-+
-+static void sig_handler(int sig, siginfo_t *si, void *puc)
-+{
-+    if (sig == SIGFPE) {
-+        if (si->si_code != 0) {
-+            error("unexpected si_code: 0x%x != 0", si->si_code);
-+        }
-+        ++sigfpe_count;
-+        return;
-+    }
-+
-+    if (sig == SIGILL) {
-+        ++sigill_count;
-+        return;
-+    }
-+
-+    error("unexpected signal 0x%x\n", sig);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    sigfpe_count = sigill_count = 0;
-+
-+    struct sigaction act;
-+
-+    /* Set up SIG handler */
-+    act.sa_sigaction = sig_handler;
-+    sigemptyset(&act.sa_mask);
-+    act.sa_flags = SA_SIGINFO;
-+    chk_error(sigaction(SIGFPE, &act, NULL));
-+    chk_error(sigaction(SIGILL, &act, NULL));
-+
-+    uint64_t z = 0x0ull;
-+    uint64_t lz = 0xffffffffffffffffull;
-+    asm volatile (
-+        "lg %%r13,%[lz]\n"
-+        "cgitne %%r13,0\n" /* SIGFPE */
-+        "lg %%r13,%[z]\n"
-+        "cgitne %%r13,0\n" /* no trap */
-+        "nopr\n"
-+        "lg %%r13,%[lz]\n"
-+        "citne %%r13,0\n" /* SIGFPE */
-+        "lg %%r13,%[z]\n"
-+        "citne %%r13,0\n" /* no trap */
-+        "nopr\n"
-+        :
-+        : [z] "m" (z), [lz] "m" (lz)
-+        : "memory", "r13");
-+
-+    if (sigfpe_count != 2) {
-+        error("unexpected SIGFPE count: %d != 2", sigfpe_count);
-+    }
-+    if (sigill_count != 0) {
-+        error("unexpected SIGILL count: %d != 0", sigill_count);
-+    }
-+
-+    printf("PASS\n");
-+    return 0;
-+}
+Strictly speaking, yes, but in reality it doesn't matter.
+
+
+The only place in QEMU that actually uses DES-RFB is the
+VNC server code. That is an indirect usage when the user
+sets the "password" option flag in QemuOpts. The fact that
+it uses DES-RFB is an internal impl detail.
+
+The one place that does publically expose ability to set a
+field using the QCryptoCipherAlgorithm enum type is the
+LUKS support in the block layer:
+
+{ 'struct': 'QCryptoBlockCreateOptionsLUKS',
+  'base': 'QCryptoBlockOptionsLUKS',
+  'data': { '*cipher-alg': 'QCryptoCipherAlgorithm',
+            '*cipher-mode': 'QCryptoCipherMode',
+            '*ivgen-alg': 'QCryptoIVGenAlgorithm',
+            '*ivgen-hash-alg': 'QCryptoHashAlgorithm',
+            '*hash-alg': 'QCryptoHashAlgorithm',
+            '*iter-time': 'int'}}
+
+eg exposed on CLI as:
+
+  $ qemu-img create -f luks -o cipher-alg=NNN foo.luks 1G
+
+or equivalant with QMP blockdev-create
+
+While the QMP schema allows any valid QCryptoCipherAlgorithm
+string to be set, the actual implementation does not.
+
+The crypto/block-luks.c code has a map between cipher algs
+and LUKS format algoritm names:
+
+
+static const QCryptoBlockLUKSCipherNameMap
+qcrypto_block_luks_cipher_name_map[] = {
+    { "aes", qcrypto_block_luks_cipher_size_map_aes },
+    { "cast5", qcrypto_block_luks_cipher_size_map_cast5 },
+    { "serpent", qcrypto_block_luks_cipher_size_map_serpent },
+    { "twofish", qcrypto_block_luks_cipher_size_map_twofish },
+};
+
+If it isn't in that table, it can't be used. IOW, the only
+scenario we're affecting in this rename is one which would
+already result in an error condition
+
+Original behaviour:
+
+ $ qemu-img create -f luks --object secret,id=sec0,data=123 -o cipher-alg=des-rfb,key-secret=sec0 demo.luks 1G
+Formatting 'demo.luks', fmt=luks size=1073741824 key-secret=sec0 cipher-alg=des-rfb
+qemu-img: demo.luks: Algorithm 'des-rfb' not supported
+
+New behaviour:
+
+$ qemu-img create -f luks --object secret,id=sec0,data=123 -o cipher-alg=des-rfb,key-secret=sec0 demo.luks 1G
+Formatting 'demo.luks', fmt=luks size=1073741824 key-secret=sec0 cipher-alg=des-fish
+qemu-img: demo.luks: Invalid parameter 'des-rfb'
+
+I considered this incompatibility to be acceptable, and thus
+not worth going through a deprecation dance.
+
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
