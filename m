@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFAE43BE96A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 16:09:04 +0200 (CEST)
-Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F103BE9D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 16:33:35 +0200 (CEST)
+Received: from localhost ([::1]:46480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m18EZ-0001uJ-P4
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 10:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51126)
+	id 1m18cI-0004IC-Ft
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 10:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m18Cx-0000Dd-US
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26525)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m18bS-00039B-3D
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:32:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m18Cv-0000Fx-WC
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:07:23 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m18bP-0003QN-Rm
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:32:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625666841;
+ s=mimecast20190719; t=1625668358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tx8QqxrbBUhqMjhtl/HmEzuJlcz5ViTm1Q1Mnp4miBc=;
- b=JMHlkGOkz21INB5O3bRqwRLu5gEcnNtc2Uzrg3V5ep4o2XPj+0JlRgH4w8jvSIW2hW98C/
- GYh4HET3zymA+WxC5562r224irDwEw8esG+0SI80KrHXxvy0P/mbip4uTdGJZvdTHjJGlL
- oW5D2QpiSZEG9gd0uQkvKCL4cedIgVk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-9RpO9ZLLPn-Yh3zxJpQqLA-1; Wed, 07 Jul 2021 10:07:18 -0400
-X-MC-Unique: 9RpO9ZLLPn-Yh3zxJpQqLA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3508E1023F41;
- Wed,  7 Jul 2021 14:07:17 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-110.ams2.redhat.com [10.36.114.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A4C95D9FC;
- Wed,  7 Jul 2021 14:07:14 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
- VIRTIO_BALLOON_F_FREE_PAGE_HINT
-Date: Wed,  7 Jul 2021 16:06:55 +0200
-Message-Id: <20210707140655.30982-3-david@redhat.com>
-In-Reply-To: <20210707140655.30982-1-david@redhat.com>
-References: <20210707140655.30982-1-david@redhat.com>
+ bh=DBmjbrSzELJR8NDLVE3+kuvAOxmxUQVtEgZzxw6QNT8=;
+ b=ESImycdB5RHi8V7gdlegrSw22fGL4ViaWy2vxwtSjZyU96X3TKZPiqNECAnV2Nu6VAp8DE
+ TfEp+U4cJLy8+KRspTO19q+MYw+2DR9XVg9moJVCfahWn3p55ofb25ce6PA9hzk7b/m/RJ
+ niW1PBSutaW4hOziblfOlF+svG5UckA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-I-_SfMdtOLC7W9uwfpx6aQ-1; Wed, 07 Jul 2021 10:32:37 -0400
+X-MC-Unique: I-_SfMdtOLC7W9uwfpx6aQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z6-20020a5d4c860000b029013a10564614so520000wrs.15
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 07:32:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DBmjbrSzELJR8NDLVE3+kuvAOxmxUQVtEgZzxw6QNT8=;
+ b=LP+1zpV3x276Gf2m9pMjq/6Yp4E69x2LvbdBoc30pTR9/75jQncKjSE/+ZakUTSU2o
+ gvQeVxHCyyMuLUO9CjBEbBa8a5MthkD78xn7LR6jPOAojrBQAwtniH66BrussjRhW3Tt
+ MKCTzvOijAEFvE2sxRmr2LiYp+cTrdzG8LQwMKKscuJ5XimWue3s2hezVvjZ01oyM6aN
+ se4gUzXq87FVsmsg5gOOpTzp5bZkXECPniemh+AbAijKQ7btCxdWbtt3diDTcQdX/2Zw
+ yriIHT0YBYK+qNT7e0qWG8X/RUHsLv/pEUs47UQ0TfFsx63tXiqAAmWjQJHKeL/4from
+ gy2w==
+X-Gm-Message-State: AOAM531teyt56qJOHKftVeiRbyjJRUSlQTq4rdCuBWVEMGNWzgBzPwwM
+ hbdkjj96fX0+cHP3O8hICQIodCDdttdBLsCwYu6x1Tm+EQtuIuqFXwQ1tpK0qDXprp+mVuJ72AQ
+ yiMtb/daJe3zUO7KblIykupqSD+1C0EZfmJKdQfQcg4UI3hf4oGqnHGDaB2I8nB9EK3o=
+X-Received: by 2002:a05:6000:1048:: with SMTP id
+ c8mr9236059wrx.202.1625668355787; 
+ Wed, 07 Jul 2021 07:32:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxIxy0x3j9J1DjaDrIUjdzXcdiVfqSpuLw4NDFshwJ/u1E4aTkN0DreKFIckSSti7SNJhaDKA==
+X-Received: by 2002:a05:6000:1048:: with SMTP id
+ c8mr9236039wrx.202.1625668355566; 
+ Wed, 07 Jul 2021 07:32:35 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id w3sm6500325wmi.24.2021.07.07.07.32.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jul 2021 07:32:34 -0700 (PDT)
+Subject: Re: pipe2 & configure script
+To: Richard Zak <richard.j.zak@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAOakUfMKduLQe=juj-sZzVSkD-bSi48-k7SNiKkDKE-fTaiQ+A@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <1317d8b6-4233-d239-9b51-3a525e23a8a8@redhat.com>
+Date: Wed, 7 Jul 2021 16:32:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAOakUfMKduLQe=juj-sZzVSkD-bSi48-k7SNiKkDKE-fTaiQ+A@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,160 +103,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-stable@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Wei Wang <wei.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Postcopy never worked properly with 'free-page-hint=on', as there are
-at least two issues:
+On 07/07/21 05:24, Richard Zak wrote:
+> What conditions are required for "#define CONFIG_PIPE2" to be set in 
+> build/config-host.h? It prevents building for Haiku as pipe2() doesn't 
+> exist. I didn't see anything in the configure script regarding pipe2. I 
+> also updated my code to the latest in the repository and this issue just 
+> popped up.
 
-1) With postcopy, the guest will never receive a VIRTIO_BALLOON_CMD_ID_DONE
-   and consequently won't release free pages back to the OS once
-   migration finishes.
+Does this help?
 
-   The issue is that for postcopy, we won't do a final bitmap sync while
-   the guest is stopped on the source and
-   virtio_balloon_free_page_hint_notify() will only call
-   virtio_balloon_free_page_done() on the source during
-   PRECOPY_NOTIFY_CLEANUP, after the VM state was already migrated to
-   the destination.
+diff --git a/meson.build b/meson.build
+index 660e294b7e..32d5bd3685 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1339,7 +1339,7 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
+  config_host_data.set('CONFIG_EVENTFD', cc.compiles('''
+    #include <sys/eventfd.h>
+    int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
+-config_host_data.set('CONFIG_FDATASYNC', cc.compiles(gnu_source_prefix + '''
++config_host_data.set('CONFIG_FDATASYNC', cc.links(gnu_source_prefix + '''
+    #include <unistd.h>
+    int main(void) {
+    #if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
+@@ -1356,14 +1356,14 @@ config_host_data.set('CONFIG_MADVISE', cc.compiles(gnu_source_prefix + '''
+  config_host_data.set('CONFIG_MEMFD', cc.compiles(gnu_source_prefix + '''
+    #include <sys/mman.h>
+    int main(void) { return memfd_create("foo", MFD_ALLOW_SEALING); }'''))
+-config_host_data.set('CONFIG_OPEN_BY_HANDLE', cc.compiles(gnu_source_prefix + '''
++config_host_data.set('CONFIG_OPEN_BY_HANDLE', cc.links(gnu_source_prefix + '''
+    #include <fcntl.h>
+    #if !defined(AT_EMPTY_PATH)
+    # error missing definition
+    #else
+    int main(void) { struct file_handle fh; return open_by_handle_at(0, &fh, 0); }
+    #endif'''))
+-config_host_data.set('CONFIG_PIPE2', cc.compiles(gnu_source_prefix + '''
++config_host_data.set('CONFIG_PIPE2', cc.links(gnu_source_prefix + '''
+    #include <unistd.h>
+    #include <fcntl.h>
 
-2) Once the VM touches a page on the destination that has been excluded
-   from migration on the source via qemu_guest_free_page_hint() while
-   postcopy is active, that thread will stall until postcopy finishes
-   and all threads are woken up. (with older Linux kernels that won't
-   retry faults when woken up via userfaultfd, we might actually get a
-   SEGFAULT)
+?
 
-   The issue is that the source will refuse to migrate any pages that
-   are not marked as dirty in the dirty bmap -- for example, because the
-   page might just have been sent. Consequently, the faulting thread will
-   stall, waiting for the page to be migrated -- which could take quite
-   a while and result in guest OS issues.
-
-While we could fix 1), for example, by calling
-virtio_balloon_free_page_done() via pre_save callbacks of the
-vmstate, 2) is mostly impossible to fix without additional tracking,
-such that we can actually identify these hinted pages and handle
-them accordingly.
-
-As it never worked properly, let's disable it via the postcopy notifier on
-the destination. Trying to set "migrate_set_capability postcopy-ram on"
-on the destination now results in "virtio-balloon: 'free-page-hint' does
-not support postcopy Error: Postcopy is not supported".
-
-Note 1: We could let qemu_guest_free_page_hint() mark postcopy
-        as broken once actually clearing bits on the source. However, it's
-        harder to realize as we can race with users starting postcopy
-        and we cannot produce an expressive error message easily.
-
-Note 2: virtio-mem has similar issues, however, access to "unplugged"
-        memory by the guest is very rare and we would have to be very
-        lucky for it to happen during migration. The spec states
-        "The driver SHOULD NOT read from unplugged memory blocks ..."
-        and "The driver MUST NOT write to unplugged memory blocks".
-        virtio-mem will move away from virtio_balloon_free_page_done()
-        soon and handle this case explicitly on the destination.
-
-Fixes: c13c4153f76d ("virtio-balloon: VIRTIO_BALLOON_F_FREE_PAGE_HINT")
-Cc: qemu-stable@nongnu.org
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-balloon.c         | 26 ++++++++++++++++++++++++++
- include/hw/virtio/virtio-balloon.h |  1 +
- 2 files changed, 27 insertions(+)
-
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 4b5d9e5e50..d0c9dc677c 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -30,6 +30,7 @@
- #include "trace.h"
- #include "qemu/error-report.h"
- #include "migration/misc.h"
-+#include "migration/postcopy-ram.h"
- 
- #include "hw/virtio/virtio-bus.h"
- #include "hw/virtio/virtio-access.h"
-@@ -692,6 +693,28 @@ virtio_balloon_free_page_hint_notify(NotifierWithReturn *n, void *data)
-     return 0;
- }
- 
-+
-+static int virtio_balloon_postcopy_notify(NotifierWithReturn *n, void *opaque)
-+{
-+    VirtIOBalloon *dev = container_of(n, VirtIOBalloon, postcopy_notifier);
-+    PostcopyNotifyData *pnd = opaque;
-+
-+    /* We register the notifier only with 'free-page-hint=on' for now. */
-+    g_assert(virtio_has_feature(dev->host_features,
-+                                VIRTIO_BALLOON_F_FREE_PAGE_HINT));
-+
-+    /*
-+     * Pages hinted via qemu_guest_free_page_hint() are cleared from the dirty
-+     * bitmap and will not get migrated, especially also not when the postcopy
-+     * destination starts using them and requests migration from the source; the
-+     * faulting thread will stall until postcopy migration finishes and
-+     * all threads are woken up.
-+     */
-+    error_setg(pnd->errp,
-+               "virtio-balloon: 'free-page-hint' does not support postcopy");
-+    return -ENOENT;
-+}
-+
- static size_t virtio_balloon_config_size(VirtIOBalloon *s)
- {
-     uint64_t features = s->host_features;
-@@ -911,6 +934,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-         s->free_page_vq = virtio_add_queue(vdev, VIRTQUEUE_MAX_SIZE,
-                                            virtio_balloon_handle_free_page_vq);
-         precopy_add_notifier(&s->free_page_hint_notify);
-+        postcopy_add_notifier(&s->postcopy_notifier);
- 
-         object_ref(OBJECT(s->iothread));
-         s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
-@@ -935,6 +959,7 @@ static void virtio_balloon_device_unrealize(DeviceState *dev)
-         object_unref(OBJECT(s->iothread));
-         virtio_balloon_free_page_stop(s);
-         precopy_remove_notifier(&s->free_page_hint_notify);
-+        postcopy_remove_notifier(&s->postcopy_notifier);
-     }
-     balloon_stats_destroy_timer(s);
-     qemu_remove_balloon_handler(s);
-@@ -1008,6 +1033,7 @@ static void virtio_balloon_instance_init(Object *obj)
-     qemu_cond_init(&s->free_page_cond);
-     s->free_page_hint_cmd_id = VIRTIO_BALLOON_FREE_PAGE_HINT_CMD_ID_MIN;
-     s->free_page_hint_notify.notify = virtio_balloon_free_page_hint_notify;
-+    s->postcopy_notifier.notify = virtio_balloon_postcopy_notify;
- 
-     object_property_add(obj, "guest-stats", "guest statistics",
-                         balloon_stats_get_all, NULL, NULL, s);
-diff --git a/include/hw/virtio/virtio-balloon.h b/include/hw/virtio/virtio-balloon.h
-index 5139cf8ab6..d0d5b793b9 100644
---- a/include/hw/virtio/virtio-balloon.h
-+++ b/include/hw/virtio/virtio-balloon.h
-@@ -65,6 +65,7 @@ struct VirtIOBalloon {
-      */
-     bool block_iothread;
-     NotifierWithReturn free_page_hint_notify;
-+    NotifierWithReturn postcopy_notifier;
-     int64_t stats_last_update;
-     int64_t stats_poll_interval;
-     uint32_t host_features;
--- 
-2.31.1
+Paolo
 
 
