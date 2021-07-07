@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2843BEBBD
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:59:26 +0200 (CEST)
-Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA8B3BEBA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:54:36 +0200 (CEST)
+Received: from localhost ([::1]:58922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19xN-0007wD-NZ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46302)
+	id 1m19sh-0003IT-Dt
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:54:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m19o3-00007i-Uk; Wed, 07 Jul 2021 11:49:47 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:35971)
+ id 1m19o6-0000CD-IL; Wed, 07 Jul 2021 11:49:50 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:52767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m19o2-0003Ee-F9; Wed, 07 Jul 2021 11:49:47 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id D29E732009B4;
- Wed,  7 Jul 2021 11:49:44 -0400 (EDT)
+ id 1m19o5-0003Ew-0i; Wed, 07 Jul 2021 11:49:50 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 658CC32009A5;
+ Wed,  7 Jul 2021 11:49:47 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 07 Jul 2021 11:49:45 -0400
+ by compute5.internal (MEProxy); Wed, 07 Jul 2021 11:49:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=h8t2938WpU3UU
- zpsqciYJT+0fzYoMfhS77cmgL5tVOs=; b=kiBugl8LU9Abra5AkwV6AgBvn0YPU
- FzIA//hemjx5HP146RrOl0Y6Yx79EL+C/wcFz0bib17K8w8AXjXMfEmSHX6Xa1Fn
- 4qWo6r1FfkFz9XJ2L0PWTyVgd4WUNXo3yIsvhoNoPabvqxZv6XW+vdR9j9H7W7PY
- ur4bng349jIY+cjAY7o52ZmzCr52gzIz6egMdFfkl+Enrl4427XADNfOHW9NSqaP
- OE8VKHCr0ou2ICWbd2NZbU+H7vfOz4Y2Vj4AElhRQWwpZbs8hZOo8GY7JAPH+feo
- M8FCkJ/lfR9rYRPy0gi6l9NAGVTmF5axQ4s2VNrNOApXe76MOsCclmptQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=wG7Zr+dwuhEwF
+ WP/4Iw9tSJ54oGJFx3b2RiKRyjEeY4=; b=U1SDUfieO6qy4Ouod+TPJKwpMr7+f
+ LyhG+X93I6xVOzQjlB7kHYVJaDa1Faq+EBQ4WfrHLyQAXJTiEDh5KQPzAggK/EcM
+ 9qwAZidqADptVTUCaK4j5FUVXfOegu+zQa/H74B0SnRMjxyg13WatKlVPlfCuim0
+ 3GU0WA0QBLx1vfcFE9hATbGD6VrrbsKwg1KLhrTyzcibtt+vVA8RM2EGYhLI+IiO
+ W7n72t9UhpYm11I0hBqBwlrif7xP4gLcOaxe40c+za1AL0O+m2GSrh2PdBv2/m3s
+ y7K8tCCcYQHM+UlegV0iDpfS/eQvcJyT00zfcJJTPnhVEVdXcyv2TZ2VA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=h8t2938WpU3UUzpsqciYJT+0fzYoMfhS77cmgL5tVOs=; b=u4CqAemX
- e88/BlX8HBn0zNcTtdxqhhIL3uj/uR3GdGqFgQuhiJxnGliN7R11jm1pps64BVgA
- 8KlUlW0H/q5dms48TPqNU44+2oym4gZ69Z84bJBOhO4kbL7rCJa86N8Zxsxm3m9t
- o7fLM3yk5W4b0WzVzrNu6VbQdG7BpS6p1R3w2e3K5d83gJieQGtqadTGFe3fa5cp
- LT+pmJ1IQ0lPc2X+2JUA7chFbRvUbfAQm3EOPKJxMrSYRTJ9Cr7iHu8ppJmq5+Gr
- ogr6YMZFbQOoPfhW3xXjoaCznvAxW7ABhOIxFP+lfvcSej2wsqc9xfw4PI1R1XfA
- P/0/i2HwoTd7EA==
-X-ME-Sender: <xms:GM3lYPHAw1SnAFQ_Sz2ImVWK3bNlWtsdFYUmkuDgR17Upc23L30lFQ>
- <xme:GM3lYMXI0xov4M_KBmNAsldrwpaF7_7ywS14AvC0gs9v5FllqoIVLQ3dltPcpCzKP
- Dme_nXxCzPJNv_cufc>
-X-ME-Received: <xmr:GM3lYBLSiZVLK6G0qAZKSxsHhZhcHuABxu7TXnhQ06Fy0pyzHRXzMGxemJFOBQLTPOlYBzHcipOk8O6OzDVex_mivcCDjMUDChZN4I298Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgdelvdcutefuodetggdotefrodftvf
+ fm3; bh=wG7Zr+dwuhEwFWP/4Iw9tSJ54oGJFx3b2RiKRyjEeY4=; b=O4D10yUD
+ ECKhQnGtrS+tPXwUwQxP9YYKUxGJfS+Dgg3et9op3vfjwTiXtOAZ1tV44UCjLLTi
+ F7o9l3K1Vo4gR5ENiEexkCzIX33JVnSd+swcNm1yQpW9ONK8S4cfbbbKlvyu/Cw2
+ 9YFpA35E30jWmzLdt9ZP8kC5k/9G5g3++PoIxftd4IPPr3DL3vxEVoq8Dmyh9icq
+ A3YABmLxlkw6+WJ5b7wzLgQ2b8adxEslmAqLaCk4Qrq9h5BJ47v+xvONjz3+/Oi7
+ rk49SlqqxYBNvbxCpud7sSOc9Nq6NhwCFJbfeuFIdNoaQMFNA1V876pYspM0H1KB
+ cFWQEEWS+jpztA==
+X-ME-Sender: <xms:Gs3lYLMdf01H3KoBrw6IYyzebLCe7RD5K4FyVQ_K9dBnpfTmrZF9Ag>
+ <xme:Gs3lYF-TyBaFHG4nx5m7iolx6dxSsugXqKbukZiGX__OCnmI70fZu7Z3Xjj78o9DA
+ 7i1S2vHaafkIpYEDno>
+X-ME-Received: <xmr:Gs3lYKRxwhy7HQunre_WL8TbrQ8GaN4g3coObq6iiiKym1D7i-wfiiK4lfk0Gw8A5BEMFV8vEw4wgHzPGXyFnYa352cnAjK6LC8-IYtaLA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgdeludcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
@@ -54,17 +54,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddvgdelvdcutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
  esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:GM3lYNEJ5ge99LSWBGYmN_JeF9tS3HbOPAaGuhT3fT8OsRcVmieLjg>
- <xmx:GM3lYFW4s5DHe61M9YlujDDMk87ld-WaosaP-CZS_rBF_I0qYhlIwA>
- <xmx:GM3lYIN2ZDmUjNysXURR1ldH9FPSPZfHU7HHODf1yG6PY1doMDjsfw>
- <xmx:GM3lYLxEAlai_fy4RPwXGkj447lGddhNEFudJiXeVFBkQiQ13SWuuw>
+X-ME-Proxy: <xmx:Gs3lYPsm9zBjgN7Mo5OJJb9JO85D3v3NOLYXXP8jmmelNi-aTSzWgA>
+ <xmx:Gs3lYDff6LuPyV66-Iz2haji6l06p2ury5T9GAGJNPSYjNCkMZLXnA>
+ <xmx:Gs3lYL0QTTROtryuT52XXM0PNZEPYO50gUxk75t_p_ALl8Yf66Ee0Q>
+ <xmx:G83lYK5vbxFecQ-O6d_z2q9T1Ej4GDLaHPcPfeXNHFi9eC0zYv8fgQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 7 Jul 2021 11:49:43 -0400 (EDT)
+ 7 Jul 2021 11:49:45 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] hw/nvme: mark nvme-subsys non-hotpluggable
-Date: Wed,  7 Jul 2021 17:49:34 +0200
-Message-Id: <20210707154936.200166-3-its@irrelevant.dk>
+Subject: [PATCH v2 3/4] hw/nvme: unregister controller with subsystem at exit
+Date: Wed,  7 Jul 2021 17:49:35 +0200
+Message-Id: <20210707154936.200166-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210707154936.200166-1-its@irrelevant.dk>
 References: <20210707154936.200166-1-its@irrelevant.dk>
@@ -99,27 +99,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-We currently lack the infrastructure to handle subsystem hotplugging, so
-disable it.
+Make sure the controller is unregistered from the subsystem when device
+is removed.
 
 Reviewed-by: Hannes Reinecke <hare@suse.de>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/subsys.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/nvme/nvme.h   | 1 +
+ hw/nvme/ctrl.c   | 4 ++++
+ hw/nvme/subsys.c | 5 +++++
+ 3 files changed, 10 insertions(+)
 
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index 0868359a1e86..c4065467d877 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -50,6 +50,7 @@ typedef struct NvmeSubsystem {
+ } NvmeSubsystem;
+ 
+ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
++void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n);
+ 
+ static inline NvmeCtrl *nvme_subsys_ctrl(NvmeSubsystem *subsys,
+                                          uint32_t cntlid)
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index dd1801510032..90e3ee2b70ee 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6523,6 +6523,10 @@ static void nvme_exit(PCIDevice *pci_dev)
+         nvme_ns_cleanup(ns);
+     }
+ 
++    if (n->subsys) {
++        nvme_subsys_unregister_ctrl(n->subsys, n);
++    }
++
+     g_free(n->cq);
+     g_free(n->sq);
+     g_free(n->aer_reqs);
 diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
-index 192223d17ca1..dc7a96862f37 100644
+index dc7a96862f37..92caa604a280 100644
 --- a/hw/nvme/subsys.c
 +++ b/hw/nvme/subsys.c
-@@ -61,6 +61,7 @@ static void nvme_subsys_class_init(ObjectClass *oc, void *data)
- 
-     dc->realize = nvme_subsys_realize;
-     dc->desc = "Virtual NVMe subsystem";
-+    dc->hotpluggable = false;
- 
-     device_class_set_props(dc, nvme_subsystem_props);
+@@ -32,6 +32,11 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+     return cntlid;
  }
+ 
++void nvme_subsys_unregister_ctrl(NvmeSubsystem *subsys, NvmeCtrl *n)
++{
++    subsys->ctrls[n->cntlid] = NULL;
++}
++
+ static void nvme_subsys_setup(NvmeSubsystem *subsys)
+ {
+     const char *nqn = subsys->params.nqn ?
 -- 
 2.32.0
 
