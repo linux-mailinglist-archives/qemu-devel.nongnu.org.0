@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F093BED6B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:49:56 +0200 (CEST)
-Received: from localhost ([::1]:41886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459133BED53
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:43:47 +0200 (CEST)
+Received: from localhost ([::1]:54512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1BgJ-0000ya-Kk
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:49:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
+	id 1m1BaM-0007JY-9I
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:43:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m1BKq-0000zf-Go
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:45 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:64780)
+ id 1m1BKf-0000mU-5K
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:33 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:40978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m1BKl-0006sB-Cq
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:44 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ id 1m1BKc-0006sc-2B
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 13:27:32 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 167HCNYm027404; Wed, 7 Jul 2021 17:27:27 GMT
+ 167HCGvc003564; Wed, 7 Jul 2021 17:27:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=ODVcqsNZZUgyrGgVRAilz5u+VITg0/BtM24sLZwVyiY=;
- b=gh2ktkZ7eNG1laVbNYXrs8Mp39Xf1F4KFlMombzDxnmZFmRN7muChSPo3+X3nGSylhDs
- M4P6wE7e5SjXWRQ0lT0LQsc8yNeciWExKYS+Qa4zoFoS4QhpjzrJqaJ6JSWxV8u0fg7P
- 075F7NfGNCrbClchfu+qs94EnK4JT6qI1czmxP+b5eBj0Zfq1eabKCLSlcx40Vs8xHyY
- hOK9TEV4AMP8hfgZbo9nkzLF5610fybNFwH7PBQaxHFwKXAOLAnxQyoaOPQoj194WYtu
- AvKwO0E6+S9lxTbWJcquanIfm0ixZa3z2Ym1f1qUMfYCeufI1/eFtjU5rwltIF8odYle Kg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 39m2smmq7e-1
+ bh=0U2eUGvdCw0BPtLV1NQZj7cnxIgSx6ecLBDlbPZ+Nx8=;
+ b=aXNAUiykxWFOQ3IS4374zIL5o/zBXSLWNkrG0gx9N8UrjSD3g63xFcoyTUzwKAKdAEO2
+ mK+0yBSYSIfwfUuHQ/v2nQF3eRPYXHB58bem8uTb76U6/X/LZyErIhc43ps/uwU4w6IC
+ vDiRbt8Nck3KXBS0Hm4kXOHaiz5R4ZS1ZNIQmHO7fHCqXLcl//TM8EM5Shf4/lhdBEm9
+ EwQ7uBVZHTwK0azCtSItMXn1ZQUFhB9LOjYG3F9W7BE5X/6BO/sQITiXTLaxSTr5clN3
+ CYuz8DHYpASNe13DdRCTzzIbv6ugCI2XpRz06C8JUABij4coGQM9ZTqYQgecHmBMdu8t Qg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39n4yd1ert-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 07 Jul 2021 17:27:26 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 167HAADG026147;
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 167HAW3Y053059;
  Wed, 7 Jul 2021 17:27:25 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
- by userp3030.oracle.com with ESMTP id 39jd13ubju-1
+Received: from nam02-dm3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07lp2047.outbound.protection.outlook.com [104.47.56.47])
+ by aserp3030.oracle.com with ESMTP id 39nbg2je5b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 07 Jul 2021 17:27:25 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cAtHZlWAFKCJVob7UU6S4GN/pbJd3RakGIRPRgQITmPs/PkXwf7HHZ6zoJmsbxsPVexAS6ayEz0M/gDqQRraum/d0DCyyFlN+NkwAhD4nDHktIsm0AwDWJPXBy/TG+tZ4qTmCuuXpKPJf5P/Fw1m3K3mtqr9ifg3vx7iDDD6AWI2KPc5N1jjsm1DoXKSoZJi2RG5YdmMsXc/DeQCFjIjo6DKkYjyEh6uPcQGJsF2PqKRmurb/mU54GgtcCKsEO9EDcIiQXJ9N8VAbF7/Mx6DxrszFWdvhGJ9EhnEkcSrkqReuprO0y2gPGus72Mwxq06VNZ15qBS/j1s1Rr+s+Wa9g==
+ b=iyen6ijjsvhxmMwH7c6iYh5oKX6GI+OHdNBVs0S4ATS/fnXucgckFypfhvj1rMVG7YZ1s5FYsN94TXipKukpqtDeL5lJJniLlu3HNwE+t0Cm4u99yDC/Q9kyuaRr3to5ClAhE+oNK9pvUQkxsLwz5QP5atU3laq+bj05LSrFs/hVjntSjdDxMBEzfFv6QDDALlMVhBtJTfrmsrbsD8xOrdVsVQz1qVXNZw29HwOHJ8CTo7Q3rZ7nETI8N2oBlcnN8zcI//RZZnq6BHgAI8f2uey6qKhWeWUer8UiwFwkLjPKffJjwK+7VOEcfGOerLGTLb5AeurXZWmDE64C2rMRBg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ODVcqsNZZUgyrGgVRAilz5u+VITg0/BtM24sLZwVyiY=;
- b=FkYYPKbFuEc6C6dLRDVDai9JcwOlpX4I//kGs/4BKwDuUTGP7W4OqFGoqXUGuDQrhClD8Oh17rHLRSOHI/HKsm26i21+zr8V1KMABGogpAJ0nhD8Wa+K5ObCZrvfTY43EFsObsqwkvpaC6g0NezHoQ7HIAemT1/DyqfmF9FceXwnNxU+yE8o3HNYDopcEG4RcJY+SFPOmxFoxX8eLxHgl5amgUTLHlh0ezQ8RmkGd2r9Dgwm3QQV8KPsZYGt26NOqeH3EbJxPCP7ldNajVGBMbenFlL9yuVpjRzZvcDFVP0chzrDv/UWT2yP7WW1LyXQn7kSIi+YKA1lBTf5RNxQeg==
+ bh=0U2eUGvdCw0BPtLV1NQZj7cnxIgSx6ecLBDlbPZ+Nx8=;
+ b=kFFrvPf3uADP4g8ujv6SlSj0u2i1QaR50oqelFDJ0gp47h8VPFFQDjEMKAAdRm2tn4ah0WevTIYG+v8OZpZHlN5EaNlaQUJxo26h60HnfeRiK5DJsLang5fzBGyPQj8CRKqbI5uBlXl1EUpwKICLAn56yn+nbsX2PPw3sRguDFrnv9WynH5upG35cHItG9R6xsv70rv19cgCyZvrfPf19JJMIVSVnY/EFaCWwJ18YO1hha4Pw/KIcYNIOa5RYL88sCXnGzDrwXtBdpVhpXEkcVvPci3aE/l4phn4OpLPNXG6e0VclSijzETT/qzQiveuOz3ctlVQG3aA3XOZhr2TPg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ODVcqsNZZUgyrGgVRAilz5u+VITg0/BtM24sLZwVyiY=;
- b=WUYnf3ZVgblSNItrbDJOd+8IxymkSMPZ7XMtMxTBCtIvr/RfOEkLMdwMeZJM+xYupqQB3gthf1u7xOXRRbYI/5KqLfm9Lj2BPnwrvdxxIgBg6sJzbaZjFl2CBx8WMMq4DSQ1icyZ2NY0uaZBIOh+foMBDJopGscRtTrJhJP++Q0=
+ bh=0U2eUGvdCw0BPtLV1NQZj7cnxIgSx6ecLBDlbPZ+Nx8=;
+ b=PPW7sWFopJwN0PxB6GGY7XmEMZeRURSRv++bMkm/tDPdq9SEjXMP7y9R4o1QVAaCalpP6fN4tTWtVIzLlHyaOjglM/TIdXef7WAH/aodWsPBZcmJ6Yn78kDLugAYXc1mJkdslZrjL0NTdAzuwMXqQ8ohvkx/DWu6qqABmEC3lZ8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BYAPR10MB2534.namprd10.prod.outlook.com (2603:10b6:a02:b1::17)
+ by BYAPR10MB2677.namprd10.prod.outlook.com (2603:10b6:a02:b7::11)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.29; Wed, 7 Jul
- 2021 17:27:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.23; Wed, 7 Jul
+ 2021 17:27:23 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::59e7:5c8c:71fb:a6ba]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::59e7:5c8c:71fb:a6ba%7]) with mapi id 15.20.4287.033; Wed, 7 Jul 2021
- 17:27:22 +0000
+ 17:27:23 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V5 23/25] chardev: cpr for sockets
-Date: Wed,  7 Jul 2021 10:20:32 -0700
-Message-Id: <1625678434-240960-24-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V5 24/25] cpr: only-cpr-capable option
+Date: Wed,  7 Jul 2021 10:20:33 -0700
+Message-Id: <1625678434-240960-25-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
 References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
@@ -90,63 +90,63 @@ Received: from ca-dev63.us.oracle.com (148.87.23.13) by
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21 via Frontend
  Transport; Wed, 7 Jul 2021 17:27:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eda7363c-4609-497f-e5fe-08d9416c7adf
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2534:
+X-MS-Office365-Filtering-Correlation-Id: 3c1cbec0-bae7-421e-bc17-08d9416c7b49
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2677:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB253449A25FBF45C440EC83C5F91A9@BYAPR10MB2534.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:989;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB26778549F384A9D9B5EE40F1F91A9@BYAPR10MB2677.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1417;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Hjwx8n/4q4ybPW1vASJ4/uaUxzllC1dfwD3lf+EJqBkhlccXYjmPJCr8cCEuy95mMmjXwYCL+9ApSGWhZmWw5auFlGujKTe6hJZITVVLUJ4CGpyAhnEv3kkmOSTOrxEr3S5i30+QShPcyh9wyl3YfG66XZffNOzjyE1OxMajm7utGBcsjIZVEe0Wo1u0WtcosATN42em7gHrlpLuU3p6CCHVUalu5LrhZSM8h5yXgXhjr7G2JAU7U/KLCkUTTbsfkpAmP2OHH+JNmEySHmaGSWylPkUMriFcdt0v8FBJA9c6zvZFrAtkm8cpWIxiMT8WABwM4NKk5w7SpZLcX7P+4a8lTIu5YW5lLAp54vdlwapDtM+Pw87sFzL1a+TkJo4C0PYhVly5vkVwn6cmfnAAiNVLC/VHXrAtodvJ1qe1bVSNYLiU381l+bgZCu29Luu7YtFdFcLH/10niKg8hSalCq/05Gp4wvQ5bMw6eSidVUn8LMlqI2ht8NICPjPDGm1nHxwUGohoEOeua2AlPlkxCeNIkT6KmHwi2NbYCSN/+9FTw7DnWyXAjtx2jQN7ujVV5b5U8Vwbikvj3hh/Nl63PU0t2OoFDVYJTNDtOsY4079TjR+dKfmYvwkjdjyPBT0IT4aN+uE/Rug9C1F8rWVQ8YuZlTjxw6oB0PufrNlePvJhbS+6ish779tIj49vz8SK
+X-Microsoft-Antispam-Message-Info: MpbOwBO7tG0T8X86hIpRKHZ7XCA4YKHc29yu/o+e+z3PapMWpG5rh9NFUbOYhjIChfDf+4JhZTC+dg1TktOoPobUicFLfOXoWr2ARQ22UQcf5/rHEHgdce3lph03VoGAQ4ofFzCyjmasjU4x+MNidAIcuqWXwC0fJiIvd5l0WgoffUWB0iVTeNl5i8s6RQyCed9i1yOowBmRlVN8P7tTuboMZ23XFZwtu1UmPhfIxtVT4pkFnghYU2R96mb74AUCdUQ3wiaFZBPoq06a9CIzYS/rwfx2qx/10qdizWhklY6ZnagTrHqj9qfPDVAD7jB0neb837MaNp7NiD4NofeRfApKAfz8i9ws199gSyF0KW9Wx7Euoc67fzPfGcy/iMSPFfCwpOWdzOBN3NVgUIG+nKFRBSm8d2NWJdD8B/e/d86tdY+DOgJEQyZt9OkWfbvTwk5bXeDYAPV6E/Q4ktMXpidzSA6sCMHzN56ARSbgqLPlGzNKI4u7MeSmcPN5dmB5Y+7sFsekVxOk7R0Ond7FpoMlfwha7OW34Fstr/AGCb9ZxL/leEWteRNQFmXzZ/tRJGgs6+gNnYxeSIRkFZdGng2/eTGLXAYxShwVvgRkSN2VbIm4SvaZQbJ5l27h0wGpA9IQembE5K0smlYILWXhdCX16eFPZMANV02OUUcalGUhhenk9Ya4d3rx5pym0gxs
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(376002)(346002)(136003)(366004)(39860400002)(396003)(66556008)(4326008)(66946007)(186003)(36756003)(5660300002)(956004)(2616005)(38100700002)(83380400001)(38350700002)(8676002)(26005)(54906003)(6666004)(6916009)(66476007)(478600001)(7416002)(8936002)(86362001)(52116002)(2906002)(316002)(7696005)(6486002)(107886003);
+ SFS:(396003)(136003)(376002)(39860400002)(366004)(346002)(6916009)(107886003)(38100700002)(66946007)(7416002)(4326008)(6486002)(478600001)(2616005)(7696005)(83380400001)(36756003)(52116002)(956004)(8936002)(2906002)(86362001)(186003)(8676002)(66556008)(6666004)(54906003)(316002)(66476007)(5660300002)(38350700002)(26005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3oFsr2iBkKWstHNkE/Th96rEttVn+Iix4s+rLJrXc3grFqgaP7RF6I8546Fk?=
- =?us-ascii?Q?46i4SQabVzYP5DpKJbVOgKzRGnCKgWseBVfR3gUQL9paWOsd30TtITauXM3N?=
- =?us-ascii?Q?SJVnSEACSIEV1GLYXOmFDGZ7566O4Zoe0n9eZFs5FFO1gffON5rWbxPJKo3T?=
- =?us-ascii?Q?WRvQW0Yv7n126+IRd37WRP7/Hygj/xSZaqF9xP930DoqasxVdczn7GL1SyQj?=
- =?us-ascii?Q?VP4rhDsQzmJSFV6neyydxMElQ0bY7BS1Kp1orgQ2+fjShaO/v853T7W5+Mn2?=
- =?us-ascii?Q?iQ7pVs6O5ppjiwq2+LDWwbfG41t+NwkgHq08rHtThLG2I4M4SNluOB9Wh7kd?=
- =?us-ascii?Q?7nYnoJ3GLDueupNeffz61Zbck96B7ZfkKhXeZLunmmHb2up7PSt1niqQR8v+?=
- =?us-ascii?Q?JyUrLuubmJzaAAMYJs+CzvcMroKnfMzms9ZrBer++AlllZukp/67plpPjr0J?=
- =?us-ascii?Q?g3/RIC4KIqIKy66WXT+Uq2efEpgbhDlkre9nAEwig7BYgGeoxArefwKG9SW/?=
- =?us-ascii?Q?g50ZmhjqxKHVbDl/TvtUgu6cwoN/z4VT0nRbD8ELRsXz1Ckn3wf8b9WLfa/x?=
- =?us-ascii?Q?uGtJulSprcRmb+ODTxcg33DDtJTw8Nk+2ujlfgyPuB+T5xKEfy9+s/+7A3x0?=
- =?us-ascii?Q?f+zPg5ioE0PUVuec6ijXt4wlvxN0ZKQpJvvyZJpNmbgLtiQ5ggqXGvDWV7nc?=
- =?us-ascii?Q?uWLyzsgyzJzNS528/AG9b8Km/Q6zDw5mw4ycJwWEWP0GvZkyfmsltB/6ELyj?=
- =?us-ascii?Q?BmKPDoa+jrM9hg+UYbsS+S22fsgoDu8Yy45jwbiPFdVj0K6wOZ/cTxvI5vWH?=
- =?us-ascii?Q?xjT6VwKmJVV0BYTOEwm0VUjrxt9SWjbj50BciXoGZju7HDv4rVSDBbYDoC9g?=
- =?us-ascii?Q?1EXE0Q9GfIs6FLElqg07Z5sr2M6L/Ae9G4yUrOUzi3nAPMEn5esKU66CkKeR?=
- =?us-ascii?Q?hl9oLRpWxYXZBHGSxudsDxmAdaYRDaiLgkam1n6YMX8khue2SKDP9+tuo7k2?=
- =?us-ascii?Q?BKZfCYqzVIJkyYseZBMzgFocZnN4+kQ86WI/Zc5v9rKHT8fidkQVkmVBgLSM?=
- =?us-ascii?Q?bfywPdZi18pVqajfxl8KpYMVIqraVfHKReMpMLCK4s8ilinK0TXU56fKM6RA?=
- =?us-ascii?Q?gViDGzv4UKEU9BnTTwcQI0MaW4t11MWjQr2gH8gtOs7nTO2h9scvqtTkNb/8?=
- =?us-ascii?Q?HVyji96l37tenajibCc6M4s+BnVkDIsmw7WORgZwrRLYf6k4EF6FTHzm4URO?=
- =?us-ascii?Q?MK0VKWbQ0xosmYuiAuVZmti+6JgjOY1FjyFUDTUT6B1BK5DhPKP455zhuAGA?=
- =?us-ascii?Q?Gxl2eN2lXTxdDxH7MOG6eU9S?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?elT6zW1zO9O8xfegEGFGoZomYVCWoUQneonTD31x90dC1XZw6qx3sdXBAnXa?=
+ =?us-ascii?Q?+kri3Z7t6hgytuQalWUmNqf6f+EJv9oU+uumpkLi0vaOCQMEqV86E9tyGUpr?=
+ =?us-ascii?Q?6Jk1Q3GG0MmDZYOY71/Had0muz3HTVOEl1uGwD39wsJB/Qre0Dt0nIKZBkeU?=
+ =?us-ascii?Q?vKkiMgJzpvT48q4h02UbR+E5diYHMxM4nT6VtXoIkHVtBuQ28a4Yvd/EYtf3?=
+ =?us-ascii?Q?mIg5WkHplj7QXwdQhnj/HYuWiV+Ae6EMdGBoFPuo9ZpjKdJfqhd10SECmfax?=
+ =?us-ascii?Q?ofTI+qeyyFh2PhgWZCFgYfluwbwa5lCA7TWAD7bt6WbOgk7s0k+InaF3OX50?=
+ =?us-ascii?Q?JDXhvJLNui8+kFZDyVaUnfPcxHsynAwEsL0+TNJ9w865N7uKqAPHrZCORy3P?=
+ =?us-ascii?Q?dmJNKXeLJz0Jrwu7auGGqOS7Yc5fJZNXwEU8uE0GeoB6baEM394QbxO1eoXT?=
+ =?us-ascii?Q?+97UA8uSzP+WD+sXh4pPcfhc31/H96mde7NMEH0MJ52nOJYXPrWWFZv/TdLm?=
+ =?us-ascii?Q?9dU7c3I6Bt4TXjURCY83Niy8WjjrOO+W2IiV91+KUitpw9z5QxHXJlfCoEob?=
+ =?us-ascii?Q?m4NEgZKNnc7wIF7yRrqgUs+kkmy4MEE7FNpPlJDOXMelzdlwy9GRcsBxLqhV?=
+ =?us-ascii?Q?ug+3q2tuL4noxw5BCZdIGTKU41Hg3QIaobNDX1TKpdaTdmf3imobgADU0An1?=
+ =?us-ascii?Q?5MTXXxw5EzEB2ZcFold7es1ihhdZKtQDl01M98mt2rZ/NV6xvfiy17Yv4829?=
+ =?us-ascii?Q?id2PGm+jfElAgv6U95y+n4zreeHg+gZu+pmUL0LIrzmDGvxzcY4FGAmPhkLS?=
+ =?us-ascii?Q?aV2TMzgpn10zpUa9av9o2w5N069Poy8jg+PcmcdARwK5J2ssuPtGl+p75e+0?=
+ =?us-ascii?Q?EjZz7ig+SkTHE+jwYz4zZRSBtVYoVfk5MQLpBcAGk9p5DO4Pi+g/hybvNtab?=
+ =?us-ascii?Q?lv0JrUTMkyOuptRw6D2tXE/FcVKvVHXVPc9Q8zYX5e9Z1Gr+R4Ptu5z9DBQG?=
+ =?us-ascii?Q?sWBVewUiNMV13tvhhBNKeBsSZJRCx/48JFYTcaa1eao57WnUGFayeMouFvO/?=
+ =?us-ascii?Q?9ayzpVphF6BxMVTrn6KyxJPuRIfWHXU2DLaupSQNfcciqF/EMv9TyXYOu3rI?=
+ =?us-ascii?Q?4rCvvlFkmgeclCHbkZlOjKgTaWY5aiaujKx9cxUq3C/PLwoaB9+g/gQFh3mN?=
+ =?us-ascii?Q?z9SAfWISJI45DfUF/SI3zTifKM7Ts2HArBjW69ulDIKXpA3OdM8XUNlShs8c?=
+ =?us-ascii?Q?cPbBzXjjz6BWXypnOyI/m3vwTn9EKSx+gP0dhTi7z6xbZ98AwPgsouCh88AX?=
+ =?us-ascii?Q?cM9z20LkkQVmPkRJoqvkYbOs?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eda7363c-4609-497f-e5fe-08d9416c7adf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c1cbec0-bae7-421e-bc17-08d9416c7b49
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2021 17:27:22.5711 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2021 17:27:23.1608 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 06u73bCnznqYruMfh7ObBJE4HLHKyn1U4WqFIFzQ+1GD2JriXI8gAeLWQtWLjaSsXiYwvkP5Tj/Y0kI1RMCG+6Ij2CPCnQxVSJBPcxr12Qc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2534
+X-MS-Exchange-CrossTenant-UserPrincipalName: muBuR7u6ghtDTY2INT2z3sCHKwJpmbzQt53GZQgaF9VcouEO/5Q2fk4273eZ6RYhPnLFP/fKapmaoBISGwe8TEnBQ621O06bwAwEz4cVTcA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2677
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10037
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0
- suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxlogscore=999
+ phishscore=0 adultscore=0 suspectscore=0 spamscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2107070100
-X-Proofpoint-GUID: UbNjZSmCZ9s7VhyLEddZnyWU_Crr3kmm
-X-Proofpoint-ORIG-GUID: UbNjZSmCZ9s7VhyLEddZnyWU_Crr3kmm
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: CpypkIlqi-ctvZ5z-Dueeyku9cNZ8rTR
+X-Proofpoint-ORIG-GUID: CpypkIlqi-ctvZ5z-Dueeyku9cNZ8rTR
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -181,120 +181,242 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save accepted socket fds in the environment before cprsave, and look for
-fds in the environment after cprload.  Reject cprexec if a socket enables
-the TLS or websocket option.  Allow a monitor socket by closing it on exec.
+Add the only-cpr-capable option, which causes qemu to exit with an error
+if any devices that are not capable of cpr are added.  This guarantees that
+a cprexec operation will not fail with an unsupported device error.
 
-Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char-socket.c | 31 +++++++++++++++++++++++++++++++
- monitor/hmp.c         |  3 +++
- monitor/qmp.c         |  3 +++
- 3 files changed, 37 insertions(+)
+ MAINTAINERS             |  1 +
+ chardev/char-socket.c   |  4 ++++
+ hw/vfio/common.c        |  5 +++++
+ hw/vfio/pci.c           |  5 +++++
+ include/sysemu/sysemu.h |  1 +
+ migration/migration.c   |  5 +++++
+ qemu-options.hx         |  8 ++++++++
+ softmmu/globals.c       |  1 +
+ softmmu/physmem.c       |  5 +++++
+ softmmu/vl.c            | 14 +++++++++++++-
+ stubs/cpr.c             |  3 +++
+ stubs/meson.build       |  1 +
+ 12 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 stubs/cpr.c
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 58479db..06fabd6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2868,6 +2868,7 @@ F: migration/cpr.c
+ F: qapi/cpr.json
+ F: include/qemu/env.h
+ F: util/env.c
++F: stubs/cpr.c
+ 
+ Record/replay
+ M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
 diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index d0fb545..dc9da8c 100644
+index dc9da8c..c11ec80 100644
 --- a/chardev/char-socket.c
 +++ b/chardev/char-socket.c
-@@ -27,7 +27,9 @@
- #include "io/channel-socket.h"
- #include "io/channel-tls.h"
- #include "io/channel-websock.h"
-+#include "qemu/env.h"
- #include "io/net-listener.h"
-+#include "qemu/env.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-@@ -414,6 +416,7 @@ static void tcp_chr_free_connection(Chardev *chr)
-     SocketChardev *s = SOCKET_CHARDEV(chr);
-     int i;
+@@ -40,6 +40,7 @@
  
-+    unsetenv_fd(chr->label);
-     if (s->read_msgfds_num) {
-         for (i = 0; i < s->read_msgfds_num; i++) {
-             close(s->read_msgfds[i]);
-@@ -976,6 +979,10 @@ static void tcp_chr_accept(QIONetListener *listener,
-                                QIO_CHANNEL(cioc));
+ #include "chardev/char-io.h"
+ #include "qom/object.h"
++#include "sysemu/sysemu.h"
+ 
+ /***********************************************************/
+ /* TCP Net console */
+@@ -1462,6 +1463,9 @@ static void qmp_chardev_open_socket(Chardev *chr,
+ 
+     if (!s->tls_creds && !s->is_websock) {
+         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
++    } else if (only_cpr_capable) {
++        error_setg(errp, "error: socket %s is not cpr capable due to %s option",
++                   chr->label, (s->tls_creds ? "TLS" : "websocket"));
      }
-     tcp_chr_new_client(chr, cioc);
-+
-+    if (s->sioc && !chr->close_on_cpr) {
-+        setenv_fd(chr->label, s->sioc->fd);
-+    }
- }
  
- 
-@@ -1231,6 +1238,24 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-     return false;
- }
- 
-+static void load_char_socket_fd(Chardev *chr, Error **errp)
-+{
-+    SocketChardev *sockchar = SOCKET_CHARDEV(chr);
-+    QIOChannelSocket *sioc;
-+    int fd = getenv_fd(chr->label);
-+
-+    if (fd != -1) {
-+        sockchar = SOCKET_CHARDEV(chr);
-+        sioc = qio_channel_socket_new_fd(fd, errp);
-+        if (sioc) {
-+            tcp_chr_accept(sockchar->listener, sioc, chr);
-+            object_unref(OBJECT(sioc));
-+        } else {
-+            error_setg(errp, "error: could not restore socket for %s",
-+                       chr->label);
-+        }
-+    }
-+}
- 
- static int qmp_chardev_open_socket_server(Chardev *chr,
-                                           bool is_telnet,
-@@ -1435,6 +1460,10 @@ static void qmp_chardev_open_socket(Chardev *chr,
-     }
-     s->registered_yank = true;
- 
-+    if (!s->tls_creds && !s->is_websock) {
-+        qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
-+    }
-+
      /* be isn't opened until we get a connection */
-     *be_opened = false;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 40c882f..09d5e6e 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -37,6 +37,7 @@
+ #include "qemu/range.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
++#include "sysemu/sysemu.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "migration/migration.h"
+@@ -1601,6 +1602,10 @@ static int vfio_get_iommu_type(VFIOContainer *container,
  
-@@ -1450,6 +1479,8 @@ static void qmp_chardev_open_socket(Chardev *chr,
-             return;
+     for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
+         if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
++            if (only_cpr_capable && !vfio_cpr_capable(container, errp)) {
++                error_prepend(errp, "only-cpr-capable is specified: ");
++                return -EINVAL;
++            }
+             return iommu_types[i];
          }
      }
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 07bd360..f179086 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -265,6 +265,11 @@ static int vfio_intx_enable(VFIOPCIDevice *vdev, Error **errp)
+ 
+     if (!pin) {
+         return 0;
++    } else if (only_cpr_capable) {
++        error_setg(errp,
++                   "%s: vfio-pci INTX is not compatible with -only-cpr-capable",
++                   vdev->vbasedev.name);
++        return -1;
+     }
+ 
+     vfio_disable_interrupts(vdev);
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 8fae667..6241c20 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -9,6 +9,7 @@
+ /* vl.c */
+ 
+ extern int only_migratable;
++extern bool only_cpr_capable;
+ extern const char *qemu_name;
+ extern QemuUUID qemu_uuid;
+ extern bool qemu_uuid_set;
+diff --git a/migration/migration.c b/migration/migration.c
+index 5ff7ba9..63fcd2e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1247,6 +1247,11 @@ static bool migrate_caps_check(bool *cap_list,
+         }
+     }
+ 
++    if (cap_list[MIGRATION_CAPABILITY_X_COLO] && only_cpr_capable) {
++        error_setg(errp, "x-colo is not compatible with -only-cpr-capable");
++        return false;
++    }
 +
-+    load_char_socket_fd(chr, errp);
+     return true;
  }
  
- static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 6c0b33a..63700b3 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -1451,4 +1451,7 @@ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp)
-     qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read, monitor_read,
-                              monitor_event, NULL, &mon->common, NULL, true);
-     monitor_list_append(&mon->common);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d5ff45f..153dfe8 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4323,6 +4323,14 @@ SRST
+     an unmigratable state.
+ ERST
+ 
++DEF("only-cpr-capable", 0, QEMU_OPTION_only_cpr_capable, \
++    "-only-cpr-capable    allow only cpr capable devices\n", QEMU_ARCH_ALL)
++SRST
++``-only-cpr-capable``
++    Only allow cpr capable devices, which guarantees that cprsave will not
++    fail with an unsupported device error.
++ERST
 +
-+    /* monitor cannot yet be preserved across cpr */
-+    chr->close_on_cpr = true;
- }
-diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 092c527..21a90bf 100644
---- a/monitor/qmp.c
-+++ b/monitor/qmp.c
-@@ -535,4 +535,7 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
-                                  NULL, &mon->common, NULL, true);
-         monitor_list_append(&mon->common);
+ DEF("nodefaults", 0, QEMU_OPTION_nodefaults, \
+     "-nodefaults     don't create default devices\n", QEMU_ARCH_ALL)
+ SRST
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index 7d0fc81..a18fd8d 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -59,6 +59,7 @@ int boot_menu;
+ bool boot_strict;
+ uint8_t *boot_splash_filedata;
+ int only_migratable; /* turn it off unless user states otherwise */
++bool only_cpr_capable;
+ int icount_align_option;
+ 
+ /* The bytes in qemu_uuid are in the order specified by RFC4122, _not_ in the
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 8a65ef7..54f9072 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -46,6 +46,7 @@
+ #include "sysemu/dma.h"
+ #include "sysemu/hostmem.h"
+ #include "sysemu/hw_accel.h"
++#include "sysemu/sysemu.h"
+ #include "sysemu/xen-mapcache.h"
+ #include "trace/trace-root.h"
+ 
+@@ -2002,6 +2003,10 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
+                 addr = file_ram_alloc(new_block, maxlen, mfd,
+                                       false, false, 0, errp);
+                 trace_anon_memfd_alloc(name, maxlen, addr, mfd);
++            } else if (only_cpr_capable) {
++                error_setg(errp,
++                    "only-cpr-capable requires -machine memfd-alloc=on");
++                return;
+             } else {
+                 addr = qemu_anon_ram_alloc(maxlen, &mr->align,
+                                            shared, noreserve);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index a50c857..9012385 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2665,6 +2665,10 @@ void qmp_x_exit_preconfig(Error **errp)
+     qemu_create_cli_devices();
+     qemu_machine_creation_done();
+ 
++    if (only_cpr_capable && !qemu_chr_cpr_capable(errp)) {
++        ;    /* not reached due to error_fatal */
++    }
++
+     if (loadvm) {
+         Error *local_err = NULL;
+         if (!load_snapshot(loadvm, NULL, false, NULL, &local_err)) {
+@@ -2674,7 +2678,12 @@ void qmp_x_exit_preconfig(Error **errp)
+         }
      }
+     if (replay_mode != REPLAY_MODE_NONE) {
+-        replay_vmstate_init();
++        if (only_cpr_capable) {
++            error_setg(errp, "replay is not compatible with -only-cpr-capable");
++            /* not reached due to error_fatal */
++        } else {
++            replay_vmstate_init();
++        }
+     }
+ 
+     if (incoming) {
+@@ -3428,6 +3437,9 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_only_migratable:
+                 only_migratable = 1;
+                 break;
++            case QEMU_OPTION_only_cpr_capable:
++                only_cpr_capable = true;
++                break;
+             case QEMU_OPTION_nodefaults:
+                 has_defaults = 0;
+                 break;
+diff --git a/stubs/cpr.c b/stubs/cpr.c
+new file mode 100644
+index 0000000..aaa189e
+--- /dev/null
++++ b/stubs/cpr.c
+@@ -0,0 +1,3 @@
++#include "qemu/osdep.h"
 +
-+    /* Monitor cannot yet be preserved across cpr */
-+    chr->close_on_cpr = true;
- }
++bool only_cpr_capable;
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 2e79ff9..04fada0 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -5,6 +5,7 @@ stub_ss.add(files('blk-exp-close-all.c'))
+ stub_ss.add(files('blockdev-close-all-bdrv-states.c'))
+ stub_ss.add(files('change-state-handler.c'))
+ stub_ss.add(files('cmos.c'))
++stub_ss.add(files('cpr.c'))
+ stub_ss.add(files('cpu-get-clock.c'))
+ stub_ss.add(files('cpus-get-virtual-clock.c'))
+ stub_ss.add(files('qemu-timer-notify-cb.c'))
 -- 
 1.8.3.1
 
