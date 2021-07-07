@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083CE3BECA1
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 18:55:47 +0200 (CEST)
-Received: from localhost ([::1]:56330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B476B3BECB6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 19:00:13 +0200 (CEST)
+Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Apt-0000Ha-RA
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 12:55:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40870)
+	id 1m1AuC-0004Uk-Pb
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 13:00:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1Aow-00082x-Ff
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:54:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56421)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1m1AsV-0002KB-RM
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:58:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1Aou-0007s7-MF
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:54:46 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1m1AsT-0000BG-Lv
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:58:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625676883;
+ s=mimecast20190719; t=1625677103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jYdqBvt5AmnqP2PGPfsTbcupbow3ltEOHwa6agZWkKs=;
- b=gt6ZHrce8yCsiNiYOy3ZikyJ3tJNHMjlEbMSBnv+AxIRtLNhSqlBTcFq2KXDNZOs1G3oS4
- NsV5vzrtNC+zvKNQmes6zZNVqBcVb34nyy6G9QbJcnrvhOjnPHzsQfHx+j6LajZ+1RpTk6
- c7NvL3zSxpD1r7qsGoF8juDGA4XCXrs=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-7A88DuxAPYep-yGRRG4HpQ-1; Wed, 07 Jul 2021 12:54:42 -0400
-X-MC-Unique: 7A88DuxAPYep-yGRRG4HpQ-1
-Received: by mail-qk1-f200.google.com with SMTP id
- n77-20020a3740500000b02903b496f6f425so1986193qka.1
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 09:54:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jYdqBvt5AmnqP2PGPfsTbcupbow3ltEOHwa6agZWkKs=;
- b=dHrrXel1io+3UvH0BM6qTDavvxr1rG/cIxi2RJtjfSOst2VfoEbV9iUyq8C9zU6hLX
- TLxHspEpTzByh6ray9Ae59P2mktX0c548EVg3welOF6EFb3cO+J4LfYk3PdvNRQeLy55
- sJEliz1/43OxDny6d6omuKfodFKun0Yvq5200Zq5JzkH5byXpfJN1VBjGRSPwP1cY133
- r6icEsJjHXRwwF4Pu5WZQxgOvmHz4wwbAPpLvXKGG4hfygCQZRDBAilPkXRj94sR+Pbx
- a7UwDYQ7eYCOsOjOJr6FoPtwH/hsprwO2AdzpYxeaa5YJni/QtShrI7RSrHoFxqBEZGl
- MBuQ==
-X-Gm-Message-State: AOAM531+8g9nGNJm3DAOCZG4UVvqxqGV11wIuqEXFpdnp5VAj566zIIe
- QhGbyohyDAmNUKlOCWRUOG1eFp4u4sETPnbXqd0WJQLmfGmBEvSobMNuCxfJ5nWrqnoy+Iq3snS
- Y1zAOuIKaVLApJM8=
-X-Received: by 2002:a05:620a:150c:: with SMTP id
- i12mr26097371qkk.458.1625676882421; 
- Wed, 07 Jul 2021 09:54:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydHrsrgUiDjks1UDVQ90/D5PS7In4lnlm5Tn2GV7gKTy6C4qQKg85Bbiww+kn/1epe2dzHgQ==
-X-Received: by 2002:a05:620a:150c:: with SMTP id
- i12mr26097348qkk.458.1625676882234; 
- Wed, 07 Jul 2021 09:54:42 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id d11sm3641108qtx.37.2021.07.07.09.54.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 09:54:41 -0700 (PDT)
-Date: Wed, 7 Jul 2021 12:54:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Wang, Wei W" <wei.w.wang@intel.com>
-Subject: Re: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Message-ID: <YOXcUNG3CaR43yrV@t490s>
-References: <20210630200805.280905-1-peterx@redhat.com>
- <33f137dae5c346078a3a7a658bb5f1ab@intel.com>
- <YN26SDxZS1aShbHi@t490s>
- <304fc749-03a0-b58d-05cc-f0d78350e015@redhat.com>
- <604935aa45114d889800f6ccc23c6b13@intel.com>
- <824a1d77-eab0-239f-5104-49c49d6ad285@redhat.com>
- <562b42cbd5674853af21be3297fbaada@intel.com>
- <YOSXGpEB323VWepM@t490s>
- <bf763c28d0254cafbdfb7f7485106ae3@intel.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NEXpdzGX+LWihJ6lYS9F2OXg4o5du97Dg44ut4yGlxQ=;
+ b=QnPmkNSilqYLRLT4gYrS9VNj7jRrXaR/wHlzx8PLQTiLzyiL1S9YhS60708EX8kq8dTNKi
+ 1ZuIDREoeYzTyWLlK0+7fkb/mQsfQzeIFMu2f4WciKaHigO4UIjNMm9hZpRk+YayTDP9k9
+ Ote+IQUXoe3MfXtuj9zp9uDnYK7X/+k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-yZc9sBq6MIyce0VsLY2Tyg-1; Wed, 07 Jul 2021 12:58:22 -0400
+X-MC-Unique: yZc9sBq6MIyce0VsLY2Tyg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10A5F362F8;
+ Wed,  7 Jul 2021 16:58:21 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-115-49.ams2.redhat.com
+ [10.36.115.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11DEA100EBAF;
+ Wed,  7 Jul 2021 16:58:14 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [RFC PATCH 0/6] job: replace AioContext lock with job_mutex
+Date: Wed,  7 Jul 2021 18:58:07 +0200
+Message-Id: <20210707165813.55361-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <bf763c28d0254cafbdfb7f7485106ae3@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -103,48 +76,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 08:34:50AM +0000, Wang, Wei W wrote:
-> On Wednesday, July 7, 2021 1:47 AM, Peter Xu wrote:
-> > On Sat, Jul 03, 2021 at 02:53:27AM +0000, Wang, Wei W wrote:
-> > > +       do {
-> > > +            page_to_clear = start + (i++ << block->clear_bmap_shift);
-> > 
-> > Why "i" needs to be shifted?
-> 
-> Just move to the next clear chunk, no?
-> For example, (1 << 18) pages chunk (i.e. 1GB).
+This is a continuation on the work to reduce (and possibly get rid of) the usage of AioContext lock, by introducing smaller granularity locks to keep the thread safety.
 
-But migration_clear_memory_region_dirty_bitmap() has done the shifting?
+This series aims to:
+1) remove the aiocontext lock and substitute it with the already existing
+   global job_mutex
+2) fix what it looks like to be an oversight when moving the blockjob.c logic
+   into the more generic job.c: job_mutex was introduced especially to
+   protect job->busy flag, but it seems that it was not used in successive
+   patches, because there are multiple code sections that directly
+   access the field without any locking.
+3) use job_mutex instead of the aiocontext_lock
+4) extend the reach of the job_mutex to protect all shared fields
+   that the job structure has.
 
-> 
-> > 
-> > > +            migration_clear_memory_region_dirty_bitmap(ram_state,
-> > > +                                                       block,
-> > > +
-> > page_to_clear);
-> > > +       } while (i <= npages >> block->clear_bmap_shift);
-> > 
-> > I agree with David that this should be better put into the mutex section, if so
-> > we'd also touch up comment for bitmap_mutex.  Or is it a reason to explicitly
-> > not do so?
-> 
-> clear_bmap_test_and_clear already uses atomic operation on clear_bmap.
-> But it's also OK to me if you guys feel safer to move it under the lock.
+The reason why we propose to use the existing job_mutex and not make one for
+each job is to keep things as simple as possible for now, and because
+the jobs are not in the execution critical path, so we can affort
+some delays.
+Having a lock per job would increase overall complexity and
+increase the chances of deadlocks (one good example could be the job
+transactions, where multiple jobs are grouped together).
+Anyways, the per-job mutex can always be added in the future.
 
-I see, yes seems ok to be out of the lock.  Or we use mutex to protect all of
-them, then make clear_bmap* helpers non-atomic too, just like dirty bmap.
+Patch 1-4 are in preparation for patch 5. They try to simplify and clarify
+the job_mutex usage. Patch 5 tries to add proper syncronization to the job
+structure, replacing the AioContext lock when necessary.
+Patch 6 just removes unnecessary AioContext locks that are now unneeded.
 
-Thanks,
+
+RFC: I am not sure the way I layed out the locks is ideal.
+But their usage should not make deadlocks. I also made sure
+the series passess all qemu_iotests.
+
+What is very clear from this patch is that it
+is strictly related to the brdv_* and lower level calls, because
+they also internally check or even use the aiocontext lock.
+Therefore, in order to make it work, I temporarly added some
+aiocontext_acquire/release pair around the function that
+still assert for them or assume they are hold and temporarly
+unlock (unlock() - lock()).
+
+I also apologize for the amount of changes in patch 5, any suggestion on
+how to improve the patch layout is also very much appreciated.
+
+Emanuele Giuseppe Esposito (6):
+  job: use getter/setters instead of accessing the Job fields directly
+  job: _locked functions and public job_lock/unlock for next patch
+  job: minor changes to simplify locking
+  job.h: categorize job fields
+  job: use global job_mutex to protect struct Job
+  jobs: remove unnecessary AioContext aquire/release pairs
+
+ include/block/blockjob_int.h   |   1 +
+ include/qemu/job.h             | 159 ++++++++++--
+ block.c                        |   2 +-
+ block/backup.c                 |   4 +
+ block/commit.c                 |   4 +-
+ block/mirror.c                 |  30 ++-
+ block/monitor/block-hmp-cmds.c |   6 -
+ block/replication.c            |   3 +-
+ blockdev.c                     | 235 ++++++------------
+ blockjob.c                     | 140 +++++++----
+ job-qmp.c                      |  65 +++--
+ job.c                          | 432 ++++++++++++++++++++++++++-------
+ qemu-img.c                     |  19 +-
+ 13 files changed, 724 insertions(+), 376 deletions(-)
 
 -- 
-Peter Xu
+2.31.1
 
 
