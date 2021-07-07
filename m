@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A373BF00E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:08:46 +0200 (CEST)
-Received: from localhost ([::1]:52706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8D9E3BF00D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:08:42 +0200 (CEST)
+Received: from localhost ([::1]:52500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Cub-0002Yz-Ej
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40508)
+	id 1m1CuX-0002R2-Nu
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:08:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1Ct8-0000vv-72
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:07:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53208)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1Ct6-0000tg-S1
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:07:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:59065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1Ct5-0004Aw-V0
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:07:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625684831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ypNvv84iXcVzZehM7AZfSH9krghSc8iJk5sRzmjo2s8=;
- b=BThmFCOh9U1RRG70lEPMqgxBvO1vmvyycZvrfDpuevok1XcJodYHl0/G9BodOmjSaDP1OJ
- jRo4XGfcHrnYryNWxzqT902/eTnQpVtXbULgJBrgG/HJukV9fVxuRamDfbnSdfYAbLPI1s
- B8Aqbrx+DztSsD0WCXVr/eFYhW9nIe0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-Bx8hc22DPki7MJx2YVdOvQ-1; Wed, 07 Jul 2021 15:07:07 -0400
-X-MC-Unique: Bx8hc22DPki7MJx2YVdOvQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- p19-20020aa7c4d30000b0290394bdda6d9cso1878322edr.21
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 12:07:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ypNvv84iXcVzZehM7AZfSH9krghSc8iJk5sRzmjo2s8=;
- b=B0jSX4BEiauqXwRXq/gtgCNKvwfCnaEq/FmSXnEoEnrop0Gm3+DqETUcOHsuFTSTM+
- E2E96MmMkK8QhYHKexXW2W80FH3XO+Mc7C/XxtWfED96MuC7UJSxfNNzpPbLmsb7lV19
- Kbcw9BDBxXqz7KuYOry6mve9UcFyHJSkl9J5WzTCYAkRXxmFjWl9zVdtwYV4pPtSKo1M
- U0OWnixY2FgWHrZtokspP8zHMvyTF28UBTjsbJIY2zS0thjpW7T3nX2KBPrjWx3braFx
- gGXTB35l2e2kDVPqmVDh+MaDiHyHfWJm+v1nbR4L4zpllhK5yYa/krtxTTTk08kdQGSY
- cDBg==
-X-Gm-Message-State: AOAM5302j4r1kqK1ySMXEMfdnjKJOFteLer//SqbyMf0kL0CH0d6+maw
- cYpsv9PVJIwd2wjh0PqCWhtwWkA855U2irU0DE7savzVqEov0/Fq/yi6F4W7hl3N4e4H9oQLcNK
- iLHrH1/x9FypE8qU=
-X-Received: by 2002:a17:907:da7:: with SMTP id
- go39mr26256793ejc.24.1625684826718; 
- Wed, 07 Jul 2021 12:07:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyd0JT6NtqFiXmwI6LLOgqrQbCJeQ3SzxV7lKl3bOg3JcSqmyluzbq/HU2+5JKbNtzVvkNnOA==
-X-Received: by 2002:a17:907:da7:: with SMTP id
- go39mr26256761ejc.24.1625684826526; 
- Wed, 07 Jul 2021 12:07:06 -0700 (PDT)
-Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id d13sm9349601eds.56.2021.07.07.12.07.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 12:07:06 -0700 (PDT)
-Date: Wed, 7 Jul 2021 15:07:02 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
- VIRTIO_BALLOON_F_FREE_PAGE_HINT
-Message-ID: <20210707150610-mutt-send-email-mst@kernel.org>
-References: <20210707140655.30982-1-david@redhat.com>
- <20210707140655.30982-3-david@redhat.com> <YOXsTQoq6eeIR8B5@t490s>
- <5f5dd7f3-ce09-53d6-db48-1a333119205d@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1Ct5-00049Z-5c
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:07:12 -0400
+Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MOzfO-1lp17P01Do-00PLNu; Wed, 07 Jul 2021 21:07:07 +0200
+Subject: Re: [PATCH] linux-user: fill ppid field in /proc/self/stat
+To: Andreas Schwab <schwab@suse.de>
+References: <mvmwnqnef5g.fsf@suse.de>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <46c402c4-b904-8371-48a4-de43daca4ae2@vivier.eu>
+Date: Wed, 7 Jul 2021 21:07:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <5f5dd7f3-ce09-53d6-db48-1a333119205d@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <mvmwnqnef5g.fsf@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:xZw7FITpcMnN0EOVKHAI/okacanu9euAQToOo4xbz1DweO+LqW2
+ +Q0YlyUNJYJ5y7IEkUxpE2AoW0OEYskjQHGODJNXgkCKRhgbWuTde/nB/14yFMvjYeb5+aC
+ 8nSJW70kwH2JcDpFemaXLgjBbTBJ9mrlUFFmqqeuBcBWeg/xAv3exmyDavNCl9ttlyhVh/s
+ xzZRyO0nXNkZRmrRzSoHQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:/E0s1fnWYf8=:c/+YuG1YT13gdwCgBRSuQL
+ tli8UUKGSzu7lTG8QadG1RUfZL1+FQ+5vbO8n1mx38EzqSTIPOW4Knn7YjtTJK+xffAu0AQ/2
+ aiuXTfqDcIxT+BVuKisMrAtbZgyFTk04uJPug92Fd0TNvkKW9esgXwLE03+4fWyFU7+XnebX1
+ 9msXHHT7iL2ULtwuDT5ZmsB4zuRky40SKEZAR7KpXSWYX8Uow/t/tbU+rzJAnTqYAd6lWZWEu
+ aoPz8V+uAGriEGi9sVH/wKu0OwnvoxpVUnkQXKlHOt8IP5fVVyGo5BABYmjwGIjg3yY1wC1aC
+ eGp+U5/rLV0/KCZTVv6K3Kjj0TFGzLJ8HXcKz1/vclViZYdVR+icVyWJNbQUZTAAPiqZUCEwY
+ hG/Jxz5j/L+jEAMsWrniOtbxLnkv7RbSxPoTzqRP8ROa1YMkHVHptO73FOpgA5c/RfKmVeRhC
+ jfPKyuYdZ9+WUG0G+nfAQXY1FL8NsJbhKellLRakkne7ec/hXYNExzQKbaeXDOYR325n1u76B
+ hUxO+EB2TTrMi4Ar2i6VAXXUtRvULm0MmrmCi5lw+exGJS5l1sFzJ93q52FQUO31gL+EFoDvD
+ MjM5wSoufmS7PEf4u1b9ZhbcN1ez2hBXNdl9NxV+F0UEld9sEh6bBx+LqCqzGKInv2Fa0sroh
+ +b5LNtLqzUOxhBSaS2xEfkobwmRggDE/dKSsgpDoQckN6b6t9pFiNc6Cg0PZGMwHsbXQgrCVm
+ RPG5vg1qPpINsU6II+PLcokzo4Ht4zztjJWAjmNQ86dYKRMzYAbTleOcizhq/WG+xvHU+0DAQ
+ vtGgDeJXO6Y51QT7HatT06HRb+5wdxR/BwlIOBZPx9rTADlz/EZsHjIe4VU9vWVmoA+OGGj
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,46 +70,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, qemu-stable@nongnu.org,
- Wei Wang <wei.w.wang@intel.com>, Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 08:57:29PM +0200, David Hildenbrand wrote:
-> On 07.07.21 20:02, Peter Xu wrote:
-> > On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
-> > > As it never worked properly, let's disable it via the postcopy notifier on
-> > > the destination. Trying to set "migrate_set_capability postcopy-ram on"
-> > > on the destination now results in "virtio-balloon: 'free-page-hint' does
-> > > not support postcopy Error: Postcopy is not supported".
-> > 
-> > Would it be possible to do this in reversed order?  Say, dynamically disable
-> > free-page-hinting if postcopy capability is set when migration starts? Perhaps
-> > it can also be re-enabled automatically when migration completes?
+Le 21/06/2021 à 11:32, Andreas Schwab a écrit :
+> Signed-off-by: Andreas Schwab <schwab@suse.de>
+> ---
+>  linux-user/syscall.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> I remember that this might be quite racy. We would have to make sure that no
-> hinting happens before we enable the capability.
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 974dd46c9a..dababe463c 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -7940,6 +7940,9 @@ static int open_self_stat(void *cpu_env, int fd)
+>              gchar *bin = g_strrstr(ts->bprm->argv[0], "/");
+>              bin = bin ? bin + 1 : ts->bprm->argv[0];
+>              g_string_printf(buf, "(%.15s) ", bin);
+> +        } else if (i == 3) {
+> +            /* ppid */
+> +            g_string_printf(buf, FMT_pid " ", getppid());
+>          } else if (i == 27) {
+>              /* stack bottom */
+>              g_string_printf(buf, TARGET_ABI_FMT_ld " ", ts->info->start_stack);
 > 
-> As soon as we messed with the dirty bitmap (during precopy), postcopy is no
-> longer safe. As noted in the patch, the only runtime alternative is to
-> disable postcopy as soon as we actually do clear a bit. Alternatively, we
-> could ignore any hints if the postcopy capability was enabled.
-> 
-> Whatever we do, we have to make sure that a user cannot trick the system
-> into an inconsistent state. Like enabling hinting, starting migration, then
-> enabling the postcopy capability and kicking of postcopy. I did not check if
-> we allow for that, though.
 
-What bothers me with limitations like this is we train users about
-this lack of orthogonality, it's then very hard to retrain them that
-a given feature is safe to use.
-
-> -- 
-> Thanks,
-> 
-> David / dhildenb
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
