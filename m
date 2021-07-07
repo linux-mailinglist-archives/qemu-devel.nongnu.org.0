@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5997C3BE1AC
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 05:56:31 +0200 (CEST)
-Received: from localhost ([::1]:42976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4DE3BE214
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:27:30 +0200 (CEST)
+Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0yfl-0001XH-WD
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 23:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45882)
+	id 1m0z9l-0000P3-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0yev-0000sA-DS
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 23:55:37 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42658)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m0z8G-0006r8-Mq
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:25:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:42494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0yet-00015f-FS
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 23:55:37 -0400
-Received: by mail-pf1-x429.google.com with SMTP id y4so942158pfi.9
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 20:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M39PQLdTWbuy4ej+V7GbsRnZ+hcJud211Lz4sWsGrtA=;
- b=nzdkGjYkRrpSlrrTxUXRlRGhu+z0S8E0/vAMwSr5CHXgrWN1mpluHdNd8jh0ZWlTlf
- TZY0w4rUoTHFkSeuePGfi4gLZtlbj4YPaooJQvv+dwML8mH54juvT+lHwaYRNQ+jTHoM
- e/rBxYB06iPfHItFn9txydtxhNKgaVqwnKQg4arVnpOrwYqQ4+vICnri2oimjVnZdJc3
- iNAieQYtJqFihjsMq71w16q1isKUcXbE+DyBcS/KrZ/JlBX5sr99CluUwqug46024IyB
- ZnEgPhzgiT/17cbcxc83VKEaNPDi27pMa9ZRy9Obbb5wRbNFTUSrsvTDhyKjcdX0V1Tc
- KhBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=M39PQLdTWbuy4ej+V7GbsRnZ+hcJud211Lz4sWsGrtA=;
- b=HZBLH+YnPOC2nN+SDP+pceOXQ18aYGBN7WMT7pyRDQnJVxsBzHA4orfZ2NfBXrNVnq
- BENIjsaRZXO5tKZsCHYnIvHSVwo8a9qVDhZm1//knvd7XEyfHgwDP9edZprDvJQYp2lj
- ZbSIjZ75WkQMHnYWnxdTOPd1nxasZsGGzHLH1GNSoh5XRIOn68acx4dimIB+QED48K1C
- sQ9bnidpvZENACblQ1Mb0txg/dp2jVGTe2/F/UY73cIIV+uaLzYjjOLQ/WY/frTBsT+y
- TJslLPRhnxmJwqAEXrftw66J+OTgH1I895HTQ2p4kZCszgfN7Y/r5m9otDoyacYdV9+j
- a2Mg==
-X-Gm-Message-State: AOAM531h8yV/l57txsrJhXq/5F5O6ip0Zpixk3y47HAH0KM4Eu/F4xwt
- Sy1apZGsiTmwZk02Qot2NOIkJvJRq+XAzw==
-X-Google-Smtp-Source: ABdhPJyXmb469KHLKoWQALlTw6qOMZBDLgxqFP5Jl9gI3DOW7nRqrJHGYMmgnvsG8/gE+nMTEi2coQ==
-X-Received: by 2002:a65:62d3:: with SMTP id m19mr24450886pgv.225.1625630133157; 
- Tue, 06 Jul 2021 20:55:33 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id q13sm12840403pjj.36.2021.07.06.20.55.32
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 06 Jul 2021 20:55:32 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Move tb_phys_invalidate_count to tb_ctx (#457)
-Date: Tue,  6 Jul 2021 20:55:32 -0700
-Message-Id: <20210707035532.421820-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m0z8F-0003Hd-1s
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:25:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m0z8D-0006kn-2U
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 04:25:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 108562E8175
+ for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 04:25:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 07 Jul 2021 04:17:15 -0000
+From: Launchpad Bug Tracker <1888467@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arrowfeng janitor th-huth xanclic
+X-Launchpad-Bug-Reporter: dunfeng zhang (arrowfeng)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <159540494097.10238.3390638369680947345.malonedeb@gac.canonical.com>
+Message-Id: <162563143661.23671.1875415316266741797.malone@loganberry.canonical.com>
+Subject: [Bug 1888467] Re: qemu-img http convert bug
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
+X-Launchpad-Hash: b3d1fd485d7c7c0651c218520f3cf48984bdd0ed
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,105 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1888467 <1888467@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can call do_tb_phys_invalidate from an iocontext, which has
-no per-thread tcg_ctx.  Move this to tb_ctx, which is global.
-The actual update still takes place with a lock held, so only
-an atomic set is required, not an atomic increment.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/457
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/tb-context.h    |  1 +
- include/tcg/tcg.h         |  3 ---
- accel/tcg/translate-all.c |  8 ++++----
- tcg/region.c              | 14 --------------
- 4 files changed, 5 insertions(+), 21 deletions(-)
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-diff --git a/accel/tcg/tb-context.h b/accel/tcg/tb-context.h
-index cc33979113..cac62d9749 100644
---- a/accel/tcg/tb-context.h
-+++ b/accel/tcg/tb-context.h
-@@ -34,6 +34,7 @@ struct TBContext {
- 
-     /* statistics */
-     unsigned tb_flush_count;
-+    unsigned tb_phys_invalidate_count;
- };
- 
- extern TBContext tb_ctx;
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index dedb86939a..25dd19d6e1 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -579,8 +579,6 @@ struct TCGContext {
-     /* Threshold to flush the translated code buffer.  */
-     void *code_gen_highwater;
- 
--    size_t tb_phys_invalidate_count;
--
-     /* Track which vCPU triggers events */
-     CPUState *cpu;                      /* *_trans */
- 
-@@ -815,7 +813,6 @@ size_t tcg_code_capacity(void);
- 
- void tcg_tb_insert(TranslationBlock *tb);
- void tcg_tb_remove(TranslationBlock *tb);
--size_t tcg_tb_phys_invalidate_count(void);
- TranslationBlock *tcg_tb_lookup(uintptr_t tc_ptr);
- void tcg_tb_foreach(GTraverseFunc func, gpointer user_data);
- size_t tcg_nb_tbs(void);
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 57455d8639..4df26de858 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1219,8 +1219,8 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-     /* suppress any remaining jumps to this TB */
-     tb_jmp_unlink(tb);
- 
--    qatomic_set(&tcg_ctx->tb_phys_invalidate_count,
--               tcg_ctx->tb_phys_invalidate_count + 1);
-+    qatomic_set(&tb_ctx.tb_phys_invalidate_count,
-+                tb_ctx.tb_phys_invalidate_count + 1);
- }
- 
- static void tb_phys_invalidate__locked(TranslationBlock *tb)
-@@ -2128,8 +2128,8 @@ void dump_exec_info(void)
-     qemu_printf("\nStatistics:\n");
-     qemu_printf("TB flush count      %u\n",
-                 qatomic_read(&tb_ctx.tb_flush_count));
--    qemu_printf("TB invalidate count %zu\n",
--                tcg_tb_phys_invalidate_count());
-+    qemu_printf("TB invalidate count %u\n",
-+                qatomic_read(&tb_ctx.tb_phys_invalidate_count));
- 
-     tlb_flush_counts(&flush_full, &flush_part, &flush_elide);
-     qemu_printf("TLB full flushes    %zu\n", flush_full);
-diff --git a/tcg/region.c b/tcg/region.c
-index d3a3658e81..e64c3ea230 100644
---- a/tcg/region.c
-+++ b/tcg/region.c
-@@ -980,17 +980,3 @@ size_t tcg_code_capacity(void)
- 
-     return capacity;
- }
--
--size_t tcg_tb_phys_invalidate_count(void)
--{
--    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
--    unsigned int i;
--    size_t total = 0;
--
--    for (i = 0; i < n_ctxs; i++) {
--        const TCGContext *s = qatomic_read(&tcg_ctxs[i]);
--
--        total += qatomic_read(&s->tb_phys_invalidate_count);
--    }
--    return total;
--}
--- 
-2.25.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1888467
+
+Title:
+  qemu-img http convert bug
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Hello, Why the file sizes of http conversion and local conversion are
+  inconsistent?
+
+  Use the http method of qemu-img for conversion. The size of some formats =
+after conversion is different from the local method of qemu-img. Such as vh=
+d, vdi. qcow2 and vmdk are normal=E3=80=82
+  My image size is 40 G, raw format.
+
+  The source is the same file, but the access method is different
+  http method of qemu-img=EF=BC=9A qemu-img convert -f raw -O vdi http://xx=
+x xxx.vdi=EF=BC=8819G=EF=BC=8Cafter conversion=EF=BC=89
+  local method of qemu-img=EF=BC=9A qemu-img convert -f raw -O vdi xxx.raw =
+xxx.vdi=EF=BC=883G=EF=BC=8Cafter conversion=EF=BC=89
+
+  thank you
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1888467/+subscriptions
 
