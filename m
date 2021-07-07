@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD463BEA82
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:16:27 +0200 (CEST)
-Received: from localhost ([::1]:33804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778923BEA87
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:17:58 +0200 (CEST)
+Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19Hm-0002Ne-Qa
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:16:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38332)
+	id 1m19JF-0003yt-IC
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:17:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m19Cg-0003zs-AO
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:11:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m19Cb-0007dt-6Q
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:11:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670664;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0m5lJuaoSCGNbF3I3vXvrsB1NZ7O+DJtEdGruxHpop0=;
- b=cw2O823Ff85zlkgi4LP+lulP4vyi+VBoRrwVmnvZHL5y4aIvSHhkIY/UNTPC6LNk+Lc8sS
- koiMv/zcQqfefXx047ar3eOyzUCQxUj2c+q/Wsz3x5NfoTDNigxrm3s+RnUsguygHYIGQC
- 6qIH9+BhTfY4HTjl/yA66dSgad+1Im0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-JHzpQuyCNSaZAVuPhd20zQ-1; Wed, 07 Jul 2021 11:11:01 -0400
-X-MC-Unique: JHzpQuyCNSaZAVuPhd20zQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66B9DA40C1;
- Wed,  7 Jul 2021 15:11:00 +0000 (UTC)
-Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B69EA84A01;
- Wed,  7 Jul 2021 15:10:59 +0000 (UTC)
-Date: Wed, 7 Jul 2021 10:10:57 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v3 2/2] qemu-img: Make unallocated part of backing chain
- obvious in map
-Message-ID: <20210707151057.n3vpooy4nb3diint@redhat.com>
-References: <20210701190655.2131223-1-eblake@redhat.com>
- <20210701190655.2131223-3-eblake@redhat.com>
- <481dc6cf-a353-b4a0-732c-b758f8750ff6@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m19Hr-00035b-ME
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:16:31 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:41863)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m19Hp-0008UH-Gv
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:16:31 -0400
+Received: by mail-pl1-x631.google.com with SMTP id y2so1237824plc.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=cE/oZqCyRrQhGJ0F2xVASQWnscaPE8Xbwch6Tuysiv4=;
+ b=lLakqZC9ZL4vfFn3DqofzmUahZkPIPDefKlgYVuigf6omkVBnt9hNCOg0nSKv+O/uS
+ qrLPp11ae5JaQKAtP8nfJlKzmxfltpJcabZ+9vpYbjjVx7I86ZGTyforbND5f3/SXbgs
+ Q2aXYXQrIhs1k74nksOIg7aw+CoHiqOQfvDtIiSCdeDH2mB5S1k9go+Is0Fta8QBTIVE
+ Kli2NViA2qHK/NzguUUM6u18Ki55RaWyHKLAnLeYizKNrlPyu+RVpJTEHqZZVoJHATCE
+ l2PVkGGwPu9C7hoiC2tGXb4x6PxNSbaJWI5xxaCdw9WfKGOtLvrWVqGm6WcTJ1YZ6alQ
+ wctg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cE/oZqCyRrQhGJ0F2xVASQWnscaPE8Xbwch6Tuysiv4=;
+ b=cBMxL9OT+WHCkFkx18jMUAgsQRe/77xscNPm3IVdtghuVl3c37ROZUx7dcA7lsoE4q
+ ghKoD78ipvALCnMBcg92Pf50In9ijPDprci/YqemvJGoo9TQIAETlVeiwPgjXsmYxpC8
+ 0GFyWx3z61sRMLGivAN224tX1PlmijkPdiCDWE3JVTiy8Ah4Y/k8+SXS6SXG9kd1wcgd
+ P2rMDxtQQytM5fOgFDd3ZkF5oW+kyD+/3j7uoCST6mOgyZBG/Y/Jigp+9kg8J/OXF3c+
+ 6E+ojhYk/z+ieOvVLC0ZlnpVtvWPvlzRBvY/HB9lICq4dacVhhv+vJnc0l4seRN+dcOf
+ 8crA==
+X-Gm-Message-State: AOAM530EoMx4Jy6k/Kl1Cxi/GnL9rO3PbLjcoO5ncE3skEj/Efd4ocS1
+ w+YwHvN0vGYqa/i14uMU/n5jmA==
+X-Google-Smtp-Source: ABdhPJzd+Ptti9xCoK7fxOu7hpTHhgDJJeRJ1v7kEon1MxjrFo/NVzhI8iq0UWglCyyC/4YMlv6g0A==
+X-Received: by 2002:a17:902:a582:b029:129:c8a4:1e48 with SMTP id
+ az2-20020a170902a582b0290129c8a41e48mr1954776plb.19.1625670987892; 
+ Wed, 07 Jul 2021 08:16:27 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id d2sm23285889pgh.59.2021.07.07.08.16.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jul 2021 08:16:27 -0700 (PDT)
+Subject: Re: [PATCH v2 5/5] configure: allow the selection of alternate config
+ in the build
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
+References: <20210707131744.26027-1-alex.bennee@linaro.org>
+ <20210707131744.26027-6-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <85d9f5fb-36a7-4c25-411e-f3cd9cbcecd7@linaro.org>
+Date: Wed, 7 Jul 2021 08:16:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <481dc6cf-a353-b4a0-732c-b758f8750ff6@virtuozzo.com>
-User-Agent: NeoMutt/20210205-556-f84451-dirty
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210707131744.26027-6-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,69 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- nsoffer@redhat.com, mreitz@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 03, 2021 at 10:25:28AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-...
-> > An obvious solution is to make 'qemu-img map --output=json' add an
-> > additional "present":false designation to any cluster lacking an
-> > allocation anywhere in the chain, without any change to the "depth"
-> > parameter to avoid breaking existing clients.  The iotests have
-> > several examples where this distinction demonstrates the additional
-> > accuracy.
-> > 
-> > Signed-off-by: Eric Blake <eblake@redhat.com>
-
-> > +++ b/docs/tools/qemu-img.rst
-> > @@ -597,6 +597,9 @@ Command description:
-> >       if false, the sectors are either unallocated or stored as optimized
-> >       all-zero clusters);
-> >     - whether the data is known to read as zero (boolean field ``zero``);
-> > +  - whether the data is actually present (boolean field ``present``);
-> > +    if false, rebasing the backing chain onto a deeper file would pick
-> > +    up data from the deeper file;
+On 7/7/21 6:17 AM, Alex Bennée wrote:
+> While the default config works well enough it does end up enabling a
+> lot of stuff. For more minimal builds we can select a different list
+> of devices and let Kconfig work out what we want. For example:
 > 
-> Preexisting, but rather strange style of documentation, when described option doesn't go first in the paragraph..
-
-Yeah.  I'll send a followup email with a rewording of those paragraphs
-for consideration.
-
-> > +++ b/qemu-img.c
-> > @@ -2980,8 +2980,9 @@ static int dump_map_entry(OutputFormat output_format, MapEntry *e,
-> >           break;
-> >       case OFORMAT_JSON:
-> >           printf("{ \"start\": %"PRId64", \"length\": %"PRId64","
-> > -               " \"depth\": %"PRId64", \"zero\": %s, \"data\": %s",
-> > -               e->start, e->length, e->depth,
-> > +               " \"depth\": %"PRId64", \"present\": %s, \"zero\": %s,"
-> > +               "\"data\": %s", e->start, e->length, e->depth,
-> > +               e->present ? "true" : "false",
+>    ../../configure --without-default-features \
+>      --target-list=arm-softmmu,aarch64-softmmu \
+>      --with-devices-aarch64=minimal
 > 
-> Didn't you want to put present at the end? Still, this shouldn't be significant. And it make sense to keep present, zero and data together.
-
-I wanted it before anything optional, which "offset" is, so it already
-can't be at the end.  If I understood Nir correctly, it was more
-important to always be present (it's easy to write a parser that
-searches for terms in the same position, and tolerates a missing term
-from an older verseion, but harder to parse a term that might or might
-not be present).
-
+> will override the aarch64-softmmu default set of devices with a more
+> minimal set of devices that just enables the virt and sbsa-ref models.
 > 
-> You missied a whitespace after '"zero": %s,', which is obvious from further test diff hunks.
-> 
-> With it fixed:
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Cc: Philippe Mathieu-Daudé<philmd@redhat.com>
+> Cc: Paolo Bonzini<pbonzini@redhat.com>
+> Message-Id:<20210621152120.4465-6-alex.bennee@linaro.org>
 
-Thanks for catching that.  I've updated that, and will queue through
-my NBD tree.
+I guess I can just follow the shell scripting.  It's a shame we can't just put together 
+the properties section contents while we're parsing the command-line, and instead have to 
+break it up into N variables.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+> +  # unroll any custom device configs
+> +  if test -n "$device_archs"; then
+> +      for a in $device_archs; do
+> +          eval "c=\$devices_${a}"
+> +          echo "${a}-softmmu = '$c'" >> $cross
+> +      done
+> +  fi
 
+Do you really need the IF around the FOR?  Shouldn't the loop iterate zero times if 
+$device_archs is empty?
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
