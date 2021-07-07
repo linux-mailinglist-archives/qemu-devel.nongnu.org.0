@@ -2,62 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 102D03BEAA6
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:26:14 +0200 (CEST)
-Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF993BEAAA
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:28:28 +0200 (CEST)
+Received: from localhost ([::1]:40700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m19RF-0005YO-52
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41134)
+	id 1m19TO-00071q-R3
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:28:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1m19QI-0004th-1A
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:25:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58981)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m19SR-0006MD-Ee
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:27:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1m19QC-0000cY-Sr
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:25:11 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m19SP-0000iV-SV
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:27:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625671506;
+ s=mimecast20190719; t=1625671645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Cf4wx6ApY9ZhvhbAGr6o8CDySPylQF+sFGUKb7JfC2w=;
- b=NMB4IlZl91FfP7NOYOn0zbqlJ1YXgGgMJ3LLxwLVaC84Jobaw2kqF5znVLFr2IMgPHYjfH
- w12W/iKIT2WNCiSO8t734BcxeDQyxwqA7PO3bvVl8K+EMqBZmn8K+MRas2Uv+AVmTi+GER
- 009LivIUlqocIJTjbg41nvSmEHTZkP0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-60liiH3DObWPe-WtSkr7-Q-1; Wed, 07 Jul 2021 11:25:05 -0400
-X-MC-Unique: 60liiH3DObWPe-WtSkr7-Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9B1E100CA88;
- Wed,  7 Jul 2021 15:25:04 +0000 (UTC)
-Received: from wrampazz.redhat.com (ovpn-113-218.rdu2.redhat.com
- [10.10.113.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 667431017CE5;
- Wed,  7 Jul 2021 15:24:56 +0000 (UTC)
-From: Willian Rampazzo <willianr@redhat.com>
-To: alex.bennee@linaro.org, qemu-devel@nongnu.org, thuth@redhat.com,
- wainersm@redhat.com, crosa@redhat.com, philmd@redhat.com, f4bug@amsat.org
-Subject: [PATCH v2] tests/acceptance: allow control over tags during
- check-acceptance
-Date: Wed,  7 Jul 2021 12:24:54 -0300
-Message-Id: <20210707152454.246519-1-willianr@redhat.com>
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qhIkJmIh/8Isi/XWCtnThe517k4LP8oeoqqPyxQquoo=;
+ b=Uvd+JvaCA6LVa3MYqoXPB90/+en5AkqNbWbMQasf9PUxCuS0T4DHBEZpT3HX1fmkWHbsWq
+ 0AEo3N0puUqhU99uy5RQ1RvQiwRhiJPNMyXlPKmbvVu2giZSd87uojGAgoVXaW4Siquidf
+ 0gQYy4pKa2qD8u5LUCKHY0RDAQEcPZ0=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-U2WcQKmnPlSIje2pKC0h3A-1; Wed, 07 Jul 2021 11:27:24 -0400
+X-MC-Unique: U2WcQKmnPlSIje2pKC0h3A-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ y35-20020a0cb8a30000b0290270c2da88e8so1844494qvf.13
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:27:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=qhIkJmIh/8Isi/XWCtnThe517k4LP8oeoqqPyxQquoo=;
+ b=qdWEdwi1G2hg9T+ksssNI13TsPp0EMfFutyGyS8wsIr+Y9OLxHjDk0aHb+vw0pDG8N
+ L6L3mkrkv7NbhunH1TCDd9lJs/QwAnIe/sDbmhLCrFpRISwLO84ortf6fP++y8UiR5yb
+ VXI38HZYuITByWImitcwLVxrA0aj1SE/YQuPvtSGBIFod0saJQsL03K5HLO6EqTWc9dC
+ WthHmzS3C9qWF6c7Dstnkn2LwsA0n5vQ5+SMxEnyH6Hi/JHqnC/P/WroQaA2i0HXllaN
+ ArYs7H1hXhKvJh3UdYZN+t6Ps23Y4mSuJNp28e7fOx3YOCMjiiyVhMGEqA9py0p8hsnO
+ ao5A==
+X-Gm-Message-State: AOAM531OFgaOerD0hh5IWf1OvqeyNcK7LsvGGzMpSV2ra/IpVxTJV8r9
+ xTqXOAL5fbiGIywnN2k/cljrj1pmIQc/F/SU+L4M9Geyobx+W0dG/ypWlaesiikL2qaXE5EWw/c
+ ctqb9flR7ayw6VEw=
+X-Received: by 2002:a37:4388:: with SMTP id
+ q130mr25809099qka.460.1625671643729; 
+ Wed, 07 Jul 2021 08:27:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRBU6/nVEGGKRiZ51Pvm+E+n3wFwq9O7scN8ZHHjvIGmea9mhZbJ8WhiHWG0L9PTy2Y+I+Zg==
+X-Received: by 2002:a37:4388:: with SMTP id
+ q130mr25809071qka.460.1625671643485; 
+ Wed, 07 Jul 2021 08:27:23 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id s81sm8501165qka.82.2021.07.07.08.27.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 08:27:22 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:27:21 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH] docs: Add '-device intel-iommu' entry
+Message-ID: <YOXH2cvPhidPTrkJ@t490s>
+References: <20210611185500.343525-1-peterx@redhat.com>
+ <5391f6ca-57de-473d-beee-408455ef70e3@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <5391f6ca-57de-473d-beee-408455ef70e3@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=willianr@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -78,79 +98,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>, Jing Zhao <jinzhao@redhat.com>,
+ Lei Yang <leiyang@redhat.com>, Chao Yang <chayang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although it is possible to run a specific test using the avocado
-command-line, a user may want to use a specific tag while running the
-``make check-acceptance`` during the development or debugging.
+On Wed, Jul 07, 2021 at 11:35:43AM +0800, Jason Wang wrote:
+> 
+> 在 2021/6/12 上午2:55, Peter Xu 写道:
+> > The parameters of intel-iommu device are non-trivial to understand.  Add an
+> > entry for it so that people can reference to it when using.
+> > 
+> > There're actually a few more options there, but I hide them explicitly because
+> > they shouldn't be used by normal QEMU users.
+> > 
+> > Cc: Chao Yang <chayang@redhat.com>
+> > Cc: Lei Yang <leiyang@redhat.com>
+> > Cc: Jing Zhao <jinzhao@redhat.com>
+> > Cc: Jason Wang <jasowang@redhat.com>
+> > Cc: Michael S. Tsirkin <mst@redhat.com>
+> > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >   qemu-options.hx | 32 ++++++++++++++++++++++++++++++++
+> >   1 file changed, 32 insertions(+)
+> > 
+> > diff --git a/qemu-options.hx b/qemu-options.hx
+> > index 14258784b3a..4bb04243907 100644
+> > --- a/qemu-options.hx
+> > +++ b/qemu-options.hx
+> > @@ -926,6 +926,38 @@ SRST
+> >   ``-device pci-ipmi-bt,bmc=id``
+> >       Like the KCS interface, but defines a BT interface on the PCI bus.
+> > +
+> > +``-device intel-iommu[,option=...]``
+> > +    This is only supported by ``-machine q35``, which will enable Intel VT-d
+> > +    emulation within the guest.  It supports below options:
+> > +
+> > +    ``intremap=on|off`` (default: auto)
+> > +        This enables interrupt remapping feature in the guest.
+> 
+> 
+> I think we don't need "in the guest" here.
 
-This allows using the AVOCADO_TAGS environment variable where the user
-takes total control of which tests should run based on the tags defined.
+Sure.
 
-This also makes the check-acceptance command flexible to restrict tests
-based on tags while running on CI.
+> 
+> Other than this:
+> 
+> Reviewed-by: Jason Wang <jasowang@redhat.com>
 
-e.g.:
+Thanks,
 
-AVOCADO_TAGS="foo bar baz" make check-acceptance
-
-Signed-off-by: Willian Rampazzo <willianr@redhat.com>
----
- docs/devel/testing.rst |  8 ++++++++
- tests/Makefile.include | 12 +++++++++---
- 2 files changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4e42392810..f6e4fc08a7 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -760,6 +760,14 @@ in the current directory, tagged as "quick", run:
- 
-   avocado run -t quick .
- 
-+It is also possible to run tests based on tags using the
-+``make check-acceptance`` command and the ``AVOCADO_TAGS`` environment
-+variable:
-+
-+.. code::
-+
-+   AVOCADO_TAGS=quick make check-acceptance
-+
- The ``avocado_qemu.Test`` base test class
- -----------------------------------------
- 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 8f220e15d1..d464f06e4a 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -92,7 +92,12 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
- # Any number of command separated loggers are accepted.  For more
- # information please refer to "avocado --help".
- AVOCADO_SHOW=app
--AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
-+ifndef AVOCADO_TAGS
-+	AVOCADO_CMDLINE_TAGS=$(patsubst %-softmmu,-t arch:%, \
-+						 $(filter %-softmmu,$(TARGETS)))
-+else
-+	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
-+endif
- 
- $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
- 	$(call quiet-command, \
-@@ -128,8 +133,9 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
- 	$(call quiet-command, \
-             $(TESTS_VENV_DIR)/bin/python -m avocado \
-             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
--            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
--            $(AVOCADO_TAGS) \
-+            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
-+			--filter-by-tags-include-empty-key) \
-+            $(AVOCADO_CMDLINE_TAGS) \
-             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
-             "AVOCADO", "tests/acceptance")
- 
 -- 
-2.31.1
+Peter Xu
 
 
