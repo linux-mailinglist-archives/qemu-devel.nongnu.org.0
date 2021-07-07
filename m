@@ -2,77 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 413203BEFDB
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 20:51:45 +0200 (CEST)
-Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8D23BEFF2
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 20:59:42 +0200 (CEST)
+Received: from localhost ([::1]:44570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Ce8-0007Ep-BC
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 14:51:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35326)
+	id 1m1Clo-0004aQ-Oh
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 14:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1CYb-0007cH-W2
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:46:02 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1CYU-0000mQ-Oj
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:46:01 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u8so4199450wrq.8
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 11:45:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=G7tH/UyjoZn7F4238YHQ3Au0z5gN4wRoSGJnmtNDE80=;
- b=Cr+VR0xZyi3AOQelEoy3JkHoRcX1HIhMW/OrSxlmZ7k31ZjLl4P8MdmfXMyzZSfAP9
- z0SGClMy+d2jA5WpQpiSwnLbAo2erhHZH8lL0f0XiJa1pQpWDRdahk0FsGW2ep4eSgkI
- mBuODK3Y4JZGAbitnRjpcxpmbJX3V2oPhLXVgIR25KA9nGBzC1qyK+NqZBb3y/9AsfeG
- i7JsqofqtFXnbXJEU4YZNgLH+pndkHrFbh1N/VYvbWkZ8BZl4t49lCP5fftjT/xqdhDb
- jk97RUUbezUrbyKEqdhj/FaiEIeEhY74ZSsfOhG1ATVD4q92v8qnnoPiHmFH5lCBARfb
- oPSg==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1CkE-0003Qe-Ng
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:58:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56476)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1CkB-0002c1-CS
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 14:58:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625684278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jglq8+VyyWzrkiJbZUJo6FJu+PaPASGqs1wk9nC/YZw=;
+ b=AQucnC1ip9C77R0A6PDZkae52nyn5eP2VswZIgcnN0jLe+dWkeG9nrYlKUDjPre3Q3XqKe
+ Ltn36ChAt+Uodzwnc5d5UIDjxRZ93UCV9bNrq32gPmMt2ViCgrFpEQhlj6VXhrB1W5ona/
+ c66AEYr1EYGXD9AE+8tS0EnfXhCSxNU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-FDArRFbWPMiT5BFw7ic3qA-1; Wed, 07 Jul 2021 14:57:57 -0400
+X-MC-Unique: FDArRFbWPMiT5BFw7ic3qA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u7-20020a5d46870000b029012786ba1bc9so1084972wrq.21
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 11:57:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=G7tH/UyjoZn7F4238YHQ3Au0z5gN4wRoSGJnmtNDE80=;
- b=te64pt7zB1PUKxT5KUX/mSBp0aJ5t6JRRY0zuk05mIuvUa4DuLyNPTMaEPxuB0BXmp
- 4uM9CWeZFgNDPTN9J5U0IzewUONr8xX4+Yo7+f0QukC3BtrqfynYT0X8m1KVe/86QIA3
- +/bzagPqVr9K3yzwycxfBoYOA5SISScvMxsdl8l0P15rt+gCGZ8hvzd1QageiDuO22Nf
- Epm9jftcOp6VaD5PCakYjnKdTbcf5+YrXV1ONB+jddA1koEzcdE8WBFCAGKDvLIeGtI8
- ZjNf+iY+KEixrfa7uK5A4Ny+yuWQCh23P/awpwBHfCfJN5daQ359/D3lZzMemAkrLRm9
- Tbow==
-X-Gm-Message-State: AOAM530eUCmgMdKx9B/5qVE1S5MO7rlKV0dEJM8wvE4OXgEVJQUs2762
- MqH/s6AuraE7v1Nb3TFLpaBhqw==
-X-Google-Smtp-Source: ABdhPJxEWkrf72CENC15N6ZeQtzMgekMnxTDT/5SXUoYXJikpyxWsriDRt15eD5qiKbxyfu6WAHXpg==
-X-Received: by 2002:a5d:6c69:: with SMTP id r9mr28763296wrz.8.1625683553202;
- Wed, 07 Jul 2021 11:45:53 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s7sm21777158wrp.97.2021.07.07.11.45.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 11:45:50 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 682FD1FF8C;
- Wed,  7 Jul 2021 19:45:49 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/2] docs: add a section on the generalities of vhost-user
-Date: Wed,  7 Jul 2021 19:45:49 +0100
-Message-Id: <20210707184549.24436-3-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210707184549.24436-1-alex.bennee@linaro.org>
-References: <20210707184549.24436-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=jglq8+VyyWzrkiJbZUJo6FJu+PaPASGqs1wk9nC/YZw=;
+ b=PIRMsKhmt9KGXJ8f+o2nk2wQp0TrovIL/AgwZHfhXv63ALsZ9dFB27zNg3tQ7Uwkp7
+ auLzvjEJD8yIJt0V+pz09UcekU1kXF0D0bQPAOvyG6SFqCGNeMvAJxnd2xDZ9TOaRHlr
+ SSuNyD37Y5mxkW0+sD6xCb5mWpsPUUro+FsdVgsCJjVJAddYAWzrWJV5s3W5Jmv0K+FD
+ n9Zj3/ItklMSAyxGj0YWKDuU7FRC2N6nWYtkXp/b5nJddJLEYA6Byw29lwryzvMdbvbd
+ Pq4+4IRVrE462j3/rfQOZVwz0Rrvlm0WQe10O/4DoTxnpXSmPr2KKDC3elTK4eXP5Wdt
+ ju4Q==
+X-Gm-Message-State: AOAM5313I3/XlqVBJoqDgIK8kpUFkI4zlbhzkWpPCFaVAfYGzm3lFhBJ
+ HWYvFEYXtLBtflcgEwwmfhY/WGGSymLpsMvFmyR8oT1nvJDu8qKZjtY39fdiUwjRP+KV4FShXA7
+ tbHdM4OhfJoHk3hk=
+X-Received: by 2002:a1c:e91a:: with SMTP id q26mr585816wmc.170.1625684276087; 
+ Wed, 07 Jul 2021 11:57:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRKnWmMwVwkXSP6CM6s96NUxglgPjXOkX+58D/frmPWdorm8Deo2b5GyvTaGzg0bbNAnyxaw==
+X-Received: by 2002:a1c:e91a:: with SMTP id q26mr585797wmc.170.1625684275918; 
+ Wed, 07 Jul 2021 11:57:55 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23579.dip0.t-ipconnect.de. [79.242.53.121])
+ by smtp.gmail.com with ESMTPSA id b8sm7781452wmb.20.2021.07.07.11.57.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 07 Jul 2021 11:57:55 -0700 (PDT)
+To: Peter Xu <peterx@redhat.com>
+References: <20210707140655.30982-1-david@redhat.com>
+ <20210707140655.30982-3-david@redhat.com> <YOXsTQoq6eeIR8B5@t490s>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
+ VIRTIO_BALLOON_F_FREE_PAGE_HINT
+Message-ID: <5f5dd7f3-ce09-53d6-db48-1a333119205d@redhat.com>
+Date: Wed, 7 Jul 2021 20:57:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YOXsTQoq6eeIR8B5@t490s>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,118 +100,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
+ qemu-stable@nongnu.org, Wei Wang <wei.w.wang@intel.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we do mention some of this stuff in the various daemons and
-manuals the subtleties of the socket and memory sharing are sometimes
-missed. This document attempts to give some background on vhost-user
-daemons in general terms.
+On 07.07.21 20:02, Peter Xu wrote:
+> On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
+>> As it never worked properly, let's disable it via the postcopy notifier on
+>> the destination. Trying to set "migrate_set_capability postcopy-ram on"
+>> on the destination now results in "virtio-balloon: 'free-page-hint' does
+>> not support postcopy Error: Postcopy is not supported".
+> 
+> Would it be possible to do this in reversed order?  Say, dynamically disable
+> free-page-hinting if postcopy capability is set when migration starts? Perhaps
+> it can also be re-enabled automatically when migration completes?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
----
- docs/interop/vhost-user.rst        |  4 ++-
- docs/system/device-emulation.rst   |  1 +
- docs/system/devices/vhost-user.rst | 57 ++++++++++++++++++++++++++++++
- 3 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 docs/system/devices/vhost-user.rst
+I remember that this might be quite racy. We would have to make sure 
+that no hinting happens before we enable the capability.
 
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index d6085f7045..f46423b6f3 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -1,3 +1,5 @@
-+.. _vhost_user_proto:
-+
- ===================
- Vhost-user Protocol
- ===================
-@@ -6,7 +8,7 @@ Vhost-user Protocol
- :Licence: This work is licensed under the terms of the GNU GPL,
-           version 2 or later. See the COPYING file in the top-level
-           directory.
--
-+          
- .. contents:: Table of Contents
- 
- Introduction
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index a0f00bc340..5aca6ed66b 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -75,4 +75,5 @@ Emulated Devices
-    devices/net.rst
-    devices/nvme.rst
-    devices/usb.rst
-+   devices/vhost-user.rst
-    devices/virtio-pmem.rst
-diff --git a/docs/system/devices/vhost-user.rst b/docs/system/devices/vhost-user.rst
-new file mode 100644
-index 0000000000..ecb1107d4c
---- /dev/null
-+++ b/docs/system/devices/vhost-user.rst
-@@ -0,0 +1,57 @@
-+.. _vhost_user:
-+
-+vhost-user back ends
-+--------------------
-+
-+vhost-user back ends are way to service the request of VirtIO devices
-+outside of QEMU itself. To do this there are a number of things
-+required.
-+
-+vhost-user device
-+===================
-+
-+These are simple stub devices that ensure the VirtIO device is visible
-+to the guest. The code is mostly boilerplate although each device has
-+a ``chardev`` option which specifies the ID of the ``--chardev``
-+device that connects via a socket to the vhost-user *daemon*.
-+
-+vhost-user daemon
-+=================
-+
-+This is a separate process that is connected to by QEMU via a socket
-+following the :ref:`vhost_user_proto`. There are a number of daemons
-+that can be built when enabled by the project although any daemon that
-+meets the specification for a given device can be used. The daemon
-+will open a socket and *listen* for a connection from QEMU at which
-+point the protocol will start its negotiation.
-+
-+Shared memory object
-+====================
-+
-+In order for the daemon to access the VirtIO queues to process the
-+requests it needs access to the guest's address space. This is
-+achieved via the ``memory-backend-file`` object. A reference to a
-+file-descriptor which can access this object will be passed via the
-+socket as part of the protocol negotiation.
-+
-+Example
-+=======
-+
-+First start you daemon.
-+
-+.. parsed-literal::
-+
-+  $ virtio-foo --socket-path=/var/run/foo.sock $OTHER_ARGS
-+
-+The you start your QEMU instance specifying the device, chardev and
-+memory objects.
-+
-+.. parsed-literal::
-+
-+  $ |qemu_system| \\
-+      -chardev socket,id=ba1,path=/var/run/foo.sock \\
-+      -device vhost-user-foo,chardev=ba1,$OTHER_ARGS \\
-+      -object memory-backend-memfd,id=mem,size=4G,share=on \\
-+      -numa node,memdev=mem \\
-+        ...
-+
+As soon as we messed with the dirty bitmap (during precopy), postcopy is 
+no longer safe. As noted in the patch, the only runtime alternative is 
+to disable postcopy as soon as we actually do clear a bit. 
+Alternatively, we could ignore any hints if the postcopy capability was 
+enabled.
+
+Whatever we do, we have to make sure that a user cannot trick the system 
+into an inconsistent state. Like enabling hinting, starting migration, 
+then enabling the postcopy capability and kicking of postcopy. I did not 
+check if we allow for that, though.
+
 -- 
-2.20.1
+Thanks,
+
+David / dhildenb
 
 
