@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC363BE8ED
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:41:57 +0200 (CEST)
-Received: from localhost ([::1]:55538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209F83BE8EE
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 15:42:08 +0200 (CEST)
+Received: from localhost ([::1]:55702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m17oK-0004fR-0x
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:41:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
+	id 1m17oS-0004ln-1W
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 09:42:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1m17nN-0003OR-3P
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:40:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56736)
+ id 1m17nO-0003Od-5e
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:40:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1m17nK-0005pV-3u
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:40:56 -0400
+ id 1m17nL-0005pe-BS
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 09:40:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625665251;
+ s=mimecast20190719; t=1625665254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RXTCHE86heihXKKZsZF2u2sX28lC8UOiwbjeCw2mnwU=;
- b=DkQ/jVvuaEAf09hekk4vUl8pa19irMesefGBtfUO/ZGHllWTq/Bf87sL7oud6DCJOssZTI
- 4YS+JvDBQA27G9UP0qrbIiAOf3moj0ycI8inEY6BjaLjfQagbnRoYJKCG5yu9pkoQeXjNG
- 9Bn8ucljl4pKl+7yqe8S9HodeqNE4y0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3HjlwmESVpEjbGfN8zTtZaYxgPfUUAzJBkSEpd89M6E=;
+ b=FdcYENttDE491iX1T2/pKLotEBQJO7ViP0XyJwixYck8nLtnTXAFnXhvLPzJ1UeUs2mJxe
+ 2mBowVZh+3N86sL3lWy536RpLLmW4ZWHYL78EwTQN20j/VBIpz2EEALs6mU/jvA0LwTM/T
+ XCBC9fEidWpQETK7QLD9C0KlPG3cvNs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-7pHK1TNCNbiTDPPHyR8Xaw-1; Wed, 07 Jul 2021 09:40:47 -0400
-X-MC-Unique: 7pHK1TNCNbiTDPPHyR8Xaw-1
+ us-mta-561-Pk1qg028NYa98qp_O1M3ww-1; Wed, 07 Jul 2021 09:40:51 -0400
+X-MC-Unique: Pk1qg028NYa98qp_O1M3ww-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8669E100CCC1;
- Wed,  7 Jul 2021 13:40:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2514B1023F4E;
+ Wed,  7 Jul 2021 13:40:50 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.194.190])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 584265D6AB;
- Wed,  7 Jul 2021 13:40:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFE0D5D6AB;
+ Wed,  7 Jul 2021 13:40:48 +0000 (UTC)
 From: Michal Privoznik <mprivozn@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] numa: Parse initiator= attribute before cpus= attribute
-Date: Wed,  7 Jul 2021 15:40:28 +0200
-Message-Id: <cover.1625662776.git.mprivozn@redhat.com>
+Subject: [PATCH 1/2] numa: Report expected initiator
+Date: Wed,  7 Jul 2021 15:40:29 +0200
+Message-Id: <ebdf871551ea995bafa7a858899a26aa9bc153d3.1625662776.git.mprivozn@redhat.com>
+In-Reply-To: <cover.1625662776.git.mprivozn@redhat.com>
+References: <cover.1625662776.git.mprivozn@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
@@ -54,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -79,16 +82,32 @@ Cc: imammedo@redhat.com, tao3.xu@intel.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-See 2/2 for explanation. The first patch is just cosmetics.
+When setting up NUMA with HMAT enabled there's a check performed
+in machine_set_cpu_numa_node() that reports an error when a NUMA
+node has a CPU but the node's initiator is not itself. The error
+message reported contains only the expected value and not the
+actual value (which is different because an error is being
+reported). Report both values in the error message.
 
-Michal Privoznik (2):
-  numa: Report expected initiator
-  numa: Parse initiator= attribute before cpus= attribute
+Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+---
+ hw/core/machine.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- hw/core/machine.c |  3 ++-
- hw/core/numa.c    | 45 +++++++++++++++++++++++----------------------
- 2 files changed, 25 insertions(+), 23 deletions(-)
-
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 57c18f909a..6f59fb0b7f 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -728,7 +728,8 @@ void machine_set_cpu_numa_node(MachineState *machine,
+             if ((numa_info[props->node_id].initiator < MAX_NODES) &&
+                 (props->node_id != numa_info[props->node_id].initiator)) {
+                 error_setg(errp, "The initiator of CPU NUMA node %" PRId64
+-                        " should be itself", props->node_id);
++                           " should be itself (got %" PRIu16 ")",
++                           props->node_id, numa_info[props->node_id].initiator);
+                 return;
+             }
+             numa_info[props->node_id].has_cpu = true;
 -- 
 2.31.1
 
