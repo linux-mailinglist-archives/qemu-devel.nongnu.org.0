@@ -2,150 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780B93BE66A
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:38:06 +0200 (CEST)
-Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDA53BE66E
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 12:38:36 +0200 (CEST)
+Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m14wP-0004rE-0d
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:38:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
+	id 1m14wt-0006Ix-P5
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 06:38:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1m14vB-0004CD-Jj
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:36:49 -0400
-Received: from mga02.intel.com ([134.134.136.20]:49740)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m14vz-0004sO-C8
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:37:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35306)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yi.l.liu@intel.com>)
- id 1m14v8-0000kM-Ki
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:36:48 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10037"; a="196446119"
-X-IronPort-AV: E=Sophos;i="5.83,331,1616482800"; d="scan'208";a="196446119"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 03:36:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.83,331,1616482800"; d="scan'208";a="486793525"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2021 03:36:33 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 7 Jul 2021 03:36:33 -0700
-Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Wed, 7 Jul 2021 03:36:32 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10 via Frontend Transport; Wed, 7 Jul 2021 03:36:32 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.104)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.4; Wed, 7 Jul 2021 03:36:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YkJsZZyCDR4rM0YrSYtwPwObpAunytJKTc7p5wrN9C4vYX3MZbebI8YzueVBeDUUbvnrZXctxnC68TMp7S4DwAR+FYBVmZfUlBoE9kc+mn23ODh8Gcqbwh0lzCNYHPK4Smj4isah+VHv7rC4nyLjdBnWC0yqYfyBWcAIViz2Xg42egs0VGV9YeQyoOqguUkBUqOAUpbbSuhCdfi2Iqkfch/yL7uJls189Bc5wWV91dq9hpldeAREwz5IbJ2vJSkNQ6/K1Zs6w3l55rVscP3PV0lWLguHfiVYP1onXYclbFUM5DbXtbXk7Td9+PnyeTGpaLsDC+rgYpd2JfwH0Z/ZHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/MOATtMHo82Bb4e3BuOWd1W5CBURCiGGzNWIR5Z2nk=;
- b=YQl4XbeSFNpfKERpz1V79G1quXwQ3lsd9fORCqBABicq2YZyT+EiQxjA9Od8we+/SeNGInMEkCIyrHwu/D6nlNvVmbUTkSlVpWn/plP0GTEmykFscNhozOOYPjqUWeBw5/J8Ttsd7Z4d9srs/lT3IwuByjGip0/DJWOnDPCZk42lZg6CqZu1bcsiVJgwbqxkoo7g7bZHvfJQ+607wksjjptu2XSfBUG7+vmfIrohN3WPZQ5ZVKZWWS0LARQoz0JpjunRYFOWx7TiG6rD3/SP0JiCfVuxMOMZA7gKSL8Elt0OtAzzyf8GQC7XloMIG7RlKjtQJWmWB81cg+/MEFwX2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/MOATtMHo82Bb4e3BuOWd1W5CBURCiGGzNWIR5Z2nk=;
- b=SOr8Ivx2qYa/HOxS0TmHZfzq/3tB4sAQGXtPqF0oXGKpgupECsTtj51YTBeUAuqWSmgsHHJDKjKuz56t+zBK7bPa4CuWvErfkRuYgEYmtKISi/O2dK3ETnOk4KslbBDSCgn+l3rdj3HYCF141yoH1hYcj8k1m8JnjJulW74+IHo=
-Received: from BY5PR11MB4070.namprd11.prod.outlook.com (2603:10b6:a03:181::16)
- by BYAPR11MB3846.namprd11.prod.outlook.com (2603:10b6:a03:f5::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Wed, 7 Jul
- 2021 10:36:30 +0000
-Received: from BY5PR11MB4070.namprd11.prod.outlook.com
- ([fe80::d122:f263:7ce9:97cf]) by BY5PR11MB4070.namprd11.prod.outlook.com
- ([fe80::d122:f263:7ce9:97cf%3]) with mapi id 15.20.4287.033; Wed, 7 Jul 2021
- 10:36:30 +0000
-From: "Liu, Yi L" <yi.l.liu@intel.com>
-To: Peter Xu <peterx@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] docs: Add '-device intel-iommu' entry
-Thread-Topic: [PATCH] docs: Add '-device intel-iommu' entry
-Thread-Index: AQHXXvNaRxnNEkeFUkmAhuPIdHbvHKs3eSRA
-Date: Wed, 7 Jul 2021 10:36:30 +0000
-Message-ID: <BY5PR11MB40706BCDECFE74B7B95C6751C31A9@BY5PR11MB4070.namprd11.prod.outlook.com>
-References: <20210611185500.343525-1-peterx@redhat.com>
-In-Reply-To: <20210611185500.343525-1-peterx@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d1d62f12-90f8-4907-85d9-08d941331569
-x-ms-traffictypediagnostic: BYAPR11MB3846:
-x-microsoft-antispam-prvs: <BYAPR11MB38468678FE56A378DCD3F906C31A9@BYAPR11MB3846.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: h3vezYZ3h0K9wrMVnyku+S2XBtwToLPGb8L2cUgBBCIfO+eLBxDnUn02hI/62VdfCEwaoEGdTLIOKI3R+NGiEUimpjD2bp/rXNZ/IvRR/oxVBAi8gbmY/mOVM20B+LUI9Mk4cZh/B25Q+8WgoZcZH8w3hXcOG//SDp75qK/8GY09T3UViU+tupzQUsJviIQGO49hGV5iNqKOLko3Mb2cutzDk/MsroJ0Qy2V4m6EnAcXkmWmfH2bg9h8Y2ie/UKv5+aIhB+wKe7kYaAUAtE2sQCUvjmgx0BKmp/IiyQS4qEpCfWAFDLWdJU5AsTHN4KZznFwne8t/f13KUlASuI4lImV6eSs/1/yVsCaF79na0KgZxx7Qo+ajOSO+m6cV0m7/1jJ0jLh2c+3QdGkxJqzypK+MSV5kLO/Sep8/fl0fYf/Uxs4UuKMZ+f1UWdqUL16wMkHF9DvdgFY8va9TLJa2en5fguSqoPrP8aXF47QfhtFVrlms0cG2ep9+x+fXxSlcA7gfwitD7EZb5SKDDbwhr7JXsrFuJfOMoTvqLWX3A4GohzooMA9P2ZKToDmwfea9nZuAx+6ngGzKBDgxxDH1W6mye4ee+kD8UnYpz+MhbV4K81PrWNSB9gNk/XQKsm00B8yQmVXZ0au8w9fbUj1dT1duPUF0KvwS7LI8vjOeDs8OCjVFoWw2CuejdzpETxCc25PL72R7V3DMEE7nN0luL8JltAgzG7fgP1P82feT6w=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR11MB4070.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(366004)(346002)(376002)(136003)(26005)(122000001)(5660300002)(7696005)(478600001)(6506007)(9686003)(55016002)(4326008)(33656002)(54906003)(38100700002)(66556008)(66946007)(66476007)(76116006)(186003)(71200400001)(52536014)(64756008)(66446008)(2906002)(8936002)(8676002)(966005)(86362001)(316002)(110136005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?5ecXHuWWFDGkKwJC9ild5U9WlTo0YcJP4SieOEz7uF1k9Bn6fCFMLvVjVIpk?=
- =?us-ascii?Q?g2dbe1AzHLN39B5gynMRXUH3E4qLY9aivuyyHSKwKe2oNxdotaAmy64nwJpe?=
- =?us-ascii?Q?ZB24qpS4GPbL6PyAnvXV4PrGlmGuBrRlgcopiNNhUzg8qEZDICHwKKVmkLzJ?=
- =?us-ascii?Q?v7urwsRaTJIf4F4NajXIqeavUFJTy/DM3KxzRtd/8E/B6e9m6hBRZRYpI1Je?=
- =?us-ascii?Q?l4Ign1fOscJKoSXp+pDd3/TLd+fpsS6dURuC+uDDow6QTg6Q0TApGevUy6S3?=
- =?us-ascii?Q?PPBxGjcnZGD2RXhw21syXrPUeMMppktEFddzqKYKiHzsmSQ+Gz6tzE1LSaAI?=
- =?us-ascii?Q?PxN4015cq0OaYyJ+/Y2FgbCyeenlI0Jwg8dKndjwqV245DU/6f6FuQ8bVtbO?=
- =?us-ascii?Q?tmyU54TsjYzgExkaOz12EHQ1v5TqDHwvNEA45/Wwv+EiyxsUIZlxTaKfN3Hb?=
- =?us-ascii?Q?QzSVnvq3/U2aduIt+JvOXqMBgieqPT6xnVTQu09eODgkNIIJoes/ORFUTrfr?=
- =?us-ascii?Q?RvZ+j/WWu2GNIB6mf4x8r08K7FIFy2saLPAJjEAtXcIEOoqHmATWWo6M6Aym?=
- =?us-ascii?Q?mejhOfkecHgClCUlDjOwq8QW7+CUSZ7fcU6/8020ALAEQbdtOb9cXIMIYzAB?=
- =?us-ascii?Q?Gz6nwPUut0S4SVNk9/2KwTKVLT3Bn32mx87Fu1ncdxMvgnN3hrnIPILCExMv?=
- =?us-ascii?Q?6N9cnQJgUMSt6GtcQqaoA7kPd4Mx7EPNwzDTQ1cGUe9pX9MZnIr9EF2hUzud?=
- =?us-ascii?Q?dxmwfue01uYMyKA0JgN7U3LlPVAsHDniAJhgyC47LdcqCyvrLBx7dbElpqAZ?=
- =?us-ascii?Q?00fk71BE+W9s5Go4djZU7m5fC8K9DW5gOJjhUQhpAgIGjsWxPEAUsiid0rkn?=
- =?us-ascii?Q?R8Q+6itMH6+HV7/pWjNML5Uvh5FyM9eJ18L3FE7Lg4/3OaBxpBCOSMd4rPcB?=
- =?us-ascii?Q?Y/LpyK2/kQkDY9dN93W3VVgNtB87k8vNyG60ZJzWSVCNDWSY82eoq0iaOC3v?=
- =?us-ascii?Q?aTaIWtpheGcqqnxEgHm4e0FfnkE+yUMBQjEzrTM/JHESnA3i9lLVnfH4XBtZ?=
- =?us-ascii?Q?W4eFQU9Pv8XMxWEeVw79jJEaryEwPIs7i7Mbe1nv9rPsQoFBYiqHmuP6k9RX?=
- =?us-ascii?Q?utviTUO7gq/gZ9Ui8wwdxzPT7yUEEvdBZ88osaCXWlvJwc8j6NdCDSHjo12X?=
- =?us-ascii?Q?WYKt1TbXe2ysOv240cU6yVHoHhTH1buR65JOCfEZeH/JbvuHm2lCceXVsey6?=
- =?us-ascii?Q?3t1ZBGE4eoHY92Osh3dAgDUMfP8Jyx9wAvzyUMhcrfKrudG9NbDqMMtgLpPA?=
- =?us-ascii?Q?4X0=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m14vw-0000nN-An
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 06:37:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625654254;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eHGbyNtsw80y5fl6q2AI6FG3wZXkmsRFcS4nkMFbcyU=;
+ b=NVxo+EV4pV+/ugB04NaXy3ZEPLiu5uw5xJIkcVjypd9X+861ip9WalkO8nWsG3KAkkEi+a
+ +yfP33CbIJvflCotdjgnVPOh+P0Id2P4PCn8eV9AIUIvgJ+jBCdCUgF9+NWvHLu0gN/7Qv
+ aWkR/JH3V6hX+T+w7hV7L+9O5+npBXg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-rOC3gDFhN0aHdTX0o5SKKQ-1; Wed, 07 Jul 2021 06:37:33 -0400
+X-MC-Unique: rOC3gDFhN0aHdTX0o5SKKQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B20985074B;
+ Wed,  7 Jul 2021 10:37:32 +0000 (UTC)
+Received: from redhat.com (ovpn-112-88.ams2.redhat.com [10.36.112.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E216B5D9D3;
+ Wed,  7 Jul 2021 10:37:31 +0000 (UTC)
+Date: Wed, 7 Jul 2021 12:37:30 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v2 2/6] export/fuse: Add allow-other option
+Message-ID: <YOWD6rMgVC4Sh3Lf@redhat.com>
+References: <20210625142317.271673-1-mreitz@redhat.com>
+ <20210625142317.271673-3-mreitz@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4070.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1d62f12-90f8-4907-85d9-08d941331569
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jul 2021 10:36:30.6461 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Ca75mwC26e7PlTFhH1DgGT+n4LTXDkG5xf3YzRIUWjpBD5cmAkdjmExl4ZGB4eVvU3TD7JiCMnOXLFTiRSPouw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3846
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=yi.l.liu@intel.com;
- helo=mga02.intel.com
+In-Reply-To: <20210625142317.271673-3-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -158,99 +76,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Lei Yang <leiyang@redhat.com>,
- Jing Zhao <jinzhao@redhat.com>, Chao Yang <chayang@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> From: Peter Xu < peterx@redhat.com >
-> Sent: Saturday, June 12, 2021 2:55 AM
->=20
-> The parameters of intel-iommu device are non-trivial to understand.  Add
-> an
-> entry for it so that people can reference to it when using.
->=20
-> There're actually a few more options there, but I hide them explicitly
-> because
-> they shouldn't be used by normal QEMU users.
-
-yes, it's a good start.
-
-Looks good to me.
-Reviewed-by: Liu Yi L <yi.l.liu@intel.com>
-
-Regards,
-Yi Liu
-
->=20
-> Cc: Chao Yang <chayang@redhat.com>
-> Cc: Lei Yang <leiyang@redhat.com>
-> Cc: Jing Zhao <jinzhao@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Am 25.06.2021 um 16:23 hat Max Reitz geschrieben:
+> Without the allow_other mount option, no user (not even root) but the
+> one who started qemu/the storage daemon can access the export.  Allow
+> users to configure the export such that such accesses are possible.
+> 
+> While allow_other is probably what users want, we cannot make it an
+> unconditional default, because passing it is only possible (for non-root
+> users) if the global fuse.conf configuration file allows it.  Thus, the
+> default is an 'auto' mode, in which we first try with allow_other, and
+> then fall back to without.
+> 
+> FuseExport.allow_other reports whether allow_other was actually used as
+> a mount option or not.  Currently, this information is not used, but a
+> future patch will let this field decide whether e.g. an export's UID and
+> GID can be changed through chmod.
+> 
+> One notable thing about 'auto' mode is that libfuse may print error
+> messages directly to stderr, and so may fusermount (which it executes).
+> Our export code cannot really filter or hide them.  Therefore, if 'auto'
+> fails its first attempt and has to fall back, fusermount will print an
+> error message that mounting with allow_other failed.
+> 
+> This behavior necessitates a change to iotest 308, namely we need to
+> filter out this error message (because if the first attempt at mounting
+> with allow_other succeeds, there will be no such message).
+> 
+> Furthermore, common.rc's _make_test_img should use allow-other=off for
+> FUSE exports, because iotests generally do not need to access images
+> from other users, so allow-other=on or allow-other=auto have no
+> advantage.  OTOH, allow-other=on will not work on systems where
+> user_allow_other is disabled, and with allow-other=auto, we get said
+> error message that we would need to filter out again.  Just disabling
+> allow-other is simplest.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  qemu-options.hx | 32 ++++++++++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
->=20
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 14258784b3a..4bb04243907 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -926,6 +926,38 @@ SRST
->=20
->  ``-device pci-ipmi-bt,bmc=3Did``
->      Like the KCS interface, but defines a BT interface on the PCI bus.
-> +
-> +``-device intel-iommu[,option=3D...]``
-> +    This is only supported by ``-machine q35``, which will enable Intel =
-VT-d
-> +    emulation within the guest.  It supports below options:
-> +
-> +    ``intremap=3Don|off`` (default: auto)
-> +        This enables interrupt remapping feature in the guest.  It's req=
-uired
-> +        to enable complete x2apic.  Currently it only supports kvm
-> +        kernel-irqchip modes ``off`` or ``split``.  Full kernel-irqchip =
-is not
-> +        yet supported.
-> +
-> +    ``caching-mode=3Don|off`` (default: off)
-> +        This enables caching mode for the VT-d emulated device.  When
-> +        caching-mode is enabled, each guest DMA buffer mapping will
-> generate an
-> +        IOTLB invalidation from the guest IOMMU driver to the vIOMMU
-> device in
-> +        a synchronous way.  It is required for ``-device vfio-pci`` to w=
-ork
-> +        with the VT-d device, because host assigned devices requires to =
-setup
-> +        the DMA mapping on the host before guest DMA starts.
-> +
-> +    ``device-iotlb=3Don|off`` (default: off)
-> +        This enables device-iotlb capability for the emulated VT-d devic=
-e.  So
-> +        far virtio/vhost should be the only real user for this parameter=
-,
-> +        paired with ats=3Don configured for the device.
-> +
-> +    ``aw-bits=3D39|48`` (default: 39)
-> +        This decides the address width of IOVA address space.  The addre=
-ss
-> +        space has 39 bits width for 3-level IOMMU page tables, and 48 bi=
-ts for
-> +        4-level IOMMU page tables.
-> +
-> +    Please also refer to the wiki page for general scenarios of VT-d
-> +    emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
-> +
->  ERST
->=20
->  DEF("name", HAS_ARG, QEMU_OPTION_name,
-> --
-> 2.31.1
->=20
+>  qapi/block-export.json       | 33 ++++++++++++++++++++++++++++++++-
+>  block/export/fuse.c          | 28 +++++++++++++++++++++++-----
+>  tests/qemu-iotests/308       |  6 +++++-
+>  tests/qemu-iotests/common.rc |  6 +++++-
+>  4 files changed, 65 insertions(+), 8 deletions(-)
+> 
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index e819e70cac..0ed63442a8 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -120,6 +120,23 @@
+>  	    '*logical-block-size': 'size',
+>              '*num-queues': 'uint16'} }
+>  
+> +##
+> +# @FuseExportAllowOther:
+> +#
+> +# Possible allow_other modes for FUSE exports.
+> +#
+> +# @off: Do not pass allow_other as a mount option.
+> +#
+> +# @on: Pass allow_other as a mount option.
+> +#
+> +# @auto: Try mounting with allow_other first, and if that fails, retry
+> +#        without allow_other.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'enum': 'FuseExportAllowOther',
+> +  'data': ['off', 'on', 'auto'] }
+
+Why not use the generic OnOffAuto type from common.json?
+
+But since the external interface is unaffected so we can later change
+this as a code cleanup and soft freeze is approaching, I won't consider
+this a blocker.
+
+Kevin
 
 
