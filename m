@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3453BE1DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:18:57 +0200 (CEST)
-Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404D63BE1F6
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 06:25:10 +0200 (CEST)
+Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0z1U-0004RG-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:18:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
+	id 1m0z7V-00064O-8o
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 00:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0z0V-0003mj-RG
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:17:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59419)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0z6g-0005La-ER
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:24:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0z0S-0002jk-86
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:17:54 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m0z6Y-000389-Pv
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 00:24:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625631470;
+ s=mimecast20190719; t=1625631849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mW5bZ2z5Hm1oHMzVanUO0s4qblJMCHVgf3tkmU7Pf2Y=;
- b=XWYgVrYIPi2A/LI0zkLvgLCeG7R6TiYiSdce6K/EL1wjXy9EMMVI9uBA/gOAQ+efmj92Ia
- q6KwNoSpwz47PN9F//9D46sRovq2CMn6WGEvm2LgTbwts7zttZROwFNOQxGqAfJPyayo9M
- RCOGq3JdMymr5EfMXwtlEdp9WhqYRqw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-4-jf1eWsmePSCBersQ8cFYEQ-1; Wed, 07 Jul 2021 00:17:38 -0400
-X-MC-Unique: jf1eWsmePSCBersQ8cFYEQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m40-20020a05600c3b28b02901f42375a73fso397814wms.5
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 21:17:38 -0700 (PDT)
+ bh=ULVgUGMhZfHOYZQGZwr+5e3N+dbg9Rm7P8/eyclctso=;
+ b=RTaNgQz9YOLCZAZKDZccWN7YJSA4xzRdxPjYKStYEc9Fil8D7bZZx5XeGhxZ++hgmqSyGU
+ gOp21DOtIpFRWSaykBw67AMX/I7XXxoULILYwidqUssGBn0sF2rUka0cEj99uT14VJvhjR
+ BANQBh2CpSEjZLK3oQabVoV1SIdw1xk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-_X50MnClM-iujfkqf8j3DA-1; Wed, 07 Jul 2021 00:24:06 -0400
+X-MC-Unique: _X50MnClM-iujfkqf8j3DA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m7-20020a05600c4f47b02901ff81a3bb59so187207wmq.2
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 21:24:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=mW5bZ2z5Hm1oHMzVanUO0s4qblJMCHVgf3tkmU7Pf2Y=;
- b=UgTAK+U1tNc+bYIqm7bXv6NgL9Sw/a/o6CEGm1y/7WzN65E2Bg3ypcTNcqZtPLXiFu
- WHfTIS1N0ck4O2bpghMbKn9fxKUEgQzSPxrFij2bO1je8Dr8jrkj2l2v5JM+QBpYXjjh
- zoX1po1BpGM/qk7StrUkOv7lDYOSLqsmbYwAw5V7ycmHjFrzxkSRiTRJVEfZKwhA00Bg
- LcrjgGAtyA7PXHVcjL70iDmHLKMzj8B3YWJR54XfnkTPZnJkuLotxOT7sUQKC95HGp2l
- /SjaXrP91czPfRgjqxdznkPjr0b/jFU2aTZSbclCzwNt3OMbATn1lOabVdOzNzaEI6tw
- aorw==
-X-Gm-Message-State: AOAM531CT2R9x2WHLhQJT2hqN4G3NrZCUAMu1yiX6wlshgfOr/L8Q/7g
- t5AGsWH09MGDtHm0mjJvr8stFYIjUmDw9+G1vjWY5eOGA2R6VwPi/jouq/jUo1NSN5D6szdl+tZ
- JCaY2nxrkoc5zCfo=
-X-Received: by 2002:a5d:6611:: with SMTP id n17mr25543276wru.269.1625631457597; 
- Tue, 06 Jul 2021 21:17:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxj4XmZtSr5J86XZoWHW1LV6WuWZ4WXssO29Xm4jxSawuLpoLCxk4pt63+OSJdYZ0lIY9Z3oQ==
-X-Received: by 2002:a5d:6611:: with SMTP id n17mr25543247wru.269.1625631457341; 
- Tue, 06 Jul 2021 21:17:37 -0700 (PDT)
+ bh=ULVgUGMhZfHOYZQGZwr+5e3N+dbg9Rm7P8/eyclctso=;
+ b=p+5OSNK9hJrmbr3D4WP4AHZJ3BW6gxejeY+gL7kKkBaslgYu4qu1HhBiTqIM/diS//
+ tKWWDcib5ykuZ2ddVQqyq00alzk+JToPW9L0kTTjxfCxjyX2Rn2roNbpfvi2wli7fGK6
+ +1FWGGQx3+hZbPLGTfSh/Yc/movyU2q9S1L/hA519c+nn7xxXJPMLk7z/cnPpBYg9yhr
+ /ayyYAZrkWMLQfdmzTlFonw7yvl3qsua/L42Z4h0o0Pa1VGw2SPAD8cOQGRU84Y4A9fN
+ AlaAQR6Y16IetN7OEXLvvVVXyoHHTNlLHAeViqGBzHYh+B2jN7VUb64E/AaOtDa9yeY2
+ 4D9Q==
+X-Gm-Message-State: AOAM532I2h1Hs+oaYFv2Kn0d0zfxtGDWhGZit1CmIVH419rAL+vWKqT6
+ 9KAW/LVhXbgt/1dbWDZQ6hs+CPjiKuVR0247EWo9EbhEgv5vafOJIRDdOhsANvSZLFttojUi8Fc
+ 35k94SsQkR0Ldz/0=
+X-Received: by 2002:a05:6000:50f:: with SMTP id
+ a15mr19186892wrf.108.1625631845447; 
+ Tue, 06 Jul 2021 21:24:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwKtw4nnDWXGcJiFwHG6DLFmiq+VWIGN88e6X4fbSVIAsylu/6p5TnnXoZ8J0AjG4bhY8FVQ==
+X-Received: by 2002:a05:6000:50f:: with SMTP id
+ a15mr19186868wrf.108.1625631845274; 
+ Tue, 06 Jul 2021 21:24:05 -0700 (PDT)
 Received: from thuth.remote.csb (pd9575ead.dip0.t-ipconnect.de.
  [217.87.94.173])
- by smtp.gmail.com with ESMTPSA id s8sm17523879wmh.36.2021.07.06.21.17.36
+ by smtp.gmail.com with ESMTPSA id p9sm18397503wrx.59.2021.07.06.21.24.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 21:17:36 -0700 (PDT)
-Subject: Re: [PATCH v1 29/39] configure: don't allow plugins to be enabled for
- a non-TCG build
+ Tue, 06 Jul 2021 21:24:04 -0700 (PDT)
+Subject: Re: [PATCH v1 30/39] configure: stop user enabling plugins on Windows
+ for now
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210706145817.24109-1-alex.bennee@linaro.org>
- <20210706145817.24109-30-alex.bennee@linaro.org>
+ <20210706145817.24109-31-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <aadd241a-aa62-aea9-b1c3-4fc622d12e84@redhat.com>
-Date: Wed, 7 Jul 2021 06:17:35 +0200
+Message-ID: <13c5b368-1735-b622-51c2-936ef4561b25@redhat.com>
+Date: Wed, 7 Jul 2021 06:24:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706145817.24109-30-alex.bennee@linaro.org>
+In-Reply-To: <20210706145817.24109-31-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,49 +103,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ Yonggang Luo <luoyonggang@gmail.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 06/07/2021 16.58, Alex Bennée wrote:
+> There are some patches on the list that enable plugins on Windows but
+> they still need some changes to be ready:
+> 
+>    https://patchew.org/QEMU/20201013002806.1447-1-luoyonggang@gmail.com/
+> 
+> In the meantime lets stop the user from being able to configure the
+> support so they don't get confused by the weird linker error messages
+> later.
+> 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Yonggang Luo <luoyonggang@gmail.com>
 > ---
->   configure | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
+>   configure | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
 > diff --git a/configure b/configure
-> index 650d9c0735..44a487e090 100755
+> index 44a487e090..9d72b31a9f 100755
 > --- a/configure
 > +++ b/configure
-> @@ -1098,6 +1098,7 @@ for opt do
->     --enable-cap-ng) cap_ng="enabled"
->     ;;
->     --disable-tcg) tcg="disabled"
-> +                 plugins="no"
->     ;;
->     --enable-tcg) tcg="enabled"
->     ;;
-> @@ -1509,7 +1510,11 @@ for opt do
->     ;;
->     --disable-xkbcommon) xkbcommon="disabled"
->     ;;
-> -  --enable-plugins) plugins="yes"
-> +  --enable-plugins) if test "$tcg" = "enabled"; then
-> +                        plugins="yes"
-> +                    else
-> +                        error_exit "Can't enable plugins on non-TCG builds"
-> +                    fi
+> @@ -707,6 +707,11 @@ MINGW32*)
+>     else
+>       audio_drv_list=""
+>     fi
+> +  if "$plugins" = "yes"; then
+> +      error_exit "TCG plugins not currently supported on Windows platforms"
+> +  else
+> +      plugins="no"
+> +  fi
+>     supported_os="yes"
+>     pie="no"
+>   ;;
 
-That's the wrong spot for checking. While it works fine with:
-
-  .../configure --disable-tcg --enable-plugins
-
-it fails to bail out with:
-
-  .../configure --enable-plugins --disable-tcg
-
-You should do such checks after all options have been parsed.
+This also looks like the wrong spot for testing - the "--enable-plugins" 
+handling is around line 1510 in the configure script, but your check has 
+been added in line 707 already. Again, this has to be checked after the 
+options have been parsed.
 
   Thomas
 
