@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234F33BEA57
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:06:06 +0200 (CEST)
-Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361D03BEA6D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:10:06 +0200 (CEST)
+Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m197l-00073v-4e
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:06:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36684)
+	id 1m19Bd-0000aY-8D
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195P-0001Cu-Kn
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53383)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195S-0001OG-H8
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195N-0006j1-EC
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:39 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m195Q-0006jE-5j
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:03:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625670216;
+ s=mimecast20190719; t=1625670219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kygCYc/xTO46JNFLXdnXe2JmZoZzEtwl+GsjRYnanPU=;
- b=CiZu+yhtv080nQzBF6ScerlY807uZFGcMDTUGMSWmdrvdC4OqXuRrPqYQxP5aUVh2STdxV
- 6cLVyKmerYQ2bOdmyK26PsvuAJS6HU5+M0VLQBQ7/6TvKZWEQhjyaZAh+CyDKHLOuWVib6
- Y9qr9+yYrtXUccSw7vfnIuXCaGUiQp4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-7VUDQJm6Mz-bNnVNkGRRRg-1; Wed, 07 Jul 2021 11:03:35 -0400
-X-MC-Unique: 7VUDQJm6Mz-bNnVNkGRRRg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- h15-20020adffd4f0000b0290137e68ed637so859993wrs.22
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:34 -0700 (PDT)
+ bh=pFTVTujNQpdEdgDou9qsJXXUf6vIKP2GI2FiHwKr+24=;
+ b=bAu5N5SAB92DYAZiA+6GlYbSdyeAIEXzUIa4ipJVypH+91FlihazxWX0syr3DOfTRrIHvK
+ 5ZIcJcN9bgITyxGFYjwvznSGkw5m+TvdX2pYTINS291ycLfkVicOcH7L2dsWH3SlfeAzrH
+ 0G4XSRbz7oShTu9nwXYvuBK5pWG8ooQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-L2rw_o_UNkSxnJq1MNaTaw-1; Wed, 07 Jul 2021 11:03:38 -0400
+X-MC-Unique: L2rw_o_UNkSxnJq1MNaTaw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x8-20020a5d54c80000b029012583535285so879923wrv.8
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 08:03:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=kygCYc/xTO46JNFLXdnXe2JmZoZzEtwl+GsjRYnanPU=;
- b=rD8IzzDPYBnFY4NVjqJPWnDErmF2AL7wyrICSNkzHiMQ52JwlOSdU+YA8bmjgnC/4E
- 9PgV/y17vN0IOD/9VrFoqYqBHiSBJlBX1lPnxeVdXR3akJh+7jSQi8am9lY5bhMcjZyi
- bCYr+a8NefxmSldUErjZ56hLSvk1t7xYyu55NntXcTjjsUdcffTubi7N5y51yRLt5OTp
- WF91t9llZiNnMZao+ULbghBql5jsHxxlheV1y8pwTGMjWR9Y4M4b7z+ENdlxwPMzQb0Y
- t8HYZD1edms4KqjSwR7j4XfZquGZyO+SssrzgGeMjIMmxXfvVhEAjV5AQwUUshu0Txu9
- dB4w==
-X-Gm-Message-State: AOAM531IEP8zF8BlklSu+9+U19w8ZWU48iP4tQw/BLECk0KR5GVDZVvE
- ZSaeBvRthqeb1ozVNHGecgjh/0Kh/g0mf0N7FCxT8jYoX4BsRkbAyT27gxgcOFJEHqmAN77JnWG
- KFqluI4/vrFgNtPJOWERO0bSBnLstKYSXO+91MC3pUYOSlqSQ8Fx34Gl88e/5
-X-Received: by 2002:a1c:e485:: with SMTP id b127mr42089wmh.91.1625670213760;
- Wed, 07 Jul 2021 08:03:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlnx3jL2IxlGvqagTUowEl+dYVC4lN/vcxLT+QAhWB6gAztMEZ/GJ6J0yvqxDHxlcUTwS5yA==
-X-Received: by 2002:a1c:e485:: with SMTP id b127mr42040wmh.91.1625670213456;
- Wed, 07 Jul 2021 08:03:33 -0700 (PDT)
+ bh=pFTVTujNQpdEdgDou9qsJXXUf6vIKP2GI2FiHwKr+24=;
+ b=Vm2oGefHqr3hBFnwzkDVjRQ7ON0aUP0DAhI7jqvabLdXXzOX+qs9vCfHF10zLhrv76
+ o8DJ+bextUJsmNDmeqKI2jfkdUCq+8y95Hgk26VccG5Q5CNqgmGiKHJhfhnONboT8yf0
+ LKy7UEyV93zG4HGt2ZJovQQE0fhkc77/z8TnrkKrQDiIT+HGTw7+hHdtzkSLSk0XtxUq
+ 62bRuNa4QDaDtyyrjPnT/7RVO63BtnuNTMXkeDj+cOXMFa07ndf1jGKM9nYbZhFCOruf
+ +oRfAo9Znq0V3V+3ADZT3/kMPRIvrEbEHsuaAIql+L5rfS0FJzaoGt3jHOK8rt66Ghhc
+ /3rg==
+X-Gm-Message-State: AOAM5315GOBzWSxRHvBIOmMMZKzz5BNhxMUKxMT4w8PocEYJSBxphacz
+ q3WMMpL4YEK1Sv8ksbSVy5H0R3EXeso9zuWVeJtUG/Tk0ixRKix66pgoFSgICS3B4lMXf6pwy6v
+ ic/eR6V46Wj63soAgN1i2mAjnWYyiA8+aOSK0uCunbWDT21mYRzb6Wzg8upwk
+X-Received: by 2002:a05:600c:4f11:: with SMTP id
+ l17mr36003wmq.121.1625670216618; 
+ Wed, 07 Jul 2021 08:03:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw3jU9Jlm+H5v4S978CI4HD496z/uKhW3V5K0tLSx9QXDHaRFmlRfkZWCmkv9B0JipteRwkkg==
+X-Received: by 2002:a05:600c:4f11:: with SMTP id
+ l17mr35973wmq.121.1625670216401; 
+ Wed, 07 Jul 2021 08:03:36 -0700 (PDT)
 Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id f9sm21334891wrm.48.2021.07.07.08.03.29
+ by smtp.gmail.com with ESMTPSA id w1sm19535476wmi.13.2021.07.07.08.03.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 08:03:33 -0700 (PDT)
-Date: Wed, 7 Jul 2021 11:03:24 -0400
+ Wed, 07 Jul 2021 08:03:35 -0700 (PDT)
+Date: Wed, 7 Jul 2021 11:03:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/13] acpi: pc: revert back to v5.2 PCI slot enumeration
-Message-ID: <20210707150157.52328-10-mst@redhat.com>
+Subject: [PULL 10/13] tests: acpi: pc: update expected DSDT blobs
+Message-ID: <20210707150157.52328-11-mst@redhat.com>
 References: <20210707150157.52328-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210707150157.52328-1-mst@redhat.com>
@@ -94,106 +96,200 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- John Sucaet <john.sucaet@ekinops.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+ John Sucaet <john.sucaet@ekinops.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Commit [1] moved _SUN variable from only hot-pluggable to
-all devices. This made linux kernel enumerate extra slots
-that weren't present before. If extra slot happens to be
-be enumerated first and there is a device in th same slot
-but on other bridge, linux kernel will add -N suffix to
-slot name of the later, thus changing NIC name compared to
-QEMU 5.2. This in some case confuses systemd, if it is
-using SLOT NIC naming scheme and interface name becomes
-not the same as it was under QEMU-5.2.
+@@ -930,20 +930,20 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+             Device (S00)
+             {
+                 Name (_ADR, Zero)  // _ADR: Address
+-                Name (_SUN, Zero)  // _SUN: Slot User Number
++                Name (ASUN, Zero)
+                 Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                 {
+-                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
++                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, ASUN))
+                 }
+             }
 
-Reproducer QEMU CLI:
-  -M pc-i440fx-5.2 -nodefaults \
-  -device pci-bridge,chassis_nr=1,id=pci.1,bus=pci.0,addr=0x3 \
-  -device virtio-net-pci,id=nic1,bus=pci.1,addr=0x1 \
-  -device virtio-net-pci,id=nic2,bus=pci.1,addr=0x2 \
-  -device virtio-net-pci,id=nic3,bus=pci.1,addr=0x3
+             Device (S10)
+             {
+                 Name (_ADR, 0x00020000)  // _ADR: Address
+-                Name (_SUN, 0x02)  // _SUN: Slot User Number
++                Name (ASUN, 0x02)
+                 Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                 {
+-                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
++                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, ASUN))
+                 }
 
-with RHEL8 guest produces following results:
-  v5.2:
-     kernel: virtio_net virtio0 ens1: renamed from eth0
-     kernel: virtio_net virtio2 ens3: renamed from eth2
-     kernel: virtio_net virtio1 enp1s2: renamed from eth1
-      (slot 2 is assigned to empty bus 0 slot and virtio1
-       is assigned to 2-2 slot, and renaming falls back,
-       for some reason, to path based naming scheme)
+                 Method (_S1D, 0, NotSerialized)  // _S1D: S1 Device State
 
-  v6.0:
-     kernel: virtio_net virtio0 ens1: renamed from eth0
-     kernel: virtio_net virtio2 ens3: renamed from eth2
-     systemd-udevd[299]: Error changing net interface name 'eth1' to 'ens3': File exists
-     systemd-udevd[299]: could not rename interface '3' from 'eth1' to 'ens3': File exists
-      (with commit [1] kernel assigns virtio2 to 3-2 slot
-       since bridge advertises _SUN=0x3 and kernel assigns
-       slot 3 to bridge. Still it manages to rename virtio2
-       correctly to ens3, however systemd gets confused with virtio1
-       where slot allocation exactly the same (2-2) as in 5.2 case
-       and tries to rename it to ens3 which is rightfully taken by
-       virtio2)
+with a hank per bridge:
 
-I'm not sure what breaks in systemd interface renaming (it probably
-should be investigated), but on QEMU side we can safely revert
-_SUN to 5.2 behavior (i.e. avoid cold-plugged bridges and non
-hot-pluggable device classes), without breaking acpi-index, which uses
-slot numbers but it doesn't have to use _SUN, it could use an arbitrary
-variable name that has the same slot value).
-It will help existing VMs to keep networking with non trivial
-configs in working order since systemd will do its interface
-renaming magic as it used to do.
+@@ -965,10 +965,10 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+             Device (S18)
+             {
+                 Name (_ADR, 0x00030000)  // _ADR: Address
+-                Name (_SUN, 0x03)  // _SUN: Slot User Number
++                Name (ASUN, 0x03)
+                 Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                 {
+-                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
++                    Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, ASUN))
+                 }
+             }
 
-1)
-Fixes: b7f23f62e40 (pci: acpi: add _DSM method to PCI devices)
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210624204229.998824-3-imammedo@redhat.com>
+Message-Id: <20210624204229.998824-4-imammedo@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Tested-by: John Sucaet <john.sucaet@ekinops.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |  10 ----------
+ tests/data/acpi/pc/DSDT                     | Bin 6002 -> 6002 bytes
+ tests/data/acpi/pc/DSDT.acpihmat            | Bin 7327 -> 7327 bytes
+ tests/data/acpi/pc/DSDT.bridge              | Bin 8668 -> 8668 bytes
+ tests/data/acpi/pc/DSDT.cphp                | Bin 6466 -> 6466 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm             | Bin 7656 -> 7656 bytes
+ tests/data/acpi/pc/DSDT.hpbridge            | Bin 5969 -> 5969 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs             | Bin 6074 -> 6074 bytes
+ tests/data/acpi/pc/DSDT.memhp               | Bin 7361 -> 7361 bytes
+ tests/data/acpi/pc/DSDT.nohpet              | Bin 5860 -> 5860 bytes
+ tests/data/acpi/pc/DSDT.numamem             | Bin 6008 -> 6008 bytes
+ 11 files changed, 10 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 796ffc6f5c..357437ff1d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -435,11 +435,15 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
- 
-         if (bsel) {
--            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-+            /*
-+             * Can't declare _SUN here for every device as it changes 'slot'
-+             * enumeration order in linux kernel, so use another variable for it
-+             */
-+            aml_append(dev, aml_name_decl("ASUN", aml_int(slot)));
-             method = aml_method("_DSM", 4, AML_SERIALIZED);
-             aml_append(method, aml_return(
-                 aml_call6("PDSM", aml_arg(0), aml_arg(1), aml_arg(2),
--                          aml_arg(3), aml_name("BSEL"), aml_name("_SUN"))
-+                          aml_arg(3), aml_name("BSEL"), aml_name("ASUN"))
-             ));
-             aml_append(dev, method);
-         }
-@@ -466,6 +470,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             aml_append(method, aml_return(aml_int(s3d)));
-             aml_append(dev, method);
-         } else if (hotplug_enabled_dev) {
-+            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-             /* add _EJ0 to make slot hotpluggable  */
-             method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-             aml_append(method,
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 6c83a3ef76..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,11 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT",
+-"tests/data/acpi/pc/DSDT.bridge",
+-"tests/data/acpi/pc/DSDT.ipmikcs",
+-"tests/data/acpi/pc/DSDT.cphp",
+-"tests/data/acpi/pc/DSDT.memhp",
+-"tests/data/acpi/pc/DSDT.numamem",
+-"tests/data/acpi/pc/DSDT.nohpet",
+-"tests/data/acpi/pc/DSDT.dimmpxm",
+-"tests/data/acpi/pc/DSDT.acpihmat",
+-"tests/data/acpi/pc/DSDT.hpbridge",
+diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
+index b9dd9b38e4ef720636ba19ccbdf262de8a6439d5..cc1223773e9c459a8d2f20666c051a74338d40b7 100644
+GIT binary patch
+delta 61
+zcmeyQ_eqb-CD<jTNSuLzao$F*B3?$v$+f%^5{|*4e$h={EWw5b@f`7vE<rpD3``6h
+Rj+58&N-{cbKF+(E695!d5Lf^J
+
+delta 59
+zcmeyQ_eqb-CD<jTNSuLzQEekv5ie_eaHt={WI;YDAupC-LxXsZct@8Y9tH*`29Eg2
+PYk4IZ<2N7YUCjvq#N-aK
+
+diff --git a/tests/data/acpi/pc/DSDT.acpihmat b/tests/data/acpi/pc/DSDT.acpihmat
+index cba5a1dcb0464e56753bc0b931a4dd2e3b209787..2d0678eb83277088b156d386067429b0f29f9338 100644
+GIT binary patch
+delta 100
+zcmbPlIp31YCD<ioz6=8cWAsL@`9j`~!J&Q(BI5Bb!M;380)S*jW>&USu&WP9BD%?o
+fCD_m)o+IATC5VTCfr)_wB+SKxRm0{lLaR9eXLTFp
+
+delta 62
+zcmbPlIp31YCD<ioz6=8c<KvB7^MzRBgG2ooCff;1iF>gG8yduO#5=kK@h~tjF>rvS
+QxR@rdlak#0LuffC015RFTL1t6
+
+diff --git a/tests/data/acpi/pc/DSDT.bridge b/tests/data/acpi/pc/DSDT.bridge
+index a9b4d5659457f6de30b993962bce673c9413d81d..77778c3a69946efd501e7eff0a73af309b553f13 100644
+GIT binary patch
+delta 73
+zcmccPe8-u~CD<k8jv@mCW6wse5?)5f$@RPv5{|*4e$h={EWw5b@f`7vE<rpD3``6h
+Yj+58(N&=Of<TV76zd`KHqI}1N0R$Tq1poj5
+
+delta 71
+zcmccPe8-u~CD<k8jv@mC<Bg46CA^IBlk0gUCg0~{6Y^pSHZ+Lmh<9`e;$dK5V&I6M
+Xyq;GQsNf{8A&~qHVs94ZJ1z_W`ZyF*
+
+diff --git a/tests/data/acpi/pc/DSDT.cphp b/tests/data/acpi/pc/DSDT.cphp
+index 8d86155e275aa688f8767dd92c4b9df08b4a18ad..af046b40b0a150b4ab1e113bd9d77912c707074f 100644
+GIT binary patch
+delta 61
+zcmX?PbjXOyCD<jzNs@tqk!d5B6F;NlWM6&>3CG}2zvw0}mS97Jc#e2SmmnSn1||j$
+R$H}$)l8la<r}MAo1OUh?4t@Xt
+
+delta 59
+zcmX?PbjXOyCD<jzNs@tqv1=oj6F+NwaHt={<cIuHLS8Jvh6eE*@s2J*JPZs>3>@*3
+PYxyM^<2O&|U(E>s%3KcC
+
+diff --git a/tests/data/acpi/pc/DSDT.dimmpxm b/tests/data/acpi/pc/DSDT.dimmpxm
+index e00a447f92b27f9a91be802eb11fe89dc0457e20..b56b2e089017f933f8a3089c4fd2389fb8ef1e40 100644
+GIT binary patch
+delta 100
+zcmaE1{lc2dCD<k8g)9RD<C~3KFND1vgG2ooM8xA=f_-_G1OUm5%&csuU{@cIM0ArE
+fOR%9qJV(5vOArqO0}}%WNSKQWtA@?CBC9z80jwPB
+
+delta 62
+zcmaE1{lc2dCD<k8g)9RDW64IY7s9OZ!J&Q(lleuZ#JyO84GrQs;vHRrco-O%7&t&u
+OTueYYiOmioD>wlr;t!7i
+
+diff --git a/tests/data/acpi/pc/DSDT.hpbridge b/tests/data/acpi/pc/DSDT.hpbridge
+index 5d8ba195055f2eda74223323baeb88390ea36739..bb0593eeb8730d51a6f0fe51a00a00df9c83c419 100644
+GIT binary patch
+delta 78
+zcmcbpcTtbaCD<h-P@I8*aq32{B3?$v$+f%^5{|*4e$h={EWw5b@f`7vE<rpD3``6h
+fj+58&N&=M}=QUshDdA$C+{i1!=(t&k&z=(iB>@v8
+
+delta 74
+zcmcbpcTtbaCD<h-P@I8*@!>|UB3{<`;7~t?$&P$dLS8Jvh6eE*@s2J*JPZs>3>@*3
+b*YZj-#!o)ZYrqCl#>EU&C%0Le&x{iQ&x;Zm
+
+diff --git a/tests/data/acpi/pc/DSDT.ipmikcs b/tests/data/acpi/pc/DSDT.ipmikcs
+index 01e53bd436698db6f6adfff584ec56cb99074a5f..2e618e49d357ae1d0ac20d822f71d676ea90f2fc 100644
+GIT binary patch
+delta 53
+zcmdm`ze}IXCD<iompB6hqtQmLUA(N0!J&Q(lOOVlFgi}Y$1BDL;&U-U1UB>Yt>y#(
+Dp7{>n
+
+delta 49
+zcmdm`ze}IXCD<iompB6h<F1WdyLegSgG2ooCO_npn*5kokPXD+Vghm{HVg5s-~<4L
+CZ4W5`
+
+diff --git a/tests/data/acpi/pc/DSDT.memhp b/tests/data/acpi/pc/DSDT.memhp
+index b8103799b45224c08344369931b87cf3b7797d7e..c32d28575b967aff40afb9138822ecd3186dd4ce 100644
+GIT binary patch
+delta 65
+zcmX?TdC-!}CD<k8pbP^8<AjY|2ZdN2gG2ooCNm0)NPt+;O<pX)h6eE*@s2J*JPZs>
+T3>=P={|HGkI&KydUd;&rQ4bK$
+
+delta 65
+zcmX?TdC-!}CD<k8pbP^8qr^t8gF>wF!J&Q(lNp6YCOe3*33;&u8yduO#5=kK@h~tj
+UF>u6B{v#v_lw#Q|DZGLc04$Uc4*&oF
+
+diff --git a/tests/data/acpi/pc/DSDT.nohpet b/tests/data/acpi/pc/DSDT.nohpet
+index d4f0050533f970128774f825274177096a46c3b8..623f06a900d12500d2197d101f76f6875e92ed64 100644
+GIT binary patch
+delta 61
+zcmaE&`$U(^CD<k8i5LR|W5!0VCp?Ufli%}5NH_+E`b9T+u>>0$#B;<ux&-ksFfcK2
+RI8K)5m1K0>Y{|Qt696|m5IX<>
+
+delta 59
+zcmaE&`$U(^CD<k8i5LR|<A;r0Pk0#PC%@;Bm@Lo7CgjBuY-kYA5%1^{#KXYA#J~|h
+PS)NytF@Ccp?`lo}8wn4|
+
+diff --git a/tests/data/acpi/pc/DSDT.numamem b/tests/data/acpi/pc/DSDT.numamem
+index 8632dfe8a8bdd991871a1e633162eb9a2e1497ea..f0a3fa92de94f55d5406f0fafce331776dbb0317 100644
+GIT binary patch
+delta 100
+zcmeyN_d}1%CD<jTLY#qt(PJZ51+TYbaHt=Hh<Ln9urJS&03ex>nU(Dn?CJxOh;H&?
+f2{tr{=ZJT73F2X3U}E3^33D-F)v)<2?`lo}e)Jpa
+
+delta 62
+zcmeyN_d}1%CD<jTLY#qt@xn%~3SQRu;7~t?$@BT7#JyO84GrQs;vHRrco-O%7&t&u
+PTueYYiOm;yS8xIVCQlHc
+
 -- 
 MST
 
