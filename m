@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F0B3BF090
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:59:17 +0200 (CEST)
-Received: from localhost ([::1]:52234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF7313BF0A1
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 22:09:27 +0200 (CEST)
+Received: from localhost ([::1]:60282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1DhU-00027U-4H
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50120)
+	id 1m1DrK-0008Be-7j
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 16:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1DgJ-0000pb-70
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:58:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37955)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1DqK-0007Ln-Se
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 16:08:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1DgG-0002pC-An
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:58:02 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1DqH-0004HG-Hi
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 16:08:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625687878;
+ s=mimecast20190719; t=1625688500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=F6d8885ce8PGtfhBl1ogGiVS5lvofW4mULjgTk0iFNc=;
- b=hzoz/joymwnrC1iW/opHh5vpBthDY/Hq3DNdbyFfujRExHyKUJI/B1k4jE9hCdoqyBLyRz
- kaVimFQJ9L4tYOj8Tz5MbWvwwKS74pfG5esUKNn9+kWtU26asacDNN8A2fRKd/eKC+dN9L
- 2BJr6nzSfUFxSmSX5owaf6lYqeOyt+E=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-Qthgi3dBPNW2mD0gQEWSsw-1; Wed, 07 Jul 2021 15:57:57 -0400
-X-MC-Unique: Qthgi3dBPNW2mD0gQEWSsw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a13-20020a7bc1cd0000b02902104c012aa3so2612428wmj.9
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 12:57:57 -0700 (PDT)
+ bh=WSfC7JM8c4ofRC7dSY4airnMbWYY65nsSS95ROPxoKY=;
+ b=KUByEX2wD+nKx4hdM7hfv9lJmDStt8yBkPFKA15rtO/7TYPkDV8qOpDG01SslNTGGspSA0
+ +0S/UMSZRXXRkzW61C1g2tCsbZ7JlTBQh9yswcVGjKavEOtG28y/O3KihC7tmLtftugCxi
+ kHXv+B6UrYUCIVUL8DoIdjXsvqt3jbc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-8q5zNvakMgqMvmIskNzcHQ-1; Wed, 07 Jul 2021 16:08:19 -0400
+X-MC-Unique: 8q5zNvakMgqMvmIskNzcHQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ q2-20020ad45ca20000b02902b1554c2318so2441759qvh.11
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 13:08:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=F6d8885ce8PGtfhBl1ogGiVS5lvofW4mULjgTk0iFNc=;
- b=HelY25PfuxTppFEZ65zHEuYROX6YAdvnQnB/egJB+8iz4qhvjQv3N0SirrmTxMmh5I
- EARGNyEfTaYS9jefOndS4LCzsut6U1m4FMYjwlJ1ObXEdAxIOuNGS96BfW3dDb05vYYD
- BjzN0MNvHPBo+GQqM6igVoVldKIAhMklDmSGRr1sNyxOItzJal4wKU8JSndFzSqRdST8
- XrQRUo7QSmwNM6pS9brERQT3VKWqOkB8OGP39yEPLnCnSQfyq0BkDmP7WS+gI6wGfhHd
- vaKPE8VtRBE2KSxd3vDgxCZz6Rz7mzrH5sWuexnME4+l+EMnwPtf2b1Cte0HSl4kX/CB
- yDAQ==
-X-Gm-Message-State: AOAM530tRpWpBRNvgSLfGFIXr8X56FKbXgAvbMlP0k7OqLe6Gpg8A4kU
- 2YaX/ZrPYRxSXgqEH1py8uNivNLI61fG+HKJEj6m5KGNkPMnbmxLWG28y4EGT/iVDpof2BVk+42
- mm/iobZa3mMiBdMM=
-X-Received: by 2002:a05:6000:110:: with SMTP id
- o16mr12904738wrx.284.1625687876349; 
- Wed, 07 Jul 2021 12:57:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAXtS/z9nqd9Mt6/W0j5Pcw9oV5sk9wGpdrlH+c8KiFHlhiiBeXLJwYXp4UjIsI/s41fFO+g==
-X-Received: by 2002:a05:6000:110:: with SMTP id
- o16mr12904705wrx.284.1625687876089; 
- Wed, 07 Jul 2021 12:57:56 -0700 (PDT)
-Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id c16sm21319407wru.24.2021.07.07.12.57.54
+ bh=WSfC7JM8c4ofRC7dSY4airnMbWYY65nsSS95ROPxoKY=;
+ b=Ren+J6qnJIrYUawRWZgK3WJjonJ7DrYF1AwlIWx09VliZKkneoFz24UV0aDpqkXoyK
+ YxB0lST2yS70ClVePfMBo7Q7PWvfAAQztue4tjNvqc7hIN57+L5/NANT/jDdFf/p+wYt
+ 5mEJszansau3gq1dxazZ+72FHpFZSjpZ6M3E12HBh/Q83i0LKXhcL7ip9XGKD+om4gku
+ Lx2gm262ez4kRDhASKuhOjwI29nV34Bz+U18+uuqvRebFfFnhiZShdecY6j2oqDSvn8j
+ 6F4xrk2pSVrMFQ0EJvo/QY4ieg8iokyLZWo9jSjx7V4fLeVRRslbIHQI2VZjK2/fYQWa
+ ZgmQ==
+X-Gm-Message-State: AOAM5307SgqQjghL9+2hsdIaqtfKxPENYBEEY51UPSORlb926soUmORn
+ cDwxeOnwyfOpwS4gLl4IftoPz40WMqVVM06BE01WbnlqVvs9tJ4lKUuIA3iRKclONkSMbeoS5Xt
+ nHMvVwLgrqJRvmf0=
+X-Received: by 2002:ad4:40c1:: with SMTP id x1mr25824933qvp.33.1625688498976; 
+ Wed, 07 Jul 2021 13:08:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzswpqEFM3E7ml5P22W+9i7H0i649sWL5seu3ptEfAzQg3aH7iR2211OLrHN2cso9W0k0+nKw==
+X-Received: by 2002:ad4:40c1:: with SMTP id x1mr25824913qvp.33.1625688498702; 
+ Wed, 07 Jul 2021 13:08:18 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id w2sm6342298qkm.65.2021.07.07.13.08.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 07 Jul 2021 12:57:55 -0700 (PDT)
-Date: Wed, 7 Jul 2021 15:57:51 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ Wed, 07 Jul 2021 13:08:17 -0700 (PDT)
+Date: Wed, 7 Jul 2021 16:08:16 -0400
+From: Peter Xu <peterx@redhat.com>
 To: David Hildenbrand <david@redhat.com>
 Subject: Re: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
  VIRTIO_BALLOON_F_FREE_PAGE_HINT
-Message-ID: <20210707155413-mutt-send-email-mst@kernel.org>
+Message-ID: <YOYJsMUfx1XHFk6G@t490s>
 References: <20210707140655.30982-1-david@redhat.com>
- <20210707140655.30982-3-david@redhat.com>
- <20210707150038-mutt-send-email-mst@kernel.org>
- <0391e06b-5885-8000-3c58-ae20493e3e65@redhat.com>
- <20210707151459-mutt-send-email-mst@kernel.org>
- <40a148d7-acad-67ee-ac66-e9ad56a23b44@redhat.com>
+ <20210707140655.30982-3-david@redhat.com> <YOXsTQoq6eeIR8B5@t490s>
+ <5f5dd7f3-ce09-53d6-db48-1a333119205d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <40a148d7-acad-67ee-ac66-e9ad56a23b44@redhat.com>
+In-Reply-To: <5f5dd7f3-ce09-53d6-db48-1a333119205d@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -99,144 +95,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Alexander Duyck <alexander.duyck@gmail.com>, qemu-stable@nongnu.org,
- Wei Wang <wei.w.wang@intel.com>, Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
+ qemu-stable@nongnu.org, Wei Wang <wei.w.wang@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 09:47:31PM +0200, David Hildenbrand wrote:
-> On 07.07.21 21:19, Michael S. Tsirkin wrote:
-> > On Wed, Jul 07, 2021 at 09:14:00PM +0200, David Hildenbrand wrote:
-> > > On 07.07.21 21:05, Michael S. Tsirkin wrote:
-> > > > On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
-> > > > > Postcopy never worked properly with 'free-page-hint=on', as there are
-> > > > > at least two issues:
-> > > > > 
-> > > > > 1) With postcopy, the guest will never receive a VIRTIO_BALLOON_CMD_ID_DONE
-> > > > >      and consequently won't release free pages back to the OS once
-> > > > >      migration finishes.
-> > > > > 
-> > > > >      The issue is that for postcopy, we won't do a final bitmap sync while
-> > > > >      the guest is stopped on the source and
-> > > > >      virtio_balloon_free_page_hint_notify() will only call
-> > > > >      virtio_balloon_free_page_done() on the source during
-> > > > >      PRECOPY_NOTIFY_CLEANUP, after the VM state was already migrated to
-> > > > >      the destination.
-> > > > > 
-> > > > > 2) Once the VM touches a page on the destination that has been excluded
-> > > > >      from migration on the source via qemu_guest_free_page_hint() while
-> > > > >      postcopy is active, that thread will stall until postcopy finishes
-> > > > >      and all threads are woken up. (with older Linux kernels that won't
-> > > > >      retry faults when woken up via userfaultfd, we might actually get a
-> > > > >      SEGFAULT)
-> > > > > 
-> > > > >      The issue is that the source will refuse to migrate any pages that
-> > > > >      are not marked as dirty in the dirty bmap -- for example, because the
-> > > > >      page might just have been sent. Consequently, the faulting thread will
-> > > > >      stall, waiting for the page to be migrated -- which could take quite
-> > > > >      a while and result in guest OS issues.
-> > > > 
-> > > > OK so if source gets a request for a page which is not dirty
-> > > > it does not respond immediately? Why not just teach it to
-> > > > respond? It would seem that if destination wants a page we
-> > > > should just give it to the destination ...
-> > > 
-> > > The source does not know if a page has already been sent (e.g., via the
-> > > background migration thread that moves all data over) vs. the page has not
-> > > been send because the page was hinted. This is the part where we'd need
-> > > additional tracking on the source to actually know that.
-> > > 
-> > > We must not send a page twice, otherwise bad things can happen when placing
-> > > pages that already have been migrated, because that scenario can easily
-> > > happen with ordinary postcopy (page has already been sent and we're dealing
-> > > with a stale request from the destination).
+On Wed, Jul 07, 2021 at 08:57:29PM +0200, David Hildenbrand wrote:
+> On 07.07.21 20:02, Peter Xu wrote:
+> > On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
+> > > As it never worked properly, let's disable it via the postcopy notifier on
+> > > the destination. Trying to set "migrate_set_capability postcopy-ram on"
+> > > on the destination now results in "virtio-balloon: 'free-page-hint' does
+> > > not support postcopy Error: Postcopy is not supported".
 > > 
-> > OK let me get this straight
-> > 
-> > A. source sends page
-> > B. destination requests page
-> > C. destination changes page
-> > D. source sends page
-> > E. destination overwrites page
-> > 
-> > this is what you are worried about right?
+> > Would it be possible to do this in reversed order?  Say, dynamically disable
+> > free-page-hinting if postcopy capability is set when migration starts? Perhaps
+> > it can also be re-enabled automatically when migration completes?
 > 
-> IIRC E. is with recent kernels:
+> I remember that this might be quite racy. We would have to make sure that no
+> hinting happens before we enable the capability.
 > 
-> E. placing the page fails with -EEXIST and postcopy migration fails
-> 
-> However, the man page (man ioctl_userfaultfd) doesn't describe what is
-> actually supposed to happen when double-placing. Could be that it's
-> "undefined behavior".
-> 
-> I did not try, though.
-> 
-> 
-> This is how it works today:
-> 
-> A. source sends page and marks it clean
-> B. destination requests page
-> C. destination receives page and places it
-> D. source ignores request as page is clean
+> As soon as we messed with the dirty bitmap (during precopy), postcopy is no
+> longer safe. As noted in the patch, the only runtime alternative is to
+> disable postcopy as soon as we actually do clear a bit. Alternatively, we
+> could ignore any hints if the postcopy capability was enabled.
 
-If it's actually -EEXIST then we could just resend it
-and teach destination to ignore -EEXIST errors right?
+Logically migration capabilities are applied at VM starts, and these
+capabilities should be constant during migration (I didn't check if there's a
+hard requirement; easy to add that if we want to assure it), and in most cases
+for the lifecycle of the vm.
 
-Will actually make things a bit more robust: destination
-handles its own consistency instead of relying on source.
+> 
+> Whatever we do, we have to make sure that a user cannot trick the system
+> into an inconsistent state. Like enabling hinting, starting migration, then
+> enabling the postcopy capability and kicking of postcopy. I did not check if
+> we allow for that, though.
 
+We could turn free page hinting off when migration starts with postcopy-ram=on,
+then re-enable it after migration finishes.  That looks very safe to me.  And I
+don't even worry on user trying to mess it up - as that only put their own VM
+at risk; that's mostly fine to me.
 
+Thanks,
 
-> > 
-> > the fix is to mark page clean in A.
-> > then in D to not send page if it's clean?
-> > 
-> > And the problem with hinting is this:
-> > 
-> > A. page is marked clean
-> > B. destination requests page
-> > C. destination changes page
-> > D. source sends page <- does not happen, page is clean!
-> > E. destination overwrites page
-> 
-> Simplified it's
-> 
-> A. page is marked clean by hinting code
-> B. destination requests page
-> D. source ignores request as page is clean
-> E. destination stalls until postcopy unregisters uffd
-> 
-> 
-> Some thoughts
-> 
-> 1. We do have a a recv bitmap where we track received pages on the
-> destination (e.g., ramblock_recv_bitmap_test()), however we only use it to
-> avoid sending duplicate requests to the hypervisor AFAIKs, and don't check
-> it when placing pages.
-> 
-> 2. Changing the migration behavior unconditionally on the source will break
-> migration to old QEMU binaries that cannot handle this change.
-
-We can always make this depend on new machine types.
-
-
-> 3. I think the current behavior is in place to make debugging easier. If
-> only a single instance of a page will ever be migrated from source to
-> destination, there cannot be silent data corruption. Further, we avoid
-> migrating unnecessarily pages twice.
-> 
-
-Likely does not matter much for performance, it seems unlikely that
-the race is all that common.
-
-> Maybe Dave and Peter can spot any flaws in my understanding.
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+-- 
+Peter Xu
 
 
