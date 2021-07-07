@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F33BEC6B
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 18:40:46 +0200 (CEST)
-Received: from localhost ([::1]:43144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F26343BEC7F
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 18:45:31 +0200 (CEST)
+Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1AbN-0007wX-5c
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 12:40:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33550)
+	id 1m1Afz-0001St-0f
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 12:45:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m1AaE-0007ED-Q7
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:39:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53721)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1Aeg-0000oJ-RV
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:44:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m1AaA-0002my-S0
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:39:33 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1Aee-0005dK-Ss
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 12:44:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625675968;
+ s=mimecast20190719; t=1625676248;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KcqXPKVXieybsneKgCj7Q9FsWHFQpxdEZUjwGHysgJs=;
- b=e2BefFu6BXl5bWEMvYkE5OTpIF2KaY9IHRwJDKYwzXuuf5dNQs3U7k3smfyyPR7W06VEJp
- FnP48I56NkZCF/qblccqBPFPOq76zTjWaim2Zt8GMexPzFs4FWdKKnTOgYdIZPrSga8DK4
- UmAhsDnsdJk8Ei1FGfKZh7GPpVxg/mQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-w5NSRffSNs-zmKnJI2xkQw-1; Wed, 07 Jul 2021 12:39:23 -0400
-X-MC-Unique: w5NSRffSNs-zmKnJI2xkQw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 503AD801107;
- Wed,  7 Jul 2021 16:39:22 +0000 (UTC)
-Received: from localhost (ovpn-112-160.ams2.redhat.com [10.36.112.160])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C59F360854;
- Wed,  7 Jul 2021 16:39:21 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Cho, Yu-Chen" <acho@suse.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH v7 00/14] s390x cleanup
-In-Reply-To: <20210707105324.23400-1-acho@suse.com>
-Organization: Red Hat GmbH
-References: <20210707105324.23400-1-acho@suse.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Wed, 07 Jul 2021 18:39:20 +0200
-Message-ID: <87a6myf58n.fsf@redhat.com>
+ bh=BS4ZEgWMUrMZHr2+avt3Rf1Xr5lgyorppDAMaUlYszc=;
+ b=DBZOpaWh/jB4MI3Izv/1oxAVOiCw+NJ+I2IFLa8dPK3ZQ/Ldi0BZzhavM6wTR2a2cmkK1A
+ jMl+yTxPcgU+JZ98qM+kvdJA9b1mOLK3mNX4JmW0CVUlOBk7pXA6F+4E4F7oetLl27SeEN
+ 7pWF78J2QnYpci0cQ6WHrqxo6BtnzSE=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-kLPzdqnqONiUAeD7nAShZQ-1; Wed, 07 Jul 2021 12:44:07 -0400
+X-MC-Unique: kLPzdqnqONiUAeD7nAShZQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ f10-20020a05620a15aab02903b3210e44dcso1943884qkk.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 09:44:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=BS4ZEgWMUrMZHr2+avt3Rf1Xr5lgyorppDAMaUlYszc=;
+ b=hBEC9YGqQzV1bh2s4fT4KT9FBviBonn3NnkjPGq7s3RHG9LB71QcBBahXYSckTzoui
+ 77HJwOZBlyfO4FnRsHi4JOl3kHoBa+0ZsizbmDLkS7HbGtbq3b8xbW2WXpZP6YGE7+ur
+ 7ZE/LoHOLeH8YY6/42e3Alo22hzrcUObQS4dsTrn5+Jqo83AU5KDHqRDC2I204JFH2w3
+ Zt9A2EVjCPkdm38PMooclSpuYK8jT7R1VHL4WeejCdWCLhX4ofMGlTgZwOl+OJx3Fub3
+ Yck/nIoItxMB3K4UVwhznCJGrWVdDUed3EIdCpGeyRpL2AqVvlwZNZ+hdX49Byq5nFGm
+ STAg==
+X-Gm-Message-State: AOAM53012iipa9153qgg9bwNcOzAtlaWmwt9oahaU+1mcRxclR8jQN47
+ OdBN4wqJ34zimILyhrtvT0Id5MxFfHSBLXSKGQHPbGr0vWTFeZR8UhMAQSu0KrJJ/aMeZbjPhRT
+ sIFL0slqQ48FZt9k=
+X-Received: by 2002:a05:6214:19e5:: with SMTP id
+ q5mr17721755qvc.57.1625676247029; 
+ Wed, 07 Jul 2021 09:44:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUybTNZywh/c0F72NMbKNXxyNPqu3mDjfI9d4KUbiagT5+mXJtLlFukVtsnCkWoIXstSks0A==
+X-Received: by 2002:a05:6214:19e5:: with SMTP id
+ q5mr17721741qvc.57.1625676246850; 
+ Wed, 07 Jul 2021 09:44:06 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id l190sm6722207qkc.120.2021.07.07.09.44.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 07 Jul 2021 09:44:06 -0700 (PDT)
+Date: Wed, 7 Jul 2021 12:44:05 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Wang, Wei W" <wei.w.wang@intel.com>
+Subject: Re: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Message-ID: <YOXZ1fzH+qXGJLs1@t490s>
+References: <20210630200805.280905-1-peterx@redhat.com>
+ <33f137dae5c346078a3a7a658bb5f1ab@intel.com>
+ <YN26SDxZS1aShbHi@t490s>
+ <27cb8a0141fa493a8d4bb6bb918e8a82@intel.com>
+ <YOSaDzCd4ZmcRQHl@t490s>
+ <2eb1ccd7105d4823898ea68a614d16f9@intel.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <2eb1ccd7105d4823898ea68a614d16f9@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -77,215 +100,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cfontana@suse.com, acho@suse.com, jose.ziviani@suse.com
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07 2021, "Cho, Yu-Chen" <acho@suse.com> wrote:
+On Wed, Jul 07, 2021 at 08:33:21AM +0000, Wang, Wei W wrote:
+> On Wednesday, July 7, 2021 2:00 AM, Peter Xu wrote:
+> > On Fri, Jul 02, 2021 at 02:29:41AM +0000, Wang, Wei W wrote:
+> > > With that, if free page opt is off, the mutex is skipped, isn't it?
+> > 
+> > Yes, but when free page is on, it'll check once per page.  As I mentioned I still
+> > don't think it's the right thing to do.
+> 
+> With free page opt on, if the migration thread waits for lock acquire on a page, it actually means that it is trying to skip the transfer of a page.
+> For example, waiting for the lock takes 100ns, then the skip of sending a page saves back 1000ns, then overall we saved 900ns per page (i.e. pay less and earn more).
 
-> this is the next version of a cleanup series for s390x.
->
-> v6 -> v7:
->
-> * "hw/s390x: rename tod-qemu.c to tod-tcg.c" #2
->   - change the comment at the top of the file:
->     "TCG implementation" instead of "QEMU implementation"
->     (Thomas)
->
-> * "hw/s390x: only build tod-tcg from the CONFIG_TCG build" #3
->   - swap the order of the patch 03 to 04 (Thomas)
->
-> * "hw/s390x: tod: make explicit checks for accelerators when
->   initializing" #4
->   - swap the order of the patch 04 to 03 (Thomas)
->
-> * "target/s390x: rename internal.h to s390x-internal.h"
->   - Separate from "target/s390x: start moving TCG-only code to tcg/"
->     (Thomas)
->
-> * "target/s390x: start moving TCG-only code to tcg/" #6->#7
->   - remove the part of rename internal.h to s390x-internal.h
->   - remove s390_cpu_*() in s390x-internal.h to next patch
->     (Thomas)
->
-> * "target/s390x: move sysemu-only code out to cpu-sysemu.c" #7->#8
->   - add s390_cpu_*() to s390x-internal.h (Thomas)
->
-> * "target/s390x: split cpu-dump from helper.c" #8->#9
->   - move s390_cpu_set_psw and s390_cpu_get_psw_mask() to cpu.c
->     (Thomas)
->
-> * "target/s390x: make helper.c sysemu-only" #9->#10
->   - fixed typo: s/systemu/sysemu/
->
-> * "target/s390x: move kvm files into kvm/" #12->#13
->   - remove the include header change in target/s390x/kvm/kvm.c
->     (Thomas)
->
-> v5 -> v6:
->
-> * "target/s390x: start moving TCG-only code to tcg/"
->   - keep the old pattern in MAINTAINERS (Cornelia)
->
-> * "target/s390x: make helper.c sysemu-only"
->   - fixed typo
->
-> v4 -> v5:
-> * "target/s390x: start moving TCG-only code to tcg/"
->   - add change to MAINTAINERS file
->
-> * "target/s390x: move sysemu-only code out to cpu-sysemu.c"
->   - make use of SysemuCPUOps s390_sysemu_ops to handle
->
-> * "target/s390x: split cpu-dump from helper.c"
->   - add description to explain why split cpu-dump from helper.c
->
-> * "target/s390x: make helper.c sysemu-only"
->   - mention at the beginning of this file that this is sysemu only
->     (Cornelia)
->
-> * "target/s390x: remove kvm-stub.c"
->   - add additional comment to explain the function can be
->     removed (Thomas)
->
-> * "target/s390x: move kvm files into kvm/"
->    - add change to MAINTAINERS file
->
-> * "target/s390x: split sysemu part of cpu models"
->    - add change to MAINTAINERS file
->
-> * "MAINTAINERS: update s390x directories"
->   - removed, squash this in respectively:
->     #6 target/s390x: start moving TCG-only code to tcg/
->     #12 target/s390x: move kvm files into kvm/
->     #13 target/s390x: split sysemu part of cpu models
->
-> v3 -> v4: take s390x part from Claudio and modify for the current master
->
-> * "target/s390x: meson: add target_user_arch"
->   - new patch, add target_user_arch to avoid the proliferation of #ifdef
-> in target code.
->
-> v2 -> v3: minor changes
->
-> * "hw/s390x: rename tod-qemu.c to tod-tcg.c": move to the front (David)
->
-> * "hw/s390x: only build tod-qemu from the CONFIG_TCG build"
->   - move just after, use "tod-tcg" instead
->
-> * "hw/s390x: tod: make explicit checks for accelerators when initializing"
->   - removed a line break in commit message
->
-> * "target/s390x: start moving TCG-only code to tcg/"
->   - split the rename s390x-internal.h rename part, do it before the move
->
-> * "target/s390x: move kvm files into kvm/"
->   - fix broken/missing move of trace events
->
-> Cho, Yu-Chen (14):
->   target/s390x: meson: add target_user_arch
->   hw/s390x: rename tod-qemu.c to tod-tcg.c
->   hw/s390x: tod: make explicit checks for accelerators when initializing
->   hw/s390x: only build tod-tcg from the CONFIG_TCG build
->   target/s390x: remove tcg-stub.c
->   target/s390x: rename internal.h to s390x-internal.h
->   target/s390x: start moving TCG-only code to tcg/
->   target/s390x: move sysemu-only code out to cpu-sysemu.c
->   target/s390x: split cpu-dump from helper.c
->   target/s390x: make helper.c sysemu-only
->   target/s390x: use kvm_enabled() to wrap call to kvm_s390_get_hpage_1m
->   target/s390x: remove kvm-stub.c
->   target/s390x: move kvm files into kvm/
->   target/s390x: split sysemu part of cpu models
->
->  MAINTAINERS                                   |   6 +-
->  hw/intc/s390_flic_kvm.c                       |   2 +-
->  hw/s390x/meson.build                          |   4 +-
->  hw/s390x/s390-stattrib-kvm.c                  |   2 +-
->  hw/s390x/tod-kvm.c                            |   2 +-
->  hw/s390x/{tod-qemu.c => tod-tcg.c}            |   4 +-
->  hw/s390x/tod.c                                |   9 +-
->  hw/vfio/ap.c                                  |   2 +-
->  include/hw/s390x/tod.h                        |   2 +-
->  meson.build                                   |   1 +
->  target/s390x/arch_dump.c                      |   2 +-
->  target/s390x/cpu-dump.c                       | 134 ++++++
->  target/s390x/cpu-sysemu.c                     | 309 +++++++++++++
->  target/s390x/cpu.c                            | 332 +++-----------
->  target/s390x/cpu_models.c                     | 421 +----------------
->  target/s390x/cpu_models_sysemu.c              | 426 ++++++++++++++++++
->  target/s390x/cpu_models_user.c                |  20 +
->  target/s390x/diag.c                           |   7 +-
->  target/s390x/gdbstub.c                        |   2 +-
->  target/s390x/helper.c                         | 162 +------
->  target/s390x/interrupt.c                      |   6 +-
->  target/s390x/ioinst.c                         |   2 +-
->  target/s390x/kvm-stub.c                       | 121 -----
->  target/s390x/{ => kvm}/kvm.c                  |   2 +-
->  target/s390x/{ => kvm}/kvm_s390x.h            |   0
->  target/s390x/kvm/meson.build                  |  17 +
->  target/s390x/kvm/trace-events                 |   7 +
->  target/s390x/kvm/trace.h                      |   1 +
->  target/s390x/machine.c                        |   6 +-
->  target/s390x/meson.build                      |  42 +-
->  target/s390x/mmu_helper.c                     |   4 +-
->  target/s390x/{internal.h => s390x-internal.h} |   8 +
->  target/s390x/sigp.c                           |   2 +-
->  target/s390x/tcg-stub.c                       |  30 --
->  target/s390x/{ => tcg}/cc_helper.c            |   2 +-
->  target/s390x/{ => tcg}/crypto_helper.c        |   2 +-
->  target/s390x/{ => tcg}/excp_helper.c          |   2 +-
->  target/s390x/{ => tcg}/fpu_helper.c           |   2 +-
->  target/s390x/{ => tcg}/insn-data.def          |   0
->  target/s390x/{ => tcg}/insn-format.def        |   0
->  target/s390x/{ => tcg}/int_helper.c           |   2 +-
->  target/s390x/{ => tcg}/mem_helper.c           |   2 +-
->  target/s390x/tcg/meson.build                  |  14 +
->  target/s390x/{ => tcg}/misc_helper.c          |   2 +-
->  target/s390x/{ => tcg}/s390-tod.h             |   0
->  target/s390x/{ => tcg}/tcg_s390x.h            |   0
->  target/s390x/{ => tcg}/translate.c            |   2 +-
->  target/s390x/{ => tcg}/translate_vx.c.inc     |   0
->  target/s390x/{ => tcg}/vec.h                  |   0
->  target/s390x/{ => tcg}/vec_fpu_helper.c       |   2 +-
->  target/s390x/{ => tcg}/vec_helper.c           |   2 +-
->  target/s390x/{ => tcg}/vec_int_helper.c       |   0
->  target/s390x/{ => tcg}/vec_string_helper.c    |   2 +-
->  target/s390x/trace-events                     |   8 +-
->  54 files changed, 1058 insertions(+), 1083 deletions(-)
->  rename hw/s390x/{tod-qemu.c => tod-tcg.c} (96%)
->  create mode 100644 target/s390x/cpu-dump.c
->  create mode 100644 target/s390x/cpu-sysemu.c
->  create mode 100644 target/s390x/cpu_models_sysemu.c
->  create mode 100644 target/s390x/cpu_models_user.c
->  delete mode 100644 target/s390x/kvm-stub.c
->  rename target/s390x/{ => kvm}/kvm.c (99%)
->  rename target/s390x/{ => kvm}/kvm_s390x.h (100%)
->  create mode 100644 target/s390x/kvm/meson.build
->  create mode 100644 target/s390x/kvm/trace-events
->  create mode 100644 target/s390x/kvm/trace.h
->  rename target/s390x/{internal.h => s390x-internal.h} (97%)
->  delete mode 100644 target/s390x/tcg-stub.c
->  rename target/s390x/{ => tcg}/cc_helper.c (99%)
->  rename target/s390x/{ => tcg}/crypto_helper.c (98%)
->  rename target/s390x/{ => tcg}/excp_helper.c (99%)
->  rename target/s390x/{ => tcg}/fpu_helper.c (99%)
->  rename target/s390x/{ => tcg}/insn-data.def (100%)
->  rename target/s390x/{ => tcg}/insn-format.def (100%)
->  rename target/s390x/{ => tcg}/int_helper.c (99%)
->  rename target/s390x/{ => tcg}/mem_helper.c (99%)
->  create mode 100644 target/s390x/tcg/meson.build
->  rename target/s390x/{ => tcg}/misc_helper.c (99%)
->  rename target/s390x/{ => tcg}/s390-tod.h (100%)
->  rename target/s390x/{ => tcg}/tcg_s390x.h (100%)
->  rename target/s390x/{ => tcg}/translate.c (99%)
->  rename target/s390x/{ => tcg}/translate_vx.c.inc (100%)
->  rename target/s390x/{ => tcg}/vec.h (100%)
->  rename target/s390x/{ => tcg}/vec_fpu_helper.c (99%)
->  rename target/s390x/{ => tcg}/vec_helper.c (99%)
->  rename target/s390x/{ => tcg}/vec_int_helper.c (100%)
->  rename target/s390x/{ => tcg}/vec_string_helper.c (99%)
+The overhead we measured are purely for taking the lock, without sleeping.  The
+case you mentioned happens very rare, while the cpu cycles to take the lock
+(even if it's a cmpxchg) happens constantly for every guest page.
 
-Thanks, applied.
+> 
+> > 
+> > We encountered this problem when migrating a 3tb vm and the mutex spins and
+> > eats tons of cpu resources.  It shouldn't happen with/without balloon, imho.
+> 
+> I think we should compare the overall migration time.
+
+In reality, we've already applied this patch with the 3tb migration test and it
+allows us to start migrate the 3tb vm with some light workload, while we can't
+do so without this patch.  I don't know whether balloon is enabled or not,
+but.. It means, if virtio balloon is enabled, we can't migrate either even if
+we make it a conditional lock, becaust the guest is using 2tb+ memory so there
+aren't a lot free pages.
+
+> 
+> > 
+> > Not to mention the hard migration issues are mostly with non-idle guest, in that
+> > case having the balloon in the guest will be disastrous from this pov since it'll start
+> > to take mutex for each page, while balloon would hardly report anything valid
+> > since most guest pages are being used.
+> 
+> If no pages are reported, migration thread wouldn't wait on the lock then.
+
+Yes I think this is the place I didn't make myself clear.  It's not about
+sleeping, it's about the cmpxchg being expensive already when the vm is huge.
+
+> 
+> To conclude: to decide whether the per page lock hurts the performance considering that the lock in some sense actually prevents the migration thread from sending free pages which it shouldn't, we need to compare the overall migration time.
+> (previous data could be found here:https://patchwork.kernel.org/project/kvm/cover/1535333539-32420-1-git-send-email-wei.w.wang@intel.com/, I think the situation should be the same for either 8GB or 3TB guest, in terms of the overall migration time comparison) 
+
+We can't compare migration time if it can't even converge, isn't it? :) The
+mutex is too expensive there so this patch already start to help it converge.
+
+Again, I understand you're worried the patch could make balloon less efficient
+for some use cases.  I think we can take the lock less than 50ms, but as I said
+it multiple times.. I still don't think it's good to take it per-page; I still
+don't believe we need that granularity.  Or please justify why per-page locking
+is necessary.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
