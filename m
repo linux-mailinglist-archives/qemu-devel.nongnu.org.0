@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D8D3BF041
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:28:30 +0200 (CEST)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACD0F3BF044
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 21:30:42 +0200 (CEST)
+Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1DDh-0005UO-7F
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:28:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
+	id 1m1DFp-0007di-IA
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 15:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1DCq-0004PV-2o
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:27:36 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:44379)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1DEd-0006qQ-Ai
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:29:27 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:58843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1DCo-0006gx-Bx
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:27:35 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1DEb-0006wM-Lb
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 15:29:27 -0400
 Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MekGB-1lRKgQ1qeD-00aoKH; Wed, 07 Jul 2021 21:27:07 +0200
-Subject: Re: [PATCH 03/12] linux-user/mips: Handle TARGET_EWOULDBLOCK as
- TARGET_EAGAIN
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MHG0U-1lwrel2dJA-00DFCY; Wed, 07 Jul 2021 21:29:07 +0200
+Subject: Re: [PATCH 04/12] linux-user/sparc: Rename target_errno.h ->
+ target_errno_defs.h
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210704183755.655002-1-f4bug@amsat.org>
- <20210704183755.655002-4-f4bug@amsat.org>
+ <20210704183755.655002-5-f4bug@amsat.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <d2dc1d43-c0f8-6360-418b-546a1a967bcc@vivier.eu>
-Date: Wed, 7 Jul 2021 21:27:05 +0200
+Message-ID: <d6511ff6-f99b-cd24-71b0-28aaa17beeea@vivier.eu>
+Date: Wed, 7 Jul 2021 21:29:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210704183755.655002-4-f4bug@amsat.org>
+In-Reply-To: <20210704183755.655002-5-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wJjwNGEdF/3w8L6j7sPzQ9h/fm0L8vATadxkdN9Im+nFuaa7Xo9
- k5vm10dA+tLmJGizC7hoolykiTJJLhI/PjEN9QajLCBuuZ/3NLgEQDOI8ThpP8XXTZTx2+I
- Ifv+vBpmCsVc/KOBeskiTaD/P+KS+80rafgNfTf8v41bqRhrH/z+n2Q7MQjED+At+Uo6ug6
- zFmmz9o+CKVDbtwWZxlVA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h45kCyraDh0=:aEN2uQ1FbBMjEKg5VlH6DY
- tORn1ZO58irQ/x+YrbODh7l/VKgGW6t36w2EzOxjrfieSMo7IgdAZIPHi4Y/IIY6gOahSnTYQ
- blB24QnCI78wn5l9Zl/Uw0fS6tPXJjA347WraSZJwMQKjSV4QGpIl85coqnDqBNmhEB5k382A
- PetN51kcV8nHuqygp0k4hMLhdqkoq5W4RLxl0+tnfAgLQSXFaZUzTkMmqmb/AJhFEybY4cMRE
- t7lpEaQnuYJnq6wYgMO26raApNaCAoAhLhzaZHRyy/CnPQuME5wb9LQB+Vnbsd5HOUSyQpvt+
- F66yhjQxbdrcK1CwCpbYfa046pxS89sDuZfpvgo4cMjG5daP0eHxTjnZNFHD4oO+KQtMPxDZV
- h8h9VyYX97XqYg5Gy5LgQnHuvRSAZhxV5pfzHlVoIuVP5jhF/4Vnlaiy0fGJgJ7BBdwACyAYr
- waPTCn/6UmqSFQh3iTvwTI/v/jk4mPK40uALxFHAo/J5kPCrCLoO1dOjWlv4rUp0SPbIII8la
- qQDA0AYPvawnIlwcy+WcbmRzR7PrtU+5dliqs+yPf2UFOXBDrtexi2WQCTabEWuMBD8N8VLOA
- 7Dt5eY3cXDJnPpDb7PKgYms3HOE6faNwEvQSC6t1KBSqq/FWQf1Sfx0CJWisLdyT5UlfCh11N
- 4huLR/C4Se681BRa63JIXWRQ1E6F33mSSeUo27I9FxrWsEwPARGR/l0rfLuT/n6TbOKSNCn6/
- NpBmRtzfsQnPQyXGJvy66yRruWI7AfkkzT7lVXlcom7SpXkUkDdSRilyRa32MDLoWLcHAh/yr
- sFUoZoi19SdGxUOSjk4nF95spsV0CE6zdMFAYM1qSIvPfkVylgZnsc1THsjekkuL/RFJjGw
+X-Provags-ID: V03:K1:a78M+JzHLdomPERBcNVMuROY2q6Pk1cbm6n3mP/HgbOB8Yec6u5
+ ZG1+kPZBaG9vimJLm1LPlY+Pry7Nz4mMu2C9l+YQHcDXpwgCE/NDltxiZjlFt8/b7xcNPmz
+ YnKjAk83XtMIbXoNO1Mo0BehDqj0iqnGKHpvmyB22DY7GMdrKVmsLYJ+/oVwgmE1X2VxshB
+ oLsYZSAcyOTpDkYwuosVA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qzSNdk1QfrE=:JHHGLzej3eYxTXSCQtEgM5
+ vuD6L/jNHnCsxexxkofVX+nwYu38ADaHLipvrowPm5Nh5nqiuGRvJgkqW5UvS+y7R0HIZa681
+ YKS/tWg5yCkqNA9VrghjvnKK5tMg159opBu6d+ggxibAjpYRIxx0GJP6hfCGLR4afq2n3ywoT
+ LOCl3BDvcq5PZS4myrIfytaLwB1+pjceiBtJExCV8IMieERVJ3vxzcFeKrxPIntd+u9JlO2hA
+ l9NTviCFCnIeDgeHAhbj55MHjRsyBj1x6ErG2i/ujRqMx36uLvGtqbwkhXYoKeV24LYUVHtna
+ DYAhjbGtrEhULG24zmAs0BNUteoKkSfBastAOqQlgLmH0jGcuFKB7ex9mFvlfmUgGZ2d+NdMk
+ ZN/z1la8ydxN8oww+wxf8wL2aSLLS8BbRB5gyPn0MNzqkngPEdU3oVMIE3TQynbpoUvIsJ65v
+ agt5Sty1OERek1ZH3WBVhxxRmuN6wjONGXMI5Lw355zfPNSy63OB9rwGOHPat6aDPS0DTpvrS
+ XLgLQe8Ued9Rc0oy6eKHNABw+AbdWRxFgU+9+PZtL2QysxTrYhrI8/0veFmwPmkbMBEKRrdOq
+ ZR2lqM337UNwQnluE/O8Cfkwffdjs1TFjb349QDZG/EWXGDeGeyJ+Snce5HLfa8PaSXSOuXxI
+ OupGwTY2uoqnu0cZlMX31OoLrZyg/SR16b0JBsIvw8wT2MIxq2mkp4OumMdO/uc+Rza0M3dxt
+ exG6KmEkaVmtMdCjUKqVgLla5PMubGXY6jHycybXQ/pW9P0V+FDkoFMau8gSRkNm4iElKkmLw
+ Xb5WHIpjSfh2RSaiXt0oLwkVExYNFew8/IKahaFh6qxnGfr3p6IvqxRMFI4K515ICK07vjA
 Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -81,45 +81,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 04/07/2021 à 20:37, Philippe Mathieu-Daudé a écrit :
-> Linux kernel defines EWOULDBLOCK as EAGAIN (since before v2.6.12-rc2).
+> We want to have one generic target_errno.h (API to access target
+> errno), and will add target errno definitions in target_errno_defs.h.
+> The sparc target already have its errnos in an header, simply rename
+> it.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  linux-user/mips/target_syscall.h   | 2 ++
->  linux-user/mips64/target_syscall.h | 2 ++
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/linux-user/mips/target_syscall.h b/linux-user/mips/target_syscall.h
-> index dd6fd7af8ea..3e558fdb4b4 100644
-> --- a/linux-user/mips/target_syscall.h
-> +++ b/linux-user/mips/target_syscall.h
-> @@ -21,6 +21,8 @@ struct target_pt_regs {
->  };
->  
->  /* Target errno definitions taken from asm-mips/errno.h */
-> +#undef TARGET_EWOULDBLOCK
-> +#define TARGET_EWOULDBLOCK     TARGET_EAGAIN /* Operation would block */
->  #undef TARGET_ENOMSG
->  #define TARGET_ENOMSG          35      /* Identifier removed */
->  #undef TARGET_EIDRM
-> diff --git a/linux-user/mips64/target_syscall.h b/linux-user/mips64/target_syscall.h
-> index 8594955eec2..c54374c5a29 100644
-> --- a/linux-user/mips64/target_syscall.h
-> +++ b/linux-user/mips64/target_syscall.h
-> @@ -18,6 +18,8 @@ struct target_pt_regs {
->  };
->  
->  /* Target errno definitions taken from asm-mips/errno.h */
-> +#undef TARGET_EWOULDBLOCK
-> +#define TARGET_EWOULDBLOCK     TARGET_EAGAIN /* Operation would block */
->  #undef TARGET_ENOMSG
->  #define TARGET_ENOMSG          35      /* Identifier removed */
->  #undef TARGET_EIDRM
-> 
+>  linux-user/sparc/{target_errno.h => target_errno_defs.h} | 0
 
-Applied to my linux-user-for-6.1 branch.
+Please update the header guard in the file you move.
 
 Thanks,
 Laurent
+
+>  linux-user/sparc/target_syscall.h                        | 2 +-
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename linux-user/sparc/{target_errno.h => target_errno_defs.h} (100%)
+> 
+> diff --git a/linux-user/sparc/target_errno.h b/linux-user/sparc/target_errno_defs.h
+> similarity index 100%
+> rename from linux-user/sparc/target_errno.h
+> rename to linux-user/sparc/target_errno_defs.h
+> diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+> index 15d531f3897..dad501d008c 100644
+> --- a/linux-user/sparc/target_syscall.h
+> +++ b/linux-user/sparc/target_syscall.h
+> @@ -1,7 +1,7 @@
+>  #ifndef SPARC_TARGET_SYSCALL_H
+>  #define SPARC_TARGET_SYSCALL_H
+>  
+> -#include "target_errno.h"
+> +#include "target_errno_defs.h"
+>  
+>  #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+>  struct target_pt_regs {
+> 
 
 
