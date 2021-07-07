@@ -2,96 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C013F3BE2A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 07:37:08 +0200 (CEST)
-Received: from localhost ([::1]:52232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D913BE331
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 08:34:15 +0200 (CEST)
+Received: from localhost ([::1]:38886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m10F9-0005dI-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 01:37:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57348)
+	id 1m118P-000199-7S
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 02:34:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
- id 1m10EJ-0004qq-GH; Wed, 07 Jul 2021 01:36:15 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63178
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1m117K-0000TI-B9
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 02:33:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <oro@il.ibm.com>)
- id 1m10EH-0008Gu-KE; Wed, 07 Jul 2021 01:36:15 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1675XHf1111547; Wed, 7 Jul 2021 01:36:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=9+FCpnGMUJoIm/lOUxvI4t1xXG1RmHO62s5kKN4BEs4=;
- b=LDONy13I1dj96XodQBlGXubgWDSs2xTWIpK9eA3jg55MqCVKEXZ5gCu5Mc3zrJT25eXu
- U5dB8LPh8PT2EqLLw7jqb/W2cqvIG9ypDMT/DTntpFboxQ86R7ocvXYwiidTXEogzEW8
- E15mpMIV9vluNSeFMtUFvIEN54MxOJh8Mn8cwxaYselQL/Ejkybja6k9lj1wT+nQw0+x
- YSOhre8URKpK2+FJMyuDGUIRz+YXhbYlV7iBNt80aPzNYXU3Golf2tkXIMzXQQ4jc0Od
- VtHAPXwImDlwGMTPjsQIkWPszm10UtbGLQnjQ0biIo9bzC8MFuIUUptTOgyAwDaTElRi oQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39mbkeq7xt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jul 2021 01:36:09 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1675XKF7111638;
- Wed, 7 Jul 2021 01:36:08 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39mbkeq7xg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jul 2021 01:36:08 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1675Xtvj031267;
- Wed, 7 Jul 2021 05:36:08 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 39jhpyhwq5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 07 Jul 2021 05:36:08 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1675a53s46465470
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 7 Jul 2021 05:36:05 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28D946E05B;
- Wed,  7 Jul 2021 05:36:05 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE4116E050;
- Wed,  7 Jul 2021 05:36:02 +0000 (GMT)
-Received: from ceph-oro.sl.cloud9.ibm.com (unknown [9.148.245.63])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Wed,  7 Jul 2021 05:36:02 +0000 (GMT)
-From: Or Ozeri <oro@il.ibm.com>
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1m117H-00041H-3y
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 02:33:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625639580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PgAeWqD5oGl5xYZMSqvjzEaitI1oktcR6pei9lNL/JA=;
+ b=JxAWCl28aF0S0QMTwm+n/nb170vD8sKoA03nrMKyCg6wN5XdDOEbkL527woJkVnauKMKrk
+ PwsMCsHIT/Ru736KbnBYPrZvOaGuW3OX3gYaZ1jSlyusJdsJvFu6cIxviRWFMDak6K6k0h
+ pwbfEEPD9n3QFvZdnyLGts7wwps34B4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-aYtIyzGwO26K8WH8aMT9Mw-1; Wed, 07 Jul 2021 02:31:40 -0400
+X-MC-Unique: aYtIyzGwO26K8WH8aMT9Mw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA3261019982
+ for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 06:31:39 +0000 (UTC)
+Received: from wi2021.rezanina.moe.rezanina.moe (unknown [10.40.192.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C61E510016F4;
+ Wed,  7 Jul 2021 06:31:38 +0000 (UTC)
+From: Miroslav Rezanina <mrezanin@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1] block/raw-format: implement .bdrv_get_specific_info handler
-Date: Wed,  7 Jul 2021 08:35:43 +0300
-Message-Id: <20210707053543.2521677-1-oro@il.ibm.com>
-X-Mailer: git-send-email 2.27.0
+Subject: [PATCH] Fix libdaxctl option
+Date: Wed,  7 Jul 2021 02:31:24 -0400
+Message-Id: <20210707063124.81954-1-mrezanin@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RLbp7zVR5hZbAehCMCAeKPb6cULOuNWh
-X-Proofpoint-ORIG-GUID: ERqFB8vMNu_zwFZQeamv553rNRMi2u2L
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-07_01:2021-07-06,
- 2021-07-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=695 phishscore=0
- priorityscore=1501 spamscore=0 malwarescore=0 adultscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107070029
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=oro@il.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mrezanin@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,45 +75,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, qemu-block@nongnu.org,
- dannyh@il.ibm.com, oro@il.ibm.com, idryomov@gmail.com, to.my.trociny@gmail.com
+Cc: pbonzini@redhat.com, Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using the raw format, allow exposing specific info by the underlying storage.
-In particular, this will enable RBD images using the raw format to indicate
-a LUKS2 encrypted image in the output of qemu-img info.
+For some reason, libdaxctl option setting was set to work in an opposite
+way (--enable-libdaxctl disabled it and vice versa). Fixing this so
+configuration works properly.
 
-Signed-off-by: Or Ozeri <oro@il.ibm.com>
+Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 ---
- block/raw-format.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 7717578ed6..f6e70e2356 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -369,6 +369,12 @@ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-     return bdrv_get_info(bs->file->bs, bdi);
- }
- 
-+static ImageInfoSpecific *raw_get_specific_info(BlockDriverState *bs,
-+                                                Error **errp)
-+{
-+    return bdrv_get_specific_info(bs->file->bs, errp);
-+}
-+
- static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
- {
-     if (bs->probed) {
-@@ -603,6 +609,7 @@ BlockDriver bdrv_raw = {
-     .has_variable_length  = true,
-     .bdrv_measure         = &raw_measure,
-     .bdrv_get_info        = &raw_get_info,
-+    .bdrv_get_specific_info = &raw_get_specific_info,
-     .bdrv_refresh_limits  = &raw_refresh_limits,
-     .bdrv_probe_blocksizes = &raw_probe_blocksizes,
-     .bdrv_probe_geometry  = &raw_probe_geometry,
+diff --git a/configure b/configure
+index 650d9c0735..4f51528a77 100755
+--- a/configure
++++ b/configure
+@@ -1531,9 +1531,9 @@ for opt do
+   ;;
+   --disable-keyring) secret_keyring="no"
+   ;;
+-  --enable-libdaxctl) libdaxctl=disabled
++  --enable-libdaxctl) libdaxctl="enabled"
+   ;;
+-  --disable-libdaxctl) libdaxctl=enabled
++  --disable-libdaxctl) libdaxctl="disabled"
+   ;;
+   --enable-fuse) fuse="enabled"
+   ;;
 -- 
 2.27.0
 
