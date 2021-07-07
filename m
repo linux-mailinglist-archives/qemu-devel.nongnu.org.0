@@ -2,79 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F5F3BE051
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 02:36:59 +0200 (CEST)
-Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB813BE074
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 03:04:21 +0200 (CEST)
+Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0vYf-00089q-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 20:36:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60804)
+	id 1m0vzA-0007kR-AB
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 21:04:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0vWZ-00069h-5Y
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 20:34:47 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m0vWX-0001UE-Ki
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 20:34:46 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id g22so476767pgl.7
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 17:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=g1p2AjI8JYika7A1YooOzWsc2JX5r+JgbAKfclHVyiE=;
- b=Qo7Xqgtt8xSx09egzglgIcgeaxrX8exLBtslwUcpDHntcl7zJy6ElP8LuG7uhtgZal
- hqM0NFgKPZtKIkpsCgFkSXP4Dz2Ra4U3AeLINwthohuSQCi7oWVwWZdEcz3vISH/M+QN
- 1iY+t7OyKg4d6H13K06lOpoB/+PrDUxskm5jeL54cR5GigmjTB2sD3Oc/k2XP0IYLkg1
- Mk+w5EHp18o/MjAQZ7ieuCt5L3lA32FOKdBdBzE8aU92+SvJ9CUK7X7tX4d+retgjxGY
- 2nCMwiUSU2Z6eeg+amS1oclt5b/Jdg1x5YY/M6aFNO8hlMQ1rAk40/I5l0wRTdIe8tjt
- qMBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=g1p2AjI8JYika7A1YooOzWsc2JX5r+JgbAKfclHVyiE=;
- b=oZTsbjrXLVAF4AJEjeJENvJRsmnuuaBujMV6nkWmmFCuTZcvObIZEJw9bytN5Ngu4H
- /4YyyHeNObsq+YO0RjrUrJEoEHYKeNgJkSHVwHFxljsAkldSQ8XwrhlyUDOGNbAe3ONR
- 6PVwJUSVmYz96VPnHdMmcxaR95Q6GxWiyoGbWzEp8RyENdPUYJY8f7HCo1AO5GJwQLKj
- xrrOIDSvsvZTRepwOUKlCE/drFX2xU75+aqh1S91HTLuZ15Nn8w2E7nla4HiH7QucGNp
- oCwiU3L0Bu7tpFTIyJYBDLdBoGDtKMKJzd2RM9Cn/mgbOK5UVMIv/YCNAzVFBYeRQvix
- r1FA==
-X-Gm-Message-State: AOAM530eEZ3wZwSfAU4UqG8fPItM+zQJ7OhnFsJQxE7VwfpQhlPl78Pf
- iZqL8btEQhuN2Mfb+2kG19Ld5960DrRU5A==
-X-Google-Smtp-Source: ABdhPJyuvMsmAl4oDmPeyZMz7qSU3X4lBQkA+PJBqTNBkJb8ncnj7O1/lZmvovtWFeEKaA0EwHohqA==
-X-Received: by 2002:a63:4d62:: with SMTP id n34mr23368637pgl.302.1625618084200; 
- Tue, 06 Jul 2021 17:34:44 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b22sm7411802pfi.181.2021.07.06.17.34.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 17:34:43 -0700 (PDT)
-Subject: Re: [PATCH 2/2] tcg: Bake tb_destroy() into tcg_region_tree
-To: Liren Wei <lrwei@bupt.edu.cn>, qemu-devel@nongnu.org
-References: <cover.1625404483.git.lrwei@bupt.edu.cn>
- <8dc352f08d038c4e7a1f5f56962398cdc700c3aa.1625404483.git.lrwei@bupt.edu.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6cf44d4a-c127-2910-f0b6-de32db273738@linaro.org>
-Date: Tue, 6 Jul 2021 17:34:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m0vw5-0006pr-17; Tue, 06 Jul 2021 21:01:09 -0400
+Received: from ozlabs.org ([203.11.71.1]:50595)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m0vw1-0003cF-5u; Tue, 06 Jul 2021 21:01:08 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GKLhK4WMhz9t0k; Wed,  7 Jul 2021 11:00:49 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1625619649;
+ bh=xDy5TB6aA80zy/NveaX7ixTskWJbCWyD3I8Q5IL9lu8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=OlPX0ctcJeM1+pusim4qo9wqjreAp6C7YHdGMyjXak4glJnIJaFG3KWy2JikhLCRO
+ VPD7FnUG00SqadU2DlP69f1CuCEl06tUNWB3sGd0/dfC+8waB5npjMBQqZhiFxr4jD
+ PANbE3/nDrkEkPsYRgNazImixxjitAeE4R6z4+xg=
+Date: Wed, 7 Jul 2021 10:45:16 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: "Bruno Larsen (billionai)" <bruno.larsen@eldorado.org.br>
+Subject: Re: [PATCH v5 0/2] Clean up MMU translation
+Message-ID: <YOT5HIdzIF+UcukB@yekko>
+References: <20210706150316.21005-1-bruno.larsen@eldorado.org.br>
 MIME-Version: 1.0
-In-Reply-To: <8dc352f08d038c4e7a1f5f56962398cdc700c3aa.1625404483.git.lrwei@bupt.edu.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Nhz0LRmepAGuqCWa"
+Content-Disposition: inline
+In-Reply-To: <20210706150316.21005-1-bruno.larsen@eldorado.org.br>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,24 +58,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com
+Cc: farosas@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ lucas.araujo@eldorado.org.br, fernando.valle@eldorado.org.br,
+ qemu-ppc@nongnu.org, matheus.ferst@eldorado.org.br, luis.pires@eldorado.org.br
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/4/21 7:31 AM, Liren Wei wrote:
-> -static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp)
-> +static gint tb_tc_cmp(gconstpointer ap, gconstpointer bp, gpointer _)
 
-Using _ here as the variable name isn't ideal.  I guess if this were c++ we would actually 
-omit the name, which is kinda the same.  But I think it's just as easy to name it 
-userdata, as per glib docs.
+--Nhz0LRmepAGuqCWa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll fix that up while queuing, thanks.
+On Tue, Jul 06, 2021 at 12:03:14PM -0300, Bruno Larsen (billionai) wrote:
+> This is the final change relating to mmu_idx permission checking,
+> correcting a technical hiccup on how it was handled beforehand.
+> It also introduces a common header to be used by all BookS MMUs to help
+> with common code in the future.
+>=20
+> Based-on: dgibson's ppc-for-6.1 tree
 
-I'm not keen that the spinlock init and destroy are in different places, but surely that 
-should be fixed by moving the init to tcg_tb_alloc, probably moving it to tcg/region.c as 
-well.
+Applied to ppc-for-6.1, thanks.
 
+>=20
+> Changes for v5:
+>  * introduced a common header to also change hash32
+>=20
+> Changes for v4:
+>  * added r-b and t-b tags
+>  * changes commit message of the first patch
+>  * removed function parameters that were no longer used
+>=20
+> Changes for v3:
+>  * removed patches that were already applied
+>  * fixed comments on last patch
+>  * added 2 new patches
+>=20
+> Changes for v2:
+>  * rebase on ppc-for-6.1
+>  * added the bugfix
+>=20
+> Bruno Larsen (billionai) (2):
+>   target/ppc: introduce mmu-books.h
+>   target/ppc: change ppc_hash32_xlate to use mmu_idx
+>=20
+>  target/ppc/mmu-book3s-v3.h | 14 +------------
+>  target/ppc/mmu-books.h     | 30 ++++++++++++++++++++++++++++
+>  target/ppc/mmu-hash32.c    | 40 ++++++++++++++++++--------------------
+>  target/ppc/mmu-hash32.h    |  2 +-
+>  target/ppc/mmu_helper.c    |  2 +-
+>  5 files changed, 52 insertions(+), 36 deletions(-)
+>  create mode 100644 target/ppc/mmu-books.h
+>=20
 
-r~
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Nhz0LRmepAGuqCWa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDk+RoACgkQbDjKyiDZ
+s5IGNBAAiqrLxcW1A6YbB7bY+kSryws9AeMroeeMjUN2AR4PxZgRqCoEnQJdv6RL
+IpHuAnFQE6BYBijQeBK9oSdKNAF6WQKyIYdTJ0/Nf010KJb16BIS/gBBSPjOMioO
+DwSodYNiHxmrRORqEzKBk/95H/rPJNzP5wPZq5RZ4ziceJ35zAmfIaSfzGkSRg5r
+ubceoyhiOZEAbQgOpITXd7ReOfdyFBXUgAhhxUmuAGNwcfzGbcvgBhT6qInOooCo
+uliN0dTkthBf4orwol4EHkgLu8KtCCWCXcXocuAOvbvcm+HzMLNqCaCXEeLBOVwm
+kVWdWa4N0A7M4bHUp15E/4FbJGUifyxYWnmWL3aIy/AoxqtBa3ORpA5UfVRGByDd
+9tUm//yhTqT33081mmq3b5PRXZsDiinJCmV110Z2bL5IpPDmWUlkMK0CvcIhIMxu
+Q2LFBXkOM5BY0Gf2dPdSB/kON/l/937AhIsu8XbwdwILNVWQ4WoG6VR1xuP07FKx
+3S82v9mB5K512Yifd2gEWDw+WlBTz+MKeC9IdjJrfvHqwTJbzVkEbV1kvMGZpslK
+CzKllp2LZGau3BIvPcwQWuecVCN05Nla/dVoNts4SwxuJe/WaeXWsZJlqNa6ZHkJ
+wHCFUn5QBazvWQhbaP6ekOjlAAiwJ8bQMficnEevyeRc/cFhZmo=
+=Apkx
+-----END PGP SIGNATURE-----
+
+--Nhz0LRmepAGuqCWa--
 
