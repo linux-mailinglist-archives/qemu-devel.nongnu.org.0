@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D123BE558
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 11:09:37 +0200 (CEST)
-Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16CD3BE562
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 11:12:04 +0200 (CEST)
+Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m13Yl-0004IZ-PZ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 05:09:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34746)
+	id 1m13b9-0005nf-Sr
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 05:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m13Xh-0003ec-KH
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 05:08:29 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50522
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m13aN-000596-3T
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 05:11:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m13Xe-0000QH-3V
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 05:08:29 -0400
-Received: from host86-145-86-170.range86-145.btcentralplus.com
- ([86.145.86.170] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m13XV-000Bo2-1N; Wed, 07 Jul 2021 10:08:21 +0100
-To: Finn Thain <fthain@linux-m68k.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20210705214929.17222-1-mark.cave-ayland@ilande.co.uk>
- <20210705214929.17222-4-mark.cave-ayland@ilande.co.uk>
- <687af4d-a483-c7ff-b89c-59c0e442141@linux-m68k.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <4ec71e41-3999-3ac1-85fa-84836dedb4a6@ilande.co.uk>
-Date: Wed, 7 Jul 2021 10:08:17 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m13aJ-0000eP-AN
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 05:11:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625649069;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=v0nxyjVYiMGUJUNt0WHi8llSehQoKZDuRNxRYnDWmV0=;
+ b=LXTrPtdst35zPTrCdRVbYCuGtnvKwpDa+LwoiYd3+y5M4XF6SP6/WmUOV8YFkM/1jPsUMT
+ VMG3HDmxp56Qx9iPXpjT2qbmToNMKyzIk8yC52cioAEt8Y6SetKhKSxME/1wb2pjAxW+JO
+ B2hJgH9sBHJLQBWqGgdSyK6uPnvjYBw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-6en57m7qMce1lnejfGMAtA-1; Wed, 07 Jul 2021 05:11:07 -0400
+X-MC-Unique: 6en57m7qMce1lnejfGMAtA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D89D804141
+ for <qemu-devel@nongnu.org>; Wed,  7 Jul 2021 09:11:07 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A3EB5D9FC;
+ Wed,  7 Jul 2021 09:11:02 +0000 (UTC)
+Date: Wed, 7 Jul 2021 11:11:01 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH 00/53] acpi: refactor error prone build_header() and
+ packed structures usage in ACPI tables
+Message-ID: <20210707111101.1601960e@redhat.com>
+In-Reply-To: <20210705140002-mutt-send-email-mst@kernel.org>
+References: <20210625091818.1047980-1-imammedo@redhat.com>
+ <20210702104548-mutt-send-email-mst@kernel.org>
+ <20210705095618.69fed068@redhat.com>
+ <20210705140002-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <687af4d-a483-c7ff-b89c-59c0e442141@linux-m68k.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.145.86.170
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 3/4] dp8393x: Store CAM registers as 16-bit
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,130 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/07/2021 00:48, Finn Thain wrote:
+On Mon, 5 Jul 2021 14:00:51 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-> On Mon, 5 Jul 2021, Mark Cave-Ayland wrote:
+> On Mon, Jul 05, 2021 at 09:56:18AM +0200, Igor Mammedov wrote:
+> > On Fri, 2 Jul 2021 10:47:20 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Fri, Jun 25, 2021 at 05:17:24AM -0400, Igor Mammedov wrote:  
+> > > > Highlights:
+> > > >   * drop pointer arithmetic in ACPI tables code
+> > > >   * use endian agnostic API
+> > > >   * simplifies review of tables. /in most cases just line by line comparision with spec/    
+> > > 
+> > > 
+> > > A hue amount of work, thank you!
+> > > To make it easier to merge, how about splitting it up a bit?
+> > > E.g. I think first 10-11 patches make sense on their own, right?  
+> > 
+> > I think you've meant 01-11 patches, and answer is yes, it's in-depended
+> > of actual ACPI refactoring as was mentioned is cover letter, see below.
+> > 
+> > [...]  
+> > > > 
+> > > > Series also includes optional qtest patches that add missing acpi
+> > > > tests for tables that I'm touching to verify conversion changes.
+> > > > That includes an alternative build time based impl. of
+> > > > qtest_has_accel() API. So if we start bike-shedding this qtest_has_accel()
+> > > > we can safely drop all tests included, till the time discussion settles
+> > > > and some form of a qtest_has_accel() is merged, at which point I'd respin
+> > > > depended tests.  
+> > [...]
+> > 
+> > it's ok to split tests into a separate series if that's what you prefer.  
 > 
->> From: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>
->> Per the DP83932C datasheet from July 1995:
->>
->>    4.0 SONIC Registers
->>    4.1 THE CAM UNIT
->>
->>      The Content Addressable Memory (CAM) consists of sixteen
->>      48-bit entries for complete address filtering of network
->>      packets. Each entry corresponds to a 48-bit destination
->>      address that is user programmable and can contain any
->>      combination of Multicast or Physical addresses. Each entry
->>      is partitioned into three 16-bit CAM cells accessible
->>      through CAM Address Ports (CAP 2, CAP 1 and CAP 0) with
->>      CAP0 corresponding to the least significant 16 bits of
->>      the Destination Address and CAP2 corresponding to the
->>      most significant bits.
->>
->> Store the CAM registers as 16-bit as it simplifies the code.
->> There is no change in the migration stream.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/net/dp8393x.c | 23 ++++++++++-------------
->>   1 file changed, 10 insertions(+), 13 deletions(-)
->>
->> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
->> index cc7c001edb..22ceea338c 100644
->> --- a/hw/net/dp8393x.c
->> +++ b/hw/net/dp8393x.c
->> @@ -157,7 +157,7 @@ struct dp8393xState {
->>       MemoryRegion mmio;
->>   
->>       /* Registers */
->> -    uint8_t cam[16][6];
->> +    uint16_t cam[16][3];
->>       uint16_t regs[0x40];
->>   
->>       /* Temporaries */
->> @@ -280,15 +280,13 @@ static void dp8393x_do_load_cam(dp8393xState *s)
->>           address_space_read(&s->as, dp8393x_cdp(s),
->>                              MEMTXATTRS_UNSPECIFIED, s->data, size);
->>           index = dp8393x_get(s, width, 0) & 0xf;
->> -        s->cam[index][0] = dp8393x_get(s, width, 1) & 0xff;
->> -        s->cam[index][1] = dp8393x_get(s, width, 1) >> 8;
->> -        s->cam[index][2] = dp8393x_get(s, width, 2) & 0xff;
->> -        s->cam[index][3] = dp8393x_get(s, width, 2) >> 8;
->> -        s->cam[index][4] = dp8393x_get(s, width, 3) & 0xff;
->> -        s->cam[index][5] = dp8393x_get(s, width, 3) >> 8;
->> -        trace_dp8393x_load_cam(index, s->cam[index][0], s->cam[index][1],
->> -                               s->cam[index][2], s->cam[index][3],
->> -                               s->cam[index][4], s->cam[index][5]);
->> +        s->cam[index][0] = dp8393x_get(s, width, 1);
->> +        s->cam[index][1] = dp8393x_get(s, width, 2);
->> +        s->cam[index][2] = dp8393x_get(s, width, 3);
->> +        trace_dp8393x_load_cam(index,
->> +                               s->cam[index][0] >> 8, s->cam[index][0] & 0xff,
->> +                               s->cam[index][1] >> 8, s->cam[index][1] & 0xff,
->> +                               s->cam[index][2] >> 8, s->cam[index][2] & 0xff);
->>           /* Move to next entry */
->>           s->regs[SONIC_CDC]--;
->>           s->regs[SONIC_CDP] += size;
->> @@ -591,8 +589,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
->>       case SONIC_CAP1:
->>       case SONIC_CAP0:
->>           if (s->regs[SONIC_CR] & SONIC_CR_RST) {
->> -            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg) + 1] << 8;
->> -            val |= s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
->> +            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
->>           }
->>           break;
->>       /* All other registers have no special contraints */
+> Let's start with a smaller series that still makes sense.
+> I'll merge that we'll look at the next chunk.
 > 
-> This patch incorrectly alters the behaviour of the jazzsonic.c driver
-> which reads the MAC address from the CAP registers in sonic_probe1().
-> 
-> With mainline QEMU, the driver reports:
-> SONIC ethernet @e0001000, MAC 00:00:00:44:33:22, IRQ 28
-> 
-> With this patch:
-> SONIC ethernet @e0001000, MAC 00:00:33:22:00:00, IRQ 28
-> 
->> @@ -990,7 +987,7 @@ static const VMStateDescription vmstate_dp8393x = {
->>       .version_id = 0,
->>       .minimum_version_id = 0,
->>       .fields = (VMStateField []) {
->> -        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
->> +        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 3 * 2),
->>           VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
->>           VMSTATE_END_OF_LIST()
->>       }
 
-I was staring at the code in dp8393x_do_load_cam() trying to figure out how on earth 
-this could be reading the wrong values from the CAM descriptors, when I realised the 
-problem is actually in the read back from the CAP registers (it doesn't need the x2 
-multiplier since the conversion from uint8_t to uint16_t).
+Ok, I'll drop tests for now and respin as v2 with TPM fixes.
 
-This should be fixed by the following:
-
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 22ceea338c..09c34c3584 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -589,7 +589,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned 
-int size)
-      case SONIC_CAP1:
-      case SONIC_CAP0:
-          if (s->regs[SONIC_CR] & SONIC_CR_RST) {
--            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
-+            val = s->cam[s->regs[SONIC_CEP] & 0xf][SONIC_CAP0 - reg];
-          }
-          break;
-      /* All other registers have no special contraints */
-
-
-ATB,
-
-Mark.
 
