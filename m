@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3052F3BEA19
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 16:53:34 +0200 (CEST)
-Received: from localhost ([::1]:35368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CAE73BEA1C
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 16:55:12 +0200 (CEST)
+Received: from localhost ([::1]:37738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m18vd-0007IF-9G
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 10:53:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33746)
+	id 1m18xD-0000QE-8R
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 10:55:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1m18uq-0006d5-QE
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:52:44 -0400
-Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:37608)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1m18uo-0005MR-2Z
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:52:44 -0400
-Received: by mail-il1-x135.google.com with SMTP id i13so3032463ilu.4
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 07:52:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6Em5jNvFF596T5AQWDXJkVv2+A0Fj0kSVmlM5vGe07c=;
- b=dFJH0BtowIT5o74Qn47MEXWSEKpICVC9zPPGMjek7aziZFOmZRi5hNGiMrWgyQ9uHE
- ofdn72RrmkONvFhFu6uaeqRc3P6xXMueS7y0qRTduuDZ6FT+7dSihkWljILaNRpMsTlL
- lAxDb5HH4rNeWxuT4IrUTdWXALGukrypau4O5yQJV3HWaLyURRIm9AqF+2H1vmuwpecR
- vtPa7DIJZdCLATLbbeHdAQgGdHw4TITK3ko90lyQ0XkOJPZ7vzmQtjD5UWcV+PmLdwmx
- 0QLAqJc3OEDXiqfuVmRBuTFRNcn0Ozdf+MU+tueq0Fxtj3xRK4FgwUXz7yJWiazJsr5X
- MOsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6Em5jNvFF596T5AQWDXJkVv2+A0Fj0kSVmlM5vGe07c=;
- b=r1GY1F/uW11LLFQYlqcvG6ysUFSYty9vPRZUzm9ZrcTW+4KsLqJtHhYgpOb70dwWdh
- a/BJiKPeZ2m8FrmS2B7OnGXEkUlAFnOegNYJSmTVuwffJthtezH4xULfDI+oMmets2UT
- LgcIYrQMtK/v+g/N2rMcZlUlXlHU+YlY0W3R0Pq0Lfp0gDiMsZw/jT9suxVXm/OI+xcK
- fksxA0BThruhjh/oRn8cq3RMOGw/f8LF9CGMaDj3sd91xn4ZUS9gC5SJXQebM8RuiOYn
- VtznD/GCLviybiC70hXl/v/DQeo65lVNHIVvsGtjkewLw0GEe5e3LoyAku0ZjTvIosX8
- EgLQ==
-X-Gm-Message-State: AOAM530G1WBwJorTkOzN/bjBZE5Km1u2NiokioUjTMAhlxdLifs3yw69
- plcqgA+oomVKl4ecKG82dzoKXEQsSchepSm317E=
-X-Google-Smtp-Source: ABdhPJwQkFqtc+8ApBWy0/JHWR/SKGW3KgxjgC+J0K9CjhQZ3IGSlXauWUIwtH14CHZpb6x7tjSqqdTpQXtRq5bA0io=
-X-Received: by 2002:a92:c651:: with SMTP id 17mr18586734ill.44.1625669560020; 
- Wed, 07 Jul 2021 07:52:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m18w3-00083x-Kl; Wed, 07 Jul 2021 10:53:59 -0400
+Received: from mout.web.de ([212.227.17.12]:41835)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m18w1-0005aO-50; Wed, 07 Jul 2021 10:53:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1625669619;
+ bh=kiqlIouQnx2I/JfxhRKQvnXmCEYSOkv4BEJsjaB329M=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=TgIeAMr0+5bYRKM6w7E9tnvfjhugiZyDV5RCqVZEvNlNOLk8B25Cle+nuuwX7r2KZ
+ XO+P/ZvW4UCj6s4F83YRNYL9bLwpxnF2JWtrIRBJRoPxSkOPEJGDnKOQtuddw9R6nq
+ Gc4Vu2k2lukB5c3fBWBGm0Iaj/CClirIzHYz77iQ=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([89.247.255.194]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0LdF0f-1lIhIB3YsT-00iVog; Wed, 07
+ Jul 2021 16:53:38 +0200
+Date: Wed, 7 Jul 2021 16:53:28 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] block/replication.c: Properly attach children
+Message-ID: <20210707165328.68e10535@gecko.fritz.box>
+In-Reply-To: <3dee7e1a-00ff-5f98-fb22-ffb248e1094e@virtuozzo.com>
+References: <20210706181138.1c0bacd8@gecko.fritz.box>
+ <3dee7e1a-00ff-5f98-fb22-ffb248e1094e@virtuozzo.com>
 MIME-Version: 1.0
-References: <20210701041313.1696009-1-jsnow@redhat.com>
- <20210701041313.1696009-13-jsnow@redhat.com>
-In-Reply-To: <20210701041313.1696009-13-jsnow@redhat.com>
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Wed, 7 Jul 2021 20:22:13 +0530
-Message-ID: <CAN6ztm9ZTSOnx69HuhhragQjR6DeGBuERXuSsPFAqoZNxPcHuw@mail.gmail.com>
-Subject: Re: [PATCH 12/20] python/aqmp: add QMP Message format
-To: John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000a5b28605c689b0be"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
- envelope-from=niteesh.gs@gmail.com; helo=mail-il1-x135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="Sig_/tbPlAhHocqNsJIraA+GgC4j";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:OlPhngcn8X/xiYq3Tj2+TnNjQFkoMCVDW2ujzxFKGQ2hEjYXoQd
+ 7cjJeWSSJZhHdoKqPglZ/tElb3tbHQ50SUncdj5xvQr8n5ICYmrB59nQouXwOfuYa8z+WU1
+ Iy55XoPgWh1LtTBlVcHNJuzN0oyCaMNqMPjNRlqrt14uBZBvsrptdM3F78QOmGvl30KtLMK
+ ZDMePDv4+opQ2A+gnFMdA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:KXm3fTTd+ls=:shGSultk4KkFZnCp556QLU
+ 2cGUA7bOHimCACYguavQcrPzB3BKbGQFqBZFfKSWr8j8fCgtVqV0i310gZP96rC86kTR0Ia1S
+ xq6iZPO1kleyOlVkbHIuFIPZ7jQTrXEdSWHHfwGKCpWJJmeSaq5p+R61+cNYggeWDyaUeJKMb
+ qDm624rWZDgzLKZclQPYCQI6kauqES1gRiZN+qh26CvoEY1XK6crAy1OZiy/86m9zA5hEQwOR
+ 3CaBlSbgnwbzp2jiuZqKTLK/fRZqjtS4CpeisrHt1dwd/4TQdu3moHAOjQ3FCjM1a1hXfKMDM
+ WetJ9ARGS9mozvs+e4331MfnfOM1XSXx8KPFQ8S1socZsmw3WvSyt6ARxHDMRUdkyarkc00FY
+ Mj577H1+7vQ/iLYawHZXWoRvqghnWFgf0nc3qnccikSgFKqoCuVk0LEoVp5iZw/43z6fu7LlE
+ C8GI0fs51yU70N/x5CXQBIWqm0LmftaKUBghHMrIxBI8tQ5NKx/Bv+ixkCdSUABW/FN699Zvt
+ QfvvQtlLKcmcp+RzzbRVG5F+3+sdUI4yQ5KHJfUS+QYAiGo5xEzXNb/H/aSl9AUVNF0s1DbcN
+ EHEJefLv8vIpPIMLhJYuQaypzH4t1jJ1PMtUXUbVCjyp7JWXUBHKg/zlysY+5patJZIlB0BMq
+ Xul1AbcgESMoa8oQ1mqemEK09P+dXlrrOEm8GHrNwruzec0ibIziK9CdU7OrH1tfRZtqm9qGD
+ AVawqPGg91FNqQaBsct1eT+aECRvqXGBFIWZkAN65pBxMa3E0hPxkGlWtPeBmdo3EmFNmKQAE
+ 9UJVzIcnKj/yl4ChXU/ezieJ5XLwjb49GFQ/KEzZcM+P57TVGxC9JBEwqAwqYWloSXNcDMEAV
+ lDVbpPlPp6fMxVmuE+nWFGDlzMWzo/fpv24HibbGIoWUV+wvy7vpgknKMCgHggkX8PfA/ZR3g
+ mWxJESoVxcZfjYuaXdmRGTmpgYHnGUPVbyzDujEJPs4dos7RWUk05rqimFZcARPGwOzXyh0+U
+ /xQXZb6zp6pcWTBjRBcBfrnJ5Zt/CicSBm30kgmJHjpuM7Pq94F0bqmIQiZLNqZWnWNR5B43z
+ m0esU65tq5lhaXccv/kKrm1Xt5yuD9vUwQouXb34YOs4ZDqIabC/U3Isw==
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,597 +82,362 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a5b28605c689b0be
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Jul 1, 2021 at 9:43 AM John Snow <jsnow@redhat.com> wrote:
-
-> The Message class is here primarily to serve as a solid type to use for
-> mypy static typing for unambiguous annotation and documentation.
->
-> We can also stuff JSON serialization and deserialization into this class
-> itself so it can be re-used even outside this infrastructure.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/aqmp/__init__.py |   4 +-
->  python/qemu/aqmp/message.py  | 207 +++++++++++++++++++++++++++++++++++
->  2 files changed, 210 insertions(+), 1 deletion(-)
->  create mode 100644 python/qemu/aqmp/message.py
->
-> diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-> index 5c44fabeea..c1ec68a023 100644
-> --- a/python/qemu/aqmp/__init__.py
-> +++ b/python/qemu/aqmp/__init__.py
-> @@ -22,12 +22,14 @@
->  # the COPYING file in the top-level directory.
->
->  from .error import AQMPError, MultiException
-> +from .message import Message
->  from .protocol import ConnectError, Runstate
->
->
->  # The order of these fields impact the Sphinx documentation order.
->  __all__ = (
-> -    # Classes
-> +    # Classes, most to least important
-> +    'Message',
->      'Runstate',
->
->      # Exceptions, most generic to most explicit
-> diff --git a/python/qemu/aqmp/message.py b/python/qemu/aqmp/message.py
-> new file mode 100644
-> index 0000000000..3a4b283032
-> --- /dev/null
-> +++ b/python/qemu/aqmp/message.py
-> @@ -0,0 +1,207 @@
-> +"""
-> +QMP Message Format
-> +
-> +This module provides the `Message` class, which represents a single QMP
-> +message sent to or from the server.
-> +"""
-> +
-> +import json
-> +from json import JSONDecodeError
-> +from typing import (
-> +    Dict,
-> +    Iterator,
-> +    Mapping,
-> +    MutableMapping,
-> +    Optional,
-> +    Union,
-> +)
-> +
-> +from .error import ProtocolError
-> +
-> +
-> +class Message(MutableMapping[str, object]):
-> +    """
-> +    Represents a single QMP protocol message.
-> +
-> +    QMP uses JSON objects as its basic communicative unit; so this
-> +    Python object is a :py:obj:`~collections.abc.MutableMapping`. It may
-> +    be instantiated from either another mapping (like a `dict`), or from
-> +    raw `bytes` that still need to be deserialized.
-> +
-> +    Once instantiated, it may be treated like any other MutableMapping::
-> +
-> +        >>> msg = Message(b'{"hello": "world"}')
-> +        >>> assert msg['hello'] == 'world'
-> +        >>> msg['id'] = 'foobar'
-> +        >>> print(msg)
-> +        {
-> +          "hello": "world",
-> +          "id": "foobar"
-> +        }
-> +
-> +    It can be converted to `bytes`::
-> +
-> +        >>> msg = Message({"hello": "world"})
-> +        >>> print(bytes(msg))
-> +        b'{"hello":"world","id":"foobar"}'
-> +
-> +    Or back into a garden-variety `dict`::
-> +
-> +       >>> dict(msg)
-> +       {'hello': 'world'}
-> +
-> +
-> +    :param value: Initial value, if any.
-> +    :param eager:
-> +        When `True`, attempt to serialize or deserialize the initial value
-> +        immediately, so that conversion exceptions are raised during
-> +        the call to ``__init__()``.
-> +    """
-> +    # pylint: disable=too-many-ancestors
-> +
-> +    def __init__(self,
-> +                 value: Union[bytes, Mapping[str, object]] = b'', *,
-> +                 eager: bool = True):
-> +        self._data: Optional[bytes] = None
-> +        self._obj: Optional[Dict[str, object]] = None
-> +
-> +        if isinstance(value, bytes):
-> +            self._data = value
-> +            if eager:
-> +                self._obj = self._deserialize(self._data)
-> +        else:
-> +            self._obj = dict(value)
-> +            if eager:
-> +                self._data = self._serialize(self._obj)
-> +
-> +    # Methods necessary to implement the MutableMapping interface, see:
-> +    #
-> https://docs.python.org/3/library/collections.abc.html#collections.abc.MutableMapping
-> +
-> +    # We get pop, popitem, clear, update, setdefault, __contains__,
-> +    # keys, items, values, get, __eq__ and __ne__ for free.
-> +
-> +    def __getitem__(self, key: str) -> object:
-> +        return self._object[key]
-> +
-> +    def __setitem__(self, key: str, value: object) -> None:
-> +        self._object[key] = value
-> +        self._data = None
-> +
-> +    def __delitem__(self, key: str) -> None:
-> +        del self._object[key]
-> +        self._data = None
-> +
-> +    def __iter__(self) -> Iterator[str]:
-> +        return iter(self._object)
-> +
-> +    def __len__(self) -> int:
-> +        return len(self._object)
-> +
-> +    # Dunder methods not related to MutableMapping:
-> +
-> +    def __repr__(self) -> str:
-> +        return f"Message({self._object!r})"
-> +
-> +    def __str__(self) -> str:
-> +        """Pretty-printed representation of this QMP message."""
-> +        return json.dumps(self._object, indent=2)
-> +
-> +    def __bytes__(self) -> bytes:
-> +        """bytes representing this QMP message."""
-> +        if self._data is None:
-> +            self._data = self._serialize(self._obj or {})
-> +        return self._data
-> +
-> +    #
->
-Is this something intentional?
-
-> +
-> +    @property
-> +    def _object(self) -> Dict[str, object]:
-> +        """
-> +        A `dict` representing this QMP message.
-> +
-> +        Generated on-demand, if required. This property is private
-> +        because it returns an object that could be used to invalidate
-> +        the internal state of the `Message` object.
-> +        """
-> +        if self._obj is None:
-> +            self._obj = self._deserialize(self._data or b'')
-> +        return self._obj
-> +
-> +    @classmethod
-> +    def _serialize(cls, value: object) -> bytes:
-> +        """
-> +        Serialize a JSON object as `bytes`.
-> +
-> +        :raise ValueError: When the object cannot be serialized.
-> +        :raise TypeError: When the object cannot be serialized.
-> +
-> +        :return: `bytes` ready to be sent over the wire.
-> +        """
-> +        return json.dumps(value, separators=(',', ':')).encode('utf-8')
-> +
-> +    @classmethod
-> +    def _deserialize(cls, data: bytes) -> Dict[str, object]:
-> +        """
-> +        Deserialize JSON `bytes` into a native Python `dict`.
-> +
-> +        :raise DeserializationError:
-> +            If JSON deserialization fails for any reason.
-> +        :raise UnexpectedTypeError:
-> +            If the data does not represent a JSON object.
-> +
-> +        :return: A `dict` representing this QMP message.
-> +        """
-> +        try:
-> +            obj = json.loads(data)
-> +        except JSONDecodeError as err:
-> +            emsg = "Failed to deserialize QMP message."
-> +            raise DeserializationError(emsg, data) from err
-> +        if not isinstance(obj, dict):
-> +            raise UnexpectedTypeError(
-> +                "QMP message is not a JSON object.",
-> +                obj
-> +            )
-> +        return obj
-> +
-> +
-> +class DeserializationError(ProtocolError):
-> +    """
-> +    A QMP message was not understood as JSON.
-> +
-> +    When this Exception is raised, ``__cause__`` will be set to the
-> +    `json.JSONDecodeError` Exception, which can be interrogated for
-> +    further details.
-> +
-> +    :param error_message: Human-readable string describing the error.
-> +    :param raw: The raw `bytes` that prompted the failure.
-> +    """
-> +    def __init__(self, error_message: str, raw: bytes):
-> +        super().__init__(error_message)
-> +        #: The raw `bytes` that were not understood as JSON.
-> +        self.raw: bytes = raw
-> +
-> +    def __str__(self) -> str:
-> +        return "\n".join([
-> +            super().__str__(),
-> +            f"  raw bytes were: {str(self.raw)}",
-> +        ])
-> +
-> +
-> +class UnexpectedTypeError(ProtocolError):
-> +    """
-> +    A QMP message was JSON, but not a JSON object.
-> +
-> +    :param error_message: Human-readable string describing the error.
-> +    :param value: The deserialized JSON value that wasn't an object.
-> +    """
-> +    def __init__(self, error_message: str, value: object):
-> +        super().__init__(error_message)
-> +        #: The JSON value that was expected to be an object.
-> +        self.value: object = value
-> +
-> +    def __str__(self) -> str:
-> +        strval = json.dumps(self.value, indent=2)
-> +        return "\n".join([
-> +            super().__str__(),
-> +            f"  json value was: {strval}",
-> +        ])
-> --
-> 2.31.1
->
->
-
---000000000000a5b28605c689b0be
-Content-Type: text/html; charset="UTF-8"
+--Sig_/tbPlAhHocqNsJIraA+GgC4j
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Thu, Jul 1, 2021 at 9:43 AM John Snow &lt;<a hre=
-f=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">The Message=
- class is here primarily to serve as a solid type to use for<br>
-mypy static typing for unambiguous annotation and documentation.<br>
-<br>
-We can also stuff JSON serialization and deserialization into this class<br=
->
-itself so it can be re-used even outside this infrastructure.<br>
-<br>
-Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"=
-_blank">jsnow@redhat.com</a>&gt;<br>
----<br>
-=C2=A0python/qemu/aqmp/__init__.py |=C2=A0 =C2=A04 +-<br>
-=C2=A0python/qemu/aqmp/message.py=C2=A0 | 207 +++++++++++++++++++++++++++++=
-++++++<br>
-=C2=A02 files changed, 210 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 python/qemu/aqmp/message.py<br>
-<br>
-diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py<br=
->
-index 5c44fabeea..c1ec68a023 100644<br>
---- a/python/qemu/aqmp/__init__.py<br>
-+++ b/python/qemu/aqmp/__init__.py<br>
-@@ -22,12 +22,14 @@<br>
-=C2=A0# the COPYING file in the top-level directory.<br>
-<br>
-=C2=A0from .error import AQMPError, MultiException<br>
-+from .message import Message<br>
-=C2=A0from .protocol import ConnectError, Runstate<br>
-<br>
-<br>
-=C2=A0# The order of these fields impact the Sphinx documentation order.<br=
->
-=C2=A0__all__ =3D (<br>
--=C2=A0 =C2=A0 # Classes<br>
-+=C2=A0 =C2=A0 # Classes, most to least important<br>
-+=C2=A0 =C2=A0 &#39;Message&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;Runstate&#39;,<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# Exceptions, most generic to most explicit<br>
-diff --git a/python/qemu/aqmp/message.py b/python/qemu/aqmp/message.py<br>
-new file mode 100644<br>
-index 0000000000..3a4b283032<br>
---- /dev/null<br>
-+++ b/python/qemu/aqmp/message.py<br>
-@@ -0,0 +1,207 @@<br>
-+&quot;&quot;&quot;<br>
-+QMP Message Format<br>
-+<br>
-+This module provides the `Message` class, which represents a single QMP<br=
->
-+message sent to or from the server.<br>
-+&quot;&quot;&quot;<br>
-+<br>
-+import json<br>
-+from json import JSONDecodeError<br>
-+from typing import (<br>
-+=C2=A0 =C2=A0 Dict,<br>
-+=C2=A0 =C2=A0 Iterator,<br>
-+=C2=A0 =C2=A0 Mapping,<br>
-+=C2=A0 =C2=A0 MutableMapping,<br>
-+=C2=A0 =C2=A0 Optional,<br>
-+=C2=A0 =C2=A0 Union,<br>
-+)<br>
-+<br>
-+from .error import ProtocolError<br>
-+<br>
-+<br>
-+class Message(MutableMapping[str, object]):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Represents a single QMP protocol message.<br>
-+<br>
-+=C2=A0 =C2=A0 QMP uses JSON objects as its basic communicative unit; so th=
-is<br>
-+=C2=A0 =C2=A0 Python object is a :py:obj:`~collections.abc.MutableMapping`=
-. It may<br>
-+=C2=A0 =C2=A0 be instantiated from either another mapping (like a `dict`),=
- or from<br>
-+=C2=A0 =C2=A0 raw `bytes` that still need to be deserialized.<br>
-+<br>
-+=C2=A0 =C2=A0 Once instantiated, it may be treated like any other MutableM=
-apping::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; msg =3D Message(b&#39;{&quot;hell=
-o&quot;: &quot;world&quot;}&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; assert msg[&#39;hello&#39;] =3D=
-=3D &#39;world&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; msg[&#39;id&#39;] =3D &#39;foobar=
-&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; print(msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;hello&quot;: &quot;world&quot;,<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;id&quot;: &quot;foobar&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 It can be converted to `bytes`::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; msg =3D Message({&quot;hello&quot=
-;: &quot;world&quot;})<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;&gt;&gt; print(bytes(msg))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 b&#39;{&quot;hello&quot;:&quot;world&quot;,&qu=
-ot;id&quot;:&quot;foobar&quot;}&#39;<br>
-+<br>
-+=C2=A0 =C2=A0 Or back into a garden-variety `dict`::<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt;&gt;&gt; dict(msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0{&#39;hello&#39;: &#39;world&#39;}<br>
-+<br>
-+<br>
-+=C2=A0 =C2=A0 :param value: Initial value, if any.<br>
-+=C2=A0 =C2=A0 :param eager:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 When `True`, attempt to serialize or deseriali=
-ze the initial value<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 immediately, so that conversion exceptions are=
- raised during<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 the call to ``__init__()``.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 # pylint: disable=3Dtoo-many-ancestors<br>
-+<br>
-+=C2=A0 =C2=A0 def __init__(self,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value: Union=
-[bytes, Mapping[str, object]] =3D b&#39;&#39;, *,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0eager: bool =
-=3D True):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._data: Optional[bytes] =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._obj: Optional[Dict[str, object]] =3D Non=
-e<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if isinstance(value, bytes):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._data =3D value<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if eager:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._obj =3D self=
-._deserialize(self._data)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._obj =3D dict(value)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if eager:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._data =3D sel=
-f._serialize(self._obj)<br>
-+<br>
-+=C2=A0 =C2=A0 # Methods necessary to implement the MutableMapping interfac=
-e, see:<br>
-+=C2=A0 =C2=A0 # <a href=3D"https://docs.python.org/3/library/collections.a=
-bc.html#collections.abc.MutableMapping" rel=3D"noreferrer" target=3D"_blank=
-">https://docs.python.org/3/library/collections.abc.html#collections.abc.Mu=
-tableMapping</a><br>
-+<br>
-+=C2=A0 =C2=A0 # We get pop, popitem, clear, update, setdefault, __contains=
-__,<br>
-+=C2=A0 =C2=A0 # keys, items, values, get, __eq__ and __ne__ for free.<br>
-+<br>
-+=C2=A0 =C2=A0 def __getitem__(self, key: str) -&gt; object:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._object[key]<br>
-+<br>
-+=C2=A0 =C2=A0 def __setitem__(self, key: str, value: object) -&gt; None:<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._object[key] =3D value<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._data =3D None<br>
-+<br>
-+=C2=A0 =C2=A0 def __delitem__(self, key: str) -&gt; None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 del self._object[key]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self._data =3D None<br>
-+<br>
-+=C2=A0 =C2=A0 def __iter__(self) -&gt; Iterator[str]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return iter(self._object)<br>
-+<br>
-+=C2=A0 =C2=A0 def __len__(self) -&gt; int:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return len(self._object)<br>
-+<br>
-+=C2=A0 =C2=A0 # Dunder methods not related to MutableMapping:<br>
-+<br>
-+=C2=A0 =C2=A0 def __repr__(self) -&gt; str:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return f&quot;Message({self._object!r})&quot;<=
-br>
-+<br>
-+=C2=A0 =C2=A0 def __str__(self) -&gt; str:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;Pretty-printed representatio=
-n of this QMP message.&quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return json.dumps(self._object, indent=3D2)<br=
->
-+<br>
-+=C2=A0 =C2=A0 def __bytes__(self) -&gt; bytes:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;bytes representing this QMP =
-message.&quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self._data is None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._data =3D self._serialize(s=
-elf._obj or {})<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._data<br>
-+<br>
-+=C2=A0 =C2=A0 #<br></blockquote><div><span class=3D"gmail_default" style=
-=3D"font-size:small">Is this something intentional?</span>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 @property<br>
-+=C2=A0 =C2=A0 def _object(self) -&gt; Dict[str, object]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 A `dict` representing this QMP message.<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Generated on-demand, if required. This propert=
-y is private<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 because it returns an object that could be use=
-d to invalidate<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 the internal state of the `Message` object.<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self._obj is None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._obj =3D self._deserialize(=
-self._data or b&#39;&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._obj<br>
-+<br>
-+=C2=A0 =C2=A0 @classmethod<br>
-+=C2=A0 =C2=A0 def _serialize(cls, value: object) -&gt; bytes:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Serialize a JSON object as `bytes`.<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :raise ValueError: When the object cannot be s=
-erialized.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :raise TypeError: When the object cannot be se=
-rialized.<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :return: `bytes` ready to be sent over the wir=
-e.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return json.dumps(value, separators=3D(&#39;,&=
-#39;, &#39;:&#39;)).encode(&#39;utf-8&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 @classmethod<br>
-+=C2=A0 =C2=A0 def _deserialize(cls, data: bytes) -&gt; Dict[str, object]:<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Deserialize JSON `bytes` into a native Python =
-`dict`.<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :raise DeserializationError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 If JSON deserialization fails fo=
-r any reason.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :raise UnexpectedTypeError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 If the data does not represent a=
- JSON object.<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :return: A `dict` representing this QMP messag=
-e.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 obj =3D json.loads(data)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except JSONDecodeError as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 emsg =3D &quot;Failed to deseria=
-lize QMP message.&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise DeserializationError(emsg,=
- data) from err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not isinstance(obj, dict):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise UnexpectedTypeError(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;QMP message =
-is not a JSON object.&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 obj<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 )<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return obj<br>
-+<br>
-+<br>
-+class DeserializationError(ProtocolError):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 A QMP message was not understood as JSON.<br>
-+<br>
-+=C2=A0 =C2=A0 When this Exception is raised, ``__cause__`` will be set to =
-the<br>
-+=C2=A0 =C2=A0 `json.JSONDecodeError` Exception, which can be interrogated =
-for<br>
-+=C2=A0 =C2=A0 further details.<br>
-+<br>
-+=C2=A0 =C2=A0 :param error_message: Human-readable string describing the e=
-rror.<br>
-+=C2=A0 =C2=A0 :param raw: The raw `bytes` that prompted the failure.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, error_message: str, raw: bytes):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(error_message)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #: The raw `bytes` that were not understood as=
- JSON.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.raw: bytes =3D raw<br>
-+<br>
-+=C2=A0 =C2=A0 def __str__(self) -&gt; str:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;\n&quot;.join([<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__str__(),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f&quot;=C2=A0 raw bytes were: {s=
-tr(self.raw)}&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
-+<br>
-+<br>
-+class UnexpectedTypeError(ProtocolError):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 A QMP message was JSON, but not a JSON object.<br>
-+<br>
-+=C2=A0 =C2=A0 :param error_message: Human-readable string describing the e=
-rror.<br>
-+=C2=A0 =C2=A0 :param value: The deserialized JSON value that wasn&#39;t an=
- object.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, error_message: str, value: object):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(error_message)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #: The JSON value that was expected to be an o=
-bject.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.value: object =3D value<br>
-+<br>
-+=C2=A0 =C2=A0 def __str__(self) -&gt; str:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 strval =3D json.dumps(self.value, indent=3D2)<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;\n&quot;.join([<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__str__(),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f&quot;=C2=A0 json value was: {s=
-trval}&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
+Hi,
+Thanks for your review. More below.
 
---000000000000a5b28605c689b0be--
+Btw: There is a overview of the replication design in
+docs/block-replication.txt
+
+On Wed, 7 Jul 2021 16:01:31 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+
+> 06.07.2021 19:11, Lukas Straub wrote:
+> > The replication driver needs access to the children block-nodes of
+> > it's child so it can issue bdrv_make_empty to manage the replication.
+> > However, it does this by directly copying the BdrvChilds, which is
+> > wrong.
+> >=20
+> > Fix this by properly attaching the block-nodes with
+> > bdrv_attach_child().
+> >=20
+> > Also, remove a workaround introduced in commit
+> > 6ecbc6c52672db5c13805735ca02784879ce8285
+> > "replication: Avoid blk_make_empty() on read-only child".
+> >=20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >=20
+> > -v2: Test for BDRV_CHILD_PRIMARY in replication_child_perm, since
+> >       bs->file might not be set yet. (Vladimir)
+> >=20
+> >   block/replication.c | 94 +++++++++++++++++++++++++++++----------------
+> >   1 file changed, 61 insertions(+), 33 deletions(-)
+> >=20
+> > diff --git a/block/replication.c b/block/replication.c
+> > index 52163f2d1f..fd8cb728a3 100644
+> > --- a/block/replication.c
+> > +++ b/block/replication.c
+> > @@ -166,7 +166,12 @@ static void replication_child_perm(BlockDriverStat=
+e *bs, BdrvChild *c,
+> >                                      uint64_t perm, uint64_t shared,
+> >                                      uint64_t *nperm, uint64_t *nshared)
+> >   {
+> > -    *nperm =3D BLK_PERM_CONSISTENT_READ;
+> > +    if (role & BDRV_CHILD_PRIMARY) {
+> > +        *nperm =3D BLK_PERM_CONSISTENT_READ;
+> > +    } else {
+> > +        *nperm =3D 0;
+> > +    } =20
+>=20
+> Why you drop READ access for other children? You don't mention it in comm=
+it-msg..
+>=20
+> Upd: ok now I see that we are not going to read from hidden_disk child, a=
+nd that's the only "other" child that worth to mention.
+> Still, we should be sure that hidden_disk child gets WRITE permission in =
+case we are going to call bdrv_make_empty on it.
+
+The code below that in replication_child_perm() should make sure of
+that or am i misunderstanding it?
+
+Or do you mean that it should always request WRITE regardless of
+bs->open_flags & BDRV_O_INACTIVE?
+
+> > +
+> >       if ((bs->open_flags & (BDRV_O_INACTIVE | BDRV_O_RDWR)) =3D=3D BDR=
+V_O_RDWR) {
+> >           *nperm |=3D BLK_PERM_WRITE;
+> >       }
+> > @@ -340,17 +345,7 @@ static void secondary_do_checkpoint(BDRVReplicatio=
+nState *s, Error **errp)
+> >           return;
+> >       }
+> >  =20
+> > -    BlockBackend *blk =3D blk_new(qemu_get_current_aio_context(),
+> > -                                BLK_PERM_WRITE, BLK_PERM_ALL);
+> > -    blk_insert_bs(blk, s->hidden_disk->bs, &local_err);
+> > -    if (local_err) {
+> > -        error_propagate(errp, local_err);
+> > -        blk_unref(blk);
+> > -        return;
+> > -    }
+> > -
+> > -    ret =3D blk_make_empty(blk, errp);
+> > -    blk_unref(blk);
+> > +    ret =3D bdrv_make_empty(s->hidden_disk, errp); =20
+>=20
+> So, here you rely on BLK_PERM_WRITE being set in replication_child_perm()=
+.. Probably that's OK, however logic is changed. Shouldn't we always requir=
+e write permission in replication_child_perm() for hidden_disk ?
+>=20
+> >       if (ret < 0) {
+> >           return;
+> >       }
+> > @@ -365,27 +360,35 @@ static void reopen_backing_file(BlockDriverState =
+*bs, bool writable,
+> >                                   Error **errp)
+> >   {
+> >       BDRVReplicationState *s =3D bs->opaque;
+> > +    BdrvChild *hidden_disk, *secondary_disk;
+> >       BlockReopenQueue *reopen_queue =3D NULL;
+> >  =20
+> > +    /*
+> > +     * s->hidden_disk and s->secondary_disk may not be set yet, as the=
+y will
+> > +     * only be set after the children are writable.
+> > +     */
+> > +    hidden_disk =3D bs->file->bs->backing;
+> > +    secondary_disk =3D hidden_disk->bs->backing;
+> > +
+> >       if (writable) {
+> > -        s->orig_hidden_read_only =3D bdrv_is_read_only(s->hidden_disk-=
+>bs);
+> > -        s->orig_secondary_read_only =3D bdrv_is_read_only(s->secondary=
+_disk->bs);
+> > +        s->orig_hidden_read_only =3D bdrv_is_read_only(hidden_disk->bs=
+);
+> > +        s->orig_secondary_read_only =3D bdrv_is_read_only(secondary_di=
+sk->bs);
+> >       }
+> >  =20
+> > -    bdrv_subtree_drained_begin(s->hidden_disk->bs);
+> > -    bdrv_subtree_drained_begin(s->secondary_disk->bs);
+> > +    bdrv_subtree_drained_begin(hidden_disk->bs);
+> > +    bdrv_subtree_drained_begin(secondary_disk->bs); =20
+>=20
+> That kind of staff may be done as a separate preparation patch, with no-l=
+ogic-change refactoring, this makes the main logic-change patch simpler.
+
+Yes, makes sense. Will do in the next version.
+
+> >  =20
+> >       if (s->orig_hidden_read_only) {
+> >           QDict *opts =3D qdict_new();
+> >           qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
+> > -        reopen_queue =3D bdrv_reopen_queue(reopen_queue, s->hidden_dis=
+k->bs,
+> > +        reopen_queue =3D bdrv_reopen_queue(reopen_queue, hidden_disk->=
+bs,
+> >                                            opts, true);
+> >       }
+> >  =20
+> >       if (s->orig_secondary_read_only) {
+> >           QDict *opts =3D qdict_new();
+> >           qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
+> > -        reopen_queue =3D bdrv_reopen_queue(reopen_queue, s->secondary_=
+disk->bs,
+> > +        reopen_queue =3D bdrv_reopen_queue(reopen_queue, secondary_dis=
+k->bs,
+> >                                            opts, true);
+> >       }, probably it could be a separate patch if it is needed.
+> >  =20
+> > @@ -393,8 +396,8 @@ static void reopen_backing_file(BlockDriverState *b=
+s, bool writable,
+> >           bdrv_reopen_multiple(reopen_queue, errp);
+> >       }
+> >  =20
+> > -    bdrv_subtree_drained_end(s->hidden_disk->bs);
+> > -    bdrv_subtree_drained_end(s->secondary_disk->bs);
+> > +    bdrv_subtree_drained_end(hidden_disk->bs);
+> > +    bdrv_subtree_drained_end(secondary_disk->bs);
+> >   }
+> >  =20
+> >   static void backup_job_cleanup(BlockDriverState *bs)
+> > @@ -451,6 +454,7 @@ static void replication_start(ReplicationState *rs,=
+ ReplicationMode mode,
+> >       BlockDriverState *bs =3D rs->opaque;
+> >       BDRVReplicationState *s;
+> >       BlockDriverState *top_bs;
+> > +    BdrvChild *active_disk, *hidden_disk, *secondary_disk;
+> >       int64_t active_length, hidden_length, disk_length;
+> >       AioContext *aio_context;
+> >       Error *local_err =3D NULL;
+> > @@ -488,32 +492,32 @@ static void replication_start(ReplicationState *r=
+s, ReplicationMode mode,
+> >       case REPLICATION_MODE_PRIMARY:
+> >           break;
+> >       case REPLICATION_MODE_SECONDARY:
+> > -        s->active_disk =3D bs->file;
+> > -        if (!s->active_disk || !s->active_disk->bs ||
+> > -                                    !s->active_disk->bs->backing) {
+> > +        active_disk =3D bs->file;
+> > +        if (!active_disk || !active_disk->bs ||
+> > +                                    !active_disk->bs->backing) {
+> >               error_setg(errp, "Active disk doesn't have backing file");
+> >               aio_context_release(aio_context);
+> >               return;
+> >           }
+> >  =20
+> > -        s->hidden_disk =3D s->active_disk->bs->backing;
+> > -        if (!s->hidden_disk->bs || !s->hidden_disk->bs->backing) {
+> > +        hidden_disk =3D active_disk->bs->backing;
+> > +        if (!hidden_disk->bs || !hidden_disk->bs->backing) {
+> >               error_setg(errp, "Hidden disk doesn't have backing file");
+> >               aio_context_release(aio_context);
+> >               return;
+> >           }
+> >  =20
+> > -        s->secondary_disk =3D s->hidden_disk->bs->backing;
+> > -        if (!s->secondary_disk->bs || !bdrv_has_blk(s->secondary_disk-=
+>bs)) {
+> > +        secondary_disk =3D hidden_disk->bs->backing;
+> > +        if (!secondary_disk->bs || !bdrv_has_blk(secondary_disk->bs)) {
+> >               error_setg(errp, "The secondary disk doesn't have block b=
+ackend");
+> >               aio_context_release(aio_context);
+> >               return;
+> >           }
+> >   , probably it could be a separate patch if it is needed.
+
+Ok.
+
+> >           /* verify the length */
+> > -        active_length =3D bdrv_getlength(s->active_disk->bs);
+> > -        hidden_length =3D bdrv_getlength(s->hidden_disk->bs);
+> > -        disk_length =3D bdrv_getlength(s->secondary_disk->bs);
+> > +        active_length =3D bdrv_getlength(active_disk->bs);
+> > +        hidden_length =3D bdrv_getlength(hidden_disk->bs);
+> > +        disk_length =3D bdrv_getlength(secondary_disk->bs);
+> >           if (active_length < 0 || hidden_length < 0 || disk_length < 0=
+ ||
+> >               active_length !=3D hidden_length || hidden_length !=3D di=
+sk_length) {
+> >               error_setg(errp, "Active disk, hidden disk, secondary dis=
+k's length"
+> > @@ -523,10 +527,10 @@ static void replication_start(ReplicationState *r=
+s, ReplicationMode mode,
+> >           }
+> >  =20
+> >           /* Must be true, or the bdrv_getlength() calls would have fai=
+led */
+> > -        assert(s->active_disk->bs->drv && s->hidden_disk->bs->drv);
+> > +        assert(active_disk->bs->drv && hidden_disk->bs->drv);
+> >  =20
+> > -        if (!s->active_disk->bs->drv->bdrv_make_empty ||
+> > -            !s->hidden_disk->bs->drv->bdrv_make_empty) {
+> > +        if (!active_disk->bs->drv->bdrv_make_empty ||
+> > +            !hidden_disk->bs->drv->bdrv_make_empty) {
+> >               error_setg(errp,
+> >                          "Active disk or hidden disk doesn't support ma=
+ke_empty");
+> >               aio_context_release(aio_context);
+> > @@ -541,6 +545,28 @@ static void replication_start(ReplicationState *rs=
+, ReplicationMode mode,
+> >               return;
+> >           }
+> >  =20
+> > +        s->active_disk =3D active_disk;
+> > +
+> > +        bdrv_ref(hidden_disk->bs);
+> > +        s->hidden_disk =3D bdrv_attach_child(bs, hidden_disk->bs, "hid=
+den disk",
+> > +                                           &child_of_bds, BDRV_CHILD_D=
+ATA,
+> > +                                           &local_err);
+> > +        if (local_err) {
+> > +            error_propagate(errp, local_err);
+> > +            aio_context_release(aio_context);
+> > +            return;
+> > +        } =20
+>=20
+> Ok, the point of creating hidden_disk is to call bdrv_make_empty on it.
+>=20
+> > +
+> > +        bdrv_ref(secondary_disk->bs);
+> > +        s->secondary_disk =3D bdrv_attach_child(bs, secondary_disk->bs,
+> > +                                              "secondary disk", &child=
+_of_bds,
+> > +                                              BDRV_CHILD_DATA, &local_=
+err);
+> > +        if (local_err) {
+> > +            error_propagate(errp, local_err);
+> > +            aio_context_release(aio_context);
+> > +            return;
+> > +        } =20
+>=20
+> But s->secondary_disk child is actually unused.. No reason to create it.
+
+It is used, look closely at replication_co_writev().
+
+If the commit job (run during failover in replication_stop()) fails,
+replication enters "failover failed" state. In that state it writes
+directly to the secondary disk if possible (i.e. if the sector to write
+is not already allocated on the active or hidden disk).
+
+It does this so the active and hidden disks don't grow larger, since in
+the COLO use-case they usually are put on a ramdisk with limited size.
+
+> > +
+> >           /* start backup job now */
+> >           error_setg(&s->blocker,
+> >                      "Block device is in use by internal backup job");
+> > @@ -646,7 +672,9 @@ static void replication_done(void *opaque, int ret)
+> >           s->stage =3D BLOCK_REPLICATION_DONE;
+> >  =20
+> >           s->active_disk =3D NULL;
+> > +        bdrv_unref_child(bs, s->secondary_disk);
+> >           s->secondary_disk =3D NULL;
+> > +        bdrv_unref_child(bs, s->hidden_disk);
+> >           s->hidden_disk =3D NULL;
+> >           s->error =3D 0;
+> >       } else {
+> >  =20
+>=20
+> For me it looks like the good way to update is:
+>=20
+> 1. drop s->active_disk. it seems to be just a copy of bs->file, better to=
+ use bs->file directly, like other drivers do.
+> 2. reduce usage of s->hidden_disk and s->secondary_disk, like you do in t=
+his patch, using local variables instead. Also probably just drop s->second=
+ary_disk..
+> 3. introduce a child, to be used with bdrv_make_empty(s->hidden_disk)
+>=20
+> And these are 3 separate patches. 1 and 2 may be merged, or instead 2 may=
+ be divided into two (to refactor secondary_disk and hidden_disk separately=
+)..
+
+Sound good, will do.
+
+> Still, I'm not a maintainer of replication, neither I have good understan=
+ding of how it works, so don't take my advises to heart :)
+>=20
+
+
+
+--=20
+
+
+--Sig_/tbPlAhHocqNsJIraA+GgC4j
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDlv+gACgkQNasLKJxd
+slgrAA/+Mhv2UPotiVc0jJpX9bHjE67/SFrGokygJiOowsiGsV+jrm+NDqkIbXwi
+ACwAW87YReHm/A2m4IuQJ3JG3HWZH3md7ueUL+IdKD2Hytxmele+KfgqJN1A5j8U
+qM+npib9LK7J1GpIICwWjpzD9IsaEVqZwBOYiEsgQPoJdqJS+Rb2xZ96D5LqpyJf
+BbgP96aIgZrydR4Jy/DXbV84Sz29yBZv34poEOsaQahTzc351OsYbffuRrcuRa4A
+Zf9U9hl7CSKWumGJgqEnfwlAo/c4SPy/Lj/Fm06Gkmr8eOjiTD4yFf+c5vjuYVro
+TcNaniy0Q4VLjPpZDk3NaAFTlXpK0LUF7BYo6pmCxIKW2qx9amrfjkyw2h24JlhJ
+TB1kpMzdhUiiBOTCzk2kUBATDqVod7yzdJsLaBEaOhVqwZJMsE77ZInxA9V8APur
+VyQSaCsiHSCZ8pN08IEZt933zAND3llVfAa/bWhKmaVGkzSf1PWC031++Xj74OxI
+BmYusDQY9hsou0LRxp+VVU+JMkS4Nd/FVLNy/bliMRD8TkgLjDmX9rc0QpS83Zor
+g+x5Zi3hgBFAheNBE4RH9j8knT2wonKyT76UsxKgwLlNlw8f1NMqbF5hOpH6oCH7
+Mb9JU1sLOQZq2/TX7Rn+ti/WTKyYA1F2rPeN9Tw54sO4z+QvleA=
+=UR6J
+-----END PGP SIGNATURE-----
+
+--Sig_/tbPlAhHocqNsJIraA+GgC4j--
 
