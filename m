@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FDB3BE18E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 05:37:15 +0200 (CEST)
-Received: from localhost ([::1]:40364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5997C3BE1AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 05:56:31 +0200 (CEST)
+Received: from localhost ([::1]:42976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0yN8-0007nL-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 23:37:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
+	id 1m0yfl-0001XH-WD
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 23:56:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0yM9-0006vD-J6
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 23:36:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m0yM5-0008HE-Ij
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 23:36:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625628967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iXLw0xQ/DWAr5Sbcm2O7rdNiCgFJo/mOeq3JWLsaW4I=;
- b=J1O9rTw85qr9PZ4cFz0vsKh+ZZLWFo7T4GoXwxuUFtzqUo21D3hygKRPz6tq2FpFzEiH53
- EPv3L7BNFoGK1D7PVJ6yG6NIWsRseNWNc2IOmzmx+52KHkxLvPVR1boEPvtqasK00HFHQb
- nuKbFq7Ly20WQh0wqLBTtAQ2mpl4x7k=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-566-DUG4nQvNPAyYxgNWx9A2uw-1; Tue, 06 Jul 2021 23:36:05 -0400
-X-MC-Unique: DUG4nQvNPAyYxgNWx9A2uw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- k92-20020a17090a14e5b02901731af08bd7so664560pja.2
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 20:36:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m0yev-0000sA-DS
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 23:55:37 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m0yet-00015f-FS
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 23:55:37 -0400
+Received: by mail-pf1-x429.google.com with SMTP id y4so942158pfi.9
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 20:55:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M39PQLdTWbuy4ej+V7GbsRnZ+hcJud211Lz4sWsGrtA=;
+ b=nzdkGjYkRrpSlrrTxUXRlRGhu+z0S8E0/vAMwSr5CHXgrWN1mpluHdNd8jh0ZWlTlf
+ TZY0w4rUoTHFkSeuePGfi4gLZtlbj4YPaooJQvv+dwML8mH54juvT+lHwaYRNQ+jTHoM
+ e/rBxYB06iPfHItFn9txydtxhNKgaVqwnKQg4arVnpOrwYqQ4+vICnri2oimjVnZdJc3
+ iNAieQYtJqFihjsMq71w16q1isKUcXbE+DyBcS/KrZ/JlBX5sr99CluUwqug46024IyB
+ ZnEgPhzgiT/17cbcxc83VKEaNPDi27pMa9ZRy9Obbb5wRbNFTUSrsvTDhyKjcdX0V1Tc
+ KhBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=iXLw0xQ/DWAr5Sbcm2O7rdNiCgFJo/mOeq3JWLsaW4I=;
- b=esNAlJOZbAkKJwATkZqoxKDfUksBSmq90X1QK4Ivl+/oHY6hl2+jQEHxmctDT4INq3
- KgjO60RnzPGSU1qrGHeBV52B7weJVw1rDESOgMiWX1A/XE0r4CctxOE3g6tCG/pfUxn2
- pxlOGusRU8U7VTIELDxe3MEB3ZSkw4NRxF5zFNnLiIZ0ddfW0PYr5MPslpm0vyWwZJDG
- UvrkVbgaGV1txJNF2vaqU6mleF+lh4pUiJexybcY6IRzQ2e1y9h55LpJZ82EUoNCKraP
- SbcEEDEAMflKa0ofw1fl6FIfJ9lpXt+MewdTvZZCOfKBJVAOatSE0tA5XJfPUSd+0v//
- 2iXg==
-X-Gm-Message-State: AOAM533FhzPFeVNh6cA5PMQqCw1O7jcVgjVBJQg0T3rksG7Yr1noR2PP
- pifpSbr7xdkjgeBxYZDDnUzmHdtGiVPveaN8Brk57BFEuiaOAShMCOSIz0kavFomauQinpjFrZJ
- Pn+XHbnx2qY3JLao=
-X-Received: by 2002:a05:6a00:1903:b029:31d:f720:133f with SMTP id
- y3-20020a056a001903b029031df720133fmr15415184pfi.46.1625628963964; 
- Tue, 06 Jul 2021 20:36:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx5V+chbRUTyApvuL9bsZKwNKFXGC7RUuu5K5ftqIiGq0m7ODxq0JbHLKwlesdBi9M+HphVXg==
-X-Received: by 2002:a05:6a00:1903:b029:31d:f720:133f with SMTP id
- y3-20020a056a001903b029031df720133fmr15415161pfi.46.1625628963714; 
- Tue, 06 Jul 2021 20:36:03 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id 10sm17373489pjc.41.2021.07.06.20.36.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 06 Jul 2021 20:36:03 -0700 (PDT)
-Subject: Re: [PATCH] docs: Add '-device intel-iommu' entry
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20210611185500.343525-1-peterx@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <5391f6ca-57de-473d-beee-408455ef70e3@redhat.com>
-Date: Wed, 7 Jul 2021 11:35:43 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=M39PQLdTWbuy4ej+V7GbsRnZ+hcJud211Lz4sWsGrtA=;
+ b=HZBLH+YnPOC2nN+SDP+pceOXQ18aYGBN7WMT7pyRDQnJVxsBzHA4orfZ2NfBXrNVnq
+ BENIjsaRZXO5tKZsCHYnIvHSVwo8a9qVDhZm1//knvd7XEyfHgwDP9edZprDvJQYp2lj
+ ZbSIjZ75WkQMHnYWnxdTOPd1nxasZsGGzHLH1GNSoh5XRIOn68acx4dimIB+QED48K1C
+ sQ9bnidpvZENACblQ1Mb0txg/dp2jVGTe2/F/UY73cIIV+uaLzYjjOLQ/WY/frTBsT+y
+ TJslLPRhnxmJwqAEXrftw66J+OTgH1I895HTQ2p4kZCszgfN7Y/r5m9otDoyacYdV9+j
+ a2Mg==
+X-Gm-Message-State: AOAM531h8yV/l57txsrJhXq/5F5O6ip0Zpixk3y47HAH0KM4Eu/F4xwt
+ Sy1apZGsiTmwZk02Qot2NOIkJvJRq+XAzw==
+X-Google-Smtp-Source: ABdhPJyXmb469KHLKoWQALlTw6qOMZBDLgxqFP5Jl9gI3DOW7nRqrJHGYMmgnvsG8/gE+nMTEi2coQ==
+X-Received: by 2002:a65:62d3:: with SMTP id m19mr24450886pgv.225.1625630133157; 
+ Tue, 06 Jul 2021 20:55:33 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id q13sm12840403pjj.36.2021.07.06.20.55.32
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 06 Jul 2021 20:55:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Move tb_phys_invalidate_count to tb_ctx (#457)
+Date: Tue,  6 Jul 2021 20:55:32 -0700
+Message-Id: <20210707035532.421820-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210611185500.343525-1-peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.442,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,85 +81,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jing Zhao <jinzhao@redhat.com>, Lei Yang <leiyang@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Chao Yang <chayang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We can call do_tb_phys_invalidate from an iocontext, which has
+no per-thread tcg_ctx.  Move this to tb_ctx, which is global.
+The actual update still takes place with a lock held, so only
+an atomic set is required, not an atomic increment.
 
-ÔÚ 2021/6/12 ÉÏÎç2:55, Peter Xu Ð´µÀ:
-> The parameters of intel-iommu device are non-trivial to understand.  Add an
-> entry for it so that people can reference to it when using.
->
-> There're actually a few more options there, but I hide them explicitly because
-> they shouldn't be used by normal QEMU users.
->
-> Cc: Chao Yang <chayang@redhat.com>
-> Cc: Lei Yang <leiyang@redhat.com>
-> Cc: Jing Zhao <jinzhao@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->   qemu-options.hx | 32 ++++++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 14258784b3a..4bb04243907 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -926,6 +926,38 @@ SRST
->   
->   ``-device pci-ipmi-bt,bmc=id``
->       Like the KCS interface, but defines a BT interface on the PCI bus.
-> +
-> +``-device intel-iommu[,option=...]``
-> +    This is only supported by ``-machine q35``, which will enable Intel VT-d
-> +    emulation within the guest.  It supports below options:
-> +
-> +    ``intremap=on|off`` (default: auto)
-> +        This enables interrupt remapping feature in the guest.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/457
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/tb-context.h    |  1 +
+ include/tcg/tcg.h         |  3 ---
+ accel/tcg/translate-all.c |  8 ++++----
+ tcg/region.c              | 14 --------------
+ 4 files changed, 5 insertions(+), 21 deletions(-)
 
-
-I think we don't need "in the guest" here.
-
-Other than this:
-
-Reviewed-by: Jason Wang <jasowang@redhat.com>
-
-Thanks
-
-
->   It's required
-> +        to enable complete x2apic.  Currently it only supports kvm
-> +        kernel-irqchip modes ``off`` or ``split``.  Full kernel-irqchip is not
-> +        yet supported.
-> +
-> +    ``caching-mode=on|off`` (default: off)
-> +        This enables caching mode for the VT-d emulated device.  When
-> +        caching-mode is enabled, each guest DMA buffer mapping will generate an
-> +        IOTLB invalidation from the guest IOMMU driver to the vIOMMU device in
-> +        a synchronous way.  It is required for ``-device vfio-pci`` to work
-> +        with the VT-d device, because host assigned devices requires to setup
-> +        the DMA mapping on the host before guest DMA starts.
-> +
-> +    ``device-iotlb=on|off`` (default: off)
-> +        This enables device-iotlb capability for the emulated VT-d device.  So
-> +        far virtio/vhost should be the only real user for this parameter,
-> +        paired with ats=on configured for the device.
-> +
-> +    ``aw-bits=39|48`` (default: 39)
-> +        This decides the address width of IOVA address space.  The address
-> +        space has 39 bits width for 3-level IOMMU page tables, and 48 bits for
-> +        4-level IOMMU page tables.
-> +
-> +    Please also refer to the wiki page for general scenarios of VT-d
-> +    emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
-> +
->   ERST
->   
->   DEF("name", HAS_ARG, QEMU_OPTION_name,
+diff --git a/accel/tcg/tb-context.h b/accel/tcg/tb-context.h
+index cc33979113..cac62d9749 100644
+--- a/accel/tcg/tb-context.h
++++ b/accel/tcg/tb-context.h
+@@ -34,6 +34,7 @@ struct TBContext {
+ 
+     /* statistics */
+     unsigned tb_flush_count;
++    unsigned tb_phys_invalidate_count;
+ };
+ 
+ extern TBContext tb_ctx;
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index dedb86939a..25dd19d6e1 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -579,8 +579,6 @@ struct TCGContext {
+     /* Threshold to flush the translated code buffer.  */
+     void *code_gen_highwater;
+ 
+-    size_t tb_phys_invalidate_count;
+-
+     /* Track which vCPU triggers events */
+     CPUState *cpu;                      /* *_trans */
+ 
+@@ -815,7 +813,6 @@ size_t tcg_code_capacity(void);
+ 
+ void tcg_tb_insert(TranslationBlock *tb);
+ void tcg_tb_remove(TranslationBlock *tb);
+-size_t tcg_tb_phys_invalidate_count(void);
+ TranslationBlock *tcg_tb_lookup(uintptr_t tc_ptr);
+ void tcg_tb_foreach(GTraverseFunc func, gpointer user_data);
+ size_t tcg_nb_tbs(void);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 57455d8639..4df26de858 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1219,8 +1219,8 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+     /* suppress any remaining jumps to this TB */
+     tb_jmp_unlink(tb);
+ 
+-    qatomic_set(&tcg_ctx->tb_phys_invalidate_count,
+-               tcg_ctx->tb_phys_invalidate_count + 1);
++    qatomic_set(&tb_ctx.tb_phys_invalidate_count,
++                tb_ctx.tb_phys_invalidate_count + 1);
+ }
+ 
+ static void tb_phys_invalidate__locked(TranslationBlock *tb)
+@@ -2128,8 +2128,8 @@ void dump_exec_info(void)
+     qemu_printf("\nStatistics:\n");
+     qemu_printf("TB flush count      %u\n",
+                 qatomic_read(&tb_ctx.tb_flush_count));
+-    qemu_printf("TB invalidate count %zu\n",
+-                tcg_tb_phys_invalidate_count());
++    qemu_printf("TB invalidate count %u\n",
++                qatomic_read(&tb_ctx.tb_phys_invalidate_count));
+ 
+     tlb_flush_counts(&flush_full, &flush_part, &flush_elide);
+     qemu_printf("TLB full flushes    %zu\n", flush_full);
+diff --git a/tcg/region.c b/tcg/region.c
+index d3a3658e81..e64c3ea230 100644
+--- a/tcg/region.c
++++ b/tcg/region.c
+@@ -980,17 +980,3 @@ size_t tcg_code_capacity(void)
+ 
+     return capacity;
+ }
+-
+-size_t tcg_tb_phys_invalidate_count(void)
+-{
+-    unsigned int n_ctxs = qatomic_read(&tcg_cur_ctxs);
+-    unsigned int i;
+-    size_t total = 0;
+-
+-    for (i = 0; i < n_ctxs; i++) {
+-        const TCGContext *s = qatomic_read(&tcg_ctxs[i]);
+-
+-        total += qatomic_read(&s->tb_phys_invalidate_count);
+-    }
+-    return total;
+-}
+-- 
+2.25.1
 
 
