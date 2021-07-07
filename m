@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90D973BF13C
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 23:09:59 +0200 (CEST)
-Received: from localhost ([::1]:35064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 855623BF14D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 23:17:31 +0200 (CEST)
+Received: from localhost ([::1]:40462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Enu-0008SS-DK
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 17:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32886)
+	id 1m1EvC-0003xj-10
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 17:17:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1EmV-00074m-TR
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:08:31 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:36846)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1EmU-0003Y3-8h
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:08:31 -0400
-Received: by mail-pf1-x433.google.com with SMTP id 21so3432165pfp.3
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 14:08:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uEaeVWcswi2S7NlBPD2BIduTnNEYLCeYr2L1OnERT9s=;
- b=HENiRv4bp40WQ715BjGXDS2kcAo6lKJrjzUYHCOdZctXkGQBusOQLW079I9Xcb4efj
- PVS3DGHtRkIFpBpgEu98gsuij+DhExHcE9DaRbCU2hoJj6e+4MECAonSnN67WIbSMrZ4
- 3kG34pBzdIoUNPXDg+0DFtDqlVbvdVp7sVGVgbNdFdaqpB9/CMcInHv8RBemjVeWZuAA
- sVYT7j79CQKOby4dkOe3VObPp6mj3YjoAkvxXgQ90RIt34wsy7oHRe5RrD3eUPWEXHI5
- qmRFlGB/mbicAAnOnBNcX/uVXC/gzh10sL9niw2wPd2boJTlsrQy9kbAJP75eonNV4q5
- ZZoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uEaeVWcswi2S7NlBPD2BIduTnNEYLCeYr2L1OnERT9s=;
- b=HenQO6TOaTzBLVXtQ2FBffmoV8VE68ho5HA2CvQYGHyJaha/GCCZ/2/PCvVpmo0exG
- uH5g6xlMkBCOCO1vqzMDAYZZlVwzihJlQBo1uAd1PseYSv9VGhXopWF6vNo6i/ZbMCQJ
- iZ46yr++yjo5ALMNtBoMIfWjVo40FyD4N2HzIhufnF3tMFiosh36x65ozWs3WrjEsbAr
- fWesQwVK4Do2icRWOcFHl5Kt+C6Okw+3s3NmJTW1+SVDbm/WOAGDGc1lQHRbNqj8RWdT
- xFpQEA89RDvG+1A3vt9yTFhQz7gRfUVGzTnb4eA/btTVA2LvIrqNUgMQRaA0dUCYWABE
- JFcA==
-X-Gm-Message-State: AOAM53046LR+J3/dEKoqn6ePelv+EHm+sEsPQIVJA4WAqczICmd3UVsr
- 87tNn1/3+YCHLJGy0qMPCq2n6w==
-X-Google-Smtp-Source: ABdhPJwfsUpnfBkgHkFNfa6bXQqviLoo5VfdaBGVuAtaPVYZAz1kdCJ2gZtgyGKmQgMYYdh+BeWP/w==
-X-Received: by 2002:aa7:9e1a:0:b029:31d:144d:da08 with SMTP id
- y26-20020aa79e1a0000b029031d144dda08mr20668116pfq.11.1625692108646; 
- Wed, 07 Jul 2021 14:08:28 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id k10sm102454pfc.169.2021.07.07.14.08.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 14:08:28 -0700 (PDT)
-Subject: Re: [PATCH v7 2/2] target/i386: Correct implementation for FCS, FIP, 
- FDS and FDP
-To: Ziqiao Kong <ziqiaokong@gmail.com>, qemu-devel@nongnu.org
-References: <20210530150112.74411-1-ziqiaokong@gmail.com>
- <20210530150112.74411-2-ziqiaokong@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <56f215ae-8535-90ee-44f7-a30e712e0318@linaro.org>
-Date: Wed, 7 Jul 2021 14:08:26 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Ets-00037z-VU
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:16:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Etn-0004Ox-HE
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 17:16:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625692561;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3gmFc6UdXYFtI3LUZsq+A4DNejY0dmXs0yqDYXtPFE4=;
+ b=XzZ62fvCTxAz99illU0eonEUn0A7KxaU2dOh/adHKIhxkDziySkjWuKwjfaohhd7XMQ33v
+ /h0Egy+ERKwQYleSdcgRmAA9mJ3QoAKXBVMorV6kYv2A39SfhzmbH0+zVE1kPo4pljaoO4
+ f67Y4nKXx3URAfX/h8W1h1GdvZLn2ns=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-Qq7gEapBPR-k1EMXNc9DFw-1; Wed, 07 Jul 2021 17:15:58 -0400
+X-MC-Unique: Qq7gEapBPR-k1EMXNc9DFw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 200DF362F8;
+ Wed,  7 Jul 2021 21:15:57 +0000 (UTC)
+Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 632EE5C1C2;
+ Wed,  7 Jul 2021 21:15:56 +0000 (UTC)
+Date: Wed, 7 Jul 2021 16:15:54 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH] nbd: register yank function earlier
+Message-ID: <20210707211554.ri4ur5266wt7e5yk@redhat.com>
+References: <20210704000730.1befb596@gecko.fritz.box>
+ <ea2b50e6-0ad0-fe31-8445-2177780a8d9a@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210530150112.74411-2-ziqiaokong@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ea2b50e6-0ad0-fe31-8445-2177780a8d9a@virtuozzo.com>
+User-Agent: NeoMutt/20210205-556-f84451-dirty
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,70 +77,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/30/21 8:01 AM, Ziqiao Kong wrote:
->       /* fninit */
-> -    env->fpus = 0;
-> -    env->fpstt = 0;
-> -    cpu_set_fpuc(env, 0x37f);
-> -    env->fptags[0] = 1;
-> -    env->fptags[1] = 1;
-> -    env->fptags[2] = 1;
-> -    env->fptags[3] = 1;
-> -    env->fptags[4] = 1;
-> -    env->fptags[5] = 1;
-> -    env->fptags[6] = 1;
-> -    env->fptags[7] = 1;
-> +    helper_fninit(env);
+On Mon, Jul 05, 2021 at 11:07:21AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 04.07.2021 01:07, Lukas Straub wrote:
+> > Although unlikely, qemu might hang in nbd_send_request().
+> > 
+> > Allow recovery in this case by registering the yank function before
+> > calling it.
+> > 
+> > Signed-off-by: Lukas Straub<lukasstraub2@web.de>
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Directly calling a function named "helper" is bad practice.  Those should only be called 
-from TCG generated code.  In this case it happens to be ok, since helper_fninit does not 
-use GETPC(), but really we should break out a "do_fninit" function to share.
+Thanks, will queue through my NBD tree.
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
->       case 0xd8 ... 0xdf:
->           {
-> +            TCGv last_addr = tcg_temp_new();
-> +            int last_seg;
-> +            bool update_fdp = false;
-
-These belong...
-
-> @@ -5942,7 +5947,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->               op = ((b & 7) << 3) | ((modrm >> 3) & 7);
->               if (mod != 3) {
->                   /* memory op */
-> -                gen_lea_modrm(env, s, modrm);
-> +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
-
-... here, within the section that deals with memory operands.
-
-> +            if (update_fip) {
-> +                tcg_gen_ld32u_tl(s->T0, cpu_env,
-> +                                 offsetof(CPUX86State, segs[R_CS].selector));
-> +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpcs));
-> +
-> +                tcg_gen_movi_tl(s->T0, pc_start - s->cs_base);
-> +                tcg_gen_st_tl(s->T0, cpu_env, offsetof(CPUX86State, fpip));
-> +            }
-> +
-> +            if (update_fdp) {
-> +                if (s->override >= 0) {
-> +                    last_seg = s->override;
-> +                }
-> +                tcg_gen_ld32u_tl(s->T0, cpu_env,
-> +                                 offsetof(CPUX86State,
-> +                                 segs[last_seg].selector));
-> +                tcg_gen_st16_tl(s->T0, cpu_env, offsetof(CPUX86State, fpds));
-> +
-> +                tcg_gen_st_tl(last_addr, cpu_env, offsetof(CPUX86State, fpdp));
-> +            }
-
-Similarly the update_fdp test belongs at the end of the memory op block.
-
-
-r~
 
