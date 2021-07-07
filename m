@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4240E3BE0D4
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 04:22:40 +0200 (CEST)
-Received: from localhost ([::1]:33134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBBC83BE0DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 04:27:22 +0200 (CEST)
+Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m0xCx-0006NY-9b
-	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 22:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52424)
+	id 1m0xHV-0000R5-SN
+	for lists+qemu-devel@lfdr.de; Tue, 06 Jul 2021 22:27:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0x9I-0000hn-D3
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:18:52 -0400
-Received: from mail-qv1-xf29.google.com ([2607:f8b0:4864:20::f29]:43691)
+ id 1m0x9H-0000eH-IX
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:18:51 -0400
+Received: from mail-qk1-x72f.google.com ([2607:f8b0:4864:20::72f]:43895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1m0x8r-0001Op-Da
- for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:18:52 -0400
-Received: by mail-qv1-xf29.google.com with SMTP id w5so340101qvu.10
- for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 19:18:23 -0700 (PDT)
+ id 1m0x8t-0001PB-6M
+ for qemu-devel@nongnu.org; Tue, 06 Jul 2021 22:18:51 -0400
+Received: by mail-qk1-x72f.google.com with SMTP id q16so465356qke.10
+ for <qemu-devel@nongnu.org>; Tue, 06 Jul 2021 19:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YQc7hngRcXAxMgbGTFQRDdYH/dKN+DPW0PpKb5MWZc4=;
- b=IbBB8Ofy0l/ZBWAjwXV0TYbXyq4Pcin6ZJ8vV6eacEFdE9aBn24LuPUTyGo+7XLH5P
- PzsAXHptHGd9HL5pikvio1zrFA8gBFxBCiDPybYX1NISvAxUw4uAe93cm7e/FmJ+KZzc
- vg229X29VWNQPeG9fz3wo3cNeZtK5znAkZ43UEpAgCNXimHASlA2xYJHrI79Vun/YEuq
- JKMwDguYolaBJDQYLCDJF2VwYtdkRvOh2u+tVjgkKDg1GpMc6ePXvafbvl3gi+BDQG8U
- LqBt6Fvp1uq5WiLkBdwYNS1j3COYSnYnFGF/yQmRowifzvzmBhenw12rxB8hlSQh1UI6
- HGWA==
+ bh=tsHeL5puGZzF49G0NV3fx4u7brupjfXmt3gK1IpYnFI=;
+ b=HrIvxM753Ejs63Ld33qu38pFXYQMkc8fhhF3P+hrEtRN1CF7n0+59nHEc0xiObk2Pi
+ 6M+vNisAk0h8qLHtO6vHNJVF7HGbx+/I6YdGNNAOR0XbNUVyD4NdB333Silj9+WtojM5
+ +bdYzq+CqNevV0efBwQT0RIWPG1yovOAEa/YOsdYzDTHpR/+z5tmdNdyMzzWv2knzJ86
+ +t+Q5yB2ZkXgBUWg+YLIKWlrJ9ljsZfjUULH8m7i4Bw7UTeLHbZ7Y/0/C2ByyvJCgTfC
+ Ih13ZffBd0XEBVKhb15Ssnma9+XqBen2MLfn/m7gAHEhQ3FPjwM0wNKMx2jgE1y6nH5B
+ TQDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YQc7hngRcXAxMgbGTFQRDdYH/dKN+DPW0PpKb5MWZc4=;
- b=ZMBCDZn3AbuJBbxFflJtOIa2gkX6i7rTWyDbgGYaycnFgiPEMf4cuZtf9qcVtk5A4W
- 5N1PYlyELfAscL6yaZiuVZTPyDMoNuYa7jUOr9cq0DTm4rbxaeoTPpmU85Xmz0nWDuds
- lX1s4qGvJE8t7yS35iOdG3vEwvEpLYZ/zroLjg+JvA2mUA617cbVG+hQ7096pL3jPEJj
- LmsdGqErsWs1LdZTe2Ej/6KJ+uvE65PTxlFaAAMPWBzQFGEaV7Jeu7iGdkJQVHeNyQp2
- G/i/OnOYIKTQdfXsXMdmEgIkzo2Abp4lkKmD+XwiU/3WESaJtjjRCXgBWxCjN+G9N36C
- Vsdw==
-X-Gm-Message-State: AOAM531n1RXbvDcLB69R21cxYxKvaXvSVmCqwcKNWaErBqsnfJQgQbQs
- ewwHHhGznmY5LN81VGXlYmmZ6g==
-X-Google-Smtp-Source: ABdhPJz5KnJNR7Xey2Xh7PhOc5ZQgUPkuzJKTpjrl/OK/nQwjNCpawk142+nkwRSOCKEW1I3fMYe7Q==
-X-Received: by 2002:a05:6214:2a4a:: with SMTP id
- jf10mr21601143qvb.13.1625624303509; 
- Tue, 06 Jul 2021 19:18:23 -0700 (PDT)
+ bh=tsHeL5puGZzF49G0NV3fx4u7brupjfXmt3gK1IpYnFI=;
+ b=hemd2y2MfWOZGuuWa3Us706tGWZelYfGSkn0YfOupuK2LnrZI0xFKWqe1Gx9dvfaHO
+ u98eq79bYuwGADPVD1gZV/DZHUIXfnMtiPyJchYzZzrEwbOGvq8tBCkpaHuEsTrFdEoi
+ VFbvZ4AHrYyyE/gI5tt/t3GsDOBHN8yY6sO/8daTfIvYQ1/O/IC86B7YpUGHn0wWjnK5
+ LaGk+wl/smWhX3lp3TKwfM85ZavWGG7H8u2z/JV9MIRo8bg2IpZoCZ67v5DBvdbJzBir
+ MUTOiRSx74NZPDvCzaBIHBbHwLqfLCKUj2toDhesioFqMoMHLbYnadfJ1NEQf0YBTRI0
+ obaQ==
+X-Gm-Message-State: AOAM533Ws8n1DEsOCmVTECeWLp5sIR5hw5P4TjNF+Bf+nwlzqheEslQg
+ RNvmpQegqqHyuBYQ9VtUbLVo0kUIhfAi7w==
+X-Google-Smtp-Source: ABdhPJzBX1psRYtvN9gbxieDcJlhn8YwrKaHAu0A1JHPKBbSdzLkIF0vs5Z7kJBeUA5XbMXQkPeIVQ==
+X-Received: by 2002:ae9:e309:: with SMTP id v9mr22920237qkf.253.1625624304158; 
+ Tue, 06 Jul 2021 19:18:24 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-stsvon1503w-grc-22-142-114-143-47.dsl.bell.ca. [142.114.143.47])
- by smtp.googlemail.com with ESMTPSA id z6sm7768613qke.24.2021.07.06.19.18.22
+ by smtp.googlemail.com with ESMTPSA id z6sm7768613qke.24.2021.07.06.19.18.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 06 Jul 2021 19:18:23 -0700 (PDT)
 From: Shashi Mallela <shashi.mallela@linaro.org>
 To: peter.maydell@linaro.org, leif@nuviainc.com, rad@semihalf.com,
  mst@redhat.com, imammedo@redhat.com
-Subject: [PATCH v6 09/10] hw/arm/virt: add ITS support in virt GIC
-Date: Tue,  6 Jul 2021 22:18:14 -0400
-Message-Id: <20210707021815.45938-10-shashi.mallela@linaro.org>
+Subject: [PATCH v6 10/10] tests/data/acpi/virt: Update IORT files for ITS
+Date: Tue,  6 Jul 2021 22:18:15 -0400
+Message-Id: <20210707021815.45938-11-shashi.mallela@linaro.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210707021815.45938-1-shashi.mallela@linaro.org>
 References: <20210707021815.45938-1-shashi.mallela@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f29;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qv1-xf29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72f;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x72f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,130 +88,147 @@ Cc: eric.auger@redhat.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Included creation of ITS as part of virt platform GIC
-initialization. This Emulated ITS model now co-exists with kvm
-ITS and is enabled in absence of kvm irq kernel support in a
-platform.
+Updated expected IORT files applicable with latest GICv3
+ITS changes.
+
+Full diff of new file disassembly:
+
+/*
+ * Intel ACPI Component Architecture
+ * AML/ASL+ Disassembler version 20180629 (64-bit version)
+ * Copyright (c) 2000 - 2018 Intel Corporation
+ *
+ * Disassembly of tests/data/acpi/virt/IORT.pxb, Tue Jun 29 17:35:38 2021
+ *
+ * ACPI Data Table [IORT]
+ *
+ * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
+ */
+
+[000h 0000   4]                    Signature : "IORT"    [IO Remapping Table]
+[004h 0004   4]                 Table Length : 0000007C
+[008h 0008   1]                     Revision : 00
+[009h 0009   1]                     Checksum : 07
+[00Ah 0010   6]                       Oem ID : "BOCHS "
+[010h 0016   8]                 Oem Table ID : "BXPC    "
+[018h 0024   4]                 Oem Revision : 00000001
+[01Ch 0028   4]              Asl Compiler ID : "BXPC"
+[020h 0032   4]        Asl Compiler Revision : 00000001
+
+[024h 0036   4]                   Node Count : 00000002
+[028h 0040   4]                  Node Offset : 00000030
+[02Ch 0044   4]                     Reserved : 00000000
+
+[030h 0048   1]                         Type : 00
+[031h 0049   2]                       Length : 0018
+[033h 0051   1]                     Revision : 00
+[034h 0052   4]                     Reserved : 00000000
+[038h 0056   4]                Mapping Count : 00000000
+[03Ch 0060   4]               Mapping Offset : 00000000
+
+[040h 0064   4]                     ItsCount : 00000001
+[044h 0068   4]                  Identifiers : 00000000
+
+[048h 0072   1]                         Type : 02
+[049h 0073   2]                       Length : 0034
+[04Bh 0075   1]                     Revision : 00
+[04Ch 0076   4]                     Reserved : 00000000
+[050h 0080   4]                Mapping Count : 00000001
+[054h 0084   4]               Mapping Offset : 00000020
+
+[058h 0088   8]            Memory Properties : [IORT Memory Access Properties]
+[058h 0088   4]              Cache Coherency : 00000001
+[05Ch 0092   1]        Hints (decoded below) : 00
+                                   Transient : 0
+                              Write Allocate : 0
+                               Read Allocate : 0
+                                    Override : 0
+[05Dh 0093   2]                     Reserved : 0000
+[05Fh 0095   1] Memory Flags (decoded below) : 03
+                                   Coherency : 1
+                            Device Attribute : 1
+[060h 0096   4]                ATS Attribute : 00000000
+[064h 0100   4]           PCI Segment Number : 00000000
+[068h 0104   1]            Memory Size Limit : 00
+[069h 0105   3]                     Reserved : 000000
+
+[068h 0104   4]                   Input base : 00000000
+[06Ch 0108   4]                     ID Count : 0000FFFF
+[070h 0112   4]                  Output Base : 00000000
+[074h 0116   4]             Output Reference : 00000030
+[078h 0120   4]        Flags (decoded below) : 00000000
+                              Single Mapping : 0
+
+Raw Table Data: Length 124 (0x7C)
+
+    0000: 49 4F 52 54 7C 00 00 00 00 07 42 4F 43 48 53 20  // IORT|.....BOCHS
+    0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
+    0020: 01 00 00 00 02 00 00 00 30 00 00 00 00 00 00 00  // ........0.......
+    0030: 00 18 00 00 00 00 00 00 00 00 00 00 00 00 00 00  // ................
+    0040: 01 00 00 00 00 00 00 00 02 34 00 00 00 00 00 00  // .........4......
+    0050: 01 00 00 00 20 00 00 00 01 00 00 00 00 00 00 03  // .... ...........
+    0060: 00 00 00 00 00 00 00 00 00 00 00 00 FF FF 00 00  // ................
+    0070: 00 00 00 00 30 00 00 00 00 00 00 00              // ....0.......
 
 Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/virt.c         | 28 ++++++++++++++++++++++++++--
- include/hw/arm/virt.h |  2 ++
- target/arm/kvm_arm.h  |  4 ++--
- 3 files changed, 30 insertions(+), 4 deletions(-)
+ tests/data/acpi/virt/IORT                   | Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.memhp             | Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.numamem           | Bin 0 -> 124 bytes
+ tests/data/acpi/virt/IORT.pxb               | Bin 0 -> 124 bytes
+ tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+ 5 files changed, 4 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 4b96f06014..1d8c44685c 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -583,6 +583,12 @@ static void create_its(VirtMachineState *vms)
-     const char *itsclass = its_class_name();
-     DeviceState *dev;
- 
-+    if (!strcmp(itsclass, "arm-gicv3-its")) {
-+        if (!vms->tcg_its) {
-+            itsclass = NULL;
-+        }
-+    }
-+
-     if (!itsclass) {
-         /* Do nothing if not supported */
-         return;
-@@ -620,7 +626,7 @@ static void create_v2m(VirtMachineState *vms)
-     vms->msi_controller = VIRT_MSI_CTRL_GICV2M;
- }
- 
--static void create_gic(VirtMachineState *vms)
-+static void create_gic(VirtMachineState *vms, MemoryRegion *mem)
- {
-     MachineState *ms = MACHINE(vms);
-     /* We create a standalone GIC */
-@@ -654,6 +660,14 @@ static void create_gic(VirtMachineState *vms)
-                              nb_redist_regions);
-         qdev_prop_set_uint32(vms->gic, "redist-region-count[0]", redist0_count);
- 
-+        if (!kvm_irqchip_in_kernel()) {
-+            if (vms->tcg_its) {
-+                object_property_set_link(OBJECT(vms->gic), "sysmem",
-+                                         OBJECT(mem), &error_fatal);
-+                qdev_prop_set_bit(vms->gic, "has-lpi", true);
-+            }
-+        }
-+
-         if (nb_redist_regions == 2) {
-             uint32_t redist1_capacity =
-                     vms->memmap[VIRT_HIGH_GIC_REDIST2].size / GICV3_REDIST_SIZE;
-@@ -2039,7 +2053,7 @@ static void machvirt_init(MachineState *machine)
- 
-     virt_flash_fdt(vms, sysmem, secure_sysmem ?: sysmem);
- 
--    create_gic(vms);
-+    create_gic(vms, sysmem);
- 
-     virt_cpu_post_init(vms, sysmem);
- 
-@@ -2720,6 +2734,12 @@ static void virt_instance_init(Object *obj)
-     } else {
-         /* Default allows ITS instantiation */
-         vms->its = true;
-+
-+        if (vmc->no_tcg_its) {
-+            vms->tcg_its = false;
-+        } else {
-+            vms->tcg_its = true;
-+        }
-     }
- 
-     /* Default disallows iommu instantiation */
-@@ -2766,8 +2786,12 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
- 
- static void virt_machine_6_0_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-     virt_machine_6_1_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_0, hw_compat_6_0_len);
-+    /* qemu ITS was introduced with 6.1 */
-+    vmc->no_tcg_its = true;
- }
- DEFINE_VIRT_MACHINE(6, 0)
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 921416f918..f873ab9068 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -120,6 +120,7 @@ struct VirtMachineClass {
-     MachineClass parent;
-     bool disallow_affinity_adjustment;
-     bool no_its;
-+    bool no_tcg_its;
-     bool no_pmu;
-     bool claim_edge_triggered_timers;
-     bool smbios_old_sys_ver;
-@@ -141,6 +142,7 @@ struct VirtMachineState {
-     bool highmem;
-     bool highmem_ecam;
-     bool its;
-+    bool tcg_its;
-     bool virt;
-     bool ras;
-     bool mte;
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 34f8daa377..0613454975 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -525,8 +525,8 @@ static inline const char *its_class_name(void)
-         /* KVM implementation requires this capability */
-         return kvm_direct_msi_enabled() ? "arm-its-kvm" : NULL;
-     } else {
--        /* Software emulation is not implemented yet */
--        return NULL;
-+        /* Software emulation based model */
-+        return "arm-gicv3-its";
-     }
- }
- 
+diff --git a/tests/data/acpi/virt/IORT b/tests/data/acpi/virt/IORT
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
+GIT binary patch
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/IORT.memhp b/tests/data/acpi/virt/IORT.memhp
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
+GIT binary patch
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/IORT.numamem b/tests/data/acpi/virt/IORT.numamem
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
+GIT binary patch
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/data/acpi/virt/IORT.pxb b/tests/data/acpi/virt/IORT.pxb
+index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..521acefe9ba66706c5607321a82d330586f3f280 100644
+GIT binary patch
+literal 124
+zcmebD4+^Pa00MR=e`k+i1*eDrX9XZ&1PX!JAesq?4S*O7Bw!2(4Uz`|CKCt^;wu0#
+QRGb+i3L*dhhtM#y0PN=p0RR91
+
+literal 0
+HcmV?d00001
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 2ef211df59..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,5 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/virt/IORT",
+-"tests/data/acpi/virt/IORT.memhp",
+-"tests/data/acpi/virt/IORT.numamem",
+-"tests/data/acpi/virt/IORT.pxb",
 -- 
 2.27.0
 
