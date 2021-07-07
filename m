@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A114E3BEA2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:00:19 +0200 (CEST)
-Received: from localhost ([::1]:39982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDA03BEA3D
+	for <lists+qemu-devel@lfdr.de>; Wed,  7 Jul 2021 17:02:47 +0200 (CEST)
+Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m192A-0002E2-AQ
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:00:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35144)
+	id 1m194Y-0005gA-Nz
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 11:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1m190t-0001PZ-6J
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:58:59 -0400
-Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:59736)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1m192U-0003gR-Q6
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:00:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1m190o-00062m-LJ
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 10:58:57 -0400
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 25FE92E1791;
- Wed,  7 Jul 2021 17:58:51 +0300 (MSK)
-Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
- (vla5-d6d5ce7a4718.qloud-c.yandex.net [2a02:6b8:c18:341e:0:640:d6d5:ce7a])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- KXiXJOzKjm-woxuHp9r; Wed, 07 Jul 2021 17:58:51 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1625669931; bh=rA1vR+Y5oimzrVnUxVVtLOF1Ia3EP94yOX0XqyWPJmw=;
- h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
- b=fL1MBCk638BWbCKvMEjSHmJ3oT5Cc7qMz9Epco5s1PJuFXSBSp7unKqq62MMMusjZ
- 9sEUpkbxV91YoDaz4FRgIsRQ9aEgRr6NRXjslkfZdH4hDV0EDQpgDUS6hlnTqdJBLu
- HibFU//uwoE7Y4/Jb3KR2uVEl6KbGFUeK2y26QLQ=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:4::1:5])
- by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 3qo6zmzMY1-wo4e74l8; Wed, 07 Jul 2021 17:58:50 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Subject: Re: [PATCH v0] vhost: make SET_VRING_ADDR, SET_[PROTOCOL_]FEATEURES
- send replies
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
- <20210707060936-mutt-send-email-mst@kernel.org>
- <d7d3deec-f1d1-4fce-dbf0-a0cbd8063504@yandex-team.ru>
- <20210707103555-mutt-send-email-mst@kernel.org>
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-Message-ID: <13c22772-5642-06b9-2ba3-864995544cd2@yandex-team.ru>
-Date: Wed, 7 Jul 2021 17:58:50 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1m192R-0006Cf-Kq
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 11:00:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625670035;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bVg+TXo1fwTrx0v38Wi1llJr4LQsWJhDuJZ4gdJDpRM=;
+ b=MxKKwzIXZPRMwsWjqsiu4TiFCY2kCF16g3imqsq8bwve4Adapdp/hGFA+e/cv4QIP84Ezw
+ H/EJ66T665N2I+IKQZu7r+aNbssG1S8ntgax88tQywStMG7CHAaORbr1Xjpkvby9aCOnkT
+ RnNLzw+IM2zuf4uGAMV0Au4wBH3fN7g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-ZFLZBIigNEawEnShnKFuQw-1; Wed, 07 Jul 2021 11:00:31 -0400
+X-MC-Unique: ZFLZBIigNEawEnShnKFuQw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7EB2804159;
+ Wed,  7 Jul 2021 15:00:30 +0000 (UTC)
+Received: from steredhat.tendawifi.com (ovpn-112-132.ams2.redhat.com
+ [10.36.112.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2198E5C1D5;
+ Wed,  7 Jul 2021 15:00:19 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] linux-aio: limit the batch size to reduce queue latency
+Date: Wed,  7 Jul 2021 17:00:16 +0200
+Message-Id: <20210707150019.201442-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210707103555-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=77.88.29.217;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,114 +76,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series add a new `aio-max-batch` parameter to IOThread, and use it in the
+Linux AIO backend to limit the batch size (number of request submitted to the
+kernel through io_submit(2)).
 
-On 07.07.2021 17:39, Michael S. Tsirkin wrote:
-> On Wed, Jul 07, 2021 at 03:19:20PM +0300, Denis Plotnikov wrote:
->> On 07.07.2021 13:10, Michael S. Tsirkin wrote:
->>> On Fri, Jun 25, 2021 at 11:52:10AM +0300, Denis Plotnikov wrote:
->>>> On vhost-user-blk migration, qemu normally sends a number of commands
->>>> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
->>>> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
->>>> VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
->>>> data logging.
->>>> The issue is that qemu doesn't wait for reply from the vhost daemon
->>>> for these commands which may result in races between qemu expectation
->>>> of logging starting and actual login starting in vhost daemon.
->>> Could you be more explicit please? What kind of race have you
->>> observed? Getting a reply slows down the setup considerably and
->>> should not be done lightly.
->> I'm talking about the vhost-user-blk case. On migration setup, we enable
->> logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
->> vhost-user-blk daemon immediately and the daemon needs some time turn the
->> logging on internally. If qemu doesn't wait for reply, after sending the
->> command qemu may start migrate memory pages. At this time the logging may
->> not be actually turned on in the daemon  but some guest pages, which the
->> daemon is about to write to, may be already transferred without logging to a
->> destination. Since the logging wasn't turned on, those pages won't be
->> transferred again as dirty. So we may end up with corrupted data on the
->> destination.
->>
->> Have I managed to explain the case clearly?
->>
->> Thanks!
->>
->> Denis
-> OK so this is just about enabling logging. It would be cleaner to
-> defer migrating memory until response ... if that is too hard,
-> at least document why we are doing this please.
-> And, let's wait for an ack just in that case then - why not?
->
-> And what about VHOST_USER_SET_PROTOCOL_FEATURES?
+Commit 2558cb8dd4 ("linux-aio: increasing MAX_EVENTS to a larger hardcoded
+value") changed MAX_EVENTS from 128 to 1024, to increase the number of
+in-flight requests. But this change also increased the potential maximum batch
+to 1024 elements.
 
-The code uses the same path for both VHOST_USER_SET_PROTOCOL_FEATURES 
-and VHOST_USER_SET_FEATURES via vhost_user_set_u64(). So, I decided to 
-suggest adding reply to both of them, so both feature setting commands 
-work similarly as it doesn't contradicts with vhost-user spec.
+The problem is noticeable when we have a lot of requests in flight and multiple
+queues attached to the same AIO context.
+In this case we potentially create very large batches. Instead, when we have
+a single queue, the batch is limited because when the queue is unplugged,
+there is a call to io_submit(2).
+In practice, io_submit(2) was called only when there are no more queues plugged
+in or when we fill the AIO queue (MAX_EVENTS = 1024).
 
-I'm not sure that it worth doing that, so if you think it's not I'll 
-just remove them.
+I run some benchmarks to choose 32 as default batch value for Linux AIO.
+Below the kIOPS measured with fio running in the guest (average over 3 runs):
 
+                   |   master  |           with this series applied            |
+                   |687f9f7834e| maxbatch=8|maxbatch=16|maxbatch=32|maxbatch=64|
+          # queues | 1q  | 4qs | 1q  | 4qs | 1q  | 4qs | 1q  | 4qs | 1q  | 4qs |
+-- randread tests -|-----------------------------------------------------------|
+bs=4k iodepth=1    | 193 | 188 | 204 | 198 | 194 | 202 | 201 | 213 | 195 | 201 |
+bs=4k iodepth=8    | 241 | 265 | 247 | 248 | 249 | 250 | 257 | 269 | 270 | 240 |
+bs=4k iodepth=64   | 216 | 202 | 257 | 269 | 269 | 256 | 258 | 271 | 254 | 251 |
+bs=4k iodepth=128  | 212 | 177 | 267 | 253 | 285 | 271 | 245 | 281 | 255 | 269 |
+bs=16k iodepth=1   | 130 | 133 | 137 | 137 | 130 | 130 | 130 | 130 | 130 | 130 |
+bs=16k iodepth=8   | 130 | 137 | 144 | 137 | 131 | 130 | 131 | 131 | 130 | 131 |
+bs=16k iodepth=64  | 130 | 104 | 137 | 134 | 131 | 128 | 131 | 128 | 137 | 128 |
+bs=16k iodepth=128 | 130 | 101 | 137 | 134 | 131 | 129 | 131 | 129 | 138 | 129 |
 
-Denis
+1q  = virtio-blk device with a single queue
+4qs = virito-blk device with multi queues (one queue per vCPU - 4)
 
->
->
->>> Thanks!
->>>
->>>> To resolve this issue, this patch makes qemu wait for the commands result
->>>> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
->>>> Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
->>>> command to make the features setting functions work similary.
->>>>
->>>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
->>>> ---
->>>>    hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
->>>>    1 file changed, 20 insertions(+)
->>>>
->>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->>>> index ee57abe04526..e47b82adab00 100644
->>>> --- a/hw/virtio/vhost-user.c
->>>> +++ b/hw/virtio/vhost-user.c
->>>> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
->>>>            .hdr.size = sizeof(msg.payload.addr),
->>>>        };
->>>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
->>>> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
->>>> +    if (reply_supported) {
->>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->>>> +    }
->>>> +
->>>>        if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>>>            return -1;
->>>>        }
->>>> +    if (reply_supported) {
->>>> +        return process_message_reply(dev, &msg);
->>>> +    }
->>>> +
->>>>        return 0;
->>>>    }
->>>> @@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
->>>>            .hdr.size = sizeof(msg.payload.u64),
->>>>        };
->>>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
->>>> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
->>>> +    if (reply_supported) {
->>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->>>> +    }
->>>> +
->>>>        if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
->>>>            return -1;
->>>>        }
->>>> +    if (reply_supported) {
->>>> +        return process_message_reply(dev, &msg);
->>>> +    }
->>>> +
->>>>        return 0;
->>>>    }
->>>> -- 
->>>> 2.25.1
+I reported only the most significant tests, but I also did other tests to
+make sure there were no regressions, here the full report:
+https://docs.google.com/spreadsheets/d/11X3_5FJu7pnMTlf4ZatRDvsnU9K3EPj6Mn3aJIsE4tI
+
+Test environment:
+- Disk: Intel Corporation NVMe Datacenter SSD [Optane]
+- CPU: Intel(R) Xeon(R) Silver 4214 CPU @ 2.20GHz
+- QEMU: qemu-system-x86_64 -machine q35,accel=kvm -smp 4 -m 4096 \
+          ... \
+          -object iothread,id=iothread0,aio-max-batch=${MAX_BATCH} \
+          -device virtio-blk-pci,iothread=iothread0,num-queues=${NUM_QUEUES}
+
+- benchmark: fio --ioengine=libaio --thread --group_reporting \
+                 --number_ios=200000 --direct=1 --filename=/dev/vdb \
+                 --rw=${TEST} --bs=${BS} --iodepth=${IODEPTH} --numjobs=16
+
+Next steps:
+ - benchmark io_uring and use `aio-max-batch` also there
+ - make MAX_EVENTS parametric adding a new `aio-max-events` parameter
+
+Comments and suggestions are welcome :-)
+
+Thanks,
+Stefano
+
+Stefano Garzarella (3):
+  iothread: generalize iothread_set_param/iothread_get_param
+  iothread: add aio-max-batch parameter
+  linux-aio: limit the batch size using `aio-max-batch` parameter
+
+ qapi/misc.json            |  6 ++-
+ qapi/qom.json             |  7 +++-
+ include/block/aio.h       | 12 ++++++
+ include/sysemu/iothread.h |  3 ++
+ block/linux-aio.c         |  6 ++-
+ iothread.c                | 82 ++++++++++++++++++++++++++++++++++-----
+ monitor/hmp-cmds.c        |  2 +
+ util/aio-posix.c          | 12 ++++++
+ util/aio-win32.c          |  5 +++
+ util/async.c              |  2 +
+ qemu-options.hx           |  8 +++-
+ 11 files changed, 131 insertions(+), 14 deletions(-)
+
+-- 
+2.31.1
+
 
