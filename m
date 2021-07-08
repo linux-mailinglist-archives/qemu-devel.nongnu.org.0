@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 714EC3C1839
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:34:25 +0200 (CEST)
-Received: from localhost ([::1]:52314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB06E3C1892
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:42:47 +0200 (CEST)
+Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Xuq-00051P-FQ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47326)
+	id 1m1Y2w-000163-SX
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m1XR2-0001um-Jk
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:03:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m1XQy-000755-4o
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:03:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625763811;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NM+N4JyWP8MQ9GJok3TR7PmYFcIzeOA7qkL+asddKtI=;
- b=PdTpc4KhA32FjFdwKfp/CLXuvkNSdSyR/NA83wtoexHPppkoQDhdVFPCSRLEIu87P8J7SO
- bMhIG/NpTIEoajJkieTG8eqcOR4zIFoN+WORqFPsLE/l7/xHj1oycplwX8mqtvN4GGFtqV
- Acza4sCa/UIyIQjrVD6vLmU7ZciT4hI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-113-Sn2_bJh_NKGQk-HVnW1Lxg-1; Thu, 08 Jul 2021 13:03:27 -0400
-X-MC-Unique: Sn2_bJh_NKGQk-HVnW1Lxg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- l21-20020a0560000235b029013564642c78so2189284wrz.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:03:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1XTJ-0005YW-4T
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:05:57 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43532)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1XTG-0007r6-UO
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:05:56 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id a13so8388049wrf.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=avqZU2zaRHYwDaI+nphWFrRDm2l36KerUnCAuDOkKSo=;
+ b=LgP3vVNz5LyLcd056vdtAlqgEoSXN4R5rOl9rTBfcCNhxZ2vLsYbx/x7aUliTzozO8
+ E5xsXnMr7JPO4sflgKiqpk3olIpdqhLkgchcAZOw5ug6CKPlbGfAr5FP82noHwAhTDr8
+ XxQGVyEAahxjoOwP9VPJ3ioaSEQbu3L1SM7dDV2rusTMlOtiB4L5NUKg+oudeaC3P0j2
+ mbCBbGMS+KnTAeL9K+QoKs+rSANUz6P613OmI3CDouayJ1Ch/y+Y4lP7pAXYxN2BZS0Q
+ nhCvMLYZe2RabYLyyMEuNnjIv0o0ht9sEQ1gPxuiQpGslrGgZdaIg/8U96ZiCI24hEfT
+ AofA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NM+N4JyWP8MQ9GJok3TR7PmYFcIzeOA7qkL+asddKtI=;
- b=f1HS1z4EbsE6iUCqt2ngSP1Q8KdpG3iO6ExmNYsKLCeOY0wfAOBJ6mCbSDOv2kebO4
- E78tCxTzc/YXgfC9oTQPTd4yEmuAPUVyEUlYcaHjswpQtk6JeMZMCvvkQy99lnMx1Etw
- XSK8CFFARarA5zH8h8glHmarPJ1QCFFusN5+vsdoU645oNslCnAFxY0PEVYqoSagEgoW
- E9ERKxQPnrwA8R7amb51i5r1opyQ0m7GOrYkn1BJbkiXTos+jqX9yAQqakxoxI89DNJP
- 0n6w9m79+PcLiKVwS44dRkCa2YbRCQI/afI4V9skpKPiP012kJPZkrLhR8199Z+djJTn
- QiAw==
-X-Gm-Message-State: AOAM531U5r8A+TTWU6MX6FwI2VSuj1zTiyOiQw4RDV6fVs3nt3/Xqbn0
- /v503nBUFQ3SDjZIdW14JXV6CB4vec5gNs8zElzB71ZHYs7ibMlzbqPZEO8US0U5uyotnlzE+R5
- tj30KLW/god3KZYw=
-X-Received: by 2002:a05:6000:1379:: with SMTP id
- q25mr34965205wrz.188.1625763806609; 
- Thu, 08 Jul 2021 10:03:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTnWGHS65DBLH1X8BkUeR6OakIWkcpNC4FVG+ABADl0ZpHCVIbZiBYRfpT35ISvui1yRr/wg==
-X-Received: by 2002:a05:6000:1379:: with SMTP id
- q25mr34965158wrz.188.1625763806331; 
- Thu, 08 Jul 2021 10:03:26 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=avqZU2zaRHYwDaI+nphWFrRDm2l36KerUnCAuDOkKSo=;
+ b=JXrk4/weOm6PP23yquwZMnUvpYDUs/8SDwSne410MRjl+iJw+QtMMVL+Lif52mKeVa
+ qbaVrtSMYvY7SpU8+nnjGECyoa6+3fwzEjQfklZfTfaNkZUAYjovSN+CwNSa30VN6fJH
+ g7wD9b11F0Ix5/gQqoVFvaZhhN99OiUJaOwgnnjXCIdAFIIh64SlYqD4p+9w9T808/nW
+ gmbLjhTHXDPTQAlH7C+sLUYQvIgk+7QRG5Zbq122/AB2KsUGaGnACem4kj/OcJG+oVlT
+ pKFKFUfB0YDPbm+5Hd0JzIO7/k+Bw9jC4tjortKiMrjphCemhH1Er90+36g+X6HEj+3T
+ 7yiA==
+X-Gm-Message-State: AOAM5339v0H5Iga4ovFY0tmvzATUQO/spXt1uutaSRoyZCeR3dufelJj
+ WN/+AH1iz8yc0C1FTvtDwnigs2j2xQI=
+X-Google-Smtp-Source: ABdhPJwYkwQdQJDtY6GMbHhLWZw6hhlEUOm6F5o0Y4h426TL6uwxp6elKiOpviMipqPH/sMzq3FzxA==
+X-Received: by 2002:a05:6000:1ac6:: with SMTP id
+ i6mr31570309wry.327.1625763952823; 
+ Thu, 08 Jul 2021 10:05:52 -0700 (PDT)
+Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id j12sm2682723wro.82.2021.07.08.10.03.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 10:03:25 -0700 (PDT)
-Subject: Re: [PATCH v3 0/2] x86/sev: Measured Linux SEV guest with
- kernel/initrd/cmdline
-To: Connor Kuehl <ckuehl@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210624102040.2015280-1-dovmurik@linux.ibm.com>
- <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
-Date: Thu, 8 Jul 2021 19:03:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ by smtp.gmail.com with ESMTPSA id h10sm5021852wmb.46.2021.07.08.10.05.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 10:05:52 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/8] linux-user: target <-> host errno conversion code
+ refactor
+Date: Thu,  8 Jul 2021 19:05:42 +0200
+Message-Id: <20210708170550.1846343-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,63 +85,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
- Laszlo Ersek <lersek@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 6:41 PM, Connor Kuehl wrote:
-> Hi Paolo,
-> 
-> Please consider this series[1] for inclusion into your next pull request.
-> 
-> Just a note that this series has a companion series that is getting
-> upstreamed into OVMF[2]
-
-Shouldn't we get the OVMF part merged first?
-
-> 
-> [1] Patchwork link, if convenient: https://patchwork.kernel.org/project/qemu-devel/cover/20210624102040.2015280-1-dovmurik@linux.ibm.com/
-> [2] https://bugzilla.tianocore.org/show_bug.cgi?id=3457#c6
-> 
-> Thank you,
-> 
-> Connor
-> 
-> On 6/24/21 3:20 AM, Dov Murik wrote:
->> Currently booting with -kernel/-initrd/-append is not supported in SEV
->> confidential guests, because the content of these blobs is not measured
->> and therefore not trusted by the SEV guest.
->>
->> However, in some cases the kernel, initrd, and cmdline are not secret
->> but should not be modified by the host.  In such a case, we want to
->> verify inside the trusted VM that the kernel, initrd, and cmdline are
->> indeed the ones expected by the Guest Owner, and only if that is the
->> case go on and boot them up (removing the need for grub inside OVMF in
->> that mode).
->>
->> To support that, OVMF adds a special area for hashes of
->> kernel/initrd/cmdline; that area is expected to be filled by QEMU and
->> encrypted as part of the initial SEV guest launch.  This in turn makes
->> the hashes part of the PSP measured content, and OVMF can trust these
->> inputs if they match the hashes.
->>
->> This series adds an SEV function to generate the table of hashes for
->> OVMF and encrypt it (patch 1/2), and calls this function if SEV is
->> enabled when the kernel/initrd/cmdline are prepared (patch 2/2).
->>
->> Corresponding OVMF support was submitted to edk2-devel [1] (patch series
->> "Measured SEV boot with kernel/initrd/cmdline"); it's still under
->> review.
->>
->> [1] https://edk2.groups.io/g/devel/topic/patch_v1_0_8_measured_sev/83074450
->>
->> ---
-
+Hi,=0D
+=0D
+This series extract code related to target errno conversion=0D
+(to/from host) into a separate header.=0D
+=0D
+Since v2:=0D
+- addressed Richard / Laurent review comments=0D
+Since v1:=0D
+- addressed Taylor / Richard / Laurent review comments=0D
+=0D
+Based-on: <20210708100756.212085-1-laurent@vivier.eu>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (8):=0D
+  linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)=0D
+  linux-user/sparc: Rename target_errno.h -> target_errno_defs.h=0D
+  linux-user: Extract target errno to 'target_errno_defs.h'=0D
+  linux-user/alpha: Move errno definitions to 'target_errno_defs.h'=0D
+  linux-user/hppa: Move errno definitions to 'target_errno_defs.h'=0D
+  linux-user/mips: Move errno definitions to 'target_errno_defs.h'=0D
+  linux-user: Simplify host <-> target errno conversion using macros=0D
+  linux-user/syscall: Remove ERRNO_TABLE_SIZE check=0D
+=0D
+ linux-user/aarch64/target_errno_defs.h        |   7 +=0D
+ linux-user/alpha/target_errno_defs.h          | 204 ++++++++++++++++=0D
+ linux-user/alpha/target_syscall.h             | 194 ---------------=0D
+ linux-user/arm/target_errno_defs.h            |   7 +=0D
+ linux-user/cris/target_errno_defs.h           |   7 +=0D
+ .../target_errno_defs.h}                      |   4 +-=0D
+ linux-user/hexagon/target_errno_defs.h        |   7 +=0D
+ linux-user/hppa/target_errno_defs.h           | 220 +++++++++++++++++=0D
+ linux-user/hppa/target_syscall.h              | 210 -----------------=0D
+ linux-user/i386/target_errno_defs.h           |   7 +=0D
+ linux-user/m68k/target_errno_defs.h           |   7 +=0D
+ linux-user/microblaze/target_errno_defs.h     |   7 +=0D
+ linux-user/mips/target_errno_defs.h           | 221 ++++++++++++++++++=0D
+ linux-user/mips/target_syscall.h              | 211 -----------------=0D
+ linux-user/mips64/target_errno_defs.h         |  10 +=0D
+ linux-user/mips64/target_syscall.h            | 211 -----------------=0D
+ linux-user/nios2/target_errno_defs.h          |   7 +=0D
+ linux-user/openrisc/target_errno_defs.h       |   7 +=0D
+ linux-user/ppc/target_errno_defs.h            |   7 +=0D
+ linux-user/riscv/target_errno_defs.h          |   7 +=0D
+ linux-user/s390x/target_errno_defs.h          |   7 +=0D
+ linux-user/sh4/target_errno_defs.h            |   7 +=0D
+ .../{target_errno.h =3D> target_errno_defs.h}   |  11 +-=0D
+ linux-user/sparc/target_syscall.h             |   2 -=0D
+ linux-user/syscall_defs.h                     |   2 +-=0D
+ linux-user/x86_64/target_errno_defs.h         |   7 +=0D
+ linux-user/xtensa/target_errno_defs.h         |   7 +=0D
+ linux-user/syscall.c                          | 164 ++-----------=0D
+ linux-user/errnos.c.inc                       | 140 +++++++++++=0D
+ linux-user/safe-syscall.S                     |   2 +-=0D
+ 30 files changed, 926 insertions(+), 985 deletions(-)=0D
+ create mode 100644 linux-user/aarch64/target_errno_defs.h=0D
+ create mode 100644 linux-user/alpha/target_errno_defs.h=0D
+ create mode 100644 linux-user/arm/target_errno_defs.h=0D
+ create mode 100644 linux-user/cris/target_errno_defs.h=0D
+ rename linux-user/{errno_defs.h =3D> generic/target_errno_defs.h} (99%)=0D
+ create mode 100644 linux-user/hexagon/target_errno_defs.h=0D
+ create mode 100644 linux-user/hppa/target_errno_defs.h=0D
+ create mode 100644 linux-user/i386/target_errno_defs.h=0D
+ create mode 100644 linux-user/m68k/target_errno_defs.h=0D
+ create mode 100644 linux-user/microblaze/target_errno_defs.h=0D
+ create mode 100644 linux-user/mips/target_errno_defs.h=0D
+ create mode 100644 linux-user/mips64/target_errno_defs.h=0D
+ create mode 100644 linux-user/nios2/target_errno_defs.h=0D
+ create mode 100644 linux-user/openrisc/target_errno_defs.h=0D
+ create mode 100644 linux-user/ppc/target_errno_defs.h=0D
+ create mode 100644 linux-user/riscv/target_errno_defs.h=0D
+ create mode 100644 linux-user/s390x/target_errno_defs.h=0D
+ create mode 100644 linux-user/sh4/target_errno_defs.h=0D
+ rename linux-user/sparc/{target_errno.h =3D> target_errno_defs.h} (97%)=0D
+ create mode 100644 linux-user/x86_64/target_errno_defs.h=0D
+ create mode 100644 linux-user/xtensa/target_errno_defs.h=0D
+ create mode 100644 linux-user/errnos.c.inc=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
