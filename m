@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB31B3C1636
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:42:30 +0200 (CEST)
-Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4C3C3C1621
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:37:24 +0200 (CEST)
+Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1WAX-00014b-AW
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:42:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
+	id 1m1W5b-0006MB-VO
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn4-0000pA-0u
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:14 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:45963)
+ id 1m1Vn1-0000cD-4F
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:11 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmy-0008FR-U9
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:13 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id t3so8994741edt.12
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:08 -0700 (PDT)
+ id 1m1Vmz-0008Fl-Nq
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:10 -0400
+Received: by mail-ej1-x630.google.com with SMTP id nd37so10295712ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/Iv10jXl0e7Uri5p1LK00hnQfO9Q7szAFv5OMxF4rGU=;
- b=n+/N2+OmVGiMcY+aCbw5zD3yF8vycZUuTCU2efxkNc5fDik5vQ6NZWrEg43tomhzWK
- U5+naVg+GOAEgdlxrOWwoFhOqKipBKZWPeCldgFD13CQFo6EpG6i7mWOCB/rBjqUIX7V
- vboFP0P0Y/h2Taw0aK/IM0Rv048uWkvqk50BcdD71v2xOQjElxow89ocREqZogly7ZN3
- WIOv014xJ6VgyQBR7p+Ezk/3dirJ84RVQObyFWCfg+WwOG2M7nkvLC4oIt0nMjoV3e01
- a0r5c2Xy0OBNtG6LtyQFUdpOqP+g3+LjeyyYuZNne/D8NC+HGp3qU4VLkIK3nlbNJ0wD
- 9RKQ==
+ bh=ioTspNqC51n8g8b33aT5Bz3obIBnFvA/tPrRexRDgc0=;
+ b=tbYeDzv99rDfemDZar9InVxqaA7iqcQss4wndGEeaP2nOOA5ZA6kSvCsyDFpMCh9AA
+ 8aV8eSN1tPTeSPvIBKLwqdrRIsDIzcBSWtIJ1ofe1NMtZATSJc27w/yNKg3uDnlo/aFZ
+ jFWxCVlhInpsiuHxd7uDhhjm9vkVGCv5G4Ic7+JbJGW2zjKN6m2lPsaTHmZQDaam+t4g
+ fXo2xNuoJ+/XMVD2r4HOr7JDrgaJku5Fh1fZMu5/+ncuglI/zpkYQlzSfBMOwZ3xDCdW
+ n7QuMLbd667sPUCw5hbH000VNglYvcdY82B4Jlw/4Ziq+6Le1louKB5D5SrYI9k5LtoP
+ 7yAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/Iv10jXl0e7Uri5p1LK00hnQfO9Q7szAFv5OMxF4rGU=;
- b=Gsz6lznukhxU/V75He0laSjlMJHRHfaHa0N3ko3+vHlQhUa19IXxiE5yuQzd+u4Awf
- Z5WOINoZU+ySGv2uExXEMAznQRVoAJxIJSqoar0wFiK+mvguO7oAtPgdDKC5Dra902IA
- BKzY8rDXCzcT8btxgql+O+dklS/je4clLLdr/Yk5WbXP1YNmK64se0rre6aROZQqzntp
- sxbIRCGgCPcSuRnQ1vkpOWhXbwUkNTpYpOoHXrGNAavY5E1ERMcyCBp+yK9Q5U+Tm3eJ
- Mu+P8lYx9h/o8zieiMuJCdmPoMGyeZNL6NYz7klQPXloNKVCDVhbTH3c4XmP2NCmx3Eb
- njoA==
-X-Gm-Message-State: AOAM530GZO3CF+wWrOuC08EtKlN+J9Wm+SzhF0H7TO0elhSxg+axTWHD
- CWpMt45ZRdQ1EF9LY9xpWsCx/e5OGEU=
-X-Google-Smtp-Source: ABdhPJxawCmKPDUp0fuIjfKTl0aIc/OX56jtV2ZINOedP3qOFEx8Auz3YOFLxu9SQ40HoOt+SlPGrA==
-X-Received: by 2002:aa7:cd85:: with SMTP id x5mr39074313edv.115.1625757487701; 
- Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
+ bh=ioTspNqC51n8g8b33aT5Bz3obIBnFvA/tPrRexRDgc0=;
+ b=uUoLu5OLRcMNZZZsQOJRJK2WQq/OhI3gPgVNwF+H91nykOLjRbGsJ1OUT70sOC2hm9
+ lOiVS/8lg436jYsbVqHPmPQhlejCfT36vGDjk3afSMVkNmCHzCjDDsS/uOr2uQ2dvt93
+ 6MuDFCAfpuMC0ABcK0Orni+sM+8oQJgkkppxIW2b3wFMQB2IektKlkx2p6+bpog8NAMZ
+ L7RnXmcbE1w+xwF2w4kV0NyfswdlWmpzFYZIYWhQjfjNb3J3y0CSblyfoy2wgCJXFvE1
+ IvXcQo1b7qjDEzPyMSJsXgWsllUBXRMoXyw7NZjJtt3yg6jmM8edzQl/TfE/EiLBkL0a
+ ahWw==
+X-Gm-Message-State: AOAM5322HUrBq4B4IIFRWU1s0V1+R+SSG8ZnENG6zT0PVjwqFvAm6lpF
+ qVryQ9svGyZdJqNFAlKqIyhCz7U8Mns=
+X-Google-Smtp-Source: ABdhPJyhcS6cijq8HqgTNOxCqI8pqSfsZnJUvPthRv0xMjTFUwEWN4NTVdqRdmPdv5NnEEIzooX+0g==
+X-Received: by 2002:a17:906:58cd:: with SMTP id
+ e13mr15759675ejs.177.1625757488404; 
+ Thu, 08 Jul 2021 08:18:08 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:08 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/48] modules: add documentation for module sourcesets
-Date: Thu,  8 Jul 2021 17:17:25 +0200
-Message-Id: <20210708151748.408754-26-pbonzini@redhat.com>
+Subject: [PULL 26/48] modules: add module_obj() note to QOM docs
+Date: Thu,  8 Jul 2021 17:17:26 +0200
+Message-Id: <20210708151748.408754-27-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -92,40 +93,31 @@ From: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-22-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-23-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/build-system.rst | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ docs/devel/qom.rst | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 7ef36f42d0..fd1650442e 100644
---- a/docs/devel/build-system.rst
-+++ b/docs/devel/build-system.rst
-@@ -272,6 +272,23 @@ Target-dependent emulator sourcesets:
-     target_arch += {'arm': arm_ss}
-     target_softmmu_arch += {'arm': arm_softmmu_ss}
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+index 42d0dc4f4d..e5fe3597cd 100644
+--- a/docs/devel/qom.rst
++++ b/docs/devel/qom.rst
+@@ -87,6 +87,14 @@ specific type:
+    #define MY_DEVICE(obj) \
+       OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
  
-+Module sourcesets:
-+  There are two dictionaries for modules: `modules` is used for
-+  target-independent modules and `target_modules` is used for
-+  target-dependent modules.  When modules are disabled the `module`
-+  source sets are added to `softmmu_ss` and the `target_modules`
-+  source sets are added to `specific_ss`.
++In case the ObjectClass implementation can be built as module a
++module_obj() line must be added to make sure qemu loads the module
++when the object is needed.
 +
-+  Both dictionaries are nested.  One dictionary is created per
-+  subdirectory, and these per-subdirectory dictionaries are added to
-+  the toplevel dictionaries.  For example::
++.. code-block:: c
 +
-+    hw_display_modules = {}
-+    qxl_ss = ss.source_set()
-+    ...
-+    hw_display_modules += { 'qxl': qxl_ss }
-+    modules += { 'hw-display': hw_display_modules }
++   module_obj(TYPE_MY_DEVICE);
 +
- Utility sourcesets:
-   All binaries link with a static library `libqemuutil.a`.  This library
-   is built from several sourcesets; most of them however host generated
+ Class Initialization
+ ====================
+ 
 -- 
 2.31.1
 
