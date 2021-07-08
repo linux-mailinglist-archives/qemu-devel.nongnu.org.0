@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA873C1AEE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 23:19:09 +0200 (CEST)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3294F3C1B1B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 23:40:23 +0200 (CEST)
+Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1bQK-0001Vr-PB
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 17:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50908)
+	id 1m1bkq-0001z8-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 17:40:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1bOm-0000EU-6P
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:17:32 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33460)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1biZ-0008PQ-UW
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:37:59 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1bOk-000283-KO
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:17:31 -0400
-Received: by mail-ed1-x531.google.com with SMTP id eb14so10656852edb.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 14:17:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1biX-0008Km-Jc
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:37:59 -0400
+Received: by mail-pf1-x430.google.com with SMTP id x3so3178307pfc.11
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 14:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8cE/E7Za1TJ+EqjbBH7uyqCcG1r1+v5Bp32HgG5zzCU=;
- b=ckjWo92DMzruahcx0tP7Fa6LvhK77fcJnhgB46R6DWOUQX9OY1WjwKfwssDO7dsc73
- UmxWWAmc74lLuKi3izTZ+eW/BpuD9mkLrctVyCCbBbz5ZJTIzHPRwMyIF+FUtCRtTp9K
- smr62Nw9vdKwEj3leUSXy/FuweeeX3W9lwmUD+TQ3o7CCJ1lHB1Vn5X/p+FJvouaVa9o
- IfmHdFpJu3PrYxEA/mvlZbdG3jtpbXeRR3odom7iyLApi25SJpY2UL7tsOvjE8r+sASj
- jwRhDGG5KvDqRAws58bM6kYYxrNg9qPVfnuxSO2dY+5y37LLihbk0dP0AYcNhxyLDKro
- zYlQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8acp9lcthXMNN4kiCAslGUBMzEhY7HznvfDWQ2lsmRg=;
+ b=A5oH8wY3aqfx0jUZQgAiQsKRR/csitDesPgm9N3lNzI9OlrEOLIHuaYlUQ8uiq9QDm
+ FW8HkHt9fFKLwbZvjX2QX3zgOx79f5eaM/nwXHJMiVfP/1HvgSdSFaz7X8TN/zXhMxun
+ iF8+4Uhh0vS1ujWoFdsFT7nY6lMhkqXTqN1/J2imUXZf2/Bq6ERUuTYS0zUD/3ZAc3Bv
+ PaMg3q73UjiY0LjHFMcPYOTLh9s4+6zbBj78/qh1E1YbJQj1s9k2MJjFJ7LXxNm68Tz7
+ vGg9Q2/BQQniVR8LKgNYV48qi5dEMPFspL0eE6gXSuZllFFNIX713N4zO6ia9JjQgs0T
+ C5iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8cE/E7Za1TJ+EqjbBH7uyqCcG1r1+v5Bp32HgG5zzCU=;
- b=ubWo9vDrqEiF8+n0fUDC8+ltOPSb7GlItd0VEOtM5/DSLbSAwNN4e8jieF3eqFlnaC
- TTdbg30GxtbIVsU7v/1BT5cFqfjBrlk79YewnAYLbhtSLHGJJAd6Zr46nDT2Zl7u8k64
- FYFzN13E9roOkPKYgJcZ/rL+C02ybMGO70cEIouH6+CrFZBzQ62LEP+6IBxGzt7sd/cm
- 21Vw2isuUvSAFoL5rDSj73FmtF6ktznIxkAQ/Pj2Pr+AIrzLytwjcQAXhecvoGVCFPPC
- 0A9uiRVLMyo6ikdHx5Md3nkc7P61PRCMtqqGObpODtm/vjgcAiwqtrUDxMcfu6XfcvrZ
- DeXQ==
-X-Gm-Message-State: AOAM5313giUr85dwWBgWvR+vqrPFbdgpLltKKgG3f33wrdAedaGkemj7
- BgljszJsLXTTC/WOWvK7W8S2mtCSwbexCQS9nVKvyw==
-X-Google-Smtp-Source: ABdhPJz2tOBVXP7T7pz+fTVZsSamstx+cNAdMNVXJ1+n1dtx/PwWLzGLl4g1oGsCaEXTFdae0Ps3lRX+js1hFDMHIXE=
-X-Received: by 2002:a05:6402:697:: with SMTP id
- f23mr19546351edy.44.1625779048704; 
- Thu, 08 Jul 2021 14:17:28 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8acp9lcthXMNN4kiCAslGUBMzEhY7HznvfDWQ2lsmRg=;
+ b=DAzObjU1OUulnwm1YiVS4DFdoSZOSW1GNN2rcXWrUmnQJQdxLhVGiaYlMXnZXIZmwh
+ cfzgy5ushc7zGosib9itE/Lz7JZs/OagoRD0SE+kFYgEDYW1/b8P9HmbHLAiOFvCibd/
+ ilq5ZkGJzR8d9Fv1LAVmngnS2dus6viJsLnKcYhllN+VNh1g7httuZ93F40kcqJh38hl
+ bKHePfakw/Wy95EIkM+Exsq4dKua00xqlRaPuD8lb+W4JMKuHZ4f36M3ujCWOQhkqjB9
+ YkRHmaMrKUS6zPZpDPWNgbC4ojMVBeEroNvezq9nMHJJSh/cHvTvyqyQgBlZunAokShN
+ R4FA==
+X-Gm-Message-State: AOAM532Z6he7Ni2hyI3hbUCUcoXZGZafbeDiG9pLz2OnOHW60mJ88O5f
+ dSzlgemk7j/QPTe4hvU0SGJuGtarM42ZVw==
+X-Google-Smtp-Source: ABdhPJyltNi4/81PvD042vRhnyJ/R5rxPIsazLKfeEqwD3KRdLBtaBmoB+M1wUy80cJADynH6Wqe/A==
+X-Received: by 2002:a63:1215:: with SMTP id h21mr33540787pgl.173.1625780275774; 
+ Thu, 08 Jul 2021 14:37:55 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id g27sm4322800pgl.19.2021.07.08.14.37.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 14:37:55 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] target/openrisc: Use tcg_constant_*
+Date: Thu,  8 Jul 2021 14:37:50 -0700
+Message-Id: <20210708213754.830485-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210708100756.212085-1-laurent@vivier.eu>
-In-Reply-To: <20210708100756.212085-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Jul 2021 22:16:50 +0100
-Message-ID: <CAFEAcA9v-nwa=PZFi+-RxGMckmt5zXQ5dmxKHZh0G+T3nzCEmg@mail.gmail.com>
-Subject: Re: [PULL 0/8] Linux user for 6.1 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,38 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: shorne@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Jul 2021 at 11:10, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-6.1-pull-request
->
-> for you to fetch changes up to c632ea1dd90313bc360b9de9d5014c2167f4d038:
->
->   linux-user/syscall: Remove hardcoded tabs (code style) (2021-07-07 21:34:21 +0200)
->
-> ----------------------------------------------------------------
-> linux-user pull request 20210708
->
-> Code and style cleanup
-> Add ppid in self/stat
-> ELF_HWCAP for RISC-V
->
-> ----------------------------------------------------------------
+Replace use of tcg_const_*, which makes a copy into a temp
+which must be freed, with direct use of the constant.
 
+r~
 
-Applied, thanks.
+Richard Henderson (4):
+  target/openrisc: Use tcg_constant_*
+  target/openrisc: Use tcg_constant_tl for dc->R0
+  target/openrisc: Cache constant 0 in DisasContext
+  target/openrisc: Use dc->zero in gen_add, gen_addc
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+ target/openrisc/translate.c | 68 +++++++++++--------------------------
+ 1 file changed, 19 insertions(+), 49 deletions(-)
 
--- PMM
+-- 
+2.25.1
+
 
