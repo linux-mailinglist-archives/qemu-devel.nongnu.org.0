@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882673C192F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:29:17 +0200 (CEST)
-Received: from localhost ([::1]:57616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0418A3C1930
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:29:23 +0200 (CEST)
+Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Ylw-0003pi-BG
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:29:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39512)
+	id 1m1Ym0-0003wg-TD
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:29:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1YiJ-00014g-8V
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:25:31 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39699)
+ id 1m1YiQ-00018J-ME
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:25:45 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1YiA-0007qr-G5
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:25:25 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id a2so7093348pgi.6
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 11:25:21 -0700 (PDT)
+ id 1m1YiD-0007rW-UB
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:25:35 -0400
+Received: by mail-pg1-x533.google.com with SMTP id k20so124549pgg.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 11:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LYwdLGdxFBqRUG0Nl6JfEy7jBaqOaBmdsLuMoOqVtCU=;
- b=TuIAIJvcq27rsPLad6HLK1J/heEpmKK7qqlOr/es0TtHbp0W+2l6UmS+eZK4/3/NUM
- mchrPTbQ01hhmLk2JeDza31HGJ/DfzulRgfa7LPyBPnKg0PFy1efofRicODy6lRQeCdQ
- IcziZf3SMEgcBrItudR4uIxLjPQZYSHIkd7HfP6xoWOxI7dIvNFOJyRh6dzyeHEqaXju
- U8TKnH3R+CSl6lLUA0HK9UEMS/T5JLzWKxe0bDiLwDKSTtvLQDiiJyYmoeXl4bvigrDd
- 8oyRUXhqnAK+8TB9DTn7J/a3UKn9TLjFMOmvX9cV0xu3Azjxd9eP3dfp0u5llURKcNEA
- aYgw==
+ bh=CQb7o+ET8OOl5+pKxHwa5BifFYk4we0KyRxLN1kjWhQ=;
+ b=ABIgeEaPt3wTfJwQ06JYU8f9TQ5I/FsnhnvGq4OzcHAy7T4K/vH834gSG/Olxyxrtg
+ Yg1Xn7VWDdau4vydhSL1hqB5Knm3R7khthwbO/K1qHcXiVmJmAXYhESIJXauyC5IViob
+ ukJODSfVEgnF57VVX1W6WzL7sC29XbvNOp42HTZ5GZDplurOKlNLl5osqMfCKWt48gDI
+ X6SAldtHJFNRWptw5BRoAPiO7YIGJgV3Ez7Jz/Oc8WmjKnLL/qY534m6VcUQdx6LstyD
+ 6cXz/KvU8X76HrbS3cQFz3gXDavHPKKP0rv/xTUS0Odv/lXIYT2DQjSHvvc17mKOwhpl
+ fTag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LYwdLGdxFBqRUG0Nl6JfEy7jBaqOaBmdsLuMoOqVtCU=;
- b=CMiXHEM6UcNxbBi1Mi0+q+EqI8oyXcVn57BayTeBW34xl55ixoPaD5OK+5dedeXLvK
- REMy4IJb6sQZnoDkUgKARtx4l2M5OLzO/tqavWH3gy2MrRyYA1h4qwDvw8HDBByjyc+p
- 74VgSbJpH/D9qHRf63HtAwZUhDCW3dVnqRfh3dNDaK2ljRGli9s7mOW9xyXSE/iQ1pOX
- 5IOghwvpottiqLNo4cqFwWgTqKWd2A59yfxLh+zL3Nzo5rAl1lRxa0ATVc1ABJvWXXFx
- wQHRBxKoTL6ZmYVwGri7i3fvXlNpxRLvDo4PH0idc46IuUJUxJUTxJkkJfmZR0IfIQpl
- gIMQ==
-X-Gm-Message-State: AOAM531iGpzUNAYJ5B7TAoxAXw+Yvx+CnE2ErwrG96KNNKrrtou11Sqf
- hofO8IC0rRsFQJoGJmis1tvi3uNd3dsJYQ==
-X-Google-Smtp-Source: ABdhPJzKHaGNNo1BIj/pfJ2WEy2cYjHdaC8M7wxBdFszbqIFrgm/PTNjPr0nAbVGmS8Xm5evc6Ho9Q==
-X-Received: by 2002:a63:af18:: with SMTP id w24mr33243122pge.375.1625768720644; 
- Thu, 08 Jul 2021 11:25:20 -0700 (PDT)
+ bh=CQb7o+ET8OOl5+pKxHwa5BifFYk4we0KyRxLN1kjWhQ=;
+ b=rKLU1O/dK3JgBXyhzjioC6nyu3D3djSFCCU7Mmz7PzCTQNI5Kt1dixoc3EEjYKj4Ix
+ UN/XVZJasClRZpnoAKJi/IktF+GmG4bMicJJ1VBTJGmrqwyJuI0YQ8Yi5Sz5mIB3ax8R
+ 1kb+Y2sQcfb8gE10xU4aR8oC6Jnm/ZtXDIbDE+Wh7O2cuBDvRJJpVBSO4Zo1rWBz2+ix
+ oqxhB+leryj4lCUHqnvV2olEAKd3Z3lYcv81lqpBjr8j0fVrUzznAJOohi2TZD7pvoUt
+ Svg8aoSQpaCmpKlk+23FYyFAowlTLVeZYwJbXE1SceXCxPJrDwPKiRJKZ2vLgz09MGZ8
+ 1X+Q==
+X-Gm-Message-State: AOAM5328y9tNxVjKO+5ZUKT+47iBi0ryBmmtA9it3zlj5Uu2i7WFhbl3
+ fNfQBMTbAE2akTcG6unWg2aN1JAfXVcdXQ==
+X-Google-Smtp-Source: ABdhPJyt5jpMR5b0Tb4uvOBEcu/gh2urOEMS81kA23ew6Rs1qWv5paGY/GYCUWmZlM2rIVrdG1KtQQ==
+X-Received: by 2002:a62:f947:0:b029:2e9:c502:7939 with SMTP id
+ g7-20020a62f9470000b02902e9c5027939mr32441608pfm.34.1625768722711; 
+ Thu, 08 Jul 2021 11:25:22 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id d67sm2751810pfd.81.2021.07.08.11.25.20
+ by smtp.gmail.com with ESMTPSA id d67sm2751810pfd.81.2021.07.08.11.25.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 11:25:20 -0700 (PDT)
+ Thu, 08 Jul 2021 11:25:22 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] target/alpha: Store set into rx flag
-Date: Thu,  8 Jul 2021 11:25:16 -0700
-Message-Id: <20210708182519.750626-2-richard.henderson@linaro.org>
+Subject: [PATCH 4/4] target/alpha: Use tcg_constant_* elsewhere
+Date: Thu,  8 Jul 2021 11:25:19 -0700
+Message-Id: <20210708182519.750626-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708182519.750626-1-richard.henderson@linaro.org>
 References: <20210708182519.750626-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,37 +87,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A paste-o meant that we wrote back the existing value
-of the RX flag rather than changing it to TMP.
-
-Use tcg_constant_i64 while we're at it.
+Replace the remaining uses of tcg_const_*.  These uses are
+all local, with the allocate and free close together.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/alpha/translate.c | 46 ++++++++++++----------------------------
+ 1 file changed, 14 insertions(+), 32 deletions(-)
 
 diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index f2922f5f8c..d8bd47de75 100644
+index 3fd66fb78d..cf5ad46853 100644
 --- a/target/alpha/translate.c
 +++ b/target/alpha/translate.c
-@@ -1116,15 +1116,11 @@ static void gen_msk_l(DisasContext *ctx, TCGv vc, TCGv va, int rb, bool islit,
- 
- static void gen_rx(DisasContext *ctx, int ra, int set)
+@@ -251,11 +251,9 @@ static void gen_excp_1(int exception, int error_code)
  {
--    TCGv tmp;
--
-     if (ra != 31) {
-         ld_flag_byte(ctx->ir[ra], ENV_FLAG_RX_SHIFT);
-     }
+     TCGv_i32 tmp1, tmp2;
  
--    tmp = tcg_const_i64(set);
--    st_flag_byte(ctx->ir[ra], ENV_FLAG_RX_SHIFT);
--    tcg_temp_free(tmp);
-+    st_flag_byte(tcg_constant_i64(set), ENV_FLAG_RX_SHIFT);
+-    tmp1 = tcg_const_i32(exception);
+-    tmp2 = tcg_const_i32(error_code);
++    tmp1 = tcg_constant_i32(exception);
++    tmp2 = tcg_constant_i32(error_code);
+     gen_helper_excp(cpu_env, tmp1, tmp2);
+-    tcg_temp_free_i32(tmp2);
+-    tcg_temp_free_i32(tmp1);
  }
  
- static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
+ static DisasJumpType gen_excp(DisasContext *ctx, int exception, int error_code)
+@@ -506,15 +504,11 @@ static DisasJumpType gen_bcond_internal(DisasContext *ctx, TCGCond cond,
+ 
+         return DISAS_NORETURN;
+     } else {
+-        TCGv_i64 z = tcg_const_i64(0);
+-        TCGv_i64 d = tcg_const_i64(dest);
+-        TCGv_i64 p = tcg_const_i64(ctx->base.pc_next);
++        TCGv_i64 z = load_zero(ctx);
++        TCGv_i64 d = tcg_constant_i64(dest);
++        TCGv_i64 p = tcg_constant_i64(ctx->base.pc_next);
+ 
+         tcg_gen_movcond_i64(cond, cpu_pc, cmp, z, d, p);
+-
+-        tcg_temp_free_i64(z);
+-        tcg_temp_free_i64(d);
+-        tcg_temp_free_i64(p);
+         return DISAS_PC_UPDATED;
+     }
+ }
+@@ -716,22 +710,19 @@ static void gen_fp_exc_raise(int rc, int fn11)
+     if (!(fn11 & QUAL_I)) {
+         ignore |= FPCR_INE;
+     }
+-    ign = tcg_const_i32(ignore);
++    ign = tcg_constant_i32(ignore);
+ 
+     /* ??? Pass in the regno of the destination so that the helper can
+        set EXC_MASK, which contains a bitmask of destination registers
+        that have caused arithmetic traps.  A simple userspace emulation
+        does not require this.  We do need it for a guest kernel's entArith,
+        or if we were to do something clever with imprecise exceptions.  */
+-    reg = tcg_const_i32(rc + 32);
++    reg = tcg_constant_i32(rc + 32);
+     if (fn11 & QUAL_S) {
+         gen_helper_fp_exc_raise_s(cpu_env, ign, reg);
+     } else {
+         gen_helper_fp_exc_raise(cpu_env, ign, reg);
+     }
+-
+-    tcg_temp_free_i32(reg);
+-    tcg_temp_free_i32(ign);
+ }
+ 
+ static void gen_cvtlq(TCGv vc, TCGv vb)
+@@ -824,7 +815,7 @@ IEEE_INTCVT(cvtqt)
+ 
+ static void gen_cpy_mask(TCGv vc, TCGv va, TCGv vb, bool inv_a, uint64_t mask)
+ {
+-    TCGv vmask = tcg_const_i64(mask);
++    TCGv vmask = tcg_constant_i64(mask);
+     TCGv tmp = tcg_temp_new_i64();
+ 
+     if (inv_a) {
+@@ -836,7 +827,6 @@ static void gen_cpy_mask(TCGv vc, TCGv va, TCGv vb, bool inv_a, uint64_t mask)
+     tcg_gen_andc_i64(vc, vb, vmask);
+     tcg_gen_or_i64(vc, vc, tmp);
+ 
+-    tcg_temp_free(vmask);
+     tcg_temp_free(tmp);
+ }
+ 
+@@ -1210,12 +1200,9 @@ static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
+ 
+         case 0x3E:
+             /* WTINT */
+-            {
+-                TCGv_i32 tmp = tcg_const_i32(1);
+-                tcg_gen_st_i32(tmp, cpu_env, -offsetof(AlphaCPU, env) +
+-                                             offsetof(CPUState, halted));
+-                tcg_temp_free_i32(tmp);
+-            }
++            tcg_gen_st_i32(tcg_constant_i32(1), cpu_env,
++                           -offsetof(AlphaCPU, env) +
++                           offsetof(CPUState, halted));
+             tcg_gen_movi_i64(ctx->ir[IR_V0], 0);
+             return gen_excp(ctx, EXCP_HALTED, 0);
+ 
+@@ -1366,12 +1353,8 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
+ 
+     case 253:
+         /* WAIT */
+-        {
+-            TCGv_i32 tmp = tcg_const_i32(1);
+-            tcg_gen_st_i32(tmp, cpu_env, -offsetof(AlphaCPU, env) +
+-                                         offsetof(CPUState, halted));
+-            tcg_temp_free_i32(tmp);
+-        }
++        tcg_gen_st_i32(tcg_constant_i32(1), cpu_env,
++                       -offsetof(AlphaCPU, env) + offsetof(CPUState, halted));
+         return gen_excp(ctx, EXCP_HALTED, 0);
+ 
+     case 252:
+@@ -2744,9 +2727,8 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
+             vb = load_gpr(ctx, rb);
+         }
+         tcg_gen_movi_i64(cpu_lock_addr, -1);
++        st_flag_byte(load_zero(ctx), ENV_FLAG_RX_SHIFT);
+         tmp = tcg_temp_new();
+-        tcg_gen_movi_i64(tmp, 0);
+-        st_flag_byte(tmp, ENV_FLAG_RX_SHIFT);
+         tcg_gen_andi_i64(tmp, vb, 1);
+         st_flag_byte(tmp, ENV_FLAG_PAL_SHIFT);
+         tcg_temp_free(tmp);
 -- 
 2.25.1
 
