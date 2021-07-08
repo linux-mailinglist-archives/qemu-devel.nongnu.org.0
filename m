@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D423C16E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:13:48 +0200 (CEST)
-Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18F43C16F1
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:17:08 +0200 (CEST)
+Received: from localhost ([::1]:60588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wep-0006cG-D7
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57662)
+	id 1m1Wi3-00043a-9C
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:17:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1W3O-0003Lu-Rc
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:35:07 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:38619)
+ id 1m1W6f-00021J-C5
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:38:29 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:40908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1W3N-0004pc-8j
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:35:06 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id x3so3180200pll.5
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:35:04 -0700 (PDT)
+ id 1m1W6d-0005sR-Q8
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:38:29 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id g22so6392942pgl.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5TqVDap2GZKC7fu26zTbtPiUDofMBYtY6abarP2BnYI=;
- b=ImXv+YHSHwJcgMAmgPWKAjlo3rSemCFaAhOj8/D7dltqUQ8N0uh6pXt5h0I6vamdEU
- sOYGqkjbGwiKNfItayo5lg+KEhgkWWGpLp055BIrdFLw+ie12nadkdtEtJFqCyDIAdeq
- 6bDJ0918Hbf6sy1iORHpx9s76EdoIvAWLoMo11bXqdaTvE2c3wDsZO21dU6sRgTVWvIT
- D2kRehXs8/D3n4BddgJPBUEm61lCYEMSMAQ4nwprZl2CROOaSXDMWCq3NVOR60LqBGDj
- 2WebizC1DiDiKVi0yBD63RZLj3jnXoTqbAe9d7mOwenR/V+vGdK4lcTdw3S5hXP89mKj
- 8kbQ==
+ bh=n1eZLNbNsUVIyfM9tKqZRqRMkrKhQOtvqtUOMweCVyY=;
+ b=TytRVbzxMAwqxD8WzpxqZDElT7r3h6FzjBnuSoQA44O6oJQ2PeydBVQw/ICnkVlTn6
+ PgwZ1+Sdz0X9F2RX02jBSztwN+UYfrfeCjpp8iiR+zOD6qXTzbA0YSjcNlwhtXBYpB3a
+ Zj4IeuL8nWwgXnu1+dv2MNtKB5WpvgOA9Kv8mPaEE3/mmPDgjrs+qaDwJJp1yEr6Yg5U
+ vRzc0E6XXxJKs0fgpUXOiRwUlIAfYpX3IP6v4Z+fMNldmb9V8BCWvn5nQO7Lw++rPFwh
+ 9Sw/Xu+FVlOwuiRKRnW4mMczUvUJBIytYXY83Y7BJC17pr8TexMOi7YsLmfF50FNO2Wx
+ dU6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5TqVDap2GZKC7fu26zTbtPiUDofMBYtY6abarP2BnYI=;
- b=MCvv/ITKgWZpBF7nfwKwADojK6b2pIWN/CZ0H8JNoaotrfV4/zG23qrfXwOUkwDJ5Q
- lx2m6n5awuGvOwi33JKZpu3yxcrz2D2XAFvgVZR3TusCC7UdxdRuzR5VjLjz7VlKzQiO
- PQFiwQGmECM70j0yCZAr3av7sM6ifOYojcEEnY0TQc2Dfz01MGW5v+jgXxcpQfWQkSVa
- OiMxNIuwT57mzWAhJ4zjSiZPS0YfjLUshep7TPkAcwpVeza9nGpWElfREsOhnPmT0uUZ
- rN2a+5yjjqMO+HIML1ttiIG5XAXgNN4KXMvgxDiQBfmsL87p2jgwiU92KPeeDITXNWny
- YW7w==
-X-Gm-Message-State: AOAM530JcGRC4gVcLiLXNlJPYZPpq/i6Bbzi5NqT1+4JNhUF9e6JAsWd
- ojUzevXdSN4yQ0vCX5F/YUjU8A==
-X-Google-Smtp-Source: ABdhPJwPOJ4Ylg1npOveQW0Z2CEpgMy6xNfgOXn+myKtejtivymsQNEWglOjsi2HFbAj/jIZa4oeug==
-X-Received: by 2002:a17:90b:e94:: with SMTP id
- fv20mr5468734pjb.162.1625758504089; 
- Thu, 08 Jul 2021 08:35:04 -0700 (PDT)
+ bh=n1eZLNbNsUVIyfM9tKqZRqRMkrKhQOtvqtUOMweCVyY=;
+ b=iHd5VUwGOdTxfAlTBKIIe/lNdUUGHdp7dnT7QFBXGGOdYmseb/sBRzjX2/CYqYb/dZ
+ nyDwSQn9Dfr4MNrrzCpYdzypQw+Uam7415owYxl+FXfsvIibheX2FZ6ubFZtRl/L4DLA
+ bOxatAOkvq7ivGdCT/OwlnAE1ZBwSdfA+rj7JRLNWy1fJLrq52m/1qGN8lBoVMF34Bbd
+ C/yIqh0yYDRI3l3YjB32xIGrZJqF1oIZLOYrFYfp+ejmNuQmHfU8mIMs0fa1TXluDb6+
+ 8bGJHZMDYPQaXXlDJOm4MwHbl6kBcn22CdUIeQFc6cBUiMYQSc5u69wT6yKy1N6J4C0g
+ XbLQ==
+X-Gm-Message-State: AOAM532NaHhUBHxKOfrW1QiWQGTkd66zPiHaGBZ4FtPqLBypEMFIPSCg
+ /8wDwSZkd/3GPMUKbMgii+VizSylrZtawA==
+X-Google-Smtp-Source: ABdhPJyghj9R4GGXDfT+4eH1/NLX0RJussDlH5OI2JuDzSnaa1wQyTy/sxTglKxqhQqvfmt/nloVdA==
+X-Received: by 2002:a63:170b:: with SMTP id x11mr5723791pgl.253.1625758706459; 
+ Thu, 08 Jul 2021 08:38:26 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id a23sm3032251pfa.16.2021.07.08.08.35.03
+ by smtp.gmail.com with ESMTPSA id k189sm4002046pgk.14.2021.07.08.08.38.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 08:35:03 -0700 (PDT)
-Subject: Re: [PATCH v2 5/8] linux-user/hppa: Move errno definitions to
+ Thu, 08 Jul 2021 08:38:26 -0700 (PDT)
+Subject: Re: [PATCH v2 6/8] linux-user/mips: Move errno definitions to
  'target_errno_defs.h'
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210708141121.1731691-1-f4bug@amsat.org>
- <20210708141121.1731691-6-f4bug@amsat.org>
+ <20210708141121.1731691-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <014ae044-b643-e007-b7d6-46f3f2d3818c@linaro.org>
-Date: Thu, 8 Jul 2021 08:35:02 -0700
+Message-ID: <7ad4f135-bba2-c19b-e826-401d7b34a653@linaro.org>
+Date: Thu, 8 Jul 2021 08:38:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210708141121.1731691-6-f4bug@amsat.org>
+In-Reply-To: <20210708141121.1731691-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,9 +96,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 7/8/21 7:11 AM, Philippe Mathieu-Daudé wrote:
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   linux-user/hppa/target_errno_defs.h | 210 ++++++++++++++++++++++++++++
->   linux-user/hppa/target_syscall.h    | 210 ----------------------------
->   2 files changed, 210 insertions(+), 210 deletions(-)
+>   linux-user/mips/target_errno_defs.h   | 211 ++++++++++++++++++++++++++
+>   linux-user/mips/target_syscall.h      | 211 --------------------------
+>   linux-user/mips64/target_errno_defs.h | 211 ++++++++++++++++++++++++++
+>   linux-user/mips64/target_syscall.h    | 211 --------------------------
+>   4 files changed, 422 insertions(+), 422 deletions(-)
+
+With either a follow-up, or squashed change for mips64 to do
+
+#include "../mips/target_errno_defs.h"
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
