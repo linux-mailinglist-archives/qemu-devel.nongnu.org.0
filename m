@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508703BF352
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:09:32 +0200 (CEST)
-Received: from localhost ([::1]:48188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC3D3BF360
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:16:43 +0200 (CEST)
+Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1IXj-0003Sq-8Y
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
+	id 1m1Iec-0003P9-Qb
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:16:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKt-0002B6-9n
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:17 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57600)
+ id 1m1IL2-0002fC-TT
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:24 -0400
+Received: from mga12.intel.com ([192.55.52.136]:57606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKr-0007Kk-BC
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:15 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189101736"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="189101736"
+ id 1m1IL1-0007L7-8A
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:24 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189101738"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="189101738"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:59 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770114"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770117"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:59 -0700
@@ -33,9 +33,10 @@ To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com, erdemaktas@google.com
-Subject: [RFC PATCH v2 38/44] hw/i386: plug eoi_intercept_unsupported to ioapic
-Date: Wed,  7 Jul 2021 17:55:08 -0700
-Message-Id: <f4276b88405e4fe9eefbfd7a19f621f168dad6e2.1625704981.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH v2 39/44] ioapic: add property to disallow SMI delivery
+ mode
+Date: Wed,  7 Jul 2021 17:55:09 -0700
+Message-Id: <0855fc584f8ffe862760bc7ef076984b1f2c48a2.1625704981.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625704980.git.isaku.yamahata@intel.com>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
@@ -69,119 +70,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-When x86machine doesn't support eoi intercept, set
-level_trigger_unsupported property of ioapic to true so that ioapic doesn't
-accept configuration to use level trigger.
+Add a property to prevent ioapic from setting SMI delivery mode.  Without
+this guard, qemu can result in unexpected behavior.
 
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/i386/microvm.c     |  5 +++--
- hw/i386/pc_piix.c     |  2 +-
- hw/i386/pc_q35.c      |  2 +-
- hw/i386/x86.c         | 10 ++++++++--
- include/hw/i386/x86.h |  6 ++++--
- 5 files changed, 17 insertions(+), 8 deletions(-)
+ hw/intc/ioapic.c                  | 18 ++++++++++++++++++
+ hw/intc/ioapic_common.c           | 20 ++++++++++++++++++++
+ include/hw/i386/ioapic_internal.h |  1 +
+ 3 files changed, 39 insertions(+)
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index aba0c83219..9b03d051ca 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -175,9 +175,10 @@ static void microvm_devices_init(MicrovmMachineState *mms)
-                           &error_abort);
-     isa_bus_irqs(isa_bus, x86ms->gsi);
- 
--    ioapic_init_gsi(gsi_state, "machine");
-+    ioapic_init_gsi(gsi_state, "machine", x86ms->eoi_intercept_unsupported);
-     if (ioapics > 1) {
--        x86ms->ioapic2 = ioapic_init_secondary(gsi_state);
-+        x86ms->ioapic2 = ioapic_init_secondary(
-+            gsi_state, x86ms->eoi_intercept_unsupported);
-     }
- 
-     kvmclock_create(true);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 4c1e31f180..a601c4a916 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -223,7 +223,7 @@ static void pc_init1(MachineState *machine,
-     }
- 
-     if (pcmc->pci_enabled) {
--        ioapic_init_gsi(gsi_state, "i440fx");
-+        ioapic_init_gsi(gsi_state, "i440fx", x86ms->eoi_intercept_unsupported);
-     }
- 
-     if (tcg_enabled()) {
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 106f5726cc..464463766c 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -256,7 +256,7 @@ static void pc_q35_init(MachineState *machine)
-     }
- 
-     if (pcmc->pci_enabled) {
--        ioapic_init_gsi(gsi_state, "q35");
-+        ioapic_init_gsi(gsi_state, "q35", x86ms->eoi_intercept_unsupported);
-     }
- 
-     if (tcg_enabled()) {
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 9862fe5bc9..88c365b72d 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -608,7 +608,8 @@ void gsi_handler(void *opaque, int n, int level)
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index 6d61744961..1815fbd282 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -381,6 +381,21 @@ ioapic_fix_level_trigger_unsupported(uint64_t *entry)
      }
  }
  
--void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
-+void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name,
-+                     bool level_trigger_unsupported)
- {
-     DeviceState *dev;
-     SysBusDevice *d;
-@@ -622,6 +623,8 @@ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
-     }
-     object_property_add_child(object_resolve_path(parent_name, NULL),
-                               "ioapic", OBJECT(dev));
-+    object_property_set_bool(OBJECT(dev), "level_trigger_unsupported",
-+                             level_trigger_unsupported, NULL);
-     d = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(d, &error_fatal);
-     sysbus_mmio_map(d, 0, IO_APIC_DEFAULT_ADDRESS);
-@@ -631,13 +634,16 @@ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name)
-     }
++static inline void
++ioapic_fix_smi_unsupported(uint64_t *entry)
++{
++    if ((*entry & IOAPIC_LVT_DELIV_MODE) ==
++        IOAPIC_DM_PMI << IOAPIC_LVT_DELIV_MODE_SHIFT) {
++        /*
++         * ignore a request for delivery mode of lowest SMI
++         */
++        warn_report_once("attempting to set delivery mode to SMI"
++                         "which is not supported");
++        *entry &= ~IOAPIC_LVT_DELIV_MODE;
++        *entry |= IOAPIC_DM_FIXED << IOAPIC_LVT_DELIV_MODE_SHIFT;
++    }
++}
++
+ static void
+ ioapic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+                  unsigned int size)
+@@ -424,6 +439,9 @@ ioapic_mem_write(void *opaque, hwaddr addr, uint64_t val,
+                 if (s->level_trigger_unsupported) {
+                     ioapic_fix_level_trigger_unsupported(&s->ioredtbl[index]);
+                 }
++                if (s->smi_unsupported) {
++                    ioapic_fix_smi_unsupported(&s->ioredtbl[index]);
++                }
+                 ioapic_fix_edge_remote_irr(&s->ioredtbl[index]);
+                 ioapic_service(s);
+             }
+diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
+index 07ee142470..b8ef7efbad 100644
+--- a/hw/intc/ioapic_common.c
++++ b/hw/intc/ioapic_common.c
+@@ -168,12 +168,32 @@ static void ioapic_common_set_level_trigger_unsupported(Object *obj, bool value,
+     s->level_trigger_unsupported = value;
  }
  
--DeviceState *ioapic_init_secondary(GSIState *gsi_state)
-+DeviceState *ioapic_init_secondary(GSIState *gsi_state,
-+                                   bool level_trigger_unsupported)
++static bool ioapic_common_get_smi_unsupported(Object *obj, Error **errp)
++{
++    IOAPICCommonState *s = IOAPIC_COMMON(obj);
++    return s->smi_unsupported;
++}
++
++static void ioapic_common_set_smi_unsupported(Object *obj, bool value,
++                                                       Error **errp)
++{
++    DeviceState *dev = DEVICE(obj);
++    IOAPICCommonState *s = IOAPIC_COMMON(obj);
++    /* only disabling before realize is allowed */
++    assert(!dev->realized);
++    assert(!s->smi_unsupported);
++    s->smi_unsupported = value;
++}
++
+ static void ioapic_common_init(Object *obj)
  {
-     DeviceState *dev;
-     SysBusDevice *d;
-     unsigned int i;
+     object_property_add_bool(obj, "level_trigger_unsupported",
+                              ioapic_common_get_level_trigger_unsupported,
+                              ioapic_common_set_level_trigger_unsupported);
  
-     dev = qdev_new(TYPE_IOAPIC);
-+    object_property_set_bool(OBJECT(dev), "level_trigger_unsupported",
-+                             level_trigger_unsupported, NULL);
-     d = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(d, &error_fatal);
-     sysbus_mmio_map(d, 0, IO_APIC_SECONDARY_ADDRESS);
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 6eff42550f..7536e5fb8c 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -140,7 +140,9 @@ typedef struct GSIState {
++    object_property_add_bool(obj, "smi_unsupported",
++                             ioapic_common_get_smi_unsupported,
++                             ioapic_common_set_smi_unsupported);
+ }
  
- qemu_irq x86_allocate_cpu_irq(void);
- void gsi_handler(void *opaque, int n, int level);
--void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
--DeviceState *ioapic_init_secondary(GSIState *gsi_state);
-+void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name,
-+                     bool eoi_intercept_unsupported);
-+DeviceState *ioapic_init_secondary(GSIState *gsi_state,
-+                                   bool eoi_intercept_unsupported);
- 
- #endif
+ static void ioapic_common_realize(DeviceState *dev, Error **errp)
+diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/i386/ioapic_internal.h
+index 20f2fc7897..46f22a4f85 100644
+--- a/include/hw/i386/ioapic_internal.h
++++ b/include/hw/i386/ioapic_internal.h
+@@ -104,6 +104,7 @@ struct IOAPICCommonState {
+     uint64_t ioredtbl[IOAPIC_NUM_PINS];
+     Notifier machine_done;
+     bool level_trigger_unsupported;
++    bool smi_unsupported;
+     uint8_t version;
+     uint64_t irq_count[IOAPIC_NUM_PINS];
+     int irq_level[IOAPIC_NUM_PINS];
 -- 
 2.25.1
 
