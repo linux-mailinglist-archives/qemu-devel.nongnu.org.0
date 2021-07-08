@@ -2,49 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF683BF4DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:48:04 +0200 (CEST)
-Received: from localhost ([::1]:50684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B743BF4DA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:47:26 +0200 (CEST)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1LxD-0001em-65
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:48:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39846)
+	id 1m1Lwb-0000a2-AD
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:47:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1Ls5-0004Ud-Ha; Thu, 08 Jul 2021 00:42:45 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57975 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1Ls2-0000eL-0b; Thu, 08 Jul 2021 00:42:45 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GL3Ym2bzLz9sX2; Thu,  8 Jul 2021 14:42:36 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1625719356;
- bh=wdziT4r7eHVk+NKjIa91UCdyjz6lG94eOV7lLQShZwQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SHaEqGOfnM7hSrLpii5IFIo4ePnGRNzLJf+Jnyzsfwr9xm/BAhQldZYPzeA2gvsQE
- p+L2q7DJN8xkNuBT6D7cJx+gYRtq5M0Zgxi04rUwA3iEXirUr3GFMcehU1xHtxoV0E
- 8beZbBJotSOz6WvDAwuwSXBg95YX2vlQ7YiVSLEI=
-Date: Thu, 8 Jul 2021 14:37:39 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 0/4] ppc/Pegasos2: Firmware replacement using VOF
-Message-ID: <YOaBE37hTOBawsJO@yekko>
-References: <cover.1624811233.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m1LvY-0007WJ-Ez; Thu, 08 Jul 2021 00:46:22 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:37876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m1LvU-0001gZ-EE; Thu, 08 Jul 2021 00:46:20 -0400
+Received: by mail-io1-xd31.google.com with SMTP id l18so1679884iow.4;
+ Wed, 07 Jul 2021 21:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=w66p/XItl8gWRlnxAF80OR6feipBU7ceu4ak70WbxnA=;
+ b=VtXafLIFes/037ul/iWjZxEFLeNI0/HwJ5S3MHVMgi6tubfDEFUR0Xl2YF7ZI4lVXk
+ WIQMpYQ22K9vdimOLjMbHw//NlZaweDgAmfB4Q4Y4r4N6w/S1pxFr3GYFhA1L9Pl603a
+ FsQ9RxS3PR6UsIr216MdSrzF2cNz+sfnpwGiIaMrwomp9ERP6MXXYyJ2E5DOE7i7V349
+ NuTYNhUyUMBgPpGFsTi0WOstTDLAhikWT3sHRvLm2u7dbAy0AaB1OY46p+UlTguey+Th
+ FiHBzEhNxmJvM/tIlAhr3bNzua/fMi0qjnX/879821hznwPqhjYrOzdaPH9pDJMR8YuA
+ iuGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=w66p/XItl8gWRlnxAF80OR6feipBU7ceu4ak70WbxnA=;
+ b=Hjn5KWUHbI1GhTy08zo/yXZ8GefaPNMQMooY0Gd3+3Oy87HILiC9goxWs7fllAFptj
+ Rzpwvc5/pY3WxugphJESpj6mSD/Q4CgMBYrYR6nRJoRDIqi/eUkYsYkUOiZe1Iakh4Ui
+ qmCQMPi8FAbsVLRmKzupilf4l5FjGLBO4MAPMipvasQ8zNeMyL0mTmjyZ//fbQumMMcV
+ CsSvSyyDnF+5xQdT0hl/myxlfBmGwAXZMYXwdPn4xEwavn2uFuWw7mdLy9JMtnEAXx21
+ L8kMJ7qqfx+BBJ2gaw1SUBfv1vRO41kAxu0IBV/SusMOF2aZLVLE535LBxxwei2bkgrT
+ 14pw==
+X-Gm-Message-State: AOAM533V+t82PZ0Z1kCgAlfbJf8YGrN6XC2zhMEpfmX9ZT+Nn1kefazR
+ MhPr0fgDp3BDK2GBRkTEQRqVQmlses9yLqRf7fY=
+X-Google-Smtp-Source: ABdhPJz6jT0RWsgRPwYk78gTKXSqJ/G/Vp4FoJ6mI1FGMuszluq+EvTA7ZebDNh9CLiZgOTPed7leMsn45IqGu+Rf1s=
+X-Received: by 2002:a5d:8453:: with SMTP id w19mr22142836ior.105.1625719573748; 
+ Wed, 07 Jul 2021 21:46:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Tpkx/c/bjVDI/Lcq"
-Content-Disposition: inline
-In-Reply-To: <cover.1624811233.git.balaton@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210522155902.374439-1-josemartins90@gmail.com>
+ <CAKmqyKMvaLn5YUPVBngDjziud-t8P717cp-LsrOBo-VG18BMiw@mail.gmail.com>
+ <CAC41xo1Fuo6NiOE0quviuFuJXT_E5PdPOYfA1s=gdHN0vWjGnA@mail.gmail.com>
+In-Reply-To: <CAC41xo1Fuo6NiOE0quviuFuJXT_E5PdPOYfA1s=gdHN0vWjGnA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 8 Jul 2021 14:45:47 +1000
+Message-ID: <CAKmqyKPn6nBye35=VFNXhH21BHf2nvNR2jt0259wKwFM=jiOhA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: hardwire bits in hideleg and hedeleg
+To: Jose Martins <josemartins90@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,76 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jun 24, 2021 at 11:48 PM Jose Martins <josemartins90@gmail.com> wro=
+te:
+>
+> > > +static const target_ulong vs_delegable_excps =3D delegable_excps &
+> > > +    ~((1ULL << (RISCV_EXCP_S_ECALL)) |
+> >
+> > > +    (1ULL << (RISCV_EXCP_VS_ECALL)) |
+> > > +    (1ULL << (RISCV_EXCP_M_ECALL)) |
+> >
+> > These two are both read only 0, shouldn't they not be included in this =
+list?
+> >
+> > >  static int write_hedeleg(CPURISCVState *env, int csrno, target_ulong=
+ val)
+> > >  {
+> > > -    env->hedeleg =3D val;
+> > > +    env->hedeleg =3D val & vs_delegable_excps;
+> >
+> > Because we then allow a write to occur here.
+>
+> Note that the list is being bitwise negated, so both of these are
+> actually not writable (ie read-only 0). There is still the question
+> regarding the VS_ECALL (exception 10) bit raised by Zhiwei, since
+> table 5.2 in the spec does not explicitly classify it. However, I
+> believe it is safe to assume that exception 10 is non-delegable.
 
---Tpkx/c/bjVDI/Lcq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ah, I see.
 
-On Sun, Jun 27, 2021 at 06:27:13PM +0200, BALATON Zoltan wrote:
-> Based-on: <20210625055155.2252896-1-aik@ozlabs.ru>
-> ^ That is v22 of Alexey's VOF patch
->=20
-> With this series on top of VOF v22 I can now boot Linux and MorphOS on
-> pegasos2 without a firmware blob so I hope this is enough to get this
-> board in 6.1 and also have it enabled so people can start using it
-> eventually (a lot of people don't compile their QEMU but rely on
-> binaries from distros and other sources). Provided that VOF will also
-> be merged by then. This gives VOF another use case that may help it
-> getting merged at last.
->=20
-> Further info and example command lines can be found at
-> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Applied to ppc-for-6.1, thanks.
+Applied to riscv-to-apply.next
 
->=20
-> Regards,
-> BALATON Zoltan
->=20
-> BALATON Zoltan (4):
->   ppc/pegasos2: Introduce Pegasos2MachineState structure
->   target/ppc: Allow virtual hypervisor on CPU without HV
->   ppc/pegasos2: Use Virtual Open Firmware as firmware replacement
->   ppc/pegasos2: Implement some RTAS functions with VOF
->=20
->  default-configs/devices/ppc-softmmu.mak |   2 +-
->  hw/ppc/Kconfig                          |   1 +
->  hw/ppc/pegasos2.c                       | 783 +++++++++++++++++++++++-
->  target/ppc/cpu.c                        |   2 +-
->  4 files changed, 771 insertions(+), 17 deletions(-)
->=20
+I improved the indentation and rebased this on the latest master.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Alistair
 
---Tpkx/c/bjVDI/Lcq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDmgRMACgkQbDjKyiDZ
-s5IKwQ/8DYcD4Gu/wqu64ro1epdNfTH5NRfI91WKJhqW59o8Z7zc+0BIIsHlrZiy
-wPHp0JAd86J88fVY1CORTxbRHqno/E+lOH4A4g5d/ORbRJqeflPviSQgOdZYnjwU
-zQXWxBkJzKMxjdfcAZkNac9D2AvuwhwteBhnnZEQbnf3caPtdvSaQtFiHBS5QS0/
-Q14WWNqhcxwFAtis7XRmSqb0UeIm/6qiuOIUv6VvPLmJdN5bb9rjS4rUxsE1YsIU
-AYTl674MlTm19pdao86/Za3Ih47GW36cz1EVQNiycTqdvtILdIJmZoeuUVMAKLW/
-ACn5hT496lzFEKF3WV03J17m3ojGVefFfN+OtsX64XHab+SWG1y0/ymmtVp/b4mu
-8xbJctP5mXOzrQ1SkJGnVfjGzcLf7/SA/uyJFqT/+0Ix7j7dHXNElwBigA2N5Xg2
-T0orKUToGOV3lmzIhowKsrCtIiTYvj7rny+H/ot5K8Twz4vbVUPH+L6vo3jIVopJ
-lOEUUStJDQh3K4AraFPfekv0VWptGqLZHRROX+aZWCV+bjfvvobxo8XlNM7cFC8Q
-MKYCYCC8dkCLfBr3gc+4ejLHV337FFCEbf0YQ7knaTan5lOFkt+yz1fjqY17KJoG
-CgY8/EVO3Olc8soc0NAzZuLXaUU6oP0fIuUJlQuigrAFBHkOhzQ=
-=mAd3
------END PGP SIGNATURE-----
-
---Tpkx/c/bjVDI/Lcq--
+>
+> Jos=C3=A9
 
