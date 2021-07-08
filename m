@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D6A3C1729
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:37:17 +0200 (CEST)
-Received: from localhost ([::1]:44338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D239B3C1733
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:41:53 +0200 (CEST)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1X1Y-00083a-8t
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:37:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60172)
+	id 1m1X5z-0008QS-EO
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WFV-0003ii-N6
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WFU-0000ho-4J
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BlXUmcjDsAcYFfgu4VkmS9NfwmdFGrWL7z5bXZoNVOc=;
- b=c9j9xonZgw6H0UrA4VseqE6DQ1wLgEFKxH9LLaNnDwrn1sF97SICA/wygnneEQWtAuOMgl
- 3j/2ctxG2U/QJke8obpzvc3ZJmezeV9DgZ99zFCGGySc89qRiWlY1utkL+6No3fRc9eXrw
- wxBvxFD9kmAZwlzUYvMX5840FNs/MLU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-i2icZiHKN7KIilwx2gs6vg-1; Thu, 08 Jul 2021 11:47:34 -0400
-X-MC-Unique: i2icZiHKN7KIilwx2gs6vg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63E8C100C609
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:47:33 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8B5619C66;
- Thu,  8 Jul 2021 15:47:32 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 35/35] acpi: AcpiGenericAddress no longer used to
- map/access fields of MMIO, drop packed attribute
-Date: Thu,  8 Jul 2021 11:46:17 -0400
-Message-Id: <20210708154617.1538485-36-imammedo@redhat.com>
-In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
-References: <20210708154617.1538485-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1WG8-0004an-5X
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:48:17 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:34454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1WG6-0000rw-Mo
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:48:15 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso5498856pjx.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/f1rmNXkPlatetwoWBvy9GGqKC2+Q6v6Nkw5BQ5lKZA=;
+ b=KOKSi6Qz82s+rcrT4Kbg1hOok5ExEnAsSUcFmWH6JPosldf4uvY+Vz6iyJTsViEahV
+ cJSnYtcT68k3opj0w15DokVXc472PEDa0aOxJ06h1fGl6Vpu6e8gvTbS/hP2YkQ3F+BA
+ J6sMz57DENpKO7o9+EfJrgnDhyGHQck7s8NxCueMUzgJhW38RGfBQdbzPoZ6ZI5SO9rf
+ J2WRl1zwt6OTVUnXBuM6KApdIbBGAq6FHfZXADNQ7Sp/b1Tphct8EdviX3DXMJAx1ocb
+ loSgcjw5tKqrCkUNa7w/DTZFwFWkd2rHYaKi+NkOfvbJrrxpBnNjhNZO4K8FYq8VKFGO
+ lHeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/f1rmNXkPlatetwoWBvy9GGqKC2+Q6v6Nkw5BQ5lKZA=;
+ b=oyQP3o+FodZN28lgxz2xb+Jrlq1zM0cY+41cbX9/a28W6LGBuD/q41lB01aH7xeuC7
+ 2TQSsACT3HE2uyvpb2agcAYd0QmasmpWLQHUe2X+0OtJNH5mtX3prTbn6tsfNY537Bl1
+ UHxma5YhJfJTRnsj9L1i3nmRPc+DjZbgQ1FOltF/1/30yCQklnGfcLmLEdAV4QQDAXTw
+ O9bwCo8LTNEMcYPK6YMIITT248/RPnVcP7VYrkFPff2JUVmG1s+zVvlGUUwyUY0eAR9K
+ I0UORka7bSWiBYoauljmMPNa104KVj1CMaVtJ7gVMqwFaqwz30bgouU2jkw0Re5wLPqv
+ FYRQ==
+X-Gm-Message-State: AOAM531JLixtxErysKOAv8zSAe3WetjqgIY0YVX+N3RgAqyETzq2n72P
+ gmWe3OCsoBRfBH4dkiuIt+GOEg==
+X-Google-Smtp-Source: ABdhPJzhWTklDUmMUKqCYQJthLC/DlZqZb+vDZFk9c7So9sUWKkSXRgON+FwYQpHv3uJv1rj6qDgMQ==
+X-Received: by 2002:a17:902:bb83:b029:120:512b:86c0 with SMTP id
+ m3-20020a170902bb83b0290120512b86c0mr26653326pls.32.1625759293143; 
+ Thu, 08 Jul 2021 08:48:13 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id k10sm3425013pfp.63.2021.07.08.08.48.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 08:48:12 -0700 (PDT)
+Subject: Re: [PATCH v2 8/8] linux-user: Simplify host <-> target errno
+ conversion using macros
+To: Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210708141121.1731691-1-f4bug@amsat.org>
+ <20210708141121.1731691-9-f4bug@amsat.org>
+ <d3d8214a-69f2-af60-324c-db4196ff7dae@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8567ef72-e1d5-6789-ad3f-fdefccd2a7d2@linaro.org>
+Date: Thu, 8 Jul 2021 08:48:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <d3d8214a-69f2-af60-324c-db4196ff7dae@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,29 +93,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- include/hw/acpi/acpi-defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/8/21 8:30 AM, Laurent Vivier wrote:
+> Le 08/07/2021 à 16:11, Philippe Mathieu-Daudé a écrit :
+>> Convert the host_to_target_errno_table[] array to a switch case
+>> to allow compiler optimizations. Extract the errnos list as to
+>> a new includible unit, using a generic macro. Remove the code
+>> related to target_to_host_errno_table[] initialization.
+>>
+> 
+> Is there some performance penalties by using a switch() rather than an array[] ?
 
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index ee733840aa..c97e8633ad 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -55,7 +55,7 @@ struct AcpiGenericAddress {
-     uint8_t access_width;    /* ACPI 3.0: Minimum Access size (ACPI 3.0),
-                                 ACPI 2.0: Reserved, Table 5-1 */
-     uint64_t address;        /* 64-bit address of struct or register */
--} QEMU_PACKED;
-+};
- 
- typedef struct AcpiFadtData {
-     struct AcpiGenericAddress pm1a_cnt;   /* PM1a_CNT_BLK */
--- 
-2.27.0
+In many cases, definitely not.  The compiler does notice the identity function when host 
+and guest errnos match.
 
+In the other case, I would doubt (without evidence) there's much penalty.  The switch 
+becomes a table lookup + indirect branch + immediate load + return.  Or a really good 
+compiler transforms to a different array lookup.
+
+
+r~
 
