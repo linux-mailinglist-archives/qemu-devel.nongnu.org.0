@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D5A3C1757
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:47:31 +0200 (CEST)
-Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D21E3C1756
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:47:20 +0200 (CEST)
+Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XBS-0006au-2r
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:47:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37230)
+	id 1m1XBH-0006Bv-Jc
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1WaN-00064K-2v
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:09:11 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45750)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1Wcq-0002Tv-6L
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:11:44 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1WaL-0007Fm-AC
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:09:10 -0400
-Received: by mail-wr1-x430.google.com with SMTP id i8so8151090wrp.12
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:09:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LboK88pkXdLqQPNKMJBeuz6yTqYEUPo1YVjgoPN/Yv0=;
- b=bZk+Yz6F8cLgnpWToqZCSQKpLkllfrlJEKnzpORu2Brpz8qk19FNESkjSWwyUJudoP
- pqmWAMR6iC9ktf/goN+7BL0Ek/q64M8AAUdG7GJgEPf2ExHzdzD25gwmhPmG8M8CImHo
- qbd6qpZq/1PfUz8z3OHHvaRg3yZbshbucNkkr3R1tAIiPY+hOd0FuSzJRTM/DFhKzVf5
- DLHJ8KInTX4foqZ/ytgdDyGVNgRdO+NmYMImJ+6ICFccpeiU3RhLa5clrEaDtevRex5L
- WFj4m16pW4NF+Hqg4qiVAQxxpjuUn9SSkA9GabhxYPvTHd4mAS7Hya+vnKG0jkKc7m3m
- 927A==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1Wco-0008Aw-Gj
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:11:43 -0400
+Received: by mail-ed1-x533.google.com with SMTP id s15so9246980edt.13
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=49PI5WBY3Pvxqfof2TOhUpfgHH/EfMKzNfo7c+g6lRc=;
+ b=D6Wnr89h5MG/aA53VBjotyrRPizqT971yL9eznGMqrmex5B9wf6z7uzdbLYfFJJDxS
+ xnYahVWV2OBJgRW12G+cWWQRfhpe5nWuAuO3n2UJliZubvqkjwuTWiUhjw06ysbQ6ZYi
+ HQfUiWgFIvsbNPIx6FELFfISs6lrtG55rRqRktQqPtreVulp49iPbDUj9/dIDS47+5j8
+ BP89NQB3bhfyfFu7DgrKn46lfEcZhfSkzQfF5ROfE4SW+geMBb8VozHcW6JFnoHbWlTO
+ gjQojPUo9Ti69lUlKF8mal/vRzhlZfkLIJx6j0ehVsGtBAlIXCDPYbG2QZ1jF7qZrVt9
+ rW7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LboK88pkXdLqQPNKMJBeuz6yTqYEUPo1YVjgoPN/Yv0=;
- b=osY7JgwHAFcv0SjQpoTFn8iucUTq7fmd0H0RlAyF700XlN0tk1TqpT+PzM7GuTnjl4
- vCMv6ocAnKU4gzPOiE0RHn5ecCW1mmdMRCGn6zlWk5g0p5Kc0sTQEuR6DABF1u7We8Up
- sGo95Gv7Nct2SXyvtQMMWl+/NX64Or7PtAXjMKUNrzr6Y9Zhjr7YacFbf3xnYYVyBSZT
- P4Qglx2xrf4e9VG0huZBtZTIKTH+EqX2y1qwFnzdpn54QrkAvi0aiP0RzNgw/ZjX93zz
- HcP89J+PdS7vnpf3QFQWqfAvNpTS6qQWMB7hloVzPeWvnDoGLFETZfJPzLk+dox1p7ix
- wC6g==
-X-Gm-Message-State: AOAM531LV27NJ4jc//NqLdE+7HtP6QKpq4uPmk9CIdzrYVX0RDksI1HG
- KnxVpFUZu1ocG2OjmnQfsjU=
-X-Google-Smtp-Source: ABdhPJxsYzBKg9eYYjSbqoqLZkEl2/Vy8pytZm3sXUjBtvRzztexC7k/g2RwC5x1X/DveLP23urhlg==
-X-Received: by 2002:a5d:4f01:: with SMTP id c1mr36625890wru.266.1625760547944; 
- Thu, 08 Jul 2021 09:09:07 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id y3sm1523858wrh.16.2021.07.08.09.09.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 09:09:07 -0700 (PDT)
-Subject: Re: [PATCH v2 8/8] linux-user: Simplify host <-> target errno
- conversion using macros
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210708141121.1731691-1-f4bug@amsat.org>
- <20210708141121.1731691-9-f4bug@amsat.org>
- <d3d8214a-69f2-af60-324c-db4196ff7dae@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e36034bf-3eed-d21b-e17c-e78d9e0093f9@amsat.org>
-Date: Thu, 8 Jul 2021 18:09:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=49PI5WBY3Pvxqfof2TOhUpfgHH/EfMKzNfo7c+g6lRc=;
+ b=np6X9/Vc4kMG/Gt8u7R8uRzs3Ydb2G1EqXWFlPUZtdfooPjrzYb21hf95+IAZK7UGA
+ oK5INPc0QDEzs+DHieR2wDirwGWFNS61kpajkvXXB0yRjB7QOvnoCchYFu0Qoxl8feHq
+ aNdunv+u/pA5K0g6C+iSU0aiMSTv4XwX/KguteUeKyDoRj0IBuht7EPBihGf4tipQ6D8
+ Qli6SYhnRrV7dXf66h/K052h6aD7VuFZ3YJenX+R2UDZd2eiWIFCBOfW5ixrb2/4o39x
+ ag0imRr/3auvggFiHBgbgbi0OitOL4mLbdG13NF26O4RuUMTG4ht9X4+i9KL65RyZYOM
+ O8bQ==
+X-Gm-Message-State: AOAM532/vu8RTWu+GSAezDpjj3aMwOa9sockweHUdWYprGEMWPIuNCco
+ hZAq+uakYf6tK7PeYxePP2LlfYCeXiCtA8EsWg3/Vg==
+X-Google-Smtp-Source: ABdhPJwMYNViLTiCisdkrxFQC8FBeX6sRos/JDrW3MJSqMYh2H4TV+DsImOL0oh52MJeQTO6csJN1zPmKqBkddZ8oV0=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr38381346edt.100.1625760700942; 
+ Thu, 08 Jul 2021 09:11:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d3d8214a-69f2-af60-324c-db4196ff7dae@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-0.001,
+References: <20210630183226.3290849-1-richard.henderson@linaro.org>
+ <20210630183226.3290849-6-richard.henderson@linaro.org>
+ <CAFEAcA_EkW7a6SFuAHxdYvu_gdcdDwY4xQVOFnmtatcx+T1qGg@mail.gmail.com>
+ <88562e08-3d6c-3224-5d84-67e3ffd3774b@linaro.org>
+In-Reply-To: <88562e08-3d6c-3224-5d84-67e3ffd3774b@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Jul 2021 17:11:02 +0100
+Message-ID: <CAFEAcA8Xs0Ct6hDBAk-N7TVhb66dwv2EJudo83XzJ5dQn9k7VA@mail.gmail.com>
+Subject: Re: [PATCH v2 05/28] target/arm: Use gen_jmp for ISB and SB
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,45 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 5:30 PM, Laurent Vivier wrote:
-> Le 08/07/2021 à 16:11, Philippe Mathieu-Daudé a écrit :
->> Convert the host_to_target_errno_table[] array to a switch case
->> to allow compiler optimizations. Extract the errnos list as to
->> a new includible unit, using a generic macro. Remove the code
->> related to target_to_host_errno_table[] initialization.
->>
-> 
-> Is there some performance penalties by using a switch() rather than an array[] ?
+On Thu, 8 Jul 2021 at 17:04, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 7/8/21 5:05 AM, Peter Maydell wrote:
+> > On Wed, 30 Jun 2021 at 19:47, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> Using gen_goto_tb directly misses the single-step check.
+> >>
+> >> Cc: qemu-arm@nongnu.org
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >> ---
+> >>   target/arm/translate.c | 4 ++--
+> >>   1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> >> index a0c6cfa902..8cd31feeaa 100644
+> >> --- a/target/arm/translate.c
+> >> +++ b/target/arm/translate.c
+> >> @@ -8582,7 +8582,7 @@ static bool trans_ISB(DisasContext *s, arg_ISB *a)
+> >>        * self-modifying code correctly and also to take
+> >>        * any pending interrupts immediately.
+> >>        */
+> >> -    gen_goto_tb(s, 0, s->base.pc_next);
+> >> +    gen_jmp(s, s->base.pc_next);
+> >>       return true;
+> >>   }
+> >>
+> >> @@ -8596,7 +8596,7 @@ static bool trans_SB(DisasContext *s, arg_SB *a)
+> >>        * for TCG; MB and end the TB instead.
+> >>        */
+> >>       tcg_gen_mb(TCG_MO_ALL | TCG_BAR_SC);
+> >> -    gen_goto_tb(s, 0, s->base.pc_next);
+> >> +    gen_jmp(s, s->base.pc_next);
+> >>       return true;
+> >
+> > Why isn't it enough here just to set is_jmp to DISAS_NEXT ?
+>
+> You mean DISAS_TOO_MANY?  That would work, yes.
+> At the time I was just thinking of replacing one jump with another.
 
-Per Richard suggestion
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg821488.html
-rather the opposite, it might be now easier for the compiler to
-optimize. And we free unused entries in the array (.rodata).
+You've implicitly answered my question, which is that the main
+translator loop code treats DISAS_NEXT as "keep adding insns to
+the TB" :-)
 
->> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  linux-user/syscall.c    | 169 +++++-----------------------------------
->>  linux-user/errnos.c.inc | 140 +++++++++++++++++++++++++++++++++
->>  2 files changed, 161 insertions(+), 148 deletions(-)
->>  create mode 100644 linux-user/errnos.c.inc
->>
-> ...
->> diff --git a/linux-user/errnos.c.inc b/linux-user/errnos.c.inc
->> new file mode 100644
->> index 00000000000..807c97ca25e
->> --- /dev/null
->> +++ b/linux-user/errnos.c.inc
->> @@ -0,0 +1,140 @@
-> ...
->> +#ifdef ERKFILL
-> 
-> You fix it in patch 1 but forgot to report it in your patch :)
+It feels slightly like misuse to use DISAS_TOO_MANY, unless we
+renamed it to something like DISAS_END_TB (which is what it's
+actually doing).
 
-Grrr :(
+thanks
+-- PMM
 
