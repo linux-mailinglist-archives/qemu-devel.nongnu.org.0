@@ -2,75 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0418A3C1930
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:29:23 +0200 (CEST)
-Received: from localhost ([::1]:57784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895DB3C1935
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:31:42 +0200 (CEST)
+Received: from localhost ([::1]:35910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Ym0-0003wg-TD
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:29:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
+	id 1m1YoF-00010Q-9F
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:31:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1YiQ-00018J-ME
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:25:45 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:40645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1YiD-0007rW-UB
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:25:35 -0400
-Received: by mail-pg1-x533.google.com with SMTP id k20so124549pgg.7
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 11:25:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=CQb7o+ET8OOl5+pKxHwa5BifFYk4we0KyRxLN1kjWhQ=;
- b=ABIgeEaPt3wTfJwQ06JYU8f9TQ5I/FsnhnvGq4OzcHAy7T4K/vH834gSG/Olxyxrtg
- Yg1Xn7VWDdau4vydhSL1hqB5Knm3R7khthwbO/K1qHcXiVmJmAXYhESIJXauyC5IViob
- ukJODSfVEgnF57VVX1W6WzL7sC29XbvNOp42HTZ5GZDplurOKlNLl5osqMfCKWt48gDI
- X6SAldtHJFNRWptw5BRoAPiO7YIGJgV3Ez7Jz/Oc8WmjKnLL/qY534m6VcUQdx6LstyD
- 6cXz/KvU8X76HrbS3cQFz3gXDavHPKKP0rv/xTUS0Odv/lXIYT2DQjSHvvc17mKOwhpl
- fTag==
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1Xue-0005rT-6Y
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:34:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22080)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1Xuc-00087v-0g
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:34:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625765649;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=S7nxGrkHCbVsDgAjVEk+XApAnpg6nLIcfFWjq6WaOCg=;
+ b=f8+ezHW33D567sFaaqKAj53MWpqqDrnR/zqP22LOoURl8ir2n04rmAJtMIeuo95shwTfbz
+ z2wN6FDVsg7RC9M3uHQ6dtt51bOQ+Eq3IKUC/wP2Dhs6559E2AVwnPDsRgqsXIQURGSRN9
+ hCleOiiv5/IvVHkQBfnJTpiS8KXk29M=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-5NDQCTFCOt2sKcyjAiZLPg-1; Thu, 08 Jul 2021 13:34:08 -0400
+X-MC-Unique: 5NDQCTFCOt2sKcyjAiZLPg-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ p12-20020a0cfacc0000b02902a1b4396bc4so4536199qvo.22
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:34:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=CQb7o+ET8OOl5+pKxHwa5BifFYk4we0KyRxLN1kjWhQ=;
- b=rKLU1O/dK3JgBXyhzjioC6nyu3D3djSFCCU7Mmz7PzCTQNI5Kt1dixoc3EEjYKj4Ix
- UN/XVZJasClRZpnoAKJi/IktF+GmG4bMicJJ1VBTJGmrqwyJuI0YQ8Yi5Sz5mIB3ax8R
- 1kb+Y2sQcfb8gE10xU4aR8oC6Jnm/ZtXDIbDE+Wh7O2cuBDvRJJpVBSO4Zo1rWBz2+ix
- oqxhB+leryj4lCUHqnvV2olEAKd3Z3lYcv81lqpBjr8j0fVrUzznAJOohi2TZD7pvoUt
- Svg8aoSQpaCmpKlk+23FYyFAowlTLVeZYwJbXE1SceXCxPJrDwPKiRJKZ2vLgz09MGZ8
- 1X+Q==
-X-Gm-Message-State: AOAM5328y9tNxVjKO+5ZUKT+47iBi0ryBmmtA9it3zlj5Uu2i7WFhbl3
- fNfQBMTbAE2akTcG6unWg2aN1JAfXVcdXQ==
-X-Google-Smtp-Source: ABdhPJyt5jpMR5b0Tb4uvOBEcu/gh2urOEMS81kA23ew6Rs1qWv5paGY/GYCUWmZlM2rIVrdG1KtQQ==
-X-Received: by 2002:a62:f947:0:b029:2e9:c502:7939 with SMTP id
- g7-20020a62f9470000b02902e9c5027939mr32441608pfm.34.1625768722711; 
- Thu, 08 Jul 2021 11:25:22 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id d67sm2751810pfd.81.2021.07.08.11.25.22
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 11:25:22 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/alpha: Use tcg_constant_* elsewhere
-Date: Thu,  8 Jul 2021 11:25:19 -0700
-Message-Id: <20210708182519.750626-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210708182519.750626-1-richard.henderson@linaro.org>
-References: <20210708182519.750626-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=S7nxGrkHCbVsDgAjVEk+XApAnpg6nLIcfFWjq6WaOCg=;
+ b=j9DwkfCgZL6wXjKhxm+/pm5IqfR01H6PHeozsWGhakjkYRbFX2YdFGuL6QdIirdcr8
+ CIy/wWKIX75tPpYqevW2dnCIAPw1T2IjAl4v+/VKeaMRp0X43VXHmRHyO8NpjP4vbblu
+ zIk4sZuG3iN+r55vxMj6dGbZdul2f6kEHe5LcypfrAMkJjkHwoeknRmgJz2fE4wqqJ/O
+ DwetsF1TrjWAWNwS6NLiwbhQbIMzrLH5wgjYpFJpocDBhnbriIhMgNcPjX3Fqx7aUbLw
+ zwbg4JUdlI05fN7FnGyrnyGlkm6IdcCR3pN7RmEIMyRCTZ0KwpbaMOocPi4ZyxSZotqp
+ Ud6Q==
+X-Gm-Message-State: AOAM531vOcyZRgUTZmTQToNkhzzUpaVl2n2l9b35nXlK7VPTa8p2Rdv6
+ 3kIkZPCNhXmMdtIGynb2RJROR68p7haLFRbVpJavmkEMTMv+La4g4aojXICk5bOl5ehgkBamNu0
+ mgj8zgLddHSxKxd0=
+X-Received: by 2002:a37:7ac7:: with SMTP id v190mr31151584qkc.35.1625765647010; 
+ Thu, 08 Jul 2021 10:34:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJykguyNXtPBpdfZKVvQ9RiyCMh918cpxW81/IUcc0rVYGSBqSyg3ksvGw1tvAdoWCpqsJNipw==
+X-Received: by 2002:a37:7ac7:: with SMTP id v190mr31151567qkc.35.1625765646808; 
+ Thu, 08 Jul 2021 10:34:06 -0700 (PDT)
+Received: from p50.localhost.localdomain
+ ([2601:18d:8a00:ab70:b677:d979:630:695c])
+ by smtp.gmail.com with ESMTPSA id k66sm1347103qke.84.2021.07.08.10.34.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 10:34:06 -0700 (PDT)
+Subject: Re: [PATCH v5 1/4] avocado_qemu: Fix KNOWN_DISTROS map into the
+ LinuxDistro class
+To: eric.auger@redhat.com, eric.auger.pro@gmail.com, qemu-devel@nongnu.org,
+ philmd@redhat.com, wainersm@redhat.com
+References: <20210706131729.30749-1-eric.auger@redhat.com>
+ <20210706131729.30749-2-eric.auger@redhat.com>
+ <df9835de-fe4a-2233-a625-3b04b7b0d514@redhat.com>
+ <917bb587-ccd1-cac7-1e82-d2f869feaf02@redhat.com>
+From: Cleber Rosa <crosa@redhat.com>
+Message-ID: <7e1cf0c6-97b4-ebfe-f046-c2fe06e5e6e3@redhat.com>
+Date: Thu, 8 Jul 2021 13:34:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <917bb587-ccd1-cac7-1e82-d2f869feaf02@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,139 +103,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: wrampazz@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the remaining uses of tcg_const_*.  These uses are
-all local, with the allocate and free close together.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/alpha/translate.c | 46 ++++++++++++----------------------------
- 1 file changed, 14 insertions(+), 32 deletions(-)
+On 7/8/21 4:56 AM, Eric Auger wrote:
+>
+> I am not sufficiently expert on the test infra and python to be really
+> efficient fixing that. Can anyone help quickly to target the soft
+> freeze? Otherwise, today I will drop that patch and restore the code I
+> had in v4, just based on Cleber series. I think the refactoring can
+> happen later...
 
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index 3fd66fb78d..cf5ad46853 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -251,11 +251,9 @@ static void gen_excp_1(int exception, int error_code)
- {
-     TCGv_i32 tmp1, tmp2;
- 
--    tmp1 = tcg_const_i32(exception);
--    tmp2 = tcg_const_i32(error_code);
-+    tmp1 = tcg_constant_i32(exception);
-+    tmp2 = tcg_constant_i32(error_code);
-     gen_helper_excp(cpu_env, tmp1, tmp2);
--    tcg_temp_free_i32(tmp2);
--    tcg_temp_free_i32(tmp1);
- }
- 
- static DisasJumpType gen_excp(DisasContext *ctx, int exception, int error_code)
-@@ -506,15 +504,11 @@ static DisasJumpType gen_bcond_internal(DisasContext *ctx, TCGCond cond,
- 
-         return DISAS_NORETURN;
-     } else {
--        TCGv_i64 z = tcg_const_i64(0);
--        TCGv_i64 d = tcg_const_i64(dest);
--        TCGv_i64 p = tcg_const_i64(ctx->base.pc_next);
-+        TCGv_i64 z = load_zero(ctx);
-+        TCGv_i64 d = tcg_constant_i64(dest);
-+        TCGv_i64 p = tcg_constant_i64(ctx->base.pc_next);
- 
-         tcg_gen_movcond_i64(cond, cpu_pc, cmp, z, d, p);
--
--        tcg_temp_free_i64(z);
--        tcg_temp_free_i64(d);
--        tcg_temp_free_i64(p);
-         return DISAS_PC_UPDATED;
-     }
- }
-@@ -716,22 +710,19 @@ static void gen_fp_exc_raise(int rc, int fn11)
-     if (!(fn11 & QUAL_I)) {
-         ignore |= FPCR_INE;
-     }
--    ign = tcg_const_i32(ignore);
-+    ign = tcg_constant_i32(ignore);
- 
-     /* ??? Pass in the regno of the destination so that the helper can
-        set EXC_MASK, which contains a bitmask of destination registers
-        that have caused arithmetic traps.  A simple userspace emulation
-        does not require this.  We do need it for a guest kernel's entArith,
-        or if we were to do something clever with imprecise exceptions.  */
--    reg = tcg_const_i32(rc + 32);
-+    reg = tcg_constant_i32(rc + 32);
-     if (fn11 & QUAL_S) {
-         gen_helper_fp_exc_raise_s(cpu_env, ign, reg);
-     } else {
-         gen_helper_fp_exc_raise(cpu_env, ign, reg);
-     }
--
--    tcg_temp_free_i32(reg);
--    tcg_temp_free_i32(ign);
- }
- 
- static void gen_cvtlq(TCGv vc, TCGv vb)
-@@ -824,7 +815,7 @@ IEEE_INTCVT(cvtqt)
- 
- static void gen_cpy_mask(TCGv vc, TCGv va, TCGv vb, bool inv_a, uint64_t mask)
- {
--    TCGv vmask = tcg_const_i64(mask);
-+    TCGv vmask = tcg_constant_i64(mask);
-     TCGv tmp = tcg_temp_new_i64();
- 
-     if (inv_a) {
-@@ -836,7 +827,6 @@ static void gen_cpy_mask(TCGv vc, TCGv va, TCGv vb, bool inv_a, uint64_t mask)
-     tcg_gen_andc_i64(vc, vb, vmask);
-     tcg_gen_or_i64(vc, vc, tmp);
- 
--    tcg_temp_free(vmask);
-     tcg_temp_free(tmp);
- }
- 
-@@ -1210,12 +1200,9 @@ static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
- 
-         case 0x3E:
-             /* WTINT */
--            {
--                TCGv_i32 tmp = tcg_const_i32(1);
--                tcg_gen_st_i32(tmp, cpu_env, -offsetof(AlphaCPU, env) +
--                                             offsetof(CPUState, halted));
--                tcg_temp_free_i32(tmp);
--            }
-+            tcg_gen_st_i32(tcg_constant_i32(1), cpu_env,
-+                           -offsetof(AlphaCPU, env) +
-+                           offsetof(CPUState, halted));
-             tcg_gen_movi_i64(ctx->ir[IR_V0], 0);
-             return gen_excp(ctx, EXCP_HALTED, 0);
- 
-@@ -1366,12 +1353,8 @@ static DisasJumpType gen_mtpr(DisasContext *ctx, TCGv vb, int regno)
- 
-     case 253:
-         /* WAIT */
--        {
--            TCGv_i32 tmp = tcg_const_i32(1);
--            tcg_gen_st_i32(tmp, cpu_env, -offsetof(AlphaCPU, env) +
--                                         offsetof(CPUState, halted));
--            tcg_temp_free_i32(tmp);
--        }
-+        tcg_gen_st_i32(tcg_constant_i32(1), cpu_env,
-+                       -offsetof(AlphaCPU, env) + offsetof(CPUState, halted));
-         return gen_excp(ctx, EXCP_HALTED, 0);
- 
-     case 252:
-@@ -2744,9 +2727,8 @@ static DisasJumpType translate_one(DisasContext *ctx, uint32_t insn)
-             vb = load_gpr(ctx, rb);
-         }
-         tcg_gen_movi_i64(cpu_lock_addr, -1);
-+        st_flag_byte(load_zero(ctx), ENV_FLAG_RX_SHIFT);
-         tmp = tcg_temp_new();
--        tcg_gen_movi_i64(tmp, 0);
--        st_flag_byte(tmp, ENV_FLAG_RX_SHIFT);
-         tcg_gen_andi_i64(tmp, vb, 1);
-         st_flag_byte(tmp, ENV_FLAG_PAL_SHIFT);
-         tcg_temp_free(tmp);
--- 
-2.25.1
+
+Hi Eric,
+
+
+The following diff works for me:
+
+
+diff --git a/tests/acceptance/avocado_qemu/__init__.py 
+b/tests/acceptance/avocado_qemu/__init__.py
+index af93cd63ea..b3bed00062 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -310,6 +310,8 @@ class LinuxDistro:
+              '31': {
+                  'x86_64':
+                  {'checksum': 
+'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
++                'aarch64':
++                {'checksum': 
+'1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
+                  'ppc64':
+                  {'checksum': 
+'7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
+                  's390x':
+@@ -323,10 +325,11 @@ def __init__(self, name, version, arch):
+          self.version = version
+          self.arch = arch
+          try:
+-            self._info = 
+self.KNOWN_DISTROS.get(name).get(version).get(arch)
++            info = self.KNOWN_DISTROS.get(name).get(version).get(arch)
+          except AttributeError:
+              # Unknown distro
+-            self._info = {}
++            info = None
++        self._info = info or {}
+
+      @property
+      def checksum(self):
+
+
+I've tested it with both existing and the newly introduced tests.
+
+
+Cheers,
+
+- Cleber.
 
 
