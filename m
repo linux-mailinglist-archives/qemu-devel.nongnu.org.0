@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB9853C13D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:06:32 +0200 (CEST)
-Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6452A3C13CB
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:05:23 +0200 (CEST)
+Received: from localhost ([::1]:47296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Tjb-0000P3-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42904)
+	id 1m1TiU-0004u7-Ef
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1Tdq-0006ic-8f; Thu, 08 Jul 2021 09:00:34 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:61360)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1TeC-0007HA-3x
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:00:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1Tdi-0006fO-9W; Thu, 08 Jul 2021 09:00:33 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 589717457ED;
- Thu,  8 Jul 2021 15:00:23 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id AFBDB745708; Thu,  8 Jul 2021 15:00:22 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id AE54C74570D;
- Thu,  8 Jul 2021 15:00:22 +0200 (CEST)
-Date: Thu, 8 Jul 2021 15:00:22 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
-In-Reply-To: <6a25eed6-22db-7d5c-6686-67322b70a83f@ozlabs.ru>
-Message-ID: <70991a4-7d9-3a1c-dd53-4b7da2c39a0@eik.bme.hu>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <22b9ae49-7252-b664-ea98-99bb7baf4680@eik.bme.hu>
- <07d3a270-6d44-591d-d0ee-0264d3b4c7f2@ozlabs.ru>
- <4a903fde-4ea-a296-3132-bae249d261a@eik.bme.hu>
- <6a25eed6-22db-7d5c-6686-67322b70a83f@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1Te0-0006mw-SR
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:00:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625749244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rnKkyL28cKni/2A6Rph9JFlWuO+oPm5LdiRKKhiGx6U=;
+ b=XZRkXle5+13qm0aTB0iTDRssxryTgOu9kI94jkUnm2yEdS1s0krLlrIHbhOQCYKpf0lKI2
+ ZV8bJTX2pAM8oAf1k+gpOXBlaM4UR6dKmfqLbsUX9hbKs1MJ4fKXg6coSLuMns302/s/Ql
+ 7KAEJnzelqe9QSjZFgVpYGMha1X30bw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-W7JaDtOPNoKnIoUYAh0KmA-1; Thu, 08 Jul 2021 09:00:40 -0400
+X-MC-Unique: W7JaDtOPNoKnIoUYAh0KmA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3269D1800D41;
+ Thu,  8 Jul 2021 13:00:39 +0000 (UTC)
+Received: from redhat.com (ovpn-114-143.ams2.redhat.com [10.36.114.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 138CD5D6A8;
+ Thu,  8 Jul 2021 13:00:37 +0000 (UTC)
+Date: Thu, 8 Jul 2021 15:00:36 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH 2/2] qemu-img: Require -F with -b backing image
+Message-ID: <YOb29Jy1rjyfyf25@redhat.com>
+References: <20210503213600.569128-1-eblake@redhat.com>
+ <20210503213600.569128-3-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 10%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210503213600.569128-3-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,82 +76,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-devel@nongnu.org, "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
-> On 08/07/2021 20:39, BALATON Zoltan wrote:
->> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>> On 08/07/2021 20:18, BALATON Zoltan wrote:
->>>> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>>>> This addresses the comments from v22.
->>>>> 
->>>>> The functional changes are (the VOF ones need retesting with Pegasos2):
->>>>> 
->>>>> (VOF) setprop will start failing if the machine class callback
->>>>> did not handle it;
->>>> 
->>>> I'll try this later but I think I've seen guests using setprop (Linux 
->>>> also does that for some property). How should I allow that? Do I need a 
->>>> new callback for this? Could it be allower unless there's a callback that 
->>>> could deby it? But that was the previous way I think.
->>> 
->>> A simple defined callback which always returns "true" should do.
->> 
->> Yes but what's the point? That would just effectiverly disable this change 
->> so if we need that, we could just as well keep the previous behaviour which 
->> is to allow setprop unless there's a callback that can decide otherwise. 
->> The spapr machine has such a callback so it already does not allow all 
->> setprop and if I'll have a callback in pegasos2 returning true that will 
->> allow what's allowed now so this part of this patch does nothing indeed.
->> 
->> Since guests could do all kinds of things that we don't know without trying 
->> them restricting setprop is a good way to run into problems with guests 
->> that were not tested that could otherwise just work. Then we'll need 
->> another patch to enable that guest adding some more properties to the list 
->> of allowed ones. Why it it a problem to allow this by default in the first 
->> place and only reject changes for machines that have a callback? Then I 
->> would not need more empty callbacks in pegasos2.
->
->
-> From here:
-> https://patchwork.ozlabs.org/project/qemu-devel/patch/20210625055155.2252896-1-aik@ozlabs.ru/#2714158
->
-> ===
->
->>>> +    if (vmo) {
->>>> +        VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
->>>> +
->>>> +        if (vmc->setprop &&
->>>> +            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
->>>> +            goto trace_exit;
->>>
->>> This defaults to allowing the setprop if the machine doesn't provide a
->>> setprop callback.  I think it would be safer to default to prohibiting
->>> all setprops except those the machine explicitly allows.
->>
->>
->> Mmmm... I can imagine the client using the device tree as a temporary
->> storage. I'd rather add a trace for such cases.
->
-> If they do, I think that's something we'll need to consider and
-> account for that platform, rather than something we want to allow to
-> begin with.
+Am 03.05.2021 um 23:36 hat Eric Blake geschrieben:
+> @@ -17,7 +14,7 @@ qemu-io: can't open device TEST_DIR/t.qcow2: Could not open backing file: Unknow
+>  no file open, try 'help open'
+>  read 4096/4096 bytes at offset 0
+>  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+> -qemu-img: warning: Deprecated use of backing file without explicit backing format, use of this image requires potentially unsafe format probing
+> +qemu-img: Could not change the backing file to '/home/eblake/qemu/build/tests/qemu-iotests/scratch/t.qcow2.base': Invalid argument
+>  read 4096/4096 bytes at offset 0
+>  4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
 
-I've seen that, yet I don't understand why. If I'll just add an empty 
-callback in pegasos2 to disable it then we're back to where we were 
-before. So my question is why do we want to explicitely enable setprop for 
-every guest when we encounter it one by one (especially if this works on 
-other OF implementations so guests are free to change the device tree 
-therefore we don't know in advance what are allowable properties). If you 
-don't want it for spapr I think you already have the callback for it that 
-disallows it for all but at a few properties but why change the default 
-for other machines that don't have a callback? If I can still add an empty 
-callback that could well be the default just to avoid more boilerplate in 
-board code.
+This is not exactly an improvement for the error message. Maybe worth a
+follow-up patch?
 
-Regards,
-BALATON Zoltan
+Kevin
+
 
