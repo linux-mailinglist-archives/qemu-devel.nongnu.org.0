@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8B13C19E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:34:48 +0200 (CEST)
-Received: from localhost ([::1]:34162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D07C3C1A2A
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:53:12 +0200 (CEST)
+Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZnL-0008PZ-3G
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:34:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51586)
+	id 1m1a59-0005E7-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:53:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZWN-0002AL-UO
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:17:17 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53049)
+ id 1m1ZgE-0005ZR-LU
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:27:27 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:42968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZWL-0007TI-Vc
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:17:15 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id g10so4791142wmh.2
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:17:13 -0700 (PDT)
+ id 1m1Zg7-0001z7-LO
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:27:25 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ j16-20020a05600c1c10b0290204b096b0caso4739817wms.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:27:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M0B41l8DgGSa12niyjKzHwCDTjBJNRfJGB+oGiCv7dg=;
- b=fegvHx5OP2Ie5+W7AjJfvR6cN4HDnWqJD4TXaYURha36aAqDoYQPDJK3EJGCfqXYIO
- wD6hXyYquPfcjY27BbfisZuj4OghWHW/8xwMxqYNX5b3sbSvma8SPr4ZjJslnvhvyals
- knfFQzfltoKOU73loXl3ljxsIs0+G2XCyuoPvXGJShwCaADxwkmqGxxZENHR6ZQmHHaJ
- 9tGRcdxkfn8Gi32CBBR4IkH9gQlLYkTx9OjoOCLxG3Ra34CdtFEf1kFNhUsq38DTcZPc
- iQfn6ymtkJFAmGBM5Ysa0QxaVjnlB4vAQ7telXIACMcStPgp2aH2vWPg7LOKoN/e+MlS
- NP8Q==
+ bh=Y2dEFzgPhGXTzz0SmMn+gndtAoKd6AWU5+DV/S3PIUQ=;
+ b=Z6d26LEVtZsO1+46W1/X2EWuzgVMSiVOiFDB+5anIu3Y77bOJYZeG25mDXxmiccFFZ
+ lCzkhreKV1iXV7KMaW4aV4TiyRoIHBrYGbfZ+gpWsTEQZPrkWig0L9btMuBRvo01/Tql
+ cMNfwRAVi2SaxAQe+FpMl3n2ji4zjwolwh2oHB8fwL2jeL/LZbrZQNnqDKRAkamCjLn/
+ htJk6mPmO7HWDp9mU6JtVe5SbGxIeSjwpDSsWbk23Gn8e6DAUByttOhaV2L/zF9faCPi
+ JfytNJKSGgEvr+xW0g4wPYIggO1pPEgybYbgU9ocoC4VZmnS6pzld8EJuY7aRhNypLpK
+ 5AoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M0B41l8DgGSa12niyjKzHwCDTjBJNRfJGB+oGiCv7dg=;
- b=pLdaK4lYhaCEzShAY+98ADWzAyuElj6q+m83t2go+BdcQGtXiZ5sqm7cJNwi0rKU7t
- LPfcWs5yN0DoJnd8zJlzhdq72kP/UQE+IOa9crdt2aUEoQBP5DYBZyGYVb8Ef6HW0r42
- xMG9BT/ozTWFN/t9Uo1R5luPpK8qhmjNJN+2WFJOjlEYFloSLThalOt2uCnuOlz0p96I
- N5GHM9+Jz4nPM0i9R3uqIezGDSWoGKT+gjy2GLtn46bic8e7Xe0Pl2ySCJT7Txledu9G
- rrW3xkKma8yyEd+9+qj1RwI3a7aUgFWj8IlShnQwcn9rkEYP8UpqIC9KiiRMIfSLS/9D
- 8i7A==
-X-Gm-Message-State: AOAM533oGUIy9Hijbw0pLdjKiQ/RL2fDxwLjjYk8uDQP75Cq3YDWhfUL
- 6MjQPBglCapAJOhzdIDL0/EQXg==
-X-Google-Smtp-Source: ABdhPJzigHqR3zWezb8xcAU73d3sGbTkUZK4VsTfqd+h5MMI1FL2OGCfD4scn+7iTMTo2o5IHi+KmA==
-X-Received: by 2002:a05:600c:4fc7:: with SMTP id
- o7mr34389106wmq.16.1625771832637; 
- Thu, 08 Jul 2021 12:17:12 -0700 (PDT)
+ bh=Y2dEFzgPhGXTzz0SmMn+gndtAoKd6AWU5+DV/S3PIUQ=;
+ b=jsfO5Og4gvlOWt/qXzc6lrlzNLrP7ZMwlGOjRTQzXUPRoJ70+DW2W5ZJuzlw3yrs89
+ mOtFSYWGBR514NSJ9RvOI6hi/AL+9ZIzc0T0sjiezkXj5zLaL1byIQCE8sGh0TW1o/yX
+ obO/l+WfZxAg5/eWPtgdV9l6sXm+q4/7gNHRC22gr1krujlFuYwuGwXSKTGgazXP+iH4
+ +ZWLoDi2vNAis/LT3fJQTuNTy2P94z+1MqGE+oyGO+LiSjbl3scBwizXm2hV+xPfLOC5
+ IuKPYgvVeVj9F24LS6G7uhm+0y/xVJNEhS3qLsDOEs6G5vyu8ReDcO3a8jU7dbs4SsaF
+ bh4A==
+X-Gm-Message-State: AOAM533LYQdR5LUAR630f/ZSDHFvXz6BvuXLwCsxytGkCyyIuRP3Jtc5
+ 237xZ9k5/6S+mZxhoP2mvFjApg==
+X-Google-Smtp-Source: ABdhPJzmXbah/6+bA9yWGcZ3OfZEv5ytdjUUtCq3YZb03b20vFYXXo5Tj+Efiv/YFOM7KFPbrtX9+Q==
+X-Received: by 2002:a1c:ed14:: with SMTP id l20mr6901651wmh.20.1625772437267; 
+ Thu, 08 Jul 2021 12:27:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m5sm9637964wmq.2.2021.07.08.12.17.11
+ by smtp.gmail.com with ESMTPSA id o11sm2801286wmq.1.2021.07.08.12.27.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 12:17:11 -0700 (PDT)
+ Thu, 08 Jul 2021 12:27:12 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 97C5E1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id B14631FFBC;
  Thu,  8 Jul 2021 20:09:45 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 34/39] docs/devel: tcg-plugins: add execlog plugin
- description
-Date: Thu,  8 Jul 2021 20:09:36 +0100
-Message-Id: <20210708190941.16980-35-alex.bennee@linaro.org>
+Subject: [PATCH  v2 35/39] plugins: Added a new cache modelling plugin
+Date: Thu,  8 Jul 2021 20:09:37 +0100
+Message-Id: <20210708190941.16980-36-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210708190941.16980-1-alex.bennee@linaro.org>
 References: <20210708190941.16980-1-alex.bennee@linaro.org>
@@ -97,49 +96,460 @@ Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexandre Iooss <erdnaxe@crans.org>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-This adds description of the execlog TCG plugin with an example.
+Added a cache modelling plugin that uses a static configuration used in
+many of the commercial microprocessors and uses random eviction policy.
 
-Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
-Message-Id: <20210702081307.1653644-3-erdnaxe@crans.org>
+The purpose of the plugin is to identify the most cache-thrashing
+instructions for both instruction cache and data cache.
+
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210623125458.450462-2-ma.mandourr@gmail.com>
 ---
- docs/devel/tcg-plugins.rst | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ contrib/plugins/cache.c  | 419 +++++++++++++++++++++++++++++++++++++++
+ contrib/plugins/Makefile |   1 +
+ 2 files changed, 420 insertions(+)
+ create mode 100644 contrib/plugins/cache.c
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 0cd77c77d2..179867e9c1 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -320,3 +320,27 @@ the user to see what hardware is accessed how often. It has a number of options:
-       off:0000001c, 1, 2
-       off:00000020, 1, 2
-       ...
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+new file mode 100644
+index 0000000000..e9955cdc3a
+--- /dev/null
++++ b/contrib/plugins/cache.c
+@@ -0,0 +1,419 @@
++/*
++ * Copyright (C) 2021, Mahmoud Mandour <ma.mandourr@gmail.com>
++ *
++ * License: GNU GPL, version 2 or later.
++ *   See the COPYING file in the top-level directory.
++ */
 +
-+- contrib/plugins/execlog.c
++#include <inttypes.h>
++#include <stdio.h>
++#include <glib.h>
 +
-+The execlog tool traces executed instructions with memory access. It can be used
-+for debugging and security analysis purposes.
-+Please be aware that this will generate a lot of output.
++#include <qemu-plugin.h>
 +
-+The plugin takes no argument::
++QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
 +
-+  qemu-system-arm $(QEMU_ARGS) \
-+    -plugin ./contrib/plugins/libexeclog.so -d plugin
++static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
 +
-+which will output an execution trace following this structure::
++static GHashTable *miss_ht;
 +
-+  # vCPU, vAddr, opcode, disassembly[, load/store, memory addr, device]...
-+  0, 0xa12, 0xf8012400, "movs r4, #0"
-+  0, 0xa14, 0xf87f42b4, "cmp r4, r6"
-+  0, 0xa16, 0xd206, "bhs #0xa26"
-+  0, 0xa18, 0xfff94803, "ldr r0, [pc, #0xc]", load, 0x00010a28, RAM
-+  0, 0xa1a, 0xf989f000, "bl #0xd30"
-+  0, 0xd30, 0xfff9b510, "push {r4, lr}", store, 0x20003ee0, RAM, store, 0x20003ee4, RAM
-+  0, 0xd32, 0xf9893014, "adds r0, #0x14"
-+  0, 0xd34, 0xf9c8f000, "bl #0x10c8"
-+  0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
++static GMutex mtx;
++static GRand *rng;
++
++static int limit;
++static bool sys;
++
++static uint64_t dmem_accesses;
++static uint64_t dmisses;
++
++static uint64_t imem_accesses;
++static uint64_t imisses;
++
++/*
++ * A CacheSet is a set of cache blocks. A memory block that maps to a set can be
++ * put in any of the blocks inside the set. The number of block per set is
++ * called the associativity (assoc).
++ *
++ * Each block contains the the stored tag and a valid bit. Since this is not
++ * a functional simulator, the data itself is not stored. We only identify
++ * whether a block is in the cache or not by searching for its tag.
++ *
++ * In order to search for memory data in the cache, the set identifier and tag
++ * are extracted from the address and the set is probed to see whether a tag
++ * match occur.
++ *
++ * An address is logically divided into three portions: The block offset,
++ * the set number, and the tag.
++ *
++ * The set number is used to identify the set in which the block may exist.
++ * The tag is compared against all the tags of a set to search for a match. If a
++ * match is found, then the access is a hit.
++ */
++
++typedef struct {
++    uint64_t tag;
++    bool valid;
++} CacheBlock;
++
++typedef struct {
++    CacheBlock *blocks;
++} CacheSet;
++
++typedef struct {
++    CacheSet *sets;
++    int num_sets;
++    int cachesize;
++    int assoc;
++    int blksize_shift;
++    uint64_t set_mask;
++    uint64_t tag_mask;
++} Cache;
++
++typedef struct {
++    char *disas_str;
++    const char *symbol;
++    uint64_t addr;
++    uint64_t dmisses;
++    uint64_t imisses;
++} InsnData;
++
++Cache *dcache, *icache;
++
++static int pow_of_two(int num)
++{
++    g_assert((num & (num - 1)) == 0);
++    int ret = 0;
++    while (num /= 2) {
++        ret++;
++    }
++    return ret;
++}
++
++static inline uint64_t extract_tag(Cache *cache, uint64_t addr)
++{
++    return addr & cache->tag_mask;
++}
++
++static inline uint64_t extract_set(Cache *cache, uint64_t addr)
++{
++    return (addr & cache->set_mask) >> cache->blksize_shift;
++}
++
++static Cache *cache_init(int blksize, int assoc, int cachesize)
++{
++    Cache *cache;
++    int i;
++    uint64_t blk_mask;
++
++    cache = g_new(Cache, 1);
++    cache->assoc = assoc;
++    cache->cachesize = cachesize;
++    cache->num_sets = cachesize / (blksize * assoc);
++    cache->sets = g_new(CacheSet, cache->num_sets);
++    cache->blksize_shift = pow_of_two(blksize);
++
++    for (i = 0; i < cache->num_sets; i++) {
++        cache->sets[i].blocks = g_new0(CacheBlock, assoc);
++    }
++
++    blk_mask = blksize - 1;
++    cache->set_mask = ((cache->num_sets - 1) << cache->blksize_shift);
++    cache->tag_mask = ~(cache->set_mask | blk_mask);
++    return cache;
++}
++
++static int get_invalid_block(Cache *cache, uint64_t set)
++{
++    int i;
++
++    for (i = 0; i < cache->assoc; i++) {
++        if (!cache->sets[set].blocks[i].valid) {
++            return i;
++        }
++    }
++
++    return -1;
++}
++
++static int get_replaced_block(Cache *cache)
++{
++    return g_rand_int_range(rng, 0, cache->assoc);
++}
++
++static bool in_cache(Cache *cache, uint64_t addr)
++{
++    int i;
++    uint64_t tag, set;
++
++    tag = extract_tag(cache, addr);
++    set = extract_set(cache, addr);
++
++    for (i = 0; i < cache->assoc; i++) {
++        if (cache->sets[set].blocks[i].tag == tag &&
++                cache->sets[set].blocks[i].valid) {
++            return true;
++        }
++    }
++
++    return false;
++}
++
++/**
++ * access_cache(): Simulate a cache access
++ * @cache: The cache under simulation
++ * @addr: The address of the requested memory location
++ *
++ * Returns true if the requsted data is hit in the cache and false when missed.
++ * The cache is updated on miss for the next access.
++ */
++static bool access_cache(Cache *cache, uint64_t addr)
++{
++    uint64_t tag, set;
++    int replaced_blk;
++
++    if (in_cache(cache, addr)) {
++        return true;
++    }
++
++    tag = extract_tag(cache, addr);
++    set = extract_set(cache, addr);
++
++    replaced_blk = get_invalid_block(cache, set);
++
++    if (replaced_blk == -1) {
++        replaced_blk = get_replaced_block(cache);
++    }
++
++    cache->sets[set].blocks[replaced_blk].tag = tag;
++    cache->sets[set].blocks[replaced_blk].valid = true;
++
++    return false;
++}
++
++static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
++                            uint64_t vaddr, void *userdata)
++{
++    uint64_t effective_addr;
++    struct qemu_plugin_hwaddr *hwaddr;
++    InsnData *insn;
++
++    g_mutex_lock(&mtx);
++    hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
++    if (hwaddr && qemu_plugin_hwaddr_is_io(hwaddr)) {
++        g_mutex_unlock(&mtx);
++        return;
++    }
++
++    effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : vaddr;
++
++    if (!access_cache(dcache, effective_addr)) {
++        insn = (InsnData *) userdata;
++        insn->dmisses++;
++        dmisses++;
++    }
++    dmem_accesses++;
++    g_mutex_unlock(&mtx);
++}
++
++static void vcpu_insn_exec(unsigned int vcpu_index, void *userdata)
++{
++    uint64_t insn_addr;
++    InsnData *insn;
++
++    g_mutex_lock(&mtx);
++    insn_addr = ((InsnData *) userdata)->addr;
++
++    if (!access_cache(icache, insn_addr)) {
++        insn = (InsnData *) userdata;
++        insn->imisses++;
++        imisses++;
++    }
++    imem_accesses++;
++    g_mutex_unlock(&mtx);
++}
++
++static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
++{
++    size_t n_insns;
++    size_t i;
++    InsnData *data;
++
++    n_insns = qemu_plugin_tb_n_insns(tb);
++    for (i = 0; i < n_insns; i++) {
++        struct qemu_plugin_insn *insn = qemu_plugin_tb_get_insn(tb, i);
++        uint64_t effective_addr;
++
++        if (sys) {
++            effective_addr = (uint64_t) qemu_plugin_insn_haddr(insn);
++        } else {
++            effective_addr = (uint64_t) qemu_plugin_insn_vaddr(insn);
++        }
++
++        /*
++         * Instructions might get translated multiple times, we do not create
++         * new entries for those instructions. Instead, we fetch the same
++         * entry from the hash table and register it for the callback again.
++         */
++        g_mutex_lock(&mtx);
++        data = g_hash_table_lookup(miss_ht, GUINT_TO_POINTER(effective_addr));
++        if (data == NULL) {
++            data = g_new0(InsnData, 1);
++            data->disas_str = qemu_plugin_insn_disas(insn);
++            data->symbol = qemu_plugin_insn_symbol(insn);
++            data->addr = effective_addr;
++            g_hash_table_insert(miss_ht, GUINT_TO_POINTER(effective_addr),
++                               (gpointer) data);
++        }
++        g_mutex_unlock(&mtx);
++
++        qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem_access,
++                                         QEMU_PLUGIN_CB_NO_REGS,
++                                         rw, data);
++
++        qemu_plugin_register_vcpu_insn_exec_cb(insn, vcpu_insn_exec,
++                                               QEMU_PLUGIN_CB_NO_REGS, data);
++    }
++}
++
++static void insn_free(gpointer data)
++{
++    InsnData *insn = (InsnData *) data;
++    g_free(insn->disas_str);
++    g_free(insn);
++}
++
++static void cache_free(Cache *cache)
++{
++    for (int i = 0; i < cache->num_sets; i++) {
++        g_free(cache->sets[i].blocks);
++    }
++
++    g_free(cache->sets);
++    g_free(cache);
++}
++
++static int dcmp(gconstpointer a, gconstpointer b)
++{
++    InsnData *insn_a = (InsnData *) a;
++    InsnData *insn_b = (InsnData *) b;
++
++    return insn_a->dmisses < insn_b->dmisses ? 1 : -1;
++}
++
++static int icmp(gconstpointer a, gconstpointer b)
++{
++    InsnData *insn_a = (InsnData *) a;
++    InsnData *insn_b = (InsnData *) b;
++
++    return insn_a->imisses < insn_b->imisses ? 1 : -1;
++}
++
++static void log_stats()
++{
++    g_autoptr(GString) rep = g_string_new("");
++    g_string_append_printf(rep,
++        "Data accesses: %lu, Misses: %lu\nMiss rate: %lf%%\n\n",
++        dmem_accesses,
++        dmisses,
++        ((double) dmisses / (double) dmem_accesses) * 100.0);
++
++    g_string_append_printf(rep,
++        "Instruction accesses: %lu, Misses: %lu\nMiss rate: %lf%%\n\n",
++        imem_accesses,
++        imisses,
++        ((double) imisses / (double) imem_accesses) * 100.0);
++
++    qemu_plugin_outs(rep->str);
++}
++
++static void log_top_insns()
++{
++    int i;
++    GList *curr, *miss_insns;
++    InsnData *insn;
++
++    miss_insns = g_hash_table_get_values(miss_ht);
++    miss_insns = g_list_sort(miss_insns, dcmp);
++    g_autoptr(GString) rep = g_string_new("");
++    g_string_append_printf(rep, "%s", "address, data misses, instruction\n");
++
++    for (curr = miss_insns, i = 0; curr && i < limit; i++, curr = curr->next) {
++        insn = (InsnData *) curr->data;
++        g_string_append_printf(rep, "0x%" PRIx64, insn->addr);
++        if (insn->symbol) {
++            g_string_append_printf(rep, " (%s)", insn->symbol);
++        }
++        g_string_append_printf(rep, ", %ld, %s\n", insn->dmisses,
++                               insn->disas_str);
++    }
++
++    miss_insns = g_list_sort(miss_insns, icmp);
++    g_string_append_printf(rep, "%s", "\naddress, fetch misses, instruction\n");
++
++    for (curr = miss_insns, i = 0; curr && i < limit; i++, curr = curr->next) {
++        insn = (InsnData *) curr->data;
++        g_string_append_printf(rep, "0x%" PRIx64, insn->addr);
++        if (insn->symbol) {
++            g_string_append_printf(rep, " (%s)", insn->symbol);
++        }
++        g_string_append_printf(rep, ", %ld, %s\n", insn->imisses,
++                               insn->disas_str);
++    }
++
++    qemu_plugin_outs(rep->str);
++    g_list_free(miss_insns);
++}
++
++static void plugin_exit(qemu_plugin_id_t id, void *p)
++{
++    log_stats();
++    log_top_insns();
++
++    cache_free(dcache);
++    cache_free(icache);
++
++    g_hash_table_destroy(miss_ht);
++}
++
++QEMU_PLUGIN_EXPORT
++int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
++                        int argc, char **argv)
++{
++    int i;
++    int iassoc, iblksize, icachesize;
++    int dassoc, dblksize, dcachesize;
++
++    limit = 32;
++    sys = info->system_emulation;
++
++    dassoc = 8;
++    dblksize = 64;
++    dcachesize = dblksize * dassoc * 32;
++
++    iassoc = 8;
++    iblksize = 64;
++    icachesize = iblksize * iassoc * 32;
++
++
++    for (i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        if (g_str_has_prefix(opt, "limit=")) {
++            limit = g_ascii_strtoll(opt + 6, NULL, 10);
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
++    }
++
++    dcache = cache_init(dblksize, dassoc, dcachesize);
++    icache = cache_init(iblksize, iassoc, icachesize);
++
++    rng = g_rand_new();
++
++    qemu_plugin_register_vcpu_tb_trans_cb(id, vcpu_tb_trans);
++    qemu_plugin_register_atexit_cb(id, plugin_exit, NULL);
++
++    miss_ht = g_hash_table_new_full(NULL, g_direct_equal, NULL, insn_free);
++
++    return 0;
++}
+diff --git a/contrib/plugins/Makefile b/contrib/plugins/Makefile
+index 3c9209b6b0..54ac5ccd9f 100644
+--- a/contrib/plugins/Makefile
++++ b/contrib/plugins/Makefile
+@@ -19,6 +19,7 @@ NAMES += hotpages
+ NAMES += howvec
+ NAMES += lockstep
+ NAMES += hwprofile
++NAMES += cache
+ 
+ SONAMES := $(addsuffix .so,$(addprefix lib,$(NAMES)))
+ 
 -- 
 2.20.1
 
