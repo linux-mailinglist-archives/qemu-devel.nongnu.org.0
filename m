@@ -2,69 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78EEB3BFA4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:33:51 +0200 (CEST)
-Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4CD3BFA56
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:36:16 +0200 (CEST)
+Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1TDy-0007gk-HV
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:33:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33010)
+	id 1m1TGK-0004GI-0z
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:36:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1TAG-0004mV-FA
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:30:00 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46743)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1TAF-0000gJ-1z
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:30:00 -0400
-Received: by mail-ej1-x636.google.com with SMTP id c17so9251873ejk.13
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 05:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ciwxvaQr6XQMxA2tTBgoaibMxcEivHLvYU0sXDbeO0g=;
- b=W+AizkgVYudaZve/xEkSz9/YEVELLtZFUcJTZ5kMo5tBDKdlvFC1tOEM90ayvz0t1U
- d2cEYksrEgnOjFGvdeUbs7YR4wd40GE+nXOdDZXAYTomAUaZ6ltMhBmZuBWkg1MZvmse
- qLPgXTqQa01GqEuoTQLmm7EmWGr3Q3Amh+mM0I66d6YOI3arTYNvUKArzQMITCHTxGx1
- sKHlBxJOTQMQoh212Ivh1b01t5cRWXeGhRVg0SAfKbxLywDjHhmS0u2OiRWAAdsaKawG
- 1uIVGZhSbnCNdiC15A8O3YAVSuuJBZbWDhM1RA8hCM3SR5g4T0dadDpe7RxD8huRGBWF
- YTYg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m1TAv-00051g-7w
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:30:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56639)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m1TAs-0000xb-Mt
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:30:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625747436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NZ3ldMMVL2pTrIMANEEsZR/4o6C8jaxroWUH1K8RBWQ=;
+ b=GWBhoYWriMx1RaZvovKO/ZO0qxzWI4fi4mIVxbh+3yBg4F9+aM0XJ/pZd8H5460QIyEmRz
+ vaHssaCA+BjENv1HsLDq0/8OTMoPz672imz0jqY4fKrIJIXASV0VIQQTsLzZ9BZC1SiBbQ
+ T6u5zdknDkNcBcZKiJliZNe7Xnm/d3Q=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-xY4gNxpfOKu3HI7CttYbxA-1; Thu, 08 Jul 2021 08:30:35 -0400
+X-MC-Unique: xY4gNxpfOKu3HI7CttYbxA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u7-20020a5d46870000b029012786ba1bc9so1864988wrq.21
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 05:30:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ciwxvaQr6XQMxA2tTBgoaibMxcEivHLvYU0sXDbeO0g=;
- b=lO2On4Q2e0Tq8jUkS9ccXM++GCwBdNO/9jQtoyBmC8k/Aa1+118HYYLhQA8fn5ogA4
- eN4c4CGM0v4QF/zsUW697pkSxZvY1hf/yKVJPRDqykkMZBuchI9qY4JMzGk2FV67JTPo
- lWLWLvfc5kDsgMdR3acc46Z0tKeBXRY4tWt5BeMTZVPOmZY37R/o5F1Nwr6pgotByYaJ
- YlTWGytRLV3TIJRLUpNJIHBly+vYCYEiInil3hntGuxjrDNJNNIH5a7N25J5V7jn5MCu
- PqXqZNFZLk13vH2Um1cAq/STNMHTaIZUOJ03TjIPnhO9iTJoZTQff0uOVAUOCjTAu8df
- S8vA==
-X-Gm-Message-State: AOAM533gMGSYnthTViT6aWvojH0ayGlWbwsdEss0GXE55IeW9o6e7CRa
- XA5nxCL2Z4ZSzOvOsCdqWymlIo61IRm4bvYxfkL3CbSKH35Auw==
-X-Google-Smtp-Source: ABdhPJy3NIWMIeCvmLWqUkwztkhgIO8y9VVRKoRVSeCuaur/XjMKhfinkINAsm7QQvsYldsXgnhVFXcrfTy/POXa/aw=
-X-Received: by 2002:a17:907:9701:: with SMTP id
- jg1mr19466028ejc.56.1625747397399; 
- Thu, 08 Jul 2021 05:29:57 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NZ3ldMMVL2pTrIMANEEsZR/4o6C8jaxroWUH1K8RBWQ=;
+ b=NjH1f0n2YSNLHZcUY8D9TtV2Y/L+vZgmvx+xPQUb12XPpVeUtQw0bGseyJcMYzbthA
+ uElN0YtL3N0dHSkB31UW7wMCRWgnSPjsE0pzwY+y+AkQ7EADXoTxf55AtOWwTRjxHQhu
+ wlVUH+JKYJQA3oNySzbQrOnjl6dOotp0PnsVqxm+P9oBJ22DIcYwaI83vpGtf3284oAm
+ GDeqQGFJBjKImOlmPslu2+CFWKRTssfcHSPbEJ4z8xJMYz0OR1jUh8S8FEHdtsuF+mnJ
+ CaMDyDCoRDjcfyYUfOfUSw06Y4C2dLmB1wWtkcfrf5LKIu8F/6+W1jSmLMzN19V5Of3V
+ wzcQ==
+X-Gm-Message-State: AOAM531GAU3E1ef0J1c3I1wQfUb8qUfj5icox++ukshTBFBu2/phoMxZ
+ Vw3GuYbTLDaBY59FANIIyK5MhNlm8HNWr1FGMIxnnR98bZtxjP/HI/jkiz/Ft151s4XfA+jztqr
+ J36RaQr9BBP9Ohr4=
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr3244153wmh.89.1625747434568; 
+ Thu, 08 Jul 2021 05:30:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyDsV7TQI6HsnLlnB+4s8vaZXlo+fKnOfWBp78W3mzjXDdi+rjyobOFHlc/16WnGr34RM3vHQ==
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr3244131wmh.89.1625747434360; 
+ Thu, 08 Jul 2021 05:30:34 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id n18sm7864996wms.3.2021.07.08.05.30.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 05:30:34 -0700 (PDT)
+Subject: Re: [PATCH v2] remote/memory: Replace share parameter with ram_flags
+To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
+References: <20210708115157.6907-1-yang.zhong@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c43f363c-7a5d-877d-8693-77df509b060e@redhat.com>
+Date: Thu, 8 Jul 2021 14:30:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210630183226.3290849-1-richard.henderson@linaro.org>
- <20210630183226.3290849-5-richard.henderson@linaro.org>
-In-Reply-To: <20210630183226.3290849-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Jul 2021 13:29:18 +0100
-Message-ID: <CAFEAcA-6RkG6XKLpDn6gpCmws2-bECdmbdqGXE0By0P2EPUu8g@mail.gmail.com>
-Subject: Re: [PATCH v2 04/28] target/alpha: Use translator_use_goto_tb
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210708115157.6907-1-yang.zhong@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,20 +98,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, peterx@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 at 19:35, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 7/8/21 1:51 PM, Yang Zhong wrote:
+> Fixes: d5015b801340 ("softmmu/memory: Pass ram_flags to
+> qemu_ram_alloc_from_fd()")
+
+Oops.
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > ---
->  target/alpha/translate.c | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
+>  hw/remote/memory.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+> index 472ed2a272..6e21ab1a45 100644
+> --- a/hw/remote/memory.c
+> +++ b/hw/remote/memory.c
+> @@ -46,7 +46,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+>          subregion = g_new(MemoryRegion, 1);
+>          memory_region_init_ram_from_fd(subregion, NULL,
+>                                         name, sysmem_info->sizes[region],
+> -                                       true, msg->fds[region],
+> +                                       RAM_SHARED, msg->fds[region],
+>                                         sysmem_info->offsets[region],
+>                                         errp);
+>  
+> 
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
