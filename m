@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323593C190B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:14:15 +0200 (CEST)
-Received: from localhost ([::1]:57420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E173C18DC
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:04:28 +0200 (CEST)
+Received: from localhost ([::1]:34446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1YXO-0008R7-81
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:14:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51042)
+	id 1m1YNv-0000TQ-OT
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <39TPnYAYKCgg1q120zowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--titusr.bounces.google.com>)
- id 1m1Xhq-0008IO-L6
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:20:58 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:42903)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1Xme-0007nm-Gj
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:56 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:45788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <39TPnYAYKCgg1q120zowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--titusr.bounces.google.com>)
- id 1m1Xhn-00044e-Dm
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:20:58 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- p63-20020a25d8420000b029055bc6fd5e5bso7811248ybg.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:20:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=J3rhjoYKGEuwWrg7Wi4lk+VNKC07bHbA7CaMm4leJJw=;
- b=NMN91+RokvFpEZxyFLGXk7teLFtPqdyHQ8PbKiZXgiubsGi+enVkpGDEE6worMTLDS
- O2GTj3YmVHLxE30bc75svouqk/qMBfFt32+LWlpz0q7ZmoAfxPR6f6IuMTJNb6WVO9aw
- QiiyNSm4GBUmIgVEMRxLteIp8y+5ObEKWKVyAfDL8JeIJQ3WIRZzI1VK4VczP/Z1Vz8p
- +dyxf09HWDx97Dd+eL3FuvsBXaStV8cJvUZj2zeqNXat1N4G31BrQ/D/tMIdMBwaaIdE
- wlRWH+GQMyCY9x/lYAor/6LrZjfTrI9JujZ/qPI76mW/w9W5ytAjafsgmboqwS4mOPGd
- GtAw==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1Xmc-0005aM-Ir
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:56 -0400
+Received: by mail-pl1-x630.google.com with SMTP id p17so2878736plf.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=tSM/Cp2WLt9oPifX9I5a3abc81SiA3RuI+QQhdWcm/I=;
+ b=utD2GbPKLz7uoCA1roh0U0mrB5qJnkavYvZaKSVwT99IgW55qIEnycRZ48wUAB+K/L
+ 0XWkqD+j0XwUeHT8XpkoBndokOicafWZYpAAPiCpR7tswMF8wHq31FMZqsf50SrTIclO
+ L0cWzWub8Gi6Wkd+uEQwf830WA5D5o7UIX0RE9ZwH8pMK158s17n3iqM7ogaqVSoqHWn
+ K8+9T52bV4vnkSpfvVbSDRjq6980YPJNxzqioRS+G+EFNDjNQUs+oYiQwSiF6jZHDxRS
+ Va48sJayL8Z7lru3QDECuPuaWP2J5v5IMfooqllOCNUWSBiH77W4EZtjcFamg67GwOS0
+ iE0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=J3rhjoYKGEuwWrg7Wi4lk+VNKC07bHbA7CaMm4leJJw=;
- b=Ywr+hebXydnaYVXng+Fi8seGKkmart+Cg3hggPesXq1zeOr8LBVvsRThW2CL9IGwgZ
- MgUXdH0t8Tb10WKb5vzqxe7WImZUsPuOsIQP3xcyVh9tbmJ+opIS2j2Uh+XyMz8YaWYV
- aFoKp1AXv6t7GdWmY3xYk6Q2zyRK/MiZ9UrAdw3h6JYXShihpNa410+7GfLLQzywzrXO
- CKDtJXi7GDR+ZdRMBQFBEr7OmFKfgHgAd/2GWWfcFzyQ2YyhDzI9htFeZESKv+l0yfnq
- 8qlbfKHzl5AbunyVy0B2aeHaS/OiDc4/QKdHP4aA33qlORtBRftexVtZEsjKpyOi9i48
- 3cQQ==
-X-Gm-Message-State: AOAM530MHM3GlJUBGhitJzNdOx3wb+qJszaiclgraC1it4yNf/jiFEDq
- 0M8z2y6R+eRvDsMIePe4A16cg+1ym/w=
-X-Google-Smtp-Source: ABdhPJxRv51/FC0gggSUA1IQqycrnLK+qFhipwpzLWtLJp3CdR/TsDWzPE476OLODHKXjBuUjJX4oDqd/V0=
-X-Received: from titusr.svl.corp.google.com
- ([2620:15c:2c5:13:6b42:285b:df15:bf])
- (user=titusr job=sendgmr) by 2002:a25:8b8b:: with SMTP id
- j11mr40299148ybl.138.1625764853850; 
- Thu, 08 Jul 2021 10:20:53 -0700 (PDT)
-Date: Thu,  8 Jul 2021 10:20:17 -0700
-In-Reply-To: <20210708172017.1865352-1-titusr@google.com>
-Message-Id: <20210708172017.1865352-6-titusr@google.com>
-Mime-Version: 1.0
-References: <20210708172017.1865352-1-titusr@google.com>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-Subject: [PATCH v5 5/5] tests/qtest: add tests for MAX34451 device model
-From: Titus Rwantare <titusr@google.com>
-To: Corey Minyard <minyard@acm.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Titus Rwantare <titusr@google.com>, Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=39TPnYAYKCgg1q120zowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--titusr.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -100
-X-Spam_score: -10.1
-X-Spam_bar: ----------
-X-Spam_report: (-10.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.5,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tSM/Cp2WLt9oPifX9I5a3abc81SiA3RuI+QQhdWcm/I=;
+ b=OivZnrSIhrVIJz13zWr/z1j8i3TJ5Pt+kd6z89060qQqEhZRvxo8WP5Z3qpNcVSWeB
+ fZw9yPMM5lTMj5XNgceAlQZXxMfcZ0ISSjmlkynfy6HPx0wthiopuE+RGgE+Fzn1QFMW
+ RLLOxafllTCxnXaaqk2/cQeRhMtJGLo8HZkHqS2DxgGq8KP5Q3QEgZOIBUD4j73ylt9L
+ 1p5cS2tCsV1I96cam/Jvq1dFtmmGMRNObC19UfN4DBnkq3lgXsx8uijjfFzeYaBzj7XQ
+ l5AHUKJoAkXLTAhEpnK5+NxJJ4jibwAm5mGI49LFsIfV7SrLzFkF38SAE5najc5KhZsh
+ DhrQ==
+X-Gm-Message-State: AOAM532HlR8xKhsJlLopuvrkMbeURr3pCplL7u3EjgmvXRmOcgC598nU
+ S168hBYGGKfZ+bxInVitq25wfUJFB92ivA==
+X-Google-Smtp-Source: ABdhPJyV+de/2qZm0BLsZrGu4sv6BKaO3FDov1tOfSgN72EagPS6a7yFIpfkstcJJLksfeSSoBEglg==
+X-Received: by 2002:a17:902:e88a:b029:129:7624:1fa5 with SMTP id
+ w10-20020a170902e88ab029012976241fa5mr23167265plg.2.1625765153046; 
+ Thu, 08 Jul 2021 10:25:53 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:7947:37f7:fd02:9c0c])
+ by smtp.gmail.com with ESMTPSA id c20sm3579429pfd.64.2021.07.08.10.25.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 08 Jul 2021 10:25:52 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH 3/4] ui/icons: Use bundle mechanism
+Date: Fri,  9 Jul 2021 02:25:40 +0900
+Message-Id: <20210708172541.29530-3-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20210708172541.29530-1-akihiko.odaki@gmail.com>
+References: <20210708172541.29530-1-akihiko.odaki@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,372 +84,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- tests/qtest/max34451-test.c | 336 ++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build     |   1 +
- 2 files changed, 337 insertions(+)
- create mode 100644 tests/qtest/max34451-test.c
+ configure   | 10 ++++++++++
+ meson.build |  3 +--
+ ui/cocoa.m  | 20 +++++++++++---------
+ ui/gtk.c    |  8 +++++---
+ ui/sdl2.c   | 18 +++++++++++-------
+ 5 files changed, 38 insertions(+), 21 deletions(-)
 
-diff --git a/tests/qtest/max34451-test.c b/tests/qtest/max34451-test.c
-new file mode 100644
-index 0000000000..0c98d0764c
---- /dev/null
-+++ b/tests/qtest/max34451-test.c
-@@ -0,0 +1,336 @@
-+/*
-+ * QTests for the MAX34451 device
-+ *
-+ * Copyright 2021 Google LLC
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
+diff --git a/configure b/configure
+index cff5a8ac280..a9f746849ec 100755
+--- a/configure
++++ b/configure
+@@ -5058,6 +5058,16 @@ for f in $UNLINK ; do
+     fi
+ done
+ 
++for icon_extension in bmp png ; do
++  for icon_file in $source_path/ui/icons/qemu_*.$icon_extension ; do
++    icon_basename=${icon_file%.$icon_extension}
++    icon_name=${icon_basename#$source_path/ui/icons/qemu_}
++    icon_dir=qemu-bundle/share/icons/hicolor/$icon_name/apps
++    symlink $icon_file $icon_dir/qemu.$icon_extension
++  done
++done
 +
-+#include "qemu/osdep.h"
-+#include "hw/i2c/pmbus_device.h"
-+#include "libqtest-single.h"
-+#include "libqos/qgraph.h"
-+#include "libqos/i2c.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qnum.h"
-+#include "qemu/bitops.h"
-+
-+#define TEST_ID "max34451-test"
-+#define TEST_ADDR (0x4e)
-+
-+#define MAX34451_MFR_VOUT_PEAK          0xD4
-+#define MAX34451_MFR_IOUT_PEAK          0xD5
-+#define MAX34451_MFR_TEMPERATURE_PEAK   0xD6
-+#define MAX34451_MFR_VOUT_MIN           0xD7
-+
-+#define DEFAULT_VOUT                    0
-+#define DEFAULT_UV_LIMIT                0
-+#define DEFAULT_TEMPERATURE             2500
-+#define DEFAULT_SCALE                   0x7FFF
-+#define DEFAULT_OV_LIMIT                0x7FFF
-+#define DEFAULT_OC_LIMIT                0x7FFF
-+#define DEFAULT_OT_LIMIT                0x7FFF
-+#define DEFAULT_VMIN                    0x7FFF
-+#define DEFAULT_TON_FAULT_LIMIT         0xFFFF
-+#define DEFAULT_CHANNEL_CONFIG          0x20
-+#define DEFAULT_TEXT                    0x20
-+
-+#define MAX34451_NUM_PWR_DEVICES        16
-+#define MAX34451_NUM_TEMP_DEVICES       5
-+
-+
-+static uint16_t qmp_max34451_get(const char *id, const char *property)
-+{
-+    QDict *response;
-+    uint16_t ret;
-+    response = qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, "
-+                   "'property': %s } }", id, property);
-+    g_assert(qdict_haskey(response, "return"));
-+    ret = qnum_get_uint(qobject_to(QNum, qdict_get(response, "return")));
-+    qobject_unref(response);
-+    return ret;
-+}
-+
-+static void qmp_max34451_set(const char *id,
-+                             const char *property,
-+                             uint16_t value)
-+{
-+    QDict *response;
-+
-+    response = qmp("{ 'execute': 'qom-set', 'arguments': { 'path': %s, "
-+                   "'property': %s, 'value': %u } }",
-+                   id, property, value);
-+    g_assert(qdict_haskey(response, "return"));
-+    qobject_unref(response);
-+}
-+
-+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is big endian */
-+static uint16_t max34451_i2c_get16(QI2CDevice *i2cdev, uint8_t reg)
-+{
-+    uint8_t resp[2];
-+    i2c_read_block(i2cdev, reg, resp, sizeof(resp));
-+    return (resp[1] << 8) | resp[0];
-+}
-+
-+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is big endian */
-+static void max34451_i2c_set16(QI2CDevice *i2cdev, uint8_t reg, uint16_t value)
-+{
-+    uint8_t data[2];
-+
-+    data[0] = value & 255;
-+    data[1] = value >> 8;
-+    i2c_write_block(i2cdev, reg, data, sizeof(data));
-+}
-+
-+/* Test default values */
-+static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    /* Default temperatures and temperature fault limits */
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        path = g_strdup_printf("temperature[%d]", i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmpuint(value, ==, DEFAULT_TEMPERATURE);
-+        g_free(path);
-+
-+        /* Temperature sensors start on page 16 */
-+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_TEMPERATURE);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OT_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OT_LIMIT);
++symlink $source_path/ui/icons/qemu.svg qemu-bundle/share/icons/hicolor/scalable/apps/qemu.svg
+ symlink ../../pc-bios qemu-bundle/share/qemu
+ 
+ (for i in $cross_cc_vars; do
+diff --git a/meson.build b/meson.build
+index 44adc660e23..6d90fe92bf1 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1200,8 +1200,7 @@ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_c
+ config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
+ config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
+ config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('qemu_firmwarepath'))
+-config_host_data.set_quoted('CONFIG_QEMU_HELPERDIR', get_option('prefix') / get_option('libexecdir'))
+-config_host_data.set_quoted('CONFIG_QEMU_ICONDIR', get_option('prefix') / qemu_icondir)
++config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_ICONDIR', qemu_icondir)
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 9f72844b079..d459dfaf595 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1477,15 +1477,17 @@ - (void)make_about_window
+     NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
+ 
+     /* Make the picture of QEMU */
+-    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
+-                                                     picture_rect];
+-    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
+-    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
+-    g_free(qemu_image_path_c);
+-    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
+-    [picture_view setImage: qemu_image];
+-    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
+-    [superView addSubview: picture_view];
++    char *qemu_image_path_c = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/512x512/apps/qemu.png");
++    if (qemu_image_path_c) {
++        NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
++        g_free(qemu_image_path_c);
++        NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
++                                                         picture_rect];
++        NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
++        [picture_view setImage: qemu_image];
++        [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
++        [superView addSubview: picture_view];
 +    }
-+
-+    /* Default voltages and fault limits */
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        path = g_strdup_printf("vout[%d]", i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmpuint(value, ==, DEFAULT_VOUT);
-+        g_free(path);
-+
-+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_VOUT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_UV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_UV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_MIN);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_VMIN);
+ 
+     /* Make the name label */
+     NSBundle *bundle = [NSBundle mainBundle];
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 98046f577b9..e250f9e18a0 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2198,9 +2198,11 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+     s->opts = opts;
+ 
+     theme = gtk_icon_theme_get_default();
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR);
+-    gtk_icon_theme_prepend_search_path(theme, dir);
+-    g_free(dir);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR);
++    if (dir) {
++        gtk_icon_theme_prepend_search_path(theme, dir);
++        g_free(dir);
 +    }
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_VOUT_MODE);
-+    g_assert_cmphex(i2c_value, ==, 0x40); /* DIRECT mode */
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_REVISION);
-+    g_assert_cmphex(i2c_value, ==, 0x11); /* Rev 1.1 */
-+}
-+
-+/* Test setting temperature */
-+static void test_temperature(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        path = g_strdup_printf("temperature[%d]", i);
-+        qmp_max34451_set(TEST_ID, path, 0xBE00 + i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmphex(value, ==, 0xBE00 + i);
-+        g_free(path);
+     g_set_prgname("qemu");
+ 
+     s->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index a203cb0239e..7b7ed9f9065 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -877,15 +877,19 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
+     }
+ 
+ #ifdef CONFIG_SDL_IMAGE
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/128x128/apps/qemu.png");
+-    icon = IMG_Load(dir);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/128x128/apps/qemu.png");
++    if (dir) {
++        icon = IMG_Load(dir);
 +    }
-+
-+    /* compare qmp read with i2c read separately */
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        /* temperature[0] is on page 16 */
-+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+        g_assert_cmphex(i2c_value, ==, 0xBE00 + i);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_TEMPERATURE_PEAK);
-+        g_assert_cmphex(i2c_value, ==, 0xBE00 + i);
-+    }
-+}
-+
-+/* Test setting voltage */
-+static void test_voltage(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        path = g_strdup_printf("vout[%d]", i);
-+        qmp_max34451_set(TEST_ID, path, 3000 + i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmpuint(value, ==, 3000 + i);
-+        g_free(path);
-+    }
-+
-+    /* compare qmp read with i2c read separately */
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+        g_assert_cmpuint(i2c_value, ==, 3000 + i);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_PEAK);
-+        g_assert_cmpuint(i2c_value, ==, 3000 + i);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_MIN);
-+        g_assert_cmpuint(i2c_value, ==, 3000 + i);
-+    }
-+}
-+
-+/* Test setting some read/write registers */
-+static void test_rw_regs(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    i2c_set8(i2cdev, PMBUS_PAGE, 11);
-+    i2c_value = i2c_get8(i2cdev, PMBUS_PAGE);
-+    g_assert_cmpuint(i2c_value, ==, 11);
-+
-+    i2c_set8(i2cdev, PMBUS_OPERATION, 1);
-+    i2c_value = i2c_get8(i2cdev, PMBUS_OPERATION);
-+    g_assert_cmpuint(i2c_value, ==, 1);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_MARGIN_HIGH, 5000);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_HIGH);
-+    g_assert_cmpuint(i2c_value, ==, 5000);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_MARGIN_LOW, 4000);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_LOW);
-+    g_assert_cmpuint(i2c_value, ==, 4000);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT, 5500);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5500);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT, 5600);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5600);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT, 5700);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5700);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT, 5800);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5800);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_POWER_GOOD_ON, 5900);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_POWER_GOOD_ON);
-+    g_assert_cmpuint(i2c_value, ==, 5900);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_POWER_GOOD_OFF, 6100);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_POWER_GOOD_OFF);
-+    g_assert_cmpuint(i2c_value, ==, 6100);
-+}
-+
-+/* Test that Read only registers can't be written */
-+static void test_ro_regs(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value, i2c_init_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    i2c_set8(i2cdev, PMBUS_PAGE, 1); /* move to page 1 */
-+    i2c_init_value = i2c_get8(i2cdev, PMBUS_CAPABILITY);
-+    i2c_set8(i2cdev, PMBUS_CAPABILITY, 0xF9);
-+    i2c_value = i2c_get8(i2cdev, PMBUS_CAPABILITY);
-+    g_assert_cmpuint(i2c_init_value, ==, i2c_value);
-+
-+    i2c_init_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+    max34451_i2c_set16(i2cdev, PMBUS_READ_VOUT, 0xDEAD);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+    g_assert_cmpuint(i2c_init_value, ==, i2c_value);
-+    g_assert_cmphex(i2c_value, !=, 0xDEAD);
-+
-+    i2c_set8(i2cdev, PMBUS_PAGE, 16); /* move to page 16 */
-+    i2c_init_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+    max34451_i2c_set16(i2cdev, PMBUS_READ_TEMPERATURE_1, 0xABBA);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+    g_assert_cmpuint(i2c_init_value, ==, i2c_value);
-+    g_assert_cmphex(i2c_value, !=, 0xABBA);
-+}
-+
-+/* test over voltage faults */
-+static void test_ov_faults(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value;
-+    uint8_t i2c_byte;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+    /* Test ov fault reporting */
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        path = g_strdup_printf("vout[%d]", i);
-+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-+        max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT, 5000);
-+        qmp_max34451_set(TEST_ID, path, 5100);
-+        g_free(path);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-+        i2c_byte = i2c_get8(i2cdev, PMBUS_STATUS_VOUT);
-+        g_assert_true((i2c_value & PB_STATUS_VOUT) != 0);
-+        g_assert_true((i2c_byte & PB_STATUS_VOUT_OV_FAULT) != 0);
-+    }
-+}
-+
-+/* test over temperature faults */
-+static void test_ot_faults(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value;
-+    uint8_t i2c_byte;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        path = g_strdup_printf("temperature[%d]", i);
-+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-+        max34451_i2c_set16(i2cdev, PMBUS_OT_FAULT_LIMIT, 6000);
-+        qmp_max34451_set(TEST_ID, path, 6100);
-+        g_free(path);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-+        i2c_byte = i2c_get8(i2cdev, PMBUS_STATUS_TEMPERATURE);
-+        g_assert_true((i2c_value & PB_STATUS_TEMPERATURE) != 0);
-+        g_assert_true((i2c_byte & PB_STATUS_OT_FAULT) != 0);
-+    }
-+}
-+
-+static void max34451_register_nodes(void)
-+{
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "id=" TEST_ID ",address=0x4e"
-+    };
-+    add_qi2c_address(&opts, &(QI2CAddress) { TEST_ADDR });
-+
-+    qos_node_create_driver("max34451", i2c_device_create);
-+    qos_node_consumes("max34451", "i2c-bus", &opts);
-+
-+    qos_add_test("test_defaults", "max34451", test_defaults, NULL);
-+    qos_add_test("test_temperature", "max34451", test_temperature, NULL);
-+    qos_add_test("test_voltage", "max34451", test_voltage, NULL);
-+    qos_add_test("test_rw_regs", "max34451", test_rw_regs, NULL);
-+    qos_add_test("test_ro_regs", "max34451", test_ro_regs, NULL);
-+    qos_add_test("test_ov_faults", "max34451", test_ov_faults, NULL);
-+    qos_add_test("test_ot_faults", "max34451", test_ot_faults, NULL);
-+}
-+libqos_init(max34451_register_nodes);
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 99040885fb..48eb646889 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -208,6 +208,7 @@ qos_test_ss.add(
-   'eepro100-test.c',
-   'es1370-test.c',
-   'ipoctal232-test.c',
-+  'max34451-test.c',
-   'megasas-test.c',
-   'ne2000-test.c',
-   'tulip-test.c',
+ #else
+     /* Load a 32x32x4 image. White pixels are transparent. */
+-    dir = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
+-    icon = SDL_LoadBMP(dir);
+-    if (icon) {
+-        uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
+-        SDL_SetColorKey(icon, SDL_TRUE, colorkey);
++    dir = find_bundle(CONFIG_QEMU_BUNDLE_ICONDIR "/hicolor/32x32/apps/qemu.bmp");
++    if (dir) {
++        icon = SDL_LoadBMP(dir);
++        if (icon) {
++            uint32_t colorkey = SDL_MapRGB(icon->format, 255, 255, 255);
++            SDL_SetColorKey(icon, SDL_TRUE, colorkey);
++        }
+     }
+ #endif
+     g_free(dir);
 -- 
-2.32.0.93.g670b81a890-goog
+2.30.1 (Apple Git-130)
 
 
