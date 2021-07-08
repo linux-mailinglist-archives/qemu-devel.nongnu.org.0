@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A4B3C16B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:56:52 +0200 (CEST)
-Received: from localhost ([::1]:57674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB3A3C1662
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:49:16 +0200 (CEST)
+Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1WOR-0005GY-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54524)
+	id 1m1WH5-0004p1-Rm
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:49:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m1VoY-0004uq-M5
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:19:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56774)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1Vo8-0003Uh-O7
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:19:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m1VoW-0000IB-6O
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:19:46 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1Vo6-00008r-Lo
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:19:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625757583;
+ s=mimecast20190719; t=1625757557;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q8UOuausianCpPWGxdUgya+0i6jSE+3MuZF3J/m/UX4=;
- b=hm4nDFoJpcz5/oUJvTPNogKnZFp/NtnD07JbKzD1+49TjP8XRDIsXzMnMuUDVQ7xuBAZP8
- mzHSC2eOXRLOpv3nllBPc9TdeNr/WHko6y5D5sWF9ob8Bjl+2NwSyNEcU8P82wk8iRSWq8
- cgH2oWyOONESWeMkjdgAmBr1LxwL3ac=
+ bh=QaBUHUzXIdQYY5hjaKFVbdzM++G1KWBNfnPDBdkeKMI=;
+ b=RSAcV29YL8maqy0wykVGlzLB2kfxNbH8oyGOktwFlVC/8qSYkPDQu5n/CiA/3NNPayBl2o
+ 22mBAfFRUBeqapzURgeLRt8uMPfmu8oduZtxBaOwXWsO5O4xBx2YtkttFqJ3YrE3ZQ/lxY
+ rSJvpLyH9yGNe29Av8+5IEryohOf+kg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-Mne4GzruPIC9W5whRiqv6w-1; Thu, 08 Jul 2021 11:19:42 -0400
-X-MC-Unique: Mne4GzruPIC9W5whRiqv6w-1
+ us-mta-601-JH4iZLbaN46hsefBJySfkg-1; Thu, 08 Jul 2021 11:19:16 -0400
+X-MC-Unique: JH4iZLbaN46hsefBJySfkg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D67001084F62;
- Thu,  8 Jul 2021 15:19:40 +0000 (UTC)
-Received: from gondolin.fritz.box (ovpn-112-175.ams2.redhat.com
- [10.36.112.175])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C70BB19C66;
- Thu,  8 Jul 2021 15:19:35 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/17] s390x/tcg: Fix m5 vs. m4 field for VECTOR MULTIPLY SUM
- LOGICAL
-Date: Thu,  8 Jul 2021 17:18:55 +0200
-Message-Id: <20210708151909.907124-4-cohuck@redhat.com>
-In-Reply-To: <20210708151909.907124-1-cohuck@redhat.com>
-References: <20210708151909.907124-1-cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CC6F92501;
+ Thu,  8 Jul 2021 15:19:15 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB976E71B;
+ Thu,  8 Jul 2021 15:19:10 +0000 (UTC)
+Date: Thu, 8 Jul 2021 17:19:09 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Subject: Re: [PATCH 4/7] test: tpm: Create TPM 1.2 response in TPM emulator
+Message-ID: <20210708171909.4d1de74e@redhat.com>
+In-Reply-To: <20210630153723.672473-5-stefanb@linux.vnet.ibm.com>
+References: <20210630153723.672473-1-stefanb@linux.vnet.ibm.com>
+ <20210630153723.672473-5-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -78,47 +79,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Cc: marcandre.lureau@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On Wed, 30 Jun 2021 11:37:20 -0400
+Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
 
-The element size is located in m5, not in m4. As there is no m4, qemu
-currently crashes with an assertion, trying to lookup that field.
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
-Reproduced and tested via GO, which ends up using VMSL once the
-Vector enhancements facility is around for verifying certificates with
-elliptic curves.
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
-Reported-by: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/449
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Fixes: 8c18fa5b3eba ("s390x/tcg: Implement VECTOR MULTIPLY SUM LOGICAL")
-Message-Id: <20210705090341.58289-1-david@redhat.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- target/s390x/translate_vx.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/target/s390x/translate_vx.c.inc b/target/s390x/translate_vx.c.inc
-index a9d51b1f4cd6..0afa46e4637b 100644
---- a/target/s390x/translate_vx.c.inc
-+++ b/target/s390x/translate_vx.c.inc
-@@ -1783,7 +1783,7 @@ static DisasJumpType op_vmsl(DisasContext *s, DisasOps *o)
- {
-     TCGv_i64 l1, h1, l2, h2;
- 
--    if (get_field(s, m4) != ES_64) {
-+    if (get_field(s, m5) != ES_64) {
-         gen_program_exception(s, PGM_SPECIFICATION);
-         return DISAS_NORETURN;
-     }
--- 
-2.31.1
+> ---
+>  tests/qtest/tpm-emu.c | 5 +++++
+>  tests/qtest/tpm-emu.h | 3 +++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
+> index 8baf49eafd..32c704194b 100644
+> --- a/tests/qtest/tpm-emu.c
+> +++ b/tests/qtest/tpm-emu.c
+> @@ -62,6 +62,11 @@ static void *tpm_emu_tpm_thread(void *data)
+>              s->tpm_msg->len = cpu_to_be32(sizeof(struct tpm_hdr));
+>              s->tpm_msg->code = cpu_to_be32(TPM_RC_FAILURE);
+>              break;
+> +        case TPM_VERSION_1_2:
+> +            s->tpm_msg->tag = cpu_to_be16(TPM_TAG_RSP_COMMAND);
+> +            s->tpm_msg->len = cpu_to_be32(sizeof(struct tpm_hdr));
+> +            s->tpm_msg->code = cpu_to_be32(TPM_FAIL);
+> +            break;
+>          default:
+>              g_debug("unsupport TPM version %u", s->tpm_version);
+>              g_assert_not_reached();
+> diff --git a/tests/qtest/tpm-emu.h b/tests/qtest/tpm-emu.h
+> index f7b1e3c6ab..b5354ea101 100644
+> --- a/tests/qtest/tpm-emu.h
+> +++ b/tests/qtest/tpm-emu.h
+> @@ -16,6 +16,9 @@
+>  #define TPM_RC_FAILURE 0x101
+>  #define TPM2_ST_NO_SESSIONS 0x8001
+>  
+> +#define TPM_FAIL 9
+> +#define TPM_TAG_RSP_COMMAND 0xc4
+> +
+>  #include "qemu/sockets.h"
+>  #include "io/channel.h"
+>  #include "sysemu/tpm.h"
 
 
