@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433F43C1B55
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 00:04:39 +0200 (CEST)
-Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171CE3C1B5D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 00:08:37 +0200 (CEST)
+Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1c8M-00074q-Bg
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 18:04:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59824)
+	id 1m1cCC-0000WX-17
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 18:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
- id 1m1c5A-0004Ak-Ox
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 18:01:20 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:34570)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1m1c9X-0008AM-Fu
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 18:05:53 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mathieu.poirier@linaro.org>)
- id 1m1c58-00077s-KZ
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 18:01:20 -0400
-Received: by mail-io1-xd35.google.com with SMTP id g22so10151975iom.1
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 15:01:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VPG1k/QlORJ8aCvfVaykoOLXbH/cxzIXSJO/JmT8a0M=;
- b=bNBrsCCVVsoq0UZ/Ht5NYCThWwOgx2bHSHPhJWFFR9gnGtm6XurV7clpYfnRK3VV/P
- l8a3W5ar3NVusEdmpDb1tJfUBaXInG7GdX24cIXOgBPqkXVrJqtvL2S1DNLXve/rvvth
- biLPIDrL39tk9SKtwFNm+gud4qZX1fWCpuG2m37llEyIVI8xyK9m4rHQG2FOk8RHWNIY
- ecFtstDvROStWmFMDn/BHTt84MNJgIldHDoA+sVe+7dS5HtocvITcbUAGu63052iJ/sR
- IdE8AliZJiFxCzk/sXfZ4mWoWWeq3JagYGEVeqG1zU1DwN9BWqRzEc98fP+oRmDJp2Ir
- M/sQ==
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1m1c9V-0000Li-Ia
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 18:05:51 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ y21-20020a7bc1950000b02902161fccabf1so4569153wmi.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 15:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JRkKmzDJdsTgrUvUS/TTb30pCcFwMBt1Si87ZZX5t2Q=;
+ b=Mbg0ybkO5jhBXxYfkvHk2a8eNSE6QvS0SwRqBjv9OVGCElgLOCaqispTFklxJEd0sl
+ b7np5ets47/0p4ngMUVuvVIw/uWIecqhy/b+pMNUCCUrWZmWkUJHPE0L72v76/GkPTrR
+ omJoHFoqihN2kv25kakKRROLptM3fLFLTLzKG8BAf+uwvZo1Njs1pUBSu9VZe1oXoh78
+ xRMCaDnE4ds3T6ADawOHdn5DzXbuC/z2ILkH+tc2urlx9fWqkZUrCJvOsW9zsWWd/+hd
+ YEK/R5EbzIutM55A/GZRG6RCFc+hUg/dPlI9HtVsif9RsAX8vlCJHl0jgowrlVTKXIR/
+ ZLTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VPG1k/QlORJ8aCvfVaykoOLXbH/cxzIXSJO/JmT8a0M=;
- b=DtYIYe88y8+guJFLqLEP2cA+7UY5WaVdgBmUg5ly2G87JHHAr+uaJUTf0SIFB6zdk2
- uIer/mEmf7DB0oKP+lUZR+4ZEeM0g48kit3szzQkxehg0OsZ9uDUqfHdkfWTVouAvHck
- bFhnsfyDBHxSAaVVUN+XCW4TZO+bJ6E4Wc86uaDQKIa8X75UYbwGHrRzgI3QJUtCQnTf
- nngjIM1836mAJzit4295deYFeRxT/dynTUe7ZgTuh9qgv2zBC/1qeR6sY2UTigTwTcY7
- 2FkJvW+UxG3NZ1PHpcDfPNf0zpnA/w+1ED2f2kp/0Nw4h6+P+jI24TzXtcPKP4x9JNLH
- tTNw==
-X-Gm-Message-State: AOAM531i3SH3lUQ4kEkkaBM85MqjIX8HtVTO2ikd8dlX9oqg9nnAUgTS
- ro5jf5owH+8+1Gd20s+Ff3iRQRZ7Rnypx9r09LvnkA==
-X-Google-Smtp-Source: ABdhPJxKS9p9ytynwbqWVBBAEjbP7pl7W0uWVg7JdBc9BAqdiJQopQGEoGNm9TcSoNHhYXfp5rKdyDU4uYaibqnOA3A=
-X-Received: by 2002:a05:6638:1606:: with SMTP id
- x6mr20153219jas.98.1625781676089; 
- Thu, 08 Jul 2021 15:01:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JRkKmzDJdsTgrUvUS/TTb30pCcFwMBt1Si87ZZX5t2Q=;
+ b=poScOLQb8bo++ggV4CPZkkga1NvcUaB4q7hLkKpKrNNbanh0N8H8S17pHVMyV5wH1j
+ nfs63SAHQmX52DeeW6crBcLilxEP2yT6VKHc2eVk3qsnxsFX+HcM7/7DTFjTNNP99Gms
+ 4oDeeK6VaKQ86jZP82hky3fHM+FfghbHVtNUVPkZccDDtVKKwjXE6uFKCIiUt+e6xv6m
+ tSYV3/coLP11Dj1EOfJjBuRrCKE6FQfjCthDThX+DjYNOCmQQS+8Z5iC/yf+qfDXTPSQ
+ CQPJp+MggGyv6GwpTqBinbBEjerNQXsjCnMmB2jBqtyVjtA20EzbgKqNgksozojRCVxS
+ 55gQ==
+X-Gm-Message-State: AOAM531iF39S/SsiWH906oMy2Q3SZrtvrpC5XtgrSi5M2iRndTPU3LD9
+ 2JlHN8u2x6JkIdBfDHnhghXmsg==
+X-Google-Smtp-Source: ABdhPJwEEZZqIrd6wlisLW0/HEkd7hgj9z0rZmZSRS3a2OuZMA7NiLXjmwDqGR0XQvRCDT65W8Rriw==
+X-Received: by 2002:a05:600c:2058:: with SMTP id
+ p24mr35487038wmg.76.1625781948171; 
+ Thu, 08 Jul 2021 15:05:48 -0700 (PDT)
+Received: from leviathan (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net.
+ [82.27.183.148])
+ by smtp.gmail.com with ESMTPSA id x19sm3142204wmi.10.2021.07.08.15.05.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 15:05:47 -0700 (PDT)
+Date: Thu, 8 Jul 2021 23:05:46 +0100
+From: Leif Lindholm <leif@nuviainc.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v4 7/8] hw/arm/sbsa-ref: add ITS support in SBSA GIC
+Message-ID: <20210708220546.rd7yqpsh6l7dmltu@leviathan>
+References: <20210602180042.111347-1-shashi.mallela@linaro.org>
+ <20210602180042.111347-8-shashi.mallela@linaro.org>
+ <20210603114254.mkqr4jnpfqkx3m6w@leviathan>
+ <e2e1b2e1aa54669c0b73dde83f0e20636835e1ab.camel@linaro.org>
+ <20210604104204.z3hhm2cxesnm2jx2@leviathan>
+ <16db7ae4bb0b38100a08f0539ae2865c15264f1e.camel@linaro.org>
+ <20210708194053.ar4yspiodigxwbwc@leviathan>
+ <CAFEAcA-9XnY=4qsD9RGVy1sTW-d=B6MGPLd-Qqs7HWMRC-dfeQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210707150157.52328-1-mst@redhat.com>
- <20210707150157.52328-14-mst@redhat.com>
-In-Reply-To: <20210707150157.52328-14-mst@redhat.com>
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-Date: Thu, 8 Jul 2021 16:01:05 -0600
-Message-ID: <CANLsYkw6MbY+8d6HpApZ3np1ACfya8S34MbhoPbUUUyn43Md2w@mail.gmail.com>
-Subject: Re: [PULL 13/13] MAINTAINERS: Add maintainer for vhost-user RNG
- implementation
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=mathieu.poirier@linaro.org; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-9XnY=4qsD9RGVy1sTW-d=B6MGPLd-Qqs7HWMRC-dfeQ@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=leif@nuviainc.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,70 +90,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Shashi Mallela <shashi.mallela@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
+On Thu, Jul 08, 2021 at 21:05:02 +0100, Peter Maydell wrote:
+> On Thu, 8 Jul 2021 at 20:40, Leif Lindholm <leif@nuviainc.com> wrote:
+> > I think my summary-summary would be:
+> > - I think we will need to introduce a compatiblity-breaking change to
+> >   sbsa-ref.
+> > - I think we will need to have support for more than one ITS if we're
+> >   going to be able to use QEMU to prototype real systems.
+> > - I think we should then start versioning sbsa-ref (like many other
+> >   platforms already are). And there are other reasons why I would want
+> >   to do this.
+> > - But I think it would be unfair to hold this set back for it.
+> 
+> FWIW, I do not currently expect this series to make 6.1, so we
+> have some time to get things right.
 
-On Wed, 7 Jul 2021 at 09:03, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> From: Mathieu Poirier <mathieu.poirier@linaro.org>
->
-> This patch adds entry for the vhost-user-rng related files.
->
-> Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> Message-Id: <20210614202842.581640-6-mathieu.poirier@linaro.org>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Ah, ok.
 
-The pull request's changelog [1] mentions the addition of the
-vhost-user-rng feature and patch 13/13 [2] of that same pull request
-adds an entry in MAINTAINERS.  On the flip side the files for the
-feature [3] are absent from the pull request.  As such I see two
-possibilities:
+Then I would ideally like to see this patch add the ITS block between
+Distributor and Redistributors regions. I think it makes the most sense
+for this version to match the GIC-600 layout.
 
-1) The files for the vhost-user-rng feature should have been part of
-the pull request but fell through the cracks.
-2) The vhost-user-rng feature was added to the pull request by mistake.
+I am also going to rework those two remaining gicv4-ish patches based
+on my acquired understanding, to be sent out post v6.1.
 
-Please let me know.
+And, I would like to switch the default CPU of sbsa-ref to "max" as
+part of that platform versioning, now that is supported in TF-A
+(from v2.5).
 
-Thanks,
-Mathieu
-
-[1]. https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01530.html
-[2]. https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01543.html
-[3]. https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg03560.html
-
-> ---
->  MAINTAINERS | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cfbf7ef79b..517f22b2e7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1949,6 +1949,15 @@ F: include/sysemu/rng*.h
->  F: backends/rng*.c
->  F: tests/qtest/virtio-rng-test.c
->
-> +vhost-user-rng
-> +M: Mathieu Poirier <mathieu.poirier@linaro.org>
-> +S: Supported
-> +F: docs/tools/vhost-user-rng.rst
-> +F: hw/virtio/vhost-user-rng.c
-> +F: hw/virtio/vhost-user-rng-pci.c
-> +F: include/hw/virtio/vhost-user-rng.h
-> +F: tools/vhost-user-rng/*
-> +
->  virtio-crypto
->  M: Gonglei <arei.gonglei@huawei.com>
->  S: Supported
-> --
-> MST
->
+/
+    Leif
 
