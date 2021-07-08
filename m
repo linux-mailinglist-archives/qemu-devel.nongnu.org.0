@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA733C158B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:57:32 +0200 (CEST)
-Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151313C158D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:58:57 +0200 (CEST)
+Received: from localhost ([::1]:49772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1VT1-0000fW-3O
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47146)
+	id 1m1VUO-0003e7-3D
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1VR2-0005mk-OZ; Thu, 08 Jul 2021 10:55:29 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41581)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1VR1-0000fS-0V; Thu, 08 Jul 2021 10:55:28 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k4so1605541wrc.8;
- Thu, 08 Jul 2021 07:55:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=scw2wo0mPwJC6QGG0i72m5GJBT0VX1Nv3M7vQANUqmY=;
- b=ocBscwA6tvIiy91K/dWyI7vvH5XYwRAEmt+BZ24F3bDuM7GjZsT7/pUtZF3UirMn/x
- IpbUW3sjFpAzoehYVzfILSydD7IlQakGrmMpBATwXqBXPUwSwC6WLJfZHRrXvc7XEGzl
- p/o7bAoBJI6Jxb4zeqgD4yjf+UEmTWpe0hgfZWT6N0tFnsZn/dhQDddQIXRvY58ZClVI
- Mk+86dI2VyBrXxUw4o+363I8cPb3IeMCRmA5VckQ8LURgg0rKwv2rDzoCyYfKEZQyA4J
- K908JI4Yyb+VTRYC/Xt3R7JxZlKYAJ7+LIXuKhH2+YNM2pqOXxOlv3KuF/FYzrXQSi40
- kRbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=scw2wo0mPwJC6QGG0i72m5GJBT0VX1Nv3M7vQANUqmY=;
- b=EBRKtzShVFvTIXcUsDOcApZV5D6GUnlbqanOgmy30lS8n1eJNnUj2uC1psznqWB4hn
- uYR0ZKgbVc+8+AJH+qCNgOKLDRJKH+iXrfNuWCuiBrp7xzPujbrWxoBVnx+LHF00Iq8x
- l+fnY2ahlMd3zXfr42hdbZQb21NcYj/Uk7T+wPtvXBOKQmJ/8NGVIbKtbaFXm+byec4t
- ZKY4dWPPzI4gMTedzjSHXIQMaC9UyoBn6iVV9IZlWPsvMQyLW/1xHX9S0lMsA5I/gaYg
- u9pvkmDaH4Q2z5eY5w3YiedmIQC9yDkAiMHbmhElxhRpklcbzNA25nIXo83g8nZL8i20
- PmWw==
-X-Gm-Message-State: AOAM532kAQCwu41NAiFZcucAmMreestbdYaBO8mRrdgsM5qikTUEtupt
- nDeTZ0d1E0KbvBtkBx7XCeUQmmIVeZQ=
-X-Google-Smtp-Source: ABdhPJwoA07cVfDEQ1ObnxJ5xHrnSbPP9mZSzmvBC2fPSAOkbsvihj9AQsr1b/KEFOQU8Aexv0SS3w==
-X-Received: by 2002:adf:e488:: with SMTP id i8mr35235594wrm.285.1625756124971; 
- Thu, 08 Jul 2021 07:55:24 -0700 (PDT)
-Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id m5sm9074658wmq.2.2021.07.08.07.55.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 07:55:24 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
-Date: Thu,  8 Jul 2021 16:55:14 +0200
-Message-Id: <20210708145514.1751773-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210708145514.1751773-1-f4bug@amsat.org>
-References: <20210708145514.1751773-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1VSF-0000DT-De
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:56:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1VSC-00015C-4S
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:56:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625756199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rlhQYxcegNFp3YGNxTiYlLa80ewIdvgAKiVYN2QRzYA=;
+ b=axRJBQOvL8Dp04z1oDbl08fnh2qORvA0rsszHuMLjDB5RFXNlfA7JT2I8nLMt45OMIm/91
+ DEMWfqlgGXqvKffYpRKkxPloIkyAFF8Eehvf3zbCHnkzirz6GgWYvX2eKlMTbbe34TOPh6
+ h7qSuA6N4E4xocVFBNqNrdidJYyTzi0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-bbTM7aa8Ny6k0oRNELIgdw-1; Thu, 08 Jul 2021 10:56:36 -0400
+X-MC-Unique: bbTM7aa8Ny6k0oRNELIgdw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8D0A939
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 14:56:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4754C60C13;
+ Thu,  8 Jul 2021 14:56:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D55D91132B52; Thu,  8 Jul 2021 16:56:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH] audio: Make the AudiodevDriver enum conditional
+References: <20210624183716.515721-1-thuth@redhat.com>
+ <YNWUGh2XmQ7eXtmQ@redhat.com>
+ <4c27da0d-ef3c-c1da-0d80-d8496292b85c@redhat.com>
+Date: Thu, 08 Jul 2021 16:56:29 +0200
+In-Reply-To: <4c27da0d-ef3c-c1da-0d80-d8496292b85c@redhat.com> (Thomas Huth's
+ message of "Fri, 25 Jun 2021 10:45:44 +0200")
+Message-ID: <87v95kdfc2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,80 +83,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the raspi2/raspi3 machine aliases,
-deprecated since commit 155e1c82ed0.
+Thomas Huth <thuth@redhat.com> writes:
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- docs/system/deprecated.rst       | 7 -------
- docs/system/removed-features.rst | 7 +++++++
- hw/arm/raspi.c                   | 2 --
- 3 files changed, 7 insertions(+), 9 deletions(-)
+> On 25/06/2021 10.30, Daniel P. Berrang=C3=A9 wrote:
+>> On Thu, Jun 24, 2021 at 08:37:16PM +0200, Thomas Huth wrote:
+>>> This way, the upper layers like libvirt could have the possibility
+>>> to use QAPI to find out which audio drivers have been enabled during
+>>> compile-time of QEMU.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   Note: Marked as RFC since it's quite a lot of ifdef'ing here...
+>>>         not sure whether I really like it...
+>> Same as my patch here:
+>>    https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00654.html
+>
+> Oh, nice, I guess it means that it's not such a bad idea to introduce
+> all those #ifdefs here :-)
+>
+> Anyway, looks like my patch was incomplete anyway (I just hacked it
+> together after my corresponding DisplayType patch - see=20
+> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06529.html),
+> since it lacks the wiring via a qapi command, so please disregard this
+> RFC PATCH. Are you going to respin your series from March, Daniel?
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 70e08baff62..516a926d76a 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -207,13 +207,6 @@ this CPU is also deprecated.
- System emulator machines
- ------------------------
- 
--Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The Raspberry Pi machines come in various models (A, A+, B, B+). To be able
--to distinguish which model QEMU is implementing, the ``raspi2`` and ``raspi3``
--machines have been renamed ``raspi2b`` and ``raspi3b``.
--
- Aspeed ``swift-bmc`` machine (since 6.1)
- ''''''''''''''''''''''''''''''''''''''''
- 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 2b21bd39ab9..d6fe2899933 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -349,6 +349,13 @@ This machine has been renamed ``fuloong2e``.
- These machine types were very old and likely could not be used for live
- migration from old QEMU versions anymore. Use a newer machine type instead.
- 
-+Raspberry Pi ``raspi2`` and ``raspi3`` machines (removed in 6.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The Raspberry Pi machines come in various models (A, A+, B, B+). To be able
-+to distinguish which model QEMU is implementing, the ``raspi2`` and ``raspi3``
-+machines have been renamed ``raspi2b`` and ``raspi3b``.
-+
- 
- linux-user mode CPUs
- --------------------
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index b30a17871f7..533bfb8cbce 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -340,7 +340,6 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
- 
--    mc->alias = "raspi2";
-     rmc->board_rev = 0xa21041;
-     raspi_machine_class_common_init(mc, rmc->board_rev);
- };
-@@ -360,7 +359,6 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
-     MachineClass *mc = MACHINE_CLASS(oc);
-     RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
- 
--    mc->alias = "raspi3";
-     rmc->board_rev = 0xa02082;
-     raspi_machine_class_common_init(mc, rmc->board_rev);
- };
--- 
-2.31.1
+I reviewed Daniel's series back then, and pointed out a few minor
+issues, mostly in commit messages.  I hope that wasn't the reason for it
+getting stuck :)
 
 
