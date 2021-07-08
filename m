@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6843BF6E7
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:31:00 +0200 (CEST)
-Received: from localhost ([::1]:43932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602D73BF6EA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:33:15 +0200 (CEST)
+Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1PQw-0007Zy-Jf
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+	id 1m1PT8-0002iA-6q
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1m1POz-0005Xi-LP
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:28:57 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:41992)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
- id 1m1POu-0003Cj-Q1
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:28:55 -0400
-Received: from iva8-d077482f1536.qloud-c.yandex.net
- (iva8-d077482f1536.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 9F1202E1A63;
- Thu,  8 Jul 2021 11:28:48 +0300 (MSK)
-Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
- (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
- by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- I2ruM0l30q-SmxGHcaT; Thu, 08 Jul 2021 11:28:48 +0300
-Precedence: bulk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1625732928; bh=JGmbbzZn/6vzhFF35dvUHBHTBbRKlVH32uGPuXzRxdA=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=jT7f3gC2+UmK5aofqChBWtOB4JmqWaZh8GZBu01Nm2B64ox8oE+pAWNqlvdnPaqjU
- Ve6xMnbWCYZyyNi9U4/W2KxVzM1BE+JMzZJUS1qyVX6shXfZHiZePt7EPT1iuyPaF7
- 0v0TN1F3AycI9krdV/JMXd2bjyj9gNljuLuYAnHE=
-Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:12::1:3a])
- by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- bzZkNNhpHP-Sm2mvAgA; Thu, 08 Jul 2021 11:28:48 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] vhost: make SET_VRING_ADDR, SET_FEATURES send replies
-Date: Thu,  8 Jul 2021 11:28:40 +0300
-Message-Id: <20210708082840.12428-1-den-plotnikov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1PSG-000219-Q7
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:32:20 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1PSF-0004Qb-6S
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:32:20 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ k16-20020a05600c1c90b02901f4ed0fcfe7so3426780wms.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 01:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TfVKzjZOfg1kRWMydx0p+soilkjSFL5ekN7mSt1x61w=;
+ b=cSwCCZcl2u1iRKouD5XPFiyqYRjVnS+mVeaYEDL3+6HLcQ2UZej2lLdD1U2LYbJred
+ /4HQXZ7SZJGfXIMMg42ZF/eRHjeFJz1EL3iakWI+3fd4k7guWBaWaMoTJ7ovgC+iRkdC
+ DOEFURpYSWiG+G0sQOR5xQlEo87ghQ/Xod4S7EwIrHvKtSlTlMOsXqNwUbzglKMoZYl1
+ oeGhjBlAtLKSHaOVwvWaufOpjUsma1N2NZD3xh3zLCWJI7o/h1dEMb8mqUA/dzJRgUIe
+ kLntsQVn9qM6qhnGESu8lTfZ5R5tIhHFCIba+bK50iX9LGhwU7ql4Cm6zIFeT/i1bfPW
+ rjRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TfVKzjZOfg1kRWMydx0p+soilkjSFL5ekN7mSt1x61w=;
+ b=KWxVRaSYD8GJX4qSPme+6eFKlzBRsbYQH8uBSptumx0lHD2rV3S7K96+295TLt0fbq
+ PCexo2tnCTmT5sZ3DDj/MSmQiVuGYozjmoXGOcQJyUWqnbPcL2H2kRP0hR8u5a11/XJc
+ ZPTQsPVyfEEPH0kzYLPp+6nai3FTyuaRJBfCrIwJze75BtrA3Fpz1H7gGwZJIBGiJUH3
+ vXgK6kQhN3xUH9EM7qJ4UexzZ/y4cjIolOZhY4y2/A4n6GyJ2PM68x3pvykwskInpzSl
+ Wbg0iEiYmp4mCpd3RAFpv90G+U2ZtH1c/NIFi7Cjo7v/TX1YnEEATasyB8NqLL8LvUpo
+ nGBA==
+X-Gm-Message-State: AOAM5306QQHeuQNTMv5ngfcxPsfZy9u+BOnZ0VG2Engc6gxaVLWKXC7+
+ UOHbx0rpKgRKrwZaRhAWDP0=
+X-Google-Smtp-Source: ABdhPJzYdQPuPZzAwueJzkeFzCLOTwfFY4limTXKyOfybPkPHXKPGqAm/YAzM7o1CvdIsVG8C+5IGg==
+X-Received: by 2002:a1c:cc02:: with SMTP id h2mr31057391wmb.39.1625733137490; 
+ Thu, 08 Jul 2021 01:32:17 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id n18sm7365988wms.3.2021.07.08.01.32.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 01:32:16 -0700 (PDT)
+Subject: Re: [PATCH 05/12] linux-user: Extract target errno to
+ 'target_errno_defs.h'
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210704183755.655002-1-f4bug@amsat.org>
+ <20210704183755.655002-6-f4bug@amsat.org>
+ <11e451c0-dfc7-5709-9441-28da39b237e6@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1a4beab8-aa19-ed90-3091-7717ab7d5f21@amsat.org>
+Date: Thu, 8 Jul 2021 10:32:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <11e451c0-dfc7-5709-9441-28da39b237e6@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,116 +92,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core@yandex-team.ru, mst@redhat.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Helge Deller <deller@gmx.de>,
+ Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On vhost-user-blk migration, qemu normally sends a number of commands
-to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
-Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
-VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
-data logging.
-The issue is that qemu doesn't wait for reply from the vhost daemon
-for these commands which may result in races between qemu expectation
-of logging starting and actual login starting in vhost daemon.
+On 7/7/21 3:53 AM, Richard Henderson wrote:
+> On 7/4/21 11:37 AM, Philippe Mathieu-Daudé wrote:
+>> We want to access the target errno indepently of the rest
+>> of the linux-user code. Extract it to a new target-specific
+>> header: 'target_errno_defs.h'.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   linux-user/aarch64/target_errno_defs.h    | 6 ++++++
+>>   linux-user/alpha/target_errno_defs.h      | 4 ++++
+>>   linux-user/arm/target_errno_defs.h        | 6 ++++++
+>>   linux-user/cris/target_errno_defs.h       | 6 ++++++
+>>   linux-user/errno_defs.h                   | 3 +++
+>>   linux-user/hexagon/target_errno_defs.h    | 6 ++++++
+>>   linux-user/hppa/target_errno_defs.h       | 4 ++++
+>>   linux-user/i386/target_errno_defs.h       | 6 ++++++
+>>   linux-user/m68k/target_errno_defs.h       | 6 ++++++
+>>   linux-user/microblaze/target_errno_defs.h | 6 ++++++
+>>   linux-user/mips/target_errno_defs.h       | 4 ++++
+>>   linux-user/mips64/target_errno_defs.h     | 4 ++++
+>>   linux-user/nios2/target_errno_defs.h      | 6 ++++++
+>>   linux-user/openrisc/target_errno_defs.h   | 6 ++++++
+>>   linux-user/ppc/target_errno_defs.h        | 6 ++++++
+>>   linux-user/riscv/target_errno_defs.h      | 6 ++++++
+>>   linux-user/s390x/target_errno_defs.h      | 6 ++++++
+>>   linux-user/sh4/target_errno_defs.h        | 6 ++++++
+>>   linux-user/sparc/target_syscall.h         | 2 --
+>>   linux-user/x86_64/target_errno_defs.h     | 6 ++++++
+>>   linux-user/xtensa/target_errno_defs.h     | 6 ++++++
+>>   21 files changed, 109 insertions(+), 2 deletions(-)
+>>   create mode 100644 linux-user/aarch64/target_errno_defs.h
+>>   create mode 100644 linux-user/alpha/target_errno_defs.h
+>>   create mode 100644 linux-user/arm/target_errno_defs.h
+>>   create mode 100644 linux-user/cris/target_errno_defs.h
+>>   create mode 100644 linux-user/hexagon/target_errno_defs.h
+>>   create mode 100644 linux-user/hppa/target_errno_defs.h
+>>   create mode 100644 linux-user/i386/target_errno_defs.h
+>>   create mode 100644 linux-user/m68k/target_errno_defs.h
+>>   create mode 100644 linux-user/microblaze/target_errno_defs.h
+>>   create mode 100644 linux-user/mips/target_errno_defs.h
+>>   create mode 100644 linux-user/mips64/target_errno_defs.h
+>>   create mode 100644 linux-user/nios2/target_errno_defs.h
+>>   create mode 100644 linux-user/openrisc/target_errno_defs.h
+>>   create mode 100644 linux-user/ppc/target_errno_defs.h
+>>   create mode 100644 linux-user/riscv/target_errno_defs.h
+>>   create mode 100644 linux-user/s390x/target_errno_defs.h
+>>   create mode 100644 linux-user/sh4/target_errno_defs.h
+>>   create mode 100644 linux-user/x86_64/target_errno_defs.h
+>>   create mode 100644 linux-user/xtensa/target_errno_defs.h
+>>
+>> diff --git a/linux-user/aarch64/target_errno_defs.h
+>> b/linux-user/aarch64/target_errno_defs.h
+>> new file mode 100644
+>> index 00000000000..a809381165a
+>> --- /dev/null
+>> +++ b/linux-user/aarch64/target_errno_defs.h
+>> @@ -0,0 +1,6 @@
+>> +#ifndef AARCH64_TARGET_ERRNO_H
+>> +#define AARCH64_TARGET_ERRNO_H
+>> +
+>> +/* Target uses generic errno */
+>> +
+>> +#endif
+> 
+> This could be better.
+> 
+> Consider e.g. termbits.h as the model.
 
-The race can appear as follows: on migration setup, qemu enables dirty page
-logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
-vhost-user-blk daemon immediately and the daemon needs some time to turn the
-logging on internally. If qemu doesn't wait for reply, after sending the
-command, qemu may start migrate memory pages to a destination. At this time,
-the logging may not be actually turned on in the daemon but some guest pages,
-which the daemon is about to write to, may have already been transferred
-without logging to the destination. Since the logging wasn't turned on,
-those pages won't be transferred again as dirty. So we may end up with
-corrupted data on the destination.
-The same scenario is applicable for "used ring" data logging, which is
-turned on with VHOST_USER_SET_VRING_ADDR command.
+Thanks for the tip!
 
-To resolve this issue, this patch makes qemu wait for the commands result
-explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
-
-Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
----
- hw/virtio/vhost-user.c | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
-
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index ee57abe04526..15b5fac67cf3 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
-         .hdr.size = sizeof(msg.payload.addr),
-     };
- 
-+    bool reply_supported = virtio_has_feature(dev->protocol_features,
-+                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+    if (reply_supported) {
-+        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+    }
-+
-     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-         return -1;
-     }
- 
-+    if (reply_supported) {
-+        return process_message_reply(dev, &msg);
-+    }
-+
-     return 0;
- }
- 
-@@ -1288,7 +1298,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
-     return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
- }
- 
--static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
-+static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
-+                              bool need_reply)
- {
-     VhostUserMsg msg = {
-         .hdr.request = request,
-@@ -1297,23 +1308,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
-         .hdr.size = sizeof(msg.payload.u64),
-     };
- 
-+    if (need_reply) {
-+        bool reply_supported = virtio_has_feature(dev->protocol_features,
-+                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
-+        if (reply_supported) {
-+            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
-+        }
-+    }
-+
-     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-         return -1;
-     }
- 
-+    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
-+        return process_message_reply(dev, &msg);
-+    }
-+
-     return 0;
- }
- 
- static int vhost_user_set_features(struct vhost_dev *dev,
-                                    uint64_t features)
- {
--    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
-+    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
-+                              true);
- }
- 
- static int vhost_user_set_protocol_features(struct vhost_dev *dev,
-                                             uint64_t features)
- {
--    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
-+    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
-+                              false);
- }
- 
- static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
--- 
-2.25.1
-
+> These targets should have exactly one line:
+> 
+> #include "../generic/target_errno.h"
+> 
+>> diff --git a/linux-user/alpha/target_errno_defs.h
+>> b/linux-user/alpha/target_errno_defs.h
+>> new file mode 100644
+>> index 00000000000..13770b14b82
+>> --- /dev/null
+>> +++ b/linux-user/alpha/target_errno_defs.h
+>> @@ -0,0 +1,4 @@
+>> +#ifndef ALPHA_TARGET_ERRNO_H
+>> +#define ALPHA_TARGET_ERRNO_H
+>> +
+>> +#endif
+> 
+> This one, and ones like it, become
+> 
+> #ifndef ALPHA_TARGET_ERRNO_H
+> #define ALPHA_TARGET_ERRNO_H
+> 
+> #include "../generic/target_errno.h"
+> 
+> #undef  TARGET_EBAR
+> #define TARGET_EBAR  xxx
+> ...
+> 
+> #endif
+> 
+> 
+> r~
+> 
 
