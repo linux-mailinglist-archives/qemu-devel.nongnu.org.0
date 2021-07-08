@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 076103C1639
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:43:47 +0200 (CEST)
-Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7443C1653
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:48:59 +0200 (CEST)
+Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1WBm-00030u-12
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:43:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
+	id 1m1WGo-0004Zc-Sz
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1VnF-0001CI-Px
+ id 1m1VnF-0001CG-R0
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:25 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37582)
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1VnB-0008LB-Sr
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:23 -0400
-Received: by mail-ej1-x635.google.com with SMTP id i20so10271342ejw.4
+ id 1m1VnC-0008LQ-Gh
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:24 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id ga42so10258759ejc.6
  for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=A95uj4QvdZxCq2Mbt0sTIgU9jFjNfQDHFeRPy6Yji4s=;
- b=tGonlcV/efciH86wuGUpVxDutjM2wut+hmSwTF6pg0y3gi8p6dZ/7/bJMgypm5yUuh
- 7gXVdPsVVwX00Kl9hoWRzry1p9Wf3SeMUXNOH+iwQqLeVyxAGkpGPYvstDtUo82f4rO+
- +LT5Vqo90OB4Mg9kz53fJQB6uwNISNm8/c38MD0hz0JQbtVjLTNVVTskKfPrvA/0A7Jj
- DnHcbf8qLzgTWcZP+S7DeHpa1Rn1ZKt+8ZnxsvRWNxp8tDZqHumIS4fKfmPDgSdw4cpL
- f+o6fHNL2r777EHbPHaaE98xzU5oJVP5ggCdVNVHREpIfvVo6JblZIxx8qM8cWxOiTHS
- 13jg==
+ bh=voVq/36J4BolhItozOwthtcMeMhc4fbY2LBK5FuEJFs=;
+ b=PcEofE72nsR9lsNmoC3gnXBE4Wj3qFMtE+/m60v3ymO/ZYgchqyvcTmUY9oB2V9jzv
+ i1E5bWqWScW/jcU/eQV2HEi9X9Iw4vuwO98N0btBAx0t4MGk2xXHi883gdFikFQv9dpG
+ HLEJWZ1XB5/8GyZ2zzXiFAhM3fqgmhz0HsBGiJgZg0kRKwIc7OkEZCDQzLFhAVHy18Zi
+ MFtLAYglgId90yHxmdux6XtLxyzPQD4ITlLH8Efj5BYDxCSsthIYQfeVZSYmjeygaFwN
+ h31TsesFaFJ8MJgpKuMGRLf9CeE1xKeD4aHb6p6MflQTtbQAWq58HF9QoOujOfhS5atc
+ Co5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=A95uj4QvdZxCq2Mbt0sTIgU9jFjNfQDHFeRPy6Yji4s=;
- b=SDmsYgwjTc7UMUBdepJ/Phz1NUw6PIDBxSiKT0fPuFtv/2GOTQyIQLaFP41sas5dVH
- YC4kwaWkmYYkrF9P6aLoOqfxH1deMqvj6v2xuAU95/NaQanaReulnglhz6EFtXxHfzvY
- luTFR8wArxuuirIgNOTg6CgMhdbdhAjd3jPqj5lHWVBxTsWDBj/7D/T/QhNZeTHjCmBG
- 2cc1/0IZgmUoF9LD4Va5i7QHgFjE8juj1Ae5AvvpFSB0o7f/LuTZSUXtt1MmocjFMtsO
- fwLVpo//u5xWjlX2rn0zvhkdDbuBlm3DfZ9tAWX2jtaPrGcZNKCjRauYTlWAZzpsIwi+
- sH4w==
-X-Gm-Message-State: AOAM5320iRQCMZBWmroWTxndmJvfWWl5/gj3gB9beXUmioFKo8A1rcFZ
- myonJR9bYpjLnSbqDisjOs8PE8SyCXs=
-X-Google-Smtp-Source: ABdhPJzPbzxY9fLGlXVswnpEdXuuL2F1Sw3EhwAF0yEZSLD5jL/zH1qfkYFBY06iSyZpYFuxPBT8oQ==
-X-Received: by 2002:a17:906:3555:: with SMTP id
- s21mr12431152eja.394.1625757499990; 
- Thu, 08 Jul 2021 08:18:19 -0700 (PDT)
+ bh=voVq/36J4BolhItozOwthtcMeMhc4fbY2LBK5FuEJFs=;
+ b=H1Lyo65EpcHSyiIlL/Pm3xp3ANTgF93yTwyCoLuBVWA4rLoo2uIc9vK4gqMIiL14sJ
+ mU5ih8IjqV4NLr0jdmi63lhG3i1n5NlI4jvn/HxUMjtDsuO1dA9Ad3EU6hdJlr34OB8b
+ x9T1c2Mj0oDvNWRdq5hYNBFMMIZlJMxSRlaXiUjP5cXJqd8HAc8RUutql7cLUsf/KuNQ
+ whWlsHW9MZUDb9u+1/NvJgy6BT2TVPFFw6hDr617K66wARPaOV3UF4seCRiA3Ybngo/3
+ UbQa68mM7IrNFkZZ0oJ5u+Ii/fOmqs4+MhariYYO0Y8XwG2fD77GemEFsum05dIIVsQe
+ sawg==
+X-Gm-Message-State: AOAM531tkhHVXWCOH807TG05MeC2Bb+kYU3TufrGeofsZFbjh0ZangjD
+ t1Mk/fwFLBaeqS3YZWApW6cwvA1NDQg=
+X-Google-Smtp-Source: ABdhPJwschvv/WhOodAbL0hZZYa7FWKxCAusVj3QyynBXjAcmsKKxnBR8j3cHQi39cBMP9r+JKlc8g==
+X-Received: by 2002:a17:906:6047:: with SMTP id
+ p7mr31153431ejj.206.1625757500752; 
+ Thu, 08 Jul 2021 08:18:20 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.19
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:19 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:20 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/48] meson: switch function tests from compilation to linking
-Date: Thu,  8 Jul 2021 17:17:43 +0200
-Message-Id: <20210708151748.408754-44-pbonzini@redhat.com>
+Subject: [PULL 44/48] meson: Introduce target-specific Kconfig
+Date: Thu,  8 Jul 2021 17:17:44 +0200
+Message-Id: <20210708151748.408754-45-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -84,84 +85,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Zak <richard.j.zak@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some tests for glibc functions cause compilation to emit warnings but
-still succeed even if the function is not there.  Therefore, change
-from cc.compiles to cc.links.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reported-by: Richard Zak <richard.j.zak@gmail.com>
+Add a target-specific Kconfig. We need the definitions in Kconfig so
+the minikconf tool can verify they exits. However CONFIG_FOO is only
+enabled for target foo via the meson.build rules.
+
+Two architecture have a particularity, ARM and MIPS. As their
+translators have been split you can potentially build a plain 32 bit
+build along with a 64-bit version including the 32-bit subset.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210131111316.232778-6-f4bug@amsat.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210707131744.26027-2-alex.bennee@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ Kconfig                   |  1 +
+ meson.build               |  3 ++-
+ target/Kconfig            | 19 +++++++++++++++++++
+ target/alpha/Kconfig      |  2 ++
+ target/arm/Kconfig        |  6 ++++++
+ target/avr/Kconfig        |  2 ++
+ target/cris/Kconfig       |  2 ++
+ target/hppa/Kconfig       |  2 ++
+ target/i386/Kconfig       |  5 +++++
+ target/m68k/Kconfig       |  2 ++
+ target/microblaze/Kconfig |  2 ++
+ target/mips/Kconfig       |  6 ++++++
+ target/nios2/Kconfig      |  2 ++
+ target/openrisc/Kconfig   |  2 ++
+ target/ppc/Kconfig        |  5 +++++
+ target/riscv/Kconfig      |  5 +++++
+ target/rx/Kconfig         |  2 ++
+ target/s390x/Kconfig      |  2 ++
+ target/sh4/Kconfig        |  2 ++
+ target/sparc/Kconfig      |  5 +++++
+ target/tricore/Kconfig    |  2 ++
+ target/xtensa/Kconfig     |  2 ++
+ 22 files changed, 80 insertions(+), 1 deletion(-)
+ create mode 100644 target/Kconfig
+ create mode 100644 target/alpha/Kconfig
+ create mode 100644 target/arm/Kconfig
+ create mode 100644 target/avr/Kconfig
+ create mode 100644 target/cris/Kconfig
+ create mode 100644 target/hppa/Kconfig
+ create mode 100644 target/i386/Kconfig
+ create mode 100644 target/m68k/Kconfig
+ create mode 100644 target/microblaze/Kconfig
+ create mode 100644 target/mips/Kconfig
+ create mode 100644 target/nios2/Kconfig
+ create mode 100644 target/openrisc/Kconfig
+ create mode 100644 target/ppc/Kconfig
+ create mode 100644 target/riscv/Kconfig
+ create mode 100644 target/rx/Kconfig
+ create mode 100644 target/s390x/Kconfig
+ create mode 100644 target/sh4/Kconfig
+ create mode 100644 target/sparc/Kconfig
+ create mode 100644 target/tricore/Kconfig
+ create mode 100644 target/xtensa/Kconfig
 
+diff --git a/Kconfig b/Kconfig
+index d52ebd839b..fb6a24a2de 100644
+--- a/Kconfig
++++ b/Kconfig
+@@ -1,5 +1,6 @@
+ source Kconfig.host
+ source backends/Kconfig
+ source accel/Kconfig
++source target/Kconfig
+ source hw/Kconfig
+ source semihosting/Kconfig
 diff --git a/meson.build b/meson.build
-index d9aa2d7820..5a56e3fe2f 100644
+index 5a56e3fe2f..d82f7a789d 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1340,10 +1340,10 @@ config_host_data.set('HAVE_STRUCT_STAT_ST_ATIM',
-                      cc.has_member('struct stat', 'st_atim',
-                                    prefix: '#include <sys/stat.h>'))
+@@ -1604,7 +1604,8 @@ foreach target : target_dirs
+       command: [minikconf,
+                 get_option('default_devices') ? '--defconfig' : '--allnoconfig',
+                 config_devices_mak, '@DEPFILE@', '@INPUT@',
+-                host_kconfig, accel_kconfig])
++                host_kconfig, accel_kconfig,
++                'CONFIG_' + config_target['TARGET_ARCH'].to_upper() + '=y'])
  
--config_host_data.set('CONFIG_EVENTFD', cc.compiles('''
-+config_host_data.set('CONFIG_EVENTFD', cc.links('''
-   #include <sys/eventfd.h>
-   int main(void) { return eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC); }'''))
--config_host_data.set('CONFIG_FDATASYNC', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_FDATASYNC', cc.links(gnu_source_prefix + '''
-   #include <unistd.h>
-   int main(void) {
-   #if defined(_POSIX_SYNCHRONIZED_IO) && _POSIX_SYNCHRONIZED_IO > 0
-@@ -1352,22 +1352,22 @@ config_host_data.set('CONFIG_FDATASYNC', cc.compiles(gnu_source_prefix + '''
-   #error Not supported
-   #endif
-   }'''))
--config_host_data.set('CONFIG_MADVISE', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_MADVISE', cc.links(gnu_source_prefix + '''
-   #include <sys/types.h>
-   #include <sys/mman.h>
-   #include <stddef.h>
-   int main(void) { return madvise(NULL, 0, MADV_DONTNEED); }'''))
--config_host_data.set('CONFIG_MEMFD', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_MEMFD', cc.links(gnu_source_prefix + '''
-   #include <sys/mman.h>
-   int main(void) { return memfd_create("foo", MFD_ALLOW_SEALING); }'''))
--config_host_data.set('CONFIG_OPEN_BY_HANDLE', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_OPEN_BY_HANDLE', cc.links(gnu_source_prefix + '''
-   #include <fcntl.h>
-   #if !defined(AT_EMPTY_PATH)
-   # error missing definition
-   #else
-   int main(void) { struct file_handle fh; return open_by_handle_at(0, &fh, 0); }
-   #endif'''))
--config_host_data.set('CONFIG_PIPE2', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_PIPE2', cc.links(gnu_source_prefix + '''
-   #include <unistd.h>
-   #include <fcntl.h>
- 
-@@ -1376,16 +1376,16 @@ config_host_data.set('CONFIG_PIPE2', cc.compiles(gnu_source_prefix + '''
-       int pipefd[2];
-       return pipe2(pipefd, O_CLOEXEC);
-   }'''))
--config_host_data.set('CONFIG_POSIX_MADVISE', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
-   #include <sys/mman.h>
-   #include <stddef.h>
-   int main(void) { return posix_madvise(NULL, 0, POSIX_MADV_DONTNEED); }'''))
--config_host_data.set('CONFIG_SIGNALFD', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_SIGNALFD', cc.links(gnu_source_prefix + '''
-   #include <unistd.h>
-   #include <sys/syscall.h>
-   #include <signal.h>
-   int main(void) { return syscall(SYS_signalfd, -1, NULL, _NSIG / 8); }'''))
--config_host_data.set('CONFIG_SPLICE', cc.compiles(gnu_source_prefix + '''
-+config_host_data.set('CONFIG_SPLICE', cc.links(gnu_source_prefix + '''
-   #include <unistd.h>
-   #include <fcntl.h>
-   #include <limits.h>
+     config_devices_data = configuration_data()
+     config_devices = keyval.load(config_devices_mak)
+diff --git a/target/Kconfig b/target/Kconfig
+new file mode 100644
+index 0000000000..ae7f24fc66
+--- /dev/null
++++ b/target/Kconfig
+@@ -0,0 +1,19 @@
++source alpha/Kconfig
++source arm/Kconfig
++source avr/Kconfig
++source cris/Kconfig
++source hppa/Kconfig
++source i386/Kconfig
++source m68k/Kconfig
++source microblaze/Kconfig
++source mips/Kconfig
++source nios2/Kconfig
++source openrisc/Kconfig
++source ppc/Kconfig
++source riscv/Kconfig
++source rx/Kconfig
++source s390x/Kconfig
++source sh4/Kconfig
++source sparc/Kconfig
++source tricore/Kconfig
++source xtensa/Kconfig
+diff --git a/target/alpha/Kconfig b/target/alpha/Kconfig
+new file mode 100644
+index 0000000000..267222c05b
+--- /dev/null
++++ b/target/alpha/Kconfig
+@@ -0,0 +1,2 @@
++config ALPHA
++    bool
+diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+new file mode 100644
+index 0000000000..3f3394a22b
+--- /dev/null
++++ b/target/arm/Kconfig
+@@ -0,0 +1,6 @@
++config ARM
++    bool
++
++config AARCH64
++    bool
++    select ARM
+diff --git a/target/avr/Kconfig b/target/avr/Kconfig
+new file mode 100644
+index 0000000000..155592d353
+--- /dev/null
++++ b/target/avr/Kconfig
+@@ -0,0 +1,2 @@
++config AVR
++    bool
+diff --git a/target/cris/Kconfig b/target/cris/Kconfig
+new file mode 100644
+index 0000000000..3fdc309fbb
+--- /dev/null
++++ b/target/cris/Kconfig
+@@ -0,0 +1,2 @@
++config CRIS
++    bool
+diff --git a/target/hppa/Kconfig b/target/hppa/Kconfig
+new file mode 100644
+index 0000000000..395a35d799
+--- /dev/null
++++ b/target/hppa/Kconfig
+@@ -0,0 +1,2 @@
++config HPPA
++    bool
+diff --git a/target/i386/Kconfig b/target/i386/Kconfig
+new file mode 100644
+index 0000000000..ce6968906e
+--- /dev/null
++++ b/target/i386/Kconfig
+@@ -0,0 +1,5 @@
++config I386
++    bool
++
++config X86_64
++    bool
+diff --git a/target/m68k/Kconfig b/target/m68k/Kconfig
+new file mode 100644
+index 0000000000..23debad519
+--- /dev/null
++++ b/target/m68k/Kconfig
+@@ -0,0 +1,2 @@
++config M68K
++    bool
+diff --git a/target/microblaze/Kconfig b/target/microblaze/Kconfig
+new file mode 100644
+index 0000000000..a5410d9218
+--- /dev/null
++++ b/target/microblaze/Kconfig
+@@ -0,0 +1,2 @@
++config MICROBLAZE
++    bool
+diff --git a/target/mips/Kconfig b/target/mips/Kconfig
+new file mode 100644
+index 0000000000..6adf145354
+--- /dev/null
++++ b/target/mips/Kconfig
+@@ -0,0 +1,6 @@
++config MIPS
++    bool
++
++config MIPS64
++    bool
++    select MIPS
+diff --git a/target/nios2/Kconfig b/target/nios2/Kconfig
+new file mode 100644
+index 0000000000..1529ab8950
+--- /dev/null
++++ b/target/nios2/Kconfig
+@@ -0,0 +1,2 @@
++config NIOS2
++    bool
+diff --git a/target/openrisc/Kconfig b/target/openrisc/Kconfig
+new file mode 100644
+index 0000000000..e0da4ac1df
+--- /dev/null
++++ b/target/openrisc/Kconfig
+@@ -0,0 +1,2 @@
++config OPENRISC
++    bool
+diff --git a/target/ppc/Kconfig b/target/ppc/Kconfig
+new file mode 100644
+index 0000000000..3ff152051a
+--- /dev/null
++++ b/target/ppc/Kconfig
+@@ -0,0 +1,5 @@
++config PPC
++    bool
++
++config PPC64
++    bool
+diff --git a/target/riscv/Kconfig b/target/riscv/Kconfig
+new file mode 100644
+index 0000000000..b9e5932f13
+--- /dev/null
++++ b/target/riscv/Kconfig
+@@ -0,0 +1,5 @@
++config RISCV32
++    bool
++
++config RISCV64
++    bool
+diff --git a/target/rx/Kconfig b/target/rx/Kconfig
+new file mode 100644
+index 0000000000..aceb5ed28f
+--- /dev/null
++++ b/target/rx/Kconfig
+@@ -0,0 +1,2 @@
++config RX
++    bool
+diff --git a/target/s390x/Kconfig b/target/s390x/Kconfig
+new file mode 100644
+index 0000000000..72da48136c
+--- /dev/null
++++ b/target/s390x/Kconfig
+@@ -0,0 +1,2 @@
++config S390X
++    bool
+diff --git a/target/sh4/Kconfig b/target/sh4/Kconfig
+new file mode 100644
+index 0000000000..2397c86028
+--- /dev/null
++++ b/target/sh4/Kconfig
+@@ -0,0 +1,2 @@
++config SH4
++    bool
+diff --git a/target/sparc/Kconfig b/target/sparc/Kconfig
+new file mode 100644
+index 0000000000..70cc0f3a21
+--- /dev/null
++++ b/target/sparc/Kconfig
+@@ -0,0 +1,5 @@
++config SPARC
++    bool
++
++config SPARC64
++    bool
+diff --git a/target/tricore/Kconfig b/target/tricore/Kconfig
+new file mode 100644
+index 0000000000..9313409309
+--- /dev/null
++++ b/target/tricore/Kconfig
+@@ -0,0 +1,2 @@
++config TRICORE
++    bool
+diff --git a/target/xtensa/Kconfig b/target/xtensa/Kconfig
+new file mode 100644
+index 0000000000..a3c8dc7f6d
+--- /dev/null
++++ b/target/xtensa/Kconfig
+@@ -0,0 +1,2 @@
++config XTENSA
++    bool
 -- 
 2.31.1
 
