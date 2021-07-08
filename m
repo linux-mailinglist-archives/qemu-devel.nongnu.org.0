@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E130E3C15CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:19:12 +0200 (CEST)
-Received: from localhost ([::1]:40568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A4963C15E2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:23:55 +0200 (CEST)
+Received: from localhost ([::1]:58010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Vnz-000145-PV
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:19:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53266)
+	id 1m1VsY-0004M1-GA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:23:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1VmP-00080c-FZ
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45298)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1VmK-00080G-Gb
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625757446;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y1e1tvQBw/84zFvF7VNxT2oAs/mUcMgyF6kBxFogzn8=;
- b=c+x+JBy+FYmOUqZcEasQ674Wp/VvVnBUbGrkdMPRXRgag6XA1eVTKZeznshnwVy7fmxTCv
- dId46bk+mDcX3fmmUXujBEo9m2CVvaX3e/WQMwLxTzPxfB8wDvHvDTDn4wdLMswTExlKJm
- jBF+G5zYIuQLAsX9pkbhtreXARN2dPs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-HPawcN4UO2-cTqVM_kdhOA-1; Thu, 08 Jul 2021 11:17:23 -0400
-X-MC-Unique: HPawcN4UO2-cTqVM_kdhOA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B59E101F000
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:17:22 +0000 (UTC)
-Received: from redhat.com (ovpn-114-169.ams2.redhat.com [10.36.114.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 277995C1C2;
- Thu,  8 Jul 2021 15:17:20 +0000 (UTC)
-Date: Thu, 8 Jul 2021 16:17:05 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH] audio: Make the AudiodevDriver enum conditional
-Message-ID: <YOcW8TRGCTenHOJS@redhat.com>
-References: <20210624183716.515721-1-thuth@redhat.com>
- <YNWUGh2XmQ7eXtmQ@redhat.com>
- <4c27da0d-ef3c-c1da-0d80-d8496292b85c@redhat.com>
- <87v95kdfc2.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m1Vmp-0008Vi-KL
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:59 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m1Vmk-00088a-Hy
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:56 -0400
+Received: by mail-ed1-x534.google.com with SMTP id l26so695522eda.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JuwO9pM95hWiD6+ZUA7cnKjhEg+vgsiz1t0hFfkXw3E=;
+ b=WiAMJ4m4gPXXp9ZD5R/8rouVnJUIJ9dAvbaa6A3wPAMdnlXqcXIOQ4aUOhQerAC7QA
+ A4cxu7S6lHIh7WrfJqaSo9tkVOgzogoz8r+m6mVNUiHpsNDxXqfuGYEgc2YK12VOipWT
+ T0Bcq9mv01WtjqzHLFYjIwIDICrLl6qo+NXpn/hTC8puYpx4lolFqFFM5QLnURK3dRH5
+ R2ROGIbiJIMqaL2a0Lq3KK2WcSk9CbTxwppZdq55daUcMisL+kpMRDelAE5I9Ygqx6iF
+ qp0LXdw0ImSphm682GHRYkMMi5IWHZIiymZYe2bns1WfFbZ+n1VznX9fRHofxGhcrbxu
+ 8oig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=JuwO9pM95hWiD6+ZUA7cnKjhEg+vgsiz1t0hFfkXw3E=;
+ b=nKWqKXQHpP0GSPnRQc+HjI1H1qWLfJFXuo1nuj4BbPwkLIf/PhnPstPTrXDhrUJ+WW
+ /9tJ5pAhzveUdEQ/3d0T0DbgekebKQkcB9njU+kPBcwFh9zODXa1ehrDRhws0EZcTT3G
+ nI7p9pUeBakp9dDT1axMUqP/D1ltEpi+Wu0G5IErcwH2rjyuWVNa9DgT15GO4X7BOSGb
+ BRsD18HqYjAI5KGh2gw0LsjcPGJFR00mVD5tqQOnBq7oZ1CrWvGaJT3qnbwh+2CpjSp6
+ ty35swKfOtTQ002AZUYcRr2m4F0R5e1Tq+Ae9nDruLrL1VRQcCbW/AZgHwuQyF1erWJX
+ J1Ww==
+X-Gm-Message-State: AOAM530u1RoE1E6Bafh7VnTY5GnWX7YEyeK8vZZ1Z9VHd4eS1k9rmiNB
+ WiO91iLjFmPVvtSnvBSRoIiEVP8SP4U=
+X-Google-Smtp-Source: ABdhPJxEVu4tkziyILN7f7At3VxWKtMT4ykal/sA5k6if6lyxIf6JQVbuOtjK9r8wOL2CSgoE9m4wQ==
+X-Received: by 2002:a05:6402:28b6:: with SMTP id
+ eg54mr13058857edb.216.1625757473465; 
+ Thu, 08 Jul 2021 08:17:53 -0700 (PDT)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 08:17:53 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 05/48] modules: add modinfo macros
+Date: Thu,  8 Jul 2021 17:17:05 +0200
+Message-Id: <20210708151748.408754-6-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
+References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87v95kdfc2.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,48 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Jose R . Ziviani" <jziviani@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 08, 2021 at 04:56:29PM +0200, Markus Armbruster wrote:
-> Thomas Huth <thuth@redhat.com> writes:
-> 
-> > On 25/06/2021 10.30, Daniel P. Berrangé wrote:
-> >> On Thu, Jun 24, 2021 at 08:37:16PM +0200, Thomas Huth wrote:
-> >>> This way, the upper layers like libvirt could have the possibility
-> >>> to use QAPI to find out which audio drivers have been enabled during
-> >>> compile-time of QEMU.
-> >>>
-> >>> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> >>> ---
-> >>>   Note: Marked as RFC since it's quite a lot of ifdef'ing here...
-> >>>         not sure whether I really like it...
-> >> Same as my patch here:
-> >>    https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00654.html
-> >
-> > Oh, nice, I guess it means that it's not such a bad idea to introduce
-> > all those #ifdefs here :-)
-> >
-> > Anyway, looks like my patch was incomplete anyway (I just hacked it
-> > together after my corresponding DisplayType patch - see 
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06529.html),
-> > since it lacks the wiring via a qapi command, so please disregard this
-> > RFC PATCH. Are you going to respin your series from March, Daniel?
-> 
-> I reviewed Daniel's series back then, and pointed out a few minor
-> issues, mostly in commit messages.  I hope that wasn't the reason for it
-> getting stuck :)
+From: Gerd Hoffmann <kraxel@redhat.com>
 
-No, I'm mostly just side-tracked on other work I'm afraid.
+Add macros for module info annotations.
 
-Regards,
-Daniel
+Instead of having that module meta-data stored in lists in util/module.c
+place directly in the module source code.
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
+Message-Id: <20210624103836.2382472-2-kraxel@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/qemu/module.h | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index 944d403cbd..81ef086da0 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -73,4 +73,29 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
+ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
+ 
++/*
++ * module info annotation macros
++ *
++ * scripts/modinfo-collect.py will collect module info,
++ * using the preprocessor and -DQEMU_MODINFO
++ */
++#ifdef QEMU_MODINFO
++# define modinfo(kind, value) \
++    MODINFO_START kind value MODINFO_END
++#else
++# define modinfo(kind, value)
++#endif
++
++/* module implements QOM type <name> */
++#define module_obj(name) modinfo(obj, name)
++
++/* module has a dependency on <name> */
++#define module_dep(name) modinfo(dep, name)
++
++/* module is for target architecture <name> */
++#define module_arch(name) modinfo(arch, name)
++
++/* module registers QemuOpts <name> */
++#define module_opts(name) modinfo(opts, name)
++
+ #endif
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
+
 
 
