@@ -2,76 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8493C1B25
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 23:42:17 +0200 (CEST)
-Received: from localhost ([::1]:52824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF113C1B3F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 23:53:14 +0200 (CEST)
+Received: from localhost ([::1]:59522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1bmi-000569-HK
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 17:42:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54408)
+	id 1m1bxI-0001Wl-UK
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 17:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1bic-0008Q4-Bi
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:38:02 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:41871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1biZ-0008Lb-NS
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:38:02 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- oj10-20020a17090b4d8ab0290172f77377ebso4882021pjb.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 14:37:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=7ItSyYsGQ9A8At3Pt+haqUSVGcYkHH5NFOEM/YPqhl0=;
- b=ho224I1nZOS/iV0YylE4vpvOiCk3UgV6gZnYgP0jyY8NpPgkGfImIJ0o5dNlxt5qeb
- +XAoansdFcFnSzmAiYZF5WIb9Xu7S2JL+GvXdAczDILG3cJJ4ZvOYN5AwZ+0mCT0t9hQ
- 2b2XLS1ywtwuEGiTai2gWRit5X6w66l7qO+eAZX6SRiJdOSe8OGLG8/kCT4wmvADUx8W
- t/vcwiegkp/pK6vlZYe5qkbKErAOWmMeJuJGkt5HjFGevZ8h2N6Sj9snz+UODsMMOTd5
- +G9ASXLgLxcylz82jsstjBrI19GSX7A19GKzXS0HXmbv/Z5lL5HRzty8CMdGeoN5Vn5K
- C1Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=7ItSyYsGQ9A8At3Pt+haqUSVGcYkHH5NFOEM/YPqhl0=;
- b=fiyzDaySa+b1hZDy7aQoWyJ2yjr7MZ1dmNwMRNjN7i0cgP3H737tTYht0RmaChmCA5
- QR8hHLsYCsBK4pfcLX+XAfArJjv39lxgY6c+ihcexbJ7mMgF2VKsm1ulNt2N0242/dg8
- Cl41syqgDlh43Y7Cflq4vrv987sc4yqm7OOKrCGke5rs38XYXsQetomuTBfM/GbMKMBe
- Zq4HMAI9QGnU//tgWH0Ttn8J8Scu43jR/tTu/J5xwZWSKXiPHcje6KB+5Csbvqv7I0iJ
- Wf9S/yyk4QGHq/kG3KSDvIoqbJ6CC5LfNej6PgwsPZ6ksIDnDO+HBUU80Cdw5bOWKvLd
- OJPQ==
-X-Gm-Message-State: AOAM533U/Kuwq+5nfuzki/ahq+uRzEjemctX5ffa5iLa5Oib7KnOss2r
- JjW3Z3sk48TGz+JTm25bpylPR4EqS6/7qA==
-X-Google-Smtp-Source: ABdhPJxRvJBpJiy/nHaN0TorYnMnlzZd4sE6dG+S/7h+AnBKPMuCFfbSIJxDlq/rPdaPScbQu4/rhA==
-X-Received: by 2002:a17:90a:420b:: with SMTP id
- o11mr33272029pjg.201.1625780278246; 
- Thu, 08 Jul 2021 14:37:58 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id g27sm4322800pgl.19.2021.07.08.14.37.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 14:37:57 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/openrisc: Use dc->zero in gen_add, gen_addc
-Date: Thu,  8 Jul 2021 14:37:54 -0700
-Message-Id: <20210708213754.830485-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210708213754.830485-1-richard.henderson@linaro.org>
-References: <20210708213754.830485-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m1bvW-0008Qf-Ig; Thu, 08 Jul 2021 17:51:22 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:25730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m1bvS-0003rw-Su; Thu, 08 Jul 2021 17:51:21 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 4BF87745708;
+ Thu,  8 Jul 2021 23:51:14 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B3F747456E3; Thu,  8 Jul 2021 23:51:13 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v2 4/4] ppc/pegasos2: Implement some RTAS functions with VOF
+Date: Thu, 08 Jul 2021 23:46:14 +0200
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+Message-Id: <20210708215113.B3F747456E3@zero.eik.bme.hu>
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,51 +51,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shorne@gmail.com
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We still need the t0 temporary for computing overflow,
-but we do not need to initialize it to zero first.
+Linux uses RTAS functions to access PCI devices so we need to provide
+these with VOF. Implement some of the most important functions to
+allow booting Linux with VOF. With this the board is now usable
+without a binary ROM image and we can enable it by default as other
+boards.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- target/openrisc/translate.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+v2: Use named values for /rtas functions, only sending v2 for this,
+    others are unchanged
 
-diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index 3d86bdffaa..3425fd881e 100644
---- a/target/openrisc/translate.c
-+++ b/target/openrisc/translate.c
-@@ -200,10 +200,10 @@ static void gen_ove_cyov(DisasContext *dc)
+ default-configs/devices/ppc-softmmu.mak |   2 +-
+ hw/ppc/pegasos2.c                       | 137 ++++++++++++++++++++++++
+ 2 files changed, 138 insertions(+), 1 deletion(-)
+
+diff --git a/default-configs/devices/ppc-softmmu.mak b/default-configs/devices/ppc-softmmu.mak
+index c2d41198cd..4535993d8d 100644
+--- a/default-configs/devices/ppc-softmmu.mak
++++ b/default-configs/devices/ppc-softmmu.mak
+@@ -14,7 +14,7 @@ CONFIG_SAM460EX=y
+ CONFIG_MAC_OLDWORLD=y
+ CONFIG_MAC_NEWWORLD=y
  
- static void gen_add(DisasContext *dc, TCGv dest, TCGv srca, TCGv srcb)
+-CONFIG_PEGASOS2=n
++CONFIG_PEGASOS2=y
+ 
+ # For PReP
+ CONFIG_PREP=y
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index f1741a4512..5c4e2ae8bf 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -43,6 +43,7 @@
+ #define PROM_SIZE     0x80000
+ 
+ #define KVMPPC_HCALL_BASE    0xf000
++#define KVMPPC_H_RTAS        (KVMPPC_HCALL_BASE + 0x0)
+ #define KVMPPC_H_VOF_CLIENT  (KVMPPC_HCALL_BASE + 0x5)
+ 
+ #define H_SUCCESS     0
+@@ -195,6 +196,30 @@ static void pegasos2_init(MachineState *machine)
+     }
+ }
+ 
++static uint32_t pegasos2_pci_config_read(AddressSpace *as, int bus,
++                                         uint32_t addr, uint32_t len)
++{
++    hwaddr pcicfg = (bus ? 0xf1000c78 : 0xf1000cf8);
++    uint32_t val = 0xffffffff;
++
++    stl_le_phys(as, pcicfg, addr | BIT(31));
++    switch (len) {
++    case 4:
++        val = ldl_le_phys(as, pcicfg + 4);
++        break;
++    case 2:
++        val = lduw_le_phys(as, pcicfg + 4);
++        break;
++    case 1:
++        val = ldub_phys(as, pcicfg + 4);
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid length\n", __func__);
++        break;
++    }
++    return val;
++}
++
+ static void pegasos2_pci_config_write(AddressSpace *as, int bus, uint32_t addr,
+                                       uint32_t len, uint32_t val)
  {
--    TCGv t0 = tcg_const_tl(0);
-+    TCGv t0 = tcg_temp_new();
-     TCGv res = tcg_temp_new();
+@@ -304,6 +329,87 @@ static void pegasos2_machine_reset(MachineState *machine)
+     pm->cpu->vhyp = PPC_VIRTUAL_HYPERVISOR(machine);
+ }
  
--    tcg_gen_add2_tl(res, cpu_sr_cy, srca, t0, srcb, t0);
-+    tcg_gen_add2_tl(res, cpu_sr_cy, srca, dc->zero, srcb, dc->zero);
-     tcg_gen_xor_tl(cpu_sr_ov, srca, srcb);
-     tcg_gen_xor_tl(t0, res, srcb);
-     tcg_gen_andc_tl(cpu_sr_ov, t0, cpu_sr_ov);
-@@ -217,11 +217,11 @@ static void gen_add(DisasContext *dc, TCGv dest, TCGv srca, TCGv srcb)
- 
- static void gen_addc(DisasContext *dc, TCGv dest, TCGv srca, TCGv srcb)
++enum pegasos2_rtas_tokens {
++    RTAS_RESTART_RTAS = 0,
++    RTAS_NVRAM_FETCH = 1,
++    RTAS_NVRAM_STORE = 2,
++    RTAS_GET_TIME_OF_DAY = 3,
++    RTAS_SET_TIME_OF_DAY = 4,
++    RTAS_EVENT_SCAN = 6,
++    RTAS_CHECK_EXCEPTION = 7,
++    RTAS_READ_PCI_CONFIG = 8,
++    RTAS_WRITE_PCI_CONFIG = 9,
++    RTAS_DISPLAY_CHARACTER = 10,
++    RTAS_SET_INDICATOR = 11,
++    RTAS_POWER_OFF = 17,
++    RTAS_SUSPEND = 18,
++    RTAS_HIBERNATE = 19,
++    RTAS_SYSTEM_REBOOT = 20,
++};
++
++static target_ulong pegasos2_rtas(PowerPCCPU *cpu, Pegasos2MachineState *pm,
++                                  target_ulong args_real)
++{
++    AddressSpace *as = CPU(cpu)->as;
++    uint32_t token = ldl_be_phys(as, args_real);
++    uint32_t nargs = ldl_be_phys(as, args_real + 4);
++    uint32_t nrets = ldl_be_phys(as, args_real + 8);
++    uint32_t args = args_real + 12;
++    uint32_t rets = args_real + 12 + nargs * 4;
++
++    if (nrets < 1) {
++        qemu_log_mask(LOG_GUEST_ERROR, "Too few return values in RTAS call\n");
++        return H_PARAMETER;
++    }
++    switch (token) {
++    case RTAS_READ_PCI_CONFIG:
++    {
++        uint32_t addr, len, val;
++
++        if (nargs != 2 || nrets != 2) {
++            stl_be_phys(as, rets, -1);
++            return H_PARAMETER;
++        }
++        addr = ldl_be_phys(as, args);
++        len = ldl_be_phys(as, args + 4);
++        val = pegasos2_pci_config_read(as, !(addr >> 24),
++                                       addr & 0x0fffffff, len);
++        stl_be_phys(as, rets, 0);
++        stl_be_phys(as, rets + 4, val);
++        return H_SUCCESS;
++    }
++    case RTAS_WRITE_PCI_CONFIG:
++    {
++        uint32_t addr, len, val;
++
++        if (nargs != 3 || nrets != 1) {
++            stl_be_phys(as, rets, -1);
++            return H_PARAMETER;
++        }
++        addr = ldl_be_phys(as, args);
++        len = ldl_be_phys(as, args + 4);
++        val = ldl_be_phys(as, args + 8);
++        pegasos2_pci_config_write(as, !(addr >> 24),
++                                  addr & 0x0fffffff, len, val);
++        stl_be_phys(as, rets, 0);
++        return H_SUCCESS;
++    }
++    case RTAS_DISPLAY_CHARACTER:
++        if (nargs != 1 || nrets != 1) {
++            stl_be_phys(as, rets, -1);
++            return H_PARAMETER;
++        }
++        qemu_log_mask(LOG_UNIMP, "%c", ldl_be_phys(as, args));
++        stl_be_phys(as, rets, 0);
++        return H_SUCCESS;
++    default:
++        qemu_log_mask(LOG_UNIMP, "Unknown RTAS token %u (args=%u, rets=%u)\n",
++                      token, nargs, nrets);
++        stl_be_phys(as, rets, 0);
++        return H_SUCCESS;
++    }
++}
++
+ static void pegasos2_hypercall(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
  {
--    TCGv t0 = tcg_const_tl(0);
-+    TCGv t0 = tcg_temp_new();
-     TCGv res = tcg_temp_new();
+     Pegasos2MachineState *pm = PEGASOS2_MACHINE(vhyp);
+@@ -315,6 +421,8 @@ static void pegasos2_hypercall(PPCVirtualHypervisor *vhyp, PowerPCCPU *cpu)
+     if (msr_pr) {
+         qemu_log_mask(LOG_GUEST_ERROR, "Hypercall made with MSR[PR]=1\n");
+         env->gpr[3] = H_PRIVILEGE;
++    } else if (env->gpr[3] == KVMPPC_H_RTAS) {
++        env->gpr[3] = pegasos2_rtas(cpu, pm, env->gpr[4]);
+     } else if (env->gpr[3] == KVMPPC_H_VOF_CLIENT) {
+         int ret = vof_client_call(MACHINE(pm), pm->vof, pm->fdt_blob,
+                                   env->gpr[4]);
+@@ -687,6 +795,35 @@ static void *build_fdt(MachineState *machine, int *fdt_size)
+     qemu_fdt_setprop_string(fdt, "/failsafe", "device_type", "serial");
+     qemu_fdt_setprop_string(fdt, "/failsafe", "name", "failsafe");
  
--    tcg_gen_add2_tl(res, cpu_sr_cy, srca, t0, cpu_sr_cy, t0);
--    tcg_gen_add2_tl(res, cpu_sr_cy, res, cpu_sr_cy, srcb, t0);
-+    tcg_gen_add2_tl(res, cpu_sr_cy, srca, dc->zero, cpu_sr_cy, dc->zero);
-+    tcg_gen_add2_tl(res, cpu_sr_cy, res, cpu_sr_cy, srcb, dc->zero);
-     tcg_gen_xor_tl(cpu_sr_ov, srca, srcb);
-     tcg_gen_xor_tl(t0, res, srcb);
-     tcg_gen_andc_tl(cpu_sr_ov, t0, cpu_sr_ov);
++    qemu_fdt_add_subnode(fdt, "/rtas");
++    qemu_fdt_setprop_cell(fdt, "/rtas", "system-reboot", RTAS_SYSTEM_REBOOT);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "hibernate", RTAS_HIBERNATE);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "suspend", RTAS_SUSPEND);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "power-off", RTAS_POWER_OFF);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "set-indicator", RTAS_SET_INDICATOR);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "display-character",
++                          RTAS_DISPLAY_CHARACTER);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "write-pci-config",
++                          RTAS_WRITE_PCI_CONFIG);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "read-pci-config",
++                          RTAS_READ_PCI_CONFIG);
++    /* Pegasos2 firmware misspells check-exception and guests use that */
++    qemu_fdt_setprop_cell(fdt, "/rtas", "check-execption",
++                          RTAS_CHECK_EXCEPTION);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "event-scan", RTAS_EVENT_SCAN);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "set-time-of-day",
++                          RTAS_SET_TIME_OF_DAY);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "get-time-of-day",
++                          RTAS_GET_TIME_OF_DAY);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "nvram-store", RTAS_NVRAM_STORE);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "nvram-fetch", RTAS_NVRAM_FETCH);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "restart-rtas", RTAS_RESTART_RTAS);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-error-log-max", 0);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-event-scan-rate", 0);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-display-device", 0);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-size", 20);
++    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-version", 1);
++
+     /* cpus */
+     qemu_fdt_add_subnode(fdt, "/cpus");
+     qemu_fdt_setprop_cell(fdt, "/cpus", "#cpus", 1);
 -- 
-2.25.1
+2.21.4
 
 
