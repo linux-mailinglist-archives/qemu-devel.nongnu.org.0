@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4963C15E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:23:55 +0200 (CEST)
-Received: from localhost ([::1]:58010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBE23C15E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:24:34 +0200 (CEST)
+Received: from localhost ([::1]:60606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1VsY-0004M1-GA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:23:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53482)
+	id 1m1VtB-000658-GG
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmp-0008Vi-KL
+ id 1m1Vmp-0008Vk-Ki
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:59 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43815)
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmk-00088a-Hy
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:56 -0400
-Received: by mail-ed1-x534.google.com with SMTP id l26so695522eda.10
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:54 -0700 (PDT)
+ id 1m1Vml-00089P-JY
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:57 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id b2so10269055ejg.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JuwO9pM95hWiD6+ZUA7cnKjhEg+vgsiz1t0hFfkXw3E=;
- b=WiAMJ4m4gPXXp9ZD5R/8rouVnJUIJ9dAvbaa6A3wPAMdnlXqcXIOQ4aUOhQerAC7QA
- A4cxu7S6lHIh7WrfJqaSo9tkVOgzogoz8r+m6mVNUiHpsNDxXqfuGYEgc2YK12VOipWT
- T0Bcq9mv01WtjqzHLFYjIwIDICrLl6qo+NXpn/hTC8puYpx4lolFqFFM5QLnURK3dRH5
- R2ROGIbiJIMqaL2a0Lq3KK2WcSk9CbTxwppZdq55daUcMisL+kpMRDelAE5I9Ygqx6iF
- qp0LXdw0ImSphm682GHRYkMMi5IWHZIiymZYe2bns1WfFbZ+n1VznX9fRHofxGhcrbxu
- 8oig==
+ bh=GW8GDqEW0MB1VWp13Ta+BoF0VS+4/kxC0ZAJIRx+5/8=;
+ b=jXEYW1kJkXxnvZo7ySO41R7JtEaxkLPDNgeP+ONL6VwJow7uLeAtydkeYmaO25aYi7
+ HpzIifeTRPtGMwfA2JdQon+LCdoPCzpcU1BR+HAqw/BcUZ4X+aaqDLGcyOPJSHJB18td
+ L8iPp9L+VQk5HVfGBMHKtdI+ay8aB2tIZP8Lv7WRB1fstA7nuwOAjnWTFZZH+5R/pYes
+ dEkrHIRdp/5L59aHhU2ubWXoRSNOqrX2IhaEHmJEr78JdDN/yWJoF9MHB8WB6bMyyOB+
+ JN/7+2wYZd0o6iNZ/aWYM+3+oZDp3S/zYhTrAaBqqrqA2wRJD5qfkytHq+FLNlO38+tP
+ sRBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JuwO9pM95hWiD6+ZUA7cnKjhEg+vgsiz1t0hFfkXw3E=;
- b=nKWqKXQHpP0GSPnRQc+HjI1H1qWLfJFXuo1nuj4BbPwkLIf/PhnPstPTrXDhrUJ+WW
- /9tJ5pAhzveUdEQ/3d0T0DbgekebKQkcB9njU+kPBcwFh9zODXa1ehrDRhws0EZcTT3G
- nI7p9pUeBakp9dDT1axMUqP/D1ltEpi+Wu0G5IErcwH2rjyuWVNa9DgT15GO4X7BOSGb
- BRsD18HqYjAI5KGh2gw0LsjcPGJFR00mVD5tqQOnBq7oZ1CrWvGaJT3qnbwh+2CpjSp6
- ty35swKfOtTQ002AZUYcRr2m4F0R5e1Tq+Ae9nDruLrL1VRQcCbW/AZgHwuQyF1erWJX
- J1Ww==
-X-Gm-Message-State: AOAM530u1RoE1E6Bafh7VnTY5GnWX7YEyeK8vZZ1Z9VHd4eS1k9rmiNB
- WiO91iLjFmPVvtSnvBSRoIiEVP8SP4U=
-X-Google-Smtp-Source: ABdhPJxEVu4tkziyILN7f7At3VxWKtMT4ykal/sA5k6if6lyxIf6JQVbuOtjK9r8wOL2CSgoE9m4wQ==
-X-Received: by 2002:a05:6402:28b6:: with SMTP id
- eg54mr13058857edb.216.1625757473465; 
- Thu, 08 Jul 2021 08:17:53 -0700 (PDT)
+ bh=GW8GDqEW0MB1VWp13Ta+BoF0VS+4/kxC0ZAJIRx+5/8=;
+ b=OTQLgqRUNtkID3I2HGn+j0jYF2y/goUbVqyJqitMD4Zr5ONy6A6fX8SXfpC4epIj4K
+ LvF998j+cBF5Rxly2YCjN7DtyPAaIBa34xVJw3en5+zxRY1PQsmtBB5ZkJ4HRbZVtCYM
+ 3njGrX8Z7CpdJC5Im9+oCGBM7S/JCpE4gz60zGuU3LizszDT/GS4i8tkxt41B0t1yAgK
+ 5BVWogOz4Mn+aa5GXZxL08l6tYCNqxCUj8DjlEX738m+bDdYNza/TTvmNkgJP3v6sklW
+ Qkqb1gT0NggslT3OGATDhM9F4hx6APuLeq35iyoFvt6tnd7WgcOC9AqFF2D761/wJ4Y/
+ 79yw==
+X-Gm-Message-State: AOAM531gpeN6UkQA0MNVmi6aNw++Tz4Jj8Ww4F9N6eahy99wIaYiIHTW
+ N7o9sg+5YPWVfbSlrXH0aDCsvUajA/0=
+X-Google-Smtp-Source: ABdhPJxq3ZTHO73cP6y+Kx+Z1MqUlToj2xxykDDgNPdeOKR/555ajkuUc2bKNlL2Wt7vNaEnOd6wSg==
+X-Received: by 2002:a17:906:3a53:: with SMTP id
+ a19mr31558645ejf.88.1625757474116; 
+ Thu, 08 Jul 2021 08:17:54 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.52
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 08:17:53 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/48] modules: add modinfo macros
-Date: Thu,  8 Jul 2021 17:17:05 +0200
-Message-Id: <20210708151748.408754-6-pbonzini@redhat.com>
+Subject: [PULL 06/48] modules: collect module meta-data
+Date: Thu,  8 Jul 2021 17:17:06 +0200
+Message-Id: <20210708151748.408754-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,53 +90,126 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add macros for module info annotations.
-
-Instead of having that module meta-data stored in lists in util/module.c
-place directly in the module source code.
+Add script to collect the module meta-data from the source code,
+store the results in *.modinfo files.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-2-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-3-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qemu/module.h | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ meson.build                | 16 +++++++++
+ scripts/modinfo-collect.py | 67 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 83 insertions(+)
+ create mode 100755 scripts/modinfo-collect.py
 
-diff --git a/include/qemu/module.h b/include/qemu/module.h
-index 944d403cbd..81ef086da0 100644
---- a/include/qemu/module.h
-+++ b/include/qemu/module.h
-@@ -73,4 +73,29 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
- void module_load_qom_one(const char *type);
- void module_load_qom_all(void);
+diff --git a/meson.build b/meson.build
+index 9cd966a86b..ff580f1f80 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2241,6 +2241,9 @@ subdir('tests/qtest/fuzz')
+ # Library dependencies #
+ ########################
  
-+/*
-+ * module info annotation macros
-+ *
-+ * scripts/modinfo-collect.py will collect module info,
-+ * using the preprocessor and -DQEMU_MODINFO
-+ */
-+#ifdef QEMU_MODINFO
-+# define modinfo(kind, value) \
-+    MODINFO_START kind value MODINFO_END
-+#else
-+# define modinfo(kind, value)
-+#endif
++modinfo_collect = find_program('scripts/modinfo-collect.py')
++modinfo_files = []
 +
-+/* module implements QOM type <name> */
-+#define module_obj(name) modinfo(obj, name)
+ block_mods = []
+ softmmu_mods = []
+ foreach d, list : modules
+@@ -2254,6 +2257,19 @@ foreach d, list : modules
+       else
+         softmmu_mods += sl
+       endif
++      if module_ss.sources() != []
++        # FIXME: Should use sl.extract_all_objects(recursive: true) as
++        # input. Sources can be used multiple times but objects are
++        # unique when it comes to lookup in compile_commands.json.
++        # Depnds on a mesion version with
++        # https://github.com/mesonbuild/meson/pull/8900
++        modinfo_files += custom_target(d + '-' + m + '.modinfo',
++                                       output: d + '-' + m + '.modinfo',
++                                       input: module_ss.sources(),
++                                       capture: true,
++                                       build_by_default: true, # to be removed when added to a target
++                                       command: [modinfo_collect, '@INPUT@'])
++      endif
+     else
+       if d == 'block'
+         block_ss.add_all(module_ss)
+diff --git a/scripts/modinfo-collect.py b/scripts/modinfo-collect.py
+new file mode 100755
+index 0000000000..4acb188c3e
+--- /dev/null
++++ b/scripts/modinfo-collect.py
+@@ -0,0 +1,67 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
 +
-+/* module has a dependency on <name> */
-+#define module_dep(name) modinfo(dep, name)
++import os
++import sys
++import json
++import shlex
++import subprocess
 +
-+/* module is for target architecture <name> */
-+#define module_arch(name) modinfo(arch, name)
++def find_command(src, target, compile_commands):
++    for command in compile_commands:
++        if command['file'] != src:
++            continue
++        if target != '' and command['command'].find(target) == -1:
++            continue
++        return command['command']
++    return 'false'
 +
-+/* module registers QemuOpts <name> */
-+#define module_opts(name) modinfo(opts, name)
++def process_command(src, command):
++    skip = False
++    arg = False
++    out = []
++    for item in shlex.split(command):
++        if arg:
++            out.append(x)
++            arg = False
++            continue
++        if skip:
++            skip = False
++            continue
++        if item == '-MF' or item == '-MQ' or item == '-o':
++            skip = True
++            continue
++        if item == '-c':
++            skip = True
++            continue
++        out.append(item)
++    out.append('-DQEMU_MODINFO')
++    out.append('-E')
++    out.append(src)
++    return out
 +
- #endif
++def main(args):
++    target = ''
++    if args[0] == '--target':
++        args.pop(0)
++        target = args.pop(0)
++        print("MODINFO_DEBUG target %s" % target)
++        arch = target[:-8] # cut '-softmmu'
++        print("MODINFO_START arch \"%s\" MODINFO_END" % arch)
++    with open('compile_commands.json') as f:
++        compile_commands = json.load(f)
++    for src in args:
++        print("MODINFO_DEBUG src %s" % src)
++        command = find_command(src, target, compile_commands)
++        cmdline = process_command(src, command)
++        print("MODINFO_DEBUG cmd", cmdline)
++        result = subprocess.run(cmdline, stdout = subprocess.PIPE,
++                                universal_newlines = True)
++        if result.returncode != 0:
++            sys.exit(result.returncode)
++        for line in result.stdout.split('\n'):
++            if line.find('MODINFO') != -1:
++                print(line)
++
++if __name__ == "__main__":
++    main(sys.argv[1:])
 -- 
 2.31.1
 
