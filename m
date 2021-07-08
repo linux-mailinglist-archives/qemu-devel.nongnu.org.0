@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FB2F3BF8BA
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 13:11:42 +0200 (CEST)
-Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB2B3BF8BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 13:11:55 +0200 (CEST)
+Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1RwR-0008Vj-9C
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 07:11:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44360)
+	id 1m1Rwg-0000ix-OF
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 07:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1m1RvJ-0007FG-BF
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:10:29 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1m1RvF-0004FV-DE
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:10:28 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- b8-20020a17090a4888b02901725eedd346so3522967pjh.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 04:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=8bDUzo+Bhkrj9c7s2S3xw61x2dnAiaco/AcAMweYqac=;
- b=a1O0evcox+KB8YjJkOLH0bItmgpx7OqzaxOCDO8e0j6D3i88UhLdPM6cqm0og4UxP9
- DrOsEvfZ50bxu0yPu4gKitF7ylghRWLqTpdRNg+A0UGjxz2AnPIB/L8ezoX0eq5XjOnJ
- aW0cJVEVdRCMK6lc6/owTcrnK4Hf5RYb9HIqUrT4wKoJchdINHX4LMTXHPWFVNUVKyoE
- RBjfFntgG361GHbjMQfFKCeoeQXbj3IOpyPkbXzSZcYBd3lsdHFnWsbJC1y4TjXuN7Y/
- F2TW8LylhNAlk/Jt+2a2oKi3rug1FvHGl5qxBhOcY1LcTltAVg4BpAvgsOwxIgJAbDsI
- Lzmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=8bDUzo+Bhkrj9c7s2S3xw61x2dnAiaco/AcAMweYqac=;
- b=QTuF3A84l/tzGBm/CkODzx1pBnz65GyJSabWe3OJBHbJpsjc4TFZ3CfT6mMBdZVJYT
- WLJr1s25ow82BOof2+Xnvvt1JKQEyH9y9e11aEL83NDQr/UtbQasy+ovXXbBgMnefHX3
- HLFA5m1svTljssCrzttiXNdBk642peljnWrO0qQTBjHpnvxEWi4StFM0/FPCydI6D0dD
- X7PmCpcCchYK1DUnPPyWvqhp1hAcJCTZ/aayu/2KzKQae/pfabSZbB5RxCOVJvCDvLiZ
- 7SPDX6h0RxeBYm7oRcVC4miBkiGXop0woOHzksIfZsM+PYuOqqCFSrsHm1cyfAqBb/bk
- WSLw==
-X-Gm-Message-State: AOAM533/H7wYX7lekgWTQgowZYLW1YCIqRgqelihCwFcKfYS1GpU3Zxg
- yqs3DYMd4R6R3Och1fHnb6E5WA==
-X-Google-Smtp-Source: ABdhPJxQ8W6DvBFAR0eVRs5iMvUHDaVulKgIa8s72U0lTBa0vbzTlsC+AWDBcqOuHWgB8tnI2xbpWg==
-X-Received: by 2002:a17:90a:d48f:: with SMTP id
- s15mr31158324pju.161.1625742622624; 
- Thu, 08 Jul 2021 04:10:22 -0700 (PDT)
-Received: from [192.168.10.23] (219-90-184-65.ip.adam.com.au. [219.90.184.65])
- by smtp.gmail.com with UTF8SMTPSA id
- g9sm2311792pfj.49.2021.07.08.04.10.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 04:10:22 -0700 (PDT)
-Message-ID: <6a25eed6-22db-7d5c-6686-67322b70a83f@ozlabs.ru>
-Date: Thu, 8 Jul 2021 21:10:18 +1000
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1Rvh-0007oV-SW
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:10:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50092)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1Rvf-0004Im-6v
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:10:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625742649;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZkkG4glNMgXlSBZz098VdMakdWFGRVSNKly4NMSnJg4=;
+ b=HGaTXW+tOx31ZXmN/og1xLXb3TIVtf53u3dEkVOSpXFnTJa0hXqsZeijvcsvAh1inUfSN/
+ 9fPd8b2o7VBUXNzwQlkq6PcJK8+UDsHiW2RZbArLu1Qw+ku5Q8JLO1LDxOHchTsmyp+OLA
+ 2hD8mcDWs/lDLa0na8hxMmD3CCKQ/3M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-CP5EPRSIPkWyEz50tzGCPg-1; Thu, 08 Jul 2021 07:10:48 -0400
+X-MC-Unique: CP5EPRSIPkWyEz50tzGCPg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE10019067E0
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 11:10:47 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
+ [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BF5A75D6A8;
+ Thu,  8 Jul 2021 11:10:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4479A1132B52; Thu,  8 Jul 2021 13:10:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Esoteric QMP specification questions of dubious importance
+References: <CAFn=p-YDG2BUpt7nm1K78tFMF8dajpYoLvGbK0poHA72rgAPHg@mail.gmail.com>
+Date: Thu, 08 Jul 2021 13:10:46 +0200
+In-Reply-To: <CAFn=p-YDG2BUpt7nm1K78tFMF8dajpYoLvGbK0poHA72rgAPHg@mail.gmail.com>
+ (John Snow's message of "Fri, 2 Jul 2021 13:14:56 -0400")
+Message-ID: <87a6mx83ih.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <22b9ae49-7252-b664-ea98-99bb7baf4680@eik.bme.hu>
- <07d3a270-6d44-591d-d0ee-0264d3b4c7f2@ozlabs.ru>
- <4a903fde-4ea-a296-3132-bae249d261a@eik.bme.hu>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <4a903fde-4ea-a296-3132-bae249d261a@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=aik@ozlabs.ru; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,75 +79,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+John Snow <jsnow@redhat.com> writes:
 
+> I'm writing a "fake" QMP server for the purposes of creating unit tests for
+> the python QMP library. In doing so, I am left with some esoteric questions:
+>
+>
+> (1) qemu-spec.txt, section 2.4.2, "error":
+>
+> The format of an "error response" is:
+>
+>> { "error": { "class": json-string, "desc": json-string }, "id": json-value }
+>
+> For the purposes of naming internal types in the QMP library, does the
+> "error" object value have a canonical type name? It's not defined in QAPI
+> that I can see.
 
-On 08/07/2021 20:39, BALATON Zoltan wrote:
-> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->> On 08/07/2021 20:18, BALATON Zoltan wrote:
->>> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>>> This addresses the comments from v22.
->>>>
->>>> The functional changes are (the VOF ones need retesting with Pegasos2):
->>>>
->>>> (VOF) setprop will start failing if the machine class callback
->>>> did not handle it;
->>>
->>> I'll try this later but I think I've seen guests using setprop (Linux 
->>> also does that for some property). How should I allow that? Do I need 
->>> a new callback for this? Could it be allower unless there's a 
->>> callback that could deby it? But that was the previous way I think.
+No, it isn't.  It's built manually from an Error object in
+qmp_error_response():
+
+    rsp = qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s } }",
+                                  QapiErrorClass_str(error_get_class(err)),
+                                  error_get_pretty(err));
+
+> (2) qemu-spec.txt, section 2.2 "Server Greeting":
+>
+> The greeting message format is:
+>
+>> { "QMP": { "version": json-object, "capabilities": json-array } }
 >>
->> A simple defined callback which always returns "true" should do.
-> 
-> Yes but what's the point? That would just effectiverly disable this 
-> change so if we need that, we could just as well keep the previous 
-> behaviour which is to allow setprop unless there's a callback that can 
-> decide otherwise. The spapr machine has such a callback so it already 
-> does not allow all setprop and if I'll have a callback in pegasos2 
-> returning true that will allow what's allowed now so this part of this 
-> patch does nothing indeed.
-> 
-> Since guests could do all kinds of things that we don't know without 
-> trying them restricting setprop is a good way to run into problems with 
-> guests that were not tested that could otherwise just work. Then we'll 
-> need another patch to enable that guest adding some more properties to 
-> the list of allowed ones. Why it it a problem to allow this by default 
-> in the first place and only reject changes for machines that have a 
-> callback? Then I would not need more empty callbacks in pegasos2.
+>> Where,
+>>
+>> - The "version" member contains the Server's version information (the format
+>>  is the same of the query-version command)
+>
+> The layout of the "version" object is not specified in the spec itself,
+> though it does ask you to refer to the query-version command.
+> Hypothetically, is an alternate implementation of QMP in a binary that is
+> *not* QEMU allowed to change the layout of the "version" object (so long as
+> it matched whatever format it had for a "query-version" command, also not
+> mandated by the spec), or must it *always* conform to this precise layout?
+>
+> (qapi/control.json):
+>
+>> { 'struct': 'VersionInfo',
+>>    'data': {'qemu': 'VersionTriple', 'package': 'str'} }
+>
+> If so, what should such a hypothetical client that is *not* QEMU do here?
+> What version does it report for the "qemu" VersionTriple member? Can I
+> report 0.0.0?
 
+Referring to a QMP command is technically a layering violation.  Hasn't
+bothered us so far.
 
- From here:
-https://patchwork.ozlabs.org/project/qemu-devel/patch/20210625055155.2252896-1-aik@ozlabs.ru/#2714158
+qmp-spec.txt was obviously written with a single application in mind:
+QEMU.  Evidence: the key for 'VersionTriple' is named 'qemu'.
 
-===
+A second application appeared a year and a half later: the guest agent.
+It doesn't fully comply to qmp-spec.txt.  In particular, it doesn't send
+a greeting.  Unfortunate, but doesn't seem worth fixing now.
 
- >>> +    if (vmo) {
- >>> +        VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
- >>> +
- >>> +        if (vmc->setprop &&
- >>> +            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
- >>> +            goto trace_exit;
- >>
- >> This defaults to allowing the setprop if the machine doesn't provide a
- >> setprop callback.  I think it would be safer to default to prohibiting
- >> all setprops except those the machine explicitly allows.
- >
- >
- > Mmmm... I can imagine the client using the device tree as a temporary
- > storage. I'd rather add a trace for such cases.
+If your application of QMP does send a greeting and has a query-version
+command, then it should probably send the same JSON object for both.
+Using something other than QEMU's VersionTriple is probably a bad idea.
 
-If they do, I think that's something we'll need to consider and
-account for that platform, rather than something we want to allow to
-begin with.
+Whether the actual contents of VersionTriple matters depends on the QMP
+client.  In general, clients should use introspection, not version
+information.  Whether reporting 0.0.0 is okay depends on what clients
+you want to use.
 
-===
+If we want QMP to support applications other than QEMU (and impostors of
+QEMU), we have some cleanup work to do on qmp-spec.txt.
 
+> (3) Does the qmp-spec technically mandate any commands being available?
+>
+> I believe that qmp_capabilities is definitively a requirement of the spec,
+> but what about query-commands, query-version, or quit? Are they technically
+> requirements of the QMP spec, or just requirements of QEMU?
 
--- 
-Alexey
+qmp_capabilities is part of the protocol.
+
+Other commands aren't, although qmp-spec.txt refers to query-version,
+query-qmp-schema, and guest-sync-delimited (QGA only).  Can't see any
+others.
+
+> Weird questions, I know.
+
+There are no weird questions, only weird people ;-P
+
 
