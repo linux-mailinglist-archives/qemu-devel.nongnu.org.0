@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC67E3C1609
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:32:29 +0200 (CEST)
-Received: from localhost ([::1]:35694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105693C1608
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:32:04 +0200 (CEST)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W0q-00031V-OA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53694)
+	id 1m1W0Q-0001LO-S0
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:32:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmx-0000Pg-FK
+ id 1m1Vmx-0000QN-Nj
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:07 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43816)
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmt-0008C2-TL
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:06 -0400
-Received: by mail-ed1-x533.google.com with SMTP id l26so696228eda.10
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:03 -0700 (PDT)
+ id 1m1Vmu-0008CZ-FH
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:07 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id nd37so10295260ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yS67txh20muTm4sOoJL0IyygbCMlYYIPs+l1vf+oto0=;
- b=D0IuXa9PwoIgHrhZEJ7YXCRWHuqLJbmxvCuzqTi1OBhL2FBMerCYos9SD6Vou4FzDK
- pQyMVpYS0GGyTRGWsFDWYHXoaQ1kmdHqlnbEF4cWZgeuqjDPHmeaRUkLAW3QDEpyEoUW
- n5oREzzOIZ+LT5q94eIsYNup0+nFEHTjbZForz1Trn7ALVwrU6kGtDCxlEao1ZNduDnQ
- L9xNgzbgcmxjPXdoHLJVc1s2FffHSnzbdr0PCibF2dTLL0RLnbjDJ3xyYzlmSwEJXnm4
- fIXuXfbhLi93CaNifc5VmQnr6UCnkiLWXhfOKutm7G9cZGhTKILt8x1UjqwK6NoRPSax
- G8FQ==
+ bh=LsiydnwXi2pVHwHvf7cAuq4Vujnf6TZXOmMKdhvCc9I=;
+ b=lRrU8n/Z7nnHVscKohvLvzrKFnVVZ5S2Av8WGemu9orNrA32EfeG7/W8fLthG3sXiy
+ PMaNJ61FSjFuH0A7xdWjCdAbCwNvNhq6TVDbnZ359wcj++yReDUt7NI62uobmJEXz+s8
+ hvdv8wAggCk7KRRBKFCWNsDOuCG2E2X+Qnau/s0dFQUz5IZx/ruYC6246jVBz/7wF9Y1
+ 4Bh+dfIQ2g7C3PbZm1MOsx4eH2pkkL+RHSLFSnqP8qt03Gtz5A/OEKGt27+WRjtGkcys
+ I+ZMUBas7RJbus/bzpC5MP2yTyYhmHFuA5BM5V7p6jSmE0DblXj2QLRs/8xiUIHobqoK
+ Kgeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yS67txh20muTm4sOoJL0IyygbCMlYYIPs+l1vf+oto0=;
- b=pOVmrzD5YbvieQKChmk0I1GsO2eVrXnO4zNpU7czvD1VpItMlBrk937GYwYx4SU3Eo
- GwwFbiFim7U8LFq6W6RPQd9ZQiiOpNOBOXeN2AtDor1MYxIFKgL9PK2hIM1cdT9LYODM
- 7myJ/rWNWbKow45p2B5EzbxSblVFGa+EexqdeF4L6DrzJpF3wf5x5FK0LtuDPwKVLarl
- raEWGOtXWIPfQWO7PqSGCKwWK2PZgv6wtCIHH4Hq9wH2rOo2y8ORmLFHO91Url3k5DPY
- WXUqo5ZhSbT6vsnAMV10L9Ti338PmHXJ4OwaYoSyPTBVegOiQjq7CqxMhCaIG0ElddPX
- 9NbQ==
-X-Gm-Message-State: AOAM531FiPYwsF/4LMQNmQy2NCQZPAnzxsKyNJzU/D57Hm44xwZ+bcwA
- 7zEcmQS/n6yQpp19DozUqzyw96jR784=
-X-Google-Smtp-Source: ABdhPJw/iroLC2KBTj0HKgcr6TwFE9D8WEyQnLVNNVRiSl9QCFK6lM73DsRVFJ88RNiGUc/fnz8/Kw==
-X-Received: by 2002:a05:6402:1103:: with SMTP id
- u3mr39144544edv.342.1625757482498; 
- Thu, 08 Jul 2021 08:18:02 -0700 (PDT)
+ bh=LsiydnwXi2pVHwHvf7cAuq4Vujnf6TZXOmMKdhvCc9I=;
+ b=O/31GCxTjYZwDH/wojFnHBghOsDX2ibIeTr800vHqhJzrc+s5POtQ+GN27PVo01Emb
+ ewQQ2XWton+TmvPDRRBuDB8fqO508wMnghUOytkPH5Jk3qI/dl7EivifUiki9RCHz5X5
+ 6ofvl+rph0NID9ukakZfnRjJcHl1Qut9KzHx3d8NQpy4sGarEp5QOi1m41dynLo5xiDR
+ 5+M/fkBWIzcxFonzbijtyG8V7QmsEURd4yg0BmQu+Y138n7bA4fXAD9YDupBSlW5vUqv
+ C1pprz1FTDh70i+0Sb+t7Vxyp8CLiWedXd18D298VP8qrUfmVp2p1BI9doGo9kDZKuL1
+ orFw==
+X-Gm-Message-State: AOAM533J6Nz9B/cOWZaWppoMmET1hN33nBft0WwCzs7998C8aTnnD11U
+ iB6LkX+JIszJqNnoDstLxbMJNSt8myU=
+X-Google-Smtp-Source: ABdhPJzt+Ffy3CX7Syy2AHxTL0zYsTeS6n2abxQ2TNUF6Ds/bcT0LUrATfTkrd3ZN9zt6fUXf+GV2w==
+X-Received: by 2002:a17:907:5096:: with SMTP id
+ fv22mr4801840ejc.525.1625757483190; 
+ Thu, 08 Jul 2021 08:18:03 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.01
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 08:18:02 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/48] modules: use modinfo for dependencies
-Date: Thu,  8 Jul 2021 17:17:18 +0200
-Message-Id: <20210708151748.408754-19-pbonzini@redhat.com>
+Subject: [PULL 19/48] modules: use modinfo for qom load
+Date: Thu,  8 Jul 2021 17:17:19 +0200
+Message-Id: <20210708151748.408754-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,106 +90,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Use module database for module dependencies.
-Drop hard-coded dependency list.
+Use module database to figure which module implements a given QOM type.
+Drop hard-coded object list.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-15-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-16-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/module.c | 55 ++++++++++++++++++++-------------------------------
- 1 file changed, 21 insertions(+), 34 deletions(-)
+ util/module.c | 77 ++++++++++++++++-----------------------------------
+ 1 file changed, 24 insertions(+), 53 deletions(-)
 
 diff --git a/util/module.c b/util/module.c
-index 8d3e8275b9..7d7b69cbda 100644
+index 7d7b69cbda..745ae0fb20 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -182,28 +182,6 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
- out:
-     return ret;
+@@ -280,80 +280,51 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     return success;
  }
--
--static const struct {
--    const char *name;
--    const char *dep;
--} module_deps[] = {
--    { "audio-spice",    "ui-spice-core" },
--    { "chardev-spice",  "ui-spice-core" },
--    { "hw-display-qxl", "ui-spice-core" },
--    { "ui-spice-app",   "ui-spice-core" },
--    { "ui-spice-app",   "chardev-spice" },
--
--    { "hw-display-virtio-gpu-gl", "hw-display-virtio-gpu" },
--    { "hw-display-virtio-gpu-pci-gl", "hw-display-virtio-gpu-pci" },
--    { "hw-display-virtio-vga-gl", "hw-display-virtio-vga" },
--
--#ifdef CONFIG_OPENGL
--    { "ui-egl-headless", "ui-opengl"    },
--    { "ui-gtk",          "ui-opengl"    },
--    { "ui-sdl",          "ui-opengl"    },
--    { "ui-spice-core",   "ui-opengl"    },
--#endif
--};
- #endif
  
- bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-@@ -219,9 +197,11 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
-     char *dirs[5];
-     char *module_name;
-     int i = 0, n_dirs = 0;
--    int ret, dep;
-+    int ret;
-     bool export_symbols = false;
-     static GHashTable *loaded_modules;
+-/*
+- * Building devices and other qom objects modular is mostly useful in
+- * case they have dependencies to external shared libraries, so we can
+- * cut down the core qemu library dependencies.  Which is the case for
+- * only a very few devices & objects.
+- *
+- * So with the expectation that this will be rather the exception than
+- * the rule and the list will not gain that many entries, go with a
+- * simple manually maintained list for now.
+- *
+- * The list must be sorted by module (module_load_qom_all() needs this).
+- */
+-static struct {
+-    const char *type;
+-    const char *prefix;
+-    const char *module;
+-} const qom_modules[] = {
+-    { "ccid-card-passthru",    "hw-", "usb-smartcard"         },
+-    { "ccid-card-emulated",    "hw-", "usb-smartcard"         },
+-    { "usb-redir",             "hw-", "usb-redirect"          },
+-    { "qxl-vga",               "hw-", "display-qxl"           },
+-    { "qxl",                   "hw-", "display-qxl"           },
+-    { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
+-    { "virtio-gpu-gl-device",  "hw-", "display-virtio-gpu-gl" },
+-    { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
+-    { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
+-    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
+-    { "virtio-gpu-gl-pci",     "hw-", "display-virtio-gpu-pci-gl" },
+-    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
+-    { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
+-    { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
+-    { "virtio-vga",            "hw-", "display-virtio-vga"    },
+-    { "virtio-vga-gl",         "hw-", "display-virtio-vga-gl" },
+-    { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
+-    { "chardev-braille",       "chardev-", "baum"             },
+-    { "chardev-spicevmc",      "chardev-", "spice"            },
+-    { "chardev-spiceport",     "chardev-", "spice"            },
+-};
++#ifdef CONFIG_MODULES
+ 
+ static bool module_loaded_qom_all;
+ 
+ void module_load_qom_one(const char *type)
+ {
+-    int i;
 +    const QemuModinfo *modinfo;
 +    const char **sl;
  
-     if (!g_module_supported()) {
-         fprintf(stderr, "Module is not supported by system.\n");
-@@ -234,23 +214,30 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
- 
-     module_name = g_strdup_printf("%s%s", prefix, lib_name);
- 
--    for (dep = 0; dep < ARRAY_SIZE(module_deps); dep++) {
--        if (strcmp(module_name, module_deps[dep].name) == 0) {
--            /* we depend on another module */
--            module_load_one("", module_deps[dep].dep, false);
--        }
--        if (strcmp(module_name, module_deps[dep].dep) == 0) {
--            /* another module depends on us */
--            export_symbols = true;
--        }
--    }
--
-     if (g_hash_table_contains(loaded_modules, module_name)) {
-         g_free(module_name);
-         return true;
+     if (!type) {
+         return;
      }
-     g_hash_table_add(loaded_modules, module_name);
- 
-+    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (modinfo->deps) {
-+            if (strcmp(modinfo->name, module_name) == 0) {
-+                /* we depend on other module(s) */
-+                for (sl = modinfo->deps; *sl != NULL; sl++) {
-+                    module_load_one("", *sl, false);
-+                }
-+            } else {
-+                for (sl = modinfo->deps; *sl != NULL; sl++) {
-+                    if (strcmp(module_name, *sl) == 0) {
-+                        /* another module depends on us */
-+                        export_symbols = true;
-+                    }
-+                }
-+            }
-+        }
-+    }
+-    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
+-        if (strcmp(qom_modules[i].type, type) == 0) {
+-            module_load_one(qom_modules[i].prefix,
+-                            qom_modules[i].module,
+-                            false);
+-            return;
 +
-     search_dir = getenv("QEMU_MODULE_DIR");
-     if (search_dir != NULL) {
-         dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
++    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
++        if (!modinfo->objs) {
++            continue;
++        }
++        for (sl = modinfo->objs; *sl != NULL; sl++) {
++            if (strcmp(type, *sl) == 0) {
++                module_load_one("", modinfo->name, false);
++            }
+         }
+     }
+ }
+ 
+ void module_load_qom_all(void)
+ {
+-    int i;
++    const QemuModinfo *modinfo;
+ 
+     if (module_loaded_qom_all) {
+         return;
+     }
+-    for (i = 0; i < ARRAY_SIZE(qom_modules); i++) {
+-        if (i > 0 && (strcmp(qom_modules[i - 1].module,
+-                             qom_modules[i].module) == 0 &&
+-                      strcmp(qom_modules[i - 1].prefix,
+-                             qom_modules[i].prefix) == 0)) {
+-            /* one module implementing multiple types -> load only once */
++
++    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
++        if (!modinfo->objs) {
+             continue;
+         }
+-        module_load_one(qom_modules[i].prefix, qom_modules[i].module, true);
++        module_load_one("", modinfo->name, false);
+     }
+     module_loaded_qom_all = true;
+ }
++
++#else
++
++void module_load_qom_one(const char *type) {}
++void module_load_qom_all(void) {}
++
++#endif
 -- 
 2.31.1
 
