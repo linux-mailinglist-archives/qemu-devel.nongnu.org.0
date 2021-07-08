@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7D03BFAF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:02:11 +0200 (CEST)
-Received: from localhost ([::1]:37852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C05F33C13C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:04:38 +0200 (CEST)
+Received: from localhost ([::1]:45432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1TfO-0006wk-33
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
+	id 1m1Thl-0003fT-P3
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:04:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1m1TZK-0004Mq-UD; Thu, 08 Jul 2021 08:55:54 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2061)
+ id 1m1TZN-0004Yz-Vo; Thu, 08 Jul 2021 08:55:58 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1m1TZF-0005eF-8A; Thu, 08 Jul 2021 08:55:54 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GLGQt0pytzcb9f;
- Thu,  8 Jul 2021 20:52:22 +0800 (CST)
+ id 1m1TZF-0005Z3-AV; Thu, 08 Jul 2021 08:55:57 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GLGQT4mHkz77mk;
+ Thu,  8 Jul 2021 20:52:01 +0800 (CST)
 Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 8 Jul 2021 20:55:29 +0800
+ 15.1.2176.2; Thu, 8 Jul 2021 20:55:30 +0800
 Received: from huawei.com (10.174.185.226) by dggpemm500009.china.huawei.com
  (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 8 Jul 2021
- 20:55:28 +0800
+ 20:55:29 +0800
 From: Wang Xingang <wangxingang5@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
  <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
  <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
  <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-Subject: [PATCH v5 3/9] hw/arm/virt: Add default_bus_bypass_iommu machine
+Subject: [PATCH v5 4/9] hw/i386: Add a default_bus_bypass_iommu pc machine
  option
-Date: Thu, 8 Jul 2021 12:55:13 +0000
-Message-ID: <1625748919-52456-4-git-send-email-wangxingang5@huawei.com>
+Date: Thu, 8 Jul 2021 12:55:14 +0000
+Message-ID: <1625748919-52456-5-git-send-email-wangxingang5@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
 In-Reply-To: <1625748919-52456-1-git-send-email-wangxingang5@huawei.com>
 References: <1625748919-52456-1-git-send-email-wangxingang5@huawei.com>
@@ -72,87 +72,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-Add a default_bus_bypass_iommu machine option to enable/disable
-bypass_iommu for default root bus. The option is disabled by
-default and can be enabled with:
-$QEMU -machine virt,iommu=smmuv3,default_bus_bypass_iommu=true
+Add a default_bus_bypass_iommu pc machine option to enable/disable
+bypass_iommu for default root bus. The option is disabled by default
+and can be enabled with:
+$QEMU -machine q35,default_bus_bypass_iommu=true
 
 Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
 ---
- hw/arm/virt.c         | 26 ++++++++++++++++++++++++++
- include/hw/arm/virt.h |  1 +
- 2 files changed, 27 insertions(+)
+ hw/i386/pc.c         | 20 ++++++++++++++++++++
+ hw/pci-host/q35.c    |  2 ++
+ include/hw/i386/pc.h |  1 +
+ 3 files changed, 23 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 4b96f06014..a2805977b8 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1364,6 +1364,7 @@ static void create_pcie(VirtMachineState *vms)
-     }
- 
-     pci = PCI_HOST_BRIDGE(dev);
-+    pci->bypass_iommu = vms->default_bus_bypass_iommu;
-     vms->bus = pci->bus;
-     if (vms->bus) {
-         for (i = 0; i < nb_nics; i++) {
-@@ -2319,6 +2320,21 @@ static void virt_set_iommu(Object *obj, const char *value, Error **errp)
-     }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8e1220db72..257d70f6e9 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1522,6 +1522,21 @@ static void pc_machine_set_hpet(Object *obj, bool value, Error **errp)
+     pcms->hpet_enabled = value;
  }
  
-+static bool virt_get_default_bus_bypass_iommu(Object *obj, Error **errp)
++static bool pc_machine_get_default_bus_bypass_iommu(Object *obj, Error **errp)
 +{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
++    PCMachineState *pcms = PC_MACHINE(obj);
 +
-+    return vms->default_bus_bypass_iommu;
++    return pcms->default_bus_bypass_iommu;
 +}
 +
-+static void virt_set_default_bus_bypass_iommu(Object *obj, bool value,
-+                                              Error **errp)
++static void pc_machine_set_default_bus_bypass_iommu(Object *obj, bool value,
++                                                    Error **errp)
 +{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
++    PCMachineState *pcms = PC_MACHINE(obj);
 +
-+    vms->default_bus_bypass_iommu = value;
++    pcms->default_bus_bypass_iommu = value;
 +}
 +
- static CpuInstanceProperties
- virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
- {
-@@ -2658,6 +2674,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set the IOMMU type. "
-                                           "Valid values are none and smmuv3");
+ static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
+                                             const char *name, void *opaque,
+                                             Error **errp)
+@@ -1621,6 +1636,7 @@ static void pc_machine_initfn(Object *obj)
+ #ifdef CONFIG_HPET
+     pcms->hpet_enabled = true;
+ #endif
++    pcms->default_bus_bypass_iommu = false;
+ 
+     pc_system_flash_create(pcms);
+     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
+@@ -1745,6 +1761,10 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_add_bool(oc, "hpet",
+         pc_machine_get_hpet, pc_machine_set_hpet);
  
 +    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
-+                                   virt_get_default_bus_bypass_iommu,
-+                                   virt_set_default_bus_bypass_iommu);
-+    object_class_property_set_description(oc, "default_bus_bypass_iommu",
-+                                          "Set on/off to enable/disable "
-+                                          "bypass_iommu for default root bus");
++        pc_machine_get_default_bus_bypass_iommu,
++        pc_machine_set_default_bus_bypass_iommu);
 +
-     object_class_property_add_bool(oc, "ras", virt_get_ras,
-                                    virt_set_ras);
-     object_class_property_set_description(oc, "ras",
-@@ -2725,6 +2748,9 @@ static void virt_instance_init(Object *obj)
-     /* Default disallows iommu instantiation */
-     vms->iommu = VIRT_IOMMU_NONE;
+     object_class_property_add(oc, PC_MACHINE_MAX_FW_SIZE, "size",
+         pc_machine_get_max_fw_size, pc_machine_set_max_fw_size,
+         NULL, NULL);
+diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
+index 2eb729dff5..826a05d7f3 100644
+--- a/hw/pci-host/q35.c
++++ b/hw/pci-host/q35.c
+@@ -64,6 +64,8 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
+                                 s->mch.address_space_io,
+                                 0, TYPE_PCIE_BUS);
+     PC_MACHINE(qdev_get_machine())->bus = pci->bus;
++    pci->bypass_iommu =
++        PC_MACHINE(qdev_get_machine())->default_bus_bypass_iommu;
+     qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
+ }
  
-+    /* The default root bus is attached to iommu by default */
-+    vms->default_bus_bypass_iommu = false;
-+
-     /* Default disallows RAS instantiation */
-     vms->ras = false;
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 921416f918..9661c46699 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -147,6 +147,7 @@ struct VirtMachineState {
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 87294f2632..fd741119fa 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -44,6 +44,7 @@ typedef struct PCMachineState {
+     bool sata_enabled;
+     bool pit_enabled;
+     bool hpet_enabled;
 +    bool default_bus_bypass_iommu;
-     VirtMSIControllerType msi_controller;
-     uint16_t virtio_iommu_bdf;
-     struct arm_boot_info bootinfo;
+     uint64_t max_fw_size;
+ 
+     /* NUMA information: */
 -- 
 2.19.1
 
