@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9273C1A61
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:09:48 +0200 (CEST)
-Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56A913C1A60
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:09:47 +0200 (CEST)
+Received: from localhost ([::1]:57858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1aLD-0004rD-DD
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:09:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
+	id 1m1aLC-0004ug-9q
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a8C-00045P-Ps
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37639)
+ id 1m1a8V-0004ZZ-A1
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a89-0001vL-GY
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:20 -0400
+ id 1m1a8R-00021R-Gv
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625774176;
+ s=mimecast20190719; t=1625774194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lBSULUz1+RQHbXI5kG1L1PeDUwLAxmpkuO1WbEIfgcs=;
- b=eAC5zch0SozcdkuEhDyKi+er942UfbAM18LM0wa8TjD0aCa9SqIrfQNzTCJbdHv8lmXjig
- VKEZqGYrUfp4Mu7jah5LwKfFwnaTBBtVGnFJ1QRi3kZPYSOdaBuEaIBltI7Ztqjxby7M5I
- 7zhYBSij0aRei8Wq5q09s+o6aGwfmlk=
+ bh=4N9OhEuNZmqUpxvOBtHZpJkVULFHUhi9PPV/t7sKG0w=;
+ b=eKiz/S8d5vJUb+86EFJfSH+uYa4cil9khckMWVo7CNZBjsXWcIPVc5A62qZbBorSAWQgzZ
+ h3oUhuWbgeJqY1/I/l8GL2hO68C+pO48vB3Pi56R9jXhboyLl8ZobzvdQoe9o8DyJjaSe7
+ PMtzMbMiuE5axlyAIjvOvrzZWU9k/Us=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-HYo-TOdROxSzJWCgzDX5nw-1; Thu, 08 Jul 2021 15:56:15 -0400
-X-MC-Unique: HYo-TOdROxSzJWCgzDX5nw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-480-F7nFrJuNOtOIUMkhyiBfQQ-1; Thu, 08 Jul 2021 15:56:33 -0400
+X-MC-Unique: F7nFrJuNOtOIUMkhyiBfQQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E960100C609;
- Thu,  8 Jul 2021 19:56:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DF5E11DCE;
+ Thu,  8 Jul 2021 19:56:32 +0000 (UTC)
 Received: from localhost (unknown [10.22.8.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DFD7C60854;
- Thu,  8 Jul 2021 19:55:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBC1B5D9FC;
+ Thu,  8 Jul 2021 19:56:14 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 03/15] memory: Introduce RamDiscardManager for RAM memory
- regions
-Date: Thu,  8 Jul 2021 15:55:40 -0400
-Message-Id: <20210708195552.2730970-4-ehabkost@redhat.com>
+Subject: [PULL v2 04/15] memory: Helpers to copy/free a MemoryRegionSection
+Date: Thu,  8 Jul 2021 15:55:41 -0400
+Message-Id: <20210708195552.2730970-5-ehabkost@redhat.com>
 In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
 References: <20210708195552.2730970-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,12 +80,11 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  David Hildenbrand <david@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
  teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
  Wei Yang <richard.weiyang@linux.alibaba.com>
@@ -95,38 +93,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We have some special RAM memory regions (managed by virtio-mem), whereby
-the guest agreed to only use selected memory ranges. "unused" parts are
-discarded so they won't consume memory - to logically unplug these memory
-ranges. Before the VM is allowed to use such logically unplugged memory
-again, coordination with the hypervisor is required.
+In case one wants to create a permanent copy of a MemoryRegionSections,
+one needs access to flatview_ref()/flatview_unref(). Instead of exposing
+these, let's just add helpers to copy/free a MemoryRegionSection and
+properly adjust references.
 
-This results in "sparse" mmaps/RAMBlocks/memory regions, whereby only
-coordinated parts are valid to be used/accessed by the VM.
-
-In most cases, we don't care about that - e.g., in KVM, we simply have a
-single KVM memory slot. However, in case of vfio, registering the
-whole region with the kernel results in all pages getting pinned, and
-therefore an unexpected high memory consumption - discarding of RAM in
-that context is broken.
-
-Let's introduce a way to coordinate discarding/populating memory within a
-RAM memory region with such special consumers of RAM memory regions: they
-can register as listeners and get updates on memory getting discarded and
-populated. Using this machinery, vfio will be able to map only the
-currently populated parts, resulting in discarded parts not getting pinned
-and not consuming memory.
-
-A RamDiscardManager has to be set for a memory region before it is getting
-mapped, and cannot change while the memory region is mapped.
-
-Note: At some point, we might want to let RAMBlock users (esp. vfio used
-for nvme://) consume this interface as well. We'll need RAMBlock notifier
-calls when a RAMBlock is getting mapped/unmapped (via the corresponding
-memory region), so we can properly register a listener there as well.
-
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Alex Williamson <alex.williamson@redhat.com>
@@ -139,438 +110,82 @@ Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
 Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210413095531.25603-2-david@redhat.com>
+Message-Id: <20210413095531.25603-3-david@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/exec/memory.h | 286 ++++++++++++++++++++++++++++++++++++++----
- softmmu/memory.c      |  71 +++++++++++
- 2 files changed, 335 insertions(+), 22 deletions(-)
+ include/exec/memory.h | 20 ++++++++++++++++++++
+ softmmu/memory.c      | 27 +++++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index b116f7c64ed..6574e46b932 100644
+index 6574e46b932..27a8833173b 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -42,6 +42,12 @@ typedef struct IOMMUMemoryRegionClass IOMMUMemoryRegionClass;
- DECLARE_OBJ_CHECKERS(IOMMUMemoryRegion, IOMMUMemoryRegionClass,
-                      IOMMU_MEMORY_REGION, TYPE_IOMMU_MEMORY_REGION)
- 
-+#define TYPE_RAM_DISCARD_MANAGER "qemu:ram-discard-manager"
-+typedef struct RamDiscardManagerClass RamDiscardManagerClass;
-+typedef struct RamDiscardManager RamDiscardManager;
-+DECLARE_OBJ_CHECKERS(RamDiscardManager, RamDiscardManagerClass,
-+                     RAM_DISCARD_MANAGER, TYPE_RAM_DISCARD_MANAGER);
-+
- #ifdef CONFIG_FUZZ
- void fuzz_dma_read_cb(size_t addr,
-                       size_t len,
-@@ -65,6 +71,28 @@ struct ReservedRegion {
-     unsigned type;
- };
+@@ -1066,6 +1066,26 @@ static inline bool MemoryRegionSection_eq(MemoryRegionSection *a,
+            a->nonvolatile == b->nonvolatile;
+ }
  
 +/**
-+ * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
++ * memory_region_section_new_copy: Copy a memory region section
 + *
-+ * @mr: the region, or %NULL if empty
-+ * @fv: the flat view of the address space the region is mapped in
-+ * @offset_within_region: the beginning of the section, relative to @mr's start
-+ * @size: the size of the section; will not exceed @mr's boundaries
-+ * @offset_within_address_space: the address of the first byte of the section
-+ *     relative to the region's address space
-+ * @readonly: writes to this section are ignored
-+ * @nonvolatile: this section is non-volatile
++ * Allocate memory for a new copy, copy the memory region section, and
++ * properly take a reference on all relevant members.
++ *
++ * @s: the #MemoryRegionSection to copy
 + */
-+struct MemoryRegionSection {
-+    Int128 size;
-+    MemoryRegion *mr;
-+    FlatView *fv;
-+    hwaddr offset_within_region;
-+    hwaddr offset_within_address_space;
-+    bool readonly;
-+    bool nonvolatile;
-+};
-+
- typedef struct IOMMUTLBEntry IOMMUTLBEntry;
- 
- /* See address_space_translate: bit 0 is read, bit 1 is write.  */
-@@ -448,6 +476,206 @@ struct IOMMUMemoryRegionClass {
-                                      Error **errp);
- };
- 
-+typedef struct RamDiscardListener RamDiscardListener;
-+typedef int (*NotifyRamPopulate)(RamDiscardListener *rdl,
-+                                 MemoryRegionSection *section);
-+typedef void (*NotifyRamDiscard)(RamDiscardListener *rdl,
-+                                 MemoryRegionSection *section);
-+
-+struct RamDiscardListener {
-+    /*
-+     * @notify_populate:
-+     *
-+     * Notification that previously discarded memory is about to get populated.
-+     * Listeners are able to object. If any listener objects, already
-+     * successfully notified listeners are notified about a discard again.
-+     *
-+     * @rdl: the #RamDiscardListener getting notified
-+     * @section: the #MemoryRegionSection to get populated. The section
-+     *           is aligned within the memory region to the minimum granularity
-+     *           unless it would exceed the registered section.
-+     *
-+     * Returns 0 on success. If the notification is rejected by the listener,
-+     * an error is returned.
-+     */
-+    NotifyRamPopulate notify_populate;
-+
-+    /*
-+     * @notify_discard:
-+     *
-+     * Notification that previously populated memory was discarded successfully
-+     * and listeners should drop all references to such memory and prevent
-+     * new population (e.g., unmap).
-+     *
-+     * @rdl: the #RamDiscardListener getting notified
-+     * @section: the #MemoryRegionSection to get populated. The section
-+     *           is aligned within the memory region to the minimum granularity
-+     *           unless it would exceed the registered section.
-+     */
-+    NotifyRamDiscard notify_discard;
-+
-+    /*
-+     * @double_discard_supported:
-+     *
-+     * The listener suppors getting @notify_discard notifications that span
-+     * already discarded parts.
-+     */
-+    bool double_discard_supported;
-+
-+    MemoryRegionSection *section;
-+    QLIST_ENTRY(RamDiscardListener) next;
-+};
-+
-+static inline void ram_discard_listener_init(RamDiscardListener *rdl,
-+                                             NotifyRamPopulate populate_fn,
-+                                             NotifyRamDiscard discard_fn,
-+                                             bool double_discard_supported)
-+{
-+    rdl->notify_populate = populate_fn;
-+    rdl->notify_discard = discard_fn;
-+    rdl->double_discard_supported = double_discard_supported;
-+}
-+
-+typedef int (*ReplayRamPopulate)(MemoryRegionSection *section, void *opaque);
-+
-+/*
-+ * RamDiscardManagerClass:
-+ *
-+ * A #RamDiscardManager coordinates which parts of specific RAM #MemoryRegion
-+ * regions are currently populated to be used/accessed by the VM, notifying
-+ * after parts were discarded (freeing up memory) and before parts will be
-+ * populated (consuming memory), to be used/acessed by the VM.
-+ *
-+ * A #RamDiscardManager can only be set for a RAM #MemoryRegion while the
-+ * #MemoryRegion isn't mapped yet; it cannot change while the #MemoryRegion is
-+ * mapped.
-+ *
-+ * The #RamDiscardManager is intended to be used by technologies that are
-+ * incompatible with discarding of RAM (e.g., VFIO, which may pin all
-+ * memory inside a #MemoryRegion), and require proper coordination to only
-+ * map the currently populated parts, to hinder parts that are expected to
-+ * remain discarded from silently getting populated and consuming memory.
-+ * Technologies that support discarding of RAM don't have to bother and can
-+ * simply map the whole #MemoryRegion.
-+ *
-+ * An example #RamDiscardManager is virtio-mem, which logically (un)plugs
-+ * memory within an assigned RAM #MemoryRegion, coordinated with the VM.
-+ * Logically unplugging memory consists of discarding RAM. The VM agreed to not
-+ * access unplugged (discarded) memory - especially via DMA. virtio-mem will
-+ * properly coordinate with listeners before memory is plugged (populated),
-+ * and after memory is unplugged (discarded).
-+ *
-+ * Listeners are called in multiples of the minimum granularity (unless it
-+ * would exceed the registered range) and changes are aligned to the minimum
-+ * granularity within the #MemoryRegion. Listeners have to prepare for memory
-+ * becomming discarded in a different granularity than it was populated and the
-+ * other way around.
-+ */
-+struct RamDiscardManagerClass {
-+    /* private */
-+    InterfaceClass parent_class;
-+
-+    /* public */
-+
-+    /**
-+     * @get_min_granularity:
-+     *
-+     * Get the minimum granularity in which listeners will get notified
-+     * about changes within the #MemoryRegion via the #RamDiscardManager.
-+     *
-+     * @rdm: the #RamDiscardManager
-+     * @mr: the #MemoryRegion
-+     *
-+     * Returns the minimum granularity.
-+     */
-+    uint64_t (*get_min_granularity)(const RamDiscardManager *rdm,
-+                                    const MemoryRegion *mr);
-+
-+    /**
-+     * @is_populated:
-+     *
-+     * Check whether the given #MemoryRegionSection is completely populated
-+     * (i.e., no parts are currently discarded) via the #RamDiscardManager.
-+     * There are no alignment requirements.
-+     *
-+     * @rdm: the #RamDiscardManager
-+     * @section: the #MemoryRegionSection
-+     *
-+     * Returns whether the given range is completely populated.
-+     */
-+    bool (*is_populated)(const RamDiscardManager *rdm,
-+                         const MemoryRegionSection *section);
-+
-+    /**
-+     * @replay_populated:
-+     *
-+     * Call the #ReplayRamPopulate callback for all populated parts within the
-+     * #MemoryRegionSection via the #RamDiscardManager.
-+     *
-+     * In case any call fails, no further calls are made.
-+     *
-+     * @rdm: the #RamDiscardManager
-+     * @section: the #MemoryRegionSection
-+     * @replay_fn: the #ReplayRamPopulate callback
-+     * @opaque: pointer to forward to the callback
-+     *
-+     * Returns 0 on success, or a negative error if any notification failed.
-+     */
-+    int (*replay_populated)(const RamDiscardManager *rdm,
-+                            MemoryRegionSection *section,
-+                            ReplayRamPopulate replay_fn, void *opaque);
-+
-+    /**
-+     * @register_listener:
-+     *
-+     * Register a #RamDiscardListener for the given #MemoryRegionSection and
-+     * immediately notify the #RamDiscardListener about all populated parts
-+     * within the #MemoryRegionSection via the #RamDiscardManager.
-+     *
-+     * In case any notification fails, no further notifications are triggered
-+     * and an error is logged.
-+     *
-+     * @rdm: the #RamDiscardManager
-+     * @rdl: the #RamDiscardListener
-+     * @section: the #MemoryRegionSection
-+     */
-+    void (*register_listener)(RamDiscardManager *rdm,
-+                              RamDiscardListener *rdl,
-+                              MemoryRegionSection *section);
-+
-+    /**
-+     * @unregister_listener:
-+     *
-+     * Unregister a previously registered #RamDiscardListener via the
-+     * #RamDiscardManager after notifying the #RamDiscardListener about all
-+     * populated parts becoming unpopulated within the registered
-+     * #MemoryRegionSection.
-+     *
-+     * @rdm: the #RamDiscardManager
-+     * @rdl: the #RamDiscardListener
-+     */
-+    void (*unregister_listener)(RamDiscardManager *rdm,
-+                                RamDiscardListener *rdl);
-+};
-+
-+uint64_t ram_discard_manager_get_min_granularity(const RamDiscardManager *rdm,
-+                                                 const MemoryRegion *mr);
-+
-+bool ram_discard_manager_is_populated(const RamDiscardManager *rdm,
-+                                      const MemoryRegionSection *section);
-+
-+int ram_discard_manager_replay_populated(const RamDiscardManager *rdm,
-+                                         MemoryRegionSection *section,
-+                                         ReplayRamPopulate replay_fn,
-+                                         void *opaque);
-+
-+void ram_discard_manager_register_listener(RamDiscardManager *rdm,
-+                                           RamDiscardListener *rdl,
-+                                           MemoryRegionSection *section);
-+
-+void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
-+                                             RamDiscardListener *rdl);
-+
- typedef struct CoalescedMemoryRange CoalescedMemoryRange;
- typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
- 
-@@ -494,6 +722,7 @@ struct MemoryRegion {
-     const char *name;
-     unsigned ioeventfd_nb;
-     MemoryRegionIoeventfd *ioeventfds;
-+    RamDiscardManager *rdm; /* Only for RAM */
- };
- 
- struct IOMMUMemoryRegion {
-@@ -825,28 +1054,6 @@ typedef bool (*flatview_cb)(Int128 start,
-  */
- void flatview_for_each_range(FlatView *fv, flatview_cb cb, void *opaque);
- 
--/**
-- * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
-- *
-- * @mr: the region, or %NULL if empty
-- * @fv: the flat view of the address space the region is mapped in
-- * @offset_within_region: the beginning of the section, relative to @mr's start
-- * @size: the size of the section; will not exceed @mr's boundaries
-- * @offset_within_address_space: the address of the first byte of the section
-- *     relative to the region's address space
-- * @readonly: writes to this section are ignored
-- * @nonvolatile: this section is non-volatile
-- */
--struct MemoryRegionSection {
--    Int128 size;
--    MemoryRegion *mr;
--    FlatView *fv;
--    hwaddr offset_within_region;
--    hwaddr offset_within_address_space;
--    bool readonly;
--    bool nonvolatile;
--};
--
- static inline bool MemoryRegionSection_eq(MemoryRegionSection *a,
-                                           MemoryRegionSection *b)
- {
-@@ -2023,6 +2230,41 @@ bool memory_region_present(MemoryRegion *container, hwaddr addr);
-  */
- bool memory_region_is_mapped(MemoryRegion *mr);
- 
-+/**
-+ * memory_region_get_ram_discard_manager: get the #RamDiscardManager for a
-+ * #MemoryRegion
-+ *
-+ * The #RamDiscardManager cannot change while a memory region is mapped.
-+ *
-+ * @mr: the #MemoryRegion
-+ */
-+RamDiscardManager *memory_region_get_ram_discard_manager(MemoryRegion *mr);
++MemoryRegionSection *memory_region_section_new_copy(MemoryRegionSection *s);
 +
 +/**
-+ * memory_region_has_ram_discard_manager: check whether a #MemoryRegion has a
-+ * #RamDiscardManager assigned
++ * memory_region_section_new_copy: Free a copied memory region section
 + *
-+ * @mr: the #MemoryRegion
++ * Free a copy of a memory section created via memory_region_section_new_copy().
++ * properly dropping references on all relevant members.
++ *
++ * @s: the #MemoryRegionSection to copy
 + */
-+static inline bool memory_region_has_ram_discard_manager(MemoryRegion *mr)
-+{
-+    return !!memory_region_get_ram_discard_manager(mr);
-+}
-+
-+/**
-+ * memory_region_set_ram_discard_manager: set the #RamDiscardManager for a
-+ * #MemoryRegion
-+ *
-+ * This function must not be called for a mapped #MemoryRegion, a #MemoryRegion
-+ * that does not cover RAM, or a #MemoryRegion that already has a
-+ * #RamDiscardManager assigned.
-+ *
-+ * @mr: the #MemoryRegion
-+ * @rdm: #RamDiscardManager to set
-+ */
-+void memory_region_set_ram_discard_manager(MemoryRegion *mr,
-+                                           RamDiscardManager *rdm);
++void memory_region_section_free_copy(MemoryRegionSection *s);
 +
  /**
-  * memory_region_find: translate an address/size relative to a
-  * MemoryRegion into a #MemoryRegionSection.
+  * memory_region_init: Initialize a memory region
+  *
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index f0161515e96..d20a9dec44e 100644
+index d20a9dec44e..cea2f622c96 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -2027,6 +2027,70 @@ int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr)
-     return imrc->num_indexes(iommu_mr);
+@@ -2701,6 +2701,33 @@ MemoryRegionSection memory_region_find(MemoryRegion *mr,
+     return ret;
  }
  
-+RamDiscardManager *memory_region_get_ram_discard_manager(MemoryRegion *mr)
++MemoryRegionSection *memory_region_section_new_copy(MemoryRegionSection *s)
 +{
-+    if (!memory_region_is_mapped(mr) || !memory_region_is_ram(mr)) {
-+        return NULL;
++    MemoryRegionSection *tmp = g_new(MemoryRegionSection, 1);
++
++    *tmp = *s;
++    if (tmp->mr) {
++        memory_region_ref(tmp->mr);
 +    }
-+    return mr->rdm;
++    if (tmp->fv) {
++        bool ret  = flatview_ref(tmp->fv);
++
++        g_assert(ret);
++    }
++    return tmp;
 +}
 +
-+void memory_region_set_ram_discard_manager(MemoryRegion *mr,
-+                                           RamDiscardManager *rdm)
++void memory_region_section_free_copy(MemoryRegionSection *s)
 +{
-+    g_assert(memory_region_is_ram(mr) && !memory_region_is_mapped(mr));
-+    g_assert(!rdm || !mr->rdm);
-+    mr->rdm = rdm;
++    if (s->fv) {
++        flatview_unref(s->fv);
++    }
++    if (s->mr) {
++        memory_region_unref(s->mr);
++    }
++    g_free(s);
 +}
 +
-+uint64_t ram_discard_manager_get_min_granularity(const RamDiscardManager *rdm,
-+                                                 const MemoryRegion *mr)
-+{
-+    RamDiscardManagerClass *rdmc = RAM_DISCARD_MANAGER_GET_CLASS(rdm);
-+
-+    g_assert(rdmc->get_min_granularity);
-+    return rdmc->get_min_granularity(rdm, mr);
-+}
-+
-+bool ram_discard_manager_is_populated(const RamDiscardManager *rdm,
-+                                      const MemoryRegionSection *section)
-+{
-+    RamDiscardManagerClass *rdmc = RAM_DISCARD_MANAGER_GET_CLASS(rdm);
-+
-+    g_assert(rdmc->is_populated);
-+    return rdmc->is_populated(rdm, section);
-+}
-+
-+int ram_discard_manager_replay_populated(const RamDiscardManager *rdm,
-+                                         MemoryRegionSection *section,
-+                                         ReplayRamPopulate replay_fn,
-+                                         void *opaque)
-+{
-+    RamDiscardManagerClass *rdmc = RAM_DISCARD_MANAGER_GET_CLASS(rdm);
-+
-+    g_assert(rdmc->replay_populated);
-+    return rdmc->replay_populated(rdm, section, replay_fn, opaque);
-+}
-+
-+void ram_discard_manager_register_listener(RamDiscardManager *rdm,
-+                                           RamDiscardListener *rdl,
-+                                           MemoryRegionSection *section)
-+{
-+    RamDiscardManagerClass *rdmc = RAM_DISCARD_MANAGER_GET_CLASS(rdm);
-+
-+    g_assert(rdmc->register_listener);
-+    rdmc->register_listener(rdm, rdl, section);
-+}
-+
-+void ram_discard_manager_unregister_listener(RamDiscardManager *rdm,
-+                                             RamDiscardListener *rdl)
-+{
-+    RamDiscardManagerClass *rdmc = RAM_DISCARD_MANAGER_GET_CLASS(rdm);
-+
-+    g_assert(rdmc->unregister_listener);
-+    rdmc->unregister_listener(rdm, rdl);
-+}
-+
- void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+ bool memory_region_present(MemoryRegion *container, hwaddr addr)
  {
-     uint8_t mask = 1 << client;
-@@ -3320,10 +3384,17 @@ static const TypeInfo iommu_memory_region_info = {
-     .abstract           = true,
- };
- 
-+static const TypeInfo ram_discard_manager_info = {
-+    .parent             = TYPE_INTERFACE,
-+    .name               = TYPE_RAM_DISCARD_MANAGER,
-+    .class_size         = sizeof(RamDiscardManagerClass),
-+};
-+
- static void memory_register_types(void)
- {
-     type_register_static(&memory_region_info);
-     type_register_static(&iommu_memory_region_info);
-+    type_register_static(&ram_discard_manager_info);
- }
- 
- type_init(memory_register_types)
+     MemoryRegion *mr;
 -- 
 2.31.1
 
