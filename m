@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EA5B3BF506
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 07:21:03 +0200 (CEST)
-Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A57D3BF539
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 07:39:46 +0200 (CEST)
+Received: from localhost ([::1]:40966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1MT7-0006AI-RL
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 01:21:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42906)
+	id 1m1MlE-0001r6-Ox
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 01:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m1MOk-0005D4-Br; Thu, 08 Jul 2021 01:16:30 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:55449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m1MOg-0002O8-RH; Thu, 08 Jul 2021 01:16:30 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 0524832003F4;
- Thu,  8 Jul 2021 01:16:19 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 08 Jul 2021 01:16:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=rJAXgjHRQhCmTkleK7X6NWh9Xx1
- TqQCo6AkXb4utw4k=; b=P5wSQdbP0rAGTHX2OV0J5T6i6OpFifF0JvHS6of59tW
- akoX9p2zErvOWcAbV175VjexPKszonaiGvqHlneS0q4RnqKsr2+VaJ2nwVIWbs6S
- NquxKQl52khOzENkoevzdIUFlQfTL2uwr9YKZ0Vy9ehWJ5jl6IFWA22AF1Xrr+wx
- 9r+Q/sI/kyUE7f5dv/zNdxH0eKQ8yTEIOxoKaI1cURRFhCvTdXLSGL337O8qE6D8
- uMUzONTkgHULwhPBd2RDLeNfiXi41ZXWZjsLpG0okgpb9MgHKZbwXFk7/gdsb6aP
- WAg3Ld3cPSY3jFQQgA2fJmC95kJQ5oXMirGrsE0xA+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rJAXgj
- HRQhCmTkleK7X6NWh9Xx1TqQCo6AkXb4utw4k=; b=DvIrWSjEpJWyi0fCavDivr
- gq+MqFxhJuGxb4gjJlPZ/mIvwSdsk9L/Gl9juwhV/iXIGUXTaR8GgJObY45dCYQt
- nG4//CyeNAGrmuTi8FapKYD258Jk2RHbD9jVYJ+ClkZUYN9saA/R85g65T4UxXHm
- tBWD/fiBygl8ndHim1G6siSadesvJJIqzdHU9szMaQIwQ25CRhfwd2C5g8k/DlKP
- y8+X/mkxMxB72AsF1PR37Xya0xwcAZ5fZ3dfcKylynqMX6CmcHM/RF/e/Sm6no3W
- sdlPyKuuaywFAOaJH2+7U7aD3ePiqxy5RnHGWIbq3TCscHSfBASV5UwnnFCDL4oA
- ==
-X-ME-Sender: <xms:I4rmYFXoAwRGKP-6_jdgqT8-tnCURkr1Vv6hV4eGWaFN4RZDvhlEHA>
- <xme:I4rmYFlmuGT54AyXrb28pbWCilQQ-hs3uAaglIxjZWWwoe_pa1Iq0YqA5BTDxgdkF
- BTNrTfpoihRKLZkK4M>
-X-ME-Received: <xmr:I4rmYBbi4w3q0CvR_6QLygOM0Am2z4mI04peVErLCJ-eJJkGqkKEx1vNO8wxwnDE7HSK2oEbFjhYC31fjTreSFivIza0yWx6Avd7Ym8YqS2CXLhT_Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdefgdejlecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:I4rmYIVzUmyrSE6A5FH8QeiJsUlAfwyRZ8queqVlE9alxLOBSw1AEQ>
- <xmx:I4rmYPlxxEN_zaSmk5vk_v9nEQ6UaZ_L84Aqry7eXHQ6Ui28FlS2tA>
- <xmx:I4rmYFfZfNnyCmuLibhxyWv04v3bNEQAMcFhkmQy2xXXbSNkF30qqw>
- <xmx:I4rmYICVIu3c_zYrQ9ocm-AJm3MmbAsklF284qV4Vhd37h_ZajleJw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Jul 2021 01:16:18 -0400 (EDT)
-Date: Thu, 8 Jul 2021 07:16:15 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Hannes Reinecke <hare@suse.de>
-Subject: Re: [PATCH v2 4/4] hw/nvme: fix controller hot unplugging
-Message-ID: <YOaKH5twxHBM/OLj@apples.localdomain>
-References: <20210707154936.200166-1-its@irrelevant.dk>
- <20210707154936.200166-5-its@irrelevant.dk>
- <375ea826-589f-2a18-ea0b-e3ec672a9916@suse.de>
- <YOXcv+f/D/BYM77E@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1Mjf-0001AW-Dq
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 01:38:07 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:39477)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1Mjc-0000mi-0h
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 01:38:07 -0400
+Received: by mail-oi1-x236.google.com with SMTP id b2so6470844oiy.6
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 22:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xjw2k1ABWJdaKjNmOkqk7x0YEyOOnm9iGe1LGaslSY0=;
+ b=A5ZuhJL5fA3H+hW6CebLU9jeu0orEcmkghMGuERIFX/NRG4BSfI/3nrM6QVmfeGOOA
+ 8PxjVomzip6pD6ppNb7gDJN4DQson5WEO3mFpAyOennja3Km7WsoReOoalnCFa+B08eW
+ hv5kjNdC+ZecSnYsb7F4EHAcgRvs6hXBh+uEryx5cA0rA0qMlS1aGY0NDGh41YxkQZ3D
+ Gx3ZBfUgdL92onZmJUlhEqC2jdLUHsXN2kC/b9CEtLCzI+PIrIxiJeoFxF3oJvqQJqZ7
+ MHD/0vbk/YWnrBntHlrThg6dklhZpSt2Y3c8amGPJB7vKqWQfOYkVR9jGHBNYa3XS3Ah
+ QZgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xjw2k1ABWJdaKjNmOkqk7x0YEyOOnm9iGe1LGaslSY0=;
+ b=RH21N0QJ1O0IxxTvsdmyyXt/7OWM2eMkgrfib4cPVRr+s1xE9W+K60pz1BS4WpQo5/
+ MseQyFLCeBma2rWtBUw0D7GjXuOOS4L9o3YiyYi21tWOzmKllQtgnhuBZXScQKcu3u+f
+ 5uL1YGpEFw/LEfhJ36xgy+0stcj3xMDN1YMNfcufGWRevbwI05wXp6uIGVgkLH+lfmFZ
+ Qp5AChFSxkfPrwXKcPvF38bpAs0XqCa3WH8FTxT4MiZrS+umN0peucFEkHA191d+2Da+
+ HhRbqHkpHo1khmF8lssUJqr8AjwiYuxs4JMlBw82hAfx67mlMYPzH9znhQMjc/MR4lIw
+ Ozbg==
+X-Gm-Message-State: AOAM530CBfbqW0bZMYziNRYJw2kZDCrtZu/TFS+o9HuBFnYsw4NYseLO
+ U+ejmUTC+OGkCp58CF6qnh95zmeNz6gjiA99W1A=
+X-Google-Smtp-Source: ABdhPJw27iKSAfnccF0U2DBDFUtXz1o60qg3BzgPYpHmAkXPI2H88wa6MEaaSzHkywAEIuPzjnp7+eGzItRGiFPrv3w=
+X-Received: by 2002:a54:4e87:: with SMTP id c7mr21397518oiy.143.1625722681971; 
+ Wed, 07 Jul 2021 22:38:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/yTWJCWq18vyuy2p"
-Content-Disposition: inline
-In-Reply-To: <YOXcv+f/D/BYM77E@apples.localdomain>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <797ADA26-0366-447F-85F0-5E27DC534479@gmail.com>
+In-Reply-To: <797ADA26-0366-447F-85F0-5E27DC534479@gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Thu, 8 Jul 2021 14:37:51 +0900
+Message-ID: <CAMVc7JXgn5ttSEjPB_=rS9CsYiQOFS48hcAbr3NQnom-qk75VA@mail.gmail.com>
+Subject: Re: Picture missing in About dialog on cocoa ui
+To: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,173 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
---/yTWJCWq18vyuy2p
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My installation correctly shows the picture. Please make sure you
+install it and run the installed binary (not the binary located in the
+build directory). The new code should work reliably once you install
+it while the old code may or may not work depending on how you execute
+the binary.
 
-On Jul  7 18:56, Klaus Jensen wrote:
->On Jul  7 17:57, Hannes Reinecke wrote:
->>On 7/7/21 5:49 PM, Klaus Jensen wrote:
->>>From: Klaus Jensen <k.jensen@samsung.com>
->>>
->>>Prior to this patch the nvme-ns devices are always children of the
->>>NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
->>>unrealized when the parent device is removed. However, when subsystems
->>>are involved, this is not what we want since the namespaces may be
->>>attached to other controllers as well.
->>>
->>>This patch adds an additional NvmeBus on the subsystem device. When
->>>nvme-ns devices are realized, if the parent controller device is linked
->>>to a subsystem, the parent bus is set to the subsystem one instead. This
->>>makes sure that namespaces are kept alive and not unrealized.
->>>
->>>Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->>>---
->>> hw/nvme/nvme.h   | 15 ++++++++-------
->>> hw/nvme/ctrl.c   | 14 ++++++--------
->>> hw/nvme/ns.c     | 18 ++++++++++++++++++
->>> hw/nvme/subsys.c |  3 +++
->>> 4 files changed, 35 insertions(+), 15 deletions(-)
->>>
->>>diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
->>>index c4065467d877..83ffabade4cf 100644
->>>--- a/hw/nvme/nvme.h
->>>+++ b/hw/nvme/nvme.h
->>>@@ -33,12 +33,20 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES > NVME_NSID_BR=
-OADCAST - 1);
->>> typedef struct NvmeCtrl NvmeCtrl;
->>> typedef struct NvmeNamespace NvmeNamespace;
->>>+#define TYPE_NVME_BUS "nvme-bus"
->>>+OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
->>>+
->>>+typedef struct NvmeBus {
->>>+    BusState parent_bus;
->>>+} NvmeBus;
->>>+
->>> #define TYPE_NVME_SUBSYS "nvme-subsys"
->>> #define NVME_SUBSYS(obj) \
->>>     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
->>> typedef struct NvmeSubsystem {
->>>     DeviceState parent_obj;
->>>+    NvmeBus     bus;
->>>     uint8_t     subnqn[256];
->>>     NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
->>>@@ -365,13 +373,6 @@ typedef struct NvmeCQueue {
->>>     QTAILQ_HEAD(, NvmeRequest) req_list;
->>> } NvmeCQueue;
->>>-#define TYPE_NVME_BUS "nvme-bus"
->>>-#define NVME_BUS(obj) OBJECT_CHECK(NvmeBus, (obj), TYPE_NVME_BUS)
->>>-
->>>-typedef struct NvmeBus {
->>>-    BusState parent_bus;
->>>-} NvmeBus;
->>>-
->>> #define TYPE_NVME "nvme"
->>> #define NVME(obj) \
->>>         OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
->>>diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->>>index 90e3ee2b70ee..9a3b3a27c293 100644
->>>--- a/hw/nvme/ctrl.c
->>>+++ b/hw/nvme/ctrl.c
->>>@@ -6514,16 +6514,14 @@ static void nvme_exit(PCIDevice *pci_dev)
->>>     nvme_ctrl_reset(n);
->>>-    for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
->>>-        ns =3D nvme_ns(n, i);
->>>-        if (!ns) {
->>>-            continue;
->>>+    if (n->subsys) {
->>>+        for (i =3D 1; i <=3D NVME_MAX_NAMESPACES; i++) {
->>>+            ns =3D nvme_ns(n, i);
->>>+            if (ns) {
->>>+                ns->attached--;
->>>+            }
->>>         }
->>>-        nvme_ns_cleanup(ns);
->>
->>So who is removing the namespaces, then?
->>I would have expected some cleanup action from the subsystem, seeing=20
->>that we reparent to that ...
->>
+Regards,
+Akihiko Odaki
+
+On Thu, Jul 8, 2021 at 2:00 AM Programmingkid <programmingkidx@gmail.com> w=
+rote:
 >
->Since we "move" the namespaces to the subsystem, and since the=20
->subsystem is non-hotpluggable, they will (and can) not be removed. In=20
->the case that there is no subsystem, nvme_ns_unrealize() will be=20
->called for each child namespace on the controller NvmeBus.
->
->>>-    }
->>>-
->>>-    if (n->subsys) {
->>>         nvme_subsys_unregister_ctrl(n->subsys, n);
->>>     }
->>>diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
->>>index 3c4f5b8c714a..b7cf1494e75b 100644
->>>--- a/hw/nvme/ns.c
->>>+++ b/hw/nvme/ns.c
->>>@@ -441,6 +441,15 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
->>>     }
->>> }
->>>+static void nvme_ns_unrealize(DeviceState *dev)
->>>+{
->>>+    NvmeNamespace *ns =3D NVME_NS(dev);
->>>+
->>>+    nvme_ns_drain(ns);
->>>+    nvme_ns_shutdown(ns);
->>>+    nvme_ns_cleanup(ns);
->>>+}
->>>+
->>> static void nvme_ns_realize(DeviceState *dev, Error **errp)
->>> {
->>>     NvmeNamespace *ns =3D NVME_NS(dev);
->>>@@ -462,6 +471,14 @@ static void nvme_ns_realize(DeviceState *dev, Error=
- **errp)
->>>                        "linked to an nvme-subsys device");
->>>             return;
->>>         }
->>>+    } else {
->>>+        /*
->>>+         * If this namespace belongs to a subsystem (through a link on =
-the
->>>+         * controller device), reparent the device.
->>>+         */
->>>+        if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
->>>+            return;
->>>+        }
->>
->>What happens if that fails?
->>Will we abort? Not create the namespace?
->>
->
->Good point!
->
->It can actually only fail if the bus implements check_address(), which=20
->it does not, so it always succeeds, so it should assert instead.
->
-
-Nah, the 'if' is fine. If check_address() should be implemented at some=20
-point, errp will be set and invocation of qemu will stop with an error.=20
-So I think the error handling is fine as-is.
-
---/yTWJCWq18vyuy2p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDmih0ACgkQTeGvMW1P
-DekPpgf8DfWDl0hQRASk2EdxbGsgqKcFZqLq7T9bULLRlpPWe4Wt5zFAANkN8JL0
-y6Zb1ZNHXOf2o5B1QWWE+wAafdNFLtToMelkxBZRhkBKOiy3DJFex9aAYr7oXwWL
-fIsQWAcg4xmY2NHHmIfTu96+ZN21QKbHUW/eEvuICKlN/rpe2HeEOuIIfmqgXwvH
-HD/OnkdmRVUbETRJXDzq4I7w0xdhRqOEvtxTePsKqrq6cfi9sTb/NVInCidHMvJD
-BSIfoKtjAYUVGgwRIWoB7EhHorTyTfU6un+0w3Yqly0tVUpODBwaHop27yvdgd5w
-27H0x+YfUDmsvsH0E2v/uDOur3bv9A==
-=En0+
------END PGP SIGNATURE-----
-
---/yTWJCWq18vyuy2p--
+> Hello, now that the code to add the icon to QEMU has been restored for Ma=
+c OS, I think it is time to revert patch e31746ecf8dd2f25f687c94ac14016a3ba=
+5debfc. This patch was made to fix the missing icon in the About dialog but=
+ it doesn't seem to work any more. I do not see a picture in the About dial=
+og on Mac OS 11.1. The easiest fix for this issue is to revert the mentione=
+d patch. When I ran
+> 'git revert e31746ecf8dd2f25f687c94ac14016a3ba5debfc' the picture in the =
+About dialog appeared again.
 
