@@ -2,98 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5D23BF63A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 09:24:54 +0200 (CEST)
-Received: from localhost ([::1]:58448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778C83BF63B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 09:25:37 +0200 (CEST)
+Received: from localhost ([::1]:60608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1OOz-0006qu-Qj
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 03:24:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60004)
+	id 1m1OPg-0008I8-J3
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 03:25:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1ONS-0006AP-MS
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 03:23:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44157)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m1OOJ-0006uR-41
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 03:24:11 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:56794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1ONO-0007Xl-3G
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 03:23:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625728993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xMOggDAkOdxjQigCxigY5pOcddrmosF6jLQXjagmN6M=;
- b=bY4QebGyejTNEtttdJxI5+Rz/kjGKzj/7duJ3wHJqubEUkG4MLoleMB9Hi/WZGhS5DFFGT
- LaRwGPu+BusEriu6BD3cYHNsERHdhy0dwXo8LYPS+DWXVsLbDE2JH/z0YAVfw8J7H3Arrc
- O57IkNr8ZgkjwVJjo6t6zOA1BrL3OkE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-iV10ahBHO9ChXtgZcHU6kQ-1; Thu, 08 Jul 2021 03:23:12 -0400
-X-MC-Unique: iV10ahBHO9ChXtgZcHU6kQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w4-20020a05600018c4b0290134e4f784e8so1625804wrq.10
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 00:23:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=xMOggDAkOdxjQigCxigY5pOcddrmosF6jLQXjagmN6M=;
- b=B51L2U7ckw37gopwR3VATjj2TvwxQNyk1ADPsf8LaHGBTUZpXn+hE0ci7PaFIjHdWt
- uS6D32+mtlDY0vjz+LjW24Y18LuSZ467PMN4QHrygOXomfq4YrD+qwDuqBye96uG5a+t
- AqWHDN3UusHEcOWXb1pr/JdsAohtzTMvgIz7sK9xMCiUX7z4h07MTn6rFYHrcgOvr983
- XD0S77vJYwj/a8z7aLj1ijvbitt6v1/exXnMuOAYElQ/ZBgilBBAfVItob1uuMMSxpgq
- 70B51Q2WX4hNeGvy4v2C/iykqiSIvmjxSzqhwhmzld9oaNmK+zn28ZlZLUwSqexjLwDS
- T3GQ==
-X-Gm-Message-State: AOAM532gLGAFPO07QshXFJxuWEcvs+EhMR2pC5/6HlVApEoHpSJ+enj9
- R02zdfeg3EJuj1SAdkFWCptkBLBwL7F2AJ87bqgQjfZsFIw2DZ0wxdwN4s85gSM0ErhSTG6B1gW
- 4QNqm0QiptXnSgIo=
-X-Received: by 2002:adf:aacb:: with SMTP id i11mr32408500wrc.371.1625728990855; 
- Thu, 08 Jul 2021 00:23:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvrhXeOy7Wg4VDUDxGyeaI3Cv7oRB1mSi97FFAzzLLplQLtKsvBPCCWPvsXmVY00YFEF4msw==
-X-Received: by 2002:adf:aacb:: with SMTP id i11mr32408477wrc.371.1625728990698; 
- Thu, 08 Jul 2021 00:23:10 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23cf9.dip0.t-ipconnect.de. [79.242.60.249])
- by smtp.gmail.com with ESMTPSA id y66sm1141932wmy.39.2021.07.08.00.23.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 00:23:10 -0700 (PDT)
-To: Alexander Duyck <alexander.duyck@gmail.com>, Peter Xu <peterx@redhat.com>
-References: <20210707140655.30982-1-david@redhat.com>
- <20210707140655.30982-3-david@redhat.com> <YOXsTQoq6eeIR8B5@t490s>
- <5f5dd7f3-ce09-53d6-db48-1a333119205d@redhat.com> <YOYJsMUfx1XHFk6G@t490s>
- <CAKgT0Ucp60nxvk4ysydE29RPXUEFUU2f4+=3XMaXFagMef+hbA@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
- VIRTIO_BALLOON_F_FREE_PAGE_HINT
-Message-ID: <a3183ca9-419e-18db-966c-090efc75ebc1@redhat.com>
-Date: Thu, 8 Jul 2021 09:23:09 +0200
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m1OOC-0007it-9t
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 03:24:10 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id AA2372E1A63;
+ Thu,  8 Jul 2021 10:23:59 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ iTL9RVjYXZ-NxxSC2Vf; Thu, 08 Jul 2021 10:23:59 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1625729039; bh=fueUfeqk+ipVHrz74MHezdZsK+0S13Rdbjqw1GmGCGA=;
+ h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
+ b=KB8mq0zuSvpAjcroh3jHrF0HDXN3yP90wUDc3Oryavvdf01VQYhv+x6mCfZn8Pf+Q
+ ++PFl+65Kyfd4ZfUyx+Z4yLaMyem+XgZQ7Q357iE75SKPRKx3elf0jFZLDZy9jjdUH
+ a+G3F5RxJrQLkLr13ylZbvuNnWgNaXswzI8IV584=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:12::1:3a])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ h98uLTMUR3-Nx2aWePW; Thu, 08 Jul 2021 10:23:59 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v0] vhost: make SET_VRING_ADDR, SET_[PROTOCOL_]FEATEURES
+ send replies
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210625085210.236299-1-den-plotnikov@yandex-team.ru>
+ <20210707060936-mutt-send-email-mst@kernel.org>
+ <d7d3deec-f1d1-4fce-dbf0-a0cbd8063504@yandex-team.ru>
+ <20210707103555-mutt-send-email-mst@kernel.org>
+ <13c22772-5642-06b9-2ba3-864995544cd2@yandex-team.ru>
+ <20210707144355-mutt-send-email-mst@kernel.org>
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Message-ID: <61112ffa-b4e6-dff7-e480-4895c1da7918@yandex-team.ru>
+Date: Thu, 8 Jul 2021 10:23:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAKgT0Ucp60nxvk4ysydE29RPXUEFUU2f4+=3XMaXFagMef+hbA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210707144355-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,77 +82,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org, Wei Wang <wei.w.wang@intel.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.07.21 23:22, Alexander Duyck wrote:
-> On Wed, Jul 7, 2021 at 1:08 PM Peter Xu <peterx@redhat.com> wrote:
->>
->> On Wed, Jul 07, 2021 at 08:57:29PM +0200, David Hildenbrand wrote:
->>> On 07.07.21 20:02, Peter Xu wrote:
->>>> On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
->>>>> As it never worked properly, let's disable it via the postcopy notifier on
->>>>> the destination. Trying to set "migrate_set_capability postcopy-ram on"
->>>>> on the destination now results in "virtio-balloon: 'free-page-hint' does
->>>>> not support postcopy Error: Postcopy is not supported".
+
+On 07.07.2021 21:44, Michael S. Tsirkin wrote:
+> On Wed, Jul 07, 2021 at 05:58:50PM +0300, Denis Plotnikov wrote:
+>> On 07.07.2021 17:39, Michael S. Tsirkin wrote:
+>>> On Wed, Jul 07, 2021 at 03:19:20PM +0300, Denis Plotnikov wrote:
+>>>> On 07.07.2021 13:10, Michael S. Tsirkin wrote:
+>>>>> On Fri, Jun 25, 2021 at 11:52:10AM +0300, Denis Plotnikov wrote:
+>>>>>> On vhost-user-blk migration, qemu normally sends a number of commands
+>>>>>> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+>>>>>> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+>>>>>> VHOST_USER_SET_FEATURES per each started ring to enable "used ring"
+>>>>>> data logging.
+>>>>>> The issue is that qemu doesn't wait for reply from the vhost daemon
+>>>>>> for these commands which may result in races between qemu expectation
+>>>>>> of logging starting and actual login starting in vhost daemon.
+>>>>> Could you be more explicit please? What kind of race have you
+>>>>> observed? Getting a reply slows down the setup considerably and
+>>>>> should not be done lightly.
+>>>> I'm talking about the vhost-user-blk case. On migration setup, we enable
+>>>> logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
+>>>> vhost-user-blk daemon immediately and the daemon needs some time turn the
+>>>> logging on internally. If qemu doesn't wait for reply, after sending the
+>>>> command qemu may start migrate memory pages. At this time the logging may
+>>>> not be actually turned on in the daemon  but some guest pages, which the
+>>>> daemon is about to write to, may be already transferred without logging to a
+>>>> destination. Since the logging wasn't turned on, those pages won't be
+>>>> transferred again as dirty. So we may end up with corrupted data on the
+>>>> destination.
 >>>>
->>>> Would it be possible to do this in reversed order?  Say, dynamically disable
->>>> free-page-hinting if postcopy capability is set when migration starts? Perhaps
->>>> it can also be re-enabled automatically when migration completes?
+>>>> Have I managed to explain the case clearly?
+>>>>
+>>>> Thanks!
+>>>>
+>>>> Denis
+>>> OK so this is just about enabling logging. It would be cleaner to
+>>> defer migrating memory until response ... if that is too hard,
+>>> at least document why we are doing this please.
+>>> And, let's wait for an ack just in that case then - why not?
 >>>
->>> I remember that this might be quite racy. We would have to make sure that no
->>> hinting happens before we enable the capability.
->>>
->>> As soon as we messed with the dirty bitmap (during precopy), postcopy is no
->>> longer safe. As noted in the patch, the only runtime alternative is to
->>> disable postcopy as soon as we actually do clear a bit. Alternatively, we
->>> could ignore any hints if the postcopy capability was enabled.
+>>> And what about VHOST_USER_SET_PROTOCOL_FEATURES?
+>> The code uses the same path for both VHOST_USER_SET_PROTOCOL_FEATURES and
+>> VHOST_USER_SET_FEATURES via vhost_user_set_u64(). So, I decided to suggest
+>> adding reply to both of them, so both feature setting commands work
+>> similarly as it doesn't contradicts with vhost-user spec.
 >>
->> Logically migration capabilities are applied at VM starts, and these
->> capabilities should be constant during migration (I didn't check if there's a
->> hard requirement; easy to add that if we want to assure it), and in most cases
->> for the lifecycle of the vm.
-> 
-> Would it make sense to maybe just look at adding a postcopy value to
-> the PrecopyNotifyData that you could populate with
-> migration_in_postcopy() in precopy_notify()?
-> 
-> Then all you would need to do is check for that value and if it is set
-> you shut down the page hinting or don't start it since I suspect it
-> wouldn't likely add any value anyway since I would think flagging
-> unused pages doesn't add much value in a postcopy environment anyway.
+>> I'm not sure that it worth doing that, so if you think it's not I'll just
+>> remove them.
+>>
+>>
+>> Denis
+>
+> I'm inclined to say let's not add to the latency of setting up the
+> device unnecessarily.
 
-I don't think that's true. With free page hinting you reduce the 
-effective VM size you have to migrate. Any page that has to be migrated 
-will consume bandwidth.
+ok
 
-1. Although postcopy transfers only the currently requested pages, the 
-background thread will keep pushing pages, making postcopy eventually 
-run longer. While in postcopy (well, and in precopy) we are faced with a 
-clear performance degradation, so we want to minimize the overall time 
-spent.
+I'll remove reply for VHOST_USER_SET_FEATURES and amend the commit 
+message in v2
 
-2. Usually you let precopy run for a while before switching to postcopy. 
-With free page hinting you might be able to greatly reduce the number of 
-pages you'll have to migrate later in the same amount of time.
+Thanks!
 
+Denis
 
-So there would be value, but at least I am not too interested in making 
-it work in combination perfectly if it results in significant migration 
-code changes; my goal is to not silently break guests when used in 
-combination -- once there is the actual requirement to optimize this 
-setup, we can work on that optimization (as discussed with MST here).
-
-So I'll explore going the migrate_postcopy_ram() way to silently (or at 
-least warn) disable free page hinting. Thanks.
-
--- 
-Thanks,
-
-David / dhildenb
-
+>>>
+>>>>> Thanks!
+>>>>>
+>>>>>> To resolve this issue, this patch makes qemu wait for the commands result
+>>>>>> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
+>>>>>> Also, this patch adds the reply waiting for VHOST_USER_SET_PROTOCOL_FEATURES
+>>>>>> command to make the features setting functions work similary.
+>>>>>>
+>>>>>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+>>>>>> ---
+>>>>>>     hw/virtio/vhost-user.c | 20 ++++++++++++++++++++
+>>>>>>     1 file changed, 20 insertions(+)
+>>>>>>
+>>>>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>>>>>> index ee57abe04526..e47b82adab00 100644
+>>>>>> --- a/hw/virtio/vhost-user.c
+>>>>>> +++ b/hw/virtio/vhost-user.c
+>>>>>> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+>>>>>>             .hdr.size = sizeof(msg.payload.addr),
+>>>>>>         };
+>>>>>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+>>>>>> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>>>>>> +    if (reply_supported) {
+>>>>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>>>>>> +    }
+>>>>>> +
+>>>>>>         if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>>>>>>             return -1;
+>>>>>>         }
+>>>>>> +    if (reply_supported) {
+>>>>>> +        return process_message_reply(dev, &msg);
+>>>>>> +    }
+>>>>>> +
+>>>>>>         return 0;
+>>>>>>     }
+>>>>>> @@ -1297,10 +1307,20 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+>>>>>>             .hdr.size = sizeof(msg.payload.u64),
+>>>>>>         };
+>>>>>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+>>>>>> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>>>>>> +    if (reply_supported) {
+>>>>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>>>>>> +    }
+>>>>>> +
+>>>>>>         if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>>>>>>             return -1;
+>>>>>>         }
+>>>>>> +    if (reply_supported) {
+>>>>>> +        return process_message_reply(dev, &msg);
+>>>>>> +    }
+>>>>>> +
+>>>>>>         return 0;
+>>>>>>     }
+>>>>>> -- 
+>>>>>> 2.25.1
 
