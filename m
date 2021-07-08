@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B133C172B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:38:12 +0200 (CEST)
-Received: from localhost ([::1]:46950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7B53C1736
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:42:04 +0200 (CEST)
+Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1X2R-0001UW-2M
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:38:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60116)
+	id 1m1X6B-0000vd-Ke
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:42:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WFQ-0003Q6-HO
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36227)
+ id 1m1WFT-0003ZT-9u
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WFO-0000fa-EK
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:32 -0400
+ id 1m1WFR-0000gn-Gj
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759249;
+ s=mimecast20190719; t=1625759252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=90/w1G0sfYvvJ5KFPAjRfWJW1H2GVFMyn/XGx9tEe8s=;
- b=iwHiomzzJOf4zDgVgduPaEccjpMvM/ABc9uN31uOzqp7YiXi5LJIty5q64zDLXvZr//A4s
- nN0p7DwojQWw8u1MzrVpwrWriNocwiOb+JDytRei3o9NbGgFxiNL8/cLpD0CUsuWrd+0bu
- 0paAS352v6hOorMBKBVHlINIka3gflc=
+ bh=qJfCn8fCmHM/ZWeVInEbH0tiA1gX0pyiCRrfhxYYJNc=;
+ b=bVHDs5pb6izbtp4xN3uoXRuDsSPTClujwQryM+7n0so3oXCp1UuJjosNWq3qHf4wDc9FqF
+ 3hxXO/PKWlAMpy4CGOPsBsN3W7AJ8Q2HiviCMv3OcdDLbi3n8LNw2+TvmJyhw8A2SvPbKD
+ WIlCqNkrPhK1AjOO6F7DtrkVQNvbjf4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-yj9BFGiyOUmFtRhBnYAGAA-1; Thu, 08 Jul 2021 11:47:28 -0400
-X-MC-Unique: yj9BFGiyOUmFtRhBnYAGAA-1
+ us-mta-21-09h90B_AOyiXGTNKHkTJzw-1; Thu, 08 Jul 2021 11:47:29 -0400
+X-MC-Unique: 09h90B_AOyiXGTNKHkTJzw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F7F0362F9;
- Thu,  8 Jul 2021 15:47:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3CC219253C4;
+ Thu,  8 Jul 2021 15:47:28 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A0F019C66;
- Thu,  8 Jul 2021 15:47:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B624F19C66;
+ Thu,  8 Jul 2021 15:47:27 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 32/35] acpi: arm/virt: build_gtdt: use
- acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Thu,  8 Jul 2021 11:46:14 -0400
-Message-Id: <20210708154617.1538485-33-imammedo@redhat.com>
+Subject: [PATCH v2 33/35] acpi: build_facs: use build_append_int_noprefix()
+ API to compose table
+Date: Thu,  8 Jul 2021 11:46:15 -0400
+Message-Id: <20210708154617.1538485-34-imammedo@redhat.com>
 In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
 References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,156 +80,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, mst@redhat.com
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it replaces error-prone pointer arithmetic for build_header() API,
-with 2 calls to start and finish table creation,
-which hides offsets magic from API user.
-
-while at it, replace packed structure with endian agnostic
-build_append_FOO() API.
+Drop usage of packed structures and explicit endian
+conversions when building table and use endian agnostic
+build_append_int_noprefix() API to build it.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: drjones@redhat.com
-CC: peter.maydell@linaro.org
-CC: shannon.zhaosl@gmail.com
-CC: qemu-arm@nongnu.org
+CC: marcel.apfelbaum@gmail.com
 ---
- include/hw/acpi/acpi-defs.h | 25 -------------
- hw/arm/virt-acpi-build.c    | 75 ++++++++++++++++++++++++-------------
- 2 files changed, 48 insertions(+), 52 deletions(-)
+ include/hw/acpi/acpi-defs.h | 14 --------------
+ include/hw/acpi/aml-build.h |  1 +
+ hw/acpi/aml-build.c         |  2 +-
+ hw/i386/acpi-build.c        | 18 ++++++++++++++----
+ 4 files changed, 16 insertions(+), 19 deletions(-)
 
 diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index 012c4ffb3a..0b375e7589 100644
+index 0b375e7589..1a0774edd6 100644
 --- a/include/hw/acpi/acpi-defs.h
 +++ b/include/hw/acpi/acpi-defs.h
-@@ -131,29 +131,4 @@ struct AcpiFacsDescriptorRev1 {
- } QEMU_PACKED;
- typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
+@@ -117,18 +117,4 @@ typedef struct AcpiFadtData {
+ #define ACPI_FADT_ARM_PSCI_COMPLIANT  (1 << 0)
+ #define ACPI_FADT_ARM_PSCI_USE_HVC    (1 << 1)
  
 -/*
-- * Generic Timer Description Table (GTDT)
+- * ACPI 1.0 Firmware ACPI Control Structure (FACS)
 - */
--#define ACPI_GTDT_INTERRUPT_MODE_LEVEL    (0 << 0)
--#define ACPI_GTDT_INTERRUPT_MODE_EDGE     (1 << 0)
--#define ACPI_GTDT_CAP_ALWAYS_ON           (1 << 2)
--
--struct AcpiGenericTimerTable {
--    ACPI_TABLE_HEADER_DEF
--    uint64_t counter_block_addresss;
--    uint32_t reserved;
--    uint32_t secure_el1_interrupt;
--    uint32_t secure_el1_flags;
--    uint32_t non_secure_el1_interrupt;
--    uint32_t non_secure_el1_flags;
--    uint32_t virtual_timer_interrupt;
--    uint32_t virtual_timer_flags;
--    uint32_t non_secure_el2_interrupt;
--    uint32_t non_secure_el2_flags;
--    uint64_t counter_read_block_address;
--    uint32_t platform_timer_count;
--    uint32_t platform_timer_offset;
+-struct AcpiFacsDescriptorRev1 {
+-    uint32_t signature;           /* ACPI Signature */
+-    uint32_t length;                 /* Length of structure, in bytes */
+-    uint32_t hardware_signature;     /* Hardware configuration signature */
+-    uint32_t firmware_waking_vector; /* ACPI OS waking vector */
+-    uint32_t global_lock;            /* Global Lock */
+-    uint32_t flags;
+-    uint8_t  resverved3 [40];        /* Reserved - must be zero */
 -} QEMU_PACKED;
--typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
+-typedef struct AcpiFacsDescriptorRev1 AcpiFacsDescriptorRev1;
 -
  #endif
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index e8553dcae5..8f28e82760 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -455,40 +455,61 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     acpi_table_composed(linker, &table);
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index dcb7ce11a8..de7d50a5a0 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -413,6 +413,7 @@ Aml *aml_concatenate(Aml *source1, Aml *source2, Aml *target);
+ Aml *aml_object_type(Aml *object);
+ 
+ void build_append_int_noprefix(GArray *table, uint64_t value, int size);
++void build_append_byte(GArray *array, uint8_t val);
+ 
+ typedef struct AcpiTable {
+     const char *sig;
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index 8427713ee3..91c30c32fc 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -47,7 +47,7 @@ static void build_prepend_byte(GArray *array, uint8_t val)
+     g_array_prepend_val(array, val);
  }
  
--/* GTDT */
+-static void build_append_byte(GArray *array, uint8_t val)
++void build_append_byte(GArray *array, uint8_t val)
+ {
+     g_array_append_val(array, val);
+ }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index e655d93bad..d6077a2127 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -346,13 +346,23 @@ static void acpi_align_size(GArray *blob, unsigned align)
+     g_array_set_size(blob, ROUND_UP(acpi_data_len(blob), align));
+ }
+ 
+-/* FACS */
 +/*
-+ * ACPI spec, Revision 5.1
-+ * 5.2.24 Generic Timer Description Table (GTDT)
++ * ACPI spec 1.0b,
++ * 5.2.6 Firmware ACPI Control Structure
 + */
  static void
- build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ build_facs(GArray *table_data)
  {
-     VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
--    int gtdt_start = table_data->len;
--    AcpiGenericTimerTable *gtdt;
--    uint32_t irqflags;
--
--    if (vmc->claim_edge_triggered_timers) {
--        irqflags = ACPI_GTDT_INTERRUPT_MODE_EDGE;
--    } else {
--        irqflags = ACPI_GTDT_INTERRUPT_MODE_LEVEL;
--    }
--
--    gtdt = acpi_data_push(table_data, sizeof *gtdt);
--    /* The interrupt values are the same with the device tree when adding 16 */
--    gtdt->secure_el1_interrupt = cpu_to_le32(ARCH_TIMER_S_EL1_IRQ + 16);
--    gtdt->secure_el1_flags = cpu_to_le32(irqflags);
--
--    gtdt->non_secure_el1_interrupt = cpu_to_le32(ARCH_TIMER_NS_EL1_IRQ + 16);
--    gtdt->non_secure_el1_flags = cpu_to_le32(irqflags |
--                                             ACPI_GTDT_CAP_ALWAYS_ON);
-+    /*
-+     * Table 5-117 Flag Definitions
-+     * set only "Timer interrupt Mode" and assume "Timer Interrupt
-+     * polarity" bit as '0: Interrupt is Active high'
-+     */
-+    uint32_t irqflags = vmc->claim_edge_triggered_timers ?
-+        1 : /* Interrupt is Edge triggered */
-+        0;  /* Interrupt is Level triggered  */
-+    AcpiTable table = { .sig = "GTDT", .rev = 2, .oem_id = vms->oem_id,
-+                        .oem_table_id = vms->oem_table_id };
- 
--    gtdt->virtual_timer_interrupt = cpu_to_le32(ARCH_TIMER_VIRT_IRQ + 16);
--    gtdt->virtual_timer_flags = cpu_to_le32(irqflags);
-+    acpi_init_table(&table, table_data);
- 
--    gtdt->non_secure_el2_interrupt = cpu_to_le32(ARCH_TIMER_NS_EL2_IRQ + 16);
--    gtdt->non_secure_el2_flags = cpu_to_le32(irqflags);
-+    /* CntControlBase Physical Address */
-+    /* FIXME: invalid value, should be 0xFFFFFFFFFFFFFFFF if not impl. ? */
-+    build_append_int_noprefix(table_data, 0, 8);
-+    build_append_int_noprefix(table_data, 0, 4); /* Reserved */
-+    /*
-+     * FIXME: clarify comment:
-+     * The interrupt values are the same with the device tree when adding 16
-+     */
-+    /* Secure EL1 timer GSIV */
-+    build_append_int_noprefix(table_data, ARCH_TIMER_S_EL1_IRQ + 16, 4);
-+    /* Secure EL1 timer Flags */
-+    build_append_int_noprefix(table_data, irqflags, 4);
-+    /* Non-Secure EL1 timer GSIV */
-+    build_append_int_noprefix(table_data, ARCH_TIMER_NS_EL1_IRQ + 16, 4);
-+    /* Non-Secure EL1 timer Flags */
-+    build_append_int_noprefix(table_data, irqflags |
-+                              1UL << 2, /* Always-on Capability */
-+                              4);
-+    /* Virtual timer GSIV */
-+    build_append_int_noprefix(table_data, ARCH_TIMER_VIRT_IRQ + 16, 4);
-+    /* Virtual Timer Flags */
-+    build_append_int_noprefix(table_data, irqflags, 4);
-+    /* Non-Secure EL2 timer GSIV */
-+    build_append_int_noprefix(table_data, ARCH_TIMER_NS_EL2_IRQ + 16, 4);
-+    /* Non-Secure EL2 timer Flags */
-+    build_append_int_noprefix(table_data, irqflags, 4);
-+    /* CntReadBase Physical address */
-+    build_append_int_noprefix(table_data, 0, 8);
-+    /* Platform Timer Count */
-+    build_append_int_noprefix(table_data, 0, 4);
-+    /* Platform Timer Offset */
-+    build_append_int_noprefix(table_data, 0, 4);
- 
--    build_header(linker, table_data,
--                 (void *)(table_data->data + gtdt_start), "GTDT",
--                 table_data->len - gtdt_start, 2, vms->oem_id,
--                 vms->oem_table_id);
-+    acpi_table_composed(linker, &table);
+-    AcpiFacsDescriptorRev1 *facs = acpi_data_push(table_data, sizeof *facs);
+-    memcpy(&facs->signature, "FACS", 4);
+-    facs->length = cpu_to_le32(sizeof(*facs));
++    const char *sig = "FACS";
++    const uint8_t reserved[40] = {};
++
++    g_array_append_vals(table_data, sig, 4); /* Signature */
++    build_append_int_noprefix(table_data, 64, 4); /* Length */
++    build_append_int_noprefix(table_data, 0, 4); /* Hardware Signature */
++    build_append_int_noprefix(table_data, 0, 4); /* Firmware Waking Vector */
++    build_append_int_noprefix(table_data, 0, 4); /* Global Lock */
++    build_append_int_noprefix(table_data, 0, 4); /* Flags */
++    g_array_append_vals(table_data, reserved, 40); /* Reserved */
  }
  
- /*
+ static void build_append_pcihp_notify_entry(Aml *method, int slot)
 -- 
 2.27.0
 
