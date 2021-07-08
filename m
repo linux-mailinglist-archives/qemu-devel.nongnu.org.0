@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882F83C1AB4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:49:55 +0200 (CEST)
-Received: from localhost ([::1]:56386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2304D3C1AB7
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:53:47 +0200 (CEST)
+Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ay2-0005iJ-Ki
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59228)
+	id 1m1b1m-000123-7D
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:53:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1aA4-0007Xu-Gi
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a9z-0002iT-VW
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625774291;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jmMy1Y1I/TVjQg7dab2WOf/FV4GNTyiNEjt9xnQkh60=;
- b=Q0zRnm7Bqjff0bf1u8awvMUbtfFAtwK9n28xz2piGGfxmMeHOSRVpewRx3o5lBjYhS4SKN
- zMCLPiSmkGoTWWW9eKnh32efrXH8q8m4G7BXiDJawkXTvsI670Rnuiv9GseaOGixDcWhGJ
- Xx43w/WQa+WLd+4qtH6df75l68tfjDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-rSR7iB1AP0yYxwPMaBjpRw-1; Thu, 08 Jul 2021 15:58:07 -0400
-X-MC-Unique: rSR7iB1AP0yYxwPMaBjpRw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7936108A076;
- Thu,  8 Jul 2021 19:57:48 +0000 (UTC)
-Received: from localhost (unknown [10.22.8.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AAF360C13;
- Thu,  8 Jul 2021 19:57:48 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 14/15] virtio-mem: Require only coordinated discards
-Date: Thu,  8 Jul 2021 15:55:51 -0400
-Message-Id: <20210708195552.2730970-15-ehabkost@redhat.com>
-In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
-References: <20210708195552.2730970-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1aNp-0003zx-ET
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 16:12:29 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:43723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1aNl-0007DU-NV
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 16:12:29 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ x21-20020a17090aa395b029016e25313bfcso4699854pjp.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 13:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8D+/g/yPnr9wYMak81A+jZUjfaMwjXgAgfalDTqxAt8=;
+ b=UDxEmC+JWRjNqyZg82dwQLLEx3T+9mpG25/sRv43/dWVtfACJmDHIGQVHWy7i0fEBV
+ xH1iBGygtLq5cNSFOlZm4XzW+Lukz6/Z7DFTzLTshdXNfiKeEgpm+tV/zXiDlSOX37O2
+ LWLc/xCd0SpaGBP3wOOdeKw9ko8RmCWU4xOBGZJCHaHm163vMbF+9aZqz6fGBTJUgecD
+ teDltBqiIndDeOe455/07ma+eC3R/yBOe4m9hHRbgXEql0qZOF65Tb2s4f/9bOlLc7i2
+ jxJ+MyEZbmSwVSGvE6+pvW2Oy6CzvNa/sdWMxAQlhRdgSWTwEuY6fWyFWrzEDOQIJDgM
+ n3rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8D+/g/yPnr9wYMak81A+jZUjfaMwjXgAgfalDTqxAt8=;
+ b=PAv2pPXgpkf+D6jU+qAo7DiLYHs4z4NST3RePUKrHrhFrNtcEBCB2BwLKIRPGSI0EZ
+ GKq/Qh3zgwN9kWHJQNNjg3sjZkx9Gqx1+bGpppE9ON3NdvlZV8Il25DGiByBtzDy62x3
+ VkKQy3zpJcuuf4L4a7q7qj1O7zHtBHEWJwweP0qIhQZmchu/f+07xkbsohoLBmtuNH2x
+ WNWJoEr++xileTWZ6H7tAEWLalhvkl+bFL4SIyGHqMnh5fteYoLlM9lslxV0XCjZJoim
+ 8O7rQXjHTUftfn8HymjcXGEE+B+NlqS9qw0gqHlkrnAAtZURE1WQzjsmnnaVq0Ias7KR
+ K7vQ==
+X-Gm-Message-State: AOAM530M1mx7GlmjLFZ/nytF1Znr4gFBLHEbc5WN4C+eOHr8k0hCJyTm
+ dxjItUOYgkLgS/OUh5vIPD8ovA==
+X-Google-Smtp-Source: ABdhPJyNzvLlNr+DA04Fu4zQ4GgReT76N3biC1Fj0RaqHcy4ONhV7LzrTn9Pg4cf9RyDhTAerLEReQ==
+X-Received: by 2002:a17:90b:214:: with SMTP id
+ fy20mr6585343pjb.62.1625775143684; 
+ Thu, 08 Jul 2021 13:12:23 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id m9sm3382218pfk.20.2021.07.08.13.12.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 13:12:23 -0700 (PDT)
+Subject: Re: [PATCH v2 05/39] tests/tcg: also disable the signals test for
+ plugins
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210708190941.16980-1-alex.bennee@linaro.org>
+ <20210708190941.16980-6-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ce2b3b29-5b1b-5dfa-64b8-b2d9a11a9487@linaro.org>
+Date: Thu, 8 Jul 2021 13:12:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210708190941.16980-6-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com, f4bug@amsat.org,
+ robhenry@microsoft.com, aaron@os.amperecomputing.com,
+ mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+On 7/8/21 12:09 PM, Alex Bennée wrote:
+> This will be more important when plugins is enabled by default.
+> 
+> Fixes: eba61056e4 ("tests/tcg: generalise the disabling of the signals test")
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> ---
+>   tests/tcg/multiarch/Makefile.target | 2 ++
+>   1 file changed, 2 insertions(+)
 
-We implement the RamDiscardManager interface and only require coordinated
-discarding of RAM to work.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Auger Eric <eric.auger@redhat.com>
-Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-Cc: teawater <teawaterz@linux.alibaba.com>
-Cc: Marek Kedzierski <mkedzier@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210413095531.25603-13-david@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
- hw/virtio/virtio-mem.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 368ae1db903..df91e454b2f 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -719,7 +719,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-         return;
-     }
- 
--    if (ram_block_discard_require(true)) {
-+    if (ram_block_coordinated_discard_require(true)) {
-         error_setg(errp, "Discarding RAM is disabled");
-         return;
-     }
-@@ -727,7 +727,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-     ret = ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb));
-     if (ret) {
-         error_setg_errno(errp, -ret, "Unexpected error discarding RAM");
--        ram_block_discard_require(false);
-+        ram_block_coordinated_discard_require(false);
-         return;
-     }
- 
-@@ -771,7 +771,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-     virtio_del_queue(vdev, 0);
-     virtio_cleanup(vdev);
-     g_free(vmem->bitmap);
--    ram_block_discard_require(false);
-+    ram_block_coordinated_discard_require(false);
- }
- 
- static int virtio_mem_discard_range_cb(const VirtIOMEM *vmem, void *arg,
--- 
-2.31.1
-
+r~
 
