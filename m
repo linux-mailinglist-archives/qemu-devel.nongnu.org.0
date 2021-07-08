@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2304D3C1AB7
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:53:47 +0200 (CEST)
-Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6D03C1AC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:57:45 +0200 (CEST)
+Received: from localhost ([::1]:39632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1b1m-000123-7D
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35152)
+	id 1m1b5c-0005G9-CO
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:57:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1aNp-0003zx-ET
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 16:12:29 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:43723)
+ id 1m1aeb-00078K-Ga
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 16:29:49 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:55137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1aNl-0007DU-NV
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 16:12:29 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- x21-20020a17090aa395b029016e25313bfcso4699854pjp.2
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 13:12:25 -0700 (PDT)
+ id 1m1aeZ-00040z-M4
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 16:29:49 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id g24so4432008pji.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 13:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8D+/g/yPnr9wYMak81A+jZUjfaMwjXgAgfalDTqxAt8=;
- b=UDxEmC+JWRjNqyZg82dwQLLEx3T+9mpG25/sRv43/dWVtfACJmDHIGQVHWy7i0fEBV
- xH1iBGygtLq5cNSFOlZm4XzW+Lukz6/Z7DFTzLTshdXNfiKeEgpm+tV/zXiDlSOX37O2
- LWLc/xCd0SpaGBP3wOOdeKw9ko8RmCWU4xOBGZJCHaHm163vMbF+9aZqz6fGBTJUgecD
- teDltBqiIndDeOe455/07ma+eC3R/yBOe4m9hHRbgXEql0qZOF65Tb2s4f/9bOlLc7i2
- jxJ+MyEZbmSwVSGvE6+pvW2Oy6CzvNa/sdWMxAQlhRdgSWTwEuY6fWyFWrzEDOQIJDgM
- n3rg==
+ bh=w+8EzyexDU1vBqeUIGIOdRdS4By9tbEM6dfih157N6s=;
+ b=gw7/YJWjcO031iAXfQzsy7YBR3vbuhw1ThnjvPoa6BAXzssadRUTPkKK0LddnNKyOW
+ MFdho3smaWptpBwEjXS0qNnpuzBcp4TIJ3OUN9Lf75GQS3ZOEZKUUMzWlmJpzXwLU82I
+ ZBV2yYjyxU8U7YlODAd24s/0gSfEU9imtuyt1AwYt6uI5s8ZGYMc5lZ5Yrp5ASXXzR+2
+ y619gGg0h8dQwaUiwny7I9haQVCWBNVfl67VIHfLV6bCqu70Ofv4ElGIo8qopf8N0+Dy
+ L6yKjiRJy4iyNtUcugMjCEN5A+x9p8sTV+sJkKPjHfBzAWFro0ipFwgBoNHhp3OKmdvH
+ z46g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8D+/g/yPnr9wYMak81A+jZUjfaMwjXgAgfalDTqxAt8=;
- b=PAv2pPXgpkf+D6jU+qAo7DiLYHs4z4NST3RePUKrHrhFrNtcEBCB2BwLKIRPGSI0EZ
- GKq/Qh3zgwN9kWHJQNNjg3sjZkx9Gqx1+bGpppE9ON3NdvlZV8Il25DGiByBtzDy62x3
- VkKQy3zpJcuuf4L4a7q7qj1O7zHtBHEWJwweP0qIhQZmchu/f+07xkbsohoLBmtuNH2x
- WNWJoEr++xileTWZ6H7tAEWLalhvkl+bFL4SIyGHqMnh5fteYoLlM9lslxV0XCjZJoim
- 8O7rQXjHTUftfn8HymjcXGEE+B+NlqS9qw0gqHlkrnAAtZURE1WQzjsmnnaVq0Ias7KR
- K7vQ==
-X-Gm-Message-State: AOAM530M1mx7GlmjLFZ/nytF1Znr4gFBLHEbc5WN4C+eOHr8k0hCJyTm
- dxjItUOYgkLgS/OUh5vIPD8ovA==
-X-Google-Smtp-Source: ABdhPJyNzvLlNr+DA04Fu4zQ4GgReT76N3biC1Fj0RaqHcy4ONhV7LzrTn9Pg4cf9RyDhTAerLEReQ==
-X-Received: by 2002:a17:90b:214:: with SMTP id
- fy20mr6585343pjb.62.1625775143684; 
- Thu, 08 Jul 2021 13:12:23 -0700 (PDT)
+ bh=w+8EzyexDU1vBqeUIGIOdRdS4By9tbEM6dfih157N6s=;
+ b=QvoFlT+teIC5HvZWZoJUlkr7wk65UkD+54caErXG55lIBJTH2fqzYqJsmjMjQJy7zA
+ ni13ZJRAicJf/8XGHqrMw5xAsHd5mohpFjkB9k4fo49qs07kuAWyQWhVZ6z/ICXomJLd
+ oP3/Hp++9x++roQvCgaJwC3oCIqU2Dtc3NZs2+NpDtDnF4VbiUEmpWnt2yY8BKgti1Wf
+ /qwiCVZksK34gNTuf5Av5maIDVOKbTDphm1zoFsu2HR/zvrFo3npnDXecTs1KMcpBNrb
+ f9QhJpJSISOBXTGhRhgKM9anexKLHJFkvo65R+iXgFxgUv5oMJ7S2Cr3uM2h3KUP7UwK
+ 6rMQ==
+X-Gm-Message-State: AOAM5313ZzMhqRyiKJ6ibXHf9k5gW4pdJgHMjVeK5B+l1nBOLx3r340s
+ 4WBiyjF7fXzGD7nSTsLeAXgsRg==
+X-Google-Smtp-Source: ABdhPJwZufc8amiauk1kQXC92+8+tO4Fi6K+9sHEM4h/ItA9CG10VcUPEXgVuXyzWJd8vf07ghHSbw==
+X-Received: by 2002:a17:90b:fcb:: with SMTP id
+ gd11mr33997252pjb.198.1625776186045; 
+ Thu, 08 Jul 2021 13:29:46 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id m9sm3382218pfk.20.2021.07.08.13.12.23
+ by smtp.gmail.com with ESMTPSA id z21sm3334693pjq.8.2021.07.08.13.29.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 13:12:23 -0700 (PDT)
-Subject: Re: [PATCH v2 05/39] tests/tcg: also disable the signals test for
- plugins
+ Thu, 08 Jul 2021 13:29:41 -0700 (PDT)
+Subject: Re: [PATCH v2 26/39] tests/tcg: make test-mmap a little less
+ aggressive
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210708190941.16980-1-alex.bennee@linaro.org>
- <20210708190941.16980-6-alex.bennee@linaro.org>
+ <20210708190941.16980-27-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ce2b3b29-5b1b-5dfa-64b8-b2d9a11a9487@linaro.org>
-Date: Thu, 8 Jul 2021 13:12:21 -0700
+Message-ID: <277c97f3-b2d8-639f-a251-099287e5a733@linaro.org>
+Date: Thu, 8 Jul 2021 13:29:40 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210708190941.16980-6-alex.bennee@linaro.org>
+In-Reply-To: <20210708190941.16980-27-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,15 +99,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/8/21 12:09 PM, Alex Bennée wrote:
-> This will be more important when plugins is enabled by default.
-> 
-> Fixes: eba61056e4 ("tests/tcg: generalise the disabling of the signals test")
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   tests/tcg/multiarch/Makefile.target | 2 ++
->   1 file changed, 2 insertions(+)
+> -	for (i = 0; i < 0x1fff; i++)
+> +	for (i = 0; i < 0x1ff; i++)
+>   	{
+>   		size_t len;
+>   
+>   		len = pagesize + (pagesize * i & 7);
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+There's really no point in i >= 8.
+
+We release all of the memory at the end of the loop; we'll probably get back the same 
+pages on the 8'th iteration.
+
+
+> -	for (i = 0; i < 0x2fff; i++)
+> +	for (i = 0; i < 0x2ff; i++)
+
+I'm not sure why this one is iterating more than twice?
+
 
 r~
 
