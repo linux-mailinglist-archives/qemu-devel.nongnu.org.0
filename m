@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABB2B3BF8BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 13:11:55 +0200 (CEST)
-Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C4C3BF917
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 13:33:24 +0200 (CEST)
+Received: from localhost ([::1]:58556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Rwg-0000ix-OF
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 07:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
+	id 1m1SHT-0008TF-0t
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 07:33:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1Rvh-0007oV-SW
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:10:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50092)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m1SGW-0007dA-KC
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:32:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1Rvf-0004Im-6v
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:10:53 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1m1SGR-0007UD-Nn
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:32:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625742649;
+ s=mimecast20190719; t=1625743939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZkkG4glNMgXlSBZz098VdMakdWFGRVSNKly4NMSnJg4=;
- b=HGaTXW+tOx31ZXmN/og1xLXb3TIVtf53u3dEkVOSpXFnTJa0hXqsZeijvcsvAh1inUfSN/
- 9fPd8b2o7VBUXNzwQlkq6PcJK8+UDsHiW2RZbArLu1Qw+ku5Q8JLO1LDxOHchTsmyp+OLA
- 2hD8mcDWs/lDLa0na8hxMmD3CCKQ/3M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-CP5EPRSIPkWyEz50tzGCPg-1; Thu, 08 Jul 2021 07:10:48 -0400
-X-MC-Unique: CP5EPRSIPkWyEz50tzGCPg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE10019067E0
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 11:10:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF5A75D6A8;
- Thu,  8 Jul 2021 11:10:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4479A1132B52; Thu,  8 Jul 2021 13:10:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Esoteric QMP specification questions of dubious importance
-References: <CAFn=p-YDG2BUpt7nm1K78tFMF8dajpYoLvGbK0poHA72rgAPHg@mail.gmail.com>
-Date: Thu, 08 Jul 2021 13:10:46 +0200
-In-Reply-To: <CAFn=p-YDG2BUpt7nm1K78tFMF8dajpYoLvGbK0poHA72rgAPHg@mail.gmail.com>
- (John Snow's message of "Fri, 2 Jul 2021 13:14:56 -0400")
-Message-ID: <87a6mx83ih.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=rmCWjvIE7XKdjz+zPJYpMwmd1Klw7OVhAt8pvIztMuc=;
+ b=cJCHwLovsUrbSbfPwEeV4RgGye7DpFyz7iPBFT9zDWGGPLTIe0NHxMyJ6/ENt6BdXBeTOj
+ FYzyVA1gmKd2UbwwznCmrlmZ5JoIhk9QKYiU/2GF82JezlGTlBS+in8dLXSi6X2YTMMtbo
+ KkwC3NzuVbdL3M4xzM8KkzdJVLEpV7w=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-7BxG3p3XMlCdc2j8bjOTTw-1; Thu, 08 Jul 2021 07:32:16 -0400
+X-MC-Unique: 7BxG3p3XMlCdc2j8bjOTTw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ bx13-20020a0564020b4db02903a02214fad8so956649edb.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 04:32:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rmCWjvIE7XKdjz+zPJYpMwmd1Klw7OVhAt8pvIztMuc=;
+ b=gZD8dzNzFNEhuaXs7beiOrSxBZUfu48vslD3PZZ3HZ8TTH1xtu1Oxd6p3LoKomwxAQ
+ rC+xoif6+SOu4AE0BbGmzCtT7LJuWdBbKZEY/gMsAHYteEMji36tZpHS1dZabPVhjz4I
+ Yop2HUgD3QG9e9drzSdg93Z6G6mEqDhM/WLpxFoQVvPPMfoQF89ytnEekqx8oPA5Bs1Q
+ js+uLQZOBdhQuZAtHsFHqVHro39DoYRlPjkBCHE8rE7C4snWIYXZ7w5i7pdDhRYKdEU6
+ kLcpMcLGdfxy8J5rkjFeHejet9U5EtjHBeWEiEYpsdIBRb01k2RA8UBxst5G2Q1AKQez
+ HCwg==
+X-Gm-Message-State: AOAM530kwvA8Tg/mjIu+8rnq2BJ4zo0o6F8UtzVKzkXtq1aJFl3uBVEx
+ 6XF56UhoOhMOUst2BBpez6C8Ix06TG62K0/t8bmPtpyc4q3KRlopmgXVKn8pLzKiKwb3HoSZiJC
+ +GwRqjL2j9V6VbmU=
+X-Received: by 2002:aa7:ccd2:: with SMTP id y18mr37846454edt.196.1625743934921; 
+ Thu, 08 Jul 2021 04:32:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyjTaS4vMTQTvnkAn0CQMy0N8daJmmGee8gS+DgfPK/U2XHW1bZYmFvGUrDSCYAsCiu7ZYI4g==
+X-Received: by 2002:aa7:ccd2:: with SMTP id y18mr37846417edt.196.1625743934678; 
+ Thu, 08 Jul 2021 04:32:14 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e2sm816142ejt.113.2021.07.08.04.32.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 04:32:14 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/6] job: replace AioContext lock with job_mutex
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+References: <20210707165813.55361-1-eesposit@redhat.com>
+ <YObVSuBjCEwSMvu7@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6dadca95-632a-61fa-4a91-c2df25e19b52@redhat.com>
+Date: Thu, 8 Jul 2021 13:32:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YObVSuBjCEwSMvu7@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,96 +102,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> I'm writing a "fake" QMP server for the purposes of creating unit tests for
-> the python QMP library. In doing so, I am left with some esoteric questions:
+On 08/07/21 12:36, Stefan Hajnoczi wrote:
+>> What is very clear from this patch is that it
+>> is strictly related to the brdv_* and lower level calls, because
+>> they also internally check or even use the aiocontext lock.
+>> Therefore, in order to make it work, I temporarly added some
+>> aiocontext_acquire/release pair around the function that
+>> still assert for them or assume they are hold and temporarly
+>> unlock (unlock() - lock()).
 >
->
-> (1) qemu-spec.txt, section 2.4.2, "error":
->
-> The format of an "error response" is:
->
->> { "error": { "class": json-string, "desc": json-string }, "id": json-value }
->
-> For the purposes of naming internal types in the QMP library, does the
-> "error" object value have a canonical type name? It's not defined in QAPI
-> that I can see.
+> Sounds like the issue is that this patch series assumes AioContext locks
+> are no longer required for calling the blk_*()/bdrv_*() APIs? That is
+> not the case yet, so you had to then add those aio_context_lock() calls
+> back in elsewhere. This approach introduces unnecessary risk. I think we
+> should wait until blk_*()/bdrv_*() no longer requires the caller to hold
+> the AioContext lock before applying this series.
 
-No, it isn't.  It's built manually from an Error object in
-qmp_error_response():
+In general I'm in favor of pushing the lock further down into smaller 
+and smaller critical sections; it's a good approach to make further 
+audits easier until it's "obvious" that the lock is unnecessary.  I 
+haven't yet reviewed Emanuele's patches to see if this is what he's 
+doing where he's adding the acquire/release calls, but that's my 
+understanding of both his cover letter and your reply.
 
-    rsp = qdict_from_jsonf_nofail("{ 'error': { 'class': %s, 'desc': %s } }",
-                                  QapiErrorClass_str(error_get_class(err)),
-                                  error_get_pretty(err));
+The I/O blk_*()/bdrv_*() *should* not require the caller to hold the 
+AioContext lock; all drivers use their own CoMutex or QemuMutex when 
+needed, and generic code should also be ready (caveat emptor).  Others, 
+such as reopen, are a mess that requires a separate audit.  Restricting 
+acquire/release to be only around those seems like a good starting point.
 
-> (2) qemu-spec.txt, section 2.2 "Server Greeting":
->
-> The greeting message format is:
->
->> { "QMP": { "version": json-object, "capabilities": json-array } }
->>
->> Where,
->>
->> - The "version" member contains the Server's version information (the format
->>  is the same of the query-version command)
->
-> The layout of the "version" object is not specified in the spec itself,
-> though it does ask you to refer to the query-version command.
-> Hypothetically, is an alternate implementation of QMP in a binary that is
-> *not* QEMU allowed to change the layout of the "version" object (so long as
-> it matched whatever format it had for a "query-version" command, also not
-> mandated by the spec), or must it *always* conform to this precise layout?
->
-> (qapi/control.json):
->
->> { 'struct': 'VersionInfo',
->>    'data': {'qemu': 'VersionTriple', 'package': 'str'} }
->
-> If so, what should such a hypothetical client that is *not* QEMU do here?
-> What version does it report for the "qemu" VersionTriple member? Can I
-> report 0.0.0?
-
-Referring to a QMP command is technically a layering violation.  Hasn't
-bothered us so far.
-
-qmp-spec.txt was obviously written with a single application in mind:
-QEMU.  Evidence: the key for 'VersionTriple' is named 'qemu'.
-
-A second application appeared a year and a half later: the guest agent.
-It doesn't fully comply to qmp-spec.txt.  In particular, it doesn't send
-a greeting.  Unfortunate, but doesn't seem worth fixing now.
-
-If your application of QMP does send a greeting and has a query-version
-command, then it should probably send the same JSON object for both.
-Using something other than QEMU's VersionTriple is probably a bad idea.
-
-Whether the actual contents of VersionTriple matters depends on the QMP
-client.  In general, clients should use introspection, not version
-information.  Whether reporting 0.0.0 is okay depends on what clients
-you want to use.
-
-If we want QMP to support applications other than QEMU (and impostors of
-QEMU), we have some cleanup work to do on qmp-spec.txt.
-
-> (3) Does the qmp-spec technically mandate any commands being available?
->
-> I believe that qmp_capabilities is definitively a requirement of the spec,
-> but what about query-commands, query-version, or quit? Are they technically
-> requirements of the QMP spec, or just requirements of QEMU?
-
-qmp_capabilities is part of the protocol.
-
-Other commands aren't, although qmp-spec.txt refers to query-version,
-query-qmp-schema, and guest-sync-delimited (QGA only).  Can't see any
-others.
-
-> Weird questions, I know.
-
-There are no weird questions, only weird people ;-P
+Paolo
 
 
