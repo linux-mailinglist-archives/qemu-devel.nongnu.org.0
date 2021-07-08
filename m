@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCE73BF822
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 12:11:48 +0200 (CEST)
-Received: from localhost ([::1]:55880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14A43BF82D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 12:13:29 +0200 (CEST)
+Received: from localhost ([::1]:60830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1R0W-0003DN-0O
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 06:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33146)
+	id 1m1R28-0006TB-Ua
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 06:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1Qx2-0004q6-Gz
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:08:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:40795)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1Qx3-0004rB-Br
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:08:14 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:40949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1Qx0-0001Hr-28
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:08:12 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1Qx0-0001Ht-3B
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:08:13 -0400
 Received: from quad ([82.142.13.34]) by mrelayeu.kundenserver.de (mreue010
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N7zW7-1l5o4a38vT-0150iO; Thu, 08
- Jul 2021 12:07:59 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mum6l-1lA9dj0uep-00rlAO; Thu, 08
+ Jul 2021 12:08:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] linux-user: Fix style problems in linuxload.c
-Date: Thu,  8 Jul 2021 12:07:51 +0200
-Message-Id: <20210708100756.212085-4-laurent@vivier.eu>
+Subject: [PULL 4/8] linux-user/alpha: Handle TARGET_EWOULDBLOCK as
+ TARGET_EAGAIN
+Date: Thu,  8 Jul 2021 12:07:52 +0200
+Message-Id: <20210708100756.212085-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708100756.212085-1-laurent@vivier.eu>
 References: <20210708100756.212085-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WG/2a1s9usHFNHaqS+rLmINkKvlGXzc/eJGkgTnuNwz4bLYML0Y
- 0TP1ixWv3QXMms3aRQB95iVEGU5XIqlKVrmYzn9GNJoxyat8oy2sGazoWQa4DasT/fVySxx
- i2LO5xuziLSYbYN8Eyjl+6KDyzyWp8g9lEPMY+hdpx0S62mdSV5+7IFAN/BvITn3xo/OkDT
- Pa/jtW92+Pyz6ywVYlX9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hcJz5NLv+VM=:NT2NZn+39hm7A/9wQKaXYA
- wccB/x82jJeTptreoJpPI3J1PHZAdhfQUzoZKTm6Qfql8MRK7FXQDwOd+hrhr/0TU008/1p8+
- +mm6TubaUR8n1N6tc1QiR/ocy8Rw/zfnlFqNJRUtFeXM+DbGhKc8IIoTkBovzPiGh39pTACvu
- 7WKg8BiXrpjLy7JYOXnpjIErvEAaTD1sig9PcZtEtl5uz5k9VMTWnkTNBR0SpUuh9oKqQoaOL
- 9MPUYjgzmUaffVMbuK735K5cQPVGB5oUmgUCQPk1PxbSCN7DrrDEjTy72FXzOwtoj463my8F9
- fvXCQaJmFPIO1ZZq6xBASVH3frtmsQsKN9ZPxMvMzka15rfeKt2w+ZjeheyswokcLNnTkqn67
- 2V2NQfaphgU4F2igASqE/42sm18w5fqbF0HD7I5X2iz4amEtXiNIrVwAgh/epHVjcaLQ4rlAO
- knU9uOJcc8r8zTvvFXpri5NOrOVx52AmY5HBnzMvgn6Gwu5k6uknVBFgABwDXgqK9uvrJ2n00
- bhwtz0aRzTiNRtuzUgU52uS6lVzaBQHO3jcJanbDfLNsjp8FR5myZUd/QNhch5/gf2GGOC29k
- koqGHgeNkSSZGM0dUiV6PbgnEOV3ysUNCQ4kDX/CCbJbDdhA/kTv+k0yK/7wPHf+sgY2iF2Hp
- 7f8NIAmtUgkY6n0qg88fCo8PpxILxo9oqC2Wr87q2pdfqFitjkuCF713inhJQXZrP4fj5rLvS
- gI0l6R7MA8ZJq1v92YyKSpN+uZYgg6z8JDBnNa/n77IBsFEipoofLQaA7SnpvwyXus+7QKOoI
- +P0gHdwaPTmsw7CBOtWikCdPG6cYEvcqBzHvaABcielqwSuQVNuESLma+zXF6CTPl67AHiR
+X-Provags-ID: V03:K1:tGyJEFvFoZ0YJ/lPNBReOiN9Nvo5kalkGm+s6aYXPzEYeVg6crh
+ ly3Reg7bWb8HytCPRykiJ5klKeqd8u+rSXTLgNVbs0izrchAYitZAoaJjtb6/7UP/rqK5jD
+ c6xCQghDvOZyGFsg5t+mht9QpgZPLzS6M7w8nF6JhDGqf70NJVJrvYHFy6TjW/hyL2FV75H
+ wO+jGS6dDU/jx25zzC4eA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Id33UoO93Dc=:wdG4tUq7/1R6M/kHc4i268
+ ZFDNj0aen0qAXWk3dyh44WsPJf3ZoqenQ7qCSEyKO9pwqQE9/MUUh9Apw1AM4YRbvGJE6Eoxb
+ QUBVtswmQkB3UNm6FEa3lZOE3Ci1LnoXb5Eo/HKu3oJhdJlf1ZZ99aW596cVpeuAvHsHd8fbA
+ AxfG4ylOQVE54r+lBf62+l5ygr/rLj8fPtWnuSoho4YU6T05nJMIlfBT14s7f/p5jakFTbWKK
+ ++3tlf6P8xSFcOA8Ei/X0KyNdvPY22jOaXi05W9hbrN1wABeBrlEV6Om14QlRr94Xlns00j9p
+ jr6LFYA5dKZwNDt3zhCkaMV9i2Zze/IlOIWub2VEor4EK50ybpx7CbLar+4W1H7eaeOhdVQA1
+ Kzze7H2RNyR+7GBWs7uz9EXcdrIluyDvDTgDSALH61OE/9HcolEWlj3hcQXMBzqnr94r/Ozn7
+ 1nV3u9tAPPW/P4TWveGj9ksPb962iehKsd0lIG9rdfYWhB2cxE5oj7BAe6j8rxtOui9mwoDYW
+ v5ubZruU+sc2FP9gLbYf1OIjrniBlvMOG7eO0xkTbYtgpI+w10wxQGuKXLOBSQ3QJHlRE9MB9
+ lxpbpY3Dmm8jFVKVv2svtjIkIa7H2cusNpZhd43/h2vJQgA7jWUIhB61r8L0NM7kVPshqj2kF
+ RSTifuQoiZ3ixSLPaECqPXjdL7B8T9n/ozyGGpprSaW6RAaMlgXz60SA5vQrFqjZEF79a09wr
+ fxRyK6fiOKql7VAgxyHZWXw/XYPb0gmzc1/DuhLJPrrs//7a+C3KDvoR/eqzib63fkOq+VfQe
+ bz1LBTAuAFln8HMPslCyCOcrq2mrv09Si/SX9yM5Hkv807F2J15tsfRytXr5VPjM6MQHz7/
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -74,129 +75,31 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210706234932.356913-3-richard.henderson@linaro.org>
+Linux kernel defines EWOULDBLOCK as EAGAIN (since before v2.6.12-rc2).
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210704183755.655002-2-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/linuxload.c | 42 ++++++++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ linux-user/alpha/target_syscall.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/linux-user/linuxload.c b/linux-user/linuxload.c
-index a27e1d0d8bc2..9d4eb5e94b9b 100644
---- a/linux-user/linuxload.c
-+++ b/linux-user/linuxload.c
-@@ -1,59 +1,57 @@
- /* Code for loading Linux executables.  Mostly linux kernel code.  */
+diff --git a/linux-user/alpha/target_syscall.h b/linux-user/alpha/target_syscall.h
+index fd389422e31e..4e6f93605660 100644
+--- a/linux-user/alpha/target_syscall.h
++++ b/linux-user/alpha/target_syscall.h
+@@ -44,6 +44,8 @@ struct target_pt_regs {
+ #define UNAME_MACHINE "alpha"
+ #define UNAME_MINIMUM_RELEASE "2.6.32"
  
- #include "qemu/osdep.h"
--
- #include "qemu.h"
- 
- #define NGROUPS 32
- 
- /* ??? This should really be somewhere else.  */
--abi_long memcpy_to_target(abi_ulong dest, const void *src,
--                          unsigned long len)
-+abi_long memcpy_to_target(abi_ulong dest, const void *src, unsigned long len)
- {
-     void *host_ptr;
- 
-     host_ptr = lock_user(VERIFY_WRITE, dest, len, 0);
--    if (!host_ptr)
-+    if (!host_ptr) {
-         return -TARGET_EFAULT;
-+    }
-     memcpy(host_ptr, src, len);
-     unlock_user(host_ptr, dest, 1);
-     return 0;
- }
- 
--static int count(char ** vec)
-+static int count(char **vec)
- {
--    int		i;
-+    int i;
- 
--    for(i = 0; *vec; i++) {
-+    for (i = 0; *vec; i++) {
-         vec++;
-     }
--
--    return(i);
-+    return i;
- }
- 
- static int prepare_binprm(struct linux_binprm *bprm)
- {
--    struct stat		st;
-+    struct stat st;
-     int mode;
-     int retval;
- 
--    if(fstat(bprm->fd, &st) < 0) {
--        return(-errno);
-+    if (fstat(bprm->fd, &st) < 0) {
-+        return -errno;
-     }
- 
-     mode = st.st_mode;
--    if(!S_ISREG(mode)) {	/* Must be regular file */
--        return(-EACCES);
-+    if (!S_ISREG(mode)) {   /* Must be regular file */
-+        return -EACCES;
-     }
--    if(!(mode & 0111)) {	/* Must have at least one execute bit set */
--        return(-EACCES);
-+    if (!(mode & 0111)) {   /* Must have at least one execute bit set */
-+        return -EACCES;
-     }
- 
-     bprm->e_uid = geteuid();
-     bprm->e_gid = getegid();
- 
-     /* Set-uid? */
--    if(mode & S_ISUID) {
-+    if (mode & S_ISUID) {
-         bprm->e_uid = st.st_uid;
-     }
- 
-@@ -125,8 +123,8 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
- }
- 
- int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
--             struct target_pt_regs * regs, struct image_info *infop,
--             struct linux_binprm *bprm)
-+                struct target_pt_regs *regs, struct image_info *infop,
-+                struct linux_binprm *bprm)
- {
-     int retval;
- 
-@@ -139,7 +137,7 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
- 
-     retval = prepare_binprm(bprm);
- 
--    if(retval>=0) {
-+    if (retval >= 0) {
-         if (bprm->buf[0] == 0x7f
-                 && bprm->buf[1] == 'E'
-                 && bprm->buf[2] == 'L'
-@@ -157,11 +155,11 @@ int loader_exec(int fdexec, const char *filename, char **argv, char **envp,
-         }
-     }
- 
--    if(retval>=0) {
-+    if (retval >= 0) {
-         /* success.  Initialize important registers */
-         do_init_thread(regs, infop);
-         return retval;
-     }
- 
--    return(retval);
-+    return retval;
- }
++#undef TARGET_EWOULDBLOCK
++#define TARGET_EWOULDBLOCK      TARGET_EAGAIN /* Operation would block */
+ #undef TARGET_EDEADLK
+ #define TARGET_EDEADLK		11
+ #undef TARGET_EAGAIN
 -- 
 2.31.1
 
