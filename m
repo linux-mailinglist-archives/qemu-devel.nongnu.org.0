@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B39D3C140B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:14:39 +0200 (CEST)
-Received: from localhost ([::1]:43926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FFB3C1413
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:16:57 +0200 (CEST)
+Received: from localhost ([::1]:50138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1TrS-0005BY-5P
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44676)
+	id 1m1Ttg-0000zm-Tc
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:16:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1Tgt-0003kN-K3
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:03:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45905)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m1Ti4-0006RV-I5
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:04:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1Tgr-0007TB-Qi
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:03:43 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m1Ti2-0007gp-SH
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:04:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625749421;
+ s=mimecast20190719; t=1625749494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XdvzIyaOQid/WsVDpvoK58sZ2264TRhtzkfOb+UYERM=;
- b=GnD2qqGdArsIhL62inHbpoRBXgbfJ0f+uDsUBILs/DRs/0v8Ri6W/vC5ZqgfdCiK2+9LBE
- 7zFH0n8kDyBhfUjSIaD1lMBSa6+LXmckOpihDXBS8fD1B1T0J4pvEgkLFzu1eQW7H03Y2P
- 51RIJJop16TGeH61WMqjpaO8sP2iX9Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-slu78dLtNLCiXWw3NesRMg-1; Thu, 08 Jul 2021 09:03:39 -0400
-X-MC-Unique: slu78dLtNLCiXWw3NesRMg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- n11-20020a05600c3b8bb02901ec5ef98aa0so1057925wms.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 06:03:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=XdvzIyaOQid/WsVDpvoK58sZ2264TRhtzkfOb+UYERM=;
- b=rcjWP6T0HdU5aLqmNh9+Yd0pzV6D3RhMliP7MaD/UguEOgsyAj81gRn+ZVVSNqgWUo
- BJ2vEqv1H8hUo6SoWeh2wVz+IEz51E5QXlf0TEzxHhRSQev3rfPWU68ZHUoBG2NfQN1g
- br9yFOxTpT1FNxlEkF1/Di4stdqSmHzDU3n+FVL5VmMpnoOviJ3mo9D2X81JUcrqbH8K
- x+OffS/lbtj2xCCRC0z5MPZTtzQ9la2nVif9m5EMNBpVa8KZZVz/YpTiNzsu6V0PlB/D
- GcR34zYlTvSS1dnD09YOV0t8IPLoGTMUH/Wf2A6SS3QII5fKu0jI/iPCj48jORx9Dyd6
- DNHA==
-X-Gm-Message-State: AOAM533ySOLv2T7NyxODk+oWw0/AfzVfHkSa3CjJOgmTVUBqEHcLt7qU
- AzVn4DnWiX7BbZKn36thOZNt84qH9aarCKibtbvTSiTZt6+l52XzUKyfVfSOcFdM+v2iGhjiEqA
- i6YcXSHqSIEE5XhwyokdR+gqds2TuWQnqsAOVaE0njoI9x9/al7nEYm3BlkKIJdE=
-X-Received: by 2002:a05:600c:a01:: with SMTP id
- z1mr5160557wmp.77.1625749418738; 
- Thu, 08 Jul 2021 06:03:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOqS+MhZNmlLyKbsV9RY2nIaUoiXXJwIqS8NmpPMF61xA93fnawoONvuyPekLDijNxGPyCSQ==
-X-Received: by 2002:a05:600c:a01:: with SMTP id
- z1mr5160494wmp.77.1625749418365; 
- Thu, 08 Jul 2021 06:03:38 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23cf9.dip0.t-ipconnect.de. [79.242.60.249])
- by smtp.gmail.com with ESMTPSA id n5sm2175863wri.31.2021.07.08.06.03.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 06:03:37 -0700 (PDT)
-Subject: Re: [PULL 00/15] Machine queue, 2021-07-07
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20210707193241.2659335-1-ehabkost@redhat.com>
- <CAFEAcA_UybrCmOffY6HD7eiE=Ubks1LGhKYmXgQ_hYYsKMYfhQ@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <25625d72-e441-ca94-8038-ff065fbd659e@redhat.com>
-Date: Thu, 8 Jul 2021 15:03:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=ViTWauDbT6ZDglgHi0j9WIJ/SxIojB3/odAVmDp1jWc=;
+ b=SNOF7dAmt/7lRL9uoOgIuNx4FxNLHRinqWR3KGlt7ifenPsWo+4oPk5OEtzbKBQ67Ew2ZL
+ cahiRFC5M0ikZmCqUhaE9Qp1rLhOPMXYOhntvtnQGOvRqn60xUCOhrVqABh8szj0fAtsAN
+ hGvq9RrlKbiSrE+dHIvnySiTVc48zmA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-IguM2CwMMyqLSKO_oty-bA-1; Thu, 08 Jul 2021 09:04:50 -0400
+X-MC-Unique: IguM2CwMMyqLSKO_oty-bA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E1CE101F01D;
+ Thu,  8 Jul 2021 13:04:49 +0000 (UTC)
+Received: from localhost (ovpn-114-141.ams2.redhat.com [10.36.114.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 738C4E729;
+ Thu,  8 Jul 2021 13:04:22 +0000 (UTC)
+Date: Thu, 8 Jul 2021 14:04:21 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH 0/6] job: replace AioContext lock with job_mutex
+Message-ID: <YOb31YOF8Q3t9RoK@stefanha-x1.localdomain>
+References: <20210707165813.55361-1-eesposit@redhat.com>
+ <YObVSuBjCEwSMvu7@stefanha-x1.localdomain>
+ <6dadca95-632a-61fa-4a91-c2df25e19b52@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_UybrCmOffY6HD7eiE=Ubks1LGhKYmXgQ_hYYsKMYfhQ@mail.gmail.com>
+In-Reply-To: <6dadca95-632a-61fa-4a91-c2df25e19b52@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Hxt8HI8RONiMrZWM"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,77 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.07.21 11:53, Peter Maydell wrote:
-> On Wed, 7 Jul 2021 at 20:32, Eduardo Habkost <ehabkost@redhat.com> wrote:
->>
->> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
->>
->>    Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
->>
->> for you to fetch changes up to 4dc87143b9dbc0ae5719b67b4e533c824b239f00:
->>
->>    vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus (2021-07-06 18:05:26 -0400)
->>
->> ----------------------------------------------------------------
->> Machine queue, 2021-07-07
->>
->> Deprecation:
->> * Deprecate pmem=on with non-DAX capable backend file
->>    (Igor Mammedov)
->>
->> Feature:
->> * virtio-mem: vfio support (David Hildenbrand)
->>
->> Cleanup:
->> * vmbus: Don't make QOM property registration conditional
->>    (Eduardo Habkost)
->>
-> 
-> Hi; this generates warnings in the docs build:
-> 
-> /home/pm/qemu/docs/../include/exec/memory.h:2286: warning: Function
-> parameter or member 'rdm' not described in
-> 'memory_region_set_ram_discard_manager'
-> /home/pm/qemu/docs/../include/exec/memory.h:2286: warning: Excess
-> function parameter 'urn' description in
-> 'memory_region_set_ram_discard_manager'
-> 
-> This seems to be because the function prototype for this
-> function says it takes parameters 'mr' and 'rdm', but the
-> doc comment documents 'mr' and 'urn'.
+--Hxt8HI8RONiMrZWM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That should be easy to fix
+On Thu, Jul 08, 2021 at 01:32:12PM +0200, Paolo Bonzini wrote:
+> On 08/07/21 12:36, Stefan Hajnoczi wrote:
+> > > What is very clear from this patch is that it
+> > > is strictly related to the brdv_* and lower level calls, because
+> > > they also internally check or even use the aiocontext lock.
+> > > Therefore, in order to make it work, I temporarly added some
+> > > aiocontext_acquire/release pair around the function that
+> > > still assert for them or assume they are hold and temporarly
+> > > unlock (unlock() - lock()).
+> >=20
+> > Sounds like the issue is that this patch series assumes AioContext lock=
+s
+> > are no longer required for calling the blk_*()/bdrv_*() APIs? That is
+> > not the case yet, so you had to then add those aio_context_lock() calls
+> > back in elsewhere. This approach introduces unnecessary risk. I think w=
+e
+> > should wait until blk_*()/bdrv_*() no longer requires the caller to hol=
+d
+> > the AioContext lock before applying this series.
+>=20
+> In general I'm in favor of pushing the lock further down into smaller and
+> smaller critical sections; it's a good approach to make further audits
+> easier until it's "obvious" that the lock is unnecessary.  I haven't yet
+> reviewed Emanuele's patches to see if this is what he's doing where he's
+> adding the acquire/release calls, but that's my understanding of both his
+> cover letter and your reply.
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 87357a724a..c3d417d317 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2280,7 +2280,7 @@ static inline bool 
-memory_region_has_ram_discard_manager(MemoryRegion *mr)
-   * #RamDiscardManager assigned.
-   *
-   * @mr: the #MemoryRegion
-- * @urn: #RamDiscardManager to set
-+ * @rdm: #RamDiscardManager to set
-   */
-  void memory_region_set_ram_discard_manager(MemoryRegion *mr,
-                                             RamDiscardManager *rdm);
+The problem is the unnecessary risk. We know what the goal is for
+blk_*()/bdrv_*() but it's not quite there yet. Does making changes in
+block jobs help solve the final issues with blk_*()/bdrv_*()?
 
+If yes, then it's a risk worth taking. If no, then spending time
+developing interim code, reviewing those patches, and risking breakage
+doesn't seem worth it. I'd rather wait for blk_*()/bdrv_*() to be fully
+complete and then see patches that delete aio_context_acquire() in most
+places or add locks in the remaining places where the caller was relying
+on the AioContext lock.
 
-(don't ask me how I ended up with urn instead of rdm)
+Stefan
 
--- 
-Thanks,
+--Hxt8HI8RONiMrZWM
+Content-Type: application/pgp-signature; name="signature.asc"
 
-David / dhildenb
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDm99UACgkQnKSrs4Gr
+c8gb0Qf/SI9UisEVzq7oeSuJsk9/T60/3og1gvBnPOBhwp56k22MqII5b9olhAp2
+FZWKKt9IJl2cAQAHWMl/lPE1Y5B/uFEYGLNdzfBIKJTNDZPLDZ/WS36LAjS3ZtZb
+inPSv42djZ5XjkuFTAWrODvrXcF3ep9dw0ECvOWqpXg8UbZt/nwopbDWDTgAfwLQ
+WipBs5ib5HXgUAoX+//y1LNbLP0TGxt+4LFsVTwA7ttWmYq4x8eBn1nes1DYsZeW
+ir1eO3NAY4CUa/KjQniYL+jX86S8nogOYSMgFmx+XGdWHVVnHwIOCWypI67+qlaw
+WWHTz2EmfwZt/rTMSAfK9QoB1pIBnQ==
+=8U2P
+-----END PGP SIGNATURE-----
+
+--Hxt8HI8RONiMrZWM--
 
 
