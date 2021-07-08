@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B07A73C1635
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:41:45 +0200 (CEST)
-Received: from localhost ([::1]:39580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAAF3C1623
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:38:17 +0200 (CEST)
+Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W9o-0007eA-OI
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:41:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
+	id 1m1W6S-0008Hg-Px
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:38:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn8-00015z-Qp
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:18 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:37566)
+ id 1m1VnA-000197-QH
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:21 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn7-0008Jg-Cl
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:18 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id cy23so4052291edb.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:17 -0700 (PDT)
+ id 1m1Vn8-0008Jw-Dc
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:19 -0400
+Received: by mail-ej1-x633.google.com with SMTP id c17so10205986ejk.13
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L3WS8q1FKt0S8fSgGeOLlB2ULRlzE4+4YoYMx1LxXzE=;
- b=s2zF6YqJ88xlAULHeCZMYoETOS04lI5e62pWuMqMTiyxuPzff5sSaYKhhRcXFozQz4
- s2yBm8lrvEb+RX96sFUwwHh/DypmQ3ajxIfJQB6QldXiXiQXqe5YdPAW5xiLidCaNe2+
- 0E7OMjSLhK2ZhP7vNvyygfLFL55nHYw05DrvmReoIrfYCPMa2Bzfndo8VKdQT1DHthuB
- rvHzeWARxHpjx9Rnq6tEWeujkJo57CGjH/eYYdJLEZ4XZGsebz1BEXwKqahV1M+LAtvP
- IIBpUuTYKWCb6EXTd5Faag0gxJSb4Q/+IHVNLoYSpJI0UP6Fz6TMbwWHxbB8jgyiZ/IL
- R1Aw==
+ bh=J5848Llpvi/KqMPcQycDbJwiq+hPIvn6uOvqDWiLumI=;
+ b=V/JMAWiQ7MdNjDiYcQB/0CNnenD8+vHD8fLxIAfvo71V7yVj93+EID9pWG6ceN7mTh
+ jZKcY4lbOJ89C1nOzmZ85HcbYD7fWPvj56gtyDIgFbZ89RNrRMCxo0cVM5ZA2mJUXX6y
+ UuxTAo0N6mZowu3k49GxzO7SRCCXZLayjadSxgsr8WIaAvO7E/ToCILtua2JLuVoGa1E
+ 3QLylKrfjUMoxNncaiN5BUfrpjgWyt5mQpJanhcBsOtFz3HUj0zFpeAO+nBkkcUMMpL2
+ sKfCvPxLmRh1UxDl+3M9j1reuZXvY0O9adCRgnzT0gAy/8TGdCRPOj+M+6jm16QnpC19
+ IBLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=L3WS8q1FKt0S8fSgGeOLlB2ULRlzE4+4YoYMx1LxXzE=;
- b=IQMzo8GNu0KqDlB3ibdTZj43bEUihSdh21jLWPsFdBmpozoK/WHJQNafm8BE8ewVk/
- l06m/AtViDdaBH1W79Bn7b1sFYLyWfAJ+ywzS4J4blQnqntToy4J+Mh1KHPb4bOIF0/e
- x3D6Um8q7j+V0zvLi/EwJp6Wkl0O8wLRyZY5i7RaA7FtRVZoO95etQaFMnagHr9/tndP
- jlbGmpy33MLv6o7xD6BMfXdZSmV3rwy6F+c+vekHqQI9qEdzRc7+7penpuGIlFfb/oEq
- +oMtm76FHVv459xjJ0GU2Nr/FnE5Qh8naAUXeTXnC6rcwcgSR/CcLccHcvOYjJHuurk2
- nwGg==
-X-Gm-Message-State: AOAM5306ROrMK+VjAbFMBN985mGSezJ5L6Y9oyllCTGEbaC/gVnvJKab
- USJMkfwPLW2UEJOWBbJjntctH8dZj6g=
-X-Google-Smtp-Source: ABdhPJxjb7H8oprKUBqHpj0VxZgbSN66aTyDl4F42tLH5Hq+cxJeGvT9lKbI5AzR9hQialJ9N2r5lg==
-X-Received: by 2002:a50:fe8d:: with SMTP id d13mr39257214edt.14.1625757496100; 
+ bh=J5848Llpvi/KqMPcQycDbJwiq+hPIvn6uOvqDWiLumI=;
+ b=uJfb+Sq4evz/I1OpFf1xBDUmqgo7Z/9OZS/+fKW80z92ZOhjO1App4+vB8EWIJR6gZ
+ GCSKeT6Ki312hTkS5btq1Mc6++Ssx62ZvjR04mvgJsPqlSwFhNRBT0Wx3hL8t0SM3efw
+ y4x3MOs7Dqyj9Vp44ckAtwtVNVDFbplD7r/+sUbBQyLwB2qFTRqlts69IdjY3hDmDE6Z
+ gLsySe0KkM4kjbUIKCE3gVmQgwqZTO3a++ANEIXe6w2JGp4tWfjopcAOzkorO5xh9BKL
+ chIkXGLMBZslU55ZqYadFv/VoFxdQaVqdBQ65XMP0DQIJDzr2M8rv+yHqICvJPYPscqh
+ hlGA==
+X-Gm-Message-State: AOAM532Y5YAwqER1qzgYgdQ/3Pm34l6pJSZWJbnxutsPx+hoxqFyyZv4
+ x0dMMIV+7HX3kmfNo+3HJva8bgn7D3o=
+X-Google-Smtp-Source: ABdhPJyLasWyjf1Rmhrmy1+ekLi2NAZ5yYkSXr4xEl18QR8ZxMjUsOX6xBGhOp+gMnLL3aEtYOld+Q==
+X-Received: by 2002:a17:906:cb86:: with SMTP id
+ mf6mr9435107ejb.116.1625757496830; 
  Thu, 08 Jul 2021 08:18:16 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.15
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:15 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/48] usb: build usb-host as module
-Date: Thu,  8 Jul 2021 17:17:37 +0200
-Message-Id: <20210708151748.408754-38-pbonzini@redhat.com>
+Subject: [PULL 38/48] monitor/tcg: move tcg hmp commands to accel/tcg,
+ register them dynamically
+Date: Thu,  8 Jul 2021 17:17:38 +0200
+Message-Id: <20210708151748.408754-39-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -83,54 +85,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Jose R . Ziviani" <jziviani@suse.de>
+Cc: "Jose R . Ziviani" <jziviani@suse.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Drop one more shared library dependency (libusb) from core qemu.
+One more little step towards modular tcg ...
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-34-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-35-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/usb/host-libusb.c | 1 +
- hw/usb/meson.build   | 8 ++++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ accel/tcg/hmp.c       | 29 +++++++++++++++++++++++++++++
+ accel/tcg/meson.build |  1 +
+ hmp-commands-info.hx  |  2 --
+ monitor/misc.c        | 18 ------------------
+ 4 files changed, 30 insertions(+), 20 deletions(-)
+ create mode 100644 accel/tcg/hmp.c
 
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 2b7f87872c..c0f314462a 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -1777,6 +1777,7 @@ static TypeInfo usb_host_dev_info = {
-     .class_init    = usb_host_class_initfn,
-     .instance_init = usb_host_instance_init,
- };
-+module_obj(TYPE_USB_HOST_DEVICE);
+diff --git a/accel/tcg/hmp.c b/accel/tcg/hmp.c
+new file mode 100644
+index 0000000000..a6e72fdb3e
+--- /dev/null
++++ b/accel/tcg/hmp.c
+@@ -0,0 +1,29 @@
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "exec/exec-all.h"
++#include "monitor/monitor.h"
++#include "sysemu/tcg.h"
++
++static void hmp_info_jit(Monitor *mon, const QDict *qdict)
++{
++    if (!tcg_enabled()) {
++        error_report("JIT information is only available with accel=tcg");
++        return;
++    }
++
++    dump_exec_info();
++    dump_drift_info();
++}
++
++static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
++{
++    dump_opcount_info();
++}
++
++static void hmp_tcg_register(void)
++{
++    monitor_register_hmp("jit", true, hmp_info_jit);
++    monitor_register_hmp("opcount", true, hmp_info_opcount);
++}
++
++type_init(hmp_tcg_register);
+diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
+index 0ae9180282..137a1a44cc 100644
+--- a/accel/tcg/meson.build
++++ b/accel/tcg/meson.build
+@@ -15,6 +15,7 @@ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
  
- static void usb_host_register_types(void)
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+   'cputlb.c',
++  'hmp.c',
+ ))
+ 
+ tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index ce42aef47a..27206ac049 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -274,7 +274,6 @@ ERST
+         .args_type  = "",
+         .params     = "",
+         .help       = "show dynamic compiler info",
+-        .cmd        = hmp_info_jit,
+     },
+ #endif
+ 
+@@ -289,7 +288,6 @@ ERST
+         .args_type  = "",
+         .params     = "",
+         .help       = "show dynamic compiler opcode counters",
+-        .cmd        = hmp_info_opcount,
+     },
+ #endif
+ 
+diff --git a/monitor/misc.c b/monitor/misc.c
+index ad476c6e51..b28874d6dc 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -320,24 +320,6 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+     }
+ }
+ 
+-#ifdef CONFIG_TCG
+-static void hmp_info_jit(Monitor *mon, const QDict *qdict)
+-{
+-    if (!tcg_enabled()) {
+-        error_report("JIT information is only available with accel=tcg");
+-        return;
+-    }
+-
+-    dump_exec_info();
+-    dump_drift_info();
+-}
+-
+-static void hmp_info_opcount(Monitor *mon, const QDict *qdict)
+-{
+-    dump_opcount_info();
+-}
+-#endif
+-
+ static void hmp_info_sync_profile(Monitor *mon, const QDict *qdict)
  {
-diff --git a/hw/usb/meson.build b/hw/usb/meson.build
-index 817f3e027a..3ca6127937 100644
---- a/hw/usb/meson.build
-+++ b/hw/usb/meson.build
-@@ -72,8 +72,12 @@ if usbredir.found()
- endif
- 
- # usb pass-through
--softmmu_ss.add(when: ['CONFIG_USB', libusb],
--               if_true: files('host-libusb.c'))
-+if config_host.has_key('CONFIG_USB_LIBUSB')
-+  usbhost_ss = ss.source_set()
-+  usbhost_ss.add(when: ['CONFIG_USB', libusb],
-+                 if_true: files('host-libusb.c'))
-+  hw_usb_modules += {'host': usbhost_ss}
-+endif
- 
- softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_XEN', libusb], if_true: files('xen-usb.c'))
- 
+     int64_t max = qdict_get_try_int(qdict, "max", 10);
 -- 
 2.31.1
 
