@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE1A3C1606
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:31:23 +0200 (CEST)
-Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB31B3C1636
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:42:30 +0200 (CEST)
+Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Vzm-0007Py-O3
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:31:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
+	id 1m1WAX-00014b-AW
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmz-0000YQ-Vy
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:10 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:37568)
+ id 1m1Vn4-0000pA-0u
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:14 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:45963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmy-0008EX-8V
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:09 -0400
-Received: by mail-ej1-x629.google.com with SMTP id i20so10270154ejw.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
+ id 1m1Vmy-0008FR-U9
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:13 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id t3so8994741edt.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uuuNIH23NCYC3HB+3rBgnfJ6sMhfWC9GGXILCAAVyEg=;
- b=eDctoK8khkg0OEFn51sWQTz0gOqsrCKNvMBXyPglPZGCJG+P17ogdcWdytxaNbF7EY
- IFpg/Ut2DCwoR5c0UR+t775wKYaoQMxwNHzSbawRK9u3qlaxOYMfqaNX6EfusEWO30AE
- EFokeGoHOlQ/WhMdfkb9oXsM0NFabSe34U5ELwhmb7G0AuyBfKulpoKMfUklHOPhpGqA
- 98jCkqtcJkhYjHfMnye46ShStiaitvCidxXb1LO22IbhAosUDtTNjF/Lb5UQJ2gDCgIh
- lw0Ke7VPCewlkipD1jcENiuOw7qfN6c/G8bZ0hrmcLLcZIsvLv/vKI/5MtEHB6xUrztn
- dACw==
+ bh=/Iv10jXl0e7Uri5p1LK00hnQfO9Q7szAFv5OMxF4rGU=;
+ b=n+/N2+OmVGiMcY+aCbw5zD3yF8vycZUuTCU2efxkNc5fDik5vQ6NZWrEg43tomhzWK
+ U5+naVg+GOAEgdlxrOWwoFhOqKipBKZWPeCldgFD13CQFo6EpG6i7mWOCB/rBjqUIX7V
+ vboFP0P0Y/h2Taw0aK/IM0Rv048uWkvqk50BcdD71v2xOQjElxow89ocREqZogly7ZN3
+ WIOv014xJ6VgyQBR7p+Ezk/3dirJ84RVQObyFWCfg+WwOG2M7nkvLC4oIt0nMjoV3e01
+ a0r5c2Xy0OBNtG6LtyQFUdpOqP+g3+LjeyyYuZNne/D8NC+HGp3qU4VLkIK3nlbNJ0wD
+ 9RKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uuuNIH23NCYC3HB+3rBgnfJ6sMhfWC9GGXILCAAVyEg=;
- b=fomof07UVl8yjZ90+gy2X+zcB+V6zXP1UE1jnenpjzMMVN2GAx3xM4KF090gpUY+Jk
- mcuD3YM2vxYYnG7x63JlkcMqapbFxXR+aPpRsYLIpc6gvdfBcN7u2R6kgM4mlCmeH4EP
- 2nIz96yUEOBolgcxegGkQRIg8FsEaYPEFgIO+a7h+gNL7HjYLMBiMTUwvw8XER+ZLxK4
- sOXcdH58SmVaw6eXNmUnFNsXX/1Aad9tQ3WoQJhi55g4CSQcvIwol6Sx7oeRecIVWFM9
- gB3SS95kFViu5SrA5fo/LySNGysL+TSL5sjKRxxH/isi+I3MjCk+8YGBPGIMFK8NkGLF
- BpGg==
-X-Gm-Message-State: AOAM532ei3beOSnrW1zDUzkKGP8JzBrHY8OuKAHWQvycbp3weXPTNj+w
- v+GZdEHBAtePURU4y/Ayn/l1ZvBAIv4=
-X-Google-Smtp-Source: ABdhPJzF8An8J8V3SC5hq/SA1IFDnNlZlF8l4EZRjC4ieAaU4UJffQ/X5WQnH1Hdd7xA/qsjfSJy7Q==
-X-Received: by 2002:a17:906:3b52:: with SMTP id
- h18mr32190244ejf.451.1625757486795; 
- Thu, 08 Jul 2021 08:18:06 -0700 (PDT)
+ bh=/Iv10jXl0e7Uri5p1LK00hnQfO9Q7szAFv5OMxF4rGU=;
+ b=Gsz6lznukhxU/V75He0laSjlMJHRHfaHa0N3ko3+vHlQhUa19IXxiE5yuQzd+u4Awf
+ Z5WOINoZU+ySGv2uExXEMAznQRVoAJxIJSqoar0wFiK+mvguO7oAtPgdDKC5Dra902IA
+ BKzY8rDXCzcT8btxgql+O+dklS/je4clLLdr/Yk5WbXP1YNmK64se0rre6aROZQqzntp
+ sxbIRCGgCPcSuRnQ1vkpOWhXbwUkNTpYpOoHXrGNAavY5E1ERMcyCBp+yK9Q5U+Tm3eJ
+ Mu+P8lYx9h/o8zieiMuJCdmPoMGyeZNL6NYz7klQPXloNKVCDVhbTH3c4XmP2NCmx3Eb
+ njoA==
+X-Gm-Message-State: AOAM530GZO3CF+wWrOuC08EtKlN+J9Wm+SzhF0H7TO0elhSxg+axTWHD
+ CWpMt45ZRdQ1EF9LY9xpWsCx/e5OGEU=
+X-Google-Smtp-Source: ABdhPJxawCmKPDUp0fuIjfKTl0aIc/OX56jtV2ZINOedP3qOFEx8Auz3YOFLxu9SQ40HoOt+SlPGrA==
+X-Received: by 2002:aa7:cd85:: with SMTP id x5mr39074313edv.115.1625757487701; 
+ Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.06
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:06 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/48] modules: target-specific module build infrastructure
-Date: Thu,  8 Jul 2021 17:17:24 +0200
-Message-Id: <20210708151748.408754-25-pbonzini@redhat.com>
+Subject: [PULL 25/48] modules: add documentation for module sourcesets
+Date: Thu,  8 Jul 2021 17:17:25 +0200
+Message-Id: <20210708151748.408754-26-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -91,68 +90,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Gerd Hoffmann <kraxel@redhat.com>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-21-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-22-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ docs/devel/build-system.rst | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index 7b827f7caa..7babef4de4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2001,6 +2001,7 @@ user_ss = ss.source_set()
- util_ss = ss.source_set()
+diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
+index 7ef36f42d0..fd1650442e 100644
+--- a/docs/devel/build-system.rst
++++ b/docs/devel/build-system.rst
+@@ -272,6 +272,23 @@ Target-dependent emulator sourcesets:
+     target_arch += {'arm': arm_ss}
+     target_softmmu_arch += {'arm': arm_softmmu_ss}
  
- modules = {}
-+target_modules = {}
- hw_arch = {}
- target_arch = {}
- target_softmmu_arch = {}
-@@ -2280,6 +2281,42 @@ foreach d, list : modules
-   endforeach
- endforeach
- 
-+foreach d, list : target_modules
-+  foreach m, module_ss : list
-+    if enable_modules and targetos != 'windows'
-+      foreach target : target_dirs
-+        if target.endswith('-softmmu')
-+          config_target = config_target_mak[target]
-+          config_target += config_host
-+          target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
-+          c_args = ['-DNEED_CPU_H',
-+                    '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
-+                    '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
-+          target_module_ss = module_ss.apply(config_target, strict: false)
-+          if target_module_ss.sources() != []
-+            module_name = d + '-' + m + '-' + config_target['TARGET_NAME']
-+            sl = static_library(module_name,
-+                                [genh, target_module_ss.sources()],
-+                                dependencies: [modulecommon, target_module_ss.dependencies()],
-+                                include_directories: target_inc,
-+                                c_args: c_args,
-+                                pic: true)
-+            softmmu_mods += sl
-+            # FIXME: Should use sl.extract_all_objects(recursive: true) too.
-+            modinfo_files += custom_target(module_name + '.modinfo',
-+                                           output: module_name + '.modinfo',
-+                                           input: target_module_ss.sources(),
-+                                           capture: true,
-+                                           command: [modinfo_collect, '--target', target, '@INPUT@'])
-+          endif
-+        endif
-+      endforeach
-+    else
-+      specific_ss.add_all(module_ss)
-+    endif
-+  endforeach
-+endforeach
++Module sourcesets:
++  There are two dictionaries for modules: `modules` is used for
++  target-independent modules and `target_modules` is used for
++  target-dependent modules.  When modules are disabled the `module`
++  source sets are added to `softmmu_ss` and the `target_modules`
++  source sets are added to `specific_ss`.
 +
- if enable_modules
-   modinfo_src = custom_target('modinfo.c',
-                               output: 'modinfo.c',
++  Both dictionaries are nested.  One dictionary is created per
++  subdirectory, and these per-subdirectory dictionaries are added to
++  the toplevel dictionaries.  For example::
++
++    hw_display_modules = {}
++    qxl_ss = ss.source_set()
++    ...
++    hw_display_modules += { 'qxl': qxl_ss }
++    modules += { 'hw-display': hw_display_modules }
++
+ Utility sourcesets:
+   All binaries link with a static library `libqemuutil.a`.  This library
+   is built from several sourcesets; most of them however host generated
 -- 
 2.31.1
 
