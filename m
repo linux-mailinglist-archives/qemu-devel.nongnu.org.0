@@ -2,135 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 946AE3BF6AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:02:02 +0200 (CEST)
-Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F3A3BF6B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:04:01 +0200 (CEST)
+Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Oyv-0002CZ-8O
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
+	id 1m1P0q-0004i4-9T
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m1Oxl-000193-T3; Thu, 08 Jul 2021 04:00:50 -0400
-Received: from mail-eopbgr10119.outbound.protection.outlook.com
- ([40.107.1.119]:13538 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m1Ozr-0003IL-64
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:02:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m1Oxi-0002sd-Sr; Thu, 08 Jul 2021 04:00:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JvND0sGqW5jJA5C/Jh9RPmSE16mQviZpWRL/WFp4iwxxrldP0VMHRooeInzMHVoUVUr0BrObNHmv+XGDHVCX8+2xf9i8Eu5OFBibc4gaBKKqih1NjKaiH6QvxrrLzbY2F/iJdmDW9x1lWZOE9jU4deLOWA7SLdT10yw1MMgIQidpNTCHjze0VWOkeNaIYKKdvFpsJ6HsuEZ7lovqczlc+JyxaFWpiijQ08T1b2UFSBfchwpugTvrPwlafAvmFTVxJuyayxuRiFt4muQKCjWufN9F57fCg7Dj0N1oz1R8V84aHt2KCkHwUoylC80uzZ4zB2FA8WOcb0xMlEqxZWDkHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LkfH0lP+17xbzarhZyetpwfMLdREVfGmb/5wufrYPhM=;
- b=ELfzLqc/Fd8JHkxK4+4MX+1emI7yYpHJoQOzjJNtm5GVTKcZE05fZq0N14kHMx4f5UtwgDlv81dArQ1xMTXT2jpJNTIylelVhNzGT4Bd6wKVSCWuMWM3oEYzqidYCaWdAnKctG0dwMXuZ+FrDfQ481mJwgsHluaK8AyU/pS3wrYzBDtwPmkoXt5GjkNkwMbD+vp+sv16Oc01DOB62gW71SBwPpV7khRDQeaMInxM7d9Lj5rcygMKhD6N20LnyS8anAgqVaE8PNy41230iJI9bVSYXIy7kXJrb9AspwBvKSvs1Cv4R9rtou532K17VLFxvYJ8+n8XZcF+/sipdzG/Rw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LkfH0lP+17xbzarhZyetpwfMLdREVfGmb/5wufrYPhM=;
- b=QWcmtIjvUuA2yxyEy26lUmFafO2Pf+anAoQLyKwGp/QBfV01CCduT48M0TNZ4jHijozZOGfwW96frmq9b9ORvrCNyProUo+/NSWQAKrGzx3OEf68N/xj+IWbKtiNBTl5I2/m08KVFHha7rm/rBtTPsRGH5FH0x7XS61Fhwg141w=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5334.eurprd08.prod.outlook.com (2603:10a6:20b:10b::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Thu, 8 Jul
- 2021 08:00:43 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Thu, 8 Jul 2021
- 08:00:43 +0000
-Subject: Re: [PATCH v3 3/2] qemu-img: Reword 'qemu-img map --output=json' docs
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, nsoffer@redhat.com, mreitz@redhat.com,
- armbru@redhat.com, qemu-block@nongnu.org
-References: <20210701190655.2131223-1-eblake@redhat.com>
- <20210707184125.2551140-1-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <f0f011a3-3344-cfa8-917c-78492737d8ec@virtuozzo.com>
-Date: Thu, 8 Jul 2021 11:00:40 +0300
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m1Ozm-0003dn-RW
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:02:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625731372;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZSL00FjXKzwH4+Uc/ej94o1617SXgtJv0TtXEtJxZj0=;
+ b=OhiEwYYY1WR1HREr1YTPYKOl7zXxSlHG9MgDF9fiHvM2ePPy7ET92R3BdTnb/2PGoQBgyo
+ 5HCKvaxeIoR5FEdns2xESRHcE11txF3L3CSy2y3T1CDHCicVjnbXftxgtyCYUavnpP1CGM
+ 9ho8louJD+q82ICrL2LDq+97OWjBY6Y=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-1MuXJ3JRN8C2eJVfK16uhQ-1; Thu, 08 Jul 2021 04:02:49 -0400
+X-MC-Unique: 1MuXJ3JRN8C2eJVfK16uhQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j18-20020a05600c1c12b029020a5514128fso834445wms.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 01:02:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZSL00FjXKzwH4+Uc/ej94o1617SXgtJv0TtXEtJxZj0=;
+ b=YvgJs/2zEYnwfWfaeRmIH+dE2nZlSNUZ7ROowJXByNjNRYL2/LUtBo3hsc7A4ZvGh5
+ g6ST5zIQSQrZTLbHGUGck3U6F+DjmJ2UTWYrzHoQuORw9lFvT6qukRxrwgtZ45J7p2pG
+ Ar3oUQkMAYIX+bEy2nlPqQV4ohJkZIJ21sxpLfg6YNibyFfit4qFzQ14Vqe4PCKQ/byb
+ NJxe2WB65UdbABx4w1WsOdwDnLgKK80I7gtYNvh5daGoe0QfT8D5o+l+Bg/wtvmBg2yE
+ CLXaroh1ryrmoR6qB/cv4iUtK6fdnpx2z9Kz7NHq8ZPuYfN3ojAz5IQ5/yi62IMNLpWf
+ xm8A==
+X-Gm-Message-State: AOAM533zmpmb1GQa0M+yUPo+P9E5hE0qgM/ghW/MUnbGm53ZwhxxL9gy
+ FVx9lSD9vOm8iontHviF0jZbGs6Djs5cpfBXhSIKicNKTNr3sDjlUpYIwVvmVMO7ikrI1MIoCFK
+ crLxlRlUbVp7mYJM=
+X-Received: by 2002:a5d:64c5:: with SMTP id f5mr21312430wri.277.1625731368438; 
+ Thu, 08 Jul 2021 01:02:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0ZOcyERI4bxpcYLQiEe5II2NayfQEwtxveqX2T/LdKtAMzwuX9LuSMbUCLHQAwbw436qsYg==
+X-Received: by 2002:a5d:64c5:: with SMTP id f5mr21312417wri.277.1625731368255; 
+ Thu, 08 Jul 2021 01:02:48 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id b7sm1332074wri.96.2021.07.08.01.02.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 01:02:47 -0700 (PDT)
+Subject: Re: [PATCH] MAINTAINERS: remove Laszlo Ersek's entries
+To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
+References: <20210708071409.9671-1-lersek@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9549ac78-44e7-e203-600f-14649c80343e@redhat.com>
+Date: Thu, 8 Jul 2021 10:02:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210707184125.2551140-1-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P193CA0009.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:102:50::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.215) by
- PR3P193CA0009.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:50::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.21 via Frontend Transport; Thu, 8 Jul 2021 08:00:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 78de7e97-ee30-4514-c287-08d941e67be9
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5334:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB533475B6D32547ADFE925596C1199@AM7PR08MB5334.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: O/WnnZTh25cJr2z7idY4vJsPItXb7HuyPHrgAczfzMYPZNepn+bVH8/MRZbh6NEOwTyTH4eHoKzgMzCL7dykhcolWLR/2aPyWEKwfPXtiuB7WlsRrHmta/LgBgz0mmge3RPOL1M4fqoSFtylny1SkIF1zrudqMPent3WLukxL5kQ7MgoGzPMDpNDND1p6/XXHrNsuFeiSyWxrUUBdyqg4tSkdxx5ksDwlOzJLlVWG7JKz9HZInSDioeMHXh8ZvY+OvhKE6dLOC5XMddfCw8PKYnEzpPAqn+ExjVBJsS6QgYohOlKrb9qhOsihFU6/mMM32AtbIwk1rxrAKEv/Ps8KtTaTDDh4derjBU5e6WAQ6hM/6/4IfhH6cyQmvREoS04OzjZFVAvuXdpr9B21hA1KJLuL9+Edq1FigQoR5l+Sqqa5jca5ODQy2MI+iizGYvGC2i9b6GKWyku7/G0t5E9K3LLtXDR7ZXmK21CF7vqt4xC0ploq1A2RS9f5aHjlU9cEeqMr6RNEQsnZr6BP8u8WcIFBrg2JtTW6/4T9ljvUBbdCGYytWYE/3uk8SDP/uLbaSkkprjLwLL5tv+t9rO4GfeXVh6sTxVw56VueiTec9jvvtKlNjDNe6vfksSbAUv38kRTperCxGRiUNQk10s5IkNdtCFZAVDBDVsudemgOfVmM82Z1a4BeI11wql3d5fhsQ1sGy0HQHAHeUciXOgO/5YC3APmHTL6DayufVeeqV5qqJl9BKXNKZVVfCEB3k7LIO97aVzGaz8Cx4i+iB8VUw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(39830400003)(346002)(136003)(376002)(366004)(316002)(2616005)(66476007)(38100700002)(478600001)(4744005)(5660300002)(86362001)(186003)(8676002)(8936002)(38350700002)(66946007)(956004)(66556008)(31696002)(31686004)(16576012)(26005)(6486002)(4326008)(36756003)(52116002)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y09XWEhqUlF4eHJuMVlSR2xudW9GV0lyVHkrcFJDNndNNXdZK24xenVkVDVr?=
- =?utf-8?B?Mkl1dXFJT2VzSloyUXhxcW4yQ1hudzJjTHVwVEkyYjVEMjA3YXlkRmYrWEMr?=
- =?utf-8?B?Wk9qMW5IZDVxNW1XNEhsMWZSQ0hnUm9FR08vVVZwalhielE0citYc3RJeW14?=
- =?utf-8?B?OXBoQ21vZk85NVhUNW1mT1VoV1lVSDIvV21haTZybk5IeGYwUDRuWngyVEtn?=
- =?utf-8?B?dndPelB5bUw0dnRkVUZjZXZYcHRrRndoUlJ4UDMweDRCT0ZtT0pIai9sRFQx?=
- =?utf-8?B?aCt1OG0wQTlsamp0YkZMMk05WjRYcmlXaWxYY29VRmpYNURYTFJxNHpFNWdh?=
- =?utf-8?B?by9QdW1iUHpLVHB2alR6amkwdEtHTzVQZ2YyU2F3L3BWTGV1VGZIOFVTNUg1?=
- =?utf-8?B?UWJRNnkzdWkrZXF1eTdwMzdEaHFlajdHUEhLYUtSN2ViT1NkRng1b0lvUk11?=
- =?utf-8?B?Y04wRXRrQ291NnYzUktlS2hlSlJtSjQyQXFkZENpVGhXM2Z6VVg2TVRadVd5?=
- =?utf-8?B?d1dxUFd2dGpDdldhTG5WZzdjNG1OendmNnFWbWFxUDlVR1pKZFlxWmFDMG1Q?=
- =?utf-8?B?RVZWZU1WMmJMaWJWZzJ3TWpMNmxSeXBzc2hlZllYOG5wSlpYT0hkR3lUU01C?=
- =?utf-8?B?K08yV000RTVGNUpyaHdqYUlYNDBrTm1XWURhY0JxY2JEcHFKTUhpeXhyWi9j?=
- =?utf-8?B?VE85QTNVMlZmTmMyYlVrbTZWQTMyVlZaUFJHbkZCT25WZTVHVmd0Tkd2SWJW?=
- =?utf-8?B?U2VqdVc1cVptOGo5c3ZBTTdnZ0lzQVdGSnFuUUtRK2ZPeklFSWlqZVZWYTBO?=
- =?utf-8?B?T2htNDZLWk45SVNhaGZ2bkdWSHgyQnZwSTU5b1k5a2tYWkhwaFVWaTk5K1Uy?=
- =?utf-8?B?c2t6NEpwd21KSWJna0t2SXU3R0hyMEdvVzcveVlrT2gvMjBOYnJKbHR1VUpy?=
- =?utf-8?B?VlFUUzBvQlNlc2F2N2xXQ1lUSlE3SDM5N2k2ZkIvOGN3RExrcS9KQmdRQXlz?=
- =?utf-8?B?VGhXekU4N1BsTmNUR1NEb2svRW9MUVBsUW8xR2FxSzY4SHJXZTMwV3phK0RC?=
- =?utf-8?B?Q3NrcXduUzF6M2dQNW5FL1JBT0dEZENrWU50OUtOT1Z3c1NSWktQUlFmZDBX?=
- =?utf-8?B?d2VSMXlGVUNmeWZqekdWNzV3ejhKZ1NPUTB2d0cvc1prZHd0WXNROUlUVEpq?=
- =?utf-8?B?YlpDY2Q0VnVMeFhoNmM5U2NydW5hNE1BVDROM2YzbFA5NEo3OUV6bnIvSStB?=
- =?utf-8?B?cHh6M3BlMmdQTTZyOG5yODBvajkwNytmRUU4YVBPUkY1cjEwSGJRZWxRblUz?=
- =?utf-8?B?b2QxZ3owNVZGZXI1WmxFQS9JdlhHcEZiMGN0MmlraTZsb0hlOURDMy9jTjVE?=
- =?utf-8?B?YXg2a3RIVUxJVFRaUlVwUUd3S0JjUEJrZG5Fak5BR040Q1dlakR2NTJCQ2RK?=
- =?utf-8?B?R2lFcldZSmVsL1NWMXFUZGhuTkxkWkZ5L0xLdlhock9UYVdhTGF0ZHZ4R3Bj?=
- =?utf-8?B?QTAvNC9ySGsrc2tHbUY0QzlRWHdqZjZvYm1hTDBmeTJsMVV0MmxvQ2dWdEtS?=
- =?utf-8?B?NDMwemxvZ2RWa0VScG5hcGZSSjVtL2FCVFJsNk91RVZyZGtHU2JMeHpUbDNI?=
- =?utf-8?B?T0RMZ2t0TS9MZlF2dU9jMzFKRk9YZ1NGRmc5enZUMyt3aFpWUFpKQ1FsTzRt?=
- =?utf-8?B?Y1h2TmRVOFBwTzZ4WmdsbnF3a0d5M040YmpDVjBDTFFzbUxiVTIvK2dlMDNu?=
- =?utf-8?Q?3bYuLN2afG4XXuvwmO8FTHCT6A23kpWP1+XzUBD?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78de7e97-ee30-4514-c287-08d941e67be9
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 08:00:42.8987 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: czwjUvrsEPlh9s84gRO6+qLMXwAcFPlxVRSmtS2rwIwf+nvCJLzdUUQciyfhiKxKsEz229BGlMXLL7k870SRZdugKGVdNU+ydOLHV1HXAR8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5334
-Received-SPF: pass client-ip=40.107.1.119;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210708071409.9671-1-lersek@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,19 +98,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-07.07.2021 21:41, Eric Blake wrote:
-> Reword the paragraphs to list the JSON key first, rather than in the
-> middle of prose.
+On 7/8/21 9:14 AM, Laszlo Ersek wrote:
+> I've relinquished my edk2 roles with the following commit message [1] [2]
+> [3]:
 > 
-> Suggested-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> Signed-off-by: Eric Blake<eblake@redhat.com>
+>> Maintainers.txt: remove Laszlo Ersek's entries
+>>
+>> I'm relinquishing all my roles listed in "Maintainers.txt", for personal
+>> reasons.
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Thank you Laszlo for your contributions and maintenance duties
+fulfilled.
 
--- 
-Best regards,
-Vladimir
+I learned a lot from your clean workflow and very detailed commit
+messages. I'll certainly miss you, and wish you the best.
+
+Kind regards,
+
+Phil.
+
+>>
+>> My email address <lersek@redhat.com> remains functional.
+>>
+>> To my understanding, my employer is working to assign others engineers
+>> to the edk2 project (at their discretion).
+> 
+> [1] https://edk2.groups.io/g/devel/message/77585
+> [2] https://listman.redhat.com/archives/edk2-devel-archive/2021-July/msg00202.html
+> [3] http://mid.mail-archive.com/20210708070916.8937-1-lersek@redhat.com
+> 
+> Accordingly, remove my entries from QEMU's MAINTAINERS file as well, which
+> all relate to guest firmware.
+> 
+> Cc: Daniel P. Berrange <berrange@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Kashyap Chamarthy <kchamart@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  MAINTAINERS | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 684142e12eaa..7839f676dc3a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2165,7 +2165,6 @@ F: include/hw/southbridge/piix.h
+>  
+>  Firmware configuration (fw_cfg)
+>  M: Philippe Mathieu-Daudé <philmd@redhat.com>
+> -R: Laszlo Ersek <lersek@redhat.com>
+>  R: Gerd Hoffmann <kraxel@redhat.com>
+>  S: Supported
+>  F: docs/specs/fw_cfg.txt
+> @@ -2897,7 +2896,6 @@ F: include/hw/i2c/smbus_slave.h
+>  F: include/hw/i2c/smbus_eeprom.h
+>  
+>  Firmware schema specifications
+> -M: Laszlo Ersek <lersek@redhat.com>
+>  M: Philippe Mathieu-Daudé <philmd@redhat.com>
+>  R: Daniel P. Berrange <berrange@redhat.com>
+>  R: Kashyap Chamarthy <kchamart@redhat.com>
+> @@ -2905,7 +2903,6 @@ S: Maintained
+>  F: docs/interop/firmware.json
+>  
+>  EDK2 Firmware
+> -M: Laszlo Ersek <lersek@redhat.com>
+>  M: Philippe Mathieu-Daudé <philmd@redhat.com>
+>  S: Supported
+>  F: pc-bios/descriptors/??-edk2-*.json
+> 
+
 
