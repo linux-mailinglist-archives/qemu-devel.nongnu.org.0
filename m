@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F7BD3C1707
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:25:10 +0200 (CEST)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBED3C16F4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:19:25 +0200 (CEST)
+Received: from localhost ([::1]:38312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wpp-0004xG-5H
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
+	id 1m1WkG-000807-9i
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEU-0001AV-AG
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40608)
+ id 1m1WEV-0001Bk-9Z
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WER-0000KK-BX
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:34 -0400
+ id 1m1WET-0000Kc-6H
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759190;
+ s=mimecast20190719; t=1625759192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=KaoYlejuqA/NUY+fJqOlUopwi48ECHHir9q34fYHjzc=;
- b=g/mCJ/rmAnLSJL3hOzs5XDBhkVlARF8KkaBggaSPuZWCRNyNItQs4dB/ikraEXAhVqa9RK
- r0A4qUIdAJZqu4oRe7iFyLRPB9JjlR4bawvTBZO2sWPyT8HrndQ0DSLiy7ioGaCtW8Ro5A
- pBNIGUrxqsfxWuUFVIXdnQJjzKtvnos=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q3FtTaLI6d7reROP0H2dey4JNfLhaIJxMMYm5ufEzI0=;
+ b=C+McJCGLhfdZAXBl0myx8YZNztCeSssFSO53v/AkZXsZ9sF4Y1HPzr49pctBKfnrHKhq+O
+ jWJXW3o2cgBpsPouFuQQGzA+p6nfSkbrRpo6zqdPQvqrPJc+F0jbh6nMRGWRM5Oo0ckZRM
+ WkdxCGpUIjshokKxng1BjGIqVRccXJo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-QtYmL7nAP6-x4U9HOfal3Q-1; Thu, 08 Jul 2021 11:46:29 -0400
-X-MC-Unique: QtYmL7nAP6-x4U9HOfal3Q-1
+ us-mta-289-XH-Si9fIM52SYOupFVkPsA-1; Thu, 08 Jul 2021 11:46:31 -0400
+X-MC-Unique: XH-Si9fIM52SYOupFVkPsA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3695F801107
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:46:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 181C719253C0
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:46:30 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08A2C19C66;
- Thu,  8 Jul 2021 15:46:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C0FF19C66;
+ Thu,  8 Jul 2021 15:46:29 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/35] acpi: refactor error prone build_header() and packed
- structures usage in ACPI tables
-Date: Thu,  8 Jul 2021 11:45:42 -0400
-Message-Id: <20210708154617.1538485-1-imammedo@redhat.com>
+Subject: [PATCH v2 02/35] acpi: build_rsdt: use
+ acpi_init_table()/acpi_table_composed() instead of build_header()
+Date: Thu,  8 Jul 2021 11:45:44 -0400
+Message-Id: <20210708154617.1538485-3-imammedo@redhat.com>
+In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
+References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -81,124 +84,85 @@ Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-  - drop test related patches, they will be sent as a separate series
-  - fix bios_loader pointer initialization ordering when using TPM1.2
-  - extend commit message of [1/35] and add extra comment about
-    table length patching 
+it replaces error-prone pointer arithmetic for build_header() API,
+with 2 calls to start and finish table creation,
+which hides offests magic from API user.
 
-Highlights:
-  * drop pointer arithmetic in ACPI tables code
-  * use endian agnostic API
-  * simplifies review of tables. /in most cases just line by line comparision with spec/
+While at it switch to build_append_int_noprefix() to build
+entries to other tables (which also removes some manual offset
+calculations).
 
-Series replaces build_header() with acpi_init_table()/acpi_table_composed()
-API that hides pointer/offset arithmetic from user, to prevent
-errors caused by it [1].
-While doing above, it was necessary to split table header from
-packed structure that was describing the table, which is
-counter-productive since it still leaves packed structure drawbacks.
-So that sort of forced me to rewrite tables that were composed with
-help of packed structures to preferred build_append_int_noprefix() API.
-In cases where refactoring to build_append_int_noprefix() was small,
-it was squashed with acpi_init_table()/acpi_table_composed() patch.
-Conversion reduced code size quite a bit despite me adding doc comments
-for every table row.
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ include/hw/acpi/acpi-defs.h | 10 ----------
+ hw/acpi/aml-build.c         | 27 ++++++++++++---------------
+ 2 files changed, 12 insertions(+), 25 deletions(-)
 
-1) commits
-   bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
-   4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
-
-Link to repo:
-   https://gitlab.com/imammedo/qemu/-/commits/acpi_build_header_refactoring_v2
-
-CC: mst@redhat.com
-
-
-
-Igor Mammedov (35):
-  acpi: add helper routines to initialize ACPI tables
-  acpi: build_rsdt: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_xsdt: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_slit: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_fadt: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_tpm2: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: acpi_build_hest: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: build_mcfg: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_hmat: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: nvdimm_build_nfit: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: nvdimm_build_ssdt: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: vmgenid_build_acpi: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: x86: build_dsdt: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: build_hpet: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_tpm_tcpa: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: arm/x86: build_srat: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: use build_append_int_noprefix() API to compose SRAT table
-  acpi: build_dmar_q35: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: build_waet: use acpi_init_table()/acpi_table_composed() instead
-    of build_header()
-  acpi: build_amd_iommu: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: madt: arm/x86: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: x86: remove dead code
-  acpi: x86: set enabled when composing _MAT entries
-  acpi: x86: madt: use build_append_int_noprefix() API to compose MADT
-    table
-  acpi: arm/virt: madt: use build_append_int_noprefix() API to compose
-    MADT table
-  acpi: build_dsdt_microvm: use acpi_init_table()/acpi_table_composed()
-    instead of build_header()
-  acpi: arm: virt: build_dsdt: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: arm: virt: build_iort: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: arm/virt: convert build_iort() to endian agnostic
-    build_append_FOO() API
-  acpi: arm/virt: build_spcr: fix invalid cast
-  acpi: arm/virt: build_spcr: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: arm/virt: build_gtdt: use
-    acpi_init_table()/acpi_table_composed() instead of build_header()
-  acpi: build_facs: use build_append_int_noprefix() API to compose table
-  acpi: remove no longer used build_header()
-  acpi: AcpiGenericAddress no longer used to map/access fields of MMIO,
-    drop packed attribute
-
- include/hw/acpi/acpi-defs.h          | 528 +------------------------
- include/hw/acpi/acpi_dev_interface.h |   3 +-
- include/hw/acpi/aml-build.h          |  21 +-
- include/hw/i386/pc.h                 |   7 +-
- hw/acpi/acpi-x86-stub.c              |   3 +-
- hw/acpi/aml-build.c                  | 193 ++++++----
- hw/acpi/cpu.c                        |  17 +-
- hw/acpi/ghes.c                       |  10 +-
- hw/acpi/hmat.c                       |  14 +-
- hw/acpi/nvdimm.c                     |  64 ++--
- hw/acpi/pci.c                        |  18 +-
- hw/acpi/vmgenid.c                    |  16 +-
- hw/arm/virt-acpi-build.c             | 550 +++++++++++++++------------
- hw/i386/acpi-build.c                 | 284 ++++++++------
- hw/i386/acpi-common.c                | 158 ++++----
- hw/i386/acpi-microvm.c               |  13 +-
- 16 files changed, 750 insertions(+), 1149 deletions(-)
-
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index cf9f44299c..ccfa3382aa 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -149,16 +149,6 @@ struct AcpiSerialPortConsoleRedirection {
+ typedef struct AcpiSerialPortConsoleRedirection
+                AcpiSerialPortConsoleRedirection;
+ 
+-/*
+- * ACPI 1.0 Root System Description Table (RSDT)
+- */
+-struct AcpiRsdtDescriptorRev1 {
+-    ACPI_TABLE_HEADER_DEF       /* ACPI common table header */
+-    uint32_t table_offset_entry[];  /* Array of pointers to other */
+-    /* ACPI tables */
+-} QEMU_PACKED;
+-typedef struct AcpiRsdtDescriptorRev1 AcpiRsdtDescriptorRev1;
+-
+ /*
+  * ACPI 2.0 eXtended System Description Table (XSDT)
+  */
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index c598010144..705fe350bb 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -1886,27 +1886,24 @@ build_rsdt(GArray *table_data, BIOSLinker *linker, GArray *table_offsets,
+            const char *oem_id, const char *oem_table_id)
+ {
+     int i;
+-    unsigned rsdt_entries_offset;
+-    AcpiRsdtDescriptorRev1 *rsdt;
+-    int rsdt_start = table_data->len;
+-    const unsigned table_data_len = (sizeof(uint32_t) * table_offsets->len);
+-    const unsigned rsdt_entry_size = sizeof(rsdt->table_offset_entry[0]);
+-    const size_t rsdt_len = sizeof(*rsdt) + table_data_len;
+-
+-    rsdt = acpi_data_push(table_data, rsdt_len);
+-    rsdt_entries_offset = (char *)rsdt->table_offset_entry - table_data->data;
++    AcpiTable table = { .sig = "RSDT", .rev = 1,
++                        .oem_id = oem_id, .oem_table_id = oem_table_id };
++
++    acpi_init_table(&table, table_data);
+     for (i = 0; i < table_offsets->len; ++i) {
+         uint32_t ref_tbl_offset = g_array_index(table_offsets, uint32_t, i);
+-        uint32_t rsdt_entry_offset = rsdt_entries_offset + rsdt_entry_size * i;
++        uint32_t rsdt_entry_offset = table.array->len;
++
++        /* reserve space for entry */
++        build_append_int_noprefix(table.array, 0, 4);
+ 
+-        /* rsdt->table_offset_entry to be filled by Guest linker */
++        /* mark position of RSDT entry to be filled by Guest linker */
+         bios_linker_loader_add_pointer(linker,
+-            ACPI_BUILD_TABLE_FILE, rsdt_entry_offset, rsdt_entry_size,
++            ACPI_BUILD_TABLE_FILE, rsdt_entry_offset, 4,
+             ACPI_BUILD_TABLE_FILE, ref_tbl_offset);
++
+     }
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + rsdt_start),
+-                 "RSDT", rsdt_len, 1, oem_id, oem_table_id);
++    acpi_table_composed(linker, &table);
+ }
+ 
+ /* Build xsdt table */
 -- 
 2.27.0
 
