@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1DDA3C13E0
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:09:06 +0200 (CEST)
-Received: from localhost ([::1]:60324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D08443C13D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:07:15 +0200 (CEST)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Tm5-0005Kd-S8
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43664)
+	id 1m1TkI-0001oC-RJ
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:07:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1Tek-0007og-8l
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:01:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24121)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m1TgJ-0002rF-3W
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:03:08 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:39488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1Tei-000714-1t
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:01:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625749287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YTcrAV3Y28bzpuvp5cnTC+eK3Gu3yTmzdQ1ul5+nxrM=;
- b=TRIisqYRwxEf4uI7H3pvPCfjyQC6PI0AX5ZsW/LOxfYTReSDmqWWGxtpkE2UNlanVgy3uv
- vEmpcQ7bdHoVXW6yvmkdJ8yFu8w40NLb4xSK2JfRnAngXKYDBVyUtccCqPf/1PNtCv+jQy
- T/2nQz/57HUC3yS6PK9vM8GTdx5RUyw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-126-kMz62RYaNqOnw7F2mpH2lg-1; Thu, 08 Jul 2021 09:01:24 -0400
-X-MC-Unique: kMz62RYaNqOnw7F2mpH2lg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC596804308;
- Thu,  8 Jul 2021 13:01:22 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6F3CD5D9FC;
- Thu,  8 Jul 2021 13:01:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D978E1132B52; Thu,  8 Jul 2021 15:01:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v4 1/3] qapi/qdev.json: add DEVICE_UNPLUG_ERROR QAPI event
-References: <20210707003314.37110-1-danielhb413@gmail.com>
- <20210707003314.37110-2-danielhb413@gmail.com>
-Date: Thu, 08 Jul 2021 15:01:20 +0200
-In-Reply-To: <20210707003314.37110-2-danielhb413@gmail.com> (Daniel Henrique
- Barboza's message of "Tue, 6 Jul 2021 21:33:12 -0300")
-Message-ID: <87r1g96jtr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m1TgC-0007Mq-1S
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 09:03:04 -0400
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id E6EAB2E1AFA;
+ Thu,  8 Jul 2021 16:02:53 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ uELtJp9eQc-2rxqroUw; Thu, 08 Jul 2021 16:02:53 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1625749373; bh=yD+2cJDD55kl4nwxOcoxnmBAhOtHQ2f7PW6hkRLvFME=;
+ h=In-Reply-To:References:Date:Message-ID:From:To:Subject:Cc;
+ b=aU4epeEM+SDy8BPnN0/+mGXE6p7Mh24Hl8pfn+TKKyTQkKDA1JTLP1cFh4syHE2r/
+ /eN3NPtS+kZ3q0xxpTpU+hQwaNCfcjxVQ6oxviDeEl2c58KFp0wGGNKfZF8xh+Natd
+ G1IOS0ucqDqhDLkUt7KBDuFTPSETm5BBKV2hDJuE=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:12::1:3a])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ p0lAaOXVpS-2r2OTacq; Thu, 08 Jul 2021 16:02:53 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v1] vhost: make SET_VRING_ADDR, SET_FEATURES send replies
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210708082840.12428-1-den-plotnikov@yandex-team.ru>
+ <20210708080209-mutt-send-email-mst@kernel.org>
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+Message-ID: <fb1319a9-b677-1cb9-0cb5-c26484524089@yandex-team.ru>
+Date: Thu, 8 Jul 2021 16:02:52 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210708080209-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,147 +77,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, groug@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 
-> At this moment we only provide one event to report a hotunplug error,
-> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
-> machine is now able to report unplug errors for other device types, such
-> as CPUs.
+On 08.07.2021 15:04, Michael S. Tsirkin wrote:
+> On Thu, Jul 08, 2021 at 11:28:40AM +0300, Denis Plotnikov wrote:
+>> On vhost-user-blk migration, qemu normally sends a number of commands
+>> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+>> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+>> VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
+>> data logging.
+>> The issue is that qemu doesn't wait for reply from the vhost daemon
+>> for these commands which may result in races between qemu expectation
+>> of logging starting and actual login starting in vhost daemon.
+>>
+>> The race can appear as follows: on migration setup, qemu enables dirty page
+>> logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
+>> vhost-user-blk daemon immediately and the daemon needs some time to turn the
+>> logging on internally. If qemu doesn't wait for reply, after sending the
+>> command, qemu may start migrate memory pages to a destination. At this time,
+>> the logging may not be actually turned on in the daemon but some guest pages,
+>> which the daemon is about to write to, may have already been transferred
+>> without logging to the destination. Since the logging wasn't turned on,
+>> those pages won't be transferred again as dirty. So we may end up with
+>> corrupted data on the destination.
+>> The same scenario is applicable for "used ring" data logging, which is
+>> turned on with VHOST_USER_SET_VRING_ADDR command.
+>>
+>> To resolve this issue, this patch makes qemu wait for the commands result
+>> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
+>>
+>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+>> ---
+>>   hw/virtio/vhost-user.c | 31 ++++++++++++++++++++++++++++---
+>>   1 file changed, 28 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>> index ee57abe04526..15b5fac67cf3 100644
+>> --- a/hw/virtio/vhost-user.c
+>> +++ b/hw/virtio/vhost-user.c
+>> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+>>           .hdr.size = sizeof(msg.payload.addr),
+>>       };
+>>   
+>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+>> +                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>> +    if (reply_supported) {
+>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>> +    }
+>> +
+>>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>>           return -1;
+>>       }
+>>   
+>> +    if (reply_supported) {
+>> +        return process_message_reply(dev, &msg);
+>> +    }
+>> +
+>>       return 0;
+>>   }
+>>   
+> Same - can we limit this to when logging is being enabled?
+
+I think it's possible but do we really need some additional complexity?
+
+Do you bother about delays on device initialization?  Would the reply 
+for the command introduce significant device initialization time delay? 
+In my understanding, this is done rarely on vhost-user device 
+initialization. So, may be we can afford it to be a little bit longer?
+
+According to the migration case, in my understanding, major time the 
+migration of vhost-user should be done with logging enabled. Otherwise 
+it's hard to tell how to make sure that the memory migrates with 
+consistent data. So here we shouldn't care too much about setup speed 
+and should care more about data consistency. What do you think?
+
+Thanks!
+
+Denis
+
 >
-> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
-> create a generic DEVICE_UNPLUG_ERROR event that can be used by all
-> unplug errors in the future.
+>> @@ -1288,7 +1298,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
+>>       return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
+>>   }
+>>   
+>> -static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+>> +static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
+>> +                              bool need_reply)
+>>   {
+>>       VhostUserMsg msg = {
+>>           .hdr.request = request,
+>> @@ -1297,23 +1308,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+>>           .hdr.size = sizeof(msg.payload.u64),
+>>       };
+>>   
+>> +    if (need_reply) {
+>> +        bool reply_supported = virtio_has_feature(dev->protocol_features,
+>> +                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>> +        if (reply_supported) {
+>> +            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>> +        }
+>> +    }
+>> +
+>>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>>           return -1;
+>>       }
+>>   
+>> +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
+>> +        return process_message_reply(dev, &msg);
+>> +    }
+>> +
+>>       return 0;
+>>   }
+>>   
+>>   static int vhost_user_set_features(struct vhost_dev *dev,
+>>                                      uint64_t features)
+>>   {
+>> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
+>> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
+>> +                              true);
+>>   }
+>>   
+> Same here. In fact,
 >
-> With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated.
->
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  docs/system/deprecated.rst | 10 ++++++++++
->  qapi/machine.json          |  6 +++++-
->  qapi/qdev.json             | 27 ++++++++++++++++++++++++++-
->  3 files changed, 41 insertions(+), 2 deletions(-)
->
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 70e08baff6..ca6c7f9d43 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
->  (the ISA has never been upstreamed to a compiler toolchain). Therefore
->  this CPU is also deprecated.
->  
-> +
-> +QEMU API (QAPI) events
-> +----------------------
-> +
-> +``MEM_UNPLUG_ERROR`` (since 6.1)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Use the more generic event ``DEVICE_UNPLUG_ERROR`` instead.
-> +
-> +
->  System emulator machines
->  ------------------------
->  
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index c3210ee1fb..a595c753d2 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1271,6 +1271,9 @@
->  #
->  # @msg: Informative message
->  #
-> +# Features:
-> +# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_ERROR instead.
-> +#
->  # Since: 2.4
->  #
->  # Example:
-> @@ -1283,7 +1286,8 @@
->  #
->  ##
->  { 'event': 'MEM_UNPLUG_ERROR',
-> -  'data': { 'device': 'str', 'msg': 'str' } }
-> +  'data': { 'device': 'str', 'msg': 'str' },
-> +  'features': ['deprecated'] }
->  
->  ##
->  # @SMPConfiguration:
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index b83178220b..349d7439fa 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -84,7 +84,9 @@
->  #        This command merely requests that the guest begin the hot removal
->  #        process.  Completion of the device removal process is signaled with a
->  #        DEVICE_DELETED event. Guest reset will automatically complete removal
-> -#        for all devices.
-> +#        for all devices. If an error in the hot removal process is detected,
-> +#        the device will not be removed and a DEVICE_UNPLUG_ERROR event is
-> +#        sent.
-
-"If an error ... is detected" kind of implies that some errors may go
-undetected.  Let's spell this out more clearly.  Perhaps append "Some
-errors cannot be detected."
-
-DEVICE_UNPLUG_ERROR's unrelability is awkward.  Best we can do in the
-general case.  Can we do better in special cases, and would it be
-worthwhile?  If yes, it should probably be done on top.
-
-Two spaces between sentences for consistency with the existing text, please.
-
->  #
->  # Since: 0.14
->  #
-> @@ -124,3 +126,26 @@
->  ##
->  { 'event': 'DEVICE_DELETED',
->    'data': { '*device': 'str', 'path': 'str' } }
-> +
-> +##
-> +# @DEVICE_UNPLUG_ERROR:
-> +#
-> +# Emitted when a device hot unplug error occurs.
-> +#
-> +# @device: device name
-> +#
-> +# @msg: Informative message
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "DEVICE_UNPLUG_ERROR"
-> +#      "data": { "device": "dimm1",
-> +#                "msg": "Memory hotunplug rejected by the guest for device dimm1"
-> +#      },
-> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
-> +#
-> +##
-> +{ 'event': 'DEVICE_UNPLUG_ERROR',
-> +  'data': { 'device': 'str', 'msg': 'str' } }
-
-Hmm.
-
-DEVICE_DELETED provides the device ID if the device has one, and the QOM
-path.  Documentation is less than clear for both (not your patch's
-fault).
-
-DEVICE_UNPLUG_ERROR provides the device ID unconditionally, and doesn't
-provide the QOM path.  What if the device doesn't have a device ID?
-
-I suspect DEVICE_UNPLUG_ERROR should match DEVICE_DELETED exactly.
-
-Bonus (for me, not for you): improving the unclear documentation becomes
-your patch's problem.  Here's my attempt:
-
-   # @device: the device's ID if it has one
-   #
-   # @path: the device's path within the object model
-
+>>   static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+>>                                               uint64_t features)
+>>   {
+>> -    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
+>> +    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
+>> +                              false);
+>>   }
+>>   
+>>   static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
+>> -- 
+>> 2.25.1
 
