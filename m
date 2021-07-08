@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A003C16DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:10:33 +0200 (CEST)
-Received: from localhost ([::1]:38342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DF543C16E2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:12:36 +0200 (CEST)
+Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wbg-00060G-Bf
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:10:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59714)
+	id 1m1Wdf-0003IQ-26
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:12:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEh-0001mX-Nw
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26871)
+ id 1m1WEi-0001p9-HP
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEf-0000Ql-Kg
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:47 -0400
+ id 1m1WEe-0000Q0-On
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759205;
+ s=mimecast20190719; t=1625759204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S2dnj5ofR1pP14rqmIvjnp+y1VQ61moNNf/hWnxaLQI=;
- b=fqqZeR+YKmTRbn5vN1E8G2T270QaU2H6OBh7EQ0X2Qr84ZSIzoebp0DyY9IaYEN27gZUDd
- 1Q3M3E+LKR31y17kWfOkzaLt0EtVzizPYi15EmxQJg2T0liR8RpvzCVtmG4uPllFkcy9gN
- Q1coCbD5ayxQ/SBEvtUCEp41I/gOyrY=
+ bh=U2QgUvfMpadBh2AQDDOvXP4cVnjgCvfVZr31ia6ancI=;
+ b=G2ul3+fK4JRpDB2MDJV5JL6I/25VmZTKZGkWA9wRSfaC0QzpNtx5W+eBx1h8SWo/0QQIfZ
+ TuDZT3VrxPFSOZeRVLy+rsjWUbZ8vekkPxETa4HdXAtjxxR4eaqKNp2LS7X4U2wxYXcbcN
+ Ay9uRwVCEYmg20xmWAQ3Sr9wzGrBgGU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-nZFHEU4LMr2J1CXpEq8eRg-1; Thu, 08 Jul 2021 11:46:41 -0400
-X-MC-Unique: nZFHEU4LMr2J1CXpEq8eRg-1
+ us-mta-159-EeVlKZ5lMoyTQCnVeTDd4w-1; Thu, 08 Jul 2021 11:46:42 -0400
+X-MC-Unique: EeVlKZ5lMoyTQCnVeTDd4w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9563F80006E
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:46:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD5951023F41;
+ Thu,  8 Jul 2021 15:46:41 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EAC9419C66;
- Thu,  8 Jul 2021 15:46:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DDA1019C66;
+ Thu,  8 Jul 2021 15:46:40 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/35] acpi: vmgenid_build_acpi: use
+Subject: [PATCH v2 13/35] acpi: x86: build_dsdt: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Thu,  8 Jul 2021 11:45:54 -0400
-Message-Id: <20210708154617.1538485-13-imammedo@redhat.com>
+Date: Thu,  8 Jul 2021 11:45:55 -0400
+Message-Id: <20210708154617.1538485-14-imammedo@redhat.com>
 In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
 References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -90,49 +90,38 @@ which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/vmgenid.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+CC: marcel.apfelbaum@gmail.com
+---
+ hw/i386/acpi-build.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
-index 4f41a13ea0..1801e8badf 100644
---- a/hw/acpi/vmgenid.c
-+++ b/hw/acpi/vmgenid.c
-@@ -29,6 +29,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
-     Aml *ssdt, *dev, *scope, *method, *addr, *if_ctx;
-     uint32_t vgia_offset;
-     QemuUUID guid_le;
-+    AcpiTable table = { .sig = "SSDT", .rev = 1,
-+                        .oem_id = oem_id, .oem_table_id = "VMGENID" };
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 796ffc6f5c..538af9d944 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1380,12 +1380,12 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+ #endif
+     int i;
+     VMBusBridge *vmbus_bridge = vmbus_bridge_find();
++    AcpiTable table = { .sig = "DSDT", .rev = 1, .oem_id = x86ms->oem_id,
++                        .oem_table_id = x86ms->oem_table_id };
  
-     /* Fill in the GUID values.  These need to be converted to little-endian
-      * first, since that's what the guest expects
-@@ -42,15 +44,12 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
-     g_array_insert_vals(guid, VMGENID_GUID_OFFSET, guid_le.data,
-                         ARRAY_SIZE(guid_le.data));
- 
--    /* Put this in a separate SSDT table */
-+    /* Put VMGNEID into a separate SSDT table */
 +    acpi_init_table(&table, table_data);
-     ssdt = init_aml_allocator();
+     dsdt = init_aml_allocator();
  
 -    /* Reserve space for header */
--    acpi_data_push(ssdt->buf, sizeof(AcpiTableHeader));
+-    acpi_data_push(dsdt->buf, sizeof(AcpiTableHeader));
 -
-     /* Storage for the GUID address */
--    vgia_offset = table_data->len +
--        build_append_named_dword(ssdt->buf, "VGIA");
-+    vgia_offset = table_data->len + build_append_named_dword(ssdt->buf, "VGIA");
-     scope = aml_scope("\\_SB");
-     dev = aml_device("VGEN");
-     aml_append(dev, aml_name_decl("_HID", aml_string("QEMUVGID")));
-@@ -116,9 +115,8 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *guid,
-         ACPI_BUILD_TABLE_FILE, vgia_offset, sizeof(uint32_t),
-         VMGENID_GUID_FW_CFG_FILE, 0);
+     build_dbg_aml(dsdt);
+     if (misc->is_piix4) {
+         sb_scope = aml_scope("_SB");
+@@ -1816,9 +1816,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
  
+     /* copy AML table into ACPI tables blob and patch header there */
+     g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
 -    build_header(linker, table_data,
--        (void *)(table_data->data + table_data->len - ssdt->buf->len),
--        "SSDT", ssdt->buf->len, 1, oem_id, "VMGENID");
-+    /* must be called after above command to ensure correct table checksum */
+-        (void *)(table_data->data + table_data->len - dsdt->buf->len),
+-                 "DSDT", dsdt->buf->len, 1, x86ms->oem_id, x86ms->oem_table_id);
 +    acpi_table_composed(linker, &table);
      free_aml_allocator();
  }
