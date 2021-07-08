@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11A153C1A75
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:18:47 +0200 (CEST)
-Received: from localhost ([::1]:53264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2D33C1A80
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:21:35 +0200 (CEST)
+Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1aTu-0004gv-3K
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:18:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
+	id 1m1aWc-0000da-84
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:21:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a9x-0007OL-Rf
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23005)
+ id 1m1aA1-0007T1-NU
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a9v-0002gO-SR
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:09 -0400
+ id 1m1a9z-0002iM-GF
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625774287;
+ s=mimecast20190719; t=1625774291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kJ5LwKOrrp3cXPafTOZWAfLKPhKVXnWGeznvU4GZumI=;
- b=AyclZuGdUyuxXPw9td1kN8BhW+BaBNbk9Dar+eE4nxNQbpENJx+odIwZSrJaqJDJ0Jndlk
- 3qhMPS3/nMVwaZ1/l1pNCrwNPpKRhH2eiX68hwNrkYM1kZxPJ2lr3xVq96f0FmDwSIyMoU
- kGdzi7EwWfTYdkCoKppd3SmhReZ0Ec4=
+ bh=muJDJ7+wfZs2/M1m0FdspOh9UZ+U4wDZmyCZZIiyx5A=;
+ b=DDW4E174kLjz+As65yitDZnwJw+t/KFchh7Mvuuud3+VT447MnfgjKwyyLSqS8wcZkxXcw
+ nUdz7Txs2spLZOEiPqd2fqZlaCz7m5hShmew59eaZ12SWqPmDS+5hcjuB6+FJ1Is/1OpyV
+ m00uDdK8tzlwFIY3cXTkg05fMSfiJdk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-y-OiSQofNhyQ0-t4aZ8FtQ-1; Thu, 08 Jul 2021 15:58:05 -0400
-X-MC-Unique: y-OiSQofNhyQ0-t4aZ8FtQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-430-YGbIL9pqNBGmv3dH46K8Ig-1; Thu, 08 Jul 2021 15:58:08 -0400
+X-MC-Unique: YGbIL9pqNBGmv3dH46K8Ig-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42DB0C7441;
- Thu,  8 Jul 2021 19:57:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C29052A04;
+ Thu,  8 Jul 2021 19:57:47 +0000 (UTC)
 Received: from localhost (unknown [10.22.8.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F275760C4A;
- Thu,  8 Jul 2021 19:57:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C99B960854;
+ Thu,  8 Jul 2021 19:57:46 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 10/15] vfio: Sanity check maximum number of DMA mappings
- with RamDiscardManager
-Date: Thu,  8 Jul 2021 15:55:47 -0400
-Message-Id: <20210708195552.2730970-11-ehabkost@redhat.com>
+Subject: [PULL v2 12/15] softmmu/physmem: Don't use atomic operations in
+ ram_block_discard_(disable|require)
+Date: Thu,  8 Jul 2021 15:55:49 -0400
+Message-Id: <20210708195552.2730970-13-ehabkost@redhat.com>
 In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
 References: <20210708195552.2730970-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,11 +81,12 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
  teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
  Wei Yang <richard.weiyang@linux.alibaba.com>
@@ -94,17 +95,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Although RamDiscardManager can handle running into the maximum number of
-DMA mappings by propagating errors when creating a DMA mapping, we want
-to sanity check and warn the user early that there is a theoretical setup
-issue and that virtio-mem might not be able to provide as much memory
-towards a VM as desired.
+We have users in migration context that don't hold the BQL (when
+finishing migration). To prepare for further changes, use a dedicated mutex
+instead of atomic operations. Keep using qatomic_read ("READ_ONCE") for the
+functions that only extract the current state (e.g., used by
+virtio-balloon), locking isn't necessary.
 
-As suggested by Alex, let's use the number of KVM memory slots to guess
-how many other mappings we might see over time.
+While at it, split up the counter into two variables to make it easier
+to understand.
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+Suggested-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -118,66 +120,112 @@ Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
 Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210413095531.25603-9-david@redhat.com>
+Message-Id: <20210413095531.25603-11-david@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/vfio/common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ softmmu/physmem.c | 70 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 39 insertions(+), 31 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 79628d60aed..f8a2fe8441a 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -728,6 +728,49 @@ static void vfio_register_ram_discard_listener(VFIOContainer *container,
-                               vfio_ram_discard_notify_discard, true);
-     ram_discard_manager_register_listener(rdm, &vrdl->listener, section);
-     QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
-+
-+    /*
-+     * Sanity-check if we have a theoretically problematic setup where we could
-+     * exceed the maximum number of possible DMA mappings over time. We assume
-+     * that each mapped section in the same address space as a RamDiscardManager
-+     * section consumes exactly one DMA mapping, with the exception of
-+     * RamDiscardManager sections; i.e., we don't expect to have gIOMMU sections
-+     * in the same address space as RamDiscardManager sections.
-+     *
-+     * We assume that each section in the address space consumes one memslot.
-+     * We take the number of KVM memory slots as a best guess for the maximum
-+     * number of sections in the address space we could have over time,
-+     * also consuming DMA mappings.
-+     */
-+    if (container->dma_max_mappings) {
-+        unsigned int vrdl_count = 0, vrdl_mappings = 0, max_memslots = 512;
-+
-+#ifdef CONFIG_KVM
-+        if (kvm_enabled()) {
-+            max_memslots = kvm_get_max_memslots();
-+        }
-+#endif
-+
-+        QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
-+            hwaddr start, end;
-+
-+            start = QEMU_ALIGN_DOWN(vrdl->offset_within_address_space,
-+                                    vrdl->granularity);
-+            end = ROUND_UP(vrdl->offset_within_address_space + vrdl->size,
-+                           vrdl->granularity);
-+            vrdl_mappings += (end - start) / vrdl->granularity;
-+            vrdl_count++;
-+        }
-+
-+        if (vrdl_mappings + max_memslots - vrdl_count >
-+            container->dma_max_mappings) {
-+            warn_report("%s: possibly running out of DMA mappings. E.g., try"
-+                        " increasing the 'block-size' of virtio-mem devies."
-+                        " Maximum possible DMA mappings: %d, Maximum possible"
-+                        " memslots: %d", __func__, container->dma_max_mappings,
-+                        max_memslots);
-+        }
-+    }
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 9b171c9dbe5..f1275b61f84 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3684,56 +3684,64 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+     }
  }
  
- static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
+-/*
+- * If positive, discarding RAM is disabled. If negative, discarding RAM is
+- * required to work and cannot be disabled.
+- */
+-static int ram_block_discard_disabled;
++static unsigned int ram_block_discard_required_cnt;
++static unsigned int ram_block_discard_disabled_cnt;
++static QemuMutex ram_block_discard_disable_mutex;
++
++static void ram_block_discard_disable_mutex_lock(void)
++{
++    static gsize initialized;
++
++    if (g_once_init_enter(&initialized)) {
++        qemu_mutex_init(&ram_block_discard_disable_mutex);
++        g_once_init_leave(&initialized, 1);
++    }
++    qemu_mutex_lock(&ram_block_discard_disable_mutex);
++}
++
++static void ram_block_discard_disable_mutex_unlock(void)
++{
++    qemu_mutex_unlock(&ram_block_discard_disable_mutex);
++}
+ 
+ int ram_block_discard_disable(bool state)
+ {
+-    int old;
++    int ret = 0;
+ 
++    ram_block_discard_disable_mutex_lock();
+     if (!state) {
+-        qatomic_dec(&ram_block_discard_disabled);
+-        return 0;
++        ram_block_discard_disabled_cnt--;
++    } else if (!ram_block_discard_required_cnt) {
++        ram_block_discard_disabled_cnt++;
++    } else {
++        ret = -EBUSY;
+     }
+-
+-    do {
+-        old = qatomic_read(&ram_block_discard_disabled);
+-        if (old < 0) {
+-            return -EBUSY;
+-        }
+-    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
+-                             old, old + 1) != old);
+-    return 0;
++    ram_block_discard_disable_mutex_unlock();
++    return ret;
+ }
+ 
+ int ram_block_discard_require(bool state)
+ {
+-    int old;
++    int ret = 0;
+ 
++    ram_block_discard_disable_mutex_lock();
+     if (!state) {
+-        qatomic_inc(&ram_block_discard_disabled);
+-        return 0;
++        ram_block_discard_required_cnt--;
++    } else if (!ram_block_discard_disabled_cnt) {
++        ram_block_discard_required_cnt++;
++    } else {
++        ret = -EBUSY;
+     }
+-
+-    do {
+-        old = qatomic_read(&ram_block_discard_disabled);
+-        if (old > 0) {
+-            return -EBUSY;
+-        }
+-    } while (qatomic_cmpxchg(&ram_block_discard_disabled,
+-                             old, old - 1) != old);
+-    return 0;
++    ram_block_discard_disable_mutex_unlock();
++    return ret;
+ }
+ 
+ bool ram_block_discard_is_disabled(void)
+ {
+-    return qatomic_read(&ram_block_discard_disabled) > 0;
++    return qatomic_read(&ram_block_discard_disabled_cnt);
+ }
+ 
+ bool ram_block_discard_is_required(void)
+ {
+-    return qatomic_read(&ram_block_discard_disabled) < 0;
++    return qatomic_read(&ram_block_discard_required_cnt);
+ }
 -- 
 2.31.1
 
