@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54F33BF35E
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:15:00 +0200 (CEST)
-Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0FE3BF35B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:14:11 +0200 (CEST)
+Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Id1-0000JJ-Pw
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38202)
+	id 1m1IcE-0006EB-BF
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKx-0002HY-4t
+ id 1m1IKx-0002JD-IO
  for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:19 -0400
-Received: from mga06.intel.com ([134.134.136.31]:36379)
+Received: from mga06.intel.com ([134.134.136.31]:36390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKt-0007L4-5C
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:18 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="270534901"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="270534901"
+ id 1m1IKv-0007ML-OW
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:19 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="270534902"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="270534902"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:56 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770047"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770050"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 17:55:55 -0700
+ 07 Jul 2021 17:55:56 -0700
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com, erdemaktas@google.com
-Subject: [RFC PATCH v2 18/44] hw/i386: refactor e820_add_entry()
-Date: Wed,  7 Jul 2021 17:54:48 -0700
-Message-Id: <876d3849f5293e7902df6e6f1dc8e89662b42a6b.1625704981.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH v2 19/44] hw/i386/e820: introduce a helper function to
+ change type of e820
+Date: Wed,  7 Jul 2021 17:54:49 -0700
+Message-Id: <57f1c8c44405aadc421bc1fd5b6cb41f55b10e20.1625704981.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625704980.git.isaku.yamahata@intel.com>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
@@ -69,64 +70,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-The following patch will utilize this refactoring.
+Introduce a helper function, e820_change_type(), that change
+the type of subregion of e820 entry.
+The following patch uses it.
 
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/i386/e820_memory_layout.c | 42 ++++++++++++++++++++++++------------
- 1 file changed, 28 insertions(+), 14 deletions(-)
+ hw/i386/e820_memory_layout.c | 72 ++++++++++++++++++++++++++++++++++++
+ hw/i386/e820_memory_layout.h |  1 +
+ 2 files changed, 73 insertions(+)
 
 diff --git a/hw/i386/e820_memory_layout.c b/hw/i386/e820_memory_layout.c
-index bcf9eaf837..d9bb11c02a 100644
+index d9bb11c02a..109c4f715a 100644
 --- a/hw/i386/e820_memory_layout.c
 +++ b/hw/i386/e820_memory_layout.c
-@@ -14,31 +14,45 @@ static size_t e820_entries;
- struct e820_table e820_reserve;
- struct e820_entry *e820_table;
+@@ -57,6 +57,78 @@ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
+     return e820_entries;
+ }
  
--int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
-+static int e820_append_reserve(uint64_t address, uint64_t length, uint32_t type)
- {
-     int index = le32_to_cpu(e820_reserve.count);
-     struct e820_entry *entry;
- 
--    if (type != E820_RAM) {
--        /* old FW_CFG_E820_TABLE entry -- reservations only */
--        if (index >= E820_NR_ENTRIES) {
--            return -EBUSY;
--        }
--        entry = &e820_reserve.entry[index++];
-+    /* old FW_CFG_E820_TABLE entry -- reservations only */
-+    if (index >= E820_NR_ENTRIES) {
-+        return -EBUSY;
-+    }
-+    entry = &e820_reserve.entry[index++];
- 
--        entry->address = cpu_to_le64(address);
--        entry->length = cpu_to_le64(length);
--        entry->type = cpu_to_le32(type);
-+    entry->address = cpu_to_le64(address);
-+    entry->length = cpu_to_le64(length);
-+    entry->type = cpu_to_le32(type);
- 
--        e820_reserve.count = cpu_to_le32(index);
--    }
-+    e820_reserve.count = cpu_to_le32(index);
-+    return 0;
-+}
- 
--    /* new "etc/e820" file -- include ram too */
--    e820_table = g_renew(struct e820_entry, e820_table, e820_entries + 1);
-+static void e820_append_entry(uint64_t address, uint64_t length, uint32_t type)
++int e820_change_type(uint64_t address, uint64_t length, uint32_t type)
 +{
-     e820_table[e820_entries].address = cpu_to_le64(address);
-     e820_table[e820_entries].length = cpu_to_le64(length);
-     e820_table[e820_entries].type = cpu_to_le32(type);
-     e820_entries++;
-+}
++    size_t i;
 +
-+int e820_add_entry(uint64_t address, uint64_t length, uint32_t type)
-+{
 +    if (type != E820_RAM) {
 +        int ret = e820_append_reserve(address, length, type);
 +        if (ret) {
@@ -135,11 +100,81 @@ index bcf9eaf837..d9bb11c02a 100644
 +    }
 +
 +    /* new "etc/e820" file -- include ram too */
-+    e820_table = g_renew(struct e820_entry, e820_table, e820_entries + 1);
-+    e820_append_entry(address, length, type);
- 
++    for (i = 0; i < e820_entries; i++) {
++        struct e820_entry *e = &e820_table[i];
++        struct e820_entry tmp = {
++            .address = le64_to_cpu(e->address),
++            .length = le64_to_cpu(e->length),
++            .type = le32_to_cpu(e->type),
++        };
++        /* overlap? */
++        if (address + length < tmp.address ||
++            tmp.address + tmp.length < address) {
++            continue;
++        }
++        /*
++         * partial-overlap is not allowed.
++         * It is assumed that the region is completely contained within
++         * other region.
++         */
++        if (address < tmp.address ||
++            tmp.address + tmp.length < address + length) {
++            return -EINVAL;
++        }
++        /* only real type change is allowed. */
++        if (tmp.type == type) {
++            return -EINVAL;
++        }
++
++        if (tmp.address == address &&
++            tmp.address + tmp.length == address + length) {
++            e->type = cpu_to_le32(type);
++            return e820_entries;
++        } else if (tmp.address == address) {
++            e820_table = g_renew(struct e820_entry,
++                                 e820_table, e820_entries + 1);
++            e = &e820_table[i];
++            e->address = cpu_to_le64(tmp.address + length);
++            e820_append_entry(address, length, type);
++            return e820_entries;
++        } else if (tmp.address + tmp.length == address + length) {
++            e820_table = g_renew(struct e820_entry,
++                                 e820_table, e820_entries + 1);
++            e = &e820_table[i];
++            e->length = cpu_to_le64(tmp.length - length);
++            e820_append_entry(address, length, type);
++            return e820_entries;
++        } else {
++            e820_table = g_renew(struct e820_entry,
++                                 e820_table, e820_entries + 2);
++            e = &e820_table[i];
++            e->length = cpu_to_le64(address - tmp.address);
++            e820_append_entry(address, length, type);
++            e820_append_entry(address + length,
++                              tmp.address + tmp.length - (address + length),
++                              tmp.type);
++            return e820_entries;
++        }
++    }
++
++    return -EINVAL;
++}
++
+ int e820_get_num_entries(void)
+ {
      return e820_entries;
- }
+diff --git a/hw/i386/e820_memory_layout.h b/hw/i386/e820_memory_layout.h
+index 2a0ceb8b9c..5f27cee476 100644
+--- a/hw/i386/e820_memory_layout.h
++++ b/hw/i386/e820_memory_layout.h
+@@ -33,6 +33,7 @@ extern struct e820_table e820_reserve;
+ extern struct e820_entry *e820_table;
+ 
+ int e820_add_entry(uint64_t address, uint64_t length, uint32_t type);
++int e820_change_type(uint64_t address, uint64_t length, uint32_t type);
+ int e820_get_num_entries(void);
+ bool e820_get_entry(int index, uint32_t type,
+                     uint64_t *address, uint64_t *length);
 -- 
 2.25.1
 
