@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 817783BF43F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 05:16:52 +0200 (CEST)
-Received: from localhost ([::1]:33020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20DE3BF447
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 05:21:59 +0200 (CEST)
+Received: from localhost ([::1]:38322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1KWx-0003xk-BF
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 23:16:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59430)
+	id 1m1Kbu-0007kl-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 23:21:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1m1KVa-00035u-It
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 23:15:26 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:42683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1m1KVS-0007Bw-V8
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 23:15:26 -0400
-Received: by mail-pf1-x433.google.com with SMTP id y4so4154314pfi.9
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 20:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3eDzDby27dXJ/RasqLgijIJB2XK06T3OSaRX/XNbaHo=;
- b=rVnEjOVqrlr/tdzW8OQjagAuYIGR1E1TdagHmDf7oYlpK1LbPO6fg9dfc0OXi8ZEVL
- 6nM8V55atG+vn6qALP4K+Z5GsAoiRxLp5/lzcAkTeimEsjQZib6lrRgHFY/ptqyFkQCP
- M2lEgXxgW7hfObIwx1KCOfQJDQeaithR57nwBAZjkC8oZ4lz5rsHU2a54cmfQSh0/HOL
- hKquiZsgrgFygophfscSl7wrC36Yx86RbLZNyi3bgyokvv8YTsJ5qZvBXsfjgZhZxBlU
- 4CAEk+j5UVOcZbBusvrCTMcGDjZKotu66dgBVdV8+Gsz284p++nKR9wH9bIlHhsxo4Vb
- m30w==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m1Kah-00073N-R6
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 23:20:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40216)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m1Kab-0000Do-3C
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 23:20:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625714435;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZaknVAgR993c7rYmer5N5OB2p+60TKsP0+sB2XYQFH0=;
+ b=G9bl2HLyDTcpUWOD5/PIqjUpM6VNfulR42f5Bhx3Npg/4RPFNzFcfkOZfyXrPwqGeXejax
+ ihMTtV8bYsvOPTvrH1j1V5uQazywS0QJP/coivMAfCrGm1tA9V7ckbASCfQH0OessDsgfV
+ FrDw0VBP67ZLhta0YvJts9Fc+jSfM+0=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-o-XHJwaANd2896Yy3A02nA-1; Wed, 07 Jul 2021 23:20:29 -0400
+X-MC-Unique: o-XHJwaANd2896Yy3A02nA-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ p17-20020a0568301311b0290467775813d3so2983154otq.9
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 20:20:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3eDzDby27dXJ/RasqLgijIJB2XK06T3OSaRX/XNbaHo=;
- b=unptqoTg7Bs34797s3hrb2K2z0bdV91/Ewhtrav6jKgM/8XTNU1r0hhAqXtXjPKWn1
- 71QCbkT/1+GTJHzu1uMI9IfL0ElonmIqj7frbY8V54GBFReXnemlq8VONx7wbZBs5MAV
- pMrDrgEdMTn6sThNwDHyAor2+HqNxijwd98kamo63hQbGaVDQRF6pF1u/HSzs/L8jJox
- nm40mJVgobC+Bjm5ksBcwFAtt9KXk5++KXDdTugNOcFwZ2m6qnbSXovREy4OM1ZD6JEj
- wnto109fRuX+SIOJ3icrAP29lhuV41kNK7SSR16+kKI+IBgcIHc8MXBpsHP9JkkKttEY
- t62w==
-X-Gm-Message-State: AOAM531FXo6UHRgOV1Nh2gcQFHthcU8pJ9FoSsvveWOug9qVXeJTItBY
- 5x+imVgsXsP0RTRW8sDTiOuFdw==
-X-Google-Smtp-Source: ABdhPJyQblzVG1XshYQJcQoWPMP7vsyDZ/Ty8/HdC0bBWjQBZ/ri+alWOXve6H896rK9QPsRREETlw==
-X-Received: by 2002:a62:154d:0:b029:323:a515:2e43 with SMTP id
- 74-20020a62154d0000b0290323a5152e43mr10974140pfv.75.1625714114666; 
- Wed, 07 Jul 2021 20:15:14 -0700 (PDT)
-Received: from [192.168.10.23] (219-90-184-65.ip.adam.com.au. [219.90.184.65])
- by smtp.gmail.com with UTF8SMTPSA id
- w123sm646735pfb.109.2021.07.07.20.15.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 07 Jul 2021 20:15:14 -0700 (PDT)
-Message-ID: <377380cb-64cb-9bde-82c3-7dfcdf3210c6@ozlabs.ru>
-Date: Thu, 8 Jul 2021 13:15:10 +1000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZaknVAgR993c7rYmer5N5OB2p+60TKsP0+sB2XYQFH0=;
+ b=lLo45DKG7ywg23eAqW16qEwJMv1Hd0KTQpay2vn16x3mgLHUZr2RSCAosbMNfkGI0y
+ iKzFmZUOfg54CTSYDA1S54u/gKSrSgPcxiT//TuUPE1p87dLaBZgd+a5vvBwB2GlkWAg
+ Jo/PrmEn6CWqJUSGnvFt8Tj4CU1+ZwNb+6BWxs8aDa1eQ1iAGz4GDnKpNWdnH9Fh5Gpi
+ RpKf3JckVPFpeWPFCt/Kc/AiZJTJl6KFPPsBNlH6zHJIv2QNyX/EHBx5NxEHofL0CweI
+ +ISG2L2+UFOCx8SKnQfwUUwYUBnQm1zzVOPmCbgiGACIGYtmGGdCgk+k/7x/fCl5/KEo
+ Ihtg==
+X-Gm-Message-State: AOAM531D5jIyS/GCLy9AnRiyQunvzJxg6YwNixwRMZfHtyUH4HpDk2JD
+ jCV4roXyxlHBIrgsoDWk1pHmtwjMvol/qyP9sbm8W5JnnNwnz9R/fuSMm3AMMQuUTfkR+zCFaJl
+ NT4cQ981eY0EFou+Hrs970TO76U0V6Gc=
+X-Received: by 2002:a05:6808:1309:: with SMTP id
+ y9mr1951299oiv.112.1625714428509; 
+ Wed, 07 Jul 2021 20:20:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQgUcvXsd5hdxVSCWAfoweX1T4OhyPWEqZA0r7HDlsbmOxr0xXKrPffOS5f1NUVrylEy6FNDo+8O0PEL4mIEI=
+X-Received: by 2002:a05:6808:1309:: with SMTP id
+ y9mr1951285oiv.112.1625714428208; 
+ Wed, 07 Jul 2021 20:20:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101
- Thunderbird/89.0
-Subject: Re: [PATCH qemu v22] spapr: Implement Open Firmware client interface
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210625055155.2252896-1-aik@ozlabs.ru> <YOZlnOiCeeF4mwJO@yekko>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <YOZlnOiCeeF4mwJO@yekko>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=aik@ozlabs.ru; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210702212603.26465-1-niteesh.gs@gmail.com>
+ <20210702212603.26465-4-niteesh.gs@gmail.com>
+In-Reply-To: <20210702212603.26465-4-niteesh.gs@gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Wed, 7 Jul 2021 23:20:17 -0400
+Message-ID: <CAFn=p-Zu2Sycq8o0mNb0pKq2hiN5ctiQgVr-cKA_VUq0A-x_xA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] python/aqmp-tui: Add AQMP TUI draft
+To: G S Niteesh Babu <niteesh.gs@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000fff6f005c69422bf"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,703 +90,970 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000fff6f005c69422bf
+Content-Type: text/plain; charset="UTF-8"
+
+On Fri, Jul 2, 2021 at 5:26 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+wrote:
+
+> Added a draft of AQMP TUI.
+>
+> Implements the follwing basic features:
+> 1) Command transmission/reception.
+> 2) Shows events asynchronously.
+> 3) Shows server status in the bottom status bar.
+>
+> Also added necessary pylint, mypy configurations
+>
+> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+> ---
+>  python/qemu/aqmp/aqmp_tui.py | 246 +++++++++++++++++++++++++++++++++++
+>  python/setup.cfg             |  16 ++-
+>  2 files changed, 261 insertions(+), 1 deletion(-)
+>  create mode 100644 python/qemu/aqmp/aqmp_tui.py
+>
+> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+> new file mode 100644
+> index 0000000000..8e9e8ac8ff
+> --- /dev/null
+> +++ b/python/qemu/aqmp/aqmp_tui.py
+> @@ -0,0 +1,246 @@
+> +# Copyright (c) 2021
+> +#
+> +# Authors:
+> +#  Niteesh Babu G S <niteesh.gs@gmail.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +import argparse
+> +import asyncio
+> +import logging
+> +import signal
+> +
+> +import urwid
+> +import urwid_readline
+> +
+> +from .protocol import ConnectError
+> +from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError
+> +from .util import create_task, pretty_traceback
+> +
+> +
+> +UPDATE_MSG = 'UPDATE_MSG'
+>
++
+> +
+> +class StatusBar(urwid.Text):
+> +    """
+> +    A simple Text widget that currently only shows connection status.
+> +    """
+> +    def __init__(self, text=''):
+> +        super().__init__(text, align='right')
+> +
+> +
+> +class Editor(urwid_readline.ReadlineEdit):
+> +    """
+> +    Support urwid_readline features along with
+> +    history support which lacks in urwid_readline
+> +    """
+> +    def __init__(self, master):
+> +        super().__init__(caption='> ', multiline=True)
+> +        self.master = master
+> +        self.history = []
+> +        self.last_index = -1
+> +        self.show_history = False
+> +
+> +    def keypress(self, size, key):
+> +        # TODO: Add some logic for down key and clean up logic if
+> possible.
+> +        # Returning None means the key has been handled by this widget
+> +        # which otherwise is propogated to the parent widget to be
+> +        # handled
+> +        msg = self.get_edit_text()
+> +        if key == 'up' and not msg:
+> +            # Show the history when 'up arrow' is pressed with no input
+> text.
+> +            # NOTE: The show_history logic is necessary because in
+> 'multiline'
+> +            # mode (which we use) 'up arrow' is used to move between
+> lines.
+> +            self.show_history = True
+> +            last_msg = self.history[self.last_index] if self.history else
+> ''
+> +            self.set_edit_text(last_msg)
+> +            self.edit_pos = len(last_msg)
+> +            self.last_index += 1
+> +        elif key == 'up' and self.show_history:
+> +            if self.last_index < len(self.history):
+> +                self.set_edit_text(self.history[self.last_index])
+> +                self.edit_pos = len(self.history[self.last_index])
+> +                self.last_index += 1
+> +        elif key == 'meta enter':
+> +            # When using multiline, enter inserts a new line into the
+> editor
+> +            # send the input to the server on alt + enter
+> +            self.master.cb_send_to_server(msg)
+> +            self.history.insert(0, msg)
+> +            self.set_edit_text('')
+> +            self.last_index = 0
+> +            self.show_history = False
+> +        else:
+> +            self.show_history = False
+> +            self.last_index = 0
+> +            return super().keypress(size, key)
+> +        return None
+> +
+> +
+> +class EditorWidget(urwid.Filler):
+> +    """
+> +    Wraps CustomEdit
+> +    """
+> +    def __init__(self, master):
+> +        super().__init__(Editor(master), valign='top')
+> +
+> +
+> +class HistoryBox(urwid.ListBox):
+> +    """
+> +    Shows all the QMP message transmitted/received
+> +    """
+> +    def __init__(self, master):
+> +        self.master = master
+> +        self.history = urwid.SimpleFocusListWalker([])
+> +        super().__init__(self.history)
+> +
+> +    def add_to_history(self, history):
+> +        self.history.append(urwid.Text(history))
+> +        if self.history:
+> +            self.history.set_focus(len(self.history) - 1)
+> +
+> +
+> +class HistoryWindow(urwid.Frame):
+> +    """
+> +    Composes the HistoryBox and EditorWidget
+> +    """
+> +    def __init__(self, master):
+> +        self.master = master
+> +        self.editor = EditorWidget(master)
+> +        self.editor_widget = urwid.LineBox(self.editor)
+> +        self.history = HistoryBox(master)
+> +        self.body = urwid.Pile([('weight', 80, self.history),
+> +                                ('weight', 10, self.editor_widget)])
+> +        super().__init__(self.body)
+> +        urwid.connect_signal(self.master, UPDATE_MSG,
+> self.cb_add_to_history)
+> +
+> +    def cb_add_to_history(self, msg):
+> +        self.history.add_to_history(msg)
+> +
+> +
+> +class Window(urwid.Frame):
+> +    """
+> +    This is going to be the main window that is going to compose other
+> +    windows. In this stage it is unnecesssary but will be necessary in
+> +    future when we will have multiple windows and want to the switch
+> between
+> +    them and display overlays
+> +    """
+> +    def __init__(self, master):
+> +        self.master = master
+> +        footer = StatusBar()
+> +        body = HistoryWindow(master)
+> +        super().__init__(body, footer=footer)
+> +
+> +
+> +class App(QMP):
+> +    def __init__(self, address):
+> +        urwid.register_signal(self.__class__, UPDATE_MSG)
+>
+
+Do we really need a custom signal? It looks like Urwid has some "default"
+ones... are they not sufficient? I suppose the idea here is that the
+'UPDATE_MSG' signal means that we've updated the history list, so we need
+to re-render.
+
+If not, you may use type(self) here which looks just a little cleaner.
 
 
-On 08/07/2021 12:40, David Gibson wrote:
-> On Fri, Jun 25, 2021 at 03:51:55PM +1000, Alexey Kardashevskiy wrote:
->> The PAPR platform describes an OS environment that's presented by
->> a combination of a hypervisor and firmware. The features it specifies
->> require collaboration between the firmware and the hypervisor.
->>
->> Since the beginning, the runtime component of the firmware (RTAS) has
->> been implemented as a 20 byte shim which simply forwards it to
->> a hypercall implemented in qemu. The boot time firmware component is
->> SLOF - but a build that's specific to qemu, and has always needed to be
->> updated in sync with it. Even though we've managed to limit the amount
->> of runtime communication we need between qemu and SLOF, there's some,
->> and it has become increasingly awkward to handle as we've implemented
->> new features.
->>
->> This implements a boot time OF client interface (CI) which is
->> enabled by a new "x-vof" pseries machine option (stands for "Virtual Open
->> Firmware). When enabled, QEMU implements the custom H_OF_CLIENT hcall
->> which implements Open Firmware Client Interface (OF CI). This allows
->> using a smaller stateless firmware which does not have to manage
->> the device tree.
->>
->> The new "vof.bin" firmware image is included with source code under
->> pc-bios/. It also includes RTAS blob.
->>
->> This implements a handful of CI methods just to get -kernel/-initrd
->> working. In particular, this implements the device tree fetching and
->> simple memory allocator - "claim" (an OF CI memory allocator) and updates
->> "/memory@0/available" to report the client about available memory.
->>
->> This implements changing some device tree properties which we know how
->> to deal with, the rest is ignored. To allow changes, this skips
->> fdt_pack() when x-vof=on as not packing the blob leaves some room for
->> appending.
->>
->> In absence of SLOF, this assigns phandles to device tree nodes to make
->> device tree traversing work.
->>
->> When x-vof=on, this adds "/chosen" every time QEMU (re)builds a tree.
->>
->> This adds basic instances support which are managed by a hash map
->> ihandle -> [phandle].
->>
->> Before the guest started, the used memory is:
->> 0..e60 - the initial firmware
->> 8000..10000 - stack
->> 400000.. - kernel
->> 3ea0000.. - initramdisk
->>
->> This OF CI does not implement "interpret".
->>
->> Unlike SLOF, this does not format uninitialized nvram. Instead, this
->> includes a disk image with pre-formatted nvram.
->>
->> With this basic support, this can only boot into kernel directly.
->> However this is just enough for the petitboot kernel and initradmdisk to
->> boot from any possible source. Note this requires reasonably recent guest
->> kernel with:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=df5be5be8735
->>
->> The immediate benefit is much faster booting time which especially
->> crucial with fully emulated early CPU bring up environments. Also this
->> may come handy when/if GRUB-in-the-userspace sees light of the day.
->>
->> This separates VOF and sPAPR in a hope that VOF bits may be reused by
->> other POWERPC boards which do not support pSeries.
->>
->> This assumes potential support for booting from QEMU backends
->> such as blockdev or netdev without devices/drivers used.
->>
->> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> 
-> Applied to ppc-for-6.1.  However, I'm going to make a number of
-> comments on minor nits.  If they can be addressed as follow up
-> patches, I'd appreciate it.
-> 
-> [snip]
->> diff --git a/pc-bios/vof/vof.h b/pc-bios/vof/vof.h
->> new file mode 100644
->> index 000000000000..2d8958076907
->> --- /dev/null
->> +++ b/pc-bios/vof/vof.h
->> @@ -0,0 +1,43 @@
->> +/*
->> + * Virtual Open Firmware
->> + *
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + */
->> +#include <stdarg.h>
->> +
->> +typedef unsigned char uint8_t;
->> +typedef unsigned short uint16_t;
->> +typedef unsigned long uint32_t;
->> +typedef unsigned long long uint64_t;
->> +#define NULL (0)
->> +#define PROM_ERROR (-1u)
->> +typedef unsigned long ihandle;
->> +typedef unsigned long phandle;
->> +typedef int size_t;
->> +typedef void client(void);
-> 
-> AFAICT 'client' is only used in one place, might as well just open
-> code it.
-> 
->> +
->> +/* globals */
->> +extern void _prom_entry(void); /* OF CI entry point (i.e. this firmware) */
->> +
->> +void do_boot(unsigned long addr, unsigned long r3, unsigned long r4);
->> +
->> +/* libc */
->> +int strlen(const char *s);
->> +int strcmp(const char *s1, const char *s2);
->> +void *memcpy(void *dest, const void *src, size_t n);
->> +int memcmp(const void *ptr1, const void *ptr2, size_t n);
->> +void *memmove(void *dest, const void *src, size_t n);
->> +void *memset(void *dest, int c, size_t size);
->> +
->> +/* CI wrappers */
->> +void ci_panic(const char *str);
->> +phandle ci_finddevice(const char *path);
->> +uint32_t ci_getprop(phandle ph, const char *propname, void *prop, int len);
->> +
->> +/* booting from -kernel */
->> +void boot_from_memory(uint64_t initrd, uint64_t initrdsize);
->> +
->> +/* Entry points for CI and RTAS */
->> +extern uint32_t ci_entry(uint32_t params);
->> +extern unsigned long hv_rtas(unsigned long params);
->> +extern unsigned int hv_rtas_size;
->> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->> index 9e19c570327e..e9b6d0f58756 100644
->> --- a/hw/ppc/spapr.c
->> +++ b/hw/ppc/spapr.c
->> @@ -101,6 +101,7 @@
->>   #define FDT_MAX_ADDR            0x80000000 /* FDT must stay below that */
->>   #define FW_MAX_SIZE             0x400000
->>   #define FW_FILE_NAME            "slof.bin"
->> +#define FW_FILE_NAME_VOF        "vof.bin"
->>   #define FW_OVERHEAD             0x2800000
->>   #define KERNEL_LOAD_ADDR        FW_MAX_SIZE
->>   
->> @@ -1643,22 +1644,37 @@ static void spapr_machine_reset(MachineState *machine)
->>       fdt_addr = MIN(spapr->rma_size, FDT_MAX_ADDR) - FDT_MAX_SIZE;
->>   
->>       fdt = spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
->> +    if (spapr->vof) {
->> +        target_ulong stack_ptr = 0;
->>   
->> -    rc = fdt_pack(fdt);
->> +        spapr_vof_reset(spapr, fdt, &stack_ptr, &error_fatal);
->>   
->> -    /* Should only fail if we've built a corrupted tree */
->> -    assert(rc == 0);
->> +        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
->> +                                  stack_ptr, spapr->initrd_base,
->> +                                  spapr->initrd_size);
->> +        /* VOF is 32bit BE so enforce MSR here */
->> +        first_ppc_cpu->env.msr &= ~((1ULL << MSR_SF) | (1ULL << MSR_LE));
->> +        /*
->> +         * Do not pack the FDT as the client may change properties.
->> +         * VOF client does not expect the FDT so we do not load it to the VM.
->> +         */
-> 
-> I think it would be cleaner to fold the rest of this if clause into
-> spapr_vof_reset() (adding some parameters as necessary).
-> 
-> [snip]
->> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
->> index f25014afda40..03fc191599fe 100644
->> --- a/hw/ppc/spapr_hcall.c
->> +++ b/hw/ppc/spapr_hcall.c
->> @@ -1080,7 +1080,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
->>       SpaprOptionVector *ov1_guest, *ov5_guest;
->>       bool guest_radix;
->>       bool raw_mode_supported = false;
->> -    bool guest_xive;
->> +    bool guest_xive, reset_fdt = false;
-> 
-> Initialization of reset_fdt is redundant, since you set it
-> unconditionally before you use it.
-> 
->>       CPUState *cs;
->>       void *fdt;
->>       uint32_t max_compat = spapr->max_compat_pvr;
->> @@ -1233,8 +1233,8 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
->>           spapr_setup_hpt(spapr);
->>       }
->>   
->> -    fdt = spapr_build_fdt(spapr, false, fdt_bufsize);
->> -
->> +    reset_fdt = spapr->vof != NULL;
->> +    fdt = spapr_build_fdt(spapr, reset_fdt, fdt_bufsize);
->>       g_free(spapr->fdt_blob);
->>       spapr->fdt_size = fdt_totalsize(fdt);
->>       spapr->fdt_initial_size = spapr->fdt_size;
-> [snip]
->> @@ -1277,6 +1277,25 @@ static target_ulong h_client_architecture_support(PowerPCCPU *cpu,
->>       return ret;
->>   }
->>   
->> +target_ulong spapr_vof_client_architecture_support(MachineState *ms,
->> +                                                   CPUState *cs,
->> +                                                   target_ulong ovec_addr)
->> +{
->> +    SpaprMachineState *spapr = SPAPR_MACHINE(ms);
->> +
->> +    target_ulong ret = do_client_architecture_support(POWERPC_CPU(cs), spapr,
->> +                                                      ovec_addr, FDT_MAX_SIZE);
->> +
->> +    /*
->> +     * This adds stdout and generates phandles for boottime and CAS FDTs.
->> +     * It is alright to update the FDT here as do_client_architecture_support()
->> +     * does not pack it.
->> +     */
->> +    spapr_vof_client_dt_finalize(spapr, spapr->fdt_blob);
->> +
->> +    return ret;
->> +}
->> +
->>   static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
->>                                                 SpaprMachineState *spapr,
->>                                                 target_ulong opcode,
->> diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
->> new file mode 100644
->> index 000000000000..1d5bec146c49
->> --- /dev/null
->> +++ b/hw/ppc/spapr_vof.c
->> @@ -0,0 +1,154 @@
->> +/*
->> + * SPAPR machine hooks to Virtual Open Firmware,
->> + *
->> + * SPDX-License-Identifier: GPL-2.0-or-later
->> + */
->> +#include "qemu/osdep.h"
->> +#include "qemu-common.h"
->> +#include <sys/ioctl.h>
->> +#include "qapi/error.h"
->> +#include "hw/ppc/spapr.h"
->> +#include "hw/ppc/spapr_vio.h"
->> +#include "hw/ppc/fdt.h"
->> +#include "hw/ppc/vof.h"
->> +#include "sysemu/sysemu.h"
->> +#include "qom/qom-qobject.h"
->> +#include "trace.h"
->> +
->> +target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState *spapr,
->> +                                target_ulong opcode, target_ulong *_args)
->> +{
->> +    int ret = vof_client_call(MACHINE(spapr), spapr->vof, spapr->fdt_blob,
->> +                              ppc64_phys_to_real(_args[0]));
->> +
->> +    if (ret) {
->> +        return H_PARAMETER;
->> +    }
->> +    return H_SUCCESS;
->> +}
->> +
->> +void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt)
->> +{
->> +    char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
->> +    int chosen;
->> +
->> +    vof_build_dt(fdt, spapr->vof);
->> +
->> +    _FDT(chosen = fdt_path_offset(fdt, "/chosen"));
->> +    _FDT(fdt_setprop_string(fdt, chosen, "bootargs",
->> +                            spapr->vof->bootargs ? : ""));
-> 
-> You do several things with vof->bootargs, but if you've initialized it
-> from machine->kernel_cmdline, I didn't spot it.
+> +        self.window = Window(self)
+> +        self.address = address
+> +        self.aloop = asyncio.get_event_loop()
+>
+
+I would recommend delaying calling get_event_loop() until run(), just so
+that all of the loop management stuff is handled in one place. That way,
+the loop isn't "fixed" until we call run().
 
 
-GRUB initilizes it and updates via spapr_vof_setprop().
+> +        self.loop = None
+> +        super().__init__()
+> +
+> +        # Gracefully handle SIGTERM and SIGINT signals
+> +        cancel_signals = [signal.SIGTERM, signal.SIGINT]
+> +        for sig in cancel_signals:
+> +            self.aloop.add_signal_handler(sig, self.kill_app)
+>
+
+If you agree with the above comment, this needs to move into run() as well.
 
 
->> +
->> +    /*
->> +     * SLOF-less setup requires an open instance of stdout for early
->> +     * kernel printk. By now all phandles are settled so we can open
->> +     * the default serial console.
->> +     */
->> +    if (stdout_path) {
->> +        _FDT(vof_client_open_store(fdt, spapr->vof, "/chosen", "stdout",
->> +                                   stdout_path));
->> +    }
->> +}
-> [snip]
->> diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
->> new file mode 100644
->> index 000000000000..a17fd9d2fe94
->> --- /dev/null
->> +++ b/hw/ppc/vof.c
-> [snip]
->> +static int path_offset(const void *fdt, const char *path)
->> +{
->> +    g_autofree char *p = NULL;
->> +    char *at;
->> +
->> +    /*
->> +     * https://www.devicetree.org/open-firmware/bindings/ppc/release/ppc-2_1.html#HDR16
->> +     *
->> +     * "Conversion from numeric representation to text representation shall use
->> +     * the lower case forms of the hexadecimal digits in the range a..f,
->> +     * suppressing leading zeros".
-> 
-> Huh... that suggests that Zoltan's firmware which passes a caps hex
-> and expects it to work is doing the wrong thing.  We still need to
-> accomodate it, though.
-> 
->> +     */
->> +    at = strchr(path, '@');
->> +    if (!at) {
->> +        return fdt_path_offset(fdt, path);
->> +    }
->> +
->> +    p = g_strdup(path);
->> +    for (at = at - path + p + 1; *at; ++at) {
->> +        *at = tolower(*at);
->> +    }
-> 
-> This isn't quite right, though we might get away with it in practice.
-> You're taking a whole path here, and each path component could
-> potentially have a unit address.  This will tolower() everything after
-> the first @, potentially case mangling the base names of later
-> components.
+> +
+> +    def _cb_outbound(self, msg):
+> +        urwid.emit_signal(self, UPDATE_MSG, "<-- " + str(msg))
+> +        return msg
+> +
+> +    def _cb_inbound(self, msg):
+> +        urwid.emit_signal(self, UPDATE_MSG, "--> " + str(msg))
+> +        return msg
+> +
+> +    async def wait_for_events(self):
+> +        async for event in self.events:
+> +            self.handle_event(event)
+> +
+> +    async def _send_to_server(self, msg):
+> +        # TODO: Handle more validation errors (eg: ValueError)
+> +        try:
+> +            response = await self._raw(bytes(msg, 'utf-8'))
+> +            logging.info('Response: %s %s', response, type(response))
+>
+
+You could log the responses in the inbound hook instead.
+I'd also use self.logger.debug instead of logging.info(...) so that you
+re-use the same logger instance.
 
 
-Ah. I need the last "@" here, at least. But I do not think we need to go 
-any further than this here.
+> +        except ExecuteError:
+> +            logging.info('Error response from server for msg: %s', msg)
+>
+
+self.logger.info() here.
 
 
-> 
->> +    return fdt_path_offset(fdt, p);
->> +}
-> 
-> [snip]
->> +static uint32_t vof_getprop(const void *fdt, uint32_t nodeph, uint32_t pname,
->> +                            uint32_t valaddr, uint32_t vallen)
->> +{
->> +    char propname[OF_PROPNAME_LEN_MAX + 1];
->> +    uint32_t ret = 0;
->> +    int proplen = 0;
->> +    const void *prop;
->> +    char trval[64] = "";
->> +    int nodeoff = fdt_node_offset_by_phandle(fdt, nodeph);
->> +    bool write0;
->> +
->> +    if (nodeoff < 0) {
->> +        return -1;
-> 
-> Shouldn't many of these explicit -1s be PROM_ERR, since you defined it?
-> 
->> +    }
->> +    if (readstr(pname, propname, sizeof(propname))) {
->> +        return -1;
->> +    }
->> +    prop = getprop(fdt, nodeoff, propname, &proplen, &write0);
->> +    if (prop) {
->> +        const char zero = 0;
->> +        int cb = MIN(proplen, vallen);
->> +
->> +        if (VOF_MEM_WRITE(valaddr, prop, cb) != MEMTX_OK ||
->> +            /* if that was "name" with a unit address, overwrite '@' with '0' */
->> +            (write0 &&
->> +             cb == proplen &&
->> +             VOF_MEM_WRITE(valaddr + cb - 1, &zero, 1) != MEMTX_OK)) {
->> +            ret = -1;
->> +        } else {
->> +            /*
->> +             * OF1275 says:
->> +             * "Size is either the actual size of the property, or -1 if name
->> +             * does not exist", hence returning proplen instead of cb.
->> +             */
->> +            ret = proplen;
->> +            /* Do not format a value if tracepoint is silent, for performance */
->> +            if (trace_event_get_state(TRACE_VOF_GETPROP) &&
->> +                qemu_loglevel_mask(LOG_TRACE)) {
->> +                prop_format(trval, sizeof(trval), prop, ret);
->> +            }
->> +        }
->> +    } else {
->> +        ret = -1;
->> +    }
->> +    trace_vof_getprop(nodeph, propname, ret, trval);
->> +
->> +    return ret;
->> +}
-> 
-> [snip]
->> +static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
->> +                            uint32_t nodeph, uint32_t pname,
->> +                            uint32_t valaddr, uint32_t vallen)
->> +{
->> +    char propname[OF_PROPNAME_LEN_MAX + 1];
->> +    uint32_t ret = -1;
->> +    int offset;
->> +    char trval[64] = "";
->> +    char nodepath[VOF_MAX_PATH] = "";
->> +    Object *vmo = object_dynamic_cast(OBJECT(ms), TYPE_VOF_MACHINE_IF);
->> +    g_autofree char *val = NULL;
->> +
->> +    if (vallen > VOF_MAX_SETPROPLEN) {
->> +        goto trace_exit;
->> +    }
->> +    if (readstr(pname, propname, sizeof(propname))) {
->> +        goto trace_exit;
->> +    }
->> +    offset = fdt_node_offset_by_phandle(fdt, nodeph);
->> +    if (offset < 0) {
->> +        goto trace_exit;
->> +    }
->> +    ret = get_path(fdt, offset, nodepath, sizeof(nodepath));
->> +    if (ret <= 0) {
->> +        goto trace_exit;
->> +    }
->> +
->> +    val = g_malloc0(vallen);
->> +    if (VOF_MEM_READ(valaddr, val, vallen) != MEMTX_OK) {
->> +        goto trace_exit;
->> +    }
->> +
->> +    if (vmo) {
->> +        VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
->> +
->> +        if (vmc->setprop &&
->> +            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
->> +            goto trace_exit;
-> 
-> This defaults to allowing the setprop if the machine doesn't provide a
-> setprop callback.  I think it would be safer to default to prohibiting
-> all setprops except those the machine explicitly allows.
+> +        except ExecInterruptedError:
+> +            logging.info('Error server disconnected before reply')
+>
+
+And same here.
 
 
-Mmmm... I can imagine the client using the device tree as a temporary 
-storage. I'd rather add a trace for such cases.
+> +            # FIXME: Handle this better
+>
+
+What ideas do you have for handling this better? What's wrong with it right
+now?
 
 
->> +        }
->> +    }
->> +
->> +    ret = fdt_setprop(fdt, offset, propname, val, vallen);
->> +    if (ret) {
->> +        goto trace_exit;
->> +    }
->> +
->> +    if (trace_event_get_state(TRACE_VOF_SETPROP) &&
->> +        qemu_loglevel_mask(LOG_TRACE)) {
->> +        prop_format(trval, sizeof(trval), val, vallen);
->> +    }
->> +    ret = vallen;
->> +
->> +trace_exit:
->> +    trace_vof_setprop(nodeph, propname, trval, vallen, ret);
->> +
->> +    return ret;
->> +}
-> 
-> [snip]
->> +static uint32_t vof_write(Vof *vof, uint32_t ihandle, uint32_t buf,
->> +                          uint32_t len)
->> +{
->> +    char tmp[VOF_VTY_BUF_SIZE];
->> +    unsigned cb;
->> +    OfInstance *inst = (OfInstance *)
->> +        g_hash_table_lookup(vof->of_instances, GINT_TO_POINTER(ihandle));
->> +
->> +    if (!inst) {
->> +        trace_vof_error_write(ihandle);
->> +        return -1;
->> +    }
->> +
->> +    for ( ; len > 0; len -= cb) {
->> +        cb = MIN(len, sizeof(tmp) - 1);
->> +        if (VOF_MEM_READ(buf, tmp, cb) != MEMTX_OK) {
->> +            return -1;
->> +        }
->> +
->> +        /* FIXME: there is no backend(s) yet so just call a trace */
-> 
-> Improving that I think should count as a high priority enhancement.
+> +            # Show the disconnected message in the history window
+> +            urwid.emit_signal(self, UPDATE_MSG,
+> +                              '{"error": "Server disconnected before
+> reply"}')
+> +            self.window.footer.set_text("Server disconnected")
+> +        except Exception as err:
+> +            logging.info('Exception from _send_to_server: %s', str(err))
+>
 
-Heh. This is the main point of opposition to the entire approach :-)
+use self.logger.error here, since it's an unhandled error.
 
 
-> 
->> +        if (trace_event_get_state(TRACE_VOF_WRITE) &&
->> +            qemu_loglevel_mask(LOG_TRACE)) {
->> +            tmp[cb] = '\0';
->> +            trace_vof_write(ihandle, cb, tmp);
->> +        }
->> +    }
->> +
->> +    return len;
->> +}
-> 
-> [snip]
->> +
->> +static void vof_instantiate_rtas(Error **errp)
->> +{
->> +    error_setg(errp, "The firmware should have instantiated RTAS");
-> 
-> Since this always fails...
-> 
->> +}
->> +
->> +static uint32_t vof_call_method(MachineState *ms, Vof *vof, uint32_t methodaddr,
->> +                                uint32_t ihandle, uint32_t param1,
->> +                                uint32_t param2, uint32_t param3,
->> +                                uint32_t param4, uint32_t *ret2)
->> +{
->> +    uint32_t ret = -1;
->> +    char method[VOF_MAX_METHODLEN] = "";
->> +    OfInstance *inst;
->> +
->> +    if (!ihandle) {
->> +        goto trace_exit;
->> +    }
->> +
->> +    inst = (OfInstance *)g_hash_table_lookup(vof->of_instances,
->> +                                             GINT_TO_POINTER(ihandle));
->> +    if (!inst) {
->> +        goto trace_exit;
->> +    }
->> +
->> +    if (readstr(methodaddr, method, sizeof(method))) {
->> +        goto trace_exit;
->> +    }
->> +
->> +    if (strcmp(inst->path, "/") == 0) {
->> +        if (strcmp(method, "ibm,client-architecture-support") == 0) {
->> +            Object *vmo = object_dynamic_cast(OBJECT(ms), TYPE_VOF_MACHINE_IF);
->> +
->> +            if (vmo) {
->> +                VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
->> +
->> +                g_assert(vmc->client_architecture_support);
->> +                ret = vmc->client_architecture_support(ms, first_cpu, param1);
->> +            }
->> +
->> +            *ret2 = 0;
->> +        }
->> +    } else if (strcmp(inst->path, "/rtas") == 0) {
->> +        if (strcmp(method, "instantiate-rtas") == 0) {
-> 
-> ... why do you even need to handle it here?
+> +            raise err
+> +
+> +    def cb_send_to_server(self, msg):
+> +        create_task(self._send_to_server(msg))
+> +
+>
 
-Well, I do not _need_ it. I was choosing between leaving a comment here 
-or adding the code. The same number of lines but the code seemed more 
-descriptive. It also helps when I am playing with no-firmware boot when 
-I hack the kernel to call H_VOF directly and seeing the error message 
-about is better than a weird crash, this is a very minor thing though.
+I wish we didn't have to create tasks for this, but I suppose bridging
+asyncio and Urwid is just simply not very pretty. One thing to keep in mind
+is that when you create a task without a handle like this (i.e. you aren't
+saving the 'task' value anywhere), if that task exits with an Exception, it
+will cause Python to emit that "Unhandled Exception" warning that you see
+... but only once the program otherwise ends. What will end up happening in
+practice is that the task will die without showing you the Exception.
+
+You might want to find a way to make Python crash a little more
+aggressively when an unhandled exception happens in a task, or otherwise
+make sure that ERROR level logging messages are visible directly in the TUI
+history pane, so that we can see te errors when they happen.
 
 
+> +    def unhandled_input(self, key):
+> +        if key == 'esc':
+> +            self.kill_app()
+> +
+> +    def kill_app(self):
+> +        # TODO: Work on the disconnect logic
+> +        create_task(self._kill_app())
+> +
+>
 
->> +            vof_instantiate_rtas(&error_fatal);
->> +            ret = 0;
->> +            *ret2 = param1; /* rtas-base */
->> +        }
->> +    } else {
->> +        trace_vof_error_unknown_method(method);
->> +    }
->> +
->> +trace_exit:
->> +    trace_vof_method(ihandle, method, param1, ret, *ret2);
->> +
->> +    return ret;
->> +}
-> 
-> [snip]
->> +static uint32_t vof_client_handle(MachineState *ms, void *fdt, Vof *vof,
->> +                                  const char *service,
->> +                                  uint32_t *args, unsigned nargs,
->> +                                  uint32_t *rets, unsigned nrets)
->> +{
->> +    uint32_t ret = 0;
->> +
->> +    /* @nrets includes the value which this function returns */
->> +#define cmpserv(s, a, r) \
->> +    cmpservice(service, nargs, nrets, (s), (a), (r))
-> 
-> Since this macro is intended to be purely local, you should #undef it
-> at the end of the function.
-> 
->> +
->> +    if (cmpserv("finddevice", 1, 1)) {
->> +        ret = vof_finddevice(fdt, args[0]);
->> +    } else if (cmpserv("getprop", 4, 1)) {
->> +        ret = vof_getprop(fdt, args[0], args[1], args[2], args[3]);
->> +    } else if (cmpserv("getproplen", 2, 1)) {
->> +        ret = vof_getproplen(fdt, args[0], args[1]);
->> +    } else if (cmpserv("setprop", 4, 1)) {
->> +        ret = vof_setprop(ms, fdt, vof, args[0], args[1], args[2], args[3]);
->> +    } else if (cmpserv("nextprop", 3, 1)) {
->> +        ret = vof_nextprop(fdt, args[0], args[1], args[2]);
->> +    } else if (cmpserv("peer", 1, 1)) {
->> +        ret = vof_peer(fdt, args[0]);
->> +    } else if (cmpserv("child", 1, 1)) {
->> +        ret = vof_child(fdt, args[0]);
->> +    } else if (cmpserv("parent", 1, 1)) {
->> +        ret = vof_parent(fdt, args[0]);
->> +    } else if (cmpserv("open", 1, 1)) {
->> +        ret = vof_open(fdt, vof, args[0]);
->> +    } else if (cmpserv("close", 1, 0)) {
->> +        vof_close(vof, args[0]);
->> +    } else if (cmpserv("instance-to-package", 1, 1)) {
->> +        ret = vof_instance_to_package(vof, args[0]);
->> +    } else if (cmpserv("package-to-path", 3, 1)) {
->> +        ret = vof_package_to_path(fdt, args[0], args[1], args[2]);
->> +    } else if (cmpserv("instance-to-path", 3, 1)) {
->> +        ret = vof_instance_to_path(fdt, vof, args[0], args[1], args[2]);
->> +    } else if (cmpserv("write", 3, 1)) {
->> +        ret = vof_write(vof, args[0], args[1], args[2]);
->> +    } else if (cmpserv("claim", 3, 1)) {
->> +        ret = vof_claim(vof, args[0], args[1], args[2]);
->> +        if (ret != -1) {
->> +            vof_dt_memory_available(fdt, vof->claimed, vof->claimed_base);
->> +        }
->> +    } else if (cmpserv("release", 2, 0)) {
->> +        ret = vof_release(vof, args[0], args[1]);
->> +        if (ret != -1) {
->> +            vof_dt_memory_available(fdt, vof->claimed, vof->claimed_base);
->> +        }
->> +    } else if (cmpserv("call-method", 0, 0)) {
->> +        ret = vof_call_method(ms, vof, args[0], args[1], args[2], args[3],
->> +                              args[4], args[5], rets);
->> +    } else if (cmpserv("interpret", 0, 0)) {
->> +        ret = vof_call_interpret(args[0], args[1], args[2], rets);
->> +    } else if (cmpserv("milliseconds", 0, 1)) {
->> +        ret = qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
->> +    } else if (cmpserv("quiesce", 0, 0)) {
->> +        vof_quiesce(ms, fdt, vof);
->> +    } else if (cmpserv("exit", 0, 0)) {
->> +        error_report("Stopped as the VM requested \"exit\"");
->> +        vm_stop(RUN_STATE_PAUSED);
->> +    } else {
->> +        trace_vof_error_unknown_service(service, nargs, nrets);
->> +        ret = -1;
->> +    }
->> +
->> +    return ret;
->> +}
-> 
-> 
-> [snip]
->> +void *memmove(void *dest, const void *src, size_t n)
->> +{
->> +    char *cdest;
->> +    const char *csrc;
->> +    int i;
->> +
->> +    /* Do the buffers overlap in a bad way? */
->> +    if (src < dest && src + n >= dest) {
->> +        /* Copy from end to start */
->> +        cdest = dest + n - 1;
->> +        csrc = src + n - 1;
->> +        for (i = 0; i < n; i++) {
->> +            *cdest-- = *csrc--;
->> +        }
->> +    } else {
->> +        /* Normal copy is possible */
->> +        cdest = dest;
->> +        csrc = src;
->> +        for (i = 0; i < n; i++) {
->> +            *cdest++ = *csrc++;
->> +        }
->> +    }
->> +
->> +    return dest;
->> +}
-> 
-> I don't see any callers of your memmove().
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 7d9cd2904264..6fb202f99e90 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1356,6 +1356,18 @@ F: hw/pci-host/mv64361.c
->>   F: hw/pci-host/mv643xx.h
->>   F: include/hw/pci-host/mv64361.h
->>   
->> +Virtual Open Firmware (VOF)
->> +M: Alexey Kardashevskiy <aik@ozlabs.ru>
->> +M: David Gibson <david@gibson.dropbear.id.au>
->> +M: Greg Kurz <groug@kaod.org>
-> 
-> I think "R" might be more appropriate for me and Greg, rather than "M".
+Yes, the next thing I'd like to see here is reconnection logic -- I made a
+little prototype in some code I gave you, but it probably needs to be
+touched up. I recall that my version would attempt to reconnect infinitely
+whenever the app was disconnected, regardless of what happened to cause the
+disconnection. What we likely want is only to reconnect on certain kinds of
+errors -- ConnectionResetError is likely a good candidate, but other kinds
+of problems are likely ones we want to STAY disconnected when encountering.
 
-Sure. Thanks for the review, I'll try to post the folloup before Monday.
+We also probably want some logic like num_retries, and retry_delay.
 
 
+> +    async def _kill_app(self):
+> +        # It is ok to call disconnect even in disconnect state
+> +        await self.disconnect()
+>
 
--- 
-Alexey
+Be aware that this raises Exceptions if the connection terminated
+ungracefully, i.e. the server hung up before we were expecting it. You
+might want to handle it (and do something related to connection retry
+management) first -- there are at least a few erorrs here that wouldn't be
+too strange to run into.
+
+I worry that when you hit 'esc' instead of ctrl^C, you'll see different
+behavior here -- because ctrl+C creates a task, if this raises an exception
+here, I think that we won't exit -- we'll get another unhandled exception
+that won't show up until the app exits. I'm not confident in this, but I
+think you should confirm that exiting both ways works exactly like you
+think it does.
+
+
+> +        logging.info('disconnect finished, Exiting app')
+>
+
+self.logger.debug
+
+
+> +        raise urwid.ExitMainLoop()
+> +
+> +    def handle_event(self, event):
+> +        if event['event'] == 'SHUTDOWN':
+> +            self.window.footer.set_text('Server shutdown')
+> +
+>
+
+A bit spartan as an event handler, but it serves its purpose as a
+demonstration for the proof of concept.
+
+It'd be nice to have the footer show a [VM: {state}] status where the state
+maps 1:1 with qapi/run-state.json's @RunState enumeration. I made a quick
+hack that you saw, but it wasn't strictly correct.
+
+
+> +    async def connect_server(self):
+> +        try:
+> +            await self.connect(self.address)
+> +            self.window.footer.set_text("Connected to {:s}".format(
+> +                f"{self.address[0]}:{self.address[1]}"
+> +                if isinstance(self.address, tuple)
+> +                else self.address
+> +            ))
+> +        except ConnectError as err:
+> +            logging.debug('Cannot connect to server %s', str(err))
+> +            self.window.footer.set_text('Server shutdown')
+>
+
+Like in other places, I wonder what happens if we have an unhandled
+exception here, because this is running in a task.
+
+
+> +
+> +    def run(self):
+> +        self.aloop.set_debug(True)
+>
+
+Add a debug argument to run() and default it to False, and add a --debug
+flag to the argparser that turns this on conditionally instead.
+
+
+> +        event_loop = urwid.AsyncioEventLoop(loop=self.aloop)
+> +        self.loop = urwid.MainLoop(self.window,
+> +                                   unhandled_input=self.unhandled_input,
+> +                                   handle_mouse=True,
+> +                                   event_loop=event_loop)
+> +
+> +        create_task(self.wait_for_events(), self.aloop)
+> +        create_task(self.connect_server(), self.aloop)
+> +        try:
+> +            self.loop.run()
+> +        except Exception as err:
+> +            logging.error('%s\n%s\n', str(err), pretty_traceback())
+> +            raise err
+> +
+> +
+> +def main():
+> +    parser = argparse.ArgumentParser(description='AQMP TUI')
+> +    parser.add_argument('-a', '--address', metavar='IP:PORT',
+> required=True,
+> +                        help='Address of the QMP server', dest='address')
+> +    parser.add_argument('--log', help='Address of the QMP server',
+> +                        dest='log_file')
+> +    args = parser.parse_args()
+> +
+> +    logging.basicConfig(filename=args.log_file, level=logging.DEBUG)
+> +
+> +    address = args.address.split(':')
+> +    address[1] = int(address[1])
+> +
+> +    App(tuple(address)).run()
+>
+
+I would take the address as a positional argument instead of with the
+'--address' flag to mimic how qmp-shell works.
+
+>
+> +
+> +
+> +if __name__ == '__main__':
+> +    main()  # type: ignore
+> diff --git a/python/setup.cfg b/python/setup.cfg
+> index c62803bffc..c6d38451eb 100644
+> --- a/python/setup.cfg
+> +++ b/python/setup.cfg
+> @@ -81,8 +81,22 @@ namespace_packages = True
+>  # fusepy has no type stubs:
+>  allow_subclassing_any = True
+>
+> +[mypy-qemu.aqmp.aqmp_tui]
+> +disallow_untyped_defs = False
+> +disallow_incomplete_defs = False
+> +check_untyped_defs = False
+>
+
+Just keep in mind that we'll need to remove these particular ignores. The
+rest can stay.
+
+
+> +# urwid and urwid_readline have no type stubs:
+> +allow_subclassing_any = True
+> +
+> +# The following missing import directives are because these libraries do
+> not
+> +# provide type stubs. Allow them on an as-needed basis for mypy.
+>  [mypy-fuse]
+> -# fusepy has no type stubs:
+> +ignore_missing_imports = True
+> +
+> +[mypy-urwid]
+> +ignore_missing_imports = True
+> +
+> +[mypy-urwid_readline]
+>  ignore_missing_imports = True
+>
+>  [pylint.messages control]
+> --
+> 2.17.1
+>
+>
+Looking good so far, let's focus on managing the connection state and
+making sure that Exceptions raised from task contexts are handled properly.
+I still need to look more deeply into the classes below App, but I wanted
+to give you your overdue feedback. Thank you for your patience!
+
+--js
+
+--000000000000fff6f005c69422bf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 2, 2021 at 5:26 PM G S Ni=
+teesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+Added a draft of AQMP TUI.<br>
+<br>
+Implements the follwing basic features:<br>
+1) Command transmission/reception.<br>
+2) Shows events asynchronously.<br>
+3) Shows server status in the bottom status bar.<br>
+<br>
+Also added necessary pylint, mypy configurations<br>
+<br>
+Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
+ target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0python/qemu/aqmp/aqmp_tui.py | 246 ++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 16 ++-<br>
+=C2=A02 files changed, 261 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
+<br>
+diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py<br=
+>
+new file mode 100644<br>
+index 0000000000..8e9e8ac8ff<br>
+--- /dev/null<br>
++++ b/python/qemu/aqmp/aqmp_tui.py<br>
+@@ -0,0 +1,246 @@<br>
++# Copyright (c) 2021<br>
++#<br>
++# Authors:<br>
++#=C2=A0 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gmail.com" targe=
+t=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
++#<br>
++# This work is licensed under the terms of the GNU GPL, version 2 or<br>
++# later.=C2=A0 See the COPYING file in the top-level directory.<br>
++<br>
++import argparse<br>
++import asyncio<br>
++import logging<br>
++import signal<br>
++<br>
++import urwid<br>
++import urwid_readline<br>
++<br>
++from .protocol import ConnectError<br>
++from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError<br>
++from .util import create_task, pretty_traceback<br>
++<br>
++<br>
++UPDATE_MSG =3D &#39;UPDATE_MSG&#39;<br></blockquote><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
++<br>
++<br>
++class StatusBar(urwid.Text):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 A simple Text widget that currently only shows connection st=
+atus.<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def __init__(self, text=3D&#39;&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(text, align=3D&#39;right&#39;=
+)<br>
++<br>
++<br>
++class Editor(urwid_readline.ReadlineEdit):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Support urwid_readline features along with<br>
++=C2=A0 =C2=A0 history support which lacks in urwid_readline<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(caption=3D&#39;&gt; &#39;, mu=
+ltiline=3DTrue)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D -1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
++<br>
++=C2=A0 =C2=A0 def keypress(self, size, key):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Add some logic for down key and clean =
+up logic if possible.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Returning None means the key has been handle=
+d by this widget<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # which otherwise is propogated to the parent =
+widget to be<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # handled<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D self.get_edit_text()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if key =3D=3D &#39;up&#39; and not msg:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Show the history when &#39;up =
+arrow&#39; is pressed with no input text.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # NOTE: The show_history logic i=
+s necessary because in &#39;multiline&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # mode (which we use) &#39;up ar=
+row&#39; is used to move between lines.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D True<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_msg =3D self.history[self.l=
+ast_index] if self.history else &#39;&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text(last_msg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.edit_pos =3D len(last_msg)<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index +=3D 1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif key =3D=3D &#39;up&#39; and self.show_his=
+tory:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.last_index &lt; len(self=
+.history):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text=
+(self.history[self.last_index])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.edit_pos =3D =
+len(self.history[self.last_index])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index +=
+=3D 1<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif key =3D=3D &#39;meta enter&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # When using multiline, enter in=
+serts a new line into the editor<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # send the input to the server o=
+n alt + enter<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master.cb_send_to_server(ms=
+g)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.insert(0, msg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text(&#39;&#39;)<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D 0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D 0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return super().keypress(size, ke=
+y)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
++<br>
++<br>
++class EditorWidget(urwid.Filler):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Wraps CustomEdit<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(Editor(master), valign=3D&#39=
+;top&#39;)<br>
++<br>
++<br>
++class HistoryBox(urwid.ListBox):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Shows all the QMP message transmitted/received<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D urwid.SimpleFocusListWalker([=
+])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(self.history)<br>
++<br>
++=C2=A0 =C2=A0 def add_to_history(self, history):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.append(urwid.Text(history))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.history:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.set_focus(len(self.=
+history) - 1)<br>
++<br>
++<br>
++class HistoryWindow(urwid.Frame):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 Composes the HistoryBox and EditorWidget<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.editor =3D EditorWidget(master)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.editor_widget =3D urwid.LineBox(self.edit=
+or)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D HistoryBox(master)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.body =3D urwid.Pile([(&#39;weight&#39;, 8=
+0, self.history),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&#39;weight&#39;, 10, self.editor_w=
+idget)])<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(self.body)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.connect_signal(self.master, UPDATE_MSG, =
+self.cb_add_to_history)<br>
++<br>
++=C2=A0 =C2=A0 def cb_add_to_history(self, msg):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.add_to_history(msg)<br>
++<br>
++<br>
++class Window(urwid.Frame):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 This is going to be the main window that is going to compose=
+ other<br>
++=C2=A0 =C2=A0 windows. In this stage it is unnecesssary but will be necess=
+ary in<br>
++=C2=A0 =C2=A0 future when we will have multiple windows and want to the sw=
+itch between<br>
++=C2=A0 =C2=A0 them and display overlays<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 def __init__(self, master):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 footer =3D StatusBar()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 body =3D HistoryWindow(master)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(body, footer=3Dfooter)<br>
++<br>
++<br>
++class App(QMP):<br>
++=C2=A0 =C2=A0 def __init__(self, address):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.register_signal(self.__class__, UPDATE_M=
+SG)<br></blockquote><div><br></div><div>Do we really need a custom signal? =
+It looks like Urwid has some &quot;default&quot; ones... are they not suffi=
+cient? I suppose the idea here is that the &#39;UPDATE_MSG&#39; signal mean=
+s that we&#39;ve updated the history list, so we need to re-render.<br></di=
+v><div><br></div><div>If not, you may use type(self) here which looks just =
+a little cleaner.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window =3D Window(self)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.address =3D address<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop =3D asyncio.get_event_loop()<br></b=
+lockquote><div><br></div><div>I would recommend delaying calling get_event_=
+loop() until run(), just so that all of the loop management stuff is handle=
+d in one place. That way, the loop isn&#39;t &quot;fixed&quot; until we cal=
+l run().<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.loop =3D None<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__()<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Gracefully handle SIGTERM and SIGINT signals=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cancel_signals =3D [signal.SIGTERM, signal.SIG=
+INT]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 for sig in cancel_signals:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop.add_signal_handler(si=
+g, self.kill_app)<br></blockquote><div><br></div><div>If you agree with the=
+ above comment, this needs to move into run() as well.<br></div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
++<br>
++=C2=A0 =C2=A0 def _cb_outbound(self, msg):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_MSG, &quot;&lt;=
+-- &quot; + str(msg))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
++<br>
++=C2=A0 =C2=A0 def _cb_inbound(self, msg):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_MSG, &quot;--&g=
+t; &quot; + str(msg))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
++<br>
++=C2=A0 =C2=A0 async def wait_for_events(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 async for event in self.events:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.handle_event(event)<br>
++<br>
++=C2=A0 =C2=A0 async def _send_to_server(self, msg):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Handle more validation errors (eg: Val=
+ueError)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 response =3D await self._raw(byt=
+es(msg, &#39;utf-8&#39;))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logging.info" =
+rel=3D"noreferrer" target=3D"_blank">logging.info</a>(&#39;Response: %s %s&=
+#39;, response, type(response))<br></blockquote><div><br></div><div>You cou=
+ld log the responses in the inbound hook instead.</div><div>I&#39;d also us=
+e self.logger.debug instead of <a href=3D"http://logging.info">logging.info=
+</a>(...) so that you re-use the same logger instance.<br></div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ExecuteError:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logging.info" =
+rel=3D"noreferrer" target=3D"_blank">logging.info</a>(&#39;Error response f=
+rom server for msg: %s&#39;, msg)<br></blockquote><div><br></div><div><a hr=
+ef=3D"http://self.logger.info">self.logger.info</a>() here.<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ExecInterruptedError:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logging.info" =
+rel=3D"noreferrer" target=3D"_blank">logging.info</a>(&#39;Error server dis=
+connected before reply&#39;)<br></blockquote><div><br></div><div>And same h=
+ere.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: Handle this better<br><=
+/blockquote><div><br></div><div>What ideas do you have for handling this be=
+tter? What&#39;s wrong with it right now?<br></div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Show the disconnected message =
+in the history window<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_M=
+SG,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;{&quot;error&quot;: &quot;Server disco=
+nnected before reply&quot;}&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&quo=
+t;Server disconnected&quot;)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logging.info" =
+rel=3D"noreferrer" target=3D"_blank">logging.info</a>(&#39;Exception from _=
+send_to_server: %s&#39;, str(err))<br></blockquote><div><br></div><div>use =
+self.logger.error here, since it&#39;s an unhandled error.<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
++<br>
++=C2=A0 =C2=A0 def cb_send_to_server(self, msg):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self._send_to_server(msg))<br>
++<br></blockquote><div><br></div><div>I wish we didn&#39;t have to create t=
+asks for this, but I suppose bridging asyncio and Urwid is just simply not =
+very pretty. One thing to keep in mind is that when you create a task witho=
+ut a handle like this (i.e. you aren&#39;t saving the &#39;task&#39; value =
+anywhere), if that task exits with an Exception, it will cause Python to em=
+it that &quot;Unhandled Exception&quot; warning that you see ... but only o=
+nce the program otherwise ends. What will end up happening in practice is t=
+hat the task will die without showing you the Exception.</div><div><br></di=
+v><div>You might want to find a way to make Python crash a little more aggr=
+essively when an unhandled exception happens in a task, or otherwise make s=
+ure that ERROR level logging messages are visible directly in the TUI histo=
+ry pane, so that we can see te errors when they happen.<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 def unhandled_input(self, key):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if key =3D=3D &#39;esc&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.kill_app()<br>
++<br>
++=C2=A0 =C2=A0 def kill_app(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Work on the disconnect logic<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self._kill_app())<br>
++<br></blockquote><div><br></div><div>Yes, the next thing I&#39;d like to s=
+ee here is reconnection logic -- I made a little prototype in some code I g=
+ave you, but it probably needs to be touched up. I recall that my version w=
+ould attempt to reconnect infinitely whenever the app was disconnected, reg=
+ardless of what happened to cause the disconnection. What we likely want is=
+ only to reconnect on certain kinds of errors -- ConnectionResetError is li=
+kely a good candidate, but other kinds of problems are likely ones we want =
+to STAY disconnected when encountering.</div><div><br></div><div>We also pr=
+obably want some logic like num_retries, and retry_delay.<br></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 async def _kill_app(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 # It is ok to call disconnect even in disconne=
+ct state<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 await self.disconnect()<br></blockquote><div><=
+br></div><div>Be aware that this raises Exceptions if the connection termin=
+ated ungracefully, i.e. the server hung up before we were expecting it. You=
+ might want to handle it (and do something related to connection retry mana=
+gement) first -- there are at least a few erorrs here that wouldn&#39;t be =
+too strange to run into.</div><div><br></div><div>I worry that when you hit=
+ &#39;esc&#39; instead of ctrl^C, you&#39;ll see different behavior here --=
+ because ctrl+C creates a task, if this raises an exception here, I think t=
+hat we won&#39;t exit -- we&#39;ll get another unhandled exception that won=
+&#39;t show up until the app exits. I&#39;m not confident in this, but I th=
+ink you should confirm that exiting both ways works exactly like you think =
+it does.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://logging.info" rel=3D"norefer=
+rer" target=3D"_blank">logging.info</a>(&#39;disconnect finished, Exiting a=
+pp&#39;)<br></blockquote><div><br></div><div>self.logger.debug<br></div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise urwid.ExitMainLoop()<br>
++<br>
++=C2=A0 =C2=A0 def handle_event(self, event):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if event[&#39;event&#39;] =3D=3D &#39;SHUTDOWN=
+&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&#39=
+;Server shutdown&#39;)<br>
++ <br></blockquote><div><br></div><div>A bit spartan as an event handler, b=
+ut it serves its purpose as a demonstration for the proof of concept.</div>=
+<div><br></div><div>It&#39;d be nice to have the footer show a [VM: {state}=
+] status where the state maps 1:1 with qapi/run-state.json&#39;s @RunState =
+enumeration. I made a quick hack that you saw, but it wasn&#39;t strictly c=
+orrect.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++=C2=A0 =C2=A0 async def connect_server(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self.connect(self.address)=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&quo=
+t;Connected to {:s}&quot;.format(<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f&quot;{self.addre=
+ss[0]}:{self.address[1]}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if isinstance(self=
+.address, tuple)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else self.address<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ConnectError as err:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logging.debug(&#39;Cannot connec=
+t to server %s&#39;, str(err))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&#39=
+;Server shutdown&#39;)<br></blockquote><div><br></div><div>Like in other pl=
+aces, I wonder what happens if we have an unhandled exception here, because=
+ this is running in a task.<br></div><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
++<br>
++=C2=A0 =C2=A0 def run(self):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop.set_debug(True)<br></blockquote><di=
+v><br></div><div>Add a debug argument to run() and default it to False, and=
+ add a --debug flag to the argparser that turns this on conditionally inste=
+ad.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 event_loop =3D urwid.AsyncioEventLoop(loop=3Ds=
+elf.aloop)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.loop =3D urwid.MainLoop(self.window,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unhandled_input=3Dself.=
+unhandled_input,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0handle_mouse=3DTrue,<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0event_loop=3Devent_loop=
+)<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self.wait_for_events(), self.aloop=
+)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self.connect_server(), self.aloop)=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.loop.run()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logging.error(&#39;%s\n%s\n&#39;=
+, str(err), pretty_traceback())<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
++<br>
++<br>
++def main():<br>
++=C2=A0 =C2=A0 parser =3D argparse.ArgumentParser(description=3D&#39;AQMP T=
+UI&#39;)<br>
++=C2=A0 =C2=A0 parser.add_argument(&#39;-a&#39;, &#39;--address&#39;, metav=
+ar=3D&#39;IP:PORT&#39;, required=3DTrue,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 help=3D&#39;Address of the QMP server&#39;, dest=3D&#39;address&=
+#39;)<br>
++=C2=A0 =C2=A0 parser.add_argument(&#39;--log&#39;, help=3D&#39;Address of =
+the QMP server&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 dest=3D&#39;log_file&#39;)<br>
++=C2=A0 =C2=A0 args =3D parser.parse_args()<br>
++<br>
++=C2=A0 =C2=A0 logging.basicConfig(filename=3Dargs.log_file, level=3Dloggin=
+g.DEBUG)<br>
++<br>
++=C2=A0 =C2=A0 address =3D args.address.split(&#39;:&#39;)<br>
++=C2=A0 =C2=A0 address[1] =3D int(address[1])<br>
++<br>
++=C2=A0 =C2=A0 App(tuple(address)).run()<br></blockquote><div><br></div><di=
+v>I would take the address as a positional argument instead of with the &#3=
+9;--address&#39; flag to mimic how qmp-shell works.</div>=C2=A0<blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
++<br>
++<br>
++if __name__ =3D=3D &#39;__main__&#39;:<br>
++=C2=A0 =C2=A0 main()=C2=A0 # type: ignore<br>
+diff --git a/python/setup.cfg b/python/setup.cfg<br>
+index c62803bffc..c6d38451eb 100644<br>
+--- a/python/setup.cfg<br>
++++ b/python/setup.cfg<br>
+@@ -81,8 +81,22 @@ namespace_packages =3D True<br>
+=C2=A0# fusepy has no type stubs:<br>
+=C2=A0allow_subclassing_any =3D True<br>
+<br>
++[mypy-qemu.aqmp.aqmp_tui]<br>
++disallow_untyped_defs =3D False<br>
++disallow_incomplete_defs =3D False<br>
++check_untyped_defs =3D False<br></blockquote><div><br></div><div>Just keep=
+ in mind that we&#39;ll need to remove these particular ignores. The rest c=
+an stay.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++# urwid and urwid_readline have no type stubs:<br>
++allow_subclassing_any =3D True<br>
++<br>
++# The following missing import directives are because these libraries do n=
+ot<br>
++# provide type stubs. Allow them on an as-needed basis for mypy.<br>
+=C2=A0[mypy-fuse]<br>
+-# fusepy has no type stubs:<br>
++ignore_missing_imports =3D True<br>
++<br>
++[mypy-urwid]<br>
++ignore_missing_imports =3D True<br>
++<br>
++[mypy-urwid_readline]<br>
+=C2=A0ignore_missing_imports =3D True<br>
+<br>
+=C2=A0[pylint.messages control]<br>
+-- <br>
+2.17.1<br>
+<br></blockquote><div><br></div><div>Looking good so far, let&#39;s focus o=
+n managing the connection state and making sure that Exceptions raised from=
+ task contexts are handled properly. I still need to look more deeply into =
+the classes below App, but I wanted to give you your overdue feedback. Than=
+k you for your patience!</div><div><br></div><div>--js<br></div></div></div=
+>
+
+--000000000000fff6f005c69422bf--
+
 
