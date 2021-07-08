@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B488D3BF95A
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4923BF95B
 	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 13:51:15 +0200 (CEST)
-Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1SYk-0006mn-Oe
+	id 1m1SYk-0006mJ-Rf
 	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 07:51:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51108)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1SUz-0003rv-Rn
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:47:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37862)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1SV2-0003sg-E8
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:47:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1SUw-0001Qc-Cl
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:47:21 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1SUz-0001Qx-Jj
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 07:47:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625744837;
+ s=mimecast20190719; t=1625744840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D4cXd+TLbkbp1fXcYqMN/i9xFVY1Uok3yhO668JM73s=;
- b=H//930616C1Krx71vSnMYgWeDSEzWttb6tr6jb04ky1dWwmw9jvQaTtFlNglDGMxW72Tpr
- mAp7i+OlgbToFRn416t1O5/Q2MBKz9wAIoV+lvPFiDYyruDcyly//VYdPz/uK/zzUGVOSw
- lmvYgq2No1reRanYr0v0Q2DRjKmhSeQ=
+ bh=6Nxjmqf9IhhxRz10b1qva0SYNXGwh1eMNIcvrFIuxy8=;
+ b=Ie14e8vMYRS2Wj7xXtkKqyCQK4eA46L6J1vuhTYFOg/9CRVg5TK3bbVTgeDV+eugSK23aH
+ pKuhRF6tCwlJn9QzCvlYDkpBdY2OJZCvJr0JMxJYGRvBDYJWaUxo+ej5Vu4sIW1XRneynj
+ mMZtkeUpxv+ly7fUOGSx1YgvjQOIK/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-W0wsrIojMfqGCAYogNDMdQ-1; Thu, 08 Jul 2021 07:47:16 -0400
-X-MC-Unique: W0wsrIojMfqGCAYogNDMdQ-1
+ us-mta-138-KrBSVD2vMnidtBZOTyn0aQ-1; Thu, 08 Jul 2021 07:47:18 -0400
+X-MC-Unique: KrBSVD2vMnidtBZOTyn0aQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2B20102CC32;
- Thu,  8 Jul 2021 11:47:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33EDE102CB7D;
+ Thu,  8 Jul 2021 11:47:17 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-143.ams2.redhat.com [10.36.114.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 24E1560843;
- Thu,  8 Jul 2021 11:47:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA9F960843;
+ Thu,  8 Jul 2021 11:47:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 1/6] qcow2: Fix dangling pointer after reopen for 'file'
-Date: Thu,  8 Jul 2021 13:47:04 +0200
-Message-Id: <20210708114709.206487-2-kwolf@redhat.com>
+Subject: [PATCH v6 2/6] block: Add bdrv_reopen_queue_free()
+Date: Thu,  8 Jul 2021 13:47:05 +0200
+Message-Id: <20210708114709.206487-3-kwolf@redhat.com>
 In-Reply-To: <20210708114709.206487-1-kwolf@redhat.com>
 References: <20210708114709.206487-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -81,81 +81,85 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Without an external data file, s->data_file is a second pointer with the
-same value as bs->file. When changing bs->file to a different BdrvChild
-and freeing the old BdrvChild, s->data_file must also be updated,
-otherwise it points to freed memory and causes crashes.
+From: Alberto Garcia <berto@igalia.com>
 
-This problem was caught by iotests case 245.
+Move the code to free a BlockReopenQueue to a separate function.
+It will be used in a subsequent patch.
 
-Fixes: df2b7086f169239ebad5d150efa29c9bb6d4f820
+[ kwolf: Also free explicit_options and options, and explicitly
+  qobject_ref() the value when it continues to be used. This makes
+  future memory leaks less likely. ]
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/qcow2.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ include/block/block.h |  1 +
+ block.c               | 22 ++++++++++++++++------
+ 2 files changed, 17 insertions(+), 6 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index ee4530cdbd..9126127633 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1926,6 +1926,7 @@ static void qcow2_refresh_limits(BlockDriverState *bs, Error **errp)
- static int qcow2_reopen_prepare(BDRVReopenState *state,
-                                 BlockReopenQueue *queue, Error **errp)
- {
-+    BDRVQcow2State *s = state->bs->opaque;
-     Qcow2ReopenState *r;
-     int ret;
+diff --git a/include/block/block.h b/include/block/block.h
+index 7ec77ecb1a..6d42992985 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -386,6 +386,7 @@ BlockDriverState *bdrv_new_open_driver(BlockDriver *drv, const char *node_name,
+ BlockReopenQueue *bdrv_reopen_queue(BlockReopenQueue *bs_queue,
+                                     BlockDriverState *bs, QDict *options,
+                                     bool keep_old_opts);
++void bdrv_reopen_queue_free(BlockReopenQueue *bs_queue);
+ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp);
+ int bdrv_reopen_set_read_only(BlockDriverState *bs, bool read_only,
+                               Error **errp);
+diff --git a/block.c b/block.c
+index acd35cb0cb..ee9b46e95e 100644
+--- a/block.c
++++ b/block.c
+@@ -4095,6 +4095,19 @@ BlockReopenQueue *bdrv_reopen_queue(BlockReopenQueue *bs_queue,
+                                    NULL, 0, keep_old_opts);
+ }
  
-@@ -1956,6 +1957,16 @@ static int qcow2_reopen_prepare(BDRVReopenState *state,
++void bdrv_reopen_queue_free(BlockReopenQueue *bs_queue)
++{
++    if (bs_queue) {
++        BlockReopenQueueEntry *bs_entry, *next;
++        QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
++            qobject_unref(bs_entry->state.explicit_options);
++            qobject_unref(bs_entry->state.options);
++            g_free(bs_entry);
++        }
++        g_free(bs_queue);
++    }
++}
++
+ /*
+  * Reopen multiple BlockDriverStates atomically & transactionally.
+  *
+@@ -4197,15 +4210,10 @@ abort:
+         if (bs_entry->prepared) {
+             bdrv_reopen_abort(&bs_entry->state);
          }
+-        qobject_unref(bs_entry->state.explicit_options);
+-        qobject_unref(bs_entry->state.options);
      }
  
-+    /*
-+     * Without an external data file, s->data_file points to the same BdrvChild
-+     * as bs->file. It needs to be resynced after reopen because bs->file may
-+     * be changed. We can't use it in the meantime.
-+     */
-+    if (!has_data_file(state->bs)) {
-+        assert(s->data_file == state->bs->file);
-+        s->data_file = NULL;
-+    }
-+
-     return 0;
+ cleanup:
+-    QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+-        g_free(bs_entry);
+-    }
+-    g_free(bs_queue);
++    bdrv_reopen_queue_free(bs_queue);
  
- fail:
-@@ -1966,7 +1977,16 @@ fail:
- 
- static void qcow2_reopen_commit(BDRVReopenState *state)
- {
-+    BDRVQcow2State *s = state->bs->opaque;
-+
-     qcow2_update_options_commit(state->bs, state->opaque);
-+    if (!s->data_file) {
-+        /*
-+         * If we don't have an external data file, s->data_file was cleared by
-+         * qcow2_reopen_prepare() and needs to be updated.
-+         */
-+        s->data_file = state->bs->file;
-+    }
-     g_free(state->opaque);
+     return ret;
  }
+@@ -4573,6 +4581,8 @@ static void bdrv_reopen_commit(BDRVReopenState *reopen_state)
+     /* set BDS specific flags now */
+     qobject_unref(bs->explicit_options);
+     qobject_unref(bs->options);
++    qobject_ref(reopen_state->explicit_options);
++    qobject_ref(reopen_state->options);
  
-@@ -1990,6 +2010,15 @@ static void qcow2_reopen_commit_post(BDRVReopenState *state)
- 
- static void qcow2_reopen_abort(BDRVReopenState *state)
- {
-+    BDRVQcow2State *s = state->bs->opaque;
-+
-+    if (!s->data_file) {
-+        /*
-+         * If we don't have an external data file, s->data_file was cleared by
-+         * qcow2_reopen_prepare() and needs to be restored.
-+         */
-+        s->data_file = state->bs->file;
-+    }
-     qcow2_update_options_abort(state->bs, state->opaque);
-     g_free(state->opaque);
- }
+     bs->explicit_options   = reopen_state->explicit_options;
+     bs->options            = reopen_state->options;
 -- 
 2.31.1
 
