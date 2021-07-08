@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1A73C1627
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:40:09 +0200 (CEST)
-Received: from localhost ([::1]:33656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AEF13C160F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:33:23 +0200 (CEST)
+Received: from localhost ([::1]:38924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W8G-0003hz-AE
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:40:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
+	id 1m1W1i-0005Be-1S
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:33:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn3-0000m3-C1
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:13 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33482)
+ id 1m1Vn3-0000oV-TL
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:14 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn1-0008GH-3I
+ id 1m1Vn2-0008GT-3o
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:13 -0400
-Received: by mail-ed1-x532.google.com with SMTP id eb14so9128920edb.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:10 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id i20so10270510ejw.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JqEuc5zmp5KYtSggRUy7NvqNM22I5C+WX9l/rIcbs+I=;
- b=c64I9UAs0/ezkFsKYx4rM9efBlpol8rL7Nuv+1XWp7NQCv3KtL//dyn1Z3l4vr5lmK
- F8Mak1wWmoi4mYDPfJ3scEB4utdpjv78mMd0oukPoMXNsk5fOvzZ9DYXGYHMVpUAwOJ+
- v6oPuu4bYK4qwQC7ZfqL2HGRJberAJIjeP9jwgTxBSMW47uepRG39jSU0SGCCrBGkEXD
- S0rpVf4aOXpHzApeRJAkv9b1s0tlWGv/SsicXL1gvo/wvRq75GRgLmljMx6x6St0Y/rn
- WniX5oJo5vnVbpRN4ivvOE/7HBZ97yNsNtSgzsKap/i1wKE/V43DxSk5DDsnoerLCgR6
- ENow==
+ bh=LrFShy5YL4Zt4HH2dLprVR6GRKxZLbywCDTtxink+tc=;
+ b=sw9q2G1Nk3VQNL0BV8UXaoq402+tSA5RXhyDl0i4XTVPzdS2teJe7qU6BkeDfGJMnl
+ RbuUIZdLEaDc0Y6gMypR4kNADnDBtZDkLdAVeoEaUkxhBMfXdu7Zwo2/brzKUaPkb3+1
+ Wc9LZSImGutc9B+pArGLzcrDGWftE3abCjCbmtcSu0zJmrB6MqaZh8UGSpt8V2UL+Aca
+ 2CTfk7cnKSjAh/qHBXcC3lGjE6eLdYtTRr+PlmlEFy+Qgp8ujoBr1jgqwQ4g/MqPC1ZU
+ zE3OUsTfn7Bop4KtCqcUfeE3TIL0dll7WFiAk4YL1o6krg/PUNUrSzpBCW+oGLS3IiLA
+ rNYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JqEuc5zmp5KYtSggRUy7NvqNM22I5C+WX9l/rIcbs+I=;
- b=tgcJXq6viUVcWFtoK/HNSiR9emJtdIetge2vEVo7R2dDskp6N5J7NYiEcr2eW43KKM
- rylzvVwKMyWBL/M5Je/4XINGEuY45b1FMnqwjfJvPn2JUwJjgtNadbgbwejOa0n1X1lR
- H8Vl0o0cU43kZnI5VUs/68Ytg57c1VKE7HN1aHRzDbvFXKCSzYC5ni90K5UbLOrokVG1
- Oo3b0qZNM3stYMVV76dRP6aa1thz8zLfbNKoSc2ilkin1bG8ERLBnDXWfr2KXsRZzmq/
- kRSl+HLXCuXLBaZTgnNDi5Zz+P3z9lbR6z1vzneV/97+nMj9lkT3gagjaqyHqtI3TxPX
- orgQ==
-X-Gm-Message-State: AOAM530NFV2hoH6QcBfqe0Yrcz07pad+8uHnWLMcXgBXkCNSKh2iEAfR
- adJQMUeO+XQrjyLmCWBureWVekHy3lY=
-X-Google-Smtp-Source: ABdhPJxdjP+a+sOdFNDDOd0yNXjBUTDjOVZkrfpUrIO5wlSP7TLVeEyM0te7JU+3aR7+0uqM1bH9Wg==
-X-Received: by 2002:a05:6402:152:: with SMTP id
- s18mr38589720edu.221.1625757489827; 
- Thu, 08 Jul 2021 08:18:09 -0700 (PDT)
+ bh=LrFShy5YL4Zt4HH2dLprVR6GRKxZLbywCDTtxink+tc=;
+ b=jEAuahQviBmUlUY+a6RLSJK1BmZnJQNAqZpfYndG/sLylEarpayO7+HnaIbP2BRuWl
+ uLQDwOp+TtARPwc/8gUm3RRS/1ncieSR3/IIZm3ZH6sJYLPjWWDJLCDIYscKbk0CGX0/
+ lkTJVwJ2+iL56JqjKkOlpQp971c+pt8Is3SSf9QEWx9/UfSt1Ggn5FYXpeVssQz38j4i
+ aduy+IKR1U5tM0uFP2mkzgeBK+HJqzPER/E5A6/Y+W72ylIxOwm01sjdcmLnTTPVMjtE
+ vrA2ccg7mfm1v8Z/7u045cp9n+eU2BNVv9SU/LKA8UTEq6kbZ+xsWfHCQpr3b0hZLwte
+ rHUg==
+X-Gm-Message-State: AOAM531kZ6zlZGcq4+SrDg5iISwYiELCH3NYEcP8/WM+kYYyi/Uz37V5
+ K2aPxZowUcdw7JCuQJrES5ECflqMp6g=
+X-Google-Smtp-Source: ABdhPJz05d7oJybw2MfFdeF3P4msRpYhORzyI0AN36gKChw4InL230oL/iYj0QK/FyuY7H/75DwuPQ==
+X-Received: by 2002:a17:906:33d0:: with SMTP id
+ w16mr12652052eja.376.1625757490546; 
+ Thu, 08 Jul 2021 08:18:10 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:09 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:10 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/48] modules: hook up modules.h to docs build
-Date: Thu,  8 Jul 2021 17:17:28 +0200
-Message-Id: <20210708151748.408754-29-pbonzini@redhat.com>
+Subject: [PULL 29/48] accel: autoload modules
+Date: Thu,  8 Jul 2021 17:17:29 +0200
+Message-Id: <20210708151748.408754-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,40 +90,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
+Call module_object_class_by_name() instead of object_class_by_name()
+for objects possibly implemented as module
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-25-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-26-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/index.rst   | 1 +
- docs/devel/modules.rst | 5 +++++
- 2 files changed, 6 insertions(+)
- create mode 100644 docs/devel/modules.rst
+ accel/accel-common.c  | 2 +-
+ accel/accel-softmmu.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 977c3893bd..ba90badbbd 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -41,6 +41,7 @@ Contents:
-    s390-dasd-ipl
-    clocks
-    qom
-+   modules
-    block-coroutine-wrapper
-    multi-process
-    ebpf_rss
-diff --git a/docs/devel/modules.rst b/docs/devel/modules.rst
-new file mode 100644
-index 0000000000..066f347b89
---- /dev/null
-+++ b/docs/devel/modules.rst
-@@ -0,0 +1,5 @@
-+============
-+Qemu modules
-+============
-+
-+.. kernel-doc:: include/qemu/module.h
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index cf07f78421..7b8ec7e0f7 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -44,7 +44,7 @@ static const TypeInfo accel_type = {
+ AccelClass *accel_find(const char *opt_name)
+ {
+     char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
+-    AccelClass *ac = ACCEL_CLASS(object_class_by_name(class_name));
++    AccelClass *ac = ACCEL_CLASS(module_object_class_by_name(class_name));
+     g_free(class_name);
+     return ac;
+ }
+diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
+index 50fa5acaa4..67276e4f52 100644
+--- a/accel/accel-softmmu.c
++++ b/accel/accel-softmmu.c
+@@ -72,7 +72,7 @@ void accel_init_ops_interfaces(AccelClass *ac)
+     g_assert(ac_name != NULL);
+ 
+     ops_name = g_strdup_printf("%s" ACCEL_OPS_SUFFIX, ac_name);
+-    ops = ACCEL_OPS_CLASS(object_class_by_name(ops_name));
++    ops = ACCEL_OPS_CLASS(module_object_class_by_name(ops_name));
+     g_free(ops_name);
+ 
+     /*
 -- 
 2.31.1
 
