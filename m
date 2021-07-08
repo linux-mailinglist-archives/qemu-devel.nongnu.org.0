@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F86C3C171C
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:32:17 +0200 (CEST)
-Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897893C1726
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:35:23 +0200 (CEST)
+Received: from localhost ([::1]:38390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wwi-0005aE-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
+	id 1m1Wzi-0003oE-F0
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:35:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEq-0002Aw-BH
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31143)
+ id 1m1WEy-0002Zx-57
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEn-0000T8-Ja
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:56 -0400
+ id 1m1WEv-0000W3-Hy
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759213;
+ s=mimecast20190719; t=1625759221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tJUE5ruUCubFBY+sYAE0g5kPKoDCP5IiIuKFuL88eYI=;
- b=dVMp7qJcK0KLlA3jdu+Gf3Bjy7r7B01X9j6jCMcIAP1agDGGWbypHCv4zCCkm7B+hTV3BU
- FPueTJWgvuB6QB0wXzoUZLJArAA0JXVlt1RQvMqf7lzvUwXW3At3/33h1qdwXWMTo374kR
- tizZ8OYTY1qabUmmxs3BsDZd8xBsEwE=
+ bh=lESioAkCSkxci52NPVNpv8aZ2+FFCGB87TwYdRwYl3g=;
+ b=aN/W2u0gC+xFsTTwuX6YF2zlAKddvo0oil0WtGddfWrD94tRHxoyMqFbQhrQSY/pQ3B68Z
+ 77zffiKDTBGGQ+aB/7z1G8sSqoiBFavPwI2pHg1KzyAB3R+9HWC5fqQHeIY3GOnGaZ50TP
+ +4tD2DVUroZI6ila3wKWxA89ALpi89c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-ve-4sieMNp6BcW6LnHUMwQ-1; Thu, 08 Jul 2021 11:46:48 -0400
-X-MC-Unique: ve-4sieMNp6BcW6LnHUMwQ-1
+ us-mta-118-dp4Jr-YBOnu1dM8DQY7VGw-1; Thu, 08 Jul 2021 11:46:59 -0400
+X-MC-Unique: dp4Jr-YBOnu1dM8DQY7VGw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 939B0802E61;
- Thu,  8 Jul 2021 15:46:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DD22100C610;
+ Thu,  8 Jul 2021 15:46:58 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A24919C66;
- Thu,  8 Jul 2021 15:46:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C18119C66;
+ Thu,  8 Jul 2021 15:46:57 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/35] acpi: build_tpm_tcpa: use
- acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Thu,  8 Jul 2021 11:45:57 -0400
-Message-Id: <20210708154617.1538485-16-imammedo@redhat.com>
+Subject: [PATCH v2 23/35] acpi: x86: set enabled when composing _MAT entries
+Date: Thu,  8 Jul 2021 11:46:05 -0400
+Message-Id: <20210708154617.1538485-24-imammedo@redhat.com>
 In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
 References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,117 +79,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanb@linux.vnet.ibm.com, Stefan Berger <stefanb@linux.ibm.com>,
- mst@redhat.com
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-it replaces error-prone pointer arithmetic for build_header() API,
-with 2 calls to start and finish table creation,
-which hides offsets magic from API user.
+Instead of composing disabled _MAT entry and then later on
+patching it to enabled for hotpluggbale CPUs in DSDT,
+set it to enabled at the time _MAT entry is built.
 
-While at it switch to build_append_int_noprefix() to build
-table entries (which also removes some manual offset
-calculations).
+It will allow to drop usage of packed structures in
+following patches when build_madt() is switched to use
+build_append_int_noprefix() API.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Tested-by: Stefan Berger <stefanb@linux.ibm.com>
 ---
-v2:
-  * fix assert when starting QEMU with TPM 1.2
-      Stefan Berger <stefanb@linux.ibm.com>
-
-CC: stefanb@linux.vnet.ibm.com
+CC: marcel.apfelbaum@gmail.com
 ---
- include/hw/acpi/acpi-defs.h | 14 -------------
- hw/i386/acpi-build.c        | 40 ++++++++++++++++++++++---------------
- 2 files changed, 24 insertions(+), 30 deletions(-)
+ include/hw/acpi/acpi_dev_interface.h |  3 ++-
+ include/hw/i386/pc.h                 |  7 ++++---
+ hw/acpi/acpi-x86-stub.c              |  3 ++-
+ hw/acpi/cpu.c                        | 17 ++---------------
+ hw/i386/acpi-common.c                | 18 ++++++------------
+ 5 files changed, 16 insertions(+), 32 deletions(-)
 
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index 4d8f8b34b0..3b42b138f0 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -418,20 +418,6 @@ struct AcpiSratProcessorGiccAffinity {
- 
- typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
- 
--/*
-- * TCPA Description Table
-- *
-- * Following Level 00, Rev 00.37 of specs:
-- * http://www.trustedcomputinggroup.org/resources/tcg_acpi_specification
-- */
--struct Acpi20Tcpa {
--    ACPI_TABLE_HEADER_DEF                    /* ACPI common table header */
--    uint16_t platform_class;
--    uint32_t log_area_minimum_length;
--    uint64_t log_area_start_address;
--} QEMU_PACKED;
--typedef struct Acpi20Tcpa Acpi20Tcpa;
--
- /* DMAR - DMA Remapping table r2.2 */
- struct AcpiTableDmar {
-     ACPI_TABLE_HEADER_DEF
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 96ad3e1b9d..5457e35798 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1849,31 +1849,39 @@ build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
- }
- 
- #ifdef CONFIG_TPM
-+/*
-+ * TCPA Description Table
-+ *
-+ * Following Level 00, Rev 00.37 of specs:
-+ * http://www.trustedcomputinggroup.org/resources/tcg_acpi_specification
-+ * 7.1.2 ACPI Table Layout
-+ */
- static void
- build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
-                const char *oem_id, const char *oem_table_id)
- {
--    int tcpa_start = table_data->len;
--    Acpi20Tcpa *tcpa = acpi_data_push(table_data, sizeof *tcpa);
--    unsigned log_addr_size = sizeof(tcpa->log_area_start_address);
--    unsigned log_addr_offset =
--        (char *)&tcpa->log_area_start_address - table_data->data;
-+    unsigned log_addr_offset;
-+    AcpiTable table = { .sig = "TCPA", .rev = 2,
-+                        .oem_id = oem_id, .oem_table_id = oem_table_id };
- 
--    tcpa->platform_class = cpu_to_le16(TPM_TCPA_ACPI_CLASS_CLIENT);
--    tcpa->log_area_minimum_length = cpu_to_le32(TPM_LOG_AREA_MINIMUM_SIZE);
--    acpi_data_push(tcpalog, le32_to_cpu(tcpa->log_area_minimum_length));
-+    acpi_init_table(&table, table_data);
-+    /* Platform Class */
-+    build_append_int_noprefix(table_data, TPM_TCPA_ACPI_CLASS_CLIENT, 2);
-+    /* Log Area Minimum Length (LAML) */
-+    build_append_int_noprefix(table_data, TPM_LOG_AREA_MINIMUM_SIZE, 4);
-+    /* Log Area Start Address (LASA) */
-+    log_addr_offset = table_data->len;
-+    build_append_int_noprefix(table_data, 0, 8);
- 
-+    acpi_table_composed(linker, &table);
-+
-+    /* allocate/reserve space for TPM log area */
-+    acpi_data_push(tcpalog, TPM_LOG_AREA_MINIMUM_SIZE);
-     bios_linker_loader_alloc(linker, ACPI_BUILD_TPMLOG_FILE, tcpalog, 1,
-                              false /* high memory */);
--
-     /* log area start address to be filled by Guest linker */
--    bios_linker_loader_add_pointer(linker,
--        ACPI_BUILD_TABLE_FILE, log_addr_offset, log_addr_size,
--        ACPI_BUILD_TPMLOG_FILE, 0);
--
--    build_header(linker, table_data,
--                 (void *)(table_data->data + tcpa_start),
--                 "TCPA", sizeof(*tcpa), 2, oem_id, oem_table_id);
-+    bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
-+        log_addr_offset, 8, ACPI_BUILD_TPMLOG_FILE, 0);
- }
+diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+index 769ff55c7e..ea6056ab92 100644
+--- a/include/hw/acpi/acpi_dev_interface.h
++++ b/include/hw/acpi/acpi_dev_interface.h
+@@ -53,6 +53,7 @@ struct AcpiDeviceIfClass {
+     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
+     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
+     void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
+-                     const CPUArchIdList *apic_ids, GArray *entry);
++                     const CPUArchIdList *apic_ids, GArray *entry,
++                     bool force_enabled);
+ };
  #endif
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 87294f2632..7eb42195b3 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -189,11 +189,12 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
+ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
+                                int *data_len);
  
+-
+-/* acpi-build.c */
++/* hw/i386/acpi-common.c */
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+-                       const CPUArchIdList *apic_ids, GArray *entry);
++                       const CPUArchIdList *apic_ids, GArray *entry,
++                       bool force_enabled);
+ 
++/* acpi-build.c */
+ extern GlobalProperty pc_compat_6_0[];
+ extern const size_t pc_compat_6_0_len;
+ 
+diff --git a/hw/acpi/acpi-x86-stub.c b/hw/acpi/acpi-x86-stub.c
+index f88d6a090b..987fc64b36 100644
+--- a/hw/acpi/acpi-x86-stub.c
++++ b/hw/acpi/acpi-x86-stub.c
+@@ -2,6 +2,7 @@
+ #include "hw/i386/pc.h"
+ 
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+-                       const CPUArchIdList *apic_ids, GArray *entry)
++                       const CPUArchIdList *apic_ids, GArray *entry,
++                       bool force_enabled)
+ {
+ }
+diff --git a/hw/acpi/cpu.c b/hw/acpi/cpu.c
+index f82e9512fd..b20903ea30 100644
+--- a/hw/acpi/cpu.c
++++ b/hw/acpi/cpu.c
+@@ -669,21 +669,8 @@ void build_cpus_aml(Aml *table, MachineState *machine, CPUHotplugFeatures opts,
+ 
+             /* build _MAT object */
+             assert(adevc && adevc->madt_cpu);
+-            adevc->madt_cpu(adev, i, arch_ids, madt_buf);
+-            switch (madt_buf->data[0]) {
+-            case ACPI_APIC_PROCESSOR: {
+-                AcpiMadtProcessorApic *apic = (void *)madt_buf->data;
+-                apic->flags = cpu_to_le32(1);
+-                break;
+-            }
+-            case ACPI_APIC_LOCAL_X2APIC: {
+-                AcpiMadtProcessorX2Apic *apic = (void *)madt_buf->data;
+-                apic->flags = cpu_to_le32(1);
+-                break;
+-            }
+-            default:
+-                assert(0);
+-            }
++            adevc->madt_cpu(adev, i, arch_ids, madt_buf,
++                            true); /* set enabled flag */
+             aml_append(dev, aml_name_decl("_MAT",
+                 aml_buffer(madt_buf->len, (uint8_t *)madt_buf->data)));
+             g_array_free(madt_buf, true);
+diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+index 219dcded02..9d213edece 100644
+--- a/hw/i386/acpi-common.c
++++ b/hw/i386/acpi-common.c
+@@ -34,9 +34,11 @@
+ #include "acpi-common.h"
+ 
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+-                       const CPUArchIdList *apic_ids, GArray *entry)
++                       const CPUArchIdList *apic_ids, GArray *entry,
++                       bool force_enabled)
+ {
+     uint32_t apic_id = apic_ids->cpus[uid].arch_id;
++    uint32_t flags = apic_ids->cpus[uid].cpu != NULL || force_enabled ? 1 : 0;
+ 
+     /* ACPI spec says that LAPIC entry for non present
+      * CPU may be omitted from MADT or it must be marked
+@@ -51,11 +53,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+         apic->length = sizeof(*apic);
+         apic->processor_id = uid;
+         apic->local_apic_id = apic_id;
+-        if (apic_ids->cpus[uid].cpu != NULL) {
+-            apic->flags = cpu_to_le32(1);
+-        } else {
+-            apic->flags = cpu_to_le32(0);
+-        }
++        apic->flags = cpu_to_le32(flags);
+     } else {
+         AcpiMadtProcessorX2Apic *apic = acpi_data_push(entry, sizeof *apic);
+ 
+@@ -63,11 +61,7 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+         apic->length = sizeof(*apic);
+         apic->uid = cpu_to_le32(uid);
+         apic->x2apic_id = cpu_to_le32(apic_id);
+-        if (apic_ids->cpus[uid].cpu != NULL) {
+-            apic->flags = cpu_to_le32(1);
+-        } else {
+-            apic->flags = cpu_to_le32(0);
+-        }
++        apic->flags = cpu_to_le32(flags);
+     }
+ }
+ 
+@@ -96,7 +90,7 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+     build_append_int_noprefix(table_data, 1 /* PCAT_COMPAT */, 4); /* Flags */
+ 
+     for (i = 0; i < apic_ids->len; i++) {
+-        adevc->madt_cpu(adev, i, apic_ids, table_data);
++        adevc->madt_cpu(adev, i, apic_ids, table_data, false);
+         if (apic_ids->cpus[i].arch_id > 254) {
+             x2apic_mode = true;
+         }
 -- 
 2.27.0
 
