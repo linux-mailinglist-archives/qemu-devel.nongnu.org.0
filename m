@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02FFD3C1570
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:48:12 +0200 (CEST)
-Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4BA3C157A
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:52:12 +0200 (CEST)
+Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1VJz-0007U7-2A
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45066)
+	id 1m1VNr-0002Oz-CB
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1VJ3-0006oE-9D
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:47:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31340)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1VMs-0001g2-9E
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:51:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1VJ1-0006Sw-EO
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:47:12 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1VMq-0007kK-Cu
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:51:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625755630;
+ s=mimecast20190719; t=1625755867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+jOTaMNLjsPBm1n9SAvPQa9elntJ+tUTrRYOu51HGyo=;
- b=Fc5mD1kPh2e5tjB+YWp2/tTD3kvWtLjdREhqi8fYRUpNk7R4m2elGfb93ILADQg4iD1eM5
- sJrVbTd2CMd8YuTNBsGmdiLmPIVzA6BToR9kyJWO/6IOD5qTOqhtIpCFu1xlMKmumRrv0/
- XRJ8DmGKlnzUH5F7tTna/o08ImFoJls=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-7gVaeGhoNTSeUcs8Iy-UKw-1; Thu, 08 Jul 2021 10:47:06 -0400
-X-MC-Unique: 7gVaeGhoNTSeUcs8Iy-UKw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- b6-20020a05620a1186b02903b429a7ee4bso4086258qkk.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:47:06 -0700 (PDT)
+ bh=e7E2RIXRcpEeK/EpIsVt+hbOJDfHWUSlCkZH9+u7Pyo=;
+ b=fNKIEVbVb74cfxhqbJtLH2z+Uq1X5MPPCQGptxH3+Vju/xuxk+C1aRCpMGvsxFDN6WqpwP
+ vGHs1H3apXamwPZuJhuVo33fAhiokjwAXx0754y3b2YqhG0I7bVyazppqzmNPMfASFrfcX
+ fXD+5+bKOmTG9DOLQFl6aLA7Ghgbs7c=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-PD5PRG_VOiqd2kt_3AR0fw-1; Thu, 08 Jul 2021 10:51:04 -0400
+X-MC-Unique: PD5PRG_VOiqd2kt_3AR0fw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ f16-20020ad442d00000b029028c5121bf35so4247404qvr.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:51:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=+jOTaMNLjsPBm1n9SAvPQa9elntJ+tUTrRYOu51HGyo=;
- b=KYOsNb7VWw67A8M/Tv7Dc8A64PkOQQS2mqIItCEw8GJuUG56RNvec0TQD1L3pojTIB
- wW6mdMn2bseZB55tNSngQFDq0bjUjtIuzuHmLC0Zu6habOSe6v2qHOc88ewt4JvleT1s
- su6Tb77SRS1+8jZxSc+g/oaEXv1T2d3v/2izqJSuWDKGwE/o5+aQtv4OSRdTuUMcrURy
- dlKgz59meAEx7RPhFWE4rjXqIOCWBCgvU+T7YZbXKyCtYysR5ykjnCLS3yeD3BgYRQUI
- oY86NU4/hKXvoSM8mAX7rhowrTTp/gUahR+k4YS1uJ+YJsgidCz7TdaiWDFV/bGaOD1R
- ooSA==
-X-Gm-Message-State: AOAM532YdYh0Apffh6YBBbijVAGb50Kq0ruJzYJTK0Cc1qnpza/BoDxy
- l76QB1xBIC9JBMryjkuj6p/cpy1+gDnErHDXCUigFWXN4X+T6GKWiFU8vTdXQrlRID0C0gfMzjW
- DwwBcjnbDa1v+3p0=
-X-Received: by 2002:a37:b42:: with SMTP id 63mr32690600qkl.325.1625755625681; 
- Thu, 08 Jul 2021 07:47:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJySp34U253X+T6Obl8VO6XVos3klMsRwykRWSQuceDpFvT9xUk6b23QTg1HimxczmwAeEyHIg==
-X-Received: by 2002:a37:b42:: with SMTP id 63mr32690573qkl.325.1625755625455; 
- Thu, 08 Jul 2021 07:47:05 -0700 (PDT)
+ bh=e7E2RIXRcpEeK/EpIsVt+hbOJDfHWUSlCkZH9+u7Pyo=;
+ b=iJ7RXTfHy5ajgT1/CPSTcML/h7c702fon+z+dXOgzn0A6ggxMm9I4podornFoDaPVL
+ lmIqi5JS73vq/JDB0/xdz1dg34vDgG0im0wMuCWKwT8nRI6acAl8WFUGWmr0oJod5+f+
+ Y3KteZkLCzySJQZGtb0d8Q+2JvUXES7Zl1qL7a//CUynh/2/FPSUdQIdCvFfhVPFMUwp
+ O0d0o5LJkOm/engcjhUA9nXPvp7mf4rSYPjq37BJA8hbIxiNw5Knb7dSg5mqdnhDE+vM
+ 2+SY/9p3IJfsO8Mk/+v27+g3+fURMjo3+/iCfBxu3WMlOV7oEauOrId2SSGTfSaCViMq
+ CmjQ==
+X-Gm-Message-State: AOAM530Ongfa0IcwVNDJhWrthLstU+YUzMor8z45TISsnzqYoWksWdDI
+ pMa/Iyi2BdUzJm5kBiMf9a3LMWZLTN7V2MBMO4XTYoPjujheoyErakYyOcO3rpgafgWFgwmEGdH
+ CsU+9QBxZGHN8+9I=
+X-Received: by 2002:a05:6214:27ce:: with SMTP id
+ ge14mr28057049qvb.5.1625755863395; 
+ Thu, 08 Jul 2021 07:51:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBr9vp27tDhnsujLD291tLjpS+/x0EYiihfzajVcpVb+AtS38SLM3YLwLxuOwFXwnWqg5AUw==
+X-Received: by 2002:a05:6214:27ce:: with SMTP id
+ ge14mr28057013qvb.5.1625755863001; 
+ Thu, 08 Jul 2021 07:51:03 -0700 (PDT)
 Received: from p50.localhost.localdomain
  ([2601:18d:8a00:ab70:b677:d979:630:695c])
- by smtp.gmail.com with ESMTPSA id s19sm1050649qkg.134.2021.07.08.07.47.04
+ by smtp.gmail.com with ESMTPSA id x15sm1062404qkm.66.2021.07.08.07.51.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 07:47:04 -0700 (PDT)
-Subject: Re: [PATCH 2/3] Acceptance Tests: move definition of distro checksums
- to the framework
-To: Auger Eric <eric.auger@redhat.com>, qemu-devel@nongnu.org
+ Thu, 08 Jul 2021 07:51:02 -0700 (PDT)
+Subject: Re: [PATCH 0/3] Acceptance Tests: support choosing specific distro
+ and version
+To: eric.auger@redhat.com, qemu-devel@nongnu.org
 References: <20210414221457.1653745-1-crosa@redhat.com>
- <20210414221457.1653745-3-crosa@redhat.com>
- <c8ec5d7f-3ae7-49da-e10e-717789694793@redhat.com>
+ <812f1d67-5fe4-bfde-0d40-d1c8cc5e651e@redhat.com>
 From: Cleber Rosa <crosa@redhat.com>
-Message-ID: <0383a140-5007-1257-5911-8eb94c1cb7aa@redhat.com>
-Date: Thu, 8 Jul 2021 10:47:03 -0400
+Message-ID: <de414c57-eb5c-bbbc-be17-8e7b3f189e72@redhat.com>
+Date: Thu, 8 Jul 2021 10:51:01 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <c8ec5d7f-3ae7-49da-e10e-717789694793@redhat.com>
+In-Reply-To: <812f1d67-5fe4-bfde-0d40-d1c8cc5e651e@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -111,73 +112,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 4/22/21 3:56 AM, Auger Eric wrote:
-> Hi Cleber,
+On 6/9/21 8:11 AM, Eric Auger wrote:
+> Hi CLeber,
 >
 > On 4/15/21 12:14 AM, Cleber Rosa wrote:
->> Instead of having, by default, the checksum in the tests, and the
->> definition of tests in the framework, let's keep them together.
+>> Because Fedora 31 will not suit all tests that depend on a Linux
+>> guest, this allows for the configuration of the guest distribution.
+>> It came out of a suggestion from Eric Auger, and it was actually a
+>> feature I planned to submit for a while.
 >>
->> A central definition for distributions is available, and it should
->> allow other known distros to be added more easily.
+>> This is based on the following series:
 >>
->> No behavior change is expected here, and tests can still define
->> a distro_checksum value if for some reason they want to override
->> the known distribution information.
->>
->> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   tests/acceptance/avocado_qemu/__init__.py | 34 +++++++++++++++++++++--
->>   tests/acceptance/boot_linux.py            |  8 ------
->>   2 files changed, 32 insertions(+), 10 deletions(-)
->>
->> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
->> index aae1e5bbc9..97093614d9 100644
->> --- a/tests/acceptance/avocado_qemu/__init__.py
->> +++ b/tests/acceptance/avocado_qemu/__init__.py
->> @@ -299,6 +299,30 @@ def ssh_command(self, command):
->>           return stdout_lines, stderr_lines
->>   
->>   
->> +#: A collection of known distros and their respective image checksum
->> +KNOWN_DISTROS = {
->> +    'fedora': {
->> +        '31': {
->> +            'x86_64':
->> +            {'checksum': 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
->> +            'aarch64':
->> +            {'checksum': '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
->> +            'ppc64':
->> +            {'checksum': '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
->> +            's390x':
->> +            {'checksum': '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'},
->> +            }
->> +        }
->> +    }
-> assuming we may put other data like kernel params and maybe pxeboot URL,
-> this may grow rapidly, Maybe we should put that in a different file?
+>>   [PATCH v3 00/11] Acceptance Test: introduce base class for Linux based tests
+> What is the state of this series, do you plan to respin. My SMMU
+> avocado-qemu tests depend on it. Also I have added some intel iommu
+> tests on top of it.
 
 
 Hi Eric,
 
 
-Sorry for the monstrous delay here.  You and I are thinking alike, but 
-I'm planning to handle this on the Avocado side.  I'm writing a 
-BluePrint[1] for what would be a revision of the Avocado asset API.  In 
-that new proposal, data files (some builtin, some external) would be 
-used to contain information about known assets.
-
-
-So, for now, I think it's better to keep this AS IS.  Let me know if 
-this works for you.
+Again, sorry for dropping the ball here.  This series has enough 
+reviews, and I can queue it on my upcoming pre-freeze PR.  I'll just 
+wait for your ACK on patch 2/3 about keeping the KNOWN_DISTROS info, for 
+now, on the same file.
 
 
 Thanks,
 
 - Cleber.
-
-
-[1] - https://github.com/avocado-framework/avocado/issues/4458
-
 
 
