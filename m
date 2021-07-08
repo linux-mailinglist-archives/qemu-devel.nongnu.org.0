@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B6B3C15D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:21:19 +0200 (CEST)
-Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64763C15D1
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:19:53 +0200 (CEST)
+Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Vq2-0006ve-MR
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
+	id 1m1Voe-0002zg-Mm
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmp-0008UY-BQ
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:59 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46666)
+ id 1m1Vml-0008SD-RK
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:55 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmh-000885-Rr
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:56 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id s15so8989812edt.13
+ id 1m1Vmh-000887-RI
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:54 -0400
+Received: by mail-ed1-x532.google.com with SMTP id m1so9028936edq.8
  for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=OOMh4SAV6nbu1FE7iTvYQy8k0z90BK4MPSOb6+lpnEM=;
- b=d9LCShQxR+xhiHm2jjD4Lkrp1iYiq0GWGe8DdrtGz5tU1f8tFhhOqv9lukjzjWlGHG
- UFOEnlDIL/HlAonQBnch1fs08vqmVE9O86qZt6zmsWCU5wHeBs5R+p6Q8o/MnvP0Q7C1
- ZPK+Smei44v/Ud1Mwx+WtGHXsDlu1EKt/QT0hs6l+mGMoxbuM4dZVvMcKFd3kGid5MqN
- uIwcYEPivmqFpRuE+W4xXBrQw3n0VfVB1HxGjL20XAhGvt3y2kHgPxyulG741uKv1JPJ
- g8vS/vN3MC9AH+EOFutRq1vXVDRgtnZsIb4aNDwooZEvv/O7YRZOOJkHsafrzaYi8nQp
- H9BA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PFonQRkqzl281GZ7rTAUyH8nUwjUVSVQflBGRmaPz2c=;
+ b=VsE0n5NcFwm93ucJTrAvGVhLQKZb9bh6238CIfmWHDmu0+UYLB6XYax13QoLLCDBEo
+ QdwNXbuKJmzRLI0dgKQpCr8aVIaADQMjIq1QB0sp7wP0ohRIUZPQNn89k0Une1K13CUB
+ MQRGHmhfb6B1LbzvVg+C/vqQ+BQuv0ludjmW93dd604sD4QQgghdabYwhCSrpDc1soC9
+ gPUrMtxYgs821mOIoUtnUto0Iw6HaUtaD/pmSH5PWBTS+o6TNKuWAzdvemikA4uVUxzG
+ FTZ8GEudiOrrwb1x2NSGey3hyh7yX0UBiTmY4/ySNDBOliHcwVr9CkfFUk2KhkShZ32p
+ J8Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=OOMh4SAV6nbu1FE7iTvYQy8k0z90BK4MPSOb6+lpnEM=;
- b=tZtrW73m1NDnnkJhLYtHj7uE09JZm3RfnhzR+4fzhs2wsUOwtbiwKGdbNs8aQzh+LR
- PwORjXO9W5QDVMhaBB53FTuk8NF7/ggMhvPd/s2DHj1gm9TH6XXKEo8VwZEKHfqqh8rU
- xOEaWNTZY8S1feKF5Szd3AStGu1g6wEldX+Iri3Y6loCQgQvnjY+dtRneLsG8I+vHCe4
- H2L7VnpQEeqYeacTuFRgpsAfrHpb8tL01o85zwBLMwVKIwyna5K/+EJuovEXXli2WB9M
- PwN6t8JkEKv0p21b66kmWnR4koyoO36kWM8RciE2B1ePt9+kjkzR/IByMo7+qPWxSPwb
- qN3w==
-X-Gm-Message-State: AOAM5334MerC3V94Ha/ZnUM0q+5xpP5NtMFgefO1q5NTb2razQwPyKG2
- reyjNlCnRLV0jQrY8QgF7k1EwibsOo8=
-X-Google-Smtp-Source: ABdhPJxkrhizXZYyhHU6PGAGa3PkpHNXVPMQmJCDtyAZ4XLVmcbw2BHXfk/b/gPj9ccAO6OqxRF6gA==
-X-Received: by 2002:a05:6402:5214:: with SMTP id
- s20mr12294344edd.128.1625757469870; 
- Thu, 08 Jul 2021 08:17:49 -0700 (PDT)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=PFonQRkqzl281GZ7rTAUyH8nUwjUVSVQflBGRmaPz2c=;
+ b=LqvBTUuA0sU5FpvoehEnz2Pal9OamwUBAzwghxCcS8itGoDwMgW2g1WyLQhqyJRdZa
+ tsXA2fHn0ZEvhnQqaedkCBn/0PEdN8J4Qx+olsGXknJZHaamC4Af727BSR1Yu1/BEJU9
+ ynIElmmnkeYaDwvmOfnuMXcX8HVx6ihPvxEqdTsLIeB0Z6ntE8sUVB9BnJ9u3KrDpgqp
+ 6Nl0v9f277X6wCrBLLtrJGgzv9YhK3JTyXj9GTkUra6jdNFFSVm5X/UV4wCHtzWG5E4t
+ GXZw72d5yEbd7EP7///k3szjUaGioMlK1tlECZUs+wG1b1orvOpPTczDB+0zOuvASxtT
+ efgA==
+X-Gm-Message-State: AOAM531JoTQEH/BV9dUzDdsgnXk/UwPir9arElAwaj1WRiHcOgmK/z3A
+ 2qE+Kb3mjuJl58GMJ//RYv8Edg7ls5w=
+X-Google-Smtp-Source: ABdhPJzoV5p2zGSSQH1B/icEf7AoexE+p+RYD7nI3EZnh1kUbtMsj7z6UXtiAxI0FAMsEF7Bx9kqWg==
+X-Received: by 2002:a50:e79b:: with SMTP id b27mr33129526edn.267.1625757470501; 
+ Thu, 08 Jul 2021 08:17:50 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.49
- for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:17:49 -0700 (PDT)
+ Thu, 08 Jul 2021 08:17:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/48] Misc patches for QEMU 6.1 soft freeze
-Date: Thu,  8 Jul 2021 17:17:00 +0200
-Message-Id: <20210708151748.408754-1-pbonzini@redhat.com>
+Subject: [PULL 01/48] configure: fix libdaxctl options
+Date: Thu,  8 Jul 2021 17:17:01 +0200
+Message-Id: <20210708151748.408754-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
+References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -84,408 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Miroslav Rezanina <mrezanin@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
+From: Miroslav Rezanina <mrezanin@redhat.com>
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
+For some reason, libdaxctl option setting was set to work in an opposite
+way (--enable-libdaxctl disabled it and vice versa). Fixing this so
+configuration works properly.
 
-are available in the Git repository at:
+Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210707063124.81954-1-mrezanin@redhat.com>
+Fixes: 83ef16821a ("configure, meson: convert libdaxctl detection to meson", 2021-07-06)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 81224eaca6675978489cd7c6172f17ca1f54b494:
-
-  configure: allow the selection of alternate config in the build (2021-07-08 14:01:52 +0200)
-
-----------------------------------------------------------------
-* More SVM fixes (Lara)
-* Module annotation database (Gerd)
-* Memory leak fixes (myself)
-* Build fixes (myself)
-* --with-devices-* support (Alex)
-
-----------------------------------------------------------------
-Alex Bennée (4):
-      hw/arm: add dependency on OR_IRQ for XLNX_VERSAL
-      hw/arm: move CONFIG_V7M out of default-devices
-      configs: rename default-configs to configs and reorganise
-      configure: allow the selection of alternate config in the build
-
-Gerd Hoffmann (33):
-      modules: add modinfo macros
-      modules: collect module meta-data
-      modules: generate modinfo.c
-      modules: add qxl module annotations
-      modules: add virtio-gpu module annotations
-      modules: add chardev module annotations
-      modules: add audio module annotations
-      modules: add usb-redir module annotations
-      modules: add ccid module annotations
-      modules: add ui module annotations
-      modules: add s390x module annotations
-      modules: add block module annotations
-      modules: use modinfo for dependencies
-      modules: use modinfo for qom load
-      modules: use modinfo for qemu opts load
-      modules: add tracepoints
-      modules: check arch and block load on mismatch
-      modules: check arch on qom lookup
-      modules: target-specific module build infrastructure
-      modules: add documentation for module sourcesets
-      modules: add module_obj() note to QOM docs
-      modules: module.h kerneldoc annotations
-      modules: hook up modules.h to docs build
-      accel: autoload modules
-      accel: add qtest module annotations
-      accel: build qtest modular
-      accel: add tcg module annotations
-      accel: build tcg modular
-      monitor: allow register hmp commands
-      usb: drop usb_host_dev_is_scsi_storage hook
-      monitor/usb: register 'info usbhost' dynamically
-      usb: build usb-host as module
-      monitor/tcg: move tcg hmp commands to accel/tcg, register them dynamically
-
-Jose R. Ziviani (1):
-      modules: check if all dependencies can be satisfied
-
-Lara Lazier (2):
-      target/i386: Added MSRPM and IOPM size check
-      target/i386: Added DR6 and DR7 consistency checks
-
-Miroslav Rezanina (2):
-      configure: fix libdaxctl options
-      configure: fix libpmem configuration option
-
-Paolo Bonzini (5):
-      meson: fix missing preprocessor symbols
-      osdep: fix HAVE_BROKEN_SIZE_MAX case
-      target/i386: fix exceptions for MOV to DR
-      vl: fix leak of qdict_crumple return value
-      meson: switch function tests from compilation to linking
-
-Philippe Mathieu-Daudé (1):
-      meson: Introduce target-specific Kconfig
-
- Kconfig                                            |   1 +
- MAINTAINERS                                        |  22 ++-
- accel/accel-common.c                               |   2 +-
- accel/accel-softmmu.c                              |   2 +-
- accel/qtest/meson.build                            |   8 +-
- accel/qtest/qtest.c                                |   2 +
- accel/tcg/hmp.c                                    |  29 +++
- accel/tcg/meson.build                              |   6 +-
- accel/tcg/tcg-accel-ops.c                          |   1 +
- accel/tcg/tcg-all.c                                |   1 +
- audio/spiceaudio.c                                 |   2 +
- block/iscsi-opts.c                                 |   1 +
- chardev/baum.c                                     |   1 +
- chardev/spice.c                                    |   4 +
- .../devices/aarch64-softmmu/default.mak            |   2 +-
- configs/devices/aarch64-softmmu/minimal.mak        |   9 +
- .../devices/alpha-softmmu/default.mak              |   0
- .../devices/arm-softmmu/default.mak                |   3 -
- .../devices/avr-softmmu/default.mak                |   0
- .../devices/cris-softmmu/default.mak               |   0
- .../devices/hppa-softmmu/default.mak               |   0
- .../devices/i386-softmmu/default.mak               |   0
- .../devices/m68k-softmmu/default.mak               |   0
- .../devices/microblaze-softmmu/default.mak         |   0
- .../devices/microblazeel-softmmu/default.mak       |   2 +-
- .../devices/mips-softmmu/common.mak                |   0
- .../devices/mips-softmmu/default.mak               |   2 +-
- .../devices/mips64-softmmu/default.mak             |   2 +-
- .../devices/mips64el-softmmu/default.mak           |   2 +-
- .../devices/mipsel-softmmu/default.mak             |   2 +-
- .../devices/nios2-softmmu/default.mak              |   0
- .../devices/or1k-softmmu/default.mak               |   0
- .../devices/ppc-softmmu/default.mak                |   0
- .../devices/ppc64-softmmu/default.mak              |   2 +-
- .../devices/riscv32-softmmu/default.mak            |   0
- .../devices/riscv64-softmmu/default.mak            |   0
- .../devices/rx-softmmu/default.mak                 |   0
- .../devices/s390x-softmmu/default.mak              |   0
- .../devices/sh4-softmmu/default.mak                |   0
- .../devices/sh4eb-softmmu/default.mak              |   2 +-
- .../devices/sparc-softmmu/default.mak              |   0
- .../devices/sparc64-softmmu/default.mak            |   0
- .../devices/tricore-softmmu/default.mak            |   0
- .../devices/x86_64-softmmu/default.mak             |   2 +-
- .../devices/xtensa-softmmu/default.mak             |   0
- configs/devices/xtensaeb-softmmu/default.mak       |   3 +
- .../targets/aarch64-linux-user.mak                 |   0
- .../targets/aarch64-softmmu.mak                    |   0
- .../targets/aarch64_be-linux-user.mak              |   0
- .../targets/alpha-linux-user.mak                   |   0
- .../targets/alpha-softmmu.mak                      |   0
- .../targets/arm-linux-user.mak                     |   0
- .../targets/arm-softmmu.mak                        |   0
- .../targets/armeb-linux-user.mak                   |   0
- .../targets/avr-softmmu.mak                        |   0
- .../targets/cris-linux-user.mak                    |   0
- .../targets/cris-softmmu.mak                       |   0
- .../targets/hexagon-linux-user.mak                 |   0
- .../targets/hppa-linux-user.mak                    |   0
- .../targets/hppa-softmmu.mak                       |   0
- .../targets/i386-bsd-user.mak                      |   0
- .../targets/i386-linux-user.mak                    |   0
- .../targets/i386-softmmu.mak                       |   0
- .../targets/m68k-linux-user.mak                    |   0
- .../targets/m68k-softmmu.mak                       |   0
- .../targets/microblaze-linux-user.mak              |   0
- .../targets/microblaze-softmmu.mak                 |   0
- .../targets/microblazeel-linux-user.mak            |   0
- .../targets/microblazeel-softmmu.mak               |   0
- .../targets/mips-linux-user.mak                    |   0
- .../targets/mips-softmmu.mak                       |   0
- .../targets/mips64-linux-user.mak                  |   0
- .../targets/mips64-softmmu.mak                     |   0
- .../targets/mips64el-linux-user.mak                |   0
- .../targets/mips64el-softmmu.mak                   |   0
- .../targets/mipsel-linux-user.mak                  |   0
- .../targets/mipsel-softmmu.mak                     |   0
- .../targets/mipsn32-linux-user.mak                 |   0
- .../targets/mipsn32el-linux-user.mak               |   0
- .../targets/nios2-linux-user.mak                   |   0
- .../targets/nios2-softmmu.mak                      |   0
- .../targets/or1k-linux-user.mak                    |   0
- .../targets/or1k-softmmu.mak                       |   0
- .../targets/ppc-linux-user.mak                     |   0
- .../targets/ppc-softmmu.mak                        |   0
- .../targets/ppc64-linux-user.mak                   |   0
- .../targets/ppc64-softmmu.mak                      |   0
- .../targets/ppc64abi32-linux-user.mak              |   0
- .../targets/ppc64le-linux-user.mak                 |   0
- .../targets/riscv32-linux-user.mak                 |   0
- .../targets/riscv32-softmmu.mak                    |   0
- .../targets/riscv64-linux-user.mak                 |   0
- .../targets/riscv64-softmmu.mak                    |   0
- .../targets/rx-softmmu.mak                         |   0
- .../targets/s390x-linux-user.mak                   |   0
- .../targets/s390x-softmmu.mak                      |   0
- .../targets/sh4-linux-user.mak                     |   0
- .../targets/sh4-softmmu.mak                        |   0
- .../targets/sh4eb-linux-user.mak                   |   0
- .../targets/sh4eb-softmmu.mak                      |   0
- .../targets/sparc-linux-user.mak                   |   0
- .../targets/sparc-softmmu.mak                      |   0
- .../targets/sparc32plus-linux-user.mak             |   0
- .../targets/sparc64-linux-user.mak                 |   0
- .../targets/sparc64-softmmu.mak                    |   0
- .../targets/tricore-softmmu.mak                    |   0
- .../targets/x86_64-bsd-user.mak                    |   0
- .../targets/x86_64-linux-user.mak                  |   0
- .../targets/x86_64-softmmu.mak                     |   0
- .../targets/xtensa-linux-user.mak                  |   0
- .../targets/xtensa-softmmu.mak                     |   0
- .../targets/xtensaeb-linux-user.mak                |   0
- .../targets/xtensaeb-softmmu.mak                   |   0
- configure                                          |  44 +++--
- contrib/vhost-user-gpu/meson.build                 |   2 +-
- default-configs/devices/xtensaeb-softmmu.mak       |   3 -
- docs/devel/build-system.rst                        |  17 ++
- docs/devel/index.rst                               |   1 +
- docs/devel/modules.rst                             |   5 +
- docs/devel/qom.rst                                 |   8 +
- hmp-commands-info.hx                               |   3 -
- hw/arm/Kconfig                                     |   4 +
- hw/display/qxl.c                                   |   4 +
- hw/display/vhost-user-gpu-pci.c                    |   1 +
- hw/display/vhost-user-gpu.c                        |   1 +
- hw/display/vhost-user-vga.c                        |   1 +
- hw/display/virtio-gpu-base.c                       |   1 +
- hw/display/virtio-gpu-gl.c                         |   3 +
- hw/display/virtio-gpu-pci-gl.c                     |   3 +
- hw/display/virtio-gpu-pci.c                        |   2 +
- hw/display/virtio-gpu.c                            |   1 +
- hw/display/virtio-vga-gl.c                         |   3 +
- hw/display/virtio-vga.c                            |   2 +
- hw/ppc/spapr.c                                     |   2 +-
- hw/s390x/virtio-ccw-gpu.c                          |   3 +
- hw/usb/ccid-card-emulated.c                        |   1 +
- hw/usb/ccid-card-passthru.c                        |   1 +
- hw/usb/dev-storage-bot.c                           |   1 +
- hw/usb/dev-storage-classic.c                       |   1 +
- hw/usb/dev-uas.c                                   |   1 +
- hw/usb/host-libusb.c                               |  38 +---
- hw/usb/host-stub.c                                 |  45 -----
- hw/usb/meson.build                                 |  10 +-
- hw/usb/redirect.c                                  |   1 +
- include/hw/usb.h                                   |   7 +-
- include/monitor/monitor.h                          |   3 +
- include/qemu/module.h                              |  74 ++++++++
- include/qemu/osdep.h                               |   2 +-
- meson.build                                        | 112 ++++++++++--
- monitor/hmp.c                                      |   7 +
- monitor/misc.c                                     |  34 ++--
- scripts/modinfo-collect.py                         |  67 +++++++
- scripts/modinfo-generate.py                        |  97 ++++++++++
- softmmu/vl.c                                       |  37 ++--
- stubs/module-opts.c                                |   4 -
- target/Kconfig                                     |  19 ++
- target/alpha/Kconfig                               |   2 +
- target/arm/Kconfig                                 |   6 +
- target/avr/Kconfig                                 |   2 +
- target/cris/Kconfig                                |   2 +
- target/hppa/Kconfig                                |   2 +
- target/i386/Kconfig                                |   5 +
- target/i386/cpu.h                                  |   2 +
- target/i386/helper.h                               |   3 +-
- target/i386/svm.h                                  |   3 +
- target/i386/tcg/bpt_helper.c                       |  21 ---
- target/i386/tcg/sysemu/bpt_helper.c                |  47 +++--
- target/i386/tcg/sysemu/svm_helper.c                |  24 ++-
- target/i386/tcg/translate.c                        |   1 +
- target/m68k/Kconfig                                |   2 +
- target/microblaze/Kconfig                          |   2 +
- target/mips/Kconfig                                |   6 +
- target/nios2/Kconfig                               |   2 +
- target/openrisc/Kconfig                            |   2 +
- target/ppc/Kconfig                                 |   5 +
- target/riscv/Kconfig                               |   5 +
- target/rx/Kconfig                                  |   2 +
- target/s390x/Kconfig                               |   2 +
- target/sh4/Kconfig                                 |   2 +
- target/sparc/Kconfig                               |   5 +
- target/tricore/Kconfig                             |   2 +
- target/xtensa/Kconfig                              |   2 +
- tests/Makefile.include                             |   2 +-
- ui/egl-headless.c                                  |   4 +
- ui/gtk.c                                           |   4 +
- ui/sdl2.c                                          |   4 +
- ui/spice-app.c                                     |   3 +
- ui/spice-core.c                                    |   5 +
- util/module.c                                      | 200 ++++++++++++---------
- util/trace-events                                  |   4 +
- 190 files changed, 856 insertions(+), 320 deletions(-)
- create mode 100644 accel/tcg/hmp.c
- rename default-configs/devices/aarch64-softmmu.mak => configs/devices/aarch64-softmmu/default.mak (82%)
- create mode 100644 configs/devices/aarch64-softmmu/minimal.mak
- rename default-configs/devices/alpha-softmmu.mak => configs/devices/alpha-softmmu/default.mak (100%)
- rename default-configs/devices/arm-softmmu.mak => configs/devices/arm-softmmu/default.mak (89%)
- rename default-configs/devices/avr-softmmu.mak => configs/devices/avr-softmmu/default.mak (100%)
- rename default-configs/devices/cris-softmmu.mak => configs/devices/cris-softmmu/default.mak (100%)
- rename default-configs/devices/hppa-softmmu.mak => configs/devices/hppa-softmmu/default.mak (100%)
- rename default-configs/devices/i386-softmmu.mak => configs/devices/i386-softmmu/default.mak (100%)
- rename default-configs/devices/m68k-softmmu.mak => configs/devices/m68k-softmmu/default.mak (100%)
- rename default-configs/devices/microblaze-softmmu.mak => configs/devices/microblaze-softmmu/default.mak (100%)
- rename default-configs/devices/microblazeel-softmmu.mak => configs/devices/microblazeel-softmmu/default.mak (54%)
- rename default-configs/devices/mips-softmmu-common.mak => configs/devices/mips-softmmu/common.mak (100%)
- rename default-configs/devices/mips-softmmu.mak => configs/devices/mips-softmmu/default.mak (56%)
- rename default-configs/devices/mips64-softmmu.mak => configs/devices/mips64-softmmu/default.mak (62%)
- rename default-configs/devices/mips64el-softmmu.mak => configs/devices/mips64el-softmmu/default.mak (88%)
- rename default-configs/devices/mipsel-softmmu.mak => configs/devices/mipsel-softmmu/default.mak (55%)
- rename default-configs/devices/nios2-softmmu.mak => configs/devices/nios2-softmmu/default.mak (100%)
- rename default-configs/devices/or1k-softmmu.mak => configs/devices/or1k-softmmu/default.mak (100%)
- rename default-configs/devices/ppc-softmmu.mak => configs/devices/ppc-softmmu/default.mak (100%)
- rename default-configs/devices/ppc64-softmmu.mak => configs/devices/ppc64-softmmu/default.mak (79%)
- rename default-configs/devices/riscv32-softmmu.mak => configs/devices/riscv32-softmmu/default.mak (100%)
- rename default-configs/devices/riscv64-softmmu.mak => configs/devices/riscv64-softmmu/default.mak (100%)
- rename default-configs/devices/rx-softmmu.mak => configs/devices/rx-softmmu/default.mak (100%)
- rename default-configs/devices/s390x-softmmu.mak => configs/devices/s390x-softmmu/default.mak (100%)
- rename default-configs/devices/sh4-softmmu.mak => configs/devices/sh4-softmmu/default.mak (100%)
- rename default-configs/devices/sh4eb-softmmu.mak => configs/devices/sh4eb-softmmu/default.mak (55%)
- rename default-configs/devices/sparc-softmmu.mak => configs/devices/sparc-softmmu/default.mak (100%)
- rename default-configs/devices/sparc64-softmmu.mak => configs/devices/sparc64-softmmu/default.mak (100%)
- rename default-configs/devices/tricore-softmmu.mak => configs/devices/tricore-softmmu/default.mak (100%)
- rename default-configs/devices/x86_64-softmmu.mak => configs/devices/x86_64-softmmu/default.mak (55%)
- rename default-configs/devices/xtensa-softmmu.mak => configs/devices/xtensa-softmmu/default.mak (100%)
- create mode 100644 configs/devices/xtensaeb-softmmu/default.mak
- rename {default-configs => configs}/targets/aarch64-linux-user.mak (100%)
- rename {default-configs => configs}/targets/aarch64-softmmu.mak (100%)
- rename {default-configs => configs}/targets/aarch64_be-linux-user.mak (100%)
- rename {default-configs => configs}/targets/alpha-linux-user.mak (100%)
- rename {default-configs => configs}/targets/alpha-softmmu.mak (100%)
- rename {default-configs => configs}/targets/arm-linux-user.mak (100%)
- rename {default-configs => configs}/targets/arm-softmmu.mak (100%)
- rename {default-configs => configs}/targets/armeb-linux-user.mak (100%)
- rename {default-configs => configs}/targets/avr-softmmu.mak (100%)
- rename {default-configs => configs}/targets/cris-linux-user.mak (100%)
- rename {default-configs => configs}/targets/cris-softmmu.mak (100%)
- rename {default-configs => configs}/targets/hexagon-linux-user.mak (100%)
- rename {default-configs => configs}/targets/hppa-linux-user.mak (100%)
- rename {default-configs => configs}/targets/hppa-softmmu.mak (100%)
- rename {default-configs => configs}/targets/i386-bsd-user.mak (100%)
- rename {default-configs => configs}/targets/i386-linux-user.mak (100%)
- rename {default-configs => configs}/targets/i386-softmmu.mak (100%)
- rename {default-configs => configs}/targets/m68k-linux-user.mak (100%)
- rename {default-configs => configs}/targets/m68k-softmmu.mak (100%)
- rename {default-configs => configs}/targets/microblaze-linux-user.mak (100%)
- rename {default-configs => configs}/targets/microblaze-softmmu.mak (100%)
- rename {default-configs => configs}/targets/microblazeel-linux-user.mak (100%)
- rename {default-configs => configs}/targets/microblazeel-softmmu.mak (100%)
- rename {default-configs => configs}/targets/mips-linux-user.mak (100%)
- rename {default-configs => configs}/targets/mips-softmmu.mak (100%)
- rename {default-configs => configs}/targets/mips64-linux-user.mak (100%)
- rename {default-configs => configs}/targets/mips64-softmmu.mak (100%)
- rename {default-configs => configs}/targets/mips64el-linux-user.mak (100%)
- rename {default-configs => configs}/targets/mips64el-softmmu.mak (100%)
- rename {default-configs => configs}/targets/mipsel-linux-user.mak (100%)
- rename {default-configs => configs}/targets/mipsel-softmmu.mak (100%)
- rename {default-configs => configs}/targets/mipsn32-linux-user.mak (100%)
- rename {default-configs => configs}/targets/mipsn32el-linux-user.mak (100%)
- rename {default-configs => configs}/targets/nios2-linux-user.mak (100%)
- rename {default-configs => configs}/targets/nios2-softmmu.mak (100%)
- rename {default-configs => configs}/targets/or1k-linux-user.mak (100%)
- rename {default-configs => configs}/targets/or1k-softmmu.mak (100%)
- rename {default-configs => configs}/targets/ppc-linux-user.mak (100%)
- rename {default-configs => configs}/targets/ppc-softmmu.mak (100%)
- rename {default-configs => configs}/targets/ppc64-linux-user.mak (100%)
- rename {default-configs => configs}/targets/ppc64-softmmu.mak (100%)
- rename {default-configs => configs}/targets/ppc64abi32-linux-user.mak (100%)
- rename {default-configs => configs}/targets/ppc64le-linux-user.mak (100%)
- rename {default-configs => configs}/targets/riscv32-linux-user.mak (100%)
- rename {default-configs => configs}/targets/riscv32-softmmu.mak (100%)
- rename {default-configs => configs}/targets/riscv64-linux-user.mak (100%)
- rename {default-configs => configs}/targets/riscv64-softmmu.mak (100%)
- rename {default-configs => configs}/targets/rx-softmmu.mak (100%)
- rename {default-configs => configs}/targets/s390x-linux-user.mak (100%)
- rename {default-configs => configs}/targets/s390x-softmmu.mak (100%)
- rename {default-configs => configs}/targets/sh4-linux-user.mak (100%)
- rename {default-configs => configs}/targets/sh4-softmmu.mak (100%)
- rename {default-configs => configs}/targets/sh4eb-linux-user.mak (100%)
- rename {default-configs => configs}/targets/sh4eb-softmmu.mak (100%)
- rename {default-configs => configs}/targets/sparc-linux-user.mak (100%)
- rename {default-configs => configs}/targets/sparc-softmmu.mak (100%)
- rename {default-configs => configs}/targets/sparc32plus-linux-user.mak (100%)
- rename {default-configs => configs}/targets/sparc64-linux-user.mak (100%)
- rename {default-configs => configs}/targets/sparc64-softmmu.mak (100%)
- rename {default-configs => configs}/targets/tricore-softmmu.mak (100%)
- rename {default-configs => configs}/targets/x86_64-bsd-user.mak (100%)
- rename {default-configs => configs}/targets/x86_64-linux-user.mak (100%)
- rename {default-configs => configs}/targets/x86_64-softmmu.mak (100%)
- rename {default-configs => configs}/targets/xtensa-linux-user.mak (100%)
- rename {default-configs => configs}/targets/xtensa-softmmu.mak (100%)
- rename {default-configs => configs}/targets/xtensaeb-linux-user.mak (100%)
- rename {default-configs => configs}/targets/xtensaeb-softmmu.mak (100%)
- delete mode 100644 default-configs/devices/xtensaeb-softmmu.mak
- create mode 100644 docs/devel/modules.rst
- delete mode 100644 hw/usb/host-stub.c
- create mode 100755 scripts/modinfo-collect.py
- create mode 100755 scripts/modinfo-generate.py
- create mode 100644 target/Kconfig
- create mode 100644 target/alpha/Kconfig
- create mode 100644 target/arm/Kconfig
- create mode 100644 target/avr/Kconfig
- create mode 100644 target/cris/Kconfig
- create mode 100644 target/hppa/Kconfig
- create mode 100644 target/i386/Kconfig
- create mode 100644 target/m68k/Kconfig
- create mode 100644 target/microblaze/Kconfig
- create mode 100644 target/mips/Kconfig
- create mode 100644 target/nios2/Kconfig
- create mode 100644 target/openrisc/Kconfig
- create mode 100644 target/ppc/Kconfig
- create mode 100644 target/riscv/Kconfig
- create mode 100644 target/rx/Kconfig
- create mode 100644 target/s390x/Kconfig
- create mode 100644 target/sh4/Kconfig
- create mode 100644 target/sparc/Kconfig
- create mode 100644 target/tricore/Kconfig
- create mode 100644 target/xtensa/Kconfig
+diff --git a/configure b/configure
+index 650d9c0735..4f51528a77 100755
+--- a/configure
++++ b/configure
+@@ -1531,9 +1531,9 @@ for opt do
+   ;;
+   --disable-keyring) secret_keyring="no"
+   ;;
+-  --enable-libdaxctl) libdaxctl=disabled
++  --enable-libdaxctl) libdaxctl="enabled"
+   ;;
+-  --disable-libdaxctl) libdaxctl=enabled
++  --disable-libdaxctl) libdaxctl="disabled"
+   ;;
+   --enable-fuse) fuse="enabled"
+   ;;
 -- 
 2.31.1
+
 
 
