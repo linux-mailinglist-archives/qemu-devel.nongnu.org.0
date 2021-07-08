@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8AC03C1611
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:34:53 +0200 (CEST)
-Received: from localhost ([::1]:44354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B15663C1610
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:34:04 +0200 (CEST)
+Received: from localhost ([::1]:41828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W3A-0000K8-PR
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53712)
+	id 1m1W2N-00076A-OA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:34:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmx-0000Qg-P7
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:07 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:42886)
+ id 1m1Vmy-0000V0-Ul
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:08 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:36542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmv-0008Db-R8
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:07 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id m17so9027064edc.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:05 -0700 (PDT)
+ id 1m1Vmx-0008ED-DN
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:08 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id h2so9075922edt.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G3GP9yNPW/jQe/C/J/4O6WqOQ/Mym8ZAXiesLvzC+94=;
- b=cA3t52OeP3cwsxb/5Jj59SyoeB1HojJEUACgEXbplTxbKNfEDiW1WddiBZF8aeelMV
- IFdIrBfWQvFVS8DEq3TrQyuszlXeN9hD2u2+FwCzKkZSZ5O6j6SKjz6b9k6XpVcLd0jq
- nja3vdWypjMCSKZk8qaJC/JJGI45tagomWDrcXyXEBNJ2KAil1ancAXXEZV0T293zL0q
- 5GqnZY/Re63aUvVBOMrUt2R/YGaJdu6tlXK0jNYqmlzIFQ036njeR6mDdjAOZuWU5zPQ
- 3Le9p3h699b6FQouvJz7L4Ms/69ArylqsGb3+nnQO1+BS7fimw7MToONYjleRPsSCxh2
- ypxA==
+ bh=FiDDayin7HJXjqU9AzxoZp/3bpNscaqg9/qQn+dbhhA=;
+ b=G+sw1f9Fx/LsydpeuipqR3Ng0RGZWAQ8IrIDlZhaVG7L9rfoAr7wMO/iikQkS9ql6n
+ HMSwybUysBdxylw16NgxKIGGgo57u8Xpcqv5fnEUCHM6vBbOgjezbV95jKoscCmQfLsn
+ OBF7YfKCQhkG7QOSLVuAirarMCgQW58Z0JnaWrHiwvhZH3FT0/UaoTziUcIWQAnNi6KE
+ 1w0znxPD3OCpfO4YmSDlFYlKe0iaMG1xLC1Hc/US/pBmldlMwGzX8310NV4mZ5VmAx9X
+ 8HFPGgwkqmPOYqko4FC+xSs5nVsxZFQXDZeR8frH9BTmv5il2WtQyGBaybm+Ae7RIepz
+ Bq4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=G3GP9yNPW/jQe/C/J/4O6WqOQ/Mym8ZAXiesLvzC+94=;
- b=d6KS/tupTmCYmXQxsY/ziZg0MBpWal3RAYEIYaxP1ovNVl7nsYjZMiVy6PxC1aTiS/
- svYs8Ho0p7x48pszN7zZhjYVavyXrxADb62Y9yyKl17aW8j715Fbt3gAGDR1KMUbFvch
- FDv0BYRYg2rgFJXymsHKZBB2iW/MOf92knlRfbxbzyStM68TpgkhLEq44m8U6Sa8Zlpj
- xX6U3ZidMadJFVRnN9RerdB9cTmRN7l2I0gBOZ6oH+M/VeDZWduPHS8fF6hlmMHYoy5I
- WOCEtiIAIXZB9/QEiJhSFenMJdKhWVDeFjUMhqo5C/jtVykx0+PaS7kHjvOYVLIOlsmU
- ScQg==
-X-Gm-Message-State: AOAM532lRQ10Uekymbj/+3KxTh1u58uOibO1OC0hcn/BHBilMNrh2Owh
- JEJVOaTDyVwUbjmmOktXDdvksIhiXZI=
-X-Google-Smtp-Source: ABdhPJw3Mbge8AB4dDwqEtHCj341kbwLh80BMD/hcuz/Ci/IfyJQSW1USxyg+GU+SJmunZWaGstjzg==
-X-Received: by 2002:a05:6402:d06:: with SMTP id
- eb6mr38107095edb.337.1625757484544; 
- Thu, 08 Jul 2021 08:18:04 -0700 (PDT)
+ bh=FiDDayin7HJXjqU9AzxoZp/3bpNscaqg9/qQn+dbhhA=;
+ b=V31N+xspEV9+H0+ZSuzkuriQ5G0tnr8DqgADUpR92veC00zdzrtKMLRXanaV40uZt3
+ S3zffYEHRw8Dx90nc2PP0jJ8B1Av5A8oAjgYS3N15xJ0+mgFsXxQ/q6bgsfqFTLP9e00
+ gxPpE7kh4cVh/Pd0vIc7aTVHVeyARd86jhAvvikkiIMR+Q37bK9cjxu1YzFJMsC3nuhq
+ Hny/yim8exsYf46XccAUPkvfcdQe/H41MDOTqBYXWRCHO/Vu5r2qb03wJ3qnaDY8B1Zy
+ wPCdeFiJrnYlTN6IjBvomHCEtrgvb1jDJ9uxTcw8ridnVV6V9/smeSilUyvREfRvM3p2
+ l2eg==
+X-Gm-Message-State: AOAM5314lBuB8jaXugGP1WPR4hw7Fo3D8tjgiTNO8CWrx44UsDU6pjjp
+ KoIYqpzu5Eaf8jSKgL4q9cGH0WgNrhM=
+X-Google-Smtp-Source: ABdhPJwfDldnk6lTy35+d8vm3uNn2PC+ZWsC1x69Z6wMvTN5ys2+Sb1OwEyW8o8WY8WZ+k9jIXQ+8g==
+X-Received: by 2002:a05:6402:90b:: with SMTP id
+ g11mr39541253edz.336.1625757486098; 
+ Thu, 08 Jul 2021 08:18:06 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.03
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:04 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:05 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/48] modules: add tracepoints
-Date: Thu,  8 Jul 2021 17:17:21 +0200
-Message-Id: <20210708151748.408754-22-pbonzini@redhat.com>
+Subject: [PULL 23/48] modules: check arch on qom lookup
+Date: Thu,  8 Jul 2021 17:17:23 +0200
+Message-Id: <20210708151748.408754-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,57 +90,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-One for module load and one for qom type lookup.
+With target-specific modules we can have multiple modules implementing
+the same object.  Therefore we have to check the target arch on lookup
+to find the correct module.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-18-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-20-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/module.c     | 3 +++
- util/trace-events | 4 ++++
- 2 files changed, 7 insertions(+)
+ util/module.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/util/module.c b/util/module.c
-index a9ec2da997..acaaecad56 100644
+index 065aed09ff..6bb4ad915a 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -24,6 +24,7 @@
- #ifdef CONFIG_MODULE_UPGRADES
- #include "qemu-version.h"
- #endif
-+#include "trace.h"
- 
- typedef struct ModuleEntry
- {
-@@ -176,6 +177,7 @@ static int module_load_file(const char *fname, bool mayfail, bool export_symbols
-         ret = 0;
-     }
- 
-+    trace_module_load_module(fname);
-     QTAILQ_FOREACH_SAFE(e, &dso_init_list, node, next) {
-         QTAILQ_REMOVE(&dso_init_list, e, node);
-         g_free(e);
-@@ -294,6 +296,7 @@ void module_load_qom_one(const char *type)
-         return;
-     }
- 
-+    trace_module_lookup_object_type(type);
-     for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
+@@ -329,6 +329,9 @@ void module_load_qom_one(const char *type)
          if (!modinfo->objs) {
              continue;
-diff --git a/util/trace-events b/util/trace-events
-index 806cac14a7..c8f53d7d9f 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -100,3 +100,7 @@ uffd_create_fd_api_failed(int err) "errno: %i"
- uffd_create_fd_api_noioctl(uint64_t ioctl_req, uint64_t ioctl_supp) "ioctl_req: 0x%" PRIx64 "ioctl_supp: 0x%" PRIx64
- uffd_register_memory_failed(void *addr, uint64_t length, uint64_t mode, int err) "addr: %p length: %" PRIu64 " mode: 0x%" PRIx64 " errno: %i"
- uffd_unregister_memory_failed(void *addr, uint64_t length, int err) "addr: %p length: %" PRIu64 " errno: %i"
-+
-+# module.c
-+module_load_module(const char *name) "file %s"
-+module_lookup_object_type(const char *name) "name %s"
+         }
++        if (!module_check_arch(modinfo)) {
++            continue;
++        }
+         for (sl = modinfo->objs; *sl != NULL; sl++) {
+             if (strcmp(type, *sl) == 0) {
+                 module_load_one("", modinfo->name, false);
+@@ -349,6 +352,9 @@ void module_load_qom_all(void)
+         if (!modinfo->objs) {
+             continue;
+         }
++        if (!module_check_arch(modinfo)) {
++            continue;
++        }
+         module_load_one("", modinfo->name, false);
+     }
+     module_loaded_qom_all = true;
 -- 
 2.31.1
 
