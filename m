@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568FD3C152C
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:29:10 +0200 (CEST)
-Received: from localhost ([::1]:35194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996783C1538
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:33:47 +0200 (CEST)
+Received: from localhost ([::1]:42052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1V1Z-0005TB-Dj
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38536)
+	id 1m1V61-00033s-LB
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1Uz2-0001Z7-1x
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:26:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60395)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1Uyz-0007UW-Nr
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:26:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625754388;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/5KyOkyYEmGwn0zzzK+n6yKqYeqpQQK9bFtBIqs0Aek=;
- b=FP635pEdssQ6nOjnFnJW/c2J7oZ7Xm/kvRL7vz8ftUoFRd5rYZKNzD5WMbpMxMePOfjqPu
- wN/Pm1OWLiBnkyIYH97J9FBuocUq7Uq89BfJtpyq3jVex08AVhFQB4KtbQo3/vr9+IBMYz
- iE9jODagI0uavDNzZzwtcyyzjICnsDk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-ImqoOwOFMF2KlQnQThw8OQ-1; Thu, 08 Jul 2021 10:26:25 -0400
-X-MC-Unique: ImqoOwOFMF2KlQnQThw8OQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9B8E192D788;
- Thu,  8 Jul 2021 14:26:23 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 979795D6A8;
- Thu,  8 Jul 2021 14:26:14 +0000 (UTC)
-Date: Thu, 8 Jul 2021 16:26:13 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Subject: Re: [PATCH 7/7] tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs
-Message-ID: <20210708162613.6a3a4ab4@redhat.com>
-In-Reply-To: <20210630153723.672473-8-stefanb@linux.vnet.ibm.com>
-References: <20210630153723.672473-1-stefanb@linux.vnet.ibm.com>
- <20210630153723.672473-8-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1m1V4J-0002LM-ON
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:31:59 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:33413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1m1V4D-0000y7-W6
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:31:59 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id bu12so10067872ejb.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6TvhYmn/ixIqo3ZE3vx90RfHTqgU/+n3X4l/Vapw30s=;
+ b=vSbpD2TeD8RP60CeSQmNX+5djWbuzjIbymiELBkxh1A3yDTkm3kCGErCOj3M6NbgNF
+ 9CcLToQAI+oHBaE+Mj12S1NDDeUy/P/SqBe3BQYM1q8/JaSP4nvke+afkTh81o1qWKwJ
+ t3hj2oE2eYQgM8Gwo55NtEAEj8sm9gF+ETbY2ZUvMLW+8r8t3+Mdsz87A8b5eGywPw9X
+ qclJvAa03d9g2Lg/1PNXAmMQWNuAO1D/BQzJRAMn5cswckdkd1v1eSgMbZi3X/tvvsw9
+ uLkEVglZ8wKgX4yAd+bh3ttlxJTc3nSgBNtaUcc8R5PcrGWJMOiBqv2Klfmp9lc+kZUS
+ WSoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6TvhYmn/ixIqo3ZE3vx90RfHTqgU/+n3X4l/Vapw30s=;
+ b=iYoRctM43VzDS2SenX1NdCGYwOqu0Mqj3t9Rdgc6a1Qdscw/L21a94ty7OJ/lm2PsW
+ 8eZBdlpAGbk0kIPjlFMkw3KtpP6srxrm4T5ka6lIkW9fID2qfFpPR05JOTN8rMqNvhP+
+ /Z32oDoK1KmU9cF0nTyR7htYDVpng39/XXtwj1Ek/AKcXGedXs0RYKEw9fIV/pM6Psv9
+ uFH44mcNvZepRnlSkLWXqQYP09G3P90Db4lUnB9zGBeZSIvFXXVr7KvtXHGSLw/zidx0
+ OIB8Qq0hBQS1EWYN8KXdgX3P6RIZ/FAGYHYtJE9hnnPh5Wk7g7nvf/sOESZ6/Ct/y2wA
+ maQA==
+X-Gm-Message-State: AOAM531S6FKzMgB1iF0Rc0y+bdUJBB3HC3Qm0BxdiegAGVGxjpin9mRC
+ WBRZK+1mTyxWScS9rTXBAinNSb5wYU/AmpW5ykQ=
+X-Google-Smtp-Source: ABdhPJxQJccIRhrnXfib/YFnZIjldF932YIcnsbR+QNr5rdDw1kUAWwwzM1zrQvsx6qaNUbpBiaD74Bg9m0VM/tkAg0=
+X-Received: by 2002:a17:907:ea5:: with SMTP id
+ ho37mr31242264ejc.109.1625754712476; 
+ Thu, 08 Jul 2021 07:31:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
+ <1625678434-240960-9-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <1625678434-240960-9-git-send-email-steven.sistare@oracle.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 8 Jul 2021 18:31:41 +0400
+Message-ID: <CAJ+F1C+3cKu6r+RSw5E1_OkAXA03Z1cHfnkFjMtzOvrU_6mZcw@mail.gmail.com>
+Subject: Re: [PATCH V5 08/25] vl: add helper to request re-exec
+To: Steve Sistare <steven.sistare@oracle.com>
+Content-Type: multipart/alternative; boundary="000000000000210e2005c69d84cb"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,130 +78,290 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>,
- philmd@redhat.com, qemu-devel@nongnu.org,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 11:37:23 -0400
-Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
+--000000000000210e2005c69d84cb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The TCPA.tis.tpm12 file contains the following:
-> 
-> [000h 0000   4]                    Signature : "TCPA"    [Trusted Computing Platform Alliance table]
-> [004h 0004   4]                 Table Length : 00000032
-> [008h 0008   1]                     Revision : 02
-> [009h 0009   1]                     Checksum : 32
-> [00Ah 0010   6]                       Oem ID : "BOCHS "
-> [010h 0016   8]                 Oem Table ID : "BXPC    "
-> [018h 0024   4]                 Oem Revision : 00000001
-> [01Ch 0028   4]              Asl Compiler ID : "BXPC"
-> [020h 0032   4]        Asl Compiler Revision : 00000001
-> 
-> [024h 0036   2]               Platform Class : 0000
-> [026h 0038   4]         Min Event Log Length : 00010000
-> [02Ah 0042   8]            Event Log Address : 0000000007FF0000
-> 
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Hi
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+On Wed, Jul 7, 2021 at 9:46 PM Steve Sistare <steven.sistare@oracle.com>
+wrote:
 
+> Add a qemu_system_exec_request() hook that causes the main loop to exit a=
+nd
+> re-exec qemu using the specified arguments.
+>
+
+I assume it works ok with -sandbox on,spawn=3Dallow ?
+
+
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->  tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 0 -> 8465 bytes
->  tests/data/acpi/q35/TCPA.tis.tpm12          | Bin 0 -> 50 bytes
->  tests/qtest/bios-tables-test-allowed-diff.h |   2 --
->  3 files changed, 2 deletions(-)
-> 
-> diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..4178162b0b20b2a4a391daa73264963c28a99a3a 100644
-> GIT binary patch
-> literal 8465
-> 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
-> HnFIEJ<TmVT
-> 
-> literal 0
-> HcmV?d00001
-> 
-> diff --git a/tests/data/acpi/q35/TCPA.tis.tpm12 b/tests/data/acpi/q35/TCPA.tis.tpm12
-> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a56961b413e7715b3d60f9836d1c8f2f4c7347cb 100644
-> GIT binary patch
-> literal 50
-> qcmWG>4sbMLU|?V}a`Jcf2v%^42yj*a0!E-1hz+7a07U<12eAOxRtEt9  
-> 
-> literal 0
-> HcmV?d00001
-> 
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index fb093b32b9..dfb8523c8b 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1,3 +1 @@
->  /* List of comma-separated changed AML files to ignore */
-> -"tests/data/acpi/q35/DSDT.tis.tpm12",
-> -"tests/data/acpi/q35/TCPA.tis.tpm12",
+>  include/sysemu/runstate.h |  1 +
+>  softmmu/runstate.c        | 37 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+>
+> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+> index ed4b735..e1ae7e5 100644
+> --- a/include/sysemu/runstate.h
+> +++ b/include/sysemu/runstate.h
+> @@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, boo=
+l
+> enabled);
+>  void qemu_register_wakeup_notifier(Notifier *notifier);
+>  void qemu_register_wakeup_support(void);
+>  void qemu_system_shutdown_request(ShutdownCause reason);
+> +void qemu_system_exec_request(strList *args);
+>  void qemu_system_powerdown_request(void);
+>  void qemu_register_powerdown_notifier(Notifier *notifier);
+>  void qemu_register_shutdown_notifier(Notifier *notifier);
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index 7fe4967..8474a01 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -355,6 +355,7 @@ static NotifierList wakeup_notifiers =3D
+>  static NotifierList shutdown_notifiers =3D
+>      NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
+>  static uint32_t wakeup_reason_mask =3D ~(1 << QEMU_WAKEUP_REASON_NONE);
+> +static char **exec_argv;
+>
+>  ShutdownCause qemu_shutdown_requested_get(void)
+>  {
+> @@ -371,6 +372,11 @@ static int qemu_shutdown_requested(void)
+>      return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
+>  }
+>
+> +static int qemu_exec_requested(void)
+> +{
+> +    return exec_argv !=3D NULL;
+> +}
+> +
+>  static void qemu_kill_report(void)
+>  {
+>      if (!qtest_driver() && shutdown_signal) {
+> @@ -645,6 +651,32 @@ void qemu_system_shutdown_request(ShutdownCause
+> reason)
+>      qemu_notify_event();
+>  }
+>
+> +static char **make_argv(strList *args)
+>
 
+I'd suggest making it a generic strv_from_strList() function. Take const as
+argument too.
+
+
+> +{
+> +    strList *arg;
+> +    char **argv;
+> +    int n =3D 1, i =3D 0;
+> +
+> +    for (arg =3D args; arg !=3D NULL; arg =3D arg->next) {
+> +        n++;
+> +    }
+>
+
+We could use a QAPI_LIST_LENGTH() in qapi/util.h
+
++
+> +    argv =3D g_malloc(n * sizeof(char *));
+> +    for (arg =3D args; arg !=3D NULL; arg =3D arg->next) {
+> +        argv[i++] =3D g_strdup(arg->value);
+> +    }
+> +    argv[i] =3D NULL;
+> +
+> +    return argv;
+> +}
+> +
+> +void qemu_system_exec_request(strList *args)
+>
+
+const args, and documentation could help.
+
++{
+> +    exec_argv =3D make_argv(args);
+> +    shutdown_requested =3D 1;
+> +    qemu_notify_event();
+> +}
+> +
+>  static void qemu_system_powerdown(void)
+>  {
+>      qapi_event_send_powerdown();
+> @@ -693,6 +725,11 @@ static bool main_loop_should_exit(void)
+>      }
+>      request =3D qemu_shutdown_requested();
+>      if (request) {
+> +
+> +        if (qemu_exec_requested()) {
+> +            execvp(exec_argv[0], exec_argv);
+> +            error_setg_errno(&error_fatal, errno, "execvp failed");
+>
+
+Can this be handled more gracefully instead?
+
+g_strfreev the argv and report an error?
+
+
+> +        }
+>          qemu_kill_report();
+>          qemu_system_shutdown(request);
+>          if (shutdown_action =3D=3D SHUTDOWN_ACTION_PAUSE) {
+> --
+> 1.8.3.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000210e2005c69d84cb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 7, 2021 at 9:46 PM Stev=
+e Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.com">steven.sistare@o=
+racle.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Add a qemu_system_exec_request() hook that causes the main loop =
+to exit and<br>
+re-exec qemu using the specified arguments.<br></blockquote><div><br></div>=
+<div>I assume it works ok with -sandbox on,spawn=3Dallow ?</div><div><br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Steve Sistare &lt;<a href=3D"mailto:steven.sistare@oracle.co=
+m" target=3D"_blank">steven.sistare@oracle.com</a>&gt;<br>
+---<br>
+=C2=A0include/sysemu/runstate.h |=C2=A0 1 +<br>
+=C2=A0softmmu/runstate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 37 ++++++++++++++++++=
++++++++++++++++++++<br>
+=C2=A02 files changed, 38 insertions(+)<br>
+<br>
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h<br>
+index ed4b735..e1ae7e5 100644<br>
+--- a/include/sysemu/runstate.h<br>
++++ b/include/sysemu/runstate.h<br>
+@@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, bool =
+enabled);<br>
+=C2=A0void qemu_register_wakeup_notifier(Notifier *notifier);<br>
+=C2=A0void qemu_register_wakeup_support(void);<br>
+=C2=A0void qemu_system_shutdown_request(ShutdownCause reason);<br>
++void qemu_system_exec_request(strList *args);<br>
+=C2=A0void qemu_system_powerdown_request(void);<br>
+=C2=A0void qemu_register_powerdown_notifier(Notifier *notifier);<br>
+=C2=A0void qemu_register_shutdown_notifier(Notifier *notifier);<br>
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c<br>
+index 7fe4967..8474a01 100644<br>
+--- a/softmmu/runstate.c<br>
++++ b/softmmu/runstate.c<br>
+@@ -355,6 +355,7 @@ static NotifierList wakeup_notifiers =3D<br>
+=C2=A0static NotifierList shutdown_notifiers =3D<br>
+=C2=A0 =C2=A0 =C2=A0NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);<br>
+=C2=A0static uint32_t wakeup_reason_mask =3D ~(1 &lt;&lt; QEMU_WAKEUP_REASO=
+N_NONE);<br>
++static char **exec_argv;<br>
+<br>
+=C2=A0ShutdownCause qemu_shutdown_requested_get(void)<br>
+=C2=A0{<br>
+@@ -371,6 +372,11 @@ static int qemu_shutdown_requested(void)<br>
+=C2=A0 =C2=A0 =C2=A0return qatomic_xchg(&amp;shutdown_requested, SHUTDOWN_C=
+AUSE_NONE);<br>
+=C2=A0}<br>
+<br>
++static int qemu_exec_requested(void)<br>
++{<br>
++=C2=A0 =C2=A0 return exec_argv !=3D NULL;<br>
++}<br>
++<br>
+=C2=A0static void qemu_kill_report(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0if (!qtest_driver() &amp;&amp; shutdown_signal) {<br>
+@@ -645,6 +651,32 @@ void qemu_system_shutdown_request(ShutdownCause reason=
+)<br>
+=C2=A0 =C2=A0 =C2=A0qemu_notify_event();<br>
+=C2=A0}<br>
+<br>
++static char **make_argv(strList *args)<br>
+</blockquote><div><br></div><div>I&#39;d suggest making it a generic strv_f=
+rom_strList() function. Take const as argument too.<br></div><div>=C2=A0</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">+{<br>
++=C2=A0 =C2=A0 strList *arg;<br>
++=C2=A0 =C2=A0 char **argv;<br>
++=C2=A0 =C2=A0 int n =3D 1, i =3D 0;<br>
++<br>
++=C2=A0 =C2=A0 for (arg =3D args; arg !=3D NULL; arg =3D arg-&gt;next) {<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 n++;<br>
++=C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>We could use a QAPI_LI=
+ST_LENGTH() in qapi/util.h<br></div><div> <br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
++<br>
++=C2=A0 =C2=A0 argv =3D g_malloc(n * sizeof(char *));<br>
++=C2=A0 =C2=A0 for (arg =3D args; arg !=3D NULL; arg =3D arg-&gt;next) {<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 argv[i++] =3D g_strdup(arg-&gt;value);<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 argv[i] =3D NULL;<br>
++<br>
++=C2=A0 =C2=A0 return argv;<br>
++}<br>
++<br>
++void qemu_system_exec_request(strList *args)<br></blockquote><div><br></di=
+v><div>const args, and documentation could help. <br></div><div><br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">
++{<br>
++=C2=A0 =C2=A0 exec_argv =3D make_argv(args);<br>
++=C2=A0 =C2=A0 shutdown_requested =3D 1;<br>
++=C2=A0 =C2=A0 qemu_notify_event();<br>
++}<br>
++<br>
+=C2=A0static void qemu_system_powerdown(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0qapi_event_send_powerdown();<br>
+@@ -693,6 +725,11 @@ static bool main_loop_should_exit(void)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0request =3D qemu_shutdown_requested();<br>
+=C2=A0 =C2=A0 =C2=A0if (request) {<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (qemu_exec_requested()) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 execvp(exec_argv[0], exec_argv);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg_errno(&amp;error_fata=
+l, errno, &quot;execvp failed&quot;);<br></blockquote><div><br></div>Can th=
+is be handled more gracefully instead?</div><div class=3D"gmail_quote"><br>=
+</div><div class=3D"gmail_quote">g_strfreev the argv and report an error?<b=
+r></div><div class=3D"gmail_quote"><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_kill_report();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_system_shutdown(request);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (shutdown_action =3D=3D SHUTDOWN_ACTIO=
+N_PAUSE) {<br>
+-- <br>
+1.8.3.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000210e2005c69d84cb--
 
