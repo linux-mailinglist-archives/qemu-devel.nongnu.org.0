@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7C83C194E
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:38:51 +0200 (CEST)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FA83C1954
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:42:29 +0200 (CEST)
+Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1YvC-0005k6-9c
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
+	id 1m1Yyi-0005gA-V2
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:42:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Ypn-0005m0-B8
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:33:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41494)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Yra-0001FO-SK
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:35:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Ypk-00021U-JA
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:33:15 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1YrY-0002Ye-AM
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:35:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625769192;
+ s=mimecast20190719; t=1625769303;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OhQj2DtOYFHa6QoQ2Phssy75MD/MD+R3UrCLg1/8F/8=;
- b=cD28copUHarcLPw9UoVTe/d9Tjatf6x73X77cs4ZijpHb4/zuGVHarcqFz3VHk/SYm+tsG
- 0QJAVdrIrIzxRvKFOVNEgjQmLKAmVI1TbzQedlKqFWB++xSgF+vz2BZuInjmimZXyeSv9V
- mH13MVB5aup8fgxLcgaj/K9Ckm/kURU=
+ bh=NlTmgs9Mm/msJkAV+LC6cJVhXXCEW1d8HoCa++baFQw=;
+ b=MiXyUTJIhnZMEWAmZ58ndwQFc/f2RnICuQNXP1934yuMAyw+/o4b4xcC3RdipXCx1WJwcS
+ LHf2IiAdnI5vYaZpe9n8iem2DYZKDmcsCeh8hjxosS5HeDf62MLccadWHL9hXNw5lXQXyg
+ C38iL+B18j39BHXuagq8uPcKjhOfjQI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-TH6WbLBMPGS-_kn-R9Slvw-1; Thu, 08 Jul 2021 14:33:10 -0400
-X-MC-Unique: TH6WbLBMPGS-_kn-R9Slvw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-252-VdPd0THEMrmZ-_3wALdc7A-1; Thu, 08 Jul 2021 14:35:00 -0400
+X-MC-Unique: VdPd0THEMrmZ-_3wALdc7A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 092F3EC1A0
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:33:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 274CE807355
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:34:59 +0000 (UTC)
 Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 550A484A29;
- Thu,  8 Jul 2021 18:33:09 +0000 (UTC)
-Date: Thu, 8 Jul 2021 13:33:07 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF25E5D6A8;
+ Thu,  8 Jul 2021 18:34:53 +0000 (UTC)
+Date: Thu, 8 Jul 2021 13:34:52 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 04/18] crypto: use &error_fatal in crypto tests
-Message-ID: <20210708183307.yqct233djo7ch6wj@redhat.com>
+Subject: Re: [PATCH 05/18] crypto: fix gcrypt min version 1.8 regression
+Message-ID: <20210708183452.3naac5lmhdr2um7d@redhat.com>
 References: <20210706095924.764117-1-berrange@redhat.com>
- <20210706095924.764117-5-berrange@redhat.com>
+ <20210706095924.764117-6-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210706095924.764117-5-berrange@redhat.com>
+In-Reply-To: <20210706095924.764117-6-berrange@redhat.com>
 User-Agent: NeoMutt/20210205-556-f84451-dirty
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,31 +84,27 @@ Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 06, 2021 at 10:59:10AM +0100, Daniel P. Berrangé wrote:
-> Using error_fatal provides better diagnostics when tests
-> failed, than using asserts, because we see the text of
-> the error message.
+On Tue, Jul 06, 2021 at 10:59:11AM +0100, Daniel P. Berrangé wrote:
+> The min gcrypt was bumped:
+> 
+>   commit b33a84632a3759c00320fd80923aa963c11207fc
+>   Author: Daniel P. Berrangé <berrange@redhat.com>
+>   Date:   Fri May 14 13:04:08 2021 +0100
+> 
+>     crypto: bump min gcrypt to 1.8.0, dropping RHEL-7 support
+> 
+> but this was accidentally lost in conflict resolution for
+> 
+>   commit 5761251138cb69c310e9df7dfc82c4c6fd2444e4
+>   Author: Paolo Bonzini <pbonzini@redhat.com>
+>   Date:   Thu Jun 3 11:15:26 2021 +0200
+> 
+>     configure, meson: convert crypto detection to meson
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  tests/unit/test-crypto-hash.c | 12 ++++++------
->  tests/unit/test-crypto-hmac.c | 28 ++++++++--------------------
->  2 files changed, 14 insertions(+), 26 deletions(-)
-
-> 
-> diff --git a/tests/unit/test-crypto-hash.c b/tests/unit/test-crypto-hash.c
-> index ce7d0ab9b5..b50e28f212 100644
-> --- a/tests/unit/test-crypto-hash.c
-> @@ -243,7 +243,7 @@ static void test_hash_base64(void)
->  
->  int main(int argc, char **argv)
->  {
-> -    g_assert(qcrypto_init(NULL) == 0);
-> +    g_assert(qcrypto_init(&error_fatal) == 0);
-
-This is a side effect inside a g_assert().  It might be worth cleaning
-it up while you are touching here.  But since it is pre-existing, it
-doesn't affect my:
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
