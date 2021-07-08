@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D69C3C17C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:09:32 +0200 (CEST)
-Received: from localhost ([::1]:33944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2476A3C17BD
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:07:27 +0200 (CEST)
+Received: from localhost ([::1]:53706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XWl-000546-5F
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42756)
+	id 1m1XUk-0007ly-5b
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:07:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5M-0001wv-Kq
+ id 1m1X5I-0001vD-MI
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:12 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36398)
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:38461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5E-0008EE-GH
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:12 -0400
+ id 1m1X5F-0008EV-6D
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:08 -0400
 Received: by mail-pj1-x1035.google.com with SMTP id
- d9-20020a17090ae289b0290172f971883bso5672010pjz.1
+ cs1-20020a17090af501b0290170856e1a8aso6265536pjb.3
  for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=feiSsJm9roNlYIb4rXwJMU5pf7Fj/o5TmasdZr7ISdw=;
- b=soNWdZg8zgokGLmET06BEJMuRbxxamsBMsmhibLm8xAKDzKqnHxOpRrhhDgDZhNdpz
- u8cuTNoqWSLog0/s6T6GFpJMcehNUU9I1hnbr2TRPqYEphOu0t5wCR9cSbXafpIKV75h
- HqXxJLcJ5kxdOFzb5q0Mj3f3Rk0c1PYvOnJjG1MhY0v1FW7dWdWDKNJnyl7Dw5gBnr7H
- 6mnJ/53Mdjni0xtgQv0SEXWZwEOpDeBmJrbB8OSZu5lc3ZPD1KglRM+2ew/p+Xpq83LH
- qNng9fpgdh1ONP5D8e3TurgXl1wXvC8sxU7RmWN3vltm9lgaoq6fYZNkMNeBx6bw4LWJ
- yucQ==
+ bh=uIG9Ge2zjjc1swLSEjOmuiLSgNcwqVn8gkMMGDc8fxw=;
+ b=aVatAm06YxSOSf2cxC1QwpKeFPPyv0ELPDXOIaqHAx2I113TXpkBxqV/+uGium/vBb
+ LC38+3UtXq+gODQzGHWch2CwrB5FgWmhi4UPkg7jAkcRiVv6/UBEtGLSuQg58CJR7Rji
+ wFgpT3IpInUj8fPWja4iMkNTKjI92KQpnEMEWFBchjNKTLW/zOerUxX82OOzCW/fR2Hc
+ Z4rp+AFyeFjcTsYIiRdBM4JOTGs+bYMe5aRPIEs/8/5QZkG5fBLmAEmNxr/FHUHVKrrA
+ nK0yRqKpQ2BxhB+MAe4zF+iKHBXaCfVC0zM8Hrk69WsdtWUjZnvJUcoBwHVrFCT4znHS
+ zqPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=feiSsJm9roNlYIb4rXwJMU5pf7Fj/o5TmasdZr7ISdw=;
- b=tJcOpkuWOJURrHXIsj4BMRj2mFO0Sun5uqnSITj1yqHuZEHjxAOV9bRSem7xoCBPLo
- S8H2KIc2DYw+1ccB5fSKIKjiA8As4HOzSUnKx8p1bA6ycF+BJHUCDdFW2qk6W+BgBleR
- KbSVSTqZ7XYPNjmQUHnTX5ekG0neWetquhKBRZJ/pAxjax3Wkk7Bpz+4GHa2+hOI2Dy4
- TIVW00SpE51PSPq2zlcHJYsHqlUPSoYCc9v2QBx31KU9re32INvTFDbFg30TM/qvJffv
- T5HsKrM8QOAxZmcARSiRDemENeWlTUqDS1hoW6igUOkGYPEwISX3nQDP0FVl0Xgtwxfg
- Cv9w==
-X-Gm-Message-State: AOAM533eiNT1lulptgQYuq45ERZ1dzmFTv8EKqS+/Oi1F90E4nRXIaRe
- NnDFMrPGZEw7U5DMazkxDO7bUOAIruDiJg==
-X-Google-Smtp-Source: ABdhPJzLPvT926nuzc1bbpLZnkhtH+TxcKFTMZ2dcp4nbOrJl2zVX10FwmORZT21NCcSnWzlxb4gWQ==
-X-Received: by 2002:a17:90a:b704:: with SMTP id
- l4mr26805949pjr.55.1625762463348; 
+ bh=uIG9Ge2zjjc1swLSEjOmuiLSgNcwqVn8gkMMGDc8fxw=;
+ b=mgsjq2DhHG9JX9U5rR2268hdhKsFkO+5BHcg6PNADlgg2poOqZ7LQHk/41xCFT/thv
+ B/VBPr0QKo8tu26k+ljzC9CYAwrzUb05k3F+nw8jIpP1N0Nb0AkU6gOOyjLncapVwuNY
+ lNxZRtoee16m24LQc7yABVrgxEvW6hbGogX+y71o64rCsAiKb9E0FvZkk5ccQInP8I8u
+ NLytMWO4VqWjAVOPYOMJSgZ0R9zAak+4XpQiTwlWbiXHjNgNI8TvZAHiJX6pei5u26tL
+ kx+uA26lmQ1FR33voDuvFW5EicJh70PAV70i5NllJxoXk4tofMftk4cAPykZ6B3We30v
+ 8hyA==
+X-Gm-Message-State: AOAM533vZHqEpC91U/niQ7UguO8et6g7lc7DgzKMTPqtThPN0Udjeafe
+ lQW0qHiI4X8QG9MDZ4kBRYYYyQicMYtMlA==
+X-Google-Smtp-Source: ABdhPJwsboVL4aqGwgPjxogJZs3LS1fzLQVmBzRvovruQDngTF6ZzHfeLVxWBAt0+tUt9XdRy2pV3A==
+X-Received: by 2002:a17:90a:aa14:: with SMTP id
+ k20mr5855461pjq.88.1625762463972; 
  Thu, 08 Jul 2021 09:41:03 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j129sm3465678pfb.132.2021.07.08.09.41.03
@@ -55,9 +55,9 @@ Received: from localhost.localdomain ([71.212.149.176])
  Thu, 08 Jul 2021 09:41:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 22/28] target/s390x: Use translator_use_goto_tb
-Date: Thu,  8 Jul 2021 09:40:44 -0700
-Message-Id: <20210708164050.711967-23-richard.henderson@linaro.org>
+Subject: [PATCH v3 23/28] target/s390x: Remove use_exit_tb
+Date: Thu,  8 Jul 2021 09:40:45 -0700
+Message-Id: <20210708164050.711967-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708164050.711967-1-richard.henderson@linaro.org>
 References: <20210708164050.711967-1-richard.henderson@linaro.org>
@@ -88,30 +88,53 @@ Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We have not needed to end a TB for I/O since ba3e7926691
+("icount: clean up cpu_can_io at the entry to the block").
+
+In use_goto_tb, the check for singlestep_enabled is in the
+generic translator_use_goto_tb.  In s390x_tr_tb_stop, the
+check for singlestep_enabled is in the preceding do_debug test.
+
+Which leaves only FLAG_MASK_PER: fold that test alone into
+the two callers of use_exit tb.
+
 Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/translate.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ target/s390x/translate.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
 diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index 03dab9f350..117a890ecd 100644
+index 117a890ecd..4742f59ca9 100644
 --- a/target/s390x/translate.c
 +++ b/target/s390x/translate.c
-@@ -697,12 +697,7 @@ static bool use_goto_tb(DisasContext *s, uint64_t dest)
-     if (unlikely(use_exit_tb(s))) {
-         return false;
-     }
--#ifndef CONFIG_USER_ONLY
--    return (dest & TARGET_PAGE_MASK) == (s->base.tb->pc & TARGET_PAGE_MASK) ||
--           (dest & TARGET_PAGE_MASK) == (s->base.pc_next & TARGET_PAGE_MASK);
--#else
--    return true;
--#endif
-+    return translator_use_goto_tb(&s->base, dest);
+@@ -685,16 +685,9 @@ static void gen_op_calc_cc(DisasContext *s)
+     set_cc_static(s);
  }
  
- static void account_noninline_branch(DisasContext *s, int cc_op)
+-static bool use_exit_tb(DisasContext *s)
+-{
+-    return s->base.singlestep_enabled ||
+-            (tb_cflags(s->base.tb) & CF_LAST_IO) ||
+-            (s->base.tb->flags & FLAG_MASK_PER);
+-}
+-
+ static bool use_goto_tb(DisasContext *s, uint64_t dest)
+ {
+-    if (unlikely(use_exit_tb(s))) {
++    if (unlikely(s->base.tb->flags & FLAG_MASK_PER)) {
+         return false;
+     }
+     return translator_use_goto_tb(&s->base, dest);
+@@ -6634,7 +6627,7 @@ static void s390x_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+         /* Exit the TB, either by raising a debug exception or by return.  */
+         if (dc->do_debug) {
+             gen_exception(EXCP_DEBUG);
+-        } else if (use_exit_tb(dc) ||
++        } else if ((dc->base.tb->flags & FLAG_MASK_PER) ||
+                    dc->base.is_jmp == DISAS_PC_STALE_NOCHAIN) {
+             tcg_gen_exit_tb(NULL, 0);
+         } else {
 -- 
 2.25.1
 
