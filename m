@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC863C15E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:24:33 +0200 (CEST)
-Received: from localhost ([::1]:60512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2B3C15F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:27:42 +0200 (CEST)
+Received: from localhost ([::1]:43928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1VtA-00061e-US
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:24:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1m1VwD-0006FY-5U
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:27:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmu-0000EP-P2
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:04 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41546)
+ id 1m1Vmw-0000Km-8E
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:06 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:46699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmr-0008BD-R8
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:04 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id b2so10269505ejg.8
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:59 -0700 (PDT)
+ id 1m1Vmt-0008BS-7X
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:05 -0400
+Received: by mail-ej1-x635.google.com with SMTP id c17so10204374ejk.13
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7+5cc9IQeAW+TStBpSLFzIsbErmZkEw/lI6tTeLLQr0=;
- b=KsC8WGdcTM3iXZiMZuJf9/lNzDYoHLzKndqE9eIuNsI3KkYd2EFF9zIJ6+jj3EZbM/
- T9dD7Jup1B1DRgOBY2ctqy7Rc/6xHq8RHR/15sZ0RhNjoAuIH8A15s0Q3PcpccSyoFIN
- Rq4ttXcl4aC4S7w5FzBh6kIbTphbaxVExOeq3kSNJ6tw+mylI3kZ9C34YbUE32f+sRSr
- pv1Nc/+p2I/Xhbo9OmJ/R714dAl2Hc/PyR2iF94smi7yGbJ5pbJeoVBQs05XIcToKZc5
- 3Gqw8i3voscmvVWbs6UNf8c/FMy/q8Q7XaGlNON4frfKuNKUOVl3v+dKCkbD9H87lB0G
- R5ag==
+ bh=OFJUTV+92CDcZh6QQOAoXMbdHCOixFygGquQlFU36YM=;
+ b=G7YwMwYjYSG/ZSq1tm8Ll5kJbCm7DBewHv0NlN+WS9Qif/TRCEhgCPg5WVTWT5F6GO
+ eHyX4C8OzzML3NJDCIVzc5jXrSlucWBfBtO/45KwYw2TWwn9XWWNQfNmT1fjSbOpA6kQ
+ 8yqkc85dPqi/JabbuFWkrYOQtrhd9w7gVXRFN+pc3MUkPHaIRC5qqQ/S6W2sNPnHVrei
+ 6U/ork1gX+MttMA3FsWm8vWgC/iPzKDLWLH9LpiNE7hR77Kqjq6NdcbR+O3PUEiP4eD8
+ WzotOC7SKzDifJtonatwPT8p3aGJC09Xiysr8BGkglrqql33cstc0Wx/pf4mj6E/spPB
+ Z03A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7+5cc9IQeAW+TStBpSLFzIsbErmZkEw/lI6tTeLLQr0=;
- b=X6PzBUekzu+O/pAbudbpXebHueGf66wNWRrxCMJzapgEW4ULBt5lfV5eH3nd9+UuLd
- yGRk31T0QftyfWbeNMOL1CS3oQdzFc0cTRbrX6RlYayjoRDnaRCjVCP+mB54gA7mP5NF
- idyUp6iCBWheRcc4RVWf7zvQNfk6Iezj7LTBMTf1gXLnHoKbRbGlzhOzZrX756RJCiSo
- TU4yabVztobk2z8zIbtkcxXQ2K68ysDgTYts2gN+4RaW0dtk8uVpyW8UjabFoVpjBVOL
- ED9Y5z2HtGsEtlcxf1a0BOz/acz2Gdov9pe2mroAbgErq6fD2nPnQYHyRgHY/RiLl2Bu
- Jv4g==
-X-Gm-Message-State: AOAM532RWJ9adY5dVogbk3+T5rhVzbbB6AUAl+X3IHc5n1Z7bPetCWrz
- crOqFmGoumAuBUzJFOEFxdg9kPCUhJ4=
-X-Google-Smtp-Source: ABdhPJyYI50pyaLAoMfcXud3I0ej6ConbJ1mS62EL2/UsEdDi8IjZtrQdlD1TqhmUxHS3r6ukLIfKg==
-X-Received: by 2002:a17:906:a219:: with SMTP id
- r25mr3891648ejy.133.1625757479180; 
+ bh=OFJUTV+92CDcZh6QQOAoXMbdHCOixFygGquQlFU36YM=;
+ b=UqXeOTJbbuDQ8NL/AAXpH3P1O3shnWGZ3nXVhmo8FNGR2BaUIaoTIzgAiiPgdl0nLw
+ eMr9RTRLCD/1FQ14OzUR7jYF/K8HnY3EgwmxeOr3ShNImp7jLeWGgghzabdPUPut4OV3
+ lUYsI1Z3gWKzNurYIFXMWLH+RtgRZJKfn34wdCAWNcaYjMcB7gacp00r69JNOSACRSaY
+ OFUZOtfNbXCv6LV6VQhd1iux4L3LBlrOMY44pm5iA2zVkHHskN54ntmJfWltTlNs2oR4
+ D+G163bHaAhbGoDua9MzAtwBHEdNXLbagLVPCNbY3pwq6WF1ehhfgXTwSGsZWmmFcTzU
+ EGDg==
+X-Gm-Message-State: AOAM531x/knKsM5ARkOclawrMRS12ggriv0WV6YtzDZ/CY+vCKFjTrz+
+ zQ6P9bCdNUNghLIDYq00NotFrCRa+Ww=
+X-Google-Smtp-Source: ABdhPJyzSFTNqa1dKYhj7Ts7M5c9XndxZ78zIdqiYNBqzipLIgt+6gcvzEkDYPbX3eAg0IQr92qu+A==
+X-Received: by 2002:a17:906:58cc:: with SMTP id
+ e12mr31437972ejs.279.1625757479817; 
  Thu, 08 Jul 2021 08:17:59 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.58
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:17:58 -0700 (PDT)
+ Thu, 08 Jul 2021 08:17:59 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/48] modules: add usb-redir module annotations
-Date: Thu,  8 Jul 2021 17:17:13 +0200
-Message-Id: <20210708151748.408754-14-pbonzini@redhat.com>
+Subject: [PULL 14/48] modules: add ccid module annotations
+Date: Thu,  8 Jul 2021 17:17:14 +0200
+Message-Id: <20210708151748.408754-15-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -92,23 +92,36 @@ From: Gerd Hoffmann <kraxel@redhat.com>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-10-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-11-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/usb/redirect.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/usb/ccid-card-emulated.c | 1 +
+ hw/usb/ccid-card-passthru.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
-index 6a75b0dc4a..4ec9326e05 100644
---- a/hw/usb/redirect.c
-+++ b/hw/usb/redirect.c
-@@ -2608,6 +2608,7 @@ static const TypeInfo usbredir_dev_info = {
-     .class_init    = usbredir_class_initfn,
-     .instance_init = usbredir_instance_init,
+diff --git a/hw/usb/ccid-card-emulated.c b/hw/usb/ccid-card-emulated.c
+index 5c76bed77a..6c8c0355e0 100644
+--- a/hw/usb/ccid-card-emulated.c
++++ b/hw/usb/ccid-card-emulated.c
+@@ -612,6 +612,7 @@ static const TypeInfo emulated_card_info = {
+     .instance_size = sizeof(EmulatedState),
+     .class_init    = emulated_class_initfn,
  };
-+module_obj(TYPE_USB_REDIR);
++module_obj(TYPE_EMULATED_CCID);
  
- static void usbredir_register_types(void)
+ static void ccid_card_emulated_register_types(void)
+ {
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index 7212d0d7fb..fa3040fb71 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -414,6 +414,7 @@ static const TypeInfo passthru_card_info = {
+     .instance_size = sizeof(PassthruState),
+     .class_init    = passthru_class_initfn,
+ };
++module_obj(TYPE_CCID_PASSTHRU);
+ 
+ static void ccid_card_passthru_register_types(void)
  {
 -- 
 2.31.1
