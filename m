@@ -2,48 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 024E43BF884
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 12:40:51 +0200 (CEST)
-Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BF63BF885
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 12:42:57 +0200 (CEST)
+Received: from localhost ([::1]:58976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1RSc-0007vJ-RD
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 06:40:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38994)
+	id 1m1RUf-0001DJ-0D
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 06:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1RRM-00077f-1h; Thu, 08 Jul 2021 06:39:32 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:25025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1RRI-0002dU-VM; Thu, 08 Jul 2021 06:39:31 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 09BAE74570D;
- Thu,  8 Jul 2021 12:39:25 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 8D6DC745708; Thu,  8 Jul 2021 12:39:24 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 8BC8E7456E3;
- Thu,  8 Jul 2021 12:39:24 +0200 (CEST)
-Date: Thu, 8 Jul 2021 12:39:24 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
-In-Reply-To: <07d3a270-6d44-591d-d0ee-0264d3b4c7f2@ozlabs.ru>
-Message-ID: <4a903fde-4ea-a296-3132-bae249d261a@eik.bme.hu>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <22b9ae49-7252-b664-ea98-99bb7baf4680@eik.bme.hu>
- <07d3a270-6d44-591d-d0ee-0264d3b4c7f2@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1m1RTW-0000P1-VT; Thu, 08 Jul 2021 06:41:47 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:38626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1m1RTV-0003NE-Ej; Thu, 08 Jul 2021 06:41:46 -0400
+Received: by mail-io1-xd33.google.com with SMTP id k11so7607591ioa.5;
+ Thu, 08 Jul 2021 03:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gN12DhfP0LCx/yR3YccZjgmPJNZWBEkMj3+yQtFSX0w=;
+ b=eSJseK/f6GXVxvn1xUMotKtSnS9S9C8CodV0Ja2qq+bj69o2ZqV+suWjnUFfw5WDeJ
+ ohEA0XaAD7fASq6mRnFKXAIlsdv2lHvWYCUs8Z7SRnf9IFC+BJnaQ2ZnbQAEeI0Hf9OZ
+ 3atcenboW3h8hZsKgXLOGTUr9xeUJZLPrcA2G1i9FtoB1zpinvHdurQnK0EPyw3IRsHL
+ rXpMuO30LQCc/Hzo26RDE5Ahr5sEEh76df4uhGApxzfNBeC9g4HzpaP4yhiHgXkIUaCF
+ SgqbVVI9Psv88tshjmBsrWM9BN66GH6DEi4OI6rqk5Ogljpd8ZpOPlSJ3CF6OXPmX5za
+ YmAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gN12DhfP0LCx/yR3YccZjgmPJNZWBEkMj3+yQtFSX0w=;
+ b=qvQihQU2Lyb+sG/7FhgtQLXIngDhqqbfk/Uvevu2Oq3P2aSdOn9J2SWEC886Fbuifg
+ 2gn/xJpoBo3B4HtLDVDpwBPeyW+URr9UcdnbvXJRSU0gXm73oZac/RdqdcUNH/r4Y15B
+ X+cjsgvRUGDN+Q/oVim9hSChqAQM/1Unv2vG4G0DsR3rKtNsDfiaYqG7z3NTZZbrvf4b
+ B3J1JgZqmmevY7WlcebsAn5t+6O3n4/UiuANdet4WtUTm3wRimfRr2aJ1UDzsV5gBT13
+ 6ZDadhKDfOspw7RbttJ/7ADiEuUI6+k1I6Gx23ZEKiHwuknDFm5iiHEisutIz/sBSZuU
+ 7sOg==
+X-Gm-Message-State: AOAM530FQvbfxpS3NqxUqjSGJwruT1tcc5if4ApV5ug60r7me99Y3vrd
+ g+naGnjMEYmUvhh2fsiAhIwwIkPY23kQKHgoz6Q=
+X-Google-Smtp-Source: ABdhPJw2t0364ks6aB88uoZomhO/lNil8NWpGtS6aCSwkKes3a986l6ikN5UyiZ5ZdvvLbIHhkD2XM7t7/1HrlG7g0Y=
+X-Received: by 2002:a02:a14d:: with SMTP id m13mr26493948jah.51.1625740901346; 
+ Thu, 08 Jul 2021 03:41:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20210707180449.32665-1-pl@kamp.de>
+In-Reply-To: <20210707180449.32665-1-pl@kamp.de>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Thu, 8 Jul 2021 12:41:14 +0200
+Message-ID: <CAOi1vP-ybEw0SW6wQC-1WJ2em_t9Gm6yN+jx-rw2jnEWMDk=JA@mail.gmail.com>
+Subject: Re: [PATCH] block/rbd: fix type of task->complete
+To: Peter Lieven <pl@kamp.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=idryomov@gmail.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,44 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Jason Dillaman <dillaman@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
-> On 08/07/2021 20:18, BALATON Zoltan wrote:
->> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>> This addresses the comments from v22.
->>> 
->>> The functional changes are (the VOF ones need retesting with Pegasos2):
->>> 
->>> (VOF) setprop will start failing if the machine class callback
->>> did not handle it;
->> 
->> I'll try this later but I think I've seen guests using setprop (Linux also 
->> does that for some property). How should I allow that? Do I need a new 
->> callback for this? Could it be allower unless there's a callback that could 
->> deby it? But that was the previous way I think.
+On Wed, Jul 7, 2021 at 8:05 PM Peter Lieven <pl@kamp.de> wrote:
 >
-> A simple defined callback which always returns "true" should do.
+> task->complete is a bool not an integer.
+>
+> Signed-off-by: Peter Lieven <pl@kamp.de>
+> ---
+>  block/rbd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/block/rbd.c b/block/rbd.c
+> index 01a7b94d62..dcf82b15b8 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -1066,7 +1066,7 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
+>  static void qemu_rbd_finish_bh(void *opaque)
+>  {
+>      RBDTask *task = opaque;
+> -    task->complete = 1;
+> +    task->complete = true;
+>      aio_co_wake(task->co);
+>  }
+>
+> --
+> 2.17.1
+>
+>
 
-Yes but what's the point? That would just effectiverly disable this change 
-so if we need that, we could just as well keep the previous behaviour 
-which is to allow setprop unless there's a callback that can decide 
-otherwise. The spapr machine has such a callback so it already does not 
-allow all setprop and if I'll have a callback in pegasos2 returning true 
-that will allow what's allowed now so this part of this patch does nothing 
-indeed.
+Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 
-Since guests could do all kinds of things that we don't know without 
-trying them restricting setprop is a good way to run into problems with 
-guests that were not tested that could otherwise just work. Then we'll 
-need another patch to enable that guest adding some more properties to the 
-list of allowed ones. Why it it a problem to allow this by default in the 
-first place and only reject changes for machines that have a callback? 
-Then I would not need more empty callbacks in pegasos2.
+Thanks,
 
-Regards,
-BALATON Zoltan
+                Ilya
 
