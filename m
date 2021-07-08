@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBD53C19BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:21:03 +0200 (CEST)
-Received: from localhost ([::1]:53682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D93F3C19B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:18:01 +0200 (CEST)
+Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Za1-0006re-Ir
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50098)
+	id 1m1ZX6-000112-9q
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZPP-0003Zo-VD
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:10:03 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40453)
+ id 1m1ZPM-0003Xx-1Y
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:10:01 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZPO-0004qF-0L
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:10:03 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- h18-20020a05600c3512b029020e4ceb9588so7522206wmq.5
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:10:01 -0700 (PDT)
+ id 1m1ZPJ-0004ok-N1
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:59 -0400
+Received: by mail-wr1-x433.google.com with SMTP id r11so3588379wro.9
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:09:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E7/mVr7Wht5ohFpSzGRlkrOJNv9dh0GtVvv3G35jqG0=;
- b=JiClnD0IQTNSwArgnjFE0oF1mE7LutYzFltZvbciCnt5nEPtOAtN+XYRd0bXqfYrNE
- T6AbCkz7hm5zJjZcMUVo1AsqdR0CoBNdKsDLYldBDsYEhuLA6jBZUiqPf0JqbpjQeTKE
- pyNaiGFhI2/9/02DyLu9yMpZ4BOo2RlOraTAl8/y0pXOYsTKRggABGoElTnRaTshaQ4e
- +v61eeU8hv9wWBnSNV7oRsD6qwMGOmSa2mTsOBRlo6BBTcF3YXOKiJHVnmHGSC7bDks9
- Q4rsDYSmPAlKUwDBTRsv1zpFjDP+a3hBr9H4pZgPeFfpjJVSXnxc6Xeh77MqCOwNH9gD
- t65A==
+ bh=uQM582CR+pF+8YGG08VBpf08mKJ/9zGDEh5ELcyeUXY=;
+ b=PtgD+aS6kopSaa5aYs2KwQVNj5hOjZtQcRnsisyxBKLHTd3E3DeGzgqAA3xw6M77uu
+ zcexw3bpmsRox0SnIrKlZ1NXYh2E73pbShAy7kdV0WVkEaGevy6DnyuWrKP8kDjIep1z
+ RJBWR/zUgMq2w5fYu+oyKScOC74GirvxbBs/r6G7SKUGZ/gY2OF41brl+mP0iVNt/j+i
+ Hvr7raXutlfBiWbimvC5G9bOW0fhxcZRUv3i3Dukv+NRacf1+Z3dkgSruWlogjgoxufn
+ WNsI7Nd7gYpUFJRYB31O9fZrbN3nMmEywEiaxt8paHtwk7lWT6tzrRnLWhW0llQFjbmy
+ 7rNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E7/mVr7Wht5ohFpSzGRlkrOJNv9dh0GtVvv3G35jqG0=;
- b=tg3wI0jJxIlUhsXXr2V+gzMN9oPLrTn+1FTNCnYh6HcUcHQivSptBEgzjR/auTQvEW
- WIriLoZn+518rhLFKuPQ3oy61Xj2ewzYpGNm1kWVwP44VulVPDMM9D+rnG2yZUSWIQdK
- qkx0qw6DIlfyi3UILDC++JAPFGP1yZz5w5qgPQfr7m6+c64hXAd2ru6Lcp1V3rswQOJM
- gaFgBB1m3Upd+rZNGL+8WvC3a27hDKyqptcHiryDh6MMIUvkrjRloZtf8ax3iNxwbCDR
- v0udJQrtadXObVODd13whaMozKWofXw1pNvEdSCgqnGvWO/DzsrFsTVmYkiXET4GSf5k
- 6vGw==
-X-Gm-Message-State: AOAM533DqKse0U2Z0Gk6LzLvYBn1XB+nCOGPbU8sh1UUUUba8ZXmR9AF
- q2n+MZRKLLNCxHGH9Vbrx7tb6Q==
-X-Google-Smtp-Source: ABdhPJyESX3TyWugnMLYjFx4tqZnt1iVNIFmPIUSimPNZrHaSdhuGgQrqkR5DcuE7VAKdaDGRviQqQ==
-X-Received: by 2002:a1c:2cc6:: with SMTP id s189mr35431570wms.64.1625771400666; 
- Thu, 08 Jul 2021 12:10:00 -0700 (PDT)
+ bh=uQM582CR+pF+8YGG08VBpf08mKJ/9zGDEh5ELcyeUXY=;
+ b=Dp6Loi1q4Xr7aE8cZArmkiTZ9FWFxWmE+ugBuBNfg8WummUawVhGoTdZOmScIyC55c
+ 0/AdP29VQFk2e2fCXUeprRFbX6SeqsGgHgv+fNj4womAgp5twRuBJHvCDY3aLb69ggQZ
+ WDqAlQTXZSJRPQi4pvfI96oWypmrtmKVUbOTi/dpC7owH4aVG6G2/cmQg3gk36lqi4Nf
+ F312rtUGRYjTh9TJQg0WwIxOvW5DoLcW1hDyJobffuqj6ls8iUkuTNFwTcMa5Mu83KUl
+ htj8Z50Q5Y8im09KTyVBE/KXH9wLhyd9nmM/4lGDv8Nk+O0ocjyJOdxXTXP9RHrW+mGJ
+ kdnQ==
+X-Gm-Message-State: AOAM5304cymCBiKmkg2k7dE4TqmxXKr61rH+BnPNeVICaJyXYJK/VEly
+ BnIMT08u6//fucuLgTyjBFajzg==
+X-Google-Smtp-Source: ABdhPJy21bkuKWJH5bHoRqwZvvteCnWn+g1ZGp+r+NswxQ+sbVVoDYhlL0K9IKF2hJwWYPnhAQ2hKA==
+X-Received: by 2002:a5d:4912:: with SMTP id x18mr4674855wrq.310.1625771396167; 
+ Thu, 08 Jul 2021 12:09:56 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k20sm1374842wrd.70.2021.07.08.12.09.47
+ by smtp.gmail.com with ESMTPSA id i12sm3263476wrp.57.2021.07.08.12.09.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 12:09:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 314491FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id 88DDE1FF9B;
  Thu,  8 Jul 2021 20:09:43 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/39] tests/docker: use project specific container
- registries
-Date: Thu,  8 Jul 2021 20:09:13 +0100
-Message-Id: <20210708190941.16980-12-alex.bennee@linaro.org>
+Subject: [PATCH v2 13/39] tests/docker: remove FEATURES env var from templates
+Date: Thu,  8 Jul 2021 20:09:15 +0100
+Message-Id: <20210708190941.16980-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210708190941.16980-1-alex.bennee@linaro.org>
 References: <20210708190941.16980-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,97 +100,225 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-Since Docker Hub has started to enforce pull rate limits on clients, it
-is preferrable to use project specific container registries where they
-are available. Fedora and OpenSUSE projects provide registries.
+In preparation for switching to auto-generated dockerfiles, remove the
+FEATURES env variable. The equivalent functionality can be achieved in
+most cases by just looking for existance of a binary.
 
-The images in these registries are also refreshed on a more regular
-basis than the ones in docker hub, so the package update should
-generally be faster.
-
-While CentOS also has a registry it is considerably outdated compared
-to docker.io, and also only provides x86 images, while docker.io images
-are multi-arch.
+The cases which don't correspond to binaries are simply dropped because
+configure/meson will probe for any requested feature anyway.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-4-berrange@redhat.com>
+Message-Id: <20210623142245.307776-6-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
- tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
- tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
- tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
- tests/docker/dockerfiles/fedora.docker             | 2 +-
- tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ tests/docker/common.rc                        | 19 ++++++++++++++-----
+ tests/docker/dockerfiles/debian10.docker      |  2 --
+ .../dockerfiles/fedora-win32-cross.docker     |  1 -
+ .../dockerfiles/fedora-win64-cross.docker     |  1 -
+ tests/docker/dockerfiles/fedora.docker        |  1 -
+ tests/docker/dockerfiles/ubuntu.docker        |  1 -
+ tests/docker/dockerfiles/ubuntu1804.docker    |  1 -
+ tests/docker/dockerfiles/ubuntu2004.docker    |  1 -
+ tests/docker/run                              |  3 ---
+ tests/docker/test-clang                       |  2 +-
+ tests/docker/test-debug                       |  2 +-
+ tests/docker/test-mingw                       |  3 ++-
+ tests/docker/test-misc                        |  2 +-
+ tests/docker/test-tsan                        |  2 +-
+ 14 files changed, 20 insertions(+), 21 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
-index 1dfff6e0b9..91c373fdd3 100644
---- a/tests/docker/dockerfiles/fedora-cris-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
-@@ -2,7 +2,7 @@
- # Cross compiler for cris system tests
- #
+diff --git a/tests/docker/common.rc b/tests/docker/common.rc
+index ebc5b97ecf..c5cc33d366 100755
+--- a/tests/docker/common.rc
++++ b/tests/docker/common.rc
+@@ -15,14 +15,23 @@
+ # overriden by TARGET_LIST if the user sets it.
+ DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
  
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
- ENV PACKAGES gcc-cris-linux-gnu
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index 8004fd8ee5..dbb8195eb1 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
- ENV PACKAGES \
-     bzip2 \
-     ccache \
+-requires()
++requires_binary()
+ {
++    found=0
+     for c in $@; do
+-        if ! echo "$FEATURES" | grep -wq -e "$c"; then
+-            echo "Prerequisite '$c' not present, skip"
+-            exit 0
+-        fi
++        for d in /bin /usr/bin /usr/local/bin
++        do
++            if test -f "$d/$c"
++            then
++                found=1
++            fi
++        done
+     done
++    if test "$found" != "1"
++    then
++        echo "Prerequisite '$c' not present, skip"
++        exit 0
++    fi
+ }
+ 
+ configure_qemu()
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index a27b88df55..b414af1b9f 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -35,5 +35,3 @@ RUN apt update && \
+         python3-sphinx \
+         python3-sphinx-rtd-theme \
+         $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+-
+-ENV FEATURES docs
 diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index a638afb525..9fed35f4e1 100644
+index 9fed35f4e1..5a03e1af43 100644
 --- a/tests/docker/dockerfiles/fedora-win32-cross.docker
 +++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
+@@ -37,7 +37,6 @@ ENV PACKAGES \
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+-ENV FEATURES mingw
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=i686-w64-mingw32-
 diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index f53007ac86..fb641f6104 100644
+index fb641f6104..ff706040c4 100644
 --- a/tests/docker/dockerfiles/fedora-win64-cross.docker
 +++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
+@@ -33,7 +33,6 @@ ENV PACKAGES \
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+-ENV FEATURES mingw
+ 
+ # Specify the cross prefix for this image (see tests/docker/common.rc)
+ ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32- --disable-capstone
 diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 9dde3f6a78..a506e68d33 100644
+index a506e68d33..64a413f5e0 100644
 --- a/tests/docker/dockerfiles/fedora.docker
 +++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,4 @@
--FROM fedora:33
-+FROM registry.fedoraproject.org/fedora:33
+@@ -117,4 +117,3 @@ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+ ENV PATH $PATH:/usr/libexec/python3-sphinx/
+-ENV FEATURES mingw clang pyyaml asan docs
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+index e0ff425c01..f0e0180d21 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -69,4 +69,3 @@ ENV PACKAGES \
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
+-ENV FEATURES clang pyyaml sdl2 docs
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index adcdef8244..0acdb0d9ad 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -55,7 +55,6 @@ ENV PACKAGES \
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
+-ENV FEATURES clang pyyaml sdl2 docs
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index f7e1cbfbe6..7ebff1b3a8 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -1,4 +1,4 @@
--FROM opensuse/leap:15.2
-+FROM registry.opensuse.org/opensuse/leap:15.2
+ # https://bugs.launchpad.net/qemu/+bug/1838763
+ ENV QEMU_CONFIGURE_OPTS --disable-libssh
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 78755bc2e3..88b3cfa136 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -70,7 +70,6 @@ ENV PACKAGES flex bison \
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
+-ENV FEATURES clang tsan pyyaml sdl2
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
+ # Apply patch https://reviews.llvm.org/D75820
+ # This is required for TSan in clang-10 to compile with QEMU.
+diff --git a/tests/docker/run b/tests/docker/run
+index 8edc7026ee..421393046b 100755
+--- a/tests/docker/run
++++ b/tests/docker/run
+@@ -30,9 +30,6 @@ mkdir -p $TEST_DIR/{src,build,install}
+ 
+ # Extract the source tarballs
+ tar -C $TEST_DIR/src -xf $BASE/qemu.tar || { echo "Failed to untar source"; exit 2; }
+-if test -f $TEST_DIR/src/Makefile; then
+-    export FEATURES="$FEATURES dtc"
+-fi
+ 
+ if test -n "$SHOW_ENV"; then
+     if test -f /packages.txt; then
+diff --git a/tests/docker/test-clang b/tests/docker/test-clang
+index 8c51ead518..b57e0119d9 100755
+--- a/tests/docker/test-clang
++++ b/tests/docker/test-clang
+@@ -13,7 +13,7 @@
+ 
+ . common.rc
+ 
+-requires clang
++requires_binary clang
+ 
+ cd "$BUILD_DIR"
+ 
+diff --git a/tests/docker/test-debug b/tests/docker/test-debug
+index c050fa0d93..f52f16328c 100755
+--- a/tests/docker/test-debug
++++ b/tests/docker/test-debug
+@@ -14,7 +14,7 @@
+ 
+ . common.rc
+ 
+-requires clang asan
++requires_binary clang
+ 
+ cd "$BUILD_DIR"
+ 
+diff --git a/tests/docker/test-mingw b/tests/docker/test-mingw
+index c30eb654eb..0bc6d78872 100755
+--- a/tests/docker/test-mingw
++++ b/tests/docker/test-mingw
+@@ -13,7 +13,8 @@
+ 
+ . common.rc
+ 
+-requires mingw dtc
++requires_binary x86_64-w64-mingw32-gcc
++requires_binary i686-w64-mingw32-gcc
+ 
+ cd "$BUILD_DIR"
+ 
+diff --git a/tests/docker/test-misc b/tests/docker/test-misc
+index cc94a738dd..2a3c2c2e1c 100755
+--- a/tests/docker/test-misc
++++ b/tests/docker/test-misc
+@@ -14,7 +14,7 @@
+ 
+ . common.rc
+ 
+-requires docs
++requires_binary sphinx-build-3 sphinx-build
+ 
+ cd "$BUILD_DIR"
+ 
+diff --git a/tests/docker/test-tsan b/tests/docker/test-tsan
+index eb40ac45b7..53d90d2f79 100755
+--- a/tests/docker/test-tsan
++++ b/tests/docker/test-tsan
+@@ -17,7 +17,7 @@
+ 
+ setup_tsan()
+ {
+-    requires clang tsan
++    requires_binary clang
+     tsan_log_dir="/tmp/qemu-test/build/tsan"
+     mkdir -p $tsan_log_dir > /dev/null || true
+     EXTRA_CONFIGURE_OPTS="${EXTRA_CONFIGURE_OPTS} --enable-tsan \
 -- 
 2.20.1
 
