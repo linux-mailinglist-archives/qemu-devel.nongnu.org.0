@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD6F93BFACA
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:58:43 +0200 (CEST)
-Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3835F3C13C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 15:04:40 +0200 (CEST)
+Received: from localhost ([::1]:45346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Tc2-0000Kh-Ox
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41338)
+	id 1m1Thn-0003cF-8f
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 09:04:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1m1TZK-0004MM-M5; Thu, 08 Jul 2021 08:55:54 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2064)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m1TZk-0005Ki-Ed
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:56:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1m1TZF-0005eV-8V; Thu, 08 Jul 2021 08:55:54 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GLGQt46Gfzcb9x;
- Thu,  8 Jul 2021 20:52:22 +0800 (CST)
-Received: from dggpemm500009.china.huawei.com (7.185.36.225) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 8 Jul 2021 20:55:33 +0800
-Received: from huawei.com (10.174.185.226) by dggpemm500009.china.huawei.com
- (7.185.36.225) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 8 Jul 2021
- 20:55:32 +0800
-From: Wang Xingang <wangxingang5@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <eric.auger@redhat.com>,
- <shannon.zhaosl@gmail.com>, <imammedo@redhat.com>, <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>, <peter.maydell@linaro.org>,
- <ehabkost@redhat.com>, <richard.henderson@linaro.org>, <pbonzini@redhat.com>
-Subject: [PATCH v5 9/9] docs: Add documentation for iommu bypass
-Date: Thu, 8 Jul 2021 12:55:19 +0000
-Message-ID: <1625748919-52456-10-git-send-email-wangxingang5@huawei.com>
-X-Mailer: git-send-email 2.6.4.windows.1
-In-Reply-To: <1625748919-52456-1-git-send-email-wangxingang5@huawei.com>
-References: <1625748919-52456-1-git-send-email-wangxingang5@huawei.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m1TZf-0005l4-4C
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:56:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625748973;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wVYQz76PJMsxb6i1TYDCsClwk+RQFe8O7mo7oWqIiK0=;
+ b=Gvi6kLL1LZSYGJo0bEQy9zOxaWWtOtYqbumnknA78FMUjjH0p6VWJ6JqJyuX4biJ9lT7OD
+ iEu7VsBpfqiirwq/r10Q2ylqyr2Ro7L1zaiAtis0aSPbg5QJOrh2kFikVI+USMwE9/myHg
+ /Ah4KR0HSQUz9C02cUU8nJinWM8xcMo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-BJczqGbhNru8Zx4rH14aGw-1; Thu, 08 Jul 2021 08:56:12 -0400
+X-MC-Unique: BJczqGbhNru8Zx4rH14aGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA5C8193F560;
+ Thu,  8 Jul 2021 12:56:10 +0000 (UTC)
+Received: from localhost (ovpn-114-141.ams2.redhat.com [10.36.114.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FDAF5D9FC;
+ Thu,  8 Jul 2021 12:56:09 +0000 (UTC)
+Date: Thu, 8 Jul 2021 13:56:08 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [RFC PATCH 5/6] job: use global job_mutex to protect struct Job
+Message-ID: <YOb16JltX56P88Vo@stefanha-x1.localdomain>
+References: <20210707165813.55361-1-eesposit@redhat.com>
+ <20210707165813.55361-6-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.226]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggpemm500009.china.huawei.com (7.185.36.225)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangxingang5@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210707165813.55361-6-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IuxuGRpfjYjW2hcl"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,114 +79,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, wangxingang5@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xingang Wang <wangxingang5@huawei.com>
+--IuxuGRpfjYjW2hcl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
----
- docs/bypass-iommu.txt | 89 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
- create mode 100644 docs/bypass-iommu.txt
+On Wed, Jul 07, 2021 at 06:58:12PM +0200, Emanuele Giuseppe Esposito wrote:
+> This lock is going to replace most of the AioContext locks
+> in the job and blockjob, so that a Job can run in an arbitrary
+> AioContext.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  include/block/blockjob_int.h |   1 +
+>  include/qemu/job.h           |   2 +
+>  block/backup.c               |   4 +
+>  block/mirror.c               |  11 +-
+>  blockdev.c                   |  62 ++++----
+>  blockjob.c                   |  67 +++++++--
+>  job-qmp.c                    |  55 +++----
+>  job.c                        | 284 +++++++++++++++++++++++++++--------
+>  qemu-img.c                   |  15 +-
+>  9 files changed, 350 insertions(+), 151 deletions(-)
+>=20
+> diff --git a/include/block/blockjob_int.h b/include/block/blockjob_int.h
+> index 6633d83da2..8b91126506 100644
+> --- a/include/block/blockjob_int.h
+> +++ b/include/block/blockjob_int.h
+> @@ -53,6 +53,7 @@ struct BlockJobDriver {
+>       */
+>      void (*attached_aio_context)(BlockJob *job, AioContext *new_context)=
+;
+> =20
+> +    /* Called with job mutex *not* held. */
+>      void (*set_speed)(BlockJob *job, int64_t speed);
+>  };
+> =20
+> diff --git a/include/qemu/job.h b/include/qemu/job.h
+> index 4421d08d93..359f4e6b3a 100644
+> --- a/include/qemu/job.h
+> +++ b/include/qemu/job.h
+> @@ -49,6 +49,8 @@ typedef struct Job {
+>      /**
+>       * The type of this job.
+>       * Set it in job_create and just read.
+> +     * All calls to the driver function must be not locked by job_mutex,
+> +     * to avoid deadlocks.
+>       */
+>      const JobDriver *driver;
+> =20
+> diff --git a/block/backup.c b/block/backup.c
+> index bd3614ce70..80ce956299 100644
+> --- a/block/backup.c
+> +++ b/block/backup.c
+> @@ -315,6 +315,10 @@ static void coroutine_fn backup_pause(Job *job)
+>      }
+>  }
+> =20
+> +/*
+> + * Called with job mutex *not* held (we don't want to call block_copy_ki=
+ck
+> + * with the lock held!)
+> + */
+>  static void coroutine_fn backup_set_speed(BlockJob *job, int64_t speed)
+>  {
+>      BackupBlockJob *s =3D container_of(job, BackupBlockJob, common);
+> diff --git a/block/mirror.c b/block/mirror.c
+> index 49aaaafffa..deefaa6a39 100644
+> --- a/block/mirror.c
+> +++ b/block/mirror.c
+> @@ -1150,9 +1150,11 @@ static void mirror_complete(Job *job, Error **errp=
+)
+>      s->should_complete =3D true;
+> =20
+>      /* If the job is paused, it will be re-entered when it is resumed */
+> +    job_lock();
+>      if (!job_is_paused(job)) {
+> -        job_enter(job);
+> +        job_enter_locked(job);
+>      }
+> +    job_unlock();
+>  }
+> =20
+>  static void coroutine_fn mirror_pause(Job *job)
+> @@ -1171,10 +1173,13 @@ static bool mirror_drained_poll(BlockJob *job)
+>       * from one of our own drain sections, to avoid a deadlock waiting f=
+or
+>       * ourselves.
+>       */
+> -    if (!job_is_paused(&s->common.job) && !job_is_cancelled(&s->common.j=
+ob) &&
+> -        !s->in_drain) {
+> +    job_lock();
+> +    if (!job_is_paused(&s->common.job) &&
+> +        !job_is_cancelled_locked(&s->common.job) && !s->in_drain) {
+> +        job_unlock();
+>          return true;
+>      }
+> +    job_unlock();
+> =20
+>      return !!s->in_flight;
+>  }
+> diff --git a/blockdev.c b/blockdev.c
+> index 8e2c15370e..9255aea6a2 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -150,9 +150,11 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+>              AioContext *aio_context =3D job_get_aiocontext(&job->job);
+>              aio_context_acquire(aio_context);
+> =20
+> +            job_lock();
+>              job_cancel(&job->job, false);
+> =20
+>              aio_context_release(aio_context);
+> +            job_unlock();
 
-diff --git a/docs/bypass-iommu.txt b/docs/bypass-iommu.txt
-new file mode 100644
-index 0000000000..e6677bddd3
---- /dev/null
-+++ b/docs/bypass-iommu.txt
-@@ -0,0 +1,89 @@
-+BYPASS IOMMU PROPERTY
-+=====================
-+
-+Description
-+===========
-+Traditionally, there is a global switch to enable/disable vIOMMU. All
-+devices in the system can only support go through vIOMMU or not, which
-+is not flexible. We introduce this bypass iommu property to support
-+coexist of devices go through vIOMMU and devices not. This is useful to
-+passthrough devices with no-iommu mode and devices go through vIOMMU in
-+the same virtual machine.
-+
-+PCI host bridges have a bypass_iommu property. This property is used to
-+determine whether the devices attached on the PCI host bridge will bypass
-+virtual iommu. The bypass_iommu property is valid only when there is a
-+virtual iommu in the system, it is implemented to allow some devices to
-+bypass vIOMMU. When bypass_iommu property is not set for a host bridge,
-+the attached devices will go through vIOMMU by default.
-+
-+Usage
-+=====
-+The bypass iommu feature support PXB host bridge and default main host
-+bridge, we add a bypass_iommu property for PXB and default_bus_bypass_iommu
-+for machine. Note that default_bus_bypass_iommu is available only when
-+the 'q35' machine type on x86 architecture and the 'virt' machine type
-+on AArch64. Other machine types do not support bypass iommu for default
-+root bus.
-+
-+1. The following is the bypass iommu options:
-+ (1) PCI expander bridge
-+     qemu -device pxb-pcie,bus_nr=0x10,addr=0x1,bypass_iommu=true
-+ (2) Arm default host bridge
-+     qemu -machine virt,iommu=smmuv3,default_bus_bypass_iommu=true
-+ (3) X86 default root bus bypass iommu:
-+     qemu -machine q35,default_bus_bypass_iommu=true
-+
-+2. Here is the detailed qemu command line for 'virt' machine with PXB on
-+AArch64:
-+
-+qemu-system-aarch64 \
-+ -machine virt,kernel_irqchip=on,iommu=smmuv3,default_bus_bypass_iommu=true \
-+ -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3.0x1 \
-+ -device pxb-pcie,bus_nr=0x20,id=pci.20,bus=pcie.0,addr=0x3.0x2,bypass_iommu=true \
-+
-+And we got:
-+ - a default host bridge which bypass SMMUv3
-+ - a pxb host bridge which go through SMMUv3
-+ - a pxb host bridge which bypass SMMUv3
-+
-+3. Here is the detailed qemu command line for 'q35' machine with PXB on
-+x86 architecture:
-+
-+qemu-system-x86_64 \
-+ -machine q35,accel=kvm,default_bus_bypass_iommu=true \
-+ -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3 \
-+ -device pxb-pcie,bus_nr=0x20,id=pci.20,bus=pcie.0,addr=0x4,bypass_iommu=true \
-+ -device intel-iommu \
-+
-+And we got:
-+ - a default host bridge which bypass iommu
-+ - a pxb host bridge which go through iommu
-+ - a pxb host bridge which bypass iommu
-+
-+Limitations
-+===========
-+There might be potential security risk when devices bypass iommu, because
-+devices might send malicious dma request to virtual machine if there is no
-+iommu isolation. So it would be necessary to only bypass iommu for trusted
-+device.
-+
-+Implementation
-+==============
-+The bypass iommu feature includes:
-+ - Address space
-+   Add bypass iommu property check of PCI Host and do not get iommu address
-+   space for devices bypass iommu.
-+ - Arm SMMUv3 support
-+   We traverse all PCI root bus and get bus number ranges, then build explicit
-+   RID mapping for devices which do not bypass iommu.
-+ - X86 IOMMU support
-+   To support Intel iommu, we traverse all PCI host bridge and get information
-+   of devices which do not bypass iommu, then fill the DMAR drhd struct with
-+   explicit device scope info. To support AMD iommu, add check of bypass iommu
-+   when traverse the PCI hsot bridge.
-+ - Machine and PXB options
-+   We add bypass iommu options in machine option for default root bus, and add
-+   option for PXB also. Note that the default value of bypass iommu is false,
-+   so that the devices will by default go through iommu if there exist one.
-+
--- 
-2.19.1
+This looks strange. The way it's written suggests there is a reason why
+job_unlock() has to be called after aio_context_release(). Can
+job_unlock() be called immediately after job_cancel()?
+
+>          }
+>      }
+> =20
+> @@ -3309,48 +3311,44 @@ out:
+>      aio_context_release(aio_context);
+>  }
+> =20
+> -/* Get a block job using its ID and acquire its AioContext */
+> -static BlockJob *find_block_job(const char *id, AioContext **aio_context=
+,
+> -                                Error **errp)
+> +/* Get a block job using its ID and acquire its job_lock */
+
+"its" suggests job_lock is per-Job. I suggest saying something like
+"Returns with job_lock held on success" instead.
+
+--IuxuGRpfjYjW2hcl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDm9egACgkQnKSrs4Gr
+c8jJDggAnhDYntoo2g5CiAPorLSzqqB4gxRVFmsvY4BrkBIwGk0uvsFUyJmUMj3O
+50wPJ99pI75JLKAI1mHy16L8E+UHZyIdiP+cwXu1lGVRp3z1KhhEFrEVNwFee72S
+jqN4o6fvdy4zTjWqOVSunkGDW11v3UzX+u+bytmkJs7YMbbI4QJ75TNIDJlHKlEZ
+Vn/Q7Ni3PjbYZLVU/LyF5Pg4clq3zYTiXfhRNbLdElaDpaXDUc8SDZAQ2nqJZvSB
+bTKLZoLlx07dfjE/2hpIoYm6s4P9cUR9WIKZp6mOUqV7OFH2H5tQkk/wxZgE1u0N
+rYfqpJ29qtSRQ6JsnxQ8Xi8DR0QOqQ==
+=nUry
+-----END PGP SIGNATURE-----
+
+--IuxuGRpfjYjW2hcl--
 
 
