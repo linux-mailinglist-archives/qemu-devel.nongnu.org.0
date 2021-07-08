@@ -2,80 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777213C195B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:45:29 +0200 (CEST)
-Received: from localhost ([::1]:47510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FF53C1971
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:55:02 +0200 (CEST)
+Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Z1c-0002vc-HS
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:45:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
+	id 1m1ZAr-00041p-O9
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:55:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1m1YuW-0006cN-Ml
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:38:10 -0400
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:42640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1m1YuU-0003WM-LO
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:38:08 -0400
-Received: by mail-qv1-xf31.google.com with SMTP id ck17so2804336qvb.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 11:38:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=bfbVKVLTeRpb40toZKiphgRMI/rqLJ0eB62wXvmY7IU=;
- b=t6M8Zg4rd7F/Vo73qcl5jRatpIw7mua6M3Mrn8w3eAXR2zGPvEqGM/JO1ph6wHi7zy
- HvpQ2Qbuh8S1xr1r2fYY9bZYpbKyqa+E8nZzKnLfmM4ugAWb8IF+0BYQYDTCt8oYMkOb
- 3uBPgpG2+DCYYfTvuwvVLBqcSZzL0Ylfeh7bTdUj4nP2DHsdztwFfJe0dOLjMjaf5I5m
- 93gRQqs/C3r7xOCAQOpSq77d6pdeyNC+8VCOkMn/caYNEHriAAyTamYJwloCShiWSvs4
- A2wxnoH+Pi9rXpqnZg/eu+gHIWdy5PNKJqxIklLhBS+kiMOD3do+qNFVp726RmKNEzHP
- Q5lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=bfbVKVLTeRpb40toZKiphgRMI/rqLJ0eB62wXvmY7IU=;
- b=Bxy4nCl9cSPIv4IVKH3FYxb5yIgpy3wJBIxh8VBrqPpCbhwtrEVsUlP+wmtJYB9tv0
- zHo5/mHI3VNF6bGJCw+T5L9lcOMIYjyb5pvv/0XDytvp6F49036lPRVG61VjdPxS92dK
- YejPJEqMncQENd8ZFc7GG6U/+oMnMJfIJJb8DIYuNU08aFrmaupnN17t+ZsGwVpEpxqL
- QCXA0hwpW0HWVYSnLSO1+sXZuIObiPhwxoc/sZz8wBjiD9IfoNvrn4nU5z+h/v+K5PTa
- 5P9UwoYHaR8+m4DmfXSv4XmvpbUpc2dtItu01WJe4WNefHBAYR4IyyPHhFLF7xl3NOSd
- 6/YA==
-X-Gm-Message-State: AOAM533sEVSPXSeFGElKthRPX/K4AHGuwt4G0Si1bEa/bDbHShqa5Bsn
- pzfuQO9odKc8M2dapKHQk0c=
-X-Google-Smtp-Source: ABdhPJyeKXgYsZi/CoEzfgjzmgZFy0gWl7canioTDOavwxMep1JTcD0lq0zgywV2paxQaaozhcPzvQ==
-X-Received: by 2002:a0c:a1e2:: with SMTP id e89mr18827812qva.16.1625769485188; 
- Thu, 08 Jul 2021 11:38:05 -0700 (PDT)
-Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id q27sm2179qkn.118.2021.07.08.11.38.04
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 08 Jul 2021 11:38:04 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: Picture missing in About dialog on cocoa ui
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <CAFEAcA-vGe5BQg6HVtub5mDD6CtQN1OKGPE3Q8eJsjqyDCROnw@mail.gmail.com>
-Date: Thu, 8 Jul 2021 14:38:03 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <247B2DB8-1076-4617-AE63-8791571A12D4@gmail.com>
-References: <797ADA26-0366-447F-85F0-5E27DC534479@gmail.com>
- <CAMVc7JXgn5ttSEjPB_=rS9CsYiQOFS48hcAbr3NQnom-qk75VA@mail.gmail.com>
- <F9601D44-9866-4CB7-B611-D8930DFBBE15@gmail.com>
- <CAFEAcA-vGe5BQg6HVtub5mDD6CtQN1OKGPE3Q8eJsjqyDCROnw@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1m1Yv2-0007Pw-6k
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:38:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1m1Yup-0003be-RK
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:38:39 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 168IX0jj104931
+ for <qemu-devel@nongnu.org>; Thu, 8 Jul 2021 14:38:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=5KCAiRJdPqo/dehmREkHHtzzkEvUbXyxCqaXbrwSVeA=;
+ b=TqQuNwBlcNGSuQiIiSqOthKwcKWNL4veXIvwWMHEezMmI7etpoil0nvnHcoMipZgpDVn
+ euWvFsr4b0W1uEWKoHkGwYm9bxhoFbruKpsQJ8c2k6fxKo9/hHWU9NGn4sa2nSmWFuNS
+ P21qg3yl7n3Fbhg222Yt1tSRR8nAJxCdxF/R6bbvBbq//SwVSHw47iSV6IKFi3HgEEzm
+ lNfBTR3cxCxiwJpjQYC3TVrSgxCVpWvxvCKxV7jhCTv3f1k+vkJeJngY1gPwotn0tQB6
+ p6QA0s/O1O6FqjAiH7nJOCWA3Gb76Xg3dr1NmBCovcXeVoZzTscRI6Gwqr47YXmeDTlr vg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39p58jas1k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 14:38:25 -0400
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 168IZ1CX118822
+ for <qemu-devel@nongnu.org>; Thu, 8 Jul 2021 14:38:25 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39p58jas18-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Jul 2021 14:38:25 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 168IaTKP022987;
+ Thu, 8 Jul 2021 18:38:24 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01dal.us.ibm.com with ESMTP id 39jfhe1uaw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 08 Jul 2021 18:38:24 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 168IcLuu14287256
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 8 Jul 2021 18:38:22 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DB2AB6E054;
+ Thu,  8 Jul 2021 18:38:21 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8F2406E05F;
+ Thu,  8 Jul 2021 18:38:21 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  8 Jul 2021 18:38:21 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
+Subject: [PATCH v2 0/9] tests: Add test cases for TPM 1.2 ACPI tables
+Date: Thu,  8 Jul 2021 14:38:05 -0400
+Message-Id: <20210708183814.925960-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dLfbLlYvyUGgKILIf_w-sWN2aaaMPdR6
+X-Proofpoint-GUID: Wretg5sQZk9X93QGeWQDTtxIAlhCXXi5
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-08_10:2021-07-08,
+ 2021-07-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ clxscore=1015 malwarescore=0 lowpriorityscore=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 bulkscore=0 impostorscore=0 mlxscore=0
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107080095
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,32 +108,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU devel list <qemu-devel@nongnu.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: philmd@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series of patches adds test case for TPM 1.2 ACPI tables.
 
+  Stefan
 
-> On Jul 8, 2021, at 1:50 PM, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
->=20
-> On Thu, 8 Jul 2021 at 17:28, Programmingkid =
-<programmingkidx@gmail.com> wrote:
->> The problem with e31746ecf8dd2f25f687c94ac14016a3ba5debfc is it =
-requires a
->> picture file to be found in a certain path. My original code used =
-QEMU's
->> icon to obtain a picture. The reason why the picture in the About =
-dialog
->> stopped appearing was because of the move to the meson build system.
->> A new patch has just been committed that fixes the missing icon =
-issue.
->> Using 'git revert e31746ecf8dd2f25f687c94ac14016a3ba5debfc' fixes the
->> missing picture issue in the About dialog.
->=20
-> If the icon is the same (same resolution, etc) then just using it
-> does seem better than loading it off the filesystem.
+v2:
+  - Proper handling of renaming of files holding expected ACPI data
 
-The picture did look nice in the About dialog.=
+Stefan Berger (9):
+  tests: Rename TestState to TPMTestState
+  tests: Add tpm_version field to TPMTestState and fill it
+  tests: acpi: Prepare for renaming of TPM2 related ACPI files
+  tests: Add suffix 'tpm2' or 'tpm12' to ACPI table files
+  tests: acpi: tpm2: Add the renamed ACPI files and drop old ones
+  tests: tpm: Create TPM 1.2 response in TPM emulator
+  tests: acpi: prepare for new TPM 1.2 related tables
+  tests: acpi: Add test cases for TPM 1.2 with TCPA table
+  tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs
+
+ tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 0 -> 8465 bytes
+ .../data/acpi/q35/{DSDT.tis => DSDT.tis.tpm2} | Bin
+ tests/data/acpi/q35/TCPA.tis.tpm12            | Bin 0 -> 50 bytes
+ .../data/acpi/q35/{TPM2.tis => TPM2.tis.tpm2} | Bin
+ tests/qtest/bios-tables-test.c                |  20 ++++++++++-----
+ tests/qtest/tpm-crb-test.c                    |   5 ++--
+ tests/qtest/tpm-emu.c                         |  24 +++++++++++++-----
+ tests/qtest/tpm-emu.h                         |  11 +++++---
+ tests/qtest/tpm-tis-device-test.c             |   3 ++-
+ tests/qtest/tpm-tis-test.c                    |   3 ++-
+ tests/qtest/tpm-tis-util.c                    |   2 +-
+ 11 files changed, 48 insertions(+), 20 deletions(-)
+ create mode 100644 tests/data/acpi/q35/DSDT.tis.tpm12
+ rename tests/data/acpi/q35/{DSDT.tis => DSDT.tis.tpm2} (100%)
+ create mode 100644 tests/data/acpi/q35/TCPA.tis.tpm12
+ rename tests/data/acpi/q35/{TPM2.tis => TPM2.tis.tpm2} (100%)
+
+-- 
+2.31.1
+
 
