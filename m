@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF9D3C1704
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:24:56 +0200 (CEST)
-Received: from localhost ([::1]:57844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C80BD3C16FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:22:04 +0200 (CEST)
+Received: from localhost ([::1]:47716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wpb-0004AY-7w
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:24:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59820)
+	id 1m1Wmp-0005sd-Pb
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:22:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEr-0002Fa-Ou
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34578)
+ id 1m1WEt-0002Jr-1R
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEp-0000TX-9u
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:57 -0400
+ id 1m1WEq-0000UK-7S
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759214;
+ s=mimecast20190719; t=1625759215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=acwrgmyDCf+O9bA594Zc8fQNvDwRFHrRlniZJ+g/saQ=;
- b=GQmPBIQB5u/HrnYi0iWQsG48kkEu21ohNguUPtFASZy03cjkosyIE0NlClw/pLT7hKYDgD
- ibg/LuBa3SMv2yrFvAPj4D/psLGxRa50oW8kblr33elYoIFQSXBX3RicWCO4HLAKTj/9UV
- rjQ2IynVsbRXrTDc7S//HVMXI8A5LSQ=
+ bh=ZPHhhHe+29fgeRP/7KvBeQeE7oo+AH97xo4z6nhfRZg=;
+ b=g84I1S0vcj4tlX03dbwRcLrtNfwR7D7qhbn1jg7HQphTPB1sN4MVqr3UfDw88cIL2Rg9gE
+ OE1f0zYwGXRvM30iImW98ES+YsUKKYj97BMjwi2d5aQ0wb6H+MfKRgLk8o4i80E/+TiOR+
+ 8Gb0x3lu/RoCcimIJBSsts4IcmYHlcM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-6skM7FK7OjGqKJ5Bjp34FA-1; Thu, 08 Jul 2021 11:46:53 -0400
-X-MC-Unique: 6skM7FK7OjGqKJ5Bjp34FA-1
+ us-mta-533-H6LhLIDkMsi1lJBMcNqPTw-1; Thu, 08 Jul 2021 11:46:54 -0400
+X-MC-Unique: H6LhLIDkMsi1lJBMcNqPTw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4692C10C1ADC;
- Thu,  8 Jul 2021 15:46:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F228362F8;
+ Thu,  8 Jul 2021 15:46:53 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 75E6D19C66;
- Thu,  8 Jul 2021 15:46:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E61819C66;
+ Thu,  8 Jul 2021 15:46:52 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/35] acpi: build_dmar_q35: use
+Subject: [PATCH v2 19/35] acpi: build_waet: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Thu,  8 Jul 2021 11:46:00 -0400
-Message-Id: <20210708154617.1538485-19-imammedo@redhat.com>
+Date: Thu,  8 Jul 2021 11:46:01 -0400
+Message-Id: <20210708154617.1538485-20-imammedo@redhat.com>
 In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
 References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -57,8 +57,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -88,201 +88,38 @@ it replaces error-prone pointer arithmetic for build_header() API,
 with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
-While at it switch to build_append_int_noprefix() to build
-table entries tables.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
 CC: marcel.apfelbaum@gmail.com
 ---
- include/hw/acpi/acpi-defs.h | 68 --------------------------------
- hw/i386/acpi-build.c        | 77 ++++++++++++++++++++-----------------
- 2 files changed, 42 insertions(+), 103 deletions(-)
+ hw/i386/acpi-build.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index d293304f9c..c4f0a202e8 100644
---- a/include/hw/acpi/acpi-defs.h
-+++ b/include/hw/acpi/acpi-defs.h
-@@ -358,74 +358,6 @@ struct AcpiGenericTimerTable {
- } QEMU_PACKED;
- typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
- 
--/* DMAR - DMA Remapping table r2.2 */
--struct AcpiTableDmar {
--    ACPI_TABLE_HEADER_DEF
--    uint8_t host_address_width; /* Maximum DMA physical addressability */
--    uint8_t flags;
--    uint8_t reserved[10];
--} QEMU_PACKED;
--typedef struct AcpiTableDmar AcpiTableDmar;
--
--/* Masks for Flags field above */
--#define ACPI_DMAR_INTR_REMAP        1
--#define ACPI_DMAR_X2APIC_OPT_OUT    (1 << 1)
--
--/* Values for sub-structure type for DMAR */
--enum {
--    ACPI_DMAR_TYPE_HARDWARE_UNIT = 0,       /* DRHD */
--    ACPI_DMAR_TYPE_RESERVED_MEMORY = 1,     /* RMRR */
--    ACPI_DMAR_TYPE_ATSR = 2,                /* ATSR */
--    ACPI_DMAR_TYPE_HARDWARE_AFFINITY = 3,   /* RHSR */
--    ACPI_DMAR_TYPE_ANDD = 4,                /* ANDD */
--    ACPI_DMAR_TYPE_RESERVED = 5             /* Reserved for furture use */
--};
--
--/*
-- * Sub-structures for DMAR
-- */
--
--/* Device scope structure for DRHD. */
--struct AcpiDmarDeviceScope {
--    uint8_t entry_type;
--    uint8_t length;
--    uint16_t reserved;
--    uint8_t enumeration_id;
--    uint8_t bus;
--    struct {
--        uint8_t device;
--        uint8_t function;
--    } path[];
--} QEMU_PACKED;
--typedef struct AcpiDmarDeviceScope AcpiDmarDeviceScope;
--
--/* Type 0: Hardware Unit Definition */
--struct AcpiDmarHardwareUnit {
--    uint16_t type;
--    uint16_t length;
--    uint8_t flags;
--    uint8_t reserved;
--    uint16_t pci_segment;   /* The PCI Segment associated with this unit */
--    uint64_t address;   /* Base address of remapping hardware register-set */
--    AcpiDmarDeviceScope scope[];
--} QEMU_PACKED;
--typedef struct AcpiDmarHardwareUnit AcpiDmarHardwareUnit;
--
--/* Type 2: Root Port ATS Capability Reporting Structure */
--struct AcpiDmarRootPortATS {
--    uint16_t type;
--    uint16_t length;
--    uint8_t flags;
--    uint8_t reserved;
--    uint16_t pci_segment;
--    AcpiDmarDeviceScope scope[];
--} QEMU_PACKED;
--typedef struct AcpiDmarRootPortATS AcpiDmarRootPortATS;
--
--/* Masks for Flags field above */
--#define ACPI_DMAR_INCLUDE_PCI_ALL   1
--#define ACPI_DMAR_ATSR_ALL_PORTS    1
--
- /*
-  * Input Output Remapping Table (IORT)
-  * Conforms to "IO Remapping Table System Software on ARM Platforms",
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index a97d090ef3..f23250421f 100644
+index f23250421f..0085398360 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -2028,62 +2028,69 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
- }
- 
- /*
-- * VT-d spec 8.1 DMA Remapping Reporting Structure
-- * (version Oct. 2014 or later)
-+ * Intel ® Virtualization Technology for Directed I/O
-+ * Architecture Specification. Revision 3.3
-+ * 8.1 DMA Remapping Reporting Structure
-  */
- static void
- build_dmar_q35(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-                const char *oem_table_id)
+@@ -2104,10 +2104,10 @@ static void
+ build_waet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+            const char *oem_table_id)
  {
--    int dmar_start = table_data->len;
--
--    AcpiTableDmar *dmar;
--    AcpiDmarHardwareUnit *drhd;
--    AcpiDmarRootPortATS *atsr;
-     uint8_t dmar_flags = 0;
-+    uint8_t rsvd10[10] = {};
-+    /* Root complex IOAPIC uses one path only */
-+    const size_t ioapic_scope_size = 6 /* device scope structure */ +
-+                                     2 /* 1 path entry */;
-     X86IOMMUState *iommu = x86_iommu_get_default();
--    AcpiDmarDeviceScope *scope = NULL;
--    /* Root complex IOAPIC use one path[0] only */
--    size_t ioapic_scope_size = sizeof(*scope) + sizeof(scope->path[0]);
-     IntelIOMMUState *intel_iommu = INTEL_IOMMU_DEVICE(iommu);
-+    AcpiTable table = { .sig = "DMAR", .rev = 1, .oem_id = oem_id,
+-    int waet_start = table_data->len;
++    AcpiTable table = { .sig = "WAET", .rev = 1, .oem_id = oem_id,
 +                        .oem_table_id = oem_table_id };
  
-     assert(iommu);
-     if (x86_iommu_ir_supported(iommu)) {
-         dmar_flags |= 0x1;      /* Flags: 0x1: INT_REMAP */
-     }
- 
--    dmar = acpi_data_push(table_data, sizeof(*dmar));
--    dmar->host_address_width = intel_iommu->aw_bits - 1;
--    dmar->flags = dmar_flags;
--
--    /* DMAR Remapping Hardware Unit Definition structure */
--    drhd = acpi_data_push(table_data, sizeof(*drhd) + ioapic_scope_size);
--    drhd->type = cpu_to_le16(ACPI_DMAR_TYPE_HARDWARE_UNIT);
--    drhd->length = cpu_to_le16(sizeof(*drhd) + ioapic_scope_size);
--    drhd->flags = ACPI_DMAR_INCLUDE_PCI_ALL;
--    drhd->pci_segment = cpu_to_le16(0);
--    drhd->address = cpu_to_le64(Q35_HOST_BRIDGE_IOMMU_ADDR);
+-    /* WAET header */
+-    acpi_data_push(table_data, sizeof(AcpiTableHeader));
 +    acpi_init_table(&table, table_data);
-+    /* Host Address Width */
-+    build_append_int_noprefix(table_data, intel_iommu->aw_bits - 1, 1);
-+    build_append_int_noprefix(table_data, dmar_flags, 1); /* Flags */
-+    g_array_append_vals(table_data, rsvd10, sizeof(rsvd10)); /* Reserved */
-+
-+    /* 8.3 DMAR Remapping Hardware Unit Definition structure */
-+    build_append_int_noprefix(table_data, 0, 2); /* Type */
-+    /* Length */
-+    build_append_int_noprefix(table_data, 16 + ioapic_scope_size, 2);
-+    /* Flags */
-+    build_append_int_noprefix(table_data, 1 /* INCLUDE_PCI_ALL */ , 1);
-+    build_append_int_noprefix(table_data, 0 , 1); /* Reserved */
-+    build_append_int_noprefix(table_data, 0 , 2); /* Segment Number */
-+    /* Register Base Address */
-+    build_append_int_noprefix(table_data, Q35_HOST_BRIDGE_IOMMU_ADDR , 8);
- 
-     /* Scope definition for the root-complex IOAPIC. See VT-d spec
-      * 8.3.1 (version Oct. 2014 or later). */
--    scope = &drhd->scope[0];
--    scope->entry_type = 0x03;   /* Type: 0x03 for IOAPIC */
--    scope->length = ioapic_scope_size;
--    scope->enumeration_id = ACPI_BUILD_IOAPIC_ID;
--    scope->bus = Q35_PSEUDO_BUS_PLATFORM;
--    scope->path[0].device = PCI_SLOT(Q35_PSEUDO_DEVFN_IOAPIC);
--    scope->path[0].function = PCI_FUNC(Q35_PSEUDO_DEVFN_IOAPIC);
-+    build_append_int_noprefix(table_data, 0x03 /* IOAPIC */, 1); /* Type */
-+    build_append_int_noprefix(table_data, ioapic_scope_size, 1); /* Length */
-+    build_append_int_noprefix(table_data, 0, 2); /* Reserved */
-+    /* Enumeration ID */
-+    build_append_int_noprefix(table_data, ACPI_BUILD_IOAPIC_ID, 1);
-+    /* Start Bus Number */
-+    build_append_int_noprefix(table_data, Q35_PSEUDO_BUS_PLATFORM, 1);
-+    /* Path, {Device, Function} pair */
-+    build_append_int_noprefix(table_data, PCI_SLOT(Q35_PSEUDO_DEVFN_IOAPIC), 1);
-+    build_append_int_noprefix(table_data, PCI_FUNC(Q35_PSEUDO_DEVFN_IOAPIC), 1);
- 
-     if (iommu->dt_supported) {
--        atsr = acpi_data_push(table_data, sizeof(*atsr));
--        atsr->type = cpu_to_le16(ACPI_DMAR_TYPE_ATSR);
--        atsr->length = cpu_to_le16(sizeof(*atsr));
--        atsr->flags = ACPI_DMAR_ATSR_ALL_PORTS;
--        atsr->pci_segment = cpu_to_le16(0);
-+        /* 8.5 Root Port ATS Capability Reporting Structure */
-+        build_append_int_noprefix(table_data, 2, 2); /* Type */
-+        build_append_int_noprefix(table_data, 8, 2); /* Length */
-+        build_append_int_noprefix(table_data, 1 /* ALL_PORTS */, 1); /* Flags */
-+        build_append_int_noprefix(table_data, 0, 1); /* Reserved */
-+        build_append_int_noprefix(table_data, 0, 2); /* Segment Number */
-     }
- 
--    build_header(linker, table_data, (void *)(table_data->data + dmar_start),
--                 "DMAR", table_data->len - dmar_start, 1, oem_id, oem_table_id);
+     /*
+      * Set "ACPI PM timer good" flag.
+      *
+@@ -2116,9 +2116,7 @@ build_waet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+      * Which avoids costly VMExits caused by guest re-reading it unnecessarily.
+      */
+     build_append_int_noprefix(table_data, 1 << 1 /* ACPI PM timer good */, 4);
+-
+-    build_header(linker, table_data, (void *)(table_data->data + waet_start),
+-                 "WAET", table_data->len - waet_start, 1, oem_id, oem_table_id);
 +    acpi_table_composed(linker, &table);
  }
  
