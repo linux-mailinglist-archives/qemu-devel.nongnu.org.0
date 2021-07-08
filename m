@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965CF3C1A6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:12:57 +0200 (CEST)
-Received: from localhost ([::1]:38434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 238763C1A70
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:16:33 +0200 (CEST)
+Received: from localhost ([::1]:46988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1aOF-000398-Ud
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:12:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59218)
+	id 1m1aRj-0000OL-RA
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:16:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1aA3-0007VA-Ib
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53464)
+ id 1m1aA6-0007d1-4f
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1aA0-0002j9-VV
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:15 -0400
+ id 1m1aA3-0002jS-NH
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:58:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625774292;
+ s=mimecast20190719; t=1625774295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lE84sTRaDq+Zeh1UVel+13+AGNnbsB16S0qZ3Z0faiI=;
- b=e54Goz8rpO7VNDkqBlPYchO1YXGWfQk9v9TrNzxZ66eg5IIdnjpvYbUniKd+hdqZUe0cVo
- 37jJn54RENg1yM6tfhWAnEKusM7QllCTi9JzwYDtgcnTS+wrd8OuLePIL9MUmOMVYoDNHo
- t9FsLtTFZuELA2GzUzb60R0jBZBg42w=
+ bh=v+oduKwky4JwZRsX/JwVarVY96A/4FN8qrmBVH0MMfQ=;
+ b=Y4n0z+g5A+awfjtFthB/t5a6eujtUB1Y695x6FI5CacGryonjyrZX5+T5ZMF4H9hX5qmbS
+ 1NkVYVYYlzgdl3OXFqUv9ERtTldD+t3P8FawM3aostsxvggs9z3gAQ60P/Uhs4KGARrl3w
+ 4IM7Tq9banHD6/afJB95atLQg12Loh4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-CkCdwfgAN1eSMKznvo6yYw-1; Thu, 08 Jul 2021 15:58:11 -0400
-X-MC-Unique: CkCdwfgAN1eSMKznvo6yYw-1
+ us-mta-6-QXDYRVrhOb-kSrPCQFeMJg-1; Thu, 08 Jul 2021 15:58:13 -0400
+X-MC-Unique: QXDYRVrhOb-kSrPCQFeMJg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0274C108E22B;
- Thu,  8 Jul 2021 19:57:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B73411937FC9;
+ Thu,  8 Jul 2021 19:57:49 +0000 (UTC)
 Received: from localhost (unknown [10.22.8.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B01FB60C13;
- Thu,  8 Jul 2021 19:57:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2CF60C13;
+ Thu,  8 Jul 2021 19:57:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 13/15] softmmu/physmem: Extend
- ram_block_discard_(require|disable) by two discard types
-Date: Thu,  8 Jul 2021 15:55:50 -0400
-Message-Id: <20210708195552.2730970-14-ehabkost@redhat.com>
+Subject: [PULL v2 15/15] vfio: Disable only uncoordinated discards for
+ VFIO_TYPE1 iommus
+Date: Thu,  8 Jul 2021 15:55:52 -0400
+Message-Id: <20210708195552.2730970-16-ehabkost@redhat.com>
 In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
 References: <20210708195552.2730970-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,10 +83,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
  David Hildenbrand <david@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
  teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
  Wei Yang <richard.weiyang@linux.alibaba.com>
@@ -95,11 +94,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We want to separate the two cases whereby we discard ram
-- uncoordinated: e.g., virito-balloon
-- coordinated: e.g., virtio-mem coordinated via the RamDiscardManager
+We support coordinated discarding of RAM using the RamDiscardManager for
+the VFIO_TYPE1 iommus. Let's unlock support for coordinated discards,
+keeping uncoordinated discards (e.g., via virtio-balloon) disabled if
+possible.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+This unlocks virtio-mem + vfio on x86-64. Note that vfio used via "nvme://"
+by the block layer has to be implemented/unlocked separately. For now,
+virtio-mem only supports x86-64; we don't restrict RamDiscardManager to
+x86-64, though: arm64 and s390x are supposed to work as well, and we'll
+test once unlocking virtio-mem support. The spapr IOMMUs will need special
+care, to be tackled later, e.g.., once supporting virtio-mem.
+
+Note: The block size of a virtio-mem device has to be set to sane sizes,
+depending on the maximum hotplug size - to not run out of vfio mappings.
+The default virtio-mem block size is usually in the range of a couple of
+MBs. The maximum number of mapping is 64k, shared with other users.
+Assume you want to hotplug 256GB using virtio-mem - the block size would
+have to be set to at least 8 MiB (resulting in 32768 separate mappings).
+
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 Acked-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -113,147 +128,162 @@ Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
 Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20210413095531.25603-12-david@redhat.com>
+Message-Id: <20210413095531.25603-14-david@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- include/exec/memory.h | 18 +++++++++++++--
- softmmu/physmem.c     | 54 ++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 64 insertions(+), 8 deletions(-)
+ hw/vfio/common.c | 65 +++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 53 insertions(+), 12 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 27a8833173b..c3d417d317f 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2893,6 +2893,12 @@ static inline MemOp devend_memop(enum device_endian end)
-  */
- int ram_block_discard_disable(bool state);
- 
-+/*
-+ * See ram_block_discard_disable(): only disable uncoordinated discards,
-+ * keeping coordinated discards (via the RamDiscardManager) enabled.
-+ */
-+int ram_block_uncoordinated_discard_disable(bool state);
-+
- /*
-  * Inhibit technologies that disable discarding of pages in RAM blocks.
-  *
-@@ -2902,12 +2908,20 @@ int ram_block_discard_disable(bool state);
- int ram_block_discard_require(bool state);
- 
- /*
-- * Test if discarding of memory in ram blocks is disabled.
-+ * See ram_block_discard_require(): only inhibit technologies that disable
-+ * uncoordinated discarding of pages in RAM blocks, allowing co-existance with
-+ * technologies that only inhibit uncoordinated discards (via the
-+ * RamDiscardManager).
-+ */
-+int ram_block_coordinated_discard_require(bool state);
-+
-+/*
-+ * Test if any discarding of memory in ram blocks is disabled.
-  */
- bool ram_block_discard_is_disabled(void);
- 
- /*
-- * Test if discarding of memory in ram blocks is required to work reliably.
-+ * Test if any discarding of memory in ram blocks is required to work reliably.
-  */
- bool ram_block_discard_is_required(void);
- 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index f1275b61f84..3c1912a1a07 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -3684,8 +3684,14 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 8a9bbf27918..3f0d1113608 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -135,6 +135,29 @@ static const char *index_to_str(VFIODevice *vbasedev, int index)
      }
  }
  
-+/* Require any discards to work. */
- static unsigned int ram_block_discard_required_cnt;
-+/* Require only coordinated discards to work. */
-+static unsigned int ram_block_coordinated_discard_required_cnt;
-+/* Disable any discards. */
- static unsigned int ram_block_discard_disabled_cnt;
-+/* Disable only uncoordinated discards. */
-+static unsigned int ram_block_uncoordinated_discard_disabled_cnt;
- static QemuMutex ram_block_discard_disable_mutex;
- 
- static void ram_block_discard_disable_mutex_lock(void)
-@@ -3711,10 +3717,27 @@ int ram_block_discard_disable(bool state)
-     ram_block_discard_disable_mutex_lock();
-     if (!state) {
-         ram_block_discard_disabled_cnt--;
--    } else if (!ram_block_discard_required_cnt) {
--        ram_block_discard_disabled_cnt++;
-+    } else if (ram_block_discard_required_cnt ||
-+               ram_block_coordinated_discard_required_cnt) {
-+        ret = -EBUSY;
-     } else {
-+        ram_block_discard_disabled_cnt++;
++static int vfio_ram_block_discard_disable(VFIOContainer *container, bool state)
++{
++    switch (container->iommu_type) {
++    case VFIO_TYPE1v2_IOMMU:
++    case VFIO_TYPE1_IOMMU:
++        /*
++         * We support coordinated discarding of RAM via the RamDiscardManager.
++         */
++        return ram_block_uncoordinated_discard_disable(state);
++    default:
++        /*
++         * VFIO_SPAPR_TCE_IOMMU most probably works just fine with
++         * RamDiscardManager, however, it is completely untested.
++         *
++         * VFIO_SPAPR_TCE_v2_IOMMU with "DMA memory preregistering" does
++         * completely the opposite of managing mapping/pinning dynamically as
++         * required by RamDiscardManager. We would have to special-case sections
++         * with a RamDiscardManager.
++         */
++        return ram_block_discard_disable(state);
 +    }
-+    ram_block_discard_disable_mutex_unlock();
-+    return ret;
 +}
 +
-+int ram_block_uncoordinated_discard_disable(bool state)
-+{
-+    int ret = 0;
-+
-+    ram_block_discard_disable_mutex_lock();
-+    if (!state) {
-+        ram_block_uncoordinated_discard_disabled_cnt--;
-+    } else if (ram_block_discard_required_cnt) {
-         ret = -EBUSY;
-+    } else {
-+        ram_block_uncoordinated_discard_disabled_cnt++;
+ int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex,
+                            int action, int fd, Error **errp)
+ {
+@@ -1977,15 +2000,25 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+      * new memory, it will not yet set ram_block_discard_set_required() and
+      * therefore, neither stops us here or deals with the sudden memory
+      * consumption of inflated memory.
++     *
++     * We do support discarding of memory coordinated via the RamDiscardManager
++     * with some IOMMU types. vfio_ram_block_discard_disable() handles the
++     * details once we know which type of IOMMU we are using.
+      */
+-    ret = ram_block_discard_disable(true);
+-    if (ret) {
+-        error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
+-        return ret;
+-    }
+ 
+     QLIST_FOREACH(container, &space->containers, next) {
+         if (!ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
++            ret = vfio_ram_block_discard_disable(container, true);
++            if (ret) {
++                error_setg_errno(errp, -ret,
++                                 "Cannot set discarding of RAM broken");
++                if (ioctl(group->fd, VFIO_GROUP_UNSET_CONTAINER,
++                          &container->fd)) {
++                    error_report("vfio: error disconnecting group %d from"
++                                 " container", group->groupid);
++                }
++                return ret;
++            }
+             group->container = container;
+             QLIST_INSERT_HEAD(&container->group_list, group, container_next);
+             vfio_kvm_device_add_group(group);
+@@ -2023,6 +2056,12 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+         goto free_container_exit;
      }
-     ram_block_discard_disable_mutex_unlock();
-     return ret;
-@@ -3727,10 +3750,27 @@ int ram_block_discard_require(bool state)
-     ram_block_discard_disable_mutex_lock();
-     if (!state) {
-         ram_block_discard_required_cnt--;
--    } else if (!ram_block_discard_disabled_cnt) {
--        ram_block_discard_required_cnt++;
-+    } else if (ram_block_discard_disabled_cnt ||
-+               ram_block_uncoordinated_discard_disabled_cnt) {
-+        ret = -EBUSY;
-     } else {
-+        ram_block_discard_required_cnt++;
+ 
++    ret = vfio_ram_block_discard_disable(container, true);
++    if (ret) {
++        error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
++        goto free_container_exit;
 +    }
-+    ram_block_discard_disable_mutex_unlock();
-+    return ret;
-+}
 +
-+int ram_block_coordinated_discard_require(bool state)
-+{
-+    int ret = 0;
+     switch (container->iommu_type) {
+     case VFIO_TYPE1v2_IOMMU:
+     case VFIO_TYPE1_IOMMU:
+@@ -2070,7 +2109,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+             if (ret) {
+                 error_setg_errno(errp, errno, "failed to enable container");
+                 ret = -errno;
+-                goto free_container_exit;
++                goto enable_discards_exit;
+             }
+         } else {
+             container->prereg_listener = vfio_prereg_listener;
+@@ -2082,7 +2121,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+                 ret = -1;
+                 error_propagate_prepend(errp, container->error,
+                     "RAM memory listener initialization failed: ");
+-                goto free_container_exit;
++                goto enable_discards_exit;
+             }
+         }
+ 
+@@ -2095,7 +2134,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+             if (v2) {
+                 memory_listener_unregister(&container->prereg_listener);
+             }
+-            goto free_container_exit;
++            goto enable_discards_exit;
+         }
+ 
+         if (v2) {
+@@ -2110,7 +2149,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+             if (ret) {
+                 error_setg_errno(errp, -ret,
+                                  "failed to remove existing window");
+-                goto free_container_exit;
++                goto enable_discards_exit;
+             }
+         } else {
+             /* The default table uses 4K pages */
+@@ -2151,6 +2190,9 @@ listener_release_exit:
+     vfio_kvm_device_del_group(group);
+     vfio_listener_release(container);
+ 
++enable_discards_exit:
++    vfio_ram_block_discard_disable(container, false);
 +
-+    ram_block_discard_disable_mutex_lock();
-+    if (!state) {
-+        ram_block_coordinated_discard_required_cnt--;
-+    } else if (ram_block_discard_disabled_cnt) {
-         ret = -EBUSY;
-+    } else {
-+        ram_block_coordinated_discard_required_cnt++;
-     }
-     ram_block_discard_disable_mutex_unlock();
+ free_container_exit:
+     g_free(container);
+ 
+@@ -2158,7 +2200,6 @@ close_fd_exit:
+     close(fd);
+ 
+ put_space_exit:
+-    ram_block_discard_disable(false);
+     vfio_put_address_space(space);
+ 
      return ret;
-@@ -3738,10 +3778,12 @@ int ram_block_discard_require(bool state)
+@@ -2280,7 +2321,7 @@ void vfio_put_group(VFIOGroup *group)
+     }
  
- bool ram_block_discard_is_disabled(void)
- {
--    return qatomic_read(&ram_block_discard_disabled_cnt);
-+    return qatomic_read(&ram_block_discard_disabled_cnt) ||
-+           qatomic_read(&ram_block_uncoordinated_discard_disabled_cnt);
- }
+     if (!group->ram_block_discard_allowed) {
+-        ram_block_discard_disable(false);
++        vfio_ram_block_discard_disable(group->container, false);
+     }
+     vfio_kvm_device_del_group(group);
+     vfio_disconnect_container(group);
+@@ -2334,7 +2375,7 @@ int vfio_get_device(VFIOGroup *group, const char *name,
  
- bool ram_block_discard_is_required(void)
- {
--    return qatomic_read(&ram_block_discard_required_cnt);
-+    return qatomic_read(&ram_block_discard_required_cnt) ||
-+           qatomic_read(&ram_block_coordinated_discard_required_cnt);
- }
+         if (!group->ram_block_discard_allowed) {
+             group->ram_block_discard_allowed = true;
+-            ram_block_discard_disable(false);
++            vfio_ram_block_discard_disable(group->container, false);
+         }
+     }
+ 
 -- 
 2.31.1
 
