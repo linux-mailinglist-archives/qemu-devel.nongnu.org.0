@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB6D3C1617
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:36:29 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A7A3C1616
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:35:46 +0200 (CEST)
+Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W4i-0004U8-F9
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:36:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53900)
+	id 1m1W41-0002V8-6B
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn5-0000tN-4U
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:15 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:44590)
+ id 1m1Vn5-0000wo-Vc
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:16 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn3-0008Hh-Mr
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:14 -0400
-Received: by mail-ed1-x536.google.com with SMTP id l24so9014580edr.11
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:13 -0700 (PDT)
+ id 1m1Vn4-0008I4-EG
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:15 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id t10so2957656eds.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TrMKWd8CSoJe9sZMNfKvzA5rEkL38qTbG6xo58jBtj4=;
- b=KA6mpwZH2CDXghujslXS08w0Q3br6ulcx0c8ondyLEceNmigB87BXsiLYOFFVvUBfu
- jwSQF9uB/FZ8ncBQA3YpLVFjo19KPo21PW1QE4GrpL/gNAAaNrHie+UKAauK4JTNBC8+
- qzCOJRQWAJq0z81jGNHDKnHHM/2Aq0LeZIsD9hva+OhuUeiUWUwseUcP+fRtYe8+JLP2
- WDfXZctkdWdPXjAll6n0UjfaMXPZPe+WX5LQPWVSYWfB3TXOz2aGQlnkzJTilAxvaNxr
- y/Ar83iSeB3XdEOWRarizW9OQHA2bsMLHrSBSY04yhFRK0S09EUztH+UafnOQprF1v/t
- hQVQ==
+ bh=eIukGr2J9NCvld4Y1RkmikhmY84DuLDUkpsuXTN/Hs8=;
+ b=tDFvm1Hnv5DTO0spvl2eq34e963+eZ9Wh8rmGAplUG9Wdam8Sylzy05CD1qWhow/tx
+ 2mbzP1QqMheWxWdBbS4aG3SQ5gCUUKpVw9FeNa/+4rwzYf3KAXGSv4lsm+uCHIovFhXw
+ 4gkrONVbu7CepE8Z8ViKiMEwqKEGSm7qZNG+kxlcZRRP+Wb/sZHEwiZCfXNA/BNVDj/0
+ edVsGq+rmj/NhNMjXQ8ioMXcc/e8MprORtCy1sBlFxYL6ZxA10uBeJS2Udhg7H99NTWn
+ rqlIwdrum/lR9Qy0exwuZtDRfJ2ZmclTrxQqxdzRfypnZoLr4xJBofzpJJqGn/1eT/UN
+ 4gQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TrMKWd8CSoJe9sZMNfKvzA5rEkL38qTbG6xo58jBtj4=;
- b=OwPtWTk8yCt1YV5vOwF5F/7Qc5QHvNj8N4E/U7oRT4FhEFvoWHJlcbuhEjuxI7X7Ul
- QrTACZyeyTiuFj0PALmZugt4QRyGabwUg+dIfcDQuNAgeN9WpPiTeNUBUflpLqj3i/oE
- TWYRjnYoXB60LjvBca1/VrO4tnv0qws7nGli8tIjFBHpP5ufIk48x7KsjQtWvgK/rhrr
- EBcN7DZI388Jeld+d3ar/rCumbVEWdU3HEaF0QF4edLD+vr6cQyvJBnc2JzUsenA2XIV
- YYFQr9+JXC6JohG83+4HvQCUs3ORArMhTGUGNxwwbnjK10i9BmpWP1t9GvMQIwEwB4ef
- SeCw==
-X-Gm-Message-State: AOAM533dnFRLuCL6lF7BiacpinFMvQfdypELJgoL3CwEgtDUBFdUI1oF
- BnUSMuR5gMBphmZgoCRRkIOdc59GTN8=
-X-Google-Smtp-Source: ABdhPJwJH2lrAZ4dDsmz4eyiGFdG6UH6+FtkwdGV2kGE8oJZufZL2vZqMraBvh+0KVF2kgyDIoDCsA==
-X-Received: by 2002:a05:6402:2034:: with SMTP id
- ay20mr1348801edb.188.1625757492496; 
- Thu, 08 Jul 2021 08:18:12 -0700 (PDT)
+ bh=eIukGr2J9NCvld4Y1RkmikhmY84DuLDUkpsuXTN/Hs8=;
+ b=QNCgLWvqSPuBPn8Fq5BmJUh131Zkb5AUVMRCOL5+gyWpgHv9ZsGCl9/BbGMyCfE8V9
+ 3YNXQ9QT7eipNRxqaFAgRWkMnDnjSyagRSuu2MggqDo3n1OwDVfBBiWznz25rUaMIk09
+ 8/WZdIMKoEBdoijLtGqfwGecfPP/+x6TXsD1GEN2csQokPW708bcV2PtB5TG3FG/IHYK
+ EWqaRfgXc0GBUY4lCF1MU2gwf/EU885inQgvDi9YzyfdYxbAq7BWYO0dAC4eWm2klzht
+ aLnTmrHEUPQZDMel1lZ/4gqdIRuEFGngVGfhhN2ppKBAaH7dgOUvdx1PEwLsMCebTnDm
+ 8FOQ==
+X-Gm-Message-State: AOAM531hhjkyghifUZwTn1WCbiRr93nRM9GFJYvkH5mXC82td1+2DFTm
+ GOCN+bwnRiPCD0MFUgjZc/U5dJF+IYo=
+X-Google-Smtp-Source: ABdhPJwAtTmYGM4CFz9xfDa6ujy5NcuMY8suN5kggx4BvWyx2Mv/Azsynw/AZnhJspxwQxZ9VsV01Q==
+X-Received: by 2002:aa7:da0c:: with SMTP id r12mr34368664eds.49.1625757493233; 
+ Thu, 08 Jul 2021 08:18:13 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.11
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 08:18:12 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/48] accel: add tcg module annotations
-Date: Thu,  8 Jul 2021 17:17:32 +0200
-Message-Id: <20210708151748.408754-33-pbonzini@redhat.com>
+Subject: [PULL 33/48] accel: build tcg modular
+Date: Thu,  8 Jul 2021 17:17:33 +0200
+Message-Id: <20210708151748.408754-34-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,41 +89,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Add module annotations for tcg so autoloading works.
+Build tcg accel ops as module.
+Which is only a small fraction of tcg.
+Also only x86 for now.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-29-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-30-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/tcg/tcg-accel-ops.c | 1 +
- accel/tcg/tcg-all.c       | 1 +
- 2 files changed, 2 insertions(+)
+ accel/tcg/meson.build |  5 ++++-
+ meson.build           | 14 +++++++++++++-
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index 7191315aee..1a8e8390bd 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -124,6 +124,7 @@ static const TypeInfo tcg_accel_ops_type = {
-     .class_init = tcg_accel_ops_class_init,
-     .abstract = true,
- };
-+module_obj(ACCEL_OPS_NAME("tcg"));
+diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
+index 1236ac7b91..0ae9180282 100644
+--- a/accel/tcg/meson.build
++++ b/accel/tcg/meson.build
+@@ -15,8 +15,11 @@ specific_ss.add_all(when: 'CONFIG_TCG', if_true: tcg_ss)
  
- static void tcg_accel_ops_register_types(void)
- {
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index 00803f76d8..d6336a9c96 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -238,6 +238,7 @@ static const TypeInfo tcg_accel_type = {
-     .class_init = tcg_accel_class_init,
-     .instance_size = sizeof(TCGState),
- };
-+module_obj(TYPE_TCG_ACCEL);
+ specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+   'cputlb.c',
++))
++
++tcg_module_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TCG'], if_true: files(
+   'tcg-accel-ops.c',
+   'tcg-accel-ops-mttcg.c',
+   'tcg-accel-ops-icount.c',
+-  'tcg-accel-ops-rr.c'
++  'tcg-accel-ops-rr.c',
+ ))
+diff --git a/meson.build b/meson.build
+index c943e44975..d9aa2d7820 100644
+--- a/meson.build
++++ b/meson.build
+@@ -92,6 +92,8 @@ if cpu in ['x86', 'x86_64']
+   }
+ endif
  
- static void register_accel_types(void)
- {
++modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
++
+ edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
+ install_edk2_blobs = false
+ if get_option('install_blobs')
+@@ -1531,6 +1533,11 @@ foreach target : target_dirs
+       elif sym == 'CONFIG_XEN' and have_xen_pci_passthrough
+         config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
+       endif
++      if target in modular_tcg
++        config_target += { 'CONFIG_TCG_MODULAR': 'y' }
++      else
++        config_target += { 'CONFIG_TCG_BUILTIN': 'y' }
++      endif
+       accel_kconfig += [ sym + '=y' ]
+     endif
+   endforeach
+@@ -2002,6 +2009,7 @@ util_ss = ss.source_set()
+ 
+ # accel modules
+ qtest_module_ss = ss.source_set()
++tcg_module_ss = ss.source_set()
+ 
+ modules = {}
+ target_modules = {}
+@@ -2242,7 +2250,11 @@ subdir('tests/qtest/libqos')
+ subdir('tests/qtest/fuzz')
+ 
+ # accel modules
+-target_modules += { 'accel' : { 'qtest': qtest_module_ss }}
++tcg_real_module_ss = ss.source_set()
++tcg_real_module_ss.add_all(when: 'CONFIG_TCG_MODULAR', if_true: tcg_module_ss)
++specific_ss.add_all(when: 'CONFIG_TCG_BUILTIN', if_true: tcg_module_ss)
++target_modules += { 'accel' : { 'qtest': qtest_module_ss,
++                                'tcg': tcg_real_module_ss }}
+ 
+ ########################
+ # Library dependencies #
 -- 
 2.31.1
 
