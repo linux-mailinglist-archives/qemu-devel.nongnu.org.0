@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CBBA3C1511
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:21:31 +0200 (CEST)
-Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0193C151D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:24:40 +0200 (CEST)
+Received: from localhost ([::1]:52316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1UuA-0001hX-3W
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36876)
+	id 1m1UxD-0006R0-ON
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1m1Ut4-0008Us-Da; Thu, 08 Jul 2021 10:20:22 -0400
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:43933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1m1Ut2-0005Cj-7i; Thu, 08 Jul 2021 10:20:22 -0400
-Received: by mail-pf1-x435.google.com with SMTP id a127so5565999pfa.10;
- Thu, 08 Jul 2021 07:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VND23qYk8P1qF3G/Y9XISKE8pp2o1K3pqs3GjmOuLBU=;
- b=XcobesJkJ2ZO0j+u1LAoYBSF6SILZwjw00sRrfqx6/0lHuSst5QsHjnKJ0vlb2+E2k
- 0grcxIkdgjUy0k4HcTjxrcXeUMMmGzkWJEj5exEjVLP25VzSLg8tcmoU+pS1gGczdUe0
- ukF2O2egv814m0kReg0RL8/gpK2pZvh4R1/yRN8MaM6il38KnUkme9xJWMM3XkdfRDHD
- 7HczMiUXuFCZO9I5v6QRP0XiBSTezGMYm40Enn7VHGYMYmASMZlYydENXrIBFhwspbhy
- iYUNASwPrB6iObCm+00DrONKYi0dbN6Z6MLuXjDBm0gIr5s14Lfb7iz+QjGsNxGJ+hxd
- ls1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VND23qYk8P1qF3G/Y9XISKE8pp2o1K3pqs3GjmOuLBU=;
- b=MzTpNJ1BUBoGXPBKI1W36tKYiDFrzpMT15wykuRR5bCYq4mrhWYcZMn1VhCOkIwbWs
- 8YheTkRTG6Gm3Y/CSTSNE0R1IMWsusORftms5IoXNe6sSB62PuPdNorrMgd2JD/MGK1k
- CYXwHTLFyE0uumBv/fu6ZqerIARBRkuKyQe1O5Au+K+YbMnYEOgVZKqCMFr8K4jnjtP/
- pcmmUHFLxqZuW7nU7XO8KtpzXIuX4MVmqMllXEYvKfYOvKpfZ+3eoSwUQ2mxwc7do4zg
- wXu0ZKMjhLLkZUh0D9YzuoMIqoXWMgk0QQsfmlDUkU7aQd1b3ovkl+fVqz+bWQjxVHQd
- e5eA==
-X-Gm-Message-State: AOAM530BPELxSTo3NVlITpqK0JB2UCnSDi5o7iiGB++TNSZtMjMBWKth
- RgjyOC46LJGFdGBy9oYRs44=
-X-Google-Smtp-Source: ABdhPJwqtMOOixfNp1zu/QRtA3MAzqBQ2jO8eCC4TBqgWNlD7dVH3Bz/S3LLCDS7RfGoCAfIx7xnWQ==
-X-Received: by 2002:a63:d47:: with SMTP id 7mr32617182pgn.339.1625754014986;
- Thu, 08 Jul 2021 07:20:14 -0700 (PDT)
-Received: from ?IPv6:2804:431:c7c7:7611:8e83:da57:9eca:f0bf?
- ([2804:431:c7c7:7611:8e83:da57:9eca:f0bf])
- by smtp.gmail.com with ESMTPSA id e66sm3072837pfe.161.2021.07.08.07.20.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 07:20:14 -0700 (PDT)
-Subject: Re: [PATCH v4 1/3] qapi/qdev.json: add DEVICE_UNPLUG_ERROR QAPI event
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210707003314.37110-1-danielhb413@gmail.com>
- <20210707003314.37110-2-danielhb413@gmail.com>
- <87r1g96jtr.fsf@dusky.pond.sub.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <666340f9-3fc9-4b9d-bd0c-bfe9a9f81506@gmail.com>
-Date: Thu, 8 Jul 2021 11:20:11 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1UwQ-0005g2-4V
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:23:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1UwM-0006Pp-Ae
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:23:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625754224;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sPzKepcjDbpfIcM9YWsHrNVzX1CKNyJj4Ig+YjZdswE=;
+ b=RmgafDmuF51oOZbh/EOk05OKUDM6UAY1KIVzLOiA7IAdHORRjXWR0vP1IOwXbskN//S1Ls
+ ALi8vj5gV7Gcda4p+7Xpbes4noZTQRC5QNZ7aAjUojcrqKrWW5DLTrCDEJIT6OF2APQoBO
+ oHKwYCixXr4Hu30iSZU6Znhq8o47BrQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-ChAXZqe8OIW7RPLdvETGEw-1; Thu, 08 Jul 2021 10:23:43 -0400
+X-MC-Unique: ChAXZqe8OIW7RPLdvETGEw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D527E824F88;
+ Thu,  8 Jul 2021 14:23:42 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 431A060843;
+ Thu,  8 Jul 2021 14:23:38 +0000 (UTC)
+Date: Thu, 8 Jul 2021 16:23:37 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Subject: Re: [PATCH 1/7] tests: Rename TestState to TPMTestState
+Message-ID: <20210708162337.1dfa43b4@redhat.com>
+In-Reply-To: <20210630153723.672473-2-stefanb@linux.vnet.ibm.com>
+References: <20210630153723.672473-1-stefanb@linux.vnet.ibm.com>
+ <20210630153723.672473-2-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <87r1g96jtr.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=danielhb413@gmail.com; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,187 +79,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eblake@redhat.com, groug@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: marcandre.lureau@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 30 Jun 2021 11:37:17 -0400
+Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
 
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 
-On 7/8/21 10:01 AM, Markus Armbruster wrote:
-> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  tests/qtest/bios-tables-test.c    | 2 +-
+>  tests/qtest/tpm-crb-test.c        | 4 ++--
+>  tests/qtest/tpm-emu.c             | 6 +++---
+>  tests/qtest/tpm-emu.h             | 6 +++---
+>  tests/qtest/tpm-tis-device-test.c | 2 +-
+>  tests/qtest/tpm-tis-test.c        | 2 +-
+>  tests/qtest/tpm-tis-util.c        | 2 +-
+>  7 files changed, 12 insertions(+), 12 deletions(-)
 > 
->> At this moment we only provide one event to report a hotunplug error,
->> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
->> machine is now able to report unplug errors for other device types, such
->> as CPUs.
->>
->> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
->> create a generic DEVICE_UNPLUG_ERROR event that can be used by all
->> unplug errors in the future.
->>
->> With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated.
->>
->> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   docs/system/deprecated.rst | 10 ++++++++++
->>   qapi/machine.json          |  6 +++++-
->>   qapi/qdev.json             | 27 ++++++++++++++++++++++++++-
->>   3 files changed, 41 insertions(+), 2 deletions(-)
->>
->> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
->> index 70e08baff6..ca6c7f9d43 100644
->> --- a/docs/system/deprecated.rst
->> +++ b/docs/system/deprecated.rst
->> @@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
->>   (the ISA has never been upstreamed to a compiler toolchain). Therefore
->>   this CPU is also deprecated.
->>   
->> +
->> +QEMU API (QAPI) events
->> +----------------------
->> +
->> +``MEM_UNPLUG_ERROR`` (since 6.1)
->> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->> +
->> +Use the more generic event ``DEVICE_UNPLUG_ERROR`` instead.
->> +
->> +
->>   System emulator machines
->>   ------------------------
->>   
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index c3210ee1fb..a595c753d2 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -1271,6 +1271,9 @@
->>   #
->>   # @msg: Informative message
->>   #
->> +# Features:
->> +# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_ERROR instead.
->> +#
->>   # Since: 2.4
->>   #
->>   # Example:
->> @@ -1283,7 +1286,8 @@
->>   #
->>   ##
->>   { 'event': 'MEM_UNPLUG_ERROR',
->> -  'data': { 'device': 'str', 'msg': 'str' } }
->> +  'data': { 'device': 'str', 'msg': 'str' },
->> +  'features': ['deprecated'] }
->>   
->>   ##
->>   # @SMPConfiguration:
->> diff --git a/qapi/qdev.json b/qapi/qdev.json
->> index b83178220b..349d7439fa 100644
->> --- a/qapi/qdev.json
->> +++ b/qapi/qdev.json
->> @@ -84,7 +84,9 @@
->>   #        This command merely requests that the guest begin the hot removal
->>   #        process.  Completion of the device removal process is signaled with a
->>   #        DEVICE_DELETED event. Guest reset will automatically complete removal
->> -#        for all devices.
->> +#        for all devices. If an error in the hot removal process is detected,
->> +#        the device will not be removed and a DEVICE_UNPLUG_ERROR event is
->> +#        sent.
-> 
-> "If an error ... is detected" kind of implies that some errors may go
-> undetected.  Let's spell this out more clearly.  Perhaps append "Some
-> errors cannot be detected."
-> 
-> DEVICE_UNPLUG_ERROR's unrelability is awkward.  Best we can do in the
-> general case.  Can we do better in special cases, and would it be
-> worthwhile?  If yes, it should probably be done on top.
-> 
-> Two spaces between sentences for consistency with the existing text, please.
-
-Ok!
-
-> 
->>   #
->>   # Since: 0.14
->>   #
->> @@ -124,3 +126,26 @@
->>   ##
->>   { 'event': 'DEVICE_DELETED',
->>     'data': { '*device': 'str', 'path': 'str' } }
->> +
->> +##
->> +# @DEVICE_UNPLUG_ERROR:
->> +#
->> +# Emitted when a device hot unplug error occurs.
->> +#
->> +# @device: device name
->> +#
->> +# @msg: Informative message
->> +#
->> +# Since: 6.1
->> +#
->> +# Example:
->> +#
->> +# <- { "event": "DEVICE_UNPLUG_ERROR"
->> +#      "data": { "device": "dimm1",
->> +#                "msg": "Memory hotunplug rejected by the guest for device dimm1"
->> +#      },
->> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
->> +#
->> +##
->> +{ 'event': 'DEVICE_UNPLUG_ERROR',
->> +  'data': { 'device': 'str', 'msg': 'str' } }
-> 
-> Hmm.
-> 
-> DEVICE_DELETED provides the device ID if the device has one, and the QOM
-> path.  Documentation is less than clear for both (not your patch's
-> fault).
-
-Now that you mentioned I realized that I was seeing both 'device' and 'path'
-being propagated all this time in this event without noticing it. E.g.:
-
-{"timestamp": {"seconds": 1625617532, "microseconds": 50228}, "event": "DEVICE_DELETED", "data": {"device": "core1", "path": "/machine/peripheral/core1"}}
-
-
-> 
-> DEVICE_UNPLUG_ERROR provides the device ID unconditionally, and doesn't
-> provide the QOM path.  What if the device doesn't have a device ID?
-> 
-> I suspect DEVICE_UNPLUG_ERROR should match DEVICE_DELETED exactly.
-
-Agree. That will allow us to send DEVICE_UNPLUG_ERROR events even if dev->id is
-NULL since we're also providing the path.
-
-DEVICE_UNPLUG_ERROR was inspired by MEM_UNPLUG_ERROR since the usage was similar,
-but I guess we're better of basing the new event on DEVICE_DELETED API instead.
-
-This will also fix most of your inquiries in patches 2 and 3 as well.
-
-
-I'll do the proper adjustments and re-send.
-
-
-> 
-> Bonus (for me, not for you): improving the unclear documentation becomes
-> your patch's problem.  Here's my attempt:
-> 
->     # @device: the device's ID if it has one
->     #
->     # @path: the device's path within the object model
-> 
-
-I can make a pre-patch that add this information in DEVICE_DELETED documentation if
-you prefer, instead of putting everything into the same patch (since the amended
-DEVICE_DELETED docs are useful regardless of this work).
-
-
-
-Thanks,
-
-
-
-Daniel
-
+> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> index 51d3a4e239..a622f91a37 100644
+> --- a/tests/qtest/bios-tables-test.c
+> +++ b/tests/qtest/bios-tables-test.c
+> @@ -1098,7 +1098,7 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+>      gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
+>                                            machine, tpm_if);
+>      char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
+> -    TestState test;
+> +    TPMTestState test;
+>      test_data data;
+>      GThread *thread;
+>      char *args, *variant = g_strdup_printf(".%s", tpm_if);
+> diff --git a/tests/qtest/tpm-crb-test.c b/tests/qtest/tpm-crb-test.c
+> index ed533900d1..50936f1482 100644
+> --- a/tests/qtest/tpm-crb-test.c
+> +++ b/tests/qtest/tpm-crb-test.c
+> @@ -26,7 +26,7 @@ uint64_t tpm_tis_base_addr = TPM_TIS_ADDR_BASE;
+>  
+>  static void tpm_crb_test(const void *data)
+>  {
+> -    const TestState *s = data;
+> +    const TPMTestState *s = data;
+>      uint32_t intfid = readl(TPM_CRB_ADDR_BASE + A_CRB_INTF_ID);
+>      uint32_t csize = readl(TPM_CRB_ADDR_BASE + A_CRB_CTRL_CMD_SIZE);
+>      uint64_t caddr = readq(TPM_CRB_ADDR_BASE + A_CRB_CTRL_CMD_LADDR);
+> @@ -145,7 +145,7 @@ int main(int argc, char **argv)
+>      int ret;
+>      char *args, *tmp_path = g_dir_make_tmp("qemu-tpm-crb-test.XXXXXX", NULL);
+>      GThread *thread;
+> -    TestState test;
+> +    TPMTestState test;
+>  
+>      module_call_init(MODULE_INIT_QOM);
+>      g_test_init(&argc, &argv, NULL);
+> diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
+> index 2e8eb7b94f..b9cddcc240 100644
+> --- a/tests/qtest/tpm-emu.c
+> +++ b/tests/qtest/tpm-emu.c
+> @@ -18,7 +18,7 @@
+>  #include "qapi/error.h"
+>  #include "tpm-emu.h"
+>  
+> -void tpm_emu_test_wait_cond(TestState *s)
+> +void tpm_emu_test_wait_cond(TPMTestState *s)
+>  {
+>      gint64 end_time = g_get_monotonic_time() + 5 * G_TIME_SPAN_SECOND;
+>  
+> @@ -36,7 +36,7 @@ void tpm_emu_test_wait_cond(TestState *s)
+>  
+>  static void *tpm_emu_tpm_thread(void *data)
+>  {
+> -    TestState *s = data;
+> +    TPMTestState *s = data;
+>      QIOChannel *ioc = s->tpm_ioc;
+>  
+>      s->tpm_msg = g_new(struct tpm_hdr, 1);
+> @@ -71,7 +71,7 @@ static void *tpm_emu_tpm_thread(void *data)
+>  
+>  void *tpm_emu_ctrl_thread(void *data)
+>  {
+> -    TestState *s = data;
+> +    TPMTestState *s = data;
+>      QIOChannelSocket *lioc = qio_channel_socket_new();
+>      QIOChannel *ioc;
+>  
+> diff --git a/tests/qtest/tpm-emu.h b/tests/qtest/tpm-emu.h
+> index 73f3bed0c4..b066ad63fb 100644
+> --- a/tests/qtest/tpm-emu.h
+> +++ b/tests/qtest/tpm-emu.h
+> @@ -26,7 +26,7 @@ struct tpm_hdr {
+>      char buffer[];
+>  } QEMU_PACKED;
+>  
+> -typedef struct TestState {
+> +typedef struct TPMTestState {
+>      GMutex data_mutex;
+>      GCond data_cond;
+>      bool data_cond_signal;
+> @@ -34,9 +34,9 @@ typedef struct TestState {
+>      QIOChannel *tpm_ioc;
+>      GThread *emu_tpm_thread;
+>      struct tpm_hdr *tpm_msg;
+> -} TestState;
+> +} TPMTestState;
+>  
+> -void tpm_emu_test_wait_cond(TestState *s);
+> +void tpm_emu_test_wait_cond(TPMTestState *s);
+>  void *tpm_emu_ctrl_thread(void *data);
+>  
+>  #endif /* TESTS_TPM_EMU_H */
+> diff --git a/tests/qtest/tpm-tis-device-test.c b/tests/qtest/tpm-tis-device-test.c
+> index 63ed36440f..d36ae20243 100644
+> --- a/tests/qtest/tpm-tis-device-test.c
+> +++ b/tests/qtest/tpm-tis-device-test.c
+> @@ -33,7 +33,7 @@ int main(int argc, char **argv)
+>  {
+>      char *tmp_path = g_dir_make_tmp("qemu-tpm-tis-device-test.XXXXXX", NULL);
+>      GThread *thread;
+> -    TestState test;
+> +    TPMTestState test;
+>      char *args;
+>      int ret;
+>  
+> diff --git a/tests/qtest/tpm-tis-test.c b/tests/qtest/tpm-tis-test.c
+> index 79ffbc943e..6fee4779ea 100644
+> --- a/tests/qtest/tpm-tis-test.c
+> +++ b/tests/qtest/tpm-tis-test.c
+> @@ -29,7 +29,7 @@ int main(int argc, char **argv)
+>      int ret;
+>      char *args, *tmp_path = g_dir_make_tmp("qemu-tpm-tis-test.XXXXXX", NULL);
+>      GThread *thread;
+> -    TestState test;
+> +    TPMTestState test;
+>  
+>      module_call_init(MODULE_INIT_QOM);
+>      g_test_init(&argc, &argv, NULL);
+> diff --git a/tests/qtest/tpm-tis-util.c b/tests/qtest/tpm-tis-util.c
+> index 9aff503fd8..939893bf01 100644
+> --- a/tests/qtest/tpm-tis-util.c
+> +++ b/tests/qtest/tpm-tis-util.c
+> @@ -373,7 +373,7 @@ void tpm_tis_test_check_access_reg_release(const void *data)
+>   */
+>  void tpm_tis_test_check_transmit(const void *data)
+>  {
+> -    const TestState *s = data;
+> +    const TPMTestState *s = data;
+>      uint8_t access;
+>      uint32_t sts;
+>      uint16_t bcount;
 
 
