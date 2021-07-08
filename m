@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD863C18AE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:53:13 +0200 (CEST)
-Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD9B03C18B8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:56:43 +0200 (CEST)
+Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1YD2-0007cv-Qi
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:53:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47902)
+	id 1m1YGQ-0003sW-O9
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:56:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1XTp-0007FX-VR
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:06:29 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33667)
+ id 1m1XTt-0007Ui-P4
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:06:33 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:36853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1XTn-00082Y-Mo
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:06:29 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d2so8468268wrn.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:06:27 -0700 (PDT)
+ id 1m1XTs-00083i-AU
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:06:33 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ t14-20020a05600c198eb029020c8aac53d4so20478599wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=j7HZJOllN6OfKBQTdNJ3H8eHsI2Pf9DjuFO+rQOtCt8=;
- b=XkC06vRhcXH7YomgPcaoR/aackxYVmVN2cmnimYW16D9qsY4+IHtIaWuKOj7mC/pVa
- fvq9VYVK33U5zF7QC95BD4Y3eesCV0stSQJPMSbruf3f6xx3N701QTQr0EhbtJDzeg8y
- X0sulNiWAsBEi6sz7D25e+RqYQI5QI1rtIoC9BfJSpfOvZy/BKBPhfRQggsgYWufrAbz
- hOATYqMguIUxwu75Yj9fiVbfdZ8JPGarF1DlABua5jnGWRfxdb7/KPupjWvk5SUnzwHq
- C8pL+P1x1xHO8gu+7NolRJWmP4HNOu0CdUMk5sCdYqsW2aZirEdjAOnoTGRu38ZRDKjS
- bUHg==
+ bh=SAUPcCzIfJ2Pzg9QH/n+E/kHj+jWXIgKUz+S/8HUgVM=;
+ b=gH+eX/KJPkR1FYsL58md912VDrKOux7AXR/29vRM/bNYTjK2XzGzdGFM/Xekd4rkvH
+ bX77ucO9YuLBad6Njn4dp8fOsfV82XyEpE3tMtFmeXD1dJ7DF8Ih8bFd/4o+roEMExny
+ 6uuEfC8H4VmSYAxOBh6L9YD78WzGORLnpuMrmkV3wCckMuZjVaks728qopFX47ZRGy7l
+ OKlcORzlplrR26CJlrZIcBYPvSNSnVsxvvQICJPJM27fSt4WJp0fzvxWTR2WkZ97POf4
+ 7wgWzlGrVIb1orEKhS7hNbNfZSA7nb5mRNMG272K92qDd+eLit0tvpt3YhBlpFE7piBo
+ qZHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=j7HZJOllN6OfKBQTdNJ3H8eHsI2Pf9DjuFO+rQOtCt8=;
- b=K00tu8SJ3yGBUQ1YP9AycGtsTJGQS8O2N4rMkeRBg5Ewq6mT24VXEzbSMxSsvnS9zj
- fUfiDYwsoJy9qislqA/Y+rBUcGX4p52J9t/xVZVyCJQAZvUyyU8jUL6LIdxGMtIhXfOP
- 6M99O2LKxESCcI16b6GQMyQGUqvU+WoOyrzH9yKeZNrseGMOXtQDXop4rGMD1F9+sE/S
- tSRO0hTjNHtSFsP9xixcKM3AwUvOSd3a+/WHMhWfDCAaBDnq5NHAnckGbFnhyKQZTC4Q
- gcGZ2vJlJ250lloJl7LIRJcuh/zHxf2tM+jLZ9zy0OzZRbTl5YQMtFqqS7Wqds4zvAo1
- RRjw==
-X-Gm-Message-State: AOAM533WHhKu1rQIBe9c3xvFp1M8a2Ch3V0KTEYrC6A28uHwX/xAa25g
- bt2QMpl9i6PBEFUyMN+dLKbfsf5FwtM=
-X-Google-Smtp-Source: ABdhPJyni5ZhdPqPA90zSujsWzOsGiqjo5Slo/+O7XFmjP9V8f2+0Px8OYzYivuyWPCGtom3Zx2Shw==
-X-Received: by 2002:a05:6000:52:: with SMTP id
- k18mr2523652wrx.270.1625763986148; 
- Thu, 08 Jul 2021 10:06:26 -0700 (PDT)
+ bh=SAUPcCzIfJ2Pzg9QH/n+E/kHj+jWXIgKUz+S/8HUgVM=;
+ b=ZDC53juZ0qzDQNbdEgVZVqbDF4/BwnyTO5K418D7R8pw9VmLKwtRdkkefwD5avqoFS
+ ymy0PxsBwW57AHSTqs6rhiAPxXG3TLHOgterJrpNTuPDMAw/m/G4PYDr8/4+EhpMgl9+
+ cEoj6zOiFUHDZfBKwJedwaTXNKv6OMw0oA+n4ZrV8Hax6S90yu8n/GdxA4TK5zO1T1Rg
+ yBXOPuTjlodehwSjePkQ4zZiyE31DwqKLUufCX/SNziD4K1YoTBBxF0clwZXoDXVvYB1
+ qE68mv1n0C8gb7Yu5rOs9NlA9V7EAVP5k/ASDAWdmuL3AVVNF6dlLdV8Re5g1FCCXn4A
+ SqPA==
+X-Gm-Message-State: AOAM530ph20SDGgabDMur7mSqMETuvrbV6QhsheU7H84pldIhwACRScP
+ l46mJkMQRI8EmzJrkee710J7pHzbPZo=
+X-Google-Smtp-Source: ABdhPJwAfxazIV6R0NVgIfITZFnD/pNd+8UlpaTFfU6nMPtA5v5fwKxz87VWKACYWLNIIJMbYhTCyQ==
+X-Received: by 2002:a7b:c096:: with SMTP id r22mr6566294wmh.186.1625763990790; 
+ Thu, 08 Jul 2021 10:06:30 -0700 (PDT)
 Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id d8sm2836199wra.41.2021.07.08.10.06.25
+ by smtp.gmail.com with ESMTPSA id h13sm2823844wrs.68.2021.07.08.10.06.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 10:06:25 -0700 (PDT)
+ Thu, 08 Jul 2021 10:06:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/8] linux-user: Simplify host <-> target errno conversion
- using macros
-Date: Thu,  8 Jul 2021 19:05:49 +0200
-Message-Id: <20210708170550.1846343-8-f4bug@amsat.org>
+Subject: [PATCH v3 8/8] linux-user/syscall: Remove ERRNO_TABLE_SIZE check
+Date: Thu,  8 Jul 2021 19:05:50 +0200
+Message-Id: <20210708170550.1846343-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708170550.1846343-1-f4bug@amsat.org>
 References: <20210708170550.1846343-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
 X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,356 +92,38 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the host_to_target_errno_table[] array to a switch
-case to allow compiler optimizations (such noticing the identity
-function when host and guest errnos match). Extract the errnos
-list as to a new includible unit, using a generic macro. Remove
-the code related to target_to_host_errno_table[] initialization.
+Now than target_to_host_errno() always return an errno, we can
+remove the unused and arbitrary ERRNO_TABLE_SIZE definition.
 
 Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/syscall.c    | 159 ++++------------------------------------
- linux-user/errnos.c.inc | 140 +++++++++++++++++++++++++++++++++++
- 2 files changed, 154 insertions(+), 145 deletions(-)
- create mode 100644 linux-user/errnos.c.inc
+ linux-user/syscall.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 4842a1987b7..94ec6f730b3 100644
+index 94ec6f730b3..376629c6891 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -509,150 +509,26 @@ static inline int next_free_host_timer(void)
- 
- #define ERRNO_TABLE_SIZE 1200
- 
--/* target_to_host_errno_table[] is initialized from
-- * host_to_target_errno_table[] in syscall_init(). */
--static uint16_t target_to_host_errno_table[ERRNO_TABLE_SIZE] = {
--};
--
--/*
-- * This list is the union of errno values overridden in asm-<arch>/errno.h
-- * minus the errnos that are not actually generic to all archs.
-- */
--static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
--    [EAGAIN]            = TARGET_EAGAIN,
--    [EIDRM]             = TARGET_EIDRM,
--    [ECHRNG]            = TARGET_ECHRNG,
--    [EL2NSYNC]          = TARGET_EL2NSYNC,
--    [EL3HLT]            = TARGET_EL3HLT,
--    [EL3RST]            = TARGET_EL3RST,
--    [ELNRNG]            = TARGET_ELNRNG,
--    [EUNATCH]           = TARGET_EUNATCH,
--    [ENOCSI]            = TARGET_ENOCSI,
--    [EL2HLT]            = TARGET_EL2HLT,
--    [EDEADLK]           = TARGET_EDEADLK,
--    [ENOLCK]            = TARGET_ENOLCK,
--    [EBADE]             = TARGET_EBADE,
--    [EBADR]             = TARGET_EBADR,
--    [EXFULL]            = TARGET_EXFULL,
--    [ENOANO]            = TARGET_ENOANO,
--    [EBADRQC]           = TARGET_EBADRQC,
--    [EBADSLT]           = TARGET_EBADSLT,
--    [EBFONT]            = TARGET_EBFONT,
--    [ENOSTR]            = TARGET_ENOSTR,
--    [ENODATA]           = TARGET_ENODATA,
--    [ETIME]             = TARGET_ETIME,
--    [ENOSR]             = TARGET_ENOSR,
--    [ENONET]            = TARGET_ENONET,
--    [ENOPKG]            = TARGET_ENOPKG,
--    [EREMOTE]           = TARGET_EREMOTE,
--    [ENOLINK]           = TARGET_ENOLINK,
--    [EADV]              = TARGET_EADV,
--    [ESRMNT]            = TARGET_ESRMNT,
--    [ECOMM]             = TARGET_ECOMM,
--    [EPROTO]            = TARGET_EPROTO,
--    [EDOTDOT]           = TARGET_EDOTDOT,
--    [EMULTIHOP]         = TARGET_EMULTIHOP,
--    [EBADMSG]           = TARGET_EBADMSG,
--    [ENAMETOOLONG]      = TARGET_ENAMETOOLONG,
--    [EOVERFLOW]         = TARGET_EOVERFLOW,
--    [ENOTUNIQ]          = TARGET_ENOTUNIQ,
--    [EBADFD]            = TARGET_EBADFD,
--    [EREMCHG]           = TARGET_EREMCHG,
--    [ELIBACC]           = TARGET_ELIBACC,
--    [ELIBBAD]           = TARGET_ELIBBAD,
--    [ELIBSCN]           = TARGET_ELIBSCN,
--    [ELIBMAX]           = TARGET_ELIBMAX,
--    [ELIBEXEC]          = TARGET_ELIBEXEC,
--    [EILSEQ]            = TARGET_EILSEQ,
--    [ENOSYS]            = TARGET_ENOSYS,
--    [ELOOP]             = TARGET_ELOOP,
--    [ERESTART]          = TARGET_ERESTART,
--    [ESTRPIPE]          = TARGET_ESTRPIPE,
--    [ENOTEMPTY]         = TARGET_ENOTEMPTY,
--    [EUSERS]            = TARGET_EUSERS,
--    [ENOTSOCK]          = TARGET_ENOTSOCK,
--    [EDESTADDRREQ]      = TARGET_EDESTADDRREQ,
--    [EMSGSIZE]          = TARGET_EMSGSIZE,
--    [EPROTOTYPE]        = TARGET_EPROTOTYPE,
--    [ENOPROTOOPT]       = TARGET_ENOPROTOOPT,
--    [EPROTONOSUPPORT]   = TARGET_EPROTONOSUPPORT,
--    [ESOCKTNOSUPPORT]   = TARGET_ESOCKTNOSUPPORT,
--    [EOPNOTSUPP]        = TARGET_EOPNOTSUPP,
--    [EPFNOSUPPORT]      = TARGET_EPFNOSUPPORT,
--    [EAFNOSUPPORT]      = TARGET_EAFNOSUPPORT,
--    [EADDRINUSE]        = TARGET_EADDRINUSE,
--    [EADDRNOTAVAIL]     = TARGET_EADDRNOTAVAIL,
--    [ENETDOWN]          = TARGET_ENETDOWN,
--    [ENETUNREACH]       = TARGET_ENETUNREACH,
--    [ENETRESET]         = TARGET_ENETRESET,
--    [ECONNABORTED]      = TARGET_ECONNABORTED,
--    [ECONNRESET]        = TARGET_ECONNRESET,
--    [ENOBUFS]           = TARGET_ENOBUFS,
--    [EISCONN]           = TARGET_EISCONN,
--    [ENOTCONN]          = TARGET_ENOTCONN,
--    [EUCLEAN]           = TARGET_EUCLEAN,
--    [ENOTNAM]           = TARGET_ENOTNAM,
--    [ENAVAIL]           = TARGET_ENAVAIL,
--    [EISNAM]            = TARGET_EISNAM,
--    [EREMOTEIO]         = TARGET_EREMOTEIO,
--    [EDQUOT]            = TARGET_EDQUOT,
--    [ESHUTDOWN]         = TARGET_ESHUTDOWN,
--    [ETOOMANYREFS]      = TARGET_ETOOMANYREFS,
--    [ETIMEDOUT]         = TARGET_ETIMEDOUT,
--    [ECONNREFUSED]      = TARGET_ECONNREFUSED,
--    [EHOSTDOWN]         = TARGET_EHOSTDOWN,
--    [EHOSTUNREACH]      = TARGET_EHOSTUNREACH,
--    [EALREADY]          = TARGET_EALREADY,
--    [EINPROGRESS]       = TARGET_EINPROGRESS,
--    [ESTALE]            = TARGET_ESTALE,
--    [ECANCELED]         = TARGET_ECANCELED,
--    [ENOMEDIUM]         = TARGET_ENOMEDIUM,
--    [EMEDIUMTYPE]       = TARGET_EMEDIUMTYPE,
--#ifdef ENOKEY
--    [ENOKEY]            = TARGET_ENOKEY,
--#endif
--#ifdef EKEYEXPIRED
--    [EKEYEXPIRED]       = TARGET_EKEYEXPIRED,
--#endif
--#ifdef EKEYREVOKED
--    [EKEYREVOKED]       = TARGET_EKEYREVOKED,
--#endif
--#ifdef EKEYREJECTED
--    [EKEYREJECTED]      = TARGET_EKEYREJECTED,
--#endif
--#ifdef EOWNERDEAD
--    [EOWNERDEAD]        = TARGET_EOWNERDEAD,
--#endif
--#ifdef ENOTRECOVERABLE
--    [ENOTRECOVERABLE]   = TARGET_ENOTRECOVERABLE,
--#endif
--#ifdef ENOMSG
--    [ENOMSG]            = TARGET_ENOMSG,
--#endif
--#ifdef ERFKILL
--    [ERFKILL]           = TARGET_ERFKILL,
--#endif
--#ifdef EHWPOISON
--    [EHWPOISON]         = TARGET_EHWPOISON,
--#endif
--};
--
--static inline int host_to_target_errno(int err)
-+static inline int host_to_target_errno(int host_errno)
- {
--    if (err >= 0 && err < ERRNO_TABLE_SIZE &&
--        host_to_target_errno_table[err]) {
--        return host_to_target_errno_table[err];
-+    switch (host_errno) {
-+#define E(X)  case X: return TARGET_##X;
-+#include "errnos.c.inc"
-+#undef E
-+    default:
-+        return host_errno;
-     }
--    return err;
+@@ -507,8 +507,6 @@ static inline int next_free_host_timer(void)
  }
+ #endif
  
--static inline int target_to_host_errno(int err)
-+static inline int target_to_host_errno(int target_errno)
+-#define ERRNO_TABLE_SIZE 1200
+-
+ static inline int host_to_target_errno(int host_errno)
  {
--    if (err >= 0 && err < ERRNO_TABLE_SIZE &&
--        target_to_host_errno_table[err]) {
--        return target_to_host_errno_table[err];
-+    switch (target_errno) {
-+#define E(X)  case TARGET_##X: return X;
-+#include "errnos.c.inc"
-+#undef E
-+    default:
-+        return target_errno;
+     switch (host_errno) {
+@@ -548,9 +546,6 @@ const char *target_strerror(int err)
+         return "Successful exit from sigreturn";
      }
--    return err;
- }
  
- static inline abi_long get_errno(abi_long ret)
-@@ -7102,7 +6978,6 @@ void syscall_init(void)
-     IOCTLEntry *ie;
-     const argtype *arg_type;
-     int size;
--    int i;
- 
-     thunk_init(STRUCT_MAX);
- 
-@@ -7112,12 +6987,6 @@ void syscall_init(void)
- #undef STRUCT
- #undef STRUCT_SPECIAL
- 
--    /* Build target_to_host_errno_table[] table from
--     * host_to_target_errno_table[]. */
--    for (i = 0; i < ERRNO_TABLE_SIZE; i++) {
--        target_to_host_errno_table[host_to_target_errno_table[i]] = i;
+-    if ((err >= ERRNO_TABLE_SIZE) || (err < 0)) {
+-        return NULL;
 -    }
--
-     /* we patch the ioctl size if necessary. We rely on the fact that
-        no ioctl has all the bits at '1' in the size field */
-     ie = ioctl_entries;
-diff --git a/linux-user/errnos.c.inc b/linux-user/errnos.c.inc
-new file mode 100644
-index 00000000000..963ba1ce9d1
---- /dev/null
-+++ b/linux-user/errnos.c.inc
-@@ -0,0 +1,140 @@
-+/*
-+ * This list is the union of errno values overridden in asm-<arch>/errno.h
-+ * minus the errnos that are not actually generic to all archs.
-+ *
-+ * Please keep this list sorted alphabetically.
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+E(EADDRINUSE)
-+E(EADDRNOTAVAIL)
-+E(EADV)
-+E(EAFNOSUPPORT)
-+E(EAGAIN)
-+E(EALREADY)
-+E(EBADE)
-+E(EBADFD)
-+E(EBADMSG)
-+E(EBADR)
-+E(EBADRQC)
-+E(EBADSLT)
-+E(EBFONT)
-+E(ECANCELED)
-+E(ECHRNG)
-+E(ECOMM)
-+E(ECONNABORTED)
-+E(ECONNREFUSED)
-+E(ECONNRESET)
-+E(EDEADLK)
-+E(EDESTADDRREQ)
-+E(EDOTDOT)
-+E(EDQUOT)
-+E(EHOSTDOWN)
-+E(EHOSTUNREACH)
-+#ifdef EHWPOISON
-+E(EHWPOISON)
-+#endif
-+E(EIDRM)
-+E(EILSEQ)
-+E(EINPROGRESS)
-+E(EISCONN)
-+E(EISNAM)
-+#ifdef EKEYEXPIRED
-+E(EKEYEXPIRED)
-+#endif
-+#ifdef EKEYREJECTED
-+E(EKEYREJECTED)
-+#endif
-+#ifdef EKEYREVOKED
-+E(EKEYREVOKED)
-+#endif
-+E(EL2HLT)
-+E(EL2NSYNC)
-+E(EL3HLT)
-+E(EL3RST)
-+E(ELIBACC)
-+E(ELIBBAD)
-+E(ELIBEXEC)
-+E(ELIBMAX)
-+E(ELIBSCN)
-+E(ELNRNG)
-+E(ELOOP)
-+E(EMEDIUMTYPE)
-+E(EMSGSIZE)
-+E(EMULTIHOP)
-+E(ENAMETOOLONG)
-+E(ENAVAIL)
-+E(ENETDOWN)
-+E(ENETRESET)
-+E(ENETUNREACH)
-+E(ENOANO)
-+E(ENOBUFS)
-+E(ENOCSI)
-+E(ENODATA)
-+#ifdef ENOKEY
-+E(ENOKEY)
-+#endif
-+E(ENOLCK)
-+E(ENOLINK)
-+E(ENOMEDIUM)
-+#ifdef ENOMSG
-+E(ENOMSG)
-+#endif
-+E(ENONET)
-+E(ENOPKG)
-+E(ENOPROTOOPT)
-+E(ENOSR)
-+E(ENOSTR)
-+E(ENOSYS)
-+E(ENOTCONN)
-+E(ENOTEMPTY)
-+E(ENOTNAM)
-+#ifdef ENOTRECOVERABLE
-+E(ENOTRECOVERABLE)
-+#endif
-+E(ENOTSOCK)
-+E(ENOTUNIQ)
-+E(EOPNOTSUPP)
-+E(EOVERFLOW)
-+#ifdef EOWNERDEAD
-+E(EOWNERDEAD)
-+#endif
-+E(EPFNOSUPPORT)
-+E(EPROTO)
-+E(EPROTONOSUPPORT)
-+E(EPROTOTYPE)
-+E(EREMCHG)
-+E(EREMOTE)
-+E(EREMOTEIO)
-+E(ERESTART)
-+#ifdef ERFKILL
-+E(ERFKILL)
-+#endif
-+E(ESHUTDOWN)
-+E(ESOCKTNOSUPPORT)
-+E(ESRMNT)
-+E(ESTALE)
-+E(ESTRPIPE)
-+E(ETIME)
-+E(ETIMEDOUT)
-+E(ETOOMANYREFS)
-+E(EUCLEAN)
-+E(EUNATCH)
-+E(EUSERS)
-+E(EXFULL)
+     return strerror(target_to_host_errno(err));
+ }
+ 
 -- 
 2.31.1
 
