@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7EC3BF357
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:12:17 +0200 (CEST)
-Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88B913BF383
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:21:41 +0200 (CEST)
+Received: from localhost ([::1]:34358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1IaO-0000fm-8a
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:12:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38166)
+	id 1m1IjU-0006gM-KB
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:21:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKt-0002B3-0X
+ id 1m1IKs-0002B1-84
  for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:17 -0400
-Received: from mga03.intel.com ([134.134.136.65]:19099)
+Received: from mga03.intel.com ([134.134.136.65]:19084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKq-0007Mo-II
+ id 1m1IKq-0007Kl-HI
  for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:14 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="209461999"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="209461999"
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="209462000"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="209462000"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:54 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770010"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770015"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:54 -0700
@@ -33,10 +33,9 @@ To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com, erdemaktas@google.com
-Subject: [RFC PATCH v2 07/44] i386/kvm: Squash getting/putting guest state for
- TDX VMs
-Date: Wed,  7 Jul 2021 17:54:37 -0700
-Message-Id: <7194a76cfb8541d4f7a5b6a04fb3496bc14eab15.1625704980.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH v2 08/44] i386/kvm: Skip KVM_X86_SETUP_MCE for TDX guests
+Date: Wed,  7 Jul 2021 17:54:38 -0700
+Message-Id: <50d3b2d8d652fccc49a6235aea77857713874bd9.1625704981.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625704980.git.isaku.yamahata@intel.com>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
@@ -64,69 +63,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- isaku.yamahata@gmail.com, kvm@vger.kernel.org
+Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Ignore get/put state of TDX VMs as accessing/mutating guest state of
-producation TDs is not supported.
-Allow kvm_arch_get_registers() to run as normal, except for MSRs, for
-debug TDs, and silently ignores attempts to read guest state for
-non-debug TDs.
+Despite advertising MCE support to the guest, TDX-SEAM doesn't support
+injecting #MCs into the guest.   All of the associated setup is thus
+rejected by KVM.
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- target/i386/kvm/kvm.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ target/i386/kvm/kvm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index a3d5b334d1..27b64dedc2 100644
+index 27b64dedc2..c29cb420a1 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -2641,6 +2641,11 @@ void kvm_put_apicbase(X86CPU *cpu, uint64_t value)
- {
-     int ret;
- 
-+    /* TODO: Allow accessing guest state for debug TDs. */
-+    if (vm_type == KVM_X86_TDX_VM) {
-+            return;
-+    }
-+
-     ret = kvm_put_one_msr(cpu, MSR_IA32_APICBASE, value);
-     assert(ret == 1);
- }
-@@ -4099,6 +4104,11 @@ int kvm_arch_put_registers(CPUState *cpu, int level)
- 
-     assert(cpu_is_stopped(cpu) || qemu_cpu_is_self(cpu));
- 
-+    /* TODO: Allow accessing guest state for debug TDs. */
-+    if (vm_type == KVM_X86_TDX_VM) {
-+        return 0;
-+    }
-+
-     /* must be before kvm_put_nested_state so that EFER.SVME is set */
-     ret = kvm_put_sregs(x86_cpu);
-     if (ret < 0) {
-@@ -4209,9 +4219,11 @@ int kvm_arch_get_registers(CPUState *cs)
-     if (ret < 0) {
-         goto out;
-     }
--    ret = kvm_get_msrs(cpu);
--    if (ret < 0) {
--        goto out;
-+    if (vm_type != KVM_X86_TDX_VM) {
-+        ret = kvm_get_msrs(cpu);
-+        if (ret < 0) {
-+            goto out;
-+        }
-     }
-     ret = kvm_get_apic(cpu);
-     if (ret < 0) {
+@@ -1825,7 +1825,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
+     if (((env->cpuid_version >> 8)&0xF) >= 6
+         && (env->features[FEAT_1_EDX] & (CPUID_MCE | CPUID_MCA)) ==
+            (CPUID_MCE | CPUID_MCA)
+-        && kvm_check_extension(cs->kvm_state, KVM_CAP_MCE) > 0) {
++        && kvm_check_extension(cs->kvm_state, KVM_CAP_MCE) > 0
++        && vm_type != KVM_X86_TDX_VM) {
+         uint64_t mcg_cap, unsupported_caps;
+         int banks;
+         int ret;
 -- 
 2.25.1
 
