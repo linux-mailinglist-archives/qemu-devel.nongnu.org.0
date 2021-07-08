@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4C43C1A52
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:05:59 +0200 (CEST)
-Received: from localhost ([::1]:49662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B02B3C1A6F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:14:21 +0200 (CEST)
+Received: from localhost ([::1]:41454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1aHW-0007EQ-3o
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:05:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
+	id 1m1aPc-00058o-EI
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:14:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a7u-0003Ac-Mz
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48170)
+ id 1m1a7t-00037w-Tu
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1a7q-0001r4-Vx
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:02 -0400
+ id 1m1a7q-0001r7-WE
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:56:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625774157;
+ s=mimecast20190719; t=1625774158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sUUNacenpIZlJEyGmdObkLlThuzT36HxrtqCf/9iJfQ=;
- b=Brw7qjGqay4IXFROSqp7bZ7uGNQ0KqaOcOFnub8/BnOj+WAT8ERxpF47imjiIGtLxeZD4Q
- THSpqPXrXYD0/p0zStqvpAikwJ4Pbj1UMEGJXpJBegyK4stPKAA48ecI4Gyal+x7ZSDxtf
- ztsQy61+txNQBw2A489abX8sMdMONxQ=
+ bh=aXrAFMnrKnwrkhFdDtPiujztDYX2W+xq4SoIb47z0Oo=;
+ b=ArNT+HH6Ihp9TabSgJQ9JMPOZXQAy7BxUjlBOj+ulPj2S+t24p8MwP81jmR3JM+VdmcNX8
+ TFw/3+Cq424HeqTl73GtL+gm/xOYFKM5Q0a6gvduJEyuwhcHPSb22qsb7/VbIq8Jzg5L2M
+ 77TmZxsfbpLiYoC3pRiPOD3pv07fS/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-KoBFUgiZMnq4aenujtPkYg-1; Thu, 08 Jul 2021 15:55:56 -0400
-X-MC-Unique: KoBFUgiZMnq4aenujtPkYg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-141-Er98c1ryMuOaElmPD_7_UQ-1; Thu, 08 Jul 2021 15:55:56 -0400
+X-MC-Unique: Er98c1ryMuOaElmPD_7_UQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F129802E62;
- Thu,  8 Jul 2021 19:55:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45637801107;
+ Thu,  8 Jul 2021 19:55:55 +0000 (UTC)
 Received: from localhost (unknown [10.22.8.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B46E5D6B1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11A30369A;
  Thu,  8 Jul 2021 19:55:54 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 01/15] vmbus: Don't make QOM property registration
- conditional
-Date: Thu,  8 Jul 2021 15:55:38 -0400
-Message-Id: <20210708195552.2730970-2-ehabkost@redhat.com>
+Subject: [PULL v2 02/15] Deprecate pmem=on with non-DAX capable backend file
+Date: Thu,  8 Jul 2021 15:55:39 -0400
+Message-Id: <20210708195552.2730970-3-ehabkost@redhat.com>
 In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
 References: <20210708195552.2730970-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -81,78 +80,72 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Maciej S . Szmigiero" <maciej.szmigiero@oracle.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Having properties registered conditionally makes QOM type
-introspection difficult.  Instead of skipping registration of the
-"instanceid" property, always register the property but validate
-its value against the instance id required by the class.
+From: Igor Mammedov <imammedo@redhat.com>
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Acked-by: Maciej S. Szmigiero <maciej.szmigiero@oracle.com>
-Message-Id: <20201009200701.1830060-1-ehabkost@redhat.com>
+It is not safe to pretend that emulated NVDIMM supports
+persistence while backend actually failed to enable it
+and used non-persistent mapping as fall back.
+Instead of falling-back, QEMU should be more strict and
+error out with clear message that it's not supported.
+So if user asks for persistence (pmem=on), they should
+store backing file on NVDIMM.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210111203332.740815-1-imammedo@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/hyperv/vmbus.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ docs/system/deprecated.rst | 18 ++++++++++++++++++
+ util/mmap-alloc.c          |  2 ++
+ 2 files changed, 20 insertions(+)
 
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index 984caf898dc..c9887d5a7bc 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -2372,6 +2372,14 @@ static void vmbus_dev_realize(DeviceState *dev, Error **errp)
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 70e08baff62..94fb7dbf4e6 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -221,6 +221,24 @@ This machine is deprecated because we have enough AST2500 based OpenPOWER
+ machines. It can be easily replaced by the ``witherspoon-bmc`` or the
+ ``romulus-bmc`` machines.
  
-     assert(!qemu_uuid_is_null(&vdev->instanceid));
- 
-+    if (!qemu_uuid_is_null(&vdc->instanceid)) {
-+        /* Class wants to only have a single instance with a fixed UUID */
-+        if (!qemu_uuid_is_equal(&vdev->instanceid, &vdc->instanceid)) {
-+            error_setg(&err, "instance id can't be changed");
-+            goto error_out;
-+        }
-+    }
++Backend options
++---------------
 +
-     /* Check for instance id collision for this class id */
-     QTAILQ_FOREACH(child, &BUS(vmbus)->children, sibling) {
-         VMBusDevice *child_dev = VMBUS_DEVICE(child->child);
-@@ -2438,18 +2446,22 @@ static void vmbus_dev_unrealize(DeviceState *dev)
-     free_channels(vdev);
- }
- 
-+static Property vmbus_dev_props[] = {
-+    DEFINE_PROP_UUID("instanceid", VMBusDevice, instanceid),
-+    DEFINE_PROP_END_OF_LIST()
-+};
++Using non-persistent backing file with pmem=on (since 6.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
++This option is used when ``memory-backend-file`` is consumed by emulated NVDIMM
++device. However enabling ``memory-backend-file.pmem`` option, when backing file
++is (a) not DAX capable or (b) not on a filesystem that support direct mapping
++of persistent memory, is not safe and may lead to data loss or corruption in case
++of host crash.
++Options are:
 +
- static void vmbus_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *kdev = DEVICE_CLASS(klass);
-+    device_class_set_props(kdev, vmbus_dev_props);
-     kdev->bus_type = TYPE_VMBUS;
-     kdev->realize = vmbus_dev_realize;
-     kdev->unrealize = vmbus_dev_unrealize;
-     kdev->reset = vmbus_dev_reset;
- }
++    - modify VM configuration to set ``pmem=off`` to continue using fake NVDIMM
++      (without persistence guaranties) with backing file on non DAX storage
++    - move backing file to NVDIMM storage and keep ``pmem=on``
++      (to have NVDIMM with persistence guaranties).
++
+ Device options
+ --------------
  
--static Property vmbus_dev_instanceid =
--                        DEFINE_PROP_UUID("instanceid", VMBusDevice, instanceid);
--
- static void vmbus_dev_instance_init(Object *obj)
- {
-     VMBusDevice *vdev = VMBUS_DEVICE(obj);
-@@ -2458,8 +2470,6 @@ static void vmbus_dev_instance_init(Object *obj)
-     if (!qemu_uuid_is_null(&vdc->instanceid)) {
-         /* Class wants to only have a single instance with a fixed UUID */
-         vdev->instanceid = vdc->instanceid;
--    } else {
--        qdev_property_add_static(DEVICE(vdev), &vmbus_dev_instanceid);
-     }
- }
- 
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index 838e286ce51..893d864354a 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -225,6 +225,8 @@ static void *mmap_activate(void *ptr, size_t size, int fd,
+                     "crash.\n", file_name);
+             g_free(proc_link);
+             g_free(file_name);
++            warn_report("Using non DAX backing file with 'pmem=on' option"
++                        " is deprecated");
+         }
+         /*
+          * If mmap failed with MAP_SHARED_VALIDATE | MAP_SYNC, we will try
 -- 
 2.31.1
 
