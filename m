@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6523C1818
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:28:02 +0200 (CEST)
-Received: from localhost ([::1]:34958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2071E3C1821
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:29:50 +0200 (CEST)
+Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Xof-0001d6-3L
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:28:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
+	id 1m1XqP-0006Cy-4S
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:29:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m1XmZ-0007hx-JN
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:52 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52015)
+ id 1m1Xmg-0007qJ-Np
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:26:00 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m1XmY-0005W9-32
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:51 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id n11so4044458pjo.1
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:25:49 -0700 (PDT)
+ id 1m1Xme-0005dP-MO
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:58 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ oj10-20020a17090b4d8ab0290172f77377ebso4329805pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KxvTLSU1IwRTYkOMS6dRGl4OQuHqSkLV4qmVQ6tKy4k=;
- b=oqXof65H9ZAKTeY2wu7MfjUSbYNnYJR+FXwYVmJOdWpPiF6akVt+IQOaLijR10aWz7
- 3F+HJmNbykwfuKqaFEfTAYrGc4RIctA5l+zwJOelSORYQCkSQCP99uD2xZF9UkTCIzTN
- 6WTkSU0t0snomF3CryX1NmpIxO+EX3Pa97t1YIHzFqTcuHViiqjOLlq1s2QiPyZou+2d
- V4W/wadlb/QOijnKNqZYpz0OZP0mky9hHlRNxo5M4bxyzpziDgxM5fSlXhVORS1lqOVP
- 5Bs4PdMWdGUtBT9mzSQkdpx2WfepdLrngN7xfaPYaYJVsu48NDS5iVxWLxpRva/5YP2e
- IPtg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=M5vcKKDVZQYms4uOR9JQB2etWe+O1TO8Yu2POyfw0g0=;
+ b=NX7UGSW1heDex1AJovAXg7y5EroxRzxoxAnCdlixyLfh2KQpbqPdiwEmmfIka8Nm7w
+ 7JIpyZFwPt8p+z2rEE2BZqQ2os6kkDdPPyLZFI/GeVGub8Xllc9cAFsowVeWbC818PUL
+ UYFMKkOv5yHJjuZeQ5RZoruxtNd+4XE12I5oZfV66uhPCUirIermFaV/2Booz4vEYs0T
+ eAflu0kIF5tdFDgPeDF58DF5Yqxx3Z8MMXpmL4RzBhqY3xgViQJRshuGEb9G+ZE0Kwva
+ CbMT/A1KR8QmP8nyOAX505EOouDSz2vDDtoJTow4GTLxbeEmooKJovTEANMuD7mCV/Yd
+ 8fnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KxvTLSU1IwRTYkOMS6dRGl4OQuHqSkLV4qmVQ6tKy4k=;
- b=hHtq5dK3wNzDbif0tclObr2EHUJo0yXB5d1RKaaWCd6xRTP6L6xut0yk2V7M791dAf
- Jz5kihhPxxTgbbgmn7ig+gEbR7/95v/DThYZCxvPLIwTp9dF7ES5tTGuZQJ4Ff39Mvl/
- h87Rs6Y+DksYxQAk/xAMXTeDnK0BZUcY/xgyop/k1NWzHxcR8B5Rwnz8uB0Q1DdKxnIM
- dCT0vM/cAMAdBB2Ji2AtZgPVh2uoWmugDFTmFCBpuQAFikD6HrR2I+L1VeC+4etucZM4
- 0Wa9ZvG8Waeg9RELaFCwuWnOLww8PEC6T7Y1CDcSmcKquKTV8hBGTttNSVFIUg7meRXW
- 8Gpw==
-X-Gm-Message-State: AOAM531DEkYXwOr9yVnz9WmBek625GiEsx3/KKE3eCNNXSUE5nVuCkKy
- 7WG+ATlOoOM+OcX6DuvebCfTEOIBtGv7FA==
-X-Google-Smtp-Source: ABdhPJyI6Xk/kA1YJuAcezysrH7kIiC6dL6hEJOTe2zEDrgaHzhHPXfOqn+vyEHbMpPVrEuFCuKPaA==
-X-Received: by 2002:a17:90a:9282:: with SMTP id
- n2mr6022498pjo.92.1625765148644; 
- Thu, 08 Jul 2021 10:25:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=M5vcKKDVZQYms4uOR9JQB2etWe+O1TO8Yu2POyfw0g0=;
+ b=lcWQfQlRIHGedGsd7T9DsN/ejqGtjeBu6mFXQupWMNGgyH5JY2AWdzrPKNNP7iyusM
+ m3IrkHX2YC2h93Sq/yoGj9e3fqTowjbaB3dulYRzDp1+9XmLJJode8hPSCcVyo6SWGMq
+ P6XlUViQzVamaFLSSXyOtu3XhcapRdFOfwS9fr1rSOHMa+5ZfEoBThBMsteRM1v2vbYy
+ SQqp/pWbxcXh/rby8R6oGUt0/gxRe9DtKKMkdZcZb6Hj1Eb8J16TYzMPXpsHc3M2GhBX
+ HXkBIhD4CPkuaw3blRZY9YGdvxWJrESS8d9wnutpwG5wVy88I/n5Vi2pCvx7zLL3oPsa
+ c32g==
+X-Gm-Message-State: AOAM530d9AGWtuNLbSngFgqpAvkwlRpTDq2X05vmLwXUPirtqChw2IOL
+ X4/tKXrPq/Ie793D087qBJVlJpHdIsJagw==
+X-Google-Smtp-Source: ABdhPJxIMBk6Lf81WqrzEstEOdxWev/pGnCYDOs1olR91Np1uhMj8wDiCJ5b2I6+t/w2MnIiNEbPtQ==
+X-Received: by 2002:a17:902:7b8c:b029:129:5733:2e3b with SMTP id
+ w12-20020a1709027b8cb029012957332e3bmr26854128pll.4.1625765155333; 
+ Thu, 08 Jul 2021 10:25:55 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:7947:37f7:fd02:9c0c])
- by smtp.gmail.com with ESMTPSA id c20sm3579429pfd.64.2021.07.08.10.25.46
+ by smtp.gmail.com with ESMTPSA id c20sm3579429pfd.64.2021.07.08.10.25.53
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 08 Jul 2021 10:25:48 -0700 (PDT)
+ Thu, 08 Jul 2021 10:25:55 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH 1/4] cutils: Introduce bundle mechanism
-Date: Fri,  9 Jul 2021 02:25:38 +0900
-Message-Id: <20210708172541.29530-1-akihiko.odaki@gmail.com>
+Subject: [PATCH 4/4] net: Use bundle mechanism
+Date: Fri,  9 Jul 2021 02:25:41 +0900
+Message-Id: <20210708172541.29530-4-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+In-Reply-To: <20210708172541.29530-1-akihiko.odaki@gmail.com>
+References: <20210708172541.29530-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,85 +91,91 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Developers often run QEMU without installing. The bundle mechanism
-allows to look up files which should be present in installation even in
-such a situation.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- include/qemu/cutils.h | 19 +++++++++++++++++++
- util/cutils.c         | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ configure         | 1 +
+ include/net/net.h | 2 +-
+ meson.build       | 1 +
+ net/tap.c         | 6 +++++-
+ qemu-options.hx   | 4 ++--
+ 5 files changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-index 986ed8e15f4..6060e56b877 100644
---- a/include/qemu/cutils.h
-+++ b/include/qemu/cutils.h
-@@ -209,4 +209,23 @@ int qemu_pstrcmp0(const char **str1, const char **str2);
-  */
- char *get_relocated_path(const char *dir);
+diff --git a/configure b/configure
+index a9f746849ec..aa8e096faaa 100755
+--- a/configure
++++ b/configure
+@@ -5069,6 +5069,7 @@ done
  
-+/**
-+ * find_bundle:
-+ * @path: Relative path
-+ *
-+ * Returns a path for the specified directory or file bundled in QEMU. It uses
-+ * the directory of the running executable as the prefix first. See
-+ * get_relocated_path() for the details. The next candidate is "qemu-bundle"
-+ * directory in the directory of the running executable. "qemu-bundle"
-+ * directory is typically present in the build tree.
-+ *
-+ * The returned string should be freed by the caller.
-+ *
-+ * Returns: a path that can access the bundle, or NULL if no matching bundle
-+ * exists.
-+ */
-+char *find_bundle(const char *path);
-+
-+void list_bundle_candidates(const char *path);
-+
- #endif
-diff --git a/util/cutils.c b/util/cutils.c
-index c9b91e7535a..b4e4cda71c8 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -1057,3 +1057,36 @@ char *get_relocated_path(const char *dir)
-     }
-     return g_string_free(result, false);
- }
-+
-+static const char * const bundle_formats[] = {
-+    "%s" G_DIR_SEPARATOR_S ".." G_DIR_SEPARATOR_S "%s",
-+    "%s" G_DIR_SEPARATOR_S "qemu-bundle" G_DIR_SEPARATOR_S "%s"
-+};
-+
-+char *find_bundle(const char *path)
-+{
-+    const char *dir = qemu_get_exec_dir();
-+    char *candidate;
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
-+        candidate = g_strdup_printf(bundle_formats[i], dir, path);
-+        if (access(candidate, R_OK) == 0) {
-+            return candidate;
+ symlink $source_path/ui/icons/qemu.svg qemu-bundle/share/icons/hicolor/scalable/apps/qemu.svg
+ symlink ../../pc-bios qemu-bundle/share/qemu
++symlink ../../qemu-bridge-helper qemu-bundle/libexec/qemu-bridge-helper
+ 
+ (for i in $cross_cc_vars; do
+   export $i
+diff --git a/include/net/net.h b/include/net/net.h
+index 5d1508081f9..5f701e942b3 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -221,7 +221,7 @@ NetClientState *net_hub_port_find(int hub_id);
+ 
+ #define DEFAULT_NETWORK_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifup"
+ #define DEFAULT_NETWORK_DOWN_SCRIPT CONFIG_SYSCONFDIR "/qemu-ifdown"
+-#define DEFAULT_BRIDGE_HELPER CONFIG_QEMU_HELPERDIR "/qemu-bridge-helper"
++#define DEFAULT_BUNDLE_BRIDGE_HELPER CONFIG_QEMU_BUNDLE_HELPERDIR "/qemu-bridge-helper"
+ #define DEFAULT_BRIDGE_INTERFACE "br0"
+ 
+ void qdev_set_nic_properties(DeviceState *dev, NICInfo *nd);
+diff --git a/meson.build b/meson.build
+index 6d90fe92bf1..ecfc5bd8c72 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1200,6 +1200,7 @@ config_host_data.set_quoted('CONFIG_QEMU_CONFDIR', get_option('prefix') / qemu_c
+ config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_DATADIR', qemu_datadir)
+ config_host_data.set_quoted('CONFIG_QEMU_DESKTOPDIR', get_option('prefix') / qemu_desktopdir)
+ config_host_data.set_quoted('CONFIG_QEMU_FIRMWAREPATH', get_option('qemu_firmwarepath'))
++config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_HELPERDIR', get_option('libexecdir'))
+ config_host_data.set_quoted('CONFIG_QEMU_BUNDLE_ICONDIR', qemu_icondir)
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALEDIR', get_option('prefix') / get_option('localedir'))
+ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') / get_option('localstatedir'))
+diff --git a/net/tap.c b/net/tap.c
+index f5686bbf771..be80f29b96b 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -508,7 +508,11 @@ static int net_bridge_run_helper(const char *helper, const char *bridge,
+     sigprocmask(SIG_BLOCK, &mask, &oldmask);
+ 
+     if (!helper) {
+-        helper = default_helper = get_relocated_path(DEFAULT_BRIDGE_HELPER);
++        helper = default_helper = find_bundle(DEFAULT_BUNDLE_BRIDGE_HELPER);
++        if (!helper) {
++            error_setg(errp, "birdge helper not found");
++            return -1;
 +        }
-+        g_free(candidate);
-+    }
-+
-+    return NULL;
-+}
-+
-+void list_bundle_candidates(const char *path)
-+{
-+    const char *dir = qemu_get_exec_dir();
-+    int i;
-+
-+    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
-+        printf(bundle_formats[i], dir, path);
-+        putc('\n', stdout);
-+    }
-+}
+     }
+ 
+     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) == -1) {
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8965dabc83e..2f40169e8e9 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2528,7 +2528,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+     "                to configure it and 'dfile' (default=" DEFAULT_NETWORK_DOWN_SCRIPT ")\n"
+     "                to deconfigure it\n"
+     "                use '[down]script=no' to disable script execution\n"
+-    "                use network helper 'helper' (default=" DEFAULT_BRIDGE_HELPER ") to\n"
++    "                use network helper 'helper' (default=" DEFAULT_BUNDLE_BRIDGE_HELPER ") to\n"
+     "                configure it\n"
+     "                use 'fd=h' to connect to an already opened TAP interface\n"
+     "                use 'fds=x:y:...:z' to connect to already opened multiqueue capable TAP interfaces\n"
+@@ -2547,7 +2547,7 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+     "-netdev bridge,id=str[,br=bridge][,helper=helper]\n"
+     "                configure a host TAP network backend with ID 'str' that is\n"
+     "                connected to a bridge (default=" DEFAULT_BRIDGE_INTERFACE ")\n"
+-    "                using the program 'helper (default=" DEFAULT_BRIDGE_HELPER ")\n"
++    "                using the program 'helper (default=" DEFAULT_BUNDLE_BRIDGE_HELPER ")\n"
+ #endif
+ #ifdef __linux__
+     "-netdev l2tpv3,id=str,src=srcaddr,dst=dstaddr[,srcport=srcport][,dstport=dstport]\n"
 -- 
 2.30.1 (Apple Git-130)
 
