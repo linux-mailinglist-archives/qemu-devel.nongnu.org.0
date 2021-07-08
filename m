@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64763C15D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:19:53 +0200 (CEST)
-Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE733C15D3
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:19:54 +0200 (CEST)
+Received: from localhost ([::1]:43328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Voe-0002zg-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
+	id 1m1Vof-00030J-MM
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:19:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vml-0008SD-RK
+ id 1m1Vml-0008S8-Rb
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:55 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41484)
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:41486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmh-000887-RI
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:54 -0400
-Received: by mail-ed1-x532.google.com with SMTP id m1so9028936edq.8
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:51 -0700 (PDT)
+ id 1m1Vmj-00088F-Nn
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:17:55 -0400
+Received: by mail-ed1-x534.google.com with SMTP id m1so9028992edq.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:17:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PFonQRkqzl281GZ7rTAUyH8nUwjUVSVQflBGRmaPz2c=;
- b=VsE0n5NcFwm93ucJTrAvGVhLQKZb9bh6238CIfmWHDmu0+UYLB6XYax13QoLLCDBEo
- QdwNXbuKJmzRLI0dgKQpCr8aVIaADQMjIq1QB0sp7wP0ohRIUZPQNn89k0Une1K13CUB
- MQRGHmhfb6B1LbzvVg+C/vqQ+BQuv0ludjmW93dd604sD4QQgghdabYwhCSrpDc1soC9
- gPUrMtxYgs821mOIoUtnUto0Iw6HaUtaD/pmSH5PWBTS+o6TNKuWAzdvemikA4uVUxzG
- FTZ8GEudiOrrwb1x2NSGey3hyh7yX0UBiTmY4/ySNDBOliHcwVr9CkfFUk2KhkShZ32p
- J8Kg==
+ bh=JXud1buOFDLkmcLoj6WEV2smKYmGYLQoP7OF5KwGfPQ=;
+ b=hgTNuqaeWKnCw4T1JZZRPyzKNaqPwpu7HAUfLgOOMLWUYP509lqJ/FamnpCPZRQ2bd
+ GgsNt3aGkzXqcTzNuyffbTF3w4LMFVfEK5iO2ZR2kB0Jfr2IJ+s7k8s8Zvdu/5L+kdwW
+ wuxUiEl5eAmPbQTriAtloltoR+TP6OqPlr3IelO5nIMXtZZWq1xV0o9Ka1kj2+Hr4ph+
+ 5bpEWpa/IlwcHYvAeEgGlMjgQh4EKMTTnuUtgqL1yZgbD367mnblSkpFDw+WiPhzfAR9
+ kebnfzWWGwwKcrqZobaZVAlVlT01F3lSSFat5l8dXk7A90zUneeOxqMgDGENhh7510vb
+ lZMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=PFonQRkqzl281GZ7rTAUyH8nUwjUVSVQflBGRmaPz2c=;
- b=LqvBTUuA0sU5FpvoehEnz2Pal9OamwUBAzwghxCcS8itGoDwMgW2g1WyLQhqyJRdZa
- tsXA2fHn0ZEvhnQqaedkCBn/0PEdN8J4Qx+olsGXknJZHaamC4Af727BSR1Yu1/BEJU9
- ynIElmmnkeYaDwvmOfnuMXcX8HVx6ihPvxEqdTsLIeB0Z6ntE8sUVB9BnJ9u3KrDpgqp
- 6Nl0v9f277X6wCrBLLtrJGgzv9YhK3JTyXj9GTkUra6jdNFFSVm5X/UV4wCHtzWG5E4t
- GXZw72d5yEbd7EP7///k3szjUaGioMlK1tlECZUs+wG1b1orvOpPTczDB+0zOuvASxtT
- efgA==
-X-Gm-Message-State: AOAM531JoTQEH/BV9dUzDdsgnXk/UwPir9arElAwaj1WRiHcOgmK/z3A
- 2qE+Kb3mjuJl58GMJ//RYv8Edg7ls5w=
-X-Google-Smtp-Source: ABdhPJzoV5p2zGSSQH1B/icEf7AoexE+p+RYD7nI3EZnh1kUbtMsj7z6UXtiAxI0FAMsEF7Bx9kqWg==
-X-Received: by 2002:a50:e79b:: with SMTP id b27mr33129526edn.267.1625757470501; 
- Thu, 08 Jul 2021 08:17:50 -0700 (PDT)
+ bh=JXud1buOFDLkmcLoj6WEV2smKYmGYLQoP7OF5KwGfPQ=;
+ b=gAdT9a1s/rOiNmXEGq0nxMb5nEjv0L2B0JHiqw0SXZYFWfpSqm6oJajZ3Vz8FYz+EH
+ y4rOAkVOZX8gZ39d5FGoR+xHGe65kYfF377Ft1Lz8PiatRDPMP08G9MgDHT9M97vrREn
+ PZaFuh0HJ69H7Szj4HkzPTpnSS68dzDdxKOMr/IQ2pxLLAf94Z1Im0VIUFtZUtI0BQFM
+ fCBKzqGCb5u0l5ygIJuoEBuf2UCzC/T2RtitzhVWmv09y+W0C5S0OSrXPOInio5ElGYB
+ niiLCUAy7mWM1CIDUh1Be2XQAHVp6HAQN9Lo/7AhiDxR0htsBVbsgcRoE8NwAKt5Op32
+ xd3Q==
+X-Gm-Message-State: AOAM531QFasd+DidrFLzApMXH/BzvXhInWuwOkhU8a0rMsbzrGkmJwxs
+ 72xWvk5nVfKzFfzMnlUEMN1dQon+L6M=
+X-Google-Smtp-Source: ABdhPJySMBPKMydJMV4rpbRWyaZRlLvFOcCuV+C4Bn9INfWmXGfF3Zm17pcLXqE00hiDMShd4WIlLg==
+X-Received: by 2002:a05:6402:4311:: with SMTP id
+ m17mr20309506edc.346.1625757471234; 
+ Thu, 08 Jul 2021 08:17:51 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.49
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.17.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 08:17:50 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/48] configure: fix libdaxctl options
-Date: Thu,  8 Jul 2021 17:17:01 +0200
-Message-Id: <20210708151748.408754-2-pbonzini@redhat.com>
+Subject: [PULL 02/48] configure: fix libpmem configuration option
+Date: Thu,  8 Jul 2021 17:17:02 +0200
+Message-Id: <20210708151748.408754-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -83,40 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: Connor Kuehl <ckuehl@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Miroslav Rezanina <mrezanin@redhat.com>
 
-For some reason, libdaxctl option setting was set to work in an opposite
-way (--enable-libdaxctl disabled it and vice versa). Fixing this so
+For some reason, libpmem option setting was set to work in an opposite
+way (--enable-libpmem disabled it and vice versa). Fixing this so
 configuration works properly.
 
 Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210707063124.81954-1-mrezanin@redhat.com>
-Fixes: 83ef16821a ("configure, meson: convert libdaxctl detection to meson", 2021-07-06)
+Reviewed-by: Connor Kuehl <ckuehl@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Connor Kuehl <ckuehl@redhat.com>
+Message-Id: <20210707075144.82717-1-mrezanin@redhat.com>
+Fixes: e36e8c70f6 ("configure, meson: convert libpmem detection to meson", 2021-07-06)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
  configure | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 650d9c0735..4f51528a77 100755
+index 4f51528a77..a172c83e15 100755
 --- a/configure
 +++ b/configure
-@@ -1531,9 +1531,9 @@ for opt do
+@@ -1501,9 +1501,9 @@ for opt do
    ;;
-   --disable-keyring) secret_keyring="no"
+   --disable-debug-mutex) debug_mutex=no
    ;;
--  --enable-libdaxctl) libdaxctl=disabled
-+  --enable-libdaxctl) libdaxctl="enabled"
+-  --enable-libpmem) libpmem=disabled
++  --enable-libpmem) libpmem="enabled"
    ;;
--  --disable-libdaxctl) libdaxctl=enabled
-+  --disable-libdaxctl) libdaxctl="disabled"
+-  --disable-libpmem) libpmem=enabled
++  --disable-libpmem) libpmem="disabled"
    ;;
-   --enable-fuse) fuse="enabled"
+   --enable-xkbcommon) xkbcommon="enabled"
    ;;
 -- 
 2.31.1
