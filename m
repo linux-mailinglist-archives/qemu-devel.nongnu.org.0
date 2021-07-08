@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C91393C19AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:14:43 +0200 (CEST)
-Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFE53C19CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:28:46 +0200 (CEST)
+Received: from localhost ([::1]:46980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZTu-0003ig-Rq
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:14:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49992)
+	id 1m1ZhV-0005O2-Vd
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZPH-0003Q7-Pj
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:55 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37834)
+ id 1m1ZPK-0003We-SZ
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:59 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZPE-0004mj-4z
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:55 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id i94so8843211wri.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:09:50 -0700 (PDT)
+ id 1m1ZPJ-0004oa-1V
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:58 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso7514843wmh.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bTttEc+oJXhPYrt7q5iIhClUXDghFeYtwNO1q7NtVDA=;
- b=lZC3WKeuVUh9oqyvFyl2h2nSMoipfcWUFZO//z587J60hi+MXF8o2PcQL9SgfPA4bv
- xtQrOhu2RLUyz6y0aRXA78dUjRyja2CTrSFjnI7GvhZ52zy89Bk7X/MN4eyt4s0XZ5/o
- 9/hRHy9bIpXkM0m2ayaamH5eRdDYbHpLT/MRRdonLi5zp4o+m44pHgTYCHAf50gIo2CZ
- adCTKLn+RqQR1u+yAtYbiDd+KaJOoOcx29/xWW8V3BVRDUA3XSqOm9IL4oCQRVgHBLDk
- GBH/V3Bq6GYFzTpT1P32nv6sq3PNCKXj6h8lGalNZll8rUQbgwyX8P/wgyGJ7rIww8jP
- qO9g==
+ bh=MIjB8baV6ul8gNmy4v7s1kUfD6hLb3gxxyQmdjTCbfU=;
+ b=PwGYhN15viulcOdxF8wDYTya6NvR5mshUlQ93NPXg8AoRnHoiCk0bx+vqk9e1dU2XW
+ msDHPl+0jXEAppHPz5C+VxHuGXys7j1wMBMfMWyVkKG6GeZrpcgtN3PRIWUKHSsP2OOz
+ EAegSJs8o6G6GKlqc/KbnucajWWYdLmzNQNtyhgFigg1WXT1ms8yPlB1wOTXCZVEDXBG
+ rq3XfvWAUEKf1dSxaEOHsY8EjDKB9WujhVkoZFgi2p/tryEO2tn+PvP0XLE+tvNApYVb
+ pfsWNPG1k5HRQt0skKvivLPrfZXn9nDQ1xsDUjAI0X4ocvbe0I1Mb74zoPYYleLgAgy7
+ 7jNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bTttEc+oJXhPYrt7q5iIhClUXDghFeYtwNO1q7NtVDA=;
- b=AGzSei+mcduaKcwlT8JJPd1RuA3B2juUGj1FoDlOCvM22ef8p1nupFJdyIh3uVLbw/
- 5U1pOKE1PmMdFcQ3ABOnk5QzpYMAw4ecWpXc/k7iwhiie/aNpQSFJHo5v70fYT/0FfyV
- 0AZgR8JI1PXoD5mKyEvTxxLyDDBaOGQdYEx/jVkC6UZr4CLYRJO7zEv9xSnhsM6if4R0
- qCXNTBEVXYT3rRwqeRnbFL8KMxKyQ8vjAO0kPUVPOFjGtVtrA3LjBYxt2fHDUOt50VgY
- HBac5LH7PdphrudW8lSmKa5tQ4SqIIuG2hZI7P60hjG8LOaa5xZkfqHKoBpyTdiesYM1
- 5lnw==
-X-Gm-Message-State: AOAM532AxL+3Hp3nSpFB5wPuaeoqUxRxDZGs3rmv5oHplqegcKrcLH+l
- cmDnx1JlLOCRg6Q6nlO0bJXV/w==
-X-Google-Smtp-Source: ABdhPJwvURE1A9ZBHuNjAjxV2B3hy8XANMp9Ci1dYm1CoK/BSdaId39l9vy/x6YRRgirua+jeDD7Bg==
-X-Received: by 2002:a05:6000:50f:: with SMTP id
- a15mr30277578wrf.108.1625771389656; 
- Thu, 08 Jul 2021 12:09:49 -0700 (PDT)
+ bh=MIjB8baV6ul8gNmy4v7s1kUfD6hLb3gxxyQmdjTCbfU=;
+ b=hrMDwq5ZToKffxdXc4u5dfmVIOY1N/oijIirhBdA/MmuKE+R3J9ZbToKjUiBSerTjy
+ TYCoJIKMSsFlM55FhF+V0Gi5DMJluCm8O5HFErz8ZfoXJfR/eOa9TwA+nEdvGvL8KOxq
+ Kd6CE1IkF4HkShS8JdmMgUZ3v7P7d8j9u9fPBYhhqerzhTdekubx8H/iyAyeKvvH4HBl
+ pZcbGFKJNzzTDjl+H00KzJoOrp0Zq1fPEuK+jM/I9EQ61fvBRGeeR/KYvxiOiSw3Q4eN
+ AmA+YiqyhudbZ0nW/JmO54ew4LAIZPKxY/RbbEorGNu/xavLNULtHlc/gk8DJ94p7e3j
+ OhYQ==
+X-Gm-Message-State: AOAM532aqDwGdziJ1qeS0mipg7QxdNR1+w54l3/Y1njoJL+ctHauC9mF
+ ZmGvc0oVpGy2ND3atNkbSGXqYg==
+X-Google-Smtp-Source: ABdhPJxgZb29JfQfRgDZusYORdRbK58tdvez/f6S5xiKurCssH3/Cra2scA6qws+0yNq9Wh1JywetQ==
+X-Received: by 2002:a05:600c:2301:: with SMTP id
+ 1mr6985955wmo.132.1625771395479; 
+ Thu, 08 Jul 2021 12:09:55 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o7sm3570695wrv.72.2021.07.08.12.09.44
+ by smtp.gmail.com with ESMTPSA id y3sm1943875wrh.16.2021.07.08.12.09.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 12:09:45 -0700 (PDT)
+ Thu, 08 Jul 2021 12:09:53 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C76611FF96;
- Thu,  8 Jul 2021 20:09:42 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0EB401FF99;
+ Thu,  8 Jul 2021 20:09:43 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 08/39] cirrus: delete FreeBSD and macOS jobs
-Date: Thu,  8 Jul 2021 20:09:10 +0100
-Message-Id: <20210708190941.16980-9-alex.bennee@linaro.org>
+Subject: [PATCH  v2 10/39] tests/docker: don't use BUILDKIT in GitLab either
+Date: Thu,  8 Jul 2021 20:09:12 +0100
+Message-Id: <20210708190941.16980-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210708190941.16980-1-alex.bennee@linaro.org>
 References: <20210708190941.16980-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,98 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
  berrange@redhat.com, kuhn.chenqun@huawei.com, f4bug@amsat.org,
- robhenry@microsoft.com, Ed Maste <emaste@freebsd.org>,
- Willian Rampazzo <willianr@redhat.com>, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org,
+ robhenry@microsoft.com, Willian Rampazzo <willianr@redhat.com>,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
  crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, aurelien@aurel32.net,
- Yonggang Luo <luoyonggang@gmail.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-The builds for these two platforms can now be performed from GitLab CI
-using cirrus-run.
+Using BUILDKIT breaks with certain container registries such as CentOS,
+with docker build reporting an error such as
+
+  failed to solve with frontend dockerfile.v0:
+  failed to build LLB: failed to load cache key:
+  unexpected status code
+  https://registry.centos.org/v2/centos/manifests/7:
+  403 Forbidden
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210625172211.451010-4-berrange@redhat.com>
+Message-Id: <20210623142245.307776-3-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .cirrus.yml | 55 -----------------------------------------------------
- 1 file changed, 55 deletions(-)
+ tests/docker/docker.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index f4bf49b704..02c43a074a 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -1,61 +1,6 @@
- env:
-   CIRRUS_CLONE_DEPTH: 1
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 4d9bb7c7ed..78dd13171e 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -228,7 +228,9 @@ class Docker(object):
+     def __init__(self):
+         self._command = _guess_engine_command()
  
--freebsd_12_task:
--  freebsd_instance:
--    image_family: freebsd-12-2
--    cpu: 8
--    memory: 8G
--  install_script:
--    - ASSUME_ALWAYS_YES=yes pkg bootstrap -f ;
--    - pkg install -y bash curl cyrus-sasl git glib gmake gnutls gsed
--          nettle perl5 pixman pkgconf png usbredir ninja
--  script:
--    - mkdir build
--    - cd build
--    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
--    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
--    - ../configure --enable-werror --disable-gnutls
--      || { cat config.log meson-logs/meson-log.txt; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake -j$(sysctl -n hw.ncpu) check V=1
--
--macos_task:
--  osx_instance:
--    image: catalina-base
--  install_script:
--    - brew install pkg-config python gnu-sed glib pixman make sdl2 bash ninja
--  script:
--    - mkdir build
--    - cd build
--    - ../configure --python=/usr/local/bin/python3 --enable-werror
--                   --extra-cflags='-Wno-error=deprecated-declarations'
--                   || { cat config.log meson-logs/meson-log.txt; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check-unit V=1
--    - gmake check-block V=1
--    - gmake check-qapi-schema V=1
--    - gmake check-softfloat V=1
--    - gmake check-qtest-x86_64 V=1
--
--macos_xcode_task:
--  osx_instance:
--    # this is an alias for the latest Xcode
--    image: catalina-xcode
--  install_script:
--    - brew install pkg-config gnu-sed glib pixman make sdl2 bash ninja
--  script:
--    - mkdir build
--    - cd build
--    - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
--                   --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
--    - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check-unit V=1
--    - gmake check-block V=1
--    - gmake check-qapi-schema V=1
--    - gmake check-softfloat V=1
--    - gmake check-qtest-x86_64 V=1
--
- windows_msys2_task:
-   timeout_in: 90m
-   windows_container:
+-        if "docker" in self._command and "TRAVIS" not in os.environ:
++        if ("docker" in self._command and
++            "TRAVIS" not in os.environ and
++            "GITLAB_CI" not in os.environ):
+             os.environ["DOCKER_BUILDKIT"] = "1"
+             self._buildkit = True
+         else:
 -- 
 2.20.1
 
