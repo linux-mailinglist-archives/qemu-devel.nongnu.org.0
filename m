@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C3C3C1621
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:37:24 +0200 (CEST)
-Received: from localhost ([::1]:53206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1A73C1627
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:40:09 +0200 (CEST)
+Received: from localhost ([::1]:33656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W5b-0006MB-VO
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53782)
+	id 1m1W8G-0003hz-AE
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:40:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vn1-0000cD-4F
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:11 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:36413)
+ id 1m1Vn3-0000m3-C1
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:13 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmz-0008Fl-Nq
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:10 -0400
-Received: by mail-ej1-x630.google.com with SMTP id nd37so10295712ejc.3
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:09 -0700 (PDT)
+ id 1m1Vn1-0008GH-3I
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:13 -0400
+Received: by mail-ed1-x532.google.com with SMTP id eb14so9128920edb.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ioTspNqC51n8g8b33aT5Bz3obIBnFvA/tPrRexRDgc0=;
- b=tbYeDzv99rDfemDZar9InVxqaA7iqcQss4wndGEeaP2nOOA5ZA6kSvCsyDFpMCh9AA
- 8aV8eSN1tPTeSPvIBKLwqdrRIsDIzcBSWtIJ1ofe1NMtZATSJc27w/yNKg3uDnlo/aFZ
- jFWxCVlhInpsiuHxd7uDhhjm9vkVGCv5G4Ic7+JbJGW2zjKN6m2lPsaTHmZQDaam+t4g
- fXo2xNuoJ+/XMVD2r4HOr7JDrgaJku5Fh1fZMu5/+ncuglI/zpkYQlzSfBMOwZ3xDCdW
- n7QuMLbd667sPUCw5hbH000VNglYvcdY82B4Jlw/4Ziq+6Le1louKB5D5SrYI9k5LtoP
- 7yAA==
+ bh=JqEuc5zmp5KYtSggRUy7NvqNM22I5C+WX9l/rIcbs+I=;
+ b=c64I9UAs0/ezkFsKYx4rM9efBlpol8rL7Nuv+1XWp7NQCv3KtL//dyn1Z3l4vr5lmK
+ F8Mak1wWmoi4mYDPfJ3scEB4utdpjv78mMd0oukPoMXNsk5fOvzZ9DYXGYHMVpUAwOJ+
+ v6oPuu4bYK4qwQC7ZfqL2HGRJberAJIjeP9jwgTxBSMW47uepRG39jSU0SGCCrBGkEXD
+ S0rpVf4aOXpHzApeRJAkv9b1s0tlWGv/SsicXL1gvo/wvRq75GRgLmljMx6x6St0Y/rn
+ WniX5oJo5vnVbpRN4ivvOE/7HBZ97yNsNtSgzsKap/i1wKE/V43DxSk5DDsnoerLCgR6
+ ENow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ioTspNqC51n8g8b33aT5Bz3obIBnFvA/tPrRexRDgc0=;
- b=uUoLu5OLRcMNZZZsQOJRJK2WQq/OhI3gPgVNwF+H91nykOLjRbGsJ1OUT70sOC2hm9
- lOiVS/8lg436jYsbVqHPmPQhlejCfT36vGDjk3afSMVkNmCHzCjDDsS/uOr2uQ2dvt93
- 6MuDFCAfpuMC0ABcK0Orni+sM+8oQJgkkppxIW2b3wFMQB2IektKlkx2p6+bpog8NAMZ
- L7RnXmcbE1w+xwF2w4kV0NyfswdlWmpzFYZIYWhQjfjNb3J3y0CSblyfoy2wgCJXFvE1
- IvXcQo1b7qjDEzPyMSJsXgWsllUBXRMoXyw7NZjJtt3yg6jmM8edzQl/TfE/EiLBkL0a
- ahWw==
-X-Gm-Message-State: AOAM5322HUrBq4B4IIFRWU1s0V1+R+SSG8ZnENG6zT0PVjwqFvAm6lpF
- qVryQ9svGyZdJqNFAlKqIyhCz7U8Mns=
-X-Google-Smtp-Source: ABdhPJyhcS6cijq8HqgTNOxCqI8pqSfsZnJUvPthRv0xMjTFUwEWN4NTVdqRdmPdv5NnEEIzooX+0g==
-X-Received: by 2002:a17:906:58cd:: with SMTP id
- e13mr15759675ejs.177.1625757488404; 
- Thu, 08 Jul 2021 08:18:08 -0700 (PDT)
+ bh=JqEuc5zmp5KYtSggRUy7NvqNM22I5C+WX9l/rIcbs+I=;
+ b=tgcJXq6viUVcWFtoK/HNSiR9emJtdIetge2vEVo7R2dDskp6N5J7NYiEcr2eW43KKM
+ rylzvVwKMyWBL/M5Je/4XINGEuY45b1FMnqwjfJvPn2JUwJjgtNadbgbwejOa0n1X1lR
+ H8Vl0o0cU43kZnI5VUs/68Ytg57c1VKE7HN1aHRzDbvFXKCSzYC5ni90K5UbLOrokVG1
+ Oo3b0qZNM3stYMVV76dRP6aa1thz8zLfbNKoSc2ilkin1bG8ERLBnDXWfr2KXsRZzmq/
+ kRSl+HLXCuXLBaZTgnNDi5Zz+P3z9lbR6z1vzneV/97+nMj9lkT3gagjaqyHqtI3TxPX
+ orgQ==
+X-Gm-Message-State: AOAM530NFV2hoH6QcBfqe0Yrcz07pad+8uHnWLMcXgBXkCNSKh2iEAfR
+ adJQMUeO+XQrjyLmCWBureWVekHy3lY=
+X-Google-Smtp-Source: ABdhPJxdjP+a+sOdFNDDOd0yNXjBUTDjOVZkrfpUrIO5wlSP7TLVeEyM0te7JU+3aR7+0uqM1bH9Wg==
+X-Received: by 2002:a05:6402:152:: with SMTP id
+ s18mr38589720edu.221.1625757489827; 
+ Thu, 08 Jul 2021 08:18:09 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.07
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:08 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:09 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/48] modules: add module_obj() note to QOM docs
-Date: Thu,  8 Jul 2021 17:17:26 +0200
-Message-Id: <20210708151748.408754-27-pbonzini@redhat.com>
+Subject: [PULL 28/48] modules: hook up modules.h to docs build
+Date: Thu,  8 Jul 2021 17:17:28 +0200
+Message-Id: <20210708151748.408754-29-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -93,31 +93,37 @@ From: Gerd Hoffmann <kraxel@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-23-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-25-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/devel/qom.rst | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ docs/devel/index.rst   | 1 +
+ docs/devel/modules.rst | 5 +++++
+ 2 files changed, 6 insertions(+)
+ create mode 100644 docs/devel/modules.rst
 
-diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-index 42d0dc4f4d..e5fe3597cd 100644
---- a/docs/devel/qom.rst
-+++ b/docs/devel/qom.rst
-@@ -87,6 +87,14 @@ specific type:
-    #define MY_DEVICE(obj) \
-       OBJECT_CHECK(MyDevice, obj, TYPE_MY_DEVICE)
- 
-+In case the ObjectClass implementation can be built as module a
-+module_obj() line must be added to make sure qemu loads the module
-+when the object is needed.
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 977c3893bd..ba90badbbd 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -41,6 +41,7 @@ Contents:
+    s390-dasd-ipl
+    clocks
+    qom
++   modules
+    block-coroutine-wrapper
+    multi-process
+    ebpf_rss
+diff --git a/docs/devel/modules.rst b/docs/devel/modules.rst
+new file mode 100644
+index 0000000000..066f347b89
+--- /dev/null
++++ b/docs/devel/modules.rst
+@@ -0,0 +1,5 @@
++============
++Qemu modules
++============
 +
-+.. code-block:: c
-+
-+   module_obj(TYPE_MY_DEVICE);
-+
- Class Initialization
- ====================
- 
++.. kernel-doc:: include/qemu/module.h
 -- 
 2.31.1
 
