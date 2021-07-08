@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB06E3C1892
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:42:47 +0200 (CEST)
-Received: from localhost ([::1]:43004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB043C183A
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:34:56 +0200 (CEST)
+Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Y2w-000163-SX
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:42:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47688)
+	id 1m1XvL-0005Yo-GY
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:34:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1XTJ-0005YW-4T
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:05:57 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43532)
+ id 1m1XTM-0005cH-Ec
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:06:00 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:41805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1XTG-0007r6-UO
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:05:56 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id a13so8388049wrf.10
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:05:54 -0700 (PDT)
+ id 1m1XTL-0007t9-38
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:06:00 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id k4so2120092wrc.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=avqZU2zaRHYwDaI+nphWFrRDm2l36KerUnCAuDOkKSo=;
- b=LgP3vVNz5LyLcd056vdtAlqgEoSXN4R5rOl9rTBfcCNhxZ2vLsYbx/x7aUliTzozO8
- E5xsXnMr7JPO4sflgKiqpk3olIpdqhLkgchcAZOw5ug6CKPlbGfAr5FP82noHwAhTDr8
- XxQGVyEAahxjoOwP9VPJ3ioaSEQbu3L1SM7dDV2rusTMlOtiB4L5NUKg+oudeaC3P0j2
- mbCBbGMS+KnTAeL9K+QoKs+rSANUz6P613OmI3CDouayJ1Ch/y+Y4lP7pAXYxN2BZS0Q
- nhCvMLYZe2RabYLyyMEuNnjIv0o0ht9sEQ1gPxuiQpGslrGgZdaIg/8U96ZiCI24hEfT
- AofA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=06fODHnOvzWlfm3lWDa9KOUtGX7KBCUbsCfg/kBJZ3Q=;
+ b=Sp9bjfCKSMGJOYc+Jfzg3kyE+Yl3FeM6rIxpPwzWgcMuHTziW2SqEHGWVNfYo8wGEX
+ weinmwioKU5cM/Z7qAApvAuzYs489DcWS2gnOSE+EolzQSD7iFOdEZiYKMaLeESROakq
+ PNUZceV08CqPwGoYjmB6yMDBMtc2fY4/K42rS9Rlik6RQCjFPR0OSSpNGzHTfKyn6VNb
+ z/B6GqUO5UzQfTLvlXopYAmPbzrI/TxKffi2jh5rBmE4qN1rlDxv5+YAb3efkCMiilC3
+ OgxaVy62MShtRrDUSKEQcNl78qPGwowBohjQbt2HybCtULVnS7jtsDFXsLdYN1ltk0yP
+ mYdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=avqZU2zaRHYwDaI+nphWFrRDm2l36KerUnCAuDOkKSo=;
- b=JXrk4/weOm6PP23yquwZMnUvpYDUs/8SDwSne410MRjl+iJw+QtMMVL+Lif52mKeVa
- qbaVrtSMYvY7SpU8+nnjGECyoa6+3fwzEjQfklZfTfaNkZUAYjovSN+CwNSa30VN6fJH
- g7wD9b11F0Ix5/gQqoVFvaZhhN99OiUJaOwgnnjXCIdAFIIh64SlYqD4p+9w9T808/nW
- gmbLjhTHXDPTQAlH7C+sLUYQvIgk+7QRG5Zbq122/AB2KsUGaGnACem4kj/OcJG+oVlT
- pKFKFUfB0YDPbm+5Hd0JzIO7/k+Bw9jC4tjortKiMrjphCemhH1Er90+36g+X6HEj+3T
- 7yiA==
-X-Gm-Message-State: AOAM5339v0H5Iga4ovFY0tmvzATUQO/spXt1uutaSRoyZCeR3dufelJj
- WN/+AH1iz8yc0C1FTvtDwnigs2j2xQI=
-X-Google-Smtp-Source: ABdhPJwYkwQdQJDtY6GMbHhLWZw6hhlEUOm6F5o0Y4h426TL6uwxp6elKiOpviMipqPH/sMzq3FzxA==
-X-Received: by 2002:a05:6000:1ac6:: with SMTP id
- i6mr31570309wry.327.1625763952823; 
- Thu, 08 Jul 2021 10:05:52 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=06fODHnOvzWlfm3lWDa9KOUtGX7KBCUbsCfg/kBJZ3Q=;
+ b=p6Q9qxLwyIab6J8/lTuWzzoo9YyDF+Z6pw5aYf/DeHWjUPR7TVsH8jWegYtHrAfzQT
+ mOf9mdi+ekGspBypQSHWn4VWsTzE9GKzgtxEhGz3qnvIvEUPiRFFkuI5KnN4O1gMSfju
+ YRx/dH6tF17oFLghP0ty+1iqCIrBvGDhj7ZFtsOJ0eHjz5LQeybbHtLknoqYOTkkfYk6
+ iDP9haszjH4Wm2naFfOEbPyDvaWS11ckzlFp7lN/hwkW00KDEbb+VBdPtouf8XPSYHGq
+ 5s0YXmlqiqNlaY8CiS5TXbxR1wmnACACIQvPr+INQPMwVDdN/XhWvROjBrs0aWGewfWA
+ QbYg==
+X-Gm-Message-State: AOAM530OH2KjwJoNZDiQyGGHCi948qhIQDQLjTWZsqWBf1kkK6CRVjpZ
+ mH8zV5rCCSsxEFUh6+owJFdcY0PhKtg=
+X-Google-Smtp-Source: ABdhPJwQAyTUNfuim1ptFUpXk7hbKKEPKYx8kd7hLR0HWR/nuiwS0YQiX4YrG768txas9VqDJMBh/w==
+X-Received: by 2002:adf:e607:: with SMTP id p7mr35653146wrm.80.1625763957566; 
+ Thu, 08 Jul 2021 10:05:57 -0700 (PDT)
 Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
  [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id h10sm5021852wmb.46.2021.07.08.10.05.51
+ by smtp.gmail.com with ESMTPSA id p7sm2747390wrr.21.2021.07.08.10.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 10:05:52 -0700 (PDT)
+ Thu, 08 Jul 2021 10:05:57 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/8] linux-user: target <-> host errno conversion code
- refactor
-Date: Thu,  8 Jul 2021 19:05:42 +0200
-Message-Id: <20210708170550.1846343-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/8] linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)
+Date: Thu,  8 Jul 2021 19:05:43 +0200
+Message-Id: <20210708170550.1846343-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210708170550.1846343-1-f4bug@amsat.org>
+References: <20210708170550.1846343-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -91,83 +91,30 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series extract code related to target errno conversion=0D
-(to/from host) into a separate header.=0D
-=0D
-Since v2:=0D
-- addressed Richard / Laurent review comments=0D
-Since v1:=0D
-- addressed Taylor / Richard / Laurent review comments=0D
-=0D
-Based-on: <20210708100756.212085-1-laurent@vivier.eu>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (8):=0D
-  linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)=0D
-  linux-user/sparc: Rename target_errno.h -> target_errno_defs.h=0D
-  linux-user: Extract target errno to 'target_errno_defs.h'=0D
-  linux-user/alpha: Move errno definitions to 'target_errno_defs.h'=0D
-  linux-user/hppa: Move errno definitions to 'target_errno_defs.h'=0D
-  linux-user/mips: Move errno definitions to 'target_errno_defs.h'=0D
-  linux-user: Simplify host <-> target errno conversion using macros=0D
-  linux-user/syscall: Remove ERRNO_TABLE_SIZE check=0D
-=0D
- linux-user/aarch64/target_errno_defs.h        |   7 +=0D
- linux-user/alpha/target_errno_defs.h          | 204 ++++++++++++++++=0D
- linux-user/alpha/target_syscall.h             | 194 ---------------=0D
- linux-user/arm/target_errno_defs.h            |   7 +=0D
- linux-user/cris/target_errno_defs.h           |   7 +=0D
- .../target_errno_defs.h}                      |   4 +-=0D
- linux-user/hexagon/target_errno_defs.h        |   7 +=0D
- linux-user/hppa/target_errno_defs.h           | 220 +++++++++++++++++=0D
- linux-user/hppa/target_syscall.h              | 210 -----------------=0D
- linux-user/i386/target_errno_defs.h           |   7 +=0D
- linux-user/m68k/target_errno_defs.h           |   7 +=0D
- linux-user/microblaze/target_errno_defs.h     |   7 +=0D
- linux-user/mips/target_errno_defs.h           | 221 ++++++++++++++++++=0D
- linux-user/mips/target_syscall.h              | 211 -----------------=0D
- linux-user/mips64/target_errno_defs.h         |  10 +=0D
- linux-user/mips64/target_syscall.h            | 211 -----------------=0D
- linux-user/nios2/target_errno_defs.h          |   7 +=0D
- linux-user/openrisc/target_errno_defs.h       |   7 +=0D
- linux-user/ppc/target_errno_defs.h            |   7 +=0D
- linux-user/riscv/target_errno_defs.h          |   7 +=0D
- linux-user/s390x/target_errno_defs.h          |   7 +=0D
- linux-user/sh4/target_errno_defs.h            |   7 +=0D
- .../{target_errno.h =3D> target_errno_defs.h}   |  11 +-=0D
- linux-user/sparc/target_syscall.h             |   2 -=0D
- linux-user/syscall_defs.h                     |   2 +-=0D
- linux-user/x86_64/target_errno_defs.h         |   7 +=0D
- linux-user/xtensa/target_errno_defs.h         |   7 +=0D
- linux-user/syscall.c                          | 164 ++-----------=0D
- linux-user/errnos.c.inc                       | 140 +++++++++++=0D
- linux-user/safe-syscall.S                     |   2 +-=0D
- 30 files changed, 926 insertions(+), 985 deletions(-)=0D
- create mode 100644 linux-user/aarch64/target_errno_defs.h=0D
- create mode 100644 linux-user/alpha/target_errno_defs.h=0D
- create mode 100644 linux-user/arm/target_errno_defs.h=0D
- create mode 100644 linux-user/cris/target_errno_defs.h=0D
- rename linux-user/{errno_defs.h =3D> generic/target_errno_defs.h} (99%)=0D
- create mode 100644 linux-user/hexagon/target_errno_defs.h=0D
- create mode 100644 linux-user/hppa/target_errno_defs.h=0D
- create mode 100644 linux-user/i386/target_errno_defs.h=0D
- create mode 100644 linux-user/m68k/target_errno_defs.h=0D
- create mode 100644 linux-user/microblaze/target_errno_defs.h=0D
- create mode 100644 linux-user/mips/target_errno_defs.h=0D
- create mode 100644 linux-user/mips64/target_errno_defs.h=0D
- create mode 100644 linux-user/nios2/target_errno_defs.h=0D
- create mode 100644 linux-user/openrisc/target_errno_defs.h=0D
- create mode 100644 linux-user/ppc/target_errno_defs.h=0D
- create mode 100644 linux-user/riscv/target_errno_defs.h=0D
- create mode 100644 linux-user/s390x/target_errno_defs.h=0D
- create mode 100644 linux-user/sh4/target_errno_defs.h=0D
- rename linux-user/sparc/{target_errno.h =3D> target_errno_defs.h} (97%)=0D
- create mode 100644 linux-user/x86_64/target_errno_defs.h=0D
- create mode 100644 linux-user/xtensa/target_errno_defs.h=0D
- create mode 100644 linux-user/errnos.c.inc=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Affected targets: alpha, hppa, mips/64, sparc
+
+Fixes: fe8ed7d5794 ("linux-user: Handle ERFKILL and EHWPOISON")
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 2e826206d22..4842a1987b7 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -629,7 +629,7 @@ static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
+ #ifdef ENOMSG
+     [ENOMSG]            = TARGET_ENOMSG,
+ #endif
+-#ifdef ERKFILL
++#ifdef ERFKILL
+     [ERFKILL]           = TARGET_ERFKILL,
+ #endif
+ #ifdef EHWPOISON
+-- 
+2.31.1
+
 
