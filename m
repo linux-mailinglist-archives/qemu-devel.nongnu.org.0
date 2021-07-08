@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A816B3BF4C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:31:32 +0200 (CEST)
-Received: from localhost ([::1]:56308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097D73BF4C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:31:30 +0200 (CEST)
+Received: from localhost ([::1]:56000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1LhD-0002uW-Me
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:31:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38216)
+	id 1m1LhB-0002iE-1P
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:31:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1Lbr-0005PI-No
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:25:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57898)
+ id 1m1Lbs-0005Qo-3W
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:26:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1Lbp-0003Jg-Ft
+ id 1m1Lbq-0003Ji-B6
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:25:59 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1Lbl-0000mv-SX
+ id 1m1Lbm-0000mS-CQ
  for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 04:25:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CB9E62E80BA
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 04:25:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 562282E80BA
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 04:25:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Jul 2021 04:17:28 -0000
-From: Launchpad Bug Tracker <1893807@bugs.launchpad.net>
+Date: Thu, 08 Jul 2021 04:17:29 -0000
+From: Launchpad Bug Tracker <1893634@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jesussanz2003 th-huth
-X-Launchpad-Bug-Reporter: =?utf-8?q?Jes=C3=BAs_Sanz_del_Rey_=28jesussanz200?=
- =?utf-8?q?3=29?=
+X-Launchpad-Bug-Commenters: janitor th-huth tom-ty89
+X-Launchpad-Bug-Reporter: Tom Yan (tom-ty89)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159897706621.21998.10972908941872978580.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162571784847.7916.13891155834856649188.malone@loganberry.canonical.com>
-Subject: [Bug 1893807] Re: Crash when launching windows qemu version from WSL2
+References: <159886949002.28151.4021199873744523881.malonedeb@soybean.canonical.com>
+Message-Id: <162571784915.7916.4519051115049989698.malone@loganberry.canonical.com>
+Subject: [Bug 1893634] Re: blk_get_max_transfer() works only with sg
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 016261eb50d107592bcdf5bfcee1b0d7c5607473
+X-Launchpad-Hash: 0fb80e1db02a1e1174d0a831cb236b0be79c0798
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893807 <1893807@bugs.launchpad.net>
+Reply-To: Bug 1893634 <1893634@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,33 +83,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893807
+https://bugs.launchpad.net/bugs/1893634
 
 Title:
-  Crash when launching windows qemu version from WSL2
+  blk_get_max_transfer() works only with sg
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Version: 5.1.0
-  Command line from WSL2:
-  qemu-system-x86_64.exe -hdd /home/jesus/proyectos/RWivOS/bin/RELEASE/imag=
-e.hdd -m 4G -smp 4 -machine q35 -debugcon stdio
+  blk_get_max_transfer() is supposed to be able to get the max_sectors
+  queue limit of the scsi device on the host side and is used in both
+  scsi-generic.c (for scsi-generic and scsi-block) and scsi-disk.c (for
+  scsi-hd) to set/change the max_xfer_len (and opt_xfer_len in the case
+  of scsi-generic.c).
 
-  OS: Windows 10(64 bits) from WSL2 Ubuntu 18.04
+  However, it only works with the sg driver in doing so. It cannot get
+  the queue limit with the sd driver and simply returns MAX_INT.
 
-  The error:
-  ERROR:/home/stefan/src/qemu/repo.or.cz/qemu/ar7/block.c:1325:bdrv_open_dr=
-iver: assertion
-  =C2=A0failed: (is_power_of_2(bs->bl.request_alignment))
+  qemu version 5.1.0
+  kernel version 5.8.5
 
-  The problem i'm seeing when i lauch from wsl2 only occurs when
-  launched with argument -hdd from WSL2, if i launch it from Windows
-  pointing to the WSL path where the file is stored works.
-
-  It occurs on other versions, i tried 4.1.0 too.
+  Btw, is there a particular reason that it doesn't MIN_NON_ZERO against
+  the original max_xfer_len:
+  https://github.com/qemu/qemu/blob/v5.1.0/hw/scsi/scsi-generic.c#L172?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893807/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1893634/+subscriptions
 
