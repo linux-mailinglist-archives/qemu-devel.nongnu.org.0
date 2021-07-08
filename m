@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586303C1B29
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 23:44:03 +0200 (CEST)
-Received: from localhost ([::1]:55040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE603C1B1E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 23:40:29 +0200 (CEST)
+Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1boQ-0006Zc-B5
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 17:44:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54414)
+	id 1m1bkw-00022g-Fg
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 17:40:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1big-0008Qt-Ly
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:38:06 -0400
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46751)
+ id 1m1bia-0008PY-SB
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:38:01 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:41524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1biY-0008LN-4r
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:38:06 -0400
-Received: by mail-pg1-x52a.google.com with SMTP id w15so7732123pgk.13
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 14:37:57 -0700 (PDT)
+ id 1m1biY-0008LQ-NR
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:38:00 -0400
+Received: by mail-pl1-x632.google.com with SMTP id z2so998335plg.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 14:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YI+k1eDoSKwErLE0nkT4pwOAj5SV9AI2zjTOQ0y/Zv8=;
- b=lmzBocxvevDSY0OTN0mZZ5wg5Un1YYty6ezpRhfp6Cen7PSVuOCQGoOgEJStMxUjPJ
- 6rxw3iQh/ohEzsMpaW/yeskDPbbkCYZd/T5P2q/+fTj6ceVkM7fypZLr0FbI4y9u3cyP
- kngRJM44khlf9ulyQgKNK8MgE9nlhxqw9fmO3Bwzwtx2mmjBomW/rZHnrU7ubGBj902g
- /YOCYCoP8561+Bvoj9VLqtWjl7OPZBVJBGPzxJ3DbrYilRhKJwRNVjn5XMLkoiRUMRqD
- X4RRjFEU3SYUPgF53gOWcE37yBc2JYmeWL99D8/kfeRjAuWzUTHz89JhYYr7yNUkhoPP
- rw5w==
+ bh=asfzam4uxshAkMTtphuDnwfvWVKH3o+9edCCgJ8GjhQ=;
+ b=mhOiG8XsljiOmtR8hr7vS8Mio9HzTexa/asLGDfTkCTr0VlzwYb6LwoaP9BIdBDdIA
+ c9gk3aNSUdG4Tw2urYklIg2tspXW/1pwPRQojB3tbPTgX1/MDkb6/U8FOTVnG0mXDO0q
+ wnhTHL7x1gEQHk7vTNRbtoYeg1hh/njae1zEjDpVZGh67Tz/m4FnEu4d8rMmOxP0qq+K
+ lmzRmD+XEr9/OX52OQJEZqQIVJ4ZyEp15zddIxf6u8DeCF1E1ZwnsSlxgYI8bzjPrVkz
+ Yrt9lPAMxnworgEXEdscRPXGqjYAxpM7Jqi6ZZ7nqk21fR5gaqwSC3P/9WiMXp00aVDW
+ xjVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YI+k1eDoSKwErLE0nkT4pwOAj5SV9AI2zjTOQ0y/Zv8=;
- b=l7nEeemo0MHv0b+u83evOmqtlvzInXEMZbZ0nR754iwqSBqn648XjsSZIEsYQ3uLRb
- 7bHuerqMJrWcVMuVc4EtMDGWd+tGJJvD3d6nuS+sLaJuH61I9nFWldQMdDlFSk7hqokt
- x3cS0cR/+qXPS7YMcWJuG7ne3LVnWmV6VsNeIzYWDCozSaGFh3CNRtkrDkFX21V6GOIp
- 2iEtCAhFSz/Y6+tQIXzLodwAlxmMtn03EPm/pB9s0dCz+xjlYerZ/bcM3aJUuRHDG+kA
- CldA20x5v7i8xh896TeNEA1O6SfJinmrJxL1MCV0mYsSpJ0ihCR4zszUtov9WLMTpLZl
- WGpw==
-X-Gm-Message-State: AOAM531ZeCE4Lxq3voj3ADzCYjAM0lXAYVrMrSbu10p3pnMOiAhLHsr6
- WCqIE2X7LBpGsdJdTpzdaDfSO/D6Iz18Lw==
-X-Google-Smtp-Source: ABdhPJx7HHc02YWmTNP14jJ7m2Iaz8/aj/2COuBV9q+ZtyTciEzKRjaKZjnzwG8NBTrCLTuRnyC4Vw==
-X-Received: by 2002:aa7:848a:0:b029:305:a6bf:f8ea with SMTP id
- u10-20020aa7848a0000b0290305a6bff8eamr33867433pfn.20.1625780276618; 
- Thu, 08 Jul 2021 14:37:56 -0700 (PDT)
+ bh=asfzam4uxshAkMTtphuDnwfvWVKH3o+9edCCgJ8GjhQ=;
+ b=oYYyLabzUOw3eAcCTI6bjNXivALuvlf/LoTW55zeEQ4ad2WS7dsHbGggihKRY24b2u
+ GpXgWEtkqiebIHACZye9wlqZwXWRFKB6Q2z5FrU3E6UccKHn5RA9vQ80fWwd4hpKLzVO
+ DeTLtMLPLPBKyKeZ325Cbvioye3hyGiYsbK/J5P1dyxnUfiSBWqENXfRDK0gx/R9Xpsl
+ QZpnwwzy8yPSJmRX0UsEISQ+lcAXJuO5ixwOoNuFLNnUEI48lMBRUFUoQWnJVZyj6b4Q
+ Qu1APka2kNblv3z03c7FjkAVNjTcua78thjh5xonRJvnohxVJ5scbir84jL5DjXxE6rC
+ 44gA==
+X-Gm-Message-State: AOAM530I4azGNjqweAg7YSY2d/mLC1kAd4qQ+KHjNz9QwcPot8gtRTUT
+ MvpUKnpWu42ZG4Auy6BgV6nIC/J3lHnnHw==
+X-Google-Smtp-Source: ABdhPJwz+OD3I6uyo8hE7XpXbR8/vFkQGvBx08srd6+sDVZTN4+Yk3wLS6vemvAiA8HQUTPeXDtSYQ==
+X-Received: by 2002:a17:90a:ec08:: with SMTP id
+ l8mr9771317pjy.68.1625780277218; 
+ Thu, 08 Jul 2021 14:37:57 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id g27sm4322800pgl.19.2021.07.08.14.37.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 14:37:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] target/openrisc: Use tcg_constant_*
-Date: Thu,  8 Jul 2021 14:37:51 -0700
-Message-Id: <20210708213754.830485-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] target/openrisc: Use tcg_constant_tl for dc->R0
+Date: Thu,  8 Jul 2021 14:37:52 -0700
+Message-Id: <20210708213754.830485-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708213754.830485-1-richard.henderson@linaro.org>
 References: <20210708213754.830485-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,111 +87,50 @@ Cc: shorne@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace uses of tcg_const_* with the allocate and free close together.
+The temp allocated for tcg_const_tl is auto-freed at branches,
+but pure constants are not.  So we can remove the extra hoop
+jumping in trans_l_swa.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/translate.c | 42 ++++++++-----------------------------
- 1 file changed, 9 insertions(+), 33 deletions(-)
+ target/openrisc/translate.c | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index a9c81f8bd5..1e437d2f9d 100644
+index 1e437d2f9d..96df513fd3 100644
 --- a/target/openrisc/translate.c
 +++ b/target/openrisc/translate.c
-@@ -130,9 +130,7 @@ void openrisc_translate_init(void)
+@@ -733,12 +733,6 @@ static bool trans_l_swa(DisasContext *dc, arg_store *a)
+     ea = tcg_temp_new();
+     tcg_gen_addi_tl(ea, cpu_R(dc, a->a), a->i);
  
- static void gen_exception(DisasContext *dc, unsigned int excp)
- {
--    TCGv_i32 tmp = tcg_const_i32(excp);
--    gen_helper_exception(cpu_env, tmp);
--    tcg_temp_free_i32(tmp);
-+    gen_helper_exception(cpu_env, tcg_constant_i32(excp));
- }
- 
- static void gen_illegal_exception(DisasContext *dc)
-@@ -539,13 +537,11 @@ static bool trans_l_extbz(DisasContext *dc, arg_da *a)
- 
- static bool trans_l_cmov(DisasContext *dc, arg_dab *a)
- {
--    TCGv zero;
-+    TCGv zero = tcg_constant_tl(0);
- 
-     check_r0_write(dc, a->d);
--    zero = tcg_const_tl(0);
-     tcg_gen_movcond_tl(TCG_COND_NE, cpu_R(dc, a->d), cpu_sr_f, zero,
-                        cpu_R(dc, a->a), cpu_R(dc, a->b));
--    tcg_temp_free(zero);
-     return true;
- }
- 
-@@ -633,15 +629,11 @@ static bool trans_l_jal(DisasContext *dc, arg_l_jal *a)
- static void do_bf(DisasContext *dc, arg_l_bf *a, TCGCond cond)
- {
-     target_ulong tmp_pc = dc->base.pc_next + a->n * 4;
--    TCGv t_next = tcg_const_tl(dc->base.pc_next + 8);
--    TCGv t_true = tcg_const_tl(tmp_pc);
--    TCGv t_zero = tcg_const_tl(0);
-+    TCGv t_next = tcg_constant_tl(dc->base.pc_next + 8);
-+    TCGv t_true = tcg_constant_tl(tmp_pc);
-+    TCGv t_zero = tcg_constant_tl(0);
- 
-     tcg_gen_movcond_tl(cond, jmp_pc, cpu_sr_f, t_zero, t_true, t_next);
+-    /* For TB_FLAGS_R0_0, the branch below invalidates the temporary assigned
+-       to cpu_regs[0].  Since l.swa is quite often immediately followed by a
+-       branch, don't bother reallocating; finish the TB using the "real" R0.
+-       This also takes care of RB input across the branch.  */
+-    dc->R0 = cpu_regs[0];
 -
--    tcg_temp_free(t_next);
--    tcg_temp_free(t_true);
--    tcg_temp_free(t_zero);
-     dc->delayed_branch = 2;
- }
+     lab_fail = gen_new_label();
+     lab_done = gen_new_label();
+     tcg_gen_brcond_tl(TCG_COND_NE, ea, cpu_lock_addr, lab_fail);
+@@ -746,7 +740,7 @@ static bool trans_l_swa(DisasContext *dc, arg_store *a)
  
-@@ -814,44 +806,28 @@ static bool trans_l_adrp(DisasContext *dc, arg_l_adrp *a)
+     val = tcg_temp_new();
+     tcg_gen_atomic_cmpxchg_tl(val, cpu_lock_addr, cpu_lock_value,
+-                              cpu_regs[a->b], dc->mem_idx, MO_TEUL);
++                              cpu_R(dc, a->b), dc->mem_idx, MO_TEUL);
+     tcg_gen_setcond_tl(TCG_COND_EQ, cpu_sr_f, val, cpu_lock_value);
+     tcg_temp_free(val);
  
- static bool trans_l_addi(DisasContext *dc, arg_rri *a)
- {
--    TCGv t0;
--
-     check_r0_write(dc, a->d);
--    t0 = tcg_const_tl(a->i);
--    gen_add(dc, cpu_R(dc, a->d), cpu_R(dc, a->a), t0);
--    tcg_temp_free(t0);
-+    gen_add(dc, cpu_R(dc, a->d), cpu_R(dc, a->a), tcg_constant_tl(a->i));
-     return true;
- }
- 
- static bool trans_l_addic(DisasContext *dc, arg_rri *a)
- {
--    TCGv t0;
--
-     check_r0_write(dc, a->d);
--    t0 = tcg_const_tl(a->i);
--    gen_addc(dc, cpu_R(dc, a->d), cpu_R(dc, a->a), t0);
--    tcg_temp_free(t0);
-+    gen_addc(dc, cpu_R(dc, a->d), cpu_R(dc, a->a), tcg_constant_tl(a->i));
-     return true;
- }
- 
- static bool trans_l_muli(DisasContext *dc, arg_rri *a)
- {
--    TCGv t0;
--
-     check_r0_write(dc, a->d);
--    t0 = tcg_const_tl(a->i);
--    gen_mul(dc, cpu_R(dc, a->d), cpu_R(dc, a->a), t0);
--    tcg_temp_free(t0);
-+    gen_mul(dc, cpu_R(dc, a->d), cpu_R(dc, a->a), tcg_constant_tl(a->i));
-     return true;
- }
- 
- static bool trans_l_maci(DisasContext *dc, arg_l_maci *a)
- {
--    TCGv t0;
--
--    t0 = tcg_const_tl(a->i);
--    gen_mac(dc, cpu_R(dc, a->a), t0);
--    tcg_temp_free(t0);
-+    gen_mac(dc, cpu_R(dc, a->a), tcg_constant_tl(a->i));
-     return true;
- }
- 
+@@ -1602,7 +1596,7 @@ static void openrisc_tr_tb_start(DisasContextBase *db, CPUState *cs)
+     /* Allow the TCG optimizer to see that R0 == 0,
+        when it's true, which is the common case.  */
+     if (dc->tb_flags & TB_FLAGS_R0_0) {
+-        dc->R0 = tcg_const_tl(0);
++        dc->R0 = tcg_constant_tl(0);
+     } else {
+         dc->R0 = cpu_regs[0];
+     }
 -- 
 2.25.1
 
