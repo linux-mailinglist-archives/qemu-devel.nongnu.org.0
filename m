@@ -2,75 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151313C158D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:58:57 +0200 (CEST)
-Received: from localhost ([::1]:49772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1823C159D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:02:33 +0200 (CEST)
+Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1VUO-0003e7-3D
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47470)
+	id 1m1VXn-0006g9-LK
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:02:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1VSF-0000DT-De
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:56:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22850)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1m1VUy-0005Ph-S1
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:59:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1VSC-00015C-4S
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:56:42 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1m1VUw-00028x-Ip
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:59:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625756199;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1625756369;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rlhQYxcegNFp3YGNxTiYlLa80ewIdvgAKiVYN2QRzYA=;
- b=axRJBQOvL8Dp04z1oDbl08fnh2qORvA0rsszHuMLjDB5RFXNlfA7JT2I8nLMt45OMIm/91
- DEMWfqlgGXqvKffYpRKkxPloIkyAFF8Eehvf3zbCHnkzirz6GgWYvX2eKlMTbbe34TOPh6
- h7qSuA6N4E4xocVFBNqNrdidJYyTzi0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-bbTM7aa8Ny6k0oRNELIgdw-1; Thu, 08 Jul 2021 10:56:36 -0400
-X-MC-Unique: bbTM7aa8Ny6k0oRNELIgdw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8D0A939
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 14:56:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-104.ams2.redhat.com
- [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4754C60C13;
- Thu,  8 Jul 2021 14:56:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D55D91132B52; Thu,  8 Jul 2021 16:56:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH] audio: Make the AudiodevDriver enum conditional
-References: <20210624183716.515721-1-thuth@redhat.com>
- <YNWUGh2XmQ7eXtmQ@redhat.com>
- <4c27da0d-ef3c-c1da-0d80-d8496292b85c@redhat.com>
-Date: Thu, 08 Jul 2021 16:56:29 +0200
-In-Reply-To: <4c27da0d-ef3c-c1da-0d80-d8496292b85c@redhat.com> (Thomas Huth's
- message of "Fri, 25 Jun 2021 10:45:44 +0200")
-Message-ID: <87v95kdfc2.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=NRYHu++jwLkHUMTYZjLfa3+ISjR4I11QfpQKDU3vlRY=;
+ b=BImSgM/HNv9/wKYd2nGArJYloclKS9kB5wp6wueV/ApnETr+tpT8r2ECYo5Pvs2a5Ei0jf
+ pxffoCCqfJeREXjUgyihrPyUUBMNgKk4xXco7NJDy4OOkEwh6LpAkLBrq1O2cCWPCyyxEv
+ p77HLosBbrnPyxMSgPsLG61mdaFJ+CA=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-561-CkQHZlLeNPSH00NmopCXog-1; Thu, 08 Jul 2021 10:59:28 -0400
+X-MC-Unique: CkQHZlLeNPSH00NmopCXog-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k8-20020a05600c1c88b02901b7134fb829so1163948wms.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:59:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=NRYHu++jwLkHUMTYZjLfa3+ISjR4I11QfpQKDU3vlRY=;
+ b=Ce50VBGKqVZ0kGOesD2ENwTZmgNGimSiNsAE98bdr4/diYRpBsjjOlxg51iVyyvuu1
+ mUcJnVwASa6prhCD19iaU7StK4/o2QpubHwPknUtEpBXv9AYXBjROSPem36YAHZE4u0X
+ Bkda3hPfY7RkSbUD5bPUEXP9x5iJ015z8AVHfnSu0QKzxhLVlNrZ0qpObJTUyGUqwJ9I
+ 4HOEdRP5wWwoBMOlCBeaHFjBkkzNRXfTG0g5gKCuaALTj0h0URn+JvjK4ZSY7r4909xp
+ tPU2Ooq6ncGHoXyQq4qy4zYyWTNQtIhlPFn3k2h4tCZ0kxP85rHKe8G1GU4PvZ929TzG
+ dPeg==
+X-Gm-Message-State: AOAM531+sZdT+g5l6XTLX5SR058UdEN7KhyEw102CACmtmE/BayyZQ2T
+ 1/UDxbVbn4kykhYk+ZKfCeApLjgzEOFt6/jq7MXXz3ICysCCNLGWs3f8/y7jcPWwsLvmPkhYKTS
+ AxBV7Gk8CSTbt/WA=
+X-Received: by 2002:a5d:4bca:: with SMTP id l10mr35379499wrt.236.1625756365160; 
+ Thu, 08 Jul 2021 07:59:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyv96UiWRNlEB5FklZ1gLf51qbN/2aMVfJQ7MbsOjslTTp4m6mxfJvhnLLomYSUBsstSnweSw==
+X-Received: by 2002:a5d:4bca:: with SMTP id l10mr35379486wrt.236.1625756365007; 
+ Thu, 08 Jul 2021 07:59:25 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id u1sm9792508wmn.23.2021.07.08.07.59.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 07:59:24 -0700 (PDT)
+Subject: Re: [PATCH 2/3] Acceptance Tests: move definition of distro checksums
+ to the framework
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210414221457.1653745-1-crosa@redhat.com>
+ <20210414221457.1653745-3-crosa@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <a793e48d-d6f1-7e70-30d6-1b0442192408@redhat.com>
+Date: Thu, 8 Jul 2021 16:59:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210414221457.1653745-3-crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,38 +103,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thomas Huth <thuth@redhat.com> writes:
+Hi Cleber,
 
-> On 25/06/2021 10.30, Daniel P. Berrang=C3=A9 wrote:
->> On Thu, Jun 24, 2021 at 08:37:16PM +0200, Thomas Huth wrote:
->>> This way, the upper layers like libvirt could have the possibility
->>> to use QAPI to find out which audio drivers have been enabled during
->>> compile-time of QEMU.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   Note: Marked as RFC since it's quite a lot of ifdef'ing here...
->>>         not sure whether I really like it...
->> Same as my patch here:
->>    https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg00654.html
+On 4/15/21 12:14 AM, Cleber Rosa wrote:
+> Instead of having, by default, the checksum in the tests, and the
+> definition of tests in the framework, let's keep them together.
 >
-> Oh, nice, I guess it means that it's not such a bad idea to introduce
-> all those #ifdefs here :-)
+> A central definition for distributions is available, and it should
+> allow other known distros to be added more easily.
 >
-> Anyway, looks like my patch was incomplete anyway (I just hacked it
-> together after my corresponding DisplayType patch - see=20
-> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06529.html),
-> since it lacks the wiring via a qapi command, so please disregard this
-> RFC PATCH. Are you going to respin your series from March, Daniel?
+> No behavior change is expected here, and tests can still define
+> a distro_checksum value if for some reason they want to override
+> the known distribution information.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Acked-by: Eric Auger <eric.auger@redhat.com>
 
-I reviewed Daniel's series back then, and pointed out a few minor
-issues, mostly in commit messages.  I hope that wasn't the reason for it
-getting stuck :)
+Thanks
+
+Eric
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py | 34 +++++++++++++++++++++--
+>  tests/acceptance/boot_linux.py            |  8 ------
+>  2 files changed, 32 insertions(+), 10 deletions(-)
+>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index aae1e5bbc9..97093614d9 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -299,6 +299,30 @@ def ssh_command(self, command):
+>          return stdout_lines, stderr_lines
+>  
+>  
+> +#: A collection of known distros and their respective image checksum
+> +KNOWN_DISTROS = {
+> +    'fedora': {
+> +        '31': {
+> +            'x86_64':
+> +            {'checksum': 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
+> +            'aarch64':
+> +            {'checksum': '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
+> +            'ppc64':
+> +            {'checksum': '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
+> +            's390x':
+> +            {'checksum': '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'},
+> +            }
+> +        }
+> +    }
+> +
+> +
+> +def get_known_distro_checksum(distro, distro_version, arch):
+> +    try:
+> +        return KNOWN_DISTROS.get(distro).get(distro_version).get(arch).get('checksum')
+> +    except AttributeError:
+> +        return None
+> +
+> +
+>  class LinuxTest(Test, LinuxSSHMixIn):
+>      """Facilitates having a cloud-image Linux based available.
+>  
+> @@ -348,14 +372,20 @@ def download_boot(self):
+>          vmimage.QEMU_IMG = qemu_img
+>  
+>          self.log.info('Downloading/preparing boot image')
+> +        distro = 'fedora'
+> +        distro_version = '31'
+> +        known_distro_checksum = get_known_distro_checksum(distro,
+> +                                                          distro_version,
+> +                                                          self.arch)
+> +        distro_checksum = self.distro_checksum or known_distro_checksum
+>          # Fedora 31 only provides ppc64le images
+>          image_arch = self.arch
+>          if image_arch == 'ppc64':
+>              image_arch = 'ppc64le'
+>          try:
+>              boot = vmimage.get(
+> -                'fedora', arch=image_arch, version='31',
+> -                checksum=self.distro_checksum,
+> +                distro, arch=image_arch, version=distro_version,
+> +                checksum=distro_checksum,
+>                  algorithm='sha256',
+>                  cache_dir=self.cache_dirs[0],
+>                  snapshot_dir=self.workdir)
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+> index c7bc3a589e..9e618c6daa 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -20,8 +20,6 @@ class BootLinuxX8664(LinuxTest):
+>      :avocado: tags=arch:x86_64
+>      """
+>  
+> -    distro_checksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
+> -
+>      def test_pc_i440fx_tcg(self):
+>          """
+>          :avocado: tags=machine:pc
+> @@ -66,8 +64,6 @@ class BootLinuxAarch64(LinuxTest):
+>      :avocado: tags=machine:gic-version=2
+>      """
+>  
+> -    distro_checksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
+> -
+>      def add_common_args(self):
+>          self.vm.add_args('-bios',
+>                           os.path.join(BUILD_DIR, 'pc-bios',
+> @@ -119,8 +115,6 @@ class BootLinuxPPC64(LinuxTest):
+>      :avocado: tags=arch:ppc64
+>      """
+>  
+> -    distro_checksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
+> -
+>      def test_pseries_tcg(self):
+>          """
+>          :avocado: tags=machine:pseries
+> @@ -136,8 +130,6 @@ class BootLinuxS390X(LinuxTest):
+>      :avocado: tags=arch:s390x
+>      """
+>  
+> -    distro_checksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
+> -
+>      @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+>      def test_s390_ccw_virtio_tcg(self):
+>          """
 
 
