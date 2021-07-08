@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC593C19D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:31:01 +0200 (CEST)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC433C19D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:33:27 +0200 (CEST)
+Received: from localhost ([::1]:57948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Zjg-0001MG-PR
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:31:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50934)
+	id 1m1Zm2-0005GZ-Ch
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1ZSg-0002vQ-Gv
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:13:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1ZSe-0006Hi-Rv
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:13:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625771604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P7EAbVHFzBGO+VbO7hTxuI7qNS5vzgab4K/HB8nRRxI=;
- b=DDWJ0ojMlYItgpkiFYj4NviftsYiXwrpmiFtkMZ0FiO8Cwpn8rxxAZIJ364Wa+a+NPa1dG
- +d83O+5CRuI1MK3/+FFgSokHq45r0ubVZHaayl4ekZSeedQdGjyJNNiImHQ6vS8YLOZ7ZL
- 4b6qpgNPyjEuA7arD1cDoCC4bTVWvkc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-gaE2AA-yPbuejNf4Y0n0eQ-1; Thu, 08 Jul 2021 15:13:21 -0400
-X-MC-Unique: gaE2AA-yPbuejNf4Y0n0eQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1615801107
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 19:13:20 +0000 (UTC)
-Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05F125D6A8;
- Thu,  8 Jul 2021 19:13:16 +0000 (UTC)
-Date: Thu, 8 Jul 2021 14:13:15 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 14/18] crypto: add gnutls cipher provider
-Message-ID: <20210708191315.esxo4hpmtgdtr2ta@redhat.com>
-References: <20210706095924.764117-1-berrange@redhat.com>
- <20210706095924.764117-15-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m1ZPI-0003Ra-Ih
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:56 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m1ZPF-0004nB-DK
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:56 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id i8so8804230wrp.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:09:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=+XD6CUR2a54j4OIpwStnjx10263sXMuG0XSNJjuriUo=;
+ b=yeuAdAeZadIxxWLxr+KqbD8+LNyF5PoQ6GTr1B7/Fq6s9QLnsdXzM+wgVvHjJQIHlA
+ jmPpBsSFcrUVhwHm2YkjW8wVGl9CVqJgaZDyOWUtW/3FexpicFbVRePTmXVgQpBFb9W2
+ U3A/oZpYvS/NoLWkhplQSEBUlNjnQDsSJHOUiV+qq1TU1f2SC77YZZ8yjAJlDtPViTkD
+ j+lWkyPbdlUbalO4kzbf2u3Nn7jAbWQDyj1Mjr+hLyNFE6TIsjk6guiv7K7FXodZK5Oe
+ UirYa4A3AatMbRQnkVpNUgtgFSZK2I7jKw60Fsl+mAAdEQ+sWM1AdMZK5+gh/FHATjaS
+ qy9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=+XD6CUR2a54j4OIpwStnjx10263sXMuG0XSNJjuriUo=;
+ b=k1I5sbHnJj6K/qOsFS9PiXFoVz5ChNkLeA/N0SPSOwszoIgwSGU/DwBaOkoNYY5lQd
+ ZN4PNcrxrffY+8V+jN0WkWoJ83bk83FrUhMWv8eE3emeOuNz+46GTA0KcuGE1jPD1Hg8
+ 8djl5WcsVp2oOWMjl3QYUplOHud46PVKP45VU0uWyPHUtNd11fXCi7PrcnoC9sgh/sii
+ EY1f3Gh+grFdRLX00L0DJhk8pLS3PPELoH2n47x3Cq61XU1GS1v5da6yH998qsn1mAhf
+ L7Ab89WgOHA55KtYwQcXRLhqf7y8mARuR5PzXLrRA6hO47iCtGMCVHim3khqNx6ZogDt
+ wM+g==
+X-Gm-Message-State: AOAM5311pD8CEGPpTmwrJnOOyFxur8kB7ObDYRad0e4iM28tTPrKNvts
+ lnN0zxxRJo1p+JD/R0wzKuSDvg==
+X-Google-Smtp-Source: ABdhPJzro76IOa8NMdXcehrfu93HWBh5Fn12NLKSeCSr+ptAQZS+kkjxHDyD80nAv5szFORb8NpDGw==
+X-Received: by 2002:a05:6000:2a8:: with SMTP id
+ l8mr28076887wry.417.1625771391798; 
+ Thu, 08 Jul 2021 12:09:51 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z3sm3554832wrv.45.2021.07.08.12.09.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 12:09:45 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6ADA81FF91;
+ Thu,  8 Jul 2021 20:09:42 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 05/39] tests/tcg: also disable the signals test for plugins
+Date: Thu,  8 Jul 2021 20:09:07 +0100
+Message-Id: <20210708190941.16980-6-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210708190941.16980-1-alex.bennee@linaro.org>
+References: <20210708190941.16980-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210706095924.764117-15-berrange@redhat.com>
-User-Agent: NeoMutt/20210205-556-f84451-dirty
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,73 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
+ kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 06, 2021 at 10:59:20AM +0100, Daniel P. Berrangé wrote:
-> Add an implementation of the QEMU cipher APIs to the gnutls
-> crypto backend. XTS support is only available for gnutls
-> version >= 3.6.8. Since ECB mode is not exposed by gnutls
-> APIs, we can't use the private XTS code for compatibility.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  crypto/cipher-gnutls.c.inc | 325 +++++++++++++++++++++++++++++++++++++
->  crypto/cipher.c            |   2 +
->  2 files changed, 327 insertions(+)
->  create mode 100644 crypto/cipher-gnutls.c.inc
-> 
-> diff --git a/crypto/cipher-gnutls.c.inc b/crypto/cipher-gnutls.c.inc
-> new file mode 100644
-> index 0000000000..eb6eb49546
-> --- /dev/null
-> +++ b/crypto/cipher-gnutls.c.inc
+This will be more important when plugins is enabled by default.
 
-> +
-> +bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
-> +                             QCryptoCipherMode mode)
-> +{
-> +
-> +    switch (mode) {
-> +    case QCRYPTO_CIPHER_MODE_ECB:
-> +    case QCRYPTO_CIPHER_MODE_CBC:
-> +        switch (alg) {
-> +        case QCRYPTO_CIPHER_ALG_AES_128:
-> +        case QCRYPTO_CIPHER_ALG_AES_192:
-> +        case QCRYPTO_CIPHER_ALG_AES_256:
-> +        case QCRYPTO_CIPHER_ALG_DES:
-> +        case QCRYPTO_CIPHER_ALG_3DES:
-> +            return true;
-> +        default:
-> +            return false;
-> +        }
-> +#ifdef QEMU_GNUTLS_XTS
-> +    case QCRYPTO_CIPHER_MODE_XTS:
-> +        switch (alg) {
-> +        case QCRYPTO_CIPHER_ALG_AES_128:
-> +        case QCRYPTO_CIPHER_ALG_AES_256:
-> +            return true;
-> +        default:
-> +            return false;
-> +        }
-> +        return true;
+Fixes: eba61056e4 ("tests/tcg: generalise the disabling of the signals test")
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/tcg/multiarch/Makefile.target | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This line is dead code.
-
-> +#endif
-> +    default:
-> +        return false;
-> +    }
-> +}
-> +
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index d57a115873..85a6fb7a2e 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -37,6 +37,8 @@ signals: LDFLAGS+=-lrt -lpthread
+ run-signals: signals
+ 	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
+ 
++run-plugin-signals-with-%:
++	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
+ 
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.20.1
 
 
