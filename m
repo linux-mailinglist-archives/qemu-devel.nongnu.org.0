@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF583C170F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:28:34 +0200 (CEST)
-Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC173C170E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:28:23 +0200 (CEST)
+Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wt7-00070e-4G
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:28:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59942)
+	id 1m1Wsw-0006FX-6j
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:28:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WF1-0002jd-PJ
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60841)
+ id 1m1WF8-0002zr-CS
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEy-0000XL-PS
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:07 -0400
+ id 1m1WF6-0000Zp-Pc
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:47:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759224;
+ s=mimecast20190719; t=1625759232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Rx2D70mmoHNz7x7h7CKzJQppcdYAgUFn/Y2KDfAwh4=;
- b=FJufMg1yhK5y2dvaNqcsk6QVHjffV3Yr8XL2xKhoOAac/ZMyy5jqIobQrFfjjDS2ik6xFL
- hff/jvGiZU6xcSWML4Y64BYC6XiVsl1CitlrVf8tXxKPOrSUfAjM4elUR/EUP8O6UsvHEw
- Tbbi0jrd8JVGcvQOchL7C3Eoi21MkuE=
+ bh=PyFoqAxAksvg/lZ6BFl1E0IaFWv6cM4OdKkcW5w+dFE=;
+ b=aRXB5lx//OS0vLjikCtBClA3wunHI1GTL95bsjFBTMsEQDnObrs5RlfJmvUII7m35HiwQQ
+ RWKbZzPXMg3axh+/qNQQMpYv0dwAF792d/0ymjWRpEXoEvpSfr2cyQrfYm+9Qcco/wwCl9
+ meiUI0ommv5RLhhb+CvR5OJLPeoNmTw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-1fjPVxO-O3S109DWChCNSQ-1; Thu, 08 Jul 2021 11:47:02 -0400
-X-MC-Unique: 1fjPVxO-O3S109DWChCNSQ-1
+ us-mta-258-b2QFZX5gM02JU1_AAFIHOw-1; Thu, 08 Jul 2021 11:47:08 -0400
+X-MC-Unique: b2QFZX5gM02JU1_AAFIHOw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06862362FA;
- Thu,  8 Jul 2021 15:47:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC332802E63;
+ Thu,  8 Jul 2021 15:47:07 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 355CD19D9F;
- Thu,  8 Jul 2021 15:47:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E23919C66;
+ Thu,  8 Jul 2021 15:47:02 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 26/35] acpi: build_dsdt_microvm: use
+Subject: [PATCH v2 27/35] acpi: arm: virt: build_dsdt: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Thu,  8 Jul 2021 11:46:08 -0400
-Message-Id: <20210708154617.1538485-27-imammedo@redhat.com>
+Date: Thu,  8 Jul 2021 11:46:09 -0400
+Message-Id: <20210708154617.1538485-28-imammedo@redhat.com>
 In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
 References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -80,7 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -90,45 +91,43 @@ which hides offsets magic from API user.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
-CC: marcel.apfelbaum@gmail.com
+CC: peter.maydell@linaro.org
+CC: shannon.zhaosl@gmail.com
+CC: qemu-arm@nongnu.org
+CC: drjones@redhat.com
 ---
- hw/i386/acpi-microvm.c | 13 ++++++-------
+ hw/arm/virt-acpi-build.c | 13 ++++++-------
  1 file changed, 6 insertions(+), 7 deletions(-)
 
-diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-index 1a0f77b911..82126680bb 100644
---- a/hw/i386/acpi-microvm.c
-+++ b/hw/i386/acpi-microvm.c
-@@ -113,16 +113,16 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
-     Aml *dsdt, *sb_scope, *scope, *pkg;
-     bool ambiguous;
-     Object *isabus;
-+    AcpiTable table = { .sig = "DSDT", .rev = 2, .oem_id = x86ms->oem_id,
-+                        .oem_table_id = x86ms->oem_table_id };
- 
-     isabus = object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous);
-     assert(isabus);
-     assert(!ambiguous);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index dd8011a670..d15e67a39b 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -636,10 +636,11 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     MachineState *ms = MACHINE(vms);
+     const MemMapEntry *memmap = vms->memmap;
+     const int *irqmap = vms->irqmap;
++    AcpiTable table = { .sig = "DSDT", .rev = 2, .oem_id = vms->oem_id,
++                        .oem_table_id = vms->oem_table_id };
  
 +    acpi_init_table(&table, table_data);
      dsdt = init_aml_allocator();
- 
 -    /* Reserve space for header */
 -    acpi_data_push(dsdt->buf, sizeof(AcpiTableHeader));
--
-     sb_scope = aml_scope("_SB");
-     fw_cfg_add_acpi_dsdt(sb_scope, x86ms->fw_cfg);
-     isa_build_aml(ISA_BUS(isabus), sb_scope);
-@@ -144,11 +144,10 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *linker,
-     aml_append(scope, aml_name_decl("_S5", pkg));
+ 
+     /* When booting the VM with UEFI, UEFI takes ownership of the RTC hardware.
+      * While UEFI can use libfdt to disable the RTC device node in the DTB that
+@@ -686,12 +687,10 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ 
      aml_append(dsdt, scope);
  
 -    /* copy AML table into ACPI tables blob and patch header there */
-+    /* copy AML bytecode into ACPI tables blob */
++    /* copy AML table into ACPI tables blob */
      g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
 -    build_header(linker, table_data,
 -        (void *)(table_data->data + table_data->len - dsdt->buf->len),
--                 "DSDT", dsdt->buf->len, 2, x86ms->oem_id, x86ms->oem_table_id);
+-                 "DSDT", dsdt->buf->len, 2, vms->oem_id,
+-                 vms->oem_table_id);
 +
 +    acpi_table_composed(linker, &table);
      free_aml_allocator();
