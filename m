@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CEE03C1807
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:24:30 +0200 (CEST)
-Received: from localhost ([::1]:54732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6523C1818
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:28:02 +0200 (CEST)
+Received: from localhost ([::1]:34958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XlF-000449-Fz
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:24:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1m1Xof-0001d6-3L
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:28:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <37jPnYAYKCgEujuvtshpphmf.dpnrfnv-efwfmopohov.psh@flex--titusr.bounces.google.com>)
- id 1m1Xho-0008C3-Fe
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:20:56 -0400
-Received: from mail-qt1-x849.google.com ([2607:f8b0:4864:20::849]:39706)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1XmZ-0007hx-JN
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:52 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:52015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <37jPnYAYKCgEujuvtshpphmf.dpnrfnv-efwfmopohov.psh@flex--titusr.bounces.google.com>)
- id 1m1Xhg-00042U-9f
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:20:56 -0400
-Received: by mail-qt1-x849.google.com with SMTP id
- c17-20020ac87dd10000b0290250fd339409so3972677qte.6
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:20:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=h8JfMDq/isEIzVX+0Bh74epq6zyFGJ2pGT60ked+WY4=;
- b=ek/3RyWQiXXDoc0ahtRzLzqaDHpacaRWWpbEbVwpAOBvSe9QarYO7nvUiGd1a6gUz+
- ClzbcKgym+WP+YcNXdgOCNnhoSpAxZpsvNMwoCQE54qvVb9q1QawAjgihiEqSrDT0C+J
- UGOs9feg9NK7WhPaIPaA2enDVULCkBVHA2Xtc3cmsDerdwPQP9borUAN+Ltqe7SR08Ep
- nw5sKFc5LFj6RL8p9/QzW1Q00H9OBQHH/S3XBHAcirWFtmvM7f+EosoP+ZTYRVp7bW5b
- NKr6IK3rPk20yzPPFrHS0M8q9ta2wz02SOMB/3ORZnxCy9bqn3cqO5RGFRv/v1MO9WiU
- +ZZA==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1XmY-0005W9-32
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:25:51 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id n11so4044458pjo.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KxvTLSU1IwRTYkOMS6dRGl4OQuHqSkLV4qmVQ6tKy4k=;
+ b=oqXof65H9ZAKTeY2wu7MfjUSbYNnYJR+FXwYVmJOdWpPiF6akVt+IQOaLijR10aWz7
+ 3F+HJmNbykwfuKqaFEfTAYrGc4RIctA5l+zwJOelSORYQCkSQCP99uD2xZF9UkTCIzTN
+ 6WTkSU0t0snomF3CryX1NmpIxO+EX3Pa97t1YIHzFqTcuHViiqjOLlq1s2QiPyZou+2d
+ V4W/wadlb/QOijnKNqZYpz0OZP0mky9hHlRNxo5M4bxyzpziDgxM5fSlXhVORS1lqOVP
+ 5Bs4PdMWdGUtBT9mzSQkdpx2WfepdLrngN7xfaPYaYJVsu48NDS5iVxWLxpRva/5YP2e
+ IPtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=h8JfMDq/isEIzVX+0Bh74epq6zyFGJ2pGT60ked+WY4=;
- b=RYq/cLqavyaKnmCnk04lxC70cFg4a+rattF/o3OEIvcnLBdnqLS00qjweVLS43BmbG
- H8aGKrssaSKOWObIgAfYye91un7JXOm0Y4wVXxCO73t8ElEi5kGuLziipT3nlMqTpu/D
- d+m9wQVhcOMYx4QpOYU6C13aZi8SeKPi4uaNpQzl66L1Y88lrt8H0Is6gw/jmgU0pZ4j
- W/hi+7TNcNbzw/257z67hZ9ewkF2jXW/LNVSTrkoWCmNWsy02bbtY8Uv9pcVV5j6QYWQ
- mu160v0wWfsQDObab3y7qDrJrWVe2SY4iRllkVQRM1cSWCmldo/+cvQY9cAO93KGsYs+
- /zdg==
-X-Gm-Message-State: AOAM532SM8ShwIoxQKAJ5rkKXRtFtEPahx2G7DGjvHaDz1sakLLFR+1c
- O8P4RQJ6ko7l3VvdCV49CoAGS7vqZs4=
-X-Google-Smtp-Source: ABdhPJw+kRVwtUdBAqn/4fe5+akROYlT23M/TRkEfhf07b+CIB4v2pI2Azh1ZWbBDViqwLyzdt7v9Pjr6dY=
-X-Received: from titusr.svl.corp.google.com
- ([2620:15c:2c5:13:6b42:285b:df15:bf])
- (user=titusr job=sendgmr) by 2002:ad4:40c1:: with SMTP id
- x1mr31146960qvp.33.1625764846375; 
- Thu, 08 Jul 2021 10:20:46 -0700 (PDT)
-Date: Thu,  8 Jul 2021 10:20:14 -0700
-In-Reply-To: <20210708172017.1865352-1-titusr@google.com>
-Message-Id: <20210708172017.1865352-3-titusr@google.com>
-Mime-Version: 1.0
-References: <20210708172017.1865352-1-titusr@google.com>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-Subject: [PATCH v5 2/5] hw/misc: add ADM1272 device
-From: Titus Rwantare <titusr@google.com>
-To: Corey Minyard <minyard@acm.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Titus Rwantare <titusr@google.com>, Joel Stanley <joel@jms.id.au>,
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::849;
- envelope-from=37jPnYAYKCgEujuvtshpphmf.dpnrfnv-efwfmopohov.psh@flex--titusr.bounces.google.com;
- helo=mail-qt1-x849.google.com
-X-Spam_score_int: -100
-X-Spam_score: -10.1
-X-Spam_bar: ----------
-X-Spam_report: (-10.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.5,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KxvTLSU1IwRTYkOMS6dRGl4OQuHqSkLV4qmVQ6tKy4k=;
+ b=hHtq5dK3wNzDbif0tclObr2EHUJo0yXB5d1RKaaWCd6xRTP6L6xut0yk2V7M791dAf
+ Jz5kihhPxxTgbbgmn7ig+gEbR7/95v/DThYZCxvPLIwTp9dF7ES5tTGuZQJ4Ff39Mvl/
+ h87Rs6Y+DksYxQAk/xAMXTeDnK0BZUcY/xgyop/k1NWzHxcR8B5Rwnz8uB0Q1DdKxnIM
+ dCT0vM/cAMAdBB2Ji2AtZgPVh2uoWmugDFTmFCBpuQAFikD6HrR2I+L1VeC+4etucZM4
+ 0Wa9ZvG8Waeg9RELaFCwuWnOLww8PEC6T7Y1CDcSmcKquKTV8hBGTttNSVFIUg7meRXW
+ 8Gpw==
+X-Gm-Message-State: AOAM531DEkYXwOr9yVnz9WmBek625GiEsx3/KKE3eCNNXSUE5nVuCkKy
+ 7WG+ATlOoOM+OcX6DuvebCfTEOIBtGv7FA==
+X-Google-Smtp-Source: ABdhPJyI6Xk/kA1YJuAcezysrH7kIiC6dL6hEJOTe2zEDrgaHzhHPXfOqn+vyEHbMpPVrEuFCuKPaA==
+X-Received: by 2002:a17:90a:9282:: with SMTP id
+ n2mr6022498pjo.92.1625765148644; 
+ Thu, 08 Jul 2021 10:25:48 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:7947:37f7:fd02:9c0c])
+ by smtp.gmail.com with ESMTPSA id c20sm3579429pfd.64.2021.07.08.10.25.46
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 08 Jul 2021 10:25:48 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH 1/4] cutils: Introduce bundle mechanism
+Date: Fri,  9 Jul 2021 02:25:38 +0900
+Message-Id: <20210708172541.29530-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,618 +82,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Programmingkid <programmingkidx@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ADM1272 is a PMBus compliant Hot Swap Controller and Digital Power
-Monitor by Analog Devices.
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-This commit adds support for interfacing with it, and support for
-setting and monitoring sensor limits.
-
-Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/ADM1272.pdf
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Titus Rwantare <titusr@google.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- hw/misc/adm1272.c   | 544 ++++++++++++++++++++++++++++++++++++++++++++
- hw/arm/Kconfig      |   1 +
- hw/misc/Kconfig     |   4 +
- hw/misc/meson.build |   1 +
- 4 files changed, 550 insertions(+)
- create mode 100644 hw/misc/adm1272.c
+ include/qemu/cutils.h | 19 +++++++++++++++++++
+ util/cutils.c         | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
-diff --git a/hw/misc/adm1272.c b/hw/misc/adm1272.c
-new file mode 100644
-index 0000000000..c1f9cf3afd
---- /dev/null
-+++ b/hw/misc/adm1272.c
-@@ -0,0 +1,544 @@
-+/*
-+ * Analog Devices ADM1272 High Voltage Positive Hot Swap Controller and Digital
-+ * Power Monitor with PMBus
-+ *
-+ * Copyright 2021 Google LLC
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <string.h>
-+#include "hw/i2c/pmbus_device.h"
-+#include "hw/irq.h"
-+#include "migration/vmstate.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "trace.h"
-+
-+#define TYPE_ADM1272 "adm1272"
-+#define ADM1272(obj) OBJECT_CHECK(ADM1272State, (obj), TYPE_ADM1272)
-+
-+#define ADM1272_RESTART_TIME            0xCC
-+#define ADM1272_MFR_PEAK_IOUT           0xD0
-+#define ADM1272_MFR_PEAK_VIN            0xD1
-+#define ADM1272_MFR_PEAK_VOUT           0xD2
-+#define ADM1272_MFR_PMON_CONTROL        0xD3
-+#define ADM1272_MFR_PMON_CONFIG         0xD4
-+#define ADM1272_MFR_ALERT1_CONFIG       0xD5
-+#define ADM1272_MFR_ALERT2_CONFIG       0xD6
-+#define ADM1272_MFR_PEAK_TEMPERATURE    0xD7
-+#define ADM1272_MFR_DEVICE_CONFIG       0xD8
-+#define ADM1272_MFR_POWER_CYCLE         0xD9
-+#define ADM1272_MFR_PEAK_PIN            0xDA
-+#define ADM1272_MFR_READ_PIN_EXT        0xDB
-+#define ADM1272_MFR_READ_EIN_EXT        0xDC
-+
-+#define ADM1272_HYSTERESIS_LOW          0xF2
-+#define ADM1272_HYSTERESIS_HIGH         0xF3
-+#define ADM1272_STATUS_HYSTERESIS       0xF4
-+#define ADM1272_STATUS_GPIO             0xF5
-+#define ADM1272_STRT_UP_IOUT_LIM        0xF6
-+
-+/* Defaults */
-+#define ADM1272_OPERATION_DEFAULT       0x80
-+#define ADM1272_CAPABILITY_DEFAULT      0xB0
-+#define ADM1272_CAPABILITY_NO_PEC       0x30
-+#define ADM1272_DIRECT_MODE             0x40
-+#define ADM1272_HIGH_LIMIT_DEFAULT      0x0FFF
-+#define ADM1272_PIN_OP_DEFAULT          0x7FFF
-+#define ADM1272_PMBUS_REVISION_DEFAULT  0x22
-+#define ADM1272_MFR_ID_DEFAULT          "ADI"
-+#define ADM1272_MODEL_DEFAULT           "ADM1272-A1"
-+#define ADM1272_MFR_DEFAULT_REVISION    "25"
-+#define ADM1272_DEFAULT_DATE            "160301"
-+#define ADM1272_RESTART_TIME_DEFAULT    0x64
-+#define ADM1272_PMON_CONTROL_DEFAULT    0x1
-+#define ADM1272_PMON_CONFIG_DEFAULT     0x3F35
-+#define ADM1272_DEVICE_CONFIG_DEFAULT   0x8
-+#define ADM1272_HYSTERESIS_HIGH_DEFAULT     0xFFFF
-+#define ADM1272_STRT_UP_IOUT_LIM_DEFAULT    0x000F
-+#define ADM1272_VOLT_DEFAULT            12000
-+#define ADM1272_IOUT_DEFAULT            25000
-+#define ADM1272_PWR_DEFAULT             300  /* 12V 25A */
-+#define ADM1272_SHUNT                   300 /* micro-ohms */
-+#define ADM1272_VOLTAGE_COEFF_DEFAULT   1
-+#define ADM1272_CURRENT_COEFF_DEFAULT   3
-+#define ADM1272_PWR_COEFF_DEFAULT       7
-+#define ADM1272_IOUT_OFFSET             0x5000
-+#define ADM1272_IOUT_OFFSET             0x5000
-+
-+
-+typedef struct ADM1272State {
-+    PMBusDevice parent;
-+
-+    uint64_t ein_ext;
-+    uint32_t pin_ext;
-+    uint8_t restart_time;
-+
-+    uint16_t peak_vin;
-+    uint16_t peak_vout;
-+    uint16_t peak_iout;
-+    uint16_t peak_temperature;
-+    uint16_t peak_pin;
-+
-+    uint8_t pmon_control;
-+    uint16_t pmon_config;
-+    uint16_t alert1_config;
-+    uint16_t alert2_config;
-+    uint16_t device_config;
-+
-+    uint16_t hysteresis_low;
-+    uint16_t hysteresis_high;
-+    uint8_t status_hysteresis;
-+    uint8_t status_gpio;
-+
-+    uint16_t strt_up_iout_lim;
-+
-+} ADM1272State;
-+
-+static const PMBusCoefficients adm1272_coefficients[] = {
-+    [0] = { 6770, 0, -2 },        /* voltage, vrange 60V */
-+    [1] = { 4062, 0, -2 },        /* voltage, vrange 100V */
-+    [2] = { 1326, 20480, -1 },    /* current, vsense range 15mV */
-+    [3] = { 663, 20480, -1 },     /* current, vsense range 30mV */
-+    [4] = { 3512, 0, -2 },        /* power, vrange 60V, irange 15mV */
-+    [5] = { 21071, 0, -3 },       /* power, vrange 100V, irange 15mV */
-+    [6] = { 17561, 0, -3 },       /* power, vrange 60V, irange 30mV */
-+    [7] = { 10535, 0, -3 },       /* power, vrange 100V, irange 30mV */
-+    [8] = { 42, 31871, -1 },      /* temperature */
-+};
-+
-+static void adm1272_check_limits(ADM1272State *s)
-+{
-+    PMBusDevice *pmdev = PMBUS_DEVICE(s);
-+
-+    pmbus_check_limits(pmdev);
-+
-+    if (pmdev->pages[0].read_vout > s->peak_vout) {
-+        s->peak_vout = pmdev->pages[0].read_vout;
-+    }
-+
-+    if (pmdev->pages[0].read_vin > s->peak_vin) {
-+        s->peak_vin = pmdev->pages[0].read_vin;
-+    }
-+
-+    if (pmdev->pages[0].read_iout > s->peak_iout) {
-+        s->peak_iout = pmdev->pages[0].read_iout;
-+    }
-+
-+    if (pmdev->pages[0].read_temperature_1 > s->peak_temperature) {
-+        s->peak_temperature = pmdev->pages[0].read_temperature_1;
-+    }
-+
-+    if (pmdev->pages[0].read_pin > s->peak_pin) {
-+        s->peak_pin = pmdev->pages[0].read_pin;
-+    }
-+}
-+
-+static uint16_t adm1272_millivolts_to_direct(uint32_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_VOLTAGE_COEFF_DEFAULT];
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_data2direct_mode(c, value);
-+}
-+
-+static uint32_t adm1272_direct_to_millivolts(uint16_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_VOLTAGE_COEFF_DEFAULT];
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_direct_mode2data(c, value);
-+}
-+
-+static uint16_t adm1272_milliamps_to_direct(uint32_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_CURRENT_COEFF_DEFAULT];
-+    /* Y = (m * r_sense * x - b) * 10^R */
-+    c.m = c.m * ADM1272_SHUNT / 1000; /* micro-ohms */
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_data2direct_mode(c, value);
-+}
-+
-+static uint32_t adm1272_direct_to_milliamps(uint16_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_CURRENT_COEFF_DEFAULT];
-+    c.m = c.m * ADM1272_SHUNT / 1000;
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_direct_mode2data(c, value);
-+}
-+
-+static uint16_t adm1272_watts_to_direct(uint32_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_PWR_COEFF_DEFAULT];
-+    c.m = c.m * ADM1272_SHUNT / 1000;
-+    return pmbus_data2direct_mode(c, value);
-+}
-+
-+static uint32_t adm1272_direct_to_watts(uint16_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_PWR_COEFF_DEFAULT];
-+    c.m = c.m * ADM1272_SHUNT / 1000;
-+    return pmbus_direct_mode2data(c, value);
-+}
-+
-+static void adm1272_exit_reset(Object *obj)
-+{
-+    ADM1272State *s = ADM1272(obj);
-+    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-+
-+    pmdev->page = 0;
-+    pmdev->pages[0].operation = ADM1272_OPERATION_DEFAULT;
-+
-+
-+    pmdev->capability = ADM1272_CAPABILITY_NO_PEC;
-+    pmdev->pages[0].revision = ADM1272_PMBUS_REVISION_DEFAULT;
-+    pmdev->pages[0].vout_mode = ADM1272_DIRECT_MODE;
-+    pmdev->pages[0].vout_ov_warn_limit = ADM1272_HIGH_LIMIT_DEFAULT;
-+    pmdev->pages[0].vout_uv_warn_limit = 0;
-+    pmdev->pages[0].iout_oc_warn_limit = ADM1272_HIGH_LIMIT_DEFAULT;
-+    pmdev->pages[0].ot_fault_limit = ADM1272_HIGH_LIMIT_DEFAULT;
-+    pmdev->pages[0].ot_warn_limit = ADM1272_HIGH_LIMIT_DEFAULT;
-+    pmdev->pages[0].vin_ov_warn_limit = ADM1272_HIGH_LIMIT_DEFAULT;
-+    pmdev->pages[0].vin_uv_warn_limit = 0;
-+    pmdev->pages[0].pin_op_warn_limit = ADM1272_PIN_OP_DEFAULT;
-+
-+    pmdev->pages[0].status_word = 0;
-+    pmdev->pages[0].status_vout = 0;
-+    pmdev->pages[0].status_iout = 0;
-+    pmdev->pages[0].status_input = 0;
-+    pmdev->pages[0].status_temperature = 0;
-+    pmdev->pages[0].status_mfr_specific = 0;
-+
-+    pmdev->pages[0].read_vin
-+        = adm1272_millivolts_to_direct(ADM1272_VOLT_DEFAULT);
-+    pmdev->pages[0].read_vout
-+        = adm1272_millivolts_to_direct(ADM1272_VOLT_DEFAULT);
-+    pmdev->pages[0].read_iout
-+        = adm1272_milliamps_to_direct(ADM1272_IOUT_DEFAULT);
-+    pmdev->pages[0].read_temperature_1 = 0;
-+    pmdev->pages[0].read_pin = adm1272_watts_to_direct(ADM1272_PWR_DEFAULT);
-+    pmdev->pages[0].revision = ADM1272_PMBUS_REVISION_DEFAULT;
-+    pmdev->pages[0].mfr_id = ADM1272_MFR_ID_DEFAULT;
-+    pmdev->pages[0].mfr_model = ADM1272_MODEL_DEFAULT;
-+    pmdev->pages[0].mfr_revision = ADM1272_MFR_DEFAULT_REVISION;
-+    pmdev->pages[0].mfr_date = ADM1272_DEFAULT_DATE;
-+
-+    s->pin_ext = 0;
-+    s->ein_ext = 0;
-+    s->restart_time = ADM1272_RESTART_TIME_DEFAULT;
-+
-+    s->peak_vin = 0;
-+    s->peak_vout = 0;
-+    s->peak_iout = 0;
-+    s->peak_temperature = 0;
-+    s->peak_pin = 0;
-+
-+    s->pmon_control = ADM1272_PMON_CONTROL_DEFAULT;
-+    s->pmon_config = ADM1272_PMON_CONFIG_DEFAULT;
-+    s->alert1_config = 0;
-+    s->alert2_config = 0;
-+    s->device_config = ADM1272_DEVICE_CONFIG_DEFAULT;
-+
-+    s->hysteresis_low = 0;
-+    s->hysteresis_high = ADM1272_HYSTERESIS_HIGH_DEFAULT;
-+    s->status_hysteresis = 0;
-+    s->status_gpio = 0;
-+
-+    s->strt_up_iout_lim = ADM1272_STRT_UP_IOUT_LIM_DEFAULT;
-+}
-+
-+static uint8_t adm1272_read_byte(PMBusDevice *pmdev)
-+{
-+    ADM1272State *s = ADM1272(pmdev);
-+
-+    switch (pmdev->code) {
-+    case ADM1272_RESTART_TIME:
-+        pmbus_send8(pmdev, s->restart_time);
-+        break;
-+
-+    case ADM1272_MFR_PEAK_IOUT:
-+        pmbus_send16(pmdev, s->peak_iout);
-+        break;
-+
-+    case ADM1272_MFR_PEAK_VIN:
-+        pmbus_send16(pmdev, s->peak_vin);
-+        break;
-+
-+    case ADM1272_MFR_PEAK_VOUT:
-+        pmbus_send16(pmdev, s->peak_vout);
-+        break;
-+
-+    case ADM1272_MFR_PMON_CONTROL:
-+        pmbus_send8(pmdev, s->pmon_control);
-+        break;
-+
-+    case ADM1272_MFR_PMON_CONFIG:
-+        pmbus_send16(pmdev, s->pmon_config);
-+        break;
-+
-+    case ADM1272_MFR_ALERT1_CONFIG:
-+        pmbus_send16(pmdev, s->alert1_config);
-+        break;
-+
-+    case ADM1272_MFR_ALERT2_CONFIG:
-+        pmbus_send16(pmdev, s->alert2_config);
-+        break;
-+
-+    case ADM1272_MFR_PEAK_TEMPERATURE:
-+        pmbus_send16(pmdev, s->peak_temperature);
-+        break;
-+
-+    case ADM1272_MFR_DEVICE_CONFIG:
-+        pmbus_send16(pmdev, s->device_config);
-+        break;
-+
-+    case ADM1272_MFR_PEAK_PIN:
-+        pmbus_send16(pmdev, s->peak_pin);
-+        break;
-+
-+    case ADM1272_MFR_READ_PIN_EXT:
-+        pmbus_send32(pmdev, s->pin_ext);
-+        break;
-+
-+    case ADM1272_MFR_READ_EIN_EXT:
-+        pmbus_send64(pmdev, s->ein_ext);
-+        break;
-+
-+    case ADM1272_HYSTERESIS_LOW:
-+        pmbus_send16(pmdev, s->hysteresis_low);
-+        break;
-+
-+    case ADM1272_HYSTERESIS_HIGH:
-+        pmbus_send16(pmdev, s->hysteresis_high);
-+        break;
-+
-+    case ADM1272_STATUS_HYSTERESIS:
-+        pmbus_send16(pmdev, s->status_hysteresis);
-+        break;
-+
-+    case ADM1272_STATUS_GPIO:
-+        pmbus_send16(pmdev, s->status_gpio);
-+        break;
-+
-+    case ADM1272_STRT_UP_IOUT_LIM:
-+        pmbus_send16(pmdev, s->strt_up_iout_lim);
-+        break;
-+
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: reading from unsupported register: 0x%02x\n",
-+                      __func__, pmdev->code);
-+        return 0xFF;
-+        break;
-+    }
-+
-+    return 0;
-+}
-+
-+static int adm1272_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-+                              uint8_t len)
-+{
-+    ADM1272State *s = ADM1272(pmdev);
-+
-+    if (len == 0) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: writing empty data\n", __func__);
-+        return -1;
-+    }
-+
-+    pmdev->code = buf[0]; /* PMBus command code */
-+
-+    if (len == 1) {
-+        return 0;
-+    }
-+
-+    /* Exclude command code from buffer */
-+    buf++;
-+    len--;
-+
-+    switch (pmdev->code) {
-+
-+    case ADM1272_RESTART_TIME:
-+        s->restart_time = pmbus_receive8(pmdev);
-+        break;
-+
-+    case ADM1272_MFR_PMON_CONTROL:
-+        s->pmon_control = pmbus_receive8(pmdev);
-+        break;
-+
-+    case ADM1272_MFR_PMON_CONFIG:
-+        s->pmon_config = pmbus_receive16(pmdev);
-+        break;
-+
-+    case ADM1272_MFR_ALERT1_CONFIG:
-+        s->alert1_config = pmbus_receive16(pmdev);
-+        break;
-+
-+    case ADM1272_MFR_ALERT2_CONFIG:
-+        s->alert2_config = pmbus_receive16(pmdev);
-+        break;
-+
-+    case ADM1272_MFR_DEVICE_CONFIG:
-+        s->device_config = pmbus_receive16(pmdev);
-+        break;
-+
-+    case ADM1272_MFR_POWER_CYCLE:
-+        adm1272_exit_reset((Object *)s);
-+        break;
-+
-+    case ADM1272_HYSTERESIS_LOW:
-+        s->hysteresis_low = pmbus_receive16(pmdev);
-+        break;
-+
-+    case ADM1272_HYSTERESIS_HIGH:
-+        s->hysteresis_high = pmbus_receive16(pmdev);
-+        break;
-+
-+    case ADM1272_STRT_UP_IOUT_LIM:
-+        s->strt_up_iout_lim = pmbus_receive16(pmdev);
-+        adm1272_check_limits(s);
-+        break;
-+
-+    default:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: writing to unsupported register: 0x%02x\n",
-+                      __func__, pmdev->code);
-+        break;
-+    }
-+    return 0;
-+}
-+
-+static void adm1272_get(Object *obj, Visitor *v, const char *name, void *opaque,
-+                        Error **errp)
-+{
-+    uint16_t value;
-+
-+    if (strcmp(name, "vin") == 0 || strcmp(name, "vout") == 0) {
-+        value = adm1272_direct_to_millivolts(*(uint16_t *)opaque);
-+    } else if (strcmp(name, "iout") == 0) {
-+        value = adm1272_direct_to_milliamps(*(uint16_t *)opaque);
-+    } else if (strcmp(name, "pin") == 0) {
-+        value = adm1272_direct_to_watts(*(uint16_t *)opaque);
-+    } else {
-+        value = *(uint16_t *)opaque;
-+    }
-+
-+    visit_type_uint16(v, name, &value, errp);
-+}
-+
-+static void adm1272_set(Object *obj, Visitor *v, const char *name, void *opaque,
-+                        Error **errp)
-+{
-+    ADM1272State *s = ADM1272(obj);
-+    uint16_t *internal = opaque;
-+    uint16_t value;
-+
-+    if (!visit_type_uint16(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    if (strcmp(name, "vin") == 0 || strcmp(name, "vout") == 0) {
-+        *internal = adm1272_millivolts_to_direct(value);
-+    } else if (strcmp(name, "iout") == 0) {
-+        *internal = adm1272_milliamps_to_direct(value);
-+    } else if (strcmp(name, "pin") == 0) {
-+        *internal = adm1272_watts_to_direct(value);
-+    } else {
-+        *internal = value;
-+    }
-+
-+    adm1272_check_limits(s);
-+}
-+
-+static const VMStateDescription vmstate_adm1272 = {
-+    .name = "ADM1272",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .fields = (VMStateField[]){
-+        VMSTATE_PMBUS_DEVICE(parent, ADM1272State),
-+        VMSTATE_UINT64(ein_ext, ADM1272State),
-+        VMSTATE_UINT32(pin_ext, ADM1272State),
-+        VMSTATE_UINT8(restart_time, ADM1272State),
-+
-+        VMSTATE_UINT16(peak_vin, ADM1272State),
-+        VMSTATE_UINT16(peak_vout, ADM1272State),
-+        VMSTATE_UINT16(peak_iout, ADM1272State),
-+        VMSTATE_UINT16(peak_temperature, ADM1272State),
-+        VMSTATE_UINT16(peak_pin, ADM1272State),
-+
-+        VMSTATE_UINT8(pmon_control, ADM1272State),
-+        VMSTATE_UINT16(pmon_config, ADM1272State),
-+        VMSTATE_UINT16(alert1_config, ADM1272State),
-+        VMSTATE_UINT16(alert2_config, ADM1272State),
-+        VMSTATE_UINT16(device_config, ADM1272State),
-+
-+        VMSTATE_UINT16(hysteresis_low, ADM1272State),
-+        VMSTATE_UINT16(hysteresis_high, ADM1272State),
-+        VMSTATE_UINT8(status_hysteresis, ADM1272State),
-+        VMSTATE_UINT8(status_gpio, ADM1272State),
-+
-+        VMSTATE_UINT16(strt_up_iout_lim, ADM1272State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void adm1272_init(Object *obj)
-+{
-+    PMBusDevice *pmdev = PMBUS_DEVICE(obj);
-+    uint64_t flags = PB_HAS_VOUT_MODE | PB_HAS_VOUT | PB_HAS_VIN | PB_HAS_IOUT |
-+                     PB_HAS_PIN | PB_HAS_TEMPERATURE | PB_HAS_MFR_INFO;
-+
-+    pmbus_page_config(pmdev, 0, flags);
-+
-+    object_property_add(obj, "vin", "uint16",
-+                        adm1272_get,
-+                        adm1272_set, NULL, &pmdev->pages[0].read_vin);
-+
-+    object_property_add(obj, "vout", "uint16",
-+                        adm1272_get,
-+                        adm1272_set, NULL, &pmdev->pages[0].read_vout);
-+
-+    object_property_add(obj, "iout", "uint16",
-+                        adm1272_get,
-+                        adm1272_set, NULL, &pmdev->pages[0].read_iout);
-+
-+    object_property_add(obj, "pin", "uint16",
-+                        adm1272_get,
-+                        adm1272_set, NULL, &pmdev->pages[0].read_pin);
-+
-+}
-+
-+static void adm1272_class_init(ObjectClass *klass, void *data)
-+{
-+    ResettableClass *rc = RESETTABLE_CLASS(klass);
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PMBusDeviceClass *k = PMBUS_DEVICE_CLASS(klass);
-+
-+    dc->desc = "Analog Devices ADM1272 Hot Swap controller";
-+    dc->vmsd = &vmstate_adm1272;
-+    k->write_data = adm1272_write_data;
-+    k->receive_byte = adm1272_read_byte;
-+    k->device_num_pages = 1;
-+
-+    rc->phases.exit = adm1272_exit_reset;
-+}
-+
-+static const TypeInfo adm1272_info = {
-+    .name = TYPE_ADM1272,
-+    .parent = TYPE_PMBUS_DEVICE,
-+    .instance_size = sizeof(ADM1272State),
-+    .instance_init = adm1272_init,
-+    .class_init = adm1272_class_init,
-+};
-+
-+static void adm1272_register_types(void)
-+{
-+    type_register_static(&adm1272_info);
-+}
-+
-+type_init(adm1272_register_types)
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 20bd60f10b..e141084a79 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -371,6 +371,7 @@ config XLNX_VERSAL
- config NPCM7XX
-     bool
-     select A9MPCORE
-+    select ADM1272
-     select ARM_GIC
-     select AT24C  # EEPROM
-     select PL310  # cache controller
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index c71ed25820..0774c1f70c 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -14,6 +14,10 @@ config ARMSSE_CPU_PWRCTRL
- config MAX111X
-     bool
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 986ed8e15f4..6060e56b877 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -209,4 +209,23 @@ int qemu_pstrcmp0(const char **str1, const char **str2);
+  */
+ char *get_relocated_path(const char *dir);
  
-+config ADM1272
-+    bool
-+    depends on I2C
++/**
++ * find_bundle:
++ * @path: Relative path
++ *
++ * Returns a path for the specified directory or file bundled in QEMU. It uses
++ * the directory of the running executable as the prefix first. See
++ * get_relocated_path() for the details. The next candidate is "qemu-bundle"
++ * directory in the directory of the running executable. "qemu-bundle"
++ * directory is typically present in the build tree.
++ *
++ * The returned string should be freed by the caller.
++ *
++ * Returns: a path that can access the bundle, or NULL if no matching bundle
++ * exists.
++ */
++char *find_bundle(const char *path);
 +
- config TMP105
-     bool
-     depends on I2C
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 66e1648533..8666e9225a 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -10,6 +10,7 @@ softmmu_ss.add(when: 'CONFIG_SGA', if_true: files('sga.c'))
- softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files('tmp105.c'))
- softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
- softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
-+softmmu_ss.add(when: 'CONFIG_ADM1272', if_true: files('adm1272.c'))
- softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
- softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
- softmmu_ss.add(when: 'CONFIG_LED', if_true: files('led.c'))
++void list_bundle_candidates(const char *path);
++
+ #endif
+diff --git a/util/cutils.c b/util/cutils.c
+index c9b91e7535a..b4e4cda71c8 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -1057,3 +1057,36 @@ char *get_relocated_path(const char *dir)
+     }
+     return g_string_free(result, false);
+ }
++
++static const char * const bundle_formats[] = {
++    "%s" G_DIR_SEPARATOR_S ".." G_DIR_SEPARATOR_S "%s",
++    "%s" G_DIR_SEPARATOR_S "qemu-bundle" G_DIR_SEPARATOR_S "%s"
++};
++
++char *find_bundle(const char *path)
++{
++    const char *dir = qemu_get_exec_dir();
++    char *candidate;
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
++        candidate = g_strdup_printf(bundle_formats[i], dir, path);
++        if (access(candidate, R_OK) == 0) {
++            return candidate;
++        }
++        g_free(candidate);
++    }
++
++    return NULL;
++}
++
++void list_bundle_candidates(const char *path)
++{
++    const char *dir = qemu_get_exec_dir();
++    int i;
++
++    for (i = 0; i < ARRAY_SIZE(bundle_formats); i++) {
++        printf(bundle_formats[i], dir, path);
++        putc('\n', stdout);
++    }
++}
 -- 
-2.32.0.93.g670b81a890-goog
+2.30.1 (Apple Git-130)
 
 
