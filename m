@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5761F3BF3E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 04:15:27 +0200 (CEST)
-Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BB293BF3F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 04:25:48 +0200 (CEST)
+Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1JZV-0002AX-VD
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 22:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
+	id 1m1JjX-0007DC-6H
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 22:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m1JYW-0001Vh-Sv
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 22:14:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m1JYS-0000s8-Ks
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 22:14:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625710458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XrPKP/BO6NhaaCIkSXA519ePaOXZLjHLy7HQL8H2GIk=;
- b=KIWMfvubeovRDzpZPlaE5E02TwKR0jMnlQultzyUo8yAV1b3oBtrlcOfg9HJmKzq/3YPXk
- ROrwGw09mSM17RwPKlIyq436EBZ91UwgEcIHE3wgl1YH+NT5V8BLtTmmMkhFfoGgT4uJTA
- nH3UHWo0wbQEXschmgymTvgb2vLu5GU=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-Aui3JY8BMn2ByGcHGkeL0w-1; Wed, 07 Jul 2021 22:14:15 -0400
-X-MC-Unique: Aui3JY8BMn2ByGcHGkeL0w-1
-Received: by mail-oo1-f70.google.com with SMTP id
- e10-20020a4ab14a0000b029020e1573bdb7so2599327ooo.9
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 19:14:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1m1JiB-0005lU-GH
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 22:24:23 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:43873)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ziqiaokong@gmail.com>)
+ id 1m1Ji9-00021u-A5
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 22:24:23 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id g5so6449773ybu.10
+ for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 19:24:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pVH1kpuE7An1K8HJIbosYxOYmhxIPkGUwpwXHWPmPsk=;
+ b=q1EdR95iGd0MmN7SwoIxfadUl3j0ye2+cn68oOTl9evmnTJJ0qh1s6+wxgj3DAGJIT
+ /vV43yzv2gfsU8nvqD7+K9xA8oYLO6A8wkbeqzIGL6JTnKBWifIfJWCcoE3KF90NWONv
+ uKgfuaguajqJIxGlLaIdNk38EiTbQPZBVfCAob7tnR0tHaIEmjIFj4hoUbhArhQVhQCb
+ 2jDxcutTeXd4KbksNZCCUbB5fYgI3h8n44LooRgFEIkJjALnEAAKuQ4i7GTJM/MI4pVC
+ 32ndjOxZbNuP5H5/QomsoWspFlNR7hlWo5PD3drORyevroNo9o6YOvgL6f6QXKmaCyBl
+ +zJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XrPKP/BO6NhaaCIkSXA519ePaOXZLjHLy7HQL8H2GIk=;
- b=pvgmzI9xxY/UQJfxyWWf8gXYru4XSlY471RDu1azOMOLuUdL3EUZiL6rZ7B39xjYRl
- doRPv7igtq+hI8VDXwbtkyKlz3gtBvzIc9GTSd2PUVWEBj6Oz9//akdcGYQbCh4lg5q/
- 0x5OAsH8vME106cmYdcgCi0IzuBnqqF8HeAV2f+JJK6XsXdeYp0JwRcCtdkpeHEmjkOX
- KMosAVpnmiTz96yo8qpJCxXKcSzD0iItf3tKC+rmpVH+C18sgHgnWjY4fEfmaMGo4VBP
- QAajAGeZ22AajTjVwRGsAZGM7wX0c1a+6gnnpHaqtJLCvLv87GyiRkDYM6N56RbLjrcq
- 15xA==
-X-Gm-Message-State: AOAM532aKP1aDUMaUl86E/OR5IczhDbVhS1/27XH8OCJ+czeggSsFn82
- dtPgSm+j7lbowuR2TLcKQaoqgmeitvIXBDTU1Pd/SFhA5wQ2kgRfg+7NsG9zhvhGgQcddgpW4Rb
- IGcnTyBIN3uOW4Gt6mhsNun7DajpuBwI=
-X-Received: by 2002:a9d:86d:: with SMTP id 100mr13270362oty.45.1625710455138; 
- Wed, 07 Jul 2021 19:14:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzO6ICHJlgRTRqy6rA0L925HXMWFYXPQurKxnYEKyQ8PZlHGpuwzTVYuLp/62yFFRTeot5WIhkd5X6Vs+hZI0Y=
-X-Received: by 2002:a9d:86d:: with SMTP id 100mr13270347oty.45.1625710454926; 
- Wed, 07 Jul 2021 19:14:14 -0700 (PDT)
+ bh=pVH1kpuE7An1K8HJIbosYxOYmhxIPkGUwpwXHWPmPsk=;
+ b=E60eDCf/5tnHxO+sCWGfH5sn9KRiZ9/KfC4bLCyik+8JtMfZvwHyCh4doit1LmAJqh
+ bnpRGn9Xo9vC6ByjyCOaz5Nowu0femro2/YF4JNOZxbrV9UgIVmXcXxpDy9kzs7FGB63
+ GWAlzTjINbs/gXvL+CHtm3EuFFIiTRk1TFJi6uvB15aB5nM1wPzeK1mMeBtPYj9Vesyw
+ e+NQBGtWw4go76HwH4VMPjv2DHnEwyrDimAe1OE9FJwyu1L9iVr6L/lTVvWzRZ5lU3ce
+ WqDVDPQIn1JT9yVWqSp6aaJoEsPRIZl4YtjzpqtyAYtnmplO+wzrIgc6VDLOzfXfBrUX
+ Pbbw==
+X-Gm-Message-State: AOAM531G10Pzucv2qb6zXDiFb3ZdT6e/1sshPPI7fXw5f3vZ7nhsJpzL
+ OnO5134uJVQwcMEEYv/gS/5wfagRWENYwZ0peI0=
+X-Google-Smtp-Source: ABdhPJzGA8yEpUSIIclFZA3ejW19SC5oyRLr2SZ1/f9OIg1/BfMZQAaQdgcHc+VapMAVno83ERjbZWAO45PRoIQTrko=
+X-Received: by 2002:a25:d015:: with SMTP id h21mr36488009ybg.202.1625711058763; 
+ Wed, 07 Jul 2021 19:24:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210702212603.26465-1-niteesh.gs@gmail.com>
- <20210702212603.26465-7-niteesh.gs@gmail.com>
-In-Reply-To: <20210702212603.26465-7-niteesh.gs@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Wed, 7 Jul 2021 22:14:04 -0400
-Message-ID: <CAFn=p-Yvw2R+dY+cgp6u0XK_nkZ-08E2VLQ2xnvJy7Wi88xPBQ@mail.gmail.com>
-Subject: Re: [PATCH 6/6] python: add entry point for aqmp-tui
-To: G S Niteesh Babu <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002c805b05c6933607"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210707222452.591810-1-richard.henderson@linaro.org>
+ <20210707222452.591810-4-richard.henderson@linaro.org>
+In-Reply-To: <20210707222452.591810-4-richard.henderson@linaro.org>
+From: Ziqiao Kong <ziqiaokong@gmail.com>
+Date: Thu, 8 Jul 2021 10:24:07 +0800
+Message-ID: <CAM0BWNBMHvokWceJadbEp+5C+8FZmBDy44vztFu9bsKCh0mNXQ@mail.gmail.com>
+Subject: Re: [PATCH v8 3/3] target/i386: Correct implementation for FCS, FIP, 
+ FDS and FDP
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=ziqiaokong@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,162 +78,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002c805b05c6933607
-Content-Type: text/plain; charset="UTF-8"
+Hello!
 
-On Fri, Jul 2, 2021 at 5:26 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
+Thanks for applying fixes for me. Is there anything else I should do?
 
-> Add an entry point for aqmp-tui. This will allow it to be run from
-> the command line using "aqmp-tui -a localhost:1234"
+Ziqiao
+
+
+On Thu, Jul 8, 2021 at 6:24 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+> From: Ziqiao Kong <ziqiaokong@gmail.com>
+>
+> Update FCS:FIP and FDS:FDP according to the Intel Manual Vol.1 8.1.8.
+> Note that CPUID.(EAX=07H,ECX=0H):EBX[bit 13] is not implemented by
+> design in this patch and will be added along with TCG features flag
+> in a separate patch later.
+>
+> Signed-off-by: Ziqiao Kong <ziqiaokong@gmail.com>
+> Message-Id: <20210530150112.74411-2-ziqiaokong@gmail.com>
+> [rth: Push FDS/FDP handling down into mod != 3 case; free last_addr.]
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  python/setup.cfg | 1 +
->  1 file changed, 1 insertion(+)
+>  target/i386/cpu.h            |  2 ++
+>  target/i386/tcg/fpu_helper.c | 20 ++++++++++-------
+>  target/i386/tcg/translate.c  | 43 +++++++++++++++++++++++++++++++++++-
+>  3 files changed, 56 insertions(+), 9 deletions(-)
 >
-> diff --git a/python/setup.cfg b/python/setup.cfg
-> index 4782fe5241..23e30185f4 100644
-> --- a/python/setup.cfg
-> +++ b/python/setup.cfg
-> @@ -68,6 +68,7 @@ console_scripts =
->      qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point [fuse]
->      qemu-ga-client = qemu.qmp.qemu_ga_client:main
->      qmp-shell = qemu.qmp.qmp_shell:main
-> +    aqmp-tui = qemu.aqmp.aqmp_tui:main
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 0f7ddbfeae..8921bf5318 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1435,6 +1435,8 @@ typedef struct CPUX86State {
+>      FPReg fpregs[8];
+>      /* KVM-only so far */
+>      uint16_t fpop;
+> +    uint16_t fpcs;
+> +    uint16_t fpds;
+>      uint64_t fpip;
+>      uint64_t fpdp;
 >
-
-I was going to suggest that you could use [tui] at the end here to protect
-the script from being run when we don't have the optional dependency group
-installed, but even with it, I get a pretty nasty error:
-
-Traceback (most recent call last):
-  File "/home/jsnow/src/qemu/python/.pyvenv/bin/aqmp-tui", line 33, in
-<module>
-    sys.exit(load_entry_point('qemu==0.6.1.0a1', 'console_scripts',
-'aqmp-tui')())
-  File "/home/jsnow/src/qemu/python/.pyvenv/bin/aqmp-tui", line 25, in
-importlib_load_entry_point
-    return next(matches).load()
-  File "/usr/lib64/python3.9/importlib/metadata.py", line 77, in load
-    module = import_module(match.group('module'))
-  File "/usr/lib64/python3.9/importlib/__init__.py", line 127, in
-import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
-  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 855, in exec_module
-  File "<frozen importlib._bootstrap>", line 228, in
-_call_with_frames_removed
-  File
-"/home/jsnow/src/qemu/python/.pyvenv/lib64/python3.9/site-packages/qemu/aqmp/aqmp_tui.py",
-line 14, in <module>
-    from pygments import lexers
-ModuleNotFoundError: No module named 'pygments'
-
-It looks like this feature isn't working for me ... I'm not sure I know why.
-
-In theory it should work:
-https://setuptools.readthedocs.io/en/latest/userguide/entry_point.html#dependency-management
-
-We might have to make our own custom entry point script that guards this a
-little bit better if we can't solve this mystery. The goal is either to:
-
-(1) Do not install an aqmp-tui script at all if we don't select the
-optional TUI group, or
-(2) Have the script error out early with a nice error message explaining
-what optional dependencies it requires.
-
-
+> diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+> index beb63be432..cdd8e9f947 100644
+> --- a/target/i386/tcg/fpu_helper.c
+> +++ b/target/i386/tcg/fpu_helper.c
+> @@ -731,6 +731,10 @@ static void do_fninit(CPUX86State *env)
+>  {
+>      env->fpus = 0;
+>      env->fpstt = 0;
+> +    env->fpcs = 0;
+> +    env->fpds = 0;
+> +    env->fpip = 0;
+> +    env->fpdp = 0;
+>      cpu_set_fpuc(env, 0x37f);
+>      env->fptags[0] = 1;
+>      env->fptags[1] = 1;
+> @@ -2378,19 +2382,19 @@ static void do_fstenv(CPUX86State *env, target_ulong ptr, int data32,
+>          cpu_stl_data_ra(env, ptr, env->fpuc, retaddr);
+>          cpu_stl_data_ra(env, ptr + 4, fpus, retaddr);
+>          cpu_stl_data_ra(env, ptr + 8, fptag, retaddr);
+> -        cpu_stl_data_ra(env, ptr + 12, 0, retaddr); /* fpip */
+> -        cpu_stl_data_ra(env, ptr + 16, 0, retaddr); /* fpcs */
+> -        cpu_stl_data_ra(env, ptr + 20, 0, retaddr); /* fpoo */
+> -        cpu_stl_data_ra(env, ptr + 24, 0, retaddr); /* fpos */
+> +        cpu_stl_data_ra(env, ptr + 12, env->fpip, retaddr); /* fpip */
+> +        cpu_stl_data_ra(env, ptr + 16, env->fpcs, retaddr); /* fpcs */
+> +        cpu_stl_data_ra(env, ptr + 20, env->fpdp, retaddr); /* fpoo */
+> +        cpu_stl_data_ra(env, ptr + 24, env->fpds, retaddr); /* fpos */
+>      } else {
+>          /* 16 bit */
+>          cpu_stw_data_ra(env, ptr, env->fpuc, retaddr);
+>          cpu_stw_data_ra(env, ptr + 2, fpus, retaddr);
+>          cpu_stw_data_ra(env, ptr + 4, fptag, retaddr);
+> -        cpu_stw_data_ra(env, ptr + 6, 0, retaddr);
+> -        cpu_stw_data_ra(env, ptr + 8, 0, retaddr);
+> -        cpu_stw_data_ra(env, ptr + 10, 0, retaddr);
+> -        cpu_stw_data_ra(env, ptr + 12, 0, retaddr);
+> +        cpu_stw_data_ra(env, ptr + 6, env->fpip, retaddr);
+> +        cpu_stw_data_ra(env, ptr + 8, env->fpcs, retaddr);
+> +        cpu_stw_data_ra(env, ptr + 10, env->fpdp, retaddr);
+> +        cpu_stw_data_ra(env, ptr + 12, env->fpds, retaddr);
+>      }
+>  }
 >
->  [flake8]
->  extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
+> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+> index 886d3d80f3..888ead0d49 100644
+> --- a/target/i386/tcg/translate.c
+> +++ b/target/i386/tcg/translate.c
+> @@ -5930,6 +5930,8 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>          /* floats */
+>      case 0xd8 ... 0xdf:
+>          {
+> +            bool update_fip = true;
+> +
+>              if (s->flags & (HF_EM_MASK | HF_TS_MASK)) {
+>                  /* if CR0.EM or CR0.TS are set, generate an FPU exception */
+>                  /* XXX: what to do if illegal op ? */
+> @@ -5942,7 +5944,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>              op = ((b & 7) << 3) | ((modrm >> 3) & 7);
+>              if (mod != 3) {
+>                  /* memory op */
+> -                gen_lea_modrm(env, s, modrm);
+> +                AddressParts a = gen_lea_modrm_0(env, s, modrm);
+> +                TCGv ea = gen_lea_modrm_1(s, a);
+> +                TCGv last_addr = tcg_temp_new();
+> +                bool update_fdp = true;
+> +
+> +                tcg_gen_mov_tl(last_addr, ea);
+> +                gen_lea_v_seg(s, s->aflag, ea, a.def_seg, s->override);
+> +
+>                  switch (op) {
+>                  case 0x00 ... 0x07: /* fxxxs */
+>                  case 0x10 ... 0x17: /* fixxxl */
+> @@ -6070,20 +6079,24 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                  case 0x0c: /* fldenv mem */
+>                      gen_helper_fldenv(cpu_env, s->A0,
+>                                        tcg_const_i32(dflag - 1));
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x0d: /* fldcw mem */
+>                      tcg_gen_qemu_ld_i32(s->tmp2_i32, s->A0,
+>                                          s->mem_index, MO_LEUW);
+>                      gen_helper_fldcw(cpu_env, s->tmp2_i32);
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x0e: /* fnstenv mem */
+>                      gen_helper_fstenv(cpu_env, s->A0,
+>                                        tcg_const_i32(dflag - 1));
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x0f: /* fnstcw mem */
+>                      gen_helper_fnstcw(s->tmp2_i32, cpu_env);
+>                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
+>                                          s->mem_index, MO_LEUW);
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x1d: /* fldt mem */
+>                      gen_helper_fldt_ST0(cpu_env, s->A0);
+> @@ -6095,15 +6108,18 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                  case 0x2c: /* frstor mem */
+>                      gen_helper_frstor(cpu_env, s->A0,
+>                                        tcg_const_i32(dflag - 1));
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x2e: /* fnsave mem */
+>                      gen_helper_fsave(cpu_env, s->A0,
+>                                       tcg_const_i32(dflag - 1));
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x2f: /* fnstsw mem */
+>                      gen_helper_fnstsw(s->tmp2_i32, cpu_env);
+>                      tcg_gen_qemu_st_i32(s->tmp2_i32, s->A0,
+>                                          s->mem_index, MO_LEUW);
+> +                    update_fip = update_fdp = false;
+>                      break;
+>                  case 0x3c: /* fbld */
+>                      gen_helper_fbld_ST0(cpu_env, s->A0);
+> @@ -6126,6 +6142,19 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                  default:
+>                      goto unknown_op;
+>                  }
+> +
+> +                if (update_fdp) {
+> +                    int last_seg = s->override >= 0 ? s->override : a.def_seg;
+> +
+> +                    tcg_gen_ld_i32(s->tmp2_i32, cpu_env,
+> +                                   offsetof(CPUX86State,
+> +                                            segs[last_seg].selector));
+> +                    tcg_gen_st16_i32(s->tmp2_i32, cpu_env,
+> +                                     offsetof(CPUX86State, fpds));
+> +                    tcg_gen_st_tl(last_addr, cpu_env,
+> +                                  offsetof(CPUX86State, fpdp));
+> +                }
+> +                tcg_temp_free(last_addr);
+>              } else {
+>                  /* register float ops */
+>                  opreg = rm;
+> @@ -6146,6 +6175,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                      case 0: /* fnop */
+>                          /* check exceptions (FreeBSD FPU probe) */
+>                          gen_helper_fwait(cpu_env);
+> +                        update_fip = false;
+>                          break;
+>                      default:
+>                          goto unknown_op;
+> @@ -6315,9 +6345,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                          break;
+>                      case 2: /* fclex */
+>                          gen_helper_fclex(cpu_env);
+> +                        update_fip = false;
+>                          break;
+>                      case 3: /* fninit */
+>                          gen_helper_fninit(cpu_env);
+> +                        update_fip = false;
+>                          break;
+>                      case 4: /* fsetpm (287 only, just do nop here) */
+>                          break;
+> @@ -6438,6 +6470,15 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                      goto unknown_op;
+>                  }
+>              }
+> +
+> +            if (update_fip) {
+> +                tcg_gen_ld_i32(s->tmp2_i32, cpu_env,
+> +                               offsetof(CPUX86State, segs[R_CS].selector));
+> +                tcg_gen_st16_i32(s->tmp2_i32, cpu_env,
+> +                                 offsetof(CPUX86State, fpcs));
+> +                tcg_gen_st_tl(tcg_constant_tl(pc_start - s->cs_base),
+> +                              cpu_env, offsetof(CPUX86State, fpip));
+> +            }
+>          }
+>          break;
+>          /************************/
 > --
-> 2.17.1
+> 2.25.1
 >
->
-
---0000000000002c805b05c6933607
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 2, 2021 at 5:26 PM G S Ni=
-teesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Add an entry point for aqmp-tui. This will allow it to be run from<br>
-the command line using &quot;aqmp-tui -a localhost:1234&quot;<br>
-<br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
----<br>
-=C2=A0python/setup.cfg | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/python/setup.cfg b/python/setup.cfg<br>
-index 4782fe5241..23e30185f4 100644<br>
---- a/python/setup.cfg<br>
-+++ b/python/setup.cfg<br>
-@@ -68,6 +68,7 @@ console_scripts =3D<br>
-=C2=A0 =C2=A0 =C2=A0qom-fuse =3D qemu.qmp.qom_fuse:QOMFuse.entry_point [fus=
-e]<br>
-=C2=A0 =C2=A0 =C2=A0qemu-ga-client =3D qemu.qmp.qemu_ga_client:main<br>
-=C2=A0 =C2=A0 =C2=A0qmp-shell =3D qemu.qmp.qmp_shell:main<br>
-+=C2=A0 =C2=A0 aqmp-tui =3D qemu.aqmp.aqmp_tui:main<br></blockquote><div><b=
-r></div><div>I was going to suggest that you could use [tui] at the end her=
-e to protect the script from being run when we don&#39;t have the optional =
-dependency group installed, but even with it, I get a pretty nasty error:<b=
-r></div><div><br></div><div>Traceback (most recent call last):<br>=C2=A0 Fi=
-le &quot;/home/jsnow/src/qemu/python/.pyvenv/bin/aqmp-tui&quot;, line 33, i=
-n &lt;module&gt;<br>=C2=A0 =C2=A0 sys.exit(load_entry_point(&#39;qemu=3D=3D=
-0.6.1.0a1&#39;, &#39;console_scripts&#39;, &#39;aqmp-tui&#39;)())<br>=C2=A0=
- File &quot;/home/jsnow/src/qemu/python/.pyvenv/bin/aqmp-tui&quot;, line 25=
-, in importlib_load_entry_point<br>=C2=A0 =C2=A0 return next(matches).load(=
-)<br>=C2=A0 File &quot;/usr/lib64/python3.9/importlib/metadata.py&quot;, li=
-ne 77, in load<br>=C2=A0 =C2=A0 module =3D import_module(match.group(&#39;m=
-odule&#39;))<br>=C2=A0 File &quot;/usr/lib64/python3.9/importlib/__init__.p=
-y&quot;, line 127, in import_module<br>=C2=A0 =C2=A0 return _bootstrap._gcd=
-_import(name[level:], package, level)<br>=C2=A0 File &quot;&lt;frozen impor=
-tlib._bootstrap&gt;&quot;, line 1030, in _gcd_import<br>=C2=A0 File &quot;&=
-lt;frozen importlib._bootstrap&gt;&quot;, line 1007, in _find_and_load<br>=
-=C2=A0 File &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 986, in _=
-find_and_load_unlocked<br>=C2=A0 File &quot;&lt;frozen importlib._bootstrap=
-&gt;&quot;, line 680, in _load_unlocked<br>=C2=A0 File &quot;&lt;frozen imp=
-ortlib._bootstrap_external&gt;&quot;, line 855, in exec_module<br>=C2=A0 Fi=
-le &quot;&lt;frozen importlib._bootstrap&gt;&quot;, line 228, in _call_with=
-_frames_removed<br>=C2=A0 File &quot;/home/jsnow/src/qemu/python/.pyvenv/li=
-b64/python3.9/site-packages/qemu/aqmp/aqmp_tui.py&quot;, line 14, in &lt;mo=
-dule&gt;<br>=C2=A0 =C2=A0 from pygments import lexers<br>ModuleNotFoundErro=
-r: No module named &#39;pygments&#39;</div><div><br></div><div>It looks lik=
-e this feature isn&#39;t working for me ... I&#39;m not sure I know why.</d=
-iv><div><br></div><div>In theory it should work: <a href=3D"https://setupto=
-ols.readthedocs.io/en/latest/userguide/entry_point.html#dependency-manageme=
-nt">https://setuptools.readthedocs.io/en/latest/userguide/entry_point.html#=
-dependency-management</a></div><div><br></div><div>We might have to make ou=
-r own custom entry point script that guards this a little bit better if we =
-can&#39;t solve this mystery. The goal is either to:</div><div><br></div><d=
-iv>(1) Do not install an aqmp-tui script at all if we don&#39;t select the =
-optional TUI group, or</div><div>(2) Have the script error out early with a=
- nice error message explaining what optional dependencies it requires.</div=
-><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-=C2=A0[flake8]<br>
-=C2=A0extend-ignore =3D E722=C2=A0 # Prefer pylint&#39;s bare-except checks=
- to flake8&#39;s<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000002c805b05c6933607--
-
 
