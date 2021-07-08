@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B59CA3C1B52
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 00:02:03 +0200 (CEST)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C40073C1B51
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 00:02:02 +0200 (CEST)
+Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1c5q-0002ra-Nw
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 18:02:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59414)
+	id 1m1c5p-0002qe-Oi
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 18:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1c2M-0008Vv-GB
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1c2M-0008Vo-5c
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:58:26 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:46041)
+Received: from mout.kundenserver.de ([212.227.126.187]:36087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1c2J-00065o-SC
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:58:26 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1c2K-000668-BO
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 17:58:25 -0400
 Received: from quad ([82.142.13.34]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MYcy3-1lefgr2zAZ-00Vdgy; Thu, 08
- Jul 2021 23:57:58 +0200
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MqINP-1lNHKW1n87-00nReu; Thu, 08
+ Jul 2021 23:57:59 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] linux-user: update syscall_nr.h to Linux v5.13
-Date: Thu,  8 Jul 2021 23:57:54 +0200
-Message-Id: <20210708215756.268805-2-laurent@vivier.eu>
+Subject: [PATCH 2/3] linux-user,
+ mips: update syscall-args-o32.c.inc to Linux v5.13
+Date: Thu,  8 Jul 2021 23:57:55 +0200
+Message-Id: <20210708215756.268805-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708215756.268805-1-laurent@vivier.eu>
 References: <20210708215756.268805-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5RtnhDiY/iPnLpgE3zOUHt53p6O6MprbTOVvQed0rFPdWYLpEq0
- oCtZZoeUUVZyIhjERVsbNSJhKLA10F4TmJjK7khxAwgTZPYhikW8NBkUkuHU/U17BxR0snm
- P1/VNEZ28MoqAMMitKRJnkS38WRYmCYrH1KXEXTxiSPd3s5EE1xOtAColoVVzEq3m9IyDvi
- 36WOK65Tjp1NYbm6oG7KQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:d7KdbuV90Yc=:YosdgQ2HkERlvwpHsgYFki
- 6AopdWEslqIqCCoAhtVpwwItTjDaYvXHxIsN60valCEejvGfohlEWAe1SBjV0MkZrFiLzHd/0
- oJyCWFKFwUg6zF3PWezoFDOtptqT5+EbpVv1YZaNJBxvqsFde2R8e1Iv1h0oSdWIZTHcUjTvQ
- L8rckrfpcOPt9Xh0VPntwQdY/rkTucWs39gzH3h3qaoaNPcRzFwxMFA3D3tyEnvXEIjT1/LS1
- PGLJUtS2kr0RmXBFMugWedf5o22RLEwmNPQlSBBbqmO9bPdqryHVjWaAtSdNW5yowgQK6d7HL
- pi353o8lKBIaKxmK9gct8ysdV94dInUG1+Birv4gOKlGINs/0JkcWAovuZ2Jgs7TvkA8mI8NR
- P1pISus3eNTDoaE9CZ4i/ZADJ/xMPOYCEKj9F5LjyazDHIcyY81Q+t1JqNArBBFpyrRGlxhRR
- 65SJY8VynEKLJ86hpKuFb4DLE0KDmKnfABGYSTuRcWUAKKGsF6L4A3n7nM4mLt3Df0WNJxKjs
- A5gmJxGA7bvf8fGbI+CTMYMZsKSdIzF6g4NaM4qZXJcpicKiB9oxuL6kfWlllYbAEfH5f9+IG
- PAc//irEINkZez+/kz+ZFprbSj8exofg3NnaBpHPYiUo6jLVdJnvI7I2CuSA5qtktHo3UbRd5
- Ka9hz35mCOEn7HMWeYInA1xAD0i8iwEN/QhRH2jE30018TbHKNie2Arqidc5M7PzZeL0IM4Ak
- kEQK9SsCoBe+qm7QoF2GMVnOJLvtvbPX8375ooW4IX5M/rxtjaeb2KvY+ZVBVAcw/mGAbvRUj
- /oO765upiKlIVcWl/5lpbgsdYg9djvYJcxxgxPJr1KH7ZkOPVgM2tNbV8SMUGxFz/pz/gaS
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Vi42TLyKxyOJPq7eNkTXHGgF1mdc+s7mDqQnYqrEZR+7uj1liI7
+ X7KWUmHfKZtdNIgXbgmW0QaenPtXQNuxeeMaHcDLm8zoeIq6mDV1Z77RtdxpWaAjXBWRA7f
+ DEmE+qead2Hk052M1yc/ZVOFTV1dlSDYR3EoYep/9yk9n8Ums/ma09RZrJKr/O2/nAQEyBO
+ vTefxY9+jovM6RVslJgUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IOo+vTKODVE=:pw0qsFBBEPjvPlsdRkdlAc
+ ct5/yhLRuGpJu0KiQnwSnxkBK8f2ONrayRfCBP1uhhD2SuUFGXCWruVpAVXDVFW+0iMjkKar4
+ QdeFWmq5ym12UaiA84vshkcwAtGw3S9kAtyjtYK8VDrakaYvqTDM2/IklJPvJuIO2FBncbIdf
+ JpGSDYzevArRyIsbKSaFnzysB5+/Rrt6QkNkplYT8JkDYRpdv6CRrC3uNNmRz7AKoS4NRGlJs
+ ebpSFu9caED9vtETUG3e+wf2dwLWdqs/tS2TAc4bGDEY0jy/BG3RMgzMg52gpB+r6+Yi86Yg5
+ 38gBtWU3o0qk2s95gz7L5cydmu7Tc61pjN3Kn2W7x9PjUGHJuIOmTlvje4K1PYOUOQ+m7C5kI
+ gN6JxeTTlJAvr0irbXyLLLTCUHoNdTen+QYsKmGnjyH9w8yhbEOOffzJy1m070a1X2xHiXwtp
+ OyE3fjPtMYq91AzklQUSXpbVopHPM3H4MHa+KoLzevWsL50TWk0ez8HUfPLNHt66dXeVUSQmZ
+ J5QLLE7YM1ENcty6rfInnFATaXKEJ51/kh5wS/eJgmOzCdFxGqTFlY9bUSSP/XwbUj8TR61hP
+ NMs4BOAK+nj8F8ow1R2d4QlgpWBDFUkRyouJa650HGY7tx0QUcwX9F6DgnWU7qndKzkj+w5Za
+ F4/KNWcTPfh7L62rrt3Dgq4KVfX/09+ennwUxxqpbDDqXmKRShlqP8SyR+q2Eqliy4ENzM1vL
+ wWIDMfJiWhp1GZ2B+jHL1+V1U9mwzUTwnYrNZYtKQgtjOT/867Nxg72uHTl5F6yn9TIl+0QRa
+ PkJxTNDlYhSb6Zjq3guneFfJ45gF0iIGEYmNUMdNe4nAWV1NQB7mD+eqvG/96I6RSUraBni
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,130 +75,76 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Automatically generated using scripts/gensyscalls.sh
+Updated running scripts/update-mips-syscall-args.sh
+
+scripts/update-mips-syscall-args.sh has been updated to reflect
+file directory changes in strace repository.
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/aarch64/syscall_nr.h  |  8 +++++++-
- linux-user/hexagon/syscall_nr.h  | 12 +++++++++++-
- linux-user/nios2/syscall_nr.h    |  8 +++++++-
- linux-user/openrisc/syscall_nr.h |  8 +++++++-
- linux-user/riscv/syscall32_nr.h  |  8 +++++++-
- linux-user/riscv/syscall64_nr.h  |  8 +++++++-
- 6 files changed, 46 insertions(+), 6 deletions(-)
+ linux-user/mips/syscall-args-o32.c.inc |  5 ++++-
+ scripts/update-mips-syscall-args.sh    | 13 +++++++------
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/linux-user/aarch64/syscall_nr.h b/linux-user/aarch64/syscall_nr.h
-index 6fd5b331e780..12ef002d60f9 100644
---- a/linux-user/aarch64/syscall_nr.h
-+++ b/linux-user/aarch64/syscall_nr.h
-@@ -302,6 +302,12 @@
- #define TARGET_NR_openat2 437
- #define TARGET_NR_pidfd_getfd 438
- #define TARGET_NR_faccessat2 439
--#define TARGET_NR_syscalls 440
-+#define TARGET_NR_process_madvise 440
-+#define TARGET_NR_epoll_pwait2 441
-+#define TARGET_NR_mount_setattr 442
-+#define TARGET_NR_landlock_create_ruleset 444
-+#define TARGET_NR_landlock_add_rule 445
-+#define TARGET_NR_landlock_restrict_self 446
-+#define TARGET_NR_syscalls 447
+diff --git a/linux-user/mips/syscall-args-o32.c.inc b/linux-user/mips/syscall-args-o32.c.inc
+index 92ee4f921ec7..a6a2c5c566ca 100644
+--- a/linux-user/mips/syscall-args-o32.c.inc
++++ b/linux-user/mips/syscall-args-o32.c.inc
+@@ -356,7 +356,7 @@
+     [ 355] = 3, /* bpf */
+     [ 356] = 5, /* execveat */
+     [ 357] = 1, /* userfaultfd */
+-    [ 358] = 2, /* membarrier */
++    [ 358] = 3, /* membarrier */
+     [ 359] = 3, /* mlock2 */
+     [ 360] = 6, /* copy_file_range */
+     [ 361] = 6, /* preadv2 */
+@@ -438,3 +438,6 @@
+     [ 437] = 4, /* openat2 */
+     [ 438] = 3, /* pidfd_getfd */
+     [ 439] = 4, /* faccessat2 */
++    [ 440] = 5, /* process_madvise */
++    [ 441] = 6, /* epoll_pwait2 */
++    [ 442] = 5, /* mount_setattr */
+diff --git a/scripts/update-mips-syscall-args.sh b/scripts/update-mips-syscall-args.sh
+index 4f0dda4b83bc..5a529b699eb8 100755
+--- a/scripts/update-mips-syscall-args.sh
++++ b/scripts/update-mips-syscall-args.sh
+@@ -1,9 +1,9 @@
+ #!/bin/sh
  
- #endif /* LINUX_USER_AARCH64_SYSCALL_NR_H */
-diff --git a/linux-user/hexagon/syscall_nr.h b/linux-user/hexagon/syscall_nr.h
-index da1314f7132d..b047dbbf6df3 100644
---- a/linux-user/hexagon/syscall_nr.h
-+++ b/linux-user/hexagon/syscall_nr.h
-@@ -317,6 +317,16 @@
- #define TARGET_NR_fsmount 432
- #define TARGET_NR_fspick 433
- #define TARGET_NR_pidfd_open 434
--#define TARGET_NR_syscalls 436
-+#define TARGET_NR_close_range 436
-+#define TARGET_NR_openat2 437
-+#define TARGET_NR_pidfd_getfd 438
-+#define TARGET_NR_faccessat2 439
-+#define TARGET_NR_process_madvise 440
-+#define TARGET_NR_epoll_pwait2 441
-+#define TARGET_NR_mount_setattr 442
-+#define TARGET_NR_landlock_create_ruleset 444
-+#define TARGET_NR_landlock_add_rule 445
-+#define TARGET_NR_landlock_restrict_self 446
-+#define TARGET_NR_syscalls 447
+-URL=https://raw.githubusercontent.com/strace/strace/master
++URL=https://raw.githubusercontent.com/strace/strace/master/src
+ FILES="sysent.h sysent_shorthand_defs.h linux/mips/syscallent-compat.h \
+-       linux/mips/syscallent-o32.h linux/syscallent-common-32.h \
+-       linux/syscallent-common.h"
++       linux/mips/syscallent-o32.h linux/32/syscallent-common-32.h \
++       linux/generic/syscallent-common.h"
  
- #endif /* LINUX_USER_HEXAGON_SYSCALL_NR_H */
-diff --git a/linux-user/nios2/syscall_nr.h b/linux-user/nios2/syscall_nr.h
-index e37f40179bf3..11a37b32e8b1 100644
---- a/linux-user/nios2/syscall_nr.h
-+++ b/linux-user/nios2/syscall_nr.h
-@@ -322,6 +322,12 @@
- #define TARGET_NR_openat2 437
- #define TARGET_NR_pidfd_getfd 438
- #define TARGET_NR_faccessat2 439
--#define TARGET_NR_syscalls 440
-+#define TARGET_NR_process_madvise 440
-+#define TARGET_NR_epoll_pwait2 441
-+#define TARGET_NR_mount_setattr 442
-+#define TARGET_NR_landlock_create_ruleset 444
-+#define TARGET_NR_landlock_add_rule 445
-+#define TARGET_NR_landlock_restrict_self 446
-+#define TARGET_NR_syscalls 447
+ output="$1"
+ if [ "$output" = "" ] ; then
+@@ -16,10 +16,11 @@ TMP=$(mktemp -d)
+ cd $TMP
  
- #endif /* LINUX_USER_NIOS2_SYSCALL_NR_H */
-diff --git a/linux-user/openrisc/syscall_nr.h b/linux-user/openrisc/syscall_nr.h
-index a8fc0295109a..f7faddb54c58 100644
---- a/linux-user/openrisc/syscall_nr.h
-+++ b/linux-user/openrisc/syscall_nr.h
-@@ -323,6 +323,12 @@
- #define TARGET_NR_openat2 437
- #define TARGET_NR_pidfd_getfd 438
- #define TARGET_NR_faccessat2 439
--#define TARGET_NR_syscalls 440
-+#define TARGET_NR_process_madvise 440
-+#define TARGET_NR_epoll_pwait2 441
-+#define TARGET_NR_mount_setattr 442
-+#define TARGET_NR_landlock_create_ruleset 444
-+#define TARGET_NR_landlock_add_rule 445
-+#define TARGET_NR_landlock_restrict_self 446
-+#define TARGET_NR_syscalls 447
+ for file in $FILES; do
+-    curl -O $URL/$file
++    curl --create-dirs $URL/$file -o $TMP/$file
+ done
  
- #endif /* LINUX_USER_OPENRISC_SYSCALL_NR_H */
-diff --git a/linux-user/riscv/syscall32_nr.h b/linux-user/riscv/syscall32_nr.h
-index 079b804daef5..1327d7dffab9 100644
---- a/linux-user/riscv/syscall32_nr.h
-+++ b/linux-user/riscv/syscall32_nr.h
-@@ -296,6 +296,12 @@
- #define TARGET_NR_openat2 437
- #define TARGET_NR_pidfd_getfd 438
- #define TARGET_NR_faccessat2 439
--#define TARGET_NR_syscalls 440
-+#define TARGET_NR_process_madvise 440
-+#define TARGET_NR_epoll_pwait2 441
-+#define TARGET_NR_mount_setattr 442
-+#define TARGET_NR_landlock_create_ruleset 444
-+#define TARGET_NR_landlock_add_rule 445
-+#define TARGET_NR_landlock_restrict_self 446
-+#define TARGET_NR_syscalls 447
+-> subcall32.h
++> linux/generic/subcallent.h
++> linux/32/subcallent.h
  
- #endif /* LINUX_USER_RISCV_SYSCALL32_NR_H */
-diff --git a/linux-user/riscv/syscall64_nr.h b/linux-user/riscv/syscall64_nr.h
-index d54224ccec64..6659751933d5 100644
---- a/linux-user/riscv/syscall64_nr.h
-+++ b/linux-user/riscv/syscall64_nr.h
-@@ -302,6 +302,12 @@
- #define TARGET_NR_openat2 437
- #define TARGET_NR_pidfd_getfd 438
- #define TARGET_NR_faccessat2 439
--#define TARGET_NR_syscalls 440
-+#define TARGET_NR_process_madvise 440
-+#define TARGET_NR_epoll_pwait2 441
-+#define TARGET_NR_mount_setattr 442
-+#define TARGET_NR_landlock_create_ruleset 444
-+#define TARGET_NR_landlock_add_rule 445
-+#define TARGET_NR_landlock_restrict_self 446
-+#define TARGET_NR_syscalls 447
+ cat > gen_mips_o32.c <<EOF
+ #include <stdio.h>
+@@ -52,6 +53,6 @@ int main(void)
+ }
+ EOF
  
- #endif /* LINUX_USER_RISCV_SYSCALL64_NR_H */
+-cc -o gen_mips_o32 gen_mips_o32.c && ./gen_mips_o32 > "$output/$INC"
++cc -o gen_mips_o32 -I linux/mips -I linux/generic gen_mips_o32.c && ./gen_mips_o32 > "$output/$INC"
+ 
+ rm -fr "$TMP"
 -- 
 2.31.1
 
