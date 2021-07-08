@@ -2,94 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A970A3C19C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:26:21 +0200 (CEST)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2063C19C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:25:27 +0200 (CEST)
+Received: from localhost ([::1]:38404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZfA-0000w5-IT
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:26:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49298)
+	id 1m1ZeI-0007Zo-Rl
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:25:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m1ZNL-0001EI-JY
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:07:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m1ZNF-0004CL-TS
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:07:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625771269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ak/F/kndEDCjI1BckAzDVn5XSafye85nA4YVY8X6fU0=;
- b=RIOh4rsVOcba2FXN3ByNMmZmwbtIzxzou2xlNS+oKS0KQEID4uzHDYq2esMuhr2MfdBsJa
- SnxsmaGEEKpw8Ps8EFqRzS6berdvp97Y43pxB5sw/+3bl1320HC6HRf8sPvUH59X/0MOIJ
- 2nN4YOflsE9ZAPNGnB42Db3Y2K73Cxw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-6qpkfQt6PR6wEQNRnJu1kA-1; Thu, 08 Jul 2021 15:07:48 -0400
-X-MC-Unique: 6qpkfQt6PR6wEQNRnJu1kA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m6-20020a05600c4f46b0290205f5e73b37so2804881wmq.3
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:07:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m1ZPA-0003Hn-TA
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:48 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m1ZP8-0004kC-Hh
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:48 -0400
+Received: by mail-wm1-x333.google.com with SMTP id w13so4771337wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cvn/kvpkYYF9E/a/BPB1h5/ewJa8Swv4Kk76IZ+bbyg=;
+ b=r+nPrIvMlBAN64Ll8sIpljSnE3RWHmWSOx5Ci3ZMO1/lrWHPdPsXKw+9sV6bSCUqzG
+ Lpluwxb9MpgdqzzGxKWubIhCRcMzXR8C4T26AMnHpBAyZBD3A0uRpM31/kQ/lSx4qbsu
+ 38UugbQnBGZxT5FYATAFx+CFnToq35cO91UCMD42RWe5vRZd/I7KAIPiMMbxodalHQdx
+ nTzGyzkni+27p25xYvHvDnaMBqPPvBRcBKxbMvoQFViGmsaJpUFlxYTasYC4dh3TTrOL
+ ekXae+RIbbKWMbCVHzim9C3EQFZyA/m/VFhx6bM+4/d802abm7Led/zJ8Ec2JjkQJqcd
+ pfug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=ak/F/kndEDCjI1BckAzDVn5XSafye85nA4YVY8X6fU0=;
- b=MU4qHXLACZyXZIXpFWF0nST+cUxWBZNtLast9oKNjjT/t+54qAcEuzYxg+NtggxaHn
- BoYL+8e8Mze/l9gEDdzoWUV3rM59Df4l/7+a9SqmAMsji6lwauFdLStYJbTkNRk6y2xM
- DfMHEeKJ3rE3lFoyyeVjEN6MjeuL2JoWahS9wf20vvxS5InyB/JCHQqbP8OoxddO8a7t
- MjF7HrJK9Elw1wPBn1gNsYV/+nADZJ1DZqqxVZml0lBkQP2K6wjdFbZI4kuACT0y/035
- F15UP7LiIXoZt9XRNHilEBJt5bNQGMUpUuoW0bbznpbOJt3X/cF6gvuKVMqQMC74AkDg
- c5NQ==
-X-Gm-Message-State: AOAM530o7BLhCUe3XeTd+Ob3MrNmLSDot/dCkxfwGX1/wPQu0eGFrjUF
- lOIEZFFHYgZf+j59Yc2KLrQxoRwahR2fQwfPDkuapBZ40RWbIXqD+QZrVnVDJfSqjY0wBQwNf/s
- D/JmMORfgXKuCDPA=
-X-Received: by 2002:a5d:46d1:: with SMTP id g17mr31755983wrs.2.1625771267172; 
- Thu, 08 Jul 2021 12:07:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJzYqcr+x1zEV0LLDwjO1C5xfP+/dC1mI+iFteGgjD7YxM1MjmU1nIdJHV/pLl52e4/76hVQ==
-X-Received: by 2002:a5d:46d1:: with SMTP id g17mr31755970wrs.2.1625771267057; 
- Thu, 08 Jul 2021 12:07:47 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id k5sm3022824wmk.11.2021.07.08.12.07.46
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cvn/kvpkYYF9E/a/BPB1h5/ewJa8Swv4Kk76IZ+bbyg=;
+ b=pDY0rPvN8t0/6SrKAyUotEBb/vS6T9bKUIrEHJTPIMHKGKeNn5nB5uwSNZjEsalRWA
+ KgHlAHUqqGhkGQubOORLFokNxxjqjANIR47fsR7gbS/lfNiqf+vJF0smZ9HAvtcyHfW6
+ SmhcepTqu4cCAFuRwGWaags5/adxzO1IGUnafeb1qrZDj9ypZF/mqe4lxk2XzgEoOzsL
+ nA7Z5hbR0k1ZNAhlGG0A/RorbnGjeGU3ol84qJyp9THoqr1qZpEFXMFsAnvDWLABPeom
+ kgJ08h0iQ1m1VjfsEc0puBZNIpr4UqTq8oxxO1jpca3tks9MOaNUtxbjIt1+Zx58vwG5
+ tPSA==
+X-Gm-Message-State: AOAM5335CXwpADCcUQoPQGtKtEwU+MTzSBXIONDoNIRTH8m9D510DC51
+ gesKIzrDDYwMl421o07C4HakHw==
+X-Google-Smtp-Source: ABdhPJxum7xzrR1Fc20bvouMJc6D9OCFMmOH4WTSPB7HKgDMZDfSTO21HNlNK3p52A3C9PhRPIL0YQ==
+X-Received: by 2002:a05:600c:3b0b:: with SMTP id
+ m11mr6983761wms.25.1625771383763; 
+ Thu, 08 Jul 2021 12:09:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a22sm3186743wrc.66.2021.07.08.12.09.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 12:07:46 -0700 (PDT)
-Date: Thu, 8 Jul 2021 20:07:44 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
- VIRTIO_BALLOON_F_FREE_PAGE_HINT
-Message-ID: <YOdNAMoAKkiSyuqR@work-vm>
-References: <20210707140655.30982-1-david@redhat.com>
- <20210707140655.30982-3-david@redhat.com>
- <20210707150038-mutt-send-email-mst@kernel.org>
- <0391e06b-5885-8000-3c58-ae20493e3e65@redhat.com>
- <20210707151459-mutt-send-email-mst@kernel.org>
- <40a148d7-acad-67ee-ac66-e9ad56a23b44@redhat.com>
- <20210707155413-mutt-send-email-mst@kernel.org>
+ Thu, 08 Jul 2021 12:09:42 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D42DB1FF7E;
+ Thu,  8 Jul 2021 20:09:41 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 for 6.1 00/39] testing and plugins pre-PR series
+Date: Thu,  8 Jul 2021 20:09:02 +0100
+Message-Id: <20210708190941.16980-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210707155413-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,159 +85,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-stable@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
- qemu-devel@nongnu.org, Wei Wang <wei.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
+ kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Wed, Jul 07, 2021 at 09:47:31PM +0200, David Hildenbrand wrote:
-> > On 07.07.21 21:19, Michael S. Tsirkin wrote:
-> > > On Wed, Jul 07, 2021 at 09:14:00PM +0200, David Hildenbrand wrote:
-> > > > On 07.07.21 21:05, Michael S. Tsirkin wrote:
-> > > > > On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
-> > > > > > Postcopy never worked properly with 'free-page-hint=on', as there are
-> > > > > > at least two issues:
-> > > > > > 
-> > > > > > 1) With postcopy, the guest will never receive a VIRTIO_BALLOON_CMD_ID_DONE
-> > > > > >      and consequently won't release free pages back to the OS once
-> > > > > >      migration finishes.
-> > > > > > 
-> > > > > >      The issue is that for postcopy, we won't do a final bitmap sync while
-> > > > > >      the guest is stopped on the source and
-> > > > > >      virtio_balloon_free_page_hint_notify() will only call
-> > > > > >      virtio_balloon_free_page_done() on the source during
-> > > > > >      PRECOPY_NOTIFY_CLEANUP, after the VM state was already migrated to
-> > > > > >      the destination.
-> > > > > > 
-> > > > > > 2) Once the VM touches a page on the destination that has been excluded
-> > > > > >      from migration on the source via qemu_guest_free_page_hint() while
-> > > > > >      postcopy is active, that thread will stall until postcopy finishes
-> > > > > >      and all threads are woken up. (with older Linux kernels that won't
-> > > > > >      retry faults when woken up via userfaultfd, we might actually get a
-> > > > > >      SEGFAULT)
-> > > > > > 
-> > > > > >      The issue is that the source will refuse to migrate any pages that
-> > > > > >      are not marked as dirty in the dirty bmap -- for example, because the
-> > > > > >      page might just have been sent. Consequently, the faulting thread will
-> > > > > >      stall, waiting for the page to be migrated -- which could take quite
-> > > > > >      a while and result in guest OS issues.
-> > > > > 
-> > > > > OK so if source gets a request for a page which is not dirty
-> > > > > it does not respond immediately? Why not just teach it to
-> > > > > respond? It would seem that if destination wants a page we
-> > > > > should just give it to the destination ...
-> > > > 
-> > > > The source does not know if a page has already been sent (e.g., via the
-> > > > background migration thread that moves all data over) vs. the page has not
-> > > > been send because the page was hinted. This is the part where we'd need
-> > > > additional tracking on the source to actually know that.
-> > > > 
-> > > > We must not send a page twice, otherwise bad things can happen when placing
-> > > > pages that already have been migrated, because that scenario can easily
-> > > > happen with ordinary postcopy (page has already been sent and we're dealing
-> > > > with a stale request from the destination).
-> > > 
-> > > OK let me get this straight
-> > > 
-> > > A. source sends page
-> > > B. destination requests page
-> > > C. destination changes page
-> > > D. source sends page
-> > > E. destination overwrites page
-> > > 
-> > > this is what you are worried about right?
-> > 
-> > IIRC E. is with recent kernels:
-> > 
-> > E. placing the page fails with -EEXIST and postcopy migration fails
-> > 
-> > However, the man page (man ioctl_userfaultfd) doesn't describe what is
-> > actually supposed to happen when double-placing. Could be that it's
-> > "undefined behavior".
-> > 
-> > I did not try, though.
-> > 
-> > 
-> > This is how it works today:
-> > 
-> > A. source sends page and marks it clean
-> > B. destination requests page
-> > C. destination receives page and places it
-> > D. source ignores request as page is clean
-> 
-> If it's actually -EEXIST then we could just resend it
-> and teach destination to ignore -EEXIST errors right?
-> 
-> Will actually make things a bit more robust: destination
-> handles its own consistency instead of relying on source.
+Hi,
 
-You have to be careful of a few things;
-  a) If the destination has modified the page, then you must
-definitely not under any circumstances lose those modifications
-and replace them by an old version from the source.
+As the v1 got a few comments about the position of checks to prevent
+non-supported versions of tcg with plugins I decided to post a v2.
+I'll generate the PR from this one instead.
 
-  b) With postcopy recovery I think there is a bitmap to track some
-of this; but you have to be careful since you don't know whether
-pages that were sent were actually received.
+  - fix title of MAINTAINERS post
+  - change order of checks in configure
+  - also disable signals test for plugin variants
+  
+The following are still un-reviewed:
 
-Dave
+ - configure: stop user enabling plugins on Windows for now
+ - configure: don't allow plugins to be enabled for a non-TCG build
+ - meson.build: move TCG plugin summary output
+ - plugins: fix-up handling of internal hostaddr for 32 bit
+ - tests/tcg: make test-mmap a little less aggressive
+ - tests/tcg: also disable the signals test for plugins
 
-> 
-> 
-> > > 
-> > > the fix is to mark page clean in A.
-> > > then in D to not send page if it's clean?
-> > > 
-> > > And the problem with hinting is this:
-> > > 
-> > > A. page is marked clean
-> > > B. destination requests page
-> > > C. destination changes page
-> > > D. source sends page <- does not happen, page is clean!
-> > > E. destination overwrites page
-> > 
-> > Simplified it's
-> > 
-> > A. page is marked clean by hinting code
-> > B. destination requests page
-> > D. source ignores request as page is clean
-> > E. destination stalls until postcopy unregisters uffd
-> > 
-> > 
-> > Some thoughts
-> > 
-> > 1. We do have a a recv bitmap where we track received pages on the
-> > destination (e.g., ramblock_recv_bitmap_test()), however we only use it to
-> > avoid sending duplicate requests to the hypervisor AFAIKs, and don't check
-> > it when placing pages.
-> > 
-> > 2. Changing the migration behavior unconditionally on the source will break
-> > migration to old QEMU binaries that cannot handle this change.
-> 
-> We can always make this depend on new machine types.
-> 
-> 
-> > 3. I think the current behavior is in place to make debugging easier. If
-> > only a single instance of a page will ever be migrated from source to
-> > destination, there cannot be silent data corruption. Further, we avoid
-> > migrating unnecessarily pages twice.
-> > 
-> 
-> Likely does not matter much for performance, it seems unlikely that
-> the race is all that common.
-> 
-> > Maybe Dave and Peter can spot any flaws in my understanding.
-> > 
-> > -- 
-> > Thanks,
-> > 
-> > David / dhildenb
-> 
+Alex Bennée (8):
+  tests/tcg: also disable the signals test for plugins
+  tests/tcg: make test-mmap a little less aggressive
+  plugins: fix-up handling of internal hostaddr for 32 bit
+  meson.build: move TCG plugin summary output
+  configure: don't allow plugins to be enabled for a non-TCG build
+  configure: stop user enabling plugins on Windows for now
+  tcg/plugins: enable by default for TCG builds
+  contrib/plugins: enable -Wall for building plugins
+
+Alexandre Iooss (2):
+  contrib/plugins: add execlog to log instruction execution and memory
+    access
+  docs/devel: tcg-plugins: add execlog plugin description
+
+Brad Smith (2):
+  tests/vm: update NetBSD to 9.2
+  tests/vm: update openbsd to release 6.9
+
+Cleber Rosa (4):
+  Jobs based on custom runners: documentation and configuration
+    placeholder
+  Jobs based on custom runners: build environment docs and playbook
+  Jobs based on custom runners: docs and gitlab-runner setup playbook
+  Jobs based on custom runners: add job definitions for QEMU's machines
+
+Daniel P. Berrangé (18):
+  build: validate that system capstone works before using it
+  gitlab: support for FreeBSD 12, 13 and macOS 11 via cirrus-run
+  cirrus: delete FreeBSD and macOS jobs
+  hw/usb/ccid: remove references to NSS
+  tests/docker: don't use BUILDKIT in GitLab either
+  tests/docker: use project specific container registries
+  tests/docker: use explicit docker.io registry
+  tests/docker: remove FEATURES env var from templates
+  tests/docker: fix sorting in package lists
+  tests/docker: fix mistakes in centos package lists
+  tests/docker: fix mistakes in fedora package list
+  tests/docker: fix mistakes in ubuntu package lists
+  tests/docker: remove mingw packages from Fedora
+  tests/docker: expand centos8 package list
+  tests/docker: expand fedora package list
+  tests/docker: expand ubuntu1804 package list
+  tests/docker: expand ubuntu2004 package list
+  tests/docker: expand opensuse-leap package list
+
+Mahmoud Mandour (5):
+  plugins: Added a new cache modelling plugin
+  plugins/cache: Enable cache parameterization
+  plugins/cache: Added FIFO and LRU eviction policies
+  docs/devel: Added cache plugin to the plugins docs
+  MAINTAINERS: Added myself as a reviewer for TCG Plugins
+
+ docs/ccid.txt                                 |  15 +-
+ docs/devel/ci.rst                             | 127 ++++
+ docs/devel/index.rst                          |   1 +
+ docs/devel/tcg-plugins.rst                    |  86 ++-
+ .gitlab-ci.d/cirrus/README.rst                |  54 ++
+ configure                                     | 138 ++--
+ meson.build                                   |  15 +-
+ include/qemu/plugin-memory.h                  |   2 +-
+ accel/tcg/cputlb.c                            |   2 +-
+ contrib/plugins/cache.c                       | 641 ++++++++++++++++++
+ contrib/plugins/execlog.c                     | 153 +++++
+ plugins/api.c                                 |   4 +-
+ tests/tcg/multiarch/test-mmap.c               |   6 +-
+ .cirrus.yml                                   |  55 --
+ .gitlab-ci.d/buildtest.yml                    |  23 -
+ .gitlab-ci.d/cirrus.yml                       | 102 +++
+ .gitlab-ci.d/cirrus/build.yml                 |  35 +
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |  13 +
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |  13 +
+ .gitlab-ci.d/cirrus/macos-11.vars             |  15 +
+ .gitlab-ci.d/custom-runners.yml               | 222 ++++++
+ .gitlab-ci.d/qemu-project.yml                 |   2 +
+ .travis.yml                                   |  12 +-
+ MAINTAINERS                                   |   2 +
+ contrib/plugins/Makefile                      |   4 +-
+ scripts/ci/setup/.gitignore                   |   2 +
+ scripts/ci/setup/build-environment.yml        | 116 ++++
+ scripts/ci/setup/gitlab-runner.yml            |  71 ++
+ scripts/ci/setup/inventory.template           |   1 +
+ scripts/ci/setup/vars.yml.template            |  12 +
+ scripts/coverity-scan/coverity-scan.docker    |   1 -
+ tests/docker/common.rc                        |  19 +-
+ tests/docker/docker.py                        |   4 +-
+ tests/docker/dockerfiles/centos8.docker       |  82 ++-
+ .../dockerfiles/debian-xtensa-cross.docker    |   2 +-
+ tests/docker/dockerfiles/debian10.docker      |   4 +-
+ tests/docker/dockerfiles/debian11.docker      |   2 +-
+ .../dockerfiles/fedora-cris-cross.docker      |   2 +-
+ .../dockerfiles/fedora-i386-cross.docker      |   2 +-
+ .../dockerfiles/fedora-win32-cross.docker     |   3 +-
+ .../dockerfiles/fedora-win64-cross.docker     |   3 +-
+ tests/docker/dockerfiles/fedora.docker        |  67 +-
+ tests/docker/dockerfiles/opensuse-leap.docker |  77 ++-
+ tests/docker/dockerfiles/ubuntu.docker        |   4 +-
+ tests/docker/dockerfiles/ubuntu1804.docker    |  70 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    |  64 +-
+ tests/docker/run                              |   3 -
+ tests/docker/test-clang                       |   2 +-
+ tests/docker/test-debug                       |   2 +-
+ tests/docker/test-mingw                       |   3 +-
+ tests/docker/test-misc                        |   2 +-
+ tests/docker/test-tsan                        |   2 +-
+ tests/tcg/multiarch/Makefile.target           |   2 +
+ tests/vm/netbsd                               |   4 +-
+ tests/vm/openbsd                              |   4 +-
+ 55 files changed, 2111 insertions(+), 263 deletions(-)
+ create mode 100644 docs/devel/ci.rst
+ create mode 100644 .gitlab-ci.d/cirrus/README.rst
+ create mode 100644 contrib/plugins/cache.c
+ create mode 100644 contrib/plugins/execlog.c
+ create mode 100644 .gitlab-ci.d/cirrus.yml
+ create mode 100644 .gitlab-ci.d/cirrus/build.yml
+ create mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars
+ create mode 100644 .gitlab-ci.d/cirrus/freebsd-13.vars
+ create mode 100644 .gitlab-ci.d/cirrus/macos-11.vars
+ create mode 100644 .gitlab-ci.d/custom-runners.yml
+ create mode 100644 scripts/ci/setup/.gitignore
+ create mode 100644 scripts/ci/setup/build-environment.yml
+ create mode 100644 scripts/ci/setup/gitlab-runner.yml
+ create mode 100644 scripts/ci/setup/inventory.template
+ create mode 100644 scripts/ci/setup/vars.yml.template
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.20.1
 
 
