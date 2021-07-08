@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D93F3C19B5
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:18:01 +0200 (CEST)
-Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165113C19C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:26:20 +0200 (CEST)
+Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZX6-000112-9q
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
+	id 1m1Zf9-0000qz-5J
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZPM-0003Xx-1Y
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:10:01 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42585)
+ id 1m1ZPZ-0003cg-0e
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:10:13 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1ZPJ-0004ok-N1
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:09:59 -0400
-Received: by mail-wr1-x433.google.com with SMTP id r11so3588379wro.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:09:57 -0700 (PDT)
+ id 1m1ZPP-0004qX-Ra
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:10:12 -0400
+Received: by mail-wr1-x432.google.com with SMTP id i8so8804774wrp.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:10:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uQM582CR+pF+8YGG08VBpf08mKJ/9zGDEh5ELcyeUXY=;
- b=PtgD+aS6kopSaa5aYs2KwQVNj5hOjZtQcRnsisyxBKLHTd3E3DeGzgqAA3xw6M77uu
- zcexw3bpmsRox0SnIrKlZ1NXYh2E73pbShAy7kdV0WVkEaGevy6DnyuWrKP8kDjIep1z
- RJBWR/zUgMq2w5fYu+oyKScOC74GirvxbBs/r6G7SKUGZ/gY2OF41brl+mP0iVNt/j+i
- Hvr7raXutlfBiWbimvC5G9bOW0fhxcZRUv3i3Dukv+NRacf1+Z3dkgSruWlogjgoxufn
- WNsI7Nd7gYpUFJRYB31O9fZrbN3nMmEywEiaxt8paHtwk7lWT6tzrRnLWhW0llQFjbmy
- 7rNA==
+ bh=vkh+QsJsZ9gD8kp+cvBC59Qmlqe+1EP3ZHDMKhG7zhs=;
+ b=uDz52B58tEF8NIP99iZKMY9NqXTSIyRvaAb64HymawYEZW/J6RmnDcWSlSAc8mXt2d
+ 0ORYdxSqXBbJv3x2h6cza1lcnxqfV0vunifPHGlkSPy5iMdREslPQpGmttwS+uTCBAPv
+ 3tYz3pBV54MzkN8nzjamJaSFVGwgBfbeZTq6pzuFWAv3wSvu87sUKCxxcpSescIdJBwo
+ 1rJUGfMv8vA8dOypi4G87U9v0VtwupfdoQY0bO11yzbflqM3wiEi5ikNZAbplllyBSu5
+ K+pLdJZqXso53tDv3KVa3FLR6O/Toy4zbKiHo/fi+KHrqkLTFRyDapefQIxH1+KuHAyg
+ zRWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uQM582CR+pF+8YGG08VBpf08mKJ/9zGDEh5ELcyeUXY=;
- b=Dp6Loi1q4Xr7aE8cZArmkiTZ9FWFxWmE+ugBuBNfg8WummUawVhGoTdZOmScIyC55c
- 0/AdP29VQFk2e2fCXUeprRFbX6SeqsGgHgv+fNj4womAgp5twRuBJHvCDY3aLb69ggQZ
- WDqAlQTXZSJRPQi4pvfI96oWypmrtmKVUbOTi/dpC7owH4aVG6G2/cmQg3gk36lqi4Nf
- F312rtUGRYjTh9TJQg0WwIxOvW5DoLcW1hDyJobffuqj6ls8iUkuTNFwTcMa5Mu83KUl
- htj8Z50Q5Y8im09KTyVBE/KXH9wLhyd9nmM/4lGDv8Nk+O0ocjyJOdxXTXP9RHrW+mGJ
- kdnQ==
-X-Gm-Message-State: AOAM5304cymCBiKmkg2k7dE4TqmxXKr61rH+BnPNeVICaJyXYJK/VEly
- BnIMT08u6//fucuLgTyjBFajzg==
-X-Google-Smtp-Source: ABdhPJy21bkuKWJH5bHoRqwZvvteCnWn+g1ZGp+r+NswxQ+sbVVoDYhlL0K9IKF2hJwWYPnhAQ2hKA==
-X-Received: by 2002:a5d:4912:: with SMTP id x18mr4674855wrq.310.1625771396167; 
- Thu, 08 Jul 2021 12:09:56 -0700 (PDT)
+ bh=vkh+QsJsZ9gD8kp+cvBC59Qmlqe+1EP3ZHDMKhG7zhs=;
+ b=Bbwqhf3g1CaJWfj9PwRtjx+pzTJBbs5w3euDzZ/ejA/rO9I6c18KW5/uufVhT+V2+2
+ jy+0eGEVUlyufp2DsbJc/SS2OvVXY6bq1VXiGR2EP+RFyyFZ9ofMa7HXLDMF1UXOOrnr
+ vyy9et+yn3My/LcrzwQrJkl7dtgkiYMBk+GrDNIyxsh0/rAYRhWJeIgw2wyWgIvXmdbM
+ iNnJpoNZ1JSzttr49WH7CHly7FWQhW8dCl1EywfKhPTMfdJk2nGyWLmGXSFV/sNlXzeu
+ M8lhvalQgAJeipR2PukPO+KFay2MXE2yv1gGJ5Zxi3YweoVtHjL1AsNqOSZUfEx2M92M
+ mrsw==
+X-Gm-Message-State: AOAM533RyN6Aixnu+mPL/Azag3a2Iozy349lfiviRxcUqRrIJE7nK2br
+ ELs6sPGXxw81CBfm6CD8uqbGMQ==
+X-Google-Smtp-Source: ABdhPJwHvpb7H1OAYoVo+gdxxo59MwAhROCF6Yuiw4wTq6uV59mDHMZREm6zTtTq2+QZmyV3Ltd77g==
+X-Received: by 2002:a5d:6c67:: with SMTP id r7mr30032624wrz.111.1625771402501; 
+ Thu, 08 Jul 2021 12:10:02 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i12sm3263476wrp.57.2021.07.08.12.09.49
+ by smtp.gmail.com with ESMTPSA id f82sm8936523wmf.25.2021.07.08.12.09.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 12:09:53 -0700 (PDT)
+ Thu, 08 Jul 2021 12:10:00 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 88DDE1FF9B;
- Thu,  8 Jul 2021 20:09:43 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 5BCBA1FFA9;
+ Thu,  8 Jul 2021 20:09:44 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/39] tests/docker: remove FEATURES env var from templates
-Date: Thu,  8 Jul 2021 20:09:15 +0100
-Message-Id: <20210708190941.16980-14-alex.bennee@linaro.org>
+Subject: [PATCH  v2 21/39] tests/docker: expand ubuntu1804 package list
+Date: Thu,  8 Jul 2021 20:09:23 +0100
+Message-Id: <20210708190941.16980-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210708190941.16980-1-alex.bennee@linaro.org>
 References: <20210708190941.16980-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,225 +100,137 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-In preparation for switching to auto-generated dockerfiles, remove the
-FEATURES env variable. The equivalent functionality can be achieved in
-most cases by just looking for existance of a binary.
-
-The cases which don't correspond to binaries are simply dropped because
-configure/meson will probe for any requested feature anyway.
+This is the fully expanded list of build pre-requisites QEMU can
+conceivably use in any scenario.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-6-berrange@redhat.com>
+Message-Id: <20210623142245.307776-14-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/common.rc                        | 19 ++++++++++++++-----
- tests/docker/dockerfiles/debian10.docker      |  2 --
- .../dockerfiles/fedora-win32-cross.docker     |  1 -
- .../dockerfiles/fedora-win64-cross.docker     |  1 -
- tests/docker/dockerfiles/fedora.docker        |  1 -
- tests/docker/dockerfiles/ubuntu.docker        |  1 -
- tests/docker/dockerfiles/ubuntu1804.docker    |  1 -
- tests/docker/dockerfiles/ubuntu2004.docker    |  1 -
- tests/docker/run                              |  3 ---
- tests/docker/test-clang                       |  2 +-
- tests/docker/test-debug                       |  2 +-
- tests/docker/test-mingw                       |  3 ++-
- tests/docker/test-misc                        |  2 +-
- tests/docker/test-tsan                        |  2 +-
- 14 files changed, 20 insertions(+), 21 deletions(-)
+ tests/docker/dockerfiles/ubuntu1804.docker | 61 +++++++++++++++++++++-
+ 1 file changed, 60 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/common.rc b/tests/docker/common.rc
-index ebc5b97ecf..c5cc33d366 100755
---- a/tests/docker/common.rc
-+++ b/tests/docker/common.rc
-@@ -15,14 +15,23 @@
- # overriden by TARGET_LIST if the user sets it.
- DEF_TARGET_LIST=${DEF_TARGET_LIST:-"x86_64-softmmu,aarch64-softmmu"}
- 
--requires()
-+requires_binary()
- {
-+    found=0
-     for c in $@; do
--        if ! echo "$FEATURES" | grep -wq -e "$c"; then
--            echo "Prerequisite '$c' not present, skip"
--            exit 0
--        fi
-+        for d in /bin /usr/bin /usr/local/bin
-+        do
-+            if test -f "$d/$c"
-+            then
-+                found=1
-+            fi
-+        done
-     done
-+    if test "$found" != "1"
-+    then
-+        echo "Prerequisite '$c' not present, skip"
-+        exit 0
-+    fi
- }
- 
- configure_qemu()
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index a27b88df55..b414af1b9f 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -35,5 +35,3 @@ RUN apt update && \
-         python3-sphinx \
-         python3-sphinx-rtd-theme \
-         $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
--
--ENV FEATURES docs
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index 9fed35f4e1..5a03e1af43 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -37,7 +37,6 @@ ENV PACKAGES \
- 
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
--ENV FEATURES mingw
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=i686-w64-mingw32-
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index fb641f6104..ff706040c4 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -33,7 +33,6 @@ ENV PACKAGES \
- 
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
--ENV FEATURES mingw
- 
- # Specify the cross prefix for this image (see tests/docker/common.rc)
- ENV QEMU_CONFIGURE_OPTS --cross-prefix=x86_64-w64-mingw32- --disable-capstone
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index a506e68d33..64a413f5e0 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -117,4 +117,3 @@ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
- RUN dnf install -y $PACKAGES
- RUN rpm -q $PACKAGES | sort > /packages.txt
- ENV PATH $PATH:/usr/libexec/python3-sphinx/
--ENV FEATURES mingw clang pyyaml asan docs
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index e0ff425c01..f0e0180d21 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -69,4 +69,3 @@ ENV PACKAGES \
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
--ENV FEATURES clang pyyaml sdl2 docs
 diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index adcdef8244..0acdb0d9ad 100644
+index ee8545e4b1..0880bf3e29 100644
 --- a/tests/docker/dockerfiles/ubuntu1804.docker
 +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -55,7 +55,6 @@ ENV PACKAGES \
+@@ -1,54 +1,113 @@
+ FROM docker.io/library/ubuntu:18.04
+ ENV PACKAGES \
++    bc \
++    bsdmainutils \
++    bzip2 \
++    ca-certificates \
+     ccache \
+     clang \
++    dbus \
++    debianutils \
++    diffutils \
++    exuberant-ctags \
++    findutils \
++    g++ \
+     gcc \
++    gcovr \
++    genisoimage \
+     gettext \
+     git \
++    glusterfs-common \
++    hostname \
+     libaio-dev \
++    libasan5 \
++    libasound2-dev \
+     libattr1-dev \
+     libbrlapi-dev \
+     libbz2-dev \
++    libc6-dev \
+     libcacard-dev \
+     libcap-ng-dev \
++    libcapstone-dev \
+     libcurl4-gnutls-dev \
++    libdaxctl-dev \
+     libdrm-dev \
+     libepoxy-dev \
+     libfdt-dev \
+     libffi-dev \
+     libgbm-dev \
++    libgcrypt20-dev \
++    libglib2.0-dev \
++    libgnutls28-dev \
+     libgtk-3-dev \
+     libibverbs-dev \
+     libiscsi-dev \
+     libjemalloc-dev \
+     libjpeg-turbo8-dev \
++    liblttng-ust-dev \
+     liblzo2-dev \
+     libncursesw5-dev \
+     libnfs-dev \
+     libnuma-dev \
++    libpam0g-dev \
+     libpixman-1-dev \
++    libpmem-dev \
++    libpng-dev \
++    libpulse-dev \
+     librbd-dev \
+     librdmacm-dev \
+     libsasl2-dev \
+     libsdl2-dev \
++    libsdl2-image-dev \
+     libseccomp-dev \
+     libsnappy-dev \
+     libspice-protocol-dev \
+     libspice-server-dev \
+     libssh-dev \
++    libsystemd-dev \
++    libtasn1-6-dev \
++    libtest-harness-perl \
++    libubsan1 \
++    libudev-dev \
+     libusb-1.0-0-dev \
+     libusbredirhost-dev \
+     libvdeplug-dev \
++    libvirglrenderer-dev \
+     libvte-2.91-dev \
+     libxen-dev \
++    libxml2-dev \
+     libzstd-dev \
++    llvm \
++    locales \
+     make \
++    multipath-tools \
++    netcat-openbsd \
++    nettle-dev \
+     ninja-build \
++    openssh-client \
++    perl-base \
++    pkgconf \
++    python3 \
++    python3-numpy \
++    python3-opencv \
++    python3-pillow \
++    python3-pip \
++    python3-setuptools \
+     python3-sphinx \
+     python3-sphinx-rtd-theme \
++    python3-venv \
++    python3-wheel \
+     python3-yaml \
++    rpm2cpio \
++    sed \
+     sparse \
+-    xfslibs-dev
++    systemtap-sdt-dev \
++    tar \
++    tesseract-ocr \
++    tesseract-ocr-eng \
++    texinfo \
++    xfslibs-dev \
++    zlib1g-dev
  RUN apt-get update && \
      DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
  RUN dpkg -l $PACKAGES | sort > /packages.txt
--ENV FEATURES clang pyyaml sdl2 docs
- 
- # https://bugs.launchpad.net/qemu/+bug/1838763
- ENV QEMU_CONFIGURE_OPTS --disable-libssh
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 78755bc2e3..88b3cfa136 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -70,7 +70,6 @@ ENV PACKAGES flex bison \
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
--ENV FEATURES clang tsan pyyaml sdl2
- 
- # Apply patch https://reviews.llvm.org/D75820
- # This is required for TSan in clang-10 to compile with QEMU.
-diff --git a/tests/docker/run b/tests/docker/run
-index 8edc7026ee..421393046b 100755
---- a/tests/docker/run
-+++ b/tests/docker/run
-@@ -30,9 +30,6 @@ mkdir -p $TEST_DIR/{src,build,install}
- 
- # Extract the source tarballs
- tar -C $TEST_DIR/src -xf $BASE/qemu.tar || { echo "Failed to untar source"; exit 2; }
--if test -f $TEST_DIR/src/Makefile; then
--    export FEATURES="$FEATURES dtc"
--fi
- 
- if test -n "$SHOW_ENV"; then
-     if test -f /packages.txt; then
-diff --git a/tests/docker/test-clang b/tests/docker/test-clang
-index 8c51ead518..b57e0119d9 100755
---- a/tests/docker/test-clang
-+++ b/tests/docker/test-clang
-@@ -13,7 +13,7 @@
- 
- . common.rc
- 
--requires clang
-+requires_binary clang
- 
- cd "$BUILD_DIR"
- 
-diff --git a/tests/docker/test-debug b/tests/docker/test-debug
-index c050fa0d93..f52f16328c 100755
---- a/tests/docker/test-debug
-+++ b/tests/docker/test-debug
-@@ -14,7 +14,7 @@
- 
- . common.rc
- 
--requires clang asan
-+requires_binary clang
- 
- cd "$BUILD_DIR"
- 
-diff --git a/tests/docker/test-mingw b/tests/docker/test-mingw
-index c30eb654eb..0bc6d78872 100755
---- a/tests/docker/test-mingw
-+++ b/tests/docker/test-mingw
-@@ -13,7 +13,8 @@
- 
- . common.rc
- 
--requires mingw dtc
-+requires_binary x86_64-w64-mingw32-gcc
-+requires_binary i686-w64-mingw32-gcc
- 
- cd "$BUILD_DIR"
- 
-diff --git a/tests/docker/test-misc b/tests/docker/test-misc
-index cc94a738dd..2a3c2c2e1c 100755
---- a/tests/docker/test-misc
-+++ b/tests/docker/test-misc
-@@ -14,7 +14,7 @@
- 
- . common.rc
- 
--requires docs
-+requires_binary sphinx-build-3 sphinx-build
- 
- cd "$BUILD_DIR"
- 
-diff --git a/tests/docker/test-tsan b/tests/docker/test-tsan
-index eb40ac45b7..53d90d2f79 100755
---- a/tests/docker/test-tsan
-+++ b/tests/docker/test-tsan
-@@ -17,7 +17,7 @@
- 
- setup_tsan()
- {
--    requires clang tsan
-+    requires_binary clang
-     tsan_log_dir="/tmp/qemu-test/build/tsan"
-     mkdir -p $tsan_log_dir > /dev/null || true
-     EXTRA_CONFIGURE_OPTS="${EXTRA_CONFIGURE_OPTS} --enable-tsan \
 -- 
 2.20.1
 
