@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861923C17BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:07:49 +0200 (CEST)
-Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96BE3C17C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:10:08 +0200 (CEST)
+Received: from localhost ([::1]:35916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XV6-0000i5-IN
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38414)
+	id 1m1XXL-0006NW-Ms
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:10:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m1Wf8-0001HV-5e
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:14:06 -0400
-Received: from forward1-smtp.messagingengine.com ([66.111.4.223]:49435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m1Wf5-0000Vc-SU
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:14:05 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailforward.nyi.internal (Postfix) with ESMTP id BB3AB1940BBC;
- Thu,  8 Jul 2021 12:14:00 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 08 Jul 2021 12:14:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y9L7mn
- PoCTM9eva9Nk3xNyfoePPSqUmsc1qRlRIrQdw=; b=WOCOEfVpAWhAx9OzZN72Gr
- yovqrAcfKcov4l0h4AYdb9AA0KufNz7Kf2PgRAdW+FeiWN17Bhg4Rdzr+ON4rxmd
- daS92GV3K4+3UX8QrLOtwAUkJegbir7Hub6diKYCDYADaSUnZEUuUYqHWJkjKu2y
- wCRTlpVmKb4OxF9Vo3fhDkG9rnYmtlBBHkfeSPvFNuBtudg/DlW6nGlhjzd7WU4R
- jJX9UowEKhixIdmB0/UDpICZfjzNlGt+CiRfeZ278zXDQ0FI7A4VB6FsD76aNHiE
- 01yA2k1PE1jHP+Tw52V0INtX/DVua7440LXLio8ZqiLDh5lUtmarG/q0aVpk201A
- ==
-X-ME-Sender: <xms:SCTnYMtY5AzJIlFAWXtfT4E846YOH103Hxc-jdBu-ceF4WFR72u2lA>
- <xme:SCTnYJdMGtIfrd7BTpEcHYPTa3XYna7CUsZpA3BFjOPV_enbMfs9sYfuI49Od-LF2
- 0Smp1RXLRzgNq9zV98>
-X-ME-Received: <xmr:SCTnYHyelpq2n9mUp7X-hYtGIX0MrMz8A9MIomodABj7hMwGWnZlfIByZDk61PFqwCaRgXeXujQRqwK5Cj0O8kXcFkWNm8JCOv9BDuRGo24>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdeliecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefvufgjfhfhfffkgggtsehttdertddttddtnecuhfhrohhmpeffrghvihguucfg
- ughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnhephf
- ekgeeutddvgeffffetheejvdejieetgfefgfffudegffffgeduheegteegleeknecuvehl
- uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepughmvgesughmvg
- drohhrgh
-X-ME-Proxy: <xmx:SCTnYPNOuAtliKVlWttL8H5HwkoPTIp643iCdF383l78HDfFOykn_w>
- <xmx:SCTnYM-zr1K0HIy_V_8S0gV80I3Z-D1JjqRA5-_lzcdqi10lQFpM4Q>
- <xmx:SCTnYHUlFtahG1P2u-7yHV_bFCOLMWRCdTL7MHNkbFrRMjRBcHrZHQ>
- <xmx:SCTnYN3XNggwSSy19oheJovx5ocYSvSA-AsL6n5VXe1bAP2ZZ2olgA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Jul 2021 12:13:59 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 6ef51eab;
- Thu, 8 Jul 2021 16:13:57 +0000 (UTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 8/8] target/i386: Move X86XSaveArea into TCG
-In-Reply-To: <e4a048f5-cc6d-7bbe-6659-54075cafb9c6@linaro.org>
-References: <20210705104632.2902400-1-david.edmondson@oracle.com>
- <20210705104632.2902400-9-david.edmondson@oracle.com>
- <0d75c3ab-926b-d4cd-244a-8c8b603535f9@linaro.org> <m2czru4epe.fsf@dme.org>
- <m24kd5p7uf.fsf@dme.org> <e4a048f5-cc6d-7bbe-6659-54075cafb9c6@linaro.org>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-Date: Thu, 08 Jul 2021 17:13:57 +0100
-Message-ID: <m235so4wca.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1Wid-0007NR-Mq
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:17:43 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1WiY-0001jM-3N
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:17:43 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id v7so6544358pgl.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:17:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5kLWuL0Tj4Wxx+sgrfGzoimIIY7mOxQRdqHTGLcOp+8=;
+ b=Vv1k/Ns0nHXFC3mIL9c732XFHM1v7TV91cmfrQ8wEe62enZyHxqmksriZeaN5yYf7U
+ eIYsM5n+TZgnjtP89jh70JqSIfsBLlNast2WYgTxdR9mdu3kISIiu3mPMxwQcTacjSk4
+ v2R3vLHD4I0OARc0zmYEQRwhH0m/5DwnPP9G88OX+M74y+eZfFCmYa2hJdt6bM7dJHdO
+ M5ZtVymxVPr/ttubrUurAUOkDpBHMcMg1/SZ5RjEMCyV+hnANUUCBcE+NlfUkmm5Kxiw
+ rwShWfyNhUjrjjQfpRxJNFpVaj06+agh3kpLVceDg5ThokxirX6y0P/+yZ0L3G23ExWh
+ dtzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5kLWuL0Tj4Wxx+sgrfGzoimIIY7mOxQRdqHTGLcOp+8=;
+ b=N460BEHNCNeSYsj/5+qpDBmqiQhPR6wKFxH7+9TUXVmYeYoJMy5Xew9a8nsa/E//RM
+ S5AHmcc7NJoUeryvU2WFrVvHI55x4wx11wuLWJsUvu/JMRq4pGID1fX7ojnRkQIOdjhR
+ GrYDct0TT7boLzo2lo5HRIbv1vEqc2MR6BNbpvvL6foV1Br2q7DPmTnSPWGK1ShmBfYe
+ GixxlyX9v2vN5F4vCeYdc9NFuDkoSIXRejHhEhb5OxndCPqQsamwDIEFl40fvKjpnYSz
+ rNgqKLgAue0LZd7xYWtwDfyj3lzCigSNd9ABbycSNk40B/n0MKucNBPj0sezAezhHLC/
+ /dIw==
+X-Gm-Message-State: AOAM533Voo+mMdpgNC+t16pAXosIseaUImplJILDm1zeKV0arOdhV8He
+ GpCQG6HNT8yng2YMjPjzDZpbl/Q/CRwecg==
+X-Google-Smtp-Source: ABdhPJwZ+gUPP0nczl9kce/a078AOp3FYSj+bvr3r9JRZC5xzHZEfs+oyNoIz2ea02eK0QPVxuBFOQ==
+X-Received: by 2002:a63:5156:: with SMTP id r22mr33542781pgl.264.1625761056528; 
+ Thu, 08 Jul 2021 09:17:36 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id g10sm9908263pji.10.2021.07.08.09.17.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 09:17:36 -0700 (PDT)
+Subject: Re: [PATCH v2 05/28] target/arm: Use gen_jmp for ISB and SB
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210630183226.3290849-1-richard.henderson@linaro.org>
+ <20210630183226.3290849-6-richard.henderson@linaro.org>
+ <CAFEAcA_EkW7a6SFuAHxdYvu_gdcdDwY4xQVOFnmtatcx+T1qGg@mail.gmail.com>
+ <88562e08-3d6c-3224-5d84-67e3ffd3774b@linaro.org>
+ <CAFEAcA8Xs0Ct6hDBAk-N7TVhb66dwv2EJudo83XzJ5dQn9k7VA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <589d27e5-58e5-6af2-dfd8-11130fdbc2d9@linaro.org>
+Date: Thu, 8 Jul 2021 09:17:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=66.111.4.223; envelope-from=dme@dme.org;
- helo=forward1-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8Xs0Ct6hDBAk-N7TVhb66dwv2EJudo83XzJ5dQn9k7VA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,38 +90,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Michael Roth <michael.roth@amd.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Cameron Esfahani <dirty@apple.com>, babu.moger@amd.com,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thursday, 2021-07-08 at 08:22:02 -07, Richard Henderson wrote:
+On 7/8/21 9:11 AM, Peter Maydell wrote:
+>>> Why isn't it enough here just to set is_jmp to DISAS_NEXT ?
+>>
+>> You mean DISAS_TOO_MANY?  That would work, yes.
+>> At the time I was just thinking of replacing one jump with another.
+> 
+> You've implicitly answered my question, which is that the main
+> translator loop code treats DISAS_NEXT as "keep adding insns to
+> the TB" :-)
+> 
+> It feels slightly like misuse to use DISAS_TOO_MANY, unless we
+> renamed it to something like DISAS_END_TB (which is what it's
+> actually doing).
 
-> On 7/8/21 12:45 AM, David Edmondson wrote:
->> Actually, that's nonsense. With KVM or HVF we have to use the offsets of
->> the host CPU, as the hardware won't do anything else, irrespective of
->> the general CPU model chosen.
->> 
->> To have KVM -> TCG migration work it would be necessary to pass the
->> offsets in the migration stream and have TCG observe them, as you
->> originally said.
->> 
->> TCG -> KVM migration would only be possible if TCG was configured to use
->> the same offsets as would later required by KVM (meaning, the host CPU).
->
-> And kvm -> kvm migration, with the same general cpu model chosen, but with different host 
-> cpus with different offsets?
->
-> It seems like we must migrate then and verify the offsets in that case, so that we can 
-> fail the migration.
+Yeah, better naming would have been a good.  In this instance I think I chose an odd 
+colour for the bike shed.
 
-Agreed.
+The problem with just DISAS_END_TB is that there are many ways to end a tb, with at least: 
+(1) goto_tb next, (2) goto_ptr next, (3) exit_tb.  We wind up replicating these three 
+across many of the targets, so it would be a really nice cleanup to standardize, and with 
+good names.
 
-I will look into migrating the offsets.
 
-dme.
--- 
-The sound of a barking dog on a loop, a plane rises in the crystal blue.
+r~
+
 
