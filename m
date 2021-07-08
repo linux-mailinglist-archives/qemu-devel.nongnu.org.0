@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5048A3C16DE
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:09:06 +0200 (CEST)
-Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DD83C16E4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:13:19 +0200 (CEST)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1WaH-0003DF-CJ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57338)
+	id 1m1WeM-0004tE-KD
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:13:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1W1M-000657-Bq
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:33:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1m1W1K-0004Fh-B4
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:33:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625758376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KCEDkU84XU2y5APZI7CvMD3pjvU8aXxgDRaBysdLQ7w=;
- b=dJB86lPUVXlX21WPIpe4DsOpGNJ9WHM7+vBepSq2rIMSCHvdp2y0ESTs12lbskRqCtz6rD
- OYT9LCrUgJRPpoONNStwKdo8MLJRNMG5Tg/n9anL5rTpFV26m7imCf3OMmi5I9qdm5z/lb
- 4eKGyZtA6pI3tyowOFl1/YtICnOB0lM=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-ovKKalB7PTS6evk5Ni1thQ-1; Thu, 08 Jul 2021 11:32:55 -0400
-X-MC-Unique: ovKKalB7PTS6evk5Ni1thQ-1
-Received: by mail-lf1-f69.google.com with SMTP id
- k16-20020a0565123310b029034860ed2566so3819613lfe.3
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:32:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1W1s-0007zb-95
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:33:32 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:34400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1W1q-0004O3-1z
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:33:31 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso5476888pjx.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:33:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XN3PZ/3nwkMYwk6+MSNxCZQ2O8CV9tgXl2jdY/DXmHY=;
+ b=bldZANe2lBvNZY5xgvVrvVIScz9QvgxcPRfalfFbW989JlDOUFFRG0x17HOugfhiqh
+ wo/LT4/biVfTGcViFd7ExML8LZnk5J0bSkMWnbKekX6Y1bG8xom5STCgFbY0xy9+WUCQ
+ h8qwxMOFzpQnhAEIpt/FDKWJzMXb9sc1pKWyGepr/WU0114exVamP/3wj7eu8vYeFo5a
+ aTkaUn6ZiZ5mQsBJVunTKWm+gm3LPVM7A6Up8Xmq40Y6cU9bKM1nVX9ud6k5Q5XeRPmj
+ Pt5Da+QUJ3ClPYZFRTEeIXDCkufwLY16eQAKg+q2FXWCPn82+Idxder7URTIsr9sIrwM
+ /Gdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KCEDkU84XU2y5APZI7CvMD3pjvU8aXxgDRaBysdLQ7w=;
- b=OENjhfHJe/5C3+AqTshdodw1otbaZI+sGWV2cKBF7omcPtWi+uVVH7AU04JB68Xmu3
- 0YMmEQLcmgGUO56LnZPe59gL3ysGnyRcpFR1eZUNvj3N1dropPtIPRUrNuHfSCam5Csc
- NvEFL6I1EbpqRJ2To0YJY7JgZoDAer/GK+JcqbfWZVltrncF236bi9D79fd4bV4DLaGu
- 8V1UwOiXomTgSaUxHvLjVuiDC6AEDlYu6E5cIdQD6FcCRYa8sLjP5xFONI69Q7kTfCGC
- 4YuVsC+3c2gubzXSJIggdkF9lTstfOWCntuIVynXf7IASRi7dRa1+N0KTfmWqb36i3al
- dIeg==
-X-Gm-Message-State: AOAM531GbbugZx31zE9R8/uMdbMgjOfRxOW590av/ep4/U3IyEIYBNC7
- sB86n7UbRG+a4LrtDtpOON/rqkomFYdlf3jl83COZsuK3YFfDuvLufvCt3wD7oqDEORralVblL8
- eWGdgNSkh/8acP7/ADBpbWFpZDadY8l8=
-X-Received: by 2002:a05:6512:102e:: with SMTP id
- r14mr23441741lfr.34.1625758373810; 
- Thu, 08 Jul 2021 08:32:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFAm7RhEW4VxPaHimJd+ltALeyjLl9kvg33j8EFV0BRb35ttv1CuvceQANhTiETunpJ7TjtxBlLtp3ZfQLUbg=
-X-Received: by 2002:a05:6512:102e:: with SMTP id
- r14mr23441720lfr.34.1625758373483; 
- Thu, 08 Jul 2021 08:32:53 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XN3PZ/3nwkMYwk6+MSNxCZQ2O8CV9tgXl2jdY/DXmHY=;
+ b=KPudrRBx4MnhEb2SZNhPnDXTh5KQ1DWRpUE8imhaL9EC1/503iIR1f+BHuwwzsuc4E
+ cKup+/6OqcwitWxoSogSP8drKGqwiyNIEnRJhIDG7TML2dqjG3lFOMXafrJEwjwQPidz
+ qD+7Qi8DeXIAy9LuBciitasZs8D0TaT5lHQ8i1jJwulF5kQVU9dgVBBdlIqilwPMTgYw
+ lap3bBJ/0N+kgkXpau2Lk5VcN1TFnVhzR/nszV0wBJQOMecfR7B8ITeYlf0CX9tmkx4K
+ ZBSmLK2VMfBjpAUElk1DcwYOfQ7bQ6CESy5AFk7X+o7t/8JF0IN1URefm8k+MPw8G1CB
+ r/NQ==
+X-Gm-Message-State: AOAM530R4kHnruHz3Ei2TIg+mbgUCsptbsQpgcY5Mz+DCec4fVj7+iCM
+ BnBl5nZCq74KjdDLymyky58mqg==
+X-Google-Smtp-Source: ABdhPJzZq7+gv4a4dGKYT0Shj8aSLxLOdlV9lTsUJ/ex59hRJuyMW+hzregMUubd4UgqR84YsmyYwg==
+X-Received: by 2002:a17:90a:de16:: with SMTP id
+ m22mr5368193pjv.60.1625758408715; 
+ Thu, 08 Jul 2021 08:33:28 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id o91sm9869146pjo.15.2021.07.08.08.33.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 08:33:28 -0700 (PDT)
+Subject: Re: [PATCH v2 3/8] linux-user: Extract target errno to
+ 'target_errno_defs.h'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210708141121.1731691-1-f4bug@amsat.org>
+ <20210708141121.1731691-4-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9d612907-cb56-dc41-8eab-0d69f832b6c6@linaro.org>
+Date: Thu, 8 Jul 2021 08:33:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210707193241.2659335-1-ehabkost@redhat.com>
- <CAFEAcA_UybrCmOffY6HD7eiE=Ubks1LGhKYmXgQ_hYYsKMYfhQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA_UybrCmOffY6HD7eiE=Ubks1LGhKYmXgQ_hYYsKMYfhQ@mail.gmail.com>
-From: Eduardo Habkost <ehabkost@redhat.com>
-Date: Thu, 8 Jul 2021 11:32:37 -0400
-Message-ID: <CAOpTY_oTm=30KGMof+SSUebR_S7ndgCjR0zLVGoEFQ=ceg0Lgw@mail.gmail.com>
-Subject: Re: [PULL 00/15] Machine queue, 2021-07-07
-To: Peter Maydell <peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210708141121.1731691-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,61 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Taylor Simpson <tsimpson@quicinc.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 8, 2021 at 5:53 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Wed, 7 Jul 2021 at 20:32, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >
-> > The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
-> >
-> >   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
-> >
-> > for you to fetch changes up to 4dc87143b9dbc0ae5719b67b4e533c824b239f00:
-> >
-> >   vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus (2021-07-06 18:05:26 -0400)
-> >
-> > ----------------------------------------------------------------
-> > Machine queue, 2021-07-07
-> >
-> > Deprecation:
-> > * Deprecate pmem=on with non-DAX capable backend file
-> >   (Igor Mammedov)
-> >
-> > Feature:
-> > * virtio-mem: vfio support (David Hildenbrand)
-> >
-> > Cleanup:
-> > * vmbus: Don't make QOM property registration conditional
-> >   (Eduardo Habkost)
-> >
->
-> Hi; this generates warnings in the docs build:
->
-> /home/pm/qemu/docs/../include/exec/memory.h:2286: warning: Function
-> parameter or member 'rdm' not described in
-> 'memory_region_set_ram_discard_manager'
-> /home/pm/qemu/docs/../include/exec/memory.h:2286: warning: Excess
-> function parameter 'urn' description in
-> 'memory_region_set_ram_discard_manager'
->
-> This seems to be because the function prototype for this
-> function says it takes parameters 'mr' and 'rdm', but the
-> doc comment documents 'mr' and 'urn'.
+On 7/8/21 7:11 AM, Philippe Mathieu-Daudé wrote:
+> +++ b/linux-user/aarch64/target_errno_defs.h
+> @@ -0,0 +1,6 @@
+> +#ifndef AARCH64_TARGET_ERRNO_DEFS_H
+> +#define AARCH64_TARGET_ERRNO_DEFS_H
+> +
+> +#include "../generic/target_errno_defs.h"
+> +
+> +#endif
 
-Sorry, I will apply David's fixup and resubmit.
+What happened to just the one include line?
 
-It worries me that this is not being detected by our GitLab CI jobs.
-Is anybody working to fix that?
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
---
-Eduardo
 
+r~
 
