@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DACB73C17E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:13:39 +0200 (CEST)
-Received: from localhost ([::1]:51822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9583C17E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:15:29 +0200 (CEST)
+Received: from localhost ([::1]:57358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Xak-000067-TV
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:13:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42760)
+	id 1m1XcW-0003kM-3C
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5M-0001xn-UH
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:12 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:54145)
+ id 1m1X5O-00022R-5J
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:14 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:45627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5G-0008Fo-U7
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:12 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id p9so3905771pjl.3
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:41:06 -0700 (PDT)
+ id 1m1X5H-0008G4-JQ
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:13 -0400
+Received: by mail-pl1-x635.google.com with SMTP id p17so2764158plf.12
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:41:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HmrvZ2YDmFmQRowDiyGgkhSWbFuv8fekjQLGpsBU/NM=;
- b=ICfs3/QbHJc8lbvq3cYZwYHT+/Pg1j5aWpkA86/pSkobvukWMFrHeA5SLs77Xgf87d
- FzlWvkwaX2Nxagzff+zuUx2klIYq9LvmrqUSbAvXCMvMvnL/Ltv8Np1W5Sz2IymoJImb
- +vEAU/LtjNOtXYV+wqwsKxyfffFLA/l1KZzZjyEVqxjqJzqrz72kKWjwjSy0Y6L+go5C
- En/jlPbD4hvXs7ZQJdSHJ/f4Qj8ghKW7wb/vnM4VcStuU4LUc2sqyv1cy+B/VQ8291TK
- 9ogQwrRuwY3t0L6saK5zZ1f96bOWn76n+xYpbTsl4LxrA6fUDfv+xAyAnT3oY02pCj57
- 3/Iw==
+ bh=jlb9t26eUmvNmKvxgmiWrSkxF75bfUaFnwmdpAxQL3Q=;
+ b=zFLyndVYC8LAF9uPjszS8M4KZEOcr3gGmSkz1Qi5wtwNhJyvnFbecqdezaTvwyOuYk
+ tlYAGC3FNhlT/4Apfnl1jNCO2GDwEfplAzlcRIy86dL6Q7HKmuUA6L+PUj8NOOjl8QC7
+ q2g2xt6SKDv/ojLUL8URP6P3yGrFmTR/0LLwdVYJkB9sGuFmwJEEJ64M3PL3CWWMyWPk
+ 0hvSd0YBK4l6BWGJLECup8TJAaQVa7Z9up8VPfAeEUIQTe3RRmYEI4x9PHWcX+BnThCt
+ d9EPgBHBXHBgWOphGCYynxTRII9W2jCEL1vFVoTxJhXWBXIukXLYQez5WOePWb7eEdUB
+ m2Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HmrvZ2YDmFmQRowDiyGgkhSWbFuv8fekjQLGpsBU/NM=;
- b=bgEgBGvRIfiW9Pm7MIydDQbOiQjOPS750c4FYnQEwUR1/J3gnVFu95hpI7aJdP6ndX
- gN8sT1xahTU9oolGXPpp/IfeeV7BG9VO3B+PIzHRWVFOwygvGx/hukY8WArEIg2fy1Xy
- PuB6R1/bixiNdGdXJwtzN9Di44Kac6P7Z4YsM1QAQxkFNVKaJmCzR2vSVC79CYxdMK8K
- 9CVV1cdrTdyrPuHGXZspIS/dUghN3XjOrbNT6SBTdOf6LKNVHHkUHsF6uIZi7eTpQZh0
- FFzkEdylMakeijT9+WdMuvdUvIpOJiuQOM8J6K2Gr6K+38KGyMepIpGP45WQems3gfhr
- YOkA==
-X-Gm-Message-State: AOAM5321O/Qq5/8DSkdDV2X+ZtFRtxcCF2LN4iVXDdmx77npN6HH0sNb
- J4FeU5Ur4gSvoaFVpUJmJ71N+TL3FLzbnA==
-X-Google-Smtp-Source: ABdhPJwCdqLNjplMSuYjuJCfgUsjCFNoAqUb6xw3QetblLCamOjsQfIKKlUFzk6iK96z9kpocMdpeA==
-X-Received: by 2002:a17:90a:780c:: with SMTP id
- w12mr5747940pjk.42.1625762465613; 
- Thu, 08 Jul 2021 09:41:05 -0700 (PDT)
+ bh=jlb9t26eUmvNmKvxgmiWrSkxF75bfUaFnwmdpAxQL3Q=;
+ b=CGzN84Xw15B3dTVXOPfUvWHmTzArqzf+EsdOlLMcsEne6/OEQgC9hy14eEfAj0et5R
+ YmQWyjfA5oKCmGC7ljGBlSyGTQ1ga9Z4ST9Azy/352QjkmI+faZp8aGGq0tckij12hOW
+ W7zzIyYCxT55ZBjx9UaTF7uyDrQ9kw0cxPjiX4NuJehMusf3Gz/FEdNM519c2AC+JG2V
+ xBhGJqxuetV0CFXBbp6qZHJsuP7DAMTakszF0MyJGqdSfCGbaUHDeyo8SsqpKtXJz7yx
+ 6AHD3Y3eCGt7DfIbMZreB8BFDNEO19CLndvdL+qkmKmcrijfVG+2hBYHm8HVmMWgPq7g
+ FnNA==
+X-Gm-Message-State: AOAM533JA3P/pr6s8gQ+sWdNZhDZB0b1Hj9RX7BzXSsDlZixmwgQdMG1
+ bJLCC0o3RgefE6/FO26D5kMJq6P3KbUBDw==
+X-Google-Smtp-Source: ABdhPJwv0EwQgglDSQMBeJSL0E7Avk6vmInIRskVhxHp0ZUTKhkRvxaVZEo0H32Ivt96HcdL8Y6pNw==
+X-Received: by 2002:a17:90a:6001:: with SMTP id y1mr5634634pji.5.1625762466219; 
+ Thu, 08 Jul 2021 09:41:06 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j129sm3465678pfb.132.2021.07.08.09.41.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 09:41:05 -0700 (PDT)
+ Thu, 08 Jul 2021 09:41:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 26/28] target/tricore: Use translator_use_goto_tb
-Date: Thu,  8 Jul 2021 09:40:48 -0700
-Message-Id: <20210708164050.711967-27-richard.henderson@linaro.org>
+Subject: [PATCH v3 27/28] target/tricore: Use tcg_gen_lookup_and_goto_ptr
+Date: Thu,  8 Jul 2021 09:40:49 -0700
+Message-Id: <20210708164050.711967-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708164050.711967-1-richard.henderson@linaro.org>
 References: <20210708164050.711967-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,51 +86,30 @@ Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just use translator_use_goto_tb directly at the one call site,
-rather than maintaining a local wrapper.
+The non-single-step case of gen_goto_tb may use
+tcg_gen_lookup_and_goto_ptr to indirectly chain.
 
 Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/tricore/translate.c | 17 ++---------------
- 1 file changed, 2 insertions(+), 15 deletions(-)
+ target/tricore/translate.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 2a814263de..09465ea013 100644
+index 09465ea013..865020754d 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -3225,19 +3225,6 @@ static inline void gen_save_pc(target_ulong pc)
-     tcg_gen_movi_tl(cpu_PC, pc);
- }
- 
--static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
--{
--    if (unlikely(ctx->base.singlestep_enabled)) {
--        return false;
--    }
--
--#ifndef CONFIG_USER_ONLY
--    return (ctx->base.tb->pc & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
--#else
--    return true;
--#endif
--}
--
- static void generate_qemu_excp(DisasContext *ctx, int excp)
- {
-     TCGv_i32 tmp = tcg_const_i32(excp);
-@@ -3246,9 +3233,9 @@ static void generate_qemu_excp(DisasContext *ctx, int excp)
-     tcg_temp_free(tmp);
- }
- 
--static inline void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
-+static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
- {
--    if (use_goto_tb(ctx, dest)) {
-+    if (translator_use_goto_tb(&ctx->base, dest)) {
-         tcg_gen_goto_tb(n);
+@@ -3243,8 +3243,9 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
          gen_save_pc(dest);
-         tcg_gen_exit_tb(ctx->base.tb, n);
+         if (ctx->base.singlestep_enabled) {
+             generate_qemu_excp(ctx, EXCP_DEBUG);
++        } else {
++            tcg_gen_lookup_and_goto_ptr();
+         }
+-        tcg_gen_exit_tb(NULL, 0);
+     }
+ }
+ 
 -- 
 2.25.1
 
