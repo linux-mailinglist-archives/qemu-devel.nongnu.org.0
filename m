@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B15663C1610
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:34:04 +0200 (CEST)
-Received: from localhost ([::1]:41828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE1A3C1606
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:31:23 +0200 (CEST)
+Received: from localhost ([::1]:58300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1W2N-00076A-OA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:34:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53732)
+	id 1m1Vzm-0007Py-O3
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:31:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmy-0000V0-Ul
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:08 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:36542)
+ id 1m1Vmz-0000YQ-Vy
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:10 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:37568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmx-0008ED-DN
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:08 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id h2so9075922edt.3
+ id 1m1Vmy-0008EX-8V
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:09 -0400
+Received: by mail-ej1-x629.google.com with SMTP id i20so10270154ejw.4
  for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FiDDayin7HJXjqU9AzxoZp/3bpNscaqg9/qQn+dbhhA=;
- b=G+sw1f9Fx/LsydpeuipqR3Ng0RGZWAQ8IrIDlZhaVG7L9rfoAr7wMO/iikQkS9ql6n
- HMSwybUysBdxylw16NgxKIGGgo57u8Xpcqv5fnEUCHM6vBbOgjezbV95jKoscCmQfLsn
- OBF7YfKCQhkG7QOSLVuAirarMCgQW58Z0JnaWrHiwvhZH3FT0/UaoTziUcIWQAnNi6KE
- 1w0znxPD3OCpfO4YmSDlFYlKe0iaMG1xLC1Hc/US/pBmldlMwGzX8310NV4mZ5VmAx9X
- 8HFPGgwkqmPOYqko4FC+xSs5nVsxZFQXDZeR8frH9BTmv5il2WtQyGBaybm+Ae7RIepz
- Bq4w==
+ bh=uuuNIH23NCYC3HB+3rBgnfJ6sMhfWC9GGXILCAAVyEg=;
+ b=eDctoK8khkg0OEFn51sWQTz0gOqsrCKNvMBXyPglPZGCJG+P17ogdcWdytxaNbF7EY
+ IFpg/Ut2DCwoR5c0UR+t775wKYaoQMxwNHzSbawRK9u3qlaxOYMfqaNX6EfusEWO30AE
+ EFokeGoHOlQ/WhMdfkb9oXsM0NFabSe34U5ELwhmb7G0AuyBfKulpoKMfUklHOPhpGqA
+ 98jCkqtcJkhYjHfMnye46ShStiaitvCidxXb1LO22IbhAosUDtTNjF/Lb5UQJ2gDCgIh
+ lw0Ke7VPCewlkipD1jcENiuOw7qfN6c/G8bZ0hrmcLLcZIsvLv/vKI/5MtEHB6xUrztn
+ dACw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FiDDayin7HJXjqU9AzxoZp/3bpNscaqg9/qQn+dbhhA=;
- b=V31N+xspEV9+H0+ZSuzkuriQ5G0tnr8DqgADUpR92veC00zdzrtKMLRXanaV40uZt3
- S3zffYEHRw8Dx90nc2PP0jJ8B1Av5A8oAjgYS3N15xJ0+mgFsXxQ/q6bgsfqFTLP9e00
- gxPpE7kh4cVh/Pd0vIc7aTVHVeyARd86jhAvvikkiIMR+Q37bK9cjxu1YzFJMsC3nuhq
- Hny/yim8exsYf46XccAUPkvfcdQe/H41MDOTqBYXWRCHO/Vu5r2qb03wJ3qnaDY8B1Zy
- wPCdeFiJrnYlTN6IjBvomHCEtrgvb1jDJ9uxTcw8ridnVV6V9/smeSilUyvREfRvM3p2
- l2eg==
-X-Gm-Message-State: AOAM5314lBuB8jaXugGP1WPR4hw7Fo3D8tjgiTNO8CWrx44UsDU6pjjp
- KoIYqpzu5Eaf8jSKgL4q9cGH0WgNrhM=
-X-Google-Smtp-Source: ABdhPJwfDldnk6lTy35+d8vm3uNn2PC+ZWsC1x69Z6wMvTN5ys2+Sb1OwEyW8o8WY8WZ+k9jIXQ+8g==
-X-Received: by 2002:a05:6402:90b:: with SMTP id
- g11mr39541253edz.336.1625757486098; 
+ bh=uuuNIH23NCYC3HB+3rBgnfJ6sMhfWC9GGXILCAAVyEg=;
+ b=fomof07UVl8yjZ90+gy2X+zcB+V6zXP1UE1jnenpjzMMVN2GAx3xM4KF090gpUY+Jk
+ mcuD3YM2vxYYnG7x63JlkcMqapbFxXR+aPpRsYLIpc6gvdfBcN7u2R6kgM4mlCmeH4EP
+ 2nIz96yUEOBolgcxegGkQRIg8FsEaYPEFgIO+a7h+gNL7HjYLMBiMTUwvw8XER+ZLxK4
+ sOXcdH58SmVaw6eXNmUnFNsXX/1Aad9tQ3WoQJhi55g4CSQcvIwol6Sx7oeRecIVWFM9
+ gB3SS95kFViu5SrA5fo/LySNGysL+TSL5sjKRxxH/isi+I3MjCk+8YGBPGIMFK8NkGLF
+ BpGg==
+X-Gm-Message-State: AOAM532ei3beOSnrW1zDUzkKGP8JzBrHY8OuKAHWQvycbp3weXPTNj+w
+ v+GZdEHBAtePURU4y/Ayn/l1ZvBAIv4=
+X-Google-Smtp-Source: ABdhPJzF8An8J8V3SC5hq/SA1IFDnNlZlF8l4EZRjC4ieAaU4UJffQ/X5WQnH1Hdd7xA/qsjfSJy7Q==
+X-Received: by 2002:a17:906:3b52:: with SMTP id
+ h18mr32190244ejf.451.1625757486795; 
  Thu, 08 Jul 2021 08:18:06 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.05
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:05 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/48] modules: check arch on qom lookup
-Date: Thu,  8 Jul 2021 17:17:23 +0200
-Message-Id: <20210708151748.408754-24-pbonzini@redhat.com>
+Subject: [PULL 24/48] modules: target-specific module build infrastructure
+Date: Thu,  8 Jul 2021 17:17:24 +0200
+Message-Id: <20210708151748.408754-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,42 +90,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-With target-specific modules we can have multiple modules implementing
-the same object.  Therefore we have to check the target arch on lookup
-to find the correct module.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-20-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-21-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/module.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meson.build | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/util/module.c b/util/module.c
-index 065aed09ff..6bb4ad915a 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -329,6 +329,9 @@ void module_load_qom_one(const char *type)
-         if (!modinfo->objs) {
-             continue;
-         }
-+        if (!module_check_arch(modinfo)) {
-+            continue;
-+        }
-         for (sl = modinfo->objs; *sl != NULL; sl++) {
-             if (strcmp(type, *sl) == 0) {
-                 module_load_one("", modinfo->name, false);
-@@ -349,6 +352,9 @@ void module_load_qom_all(void)
-         if (!modinfo->objs) {
-             continue;
-         }
-+        if (!module_check_arch(modinfo)) {
-+            continue;
-+        }
-         module_load_one("", modinfo->name, false);
-     }
-     module_loaded_qom_all = true;
+diff --git a/meson.build b/meson.build
+index 7b827f7caa..7babef4de4 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2001,6 +2001,7 @@ user_ss = ss.source_set()
+ util_ss = ss.source_set()
+ 
+ modules = {}
++target_modules = {}
+ hw_arch = {}
+ target_arch = {}
+ target_softmmu_arch = {}
+@@ -2280,6 +2281,42 @@ foreach d, list : modules
+   endforeach
+ endforeach
+ 
++foreach d, list : target_modules
++  foreach m, module_ss : list
++    if enable_modules and targetos != 'windows'
++      foreach target : target_dirs
++        if target.endswith('-softmmu')
++          config_target = config_target_mak[target]
++          config_target += config_host
++          target_inc = [include_directories('target' / config_target['TARGET_BASE_ARCH'])]
++          c_args = ['-DNEED_CPU_H',
++                    '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
++                    '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
++          target_module_ss = module_ss.apply(config_target, strict: false)
++          if target_module_ss.sources() != []
++            module_name = d + '-' + m + '-' + config_target['TARGET_NAME']
++            sl = static_library(module_name,
++                                [genh, target_module_ss.sources()],
++                                dependencies: [modulecommon, target_module_ss.dependencies()],
++                                include_directories: target_inc,
++                                c_args: c_args,
++                                pic: true)
++            softmmu_mods += sl
++            # FIXME: Should use sl.extract_all_objects(recursive: true) too.
++            modinfo_files += custom_target(module_name + '.modinfo',
++                                           output: module_name + '.modinfo',
++                                           input: target_module_ss.sources(),
++                                           capture: true,
++                                           command: [modinfo_collect, '--target', target, '@INPUT@'])
++          endif
++        endif
++      endforeach
++    else
++      specific_ss.add_all(module_ss)
++    endif
++  endforeach
++endforeach
++
+ if enable_modules
+   modinfo_src = custom_target('modinfo.c',
+                               output: 'modinfo.c',
 -- 
 2.31.1
 
