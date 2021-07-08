@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A323BF363
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:17:27 +0200 (CEST)
-Received: from localhost ([::1]:49058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4078C3BF38C
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:26:32 +0200 (CEST)
+Received: from localhost ([::1]:51210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1IfO-00069X-Rr
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:17:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38330)
+	id 1m1IoB-0000sB-86
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:26:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1ILM-0002uN-CR
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:44 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57600)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m1IX2-0004IA-6D
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 21:08:48 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58403 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1ILK-0007Kk-KH
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:43 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189101748"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="189101748"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 17:56:00 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770134"
-Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2021 17:56:00 -0700
-From: isaku.yamahata@gmail.com
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
- cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
- seanjc@google.com, erdemaktas@google.com
-Subject: [RFC PATCH v2 44/44] i386/tdx: disable S3/S4 unconditionally
-Date: Wed,  7 Jul 2021 17:55:14 -0700
-Message-Id: <a3b3965d7ec4c462aa5dc9c7820ca12d5ef5635b.1625704981.git.isaku.yamahata@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1625704980.git.isaku.yamahata@intel.com>
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m1IWz-0000gt-8X
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 21:08:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GKypn3c9tz9sXV; Thu,  8 Jul 2021 11:08:33 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1625706513;
+ bh=H+SNVali05qUZ+kgiNYkCnNph7BvJ0caSJtAy7Xz/Ew=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cfab8D6WAlvlXNTnUUkhVOTZuLlhAQ8QQ5dRVekNMTKK/45Cnh3IeGU31ncTqGwfA
+ nCE8tVRG9B3+pIN4xdYMUkvZMka2SAVVlksBBAXgcEK3IdvJ/I3pX5eBLJm/GavjBL
+ t6QAO8G7/RDq/lQm+FFljyaOVz57MAcNExBZh2hU=
+Date: Thu, 8 Jul 2021 10:58:11 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH 2/2] docs/system: ppc: Update ppce500 documentation with
+ eTSEC support
+Message-ID: <YOZNo9N0hpcVRV6Q@yekko>
+References: <20210706043124.1871866-1-bmeng.cn@gmail.com>
+ <20210706043124.1871866-2-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.136;
- envelope-from=isaku.yamahata@intel.com; helo=mga12.intel.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="iUXiIigvfMIijbzn"
+Content-Disposition: inline
+In-Reply-To: <20210706043124.1871866-2-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_ADSP_CUSTOM_MED=0.001,
- FORGED_GMAIL_RCVD=1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NML_ADSP_CUSTOM_MED=0.9,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,64 +62,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com, kvm@vger.kernel.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Disable S3/S4 unconditionally when TDX is enabled.  Because cpu state is
-protected, it's not allowed to reset cpu state.  So S3/S4 can't be
-supported.
+--iUXiIigvfMIijbzn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
----
- target/i386/kvm/tdx.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+On Tue, Jul 06, 2021 at 12:31:24PM +0800, Bin Meng wrote:
+> This adds eTSEC support to the PowerPC `ppce500` machine documentation.
+>=20
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 0621317b0a..0dd6d94c2a 100644
---- a/target/i386/kvm/tdx.c
-+++ b/target/i386/kvm/tdx.c
-@@ -31,6 +31,9 @@
- #include "sysemu/tdx.h"
- #include "tdx.h"
- 
-+#include "hw/southbridge/piix.h"
-+#include "hw/i386/ich9.h"
-+
- #define TDX1_TD_ATTRIBUTE_DEBUG BIT_ULL(0)
- #define TDX1_TD_ATTRIBUTE_PERFMON BIT_ULL(63)
- #define TDX1_MIN_TSC_FREQUENCY_KHZ (100 * 1000)
-@@ -103,10 +106,27 @@ static TdxFirmwareEntry *tdx_get_hob_entry(TdxGuest *tdx)
- 
- static void tdx_finalize_vm(Notifier *notifier, void *unused)
- {
-+    Object *pm;
-+    bool ambig;
-     MachineState *ms = MACHINE(qdev_get_machine());
-     TdxGuest *tdx = TDX_GUEST(ms->cgs);
-     TdxFirmwareEntry *entry;
- 
-+    /*
-+     * object look up logic is copied from acpi_get_pm_info()
-+     * @ hw/ie86/acpi-build.c
-+     * This property override needs to be done after machine initialization
-+     * as there is no ordering of creation of objects/properties.
-+     */
-+    pm = object_resolve_path_type("", TYPE_PIIX4_PM, &ambig);
-+    if (ambig || !pm) {
-+        pm = object_resolve_path_type("", TYPE_ICH9_LPC_DEVICE, &ambig);
-+    }
-+    if (!ambig && pm) {
-+        object_property_set_uint(pm, ACPI_PM_PROP_S3_DISABLED, 1, NULL);
-+        object_property_set_uint(pm, ACPI_PM_PROP_S4_DISABLED, 1, NULL);
-+    }
-+
-     tdvf_hob_create(tdx, tdx_get_hob_entry(tdx));
- 
-     for_each_fw_entry(&tdx->fw, entry) {
--- 
-2.25.1
+Applied to ppc-for-6.1, thanks.
 
+> ---
+>=20
+>  docs/system/ppc/ppce500.rst | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/docs/system/ppc/ppce500.rst b/docs/system/ppc/ppce500.rst
+> index 7a815c1881..afc58f60f5 100644
+> --- a/docs/system/ppc/ppce500.rst
+> +++ b/docs/system/ppc/ppce500.rst
+> @@ -19,6 +19,7 @@ The ``ppce500`` machine supports the following devices:
+>  * Power-off functionality via one GPIO pin
+>  * 1 Freescale MPC8xxx PCI host controller
+>  * VirtIO devices via PCI bus
+> +* 1 Freescale Enhanced Triple Speed Ethernet controller (eTSEC)
+> =20
+>  Hardware configuration information
+>  ----------------------------------
+> @@ -121,7 +122,7 @@ To boot the 32-bit Linux kernel:
+>  Running U-Boot
+>  --------------
+> =20
+> -U-Boot mainline v2021.04 release is tested at the time of writing. To bu=
+ild a
+> +U-Boot mainline v2021.07 release is tested at the time of writing. To bu=
+ild a
+>  U-Boot mainline bootloader that can be booted by the ``ppce500`` machine=
+, use
+>  the qemu-ppce500_defconfig with similar commands as described above for =
+Linux:
+> =20
+> @@ -154,3 +155,10 @@ interface at PCI address 0.1.0, but we can switch th=
+at to an e1000 NIC by:
+>                      -display none -serial stdio \
+>                      -bios u-boot \
+>                      -nic tap,ifname=3Dtap0,script=3Dno,downscript=3Dno,m=
+odel=3De1000
+> +
+> +The QEMU ``ppce500`` machine can also dynamically instantiate an eTSEC d=
+evice
+> +if =E2=80=9C-device eTSEC=E2=80=9D is given to QEMU:
+> +
+> +.. code-block:: bash
+> +
+> +  -netdev tap,ifname=3Dtap0,script=3Dno,downscript=3Dno,id=3Dnet0 -devic=
+e eTSEC,netdev=3Dnet0
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--iUXiIigvfMIijbzn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDmTaIACgkQbDjKyiDZ
+s5IY+Q//YMpfHL7wBHHZSdW+B/ajwEXODfx3ml/D/TunQHAHppn8MgHP2ppghI7c
+qa4XU0Q14o1ZKLXlc8c4gtJBdD7bXhlFoASN9Q8dhXCrNoCKf5rLTPO2mmyrOBzj
+wW8ZXs3EFPxkRQ3et+zpk8PSPKtBCVcyqDarg8MBlN2STMzhqDBsPWmSw0so3Goz
+4hT6wIBt+YIfMRUH6If6aJwt+G71mch5Ifowpd65eEZQAuS6iBA6aT0iU6G+tly8
+Vd2uhlUwQqV64tzcoKNCfZnnk2Nyi1IBrR9EbA9bYlIqW1F8EEYXW3BiEe2P5ztr
+d4RaJc/t+gBO3JjGSaJ1034fTDoFvh2IPF1aXZp9Cz7UXKrkSGIn9mk/CPiqBBAr
+ZxmHctIjr8qW9jhwThf3b1V+vqcys6b3zRajiVRlsdMVebY08O8/OBXwobbHmiW4
+v/JuNlPwezMdJ6HCIgYgzOYcUy9D4oXttSiaRHD2jlCZxdjw/YKAmiRd1O11oTng
+sMO77arIuEXR5mN9HNfZFjxmBo+4BH/JErhmjB8R0dFj4dfM6j8Bcst2X1nY1zLB
+pKCVryvsa7cLko1ViQv9z5lfEOokzr79qGYxt8SPpmIs41PX+ye/8Ag0ja1zT4cN
+BW6F0p1+69OmdBrCGwD2WzutOat6Vel1WRcrJmxxm0bqAgVvVm4=
+=o+Xw
+-----END PGP SIGNATURE-----
+
+--iUXiIigvfMIijbzn--
 
