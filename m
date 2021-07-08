@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF363C182F
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:33:15 +0200 (CEST)
-Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01AC73C1828
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:31:42 +0200 (CEST)
+Received: from localhost ([::1]:43378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Xti-0001oi-FI
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44872)
+	id 1m1XsC-0007HE-UU
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:31:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1m1XFI-0008HG-1M; Thu, 08 Jul 2021 12:51:28 -0400
+ id 1m1XFZ-0000N8-Ha; Thu, 08 Jul 2021 12:51:45 -0400
 Received: from [201.28.113.2] (port=18772 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1m1XFG-0003G3-Kd; Thu, 08 Jul 2021 12:51:27 -0400
+ id 1m1XFW-0003G3-W1; Thu, 08 Jul 2021 12:51:45 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 8 Jul 2021 13:50:22 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 8 Jul 2021 13:50:27 -0300
 Received: from eldorado.org.br (unknown [10.10.71.235])
- by power9a (Postfix) with ESMTP id C4E89800976;
- Thu,  8 Jul 2021 13:50:22 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 3F5BE800976;
+ Thu,  8 Jul 2021 13:50:27 -0300 (-03)
 From: "Lucas Mateus Castro (alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v3 1/4] target/ppc: Don't compile ppc_tlb_invalid_all without
- TCG
-Date: Thu,  8 Jul 2021 13:49:54 -0300
-Message-Id: <20210708164957.28096-2-lucas.araujo@eldorado.org.br>
+Subject: [PATCH v3 4/4] target/ppc: moved store_40x_sler to helper_regs.c
+Date: Thu,  8 Jul 2021 13:49:57 -0300
+Message-Id: <20210708164957.28096-5-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210708164957.28096-1-lucas.araujo@eldorado.org.br>
 References: <20210708164957.28096-1-lucas.araujo@eldorado.org.br>
-X-OriginalArrivalTime: 08 Jul 2021 16:50:22.0911 (UTC)
- FILETIME=[57F09CF0:01D77419]
+X-OriginalArrivalTime: 08 Jul 2021 16:50:27.0367 (UTC)
+ FILETIME=[5A988B70:01D77419]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -61,68 +60,59 @@ Cc: "Lucas Mateus Castro \(alqotel\)" <lucas.araujo@eldorado.org.br>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function ppc_tlb_invalid_all is not compiled anymore in a TCG-less
-environment, and the call to that function has been disabled in this
-situation
+moved store_40x_sler from mmu_common.c to helper_regs.c as it was
+more appropriate
 
 Signed-off-by: Lucas Mateus Castro (alqotel) <lucas.araujo@eldorado.org.br>
 ---
- target/ppc/cpu_init.c   | 2 ++
- target/ppc/mmu_helper.c | 4 ++++
- 2 files changed, 6 insertions(+)
+ target/ppc/helper_regs.c | 12 ++++++++++++
+ target/ppc/mmu_common.c  | 10 ----------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 6f8ce010ba..505a0ed6ac 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -8847,9 +8847,11 @@ static void ppc_cpu_reset(DeviceState *dev)
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index 3723872aa6..405450d863 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -258,6 +258,18 @@ int hreg_store_msr(CPUPPCState *env, target_ulong value, int alter_hv)
+     return excp;
+ }
  
- #if !defined(CONFIG_USER_ONLY)
-     env->nip = env->hreset_vector | env->excp_prefix;
-+#if defined(CONFIG_TCG)
-     if (env->mmu_model != POWERPC_MMU_REAL) {
-         ppc_tlb_invalidate_all(env);
-     }
-+#endif /* CONFIG_TCG */
- #endif
- 
-     hreg_compute_hflags(env);
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 47e9f9529e..869d24d301 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -825,6 +825,7 @@ static int mmubooke_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
++#ifdef CONFIG_SOFTMMU
++void store_40x_sler(CPUPPCState *env, uint32_t val)
++{
++    /* XXX: TO BE FIXED */
++    if (val != 0x00000000) {
++        cpu_abort(env_cpu(env),
++                  "Little-endian regions are not supported by now\n");
++    }
++    env->spr[SPR_405_SLER] = val;
++}
++#endif /* CONFIG_SOFTMMU */
++
+ #ifndef CONFIG_USER_ONLY
+ void check_tlb_flush(CPUPPCState *env, bool global)
+ {
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index c9da3f856a..787eae74a6 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -622,16 +622,6 @@ static int mmu40x_get_physical_address(CPUPPCState *env, mmu_ctx_t *ctx,
      return ret;
  }
  
-+#ifdef CONFIG_TCG
- static void booke206_flush_tlb(CPUPPCState *env, int flags,
-                                const int check_iprot)
- {
-@@ -846,6 +847,7 @@ static void booke206_flush_tlb(CPUPPCState *env, int flags,
- 
-     tlb_flush(env_cpu(env));
- }
-+#endif
- 
- static hwaddr booke206_tlb_to_page_size(CPUPPCState *env,
-                                         ppcmas_tlb_t *tlb)
-@@ -1901,6 +1903,7 @@ void helper_store_601_batl(CPUPPCState *env, uint32_t nr, target_ulong value)
- }
- #endif
- 
-+#ifdef CONFIG_TCG
- /*****************************************************************************/
- /* TLB management */
- void ppc_tlb_invalidate_all(CPUPPCState *env)
-@@ -1944,6 +1947,7 @@ void ppc_tlb_invalidate_all(CPUPPCState *env)
-         break;
-     }
- }
-+#endif
- 
- #ifdef CONFIG_TCG
- void ppc_tlb_invalidate_one(CPUPPCState *env, target_ulong addr)
+-void store_40x_sler(CPUPPCState *env, uint32_t val)
+-{
+-    /* XXX: TO BE FIXED */
+-    if (val != 0x00000000) {
+-        cpu_abort(env_cpu(env),
+-                  "Little-endian regions are not supported by now\n");
+-    }
+-    env->spr[SPR_405_SLER] = val;
+-}
+-
+ static int mmubooke_check_tlb(CPUPPCState *env, ppcemb_tlb_t *tlb,
+                               hwaddr *raddr, int *prot, target_ulong address,
+                               MMUAccessType access_type, int i)
 -- 
 2.17.1
 
