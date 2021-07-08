@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC3C3C1782
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:56:28 +0200 (CEST)
-Received: from localhost ([::1]:48570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 861923C17BF
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:07:49 +0200 (CEST)
+Received: from localhost ([::1]:55736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XK7-0000My-3B
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:56:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42548)
+	id 1m1XV6-0000i5-IN
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5D-0001ZJ-7B
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:03 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:40882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X59-0008C9-Ut
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:02 -0400
-Received: by mail-pg1-x529.google.com with SMTP id g22so6598701pgl.7
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nBdqjSVeVXgtT2KNOpd+QF/PXWJox+iIJ0CG3FMfQD4=;
- b=NIoBVMMjsl6FFLjYMlxelflCu0X6sSw0MPqhXr1SY2wmWNwmyBWSSH3zpf8qyufnxd
- 5Mj5hB2ObC93Ng1Oq8sybzZ/JrjO1Ht3SxZVobr34WSUaYUs3CNVOE14TUHxRn8gsHnR
- LWWKh6PlyDEnTDorgwaIO5RZa77fd8erTSWEmj9gH4ugNSHe6GrVFOvJMe8YiEqaqk+P
- s9WHJkbTmi5cazICK2gOgmM456wnNGzBeViaQajm0GPEWHEsoGCi2xANnPCgg8mprvEB
- x59VH08jleh+I2QHW/opcv08CCvv3BAhf4M64M38owwmTII7KdrXotykl6fqhRhCoM5f
- ZLbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nBdqjSVeVXgtT2KNOpd+QF/PXWJox+iIJ0CG3FMfQD4=;
- b=OGpmKox1Wekf7wV39YhmM436D/VaVHr+HwTv4AUjPpRttApLHOm/LUoytJEaEAi05C
- tUUx1Wh/UrBk3yVtuz2t8nX0z9SMTYm4Se0dZG83uiJuz4VPqtyGRskZL3aVCDaFAWYr
- nTGAKSIIlcHgi1ucdqUsgamyu3BRQt3NS8JeUCIrKmWVtri4czRe6clhAQxxVi6btpWy
- tRVMBe7T3COfDmZH0A39zKfVFy8ltRNjmJiEQT1c6ZUO4rl4RuLI2Kp/rQRWKyYiXuLu
- Tr1FNKNS+wU5GRHqkuzIKgMn6GpfJK2jGeiEwz8YXr/iQbP+A4u2flV4TtSf2RSruCJ+
- SPrQ==
-X-Gm-Message-State: AOAM530xY7ox+5U9huLJhvXpOJWhmR6rGZCNN7xdu8ddL4aCgF7xplZd
- uIsh5gMA6mx3NNAaba0Ih1AjyuQyhgWFuA==
-X-Google-Smtp-Source: ABdhPJw1+8hME2SByWU/g96/HAksD4AxOeT6dUPadSKL+PQoY6k6xYdrL5pgm6Vmj9S0IAfU2gk0hQ==
-X-Received: by 2002:a63:1c0e:: with SMTP id c14mr32546924pgc.11.1625762458460; 
- Thu, 08 Jul 2021 09:40:58 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id j129sm3465678pfb.132.2021.07.08.09.40.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 09:40:58 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/28] target/m68k: Use translator_use_goto_tb
-Date: Thu,  8 Jul 2021 09:40:35 -0700
-Message-Id: <20210708164050.711967-14-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210708164050.711967-1-richard.henderson@linaro.org>
-References: <20210708164050.711967-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m1Wf8-0001HV-5e
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:14:06 -0400
+Received: from forward1-smtp.messagingengine.com ([66.111.4.223]:49435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m1Wf5-0000Vc-SU
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:14:05 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailforward.nyi.internal (Postfix) with ESMTP id BB3AB1940BBC;
+ Thu,  8 Jul 2021 12:14:00 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 08 Jul 2021 12:14:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Y9L7mn
+ PoCTM9eva9Nk3xNyfoePPSqUmsc1qRlRIrQdw=; b=WOCOEfVpAWhAx9OzZN72Gr
+ yovqrAcfKcov4l0h4AYdb9AA0KufNz7Kf2PgRAdW+FeiWN17Bhg4Rdzr+ON4rxmd
+ daS92GV3K4+3UX8QrLOtwAUkJegbir7Hub6diKYCDYADaSUnZEUuUYqHWJkjKu2y
+ wCRTlpVmKb4OxF9Vo3fhDkG9rnYmtlBBHkfeSPvFNuBtudg/DlW6nGlhjzd7WU4R
+ jJX9UowEKhixIdmB0/UDpICZfjzNlGt+CiRfeZ278zXDQ0FI7A4VB6FsD76aNHiE
+ 01yA2k1PE1jHP+Tw52V0INtX/DVua7440LXLio8ZqiLDh5lUtmarG/q0aVpk201A
+ ==
+X-ME-Sender: <xms:SCTnYMtY5AzJIlFAWXtfT4E846YOH103Hxc-jdBu-ceF4WFR72u2lA>
+ <xme:SCTnYJdMGtIfrd7BTpEcHYPTa3XYna7CUsZpA3BFjOPV_enbMfs9sYfuI49Od-LF2
+ 0Smp1RXLRzgNq9zV98>
+X-ME-Received: <xmr:SCTnYHyelpq2n9mUp7X-hYtGIX0MrMz8A9MIomodABj7hMwGWnZlfIByZDk61PFqwCaRgXeXujQRqwK5Cj0O8kXcFkWNm8JCOv9BDuRGo24>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdeggdeliecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefvufgjfhfhfffkgggtsehttdertddttddtnecuhfhrohhmpeffrghvihguucfg
+ ughmohhnughsohhnuceoughmvgesughmvgdrohhrgheqnecuggftrfgrthhtvghrnhephf
+ ekgeeutddvgeffffetheejvdejieetgfefgfffudegffffgeduheegteegleeknecuvehl
+ uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepughmvgesughmvg
+ drohhrgh
+X-ME-Proxy: <xmx:SCTnYPNOuAtliKVlWttL8H5HwkoPTIp643iCdF383l78HDfFOykn_w>
+ <xmx:SCTnYM-zr1K0HIy_V_8S0gV80I3Z-D1JjqRA5-_lzcdqi10lQFpM4Q>
+ <xmx:SCTnYHUlFtahG1P2u-7yHV_bFCOLMWRCdTL7MHNkbFrRMjRBcHrZHQ>
+ <xmx:SCTnYN3XNggwSSy19oheJovx5ocYSvSA-AsL6n5VXe1bAP2ZZ2olgA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 8 Jul 2021 12:13:59 -0400 (EDT)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 6ef51eab;
+ Thu, 8 Jul 2021 16:13:57 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 8/8] target/i386: Move X86XSaveArea into TCG
+In-Reply-To: <e4a048f5-cc6d-7bbe-6659-54075cafb9c6@linaro.org>
+References: <20210705104632.2902400-1-david.edmondson@oracle.com>
+ <20210705104632.2902400-9-david.edmondson@oracle.com>
+ <0d75c3ab-926b-d4cd-244a-8c8b603535f9@linaro.org> <m2czru4epe.fsf@dme.org>
+ <m24kd5p7uf.fsf@dme.org> <e4a048f5-cc6d-7bbe-6659-54075cafb9c6@linaro.org>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Thu, 08 Jul 2021 17:13:57 +0100
+Message-ID: <m235so4wca.fsf@dme.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: neutral client-ip=66.111.4.223; envelope-from=dme@dme.org;
+ helo=forward1-smtp.messagingengine.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,52 +87,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ Michael Roth <michael.roth@amd.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Cameron Esfahani <dirty@apple.com>, babu.moger@amd.com,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just use translator_use_goto_tb directly at the one call site,
-rather than maintaining a local wrapper.
+On Thursday, 2021-07-08 at 08:22:02 -07, Richard Henderson wrote:
 
-Acked-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/m68k/translate.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+> On 7/8/21 12:45 AM, David Edmondson wrote:
+>> Actually, that's nonsense. With KVM or HVF we have to use the offsets of
+>> the host CPU, as the hardware won't do anything else, irrespective of
+>> the general CPU model chosen.
+>> 
+>> To have KVM -> TCG migration work it would be necessary to pass the
+>> offsets in the migration stream and have TCG observe them, as you
+>> originally said.
+>> 
+>> TCG -> KVM migration would only be possible if TCG was configured to use
+>> the same offsets as would later required by KVM (meaning, the host CPU).
+>
+> And kvm -> kvm migration, with the same general cpu model chosen, but with different host 
+> cpus with different offsets?
+>
+> It seems like we must migrate then and verify the offsets in that case, so that we can 
+> fail the migration.
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index f0c5bf9154..05b96fdda7 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -1520,16 +1520,6 @@ static void gen_exit_tb(DisasContext *s)
-         }                                                               \
-     } while (0)
- 
--static inline bool use_goto_tb(DisasContext *s, uint32_t dest)
--{
--#ifndef CONFIG_USER_ONLY
--    return (s->base.pc_first & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK)
--        || (s->base.pc_next & TARGET_PAGE_MASK) == (dest & TARGET_PAGE_MASK);
--#else
--    return true;
--#endif
--}
--
- /* Generate a jump to an immediate address.  */
- static void gen_jmp_tb(DisasContext *s, int n, uint32_t dest)
- {
-@@ -1537,7 +1527,7 @@ static void gen_jmp_tb(DisasContext *s, int n, uint32_t dest)
-         update_cc_op(s);
-         tcg_gen_movi_i32(QREG_PC, dest);
-         gen_singlestep_exception(s);
--    } else if (use_goto_tb(s, dest)) {
-+    } else if (translator_use_goto_tb(&s->base, dest)) {
-         tcg_gen_goto_tb(n);
-         tcg_gen_movi_i32(QREG_PC, dest);
-         tcg_gen_exit_tb(s->base.tb, n);
+Agreed.
+
+I will look into migrating the offsets.
+
+dme.
 -- 
-2.25.1
-
+The sound of a barking dog on a loop, a plane rises in the crystal blue.
 
