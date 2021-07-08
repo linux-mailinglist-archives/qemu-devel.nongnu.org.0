@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D30E23BF7BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:43:49 +0200 (CEST)
-Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFB93BF7CB
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:52:21 +0200 (CEST)
+Received: from localhost ([::1]:55164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1QZQ-00030h-UV
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55942)
+	id 1m1Qhe-0007aj-0o
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:52:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m1QYf-0002Kp-Ed
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:43:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m1QYd-0001ft-Ai
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:43:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625737378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OP3ZUalua15dWt7/6whmBL3iz7bdHz8xouhqteRGHp0=;
- b=b9s0iE0hygHurqCHZfjZeELam+dHYLtCfQ2+KsTfW/gPcyQ0bKNFSR4F/eY1azyIR5VOz2
- nvoGbJfSBEqmIQDGeu3r8ToUDBOM+JF1o85Au12Meog7ftSuKNUtvu88exZ3l0yx76ilKh
- +yfdT1GlRy3uJudJ8x6igUTaRbT1PEM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-e5pVadDoMv2GiwwDcegJzw-1; Thu, 08 Jul 2021 05:42:57 -0400
-X-MC-Unique: e5pVadDoMv2GiwwDcegJzw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- f21-20020a0564021615b029039dd8826cd9so2673886edv.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 02:42:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1Qgr-0006kt-Nn
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:51:29 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1Qgn-0004Wm-7d
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:51:29 -0400
+Received: by mail-ej1-x635.google.com with SMTP id gn32so8580301ejc.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 02:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0BjJJvPpQr6BiqmxhiY/cBLZTaUp6wG4zpInNYnFLhw=;
+ b=lnqFkLQxeXwRm/MeOP1Hvhwe3Oe0VhGdRY36RzNM4UqnRuF5gzON/vICTDy097CGxS
+ Nh2Qs+tFO/C+aAuOl37ajXUVzuNBN3lGjK/1Dk/zUNyQRVlyu8BYdR+cdmo0LDREmNZW
+ 8t8l8MzmVjsdFsPRSEusfG1i/bLumd+JTE0oweCO81BuWmXWuW9xL9kYeDMKiWivBTRd
+ +MDf0ZEG7oPcISyMhbU8JlWMr5vkRZpSEYGTuBtWAhQuEd6mEqAvjKRoxInLYjNJ8Vy8
+ mLuA4ovbCV77fuTtNP84MVc2wamjAujW6kFvKV19BQ1vkb5eR9W2CkkFkCInbVYb+urh
+ Gcog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OP3ZUalua15dWt7/6whmBL3iz7bdHz8xouhqteRGHp0=;
- b=ZT5MQW62JcJYC2LKOuiV0nyDNvATBpWOk8XfFrjejqYEQ9OUdXx2+kIZ1Y0wv04wkh
- rfuUKZNHMQj6epryt4b5nQY8gOgnfMNjBKXwtuww1yyk2g9hLNNdFInxvnw8E7AhA17m
- ve5qg5eAky4QHExcgA5MNn+BIouTJ7nFk0RPAimLzWeaCN/PxSmxYs7r9kp7FWkuybzJ
- SQjdojbpIoUnN8wRS4g9YeF4ME5nonCr6/kAcp9mrVX3x3WaY9JUgO9C8FA5agTEY6J+
- zc3a5+Q5x+5vj5Iv5JtU6NZzfsgEQdTd2CWpHCefrXMxFPeNCDA2umzOC0qkY7RrIpF2
- 5UYw==
-X-Gm-Message-State: AOAM5305dm+CFL9Vr2gEs6lmlxzqKnxBHQcPnEhS4Wr4nwiugURToepr
- US7na9x5gEeU8HMMoBY2VZrSCXWWnogmx9UsNLTaZixKNmj4XHVL0xKfwoJVHVsgLWU7baAFMZQ
- TugklWYbuTN0KgL7uHvM6NV8k5hhMHQHEGKTIgAWyc1vViCbcI/Dcby4t2XkErGobZ/M=
-X-Received: by 2002:a05:6402:430f:: with SMTP id
- m15mr24758138edc.113.1625737376393; 
- Thu, 08 Jul 2021 02:42:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/wy0HACtM9nsI0b7uwzWk6pZrkxN3uJa+IQ7uaOWNapo1qEW88x527NopNP6CW4xFbeTXYw==
-X-Received: by 2002:a05:6402:430f:: with SMTP id
- m15mr24758101edc.113.1625737376196; 
- Thu, 08 Jul 2021 02:42:56 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id cq6sm975936edb.1.2021.07.08.02.42.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 02:42:55 -0700 (PDT)
-Subject: Re: [PATCH] vl: fix leak of qdict_crumple return value
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210707121545.361829-1-pbonzini@redhat.com>
- <87k0m19nw6.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6126d8d4-38dc-d63b-b1f8-e8da62d28d28@redhat.com>
-Date: Thu, 8 Jul 2021 11:42:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0BjJJvPpQr6BiqmxhiY/cBLZTaUp6wG4zpInNYnFLhw=;
+ b=hQSvuB0MOshJOM0Nsu2xcVQDlLtpE9Q4IUhtzju8+amMiuMWJ1ngqBErTSkxuYhaX0
+ sUxVRoEuDI4hCM2Unv6eaq1/QOAShQgnanFjxABi18VzQvdQM9pH6s+nM2pSzQLWvwCi
+ oa4oBIjj4788CAoMaEejAfvB6CasrO1aruG9VvpLRlVFNRrYLZ+03yjqXBu53ipiNPZo
+ M2T5aA4ZDUYav+LOG5gLDfA7eL+wPkZX2ELQIHD0szI3uv52ujHz7fzNimMfyEUqZTKr
+ /z5FPjLwpzNQDucndq2LKNV6mJEinZl15OT45NGWgn0j2R6U13wXwcx75MemFbGOyzIC
+ R4pA==
+X-Gm-Message-State: AOAM530V/JBniwijFY22LwhOd9L/TJY8ckUgPnLLS2YJheaOgVvsETTK
+ GdJitDjicA9vuN7UMJlMlHsJW6xBl8GZGhyQubkXPzpITRN2Gw==
+X-Google-Smtp-Source: ABdhPJz41bdl5kCjhyfUGd70BKoKRfCI7N8NfXCGtHWXJ4WD8WLP99li/a3154I+TH8PbGHdPrJY97tyGHG57M2GNeo=
+X-Received: by 2002:a17:906:f9c5:: with SMTP id
+ lj5mr8608303ejb.482.1625737883689; 
+ Thu, 08 Jul 2021 02:51:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87k0m19nw6.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210706134457.81059-1-hnick@vmware.com>
+In-Reply-To: <20210706134457.81059-1-hnick@vmware.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Jul 2021 10:50:45 +0100
+Message-ID: <CAFEAcA9Cqzh716p6bhed5MHGcQXpki0SrQZQS3NSLOGwoF3fkg@mail.gmail.com>
+Subject: Re: [PATCH v2] target/arm: Correct the encoding of MDCCSR_EL0 and
+ DBGDSCRint
+To: Nick Hudson <hnick@vmware.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,37 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Mohannad Ismail <imohannad@vmware.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/07/21 11:05, Markus Armbruster wrote:
-> Minimally invasive fix, but the result is a bit awkward.  Possibly
-> neater:
-> 
->         if (qobject_type(crumpled) == QTYPE_QLIST) {
->             error_setg(errp,
->                        "Lists cannot be at top level of a configuration section");
->         } else {
->             assert(qobject_type(crumpled) == QTYPE_QDICT);
->             qemu_record_config_group(group, qobject_to(QDict, crumpled),
->                                      false, errp);
->         }
->         qobject_unref(crumpled);
+On Tue, 6 Jul 2021 at 14:45, <hnick@vmware.com> wrote:
+>
+> Signed-off-by: Nick Hudson <hnick@vmware.com>
+> ---
+>  target/arm/helper.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index a66c1f0b9e..910ace4274 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -6326,11 +6326,21 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+>        .access = PL1_RW, .accessfn = access_tda,
+>        .fieldoffset = offsetof(CPUARMState, cp15.mdscr_el1),
+>        .resetvalue = 0 },
+> -    /* MDCCSR_EL0, aka DBGDSCRint. This is a read-only mirror of MDSCR_EL1.
+> +    /*
+> +     * MDCCSR_EL0[30:29] map to EDSCR[30:29].  Simply RAZ as the external
+> +     * Debug Communication Channel is not implemented.
+> +     */
+> +    { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_AA64,
+> +      .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
+> +      .access = PL0_R, .accessfn = access_tda,
+> +      .type = ARM_CP_CONST, .resetvalue = 0 },
+> +    /*
+> +     * DBGDSCRint[15,12,5:2] map to MDSCR_EL1[15,12,5:2].  Map all bits as
+> +     * it is unlikely a guest will care.
+>       * We don't implement the configurable EL0 access.
+>       */
+> -    { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_BOTH,
+> -      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 0,
+> +    { .name = "DBGDSCRint", .state = ARM_CP_STATE_AA32,
+> +      .cp = 14, .opc1 = 0, .crn = 0, .crm = 1, .opc2 = 0,
+>        .type = ARM_CP_ALIAS,
+>        .access = PL1_R, .accessfn = access_tda,
+>        .fieldoffset = offsetof(CPUARMState, cp15.mdscr_el1), },
 
-Even better:
 
-     switch (qobject_type(crumpled)) {
-     case QTYPE_QDICT:
-         qemu_record_config_group(group, qobject_to(QDict, crumpled), false, errp);
-         break;
-     case QTYPE_QLIST:
-         error_setg(errp, "Lists cannot be at top level of a configuration section");
-         break;
-     default:
-         g_assert_unreachable();
-     }
 
-Paolo
+Applied to target-arm.next, thanks.
 
+-- PMM
 
