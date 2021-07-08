@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19F03C15F8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:29:29 +0200 (CEST)
-Received: from localhost ([::1]:52542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E0B3C15F4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:28:57 +0200 (CEST)
+Received: from localhost ([::1]:49658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Vxw-0003YK-Tk
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53702)
+	id 1m1VxQ-0001eM-3x
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:28:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmx-0000QB-JD
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:07 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:36546)
+ id 1m1Vmy-0000UB-OB
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:08 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:37569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m1Vmv-0008D5-7C
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:07 -0400
-Received: by mail-ed1-x530.google.com with SMTP id h2so9075725edt.3
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:04 -0700 (PDT)
+ id 1m1Vmw-0008Dq-K5
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:18:08 -0400
+Received: by mail-ed1-x531.google.com with SMTP id cy23so4051398edb.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s4blzcFYDfyCZS+BewUZTETIsp8Hl/UKwSDBrmkzuOI=;
- b=G83r6EVuqfCRCtB0ilbL3UmDVTM6kaUEV7avqKiLLGH/1AhtuwqORGL1kNkMNGaIQC
- r/baWlf8uh50QW56n8APgHg4D18HIthc2N13lAPf2fD2cZHHKYuWM3BZ15QKJ/TjHf6W
- wSpWyqg0XitE/+KJnYirAiTsaG+AiffSDxJaUiUEufN1HPpXR1C78MDeIjdDUU2oqZZ9
- ywVOsvV7iTOQ+IFlnMhlw5UBv7Ji7E7QvC5fp6cnrqVTDUIJkW4h6lyHdydwFiWsdf7Y
- 9qdlYpKxD+SP7eWna0sOUteeNlTwzzKNqh72no/VS/LXSpmx6aGJyVWjtCQ3eeKcaJLq
- bj+w==
+ bh=QKXLncUdY1O92DDL+MV//B7jAo0Y2NMb/vk36fn5i5s=;
+ b=Elp5W8CmV/6IS6u4+AF9A6Npt+b0dNi476POgGep3S539Urm54TbQk0Zocru+a1bZm
+ WjSvetZ6tML+Mmj1aGHDyfByiUW6Xa1obRL5vL6wiidTV3C3rSx75BkSSErFbnZXtyr/
+ Mq0uXbiNcrlYhlHIduSGMdanT4cdUBYXSiqdi379YeZokDqgTuYIls1kO+wPaUsSSnsd
+ sKJJtDVwcfek7Ltz2CZI+vYTivg0qU+EGbzUKucKLL6/vBD6+AgkKbiuBTJ5iFysYAmC
+ 4r10aGs6/JHXmVdEtZMtxGaEGnkIbMvL+Si97Q8IA6PAEbaaXG71Mli4ujz8Xe6aykU8
+ vF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=s4blzcFYDfyCZS+BewUZTETIsp8Hl/UKwSDBrmkzuOI=;
- b=By9u3gQB5hcTMlwZYfGrzufSMXlA4KwCNtaCN7gJDerw4D32Q7tcJIuxvWu7NtMUHM
- 4alWuP3gTBZbwqoD8g117ZxpvlPTcCDwEffM9qMq/OdlanzlNt0R1lapxgfYUGwcai0A
- pPOV7qjEDLi5+8alurRFy/d+y6Wf+5VWNbKSVGntBJZtYcotD0b5X6JEmgvIy1t7DSA2
- eYUVYtP4cV/sleHSwNl4kOrK7Dm5o5ZMNjy2oz8U53BerYAGgO+moVer2GxIYJ6QR5ct
- tL3/uoROgvnuUqxT/2qxo2P0HwX21HsFPPpyIKn/bBoMcCytxpcYufMWV/QHEyxbCb03
- lchw==
-X-Gm-Message-State: AOAM532q+qpJZ2lLvHKoebGQkztZStMIJPLjMmxhgPpMdycrhK60ks52
- p9UzHXbrpUldoCmNICTv0h3F2yAFl7g=
-X-Google-Smtp-Source: ABdhPJzucrTwjQwZUr0dmINiio1FDHYfgIS4XO3BrEdFhF5H7NV0SFIAovS2EPPGVa8Rg/DhhiXVKw==
-X-Received: by 2002:a50:fb04:: with SMTP id d4mr18058508edq.143.1625757483854; 
- Thu, 08 Jul 2021 08:18:03 -0700 (PDT)
+ bh=QKXLncUdY1O92DDL+MV//B7jAo0Y2NMb/vk36fn5i5s=;
+ b=P4Xk6Yt9gG32PXsTycs/I+RtHJPF4LCwU4dZimp4G+Mu7nRX4ULtxk2Ttp67GewT2t
+ SzP2hXKVUjr4iy2EVh1U3O2Qg0i0WEsyvExK+kikd2UlQxPP3puM+xuRuGt/MpxU+azV
+ yzjFm+IpE1fpRTR5CaEx6xMBQytJFF09DaGRHwe5KkJqf2rnNiWeFT9vkuysj0G9q8CT
+ JBcQMdsqQbf5LjKS+h2V8fbkAxTif/EoM+tCmsYJcIfpeYkDWrR7XrYRwi9ByNbnZ7ge
+ DPsJBqqdP0BKmlHW7DC0AnJVRf98ou8RI01+TcskQKPpjEKTIYckN5zsZPik3eimlvfh
+ c9Rg==
+X-Gm-Message-State: AOAM532hd+3lIcgcdq4rg6t138NyRvCIWXf0mIxtJtC4bZ4WaE3bqvoX
+ ZgWPSLT6/8W1peFZSS7DVbRt3iRBEqI=
+X-Google-Smtp-Source: ABdhPJxnXjm4A9AK5BNPnSjZ9Q0d+f/dMgzUdgl2ogfyzEQGYKJ7IXHJrd8clRxPk2z9zxwFJnQPoQ==
+X-Received: by 2002:a05:6402:451:: with SMTP id
+ p17mr38353898edw.332.1625757485375; 
+ Thu, 08 Jul 2021 08:18:05 -0700 (PDT)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.03
+ by smtp.gmail.com with ESMTPSA id ak16sm1103694ejc.17.2021.07.08.08.18.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 08:18:03 -0700 (PDT)
+ Thu, 08 Jul 2021 08:18:04 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/48] modules: use modinfo for qemu opts load
-Date: Thu,  8 Jul 2021 17:17:20 +0200
-Message-Id: <20210708151748.408754-21-pbonzini@redhat.com>
+Subject: [PULL 22/48] modules: check arch and block load on mismatch
+Date: Thu,  8 Jul 2021 17:17:22 +0200
+Message-Id: <20210708151748.408754-23-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
 References: <20210708151748.408754-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -89,97 +90,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gerd Hoffmann <kraxel@redhat.com>
 
-Use module database to figure which module adds given QemuOpts group.
+Add module_allow_arch() to set the target architecture.
+In case a module is limited to some arch verify arches
+match and ignore the module if not.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
-Message-Id: <20210624103836.2382472-17-kraxel@redhat.com>
+Message-Id: <20210624103836.2382472-19-kraxel@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c        | 17 -----------------
- stubs/module-opts.c |  4 ----
- util/module.c       | 19 +++++++++++++++++++
- 3 files changed, 19 insertions(+), 21 deletions(-)
+ include/qemu/module.h |  1 +
+ softmmu/vl.c          |  3 +++
+ util/module.c         | 29 +++++++++++++++++++++++++++++
+ 3 files changed, 33 insertions(+)
 
+diff --git a/include/qemu/module.h b/include/qemu/module.h
+index a98748d501..7f4b1af819 100644
+--- a/include/qemu/module.h
++++ b/include/qemu/module.h
+@@ -72,6 +72,7 @@ void module_call_init(module_init_type type);
+ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail);
+ void module_load_qom_one(const char *type);
+ void module_load_qom_all(void);
++void module_allow_arch(const char *arch);
+ 
+ /*
+  * module info annotation macros
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 7cef3423a7..190b71a0f2 100644
+index 190b71a0f2..2004d57108 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2691,23 +2691,6 @@ void qmp_x_exit_preconfig(Error **errp)
-     }
- }
+@@ -126,6 +126,8 @@
+ #include "sysemu/iothread.h"
+ #include "qemu/guest-random.h"
  
--#ifdef CONFIG_MODULES
--void qemu_load_module_for_opts(const char *group)
--{
--    static bool spice_tried;
--    if (g_str_equal(group, "spice") && !spice_tried) {
--        ui_module_load_one("spice-core");
--        spice_tried = true;
--    }
--
--    static bool iscsi_tried;
--    if (g_str_equal(group, "iscsi") && !iscsi_tried) {
--        block_module_load_one("iscsi");
--        iscsi_tried = true;
--    }
--}
--#endif
--
- void qemu_init(int argc, char **argv, char **envp)
- {
-     QemuOpts *opts;
-diff --git a/stubs/module-opts.c b/stubs/module-opts.c
-index a7d0e4ad6e..5412429ea8 100644
---- a/stubs/module-opts.c
-+++ b/stubs/module-opts.c
-@@ -1,6 +1,2 @@
- #include "qemu/osdep.h"
- #include "qemu/config-file.h"
--
--void qemu_load_module_for_opts(const char *group)
--{
--}
++#include "config-host.h"
++
+ #define MAX_VIRTIO_CONSOLES 1
+ 
+ typedef struct BlockdevOptionsQueueEntry {
+@@ -2740,6 +2742,7 @@ void qemu_init(int argc, char **argv, char **envp)
+ 
+ #ifdef CONFIG_MODULES
+     module_init_info(qemu_modinfo);
++    module_allow_arch(TARGET_NAME);
+ #endif
+ 
+     qemu_init_subsystems();
 diff --git a/util/module.c b/util/module.c
-index 745ae0fb20..a9ec2da997 100644
+index acaaecad56..065aed09ff 100644
 --- a/util/module.c
 +++ b/util/module.c
-@@ -20,6 +20,7 @@
- #include "qemu/queue.h"
- #include "qemu/module.h"
- #include "qemu/cutils.h"
-+#include "qemu/config-file.h"
- #ifdef CONFIG_MODULE_UPGRADES
- #include "qemu-version.h"
- #endif
-@@ -322,8 +323,26 @@ void module_load_qom_all(void)
-     module_loaded_qom_all = true;
+@@ -117,12 +117,33 @@ static const QemuModinfo module_info_stub[] = { {
+     /* end of list */
+ } };
+ static const QemuModinfo *module_info = module_info_stub;
++static const char *module_arch;
+ 
+ void module_init_info(const QemuModinfo *info)
+ {
+     module_info = info;
  }
  
-+void qemu_load_module_for_opts(const char *group)
++void module_allow_arch(const char *arch)
 +{
-+    const QemuModinfo *modinfo;
-+    const char **sl;
-+
-+    for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
-+        if (!modinfo->opts) {
-+            continue;
-+        }
-+        for (sl = modinfo->opts; *sl != NULL; sl++) {
-+            if (strcmp(group, *sl) == 0) {
-+                module_load_one("", modinfo->name, false);
-+            }
-+        }
-+    }
++    module_arch = arch;
 +}
 +
++static bool module_check_arch(const QemuModinfo *modinfo)
++{
++    if (modinfo->arch) {
++        if (!module_arch) {
++            /* no arch set -> ignore all */
++            return false;
++        }
++        if (strcmp(module_arch, modinfo->arch) != 0) {
++            /* mismatch */
++            return false;
++        }
++    }
++    return true;
++}
++
+ static int module_load_file(const char *fname, bool mayfail, bool export_symbols)
+ {
+     GModule *g_module;
+@@ -224,6 +245,13 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
+     g_hash_table_add(loaded_modules, module_name);
+ 
+     for (modinfo = module_info; modinfo->name != NULL; modinfo++) {
++        if (modinfo->arch) {
++            if (strcmp(modinfo->name, module_name) == 0) {
++                if (!module_check_arch(modinfo)) {
++                    return false;
++                }
++            }
++        }
+         if (modinfo->deps) {
+             if (strcmp(modinfo->name, module_name) == 0) {
+                 /* we depend on other module(s) */
+@@ -345,6 +373,7 @@ void qemu_load_module_for_opts(const char *group)
+ 
  #else
  
-+void qemu_load_module_for_opts(const char *group) {}
++void module_allow_arch(const char *arch) {}
+ void qemu_load_module_for_opts(const char *group) {}
  void module_load_qom_one(const char *type) {}
  void module_load_qom_all(void) {}
- 
 -- 
 2.31.1
 
