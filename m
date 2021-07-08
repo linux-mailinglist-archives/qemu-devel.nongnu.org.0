@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81A03C1A81
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:23:10 +0200 (CEST)
-Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE953C1A44
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 22:01:29 +0200 (CEST)
+Received: from localhost ([::1]:41290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1aY9-0001bK-G7
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54504)
+	id 1m1aD9-0000rW-WC
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 16:01:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Zo1-0003P5-Lr
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:35:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Zo0-00045W-1q
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:35:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625772927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K57PXdN/awrT+XJ0I9hm9xXf+rfU14QbvtGGf59+GgY=;
- b=FoIwtUHSI8Db7pW7iUvEtRPJqK4exAdeOspV5XULIBCfpIZ2ppz4Yzv9+GRDbKi1Vcot2D
- sAI4+LhENsS7BQ7oyEbQD5DTT6OiXLkUq9UZnaFq7lznWVCkl/KETVPUjKJWFKXMdWvpCh
- jF+U5qJ5RtSJW33BmKPCNPoNikMGyUU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-nnOCq5nEPyKgyqCyCIDdCg-1; Thu, 08 Jul 2021 15:35:25 -0400
-X-MC-Unique: nnOCq5nEPyKgyqCyCIDdCg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22E66100B3AC
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 19:35:25 +0000 (UTC)
-Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C140189C7;
- Thu,  8 Jul 2021 19:35:21 +0000 (UTC)
-Date: Thu, 8 Jul 2021 14:35:19 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH 16/18] crypto: add gnutls hmac provider
-Message-ID: <20210708193519.yljm4vovvjup2e6y@redhat.com>
-References: <20210706095924.764117-1-berrange@redhat.com>
- <20210706095924.764117-17-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1Zrp-0003Wg-4Y
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:39:25 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1Zrn-0005L8-L7
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:39:24 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id a13so8923574wrf.10
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=du2Qy4fci8B+Np190Tts8rNaREHT7BdRBnODJgBCuAY=;
+ b=EItrcjb4E5Vpjw3fS4Qu2ea7Zg1pgzO0BtLikBU6E6BUkztwTnjNlr0irYSJ+b3Pva
+ 3cWq2+ywZ30lfOK35maFYt7oELyrj+m7dGoCVyW0c4jyyFmxUlnxVJEIfwNpKKrRYqTQ
+ 0aJIlFNR/cXFt1bpaQ5tFgmcOSMIOiHzrDka+wqMCSF6TCJFN71cPddqbzrcIPMTz4eL
+ OALmfdmwwv0RkNLGMbRCHm2fYCwmRjw/xM8Batp8DOPwOjTniFyVILSssYuTIF7d9w+F
+ nrAWo1HbNilyX+AeSAqUZPlF5M6VZDnefkIgpgx83AmQQfnzYYvT0Cjl/KQdXsqF9AUd
+ 8JGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=du2Qy4fci8B+Np190Tts8rNaREHT7BdRBnODJgBCuAY=;
+ b=pBrk19X1XyUUZsDwz87jAFqyG268IgxZRSselmka0Yjfn1bB9cx3Aig/vq9cdD+D67
+ qy8SKzGbdXf4GH8VAWsW3EsWLsBg/mEw17vmUnJpMBR5C3nfVIXiNuR98O0pwGX8lDlh
+ AvS7L7xhqVjAgLZLtcxBs2S53cEYThAcA2K6plV+cHwqt8/tbcZQI1QOyFhIxii0rbVL
+ wv9l7NKcnhI9WKd8ql6JW8MTzl1WT1mUyevFKalB6ooG4S6lN1HYmu1i1ltECVzALQvH
+ Dn4LybSvNwAv7gR6g7iOKWhzfYeG8RVn23GN4GRQ4RdEe9urg2rYrO55Do0ARsw6z4w8
+ 5J1w==
+X-Gm-Message-State: AOAM530cw7oqrAvJRR5QSJ/CFLcc0cyLlIBaKGUwdtVzmtKl9C7pxISa
+ 1W5/6pa/0rrNrI/AbYQHJe8=
+X-Google-Smtp-Source: ABdhPJwZZJQTl3QZPJ/p4hsBbvNKEnIxVIYQcMpDvYQuKC01LXvC2094hB4qqvLyRaCZPm3X1N0f1Q==
+X-Received: by 2002:adf:f70a:: with SMTP id r10mr19108596wrp.401.1625773160797; 
+ Thu, 08 Jul 2021 12:39:20 -0700 (PDT)
+Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id r16sm1954610wmg.11.2021.07.08.12.39.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 12:39:20 -0700 (PDT)
+Subject: Re: [PATCH v2 28/39] meson.build: move TCG plugin summary output
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210708190941.16980-1-alex.bennee@linaro.org>
+ <20210708190941.16980-29-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7b3c6828-6c81-2372-ec04-59f4e8c7a71a@amsat.org>
+Date: Thu, 8 Jul 2021 21:39:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706095924.764117-17-berrange@redhat.com>
-User-Agent: NeoMutt/20210205-556-f84451-dirty
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210708190941.16980-29-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
+ aaron@os.amperecomputing.com, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, minyihh@uci.edu, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 06, 2021 at 10:59:22AM +0100, Daniel P. Berrangé wrote:
-> This adds support for using gnutls as a provider of the crypto
-> hmac APIs.
+On 7/8/21 9:09 PM, Alex Bennée wrote:
+> Let's put it with the rest of the TCG related output with the
+> accelerator.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  crypto/hmac-gnutls.c | 136 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 136 insertions(+)
->  create mode 100644 crypto/hmac-gnutls.c
-> 
-> diff --git a/crypto/hmac-gnutls.c b/crypto/hmac-gnutls.c
-> new file mode 100644
-> index 0000000000..ea33b5753b
-> --- /dev/null
-> +++ b/crypto/hmac-gnutls.c
-> @@ -0,0 +1,136 @@
-> +/*
-> + * QEMU Crypto hmac algorithms
-> + *
-> + * Derived from hmac-gcrypt.c:
-> + *
-> + *   Copyright (c) 2016 HUAWEI TECHNOLOGIES CO., LTD.
+>  meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Is this line correct?
-
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * (at your option) any later version.  See the COPYING file in the
-> + * top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "crypto/hmac.h"
-> +#include "hmacpriv.h"
-> +#include <gnutls/crypto.h>
-
-Should you favor floating this to be right after "qemu/osdep.h"?
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
