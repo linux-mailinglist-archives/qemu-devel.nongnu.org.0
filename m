@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25B2D3BF339
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:02:27 +0200 (CEST)
-Received: from localhost ([::1]:50600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02F5F3BF348
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:06:58 +0200 (CEST)
+Received: from localhost ([::1]:39546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1IQs-0003Ad-4o
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:02:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
+	id 1m1IVF-0006DC-16
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:06:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKk-0001mM-9k
+ id 1m1IKk-0001mP-9X
  for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:06 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57610)
+Received: from mga12.intel.com ([192.55.52.136]:57600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IKe-0007LH-7p
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:02 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189101719"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="189101719"
+ id 1m1IKg-0007Kk-06
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:03 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="189101721"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="189101721"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:58 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770085"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770089"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:57 -0700
@@ -33,9 +33,10 @@ To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com, erdemaktas@google.com
-Subject: [RFC PATCH v2 30/44] qom: implement property helper for sha384
-Date: Wed,  7 Jul 2021 17:55:00 -0700
-Message-Id: <398d321c9c74c43bf0fa137c04932b1b7a89efab.1625704981.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH v2 31/44] target/i386/tdx: Allows
+ mrconfigid/mrowner/mrownerconfig for TDX_INIT_VM
+Date: Wed,  7 Jul 2021 17:55:01 -0700
+Message-Id: <9f1e7fd7678900791d2094d2f0def53fe0afc658.1625704981.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625704980.git.isaku.yamahata@intel.com>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
@@ -69,137 +70,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Implement property_add_sha384() which converts hex string <-> uint8_t[48]
-It will be used for TDX which uses sha384 for measurement.
+When creating VM with TDX_INIT_VM, three sha384 hash values are accepted
+for TDX attestation.
+So far they were hard coded as 0. Now allow user to specify those values
+via property mrconfigid, mrowner and mrownerconfig.
+string for those property are hex string of 48 * 2 length.
+
+example
+-device tdx-guest, \
+  mrconfigid=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef, \
+  mrowner=fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210, \
+  mrownerconfig=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- include/qom/object.h | 17 ++++++++++
- qom/object.c         | 76 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 93 insertions(+)
+ qapi/qom.json         | 11 ++++++++++-
+ target/i386/kvm/tdx.c | 17 +++++++++++++++++
+ target/i386/kvm/tdx.h |  3 +++
+ 3 files changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index 6721cd312e..594d0ec52c 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -1853,6 +1853,23 @@ ObjectProperty *object_property_add_alias(Object *obj, const char *name,
- ObjectProperty *object_property_add_const_link(Object *obj, const char *name,
-                                                Object *target);
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 70c70e3efe..8f8b7828b3 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -767,10 +767,19 @@
+ #
+ # @debug: enable debug mode (default: off)
+ #
++# @mrconfigid: MRCONFIGID SHA384 hex string of 48 * 2 length (default: 0)
++#
++# @mrowner: MROWNER SHA384 hex string of 48 * 2 length (default: 0)
++#
++# @mrownerconfig: MROWNERCONFIG SHA384 hex string of 48 * 2 length (default: 0)
++#
+ # Since: 6.0
+ ##
+ { 'struct': 'TdxGuestProperties',
+-  'data': { '*debug': 'bool' } }
++  'data': { '*debug': 'bool',
++            '*mrconfigid': 'str',
++            '*mrowner': 'str',
++            '*mrownerconfig': 'str' } }
  
+ ##
+ # @ObjectType:
+diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+index 47a502051c..6b560c1c0b 100644
+--- a/target/i386/kvm/tdx.c
++++ b/target/i386/kvm/tdx.c
+@@ -282,6 +282,17 @@ void tdx_pre_create_vcpu(CPUState *cpu)
+     init_vm.attributes |= tdx->debug ? TDX1_TD_ATTRIBUTE_DEBUG : 0;
+     init_vm.attributes |= x86cpu->enable_pmu ? TDX1_TD_ATTRIBUTE_PERFMON : 0;
+ 
++    QEMU_BUILD_BUG_ON(sizeof(init_vm.mrconfigid) != sizeof(tdx->mrconfigid));
++    memcpy(init_vm.mrconfigid, tdx->mrconfigid, sizeof(init_vm.mrconfigid));
++    QEMU_BUILD_BUG_ON(sizeof(init_vm.mrowner) != sizeof(tdx->mrowner));
++    memcpy(init_vm.mrowner, tdx->mrowner, sizeof(init_vm.mrowner));
++    QEMU_BUILD_BUG_ON(sizeof(init_vm.mrownerconfig) !=
++                      sizeof(tdx->mrownerconfig));
++    memcpy(init_vm.mrownerconfig, tdx->mrownerconfig,
++           sizeof(init_vm.mrownerconfig));
 +
-+/**
-+ * object_property_add_sha384:
-+ * @obj: the object to add a property to
-+ * @name: the name of the property
-+ * @v: pointer to value
-+ * @flags: bitwise-or'd ObjectPropertyFlags
-+ *
-+ * Add an sha384 property in memory.  This function will add a
-+ * property of type 'sha384'.
-+ *
-+ * Returns: The newly added property on success, or %NULL on failure.
-+ */
-+ObjectProperty * object_property_add_sha384(Object *obj, const char *name,
-+                                            const uint8_t *v,
-+                                            ObjectPropertyFlags flags);
++    memset(init_vm.reserved, 0, sizeof(init_vm.reserved));
 +
- /**
-  * object_property_set_description:
-  * @obj: the object owning the property
-diff --git a/qom/object.c b/qom/object.c
-index 6a01d56546..e33a0b8c5d 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -15,6 +15,7 @@
- #include "qapi/error.h"
- #include "qom/object.h"
- #include "qom/object_interfaces.h"
-+#include "qemu/ctype.h"
- #include "qemu/cutils.h"
- #include "qapi/visitor.h"
- #include "qapi/string-input-visitor.h"
-@@ -2749,6 +2750,81 @@ object_property_add_alias(Object *obj, const char *name,
-     return op;
+     init_vm.cpuid = (__u64)(&cpuid_data);
+     tdx_ioctl(KVM_TDX_INIT_VM, 0, &init_vm);
+ out:
+@@ -336,6 +347,12 @@ static void tdx_guest_init(Object *obj)
+     tdx->debug = false;
+     object_property_add_bool(obj, "debug", tdx_guest_get_debug,
+                              tdx_guest_set_debug);
++    object_property_add_sha384(obj, "mrconfigid", tdx->mrconfigid,
++                               OBJ_PROP_FLAG_READWRITE);
++    object_property_add_sha384(obj, "mrowner", tdx->mrowner,
++                               OBJ_PROP_FLAG_READWRITE);
++    object_property_add_sha384(obj, "mrownerconfig", tdx->mrownerconfig,
++                               OBJ_PROP_FLAG_READWRITE);
  }
  
-+#define SHA384_DIGEST_SIZE      48
-+static void property_get_sha384(Object *obj, Visitor *v, const char *name,
-+                                void *opaque, Error **errp)
-+{
-+    uint8_t *value = (uint8_t *)opaque;
-+    char str[SHA384_DIGEST_SIZE * 2 + 1];
-+    char *str_ = (char*)str;
-+    size_t i;
-+
-+    for (i = 0; i < SHA384_DIGEST_SIZE; i++) {
-+        char *buf;
-+        buf = &str[i * 2];
-+
-+        sprintf(buf, "%02hhx", value[i]);
-+    }
-+    str[SHA384_DIGEST_SIZE * 2] = '\0';
-+
-+    visit_type_str(v, name, &str_, errp);
-+}
-+
-+static void property_set_sha384(Object *obj, Visitor *v, const char *name,
-+                                    void *opaque, Error **errp)
-+{
-+    uint8_t *value = (uint8_t *)opaque;
-+    char* str;
-+    size_t len;
-+    size_t i;
-+
-+    if (!visit_type_str(v, name, &str, errp)) {
-+        goto err;
-+    }
-+
-+    len = strlen(str);
-+    if (len != SHA384_DIGEST_SIZE * 2) {
-+        error_setg(errp, "invalid length for sha348 hex string %s. "
-+                   "it must be 48 * 2 hex", name);
-+        goto err;
-+    }
-+
-+    for (i = 0; i < SHA384_DIGEST_SIZE; i++) {
-+        if (!qemu_isxdigit(str[i * 2]) || !qemu_isxdigit(str[i * 2 + 1])) {
-+            error_setg(errp, "invalid char for sha318 hex string %s at %c%c",
-+                       name, str[i * 2], str[i * 2 + 1]);
-+            goto err;
-+        }
-+
-+        if (sscanf(str + i * 2, "%02hhx", &value[i]) != 1) {
-+            error_setg(errp, "invalid format for sha318 hex string %s", name);
-+            goto err;
-+        }
-+    }
-+
-+err:
-+    g_free(str);
-+}
-+
-+ObjectProperty *
-+object_property_add_sha384(Object *obj, const char *name,
-+                           const uint8_t *v, ObjectPropertyFlags flags)
-+{
-+    ObjectPropertyAccessor *getter = NULL;
-+    ObjectPropertyAccessor *setter = NULL;
-+
-+    if ((flags & OBJ_PROP_FLAG_READ) == OBJ_PROP_FLAG_READ) {
-+        getter = property_get_sha384;
-+    }
-+
-+    if ((flags & OBJ_PROP_FLAG_WRITE) == OBJ_PROP_FLAG_WRITE) {
-+        setter = property_set_sha384;
-+    }
-+
-+    return object_property_add(obj, name, "sha384",
-+                               getter, setter, NULL, (void *)v);
-+}
-+
- void object_property_set_description(Object *obj, const char *name,
-                                      const char *description)
- {
+ static void tdx_guest_finalize(Object *obj)
+diff --git a/target/i386/kvm/tdx.h b/target/i386/kvm/tdx.h
+index 2fed27b3fb..4132d1be30 100644
+--- a/target/i386/kvm/tdx.h
++++ b/target/i386/kvm/tdx.h
+@@ -44,6 +44,9 @@ typedef struct TdxGuest {
+ 
+     bool initialized;
+     bool debug;
++    uint8_t mrconfigid[48];     /* sha348 digest */
++    uint8_t mrowner[48];        /* sha348 digest */
++    uint8_t mrownerconfig[48];  /* sha348 digest */
+ 
+     TdxFirmware fw;
+ } TdxGuest;
 -- 
 2.25.1
 
