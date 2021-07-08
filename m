@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830CE3C14E8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:13:57 +0200 (CEST)
-Received: from localhost ([::1]:50360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A693F3C14E9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:14:05 +0200 (CEST)
+Received: from localhost ([::1]:50564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Umq-000337-Ca
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:13:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34544)
+	id 1m1Umy-0003Af-LU
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1UkU-0000N4-H1
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44760)
+ id 1m1Uke-0000RB-2T
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:40 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55891)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1UkT-0002W2-3J
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:30 -0400
-Received: by mail-wr1-x436.google.com with SMTP id f9so2048832wrq.11
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:11:28 -0700 (PDT)
+ id 1m1UkZ-0002X5-I7
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:36 -0400
+Received: by mail-wm1-x332.google.com with SMTP id j34so4173114wms.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TMpl9R7BSbcYrV9zWMBsnPRqncVqlQYKmzFVEzY/Ahw=;
- b=ZaEutS8O+Id6Wa1Zw5A4K2/VRw43m8QYr1HBgjlOwpzE5VcvyUNQCswsDYPxMiB41Z
- Z2Po3ff36nMDoS2E2Wx8d9KkqJdZNbiI/8wNu/SVcyCNJORD8shfSj4C662MQpVFkM0o
- oNZOOOK6oBBYoKS06ruYxW9LQefJfUg4hKxHiVxR9NIWh7xfUvYhYf69KAKqimYg5oH5
- Ik5UU9Bp8kqaLOxt+eJIUxmSaOKxGXgujhUiroPS4nTFFRxgxiIxxHof96xCYzKfwpMx
- oeX6TVVvrvSRn7XSN5LW4C3JrXeeByX9ZUa6J/OrA8uQ3kF+7cqUoIr2s9w7fVx03wt3
- 5lpA==
+ bh=Ypcer0K+TjkxtkSvTRCI8hZzkA/fkAGIRyrUc0lGxkI=;
+ b=UhVwnFYYlx9j0cB/KgPqZdw8atp1GdVopJpfSpy6PUlOKvkhpC9w2OwTbx35JBdI7/
+ pmNB7EK9eayFk5PYQZc2ZyMPSLUqovnfINDrEJW5dG0ncMB+RSHGNB3EZzTXNqBZ25lz
+ DFJzmCVpwNlB9XLSAXVLN5fmglxzAtEDjSKPRI952LVH4vEjqvH74HhbqWO2Ip9Z1cuR
+ 0/QIcBkOs+MBF82nKW65ls+HlDbaVOm2iQM4kN/z4dsV3yqXC84sbcpLOPnExWIFqTWe
+ zysZssBTInYelYINb7kdi4YJ2MjszpEZl13MS0hDmij+ov3LsaZACi1ccChXAkqgKs6M
+ 0Trw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TMpl9R7BSbcYrV9zWMBsnPRqncVqlQYKmzFVEzY/Ahw=;
- b=SBrUPyGZVtsov/TsefdI2yUwOeyCYBzd9t7u4DGA4+YNB22gvd50F7k7CdT846Jn1O
- RkZtxE5WttzQLMD+JIyoGFL3b9Egn4tlhIg30Ks+HSDKri6uPm97gACpeDTkkrQUZNgs
- jVXBv9knp5APr1ahgLbq3xGpljlj0UKIDK+g+VzWPOuajSUxxXt3rqTfBP1K/bm20nVk
- R1gn5e1Pm9FRZNnyaasJAH/WNnv5944HzEJs2U+Uk3afZI9C5SVKogD1mwpE8StBUZ4/
- /0E4jQcARlGlgeCFOpEqNuS6pTS5uefA6sWpqhyK8hVSjUd40bLlGwYkLfbztjiUVUDm
- 9L8A==
-X-Gm-Message-State: AOAM530NwnnRdTZv7sUalDe2cYkXZOSTuY1YtwvUOcy9SQ8SgSqS5xxO
- hHFToIJ82iLnMprGd55NLQmGKtCbopc=
-X-Google-Smtp-Source: ABdhPJxLriAXhf1XrHEJC+lOg5svr32RLHLjthpwNGt7j79iUQSYY+UeBBg1pQsMfffWlKSIJ0wH9Q==
-X-Received: by 2002:a5d:68c2:: with SMTP id p2mr1235219wrw.27.1625753487484;
- Thu, 08 Jul 2021 07:11:27 -0700 (PDT)
+ bh=Ypcer0K+TjkxtkSvTRCI8hZzkA/fkAGIRyrUc0lGxkI=;
+ b=dXoGBVGQTzXL1ptOBitcevu0BZpw0Tm3A9q8L9MwSLyDEssqt2TaHf2nZgXFEONoPY
+ TW/nNLkUmRidzcKI4gK+FT1l/eD/DojqFA647NhK6Dl4+c9jMlGBuuCJ0qvO8QoKBhRS
+ MgTh/w/+19CSC0CmURzyfsH1L2IWgVj72hTZwrgUFI+zoEoX1+kJhSNa1wclCgYYH3Bz
+ gypEUjLsBX+9SOpubWH60JyM9WBYvZ6mgFgejATDfFEaAo36XggJJUtYIjd/xnpQ8RR0
+ oZzaNok1QSGlud6d6d3KucthwMWBrsozkM0A8WPnkEURrcGEL/k/EGRAtqLyjmZ1z77q
+ XLEw==
+X-Gm-Message-State: AOAM530hcoaDEXFlr7dK5yVRgLpb9yf9bc4442+ArYZomYx4OWiu5xPu
+ BIW6rslstE8V886e3GqeEviMHv9KC7M=
+X-Google-Smtp-Source: ABdhPJyAiBD6e99wQI4HuGetL1a9OP/OjxOumwRaW2A4WYIO+qKMiz+s1CEO4m58FN18TOYz3EeEXQ==
+X-Received: by 2002:a1c:f717:: with SMTP id v23mr5503725wmh.32.1625753492155; 
+ Thu, 08 Jul 2021 07:11:32 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id t16sm2448946wrp.44.2021.07.08.07.11.26
+ by smtp.gmail.com with ESMTPSA id t17sm2322651wrs.61.2021.07.08.07.11.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 07:11:27 -0700 (PDT)
+ Thu, 08 Jul 2021 07:11:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)
-Date: Thu,  8 Jul 2021 16:11:14 +0200
-Message-Id: <20210708141121.1731691-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/8] linux-user/sparc: Rename target_errno.h ->
+ target_errno_defs.h
+Date: Thu,  8 Jul 2021 16:11:15 +0200
+Message-Id: <20210708141121.1731691-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708141121.1731691-1-f4bug@amsat.org>
 References: <20210708141121.1731691-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -91,27 +92,46 @@ Cc: Taylor Simpson <tsimpson@quicinc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Affected targets: alpha, hppa, mips/64, sparc
+We want to have one generic target_errno.h (API to access target
+errno), and will add target errno definitions in target_errno_defs.h.
+The sparc target already have its errnos in an header, simply rename
+it.
 
-Fixes: fe8ed7d5794 ("linux-user: Handle ERFKILL and EHWPOISON")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/syscall.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/sparc/{target_errno.h => target_errno_defs.h} | 4 ++--
+ linux-user/sparc/target_syscall.h                        | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename linux-user/sparc/{target_errno.h => target_errno_defs.h} (99%)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2e826206d22..4842a1987b7 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -629,7 +629,7 @@ static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
- #ifdef ENOMSG
-     [ENOMSG]            = TARGET_ENOMSG,
- #endif
--#ifdef ERKFILL
-+#ifdef ERFKILL
-     [ERFKILL]           = TARGET_ERFKILL,
- #endif
- #ifdef EHWPOISON
+diff --git a/linux-user/sparc/target_errno.h b/linux-user/sparc/target_errno_defs.h
+similarity index 99%
+rename from linux-user/sparc/target_errno.h
+rename to linux-user/sparc/target_errno_defs.h
+index 9b846899cd4..e0008109867 100644
+--- a/linux-user/sparc/target_errno.h
++++ b/linux-user/sparc/target_errno_defs.h
+@@ -1,5 +1,5 @@
+-#ifndef SPARC_TARGET_ERRNO_H
+-#define SPARC_TARGET_ERRNO_H
++#ifndef SPARC_TARGET_ERRNO_DEFS_H
++#define SPARC_TARGET_ERRNO_DEFS_H
+ 
+ /* Target errno definitions taken from asm-sparc/errno.h */
+ #undef TARGET_EWOULDBLOCK
+diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+index 15d531f3897..dad501d008c 100644
+--- a/linux-user/sparc/target_syscall.h
++++ b/linux-user/sparc/target_syscall.h
+@@ -1,7 +1,7 @@
+ #ifndef SPARC_TARGET_SYSCALL_H
+ #define SPARC_TARGET_SYSCALL_H
+ 
+-#include "target_errno.h"
++#include "target_errno_defs.h"
+ 
+ #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+ struct target_pt_regs {
 -- 
 2.31.1
 
