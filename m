@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234B93C19A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:14:18 +0200 (CEST)
-Received: from localhost ([::1]:34222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E843C198F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:02:55 +0200 (CEST)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZTU-0002KV-Oy
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1m1ZIU-0001Mw-OC
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1Z1t-0005LP-AR
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:45:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38342)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Z74-0006Sq-KQ
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:51:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1Z1p-0005q9-8B
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:45:45 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1Z71-0007c4-LT
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:51:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625769939;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=MhDvBP7MGiLJaXCD1J3o+IeBcoQlotjFhKGYHN76s38=;
- b=Pa5jizw6sOkcSguGjJ+PIorr5xj0ByioqpvGA6/TWB4KMl2I1P7ZDz0qqFnNneKyVp+qeX
- HYKqpQv15Ip26MW11MmMwXrp9hV2BJP1o4TVwgfg3r21JoLxaM4dwPB4qHJ98tqbwFo9Rc
- msxUpOlrGDdthX0S1R1TtLme03guQZs=
+ s=mimecast20190719; t=1625770262;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=js6fRq2OnsawP3n5PFPg6EKAklR293goF1oiNwLQJzk=;
+ b=C6jjlXvxJwhSMYgNaO3Y9zBqVSii4etZHFghu0dPqrRb1mc6lexOYPFTUKIQP0jrmnsp5E
+ EsSJsGnzFA4OYv6ProIkMq1tzWFZ8l8qK8d0Kerfk/NjIB5Ezml6Losi331xIHQSliIH4h
+ RyyRqoZj/GZXjzoq6WTG0LLKpdrBqIE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-HvkQy2YpOS2pz8qQoryghA-1; Thu, 08 Jul 2021 14:45:36 -0400
-X-MC-Unique: HvkQy2YpOS2pz8qQoryghA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-562-xbcTbCDXPa-YBjOUAdZ5xg-1; Thu, 08 Jul 2021 14:51:01 -0400
+X-MC-Unique: xbcTbCDXPa-YBjOUAdZ5xg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F14780431F
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:45:35 +0000 (UTC)
-Received: from redhat.com (ovpn-114-169.ams2.redhat.com [10.36.114.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7446E19D9F;
- Thu,  8 Jul 2021 18:45:34 +0000 (UTC)
-Date: Thu, 8 Jul 2021 19:45:31 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cole Robinson <crobinso@redhat.com>
-Subject: Re: [PATCH] Move qemu.sasl to contrib/
-Message-ID: <YOdHyyEGzWzMWC0H@redhat.com>
-References: <d1a1e265dd846de6ca40406300d91cecfba69ef8.1625769570.git.crobinso@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F07598042F3
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:51:00 +0000 (UTC)
+Received: from redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4268210016F7;
+ Thu,  8 Jul 2021 18:50:57 +0000 (UTC)
+Date: Thu, 8 Jul 2021 13:50:54 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 08/18] crypto: add crypto tests for single block DES-ECB
+ and DES-CBC
+Message-ID: <20210708185054.gec3r7novpn7ogzm@redhat.com>
+References: <20210706095924.764117-1-berrange@redhat.com>
+ <20210706095924.764117-9-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d1a1e265dd846de6ca40406300d91cecfba69ef8.1625769570.git.crobinso@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210706095924.764117-9-berrange@redhat.com>
+User-Agent: NeoMutt/20210205-556-f84451-dirty
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -78,61 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 08, 2021 at 02:39:57PM -0400, Cole Robinson wrote:
-> It's not installed in any way, so seems like contrib/ material
+On Tue, Jul 06, 2021 at 10:59:14AM +0100, Daniel P. Berrangé wrote:
+> The GNUTLS crypto provider doesn't support DES-ECB, only DES-CBC.
 
-Not really.
+I had to go research these terms; DES-ECB is weaker (each block
+encrypted on its own), DES-CBC is stronger (the encryption of later
+blocks depend on the earlier text).  Makes sense that GNUTLS has
+dropped support for the weaker form.
 
-Contrib is stuff that is included on an ad-hoc basis with no
-commitment to support and no guarantee that it is working at
-all.  Yes, there is some stuff in contrib/ that doesn't
-belong there based on this definition, and should be moved
-out.
+> We can use the latter to simulate the former, if we encrypt only
+> 1 block (8 bytes) of data at a time, using a all-zeros IV. This
 
-The SASL config is most definitely supported, so doesn't
-belong in there.
+using an all-zeros
+
+> is a very inefficient way to use the QCryptoCipher APIs, but
+> since the VNC authentication challenge is only 16 bytes, this
+> is acceptable. No other part of QEMU should be using DES. This
+> test case demonstrates the equivalence of ECB and CBC for the
+> single-block case.
+
+Agreed - both on the inefficiency (we're throwing away all the work
+spent on chaining the later blocks - thankfully there is only one such
+block in our 16-byte challenge), and on the fact that DES should be
+avoided where possible (our sole use is due to VNC's less-than-stellar
+"security").
 
 > 
-> Signed-off-by: Cole Robinson <crobinso@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
-> Or should this be installed to /etc/sasl2 ?
-> 
->  MAINTAINERS                    | 2 +-
->  qemu.sasl => contrib/qemu.sasl | 0
->  2 files changed, 1 insertion(+), 1 deletion(-)
->  rename qemu.sasl => contrib/qemu.sasl (100%)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 684142e12e..2ec1c362f0 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2768,7 +2768,7 @@ F: tests/unit/test-crypto-*
->  F: tests/bench/benchmark-crypto-*
->  F: tests/unit/crypto-tls-*
->  F: tests/unit/pkix_asn1_tab.c
-> -F: qemu.sasl
-> +F: contrib/qemu.sasl
->  
->  Coroutines
->  M: Stefan Hajnoczi <stefanha@redhat.com>
-> diff --git a/qemu.sasl b/contrib/qemu.sasl
-> similarity index 100%
-> rename from qemu.sasl
-> rename to contrib/qemu.sasl
-> -- 
-> 2.31.1
-> 
+>  tests/unit/test-crypto-cipher.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
 
-Regards,
-Daniel
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
