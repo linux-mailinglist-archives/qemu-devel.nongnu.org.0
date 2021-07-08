@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788803BF7DA
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:57:35 +0200 (CEST)
-Received: from localhost ([::1]:37700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C92F3BF7D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:57:25 +0200 (CEST)
+Received: from localhost ([::1]:36794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Qmk-0006Md-Fv
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:57:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58542)
+	id 1m1Qma-0005hu-Ae
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:57:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1QjN-0000Q1-T7
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:54:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1QjK-0005Iz-HR
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:54:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625738042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RCYbme4UFgQccPlQ7jM6iCudvzHrSKM3nTlgSxu0LYg=;
- b=MCoEuGl8CIPLCHFvhKLMbRHTFlX5TVLFQPt/KOkn7p8dYwxJks6e1gyeHOuhOKl6C2aEQG
- 8oGJ1pKzs99/jxNxEKmOT6XAn4BzVdyW3AJ9DqMPZqiYFIWRxp5E5QSRytsnuL9Y62u/LM
- GrdDXRUf6BtOV5HO2i3uT9HWIMdS9M0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-qO567luNOA-XgCUSS1qkbw-1; Thu, 08 Jul 2021 05:54:00 -0400
-X-MC-Unique: qO567luNOA-XgCUSS1qkbw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C022B8030B0;
- Thu,  8 Jul 2021 09:53:59 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-112-130.ams2.redhat.com [10.36.112.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95BE25D9DD;
- Thu,  8 Jul 2021 09:53:57 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] virtio-balloon: free page hinting cleanups
-Date: Thu,  8 Jul 2021 11:53:39 +0200
-Message-Id: <20210708095339.20274-3-david@redhat.com>
-In-Reply-To: <20210708095339.20274-1-david@redhat.com>
-References: <20210708095339.20274-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1QkN-00031x-Hu
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:55:07 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1QkL-0005Zp-Jx
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:55:07 -0400
+Received: by mail-ed1-x530.google.com with SMTP id eb14so7740415edb.0
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 02:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4kL95hQeusGGcbtlWdnsw8Ntes8Hfu93UtZswW+5AOA=;
+ b=yZv4HKXIsK3SwqCqqd70yocaa/sE1taVawKi55cK3zMGAOFYDH0K2NvBjNgwY4x0TR
+ PzO48VoDln5WzKIL1sRk7ijCAadRz+nhEZlCfc2SpUfmfCTRUBLJIIzT5fM3d/7z/I9U
+ QtOBmG3H/UScdL1/7LG2KC0W/UC5EYsHyCZXUQVWZaATwDzML/9GzDu2AFy/HcEA/tg8
+ SMcfIe64NjOMVUEbaOrFRsKlO06qUHbyul7PxmztBjQ9MHhYjuUwTnSu+iDImiBc2Bl9
+ ZF7vOu2PXU8ME2pIJ7dEsWaM6/XnCn2hINLQ5CrYds8E1j8s0i6CdmDSBXXKpYtEw2N0
+ wIRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4kL95hQeusGGcbtlWdnsw8Ntes8Hfu93UtZswW+5AOA=;
+ b=X5HkYI0J4jSQ0qghQ7O3vchFndwdLH1brJT8VLeNrZIARSnYXL+INT57aMV1lE2wpq
+ Z31s4JKu6GHIKmxuhhhBkO8dZ8bG/fwq2ynv0ISB+0YVNsANFAwiLY8FMLWpTDYlxSoH
+ 9ODcdImxlMymEefBWb31nAqkn9mep4Hju/NyClj23rU6n1DktVhKpJgQb0o13rm3M3mm
+ xBzPEzwJ0B+DK0gncLOOnHT6BPBVLMVGICLG4a6piOF83Y00VUuazmo62Ah7LRD7arak
+ HweISTi6mxvQ4BQYfzmz44MfN7IMqiVctseDRypuCu5xKkWeriMTTjOQkXOd3YE4UWhH
+ h5mQ==
+X-Gm-Message-State: AOAM533GEeMXtn/Xn8NaW7r6Ga5rsVI14FEQK8guZJMSmLftjx+pJ+vZ
+ fa2vqcy9gb1MwsRyRE6ha2F8N3LKBS0DXOmIVp5NEQ==
+X-Google-Smtp-Source: ABdhPJxYi7LdkzXHKylKum3xTMy9T68Zz7/RV59B/nKmWt9sb98tfSwOF07vgWzf28N3r4bKGAZn43ArfsVqaNerawY=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr15554515edy.44.1625738104087; 
+ Thu, 08 Jul 2021 02:55:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210706211432.31902-1-rebecca@nuviainc.com>
+In-Reply-To: <20210706211432.31902-1-rebecca@nuviainc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Jul 2021 10:54:25 +0100
+Message-ID: <CAFEAcA-m+A4jpaaauDvN2FQgjfL9X30hzhVmWFJ0xJ78O7a__g@mail.gmail.com>
+Subject: Re: [trivial PATCH 1/1] hw/intc: Improve formatting of MEMTX_ERROR
+ guest error message
+To: Rebecca Cran <rebecca@nuviainc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,102 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>, Wei Wang <wei.w.wang@intel.com>,
- Peter Xu <peterx@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's compress the code a bit to improve readability. We can drop the
-vm_running check in virtio_balloon_free_page_start() as it's already
-properly checked in the single caller.
+On Tue, 6 Jul 2021 at 22:14, Rebecca Cran <rebecca@nuviainc.com> wrote:
+>
+> Add a space in the message printed when gicr_read*/gicr_write* returns
+> MEMTX_ERROR in arm_gicv3_redist.c.
+>
+> Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
+> ---
+>  hw/intc/arm_gicv3_redist.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Cc: Wei Wang <wei.w.wang@intel.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Alexander Duyck <alexander.duyck@gmail.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- hw/virtio/virtio-balloon.c | 28 ++++++++--------------------
- 1 file changed, 8 insertions(+), 20 deletions(-)
+Applied to target-arm.next, thanks.
 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index ae7867a8db..5a69dce35d 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -534,22 +534,18 @@ static bool get_free_page_hints(VirtIOBalloon *dev)
-         if (dev->free_page_hint_status == FREE_PAGE_HINT_S_REQUESTED &&
-             id == dev->free_page_hint_cmd_id) {
-             dev->free_page_hint_status = FREE_PAGE_HINT_S_START;
--        } else {
-+        } else if (dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
-             /*
-              * Stop the optimization only when it has started. This
-              * avoids a stale stop sign for the previous command.
-              */
--            if (dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
--                dev->free_page_hint_status = FREE_PAGE_HINT_S_STOP;
--            }
-+            dev->free_page_hint_status = FREE_PAGE_HINT_S_STOP;
-         }
-     }
- 
--    if (elem->in_num) {
--        if (dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
--            qemu_guest_free_page_hint(elem->in_sg[0].iov_base,
--                                      elem->in_sg[0].iov_len);
--        }
-+    if (elem->in_num && dev->free_page_hint_status == FREE_PAGE_HINT_S_START) {
-+        qemu_guest_free_page_hint(elem->in_sg[0].iov_base,
-+                                  elem->in_sg[0].iov_len);
-     }
- 
- out:
-@@ -592,16 +588,10 @@ static void virtio_balloon_free_page_start(VirtIOBalloon *s)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(s);
- 
--    /* For the stop and copy phase, we don't need to start the optimization */
--    if (!vdev->vm_running) {
--        return;
--    }
--
-     qemu_mutex_lock(&s->free_page_lock);
- 
-     if (s->free_page_hint_cmd_id == UINT_MAX) {
--        s->free_page_hint_cmd_id =
--                       VIRTIO_BALLOON_FREE_PAGE_HINT_CMD_ID_MIN;
-+        s->free_page_hint_cmd_id = VIRTIO_BALLOON_FREE_PAGE_HINT_CMD_ID_MIN;
-     } else {
-         s->free_page_hint_cmd_id++;
-     }
-@@ -649,8 +639,7 @@ static void virtio_balloon_free_page_done(VirtIOBalloon *s)
- static int
- virtio_balloon_free_page_hint_notify(NotifierWithReturn *n, void *data)
- {
--    VirtIOBalloon *dev = container_of(n, VirtIOBalloon,
--                                      free_page_hint_notify);
-+    VirtIOBalloon *dev = container_of(n, VirtIOBalloon, free_page_hint_notify);
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     PrecopyNotifyData *pnd = data;
- 
-@@ -919,8 +908,7 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
-     s->dvq = virtio_add_queue(vdev, 128, virtio_balloon_handle_output);
-     s->svq = virtio_add_queue(vdev, 128, virtio_balloon_receive_stats);
- 
--    if (virtio_has_feature(s->host_features,
--                           VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
-+    if (virtio_has_feature(s->host_features, VIRTIO_BALLOON_F_FREE_PAGE_HINT)) {
-         s->free_page_vq = virtio_add_queue(vdev, VIRTQUEUE_MAX_SIZE,
-                                            virtio_balloon_handle_free_page_vq);
-         precopy_add_notifier(&s->free_page_hint_notify);
--- 
-2.31.1
-
+-- PMM
 
