@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930633C1920
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:21:26 +0200 (CEST)
-Received: from localhost ([::1]:42766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76D9F3C1925
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:24:25 +0200 (CEST)
+Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1YeL-0001sf-KA
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52804)
+	id 1m1YhE-0006pM-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3NTXnYAYKCko5u5643s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--titusr.bounces.google.com>)
- id 1m1Xn1-000085-5O
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:26:19 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:38696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3NTXnYAYKCko5u5643s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--titusr.bounces.google.com>)
- id 1m1Xmw-0005lP-S2
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:26:18 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- x84-20020a2531570000b029055d47682463so6293902ybx.5
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:26:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=J3rhjoYKGEuwWrg7Wi4lk+VNKC07bHbA7CaMm4leJJw=;
- b=m3f01T3NeijTJjeWHUvLpp0CM8VqIuPEik2C4bqV3NtcttSCgynLlw9JY6X/rILqcE
- rpikoorU+891EFHX0ROVmRBNYwWiHHjrTIcEGeicOr7QD/uNEXrte6s2RuxV5/milWP/
- ymGC0P1RdUNncbaNTadSlMgsdT4q1T9LlFRSQneeYKUJwgrkY0xwRXzNrMjFpYXz10DH
- tLe5XRhthnDSJuYBNyt9HnF/7UUjR9RYrIam0ycz5Zjn1sRaSLV6+u2lpPccPXjiJVaT
- YCjIQdGbiTltn7vp3PfrsZgdfb/CSFnb90gLwPObDq07N4s/d0cDNcryqSOOqHxrpehG
- 3cjQ==
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1m1Xo8-0001tN-Pd
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:27:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1m1Xo4-000659-3X
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:27:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625765242;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cIeT4HtQSHZE6JnM7XI5/TL86CO6zZD8BOqdgh85jl0=;
+ b=gSWxQOMpQj4B4DDSmqPAF6Z25/Ulxgj/iGdyBTDk0NaOz0fX/2KY+7LI6v1Ok9fvUTH8b6
+ smCDJEruHzmNh5TSKQmPNWfucRZVFrZbDcFqareIfWEDvniBn2JfBl4UcANTVtMluDjyGm
+ 5iDMbVwgchqxGCmypaig9EM1rkWoqRQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-BhWW4bv5Od62L8ydBux3bg-1; Thu, 08 Jul 2021 13:27:21 -0400
+X-MC-Unique: BhWW4bv5Od62L8ydBux3bg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i10-20020a5d55ca0000b029013b976502b6so817422wrw.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:27:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=J3rhjoYKGEuwWrg7Wi4lk+VNKC07bHbA7CaMm4leJJw=;
- b=K5+PGQzYsuxJvdGx3gTIa5aT4YJPoH6ZUm9D+AhRQtmO2Yy+mF9OMoyZfZgbJY/rZS
- wQ5dlg2VUCCvN1PAA9GNCEvhPiiRqRjZgNEk85pIM8vR/qrrQioYrOlZ+r7aFs84Qlvf
- HTA0fTgcuegXlYEf1Hf9kpnf+cQPgO5XhxYq8zBzoXHpzJA9k6YH5Lu/m44isI1bRgEt
- G+fC/j5D1rGivN5+dyxrnkJ2j8W99S87+dig3Us587k6VEGrMmMcXwoIviwoQszw3/SL
- c9H8hxFsqa2EczxTH1I2weqvaeX4VMDtTWP5SjmbmzPujgdVOC9+kPI558MG0eWvt+Ei
- QIcw==
-X-Gm-Message-State: AOAM533pJQlR5fYPpWR7r7JFHgJ2hW39IZSF5biojHaCsPmw5yUAl8yO
- MchZYIu21Rv2RXf5sPzD1mFQyBFASB8=
-X-Google-Smtp-Source: ABdhPJy0D2oE95M1DvlJ0mhJ+loUgH8QhpFxuTduZpeit9A5DOurY8nbj0uPWKOc92ycsyKhwAREZwxsKW0=
-X-Received: from titusr.svl.corp.google.com
- ([2620:15c:2c5:13:6b42:285b:df15:bf])
- (user=titusr job=sendgmr) by 2002:a25:aa09:: with SMTP id
- s9mr41614514ybi.165.1625765173407; 
- Thu, 08 Jul 2021 10:26:13 -0700 (PDT)
-Date: Thu,  8 Jul 2021 10:25:56 -0700
-In-Reply-To: <20210708172556.1868139-1-titusr@google.com>
-Message-Id: <20210708172556.1868139-6-titusr@google.com>
-Mime-Version: 1.0
-References: <20210708172556.1868139-1-titusr@google.com>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890-goog
-Subject: [PATCH v5 5/5] tests/qtest: add tests for MAX34451 device model
-From: Titus Rwantare <titusr@google.com>
-To: Corey Minyard <minyard@acm.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Titus Rwantare <titusr@google.com>, Joel Stanley <joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3NTXnYAYKCko5u5643s00sxq.o0y2qy6-pq7qxz0zsz6.03s@flex--titusr.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -100
-X-Spam_score: -10.1
-X-Spam_bar: ----------
-X-Spam_report: (-10.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.5,
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cIeT4HtQSHZE6JnM7XI5/TL86CO6zZD8BOqdgh85jl0=;
+ b=P1jCCa41e+dgeCmaLZA/eN49V4L6hZo5wPBZBoUFmhT5jGlBSCzfEsDyXrLUT9p8Fr
+ Am/4NvRJbJLnkLB9Ut1cogDDt6NF1aq33qXsNU/5b6H7kg5C9q3kp0AlKWtOsLwzDiH/
+ hbL3ZrPk0/n4McmToS6gA6oOpsBPncnnv539xKisvvPTkDObU5X9+Z4GUCQ6+nW/c/3H
+ CPXdN8AdsT0aqiZFxeazBJ18/tsq+76gOMJnj8OCtNo94BNCA0vNnwZs1vKPn8Cb+HU8
+ 9D8B848GAvIoifFSiaLRstyMJMRmDJmoGSw5EsJJFJ4M+2/qVuJaw3U2ECzeDm0BwfXs
+ uL1Q==
+X-Gm-Message-State: AOAM531EY4us0h6hBOQl+BbliAF3iNPQqn8dPfunmlZva8Ofz/VXHw0i
+ obf/FyZylMdY5gnSWGwtvUFekqPAXq8UA7zsPgxQP34UtFfiUh12c691FhwncXhsCDe4l6spQGa
+ 5xGeh5PM5NnRkTDORrRIqgPuvbdSAiTSD3Xha5AThGZlt/dcYurfbbmGxR+CYN+pV
+X-Received: by 2002:a7b:cb8b:: with SMTP id m11mr6624596wmi.106.1625765240187; 
+ Thu, 08 Jul 2021 10:27:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyXl2z3g88BrBqdZS39SCHbeHkofRuyhZOLNfUezEL0JOhoAEhJHzn8z2tAmHdjvoADAbh2xg==
+X-Received: by 2002:a7b:cb8b:: with SMTP id m11mr6624573wmi.106.1625765239942; 
+ Thu, 08 Jul 2021 10:27:19 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id l9sm2848408wrp.14.2021.07.08.10.27.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 10:27:19 -0700 (PDT)
+Subject: Re: [PATCH v5 02/10] hw/intc: GICv3 ITS register definitions added
+From: Eric Auger <eauger@redhat.com>
+To: Shashi Mallela <shashi.mallela@linaro.org>, peter.maydell@linaro.org,
+ leif@nuviainc.com, rad@semihalf.com, mst@redhat.com, imammedo@redhat.com
+References: <20210630153156.9421-1-shashi.mallela@linaro.org>
+ <20210630153156.9421-3-shashi.mallela@linaro.org>
+ <ff377aaf-2060-7d0a-fd0b-b4ee535181f6@redhat.com>
+Message-ID: <40478f50-4193-18dd-db27-0f40be7ed1f4@redhat.com>
+Date: Thu, 8 Jul 2021 19:27:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
+MIME-Version: 1.0
+In-Reply-To: <ff377aaf-2060-7d0a-fd0b-b4ee535181f6@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,372 +101,607 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
- tests/qtest/max34451-test.c | 336 ++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build     |   1 +
- 2 files changed, 337 insertions(+)
- create mode 100644 tests/qtest/max34451-test.c
+Hi Shashi,
 
-diff --git a/tests/qtest/max34451-test.c b/tests/qtest/max34451-test.c
-new file mode 100644
-index 0000000000..0c98d0764c
---- /dev/null
-+++ b/tests/qtest/max34451-test.c
-@@ -0,0 +1,336 @@
-+/*
-+ * QTests for the MAX34451 device
-+ *
-+ * Copyright 2021 Google LLC
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/i2c/pmbus_device.h"
-+#include "libqtest-single.h"
-+#include "libqos/qgraph.h"
-+#include "libqos/i2c.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qnum.h"
-+#include "qemu/bitops.h"
-+
-+#define TEST_ID "max34451-test"
-+#define TEST_ADDR (0x4e)
-+
-+#define MAX34451_MFR_VOUT_PEAK          0xD4
-+#define MAX34451_MFR_IOUT_PEAK          0xD5
-+#define MAX34451_MFR_TEMPERATURE_PEAK   0xD6
-+#define MAX34451_MFR_VOUT_MIN           0xD7
-+
-+#define DEFAULT_VOUT                    0
-+#define DEFAULT_UV_LIMIT                0
-+#define DEFAULT_TEMPERATURE             2500
-+#define DEFAULT_SCALE                   0x7FFF
-+#define DEFAULT_OV_LIMIT                0x7FFF
-+#define DEFAULT_OC_LIMIT                0x7FFF
-+#define DEFAULT_OT_LIMIT                0x7FFF
-+#define DEFAULT_VMIN                    0x7FFF
-+#define DEFAULT_TON_FAULT_LIMIT         0xFFFF
-+#define DEFAULT_CHANNEL_CONFIG          0x20
-+#define DEFAULT_TEXT                    0x20
-+
-+#define MAX34451_NUM_PWR_DEVICES        16
-+#define MAX34451_NUM_TEMP_DEVICES       5
-+
-+
-+static uint16_t qmp_max34451_get(const char *id, const char *property)
-+{
-+    QDict *response;
-+    uint16_t ret;
-+    response = qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, "
-+                   "'property': %s } }", id, property);
-+    g_assert(qdict_haskey(response, "return"));
-+    ret = qnum_get_uint(qobject_to(QNum, qdict_get(response, "return")));
-+    qobject_unref(response);
-+    return ret;
-+}
-+
-+static void qmp_max34451_set(const char *id,
-+                             const char *property,
-+                             uint16_t value)
-+{
-+    QDict *response;
-+
-+    response = qmp("{ 'execute': 'qom-set', 'arguments': { 'path': %s, "
-+                   "'property': %s, 'value': %u } }",
-+                   id, property, value);
-+    g_assert(qdict_haskey(response, "return"));
-+    qobject_unref(response);
-+}
-+
-+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is big endian */
-+static uint16_t max34451_i2c_get16(QI2CDevice *i2cdev, uint8_t reg)
-+{
-+    uint8_t resp[2];
-+    i2c_read_block(i2cdev, reg, resp, sizeof(resp));
-+    return (resp[1] << 8) | resp[0];
-+}
-+
-+/* PMBus commands are little endian vs i2c_set16 in i2c.h which is big endian */
-+static void max34451_i2c_set16(QI2CDevice *i2cdev, uint8_t reg, uint16_t value)
-+{
-+    uint8_t data[2];
-+
-+    data[0] = value & 255;
-+    data[1] = value >> 8;
-+    i2c_write_block(i2cdev, reg, data, sizeof(data));
-+}
-+
-+/* Test default values */
-+static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    /* Default temperatures and temperature fault limits */
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        path = g_strdup_printf("temperature[%d]", i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmpuint(value, ==, DEFAULT_TEMPERATURE);
-+        g_free(path);
-+
-+        /* Temperature sensors start on page 16 */
-+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_TEMPERATURE);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_OT_FAULT_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OT_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_OT_WARN_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OT_LIMIT);
-+    }
-+
-+    /* Default voltages and fault limits */
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        path = g_strdup_printf("vout[%d]", i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmpuint(value, ==, DEFAULT_VOUT);
-+        g_free(path);
-+
-+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_VOUT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_OV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_UV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_UV_LIMIT);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_MIN);
-+        g_assert_cmpuint(i2c_value, ==, DEFAULT_VMIN);
-+    }
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_VOUT_MODE);
-+    g_assert_cmphex(i2c_value, ==, 0x40); /* DIRECT mode */
-+
-+    i2c_value = i2c_get8(i2cdev, PMBUS_REVISION);
-+    g_assert_cmphex(i2c_value, ==, 0x11); /* Rev 1.1 */
-+}
-+
-+/* Test setting temperature */
-+static void test_temperature(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        path = g_strdup_printf("temperature[%d]", i);
-+        qmp_max34451_set(TEST_ID, path, 0xBE00 + i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmphex(value, ==, 0xBE00 + i);
-+        g_free(path);
-+    }
-+
-+    /* compare qmp read with i2c read separately */
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        /* temperature[0] is on page 16 */
-+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+        g_assert_cmphex(i2c_value, ==, 0xBE00 + i);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_TEMPERATURE_PEAK);
-+        g_assert_cmphex(i2c_value, ==, 0xBE00 + i);
-+    }
-+}
-+
-+/* Test setting voltage */
-+static void test_voltage(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t value, i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        path = g_strdup_printf("vout[%d]", i);
-+        qmp_max34451_set(TEST_ID, path, 3000 + i);
-+        value = qmp_max34451_get(TEST_ID, path);
-+        g_assert_cmpuint(value, ==, 3000 + i);
-+        g_free(path);
-+    }
-+
-+    /* compare qmp read with i2c read separately */
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+        g_assert_cmpuint(i2c_value, ==, 3000 + i);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_PEAK);
-+        g_assert_cmpuint(i2c_value, ==, 3000 + i);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, MAX34451_MFR_VOUT_MIN);
-+        g_assert_cmpuint(i2c_value, ==, 3000 + i);
-+    }
-+}
-+
-+/* Test setting some read/write registers */
-+static void test_rw_regs(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    i2c_set8(i2cdev, PMBUS_PAGE, 11);
-+    i2c_value = i2c_get8(i2cdev, PMBUS_PAGE);
-+    g_assert_cmpuint(i2c_value, ==, 11);
-+
-+    i2c_set8(i2cdev, PMBUS_OPERATION, 1);
-+    i2c_value = i2c_get8(i2cdev, PMBUS_OPERATION);
-+    g_assert_cmpuint(i2c_value, ==, 1);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_MARGIN_HIGH, 5000);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_HIGH);
-+    g_assert_cmpuint(i2c_value, ==, 5000);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_MARGIN_LOW, 4000);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_MARGIN_LOW);
-+    g_assert_cmpuint(i2c_value, ==, 4000);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT, 5500);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5500);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT, 5600);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_OV_WARN_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5600);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT, 5700);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_FAULT_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5700);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT, 5800);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_VOUT_UV_WARN_LIMIT);
-+    g_assert_cmpuint(i2c_value, ==, 5800);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_POWER_GOOD_ON, 5900);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_POWER_GOOD_ON);
-+    g_assert_cmpuint(i2c_value, ==, 5900);
-+
-+    max34451_i2c_set16(i2cdev, PMBUS_POWER_GOOD_OFF, 6100);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_POWER_GOOD_OFF);
-+    g_assert_cmpuint(i2c_value, ==, 6100);
-+}
-+
-+/* Test that Read only registers can't be written */
-+static void test_ro_regs(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value, i2c_init_value;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+
-+    i2c_set8(i2cdev, PMBUS_PAGE, 1); /* move to page 1 */
-+    i2c_init_value = i2c_get8(i2cdev, PMBUS_CAPABILITY);
-+    i2c_set8(i2cdev, PMBUS_CAPABILITY, 0xF9);
-+    i2c_value = i2c_get8(i2cdev, PMBUS_CAPABILITY);
-+    g_assert_cmpuint(i2c_init_value, ==, i2c_value);
-+
-+    i2c_init_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+    max34451_i2c_set16(i2cdev, PMBUS_READ_VOUT, 0xDEAD);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_VOUT);
-+    g_assert_cmpuint(i2c_init_value, ==, i2c_value);
-+    g_assert_cmphex(i2c_value, !=, 0xDEAD);
-+
-+    i2c_set8(i2cdev, PMBUS_PAGE, 16); /* move to page 16 */
-+    i2c_init_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+    max34451_i2c_set16(i2cdev, PMBUS_READ_TEMPERATURE_1, 0xABBA);
-+    i2c_value = max34451_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+    g_assert_cmpuint(i2c_init_value, ==, i2c_value);
-+    g_assert_cmphex(i2c_value, !=, 0xABBA);
-+}
-+
-+/* test over voltage faults */
-+static void test_ov_faults(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value;
-+    uint8_t i2c_byte;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+    /* Test ov fault reporting */
-+    for (int i = 0; i < MAX34451_NUM_PWR_DEVICES; i++) {
-+        path = g_strdup_printf("vout[%d]", i);
-+        i2c_set8(i2cdev, PMBUS_PAGE, i);
-+        max34451_i2c_set16(i2cdev, PMBUS_VOUT_OV_FAULT_LIMIT, 5000);
-+        qmp_max34451_set(TEST_ID, path, 5100);
-+        g_free(path);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-+        i2c_byte = i2c_get8(i2cdev, PMBUS_STATUS_VOUT);
-+        g_assert_true((i2c_value & PB_STATUS_VOUT) != 0);
-+        g_assert_true((i2c_byte & PB_STATUS_VOUT_OV_FAULT) != 0);
-+    }
-+}
-+
-+/* test over temperature faults */
-+static void test_ot_faults(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    uint16_t i2c_value;
-+    uint8_t i2c_byte;
-+    QI2CDevice *i2cdev = (QI2CDevice *)obj;
-+    char *path;
-+
-+    for (int i = 0; i < MAX34451_NUM_TEMP_DEVICES; i++) {
-+        path = g_strdup_printf("temperature[%d]", i);
-+        i2c_set8(i2cdev, PMBUS_PAGE, i + 16);
-+        max34451_i2c_set16(i2cdev, PMBUS_OT_FAULT_LIMIT, 6000);
-+        qmp_max34451_set(TEST_ID, path, 6100);
-+        g_free(path);
-+
-+        i2c_value = max34451_i2c_get16(i2cdev, PMBUS_STATUS_WORD);
-+        i2c_byte = i2c_get8(i2cdev, PMBUS_STATUS_TEMPERATURE);
-+        g_assert_true((i2c_value & PB_STATUS_TEMPERATURE) != 0);
-+        g_assert_true((i2c_byte & PB_STATUS_OT_FAULT) != 0);
-+    }
-+}
-+
-+static void max34451_register_nodes(void)
-+{
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "id=" TEST_ID ",address=0x4e"
-+    };
-+    add_qi2c_address(&opts, &(QI2CAddress) { TEST_ADDR });
-+
-+    qos_node_create_driver("max34451", i2c_device_create);
-+    qos_node_consumes("max34451", "i2c-bus", &opts);
-+
-+    qos_add_test("test_defaults", "max34451", test_defaults, NULL);
-+    qos_add_test("test_temperature", "max34451", test_temperature, NULL);
-+    qos_add_test("test_voltage", "max34451", test_voltage, NULL);
-+    qos_add_test("test_rw_regs", "max34451", test_rw_regs, NULL);
-+    qos_add_test("test_ro_regs", "max34451", test_ro_regs, NULL);
-+    qos_add_test("test_ov_faults", "max34451", test_ov_faults, NULL);
-+    qos_add_test("test_ot_faults", "max34451", test_ot_faults, NULL);
-+}
-+libqos_init(max34451_register_nodes);
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 99040885fb..48eb646889 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -208,6 +208,7 @@ qos_test_ss.add(
-   'eepro100-test.c',
-   'es1370-test.c',
-   'ipoctal232-test.c',
-+  'max34451-test.c',
-   'megasas-test.c',
-   'ne2000-test.c',
-   'tulip-test.c',
--- 
-2.32.0.93.g670b81a890-goog
+On 7/6/21 11:29 AM, Eric Auger wrote:
+> Hi,
+> 
+> On 6/30/21 5:31 PM, Shashi Mallela wrote:
+>> Defined descriptors for ITS device table,collection table and ITS
+>> command queue entities.Implemented register read/write functions,
+>> extract ITS table parameters and command queue parameters,extended
+>> gicv3 common to capture qemu address space(which host the ITS table
+>> platform memories required for subsequent ITS processing) and
+>> initialize the same in ITS device.
+>>
+>> Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
+>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>> ---
+>>  hw/intc/arm_gicv3_its.c                | 376 +++++++++++++++++++++++++
+>>  hw/intc/gicv3_internal.h               |  31 +-
+>>  include/hw/intc/arm_gicv3_common.h     |   3 +
+>>  include/hw/intc/arm_gicv3_its_common.h |  23 ++
+>>  4 files changed, 432 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+>> index 545cda3665..2d786a1e21 100644
+>> --- a/hw/intc/arm_gicv3_its.c
+>> +++ b/hw/intc/arm_gicv3_its.c
+>> @@ -28,6 +28,160 @@ struct GICv3ITSClass {
+>>      void (*parent_reset)(DeviceState *dev);
+>>  };
+>>  
+>> +static uint64_t baser_base_addr(uint64_t value, uint32_t page_sz)
+>> +{
+>> +    uint64_t result = 0;
+>> +
+>> +    switch (page_sz) {
+>> +    case GITS_PAGE_SIZE_4K:
+>> +    case GITS_PAGE_SIZE_16K:
+>> +        result = FIELD_EX64(value, GITS_BASER, PHYADDR);
+> << 12 ?
+Did you check that? Seems unchanged in v6?
+
+Thanks
+
+Eric
+>> +        break;
+>> +
+>> +    case GITS_PAGE_SIZE_64K:
+>> +        result = FIELD_EX64(value, GITS_BASER, PHYADDRL_64K) << 16;
+>> +        result |= FIELD_EX64(value, GITS_BASER, PHYADDRH_64K) << 48;
+>> +        break;
+>> +
+>> +    default:
+>> +        break;
+>> +    }
+>> +    return result;
+>> +}
+>> +
+>> +/*
+>> + * This function extracts the ITS Device and Collection table specific
+>> + * parameters (like base_addr, size etc) from GITS_BASER register.
+>> + * It is called during ITS enable and also during post_load migration
+>> + */
+>> +static void extract_table_params(GICv3ITSState *s)
+>> +{
+>> +    uint16_t num_pages = 0;
+>> +    uint8_t  page_sz_type;
+>> +    uint8_t type;
+>> +    uint32_t page_sz = 0;
+>> +    uint64_t value;
+>> +
+>> +    for (int i = 0; i < 8; i++) {
+>> +        value = s->baser[i];
+>> +
+>> +        if (!value) {
+>> +            continue;
+>> +        }
+>> +
+>> +        page_sz_type = FIELD_EX64(value, GITS_BASER, PAGESIZE);
+>> +
+>> +        switch (page_sz_type) {
+>> +        case 0:
+>> +            page_sz = GITS_PAGE_SIZE_4K;
+>> +            break;
+>> +
+>> +        case 1:
+>> +            page_sz = GITS_PAGE_SIZE_16K;
+>> +            break;
+>> +
+>> +        case 2:
+>> +        case 3:
+>> +            page_sz = GITS_PAGE_SIZE_64K;
+>> +            break;
+>> +
+>> +        default:
+>> +            g_assert_not_reached();
+>> +        }
+>> +
+>> +        num_pages = FIELD_EX64(value, GITS_BASER, SIZE) + 1;
+>> +
+>> +        type = FIELD_EX64(value, GITS_BASER, TYPE);
+>> +
+>> +        switch (type) {
+>> +
+>> +        case GITS_ITT_TYPE_DEVICE:
+>> +            memset(&s->dt, 0 , sizeof(s->dt));
+>> +            s->dt.valid = FIELD_EX64(value, GITS_BASER, VALID);
+>> +
+>> +            if (!s->dt.valid) {
+>> +                return;
+>> +            }
+>> +
+>> +            s->dt.page_sz = page_sz;
+>> +            s->dt.indirect = FIELD_EX64(value, GITS_BASER, INDIRECT);
+>> +            s->dt.entry_sz = FIELD_EX64(value, GITS_BASER, ENTRYSIZE);
+>> +
+>> +            if (!s->dt.indirect) {
+>> +                s->dt.max_entries = (num_pages * page_sz) / s->dt.entry_sz;
+>> +            } else {
+>> +                s->dt.max_entries = (((num_pages * page_sz) /
+>> +                                     L1TABLE_ENTRY_SIZE) *
+>> +                                     (page_sz / s->dt.entry_sz));
+>> +            }
+>> +
+>> +            s->dt.maxids.max_devids = (1UL << (FIELD_EX64(s->typer, GITS_TYPER,
+>> +                                       DEVBITS) + 1));
+>> +
+>> +            s->dt.base_addr = baser_base_addr(value, page_sz);
+>> +
+>> +            break;
+>> +
+>> +        case GITS_ITT_TYPE_COLLECTION:
+>> +            memset(&s->ct, 0 , sizeof(s->ct));
+>> +            s->ct.valid = FIELD_EX64(value, GITS_BASER, VALID);
+>> +
+>> +            /*
+>> +             * GITS_TYPER.HCC is 0 for this implementation
+>> +             * hence writes are discarded if ct.valid is 0
+>> +             */
+>> +            if (!s->ct.valid) {
+>> +                return;
+>> +            }
+>> +
+>> +            s->ct.page_sz = page_sz;
+>> +            s->ct.indirect = FIELD_EX64(value, GITS_BASER, INDIRECT);
+>> +            s->ct.entry_sz = FIELD_EX64(value, GITS_BASER, ENTRYSIZE);
+>> +
+>> +            if (!s->ct.indirect) {
+>> +                s->ct.max_entries = (num_pages * page_sz) / s->ct.entry_sz;
+>> +            } else {
+>> +                s->ct.max_entries = (((num_pages * page_sz) /
+>> +                                     L1TABLE_ENTRY_SIZE) *
+>> +                                     (page_sz / s->ct.entry_sz));
+>> +            }
+>> +
+>> +            if (FIELD_EX64(s->typer, GITS_TYPER, CIL)) {
+>> +                s->ct.maxids.max_collids = (1UL << (FIELD_EX64(s->typer,
+>> +                                            GITS_TYPER, CIDBITS) + 1));
+>> +            } else {
+>> +                /* 16-bit CollectionId supported when CIL == 0 */
+>> +                s->ct.maxids.max_collids = (1UL << 16);
+>> +            }
+>> +
+>> +            s->ct.base_addr = baser_base_addr(value, page_sz);
+>> +
+>> +            break;
+>> +
+>> +        default:
+>> +            break;
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +static void extract_cmdq_params(GICv3ITSState *s)
+>> +{
+>> +    uint16_t num_pages = 0;
+>> +    uint64_t value = s->cbaser;
+>> +
+>> +    num_pages = FIELD_EX64(value, GITS_CBASER, SIZE) + 1;
+>> +
+>> +    memset(&s->cq, 0 , sizeof(s->cq));
+>> +    s->cq.valid = FIELD_EX64(value, GITS_CBASER, VALID);
+>> +
+>> +    if (s->cq.valid) {
+>> +        s->cq.max_entries = (num_pages * GITS_PAGE_SIZE_4K) /
+>> +                             GITS_CMDQ_ENTRY_SIZE;
+>> +        s->cq.base_addr = FIELD_EX64(value, GITS_CBASER, PHYADDR);
+>> +        s->cq.base_addr <<= R_GITS_CBASER_PHYADDR_SHIFT;
+>> +    }
+>> +}
+>> +
+>>  static MemTxResult gicv3_its_translation_write(void *opaque, hwaddr offset,
+>>                                                 uint64_t data, unsigned size,
+>>                                                 MemTxAttrs attrs)
+>> @@ -41,7 +195,99 @@ static MemTxResult its_writel(GICv3ITSState *s, hwaddr offset,
+>>                                uint64_t value, MemTxAttrs attrs)
+>>  {
+>>      MemTxResult result = MEMTX_OK;
+>> +    int index;
+>>  
+>> +    switch (offset) {
+>> +    case GITS_CTLR:
+>> +        s->ctlr |= (value & ~(s->ctlr));
+>> +
+>> +        if (s->ctlr & ITS_CTLR_ENABLED) {
+>> +            extract_table_params(s);
+>> +            extract_cmdq_params(s);
+>> +            s->creadr = 0;
+>> +        }
+>> +        break;
+>> +    case GITS_CBASER:
+>> +        /*
+>> +         * IMPDEF choice:- GITS_CBASER register becomes RO if ITS is
+>> +         *                 already enabled
+>> +         */
+>> +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+>> +            s->cbaser = deposit64(s->cbaser, 0, 32, value);
+>> +            s->creadr = 0;
+>> +            s->cwriter = s->creadr;
+>> +        }
+>> +        break;
+>> +    case GITS_CBASER + 4:
+>> +        /*
+>> +         * IMPDEF choice:- GITS_CBASER register becomes RO if ITS is
+>> +         *                 already enabled
+>> +         */
+>> +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+>> +            s->cbaser = deposit64(s->cbaser, 32, 32, value);
+>> +            s->creadr = 0;
+>> +            s->cwriter = s->creadr;
+>> +        }
+>> +        break;
+>> +    case GITS_CWRITER:
+>> +        s->cwriter = deposit64(s->cwriter, 0, 32,
+>> +                               (value & ~R_GITS_CWRITER_RETRY_MASK));
+>> +        break;
+>> +    case GITS_CWRITER + 4:
+>> +        s->cwriter = deposit64(s->cwriter, 32, 32, value);
+>> +        break;
+>> +    case GITS_CREADR:
+>> +        if (s->gicv3->gicd_ctlr & GICD_CTLR_DS) {
+>> +            s->creadr = deposit64(s->creadr, 0, 32,
+>> +                                  (value & ~R_GITS_CREADR_STALLED_MASK));
+>> +        } else {
+>> +            /* RO register, ignore the write */
+>> +            qemu_log_mask(LOG_GUEST_ERROR,
+>> +                          "%s: invalid guest write to RO register at offset "
+>> +                          TARGET_FMT_plx "\n", __func__, offset);
+>> +        }
+>> +        break;
+>> +    case GITS_CREADR + 4:
+>> +        if (s->gicv3->gicd_ctlr & GICD_CTLR_DS) {
+>> +            s->creadr = deposit64(s->creadr, 32, 32, value);
+>> +        } else {
+>> +            /* RO register, ignore the write */
+>> +            qemu_log_mask(LOG_GUEST_ERROR,
+>> +                          "%s: invalid guest write to RO register at offset "
+>> +                          TARGET_FMT_plx "\n", __func__, offset);
+>> +        }
+>> +        break;
+>> +    case GITS_BASER ... GITS_BASER + 0x3f:
+>> +        /*
+>> +         * IMPDEF choice:- GITS_BASERn register becomes RO if ITS is
+>> +         *                 already enabled
+>> +         */
+>> +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+>> +            index = (offset - GITS_BASER) / 8;
+>> +
+>> +            if (offset & 7) {
+>> +                value <<= 32;
+>> +                value &= ~GITS_BASER_RO_MASK;
+>> +                s->baser[index] &= GITS_BASER_RO_MASK | MAKE_64BIT_MASK(0, 32);
+>> +                s->baser[index] |= value;
+>> +            } else {
+>> +                value &= ~GITS_BASER_RO_MASK;
+>> +                s->baser[index] &= GITS_BASER_RO_MASK | MAKE_64BIT_MASK(32, 32);
+>> +                s->baser[index] |= value;
+>> +            }
+>> +        }
+>> +        break;
+>> +    case GITS_IIDR:
+>> +    case GITS_IDREGS ... GITS_IDREGS + 0x2f:
+>> +        /* RO registers, ignore the write */
+>> +        qemu_log_mask(LOG_GUEST_ERROR,
+>> +                      "%s: invalid guest write to RO register at offset "
+>> +                      TARGET_FMT_plx "\n", __func__, offset);
+>> +        break;
+>> +    default:
+>> +        result = MEMTX_ERROR;
+>> +        break;
+>> +    }
+>>      return result;
+>>  }
+>>  
+>> @@ -49,7 +295,55 @@ static MemTxResult its_readl(GICv3ITSState *s, hwaddr offset,
+>>                               uint64_t *data, MemTxAttrs attrs)
+>>  {
+>>      MemTxResult result = MEMTX_OK;
+>> +    int index;
+>>  
+>> +    switch (offset) {
+>> +    case GITS_CTLR:
+>> +        *data = s->ctlr;
+>> +        break;
+>> +    case GITS_IIDR:
+>> +        *data = gicv3_iidr();
+>> +        break;
+>> +    case GITS_IDREGS ... GITS_IDREGS + 0x2f:
+>> +        /* ID registers */
+>> +        *data = gicv3_idreg(offset - GITS_IDREGS);
+>> +        break;
+>> +    case GITS_TYPER:
+>> +        *data = extract64(s->typer, 0, 32);
+>> +        break;
+>> +    case GITS_TYPER + 4:
+>> +        *data = extract64(s->typer, 32, 32);
+>> +        break;
+>> +    case GITS_CBASER:
+>> +        *data = extract64(s->cbaser, 0, 32);
+>> +        break;
+>> +    case GITS_CBASER + 4:
+>> +        *data = extract64(s->cbaser, 32, 32);
+>> +        break;
+>> +    case GITS_CREADR:
+>> +        *data = extract64(s->creadr, 0, 32);
+>> +        break;
+>> +    case GITS_CREADR + 4:
+>> +        *data = extract64(s->creadr, 32, 32);
+>> +        break;
+>> +    case GITS_CWRITER:
+>> +        *data = extract64(s->cwriter, 0, 32);
+>> +        break;
+>> +    case GITS_CWRITER + 4:
+>> +        *data = extract64(s->cwriter, 32, 32);
+>> +        break;
+>> +    case GITS_BASER ... GITS_BASER + 0x3f:
+>> +        index = (offset - GITS_BASER) / 8;
+>> +        if (offset & 7) {
+>> +            *data = extract64(s->baser[index], 32, 32);
+>> +        } else {
+>> +            *data = extract64(s->baser[index], 0, 32);
+>> +        }
+>> +        break;
+>> +    default:
+>> +        result = MEMTX_ERROR;
+>> +        break;
+>> +    }
+>>      return result;
+>>  }
+>>  
+>> @@ -57,7 +351,54 @@ static MemTxResult its_writell(GICv3ITSState *s, hwaddr offset,
+>>                                 uint64_t value, MemTxAttrs attrs)
+>>  {
+>>      MemTxResult result = MEMTX_OK;
+>> +    int index;
+>>  
+>> +    switch (offset) {
+>> +    case GITS_BASER ... GITS_BASER + 0x3f:
+>> +        /*
+>> +         * IMPDEF choice:- GITS_BASERn register becomes RO if ITS is
+>> +         *                 already enabled
+>> +         */
+>> +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+>> +            index = (offset - GITS_BASER) / 8;
+>> +            s->baser[index] &= GITS_BASER_RO_MASK;
+>> +            s->baser[index] |= (value & ~GITS_BASER_RO_MASK);
+>> +        }
+>> +        break;
+>> +    case GITS_CBASER:
+>> +        /*
+>> +         * IMPDEF choice:- GITS_CBASER register becomes RO if ITS is
+>> +         *                 already enabled
+>> +         */
+>> +        if (!(s->ctlr & ITS_CTLR_ENABLED)) {
+>> +            s->cbaser = value;
+>> +            s->creadr = 0;
+>> +            s->cwriter = s->creadr;
+>> +        }
+>> +        break;
+>> +    case GITS_CWRITER:
+>> +        s->cwriter = value & ~R_GITS_CWRITER_RETRY_MASK;
+>> +        break;
+>> +    case GITS_CREADR:
+>> +        if (s->gicv3->gicd_ctlr & GICD_CTLR_DS) {
+>> +            s->creadr = value & ~R_GITS_CREADR_STALLED_MASK;
+>> +        } else {
+>> +            /* RO register, ignore the write */
+>> +            qemu_log_mask(LOG_GUEST_ERROR,
+>> +                          "%s: invalid guest write to RO register at offset "
+>> +                          TARGET_FMT_plx "\n", __func__, offset);
+>> +        }
+>> +        break;
+>> +    case GITS_TYPER:
+>> +        /* RO registers, ignore the write */
+>> +        qemu_log_mask(LOG_GUEST_ERROR,
+>> +                      "%s: invalid guest write to RO register at offset "
+>> +                      TARGET_FMT_plx "\n", __func__, offset);
+>> +        break;
+>> +    default:
+>> +        result = MEMTX_ERROR;
+>> +        break;
+>> +    }
+>>      return result;
+>>  }
+>>  
+>> @@ -65,7 +406,29 @@ static MemTxResult its_readll(GICv3ITSState *s, hwaddr offset,
+>>                                uint64_t *data, MemTxAttrs attrs)
+>>  {
+>>      MemTxResult result = MEMTX_OK;
+>> +    int index;
+>>  
+>> +    switch (offset) {
+>> +    case GITS_TYPER:
+>> +        *data = s->typer;
+>> +        break;
+>> +    case GITS_BASER ... GITS_BASER + 0x3f:
+>> +        index = (offset - GITS_BASER) / 8;
+>> +        *data = s->baser[index];
+>> +        break;
+>> +    case GITS_CBASER:
+>> +        *data = s->cbaser;
+>> +        break;
+>> +    case GITS_CREADR:
+>> +        *data = s->creadr;
+>> +        break;
+>> +    case GITS_CWRITER:
+>> +        *data = s->cwriter;
+>> +        break;
+>> +    default:
+>> +        result = MEMTX_ERROR;
+>> +        break;
+>> +    }
+>>      return result;
+>>  }
+>>  
+>> @@ -162,6 +525,9 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
+>>      gicv3_its_init_mmio(s, &gicv3_its_control_ops, &gicv3_its_translation_ops);
+>>  
+>>      if (s->gicv3->cpu->gicr_typer & GICR_TYPER_PLPIS) {
+>> +        address_space_init(&s->gicv3->dma_as, s->gicv3->dma,
+>> +                           "gicv3-its-sysmem");
+>> +
+>>          /* set the ITS default features supported */
+>>          s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
+>>                                GITS_TYPE_PHYSICAL);
+>> @@ -208,6 +574,14 @@ static void gicv3_its_reset(DeviceState *dev)
+>>      }
+>>  }
+>>  
+>> +static void gicv3_its_post_load(GICv3ITSState *s)
+>> +{
+>> +    if (s->ctlr & ITS_CTLR_ENABLED) {
+>> +        extract_table_params(s);
+>> +        extract_cmdq_params(s);
+>> +    }
+>> +}
+>> +
+>>  static Property gicv3_its_props[] = {
+>>      DEFINE_PROP_LINK("parent-gicv3", GICv3ITSState, gicv3, "arm-gicv3",
+>>                       GICv3State *),
+>> @@ -218,10 +592,12 @@ static void gicv3_its_class_init(ObjectClass *klass, void *data)
+>>  {
+>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>>      GICv3ITSClass *ic = ARM_GICV3_ITS_CLASS(klass);
+>> +    GICv3ITSCommonClass *icc = ARM_GICV3_ITS_COMMON_CLASS(klass);
+>>  
+>>      dc->realize = gicv3_arm_its_realize;
+>>      device_class_set_props(dc, gicv3_its_props);
+>>      device_class_set_parent_reset(dc, gicv3_its_reset, &ic->parent_reset);
+>> +    icc->post_load = gicv3_its_post_load;
+>>  }
+>>  
+>>  static const TypeInfo gicv3_its_info = {
+>> diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+>> index e0b06930a7..dc2c1bc45b 100644
+>> --- a/hw/intc/gicv3_internal.h
+>> +++ b/hw/intc/gicv3_internal.h
+>> @@ -238,7 +238,7 @@ FIELD(GITS_BASER, PAGESIZE, 8, 2)
+>>  FIELD(GITS_BASER, SHAREABILITY, 10, 2)
+>>  FIELD(GITS_BASER, PHYADDR, 12, 36)
+>>  FIELD(GITS_BASER, PHYADDRL_64K, 16, 32)
+>> -FIELD(GITS_BASER, PHYADDRH_64K, 48, 4)
+>> +FIELD(GITS_BASER, PHYADDRH_64K, 12, 4)
+> should have been addressed earlier
+>>  FIELD(GITS_BASER, ENTRYSIZE, 48, 5)
+>>  FIELD(GITS_BASER, OUTERCACHE, 53, 3)
+>>  FIELD(GITS_BASER, TYPE, 56, 3)
+>> @@ -246,6 +246,20 @@ FIELD(GITS_BASER, INNERCACHE, 59, 3)
+>>  FIELD(GITS_BASER, INDIRECT, 62, 1)
+>>  FIELD(GITS_BASER, VALID, 63, 1)
+>>  
+>> +FIELD(GITS_CBASER, SIZE, 0, 8)
+>> +FIELD(GITS_CBASER, SHAREABILITY, 10, 2)
+>> +FIELD(GITS_CBASER, PHYADDR, 12, 40)
+>> +FIELD(GITS_CBASER, OUTERCACHE, 53, 3)
+>> +FIELD(GITS_CBASER, INNERCACHE, 59, 3)
+>> +FIELD(GITS_CBASER, VALID, 63, 1)
+>> +
+>> +FIELD(GITS_CREADR, STALLED, 0, 1)
+>> +FIELD(GITS_CREADR, OFFSET, 5, 15)
+>> +
+>> +FIELD(GITS_CWRITER, RETRY, 0, 1)
+>> +FIELD(GITS_CWRITER, OFFSET, 5, 15)
+>> +
+>> +FIELD(GITS_CTLR, ENABLED, 0, 1)
+>>  FIELD(GITS_CTLR, QUIESCENT, 31, 1)
+>>  
+>>  FIELD(GITS_TYPER, PHYSICAL, 0, 1)
+>> @@ -257,6 +271,13 @@ FIELD(GITS_TYPER, PTA, 19, 1)
+>>  FIELD(GITS_TYPER, CIDBITS, 32, 4)
+>>  FIELD(GITS_TYPER, CIL, 36, 1)
+>>  
+>> +#define GITS_IDREGS           0xFFD0
+>> +
+>> +#define ITS_CTLR_ENABLED               (1U)  /* ITS Enabled */
+>> +
+>> +#define GITS_BASER_RO_MASK                  (R_GITS_BASER_ENTRYSIZE_MASK | \
+>> +                                              R_GITS_BASER_TYPE_MASK)
+>> +
+>>  #define GITS_BASER_PAGESIZE_4K                0
+>>  #define GITS_BASER_PAGESIZE_16K               1
+>>  #define GITS_BASER_PAGESIZE_64K               2
+>> @@ -264,6 +285,14 @@ FIELD(GITS_TYPER, CIL, 36, 1)
+>>  #define GITS_ITT_TYPE_DEVICE                  1ULL
+>>  #define GITS_ITT_TYPE_COLLECTION              4ULL
+>>  
+>> +#define GITS_PAGE_SIZE_4K       0x1000
+>> +#define GITS_PAGE_SIZE_16K      0x4000
+>> +#define GITS_PAGE_SIZE_64K      0x10000
+>> +
+>> +#define L1TABLE_ENTRY_SIZE         8
+>> +
+>> +#define GITS_CMDQ_ENTRY_SIZE               32
+>> +
+>>  /**
+>>   * Default features advertised by this version of ITS
+>>   */
+>> diff --git a/include/hw/intc/arm_gicv3_common.h b/include/hw/intc/arm_gicv3_common.h
+>> index 91491a2f66..1fd5cedbbd 100644
+>> --- a/include/hw/intc/arm_gicv3_common.h
+>> +++ b/include/hw/intc/arm_gicv3_common.h
+>> @@ -226,6 +226,9 @@ struct GICv3State {
+>>      int dev_fd; /* kvm device fd if backed by kvm vgic support */
+>>      Error *migration_blocker;
+>>  
+>> +    MemoryRegion *dma;
+>> +    AddressSpace dma_as;
+>> +
+>>      /* Distributor */
+>>  
+>>      /* for a GIC with the security extensions the NS banked version of this
+>> diff --git a/include/hw/intc/arm_gicv3_its_common.h b/include/hw/intc/arm_gicv3_its_common.h
+>> index 65d1191db1..4e79145dde 100644
+>> --- a/include/hw/intc/arm_gicv3_its_common.h
+>> +++ b/include/hw/intc/arm_gicv3_its_common.h
+>> @@ -41,6 +41,25 @@
+>>  
+>>  #define GITS_TRANSLATER  0x0040
+>>  
+>> +typedef struct {
+>> +    bool valid;
+>> +    bool indirect;
+>> +    uint16_t entry_sz;
+>> +    uint32_t page_sz;
+>> +    uint32_t max_entries;
+>> +    union {
+>> +        uint32_t max_devids;
+>> +        uint32_t max_collids;
+>> +    } maxids;
+>> +    uint64_t base_addr;
+>> +} TableDesc;
+>> +
+>> +typedef struct {
+>> +    bool valid;
+>> +    uint32_t max_entries;
+>> +    uint64_t base_addr;
+>> +} CmdQDesc;
+>> +
+>>  struct GICv3ITSState {
+>>      SysBusDevice parent_obj;
+>>  
+>> @@ -63,6 +82,10 @@ struct GICv3ITSState {
+>>      uint64_t creadr;
+>>      uint64_t baser[8];
+>>  
+>> +    TableDesc  dt;
+>> +    TableDesc  ct;
+>> +    CmdQDesc   cq;
+>> +
+>>      Error *migration_blocker;
+>>  };
+>>  
+>>
+> Besides
+> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> 
+> Eric
+> 
+> 
 
 
