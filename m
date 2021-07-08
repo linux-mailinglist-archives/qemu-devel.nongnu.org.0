@@ -2,78 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02003BF66E
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 09:47:02 +0200 (CEST)
-Received: from localhost ([::1]:42588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946AE3BF6AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:02:02 +0200 (CEST)
+Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1OkP-0000W4-4d
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 03:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35302)
+	id 1m1Oyv-0002CZ-8O
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:02:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m1Oim-0008BE-VX
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 03:45:20 -0400
-Received: from forward5-smtp.messagingengine.com ([66.111.4.239]:47857)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m1Oxl-000193-T3; Thu, 08 Jul 2021 04:00:50 -0400
+Received: from mail-eopbgr10119.outbound.protection.outlook.com
+ ([40.107.1.119]:13538 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1m1Oij-0006Di-Hg
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 03:45:20 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailforward.nyi.internal (Postfix) with ESMTP id 3217E1940A12;
- Thu,  8 Jul 2021 03:45:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 08 Jul 2021 03:45:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=fs8Fw3
- B/MxbOBk66GHqMORc4adG8RcWLEZr4+IxeVFY=; b=p+oqyNxvNg1CCZAmyEWXQA
- SKsEqw/k4fR3aFpCj3QuaJUpjhr5haZizBhuhmpJk3Uvf43TA8EWe1y4kf8njYaD
- 8eAKidIOFu7/kqm9Hw7h4IMG01HDAqYCzCqJrHtBcmjLzA70a694KFr/DSGoOgVj
- sj40KUj26uNxWIDP5lIlJ3fz6j6DFZhaTPFOXz15/o8/tF0WEa90MYV3ZFMcVYXr
- lEtDxYXfPAt5DTJP2m6gYFsY5KAQnkixvAyd/Mq48y3CSFvWIPuRLY4m9rmfKROJ
- LUx7mLHy07aaDkVCUlSGx8iCU1cPJa50cfiPt67BgmCmDp/ft4xXeatEjA9QLe6A
- ==
-X-ME-Sender: <xms:Cq3mYAbBKEBUjCjzAMuayeBbloH7NiCLJPCvxoxZKNasnbcNk-EppQ>
- <xme:Cq3mYLavQ1xFe617uJwUiGvFueIsbT15sbIAOS8ufiVIbazav0i6KrJ9JRlQLoFRR
- qr_gRS_VTvRjXy5GI4>
-X-ME-Received: <xmr:Cq3mYK-s1986fHRzbBKACtxGCQgPXY6wxmbMZAuF0ShtOzMir3f1dPoUxa7ex_0120R3GKhIUmvHiBptjpE18dbctewAwogrGUnk1Hms7Ig>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdefgddutdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepvffujghfhfffkfggtgesthdtredttddttdenucfhrhhomhepffgrvhhiugcu
- gfgumhhonhgushhonhcuoegumhgvsegumhgvrdhorhhgqeenucggtffrrghtthgvrhhnpe
- fhkeeguedtvdegffffteehjedvjeeitefgfefgffdugeffffegudehgeetgeelkeenucev
- lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegumhgvsegumh
- gvrdhorhhg
-X-ME-Proxy: <xmx:Cq3mYKosMUyer9po5NwK2ENIbv7CeN_wxHkr25YpPcIy998PFPa2Ww>
- <xmx:Cq3mYLqEDHQ698DJlVrcWtisYsxcYkghDlDqk3cc3LAq_CZFdDAdeA>
- <xmx:Cq3mYIQ78tDuQPEqWq18eInDRuu6VN94TRUTSBu4cQaNxXdIpRGHxA>
- <xmx:C63mYIi55QSarcgF02KshZUhNsg08opf9x2g5tcLpNeu5mWiaz62tA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 8 Jul 2021 03:45:13 -0400 (EDT)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 122846d3;
- Thu, 8 Jul 2021 07:45:12 +0000 (UTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 8/8] target/i386: Move X86XSaveArea into TCG
-In-Reply-To: <m2czru4epe.fsf@dme.org>
-References: <20210705104632.2902400-1-david.edmondson@oracle.com>
- <20210705104632.2902400-9-david.edmondson@oracle.com>
- <0d75c3ab-926b-d4cd-244a-8c8b603535f9@linaro.org> <m2czru4epe.fsf@dme.org>
-X-HGTTG: zarniwoop
-From: David Edmondson <dme@dme.org>
-Date: Thu, 08 Jul 2021 08:45:12 +0100
-Message-ID: <m24kd5p7uf.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m1Oxi-0002sd-Sr; Thu, 08 Jul 2021 04:00:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JvND0sGqW5jJA5C/Jh9RPmSE16mQviZpWRL/WFp4iwxxrldP0VMHRooeInzMHVoUVUr0BrObNHmv+XGDHVCX8+2xf9i8Eu5OFBibc4gaBKKqih1NjKaiH6QvxrrLzbY2F/iJdmDW9x1lWZOE9jU4deLOWA7SLdT10yw1MMgIQidpNTCHjze0VWOkeNaIYKKdvFpsJ6HsuEZ7lovqczlc+JyxaFWpiijQ08T1b2UFSBfchwpugTvrPwlafAvmFTVxJuyayxuRiFt4muQKCjWufN9F57fCg7Dj0N1oz1R8V84aHt2KCkHwUoylC80uzZ4zB2FA8WOcb0xMlEqxZWDkHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LkfH0lP+17xbzarhZyetpwfMLdREVfGmb/5wufrYPhM=;
+ b=ELfzLqc/Fd8JHkxK4+4MX+1emI7yYpHJoQOzjJNtm5GVTKcZE05fZq0N14kHMx4f5UtwgDlv81dArQ1xMTXT2jpJNTIylelVhNzGT4Bd6wKVSCWuMWM3oEYzqidYCaWdAnKctG0dwMXuZ+FrDfQ481mJwgsHluaK8AyU/pS3wrYzBDtwPmkoXt5GjkNkwMbD+vp+sv16Oc01DOB62gW71SBwPpV7khRDQeaMInxM7d9Lj5rcygMKhD6N20LnyS8anAgqVaE8PNy41230iJI9bVSYXIy7kXJrb9AspwBvKSvs1Cv4R9rtou532K17VLFxvYJ8+n8XZcF+/sipdzG/Rw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LkfH0lP+17xbzarhZyetpwfMLdREVfGmb/5wufrYPhM=;
+ b=QWcmtIjvUuA2yxyEy26lUmFafO2Pf+anAoQLyKwGp/QBfV01CCduT48M0TNZ4jHijozZOGfwW96frmq9b9ORvrCNyProUo+/NSWQAKrGzx3OEf68N/xj+IWbKtiNBTl5I2/m08KVFHha7rm/rBtTPsRGH5FH0x7XS61Fhwg141w=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5334.eurprd08.prod.outlook.com (2603:10a6:20b:10b::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Thu, 8 Jul
+ 2021 08:00:43 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Thu, 8 Jul 2021
+ 08:00:43 +0000
+Subject: Re: [PATCH v3 3/2] qemu-img: Reword 'qemu-img map --output=json' docs
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, nsoffer@redhat.com, mreitz@redhat.com,
+ armbru@redhat.com, qemu-block@nongnu.org
+References: <20210701190655.2131223-1-eblake@redhat.com>
+ <20210707184125.2551140-1-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <f0f011a3-3344-cfa8-917c-78492737d8ec@virtuozzo.com>
+Date: Thu, 8 Jul 2021 11:00:40 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210707184125.2551140-1-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR3P193CA0009.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:102:50::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: neutral client-ip=66.111.4.239; envelope-from=dme@dme.org;
- helo=forward5-smtp.messagingengine.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ PR3P193CA0009.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:50::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.21 via Frontend Transport; Thu, 8 Jul 2021 08:00:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 78de7e97-ee30-4514-c287-08d941e67be9
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5334:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB533475B6D32547ADFE925596C1199@AM7PR08MB5334.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O/WnnZTh25cJr2z7idY4vJsPItXb7HuyPHrgAczfzMYPZNepn+bVH8/MRZbh6NEOwTyTH4eHoKzgMzCL7dykhcolWLR/2aPyWEKwfPXtiuB7WlsRrHmta/LgBgz0mmge3RPOL1M4fqoSFtylny1SkIF1zrudqMPent3WLukxL5kQ7MgoGzPMDpNDND1p6/XXHrNsuFeiSyWxrUUBdyqg4tSkdxx5ksDwlOzJLlVWG7JKz9HZInSDioeMHXh8ZvY+OvhKE6dLOC5XMddfCw8PKYnEzpPAqn+ExjVBJsS6QgYohOlKrb9qhOsihFU6/mMM32AtbIwk1rxrAKEv/Ps8KtTaTDDh4derjBU5e6WAQ6hM/6/4IfhH6cyQmvREoS04OzjZFVAvuXdpr9B21hA1KJLuL9+Edq1FigQoR5l+Sqqa5jca5ODQy2MI+iizGYvGC2i9b6GKWyku7/G0t5E9K3LLtXDR7ZXmK21CF7vqt4xC0ploq1A2RS9f5aHjlU9cEeqMr6RNEQsnZr6BP8u8WcIFBrg2JtTW6/4T9ljvUBbdCGYytWYE/3uk8SDP/uLbaSkkprjLwLL5tv+t9rO4GfeXVh6sTxVw56VueiTec9jvvtKlNjDNe6vfksSbAUv38kRTperCxGRiUNQk10s5IkNdtCFZAVDBDVsudemgOfVmM82Z1a4BeI11wql3d5fhsQ1sGy0HQHAHeUciXOgO/5YC3APmHTL6DayufVeeqV5qqJl9BKXNKZVVfCEB3k7LIO97aVzGaz8Cx4i+iB8VUw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39830400003)(346002)(136003)(376002)(366004)(316002)(2616005)(66476007)(38100700002)(478600001)(4744005)(5660300002)(86362001)(186003)(8676002)(8936002)(38350700002)(66946007)(956004)(66556008)(31696002)(31686004)(16576012)(26005)(6486002)(4326008)(36756003)(52116002)(2906002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y09XWEhqUlF4eHJuMVlSR2xudW9GV0lyVHkrcFJDNndNNXdZK24xenVkVDVr?=
+ =?utf-8?B?Mkl1dXFJT2VzSloyUXhxcW4yQ1hudzJjTHVwVEkyYjVEMjA3YXlkRmYrWEMr?=
+ =?utf-8?B?Wk9qMW5IZDVxNW1XNEhsMWZSQ0hnUm9FR08vVVZwalhielE0citYc3RJeW14?=
+ =?utf-8?B?OXBoQ21vZk85NVhUNW1mT1VoV1lVSDIvV21haTZybk5IeGYwUDRuWngyVEtn?=
+ =?utf-8?B?dndPelB5bUw0dnRkVUZjZXZYcHRrRndoUlJ4UDMweDRCT0ZtT0pIai9sRFQx?=
+ =?utf-8?B?aCt1OG0wQTlsamp0YkZMMk05WjRYcmlXaWxYY29VRmpYNURYTFJxNHpFNWdh?=
+ =?utf-8?B?by9QdW1iUHpLVHB2alR6amkwdEtHTzVQZ2YyU2F3L3BWTGV1VGZIOFVTNUg1?=
+ =?utf-8?B?UWJRNnkzdWkrZXF1eTdwMzdEaHFlajdHUEhLYUtSN2ViT1NkRng1b0lvUk11?=
+ =?utf-8?B?Y04wRXRrQ291NnYzUktlS2hlSlJtSjQyQXFkZENpVGhXM2Z6VVg2TVRadVd5?=
+ =?utf-8?B?d1dxUFd2dGpDdldhTG5WZzdjNG1OendmNnFWbWFxUDlVR1pKZFlxWmFDMG1Q?=
+ =?utf-8?B?RVZWZU1WMmJMaWJWZzJ3TWpMNmxSeXBzc2hlZllYOG5wSlpYT0hkR3lUU01C?=
+ =?utf-8?B?K08yV000RTVGNUpyaHdqYUlYNDBrTm1XWURhY0JxY2JEcHFKTUhpeXhyWi9j?=
+ =?utf-8?B?VE85QTNVMlZmTmMyYlVrbTZWQTMyVlZaUFJHbkZCT25WZTVHVmd0Tkd2SWJW?=
+ =?utf-8?B?U2VqdVc1cVptOGo5c3ZBTTdnZ0lzQVdGSnFuUUtRK2ZPeklFSWlqZVZWYTBO?=
+ =?utf-8?B?T2htNDZLWk45SVNhaGZ2bkdWSHgyQnZwSTU5b1k5a2tYWkhwaFVWaTk5K1Uy?=
+ =?utf-8?B?c2t6NEpwd21KSWJna0t2SXU3R0hyMEdvVzcveVlrT2gvMjBOYnJKbHR1VUpy?=
+ =?utf-8?B?VlFUUzBvQlNlc2F2N2xXQ1lUSlE3SDM5N2k2ZkIvOGN3RExrcS9KQmdRQXlz?=
+ =?utf-8?B?VGhXekU4N1BsTmNUR1NEb2svRW9MUVBsUW8xR2FxSzY4SHJXZTMwV3phK0RC?=
+ =?utf-8?B?Q3NrcXduUzF6M2dQNW5FL1JBT0dEZENrWU50OUtOT1Z3c1NSWktQUlFmZDBX?=
+ =?utf-8?B?d2VSMXlGVUNmeWZqekdWNzV3ejhKZ1NPUTB2d0cvc1prZHd0WXNROUlUVEpq?=
+ =?utf-8?B?YlpDY2Q0VnVMeFhoNmM5U2NydW5hNE1BVDROM2YzbFA5NEo3OUV6bnIvSStB?=
+ =?utf-8?B?cHh6M3BlMmdQTTZyOG5yODBvajkwNytmRUU4YVBPUkY1cjEwSGJRZWxRblUz?=
+ =?utf-8?B?b2QxZ3owNVZGZXI1WmxFQS9JdlhHcEZiMGN0MmlraTZsb0hlOURDMy9jTjVE?=
+ =?utf-8?B?YXg2a3RIVUxJVFRaUlVwUUd3S0JjUEJrZG5Fak5BR040Q1dlakR2NTJCQ2RK?=
+ =?utf-8?B?R2lFcldZSmVsL1NWMXFUZGhuTkxkWkZ5L0xLdlhock9UYVdhTGF0ZHZ4R3Bj?=
+ =?utf-8?B?QTAvNC9ySGsrc2tHbUY0QzlRWHdqZjZvYm1hTDBmeTJsMVV0MmxvQ2dWdEtS?=
+ =?utf-8?B?NDMwemxvZ2RWa0VScG5hcGZSSjVtL2FCVFJsNk91RVZyZGtHU2JMeHpUbDNI?=
+ =?utf-8?B?T0RMZ2t0TS9MZlF2dU9jMzFKRk9YZ1NGRmc5enZUMyt3aFpWUFpKQ1FsTzRt?=
+ =?utf-8?B?Y1h2TmRVOFBwTzZ4WmdsbnF3a0d5M040YmpDVjBDTFFzbUxiVTIvK2dlMDNu?=
+ =?utf-8?Q?3bYuLN2afG4XXuvwmO8FTHCT6A23kpWP1+XzUBD?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78de7e97-ee30-4514-c287-08d941e67be9
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2021 08:00:42.8987 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: czwjUvrsEPlh9s84gRO6+qLMXwAcFPlxVRSmtS2rwIwf+nvCJLzdUUQciyfhiKxKsEz229BGlMXLL7k870SRZdugKGVdNU+ydOLHV1HXAR8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5334
+Received-SPF: pass client-ip=40.107.1.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,216 +144,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Michael Roth <michael.roth@amd.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Cameron Esfahani <dirty@apple.com>, babu.moger@amd.com,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2021-07-07 at 11:10:21 +01, David Edmondson wrote:
+07.07.2021 21:41, Eric Blake wrote:
+> Reword the paragraphs to list the JSON key first, rather than in the
+> middle of prose.
+> 
+> Suggested-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> Signed-off-by: Eric Blake<eblake@redhat.com>
 
-> On Tuesday, 2021-07-06 at 18:09:42 -07, Richard Henderson wrote:
->
->> On 7/5/21 3:46 AM, David Edmondson wrote:
->>> Given that TCG is now the only consumer of X86XSaveArea, move the
->>> structure definition and associated offset declarations and checks to a
->>> TCG specific header.
->>> 
->>> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
->>> ---
->>>   target/i386/cpu.h            | 57 ------------------------------------
->>>   target/i386/tcg/fpu_helper.c |  1 +
->>>   target/i386/tcg/tcg-cpu.h    | 57 ++++++++++++++++++++++++++++++++++++
->>>   3 files changed, 58 insertions(+), 57 deletions(-)
->>> 
->>> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
->>> index 96b672f8bd..0f7ddbfeae 100644
->>> --- a/target/i386/cpu.h
->>> +++ b/target/i386/cpu.h
->>> @@ -1305,48 +1305,6 @@ typedef struct XSavePKRU {
->>>       uint32_t padding;
->>>   } XSavePKRU;
->>>   
->>> -#define XSAVE_FCW_FSW_OFFSET    0x000
->>> -#define XSAVE_FTW_FOP_OFFSET    0x004
->>> -#define XSAVE_CWD_RIP_OFFSET    0x008
->>> -#define XSAVE_CWD_RDP_OFFSET    0x010
->>> -#define XSAVE_MXCSR_OFFSET      0x018
->>> -#define XSAVE_ST_SPACE_OFFSET   0x020
->>> -#define XSAVE_XMM_SPACE_OFFSET  0x0a0
->>> -#define XSAVE_XSTATE_BV_OFFSET  0x200
->>> -#define XSAVE_AVX_OFFSET        0x240
->>> -#define XSAVE_BNDREG_OFFSET     0x3c0
->>> -#define XSAVE_BNDCSR_OFFSET     0x400
->>> -#define XSAVE_OPMASK_OFFSET     0x440
->>> -#define XSAVE_ZMM_HI256_OFFSET  0x480
->>> -#define XSAVE_HI16_ZMM_OFFSET   0x680
->>> -#define XSAVE_PKRU_OFFSET       0xa80
->>> -
->>> -typedef struct X86XSaveArea {
->>> -    X86LegacyXSaveArea legacy;
->>> -    X86XSaveHeader header;
->>> -
->>> -    /* Extended save areas: */
->>> -
->>> -    /* AVX State: */
->>> -    XSaveAVX avx_state;
->>> -
->>> -    /* Ensure that XSaveBNDREG is properly aligned. */
->>> -    uint8_t padding[XSAVE_BNDREG_OFFSET
->>> -                    - sizeof(X86LegacyXSaveArea)
->>> -                    - sizeof(X86XSaveHeader)
->>> -                    - sizeof(XSaveAVX)];
->>> -
->>> -    /* MPX State: */
->>> -    XSaveBNDREG bndreg_state;
->>> -    XSaveBNDCSR bndcsr_state;
->>> -    /* AVX-512 State: */
->>> -    XSaveOpmask opmask_state;
->>> -    XSaveZMM_Hi256 zmm_hi256_state;
->>> -    XSaveHi16_ZMM hi16_zmm_state;
->>> -    /* PKRU State: */
->>> -    XSavePKRU pkru_state;
->>> -} X86XSaveArea;
->>> -
->>>   QEMU_BUILD_BUG_ON(sizeof(XSaveAVX) != 0x100);
->>>   QEMU_BUILD_BUG_ON(sizeof(XSaveBNDREG) != 0x40);
->>>   QEMU_BUILD_BUG_ON(sizeof(XSaveBNDCSR) != 0x40);
->>> @@ -1355,21 +1313,6 @@ QEMU_BUILD_BUG_ON(sizeof(XSaveZMM_Hi256) != 0x200);
->>>   QEMU_BUILD_BUG_ON(sizeof(XSaveHi16_ZMM) != 0x400);
->>>   QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
->>>   
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fcw) != XSAVE_FCW_FSW_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.ftw) != XSAVE_FTW_FOP_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpip) != XSAVE_CWD_RIP_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpdp) != XSAVE_CWD_RDP_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.mxcsr) != XSAVE_MXCSR_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpregs) != XSAVE_ST_SPACE_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.xmm_regs) != XSAVE_XMM_SPACE_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, avx_state) != XSAVE_AVX_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndreg_state) != XSAVE_BNDREG_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndcsr_state) != XSAVE_BNDCSR_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, opmask_state) != XSAVE_OPMASK_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, zmm_hi256_state) != XSAVE_ZMM_HI256_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, hi16_zmm_state) != XSAVE_HI16_ZMM_OFFSET);
->>> -QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, pkru_state) != XSAVE_PKRU_OFFSET);
->>> -
->>>   typedef struct ExtSaveArea {
->>>       uint32_t feature, bits;
->>>       uint32_t offset, size;
->>> diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
->>> index 4e11965067..74bbe94b80 100644
->>> --- a/target/i386/tcg/fpu_helper.c
->>> +++ b/target/i386/tcg/fpu_helper.c
->>> @@ -20,6 +20,7 @@
->>>   #include "qemu/osdep.h"
->>>   #include <math.h>
->>>   #include "cpu.h"
->>> +#include "tcg-cpu.h"
->>>   #include "exec/helper-proto.h"
->>>   #include "fpu/softfloat.h"
->>>   #include "fpu/softfloat-macros.h"
->>> diff --git a/target/i386/tcg/tcg-cpu.h b/target/i386/tcg/tcg-cpu.h
->>> index 36bd300af0..53a8494455 100644
->>> --- a/target/i386/tcg/tcg-cpu.h
->>> +++ b/target/i386/tcg/tcg-cpu.h
->>> @@ -19,6 +19,63 @@
->>>   #ifndef TCG_CPU_H
->>>   #define TCG_CPU_H
->>>   
->>> +#define XSAVE_FCW_FSW_OFFSET    0x000
->>> +#define XSAVE_FTW_FOP_OFFSET    0x004
->>> +#define XSAVE_CWD_RIP_OFFSET    0x008
->>> +#define XSAVE_CWD_RDP_OFFSET    0x010
->>> +#define XSAVE_MXCSR_OFFSET      0x018
->>> +#define XSAVE_ST_SPACE_OFFSET   0x020
->>> +#define XSAVE_XMM_SPACE_OFFSET  0x0a0
->>> +#define XSAVE_XSTATE_BV_OFFSET  0x200
->>> +#define XSAVE_AVX_OFFSET        0x240
->>> +#define XSAVE_BNDREG_OFFSET     0x3c0
->>> +#define XSAVE_BNDCSR_OFFSET     0x400
->>> +#define XSAVE_OPMASK_OFFSET     0x440
->>> +#define XSAVE_ZMM_HI256_OFFSET  0x480
->>> +#define XSAVE_HI16_ZMM_OFFSET   0x680
->>> +#define XSAVE_PKRU_OFFSET       0xa80
->>> +
->>> +typedef struct X86XSaveArea {
->>> +    X86LegacyXSaveArea legacy;
->>> +    X86XSaveHeader header;
->>> +
->>> +    /* Extended save areas: */
->>> +
->>> +    /* AVX State: */
->>> +    XSaveAVX avx_state;
->>> +
->>> +    /* Ensure that XSaveBNDREG is properly aligned. */
->>> +    uint8_t padding[XSAVE_BNDREG_OFFSET
->>> +                    - sizeof(X86LegacyXSaveArea)
->>> +                    - sizeof(X86XSaveHeader)
->>> +                    - sizeof(XSaveAVX)];
->>> +
->>> +    /* MPX State: */
->>> +    XSaveBNDREG bndreg_state;
->>> +    XSaveBNDCSR bndcsr_state;
->>> +    /* AVX-512 State: */
->>> +    XSaveOpmask opmask_state;
->>> +    XSaveZMM_Hi256 zmm_hi256_state;
->>> +    XSaveHi16_ZMM hi16_zmm_state;
->>> +    /* PKRU State: */
->>> +    XSavePKRU pkru_state;
->>> +} X86XSaveArea;
->>> +
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fcw) != XSAVE_FCW_FSW_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.ftw) != XSAVE_FTW_FOP_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpip) != XSAVE_CWD_RIP_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpdp) != XSAVE_CWD_RDP_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.mxcsr) != XSAVE_MXCSR_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.fpregs) != XSAVE_ST_SPACE_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, legacy.xmm_regs) != XSAVE_XMM_SPACE_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, avx_state) != XSAVE_AVX_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndreg_state) != XSAVE_BNDREG_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, bndcsr_state) != XSAVE_BNDCSR_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, opmask_state) != XSAVE_OPMASK_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, zmm_hi256_state) != XSAVE_ZMM_HI256_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, hi16_zmm_state) != XSAVE_HI16_ZMM_OFFSET);
->>> +QEMU_BUILD_BUG_ON(offsetof(X86XSaveArea, pkru_state) != XSAVE_PKRU_OFFSET);
->>
->> My only quibble is that these offsets are otherwise unused.  This just becomes validation 
->> of compiler layout.
->
-> Yes.
->
->> I presume that XSAVE_BNDREG_OFFSET is not merely ROUND_UP(offsetof(avx_state) + 
->> sizeof(avx_state), some_pow2)?
->
-> The offsets were just extracted from a CPU at some point in the
-> past. It's likely that things are as you describe, but that is not
-> defined anywhere.
->
->> Do these offsets need to be migrated?  Otherwise, how can one start a vm with kvm and then 
->> migrate to tcg?  I presume the offsets above are constant for a given cpu, and that 
->> whatever cpu provides different offsets is not supported by tcg?  Given the lack of avx, 
->> that's trivial these days...
->
-> For TCG I think that the offsets used should be derived from the CPU
-> model selected, rather than being the same for all CPU models.
->
-> If that was done, then in principle it should be possible to migrate
-> XSAVE state between same CPU model KVM and TCG environments.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Actually, that's nonsense. With KVM or HVF we have to use the offsets of
-the host CPU, as the hardware won't do anything else, irrespective of
-the general CPU model chosen.
-
-To have KVM -> TCG migration work it would be necessary to pass the
-offsets in the migration stream and have TCG observe them, as you
-originally said.
-
-TCG -> KVM migration would only be possible if TCG was configured to use
-the same offsets as would later required by KVM (meaning, the host CPU).
-
-dme.
 -- 
-She's as sweet as Tupelo honey, she's an angel of the first degree.
+Best regards,
+Vladimir
 
