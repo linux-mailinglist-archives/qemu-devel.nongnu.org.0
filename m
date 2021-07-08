@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1F23BF54C
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 07:48:11 +0200 (CEST)
-Received: from localhost ([::1]:48120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D74B3BF56F
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 08:17:20 +0200 (CEST)
+Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1MtO-0006zq-KJ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 01:48:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46378)
+	id 1m1NLb-0005T5-7N
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 02:17:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m1MsF-0005bd-DM
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 01:46:59 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40672)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1m1NJx-0004YV-2k; Thu, 08 Jul 2021 02:15:37 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:37494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m1MsD-0003ZR-GM
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 01:46:59 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- b14-20020a17090a7aceb029017261c7d206so5159748pjl.5
- for <qemu-devel@nongnu.org>; Wed, 07 Jul 2021 22:46:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FjV8V12OVZ6HBcCwMF0yUU1iY5N0fwFsSYEBKvCtAMw=;
- b=VfeGUbDw59/FsXlQNp6n+u8cbxvcALpTMk+V/A+WvbMfL7HqrNV7fyprsLFKNVrX/I
- 6qFhmpF3wbd6Tpwj9FUJKKgyGUER4ncALqlB/LP2uhGi1dvsrZdt12rork2mI7GQCD3C
- HbxyNTXpXoyCvor8b5W5qg8BVUWZ76Nfh6fCGIXYbOkwH0pusRqSwAXhsiMk/klVVEGa
- thpaWNWNgStMfqM+jMxxuhVlxgW+BP8SQ6R7yOOpVe2rlECNzgnb+5cxAn61ft4wYD9Y
- V1dInIr/eo+R32RRqST+JMjn+1NO4jHbveBEnB7jMmCQqlzdKWHO57Z1NfLGjBRv0NIR
- Ddtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FjV8V12OVZ6HBcCwMF0yUU1iY5N0fwFsSYEBKvCtAMw=;
- b=Iib7Fbb6krfYaqqvO7TD9ylprYjPmUK2vHtFnz+m5SFOD0X9Ty9yw3/ApRJpjI2Cr8
- vUpSfJld+DrxVuCHDAvZCA0aJJbkFXOud62PdHvDx+j0qJJGxny7Hca11noxOOX6wMu9
- HccSsmhC3c4Jfc3L21MsnG6kdoDJ/i/1pdzUXFoBkgIhf1CtKIUs/xV4rPkeyZiZlqQJ
- L2unajzDtMJiBF0u1muYXYXaARSdgoFRfVEitugH8cOjwCDjKrQywGUetk12ARQu4nG1
- DwEjrpqfrXlrrrigmapF0KjSiQGf7CbPaNBlUQnwBqjlDuGZIu8mQkGQz+tw1Jh9shDr
- u2Dg==
-X-Gm-Message-State: AOAM531z6eck4Q/5IepWIJ8WNcnpkomBXkg1gR9wzKERh3CUmexYiA8n
- 4n0YdlIaNV4CQ++USenhrrgfvH82vrfJcg==
-X-Google-Smtp-Source: ABdhPJz8Vt8LrZ0iGlBKlV/DfwOzXQ3m/Y37+1KRyAhehJQeR4HyMQirovEuYu+dew/sNRA3P6hwpw==
-X-Received: by 2002:a17:90a:8585:: with SMTP id
- m5mr29971400pjn.224.1625723216184; 
- Wed, 07 Jul 2021 22:46:56 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:dcfe:ded1:61a1:d785])
- by smtp.gmail.com with ESMTPSA id f17sm8093484pjj.21.2021.07.07.22.46.54
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 07 Jul 2021 22:46:55 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/cocoa: Use the standard about panel
-Date: Thu,  8 Jul 2021 14:46:50 +0900
-Message-Id: <20210708054650.9577-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+ (Exim 4.90_1) (envelope-from <hare@suse.de>)
+ id 1m1NJr-0003nu-N4; Thu, 08 Jul 2021 02:15:36 -0400
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9075620131;
+ Thu,  8 Jul 2021 06:15:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1625724929; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jt4cYbZ9YM7By9Go80wuqmpoQfW8Gca+M5P97vZkHyo=;
+ b=hu8XvsFReZibilIwwostkPYl+0Fk4XGCDeqlBUdSDPUlOKPPhgMJlkP8Jv5mpIPs0ONhUH
+ yQaKGIs+Wa8QF4DdThCLte7e1tw5HjX+6JwHL+koxfu2NI+WIfa//mLLd81ls4d5ikxxcT
+ y8HjZkC+qYtgM2eicutM2WS38r363WI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1625724929;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jt4cYbZ9YM7By9Go80wuqmpoQfW8Gca+M5P97vZkHyo=;
+ b=v8AxgubHqORnjKseeFIhaHMq3Urgb8uLTlMN0NKsN9e2+IeyfVEH34uzxLvHH+rVGENd9P
+ mm1DSE0+UxjhA6CQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 62A1413430;
+ Thu,  8 Jul 2021 06:15:29 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id Tyw9FwGY5mDMBgAAGKfGzw
+ (envelope-from <hare@suse.de>); Thu, 08 Jul 2021 06:15:29 +0000
+Subject: Re: [PATCH 4/4] hw/nvme: fix controller hot unplugging
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210706093358.1036387-1-its@irrelevant.dk>
+ <20210706093358.1036387-5-its@irrelevant.dk>
+ <f468bbdc-fa33-a7e6-a392-394a736a06be@suse.de>
+ <YOV5qZj8pcnH1aAE@apples.localdomain>
+ <9fecd4b6-b36f-2101-4139-0666f741cf8e@suse.de>
+ <YOXS4QFXOPXLW5//@stefanha-x1.localdomain>
+From: Hannes Reinecke <hare@suse.de>
+Message-ID: <295e6b4c-e615-9ea2-7526-d8f54146ba09@suse.de>
+Date: Thu, 8 Jul 2021 08:15:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <YOXS4QFXOPXLW5//@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=hare@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,164 +89,279 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This provides standard look and feel for the about panel and reduces
-code.
+On 7/7/21 6:14 PM, Stefan Hajnoczi wrote:
+> On Wed, Jul 07, 2021 at 12:43:56PM +0200, Hannes Reinecke wrote:
+>> On 7/7/21 11:53 AM, Klaus Jensen wrote:
+>>> On Jul  7 09:49, Hannes Reinecke wrote:
+>>>> On 7/6/21 11:33 AM, Klaus Jensen wrote:
+>>>>> From: Klaus Jensen <k.jensen@samsung.com>
+>>>>>
+>>>>> Prior to this patch the nvme-ns devices are always children of the
+>>>>> NvmeBus owned by the NvmeCtrl. This causes the namespaces to be
+>>>>> unrealized when the parent device is removed. However, when subsystems
+>>>>> are involved, this is not what we want since the namespaces may be
+>>>>> attached to other controllers as well.
+>>>>>
+>>>>> This patch adds an additional NvmeBus on the subsystem device. When
+>>>>> nvme-ns devices are realized, if the parent controller device is linked
+>>>>> to a subsystem, the parent bus is set to the subsystem one instead. This
+>>>>> makes sure that namespaces are kept alive and not unrealized.
+>>>>>
+>>>>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>>>>> ---
+>>>>>   hw/nvme/nvme.h   | 18 ++++++++++--------
+>>>>>   hw/nvme/ctrl.c   |  8 +++++---
+>>>>>   hw/nvme/ns.c     | 32 +++++++++++++++++++++++++-------
+>>>>>   hw/nvme/subsys.c |  4 ++++
+>>>>>   4 files changed, 44 insertions(+), 18 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+>>>>> index c4065467d877..9401e212f9f7 100644
+>>>>> --- a/hw/nvme/nvme.h
+>>>>> +++ b/hw/nvme/nvme.h
+>>>>> @@ -33,12 +33,21 @@ QEMU_BUILD_BUG_ON(NVME_MAX_NAMESPACES >
+>>>>> NVME_NSID_BROADCAST - 1);
+>>>>>   typedef struct NvmeCtrl NvmeCtrl;
+>>>>>   typedef struct NvmeNamespace NvmeNamespace;
+>>>>> +#define TYPE_NVME_BUS "nvme-bus"
+>>>>> +OBJECT_DECLARE_SIMPLE_TYPE(NvmeBus, NVME_BUS)
+>>>>> +
+>>>>> +typedef struct NvmeBus {
+>>>>> +    BusState parent_bus;
+>>>>> +    bool     is_subsys;
+>>>>> +} NvmeBus;
+>>>>> +
+>>>>>   #define TYPE_NVME_SUBSYS "nvme-subsys"
+>>>>>   #define NVME_SUBSYS(obj) \
+>>>>>       OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
+>>>>>   typedef struct NvmeSubsystem {
+>>>>>       DeviceState parent_obj;
+>>>>> +    NvmeBus     bus;
+>>>>>       uint8_t     subnqn[256];
+>>>>>       NvmeCtrl      *ctrls[NVME_MAX_CONTROLLERS];
+>>>>> @@ -365,13 +374,6 @@ typedef struct NvmeCQueue {
+>>>>>       QTAILQ_HEAD(, NvmeRequest) req_list;
+>>>>>   } NvmeCQueue;
+>>>>> -#define TYPE_NVME_BUS "nvme-bus"
+>>>>> -#define NVME_BUS(obj) OBJECT_CHECK(NvmeBus, (obj), TYPE_NVME_BUS)
+>>>>> -
+>>>>> -typedef struct NvmeBus {
+>>>>> -    BusState parent_bus;
+>>>>> -} NvmeBus;
+>>>>> -
+>>>>>   #define TYPE_NVME "nvme"
+>>>>>   #define NVME(obj) \
+>>>>>           OBJECT_CHECK(NvmeCtrl, (obj), TYPE_NVME)
+>>>>> @@ -463,7 +465,7 @@ typedef struct NvmeCtrl {
+>>>>>   static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+>>>>>   {
+>>>>> -    if (!nsid || nsid > NVME_MAX_NAMESPACES) {
+>>>>> +    if (!n || !nsid || nsid > NVME_MAX_NAMESPACES) {
+>>>>>           return NULL;
+>>>>>       }
+>>>>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>>>>> index 90e3ee2b70ee..7c8fca36d9a5 100644
+>>>>> --- a/hw/nvme/ctrl.c
+>>>>> +++ b/hw/nvme/ctrl.c
+>>>>> @@ -6516,11 +6516,13 @@ static void nvme_exit(PCIDevice *pci_dev)
+>>>>>       for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+>>>>>           ns = nvme_ns(n, i);
+>>>>> -        if (!ns) {
+>>>>> -            continue;
+>>>>> +        if (ns) {
+>>>>> +            ns->attached--;
+>>>>>           }
+>>>>> +    }
+>>>>> -        nvme_ns_cleanup(ns);
+>>>>> +    if (n->subsys) {
+>>>>> +        nvme_subsys_unregister_ctrl(n->subsys, n);
+>>>>>       }
+>>>>>       if (n->subsys) {
+>>>>> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+>>>>> index 3c4f5b8c714a..612a2786d75d 100644
+>>>>> --- a/hw/nvme/ns.c
+>>>>> +++ b/hw/nvme/ns.c
+>>>>> @@ -444,13 +444,29 @@ void nvme_ns_cleanup(NvmeNamespace *ns)
+>>>>>   static void nvme_ns_realize(DeviceState *dev, Error **errp)
+>>>>>   {
+>>>>>       NvmeNamespace *ns = NVME_NS(dev);
+>>>>> -    BusState *s = qdev_get_parent_bus(dev);
+>>>>> -    NvmeCtrl *n = NVME(s->parent);
+>>>>> -    NvmeSubsystem *subsys = n->subsys;
+>>>>> +    BusState *qbus = qdev_get_parent_bus(dev);
+>>>>> +    NvmeBus *bus = NVME_BUS(qbus);
+>>>>> +    NvmeCtrl *n = NULL;
+>>>>> +    NvmeSubsystem *subsys = NULL;
+>>>>>       uint32_t nsid = ns->params.nsid;
+>>>>>       int i;
+>>>>> -    if (!n->subsys) {
+>>>>> +    if (bus->is_subsys) {
+>>>>> +        subsys = NVME_SUBSYS(qbus->parent);
+>>>>> +    } else {
+>>>>> +        n = NVME(qbus->parent);
+>>>>> +        subsys = n->subsys;
+>>>>> +    }
+>>>>> +
+>>>>> +    if (subsys) {
+>>>>> +        /*
+>>>>> +         * If this namespace belongs to a subsystem (through a
+>>>>> link on the
+>>>>> +         * controller device), reparent the device.
+>>>>> +         */
+>>>>> +        if (!qdev_set_parent_bus(dev, &subsys->bus.parent_bus, errp)) {
+>>>>> +            return;
+>>>>> +        }
+>>>>> +    } else {
+>>>>>           if (ns->params.detached) {
+>>>>>               error_setg(errp, "detached requires that the nvme
+>>>>> device is "
+>>>>>                          "linked to an nvme-subsys device");
+>>>>> @@ -470,7 +486,7 @@ static void nvme_ns_realize(DeviceState
+>>>>> *dev, Error **errp)
+>>>>>       if (!nsid) {
+>>>>>           for (i = 1; i <= NVME_MAX_NAMESPACES; i++) {
+>>>>> -            if (nvme_ns(n, i) || nvme_subsys_ns(subsys, i)) {
+>>>>> +            if (nvme_subsys_ns(subsys, i) || nvme_ns(n, i)) {
+>>>>>                   continue;
+>>>>>               }
+>>>>> @@ -483,7 +499,7 @@ static void nvme_ns_realize(DeviceState
+>>>>> *dev, Error **errp)
+>>>>>               return;
+>>>>>           }
+>>>>>       } else {
+>>>>> -        if (nvme_ns(n, nsid) || nvme_subsys_ns(subsys, nsid)) {
+>>>>> +        if (nvme_subsys_ns(subsys, nsid) || nvme_ns(n, nsid)) {
+>>>>>               error_setg(errp, "namespace id '%d' already
+>>>>> allocated", nsid);
+>>>>>               return;
+>>>>>           }
+>>>>> @@ -509,7 +525,9 @@ static void nvme_ns_realize(DeviceState
+>>>>> *dev, Error **errp)
+>>>>>           }
+>>>>>       }
+>>>>> -    nvme_attach_ns(n, ns);
+>>>>> +    if (n) {
+>>>>> +        nvme_attach_ns(n, ns);
+>>>>> +    }
+>>>>>   }
+>>>>>   static Property nvme_ns_props[] = {
+>>>>> diff --git a/hw/nvme/subsys.c b/hw/nvme/subsys.c
+>>>>> index 92caa604a280..fb7c3a7c55fc 100644
+>>>>> --- a/hw/nvme/subsys.c
+>>>>> +++ b/hw/nvme/subsys.c
+>>>>> @@ -50,6 +50,10 @@ static void nvme_subsys_realize(DeviceState
+>>>>> *dev, Error **errp)
+>>>>>   {
+>>>>>       NvmeSubsystem *subsys = NVME_SUBSYS(dev);
+>>>>> +    qbus_create_inplace(&subsys->bus, sizeof(NvmeBus),
+>>>>> TYPE_NVME_BUS, dev,
+>>>>> +                        dev->id);
+>>>>> +    subsys->bus.is_subsys = true;
+>>>>> +
+>>>>>       nvme_subsys_setup(subsys);
+>>>>>   }
+>>>>>
+>>>> Why not always create a subsystem, and distinguish between 'shared'
+>>>> and 'non-shared' subsystems instead of the ->subsys pointer?
+>>>> That way all namespaces can be children of the subsystem, we won't
+>>>> need any reparenting, and the whole thing will be more in-line with
+>>>> qdev, no?
+>>>>
+>>>
+>>> Hi Hannes,
+>>>
+>>> Thanks for your reviews and comments!
+>>>
+>>> So, I have actually considered what you suggest.
+>>>
+>>> The problem is that the nvme-ns device currently expects to plug into a
+>>> bus (an 'nvme-bus') and we cannot really get rid of that 'bus' parameter
+>>> without breaking compatibility. I experimented with removing the bus
+>>> from the nvme device and instead creating it in the nvme-subsys device.
+>>> My idea here was to implicitly always create an nvme-subsys if not
+>>> explicitly created by the user, but since nvme-subsys does not plug into
+>>> any bus itself, it is not exposed in the qtree and thus not reachable
+>>> (i.e., when realizing the nvme-ns device, it will complain that there
+>>> are no 'nvme-bus' available to plug into). To make this work, I believe
+>>> we'd have to have the nvme-subsys plug into the main system bus (or some
+>>> other bus rooted at main-system-bus), and I'd prefer not to do that
+>>> since this is already a flawed design and I think it would be more
+>>> intrusive than what my patch does.
+>>>
+>> Sigh.
+>> _Again_.
+>>
+>> I seem to trip over issues for which no patch can possibly be accepted as
+>> first the infrastructure has to be reworked.
+>>
+>> ... there is a reason why I'm avoiding posting patches to qemu-devel :-(
+>>
+>>> I raised these issues on the mailinglist some time ago[1]. We didn't
+>>> really find a good solution, but I think the conclusion is that the
+>>> bus/device design of subsystems and namespaces is flawed. That's why I
+>>> am working on an "objectification" of the two devices as suggested by
+>>> Stefan[2] as a proper fix for this mess.
+>>>
+>> Actually, I _do_ think that it would be good to have an nvme-subsystem bus,
+>> providing a list of all namespaces for that subsystem.
+>> Creating a controller would then mean that one has to create a controller
+>> and a namespace _separately_, as then the namespace would _not_ be a child
+>> of the controller.
+>> But that's arguably a good thing, as the namespaces _do_ have a separate
+>> lifetime from controllers.
+>> And the lifetime of the subsystem could be completely self-contained; the
+>> controller would be looking up subsystems via the subsystem NQN if present;
+>> I guess we'll need to create ad-hoc subsystems for PCIe.
+>> But nothing insurmountable.
+>> And certainly nothing which require a large-scale rework of qemu internals,
+>> I would think.
+> 
+> I don't remember the reason to use --object instead of --device. Maybe
+> the --device approach is viable and it makes some sense because this is
+> a "device" (like a SCSI LUN) that exposed to the guest. It would be
+> necessary to have a nvme-subsys device on the system bus to act as the
+> bus for nvme-ns devices as Klaus described.
+> 
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 111 +++++++++++------------------------------------------
- 1 file changed, 23 insertions(+), 88 deletions(-)
+Which is what I've had in mind.
+The only issue here is that a nvme controller will also generate or 
+attach to a nvme subsys, and the subsys will have a different lifetime 
+than the controller.
+But it should be possible to key the lifetime of the subsys to the 
+attached controllers (via refcounting, say), so that once the last 
+controller is detached from a subsystem the subsystem itself is also 
+detached.
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 9f72844b079..3e1ae24739a 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -83,7 +83,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- 
- static void cocoa_refresh(DisplayChangeListener *dcl);
- 
--static NSWindow *normalWindow, *about_window;
-+static NSWindow *normalWindow;
- static const DisplayChangeListenerOps dcl_ops = {
-     .dpy_name          = "cocoa",
-     .dpy_gfx_update = cocoa_update,
-@@ -1115,7 +1115,6 @@ - (void)changeDeviceMedia:(id)sender;
- - (BOOL)verifyQuit;
- - (void)openDocumentation:(NSString *)filename;
- - (IBAction) do_about_menu_item: (id) sender;
--- (void)make_about_window;
- - (void)adjustSpeed:(id)sender;
- @end
- 
-@@ -1166,7 +1165,6 @@ - (id) init
-         supportedImageFileTypes = [NSArray arrayWithObjects: @"img", @"iso", @"dmg",
-                                  @"qcow", @"qcow2", @"cloop", @"vmdk", @"cdr",
-                                   @"toast", nil];
--        [self make_about_window];
-     }
-     return self;
- }
-@@ -1451,92 +1449,29 @@ - (BOOL)verifyQuit
- /* The action method for the About menu item */
- - (IBAction) do_about_menu_item: (id) sender
- {
--    [about_window makeKeyAndOrderFront: nil];
--}
--
--/* Create and display the about dialog */
--- (void)make_about_window
--{
--    /* Make the window */
--    int x = 0, y = 0, about_width = 400, about_height = 200;
--    NSRect window_rect = NSMakeRect(x, y, about_width, about_height);
--    about_window = [[NSWindow alloc] initWithContentRect:window_rect
--                    styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
--                    NSWindowStyleMaskMiniaturizable
--                    backing:NSBackingStoreBuffered
--                    defer:NO];
--    [about_window setTitle: @"About"];
--    [about_window setReleasedWhenClosed: NO];
--    [about_window center];
--    NSView *superView = [about_window contentView];
--
--    /* Create the dimensions of the picture */
--    int picture_width = 80, picture_height = 80;
--    x = (about_width - picture_width)/2;
--    y = about_height - picture_height - 10;
--    NSRect picture_rect = NSMakeRect(x, y, picture_width, picture_height);
--
--    /* Make the picture of QEMU */
--    NSImageView *picture_view = [[NSImageView alloc] initWithFrame:
--                                                     picture_rect];
--    char *qemu_image_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
--    NSString *qemu_image_path = [NSString stringWithUTF8String:qemu_image_path_c];
--    g_free(qemu_image_path_c);
--    NSImage *qemu_image = [[NSImage alloc] initWithContentsOfFile:qemu_image_path];
--    [picture_view setImage: qemu_image];
--    [picture_view setImageScaling: NSImageScaleProportionallyUpOrDown];
--    [superView addSubview: picture_view];
--
--    /* Make the name label */
--    NSBundle *bundle = [NSBundle mainBundle];
--    if (bundle) {
--        x = 0;
--        y = y - 25;
--        int name_width = about_width, name_height = 20;
--        NSRect name_rect = NSMakeRect(x, y, name_width, name_height);
--        NSTextField *name_label = [[NSTextField alloc] initWithFrame: name_rect];
--        [name_label setEditable: NO];
--        [name_label setBezeled: NO];
--        [name_label setDrawsBackground: NO];
--        [name_label setAlignment: NSTextAlignmentCenter];
--        NSString *qemu_name = [[bundle executablePath] lastPathComponent];
--        [name_label setStringValue: qemu_name];
--        [superView addSubview: name_label];
-+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-+    char *icon_path_c = get_relocated_path(CONFIG_QEMU_ICONDIR "/hicolor/512x512/apps/qemu.png");
-+    NSString *icon_path = [NSString stringWithUTF8String:icon_path_c];
-+    g_free(icon_path_c);
-+    NSImage *icon = [[NSImage alloc] initWithContentsOfFile:icon_path];
-+    NSString *version = @"QEMU emulator version " QEMU_FULL_VERSION;
-+    NSString *copyright = @QEMU_COPYRIGHT;
-+    NSDictionary *options;
-+    if (icon) {
-+        options = @{
-+            NSAboutPanelOptionApplicationIcon : icon,
-+            NSAboutPanelOptionApplicationVersion : version,
-+            @"Copyright" : copyright,
-+        };
-+        [icon release];
-+    } else {
-+        options = @{
-+            NSAboutPanelOptionApplicationVersion : version,
-+            @"Copyright" : copyright,
-+        };
-     }
--
--    /* Set the version label's attributes */
--    x = 0;
--    y = 50;
--    int version_width = about_width, version_height = 20;
--    NSRect version_rect = NSMakeRect(x, y, version_width, version_height);
--    NSTextField *version_label = [[NSTextField alloc] initWithFrame:
--                                                      version_rect];
--    [version_label setEditable: NO];
--    [version_label setBezeled: NO];
--    [version_label setAlignment: NSTextAlignmentCenter];
--    [version_label setDrawsBackground: NO];
--
--    /* Create the version string*/
--    NSString *version_string;
--    version_string = [[NSString alloc] initWithFormat:
--    @"QEMU emulator version %s", QEMU_FULL_VERSION];
--    [version_label setStringValue: version_string];
--    [superView addSubview: version_label];
--
--    /* Make copyright label */
--    x = 0;
--    y = 35;
--    int copyright_width = about_width, copyright_height = 20;
--    NSRect copyright_rect = NSMakeRect(x, y, copyright_width, copyright_height);
--    NSTextField *copyright_label = [[NSTextField alloc] initWithFrame:
--                                                        copyright_rect];
--    [copyright_label setEditable: NO];
--    [copyright_label setBezeled: NO];
--    [copyright_label setDrawsBackground: NO];
--    [copyright_label setAlignment: NSTextAlignmentCenter];
--    [copyright_label setStringValue: [NSString stringWithFormat: @"%s",
--                                     QEMU_COPYRIGHT]];
--    [superView addSubview: copyright_label];
-+    [NSApp orderFrontStandardAboutPanelWithOptions:options];
-+    [pool release];
- }
- 
- /* Used by the Speed menu items */
+>> But _if_ you work on the rework, please ensure that not only NVMe is
+>> represented here. SCSI multipathing has the same issue currently; there is a
+>> strict host->lun->block->OS device relationship currently in SCSI, making it
+>> impossible to represent a multipathed SCSI device in qemu.
+>> The only sneaky way is to allow for a shared OS device (ie specifying the
+>> filename more than once), but that completely sidesteps qemu internals, too.
+> 
+> Do you want one SCSIDevice to be accessible via multiple SCSIBus
+> instances for multipathing in QEMU?
+> 
+Precisely. Some things like ALUA or multipath issues in general are 
+tricky to reproduce, and qemu would be a neat way here. But currently
+we can't as we cannot emulate multipathing.
+
+Any hints are welcome; I've tried several times to implement it but 
+inevitably failed :-(
+
+Cheers,
+
+Hannes
 -- 
-2.30.1 (Apple Git-130)
-
+Dr. Hannes Reinecke                Kernel Storage Architect
+hare@suse.de                              +49 911 74053 688
+SUSE Software Solutions GmbH, Maxfeldstr. 5, 90409 Nürnberg
+HRB 36809 (AG Nürnberg), Geschäftsführer: Felix Imendörffer
 
