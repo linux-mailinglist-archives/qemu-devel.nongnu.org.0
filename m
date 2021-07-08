@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C92F3BF7D9
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:57:25 +0200 (CEST)
-Received: from localhost ([::1]:36794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D213BF7DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:57:56 +0200 (CEST)
+Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Qma-0005hu-Ae
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58794)
+	id 1m1Qn5-0007WT-2r
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:57:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1QkN-00031x-Hu
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:55:07 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1QkL-0005Zp-Jx
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:55:07 -0400
-Received: by mail-ed1-x530.google.com with SMTP id eb14so7740415edb.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 02:55:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4kL95hQeusGGcbtlWdnsw8Ntes8Hfu93UtZswW+5AOA=;
- b=yZv4HKXIsK3SwqCqqd70yocaa/sE1taVawKi55cK3zMGAOFYDH0K2NvBjNgwY4x0TR
- PzO48VoDln5WzKIL1sRk7ijCAadRz+nhEZlCfc2SpUfmfCTRUBLJIIzT5fM3d/7z/I9U
- QtOBmG3H/UScdL1/7LG2KC0W/UC5EYsHyCZXUQVWZaATwDzML/9GzDu2AFy/HcEA/tg8
- SMcfIe64NjOMVUEbaOrFRsKlO06qUHbyul7PxmztBjQ9MHhYjuUwTnSu+iDImiBc2Bl9
- ZF7vOu2PXU8ME2pIJ7dEsWaM6/XnCn2hINLQ5CrYds8E1j8s0i6CdmDSBXXKpYtEw2N0
- wIRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4kL95hQeusGGcbtlWdnsw8Ntes8Hfu93UtZswW+5AOA=;
- b=X5HkYI0J4jSQ0qghQ7O3vchFndwdLH1brJT8VLeNrZIARSnYXL+INT57aMV1lE2wpq
- Z31s4JKu6GHIKmxuhhhBkO8dZ8bG/fwq2ynv0ISB+0YVNsANFAwiLY8FMLWpTDYlxSoH
- 9ODcdImxlMymEefBWb31nAqkn9mep4Hju/NyClj23rU6n1DktVhKpJgQb0o13rm3M3mm
- xBzPEzwJ0B+DK0gncLOOnHT6BPBVLMVGICLG4a6piOF83Y00VUuazmo62Ah7LRD7arak
- HweISTi6mxvQ4BQYfzmz44MfN7IMqiVctseDRypuCu5xKkWeriMTTjOQkXOd3YE4UWhH
- h5mQ==
-X-Gm-Message-State: AOAM533GEeMXtn/Xn8NaW7r6Ga5rsVI14FEQK8guZJMSmLftjx+pJ+vZ
- fa2vqcy9gb1MwsRyRE6ha2F8N3LKBS0DXOmIVp5NEQ==
-X-Google-Smtp-Source: ABdhPJxYi7LdkzXHKylKum3xTMy9T68Zz7/RV59B/nKmWt9sb98tfSwOF07vgWzf28N3r4bKGAZn43ArfsVqaNerawY=
-X-Received: by 2002:a05:6402:697:: with SMTP id
- f23mr15554515edy.44.1625738104087; 
- Thu, 08 Jul 2021 02:55:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1m1QkL-0002tu-6k
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:55:05 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:36319
+ helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lizhijian@fujitsu.com>) id 1m1QkI-0005YP-OQ
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:55:04 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A9YU8Kalkg4d/jst7TfHXjTteOgHpDfIQ3DAb?=
+ =?us-ascii?q?v31ZSRFFG/Fw9vre+MjzsCWYtN9/Yh8dcK+7UpVoLUm8yXcX2/h1AV7BZniEhI?=
+ =?us-ascii?q?LAFugLgrcKqAeQeREWmNQ86Y5QN4B6CPDVSWNxlNvG5mCDeOoI8Z2q97+JiI7l?=
+ =?us-ascii?q?o0tQcQ=3D=3D?=
+X-IronPort-AV: E=Sophos;i="5.84,222,1620662400"; 
+ d="scan'208,217";a="110833223"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+ by heian.cn.fujitsu.com with ESMTP; 08 Jul 2021 17:54:58 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+ by cn.fujitsu.com (Postfix) with ESMTP id C56934D0C4D7;
+ Thu,  8 Jul 2021 17:54:53 +0800 (CST)
+Received: from G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 8 Jul 2021 17:54:54 +0800
+Received: from G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.83) by
+ G08CNEXJMPEKD02.g08.fujitsu.local (10.167.33.202) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 8 Jul 2021 17:54:53 +0800
+Received: from [192.168.122.212] (10.167.226.45) by
+ G08CNEXCHPEKD08.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
+ id 15.0.1497.2 via Frontend Transport; Thu, 8 Jul 2021 17:54:52 +0800
+Subject: Re: [PATCH] Fix libpmem configuration option
+To: Miroslav Rezanina <mrezanin@redhat.com>, <qemu-devel@nongnu.org>
+References: <20210707075144.82717-1-mrezanin@redhat.com>
+From: =?UTF-8?B?TGksIFpoaWppYW4v5p2OIOaZuuWdmg==?= <lizhijian@cn.fujitsu.com>
+Message-ID: <d51cb530-35e4-5653-4209-8c553a117c64@cn.fujitsu.com>
+Date: Thu, 8 Jul 2021 17:54:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210706211432.31902-1-rebecca@nuviainc.com>
-In-Reply-To: <20210706211432.31902-1-rebecca@nuviainc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Jul 2021 10:54:25 +0100
-Message-ID: <CAFEAcA-m+A4jpaaauDvN2FQgjfL9X30hzhVmWFJ0xJ78O7a__g@mail.gmail.com>
-Subject: Re: [trivial PATCH 1/1] hw/intc: Improve formatting of MEMTX_ERROR
- guest error message
-To: Rebecca Cran <rebecca@nuviainc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210707075144.82717-1-mrezanin@redhat.com>
+Content-Type: multipart/alternative;
+ boundary="------------237AEA8E90ACD19218F1A43A"
+Content-Language: en-US
+X-yoursite-MailScanner-ID: C56934D0C4D7.A70FF
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lizhijian@fujitsu.com
+Received-SPF: neutral client-ip=183.91.158.132;
+ envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,23 +74,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Jul 2021 at 22:14, Rebecca Cran <rebecca@nuviainc.com> wrote:
+--------------237AEA8E90ACD19218F1A43A
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+i have to apply below extra changes
+
+ From a8d027d3dfe70fb33363ad5934e163999fc29eec Mon Sep 17 00:00:00 2001
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+Date: Thu, 8 Jul 2021 17:52:40 +0800
+Subject: [PATCH] fix libpmem configuration
+
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+---
+  configure | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index a172c83e150..0a3a4610f27 100755
+--- a/configure
++++ b/configure
+@@ -4818,7 +4818,7 @@ elif test "$pthread_setname_np_wo_tid" = "yes" ; then
+    echo "CONFIG_PTHREAD_SETNAME_NP_WO_TID=y" >> $config_host_mak
+  fi
+  
+-if test "$libpmem" = "yes" ; then
++if test "$libpmem" = "enabled" ; then
+    echo "CONFIG_LIBPMEM=y" >> $config_host_mak
+    echo "LIBPMEM_LIBS=$libpmem_libs" >> $config_host_mak
+    echo "LIBPMEM_CFLAGS=$libpmem_cflags" >> $config_host_mak
+-- 
+2.31.1
+
+On 2021/7/7 15:51, Miroslav Rezanina wrote:
+> For some reason, libpmem option setting was set to work in an opposite
+> way (--enable-libpmem disabled it and vice versa). Fixing this so
+> configuration works properly.
 >
-> Add a space in the message printed when gicr_read*/gicr_write* returns
-> MEMTX_ERROR in arm_gicv3_redist.c.
->
-> Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 > ---
->  hw/intc/arm_gicv3_redist.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   configure | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/configure b/configure
+> index 7994bdee92..ffa93cc5fd 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1501,9 +1501,9 @@ for opt do
+>     ;;
+>     --disable-debug-mutex) debug_mutex=no
+>     ;;
+> -  --enable-libpmem) libpmem=disabled
+> +  --enable-libpmem) libpmem="enabled"
+>     ;;
+> -  --disable-libpmem) libpmem=enabled
+> +  --disable-libpmem) libpmem="disabled"
+>     ;;
+>     --enable-xkbcommon) xkbcommon="enabled"
+>     ;;
 
-Applied to target-arm.next, thanks.
 
--- PMM
+
+--------------237AEA8E90ACD19218F1A43A
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <p>i have to apply below extra changes<br>
+    </p>
+    <pre>From a8d027d3dfe70fb33363ad5934e163999fc29eec Mon Sep 17 00:00:00 2001
+From: Li Zhijian <a class="moz-txt-link-rfc2396E" href="mailto:lizhijian@cn.fujitsu.com">&lt;lizhijian@cn.fujitsu.com&gt;</a>
+Date: Thu, 8 Jul 2021 17:52:40 +0800
+Subject: [PATCH] fix libpmem configuration
+
+Signed-off-by: Li Zhijian <a class="moz-txt-link-rfc2396E" href="mailto:lizhijian@cn.fujitsu.com">&lt;lizhijian@cn.fujitsu.com&gt;</a>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configure b/configure
+index a172c83e150..0a3a4610f27 100755
+--- a/configure
++++ b/configure
+@@ -4818,7 +4818,7 @@ elif test "$pthread_setname_np_wo_tid" = "yes" ; then
+   echo "CONFIG_PTHREAD_SETNAME_NP_WO_TID=y" &gt;&gt; $config_host_mak
+ fi
+ 
+-if test "$libpmem" = "yes" ; then
++if test "$libpmem" = "enabled" ; then
+   echo "CONFIG_LIBPMEM=y" &gt;&gt; $config_host_mak
+   echo "LIBPMEM_LIBS=$libpmem_libs" &gt;&gt; $config_host_mak
+   echo "LIBPMEM_CFLAGS=$libpmem_cflags" &gt;&gt; $config_host_mak
+-- 
+2.31.1
+
+</pre>
+    <div class="moz-cite-prefix">On 2021/7/7 15:51, Miroslav Rezanina
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20210707075144.82717-1-mrezanin@redhat.com">
+      <pre class="moz-quote-pre" wrap="">For some reason, libpmem option setting was set to work in an opposite
+way (--enable-libpmem disabled it and vice versa). Fixing this so
+configuration works properly.
+
+Signed-off-by: Miroslav Rezanina <a class="moz-txt-link-rfc2396E" href="mailto:mrezanin@redhat.com">&lt;mrezanin@redhat.com&gt;</a>
+---
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/configure b/configure
+index 7994bdee92..ffa93cc5fd 100755
+--- a/configure
++++ b/configure
+@@ -1501,9 +1501,9 @@ for opt do
+   ;;
+   --disable-debug-mutex) debug_mutex=no
+   ;;
+-  --enable-libpmem) libpmem=disabled
++  --enable-libpmem) libpmem="enabled"
+   ;;
+-  --disable-libpmem) libpmem=enabled
++  --disable-libpmem) libpmem="disabled"
+   ;;
+   --enable-xkbcommon) xkbcommon="enabled"
+   ;;
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------237AEA8E90ACD19218F1A43A--
 
