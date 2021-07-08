@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 544D23BF46A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:05:53 +0200 (CEST)
-Received: from localhost ([::1]:49920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2941B3BF46D
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:08:26 +0200 (CEST)
+Received: from localhost ([::1]:54268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1LIN-00038N-Ty
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35120)
+	id 1m1LKr-00068j-5J
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:08:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1LFU-0001Pi-6m; Thu, 08 Jul 2021 00:02:52 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35919 helo=ozlabs.org)
+ id 1m1LFV-0001QF-Js; Thu, 08 Jul 2021 00:02:53 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:34529 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1LFR-0004eJ-LM; Thu, 08 Jul 2021 00:02:51 -0400
+ id 1m1LFR-0004eI-LR; Thu, 08 Jul 2021 00:02:53 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GL2gk44XCz9sX2; Thu,  8 Jul 2021 14:02:42 +1000 (AEST)
+ id 4GL2gk4Rkbz9sXL; Thu,  8 Jul 2021 14:02:42 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625716962;
- bh=NipMwljLBKnlyMqBE//p/SR1naiPKf/AnYYuYiG+y10=;
+ bh=uhvlaHddDhqgoVtbefUJeN2mXymIWkgUZA6k40F3ZB0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lbgiQAAM75sbFP427WHL8L6GvPOFIFtMbu1JAE8Fc6B+6S8AnuLuiFgc11+dAzLXY
- upWUEChRxs1pjyFXO2opEGf4Zyii/i5oPRoP3/9jSn1ITYh9nWujGYlAprHLObLyg6
- +E7YSbFNbMJzdEjtnmM13DkQlQBZzJ3u92YbnplM=
-Date: Thu, 8 Jul 2021 12:47:55 +1000
+ b=PkBPfDowxQgG/MCtemnd2I/ESEqVLlgmW+iXxRxo2vZcecCpCpi3Am2uDeYD3Vcc8
+ 8KpG02XIgaT0qJB3PX7NMTRLlXCA3g3J0YqxfEIsOaOdiZnjjGaP3dfLbnL+QHOmSu
+ r7aO5vfH7VWgmvqRnV8n1dypMHYvC56BZgtmEgmM=
+Date: Thu, 8 Jul 2021 12:48:59 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 1/4] ppc/pegasos2: Introduce Pegasos2MachineState structure
-Message-ID: <YOZnW+lrqRCGl2kX@yekko>
+Subject: Re: [PATCH 2/4] target/ppc: Allow virtual hypervisor on CPU without HV
+Message-ID: <YOZnmxJQjsT40TVc@yekko>
 References: <cover.1624811233.git.balaton@eik.bme.hu>
- <7f6d5fbf4f70c64dba001483174a2921dd616ecd.1624811233.git.balaton@eik.bme.hu>
+ <21c7745aabbb68fcc50bb2ffaf16b939ba21261c.1624811233.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+Zh1hYFkkbFCbVfw"
+ protocol="application/pgp-signature"; boundary="QXBLzTNxfB/6l8Gd"
 Content-Disposition: inline
-In-Reply-To: <7f6d5fbf4f70c64dba001483174a2921dd616ecd.1624811233.git.balaton@eik.bme.hu>
+In-Reply-To: <21c7745aabbb68fcc50bb2ffaf16b939ba21261c.1624811233.git.balaton@eik.bme.hu>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,140 +64,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---+Zh1hYFkkbFCbVfw
-Content-Type: text/plain; charset=iso-8859-1
+--QXBLzTNxfB/6l8Gd
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Sun, Jun 27, 2021 at 06:27:13PM +0200, BALATON Zoltan wrote:
-> Add own machine state structure which will be used to store state
-> needed for firmware emulation.
+> Change the assert in ppc_store_sdr1() to allow vhyp to be set on CPUs
+> without HV bit. This allows using the vhyp interface for firmware
+> emulation on pegasos2.
 >=20
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-Applied to ppc-for-6.1.
+Kind of a hack, but a simple one, so applied to ppc-for-6.1.
 
 > ---
->  hw/ppc/pegasos2.c | 50 +++++++++++++++++++++++++++++++++++------------
->  1 file changed, 37 insertions(+), 13 deletions(-)
+>  target/ppc/cpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-> index 0bfd0928aa..07971175c9 100644
-> --- a/hw/ppc/pegasos2.c
-> +++ b/hw/ppc/pegasos2.c
-> @@ -1,7 +1,7 @@
->  /*
->   * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
->   *
-> - * Copyright (c) 2018-2020 BALATON Zoltan
-> + * Copyright (c) 2018-2021 BALATON Zoltan
->   *
->   * This work is licensed under the GNU GPL license version 2 or later.
->   *
-> @@ -41,6 +41,15 @@
-> =20
->  #define BUS_FREQ_HZ 133333333
-> =20
-> +#define TYPE_PEGASOS2_MACHINE  MACHINE_TYPE_NAME("pegasos2")
-> +OBJECT_DECLARE_TYPE(Pegasos2MachineState, MachineClass, PEGASOS2_MACHINE)
-> +
-> +struct Pegasos2MachineState {
-> +    MachineState parent_obj;
-> +    PowerPCCPU *cpu;
-> +    DeviceState *mv;
-> +};
-> +
->  static void pegasos2_cpu_reset(void *opaque)
+> diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
+> index 19d67b5b07..a29299882a 100644
+> --- a/target/ppc/cpu.c
+> +++ b/target/ppc/cpu.c
+> @@ -72,7 +72,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong valu=
+e)
 >  {
->      PowerPCCPU *cpu =3D opaque;
-> @@ -51,9 +60,9 @@ static void pegasos2_cpu_reset(void *opaque)
-> =20
->  static void pegasos2_init(MachineState *machine)
->  {
-> -    PowerPCCPU *cpu =3D NULL;
-> +    Pegasos2MachineState *pm =3D PEGASOS2_MACHINE(machine);
-> +    CPUPPCState *env;
->      MemoryRegion *rom =3D g_new(MemoryRegion, 1);
-> -    DeviceState *mv;
->      PCIBus *pci_bus;
->      PCIDevice *dev;
->      I2CBus *i2c_bus;
-> @@ -63,15 +72,16 @@ static void pegasos2_init(MachineState *machine)
->      uint8_t *spd_data;
-> =20
->      /* init CPU */
-> -    cpu =3D POWERPC_CPU(cpu_create(machine->cpu_type));
-> -    if (PPC_INPUT(&cpu->env) !=3D PPC_FLAGS_INPUT_6xx) {
-> +    pm->cpu =3D POWERPC_CPU(cpu_create(machine->cpu_type));
-> +    env =3D &pm->cpu->env;
-> +    if (PPC_INPUT(env) !=3D PPC_FLAGS_INPUT_6xx) {
->          error_report("Incompatible CPU, only 6xx bus supported");
->          exit(1);
->      }
-> =20
->      /* Set time-base frequency */
-> -    cpu_ppc_tb_init(&cpu->env, BUS_FREQ_HZ / 4);
-> -    qemu_register_reset(pegasos2_cpu_reset, cpu);
-> +    cpu_ppc_tb_init(env, BUS_FREQ_HZ / 4);
-> +    qemu_register_reset(pegasos2_cpu_reset, pm->cpu);
-> =20
->      /* RAM */
->      memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-> @@ -96,16 +106,16 @@ static void pegasos2_init(MachineState *machine)
->      g_free(filename);
-> =20
->      /* Marvell Discovery II system controller */
-> -    mv =3D DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-> -                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_I=
-NT]));
-> -    pci_bus =3D mv64361_get_pci_bus(mv, 1);
-> +    pm->mv =3D DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-> +                             ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_=
-INT]));
-> +    pci_bus =3D mv64361_get_pci_bus(pm->mv, 1);
-> =20
->      /* VIA VT8231 South Bridge (multifunction PCI device) */
->      /* VT8231 function 0: PCI-to-ISA Bridge */
->      dev =3D pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), t=
-rue,
->                                            TYPE_VT8231_ISA);
->      qdev_connect_gpio_out(DEVICE(dev), 0,
-> -                          qdev_get_gpio_in_named(mv, "gpp", 31));
-> +                          qdev_get_gpio_in_named(pm->mv, "gpp", 31));
-> =20
->      /* VT8231 function 1: IDE Controller */
->      dev =3D pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
-> @@ -129,8 +139,10 @@ static void pegasos2_init(MachineState *machine)
->      pci_vga_init(pci_bus);
->  }
-> =20
-> -static void pegasos2_machine(MachineClass *mc)
-> +static void pegasos2_machine_class_init(ObjectClass *oc, void *data)
->  {
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +
->      mc->desc =3D "Genesi/bPlan Pegasos II";
->      mc->init =3D pegasos2_init;
->      mc->block_default_type =3D IF_IDE;
-> @@ -141,4 +153,16 @@ static void pegasos2_machine(MachineClass *mc)
->      mc->default_ram_size =3D 512 * MiB;
->  }
-> =20
-> -DEFINE_MACHINE("pegasos2", pegasos2_machine)
-> +static const TypeInfo pegasos2_machine_info =3D {
-> +    .name          =3D TYPE_PEGASOS2_MACHINE,
-> +    .parent        =3D TYPE_MACHINE,
-> +    .class_init    =3D pegasos2_machine_class_init,
-> +    .instance_size =3D sizeof(Pegasos2MachineState),
-> +};
-> +
-> +static void pegasos2_machine_register_types(void)
-> +{
-> +    type_register_static(&pegasos2_machine_info);
-> +}
-> +
-> +type_init(pegasos2_machine_register_types)
+>      PowerPCCPU *cpu =3D env_archcpu(env);
+>      qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, valu=
+e);
+> -    assert(!cpu->vhyp);
+> +    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
+>  #if defined(TARGET_PPC64)
+>      if (mmu_is_64bit(env->mmu_model)) {
+>          target_ulong sdr_mask =3D SDR_64_HTABORG | SDR_64_HTABSIZE;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -205,25 +104,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---+Zh1hYFkkbFCbVfw
+--QXBLzTNxfB/6l8Gd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDmZ1sACgkQbDjKyiDZ
-s5KMJg/8DHpRHFDp9fb4SyWIGjVCHT0uFbtiMbV4gOBRW/Is2HXPwSM8fnTymQ09
-hn8tPSR26gwtANE3egvwtRyP+treG2TG1RSAFaAgWnyc89OtAr0DQxyr8YTUBzYt
-gm1RXzFivBoZwl0ovH5/zTIlMXiv8sOEF+qvtpvFADns2mmcOIyIBOUHw6vdNXPA
-07agfttVndzkaIcULR6ynhs4HHEmmvzkVqxRpkyJHYzmESfoaogSPd27iLxkC8wu
-ELW9tg/mgGsZWXH6jem7XXT2eXEPS+aikaaGWRMRoheV9bMMsSESaLzuwt7FtmhA
-QcDYTVTgCc3Y5uX5L43BdZYtA8eKzzPdzxnygdYuV/nmZ1NIgnVHcFdhSdawhF0g
-QZIq7ozT3VF16QCvr13YIH8zPd+WVf2NA2/XaoHgW3b5VdVNN42NcuoC58MMDCyi
-ayhV6ZPuiBB6NF7QB0/mWMK36AO3Fa08jERA3f+DCaX0KAESgUZ749GifXtJIfpA
-5p4kiUkDXiMVawwAbQ7gJRNccshrdLQ3iI7n5Ma21xo8XKW/TeLEuaqQNRjc9Iiw
-5Al7EKxQl9IfCw6Em+AJWjAJsc52zMUMdT/HAPf+UQWIjk8DgTOoHWRKymTWZ8Kq
-hQSp43ln6cnh6XLQ0MN8CwqGZXH4Eb8a58M8tYSGB2Zb2laPUbU=
-=HnOE
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDmZ5sACgkQbDjKyiDZ
+s5JS5g//UEzBYK/LiaMAMEEL/ksCfvx+e7qV1w4mNE4zc76dYyltvCGu8Hbp5Ub8
+1tvedmnzVUlqu9Uzi+N87uW40jOoK/wPQOKIriNAx/pOAcOYVlH7m9kEAcAOrU5R
+cz5DvBsyklapmsZdfLimGFUKuVGdvjfxYYZDK5kxWdTdF+FT9DV4bMEDVK21LUrA
+AqwkxVNL133qVuFHz5OnwZMRoC1+Nb5ICJTdmumNvhH7h1U36FTAZny01qLNe5WC
+/2VsffH544M8gvy5UKS9U6Ut8CH57D1bNbTTsAm10C6K8uJpoVsjh8+L8KxlAcnN
+QOOIZSOhn+TCmnZaQmFnY7IRFzfihU9rPD5rGsDkd3JlzI8/Tc9ZFZOGFPyWuWdZ
+R11DqqH3tHfXpuCzyGc1/23FC3NotbWMCDmPAMVyZlHfyA4+3ToG9fnK2Nmqk4RY
+dU+Ait9SVKQDuEVyWzMFyMbbfTkUaqYG5Q2/2RKaF0UA/foVvi1OYXRz+jrU8wTm
+NlAr2uj9Ri0tYu7SwI54kzV7Q6WpTs4X4KPLYBPmdA5I5Fg0fM/tlG8+fMpPPqql
+jbvTIfY73DKYn8Z+LsR0kpVc8fJkigHCKvF4nTeTvMZndiL+WO133oEGm35elHCM
+vdpk1O7U2qFPxi8+y2OFk+7ZZvh6Ic490mnrN0wfTqjjSaKltEA=
+=wM9b
 -----END PGP SIGNATURE-----
 
---+Zh1hYFkkbFCbVfw--
+--QXBLzTNxfB/6l8Gd--
 
