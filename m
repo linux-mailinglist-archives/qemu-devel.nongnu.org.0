@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C912F3C19A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:12:59 +0200 (CEST)
-Received: from localhost ([::1]:57946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C8E3C19BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:23:05 +0200 (CEST)
+Received: from localhost ([::1]:57798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZSE-0007nv-R6
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:12:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
+	id 1m1Zc0-0001Ag-UT
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1ZMl-0000E8-RW
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1ZMl-0000E1-Qx
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:07:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58593)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1ZMX-0003xJ-IS
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:07:17 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1ZMX-0003x5-I7
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 15:07:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625771223;
+ s=mimecast20190719; t=1625771222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qoGIaSSybi+Tx59880HHNpG+HkBjifrEItBdgQov8Zc=;
- b=b5YBJXc/OcvCSY0VlGXYYfvK/YY+mterC9No2hlm/z2R0ghURX1jna2Mokz5FpYZeEvaaB
- RWfLPFPpBICF+CDjuvwzTLb3rcj46Vi5phl01FZ0IUH35ZEFUE6qrjcfy9ELtZwn88pfYJ
- sjYUAvAqBCj5APEwjeMKYTIxF9a16y4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-Aiq9KeofN_G88bXKFVryXA-1; Thu, 08 Jul 2021 15:07:00 -0400
-X-MC-Unique: Aiq9KeofN_G88bXKFVryXA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- q16-20020ac845100000b0290252006e22f6so4129703qtn.22
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:07:00 -0700 (PDT)
+ bh=JJwQBaEqPe/S8oFhJKkD4BqzmaMWBTRJJMPC5Q0UEuk=;
+ b=CspCWdgbn9JjLE7VcDRm/udfGCSIZxWIiKm8Ytpsrulwk7ryhXwJ+F/1plW6e47lqB5OUb
+ CX8uFyBadQu8PO4x1LwYeerwQr0x6frTAbMYGu7dQNroJoPaOtdQKJcVGh5rc1nvX4x85J
+ OHcFsJORNUPGn02hcI/3zIh61VNktjo=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-341-ySh8I9C9MmuxLdoG8WPGow-1; Thu, 08 Jul 2021 15:07:01 -0400
+X-MC-Unique: ySh8I9C9MmuxLdoG8WPGow-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ eo5-20020ad459450000b02902d60d0f0744so1763522qvb.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 12:07:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qoGIaSSybi+Tx59880HHNpG+HkBjifrEItBdgQov8Zc=;
- b=FNMuIzpQLrZxgj9cCI5Y5sztHX5IQYt75AwklAOubimzJykS9JxeN4/aEylUVT3uDm
- L2OQl8m0HivK0ehQrv7/XK0UZnUqjc/s+ol5W24vwCJNatYX3+PHZQItYyYNEMVbhkZo
- N0taP1YXhpj5/Mpf+lYoK3hg3XEXsp8AS892yWREDUb7CwVD9pONQrm0+7BLqycI/8Tv
- nZ4H3WmdUDPnp5ekSbxo4jy5+QVaCVhyBuT+gypDfmAjPgm8FBeqx9nE1oMENhN7mThi
- qSaq8p+UhMrfwsd+hBLk6MJcdyA/ojXj31HD/aRMN6A0tm1Oo7HAh4jIcHtxPrIYfjaZ
- +oCQ==
-X-Gm-Message-State: AOAM530splWDRbd5dyK18q1PL3sPI5DjkXfqum8LKP6tYqXQrgp8c8q5
- Xa3Dq6VDvyeN6Bo2i+CXMIcW8bFCYXtUbMJ0MOBbvO9MHDr9w53InkuoUQugkp0a8kBZszo4WnI
- DKaml7noXU4igmxaKkkoT8jmTtFmg0Heuu/e/cgQ48b4tfZu7/cRyhX1hm/V3koJA
-X-Received: by 2002:a0c:d68f:: with SMTP id k15mr31602885qvi.14.1625771219261; 
- Thu, 08 Jul 2021 12:06:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9MixROmqxryFMKlkfBrq/qrsoYCiuPw+Vfu3jp6rSeUPNDTDbuyEFYQNyF2+6MXS8FA8yyQ==
-X-Received: by 2002:a0c:d68f:: with SMTP id k15mr31602854qvi.14.1625771218970; 
- Thu, 08 Jul 2021 12:06:58 -0700 (PDT)
+ bh=JJwQBaEqPe/S8oFhJKkD4BqzmaMWBTRJJMPC5Q0UEuk=;
+ b=oI1avNYPxylX2DSFomrj6tgyDf+d1Ny3T6xRMWYXHcVlQrbdU8DCoJHwpUPhmIPjQa
+ xTBmvUJFZgOQzcmCsq4Q9njWiOG4QVYlQpZClHb0cJdHX1t8rQByXFDpCcbHygPbT4/e
+ GblaA6SLgEvy4EGTTVryzN7d2D/3jpVMp22lgfvU0jFMZjlwWzaqfH1K1tmhNfITE+ls
+ X+arh8iqzYWoV1EIOA2pZdwj5whFz3kv+hwN8ejJ9x/nu4uGrVW2+4D+V2XHWeD/m7g/
+ GLExUUFTqQerBI7qp/0j7p/HwDO3RhtZj6Zt0hzx5OLIho+gjH8HUz5SuVMysE0MnNvk
+ Lsog==
+X-Gm-Message-State: AOAM530ypPlwYXkvtokq4ILt7HiehjLqyNufp2EYxk6a2B92GFEOzYmE
+ otGsVWdL1rF+gZWxeHt7/+hqfgoALA/TPj7t8ATRxmT2ScJm9OghcSxesdSb2fS4iQCRCPqz2Cg
+ hBg3Ykh0h49NrzPSmSokbEjf5+EDkArsm6mFP1/4TlcLuJ8Pq0PXsl+c4HKnXndX7
+X-Received: by 2002:a0c:d605:: with SMTP id c5mr31753184qvj.7.1625771220626;
+ Thu, 08 Jul 2021 12:07:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwVEvDnVhxPLDF3lUqLj/Qu0dmXfXhy3AexNw8ydrvgyf/ueTGTtpvK9CcNYRbnKhDGg7eKhw==
+X-Received: by 2002:a0c:d605:: with SMTP id c5mr31753164qvj.7.1625771220429;
+ Thu, 08 Jul 2021 12:07:00 -0700 (PDT)
 Received: from localhost.localdomain
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id v15sm1430976qkp.96.2021.07.08.12.06.57
+ by smtp.gmail.com with ESMTPSA id v15sm1430976qkp.96.2021.07.08.12.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 12:06:58 -0700 (PDT)
+ Thu, 08 Jul 2021 12:06:59 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] migration: Release return path early for paused postcopy
-Date: Thu,  8 Jul 2021 15:06:51 -0400
-Message-Id: <20210708190653.252961-2-peterx@redhat.com>
+Subject: [PATCH 2/3] migration: Don't do migrate cleanup if during postcopy
+ resume
+Date: Thu,  8 Jul 2021 15:06:52 -0400
+Message-Id: <20210708190653.252961-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708190653.252961-1-peterx@redhat.com>
 References: <20210708190653.252961-1-peterx@redhat.com>
@@ -97,67 +98,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Lukas Straub <lukasstraub2@web.de>, Juan Quintela <quintela@redhat.com>,
  Li Xiaohui <xiaohli@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Li Xiaohui <xiaohuixiaohli@redhat.com>,
  Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When postcopy pause triggered, we rely on the migration thread to cleanup the
-to_dst_file handle, and the return path thread to cleanup the from_dst_file
-handle (which is stored in the local variable "rp").
+Below process could crash qemu with postcopy recovery:
 
-Within the process, from_dst_file cleanup (qemu_fclose) is postponed until it's
-setup again due to a postcopy recovery.
+  1. (hmp) migrate -d ..
+  2. (hmp) migrate_start_postcopy
+  3. [network down, postcopy paused]
+  4. (hmp) migrate -r $WRONG_PORT
+     when try the recover on an invalid $WRONG_PORT, cleanup_bh will be cleared
+  5. (hmp) migrate -r $RIGHT_PORT
+     [qemu crash on assert(cleanup_bh)]
 
-It used to work before yank was born; after yank is introduced we rely on the
-refcount of IOC to correctly unregister yank function in channel_close().  If
-without the early and on-time release of from_dst_file handle the yank function
-will be leftover during paused postcopy.
+The thing is we shouldn't cleanup if it's postcopy resume; the error is set
+mostly because the channel is wrong, so we return directly waiting for the user
+to retry.
 
-Without this patch, below steps (quoted from Xiaohui) could trigger qemu src
-crash:
+migrate_fd_cleanup() should only be called when migration is cancelled or
+completed.
 
-  1.Boot vm on src host
-  2.Boot vm on dst host
-  3.Enable postcopy on src&dst host
-  4.Load stressapptest in vm and set postcopy speed to 50M
-  5.Start migration from src to dst host, change into postcopy mode when migration is active.
-  6.When postcopy is active, down the network card(do migration via this network) on dst host.
-  7.Wait untill postcopy is paused on src&dst host.
-  8.Before up network card, recover migration on dst host, will get error like following.
-  9.Ignore the error of step 8, go on recovering migration on src host:
-
-  After step 9, qemu on src host will core dump after some seconds:
-  qemu-kvm: ../util/yank.c:107: yank_unregister_instance: Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
-  1.sh: line 38: 44662 Aborted                 (core dumped)
-
-Reported-by: Li Xiaohui <xiaohuixiaohli@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/migration.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 5ff7ba9d5c..8786104c9a 100644
+index 8786104c9a..bb1edf862a 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2818,12 +2818,12 @@ out:
-              * Maybe there is something we can do: it looks like a
-              * network down issue, and we pause for a recovery.
-              */
-+            qemu_fclose(rp);
-+            ms->rp_state.from_dst_file = NULL;
-+            rp = NULL;
-             if (postcopy_pause_return_path_thread(ms)) {
-                 /* Reload rp, reset the rest */
--                if (rp != ms->rp_state.from_dst_file) {
--                    qemu_fclose(rp);
--                    rp = ms->rp_state.from_dst_file;
--                }
-+                rp = ms->rp_state.from_dst_file;
-                 ms->rp_state.error = false;
-                 goto retry;
-             }
+@@ -3975,7 +3975,18 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+     }
+     if (error_in) {
+         migrate_fd_error(s, error_in);
+-        migrate_fd_cleanup(s);
++        if (resume) {
++            /*
++             * Don't do cleanup for resume if channel is invalid, but only dump
++             * the error.  We wait for another channel connect from the user.
++             * The error_report still gives HMP user a hint on what failed.
++             * It's normally done in migrate_fd_cleanup(), but call it here
++             * explicitly.
++             */
++            error_report_err(error_copy(s->error));
++        } else {
++            migrate_fd_cleanup(s);
++        }
+         return;
+     }
+ 
 -- 
 2.31.1
 
