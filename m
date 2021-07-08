@@ -2,82 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C0B3C188A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:40:23 +0200 (CEST)
-Received: from localhost ([::1]:37280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734833C18A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:49:38 +0200 (CEST)
+Received: from localhost ([::1]:59184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Y0c-0005V0-UQ
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:40:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48148)
+	id 1m1Y9Z-0003dq-HR
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:49:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1XVQ-0003pi-GG
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:08:08 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:39545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1XVM-0008Rf-Og
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:08:08 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- p14-20020a17090ad30eb02901731c776526so4014661pju.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:08:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BG+kFD2r0et23C+nr0jstAj0aWQfOMfKOggOrYIFULE=;
- b=lNnFoIOcGAv+DPEcLndG+MGZ9U/Gjc8ynuL0nPanoKYvbN4ziOG/aTYAgEcSwRgHi9
- WLdUZhSdCrPqIDV7bGJXGQv6jno51P7wqre1kKZ8YDW1ldma9rENbXdZyg+18018sNZI
- 9HWgTx73LcrwaGWcfvDUfmpVK3tK4quX7dTtzTx3QbjTWDRg/pimyX55rn/FpVQgG7rr
- iIGtWVsLBUaFj9nroglBs98dxNH9Oxp/zq79pkJV9D0yaALASJHGrTC86ILRuV+f65RC
- fO+lFFLN24Nb7EWAhxrIN9651iEvBctmg3+ymgMGLxKiThzPEBPIVuqkVSJJ/zStJKea
- Mrdw==
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m1Xdl-0007yP-Cg
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:16:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1m1Xdj-0002yK-F6
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 13:16:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625764602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LZ+JBhU1tJIeMTIQ3Y72tUVIjZH55sxLnFovFGvWJV8=;
+ b=SfmEYupRluqbnJe9KjdTeUt/flrqKUmPtrWseVHN9yuGROKy99fKEowEqqzch5uB/B2wPF
+ /k8LAJWyUfbbutNSYqygSwg+5JZiJR9ZBrKQ5Nvus8V/cGkw5XMEEMJXdjxBT3zAL+n/B9
+ jSYYG+1tKSDDcGLYBDaTMvVkLGhyFlU=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-iI0DqYRYMcGxfhj98ugeeA-1; Thu, 08 Jul 2021 13:16:41 -0400
+X-MC-Unique: iI0DqYRYMcGxfhj98ugeeA-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ k92-20020a17090a14e5b02901731af08bd7so4222036pja.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 10:16:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BG+kFD2r0et23C+nr0jstAj0aWQfOMfKOggOrYIFULE=;
- b=ci3rCSOPKdQaM8ljS+5hN2EKSujzMiQBVOLSpPLgjjwBgrO1PqzuqyR2vfcRC30FPj
- hX/hRFZAA9rPc7S3iEuZJxayn9GbhZxwY+57ILg0RFtJZnxbN/16GRfd4ksBBdcp454z
- Giw9X9ZAdCjZsDwnuQe6bAcUfcRPxddbb5xJRPj7+v5RX8K6iOeKkm0Ls0BsqAri5SP6
- qaETwTVMze65Mx80BKYVTHdz2lXZAS6APc2ZUYtusLMFgWIzmy3eFEGGOsgu3pYnYAG6
- wumUiQBNy2un5bg3VffouCsTEzsCJ5VnDDQYKrBBj25+OhManVtSqA5SMHPU8F2nx/0C
- NRDA==
-X-Gm-Message-State: AOAM530WshvnBcDym6vLHbBBQFDS2Te+b+icDprdBqIPEM6TtYHEo0cb
- SUcAYuJ/WRCuH+NIGKHNFx7rEA==
-X-Google-Smtp-Source: ABdhPJwcYz9TKEG73xQC4gxs4ElawWLI6PlFQ01f57So/Z6Hgzw6aXgYyA62SiS2u3Os/g9plVU0Dg==
-X-Received: by 2002:a17:902:d2ce:b029:129:6eab:56de with SMTP id
- n14-20020a170902d2ceb02901296eab56demr24132573plc.64.1625764083086; 
- Thu, 08 Jul 2021 10:08:03 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id r13sm7001766pjj.9.2021.07.08.10.08.02
+ bh=LZ+JBhU1tJIeMTIQ3Y72tUVIjZH55sxLnFovFGvWJV8=;
+ b=BdHgcLmA+euuVvRDWeU/Yn9n7ezswuo+TLkUd2xWDPwZiAc+lLP6wzpmfWzRu77fyZ
+ E9PGUVoYmQt5nqhOzHvUIYkj/MNzkHZbxRBxNvI0MJczKCXwS5RtFX8rLBbKB8T0U86p
+ zjm09X7A5UCP06HCfJXyRGXJWz/9wwsPLPrOfuBhVVpsizQ8LKqdskzpKZEvUSa3IvHN
+ 6fako3f6AAjJibvRL+w9Y7a2eUI7A7UQfxT+ZJmXDxYiV6IQjQ4AcjZ9N82AkKRexpsZ
+ pArAzBqDQ7f0+Vqxqbww0hpT6YdgFZQHqW2kZS1LISuKVmOL85axABQLhfR6b1O1n9wq
+ TH2A==
+X-Gm-Message-State: AOAM532LHRUYQF/vd048O3wAv0x8kpfdZ+nK8dIP290iVx/zZmRThvhl
+ OjCt/6xarQlPtJ7TR3ISG2a4SvljgpfPApZxPx8C8BQuDPZQXY6VK5D0LYIarUCe8e6YoLo1jaf
+ Bzirzk271MuayzBg=
+X-Received: by 2002:a63:eb04:: with SMTP id t4mr33747768pgh.84.1625764600300; 
+ Thu, 08 Jul 2021 10:16:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwcRGigFrTMUDAuQ6C2qoEmC/pEkuZpzug+3ZKO6xTT4OoEQC2tfrCrkvsx1FSX1xeQSY5icA==
+X-Received: by 2002:a63:eb04:: with SMTP id t4mr33747741pgh.84.1625764600084; 
+ Thu, 08 Jul 2021 10:16:40 -0700 (PDT)
+Received: from [192.168.1.183] (c-76-27-223-100.hsd1.or.comcast.net.
+ [76.27.223.100])
+ by smtp.gmail.com with ESMTPSA id d9sm3195455pfd.91.2021.07.08.10.16.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 10:08:02 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] linux-user/s390x: signal with SIGFPE on
- compare-and-trap
-To: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org
-References: <20210707134231.1835-1-jonathan.albrecht@linux.vnet.ibm.com>
- <20210707134231.1835-2-jonathan.albrecht@linux.vnet.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8e6af279-6cb8-33af-8bf5-042dcb99f671@linaro.org>
-Date: Thu, 8 Jul 2021 10:08:01 -0700
+ Thu, 08 Jul 2021 10:16:39 -0700 (PDT)
+Subject: Re: [PATCH v3 0/2] x86/sev: Measured Linux SEV guest with
+ kernel/initrd/cmdline
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210624102040.2015280-1-dovmurik@linux.ibm.com>
+ <2dc6c60e-48f8-7c6f-6131-0bc1020e106f@redhat.com>
+ <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <05d0ae90-a45f-157b-d37c-942bc0442449@redhat.com>
+Date: Thu, 8 Jul 2021 10:16:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210707134231.1835-2-jonathan.albrecht@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <fbf2dd1f-150e-beb5-bf17-fc5dc787ab0d@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,57 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruixin.bao@ibm.com, iii@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- krebbel@linux.ibm.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/21 6:42 AM, Jonathan Albrecht wrote:
-> +                sig = TARGET_SIGFPE;
-> +                if ((n & 0x03) == 0) {
-> +                    /* An IEEE exception, simulated or otherwise. */
->                       if (n & 0x80) {
->                           n = TARGET_FPE_FLTINV;
->                       } else if (n & 0x40) {
-> @@ -121,13 +123,12 @@ void cpu_loop(CPUS390XState *env)
->                           n = TARGET_FPE_FLTUND;
->                       } else if (n & 0x08) {
->                           n = TARGET_FPE_FLTRES;
-> -                    } else {
-> -                        /* ??? Quantum exception; BFP, DFP error.  */
-> -                        goto do_sigill_opn;
->                       }
-> -                    sig = TARGET_SIGFPE;
-> -                    goto do_signal_pc;
-> +                } else {
-> +                    /* compare-and-trap */
-> +                    n = 0;
->                   }
+On 7/8/21 10:03 AM, Philippe Mathieu-Daudé wrote:
+> On 7/8/21 6:41 PM, Connor Kuehl wrote:
+>> Hi Paolo,
+>>
+>> Please consider this series[1] for inclusion into your next pull request.
+>>
+>> Just a note that this series has a companion series that is getting
+>> upstreamed into OVMF[2]
+> 
+> Shouldn't we get the OVMF part merged first?
 
-Nearly, but not quite.  Replace the ??? Quantum exception with n = 0, otherwise si_code 
-will be garbage for that case.
+The approach taken in the OVMF series doesn't seem very controversial,
+so I don't anticipate any breaking changes with the current state of
+those patches as far as QEMU is concerned.
 
-The structure of the kernel code is
+However, I'm fine with erring on the side of caution.
 
-   if (n != 0) {
-     /* do_fp_trap */
-     si_code = 0;
-     if ((n & 3) == 0) {
-       /* select on bits 6 & 7 */
-     }
-     raise sigfpe w/ si_code
-   } else {
-     raise sigill
-   }
+Connor
 
-The comment for compare-and-trap is misleading, because there are lots of entries in 
-"Figure 6-2. Data-exception codes (DXC)" which arrive there and are not compare-and-trap.
-
-As a general comment, I think a single switch over DXC would be cleaner for both kernel 
-and qemu.  It seems like giving different si_code for e.g. "0x40 IEEE division by zero" 
-and "0x43 Simulated IEEE division by zero" is actively incorrect.
-
-
-r~
 
