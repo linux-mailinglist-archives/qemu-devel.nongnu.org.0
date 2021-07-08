@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DE673C19A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:11:51 +0200 (CEST)
-Received: from localhost ([::1]:53724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234B93C19A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 21:14:18 +0200 (CEST)
+Received: from localhost ([::1]:34222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZR8-00051M-68
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43130)
+	id 1m1ZTU-0002KV-Oy
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 15:14:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m1Yyt-0008Ku-Ig
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:42:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38417)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m1Z1t-0005LP-AR
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:45:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m1Yyr-0004tE-UK
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:42:39 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m1Z1p-0005q9-8B
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:45:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625769757;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qOUSl0l0XNjkWfeN5aBCTGWcXvG0ZNR6FGwTACUju+Y=;
- b=RNvO77AxnFLa0AZnfnQ3AvyYZETDsfLubh07DvDHpT3pvfyIVzqSy7fSEyWFKVHLv/n1qA
- 33hLPXOAComCfO3sQPmAfx/4giKG3w77pRajmus/OD4b44GKg4Hq6+iZ0IUEfOihZIzf1x
- unEKwJ8VDsfIzIW/HnMXhWOHupdpKnw=
+ s=mimecast20190719; t=1625769939;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=MhDvBP7MGiLJaXCD1J3o+IeBcoQlotjFhKGYHN76s38=;
+ b=Pa5jizw6sOkcSguGjJ+PIorr5xj0ByioqpvGA6/TWB4KMl2I1P7ZDz0qqFnNneKyVp+qeX
+ HYKqpQv15Ip26MW11MmMwXrp9hV2BJP1o4TVwgfg3r21JoLxaM4dwPB4qHJ98tqbwFo9Rc
+ msxUpOlrGDdthX0S1R1TtLme03guQZs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-KzsNkfLPNfi-v39Ju-Crrw-1; Thu, 08 Jul 2021 14:42:34 -0400
-X-MC-Unique: KzsNkfLPNfi-v39Ju-Crrw-1
+ us-mta-266-HvkQy2YpOS2pz8qQoryghA-1; Thu, 08 Jul 2021 14:45:36 -0400
+X-MC-Unique: HvkQy2YpOS2pz8qQoryghA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE5E1100C674
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:42:33 +0000 (UTC)
-Received: from worklaptop.home (ovpn-115-15.rdu2.redhat.com [10.10.115.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 748E619D9F;
- Thu,  8 Jul 2021 18:42:33 +0000 (UTC)
-From: Cole Robinson <crobinso@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] contrib: add stub bridge.conf for qemu-bridge-helper
-Date: Thu,  8 Jul 2021 14:42:24 -0400
-Message-Id: <ee9afe9119004f9208eb0930e02138eed0873f43.1625769632.git.crobinso@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F14780431F
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:45:35 +0000 (UTC)
+Received: from redhat.com (ovpn-114-169.ams2.redhat.com [10.36.114.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7446E19D9F;
+ Thu,  8 Jul 2021 18:45:34 +0000 (UTC)
+Date: Thu, 8 Jul 2021 19:45:31 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cole Robinson <crobinso@redhat.com>
+Subject: Re: [PATCH] Move qemu.sasl to contrib/
+Message-ID: <YOdHyyEGzWzMWC0H@redhat.com>
+References: <d1a1e265dd846de6ca40406300d91cecfba69ef8.1625769570.git.crobinso@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <d1a1e265dd846de6ca40406300d91cecfba69ef8.1625769570.git.crobinso@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crobinso@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crobinso@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -75,41 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, Cole Robinson <crobinso@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The comment comes from OpenSUSE's bridge.conf, with some minor tweaks
+On Thu, Jul 08, 2021 at 02:39:57PM -0400, Cole Robinson wrote:
+> It's not installed in any way, so seems like contrib/ material
 
-Signed-off-by: Cole Robinson <crobinso@redhat.com>
----
-Or should this be installed? If so where in git should it live?
+Not really.
 
- contrib/bridge.conf | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 contrib/bridge.conf
+Contrib is stuff that is included on an ad-hoc basis with no
+commitment to support and no guarantee that it is working at
+all.  Yes, there is some stuff in contrib/ that doesn't
+belong there based on this definition, and should be moved
+out.
 
-diff --git a/contrib/bridge.conf b/contrib/bridge.conf
-new file mode 100644
-index 0000000000..b83e46c34f
---- /dev/null
-+++ b/contrib/bridge.conf
-@@ -0,0 +1,14 @@
-+# Access control file for qemu-bridge-helper
-+# https://wiki.qemu.org/Features/HelperNetworking
-+#
-+# Syntax consists of:
-+#   # comment (ignored)
-+#   allow all
-+#   allow <bridge_name>
-+#   deny all
-+#   deny <bridge_name>
-+#   include /path/to/additional/ACL/file
-+#
-+# Users are blacklisted by default and 'deny' takes precedence over 'allow'.
-+# Including additional ACL files allows file access permissions to be used as
-+# a component of the policy to allow access or deny access to specific bridges.
+The SASL config is most definitely supported, so doesn't
+belong in there.
+
+> 
+> Signed-off-by: Cole Robinson <crobinso@redhat.com>
+> ---
+> Or should this be installed to /etc/sasl2 ?
+> 
+>  MAINTAINERS                    | 2 +-
+>  qemu.sasl => contrib/qemu.sasl | 0
+>  2 files changed, 1 insertion(+), 1 deletion(-)
+>  rename qemu.sasl => contrib/qemu.sasl (100%)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 684142e12e..2ec1c362f0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2768,7 +2768,7 @@ F: tests/unit/test-crypto-*
+>  F: tests/bench/benchmark-crypto-*
+>  F: tests/unit/crypto-tls-*
+>  F: tests/unit/pkix_asn1_tab.c
+> -F: qemu.sasl
+> +F: contrib/qemu.sasl
+>  
+>  Coroutines
+>  M: Stefan Hajnoczi <stefanha@redhat.com>
+> diff --git a/qemu.sasl b/contrib/qemu.sasl
+> similarity index 100%
+> rename from qemu.sasl
+> rename to contrib/qemu.sasl
+> -- 
+> 2.31.1
+> 
+
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
