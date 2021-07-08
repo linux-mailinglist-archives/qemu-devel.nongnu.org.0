@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456703BF4BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:28:50 +0200 (CEST)
-Received: from localhost ([::1]:49206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301923BF4B9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:27:11 +0200 (CEST)
+Received: from localhost ([::1]:38892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Leb-0005rU-B3
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38268)
+	id 1m1Ld0-0007G6-6d
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:27:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1Lc5-0006KS-4R
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:26:13 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58136)
+ id 1m1Lbb-0004dg-IF
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:25:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1Lc3-0003Kr-Er
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:26:12 -0400
+ id 1m1LbZ-0003Dx-8k
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:25:43 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1Lbp-0000mG-DO
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 04:25:57 +0000
+ id 1m1LbV-0000R2-U0
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 04:25:37 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7FA8C2E80E9
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 04:25:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E11E82E802A
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 04:25:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Jul 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1891829@bugs.launchpad.net>
+Date: Thu, 08 Jul 2021 04:17:22 -0000
+From: Launchpad Bug Tracker <1895219@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: serial
+X-Launchpad-Bug-Tags: install keymaps meson vnc
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor mslade th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Commenters: a1xndr bladeboy2000au dmbtech janitor th-huth
+X-Launchpad-Bug-Reporter: Darren Blaber (dmbtech)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159762208982.14812.18418944831865683616.malonedeb@gac.canonical.com>
-Message-Id: <162571783815.7916.15914568216597164233.malone@loganberry.canonical.com>
-Subject: [Bug 1891829] Re: High bit(s) sometimes set high on rcvd serial bytes
- when char size < 8 bits
+References: <159978635021.22139.4037516560250644869.malonedeb@wampee.canonical.com>
+Message-Id: <162571784226.7916.5093205834341349498.malone@loganberry.canonical.com>
+Subject: [Bug 1895219] Re: qemu git -vnc fails due to missing en-us keymap
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: e345cf03fd03353ef5520e506a74ef1b8e12413d
+X-Launchpad-Hash: eb356a03651cc2a2c1d756e169e7d509770dcc99
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1891829 <1891829@bugs.launchpad.net>
+Reply-To: Bug 1895219 <1895219@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,36 +84,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1891829
+https://bugs.launchpad.net/bugs/1895219
 
 Title:
-  High bit(s) sometimes set high on rcvd serial bytes when char size < 8
-  bits
+  qemu git -vnc fails due to missing en-us keymap
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I *believe* (not confirmed) that the old standard PC serial ports,
-  when configured with a character size of 7 bits or less, should set
-  non-data bits to 0 when the CPU reads received chars from the read
-  register.  qemu doesn't do this.
+  If trying to run qemu with -vnc :0, it will fail with:
+  ./qemu-system-x86_64 -vnc :2
+  qemu-system-x86_64: -vnc :2: could not read keymap file: 'en-us'
 
-  Windows 1.01 will not make use of a serial mouse when bit 7 is 1.  The
-  ID byte that the mouse sends on reset is ignored.  I added a temporary
-  hack to set bit 7 to 0 on all incoming bytes, and this convinced
-  windows 1.01 to use the mouse.
+  share/keymaps is missing en-us keymap and only has sl and sv,
+  confirmed previous stable versions had en-us.
 
-  note 1:  This was using a real serial mouse through a passed-through
-  serial port.  The emulated msmouse doesn't work for other reasons.
+  Tried with multiple targets, on arm64 and amd64
 
-  note 2:  The USB serial port I am passing through to the guest sets
-  non-data bits to 1.  Not sure if this is the USB hardware or linux.
-
-  note 3:  I also needed to add an -icount line to slow down the guest
-  CPU, so that certain cpu-sensitive timing code in the guest didn't
-  give up too quickly.
+  Git commit hash: 9435a8b3dd35f1f926f1b9127e8a906217a5518a (head)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1891829/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895219/+subscriptions
 
