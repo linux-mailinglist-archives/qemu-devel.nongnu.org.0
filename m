@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEA73C16B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 17:59:47 +0200 (CEST)
-Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326333C16BE
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:03:29 +0200 (CEST)
+Received: from localhost ([::1]:49976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1WRF-0003ys-Ez
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 11:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
+	id 1m1WUq-0002bv-9H
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:03:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEV-0001BP-29
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47738)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1VpO-0007Nl-OY
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:20:38 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:34969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WER-0000KU-TX
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759191;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=C/CYVSS746Qrs+kgHF9is9+1ofHW09U2JDGVesuWOfE=;
- b=N+VdAHcdKBhVOmEkLrNsZF8NFzZdW2Y9Yu6sxUfyY7/8nXSa5sGnDYIattpOLdc+W0PlZC
- bP7ToZMsOTWmKWg61td6VTNzPDsklORXU9JnfeAZNQJGb4OEwmYuRqn8Q2+NPC08J+7ar8
- nz383HWfYLeFYXI9Udi6GOgcujY8Srg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-WFTN_kzTPmGfSnDpBNfqOQ-1; Thu, 08 Jul 2021 11:46:30 -0400
-X-MC-Unique: WFTN_kzTPmGfSnDpBNfqOQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 251EA100C612
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:46:29 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79AC619C66;
- Thu,  8 Jul 2021 15:46:28 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/35] acpi: add helper routines to initialize ACPI tables
-Date: Thu,  8 Jul 2021 11:45:43 -0400
-Message-Id: <20210708154617.1538485-2-imammedo@redhat.com>
-In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
-References: <20210708154617.1538485-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1VpM-0000aE-P9
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:20:38 -0400
+Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MsqIi-1lD8813nfk-00t91I; Thu, 08 Jul 2021 17:20:18 +0200
+Subject: Re: [PATCH v2 2/8] linux-user/sparc: Rename target_errno.h ->
+ target_errno_defs.h
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210708141121.1731691-1-f4bug@amsat.org>
+ <20210708141121.1731691-3-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <15a9db9d-6b4e-85fc-51bd-96981ae79bbb@vivier.eu>
+Date: Thu, 8 Jul 2021 17:20:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210708141121.1731691-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:Hkdos79KWKClvZmSsSozIMwHj2gphDeK7mD/1Petm0cZ7DO597J
+ Po76vqsnC2zu97Ts0HdEbyrtUCVaRcTwN0UHAN14ptCHkKT/i2d87ddkfk4G89TL7icM+qy
+ k32txIuZ1IhejmK6SrmXnTlT1O+BuWiBHPcZAudpYepCMViWAzUJho9TMYz1M4dXjDNNLAK
+ IG+bO9vgaTVLslTC/sKgA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:E+tsPl29gwg=:fkHJxUb8PcCsyRBmLTlNlx
+ BDwK+AlqaZK3sSXnpTvVesOuIiPmk09tPDUbgUucbT2TUIOvC+qZWBMvUN+W690BkBYoOV54h
+ lMJu1F0fdvFJ0VQ6Gnw40+0wuJdL7WAEyKo9n8RblAMUald/XZbqjNK26LyMaPWaET2XYwFJH
+ 6x/jRMeoNTpVGAqyNkJDciG4pUmXeKRMZMj6AvRlzrnmQc02bO3WCNn9wGQhe1o7wpIXrvesu
+ en1jDktHeqi8pb1ogCG6qtVBVXNkZZ0rbaqRHLxfU4IrGWZlxIR4vBl2LSlmniVn3dbFNpnYu
+ /mrRMmJzZW2F/IgfIshyS1JroG4rW43V0jfAp4rBHxIJ5qeoldFWMI1r5/5DePo7uksk+++e9
+ Y1XsarJiFZEimhfxA4D07b0rzhiRGkTilA+p0y9tlJ2jkgCVMmeJHoEngEamb+XX3RFzZoFYG
+ xaBgoitHfoAk+Q70MTU3cM7HbwSe5qaeVMgpWibXmBtCxz8hgnmwHFDBotIm3B2/LpB0P/PMn
+ Ki1xd1BS4iWkakUVEOmXVgM1ERmEgJ5jYw0n8UmmiKl7/zKNjEkM+No0gYKbbOA/M/fuLlSka
+ TP5iE6ZiLUuL7xX4c7zN1nV3QaFniPJqChsr4DGgfmVLAwzxMhly1WaGnl8XZTG/qQ2YtEqKn
+ QQDkWy79B2UMp55mL+2cBtfAX0A96fjRhZPIrjfyz8ZgfKSIpBSOCsTqjI+D6wEVYz/z8+ylv
+ 3XZwNWf8c43lSPpCSQEQ2jNujwNYAPSBjZPputDxeu0yJQ8RCE0C+29Wpdal5Zh2oWp7fPf7P
+ ml67xRCn+LCwpWBL4CCVkLn+/KzW9oTrBB8lRYbov5a+KpYiDLLg7iny0e9mZM+hcQUBzSR
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,134 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patch introduces acpi_init_table()/acpi_table_composed() API
-that hides pointer/offset arithmetic from user as opposed
-to build_header(), to prevent errors caused by it [1].
+Le 08/07/2021 à 16:11, Philippe Mathieu-Daudé a écrit :
+> We want to have one generic target_errno.h (API to access target
+> errno), and will add target errno definitions in target_errno_defs.h.
+> The sparc target already have its errnos in an header, simply rename
+> it.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  linux-user/sparc/{target_errno.h => target_errno_defs.h} | 4 ++--
+>  linux-user/sparc/target_syscall.h                        | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+>  rename linux-user/sparc/{target_errno.h => target_errno_defs.h} (99%)
+> 
+> diff --git a/linux-user/sparc/target_errno.h b/linux-user/sparc/target_errno_defs.h
+> similarity index 99%
+> rename from linux-user/sparc/target_errno.h
+> rename to linux-user/sparc/target_errno_defs.h
+> index 9b846899cd4..e0008109867 100644
+> --- a/linux-user/sparc/target_errno.h
+> +++ b/linux-user/sparc/target_errno_defs.h
+> @@ -1,5 +1,5 @@
+> -#ifndef SPARC_TARGET_ERRNO_H
+> -#define SPARC_TARGET_ERRNO_H
+> +#ifndef SPARC_TARGET_ERRNO_DEFS_H
+> +#define SPARC_TARGET_ERRNO_DEFS_H
+>  
+>  /* Target errno definitions taken from asm-sparc/errno.h */
+>  #undef TARGET_EWOULDBLOCK
+> diff --git a/linux-user/sparc/target_syscall.h b/linux-user/sparc/target_syscall.h
+> index 15d531f3897..dad501d008c 100644
+> --- a/linux-user/sparc/target_syscall.h
+> +++ b/linux-user/sparc/target_syscall.h
+> @@ -1,7 +1,7 @@
+>  #ifndef SPARC_TARGET_SYSCALL_H
+>  #define SPARC_TARGET_SYSCALL_H
+>  
+> -#include "target_errno.h"
+> +#include "target_errno_defs.h"
+>  
+>  #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+>  struct target_pt_regs {
+> 
 
- acpi_init_table():
-     initializes table header and keeps track of
-     table data/offsets
- acpi_table_composed():
-     sets actual table length and tells bios loader
-     where table is for the later initialization on
-     guest side.
-
-1) commits
-   bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
-   4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
-
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- include/hw/acpi/aml-build.h | 14 +++++++++
- hw/acpi/aml-build.c         | 58 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 72 insertions(+)
-
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index 471266d739..d590660bd2 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -413,6 +413,20 @@ Aml *aml_concatenate(Aml *source1, Aml *source2, Aml *target);
- Aml *aml_object_type(Aml *object);
- 
- void build_append_int_noprefix(GArray *table, uint64_t value, int size);
-+
-+typedef struct AcpiTable {
-+    const char *sig;
-+    const uint8_t rev;
-+    const char *oem_id;
-+    const char *oem_table_id;
-+    /* private vars tracking table state */
-+    GArray *array;
-+    unsigned table_offset;
-+} AcpiTable;
-+
-+void acpi_init_table(AcpiTable *desc, GArray *array);
-+void acpi_table_composed(BIOSLinker *linker, AcpiTable *table);
-+
- void
- build_header(BIOSLinker *linker, GArray *table_data,
-              AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index d5103e6d7b..c598010144 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -52,6 +52,19 @@ static void build_append_byte(GArray *array, uint8_t val)
-     g_array_append_val(array, val);
- }
- 
-+static void build_append_padded_str(GArray *array, const char *str,
-+                                    size_t maxlen, char pad)
-+{
-+    size_t i;
-+    size_t len = strlen(str);
-+
-+    g_assert(len <= maxlen);
-+    g_array_append_vals(array, str, len);
-+    for (i = maxlen - len; i > 0; i--) {
-+        g_array_append_val(array, pad);
-+    }
-+}
-+
- static void build_append_array(GArray *array, GArray *val)
- {
-     g_array_append_vals(array, val->data, val->len);
-@@ -1692,6 +1705,51 @@ Aml *aml_object_type(Aml *object)
-     return var;
- }
- 
-+void acpi_init_table(AcpiTable *desc, GArray *array)
-+{
-+
-+    desc->array = array;
-+    desc->table_offset = array->len;
-+
-+    /*
-+     * ACPI spec 1.0b
-+     * 5.2.3 System Description Table Header
-+     */
-+    g_assert(strlen(desc->sig) == 4);
-+    g_array_append_vals(array, desc->sig, 4); /* Signature */
-+    build_append_int_noprefix(array, 0, 4); /* Length */
-+    build_append_int_noprefix(array, desc->rev, 1); /* Revision */
-+    build_append_int_noprefix(array, 0, 1); /* Checksum */
-+    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
-+    /* OEM Table ID */
-+    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
-+    build_append_int_noprefix(array, 1, 4); /* OEM Revision */
-+    g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
-+    build_append_int_noprefix(array, 1, 4); /* Creator Revision */
-+}
-+
-+void acpi_table_composed(BIOSLinker *linker, AcpiTable *desc)
-+{
-+    /*
-+     * ACPI spec 1.0b
-+     * 5.2.3 System Description Table Header
-+     * Table 5-2 DESCRIPTION_HEADER Fields
-+     */
-+    const unsigned checksum_offset = 9;
-+    uint32_t table_len = desc->array->len - desc->table_offset;
-+    uint32_t table_len_le = cpu_to_le32(table_len);
-+    gchar *len_ptr = &desc->array->data[desc->table_offset + 4];
-+
-+    /* patch "Length" field that has been reserved by acpi_init_table()
-+     * to the actual length, i.e. accumulated table length from
-+     * acpi_init_table() till acpi_table_composed()
-+     */
-+    memcpy(len_ptr, &table_len_le, sizeof table_len_le);
-+
-+    bios_linker_loader_add_checksum(linker, ACPI_BUILD_TABLE_FILE,
-+        desc->table_offset, table_len, desc->table_offset + checksum_offset);
-+}
-+
- void
- build_header(BIOSLinker *linker, GArray *table_data,
-              AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
--- 
-2.27.0
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
