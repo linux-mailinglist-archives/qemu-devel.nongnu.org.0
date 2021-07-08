@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F273BFA00
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:24:23 +0200 (CEST)
-Received: from localhost ([::1]:55714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BCF13BF9FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:23:24 +0200 (CEST)
+Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1T4o-000126-4B
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:24:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
+	id 1m1T3r-0007cR-CV
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:23:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1SzM-0004aE-G2
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1SzO-0004ap-I3
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:18:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44158)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1SzI-0006on-Dy
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:18:46 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1SzH-0006of-86
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:18:43 -0400
-Received: by mail-ej1-x633.google.com with SMTP id i20so9261634ejw.4
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 05:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zldsFtJGNuZGAcWb7ecfr6t3EizshehHskWZQUJkoM8=;
- b=YyHlxcnQZja4V1pH1TagrchJzwmEz1TR/v5rfcBWBV3E2DMNb5f8SqlX82PHxFpsnk
- ZE9xpj1cxwCNKIMKkiP9kI3+VEwXoruMEuyN0F5UGbC/593mfzXExsZotdrkkae8BLYM
- XsGgrhJP8LdlVY6te0MQ+DaSqmFVRDzDl3u6U7DjptvMo7AaDNRAieY3avll+3hsOtDp
- g36gIpHyjTxxSNhWz9T182QVkmuWibmrSymnIC/vW4Qy8skuofpFdUra4mVjanu5DH0t
- EUz1WcKZshCwHH6nFuRzo3gvnu6bgNAWFkX3tyqh92TFFGlXeKUqsUeVcoZHdR8xTjGB
- G5yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zldsFtJGNuZGAcWb7ecfr6t3EizshehHskWZQUJkoM8=;
- b=AAMOuipDNjTl3vrT1Uv2fVxGeBYe41OYdmqrKmklAXp6SrEXi1HjEbJt9c+axZPrUW
- eI87jNOOm244BoEVkBzbhQ5nYN/g+wYBBUEpf4CUaQk8dCR9IxmKDHdq8Z0R+ooBWaa7
- s8xIaDSDj0Z4zxJl5T5AT0iBgYGHYhibYugJBm/sYuUWDtC+CVjvWcNRPLQAMdzJMo8D
- WUns7OXENyAK7nuxXWURBk01plzK9nqVtT1VD5SSaRFL80fULcqAe1jFBbbIW4DV2ea2
- sxPjlxfNOZhPZhq2KudpQBTQNo58wv+BGlDbC3YJOwry2mugx4bf/ewzD/nM1E8Dmpme
- Az6g==
-X-Gm-Message-State: AOAM533j3nRoD6qeL3adcefsulQpzYD++MDcxbXlDD0Wg5u0kCeTnLEq
- P0048Xx2hXicfsnrwTUB0yF3YJT6Hvy/FBq54FrcRA==
-X-Google-Smtp-Source: ABdhPJzZm/tjIOt7qfU+ReDgK3uCJQLzE5WUtExuBGuk5YFeKKgvNR9V/qq78BojyuUktFFYChcv/Wk/gqvcangw9Aw=
-X-Received: by 2002:a17:907:9701:: with SMTP id
- jg1mr19407880ejc.56.1625746717872; 
- Thu, 08 Jul 2021 05:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625746719;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OGj+tuJUNCUP4Mh3fEEWed+AuECtY2Bn9EVa1Ik9z9I=;
+ b=RGAnYSCUBhOgxhu8qKnOVJ7A/9/oKJ847wS/Gb4hUORB/VcfQlymK2Fk0ZIOzSowllSBG3
+ J87QsV26OGPzzHAd1rkqOUT9bu+kdOFfLENgGT7KQcPe4cnYpky1SjBw+l17u/+a4093up
+ ZHXoha0ENKzpESItXimjxZsJYkYzVxE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-oxtxOmIhMdiZgTLUE7iLpg-1; Thu, 08 Jul 2021 08:18:38 -0400
+X-MC-Unique: oxtxOmIhMdiZgTLUE7iLpg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16A16802CB9;
+ Thu,  8 Jul 2021 12:18:37 +0000 (UTC)
+Received: from redhat.com (ovpn-114-143.ams2.redhat.com [10.36.114.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CBD505C1C5;
+ Thu,  8 Jul 2021 12:18:34 +0000 (UTC)
+Date: Thu, 8 Jul 2021 14:18:33 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH v5 0/6] block/rbd: migrate to coroutines and add write
+ zeroes support
+Message-ID: <YObtGbd5jlQNUbn0@redhat.com>
+References: <YORYaF3tWDoNOqIw@redhat.com>
+ <2F1CA650-9CE2-4AD9-BAF0-AD07829973B7@kamp.de>
+ <YOR14GzLqr3EKzcm@redhat.com>
+ <AE0414CF-3FC8-44DF-A453-671DDE9CFAD5@kamp.de>
 MIME-Version: 1.0
-References: <20210630183226.3290849-1-richard.henderson@linaro.org>
- <20210630183226.3290849-18-richard.henderson@linaro.org>
-In-Reply-To: <20210630183226.3290849-18-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Jul 2021 13:17:59 +0100
-Message-ID: <CAFEAcA9X0rx+J4qd-zgd9_AABJ=ar9QA6HpzWOp9Xfvg65RwYA@mail.gmail.com>
-Subject: Re: [PATCH v2 17/28] target/nios2: Use translator_use_goto_tb
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <AE0414CF-3FC8-44DF-A453-671DDE9CFAD5@kamp.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,23 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ilya Dryomov <idryomov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 at 19:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Just use translator_use_goto_tb directly at the one call site,
-> rather than maintaining a local wrapper.
->
-> Cc: Chris Wulff <crwulff@gmail.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Am 07.07.2021 um 20:13 hat Peter Lieven geschrieben:
+> Am 06.07.2021 um 17:25 schrieb Kevin Wolf <kwolf@redhat.com>:
+> > Am 06.07.2021 um 16:55 hat Peter Lieven geschrieben:
+> >> I will have a decent look after my vacation.
+> > 
+> > Sounds good, thanks. Enjoy your vacation!
+> 
+> As I had to fire up my laptop to look into another issue anyway, I
+> have sent two patches for updating MAINTAINERS and to fix the int vs.
+> bool mix for task->complete.
 
-thanks
--- PMM
+I think you need to reevaluate your definition of vacation. ;-)
+
+But thanks anyway.
+
+> As Paolos fix (5f50be9b5) is relatively new and there are maybe other
+> non obvious problems when removing the BH indirection and we are close
+> to soft freeze I would leave the BH removal change for 6.2.
+
+Sure, code cleanups aren't urgent.
+
+Kevin
+
 
