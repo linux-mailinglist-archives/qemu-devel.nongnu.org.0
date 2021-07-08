@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D51AD3C17D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:11:12 +0200 (CEST)
-Received: from localhost ([::1]:40118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB1B3C17B4
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:05:19 +0200 (CEST)
+Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XYN-0000nb-Tb
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
+	id 1m1XSg-0001zt-FY
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:05:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5H-0001qY-KR
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:07 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36446)
+ id 1m1X5I-0001t9-8Y
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:08 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:42816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5D-0008Db-1X
+ id 1m1X5D-0008Dl-Ek
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:07 -0400
-Received: by mail-pl1-x636.google.com with SMTP id x16so2419658plg.3
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:41:02 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ p17-20020a17090b0111b02901723ab8d11fso4177394pjz.1
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:41:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CGijMJQVEM12PQG7khoLYEEx6Kld5VypBBc7yQ7jwvM=;
- b=zpG+YmfWzszMP9OByCdDeB2WdSQdLuh9f+6ljZ3+DdzpWtnjMbOgQiTZCnkajblU/y
- xV/8QxHGCpj89Lx3gLoClB6FDawSejhI7VI3Sjn6LVtQ0mINWmuV38moG/tj7+jwE61u
- zOPIrG5/3Y+fDKEDIxSn/G3Bzrv7/uiFgH67f8K3NP/zJahgvwi+9ssrZSOYby5u4Yrw
- MIzD+FpMFK69CuoX/f58fvc/2ACiecqb5MZ3ruuQlmDmfBexH727ABXBfr6HBU413uS5
- 82pZn+VR3meRVfobufxzsI6VLSpY+BQnHb68UXAUUD6aBkYhEFFhomINTdv23Szy4GGB
- eSsQ==
+ bh=Q7Ia+ie6XOcjpcC/dD6Ub5PbrcGQ/yV9nqv+RZL1T9E=;
+ b=Zb5N1ghy0UoyUxGnwRPMVaSwvwp99uQaAF3Bv90d5GZ1oZi+2/4hWKCuXjNymS/Srf
+ /ZFmkEDftVqcl29c6Z8HTG0HtOVCs47G81NQ7EmYaDsXlyq5r4aE6lir5sB9OKr0dryv
+ +to+F6bis6u2wcozoqEC3c8+Gk8NRLf+LRCl6hMaBJLT80ohsBjBWGgNBOC3kLZfNHkA
+ HKamPsPWgIUPe2uDGG7SEYipIYOUCjT1P61P20kABzY2gkNZlBkMYXxAVWdc6Jaw7iGC
+ m6A/yph+Cy2K+qlR7fEwHJIU4FTk6RgbLdrNcEEtZOCLqkX2GPLJ9lqfrrvI5M/5kF3t
+ nqvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CGijMJQVEM12PQG7khoLYEEx6Kld5VypBBc7yQ7jwvM=;
- b=YAn/fnnTSwG0iwhM0XRxduaHJt5MG4Y4DVSOHC/s7MfLV87Sku4fz7eWYx1awyFx6R
- dtL+XbrBSIICZd76PyAgmLRptkUWb5DSlP/GuRYgBFgD7cNXGUpuUrCaaNgJuTfZiXi2
- dsiGl6GyAJ9GCnyJtVHDJOgp3AzaNc1Dyorsf+jZWTED7VgcHBi2XnAW7b6JF84yg+Y4
- MvLA4Z37ktVO3LkBQzv3hnY5ox326U0a9xA+B1arK1th3HinrYHyAhfgIK5TOb1zHsPs
- /7h/9qMPOuRF9jjOg7pGRBb0vPavJKQOxia4OVFcuqBEz+FGHTHrD9GT72HDC+Ua4rrl
- xvaw==
-X-Gm-Message-State: AOAM532Xax2bTe7zeKxartD1hBVcmYXhfGgAI1CQVol7u5DREtxdqOCL
- OAMHtkXibd9utoGMJbEYJHxjHfxuPYVccg==
-X-Google-Smtp-Source: ABdhPJwdqNYCjh1CoTPfPwO4ppqzBRyE0UMHW90L0g4qEG9NkZe1AuAtveTSWKsLgHRReS3RDF7cjA==
-X-Received: by 2002:a17:90b:3584:: with SMTP id
- mm4mr3497983pjb.22.1625762461719; 
- Thu, 08 Jul 2021 09:41:01 -0700 (PDT)
+ bh=Q7Ia+ie6XOcjpcC/dD6Ub5PbrcGQ/yV9nqv+RZL1T9E=;
+ b=bOPij3LqsURRzlzsawjhFU0+Scw7g+UKPUB56TYMG8fA+H1U3h/V91gBqMU0ltU/9P
+ hGcgC0HeyW+/g7sPcbs996YJkEyK8zXZq6jBwfQojRO1H/9LTfssbqebOF9bHyiOIIts
+ 5GZAEP6hu+Ku9LV3WF8JO5ALc5lgQQNAjovBL0p4WqnbQlb16KJtN4hUkMkIjgdZgT2c
+ NBAiUOzsyK1KJMcFdK0p24oIx3WPUj0MOjKFPHBSlFIemm01n/TATOXMxY7UVQdVLNA1
+ FfEIpcLdo7Rf0gorlB6DjR4l5RoX/uJOw+V6R8fAAthDofDvItjb5EL8RN79cwedIkfb
+ 4DaQ==
+X-Gm-Message-State: AOAM531SVoBJK3PuBSrJIcXpHKUnEgImOyIfUMhOjpINcrhWzPO1eVBv
+ 7HtuECwuGXqR1W4PQPduW+KEnqHjqLGIDA==
+X-Google-Smtp-Source: ABdhPJyoSF+0qVFMA8BSWW2EXJ8hl2cJLi5bXxaAFVVWHbtjCom3v6dOSlZCCFdD6NoA5GJL9Hr17g==
+X-Received: by 2002:a17:90a:2e14:: with SMTP id
+ q20mr5703605pjd.188.1625762462159; 
+ Thu, 08 Jul 2021 09:41:02 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j129sm3465678pfb.132.2021.07.08.09.41.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 09:41:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/28] target/ppc: Use translator_use_goto_tb
-Date: Thu,  8 Jul 2021 09:40:41 -0700
-Message-Id: <20210708164050.711967-20-richard.henderson@linaro.org>
+Subject: [PATCH v3 20/28] target/riscv: Use translator_use_goto_tb
+Date: Thu,  8 Jul 2021 09:40:42 -0700
+Message-Id: <20210708164050.711967-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708164050.711967-1-richard.henderson@linaro.org>
 References: <20210708164050.711967-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,25 +84,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Luis Pires <luis.pires@eldorado.org.br>
+Just use translator_use_goto_tb directly at the one call site,
+rather than maintaining a local wrapper.
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ target/riscv/translate.c | 20 +-------------------
+ 1 file changed, 1 insertion(+), 19 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index f65d1e81ea..0fb09f2301 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4302,15 +4302,7 @@ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 62a7d7e4c7..deda0c8a44 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -168,29 +168,11 @@ static void gen_exception_inst_addr_mis(DisasContext *ctx)
+     generate_exception_mtval(ctx, RISCV_EXCP_INST_ADDR_MIS);
+ }
  
- static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
- {
--    if (unlikely(ctx->singlestep_enabled)) {
+-static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+-{
+-    if (unlikely(ctx->base.singlestep_enabled)) {
 -        return false;
 -    }
 -
@@ -110,10 +116,22 @@ index f65d1e81ea..0fb09f2301 100644
 -#else
 -    return true;
 -#endif
-+    return translator_use_goto_tb(&ctx->base, dest);
- }
- 
- static void gen_lookup_and_goto_ptr(DisasContext *ctx)
+-}
+-
+ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+ {
+-    if (use_goto_tb(ctx, dest)) {
+-        /* chaining is only allowed when the jump is to the same page */
++    if (translator_use_goto_tb(&ctx->base, dest)) {
+         tcg_gen_goto_tb(n);
+         tcg_gen_movi_tl(cpu_pc, dest);
+-
+-        /* No need to check for single stepping here as use_goto_tb() will
+-         * return false in case of single stepping.
+-         */
+         tcg_gen_exit_tb(ctx->base.tb, n);
+     } else {
+         tcg_gen_movi_tl(cpu_pc, dest);
 -- 
 2.25.1
 
