@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885563C14F3
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:16:21 +0200 (CEST)
-Received: from localhost ([::1]:58348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFEB93C14F2
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:16:19 +0200 (CEST)
+Received: from localhost ([::1]:58176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1UpA-0008Fh-IT
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:16:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34680)
+	id 1m1Up8-00088a-Mt
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:16:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1Ukp-0000ha-H5
+ id 1m1Ukp-0000hc-HH
  for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:51 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42873)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1Ukh-0002aJ-0f
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:48 -0400
-Received: by mail-wr1-x434.google.com with SMTP id r11so2457840wro.9
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:11:42 -0700 (PDT)
+ id 1m1Ukl-0002aX-PW
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:11:49 -0400
+Received: by mail-wm1-x334.google.com with SMTP id g10so4199771wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:11:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SFWSG8R/qQnlPkozaP0mzJU9vuEjsFWjfImpPD8ftIY=;
- b=ILSzFVyvAX/FEB7PgWK2WkmC0HyG+3ApB87FK2gx3ACelrPvDRVq8f8iGyfKpfloh/
- u/B6EgmdsO9kblW4Rn0Jc7JzJVmtf3wFj1YSOU+7xlGgbsgDKgAXJx5BsNoi9IjZiq0c
- fz3U2OYtmvHwJ0eCSuv0+aVFVlsD67TedfeDWXEg80NY7Ek7EK9ZEp6Ps4X9lobGFReQ
- QTyVTFrSMrnrI4AiOunPzfWJAwdlRMFOdCpsxvhKOdqj8n/okOKV6KlishhbB9b/TpM3
- d32S5HVFtYg59BdiXdzF263AcvAn5TlHurZFIQkuZFhqzl+7GYDjyypU0DlIm/yav+wc
- narA==
+ bh=H/60ACVf2DJvAZDJXvgulVj5FboqfX+ZL2CsDk5LvtI=;
+ b=NLsOH5E7vZuaiWuoMN9TDgMf9v4biTRm7iPsUxcwkPVMx6k+fNaw3xf7ZW5g1wM28L
+ NqPMCfeT+b/UxyjJ7RNtYzkHXPIy1VXeDzU1Xx7c4hnkE/s1iLUGgiXsxPbZIWSCXj/o
+ YX3yX1x7+YqwQNKr6erFF3SHWI/VbuADN4c074yIQ2k/RsDozxsnIkB7jaAi9fdfVx1J
+ VmgiqCSkuOmgrg+UzOzMr3lDwF9ux5cWzdl3u1Z++CdM+Z4Jt6njyefETpeLmySkW/q6
+ KlLSHh/IwK7xcyqFUu9ay5w+eEDZT7SxHniAjsq02niYkGNmbsAgzsxDgTQsy7lddzso
+ 4a/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SFWSG8R/qQnlPkozaP0mzJU9vuEjsFWjfImpPD8ftIY=;
- b=jWyZHc96JhI3TkhnO4pxNspBNQ2RxoGbhIhPa0voG1c5jseajPcNvaFXhf5/4ZOn1V
- +Aqjr4XNTMq4oji6MC/31zE240dQiJc/O3RiHV8udTLozwmFnFOKxcYzdclzMn4/5ZtG
- jy/NRl7XsMmyZ0816NlZE5NYOpnvawJKXk+dLTy0HlVOGiQIk9pIVEsPHg95rGmZijUI
- bcQQ/JiAPjrZSmuYUCX6jcGfg8mCOCYe3secUenihwTw9ip46vyrKRpzqFJpNK597ZCJ
- An4X/vFiAYOp0I0sw8DzL37PpHxRZ///wtOxSf4FsJQQieI1ZhhEr0avvGC9rux5x0Zb
- g9bA==
-X-Gm-Message-State: AOAM532iscbAsIppW4o0BMxfFLdpT++vXXIjjz3IPcT0RKkwqWnmSWP+
- kI7KQxdVLoa2lF37yjrEbmQCphC4ow8=
-X-Google-Smtp-Source: ABdhPJyVqAh0cwFZUsX6ECQhwFDaKq/vdR2v0pC+T5esVG+5E5FYERa3sah+sKxT2IIZEvf/tYFgzQ==
-X-Received: by 2002:adf:d1c1:: with SMTP id b1mr29995216wrd.394.1625753501524; 
- Thu, 08 Jul 2021 07:11:41 -0700 (PDT)
+ bh=H/60ACVf2DJvAZDJXvgulVj5FboqfX+ZL2CsDk5LvtI=;
+ b=DetF7RNZUGL3V6Zy0AWhizGFYHAg2iLdkz+h3+soidABovjdQJ1F8mXhUpYTPK8QZl
+ Lo0CKTUyESVMC3AdUt8zLxNEdnLlprbNTxZJ8ghKQghEcXXY0Hf2nOtEAH71uNcQFRgL
+ 527N2AvjpyBl4nHQOX+t2lSHA4N0/6uDOD39viqPiY3fhgD7bUZqBz/oQcmlz8ekuE4v
+ ixzqtQLw8zqGfIwgpYGGYpqreSnHKvcrUkS8z5YYsWDH83pLzX7IqY29NMz7fc73hdz8
+ KKKkP3KE0ZSzX78gVL5UO3Aq4fxjX8eU71pSJ7hXrSPejxEC6efpakEOAFskihJtQi+l
+ DvEQ==
+X-Gm-Message-State: AOAM533JcjnfX4TIJ0r4ixz6OYcbHzmTp8Lea0GIun88nvyN3UQwv9yo
+ /WR5OGVlLcnZs2HwvPLF7qKLKi26NWc=
+X-Google-Smtp-Source: ABdhPJxSmq1E4uGVYnMlJ86wNq9hXS5nvlpvUciqV84c8Y0i2s/YxBe8IK0hBUd/1aVMX7a8vXSgEA==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr5747449wmb.129.1625753506256; 
+ Thu, 08 Jul 2021 07:11:46 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id 93sm809839wrk.18.2021.07.08.07.11.40
+ by smtp.gmail.com with ESMTPSA id o3sm1389807wrm.5.2021.07.08.07.11.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 07:11:41 -0700 (PDT)
+ Thu, 08 Jul 2021 07:11:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/8] linux-user/alpha: Move errno definitions to
+Subject: [PATCH v2 5/8] linux-user/hppa: Move errno definitions to
  'target_errno_defs.h'
-Date: Thu,  8 Jul 2021 16:11:17 +0200
-Message-Id: <20210708141121.1731691-5-f4bug@amsat.org>
+Date: Thu,  8 Jul 2021 16:11:18 +0200
+Message-Id: <20210708141121.1731691-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210708141121.1731691-1-f4bug@amsat.org>
 References: <20210708141121.1731691-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -94,418 +94,448 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/alpha/target_errno_defs.h | 194 +++++++++++++++++++++++++++
- linux-user/alpha/target_syscall.h    | 194 ---------------------------
- 2 files changed, 194 insertions(+), 194 deletions(-)
+ linux-user/hppa/target_errno_defs.h | 210 ++++++++++++++++++++++++++++
+ linux-user/hppa/target_syscall.h    | 210 ----------------------------
+ 2 files changed, 210 insertions(+), 210 deletions(-)
 
-diff --git a/linux-user/alpha/target_errno_defs.h b/linux-user/alpha/target_errno_defs.h
-index 54770108c02..8cc4c5fb308 100644
---- a/linux-user/alpha/target_errno_defs.h
-+++ b/linux-user/alpha/target_errno_defs.h
-@@ -3,4 +3,198 @@
+diff --git a/linux-user/hppa/target_errno_defs.h b/linux-user/hppa/target_errno_defs.h
+index d6e9676ce25..17ece226c8d 100644
+--- a/linux-user/hppa/target_errno_defs.h
++++ b/linux-user/hppa/target_errno_defs.h
+@@ -3,4 +3,214 @@
  
  #include "../generic/target_errno_defs.h"
  
 +#undef TARGET_EWOULDBLOCK
-+#define TARGET_EWOULDBLOCK      TARGET_EAGAIN
-+#undef TARGET_EDEADLK
-+#define TARGET_EDEADLK          11
-+#undef TARGET_EAGAIN
-+#define TARGET_EAGAIN           35
-+#undef TARGET_EINPROGRESS
-+#define TARGET_EINPROGRESS      36
-+#undef TARGET_EALREADY
-+#define TARGET_EALREADY         37
-+#undef TARGET_ENOTSOCK
-+#define TARGET_ENOTSOCK         38
-+#undef TARGET_EDESTADDRREQ
-+#define TARGET_EDESTADDRREQ     39
-+#undef TARGET_EMSGSIZE
-+#define TARGET_EMSGSIZE         40
-+#undef TARGET_EPROTOTYPE
-+#define TARGET_EPROTOTYPE       41
-+#undef TARGET_ENOPROTOOPT
-+#define TARGET_ENOPROTOOPT      42
-+#undef TARGET_EPROTONOSUPPORT
-+#define TARGET_EPROTONOSUPPORT  43
-+#undef TARGET_ESOCKTNOSUPPORT
-+#define TARGET_ESOCKTNOSUPPORT  44
-+#undef TARGET_EOPNOTSUPP
-+#define TARGET_EOPNOTSUPP       45
-+#undef TARGET_EPFNOSUPPORT
-+#define TARGET_EPFNOSUPPORT     46
-+#undef TARGET_EAFNOSUPPORT
-+#define TARGET_EAFNOSUPPORT     47
-+#undef TARGET_EADDRINUSE
-+#define TARGET_EADDRINUSE       48
-+#undef TARGET_EADDRNOTAVAIL
-+#define TARGET_EADDRNOTAVAIL    49
-+#undef TARGET_ENETDOWN
-+#define TARGET_ENETDOWN         50
-+#undef TARGET_ENETUNREACH
-+#define TARGET_ENETUNREACH      51
-+#undef TARGET_ENETRESET
-+#define TARGET_ENETRESET        52
-+#undef TARGET_ECONNABORTED
-+#define TARGET_ECONNABORTED     53
-+#undef TARGET_ECONNRESET
-+#define TARGET_ECONNRESET       54
-+#undef TARGET_ENOBUFS
-+#define TARGET_ENOBUFS          55
-+#undef TARGET_EISCONN
-+#define TARGET_EISCONN          56
-+#undef TARGET_ENOTCONN
-+#define TARGET_ENOTCONN         57
-+#undef TARGET_ESHUTDOWN
-+#define TARGET_ESHUTDOWN        58
-+#undef TARGET_ETOOMANYREFS
-+#define TARGET_ETOOMANYREFS     59
-+#undef TARGET_ETIMEDOUT
-+#define TARGET_ETIMEDOUT        60
-+#undef TARGET_ECONNREFUSED
-+#define TARGET_ECONNREFUSED     61
-+#undef TARGET_ELOOP
-+#define TARGET_ELOOP            62
-+#undef TARGET_ENAMETOOLONG
-+#define TARGET_ENAMETOOLONG     63
-+#undef TARGET_EHOSTDOWN
-+#define TARGET_EHOSTDOWN        64
-+#undef TARGET_EHOSTUNREACH
-+#define TARGET_EHOSTUNREACH     65
-+#undef TARGET_ENOTEMPTY
-+#define TARGET_ENOTEMPTY        66
-+/* Unused                       67 */
-+#undef TARGET_EUSERS
-+#define TARGET_EUSERS           68
-+#undef TARGET_EDQUOT
-+#define TARGET_EDQUOT           69
-+#undef TARGET_ESTALE
-+#define TARGET_ESTALE           70
-+#undef TARGET_EREMOTE
-+#define TARGET_EREMOTE          71
-+/* Unused                       72-76 */
-+#undef TARGET_ENOLCK
-+#define TARGET_ENOLCK           77
-+#undef TARGET_ENOSYS
-+#define TARGET_ENOSYS           78
-+/* Unused                       79 */
-+#undef TARGET_ENOMSG
-+#define TARGET_ENOMSG           80
-+#undef TARGET_EIDRM
-+#define TARGET_EIDRM            81
-+#undef TARGET_ENOSR
-+#define TARGET_ENOSR            82
-+#undef TARGET_ETIME
-+#define TARGET_ETIME            83
-+#undef TARGET_EBADMSG
-+#define TARGET_EBADMSG          84
-+#undef TARGET_EPROTO
-+#define TARGET_EPROTO           85
-+#undef TARGET_ENODATA
-+#define TARGET_ENODATA          86
-+#undef TARGET_ENOSTR
-+#define TARGET_ENOSTR           87
-+#undef TARGET_ECHRNG
-+#define TARGET_ECHRNG           88
-+#undef TARGET_EL2NSYNC
-+#define TARGET_EL2NSYNC         89
-+#undef TARGET_EL3HLT
-+#define TARGET_EL3HLT           90
-+#undef TARGET_EL3RST
-+#define TARGET_EL3RST           91
-+#undef TARGET_ENOPKG
-+#define TARGET_ENOPKG           92
-+#undef TARGET_ELNRNG
-+#define TARGET_ELNRNG           93
-+#undef TARGET_EUNATCH
-+#define TARGET_EUNATCH          94
-+#undef TARGET_ENOCSI
-+#define TARGET_ENOCSI           95
-+#undef TARGET_EL2HLT
-+#define TARGET_EL2HLT           96
-+#undef TARGET_EBADE
-+#define TARGET_EBADE            97
-+#undef TARGET_EBADR
-+#define TARGET_EBADR            98
-+#undef TARGET_EXFULL
-+#define TARGET_EXFULL           99
-+#undef TARGET_ENOANO
-+#define TARGET_ENOANO           100
-+#undef TARGET_EBADRQC
-+#define TARGET_EBADRQC          101
-+#undef TARGET_EBADSLT
-+#define TARGET_EBADSLT          102
-+/* Unused                       103 */
-+#undef TARGET_EBFONT
-+#define TARGET_EBFONT           104
-+#undef TARGET_ENONET
-+#define TARGET_ENONET           105
-+#undef TARGET_ENOLINK
-+#define TARGET_ENOLINK          106
-+#undef TARGET_EADV
-+#define TARGET_EADV             107
-+#undef TARGET_ESRMNT
-+#define TARGET_ESRMNT           108
-+#undef TARGET_ECOMM
-+#define TARGET_ECOMM            109
-+#undef TARGET_EMULTIHOP
-+#define TARGET_EMULTIHOP        110
-+#undef TARGET_EDOTDOT
-+#define TARGET_EDOTDOT          111
-+#undef TARGET_EOVERFLOW
-+#define TARGET_EOVERFLOW        112
-+#undef TARGET_ENOTUNIQ
-+#define TARGET_ENOTUNIQ         113
-+#undef TARGET_EBADFD
-+#define TARGET_EBADFD           114
-+#undef TARGET_EREMCHG
-+#define TARGET_EREMCHG          115
-+#undef TARGET_EILSEQ
-+#define TARGET_EILSEQ           116
-+/* Same as default              117-121 */
-+#undef TARGET_ELIBACC
-+#define TARGET_ELIBACC          122
-+#undef TARGET_ELIBBAD
-+#define TARGET_ELIBBAD          123
-+#undef TARGET_ELIBSCN
-+#define TARGET_ELIBSCN          124
-+#undef TARGET_ELIBMAX
-+#define TARGET_ELIBMAX          125
-+#undef TARGET_ELIBEXEC
-+#define TARGET_ELIBEXEC         126
-+#undef TARGET_ERESTART
-+#define TARGET_ERESTART         127
-+#undef TARGET_ESTRPIPE
-+#define TARGET_ESTRPIPE         128
-+#undef TARGET_ENOMEDIUM
-+#define TARGET_ENOMEDIUM        129
-+#undef TARGET_EMEDIUMTYPE
-+#define TARGET_EMEDIUMTYPE      130
-+#undef TARGET_ECANCELED
-+#define TARGET_ECANCELED        131
-+#undef TARGET_ENOKEY
-+#define TARGET_ENOKEY           132
-+#undef TARGET_EKEYEXPIRED
-+#define TARGET_EKEYEXPIRED      133
-+#undef TARGET_EKEYREVOKED
-+#define TARGET_EKEYREVOKED      134
-+#undef TARGET_EKEYREJECTED
-+#define TARGET_EKEYREJECTED     135
-+#undef TARGET_EOWNERDEAD
-+#define TARGET_EOWNERDEAD       136
-+#undef TARGET_ENOTRECOVERABLE
-+#define TARGET_ENOTRECOVERABLE  137
-+#undef TARGET_ERFKILL
-+#define TARGET_ERFKILL          138
-+#undef TARGET_EHWPOISON
-+#define TARGET_EHWPOISON        139
++#define TARGET_EWOULDBLOCK     TARGET_EAGAIN /* Operation would block */
++#undef  TARGET_ENOMSG
++#define TARGET_ENOMSG          35
++#undef  TARGET_EIDRM
++#define TARGET_EIDRM           36
++#undef  TARGET_ECHRNG
++#define TARGET_ECHRNG          37
++#undef  TARGET_EL2NSYNC
++#define TARGET_EL2NSYNC        38
++#undef  TARGET_EL3HLT
++#define TARGET_EL3HLT          39
++#undef  TARGET_EL3RST
++#define TARGET_EL3RST          40
++#undef  TARGET_ELNRNG
++#define TARGET_ELNRNG          41
++#undef  TARGET_EUNATCH
++#define TARGET_EUNATCH         42
++#undef  TARGET_ENOCSI
++#define TARGET_ENOCSI          43
++#undef  TARGET_EL2HLT
++#define TARGET_EL2HLT          44
++#undef  TARGET_EDEADLK
++#define TARGET_EDEADLK         45
++#undef  TARGET_ENOLCK
++#define TARGET_ENOLCK          46
++#undef  TARGET_EILSEQ
++#define TARGET_EILSEQ          47
++
++#undef  TARGET_ENONET
++#define TARGET_ENONET          50
++#undef  TARGET_ENODATA
++#define TARGET_ENODATA         51
++#undef  TARGET_ETIME
++#define TARGET_ETIME           52
++#undef  TARGET_ENOSR
++#define TARGET_ENOSR           53
++#undef  TARGET_ENOSTR
++#define TARGET_ENOSTR          54
++#undef  TARGET_ENOPKG
++#define TARGET_ENOPKG          55
++
++#undef  TARGET_ENOLINK
++#define TARGET_ENOLINK         57
++#undef  TARGET_EADV
++#define TARGET_EADV            58
++#undef  TARGET_ESRMNT
++#define TARGET_ESRMNT          59
++#undef  TARGET_ECOMM
++#define TARGET_ECOMM           60
++#undef  TARGET_EPROTO
++#define TARGET_EPROTO          61
++
++#undef  TARGET_EMULTIHOP
++#define TARGET_EMULTIHOP       64
++
++#undef  TARGET_EDOTDOT
++#define TARGET_EDOTDOT         66
++#undef  TARGET_EBADMSG
++#define TARGET_EBADMSG         67
++#undef  TARGET_EUSERS
++#define TARGET_EUSERS          68
++#undef  TARGET_EDQUOT
++#define TARGET_EDQUOT          69
++#undef  TARGET_ESTALE
++#define TARGET_ESTALE          70
++#undef  TARGET_EREMOTE
++#define TARGET_EREMOTE         71
++#undef  TARGET_EOVERFLOW
++#define TARGET_EOVERFLOW       72
++
++#undef  TARGET_EBADE
++#define TARGET_EBADE           160
++#undef  TARGET_EBADR
++#define TARGET_EBADR           161
++#undef  TARGET_EXFULL
++#define TARGET_EXFULL          162
++#undef  TARGET_ENOANO
++#define TARGET_ENOANO          163
++#undef  TARGET_EBADRQC
++#define TARGET_EBADRQC         164
++#undef  TARGET_EBADSLT
++#define TARGET_EBADSLT         165
++#undef  TARGET_EBFONT
++#define TARGET_EBFONT          166
++#undef  TARGET_ENOTUNIQ
++#define TARGET_ENOTUNIQ        167
++#undef  TARGET_EBADFD
++#define TARGET_EBADFD          168
++#undef  TARGET_EREMCHG
++#define TARGET_EREMCHG         169
++#undef  TARGET_ELIBACC
++#define TARGET_ELIBACC         170
++#undef  TARGET_ELIBBAD
++#define TARGET_ELIBBAD         171
++#undef  TARGET_ELIBSCN
++#define TARGET_ELIBSCN         172
++#undef  TARGET_ELIBMAX
++#define TARGET_ELIBMAX         173
++#undef  TARGET_ELIBEXEC
++#define TARGET_ELIBEXEC        174
++#undef  TARGET_ERESTART
++#define TARGET_ERESTART        175
++#undef  TARGET_ESTRPIPE
++#define TARGET_ESTRPIPE        176
++#undef  TARGET_EUCLEAN
++#define TARGET_EUCLEAN         177
++#undef  TARGET_ENOTNAM
++#define TARGET_ENOTNAM         178
++#undef  TARGET_ENAVAIL
++#define TARGET_ENAVAIL         179
++#undef  TARGET_EISNAM
++#define TARGET_EISNAM          180
++#undef  TARGET_EREMOTEIO
++#define TARGET_EREMOTEIO       181
++#undef  TARGET_ENOMEDIUM
++#define TARGET_ENOMEDIUM       182
++#undef  TARGET_EMEDIUMTYPE
++#define TARGET_EMEDIUMTYPE     183
++#undef  TARGET_ENOKEY
++#define TARGET_ENOKEY          184
++#undef  TARGET_EKEYEXPIRED
++#define TARGET_EKEYEXPIRED     185
++#undef  TARGET_EKEYREVOKED
++#define TARGET_EKEYREVOKED     186
++#undef  TARGET_EKEYREJECTED
++#define TARGET_EKEYREJECTED    187
++
++/* Never used in linux.  */
++/* #define TARGET_ENOSYM          215 */
++#undef  TARGET_ENOTSOCK
++#define TARGET_ENOTSOCK        216
++#undef  TARGET_EDESTADDRREQ
++#define TARGET_EDESTADDRREQ    217
++#undef  TARGET_EMSGSIZE
++#define TARGET_EMSGSIZE        218
++#undef  TARGET_EPROTOTYPE
++#define TARGET_EPROTOTYPE      219
++#undef  TARGET_ENOPROTOOPT
++#define TARGET_ENOPROTOOPT     220
++#undef  TARGET_EPROTONOSUPPORT
++#define TARGET_EPROTONOSUPPORT 221
++#undef  TARGET_ESOCKTNOSUPPORT
++#define TARGET_ESOCKTNOSUPPORT 222
++#undef  TARGET_EOPNOTSUPP
++#define TARGET_EOPNOTSUPP      223
++#undef  TARGET_EPFNOSUPPORT
++#define TARGET_EPFNOSUPPORT    224
++#undef  TARGET_EAFNOSUPPORT
++#define TARGET_EAFNOSUPPORT    225
++#undef  TARGET_EADDRINUSE
++#define TARGET_EADDRINUSE      226
++#undef  TARGET_EADDRNOTAVAIL
++#define TARGET_EADDRNOTAVAIL   227
++#undef  TARGET_ENETDOWN
++#define TARGET_ENETDOWN        228
++#undef  TARGET_ENETUNREACH
++#define TARGET_ENETUNREACH     229
++#undef  TARGET_ENETRESET
++#define TARGET_ENETRESET       230
++#undef  TARGET_ECONNABORTED
++#define TARGET_ECONNABORTED    231
++#undef  TARGET_ECONNRESET
++#define TARGET_ECONNRESET      232
++#undef  TARGET_ENOBUFS
++#define TARGET_ENOBUFS         233
++#undef  TARGET_EISCONN
++#define TARGET_EISCONN         234
++#undef  TARGET_ENOTCONN
++#define TARGET_ENOTCONN        235
++#undef  TARGET_ESHUTDOWN
++#define TARGET_ESHUTDOWN       236
++#undef  TARGET_ETOOMANYREFS
++#define TARGET_ETOOMANYREFS    237
++#undef  TARGET_ETIMEDOUT
++#define TARGET_ETIMEDOUT       238
++#undef  TARGET_ECONNREFUSED
++#define TARGET_ECONNREFUSED    239
++#define TARGET_EREMOTERELEASE  240
++#undef  TARGET_EHOSTDOWN
++#define TARGET_EHOSTDOWN       241
++#undef  TARGET_EHOSTUNREACH
++#define TARGET_EHOSTUNREACH    242
++
++#undef  TARGET_EALREADY
++#define TARGET_EALREADY        244
++#undef  TARGET_EINPROGRESS
++#define TARGET_EINPROGRESS     245
++#undef  TARGET_ENOTEMPTY
++#define TARGET_ENOTEMPTY       247
++#undef  TARGET_ENAMETOOLONG
++#define TARGET_ENAMETOOLONG    248
++#undef  TARGET_ELOOP
++#define TARGET_ELOOP           249
++#undef  TARGET_ENOSYS
++#define TARGET_ENOSYS          251
++
++#undef  TARGET_ECANCELED
++#define TARGET_ECANCELED       253
++
++#undef  TARGET_EOWNERDEAD
++#define TARGET_EOWNERDEAD      254
++#undef  TARGET_ENOTRECOVERABLE
++#define TARGET_ENOTRECOVERABLE 255
++
++#undef  TARGET_ERFKILL
++#define TARGET_ERFKILL         256
++#undef  TARGET_EHWPOISON
++#define TARGET_EHWPOISON       257
 +
  #endif
-diff --git a/linux-user/alpha/target_syscall.h b/linux-user/alpha/target_syscall.h
-index 13a71f35eaf..03091bf0a82 100644
---- a/linux-user/alpha/target_syscall.h
-+++ b/linux-user/alpha/target_syscall.h
-@@ -44,200 +44,6 @@ struct target_pt_regs {
- #define UNAME_MACHINE "alpha"
- #define UNAME_MINIMUM_RELEASE "2.6.32"
+diff --git a/linux-user/hppa/target_syscall.h b/linux-user/hppa/target_syscall.h
+index 97a095656d8..0018bcb5c4d 100644
+--- a/linux-user/hppa/target_syscall.h
++++ b/linux-user/hppa/target_syscall.h
+@@ -27,214 +27,4 @@ struct target_pt_regs {
+ #define TARGET_MCL_FUTURE  2
+ #define TARGET_MCL_ONFAULT 4
  
--#undef TARGET_EWOULDBLOCK
--#define TARGET_EWOULDBLOCK      TARGET_EAGAIN /* Operation would block */
--#undef TARGET_EDEADLK
--#define TARGET_EDEADLK          11
--#undef TARGET_EAGAIN
--#define TARGET_EAGAIN           35
--#undef TARGET_EINPROGRESS
--#define TARGET_EINPROGRESS      36
--#undef TARGET_EALREADY
--#define TARGET_EALREADY         37
--#undef TARGET_ENOTSOCK
--#define TARGET_ENOTSOCK         38
--#undef TARGET_EDESTADDRREQ
--#define TARGET_EDESTADDRREQ     39
--#undef TARGET_EMSGSIZE
--#define TARGET_EMSGSIZE         40
--#undef TARGET_EPROTOTYPE
--#define TARGET_EPROTOTYPE       41
--#undef TARGET_ENOPROTOOPT
--#define TARGET_ENOPROTOOPT      42
--#undef TARGET_EPROTONOSUPPORT
--#define TARGET_EPROTONOSUPPORT  43
--#undef TARGET_ESOCKTNOSUPPORT
--#define TARGET_ESOCKTNOSUPPORT  44
--#undef TARGET_EOPNOTSUPP
--#define TARGET_EOPNOTSUPP       45
--#undef TARGET_EPFNOSUPPORT
--#define TARGET_EPFNOSUPPORT     46
--#undef TARGET_EAFNOSUPPORT
--#define TARGET_EAFNOSUPPORT     47
--#undef TARGET_EADDRINUSE
--#define TARGET_EADDRINUSE       48
--#undef TARGET_EADDRNOTAVAIL
--#define TARGET_EADDRNOTAVAIL    49
--#undef TARGET_ENETDOWN
--#define TARGET_ENETDOWN         50
--#undef TARGET_ENETUNREACH
--#define TARGET_ENETUNREACH      51
--#undef TARGET_ENETRESET
--#define TARGET_ENETRESET        52
--#undef TARGET_ECONNABORTED
--#define TARGET_ECONNABORTED     53
--#undef TARGET_ECONNRESET
--#define TARGET_ECONNRESET       54
--#undef TARGET_ENOBUFS
--#define TARGET_ENOBUFS          55
--#undef TARGET_EISCONN
--#define TARGET_EISCONN          56
--#undef TARGET_ENOTCONN
--#define TARGET_ENOTCONN         57
--#undef TARGET_ESHUTDOWN
--#define TARGET_ESHUTDOWN        58
--#undef TARGET_ETOOMANYREFS
--#define TARGET_ETOOMANYREFS     59
--#undef TARGET_ETIMEDOUT
--#define TARGET_ETIMEDOUT        60
--#undef TARGET_ECONNREFUSED
--#define TARGET_ECONNREFUSED     61
--#undef TARGET_ELOOP
--#define TARGET_ELOOP            62
--#undef TARGET_ENAMETOOLONG
--#define TARGET_ENAMETOOLONG     63
--#undef TARGET_EHOSTDOWN
--#define TARGET_EHOSTDOWN        64
--#undef TARGET_EHOSTUNREACH
--#define TARGET_EHOSTUNREACH     65
--#undef TARGET_ENOTEMPTY
--#define TARGET_ENOTEMPTY        66
--/* Unused                       67 */
--#undef TARGET_EUSERS
--#define TARGET_EUSERS           68
--#undef TARGET_EDQUOT
--#define TARGET_EDQUOT           69
--#undef TARGET_ESTALE
--#define TARGET_ESTALE           70
--#undef TARGET_EREMOTE
--#define TARGET_EREMOTE          71
--/* Unused                       72-76 */
--#undef TARGET_ENOLCK
--#define TARGET_ENOLCK           77
--#undef TARGET_ENOSYS
--#define TARGET_ENOSYS           78
--/* Unused                       79 */
--#undef TARGET_ENOMSG
--#define TARGET_ENOMSG           80
--#undef TARGET_EIDRM
--#define TARGET_EIDRM            81
--#undef TARGET_ENOSR
--#define TARGET_ENOSR            82
--#undef TARGET_ETIME
--#define TARGET_ETIME            83
--#undef TARGET_EBADMSG
--#define TARGET_EBADMSG          84
--#undef TARGET_EPROTO
--#define TARGET_EPROTO           85
--#undef TARGET_ENODATA
--#define TARGET_ENODATA          86
--#undef TARGET_ENOSTR
--#define TARGET_ENOSTR           87
--#undef TARGET_ECHRNG
--#define TARGET_ECHRNG           88
--#undef TARGET_EL2NSYNC
--#define TARGET_EL2NSYNC         89
--#undef TARGET_EL3HLT
--#define TARGET_EL3HLT           90
--#undef TARGET_EL3RST
--#define TARGET_EL3RST           91
--#undef TARGET_ENOPKG
--#define TARGET_ENOPKG           92
--#undef TARGET_ELNRNG
--#define TARGET_ELNRNG           93
--#undef TARGET_EUNATCH
--#define TARGET_EUNATCH          94
--#undef TARGET_ENOCSI
--#define TARGET_ENOCSI           95
--#undef TARGET_EL2HLT
--#define TARGET_EL2HLT           96
--#undef TARGET_EBADE
--#define TARGET_EBADE            97
--#undef TARGET_EBADR
--#define TARGET_EBADR            98
--#undef TARGET_EXFULL
--#define TARGET_EXFULL           99
--#undef TARGET_ENOANO
--#define TARGET_ENOANO           100
--#undef TARGET_EBADRQC
--#define TARGET_EBADRQC          101
--#undef TARGET_EBADSLT
--#define TARGET_EBADSLT          102
--/* Unused                       103 */
--#undef TARGET_EBFONT
--#define TARGET_EBFONT           104
--#undef TARGET_ENONET
--#define TARGET_ENONET           105
--#undef TARGET_ENOLINK
--#define TARGET_ENOLINK          106
--#undef TARGET_EADV
--#define TARGET_EADV             107
--#undef TARGET_ESRMNT
--#define TARGET_ESRMNT           108
--#undef TARGET_ECOMM
--#define TARGET_ECOMM            109
--#undef TARGET_EMULTIHOP
--#define TARGET_EMULTIHOP        110
--#undef TARGET_EDOTDOT
--#define TARGET_EDOTDOT          111
--#undef TARGET_EOVERFLOW
--#define TARGET_EOVERFLOW        112
--#undef TARGET_ENOTUNIQ
--#define TARGET_ENOTUNIQ         113
--#undef TARGET_EBADFD
--#define TARGET_EBADFD           114
--#undef TARGET_EREMCHG
--#define TARGET_EREMCHG          115
--#undef TARGET_EILSEQ
--#define TARGET_EILSEQ           116
--/* Same as default              117-121 */
--#undef TARGET_ELIBACC
--#define TARGET_ELIBACC          122
--#undef TARGET_ELIBBAD
--#define TARGET_ELIBBAD          123
--#undef TARGET_ELIBSCN
--#define TARGET_ELIBSCN          124
--#undef TARGET_ELIBMAX
--#define TARGET_ELIBMAX          125
--#undef TARGET_ELIBEXEC
--#define TARGET_ELIBEXEC         126
--#undef TARGET_ERESTART
--#define TARGET_ERESTART         127
--#undef TARGET_ESTRPIPE
--#define TARGET_ESTRPIPE         128
--#undef TARGET_ENOMEDIUM
--#define TARGET_ENOMEDIUM        129
--#undef TARGET_EMEDIUMTYPE
--#define TARGET_EMEDIUMTYPE      130
--#undef TARGET_ECANCELED
--#define TARGET_ECANCELED        131
--#undef TARGET_ENOKEY
--#define TARGET_ENOKEY           132
--#undef TARGET_EKEYEXPIRED
--#define TARGET_EKEYEXPIRED      133
--#undef TARGET_EKEYREVOKED
--#define TARGET_EKEYREVOKED      134
--#undef TARGET_EKEYREJECTED
--#define TARGET_EKEYREJECTED     135
--#undef TARGET_EOWNERDEAD
--#define TARGET_EOWNERDEAD       136
--#undef TARGET_ENOTRECOVERABLE
--#define TARGET_ENOTRECOVERABLE  137
--#undef TARGET_ERFKILL
--#define TARGET_ERFKILL          138
--#undef TARGET_EHWPOISON
--#define TARGET_EHWPOISON        139
+-#undef  TARGET_EWOULDBLOCK
+-#define TARGET_EWOULDBLOCK     TARGET_EAGAIN /* Operation would block */
+-#undef  TARGET_ENOMSG
+-#define TARGET_ENOMSG          35
+-#undef  TARGET_EIDRM
+-#define TARGET_EIDRM           36
+-#undef  TARGET_ECHRNG
+-#define TARGET_ECHRNG          37
+-#undef  TARGET_EL2NSYNC
+-#define TARGET_EL2NSYNC        38
+-#undef  TARGET_EL3HLT
+-#define TARGET_EL3HLT          39
+-#undef  TARGET_EL3RST
+-#define TARGET_EL3RST          40
+-#undef  TARGET_ELNRNG
+-#define TARGET_ELNRNG          41
+-#undef  TARGET_EUNATCH
+-#define TARGET_EUNATCH         42
+-#undef  TARGET_ENOCSI
+-#define TARGET_ENOCSI          43
+-#undef  TARGET_EL2HLT
+-#define TARGET_EL2HLT          44
+-#undef  TARGET_EDEADLK
+-#define TARGET_EDEADLK         45
+-#undef  TARGET_ENOLCK
+-#define TARGET_ENOLCK          46
+-#undef  TARGET_EILSEQ
+-#define TARGET_EILSEQ          47
 -
- // For sys_osf_getsysinfo
- #define TARGET_GSI_UACPROC		8
- #define TARGET_GSI_IEEE_FP_CONTROL	45
+-#undef  TARGET_ENONET
+-#define TARGET_ENONET          50
+-#undef  TARGET_ENODATA
+-#define TARGET_ENODATA         51
+-#undef  TARGET_ETIME
+-#define TARGET_ETIME           52
+-#undef  TARGET_ENOSR
+-#define TARGET_ENOSR           53
+-#undef  TARGET_ENOSTR
+-#define TARGET_ENOSTR          54
+-#undef  TARGET_ENOPKG
+-#define TARGET_ENOPKG          55
+-
+-#undef  TARGET_ENOLINK
+-#define TARGET_ENOLINK         57
+-#undef  TARGET_EADV
+-#define TARGET_EADV            58
+-#undef  TARGET_ESRMNT
+-#define TARGET_ESRMNT          59
+-#undef  TARGET_ECOMM
+-#define TARGET_ECOMM           60
+-#undef  TARGET_EPROTO
+-#define TARGET_EPROTO          61
+-
+-#undef  TARGET_EMULTIHOP
+-#define TARGET_EMULTIHOP       64
+-
+-#undef  TARGET_EDOTDOT
+-#define TARGET_EDOTDOT         66
+-#undef  TARGET_EBADMSG
+-#define TARGET_EBADMSG         67
+-#undef  TARGET_EUSERS
+-#define TARGET_EUSERS          68
+-#undef  TARGET_EDQUOT
+-#define TARGET_EDQUOT          69
+-#undef  TARGET_ESTALE
+-#define TARGET_ESTALE          70
+-#undef  TARGET_EREMOTE
+-#define TARGET_EREMOTE         71
+-#undef  TARGET_EOVERFLOW
+-#define TARGET_EOVERFLOW       72
+-
+-#undef  TARGET_EBADE
+-#define TARGET_EBADE           160
+-#undef  TARGET_EBADR
+-#define TARGET_EBADR           161
+-#undef  TARGET_EXFULL
+-#define TARGET_EXFULL          162
+-#undef  TARGET_ENOANO
+-#define TARGET_ENOANO          163
+-#undef  TARGET_EBADRQC
+-#define TARGET_EBADRQC         164
+-#undef  TARGET_EBADSLT
+-#define TARGET_EBADSLT         165
+-#undef  TARGET_EBFONT
+-#define TARGET_EBFONT          166
+-#undef  TARGET_ENOTUNIQ
+-#define TARGET_ENOTUNIQ        167
+-#undef  TARGET_EBADFD
+-#define TARGET_EBADFD          168
+-#undef  TARGET_EREMCHG
+-#define TARGET_EREMCHG         169
+-#undef  TARGET_ELIBACC
+-#define TARGET_ELIBACC         170
+-#undef  TARGET_ELIBBAD
+-#define TARGET_ELIBBAD         171
+-#undef  TARGET_ELIBSCN
+-#define TARGET_ELIBSCN         172
+-#undef  TARGET_ELIBMAX
+-#define TARGET_ELIBMAX         173
+-#undef  TARGET_ELIBEXEC
+-#define TARGET_ELIBEXEC        174
+-#undef  TARGET_ERESTART
+-#define TARGET_ERESTART        175
+-#undef  TARGET_ESTRPIPE
+-#define TARGET_ESTRPIPE        176
+-#undef  TARGET_EUCLEAN
+-#define TARGET_EUCLEAN         177
+-#undef  TARGET_ENOTNAM
+-#define TARGET_ENOTNAM         178
+-#undef  TARGET_ENAVAIL
+-#define TARGET_ENAVAIL         179
+-#undef  TARGET_EISNAM
+-#define TARGET_EISNAM          180
+-#undef  TARGET_EREMOTEIO
+-#define TARGET_EREMOTEIO       181
+-#undef  TARGET_ENOMEDIUM
+-#define TARGET_ENOMEDIUM       182
+-#undef  TARGET_EMEDIUMTYPE
+-#define TARGET_EMEDIUMTYPE     183
+-#undef  TARGET_ENOKEY
+-#define TARGET_ENOKEY          184
+-#undef  TARGET_EKEYEXPIRED
+-#define TARGET_EKEYEXPIRED     185
+-#undef  TARGET_EKEYREVOKED
+-#define TARGET_EKEYREVOKED     186
+-#undef  TARGET_EKEYREJECTED
+-#define TARGET_EKEYREJECTED    187
+-
+-/* Never used in linux.  */
+-/* #define TARGET_ENOSYM          215 */
+-#undef  TARGET_ENOTSOCK
+-#define TARGET_ENOTSOCK        216
+-#undef  TARGET_EDESTADDRREQ
+-#define TARGET_EDESTADDRREQ    217
+-#undef  TARGET_EMSGSIZE
+-#define TARGET_EMSGSIZE        218
+-#undef  TARGET_EPROTOTYPE
+-#define TARGET_EPROTOTYPE      219
+-#undef  TARGET_ENOPROTOOPT
+-#define TARGET_ENOPROTOOPT     220
+-#undef  TARGET_EPROTONOSUPPORT
+-#define TARGET_EPROTONOSUPPORT 221
+-#undef  TARGET_ESOCKTNOSUPPORT
+-#define TARGET_ESOCKTNOSUPPORT 222
+-#undef  TARGET_EOPNOTSUPP
+-#define TARGET_EOPNOTSUPP      223
+-#undef  TARGET_EPFNOSUPPORT
+-#define TARGET_EPFNOSUPPORT    224
+-#undef  TARGET_EAFNOSUPPORT
+-#define TARGET_EAFNOSUPPORT    225
+-#undef  TARGET_EADDRINUSE
+-#define TARGET_EADDRINUSE      226
+-#undef  TARGET_EADDRNOTAVAIL
+-#define TARGET_EADDRNOTAVAIL   227
+-#undef  TARGET_ENETDOWN
+-#define TARGET_ENETDOWN        228
+-#undef  TARGET_ENETUNREACH
+-#define TARGET_ENETUNREACH     229
+-#undef  TARGET_ENETRESET
+-#define TARGET_ENETRESET       230
+-#undef  TARGET_ECONNABORTED
+-#define TARGET_ECONNABORTED    231
+-#undef  TARGET_ECONNRESET
+-#define TARGET_ECONNRESET      232
+-#undef  TARGET_ENOBUFS
+-#define TARGET_ENOBUFS         233
+-#undef  TARGET_EISCONN
+-#define TARGET_EISCONN         234
+-#undef  TARGET_ENOTCONN
+-#define TARGET_ENOTCONN        235
+-#undef  TARGET_ESHUTDOWN
+-#define TARGET_ESHUTDOWN       236
+-#undef  TARGET_ETOOMANYREFS
+-#define TARGET_ETOOMANYREFS    237
+-#undef  TARGET_ETIMEDOUT
+-#define TARGET_ETIMEDOUT       238
+-#undef  TARGET_ECONNREFUSED
+-#define TARGET_ECONNREFUSED    239
+-#define TARGET_EREMOTERELEASE  240
+-#undef  TARGET_EHOSTDOWN
+-#define TARGET_EHOSTDOWN       241
+-#undef  TARGET_EHOSTUNREACH
+-#define TARGET_EHOSTUNREACH    242
+-
+-#undef  TARGET_EALREADY
+-#define TARGET_EALREADY        244
+-#undef  TARGET_EINPROGRESS
+-#define TARGET_EINPROGRESS     245
+-#undef  TARGET_ENOTEMPTY
+-#define TARGET_ENOTEMPTY       247
+-#undef  TARGET_ENAMETOOLONG
+-#define TARGET_ENAMETOOLONG    248
+-#undef  TARGET_ELOOP
+-#define TARGET_ELOOP           249
+-#undef  TARGET_ENOSYS
+-#define TARGET_ENOSYS          251
+-
+-#undef  TARGET_ECANCELED
+-#define TARGET_ECANCELED       253
+-
+-#undef  TARGET_EOWNERDEAD
+-#define TARGET_EOWNERDEAD      254
+-#undef  TARGET_ENOTRECOVERABLE
+-#define TARGET_ENOTRECOVERABLE 255
+-
+-#undef  TARGET_ERFKILL
+-#define TARGET_ERFKILL         256
+-#undef  TARGET_EHWPOISON
+-#define TARGET_EHWPOISON       257
+-
+ #endif /* HPPA_TARGET_SYSCALL_H */
 -- 
 2.31.1
 
