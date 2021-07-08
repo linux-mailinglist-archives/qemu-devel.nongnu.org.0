@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255A63C16EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:16:11 +0200 (CEST)
-Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7BD3C1707
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:25:10 +0200 (CEST)
+Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wh8-0002Cy-2v
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59192)
+	id 1m1Wpp-0004xG-5H
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:25:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1WCk-0006cK-Qx
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:44:47 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:38650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1WCj-0007nc-4z
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:44:46 -0400
-Received: by mail-pl1-x629.google.com with SMTP id x3so3196645pll.5
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 08:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=mWpSxWqXaU4VzD6THZWfXECcJOkMolUqhk6+bdyiMac=;
- b=ybdlcXSVxENV3VTvDzgzYAROTi/aATOM63URgetAuSXZ508hLaK+8K/aCUclv7WS8K
- +NvdxI3FABXliMgi0TSPeHSVNBSnRmYxB8ZA6wsIg3lqvQ5GKiB5GTm0OvzMKSeWZVYQ
- 9mfKhlFKyZ0/514nfj9Z961jDCPcN22EtXhFL63B0pPAXZJf5rMA8WElo2+ZEtUv5Qp+
- QgN4P0mn/CjQm8LdeDjpIIYMvr4JX8j4482Y0u0O5H6CJTiEav1KiFmv/M2AAiHFA4xv
- KETaL5MzwwSFXEe0SemQMzGcRa1sz2An14rvqo0zSqjZStPBSTp1/6uM5AX4GqUWpsq1
- GMOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=mWpSxWqXaU4VzD6THZWfXECcJOkMolUqhk6+bdyiMac=;
- b=jaI9qo1hULfSqmcSVl7ZZjd0el19QVohpHUU0E2ODSS0HowZp3VSuqu9xGtvZ5Yozj
- JiTk9+uNC0OPQ9ipyVUqhQtJmQuNgDFIKiCx0iGEvizRZJl6b8EV2Bi7+8NZZVbgjVh+
- Qt8hNupkSrDwN0EfoPKgN8HgamPJXUD4lcK/HviblwcxTpH1mIgO3wZSwN14UaKhrm0Y
- RorZ07ozk+CmdUEojJj8kq48sYKKhe1beVux7ZRzC3fqXPU2IFSL+yzPRp2z+DMjVJNL
- 9w75OxZbBjH/SBkSIimOug1XlziJfWF+RYlQxfBVflQsWRGdPKII0EhvAe5iL3jUqLrD
- Sgaw==
-X-Gm-Message-State: AOAM532veJOhcHLOd5hUV5QENae3FvKL3HjVrxdoMMKmxR9Ye4pZuDPg
- DTTj20WDrI2sEr032SVyTc1CFg==
-X-Google-Smtp-Source: ABdhPJzr4RM/JLybtcH21wAhq25waUqBgZKdaBsW3ySaxAeV3lg1MWdJo6Y+crlm0/EqWpvbg/9F7g==
-X-Received: by 2002:a17:90b:3b88:: with SMTP id
- pc8mr5732999pjb.124.1625759083799; 
- Thu, 08 Jul 2021 08:44:43 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id z20sm3913358pgk.36.2021.07.08.08.44.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 08:44:43 -0700 (PDT)
-Subject: Re: [PATCH v2 8/8] linux-user: Simplify host <-> target errno
- conversion using macros
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210708141121.1731691-1-f4bug@amsat.org>
- <20210708141121.1731691-9-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ea33974f-6c29-3fd4-93d3-dd022c18f8aa@linaro.org>
-Date: Thu, 8 Jul 2021 08:44:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1WEU-0001AV-AG
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1WER-0000KK-BX
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625759190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KaoYlejuqA/NUY+fJqOlUopwi48ECHHir9q34fYHjzc=;
+ b=g/mCJ/rmAnLSJL3hOzs5XDBhkVlARF8KkaBggaSPuZWCRNyNItQs4dB/ikraEXAhVqa9RK
+ r0A4qUIdAJZqu4oRe7iFyLRPB9JjlR4bawvTBZO2sWPyT8HrndQ0DSLiy7ioGaCtW8Ro5A
+ pBNIGUrxqsfxWuUFVIXdnQJjzKtvnos=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-QtYmL7nAP6-x4U9HOfal3Q-1; Thu, 08 Jul 2021 11:46:29 -0400
+X-MC-Unique: QtYmL7nAP6-x4U9HOfal3Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3695F801107
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 15:46:28 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 08A2C19C66;
+ Thu,  8 Jul 2021 15:46:23 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/35] acpi: refactor error prone build_header() and packed
+ structures usage in ACPI tables
+Date: Thu,  8 Jul 2021 11:45:42 -0400
+Message-Id: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210708141121.1731691-9-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,48 +77,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 7:11 AM, Philippe Mathieu-Daudé wrote:
-> Convert the host_to_target_errno_table[] array to a switch case
-> to allow compiler optimizations. Extract the errnos list as to
-> a new includible unit, using a generic macro. Remove the code
-> related to target_to_host_errno_table[] initialization.
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   linux-user/syscall.c    | 169 +++++-----------------------------------
->   linux-user/errnos.c.inc | 140 +++++++++++++++++++++++++++++++++
->   2 files changed, 161 insertions(+), 148 deletions(-)
->   create mode 100644 linux-user/errnos.c.inc
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 56682b06cbd..8bb528d2cf7 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -507,157 +507,37 @@ static inline int next_free_host_timer(void)
->   }
->   #endif
->   
-> -#define ERRNO_TABLE_SIZE 1200
-> -
->   static inline bool errno_exists(int err)
->   {
-> -    return err >= 0 && err < ERRNO_TABLE_SIZE;
-> +    switch (err) {
-> +#define E(X)  case X: return true;
-> +#include "errnos.c.inc"
-> +#undef E
-> +    default:
-> +        return false;
-> +    }
->   }
+v2:
+  - drop test related patches, they will be sent as a separate series
+  - fix bios_loader pointer initialization ordering when using TPM1.2
+  - extend commit message of [1/35] and add extra comment about
+    table length patching 
 
-Not true.  As documented, errnos.c.inc only contains those errno values which are 
-overridden, not all errno values which are valid.
+Highlights:
+  * drop pointer arithmetic in ACPI tables code
+  * use endian agnostic API
+  * simplifies review of tables. /in most cases just line by line comparision with spec/
 
-r~
+Series replaces build_header() with acpi_init_table()/acpi_table_composed()
+API that hides pointer/offset arithmetic from user, to prevent
+errors caused by it [1].
+While doing above, it was necessary to split table header from
+packed structure that was describing the table, which is
+counter-productive since it still leaves packed structure drawbacks.
+So that sort of forced me to rewrite tables that were composed with
+help of packed structures to preferred build_append_int_noprefix() API.
+In cases where refactoring to build_append_int_noprefix() was small,
+it was squashed with acpi_init_table()/acpi_table_composed() patch.
+Conversion reduced code size quite a bit despite me adding doc comments
+for every table row.
+
+1) commits
+   bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
+   4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
+
+Link to repo:
+   https://gitlab.com/imammedo/qemu/-/commits/acpi_build_header_refactoring_v2
+
+CC: mst@redhat.com
+
+
+
+Igor Mammedov (35):
+  acpi: add helper routines to initialize ACPI tables
+  acpi: build_rsdt: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_xsdt: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_slit: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_fadt: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_tpm2: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: acpi_build_hest: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: build_mcfg: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_hmat: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: nvdimm_build_nfit: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: nvdimm_build_ssdt: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: vmgenid_build_acpi: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: x86: build_dsdt: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: build_hpet: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_tpm_tcpa: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: arm/x86: build_srat: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: use build_append_int_noprefix() API to compose SRAT table
+  acpi: build_dmar_q35: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: build_waet: use acpi_init_table()/acpi_table_composed() instead
+    of build_header()
+  acpi: build_amd_iommu: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: madt: arm/x86: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: x86: remove dead code
+  acpi: x86: set enabled when composing _MAT entries
+  acpi: x86: madt: use build_append_int_noprefix() API to compose MADT
+    table
+  acpi: arm/virt: madt: use build_append_int_noprefix() API to compose
+    MADT table
+  acpi: build_dsdt_microvm: use acpi_init_table()/acpi_table_composed()
+    instead of build_header()
+  acpi: arm: virt: build_dsdt: use
+    acpi_init_table()/acpi_table_composed() instead of build_header()
+  acpi: arm: virt: build_iort: use
+    acpi_init_table()/acpi_table_composed() instead of build_header()
+  acpi: arm/virt: convert build_iort() to endian agnostic
+    build_append_FOO() API
+  acpi: arm/virt: build_spcr: fix invalid cast
+  acpi: arm/virt: build_spcr: use
+    acpi_init_table()/acpi_table_composed() instead of build_header()
+  acpi: arm/virt: build_gtdt: use
+    acpi_init_table()/acpi_table_composed() instead of build_header()
+  acpi: build_facs: use build_append_int_noprefix() API to compose table
+  acpi: remove no longer used build_header()
+  acpi: AcpiGenericAddress no longer used to map/access fields of MMIO,
+    drop packed attribute
+
+ include/hw/acpi/acpi-defs.h          | 528 +------------------------
+ include/hw/acpi/acpi_dev_interface.h |   3 +-
+ include/hw/acpi/aml-build.h          |  21 +-
+ include/hw/i386/pc.h                 |   7 +-
+ hw/acpi/acpi-x86-stub.c              |   3 +-
+ hw/acpi/aml-build.c                  | 193 ++++++----
+ hw/acpi/cpu.c                        |  17 +-
+ hw/acpi/ghes.c                       |  10 +-
+ hw/acpi/hmat.c                       |  14 +-
+ hw/acpi/nvdimm.c                     |  64 ++--
+ hw/acpi/pci.c                        |  18 +-
+ hw/acpi/vmgenid.c                    |  16 +-
+ hw/arm/virt-acpi-build.c             | 550 +++++++++++++++------------
+ hw/i386/acpi-build.c                 | 284 ++++++++------
+ hw/i386/acpi-common.c                | 158 ++++----
+ hw/i386/acpi-microvm.c               |  13 +-
+ 16 files changed, 750 insertions(+), 1149 deletions(-)
+
+-- 
+2.27.0
+
 
