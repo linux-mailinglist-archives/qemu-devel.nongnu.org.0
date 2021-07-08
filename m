@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097D73BF4C8
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:31:30 +0200 (CEST)
-Received: from localhost ([::1]:56000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FC73BF4D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 06:46:15 +0200 (CEST)
+Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1LhB-0002iE-1P
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:31:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38222)
+	id 1m1LvS-0006DH-Eg
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 00:46:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1Lbs-0005Qo-3W
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:26:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1Lbq-0003Ji-B6
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 00:25:59 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1Lbm-0000mS-CQ
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 04:25:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 562282E80BA
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 04:25:54 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m1Ls4-0004UF-SY; Thu, 08 Jul 2021 00:42:44 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56181 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m1Ls1-0000eM-M7; Thu, 08 Jul 2021 00:42:44 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GL3Ym1twGz9sWl; Thu,  8 Jul 2021 14:42:36 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1625719356;
+ bh=lbUs1ruVMJrVdORqYgfEef0J1TkvWJFvAIdDQtPO2Ps=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=iNx4uPgxdB/Lzz/IMx4+DA159ctuS8tUFHOFfsjJYVwxWSX/oNTUwnY9O31UdlhCY
+ IOsPcZFxABRbG+n+9YPs5AdtvGchDlU98HunE1MXI/+QV/oggKo9iMZboRiPeTt5tk
+ AbOrv03RLNQmxGZooO0cuYPvjzNjgLm2uxgNAfeU=
+Date: Thu, 8 Jul 2021 14:37:28 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 4/4] ppc/pegasos2: Implement some RTAS functions with VOF
+Message-ID: <YOaBCA4nZ0Lyz2SM@yekko>
+References: <cover.1624811233.git.balaton@eik.bme.hu>
+ <b4bf314d4edca0dd31f2859543601f815ed56187.1624811233.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Jul 2021 04:17:29 -0000
-From: Launchpad Bug Tracker <1893634@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor th-huth tom-ty89
-X-Launchpad-Bug-Reporter: Tom Yan (tom-ty89)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159886949002.28151.4021199873744523881.malonedeb@soybean.canonical.com>
-Message-Id: <162571784915.7916.4519051115049989698.malone@loganberry.canonical.com>
-Subject: [Bug 1893634] Re: blk_get_max_transfer() works only with sg
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 0fb80e1db02a1e1174d0a831cb236b0be79c0798
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7dwRH+zQu6slVuJu"
+Content-Disposition: inline
+In-Reply-To: <b4bf314d4edca0dd31f2859543601f815ed56187.1624811233.git.balaton@eik.bme.hu>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,44 +58,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893634 <1893634@bugs.launchpad.net>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+--7dwRH+zQu6slVuJu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Sun, Jun 27, 2021 at 06:27:13PM +0200, BALATON Zoltan wrote:
+> Linux uses RTAS functions to access PCI devices so we need to provide
+> these with VOF. Implement some of the most important functions to
+> allow booting Linux with VOF. With this the board is now usable
+> without a binary ROM image and we can enable it by default as other
+> boards.
+>=20
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893634
+Applied, but...
 
-Title:
-  blk_get_max_transfer() works only with sg
+> @@ -687,6 +795,29 @@ static void *build_fdt(MachineState *machine, int *f=
+dt_size)
+>      qemu_fdt_setprop_string(fdt, "/failsafe", "device_type", "serial");
+>      qemu_fdt_setprop_string(fdt, "/failsafe", "name", "failsafe");
+> =20
+> +    qemu_fdt_add_subnode(fdt, "/rtas");
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "system-reboot", 20);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "hibernate", 19);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "suspend", 18);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "power-off", 17);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "set-indicator", 11);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "display-character", 10);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "write-pci-config", 9);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "read-pci-config", 8);
+> +    /* Pegasos2 firmware misspells check-exception and guests use that */
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "check-execption", 7);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "event-scan", 6);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "set-time-of-day", 4);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "get-time-of-day", 3);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "nvram-store", 2);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "nvram-fetch", 1);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "restart-rtas", 0);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-error-log-max", 0);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-event-scan-rate", 0);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-display-device", 0);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-size", 20);
+> +    qemu_fdt_setprop_cell(fdt, "/rtas", "rtas-version", 1);
 
-Status in QEMU:
-  Expired
+=2E.you really want to be using your symbolic names here as well.
 
-Bug description:
-  blk_get_max_transfer() is supposed to be able to get the max_sectors
-  queue limit of the scsi device on the host side and is used in both
-  scsi-generic.c (for scsi-generic and scsi-block) and scsi-disk.c (for
-  scsi-hd) to set/change the max_xfer_len (and opt_xfer_len in the case
-  of scsi-generic.c).
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  However, it only works with the sg driver in doing so. It cannot get
-  the queue limit with the sd driver and simply returns MAX_INT.
+--7dwRH+zQu6slVuJu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  qemu version 5.1.0
-  kernel version 5.8.5
+-----BEGIN PGP SIGNATURE-----
 
-  Btw, is there a particular reason that it doesn't MIN_NON_ZERO against
-  the original max_xfer_len:
-  https://github.com/qemu/qemu/blob/v5.1.0/hw/scsi/scsi-generic.c#L172?
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDmgQUACgkQbDjKyiDZ
+s5Id+RAA3KxFMQcRPe8sDqLFXy3Rs57hfaznlUIKlfiUNVEMLI8UkhBERf9k5aUN
+Tu0nvrDo3+tgjh2+X3GZ6gY7oAmXGpEtXXldkOLu75tYgAjSj3Mj5lxmqIfJFt58
+lc5zwhznx38b7B4xyKjizbSwZmKTeQ3BI2yWfQn1yQGtMahUQJQynFA1tCOVg8cl
+SUA2oxOoSrZhnr5qX5AJi+5NN7/suOhcvZik0CgqFo4uENlvC89ta2zOnl2cwm1u
+Eznve9v6jfh/0SX/RTmd7WEIgQiU+DWEnW3Ji+Gy5Qgzl3DsOwIibNV+jv+O53Hk
+SZ6iQ/hYspYJczuz4+5orF21tLdd9pUDKKmMnDwyw2VKwQTZC9cY9UqpKJJ/TQzN
+yqrRjVlKaE1OtG9vlZtYCAKqxd1VjPArxcldLZOptAhhHXcYXYVNFE1uU77crHAA
+ZPGbWgxDBLMhLw0ZsP4IuFUDsYDvTRONPRPvXAy9ze6guogqAGUfR+AEXblHVl96
+w1rfg/kxizs4Bbl0OhUCTYdVRNG3oEVkFkaKdtaHTMFISmiJlvEun8oQsblkP+ZD
+iPH7AwWsAYYEgmXHqOefc7eMmqZkE1Lr8OFIIKnvBPrLEqZQizh43g8WPz4aQBvN
+o9Anf+I0JDD8CgDqVtYd43Zbos5bKmZBXjLcjSAd6uFTNdIPUqg=
+=N9qM
+-----END PGP SIGNATURE-----
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893634/+subscriptions
+--7dwRH+zQu6slVuJu--
 
