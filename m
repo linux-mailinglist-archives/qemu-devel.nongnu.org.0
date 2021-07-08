@@ -2,84 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602D73BF6EA
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:33:15 +0200 (CEST)
-Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6183BF719
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 10:52:14 +0200 (CEST)
+Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1PT8-0002iA-6q
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44236)
+	id 1m1PlT-0002a2-3U
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 04:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1PSG-000219-Q7
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:32:20 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m1PSF-0004Qb-6S
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:32:20 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- k16-20020a05600c1c90b02901f4ed0fcfe7so3426780wms.5
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 01:32:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TfVKzjZOfg1kRWMydx0p+soilkjSFL5ekN7mSt1x61w=;
- b=cSwCCZcl2u1iRKouD5XPFiyqYRjVnS+mVeaYEDL3+6HLcQ2UZej2lLdD1U2LYbJred
- /4HQXZ7SZJGfXIMMg42ZF/eRHjeFJz1EL3iakWI+3fd4k7guWBaWaMoTJ7ovgC+iRkdC
- DOEFURpYSWiG+G0sQOR5xQlEo87ghQ/Xod4S7EwIrHvKtSlTlMOsXqNwUbzglKMoZYl1
- oeGhjBlAtLKSHaOVwvWaufOpjUsma1N2NZD3xh3zLCWJI7o/h1dEMb8mqUA/dzJRgUIe
- kLntsQVn9qM6qhnGESu8lTfZ5R5tIhHFCIba+bK50iX9LGhwU7ql4Cm6zIFeT/i1bfPW
- rjRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TfVKzjZOfg1kRWMydx0p+soilkjSFL5ekN7mSt1x61w=;
- b=KWxVRaSYD8GJX4qSPme+6eFKlzBRsbYQH8uBSptumx0lHD2rV3S7K96+295TLt0fbq
- PCexo2tnCTmT5sZ3DDj/MSmQiVuGYozjmoXGOcQJyUWqnbPcL2H2kRP0hR8u5a11/XJc
- ZPTQsPVyfEEPH0kzYLPp+6nai3FTyuaRJBfCrIwJze75BtrA3Fpz1H7gGwZJIBGiJUH3
- vXgK6kQhN3xUH9EM7qJ4UexzZ/y4cjIolOZhY4y2/A4n6GyJ2PM68x3pvykwskInpzSl
- Wbg0iEiYmp4mCpd3RAFpv90G+U2ZtH1c/NIFi7Cjo7v/TX1YnEEATasyB8NqLL8LvUpo
- nGBA==
-X-Gm-Message-State: AOAM5306QQHeuQNTMv5ngfcxPsfZy9u+BOnZ0VG2Engc6gxaVLWKXC7+
- UOHbx0rpKgRKrwZaRhAWDP0=
-X-Google-Smtp-Source: ABdhPJzYdQPuPZzAwueJzkeFzCLOTwfFY4limTXKyOfybPkPHXKPGqAm/YAzM7o1CvdIsVG8C+5IGg==
-X-Received: by 2002:a1c:cc02:: with SMTP id h2mr31057391wmb.39.1625733137490; 
- Thu, 08 Jul 2021 01:32:17 -0700 (PDT)
-Received: from [192.168.1.36] (93.red-83-35-24.dynamicip.rima-tde.net.
- [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id n18sm7365988wms.3.2021.07.08.01.32.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 01:32:16 -0700 (PDT)
-Subject: Re: [PATCH 05/12] linux-user: Extract target errno to
- 'target_errno_defs.h'
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210704183755.655002-1-f4bug@amsat.org>
- <20210704183755.655002-6-f4bug@amsat.org>
- <11e451c0-dfc7-5709-9441-28da39b237e6@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1a4beab8-aa19-ed90-3091-7717ab7d5f21@amsat.org>
-Date: Thu, 8 Jul 2021 10:32:16 +0200
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m1Pjb-0001m0-P6
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:50:15 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51964
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m1PjW-0001nz-1w
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 04:50:15 -0400
+Received: from host86-145-86-170.range86-145.btcentralplus.com
+ ([86.145.86.170] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m1PjR-00081R-Vp; Thu, 08 Jul 2021 09:50:06 +0100
+To: Finn Thain <fthain@linux-m68k.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <20210705214929.17222-1-mark.cave-ayland@ilande.co.uk>
+ <20210705214929.17222-2-mark.cave-ayland@ilande.co.uk>
+ <49104070-ee40-3bcf-f043-225f247a1de7@linux-m68k.org>
+ <7b74db54-6afd-d20c-bd10-85bb6c3621cc@ilande.co.uk>
+ <f21cfe37-872-67a6-983a-65664214aaf0@linux-m68k.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <ba38b5b5-1fa5-082b-8800-93da6547600b@ilande.co.uk>
+Date: Thu, 8 Jul 2021 09:50:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <11e451c0-dfc7-5709-9441-28da39b237e6@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <f21cfe37-872-67a6-983a-65664214aaf0@linux-m68k.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-SA-Exim-Connect-IP: 86.145.86.170
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/4] dp8393x: don't force 32-bit register access
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,112 +68,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Helge Deller <deller@gmx.de>,
- Aurelien Jarno <aurelien@aurel32.net>, Laurent Vivier <laurent@vivier.eu>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/7/21 3:53 AM, Richard Henderson wrote:
-> On 7/4/21 11:37 AM, Philippe Mathieu-Daudé wrote:
->> We want to access the target errno indepently of the rest
->> of the linux-user code. Extract it to a new target-specific
->> header: 'target_errno_defs.h'.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   linux-user/aarch64/target_errno_defs.h    | 6 ++++++
->>   linux-user/alpha/target_errno_defs.h      | 4 ++++
->>   linux-user/arm/target_errno_defs.h        | 6 ++++++
->>   linux-user/cris/target_errno_defs.h       | 6 ++++++
->>   linux-user/errno_defs.h                   | 3 +++
->>   linux-user/hexagon/target_errno_defs.h    | 6 ++++++
->>   linux-user/hppa/target_errno_defs.h       | 4 ++++
->>   linux-user/i386/target_errno_defs.h       | 6 ++++++
->>   linux-user/m68k/target_errno_defs.h       | 6 ++++++
->>   linux-user/microblaze/target_errno_defs.h | 6 ++++++
->>   linux-user/mips/target_errno_defs.h       | 4 ++++
->>   linux-user/mips64/target_errno_defs.h     | 4 ++++
->>   linux-user/nios2/target_errno_defs.h      | 6 ++++++
->>   linux-user/openrisc/target_errno_defs.h   | 6 ++++++
->>   linux-user/ppc/target_errno_defs.h        | 6 ++++++
->>   linux-user/riscv/target_errno_defs.h      | 6 ++++++
->>   linux-user/s390x/target_errno_defs.h      | 6 ++++++
->>   linux-user/sh4/target_errno_defs.h        | 6 ++++++
->>   linux-user/sparc/target_syscall.h         | 2 --
->>   linux-user/x86_64/target_errno_defs.h     | 6 ++++++
->>   linux-user/xtensa/target_errno_defs.h     | 6 ++++++
->>   21 files changed, 109 insertions(+), 2 deletions(-)
->>   create mode 100644 linux-user/aarch64/target_errno_defs.h
->>   create mode 100644 linux-user/alpha/target_errno_defs.h
->>   create mode 100644 linux-user/arm/target_errno_defs.h
->>   create mode 100644 linux-user/cris/target_errno_defs.h
->>   create mode 100644 linux-user/hexagon/target_errno_defs.h
->>   create mode 100644 linux-user/hppa/target_errno_defs.h
->>   create mode 100644 linux-user/i386/target_errno_defs.h
->>   create mode 100644 linux-user/m68k/target_errno_defs.h
->>   create mode 100644 linux-user/microblaze/target_errno_defs.h
->>   create mode 100644 linux-user/mips/target_errno_defs.h
->>   create mode 100644 linux-user/mips64/target_errno_defs.h
->>   create mode 100644 linux-user/nios2/target_errno_defs.h
->>   create mode 100644 linux-user/openrisc/target_errno_defs.h
->>   create mode 100644 linux-user/ppc/target_errno_defs.h
->>   create mode 100644 linux-user/riscv/target_errno_defs.h
->>   create mode 100644 linux-user/s390x/target_errno_defs.h
->>   create mode 100644 linux-user/sh4/target_errno_defs.h
->>   create mode 100644 linux-user/x86_64/target_errno_defs.h
->>   create mode 100644 linux-user/xtensa/target_errno_defs.h
->>
->> diff --git a/linux-user/aarch64/target_errno_defs.h
->> b/linux-user/aarch64/target_errno_defs.h
->> new file mode 100644
->> index 00000000000..a809381165a
->> --- /dev/null
->> +++ b/linux-user/aarch64/target_errno_defs.h
->> @@ -0,0 +1,6 @@
->> +#ifndef AARCH64_TARGET_ERRNO_H
->> +#define AARCH64_TARGET_ERRNO_H
->> +
->> +/* Target uses generic errno */
->> +
->> +#endif
-> 
-> This could be better.
-> 
-> Consider e.g. termbits.h as the model.
+On 08/07/2021 01:52, Finn Thain wrote:
 
-Thanks for the tip!
+> On Wed, 7 Jul 2021, Mark Cave-Ayland wrote:
+> 
+>> However this conflicts with what you mention above that the SONIC is
+>> hard-coded into little-endian mode, in which case we would still need to
+>> keep it.
+>>
+> 
+> If you want to fully implement BMODE in QEMU then you'll need to abandon
+> native endiannes for the device implementation. I was not proposing this
+> as it implies more byte swapping.
+> 
+> In a real Magnum the SONIC chip is connected to a bus that's not modelled
+> by QEMU. It follows that BMODE serves different purposes than big_endian.
+> 
+> I pointed out several semantic differences between BMODE and big_endian,
+> but I think the most significant of those was that endianness is already a
+> property of the memory device being accessed for DMA. Yet big_endian is a
+> property of the dp8393x device.
+> 
+>> Certainly we can look to improve things in the future, but without
+>> anyone having a working big-endian MIPS image to test against, I don't
+>> think it's worth guessing what changes are required as we can easily
+>> double the length of this thread and still have no idea if any changes
+>> we've made are correct.
+>>
+> 
+> That argument can be applied to other patches in this series also.
+> 
+> Anyway, if we agree that the aim is ultimately to remove the big_endian
+> flag then patch 4/4 should probably be re-evaluated in light of that.
 
-> These targets should have exactly one line:
-> 
-> #include "../generic/target_errno.h"
-> 
->> diff --git a/linux-user/alpha/target_errno_defs.h
->> b/linux-user/alpha/target_errno_defs.h
->> new file mode 100644
->> index 00000000000..13770b14b82
->> --- /dev/null
->> +++ b/linux-user/alpha/target_errno_defs.h
->> @@ -0,0 +1,4 @@
->> +#ifndef ALPHA_TARGET_ERRNO_H
->> +#define ALPHA_TARGET_ERRNO_H
->> +
->> +#endif
-> 
-> This one, and ones like it, become
-> 
-> #ifndef ALPHA_TARGET_ERRNO_H
-> #define ALPHA_TARGET_ERRNO_H
-> 
-> #include "../generic/target_errno.h"
-> 
-> #undef  TARGET_EBAR
-> #define TARGET_EBAR  xxx
-> ...
-> 
-> #endif
-> 
-> 
-> r~
-> 
+Other than fixing up the MMIO accesses to use the memory API, the patches in this 
+series are just tidy-ups and refactorings i.e. no change in functionality related to 
+the big_endian property. This is exactly the case for patch 4. If there were any 
+changes to the big_endian logic required, then those would be handled by a separate 
+patch (or patches) outside of this refactoring work.
+
+As I said before I'm not opposed to this, but we're coming up to freeze in less than 
+a week and no-one has been able to provide working MIPS big endian and little endian 
+test images in a thread lasting 3 weeks. Therefore my recommendation would be to 
+merge the series in its current form for 6.1 and then when someone has found time to 
+generate working images and do the required analysis around the big_endian logic, we 
+can consider further changes later.
+
+
+ATB,
+
+Mark.
 
