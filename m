@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B7113C1950
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:38:55 +0200 (CEST)
-Received: from localhost ([::1]:55242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FAA3C1953
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:41:06 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1YvG-00065n-2x
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:38:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
+	id 1m1YxO-00037v-0C
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m1Ypy-0005xB-2m
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:33:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55679)
+ id 1m1Yq9-00068q-L3
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:33:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m1Ypt-00022Y-0s
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:33:25 -0400
+ id 1m1Yq8-00025V-4j
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:33:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625769200;
+ s=mimecast20190719; t=1625769215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ISqBKCG50Q+uHJRY5BwLzy4YuIGTUPjzlmsgxcUgY+E=;
- b=c9av/ZrUoIqBmkT9rZDfn7DL+xLbLKkoN2n9fI2lPX2RCeEKpL6gO1yAyocghcq140OgpB
- yF9SEoc7GVUZVWdEbvPO/DrXNUEzqutTsN906sjruLThrmslI6Mqg7Je52W8pQJ+TvDs0+
- d9ol2AIYvrAjHK+gCh9frN+0q5tnp8o=
+ bh=jx+EntwNoDE0rSe5POzw6g2WXKu8L0NTv1fe1d4IzNY=;
+ b=NI4B3dLrjZQnPEzKE0quuNwu/mPWDloTM0VaqUDpLLJ+OR5Hng8NVjThz3HHEtwqfeES2c
+ GuHx0enEQPd0oGQr/V+4oFxjqspC9/pxTiBH19B2o2K3X79FFrNDzdMx90mcFYOWTjjoZ7
+ j5Wfk6/QaI+upVwRVTh6AV5r9TkaSm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-EZey6X8XN4qQgjmZnOmBMQ-1; Thu, 08 Jul 2021 14:33:18 -0400
-X-MC-Unique: EZey6X8XN4qQgjmZnOmBMQ-1
+ us-mta-22-7YG6ilIqO9WqFeGkI7rXiA-1; Thu, 08 Jul 2021 14:33:34 -0400
+X-MC-Unique: 7YG6ilIqO9WqFeGkI7rXiA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADEB2106B7F3
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:33:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5552B100D0DF
+ for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:33:17 +0000 (UTC)
 Received: from worklaptop.home (ovpn-115-15.rdu2.redhat.com [10.10.115.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D283817567;
- Thu,  8 Jul 2021 18:32:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D404C17567;
+ Thu,  8 Jul 2021 18:33:10 +0000 (UTC)
 From: Cole Robinson <crobinso@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] contrib: qemu-guest-agent.service: Add Documentation= link
-Date: Thu,  8 Jul 2021 14:32:00 -0400
-Message-Id: <f813134a01ec1d4edd6da5930595d505a361a33c.1625769000.git.crobinso@redhat.com>
+Subject: [PATCH 3/4] contrib: qemu-guest-agent.service: Don't ignore failure
+Date: Thu,  8 Jul 2021 14:32:01 -0400
+Message-Id: <cd3ccf4837fb7220fde9d0d4fb683c0fed1bb792.1625769000.git.crobinso@redhat.com>
 In-Reply-To: <cover.1625769000.git.crobinso@redhat.com>
 References: <cover.1625769000.git.crobinso@redhat.com>
 MIME-Version: 1.0
@@ -82,23 +82,27 @@ Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OpenSUSE adds this to their service file
+RHEL7+ and Fedora don't ignore errors, nor Arch. Debian and OpenSUSE
+do but I think that's because their service files are based on
+this / what Fedora used to ship.
 
 Signed-off-by: Cole Robinson <crobinso@redhat.com>
 ---
- contrib/systemd/qemu-guest-agent.service | 1 +
- 1 file changed, 1 insertion(+)
+ contrib/systemd/qemu-guest-agent.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/contrib/systemd/qemu-guest-agent.service b/contrib/systemd/qemu-guest-agent.service
-index 59f7ecb1b8..7e1c50577b 100644
+index 7e1c50577b..505636a5ba 100644
 --- a/contrib/systemd/qemu-guest-agent.service
 +++ b/contrib/systemd/qemu-guest-agent.service
-@@ -1,5 +1,6 @@
- [Unit]
- Description=QEMU Guest Agent
-+Documentation=https://wiki.qemu.org/Features/GuestAgent
- BindsTo=dev-virtio\x2dports-org.qemu.guest_agent.0.device
+@@ -5,7 +5,7 @@ BindsTo=dev-virtio\x2dports-org.qemu.guest_agent.0.device
  After=dev-virtio\x2dports-org.qemu.guest_agent.0.device
+ 
+ [Service]
+-ExecStart=-/usr/bin/qemu-ga
++ExecStart=/usr/bin/qemu-ga
+ Restart=always
+ RestartSec=0
  
 -- 
 2.31.1
