@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E743BFA3A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:29:47 +0200 (CEST)
-Received: from localhost ([::1]:40308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC413BFA4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 14:33:50 +0200 (CEST)
+Received: from localhost ([::1]:48722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1TA2-0001vh-ST
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:29:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60454)
+	id 1m1TDx-0007cA-9p
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 08:33:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1T6x-00069y-Hm
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:26:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51169)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1T6r-0008G7-D2
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:26:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625747188;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+ea3Fno9SziNxa5AcwMCPmP95319k1OIwWvqHH2l8Lk=;
- b=QvgOrVaOimgIvlIyzLH3dp7G+b+UnXbYPlQnZpLqQvqOdq3JaQ5yh+icDw4XLVcz/NM4Nt
- ZVYHZWL0P4c4gnHs4QV4yLAbXHQDtWV84N0klwu4cRqLI2YaT5mYMQLAWmuXpUZJGIJNyN
- fkdGAzJmfudc2LkaJPbnTzQ9MUwW/xk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-nxmVgxFrO4mJGn4Zfi_ofQ-1; Thu, 08 Jul 2021 08:26:27 -0400
-X-MC-Unique: nxmVgxFrO4mJGn4Zfi_ofQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DD5F10C1ADC;
- Thu,  8 Jul 2021 12:26:26 +0000 (UTC)
-Received: from redhat.com (ovpn-114-143.ams2.redhat.com [10.36.114.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C7B25D705;
- Thu,  8 Jul 2021 12:26:24 +0000 (UTC)
-Date: Thu, 8 Jul 2021 14:26:23 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] blockdev: fix drive-backup transaction endless drained
- section
-Message-ID: <YObu79Mlc38mOmMU@redhat.com>
-References: <20210608171852.250775-1-vsementsov@virtuozzo.com>
- <84a04bf3-ef77-1ccf-2c4d-afc0c8079b83@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1T7H-0006ne-Ae
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:26:55 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:37563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1T7E-0000FT-7h
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 08:26:54 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id i20so9303004ejw.4
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 05:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RGQ+EQe2MAB8bCURY9QswGb7uOYePu1MeY8jGwOX/mk=;
+ b=j4dTOkhKMuD4JE7lMIK6gqtIx9Gsq+kUfyEMDVYJ3NFxxdhFaSGBZ7LpmDQyOFz32S
+ +h5ya/k01LuHm+UH9fN5h/d5dFV5Iu0jBimrJeqA7XRtxHR9SnsOeXcHqdgSxnDJTnBw
+ RIdx1nSo7XyW8GOPFG/N0HFXsS9N7RG3v+fLLwfThWtzFS6LWhZ1GDOJMR2MSygGNlzg
+ +O+80YxunFm5te0TlALHGJTCo/GZ1/wNFIAL9UQQD2bl5NdOfBuC4tNW/t4sLMTD1hSy
+ oRpiKa7ldC6nb+vUCVPvyPqPmj1ih5JDsVdXaXnSUR0LHuef7KrsuSL8ZvhVPsfnl6xa
+ absA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RGQ+EQe2MAB8bCURY9QswGb7uOYePu1MeY8jGwOX/mk=;
+ b=OjYc+y6v8eW6k2CovwNouT7IZZWJhciBt0l2Sq2M/V0LwrpKZzhfM5ow7ADzoM5y4I
+ 3d9x5QsGfWLXSvi8wzlq5Xl4y5A7L2dI2rsw11lNumSFgRQlaxcebKum06k0WFEIfuNi
+ WLk+MwKOmD1GLVSC52Ov3V9bs2PotsY0tbjNgeOS859G0JgloOjGHKmK8nSCekxQcncr
+ sbuErTN8X1QCGJ3FLZnSUJ/mgKoxani2fhuCg6mqqYnpCwe0sL4oNpvPYsmlFbOkA/eZ
+ /B4lFrhxDk2PPRWLlcd5WH8AN25NZgDhMLfCc6PTGaM89c0LiFFAnvPCuUs0gktEOtcU
+ 9S0w==
+X-Gm-Message-State: AOAM533aH7NyQExX5g78AkzmUzo72NerbuKBHCPvdUbhUsewGmYIh8xR
+ dBrHjuJ7izAOc4OIBGI341U5a26xXRWliIj2qqP3Wg==
+X-Google-Smtp-Source: ABdhPJwbHW6VobSOBlt8/PQXFXX1KOyXllWjFHkPK6o5JkfVObrrHzwzed9hs74KLApVwtm9OnV0oZ2dom97tjBzXCw=
+X-Received: by 2002:a17:906:924a:: with SMTP id
+ c10mr13002352ejx.85.1625747210500; 
+ Thu, 08 Jul 2021 05:26:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <84a04bf3-ef77-1ccf-2c4d-afc0c8079b83@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210630183226.3290849-1-richard.henderson@linaro.org>
+ <20210630183226.3290849-13-richard.henderson@linaro.org>
+In-Reply-To: <20210630183226.3290849-13-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 8 Jul 2021 13:26:12 +0100
+Message-ID: <CAFEAcA8hccp2fcLJAFq7BDqC-i=eH+U6PJoU0KkaM4T_siu0Nw@mail.gmail.com>
+Subject: Re: [PATCH v2 12/28] target/i386: Use translator_use_goto_tb
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,19 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, eblake@redhat.com, armbru@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.07.2021 um 15:35 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Forgotten thing :(
-> 
-> Kevin, could you please queue it in your block branch? For me not to
-> bother Peter with one-patch pull request.
+On Wed, 30 Jun 2021 at 19:39, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Just use translator_use_goto_tb directly at the one call site,
+> rather than maintaining a local wrapper.
+>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-No problem, I've queued it now.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Kevin
-
+thanks
+-- PMM
 
