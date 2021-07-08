@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8133C16FF
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:22:06 +0200 (CEST)
-Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C179B3C16ED
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:16:24 +0200 (CEST)
+Received: from localhost ([::1]:58426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Wmq-0005uA-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:22:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
+	id 1m1WhL-0002Wu-Qp
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:16:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEh-0001ly-IK
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35406)
+ id 1m1WEo-000271-G8
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m1WEf-0000Qj-KU
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:47 -0400
+ id 1m1WEm-0000Sb-HB
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 11:46:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625759205;
+ s=mimecast20190719; t=1625759212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ytWaUzrpZJij+wRZhsD7BdyqcDfDsJFcp0CuDz3eftU=;
- b=GFwEYbZkR980hnh40+5g2Pouv7VBfRCUgAma8m1bOuXcYAKQB5Fvzol2K7EQZ1OlbY7Qrn
- UyF/YP5206NxB7ivEDpzZ7FBQ3QCNQ/avGLFBewPyXC8XlD3sKbjuWLXa5QQSTJ6T52/8V
- lIQGDopF4tXuUyfQ7oH+WG0zYUyYkNw=
+ bh=gXDXo616zo/QIdAlVSjSJQ/askMmr+6UMtDBvXx5vkk=;
+ b=fxURf3alSLpK6dYusCFapsfOpy6qhaOxxoJiAJ+U5pvVwKgl6AsOQa90UkD+mJyPwEbpVY
+ Eo+FUo0+5RsJn208vTkTrELRp+wvOA7juFemuWvkKQhsWVDSl+fDK+Rto6gP8Qxki8dYyE
+ D76+exTbEA5Zj+HKq30cFebYTEKx6Dg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-5iygRlffM0KVMPtPtj2Lpw-1; Thu, 08 Jul 2021 11:46:43 -0400
-X-MC-Unique: 5iygRlffM0KVMPtPtj2Lpw-1
+ us-mta-429-EYPlWws2M1yC9QXxRFdhjQ-1; Thu, 08 Jul 2021 11:46:50 -0400
+X-MC-Unique: EYPlWws2M1yC9QXxRFdhjQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5C83802E63;
- Thu,  8 Jul 2021 15:46:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756F91023F40;
+ Thu,  8 Jul 2021 15:46:49 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 011F319C66;
- Thu,  8 Jul 2021 15:46:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB3AA19C66;
+ Thu,  8 Jul 2021 15:46:47 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/35] acpi: build_hpet: use
+Subject: [PATCH v2 16/35] acpi: arm/x86: build_srat: use
  acpi_init_table()/acpi_table_composed() instead of build_header()
-Date: Thu,  8 Jul 2021 11:45:56 -0400
-Message-Id: <20210708154617.1538485-15-imammedo@redhat.com>
+Date: Thu,  8 Jul 2021 11:45:58 -0400
+Message-Id: <20210708154617.1538485-17-imammedo@redhat.com>
 In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
 References: <20210708154617.1538485-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,7 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com, mst@redhat.com,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -88,86 +89,128 @@ it replaces error-prone pointer arithmetic for build_header() API,
 with 2 calls to start and finish table creation,
 which hides offsets magic from API user.
 
-while at it convert build_hpet() to endian agnostic
-build_append_FOO() API
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
+CC: shannon.zhaosl@gmail.com
+CC: peter.maydell@linaro.org
 CC: marcel.apfelbaum@gmail.com
+CC: qemu-arm@nongnu.org
+CC: drjones@redhat.com
 ---
- include/hw/acpi/acpi-defs.h | 13 -------------
- hw/i386/acpi-build.c        | 26 ++++++++++++++++++--------
- 2 files changed, 18 insertions(+), 21 deletions(-)
+ include/hw/acpi/acpi-defs.h | 11 -----------
+ hw/arm/virt-acpi-build.c    | 15 +++++++--------
+ hw/i386/acpi-build.c        | 18 +++++++-----------
+ 3 files changed, 14 insertions(+), 30 deletions(-)
 
 diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-index f6d2ca172b..4d8f8b34b0 100644
+index 3b42b138f0..5826ee04b6 100644
 --- a/include/hw/acpi/acpi-defs.h
 +++ b/include/hw/acpi/acpi-defs.h
-@@ -358,19 +358,6 @@ struct AcpiGenericTimerTable {
+@@ -358,17 +358,6 @@ struct AcpiGenericTimerTable {
  } QEMU_PACKED;
  typedef struct AcpiGenericTimerTable AcpiGenericTimerTable;
  
 -/*
-- * HPET Description Table
+- * SRAT (NUMA topology description) table
 - */
--struct Acpi20Hpet {
--    ACPI_TABLE_HEADER_DEF                    /* ACPI common table header */
--    uint32_t           timer_block_id;
--    struct AcpiGenericAddress addr;
--    uint8_t            hpet_number;
--    uint16_t           min_tick;
--    uint8_t            page_protect;
--} QEMU_PACKED;
--typedef struct Acpi20Hpet Acpi20Hpet;
 -
- /*
-  * SRAT (NUMA topology description) table
-  */
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 538af9d944..96ad3e1b9d 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1820,22 +1820,32 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-     free_aml_allocator();
- }
- 
-+/*
-+ * IA-PC HPET (High Precision Event Timers) Specification (Revision: 1.0a)
-+ * 3.2.4The ACPI 2.0 HPET Description Table (HPET)
-+ */
+-struct AcpiSystemResourceAffinityTable {
+-    ACPI_TABLE_HEADER_DEF
+-    uint32_t    reserved1;
+-    uint32_t    reserved2[2];
+-} QEMU_PACKED;
+-typedef struct AcpiSystemResourceAffinityTable AcpiSystemResourceAffinityTable;
+-
+ #define ACPI_SRAT_PROCESSOR_APIC     0
+ #define ACPI_SRAT_MEMORY             1
+ #define ACPI_SRAT_PROCESSOR_x2APIC   2
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index f1024843dd..c4416ac696 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -385,18 +385,19 @@ build_spcr(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
  static void
- build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-            const char *oem_table_id)
+ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
  {
--    Acpi20Hpet *hpet;
--    int hpet_start = table_data->len;
-+    AcpiTable table = { .sig = "HPET", .rev = 1,
-+                        .oem_id = oem_id, .oem_table_id = oem_table_id };
+-    AcpiSystemResourceAffinityTable *srat;
+     AcpiSratProcessorGiccAffinity *core;
+     AcpiSratMemoryAffinity *numamem;
+-    int i, srat_start;
++    int i;
+     uint64_t mem_base;
+     MachineClass *mc = MACHINE_GET_CLASS(vms);
+     MachineState *ms = MACHINE(vms);
+     const CPUArchIdList *cpu_list = mc->possible_cpu_arch_ids(ms);
++    AcpiTable table = { .sig = "SRAT", .rev = 3, .oem_id = vms->oem_id,
++                        .oem_table_id = vms->oem_table_id };
  
--    hpet = acpi_data_push(table_data, sizeof(*hpet));
+-    srat_start = table_data->len;
+-    srat = acpi_data_push(table_data, sizeof(*srat));
+-    srat->reserved1 = cpu_to_le32(1);
 +    acpi_init_table(&table, table_data);
-     /* Note timer_block_id value must be kept in sync with value advertised by
-      * emulated hpet
-      */
--    hpet->timer_block_id = cpu_to_le32(0x8086a201);
--    hpet->addr.address = cpu_to_le64(HPET_BASE);
--    build_header(linker, table_data,
--                 (void *)(table_data->data + hpet_start),
--                 "HPET", sizeof(*hpet), 1, oem_id, oem_table_id);
-+    /* Event Timer Block ID */
-+    build_append_int_noprefix(table_data, 0x8086a201, 4);
-+    /* BASE_ADDRESS */
-+    build_append_gas(table_data, AML_AS_SYSTEM_MEMORY, 0, 0, 0, HPET_BASE);
-+    /* HPET Number */
-+    build_append_int_noprefix(table_data, 0, 1);
-+    /* Main Counter Minimum Clock_tick in Periodic Mode */
-+    build_append_int_noprefix(table_data, 0, 2);
-+    /* Page Protection And OEM Attribute */
-+    build_append_int_noprefix(table_data, 0, 1);
++    build_append_int_noprefix(table_data, 1, 4); /* Reserved */
++    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
+ 
+     for (i = 0; i < cpu_list->len; ++i) {
+         core = acpi_data_push(table_data, sizeof(*core));
+@@ -430,9 +431,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+                           MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+     }
+ 
+-    build_header(linker, table_data, (void *)(table_data->data + srat_start),
+-                 "SRAT", table_data->len - srat_start, 3, vms->oem_id,
+-                 vms->oem_table_id);
 +    acpi_table_composed(linker, &table);
  }
  
- #ifdef CONFIG_TPM
+ /* GTDT */
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 5457e35798..275ad0b941 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1891,11 +1891,10 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+ static void
+ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+ {
+-    AcpiSystemResourceAffinityTable *srat;
+     AcpiSratMemoryAffinity *numamem;
+ 
+     int i;
+-    int srat_start, numa_start, slots;
++    int numa_start, slots;
+     uint64_t mem_len, mem_base, next_base;
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     X86MachineState *x86ms = X86_MACHINE(machine);
+@@ -1904,11 +1903,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     ram_addr_t hotplugabble_address_space_size =
+         object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
+                                 NULL);
++    AcpiTable table = { .sig = "SRAT", .rev = 1, .oem_id = x86ms->oem_id,
++                        .oem_table_id = x86ms->oem_table_id };
+ 
+-    srat_start = table_data->len;
+-
+-    srat = acpi_data_push(table_data, sizeof *srat);
+-    srat->reserved1 = cpu_to_le32(1);
++    acpi_init_table(&table, table_data);
++    build_append_int_noprefix(table_data, 1, 4); /* Reserved */
++    build_append_int_noprefix(table_data, 0, 8); /* Reserved */
+ 
+     for (i = 0; i < apic_ids->len; i++) {
+         int node_id = apic_ids->cpus[i].props.node_id;
+@@ -2014,11 +2014,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+                           MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+     }
+ 
+-    build_header(linker, table_data,
+-                 (void *)(table_data->data + srat_start),
+-                 "SRAT",
+-                 table_data->len - srat_start, 1, x86ms->oem_id,
+-                 x86ms->oem_table_id);
++    acpi_table_composed(linker, &table);
+ }
+ 
+ /*
 -- 
 2.27.0
 
