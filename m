@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 204983BF892
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 12:51:44 +0200 (CEST)
-Received: from localhost ([::1]:36048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDCC3BF899
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 12:56:27 +0200 (CEST)
+Received: from localhost ([::1]:40060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Rd9-00053E-6k
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 06:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41130)
+	id 1m1Rhi-0007vm-DG
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 06:56:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m1Rbt-0004Bs-Tx
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:50:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59286)
+ id 1m1RgU-00071L-G0
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:55:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m1Rbr-0006DJ-0L
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:50:25 -0400
+ id 1m1RgS-0007SH-IW
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 06:55:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625741422;
+ s=mimecast20190719; t=1625741707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=M3K/So+igocY2+GB8YY8zfjqLdPeKLol7iLvOqqIxQc=;
- b=hYZ9k5Vds3C0Y5wb7XYTJz2MscENRrqVMkyZjk9f4Io2Znonq4tuIiPyzndWvaRgbvabWu
- /8eMqt39W4gdIFmpmQjTGqG4EDfI+uWUaMdaYm7doknl5zpZ4l7jddCPM0VjOYphVoPRVI
- 6KHac4asFqkdev9W1I+hZ0dYl1QJAns=
+ bh=JCYYzB4fBkrgUnIxccBKfznSFGFeXAupjS75cHFN1tQ=;
+ b=OYhphIrwNVw4aIIoQCCr96meARq0UYXy7D5MrA7df8wCHz2OFg9A+Z4Gd9uTfA5oaT7g1E
+ rfSL1l78WC2HMheaFXPB1QRmWSsHC7CPp5lvaY1mC8KuXIKu7LPGG6etclMyHBnWo5dZp2
+ fpWL3cJzAK07MkJVhx9f1Xq6IGu1GLE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-vB8qWSwxP_SW3fRFlDTmxg-1; Thu, 08 Jul 2021 06:50:18 -0400
-X-MC-Unique: vB8qWSwxP_SW3fRFlDTmxg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-232-s94FBKdgMEOpjH0BDMo4Bw-1; Thu, 08 Jul 2021 06:55:04 -0400
+X-MC-Unique: s94FBKdgMEOpjH0BDMo4Bw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 916AE100CCC2;
- Thu,  8 Jul 2021 10:50:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03031106B7D7;
+ Thu,  8 Jul 2021 10:55:03 +0000 (UTC)
 Received: from localhost (ovpn-114-141.ams2.redhat.com [10.36.114.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0AFBC60854;
- Thu,  8 Jul 2021 10:50:16 +0000 (UTC)
-Date: Thu, 8 Jul 2021 11:50:16 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98C395D9FC;
+ Thu,  8 Jul 2021 10:55:02 +0000 (UTC)
+Date: Thu, 8 Jul 2021 11:55:01 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH 2/6] job: _locked functions and public
- job_lock/unlock for next patch
-Message-ID: <YObYaIAatXp9g41G@stefanha-x1.localdomain>
+Subject: Re: [RFC PATCH 3/6] job: minor changes to simplify locking
+Message-ID: <YObZhZoyfatz3etH@stefanha-x1.localdomain>
 References: <20210707165813.55361-1-eesposit@redhat.com>
- <20210707165813.55361-3-eesposit@redhat.com>
+ <20210707165813.55361-4-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210707165813.55361-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210707165813.55361-4-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+hOz8GoXhEULePGW"
+ protocol="application/pgp-signature"; boundary="xctr8xOOpnmqqYB9"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -89,70 +88,53 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---+hOz8GoXhEULePGW
+--xctr8xOOpnmqqYB9
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 07, 2021 at 06:58:09PM +0200, Emanuele Giuseppe Esposito wrote:
-> diff --git a/job.c b/job.c
-> index 872bbebb01..96fb8e9730 100644
-> --- a/job.c
-> +++ b/job.c
-> @@ -32,6 +32,10 @@
->  #include "trace/trace-root.h"
->  #include "qapi/qapi-events-job.h"
+On Wed, Jul 07, 2021 at 06:58:10PM +0200, Emanuele Giuseppe Esposito wrote:
+> @@ -406,15 +410,18 @@ void *job_create(const char *job_id, const JobDrive=
+r *driver, JobTxn *txn,
+>              error_setg(errp, "Invalid job ID '%s'", job_id);
+>              return NULL;
+>          }
+> -        if (job_get(job_id)) {
+> -            error_setg(errp, "Job ID '%s' already in use", job_id);
+> -            return NULL;
+> -        }
+>      } else if (!(flags & JOB_INTERNAL)) {
+>          error_setg(errp, "An explicit job ID is required");
+>          return NULL;
+>      }
 > =20
-> +/* job_mutex protexts the jobs list, but also the job operations. */
-> +static QemuMutex job_mutex;
-
-It's unclear what protecting "job operations" means. I would prefer a
-fine-grained per-job lock that protects the job's fields instead of a
-global lock with an unclear scope.
-
+> +    job_lock();
+> +    if (job_get(job_id)) {
+> +        error_setg(errp, "Job ID '%s' already in use", job_id);
+> +        job_unlock();
+> +        return NULL;
+> +    }
 > +
-> +/* Protected by job_mutex */
->  static QLIST_HEAD(, Job) jobs =3D QLIST_HEAD_INITIALIZER(jobs);
-> =20
->  /* Job State Transition Table */
-> @@ -64,27 +68,22 @@ bool JobVerbTable[JOB_VERB__MAX][JOB_STATUS__MAX] =3D=
- {
->  /* Transactional group of jobs */
->  struct JobTxn {
-> =20
-> -    /* Is this txn being cancelled? */
-> +    /* Is this txn being cancelled? Atomic.*/
->      bool aborting;
 
-The comment says atomic but this field is not accessed using atomic
-operations (at least at this point in the patch series)?
+Where is the matching job_unlock() in the success case? Please consider
+lock guard macros like QEMU_LOCK_GUARD()/WITH_QEMU_LOCK_GUARD() to
+prevent common errors.
 
-> =20
-> -    /* List of jobs */
-> +    /* List of jobs. Protected by job_mutex. */
->      QLIST_HEAD(, Job) jobs;
-> =20
-> -    /* Reference count */
-> +    /* Reference count. Atomic. */
->      int refcnt;
-
-Same.
-
---+hOz8GoXhEULePGW
+--xctr8xOOpnmqqYB9
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDm2GcACgkQnKSrs4Gr
-c8jcSAf/YKpEOTyzE1HXa60RUETBXb9jBpY9IHXYDagdIS+5CNxn3YQg/G2pRMFW
-eUHNUGJAzqQTy7WYInouAy1ptuB/T9lxYwJqlWIfw/uJXY0AEW9h8/5m7vrg8z68
-Ru7WZdKPaQWuW60VlWSdoKI/OeGuIehH+/k0ujWVg0Av877RMGfZ9xGQaeKRLhS9
-f61fd7rwVsgSBIN6LPKOoJU+lwbqUmzK9oBNmyRvPIF+Su/8wh0ik3HNU2XLQK77
-RFkhAg5jGWxzZ8cf7CwdSpItPMHbZ+Aj1ZBcxLCagCvN6f0w5BV6onK19KbQXqnj
-cmT+JbQXaQWSJ5bTnIYdbS0219Z4LQ==
-=KChq
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDm2YUACgkQnKSrs4Gr
+c8j+KQgApLaFCZdTJ2BZaScevjA/gSxe41nF5oaKGU6LCgGQzHK3h6BdefRrJcXi
+/NJ0FyihupZGlRgkr73cFLOUsjX54MmAkATm3cO3NfwjUP52XfbD/Z64Lt5SWry1
+gXO+/Zevh+gMSzr1gAXZ3S1myVMxeTLrvNE410IZBz9IriOYJTa8t86TPmJ/vMIw
+C3fYdXGS6qHGsQyUGv3CwmV1SfRCGaSA1KkUS4sJAA8z9GrGHa+UGRE9VZnIc5YV
+6e+s3VlW9Tp8NjWjwmpuUQIQNuB/G5lLwSpPOUVjpkDnA0fyLau9B7We4N+XDKWE
+V+9jhLt8NTOU1EDaU6odNFA/ev7/2A==
+=zLIR
 -----END PGP SIGNATURE-----
 
---+hOz8GoXhEULePGW--
+--xctr8xOOpnmqqYB9--
 
 
