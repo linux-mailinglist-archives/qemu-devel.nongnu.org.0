@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACDF3BF381
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:19:53 +0200 (CEST)
-Received: from localhost ([::1]:57740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421C83BF38B
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 03:26:14 +0200 (CEST)
+Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1Ihk-0003PD-5I
-	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38284)
+	id 1m1Int-0002hT-A5
+	for lists+qemu-devel@lfdr.de; Wed, 07 Jul 2021 21:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1ILC-0002rq-RE
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:36 -0400
-Received: from mga06.intel.com ([134.134.136.31]:36390)
+ id 1m1ILN-0002zO-Hf
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:45 -0400
+Received: from mga06.intel.com ([134.134.136.31]:36375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1m1IL7-0007ML-VA
- for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:33 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="270534905"
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="270534905"
+ id 1m1ILL-0007Kq-CL
+ for qemu-devel@nongnu.org; Wed, 07 Jul 2021 20:56:45 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10038"; a="270534907"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="270534907"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:56 -0700
-X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770059"
+X-IronPort-AV: E=Sophos;i="5.84,222,1620716400"; d="scan'208";a="423770062"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jul 2021 17:55:56 -0700
@@ -33,9 +33,10 @@ To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com, erdemaktas@google.com
-Subject: [RFC PATCH v2 22/44] i386/tdx: Add TDVF memory via INIT_MEM_REGION
-Date: Wed,  7 Jul 2021 17:54:52 -0700
-Message-Id: <8abb2018fbaafaa12f9d4b9f225ec7de481f39db.1625704981.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH v2 23/44] i386/tdx: Use KVM_TDX_INIT_VCPU to pass HOB to
+ TDVF
+Date: Wed,  7 Jul 2021 17:54:53 -0700
+Message-Id: <3b5827e8f4004c332d679eb55c98e23cbe53dfeb.1625704981.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1625704980.git.isaku.yamahata@intel.com>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
@@ -63,63 +64,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- isaku.yamahata@gmail.com, kvm@vger.kernel.org
+Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Add, and optionally measure, TDVF memory via KVM_TDX_INIT_MEM_REGION as
-part of finalizing the TD.
+Specify the initial value for RCX/R8 to be the address of the HOB.
+Don't propagate the value to Qemu's cache of the registers so as to
+avoid implying that the register state is valid, e.g. Qemu doesn't model
+TDX-SEAM behavior for initializing other GPRs.
 
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- target/i386/kvm/tdx.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ target/i386/kvm/tdx.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 12b2e02fa2..0cd649dd01 100644
+index 0cd649dd01..c348626dbf 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -85,10 +85,26 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
+@@ -285,10 +285,17 @@ out:
+ 
+ void tdx_post_init_vcpu(CPUState *cpu)
  {
-     MachineState *ms = MACHINE(qdev_get_machine());
-     TdxGuest *tdx = TDX_GUEST(ms->cgs);
-+    TdxFirmwareEntry *entry;
- 
-     tdvf_hob_create(tdx, tdx_get_hob_entry(tdx));
- 
-+    for_each_fw_entry(&tdx->fw, entry) {
-+        struct kvm_tdx_init_mem_region mem_region = {
-+            .source_addr = (__u64)entry->mem_ptr,
-+            .gpa = entry->address,
-+            .nr_pages = entry->size / 4096,
-+        };
+-    CPUX86State *env = &X86_CPU(cpu)->env;
++    MachineState *ms = MACHINE(qdev_get_machine());
++    TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(ms->cgs),
++                                                    TYPE_TDX_GUEST);
++    TdxFirmwareEntry *hob;
 +
-+        __u32 metadata = entry->attributes & TDVF_SECTION_ATTRIBUTES_EXTENDMR ?
-+                         KVM_TDX_MEASURE_MEMORY_REGION : 0;
-+
-+        tdx_ioctl(KVM_TDX_INIT_MEM_REGION, metadata, &mem_region);
++    if (!tdx) {
++        return;
 +    }
-+
-     tdx_ioctl(KVM_TDX_FINALIZE_VM, 0, NULL);
-+
-+    tdx->parent_obj.ready = true;
+ 
+-    _tdx_ioctl(cpu, KVM_TDX_INIT_VCPU, 0,
+-               (void *)(unsigned long)env->regs[R_ECX]);
++    hob = tdx_get_hob_entry(tdx);
++    _tdx_ioctl(cpu, KVM_TDX_INIT_VCPU, 0, (void *)hob->address);
  }
  
- static Notifier tdx_machine_done_late_notify = {
-@@ -301,7 +317,6 @@ static void tdx_guest_init(Object *obj)
- {
-     TdxGuest *tdx = TDX_GUEST(obj);
- 
--    tdx->parent_obj.ready = true;
-     qemu_mutex_init(&tdx->lock);
- 
-     tdx->debug = false;
+ static bool tdx_guest_get_debug(Object *obj, Error **errp)
 -- 
 2.25.1
 
