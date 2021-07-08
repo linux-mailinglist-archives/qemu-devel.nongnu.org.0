@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE633C17A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 19:00:38 +0200 (CEST)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C0E3C178E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 18:58:38 +0200 (CEST)
+Received: from localhost ([::1]:56584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1XO9-00039S-JO
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 13:00:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42578)
+	id 1m1XMD-0007B7-TJ
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 12:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X5E-0001e7-2w
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:04 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:44002)
+ id 1m1X5F-0001jZ-Eb
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:05 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:41725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1X59-0008BP-V2
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:03 -0400
-Received: by mail-pg1-x530.google.com with SMTP id y4so4108770pgl.10
+ id 1m1X59-0008Bq-Ve
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 12:41:05 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ oj10-20020a17090b4d8ab0290172f77377ebso4192803pjb.0
  for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 09:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k3KB/Tkz24jiJG0J6xu6GsoVxf3biKKstX86Aezy0Ms=;
- b=dwTGiom+JG/AgfPo6PBVvS/BCXvoL1e3cqVikT+WsjsvvxJamoujvFkO38o4U7lrOG
- cL2fSYg8P75w3CVGx3dw7TprMbah8/g6Vdw9L4UPOWtFveuPirqTb/sAJxS/qyYDIOsE
- senLoC3T/4ihDke8oWxP7MSxZMhsDhymZORl3MdqJ/1Y5LCxSwxHljWThh3rhDezo1z2
- 9VC0XWB/ZhNbF5nKulOYYDWWn8yst3YYl3dqIXLx0bkCog6oOYVdZKsuiylzpqWcM68f
- cgiS31KfDDe1sqWcV8NInoVNo97JMMdYT0Jee2axmY+c29BC3sk0e248xQEQkf4sjvtL
- e16A==
+ bh=J78iIrV/uBjFzK3bTpbLy3S7PgpqgxUhkktjGy5U398=;
+ b=S3bF7FIBZQHgma3p/JJR7Chp8QnFhYXAAkZNJ3AWB36kOkETWPE08AYruXCHE8QICh
+ zsRlZ22uCJNTy1ZjXc+AvdB5Zg4wTaVE0cFdi7tg67huk/7VZBDlz6vQQO8CVrQFKmca
+ +AiI6GbA1JKZNQoS1EhgOy7syfVedZIuQXKxDF78yeqn5VlvvnRSl/tVn8j0pI4+1EZw
+ WqJS5vWfDf2CxzwjiiOfpvFr5yBYzP2UHMjLEM/mhv5Fk1QmDES0w5f99SdRgADAYvQH
+ EA0eSo6QmbcqvgKR+mWCNycoJrqAcJhT/CdNzKiJMtENhCCaeSJv3qd5XgnBsMy6bZjt
+ m1Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k3KB/Tkz24jiJG0J6xu6GsoVxf3biKKstX86Aezy0Ms=;
- b=Yz+iEuLjVqH0VWnLf9x9nrMn8dW+8G+ep6r6QIf4uGz9FyyIlaEDKWZbsHxNuGTMOd
- l0G20BE3pEx2HPh8KXIIo/NMrmBgg1MAC7oySaqIxnaC9o50IdrtuXzQlg4wkhPhv4Io
- oohIybgNJyU6hkiCYkC8vIwYX1FaVTaQFw467KkGt12S8qqHsvgTlVEzbCihhwwCR2i7
- Ph+qYoxAE8tksj0uJQjYBK9ku10KbypTH7OqyOB5Ts8viIKCCgb7F7qpealFCXjCi1fO
- /UqcQ1inga/gr4vUj1eYSNsQeT9XA9wiFq+HKUjM1RubrpIbXRVPR7hvN6Sw1SJgdzHb
- /5TQ==
-X-Gm-Message-State: AOAM532Ru0E8p4/NE6rOtsxIpn7vrZdbRto48fGr/bUpaI0XmcLaIXm7
- N0l+lvlToDibdW44YVFVIwbDZfk/Z8oDoQ==
-X-Google-Smtp-Source: ABdhPJzytR9KCUmtAk49+iDAMWByTvdiCwciYPAzXtUN36V/kGS6rM9MmVJfXD+vcPII+GUdABmjAw==
-X-Received: by 2002:a63:f955:: with SMTP id q21mr33357852pgk.448.1625762455389; 
- Thu, 08 Jul 2021 09:40:55 -0700 (PDT)
+ bh=J78iIrV/uBjFzK3bTpbLy3S7PgpqgxUhkktjGy5U398=;
+ b=gja+IXmrGAocWkdVlAV2ZFYK1q0m8JgotkWmYbAW+XXLh7YwPfZ5tzyXhbWewkRmVN
+ XDq9Xt+kTxTzRktIoULSeyIf3AVK/djf9j+yXUPLEhZ0G8tknr74CQTMzzcG/tKSqvWR
+ ykk4TQDNFx4SPTsbQvTG9AePjverSGumkeQRDt/k/FoTEVYDqMz/StTSBMYsC+whpuPm
+ GX7FzqhJdH8f/GDOPSXjFhEH09qQzuaffWjMpIYKGvABzNu5lD/s2yfEvtiR0wf2DJVY
+ EISiFOenDuTkOWK1hrukwFykD29r6gEz2WTJxx0xpKrCYbX+bpgyQ08DI4Vg6vrhHJDV
+ QYEw==
+X-Gm-Message-State: AOAM530lcIeCAAvzB8WY9XMn/z/0inYkkna5JWgB+aDXoAVfytGjim93
+ ItOsQAqFgBzPizg43x4VIfZLLkbfglO3FA==
+X-Google-Smtp-Source: ABdhPJxqRQ/+RZCNtRLXMlURHzpLtJqC0QK6lR1XNb6DBu2ib4aUd8ka+8G94OljV5ZekNDEichFvg==
+X-Received: by 2002:a17:902:c40c:b029:12a:cb38:5f0a with SMTP id
+ k12-20020a170902c40cb029012acb385f0amr1731259plk.73.1625762456066; 
+ Thu, 08 Jul 2021 09:40:56 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j129sm3465678pfb.132.2021.07.08.09.40.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 08 Jul 2021 09:40:55 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/28] target/avr: Use translator_use_goto_tb
-Date: Thu,  8 Jul 2021 09:40:30 -0700
-Message-Id: <20210708164050.711967-9-richard.henderson@linaro.org>
+Subject: [PATCH v3 09/28] target/avr: Mark some helpers noreturn
+Date: Thu,  8 Jul 2021 09:40:31 -0700
+Message-Id: <20210708164050.711967-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210708164050.711967-1-richard.henderson@linaro.org>
 References: <20210708164050.711967-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,45 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Single stepping is not the only reason not to use goto_tb.
-If goto_tb is disallowed, and single-stepping is not enabled,
-then use tcg_gen_lookup_and_goto_tb to indirectly chain.
+All of these helpers end with cpu_loop_exit.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/translate.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/avr/helper.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index c06ce45bc7..8237a03c23 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1083,14 +1083,17 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
- {
-     const TranslationBlock *tb = ctx->base.tb;
+diff --git a/target/avr/helper.h b/target/avr/helper.h
+index 8e1ae7fda0..4d02e648fa 100644
+--- a/target/avr/helper.h
++++ b/target/avr/helper.h
+@@ -19,10 +19,10 @@
+  */
  
--    if (!ctx->base.singlestep_enabled) {
-+    if (translator_use_goto_tb(&ctx->base, dest)) {
-         tcg_gen_goto_tb(n);
-         tcg_gen_movi_i32(cpu_pc, dest);
-         tcg_gen_exit_tb(tb, n);
-     } else {
-         tcg_gen_movi_i32(cpu_pc, dest);
--        gen_helper_debug(cpu_env);
--        tcg_gen_exit_tb(NULL, 0);
-+        if (ctx->base.singlestep_enabled) {
-+            gen_helper_debug(cpu_env);
-+        } else {
-+            tcg_gen_lookup_and_goto_ptr();
-+        }
-     }
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
+ DEF_HELPER_1(wdr, void, env)
+-DEF_HELPER_1(debug, void, env)
+-DEF_HELPER_1(break, void, env)
+-DEF_HELPER_1(sleep, void, env)
+-DEF_HELPER_1(unsupported, void, env)
++DEF_HELPER_1(debug, noreturn, env)
++DEF_HELPER_1(break, noreturn, env)
++DEF_HELPER_1(sleep, noreturn, env)
++DEF_HELPER_1(unsupported, noreturn, env)
+ DEF_HELPER_3(outb, void, env, i32, i32)
+ DEF_HELPER_2(inb, tl, env, i32)
+ DEF_HELPER_3(fullwr, void, env, i32, i32)
 -- 
 2.25.1
 
