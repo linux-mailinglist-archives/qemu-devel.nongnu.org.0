@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4BA3C157A
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:52:12 +0200 (CEST)
-Received: from localhost ([::1]:36774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D093C1587
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 16:57:08 +0200 (CEST)
+Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1VNr-0002Oz-CB
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45890)
+	id 1m1VSd-0007m3-7N
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 10:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1VMs-0001g2-9E
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:51:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55916)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m1VMq-0007kK-Cu
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 10:51:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625755867;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e7E2RIXRcpEeK/EpIsVt+hbOJDfHWUSlCkZH9+u7Pyo=;
- b=fNKIEVbVb74cfxhqbJtLH2z+Uq1X5MPPCQGptxH3+Vju/xuxk+C1aRCpMGvsxFDN6WqpwP
- vGHs1H3apXamwPZuJhuVo33fAhiokjwAXx0754y3b2YqhG0I7bVyazppqzmNPMfASFrfcX
- fXD+5+bKOmTG9DOLQFl6aLA7Ghgbs7c=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-PD5PRG_VOiqd2kt_3AR0fw-1; Thu, 08 Jul 2021 10:51:04 -0400
-X-MC-Unique: PD5PRG_VOiqd2kt_3AR0fw-1
-Received: by mail-qv1-f72.google.com with SMTP id
- f16-20020ad442d00000b029028c5121bf35so4247404qvr.10
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 07:51:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1VQu-0005YL-MC; Thu, 08 Jul 2021 10:55:20 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42814)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m1VQs-0000cV-FA; Thu, 08 Jul 2021 10:55:20 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id r11so2633170wro.9;
+ Thu, 08 Jul 2021 07:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JwQPj3QiBiCoFnnjQLaV3JCIX6LKlpqoJ1UyQ5vvgWo=;
+ b=M635SPt2BA8HwEjuPVL2xBRENUZ90xwLvWvfJAjUfJtiMQXob5vUoZRYnRxeDS4Io/
+ tOoxshiimyetk/mwm7GpBGWF5z2zdDNL7kjIsft8NQPyXwsL6lzHs17OLe3SZ1AP2moZ
+ Hm9gXjacBm03HGKG7DLVzAFVjDxHs4ZxTCafudTdo621twRKbuAE0LpTx58Kiwyvn0IC
+ KYalpfiJGO3dScwGCYo6W5rVyH+NuD/3yOoI9UubAsqe66Y2ggShYq/xxT/UF0N+eXeJ
+ 6dgSOmyOzKCp9hRPrdEIqoZIXAdlOgg/6GNwn40pt50tsayPXey2MpBWbESXuvDGdW9y
+ WvRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=e7E2RIXRcpEeK/EpIsVt+hbOJDfHWUSlCkZH9+u7Pyo=;
- b=iJ7RXTfHy5ajgT1/CPSTcML/h7c702fon+z+dXOgzn0A6ggxMm9I4podornFoDaPVL
- lmIqi5JS73vq/JDB0/xdz1dg34vDgG0im0wMuCWKwT8nRI6acAl8WFUGWmr0oJod5+f+
- Y3KteZkLCzySJQZGtb0d8Q+2JvUXES7Zl1qL7a//CUynh/2/FPSUdQIdCvFfhVPFMUwp
- O0d0o5LJkOm/engcjhUA9nXPvp7mf4rSYPjq37BJA8hbIxiNw5Knb7dSg5mqdnhDE+vM
- 2+SY/9p3IJfsO8Mk/+v27+g3+fURMjo3+/iCfBxu3WMlOV7oEauOrId2SSGTfSaCViMq
- CmjQ==
-X-Gm-Message-State: AOAM530Ongfa0IcwVNDJhWrthLstU+YUzMor8z45TISsnzqYoWksWdDI
- pMa/Iyi2BdUzJm5kBiMf9a3LMWZLTN7V2MBMO4XTYoPjujheoyErakYyOcO3rpgafgWFgwmEGdH
- CsU+9QBxZGHN8+9I=
-X-Received: by 2002:a05:6214:27ce:: with SMTP id
- ge14mr28057049qvb.5.1625755863395; 
- Thu, 08 Jul 2021 07:51:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBr9vp27tDhnsujLD291tLjpS+/x0EYiihfzajVcpVb+AtS38SLM3YLwLxuOwFXwnWqg5AUw==
-X-Received: by 2002:a05:6214:27ce:: with SMTP id
- ge14mr28057013qvb.5.1625755863001; 
- Thu, 08 Jul 2021 07:51:03 -0700 (PDT)
-Received: from p50.localhost.localdomain
- ([2601:18d:8a00:ab70:b677:d979:630:695c])
- by smtp.gmail.com with ESMTPSA id x15sm1062404qkm.66.2021.07.08.07.51.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 07:51:02 -0700 (PDT)
-Subject: Re: [PATCH 0/3] Acceptance Tests: support choosing specific distro
- and version
-To: eric.auger@redhat.com, qemu-devel@nongnu.org
-References: <20210414221457.1653745-1-crosa@redhat.com>
- <812f1d67-5fe4-bfde-0d40-d1c8cc5e651e@redhat.com>
-From: Cleber Rosa <crosa@redhat.com>
-Message-ID: <de414c57-eb5c-bbbc-be17-8e7b3f189e72@redhat.com>
-Date: Thu, 8 Jul 2021 10:51:01 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=JwQPj3QiBiCoFnnjQLaV3JCIX6LKlpqoJ1UyQ5vvgWo=;
+ b=jFPhO/26NlG1VjEE9o99bTDoxcXYDsE3PA9v7BCi/nveGfDl3MkV5Mw7thL23Kp7LN
+ dYDlcii1JNgsgvLByLJs71qmsoIyn3D1l6jxHMvQrC1UzINVexoDUAnyBuUOCCkK1uT/
+ F14L/1RiuV8W8P/lkyXd6aLodiceyzhzImE4u2CUgKGvMV6y3yZZyUsZEAe9vfZCFel9
+ 5QTufkvsX6I0b5KaE4DSY/yb0brvwh76bM9EzxEzFpejKtz9U5gySZd8iNpDKto0PQt+
+ OKyPW0h36iALx/qnbvaz2BG99fveJDx7kQXlufz62CXPdNTeIp3uKWpHB3WZOHRIrpNM
+ RZ0A==
+X-Gm-Message-State: AOAM530phZtH3EC/Bun66TvJ4wjQwGOlyfjZynBZ+PQkjFAnEFCZYZRB
+ 0pS5jYhGuN8CFgpDWRDvyr0L3eWRSG0=
+X-Google-Smtp-Source: ABdhPJwvx+mCoM5WH2HrjKzNKzSqLUi4OxMgxLYZD+xdUHMIgjHS4Sjv6ulF9BapVRxyRORzmPApPQ==
+X-Received: by 2002:a05:6000:511:: with SMTP id
+ a17mr35330793wrf.351.1625756115710; 
+ Thu, 08 Jul 2021 07:55:15 -0700 (PDT)
+Received: from x1w.redhat.com (93.red-83-35-24.dynamicip.rima-tde.net.
+ [83.35.24.93])
+ by smtp.gmail.com with ESMTPSA id a4sm2508462wru.55.2021.07.08.07.55.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 07:55:15 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
+Date: Thu,  8 Jul 2021 16:55:12 +0200
+Message-Id: <20210708145514.1751773-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <812f1d67-5fe4-bfde-0d40-d1c8cc5e651e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,44 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 6/9/21 8:11 AM, Eric Auger wrote:
-> Hi CLeber,
->
-> On 4/15/21 12:14 AM, Cleber Rosa wrote:
->> Because Fedora 31 will not suit all tests that depend on a Linux
->> guest, this allows for the configuration of the guest distribution.
->> It came out of a suggestion from Eric Auger, and it was actually a
->> feature I planned to submit for a while.
->>
->> This is based on the following series:
->>
->>   [PATCH v3 00/11] Acceptance Test: introduce base class for Linux based tests
-> What is the state of this series, do you plan to respin. My SMMU
-> avocado-qemu tests depend on it. Also I have added some intel iommu
-> tests on top of it.
-
-
-Hi Eric,
-
-
-Again, sorry for dropping the ball here.  This series has enough 
-reviews, and I can queue it on my upcoming pre-freeze PR.  I'll just 
-wait for your ACK on patch 2/3 about keeping the KNOWN_DISTROS info, for 
-now, on the same file.
-
-
-Thanks,
-
-- Cleber.
-
+Since v1:=0D
+- renamed tests (Peter)=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  tests: Remove uses of deprecated raspi2/raspi3 machine names=0D
+  hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases=0D
+=0D
+ docs/devel/qgraph.rst                   | 38 ++++++++++++-------------=0D
+ docs/system/deprecated.rst              |  7 -----=0D
+ docs/system/removed-features.rst        |  7 +++++=0D
+ tests/qtest/libqos/qgraph.h             |  6 ++--=0D
+ tests/qtest/libqos/qgraph_internal.h    |  2 +-=0D
+ hw/arm/raspi.c                          |  2 --=0D
+ tests/qtest/boot-serial-test.c          |  2 +-=0D
+ tests/qtest/libqos/arm-raspi2-machine.c |  8 +++---=0D
+ tests/unit/test-qgraph.c                |  2 +-=0D
+ tests/acceptance/boot_linux_console.py  |  6 ++--=0D
+ 10 files changed, 39 insertions(+), 41 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
