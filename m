@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF343BF7D4
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:55:08 +0200 (CEST)
-Received: from localhost ([::1]:58584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103A73BF7D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 11:55:55 +0200 (CEST)
+Received: from localhost ([::1]:60054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1QkN-0001R6-Dn
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:55:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58454)
+	id 1m1Ql8-0002Qd-4F
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 05:55:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1Qj7-0008Ov-K8
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:53:49 -0400
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1Qj5-0005Eu-NN
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:53:49 -0400
-Received: by mail-ed1-x52e.google.com with SMTP id t3so7649395edc.7
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 02:53:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lUsEmhGe0QYjncs4ZB1BJeKTxJehCGPQs773Ye3Hfy0=;
- b=P9DLSK4JuvNPO6884JAzTRivRe5g5+FV+eXVM3YlDxHrSpq3Wq4XsjTqkj9CUto+Fh
- aldySo1o3XVqlpb+2FF0m+GaqjrUXlZtGQ9DLJEe7McIw+41m31yxVSIpTctxEpEOtmN
- hSKgH5znOXHX38JbEMOuioUMiQMcMbg/pVjEs7BV5ABrdrD/3VV8HDGV62sHnFqbZ3sA
- F3Mglum6WibJq9iyl3ebY4WRRXMut2+yzHGGvakwC6NniQM5g7aH6zrbplxyuA7PAie7
- cXO4GSXmTaLtmL+wCUZz7+zZVM4/c/7MqIuS7SWxkzJSnAQy/5NGlULOjbND+VFUIUD8
- /XEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lUsEmhGe0QYjncs4ZB1BJeKTxJehCGPQs773Ye3Hfy0=;
- b=el1v4rQQ5s737q60dKhD5nAm0/VJrSBSTFulw1XQNk9M3TQjsUlyebuQ8hZBfwH1oW
- CWzGwI6PcvW+y3eEredu8hzmz4vkd1ovd63DIM58M6HN4ouqJdkcchHuW21cE51rhqzo
- X5WJDcq3RWVp+LI0mXYB0XMXTzhtm3QOPEC5zWeJnZ1VZEu/yO7gG6bhLyfmzWTgfxO9
- hyVP7OGOAzBxtEK0Sl5en7Cc5463tvCHAKiKR8teJNzpEvsAH4jngXQaxGT5yPmcUH7K
- joAAKUgeZ0Pya2qECyan7AdmhSwl3s5GvRQvrXmoYyvZenHBSjoYdgS3RbCaU6RgVo8J
- VWRw==
-X-Gm-Message-State: AOAM533Xu09IutpETvqLjOE/fG1Rl1c6nlfXa8gY6EuCFcb/mjawbRas
- BHFXIQDk/3lKbmUNBVIJsJBeZQCFCDX3WFTplnQQLg==
-X-Google-Smtp-Source: ABdhPJxw6/GnybtbR0x1o7ddnn59GcazI+YQrB37d/L2REFy6qzSDTFuRFvjYQKP0xNxw4VXMtRxaZa+PKbvfQR/hm4=
-X-Received: by 2002:a05:6402:1e8e:: with SMTP id
- f14mr24095854edf.52.1625738026176; 
- Thu, 08 Jul 2021 02:53:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1QjJ-0000EK-5N
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:54:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1QjG-0005HI-LG
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 05:54:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625738037;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TBAyeN1jJY6DkXOudFH2PZklmuJAKLNZeU8eeAwWhBg=;
+ b=RPl7L3Zip6dMCYngd/sNZQ2rpv8OHT6nXJsko3i06QVMln+/IYkkj4+nbSx4khXQFsu63/
+ Nb4AjqhrKb0Pux9ASqr8LlSYe+7kow2ZOkipOZJB67Nz+vJtFyKQ1sLnKGD44GEvrPC19W
+ D8UAg86EunZ0Zs7m0ait2blV4WooOh0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-QlHxv00LN0mC6Ae_K3tZ6Q-1; Thu, 08 Jul 2021 05:53:55 -0400
+X-MC-Unique: QlHxv00LN0mC6Ae_K3tZ6Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A75B218D6A31;
+ Thu,  8 Jul 2021 09:53:54 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-112-130.ams2.redhat.com [10.36.112.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7DADB5D9DD;
+ Thu,  8 Jul 2021 09:53:40 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] virtio-balloon: don't start free page hinting if
+ postcopy is possible
+Date: Thu,  8 Jul 2021 11:53:37 +0200
+Message-Id: <20210708095339.20274-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20210707193241.2659335-1-ehabkost@redhat.com>
-In-Reply-To: <20210707193241.2659335-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 8 Jul 2021 10:53:07 +0100
-Message-ID: <CAFEAcA_UybrCmOffY6HD7eiE=Ubks1LGhKYmXgQ_hYYsKMYfhQ@mail.gmail.com>
-Subject: Re: [PULL 00/15] Machine queue, 2021-07-07
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.439,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,53 +74,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Wei Wang <wei.w.wang@intel.com>, Alexander Duyck <alexander.duyck@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 7 Jul 2021 at 20:32, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
->
-> for you to fetch changes up to 4dc87143b9dbc0ae5719b67b4e533c824b239f00:
->
->   vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus (2021-07-06 18:05:26 -0400)
->
-> ----------------------------------------------------------------
-> Machine queue, 2021-07-07
->
-> Deprecation:
-> * Deprecate pmem=on with non-DAX capable backend file
->   (Igor Mammedov)
->
-> Feature:
-> * virtio-mem: vfio support (David Hildenbrand)
->
-> Cleanup:
-> * vmbus: Don't make QOM property registration conditional
->   (Eduardo Habkost)
->
+This is the follow up on [1]:
+  [PATCH v1 0/2] virtio-balloon: disallow postcopy with
+  VIRTIO_BALLOON_F_FREE_PAGE_HINT
 
-Hi; this generates warnings in the docs build:
+Working on getting migration for virtio-mem completely right [2] I realized
+that virtio-balloon with VIRTIO_BALLOON_F_FREE_PAGE_HINT paired with
+postcopy might be shaky. Actually testing it, I directly found two issues,
+one of both being far from trivial to fix.
 
-/home/pm/qemu/docs/../include/exec/memory.h:2286: warning: Function
-parameter or member 'rdm' not described in
-'memory_region_set_ram_discard_manager'
-/home/pm/qemu/docs/../include/exec/memory.h:2286: warning: Excess
-function parameter 'urn' description in
-'memory_region_set_ram_discard_manager'
+Let's not start free page hinting if postcopy is possible.
 
-This seems to be because the function prototype for this
-function says it takes parameters 'mr' and 'rdm', but the
-doc comment documents 'mr' and 'urn'.
+v1 -> v2:
+- "virtio-balloon: don't start free page hinting if postcopy is possible"
+-- Instead of bailing out when starting postcopy, don't start free page
+   hinting if the postcopy capability is enabled and we might see the
+   switch to postcopy for the current migration (where we might mess with
+   the dirty bitmap)
+- "virtio-balloon: free page hinting cleanups"
+-- Added
 
-thanks
--- PMM
+[1] https://lkml.kernel.org/r/20210707140655.30982-1-david@redhat.com
+[2] https://lkml.kernel.org/r/20210616162940.28630-1-david@redhat.com
+
+
+David Hildenbrand (2):
+  virtio-balloon: don't start free page hinting if postcopy is possible
+  virtio-balloon: free page hinting cleanups
+
+ hw/virtio/virtio-balloon.c | 41 +++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
+
+-- 
+2.31.1
+
 
