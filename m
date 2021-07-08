@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAB03C197D
-	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:58:13 +0200 (CEST)
-Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2770E3C197E
+	for <lists+qemu-devel@lfdr.de>; Thu,  8 Jul 2021 20:59:31 +0200 (CEST)
+Received: from localhost ([::1]:58282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ZDv-0003EQ-W2
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:58:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43600)
+	id 1m1ZFC-0005me-6A
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 14:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m1Z0a-0003gJ-QG
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:44:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28104)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1Z4m-0000mY-I7
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:48:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m1Z0Y-0005Pa-JP
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:44:24 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1Z4j-0006hu-2Y
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 14:48:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625769862;
+ s=mimecast20190719; t=1625770120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NjdoYC2GgJxySN1fuR3PtO/Juo2AljbfXV29oEFdNLA=;
- b=RdKD0IwzVhhaxKpzPhoAAvBgisNXkmt90ZejO77OPaSXC8Pl+MBFW/FTX7txfGyymPI3gs
- R6Md65/60uy3cAADQNksGDxMvd83Nmb7WLuXXaoOVG/goVTQPkOBlFAufKFkrdlRsZn4ot
- nQLm6FJTftyRyUYCftVfDcDmzwjW7/A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-uRBdWmdnOui3cGV4e72_0Q-1; Thu, 08 Jul 2021 14:44:19 -0400
-X-MC-Unique: uRBdWmdnOui3cGV4e72_0Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C38588042DE
- for <qemu-devel@nongnu.org>; Thu,  8 Jul 2021 18:44:18 +0000 (UTC)
-Received: from [10.10.115.15] (ovpn-115-15.rdu2.redhat.com [10.10.115.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77EAA19D9F;
- Thu,  8 Jul 2021 18:44:18 +0000 (UTC)
-Subject: Re: [PATCH] contrib: add stub bridge.conf for qemu-bridge-helper
-To: qemu-devel@nongnu.org
-References: <ee9afe9119004f9208eb0930e02138eed0873f43.1625769632.git.crobinso@redhat.com>
-From: Cole Robinson <crobinso@redhat.com>
-Message-ID: <c2da0e4b-aefc-fb57-121b-5dd58dd9f544@redhat.com>
-Date: Thu, 8 Jul 2021 14:44:18 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=qHiH1D58kyFdRYkg3QJZ8VZS+Eq1YphmR+xgrZHWLIQ=;
+ b=ftMouRfHQLcYJe5EJebPf5CCagm1J429wLoE9KXB19k/gpbiWGG1d2L989RAvjrGkO7itu
+ /9j2BKRPzzHbf1cbb+HMdg8F2P5A3EhkVLn+7HElmE/mEs4vx33wB2r75Oc7Er5giqTq4Z
+ XumXVnCDfg8WsNCf2wGyJhYceg8Rrog=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-Ih5V1_KeP1GfM0Jp4vhUkQ-1; Thu, 08 Jul 2021 14:48:39 -0400
+X-MC-Unique: Ih5V1_KeP1GfM0Jp4vhUkQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ke6-20020a0562143006b029028b8546bb01so4697000qvb.20
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 11:48:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qHiH1D58kyFdRYkg3QJZ8VZS+Eq1YphmR+xgrZHWLIQ=;
+ b=giwNz/Ujcg/wrGn+Ud0OjzoM8DJKVMmHwh+NOEfcXr9J4qYzZBnZcVxLCW202tdBrJ
+ f3bao6qzvPDH9Ku/zAzBz404NRw6o/A30QuBwRfRyKbSONZb7wsVVkhOE7C/4DXUl776
+ NaD8dK3blmgdEypy2qJzR8lnXY1zIs33JEo6gyYlVoyvunNjNJdesS90upvO3JiCCf2Z
+ ktHAkgu0GQBHvqLJ0tXTOWXa0XVydEQAZ4Z+9BZZjumrbdJxag50iYTgztHyPO5ZvVBM
+ sLaulQXNV1h/VMfl/n4ABFpjgAKEhQRlUK2BBSCEfrk4cQT26fcNBIi+zAPkA8kTuaRd
+ S6zg==
+X-Gm-Message-State: AOAM53003cbWcergJ2V63Reis77UM9cDMA3qhHpjwMr2b9KB/G4pyMf3
+ T3xFIkmHSTXgFuVwmlfGj4RzDi1S7Xwl3YL6ZS0z0P/26gWx0XlKZYAT2By8AzeodPtfED98dx5
+ He8dxWw79n2yt1Gg=
+X-Received: by 2002:a0c:9ac7:: with SMTP id k7mr31864779qvf.49.1625770118625; 
+ Thu, 08 Jul 2021 11:48:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxShvFqAFb6rckJQg/X6HBn0m5tS1so+r4aZVl+w1w9vMUinbzOnEV5YcfMRfRbMs1JpvRykA==
+X-Received: by 2002:a0c:9ac7:: with SMTP id k7mr31864764qvf.49.1625770118476; 
+ Thu, 08 Jul 2021 11:48:38 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id w2sm1366602qkm.65.2021.07.08.11.48.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 08 Jul 2021 11:48:37 -0700 (PDT)
+Date: Thu, 8 Jul 2021 14:48:37 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH] remote/memory: Replace share parameter with ram_flags
+Message-ID: <YOdIhX9l4IvOiYjp@t490s>
+References: <20210708071216.87862-1-yang.zhong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <ee9afe9119004f9208eb0930e02138eed0873f43.1625769632.git.crobinso@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210708071216.87862-1-yang.zhong@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crobinso@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crobinso@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,60 +92,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com
+Cc: pbonzini@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
+ david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 2:42 PM, Cole Robinson wrote:
-> The comment comes from OpenSUSE's bridge.conf, with some minor tweaks
+On Thu, Jul 08, 2021 at 03:12:16PM +0800, Yang Zhong wrote:
+> The commit(d5015b80) missed the ram_flags to memory_region_init_ram_from_fd()
+> in the hw/remote/memory.c.
 > 
-> Signed-off-by: Cole Robinson <crobinso@redhat.com>
-> ---
-> Or should this be installed? If so where in git should it live?
-> 
->  contrib/bridge.conf | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->  create mode 100644 contrib/bridge.conf
-> 
-> diff --git a/contrib/bridge.conf b/contrib/bridge.conf
-> new file mode 100644
-> index 0000000000..b83e46c34f
-> --- /dev/null
-> +++ b/contrib/bridge.conf
-> @@ -0,0 +1,14 @@
-> +# Access control file for qemu-bridge-helper
-> +# https://wiki.qemu.org/Features/HelperNetworking
-> +#
-> +# Syntax consists of:
-> +#   # comment (ignored)
-> +#   allow all
-> +#   allow <bridge_name>
-> +#   deny all
-> +#   deny <bridge_name>
-> +#   include /path/to/additional/ACL/file
-> +#
-> +# Users are blacklisted by default and 'deny' takes precedence over 'allow'.
-> +# Including additional ACL files allows file access permissions to be used as
-> +# a component of the policy to allow access or deny access to specific bridges.
-> 
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 
-Meant to include this too:
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 684142e12e..dbdf26ade2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2498,6 +2498,7 @@ F: include/net/
- F: qemu-bridge-helper.c
- T: git https://github.com/jasowang/qemu.git net
- F: qapi/net.json
-+F: contrib/bridge.conf
-
- Netmap network backend
- M: Luigi Rizzo <rizzo@iet.unipi.it>
-
-- Cole
-
-- Cole
+-- 
+Peter Xu
 
 
