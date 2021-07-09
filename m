@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E875E3C2707
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:43:54 +0200 (CEST)
-Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44DF3C2702
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:42:17 +0200 (CEST)
+Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1sfS-0003KX-0A
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:43:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60444)
+	id 1m1sds-0007Yx-QZ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1sbk-0004gq-NN
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:40:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57897)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1sbm-0004mB-IN
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:40:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1sbi-0003Ue-PZ
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:40:04 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1sbj-0003Uo-LV
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:40:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625845202;
+ s=mimecast20190719; t=1625845203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ojpd1yMPDIf8ndr1/GPuflMNSNRi/MU55g+DFS92YyI=;
- b=RZDpHllUUlLU6+P5FYKCRAQ7LNz39jj+V55bY+MoIqa8+uGSjAzh/FQr4zJKSeL4RpVma2
- fJS4KShVQ57tuC6SqkZIf8c7krUefQM348KtF82bJBuP0REx6IGdJS5NDZZIjZ+IkSCUm4
- zbVxMX2aMYCQgaBo7kNu0WstQS5/DZE=
+ bh=SDUfa2A+s93YASpxPNGo4aHm+ZJdw4G6hfNktcpTIPw=;
+ b=F0k1c9OermgC+JLTf9xzhYHrBMdRwY1tZdywCXojZvSEGlM39GxT2Yp8qTuSr46kFp1K8g
+ AuoMTGSeZg9V14tEFYOWl/UY9r04LmJFCVkrkVahxHdttHXV+PXkO2VnbEKMHgcRKUwPZj
+ X1EB9hw2sLLOqpMMcikWRtPZ6YD4VeM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-jrEDASHmPfOJH_kk_gWwBA-1; Fri, 09 Jul 2021 11:40:01 -0400
-X-MC-Unique: jrEDASHmPfOJH_kk_gWwBA-1
+ us-mta-457-4fyh9jdVMuml359oV7IX4A-1; Fri, 09 Jul 2021 11:40:01 -0400
+X-MC-Unique: 4fyh9jdVMuml359oV7IX4A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F050A800D62;
- Fri,  9 Jul 2021 15:39:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ABAFD1084F54;
+ Fri,  9 Jul 2021 15:40:00 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3AAA560C04;
- Fri,  9 Jul 2021 15:39:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EABE60C04;
+ Fri,  9 Jul 2021 15:40:00 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] iotests: Improve and rename test 291 to qemu-img-bitmap
-Date: Fri,  9 Jul 2021 10:39:49 -0500
-Message-Id: <20210709153951.2801666-2-eblake@redhat.com>
+Subject: [PATCH v2 2/3] qemu-img: Fail fast on convert --bitmaps with
+ inconsistent bitmap
+Date: Fri,  9 Jul 2021 10:39:50 -0500
+Message-Id: <20210709153951.2801666-3-eblake@redhat.com>
 In-Reply-To: <20210709153951.2801666-1-eblake@redhat.com>
 References: <20210709153951.2801666-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -76,159 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>, nsoffer@redhat.com,
- John Snow <jsnow@redhat.com>
+Cc: kwolf@redhat.com, nsoffer@redhat.com, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enhance the test to demonstrate existing less-than-stellar behavior of
-qemu-img with a qcow2 image containing an inconsistent bitmap: we
-don't diagnose the problem until after copying the entire image (a
-potentially long time), and when we do diagnose the failure, we still
-end up leaving an empty bitmap in the destination.  This mess will be
-cleaned up in the next patch.
+Waiting until the end of the convert operation (a potentially
+time-consuming task) to finally detect that we can't copy a bitmap is
+bad, comparing to failing fast up front.  Furthermore, this prevents
+us from leaving a file behind with a bitmap that is not marked as
+inconsistent even though it does not have sane contents.
 
-While at it, rename the test now that we support useful iotest names,
-and fix a missing newline in the error message thus exposed.
+This fixes the problems exposed in the previous patch to the iotest.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/dirty-bitmap.c                          |  2 +-
- .../{291 => tests/qemu-img-bitmaps}           | 19 +++++++-
- .../{291.out => tests/qemu-img-bitmaps.out}   | 48 ++++++++++++++++++-
- 3 files changed, 66 insertions(+), 3 deletions(-)
- rename tests/qemu-iotests/{291 => tests/qemu-img-bitmaps} (88%)
- rename tests/qemu-iotests/{291.out => tests/qemu-img-bitmaps.out} (75%)
+ qemu-img.c                                    | 30 +++++++++++++++++--
+ tests/qemu-iotests/tests/qemu-img-bitmaps     |  2 --
+ tests/qemu-iotests/tests/qemu-img-bitmaps.out | 20 ++-----------
+ 3 files changed, 29 insertions(+), 23 deletions(-)
 
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 68d295d6e3ed..0ef46163e3ea 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -193,7 +193,7 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
-         error_setg(errp, "Bitmap '%s' is inconsistent and cannot be used",
-                    bitmap->name);
-         error_append_hint(errp, "Try block-dirty-bitmap-remove to delete"
--                          " this bitmap from disk");
-+                          " this bitmap from disk\n");
-         return -1;
-     }
-
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/tests/qemu-img-bitmaps
-similarity index 88%
-rename from tests/qemu-iotests/291
-rename to tests/qemu-iotests/tests/qemu-img-bitmaps
-index 20efb080a6c0..2f51651d0ce5 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/tests/qemu-img-bitmaps
-@@ -3,7 +3,7 @@
- #
- # Test qemu-img bitmap handling
- #
--# Copyright (C) 2018-2020 Red Hat, Inc.
-+# Copyright (C) 2018-2021 Red Hat, Inc.
- #
- # This program is free software; you can redistribute it and/or modify
- # it under the terms of the GNU General Public License as published by
-@@ -27,11 +27,13 @@ status=1 # failure is the default!
- _cleanup()
- {
-     _cleanup_test_img
-+    _rm_test_img "$TEST_IMG.copy"
-     nbd_server_stop
+diff --git a/qemu-img.c b/qemu-img.c
+index 7956a8996512..e84b3c530155 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -2101,6 +2101,30 @@ static int convert_do_copy(ImgConvertState *s)
+     return s->ret;
  }
- trap "_cleanup; exit \$status" 0 1 2 3 15
 
- # get standard environment, filters and checks
-+cd ..
- . ./common.rc
- . ./common.filter
- . ./common.nbd
-@@ -129,6 +131,21 @@ $QEMU_IMG map --output=json --image-opts \
-
- nbd_server_stop
-
-+echo
-+echo "=== Check handling of inconsistent bitmap ==="
-+echo
++/* Check that bitmaps can be copied, or output an error */
++static int convert_check_bitmaps(BlockDriverState *src)
++{
++    BdrvDirtyBitmap *bm;
 +
-+$QEMU_IO -c abort "$TEST_IMG" 2>/dev/null
-+$QEMU_IMG bitmap --add "$TEST_IMG" b4
-+$QEMU_IMG bitmap --remove "$TEST_IMG" b1
-+_img_info --format-specific | _filter_irrelevant_img_info
-+$QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG" "$TEST_IMG.copy" &&
-+    echo "unexpected success"
-+# Bug - even though we failed at conversion, we left a file around with
-+# a bitmap marked as not corrupt
-+TEST_IMG=$TEST_IMG.copy _img_info --format-specific \
-+    | _filter_irrelevant_img_info
++    if (!bdrv_supports_persistent_dirty_bitmap(src)) {
++        error_report("Source lacks bitmap support");
++        return -1;
++    }
++    FOR_EACH_DIRTY_BITMAP(src, bm) {
++        const char *name;
 +
- # success, all done
- echo '*** done'
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/tests/qemu-img-bitmaps.out
-similarity index 75%
-rename from tests/qemu-iotests/291.out
-rename to tests/qemu-iotests/tests/qemu-img-bitmaps.out
-index 23411c0ff4d9..b762362075d1 100644
---- a/tests/qemu-iotests/291.out
++        if (!bdrv_dirty_bitmap_get_persistence(bm)) {
++            continue;
++        }
++        name = bdrv_dirty_bitmap_name(bm);
++        if (bdrv_dirty_bitmap_inconsistent(bm)) {
++            error_report("Cannot copy inconsistent bitmap '%s'", name);
++            return -1;
++        }
++    }
++    return 0;
++}
++
+ static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *dst)
+ {
+     BdrvDirtyBitmap *bm;
+@@ -2127,6 +2151,7 @@ static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *dst)
+                               &err);
+         if (err) {
+             error_reportf_err(err, "Failed to populate bitmap %s: ", name);
++            qmp_block_dirty_bitmap_remove(dst->node_name, name, NULL);
+             return -1;
+         }
+     }
+@@ -2552,9 +2577,8 @@ static int img_convert(int argc, char **argv)
+             ret = -1;
+             goto out;
+         }
+-        if (!bdrv_supports_persistent_dirty_bitmap(blk_bs(s.src[0]))) {
+-            error_report("Source lacks bitmap support");
+-            ret = -1;
++        ret = convert_check_bitmaps(blk_bs(s.src[0]));
++        if (ret < 0) {
+             goto out;
+         }
+     }
+diff --git a/tests/qemu-iotests/tests/qemu-img-bitmaps b/tests/qemu-iotests/tests/qemu-img-bitmaps
+index 2f51651d0ce5..3fde95907515 100755
+--- a/tests/qemu-iotests/tests/qemu-img-bitmaps
++++ b/tests/qemu-iotests/tests/qemu-img-bitmaps
+@@ -141,8 +141,6 @@ $QEMU_IMG bitmap --remove "$TEST_IMG" b1
+ _img_info --format-specific | _filter_irrelevant_img_info
+ $QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG" "$TEST_IMG.copy" &&
+     echo "unexpected success"
+-# Bug - even though we failed at conversion, we left a file around with
+-# a bitmap marked as not corrupt
+ TEST_IMG=$TEST_IMG.copy _img_info --format-specific \
+     | _filter_irrelevant_img_info
+
+diff --git a/tests/qemu-iotests/tests/qemu-img-bitmaps.out b/tests/qemu-iotests/tests/qemu-img-bitmaps.out
+index b762362075d1..546aaa404bba 100644
+--- a/tests/qemu-iotests/tests/qemu-img-bitmaps.out
 +++ b/tests/qemu-iotests/tests/qemu-img-bitmaps.out
-@@ -1,4 +1,4 @@
--QA output created by 291
-+QA output created by qemu-img-bitmaps
-
- === Initial image setup ===
-
-@@ -115,4 +115,50 @@ Format specific information:
- [{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 2097152, "length": 1048576, "depth": 0, "zero": false, "data": false},
- { "start": 3145728, "length": 7340032, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+
-+=== Check handling of inconsistent bitmap ===
-+
-+image: TEST_DIR/t.IMGFMT
-+file format: IMGFMT
-+virtual size: 10 MiB (10485760 bytes)
-+cluster_size: 65536
-+backing file: TEST_DIR/t.IMGFMT.base
-+backing file format: IMGFMT
-+Format specific information:
-+    bitmaps:
-+        [0]:
-+            flags:
-+                [0]: in-use
-+                [1]: auto
-+            name: b2
-+            granularity: 65536
-+        [1]:
-+            flags:
-+                [0]: in-use
-+            name: b0
-+            granularity: 65536
-+        [2]:
-+            flags:
-+                [0]: auto
-+            name: b4
-+            granularity: 65536
-+    corrupt: false
-+qemu-img: Failed to populate bitmap b0: Bitmap 'b0' is inconsistent and cannot be used
-+Try block-dirty-bitmap-remove to delete this bitmap from disk
-+image: TEST_DIR/t.IMGFMT.copy
-+file format: IMGFMT
-+virtual size: 10 MiB (10485760 bytes)
-+cluster_size: 65536
-+Format specific information:
-+    bitmaps:
-+        [0]:
-+            flags:
-+            name: b0
-+            granularity: 65536
-+        [1]:
-+            flags:
-+                [0]: auto
-+            name: b4
-+            granularity: 65536
-+    corrupt: false
+@@ -143,22 +143,6 @@ Format specific information:
+             name: b4
+             granularity: 65536
+     corrupt: false
+-qemu-img: Failed to populate bitmap b0: Bitmap 'b0' is inconsistent and cannot be used
+-Try block-dirty-bitmap-remove to delete this bitmap from disk
+-image: TEST_DIR/t.IMGFMT.copy
+-file format: IMGFMT
+-virtual size: 10 MiB (10485760 bytes)
+-cluster_size: 65536
+-Format specific information:
+-    bitmaps:
+-        [0]:
+-            flags:
+-            name: b0
+-            granularity: 65536
+-        [1]:
+-            flags:
+-                [0]: auto
+-            name: b4
+-            granularity: 65536
+-    corrupt: false
++qemu-img: Cannot copy inconsistent bitmap 'b0'
++qemu-img: Could not open 'TEST_DIR/t.IMGFMT.copy': Could not open 'TEST_DIR/t.IMGFMT.copy': No such file or directory
  *** done
 -- 
 2.31.1
