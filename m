@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522113C2B18
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 23:59:29 +0200 (CEST)
-Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B7F3C2B29
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 00:03:49 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1yWu-0004qD-CQ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 17:59:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48308)
+	id 1m1yb6-0003Pp-2d
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 18:03:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m1yU2-00024y-L3
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 17:56:30 -0400
-Received: from mail-dm6nam12on2067.outbound.protection.outlook.com
- ([40.107.243.67]:33505 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ id 1m1yYe-0000ln-Uj
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 18:01:16 -0400
+Received: from mail-mw2nam12on2061d.outbound.protection.outlook.com
+ ([2a01:111:f400:fe5a::61d]:30089
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m1yU1-0005q1-2b
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 17:56:30 -0400
+ id 1m1yYc-0008Au-7R
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 18:01:16 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KLzOgYxx7taE2CgcCkknkMtMYLk7ai98DpagkcBfjati4cdQdAj0B8OW1mZVJ4VgxzA6QUbFtmb18D+X2vsnGovyu6z2rxoDLmWSPCHgzDHhKPCYXGcZtqpQtvS9yRH3W+JI8bkPKXPCPclzOzgjO9fitRBWnXGI4lyyvo6sD7P1UnWRaC0MjnYAIlPiSgcKUFaRaF9a1iS1AmEmXZMjfUVZ3P934ehA5ADSr7Ed/rPuamL5HbF2V+zlfcchMJwbzmFWwflhhxn+RPC4fldLYLtJfzDKbfd9spACHvvXXBXgSGRtY/HTCeK1l940BNRsObmWxCfExLg0RsDIsA26vw==
+ b=blStnt+OCKGx7B6YibqfO+fIw1T+OPKjEuZ85OBs5hfsnXjbDaewMYMJoDwQQ6DP12jKAuUmc2uTmT5RKc/Gutg3MamJPjEkdBBafFSKJAlPjk5ePxVmF7cFPteiBuiWjA/+R6W/KJt8zI/XABekdSOZoDhO3CU+ESRs610eJhOAVeRgI5Y7BuOBuKSZ4arXg1rAyjsYxmq7c3Y1ueOM2r62zXTgyghOlIx68KwRbYx/ovPqVAlz80CR5ZQm2HUS4yafKEUdT6KxhdG5BBW6r6NiQe8uYP5bGIkE1w/Qan49Vy70pMrIaECtojNJBq4ICzHORT2V4r18ytbSVSYm8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SS5kgrI8gBb97Fva2W60j49RkiZfbbvK9wWxZ2hB5N0=;
- b=OF9U7b9puLHkndPFtK95iClFALNOmwIMEnaGp59irEkuLUQq3avIvp+JYN1Qa8HEfVdt+KjKYHuPluO9g5h2oLunZSJVUghinWmecQr+N/95/b1txrvFSKzh18c7JmfK6FsQOQGlxyAp8PXmWhFu6Emkvi9rvNU0Ep7Ex0pnTLQkXTIub0z+YHDHdU13PZglviWuliYyaHZdoRfglWjw8FTLIViI3fGEqH9DP1IVg+/Q60wX7/qrfAxe+KKXLYNcoKVUl4VNHNjWPirtMrkMcMdZzRgWHVIekttS7a85rYXNqagKEi2grJ/A0UPRm+uBQaWdaVffzutAQ4dwJepLgA==
+ bh=FAssQmr9qx+GZtyr5p9VW8nRiYgpmia750pPM0JvoSc=;
+ b=hOffVaifyyIg9YL3w2GObXNPgSV8As8XQJysC6iUNso0nFXRjYtlUv/uXCjNhD4V7kQNCb9BCAvnv5JdyHzvEwyRsVSXG82b4/tOPyfhbFABC8r9MEdwclp+YWwci0AWjkPyba6Gpf3U9Z+u6dbaJQP6QDYbCP2skUqBQCsx+lL/mV90qUnp96Y/ZaO2lMqW5ysnOMldZnqhRbuoC5r6lR/uaZ0eCuGeKajvWCmauOHmB2LAh5bqee8/t5grTgj5yAMfewOVw4Uc0yyLiT+2KjCdkjLOmxFYkObiwo9JpdmOf1CYeHd1Lg8PcgH/iQ/Dd9XxS7Tjb7YIqN+eH1zCdw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SS5kgrI8gBb97Fva2W60j49RkiZfbbvK9wWxZ2hB5N0=;
- b=wswZhP2yiAvKrDzLHFTokWyT4iLA47Wu2aTjaT3hFsIVhm54faJ1fN8dW3+kwEEJfCDqiI0qE3yK4T9SzWuJV6iAIfZRmBpXQWbiBU11VeHqgsGYxY8och4hXZ/ruq2bNjCt+k0R7pYmQ/DOPdczEDptRN9Sf8qxgWd/qnmWhaM=
+ bh=FAssQmr9qx+GZtyr5p9VW8nRiYgpmia750pPM0JvoSc=;
+ b=w5DHB+/8CEQqzym3S0WjbCVnd25Zr0+68jUT88EYgDRy0YCm9x1CI/HvKabzupiJK4p95LR5+XaOzrgZhjKP48W07SBwHA315SkVHy9VDecKp6iGPRvZR8fKIvpmnKDRw2oPUpVvMPtIC4DNaX4etcWf95J/rw1wsfC37wcADzs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
  by SA0PR12MB4575.namprd12.prod.outlook.com (2603:10b6:806:73::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Fri, 9 Jul
- 2021 21:56:12 +0000
+ 2021 21:56:09 +0000
 Received: from SN6PR12MB2718.namprd12.prod.outlook.com
  ([fe80::a8a9:2aac:4fd1:88fa]) by SN6PR12MB2718.namprd12.prod.outlook.com
  ([fe80::a8a9:2aac:4fd1:88fa%3]) with mapi id 15.20.4308.022; Fri, 9 Jul 2021
- 21:56:12 +0000
+ 21:56:09 +0000
 From: Brijesh Singh <brijesh.singh@amd.com>
 To: qemu-devel@nongnu.org
 Cc: Connor Kuehl <ckuehl@redhat.com>,
@@ -59,12 +60,10 @@ Cc: Connor Kuehl <ckuehl@redhat.com>,
  kvm@vger.kernel.org, Michael Roth <michael.roth@amd.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Brijesh Singh <brijesh.singh@amd.com>
-Subject: [RFC PATCH 4/6] i386/sev: add the SNP launch start context
-Date: Fri,  9 Jul 2021 16:55:48 -0500
-Message-Id: <20210709215550.32496-5-brijesh.singh@amd.com>
+Subject: [RFC PATCH 0/6] Add AMD Secure Nested Paging (SEV-SNP) support
+Date: Fri,  9 Jul 2021 16:55:44 -0500
+Message-Id: <20210709215550.32496-1-brijesh.singh@amd.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210709215550.32496-1-brijesh.singh@amd.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
 Content-Type: text/plain
 X-ClientProxiedBy: SN4PR0601CA0007.namprd06.prod.outlook.com
  (2603:10b6:803:2f::17) To SN6PR12MB2718.namprd12.prod.outlook.com
@@ -75,64 +74,63 @@ Received: from sbrijesh-desktop.amd.com (165.204.77.1) by
  SN4PR0601CA0007.namprd06.prod.outlook.com (2603:10b6:803:2f::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend
- Transport; Fri, 9 Jul 2021 21:56:11 +0000
+ Transport; Fri, 9 Jul 2021 21:56:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 35fd1136-dac2-4def-46ad-08d943245dc9
+X-MS-Office365-Filtering-Correlation-Id: 8c191492-2929-433d-8346-08d943245c1d
 X-MS-TrafficTypeDiagnostic: SA0PR12MB4575:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4575A7E7472B5DCE37ED821FE5189@SA0PR12MB4575.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:208;
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4575CEB8C5B2CDE458CE3701E5189@SA0PR12MB4575.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vLaFPJHqVWkt3xmLfYF3MpIVv+631upqSd7iuh0CvShhP/lJ7rqHUYlxFCWOgzF53/YfiDyzEAuPGj4seG45LKwUfxBnDMrDXlTCNblcaZVhsyM38Xnj7QoDIBhWtLYpyDgVNvMlb/xM8glcOd4ugIElRMlHz+QDupdeei+9wz0aku5KeZz8ezok4yCedfOXdFItXjmgLIh5JiIWaC4D7dXUREv+ljgtRMTes8kMi4ThobY2d3OoCRPekIjGV2myRsbOlpQwJmg6DW7WMlKUjsa6cXQiLCoeNwC4xHMHT79sUm0eBST962rMPw+770rtryJjWRu6zRu//jZ0q4wrEElltrcr46fb1gcdhG6ySUgShmh0gCfDf0KPf2HqwL5zac3rfKRg5+ciozwOXpOV6TWkXLnaOfEkhHSiLbsFYnqdJe8u8Nql6JQ0ZhWyDAA8oxUd4iB32b3pbvRs+Ysm91WzqjeSyByk8JAPqNJxAkYJKP7MOQLduMgyNtHZthDSdSQVx1RoTTwR2LvDyKoDCIR68neK1N/Zdybh+tDOXQNbrbs9nc6KWj/ZhHZ24jJX43TmaRdVtd6Dg2bmJ23Cd88NRqxkGzuQbxZfdsec5XTudemMMcB7XbBhwiie0kPNjuzAESwF6BBkcOGaAeFoKecCJf5DYzw+qu220tL9zkTsMFW8NdnMyiVidSAHJSWnzQfl1fViqytJCm65fSXjRg==
+X-Microsoft-Antispam-Message-Info: Q2+U8pY4tkLAahi9zOsw6BwXeVyeL6V112ztWKf17jLgEnO9lJ6KGe8vg+Ko2x238IOEW87jR2a1r8RpSwayJ/P6SOZC25EDf4XkAjk7GpLFg4AKb6fS3iSzkFRvTPa3duLvRCSw9/SQ9chBqTYjhhgR7J29wcKy15M4HwUWaGAFwXg+91xBV9UGHj6Y9hu1IEF3igNc9rfUbaGEfdiu0vol1EyMMkcp2HscEjmVXxOuvUR/kKapMvpOshmi7X/GgbGTQ9KFRis8SxF/DQNrfQpI3koZ64QHQ91L3A112hNt2k6h24yHb+c9UU4a+ePzUcDoGlf+WMjD5aOzrIS4XJkcCjWvTq1vywDTEMCXmuzVLPGnwbJN/U1RygK2Z5lp/VwgHdHM6qjDs7rpjN1o5R87gmS1ZXqJDrsPih+vVVjTMvwpryRmHdE0XVxIyuVqxSM0ArWnyTejn+Orm6arckEjk2yyO/vTsGkLi46DKwuyomFFz60mIkuxqmLxkyeGE1Onrc9CYpgWius0LrhGagkPSWhTZ1wUKgYG2LgRLjFFH38jP/Tvhu06UbqqZ+DwnhxyOL4ITFa7JwAEg64gCdiRU8n5aHUGkAVeSwuR95EHwxLw8efK2GO7Nipl8pmjAelmrPDih5tNQkr9pIiboZf5CN56WAWsv+aIkr6kVton5bD7Zi0gWJegNZ+quhRg65c9oTYm4CCU4nA3CH/9/lSMelsuNV8lyTu6UEtuMBv+8qYKufaTC1Fw6HwXEYPZnlElM5Ikjme1Kf0rAV7PM3mvZNWW0hNygoA5zLfd0FN7a8wadcgJ9WSjMoqLwHdR
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(39860400002)(376002)(396003)(346002)(6916009)(2616005)(66556008)(36756003)(6666004)(6486002)(83380400001)(7696005)(52116002)(2906002)(66476007)(316002)(4326008)(186003)(38100700002)(66946007)(38350700002)(8676002)(8936002)(956004)(86362001)(5660300002)(44832011)(54906003)(478600001)(1076003)(26005)(7416002);
+ SFS:(4636009)(366004)(136003)(39860400002)(376002)(396003)(346002)(6916009)(2616005)(66556008)(36756003)(6666004)(6486002)(83380400001)(7696005)(52116002)(2906002)(66476007)(316002)(4326008)(186003)(38100700002)(66946007)(38350700002)(8676002)(8936002)(956004)(86362001)(5660300002)(44832011)(966005)(54906003)(478600001)(1076003)(26005)(7416002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?omKuYw+JW2UfJRIKm2fzRKq2C/kdiMcPaQBekhgAIDwgm9iobJxrWv0iGj3c?=
- =?us-ascii?Q?jBgGs1TqZFp8BFzpE5sb6uHDtD3194K4BNUbVmJ24lSAWHPSJzA0eWGKq0S0?=
- =?us-ascii?Q?Hfc1fs9PAa5uxAQOyBEQBwdw0cHXBc9ceYPn2dwnBmkmMIfvzx7YVzCZvZGs?=
- =?us-ascii?Q?65hlyiamExEc0FsxUNlkg8HMvnWTdQSt+hO4FX+yZ14E5ouE7dIabiKepjEg?=
- =?us-ascii?Q?uzrK/GCmKrbbMt/wM95KqepJQ3eWVr4LF0/aekCaAm3NjyKx7WMjKSs3q/HK?=
- =?us-ascii?Q?x4fpk3U007yTy2yUyLljVTAIpwyJTHMrf0OgVP4NMrCyZBh3coVWxGrUy4kT?=
- =?us-ascii?Q?S5kFwB8ZZhlZ8OU4caIo3/8FwcaFRn6HBxC/sF6TlhQDVX63TPwdqdtYhqtq?=
- =?us-ascii?Q?l1RlTXRVNdnYMQ2XgL8qOzHkk29Asmb4f66ov1V1yJ8X6rtatE8iKYyHY8b9?=
- =?us-ascii?Q?4aZ7lMUbjZE7h5FGHp3xZfNEXk2OX4QWPjTMx/gC7c6V5hC8IWjD4ZUnES89?=
- =?us-ascii?Q?LeIVfBBHV49gG8K+p5FfFArL+2Nk/DCLFgC2vZjOl3xmQG2npZgfDw3QKzrB?=
- =?us-ascii?Q?b5P/OZQ2WNX/RhZCeSdf2rJD3rFNe8qDBbsBz7FXe6H2+UEdylp6g3ozuC4D?=
- =?us-ascii?Q?zjNEbBD05iWtlXURaxuRjUeX1u+/YTDZSG9XfoLZL2gqVvZ182EnU2bnIWir?=
- =?us-ascii?Q?MBT3zebgheDT/GThXFuP8bsIt8TqMLV2xgq7Qo79wAoxj3nES/bG3Hpl+TTc?=
- =?us-ascii?Q?QHLN5SUHd5wCdtmk2VyvbnEQap8E7ejaH4Nz7NZZL47uQkkGEstk5g6S2t0u?=
- =?us-ascii?Q?qfmYYQ+aI+EwQbyFpdFBDaeJUdlwt/KzaCRwWo34HsxAHIjD7Be9xaY7TvPX?=
- =?us-ascii?Q?zPyazO/DuYwxn99GTritNGSrkVNpXhUdhtOuDCvKC4wayi1bDjyRrbHXqvf1?=
- =?us-ascii?Q?+r9MQIAwqr99X4ebOFCwibMrArZd4+s+recZseBrdIRaYLAY+NmT/nhgeQbB?=
- =?us-ascii?Q?w38MuE8wxndaFGqR+DlD8pNqnQIPy5mmLI6/I/9xOy8sX1ZybsIQeH9xIG6g?=
- =?us-ascii?Q?ZGtZs7k473ZZyy8/S30hR4ebWOm2Gic9P4N4uYqNjr0QyCM/C94WvpkHMUSQ?=
- =?us-ascii?Q?ywJm3jrPuOYVPtWjbw9nTGrZPMtlVDOBbZK+wVoqYFFRIpkExNBPWu5CpBFj?=
- =?us-ascii?Q?BVTag6aXfsnI+0bnvZBkbXjkvZ1o2CeCCMCec6JXWmsLSykUISO8AikNJDRi?=
- =?us-ascii?Q?P/Z0MrAKY2LA42F7rRgXPFU6A4ADismGeN9tg41FEfw7czfq3/d4ktwml3Oq?=
- =?us-ascii?Q?7FM3ySuOl9WwUXzoKN9Wwr/f?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hB6a9zy/B0E2F/NENvYkOdEleWTURdzdORMK1S/bCySOn8F6/D+NTcv6lTw2?=
+ =?us-ascii?Q?fUEbHte4QPPQ9KIQpgl5ZRJ6fPy939LKTknX3Wzt5AY7wgW+uWJWRgynk7J5?=
+ =?us-ascii?Q?C3+3B1RLf4UT9TYrdstiqsiLMFps/V5heNgARirLZhxHwrxOAGneuGABKY3P?=
+ =?us-ascii?Q?fzrk6y+0eLeWrnsquKp5fvOZ0BfErYDcpnjiYnMO4sH6DTNsrzrmupC/zGfR?=
+ =?us-ascii?Q?ZwnBqDakNMOfjRF/YZzaAKF87lrx4tN8RWFW9gNlrZumZnnetlm39P9MP95/?=
+ =?us-ascii?Q?S2ohpytAR2Mjt+a8JVRcxKJ4DB9cqT8zXZ6TxfvmApxSkRwI6GfcJrihIwhF?=
+ =?us-ascii?Q?yjS/ZLrSft5j7bGl0j1rzGgWuE/aIr5WoOx38br1by7Nj4cc2TYE5BihdyBv?=
+ =?us-ascii?Q?W/wZiBvORW+P1VDIFkTGUQHORTrtciOFB7N0f2HSlG1RwEOzcYbMSAqGmzen?=
+ =?us-ascii?Q?/QkKDvXKi6kV1mL53DE5YbCvLAXJRZ6P8wbSItGrzA1dD2NgtiL4o/YNVcsr?=
+ =?us-ascii?Q?E+fKHwcDqzcrIya05fr6486K6+h7e5DPtVTlOiVUmK5FafRsFM2vGD+2rEU+?=
+ =?us-ascii?Q?+NXc174APDEtCL/Y1k2FlAusWbLvD8orjbTnpk9bXG0QPQ5joFSGWWWUwYPs?=
+ =?us-ascii?Q?CrTIpZnNe1ZYSN56iQEld9VbDz+mxbzgTVf0S0RIpnpDXf4KM5acCg/bmT2t?=
+ =?us-ascii?Q?99l/1QwHDYuL0qULUmWjsWI95RTKG+tc9F30qQ3wIchpwcFw22wiJAQ/mr/Q?=
+ =?us-ascii?Q?jghJCJ7yI6XCERtvTWe9iOeESvgjRCw0dcBwlN7E2P6I50Li1h0SbXxzF2Ml?=
+ =?us-ascii?Q?F3HWhv3pOuiCKFLDGz5vhfItIw+UHWoy+VaKD/NuHl0sECB0RdZ3fWNZl8bm?=
+ =?us-ascii?Q?RJFBq0JGNf8UoQ6P/l+F5P7OPQFAA78YEF/G9oRF8MMRHFBsUX750MzFR9gE?=
+ =?us-ascii?Q?tWVg/bVaCN1d1veRC7J0ODbTHCDRdPIzSBekjnMVvU1kAb2gmhpuGjKEZJix?=
+ =?us-ascii?Q?xfx7t3BIuTRtrrtJiTGYotz4b8yustNyEZj8yKCtjG3lLI2cetgIWLJV25z6?=
+ =?us-ascii?Q?mIpg37kvMrKoRmsa9omtWKzRsFUprH+SHhWVMiPYEhxd0MldYg5VtuZkoM2Z?=
+ =?us-ascii?Q?y7xh7aoCN8XxPsroHgIg0bQS64+YETcQ1YC0pVBeH1/PM2zSYjZ5DQ3m6pfM?=
+ =?us-ascii?Q?eINHvzrLopC1pZXltyvO+sHjgYeQmTvDYZLCQ3Mkcz0rj4i8pwNv6iFQVOv6?=
+ =?us-ascii?Q?9v12eORGxuFEgeltUYOJ4hzntdkDg1L0trKzqeuGj9j3MVJYIIvRq5nSfjzo?=
+ =?us-ascii?Q?gB0Drp7jo+XlAZjuvRW0lt8S?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35fd1136-dac2-4def-46ad-08d943245dc9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c191492-2929-433d-8346-08d943245c1d
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2021 21:56:12.2610 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2021 21:56:09.4406 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LP3G8LG2TyVHnSqA9mdHCDi3/SyXvpiXbXI7fZ5EnV6Oo0BRlPlM5UjMZrdGwe1YqI9XaLvmsx1aXeo00Aa+0g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7jHxiIMEBQSxC6IAAFbH6nuD3AJqpOJmfdqNikSHV9xm7b/YfH9L5IrqWDaSQwkDHcefQ8/BnbBWeS0SJ/1DHA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4575
-Received-SPF: softfail client-ip=40.107.243.67;
+Received-SPF: softfail client-ip=2a01:111:f400:fe5a::61d;
  envelope-from=brijesh.singh@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -149,72 +147,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SNP_LAUNCH_START is called first to create a cryptographic launch
-context within the firmware.
+SEV-SNP builds upon existing SEV and SEV-ES functionality while adding
+new hardware-based memory protections. SEV-SNP adds strong memory integrity
+protection to help prevent malicious hypervisor-based attacks like data
+replay, memory re-mapping and more in order to create an isolated memory
+encryption environment.
 
-Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
----
- target/i386/sev.c        | 30 +++++++++++++++++++++++++++++-
- target/i386/trace-events |  1 +
- 2 files changed, 30 insertions(+), 1 deletion(-)
+The patches to support the SEV-SNP in Linux kernel and OVMF are available:
+https://lore.kernel.org/kvm/20210707181506.30489-1-brijesh.singh@amd.com/
+https://lore.kernel.org/kvm/20210707183616.5620-1-brijesh.singh@amd.com/
+https://edk2.groups.io/g/devel/message/77335?p=,,,20,0,0,0::Created,,posterid%3A5969970,20,2,20,83891508
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 84ae244af0..259408a8f1 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -812,6 +812,29 @@ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
-     return 0;
- }
- 
-+static int
-+sev_snp_launch_start(SevGuestState *sev)
-+{
-+    int ret = 1;
-+    int fw_error, rc;
-+    struct kvm_sev_snp_launch_start *start = &sev->snp_config.start;
-+
-+    trace_kvm_sev_snp_launch_start(start->policy);
-+
-+    rc = sev_ioctl(sev->sev_fd, KVM_SEV_SNP_LAUNCH_START, start, &fw_error);
-+    if (rc < 0) {
-+        error_report("%s: SNP_LAUNCH_START ret=%d fw_error=%d '%s'",
-+                __func__, ret, fw_error, fw_error_to_str(fw_error));
-+        goto out;
-+    }
-+
-+    sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
-+    ret = 0;
-+
-+out:
-+    return ret;
-+}
-+
- static int
- sev_launch_start(SevGuestState *sev)
- {
-@@ -1105,7 +1128,12 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-         goto err;
-     }
- 
--    ret = sev_launch_start(sev);
-+    if (sev_snp_enabled()) {
-+        ret = sev_snp_launch_start(sev);
-+    } else {
-+        ret = sev_launch_start(sev);
-+    }
-+
-     if (ret) {
-         error_setg(errp, "%s: failed to create encryption context", __func__);
-         goto err;
-diff --git a/target/i386/trace-events b/target/i386/trace-events
-index 2cd8726eeb..18cc14b956 100644
---- a/target/i386/trace-events
-+++ b/target/i386/trace-events
-@@ -11,3 +11,4 @@ kvm_sev_launch_measurement(const char *value) "data %s"
- kvm_sev_launch_finish(void) ""
- kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
- kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
-+kvm_sev_snp_launch_start(uint64_t policy) "policy 0x%" PRIx64
+The Qemu patches uses the command id added by the SEV-SNP hypervisor
+patches to bootstrap the SEV-SNP VMs.
+
+TODO:
+ * Add support to filter CPUID values through the PSP.
+
+Additional resources
+---------------------
+SEV-SNP whitepaper
+https://www.amd.com/system/files/TechDocs/SEV-SNP-strengthening-vm-isolation-with-integrity-protection-and-more.pdf
+
+APM 2: https://www.amd.com/system/files/TechDocs/24593.pdf (section 15.36)
+
+GHCB spec:
+https://developer.amd.com/wp-content/resources/56421.pdf
+
+SEV-SNP firmware specification:
+https://www.amd.com/system/files/TechDocs/56860.pdf
+
+Brijesh Singh (6):
+  linux-header: add the SNP specific command
+  i386/sev: extend sev-guest property to include SEV-SNP
+  i386/sev: initialize SNP context
+  i386/sev: add the SNP launch start context
+  i386/sev: add support to encrypt BIOS when SEV-SNP is enabled
+  i386/sev: populate secrets and cpuid page and finalize the SNP launch
+
+ docs/amd-memory-encryption.txt |  81 +++++-
+ linux-headers/linux/kvm.h      |  47 ++++
+ qapi/qom.json                  |   6 +
+ target/i386/sev.c              | 498 ++++++++++++++++++++++++++++++++-
+ target/i386/sev_i386.h         |   1 +
+ target/i386/trace-events       |   4 +
+ 6 files changed, 628 insertions(+), 9 deletions(-)
+
 -- 
 2.17.1
 
