@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A620A3C2691
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:03:51 +0200 (CEST)
-Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A8B3C2688
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:02:50 +0200 (CEST)
+Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1s2g-0001zr-Km
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52090)
+	id 1m1s1h-0007QF-56
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:02:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1ru0-0003fT-Mc
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:54:52 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:43524)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1ryl-00052A-Cb
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:59:47 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1rtw-0007XC-Ju
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:54:50 -0400
-Received: by mail-pg1-x532.google.com with SMTP id y4so7719449pgl.10
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:54:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1rye-0001ah-Go
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:59:47 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id v20so16697332eji.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6DLXXNgKWNvo3Ca1rHwRL3HqH1j0ZLdvm4mhFcWFB84=;
- b=PbAczMW6IB5kQcGGfIKJts86rsclSXebIKlNTl4zIiKrR2efPtpXT/8Wr5nisx1O0f
- 5P1yUr4zLV+CYjExlbXsTIHMQFWjQdGz6uJu2jy0gQAaMaRKPh7ZKYB9Uqwb1roX/nnh
- GRBXZuf8bPNaHVkO6VOAE1/ztXQJauP8gTH3hYUScg8/vBbqMMAhQInSpXK+Q57MsrD5
- rtI8y13zd49fG/PAUczS1j2JonlJEF569ACKiG2RKQAibugyURsMvwRpcerGbM3P5FQq
- b2iiHLMrdABgZ4UteJXqSHq1laDkb5BQsi+3SXuYvGXxar+TD7NfUq8WQ8kv1y57b3JI
- MFzA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VSCGHtuA7PpdVeFnwuC+PVVL1xGL4aO58YAuwbed1+o=;
+ b=dvnXFZo7T9zkISb6SyHXRPQObUGwIEDKowhr7in1AyQf4ZDpsr8ZOpM3rqPRSavPwd
+ NmUs1HwtDTWiJ5uOdo8UjvBXAztBW3zPljKcIj4mMNvUmREP1Iu0/DZyqiiK3iDQIUph
+ N3l5TuP74IihrccwflcInoprDd/idDeeC84B19cdNrF7TxKFQxtwRmzqR6Z6+XcG5yoV
+ EvrBmCYVFIKwc3zixCQCMTs581hr9dEQjmjsDnuYq3I9sBXmg8shv6evLzmdjGB1lfeg
+ qSoICiYCQ9IHuvRyb0erdUVZfczOCcpYuMXUb+w8kcZcxZLELDpUDUBHemrO3kQjjrlA
+ d5Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6DLXXNgKWNvo3Ca1rHwRL3HqH1j0ZLdvm4mhFcWFB84=;
- b=L5MlpGb+ACfznbWqa5K5AgA+5S7gSt5Nb3a4/2peQgu/WH4pYnIh7fZd5UE6fJQZz/
- iVsqFp6Pru/N11k8VeiqLpulEZb6VApKasBuHP2hNaR/NkVxWrDwHaB8EVcVOMlqN7ib
- M/dfq9E5oxM46yl9t5yG1yRilbPvTKWvmxObZVhAx1Wt2Mk8wfBm3VpSGE2SC6b/4udD
- HnhgXIuvj7gniXCAe0/6gvIvmQHIKvUVDtLKGACHp6SpkSGZOrTX8g0lZkSWAtZLobdn
- bBRxGDXtVPX0FuL+qg9cNISc9rfuohMco9ONfdwqTY2xwAJs6a8yWK+zphU75Vc3EJeR
- sdxw==
-X-Gm-Message-State: AOAM530l8Ux0wY5SM4GgGB3aBxn2Cpgflx6ug9GEcMFBYmnbXVhU35cd
- 66E1Z2TmXbyw5bkmCAS7f83ApA==
-X-Google-Smtp-Source: ABdhPJzVq3hz8iqrrNDKPdzWOGK2coKGNQ2qDRVz8vbhN6LWuHvTdt1oORFx9+hd5oWPqm4SHSGrxA==
-X-Received: by 2002:a62:148a:0:b029:30f:be14:3b35 with SMTP id
- 132-20020a62148a0000b029030fbe143b35mr37949320pfu.23.1625842486710; 
- Fri, 09 Jul 2021 07:54:46 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id o72sm5234139pfg.44.2021.07.09.07.54.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 07:54:46 -0700 (PDT)
-Subject: Re: [PATCH] util/guest-random: Fix size arg to tail memcpy
-To: Mark Nelson <mdnelson8@gmail.com>, qemu-devel@nongnu.org
-References: <20210709120600.11080-1-mdnelson8@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <37b87b8e-bd7a-6814-897f-bb8fca77aa61@linaro.org>
-Date: Fri, 9 Jul 2021 07:54:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VSCGHtuA7PpdVeFnwuC+PVVL1xGL4aO58YAuwbed1+o=;
+ b=nQ/qLW81SNtNW+7YAxIiPWL5DK1n5InTbJoPeX0UfHAVHwxLeFu68K6AMyI2+zH/lg
+ dKMkZr2BbHVgxALDL66Pd4nGRz4azPHwPAD4qcAfo6XkF6X9aKNAeMj6IqTiCRr9mS1y
+ /pNsdq8sLJ6SfhZFnVVD4m5jjp3g7Z/3bsHCkIuv7V2Beg8MlFSRSsZuu/TwbKlhp2il
+ LCCUrr9TF6rjDjerJoxKyIQWYFUn4m/xH7DwolDNPJhCO7wezfrHV7u37x0gksGWJBrG
+ 64zRzruR+OBHYztYVOQCrd8YoUWnLmpkSVfmadCOgnNZjVGRI27Gn8nKZqmmo32bv5Q3
+ Difw==
+X-Gm-Message-State: AOAM532CgZFc2yNoeMtCGw/v6L6VsgakuppK0RbU0rOrAsn2zAh/emXb
+ 0o8pxdAn7Q4J+vOnwVB7SEZB9enXL7V3lBFrMoQCJg==
+X-Google-Smtp-Source: ABdhPJyRRST1qCAhRG7ywasx7qjvRbYQFm+gLAwoFV9J8twlRXi4Z8ANPXXUKzXA6GsfhYJRMgX0p44lmxwe6OAbWjQ=
+X-Received: by 2002:a17:907:9701:: with SMTP id
+ jg1mr27104382ejc.56.1625842778976; 
+ Fri, 09 Jul 2021 07:59:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210709120600.11080-1-mdnelson8@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+References: <20210707150157.52328-1-mst@redhat.com>
+In-Reply-To: <20210707150157.52328-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Jul 2021 15:59:00 +0100
+Message-ID: <CAFEAcA-nPAOTOVzAmHtfyMWNRF6iu9JLcrcScbVooKZmKZFXjg@mail.gmail.com>
+Subject: Re: [PULL 00/13] pc,pci,virtio: bugfixes, improvements
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,22 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/21 5:06 AM, Mark Nelson wrote:
-> We know that in the body of this if statement i is less than len, so
-> we really should be copying len - i bytes not i - len bytes.
-> 
-> Fix this typo.
-> 
-> Signed-off-by: Mark Nelson<mdnelson8@gmail.com>
-> ---
->   util/guest-random.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, 7 Jul 2021 at 16:02, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit 9c2647f75004c4f7d64c9c0ec55f8c6f0739a8b1:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-07-02 11:46:32 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to e3e01466bff42b5ea977340d8d7d90df482b0c97:
+>
+>   MAINTAINERS: Add maintainer for vhost-user RNG implementation (2021-07-07 06:11:22 -0400)
+>
+> ----------------------------------------------------------------
+> pc,pci,virtio: bugfixes, improvements
+>
+> vhost-user-rng support.
+> Fixes all over the place.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
