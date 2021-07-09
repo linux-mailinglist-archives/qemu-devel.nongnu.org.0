@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CC33C1E9C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:47:01 +0200 (CEST)
-Received: from localhost ([::1]:52970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 549103C1E9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:49:15 +0200 (CEST)
+Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iPk-00047b-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:47:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54048)
+	id 1m1iRu-0008Fo-5W
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i68-0006cR-Cr
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33250)
+ id 1m1i6C-0006iC-Cx
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5n-0001P8-RX
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:44 -0400
+ id 1m1i5n-0001Rc-Rw
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i5W-0005Dm-Io
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:26:07 +0000
+ id 1m1i5X-0005Ev-OM
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:26:08 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 230932E819E
+ by loganberry.canonical.com (Postfix) with ESMTP id D1A662E8268
  for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Fri, 09 Jul 2021 04:17:32 -0000
-From: Launchpad Bug Tracker <1861161@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1849894@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor philippe-vaucher pmaydell th-huth
-X-Launchpad-Bug-Reporter: Philippe Vaucher (philippe-vaucher)
+X-Launchpad-Bug-Commenters: baryluk janitor philmd th-huth
+X-Launchpad-Bug-Reporter: Witold Baryluk (baryluk)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <158022582642.18726.3284794136336139049.malonedeb@gac.canonical.com>
-Message-Id: <162580425236.19936.973276260916121260.malone@loganberry.canonical.com>
-Subject: [Bug 1861161] Re: qemu-arm-static stuck with 100% CPU when
- cross-compiling emacs
+References: <157203451253.3372.9480827920211406597.malonedeb@gac.canonical.com>
+Message-Id: <162580425303.19936.6012066571358095098.malone@loganberry.canonical.com>
+Subject: [Bug 1849894] Re: hw/scsi/scsi-disk.c line 2554 allocation overflow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 8679ba4f4292f8239a34cdc1b84c2eb291ca7aa9
+X-Launchpad-Hash: d62fe7196e4c3087fa1604e8e223043d37c8ff45
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861161 <1861161@bugs.launchpad.net>
+Reply-To: Bug 1849894 <1849894@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,91 +83,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861161
+https://bugs.launchpad.net/bugs/1849894
 
 Title:
-  qemu-arm-static stuck with 100% CPU when cross-compiling emacs
+  hw/scsi/scsi-disk.c line 2554 allocation overflow
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello,
+  When compiling qemu from git master (at commit
+  03bf012e523ecdf047ac56b2057950247256064d ) on Linux amd64, with gcc-9
+  9.2.1 , and using `-march=3Dnative -flto`, during linking of most target
+  binaries, compiler does detect an issue with allocation in
+  scsi_disk_new_request_dump and aborts compilation.
 
-  I'm trying to build multi-arch docker images for
-  https://hub.docker.com/r/silex/emacs.
+  =
 
-  Here is the machine I'm building on (hetzner cloud machine):
+  make[1]: Entering directory '/home/user/qemu/slirp'
+  make[1]: Nothing to be done for 'all'.
+  make[1]: Leaving directory '/home/user/qemu/slirp'
+  nm: stats64.o: no symbols
+    LINK    aarch64-softmmu/qemu-system-aarch64
+  In function =E2=80=98scsi_disk_new_request_dump=E2=80=99,
+      inlined from =E2=80=98scsi_new_request=E2=80=99 at hw/scsi/scsi-disk.=
+c:2580:9,
+      inlined from =E2=80=98scsi_new_request=E2=80=99 at hw/scsi/scsi-disk.=
+c:2564:21:
+  hw/scsi/scsi-disk.c:2554:19: error: argument 1 value =E2=80=9818446744073=
+709551612=E2=80=99 exceeds maximum object size 9223372036854775807 [-Werror=
+=3Dalloc-size-larger-than=3D]
+  hw/scsi/scsi-disk.c: In function =E2=80=98scsi_new_request=E2=80=99:
+  /usr/include/glib-2.0/glib/gmem.h:78:10: note: in a call to allocation fu=
+nction =E2=80=98g_malloc=E2=80=99 declared here
+     78 | gpointer g_malloc         (gsize  n_bytes) G_GNUC_MALLOC G_GNUC_A=
+LLOC_SIZE(1);
+        |          ^
+  lto1: all warnings being treated as errors
+  lto-wrapper: fatal error: c++ returned 1 exit status
+  compilation terminated.
+  /usr/bin/ld: error: lto-wrapper failed
+  collect2: error: ld returned 1 exit status
 
-  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
-  No LSB modules are available.
-  Distributor ID: Ubuntu
-  Description:    Ubuntu 18.04.3 LTS
-  Release:        18.04
-  Codename:       bionic
-  root@ubuntu-4gb-fsn1-1:~# uname -a
-  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
-:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
 
-  Whenever I try to build the following alpine Dockerfile
-  https://gitlab.com/Silex777/docker-
-  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
+  same happens for most other targets: alpha-softmmu/qemu-system-alpha
+  arm-softmmu/qemu-system-arm hppa-softmmu/qemu-system-hppa i386-softmmu
+  /qemu-system-i386 lm32-softmmu/qemu-system-lm32 mips-softmmu/qemu-
+  system-mips mips64-softmmu/qemu-system-mips64 mips64el-softmmu/qemu-
+  system-mips64el mipsel-softmmu/qemu-system-mipsel ppc-softmmu/qemu-
+  system-ppc ppc64-softmmu/qemu-system-ppc64 riscv32-softmmu/qemu-
+  system-riscv32 riscv64-softmmu/qemu-system-riscv64 s390x-softmmu/qemu-
+  system-s390x sh4-softmmu/qemu-system-sh4 sh4eb-softmmu/qemu-system-
+  sh4eb sparc-softmmu/qemu-system-sparc sparc64-softmmu/qemu-system-
+  sparc64 x86_64-softmmu/qemu-system-x86_64 xtensa-softmmu/qemu-system-
+  xtensa xtensaeb-softmmu/qemu-system-xtensaeb
 
-  $ sysctl kernel.randomize_va_space=3D0
-  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-  $ docker build --pull -t test --platform arm .
+  Notice -softmmu being a common factor here.
 
-  It builds fine until this:
 
-  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
-  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
-../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
-ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
+  The size of the allocation for the temporary buffer for dumping using
+  snprintf is determined based on the size of the buffer via call to
+  scsi_cdb_length. I believe the heavy inlining and constant propagation
+  makes scsi_cdb_length return -1, so len =3D -1. Then allocation size is
+  5*len + 1, or -4. Which overflows to 2^64 - 4 or so.
 
-  This is supposed to take a few seconds, but here it takes 100% CPU and
-  never ends. When I strace the process I see a never ending loop like
-  this:
+  The case of len=3D=3D-1 from scsi_cdb_length happens if the (buf[0] >> 5)
+  is not 0, 1, 2, 4 or 5.
 
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
+  However, I can't find out how gcc figures out that buf[0] is not one
+  of these variables. To me looking at this function, compiler should
+  not know anything about buf[0].
 
-  It happens with all the QEMU versions I tested:
-  - 2.11.1 (OS version)
-  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
-  - 4.2.0-2 (from multiarch/qemu-user-static)
+  I tried following the chain of calls back, including devirtualize
+  alloc_req, and I found scsi_device_alloc_req calling these alloc_req
+  callbacks, but it is itself called from scsi_req_new, which is called
+  in  get_scsi_requests , just after buf is filled from QEMUFile using
+  qemu_get_buffer, which ultimately goes even further into read paths,
+  which there might be many AFAIK.
 
-  Any ideas of what I could do to debug it further?
 
-  Kind regards,
-  Philippe
+  =
 
-  p.s: Everything builds fine when the base image is ubuntu. I also had
-  similar hangs with basic commands like "apt-get install foo"
-  sometimes.
+  glib2 version 2.62.1-1
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861161/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1849894/+subscriptions
 
