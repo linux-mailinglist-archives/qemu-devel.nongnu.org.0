@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347F53C25A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:13:48 +0200 (CEST)
-Received: from localhost ([::1]:35854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC003C259D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:11:56 +0200 (CEST)
+Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rGF-00048k-8j
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44790)
+	id 1m1rEQ-0000Nr-Nb
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1rCc-0006cN-7U
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:10:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1rCZ-00046U-Ig
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1rCb-0006bo-LE
  for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:10:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53256)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1rCY-00045L-QE
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:10:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625839799;
+ s=mimecast20190719; t=1625839797;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=suXSCQ6TWeerNFFcI8xjK3T8KBmcwtadOKrLQvdXUNk=;
- b=Uc6QoJ0I86B3Mc93lU0zDI8js1neHVEYE4OxC7EHQ6qx27a4QN6MTSyYDAEynQnWrPg/dI
- DxJvr85zWFio+ZWP/5E5ghD8AWsb/RkjDEGGc+pxCpyWekcnxy2205qbIjeOpvFIZG2ehT
- HoXMmB/avqep2XTF477nO3mQM/NogqU=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z61ePvlSaDtFMoVMZCHsDlb3h0IMI07eDfvDMuWKcPE=;
+ b=GmqlqqGp8sdsudV3V8EKcq/Z9jo/73a9ffyydXSL4D1najYpApU+EDmi0OU3IwN6sPYwXv
+ 8VAo0Sw7D0A73B84RMUv/rAxC4p3wifAfwaeIFV6rikDevO6c6o1ybf9vw2HXv5ny9hRln
+ tQHFkuauy7Bly9KjwCW/SZ6bshQanj0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-J7BxEIs5Of--0GfMdKWp0A-1; Fri, 09 Jul 2021 10:09:55 -0400
-X-MC-Unique: J7BxEIs5Of--0GfMdKWp0A-1
+ us-mta-596-hZBC4h5fMvK_ajFUOEiZmQ-1; Fri, 09 Jul 2021 10:09:56 -0400
+X-MC-Unique: hZBC4h5fMvK_ajFUOEiZmQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64BB5CC622
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 14:09:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41A0C19200C0;
+ Fri,  9 Jul 2021 14:09:55 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3303D60C04
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 14:09:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93CAA60C04;
+ Fri,  9 Jul 2021 14:09:54 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] NBD patches for soft freeze, 2021-07-09
-Date: Fri,  9 Jul 2021 09:09:47 -0500
-Message-Id: <20210709140951.2775730-1-eblake@redhat.com>
+Subject: [PULL 1/4] iotests: Improve and rename test 309 to nbd-qemu-allocation
+Date: Fri,  9 Jul 2021 09:09:48 -0500
+Message-Id: <20210709140951.2775730-2-eblake@redhat.com>
+In-Reply-To: <20210709140951.2775730-1-eblake@redhat.com>
+References: <20210709140951.2775730-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -73,58 +76,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
+Enhance the test to inspect what qemu-nbd is advertising during
+handshake, and rename it now that we support useful iotest names.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
-
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-07-09
-
-for you to fetch changes up to 62967c9927ec4d733b923c70f9f5428dd1d2e0d7:
-
-  nbd: register yank function earlier (2021-07-09 08:27:33 -0500)
-
-----------------------------------------------------------------
-nbd patches for 2021-07-09
-
-- enhance 'qemu-img map --output=json' to make it easier to duplicate
-backing chain allocation patterns
-- fix a race in the 'yank' QMP command in relation to NBD requests
-
-----------------------------------------------------------------
-Eric Blake (3):
-      iotests: Improve and rename test 309 to nbd-qemu-allocation
-      qemu-img: Make unallocated part of backing chain obvious in map
-      qemu-img: Reword 'qemu-img map --output=json' docs
-
-Lukas Straub (1):
-      nbd: register yank function earlier
-
- docs/tools/qemu-img.rst                            |  17 +-
- qapi/block-core.json                               |   7 +-
- block/nbd.c                                        |   8 +-
- qemu-img.c                                         |   7 +-
- tests/qemu-iotests/122.out                         |  84 ++++-----
- tests/qemu-iotests/154.out                         | 190 +++++++++++----------
- tests/qemu-iotests/179.out                         | 133 ++++++++++-----
- tests/qemu-iotests/209.out                         |   4 +-
- tests/qemu-iotests/223.out                         |  56 +++---
- tests/qemu-iotests/244.out                         |  23 +--
- tests/qemu-iotests/252.out                         |  10 +-
- tests/qemu-iotests/274.out                         |  48 +++---
- tests/qemu-iotests/291.out                         |  24 +--
- tests/qemu-iotests/309.out                         |  22 ---
- .../{309 => tests/nbd-qemu-allocation}             |   5 +-
- tests/qemu-iotests/tests/nbd-qemu-allocation.out   |  32 ++++
- 16 files changed, 372 insertions(+), 298 deletions(-)
- delete mode 100644 tests/qemu-iotests/309.out
+Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210701190655.2131223-2-eblake@redhat.com>
+---
+ .../qemu-iotests/{309 => tests/nbd-qemu-allocation}  |  5 ++++-
+ .../{309.out => tests/nbd-qemu-allocation.out}       | 12 +++++++++++-
+ 2 files changed, 15 insertions(+), 2 deletions(-)
  rename tests/qemu-iotests/{309 => tests/nbd-qemu-allocation} (95%)
- create mode 100644 tests/qemu-iotests/tests/nbd-qemu-allocation.out
+ rename tests/qemu-iotests/{309.out => tests/nbd-qemu-allocation.out} (81%)
 
+diff --git a/tests/qemu-iotests/309 b/tests/qemu-iotests/tests/nbd-qemu-allocation
+similarity index 95%
+rename from tests/qemu-iotests/309
+rename to tests/qemu-iotests/tests/nbd-qemu-allocation
+index b90b279994c9..4ee73db8033b 100755
+--- a/tests/qemu-iotests/309
++++ b/tests/qemu-iotests/tests/nbd-qemu-allocation
+@@ -3,7 +3,7 @@
+ #
+ # Test qemu-nbd -A
+ #
+-# Copyright (C) 2018-2020 Red Hat, Inc.
++# Copyright (C) 2018-2021 Red Hat, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -32,6 +32,7 @@ _cleanup()
+ trap "_cleanup; exit \$status" 0 1 2 3 15
+
+ # get standard environment, filters and checks
++cd ..
+ . ./common.rc
+ . ./common.filter
+ . ./common.nbd
+@@ -57,6 +58,8 @@ echo
+ $QEMU_IMG map --output=json -f qcow2 "$TEST_IMG"
+ IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
+ nbd_server_start_unix_socket -r -f qcow2 -A "$TEST_IMG"
++# Inspect what the server is exposing
++$QEMU_NBD --list -k $nbd_unix_socket
+ # Normal -f raw NBD block status loses access to allocation information
+ $QEMU_IMG map --output=json --image-opts \
+     "$IMG" | _filter_qemu_img_map
+diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/tests/nbd-qemu-allocation.out
+similarity index 81%
+rename from tests/qemu-iotests/309.out
+rename to tests/qemu-iotests/tests/nbd-qemu-allocation.out
+index db75bb6b0df9..c51022b2a38d 100644
+--- a/tests/qemu-iotests/309.out
++++ b/tests/qemu-iotests/tests/nbd-qemu-allocation.out
+@@ -1,4 +1,4 @@
+-QA output created by 309
++QA output created by nbd-qemu-allocation
+
+ === Initial image setup ===
+
+@@ -14,6 +14,16 @@ wrote 2097152/2097152 bytes at offset 1048576
+ [{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true, "offset": 327680},
+ { "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 327680},
+ { "start": 3145728, "length": 1048576, "depth": 1, "zero": true, "data": false}]
++exports available: 1
++ export: ''
++  size:  4194304
++  flags: 0x58f ( readonly flush fua df multi cache )
++  min block: 1
++  opt block: 4096
++  max block: 33554432
++  available meta contexts: 2
++   base:allocation
++   qemu:allocation-depth
+ [{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+ { "start": 3145728, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
+ [{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": true, "offset": OFFSET},
 -- 
 2.31.1
 
