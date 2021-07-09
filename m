@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3499D3C1E41
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:27:55 +0200 (CEST)
-Received: from localhost ([::1]:42702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413333C1E42
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:27:59 +0200 (CEST)
+Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1i7F-0008Be-UM
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:27:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53244)
+	id 1m1i7K-0008O3-6q
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5H-0005MY-QG
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:51 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60056)
+ id 1m1i5J-0005OD-80
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5E-00018W-Ls
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:51 -0400
+ id 1m1i5G-0001Al-NS
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i58-0005Di-Jx
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:42 +0000
+ id 1m1i5D-0005Ev-Ch
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 698CF2E8181
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5D5162E817F
+ for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1903493@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 04:17:20 -0000
+From: Launchpad Bug Tracker <1902262@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor s12a th-huth
-X-Launchpad-Bug-Reporter: ssedt (s12a)
+X-Launchpad-Bug-Commenters: janitor jl939612 th-huth
+X-Launchpad-Bug-Reporter: Jingtao (jl939612)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160490836647.18396.16400473727011669931.malonedeb@wampee.canonical.com>
-Message-Id: <162580423975.19936.16387407835288706909.malone@loganberry.canonical.com>
-Subject: [Bug 1903493] Re: About wireless network card bridging
+References: <160407285408.8291.17235632998408436942.malonedeb@soybean.canonical.com>
+Message-Id: <162580424037.19936.6950295049267446483.malone@loganberry.canonical.com>
+Subject: [Bug 1902262] Re: vmstate_load_state return error into virtio_load
+ function
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: f7d4b354f82673f339e853c10cdb1c56df906714
+X-Launchpad-Hash: 352384a96a40e3f880eb0e1528108008b8bb75ab
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1903493 <1903493@bugs.launchpad.net>
+Reply-To: Bug 1902262 <1902262@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,27 +84,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1903493
+https://bugs.launchpad.net/bugs/1902262
 
 Title:
-  About wireless network card bridging
+  vmstate_load_state return error into virtio_load function
 
 Status in QEMU:
   Expired
 
 Bug description:
-  As a rookie, I don=E2=80=99t know if I should ask this question here. If =
-it=E2=80=99s
-  not right, I hope people who see it can help submit it to the right
-  place.Can Qemu or kvm add wireless network card bridging ? after all,
-  now you see that vbox and vmware can directly choose wireless network
-  card bridging, and even hyper-v can be easily set up, arp proxy is too
-  difficult for us rookies . I hope that qemu or other links can add a
-  function to bridge the wireless network card, which can be directly
-  set in virt-manager (for so many years, it seems that I can only use
-  bridge-utils to bridge the Ethernet,and Now more and more laptops
-  don't have Ethernet ports)
+  Qemu version 4.2.1
+
+  In the function of virtio_load, the vmstate_load_state will return
+  error in the following case.
+
+  The virtio is legacy mode(disable-modern=3Don,disable-legacy=3Doff),
+  virtio_device is in reset state.
+
+  In the the function of "vmstate_load_state", it will load all subsection.=
+ For the vmstate_virtio_extra_state subsection. =
+
+  It will execute:
+  vmstate_load_state   -->
+            ret =3D field->info->get(f, curr_elem, size, field);    line 14=
+3  vmstate.c.
+             -->virtio_pci_load_extra_state
+                          -->  vmstate_load_state
+                                   -->qemu_peek_byte
+  But if the f->buf_index is same with buf_size, qemu_peek_byte function wi=
+ll set "-EIO" error. =
+
+  the field->info->get will return 0, then it will get the error "ret =3D q=
+emu_file_get_error(f);". then the vmstate_load_state will return error.
+
+  It output is "Failed to load virtio/extra_state:extra_state"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1903493/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1902262/+subscriptions
 
