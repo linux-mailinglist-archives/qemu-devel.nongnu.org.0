@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77E83C1E7B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:36:55 +0200 (CEST)
-Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2DF3C1EA3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:52:11 +0200 (CEST)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iFy-0006qy-S4
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:36:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53806)
+	id 1m1iUl-0006W8-0R
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:52:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5s-0006Fk-E0
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:28 -0400
-Received: from indium.canonical.com ([91.189.90.7]:32904)
+ id 1m1i5u-0006Hy-6Y
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:30 -0400
+Received: from indium.canonical.com ([91.189.90.7]:32966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5e-0001I4-GX
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:28 -0400
+ id 1m1i5g-0001In-3k
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:29 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i5O-0005El-PK
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:59 +0000
+ id 1m1i5Q-0005Dz-HK
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:26:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 214142E81F9
+ by loganberry.canonical.com (Postfix) with ESMTP id AC5632E8210
  for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1896342@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 04:17:19 -0000
+From: Launchpad Bug Tracker <1895602@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fysnet janitor jnsnow th-huth
-X-Launchpad-Bug-Reporter: Benjamin David Lunt (fysnet)
+X-Launchpad-Bug-Commenters: janitor mslade th-huth
+X-Launchpad-Bug-Reporter: Michael Slade (mslade)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160054207000.14948.11107647546582134186.malonedeb@gac.canonical.com>
-Message-Id: <162580423852.19936.607132912600554579.malone@loganberry.canonical.com>
-Subject: [Bug 1896342] Re: IDE ATA IDENTIFY WORD 106
+References: <160013465143.17527.17390472512040751238.malonedeb@soybean.canonical.com>
+Message-Id: <162580423913.19936.2706368624111937570.malone@loganberry.canonical.com>
+Subject: [Bug 1895602] Re: older OS's do not detect CD change
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: ae1d02d865ceb96e4f816a5c27cb500bfd31d89e
+X-Launchpad-Hash: 82bbe956956978d20685dcbd77fa6786c7f44846
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1896342 <1896342@bugs.launchpad.net>
+Reply-To: Bug 1895602 <1895602@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,41 +83,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1896342
+https://bugs.launchpad.net/bugs/1895602
 
 Title:
-  IDE ATA IDENTIFY WORD 106
+  older OS's do not detect CD change
 
 Status in QEMU:
   Expired
 
 Bug description:
-  The code at line 202 in hw/ide/core.c
-   (https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dhw/ide/core.c;#l201)
-  hard codes bit 13 set.  However, get_physical_block_exp() can and may ret=
-urn 0, which is a valid response. If get_physical_block_exp() does return z=
-ero, bit 13 should not be set.
+  There are at least two older operating systems, being FreeBSD 2.2 and
+  FreeDOS 1.2, that misbehave when the change command is used on the IDE
+  CD drive, and work fine on a real machine.  In both cases, changing
+  the CD causes the guest to either refuse to read the disc or appear to
+  read bad data, and in both cases the guest read the disc without issue
+  after a system_reset.
 
-  ATAPI8 states (Section 7.17.7.73):
-   "Bit 13 of word 106 shall be set to one to indicate that the device has =
-more than one logical sector per physical sector"
+  A HD image that demonstrates this behavior can be produced if
+  necessary, however the FreeDOS 1.2 CD can be booted directly and used
+  to test:
 
-  and gives the examples:
-    Bits (3:0): 0 =3D 2^0 =3D 1 logical sector per physical sector
-    Bits (3:0): 1 =3D 2^1 =3D 2 logical sector per physical sector
-    Bits (3:0): 2 =3D 2^2 =3D 4 logical sector per physical sector
-    Bits (3:0): 3 =3D 2^3 =3D 8 logical sector per physical sector
+  http://freedos.org/download/download/FD12CD.iso
 
-  Therefore, if bit 13 is set, bits 3:0 must be greater than zero.
+  (choose install then abort and you get a prompt in which you can type
+  "dir D:", say)
 
-  If get_physical_block_exp() returns zero then there is a 1:1 ratio and
-  bit 13 must be 0.
-
-  Just my opinion.
-
-  Thanks,
-  Ben
+  note, running eject before the change command does nothing to help.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1896342/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1895602/+subscriptions
 
