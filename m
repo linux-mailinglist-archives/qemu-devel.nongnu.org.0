@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36DB3C240C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:11:49 +0200 (CEST)
-Received: from localhost ([::1]:36646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481253C2417
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:16:18 +0200 (CEST)
+Received: from localhost ([::1]:50146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1qIG-0004aD-UT
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:11:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57728)
+	id 1m1qMb-0005Sd-18
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:16:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pzH-00052k-F2
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:52:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45207)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pzI-00055z-7f
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:52:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pzD-0003ix-Dq
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pzG-0003k6-HU
  for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:52:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625835126;
+ s=mimecast20190719; t=1625835130;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BdFFddYBoGMJdGxFbAc52tLyH54RbjJn5r3VQH97fEA=;
- b=dhyAcdS7P39H5cEIXGOUBIeGXxVUZ2eBIqHLjvRkecf4NmEdn1Dy7HpN8HPUqDmBzIfmVv
- 6uc/WBJNtIAxyoJkoQ+o5kJMKVO++pXEc4zWuSc0a1PoddcLRH9HxsqtDgwRxkp4mAa4KX
- rPuxxs5RveB3SZpj5C7qwq4c59wNa4Q=
+ bh=QxRwftzqyfTQy1eYSzuxJVJfqV4RQxmj77YtVCNirRQ=;
+ b=jWpCpSWGlnlDg45lkCcHv1qEem8Sh2ZjImIDpevNonXmjQkqnqexJfPYCJ1khty7u2pePo
+ JkCioFJR0axjE+nEUs1kv72vIt48N6PQTkdZD8xBf63XQA8mzqCKQay8NO2stW8lvKLOC6
+ UjCW8pbC19E3vLMe8xgJXiP9YA7VNwY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-873O5ItuMoaf7_6Bv5vHYQ-1; Fri, 09 Jul 2021 08:52:05 -0400
-X-MC-Unique: 873O5ItuMoaf7_6Bv5vHYQ-1
+ us-mta-86-njW0bZlaO4e8RXXjVr1pIQ-1; Fri, 09 Jul 2021 08:52:07 -0400
+X-MC-Unique: njW0bZlaO4e8RXXjVr1pIQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 69D20188CBE0;
- Fri,  9 Jul 2021 12:52:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9519C801107;
+ Fri,  9 Jul 2021 12:52:06 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-203.ams2.redhat.com [10.36.113.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01BEC60843;
- Fri,  9 Jul 2021 12:52:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B550360843;
+ Fri,  9 Jul 2021 12:52:04 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 22/28] qemu-img: Improve error for rebase without backing format
-Date: Fri,  9 Jul 2021 14:50:29 +0200
-Message-Id: <20210709125035.191321-23-kwolf@redhat.com>
+Subject: [PULL 23/28] qcow2: Fix dangling pointer after reopen for 'file'
+Date: Fri,  9 Jul 2021 14:50:30 +0200
+Message-Id: <20210709125035.191321-24-kwolf@redhat.com>
 In-Reply-To: <20210709125035.191321-1-kwolf@redhat.com>
 References: <20210709125035.191321-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,49 +80,85 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+Without an external data file, s->data_file is a second pointer with the
+same value as bs->file. When changing bs->file to a different BdrvChild
+and freeing the old BdrvChild, s->data_file must also be updated,
+otherwise it points to freed memory and causes crashes.
 
-When removeing support for qemu-img being able to create backing
-chains without embedded backing formats, we caused a poor error
-message as caught by iotest 114.  Improve the situation to inform the
-user what went wrong.
+This problem was caught by iotests case 245.
 
-Suggested-by: Kevin Wolf <kwolf@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210708155228.2666172-1-eblake@redhat.com>
+Fixes: df2b7086f169239ebad5d150efa29c9bb6d4f820
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210708114709.206487-2-kwolf@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qemu-img.c                 | 3 +++
- tests/qemu-iotests/114.out | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ block/qcow2.c | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index ec0e2fabe5..7c4fc60312 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3767,6 +3767,9 @@ static int img_rebase(int argc, char **argv)
-     if (ret == -ENOSPC) {
-         error_report("Could not change the backing file to '%s': No "
-                      "space left in the file header", out_baseimg);
-+    } else if (ret == -EINVAL && out_baseimg && !out_basefmt) {
-+        error_report("Could not change the backing file to '%s': backing "
-+                     "format must be specified", out_baseimg);
-     } else if (ret < 0) {
-         error_report("Could not change the backing file to '%s': %s",
-             out_baseimg, strerror(-ret));
-diff --git a/tests/qemu-iotests/114.out b/tests/qemu-iotests/114.out
-index 6d638da266..f51dd9d20a 100644
---- a/tests/qemu-iotests/114.out
-+++ b/tests/qemu-iotests/114.out
-@@ -14,7 +14,7 @@ qemu-io: can't open device TEST_DIR/t.qcow2: Could not open backing file: Unknow
- no file open, try 'help open'
- read 4096/4096 bytes at offset 0
- 4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--qemu-img: Could not change the backing file to 'TEST_DIR/t.qcow2.base': Invalid argument
-+qemu-img: Could not change the backing file to 'TEST_DIR/t.qcow2.base': backing format must be specified
- read 4096/4096 bytes at offset 0
- 4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- *** done
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 0cac2eda36..9f1b6461c8 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1926,6 +1926,7 @@ static void qcow2_refresh_limits(BlockDriverState *bs, Error **errp)
+ static int qcow2_reopen_prepare(BDRVReopenState *state,
+                                 BlockReopenQueue *queue, Error **errp)
+ {
++    BDRVQcow2State *s = state->bs->opaque;
+     Qcow2ReopenState *r;
+     int ret;
+ 
+@@ -1956,6 +1957,16 @@ static int qcow2_reopen_prepare(BDRVReopenState *state,
+         }
+     }
+ 
++    /*
++     * Without an external data file, s->data_file points to the same BdrvChild
++     * as bs->file. It needs to be resynced after reopen because bs->file may
++     * be changed. We can't use it in the meantime.
++     */
++    if (!has_data_file(state->bs)) {
++        assert(s->data_file == state->bs->file);
++        s->data_file = NULL;
++    }
++
+     return 0;
+ 
+ fail:
+@@ -1966,7 +1977,16 @@ fail:
+ 
+ static void qcow2_reopen_commit(BDRVReopenState *state)
+ {
++    BDRVQcow2State *s = state->bs->opaque;
++
+     qcow2_update_options_commit(state->bs, state->opaque);
++    if (!s->data_file) {
++        /*
++         * If we don't have an external data file, s->data_file was cleared by
++         * qcow2_reopen_prepare() and needs to be updated.
++         */
++        s->data_file = state->bs->file;
++    }
+     g_free(state->opaque);
+ }
+ 
+@@ -1990,6 +2010,15 @@ static void qcow2_reopen_commit_post(BDRVReopenState *state)
+ 
+ static void qcow2_reopen_abort(BDRVReopenState *state)
+ {
++    BDRVQcow2State *s = state->bs->opaque;
++
++    if (!s->data_file) {
++        /*
++         * If we don't have an external data file, s->data_file was cleared by
++         * qcow2_reopen_prepare() and needs to be restored.
++         */
++        s->data_file = state->bs->file;
++    }
+     qcow2_update_options_abort(state->bs, state->opaque);
+     g_free(state->opaque);
+ }
 -- 
 2.31.1
 
