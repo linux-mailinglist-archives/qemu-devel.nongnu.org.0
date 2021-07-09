@@ -2,53 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D033C274C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:06:39 +0200 (CEST)
-Received: from localhost ([::1]:38340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D03933C2751
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:08:55 +0200 (CEST)
+Received: from localhost ([::1]:47146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1t1R-0000JR-TJ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36502)
+	id 1m1t3e-0006J5-SK
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:08:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1m1szW-0005bW-6M; Fri, 09 Jul 2021 12:04:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43012)
+ (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
+ id 1m1t0F-000865-O1; Fri, 09 Jul 2021 12:05:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45212
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1m1szT-0006qW-Ro; Fri, 09 Jul 2021 12:04:37 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CCC6161377;
- Fri,  9 Jul 2021 16:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1625846673;
- bh=flpPt4pUGdCbwNki011wNd+u7fcDbof0eA8262rpqoo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Cgx0hV0h/9kUnymrC+MGz9F/qTM8o7iGU/0+sykW8Komt/lZ1Uf5jUe/aqE/kP5M7
- CcTx+1uX1v/6yV7CGLylkDNUQUQkTJ+ao4q3ToEmWi3n9j//6eAukFteX7Iyyu71wL
- 5BnQFAUys8SfJJHJuJO1a95Oaj7xJe0ddvhlSSpdMVsSv45Tz6HSzVkdcnrRN7DR0Q
- 2HJU7O5AwchIdtI5zLM0V+S3oxwxitTTk+nd+QLanP82rJHr/8BMmN9huKNfoLwxrj
- uafEexBQGSogxApdECp+uQItjEQ0tauLmsEVienamBSQhP9q6+8v0u5tIn1twDhrVG
- IFtCuoYnq6mkA==
-Date: Fri, 9 Jul 2021 09:04:30 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Mohit Kapoor <mohit.kap@samsung.com>
-Subject: Re: [RFC PATCH nvme-cli 2/2] nvme-cli/plugins/mi:add support
-Message-ID: <20210709160430.GB291156@dhcp-10-100-145-180.wdc.com>
-References: <CGME20210709145458epcas5p35826843853e7a8986098c4ff8fba857a@epcas5p3.samsung.com>
- <20210709145352.GA14300@test-zns>
+ (Exim 4.90_1) (envelope-from <jonathan.albrecht@linux.vnet.ibm.com>)
+ id 1m1t0C-00079v-OG; Fri, 09 Jul 2021 12:05:23 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 169G4aKk005665; Fri, 9 Jul 2021 12:05:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=/0IXAlkqOrLXPudqHp7O33mzp+YLH5qTn+cANq1nVoA=;
+ b=NicOZxPYdiAmbt/v60K/zWKWqzGxV5SSGEr7TK7I4QamHi6FrUKwppMaNjuSNsKV0gu3
+ 5Bqr9s14RJhW6T1Sf+GcaqgzAU+vcE3smGsEfapiIm3a1clzFaAT82Fn9b1MxoTpHx6w
+ BacwMLXpfDTYC38TzdqEYJC/qv8RKmYLPI5ckw0fpCU3RFf2NT1tu0XqQN8MsEwd7NYN
+ XBllkQFeFWsWbTjVRuxaplXL4DSxHAcXlZDMZoGKRw2nyZj/M7N/Poc4/IAnPwUvEGgm
+ 3cI3+hsGfVHRp81F4XAaUIpsSi8wh/cWZop/RW9+Dxsa7m4sWCRzh6JmIcY1YIxDUqTG EQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39nwfd9aed-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Jul 2021 12:05:18 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 169G5ICe007605;
+ Fri, 9 Jul 2021 12:05:18 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39nwfd9adt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Jul 2021 12:05:18 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 169FvB2j026911;
+ Fri, 9 Jul 2021 16:05:17 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma05wdc.us.ibm.com with ESMTP id 39jfhe4v13-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 09 Jul 2021 16:05:17 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 169G5Gp633292768
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 9 Jul 2021 16:05:16 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 84B132805C;
+ Fri,  9 Jul 2021 16:05:16 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E16652806A;
+ Fri,  9 Jul 2021 16:05:15 +0000 (GMT)
+Received: from LAPTOP-K4LLPL5U.localdomain (unknown [9.65.254.146])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri,  9 Jul 2021 16:05:15 +0000 (GMT)
+From: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] linux-user/s390x: signal with SIGFPE on
+ compare-and-trap
+Date: Fri,  9 Jul 2021 12:04:57 -0400
+Message-Id: <20210709160459.4962-1-jonathan.albrecht@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: _ftC3A-lv-tvKIlLz3PzXu43wKS2HNFA
+X-Proofpoint-ORIG-GUID: 4ADthb72TvhpfenRsPuDkQ3U0ncA-qN_
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210709145352.GA14300@test-zns>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-09_09:2021-07-09,
+ 2021-07-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 phishscore=0 suspectscore=0
+ spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107090081
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=jonathan.albrecht@linux.vnet.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,84 +107,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, p.kalghatgi@samsung.com,
- qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
- qemu-devel@nongnu.org, linux-nvme@lists.infrared.org, mreitz@redhat.com,
- u.kishore@samsung.com, stefanha@redhat.com, its@irrelevant.dk,
- javier.gonz@samsung.com, prakash.v@samsung.com, jg123.choi@samsung.com
+Cc: ruixin.bao@ibm.com,
+ Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>, iii@linux.ibm.com,
+ david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
+ laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ krebbel@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> +int hal_init()
-> +{
-> +    int retval = -1;
-> +    switch (GetSidebandInterface()) {
-> +    case qemu_nvme_mi:
-> +        retval = qemu_mi_init();
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +    return retval;
-> +}
-> +
-> +int hal_open()
-> +{
-> +    int retval = -1;
-> +    switch (GetSidebandInterface()) {
-> +    case qemu_nvme_mi:
-> +        retval = qemu_mi_open();
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +    return retval;
-> +}
-> +
-> +int hal_close()
-> +{
-> +    int retval = -1;
-> +    switch (GetSidebandInterface()) {
-> +    case qemu_nvme_mi:
-> +        retval = qemu_mi_close();
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +    return retval;
-> +}
-> +
-> +int hal_i2c_write(uint8_t *data_out, uint16_t num_bytes)
-> +{
-> +    int retval = -1;
-> +    switch (GetSidebandInterface()) {
-> +    case qemu_nvme_mi:
-> +        retval = qemu_mi_write(data_out, num_bytes);
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +    return retval;
-> +}
-> +
-> +int hal_i2c_read(uint8_t *data_in, uint16_t num_bytes)
-> +{
-> +    uint32_t retval = -1;
-> +    switch (GetSidebandInterface()) {
-> +    case qemu_nvme_mi:
-> +        retval = qemu_mi_read(data_in, num_bytes);
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +    return retval;
-> +}
+qemu-s390x signals with SIGILL on compare-and-trap instructions. This
+breaks OpenJDK which expects SIGFPE in its implementation of implicit
+exceptions.
 
-I'm really not a fan of having non-standard interfaces. If you were
-going to do that, though, you should create a struct of function
-pointers so that you don't need these repetitive "switch (...)"
-statements.
+This patch depends on [PATCH v6 0/2] target/s390x: Fix SIGILL and SIGFPE
+psw.addr reporting
+https://lore.kernel.org/qemu-devel/20210705210434.45824-1-iii@linux.ibm.com/
 
-But if we're going to have OOB MI support in toolign, they should all
-use the same standard defined interface.
+Based-on: 20210705210434.45824-1-iii@linux.ibm.com
+
+v1 -> v2:
+- Update to latest version of '... psw.addr reporting' patch
+- Rebase to master and fix conflicts in tests/tcg/s390x/Makefile.target
+
+v2 -> v3:
+- Check for non-simulated IEEE exception DXC codes explicitly when
+  getting si_codes
+- Ensure si_code is set in all cases
+- Improve comments
+
+Jonathan Albrecht (2):
+  linux-user/s390x: signal with SIGFPE on compare-and-trap
+  tests/tcg: Test that compare-and-trap raises SIGFPE
+
+ linux-user/s390x/cpu_loop.c     |  54 ++++++++++-------
+ tests/tcg/s390x/Makefile.target |   1 +
+ tests/tcg/s390x/trap.c          | 102 ++++++++++++++++++++++++++++++++
+ 3 files changed, 137 insertions(+), 20 deletions(-)
+ create mode 100644 tests/tcg/s390x/trap.c
+
+-- 
+2.31.1
+
 
