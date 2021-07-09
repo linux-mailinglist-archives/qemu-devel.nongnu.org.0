@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9084C3C1FCF
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 09:03:33 +0200 (CEST)
-Received: from localhost ([::1]:53624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D383C1FD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 09:07:14 +0200 (CEST)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1kXs-00016U-LZ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 03:03:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51770)
+	id 1m1kbR-0005B2-K8
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 03:07:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1kWW-0007vz-Nm
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:02:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27977)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m1kTB-0006J5-Hh; Fri, 09 Jul 2021 02:58:41 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:54637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1kWS-0001Iq-2z
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:02:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625814122;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=X0weUt4D+BdzccXuzHsHZNvOQHTvAHvZs+arUmzrCPg=;
- b=iv+ip4AaTEzKcogDXsE43J+GsYmR1leVEba5QfelfE0mSFA/1wIk0/iSrMkQsRYIvehlSd
- 3RPKeW2Qk2EBwwIBJDEuHy01ZNEosjyPZLqgpQueO+BRf9l8KzGfxV9GOa9rVuOK1wSBy4
- HtpURl34usnjIUdxfolGYiEfcVww/8w=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-Jp_XiXL1MpW257CfORefPg-1; Fri, 09 Jul 2021 02:58:33 -0400
-X-MC-Unique: Jp_XiXL1MpW257CfORefPg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i3-20020a05600c3543b02902075ed92710so4843362wmq.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 23:58:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=X0weUt4D+BdzccXuzHsHZNvOQHTvAHvZs+arUmzrCPg=;
- b=f1028y7abPZyYcHhKqt/wTIkETjaiOHeKSfJzMHXQ4XLm0GvX5wLXX0VWK6kaqMg7Z
- hoNVYeEXkJsRcMa1Q2nzDynMJG2lYfWkaiflP9yWQMPd2sKNEieLMMusJgOcVuZcL7mM
- RXlIqUar3+SsQ1AgFg8oe1qMDG7dpxzAxyei7XsC4yzBzmiZJe9eGah/hQxTv716SXBF
- TmzhkLg5ksZB2ID1Ur87hfCyY/CV34uEDyFyh0rtJrxIZ/nsNS2FQKCF3Gv8RvGgiUXA
- 35PKqktQue9Ssf+dUU1RfEWZ22e4G+LmRyTKYqcbRp8sQ91a2CAm1NPJ4NMVM+2Z6sCn
- 2fBg==
-X-Gm-Message-State: AOAM5300Aq1DQcNM7S9NnnyeuJrWcddM6iXXPqs5L0iWMmwrfdeDRrav
- XYFiHnubyxRuFHq0wn67SfwhngvuFR3t1Vki882OcULSXftAQiJEakqtQ6eMZFvimZvv0Qx/mjy
- gWIjE/zDZg25jHJQ=
-X-Received: by 2002:a05:600c:3b86:: with SMTP id
- n6mr28434530wms.28.1625813912780; 
- Thu, 08 Jul 2021 23:58:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhqopRzNEQSGigcZiNeTBV53UkOCuk0lupgJh2igPeid+TZw4Nuf7mlYGlkNE6v7RFiwJl2A==
-X-Received: by 2002:a05:600c:3b86:: with SMTP id
- n6mr28434500wms.28.1625813912497; 
- Thu, 08 Jul 2021 23:58:32 -0700 (PDT)
-Received: from redhat.com ([2.55.150.102])
- by smtp.gmail.com with ESMTPSA id f1sm4217609wri.74.2021.07.08.23.58.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 23:58:31 -0700 (PDT)
-Date: Fri, 9 Jul 2021 02:58:27 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PULL 13/13] MAINTAINERS: Add maintainer for vhost-user RNG
- implementation
-Message-ID: <20210709025729-mutt-send-email-mst@kernel.org>
-References: <20210707150157.52328-1-mst@redhat.com>
- <20210707150157.52328-14-mst@redhat.com>
- <CANLsYkw6MbY+8d6HpApZ3np1ACfya8S34MbhoPbUUUyn43Md2w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m1kT8-000817-3P; Fri, 09 Jul 2021 02:58:41 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 55024320085B;
+ Fri,  9 Jul 2021 02:58:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 09 Jul 2021 02:58:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=8w/i1MqR1Bsl/ssGQB+EwSMnk15
+ D98vImqt+zns/wB8=; b=hducb+P1tOXNQum2EdT+rX6T4AUGX1v7n1miZfBpdMw
+ Lvaehi/GqmzgJckMTJj1OrX6Ed8tJUK/qStRGSlLCO1K9pZr5BSFLrVxBkmHw7e6
+ pJuT+v7a/vHSOAaV3lIs+/7pmOnL81AhO+xf8CUHmbWZXxutmIvtTloOCWAQFGL0
+ lKO/91mshJHf2B4sU8Wf/r8BfC84zhbokpJSSED5KqI/RVHLkuAUxRtammjm2/bE
+ oCo/Rocfpm79UMOTtBdOF0nGlvsPqLNjzqlUPFk+R31hximLQ1a2dqCVU6VsyUVe
+ r2Pv++65MqFxwdaGh2RtQSu23aAtsiOAzY/RUl8sMpg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=8w/i1M
+ qR1Bsl/ssGQB+EwSMnk15D98vImqt+zns/wB8=; b=rQJD8qvAASsO9zH/8STL45
+ GC+Y4g2UdGQ7+n3rq19fd0Lra0iG/ayzzA/WvEmXwOFI3HBH4mh9NyaXxGFUj92y
+ YMVQkdMNo7sr4kjXjTutOF5sI6cfu2fYkqqRVH59PceKvlNQSpS7wtSdsemwB4ar
+ 8Sc4E+VMIAr0+xhHgv0CLbm/qSyPe2vFHI24lsEe0PUPVaLeZqhJW4CIdz23FuC0
+ AXZoOUI194t1TlBeAip8JpI9LBK3BiUuFOgTNSQO5xGkgtklJ3z1wJ2KNpVbZ+Dl
+ 3R/HRlLPp4GO0mvhT70X0w7ZHSwPCqGnIxLalXQKRAfAjgangKLD9NjYMx1P0dHg
+ ==
+X-ME-Sender: <xms:mvPnYNwZL1AXhZzy4lu6aA-wbHQlDVvpKqmREybhaK2kP57149LYUw>
+ <xme:mvPnYNTGD1wIz0Pt9s0bF53mE4dUwuwN_r1Ubxsj0i7T4ZAxCEUXTHfnwRi457H7J
+ v1ehaa3zpbY1xRn3xg>
+X-ME-Received: <xmr:mvPnYHV4Knr2e4WICFO0uuGdzNB5QxgA3X4HN-OY3gFz6_9yqydGnoVMWGiI3vUs0-0iuGNRu_zq-E9JPDNb_nkjsdCFTrYPRG0PlNGd7-DPJuLr_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdehgdekhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtderre
+ dttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghv
+ rghnthdrughkqeenucggtffrrghtthgvrhhnpeejgeduffeuieetkeeileekvdeuleetve
+ ejudeileduffefjeegfffhuddvudffkeenucevlhhushhtvghrufhiiigvpedtnecurfgr
+ rhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:mvPnYPjTDfPGIckuP329b_ERwgKPVgwfTPpenV9EeZ-XOWE8fy-s4g>
+ <xmx:mvPnYPDUN54js5-ET3fc_nth5tI0u6v62KQLzRzG4Q3CoKkTYp4xwQ>
+ <xmx:mvPnYILmO3X2IfKU73iww7I-mGocAoTEvVlfoQqdsDKRLic1mvUFBQ>
+ <xmx:mvPnYBCuCAo7GR3O9dAbkgqzGEM9QuAbKQSq5j0kKdqGKZnw7rycAw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Jul 2021 02:58:32 -0400 (EDT)
+Date: Fri, 9 Jul 2021 08:58:31 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Subject: Re: [PATCH] tests/qtest/nvme-test: add persistent memory region test
+Message-ID: <YOfzlwIELqy0Ovu7@apples.localdomain>
+References: <CGME20210618103850epcas5p49b85b7dc6e5f14b03b2bf35c10b3bdda@epcas5p4.samsung.com>
+ <20210618103431.9951-1-anaidu.gollu@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <CANLsYkw6MbY+8d6HpApZ3np1ACfya8S34MbhoPbUUUyn43Md2w@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="XoHh0cEdvLM0bVaS"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210618103431.9951-1-anaidu.gollu@samsung.com>
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,77 +92,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com,
+ kbusch@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 08, 2021 at 04:01:05PM -0600, Mathieu Poirier wrote:
-> Hi Michael,
-> 
-> On Wed, 7 Jul 2021 at 09:03, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > From: Mathieu Poirier <mathieu.poirier@linaro.org>
-> >
-> > This patch adds entry for the vhost-user-rng related files.
-> >
-> > Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > Message-Id: <20210614202842.581640-6-mathieu.poirier@linaro.org>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> The pull request's changelog [1] mentions the addition of the
-> vhost-user-rng feature and patch 13/13 [2] of that same pull request
-> adds an entry in MAINTAINERS.  On the flip side the files for the
-> feature [3] are absent from the pull request.  As such I see two
-> possibilities:
-> 
-> 1) The files for the vhost-user-rng feature should have been part of
-> the pull request but fell through the cracks.
-> 2) The vhost-user-rng feature was added to the pull request by mistake.
-> 
-> Please let me know.
-> 
-> Thanks,
-> Mathieu
-> 
-> [1]. https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01530.html
-> [2]. https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01543.html
-> [3]. https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg03560.html
 
+--XoHh0cEdvLM0bVaS
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The files fell through the cracks. Will pick for the next pull. Thanks
-for reporting this!
+On Jun 18 16:04, Gollu Appalanaidu wrote:
+>This will test the PMR functionality.
+>
+>Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>---
+> tests/qtest/nvme-test.c | 78 ++++++++++++++++++++++++++++++++++++++++-
+> 1 file changed, 77 insertions(+), 1 deletion(-)
+>
+>diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
+>index d32c953a38..6d557be6ca 100644
+>--- a/tests/qtest/nvme-test.c
+>+++ b/tests/qtest/nvme-test.c
+>@@ -13,6 +13,7 @@
+> #include "libqos/libqtest.h"
+> #include "libqos/qgraph.h"
+> #include "libqos/pci.h"
+>+#include "include/block/nvme.h"
+>
+> typedef struct QNvme QNvme;
+>
+>@@ -21,6 +22,9 @@ struct QNvme {
+>     QPCIDevice dev;
+> };
+>
+>+static char *t_path;
+>+#define TEST_IMAGE_SIZE (2 * 1024 * 1024)
+>+
+> static void *nvme_get_driver(void *obj, const char *interface)
+> {
+>     QNvme *nvme =3D obj;
+>@@ -66,12 +70,77 @@ static void nvmetest_oob_cmb_test(void *obj, void *dat=
+a, QGuestAllocator *alloc)
+>     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=3D, 0x4=
+4332211);
+> }
+>
+>+static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator =
+*alloc)
+>+{
+>+    QNvme *nvme =3D obj;
+>+    QPCIDevice *pdev =3D &nvme->dev;
+>+    QPCIBar pmr_bar, nvme_bar;
+>+    uint32_t pmrcap, pmrsts;
+>+
+>+    qpci_device_enable(pdev);
+>+    pmr_bar =3D qpci_iomap(pdev, 4, NULL);
+>+
+>+    /* Without Enabling PMRCTL check bar enablemet */
+>+    qpci_io_writel(pdev, pmr_bar, 0, 0xccbbaa99);
+>+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=3D, 0x99);
+>+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=3D, 0xaa99);
+>+
+>+    /* Map NVMe Bar Register to Enable the Mem Region */
+>+    nvme_bar =3D qpci_iomap(pdev, 0, NULL);
+>+
+>+    pmrcap =3D qpci_io_readl(pdev, nvme_bar, 0xe00);
+>+    g_assert_cmpint(NVME_PMRCAP_RDS(pmrcap), =3D=3D, 0x1);
+>+    g_assert_cmpint(NVME_PMRCAP_WDS(pmrcap), =3D=3D, 0x1);
+>+    g_assert_cmpint(NVME_PMRCAP_BIR(pmrcap), =3D=3D, 0x4);
+>+    g_assert_cmpint(NVME_PMRCAP_PMRWBM(pmrcap), =3D=3D, 0x2);
+>+    g_assert_cmpint(NVME_PMRCAP_CMSS(pmrcap), =3D=3D, 0x1);
+>+
+>+    /* Enable PMRCTRL */
+>+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x1);
+>+
+>+    qpci_io_writel(pdev, pmr_bar, 0, 0x44332211);
+>+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), =3D=3D, 0x11);
+>+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), =3D=3D, 0x2211);
+>+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), =3D=3D, 0x44332211);
+>+
+>+    pmrsts =3D qpci_io_readl(pdev, nvme_bar, 0xe08);
+>+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), =3D=3D, 0x0);
+>+
+>+    /* Disable PMRCTRL */
+>+    qpci_io_writel(pdev, nvme_bar, 0xe04, 0x0);
+>+
+>+    qpci_io_writel(pdev, pmr_bar, 0, 0x88776655);
+>+    g_assert_cmpint(qpci_io_readb(pdev, pmr_bar, 0), !=3D, 0x55);
+>+    g_assert_cmpint(qpci_io_readw(pdev, pmr_bar, 0), !=3D, 0x6655);
+>+    g_assert_cmpint(qpci_io_readl(pdev, pmr_bar, 0), !=3D, 0x88776655);
+>+
+>+    pmrsts =3D qpci_io_readl(pdev, nvme_bar, 0xe08);
+>+    g_assert_cmpint(NVME_PMRSTS_NRDY(pmrsts), =3D=3D, 0x1);
+>+
+>+    qpci_iounmap(pdev, nvme_bar);
+>+    qpci_iounmap(pdev, pmr_bar);
+>+}
+>+
+> static void nvme_register_nodes(void)
+> {
+>+    int fd, ret;
+>+    t_path =3D g_strdup("/tmp/qtest.XXXXXX");
+>+
+>+    /* Create a temporary raw image*/
+>+    fd =3D mkstemp(t_path);
+>+    g_assert(fd >=3D 0);
+>+    ret =3D ftruncate(fd, TEST_IMAGE_SIZE);
+>+    g_assert(ret =3D=3D 0);
+>+    close(fd);
+>+
+>+    char *pmr_cmd_line =3D g_strdup_printf("-object memory-backend-file,i=
+d=3Dpmr0,"
+>+                                         "share=3Don,mem-path=3D%s,size=
+=3D8", t_path);
+>+
+>     QOSGraphEdgeOptions opts =3D {
+>         .extra_device_opts =3D "addr=3D04.0,drive=3Ddrv0,serial=3Dfoo",
+>         .before_cmd_line =3D "-drive id=3Ddrv0,if=3Dnone,file=3Dnull-co:/=
+/,"
+>-                           "file.read-zeroes=3Don,format=3Draw",
+>+                           "file.read-zeroes=3Don,format=3Draw ",
+>+                           pmr_cmd_line,
+>     };
+>
+>     add_qpci_address(&opts, &(QPCIAddress) { .devfn =3D QPCI_DEVFN(4, 0) =
+});
+>@@ -83,6 +152,13 @@ static void nvme_register_nodes(void)
+>     qos_add_test("oob-cmb-access", "nvme", nvmetest_oob_cmb_test, &(QOSGr=
+aphTestOptions) {
+>         .edge.extra_device_opts =3D "cmb_size_mb=3D2"
+>     });
+>+
+>+    qos_add_test("pmr-test-access", "nvme", nvmetest_pmr_reg_test,
+>+                 &(QOSGraphTestOptions) {
+>+        .edge.extra_device_opts =3D "pmrdev=3Dpmr0"
+>+    });
+>+
+>+    unlink(t_path);
+> }
+>
+> libqos_init(nvme_register_nodes);
+>--=20
+>2.17.1
+>
 
+Applied to nvme-next. I swapped the memory-backend-file with a=20
+memory-backend-ram so we don't need to setup an actual file.
 
-> > ---
-> >  MAINTAINERS | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index cfbf7ef79b..517f22b2e7 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -1949,6 +1949,15 @@ F: include/sysemu/rng*.h
-> >  F: backends/rng*.c
-> >  F: tests/qtest/virtio-rng-test.c
-> >
-> > +vhost-user-rng
-> > +M: Mathieu Poirier <mathieu.poirier@linaro.org>
-> > +S: Supported
-> > +F: docs/tools/vhost-user-rng.rst
-> > +F: hw/virtio/vhost-user-rng.c
-> > +F: hw/virtio/vhost-user-rng-pci.c
-> > +F: include/hw/virtio/vhost-user-rng.h
-> > +F: tools/vhost-user-rng/*
-> > +
-> >  virtio-crypto
-> >  M: Gonglei <arei.gonglei@huawei.com>
-> >  S: Supported
-> > --
-> > MST
-> >
+--XoHh0cEdvLM0bVaS
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDn85UACgkQTeGvMW1P
+DemMgQf/YEyZl/7nuM58oH2vXUeObNtZIWVrpbWbxlrVccpggqpgN0/RYeqgjbS8
+Qz4i38pHgt/bdZEmHIPMMjCinxn3spvLRDHpIvQbEiyi2nMAa2+oBx5WSleAi9Ja
+DvjD0+U9BTq6/N+us5+jmI3KiJXisY+HsgraSuzks5J1eGuCqGOy6M+9pUW/MreV
+dM2dgDxVjW/28CkNVQL5Oi9imErwQEL5+hdhsfahh9Kd0TAwwGmyEaCEHzSyViuk
+AFBVrH0sMEtCbodSLxFYvy9tQWxqFWUqCvPoeoCCjpVGPPm+vPdes2y2Ss5nfOKM
+NIejoRp7qy8OE1HNdDUYH5JRPt7PxQ==
+=5etj
+-----END PGP SIGNATURE-----
+
+--XoHh0cEdvLM0bVaS--
 
