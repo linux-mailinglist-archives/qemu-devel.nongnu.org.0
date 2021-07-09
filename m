@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9393B3C261D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:40:19 +0200 (CEST)
-Received: from localhost ([::1]:33504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B643C262F
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:46:40 +0200 (CEST)
+Received: from localhost ([::1]:55844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rfu-0001WY-IQ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:40:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
+	id 1m1rm3-0007x1-KF
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:46:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWc-00051L-7G
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:43 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46688)
+ id 1m1rWh-00059U-3b
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:47 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35788)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWT-0005cg-7e
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:41 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d12so11808672wre.13
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:32 -0700 (PDT)
+ id 1m1rWS-0005bG-9Y
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:46 -0400
+Received: by mail-wr1-x433.google.com with SMTP id m2so1397702wrq.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=E7K2T+7/xRZArnCf+GLaEJe8OjH8H/Pc9dQvIHChB5w=;
- b=i3RN/tEAcpD7RS9NM8D7PRFkn2HeRutNk33d3tO3Sx04SxXpKM1UkE0vhBz0ftG/DI
- 2gVfGb5c7WiWS/Vry22pPa5rIyLMmBp3BHj8l/FEoMHrAvRah5xoV/RGuIv5f8s0oCMU
- 00PJMyxE3dVbehbxBjhGu2taePQJGNIbX096QHEiyEy2IwU5RxG0V9qAKtQrtclU3gsf
- PFOFhnlCD7wXTyV4NcThNRvfm75KbS9cv4uX/sPvgLBkyDlcoZsyVliY3UxdAJ0jmzra
- /5hs+N1krQ/pFzdU2UQhnz/LVfherWE6i8DQ5p1r0eD869FyhKMZapHDVZ/fTx+vFfil
- GnxQ==
+ bh=P9Upb7I6HMRjCcJjpxGvstVHkB7w6Pb+oVKK25wH7Y4=;
+ b=icbHxvmm8bDnI4Sy4LQ3N4xbdczm8L+Rrij+uAQwkD2B9eVLqSKDodXyVVJfZJwELx
+ pS+q15eBPtyuKM3EzJiv8heVEITQXvvdTRDob8F4YtdAH4tCGhCHgTmpEZ50ayYbt1O2
+ QO466qCmYHGMgGhar3aYtu7n9SjRl9Z6qTiXoqDfNgz/kPD5A+S+49UnKucTKrlz2F2P
+ WWN8doxybe/7uMUuIE/NYre55Mnxw2yc3ML2EoTCWENoZ1h1tJCCSKeiLdBDEjoDeFF4
+ 7c2CSi7sX7uvPP/ngndSgM+76ReZ11B1/efZ5cq1jhFQ7euhjWkDMhZ4p8x86J+cvnCd
+ zwZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E7K2T+7/xRZArnCf+GLaEJe8OjH8H/Pc9dQvIHChB5w=;
- b=Tkjf7RAhanQmkneEhlG5aAmbw8w9ZbsZiTJ1QMMdZx4tpHmOeDkC/gtxPRyYqJGiyr
- xSIkJztTkwMt6gsg02Y84ts4fpEOrbJqsYAdcDj3ZEF/92DXIVqDBJJms60pP8Pv8pG1
- aeMfRGtHs+TiP5c0yMXK9jFgPIOOZoskeji5M4nMva0zEwhkSeju/xQuLdB2vSVraIvC
- IxmDtyMPizZgj6OObFfo6j9THj2f7klEScZ6CqucJ50WsRKHW8KMejb4G0gDnajy3TSB
- h9cQQ3mSurZRM6FfjKKijxoOJQxiyRDRdohGFp5UEp0h5d6fhzNQGS2rfeRP4oBhusVh
- xuSw==
-X-Gm-Message-State: AOAM5317DGDJGjTWcD2NkA+9Xiw+Vq1pgTYYuR8Uu83BchMZKzKo2Tkb
- xwXYduAa3S/AZheq870wNtMp/Q==
-X-Google-Smtp-Source: ABdhPJxSAg0VxLdL/Z6WP386A2VSCGi5WkoNT1nhCTlFHljGQ1biC/wiZqLx+02vfti3kpolyyTEig==
-X-Received: by 2002:a5d:64ee:: with SMTP id g14mr43941610wri.66.1625841031712; 
+ bh=P9Upb7I6HMRjCcJjpxGvstVHkB7w6Pb+oVKK25wH7Y4=;
+ b=kM4o5icjlj/ty75gJ+/dLOzdPU8lLINHd7ADw5/bc8AAdRySL3kuiMly+Pzg5NXOS1
+ LPVY3aoCfyouQK0CLZoCeB/u081dAgCaDGS96ZVf6aMhIO7jSL3Sc2RRHAA8exgGzdkh
+ Ng732o4yN22Yx02tNUsVORqtAqzq7C91J1p9aWapm3T+maMiqPFWDvVZnzsd0lCt1DxE
+ tG13Sn3slm49Q0BGSXSToN6PH53nxyiIseLpgr02dzLB5ApfEkE4DccNKxhoypUiGEhE
+ +fp4PfEjeCdn6KSMg+JZWXcqll1lz1pBBletRjnaUAM5bhU70jgh+lhiLtv7Sq9uQCPx
+ onnA==
+X-Gm-Message-State: AOAM530U8a6tLaOvWO9hL3u2atb2vyEM9oGgLke+xJKcHbrd75+K3Baa
+ yA+HVWkzE4OIoXv7TlFaTLWmfg==
+X-Google-Smtp-Source: ABdhPJx1mC0YRPuJJUqHoFIvDUTnp9ezEf7zXCRZHKdD0DV6TbtA+iyAInPPK1W1Na/xd2PpDTzyJg==
+X-Received: by 2002:adf:eb82:: with SMTP id t2mr41802390wrn.337.1625841031089; 
  Fri, 09 Jul 2021 07:30:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h14sm6258957wro.32.2021.07.09.07.30.14
+ by smtp.gmail.com with ESMTPSA id k13sm1058680wrp.34.2021.07.09.07.30.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Jul 2021 07:30:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 053981FF9E;
+ by zen.linaroharston (Postfix) with ESMTP id 2DA941FF9F;
  Fri,  9 Jul 2021 15:30:10 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 17/40] tests/docker: fix mistakes in ubuntu package lists
-Date: Fri,  9 Jul 2021 15:29:42 +0100
-Message-Id: <20210709143005.1554-18-alex.bennee@linaro.org>
+Subject: [PATCH  v3 18/40] tests/docker: remove mingw packages from Fedora
+Date: Fri,  9 Jul 2021 15:29:43 +0100
+Message-Id: <20210709143005.1554-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,108 +98,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-librados-dev is not required by QEMU directly, only librbd-dev.
-
-glusterfs-common is not directly needed by QEMU.
-
-QEMU uses ncursesw only on non-Windows hosts.
-
-The clang package is clang 10.
-
-flex and bison are not required by QEMU.
-
-Standardize on nmap ncat implementation to match Fedora/CentOS.
-
-Remove vim since it is not a build pre-requisite and no other containers
-include it.
+There are dedicated containers providing mingw packages for Fedora.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-10-berrange@redhat.com>
+Message-Id: <20210623142245.307776-11-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker |  3 ---
- tests/docker/dockerfiles/ubuntu2004.docker | 10 ++--------
- 2 files changed, 2 insertions(+), 11 deletions(-)
+ tests/docker/dockerfiles/fedora.docker | 27 --------------------------
+ 1 file changed, 27 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index a50a35e6fe..ee8545e4b1 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -5,7 +5,6 @@ ENV PACKAGES \
-     gcc \
-     gettext \
-     git \
--    glusterfs-common \
-     libaio-dev \
-     libattr1-dev \
-     libbrlapi-dev \
-@@ -24,12 +23,10 @@ ENV PACKAGES \
-     libjemalloc-dev \
-     libjpeg-turbo8-dev \
-     liblzo2-dev \
--    libncurses5-dev \
-     libncursesw5-dev \
-     libnfs-dev \
-     libnuma-dev \
-     libpixman-1-dev \
--    librados-dev \
-     librbd-dev \
-     librdmacm-dev \
-     libsasl2-dev \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index eee2ef3cac..25f56adfb2 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,16 +1,13 @@
- FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES \
--    bison \
-     bsdmainutils \
-     ccache \
--    clang-10\
--    flex \
-+    clang \
-     gcc \
-     gcovr \
-     genisoimage \
-     gettext \
-     git \
--    glusterfs-common \
-     libaio-dev \
-     libattr1-dev \
-     libbrlapi-dev \
-@@ -30,12 +27,10 @@ ENV PACKAGES \
-     libjpeg-turbo8-dev \
-     liblttng-ust-dev \
-     liblzo2-dev \
--    libncurses5-dev \
-     libncursesw5-dev \
-     libnfs-dev \
-     libnuma-dev \
-     libpixman-1-dev \
--    librados-dev \
-     librbd-dev \
-     librdmacm-dev \
-     libsasl2-dev \
-@@ -53,7 +48,7 @@ ENV PACKAGES \
-     libxen-dev \
-     libzstd-dev \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index f667f03cc5..5849ea7617 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -52,33 +52,6 @@ ENV PACKAGES \
+     lzo-devel \
      make \
--    netcat-openbsd \
-+    ncat \
+     meson \
+-    mingw32-bzip2 \
+-    mingw32-curl \
+-    mingw32-glib2 \
+-    mingw32-gmp \
+-    mingw32-gnutls \
+-    mingw32-gtk3 \
+-    mingw32-libjpeg-turbo \
+-    mingw32-libpng \
+-    mingw32-libtasn1 \
+-    mingw32-nettle \
+-    mingw32-nsis \
+-    mingw32-pixman \
+-    mingw32-pkg-config \
+-    mingw32-SDL2 \
+-    mingw64-bzip2 \
+-    mingw64-curl \
+-    mingw64-glib2 \
+-    mingw64-gmp \
+-    mingw64-gnutls \
+-    mingw64-gtk3 \
+-    mingw64-libjpeg-turbo \
+-    mingw64-libpng \
+-    mingw64-libtasn1 \
+-    mingw64-nettle \
+-    mingw64-pixman \
+-    mingw64-pkg-config \
+-    mingw64-SDL2 \
+     ncurses-devel \
+     nettle-devel \
      ninja-build \
-     python3-numpy \
-     python3-opencv \
-@@ -67,7 +62,6 @@ ENV PACKAGES \
-     sparse \
-     tesseract-ocr \
-     tesseract-ocr-eng \
--    vim \
-     xfslibs-dev
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
 -- 
 2.20.1
 
