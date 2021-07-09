@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8FC73C1EF8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:35:27 +0200 (CEST)
-Received: from localhost ([::1]:59272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77963C1EFE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:38:14 +0200 (CEST)
+Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1jAc-0002ym-OX
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:35:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35192)
+	id 1m1jDJ-0000Gn-MT
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:38:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1ith-00016T-6S; Fri, 09 Jul 2021 01:17:57 -0400
-Received: from ozlabs.org ([203.11.71.1]:34805)
+ id 1m1iti-00018C-3Z; Fri, 09 Jul 2021 01:17:58 -0400
+Received: from ozlabs.org ([203.11.71.1]:55519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itf-0001yf-AN; Fri, 09 Jul 2021 01:17:56 -0400
+ id 1m1itf-0001yh-F7; Fri, 09 Jul 2021 01:17:57 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLhHd5Ltxz9ssD; Fri,  9 Jul 2021 15:17:33 +1000 (AEST)
+ id 4GLhHd5f4Fz9svs; Fri,  9 Jul 2021 15:17:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625807853;
- bh=/MjHtqGSB4Q/DmQu+dP0YOXEQ18HZGJxu+t5gCrxzks=;
+ bh=hPtLEx8NTO2XmDISUnsJ9dDKsbJkzDbCv2e7woM/dQc=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ivJNesiNisrwDEuDwm0jc9PmO7a8gmnDWHPiOLUmKPjzr6qttptiBlNJWI2qBeYGx
- M5UGlXa0wLE7GHXiOCVIYU/4tqlcwGdShw4I82Xhl9feajQjgH99dDYDVNEbC1+JHk
- kMxoDLf1yXC1adFidtMtGoluu3Qpzh4tiRKyxs7s=
+ b=aOHeITflUyRCK2vf8jFFnluAqb0LEVzM94cieab9QbR6bPDY7gyTvx1bIv38d+03U
+ OEq4zzVkoq7gcEnrwXEX1jE7S0nSV2e+vCy7YuxNsal1s6IokQCZcWKWfySwtYoadq
+ H7PN2cE8GVobiX+I6PO+pmGadusywaw7mq4Bvun4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 13/33] target/ppc: Fix compilation with DUMP_PAGE_TABLES debug
+Subject: [PULL 14/33] target/ppc: Fix compilation with FLUSH_ALL_TLBS debug
  option
-Date: Fri,  9 Jul 2021 15:17:08 +1000
-Message-Id: <20210709051728.170203-14-david@gibson.dropbear.id.au>
+Date: Fri,  9 Jul 2021 15:17:09 +1000
+Message-Id: <20210709051728.170203-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
@@ -67,36 +67,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Fabiano Rosas <farosas@linux.ibm.com>
 
-../target/ppc/mmu_helper.c: In function 'get_segment_6xx_tlb':
-../target/ppc/mmu_helper.c:514:46: error: passing argument 1 of
-'ppc_hash32_hpt_mask' from incompatible pointer type [-Werror=incompatible-pointer-types]
+../target/ppc/mmu_helper.c: In function 'helper_store_ibatu':
+../target/ppc/mmu_helper.c:1802:17: error: unused variable 'cpu' [-Werror=unused-variable]
+ 1802 |     PowerPCCPU *cpu = env_archcpu(env);
+      |                 ^~~
+../target/ppc/mmu_helper.c: In function 'helper_store_dbatu':
+../target/ppc/mmu_helper.c:1838:17: error: unused variable 'cpu' [-Werror=unused-variable]
+ 1838 |     PowerPCCPU *cpu = env_archcpu(env);
+      |                 ^~~
+../target/ppc/mmu_helper.c: In function 'helper_store_601_batu':
+../target/ppc/mmu_helper.c:1874:17: error: unused variable 'cpu' [-Werror=unused-variable]
+ 1874 |     PowerPCCPU *cpu = env_archcpu(env);
+      |                 ^~~
+../target/ppc/mmu_helper.c: In function 'helper_store_601_batl':
+../target/ppc/mmu_helper.c:1919:17: error: unused variable 'cpu' [-Werror=unused-variable]
+ 1919 |     PowerPCCPU *cpu = env_archcpu(env);
 
-  514 |                          ppc_hash32_hpt_mask(env) + 0x80);
-      |                                              ^~~
-      |                                              |
-      |                                              CPUPPCState *
-
-Fixes: 36778660d7 ("target/ppc: Eliminate htab_base and htab_mask variables")
+Fixes: db70b31144 ("target/ppc: Use env_cpu, env_archcpu")
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Message-Id: <20210702215235.1941771-2-farosas@linux.ibm.com>
+Message-Id: <20210702215235.1941771-3-farosas@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/mmu_helper.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index ba1952c77d..4c534b534b 100644
+index 4c534b534b..945ac41d42 100644
 --- a/target/ppc/mmu_helper.c
 +++ b/target/ppc/mmu_helper.c
-@@ -511,7 +511,7 @@ static int get_segment_6xx_tlb(CPUPPCState *env, mmu_ctx_t *ctx,
+@@ -1755,9 +1755,6 @@ static inline void dump_store_bat(CPUPPCState *env, char ID, int ul, int nr,
+ void helper_store_ibatu(CPUPPCState *env, uint32_t nr, target_ulong value)
+ {
+     target_ulong mask;
+-#if defined(FLUSH_ALL_TLBS)
+-    PowerPCCPU *cpu = env_archcpu(env);
+-#endif
  
-                 qemu_log("Page table: " TARGET_FMT_plx " len " TARGET_FMT_plx
-                          "\n", ppc_hash32_hpt_base(cpu),
--                         ppc_hash32_hpt_mask(env) + 0x80);
-+                         ppc_hash32_hpt_mask(cpu) + 0x80);
-                 for (curaddr = ppc_hash32_hpt_base(cpu);
-                      curaddr < (ppc_hash32_hpt_base(cpu)
-                                 + ppc_hash32_hpt_mask(cpu) + 0x80);
+     dump_store_bat(env, 'I', 0, nr, value);
+     if (env->IBAT[0][nr] != value) {
+@@ -1791,9 +1788,6 @@ void helper_store_ibatl(CPUPPCState *env, uint32_t nr, target_ulong value)
+ void helper_store_dbatu(CPUPPCState *env, uint32_t nr, target_ulong value)
+ {
+     target_ulong mask;
+-#if defined(FLUSH_ALL_TLBS)
+-    PowerPCCPU *cpu = env_archcpu(env);
+-#endif
+ 
+     dump_store_bat(env, 'D', 0, nr, value);
+     if (env->DBAT[0][nr] != value) {
+@@ -1828,7 +1822,6 @@ void helper_store_601_batu(CPUPPCState *env, uint32_t nr, target_ulong value)
+ {
+     target_ulong mask;
+ #if defined(FLUSH_ALL_TLBS)
+-    PowerPCCPU *cpu = env_archcpu(env);
+     int do_inval;
+ #endif
+ 
+@@ -1873,7 +1866,6 @@ void helper_store_601_batl(CPUPPCState *env, uint32_t nr, target_ulong value)
+ #if !defined(FLUSH_ALL_TLBS)
+     target_ulong mask;
+ #else
+-    PowerPCCPU *cpu = env_archcpu(env);
+     int do_inval;
+ #endif
+ 
 -- 
 2.31.1
 
