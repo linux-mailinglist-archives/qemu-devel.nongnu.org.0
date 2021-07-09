@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63ED63C2372
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 14:33:54 +0200 (CEST)
-Received: from localhost ([::1]:54924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F51E3C2376
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 14:35:43 +0200 (CEST)
+Received: from localhost ([::1]:60422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1phZ-0006Eq-2L
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 08:33:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52622)
+	id 1m1pjK-0001Sv-7J
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 08:35:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1peg-0003wr-Fl
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:30:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43180)
+ id 1m1pej-0003y6-3O
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:30:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:43192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1pec-0005A8-FG
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:30:54 -0400
+ id 1m1pec-0005AE-NJ
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:30:56 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1peZ-0007eB-GQ
+ id 1m1peZ-0007b8-Vp
  for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 12:30:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B4392E8139
+ by loganberry.canonical.com (Postfix) with ESMTP id EF45F2E813A
  for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 12:30:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 12:21:23 -0000
-From: Peter Maydell <1839807@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 12:24:22 -0000
+From: Peter Maydell <1836136@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm snapshots
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alsn janitor pmaydell th-huth
-X-Launchpad-Bug-Reporter: Al Sn (alsn)
+X-Launchpad-Bug-Commenters: janitor pmaydell rebeccas
+X-Launchpad-Bug-Reporter: Rebecca Chang Swee Fun (rebeccas)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <156559266426.18172.16579923111498222299.malonedeb@wampee.canonical.com>
-Message-Id: <162583328386.6007.3674585595379821826.malone@chaenomeles.canonical.com>
-Subject: [Bug 1839807] Re: Snapshots freeze guest Sabrelite IMX.6 board
+References: <156281902369.23368.14562778655096490350.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162583346233.20194.11296139634503569013.malone@soybean.canonical.com>
+Subject: [Bug 1836136] Re: u-boot: any plans to update u-boot to v2019.07
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 59499e3659f1bfa7c5d4df218e79c918ed69f2c6
+X-Launchpad-Hash: 48e95d5609a9d3c66c25c73cac0bfbdb16084ea7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,101 +70,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1839807 <1839807@bugs.launchpad.net>
+Reply-To: Bug 1836136 <1836136@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save/restore with TrustZone enabled is stil broken.
-
-
-** Changed in: qemu
-       Status: Expired =3D> New
+As it happens, in April 2021 commit 335b6389374a53e0 bumped our u-boot
+rom to v2021.04 to fix a PCI issue.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1839807
+https://bugs.launchpad.net/bugs/1836136
 
 Title:
-  Snapshots freeze guest Sabrelite IMX.6 board
+  u-boot: any plans to update u-boot to v2019.07
 
 Status in QEMU:
-  New
+  Expired
 
 Bug description:
-  Hello,
-
-  I'm trying to take and restore  a snapshot with the whole system state of=
- the Sabrelite IMX.6 board running on QEMU with commands savevm/loadvm.
-  It seems that I am able to take a snapshot but loading the snapshot fails.
-
-  For comparison I checked out snapshots on 32bit ARM Virt with Debian as w=
-ell as on the Versatilepb board with a bare metal application and it works =
-fine.
-  The problem occurs only with that one particular board.
-
-  My environment is:
-  Ubuntu 18.04
-  QEMU 3.0.1 (I see the same issue in QEMU 4.0.0 as well)
-  The kernel and device tree used for the board was 5.1.14 version from ker=
-nel.org
-
-  The file system was build from imx_v6_v7_defconfig config in buildroot
-  as and sd card image.
-
-  Problem:
-
-  Loading snapshot stops the whole machine and it's impossible to resume
-  it.
-
-  Steps to reproduce problem:
-
-  1.      I converted the sdcard.img built from the buildroot to qcow2
-  using command qemu-img convert -f raw -O qcow2 sdcard.img
-  sdcard.qcow2, since the raw doesn't support snapshots.
-
-  2.      I start QEMU with a command
-  ./arm-softmmu/qemu-system-arm -m 512 -M sabrelite -kernel zImage -append =
-"rootfstype=3Dext4 root=3D/dev/mmcblk2p2 rw rootwait" -rtc base=3Dlocaltime=
-,clock=3Dvm -dtb imx6dl-sabresd.dtb -drive file=3Dsdcard.qcow2,index=3D2,fo=
-rmat=3Dqcow2,id=3Dmycard -device sd-card,drive=3Dmycard -nographic -net nic=
- -net user
-
-  3.      I run a simple program which print characters to the console
-  in the background and add some files in user directory, to differ from
-  original image.
-
-  4.      I switch to QEMU monitor, and type =E2=80=9Csavevm <name>=E2=80=
-=9D.
-  When I type =E2=80=9Cinfo snapshots=E2=80=9D, the snapshot is listed.
-  So I assume it was saved correctly.
-
-  5.      Then I switch back to Linux console from monitor, remove the
-  added files and stop the background printing process.
-
-  6.      I switch back to monitor and I'm trying now to load the
-  snapshot by =E2=80=9Cloadvm <name>=E2=80=9D command.
-
-  That=E2=80=99s where the problem occurs. QEMU stops and I can't switch ba=
-ck from monitor to Linux.
-  Typing =E2=80=9Ccont=E2=80=9D doesn=E2=80=99t help.
-  It seems like the simulation has freezed. CPU usage on my Laptop machine =
-equals 100% until I exit QEMU.
-
-  =
-
-  What=E2=80=99s interesting when I exit the QEMU and then start it again t=
-he Linux boots and after it reaches the command prompt I can see the files =
-which were removed after saving the snapshot.
-
-  It looks like loading the snapshots works for restoring disk space but
-  it fails for restoring the running processes.
-
-  Due to the answer on QEMU mailing list
-  (https://lists.nongnu.org/archive/html/qemu-
-  discuss/2019-08/msg00016.html) it is QEMUs bug.
+  Just want to pulse about the plan to update u-boot binary to latest
+  v2019.07.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1839807/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1836136/+subscriptions
 
