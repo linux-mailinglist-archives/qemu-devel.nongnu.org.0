@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC483C26F2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:36:50 +0200 (CEST)
-Received: from localhost ([::1]:51372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 397D83C26F6
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:37:27 +0200 (CEST)
+Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1sYb-0001LD-WC
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:36:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59686)
+	id 1m1sZC-00036s-A1
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:37:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1sXH-0008J2-KV; Fri, 09 Jul 2021 11:35:27 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:31387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1sXC-0001OZ-Du; Fri, 09 Jul 2021 11:35:26 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 8B7CA74570D;
- Fri,  9 Jul 2021 17:35:18 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 138547456E3; Fri,  9 Jul 2021 17:35:18 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 11F2A7456B4;
- Fri,  9 Jul 2021 17:35:18 +0200 (CEST)
-Date: Fri, 9 Jul 2021 17:35:18 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
-In-Reply-To: <f8b149b7-366d-f5cd-7820-7e5ceab0157d@ozlabs.ru>
-Message-ID: <42abd27b-d73-e61-bd77-5ced775b7ee3@eik.bme.hu>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <d18ddc97-2293-bd5e-f91d-2cc2cf1fcf89@eik.bme.hu>
- <83533520-a1b6-29b3-66ee-c770ee2ff80c@ozlabs.ru>
- <433d7bea-60be-2962-4974-ba74ea4fe84@eik.bme.hu>
- <f8b149b7-366d-f5cd-7820-7e5ceab0157d@ozlabs.ru>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1sYJ-0001dt-PI
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:36:31 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:37474)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1sYI-0001za-2F
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:36:31 -0400
+Received: by mail-pg1-x533.google.com with SMTP id t9so10345706pgn.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 08:36:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jSFITZFjRwcnEjdPmjwkwvA2nORbym8nsvSG/06C/Lc=;
+ b=EPJ6SV4Fq8i7nZoOqa44fVwuYrPi2dEMyz5rDGTIWhj4vNyUZ+u/fSG/Ze2nev9Nar
+ Tp4a9kYgu05XzzqLULAMB1EzkfJS6dlyKobydUcPVDm39acQN6E7mWtcP5tK+eYX8nQX
+ op6zKJOhihP/X/NXiKp9kGQiO//mriEhC/xD2y0SwmSqKvnjaljoxYIYmVAaKIzYa5ZI
+ wgLrZQE1NNhYq44sYZH5S1iewogjXhiEWGZsXLuXcjL4JiLVINdbntWODAGgBtsQbdpi
+ ox0FkTJhLJ5B4PISLn49MRB81lT9jE8Ynku9vxaO+S00XNhUrkyAM7u890Eipa79WPm2
+ G+GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jSFITZFjRwcnEjdPmjwkwvA2nORbym8nsvSG/06C/Lc=;
+ b=FOlJJ3vI0wl5GuApXzZQq2v5Xw5fN0Zydwrnqn3DWhBdEQUMqQ+alqtXnDD4n36wK0
+ n991Bp2+WXiXGAqQWvNpSSJPIZYooJ09vL6MjtXyNwnxFsU+qwOVHVz01a407B6tVQs/
+ OgdU87XFRyUjAe9XFpQ7AJS0cQUMFAom72GqICZrvGEwgim5mPM97VL5hNvXSX/gArOZ
+ mBu5wXewEhDb2p5VqgWJ0Ejn2HSl0C8ewLQVnoa3qHtSUhgWeNpSnAZ2OeoxV21ms3l2
+ n5EfGNBfT5PRjIKBZMRvDfbZTRyO2LdUBv2YsPWGCk+tpLXQztcQiUbO2BbxY+fEd3eX
+ BaAA==
+X-Gm-Message-State: AOAM532TgqccMj06eyOIbq8cDJE6u3egKACmk1kHOKc39IPHvwSS35d8
+ j2Wmw4bHbKbsDoKjMHXIK0s57Q==
+X-Google-Smtp-Source: ABdhPJzcobLm+m3Js6mAWH9FR4SrHx8zoCwsZLlpEeWQ2cADMLH85Ev1FlLvOW6eA4nOU0IErqp84g==
+X-Received: by 2002:a63:da0a:: with SMTP id c10mr38908258pgh.255.1625844988672; 
+ Fri, 09 Jul 2021 08:36:28 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id t6sm13043993pjo.4.2021.07.09.08.36.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jul 2021 08:36:28 -0700 (PDT)
+Subject: Re: [PATCH v1 2/5] hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+ <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <aaa5d8dd-d161-684e-4204-e5bb60a2627b@linaro.org>
+Date: Fri, 9 Jul 2021 08:36:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,60 +88,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Jul 2021, Alexey Kardashevskiy wrote:
-> On 09/07/2021 23:28, BALATON Zoltan wrote:
->> On Fri, 9 Jul 2021, Alexey Kardashevskiy wrote:
->>> On 09/07/2021 08:34, BALATON Zoltan wrote:
->>>> MorphOS still boots but this breaks Linux which changes a few things in 
->>>> the device tree to fix it up to make it look the way it thinks is better.
->>> 
->>> 
->>> What are those things? What does the change break precisely? Does the 
->>> kernel stop booting?
->>> Can you please send output with the trace_vof_setprop tracepoint enabled?
->> 
->> It's fixing up some props that on Pegasos2 firmware are not how Linux 
->> expects them.
->
-> Why does it need to fix them then? You are building the FDT in QEMU, built it 
-> in the way Linux like and then you do not depend on the kernel fixing them 
-> up. What do I miss?
+On 7/8/21 8:30 PM, Alistair Francis wrote:
+> +typedef struct sifive_clint_callback {
+> +    SiFiveCLINTState *s;
+> +    int num;
+> +} sifive_clint_callback;
 
-The SmartFirmware used on the real hardware has some quirks that Linux 
-handles by fixing up the device tree. The board firmware has the device 
-tree the way I build it. I want to be compatible with how things work with 
-actual board firmware (thus replacing the non-distributable firmware blob 
-with VOF but still allowing using a ROM image if needed) not just get 
-things work with VOF by whatever hacks needed to get Linux boot. Keeping 
-compatibility with board firmware is useful so other guests can work too 
-and avoid possible conflicts with different assumptions from different 
-guests that may need different hacks if not using board ROM and also it's 
-simpler to debug by just comparing with what the real firmware has. These 
-fix ups are needed with the board firmware so they are also needed with 
-VOF which emulates the board firmware now, at least to the point of simple 
-CI and RTAS that's enough for some guests to boot (currently Linux and 
-MorphOS which are the two guests that work well enough with current state 
-of emulation anyway; AmigaOS needs some graphics driver or better Radeon 
-emulation then it would need more stuff from VOF as it calls methods to 
-access disk blocks which may be something you did in your further patches 
-for GRUB so I can get back to it when you get to GRUB support but that's 
-not urgent as there's no ouput without a graphics driver in AmigaOS so not 
-really useful to fix VOF for it now).
+Perhaps better to put "num", perhaps with a more descriptive name (hartid?), into 
+SiFiveCLINTState itself?
 
-> From traces I see that (besides PCI) it mostly sets props for 
-> linux-initrd/bootargs which you rather need to handle to keep the machine's 
-> properties and the FDT in sync.
+It would avoid some amount of double-indirection, and some awkward memory allocation in 
+sifive_clint_create.
 
-How do I handle that and what do I need to keep in sync? The pegasos2 does 
-not support -initrd option as initrd is embedded in kernel and -append is 
-just passed through to bootags. I don't use these in QEMU at all so the 
-guest can do whatever it wants with them.
 
-Regards,
-BALATON Zoltan
+>           } else if ((addr & 0x3) == 0) {
+> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MSIP, BOOL_TO_MASK(value));
+> +            if (value) {
+> +                qemu_irq_raise(clint->soft_irqs[hartid]);
+> +            } else {
+> +                qemu_irq_lower(clint->soft_irqs[hartid]);
+> +            }
+
+You should use qemu_irq_set here.
+
+
+r~
 
