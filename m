@@ -2,49 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B18A3C1CF2
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 03:10:27 +0200 (CEST)
-Received: from localhost ([::1]:51346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3763C1CFD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 03:19:27 +0200 (CEST)
+Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1f2A-0000se-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 21:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
+	id 1m1fAr-0007xp-Qe
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 21:19:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1eyw-0006nN-7T; Thu, 08 Jul 2021 21:07:06 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49853 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1m1f9o-0007JL-Lf
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 21:18:20 -0400
+Received: from esa14.fujitsucc.c3s2.iphmx.com ([68.232.156.101]:53468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1eys-0003Cy-Dn; Thu, 08 Jul 2021 21:07:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLZkT5PCwz9srX; Fri,  9 Jul 2021 11:06:57 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1625792817;
- bh=x4WAdeqGAgCnIsBilGTutM83zvwpDwKxK9AEhCgA03A=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lw/VX9idddCTRzACp+xnrQsphEY9L/LuKZmlhSayI72YOKHr9/xg3UxnDqZ7N1PCX
- vqp1Uk4xmGvj6JCuFAqPy8TX085Aaf3RyVNMr4hAjQ1yVclVh3fv6y9uU2dIPF64vm
- rn+s2e9kP69wiA7q2cB22lJ5nZDZzA4AUpBQ6cVo=
-Date: Fri, 9 Jul 2021 11:01:22 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Bharata B Rao <bharata@linux.ibm.com>
-Subject: Re: [PATCH v1 2/2] target/ppc: Support for H_RPT_INVALIDATE hcall
-Message-ID: <YOef4q9A6TUMe7vj@yekko>
-References: <20210706112440.1449562-1-bharata@linux.ibm.com>
- <20210706112440.1449562-3-bharata@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
+ id 1m1f9l-00075A-UG
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 21:18:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+ t=1625793499; x=1657329499;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=ttKmo8iVgwkfvp0tn65V6QvxaNPVa/RhmWoQiqsYixA=;
+ b=qkr3ns91+jA2Ryi98niQly0Uao2rv7kbszz+XP5VU4jjKDQhk5VKRaBb
+ mqIY0uu5V7G68K/4Cu6jL8c5EIF5d9dWZyhrM0uHCwGsMyoboImQvlfvv
+ z0JbxMRqP97MUMqKKt2/qyojIRz8XiiWSVbtT8U7HSAy/kfRXkG2exnj6
+ m6GIbDRQMdBFhNT+4N7UNcybfWgj/BTzoKltK55lcvP0Bhw65yuMwz9kD
+ vC4uJW2Dl0fUXLYxQk25+qAr0tr00PHYH/HBsVbxpJPTQ5Nls9hGOA/j3
+ /HXyj2yVODGrjxh9yhTU6rzJMPXaear6CdnbjHmntOZBMaA2EDTgPid6J w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="34523886"
+X-IronPort-AV: E=Sophos;i="5.84,225,1620658800"; d="scan'208";a="34523886"
+Received: from mail-os2jpn01lp2059.outbound.protection.outlook.com (HELO
+ JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.59])
+ by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 10:18:15 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nqfIOmUySaJdL769Jpp2VcjkWuUtlI8Ko3YmdAgCWxojX2aR210GohK2GKaXX6aJOhXrDv7Cb0IWT1rH8AfRFanIpfyi/OkLOHFUG7SrazYT10XD6iX4dpA8YSECj/eKHrFYkAWSxJ9Iya515cyAEQsHqG5eFMl4MOhwf6yNJOgN1rVwq/VBD6rJ39mnOdjMHJNFm1yJUljVg6YG670FZNSJQ6H3l7NPblSvL2kicd+j38fcPE9D7KgVAi1AN6v90H9Brj6aCH4FxWumQDJjGcjZvl7TBzE1/Lj3KOhPXMig0i7VoB6TUqZj8Teclfq3z16cH/6JpQUzXIVT5dg+3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ttKmo8iVgwkfvp0tn65V6QvxaNPVa/RhmWoQiqsYixA=;
+ b=PDLRvHMv0Aqhx4DOMHxYKRx3MzL/vLJNTwIf5dPupcWifWJkqfG0zx4Mc31CVoTWeV1rkB9HsT5VnpkBXZTSt2xthRN3kpbWw0unMP40To7TpW+cEA47546FLXCjfnq0e4CNSGoi4rJhkDGq1zcerQrmXZGOXzcxIiLP8Lc4koTTHoYSNBPFy26oAPYiyb646ZWs0uaHleXpZI6eNjZuKMOJlDxO3821E9OiPwuGn/sXA8WqSrw8ht5MvQwsWQRPvHnmWFzkl8iwgByFh9M/weiul6FXYuujbgU7vSFC4O4U98J8b+jMuwHS+FbP3KenloC+q8/tNS7QAvQuqB9x9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ttKmo8iVgwkfvp0tn65V6QvxaNPVa/RhmWoQiqsYixA=;
+ b=EYFlbz4AlFXoXuJHsa3GkKnFhMOTGHysj4ByjNeCYqRqFo4ffR30sARq4GZEkTfDEcpBGHFLx6/xwH7kQfKPXjab2baj5IU/qLJwKuyrVdicPmVzn5Tq8nHLLfzMVxHSQW7cGg1oJwuBPc3qBxqvBtSjLYU09jyKZ2BRMLdy6ZI=
+Received: from OS3PR01MB7650.jpnprd01.prod.outlook.com (2603:1096:604:14f::5)
+ by OS3PR01MB7360.jpnprd01.prod.outlook.com (2603:1096:604:14a::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Fri, 9 Jul
+ 2021 01:18:11 +0000
+Received: from OS3PR01MB7650.jpnprd01.prod.outlook.com
+ ([fe80::bc5e:5376:385:ad20]) by OS3PR01MB7650.jpnprd01.prod.outlook.com
+ ([fe80::bc5e:5376:385:ad20%5]) with mapi id 15.20.4308.023; Fri, 9 Jul 2021
+ 01:18:11 +0000
+From: "lizhijian@fujitsu.com" <lizhijian@fujitsu.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, "lizhijian@fujitsu.com"
+ <lizhijian@fujitsu.com>
+Subject: Re: [PATCH] migration/rdma: prevent from double free the same mr
+Thread-Topic: [PATCH] migration/rdma: prevent from double free the same mr
+Thread-Index: AQHXdAg1jHxBBva3IkK29GPlUiJUgas5cesAgABmdQA=
+Date: Fri, 9 Jul 2021 01:18:11 +0000
+Message-ID: <e4c969d9-00ec-f43e-d894-b462bbf14eed@fujitsu.com>
+References: <20210708144521.1959614-1-lizhijian@cn.fujitsu.com>
+ <YOdNxqhcWi6sHoRn@work-vm>
+In-Reply-To: <YOdNxqhcWi6sHoRn@work-vm>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e7e44747-a588-43b1-ae18-08d942776b03
+x-ms-traffictypediagnostic: OS3PR01MB7360:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OS3PR01MB7360C92C342EFE112DBAD173A5189@OS3PR01MB7360.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: QzBAUptzUc5Pn2bGO2KhbKjMCYAvbZ7ZOcM2Bf2KCFnb0uQQWzca4Ab5hOrosn5F4mXXwaXZSG17A7nnLxr1R70IgCmvpE80/73pWIfagV503HjbEtsXDYr2sIgHB5i0u4IWM5KIUBhrJBj3RXouB/Lyx/o0+g/710KJPWZBP2IOFUcmOePiF2EoDhXahFzLeZU9y5DTFbYaOFgOCzCQTFDAABtXDamoC4fm9oSr4lpOuNDxOb/zohGtoBVfBKD1aUkI6GY6pxE2FzLeN+4P2pCL6+fg4VV5IEvVdwPCwo0LJiFjAHusFQbmxdkzkAWLByKxiNnAmgLIGQyqmnk6J4eGB1FXMBmYwZtacQ8dYxdB1XY9veMOL3Y8YCvB4vaOXowPvsUvQbG/T9uBHB1c+Mj2lenxzMt3MI9I1JUsJMYPAoK82422CwI77kkMsOQTsBujhAjCRCq3bmxqxlBaiDcqCQ9JcImcGOE31cC3ltCLCTwaRRnS0n+pb8fwkSl/A8VNZ59bMyDAv0CNcG/JJYYseDyTGfovbc1RK5+BoPD2Dqz2RWqdjEgYFybvWoQmlNTz7zJlilDyX6UFjqybRVAxGctoBWAhsIpfbHkv0ri9nj8nu9pPXX7pO5b058tXDrU5cZGIdqsLwf9kg0jUAX8bdMrSX2eJNCtHF1vMaLr/qTqMSuXL70MjfLZYPGN/67o2gy75vTLlE4jA8eyQBg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:OS3PR01MB7650.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(39860400002)(136003)(366004)(396003)(2616005)(64756008)(66476007)(66446008)(76116006)(91956017)(36756003)(66556008)(31686004)(316002)(85182001)(53546011)(38100700002)(71200400001)(6486002)(6506007)(6512007)(83380400001)(122000001)(66946007)(54906003)(110136005)(5660300002)(4326008)(31696002)(8936002)(26005)(86362001)(186003)(2906002)(8676002)(478600001)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dk1OOENyRWpodmpJdjdWK0pOdmg3K3RiWlpXUGRUL2VZRXZib2s3Z0pIeDhZ?=
+ =?utf-8?B?ejVzemYvWmVodjZlTkpydGI4OXF5bzJYNmloOTNMWC9LWHZxSkVDL01Na0RG?=
+ =?utf-8?B?bHgyK3RxVTBLMlhUSncwWnFsT1E2TjBsZnVZZUZPSnFqTUV5eFNPUUVNN0xy?=
+ =?utf-8?B?eWlIMFRJQk04a1lCd2hDdzdnWmlIYnlqL0tVU2dxWnZsclZRZGlJdFFSVnZ4?=
+ =?utf-8?B?ZElIeG94WWhYYnB3R0ZDek1SS2g4M2RYOGNqZUl3cmR0dGkvOXRvd0g4a2lX?=
+ =?utf-8?B?c1RuSG5OS0xqNnMvaXl6YUVac3V5bWpKbXV0aXM0aGsxQ3BYMHdlNWF4cFJI?=
+ =?utf-8?B?bTE2aHgyYWhQUkNEaUJxd1I3U0NDWVEwcE9BSHNFNUFCcHpZcTZjQmkzUEFG?=
+ =?utf-8?B?OW1NVytIemt0OW5xWnMvSGZwVGtVRkh0YU8rUzdFUzlPSkw5NmJXNzVxbTNJ?=
+ =?utf-8?B?b3JobWVSOERvT3hZVElYb2dGdFE1M2dLNUF1QmpjT1JJcUF3ZUFWd0NyaEdj?=
+ =?utf-8?B?bkM0NmlpSkN0R2tYL3MxRE9FV1BBcWNLTTlrSmdzNkN1RXdUeWI2OWpGazhu?=
+ =?utf-8?B?N1VaWWkvWGZzdjBwSmdXSFFHa1AvaExzeldZV0NveEtDdHorTWh5eFNoM2l5?=
+ =?utf-8?B?Q1Q3Y01IeE90c200UUlJSCtTdXF3YUNidCtCYmF2ZmkwVHRqSUI0V0pJNG0x?=
+ =?utf-8?B?Um1OamUyTkNZTHpwa1N4bGtZdXk1SVZFbVpVMVBvRjZ0RGU2Ylk4R1VReU1B?=
+ =?utf-8?B?WENwei9mcHlQSmpTZm9VaHRPVHpobE5INUtmUkpMeXMrWmlsTlJ6VGhNelE5?=
+ =?utf-8?B?eHV2SGtxZFQxdUcrS21pM2ZDYU9Vd04yaExhUys1K0kzRjNnaC9HN05BRGJZ?=
+ =?utf-8?B?eGI3NEpldlJ2T0JUaDh2aVRtN1I0K2pPdlQ2N3JUcTVST0dsdW85UE5KTXkz?=
+ =?utf-8?B?eXJxMGgxM3dtVU5pVCtjWVlWdzU1TjM0ZEs1Q3dMUTNXbS82UVpHZHBnU1Q2?=
+ =?utf-8?B?VU1iSFBOYVB0YjBCcURDR1RhOVlreDFEa2JSZkFjdVVsOHJqSk52MjdCaHpG?=
+ =?utf-8?B?V0tpNEluZWMzOVdINmdaOWFYRVJBVzcrMHpudXJDK3JFRVJhZk5sRHQ3cEtG?=
+ =?utf-8?B?QnV5bUtWYWoxdlpzWm5tczFwTS9Ua2FZaFJhSEJxcUl5UVFKb0t1WDlRRFc4?=
+ =?utf-8?B?UnVtTG9CcHI3RXpzQWpadHpvOENBSjY4ZFIyMVJnMTYrK0tjNDRWelRIWkJ2?=
+ =?utf-8?B?a1hxS2poZnVNWHZJeWxoSHhUSjNKb3lxbGRMZGZEUnZZT1JxREx0SWNCUzVo?=
+ =?utf-8?B?RGltbjNZTFc4NllMMkRZaHkzeVNDVDk5MFM2SVdhaGZWZ2djUTlkbm5idGRs?=
+ =?utf-8?B?eTIxcm90U3pNdTE5eC9LbDNqcmRzdS96YWkrTnpDNUM2TGdBZ1lKaXhpdGl6?=
+ =?utf-8?B?YTFUL09ONGhucFlweURMV0d0TFBYcXdhcmx4VmNaaWw2RVU5ZmFxZk1jVGI4?=
+ =?utf-8?B?Y2lWS00zNTRyOGdzTmdZc3B5Z3dVeWY1Yks3cjR2MFNRcmM5RGllS2JRR3lI?=
+ =?utf-8?B?Mnp0a09vNm9wUzQxSTlPdk5TRUpyN1J2WjBHMTFISHQvcEo3SXk0S0cwUGFk?=
+ =?utf-8?B?VTIrMFdCSXJYRjNya1R0TG5WMU1BeXZCaDFFQmpSc0V6M01nQ2N3Qk10YXZn?=
+ =?utf-8?B?VUdENjd6dFJvQXFOcVA3bkVicHdoNmRubkNLMzJ4dWt6QlRIUHQrb09JdGJu?=
+ =?utf-8?Q?DAingG/NIDZcm78PvgeaHya4wRUvdKlbG4TBwk1?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <39C551627A18EC4DB9DCD441838E4352@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RQBVJ8osfURThJDD"
-Content-Disposition: inline
-In-Reply-To: <20210706112440.1449562-3-bharata@linux.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB7650.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7e44747-a588-43b1-ae18-08d942776b03
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2021 01:18:11.3003 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: u7tUWiYtn9ho+qCErUEC/hwHWU/V6MgTqG97Ykc/lY8g0dTVG35q5Z9Y7toh+0+9BkH/MG3/3x2ia+2GCISijw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS3PR01MB7360
+Received-SPF: pass client-ip=68.232.156.101;
+ envelope-from=lizhijian@fujitsu.com; helo=esa14.fujitsucc.c3s2.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,300 +157,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---RQBVJ8osfURThJDD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 06, 2021 at 04:54:40PM +0530, Bharata B Rao wrote:
-> If KVM_CAP_RPT_INVALIDATE KVM capability is enabled, then
->=20
-> - indicate the availability of H_RPT_INVALIDATE hcall to the guest via
->   ibm,hypertas-functions property.
-> - Enable the hcall
->=20
-> Both the above are done only if the new sPAPR machine capability
-> cap-rpt-invalidate is set.
->=20
-> Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
-
-Applied to ppc-for-6.1, but one note below.
-
-> ---
->  hw/ppc/spapr.c         |  6 ++++++
->  hw/ppc/spapr_caps.c    | 41 +++++++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr.h |  8 ++++++--
->  target/ppc/kvm.c       | 12 ++++++++++++
->  target/ppc/kvm_ppc.h   | 12 ++++++++++++
->  5 files changed, 77 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 4dd90b75cc..2b96b03673 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -880,6 +880,10 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, =
-void *fdt)
->      add_str(hypertas, "hcall-copy");
->      add_str(hypertas, "hcall-debug");
->      add_str(hypertas, "hcall-vphn");
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_RPT_INVALIDATE) =3D=3D SPAPR_CAP_=
-ON) {
-> +        add_str(hypertas, "hcall-rpt-invalidate");
-> +    }
-> +
->      add_str(qemu_hypertas, "hcall-memop1");
-> =20
->      if (!kvm_enabled() || kvmppc_spapr_use_multitce()) {
-> @@ -2018,6 +2022,7 @@ static const VMStateDescription vmstate_spapr =3D {
->          &vmstate_spapr_cap_ccf_assist,
->          &vmstate_spapr_cap_fwnmi,
->          &vmstate_spapr_fwnmi,
-> +        &vmstate_spapr_cap_rpt_invalidate,
->          NULL
->      }
->  };
-> @@ -4573,6 +4578,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
->      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
->      smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_ON;
-> +    smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] =3D SPAPR_CAP_OFF;
->      spapr_caps_add_properties(smc);
->      smc->irq =3D &spapr_irq_dual;
->      smc->dr_phb_enabled =3D true;
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index d0c419b392..ed7c077a0d 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -582,6 +582,37 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr=
-, uint8_t val,
->      }
->  }
-> =20
-> +static void cap_rpt_invalidate_apply(SpaprMachineState *spapr,
-> +                                     uint8_t val, Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +
-> +    if (!val) {
-> +        /* capability disabled by default */
-> +        return;
-> +    }
-> +
-> +    if (tcg_enabled()) {
-> +        error_setg(errp, "No H_RPT_INVALIDATE support in TCG");
-
-This will need to be fixed before the default can be changed to on.
-
-> +        error_append_hint(errp,
-> +                          "Try appending -machine cap-rpt-invalidate=3Do=
-ff\n");
-> +    } else if (kvm_enabled()) {
-> +        if (!kvmppc_has_cap_mmu_radix()) {
-> +            error_setg(errp, "H_RPT_INVALIDATE only supported on Radix");
-> +            return;
-> +        }
-> +
-> +        if (!kvmppc_has_cap_rpt_invalidate()) {
-> +            error_setg(errp,
-> +                       "KVM implementation does not support H_RPT_INVALI=
-DATE");
-> +            error_append_hint(errp,
-> +                              "Try appending -machine cap-rpt-invalidate=
-=3Doff\n");
-> +        } else {
-> +            kvmppc_enable_h_rpt_invalidate();
-> +        }
-> +    }
-> +}
-> +
->  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
->      [SPAPR_CAP_HTM] =3D {
->          .name =3D "htm",
-> @@ -690,6 +721,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
-=3D {
->          .type =3D "bool",
->          .apply =3D cap_fwnmi_apply,
->      },
-> +    [SPAPR_CAP_RPT_INVALIDATE] =3D {
-> +        .name =3D "rpt-invalidate",
-> +        .description =3D "Allow H_RPT_INVALIDATE",
-> +        .index =3D SPAPR_CAP_RPT_INVALIDATE,
-> +        .get =3D spapr_cap_get_bool,
-> +        .set =3D spapr_cap_set_bool,
-> +        .type =3D "bool",
-> +        .apply =3D cap_rpt_invalidate_apply,
-> +    },
->  };
-> =20
->  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
-> @@ -830,6 +870,7 @@ SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_K=
-VM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
->  SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
-> +SPAPR_CAP_MIG_STATE(rpt_invalidate, SPAPR_CAP_RPT_INVALIDATE);
-> =20
->  void spapr_caps_init(SpaprMachineState *spapr)
->  {
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index f05219f75e..b18d407c1a 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -74,8 +74,10 @@ typedef enum {
->  #define SPAPR_CAP_CCF_ASSIST            0x09
->  /* Implements PAPR FWNMI option */
->  #define SPAPR_CAP_FWNMI                 0x0A
-> +/* Support H_RPT_INVALIDATE */
-> +#define SPAPR_CAP_RPT_INVALIDATE        0x0B
->  /* Num Caps */
-> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
-> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
-> =20
->  /*
->   * Capability Values
-> @@ -542,8 +544,9 @@ struct SpaprMachineState {
->  #define H_SCM_UNBIND_MEM        0x3F0
->  #define H_SCM_UNBIND_ALL        0x3FC
->  #define H_SCM_HEALTH            0x400
-> +#define H_RPT_INVALIDATE        0x448
-> =20
-> -#define MAX_HCALL_OPCODE        H_SCM_HEALTH
-> +#define MAX_HCALL_OPCODE        H_RPT_INVALIDATE
-> =20
->  /* The hcalls above are standardized in PAPR and implemented by pHyp
->   * as well.
-> @@ -932,6 +935,7 @@ extern const VMStateDescription vmstate_spapr_cap_nes=
-ted_kvm_hv;
->  extern const VMStateDescription vmstate_spapr_cap_large_decr;
->  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
->  extern const VMStateDescription vmstate_spapr_cap_fwnmi;
-> +extern const VMStateDescription vmstate_spapr_cap_rpt_invalidate;
-> =20
->  static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
->  {
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 104a308abb..dc93b99189 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -89,6 +89,7 @@ static int cap_ppc_count_cache_flush_assist;
->  static int cap_ppc_nested_kvm_hv;
->  static int cap_large_decr;
->  static int cap_fwnmi;
-> +static int cap_rpt_invalidate;
-> =20
->  static uint32_t debug_inst_opcode;
-> =20
-> @@ -152,6 +153,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
->          exit(1);
->      }
-> =20
-> +    cap_rpt_invalidate =3D kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INV=
-ALIDATE);
->      kvm_ppc_register_host_cpu_type();
-> =20
->      return 0;
-> @@ -2040,6 +2042,11 @@ void kvmppc_enable_h_page_init(void)
->      kvmppc_enable_hcall(kvm_state, H_PAGE_INIT);
->  }
-> =20
-> +void kvmppc_enable_h_rpt_invalidate(void)
-> +{
-> +    kvmppc_enable_hcall(kvm_state, H_RPT_INVALIDATE);
-> +}
-> +
->  void kvmppc_set_papr(PowerPCCPU *cpu)
->  {
->      CPUState *cs =3D CPU(cpu);
-> @@ -2551,6 +2558,11 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, =
-int enable)
->      return 0;
->  }
-> =20
-> +int kvmppc_has_cap_rpt_invalidate(void)
-> +{
-> +    return cap_rpt_invalidate;
-> +}
-> +
->  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
->  {
->      uint32_t host_pvr =3D mfpvr();
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 989f61ace0..ee9325bf9a 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -24,6 +24,7 @@ void kvmppc_enable_logical_ci_hcalls(void);
->  void kvmppc_enable_set_mode_hcall(void);
->  void kvmppc_enable_clear_ref_mod_hcalls(void);
->  void kvmppc_enable_h_page_init(void);
-> +void kvmppc_enable_h_rpt_invalidate(void);
->  void kvmppc_set_papr(PowerPCCPU *cpu);
->  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
->  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> @@ -71,6 +72,7 @@ bool kvmppc_has_cap_nested_kvm_hv(void);
->  int kvmppc_set_cap_nested_kvm_hv(int enable);
->  int kvmppc_get_cap_large_decr(void);
->  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
-> +int kvmppc_has_cap_rpt_invalidate(void);
->  int kvmppc_enable_hwrng(void);
->  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
->  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
-> @@ -150,6 +152,11 @@ static inline void kvmppc_enable_h_page_init(void)
->  {
->  }
-> =20
-> +static inline void kvmppc_enable_h_rpt_invalidate(void)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +
->  static inline void kvmppc_set_papr(PowerPCCPU *cpu)
->  {
->  }
-> @@ -381,6 +388,11 @@ static inline int kvmppc_enable_cap_large_decr(Power=
-PCCPU *cpu, int enable)
->      return -1;
->  }
-> =20
-> +static inline int kvmppc_has_cap_rpt_invalidate(void)
-> +{
-> +    return false;
-> +}
-> +
->  static inline int kvmppc_enable_hwrng(void)
->  {
->      return -1;
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---RQBVJ8osfURThJDD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDnn+IACgkQbDjKyiDZ
-s5K/AxAA2dGg/klqAwX3yY2CnodAsfc0wCnPKLteLC855VKaXfj+aqnJcYC69tKR
-OrDe5fLM/1hn4m9vVJKU1iB+nb5UpWEIcnnrRoy0NrLMiZRBIv74XfNcxCI8vAf6
-nD2MpSS5A+wlbIK+Cf/sM4icAR4IX4Esvo7oEiuU5Y08egcEh1CzxEZzQATfnVmQ
-ZNOCP5vaiSWPSmbDwDiHRpawNzGu7atrcAxQp7i0GINuDk2XRqCXYb9e5+pcWCgx
-SZFOtBwAYQyKuQjNciaGAB1iGOFEBJ7zgq0hxcfJmrqIPR6egkMf/99SxMq9pwWN
-ZOj1r5cGLqwQP4KI4qH4nOn/UIDv+0JuNej2F4tr/+e9HVctbhe0BKgQZpR3r/Fy
-AJLzq7g3N98VW15ONELT791aBPx/L3SkGujYc7paGnEhmc0kuBjLshCUyOU90V7Q
-Q6hEi7Q3jsFy/im4Y0Ug8KDegOH+eVFGN6QpvkDCaf62qZHqz3OIxNXvglpZn2mP
-h9MzotDjecCe+92qdaWmufRWR9w69epQ/aMg12fVAkYgrL4CzATEEv9Qz7A2guyT
-f/FGK4KGL/4Ag+NjSQdWUZP5wbrPx0iWtgoOYlJlw/8m2ijZME8CNGnTPxIfEj1m
-8vwmDvMpZarbMzbUKpM3u/VCftclVdHvd3X8wNGI4RrUjtV41k0=
-=wAvy
------END PGP SIGNATURE-----
-
---RQBVJ8osfURThJDD--
+DQoNCk9uIDA5LzA3LzIwMjEgMDM6MTEsIERyLiBEYXZpZCBBbGFuIEdpbGJlcnQgd3JvdGU6DQo+
+ICogTGkgWmhpamlhbiAobGl6aGlqaWFuQGNuLmZ1aml0c3UuY29tKSB3cm90ZToNCj4+IGJhY2t0
+cmFjZToNCj4+ICcweDAwMDA3ZmZmZjVmNDRlYzIgaW4gX19pYnZfZGVyZWdfbXJfMV8xIChtcj0w
+eDdmZmYxMDA3ZDM5MCkgYXQgL2hvbWUvbGl6aGlqaWFuL3JkbWEtY29yZS9saWJpYnZlcmJzL3Zl
+cmJzLmM6NDc4DQo+PiA0NzggICAgICAgICAgICAgdm9pZCAqYWRkciAgICAgICAgICAgICAgPSBt
+ci0+YWRkcjsNCj4gQU55IGlkZWEgd2h5IGl0IGRlbGV0ZXMgdGhlIHNhbWUgbXIgdHdpY2U/DQoN
+Ckl0J3MgZWFzeSB0byByZXByb2R1Y2UgaXQgaWYgd2Ugc3BlY2lmeSBhIG52ZGltbSBiYWNraW5n
+IHRvIGEgZnNkYXggbWVtb3J5LWJhY2tlbmQtZmlsZSB3aGljaCBjYW5ub3Qgc3VwcG9ydCByZWdp
+c3RlcmluZyBtciBsaWtlOg0KDQpbcm9vdEBpYWFzLXJwbWEgfl0jIG1vdW50IHwgZ3JlcCBwbWVt
+MA0KL2Rldi9wbWVtMCBvbiAvbW50L3BtZW0wIHR5cGUgZXh0NCAocncscmVsYXRpbWUsc2VjbGFi
+ZWwsZGF4PWFsd2F5cykNCg0KW3Jvb3RAaWFhcy1ycG1hIH5dIyBuZGN0bCBsaXN0IC1uIG5hbWVz
+cGFjZTAuMA0KWw0KIMKgIHsNCiDCoMKgwqAgImRldiI6Im5hbWVzcGFjZTAuMCIsDQogwqDCoMKg
+ICJtb2RlIjoiZnNkYXgiLA0KIMKgwqDCoCAibWFwIjoibWVtIiwNCiDCoMKgwqAgInNpemUiOjUz
+Njg3MDkxMiwNCiDCoMKgwqAgInNlY3Rvcl9zaXplIjo1MTIsDQogwqDCoMKgICJibG9ja2RldiI6
+InBtZW0wIg0KIMKgIH0NCl0NCg0KDQpgLW9iamVjdCBtZW1vcnktYmFja2VuZC1maWxlLGlkPW1l
+bTEsc2hhcmU9b24sbWVtLXBhdGg9L21udC9wbWVtMC9udi0xMjhtLmltZyxzaXplPTEyOG0scG1l
+bT1vbixhbGlnbj0ybSAtZGV2aWNlIG52ZGltbSxtZW1kZXY9bWVtMSxpZD1udjFgDQoNCmFuZCB0
+aGVuIGVuYWJsZSByZG1hLXBpbi1hbGwuDQoNCihxZW11KSBtaWdyYXRlX3NldF9jYXBhYmlsaXR5
+IHJkbWEtcGluLWFsbCBvbg0KKHFlbXUpDQoNCk5vdyBxZW11IGhhcyBhdCBsZWFzdCAyIHJhbSBi
+bG9jaywgcGMucmFtIGFuZCBtZW0xLiB0aGUgbGF0dGVyIHdpbGwgYmUgZmFpbGVkIHRvIHJlZ2lz
+dGVyIG1yOg0KYEZhaWxlZCB0byByZWdpc3RlciBsb2NhbCBkZXN0IHJhbSBibG9jayEgOiBJbnZh
+bGlkIGFyZ3VtZW50wqDCoCBgDQoNCmluIHRoaXMgY2FzZSwgdGhlIG1yIG9mIHBjLnJhbSB3aWxs
+IGJlIGRlbGV0ZWQgdHdpY2UuDQoNClRoYW5rcw0KTGkNCj4NCj4gRGF2ZQ0KPg0KPj4gKGdkYikg
+YnQNCj4+ICAgIzAgIDB4MDAwMDdmZmZmNWY0NGVjMiBpbiBfX2lidl9kZXJlZ19tcl8xXzEgKG1y
+PTB4N2ZmZjEwMDdkMzkwKSBhdCAvaG9tZS9saXpoaWppYW4vcmRtYS1jb3JlL2xpYmlidmVyYnMv
+dmVyYnMuYzo0NzgNCj4+ICAgIzEgIDB4MDAwMDU1NTU1NTg5MWZjYyBpbiByZG1hX2RlbGV0ZV9i
+bG9jayAoYmxvY2s9PG9wdGltaXplZCBvdXQ+LCByZG1hPTB4N2ZmZjM4MTc2MDEwKSBhdCAuLi9t
+aWdyYXRpb24vcmRtYS5jOjY5MQ0KPj4gICAjMiAgcWVtdV9yZG1hX2NsZWFudXAgKHJkbWE9MHg3
+ZmZmMzgxNzYwMTApIGF0IC4uL21pZ3JhdGlvbi9yZG1hLmM6MjM2NQ0KPj4gICAjMyAgMHgwMDAw
+NTU1NTU1ODkyNWIwIGluIHFpb19jaGFubmVsX3JkbWFfY2xvc2VfcmN1IChyY3U9MHg1NTU1NTZi
+OGI2YzApIGF0IC4uL21pZ3JhdGlvbi9yZG1hLmM6MzA3Mw0KPj4gICAjNCAgMHgwMDAwNTU1NTU1
+ZDY1MmEzIGluIGNhbGxfcmN1X3RocmVhZCAob3BhcXVlPW9wYXF1ZUBlbnRyeT0weDApIGF0IC4u
+L3V0aWwvcmN1LmM6MjgxDQo+PiAgICM1ICAweDAwMDA1NTU1NTVkNWVkZjkgaW4gcWVtdV90aHJl
+YWRfc3RhcnQgKGFyZ3M9MHg3ZmZmZTg4YmI0ZDApIGF0IC4uL3V0aWwvcWVtdS10aHJlYWQtcG9z
+aXguYzo1NDENCj4+ICAgIzYgIDB4MDAwMDdmZmZmNTRjNzNmOSBpbiBzdGFydF90aHJlYWQgKCkg
+YXQgL2xpYjY0L2xpYnB0aHJlYWQuc28uMA0KPj4gICAjNyAgMHgwMDAwN2ZmZmY1M2YzYjAzIGlu
+IGNsb25lICgpIGF0IC9saWI2NC9saWJjLnNvLjYgJw0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IExp
+IFpoaWppYW4gPGxpemhpamlhbkBjbi5mdWppdHN1LmNvbT4NCj4+IC0tLQ0KPj4gICBtaWdyYXRp
+b24vcmRtYS5jIHwgMSArDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPj4N
+Cj4+IGRpZmYgLS1naXQgYS9taWdyYXRpb24vcmRtYS5jIGIvbWlncmF0aW9uL3JkbWEuYw0KPj4g
+aW5kZXggYjZjYzRiZWY0YTguLjBmMjJiODIyN2MwIDEwMDY0NA0KPj4gLS0tIGEvbWlncmF0aW9u
+L3JkbWEuYw0KPj4gKysrIGIvbWlncmF0aW9uL3JkbWEuYw0KPj4gQEAgLTExNDMsNiArMTE0Myw3
+IEBAIHN0YXRpYyBpbnQgcWVtdV9yZG1hX3JlZ193aG9sZV9yYW1fYmxvY2tzKFJETUFDb250ZXh0
+ICpyZG1hKQ0KPj4gICANCj4+ICAgICAgIGZvciAoaS0tOyBpID49IDA7IGktLSkgew0KPj4gICAg
+ICAgICAgIGlidl9kZXJlZ19tcihsb2NhbC0+YmxvY2tbaV0ubXIpOw0KPj4gKyAgICAgICAgbG9j
+YWwtPmJsb2NrW2ldLm1yID0gTlVMTDsNCj4+ICAgICAgICAgICByZG1hLT50b3RhbF9yZWdpc3Ry
+YXRpb25zLS07DQo+PiAgICAgICB9DQo+PiAgIA0KPj4gLS0gDQo+PiAyLjMwLjINCj4+DQo+Pg0K
+Pj4NCg==
 
