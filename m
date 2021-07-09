@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29023C1DF3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 05:53:23 +0200 (CEST)
-Received: from localhost ([::1]:59372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C243C1DF5
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 05:54:23 +0200 (CEST)
+Received: from localhost ([::1]:33482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1hZq-0004mU-QI
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 23:53:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47100)
+	id 1m1hao-0006Ki-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 23:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m1hYz-0003fz-GM; Thu, 08 Jul 2021 23:52:29 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:40640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m1hYx-0001OM-W9; Thu, 08 Jul 2021 23:52:29 -0400
-Received: by mail-io1-xd36.google.com with SMTP id l5so10891791iok.7;
- Thu, 08 Jul 2021 20:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FW1yrI4pHTh1eq2Z1nXQViayvoWE6bFysOqUtsjOJkk=;
- b=SdpqbR0kase9UbGPlKOiltBNYREtNzBJHf9t2RA7OD53eIjT/AbhkXJXWQRDSnddRX
- mfEHst/SNziUt3Fdz8UNqKv0+wLiYjaWxEiUEmQL8Tu2jV58knva7Ly/mHwJuLaUNCFv
- KTmPfBRVNSxaH2Q4KKs/U47t8Upp5EzCiFsod/EB56OESeDMvOgtHB3ZLcktoQoN/YSt
- vpq3YHiMErBTSzu1jv3XNDFYvIiLX6wI5axTobGSKjjfVks5fulA5cyM2IWQg8Iv/iAT
- apT37LmtOHCOywJFN2MH2NxMfR6l+cjweQcmbA3WThYthO1MReo9Ft5Ext1NEfUfSEc5
- Aujw==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m1hZd-00050s-QD
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 23:53:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31102)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m1hZa-0001jP-41
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 23:53:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625802784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=USJQtR0pGVSPniZfwPmlw425WSj2zuW3iPCgpp0qdK4=;
+ b=Kn/qwYkSmGw3Y2izvieVvgEFp05emlPqtAb00b6m/DZWSS+JfI9OXzzEuWY7PYJTsSZy6S
+ V3twacopOspjefZDyj3H2hnyWTX1Udc0b8EvqjejNnncLHmi6vwMp6mBJ5wVdJM/5HtHxX
+ LjI6PsEyWuFmXjcVg1AIN7bFtYJKm3I=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-250-SDfVWSHhMPiaKoRl1F9GTQ-1; Thu, 08 Jul 2021 23:53:01 -0400
+X-MC-Unique: SDfVWSHhMPiaKoRl1F9GTQ-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ t18-20020a056a001392b02903039eb2e663so5346671pfg.5
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 20:53:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FW1yrI4pHTh1eq2Z1nXQViayvoWE6bFysOqUtsjOJkk=;
- b=p6wKMu7OIIp3zAAfrgZ/JkOCvbln6gHx7hNq0pBAqoFinJuUKgQa/+GYI3/f9L2/Jc
- v8j9VXQygNIrsMl5qBPYtRsTPz9V62mzvWBbBXmsnNQV41Mo6ltIpCaVaEr4gjRcbYRF
- JJsAXS2gy0cL8L6h0qdtfVeKcORb1I40mTlaGvlayraZbFQRcCj7TeX2r8ldgYojddo9
- ax6SXlNyxju69RZpFQf/b2fM20ODEjqfYA8jEqIMDgTzkpGq7Lf3shn0Wous9+dCgMaU
- T154qB0oONxuTHg0wiAba58mWwyJrkIw77QJv7jncdxl1ef+Y1o+5zUxZBnwhZ6kgo5A
- fAWg==
-X-Gm-Message-State: AOAM5317ippvrAOaCWhBI3zj43jL4QHdgFbaCRTFuhWf2fN5aRxVoMD9
- tkBOapnS6BgvrlxHGDAJYW3R0Q366yn76l0J1uk=
-X-Google-Smtp-Source: ABdhPJyLLxeu+FeCNe0GdE5vEjtf3gcaD2eZw9QOt5zRvudEa8fqFnSeS2lOSChY0Y+M7rNv1SoT+G05bBjkIGV100s=
-X-Received: by 2002:a6b:7905:: with SMTP id i5mr27220888iop.175.1625802746345; 
- Thu, 08 Jul 2021 20:52:26 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=USJQtR0pGVSPniZfwPmlw425WSj2zuW3iPCgpp0qdK4=;
+ b=JVx5pFEYmlG86tiQCEoMIOQOO36ZqnGk30thFIriVg1lg4Cu/zyQ7chbgIUcYzg68N
+ 5SI2uhA7tKErvasMuobbKXVfl2c24jHVYntH5DdXEOz/b+WVL0mpeM8Ch2HhPSAcEZmx
+ Zd5Eh4AeuCIfdQeO9oM7mWvvcViAzeAPw+QaGT/4aAjJJLdVangpaLHCpgC6UpxMCOkC
+ EENFE/cqykRNr61nX68ZS/r7b5vghCe8yQFk1XgpzXhDDi1X8mT2Cs0wpEbSVV4zP+xh
+ oQNY6TVXeFoecW4JI4DTJp/PRptdvPje38D0bbGddPBeoBC6EHA7MBO8xtRzHZda4dkv
+ xx0Q==
+X-Gm-Message-State: AOAM5316X2yS3Qr5fYTXlVXkqFX/0JTKYNIQSV+bCvnyocHP0JYG5Ltg
+ v3xvPfNNpEM9v+eKS7+TOyP0BgsKwm2dlg8pgA5zMVrYc4ErJrajpHCRZEKHx0/VOrAg2cd8eOZ
+ 5x6VUjwb78g1yhb8=
+X-Received: by 2002:a63:f348:: with SMTP id t8mr34926327pgj.23.1625802780072; 
+ Thu, 08 Jul 2021 20:53:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwjvtTqe0KCc0lvi3sa/YcfMIWJbms3E+LZ7e8n1+716u6AYZ5utwdsiPLT97sczsdInfoErg==
+X-Received: by 2002:a63:f348:: with SMTP id t8mr34926301pgj.23.1625802779741; 
+ Thu, 08 Jul 2021 20:52:59 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id a15sm4371618pff.128.2021.07.08.20.52.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 08 Jul 2021 20:52:59 -0700 (PDT)
+Subject: Re: [PULL V2 1/6] qapi/net: Add IPFlowSpec and QMP command for filter
+ passthrough
+To: Zhang Chen <chen.zhang@intel.com>
+References: <20210701091130.3022093-1-chen.zhang@intel.com>
+ <20210701091130.3022093-2-chen.zhang@intel.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <a49385c6-5ccc-42db-b3ca-0f81b5734f05@redhat.com>
+Date: Fri, 9 Jul 2021 11:52:33 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210708143319.10441-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210708143319.10441-1-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 9 Jul 2021 13:52:00 +1000
-Message-ID: <CAKmqyKNTuOB=7UV9GsO5exvbcgqv7Wo0iGum1oz+zLfph1x7kA@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: sifive_u: Make sure firmware info is 8-byte
- aligned
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210701091130.3022093-2-chen.zhang@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,63 +101,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 12:33 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Currently the firmware dynamic info (fw_dyn) is put right after
-> the reset vector, which is not 8-byte aligned on RV64. OpenSBI
-> fw_dynamic uses ld to read contents from 'struct fw_dynamic_info',
-> which expects fw_dyn to be on the 8-byte boundary, otherwise the
-> misaligned load exception may happen. Fortunately this does not
-> cause any issue on QEMU, as QEMU does support misaligned load.
->
-> RV32 does not have any issue as it is 4-byte aligned already.
-> Change to make sure it is 8-byte aligned which works for both
-> RV32 and RV64.
->
-> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+ÔÚ 2021/7/1 ÏÂÎç5:11, Zhang Chen Ð´µÀ:
+> Since the real user scenario does not need to monitor all traffic.
+> Add passthrough-filter-add and passthrough-filter-del to maintain
+> a network passthrough list in object with network packet processing
+> function. Add IPFlowSpec struct for all QMP commands.
+> Most the fields of IPFlowSpec are optional,except object-name.
+>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 
-Alistair
+
+Hi:
+
+I would like to have ack from the QAPI guys for this patch.
+
+Thanks
+
 
 > ---
+>   net/net.c     | 10 +++++++
+>   qapi/net.json | 78 +++++++++++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 88 insertions(+)
 >
->  hw/riscv/sifive_u.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 273c86418c..4d99566e62 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -599,10 +599,10 @@ static void sifive_u_machine_init(MachineState *machine)
->      }
->
->      /* reset vector */
-> -    uint32_t reset_vec[11] = {
-> +    uint32_t reset_vec[12] = {
->          s->msel,                       /* MSEL pin state */
->          0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
-> -        0x02828613,                    /*     addi   a2, t0, %pcrel_lo(1b) */
-> +        0x02c28613,                    /*     addi   a2, t0, %pcrel_lo(1b) */
->          0xf1402573,                    /*     csrr   a0, mhartid  */
->          0,
->          0,
-> @@ -610,6 +610,7 @@ static void sifive_u_machine_init(MachineState *machine)
->          start_addr,                    /* start: .dword */
->          start_addr_hi32,
->          fdt_load_addr,                 /* fdt_laddr: .dword */
-> +        0x00000000,
->          0x00000000,
->                                         /* fw_dyn: */
->      };
-> --
-> 2.25.1
->
->
+> diff --git a/net/net.c b/net/net.c
+> index 76bbb7c31b..00f2be7a58 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error **errp)
+>       }
+>   }
+>   
+> +void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
+> +{
+> +    /* TODO implement setup passthrough rule */
+> +}
+> +
+> +void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
+> +{
+> +    /* TODO implement delete passthrough rule */
+> +}
+> +
+>   static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+>   {
+>       char *str;
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 7fab2e7cd8..bfe38faab5 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -7,6 +7,7 @@
+>   ##
+>   
+>   { 'include': 'common.json' }
+> +{ 'include': 'sockets.json' }
+>   
+>   ##
+>   # @set_link:
+> @@ -696,3 +697,80 @@
+>   ##
+>   { 'event': 'FAILOVER_NEGOTIATED',
+>     'data': {'device-id': 'str'} }
+> +
+> +##
+> +# @IPFlowSpec:
+> +#
+> +# IP flow specification.
+> +#
+> +# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol is the
+> +#            string instead of enum, because it can be passed to getprotobyname(3)
+> +#            and avoid duplication with /etc/protocols.
+> +#
+> +# @object-name: The @object-name means a qemu object with network packet
+> +#               processing function, for example colo-compare, filtr-redirector
+> +#               filtr-mirror, etc. VM can running with multi network packet
+> +#               processing function objects. They can control different network
+> +#               data paths from netdev or chardev. So it needs the object-name
+> +#               to set the effective module.
+> +#
+> +# @source: Source address and port.
+> +#
+> +# @destination: Destination address and port.
+> +#
+> +# Since: 6.1
+> +##
+> +{ 'struct': 'IPFlowSpec',
+> +  'data': { '*protocol': 'str', 'object-name': 'str',
+> +    '*source': 'InetSocketAddressBase',
+> +    '*destination': 'InetSocketAddressBase' } }
+> +
+> +##
+> +# @passthrough-filter-add:
+> +#
+> +# Add passthrough entry IPFlowSpec to a qemu object with network packet
+> +# processing function, for example filtr-mirror, COLO-compare, etc.
+> +# The object-name is necessary. The protocol and source/destination IP and
+> +# source/destination ports are optional. if only inputs part of the
+> +# information, it will match all traffic.
+> +#
+> +# Returns: Nothing on success
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "passthrough-filter-add",
+> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+> +#      "source": {"host": "192.168.1.1", "port": "1234"},
+> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+> +# <- { "return": {} }
+> +#
+> +##
+> +{ 'command': 'passthrough-filter-add', 'boxed': true,
+> +     'data': 'IPFlowSpec' }
+> +
+> +##
+> +# @passthrough-filter-del:
+> +#
+> +# Delete passthrough entry IPFlowSpec to a qemu object with network packet
+> +# processing function, for example filtr-mirror, COLO-compare, etc.
+> +# The object-name is necessary. The protocol and source/destination IP and
+> +# source/destination ports are optional. if only inputs part of the
+> +# information, only the exact same rule will be deleted.
+> +#
+> +# Returns: Nothing on success
+> +#
+> +# Since: 6.1
+> +#
+> +# Example:
+> +#
+> +# -> { "execute": "passthrough-filter-del",
+> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
+> +#      "source": {"host": "192.168.1.1", "port": "1234"},
+> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
+> +# <- { "return": {} }
+> +#
+> +##
+> +{ 'command': 'passthrough-filter-del', 'boxed': true,
+> +     'data': 'IPFlowSpec' }
+
 
