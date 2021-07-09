@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CD5B3C1EF4
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:33:42 +0200 (CEST)
-Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D523C1F15
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:49:34 +0200 (CEST)
+Received: from localhost ([::1]:33624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1j8v-0000Bb-60
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:33:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35298)
+	id 1m1jOH-00075E-Da
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:49:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itq-0001Oi-5k; Fri, 09 Jul 2021 01:18:06 -0400
-Received: from ozlabs.org ([203.11.71.1]:54201)
+ id 1m1iuD-0002MI-IN; Fri, 09 Jul 2021 01:18:30 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:46017 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1ito-00024t-Gc; Fri, 09 Jul 2021 01:18:05 -0400
+ id 1m1iu7-00024i-R0; Fri, 09 Jul 2021 01:18:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLhHf4lFZz9t6h; Fri,  9 Jul 2021 15:17:34 +1000 (AEST)
+ id 4GLhHf4L33z9t6S; Fri,  9 Jul 2021 15:17:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625807854;
- bh=Qybi7wOY2Hanuu5XVj+JM8Y/CJrO3KMSTJy/4e3jiKw=;
+ bh=3U0sBL2BFTOAco2yKBEHlINhjEAC4B8ZVgzjvIoshYs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=K7Vrs5vHdld3Yb+hYnvUv8RGNfRoA0/krxovyDqyciCrsch9Pz+sn6QvHs7NzBFSK
- kzule3rrNOu7vSMvCI6JfjlNaRzhDr0jfqRlBl+SJp/yqQqYsSrW8d/idqhjQlFE1C
- NxJG7nWCJLDD4Vf9s8Q6KbX0fhiQHa9168Kf1BzE=
+ b=PkTLkfb4MrNPed/XEmu914VPMTp9IlaMu3Z0sWfKcfh88E6Ea08mjluM2Yok1EXFf
+ /u/YSOjOkcaEk20SfSboWbxXmElcO6+BSnb8q6Baq9512xh8MxlB3WoE5jK9PxDnFo
+ NJMrejS5YCOhSrOBRNdqG8R/JAjpH50qh9QBIQd0=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 25/33] target/ppc: Allow virtual hypervisor on CPU without HV
-Date: Fri,  9 Jul 2021 15:17:20 +1000
-Message-Id: <20210709051728.170203-26-david@gibson.dropbear.id.au>
+Subject: [PULL 26/33] target/ppc/spapr: Update H_GET_CPU_CHARACTERISTICS L1D
+ cache flush bits
+Date: Fri,  9 Jul 2021 15:17:21 +1000
+Message-Id: <20210709051728.170203-27-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,37 +58,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Nicholas Piggin <npiggin@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Nicholas Piggin <npiggin@gmail.com>
 
-Change the assert in ppc_store_sdr1() to allow vhyp to be set on CPUs
-without HV bit. This allows using the vhyp interface for firmware
-emulation on pegasos2.
+There are several new L1D cache flush bits added to the hcall which reflect
+hardware security features for speculative cache access issues.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <21c7745aabbb68fcc50bb2ffaf16b939ba21261c.1624811233.git.balaton@eik.bme.hu>
+These behaviours are now being specified as negative in order to simplify
+patched kernel compatibility with older firmware (a new problem found in
+existing systems would automatically be vulnerable).
+
+[dwg: Technically this changes behaviour for existing machine types.
+ After discussion with Nick, we've determined this is safe, because
+ the worst that will happen if a guest gets the wrong information due
+ to a migration is that it will perform some unnecessary workarounds,
+ but will remain correct and secure (well, as secure as it was going
+ to be anyway).  In addition the change only affects cap-cfpc=safe
+ which is not enabled by default, and in fact is not possible to set
+ on any current hardware (though it's expected it will be possible on
+ POWER10)]
+
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+Message-Id: <20210615044107.1481608-1-npiggin@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/spapr_hcall.c   | 2 ++
+ include/hw/ppc/spapr.h | 3 +++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/target/ppc/cpu.c b/target/ppc/cpu.c
-index 19d67b5b07..a29299882a 100644
---- a/target/ppc/cpu.c
-+++ b/target/ppc/cpu.c
-@@ -72,7 +72,7 @@ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
- {
-     PowerPCCPU *cpu = env_archcpu(env);
-     qemu_log_mask(CPU_LOG_MMU, "%s: " TARGET_FMT_lx "\n", __func__, value);
--    assert(!cpu->vhyp);
-+    assert(!cpu->env.has_hv_mode || !cpu->vhyp);
- #if defined(TARGET_PPC64)
-     if (mmu_is_64bit(env->mmu_model)) {
-         target_ulong sdr_mask = SDR_64_HTABORG | SDR_64_HTABSIZE;
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 03fc191599..80ae8eaadd 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -1318,6 +1318,8 @@ static target_ulong h_get_cpu_characteristics(PowerPCCPU *cpu,
+         behaviour |= H_CPU_BEHAV_L1D_FLUSH_PR;
+         break;
+     case SPAPR_CAP_FIXED:
++        behaviour |= H_CPU_BEHAV_NO_L1D_FLUSH_ENTRY;
++        behaviour |= H_CPU_BEHAV_NO_L1D_FLUSH_UACCESS;
+         break;
+     default: /* broken */
+         assert(safe_cache == SPAPR_CAP_BROKEN);
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 1e63f33e9a..a25e69fe4c 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -400,10 +400,13 @@ struct SpaprMachineState {
+ #define H_CPU_CHAR_THR_RECONF_TRIG              PPC_BIT(6)
+ #define H_CPU_CHAR_CACHE_COUNT_DIS              PPC_BIT(7)
+ #define H_CPU_CHAR_BCCTR_FLUSH_ASSIST           PPC_BIT(9)
++
+ #define H_CPU_BEHAV_FAVOUR_SECURITY             PPC_BIT(0)
+ #define H_CPU_BEHAV_L1D_FLUSH_PR                PPC_BIT(1)
+ #define H_CPU_BEHAV_BNDS_CHK_SPEC_BAR           PPC_BIT(2)
+ #define H_CPU_BEHAV_FLUSH_COUNT_CACHE           PPC_BIT(5)
++#define H_CPU_BEHAV_NO_L1D_FLUSH_ENTRY          PPC_BIT(7)
++#define H_CPU_BEHAV_NO_L1D_FLUSH_UACCESS        PPC_BIT(8)
+ 
+ /* Each control block has to be on a 4K boundary */
+ #define H_CB_ALIGNMENT     4096
 -- 
 2.31.1
 
