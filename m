@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 088203C2667
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:56:46 +0200 (CEST)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39EF23C262E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:45:58 +0200 (CEST)
+Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rvp-0004tf-1v
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:56:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49534)
+	id 1m1rlN-00055O-5K
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdO-0004nO-BF
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:43 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:41692)
+ id 1m1rdO-0004m7-1U
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:42 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdJ-0000Dk-8I
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:42 -0400
-Received: by mail-wr1-x432.google.com with SMTP id k4so6154189wrc.8
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:36 -0700 (PDT)
+ id 1m1rdI-0000DO-EZ
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:41 -0400
+Received: by mail-wr1-x434.google.com with SMTP id i8so12414535wrp.12
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Zx6fx7Pip4aXrkap6Yt3wuj5u2/wTlufg0YMoYBwslY=;
- b=WQ6e2nPJS/sbG2EAWOhNKjEG72dP9pLcPU5oCaM1Rgdawtrlx5i7Ae4Y49KYHmVMXD
- FPHogKmHQiaFGToA8QWm+uVS8AO+cEWrQ7q5IXJ62E4ETRXUUnmPL0fZHjBTYmuyO3N9
- b72Dl7fYggoNL7NrvwrYZmjDP3/sLkWhX9nFvgS7EDAhX2Tmz5FmGwEG9xIqv3rHbxa6
- +bvqJhK9REF6IA5e9dD+PZb+t60CVGI5AknJjhiiJ4LvdMgq6b1lCt0uHxEfXBt+Gikv
- vcohMDy+iYbfjyaPLTaEv+De8SXCPxqZ5PXxgzHLgXyyMC8lVGPN5j1v42qz4Qj5a3Qx
- gXPw==
+ bh=SM3nhJYGRMl4JOlKoDgGk/W9n5D8WCblYwwfamyCKLA=;
+ b=Rzi9pcOmK6iGAOhnaCbYXwyCL+iYzP8ZltiVnOkl484829hyGw/32DJFeQ5dAOuW4n
+ c44lWKMtFu4fXpxxA1oDGh3+kvXuBmxtOMytARe0DMkOLpl/6q41ucAGbga5zfmhAcBS
+ NgGEyWZmShyE/kqZct9TheKunw0cv0rT7eNE0dIvhBS0VTiCqPeBbCKLLszrXPgbsWNf
+ +YQSCZDgRjBOV8Y3XX5wFCPuZu1H19tN6NEmPJI6T3aZZcf5v3ONN+7YqC3KTLxJgCUx
+ /T7DkJAdOOkth9HekFdSMRnSkascoA9zvcePwDDBflwFraUOZfMZqlkuP8laQRd7mHA8
+ i4kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Zx6fx7Pip4aXrkap6Yt3wuj5u2/wTlufg0YMoYBwslY=;
- b=i/n0HgSIhhylVct/YkGQmNR8DAD9sjv79dZ3xiKObx9id/WnznQfQhZK5QdL3plXWx
- rR8eaw2v53FqdksO3tHPe0O8s7XyoJd/Lb90cPQKJaqcIeiRunvTIjBGEIPml/2nkpBp
- WjOefp79S6sgrAMkGHc2U/K9QzqFmSeOSID0p5DSoCLXx9SckhWYupF4PiWYcdY5cVLm
- N88AKfAIV0ed3GdIcr0jOBo2jrFP69SBn7aKrdeBxtAEOIqf5x5uj+06hobgE3doqelA
- i4XlrGjOBhV4FXBb0gTG9gDyb64rCJwBVS7izmAWZzrsims2aRbg5KGkM2N75rbUOf0J
- kirA==
-X-Gm-Message-State: AOAM5314t4EvCZoE6gaVSXPPKuUGF89AuK9K1G9PDZT34Ar0UI1J779V
- SEQi1eaZIAibyOzR+tx456LEkA==
-X-Google-Smtp-Source: ABdhPJx7oIbpm11v4I9hkWmsh8lm3K58Naj027PU8hfct7NSIK+W9DNJ+VnAJFohGH2mVzIlty7+jQ==
-X-Received: by 2002:a5d:48c6:: with SMTP id p6mr42032057wrs.45.1625841455741; 
- Fri, 09 Jul 2021 07:37:35 -0700 (PDT)
+ bh=SM3nhJYGRMl4JOlKoDgGk/W9n5D8WCblYwwfamyCKLA=;
+ b=njCYOovrF9pdjYiiD8LYa4Bbziww2N1u9jfd/YalwIjkJFzMIEn2vKqpWi4u4x+WY9
+ slZ/HOVMk9OsH7CmIf+Czn6VQozSE+etdEyk00Sm2u3DgNbpqyw2xPph3203nPo9pMWZ
+ FU8u1ZRsDhrHlu2j15nwZ0KbrfVnBlyvXJcWMZ7ywHQWEZAKc4KU89n3ZCvBjr7Mdvet
+ mjlRyaYi/icpQN2yOblEv869W0Twns0ayGHBzlxG1wXMB7+eyy/Po1xjJ/9TQUeJhxlH
+ eHSpoajce82gsE7LSjrGtmQuJRhnHvC8PSIsmizLtZAb9DXPBhFOgeU2CmmA+QbQDtXo
+ a+Iw==
+X-Gm-Message-State: AOAM531PP7hGhd41zUuQOzAXfC+dATk2A9MukUaabqpKk2jZjQPgoqqH
+ eplW9r9akU46TazfrrUgMfhUag==
+X-Google-Smtp-Source: ABdhPJx1Zr0+UCzb4/qrCkM0/4B8w7zJAFWpkk/YyROvoOShmcWBCn9sM3ROhYAzv2msegTcBOY7PA==
+X-Received: by 2002:a05:6000:1a87:: with SMTP id
+ f7mr41649696wry.172.1625841453306; 
+ Fri, 09 Jul 2021 07:37:33 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 11sm7441712wmg.40.2021.07.09.07.37.26
+ by smtp.gmail.com with ESMTPSA id t22sm5248390wmi.22.2021.07.09.07.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Jul 2021 07:37:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D7E3B1FFAE;
- Fri,  9 Jul 2021 15:30:11 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1A1251FFAF;
+ Fri,  9 Jul 2021 15:30:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 26/40] tests/tcg: make test-mmap a little less aggressive
-Date: Fri,  9 Jul 2021 15:29:51 +0100
-Message-Id: <20210709143005.1554-27-alex.bennee@linaro.org>
+Subject: [PATCH v3 27/40] plugins: fix-up handling of internal hostaddr for 32
+ bit
+Date: Fri,  9 Jul 2021 15:29:52 +0100
+Message-Id: <20210709143005.1554-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,280 +89,72 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Taylor Simpson <tsimpson@quicinc.com>, aurelien@aurel32.net
+ kuhn.chenqun@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ f4bug@amsat.org, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
+ Alexandre Iooss <erdnaxe@crans.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The check_aligned_anonymous_unfixed_mmaps and
-check_aligned_anonymous_unfixed_colliding_mmaps do a lot of mmap's and
-copying of data. This is especially unfriendly to targets like hexagon
-which have quite large pages and need to do sanity checks on each
-memory access.
+The compiler rightly complains when we build on 32 bit that casting
+uint64_t into a void is a bad idea. We are really dealing with a host
+pointer at this point so treat it as such. This does involve
+a uintptr_t cast of the result of the TLB addend as we know that has
+to point to the host memory.
 
-While we are at it clean-up the white space and style issues from the
-legacy code. As we no longer do quite so much needless memory access
-we can also remove the hexagon timeout hack.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-v3
-  - style and whitespace cleanups, reduce loop even further.
-  - remove hexagon timeout hack
----
- tests/tcg/multiarch/test-mmap.c   | 208 +++++++++++++++---------------
- tests/tcg/hexagon/Makefile.target |   9 --
- 2 files changed, 104 insertions(+), 113 deletions(-)
+ include/qemu/plugin-memory.h | 2 +-
+ accel/tcg/cputlb.c           | 2 +-
+ plugins/api.c                | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/tests/tcg/multiarch/test-mmap.c b/tests/tcg/multiarch/test-mmap.c
-index 11d0e777b1..96257f8ebe 100644
---- a/tests/tcg/multiarch/test-mmap.c
-+++ b/tests/tcg/multiarch/test-mmap.c
-@@ -49,64 +49,62 @@ size_t test_fsize;
+diff --git a/include/qemu/plugin-memory.h b/include/qemu/plugin-memory.h
+index b36def27d7..0f59226727 100644
+--- a/include/qemu/plugin-memory.h
++++ b/include/qemu/plugin-memory.h
+@@ -18,7 +18,7 @@ struct qemu_plugin_hwaddr {
+             hwaddr    offset;
+         } io;
+         struct {
+-            uint64_t hostaddr;
++            void *hostaddr;
+         } ram;
+     } v;
+ };
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b6d5fc6326..b4e15b6aad 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1728,7 +1728,7 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong addr, int mmu_idx,
+             data->v.io.offset = (iotlbentry->addr & TARGET_PAGE_MASK) + addr;
+         } else {
+             data->is_io = false;
+-            data->v.ram.hostaddr = addr + tlbe->addend;
++            data->v.ram.hostaddr = (void *)((uintptr_t)addr + tlbe->addend);
+         }
+         return true;
+     } else {
+diff --git a/plugins/api.c b/plugins/api.c
+index 332e2c60e2..78b563c5c5 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -308,11 +308,11 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
+         if (!haddr->is_io) {
+             RAMBlock *block;
+             ram_addr_t offset;
+-            void *hostaddr = (void *) haddr->v.ram.hostaddr;
++            void *hostaddr = haddr->v.ram.hostaddr;
  
- void check_aligned_anonymous_unfixed_mmaps(void)
- {
--	void *p1;
--	void *p2;
--	void *p3;
--	void *p4;
--	void *p5;
--	uintptr_t p;
--	int i;
--
--	fprintf(stdout, "%s", __func__);
--	for (i = 0; i < 0x1fff; i++)
--	{
--		size_t len;
--
--		len = pagesize + (pagesize * i & 7);
--		p1 = mmap(NULL, len, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p2 = mmap(NULL, len, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p3 = mmap(NULL, len, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p4 = mmap(NULL, len, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p5 = mmap(NULL, len, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--
--		/* Make sure we get pages aligned with the pagesize. The
--		   target expects this.  */
--		fail_unless (p1 != MAP_FAILED);
--		fail_unless (p2 != MAP_FAILED);
--		fail_unless (p3 != MAP_FAILED);
--		fail_unless (p4 != MAP_FAILED);
--		fail_unless (p5 != MAP_FAILED);
--		p = (uintptr_t) p1;
--		D(printf ("p=%x\n", p));
--		fail_unless ((p & pagemask) == 0);
--		p = (uintptr_t) p2;
--		fail_unless ((p & pagemask) == 0);
--		p = (uintptr_t) p3;
--		fail_unless ((p & pagemask) == 0);
--		p = (uintptr_t) p4;
--		fail_unless ((p & pagemask) == 0);
--		p = (uintptr_t) p5;
--		fail_unless ((p & pagemask) == 0);
--
--		/* Make sure we can read from the entire area.  */
--		memcpy (dummybuf, p1, pagesize);
--		memcpy (dummybuf, p2, pagesize);
--		memcpy (dummybuf, p3, pagesize);
--		memcpy (dummybuf, p4, pagesize);
--		memcpy (dummybuf, p5, pagesize);
--
--		munmap (p1, len);
--		munmap (p2, len);
--		munmap (p3, len);
--		munmap (p4, len);
--		munmap (p5, len);
--	}
--	fprintf(stdout, " passed\n");
-+    void *p1;
-+    void *p2;
-+    void *p3;
-+    void *p4;
-+    void *p5;
-+    uintptr_t p;
-+    int i;
-+    fprintf(stdout, "%s", __func__);
-+    for (i = 0; i < 8; i++) {
-+        size_t len;
-+        len = pagesize + (pagesize * i);
-+        p1 = mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p2 = mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p3 = mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p4 = mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p5 = mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+
-+        /*
-+         * Make sure we get pages aligned with the pagesize. The
-+         * target expects this.
-+         */
-+        fail_unless(p1 != MAP_FAILED);
-+        fail_unless(p2 != MAP_FAILED);
-+        fail_unless(p3 != MAP_FAILED);
-+        fail_unless(p4 != MAP_FAILED);
-+        fail_unless(p5 != MAP_FAILED);
-+        p = (uintptr_t) p1;
-+        D(printf("p=%x\n", p));
-+        fail_unless((p & pagemask) == 0);
-+        p = (uintptr_t) p2;
-+        fail_unless((p & pagemask) == 0);
-+        p = (uintptr_t) p3;
-+        fail_unless((p & pagemask) == 0);
-+        p = (uintptr_t) p4;
-+        fail_unless((p & pagemask) == 0);
-+        p = (uintptr_t) p5;
-+        fail_unless((p & pagemask) == 0);
-+
-+        /* Make sure we can read from the entire area.  */
-+        memcpy(dummybuf, p1, pagesize);
-+        memcpy(dummybuf, p2, pagesize);
-+        memcpy(dummybuf, p3, pagesize);
-+        memcpy(dummybuf, p4, pagesize);
-+        memcpy(dummybuf, p5, pagesize);
-+        munmap(p1, len);
-+        munmap(p2, len);
-+        munmap(p3, len);
-+        munmap(p4, len);
-+        munmap(p5, len);
-+    }
-+    fprintf(stdout, " passed\n");
- }
- 
- void check_large_anonymous_unfixed_mmap(void)
-@@ -135,52 +133,54 @@ void check_large_anonymous_unfixed_mmap(void)
- 
- void check_aligned_anonymous_unfixed_colliding_mmaps(void)
- {
--	char *p1;
--	char *p2;
--	char *p3;
--	uintptr_t p;
--	int i;
--
--	fprintf(stdout, "%s", __func__);
--	for (i = 0; i < 0x2fff; i++)
--	{
--		int nlen;
--		p1 = mmap(NULL, pagesize, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		fail_unless (p1 != MAP_FAILED);
--		p = (uintptr_t) p1;
--		fail_unless ((p & pagemask) == 0);
--		memcpy (dummybuf, p1, pagesize);
--
--		p2 = mmap(NULL, pagesize, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		fail_unless (p2 != MAP_FAILED);
--		p = (uintptr_t) p2;
--		fail_unless ((p & pagemask) == 0);
--		memcpy (dummybuf, p2, pagesize);
--
--
--		munmap (p1, pagesize);
--		nlen = pagesize * 8;
--		p3 = mmap(NULL, nlen, PROT_READ, 
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		fail_unless (p3 != MAP_FAILED);
--
--		/* Check if the mmaped areas collide.  */
--		if (p3 < p2 
--		    && (p3 + nlen) > p2)
--			fail_unless (0);
--
--		memcpy (dummybuf, p3, pagesize);
--
--		/* Make sure we get pages aligned with the pagesize. The
--		   target expects this.  */
--		p = (uintptr_t) p3;
--		fail_unless ((p & pagemask) == 0);
--		munmap (p2, pagesize);
--		munmap (p3, nlen);
--	}
--	fprintf(stdout, " passed\n");
-+    char *p1;
-+    char *p2;
-+    char *p3;
-+    uintptr_t p;
-+    int i;
-+
-+    fprintf(stdout, "%s", __func__);
-+    for (i = 0; i < 2; i++) {
-+        int nlen;
-+        p1 = mmap(NULL, pagesize, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        fail_unless(p1 != MAP_FAILED);
-+        p = (uintptr_t) p1;
-+        fail_unless((p & pagemask) == 0);
-+        memcpy(dummybuf, p1, pagesize);
-+
-+        p2 = mmap(NULL, pagesize, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        fail_unless(p2 != MAP_FAILED);
-+        p = (uintptr_t) p2;
-+        fail_unless((p & pagemask) == 0);
-+        memcpy(dummybuf, p2, pagesize);
-+
-+
-+        munmap(p1, pagesize);
-+        nlen = pagesize * 8;
-+        p3 = mmap(NULL, nlen, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        fail_unless(p3 != MAP_FAILED);
-+
-+        /* Check if the mmaped areas collide.  */
-+        if (p3 < p2
-+            && (p3 + nlen) > p2) {
-+            fail_unless(0);
-+        }
-+
-+        memcpy(dummybuf, p3, pagesize);
-+
-+        /*
-+         * Make sure we get pages aligned with the pagesize. The
-+         * target expects this.
-+         */
-+        p = (uintptr_t) p3;
-+        fail_unless((p & pagemask) == 0);
-+        munmap(p2, pagesize);
-+        munmap(p3, nlen);
-+    }
-+    fprintf(stdout, " passed\n");
- }
- 
- void check_aligned_anonymous_fixed_mmaps(void)
-diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-index 0992787d50..050cd61c1a 100644
---- a/tests/tcg/hexagon/Makefile.target
-+++ b/tests/tcg/hexagon/Makefile.target
-@@ -18,15 +18,6 @@
- # Hexagon doesn't support gdb, so skip the EXTRA_RUNS
- EXTRA_RUNS =
- 
--# Hexagon has 64K pages, so increase the timeout to keep
--# test-mmap from timing out
--ifeq ($(CONFIG_DEBUG_TCG),y)
--TIMEOUT=800
--else
--TIMEOUT=500
--endif
--
--
- CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
- CFLAGS += -fno-unroll-loops
+             block = qemu_ram_block_from_host(hostaddr, false, &offset);
+             if (!block) {
+-                error_report("Bad ram pointer %"PRIx64"", haddr->v.ram.hostaddr);
++                error_report("Bad host ram pointer %p", haddr->v.ram.hostaddr);
+                 abort();
+             }
  
 -- 
 2.20.1
