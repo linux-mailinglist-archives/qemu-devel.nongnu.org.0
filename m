@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E683C26B6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:18:35 +0200 (CEST)
-Received: from localhost ([::1]:39618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6CF3C26BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:21:55 +0200 (CEST)
+Received: from localhost ([::1]:42380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1sGx-0006cN-2T
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56742)
+	id 1m1sKA-0000LI-72
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1sGA-0005v5-Mm
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:17:46 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35391)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1sJF-0007v9-Cy
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:20:57 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1sG8-0001R5-MG
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:17:46 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id gn32so16844901ejc.2
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 08:17:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1sJD-0002x2-Sb
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:20:57 -0400
+Received: by mail-pg1-x532.google.com with SMTP id d12so10260375pgd.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 08:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FtJbaLWM/I7P7qKK+Sz8SRCCztjxzDga6zxGc0Mn+po=;
- b=WlOjNUQzyYKYid2rkSpojsH3ND7b/gX0+ihFbtZu/A4806UX0uZjqa44v+wiAM6bW8
- JE4EJqHswPtQdNTXXb/7YdrKxbroXnEs59KzEOsRY4MJhr6Quooj9aPAgj9GRKZfF52H
- OG2yr5fWIghOBUID/tjPKcxFIEOQIzuTvTf/12M0cIQDmP5saQnysfHrfUmzoH5h5gDm
- tdDMH23YvYBPrWBe0rZczFcgxbJsBfsMNXMGkToDaKQUQxUb1be4X4FR1reRRU/NGtXw
- XVt+6dMyIfcg8YuSZLMMZ8/u3F+JcARgxok7qkClY+SO9e6Iso46BcTHgqWwFiNrW+is
- 5viw==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Hj8GZyErqoRpwJ6pru/Fv1/NvpQNlyU7FuHh/CYFSq8=;
+ b=L1ji9igHS2JmIkdstTyZ5iyjeJHaF4r/P92BlCsovxk7vl3WxqhkRCoiNeLSSXTFWA
+ sjUBL7Zsa7oe7JcfsSi2GqtEt8/Msuoe16qGx2wP168Qh038qACvEIORsXw6GUN0gay7
+ 9pgdNbMGS3Ab0N6D4rag0A2f62oSrcX6URocWMI6s00lS4SFt4ssj0unEuNVUKiHP9X3
+ 9ala3gxyQ3k5pJ7LC37lcQRZx9AT8y2DcOKsIyWpz7jQU8uCXSe2J0OT5opw3QnX/eDE
+ MWd9GfFZ4gbdT/VNkzcHq5uFIM5JaMlSXkil+6Bq7930/G1LwxJJXFLzr3WiM/D3BQk6
+ siHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FtJbaLWM/I7P7qKK+Sz8SRCCztjxzDga6zxGc0Mn+po=;
- b=C+V3hckwQ8ZjyiMBiByoEDbBQSysf5fZ12UUIXb/a+GbiG8/nob3OsydPvc4zmHsY7
- nvLX9CZUAHRBbOggy9odEBRG+xjPWSpqzHHE5BpTGbFguxmSE+PAd9N7yllxl9jlzbb/
- 9NsTuKNTJw/AR91abtEk98CumoaEKpP6r7hIIdPJYQK9GoznccufxMFIDB3a+Fsh1ip/
- A8TFTguqpsOxeEY42m5zW01orxe6AJJ7AB9Ym9yL6bRD4KOTj/sDeZ3MWCxK75EQ8MPx
- auPqM7Ml7mGkr7IXgBraGDWQi5Nf8tcAUcEX7plxq0Qm/2rHGsnsuCtswLuFzfHFRhwp
- 0XsQ==
-X-Gm-Message-State: AOAM531YbSUQxzwIkKSArY/1yCJZZJgzE9Wwiy9nUTk3qmmLmtqZ1uaW
- nFheJdV6KL1kYnC6QTsBX4/McMvLQXxP1IFTMGHONQ==
-X-Google-Smtp-Source: ABdhPJyo6lOXuRx5ENgDzbS3hVYF8uwz4ZhORbb6g/UkyUcrwkTtq1JV+ZjnM4L8KZrkXUSceE3KiBXm085Uld1GjlE=
-X-Received: by 2002:a17:907:1691:: with SMTP id
- hc17mr37484640ejc.382.1625843862337; 
- Fri, 09 Jul 2021 08:17:42 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hj8GZyErqoRpwJ6pru/Fv1/NvpQNlyU7FuHh/CYFSq8=;
+ b=dHwrXT+YbafVOB0cB5Gfvo3OxHqV8SBjMaUjYM5R3brogVCmO8w6yBcVfRvDxl9lpA
+ 9PRzJ6uAw+Q2G0ZIt82TeCusY+NsmXADmCmMTaW/lsHb81/FAEXHzTBkBX8AFd9ni5rX
+ hluZYJDYeyOolcD+zcPhXnhnMsH9HrcJJol2iP1SlT0fJwa4ffxT1TSVO710Nizqt7A9
+ SZmbmS602Uirtx9zk3wfuRv0yQeiAShch8fE1rwd+1n10uojvAaUESCOJLvfDNYGCfXW
+ XI2JKi3NTqNpccLFMzZ6FvwYc0LfumoG8VELnTv53pR9WvW/df23ERUHqhw/6tJv33Js
+ 571Q==
+X-Gm-Message-State: AOAM533BvWxd60TmxVwiFIS4O1UKdX8QUhO1+JpA1QUg/eAU1pzRd27o
+ IVda6dqodgVlmdwWE8zpJm0CRQ==
+X-Google-Smtp-Source: ABdhPJxYYkRduTp74uXAsuyHaltr7nPvN47w0khE1xi2D9kopWVIHhqhav7sLrhi1PKX3CHf1d1hag==
+X-Received: by 2002:a63:445b:: with SMTP id t27mr39087231pgk.413.1625844054483; 
+ Fri, 09 Jul 2021 08:20:54 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id y195sm6706728pfg.68.2021.07.09.08.20.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jul 2021 08:20:54 -0700 (PDT)
+Subject: Re: [PATCH v1 1/5] target/riscv: Expose interrupt pending bits as
+ GPIO lines
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3265e78d-3627-15d1-55e6-f081fa23001f@linaro.org>
+Date: Fri, 9 Jul 2021 08:20:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210708151909.907124-1-cohuck@redhat.com>
-In-Reply-To: <20210708151909.907124-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 9 Jul 2021 16:17:03 +0100
-Message-ID: <CAFEAcA96yLiVh-gSxZdW1kNvmJHarqNH_p3HXtpp41gQ6eDuZA@mail.gmail.com>
-Subject: Re: [PULL 00/17] s390x update for softfreeze
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+In-Reply-To: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +88,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Jul 2021 at 16:19, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/cohuck/qemu.git tags/s390x-20210708
->
-> for you to fetch changes up to 7ab3eb42b0d795f7321c4fca0ea06cb76a005b04:
->
->   target/s390x: split sysemu part of cpu models (2021-07-07 14:01:59 +0200)
->
-> ----------------------------------------------------------------
-> s390x updates:
-> - add gen16 cpumodels
-> - refactor/cleanup some code
-> - bugfixes
->
-> ----------------------------------------------------------------
->
+On 7/8/21 8:30 PM, Alistair Francis wrote:
+> Expose the 12 interrupt pending bits in MIP as GPIO lines.
+> 
+> Signed-off-by: Alistair Francis<alistair.francis@wdc.com>
+> ---
+>   target/riscv/cpu.c | 30 ++++++++++++++++++++++++++++++
+>   1 file changed, 30 insertions(+)
 
-Hi -- this doesn't seem to be signed with the GPG key I have
-on record for you. If I need to do an update, could you let me
-know which keyserver you've uploaded to, please?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
