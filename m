@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8009A3C22E8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:33:27 +0200 (CEST)
-Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 234E63C22EE
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:35:37 +0200 (CEST)
+Received: from localhost ([::1]:58112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ol4-0006S2-Ia
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:33:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38608)
+	id 1m1onA-0002nO-6j
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oU0-0000Wj-Fs
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:15:48 -0400
-Received: from mga06.intel.com ([134.134.136.31]:37177)
+ id 1m1oU2-0000dU-4F
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:15:50 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oTy-0005B7-Fg
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:15:48 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800833"
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800833"
+ id 1m1oTz-0005A9-H6
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:15:49 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800838"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800838"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 04:14:59 -0700
+ 09 Jul 2021 04:15:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730276"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730284"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:57 -0700
+ by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:59 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 23/33] sgx-epc: Add the reset interface for sgx-epc virt
- device
-Date: Fri,  9 Jul 2021 19:09:45 +0800
-Message-Id: <20210709110955.73256-24-yang.zhong@intel.com>
+Subject: [PATCH v3 24/33] sgx-epc: Avoid bios reset during sgx epc
+ initialization
+Date: Fri,  9 Jul 2021 19:09:46 +0800
+Message-Id: <20210709110955.73256-25-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210709110955.73256-1-yang.zhong@intel.com>
 References: <20210709110955.73256-1-yang.zhong@intel.com>
@@ -63,141 +63,62 @@ Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the VM is reset, we need make sure sgx virt epc in clean status.
-Once the VM is reset, and sgx epc virt device will be reseted by
-reset callback registered by qemu_register_reset(). Since this epc
-virt device depend on backend, this reset will call backend reset
-interface to re-mmap epc to guest.
+Since bios do the reset when qemu boot up, and sgx epc will be
+reset by the registered reset callback function. Like this, the
+sgx epc will do two times initialization. This patch will check
+protected mode from cr0 register, and will bypass reset operation
+from bios. The reset callback will only accept reset operation
+from guest.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/sgx-epc.c | 94 ++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 81 insertions(+), 13 deletions(-)
+ hw/i386/sgx-epc.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/hw/i386/sgx-epc.c b/hw/i386/sgx-epc.c
-index 904531107a..99a7fb8ba1 100644
+index 99a7fb8ba1..a1784d4c8f 100644
 --- a/hw/i386/sgx-epc.c
 +++ b/hw/i386/sgx-epc.c
-@@ -18,6 +18,9 @@
- #include "qapi/visitor.h"
+@@ -19,6 +19,7 @@
  #include "target/i386/cpu.h"
  #include "exec/address-spaces.h"
-+#include "sysemu/reset.h"
-+
-+uint32_t epc_num;
+ #include "sysemu/reset.h"
++#include "sysemu/hw_accel.h"
  
- static Property sgx_epc_properties[] = {
-     DEFINE_PROP_UINT64(SGX_EPC_ADDR_PROP, SGXEPCDevice, addr, 0),
-@@ -47,12 +50,84 @@ static void sgx_epc_init(Object *obj)
-                         NULL, NULL, NULL);
+ uint32_t epc_num;
+ 
+@@ -97,6 +98,21 @@ static void sgx_epc_initialization(DeviceState *dev)
+     sgx_epc->size += memory_device_get_region_size(md, &errp);
  }
  
-+static void sgx_epc_del_subregion(DeviceState *dev)
++static bool check_reset_from_guest(void)
 +{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCState *sgx_epc = pcms->sgx_epc;
-+    SGXEPCDevice *epc = SGX_EPC(dev);
++    CPUState *cs = first_cpu;
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
 +
-+    /* del subregion and related operations */
-+    memory_region_del_subregion(&sgx_epc->mr,
-+                                host_memory_backend_get_memory(epc->hostmem));
-+    host_memory_backend_set_mapped(epc->hostmem, false);
-+    g_free(sgx_epc->sections);
-+    sgx_epc->sections = NULL;
++    cpu_synchronize_state(cs);
 +
-+    /* multiple epc devices, only zero the first time */
-+    if (epc_num == sgx_epc->nr_sections) {
-+        sgx_epc->size = 0;
-+        sgx_epc->nr_sections = 0;
++    if (env->cr[0] & CR0_PE_MASK) {
++        return true;
 +    }
++
++    return false;
 +}
 +
-+static void sgx_epc_initialization(DeviceState *dev)
-+{
-+    PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-+    SGXEPCState *sgx_epc = pcms->sgx_epc;
-+    MemoryDeviceState *md = MEMORY_DEVICE(dev);
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    Error *errp = NULL;
-+
-+    if (!epc->hostmem) {
-+        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+
-+    epc->addr = sgx_epc->base + sgx_epc->size;
-+
-+    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
-+                                host_memory_backend_get_memory(epc->hostmem));
-+
-+    host_memory_backend_set_mapped(epc->hostmem, true);
-+
-+    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
-+                                sgx_epc->nr_sections + 1);
-+    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
-+
-+    sgx_epc->size += memory_device_get_region_size(md, &errp);
-+}
-+
-+static void sgx_epc_reset(void *opaque)
-+{
-+    DeviceState *dev = opaque;
-+    SGXEPCDevice *epc = SGX_EPC(dev);
-+    Error *errp = NULL;
-+    int fd;
-+
-+    if (!epc->hostmem) {
-+        error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
-+        return;
-+    }
-+
-+    /* delete subregion and related operations */
-+    sgx_epc_del_subregion(dev);
-+
-+    /* reset sgx backend */
-+    fd = memory_region_get_fd(host_memory_backend_get_memory(epc->hostmem));
-+    sgx_memory_backend_reset(epc->hostmem, fd, &errp);
-+    if (errp) {
-+        error_setg(&errp, "failed to call sgx_memory_backend_reset");
-+        return;
-+    }
-+
-+    /* re-add subregion and related operations */
-+    sgx_epc_initialization(dev);
-+}
-+
- static void sgx_epc_realize(DeviceState *dev, Error **errp)
+ static void sgx_epc_reset(void *opaque)
  {
-     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-     X86MachineState *x86ms = X86_MACHINE(pcms);
--    MemoryDeviceState *md = MEMORY_DEVICE(dev);
--    SGXEPCState *sgx_epc = pcms->sgx_epc;
-     SGXEPCDevice *epc = SGX_EPC(dev);
-     const char *path;
+     DeviceState *dev = opaque;
+@@ -104,6 +120,9 @@ static void sgx_epc_reset(void *opaque)
+     Error *errp = NULL;
+     int fd;
  
-@@ -71,18 +146,11 @@ static void sgx_epc_realize(DeviceState *dev, Error **errp)
++    if (!check_reset_from_guest())
++        return;
++
+     if (!epc->hostmem) {
+         error_setg(&errp, "'" SGX_EPC_MEMDEV_PROP "' property is not set");
          return;
-     }
- 
--    epc->addr = sgx_epc->base + sgx_epc->size;
--
--    memory_region_add_subregion(&sgx_epc->mr, epc->addr - sgx_epc->base,
--                                host_memory_backend_get_memory(epc->hostmem));
--
--    host_memory_backend_set_mapped(epc->hostmem, true);
--
--    sgx_epc->sections = g_renew(SGXEPCDevice *, sgx_epc->sections,
--                                sgx_epc->nr_sections + 1);
--    sgx_epc->sections[sgx_epc->nr_sections++] = epc;
-+    sgx_epc_initialization(dev);
-+    epc_num++;
- 
--    sgx_epc->size += memory_device_get_region_size(md, errp);
-+    /* register the reset callback for sgx reset */
-+    qemu_register_reset(sgx_epc_reset, dev);
- }
- 
- static void sgx_epc_unrealize(DeviceState *dev)
 -- 
 2.29.2.334.gfaefdd61ec
 
