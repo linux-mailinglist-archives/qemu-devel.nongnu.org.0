@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C9473C2626
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:42:42 +0200 (CEST)
-Received: from localhost ([::1]:43040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263AA3C2673
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:59:34 +0200 (CEST)
+Received: from localhost ([::1]:39058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1riD-0007sf-IN
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49508)
+	id 1m1ryX-0003iN-4b
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:59:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdL-0004jJ-OB
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:40 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:45643)
+ id 1m1rdT-0004u8-H1
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:47 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdF-0000By-Ig
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:39 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- u8-20020a7bcb080000b02901e44e9caa2aso6441152wmj.4
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:32 -0700 (PDT)
+ id 1m1rdR-0000HF-F7
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:47 -0400
+Received: by mail-wr1-x430.google.com with SMTP id l7so11520039wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KOHjsPYSbu3jA24kyzt0tq90eAKTZSBrFYknNG6hTgw=;
- b=EOH9m7u7AGxea1QqIhmJ4V5d+qz2dibjtXh37z0Ir66BGyXyF3HGVy4kwyUvHITM0t
- F6SHOFb3IhSOycasXIuHLQbHUnyrCcUMWsS1ExwfPQwpiguE5TjfdnZ1Mmk7VCgjkrt0
- hfi69NKRsJKlcgL5jl0l3h4ioMs2J2lzIMz5b1lASIACWW1qM94vPPR3bWcQitLUl6/U
- 5GQ9GtLfA1i+tME2zrhXKeL/CLyolmWhkhZeigQjFJOwQQAAuJkKTcj60hIBTi7dDMbD
- c5vo+qwF2FCFEqpTc/Hd41pv46v93r/3yEn+coe9RFdK3bbxiGU/yJJw1w4X8sr3h7vX
- pMTg==
+ bh=4tf6f4EfVwE6wKq/VA+ZpZ7sEgtGzPQDIrYTfwBXbX4=;
+ b=I36vqi2R0l58wEyntdwvMfEqIa8+Z2zb5ymIqeum4wL1dnPHfFMaKAErHMCP+fdQSh
+ dhpwb7QqgsUtnm0etXx5UNk0lciAow5ndKDIaKuwCR7E9pGseQpDHPJGXrHokvjm7qfy
+ be2iqU8nk/5xKFY5oWTHFxmDbvVj7q47IhZFe2wVCxxYVQgzRhE8UjdqCvU26ruJEiUE
+ GxqowW0iSX2N9rcZE7TrhAGRvP25fJ2CzITNINzhkMP9oevEcK3p0ijV1MjGp1NbG85K
+ LX7IsdtdsMLbsOa9U5Fa+LrnluOZVftATA4Yi0n+y5w0CLvKlmzjqD2FBghNcWo3ac/u
+ 1Wsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KOHjsPYSbu3jA24kyzt0tq90eAKTZSBrFYknNG6hTgw=;
- b=hpAukXu6xdWflxEC5cXMelULP9g1WNDz9wGrDs7xOugizihL+qoBjV308ouRheTvsX
- ktUOMeyhv1o5fjo9j/UL6+25Zjl0ujn2vS3Y7RLzZZgKxGZr62x2TFXE7Rkg+LulhlDU
- cqb2qBQ7vFPnDCmMLS+7GkvTRBhL9J819Hr+D/jVmZRshV05xD9XhOiBwoyJSWFsvCq2
- ocy01BPZoqPwMwNMIFM7ME8zS/nzRetpKde/PH3rv3+eu0eS7fbPu52axC9ATBJfruWZ
- 34mNmHuAYon6bAIqDWNxBPngeX2TDKkw0eZ3Wz55jzOmzpYMHx9SmgRSyX4P1N0B/zdC
- cuPQ==
-X-Gm-Message-State: AOAM530r+8tH3c3EoTjyB5ASHpUfjyDjNAjsInOwWF+DgoilY5Oepny6
- GecpJFirEsIxgo9FN1xQHJ/Hyw==
-X-Google-Smtp-Source: ABdhPJwC4215T8J5n1zrxRSbHlpGDYuLHWh8+DJK4oU45//plxqS+NqHHqURSdr73tqqdcnCIF1l+g==
-X-Received: by 2002:a05:600c:154a:: with SMTP id
- f10mr12064311wmg.26.1625841451337; 
- Fri, 09 Jul 2021 07:37:31 -0700 (PDT)
+ bh=4tf6f4EfVwE6wKq/VA+ZpZ7sEgtGzPQDIrYTfwBXbX4=;
+ b=U8aULlIGlTGd2iE5IMEEeKLZy1yp+CSCn9tTXrllfsd1x2U3Q9XvrtPXbu/iAhMNBg
+ hVNYjZFH2yGKengu68atEddLFTsgynKzFCmQlgUkp+16KDzt5lX6JqOrXRmODfkTVe5Z
+ rBgag5z144SDKZ/qUykc33ncsnQXF3tRerwwHGaewd554G26TgS8gUTzoEyiuAC3xnAO
+ taPxxsTNTQWJdXfKdJzGJILOP9vXzY11YL55Y0qgWqEIalOc3r7BfGTXwU1cDQE2QeWU
+ 8BJMWJS6A0XteurcK8YLsoQZNlH3b1xbnLojOi9uSmLMlFyD/TkGjgbkzpfprW6dhhUU
+ jCwg==
+X-Gm-Message-State: AOAM532I37uUYj639zNZQ4yO48oeoAws+PBClsDdnbzlhS5l2jYl/p2/
+ tm4fNDS1N/RLKx7iivQZjBIxfA==
+X-Google-Smtp-Source: ABdhPJxmrXncZ+FNJ19eQhGBAt2cPtTA6ouEYqIaYsZdp/wGPy4P7Knp6492QX6cNzvqAA8+IWMgwA==
+X-Received: by 2002:a5d:4e08:: with SMTP id p8mr42239238wrt.425.1625841464051; 
+ Fri, 09 Jul 2021 07:37:44 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q5sm4901001wmc.0.2021.07.09.07.37.24
+ by smtp.gmail.com with ESMTPSA id u1sm12496277wmn.23.2021.07.09.07.37.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 07:37:24 -0700 (PDT)
+ Fri, 09 Jul 2021 07:37:41 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 574671FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id CACDB1FFB3;
  Fri,  9 Jul 2021 15:30:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 28/40] meson.build: move TCG plugin summary output
-Date: Fri,  9 Jul 2021 15:29:53 +0100
-Message-Id: <20210709143005.1554-29-alex.bennee@linaro.org>
+Subject: [PATCH v3 30/40] configure: add an explicit static and plugins check
+Date: Fri,  9 Jul 2021 15:29:55 +0100
+Message-Id: <20210709143005.1554-31-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,44 +87,59 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
- f4bug@amsat.org, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+ kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
+ mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's put it with the rest of the TCG related output with the
-accelerator.
+Moving this check earlier will make the later re-factor for enabling
+by default a bit neater.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index ff7a9f8b4f..ba680addda 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2737,7 +2737,6 @@ summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
- if config_host.has_key('CONFIG_MODULES')
-   summary_info += {'alternative module path': config_host.has_key('CONFIG_MODULE_UPGRADES')}
- endif
--summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
- summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
- if have_system
-   summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
-@@ -2853,6 +2852,7 @@ if config_all.has_key('CONFIG_TCG')
-   else
-     summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
-   endif
-+  summary_info += {'TCG plugins': config_host.has_key('CONFIG_PLUGIN')}
-   summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
- endif
- summary_info += {'target list':       ' '.join(target_dirs)}
+diff --git a/configure b/configure
+index 7f906be68d..25daabd0ff 100755
+--- a/configure
++++ b/configure
+@@ -923,6 +923,7 @@ for opt do
+   ;;
+   --static)
+     static="yes"
++    plugins="no"
+     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
+   ;;
+   --mandir=*) mandir="$optarg"
+@@ -2184,11 +2185,14 @@ if test "$modules" = "no" && test "$module_upgrades" = "yes" ; then
+   error_exit "Can't enable module-upgrades as Modules are not enabled"
+ fi
+ 
+-# Static linking is not possible with modules or PIE
++# Static linking is not possible with plugins, modules or PIE
+ if test "$static" = "yes" ; then
+   if test "$modules" = "yes" ; then
+     error_exit "static and modules are mutually incompatible"
+   fi
++  if test "$plugins" = "yes"; then
++    error_exit "static and plugins are mutually incompatible"
++  fi
+ fi
+ 
+ # Unconditional check for compiler __thread support
+@@ -3979,7 +3983,7 @@ if  test "$plugins" = "yes" &&
+       "Plugin support requires dynamic linking and specifying a set of symbols " \
+       "that are exported to plugins. Unfortunately your linker doesn't " \
+       "support the flag (--dynamic-list or -exported_symbols_list) used " \
+-      "for this purpose. You can't build with --static."
++      "for this purpose."
+ fi
+ 
+ ########################################
 -- 
 2.20.1
 
