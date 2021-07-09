@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F463C22A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:16:27 +0200 (CEST)
-Received: from localhost ([::1]:51938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACFF3C22A6
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:16:23 +0200 (CEST)
+Received: from localhost ([::1]:51776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1oUc-0008P9-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:16:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38036)
+	id 1m1oUY-0008IC-I4
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oSZ-0005h4-7V
+ id 1m1oSZ-0005hD-Rc
  for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:19 -0400
-Received: from mga06.intel.com ([134.134.136.31]:37159)
+Received: from mga06.intel.com ([134.134.136.31]:37160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oSW-0004zM-FL
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:18 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800761"
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800761"
+ id 1m1oSX-0004zq-2a
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:19 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800762"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800762"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 04:14:11 -0700
+ 09 Jul 2021 04:14:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730129"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730136"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:09 -0700
+ by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:11 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/33] memory: Add RAM_PROTECTED flag to skip IOMMU mappings
-Date: Fri,  9 Jul 2021 19:09:23 +0800
-Message-Id: <20210709110955.73256-2-yang.zhong@intel.com>
+Subject: [PATCH v3 02/33] hostmem: Add hostmem-epc as a backend for SGX EPC
+Date: Fri,  9 Jul 2021 19:09:24 +0800
+Message-Id: <20210709110955.73256-3-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210709110955.73256-1-yang.zhong@intel.com>
 References: <20210709110955.73256-1-yang.zhong@intel.com>
@@ -64,10 +64,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Add a new RAMBlock flag to denote "protected" memory, i.e. memory that
-looks and acts like RAM but is inaccessible via normal mechanisms,
-including DMA.  Use the flag to skip protected memory regions when
-mapping RAM for DMA in VFIO.
+EPC (Enclave Page Cahe) is a specialized type of memory used by Intel
+SGX (Software Guard Extensions).  The SDM desribes EPC as:
+
+    The Enclave Page Cache (EPC) is the secure storage used to store
+    enclave pages when they are a part of an executing enclave. For an
+    EPC page, hardware performs additional access control checks to
+    restrict access to the page. After the current page access checks
+    and translations are performed, the hardware checks that the EPC
+    page is accessible to the program currently executing. Generally an
+    EPC page is only accessed by the owner of the executing enclave or
+    an instruction which is setting up an EPC page.
+
+Because of its unique requirements, Linux manages EPC separately from
+normal memory.  Similar to memfd, the device /dev/sgx_vepc can be
+opened to obtain a file descriptor which can in turn be used to mmap()
+EPC memory.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
@@ -76,94 +88,120 @@ v1-->v2:
    - Unified the "share" and "protected" arguments with ram_flags in the
      memory_region_init_ram_from_fd()(Paolo).
 ---
- hw/vfio/common.c      |  1 +
- include/exec/memory.h | 15 ++++++++++++++-
- softmmu/memory.c      |  5 +++++
- softmmu/physmem.c     |  3 ++-
- 4 files changed, 22 insertions(+), 2 deletions(-)
+ backends/hostmem-epc.c | 92 ++++++++++++++++++++++++++++++++++++++++++
+ backends/meson.build   |  1 +
+ 2 files changed, 93 insertions(+)
+ create mode 100644 backends/hostmem-epc.c
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index ae5654fcdb..5bc5d29358 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -538,6 +538,7 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
- {
-     return (!memory_region_is_ram(section->mr) &&
-             !memory_region_is_iommu(section->mr)) ||
-+           memory_region_is_protected(section->mr) ||
-            /*
-             * Sizing an enabled 64-bit BAR can cause spurious mappings to
-             * addresses in the upper part of the 64-bit address space.  These
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index b116f7c64e..811f3dc897 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -162,6 +162,9 @@ typedef struct IOMMUTLBEvent {
-  */
- #define RAM_NORESERVE (1 << 7)
- 
-+/* RAM that isn't accessible through normal means. */
-+#define RAM_PROTECTED (1 << 8)
-+
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
-@@ -1040,7 +1043,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-  * @name: the name of the region.
-  * @size: size of the region.
-  * @ram_flags: RamBlock flags. Supported flags: RAM_SHARED, RAM_PMEM,
-- *             RAM_NORESERVE.
-+ *             RAM_NORESERVE, RAM_PROTECTED.
-  * @fd: the fd to mmap.
-  * @offset: offset within the file referenced by fd
-  * @errp: pointer to Error*, to store an error if it happens.
-@@ -1341,6 +1344,16 @@ static inline bool memory_region_is_romd(MemoryRegion *mr)
-     return mr->rom_device && mr->romd_mode;
- }
- 
-+/**
-+ * memory_region_is_protected: check whether a memory region is protected
+diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
+new file mode 100644
+index 0000000000..b512a68cb0
+--- /dev/null
++++ b/backends/hostmem-epc.c
+@@ -0,0 +1,92 @@
++/*
++ * QEMU host SGX EPC memory backend
 + *
-+ * Returns %true if a memory region is protected RAM and cannot be accessed
-+ * via standard mechanisms, e.g. DMA.
++ * Copyright (C) 2019 Intel Corporation
 + *
-+ * @mr: the memory region being queried
++ * Authors:
++ *   Sean Christopherson <sean.j.christopherson@intel.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
 + */
-+bool memory_region_is_protected(MemoryRegion *mr);
++#include <sys/ioctl.h>
 +
- /**
-  * memory_region_get_iommu: check whether a memory region is an iommu
-  *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index f0161515e9..1dab97e50a 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1807,6 +1807,11 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
-     return mr->ram_device;
- }
- 
-+bool memory_region_is_protected(MemoryRegion *mr)
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "qom/object_interfaces.h"
++#include "qapi/error.h"
++#include "sysemu/hostmem.h"
++
++#define TYPE_MEMORY_BACKEND_EPC "memory-backend-epc"
++
++#define MEMORY_BACKEND_EPC(obj)                                        \
++    OBJECT_CHECK(HostMemoryBackendEpc, (obj), TYPE_MEMORY_BACKEND_EPC)
++
++typedef struct HostMemoryBackendEpc HostMemoryBackendEpc;
++
++struct HostMemoryBackendEpc {
++    HostMemoryBackend parent_obj;
++};
++
++static void
++sgx_epc_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
 +{
-+    return mr->ram && (mr->ram_block->flags & RAM_PROTECTED);
++    uint32_t ram_flags;
++    char *name;
++    int fd;
++
++    if (!backend->size) {
++        error_setg(errp, "can't create backend with size 0");
++        return;
++    }
++
++    fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
++    if (fd < 0) {
++        error_setg_errno(errp, errno,
++                         "failed to open /dev/sgx_vepc to alloc SGX EPC");
++        return;
++    }
++
++    name = object_get_canonical_path(OBJECT(backend));
++    ram_flags = (backend->share ? RAM_SHARED : 0) | RAM_PROTECTED;
++    memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
++                                   name, backend->size, ram_flags,
++                                   fd, 0, errp);
++    g_free(name);
 +}
 +
- uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
- {
-     uint8_t mask = mr->dirty_log_mask;
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 9b171c9dbe..6345d7d0de 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2052,7 +2052,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-     int64_t file_size, file_align;
++static void sgx_epc_backend_instance_init(Object *obj)
++{
++    HostMemoryBackend *m = MEMORY_BACKEND(obj);
++
++    m->share = true;
++    m->merge = false;
++    m->dump = false;
++}
++
++static void sgx_epc_backend_class_init(ObjectClass *oc, void *data)
++{
++    HostMemoryBackendClass *bc = MEMORY_BACKEND_CLASS(oc);
++
++    bc->alloc = sgx_epc_backend_memory_alloc;
++}
++
++static const TypeInfo sgx_epc_backed_info = {
++    .name = TYPE_MEMORY_BACKEND_EPC,
++    .parent = TYPE_MEMORY_BACKEND,
++    .instance_init = sgx_epc_backend_instance_init,
++    .class_init = sgx_epc_backend_class_init,
++    .instance_size = sizeof(HostMemoryBackendEpc),
++};
++
++static void register_types(void)
++{
++    int fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
++    if (fd >= 0) {
++        close(fd);
++
++        type_register_static(&sgx_epc_backed_info);
++    }
++}
++
++type_init(register_types);
+diff --git a/backends/meson.build b/backends/meson.build
+index d4221831fc..46fd16b269 100644
+--- a/backends/meson.build
++++ b/backends/meson.build
+@@ -16,5 +16,6 @@ softmmu_ss.add(when: ['CONFIG_VHOST_USER', 'CONFIG_VIRTIO'], if_true: files('vho
+ softmmu_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('cryptodev-vhost.c'))
+ softmmu_ss.add(when: ['CONFIG_VIRTIO_CRYPTO', 'CONFIG_VHOST_CRYPTO'], if_true: files('cryptodev-vhost-user.c'))
+ softmmu_ss.add(when: 'CONFIG_GIO', if_true: [files('dbus-vmstate.c'), gio])
++softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('hostmem-epc.c'))
  
-     /* Just support these ram flags by now. */
--    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE)) == 0);
-+    assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE |
-+                          RAM_PROTECTED)) == 0);
- 
-     if (xen_enabled()) {
-         error_setg(errp, "-mem-path not supported with Xen");
+ subdir('tpm')
 -- 
 2.29.2.334.gfaefdd61ec
 
