@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50A4D3C23CD
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 14:56:42 +0200 (CEST)
-Received: from localhost ([::1]:55628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EBC3C23D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 14:58:54 +0200 (CEST)
+Received: from localhost ([::1]:36686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1q3d-0004Nc-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 08:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57412)
+	id 1m1q5l-00025i-Mb
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 08:58:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pyt-0004Qh-FV
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:51:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46315)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pyw-0004Ys-KA
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:51:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pyr-0003bB-Jg
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:51:47 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pyu-0003bz-9q
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:51:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625835105;
+ s=mimecast20190719; t=1625835107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3FsnUTo2knoZegyATT09VourLx4faeCo0xhc1vtdU/8=;
- b=OGyGsHnwmBU0T14G4cuNni4uYj32fB0Y+aIapXJSEg0Rwt7yugDP2ALAL1deE9w5ARdSkG
- z/xpzaOzwWhRZhAcQow3p6RP2aBj0HG32OCUxEUzJNCjyHbn64GBr5tMxT6cQIFAEnI+au
- 7AuuBmOEDHcqFhE10Ct28tTC+o5jG0s=
+ bh=3aW2cKAJnQ3lze8efHIix6Hj+piWNWdT+2zgUQLBCJA=;
+ b=FAzVCbURqnRXLHGTjJlbE9sUQSg1qub0thrcv+sQg33MkEkde4ctQq/9HPMVCClSUrg5wj
+ k1PFx3MUNGlrFX08jUDpcBc3Rxf6maweDrULw/gFOdKzYNm/MuUztzd5aDepuYs8KY/grx
+ iOnaSoMzvxZ+ucK4XMzBto5VR0lhu/A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-QfOzEItePHy0yqt-soO9JQ-1; Fri, 09 Jul 2021 08:51:43 -0400
-X-MC-Unique: QfOzEItePHy0yqt-soO9JQ-1
+ us-mta-399-NzP33vCeMkacvAc961Gw_A-1; Fri, 09 Jul 2021 08:51:46 -0400
+X-MC-Unique: NzP33vCeMkacvAc961Gw_A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57C951084F57;
- Fri,  9 Jul 2021 12:51:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47A088015F5;
+ Fri,  9 Jul 2021 12:51:45 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-203.ams2.redhat.com [10.36.113.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 385B260843;
- Fri,  9 Jul 2021 12:51:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A03EE60843;
+ Fri,  9 Jul 2021 12:51:42 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/28] export/fuse: Let permissions be adjustable
-Date: Fri,  9 Jul 2021 14:50:20 +0200
-Message-Id: <20210709125035.191321-14-kwolf@redhat.com>
+Subject: [PULL 14/28] iotests/308: Test +w on read-only FUSE exports
+Date: Fri,  9 Jul 2021 14:50:21 +0200
+Message-Id: <20210709125035.191321-15-kwolf@redhat.com>
 In-Reply-To: <20210709125035.191321-1-kwolf@redhat.com>
 References: <20210709125035.191321-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,154 +82,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Allow changing the file mode, UID, and GID through SETATTR.
-
-Without allow_other, UID and GID are not allowed to be changed, because
-it would not make sense.  Also, changing group or others' permissions
-is not allowed either.
-
-For read-only exports, +w cannot be set.
+Test that +w on read-only FUSE exports returns an EROFS error.  u+x on
+the other hand should work.  (There is no special reason to choose u+x
+here, it simply is like +w another flag that is not set by default.)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210625142317.271673-5-mreitz@redhat.com>
+Message-Id: <20210625142317.271673-6-mreitz@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/export/fuse.c | 73 ++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 62 insertions(+), 11 deletions(-)
+ tests/qemu-iotests/308     | 11 +++++++++++
+ tests/qemu-iotests/308.out |  4 ++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/block/export/fuse.c b/block/export/fuse.c
-index 26ad644cd7..ada9e263eb 100644
---- a/block/export/fuse.c
-+++ b/block/export/fuse.c
-@@ -48,6 +48,10 @@ typedef struct FuseExport {
-     bool growable;
-     /* Whether allow_other was used as a mount option or not */
-     bool allow_other;
+diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
+index d13a9a969c..6b386bd523 100755
+--- a/tests/qemu-iotests/308
++++ b/tests/qemu-iotests/308
+@@ -170,6 +170,17 @@ fuse_export_add 'export-mp' "'mountpoint': '$EXT_MP'"
+ # Check that the export presents the same data as the original image
+ $QEMU_IMG compare -f raw -F $IMGFMT -U "$EXT_MP" "$TEST_IMG"
+ 
++# Some quick chmod tests
++stat -c 'Permissions pre-chmod: %a' "$EXT_MP"
 +
-+    mode_t st_mode;
-+    uid_t st_uid;
-+    gid_t st_gid;
- } FuseExport;
- 
- static GHashTable *exports;
-@@ -125,6 +129,13 @@ static int fuse_export_create(BlockExport *blk_exp,
-         args->allow_other = FUSE_EXPORT_ALLOW_OTHER_AUTO;
-     }
- 
-+    exp->st_mode = S_IFREG | S_IRUSR;
-+    if (exp->writable) {
-+        exp->st_mode |= S_IWUSR;
-+    }
-+    exp->st_uid = getuid();
-+    exp->st_gid = getgid();
++# Verify that we cannot set +w
++chmod u+w "$EXT_MP" 2>&1 | _filter_testdir | _filter_imgfmt
++stat -c 'Permissions post-+w: %a' "$EXT_MP"
 +
-     if (args->allow_other == FUSE_EXPORT_ALLOW_OTHER_AUTO) {
-         /* Ignore errors on our first attempt */
-         ret = setup_fuse_export(exp, args->mountpoint, true, NULL);
-@@ -338,7 +349,6 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
-     int64_t length, allocated_blocks;
-     time_t now = time(NULL);
-     FuseExport *exp = fuse_req_userdata(req);
--    mode_t mode;
- 
-     length = blk_getlength(exp->common.blk);
-     if (length < 0) {
-@@ -353,17 +363,12 @@ static void fuse_getattr(fuse_req_t req, fuse_ino_t inode,
-         allocated_blocks = DIV_ROUND_UP(allocated_blocks, 512);
-     }
- 
--    mode = S_IFREG | S_IRUSR;
--    if (exp->writable) {
--        mode |= S_IWUSR;
--    }
--
-     statbuf = (struct stat) {
-         .st_ino     = inode,
--        .st_mode    = mode,
-+        .st_mode    = exp->st_mode,
-         .st_nlink   = 1,
--        .st_uid     = getuid(),
--        .st_gid     = getgid(),
-+        .st_uid     = exp->st_uid,
-+        .st_gid     = exp->st_gid,
-         .st_size    = length,
-         .st_blksize = blk_bs(exp->common.blk)->bl.request_alignment,
-         .st_blocks  = allocated_blocks,
-@@ -409,19 +414,52 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
- }
- 
- /**
-- * Let clients set file attributes.  Only resizing is supported.
-+ * Let clients set file attributes.  Only resizing and changing
-+ * permissions (st_mode, st_uid, st_gid) is allowed.
-+ * Changing permissions is only allowed as far as it will actually
-+ * permit access: Read-only exports cannot be given +w, and exports
-+ * without allow_other cannot be given a different UID or GID, and
-+ * they cannot be given non-owner access.
-  */
- static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-                          int to_set, struct fuse_file_info *fi)
- {
-     FuseExport *exp = fuse_req_userdata(req);
-+    int supported_attrs;
-     int ret;
- 
--    if (to_set & ~FUSE_SET_ATTR_SIZE) {
-+    supported_attrs = FUSE_SET_ATTR_SIZE | FUSE_SET_ATTR_MODE;
-+    if (exp->allow_other) {
-+        supported_attrs |= FUSE_SET_ATTR_UID | FUSE_SET_ATTR_GID;
-+    }
++# But that we can set, say, +x (if we are so inclined)
++chmod u+x "$EXT_MP" 2>&1 | _filter_testdir | _filter_imgfmt
++stat -c 'Permissions post-+x: %a' "$EXT_MP"
 +
-+    if (to_set & ~supported_attrs) {
-         fuse_reply_err(req, ENOTSUP);
-         return;
-     }
+ echo
+ echo '=== Mount over existing file ==='
  
-+    /* Do some argument checks first before committing to anything */
-+    if (to_set & FUSE_SET_ATTR_MODE) {
-+        /*
-+         * Without allow_other, non-owners can never access the export, so do
-+         * not allow setting permissions for them
-+         */
-+        if (!exp->allow_other &&
-+            (statbuf->st_mode & (S_IRWXG | S_IRWXO)) != 0)
-+        {
-+            fuse_reply_err(req, EPERM);
-+            return;
-+        }
-+
-+        /* +w for read-only exports makes no sense, disallow it */
-+        if (!exp->writable &&
-+            (statbuf->st_mode & (S_IWUSR | S_IWGRP | S_IWOTH)) != 0)
-+        {
-+            fuse_reply_err(req, EROFS);
-+            return;
-+        }
-+    }
-+
-     if (to_set & FUSE_SET_ATTR_SIZE) {
-         if (!exp->writable) {
-             fuse_reply_err(req, EACCES);
-@@ -435,6 +473,19 @@ static void fuse_setattr(fuse_req_t req, fuse_ino_t inode, struct stat *statbuf,
-         }
-     }
+diff --git a/tests/qemu-iotests/308.out b/tests/qemu-iotests/308.out
+index 0e9420645f..fc47bb11a2 100644
+--- a/tests/qemu-iotests/308.out
++++ b/tests/qemu-iotests/308.out
+@@ -50,6 +50,10 @@ wrote 67108864/67108864 bytes at offset 0
+           } }
+ {"return": {}}
+ Images are identical.
++Permissions pre-chmod: 400
++chmod: changing permissions of 'TEST_DIR/t.IMGFMT.fuse': Read-only file system
++Permissions post-+w: 400
++Permissions post-+x: 500
  
-+    if (to_set & FUSE_SET_ATTR_MODE) {
-+        /* Ignore FUSE-supplied file type, only change the mode */
-+        exp->st_mode = (statbuf->st_mode & 07777) | S_IFREG;
-+    }
-+
-+    if (to_set & FUSE_SET_ATTR_UID) {
-+        exp->st_uid = statbuf->st_uid;
-+    }
-+
-+    if (to_set & FUSE_SET_ATTR_GID) {
-+        exp->st_gid = statbuf->st_gid;
-+    }
-+
-     fuse_getattr(req, inode, fi);
- }
- 
+ === Mount over existing file ===
+ {'execute': 'block-export-add',
 -- 
 2.31.1
 
