@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A04D3C1E4E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:30:03 +0200 (CEST)
-Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270233C1E40
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:27:55 +0200 (CEST)
+Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1i9K-0005Vb-D7
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53306)
+	id 1m1i7F-0008Ea-NS
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5L-0005Sp-Tp
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60502)
+ id 1m1i5H-0005MQ-0i
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5I-0001Bc-Nh
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:55 -0400
+ id 1m1i5E-00018c-LG
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:25:50 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i5E-0005E4-Nd
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:48 +0000
+ id 1m1i59-0005E8-Bc
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 974792E8189
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:48 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 2C8A42E817F
+ for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 04:17:26 -0000
-From: Launchpad Bug Tracker <1901359@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 04:17:27 -0000
+From: Launchpad Bug Tracker <1902777@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: vmx whpx
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cinaplenrek janitor th-huth
-X-Launchpad-Bug-Reporter: cinap_lenrek (cinaplenrek)
+X-Launchpad-Bug-Commenters: janitor rcprior th-huth
+X-Launchpad-Bug-Reporter: Rui Prior (rcprior)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160358192028.26978.16757353407676731946.malonedeb@wampee.canonical.com>
-Message-Id: <162580424708.19936.2039857612753977695.malone@loganberry.canonical.com>
-Subject: [Bug 1901359] Re: ignore bit 0 in pci CONFIG_ADDRESS register write
- for Type 1 access
+References: <160443143159.15248.310211538041972922.malonedeb@wampee.canonical.com>
+Message-Id: <162580424770.19936.10782260330379164556.malone@loganberry.canonical.com>
+Subject: [Bug 1902777] Re: qemu with whpx acceleration crashes with vmx=on
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 8c4a1a18260c9e6e5a7d4b645845fb67c2fb6710
+X-Launchpad-Hash: ea08a36bd9944d52ee23c932bd674534573bd25d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1901359 <1901359@bugs.launchpad.net>
+Reply-To: Bug 1902777 <1902777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,45 +84,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1901359
+https://bugs.launchpad.net/bugs/1902777
 
 Title:
-  ignore bit 0 in pci CONFIG_ADDRESS register write for Type 1 access
+  qemu with whpx acceleration crashes with vmx=3Don
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I'v recently stumbled upon a bug in the Plan9 PCI config space access
-  routines for config mode #1.
+  Under Windows 10, qemu crashes when using whpx acceleration and the vmx=
+=3Don option.  The reported error is
+    qemu-system-x86_64.exe: WHPX: Unexpected VP exit code 4
+  Before the error, it reports
+    Windows Hypervisor Platform accelerator is operational
 
-  The code used to set bit 0 in the CONFIG_ADDRESS register for a Type 1
-  access.
+  The command line is the following:
+    "C:\Program Files\qemu\qemu-system-x86_64.exe" -accel whpx -cpu qemu64,=
+vmx=3Don
+  It crashes with any model of CPU as long as the "vmx=3Don" option is adde=
+d.  Without this option it runs fine (but no nested virtualization).
 
-  This was most likely a misreading of the PCI local bus specification
-  on our side.
-
-  However, in the PCI local bus specification 3.0, it states the
-  following:
-
-  > 3.2.2.3.2 Software Generation of Configuration Transactions
-  > ...
-  > For Type 1 translations, the host bridge directly copies the contents o=
-f the
-  > CONFIG_ADDRESS register (excluding bits 31 and 0) onto the PCI AD lines=
- during the
-  > address phase of a configuration transaction making sure that AD[1::0] =
-is "01".
-
-  note the: "excluding bits 31 and 0"
-
-  What happens in qemu instead is that it uses bit 0 of the CONFIG_ADDRESS
-  register as part of the register offset (when it probably should ignore i=
-t)
-  when translating from Type 1 to Type 0 address. So once it reaches the de=
-vice
-  behind the bridge the register address is off by one.
+  My processor is an Intel i7-10510U, and I am running Windows 10 2004
+  (build 19041.572).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1901359/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1902777/+subscriptions
 
