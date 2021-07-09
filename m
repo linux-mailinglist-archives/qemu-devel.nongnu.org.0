@@ -2,43 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7E63C2505
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:32:30 +0200 (CEST)
-Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9363C2508
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:33:45 +0200 (CEST)
+Received: from localhost ([::1]:47966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1qcH-0002A0-Pc
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:32:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37288)
+	id 1m1qdV-0003dv-0L
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:33:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1qZK-0007IN-KX; Fri, 09 Jul 2021 09:29:26 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:43947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1qZH-0002A1-UG; Fri, 09 Jul 2021 09:29:26 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 858847462DB;
- Fri,  9 Jul 2021 15:29:20 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6544E7457EF; Fri,  9 Jul 2021 15:29:20 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH] ppc/pegasos2: Allow setprop in VOF
-Date: Fri, 09 Jul 2021 15:19:13 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1qZr-0008Na-Iv
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 09:29:59 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1qZo-0002OY-Os
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 09:29:59 -0400
+Received: by mail-ed1-x530.google.com with SMTP id l26so5469632eda.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 06:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4QMhBs4vswzZhyrDzB9ckUohMSBccFZMlPNpw0SDK7o=;
+ b=zUN5cEmeLC1jgOxEV3dMDKuXRzWEqaOnhX1fETTSLTzop9XMsEe5PZwayFo8UDMRir
+ YkBPUM1cVpJhQvXWkTfM3uqx9BQbS9pGEhQ+bbJwbcGTVuIEX0aPmQJC80n5sNCtkFLV
+ aTn49BlykYUkXyjWqYutAtGIuR60EUZ1DtV22UfWgIpANb54k1ciWof9W2WsNI02x7Bd
+ jVdVpxrtNDJknzey+/p/2BNbXO5ue6Ae34u7j07l0is0pbGC5/irdfKCo9XYr8e6EpIa
+ oFf8VKX9+34HLGYTR5Ql/iEoseJIIHyZtmdKcQakUwfGoUFTyW9Aw+l1ugcihslLocHL
+ RSHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4QMhBs4vswzZhyrDzB9ckUohMSBccFZMlPNpw0SDK7o=;
+ b=bFlI7KXptS9NzwfNO5Cr3EHwTk07LD5Y3oar7ciJvrSwkPkD/MKpXUb6Q0UMUW6v5K
+ uJyr6zrheuGHQZwjgZgD9trVonOw5qfnNRiM9wNGRjnoyUjDfjKBS9GEn3rmwuz4LXK4
+ fVqOTuqKFXF+u2mcqBUD7oDChrhD2A0h0Z9nfiePY5BFHbUa8v4wL/Toi4cnTBAnbrgW
+ ElfHhw3GdFXkVCUNc9ZMZmqIabW72J+Ky29T5w90RfN1Loo4P/dc3Qede4fa8kcMC4J+
+ w+OAs2eFnomoj+x+NnTo7WLI4inffVHykEfTTFtzSabBD0nPX/fLMhejapiLljaHnMAs
+ zsFw==
+X-Gm-Message-State: AOAM530ntXi73Ny3lsrnoRHr16nU5Mr7GujgnK4A1ss0iNgGQ1xH1QF7
+ isPbyYuRkwcBe+zmOx/PJPBfM2pHT4qRyZMZeXNrwQ==
+X-Google-Smtp-Source: ABdhPJxgjMiF1IuRfoYamXJk5vJIZ1fpnai2NtTU1wDM22TIUebIDqBsOEG+P/OY4DEQfGCPR1BxxI2+QUnFbaCnJp0=
+X-Received: by 2002:aa7:c14e:: with SMTP id r14mr15320350edp.251.1625837395076; 
+ Fri, 09 Jul 2021 06:29:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Message-Id: <20210709132920.6544E7457EF@zero.eik.bme.hu>
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210708131143.240647-1-stefanha@redhat.com>
+In-Reply-To: <20210708131143.240647-1-stefanha@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Jul 2021 14:29:16 +0100
+Message-ID: <CAFEAcA8M+WjzBDaYf8n3Eh0JzDgh4H171eQU4aMzTwOHB1s9zQ@mail.gmail.com>
+Subject: Re: [PULL 0/5] Block patches
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -51,60 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux needs setprop to fix up the device tree, otherwise it's not
-finding devices and cannot boot. Since recent VOF change now we need
-to add a callback to allow this which is what this patch does.
+On Thu, 8 Jul 2021 at 14:11, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> The following changes since commit 711c0418c8c1ce3a24346f058b001c4c5a2f0f81:
+>
+>   Merge remote-tracking branch 'remotes/philmd/tags/mips-20210702' into staging (2021-07-04 14:04:12 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
+>
+> for you to fetch changes up to 9f460c64e13897117f35ffb61f6f5e0102cabc70:
+>
+>   block/io: Merge discard request alignments (2021-07-06 14:28:55 +0100)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/pegasos2.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Applied, thanks.
 
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 5c4e2ae8bf..f25816082c 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -443,10 +443,17 @@ static target_ulong vhyp_encode_hpt_for_kvm_pr(PPCVirtualHypervisor *vhyp)
-     return POWERPC_CPU(current_cpu)->env.spr[SPR_SDR1];
- }
- 
-+static bool pegasos2_setprop(MachineState *ms, const char *path,
-+                             const char *propname, void *val, int vallen)
-+{
-+    return true;
-+}
-+
- static void pegasos2_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-     PPCVirtualHypervisorClass *vhc = PPC_VIRTUAL_HYPERVISOR_CLASS(oc);
-+    VofMachineIfClass *vmc = VOF_MACHINE_CLASS(oc);
- 
-     mc->desc = "Genesi/bPlan Pegasos II";
-     mc->init = pegasos2_init;
-@@ -462,6 +469,8 @@ static void pegasos2_machine_class_init(ObjectClass *oc, void *data)
-     vhc->cpu_exec_enter = vhyp_nop;
-     vhc->cpu_exec_exit = vhyp_nop;
-     vhc->encode_hpt_for_kvm_pr = vhyp_encode_hpt_for_kvm_pr;
-+
-+    vmc->setprop = pegasos2_setprop;
- }
- 
- static const TypeInfo pegasos2_machine_info = {
-@@ -471,6 +480,7 @@ static const TypeInfo pegasos2_machine_info = {
-     .instance_size = sizeof(Pegasos2MachineState),
-     .interfaces = (InterfaceInfo[]) {
-         { TYPE_PPC_VIRTUAL_HYPERVISOR },
-+        { TYPE_VOF_MACHINE_IF },
-         { }
-     },
- };
--- 
-2.21.4
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
+-- PMM
 
