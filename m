@@ -2,93 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845763C1F24
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:56:17 +0200 (CEST)
-Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BBA93C1F26
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:57:11 +0200 (CEST)
+Received: from localhost ([::1]:60680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1jUm-0006wz-J0
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38042)
+	id 1m1jVe-0000mg-Bz
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m1jI9-0007Rx-7D
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 01:43:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23621)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m1jI3-0005Df-NQ
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 01:43:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625809386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GbU7Pgs2DWjpNySZssO3MTruLqF6t3LpfzaEIMysvGU=;
- b=hFBtJ2zpqAnVirYR7ha85f61avP0b7ie7moRldOYmKyBEcGNQC1osWS/zqw2hbjF1wVjGu
- ApReUx4R8m1h8DlQszQf5AI87DNroEWKVuRQWJY+2XjPXK6TMSSUYGVfsfMjH0wfTrGFbs
- +Y454IcBGr1oASaTD6RicahyG8iQSbc=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-4x5DJ3HIPj2wK3D9YtWxyw-1; Fri, 09 Jul 2021 01:43:05 -0400
-X-MC-Unique: 4x5DJ3HIPj2wK3D9YtWxyw-1
-Received: by mail-pj1-f72.google.com with SMTP id
- o11-20020a17090a420bb029016eed2aa304so5020593pjg.2
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 22:43:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m1jKh-0002Ty-LY; Fri, 09 Jul 2021 01:45:51 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:41860)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m1jKe-0006Wz-Al; Fri, 09 Jul 2021 01:45:51 -0400
+Received: by mail-il1-x130.google.com with SMTP id m3so2446086ilj.8;
+ Thu, 08 Jul 2021 22:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hXVUmido4cxKAzN26xHLpzvLKvp6IiviOsbPENUkJDY=;
+ b=lHiCVWVjvoYCmiQlzwRWeZocrgvunVn4Y/VGhzrUqZvrXr/rxs7OcZH+1u0X/yFmlC
+ QH87MQBvRaUdsxbb92uOtVMWVSUa4VRp703D+r2KVl8aF06kA/+XFDxRgSFMYnjK23Rm
+ ZwdzKi66FVl9h2LeueVrMnB5uCehGNt+H9LWgmn6IySdEwedPEehvjKNLsx2KAQA7HIi
+ FblawnskrCcUlay8OowClPuDuGoSKjOFpNZY8Kl2LEab03j3kakpd0oWpJ5TzWMy5lTG
+ HybezAQIpAlw4ThPj10e/YoV4f7F1dX+Df+ASftGhyd3GkPj5WzWTWbt9Er3/jRThMel
+ b1/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=GbU7Pgs2DWjpNySZssO3MTruLqF6t3LpfzaEIMysvGU=;
- b=Jr3w7E6gqt84ncx+9iyR+6KQ8M2WuphVKEM3F6pXoZ4tVSFweqQxUFI+rF3n16EIPB
- aV9RKo5CgfxyKpjX+8XH9Ypm4BrOE2KHbnCDqL+cAUZE7jXx35C+JBGvhbIDtdtQSkbt
- FpnDjxD6zYdKmwo3QQAT6l3XmrF1J2nDE9svCOW//rMfPD7HGtf+2llJIZWsHGR+sJ9d
- r/R+rZS+kXX53qFpImcizuSun8Rt9TL5NDD5tPAbhBNFl7TyPx3tzzhUnCEv/5Baq0NG
- vENVMMJMlXW8L7nOYzmmDcBPv8wmDCPZOZozOBc1hqnsbMy8sdHsFARKWFyZ2lOTAEAr
- EA6Q==
-X-Gm-Message-State: AOAM532671PZa9Tsf8drkn47xSTdLEg1XhvzYMj48fY/JtghEt3Hul7i
- RuMcevV058sceD6vXLDsGS8Oq9WOPlsOa/+BfvzstnZ04nXjcXpA7C05MA7PJnAKqf8NgjPaGzy
- 2qEpGF1O57xTWRNTDcbJ4EMOSXc2CnSQ5BCF/vNEhpxRqmB21ALzU5AfnqomSg+IxMoQ=
-X-Received: by 2002:aa7:96e7:0:b029:326:8fb0:29a2 with SMTP id
- i7-20020aa796e70000b02903268fb029a2mr11314434pfq.13.1625809383796; 
- Thu, 08 Jul 2021 22:43:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxnCnW331BInL+DX2Vppn727tbQOkwlosZ8ndUyFCMJAj4w3KFTN/TB54L2dvG6V1Nx76gypQ==
-X-Received: by 2002:aa7:96e7:0:b029:326:8fb0:29a2 with SMTP id
- i7-20020aa796e70000b02903268fb029a2mr11314402pfq.13.1625809383521; 
- Thu, 08 Jul 2021 22:43:03 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id r10sm5445073pga.48.2021.07.08.22.43.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 22:43:03 -0700 (PDT)
-Subject: Re: [PATCH v8 6/9] virtio-mmio: add support for configure interrupt
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
-References: <20210706072030.32365-1-lulu@redhat.com>
- <20210706072030.32365-7-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <75abaf98-12da-b707-bf40-9c7ad298d6bd@redhat.com>
-Date: Fri, 9 Jul 2021 13:43:00 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hXVUmido4cxKAzN26xHLpzvLKvp6IiviOsbPENUkJDY=;
+ b=SAmmiUpzMixC0qFfC+iVsmi0n3RIIS3Lym57MjOxB44G9Kg8gPTYHwYqcOinvWbzkl
+ BIZNewsLBGVzgobPAJnX+mywISu0CHcgTY315sJpW+w73IFfqJ9LTtqSAIjZEZY8SHnp
+ XywpzikZPPVDOeRcs7HkQs4/Z6kEeLp2rGP/xfklSUxD87plITu2thTfNOPXQsUj/umu
+ yo4Rp8aDEoUD23V/33nzi4wd2b17rqjiHmczuhajZ4vQip0gMI2y/rDU+eiTuowALvtD
+ NzCm6JIK4VQbZRPv/205Vjuxko2k4LNoXLjjIlp7Uba45J25Id/lcL3kYQ4zkf/XqzPx
+ XggQ==
+X-Gm-Message-State: AOAM530j5rIgPTR/4j3wRKduvL6D+wq7bNFbIVzViJ90fmK6qs1Kbs/6
+ 4PvEBIJc5Z2Gce1dg6w249DbW+UzEYZuuvo31Ds=
+X-Google-Smtp-Source: ABdhPJwOw+0fRngke84mNsfHUDojVA0yEYwk1k47v4BMlMPuUtw3eiOvRn+tvJdwYxS1vcZ/pvEux+lnL08gMuGHoLU=
+X-Received: by 2002:a05:6e02:ecb:: with SMTP id
+ i11mr22993212ilk.40.1625809546768; 
+ Thu, 08 Jul 2021 22:45:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210706072030.32365-7-lulu@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <20210709042608.883256-3-richard.henderson@linaro.org>
+In-Reply-To: <20210709042608.883256-3-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 9 Jul 2021 15:45:20 +1000
+Message-ID: <CAKmqyKO_yBmRJNq5avy1J_dp4dqOEv15uhcErS2BY7pbP=ytJQ@mail.gmail.com>
+Subject: Re: [PATCH 02/17] target/riscv: Introduce gpr_src, gpr_dst
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,72 +77,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-ÔÚ 2021/7/6 ÏÂÎç3:20, Cindy Lu Ð´µÀ:
-> Add configure interrupt support for virtio-mmio bus. This
-> interrupt will working while backend is vhost-vdpa
+On Fri, Jul 9, 2021 at 2:42 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> New helpers that do not force tcg globals into temps,
+> returning a constant 0 for $zero as source and a new
+> temp for $zero as destination.
+>
+> Use them in gen_arith_imm_{fn,tl}, gen_arith, gen_unary.
+> These are simplest because no further temps required.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   hw/virtio/virtio-mmio.c | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
+>  target/riscv/translate.c | 83 ++++++++++++++++++++++------------------
+>  1 file changed, 45 insertions(+), 38 deletions(-)
 >
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index 342c918ea7..6c786db071 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -670,7 +670,29 @@ static int virtio_mmio_set_guest_notifier(DeviceState *d, int n, bool assign,
->   
->       return 0;
->   }
-> +static int virtio_mmio_set_config_notifier(DeviceState *d, bool assign)
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index bba5ad8ec4..2cfcb849b8 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -65,6 +65,8 @@ typedef struct DisasContext {
+>      uint16_t mlen;
+>      bool vl_eq_vlmax;
+>      CPUState *cs;
+> +    TCGv zero;
+> +    TCGv sink;
+>  } DisasContext;
+>
+>  static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+> @@ -202,6 +204,14 @@ static inline void gen_get_gpr(TCGv t, int reg_num)
+>      }
+>  }
+>
+> +static TCGv gpr_src(DisasContext *ctx, int reg_num)
 > +{
-
-
-We had similar issue as previous patch.
-
-We need use "virtio_mmio_set_config_guest_notifier()."
-
-Thanks
-
-
-> +    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-> +    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
->   
-> +    EventNotifier *notifier = virtio_get_config_notifier(vdev);
-> +    int r = 0;
-> +    if (assign) {
-> +        r = event_notifier_init(notifier, 0);
-> +        if (r < 0) {
-> +            return r;
-> +        }
-> +        virtio_set_config_notifier_fd_handler(vdev, true, false);
-> +    } else {
-> +        virtio_set_config_notifier_fd_handler(vdev, false, false);
-> +        event_notifier_cleanup(notifier);
+> +    if (reg_num == 0) {
+> +        return ctx->zero;
 > +    }
-> +    if (vdc->guest_notifier_mask && vdev->use_guest_notifier_mask) {
-> +        vdc->guest_notifier_mask(vdev, VIRTIO_CONFIG_IRQ_IDX, !assign);
-> +    }
-> +    return r;
+> +    return cpu_gpr[reg_num];
 > +}
->   static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
->                                              bool assign)
->   {
-> @@ -692,6 +714,10 @@ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
->               goto assign_error;
->           }
->       }
-> +    r = virtio_mmio_set_config_notifier(d, assign);
-> +    if (r < 0) {
-> +        goto assign_error;
+> +
+>  /* Wrapper for setting reg values - need to check of reg is zero since
+>   * cpu_gpr[0] is not actually allocated. this is more for safety purposes,
+>   * since we usually avoid calling the OP_TYPE_gen function if we see a write to
+> @@ -214,6 +224,17 @@ static inline void gen_set_gpr(int reg_num_dst, TCGv t)
+>      }
+>  }
+>
+> +static TCGv gpr_dst(DisasContext *ctx, int reg_num)
+> +{
+> +    if (reg_num == 0) {
+> +        if (ctx->sink == NULL) {
+> +            ctx->sink = tcg_temp_new();
+> +        }
+> +        return ctx->sink;
 > +    }
->   
->       return 0;
->   
-
+> +    return cpu_gpr[reg_num];
+> +}
+> +
+>  static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
+>  {
+>      TCGv rl = tcg_temp_new();
+> @@ -442,33 +463,21 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
+>  static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a,
+>                               void (*func)(TCGv, TCGv, target_long))
+>  {
+> -    TCGv source1;
+> -    source1 = tcg_temp_new();
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -
+> -    (*func)(source1, source1, a->imm);
+> -
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> +    (*func)(dest, src1, a->imm);
+>      return true;
+>  }
+>
+>  static bool gen_arith_imm_tl(DisasContext *ctx, arg_i *a,
+>                               void (*func)(TCGv, TCGv, TCGv))
+>  {
+> -    TCGv source1, source2;
+> -    source1 = tcg_temp_new();
+> -    source2 = tcg_temp_new();
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = tcg_constant_tl(a->imm);
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -    tcg_gen_movi_tl(source2, a->imm);
+> -
+> -    (*func)(source1, source1, source2);
+> -
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> +    (*func)(dest, src1, src2);
+>      return true;
+>  }
+>
+> @@ -758,18 +767,11 @@ static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
+>  static bool gen_arith(DisasContext *ctx, arg_r *a,
+>                        void(*func)(TCGv, TCGv, TCGv))
+>  {
+> -    TCGv source1, source2;
+> -    source1 = tcg_temp_new();
+> -    source2 = tcg_temp_new();
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = gpr_src(ctx, a->rs2);
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> -
+> -    (*func)(source1, source1, source2);
+> -
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> +    (*func)(dest, src1, src2);
+>      return true;
+>  }
+>
+> @@ -871,14 +873,10 @@ static void gen_clz(TCGv ret, TCGv arg1)
+>  static bool gen_unary(DisasContext *ctx, arg_r2 *a,
+>                        void(*func)(TCGv, TCGv))
+>  {
+> -    TCGv source = tcg_temp_new();
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+>
+> -    gen_get_gpr(source, a->rs1);
+> -
+> -    (*func)(source, source);
+> -
+> -    gen_set_gpr(a->rd, source);
+> -    tcg_temp_free(source);
+> +    (*func)(dest, src1);
+>      return true;
+>  }
+>
+> @@ -952,8 +950,12 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->cs = cs;
+>  }
+>
+> -static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+> +static void riscv_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
+>  {
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +
+> +    ctx->sink = NULL;
+> +    ctx->zero = tcg_constant_tl(0);
+>  }
+>
+>  static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+> @@ -988,6 +990,11 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>      decode_opc(env, ctx, opcode16);
+>      ctx->base.pc_next = ctx->pc_succ_insn;
+>
+> +    if (ctx->sink) {
+> +        tcg_temp_free(ctx->sink);
+> +        ctx->sink = NULL;
+> +    }
+> +
+>      if (ctx->base.is_jmp == DISAS_NEXT) {
+>          target_ulong page_start;
+>
+> --
+> 2.25.1
+>
+>
 
