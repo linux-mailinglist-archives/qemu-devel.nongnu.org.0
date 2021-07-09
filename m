@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263AA3C2673
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:59:34 +0200 (CEST)
-Received: from localhost ([::1]:39058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 071663C2647
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:50:24 +0200 (CEST)
+Received: from localhost ([::1]:38736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ryX-0003iN-4b
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49592)
+	id 1m1rpe-0000VL-W9
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:50:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdT-0004u8-H1
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:47 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40491)
+ id 1m1rdV-0004yr-DN
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:49 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:45640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdR-0000HF-F7
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:47 -0400
-Received: by mail-wr1-x430.google.com with SMTP id l7so11520039wrv.7
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:45 -0700 (PDT)
+ id 1m1rdP-0000GQ-CE
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:49 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ u8-20020a7bcb080000b02901e44e9caa2aso6441598wmj.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4tf6f4EfVwE6wKq/VA+ZpZ7sEgtGzPQDIrYTfwBXbX4=;
- b=I36vqi2R0l58wEyntdwvMfEqIa8+Z2zb5ymIqeum4wL1dnPHfFMaKAErHMCP+fdQSh
- dhpwb7QqgsUtnm0etXx5UNk0lciAow5ndKDIaKuwCR7E9pGseQpDHPJGXrHokvjm7qfy
- be2iqU8nk/5xKFY5oWTHFxmDbvVj7q47IhZFe2wVCxxYVQgzRhE8UjdqCvU26ruJEiUE
- GxqowW0iSX2N9rcZE7TrhAGRvP25fJ2CzITNINzhkMP9oevEcK3p0ijV1MjGp1NbG85K
- LX7IsdtdsMLbsOa9U5Fa+LrnluOZVftATA4Yi0n+y5w0CLvKlmzjqD2FBghNcWo3ac/u
- 1Wsg==
+ bh=77kFc+Y+5Qbz2V5mv8qtdgKvR0JhiM/gX4TZj6U9Mb0=;
+ b=QFaPXiKW7BbgiZTB2aq6DW7FLPG1lGSp1H1KG1n5a/zNWzXG/a5lWWVcVjtNtSeptS
+ P2BnF5ilB962LKiO9dBpAbVOCPJQm1TEYQ1YZfyqsE1mrnwHk1qlJ63SFvBuLu5IOq17
+ ZnIfrp9wIs1AHcJYUoKUMsaHHAtFtxQcPht12KWjv/6rpaqQlUDO+MT6dQnIfLxxfji1
+ Y07u+Wx5xgfGqjapOPJ4qCiV/t36Xtr37JR63kqMC7NHNwQOrDuJmyFCfCuoGP/G2Zo7
+ 95wTA/+NP5wHtzorbcSaLNIgkzkWBfIQuTPDHuRpGYMFHn3sEM4Qtg5xWvlGZZS97xcf
+ I9iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4tf6f4EfVwE6wKq/VA+ZpZ7sEgtGzPQDIrYTfwBXbX4=;
- b=U8aULlIGlTGd2iE5IMEEeKLZy1yp+CSCn9tTXrllfsd1x2U3Q9XvrtPXbu/iAhMNBg
- hVNYjZFH2yGKengu68atEddLFTsgynKzFCmQlgUkp+16KDzt5lX6JqOrXRmODfkTVe5Z
- rBgag5z144SDKZ/qUykc33ncsnQXF3tRerwwHGaewd554G26TgS8gUTzoEyiuAC3xnAO
- taPxxsTNTQWJdXfKdJzGJILOP9vXzY11YL55Y0qgWqEIalOc3r7BfGTXwU1cDQE2QeWU
- 8BJMWJS6A0XteurcK8YLsoQZNlH3b1xbnLojOi9uSmLMlFyD/TkGjgbkzpfprW6dhhUU
- jCwg==
-X-Gm-Message-State: AOAM532I37uUYj639zNZQ4yO48oeoAws+PBClsDdnbzlhS5l2jYl/p2/
- tm4fNDS1N/RLKx7iivQZjBIxfA==
-X-Google-Smtp-Source: ABdhPJxmrXncZ+FNJ19eQhGBAt2cPtTA6ouEYqIaYsZdp/wGPy4P7Knp6492QX6cNzvqAA8+IWMgwA==
-X-Received: by 2002:a5d:4e08:: with SMTP id p8mr42239238wrt.425.1625841464051; 
- Fri, 09 Jul 2021 07:37:44 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u1sm12496277wmn.23.2021.07.09.07.37.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=77kFc+Y+5Qbz2V5mv8qtdgKvR0JhiM/gX4TZj6U9Mb0=;
+ b=DpPsyzLj7I0v6tJ2X/kUwaOfjMWGcgEXNl6jKqGsC76OSvJNxFQgv92lq5eMX9vkft
+ JyVnZe3wfZc9ddablnb2aC42lss90eyUyZpnzYf767nUlzRibR15y5pH9Z9Z6HSsaY30
+ 1grlDV7+PwY7zT59MLlGHYXfWMv83ZNo2wVAeHRTIeqdBTkPjok5kwg9T7+0Jr6SUTm3
+ hF4iD8120hpYtC8031nivn1A4PDlIYDRtFGplb3We8vSdLlaGJ49cN7YsS2nz4ln1+6I
+ +nUdcYaTwduXI8JURJdMGl/yfzs8c8HaKe3dGs1NZX1TDbEOzjLuj2QRu9EGVjdvMej2
+ TKjg==
+X-Gm-Message-State: AOAM532pcROIzdmMCZQTX9wk6ec/yy5unS9stIQAQ4Dqay2a/fa02ZE3
+ z9m/86AP2NhGNP5YyJgxC9HAEw==
+X-Google-Smtp-Source: ABdhPJx2nedH0TyMSwcKZvijUkHnDEdYHLCDfZTLj8/ao6g3yyndWNU4e1QOppqD3vTZFO2e7LjrZw==
+X-Received: by 2002:a05:600c:4f4e:: with SMTP id
+ m14mr12450822wmq.151.1625841461654; 
  Fri, 09 Jul 2021 07:37:41 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c2sm1427408wrn.28.2021.07.09.07.37.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 07:37:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CACDB1FFB3;
+ by zen.linaroharston (Postfix) with ESMTP id F1D601FFB4;
  Fri,  9 Jul 2021 15:30:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 30/40] configure: add an explicit static and plugins check
-Date: Fri,  9 Jul 2021 15:29:55 +0100
-Message-Id: <20210709143005.1554-31-alex.bennee@linaro.org>
+Subject: [PATCH v3 31/40] configure: stop user enabling plugins on Windows for
+ now
+Date: Fri,  9 Jul 2021 15:29:56 +0100
+Message-Id: <20210709143005.1554-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,59 +90,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+ kuhn.chenqun@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ f4bug@amsat.org, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net,
+ Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Moving this check earlier will make the later re-factor for enabling
-by default a bit neater.
+There are some patches on the list that enable plugins on Windows but
+they still need some changes to be ready:
 
+  https://patchew.org/QEMU/20201013002806.1447-1-luoyonggang@gmail.com/
+
+In the meantime lets stop the user from being able to configure the
+support so they don't get confused by the weird linker error messages
+later.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Yonggang Luo <luoyonggang@gmail.com>
+
 ---
- configure | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+v2
+  - move targetos check to if we try to --enable-plugins, default no otherwise
+v3
+  - fix missing test, s/targetos/mingw32/
+---
+ configure | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 7f906be68d..25daabd0ff 100755
+index 25daabd0ff..1eb8ef5341 100755
 --- a/configure
 +++ b/configure
-@@ -923,6 +923,7 @@ for opt do
-   ;;
-   --static)
-     static="yes"
-+    plugins="no"
-     QEMU_PKG_CONFIG_FLAGS="--static $QEMU_PKG_CONFIG_FLAGS"
-   ;;
-   --mandir=*) mandir="$optarg"
-@@ -2184,11 +2185,14 @@ if test "$modules" = "no" && test "$module_upgrades" = "yes" ; then
-   error_exit "Can't enable module-upgrades as Modules are not enabled"
- fi
- 
--# Static linking is not possible with modules or PIE
-+# Static linking is not possible with plugins, modules or PIE
- if test "$static" = "yes" ; then
-   if test "$modules" = "yes" ; then
-     error_exit "static and modules are mutually incompatible"
+@@ -708,6 +708,7 @@ MINGW32*)
+     audio_drv_list=""
    fi
-+  if test "$plugins" = "yes"; then
-+    error_exit "static and plugins are mutually incompatible"
-+  fi
- fi
- 
- # Unconditional check for compiler __thread support
-@@ -3979,7 +3983,7 @@ if  test "$plugins" = "yes" &&
-       "Plugin support requires dynamic linking and specifying a set of symbols " \
-       "that are exported to plugins. Unfortunately your linker doesn't " \
-       "support the flag (--dynamic-list or -exported_symbols_list) used " \
--      "for this purpose. You can't build with --static."
-+      "for this purpose."
- fi
- 
- ########################################
+   supported_os="yes"
++  plugins="no"
+   pie="no"
+ ;;
+ GNU/kFreeBSD)
+@@ -1511,7 +1512,11 @@ for opt do
+   ;;
+   --disable-xkbcommon) xkbcommon="disabled"
+   ;;
+-  --enable-plugins) plugins="yes"
++  --enable-plugins) if test "$mingw32" = "yes"; then
++                        error_exit "TCG plugins not currently supported on Windows platforms"
++                    else
++                        plugins="yes"
++                    fi
+   ;;
+   --disable-plugins) plugins="no"
+   ;;
 -- 
 2.20.1
 
