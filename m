@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5403C1E92
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:43:58 +0200 (CEST)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78B873C1EA7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:54:26 +0200 (CEST)
+Received: from localhost ([::1]:47612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iMn-0006YY-Um
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:43:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53950)
+	id 1m1iWv-0002UG-I7
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:54:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1i61-0006WS-Vk
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:38 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:35561)
+ id 1m1i64-0006aX-Iv
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:42 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:46968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1i5j-0001XR-WF
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:37 -0400
-Received: by mail-pg1-x529.google.com with SMTP id v7so8709266pgl.2
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:26:18 -0700 (PDT)
+ id 1m1i5k-0001Xj-4N
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:40 -0400
+Received: by mail-pg1-x529.google.com with SMTP id w15so8665161pgk.13
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:26:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6HbbkfJ+bykUVMcUtfXP5XxX4C861myEUuDfLalAZI0=;
- b=bA2CT54Lu4kcSuld9DUdIeLYl7mM/2c9emyxQ3OUo5dtYApfa9ev2OGiqsMktR2YTO
- QOt3vUKJAbOtGYCjSqtgVMa0Q6xpYEIqeOJ1xXFz7Tho+BLtzVSxLx60u0OqNNjjwy6/
- DcA2UQ5kwVDIUpao3tIadXCXuBPbUOfKSYDh4InrfASe7iMclS879Qt9YGpDst+Xw9sB
- iFMioM2exSM+UMHpeFawzBwNic7T70twU1FWUPHZBxblRHLjyHilsF34O9zh8PYG/2Iz
- ta7S2IV+sT1mrMgbKU/xOSDjgpZc3dv3PfyTrp3LuZpj6yAHVz1JOaGwN7+EL0ximckI
- 1VhQ==
+ bh=Bpo+nkLeBkcurb9p7fZinAdhuAJacCJMR3e5BDqkiuc=;
+ b=wk5KrkB0hMZQ2JDMo0InJ8C4B9Xl4+C2e5UFxiu+nHRNLi0SpZta7A+baOueUklqMw
+ Py9IzA4FD+pTsHEOnVhMTSOiPvy9/tu/yzIqE+rkJQjaJKivGQtJ0gZmUcVS7Y2N1lSL
+ yNnMGgu8wOdMpsoEPNjrPYDbvTEwiICT84huxobWaR4200Imd5x7l40HtRTIyK2daXcp
+ tbLE2nh0CzV6e3+lf13Fa4IfKcn2QgUt9tkXrQyTBRdet1cjZwrItFWUqKWJtdCgio9s
+ f+AnEAcxfoRtm38AOpIpsoDrXbbH3LUHP038zZSoMelrFc3AbJRr89PgaC6XzRxi/6rt
+ a/tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6HbbkfJ+bykUVMcUtfXP5XxX4C861myEUuDfLalAZI0=;
- b=g0YY9EflMpMcX+jSoTYAsynn487zyvC4v+i9IYix/36JjjA+Enc9m3kHxnz42g6ijy
- hUD19umN8fJvwO2iU4yNruDPgyNPe+HtdmLMrJvHV6xhR+Nd3CRjDGR1AGTRTzE3TDk0
- T0sf9HIwvN+f8onsAsDvVANv7eb7/Yc24GUpkokVxjMvJq+RWe2r5nu/7NbRCD933tg6
- H+5rhHwyFYjBNsEZvjDurptLAKdEDc3nPnD26Hjd4DS72E6WDr378OfGbsNh3KUMpDA2
- 2nMg6dx6zNTdK3eNoQ36xpX3NzDaGJ0zitMywuTUQdIAUvF66oC7bO4h/ln2vzlB/QK2
- CjrA==
-X-Gm-Message-State: AOAM532Z3crqdx5cI+Kh4lx/YtJ7+qlLkF1rnzDCjEwEiWWe43gJzxM1
- CRBQ+8bNtvZAcaC0UpYVD4RauvxSZD9T+g==
-X-Google-Smtp-Source: ABdhPJye2O4F6nSkGVy67hgN6lR4mVGRGMNUfJK/6ODwvJ8ARHrQ4OQejLMA2znjXXmgyUbO1aaxvQ==
-X-Received: by 2002:a65:5186:: with SMTP id h6mr35499502pgq.62.1625804777586; 
- Thu, 08 Jul 2021 21:26:17 -0700 (PDT)
+ bh=Bpo+nkLeBkcurb9p7fZinAdhuAJacCJMR3e5BDqkiuc=;
+ b=TufLbNc6Cviw94vA3d+gBhvJle0SM1L2quWrglAd2C5mJ3AQuOJHz71ZqylpDCkLQ/
+ NCQCkB3/0diSW/83lIESGQoV2KbQRVZq4T89NZqnrWRirB6ezn9ldMgw1pKm6OtAg9Iy
+ nVRrcYmQ5tT36QWUILtYumxvRtZNbMMAbibxGlpUTMAo40XE/NDXixtiH5ousXFscnqw
+ Dc40XG9wCE9G5k5VqxHOs/vzpwB59zcjTdCctLQleUqDN6OskqgMDBTjvyhATox1daSS
+ SzYQUjW78WbCpm7ucGhnfG93AMTEMQGp42LA70R3+H63HkDCAfzF41YFNKE36HyTssP8
+ BY4A==
+X-Gm-Message-State: AOAM533Sp6R8zouVWn+vALMPx0MC3s8llnWVJF/DVwrsGlQUkNnfXHQR
+ tZG40wcCFDyanhrPVbykqv6tmaNTOpLICQ==
+X-Google-Smtp-Source: ABdhPJybOtC5YF2pfFGGZrPqGh84a0Fju5FlzbHVOhX6DnbXzwI1pqj79SiU9yOJldZ0M7laejXpWg==
+X-Received: by 2002:a63:4719:: with SMTP id u25mr36111237pga.193.1625804778231; 
+ Thu, 08 Jul 2021 21:26:18 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id y16sm4406727pfe.70.2021.07.08.21.26.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 21:26:17 -0700 (PDT)
+ Thu, 08 Jul 2021 21:26:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 13/17] target/riscv: Use gpr_{src,dst} for RVD
-Date: Thu,  8 Jul 2021 21:26:04 -0700
-Message-Id: <20210709042608.883256-14-richard.henderson@linaro.org>
+Subject: [PATCH 14/17] target/riscv: Tidy trans_rvh.c.inc
+Date: Thu,  8 Jul 2021 21:26:05 -0700
+Message-Id: <20210709042608.883256-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210709042608.883256-1-richard.henderson@linaro.org>
 References: <20210709042608.883256-1-richard.henderson@linaro.org>
@@ -86,249 +86,388 @@ Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Exit early if check_access fails.
+Split out do_hlv, do_hsv, do_hlvx subroutines.
+Use gpr_src, gpr_dst in the new subroutines.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn_trans/trans_rvd.c.inc | 116 +++++++++---------------
- 1 file changed, 44 insertions(+), 72 deletions(-)
+ target/riscv/insn32.decode              |   1 +
+ target/riscv/insn_trans/trans_rvh.c.inc | 264 +++++-------------------
+ 2 files changed, 55 insertions(+), 210 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
-index 7e45538ae0..9bb15fdc12 100644
---- a/target/riscv/insn_trans/trans_rvd.c.inc
-+++ b/target/riscv/insn_trans/trans_rvd.c.inc
-@@ -22,14 +22,22 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index f09f8d5faf..2cd921d51c 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -42,6 +42,7 @@
+ &j    imm rd
+ &r    rd rs1 rs2
+ &r2   rd rs1
++&r2_s rs1 rs2
+ &s    imm rs1 rs2
+ &u    imm rd
+ &shift     shamt rs1 rd
+diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+index 6b5edf82b7..dac732024b 100644
+--- a/target/riscv/insn_trans/trans_rvh.c.inc
++++ b/target/riscv/insn_trans/trans_rvh.c.inc
+@@ -17,281 +17,137 @@
+  */
+ 
+ #ifndef CONFIG_USER_ONLY
+-static void check_access(DisasContext *ctx) {
++static bool check_access(DisasContext *ctx)
++{
+     if (!ctx->hlsx) {
+         if (ctx->virt_enabled) {
+             generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT);
+         } else {
+             generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
+         }
++        return false;
+     }
++    return true;
+ }
+ #endif
+ 
++static bool do_hlv(DisasContext *ctx, arg_r2 *a, MemOp mop)
++{
++#ifdef CONFIG_USER_ONLY
++    return false;
++#else
++    if (check_access(ctx)) {
++        TCGv dest = gpr_dst(ctx, a->rd);
++        TCGv addr = gpr_src(ctx, a->rs1);
++        int mem_idx = ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
++        tcg_gen_qemu_ld_tl(dest, addr, mem_idx, mop);
++    }
++    return true;
++#endif
++}
++
+ static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
  {
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
 -    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
 -    gen_get_gpr(t0, a->rs1);
--    tcg_gen_addi_tl(t0, t0, a->imm);
- 
--    tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEQ);
-+    TCGv addr = gpr_src(ctx, a->rs1);
-+    TCGv temp = NULL;
- 
-+    if (a->imm) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->imm);
-+        addr = temp;
-+    }
-+
-+    tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], addr, ctx->mem_idx, MO_TEQ);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
-+    }
-     mark_fs_dirty(ctx);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_SB);
+-    gen_set_gpr(a->rd, t1);
+-
 -    tcg_temp_free(t0);
-     return true;
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hlv(ctx, a, MO_SB);
  }
  
-@@ -37,13 +45,21 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
+ static bool trans_hlv_h(DisasContext *ctx, arg_hlv_h *a)
  {
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
 -    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
 -    gen_get_gpr(t0, a->rs1);
--    tcg_gen_addi_tl(t0, t0, a->imm);
- 
--    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEQ);
-+    TCGv addr = gpr_src(ctx, a->rs1);
-+    TCGv temp = NULL;
- 
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESW);
+-    gen_set_gpr(a->rd, t1);
+-
 -    tcg_temp_free(t0);
-+    if (a->imm) {
-+        temp = tcg_temp_new();
-+        tcg_gen_addi_tl(temp, addr, a->imm);
-+        addr = temp;
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hlv(ctx, a, MO_TESW);
+ }
+ 
+ static bool trans_hlv_w(DisasContext *ctx, arg_hlv_w *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESL);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hlv(ctx, a, MO_TESL);
+ }
+ 
+ static bool trans_hlv_bu(DisasContext *ctx, arg_hlv_bu *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_UB);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hlv(ctx, a, MO_UB);
+ }
+ 
+ static bool trans_hlv_hu(DisasContext *ctx, arg_hlv_hu *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
++    return do_hlv(ctx, a, MO_TEUW);
++}
+ 
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEUW);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
++static bool do_hsv(DisasContext *ctx, arg_r2_s *a, MemOp mop)
++{
++#ifdef CONFIG_USER_ONLY
+     return false;
++#else
++    if (check_access(ctx)) {
++        TCGv addr = gpr_src(ctx, a->rs1);
++        TCGv data = gpr_src(ctx, a->rs2);
++        int mem_idx = ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
++        tcg_gen_qemu_ld_tl(data, addr, mem_idx, mop);
 +    }
-+
-+    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEQ);
-+
-+    if (temp) {
-+        tcg_temp_free(temp);
++    return true;
+ #endif
+ }
+ 
+ static bool trans_hsv_b(DisasContext *ctx, arg_hsv_b *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_SB);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hsv(ctx, a, MO_SB);
+ }
+ 
+ static bool trans_hsv_h(DisasContext *ctx, arg_hsv_h *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESW);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hsv(ctx, a, MO_TESW);
+ }
+ 
+ static bool trans_hsv_w(DisasContext *ctx, arg_hsv_w *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESL);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hsv(ctx, a, MO_TESL);
+ }
+ 
+ static bool trans_hlv_wu(DisasContext *ctx, arg_hlv_wu *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVH);
+-
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEUL);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hlv(ctx, a, MO_TEUL);
+ }
+ 
+ static bool trans_hlv_d(DisasContext *ctx, arg_hlv_d *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVH);
+-
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEQ);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return do_hlv(ctx, a, MO_TEQ);
+ }
+ 
+ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVH);
++    return do_hsv(ctx, a, MO_TEQ);
++}
+ 
+ #ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEQ);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
++static bool do_hlvx(DisasContext *ctx, arg_r2 *a,
++                    void (*func)(TCGv, TCGv_env, TCGv))
++{
++    if (check_access(ctx)) {
++        TCGv dest = gpr_dst(ctx, a->rd);
++        TCGv addr = gpr_src(ctx, a->rs1);
++        func(dest, cpu_env, addr);
 +    }
      return true;
+-#else
+-    return false;
+-#endif
  }
++#endif
  
-@@ -252,11 +268,8 @@ static bool trans_feq_d(DisasContext *ctx, arg_feq_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
+ static bool trans_hlvx_hu(DisasContext *ctx, arg_hlvx_hu *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
 -    TCGv t0 = tcg_temp_new();
--    gen_helper_feq_d(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
+-    TCGv t1 = tcg_temp_new();
 -
-+    gen_helper_feq_d(gpr_dst(ctx, a->rd), cpu_env,
-+                     cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-     return true;
- }
- 
-@@ -265,11 +278,8 @@ static bool trans_flt_d(DisasContext *ctx, arg_flt_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
--    gen_helper_flt_d(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
+-    check_access(ctx);
 -
-+    gen_helper_flt_d(gpr_dst(ctx, a->rd), cpu_env,
-+                     cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-     return true;
- }
- 
-@@ -278,11 +288,8 @@ static bool trans_fle_d(DisasContext *ctx, arg_fle_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
--    gen_helper_fle_d(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
--
-+    gen_helper_fle_d(gpr_dst(ctx, a->rd), cpu_env,
-+                     cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-     return true;
- }
- 
-@@ -291,10 +298,7 @@ static bool trans_fclass_d(DisasContext *ctx, arg_fclass_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
--    gen_helper_fclass_d(t0, cpu_fpr[a->rs1]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
-+    gen_helper_fclass_d(gpr_dst(ctx, a->rd), cpu_fpr[a->rs1]);
-     return true;
- }
- 
-@@ -303,12 +307,8 @@ static bool trans_fcvt_w_d(DisasContext *ctx, arg_fcvt_w_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_w_d(t0, cpu_env, cpu_fpr[a->rs1]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
--
-+    gen_helper_fcvt_w_d(gpr_dst(ctx, a->rd), cpu_env, cpu_fpr[a->rs1]);
-     return true;
- }
- 
-@@ -317,12 +317,8 @@ static bool trans_fcvt_wu_d(DisasContext *ctx, arg_fcvt_wu_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_wu_d(t0, cpu_env, cpu_fpr[a->rs1]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
--
-+    gen_helper_fcvt_wu_d(gpr_dst(ctx, a->rd), cpu_env, cpu_fpr[a->rs1]);
-     return true;
- }
- 
-@@ -331,12 +327,8 @@ static bool trans_fcvt_d_w(DisasContext *ctx, arg_fcvt_d_w *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
 -    gen_get_gpr(t0, a->rs1);
 -
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_d_w(cpu_fpr[a->rd], cpu_env, t0);
--    tcg_temp_free(t0);
-+    gen_helper_fcvt_d_w(cpu_fpr[a->rd], cpu_env, gpr_src(ctx, a->rs1));
- 
-     mark_fs_dirty(ctx);
-     return true;
-@@ -347,12 +339,8 @@ static bool trans_fcvt_d_wu(DisasContext *ctx, arg_fcvt_d_wu *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
+-    gen_helper_hyp_hlvx_hu(t1, cpu_env, t0);
+-    gen_set_gpr(a->rd, t1);
 -
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_d_wu(cpu_fpr[a->rd], cpu_env, t0);
 -    tcg_temp_free(t0);
-+    gen_helper_fcvt_d_wu(cpu_fpr[a->rd], cpu_env, gpr_src(ctx, a->rs1));
- 
-     mark_fs_dirty(ctx);
-     return true;
-@@ -364,11 +352,8 @@ static bool trans_fcvt_l_d(DisasContext *ctx, arg_fcvt_l_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_l_d(t0, cpu_env, cpu_fpr[a->rs1]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
-+    gen_helper_fcvt_l_d(gpr_dst(ctx, a->rd), cpu_env, cpu_fpr[a->rs1]);
-     return true;
- }
- 
-@@ -378,11 +363,8 @@ static bool trans_fcvt_lu_d(DisasContext *ctx, arg_fcvt_lu_d *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_lu_d(t0, cpu_env, cpu_fpr[a->rs1]);
--    gen_set_gpr(a->rd, t0);
--    tcg_temp_free(t0);
-+    gen_helper_fcvt_lu_d(gpr_dst(ctx, a->rd), cpu_env, cpu_fpr[a->rs1]);
-     return true;
- }
- 
-@@ -406,12 +388,9 @@ static bool trans_fcvt_d_l(DisasContext *ctx, arg_fcvt_d_l *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
--
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_d_l(cpu_fpr[a->rd], cpu_env, t0);
--    tcg_temp_free(t0);
-+    gen_helper_fcvt_d_l(cpu_fpr[a->rd], cpu_env, gpr_src(ctx, a->rs1));
-+
-     mark_fs_dirty(ctx);
-     return true;
- }
-@@ -422,12 +401,9 @@ static bool trans_fcvt_d_lu(DisasContext *ctx, arg_fcvt_d_lu *a)
-     REQUIRE_FPU;
-     REQUIRE_EXT(ctx, RVD);
- 
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
--
-     gen_set_rm(ctx, a->rm);
--    gen_helper_fcvt_d_lu(cpu_fpr[a->rd], cpu_env, t0);
--    tcg_temp_free(t0);
-+    gen_helper_fcvt_d_lu(cpu_fpr[a->rd], cpu_env, gpr_src(ctx, a->rs1));
-+
-     mark_fs_dirty(ctx);
-     return true;
- }
-@@ -439,11 +415,7 @@ static bool trans_fmv_d_x(DisasContext *ctx, arg_fmv_d_x *a)
-     REQUIRE_EXT(ctx, RVD);
- 
- #ifdef TARGET_RISCV64
--    TCGv t0 = tcg_temp_new();
--    gen_get_gpr(t0, a->rs1);
--
--    tcg_gen_mov_tl(cpu_fpr[a->rd], t0);
--    tcg_temp_free(t0);
-+    tcg_gen_mov_tl(cpu_fpr[a->rd], gpr_src(ctx, a->rs1));
-     mark_fs_dirty(ctx);
-     return true;
+-    tcg_temp_free(t1);
+-    return true;
++    return do_hlvx(ctx, a, gen_helper_hyp_hlvx_hu);
  #else
+     return false;
+ #endif
+@@ -301,19 +157,7 @@ static bool trans_hlvx_wu(DisasContext *ctx, arg_hlvx_wu *a)
+ {
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    gen_helper_hyp_hlvx_wu(t1, cpu_env, t0);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
++    return do_hlvx(ctx, a, gen_helper_hyp_hlvx_wu);
+ #else
+     return false;
+ #endif
 -- 
 2.25.1
 
