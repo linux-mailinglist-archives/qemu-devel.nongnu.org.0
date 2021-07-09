@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C213C1E70
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:32:22 +0200 (CEST)
-Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3610F3C1E73
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:32:33 +0200 (CEST)
+Received: from localhost ([::1]:33038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iBZ-00038Y-FQ
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:32:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53358)
+	id 1m1iBk-0003oc-8B
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5X-0005yr-08
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:07 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60634)
+ id 1m1i5V-0005w9-W2
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5V-0001DD-9M
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:06 -0400
+ id 1m1i5U-0001CT-Ao
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:05 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i5G-0005EO-8X
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:50 +0000
+ id 1m1i5F-0005E8-GE
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BEE152E8198
+ by loganberry.canonical.com (Postfix) with ESMTP id 2F5D52E817C
  for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 04:17:25 -0000
-From: Launchpad Bug Tracker <1900919@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 04:17:26 -0000
+From: Launchpad Bug Tracker <1901068@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bwidawsk janitor th-huth
-X-Launchpad-Bug-Reporter: bwidawsk (bwidawsk)
+X-Launchpad-Bug-Commenters: hskinnemoen janitor th-huth
+X-Launchpad-Bug-Reporter: Havard Skinnemoen (hskinnemoen)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160331877993.30496.14778848047318719784.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162580424582.19936.3904166426976106968.malone@loganberry.canonical.com>
-Subject: [Bug 1900919] Re: PXB selected as root bus incorrectly
+References: <160338607829.11651.9676394433586315544.malonedeb@soybean.canonical.com>
+Message-Id: <162580424647.19936.7792053794484642802.malone@loganberry.canonical.com>
+Subject: [Bug 1901068] Re: Deleted tests are still run if they exist in the
+ build tree
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 76ee438e56cde813a87f90d0f2d5079cd3fbd9ea
+X-Launchpad-Hash: c545c384a387816dd045d7254b5b80546403f91e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900919 <1900919@bugs.launchpad.net>
+Reply-To: Bug 1901068 <1901068@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,37 +84,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900919
+https://bugs.launchpad.net/bugs/1901068
 
 Title:
-  PXB selected as root bus incorrectly
+  Deleted tests are still run if they exist in the build tree
 
 Status in QEMU:
   Expired
 
 Bug description:
-  release: 4c41341af76cfc85b5a6c0f87de4838672ab9f89
+  Steps to reproduce:
+  1. Add a new device along with a qtest to exercise it.
+  2. Run make check-qtest. It passes.
+  3. Revert the commit that added the device and qtest.
+  4. Run make check-qtest again. It now fails because the device no longer =
+exists, but the test is somehow still there even though the source files ar=
+e gone and it's not mentioned in tests/qtest/meson.build.
 
-  qdev_device_add() will search for the "closest" bus possible, and bail ou=
-t early if that bus is a root bus. pxb devices are considered root buses an=
-d so if you either
-  1. Add a PCI device on the QEMU command line *after* a pxb device, or
-  2. Add an integrated PCI device (like a watchdog)
+  After running make clean, make check-qtest passes again.
 
-  #1: -device pxb-pcie,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=3D52 -device ahci,id=
-=3Dsata0,addr=3D0x8
-  #2: -watchdog i6300esb -device pxb-pcie,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=3D=
-52
-
-  The PXB will get selected as the bus (instead of the real root bus)
-  and this will cause an assertion failure with the message like "qemu-
-  system-x86_64: -device ahci,id=3Dsata0,addr=3D0x8: PCI: Only PCI/PCIe
-  bridges can be plugged into pxb-pcie"
-
-  I think this is relatively solvable in the code base by determining if
-  a bus is an expander, and skipping it if so. However, I wonder if it
-  makes more sense to just allow expanders to have endpoint devices.
+  $ git describe
+  v5.1.0-2465-g4c5b97bfd0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900919/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1901068/+subscriptions
 
