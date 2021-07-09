@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85C813C22A8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:16:38 +0200 (CEST)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56FB53C22C2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:23:00 +0200 (CEST)
+Received: from localhost ([::1]:49468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1oUn-0000SH-EI
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38120)
+	id 1m1oax-0000RW-Bp
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oSf-0005uz-Uk
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:26 -0400
-Received: from mga06.intel.com ([134.134.136.31]:37155)
+ id 1m1oSh-0005zu-Il
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:27 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oSe-0004xl-5S
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:25 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800771"
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800771"
+ id 1m1oSf-00052M-P0
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:27 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800775"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800775"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 04:14:22 -0700
+ 09 Jul 2021 04:14:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730159"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730162"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:20 -0700
+ by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:23 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/33] i386: Add primary SGX CPUID and MSR defines
-Date: Fri,  9 Jul 2021 19:09:28 +0800
-Message-Id: <20210709110955.73256-7-yang.zhong@intel.com>
+Subject: [PATCH v3 07/33] i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+Date: Fri,  9 Jul 2021 19:09:29 +0800
+Message-Id: <20210709110955.73256-8-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210709110955.73256-1-yang.zhong@intel.com>
 References: <20210709110955.73256-1-yang.zhong@intel.com>
@@ -64,80 +64,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Add CPUID defines for SGX and SGX Launch Control (LC), as well as
-defines for their associated FEATURE_CONTROL MSR bits.  Define the
-Launch Enclave Public Key Hash MSRs (LE Hash MSRs), which exist
-when SGX LC is present (in CPUID), and are writable when SGX LC is
-enabled (in FEATURE_CONTROL).
+CPUID leaf 12_0_EAX is an Intel-defined feature bits leaf enumerating
+the CPU's SGX capabilities, e.g. supported SGX instruction sets.
+Currently there are four enumerated capabilities:
+
+    - SGX1 instruction set, i.e. "base" SGX
+    - SGX2 instruction set for dynamic EPC management
+    - ENCLV instruction set for VMM oversubscription of EPC
+    - ENCLS-C instruction set for thread safe variants of ENCLS
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- target/i386/cpu.c |  4 ++--
- target/i386/cpu.h | 12 ++++++++++++
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ target/i386/cpu.c | 20 ++++++++++++++++++++
+ target/i386/cpu.h |  1 +
+ 2 files changed, 21 insertions(+)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5f595a0d7e..b82674c8d9 100644
+index b82674c8d9..4d60e62f9e 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -794,7 +794,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-     [FEAT_7_0_EBX] = {
-         .type = CPUID_FEATURE_WORD,
-         .feat_names = {
--            "fsgsbase", "tsc-adjust", NULL, "bmi1",
-+            "fsgsbase", "tsc-adjust", "sgx", "bmi1",
-             "hle", "avx2", NULL, "smep",
-             "bmi2", "erms", "invpcid", "rtm",
-             NULL, NULL, "mpx", NULL,
-@@ -820,7 +820,7 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "la57", NULL, NULL, NULL,
-             NULL, NULL, "rdpid", NULL,
-             "bus-lock-detect", "cldemote", NULL, "movdiri",
--            "movdir64b", NULL, NULL, "pks",
-+            "movdir64b", NULL, "sgxlc", "pks",
-         },
-         .cpuid = {
-             .eax = 7,
+@@ -653,6 +653,7 @@ void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           /* missing:
+           CPUID_XSAVE_XSAVEC, CPUID_XSAVE_XSAVES */
+ #define TCG_14_0_ECX_FEATURES 0
++#define TCG_SGX_12_0_EAX_FEATURES 0
+ 
+ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+     [FEAT_1_EDX] = {
+@@ -1181,6 +1182,25 @@ FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .tcg_features = TCG_14_0_ECX_FEATURES,
+      },
+ 
++    [FEAT_SGX_12_0_EAX] = {
++        .type = CPUID_FEATURE_WORD,
++        .feat_names = {
++            "sgx1", "sgx2", NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++            NULL, NULL, NULL, NULL,
++        },
++        .cpuid = {
++            .eax = 0x12,
++            .needs_ecx = true, .ecx = 0,
++            .reg = R_EAX,
++        },
++        .tcg_features = TCG_SGX_12_0_EAX_FEATURES,
++    },
+ };
+ 
+ typedef struct FeatureMask {
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 0f7ddbfeae..dfa5f7296c 100644
+index dfa5f7296c..054aeae92d 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -375,9 +375,17 @@ typedef enum X86Seg {
- #define MSR_IA32_PKRS                   0x6e1
- 
- #define FEATURE_CONTROL_LOCKED                    (1<<0)
-+#define FEATURE_CONTROL_VMXON_ENABLED_INSIDE_SMX  (1ULL << 1)
- #define FEATURE_CONTROL_VMXON_ENABLED_OUTSIDE_SMX (1<<2)
-+#define FEATURE_CONTROL_SGX_LC                    (1ULL << 17)
-+#define FEATURE_CONTROL_SGX                       (1ULL << 18)
- #define FEATURE_CONTROL_LMCE                      (1<<20)
- 
-+#define MSR_IA32_SGXLEPUBKEYHASH0       0x8c
-+#define MSR_IA32_SGXLEPUBKEYHASH1       0x8d
-+#define MSR_IA32_SGXLEPUBKEYHASH2       0x8e
-+#define MSR_IA32_SGXLEPUBKEYHASH3       0x8f
-+
- #define MSR_P6_PERFCTR0                 0xc1
- 
- #define MSR_IA32_SMBASE                 0x9e
-@@ -699,6 +707,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- 
- /* Support RDFSBASE/RDGSBASE/WRFSBASE/WRGSBASE */
- #define CPUID_7_0_EBX_FSGSBASE          (1U << 0)
-+/* Support SGX */
-+#define CPUID_7_0_EBX_SGX               (1U << 2)
- /* 1st Group of Advanced Bit Manipulation Extensions */
- #define CPUID_7_0_EBX_BMI1              (1U << 3)
- /* Hardware Lock Elision */
-@@ -786,6 +796,8 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_7_0_ECX_MOVDIRI           (1U << 27)
- /* Move 64 Bytes as Direct Store Instruction */
- #define CPUID_7_0_ECX_MOVDIR64B         (1U << 28)
-+/* Support SGX Launch Control */
-+#define CPUID_7_0_ECX_SGX_LC            (1U << 30)
- /* Protection Keys for Supervisor-mode Pages */
- #define CPUID_7_0_ECX_PKS               (1U << 31)
+@@ -559,6 +559,7 @@ typedef enum FeatureWord {
+     FEAT_VMX_BASIC,
+     FEAT_VMX_VMFUNC,
+     FEAT_14_0_ECX,
++    FEAT_SGX_12_0_EAX,  /* CPUID[EAX=0x12,ECX=0].EAX (SGX) */
+     FEATURE_WORDS,
+ } FeatureWord;
  
 -- 
 2.29.2.334.gfaefdd61ec
