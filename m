@@ -2,100 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 049153C29C6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 21:42:58 +0200 (CEST)
-Received: from localhost ([::1]:60122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462273C2A04
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 22:05:09 +0200 (CEST)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1wOn-0006dk-2s
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 15:42:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52348)
+	id 1m1wkF-0002qC-Rk
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 16:05:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1m1wNR-0005vX-L9
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 15:41:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59622)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1m1wjQ-0002BK-JD
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 16:04:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21460)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1m1wNP-00027y-6o
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 15:41:33 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1m1wjN-0004qy-DF
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 16:04:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625859688;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1625861051;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zjIax1dT4GnHgH2ZOgc3u2IXllhJAMuafwVyh5RFqiI=;
- b=i/RDTNuTFduDzoZT/F4a847qbcxgElSQWuOIIULAzhgTyNQObsJ93AWvdvEFnAU/Q3kwFg
- wmj2SAjxtamYB7OGTv9HLGgYxFAiczW/tmbU2YLszIWA2wSo8Jt996X5hHu6wnRqn8ZjB2
- dUhbuPa7tRPGLpETTXjNAiSQqIXts30=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-tW4PIwISPPKEtvVdA0NS-w-1; Fri, 09 Jul 2021 15:41:27 -0400
-X-MC-Unique: tW4PIwISPPKEtvVdA0NS-w-1
-Received: by mail-pf1-f198.google.com with SMTP id
- s14-20020a056a00194eb02903245e1dd027so7016203pfk.20
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 12:41:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=zjIax1dT4GnHgH2ZOgc3u2IXllhJAMuafwVyh5RFqiI=;
- b=dZEkHwvtQzePevXLo8iSPqROPVZIAECOhy5ukVWPOwMfzStcWo47xvkxwq5DW2yfBf
- CMnmu+201ikYDiud1WynDAUCRmrAm7mCdUpIsT67acDFDE/awmcMgDDy5QziEJTmqCJc
- nP+i1ElYYfsCv5R1YiLwoEKY+1aAz8KpV+Qg2G8FJpwmpth0nnEEVLMAg7rt0hlq1RK/
- F+FKxE3TiuzWFaIwCKpVXDC83vo/QGBZM9ZqPEgORCtigB6t+I2zq7Q8lT3k+HWooGA6
- pKuMHkUL8hwFRYzev82p5EsOpgYkDDLJGMKWXRh21ccnrM1NZ91/ipOXZOK8AeqV8ruo
- 6FOw==
-X-Gm-Message-State: AOAM532FwbxU3A/1nKUYjigQtRm/9DY3Kghv5r5TOPgY8vntvmMgjNOH
- KsA3LPlhoOadV3Tt1dkhXxhB07AeWMDUN0ZGEERlL08UHECCFO0cXzYLbPMVzafB3lI2Py7KPFS
- BMtc8rvIJJS2v8Mw=
-X-Received: by 2002:aa7:9216:0:b029:2e5:6989:4f1a with SMTP id
- 22-20020aa792160000b02902e569894f1amr38714438pfo.50.1625859685783; 
- Fri, 09 Jul 2021 12:41:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxmn54ScRnWO/0lQ/POF6GBkYfNT9hE1/0lsiVtvmgKOx85v7cmjTESIVZOfiG+lwlLHLH8VQ==
-X-Received: by 2002:aa7:9216:0:b029:2e5:6989:4f1a with SMTP id
- 22-20020aa792160000b02902e569894f1amr38714412pfo.50.1625859685480; 
- Fri, 09 Jul 2021 12:41:25 -0700 (PDT)
-Received: from wainer-laptop.localdomain ([179.105.223.44])
- by smtp.gmail.com with ESMTPSA id c9sm6301231pja.7.2021.07.09.12.41.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 12:41:24 -0700 (PDT)
-Subject: Re: [PATCH v5 1/4] avocado_qemu: Fix KNOWN_DISTROS map into the
- LinuxDistro class
-To: Cleber Rosa <crosa@redhat.com>, eric.auger@redhat.com,
- eric.auger.pro@gmail.com, qemu-devel@nongnu.org, philmd@redhat.com
-References: <20210706131729.30749-1-eric.auger@redhat.com>
- <20210706131729.30749-2-eric.auger@redhat.com>
- <df9835de-fe4a-2233-a625-3b04b7b0d514@redhat.com>
- <917bb587-ccd1-cac7-1e82-d2f869feaf02@redhat.com>
- <7e1cf0c6-97b4-ebfe-f046-c2fe06e5e6e3@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <a8b5b257-5bec-0bb5-66c3-798f802478d5@redhat.com>
-Date: Fri, 9 Jul 2021 16:41:19 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ bh=5FggxqBOH8EV+3+Cyw3i6NbKfM0D4ArGZ5aVp59qCLI=;
+ b=RB3/Hi7CxOmietPJfa8t/cAKhHfHx5qg1psHHp3qBdFnEC/H0kHnhft3fEg0OV6JGXQPtE
+ d5kWThFhKlsdBTxUbiPKdBtQbJe4UWzEj3EmAYKRvI4yFYKPfuGTpmWPqIpFLbfYY6jkhj
+ NdRZC5Yf3KbMgTQ6sxX6i+AEI18YbbM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446--975xoIgO2yPa5rjb-98dA-1; Fri, 09 Jul 2021 16:04:10 -0400
+X-MC-Unique: -975xoIgO2yPa5rjb-98dA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B786619253CB;
+ Fri,  9 Jul 2021 20:04:09 +0000 (UTC)
+Received: from localhost (unknown [10.22.9.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71C7460C04;
+ Fri,  9 Jul 2021 20:04:09 +0000 (UTC)
+Date: Fri, 9 Jul 2021 16:04:08 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] target/i386: Use cpu_breakpoint_test in breakpoint_handler
+Message-ID: <20210709200408.xidr5sm6gy5oeu6y@habkost.net>
+References: <20210620062317.1399034-1-richard.henderson@linaro.org>
+ <c0e97e2b-44e0-b1dc-e629-cbb6bb319502@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <7e1cf0c6-97b4-ebfe-f046-c2fe06e5e6e3@redhat.com>
+In-Reply-To: <c0e97e2b-44e0-b1dc-e629-cbb6bb319502@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,75 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: wainersm@redhat.com
-Cc: wrampazz@redhat.com, peterx@redhat.com
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jul 09, 2021 at 09:00:30AM -0700, Richard Henderson wrote:
+> Ping.
+> 
+> On 6/19/21 11:23 PM, Richard Henderson wrote:
+> > The loop is performing a simple boolean test for the existence
+> > of a BP_CPU breakpoint at EIP.  Plus it gets the iteration wrong,
+> > if we happen to have a BP_GDB breakpoint at the same address.
+> > 
+> > We have a function for this: cpu_breakpoint_test.
+> > 
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-On 7/8/21 2:34 PM, Cleber Rosa wrote:
->
-> On 7/8/21 4:56 AM, Eric Auger wrote:
->>
->> I am not sufficiently expert on the test infra and python to be really
->> efficient fixing that. Can anyone help quickly to target the soft
->> freeze? Otherwise, today I will drop that patch and restore the code I
->> had in v4, just based on Cleber series. I think the refactoring can
->> happen later...
->
->
-> Hi Eric,
->
->
-> The following diff works for me:
->
->
-> diff --git a/tests/acceptance/avocado_qemu/__init__.py 
-> b/tests/acceptance/avocado_qemu/__init__.py
-> index af93cd63ea..b3bed00062 100644
-> --- a/tests/acceptance/avocado_qemu/__init__.py
-> +++ b/tests/acceptance/avocado_qemu/__init__.py
-> @@ -310,6 +310,8 @@ class LinuxDistro:
->              '31': {
->                  'x86_64':
->                  {'checksum': 
-> 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'},
-> +                'aarch64':
-> +                {'checksum': 
-> '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'},
->                  'ppc64':
->                  {'checksum': 
-> '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'},
->                  's390x':
-> @@ -323,10 +325,11 @@ def __init__(self, name, version, arch):
->          self.version = version
->          self.arch = arch
->          try:
-> -            self._info = 
-> self.KNOWN_DISTROS.get(name).get(version).get(arch)
-> +            info = self.KNOWN_DISTROS.get(name).get(version).get(arch)
->          except AttributeError:
->              # Unknown distro
-> -            self._info = {}
-> +            info = None
-> +        self._info = info or {}
->
->      @property
->      def checksum(self):
->
->
+cpu_breakpoint_test() logic matches the existing code being
+replaced, so:
 
-Thanks for that fix, Cleber.
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+I wouldn't have objected if you simply merged this without
+waiting for review from others, though.  I believe you know this
+code better than anybody else.
 
-
-> I've tested it with both existing and the newly introduced tests.
->
->
-> Cheers,
->
-> - Cleber.
->
+-- 
+Eduardo
 
 
