@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3DBF3C2769
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:18:50 +0200 (CEST)
-Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909DC3C2784
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:26:26 +0200 (CEST)
+Received: from localhost ([::1]:44874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1tDF-0007iE-Ts
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
+	id 1m1tKb-0001q4-K1
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1t55-0001WR-47
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:24 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34760)
+ id 1m1t52-0001Vc-Q7
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:21 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1t4u-0000ub-IO
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:22 -0400
-Received: by mail-wr1-x434.google.com with SMTP id p8so12880443wrr.1
+ id 1m1t4v-0000ud-9C
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:20 -0400
+Received: by mail-wr1-x431.google.com with SMTP id k4so6549940wrc.8
  for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rfdm8hMp1rU2ugPXFVshopocV670fyDA7HBkl2H1lks=;
- b=NEx859oQbJPSqQpMMe44kUEz3saIt1n03EWV+Jvd8HDv6HFGDI9nCpx8XzEbHrIgO9
- 1ZkVRTPvhskMV8IzOZFifcQWQXutRjtowyi40D5rlp+6ZWPqzem3csUJM7KemMZDMqnO
- I28AG0jgAXa3rFDfi4ceOwcRnxRttx3ie7A92Sf5iAF4G17yZubSG5UX6NQGnWP52uLg
- Hn4c9GBfSH9fyu0XRVJ00+8LSS2WvR/hfGatYPOLJLrrFeVkTSBGAMZmq8KSV8qXQ03s
- e7Wd3wxMkSH0VBw6ouEajqRz/JYGOKJwJ+iS/Eem66h+FLHiCgUXLqGbuo5gTBLdkOJ5
- 5tgw==
+ bh=MBTkeOxa7kZ6L35aP7m9uF9eaW4Hvs6rU41xNfdKBxI=;
+ b=jptwMPhpxo7R/xOT8AHDUDNb1ap27N1GgG7CGo57FhXzAd7/9wBGCIT8iwOOsq6BsV
+ 3luykQ3JhWqzlUxzCrApQ6LB6v/6IYGG4sVFmeRlDd6+lEKaMAR7K7fk2xOJqy1drFOf
+ K+sXjBWTXJ3v+rf5z3zw0ZxpYTza39rCLnjw0HSSYdDGWg+9uOTa/4JkUIcfWxD98Na6
+ wQtYkvIiWYsp0p1I/SB88BxRC/g5r0xENU/Bus9vJw92IfI6t6RmzuqP1+W4E4I1vXuK
+ 86hojcRXcCJ9LvFDJp3wTjA5FTirQn7w+WihA0jsCLASPuiZyJomDmZL0aYyWl3bYd88
+ gZ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rfdm8hMp1rU2ugPXFVshopocV670fyDA7HBkl2H1lks=;
- b=apS5zfmN6L1QwdIpp9cjkIWOUhsk0DqQZWXTJhlI+35FNh6ohPnCdI+fGAPryBYnKG
- +pAFdQsAzSCgvMC035faD6NYR9Hz6KaCBsPQajIXaJaSjW42Mj7RLGnw1Tp7a1vb50lg
- Jv9fbvVB5xMt6L82Ys9SmbbSbDtT9jcPvejdlCmHSy8/E3QPlt7rm19o5uHgXB/8uhCJ
- ufVbaPX2tsUgYME5RnlY4Oi7mbVR8vjcTo3/aRs/M5NBPz8KhmwIAqtp7tvJUojaEHV7
- EYIq6VG0NcB1t2AKhsAdsfDr3HalPdmbT+B3a6z7Lbn9KX21swE/WBMP1zsWcW5DrxBG
- 4p9g==
-X-Gm-Message-State: AOAM53000mpK6a+yGlM6Wo1tnSfJbNsMMbGCmV/NtTRcmWtwI+51M4je
- D18qT8odm3mBViQmLVphM+xOF6SWEEoNwAoW
-X-Google-Smtp-Source: ABdhPJxARkezFxP+o/HVFL6UEJCrpfa9vxHhCZlDgF4jRP+qQvGRhyr4L2SniWKElagcA7Kt3HJ4Ew==
-X-Received: by 2002:adf:f04a:: with SMTP id t10mr41848297wro.318.1625847011233; 
+ bh=MBTkeOxa7kZ6L35aP7m9uF9eaW4Hvs6rU41xNfdKBxI=;
+ b=m9zkcmZxf3M/arPOeahL/dt8Z1WX6cOFXJQQDIgZjPeN0XoYThfWqkwgH2CEbrvH/I
+ fmIqedQS2dcuJb1AxeVsg8ByBzaf0OFG8EhxvFkU1JfVc2OeKbuKRQBwcCFE5AS3F6cR
+ 3dBy5o46RwurNWfyULiJIS5PpExC9AwgF97U85tJzjSClpxR4XrkLXOMXnCSGoeAn+OG
+ GgIEOnBzzSD2yHdpRyKtfKuragpbG/8L3pH2kpGnX0WqOBK/ESUlyWdzk3/uJG6cO4h3
+ sO4DcJ+p/V43T+KTpul8Md+KFYmYj1b+TJ5kJdxnLQG21ufgsiIOR7E9QES44b0gUVGA
+ k3oA==
+X-Gm-Message-State: AOAM533mhQNzK4+6ocqBmxkiKgpo6g/z9QLwmm7Dc3VDoIIQLd6bkiwu
+ n42sXltGB9CmMl/y0N5Zj+NL8jmqH65EGDN1
+X-Google-Smtp-Source: ABdhPJyQTdV+kokguax4uHsPQrLs0o9F+86EJDdGZqT80bcfYVwfR6UJMA+3NI0+fm0sKYc8zw1fjA==
+X-Received: by 2002:adf:b307:: with SMTP id j7mr18941649wrd.243.1625847011870; 
  Fri, 09 Jul 2021 09:10:11 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x19sm5232277wmi.10.2021.07.09.09.10.10
+ by smtp.gmail.com with ESMTPSA id x19sm5232277wmi.10.2021.07.09.09.10.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 09:10:10 -0700 (PDT)
+ Fri, 09 Jul 2021 09:10:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/17] hw/gpio/pl061: Add tracepoints for register read and
- write
-Date: Fri,  9 Jul 2021 17:09:54 +0100
-Message-Id: <20210709161003.25874-9-peter.maydell@linaro.org>
+Subject: [PULL 09/17] hw/gpio/pl061: Document the interface of this device
+Date: Fri,  9 Jul 2021 17:09:55 +0100
+Message-Id: <20210709161003.25874-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709161003.25874-1-peter.maydell@linaro.org>
 References: <20210709161003.25874-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,181 +86,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add tracepoints for reads and writes to the PL061 registers. This requires
-restructuring pl061_read() to only return after the tracepoint, rather
-than having lots of early-returns.
+Add a comment documenting the "QEMU interface" of this device:
+which MMIO regions, IRQ lines, GPIO lines, etc it exposes.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/gpio/pl061.c      | 70 ++++++++++++++++++++++++++++++--------------
- hw/gpio/trace-events |  2 ++
- 2 files changed, 50 insertions(+), 22 deletions(-)
+ hw/gpio/pl061.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/hw/gpio/pl061.c b/hw/gpio/pl061.c
-index b21b230402f..42f6e6c4891 100644
+index 42f6e6c4891..a3c13862212 100644
 --- a/hw/gpio/pl061.c
 +++ b/hw/gpio/pl061.c
-@@ -149,90 +149,114 @@ static uint64_t pl061_read(void *opaque, hwaddr offset,
-                            unsigned size)
- {
-     PL061State *s = (PL061State *)opaque;
-+    uint64_t r = 0;
+@@ -6,6 +6,13 @@
+  * Written by Paul Brook
+  *
+  * This code is licensed under the GPL.
++ *
++ * QEMU interface:
++ *  + sysbus MMIO region 0: the device registers
++ *  + sysbus IRQ: the GPIOINTR interrupt line
++ *  + unnamed GPIO inputs 0..7: inputs to connect to the emulated GPIO lines
++ *  + unnamed GPIO outputs 0..7: the emulated GPIO lines, considered as
++ *    outputs
+  */
  
-     switch (offset) {
-     case 0x0 ... 0x3ff: /* Data */
--        return s->data & (offset >> 2);
-+        r = s->data & (offset >> 2);
-+        break;
-     case 0x400: /* Direction */
--        return s->dir;
-+        r = s->dir;
-+        break;
-     case 0x404: /* Interrupt sense */
--        return s->isense;
-+        r = s->isense;
-+        break;
-     case 0x408: /* Interrupt both edges */
--        return s->ibe;
-+        r = s->ibe;
-+        break;
-     case 0x40c: /* Interrupt event */
--        return s->iev;
-+        r = s->iev;
-+        break;
-     case 0x410: /* Interrupt mask */
--        return s->im;
-+        r = s->im;
-+        break;
-     case 0x414: /* Raw interrupt status */
--        return s->istate;
-+        r = s->istate;
-+        break;
-     case 0x418: /* Masked interrupt status */
--        return s->istate & s->im;
-+        r = s->istate & s->im;
-+        break;
-     case 0x420: /* Alternate function select */
--        return s->afsel;
-+        r = s->afsel;
-+        break;
-     case 0x500: /* 2mA drive */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->dr2r;
-+        r = s->dr2r;
-+        break;
-     case 0x504: /* 4mA drive */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->dr4r;
-+        r = s->dr4r;
-+        break;
-     case 0x508: /* 8mA drive */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->dr8r;
-+        r = s->dr8r;
-+        break;
-     case 0x50c: /* Open drain */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->odr;
-+        r = s->odr;
-+        break;
-     case 0x510: /* Pull-up */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->pur;
-+        r = s->pur;
-+        break;
-     case 0x514: /* Pull-down */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->pdr;
-+        r = s->pdr;
-+        break;
-     case 0x518: /* Slew rate control */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->slr;
-+        r = s->slr;
-+        break;
-     case 0x51c: /* Digital enable */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->den;
-+        r = s->den;
-+        break;
-     case 0x520: /* Lock */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->locked;
-+        r = s->locked;
-+        break;
-     case 0x524: /* Commit */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->cr;
-+        r = s->cr;
-+        break;
-     case 0x528: /* Analog mode select */
-         if (s->id != pl061_id_luminary) {
-             goto bad_offset;
-         }
--        return s->amsel;
-+        r = s->amsel;
-+        break;
-     case 0xfd0 ... 0xfff: /* ID registers */
--        return s->id[(offset - 0xfd0) >> 2];
-+        r = s->id[(offset - 0xfd0) >> 2];
-+        break;
-     default:
-     bad_offset:
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "pl061_read: Bad offset %x\n", (int)offset);
-         break;
-     }
--    return 0;
-+
-+    trace_pl061_read(DEVICE(s)->canonical_path, offset, r);
-+    return r;
- }
- 
- static void pl061_write(void *opaque, hwaddr offset,
-@@ -241,6 +265,8 @@ static void pl061_write(void *opaque, hwaddr offset,
-     PL061State *s = (PL061State *)opaque;
-     uint8_t mask;
- 
-+    trace_pl061_write(DEVICE(s)->canonical_path, offset, value);
-+
-     switch (offset) {
-     case 0 ... 0x3ff:
-         mask = (offset >> 2) & s->dir;
-diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
-index 48ccbb183cc..442be9406f5 100644
---- a/hw/gpio/trace-events
-+++ b/hw/gpio/trace-events
-@@ -18,6 +18,8 @@ pl061_update(const char *id, uint32_t dir, uint32_t data) "%s GPIODIR 0x%x GPIOD
- pl061_set_output(const char *id, int gpio, int level) "%s setting output %d to %d"
- pl061_input_change(const char *id, int gpio, int level) "%s input %d changed to %d"
- pl061_update_istate(const char *id, uint32_t istate, uint32_t im, int level) "%s GPIORIS 0x%x GPIOIE 0x%x interrupt level %d"
-+pl061_read(const char *id, uint64_t offset, uint64_t r) "%s offset 0x%" PRIx64 " value 0x%" PRIx64
-+pl061_write(const char *id, uint64_t offset, uint64_t value) "%s offset 0x%" PRIx64 " value 0x%" PRIx64
- 
- # sifive_gpio.c
- sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" PRIx64
+ #include "qemu/osdep.h"
 -- 
 2.20.1
 
