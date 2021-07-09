@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA5E3C1EF9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:36:08 +0200 (CEST)
-Received: from localhost ([::1]:33466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC043C1EFB
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:38:05 +0200 (CEST)
+Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1jBH-0004Zi-2M
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:36:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
+	id 1m1jDA-0008Iv-IF
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:38:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itm-0001IE-Qp; Fri, 09 Jul 2021 01:18:02 -0400
-Received: from ozlabs.org ([203.11.71.1]:60181)
+ id 1m1iuF-0002O4-9z; Fri, 09 Jul 2021 01:18:31 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36381 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itl-000233-4V; Fri, 09 Jul 2021 01:18:02 -0400
+ id 1m1iu6-00023s-Nj; Fri, 09 Jul 2021 01:18:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLhHf35b0z9t5K; Fri,  9 Jul 2021 15:17:34 +1000 (AEST)
+ id 4GLhHf3R3mz9t5m; Fri,  9 Jul 2021 15:17:34 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625807854;
- bh=fmtyaAfW8gexYPiNoF7QBDrbqMXBLaAkCCswKdWHVfQ=;
+ bh=5Mwafl9cb5rvOw8u3y1GQcxACNk6VZ56c1NcMa7TQ+4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WScZhKUPKG+fknTaSIHINkKtmFuDQZUa7P4O62Yu4PMZ1MHDA99KcgD1iojlPtTdN
- SAoiAIcKU35jFpKlop273oC1A+hSmwFlA0qxjeIh1M4zXT6UGigjgZpoLdE47APUi/
- plsKVxplN95UDYL3+uSxrXzD3gmacOKwYj0rKoOk=
+ b=MejsRwpabgxswHU6xa2d9EWes889lK0liRjpxGASOP2ca5xLVRmRG6AlJQDYv3yx+
+ V2CWeGjtvVQm6EZlBLuIw9Q2RR+N/ygu+gtwMubMqTVcfhujDwp5hpg+ideeDiIngW
+ rrvuSeCuzP99VlR2x1ko+c3w/PC8CYK5S5KU3omA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 23/33] target/ppc: mtmsrd is an illegal instruction on BookE
-Date: Fri,  9 Jul 2021 15:17:18 +1000
-Message-Id: <20210709051728.170203-24-david@gibson.dropbear.id.au>
+Subject: [PULL 24/33] ppc/pegasos2: Introduce Pegasos2MachineState structure
+Date: Fri,  9 Jul 2021 15:17:19 +1000
+Message-Id: <20210709051728.170203-25-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,40 +58,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>,
- qemu-ppc@nongnu.org, Christian Zigotzky <chzigotzky@xenosoft.de>,
+Cc: aik@ozlabs.ru, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Nicholas Piggin <npiggin@gmail.com>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-MSR is a 32-bit register in BookE and there is no mtmsrd instruction.
+Add own machine state structure which will be used to store state
+needed for firmware emulation.
 
-Cc: Christian Zigotzky <chzigotzky@xenosoft.de>
-Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-Message-Id: <20210706051321.609046-1-npiggin@gmail.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <7f6d5fbf4f70c64dba001483174a2921dd616ecd.1624811233.git.balaton@eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/ppc/pegasos2.c | 50 +++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 37 insertions(+), 13 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index f65d1e81ea..d1f482b0f3 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4940,6 +4940,11 @@ static void gen_mtcrf(DisasContext *ctx)
- #if defined(TARGET_PPC64)
- static void gen_mtmsrd(DisasContext *ctx)
- {
-+    if (unlikely(!is_book3s_arch2x(ctx))) {
-+        gen_invalid(ctx);
-+        return;
-+    }
-+
-     CHK_SV;
+diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+index 0bfd0928aa..07971175c9 100644
+--- a/hw/ppc/pegasos2.c
++++ b/hw/ppc/pegasos2.c
+@@ -1,7 +1,7 @@
+ /*
+  * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
+  *
+- * Copyright (c) 2018-2020 BALATON Zoltan
++ * Copyright (c) 2018-2021 BALATON Zoltan
+  *
+  * This work is licensed under the GNU GPL license version 2 or later.
+  *
+@@ -41,6 +41,15 @@
  
- #if !defined(CONFIG_USER_ONLY)
+ #define BUS_FREQ_HZ 133333333
+ 
++#define TYPE_PEGASOS2_MACHINE  MACHINE_TYPE_NAME("pegasos2")
++OBJECT_DECLARE_TYPE(Pegasos2MachineState, MachineClass, PEGASOS2_MACHINE)
++
++struct Pegasos2MachineState {
++    MachineState parent_obj;
++    PowerPCCPU *cpu;
++    DeviceState *mv;
++};
++
+ static void pegasos2_cpu_reset(void *opaque)
+ {
+     PowerPCCPU *cpu = opaque;
+@@ -51,9 +60,9 @@ static void pegasos2_cpu_reset(void *opaque)
+ 
+ static void pegasos2_init(MachineState *machine)
+ {
+-    PowerPCCPU *cpu = NULL;
++    Pegasos2MachineState *pm = PEGASOS2_MACHINE(machine);
++    CPUPPCState *env;
+     MemoryRegion *rom = g_new(MemoryRegion, 1);
+-    DeviceState *mv;
+     PCIBus *pci_bus;
+     PCIDevice *dev;
+     I2CBus *i2c_bus;
+@@ -63,15 +72,16 @@ static void pegasos2_init(MachineState *machine)
+     uint8_t *spd_data;
+ 
+     /* init CPU */
+-    cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
+-    if (PPC_INPUT(&cpu->env) != PPC_FLAGS_INPUT_6xx) {
++    pm->cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
++    env = &pm->cpu->env;
++    if (PPC_INPUT(env) != PPC_FLAGS_INPUT_6xx) {
+         error_report("Incompatible CPU, only 6xx bus supported");
+         exit(1);
+     }
+ 
+     /* Set time-base frequency */
+-    cpu_ppc_tb_init(&cpu->env, BUS_FREQ_HZ / 4);
+-    qemu_register_reset(pegasos2_cpu_reset, cpu);
++    cpu_ppc_tb_init(env, BUS_FREQ_HZ / 4);
++    qemu_register_reset(pegasos2_cpu_reset, pm->cpu);
+ 
+     /* RAM */
+     memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+@@ -96,16 +106,16 @@ static void pegasos2_init(MachineState *machine)
+     g_free(filename);
+ 
+     /* Marvell Discovery II system controller */
+-    mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
+-                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_INT]));
+-    pci_bus = mv64361_get_pci_bus(mv, 1);
++    pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
++                             ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT]));
++    pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+ 
+     /* VIA VT8231 South Bridge (multifunction PCI device) */
+     /* VT8231 function 0: PCI-to-ISA Bridge */
+     dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
+                                           TYPE_VT8231_ISA);
+     qdev_connect_gpio_out(DEVICE(dev), 0,
+-                          qdev_get_gpio_in_named(mv, "gpp", 31));
++                          qdev_get_gpio_in_named(pm->mv, "gpp", 31));
+ 
+     /* VT8231 function 1: IDE Controller */
+     dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
+@@ -129,8 +139,10 @@ static void pegasos2_init(MachineState *machine)
+     pci_vga_init(pci_bus);
+ }
+ 
+-static void pegasos2_machine(MachineClass *mc)
++static void pegasos2_machine_class_init(ObjectClass *oc, void *data)
+ {
++    MachineClass *mc = MACHINE_CLASS(oc);
++
+     mc->desc = "Genesi/bPlan Pegasos II";
+     mc->init = pegasos2_init;
+     mc->block_default_type = IF_IDE;
+@@ -141,4 +153,16 @@ static void pegasos2_machine(MachineClass *mc)
+     mc->default_ram_size = 512 * MiB;
+ }
+ 
+-DEFINE_MACHINE("pegasos2", pegasos2_machine)
++static const TypeInfo pegasos2_machine_info = {
++    .name          = TYPE_PEGASOS2_MACHINE,
++    .parent        = TYPE_MACHINE,
++    .class_init    = pegasos2_machine_class_init,
++    .instance_size = sizeof(Pegasos2MachineState),
++};
++
++static void pegasos2_machine_register_types(void)
++{
++    type_register_static(&pegasos2_machine_info);
++}
++
++type_init(pegasos2_machine_register_types)
 -- 
 2.31.1
 
