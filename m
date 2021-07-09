@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5443C27CA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:52:04 +0200 (CEST)
-Received: from localhost ([::1]:33528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80D13C2842
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 19:27:21 +0200 (CEST)
+Received: from localhost ([::1]:51146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1tjP-0001aZ-BX
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:52:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
+	id 1m1uHY-0003Ib-FF
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 13:27:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1ti7-0008OY-UN
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:50:43 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33283)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1ti5-00038Z-Eg
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:50:43 -0400
-Received: by mail-pg1-x533.google.com with SMTP id 37so10576779pgq.0
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:50:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=rqI1Sz9qv8YiV0bVYOHVgBN17hNVhXxarxWGSK8gauI=;
- b=N5ixZMR9UxCvuMGGt3jK5GlYdKHIbDzrdlQ3UcfXExJ80E8RHl9z9x8EQVo4dsWQfS
- E5RYsbB40hZf2gBx+BYW6NLLk/yEEiHAi+Op5AnbP3fOHVVFB2Wb3x3z7lzcO8lA9WOF
- +t9DC7+vatAoCRqhCxb3PrE0uFtmufADkjoaMWuo4+7l7/ZxG49W/XD8tLLz8SDCQoUe
- kNZ4Uk4dSoQzZTv0CnoHTzPNqOMuqvAItv2mV1uXF42J4PT+DsOY/Ylqm9ykh1NXFxVu
- q/EQjS25bgNYx+5UzS4raEsjhVG4de6/CkgieYwyE36eqKkzd0/QsDTQc918XHbOiw2f
- GEDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=rqI1Sz9qv8YiV0bVYOHVgBN17hNVhXxarxWGSK8gauI=;
- b=Y5R3uNXBw2NAgKd7jvH7zJfwR9HD8cg+SX7l8I9DZuPod+rdXgoO4GA3vT9esdNGSz
- 1FPa4EkPvTerIR+J2qnvz3aSPn+NtWeyb5VK33O3ZgmO7GCEoxqR4lEm6VzHF//AWVmi
- 9waYWg9GG2wApVVVBs/SrIWBQk+G21cuIhRYp3d5+9DEeK7ZIlg6NyghuInhyRIwtEOF
- 26igtOXteDf7dMtdP8S3xuqQD6rknmJJzZdFbPPctXeOcuQZVn6TNvabwucNKMphNqMM
- X6ettVXgRMvHAqhIqwH0aw4R/yZrG2IE4MbWr/4PYlrju4UMSNCxKrlTM3oqp8AqSOu5
- Fw3g==
-X-Gm-Message-State: AOAM532SpgxZvCCNppGkCTOL9cIZUwy5P4jpfRMTc4+isaztNRwg1Zvb
- c6uscVfzDfFT4bTC3TM2Xs0fFQ==
-X-Google-Smtp-Source: ABdhPJzpapIqvpoHikCt9MFnaj7rcqricHTCWmx+NfiRZeSD13nGTX0xs5ciSmEqTq68Q96U5fNA5g==
-X-Received: by 2002:a65:41c7:: with SMTP id b7mr6015970pgq.81.1625849439839;
- Fri, 09 Jul 2021 09:50:39 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id c14sm7791287pgv.86.2021.07.09.09.50.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 09:50:39 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] linux-user/s390x: signal with SIGFPE on
- compare-and-trap
-To: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org
-References: <20210709160459.4962-1-jonathan.albrecht@linux.vnet.ibm.com>
- <20210709160459.4962-2-jonathan.albrecht@linux.vnet.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0a401699-06bc-d937-d41b-111e2098a6ec@linaro.org>
-Date: Fri, 9 Jul 2021 09:50:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m1uGb-0002bw-DV
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 13:26:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m1uGV-00034C-Ht
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 13:26:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625851572;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I/vByvkpaJei5M4m7E0syR5uwpSvU1tL5K/aYxpb544=;
+ b=gHvpOQkKXb5v+xiOwkNQHsZ4W7UgbmELGu2PFSR0qZdqFHXf9mC1KCBJUQwS7cqkngRE5T
+ cef2W59mqWrdBKvHaaMxn0JwZGPCWGR7Ht+l0ejbTrL7WGGB7rgl8W/PbBfAau3p/fJMCq
+ /srSlG8DnEZTRyX+GeuvbPLXvRWgIw8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-443-uSwXiU1qP4qowqsI0pg6BQ-1; Fri, 09 Jul 2021 13:26:07 -0400
+X-MC-Unique: uSwXiU1qP4qowqsI0pg6BQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FC34802E63;
+ Fri,  9 Jul 2021 17:26:06 +0000 (UTC)
+Received: from redhat.com (ovpn-114-175.ams2.redhat.com [10.36.114.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F78A5D9C6;
+ Fri,  9 Jul 2021 17:26:01 +0000 (UTC)
+Date: Fri, 9 Jul 2021 18:25:53 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] tests/migration: fix unix socket migration
+Message-ID: <YOiGoSJcdkYnAYZE@redhat.com>
+References: <ea67ec8c4a46979af5515a794759efc00960ed7e.1615304914.git.huangy81@chinatelecom.cn>
+ <f9a92156-8491-4494-c325-4153abc474ea@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210709160459.4962-2-jonathan.albrecht@linux.vnet.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <f9a92156-8491-4494-c325-4153abc474ea@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,34 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ruixin.bao@ibm.com, iii@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
- laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- krebbel@linux.ibm.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: huangy81@chinatelecom.cn, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/21 9:04 AM, Jonathan Albrecht wrote:
-> Currently when a compare-and-trap instruction is executed, qemu will
-> always raise a SIGILL signal. On real hardware, a SIGFPE is raised.
+On Wed, Jul 07, 2021 at 10:28:10AM +0200, Philippe Mathieu-Daudé wrote:
+> On 3/9/21 5:00 PM, huangy81@chinatelecom.cn wrote:
+> > From: Hyman <huangy81@chinatelecom.cn>
+> > 
+> > The test aborts and error message as the following be throwed:
+> > "No such file or directory: '/var/tmp/qemu-migrate-{pid}.migrate",
+> > when the unix socket migration test nearly done. The reason is
+> > qemu removes the unix socket file after migration before
+> > guestperf.py script do it. So pre-check if the socket file exists
+> > when removing it to prevent the guestperf program from aborting.
+> > 
 > 
-> Change the PGM_DATA case in cpu_loop to follow the behavior in
-> linux kernel /arch/s390/kernel/traps.c.
->   * Only raise SIGILL if DXC == 0
->   * If DXC matches a non-simulated IEEE exception, raise SIGFPE with
->     correct si_code
->   * Raise SIGFPE with si_code == 0 for everything else
+> Maintainer could amend:
 > 
-> When applied on20210705210434.45824-2-iii@linux.ibm.com, this fixes
-> crashes in the java jdk such as the linked bug.
+> See also commit f9cc00346d3 ("tests/migration: fix unix socket batch
+> migration").
 > 
-> Buglink:https://bugs.launchpad.net/qemu/+bug/1920913
-> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/319
-> Signed-off-by: Jonathan Albrecht<jonathan.albrecht@linux.vnet.ibm.com>
-> ---
->   linux-user/s390x/cpu_loop.c | 54 +++++++++++++++++++++++--------------
->   1 file changed, 34 insertions(+), 20 deletions(-)
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I'll send this one in a pull req i'm preparing.
 
-r~
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
