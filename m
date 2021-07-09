@@ -2,82 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27353C227F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 12:54:08 +0200 (CEST)
-Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56393C22AD
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:19:07 +0200 (CEST)
+Received: from localhost ([::1]:60416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1o91-0003FG-HA
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 06:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
+	id 1m1oXC-0005oQ-Qe
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:19:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1o7W-0002Xv-S0
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 06:52:34 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1o7U-00043Y-Qs
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 06:52:34 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso6287832wmc.1
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 03:52:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=qYe5xnZWng2624eHMvka4+ZtEfGVsUbQtFn8tqyIV/o=;
- b=FSMcc2IBVp0b4GRuacRJCfXi6MDW9uccWR9xtY7dVIIcnHaSBjLcD/pegcCi5GOXQu
- GjkRGAyJlDQ86ZbMnsaB9KzhNemlPKTVybkZWO5I5cieJStXFc8TqlkKuEEhrvQWJiFa
- 3JpYt2qxPV6bPFpDfTbfROzJtY7dDiCs5/xywAzqOvFbU0zEX1AUKRE95pJY1kwdASjH
- EPiy4h2jyKBGZ9ohxzRzVJPOHR3jGfMX0EAB3EBZ5lD32xudI6ZHiTZRlnpqd5aDR7p3
- 2n28QKUaoHzFFUmvKMK/u1VOC9zoBhH85UBbVO9+N+my2SQOHtMK+6vAtJAXl6BuvKSw
- 51MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=qYe5xnZWng2624eHMvka4+ZtEfGVsUbQtFn8tqyIV/o=;
- b=RPwGdv347IIxwzJjcTDwhKUioYsZ6VY3aFDwFSdNM8I55bcIoSZyFvXD1siJciDa6o
- TXvFCLE7Rl2pli4tv0T9oOnMECbdZc0hsFiUp7phC4BmbBxVgHCU1bJ/1mMo4fl7WvZ5
- GD36MpXECgqWjOWFtTA99Le1gMsBq9BaZNYWMLyv8474LtQ/mUJIF2sEMIwToRnZKTdq
- 7CG1/AwMfRTDNyHIaEDFUzdrYyB/TYx8/Oz9s8jDZjv4S61InI7sDPK5OcY+DHYOTf6L
- /b0mSurrq4TwVVRFo3pSy1dH3c8yYswRrxosA3zfB44qZmoWCq6YDCv8zKoHK9jtEhxS
- E1hQ==
-X-Gm-Message-State: AOAM531TdjIc4lUXwpxWX1V6HxSgiWybqfe+uGYXANVnI15nzP8xEOn8
- vGtc6nZxwprGw+eCB7Kp1m5//A==
-X-Google-Smtp-Source: ABdhPJw35d4w2mBqZNdkRdhd4FM4WE3WxDQeo0bGDgAAEHeBW9ICPnJa1wkW8LRSGx9UYOgA/GwdcA==
-X-Received: by 2002:a1c:de88:: with SMTP id v130mr14996687wmg.98.1625827950685; 
- Fri, 09 Jul 2021 03:52:30 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u12sm4953952wrt.50.2021.07.09.03.52.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 03:52:29 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 04E8F1FF7E;
- Fri,  9 Jul 2021 11:52:29 +0100 (BST)
-References: <20210708190941.16980-1-alex.bennee@linaro.org>
- <20210708190941.16980-27-alex.bennee@linaro.org>
- <277c97f3-b2d8-639f-a251-099287e5a733@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 26/39] tests/tcg: make test-mmap a little less
- aggressive
-Date: Fri, 09 Jul 2021 11:51:24 +0100
-In-reply-to: <277c97f3-b2d8-639f-a251-099287e5a733@linaro.org>
-Message-ID: <87y2afsqs3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1m1oSb-0005hN-3A
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:21 -0400
+Received: from mga06.intel.com ([134.134.136.31]:37155)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1m1oSX-0004xl-AS
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:14:20 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800757"
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800757"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2021 04:14:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730123"
+Received: from icx-2s.bj.intel.com ([10.240.192.119])
+ by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:14:07 -0700
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/33] Qemu SGX virtualization
+Date: Fri,  9 Jul 2021 19:09:22 +0800
+Message-Id: <20210709110955.73256-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,302 +55,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, pbonzini@redhat.com,
- aaron@os.amperecomputing.com, qemu-devel@nongnu.org, robhenry@microsoft.com,
- f4bug@amsat.org, mahmoudabdalghany@outlook.com, minyihh@uci.edu,
- cota@braap.org, stefanha@redhat.com, crosa@redhat.com, kuhn.chenqun@huawei.com,
- ma.mandourr@gmail.com, aurelien@aurel32.net
+Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
+ jarkko@kernel.org, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since Sean Christopherson has left Intel and i am responsible for Qemu SGX
+upstream work. His @intel.com address will be bouncing and his new email(
+seanjc@google.com) is also in CC lists.
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+This series is Qemu SGX virtualization implementation rebased on latest
+Qemu release. The numa support for SGX will be sent in another patchset
+once this basic SGX patchset are merged.
 
-> On 7/8/21 12:09 PM, Alex Benn=C3=A9e wrote:
->> -	for (i =3D 0; i < 0x1fff; i++)
->> +	for (i =3D 0; i < 0x1ff; i++)
->>   	{
->>   		size_t len;
->>     		len =3D pagesize + (pagesize * i & 7);
->
-> There's really no point in i >=3D 8.
->
-> We release all of the memory at the end of the loop; we'll probably
-> get back the same pages on the 8'th iteration.
->
->
->> -	for (i =3D 0; i < 0x2fff; i++)
->> +	for (i =3D 0; i < 0x2ff; i++)
->
-> I'm not sure why this one is iterating more than twice?
+You can find Qemu repo here:
 
-OK cutting it down to 8 and 2 with white space cleanup and removing the
-timeout hack gives:
+     https://github.com/intel/qemu-sgx.git upstream
 
---8<---------------cut here---------------start------------->8---
-tests/tcg: make test-mmap a little less aggressive
+If you want to try SGX, you can directly install the linux release(at least 5.13.0-rc1+)
+since kvm SGX has been merged into linux release.
 
-The check_aligned_anonymous_unfixed_mmaps and
-check_aligned_anonymous_unfixed_colliding_mmaps do a lot of mmap's and
-copying of data. This is especially unfriendly to targets like hexagon
-which have quite large pages and need to do sanity checks on each
-memory access.
+     https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 
-While we are at it clean-up the white space and style issues from the
-legacy code. As we no longer do quite so much needless memory access
-we can also remove the hexagon timeout hack.
+To simplify, you'd better install linux on host and guest, which can support
+SGX on host and guest kernel. And to me, use below reference command to boot
+SGX guest:
 
-Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+     #qemu-system-x86_64 \
+         ...... \
+         -cpu host,+sgx-provisionkey \
+         -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+         -object memory-backend-epc,id=mem2,size=28M \
+         -M sgx-epc.id.0=epc1,sgx-epc.memdev.0=mem1,sgx-epc.id.1=epc2,sgx-epc.memdev.1=mem2
 
----
-v3
-  - style and whitespace cleanups, reduce loop even further.
-  - remove hexagon timeout hack
+Overview
+========
 
-2 files changed, 102 insertions(+), 113 deletions(-)
-tests/tcg/multiarch/test-mmap.c   | 206 +++++++++++++++++++----------------=
----
-tests/tcg/hexagon/Makefile.target |   9 --
+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
+for memory accesses in order to provide security accesses for sensitive
+applications and data. SGX allows an application to use it's pariticular
+address space as an *enclave*, which is a protected area provides confidentiality
+and integrity even in the presence of privileged malware. Accesses to the
+enclave memory area from any software not resident in the enclave are prevented,
+including those from privileged software.
 
-modified   tests/tcg/multiarch/test-mmap.c
-@@ -49,64 +49,62 @@ size_t test_fsize;
-=20
- void check_aligned_anonymous_unfixed_mmaps(void)
- {
--	void *p1;
--	void *p2;
--	void *p3;
--	void *p4;
--	void *p5;
--	uintptr_t p;
--	int i;
--
--	fprintf(stdout, "%s", __func__);
--	for (i =3D 0; i < 0x1fff; i++)
--	{
--		size_t len;
--
--		len =3D pagesize + (pagesize * i & 7);
--		p1 =3D mmap(NULL, len, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p2 =3D mmap(NULL, len, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p3 =3D mmap(NULL, len, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p4 =3D mmap(NULL, len, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		p5 =3D mmap(NULL, len, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--
--		/* Make sure we get pages aligned with the pagesize. The
--		   target expects this.  */
--		fail_unless (p1 !=3D MAP_FAILED);
--		fail_unless (p2 !=3D MAP_FAILED);
--		fail_unless (p3 !=3D MAP_FAILED);
--		fail_unless (p4 !=3D MAP_FAILED);
--		fail_unless (p5 !=3D MAP_FAILED);
--		p =3D (uintptr_t) p1;
--		D(printf ("p=3D%x\n", p));
--		fail_unless ((p & pagemask) =3D=3D 0);
--		p =3D (uintptr_t) p2;
--		fail_unless ((p & pagemask) =3D=3D 0);
--		p =3D (uintptr_t) p3;
--		fail_unless ((p & pagemask) =3D=3D 0);
--		p =3D (uintptr_t) p4;
--		fail_unless ((p & pagemask) =3D=3D 0);
--		p =3D (uintptr_t) p5;
--		fail_unless ((p & pagemask) =3D=3D 0);
--
--		/* Make sure we can read from the entire area.  */
--		memcpy (dummybuf, p1, pagesize);
--		memcpy (dummybuf, p2, pagesize);
--		memcpy (dummybuf, p3, pagesize);
--		memcpy (dummybuf, p4, pagesize);
--		memcpy (dummybuf, p5, pagesize);
--
--		munmap (p1, len);
--		munmap (p2, len);
--		munmap (p3, len);
--		munmap (p4, len);
--		munmap (p5, len);
--	}
--	fprintf(stdout, " passed\n");
-+    void *p1;
-+    void *p2;
-+    void *p3;
-+    void *p4;
-+    void *p5;
-+    uintptr_t p;
-+    int i;
-+    fprintf(stdout, "%s", __func__);
-+    for (i =3D 0; i < 8; i++) {
-+        size_t len;
-+        len =3D pagesize + (pagesize * i);
-+        p1 =3D mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p2 =3D mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p3 =3D mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p4 =3D mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        p5 =3D mmap(NULL, len, PROT_READ,
-+                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+
-+        /*
-+         * Make sure we get pages aligned with the pagesize. The
-+         * target expects this.
-+         */
-+        fail_unless (p1 !=3D MAP_FAILED);
-+        fail_unless (p2 !=3D MAP_FAILED);
-+        fail_unless (p3 !=3D MAP_FAILED);
-+        fail_unless (p4 !=3D MAP_FAILED);
-+        fail_unless (p5 !=3D MAP_FAILED);
-+        p =3D (uintptr_t) p1;
-+        D(printf ("p=3D%x\n", p));
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        p =3D (uintptr_t) p2;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        p =3D (uintptr_t) p3;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        p =3D (uintptr_t) p4;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        p =3D (uintptr_t) p5;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+
-+        /* Make sure we can read from the entire area.  */
-+        memcpy (dummybuf, p1, pagesize);
-+        memcpy (dummybuf, p2, pagesize);
-+        memcpy (dummybuf, p3, pagesize);
-+        memcpy (dummybuf, p4, pagesize);
-+        memcpy (dummybuf, p5, pagesize);
-+        munmap (p1, len);
-+        munmap (p2, len);
-+        munmap (p3, len);
-+        munmap (p4, len);
-+        munmap (p5, len);
-+    }
-+    fprintf(stdout, " passed\n");
- }
-=20
- void check_large_anonymous_unfixed_mmap(void)
-@@ -135,52 +133,52 @@ void check_large_anonymous_unfixed_mmap(void)
-=20
- void check_aligned_anonymous_unfixed_colliding_mmaps(void)
- {
--	char *p1;
--	char *p2;
--	char *p3;
--	uintptr_t p;
--	int i;
--
--	fprintf(stdout, "%s", __func__);
--	for (i =3D 0; i < 0x2fff; i++)
--	{
--		int nlen;
--		p1 =3D mmap(NULL, pagesize, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		fail_unless (p1 !=3D MAP_FAILED);
--		p =3D (uintptr_t) p1;
--		fail_unless ((p & pagemask) =3D=3D 0);
--		memcpy (dummybuf, p1, pagesize);
--
--		p2 =3D mmap(NULL, pagesize, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		fail_unless (p2 !=3D MAP_FAILED);
--		p =3D (uintptr_t) p2;
--		fail_unless ((p & pagemask) =3D=3D 0);
--		memcpy (dummybuf, p2, pagesize);
--
--
--		munmap (p1, pagesize);
--		nlen =3D pagesize * 8;
--		p3 =3D mmap(NULL, nlen, PROT_READ,=20
--			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
--		fail_unless (p3 !=3D MAP_FAILED);
--
--		/* Check if the mmaped areas collide.  */
--		if (p3 < p2=20
--		    && (p3 + nlen) > p2)
--			fail_unless (0);
--
--		memcpy (dummybuf, p3, pagesize);
--
--		/* Make sure we get pages aligned with the pagesize. The
--		   target expects this.  */
--		p =3D (uintptr_t) p3;
--		fail_unless ((p & pagemask) =3D=3D 0);
--		munmap (p2, pagesize);
--		munmap (p3, nlen);
--	}
--	fprintf(stdout, " passed\n");
-+    char *p1;
-+    char *p2;
-+    char *p3;
-+    uintptr_t p;
-+    int i;
-+
-+    fprintf(stdout, "%s", __func__);
-+    for (i =3D 0; i < 2; i++) {
-+        int nlen;
-+        p1 =3D mmap(NULL, pagesize, PROT_READ,
-+              MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        fail_unless (p1 !=3D MAP_FAILED);
-+        p =3D (uintptr_t) p1;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        memcpy (dummybuf, p1, pagesize);
-+
-+        p2 =3D mmap(NULL, pagesize, PROT_READ,
-+              MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        fail_unless (p2 !=3D MAP_FAILED);
-+        p =3D (uintptr_t) p2;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        memcpy (dummybuf, p2, pagesize);
-+
-+
-+        munmap (p1, pagesize);
-+        nlen =3D pagesize * 8;
-+        p3 =3D mmap(NULL, nlen, PROT_READ,
-+              MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+        fail_unless (p3 !=3D MAP_FAILED);
-+
-+        /* Check if the mmaped areas collide.  */
-+        if (p3 < p2
-+            && (p3 + nlen) > p2) {
-+            fail_unless (0);
-+        }
-+
-+        memcpy (dummybuf, p3, pagesize);
-+
-+        /* Make sure we get pages aligned with the pagesize. The
-+           target expects this.  */
-+        p =3D (uintptr_t) p3;
-+        fail_unless ((p & pagemask) =3D=3D 0);
-+        munmap (p2, pagesize);
-+        munmap (p3, nlen);
-+    }
-+    fprintf(stdout, " passed\n");
- }
-=20
- void check_aligned_anonymous_fixed_mmaps(void)
-modified   tests/tcg/hexagon/Makefile.target
-@@ -18,15 +18,6 @@
- # Hexagon doesn't support gdb, so skip the EXTRA_RUNS
- EXTRA_RUNS =3D
-=20
--# Hexagon has 64K pages, so increase the timeout to keep
--# test-mmap from timing out
--ifeq ($(CONFIG_DEBUG_TCG),y)
--TIMEOUT=3D800
--else
--TIMEOUT=3D500
--endif
--
--
- CFLAGS +=3D -Wno-incompatible-pointer-types -Wno-undefined-internal
- CFLAGS +=3D -fno-unroll-loops
---8<---------------cut here---------------end--------------->8---
+SGX virtaulization
+==================
 
---=20
-Alex Benn=C3=A9e
+The KVM SGX creates one new misc device, sgx_vepc, and Qemu will open '/dev/sgx_vepc'
+device node to mmap() host EPC memory to guest. The Qemu also adds 'sgx-epc' device
+to expose EPC sections to guest through CPUID and ACPI table.  The Qemu SGX also
+supports multiple virtual EPC sections to guest, we just put them together physically
+contiguous for the sake of simplicity. The kernel SGX NUMA has been merged into Linux
+tip tree, we will support this function in the next phase.
+
+Although the current host SGX subsystem can not support SGX2 feature, the KVM/Qemu
+implementation still expose this feature to guest. Guest SGX2 support doesn't have
+interaction with host kernel SGX driver, the SGX guest can normally use those new
+instructions.
+
+As for SGX virtualization detailed infomation, please reference docs/intel-sgx.txt
+docuement(patch 33).
+
+Changelog:
+=========
+
+(Changelog here is for global changes, please see each patch's changelog for changes
+ made to specific patch.)
+
+v2-->v3:
+   - Rebased the sgx patches into latest Qemu release.
+   - Implemented the compound property for SGX, ref patch5, the command from '-sgx-epc'
+     to '-M'.
+   - Moved the sgx common code from sgx-epc.c to sgx.c. The sgx-epc.c is
+     only responsible for virtual epc device.
+   - Removed the previous patch13(linux-headers: Add placeholder for KVM_CAP_SGX_ATTRIBUTE)
+     because ehabkost@redhat.com updated Linux headers to 5.13-rc4 with commit 278f064e452.
+   - Updated the patch1 because ram_flags were changed by David Hildenbra.
+   - Added one patch24, which avoid reset operation caused by bios reset.
+   - Added one patch25, which make prealloc property consistent with Qemu cmdline during VM
+     reset.
+
+v1-->v2:
+   - Rebased the sgx patches into latest Qemu release.
+   - Unified the "share" and "protected" arguments with ram_flags in the
+     memory_region_init_ram_from_fd()(Paolo).
+   - Added the new MemoryBackendEpcProperties and related documents(Eric Blake).
+   - Changed the KVM_CAP_SGX_ATTRIBUTE from 195 to 196(Kai).
+   - Changed the version and some grammar issues(Eric Blake).
+
+
+Sean Christopherson (21):
+  memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+  hostmem: Add hostmem-epc as a backend for SGX EPC
+  i386: Add 'sgx-epc' device to expose EPC sections to guest
+  vl: Add sgx compound properties to expose SGX EPC sections to guest
+  i386: Add primary SGX CPUID and MSR defines
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+  i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+  i386: Add feature control MSR dependency when SGX is enabled
+  i386: Update SGX CPUID info according to hardware/KVM/user input
+  i386: kvm: Add support for exposing PROVISIONKEY to guest
+  i386: Propagate SGX CPUID sub-leafs to KVM
+  Adjust min CPUID level to 0x12 when SGX is enabled
+  hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+  hw/i386/pc: Account for SGX EPC sections when calculating device
+    memory
+  i386/pc: Add e820 entry for SGX EPC section(s)
+  i386: acpi: Add SGX EPC entry to ACPI tables
+  q35: Add support for SGX EPC
+  i440fx: Add support for SGX EPC
+  doc: Add the SGX doc
+
+Yang Zhong (12):
+  qom: Add memory-backend-epc ObjectOptions support
+  hostmem-epc: Add the reset interface for EPC backend reset
+  sgx-epc: Add the reset interface for sgx-epc virt device
+  sgx-epc: Avoid bios reset during sgx epc initialization
+  hostmem-epc: Make prealloc consistent with qemu cmdline during reset
+  qmp: Add query-sgx command
+  hmp: Add 'info sgx' command
+  i386: Add sgx_get_info() interface
+  bitops: Support 32 and 64 bit mask macro
+  qmp: Add the qmp_query_sgx_capabilities()
+  Kconfig: Add CONFIG_SGX support
+  sgx-epc: Add the fill_device_info() callback support
+
+ backends/hostmem-epc.c                   | 118 ++++++++++
+ backends/meson.build                     |   1 +
+ default-configs/devices/i386-softmmu.mak |   1 +
+ docs/intel-sgx.txt                       | 167 ++++++++++++++
+ hmp-commands-info.hx                     |  15 ++
+ hw/core/machine.c                        |  36 +++
+ hw/i386/Kconfig                          |   5 +
+ hw/i386/acpi-build.c                     |  22 ++
+ hw/i386/fw_cfg.c                         |  10 +-
+ hw/i386/meson.build                      |   2 +
+ hw/i386/pc.c                             |  15 +-
+ hw/i386/pc_piix.c                        |   4 +
+ hw/i386/pc_q35.c                         |   3 +
+ hw/i386/sgx-epc.c                        | 271 +++++++++++++++++++++++
+ hw/i386/sgx-stub.c                       |  13 ++
+ hw/i386/sgx.c                            | 178 +++++++++++++++
+ hw/vfio/common.c                         |   1 +
+ include/exec/memory.h                    |  15 +-
+ include/hw/boards.h                      |   1 +
+ include/hw/i386/pc.h                     |  10 +
+ include/hw/i386/sgx-epc.h                |  68 ++++++
+ include/monitor/hmp.h                    |   1 +
+ include/qemu/bitops.h                    |   7 +
+ monitor/hmp-cmds.c                       |  32 +++
+ monitor/qmp-cmds.c                       |  19 ++
+ qapi/machine.json                        |  43 +++-
+ qapi/misc.json                           |  61 +++++
+ qapi/qom.json                            |  19 ++
+ qemu-options.hx                          |  10 +-
+ softmmu/memory.c                         |   5 +
+ softmmu/physmem.c                        |   3 +-
+ stubs/meson.build                        |   1 +
+ stubs/sgx-stub.c                         |  12 +
+ target/i386/cpu.c                        | 168 +++++++++++++-
+ target/i386/cpu.h                        |  16 ++
+ target/i386/kvm/kvm.c                    |  75 +++++++
+ target/i386/kvm/kvm_i386.h               |   2 +
+ target/i386/machine.c                    |  20 ++
+ tests/qtest/qmp-cmd-test.c               |   2 +
+ 39 files changed, 1442 insertions(+), 10 deletions(-)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 docs/intel-sgx.txt
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 hw/i386/sgx-stub.c
+ create mode 100644 hw/i386/sgx.c
+ create mode 100644 include/hw/i386/sgx-epc.h
+ create mode 100644 stubs/sgx-stub.c
+
+-- 
+2.29.2.334.gfaefdd61ec
+
 
