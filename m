@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 086303C1EEB
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:30:25 +0200 (CEST)
-Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24CF73C1EE6
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:27:53 +0200 (CEST)
+Received: from localhost ([::1]:33882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1j5k-0008C2-1g
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:30:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35198)
+	id 1m1j3I-0002F2-7V
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1ith-00017I-N5; Fri, 09 Jul 2021 01:17:57 -0400
-Received: from ozlabs.org ([203.11.71.1]:47153)
+ id 1m1iti-00019C-Ne; Fri, 09 Jul 2021 01:17:58 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:53671)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itc-0001wt-Hk; Fri, 09 Jul 2021 01:17:57 -0400
+ id 1m1itg-0001zW-N1; Fri, 09 Jul 2021 01:17:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLhHd4dZVz9shx; Fri,  9 Jul 2021 15:17:33 +1000 (AEST)
+ id 4GLhHd60mRz9sxS; Fri,  9 Jul 2021 15:17:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625807853;
- bh=aYdgJgoexbLVbdW5sTv/Y2EbgQY5MU5mSQ15vaJDP6A=;
+ bh=LfqnIK50XMbUbpPBuaN2qzQ6g1BvDI+U6oJFJ+G6lyI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TxhRExFi4U2oNd/NtFDEXpqyWe8+UkXJbwas2rNxJ+idp1lDHRY0DPmNM5VGeFNt2
- dyTeYp/uRWiJVoSBysskD7HjcuvDnmIoq9jR1rZrBqM7g0yOtaHBz/He0kWURhiSZ8
- 0NThSXcTpD2XfgIpaG1HLvMkCoZxYRxs0ASTFfZk=
+ b=AzbRKln7U3K/lJcWIsg+VDR2fvXL6ofrqZSFqra0go+YIbW6XD+I9GcIYj8IQjQ4S
+ xPI+NDLp40ekt3ba0xERru1bgldrvGq0U42ETQiTw5eLmgLqJOVpjtbWFlOohGEiPG
+ s/Cdgpowz3ma/iWzvXoJUBZ1MLEuFfFhmfhp1W/s=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 11/33] target/ppc: Introduce ppc_xlate
-Date: Fri,  9 Jul 2021 15:17:06 +1000
-Message-Id: <20210709051728.170203-12-david@gibson.dropbear.id.au>
+Subject: [PULL 15/33] target/ppc: Fix compilation with DEBUG_BATS debug option
+Date: Fri,  9 Jul 2021 15:17:10 +1000
+Message-Id: <20210709051728.170203-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,435 +57,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, Richard Henderson <richard.henderson@linaro.org>,
+Cc: aik@ozlabs.ru, David Gibson <david@gibson.dropbear.id.au>,
  qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+ Fabiano Rosas <farosas@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Fabiano Rosas <farosas@linux.ibm.com>
 
-Create one common dispatch for all of the ppc_*_xlate functions.
-Use ppc64_v3_radix to directly dispatch between ppc_radix64_xlate
-and ppc_hash64_xlate.
+../target/ppc/mmu-hash32.c: In function 'ppc_hash32_bat_lookup':
+../target/ppc/mmu-hash32.c:204:13: error: 'BATu' undeclared (first use in this function);
+  204 |             BATu = &BATut[i];
+      |             ^~~~
+      |             BATut
+../target/ppc/mmu-hash32.c:205:13: error: 'BATl' undeclared (first use in this function);
+  205 |             BATl = &BATlt[i];
+      |             ^~~~
+      |             BATlt
+../target/ppc/mmu-hash32.c:206:13: error: 'BEPIu' undeclared (first use in this function)
+  206 |             BEPIu = *BATu & BATU32_BEPIU;
+      |             ^~~~~
+../target/ppc/mmu-hash32.c:206:29: error: 'BATU32_BEPIU' undeclared (first use in this function);
+  206 |             BEPIu = *BATu & BATU32_BEPIU;
+      |                             ^~~~~~~~~~~~
+      |                             BATU32_BEPI
+../target/ppc/mmu-hash32.c:207:13: error: 'BEPIl' undeclared (first use in this function)
+  207 |             BEPIl = *BATu & BATU32_BEPIL;
+      |             ^~~~~
+../target/ppc/mmu-hash32.c:207:29: error: 'BATU32_BEPIL' undeclared (first use in this function);
+  207 |             BEPIl = *BATu & BATU32_BEPIL;
+      |                             ^~~~~~~~~~~~
+      |                             BATU32_BEPI
+../target/ppc/mmu-hash32.c:208:13: error: 'bl' undeclared (first use in this function)
+  208 |             bl = (*BATu & 0x00001FFC) << 15;
+      |             ^~
 
-Remove the separate *_handle_mmu_fault and *_get_phys_page_debug
-functions, using common code for ppc_cpu_tlb_fill and
-ppc_cpu_get_phys_page_debug.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210621125115.67717-9-bruno.larsen@eldorado.org.br>
+Fixes: 9813279664 ("target-ppc: Disentangle BAT code for 32-bit hash MMUs")
+Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Message-Id: <20210702215235.1941771-4-farosas@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/mmu-book3s-v3.c |  19 -------
- target/ppc/mmu-book3s-v3.h |   5 --
- target/ppc/mmu-hash32.c    |  38 ++------------
- target/ppc/mmu-hash32.h    |   6 +--
- target/ppc/mmu-hash64.c    |  37 ++------------
- target/ppc/mmu-hash64.h    |   6 +--
- target/ppc/mmu-radix64.c   |  38 ++------------
- target/ppc/mmu-radix64.h   |   6 +--
- target/ppc/mmu_helper.c    | 100 ++++++++++++++-----------------------
- 9 files changed, 55 insertions(+), 200 deletions(-)
+ target/ppc/mmu-hash32.c | 5 ++++-
+ target/ppc/mmu-hash32.h | 2 ++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/mmu-book3s-v3.c b/target/ppc/mmu-book3s-v3.c
-index c78fd8dc0e..f4985bae78 100644
---- a/target/ppc/mmu-book3s-v3.c
-+++ b/target/ppc/mmu-book3s-v3.c
-@@ -23,25 +23,6 @@
- #include "mmu-book3s-v3.h"
- #include "mmu-radix64.h"
- 
--int ppc64_v3_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                              int mmu_idx)
--{
--    if (ppc64_v3_radix(cpu)) { /* Guest uses radix */
--        return ppc_radix64_handle_mmu_fault(cpu, eaddr, rwx, mmu_idx);
--    } else { /* Guest uses hash */
--        return ppc_hash64_handle_mmu_fault(cpu, eaddr, rwx, mmu_idx);
--    }
--}
--
--hwaddr ppc64_v3_get_phys_page_debug(PowerPCCPU *cpu, vaddr eaddr)
--{
--    if (ppc64_v3_radix(cpu)) {
--        return ppc_radix64_get_phys_page_debug(cpu, eaddr);
--    } else {
--        return ppc_hash64_get_phys_page_debug(cpu, eaddr);
--    }
--}
--
- bool ppc64_v3_get_pate(PowerPCCPU *cpu, target_ulong lpid, ppc_v3_pate_t *entry)
- {
-     uint64_t patb = cpu->env.spr[SPR_PTCR] & PTCR_PATB;
-diff --git a/target/ppc/mmu-book3s-v3.h b/target/ppc/mmu-book3s-v3.h
-index 7b89be54b8..a1326df969 100644
---- a/target/ppc/mmu-book3s-v3.h
-+++ b/target/ppc/mmu-book3s-v3.h
-@@ -67,11 +67,6 @@ static inline bool ppc64_v3_radix(PowerPCCPU *cpu)
-     return !!(cpu->env.spr[SPR_LPCR] & LPCR_HR);
- }
- 
--hwaddr ppc64_v3_get_phys_page_debug(PowerPCCPU *cpu, vaddr eaddr);
--
--int ppc64_v3_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr, int rwx,
--                              int mmu_idx);
--
- static inline hwaddr ppc_hash64_hpt_base(PowerPCCPU *cpu)
- {
-     uint64_t base;
 diff --git a/target/ppc/mmu-hash32.c b/target/ppc/mmu-hash32.c
-index ad22372c07..6a07c345e4 100644
+index 6a07c345e4..4edd5ffe14 100644
 --- a/target/ppc/mmu-hash32.c
 +++ b/target/ppc/mmu-hash32.c
-@@ -424,10 +424,9 @@ static hwaddr ppc_hash32_pte_raddr(target_ulong sr, ppc_hash_pte32_t pte,
-     return (rpn & ~mask) | (eaddr & mask);
- }
+@@ -27,7 +27,7 @@
+ #include "mmu-hash32.h"
+ #include "exec/log.h"
  
--static bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr,
--                             MMUAccessType access_type,
--                             hwaddr *raddrp, int *psizep, int *protp,
--                             bool guest_visible)
-+bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                      hwaddr *raddrp, int *psizep, int *protp,
-+                      bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -569,34 +568,3 @@ static bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr,
-     *protp = prot;
-     return true;
- }
--
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                MMUAccessType access_type, int mmu_idx)
--{
--    CPUState *cs = CPU(cpu);
--    int page_size, prot;
--    hwaddr raddr;
--
--    /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
--    if (!ppc_hash32_xlate(cpu, eaddr, access_type, &raddr,
--                           &page_size, &prot, true)) {
--        return 1;
--    }
--
--    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                 prot, mmu_idx, 1UL << page_size);
--    return 0;
--}
--
--hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
--{
--    int psize, prot;
--    hwaddr raddr;
--
--    if (!ppc_hash32_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
--                           &psize, &prot, false)) {
--        return -1;
--    }
--
--    return raddr & TARGET_PAGE_MASK;
--}
+-/* #define DEBUG_BAT */
++/* #define DEBUG_BATS */
+ 
+ #ifdef DEBUG_BATS
+ #  define LOG_BATS(...) qemu_log_mask(CPU_LOG_MMU, __VA_ARGS__)
+@@ -199,6 +199,9 @@ static hwaddr ppc_hash32_bat_lookup(PowerPCCPU *cpu, target_ulong ea,
+     /* No hit */
+ #if defined(DEBUG_BATS)
+     if (qemu_log_enabled()) {
++        target_ulong *BATu, *BATl;
++        target_ulong BEPIl, BEPIu, bl;
++
+         LOG_BATS("no BAT match for " TARGET_FMT_lx ":\n", ea);
+         for (i = 0; i < 4; i++) {
+             BATu = &BATut[i];
 diff --git a/target/ppc/mmu-hash32.h b/target/ppc/mmu-hash32.h
-index 30e35718a7..8694eccabd 100644
+index 8694eccabd..c9f584b8ee 100644
 --- a/target/ppc/mmu-hash32.h
 +++ b/target/ppc/mmu-hash32.h
-@@ -4,9 +4,9 @@
- #ifndef CONFIG_USER_ONLY
- 
- hwaddr get_pteg_offset32(PowerPCCPU *cpu, hwaddr hash);
--hwaddr ppc_hash32_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
--int ppc_hash32_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
--                                MMUAccessType access_type, int mmu_idx);
-+bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                      hwaddr *raddrp, int *psizep, int *protp,
-+                      bool guest_visible);
- 
- /*
-  * Segment register definitions
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index c6b167b4dc..c1b98a97e9 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -873,10 +873,9 @@ static int build_vrma_slbe(PowerPCCPU *cpu, ppc_slb_t *slb)
-     return -1;
- }
- 
--static bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr,
--                             MMUAccessType access_type,
--                             hwaddr *raddrp, int *psizep, int *protp,
--                             bool guest_visible)
-+bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                      hwaddr *raddrp, int *psizep, int *protp,
-+                      bool guest_visible)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -1094,36 +1093,6 @@ static bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr,
-     return true;
- }
- 
--int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                MMUAccessType access_type, int mmu_idx)
--{
--    CPUState *cs = CPU(cpu);
--    int page_size, prot;
--    hwaddr raddr;
--
--    if (!ppc_hash64_xlate(cpu, eaddr, access_type, &raddr,
--                          &page_size, &prot, true)) {
--        return 1;
--    }
--
--    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                 prot, mmu_idx, 1UL << page_size);
--    return 0;
--}
--
--hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
--{
--    int psize, prot;
--    hwaddr raddr;
--
--    if (!ppc_hash64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
--                          &psize, &prot, false)) {
--        return -1;
--    }
--
--    return raddr & TARGET_PAGE_MASK;
--}
--
- void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu, target_ulong ptex,
-                                target_ulong pte0, target_ulong pte1)
- {
-diff --git a/target/ppc/mmu-hash64.h b/target/ppc/mmu-hash64.h
-index 3e8a8eec1f..9f338e1fe9 100644
---- a/target/ppc/mmu-hash64.h
-+++ b/target/ppc/mmu-hash64.h
-@@ -7,9 +7,9 @@
- void dump_slb(PowerPCCPU *cpu);
- int ppc_store_slb(PowerPCCPU *cpu, target_ulong slot,
-                   target_ulong esid, target_ulong vsid);
--hwaddr ppc_hash64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
--int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr address,
--                                MMUAccessType access_type, int mmu_idx);
-+bool ppc_hash64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                      hwaddr *raddrp, int *psizep, int *protp,
-+                      bool guest_visible);
- void ppc_hash64_tlb_flush_hpte(PowerPCCPU *cpu,
-                                target_ulong pte_index,
-                                target_ulong pte0, target_ulong pte1);
-diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-index 2d5f0850c9..cbd404bfa4 100644
---- a/target/ppc/mmu-radix64.c
-+++ b/target/ppc/mmu-radix64.c
-@@ -463,10 +463,9 @@ static int ppc_radix64_process_scoped_xlate(PowerPCCPU *cpu,
-  *              | = On        | Process Scoped |    Scoped     |
-  *              +-------------+----------------+---------------+
+@@ -22,6 +22,8 @@ bool ppc_hash32_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
+  * Block Address Translation (BAT) definitions
   */
--static bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
--                              MMUAccessType access_type,
--                              hwaddr *raddr, int *psizep, int *protp,
--                              bool guest_visible)
-+bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                       hwaddr *raddr, int *psizep, int *protp,
-+                       bool guest_visible)
- {
-     CPUPPCState *env = &cpu->env;
-     uint64_t lpid, pid;
-@@ -584,34 +583,3 @@ static bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,
  
-     return true;
- }
--
--int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                 MMUAccessType access_type, int mmu_idx)
--{
--    CPUState *cs = CPU(cpu);
--    int page_size, prot;
--    hwaddr raddr;
--
--    /* Translate eaddr to raddr (where raddr is addr qemu needs for access) */
--    if (!ppc_radix64_xlate(cpu, eaddr, access_type, &raddr,
--                           &page_size, &prot, true)) {
--        return 1;
--    }
--
--    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                 prot, mmu_idx, 1UL << page_size);
--    return 0;
--}
--
--hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong eaddr)
--{
--    int psize, prot;
--    hwaddr raddr;
--
--    if (!ppc_radix64_xlate(cpu, eaddr, MMU_DATA_LOAD, &raddr,
--                           &psize, &prot, false)) {
--        return -1;
--    }
--
--    return raddr & TARGET_PAGE_MASK;
--}
-diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-index 94bd72cb38..6b13b89b64 100644
---- a/target/ppc/mmu-radix64.h
-+++ b/target/ppc/mmu-radix64.h
-@@ -44,9 +44,9 @@
- 
- #ifdef TARGET_PPC64
- 
--int ppc_radix64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                 MMUAccessType access_type, int mmu_idx);
--hwaddr ppc_radix64_get_phys_page_debug(PowerPCCPU *cpu, target_ulong addr);
-+bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                       hwaddr *raddr, int *psizep, int *protp,
-+                       bool guest_visible);
- 
- static inline int ppc_radix64_get_prot_eaa(uint64_t pte)
- {
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 2e92deb105..a0e4e027d3 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -2899,98 +2899,72 @@ void helper_check_tlb_flush_global(CPUPPCState *env)
- 
- /*****************************************************************************/
- 
--static int cpu_ppc_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
--                                    MMUAccessType access_type, int mmu_idx)
-+static bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType access_type,
-+                      hwaddr *raddrp, int *psizep, int *protp,
-+                      int mmu_idx, bool guest_visible)
- {
--    CPUState *cs = CPU(cpu);
--    int page_size, prot;
--    hwaddr raddr;
--
--    if (!ppc_jumbo_xlate(cpu, eaddr, access_type, &raddr,
--                         &page_size, &prot, mmu_idx, true)) {
--        return 1;
--    }
--
--    tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
--                 prot, mmu_idx, 1UL << page_size);
--    return 0;
--}
--
--hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
--{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--    hwaddr raddr;
--    int s, p;
--
--    switch (env->mmu_model) {
-+    switch (cpu->env.mmu_model) {
- #if defined(TARGET_PPC64)
-+    case POWERPC_MMU_3_00:
-+        if (ppc64_v3_radix(cpu)) {
-+            return ppc_radix64_xlate(cpu, eaddr, access_type,
-+                                     raddrp, psizep, protp, guest_visible);
-+        }
-+        /* fall through */
-     case POWERPC_MMU_64B:
-     case POWERPC_MMU_2_03:
-     case POWERPC_MMU_2_06:
-     case POWERPC_MMU_2_07:
--        return ppc_hash64_get_phys_page_debug(cpu, addr);
--    case POWERPC_MMU_3_00:
--        return ppc64_v3_get_phys_page_debug(cpu, addr);
-+        return ppc_hash64_xlate(cpu, eaddr, access_type,
-+                                raddrp, psizep, protp, guest_visible);
- #endif
- 
-     case POWERPC_MMU_32B:
-     case POWERPC_MMU_601:
--        return ppc_hash32_get_phys_page_debug(cpu, addr);
-+        return ppc_hash32_xlate(cpu, eaddr, access_type,
-+                                raddrp, psizep, protp, guest_visible);
- 
-     default:
--        ;
-+        return ppc_jumbo_xlate(cpu, eaddr, access_type, raddrp,
-+                               psizep, protp, mmu_idx, guest_visible);
-     }
-+}
-+
-+hwaddr ppc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-+{
-+    PowerPCCPU *cpu = POWERPC_CPU(cs);
-+    hwaddr raddr;
-+    int s, p;
- 
-     /*
-      * Some MMUs have separate TLBs for code and data. If we only
-      * try an MMU_DATA_LOAD, we may not be able to read instructions
-      * mapped by code TLBs, so we also try a MMU_INST_FETCH.
-      */
--    if (ppc_jumbo_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
--        ppc_jumbo_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-+    if (ppc_xlate(cpu, addr, MMU_DATA_LOAD, &raddr, &s, &p, 0, false) ||
-+        ppc_xlate(cpu, addr, MMU_INST_FETCH, &raddr, &s, &p, 0, false)) {
-         return raddr & TARGET_PAGE_MASK;
-     }
-     return -1;
- }
- 
--
--bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-+bool ppc_cpu_tlb_fill(CPUState *cs, vaddr eaddr, int size,
-                       MMUAccessType access_type, int mmu_idx,
-                       bool probe, uintptr_t retaddr)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
--    int ret;
--
--    switch (env->mmu_model) {
--#if defined(TARGET_PPC64)
--    case POWERPC_MMU_64B:
--    case POWERPC_MMU_2_03:
--    case POWERPC_MMU_2_06:
--    case POWERPC_MMU_2_07:
--        ret = ppc_hash64_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
--        break;
--    case POWERPC_MMU_3_00:
--        ret = ppc64_v3_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
--        break;
--#endif
--
--    case POWERPC_MMU_32B:
--    case POWERPC_MMU_601:
--        ret = ppc_hash32_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
--        break;
-+    hwaddr raddr;
-+    int page_size, prot;
- 
--    default:
--        ret = cpu_ppc_handle_mmu_fault(cpu, addr, access_type, mmu_idx);
--        break;
-+    if (ppc_xlate(cpu, eaddr, access_type, &raddr,
-+                  &page_size, &prot, mmu_idx, !probe)) {
-+        tlb_set_page(cs, eaddr & TARGET_PAGE_MASK, raddr & TARGET_PAGE_MASK,
-+                     prot, mmu_idx, 1UL << page_size);
-+        return true;
-     }
--    if (unlikely(ret != 0)) {
--        if (probe) {
--            return false;
--        }
--        raise_exception_err_ra(env, cs->exception_index, env->error_code,
--                               retaddr);
-+    if (probe) {
-+        return false;
-     }
--    return true;
-+    raise_exception_err_ra(&cpu->env, cs->exception_index,
-+                           cpu->env.error_code, retaddr);
- }
++#define BATU32_BEPIU            0xf0000000
++#define BATU32_BEPIL            0x0ffe0000
+ #define BATU32_BEPI             0xfffe0000
+ #define BATU32_BL               0x00001ffc
+ #define BATU32_VS               0x00000002
 -- 
 2.31.1
 
