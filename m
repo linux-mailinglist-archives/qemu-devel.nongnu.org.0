@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2EB3C2607
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:34:32 +0200 (CEST)
-Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184D33C2602
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:33:15 +0200 (CEST)
+Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1raJ-0004hN-Cp
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:34:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48292)
+	id 1m1rZ4-00014J-3Y
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWE-0004gu-6t
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:19 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:43793)
+ id 1m1rWC-0004eM-NY
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:16 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWA-0005W7-NY
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:17 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- q18-20020a1ce9120000b02901f259f3a250so6415208wmc.2
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:14 -0700 (PDT)
+ id 1m1rWA-0005VT-2R
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:16 -0400
+Received: by mail-wr1-x433.google.com with SMTP id g16so2518529wrw.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=crTi4XNq+Ingn7CUQ5c/evQBVola36pTXX+nEdv6k1Y=;
- b=z1hi8+KecpliAXLahEM7oLEwrqMRt6BbQqKmCQtcIZhGFlCAy9gaRshe+vdkt/Y7Ki
- fOFaGwm1fswiJ02gRRJsnWcqfeZ+1IoWqfC2cd52AtajMzSF7qsKTbSq2uFsb31+O4HU
- DJiZjFlIjfsbUST2JclwRoMqdBbRWdLAlyJ1cXfDnFm/D6F8rYHG1iB7ccd5Pp4LrrMW
- k+9tf3uWu5RRYQULYlWG0I9mETkeFYM97RafTNWPpt4LcyNKV4VIXQnwc1gd04PBQ8Ka
- i7L0VbnkwsjR6Zh8U+4612BwOb5eC7Lbtim8kd6Icd76yAdPkPZ6/Q2OzRGBCJYVabAp
- zOrw==
+ bh=isRhm7PtwuN/k+yKMymzpJRt/x/pmEeyNtpyI5WWM24=;
+ b=FfWFLbMk9ybGSNQ9h3U1tOQD6i4xtHo0H6O3hQhDR3ebi+9jvuwKeAilCVsVvrGoaj
+ IJQxmfYl6+qym4h4y6hiaJ4zMuzNgw48c8bzFzJ31K1BMKRqXWDRljUNiEDhLBIvPBOl
+ SWRtv7YODQPPgcamBlSsfgEa5OFoFZNqMs4mVOJxNiFvsoGIiRnx+O1CCzmj9CABVDJL
+ SSRrn4bdR4pK6wj+qILosMYMp/lJJzfI4G93/kEl4B/SGagUmgTgLeuP84E8Ny6Lkmb4
+ qcBwhyZsk85RnqaC8AAtYJcT641nbRbf9cE6SdB+SkhaxRWrWtKqsn4yG01H7UB6vFjo
+ TDlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=crTi4XNq+Ingn7CUQ5c/evQBVola36pTXX+nEdv6k1Y=;
- b=c13I22JX3fDCw/az1CnCxq50CN9I0qpTa441S2gWqu9LTSIndLGxKQ3PEBAtTUFw8O
- Yi1NFBC9WigpnzlTOhISAZLbSjJvwcr5ynDX/21JBLJ52xUW6CcmT71detwDj9/8hfpI
- BAc2JCvN528++tKPSssx5ykkaIsqkxkhMVgfGCQAija7C+RFrNGNR5lKmwo6nlWDz2Al
- /YmwMI5Z/6IOwZMMuVP4Z9hyhJzfh2hIWAULV3fqF92ga5gMkW0zd456zIhkWIdspzv+
- Fbx9BAxR0+iBeeVOEydRF/y1OJduIG9HfcyHgRc/DgHtQxQr3mUUhqY+bnpO8y/AjOC0
- ZfUw==
-X-Gm-Message-State: AOAM5333R7SQY13oknYLTI4HvJ1JocwmGjBSz2SUJcpbGgquEVV9NKQn
- hQWHZRCsgtFa/3PsZP1TIk28bA==
-X-Google-Smtp-Source: ABdhPJwLP5sV0bsUhklHsSdV47Rv97SIxoPmJB/d4wdUL/sLoZM59+NrHsMLKpMfX2gcXquQC8vJbA==
-X-Received: by 2002:a7b:c316:: with SMTP id k22mr12119758wmj.56.1625841013021; 
- Fri, 09 Jul 2021 07:30:13 -0700 (PDT)
+ bh=isRhm7PtwuN/k+yKMymzpJRt/x/pmEeyNtpyI5WWM24=;
+ b=XgrIi0Li780v9+2vlMJCMJB+/9okS4IPpkWC7xQ9izgGm2FuzrEiQLpIdpL68IxrN/
+ 9RdM2a+/qZS5/DzRSdrMiy4DTO3zEUr9myGPcm991h3srZzHRi44HPxKO2v1i4uUMqbn
+ ZtNxHt9daUTez+GIXnc0uEJ5yimCslSedfgJOOO7jZarYLlas58wxAWNJ8udkIzEpqid
+ KCqWEArGfcOzB2ehctXOYKQ9/mP9Ra8DPBtVZEgh7KUL3jMvRP4L6WYyYVs/WEo1LRxZ
+ sdbL5UwQQ254LegeRw0sAJEIRtZnXTHixNQILT9h5a+wOE365ogGHuSp/ZSWY8PQ3L5d
+ ah+A==
+X-Gm-Message-State: AOAM530W6LRW3dYeDwhKazPhlsv7QNmjMY46maWM4o5VCOAmCCGd+sgK
+ VtTeC6hzlROT42TimPK89bEycQ==
+X-Google-Smtp-Source: ABdhPJytwh4Nq/27EbsyqVLixnDRME9IYmRjUpN006ZrcfipUtuJj/PQiMr5L9BaUW+BLmfMOz6yOQ==
+X-Received: by 2002:adf:ed07:: with SMTP id a7mr9338889wro.70.1625841012321;
+ Fri, 09 Jul 2021 07:30:12 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u15sm12293048wmq.48.2021.07.09.07.30.06
+ by smtp.gmail.com with ESMTPSA id v21sm1322368wml.5.2021.07.09.07.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 09 Jul 2021 07:30:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 79E651FF8F;
+ by zen.linaroharston (Postfix) with ESMTP id A60461FF90;
  Fri,  9 Jul 2021 15:30:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/40] Jobs based on custom runners: docs and gitlab-runner
- setup playbook
-Date: Fri,  9 Jul 2021 15:29:28 +0100
-Message-Id: <20210709143005.1554-4-alex.bennee@linaro.org>
+Subject: [PATCH v3 04/40] Jobs based on custom runners: add job definitions
+ for QEMU's machines
+Date: Fri,  9 Jul 2021 15:29:29 +0100
+Message-Id: <20210709143005.1554-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,205 +99,235 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-To have the jobs dispatched to custom runners, gitlab-runner must
-be installed, active as a service and properly configured.  The
-variables file and playbook introduced here should help with those
-steps.
-
-The playbook introduced here covers the Linux distributions and
-has been primarily tested on OS/machines that the QEMU project
-has available to act as runners, namely:
-
- * Ubuntu 20.04 on aarch64
- * Ubuntu 18.04 on s390x
-
-But, it should work on all other Linux distributions.  Earlier
-versions were tested on FreeBSD too, so chances of success are
-high.
+The QEMU project has two machines (aarch64 and s390x) that can be used
+for jobs that do build and run tests.  This introduces those jobs,
+which are a mapping of custom scripts used for the same purpose.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Willian Rampazzo <willianr@redhat.com>
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210630012619.115262-4-crosa@redhat.com>
+Message-Id: <20210630012619.115262-5-crosa@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- docs/devel/ci.rst                  | 55 +++++++++++++++++++++++
- scripts/ci/setup/.gitignore        |  2 +-
- scripts/ci/setup/gitlab-runner.yml | 71 ++++++++++++++++++++++++++++++
- scripts/ci/setup/vars.yml.template | 12 +++++
- 4 files changed, 139 insertions(+), 1 deletion(-)
- create mode 100644 scripts/ci/setup/gitlab-runner.yml
- create mode 100644 scripts/ci/setup/vars.yml.template
+ .gitlab-ci.d/custom-runners.yml | 208 ++++++++++++++++++++++++++++++++
+ 1 file changed, 208 insertions(+)
 
-diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-index bfedbb1025..b3bf3ef615 100644
---- a/docs/devel/ci.rst
-+++ b/docs/devel/ci.rst
-@@ -70,3 +70,58 @@ privileges, such as those from the ``root`` account or those obtained
- by ``sudo``.  If necessary, please refer to ``ansible-playbook``
- options such as ``--become``, ``--become-method``, ``--become-user``
- and ``--ask-become-pass``.
+diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+index a07b27384c..061d3cdfed 100644
+--- a/.gitlab-ci.d/custom-runners.yml
++++ b/.gitlab-ci.d/custom-runners.yml
+@@ -12,3 +12,211 @@
+ # guarantees a fresh repository on each job run.
+ variables:
+   GIT_STRATEGY: clone
 +
-+gitlab-runner setup and registration
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++# All ubuntu-18.04 jobs should run successfully in an environment
++# setup by the scripts/ci/setup/build-environment.yml task
++# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
++ubuntu-18.04-s390x-all-linux-static:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_18.04
++ - s390x
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
++ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
++ - mkdir build
++ - cd build
++ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc` check-tcg V=1
 +
-+The gitlab-runner agent needs to be installed on each machine that
-+will run jobs.  The association between a machine and a GitLab project
-+happens with a registration token.  To find the registration token for
-+your repository/project, navigate on GitLab's web UI to:
++ubuntu-18.04-s390x-all:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_18.04
++ - s390x
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+ * Settings (the gears-like icon at the bottom of the left hand side
-+   vertical toolbar), then
-+ * CI/CD, then
-+ * Runners, and click on the "Expand" button, then
-+ * Under "Set up a specific Runner manually", look for the value under
-+   "And this registration token:"
++ubuntu-18.04-s390x-alldbg:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_18.04
++ - s390x
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --enable-debug --disable-libssh
++ - make clean
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+Copy the ``scripts/ci/setup/vars.yml.template`` file to
-+``scripts/ci/setup/vars.yml``.  Then, set the
-+``gitlab_runner_registration_token`` variable to the value obtained
-+earlier.
++ubuntu-18.04-s390x-clang:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_18.04
++ - s390x
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++   when: manual
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+To run the playbook, execute::
++ubuntu-18.04-s390x-tci:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_18.04
++ - s390x
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh --enable-tcg-interpreter
++ - make --output-sync -j`nproc`
 +
-+  cd scripts/ci/setup
-+  ansible-playbook -i inventory gitlab-runner.yml
++ubuntu-18.04-s390x-notcg:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_18.04
++ - s390x
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++   when: manual
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh --disable-tcg
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+Following the registration, it's necessary to configure the runner tags,
-+and optionally other configurations on the GitLab UI.  Navigate to:
++# All ubuntu-20.04 jobs should run successfully in an environment
++# setup by the scripts/ci/setup/qemu/build-environment.yml task
++# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
++ubuntu-20.04-aarch64-all-linux-static:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch64
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
++ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
++ - mkdir build
++ - cd build
++ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
++ - make --output-sync -j`nproc` check-tcg V=1
 +
-+ * Settings (the gears like icon), then
-+ * CI/CD, then
-+ * Runners, and click on the "Expand" button, then
-+ * "Runners activated for this project", then
-+ * Click on the "Edit" icon (next to the "Lock" Icon)
++ubuntu-20.04-aarch64-all:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch64
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+Tags are very important as they are used to route specific jobs to
-+specific types of runners, so it's a good idea to double check that
-+the automatically created tags are consistent with the OS and
-+architecture.  For instance, an Ubuntu 20.04 aarch64 system should
-+have tags set as::
++ubuntu-20.04-aarch64-alldbg:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch64
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --enable-debug --disable-libssh
++ - make clean
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+  ubuntu_20.04,aarch64
++ubuntu-20.04-aarch64-clang:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch64
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++   when: manual
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 +
-+Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
-+would contain::
++ubuntu-20.04-aarch64-tci:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch64
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh --enable-tcg-interpreter
++ - make --output-sync -j`nproc`
 +
-+  ubuntu-20.04-aarch64-all:
-+   tags:
-+   - ubuntu_20.04
-+   - aarch64
-+
-+It's also recommended to:
-+
-+ * increase the "Maximum job timeout" to something like ``2h``
-+ * give it a better Description
-diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
-index ee088604d1..f4a6183f1f 100644
---- a/scripts/ci/setup/.gitignore
-+++ b/scripts/ci/setup/.gitignore
-@@ -1,2 +1,2 @@
- inventory
--
-+vars.yml
-diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
-new file mode 100644
-index 0000000000..1127db516f
---- /dev/null
-+++ b/scripts/ci/setup/gitlab-runner.yml
-@@ -0,0 +1,71 @@
-+# Copyright (c) 2021 Red Hat, Inc.
-+#
-+# Author:
-+#  Cleber Rosa <crosa@redhat.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+#
-+# This is an ansible playbook file.  Run it to set up systems with the
-+# gitlab-runner agent.
-+---
-+- name: Installation of gitlab-runner
-+  hosts: all
-+  vars_files:
-+    - vars.yml
-+  tasks:
-+    - debug:
-+        msg: 'Checking for a valid GitLab registration token'
-+      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
-+
-+    - name: Create a group for the gitlab-runner service
-+      group:
-+        name: gitlab-runner
-+
-+    - name: Create a user for the gitlab-runner service
-+      user:
-+        user: gitlab-runner
-+        group: gitlab-runner
-+        comment: GitLab Runner
-+        home: /home/gitlab-runner
-+        shell: /bin/bash
-+
-+    - name: Remove the .bash_logout file when on Ubuntu systems
-+      file:
-+        path: /home/gitlab-runner/.bash_logout
-+        state: absent
-+      when: "ansible_facts['distribution'] == 'Ubuntu'"
-+
-+    - name: Set the Operating System for gitlab-runner
-+      set_fact:
-+        gitlab_runner_os: "{{ ansible_facts[\"system\"]|lower }}"
-+    - debug:
-+        msg: gitlab-runner OS is {{ gitlab_runner_os }}
-+
-+    - name: Set the architecture for gitlab-runner
-+      set_fact:
-+        gitlab_runner_arch: "{{ ansible_to_gitlab_arch[ansible_facts[\"architecture\"]] }}"
-+    - debug:
-+        msg: gitlab-runner arch is {{ gitlab_runner_arch }}
-+
-+    - name: Download the matching gitlab-runner
-+      get_url:
-+        dest: /usr/local/bin/gitlab-runner
-+        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
-+        owner: gitlab-runner
-+        group: gitlab-runner
-+        mode: u=rwx,g=rwx,o=rx
-+
-+    - name: Register the gitlab-runner
-+      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
-+
-+    - name: Install the gitlab-runner service using its own functionality
-+      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
-+      register: gitlab_runner_install_service_result
-+      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
-+
-+    - name: Enable the gitlab-runner service
-+      service:
-+        name: gitlab-runner
-+        state: started
-+        enabled: yes
-diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
-new file mode 100644
-index 0000000000..e48089761f
---- /dev/null
-+++ b/scripts/ci/setup/vars.yml.template
-@@ -0,0 +1,12 @@
-+# The version of the gitlab-runner to use
-+gitlab_runner_version: 13.12.0
-+# The URL of the gitlab server to use, usually https://gitlab.com unless you're
-+# using a private GitLab instance
-+gitlab_runner_server_url: https://gitlab.com
-+# A mapping of the ansible to gitlab architecture nomenclature
-+ansible_to_gitlab_arch:
-+  x86_64: amd64
-+  aarch64: arm64
-+  s390x: s390x
-+# A unique token made available by GitLab to your project for registering runners
-+gitlab_runner_registration_token: PLEASE_PROVIDE_A_VALID_TOKEN
++ubuntu-20.04-aarch64-notcg:
++ allow_failure: true
++ needs: []
++ stage: build
++ tags:
++ - ubuntu_20.04
++ - aarch64
++ rules:
++ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
++   when: manual
++ script:
++ - mkdir build
++ - cd build
++ - ../configure --disable-libssh --disable-tcg
++ - make --output-sync -j`nproc`
++ - make --output-sync -j`nproc` check V=1
 -- 
 2.20.1
 
