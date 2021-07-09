@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B903C2760
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:14:57 +0200 (CEST)
-Received: from localhost ([::1]:36974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A833C276C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:19:33 +0200 (CEST)
+Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1t9U-0001YB-FX
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:14:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37536)
+	id 1m1tDw-00028u-MH
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:19:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1t4z-0001RV-4R
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:17 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:37588)
+ id 1m1t52-0001Tx-5L
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:20 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1t4q-0000tG-Ka
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:16 -0400
-Received: by mail-wr1-x435.google.com with SMTP id i94so12833410wri.4
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:10:08 -0700 (PDT)
+ id 1m1t4r-0000tO-Mu
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:19 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ k31-20020a05600c1c9fb029021727d66d33so5114781wms.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:10:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dHPWbK5KgEsozA6CwOuy0L1hAHPICBDNahq3VbvQpN8=;
- b=T/vWH5iK5VSDQ/EvLN1KzB1zRhCvsYSiTlYt9B9D1cUZzzmOXsa9pMILdJ5nHWjSTI
- 5MSBZ9TV7VfcTuwIij8q8tJmbv0TAzFeTOJPJ3Km2pjfUZvCQTU7CLJQ1L6jU/Eh6C0N
- W5gB8nSwh0rmS7tuC0A1qfG53WqdnoQraI/gj71VkecsE9tkK9ykj4tAZHV3Kos11pCf
- 4GXmeZkd8v6Gsb08k9ifQxEuy3g6gQxr/ZXbbWNfe8keXQdVeW5jw3jp3SkrTwBwkGLk
- Z1PKzEcfTYSfvDyLyksFV3fDR76CkkizGKOgn1B1sFeHdK7+SSyU+e3hRn0QOptj5iSJ
- soVg==
+ bh=juTft1gatBMC6rpbTOnW3It8WuOd1TRakdFeysyyfkg=;
+ b=VCBIJ24VStgi7VFRfkPY65w+U/nbk48wX0j4Jt77akBSDR2FYelCi3dZmT9HB2ligE
+ amRElLKIXzW+Yp0TH86KGFIkN1wYdah2kWF41Zw+G/J8OK8FUValyRkY72H3SOuAyok4
+ VPMv9HV3EAT1w24v1DSYTY/sTFazrsOGZw1YIEGyGoo9q9CX/9LyYpmn0HcuKmPscLh4
+ J+wWfSSV8KqcBEREQi/EQMVX3ciElYMClb8erwsXYtsVUuufy5VbD1ik2mhuj9JBwulf
+ 4S8UcFaE7f/LfgB6g87quOGcB0olSSynCpMtnrMSU8Sb3wPCt1XJk7oVMX60ZYbMz3aK
+ t4XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dHPWbK5KgEsozA6CwOuy0L1hAHPICBDNahq3VbvQpN8=;
- b=gUw8ebscQtDowd/tEelGyRrvJqjOLh8flk01wad94gWkQC//UkUU0DC7m9fMBchukk
- N1yyQTvheiJHsqdM+5McpXKV7LVSG4b+a+HGubsoiREz/Yeu1YK/+O04DIqokLzoYy2B
- fCGQvPmpm7efMzPN6mFsbR8dZ8+R1wmdaFUkCjjKfBmpv5755JEPUriQTiBFQprKuSnb
- wvr2wVrh4T28u2dVKnhZBmqBqgIRcGe3i8hmG7qULI9uZTDRl2mfE7Ht++h1VvEC7lcY
- hbzFBNPnduTux7OrhkYOZ0hqEgUuvVOi1HJ3FrDJc0O4VZDZRdBye+h7i3By3zTRM+x3
- okdA==
-X-Gm-Message-State: AOAM530KK7+UA6IYhLR871HC9TDUroS2Nqp30qzdUa6XwiTXoS2Ae28u
- a6EOA+JSV91H51LsPMM0BkcEKdEaD52cNQn3
-X-Google-Smtp-Source: ABdhPJwp/zplchst3Koj5KvdjmMu7CrYNzJRUu0YXWc7kCKlDUeo9aCjdxHQFCDV3J5QY/4fYfbQsg==
-X-Received: by 2002:adf:f885:: with SMTP id u5mr1664506wrp.84.1625847007298;
- Fri, 09 Jul 2021 09:10:07 -0700 (PDT)
+ bh=juTft1gatBMC6rpbTOnW3It8WuOd1TRakdFeysyyfkg=;
+ b=FTvE3fEKUNUrKTfX8BnUBo5vbM2HdxVzDt98lr/tugeu9t1S7fxV/+eCu56BSuIaVm
+ HlThQRSQSYfOrEvyluOh5RlDsSRak798CJr/wAasf0mmJTbJhqWn3cMLXUcYoXqpa4a9
+ pdtIaPm2OwMaJgwDFjgLNAvMObeZf+eLC82KrE35pBoTPMEvC6bO1NarPiQgQT4XM4dQ
+ VJV6pFVTRIoa1KhFSlnnyUHRKJ3/nWLQEEAwoSazC4hkgJUKf9O9v0W0qbUy8t1lsZGc
+ 0BuGfyuM6C7wTJlXYZE9a0TL7jjup5IxpqA3U3qXs0DXgWLWnbcpkC2Foodvxo2DCcZF
+ yG0g==
+X-Gm-Message-State: AOAM532AUrhHKnfKzBjCZDWMCsapSEnbjHvchbd0LDWq6tIzZgQpB0Ki
+ tWr+qM3CeHHqLpnUIwiSAmVK7/qsE3JPuzya
+X-Google-Smtp-Source: ABdhPJwgikykNBi+AVf3LxWklXRXlcgwNctVynhe68lCwXpqwm+5GUn5jAWjmK2CFbabq3rPhjLvUw==
+X-Received: by 2002:a7b:c74a:: with SMTP id w10mr12650146wmk.54.1625847008197; 
+ Fri, 09 Jul 2021 09:10:08 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id x19sm5232277wmi.10.2021.07.09.09.10.06
+ by smtp.gmail.com with ESMTPSA id x19sm5232277wmi.10.2021.07.09.09.10.07
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 09:10:06 -0700 (PDT)
+ Fri, 09 Jul 2021 09:10:07 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/17] docs/system: arm: Add stm32 boards description
-Date: Fri,  9 Jul 2021 17:09:49 +0100
-Message-Id: <20210709161003.25874-4-peter.maydell@linaro.org>
+Subject: [PULL 04/17] tests/boot-serial-test: Add STM32VLDISCOVERY board
+ testcase
+Date: Fri,  9 Jul 2021 17:09:50 +0100
+Message-Id: <20210709161003.25874-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709161003.25874-1-peter.maydell@linaro.org>
 References: <20210709161003.25874-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,115 +90,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexandre Iooss <erdnaxe@crans.org>
 
-This adds the target guide for Netduino 2, Netduino Plus 2 and STM32VLDISCOVERY.
+New mini-kernel test for STM32VLDISCOVERY USART1.
 
 Signed-off-by: Alexandre Iooss <erdnaxe@crans.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210617165647.2575955-4-erdnaxe@crans.org
+Acked-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210617165647.2575955-5-erdnaxe@crans.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/stm32.rst  | 66 ++++++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst |  1 +
- MAINTAINERS                |  1 +
- 3 files changed, 68 insertions(+)
- create mode 100644 docs/system/arm/stm32.rst
+ tests/qtest/boot-serial-test.c | 37 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/docs/system/arm/stm32.rst b/docs/system/arm/stm32.rst
-new file mode 100644
-index 00000000000..508b92cf862
---- /dev/null
-+++ b/docs/system/arm/stm32.rst
-@@ -0,0 +1,66 @@
-+STMicroelectronics STM32 boards (``netduino2``, ``netduinoplus2``, ``stm32vldiscovery``)
-+========================================================================================
-+
-+The `STM32`_ chips are a family of 32-bit ARM-based microcontroller by
-+STMicroelectronics.
-+
-+.. _STM32: https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html
-+
-+The STM32F1 series is based on ARM Cortex-M3 core. The following machines are
-+based on this chip :
-+
-+- ``stm32vldiscovery``  STM32VLDISCOVERY board with STM32F100RBT6 microcontroller
-+
-+The STM32F2 series is based on ARM Cortex-M3 core. The following machines are
-+based on this chip :
-+
-+- ``netduino2``         Netduino 2 board with STM32F205RFT6 microcontroller
-+
-+The STM32F4 series is based on ARM Cortex-M4F core. This series is pin-to-pin
-+compatible with STM32F2 series. The following machines are based on this chip :
-+
-+- ``netduinoplus2``     Netduino Plus 2 board with STM32F405RGT6 microcontroller
-+
-+There are many other STM32 series that are currently not supported by QEMU.
-+
-+Supported devices
-+-----------------
-+
-+ * ARM Cortex-M3, Cortex M4F
-+ * Analog to Digital Converter (ADC)
-+ * EXTI interrupt
-+ * Serial ports (USART)
-+ * SPI controller
-+ * System configuration (SYSCFG)
-+ * Timer controller (TIMER)
-+
-+Missing devices
-+---------------
-+
-+ * Camera interface (DCMI)
-+ * Controller Area Network (CAN)
-+ * Cycle Redundancy Check (CRC) calculation unit
-+ * Digital to Analog Converter (DAC)
-+ * DMA controller
-+ * Ethernet controller
-+ * Flash Interface Unit
-+ * GPIO controller
-+ * I2C controller
-+ * Inter-Integrated Sound (I2S) controller
-+ * Power supply configuration (PWR)
-+ * Random Number Generator (RNG)
-+ * Real-Time Clock (RTC) controller
-+ * Reset and Clock Controller (RCC)
-+ * Secure Digital Input/Output (SDIO) interface
-+ * USB OTG
-+ * Watchdog controller (IWDG, WWDG)
-+
-+Boot options
-+------------
-+
-+The STM32 machines can be started using the ``-kernel`` option to load a
-+firmware. Example:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M stm32vldiscovery -kernel firmware.bin
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index 13b3eeaf076..705b8835e48 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -97,6 +97,7 @@ undocumented; you can get a complete list by running
-    arm/collie
-    arm/sx1
-    arm/stellaris
-+   arm/stm32
-    arm/virt
-    arm/xlnx-versal-virt
+diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
+index d40adddafa3..96849cec915 100644
+--- a/tests/qtest/boot-serial-test.c
++++ b/tests/qtest/boot-serial-test.c
+@@ -94,6 +94,41 @@ static const uint8_t kernel_nrf51[] = {
+     0x1c, 0x25, 0x00, 0x40                  /* 0x4000251c = UART TXD */
+ };
  
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f5919498af4..bad893bfd90 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -898,6 +898,7 @@ M: Alexandre Iooss <erdnaxe@crans.org>
- L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/stm32vldiscovery.c
-+F: docs/system/arm/stm32.rst
++static const uint8_t kernel_stm32vldiscovery[] = {
++    0x00, 0x00, 0x00, 0x00,                 /* Stack top address */
++    0x1d, 0x00, 0x00, 0x00,                 /* Reset handler address */
++    0x00, 0x00, 0x00, 0x00,                 /* NMI */
++    0x00, 0x00, 0x00, 0x00,                 /* Hard fault */
++    0x00, 0x00, 0x00, 0x00,                 /* Memory management fault */
++    0x00, 0x00, 0x00, 0x00,                 /* Bus fault */
++    0x00, 0x00, 0x00, 0x00,                 /* Usage fault */
++    0x0b, 0x4b,                             /* ldr  r3, [pc, #44] Get RCC */
++    0x44, 0xf2, 0x04, 0x02,                 /* movw r2, #16388 */
++    0x1a, 0x60,                             /* str  r2, [r3] */
++    0x0a, 0x4b,                             /* ldr  r3, [pc, #40] Get GPIOA */
++    0x1a, 0x68,                             /* ldr  r2, [r3] */
++    0x22, 0xf0, 0xf0, 0x02,                 /* bic  r2, r2, #240 */
++    0x1a, 0x60,                             /* str  r2, [r3] */
++    0x1a, 0x68,                             /* ldr  r2, [r3] */
++    0x42, 0xf0, 0xb0, 0x02,                 /* orr  r2, r2, #176 */
++    0x1a, 0x60,                             /* str  r2, [r3] */
++    0x07, 0x4b,                             /* ldr  r3, [pc, #26] Get BAUD */
++    0x45, 0x22,                             /* movs r2, #69 */
++    0x1a, 0x60,                             /* str  r2, [r3] */
++    0x06, 0x4b,                             /* ldr  r3, [pc, #24] Get ENABLE */
++    0x42, 0xf2, 0x08, 0x02,                 /* movw r2, #8200 */
++    0x1a, 0x60,                             /* str  r2, [r3] */
++    0x05, 0x4b,                             /* ldr  r3, [pc, #20] Get TXD */
++    0x54, 0x22,                             /* movs r2, 'T' */
++    0x1a, 0x60,                             /* str  r2, [r3] */
++    0xfe, 0xe7,                             /* b    . */
++    0x18, 0x10, 0x02, 0x40,                 /* 0x40021018 = RCC */
++    0x04, 0x08, 0x01, 0x40,                 /* 0x40010804 = GPIOA */
++    0x08, 0x38, 0x01, 0x40,                 /* 0x40013808 = USART1 BAUD */
++    0x0c, 0x38, 0x01, 0x40,                 /* 0x4001380c = USART1 ENABLE */
++    0x04, 0x38, 0x01, 0x40                  /* 0x40013804 = USART1 TXD */
++};
++
+ typedef struct testdef {
+     const char *arch;       /* Target architecture */
+     const char *machine;    /* Name of the machine */
+@@ -144,6 +179,8 @@ static testdef_t tests[] = {
+     { "aarch64", "virt", "-cpu max", "TT", sizeof(kernel_aarch64),
+       kernel_aarch64 },
+     { "arm", "microbit", "", "T", sizeof(kernel_nrf51), kernel_nrf51 },
++    { "arm", "stm32vldiscovery", "", "T",
++      sizeof(kernel_stm32vldiscovery), kernel_stm32vldiscovery },
  
- Versatile Express
- M: Peter Maydell <peter.maydell@linaro.org>
+     { NULL }
+ };
 -- 
 2.20.1
 
