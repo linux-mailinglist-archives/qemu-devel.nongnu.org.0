@@ -2,48 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2A43C22EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:34:27 +0200 (CEST)
-Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF9E3C22E6
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:32:33 +0200 (CEST)
+Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1om2-0000x9-HL
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:34:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38868)
+	id 1m1okC-0004Uf-QK
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:32:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oUj-0002Km-4i
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:16:33 -0400
-Received: from mga06.intel.com ([134.134.136.31]:37173)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1ods-0003Q4-Ca
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:26:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1oUe-0005A9-Ec
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:16:32 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="270800899"
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="270800899"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2021 04:15:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="428730384"
-Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by orsmga002.jf.intel.com with ESMTP; 09 Jul 2021 04:15:19 -0700
-From: Yang Zhong <yang.zhong@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 33/33] doc: Add the SGX doc
-Date: Fri,  9 Jul 2021 19:09:55 +0800
-Message-Id: <20210709110955.73256-34-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
-In-Reply-To: <20210709110955.73256-1-yang.zhong@intel.com>
-References: <20210709110955.73256-1-yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1odn-000095-Bq
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:25:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625829952;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bHMwtNu56uzJQbfFpgiDDIi90NqsF3mCzPUr2q8cldA=;
+ b=UYif+DRZG+mLPdqRCEplLgaVUwkn+70A+i6AEKHIMUFt973YwSqNZ30VvYYd//VcQh0h/S
+ IotvzA9dxLGHgEwLs6a4HdEOecvGwQDXUeltzeBCjDZHJ7oEaYVJ+E3jru+UwSsbUH/3uz
+ Nmf1gR21LeLtgLHdOVeg9wXtDRKl7oY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-cA-uSJHLNluImXrBUU5M6A-1; Fri, 09 Jul 2021 07:25:51 -0400
+X-MC-Unique: cA-uSJHLNluImXrBUU5M6A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E94380006E;
+ Fri,  9 Jul 2021 11:25:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-151.ams2.redhat.com
+ [10.36.114.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 569E810016F7;
+ Fri,  9 Jul 2021 11:25:46 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 72BE51132B52; Fri,  9 Jul 2021 13:25:43 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v4 3/3] memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
+ acpi_memory_hotplug_write()
+References: <20210707003314.37110-1-danielhb413@gmail.com>
+ <20210707003314.37110-4-danielhb413@gmail.com>
+ <87h7h56jh2.fsf@dusky.pond.sub.org>
+ <20210709103913.5c938852@redhat.com>
+Date: Fri, 09 Jul 2021 13:25:43 +0200
+In-Reply-To: <20210709103913.5c938852@redhat.com> (Igor Mammedov's message of
+ "Fri, 9 Jul 2021 10:39:13 +0200")
+Message-ID: <87sg0n685k.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=yang.zhong@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,194 +83,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
- jarkko@kernel.org, pbonzini@redhat.com, eblake@redhat.com
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, eblake@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+Igor Mammedov <imammedo@redhat.com> writes:
 
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- docs/intel-sgx.txt | 167 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 167 insertions(+)
- create mode 100644 docs/intel-sgx.txt
+> On Thu, 08 Jul 2021 15:08:57 +0200
+> Markus Armbruster <armbru@redhat.com> wrote:
+>
+>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+>> 
+>> > MEM_UNPLUG_ERROR is deprecated since the introduction of
+>> > DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
+>> > MEM_UNPLUG_ERROR is pending.
+>> >
+>> > CC: Michael S. Tsirkin <mst@redhat.com>
+>> > CC: Igor Mammedov <imammedo@redhat.com>
+>> > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+>> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> > ---
+>> >  hw/acpi/memory_hotplug.c | 13 +++++++++++--
+>> >  1 file changed, 11 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+>> > index af37889423..fb9f4d2de7 100644
+>> > --- a/hw/acpi/memory_hotplug.c
+>> > +++ b/hw/acpi/memory_hotplug.c
+>> > @@ -8,6 +8,7 @@
+>> >  #include "qapi/error.h"
+>> >  #include "qapi/qapi-events-acpi.h"
+>> >  #include "qapi/qapi-events-machine.h"
+>> > +#include "qapi/qapi-events-qdev.h"
+>> >  
+>> >  #define MEMORY_SLOTS_NUMBER          "MDNR"
+>> >  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+>> > @@ -177,9 +178,17 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
+>> >              /* call pc-dimm unplug cb */
+>> >              hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
+>> >              if (local_err) {
+>> > +                const char *error_pretty = error_get_pretty(local_err);
+>> > +
+>> >                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+>> > -                qapi_event_send_mem_unplug_error(dev->id,
+>> > -                                                 error_get_pretty(local_err));
+>> > +
+>> > +                /*
+>> > +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
+>> > +                 * while the deprecation of MEM_UNPLUG_ERROR is
+>> > +                 * pending.
+>> > +                 */
+>> > +                qapi_event_send_mem_unplug_error(dev->id, error_pretty);
+>> > +                qapi_event_send_device_unplug_error(dev->id, error_pretty);
+>> >                  error_free(local_err);
+>> >                  break;
+>> >              }  
+>> 
+>> Same question as for PATCH 2: can dev->id be null?
+> only theoretically (if memory device were created directly without
+> using device_add), which as far as I know is not the case as all
+> memory devices are created using -device/device_add so far.
+>
+> ( for device_add case see qdev_device_add->qdev_set_id where
+>   'id' is set to user provided or to generated "device[%d]" value)
 
-diff --git a/docs/intel-sgx.txt b/docs/intel-sgx.txt
-new file mode 100644
-index 0000000000..744d420e92
---- /dev/null
-+++ b/docs/intel-sgx.txt
-@@ -0,0 +1,167 @@
-+===============================
-+Software Guard eXtensions (SGX)
-+===============================
-+
-+Overview
-+========
-+
-+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
-+for memory accesses in order to provide security accesses for sensitive
-+applications and data. SGX allows an application to use it's pariticular
-+address space as an *enclave*, which is a protected area provides confidentiality
-+and integrity even in the presence of privileged malware. Accesses to the
-+enclave memory area from any software not resident in the enclave are prevented,
-+including those from privileged software.
-+
-+Virtual SGX
-+===========
-+
-+SGX feature is exposed to guest via SGX CPUID. Looking at SGX CPUID, we can
-+report the same CPUID info to guest as on host for most of SGX CPUID. With
-+reporting the same CPUID guest is able to use full capacity of SGX, and KVM
-+doesn't need to emulate those info.
-+
-+The guest's EPC base and size are determined by Qemu, and KVM needs Qemu to
-+notify such info to it before it can initialize SGX for guest.
-+
-+Virtual EPC
-+-----------
-+
-+By default, Qemu does not assign EPC to a VM, i.e. fully enabling SGX in a VM
-+requires explicit allocation of EPC to the VM. Similar to other specialized
-+memory types, e.g. hugetlbfs, EPC is exposed as a memory backend.
-+
-+SGX EPC is enumerated through CPUID, i.e. EPC "devices" need to be realized
-+prior to realizing the vCPUs themselves, which occurs long before generic
-+devices are parsed and realized.  This limitation means that EPC does not
-+require -maxmem as EPC is not treated as {cold,hot}plugged memory.
-+
-+Qemu does not artificially restrict the number of EPC sections exposed to a
-+guest, e.g. Qemu will happily allow you to create 64 1M EPC sections. Be aware
-+that some kernels may not recognize all EPC sections, e.g. the Linux SGX driver
-+is hardwired to support only 8 EPC sections.
-+
-+The following Qemu snippet creates two EPC sections, with 64M pre-allocated
-+to the VM and an additional 28M mapped but not allocated:
-+
-+ -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+ -object memory-backend-epc,id=mem2,size=28M \
-+ -M sgx-epc.id.0=epc1,sgx-epc.memdev.0=mem1,sgx-epc.id.1=epc2,sgx-epc.memdev.1=mem2
-+
-+Note:
-+
-+The size and location of the virtual EPC are far less restricted compared
-+to physical EPC. Because physical EPC is protected via range registers,
-+the size of the physical EPC must be a power of two (though software sees
-+a subset of the full EPC, e.g. 92M or 128M) and the EPC must be naturally
-+aligned.  KVM SGX's virtual EPC is purely a software construct and only
-+requires the size and location to be page aligned. Qemu enforces the EPC
-+size is a multiple of 4k and will ensure the base of the EPC is 4k aligned.
-+To simplify the implementation, EPC is always located above 4g in the guest
-+physical address space.
-+
-+Migration
-+---------
-+
-+Qemu/KVM doesn't prevent live migrating SGX VMs, although from hardware's
-+perspective, SGX doesn't support live migration, since both EPC and the SGX
-+key hierarchy are bound to the physical platform. However live migration
-+can be supported in the sense if guest software stack can support recreating
-+enclaves when it suffers sudden lose of EPC; and if guest enclaves can detect
-+SGX keys being changed, and handle gracefully. For instance, when ERESUME fails
-+with #PF.SGX, guest software can gracefully detect it and recreate enclaves;
-+and when enclave fails to unseal sensitive information from outside, it can
-+detect such error and sensitive information can be provisioned to it again.
-+
-+CPUID
-+-----
-+
-+Due to its myriad dependencies, SGX is currently not listed as supported
-+in any of Qemu's built-in CPU configuration. To expose SGX (and SGX Launch
-+Control) to a guest, you must either use `-cpu host` to pass-through the
-+host CPU model, or explicitly enable SGX when using a built-in CPU model,
-+e.g. via `-cpu <model>,+sgx` or `-cpu <model>,+sgx,+sgxlc`.
-+
-+All SGX sub-features enumerated through CPUID, e.g. SGX2, MISCSELECT,
-+ATTRIBUTES, etc... can be restricted via CPUID flags. Be aware that enforcing
-+restriction of MISCSELECT, ATTRIBUTES and XFRM requires intercepting ECREATE,
-+i.e. may marginally reduce SGX performance in the guest. All SGX sub-features
-+controlled via -cpu are prefixed with "sgx", e.g.:
-+
-+$ qemu-system-x86_64 -cpu help | xargs printf "%s\n" | grep sgx
-+  sgx
-+  sgx-debug
-+  sgx-encls-c
-+  sgx-enclv
-+  sgx-exinfo
-+  sgx-kss
-+  sgx-mode64
-+  sgx-provisionkey
-+  sgx-tokenkey
-+  sgx1
-+  sgx2
-+  sgxlc
-+
-+The following Qemu snippet passes through the host CPU (and host physical
-+address width) but restricts access to the provision and EINIT token keys:
-+
-+ -cpu host,host-phys-bits,-sgx-provisionkey,-sgx-tokenkey
-+
-+Note:
-+
-+SGX sub-features cannot be emulated, i.e. sub-features that are not present
-+in hardware cannot be forced on via '-cpu'.
-+
-+Virtualize SGX Launch Control
-+-----------------------------
-+
-+Qemu SGX support for Launch Control (LC) is passive, in the sense that it
-+does not actively change the LC configuration.  Qemu SGX provides the user
-+the ability to set/clear the CPUID flag (and by extension the associated
-+IA32_FEATURE_CONTROL MSR bit in fw_cfg) and saves/restores the LE Hash MSRs
-+when getting/putting guest state, but Qemu does not add new controls to
-+directly modify the LC configuration.  Similar to hardware behavior, locking
-+the LC configuration to a non-Intel value is left to guest firmware.  Unlike
-+host bios setting for SGX launch control(LC), there is no special bios setting
-+for SGX guest by our design. If host is in locked mode, we can still allow
-+creating VM with SGX.
-+
-+Feature Control
-+---------------
-+
-+Qemu SGX updates the `etc/msr_feature_control` fw_cfg entry to set the SGX
-+(bit 18) and SGX LC (bit 17) flags based on their respective CPUID support,
-+i.e. existing guest firmware will automatically set SGX and SGX LC accordingly,
-+assuming said firmware supports fw_cfg.msr_feature_control.
-+
-+Launch a guest
-+==============
-+
-+To launch a SGX guest
-+${QEMU} \
-+   -cpu host,+sgx-provisionkey \
-+   -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
-+   -object memory-backend-epc,id=mem2,size=28M \
-+   -M sgx-epc.id.0=epc1,sgx-epc.memdev.0=mem1,sgx-epc.id.1=epc2,sgx-epc.memdev.1=mem2
-+
-+Utilizing SGX in the guest requires a kernel/OS with SGX support.
-+
-+The support can be determined in guest by:
-+$ grep sgx /proc/cpuinfo
-+
-+Check the SGX epc info in the Guest:
-+$ dmesg | grep sgx
-+[    1.242142] sgx: EPC section 0x180000000-0x181bfffff
-+[    1.242319] sgx: EPC section 0x181c00000-0x1837fffff
-+
-+References
-+==========
-+
-+SGX Homepage:
-+https://software.intel.com/sgx
-+
-+SGX SDK:
-+https://github.com/intel/linux-sgx.git
-+
-+SGX SPEC:
-+Intel SDM Volume 3
--- 
-2.29.2.334.gfaefdd61ec
+Something is set to a generated value, but it's not dev->id :)
+
+    void qdev_set_id(DeviceState *dev, const char *id)
+
+@id is the value of id=...  It may be null.
+
+dev->id still is null here.
+
+    {
+        if (id) {
+            dev->id = id;
+        }
+
+dev->id is now the value of id=...  It may be null.
+
+        if (dev->id) {
+            object_property_add_child(qdev_get_peripheral(), dev->id,
+                                      OBJECT(dev));
+
+If the user specified id=..., add @dev as child of /peripheral.  The
+child's name is the (non-null) value of id=...
+
+        } else {
+            static int anon_count;
+            gchar *name = g_strdup_printf("device[%d]", anon_count++);
+            object_property_add_child(qdev_get_peripheral_anon(), name,
+                                      OBJECT(dev));
+            g_free(name);
+
+Else, add @dev as child of /peripheral-anon.  The child's name is made
+up.
+
+
+        }
+    }
+
+dev->id is still the value of id=..., i.e. it may be null.
+
+Sure dereferencing dev->id in acpi_memory_hotplug_write() is safe?
 
 
