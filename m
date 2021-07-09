@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD813C26C7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:24:41 +0200 (CEST)
-Received: from localhost ([::1]:45990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FBF43C26F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:36:20 +0200 (CEST)
+Received: from localhost ([::1]:49180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1sMr-0005en-1b
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57646)
+	id 1m1sY6-0008JU-W9
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m1sM6-00049z-Ct
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:23:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m1sM3-0004E4-9L
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:23:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625844229;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=neXM64zz+fkhZHEu8F/O6Vqcbdp8W8eTu7UmRcjrjOc=;
- b=R0ebAxdmvNRePsEDeKXPhZiFj6l3IO0FWw6BfVj+YATZ6Gn9HQGR+YXtrkL0gfs4MTLMGa
- SuK3UjVQtGmPVq06mA1/Z7+n6VaQeA5rMBZM0uOF4mLtIZt91RQpjdeVZODhEbOyHBLlsG
- 4UfCK1FE2/uT7gRUIFTZOc9kUM7sUu4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-jotww2RJMDyfSpek3M-LKw-1; Fri, 09 Jul 2021 11:23:46 -0400
-X-MC-Unique: jotww2RJMDyfSpek3M-LKw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DE2B1842154;
- Fri,  9 Jul 2021 15:23:45 +0000 (UTC)
-Received: from localhost (ovpn-113-97.ams2.redhat.com [10.36.113.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA2B05C1A3;
- Fri,  9 Jul 2021 15:23:44 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/17] s390x update for softfreeze
-In-Reply-To: <CAFEAcA96yLiVh-gSxZdW1kNvmJHarqNH_p3HXtpp41gQ6eDuZA@mail.gmail.com>
-Organization: Red Hat GmbH
-References: <20210708151909.907124-1-cohuck@redhat.com>
- <CAFEAcA96yLiVh-gSxZdW1kNvmJHarqNH_p3HXtpp41gQ6eDuZA@mail.gmail.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 09 Jul 2021 17:23:35 +0200
-Message-ID: <87k0lzecjs.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1sW6-00075V-LI
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:34:14 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:44551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1sW3-0000qg-TU
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:34:14 -0400
+Received: by mail-ej1-x634.google.com with SMTP id he13so16857058ejc.11
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 08:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=n8W1JBkkWZRIyProEZXRp4CvX5rfrpL4QHzTFWDL6z4=;
+ b=v4dMOH1r7whYHk549c+FEvLWnmlElFu6ArsTrp5tCX1Ud3/GlQB3UvCmwa5EqvldAV
+ EuXKtVbRbM2C15QFVa95W0G+vFSBK1jhsS5X0Nahat+ANr1+jaxSgRrrnPohLOfogGcU
+ DDO8je1vIf6o8wEy4t1lN7L20yCdl/ugzBzimwlAZUcZ53dO3GAu452LFfN93z1fTo9k
+ g0zwUKOVPeASZl/FuaVgzpqVjOce1oTE10/6a9a6Fghssj0taSb9l50HLXIUnXaklD8b
+ AnLdO9oSFvlPWFZeWlVxII/O3H+fGwg5d0UD1ejRHA4RYdi9tYhmz7efHPcOBD6v1osI
+ qhPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=n8W1JBkkWZRIyProEZXRp4CvX5rfrpL4QHzTFWDL6z4=;
+ b=t2+fBAjaEbPoxFH7b5Bk/sLybvz0mMiAKRJjPq/LWCSRR8vYI2/kYpaTqUKRYmb9qf
+ FXnweSscOJ01olyYkDjEm9ThcGyZrDhyos1tbRqxZyNcEaovATlfT65m6S3AIVj7uud7
+ b1ihu+vqGKq83Cj8Odkh8hNKWzqWjx1W4qA4dCe4D6Otc0/kEJDeHLvI0+i4SBOwxtR9
+ uHa4TinucrTl3nYTvQ3bqFudKVzCyK4IXOOK8dHrsaUZhXsaxnFHiHupUtCRBGneAxeD
+ a19so0v9SgxkgOei8FjB8xc/+f9WesH7hCck+IlKWtcu8vt3QY7a27BbPZicn/3Nkak1
+ ZiqA==
+X-Gm-Message-State: AOAM5318GRpPxZP7MJCyX1/twLkeFas/N0ZYcieNS08lMZBCzAsMs7gA
+ 8rv8K7qwPDAtjmRJamfJTY+oHGCCQJWVQDtTt60g0Q==
+X-Google-Smtp-Source: ABdhPJzRlYPKNSd1crAxtQZZqRtLlxwZmXMblpIUJ3Bpkqwum7cGSA63FKdfCl013m9eON+F+XYl+lMuCMfAGgThYLk=
+X-Received: by 2002:a17:906:924a:: with SMTP id
+ c10mr20861041ejx.85.1625844849812; 
+ Fri, 09 Jul 2021 08:34:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210708145514.1751773-1-f4bug@amsat.org>
+In-Reply-To: <20210708145514.1751773-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Jul 2021 16:33:31 +0100
+Message-ID: <CAFEAcA_ukc+t_BYddOSv7EF6O1qoVHGGj6sA5uumUgt0VMS_pA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3
+ aliases
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 09 2021, Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Thu, 8 Jul 2021 at 16:19, Cornelia Huck <cohuck@redhat.com> wrote:
->>
->> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
->>
->>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/cohuck/qemu.git tags/s390x-20210708
->>
->> for you to fetch changes up to 7ab3eb42b0d795f7321c4fca0ea06cb76a005b04:
->>
->>   target/s390x: split sysemu part of cpu models (2021-07-07 14:01:59 +0200)
->>
->> ----------------------------------------------------------------
->> s390x updates:
->> - add gen16 cpumodels
->> - refactor/cleanup some code
->> - bugfixes
->>
->> ----------------------------------------------------------------
->>
+On Thu, 8 Jul 2021 at 15:55, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
 >
-> Hi -- this doesn't seem to be signed with the GPG key I have
-> on record for you. If I need to do an update, could you let me
-> know which keyserver you've uploaded to, please?
+> Since v1:
+> - renamed tests (Peter)
+>
+> Philippe Mathieu-Daud=C3=A9 (2):
+>   tests: Remove uses of deprecated raspi2/raspi3 machine names
+>   hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
 
-Whoops, forgot to upload. Sent out to keys.openpgp.org right now.
 
+
+Applied to target-arm.next, thanks.
+
+-- PMM
 
