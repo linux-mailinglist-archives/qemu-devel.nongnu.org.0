@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079C43C2054
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 09:54:22 +0200 (CEST)
-Received: from localhost ([::1]:58204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 138A83C205B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 09:59:50 +0200 (CEST)
+Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1lL3-00088Q-40
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 03:54:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
+	id 1m1lQK-0003RK-VN
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 03:59:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m1lKI-0007Rz-Ne
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:53:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36006)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1lPA-0002Ym-Di
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:58:36 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:58347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m1lKF-00018Z-6H
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:53:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625817210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EXCKqwxzaDRPUWAPaZ+uZtKr9ZFK4dkJs7xHXSG/8kA=;
- b=JeQ52TDgc0VMyFuGVOsbx099xxYl8z3AOHynJjY/ck0+y6ewG/r1mJO6soJ6DGbO9TAmxy
- nYKfUXtQal5v94N8R0ruThUGrAMGs02L5YLaIcESIrxJlI/7Tj7ui05EITdXp+EsYsInDP
- 2/H3Ub8AvvHC6EJol012CAmrn9hDktc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-x0X_isVXOgGWdFSJzJ2hxw-1; Fri, 09 Jul 2021 03:53:27 -0400
-X-MC-Unique: x0X_isVXOgGWdFSJzJ2hxw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1204C362FA;
- Fri,  9 Jul 2021 07:53:26 +0000 (UTC)
-Received: from thuth.com (ovpn-113-160.ams2.redhat.com [10.36.113.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45E4210074F8;
- Fri,  9 Jul 2021 07:53:15 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] gitlab-ci: Test compilation on Windows with MSYS2
-Date: Fri,  9 Jul 2021 09:52:18 +0200
-Message-Id: <20210709075218.1796207-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1lP8-0003wx-AM
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:58:36 -0400
+Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MkYHO-1lJP1k48uU-00m69B; Fri, 09 Jul 2021 09:58:31 +0200
+Subject: Re: [PATCH] fd-trans: Fix race condition on reallocation of the
+ translation table.
+To: Owen Anderson <oanderso@google.com>
+References: <20210701221255.107976-1-oanderso@google.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <a5285163-230f-a50f-663b-820b673b9467@vivier.eu>
+Date: Fri, 9 Jul 2021 09:58:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210701221255.107976-1-oanderso@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:5oStar7QDo3VkuhVlqzg4lMKyxRAHjj9V27Y3wq7u5YAnQlAZyy
+ hf9f4QfmYNrMc4Lcbg6sSKRYKoQzymmZ5TT5KRBvhTFfWCta6T3AqBywcmeoJ6UKLROmRsC
+ /Y8ycbg/N8797BTdFqM59U7DF7EyjE42D/zcE42gWHVWzz8/N+USQVAXQngXkxK6YIEoXKp
+ KrRE1QAMR78Jj1GER1+pA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FlxknZ/j1PI=:IAdzes7DGcrgRB6b4WhWet
+ T5GP0xzDmCqsUYVoJgy7qpPxcHJlMKhuQIptrPT8xLSi8prRBui/HQRRJgUHzEE+A6fB6Hc18
+ cSt6tUCiYVtTbcSASlv/E7YjMi11t7LKPosnwrnJBm4r4qyknfkSnR+Ztc79VJSvRysWZS1Pk
+ L8KY02bePAUQA+9FMUYLS0PkADVwIznCqJQnz3zD0xb2cvwTcINBLkhXov4utBLT2IrhmIusR
+ INc4zkjpc53/OQa1vNJd+qJQDWJbU50rC7fDxlUwgpu1PrJrJ7ZU72c7CGeh5ulGMxZsDURuM
+ /l+MwkkuR9eQ1nGLW/b82b3J1khFkontgthMK2BmV7JDEUQobhXuwxiuEAzlzbrlTxsUiMkAh
+ zmXxZ2Uh3k12yW2gkFfHeFndhhqABxuakL4yo0FQ51D9ZgH9Qbowfjv5gTC3Co/EfU1FFVj4L
+ RVZqnWtkSgtY84lhnhBm3jskoozDqBswmFkB0kUmecS6SRwXfel9BdecTYdfRd8veBBTNljlk
+ GRqBMEYW8TSXnPS6ZrqdVa9cKB7j5V6xyp+DQjTU6p7tYqjWBtRc2+VVNnc9pzR9SQC5BrWP4
+ DtRjLQkMPlCChcVkfaXG8EtNlxTSjpeg22YOfVlgshKeoDwazdI8LW5jSG6GtD3w2vc1DMgsp
+ RMDQmtjCc2Mt83pzE/1/5JecuDMgQVDxJTYQzv33Pg7cd5Z7jaqqMHA+mKuQugfg0XZcEUg69
+ D/0LLjNHue7cG8L1yVfQ+PR6qEhrUKRTDUgmz7uLXsI2IAW+FqxeYJxyWDk7hN1R+Ph2QffNE
+ nN0oTX2gCBq+PLPVCsIY7BJHhfonTbD8sI+K80oMpQiNJmOB3WhSsqWvySjmdHZFkieeMqg
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,110 +71,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gitlab also provides runners with Windows, we can use them to
-test compilation with MSYS2.
+Le 02/07/2021 à 00:12, Owen Anderson a écrit :
+> The mapping from file-descriptors to translator functions is not guarded
+> on realloc which may cause invalid function pointers to be read from a
+> previously deallocated mapping.
+> 
+> Signed-off-by: Owen Anderson <oanderso@google.com>
+> ---
+>  linux-user/fd-trans.c |  1 +
+>  linux-user/fd-trans.h | 55 +++++++++++++++++++++++++++++++++++++------
+>  linux-user/main.c     |  3 +++
+>  3 files changed, 52 insertions(+), 7 deletions(-)
+> 
+> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+> index 23adaca836..86b6f484d3 100644
+> --- a/linux-user/fd-trans.c
+> +++ b/linux-user/fd-trans.c
+> @@ -267,6 +267,7 @@ enum {
+>  };
+>  
+>  TargetFdTrans **target_fd_trans;
+> +QemuMutex target_fd_trans_lock;
+>  unsigned int target_fd_max;
+>  
+>  static void tswap_nlmsghdr(struct nlmsghdr *nlh)
+> diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
+> index a3fcdaabc7..1b9fa2041c 100644
+> --- a/linux-user/fd-trans.h
+> +++ b/linux-user/fd-trans.h
+> @@ -16,6 +16,8 @@
+>  #ifndef FD_TRANS_H
+>  #define FD_TRANS_H
+>  
+> +#include "qemu/lockable.h"
+> +
+>  typedef abi_long (*TargetFdDataFunc)(void *, size_t);
+>  typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
+>  typedef struct TargetFdTrans {
+> @@ -25,12 +27,23 @@ typedef struct TargetFdTrans {
+>  } TargetFdTrans;
+>  
+>  extern TargetFdTrans **target_fd_trans;
+> +extern QemuMutex target_fd_trans_lock;
+>  
+>  extern unsigned int target_fd_max;
+>  
+> +static inline void fd_trans_init(void)
+> +{
+> +    qemu_mutex_init(&target_fd_trans_lock);
+> +}
+> +
+>  static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
+>  {
+> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+> +    if (fd < 0) {
+> +        return NULL;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    if (fd < target_fd_max && target_fd_trans[fd]) {
+>          return target_fd_trans[fd]->target_to_host_data;
+>      }
+>      return NULL;
+> @@ -38,7 +51,12 @@ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
+>  
+>  static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+>  {
+> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+> +    if (fd < 0) {
+> +        return NULL;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    if (fd < target_fd_max && target_fd_trans[fd]) {
+>          return target_fd_trans[fd]->host_to_target_data;
+>      }
+>      return NULL;
+> @@ -46,13 +64,19 @@ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+>  
+>  static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
+>  {
+> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+> +    if (fd < 0) {
+> +        return NULL;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    if (fd < target_fd_max && target_fd_trans[fd]) {
+>          return target_fd_trans[fd]->target_to_host_addr;
+>      }
+>      return NULL;
+>  }
+>  
+> -static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+> +static inline void internal_fd_trans_register_unsafe(int fd,
+> +                                                     TargetFdTrans *trans)
+>  {
+>      unsigned int oldmax;
+>  
+> @@ -67,18 +91,35 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+>      target_fd_trans[fd] = trans;
+>  }
+>  
+> -static inline void fd_trans_unregister(int fd)
+> +static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+> +{
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    internal_fd_trans_register_unsafe(fd, trans);
+> +}
+> +
+> +static inline void internal_fd_trans_unregister_unsafe(int fd)
+>  {
+>      if (fd >= 0 && fd < target_fd_max) {
+>          target_fd_trans[fd] = NULL;
+>      }
+>  }
+>  
+> +static inline void fd_trans_unregister(int fd)
+> +{
+> +    if (fd < 0) {
+> +        return;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    internal_fd_trans_unregister_unsafe(fd);
+> +}
+> +
+>  static inline void fd_trans_dup(int oldfd, int newfd)
+>  {
+> -    fd_trans_unregister(newfd);
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    internal_fd_trans_unregister_unsafe(newfd);
+>      if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
+> -        fd_trans_register(newfd, target_fd_trans[oldfd]);
+> +        internal_fd_trans_register_unsafe(newfd, target_fd_trans[oldfd]);
+>      }
+>  }
+>  
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 2fb3a366a6..37ed50d98e 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -48,6 +48,7 @@
+>  #include "target_elf.h"
+>  #include "cpu_loop-common.h"
+>  #include "crypto/init.h"
+> +#include "fd-trans.h"
+>  
+>  #ifndef AT_FLAGS_PRESERVE_ARGV0
+>  #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
+> @@ -829,6 +830,8 @@ int main(int argc, char **argv, char **envp)
+>      cpu->opaque = ts;
+>      task_settid(ts);
+>  
+> +    fd_trans_init();
+> +
+>      ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+>          info, &bprm);
+>      if (ret != 0) {
+> 
 
-However, it takes quite a long time to set up the VM, so to
-stay in the 1h time frame, we can only compile and check one
-target here. And there is also still a problem with compiling
-the multiboot.bin in pc-bios/optionrom/, so this is currently
-disabled, too.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- I'm sending this out as an RFC in case somebody else wants to play
- with this. Considering that the corresponding job in Cirrus-CI compiles
- way more targets within 1 hour, we might rather want to keep using
- the Cirrus-CI job instead?
-
- .gitlab-ci.d/qemu-project.yml |  1 +
- .gitlab-ci.d/windows.yml      | 59 +++++++++++++++++++++++++++++++++++
- 2 files changed, 60 insertions(+)
- create mode 100644 .gitlab-ci.d/windows.yml
-
-diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
-index 64cb2ba1da..f1a34038af 100644
---- a/.gitlab-ci.d/qemu-project.yml
-+++ b/.gitlab-ci.d/qemu-project.yml
-@@ -9,3 +9,4 @@ include:
-   - local: '/.gitlab-ci.d/crossbuilds.yml'
-   - local: '/.gitlab-ci.d/buildtest.yml'
-   - local: '/.gitlab-ci.d/static_checks.yml'
-+  - local: '/.gitlab-ci.d/windows.yml'
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-new file mode 100644
-index 0000000000..1874a06739
---- /dev/null
-+++ b/.gitlab-ci.d/windows.yml
-@@ -0,0 +1,59 @@
-+.shared_windows_runners:
-+  tags:
-+  - shared-windows
-+  - windows
-+  - windows-1809
-+
-+msys2-build:
-+  extends: .shared_windows_runners
-+  stage: build
-+  before_script:
-+  - Invoke-WebRequest
-+    "https://github.com/msys2/msys2-installer/releases/download/nightly-x86_64/msys2-base-x86_64-latest.sfx.exe"
-+    -outfile "msys2.exe"
-+  - .\msys2.exe -y -oC:\
-+  - del msys2.exe
-+  - ((Get-Content -path C:\msys64\etc\\post-install\\07-pacman-key.post -Raw)
-+      -replace '--refresh-keys', '--version') |
-+     Set-Content -Path C:\msys64\etc\\post-install\\07-pacman-key.post
-+  - C:\msys64\usr\bin\bash -lc "sed -i 's/^CheckSpace/#CheckSpace/g' /etc/pacman.conf"
-+  - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Core update
-+  - C:\msys64\usr\bin\bash -lc 'pacman --noconfirm -Syuu'  # Normal update
-+  - C:\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
-+      diffutils git grep make pkg-config sed
-+      mingw-w64-x86_64-capstone
-+      mingw-w64-x86_64-curl
-+      mingw-w64-x86_64-cyrus-sasl
-+      mingw-w64-x86_64-gcc
-+      mingw-w64-x86_64-glib2
-+      mingw-w64-x86_64-gnutls
-+      mingw-w64-x86_64-gtk3
-+      mingw-w64-x86_64-libgcrypt
-+      mingw-w64-x86_64-libjpeg-turbo
-+      mingw-w64-x86_64-libnfs
-+      mingw-w64-x86_64-libpng
-+      mingw-w64-x86_64-libssh
-+      mingw-w64-x86_64-libtasn1
-+      mingw-w64-x86_64-libusb
-+      mingw-w64-x86_64-libxml2
-+      mingw-w64-x86_64-lzo2
-+      mingw-w64-x86_64-make
-+      mingw-w64-x86_64-nettle
-+      mingw-w64-x86_64-ninja
-+      mingw-w64-x86_64-pixman
-+      mingw-w64-x86_64-pkgconf
-+      mingw-w64-x86_64-python
-+      mingw-w64-x86_64-SDL2
-+      mingw-w64-x86_64-SDL2_image
-+      mingw-w64-x86_64-snappy
-+      mingw-w64-x86_64-usbredir
-+      mingw-w64-x86_64-zstd "
-+  - taskkill /F /FI "MODULES eq msys-2.0.dll"
-+  script:
-+  - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
-+  - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
-+  - C:\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
-+      --enable-capstone=system --disable-fdt'
-+  - C:\msys64\usr\bin\bash -lc "sed -i '/^ROMS=/d' build/config-host.mak"
-+  - C:\msys64\usr\bin\bash -lc 'make -j2'
-+  - C:\msys64\usr\bin\bash -lc 'make V=1 check'
--- 
-2.27.0
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
