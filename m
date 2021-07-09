@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57BFE3C1E9D
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:49:09 +0200 (CEST)
-Received: from localhost ([::1]:58544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87713C1E8C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:41:08 +0200 (CEST)
+Received: from localhost ([::1]:33904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iRo-0007qg-Cf
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:49:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53862)
+	id 1m1iK3-0006Bd-Kl
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:41:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1i5v-0006J3-PJ
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:31 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:43898)
+ id 1m1i5x-0006LV-BO
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:33 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:40490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1i5h-0001Vt-A8
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:31 -0400
-Received: by mail-pg1-x530.google.com with SMTP id y4so6210025pgl.10
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:26:15 -0700 (PDT)
+ id 1m1i5h-0001WW-AW
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:33 -0400
+Received: by mail-pf1-x430.google.com with SMTP id j199so7584433pfd.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ErWpHWjhjt0JpP+PFb2nQDuBLTGa4sotp1ACko/W4m0=;
- b=O+n0AfHSm4xa2yKXRgaW+y3NnwZ60dRW5PDDv4Zqb5d9MpgZQ/bnyeKtaCHjZvUOT2
- PaGorBZq7WbndvYLMh5/kDh9R4jO3j3u3c354mjGX5lACw968VfZpDtfn1Bcv+2Ac5E0
- A3O5pXi3WJ2HH+uE41jP1Iu4p4MytMB4uIsxzTNPlbS2gjF/62hSCWXN3Jtg+RLM1ySa
- fje13Ba1VVT4v6eAKVp9AABIev+zxBHQ5x6pl9KThWx7uJmDcdwjB0RNcU6Pm8DHlKgP
- iAihwi5UqXRNZAKWPBSIQzOb280bEker+6S+/Qoc8Gwsyujnm+Oc4n3KylhCsgRtsdEM
- bmpw==
+ bh=X1qeQE6kB9QQ0i3jNEW6Omw4RLTIbFXQtxHWy2nbQ+Y=;
+ b=NcRheggWnNrSnCm+Fi3FhLtdVgz/kWqJce/SeOQ9jxPipN1TBhEvSu+0ZnlhVxtnS4
+ 8sgwgdcXbMe84B6fCEX5ZRNo4ij+iQizm3jozCqtRbv25mSJHAabgUf4UjKlmP+wreqr
+ y40RMPD3yvA9YM6eGJD2OBf/PDjWUbM2mcSqTgGJZN92AMQI5/9v6spSKY/jgrviDk9o
+ WmmLR0j3kmChHuaz1YYoPDJEkxry+vIZfJwjMBWdOSDthr4hyYxfADPTIGe+zm790nL8
+ bT7kOgYuPzUIfpeOQS4qx0EbF3rev+G5bbmrcGkOvyr7DlauciMHZXlp4fZs+TEDu3wd
+ mXGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ErWpHWjhjt0JpP+PFb2nQDuBLTGa4sotp1ACko/W4m0=;
- b=RlnJadJ7nNOhelsicoy809IchQ8Qb7kAyNBc6/yUxV1dbzlMQzWap0aL75OzEIOdSn
- ydrRplV3eRWbWCvZR/+5haX5BQX1YyQ1x/JYuJTf5qIAMF+M+VxRUsh9+B/EGL2xd0gs
- 9ioIHb31VP4z8cbccx/qFeVtWO9QEvPZYOSAglzM+uJ1b/VblaHFbERJOdFyOfiE1W42
- WuNy7N931tg9vuf6Seurql8pIIIlv4DzGgYkU4SG69QlI7CBAIC5JS6XCnqIapPQN2S9
- 8w4nmZac3uTtcBNjwf04SGnao3R591EBygNPconnBc0wnLjFrRmP1Dmo/djwigLecY04
- lR3w==
-X-Gm-Message-State: AOAM530vY0pEKlgF8PyV1adEQm5ayMPU0jlo76sqfwxOSPQx7LZnuFIj
- yZEldNeR5+CR79sHaWavszPqLJ9hN6g2dg==
-X-Google-Smtp-Source: ABdhPJygrwSDZB30wawlOp49PVCyX1AVaQUJE0tgfKuh8EQgo2P9DueIV1xL6Ta2VTTQ07NDA+U3ug==
-X-Received: by 2002:a65:684d:: with SMTP id q13mr29189282pgt.163.1625804775099; 
+ bh=X1qeQE6kB9QQ0i3jNEW6Omw4RLTIbFXQtxHWy2nbQ+Y=;
+ b=G6xhVMJY/hD7NE/PAiO/eOnVmK/XJgiB3T+Fg26qCH56tqZ2kKivjEuFRBs6tvh2sR
+ V9BqhIIYzLcRfseiPq1/L1LGSU88rBjN2Xebo5wbrZj5ubStuSiQwXDnzxTEPKsGzQyJ
+ buS1v9HjpX8FP2kwYBoLTgtfKCcHQxUviq0u10iBTsOH1+rKamSGEtkcD9jg2ciGLZBC
+ KlzdjgK1spTN5XUo9aczj7dwYuuNu9trZIWiGMznm17PY5IZG0++wTBlBSrlUqF4bxb1
+ 85pjzUqKRQ4A8hKWrWPVMdPywH3NTBl6yboSxc/31iK+AeCPuKc1ic00wAJUBLvqksZ3
+ oISQ==
+X-Gm-Message-State: AOAM533d6ithzEutpxFa3iXnar2eDuyoBjL1KdJENfrfHEgi5UjtfaVZ
+ qy3zWJ9uBONarmAd5TWrPFBfEBp7wPh0UQ==
+X-Google-Smtp-Source: ABdhPJxpilxN0saasMT8XZ97jVNyDmgqrg4yLejuGmIGeYfqjQHwwC+hU+eV3V+9fp1LewLPVtXUAA==
+X-Received: by 2002:a65:550a:: with SMTP id f10mr10448133pgr.155.1625804775783; 
  Thu, 08 Jul 2021 21:26:15 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id y16sm4406727pfe.70.2021.07.08.21.26.14
+ by smtp.gmail.com with ESMTPSA id y16sm4406727pfe.70.2021.07.08.21.26.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 21:26:14 -0700 (PDT)
+ Thu, 08 Jul 2021 21:26:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/17] target/riscv: Reorg csr instructions
-Date: Thu,  8 Jul 2021 21:26:00 -0700
-Message-Id: <20210709042608.883256-10-richard.henderson@linaro.org>
+Subject: [PATCH 10/17] target/riscv: Use gpr_{src,dst} for RVA
+Date: Thu,  8 Jul 2021 21:26:01 -0700
+Message-Id: <20210709042608.883256-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210709042608.883256-1-richard.henderson@linaro.org>
 References: <20210709042608.883256-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,291 +86,109 @@ Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce csrr and csrw helpers, for read-only and write-only insns.
-
-Note that we do not properly implement this in riscv_csrrw, in that
-we cannot distinguish true read-only (rs1 == 0) from any other zero
-write_mask another source register -- this should still raise an
-exception for read-only registers.
-
-Only issue gen_io_start for CF_USE_ICOUNT.
-Use ctx->zero for csrrc.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/helper.h                   |   6 +-
- target/riscv/op_helper.c                |  18 +--
- target/riscv/insn_trans/trans_rvi.c.inc | 170 +++++++++++++++++-------
- 3 files changed, 129 insertions(+), 65 deletions(-)
+ target/riscv/insn_trans/trans_rva.c.inc | 42 +++++++++----------------
+ 1 file changed, 14 insertions(+), 28 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 415e37bc37..460eee9988 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -65,9 +65,9 @@ DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
+index ab2ec4f0a5..5bb5bbd09c 100644
+--- a/target/riscv/insn_trans/trans_rva.c.inc
++++ b/target/riscv/insn_trans/trans_rva.c.inc
+@@ -18,11 +18,11 @@
+  * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
  
- /* Special functions */
--DEF_HELPER_3(csrrw, tl, env, tl, tl)
--DEF_HELPER_4(csrrs, tl, env, tl, tl, tl)
--DEF_HELPER_4(csrrc, tl, env, tl, tl, tl)
-+DEF_HELPER_2(csrr, tl, env, int)
-+DEF_HELPER_3(csrw, void, env, int, tl)
-+DEF_HELPER_4(csrrw, tl, env, int, tl, tl)
- #ifndef CONFIG_USER_ONLY
- DEF_HELPER_2(sret, tl, env, tl)
- DEF_HELPER_2(mret, tl, env, tl)
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 3c48e739ac..ee7c24efe7 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -37,11 +37,10 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
-     riscv_raise_exception(env, exception, 0);
- }
- 
--target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
--        target_ulong csr)
-+target_ulong helper_csrr(CPURISCVState *env, int csr)
+-static inline bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
++static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
  {
-     target_ulong val = 0;
--    RISCVException ret = riscv_csrrw(env, csr, &val, src, -1);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-@@ -49,23 +48,20 @@ target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
-     return val;
- }
- 
--target_ulong helper_csrrs(CPURISCVState *env, target_ulong src,
--        target_ulong csr, target_ulong rs1_pass)
-+void helper_csrw(CPURISCVState *env, int csr, target_ulong src)
- {
--    target_ulong val = 0;
--    RISCVException ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
-+    RISCVException ret = riscv_csrrw(env, csr, NULL, src, -1);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
+-    TCGv src1 = tcg_temp_new();
++    TCGv src1 = gpr_src(ctx, a->rs1);
++
+     /* Put addr in load_res, data in load_val.  */
+-    gen_get_gpr(src1, a->rs1);
+     if (a->rl) {
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
      }
--    return val;
- }
+@@ -33,30 +33,26 @@ static inline bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
+     tcg_gen_mov_tl(load_res, src1);
+     gen_set_gpr(a->rd, load_val);
  
--target_ulong helper_csrrc(CPURISCVState *env, target_ulong src,
--        target_ulong csr, target_ulong rs1_pass)
-+target_ulong helper_csrrw(CPURISCVState *env, int csr,
-+                          target_ulong src, target_ulong write_mask)
- {
-     target_ulong val = 0;
--    RISCVException ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
-+    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask);
- 
-     if (ret != RISCV_EXCP_NONE) {
-         riscv_raise_exception(env, ret, GETPC());
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index 840187a4d6..3705aad380 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -452,80 +452,148 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
+-    tcg_temp_free(src1);
      return true;
  }
  
--#define RISCV_OP_CSR_PRE do {\
--    source1 = tcg_temp_new(); \
--    csr_store = tcg_temp_new(); \
--    dest = tcg_temp_new(); \
--    rs1_pass = tcg_temp_new(); \
--    gen_get_gpr(source1, a->rs1); \
--    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next); \
--    tcg_gen_movi_tl(rs1_pass, a->rs1); \
--    tcg_gen_movi_tl(csr_store, a->csr); \
--    gen_io_start();\
--} while (0)
-+static bool do_csr_post(DisasContext *ctx)
-+{
-+    /* We may have changed important cpu state -- exit to main loop. */
-+    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-+    exit_tb(ctx);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    return true;
-+}
- 
--#define RISCV_OP_CSR_POST do {\
--    gen_set_gpr(a->rd, dest); \
--    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn); \
--    exit_tb(ctx); \
--    ctx->base.is_jmp = DISAS_NORETURN; \
--    tcg_temp_free(source1); \
--    tcg_temp_free(csr_store); \
--    tcg_temp_free(dest); \
--    tcg_temp_free(rs1_pass); \
--} while (0)
-+static bool do_csrr(DisasContext *ctx, int rd, int rc)
-+{
-+    TCGv dest = gpr_dst(ctx, rd);
-+    TCGv_i32 csr = tcg_constant_i32(rc);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    gen_helper_csrr(dest, cpu_env, csr);
-+    return do_csr_post(ctx);
-+}
-+
-+static bool do_csrw(DisasContext *ctx, int rc, TCGv src)
-+{
-+    TCGv_i32 csr = tcg_constant_i32(rc);
-+
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    gen_helper_csrw(cpu_env, csr, src);
-+    return do_csr_post(ctx);
-+}
-+
-+static bool do_csrrw(DisasContext *ctx, int rd, int rc, TCGv src, TCGv mask)
-+{
-+    TCGv dest = gpr_dst(ctx, rd);
-+    TCGv_i32 csr = tcg_constant_i32(rc);
-+
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+    gen_helper_csrrw(dest, cpu_env, csr, src, mask);
-+    return do_csr_post(ctx);
-+}
- 
- static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
+-static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
++static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
  {
--    TCGv source1, csr_store, dest, rs1_pass;
--    RISCV_OP_CSR_PRE;
--    gen_helper_csrrw(dest, cpu_env, source1, csr_store);
--    RISCV_OP_CSR_POST;
--    return true;
-+    TCGv src = gpr_src(ctx, a->rs1);
-+
-+    /*
-+     * If rd == 0, the insn shall not read the csr, nor cause any of the
-+     * side effects that might occur on a csr read.
-+     */
-+    if (a->rd == 0) {
-+        return do_csrw(ctx, a->csr, src);
-+    }
-+
-+    TCGv mask = tcg_constant_tl(-1);
-+    return do_csrrw(ctx, a->rd, a->csr, src, mask);
+-    TCGv src1 = tcg_temp_new();
+-    TCGv src2 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
++    TCGv dest = gpr_dst(ctx, a->rd);
++    TCGv src1 = gpr_src(ctx, a->rs1);
++    TCGv src2 = gpr_src(ctx, a->rs2);
+     TCGLabel *l1 = gen_new_label();
+     TCGLabel *l2 = gen_new_label();
+ 
+-    gen_get_gpr(src1, a->rs1);
+     tcg_gen_brcond_tl(TCG_COND_NE, load_res, src1, l1);
+ 
+-    gen_get_gpr(src2, a->rs2);
+     /*
+      * Note that the TCG atomic primitives are SC,
+      * so we can ignore AQ/RL along this path.
+      */
+-    tcg_gen_atomic_cmpxchg_tl(src1, load_res, load_val, src2,
++    tcg_gen_atomic_cmpxchg_tl(dest, load_res, load_val, src2,
+                               ctx->mem_idx, mop);
+-    tcg_gen_setcond_tl(TCG_COND_NE, dat, src1, load_val);
+-    gen_set_gpr(a->rd, dat);
++    tcg_gen_setcond_tl(TCG_COND_NE, dest, dest, load_val);
+     tcg_gen_br(l2);
+ 
+     gen_set_label(l1);
+@@ -65,8 +61,7 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+      * provide the memory barrier implied by AQ/RL.
+      */
+     tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
+-    tcg_gen_movi_tl(dat, 1);
+-    gen_set_gpr(a->rd, dat);
++    tcg_gen_movi_tl(dest, 1);
+ 
+     gen_set_label(l2);
+     /*
+@@ -75,9 +70,6 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+      */
+     tcg_gen_movi_tl(load_res, -1);
+ 
+-    tcg_temp_free(dat);
+-    tcg_temp_free(src1);
+-    tcg_temp_free(src2);
+     return true;
  }
  
- static bool trans_csrrs(DisasContext *ctx, arg_csrrs *a)
+@@ -85,17 +77,11 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
+                     void(*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
+                     MemOp mop)
  {
--    TCGv source1, csr_store, dest, rs1_pass;
--    RISCV_OP_CSR_PRE;
--    gen_helper_csrrs(dest, cpu_env, source1, csr_store, rs1_pass);
--    RISCV_OP_CSR_POST;
--    return true;
-+    /*
-+     * If rs1 == 0, the insn shall not write to the csr at all, nor
-+     * cause any of the side effects that might occur on a csr write.
-+     * Note that if rs1 specifies a register other than x0, holding
-+     * a zero value, the instruction will still attempt to write the
-+     * unmodified value back to the csr and will cause side effects.
-+     */
-+    if (a->rs1 == 0) {
-+        return do_csrr(ctx, a->rd, a->csr);
-+    }
-+
-+    TCGv ones = tcg_constant_tl(-1);
-+    TCGv mask = gpr_src(ctx, a->rs1);
-+    return do_csrrw(ctx, a->rd, a->csr, ones, mask);
+-    TCGv src1 = tcg_temp_new();
+-    TCGv src2 = tcg_temp_new();
++    TCGv dest = gpr_dst(ctx, a->rd);
++    TCGv src1 = gpr_src(ctx, a->rs1);
++    TCGv src2 = gpr_src(ctx, a->rs2);
+ 
+-    gen_get_gpr(src1, a->rs1);
+-    gen_get_gpr(src2, a->rs2);
+-
+-    (*func)(src2, src1, src2, ctx->mem_idx, mop);
+-
+-    gen_set_gpr(a->rd, src2);
+-    tcg_temp_free(src1);
+-    tcg_temp_free(src2);
++    (*func)(dest, src1, src2, ctx->mem_idx, mop);
+     return true;
  }
  
- static bool trans_csrrc(DisasContext *ctx, arg_csrrc *a)
- {
--    TCGv source1, csr_store, dest, rs1_pass;
--    RISCV_OP_CSR_PRE;
--    gen_helper_csrrc(dest, cpu_env, source1, csr_store, rs1_pass);
--    RISCV_OP_CSR_POST;
--    return true;
-+    /*
-+     * If rs1 == 0, the insn shall not write to the csr at all, nor
-+     * cause any of the side effects that might occur on a csr write.
-+     * Note that if rs1 specifies a register other than x0, holding
-+     * a zero value, the instruction will still attempt to write the
-+     * unmodified value back to the csr and will cause side effects.
-+     */
-+    if (a->rs1 == 0) {
-+        return do_csrr(ctx, a->rd, a->csr);
-+    }
-+
-+    TCGv mask = gpr_src(ctx, a->rs1);
-+    return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
- }
- 
- static bool trans_csrrwi(DisasContext *ctx, arg_csrrwi *a)
- {
--    TCGv source1, csr_store, dest, rs1_pass;
--    RISCV_OP_CSR_PRE;
--    gen_helper_csrrw(dest, cpu_env, rs1_pass, csr_store);
--    RISCV_OP_CSR_POST;
--    return true;
-+    TCGv src = tcg_constant_tl(a->rs1);
-+
-+    /*
-+     * If rd == 0, the insn shall not read the csr, nor cause any of the
-+     * side effects that might occur on a csr read.
-+     */
-+    if (a->rd == 0) {
-+        return do_csrw(ctx, a->csr, src);
-+    }
-+
-+    TCGv mask = tcg_constant_tl(-1);
-+    return do_csrrw(ctx, a->rd, a->csr, src, mask);
- }
- 
- static bool trans_csrrsi(DisasContext *ctx, arg_csrrsi *a)
- {
--    TCGv source1, csr_store, dest, rs1_pass;
--    RISCV_OP_CSR_PRE;
--    gen_helper_csrrs(dest, cpu_env, rs1_pass, csr_store, rs1_pass);
--    RISCV_OP_CSR_POST;
--    return true;
-+    /*
-+     * If rs1 == 0, the insn shall not write to the csr at all, nor
-+     * cause any of the side effects that might occur on a csr write.
-+     * Note that if rs1 specifies a register other than x0, holding
-+     * a zero value, the instruction will still attempt to write the
-+     * unmodified value back to the csr and will cause side effects.
-+     */
-+    if (a->rs1 == 0) {
-+        return do_csrr(ctx, a->rd, a->csr);
-+    }
-+
-+    TCGv ones = tcg_constant_tl(-1);
-+    TCGv mask = tcg_constant_tl(a->rs1);
-+    return do_csrrw(ctx, a->rd, a->csr, ones, mask);
- }
- 
- static bool trans_csrrci(DisasContext *ctx, arg_csrrci *a)
- {
--    TCGv source1, csr_store, dest, rs1_pass;
--    RISCV_OP_CSR_PRE;
--    gen_helper_csrrc(dest, cpu_env, rs1_pass, csr_store, rs1_pass);
--    RISCV_OP_CSR_POST;
--    return true;
-+    /*
-+     * If rs1 == 0, the insn shall not write to the csr at all, nor
-+     * cause any of the side effects that might occur on a csr write.
-+     * Note that if rs1 specifies a register other than x0, holding
-+     * a zero value, the instruction will still attempt to write the
-+     * unmodified value back to the csr and will cause side effects.
-+     */
-+    if (a->rs1 == 0) {
-+        return do_csrr(ctx, a->rd, a->csr);
-+    }
-+
-+    TCGv mask = tcg_constant_tl(a->rs1);
-+    return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
- }
 -- 
 2.25.1
 
