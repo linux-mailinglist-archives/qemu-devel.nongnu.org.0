@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D1CC3C2912
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 20:34:05 +0200 (CEST)
-Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3825C3C2917
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 20:38:32 +0200 (CEST)
+Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1vK8-0005IM-HT
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 14:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33396)
+	id 1m1vOR-0006yw-Ah
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 14:38:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vJC-0004dA-Jv
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:33:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27011)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vNN-0006IQ-JR
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:37:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vJA-0001b5-HW
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:33:06 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vNG-0003YW-MM
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:37:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625855583;
+ s=mimecast20190719; t=1625855837;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sYDKHvwYEPpR9boFrulurYSMBTT3+JEUGDaNY+bZ3e4=;
- b=F9EwaSWJsltXEHSyAxAOhJ2tlie+R1BTyLdEb/8YEgTJpWEbT1YPNXoh4rfgRO9lcNHiCt
- pcO4f/7TIG/KsHmItdDok1qzshh3K4YwxkamfBCKIcY1FYXUs9kFML/yvjeCUtQcWDuwgO
- +ipUpF2YIQHFHcJuIp9N3nqjdOQiMsU=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-mL-0o905M1G7cxGPQJJQfQ-1; Fri, 09 Jul 2021 14:33:00 -0400
-X-MC-Unique: mL-0o905M1G7cxGPQJJQfQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- ke6-20020a0562143006b029028b8546bb01so7001920qvb.20
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 11:33:00 -0700 (PDT)
+ bh=AT5k3Ev8QPVxMk23MyE/MxnpLE30yLbTUG6t11D6uK4=;
+ b=Yixus9aB6jx1np/vXtTsCJbIwoDlMAxJXfBhh+qwgUPVSiTqUJbiEWKm7tknKGI4rn3M1H
+ fWMxXmtwPgSEIN1C01wFVgrz7qPMCZsTWqyeRcMsWRbiImTu07BdKr+40J77dI/RIVvGbT
+ vIPC1FcW+BsrcY8faoLrjubtQYKqCTo=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-293-ycz9UTvsPm6TEYsqoJ6NZA-1; Fri, 09 Jul 2021 14:37:16 -0400
+X-MC-Unique: ycz9UTvsPm6TEYsqoJ6NZA-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ p20-20020a05622a0494b029024f09fe9ec9so6331815qtx.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 11:37:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=sYDKHvwYEPpR9boFrulurYSMBTT3+JEUGDaNY+bZ3e4=;
- b=ppHjJsulE1GbURroK3Nyp8uoydyPlMPCJztASG+JLYYzL2achaGLUqj9z//daEASfD
- tm5Wj56J/7v4lEVjhSROXIlv/5LC1K5jU+FmmBe7TIRozucdUURpihQ0l3JDOuIuQrOD
- YNaWu0nHT0C9JcLDn6uwpOgc/QQEJ7oFzEUi6kasOqSJgYSkiPlDJS8p6HSSUCaWRMKe
- E5Bx9k72bJU5caA91Qm7ZaitLxTYoP7uKY3RiiJV3Q1zDz2l05RgxBEsYd6XmRHvCJqn
- /1uOuRzxORtwwfD62jdPkwGeEvBncqIGHJgoRAiwQVunN2yif4VCvKm5wuC0zcT5kBgL
- QnFA==
-X-Gm-Message-State: AOAM5339RYR1vT76CweysimhCU7nYcaIdZ3b+k6B+GyzS0+1ozGKq1ze
- uOdJLPQ3FSwWkyzmJDxJA8VYgha93eJC4jsS9Vha+6Sa8+l6x+OzzoylmqorIyRyjeYax7hmsso
- uGB9JEtt6E3kFK0Q=
-X-Received: by 2002:a05:620a:138f:: with SMTP id
- k15mr21494349qki.124.1625855579470; 
- Fri, 09 Jul 2021 11:32:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzplEQLFyWXlOWYVmEGdVEP2nY8Jf1klDO6gVm41rtGS4q3bXYcmRbUyehkJzoVC8PkO8GVKw==
-X-Received: by 2002:a05:620a:138f:: with SMTP id
- k15mr21494327qki.124.1625855579275; 
- Fri, 09 Jul 2021 11:32:59 -0700 (PDT)
+ bh=AT5k3Ev8QPVxMk23MyE/MxnpLE30yLbTUG6t11D6uK4=;
+ b=C1CFdSBK/qXZyTLMIw6v3cHGKU+p/GrEVVy9lrgmAL/euMJgU0AWLDc8zFA2mFrx2K
+ H0D90SXKzDXpQ2peHSdF+SqhV7g/3TdFnXVBery2T+r70WiO1pJUUBZCFqrC08blDl07
+ inbdumxq1LnBuiJCmVsOgqtucIFxvU9BqNHa8DeGKqohtiuXgnb/axqg2U0gCCT9RnDc
+ 7L3kGMEoKAK43eaGptZV8RCcJqoxr/esyaae6FdLIwKljf5n3hkNB4J/R4xtJSOew1xJ
+ +N8oMajbAvSJjESzmj2mkPIgMoUfRoSKxFEffhh6je6jCI+DVO0aWa+rrEQcv4ecqObn
+ F6gg==
+X-Gm-Message-State: AOAM532FOHAtu3KJnML14nARLzdIqBaFGoK7at3Ei8mYaxC+Gu1bomyw
+ 4UjecOVYfw9PYj9u5S1nc3LDaX7qHCqTzEZlxVqR1fs+IjXw2DVntU/PqA36u03Wm6K6NBihJSW
+ XTf5CgA3K5oGuJ0g=
+X-Received: by 2002:a05:622a:394:: with SMTP id
+ j20mr35512565qtx.270.1625855836513; 
+ Fri, 09 Jul 2021 11:37:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzboqm1CwnTZ8eopVLG1Cu32p+ZMNuMvgRTi1GfN/oprIYHmTkcRdOsobVjeAXbWFAP73NGFA==
+X-Received: by 2002:a05:622a:394:: with SMTP id
+ j20mr35512549qtx.270.1625855836328; 
+ Fri, 09 Jul 2021 11:37:16 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id k17sm2397296qta.85.2021.07.09.11.32.58
+ by smtp.gmail.com with ESMTPSA id o123sm2877479qkd.6.2021.07.09.11.37.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 11:32:58 -0700 (PDT)
-Date: Fri, 9 Jul 2021 14:32:57 -0400
+ Fri, 09 Jul 2021 11:37:15 -0700 (PDT)
+Date: Fri, 9 Jul 2021 14:37:14 -0400
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH 4/4] migration/dirtyrate: implement dirty-bitmap
- dirtyrate calculation
-Message-ID: <YOiWWdF5cK3XKwml@t490s>
+Subject: Re: [PATCH 1/4] memory: introduce DIRTY_MEMORY_DIRTY_RATE dirty bits
+Message-ID: <YOiXWi7osNDaIW5/@t490s>
 References: <cover.1624771216.git.huangy81@chinatelecom.cn>
- <d7079fd32152065b5301b88571b46bdf5dc62867.1624771216.git.huangy81@chinatelecom.cn>
+ <b858f91a8df4233afa5cc93d27f0b1adee30fc52.1624771216.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <d7079fd32152065b5301b88571b46bdf5dc62867.1624771216.git.huangy81@chinatelecom.cn>
+In-Reply-To: <b858f91a8df4233afa5cc93d27f0b1adee30fc52.1624771216.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,50 +101,34 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 27, 2021 at 01:38:17PM +0800, huangy81@chinatelecom.cn wrote:
-> +static void calculate_dirtyrate_dirty_bitmap(struct DirtyRateConfig config)
-> +{
-> +    int64_t msec = 0;
-> +    int64_t start_time;
-> +    uint64_t protect_flags = 0;
-> +    uint64_t initially_set = 0;
-> +    uint64_t protect_only = 0;
+On Sun, Jun 27, 2021 at 01:38:14PM +0800, huangy81@chinatelecom.cn wrote:
+> @@ -370,9 +374,17 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+>                      qatomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
+>  
+>                      if (global_dirty_tracking) {
+> -                        qatomic_or(
+> +                        if (global_dirty_tracking & GLOBAL_DIRTY_MIGRATION) {
+> +                            qatomic_or(
+>                                  &blocks[DIRTY_MEMORY_MIGRATION][idx][offset],
+>                                  temp);
+> +                        }
 > +
-> +    protect_flags = kvm_get_manual_dirty_log_protect();
-> +    protect_only = KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE;
-> +    initially_set =
-> +        (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE | KVM_DIRTY_LOG_INITIALLY_SET);
-> +
-> +    dirtyrate_global_dirty_log_start();
-> +
-> +    /* absense of migration */
-> +    if (!(global_dirty_tracking & GLOBAL_DIRTY_MIGRATION)) {
-> +        if ((protect_flags & initially_set) == initially_set) {
-> +            /* skip the 1'round which return all 1 bits */
-> +            memory_global_dirty_log_sync();
-> +            /*
-> +             * reset page protect manually and
-> +             * start dirty tracking from now on
-> +             **/
-> +            dirtyrate_manual_reset_protect();
-> +        }
-> +    }
+> +                        if (global_dirty_tracking & GLOBAL_DIRTY_DIRTY_RATE) {
+> +                            qatomic_or(
+> +                                &blocks[DIRTY_MEMORY_DIRTY_RATE][idx][offset],
+> +                                temp);
 
-Right, clear dirty log is a bit tricky.
+So what I meant in the other thread is instead of operating on this bitmap we
+just record the number of total dirty pages, just like we used to do with rings.
 
-Wondering whether we can simplify this into something like:
+PS. IIUC maybe this can even work for dirty rings.. because either dirty ring
+or dirty logging collect dirty bits into the slot bitmap, then it's further
+aggregated here from the slot bitmaps.  However merging them won't help much
+because dirty ring can provide finer-granule per-vcpu dirty info, which can be
+further used for per-vcpu throttling in the future.  So just raise this up.
 
-  1. dirty_log_sync()
-  2. if (manual_protect) reset_protect()
-  3. record initial total dirty stats (total dirty stats updated when sync)
-  4. sleep(SECONDS)
-  5. dirty_log_sync()
-  6. record final total dirty stats
-
-Then I think it's not related to initial-all-set anymore. Do you think this
-would work?
-
-Thanks,
+> +                        }
+>                      }
 
 -- 
 Peter Xu
