@@ -2,168 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1A33C27A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:38:09 +0200 (CEST)
-Received: from localhost ([::1]:47290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260693C279B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:33:17 +0200 (CEST)
+Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1tVw-0007C3-BI
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:38:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40344)
+	id 1m1tRE-0001QW-6S
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1m1tK2-0002ZK-QR
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:25:52 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:2692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <michael.christie@oracle.com>)
- id 1m1tK0-00089O-9X
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:25:50 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 169GGfDK003038; Fri, 9 Jul 2021 16:25:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : subject :
- message-id : date : content-type : content-transfer-encoding :
- mime-version; s=corp-2020-01-29;
- bh=01ybZruS3p1NoHd5hSmadZrRmsP/A3nJmqSlJjzIeYw=;
- b=Lwyqf86qRiA4gsiMmV/1jmxQQ8oRpGtFlbr37jkahsstm+TPaOGNetMxfG4VD+B0URNm
- oe9PMHitOaijxMONDpSxlOU5IIHXQ8GRcKbfmTRwG31l0bHFrBJOQYdnNZiI2yHNIcLH
- Yih0tGjaBzj/ZwT/LDGO39ElQMNmcdGPLL8cHTdc7wefZxayxboUqjYxaZu58ybNTcrH
- UY8W4wE4J36lQKxbgrXRkWRSeV4EkaSXaQX9xp/K+dB7wUoX4PNgHnAh3uRl5ic8gNsZ
- OVjNI5uY4Zv/yRpL31Rq0HkRZAuAGzuKToDQ5a+vAG+Z4CHUbcZ0I14PiK5rEznsH+IX Iw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 39npbyksua-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 09 Jul 2021 16:25:44 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 169GGGmO129681;
- Fri, 9 Jul 2021 16:25:43 GMT
-Received: from nam11-co1-obe.outbound.protection.outlook.com
- (mail-co1nam11lp2170.outbound.protection.outlook.com [104.47.56.170])
- by userp3030.oracle.com with ESMTP id 39jd1ak18h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 09 Jul 2021 16:25:42 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e01vVHYTzwvBsEQh0GI6EOaCWCCzTmiz8DwGNqhRmAvWjTB2zrV22qWdNCPbkWj05N61KtbziQIYpt7buQJNCy1IEj04MLNGOIoG8aWxarBhEud6Ir04OCX3PCs97y0GunlMpe+38bBgNI5CYgNVhSSgKC+i41WNpKHNktheieS9y0+2Lxb3RuWeQnxjMKrAA8sazJOG/LoiEWYXHwbSLxht0iPqw6859YCEfGGdgG7ESL3CZALt6YdXeLkDwjoZNXBMFvBiCXRHf/4QhiDfAk7wvsdBqPRu+jCiQKaPVxpWu88tRSuSpOHw80kdXu8n5xZojuh37m3VMVR1rjvBWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=01ybZruS3p1NoHd5hSmadZrRmsP/A3nJmqSlJjzIeYw=;
- b=Jfowmbts3A+92scO/qkMbL9j4AwIDweLlXvT6UNth4kAPnzIh8IjCfQDRSgpueKfQE8oDy73+iHvS+Ct3WUUXeIHboiIKJ7uIrjkOxpeoMg+ELrqJkdKF9HVXKPgdayRJDe5WFWWQLIGtJqpB+dHcmKUtdVXEUPJ9dGiHExMSehQi7Y0J3zE9zoUSiEiAVFYsYSD3AiR5GmGNwCh7tHX5yfDn1JaRTmnGwl0RcN7Y+pMbyM1eJ02MQJSp5Nz7jvwGpJ9dr+PBve50h3E/dj62MNFCfqCyaCBA9gd1TnajN3oadkMiZ2hdQ7IN3xw2sG8UrtyPFeVhGCUCr4UWavwfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=01ybZruS3p1NoHd5hSmadZrRmsP/A3nJmqSlJjzIeYw=;
- b=vOlnzxItoDuxO2eSmRIMin4zyXOrKmmxbZbfdke7zCMajxET8RNdqKKSx6KuLl23E6R5CtU9hm3EhJQViH6i4vUM8/wAb54QMXerFiIqUK+nHTPZaAaL84At0PV/xBO/CYVJXJMtPxIjJHpKUtiqNmO8c+lleLMTJ6LPCSVpO4M=
-Authentication-Results: ubuntu.com; dkim=none (message not signed)
- header.d=none;ubuntu.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB3573.namprd10.prod.outlook.com (2603:10b6:a03:11e::32)
- by SJ0PR10MB4639.namprd10.prod.outlook.com (2603:10b6:a03:2db::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Fri, 9 Jul
- 2021 16:25:41 +0000
-Received: from BYAPR10MB3573.namprd10.prod.outlook.com
- ([fe80::5cdf:33ab:8d17:9708]) by BYAPR10MB3573.namprd10.prod.outlook.com
- ([fe80::5cdf:33ab:8d17:9708%7]) with mapi id 15.20.4308.023; Fri, 9 Jul 2021
- 16:25:40 +0000
-From: Mike Christie <michael.christie@oracle.com>
-To: libvir-list@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- Christian Brauner <christian.brauner@ubuntu.com>
-Subject: question on vhost, limiting kernel threads and NPROC
-Message-ID: <b6d181c2-ec7b-913b-3eea-142fcce7c104@oracle.com>
-Date: Fri, 9 Jul 2021 11:25:37 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR04CA0010.namprd04.prod.outlook.com
- (2603:10b6:610:76::15) To BYAPR10MB3573.namprd10.prod.outlook.com
- (2603:10b6:a03:11e::32)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1m1tOx-0007EM-MR; Fri, 09 Jul 2021 12:30:55 -0400
+Received: from mail-oo1-xc36.google.com ([2607:f8b0:4864:20::c36]:43571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1m1tOv-0002Cz-MX; Fri, 09 Jul 2021 12:30:55 -0400
+Received: by mail-oo1-xc36.google.com with SMTP id
+ 68-20020a4a00470000b0290258a7ff4058so2401215ooh.10; 
+ Fri, 09 Jul 2021 09:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=VKGwhPniryUD+R7iA2Iuagn+/VdJ/qE11zRU7yzFitA=;
+ b=K4tE/03hcPGnf90lYazqs3u4W9G+UsevSHFeqmhO9YDBIqeBg0/dKkfuZOM4MxJTih
+ LU/udQDTYMi7phAtMzmTmwczrtbfG0mT8+l1dw4l13Rka+Q00KLUor5oAYVoX2tqiE0K
+ SpOaoP4UIEbDpHQoRAy61/rkspw+Tl+oskUaqtcV3mSw4WizMNv9nbFSCsxmfBI/4xlX
+ d/q63UP9J9MlA5WU1ZXRzyMfPEfm3u6azZZ6Lug2XG/c0sz61zksvJPD+9WmcOtpmxO2
+ KLjR/VBjJeU2szt24O/TvQ7F16lln2foknCBNajxGjq1iF7nd6BnugtGgVg+q/Hmvn5J
+ exJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:mime-version:content-disposition:content-transfer-encoding;
+ bh=VKGwhPniryUD+R7iA2Iuagn+/VdJ/qE11zRU7yzFitA=;
+ b=Lmnvll7Nj7zaV+4nrWj/JUEpzx8jvgP3jSU590tfoZVv+lCRXmi994TcI2rY1LKdnI
+ APJNz7Zz4/BMLAY5sPULHgn9vODLNMt2yMkamvZ+xXKdUluGZjGoJPTmoO7ytWF40zHd
+ 1QJ6yzbGY9Nn8eI9UlNAZI7mCt5vEoicosBr+15Pi4Xq5QbuyIqm/v8zO7fRRQdTleew
+ oPoqXqCqtbM+wMQD4aNiREyo7iYTXnTU/bGuLVVF1vo5jPXiHiLwzSdc4V2HBZkyFvJN
+ 5Bi111Tj6GGIDXIRR7sPGhtQ+tnFxHkHhKxVGQOSvjjlq1W24UI9e9Ck3fTuuwfJ7aw4
+ ZEpA==
+X-Gm-Message-State: AOAM533JC8HuTLKRijqOI+QJsl5VJ2/+PRfV9Nvx/tG9jVv2QsoLNdGJ
+ f5bmLeHXCtvgNwm/k/ym7A==
+X-Google-Smtp-Source: ABdhPJyemTc14qt+SFW/TGStkHVcajrLTSTsqQkguFj3IyuEaOCgBWdTfj81GZUAeTmRiddrPKH1lg==
+X-Received: by 2002:a4a:8241:: with SMTP id t1mr27441792oog.13.1625848250781; 
+ Fri, 09 Jul 2021 09:30:50 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ by smtp.gmail.com with ESMTPSA id p5sm1293271oip.35.2021.07.09.09.30.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 09:30:49 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:81c2:3042:a70b:e5b5])
+ by serve.minyard.net (Postfix) with ESMTPSA id C1D7A180058;
+ Fri,  9 Jul 2021 16:30:48 +0000 (UTC)
+Date: Fri, 9 Jul 2021 11:30:47 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [GIT PULL v2] I2C/IPMI bug fixes for QEMU 6.1
+Message-ID: <20210709163047.GC3599@minyard.net>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [20.15.0.204] (73.88.28.6) by
- CH0PR04CA0010.namprd04.prod.outlook.com (2603:10b6:610:76::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.19 via Frontend Transport; Fri, 9 Jul 2021 16:25:39 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1763f503-fa22-4d5a-fca6-08d942f630d5
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB4639:
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB4639C2AF02B189775C13A1A3F1189@SJ0PR10MB4639.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ySBjtSu8xPgtPEVMVFs+P80r95xhXiaPs5GqYZjmTVYkqi71wAuAoF7dpw4fxwpeK/Qs0zVnKv7Ox0uSHPGynAyIBW7EqtI6uElrj33bLrgTH8Dab4uz255a/cdO7YHNMoCvUWWiuVKD96RqmsWSQHk5H+7Bs9NTDZ/U7S2/+pB3zIR3EHsNpOSNNIVSfozKnSsbf3rnkRfth7Nv53uzB+e3qx/smOuUPtmmZ1wmOUsmi84G52cjT6HcmjSN3Q6C9aYYQUnOMOHpc/PjRgnkjCKytneO5SbXgC1Y+DDoum23nUQtIey+R1jiLICQOIfvrlwExy1z+Q8MaWb9UKxZlpi4AuvXGRPZChqaTPROQb43gyfCrBUdQYlC7JTKFbDOs5ZQjJN8KXnk5rKkeUwKpxQ0GynOoglbKLtMhVnjxShgXKsY4jjMwBu8RosBoKYgUVTsfMtXEcD5C8S2vmQwqxEqj+G1P6CRzT7ty3oDhVBQJqbww+wwhwynpThupWZWa/jImbs1XNZDSmphGrz4qa8uP/Gxc105itaKAdIIl3F8XP7nSCOFfMKBih6S/z7ye7ZE135I5baaoAdZO7O2K4u2qqD7nw2C33drv1z/JnU3KgPPF8fZEAoUL5+QrKlWS2TIfVYVMq9OI8a10DZLt21D1lAFYbkZtPSulhoUYDmx7AMcZlbRl0CIFdWR0ckMQdej0bXw7h8/x+/iu5gNo7zJLDXvs2oBRbEI4w261+5ke58xCffpB66C9HAmRB1493+vlFpAOLyNmoYNr0JK2WRfUlm1vRbMrrMk2qB978/UzDrd7te/UXbF/zDrvSZsELMkKpvifjz/WjrxBfJzpc5ZN4EgDntQrvAHUlqmoer2ZQeGzbMMmNkGUyfLU67S
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3573.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(346002)(366004)(136003)(39860400002)(376002)(478600001)(110136005)(38100700002)(5660300002)(66476007)(83380400001)(186003)(6706004)(966005)(16576012)(316002)(26005)(6486002)(31696002)(66556008)(66946007)(8676002)(2616005)(956004)(86362001)(2906002)(36756003)(8936002)(31686004)(78286007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WmR2dzRLVi9QOURyMDNxcWMyK21iSnRLMSt4LzFKc1VYOGh6TXNlL2VDSU00?=
- =?utf-8?B?RFZiU3hFdDlodzNFMG5VOFhnU0RySVp0eHBWVS95TllCM2FnVUlmbkU2blZ0?=
- =?utf-8?B?ZWJiaDZvL0hrQm9EUlJUNkJVRGUzaDMvcWFnbG9OWWNxMzE0aVBnQWpPTXBL?=
- =?utf-8?B?MmFPYThOdzhJdElGakFaZE5rWGIxdkRHd2Z6dmpDYyt4U1lBMHNtME1CV1dU?=
- =?utf-8?B?OVhJZE5sR0NaZ1BLNkpIMCtqL0RXNUtqN3gxTE53cG9iR3FxcEpOR1E3WDk0?=
- =?utf-8?B?QWZlc2xIVEU4VFBEb3NQVjlIbEVXTGFsblhwVHBiZ05ZY1RKWW01eS90Wmh1?=
- =?utf-8?B?UmNRcGcvSE1XdGdMQlpCdFdOT1V5bFJLemx1emlkUWZNYTRVR0tacXlLeGs0?=
- =?utf-8?B?V0V4NURIOVJCRmoxZURnVFh0azB6bjczRWtqSmNJVmVBNFlXRHpWOXJvL1BG?=
- =?utf-8?B?ZHJYbDVBSkpmVzNVQkxmUkg3bjR6cUNFMDl6Vnl1YSttRy9sTEZZVVZ6Vjgx?=
- =?utf-8?B?REkwVlFOemJjRGp4MzVUWkVUZXZFekVDb3llS2RTUFlTNCtINit3QitZUE1z?=
- =?utf-8?B?T0Z3Lzd1bkhrL1VCczhIak5CaklwZlNITng1dnR5dGpYL1FWUHlINGRTMlF2?=
- =?utf-8?B?VS9LSEllSjVhWHFvcGw1eTBHcGJDMm0yUnoyYk91N0NxYWRPY2FOVWJIZXpz?=
- =?utf-8?B?TmRqM2JyK3BGSnVCZVgwaWdwSWlNeGZMMUhUTHdaUVNQUVg0RGZWUjh0ZFpH?=
- =?utf-8?B?Z0l6ZFJQRUNxVmVJM2lIaGY2THVBb3VJcnYzdkU5SFN6clJMdklsVUtZTUZi?=
- =?utf-8?B?MzZKUk0veUttQ1F4VmIrOW9DOVA3ZkxuQUx0emtwdDZyVFIvK3RHbi9HMHdT?=
- =?utf-8?B?TUowemwzaWttWnY0QlZoRFZTUjlRbDZHRDlHWEFoU0NCeGpaSmxhQzhqa2c0?=
- =?utf-8?B?SWdESk9JUzE0QytpbGxIbnV4MFFkc2IxRDh1dGhLOVVBVFkrSGZ3YWpRdHdt?=
- =?utf-8?B?RVl3SXhrU0I2TER4NzFoc2hOVmp3ZmNDN09FYlZ4QUxIQm1nTjVaOGlQSDgv?=
- =?utf-8?B?L1A3bG84QWJMOUdac3NRNVlEUFREYW9jd0hJeTBUOUtiT2tiQmh2VU1sNDFx?=
- =?utf-8?B?cDRSSTFwNGZ1WU1tZ2lKL1Q2OC9VY1c3VVIxb0ZyeS9BalRtK1pQZkxGdVBB?=
- =?utf-8?B?L3oxQ3JydWs4OFlRbmFwQVN1OExWdVNqd0pmK0J0MzVHS091dGNLcWxFMnYr?=
- =?utf-8?B?WUl6UW5FODRoYk9DWU42OU1RT05zbEM2Y2F5UDlIejlSNkZxS1RwZ2tzUVN5?=
- =?utf-8?B?M2REclJobGtHQWRwaElLVGttSFQza2JKYnlqSWh2RS9XWHF1dzdONHNNSnRN?=
- =?utf-8?B?VHVzNG16S3lGNFltWXBDSHhEdkFXb096WFpSLy9NRVRYSjNkcitST3lwdFh0?=
- =?utf-8?B?SWdLTWdWeGlrQUFIWjlTdmxGRk9aNVNZaFhzTWk1NGFOcGxQenFPK1pPUmI5?=
- =?utf-8?B?S1NuRURVaS9wZEw4NHhUbnFPYWp3ekVOUjRjRTZFbXQwYVJwbWdEb1dpeGlL?=
- =?utf-8?B?L0FWTnNSSXNYdk5DMkMybE5aeElGaWdpNFZSdHIxR21IY3o5c3NCR0NndVJF?=
- =?utf-8?B?Ry9hR0dFNTEwT0U1VjNzWDNaeVBydGlUWGVjZG83djhWZDN0NXFJLzNUWUZH?=
- =?utf-8?B?dnpJTGJ5bzg2ZGRxQUk4YzZkbU93YWlRclQrTmE0ajcvYk9LZjZxek1xWGk5?=
- =?utf-8?Q?RbNHiRn2weWTOxiXKEgMJLbyoLVtmSjlIVrsX/e?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1763f503-fa22-4d5a-fca6-08d942f630d5
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3573.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2021 16:25:40.5020 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lHSzxMC/V7ScRDES9h14kAiXRAgMtb7ddUcBmi6LnT2VZ1BOU8ZXvnKlW1q+syMyQWj9SJuPN3tYOgFCLquSlnLjTEaD8YKdvaXURJeaoGk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4639
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10039
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- spamscore=0
- suspectscore=0 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107090082
-X-Proofpoint-GUID: 6pzYIKtGgNX8MQV0LcVmeqOG-2sEWUAN
-X-Proofpoint-ORIG-GUID: 6pzYIKtGgNX8MQV0LcVmeqOG-2sEWUAN
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=michael.christie@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c36;
+ envelope-from=tcminyard@gmail.com; helo=mail-oo1-xc36.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -176,52 +85,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minyard@acm.org
+Cc: Titus Rwantare <titusr@google.com>, Jinhua Cao <caojinhua1@huawei.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
+ Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The following changes since commit 38848ce565849e5b867a5e08022b3c755039c11a:
 
-The goal of this email is to try and figure how we want to track/limit the
-number of kernel threads created by vhost devices.
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210616' into staging (2021-06-16 17:02:30 +0100)
 
-Background:
------------
-For vhost-scsi, we've hit a issue where the single vhost worker thread can't
-handle all IO the being sent from multiple queues. IOPs is stuck at around
-500K. To fix this, we did this patchset:
+are available in the Git repository at:
 
-https://lore.kernel.org/linux-scsi/20210525180600.6349-1-michael.christie@oracle.com/
+  https://github.com/cminyard/qemu.git tags/for-qemu-6.1-2
 
-which allows userspace to create N threads and map them to a dev's virtqueues.
-With this we can get around 1.4M IOPs.
+for you to fetch changes up to 7649086f455fe44bd076828749a93ab2a5bb0806:
 
-Problem:
---------
-While those patches were being reviewed, a concern about tracking all these
-new possible threads was raised here:
+  tests/qtest: add tests for MAX34451 device model (2021-07-08 14:42:00 -0500)
 
-https://lore.kernel.org/linux-scsi/YL45CfpHyzSEcAJv@stefanha-x1.localdomain/
+Changes from v1:
 
-To save you some time, the question is what does other kernel code using the
-kthread API do to track the number of kernel threads created on behalf of
-a userspace thread. The answer is they don't do anything so we will have to
-add that code.
+For the 64-bit field in the PMBus patch, use BIT_ULL for the bits to
+fix compile issues on 32-bit hosts.
 
-I started to do that here:
+I updated my testing to build and test on a 32-bit host, which proved to
+be a bit more challenging than I expected.  But compiled and tested
+there, too.
 
-https://lkml.org/lkml/2021/6/23/1233
+Thank you,
 
-where those patches would charge/check the vhost device owner's RLIMIT_NPROC
-value. But, the question of if we really want to do this has come up which is
-why I'm bugging lists like libvirt now.
+-corey
 
-Question/Solution:
-------------------
-I'm bugging everyone so we can figure out:
+----------------------------------------------------------------
+Some qemu updates for IPMI and I2C
 
-If we need to specifically track the number of kernel threads being made
-for the vhost kernel use case by the RLIMIT_NPROC limit?
+Move some ADC file to where they belong and move some sensors to a
+sensor directory, since with new BMCs coming in lots of different
+sensors should be coming in.  Keep from cluttering things up.
 
-Or, is it ok to limit the number of devices with the RLIMIT_NOFILE limit.
-Then each device has a limit on the number of threads it can create.
+Add support for I2C PMBus devices.
+
+Replace the confusing and error-prone i2c_send_recv and i2c_transfer with
+specific send and receive functions.  Several errors have already been
+made with these, avoid any new errors.
+
+Fix the watchdog_expired field in the IPMI watchdog, it's not a bool,
+it's a u8.  After a vmstate transfer, the new value could be wrong.
+
+----------------------------------------------------------------
+BALATON Zoltan (1):
+      hw/i2c: Make i2c_start_transfer() direction argument a boolean
+
+Corey Minyard (3):
+      adc: Move the zynq-xadc file to the adc directories
+      adc: Move the max111x driver to the adc directory
+      sensor: Move hardware sensors from misc to a sensor directory
+
+Jinhua Cao (1):
+      ipmi/sim: fix watchdog_expired data type error in IPMIBmcSim struct
+
+Philippe Mathieu-Daudé (14):
+      hw/input/lm832x: Move lm832x_key_event() declaration to "lm832x.h"
+      hw/input/lm832x: Define TYPE_LM8323 in public header
+      hw/display/sm501: Simplify sm501_i2c_write() logic
+      hw/display/sm501: Replace i2c_send_recv() by i2c_recv() & i2c_send()
+      hw/i2c/ppc4xx_i2c: Add reference to datasheet
+      hw/i2c/ppc4xx_i2c: Replace i2c_send_recv() by i2c_recv() & i2c_send()
+      hw/misc/auxbus: Fix MOT/classic I2C mode
+      hw/misc/auxbus: Explode READ_I2C / WRITE_I2C_MOT cases
+      hw/misc/auxbus: Replace 'is_write' boolean by its value
+      hw/misc/auxbus: Replace i2c_send_recv() by i2c_recv() & i2c_send()
+      hw/i2c: Remove confusing i2c_send_recv()
+      hw/i2c: Rename i2c_set_slave_address() -> i2c_slave_set_address()
+      hw/i2c: Extract i2c_do_start_transfer() from i2c_start_transfer()
+      hw/i2c: Introduce i2c_start_recv() and i2c_start_send()
+
+Titus Rwantare (5):
+      hw/i2c: add support for PMBus
+      hw/misc: add ADM1272 device
+      tests/qtest: add tests for ADM1272 device model
+      hw/misc: add MAX34451 device
+      tests/qtest: add tests for MAX34451 device model
+
+ MAINTAINERS                                |   11 +-
+ hw/Kconfig                                 |    1 +
+ hw/adc/Kconfig                             |    3 +
+ hw/{misc => adc}/max111x.c                 |    2 +-
+ hw/adc/meson.build                         |    2 +
+ hw/{misc => adc}/zynq-xadc.c               |    2 +-
+ hw/arm/Kconfig                             |    3 +
+ hw/arm/aspeed.c                            |    2 +-
+ hw/arm/nseries.c                           |    5 +-
+ hw/arm/pxa2xx.c                            |    2 +-
+ hw/arm/spitz.c                             |    6 +-
+ hw/arm/xilinx_zynq.c                       |    2 +-
+ hw/display/ati.c                           |    2 +-
+ hw/display/sm501.c                         |   16 +-
+ hw/display/xlnx_dp.c                       |    2 +-
+ hw/i2c/Kconfig                             |    4 +
+ hw/i2c/core.c                              |   76 +-
+ hw/i2c/imx_i2c.c                           |    2 +-
+ hw/i2c/meson.build                         |    1 +
+ hw/i2c/pm_smbus.c                          |    4 +-
+ hw/i2c/pmbus_device.c                      | 1612 ++++++++++++++++++++++++++++
+ hw/i2c/ppc4xx_i2c.c                        |   15 +-
+ hw/i2c/smbus_master.c                      |   22 +-
+ hw/input/lm832x.c                          |    2 +-
+ hw/ipmi/ipmi_bmc_sim.c                     |    4 +-
+ hw/meson.build                             |    1 +
+ hw/misc/Kconfig                            |   15 -
+ hw/misc/auxbus.c                           |   68 +-
+ hw/misc/meson.build                        |    6 +-
+ hw/sensor/Kconfig                          |   19 +
+ hw/sensor/adm1272.c                        |  543 ++++++++++
+ hw/{misc => sensor}/emc141x.c              |    2 +-
+ hw/sensor/max34451.c                       |  775 +++++++++++++
+ hw/sensor/meson.build                      |    5 +
+ hw/{misc => sensor}/tmp105.c               |    2 +-
+ hw/{misc => sensor}/tmp421.c               |    0
+ include/hw/{misc => adc}/max111x.h         |    0
+ include/hw/{misc => adc}/zynq-xadc.h       |    0
+ include/hw/i2c/i2c.h                       |   46 +-
+ include/hw/i2c/pmbus_device.h              |  517 +++++++++
+ include/hw/input/lm832x.h                  |   28 +
+ include/hw/{misc => sensor}/emc141x_regs.h |    0
+ {hw/misc => include/hw/sensor}/tmp105.h    |    2 +-
+ include/hw/{misc => sensor}/tmp105_regs.h  |    0
+ tests/qtest/adm1272-test.c                 |  445 ++++++++
+ tests/qtest/emc141x-test.c                 |    2 +-
+ tests/qtest/max34451-test.c                |  336 ++++++
+ tests/qtest/meson.build                    |    2 +
+ tests/qtest/npcm7xx_smbus-test.c           |    2 +-
+ tests/qtest/tmp105-test.c                  |    2 +-
+ 50 files changed, 4496 insertions(+), 125 deletions(-)
+ rename hw/{misc => adc}/max111x.c (99%)
+ rename hw/{misc => adc}/zynq-xadc.c (99%)
+ create mode 100644 hw/i2c/pmbus_device.c
+ create mode 100644 hw/sensor/Kconfig
+ create mode 100644 hw/sensor/adm1272.c
+ rename hw/{misc => sensor}/emc141x.c (99%)
+ create mode 100644 hw/sensor/max34451.c
+ create mode 100644 hw/sensor/meson.build
+ rename hw/{misc => sensor}/tmp105.c (99%)
+ rename hw/{misc => sensor}/tmp421.c (100%)
+ rename include/hw/{misc => adc}/max111x.h (100%)
+ rename include/hw/{misc => adc}/zynq-xadc.h (100%)
+ create mode 100644 include/hw/i2c/pmbus_device.h
+ create mode 100644 include/hw/input/lm832x.h
+ rename include/hw/{misc => sensor}/emc141x_regs.h (100%)
+ rename {hw/misc => include/hw/sensor}/tmp105.h (97%)
+ rename include/hw/{misc => sensor}/tmp105_regs.h (100%)
+ create mode 100644 tests/qtest/adm1272-test.c
+ create mode 100644 tests/qtest/max34451-test.c
+
 
