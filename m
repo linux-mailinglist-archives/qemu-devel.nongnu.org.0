@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87F0E3C262C
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:45:34 +0200 (CEST)
-Received: from localhost ([::1]:50852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA833C262B
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:44:23 +0200 (CEST)
+Received: from localhost ([::1]:47408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rkx-0004Z3-PL
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:45:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49494)
+	id 1m1rjq-0002J0-QO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:44:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdK-0004hT-Dc
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:38 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39732)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdI-0000DR-FH
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:38 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso9235043wmh.4
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oS1S2allDRCwTqJLfgxd4YbJAktd2ptss87hkbFVJp0=;
- b=iNvvE9CNnBmAhP4cas2brMgvoAOGUqK5YHgZGAE2EmtABnIsl6IDSIYwgs4DHdnD9/
- dL7Xo/oyj+ub7JabBW03mS9e9jxt/rLyViXnqNvj64ic2jqu1oEPMIsnqUT6O1pMG3V4
- LfSTfxOS+Ai88Yu0CCbciGmoJpMcJz6Oy5U5muc6MW3bp9ZxmZuRL7dumVXM7zBVl9Yc
- KELcu5w6ViOgmjsMYnJ0YWxFaTuOt+vQJlOw4lFEmuTrcSxFE+jBVR2uyjy1HeZkW9yT
- 3kY8hRiiQonPEgluIlgpbZVflBdRSFkCFj+jNSeYGMqTZvRoIoOFTRICeqj4m5EfgZgz
- pU6g==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m1rao-0000OW-SW
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:35:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m1ral-0007U6-Je
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:35:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625841298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/H4fs8vCApx/sHJieTCAxMgiQ9F4cX+YyKuvvB7S5s0=;
+ b=KhUQf9QRaaC/DMsSnqkH8yS7byw2EtPF3DXPq15wCIsBt1o37WGSFD4U/Ls/37R0SbVdQw
+ uyNqZrBB5uJ/yp37XE3gbvWx+W42P+EydaaaIzUSPQA0Z4sKchn4WL4f0B2EPUfrjngPxW
+ QG4Ay4ELdVieXp23AFysMV6Rd+F7GCg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-s9n0oQtMObyX5YLuWcnQuA-1; Fri, 09 Jul 2021 10:34:57 -0400
+X-MC-Unique: s9n0oQtMObyX5YLuWcnQuA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ g4-20020a5d64e40000b029013398ce8904so2985307wri.16
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:34:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oS1S2allDRCwTqJLfgxd4YbJAktd2ptss87hkbFVJp0=;
- b=udHM8Ej0T8Mbj07PX3ghV/0hZo6T25EEb1YsAypBg/KplYVH2DNhIoh4p3iymnHfKB
- b8z/FgP/8gyac40Lo5TZGgoduzX8zIfqkHiPSmQ3fYh+a5SV2kOVNNrPcBkP7lehf/0R
- qFFbAQshuNuG5BqllquWu8+/K4hx+cWpWn0D9MPsPfg9i72K7p5g6Gvf1mxXc7X39w4e
- 5DGas+ZKJ0r5tniCS9V0OKU9Izx6nkqErFUxeXJ38obeHGERisUm+mkIl25Lw4mmya61
- zij4Z7EJcJeAa67alr45OEj5RGv5QkBNHAaN+R1OYQiYuc3NjOFZqMvHDgRI/nQMO1Wl
- 69rA==
-X-Gm-Message-State: AOAM532gFUOKSKhIhmE3M61Iakroq1E+7GJVfftHXe1Hg1Quw5u/xQ3w
- 0xQbr8g5J29rHngyUSW5hWvjYQ==
-X-Google-Smtp-Source: ABdhPJy73Bg0nKRXUB73pXpe0okOZaSmfw/bBWmzRFabcFR/Hb78KZOHCjKOv1r+LvEwuYwPwPYY0w==
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr11615179wme.35.1625841453876; 
- Fri, 09 Jul 2021 07:37:33 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l16sm12919842wmj.47.2021.07.09.07.37.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 07:37:31 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DB5071FFC1;
- Fri,  9 Jul 2021 15:30:14 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 40/40] MAINTAINERS: Added myself as a reviewer for TCG
- Plugins
-Date: Fri,  9 Jul 2021 15:30:05 +0100
-Message-Id: <20210709143005.1554-41-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
-References: <20210709143005.1554-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/H4fs8vCApx/sHJieTCAxMgiQ9F4cX+YyKuvvB7S5s0=;
+ b=jjioeK1Ra4N4eDab2s0zxD0Ilih7Qro7STl/nFfjeFo1jT2YIFgbFRr1ddCtTK5ohC
+ PxwBE193Hul1sOaghNHEpKEC0k1+EbIvCA4qY5CilYMFvJ3zTZ2ABCWuC8+PeqWCut8a
+ 5LQJm7brvB25z96qpBLEh3Sgf4a5OdQ3KSouknrV9iXyNbTO870cYBesqLOqylZ9S40B
+ CaEgFI3jxbdYnDVfA7Mh5oqPI4Fjr9DN1PCEQXzLqYJs+9/MqdzPMW3c61u6etyDg8+H
+ E6j6QBVH4vHyJ98dtgEdavW56eAm29JnosbXOhAjnkgt4eKnhfWXmMBsTBV8uDJ4+4Jm
+ aFcQ==
+X-Gm-Message-State: AOAM532OedM2ofyyBueGgRGkPRfeSDjY0ioT7dMbs6QkbgWI2hRcLZr0
+ IUJoG5ywmwDUgCqh97uMQl5D4iEbB2qMcbZLGHwX09sb39w2bJPKcXrG3B0OjpmLPjfwnJgf2U2
+ BRhfzB//YUwxR0AI=
+X-Received: by 2002:a5d:5692:: with SMTP id f18mr20454901wrv.135.1625841296172; 
+ Fri, 09 Jul 2021 07:34:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7tQc8HZhSj1ECSXwkW3sp7ZK9HoPdhP0d7gSxpvVkFAmsrXnI4xUp7MPkb/VPPjUJUd1HoQ==
+X-Received: by 2002:a5d:5692:: with SMTP id f18mr20454882wrv.135.1625841295951; 
+ Fri, 09 Jul 2021 07:34:55 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e8303d.dip0.t-ipconnect.de.
+ [217.232.48.61])
+ by smtp.gmail.com with ESMTPSA id l14sm396696wrs.22.2021.07.09.07.34.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jul 2021 07:34:55 -0700 (PDT)
+Subject: Re: [RFC PATCH] gitlab-ci: Test compilation on Windows with MSYS2
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210709075218.1796207-1-thuth@redhat.com>
+ <YOgGuJkAZ3AeRVTK@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c7f2d936-bc4c-4524-f152-6517c0345016@redhat.com>
+Date: Fri, 9 Jul 2021 16:34:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <YOgGuJkAZ3AeRVTK@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,37 +99,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
- kuhn.chenqun@huawei.com, f4bug@amsat.org, robhenry@microsoft.com,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
+On 09/07/2021 10.20, Daniel P. Berrangé wrote:
+> On Fri, Jul 09, 2021 at 09:52:18AM +0200, Thomas Huth wrote:
+>> Gitlab also provides runners with Windows, we can use them to
+>> test compilation with MSYS2.
+>>
+>> However, it takes quite a long time to set up the VM, so to
+>> stay in the 1h time frame, we can only compile and check one
+>> target here. And there is also still a problem with compiling
+>> the multiboot.bin in pc-bios/optionrom/, so this is currently
+>> disabled, too.
+> 
+> THe gitlab VM provisioning seems quite fast (2+1/2 minutes),
+> so I guess you mean the time is sunk in intsalling msys
+> packages.
+> 
+> In the crurent Cirrus job there's a bunch of code that is
+> done to cache all the msys install, so that 90% of the time
+> we're merely extracting a local zipfile.
+> 
+> I wonder if we can do similar caching here.
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623125458.450462-6-ma.mandourr@gmail.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Maybe, yes. It might save 10 - 15 minutes or so, I guess.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee456e5fb4..77b304afac 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2982,6 +2982,7 @@ F: include/tcg/
- TCG Plugins
- M: Alex Bennée <alex.bennee@linaro.org>
- R: Alexandre Iooss <erdnaxe@crans.org>
-+R: Mahmoud Mandour <ma.mandourr@gmail.com>
- S: Maintained
- F: docs/devel/tcg-plugins.rst
- F: plugins/
--- 
-2.20.1
+> Perhaps even
+> have 2 seprate jobs running on the windows runner. The
+> first job can just build a zip file and store it as an
+> artifact and cache it in gitlab for speed. The second
+> job can do the actual build ?
+
+I'm not sure ... the Windows builders are likely single-threaded on Gitlab, 
+too, just like the Linux containers. So that the main problem - while we can 
+compile with -j8 on Cirrus, it's 8 times slower on Gitlab.
+
+  Thomas
 
 
