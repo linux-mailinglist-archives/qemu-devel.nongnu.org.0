@@ -2,67 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C043D3C2588
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:04:30 +0200 (CEST)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 347F53C25A7
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:13:48 +0200 (CEST)
+Received: from localhost ([::1]:35854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1r7F-0002MX-Q5
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:04:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43448)
+	id 1m1rGF-00048k-8j
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1r6D-0001go-V1
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:03:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38686)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1rCc-0006cN-7U
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:10:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1r6B-0000wl-5u
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:03:25 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m1rCZ-00046U-Ig
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:10:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625839402;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LJH2Slet6A41VFFUrqILdB8NxSo8j3gAlEhfM9VA6lg=;
- b=NyM7tLc7EcFuz9jm9El/3kdEVWCFRWmmXU9cyGQ0ml7DDw+9yKtZGJ6hf1lS7DBBwMM5lE
- uozFQS/hpfhsBistZ51JAD+YN5TUltTCnYyAl5oGxDMkPoFnSXDAKj2L2SGCMSm73deJab
- RyQ6b1yQ72xVhBFk1Om6UgkJYC2Txi0=
+ s=mimecast20190719; t=1625839799;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=suXSCQ6TWeerNFFcI8xjK3T8KBmcwtadOKrLQvdXUNk=;
+ b=Uc6QoJ0I86B3Mc93lU0zDI8js1neHVEYE4OxC7EHQ6qx27a4QN6MTSyYDAEynQnWrPg/dI
+ DxJvr85zWFio+ZWP/5E5ghD8AWsb/RkjDEGGc+pxCpyWekcnxy2205qbIjeOpvFIZG2ehT
+ HoXMmB/avqep2XTF477nO3mQM/NogqU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-D-HthgH1PmCvpev87J5SRw-1; Fri, 09 Jul 2021 10:03:19 -0400
-X-MC-Unique: D-HthgH1PmCvpev87J5SRw-1
+ us-mta-350-J7BxEIs5Of--0GfMdKWp0A-1; Fri, 09 Jul 2021 10:09:55 -0400
+X-MC-Unique: J7BxEIs5Of--0GfMdKWp0A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7A93804142
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 14:03:18 +0000 (UTC)
-Received: from redhat.com (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B6F4860CC9;
- Fri,  9 Jul 2021 14:03:12 +0000 (UTC)
-Date: Fri, 9 Jul 2021 15:03:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH 16/18] crypto: add gnutls hmac provider
-Message-ID: <YOhXHAqlKgYU9Ch2@redhat.com>
-References: <20210706095924.764117-1-berrange@redhat.com>
- <20210706095924.764117-17-berrange@redhat.com>
- <20210708193519.yljm4vovvjup2e6y@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64BB5CC622
+ for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 14:09:54 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3303D60C04
+ for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 14:09:54 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] NBD patches for soft freeze, 2021-07-09
+Date: Fri,  9 Jul 2021 09:09:47 -0500
+Message-Id: <20210709140951.2775730-1-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210708193519.yljm4vovvjup2e6y@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,75 +73,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 08, 2021 at 02:35:19PM -0500, Eric Blake wrote:
-> On Tue, Jul 06, 2021 at 10:59:22AM +0100, Daniel P. Berrangé wrote:
-> > This adds support for using gnutls as a provider of the crypto
-> > hmac APIs.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >  crypto/hmac-gnutls.c | 136 +++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 136 insertions(+)
-> >  create mode 100644 crypto/hmac-gnutls.c
-> > 
-> > diff --git a/crypto/hmac-gnutls.c b/crypto/hmac-gnutls.c
-> > new file mode 100644
-> > index 0000000000..ea33b5753b
-> > --- /dev/null
-> > +++ b/crypto/hmac-gnutls.c
-> > @@ -0,0 +1,136 @@
-> > +/*
-> > + * QEMU Crypto hmac algorithms
-> > + *
-> > + * Derived from hmac-gcrypt.c:
-> > + *
-> > + *   Copyright (c) 2016 HUAWEI TECHNOLOGIES CO., LTD.
-> 
-> Is this line correct?
+The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
 
-This is referring to the statement above "Derived from..."
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
 
+are available in the Git repository at:
 
-I should have /also/ added a Red Hat copyright before though
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-07-09
 
-> 
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * (at your option) any later version.  See the COPYING file in the
-> > + * top-level directory.
-> > + *
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qapi/error.h"
-> > +#include "crypto/hmac.h"
-> > +#include "hmacpriv.h"
-> > +#include <gnutls/crypto.h>
-> 
-> Should you favor floating this to be right after "qemu/osdep.h"?
+for you to fetch changes up to 62967c9927ec4d733b923c70f9f5428dd1d2e0d7:
 
-yeah good idea
+  nbd: register yank function earlier (2021-07-09 08:27:33 -0500)
 
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3266
-> Virtualization:  qemu.org | libvirt.org
-> 
+----------------------------------------------------------------
+nbd patches for 2021-07-09
 
-Regards,
-Daniel
+- enhance 'qemu-img map --output=json' to make it easier to duplicate
+backing chain allocation patterns
+- fix a race in the 'yank' QMP command in relation to NBD requests
+
+----------------------------------------------------------------
+Eric Blake (3):
+      iotests: Improve and rename test 309 to nbd-qemu-allocation
+      qemu-img: Make unallocated part of backing chain obvious in map
+      qemu-img: Reword 'qemu-img map --output=json' docs
+
+Lukas Straub (1):
+      nbd: register yank function earlier
+
+ docs/tools/qemu-img.rst                            |  17 +-
+ qapi/block-core.json                               |   7 +-
+ block/nbd.c                                        |   8 +-
+ qemu-img.c                                         |   7 +-
+ tests/qemu-iotests/122.out                         |  84 ++++-----
+ tests/qemu-iotests/154.out                         | 190 +++++++++++----------
+ tests/qemu-iotests/179.out                         | 133 ++++++++++-----
+ tests/qemu-iotests/209.out                         |   4 +-
+ tests/qemu-iotests/223.out                         |  56 +++---
+ tests/qemu-iotests/244.out                         |  23 +--
+ tests/qemu-iotests/252.out                         |  10 +-
+ tests/qemu-iotests/274.out                         |  48 +++---
+ tests/qemu-iotests/291.out                         |  24 +--
+ tests/qemu-iotests/309.out                         |  22 ---
+ .../{309 => tests/nbd-qemu-allocation}             |   5 +-
+ tests/qemu-iotests/tests/nbd-qemu-allocation.out   |  32 ++++
+ 16 files changed, 372 insertions(+), 298 deletions(-)
+ delete mode 100644 tests/qemu-iotests/309.out
+ rename tests/qemu-iotests/{309 => tests/nbd-qemu-allocation} (95%)
+ create mode 100644 tests/qemu-iotests/tests/nbd-qemu-allocation.out
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
