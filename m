@@ -2,76 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A5313C1EBA
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:02:18 +0200 (CEST)
-Received: from localhost ([::1]:57176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9383A3C1ED3
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:20:00 +0200 (CEST)
+Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ieX-0000zD-4v
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:02:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60060)
+	id 1m1ivf-0003zx-IY
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:19:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1m1icu-0007lV-7O
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 01:00:36 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:46665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
- id 1m1ics-0001sx-Hi
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 01:00:35 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id w15so8737891pgk.13
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 22:00:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wcw1UFkZsY7Ce0CwmOfy1sRz7X0d/zWB8c6zN8lHge8=;
- b=Xv0edohQyxgKtXUWIfriMALfyx7xBrRjr/JhW9wLfhptZ/vw35afxT8IIVBB/HOuAB
- 1FG9f1SnKZYxJdjapBMzl3rTmRwP+Wu5JDgt9Peaz/aA0wvGHunEtF/C51fqYjWwMYkd
- n65EQmwpX9QyhAO9awUuYgZiLFoEAjwqo40NcIowk42DH4UEyoY5uiM6U+3Uhu8VGDFx
- 9RK724bh6ehpNnbA3Ca3LfZwbNonhHS8s5hB/CeKyV4zrNJIVy27qAqqWvS18Li32ZDx
- vF421Fr2p08rUH/PcjihqxvFynB1dKHHbmSN/yiZ+DUm9XwunG9bd/BSiNsa77adEbN5
- rhOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wcw1UFkZsY7Ce0CwmOfy1sRz7X0d/zWB8c6zN8lHge8=;
- b=tuFKVzlhzxdTy2ppMHOSGt0MHGjLGMjlBInbEsKcVKhnN/3aAD4DZwbYLgLtS93QsP
- RAdSR//cxCY8U6vVeWJJgW1Uru2GgXMqnKX4L+tlr3hRWYCYoeF2g3OC/3g4Ju4anJXP
- IdaQF0TKsrd3mviv74L1jxsPg5prt3WXC/aB88wwU30jcsBJSVoxqxuqBwve8qqPF0nh
- bVCirFMPnaycAP+OWW+WeJ59tygduIzDg+YZE6U3Pd7LC6is0cmKqw8HqSlj3gNHENS+
- nM9ip9E9TGu37ONluU4RE/UIWLaOLQFxnXkEgFmfATFsBCBtvMMR0y67Rb0SqCLb1Igz
- +Ztw==
-X-Gm-Message-State: AOAM530cZ0tOAiprYCISqKNW2aq/o1YAf8rnQy07FoGNg/OlVtjWPD/p
- jmZbQzR2dxhf402INarZMb9vYq17dqs9Nw==
-X-Google-Smtp-Source: ABdhPJw1TF7VgUDccVTHxm8MHhNZS9n1a3o+VS6/fQDNuchAcclt+4vn0w2cCSFSRp7HpdEJsB1VpQ==
-X-Received: by 2002:a62:7b8b:0:b029:31d:8034:7c37 with SMTP id
- w133-20020a627b8b0000b029031d80347c37mr27815890pfc.62.1625806833177; 
- Thu, 08 Jul 2021 22:00:33 -0700 (PDT)
-Received: from localhost ([106.201.108.2])
- by smtp.gmail.com with ESMTPSA id u13sm4389132pfi.54.2021.07.08.22.00.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 22:00:32 -0700 (PDT)
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH V2 3/3] MAINTAINERS: Add entry for virtio-i2c
-Date: Fri,  9 Jul 2021 10:30:18 +0530
-Message-Id: <270484de4be7d0cddfecac4e8bf9b9abe756d9e8.1625806763.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1625806763.git.viresh.kumar@linaro.org>
-References: <cover.1625806763.git.viresh.kumar@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m1ita-0000s2-5c; Fri, 09 Jul 2021 01:17:50 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40785 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m1itV-0001pH-H8; Fri, 09 Jul 2021 01:17:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GLhHc5Lmkz9sWX; Fri,  9 Jul 2021 15:17:32 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1625807852;
+ bh=aa7MGsey37Y3eptsAoRe08PFgphHCdjFLG9sqFce1tQ=;
+ h=From:To:Cc:Subject:Date:From;
+ b=XfFbS1RxID5X5WE6sM3wrvzXYoHs3lRB0BKdyCiIgANFV+9AsxXNz9Yl8fqoGoxBE
+ qyj7oI2vdtTFDQU2xUPXNAuVV9X7cu/cUzffH8yqmOJ4qrWfgIduNniCTUBSmnSL66
+ RPJ3XU/2r6kr//Xyx8lrHOxK4XNO4N0DEXQ/IQlM=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org,
+	groug@kaod.org
+Subject: [PULL 00/33] ppc-for-6.1 queue 20210709
+Date: Fri,  9 Jul 2021 15:16:55 +1000
+Message-Id: <20210709051728.170203-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=viresh.kumar@linaro.org; helo=mail-pg1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,39 +56,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vincent Guittot <vincent.guittot@linaro.org>, Jie Deng <jie.deng@intel.com>,
- Viresh Kumar <viresh.kumar@linaro.org>, Bill Mills <bill.mills@linaro.org>,
- Arnd Bergmann <arnd.bergmann@linaro.com>, Mike Holmes <mike.holmes@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds entry for virtio-i2c related files in MAINTAINERS.
+The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 684142e12eaa..2869fb185253 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2143,6 +2143,13 @@ F: docs/interop/vhost-user-gpu.rst
- F: contrib/vhost-user-gpu
- F: hw/display/vhost-user-*
- 
-+vhost-user-i2c
-+M: Viresh Kumar <viresh.kumar@linaro.org>
-+S: Supported
-+F: hw/virtio/vhost-user-i2c.c
-+F: hw/virtio/vhost-user-i2c-pci.c
-+F: include/hw/virtio/vhost-user-i2c.h
-+
- Cirrus VGA
- M: Gerd Hoffmann <kraxel@redhat.com>
- S: Odd Fixes
--- 
-2.31.1.272.g89b43f80a514
+are available in the Git repository at:
 
+  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.1-20210709
+
+for you to fetch changes up to 82123b756a1a2f1965350e5794aaa7b5c6a15282:
+
+  target/ppc: Support for H_RPT_INVALIDATE hcall (2021-07-09 11:01:06 +1000)
+
+----------------------------------------------------------------
+ppc patch queue 2021-07-09
+
+Here's a (probably) final pull request before the qemu-6.1 soft
+freeze.  Includes:
+  * Implementation of the new H_RPT_INVALIDATE hypercall
+  * Virtual Open Firmware for pSeries and pegasos2 machine types.
+    This is an experimental minimal Open Firmware implementation which
+    works by delegating nearly everything to qemu itself via a special
+    hypercall.
+  * A number of cleanups to the ppc soft MMU code
+  * Fix to handling of two-level radix mode translations for the
+    powernv machine type
+  * Update the H_GET_CPU_CHARACTERISTICS call with newly defined bits.
+    This will allow more flexible handling of possible future CPU
+    Spectre-like flaws
+  * Correctly treat mtmsrd as an illegal instruction on BookE cpus
+  * Firmware update for the ppce500 machine type
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (3):
+      spapr: tune rtas-size
+      spapr: Implement Open Firmware client interface
+      spapr: Fix implementation of Open Firmware client interface
+
+BALATON Zoltan (4):
+      ppc/pegasos2: Introduce Pegasos2MachineState structure
+      target/ppc: Allow virtual hypervisor on CPU without HV
+      ppc/pegasos2: Use Virtual Open Firmware as firmware replacement
+      ppc/pegasos2: Implement some RTAS functions with VOF
+
+Bharata B Rao (2):
+      linux-headers: Update
+      target/ppc: Support for H_RPT_INVALIDATE hcall
+
+Bin Meng (2):
+      roms/u-boot: Bump ppce500 u-boot to v2021.07 to add eTSEC support
+      docs/system: ppc: Update ppce500 documentation with eTSEC support
+
+Bruno Larsen (billionai) (4):
+      target/ppc: fix address translation bug for radix mmus
+      target/ppc: changed ppc_hash64_xlate to use mmu_idx
+      target/ppc: introduce mmu-books.h
+      target/ppc: change ppc_hash32_xlate to use mmu_idx
+
+David Gibson (1):
+      ppc/pegasos2: Fix use of && instead of &
+
+Fabiano Rosas (3):
+      target/ppc: Fix compilation with DUMP_PAGE_TABLES debug option
+      target/ppc: Fix compilation with FLUSH_ALL_TLBS debug option
+      target/ppc: Fix compilation with DEBUG_BATS debug option
+
+Greg Kurz (2):
+      target/ppc: Introduce ppc_interrupts_little_endian()
+      target/ppc: Drop PowerPCCPUClass::interrupts_big_endian()
+
+Lucas Mateus Castro (alqotel) (1):
+      target/ppc: Don't compile ppc_tlb_invalid_all without TCG
+
+Nicholas Piggin (2):
+      target/ppc: mtmsrd is an illegal instruction on BookE
+      target/ppc/spapr: Update H_GET_CPU_CHARACTERISTICS L1D cache flush bits
+
+Richard Henderson (9):
+      target/ppc: Remove PowerPCCPUClass.handle_mmu_fault
+      target/ppc: Use MMUAccessType with *_handle_mmu_fault
+      target/ppc: Push real-mode handling into ppc_radix64_xlate
+      target/ppc: Use bool success for ppc_radix64_xlate
+      target/ppc: Split out ppc_hash64_xlate
+      target/ppc: Split out ppc_hash32_xlate
+      target/ppc: Split out ppc_jumbo_xlate
+      target/ppc: Introduce ppc_xlate
+      target/ppc: Restrict ppc_cpu_tlb_fill to TCG
+
+ MAINTAINERS                                        |   12 +
+ default-configs/devices/ppc-softmmu.mak            |    2 +-
+ docs/system/ppc/ppce500.rst                        |   10 +-
+ hw/ppc/Kconfig                                     |    5 +
+ hw/ppc/meson.build                                 |    3 +
+ hw/ppc/pegasos2.c                                  |  789 ++++++++++++++-
+ hw/ppc/spapr.c                                     |   77 +-
+ hw/ppc/spapr_caps.c                                |   41 +
+ hw/ppc/spapr_hcall.c                               |   24 +-
+ hw/ppc/spapr_vof.c                                 |  167 ++++
+ hw/ppc/trace-events                                |   24 +
+ hw/ppc/vof.c                                       | 1053 ++++++++++++++++++++
+ include/hw/ppc/spapr.h                             |   31 +-
+ include/hw/ppc/vof.h                               |   58 ++
+ include/standard-headers/asm-x86/kvm_para.h        |   13 +
+ include/standard-headers/drm/drm_fourcc.h          |    7 +
+ include/standard-headers/linux/ethtool.h           |    4 +-
+ include/standard-headers/linux/input-event-codes.h |    1 +
+ include/standard-headers/linux/virtio_ids.h        |    2 +-
+ include/standard-headers/linux/virtio_vsock.h      |    9 +
+ linux-headers/asm-arm64/kvm.h                      |   11 +
+ linux-headers/asm-generic/mman-common.h            |    3 +
+ linux-headers/asm-generic/unistd.h                 |    4 +-
+ linux-headers/asm-mips/mman.h                      |    3 +
+ linux-headers/asm-mips/unistd_n32.h                |    1 +
+ linux-headers/asm-mips/unistd_n64.h                |    1 +
+ linux-headers/asm-mips/unistd_o32.h                |    1 +
+ linux-headers/asm-powerpc/unistd_32.h              |    1 +
+ linux-headers/asm-powerpc/unistd_64.h              |    1 +
+ linux-headers/asm-s390/unistd_32.h                 |    1 +
+ linux-headers/asm-s390/unistd_64.h                 |    1 +
+ linux-headers/asm-x86/kvm.h                        |   13 +
+ linux-headers/asm-x86/unistd_32.h                  |    7 +-
+ linux-headers/asm-x86/unistd_64.h                  |    7 +-
+ linux-headers/asm-x86/unistd_x32.h                 |    7 +-
+ linux-headers/linux/kvm.h                          |  105 ++
+ linux-headers/linux/userfaultfd.h                  |   11 +-
+ pc-bios/README                                     |    4 +
+ pc-bios/u-boot.e500                                |  Bin 406920 -> 421720 bytes
+ pc-bios/vof-nvram.bin                              |  Bin 0 -> 16384 bytes
+ pc-bios/vof.bin                                    |  Bin 0 -> 3456 bytes
+ pc-bios/vof/Makefile                               |   23 +
+ pc-bios/vof/bootmem.c                              |   14 +
+ pc-bios/vof/ci.c                                   |   91 ++
+ pc-bios/vof/entry.S                                |   49 +
+ pc-bios/vof/libc.c                                 |   66 ++
+ pc-bios/vof/main.c                                 |   21 +
+ pc-bios/vof/vof.h                                  |   41 +
+ pc-bios/vof/vof.lds                                |   48 +
+ roms/u-boot                                        |    2 +-
+ target/ppc/arch_dump.c                             |    8 +-
+ target/ppc/cpu-qom.h                               |    2 -
+ target/ppc/cpu.c                                   |    2 +-
+ target/ppc/cpu.h                                   |   15 +
+ target/ppc/cpu_init.c                              |   64 +-
+ target/ppc/excp_helper.c                           |    3 +-
+ target/ppc/kvm.c                                   |   12 +
+ target/ppc/kvm_ppc.h                               |   12 +
+ target/ppc/mmu-book3s-v3.c                         |   19 -
+ target/ppc/mmu-book3s-v3.h                         |    6 +-
+ target/ppc/mmu-books.h                             |   30 +
+ target/ppc/mmu-hash32.c                            |  254 +++--
+ target/ppc/mmu-hash32.h                            |    8 +-
+ target/ppc/mmu-hash64.c                            |  157 ++-
+ target/ppc/mmu-hash64.h                            |    6 +-
+ target/ppc/mmu-radix64.c                           |  151 ++-
+ target/ppc/mmu-radix64.h                           |    6 +-
+ target/ppc/mmu_helper.c                            |  215 ++--
+ target/ppc/translate.c                             |    5 +
+ tests/qtest/rtas-test.c                            |   15 +-
+ 70 files changed, 3256 insertions(+), 603 deletions(-)
+ create mode 100644 hw/ppc/spapr_vof.c
+ create mode 100644 hw/ppc/vof.c
+ create mode 100644 include/hw/ppc/vof.h
+ create mode 100644 pc-bios/vof-nvram.bin
+ create mode 100755 pc-bios/vof.bin
+ create mode 100644 pc-bios/vof/Makefile
+ create mode 100644 pc-bios/vof/bootmem.c
+ create mode 100644 pc-bios/vof/ci.c
+ create mode 100644 pc-bios/vof/entry.S
+ create mode 100644 pc-bios/vof/libc.c
+ create mode 100644 pc-bios/vof/main.c
+ create mode 100644 pc-bios/vof/vof.h
+ create mode 100644 pc-bios/vof/vof.lds
+ create mode 100644 target/ppc/mmu-books.h
 
