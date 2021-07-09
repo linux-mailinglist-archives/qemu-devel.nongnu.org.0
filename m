@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE2A3C2143
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 11:10:27 +0200 (CEST)
-Received: from localhost ([::1]:42510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52C453C2148
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 11:12:19 +0200 (CEST)
+Received: from localhost ([::1]:45226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1mWg-00063r-91
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 05:10:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45938)
+	id 1m1mYU-0007xq-E7
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 05:12:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1m1mVj-0005Dh-CE; Fri, 09 Jul 2021 05:09:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:47099)
+ id 1m1mXL-00071V-0X; Fri, 09 Jul 2021 05:11:07 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:34701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1m1mVh-0003la-Jd; Fri, 09 Jul 2021 05:09:27 -0400
+ id 1m1mXI-0004cb-SS; Fri, 09 Jul 2021 05:11:06 -0400
 Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
  (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MMXDj-1lmBCP0B0R-00JWki; Fri, 09 Jul 2021 11:09:14 +0200
-Subject: Re: [PATCH] misc: Remove redundant new line in perror()
+ 1MF3U0-1lvCxQ2mhU-00FWuu; Fri, 09 Jul 2021 11:11:00 +0200
+Subject: Re: [PATCH v2] hw/virtio: Document *_should_notify() are called
+ within rcu_read_lock()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-devel@nongnu.org
-References: <20210706094433.1766952-1-lizhijian@cn.fujitsu.com>
- <adc664b6-f4c8-1804-357a-f3f0b94e8e24@redhat.com>
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210523094040.3516968-1-philmd@redhat.com>
+ <d3198f6b-3bce-1686-2123-e1c44479bdf9@redhat.com>
+ <5711b02d-5cc0-414c-eb5c-4e8a7f191088@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <3b90356c-53e3-872f-2ca6-16c31eba68a5@vivier.eu>
-Date: Fri, 9 Jul 2021 11:09:12 +0200
+Message-ID: <ed8c5bab-8921-c497-acd1-d7ceefd8ca7b@vivier.eu>
+Date: Fri, 9 Jul 2021 11:10:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <adc664b6-f4c8-1804-357a-f3f0b94e8e24@redhat.com>
+In-Reply-To: <5711b02d-5cc0-414c-eb5c-4e8a7f191088@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3wi7y5V/fLXm37ZURUSGO0pWbHPhvrg40wqelgks7oBcINcMKEv
- 0eyoxUQqNweEZjJGcSYcYg/utI1nJCzK/TYHF9n9YNmB3QoIoseSk8ynxNORgCcQwxGiUxp
- 1YDG9lcl3Gd6BlRtWvOcQrzhwOXMGFvqTFriMxfK1FC5azPqlZ0yvQavck0dE9d0Njri7AE
- 0zmVEW9fd+girAmfq6rmg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:a7dFB9kLaKU=:WZr48beCNlauACHv4h2Qd6
- DDgFgZmsAyaLPoUgzvwytA1y6N78RUzku92K8m5Q1+IeWULDOfGfIgKPhyZ4uy3m5r0UP6Oz0
- IOj7mWiw/sESUmiiXWUhR9/vI31aKg+JGOL39xLdBWrAWUh4AsBPDERfYaUeRY4XsylrIjCjZ
- Buu1r0mbzVeEO/qDP3AOeiGMffWYxYVqgu4FapLkyOmE+/W+hIq/CUoEkqxwpGc2UADaaEUS7
- YRSvTjsYGZsLe8vSDiEfIPmGHDbkEW/1Frv+kdLq7MFnVqFOBoKTsecDoIuMA7lrYuarj/o9i
- 5zi9OyhVMktRhIB6kkKs0TNlEP7ndaQbt6bPs1xm2im9nwac0KnWBnWNvdSRIGTQ5K3iGFPdl
- MePSnAzU12skuCfoqd6JXqJEDtwD8VA2EhzQiBh34zOoc/Sb72SF8DGSOvjBF+EndFRYEN+AJ
- 8N5x0UMonQQqRelX2MXBjOLPYJm3e8GFFzNsGQtt14tbTbb7iJQx0c6idesxtyB0xZyTltdYJ
- r7G5zsRorOB5sr6srQu2z0NDnLenJvbe5ZbIYjUm58zVTHqpRyOuQnoDE+JnNFRp39xhMzzGI
- iM6g/pAg/TiWo277om8lYkNUhCWq0IyuyiFzallm1cmNwKZYCy6rho16/oyExAAYVQd1PLCib
- pA/XiL0Bqvhsum5u7hpw1UlxYvwO/SVobyLrhKsFH7Qu1H9AZrEueTUCRQeg5TCv5gnnOP8wL
- zDoneq99b5avNcOYTJna3bv6igZuPCHHHJN8ULi+oW/M/WscREpW6Oy4eFi0XC3K11a58y8+3
- MH1VOm/u9fTmZWACwTTbYOft83lhdf/qIwsrMh0GXhY2hx7qnBJ0vIyjqtNZkNFxAnocBi8
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:cXH6m8DZ4cEMFtX97neDUlyfL1uEHposv1ryVVWLeCqRFcQQo74
+ C+GC42D1eYnbWJ2FmSPPneGjIkC98BxMsnROpGcJr3HUG7vYtZG/jyIcuu5uzlMW2foT0va
+ BqjyU+/pwWx+XvdP55JcJh8WgP9uoFheO46n4CXDN5Pnb+7af7/MIX9oxvQ8WLFPqIT6Ezc
+ Mc2jmWXhT3/gXbm8nlJjQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Xl9EDk8rP58=:JnaqghsudpT9XaYcP0y9kv
+ tsU5nV1P/0X0NuAXGe092oCQ0ugNvaB7puNqOtrlDGtk2aUkQvAXQtdVKx2UukspUbjRynF8o
+ B2TVTqjeTbEq/CmTCTr0bI0Bv73cTJvGgJ0HIl1znP7LJscH4Hc/lkRHDPt7QVHXCPrpChBIA
+ 3SZVoQ4YRsJS+0IJui+I8RxcLN9NMovU8AVpYNXQzYSn2lyqS5mc0b/SZVTGhSmVh6UFTNVsv
+ CqCvXrsk/98fJ19nkianJ4reBfEQLcAojtngAQx1dWRhorcjG98vApjgV3XljOSf4/zcwNq5n
+ aOocJMwnSXPU2S8Px7SbvHvbZee5rmNjRP9+/NqRi+YWRZ6FHEANz5p+EivfABylIvI34NqM2
+ q7Qp3QMKbGC/3Qfb4R/gp38J6RwqJ1WS/r4VF+NaBlNQgheco1tFsXV0TU0t4PyywRbP6gWFN
+ dBjz0Nb1mXRr5FOxDi2MHlMvaaq1e0j7kub78P5JVqKE+tJp1vzNQokElA7GlZtWEs9EaeXVC
+ gUvlpSWui7CoZoHxwdyyh78wYsVAyf4cjIz6hyr5vzPBsp+/2i8It1zakMQ+tKE4dIv34gwjc
+ xE4F0FfbdVKB+4R2ZfwuVkQzPtkeDWUUciPkh9ayjTeH5OC8SbQkb1uouNmcVGWOVj+LJLVkc
+ gJORjr+GN3noVdeZIaGgtwjVEKN3LDS9vY1++IU5rD+U/AXsBexl9kvRkBc12/VaBy/m7xR5H
+ 7oUPP4Qn1bq5xWrb46pf4EqFE/rDctwM7qr3kt6FlIOG198zfTSw8mZX3gzTUWt7LLO9ge7iQ
+ vR8HR4UtV1FlV6Gv60VPt9Rh1aPQI4X8kXmfd+YLJkKOCYDOR8WfHWi1/CI4CEMqvZBHoZp
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,56 +74,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, pbonzini@redhat.com,
- richard.henderson@linaro.org, dgilbert@redhat.com, quintela@redhat.com
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/07/2021 à 11:55, Philippe Mathieu-Daudé a écrit :
-> Cc'ing qemu-trivial@
+Le 06/07/2021 à 12:04, Philippe Mathieu-Daudé a écrit :
+> Hi Michael, since I asked a modification on v1, I suppose
+> this patch is somehow worth in documentation, so I'm
+> pinging again. It could go via qemu-trival if you ack it.
 > 
-> On 7/6/21 11:44 AM, Li Zhijian wrote:
->> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
->> ---
->>  migration/rdma.c | 2 +-
->>  softmmu/cpus.c   | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/migration/rdma.c b/migration/rdma.c
->> index 7fb9646f6ef..e99e2e16a73 100644
->> --- a/migration/rdma.c
->> +++ b/migration/rdma.c
->> @@ -1133,7 +1133,7 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
->>                      IBV_ACCESS_REMOTE_WRITE
->>                      );
->>          if (!local->block[i].mr) {
->> -            perror("Failed to register local dest ram block!\n");
->> +            perror("Failed to register local dest ram block!");
->>              break;
->>          }
->>          rdma->total_registrations++;
->> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
->> index c3caaeb26ec..071085f840b 100644
->> --- a/softmmu/cpus.c
->> +++ b/softmmu/cpus.c
->> @@ -325,7 +325,7 @@ static void sigbus_reraise(void)
->>          sigaddset(&set, SIGBUS);
->>          pthread_sigmask(SIG_UNBLOCK, &set, NULL);
->>      }
->> -    perror("Failed to re-raise SIGBUS!\n");
->> +    perror("Failed to re-raise SIGBUS!");
->>      abort();
->>  }
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
->
-
+> On 6/21/21 12:06 PM, Philippe Mathieu-Daudé wrote:
+>> ping?
 
 Applied to my trivial-patches branch.
 
 Thanks,
 Laurent
 
+
+>> On 5/23/21 11:40 AM, Philippe Mathieu-Daudé wrote:
+>>> Such comments make reviewing this file somehow easier.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>> v2: only one space before end of comment (mst)
+>>> ---
+>>>  hw/virtio/virtio.c | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+>>> index e02544b2df7..130e3568409 100644
+>>> --- a/hw/virtio/virtio.c
+>>> +++ b/hw/virtio/virtio.c
+>>> @@ -2449,6 +2449,7 @@ static void virtio_set_isr(VirtIODevice *vdev, int value)
+>>>      }
+>>>  }
+>>>  
+>>> +/* Called within rcu_read_lock(). */
+>>>  static bool virtio_split_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+>>>  {
+>>>      uint16_t old, new;
+>>> @@ -2485,6 +2486,7 @@ static bool vring_packed_need_event(VirtQueue *vq, bool wrap,
+>>>      return vring_need_event(off, new, old);
+>>>  }
+>>>  
+>>> +/* Called within rcu_read_lock(). */
+>>>  static bool virtio_packed_should_notify(VirtIODevice *vdev, VirtQueue *vq)
+>>>  {
+>>>      VRingPackedDescEvent e;
+>>>
+>>
+> 
+> 
 
 
