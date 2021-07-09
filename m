@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A1DD3C1ED1
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:19:59 +0200 (CEST)
-Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C793C1ED9
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:23:20 +0200 (CEST)
+Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1ive-0003wF-0i
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:19:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35022)
+	id 1m1iyt-0001HC-SU
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:23:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itY-0000rO-4b; Fri, 09 Jul 2021 01:17:48 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:54881 helo=ozlabs.org)
+ id 1m1itb-0000tv-AG; Fri, 09 Jul 2021 01:17:51 -0400
+Received: from ozlabs.org ([203.11.71.1]:34179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1itV-0001pG-HF; Fri, 09 Jul 2021 01:17:47 -0400
+ id 1m1itV-0001pD-L1; Fri, 09 Jul 2021 01:17:51 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLhHc6kZcz9sWS; Fri,  9 Jul 2021 15:17:32 +1000 (AEST)
+ id 4GLhHd1Cl6z9sWd; Fri,  9 Jul 2021 15:17:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1625807852;
- bh=gXUuEtCR4TYTn8HM+OXKsTlWBnv4uXGKfvHWjycKEmM=;
+ d=gibson.dropbear.id.au; s=201602; t=1625807853;
+ bh=xoc67/6UDUyRNCCPD8TosCLtaV2h3o1+SiaxBon11aI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Bj2Fx91Tws2Ih2gf819nhQp6jCkv+FOaJNnGiTh6CYvvsWbSGFCxpa1TNBYG1m5bC
- iEs8lmgR0PcYTPrqFzhv9bYjsR1dyG4512byo02tYs8Y+7J0SD38mekM8vNc4yIrbv
- deYqbHOIrOn4m6A+eflnWDiHvrRxUW4PtqksjmoM=
+ b=hr5UbdQXQ4f73Ze31WDBJeQ6PKkaS/295SvI6W2yppsKeAuVp4JqfVjzRscpC0Gn2
+ apKvfNG15rItKx7QjPibWXI0LtJrpC7HD+SJW9/UK4NGqTeMShhUVS5fs5ay8nhrWg
+ RxRG1X5txZSZz7YUlXhf/jXTFCFVLARsWMEyUczc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 02/33] target/ppc: Drop PowerPCCPUClass::interrupts_big_endian()
-Date: Fri,  9 Jul 2021 15:16:57 +1000
-Message-Id: <20210709051728.170203-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/33] spapr: tune rtas-size
+Date: Fri,  9 Jul 2021 15:16:58 +1000
+Message-Id: <20210709051728.170203-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,100 +58,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Fabiano Rosas <farosas@linux.ibm.com>
+Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
 
-This isn't used anymore.
+QEMU reserves space for RTAS via /rtas/rtas-size which tells the client
+how much space the RTAS requires to work which includes the RTAS binary
+blob implementing RTAS runtime. Because pseries supports FWNMI which
+requires plenty of space, QEMU reserves more than 2KB which is
+enough for the RTAS blob as it is just 20 bytes (under QEMU).
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20210622140926.677618-3-groug@kaod.org>
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Since FWNMI reset delivery was added, RTAS_SIZE macro is not used anymore.
+This replaces RTAS_SIZE with RTAS_MIN_SIZE and uses it in
+the /rtas/rtas-size calculation to account for the RTAS blob.
+
+Fixes: 0e236d347790 ("ppc/spapr: Implement FWNMI System Reset delivery")
+Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+Message-Id: <20210622070336.1463250-1-aik@ozlabs.ru>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/cpu-qom.h  |  1 -
- target/ppc/cpu_init.c | 17 -----------------
- 2 files changed, 18 deletions(-)
+ hw/ppc/spapr.c         | 8 ++++++--
+ include/hw/ppc/spapr.h | 2 +-
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/target/ppc/cpu-qom.h b/target/ppc/cpu-qom.h
-index 06b6571bc9..7b424e3cb0 100644
---- a/target/ppc/cpu-qom.h
-+++ b/target/ppc/cpu-qom.h
-@@ -199,7 +199,6 @@ struct PowerPCCPUClass {
-     void (*init_proc)(CPUPPCState *env);
-     int  (*check_pow)(CPUPPCState *env);
-     int (*handle_mmu_fault)(PowerPCCPU *cpu, vaddr eaddr, int rwx, int mmu_idx);
--    bool (*interrupts_big_endian)(PowerPCCPU *cpu);
- };
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 4dd90b75cc..9e19c57032 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -919,9 +919,13 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+      *
+      * The extra 8 bytes is required because Linux's FWNMI error log check
+      * is off-by-one.
++     *
++     * RTAS_MIN_SIZE is required for the RTAS blob itself.
+      */
+-    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_ERROR_LOG_MAX +
+-			  ms->smp.max_cpus * sizeof(uint64_t)*2 + sizeof(uint64_t)));
++    _FDT(fdt_setprop_cell(fdt, rtas, "rtas-size", RTAS_MIN_SIZE +
++                          RTAS_ERROR_LOG_MAX +
++                          ms->smp.max_cpus * sizeof(uint64_t) * 2 +
++                          sizeof(uint64_t)));
+     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-error-log-max",
+                           RTAS_ERROR_LOG_MAX));
+     _FDT(fdt_setprop_cell(fdt, rtas, "rtas-event-scan-rate",
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index f05219f75e..5697327e4c 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -770,7 +770,7 @@ void spapr_load_rtas(SpaprMachineState *spapr, void *fdt, hwaddr addr);
+ #define SPAPR_IS_PCI_LIOBN(liobn)   (!!((liobn) & 0x80000000))
+ #define SPAPR_PCI_DMA_WINDOW_NUM(liobn) ((liobn) & 0xff)
  
- #ifndef CONFIG_USER_ONLY
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index d0411e7302..1a22aef874 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -2666,18 +2666,6 @@ static int check_pow_hid0_74xx(CPUPPCState *env)
-     return 0;
- }
+-#define RTAS_SIZE               2048
++#define RTAS_MIN_SIZE           20 /* hv_rtas_size in SLOF */
+ #define RTAS_ERROR_LOG_MAX      2048
  
--static bool ppc_cpu_interrupts_big_endian_always(PowerPCCPU *cpu)
--{
--    return true;
--}
--
--#ifdef TARGET_PPC64
--static bool ppc_cpu_interrupts_big_endian_lpcr(PowerPCCPU *cpu)
--{
--    return !(cpu->env.spr[SPR_LPCR] & LPCR_ILE);
--}
--#endif
--
- /*****************************************************************************/
- /* PowerPC implementations definitions                                       */
- 
-@@ -7740,7 +7728,6 @@ POWERPC_FAMILY(POWER7)(ObjectClass *oc, void *data)
-                  POWERPC_FLAG_VSX;
-     pcc->l1_dcache_size = 0x8000;
-     pcc->l1_icache_size = 0x8000;
--    pcc->interrupts_big_endian = ppc_cpu_interrupts_big_endian_lpcr;
- }
- 
- static void init_proc_POWER8(CPUPPCState *env)
-@@ -7918,7 +7905,6 @@ POWERPC_FAMILY(POWER8)(ObjectClass *oc, void *data)
-                  POWERPC_FLAG_VSX | POWERPC_FLAG_TM;
-     pcc->l1_dcache_size = 0x8000;
-     pcc->l1_icache_size = 0x8000;
--    pcc->interrupts_big_endian = ppc_cpu_interrupts_big_endian_lpcr;
- }
- 
- #ifdef CONFIG_SOFTMMU
-@@ -8136,7 +8122,6 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
-                  POWERPC_FLAG_VSX | POWERPC_FLAG_TM | POWERPC_FLAG_SCV;
-     pcc->l1_dcache_size = 0x8000;
-     pcc->l1_icache_size = 0x8000;
--    pcc->interrupts_big_endian = ppc_cpu_interrupts_big_endian_lpcr;
- }
- 
- #ifdef CONFIG_SOFTMMU
-@@ -8347,7 +8332,6 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
-                  POWERPC_FLAG_VSX | POWERPC_FLAG_TM | POWERPC_FLAG_SCV;
-     pcc->l1_dcache_size = 0x8000;
-     pcc->l1_icache_size = 0x8000;
--    pcc->interrupts_big_endian = ppc_cpu_interrupts_big_endian_lpcr;
- }
- 
- #if !defined(CONFIG_USER_ONLY)
-@@ -9094,7 +9078,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_unrealize(dc, ppc_cpu_unrealize,
-                                       &pcc->parent_unrealize);
-     pcc->pvr_match = ppc_pvr_match_default;
--    pcc->interrupts_big_endian = ppc_cpu_interrupts_big_endian_always;
-     device_class_set_props(dc, ppc_cpu_properties);
- 
-     device_class_set_parent_reset(dc, ppc_cpu_reset, &pcc->parent_reset);
+ /* Offset from rtas-base where error log is placed */
 -- 
 2.31.1
 
