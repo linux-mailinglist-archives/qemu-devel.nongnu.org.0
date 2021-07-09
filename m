@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8503C1E79
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:35:34 +0200 (CEST)
-Received: from localhost ([::1]:44404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1C213C1E70
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:32:22 +0200 (CEST)
+Received: from localhost ([::1]:60196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iEf-0002qS-6X
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:35:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
+	id 1m1iBZ-00038Y-FQ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:32:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5a-00064K-EU
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60760)
+ id 1m1i5X-0005yr-08
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5X-0001EH-8d
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:10 -0400
+ id 1m1i5V-0001DD-9M
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:06 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i5I-0005Dv-0j
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:52 +0000
+ id 1m1i5G-0005EO-8X
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0B0962E8198
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:51 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BEE152E8198
+ for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 04:17:24 -0000
-From: Launchpad Bug Tracker <1900122@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 04:17:25 -0000
+From: Launchpad Bug Tracker <1900919@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm docker ioctl linux-user video
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor khamenya th-huth
-X-Launchpad-Bug-Reporter: vak (khamenya)
+X-Launchpad-Bug-Commenters: bwidawsk janitor th-huth
+X-Launchpad-Bug-Reporter: bwidawsk (bwidawsk)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160284373799.25039.16464171690101536645.malonedeb@soybean.canonical.com>
-Message-Id: <162580424435.19936.8484432948344079518.malone@loganberry.canonical.com>
-Subject: [Bug 1900122] Re: Unsupported ioctl: cmd=0xffffffff80685600 when
- accessing /dev/video* in aarch64 guest
+References: <160331877993.30496.14778848047318719784.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162580424582.19936.3904166426976106968.malone@loganberry.canonical.com>
+Subject: [Bug 1900919] Re: PXB selected as root bus incorrectly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: ff70b65353f4ec3603d6059a3e553963a39d60b5
+X-Launchpad-Hash: 76ee438e56cde813a87f90d0f2d5079cd3fbd9ea
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -72,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900122 <1900122@bugs.launchpad.net>
+Reply-To: Bug 1900919 <1900919@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,139 +83,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900122
+https://bugs.launchpad.net/bugs/1900919
 
 Title:
-  Unsupported ioctl: cmd=3D0xffffffff80685600 when accessing /dev/video*
-  in aarch64 guest
+  PXB selected as root bus incorrectly
 
 Status in QEMU:
   Expired
 
 Bug description:
-  **Description:**
-  Any attempt to work with video in aarch64 architecture emulated on x86_64=
- leads currently to the error "Function not implemented". For example:
+  release: 4c41341af76cfc85b5a6c0f87de4838672ab9f89
 
-  ```
-  # v4l2-ctl -l --verbose
-  Failed to open /dev/video0: Function not implemented
+  qdev_device_add() will search for the "closest" bus possible, and bail ou=
+t early if that bus is a root bus. pxb devices are considered root buses an=
+d so if you either
+  1. Add a PCI device on the QEMU command line *after* a pxb device, or
+  2. Add an integrated PCI device (like a watchdog)
 
-  root@12dd9b6fcfcb:/# ll /dev/video*
-  crw-rw---- 1 root video 81, 0 Oct 16 09:23 /dev/video0
-  crw-rw---- 1 root video 81, 1 Oct 16 09:23 /dev/video1
+  #1: -device pxb-pcie,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=3D52 -device ahci,id=
+=3Dsata0,addr=3D0x8
+  #2: -watchdog i6300esb -device pxb-pcie,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=3D=
+52
 
-  ```
+  The PXB will get selected as the bus (instead of the real root bus)
+  and this will cause an assertion failure with the message like "qemu-
+  system-x86_64: -device ahci,id=3Dsata0,addr=3D0x8: PCI: Only PCI/PCIe
+  bridges can be plugged into pxb-pcie"
 
-  **Steps to reproduce the issue:**
-
-  I have a following setup:
-
-  Host Hardware: x86_64 equipped with a webcam (tried different webcams)
-  Host OS: Ubuntu 20.04.1
-
-  Guest Architecture: aarch64
-  Guest OS: Ubuntu 20.04 (also tried 16.x and 18.x)
-
-  Emulation: quemu-user-static (also tried binfmt)
-
-  Guest OS is running via Docker + QEMU
-
-  ```
-  =E2=9E=9C cat /proc/sys/fs/binfmt_misc/qemu-aarch64
-  enabled
-  interpreter /usr/bin/qemu-aarch64-static
-  flags: F
-  offset 0
-  magic 7f454c460201010000000000000000000200b700
-  mask ffffffffffffff00fffffffffffffffffeffffff
-  ```
-
-  **Results received:**
-  see desrciption.
-
-  =
-
-  **Environment:**
-
-  * QEMU version: (if you can know it):
-
-  ipxe-qemu-256k-compat-efi-roms/focal,now 1.0.0+git-20150424.a25a16d-0ubun=
-tu4 all [installed,automatic]
-  ipxe-qemu/focal-updates,now 1.0.0+git-20190109.133f4c4-0ubuntu3.2 all [in=
-stalled,automatic]
-  qemu-block-extra/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-kvm/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-system-common/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,au=
-tomatic]
-  qemu-system-data/focal-updates,now 1:4.2-3ubuntu6.7 all [installed,automa=
-tic]
-  qemu-system-gui/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-system-x86/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,autom=
-atic]
-  qemu-user-binfmt/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,auto=
-matic]
-  qemu-user/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-  qemu-utils/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed,automatic]
-  qemu/focal-updates,now 1:4.2-3ubuntu6.7 amd64 [installed]
-
-  * Container application: Docker
-
-  **Output of `docker version`, `podman version` or `singularity
-  version`**
-
-  ```
-  =E2=9E=9C docker version
-  Client: Docker Engine - Community
-  =C2=A0Version:           20.10.0-beta1
-  =C2=A0API version:       1.40
-  =C2=A0Go version:        go1.13.15
-  =C2=A0Git commit:        ac365d7
-  =C2=A0Built:             Tue Oct 13 18:15:22 2020
-  =C2=A0OS/Arch:           linux/amd64
-  =C2=A0Context:           default
-  =C2=A0Experimental:      true
-
-  Server: Docker Engine - Community
-  =C2=A0Engine:
-  =C2=A0=C2=A0Version:          19.03.13
-  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
-  =C2=A0=C2=A0Go version:       go1.13.15
-  =C2=A0=C2=A0Git commit:       4484c46d9d
-  =C2=A0=C2=A0Built:            Wed Sep 16 17:01:20 2020
-  =C2=A0=C2=A0OS/Arch:          linux/amd64
-  =C2=A0=C2=A0Experimental:     false
-  =C2=A0containerd:
-  =C2=A0=C2=A0Version:          1.4.1
-  =C2=A0=C2=A0GitCommit:        c623d1b36f09f8ef6536a057bd658b3aa8632828
-  =C2=A0runc:
-  =C2=A0=C2=A0Version:          1.0.0-rc92
-  =C2=A0=C2=A0GitCommit:        ff819c7e9184c13b7c2607fe6c30ae19403a7aff
-  =C2=A0docker-init:
-  =C2=A0=C2=A0Version:          0.18.0
-  =C2=A0=C2=A0GitCommit:        fec3683
-
-  ```
-
-  Guest aarch64 runs in privileged mode:
-
-  `docker run --privileged --device=3D/dev/video0:/dev/video0 --env
-  DISPLAY=3Dunix$DISPLAY -v $XAUTH:/root/.Xauthority  -v
-  /tmp/.X11-unix:/tmp/.X11-unix -it --rm arm64v8/ubuntu:20.04 bash`
-
-  **Additional information:**
-  I tried also binfmt way to register emulators. The output of `v4l-ctl` wa=
-s a little bit different:
-
-  ```
-  # v4l2-ctl -l
-  Unsupported ioctl: cmd=3D0xffffffff80685600
-  Failed to open /dev/video0: Function not implemented
-
-  ```
+  I think this is relatively solvable in the code base by determining if
+  a bus is an expander, and skipping it if so. However, I wonder if it
+  makes more sense to just allow expanders to have endpoint devices.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900122/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1900919/+subscriptions
 
