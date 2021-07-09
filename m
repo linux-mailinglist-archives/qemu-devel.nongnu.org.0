@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B41F3C27B9
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:43:16 +0200 (CEST)
-Received: from localhost ([::1]:56438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5443C27CA
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:52:04 +0200 (CEST)
+Received: from localhost ([::1]:33528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1tas-00050Y-IL
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:43:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
+	id 1m1tjP-0001aZ-BX
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1tZy-0003dI-Sx
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:42:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39283)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1tZv-0007it-Eg
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:42:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625848933;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PC83evxd3fEfa38MBWv4oiNO95+X/lY078LH5Ul8fHY=;
- b=cML+s922Tx8jD5OnmLSJt3zOQhzreDXkt6eme7UovvTbf0qvmFubZ4Dg9l7agSOJU9NiVe
- l5AQYcGySbBHwEsSqcNnMJKa6Kjr04h+aeEEH4MXdGQ8DptsxC81XwQ2ql5obloILskCT2
- g/8k8IZn6uKCWJDdeDUQWlZIGy3RAtg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-xKBwBnCWO16l7yP8Lsz09g-1; Fri, 09 Jul 2021 12:42:10 -0400
-X-MC-Unique: xKBwBnCWO16l7yP8Lsz09g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A557D81C6D8;
- Fri,  9 Jul 2021 16:42:09 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-113-203.ams2.redhat.com [10.36.113.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C45E7189C7;
- Fri,  9 Jul 2021 16:42:08 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH] block: Add option to use driver whitelist even in tools
-Date: Fri,  9 Jul 2021 18:41:41 +0200
-Message-Id: <20210709164141.254097-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1ti7-0008OY-UN
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:50:43 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:33283)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m1ti5-00038Z-Eg
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:50:43 -0400
+Received: by mail-pg1-x533.google.com with SMTP id 37so10576779pgq.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:50:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=rqI1Sz9qv8YiV0bVYOHVgBN17hNVhXxarxWGSK8gauI=;
+ b=N5ixZMR9UxCvuMGGt3jK5GlYdKHIbDzrdlQ3UcfXExJ80E8RHl9z9x8EQVo4dsWQfS
+ E5RYsbB40hZf2gBx+BYW6NLLk/yEEiHAi+Op5AnbP3fOHVVFB2Wb3x3z7lzcO8lA9WOF
+ +t9DC7+vatAoCRqhCxb3PrE0uFtmufADkjoaMWuo4+7l7/ZxG49W/XD8tLLz8SDCQoUe
+ kNZ4Uk4dSoQzZTv0CnoHTzPNqOMuqvAItv2mV1uXF42J4PT+DsOY/Ylqm9ykh1NXFxVu
+ q/EQjS25bgNYx+5UzS4raEsjhVG4de6/CkgieYwyE36eqKkzd0/QsDTQc918XHbOiw2f
+ GEDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=rqI1Sz9qv8YiV0bVYOHVgBN17hNVhXxarxWGSK8gauI=;
+ b=Y5R3uNXBw2NAgKd7jvH7zJfwR9HD8cg+SX7l8I9DZuPod+rdXgoO4GA3vT9esdNGSz
+ 1FPa4EkPvTerIR+J2qnvz3aSPn+NtWeyb5VK33O3ZgmO7GCEoxqR4lEm6VzHF//AWVmi
+ 9waYWg9GG2wApVVVBs/SrIWBQk+G21cuIhRYp3d5+9DEeK7ZIlg6NyghuInhyRIwtEOF
+ 26igtOXteDf7dMtdP8S3xuqQD6rknmJJzZdFbPPctXeOcuQZVn6TNvabwucNKMphNqMM
+ X6ettVXgRMvHAqhIqwH0aw4R/yZrG2IE4MbWr/4PYlrju4UMSNCxKrlTM3oqp8AqSOu5
+ Fw3g==
+X-Gm-Message-State: AOAM532SpgxZvCCNppGkCTOL9cIZUwy5P4jpfRMTc4+isaztNRwg1Zvb
+ c6uscVfzDfFT4bTC3TM2Xs0fFQ==
+X-Google-Smtp-Source: ABdhPJzpapIqvpoHikCt9MFnaj7rcqricHTCWmx+NfiRZeSD13nGTX0xs5ciSmEqTq68Q96U5fNA5g==
+X-Received: by 2002:a65:41c7:: with SMTP id b7mr6015970pgq.81.1625849439839;
+ Fri, 09 Jul 2021 09:50:39 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id c14sm7791287pgv.86.2021.07.09.09.50.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jul 2021 09:50:39 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] linux-user/s390x: signal with SIGFPE on
+ compare-and-trap
+To: Jonathan Albrecht <jonathan.albrecht@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org
+References: <20210709160459.4962-1-jonathan.albrecht@linux.vnet.ibm.com>
+ <20210709160459.4962-2-jonathan.albrecht@linux.vnet.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0a401699-06bc-d937-d41b-111e2098a6ec@linaro.org>
+Date: Fri, 9 Jul 2021 09:50:37 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210709160459.4962-2-jonathan.albrecht@linux.vnet.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,108 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
+Cc: ruixin.bao@ibm.com, iii@linux.ibm.com, david@redhat.com, cohuck@redhat.com,
+ laurent@vivier.eu, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ krebbel@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the block driver whitelists are only applied for the system
-emulator. All other binaries still give unrestricted access to all block
-drivers. There are use cases where this made sense because the main
-concern was avoiding customers running VMs on less optimised block
-drivers and getting bad performance. Allowing the same image format e.g.
-as a target for 'qemu-img convert' is not a problem then.
+On 7/9/21 9:04 AM, Jonathan Albrecht wrote:
+> Currently when a compare-and-trap instruction is executed, qemu will
+> always raise a SIGILL signal. On real hardware, a SIGFPE is raised.
+> 
+> Change the PGM_DATA case in cpu_loop to follow the behavior in
+> linux kernel /arch/s390/kernel/traps.c.
+>   * Only raise SIGILL if DXC == 0
+>   * If DXC matches a non-simulated IEEE exception, raise SIGFPE with
+>     correct si_code
+>   * Raise SIGFPE with si_code == 0 for everything else
+> 
+> When applied on20210705210434.45824-2-iii@linux.ibm.com, this fixes
+> crashes in the java jdk such as the linked bug.
+> 
+> Buglink:https://bugs.launchpad.net/qemu/+bug/1920913
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/319
+> Signed-off-by: Jonathan Albrecht<jonathan.albrecht@linux.vnet.ibm.com>
+> ---
+>   linux-user/s390x/cpu_loop.c | 54 +++++++++++++++++++++++--------------
+>   1 file changed, 34 insertions(+), 20 deletions(-)
 
-However, if the concern is the supportability of the driver in general,
-either in full or when used read-write, not applying the list driver
-whitelist in tools doesn't help - especially since qemu-nbd and
-qemu-storage-daemon now give access to more or less the same operations
-in block drivers as running a system emulator.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-In order to address this, introduce a new configure option that enforces
-the driver whitelist in all binaries.
-
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- configure   | 14 ++++++++++++--
- block.c     |  3 +++
- meson.build |  1 +
- 3 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/configure b/configure
-index 650d9c0735..d3f2a362d5 100755
---- a/configure
-+++ b/configure
-@@ -243,6 +243,7 @@ cross_prefix=""
- audio_drv_list=""
- block_drv_rw_whitelist=""
- block_drv_ro_whitelist=""
-+block_drv_whitelist_tools="no"
- host_cc="cc"
- audio_win_int=""
- libs_qga=""
-@@ -1003,6 +1004,10 @@ for opt do
-   ;;
-   --block-drv-ro-whitelist=*) block_drv_ro_whitelist=$(echo "$optarg" | sed -e 's/,/ /g')
-   ;;
-+  --enable-block-drv-whitelist-in-tools) block_drv_whitelist_tools="yes"
-+  ;;
-+  --disable-block-drv-whitelist-in-tools) block_drv_whitelist_tools="no"
-+  ;;
-   --enable-debug-tcg) debug_tcg="yes"
-   ;;
-   --disable-debug-tcg) debug_tcg="no"
-@@ -1776,10 +1781,12 @@ Advanced options (experts only):
-   --block-drv-whitelist=L  Same as --block-drv-rw-whitelist=L
-   --block-drv-rw-whitelist=L
-                            set block driver read-write whitelist
--                           (affects only QEMU, not qemu-img)
-+                           (by default affects only QEMU, not tools like qemu-img)
-   --block-drv-ro-whitelist=L
-                            set block driver read-only whitelist
--                           (affects only QEMU, not qemu-img)
-+                           (by default affects only QEMU, not tools like qemu-img)
-+  --enable-block-drv-whitelist-in-tools
-+                           use block whitelist also in tools instead of only QEMU
-   --enable-trace-backends=B Set trace backend
-                            Available backends: $trace_backend_list
-   --with-trace-file=NAME   Full PATH,NAME of file to store traces
-@@ -4556,6 +4563,9 @@ if test "$audio_win_int" = "yes" ; then
- fi
- echo "CONFIG_BDRV_RW_WHITELIST=$block_drv_rw_whitelist" >> $config_host_mak
- echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
-+if test "$block_drv_whitelist_tools" = "yes" ; then
-+  echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
-+fi
- if test "$xfs" = "yes" ; then
-   echo "CONFIG_XFS=y" >> $config_host_mak
- fi
-diff --git a/block.c b/block.c
-index be083f389e..e97ce0b1c8 100644
---- a/block.c
-+++ b/block.c
-@@ -6162,6 +6162,9 @@ BlockDriverState *bdrv_find_backing_image(BlockDriverState *bs,
- 
- void bdrv_init(void)
- {
-+#ifdef CONFIG_BDRV_WHITELIST_TOOLS
-+    use_bdrv_whitelist = 1;
-+#endif
-     module_call_init(MODULE_INIT_BLOCK);
- }
- 
-diff --git a/meson.build b/meson.build
-index eb362ee5eb..9b41b9e6d5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2859,6 +2859,7 @@ summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1
- if have_block
-   summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
-   summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
-+  summary_info += {'Use block whitelist in tools': config_host.has_key('CONFIG_BDRV_WHITELIST_TOOLS')}
-   summary_info += {'VirtFS support':    have_virtfs}
-   summary_info += {'build virtiofs daemon': have_virtiofsd}
-   summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
--- 
-2.31.1
-
+r~
 
