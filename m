@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265393C276B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:19:06 +0200 (CEST)
-Received: from localhost ([::1]:47192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89963C2780
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:24:32 +0200 (CEST)
+Received: from localhost ([::1]:39174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1tDV-0000He-5Y
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:19:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36998)
+	id 1m1tIl-0006RY-NH
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m1t28-0003jf-W4
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:07:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m1t27-00088e-50
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:07:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625846837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bCv1N2Mg2+aOVW/aMiZ1OcatZGOEFoRKlzf0XlTfvUo=;
- b=ifaplWfTExEZHmXSIY0zy1+ignKz1UJfdw7y5uKQahoDF7FldrRoY3Lc3b99TKAfZ26HO8
- OX+FtHwJbAYS/8qyfCpVVh4P8NXpd8AwwL/7DxkgE4y/1wjdZle686wL3/LgATBxT77ih2
- wV6F1SmMeY6KATHRTIVc6fhpzHyScZs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-4bp3EYmXN0KUDDUqkMWmmA-1; Fri, 09 Jul 2021 12:07:16 -0400
-X-MC-Unique: 4bp3EYmXN0KUDDUqkMWmmA-1
-Received: by mail-ej1-f72.google.com with SMTP id
- q14-20020a1709066aceb029049fa6bee56fso3329506ejs.21
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:07:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1m1t6a-0004Ig-Iw
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:11:56 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1m1t6W-0001jz-UF
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:11:56 -0400
+Received: by mail-wr1-x431.google.com with SMTP id f9so7176339wrq.11
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:11:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=jMx+BNBD202ys0bXdEj4hA/cG9eSE+8vfxEbRSHNx9g=;
+ b=sfyb/XPCt7CLlxMZseIXnjEHsowSufdrt7Y5uYkYtjplHxmhR9DDx0mjZeatwED8C/
+ FSOZN6lNDACekse6CYzK9lNI7obuKaF4DIdeR7yv7A/pMUyWQO1tivU9nUwWXvJ6sczN
+ 7mDdlDne0mp6qzDzEm4ZQUhCrfOHv1gKDjG9gr0RQx5QbOAG1jjeomccDDYHLUmSWqV+
+ 1c4bOYE+ZRyTRhveNrbdaConWQJ2SRGikhgv7XETv9Ovc8cPfbxXUP+A8rJ5fzQhEr+D
+ ZlLrPuyEq7ZXopBCaCzBeN7TXZDuMJr7+HaIMMkQyVR5gWdaH1d96FldIurLhYxgTCtZ
+ HNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bCv1N2Mg2+aOVW/aMiZ1OcatZGOEFoRKlzf0XlTfvUo=;
- b=icWoecQf1YWJHky4rDsP3rcq11BEuQ/Jw2YuSfKCNTpVDzdiolt1dLMfC5yJAl3RNR
- fgZR3qyeLGSZgY6alU01JrWvWJjSo/JRiBAXui5Y0DjiUA+dgC4uoDoZW1rg9VjyI2vA
- bIuRdbmz2FsJ8Gmy9oJ6VU6fcK7sXzIQdSs3MNlfU4zyz0SsmMec+NU+ctojqjwPKAXc
- 7G4hUPNqy8Togfk1TUu/h1J36k4+/CZNXWSPbTgRSCMuXcWMh55dFyFJGbUGS3VQ0DfQ
- hpCRgkL1T8mcTTTWDspbr/XAE757Y2xnYXN3Yr5wqPNDu+PXKar9c2NqnP1VydyrL5xW
- 8AVQ==
-X-Gm-Message-State: AOAM531Qh9nm+eq+N9CTsktTNWLX+OLTZct396YoohFl19oWWBwpbVKe
- E9069a4GbEU4KXljqO34/TOYQJM2NBsa0SlYipkD/E7DnhEp1KlOBg/JgkFT9J6nX2TOJgrGbKC
- ciJuDE30sU7j4+ak=
-X-Received: by 2002:a17:907:1b11:: with SMTP id
- mp17mr38785735ejc.1.1625846835500; 
- Fri, 09 Jul 2021 09:07:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxV/LYC1lRmFo+M4ptzCYF35QtYYfBIQjYRGucCTyvbQr+n3DObg+WGMEgb611XDcy9NoVBLA==
-X-Received: by 2002:a17:907:1b11:: with SMTP id
- mp17mr38785715ejc.1.1625846835281; 
- Fri, 09 Jul 2021 09:07:15 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id dd24sm2567849ejb.10.2021.07.09.09.07.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 09:07:14 -0700 (PDT)
-Subject: Re: [PATCH v3 05/33] vl: Add sgx compound properties to expose SGX
- EPC sections to guest
-To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
-References: <20210709110955.73256-1-yang.zhong@intel.com>
- <20210709110955.73256-6-yang.zhong@intel.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a14c4d43-f197-a25e-bf53-01489427c792@redhat.com>
-Date: Fri, 9 Jul 2021 18:07:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=jMx+BNBD202ys0bXdEj4hA/cG9eSE+8vfxEbRSHNx9g=;
+ b=MounB5tqZhI/fo12P3dWkjjrKJQ848HbOxjX45nLxsgiXnIH5HNd/9rVUitQu+vamV
+ HSOZoAbXNoExRdiREhTZCC1oxWnP/REsO2OJAz2ymm3t98v7wXEg1YuUz+Guzn3BHcJl
+ hWcIJY8Zm0Cx3muKlgKCU5l1w55v6gri2hzMvn1jGBrKVHHgJnZScJQ4RlQK7eKSBkTZ
+ VGsMDeCzGfUe3T1ubjsr8WOU5MW8g53JQ36bDemCEta3mtDuOsGWUbsJwU0u2REOEwek
+ sfxx2/IHmKgqBOQ0L7djtkcdrRgTC9Ae6lD6emxO6L4e6leTvl925+eYGKN1FKW5xMfu
+ iHIw==
+X-Gm-Message-State: AOAM530WSjiFPIeFzNyN2zDNxL3TwlpnWr8XKsJTLnSnTHN+qpMpTc4P
+ XrF3ZLqQoPFsgbCzGzZU9xE=
+X-Google-Smtp-Source: ABdhPJzpQL5v7U+JBjKfp6XLCTumhL2Z/EZF6BhLy0XgBBsJ0L+mubwdpn8so4gdljiWPPwRcAUTeA==
+X-Received: by 2002:a05:6000:52:: with SMTP id
+ k18mr9011234wrx.270.1625847110876; 
+ Fri, 09 Jul 2021 09:11:50 -0700 (PDT)
+Received: from lb01556.speedport.ip ([2003:f1:1706:da4a:4a24:a8e2:ab18:53c])
+ by smtp.gmail.com with ESMTPSA id h15sm5652360wrq.88.2021.07.09.09.11.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 09:11:50 -0700 (PDT)
+From: Li Zhang <zhlcindy@gmail.com>
+X-Google-Original-From: Li Zhang <li.zhang@ionos.com>
+To: armbru@redhat.com, marcandre.lureau@gmail.com, pankaj.gupta@ionos.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH v3 RESEND 2/2] chardev: refactor qmp_chardev_add and
+ qmp_chardev_change
+Date: Fri,  9 Jul 2021 18:08:43 +0200
+Message-Id: <20210709160843.339796-2-li.zhang@ionos.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210709160843.339796-1-li.zhang@ionos.com>
+References: <20210709160843.339796-1-li.zhang@ionos.com>
 MIME-Version: 1.0
-In-Reply-To: <20210709110955.73256-6-yang.zhong@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=zhlcindy@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,49 +86,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: seanjc@google.com, kai.huang@intel.com, eblake@redhat.com,
- jarkko@kernel.org
+Cc: Li Zhang <li.zhang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/07/21 13:09, Yang Zhong wrote:
-> +    sgx_epc = g_malloc0(sizeof(*sgx_epc));
-> +    pcms->sgx_epc = sgx_epc;
-> +
+To improve the problematic source code in qmp_chardev_change
+and some redundant source code, the functions qmp_chardev_add 
+and qmp_chardev_change are refactored. It is mentioned in thread:
+https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg03167.html
 
-No need to malloc this, it's small.
+Signed-off-by: Li Zhang <li.zhang@ionos.com>
+---
+ chardev/char.c | 72 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 37 insertions(+), 35 deletions(-)
 
->   }
->   
-> +##
-> +# @SgxEPC:
-> +#
-> +# Sgx EPC cmdline information
-> +#
-> +# @id: device's ID
-> +#
-> +# @memdev: memory backend linked with device
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'SgxEPC',
-> +  'data': { 'id': [ 'str' ],
-> +            'memdev': [ 'str' ]
-> +          }
-> +}
-
-Is the "id" needed at all?  If not, you can make the property just a 
-string list.
-
-If not, you should still make the property a list, and SgxEPC can be 
-just the id/memdev pair.
-
-Also please place the compound property in PCMachineState, not in 
-MachineState.  You can call the field something else than sgx_epc to 
-avoid conflicts with the SGXEPCState, for example sgx_epc_memdevs or 
-sgx_epc_backends.  Later it can be moved to X86MachineState if needed, 
-but in any case it should not be in common target-independent code.
-
-Paolo
+diff --git a/chardev/char.c b/chardev/char.c
+index d959eec522..cb6f287cd2 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -1028,23 +1028,10 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
+     return chr;
+ }
+ 
+-ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+-                               Error **errp)
++static ChardevReturn *chardev_add(const char *id, Chardev *chr,
++                                  Error **errp)
+ {
+-    const ChardevClass *cc;
+     ChardevReturn *ret;
+-    Chardev *chr;
+-
+-    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
+-    if (!cc) {
+-        return NULL;
+-    }
+-
+-    chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+-                      backend, NULL, false, errp);
+-    if (!chr) {
+-        return NULL;
+-    }
+ 
+     if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
+                                        errp)) {
+@@ -1062,6 +1049,26 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+     return ret;
+ }
+ 
++ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
++                               Error **errp)
++{
++    const ChardevClass *cc;
++    Chardev *chr;
++
++    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
++    if (!cc) {
++        return NULL;
++    }
++
++    chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
++                      backend, NULL, false, errp);
++    if (!chr) {
++        return NULL;
++    }
++
++    return chardev_add(id, chr, errp);
++}
++
+ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+                                   Error **errp)
+ {
+@@ -1070,7 +1077,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+     Chardev *chr, *chr_new;
+     bool closed_sent = false;
+     bool handover_yank_instance;
+-    ChardevReturn *ret;
+ 
+     chr = qemu_chr_find(id);
+     if (!chr) {
+@@ -1089,11 +1095,22 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+         return NULL;
+     }
+ 
++    cc = CHARDEV_GET_CLASS(chr);
++    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
++    if (!cc_new) {
++        return NULL;
++    }
++
+     be = chr->be;
+     if (!be) {
+         /* easy case */
+-        object_unparent(OBJECT(chr));
+-        return qmp_chardev_add(id, backend, errp);
++        chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc_new)),
++                              backend, NULL, false, errp);
++        if (!chr_new) {
++            return NULL;
++        }
++
++        goto out;
+     }
+ 
+     if (!be->chr_be_change) {
+@@ -1101,12 +1118,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+         return NULL;
+     }
+ 
+-    cc = CHARDEV_GET_CLASS(chr);
+-    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
+-    if (!cc_new) {
+-        return NULL;
+-    }
+-
+     /*
+      * The new chardev should not register a yank instance if the current
+      * chardev has registered one already.
+@@ -1147,18 +1158,9 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+      */
+     chr->handover_yank_instance = handover_yank_instance;
+ 
++out:
+     object_unparent(OBJECT(chr));
+-    object_property_add_child(get_chardevs_root(), chr_new->label,
+-                              OBJECT(chr_new));
+-    object_unref(OBJECT(chr_new));
+-
+-    ret = g_new0(ChardevReturn, 1);
+-    if (CHARDEV_IS_PTY(chr_new)) {
+-        ret->pty = g_strdup(chr_new->filename + 4);
+-        ret->has_pty = true;
+-    }
+-
+-    return ret;
++    return chardev_add(id, chr_new, errp);
+ }
+ 
+ void qmp_chardev_remove(const char *id, Error **errp)
+-- 
+2.25.1
 
 
