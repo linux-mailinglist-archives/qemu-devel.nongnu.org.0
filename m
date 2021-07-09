@@ -2,55 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F243C1CF8
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 03:12:52 +0200 (CEST)
-Received: from localhost ([::1]:57266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFC53C1CF0
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 03:10:26 +0200 (CEST)
+Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1f4V-0004vY-6y
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 21:12:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60220)
+	id 1m1f29-0000qD-6W
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 21:10:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1eyv-0006nI-Cs; Thu, 08 Jul 2021 21:07:06 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36577)
+ id 1m1eyx-0006oy-Gq; Thu, 08 Jul 2021 21:07:07 -0400
+Received: from ozlabs.org ([203.11.71.1]:55755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1eys-0003Cw-Jl; Thu, 08 Jul 2021 21:07:05 -0400
+ id 1m1eys-0003Cv-DM; Thu, 08 Jul 2021 21:07:07 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLZkT4sqHz9sjJ; Fri,  9 Jul 2021 11:06:56 +1000 (AEST)
+ id 4GLZkT2rFfz9sWd; Fri,  9 Jul 2021 11:06:57 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625792817;
- bh=21kZzSZ0hrfLstTR0ukEYAqq817pGlIiqr1nv+I+1bg=;
+ bh=dNQIYenT3nj/hBZXLfi4o0eTdb610Uau2O2J/9HPOhs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=p7iY9fc+ApHnWtzwYP9m2y3y5lee0xy+QIuX4SVB+ieMLxdXId//xQZM9gM8+8Cec
- aARu9aOywdg9PFTw8FL/lxDHkP8DY53uVik3XRmR2uS/OeiFIQpWXUfAedKtWE1cVW
- wfSEE8bNM+5MsERStxtM9dhvLLAuoWEV09tTU/Ew=
-Date: Fri, 9 Jul 2021 10:54:31 +1000
+ b=I30aSLrCx3lytAI+CYuvgm8KV9PhghG6y6Hkj+TWnG7oblDOj9QIr1T6boNDFZqfX
+ Z62cb9cWEDdkK9/2H6kLGTmawrCN1q3g8D92pGmFJcsgroVvdB+dR0pih69LFZnDan
+ vzpKF5KanYcnnndkbAzlB3DXxipxCITheQgIQa0c=
+Date: Fri, 9 Jul 2021 10:57:44 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
-Message-ID: <YOeeR6Uj9mhqG0j2@yekko>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <22b9ae49-7252-b664-ea98-99bb7baf4680@eik.bme.hu>
- <07d3a270-6d44-591d-d0ee-0264d3b4c7f2@ozlabs.ru>
- <4a903fde-4ea-a296-3132-bae249d261a@eik.bme.hu>
- <6a25eed6-22db-7d5c-6686-67322b70a83f@ozlabs.ru>
- <70991a4-7d9-3a1c-dd53-4b7da2c39a0@eik.bme.hu>
+Subject: Re: [PATCH qemu v22] spapr: Implement Open Firmware client interface
+Message-ID: <YOefCOQD+9UE8PVt@yekko>
+References: <20210625055155.2252896-1-aik@ozlabs.ru> <YOZlnOiCeeF4mwJO@yekko>
+ <a8ae3a91-6451-2543-89d-f5dd5fca9f2@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0n7X6r0xpgvYOuU2"
+ protocol="application/pgp-signature"; boundary="HdJx4KzXk+pjKINE"
 Content-Disposition: inline
-In-Reply-To: <70991a4-7d9-3a1c-dd53-4b7da2c39a0@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <a8ae3a91-6451-2543-89d-f5dd5fca9f2@eik.bme.hu>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,98 +65,133 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0n7X6r0xpgvYOuU2
+--HdJx4KzXk+pjKINE
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 08, 2021 at 03:00:22PM +0200, BALATON Zoltan wrote:
-> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
-> > On 08/07/2021 20:39, BALATON Zoltan wrote:
-> > > On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
-> > > > On 08/07/2021 20:18, BALATON Zoltan wrote:
-> > > > > On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
-> > > > > > This addresses the comments from v22.
-> > > > > >=20
-> > > > > > The functional changes are (the VOF ones need retesting with Pe=
-gasos2):
-> > > > > >=20
-> > > > > > (VOF) setprop will start failing if the machine class callback
-> > > > > > did not handle it;
-> > > > >=20
-> > > > > I'll try this later but I think I've seen guests using
-> > > > > setprop (Linux also does that for some property). How should
-> > > > > I allow that? Do I need a new callback for this? Could it be
-> > > > > allower unless there's a callback that could deby it? But
-> > > > > that was the previous way I think.
-> > > >=20
-> > > > A simple defined callback which always returns "true" should do.
-> > >=20
-> > > Yes but what's the point? That would just effectiverly disable this
-> > > change so if we need that, we could just as well keep the previous
-> > > behaviour which is to allow setprop unless there's a callback that
-> > > can decide otherwise. The spapr machine has such a callback so it
-> > > already does not allow all setprop and if I'll have a callback in
-> > > pegasos2 returning true that will allow what's allowed now so this
-> > > part of this patch does nothing indeed.
-> > >=20
-> > > Since guests could do all kinds of things that we don't know without
-> > > trying them restricting setprop is a good way to run into problems
-> > > with guests that were not tested that could otherwise just work.
-> > > Then we'll need another patch to enable that guest adding some more
-> > > properties to the list of allowed ones. Why it it a problem to allow
-> > > this by default in the first place and only reject changes for
-> > > machines that have a callback? Then I would not need more empty
-> > > callbacks in pegasos2.
+On Fri, Jul 09, 2021 at 12:22:15AM +0200, BALATON Zoltan wrote:
+> On Thu, 8 Jul 2021, David Gibson wrote:
+> > On Fri, Jun 25, 2021 at 03:51:55PM +1000, Alexey Kardashevskiy wrote:
+> > [snip]
+> > > diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
+> > > new file mode 100644
+> > > index 000000000000..a17fd9d2fe94
+> > > --- /dev/null
+> > > +++ b/hw/ppc/vof.c
+> > [snip]
+> > > +static int path_offset(const void *fdt, const char *path)
+> > > +{
+> > > +    g_autofree char *p =3D NULL;
+> > > +    char *at;
+> > > +
+> > > +    /*
+> > > +     * https://www.devicetree.org/open-firmware/bindings/ppc/release=
+/ppc-2_1.html#HDR16
+> > > +     *
+> > > +     * "Conversion from numeric representation to text representatio=
+n shall use
+> > > +     * the lower case forms of the hexadecimal digits in the range a=
+=2E.f,
+> > > +     * suppressing leading zeros".
 > >=20
-> >=20
-> > From here:
-> > https://patchwork.ozlabs.org/project/qemu-devel/patch/20210625055155.22=
-52896-1-aik@ozlabs.ru/#2714158
-> >=20
-> > =3D=3D=3D
-> >=20
-> > > > > +    if (vmo) {
-> > > > > +        VofMachineIfClass *vmc =3D VOF_MACHINE_GET_CLASS(vmo);
-> > > > > +
-> > > > > +        if (vmc->setprop &&
-> > > > > +            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
-> > > > > +            goto trace_exit;
-> > > >=20
-> > > > This defaults to allowing the setprop if the machine doesn't provid=
-e a
-> > > > setprop callback.  I think it would be safer to default to prohibit=
-ing
-> > > > all setprops except those the machine explicitly allows.
-> > >=20
-> > >=20
-> > > Mmmm... I can imagine the client using the device tree as a temporary
-> > > storage. I'd rather add a trace for such cases.
-> >=20
-> > If they do, I think that's something we'll need to consider and
-> > account for that platform, rather than something we want to allow to
-> > begin with.
+> > Huh... that suggests that Zoltan's firmware which passes a caps hex
+> > and expects it to work is doing the wrong thing.  We still need to
+> > accomodate it, though.
 >=20
-> I've seen that, yet I don't understand why. If I'll just add an empty
-> callback in pegasos2 to disable it then we're back to where we were befor=
-e.
-> So my question is why do we want to explicitely enable setprop for every
-> guest when we encounter it one by one (especially if this works on other =
-OF
-> implementations so guests are free to change the device tree therefore we
-> don't know in advance what are allowable properties). If you don't want it
-> for spapr I think you already have the callback for it that disallows it =
-for
-> all but at a few properties but why change the default for other machines
-> that don't have a callback? If I can still add an empty callback that cou=
-ld
-> well be the default just to avoid more boilerplate in board code.
+> It's Linux which passes both upper and lower case variants (and all that a
+> few line apart in the same file). The Pegasos2 SmartFirmware displays the=
+se
+> with upper case address parts but accepts both upper and lower case. Here=
+'s
+> a device tree dump from the original board firmware:
 
-Because I think hitting the failure and deciphering that we need to
-add setprop logic is likely to be less pain in the long run, than
-allowing setprop by default, then discovering things break because the
-guest expected that setprop to have some semantic effect beyond just
-changing the dt, and we never even realized it was doing it.
+Right, sorry.  s/Zoltan's firmware/Zoltan's obscure platform Linux/
+
+> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/PegasosII_=
+OFW-Tree.txt
+>=20
+> Apple's OpenFirmware seems to have lower case addresses:
+>=20
+> http://nandra.segv.jp/NetBSD/G4.dump-device-tree.txt
+>=20
+> but maybe it also accepts upper case? I can't try that now.
+>=20
+> This works for pegasos2 guests I've tried but maybe only because the only
+> problematic query is /pci@80000000/ide@C,1. If something wanted to get
+> /pci@C0000000/isa@C then that might fail but I think most devices are on
+> /pci@80000000 so this problem is unlikely to happen. The most correct way
+> would be to convert all parts between @ and / or \0 to lower case but eit=
+her
+> this or the changed version in v23 which does strrcht('@') works for the
+> cases I have.
+>=20
+> > [snip]
+> > > +
+> > > +static void vof_instantiate_rtas(Error **errp)
+> > > +{
+> > > +    error_setg(errp, "The firmware should have instantiated RTAS");
+> >=20
+> > Since this always fails...
+> >=20
+> > > +}
+> > > +
+> > > +static uint32_t vof_call_method(MachineState *ms, Vof *vof, uint32_t=
+ methodaddr,
+> > > +                                uint32_t ihandle, uint32_t param1,
+> > > +                                uint32_t param2, uint32_t param3,
+> > > +                                uint32_t param4, uint32_t *ret2)
+> > > +{
+> > > +    uint32_t ret =3D -1;
+> > > +    char method[VOF_MAX_METHODLEN] =3D "";
+> > > +    OfInstance *inst;
+> > > +
+> > > +    if (!ihandle) {
+> > > +        goto trace_exit;
+> > > +    }
+> > > +
+> > > +    inst =3D (OfInstance *)g_hash_table_lookup(vof->of_instances,
+> > > +                                             GINT_TO_POINTER(ihandle=
+));
+> > > +    if (!inst) {
+> > > +        goto trace_exit;
+> > > +    }
+> > > +
+> > > +    if (readstr(methodaddr, method, sizeof(method))) {
+> > > +        goto trace_exit;
+> > > +    }
+> > > +
+> > > +    if (strcmp(inst->path, "/") =3D=3D 0) {
+> > > +        if (strcmp(method, "ibm,client-architecture-support") =3D=3D=
+ 0) {
+> > > +            Object *vmo =3D object_dynamic_cast(OBJECT(ms), TYPE_VOF=
+_MACHINE_IF);
+> > > +
+> > > +            if (vmo) {
+> > > +                VofMachineIfClass *vmc =3D VOF_MACHINE_GET_CLASS(vmo=
+);
+> > > +
+> > > +                g_assert(vmc->client_architecture_support);
+> > > +                ret =3D vmc->client_architecture_support(ms, first_c=
+pu, param1);
+> > > +            }
+> > > +
+> > > +            *ret2 =3D 0;
+> > > +        }
+> > > +    } else if (strcmp(inst->path, "/rtas") =3D=3D 0) {
+> > > +        if (strcmp(method, "instantiate-rtas") =3D=3D 0) {
+> >=20
+> > ... why do you even need to handle it here?
+>=20
+> This message has helped to catch problem with instantiate-rtas so it's
+> useful to have here even if normally it would not get here. I don't remem=
+ber
+> what was the problem, maybe too small rtas-size or similar but getting a
+> message instead of crashing did point to the problem.
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -168,25 +199,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---0n7X6r0xpgvYOuU2
+--HdJx4KzXk+pjKINE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDnnkcACgkQbDjKyiDZ
-s5KlchAAyfl/Dyit2XOQUc9QvPjF6D/SYsWj4SrTY1qG7xjtlqfiNyiWlKJyDoNr
-8GM9iah7qKSlukL1H0pP+H7qBz2yqixu/+2ChtS3NC4X7bfK0liH90XeUK4AN1W1
-8Z29WgqhHWXvWrwQAJfvGrzuJA28GRaz3ghgSi6ur4z0RXdlo7IxYic1wTdKLcit
-rA/nriqvge9VS98bAcEtroC74m2inKN1Ashvo0Sq06ptzW/xV7lXo9BW665eq5IV
-uve/AR6f9KYLt1KeaE37loMG7hA6pV4TRGY16lC4YMdEgtkW0+h3ozvUFyrwusSQ
-JZIwuItfKC6+G/uzmgudOsBEofUUvmtnKrN/1TF//WrgXaJqOiilcNQaz3eDrKRe
-TTnRq2RQX8hwG/Dehi4dmb36PaHJ+S45XWNi+6e9mDHmZ4bKSyVz6+97s9Yi2i+J
-TrFyo1LfY3tQ5RvefZSQdWuS3QZQDU57QRqVhnOMDOx/r/jQe+Yu5USjrSNrqe6O
-kdvX0eG3rf+aoMeu5jsFc5IG7nc3uIhxIWwibTor07wyR9bdHEx9jGVhEHKM00zA
-V2I6xLVY078bqx2zQZeTqxaNifAwf7E9y99Iz8EPHbs3bVYHySvXK/1CJ6JaC+Ip
-mxxS2x7sqvkRwWPyBoA4UX8k1KJaeth001IeMYBkULyLms/K0DQ=
-=CaTp
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDnnwgACgkQbDjKyiDZ
+s5ICZRAArCPNOCvNTo/Jo0QmwI/kfCsgJjZLdUWe1fsHwKxAGEnziio4nGSmojWs
+tKPoGtarc46GehT0SaqerFSCekh3sJZ6gkstsfN2h5EH9XXQcXgchLTmlfQ98fl1
+M79SI2dZDITqG1tTNcqyIhFvjTeNJOwqPtObWHOluSf4tseqBuUFxBVmhXD2EHqz
+snlET2aFCMseluH05vI1r9IS+G+hKe61BQ/Y5uiqIU7OVmoN2gw8NEtPK6JNiXN1
+1f/Ay6WgHHJY/pkGgMgPnj00ojmGvH+cw3f6YMqz0kTY9M2fIKSl+5zCpMJCNAg3
+zYIKH700vbeuUR1PjZ6jGxEIXxmlFuKXsCghsveWEm7ZVP+UC5UTEL93cLLI9smv
+dhHaUgZ5avjV/nVedj1UpDMyfoUWkDP4seuPDgucXl9eFFP/blFBVwpUjgneCTo8
+bbC3aSiZVctJYDH9JOyjR+YkuP2Cg6fuwKXdaBGicSdwMcdrssvCVePslS6kjf6G
+AHNbnG8pY4UqkXfibp8Ov45hPPyL6wqnOPt8ZgosyrYdh8/cnhNZ/WaHL3htFa0N
+/pe6lKiU5+WpHjeejADVa1HCvpmsfa6ysd3Z8RoNXlHj81QhmDX8KIgblqxhH7t5
+metceokLVreLZreWtl19xFq40HkE1q/WQKbyJuRnMVmSjCFC5J4=
+=Ar4R
 -----END PGP SIGNATURE-----
 
---0n7X6r0xpgvYOuU2--
+--HdJx4KzXk+pjKINE--
 
