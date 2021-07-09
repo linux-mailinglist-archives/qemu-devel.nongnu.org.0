@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77EA3C1F25
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:56:29 +0200 (CEST)
-Received: from localhost ([::1]:56732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B2753C1F13
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:49:12 +0200 (CEST)
+Received: from localhost ([::1]:60074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1jUy-00065l-TE
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:56:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35610)
+	id 1m1jNv-0005uD-1U
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1iub-0003Kh-Vd; Fri, 09 Jul 2021 01:18:54 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:51591)
+ id 1m1iuN-0002d0-S5; Fri, 09 Jul 2021 01:18:39 -0400
+Received: from ozlabs.org ([203.11.71.1]:46467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m1iuZ-0002H6-8h; Fri, 09 Jul 2021 01:18:53 -0400
+ id 1m1iuG-0002IW-Db; Fri, 09 Jul 2021 01:18:39 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GLhHg0SLwz9tD3; Fri,  9 Jul 2021 15:17:34 +1000 (AEST)
+ id 4GLhHg0p44z9tD4; Fri,  9 Jul 2021 15:17:35 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1625807855;
- bh=cTi5yDJKQULjieGYC6iZ9jm+AbVbWDmYf3ZIe5affSo=;
+ bh=myEtZ8xVZJYy39NGlcIVY++ImWOqWlbh/fOS5DU2whk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fidNcqLQlPc7YrdsERdUOkzj53NgtGJJgRfLI58nNcVBgHJcXLdAOuLZu9/OCuVye
- Y6mKazi318Ev83IsQHnw8IZe1Q1s/LSfpAO2pUgYAE6O7Zyzszo5TUS7GFjxFxtfz4
- mSRJDlgn2Apu0Nfz/ShKvcdFMssoHX/PMl+21Q7o=
+ b=gEyMJtAxhcy4djTVQwiytYzDM59U5qQbaCV/grfWj4O0WuSyRIrt2SVrydmfVMosB
+ zuKZR3WggqS6Ph6s6SUoZS3FXzZYNwfILLVadcQfvI0WJQPFa0vYN0/BTVsdthhAXD
+ 7C1V8wP8pHnhVygQ0DnBef+YRQtW5086DJAkjYlg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 31/33] spapr: Fix implementation of Open Firmware client
- interface
-Date: Fri,  9 Jul 2021 15:17:26 +1000
-Message-Id: <20210709051728.170203-32-david@gibson.dropbear.id.au>
+Subject: [PULL 32/33] linux-headers: Update
+Date: Fri,  9 Jul 2021 15:17:27 +1000
+Message-Id: <20210709051728.170203-33-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,351 +59,619 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: aik@ozlabs.ru, David Gibson <david@gibson.dropbear.id.au>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Bharata B Rao <bharata@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
+From: Bharata B Rao <bharata@linux.ibm.com>
 
-This addresses the comments from v22.
+Update to mainline commit: 79160a603bdb ("Merge tag 'usb-5.14-rc1' of
+git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb"
 
-The functional changes are (the VOF ones need retesting with Pegasos2):
-
-(VOF) setprop will start failing if the machine class callback
-did not handle it;
-(VOF) unit addresses are lowered in path_offset();
-(SPAPR) /chosen/bootargs is initialized from kernel_cmdline if
-the client did not change it.
-
-Fixes: 5c991e5d4378 ("spapr: Implement Open Firmware client interface")
-Cc: BALATON Zoltan <balaton@eik.bme.hu>
-Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-Id: <20210708065625.548396-1-aik@ozlabs.ru>
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+Message-Id: <20210706112440.1449562-2-bharata@linux.ibm.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- MAINTAINERS            |   4 ++--
- hw/ppc/spapr.c         |  10 +---------
- hw/ppc/spapr_hcall.c   |   5 ++---
- hw/ppc/spapr_vof.c     |  32 +++++++++++++++++++++++---------
- hw/ppc/vof.c           |  30 +++++++++++++++++-------------
- include/hw/ppc/spapr.h |   3 +--
- pc-bios/vof.bin        | Bin 3784 -> 3456 bytes
- pc-bios/vof/ci.c       |   2 +-
- pc-bios/vof/libc.c     |  26 --------------------------
- pc-bios/vof/main.c     |   2 +-
- pc-bios/vof/vof.h      |   2 --
- 11 files changed, 48 insertions(+), 68 deletions(-)
+ include/standard-headers/asm-x86/kvm_para.h   |  13 +++
+ include/standard-headers/drm/drm_fourcc.h     |   7 ++
+ include/standard-headers/linux/ethtool.h      |   4 +-
+ .../linux/input-event-codes.h                 |   1 +
+ include/standard-headers/linux/virtio_ids.h   |   2 +-
+ include/standard-headers/linux/virtio_vsock.h |   9 ++
+ linux-headers/asm-arm64/kvm.h                 |  11 ++
+ linux-headers/asm-generic/mman-common.h       |   3 +
+ linux-headers/asm-generic/unistd.h            |   4 +-
+ linux-headers/asm-mips/mman.h                 |   3 +
+ linux-headers/asm-mips/unistd_n32.h           |   1 +
+ linux-headers/asm-mips/unistd_n64.h           |   1 +
+ linux-headers/asm-mips/unistd_o32.h           |   1 +
+ linux-headers/asm-powerpc/unistd_32.h         |   1 +
+ linux-headers/asm-powerpc/unistd_64.h         |   1 +
+ linux-headers/asm-s390/unistd_32.h            |   1 +
+ linux-headers/asm-s390/unistd_64.h            |   1 +
+ linux-headers/asm-x86/kvm.h                   |  13 +++
+ linux-headers/asm-x86/unistd_32.h             |   7 +-
+ linux-headers/asm-x86/unistd_64.h             |   7 +-
+ linux-headers/asm-x86/unistd_x32.h            |   7 +-
+ linux-headers/linux/kvm.h                     | 105 ++++++++++++++++++
+ linux-headers/linux/userfaultfd.h             |  11 +-
+ 23 files changed, 197 insertions(+), 17 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ce122eeced..89d71b42b2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1362,8 +1362,8 @@ F: include/hw/pci-host/mv64361.h
+diff --git a/include/standard-headers/asm-x86/kvm_para.h b/include/standard-headers/asm-x86/kvm_para.h
+index 215d01b4ec..204cfb8640 100644
+--- a/include/standard-headers/asm-x86/kvm_para.h
++++ b/include/standard-headers/asm-x86/kvm_para.h
+@@ -33,6 +33,8 @@
+ #define KVM_FEATURE_PV_SCHED_YIELD	13
+ #define KVM_FEATURE_ASYNC_PF_INT	14
+ #define KVM_FEATURE_MSI_EXT_DEST_ID	15
++#define KVM_FEATURE_HC_MAP_GPA_RANGE	16
++#define KVM_FEATURE_MIGRATION_CONTROL	17
  
- Virtual Open Firmware (VOF)
- M: Alexey Kardashevskiy <aik@ozlabs.ru>
--M: David Gibson <david@gibson.dropbear.id.au>
--M: Greg Kurz <groug@kaod.org>
-+R: David Gibson <david@gibson.dropbear.id.au>
-+R: Greg Kurz <groug@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
- F: hw/ppc/spapr_vof*
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index e9b6d0f587..3808d47053 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1645,15 +1645,7 @@ static void spapr_machine_reset(MachineState *machine)
+ #define KVM_HINTS_REALTIME      0
  
-     fdt = spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
-     if (spapr->vof) {
--        target_ulong stack_ptr = 0;
--
--        spapr_vof_reset(spapr, fdt, &stack_ptr, &error_fatal);
--
--        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
--                                  stack_ptr, spapr->initrd_base,
--                                  spapr->initrd_size);
--        /* VOF is 32bit BE so enforce MSR here */
--        first_ppc_cpu->env.msr &= ~((1ULL << MSR_SF) | (1ULL << MSR_LE));
-+        spapr_vof_reset(spapr, fdt, &error_fatal);
-         /*
-          * Do not pack the FDT as the client may change properties.
-          * VOF client does not expect the FDT so we do not load it to the VM.
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 80ae8eaadd..0e9a5b2e40 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1080,7 +1080,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
-     SpaprOptionVector *ov1_guest, *ov5_guest;
-     bool guest_radix;
-     bool raw_mode_supported = false;
--    bool guest_xive, reset_fdt = false;
-+    bool guest_xive;
-     CPUState *cs;
-     void *fdt;
-     uint32_t max_compat = spapr->max_compat_pvr;
-@@ -1233,8 +1233,7 @@ target_ulong do_client_architecture_support(PowerPCCPU *cpu,
-         spapr_setup_hpt(spapr);
-     }
+@@ -54,6 +56,7 @@
+ #define MSR_KVM_POLL_CONTROL	0x4b564d05
+ #define MSR_KVM_ASYNC_PF_INT	0x4b564d06
+ #define MSR_KVM_ASYNC_PF_ACK	0x4b564d07
++#define MSR_KVM_MIGRATION_CONTROL	0x4b564d08
  
--    reset_fdt = spapr->vof != NULL;
--    fdt = spapr_build_fdt(spapr, reset_fdt, fdt_bufsize);
-+    fdt = spapr_build_fdt(spapr, spapr->vof != NULL, fdt_bufsize);
-     g_free(spapr->fdt_blob);
-     spapr->fdt_size = fdt_totalsize(fdt);
-     spapr->fdt_initial_size = spapr->fdt_size;
-diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
-index 131a03fec0..40ce8fe003 100644
---- a/hw/ppc/spapr_vof.c
-+++ b/hw/ppc/spapr_vof.c
-@@ -8,6 +8,7 @@
- #include "qapi/error.h"
- #include "hw/ppc/spapr.h"
- #include "hw/ppc/spapr_vio.h"
-+#include "hw/ppc/spapr_cpu_core.h"
- #include "hw/ppc/fdt.h"
- #include "hw/ppc/vof.h"
- #include "sysemu/sysemu.h"
-@@ -29,13 +30,19 @@ target_ulong spapr_h_vof_client(PowerPCCPU *cpu, SpaprMachineState *spapr,
- void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt)
- {
-     char *stdout_path = spapr_vio_stdout_path(spapr->vio_bus);
--    int chosen;
+ struct kvm_steal_time {
+ 	uint64_t steal;
+@@ -90,6 +93,16 @@ struct kvm_clock_pairing {
+ /* MSR_KVM_ASYNC_PF_INT */
+ #define KVM_ASYNC_PF_VEC_MASK			GENMASK(7, 0)
  
-     vof_build_dt(fdt, spapr->vof);
- 
--    _FDT(chosen = fdt_path_offset(fdt, "/chosen"));
--    _FDT(fdt_setprop_string(fdt, chosen, "bootargs",
--                            spapr->vof->bootargs ? : ""));
-+    if (spapr->vof->bootargs) {
-+        int chosen;
++/* MSR_KVM_MIGRATION_CONTROL */
++#define KVM_MIGRATION_READY		(1 << 0)
 +
-+        _FDT(chosen = fdt_path_offset(fdt, "/chosen"));
-+        /*
-+         * If the client did not change "bootargs", spapr_dt_chosen() must have
-+         * stored machine->kernel_cmdline in it before getting here.
-+         */
-+        _FDT(fdt_setprop_string(fdt, chosen, "bootargs", spapr->vof->bootargs));
-+    }
++/* KVM_HC_MAP_GPA_RANGE */
++#define KVM_MAP_GPA_RANGE_PAGE_SZ_4K	0
++#define KVM_MAP_GPA_RANGE_PAGE_SZ_2M	(1 << 0)
++#define KVM_MAP_GPA_RANGE_PAGE_SZ_1G	(1 << 1)
++#define KVM_MAP_GPA_RANGE_ENC_STAT(n)	(n << 4)
++#define KVM_MAP_GPA_RANGE_ENCRYPTED	KVM_MAP_GPA_RANGE_ENC_STAT(1)
++#define KVM_MAP_GPA_RANGE_DECRYPTED	KVM_MAP_GPA_RANGE_ENC_STAT(0)
  
-     /*
-      * SLOF-less setup requires an open instance of stdout for early
-@@ -48,20 +55,21 @@ void spapr_vof_client_dt_finalize(SpaprMachineState *spapr, void *fdt)
-     }
- }
+ /* Operations for KVM_HC_MMU_OP */
+ #define KVM_MMU_OP_WRITE_PTE            1
+diff --git a/include/standard-headers/drm/drm_fourcc.h b/include/standard-headers/drm/drm_fourcc.h
+index a61ae520c2..352b51fd0a 100644
+--- a/include/standard-headers/drm/drm_fourcc.h
++++ b/include/standard-headers/drm/drm_fourcc.h
+@@ -167,6 +167,13 @@ extern "C" {
+ #define DRM_FORMAT_RGBA1010102	fourcc_code('R', 'A', '3', '0') /* [31:0] R:G:B:A 10:10:10:2 little endian */
+ #define DRM_FORMAT_BGRA1010102	fourcc_code('B', 'A', '3', '0') /* [31:0] B:G:R:A 10:10:10:2 little endian */
  
--void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
--                     target_ulong *stack_ptr, Error **errp)
-+void spapr_vof_reset(SpaprMachineState *spapr, void *fdt, Error **errp)
- {
-+    target_ulong stack_ptr;
-     Vof *vof = spapr->vof;
-+    PowerPCCPU *first_ppc_cpu = POWERPC_CPU(first_cpu);
- 
-     vof_init(vof, spapr->rma_size, errp);
- 
--    *stack_ptr = vof_claim(vof, 0, VOF_STACK_SIZE, VOF_STACK_SIZE);
--    if (*stack_ptr == -1) {
-+    stack_ptr = vof_claim(vof, 0, VOF_STACK_SIZE, VOF_STACK_SIZE);
-+    if (stack_ptr == -1) {
-         error_setg(errp, "Memory allocation for stack failed");
-         return;
-     }
-     /* Stack grows downwards plus reserve space for the minimum stack frame */
--    *stack_ptr += VOF_STACK_SIZE - 0x20;
-+    stack_ptr += VOF_STACK_SIZE - 0x20;
- 
-     if (spapr->kernel_size &&
-         vof_claim(vof, spapr->kernel_addr, spapr->kernel_size, 0) == -1) {
-@@ -77,6 +85,12 @@ void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
- 
-     spapr_vof_client_dt_finalize(spapr, fdt);
- 
-+    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
-+                              stack_ptr, spapr->initrd_base,
-+                              spapr->initrd_size);
-+    /* VOF is 32bit BE so enforce MSR here */
-+    first_ppc_cpu->env.msr &= ~((1ULL << MSR_SF) | (1ULL << MSR_LE));
++/* 64 bpp RGB */
++#define DRM_FORMAT_XRGB16161616	fourcc_code('X', 'R', '4', '8') /* [63:0] x:R:G:B 16:16:16:16 little endian */
++#define DRM_FORMAT_XBGR16161616	fourcc_code('X', 'B', '4', '8') /* [63:0] x:B:G:R 16:16:16:16 little endian */
 +
-     /*
-      * At this point the expected allocation map is:
-      *
-diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
-index 47c86e394e..81f6596215 100644
---- a/hw/ppc/vof.c
-+++ b/hw/ppc/vof.c
-@@ -144,15 +144,16 @@ static int path_offset(const void *fdt, const char *path)
-      * the lower case forms of the hexadecimal digits in the range a..f,
-      * suppressing leading zeros".
-      */
--    at = strchr(path, '@');
--    if (!at) {
--        return fdt_path_offset(fdt, path);
--    }
--
-     p = g_strdup(path);
--    for (at = at - path + p + 1; *at; ++at) {
--        *at = tolower(*at);
-+    for (at = strchr(p, '@'); at && *at; ) {
-+            if (*at == '/') {
-+                at = strchr(at, '@');
-+            } else {
-+                *at = tolower(*at);
-+                ++at;
-+            }
-     }
++#define DRM_FORMAT_ARGB16161616	fourcc_code('A', 'R', '4', '8') /* [63:0] A:R:G:B 16:16:16:16 little endian */
++#define DRM_FORMAT_ABGR16161616	fourcc_code('A', 'B', '4', '8') /* [63:0] A:B:G:R 16:16:16:16 little endian */
 +
-     return fdt_path_offset(fdt, p);
- }
+ /*
+  * Floating point 64bpp RGB
+  * IEEE 754-2008 binary16 half-precision float
+diff --git a/include/standard-headers/linux/ethtool.h b/include/standard-headers/linux/ethtool.h
+index 218d944a17..053d3fafdf 100644
+--- a/include/standard-headers/linux/ethtool.h
++++ b/include/standard-headers/linux/ethtool.h
+@@ -233,7 +233,7 @@ enum tunable_id {
+ 	ETHTOOL_PFC_PREVENTION_TOUT, /* timeout in msecs */
+ 	/*
+ 	 * Add your fresh new tunable attribute above and remember to update
+-	 * tunable_strings[] in net/core/ethtool.c
++	 * tunable_strings[] in net/ethtool/common.c
+ 	 */
+ 	__ETHTOOL_TUNABLE_COUNT,
+ };
+@@ -297,7 +297,7 @@ enum phy_tunable_id {
+ 	ETHTOOL_PHY_EDPD,
+ 	/*
+ 	 * Add your fresh new phy tunable attribute above and remember to update
+-	 * phy_tunable_strings[] in net/core/ethtool.c
++	 * phy_tunable_strings[] in net/ethtool/common.c
+ 	 */
+ 	__ETHTOOL_PHY_TUNABLE_COUNT,
+ };
+diff --git a/include/standard-headers/linux/input-event-codes.h b/include/standard-headers/linux/input-event-codes.h
+index c403b9cb0d..b5e86b40ab 100644
+--- a/include/standard-headers/linux/input-event-codes.h
++++ b/include/standard-headers/linux/input-event-codes.h
+@@ -611,6 +611,7 @@
+ #define KEY_VOICECOMMAND		0x246	/* Listening Voice Command */
+ #define KEY_ASSISTANT		0x247	/* AL Context-aware desktop assistant */
+ #define KEY_KBD_LAYOUT_NEXT	0x248	/* AC Next Keyboard Layout Select */
++#define KEY_EMOJI_PICKER	0x249	/* Show/hide emoji picker (HUTRR101) */
  
-@@ -300,6 +301,7 @@ static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
-     char trval[64] = "";
-     char nodepath[VOF_MAX_PATH] = "";
-     Object *vmo = object_dynamic_cast(OBJECT(ms), TYPE_VOF_MACHINE_IF);
-+    VofMachineIfClass *vmc;
-     g_autofree char *val = NULL;
+ #define KEY_BRIGHTNESS_MIN		0x250	/* Set Brightness to Minimum */
+ #define KEY_BRIGHTNESS_MAX		0x251	/* Set Brightness to Maximum */
+diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
+index f0c35ce862..4fe842c3a3 100644
+--- a/include/standard-headers/linux/virtio_ids.h
++++ b/include/standard-headers/linux/virtio_ids.h
+@@ -54,7 +54,7 @@
+ #define VIRTIO_ID_SOUND			25 /* virtio sound */
+ #define VIRTIO_ID_FS			26 /* virtio filesystem */
+ #define VIRTIO_ID_PMEM			27 /* virtio pmem */
+-#define VIRTIO_ID_BT			28 /* virtio bluetooth */
+ #define VIRTIO_ID_MAC80211_HWSIM	29 /* virtio mac80211-hwsim */
++#define VIRTIO_ID_BT			40 /* virtio bluetooth */
  
-     if (vallen > VOF_MAX_SETPROPLEN) {
-@@ -322,13 +324,13 @@ static uint32_t vof_setprop(MachineState *ms, void *fdt, Vof *vof,
-         goto trace_exit;
-     }
+ #endif /* _LINUX_VIRTIO_IDS_H */
+diff --git a/include/standard-headers/linux/virtio_vsock.h b/include/standard-headers/linux/virtio_vsock.h
+index be443211ce..3a23488e42 100644
+--- a/include/standard-headers/linux/virtio_vsock.h
++++ b/include/standard-headers/linux/virtio_vsock.h
+@@ -38,6 +38,9 @@
+ #include "standard-headers/linux/virtio_ids.h"
+ #include "standard-headers/linux/virtio_config.h"
  
--    if (vmo) {
--        VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
-+    if (!vmo) {
-+        goto trace_exit;
-+    }
- 
--        if (vmc->setprop &&
--            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
--            goto trace_exit;
--        }
-+    vmc = VOF_MACHINE_GET_CLASS(vmo);
-+    if (!vmc->setprop || !vmc->setprop(ms, nodepath, propname, val, vallen)) {
-+        goto trace_exit;
-     }
- 
-     ret = fdt_setprop(fdt, offset, propname, val, vallen);
-@@ -919,6 +921,8 @@ static uint32_t vof_client_handle(MachineState *ms, void *fdt, Vof *vof,
-         ret = -1;
-     }
- 
-+#undef cmpserv
++/* The feature bitmap for virtio vsock */
++#define VIRTIO_VSOCK_F_SEQPACKET	1	/* SOCK_SEQPACKET supported */
 +
-     return ret;
- }
+ struct virtio_vsock_config {
+ 	uint64_t guest_cid;
+ } QEMU_PACKED;
+@@ -65,6 +68,7 @@ struct virtio_vsock_hdr {
  
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index a25e69fe4c..779f707fb8 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -964,8 +964,7 @@ void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
- hwaddr spapr_get_rtas_addr(void);
- bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr);
+ enum virtio_vsock_type {
+ 	VIRTIO_VSOCK_TYPE_STREAM = 1,
++	VIRTIO_VSOCK_TYPE_SEQPACKET = 2,
+ };
  
--void spapr_vof_reset(SpaprMachineState *spapr, void *fdt,
--                     target_ulong *stack_ptr, Error **errp);
-+void spapr_vof_reset(SpaprMachineState *spapr, void *fdt, Error **errp);
- void spapr_vof_quiesce(MachineState *ms);
- bool spapr_vof_setprop(MachineState *ms, const char *path, const char *propname,
-                        void *val, int vallen);
-diff --git a/pc-bios/vof.bin b/pc-bios/vof.bin
-index 1ec670be82134adcb5ae128732aff6e371281360..300cb7c7f9d9d77ffa7cbb7f0f26919246ef2d14 100755
-GIT binary patch
-delta 151
-zcmX>h+aSGxjghy9!GnR}jEw^WLxNM!WMRf~rtUM7dl>VWx??8)VQgaRda${HDTtA&
-zvuE-Z<}9X8h0P8uhZvdKV<xk(#WA)0nViCw#?&@t@)@=|rZ$VsKI~hWCdYEJZ`R>H
-uz%*HauS<{T1Oo%l10a6Gz`)A@#2gF^j0r&O17wQ;u?!Gv0I>lOTL1tL)F-q6
-
-delta 369
-zcmZpWJ|Vk-jghyH!GnR}jEw^WLxNM^WMRf~re2ZBJ&buwJxeD4VQgaR(b(L;6vW8X
-zb!GAu<}9YJjLi-#hZvbUmP}@0i(~3=nViCw#?*di@)@=|ruK%-KI~hW>f;$?8toY*
-zYPdWc92yuV0NDzSK(SgaFA*RO7I$o9r~rvuYX1KZ5(CLiv}fQz5(BFTit$(~FfagV
-z0iZ(-fNFUxwf_GHi38PgSaJf{@(diEUJMK~JsB8)VgeSHnhcB}4M4>LAOnF8VQ_5t
-ze*$Pg43IAYlml5L12P2J@X0?olqCgl>7J~^X|b7u>j2Y40hP%oc)IlX1Q;0jG=SIy
-dh=FGF1u!r$CIGPykR1cWDL`BR#1%l?005cvU&jCd
-
-diff --git a/pc-bios/vof/ci.c b/pc-bios/vof/ci.c
-index 2b56050238..fc4821b3e9 100644
---- a/pc-bios/vof/ci.c
-+++ b/pc-bios/vof/ci.c
-@@ -69,7 +69,7 @@ static int call_ci(const char *service, int nargs, int nret, ...)
-     }
+ enum virtio_vsock_op {
+@@ -91,4 +95,9 @@ enum virtio_vsock_shutdown {
+ 	VIRTIO_VSOCK_SHUTDOWN_SEND = 2,
+ };
  
-     if (ci_entry((uint32_t)(&args)) < 0) {
--        return PROM_ERROR;
-+        return -1;
-     }
++/* VIRTIO_VSOCK_OP_RW flags values */
++enum virtio_vsock_rw {
++	VIRTIO_VSOCK_SEQ_EOR = 1,
++};
++
+ #endif /* _LINUX_VIRTIO_VSOCK_H */
+diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.h
+index b6a0eaa32a..3d2ce9912d 100644
+--- a/linux-headers/asm-arm64/kvm.h
++++ b/linux-headers/asm-arm64/kvm.h
+@@ -184,6 +184,17 @@ struct kvm_vcpu_events {
+ 	__u32 reserved[12];
+ };
  
-     return (nret > 0) ? args.args[nargs] : 0;
-diff --git a/pc-bios/vof/libc.c b/pc-bios/vof/libc.c
-index 00c10e6e7d..fdbc30f777 100644
---- a/pc-bios/vof/libc.c
-+++ b/pc-bios/vof/libc.c
-@@ -54,32 +54,6 @@ int memcmp(const void *ptr1, const void *ptr2, size_t n)
-     return 0;
- }
++struct kvm_arm_copy_mte_tags {
++	__u64 guest_ipa;
++	__u64 length;
++	void *addr;
++	__u64 flags;
++	__u64 reserved[2];
++};
++
++#define KVM_ARM_TAGS_TO_GUEST		0
++#define KVM_ARM_TAGS_FROM_GUEST		1
++
+ /* If you need to interpret the index values, here is the key: */
+ #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
+ #define KVM_REG_ARM_COPROC_SHIFT	16
+diff --git a/linux-headers/asm-generic/mman-common.h b/linux-headers/asm-generic/mman-common.h
+index f94f65d429..1567a3294c 100644
+--- a/linux-headers/asm-generic/mman-common.h
++++ b/linux-headers/asm-generic/mman-common.h
+@@ -72,6 +72,9 @@
+ #define MADV_COLD	20		/* deactivate these pages */
+ #define MADV_PAGEOUT	21		/* reclaim these pages */
  
--void *memmove(void *dest, const void *src, size_t n)
--{
--    char *cdest;
--    const char *csrc;
--    int i;
--
--    /* Do the buffers overlap in a bad way? */
--    if (src < dest && src + n >= dest) {
--        /* Copy from end to start */
--        cdest = dest + n - 1;
--        csrc = src + n - 1;
--        for (i = 0; i < n; i++) {
--            *cdest-- = *csrc--;
--        }
--    } else {
--        /* Normal copy is possible */
--        cdest = dest;
--        csrc = src;
--        for (i = 0; i < n; i++) {
--            *cdest++ = *csrc++;
--        }
--    }
--
--    return dest;
--}
--
- void *memset(void *dest, int c, size_t size)
- {
-     unsigned char *d = (unsigned char *)dest;
-diff --git a/pc-bios/vof/main.c b/pc-bios/vof/main.c
-index 9fc30d2d09..0f0f6b4cb1 100644
---- a/pc-bios/vof/main.c
-+++ b/pc-bios/vof/main.c
-@@ -6,7 +6,7 @@ void do_boot(unsigned long addr, unsigned long _r3, unsigned long _r4)
-     register unsigned long r4 __asm__("r4") = _r4;
-     register unsigned long r5 __asm__("r5") = (unsigned long) _prom_entry;
++#define MADV_POPULATE_READ	22	/* populate (prefault) page tables readable */
++#define MADV_POPULATE_WRITE	23	/* populate (prefault) page tables writable */
++
+ /* compatibility flags */
+ #define MAP_FILE	0
  
--    ((client *)(uint32_t)addr)();
-+    ((void (*)(void))(uint32_t)addr)();
- }
+diff --git a/linux-headers/asm-generic/unistd.h b/linux-headers/asm-generic/unistd.h
+index 6de5a7fc06..f211961ce1 100644
+--- a/linux-headers/asm-generic/unistd.h
++++ b/linux-headers/asm-generic/unistd.h
+@@ -863,8 +863,8 @@ __SYSCALL(__NR_process_madvise, sys_process_madvise)
+ __SC_COMP(__NR_epoll_pwait2, sys_epoll_pwait2, compat_sys_epoll_pwait2)
+ #define __NR_mount_setattr 442
+ __SYSCALL(__NR_mount_setattr, sys_mount_setattr)
+-#define __NR_quotactl_path 443
+-__SYSCALL(__NR_quotactl_path, sys_quotactl_path)
++#define __NR_quotactl_fd 443
++__SYSCALL(__NR_quotactl_fd, sys_quotactl_fd)
  
- void entry_c(void)
-diff --git a/pc-bios/vof/vof.h b/pc-bios/vof/vof.h
-index 2d89580769..5f12c077f5 100644
---- a/pc-bios/vof/vof.h
-+++ b/pc-bios/vof/vof.h
-@@ -10,11 +10,9 @@ typedef unsigned short uint16_t;
- typedef unsigned long uint32_t;
- typedef unsigned long long uint64_t;
- #define NULL (0)
--#define PROM_ERROR (-1u)
- typedef unsigned long ihandle;
- typedef unsigned long phandle;
- typedef int size_t;
--typedef void client(void);
+ #define __NR_landlock_create_ruleset 444
+ __SYSCALL(__NR_landlock_create_ruleset, sys_landlock_create_ruleset)
+diff --git a/linux-headers/asm-mips/mman.h b/linux-headers/asm-mips/mman.h
+index 57dc2ac4f8..40b210c65a 100644
+--- a/linux-headers/asm-mips/mman.h
++++ b/linux-headers/asm-mips/mman.h
+@@ -98,6 +98,9 @@
+ #define MADV_COLD	20		/* deactivate these pages */
+ #define MADV_PAGEOUT	21		/* reclaim these pages */
  
- /* globals */
- extern void _prom_entry(void); /* OF CI entry point (i.e. this firmware) */
++#define MADV_POPULATE_READ	22	/* populate (prefault) page tables readable */
++#define MADV_POPULATE_WRITE	23	/* populate (prefault) page tables writable */
++
+ /* compatibility flags */
+ #define MAP_FILE	0
+ 
+diff --git a/linux-headers/asm-mips/unistd_n32.h b/linux-headers/asm-mips/unistd_n32.h
+index fce51fee09..09cd297698 100644
+--- a/linux-headers/asm-mips/unistd_n32.h
++++ b/linux-headers/asm-mips/unistd_n32.h
+@@ -372,6 +372,7 @@
+ #define __NR_process_madvise (__NR_Linux + 440)
+ #define __NR_epoll_pwait2 (__NR_Linux + 441)
+ #define __NR_mount_setattr (__NR_Linux + 442)
++#define __NR_quotactl_fd (__NR_Linux + 443)
+ #define __NR_landlock_create_ruleset (__NR_Linux + 444)
+ #define __NR_landlock_add_rule (__NR_Linux + 445)
+ #define __NR_landlock_restrict_self (__NR_Linux + 446)
+diff --git a/linux-headers/asm-mips/unistd_n64.h b/linux-headers/asm-mips/unistd_n64.h
+index 0996001802..780e0cead6 100644
+--- a/linux-headers/asm-mips/unistd_n64.h
++++ b/linux-headers/asm-mips/unistd_n64.h
+@@ -348,6 +348,7 @@
+ #define __NR_process_madvise (__NR_Linux + 440)
+ #define __NR_epoll_pwait2 (__NR_Linux + 441)
+ #define __NR_mount_setattr (__NR_Linux + 442)
++#define __NR_quotactl_fd (__NR_Linux + 443)
+ #define __NR_landlock_create_ruleset (__NR_Linux + 444)
+ #define __NR_landlock_add_rule (__NR_Linux + 445)
+ #define __NR_landlock_restrict_self (__NR_Linux + 446)
+diff --git a/linux-headers/asm-mips/unistd_o32.h b/linux-headers/asm-mips/unistd_o32.h
+index 954303ad69..06a2b3b55e 100644
+--- a/linux-headers/asm-mips/unistd_o32.h
++++ b/linux-headers/asm-mips/unistd_o32.h
+@@ -418,6 +418,7 @@
+ #define __NR_process_madvise (__NR_Linux + 440)
+ #define __NR_epoll_pwait2 (__NR_Linux + 441)
+ #define __NR_mount_setattr (__NR_Linux + 442)
++#define __NR_quotactl_fd (__NR_Linux + 443)
+ #define __NR_landlock_create_ruleset (__NR_Linux + 444)
+ #define __NR_landlock_add_rule (__NR_Linux + 445)
+ #define __NR_landlock_restrict_self (__NR_Linux + 446)
+diff --git a/linux-headers/asm-powerpc/unistd_32.h b/linux-headers/asm-powerpc/unistd_32.h
+index 9155778c19..cd5a8a41b2 100644
+--- a/linux-headers/asm-powerpc/unistd_32.h
++++ b/linux-headers/asm-powerpc/unistd_32.h
+@@ -425,6 +425,7 @@
+ #define __NR_process_madvise 440
+ #define __NR_epoll_pwait2 441
+ #define __NR_mount_setattr 442
++#define __NR_quotactl_fd 443
+ #define __NR_landlock_create_ruleset 444
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+diff --git a/linux-headers/asm-powerpc/unistd_64.h b/linux-headers/asm-powerpc/unistd_64.h
+index 3cefa88932..8458effa8d 100644
+--- a/linux-headers/asm-powerpc/unistd_64.h
++++ b/linux-headers/asm-powerpc/unistd_64.h
+@@ -397,6 +397,7 @@
+ #define __NR_process_madvise 440
+ #define __NR_epoll_pwait2 441
+ #define __NR_mount_setattr 442
++#define __NR_quotactl_fd 443
+ #define __NR_landlock_create_ruleset 444
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+diff --git a/linux-headers/asm-s390/unistd_32.h b/linux-headers/asm-s390/unistd_32.h
+index e8cd34334f..0c3cd299e4 100644
+--- a/linux-headers/asm-s390/unistd_32.h
++++ b/linux-headers/asm-s390/unistd_32.h
+@@ -415,6 +415,7 @@
+ #define __NR_process_madvise 440
+ #define __NR_epoll_pwait2 441
+ #define __NR_mount_setattr 442
++#define __NR_quotactl_fd 443
+ #define __NR_landlock_create_ruleset 444
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+diff --git a/linux-headers/asm-s390/unistd_64.h b/linux-headers/asm-s390/unistd_64.h
+index 86830e1e83..8dfc08b5e6 100644
+--- a/linux-headers/asm-s390/unistd_64.h
++++ b/linux-headers/asm-s390/unistd_64.h
+@@ -363,6 +363,7 @@
+ #define __NR_process_madvise 440
+ #define __NR_epoll_pwait2 441
+ #define __NR_mount_setattr 442
++#define __NR_quotactl_fd 443
+ #define __NR_landlock_create_ruleset 444
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 0662f644aa..a6c327f8ad 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -159,6 +159,19 @@ struct kvm_sregs {
+ 	__u64 interrupt_bitmap[(KVM_NR_INTERRUPTS + 63) / 64];
+ };
+ 
++struct kvm_sregs2 {
++	/* out (KVM_GET_SREGS2) / in (KVM_SET_SREGS2) */
++	struct kvm_segment cs, ds, es, fs, gs, ss;
++	struct kvm_segment tr, ldt;
++	struct kvm_dtable gdt, idt;
++	__u64 cr0, cr2, cr3, cr4, cr8;
++	__u64 efer;
++	__u64 apic_base;
++	__u64 flags;
++	__u64 pdptrs[4];
++};
++#define KVM_SREGS2_FLAGS_PDPTRS_VALID 1
++
+ /* for KVM_GET_FPU and KVM_SET_FPU */
+ struct kvm_fpu {
+ 	__u8  fpr[8][16];
+diff --git a/linux-headers/asm-x86/unistd_32.h b/linux-headers/asm-x86/unistd_32.h
+index 8f6ac8c19f..66e96c0c68 100644
+--- a/linux-headers/asm-x86/unistd_32.h
++++ b/linux-headers/asm-x86/unistd_32.h
+@@ -1,5 +1,5 @@
+-#ifndef _ASM_X86_UNISTD_32_H
+-#define _ASM_X86_UNISTD_32_H 1
++#ifndef _ASM_UNISTD_32_H
++#define _ASM_UNISTD_32_H
+ 
+ #define __NR_restart_syscall 0
+ #define __NR_exit 1
+@@ -433,9 +433,10 @@
+ #define __NR_process_madvise 440
+ #define __NR_epoll_pwait2 441
+ #define __NR_mount_setattr 442
++#define __NR_quotactl_fd 443
+ #define __NR_landlock_create_ruleset 444
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+ 
+ 
+-#endif /* _ASM_X86_UNISTD_32_H */
++#endif /* _ASM_UNISTD_32_H */
+diff --git a/linux-headers/asm-x86/unistd_64.h b/linux-headers/asm-x86/unistd_64.h
+index bb187a9268..b8ff6f14ee 100644
+--- a/linux-headers/asm-x86/unistd_64.h
++++ b/linux-headers/asm-x86/unistd_64.h
+@@ -1,5 +1,5 @@
+-#ifndef _ASM_X86_UNISTD_64_H
+-#define _ASM_X86_UNISTD_64_H 1
++#ifndef _ASM_UNISTD_64_H
++#define _ASM_UNISTD_64_H
+ 
+ #define __NR_read 0
+ #define __NR_write 1
+@@ -355,9 +355,10 @@
+ #define __NR_process_madvise 440
+ #define __NR_epoll_pwait2 441
+ #define __NR_mount_setattr 442
++#define __NR_quotactl_fd 443
+ #define __NR_landlock_create_ruleset 444
+ #define __NR_landlock_add_rule 445
+ #define __NR_landlock_restrict_self 446
+ 
+ 
+-#endif /* _ASM_X86_UNISTD_64_H */
++#endif /* _ASM_UNISTD_64_H */
+diff --git a/linux-headers/asm-x86/unistd_x32.h b/linux-headers/asm-x86/unistd_x32.h
+index 4edd0103ac..06a1097c15 100644
+--- a/linux-headers/asm-x86/unistd_x32.h
++++ b/linux-headers/asm-x86/unistd_x32.h
+@@ -1,5 +1,5 @@
+-#ifndef _ASM_X86_UNISTD_X32_H
+-#define _ASM_X86_UNISTD_X32_H 1
++#ifndef _ASM_UNISTD_X32_H
++#define _ASM_UNISTD_X32_H
+ 
+ #define __NR_read (__X32_SYSCALL_BIT + 0)
+ #define __NR_write (__X32_SYSCALL_BIT + 1)
+@@ -308,6 +308,7 @@
+ #define __NR_process_madvise (__X32_SYSCALL_BIT + 440)
+ #define __NR_epoll_pwait2 (__X32_SYSCALL_BIT + 441)
+ #define __NR_mount_setattr (__X32_SYSCALL_BIT + 442)
++#define __NR_quotactl_fd (__X32_SYSCALL_BIT + 443)
+ #define __NR_landlock_create_ruleset (__X32_SYSCALL_BIT + 444)
+ #define __NR_landlock_add_rule (__X32_SYSCALL_BIT + 445)
+ #define __NR_landlock_restrict_self (__X32_SYSCALL_BIT + 446)
+@@ -349,4 +350,4 @@
+ #define __NR_pwritev2 (__X32_SYSCALL_BIT + 547)
+ 
+ 
+-#endif /* _ASM_X86_UNISTD_X32_H */
++#endif /* _ASM_UNISTD_X32_H */
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 20d6a263bb..bcaf66cc4d 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -280,6 +280,9 @@ struct kvm_xen_exit {
+ /* Encounter unexpected vm-exit reason */
+ #define KVM_INTERNAL_ERROR_UNEXPECTED_EXIT_REASON	4
+ 
++/* Flags that describe what fields in emulation_failure hold valid data. */
++#define KVM_INTERNAL_ERROR_EMULATION_FLAG_INSTRUCTION_BYTES (1ULL << 0)
++
+ /* for KVM_RUN, returned by mmap(vcpu_fd, offset=0) */
+ struct kvm_run {
+ 	/* in */
+@@ -383,6 +386,25 @@ struct kvm_run {
+ 			__u32 ndata;
+ 			__u64 data[16];
+ 		} internal;
++		/*
++		 * KVM_INTERNAL_ERROR_EMULATION
++		 *
++		 * "struct emulation_failure" is an overlay of "struct internal"
++		 * that is used for the KVM_INTERNAL_ERROR_EMULATION sub-type of
++		 * KVM_EXIT_INTERNAL_ERROR.  Note, unlike other internal error
++		 * sub-types, this struct is ABI!  It also needs to be backwards
++		 * compatible with "struct internal".  Take special care that
++		 * "ndata" is correct, that new fields are enumerated in "flags",
++		 * and that each flag enumerates fields that are 64-bit aligned
++		 * and sized (so that ndata+internal.data[] is valid/accurate).
++		 */
++		struct {
++			__u32 suberror;
++			__u32 ndata;
++			__u64 flags;
++			__u8  insn_size;
++			__u8  insn_bytes[15];
++		} emulation_failure;
+ 		/* KVM_EXIT_OSI */
+ 		struct {
+ 			__u64 gprs[32];
+@@ -1083,6 +1105,13 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_SGX_ATTRIBUTE 196
+ #define KVM_CAP_VM_COPY_ENC_CONTEXT_FROM 197
+ #define KVM_CAP_PTP_KVM 198
++#define KVM_CAP_HYPERV_ENFORCE_CPUID 199
++#define KVM_CAP_SREGS2 200
++#define KVM_CAP_EXIT_HYPERCALL 201
++#define KVM_CAP_PPC_RPT_INVALIDATE 202
++#define KVM_CAP_BINARY_STATS_FD 203
++#define KVM_CAP_EXIT_ON_EMULATION_FAILURE 204
++#define KVM_CAP_ARM_MTE 205
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+@@ -1428,6 +1457,7 @@ struct kvm_s390_ucas_mapping {
+ /* Available with KVM_CAP_PMU_EVENT_FILTER */
+ #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
+ #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
++#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
+ 
+ /* ioctl for vm fd */
+ #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
+@@ -1621,6 +1651,9 @@ struct kvm_xen_hvm_attr {
+ #define KVM_XEN_VCPU_GET_ATTR	_IOWR(KVMIO, 0xca, struct kvm_xen_vcpu_attr)
+ #define KVM_XEN_VCPU_SET_ATTR	_IOW(KVMIO,  0xcb, struct kvm_xen_vcpu_attr)
+ 
++#define KVM_GET_SREGS2             _IOR(KVMIO,  0xcc, struct kvm_sregs2)
++#define KVM_SET_SREGS2             _IOW(KVMIO,  0xcd, struct kvm_sregs2)
++
+ struct kvm_xen_vcpu_attr {
+ 	__u16 type;
+ 	__u16 pad[3];
+@@ -1899,4 +1932,76 @@ struct kvm_dirty_gfn {
+ #define KVM_BUS_LOCK_DETECTION_OFF             (1 << 0)
+ #define KVM_BUS_LOCK_DETECTION_EXIT            (1 << 1)
+ 
++/**
++ * struct kvm_stats_header - Header of per vm/vcpu binary statistics data.
++ * @flags: Some extra information for header, always 0 for now.
++ * @name_size: The size in bytes of the memory which contains statistics
++ *             name string including trailing '\0'. The memory is allocated
++ *             at the send of statistics descriptor.
++ * @num_desc: The number of statistics the vm or vcpu has.
++ * @id_offset: The offset of the vm/vcpu stats' id string in the file pointed
++ *             by vm/vcpu stats fd.
++ * @desc_offset: The offset of the vm/vcpu stats' descriptor block in the file
++ *               pointd by vm/vcpu stats fd.
++ * @data_offset: The offset of the vm/vcpu stats' data block in the file
++ *               pointed by vm/vcpu stats fd.
++ *
++ * This is the header userspace needs to read from stats fd before any other
++ * readings. It is used by userspace to discover all the information about the
++ * vm/vcpu's binary statistics.
++ * Userspace reads this header from the start of the vm/vcpu's stats fd.
++ */
++struct kvm_stats_header {
++	__u32 flags;
++	__u32 name_size;
++	__u32 num_desc;
++	__u32 id_offset;
++	__u32 desc_offset;
++	__u32 data_offset;
++};
++
++#define KVM_STATS_TYPE_SHIFT		0
++#define KVM_STATS_TYPE_MASK		(0xF << KVM_STATS_TYPE_SHIFT)
++#define KVM_STATS_TYPE_CUMULATIVE	(0x0 << KVM_STATS_TYPE_SHIFT)
++#define KVM_STATS_TYPE_INSTANT		(0x1 << KVM_STATS_TYPE_SHIFT)
++#define KVM_STATS_TYPE_PEAK		(0x2 << KVM_STATS_TYPE_SHIFT)
++#define KVM_STATS_TYPE_MAX		KVM_STATS_TYPE_PEAK
++
++#define KVM_STATS_UNIT_SHIFT		4
++#define KVM_STATS_UNIT_MASK		(0xF << KVM_STATS_UNIT_SHIFT)
++#define KVM_STATS_UNIT_NONE		(0x0 << KVM_STATS_UNIT_SHIFT)
++#define KVM_STATS_UNIT_BYTES		(0x1 << KVM_STATS_UNIT_SHIFT)
++#define KVM_STATS_UNIT_SECONDS		(0x2 << KVM_STATS_UNIT_SHIFT)
++#define KVM_STATS_UNIT_CYCLES		(0x3 << KVM_STATS_UNIT_SHIFT)
++#define KVM_STATS_UNIT_MAX		KVM_STATS_UNIT_CYCLES
++
++#define KVM_STATS_BASE_SHIFT		8
++#define KVM_STATS_BASE_MASK		(0xF << KVM_STATS_BASE_SHIFT)
++#define KVM_STATS_BASE_POW10		(0x0 << KVM_STATS_BASE_SHIFT)
++#define KVM_STATS_BASE_POW2		(0x1 << KVM_STATS_BASE_SHIFT)
++#define KVM_STATS_BASE_MAX		KVM_STATS_BASE_POW2
++
++/**
++ * struct kvm_stats_desc - Descriptor of a KVM statistics.
++ * @flags: Annotations of the stats, like type, unit, etc.
++ * @exponent: Used together with @flags to determine the unit.
++ * @size: The number of data items for this stats.
++ *        Every data item is of type __u64.
++ * @offset: The offset of the stats to the start of stat structure in
++ *          struture kvm or kvm_vcpu.
++ * @unused: Unused field for future usage. Always 0 for now.
++ * @name: The name string for the stats. Its size is indicated by the
++ *        &kvm_stats_header->name_size.
++ */
++struct kvm_stats_desc {
++	__u32 flags;
++	__s16 exponent;
++	__u16 size;
++	__u32 offset;
++	__u32 unused;
++	char name[];
++};
++
++#define KVM_GET_STATS_FD  _IO(KVMIO,  0xce)
++
+ #endif /* __LINUX_KVM_H */
+diff --git a/linux-headers/linux/userfaultfd.h b/linux-headers/linux/userfaultfd.h
+index b9ac97b70f..8479af5f4c 100644
+--- a/linux-headers/linux/userfaultfd.h
++++ b/linux-headers/linux/userfaultfd.h
+@@ -31,7 +31,8 @@
+ 			   UFFD_FEATURE_MISSING_SHMEM |		\
+ 			   UFFD_FEATURE_SIGBUS |		\
+ 			   UFFD_FEATURE_THREAD_ID |		\
+-			   UFFD_FEATURE_MINOR_HUGETLBFS)
++			   UFFD_FEATURE_MINOR_HUGETLBFS |	\
++			   UFFD_FEATURE_MINOR_SHMEM)
+ #define UFFD_API_IOCTLS				\
+ 	((__u64)1 << _UFFDIO_REGISTER |		\
+ 	 (__u64)1 << _UFFDIO_UNREGISTER |	\
+@@ -80,8 +81,8 @@
+ 				      struct uffdio_zeropage)
+ #define UFFDIO_WRITEPROTECT	_IOWR(UFFDIO, _UFFDIO_WRITEPROTECT, \
+ 				      struct uffdio_writeprotect)
+-#define UFFDIO_CONTINUE		_IOR(UFFDIO, _UFFDIO_CONTINUE,	\
+-				     struct uffdio_continue)
++#define UFFDIO_CONTINUE		_IOWR(UFFDIO, _UFFDIO_CONTINUE,	\
++				      struct uffdio_continue)
+ 
+ /* read() structure */
+ struct uffd_msg {
+@@ -185,6 +186,9 @@ struct uffdio_api {
+ 	 * UFFD_FEATURE_MINOR_HUGETLBFS indicates that minor faults
+ 	 * can be intercepted (via REGISTER_MODE_MINOR) for
+ 	 * hugetlbfs-backed pages.
++	 *
++	 * UFFD_FEATURE_MINOR_SHMEM indicates the same support as
++	 * UFFD_FEATURE_MINOR_HUGETLBFS, but for shmem-backed pages instead.
+ 	 */
+ #define UFFD_FEATURE_PAGEFAULT_FLAG_WP		(1<<0)
+ #define UFFD_FEATURE_EVENT_FORK			(1<<1)
+@@ -196,6 +200,7 @@ struct uffdio_api {
+ #define UFFD_FEATURE_SIGBUS			(1<<7)
+ #define UFFD_FEATURE_THREAD_ID			(1<<8)
+ #define UFFD_FEATURE_MINOR_HUGETLBFS		(1<<9)
++#define UFFD_FEATURE_MINOR_SHMEM		(1<<10)
+ 	__u64 features;
+ 
+ 	__u64 ioctls;
 -- 
 2.31.1
 
