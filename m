@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF9E3C22E6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:32:33 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1813C22F1
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 13:36:56 +0200 (CEST)
+Received: from localhost ([::1]:35246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1okC-0004Uf-QK
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:32:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40228)
+	id 1m1ooR-0006Q3-I0
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 07:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1ods-0003Q4-Ca
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:26:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26238)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1ofX-0007EV-F6
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:27:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m1odn-000095-Bq
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:25:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m1ofR-0000sH-Cd
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 07:27:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625829952;
+ s=mimecast20190719; t=1625830056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bHMwtNu56uzJQbfFpgiDDIi90NqsF3mCzPUr2q8cldA=;
- b=UYif+DRZG+mLPdqRCEplLgaVUwkn+70A+i6AEKHIMUFt973YwSqNZ30VvYYd//VcQh0h/S
- IotvzA9dxLGHgEwLs6a4HdEOecvGwQDXUeltzeBCjDZHJ7oEaYVJ+E3jru+UwSsbUH/3uz
- Nmf1gR21LeLtgLHdOVeg9wXtDRKl7oY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-30-cA-uSJHLNluImXrBUU5M6A-1; Fri, 09 Jul 2021 07:25:51 -0400
-X-MC-Unique: cA-uSJHLNluImXrBUU5M6A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E94380006E;
- Fri,  9 Jul 2021 11:25:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-151.ams2.redhat.com
- [10.36.114.151])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 569E810016F7;
- Fri,  9 Jul 2021 11:25:46 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 72BE51132B52; Fri,  9 Jul 2021 13:25:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 3/3] memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
- acpi_memory_hotplug_write()
-References: <20210707003314.37110-1-danielhb413@gmail.com>
- <20210707003314.37110-4-danielhb413@gmail.com>
- <87h7h56jh2.fsf@dusky.pond.sub.org>
- <20210709103913.5c938852@redhat.com>
-Date: Fri, 09 Jul 2021 13:25:43 +0200
-In-Reply-To: <20210709103913.5c938852@redhat.com> (Igor Mammedov's message of
- "Fri, 9 Jul 2021 10:39:13 +0200")
-Message-ID: <87sg0n685k.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ bh=pc3IM995+4b4bTCS1N72o8rPE0tS1fIlAp5j7BTH0A8=;
+ b=EIZ0lL1AwN+y/Dc/AcB3lfA8HwAkECQPCm3i7wO6PwoyYwvJpg+d32D+eLz5/HPPxW4/CN
+ 8jkLb2Gn5+pY0qw4pYFwn2m9rtPRxIVMzIGc19AzZAAG3qZNfNDaTTAmZqFCjDdAXJyfuS
+ KE68EO+dg7FL3A7QmoIHTIOLQjtJpkg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-Ba4a5qioNF2nR3FiZS7zcQ-1; Fri, 09 Jul 2021 07:27:35 -0400
+X-MC-Unique: Ba4a5qioNF2nR3FiZS7zcQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k1-20020a05600c1c81b029021649539a4aso1224162wms.0
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:27:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=pc3IM995+4b4bTCS1N72o8rPE0tS1fIlAp5j7BTH0A8=;
+ b=CR9vb9PHbKT7NE207NqX9y8wwo/BeMxQUosvQWTxWFQIzNOC0eJw/va/K2gBc6qVh+
+ 8ox5EZEK/5Ru8AMUP3SgnRlJKlwHQ5hUeWbJWdsKh9sgJUT7FrkKHnI0/+dHXnYvEgWM
+ TcsP0VZvK4w9kmcpsLKy2yQWKkbMBvi9vnSBQhtMUvqKnZ2iNkN+IXSq5JA4OUq0gYr6
+ v4lt7BvtLvOW+IbunjCoAxYweWsDpkMtkoLb9bqCxz8Pxnyck9WK6LfrbNxFiaYijD9Y
+ aKX1XmRSEnP83H8c3wFbp4090oEJ3N1MH4AQELzd5qAfnJhx7BCeOAvEPB2XGPYmffpi
+ UVVw==
+X-Gm-Message-State: AOAM532i9YVdmXWE9pzIA64GOdNap2Uw+sazJbrkFVC/i5x+jKVXTbQx
+ pWJYrI3gtMM84vzCT3w9Dr+0D8g2MVf/hfhhhjBjrWmFWQxjJZEl4u/yzWrnG3AAbMyQI8/df+h
+ BAgW9TsBECcDwagM=
+X-Received: by 2002:a5d:6984:: with SMTP id g4mr9967681wru.381.1625830054299; 
+ Fri, 09 Jul 2021 04:27:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz4Wz+/pFbe4yNJ3c54Y4yVCtk5AqSY1NYKiE9Jhpwegj/4apwgQMkzO+xgu7Sm7nwHivA9vw==
+X-Received: by 2002:a5d:6984:: with SMTP id g4mr9967648wru.381.1625830054008; 
+ Fri, 09 Jul 2021 04:27:34 -0700 (PDT)
+Received: from redhat.com ([2.55.150.102])
+ by smtp.gmail.com with ESMTPSA id f2sm4956595wrq.69.2021.07.09.04.27.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 09 Jul 2021 04:27:33 -0700 (PDT)
+Date: Fri, 9 Jul 2021 07:27:28 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v1 2/2] virtio-balloon: disallow postcopy with
+ VIRTIO_BALLOON_F_FREE_PAGE_HINT
+Message-ID: <20210709072635-mutt-send-email-mst@kernel.org>
+References: <20210707140655.30982-1-david@redhat.com>
+ <20210707140655.30982-3-david@redhat.com>
+ <20210707150038-mutt-send-email-mst@kernel.org>
+ <0391e06b-5885-8000-3c58-ae20493e3e65@redhat.com>
+ <20210707151459-mutt-send-email-mst@kernel.org>
+ <40a148d7-acad-67ee-ac66-e9ad56a23b44@redhat.com>
+ <20210707155413-mutt-send-email-mst@kernel.org>
+ <YOdNAMoAKkiSyuqR@work-vm>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YOdNAMoAKkiSyuqR@work-vm>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,111 +99,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, eblake@redhat.com,
- david@gibson.dropbear.id.au
+Cc: David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-stable@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
+ qemu-devel@nongnu.org, Wei Wang <wei.w.wang@intel.com>,
+ Peter Xu <peterx@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+On Thu, Jul 08, 2021 at 08:07:44PM +0100, Dr. David Alan Gilbert wrote:
+> * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > On Wed, Jul 07, 2021 at 09:47:31PM +0200, David Hildenbrand wrote:
+> > > On 07.07.21 21:19, Michael S. Tsirkin wrote:
+> > > > On Wed, Jul 07, 2021 at 09:14:00PM +0200, David Hildenbrand wrote:
+> > > > > On 07.07.21 21:05, Michael S. Tsirkin wrote:
+> > > > > > On Wed, Jul 07, 2021 at 04:06:55PM +0200, David Hildenbrand wrote:
+> > > > > > > Postcopy never worked properly with 'free-page-hint=on', as there are
+> > > > > > > at least two issues:
+> > > > > > > 
+> > > > > > > 1) With postcopy, the guest will never receive a VIRTIO_BALLOON_CMD_ID_DONE
+> > > > > > >      and consequently won't release free pages back to the OS once
+> > > > > > >      migration finishes.
+> > > > > > > 
+> > > > > > >      The issue is that for postcopy, we won't do a final bitmap sync while
+> > > > > > >      the guest is stopped on the source and
+> > > > > > >      virtio_balloon_free_page_hint_notify() will only call
+> > > > > > >      virtio_balloon_free_page_done() on the source during
+> > > > > > >      PRECOPY_NOTIFY_CLEANUP, after the VM state was already migrated to
+> > > > > > >      the destination.
+> > > > > > > 
+> > > > > > > 2) Once the VM touches a page on the destination that has been excluded
+> > > > > > >      from migration on the source via qemu_guest_free_page_hint() while
+> > > > > > >      postcopy is active, that thread will stall until postcopy finishes
+> > > > > > >      and all threads are woken up. (with older Linux kernels that won't
+> > > > > > >      retry faults when woken up via userfaultfd, we might actually get a
+> > > > > > >      SEGFAULT)
+> > > > > > > 
+> > > > > > >      The issue is that the source will refuse to migrate any pages that
+> > > > > > >      are not marked as dirty in the dirty bmap -- for example, because the
+> > > > > > >      page might just have been sent. Consequently, the faulting thread will
+> > > > > > >      stall, waiting for the page to be migrated -- which could take quite
+> > > > > > >      a while and result in guest OS issues.
+> > > > > > 
+> > > > > > OK so if source gets a request for a page which is not dirty
+> > > > > > it does not respond immediately? Why not just teach it to
+> > > > > > respond? It would seem that if destination wants a page we
+> > > > > > should just give it to the destination ...
+> > > > > 
+> > > > > The source does not know if a page has already been sent (e.g., via the
+> > > > > background migration thread that moves all data over) vs. the page has not
+> > > > > been send because the page was hinted. This is the part where we'd need
+> > > > > additional tracking on the source to actually know that.
+> > > > > 
+> > > > > We must not send a page twice, otherwise bad things can happen when placing
+> > > > > pages that already have been migrated, because that scenario can easily
+> > > > > happen with ordinary postcopy (page has already been sent and we're dealing
+> > > > > with a stale request from the destination).
+> > > > 
+> > > > OK let me get this straight
+> > > > 
+> > > > A. source sends page
+> > > > B. destination requests page
+> > > > C. destination changes page
+> > > > D. source sends page
+> > > > E. destination overwrites page
+> > > > 
+> > > > this is what you are worried about right?
+> > > 
+> > > IIRC E. is with recent kernels:
+> > > 
+> > > E. placing the page fails with -EEXIST and postcopy migration fails
+> > > 
+> > > However, the man page (man ioctl_userfaultfd) doesn't describe what is
+> > > actually supposed to happen when double-placing. Could be that it's
+> > > "undefined behavior".
+> > > 
+> > > I did not try, though.
+> > > 
+> > > 
+> > > This is how it works today:
+> > > 
+> > > A. source sends page and marks it clean
+> > > B. destination requests page
+> > > C. destination receives page and places it
+> > > D. source ignores request as page is clean
+> > 
+> > If it's actually -EEXIST then we could just resend it
+> > and teach destination to ignore -EEXIST errors right?
+> > 
+> > Will actually make things a bit more robust: destination
+> > handles its own consistency instead of relying on source.
+> 
+> You have to be careful of a few things;
+>   a) If the destination has modified the page, then you must
+> definitely not under any circumstances lose those modifications
+> and replace them by an old version from the source.
+> 
+>   b) With postcopy recovery I think there is a bitmap to track some
+> of this; but you have to be careful since you don't know whether
+> pages that were sent were actually received.
+> 
+> Dave
 
-> On Thu, 08 Jul 2021 15:08:57 +0200
-> Markus Armbruster <armbru@redhat.com> wrote:
->
->> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
->> 
->> > MEM_UNPLUG_ERROR is deprecated since the introduction of
->> > DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
->> > MEM_UNPLUG_ERROR is pending.
->> >
->> > CC: Michael S. Tsirkin <mst@redhat.com>
->> > CC: Igor Mammedov <imammedo@redhat.com>
->> > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
->> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> > ---
->> >  hw/acpi/memory_hotplug.c | 13 +++++++++++--
->> >  1 file changed, 11 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
->> > index af37889423..fb9f4d2de7 100644
->> > --- a/hw/acpi/memory_hotplug.c
->> > +++ b/hw/acpi/memory_hotplug.c
->> > @@ -8,6 +8,7 @@
->> >  #include "qapi/error.h"
->> >  #include "qapi/qapi-events-acpi.h"
->> >  #include "qapi/qapi-events-machine.h"
->> > +#include "qapi/qapi-events-qdev.h"
->> >  
->> >  #define MEMORY_SLOTS_NUMBER          "MDNR"
->> >  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
->> > @@ -177,9 +178,17 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
->> >              /* call pc-dimm unplug cb */
->> >              hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
->> >              if (local_err) {
->> > +                const char *error_pretty = error_get_pretty(local_err);
->> > +
->> >                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
->> > -                qapi_event_send_mem_unplug_error(dev->id,
->> > -                                                 error_get_pretty(local_err));
->> > +
->> > +                /*
->> > +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
->> > +                 * while the deprecation of MEM_UNPLUG_ERROR is
->> > +                 * pending.
->> > +                 */
->> > +                qapi_event_send_mem_unplug_error(dev->id, error_pretty);
->> > +                qapi_event_send_device_unplug_error(dev->id, error_pretty);
->> >                  error_free(local_err);
->> >                  break;
->> >              }  
->> 
->> Same question as for PATCH 2: can dev->id be null?
-> only theoretically (if memory device were created directly without
-> using device_add), which as far as I know is not the case as all
-> memory devices are created using -device/device_add so far.
->
-> ( for device_add case see qdev_device_add->qdev_set_id where
->   'id' is set to user provided or to generated "device[%d]" value)
+what I am trying to say is that userfaultfd already tracks these
+things in the kernel for us. Ideally we'd just use that ...
 
-Something is set to a generated value, but it's not dev->id :)
-
-    void qdev_set_id(DeviceState *dev, const char *id)
-
-@id is the value of id=...  It may be null.
-
-dev->id still is null here.
-
-    {
-        if (id) {
-            dev->id = id;
-        }
-
-dev->id is now the value of id=...  It may be null.
-
-        if (dev->id) {
-            object_property_add_child(qdev_get_peripheral(), dev->id,
-                                      OBJECT(dev));
-
-If the user specified id=..., add @dev as child of /peripheral.  The
-child's name is the (non-null) value of id=...
-
-        } else {
-            static int anon_count;
-            gchar *name = g_strdup_printf("device[%d]", anon_count++);
-            object_property_add_child(qdev_get_peripheral_anon(), name,
-                                      OBJECT(dev));
-            g_free(name);
-
-Else, add @dev as child of /peripheral-anon.  The child's name is made
-up.
-
-
-        }
-    }
-
-dev->id is still the value of id=..., i.e. it may be null.
-
-Sure dereferencing dev->id in acpi_memory_hotplug_write() is safe?
+> > 
+> > 
+> > > > 
+> > > > the fix is to mark page clean in A.
+> > > > then in D to not send page if it's clean?
+> > > > 
+> > > > And the problem with hinting is this:
+> > > > 
+> > > > A. page is marked clean
+> > > > B. destination requests page
+> > > > C. destination changes page
+> > > > D. source sends page <- does not happen, page is clean!
+> > > > E. destination overwrites page
+> > > 
+> > > Simplified it's
+> > > 
+> > > A. page is marked clean by hinting code
+> > > B. destination requests page
+> > > D. source ignores request as page is clean
+> > > E. destination stalls until postcopy unregisters uffd
+> > > 
+> > > 
+> > > Some thoughts
+> > > 
+> > > 1. We do have a a recv bitmap where we track received pages on the
+> > > destination (e.g., ramblock_recv_bitmap_test()), however we only use it to
+> > > avoid sending duplicate requests to the hypervisor AFAIKs, and don't check
+> > > it when placing pages.
+> > > 
+> > > 2. Changing the migration behavior unconditionally on the source will break
+> > > migration to old QEMU binaries that cannot handle this change.
+> > 
+> > We can always make this depend on new machine types.
+> > 
+> > 
+> > > 3. I think the current behavior is in place to make debugging easier. If
+> > > only a single instance of a page will ever be migrated from source to
+> > > destination, there cannot be silent data corruption. Further, we avoid
+> > > migrating unnecessarily pages twice.
+> > > 
+> > 
+> > Likely does not matter much for performance, it seems unlikely that
+> > the race is all that common.
+> > 
+> > > Maybe Dave and Peter can spot any flaws in my understanding.
+> > > 
+> > > -- 
+> > > Thanks,
+> > > 
+> > > David / dhildenb
+> > 
+> -- 
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
