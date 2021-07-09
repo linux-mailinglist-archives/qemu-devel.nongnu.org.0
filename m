@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BABC3C1E91
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:43:48 +0200 (CEST)
-Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3DFF3C1E93
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:45:21 +0200 (CEST)
+Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iMd-00068w-IV
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
+	id 1m1iO8-0001F2-SC
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:45:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1i5k-0006Ch-Is
+ id 1m1i5l-0006Cr-Qb
  for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:25 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:41631)
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:41519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1i5d-0001Rg-2w
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:20 -0400
-Received: by mail-pg1-x529.google.com with SMTP id s18so8692606pgg.8
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:26:11 -0700 (PDT)
+ id 1m1i5d-0001St-3G
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:21 -0400
+Received: by mail-pf1-x430.google.com with SMTP id f17so7582277pfj.8
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:26:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nqyVs0TjuFo6Br+0zwXeBvSWIus7E5o2mh04xLu+NTU=;
- b=MR34U9URnKd4ZYmnWwMZU2EnJGXAla7Zvhd2EVc8rOAMrQPelJr9qVfzROePtDFtfU
- QMpugOnK095Z+mKT6ccCb5vuOsVS1ZBDif3yvqGofvt44EFUbLtMCBGxydm0y5bPn8Mt
- VhGpa/LpY3MGvRuDbN200E62/R5tbwerKjJdDN7/bEGJ708O+iRAOnXKTd3Zd9CVuHuh
- fLQBS4NoEh57POYCaHGi8ngGBL2bR6cBRayRJhc0fcy6P37RpUb1WI/tZakb8sq3uMub
- N/ykjKnPwFvfJIevUJgJifiSCzKRM7Fy2kK8d8iqXOAlCdVDjpslsd2WMTFCpbcdpxIF
- KBlw==
+ bh=DkRSjZK4s1X6JiwKyTRkh9Sv6TW6zjiR4pJsIp26yK4=;
+ b=dYpR5sCQ/MBKQk+9TLiHzrj2ulvjmAuAd1wwtBlGHkxzlYrLO7GY+EBa88gM6m07rL
+ v+drd/gYuUlRWVRQgwlcFv0XgRyAZ/laoF5ydVKtKj1IISxrbDxHUdccKyWi+EKifhob
+ giijSTAtuXNRDhQ1E7tyb2JG1WkBQDaGdNpHLmKDB1TkjDlBhXEvtAwFq+0WtIHeMbYb
+ Q5EDYz6aErTiPtTBH6qc44Wk7yq5Z9/za/GMrzC1ThAO/766sQKQneHep06QJajOmbvE
+ UOKFGoppp7HQk0qdx24F3u8YYsGh4ciX57NNdeY7il2CPk9E5QbjjpY89vlHWCT8UWDO
+ W2IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nqyVs0TjuFo6Br+0zwXeBvSWIus7E5o2mh04xLu+NTU=;
- b=ip+5hiHFzPbDmD5HjtuMFnuqvTQNiRcOX/oF3suvpJu7S0Yb6Zqed/iY3/3Mv6/ng/
- zLCozRfjBed8FxMMT0IgINP0YkCoH63eLSQPsCMiEaL+zG+Tau9GwhL4+dV0B8CN91IQ
- F9TInB4YI+xhTXLNuOShjRspusO9rxTqX7dFLohDRUnFDVXhzgASXJ8HnhgLhSSvobZg
- 2iXJ2U0vhwTqRfGaeZXx/vA1GndF0E2qmMLtBR0FUz7MqpjaoUM+42fGej6b92txenc1
- mdhZ7BUJWTXv760FISXaye50addZ4Xy+NQf8XM26rhfsiLmYZb/yS9GYmONWYE04MlHB
- L+4A==
-X-Gm-Message-State: AOAM53208qYt3tUWbUGMsUItNJrLkjQAE9qW1yftTBCATtUG8QiUABq5
- 0UJm5JWMc5rrjVLY2F2GoxKDUqi0rTH9eg==
-X-Google-Smtp-Source: ABdhPJxIroeJxKcpGRYQWnbE9paRT2jTJV6GLZQ9NqyFtPCGLYicVogM0zBt73xOlCvLwsT7fLKZNQ==
-X-Received: by 2002:a63:2446:: with SMTP id k67mr35478407pgk.360.1625804770819; 
- Thu, 08 Jul 2021 21:26:10 -0700 (PDT)
+ bh=DkRSjZK4s1X6JiwKyTRkh9Sv6TW6zjiR4pJsIp26yK4=;
+ b=EIbUU1777Zgt/0L5GOBxe+k5xe1OtvdpO2cJbhfmVv35MFs+sJY6FcGieaio19HRjT
+ 50bPaV+O5kwS4FWdD8fCw12xAEHHc4eCkl701HxwcjCQkEwI06PqzMu1N31ejgb3apGK
+ qUg9BqK8TUS7Lul94NB7Y/vjWv51c1H4rtsmgHpH8isv0rO+s9R2psjuxxXBDt8Tv2Xf
+ G+x6Yvm6V2k4olcoBFjJ01LirSOb8c9V+/WoV8hfa843XVz247QYwgcppoCEVqRcKRNH
+ WYNq8lYM1tCKx2tPww4dcyjg1xaHEZ/Pywv7a1w/MGNcdXCduYglRWxpTyhO3vkPR0yZ
+ TZuA==
+X-Gm-Message-State: AOAM530UamGGXCJo66e0AVax+LkieNDc5PQ9fbdMhE1Onw1n+9pRak9v
+ Nb6qg0aHe6Q1koxeQ6Jmz7rPjrYHVoEusA==
+X-Google-Smtp-Source: ABdhPJyuubcrSP8Nsl6YWMhgWUEHvsG9aF1VeYJ8TDU8ntkUScv/w9VfxcnHaDRxyV8RyRtuthzpdA==
+X-Received: by 2002:a63:fa50:: with SMTP id g16mr36247530pgk.16.1625804771424; 
+ Thu, 08 Jul 2021 21:26:11 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id y16sm4406727pfe.70.2021.07.08.21.26.10
+ by smtp.gmail.com with ESMTPSA id y16sm4406727pfe.70.2021.07.08.21.26.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 08 Jul 2021 21:26:10 -0700 (PDT)
+ Thu, 08 Jul 2021 21:26:11 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/17] target/riscv: Introduce gpr_src, gpr_dst
-Date: Thu,  8 Jul 2021 21:25:53 -0700
-Message-Id: <20210709042608.883256-3-richard.henderson@linaro.org>
+Subject: [PATCH 03/17] target/riscv: Use gpr_{src,dst} in shift operations
+Date: Thu,  8 Jul 2021 21:25:54 -0700
+Message-Id: <20210709042608.883256-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210709042608.883256-1-richard.henderson@linaro.org>
 References: <20210709042608.883256-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,119 +86,63 @@ Cc: alistair.francis@wdc.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-New helpers that do not force tcg globals into temps,
-returning a constant 0 for $zero as source and a new
-temp for $zero as destination.
-
-Use them in gen_arith_imm_{fn,tl}, gen_arith, gen_unary.
-These are simplest because no further temps required.
+These operations are slightly more complicated since
+we need to crop the shift operand.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c | 83 ++++++++++++++++++++++------------------
- 1 file changed, 45 insertions(+), 38 deletions(-)
+ target/riscv/translate.c | 68 +++++++++++++++-------------------------
+ 1 file changed, 26 insertions(+), 42 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index bba5ad8ec4..2cfcb849b8 100644
+index 2cfcb849b8..a60b198623 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -65,6 +65,8 @@ typedef struct DisasContext {
-     uint16_t mlen;
-     bool vl_eq_vlmax;
-     CPUState *cs;
-+    TCGv zero;
-+    TCGv sink;
- } DisasContext;
- 
- static inline bool has_ext(DisasContext *ctx, uint32_t ext)
-@@ -202,6 +204,14 @@ static inline void gen_get_gpr(TCGv t, int reg_num)
-     }
- }
- 
-+static TCGv gpr_src(DisasContext *ctx, int reg_num)
-+{
-+    if (reg_num == 0) {
-+        return ctx->zero;
-+    }
-+    return cpu_gpr[reg_num];
-+}
-+
- /* Wrapper for setting reg values - need to check of reg is zero since
-  * cpu_gpr[0] is not actually allocated. this is more for safety purposes,
-  * since we usually avoid calling the OP_TYPE_gen function if we see a write to
-@@ -214,6 +224,17 @@ static inline void gen_set_gpr(int reg_num_dst, TCGv t)
-     }
- }
- 
-+static TCGv gpr_dst(DisasContext *ctx, int reg_num)
-+{
-+    if (reg_num == 0) {
-+        if (ctx->sink == NULL) {
-+            ctx->sink = tcg_temp_new();
-+        }
-+        return ctx->sink;
-+    }
-+    return cpu_gpr[reg_num];
-+}
-+
- static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
+@@ -778,18 +778,14 @@ static bool gen_arith(DisasContext *ctx, arg_r *a,
+ static bool gen_shift(DisasContext *ctx, arg_r *a,
+                         void(*func)(TCGv, TCGv, TCGv))
  {
-     TCGv rl = tcg_temp_new();
-@@ -442,33 +463,21 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm)
- static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a,
-                              void (*func)(TCGv, TCGv, target_long))
- {
--    TCGv source1;
--    source1 = tcg_temp_new();
-+    TCGv dest = gpr_dst(ctx, a->rd);
-+    TCGv src1 = gpr_src(ctx, a->rs1);
- 
--    gen_get_gpr(source1, a->rs1);
--
--    (*func)(source1, source1, a->imm);
--
--    gen_set_gpr(a->rd, source1);
--    tcg_temp_free(source1);
-+    (*func)(dest, src1, a->imm);
-     return true;
- }
- 
- static bool gen_arith_imm_tl(DisasContext *ctx, arg_i *a,
-                              void (*func)(TCGv, TCGv, TCGv))
- {
--    TCGv source1, source2;
--    source1 = tcg_temp_new();
--    source2 = tcg_temp_new();
-+    TCGv dest = gpr_dst(ctx, a->rd);
-+    TCGv src1 = gpr_src(ctx, a->rs1);
-+    TCGv src2 = tcg_constant_tl(a->imm);
- 
--    gen_get_gpr(source1, a->rs1);
--    tcg_gen_movi_tl(source2, a->imm);
--
--    (*func)(source1, source1, source2);
--
--    gen_set_gpr(a->rd, source1);
--    tcg_temp_free(source1);
--    tcg_temp_free(source2);
-+    (*func)(dest, src1, src2);
-     return true;
- }
- 
-@@ -758,18 +767,11 @@ static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
- static bool gen_arith(DisasContext *ctx, arg_r *a,
-                       void(*func)(TCGv, TCGv, TCGv))
- {
--    TCGv source1, source2;
--    source1 = tcg_temp_new();
--    source2 = tcg_temp_new();
+-    TCGv source1 = tcg_temp_new();
+-    TCGv source2 = tcg_temp_new();
 +    TCGv dest = gpr_dst(ctx, a->rd);
 +    TCGv src1 = gpr_src(ctx, a->rs1);
 +    TCGv src2 = gpr_src(ctx, a->rs2);
++    TCGv ext2 = tcg_temp_new();
  
 -    gen_get_gpr(source1, a->rs1);
 -    gen_get_gpr(source2, a->rs2);
 -
+-    tcg_gen_andi_tl(source2, source2, TARGET_LONG_BITS - 1);
+-    (*func)(source1, source1, source2);
+-
+-    gen_set_gpr(a->rd, source1);
+-    tcg_temp_free(source1);
+-    tcg_temp_free(source2);
++    tcg_gen_andi_tl(ext2, src2, TARGET_LONG_BITS - 1);
++    (*func)(dest, src1, ext2);
++    tcg_temp_free(ext2);
+     return true;
+ }
+ 
+@@ -805,58 +801,46 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+ static bool gen_shifti(DisasContext *ctx, arg_shift *a,
+                        void(*func)(TCGv, TCGv, TCGv))
+ {
++    TCGv dest, src1, src2;
++
+     if (a->shamt >= TARGET_LONG_BITS) {
+         return false;
+     }
+ 
+-    TCGv source1 = tcg_temp_new();
+-    TCGv source2 = tcg_temp_new();
++    dest = gpr_dst(ctx, a->rd);
++    src1 = gpr_src(ctx, a->rs1);
++    src2 = tcg_constant_tl(a->shamt);
+ 
+-    gen_get_gpr(source1, a->rs1);
+-
+-    tcg_gen_movi_tl(source2, a->shamt);
 -    (*func)(source1, source1, source2);
 -
 -    gen_set_gpr(a->rd, source1);
@@ -208,49 +152,55 @@ index bba5ad8ec4..2cfcb849b8 100644
      return true;
  }
  
-@@ -871,14 +873,10 @@ static void gen_clz(TCGv ret, TCGv arg1)
- static bool gen_unary(DisasContext *ctx, arg_r2 *a,
-                       void(*func)(TCGv, TCGv))
+ static bool gen_shiftw(DisasContext *ctx, arg_r *a,
+                        void(*func)(TCGv, TCGv, TCGv))
  {
--    TCGv source = tcg_temp_new();
+-    TCGv source1 = tcg_temp_new();
+-    TCGv source2 = tcg_temp_new();
 +    TCGv dest = gpr_dst(ctx, a->rd);
 +    TCGv src1 = gpr_src(ctx, a->rs1);
++    TCGv src2 = gpr_src(ctx, a->rs2);
++    TCGv ext2 = tcg_temp_new();
  
--    gen_get_gpr(source, a->rs1);
+-    gen_get_gpr(source1, a->rs1);
+-    gen_get_gpr(source2, a->rs2);
++    tcg_gen_andi_tl(ext2, src2, 31);
++    (*func)(dest, src1, ext2);
++    tcg_gen_ext32s_tl(dest, dest);
+ 
+-    tcg_gen_andi_tl(source2, source2, 31);
+-    (*func)(source1, source1, source2);
+-    tcg_gen_ext32s_tl(source1, source1);
 -
--    (*func)(source, source);
--
--    gen_set_gpr(a->rd, source);
--    tcg_temp_free(source);
-+    (*func)(dest, src1);
+-    gen_set_gpr(a->rd, source1);
+-    tcg_temp_free(source1);
+-    tcg_temp_free(source2);
++    tcg_temp_free(ext2);
      return true;
  }
  
-@@ -952,8 +950,12 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->cs = cs;
- }
- 
--static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-+static void riscv_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
+ static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,
+                         void(*func)(TCGv, TCGv, TCGv))
  {
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    ctx->sink = NULL;
-+    ctx->zero = tcg_constant_tl(0);
+-    TCGv source1 = tcg_temp_new();
+-    TCGv source2 = tcg_temp_new();
++    TCGv dest = gpr_dst(ctx, a->rd);
++    TCGv src1 = gpr_src(ctx, a->rs1);
++    TCGv src2 = tcg_constant_tl(a->shamt);
+ 
+-    gen_get_gpr(source1, a->rs1);
+-    tcg_gen_movi_tl(source2, a->shamt);
++    (*func)(dest, src1, src2);
++    tcg_gen_ext32s_tl(dest, dest);
+ 
+-    (*func)(source1, source1, source2);
+-    tcg_gen_ext32s_tl(source1, source1);
+-
+-    gen_set_gpr(a->rd, source1);
+-    tcg_temp_free(source1);
+-    tcg_temp_free(source2);
+     return true;
  }
- 
- static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-@@ -988,6 +990,11 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     decode_opc(env, ctx, opcode16);
-     ctx->base.pc_next = ctx->pc_succ_insn;
- 
-+    if (ctx->sink) {
-+        tcg_temp_free(ctx->sink);
-+        ctx->sink = NULL;
-+    }
-+
-     if (ctx->base.is_jmp == DISAS_NEXT) {
-         target_ulong page_start;
  
 -- 
 2.25.1
