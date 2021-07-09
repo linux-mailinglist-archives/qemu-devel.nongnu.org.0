@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E133C28F6
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 20:21:20 +0200 (CEST)
-Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AB53C2902
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 20:27:27 +0200 (CEST)
+Received: from localhost ([::1]:59790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1v7n-0005Xw-C2
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 14:21:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59488)
+	id 1m1vDi-0001o2-Qs
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 14:27:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1v6v-0004bk-VJ
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:20:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28889)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vCU-0000NB-9a
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:26:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28569)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1v6s-00040o-FF
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:20:25 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vCP-0006Yn-1A
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:26:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625854819;
+ s=mimecast20190719; t=1625855164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WoW+Ja5Pf3zrXCg3S4KcCiMKYBxfpX9AoO6VTmt/rhc=;
- b=YepwIfqs5EmRbN0JMhPuwuPCN5XtPIo7Ni4SgPNe+O53UzDlq/YBN5CAhfE24qYAYPBSWM
- 5u75V+1nfdO5Hf8kpAPAFSCHM1DOiUC9l8hAa9XF/Wjd8ZT08n4Go1YqecKOf7GQgeijMN
- +BOq0191qCyt4kZeDENhv1fcjweoNuE=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-rDZhmfRNNaWtuAjaorwYCw-1; Fri, 09 Jul 2021 14:20:18 -0400
-X-MC-Unique: rDZhmfRNNaWtuAjaorwYCw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- 4-20020a3709040000b02903b4d0f603a9so6896993qkj.21
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 11:20:18 -0700 (PDT)
+ bh=1DV2rbmRUe69ShaICIBPHnjo67qMvctULrVgnxhNHG8=;
+ b=FWQZKdlsbpwDuMQGm29wbmzbDB307SWFxbZH12VoiOYH/TsqLyQUQGFcxWVW6EkxgKkrzR
+ RtB28Wqm+xj0P2XmtBtBY9q44LLccUl/7+zr13FFyAYPV6wHh9KKsHcDOLJdiNAp4Kcapu
+ GpsC5v6aNAUxB5oNuaVQLQMeauqnjkE=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-XPxWsYH5PlSj0C2xVQehPg-1; Fri, 09 Jul 2021 14:26:02 -0400
+X-MC-Unique: XPxWsYH5PlSj0C2xVQehPg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ i9-20020ac871c90000b0290252173fe79cso3877991qtp.2
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 11:26:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=WoW+Ja5Pf3zrXCg3S4KcCiMKYBxfpX9AoO6VTmt/rhc=;
- b=nDCUljHOTm9S0Y2b3qSdSPD4iXHOlvKcuZyqAVXpK2ltS2bIZsU6HeaRRcni8aOQTr
- 4LPaC26iwM/kHXDyGqYnl8pwXoAkAlluzJ83MIF3RJrfP8W5YyDBfAQVUzfof7xrAeGn
- ib14Km7b+NSPCqkEiYQansbdIaXTixOaqVcCM2BDmp5fX/V8Ps2PqjzuXhu81AcXuJUw
- w82tqyc+KCyCJ3XumHEkinaUOEPX61jYebFt0TSkZmA6qCvKYtsL8HcG5sQ7SZwKu+nd
- Uk06f3HeW02UFNZAjqYQUl0CXgwry/PETYYFuzCko+KoXhhaKGt4CPE0oYpLBiEYverH
- VDkQ==
-X-Gm-Message-State: AOAM531dwzzNhGqxA9L+kgw4S5LRgQnhu/jQXXasoG0iZy3INFS91SRW
- YfxCZ1Q24lxDuISKAvqpM3guaUjpwDfkb3uTtkqIatd35z1rTyo/m7hifh90Fg7st0p+hNy73Wz
- YkqnqYRWu1VMtUjI=
-X-Received: by 2002:a05:622a:187:: with SMTP id
- s7mr35364454qtw.301.1625854818477; 
- Fri, 09 Jul 2021 11:20:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx+PL+XjHJ/1ySc3SRXX1/p86touIEq8SLvMpGoVHvS2RiW9VM4gGPw/qOTGnAJ7ag2vjKZ5Q==
-X-Received: by 2002:a05:622a:187:: with SMTP id
- s7mr35364424qtw.301.1625854818190; 
- Fri, 09 Jul 2021 11:20:18 -0700 (PDT)
+ bh=1DV2rbmRUe69ShaICIBPHnjo67qMvctULrVgnxhNHG8=;
+ b=qfu1FTVvP9Fk6zHH0YKYGdjZcXhqaCIjYQ3ZKvwiI0E3NXxBU0lp9yS2MuxXLSicvq
+ dpIDrcEMWBpxqCnFsjKa5Te/XA2Jki/z1MO9bdiFIouDKklNHLJ86uZ6CvCqWi/0BQCd
+ 1Y0T+hhN+vb1yodXCFnErzYzIvX1Ee/y+5N/8reZ1vaiHr1zMO3CvCPUGUTERdalRZen
+ M4aHG03N3L0N8aKBfb5mjHO4p5fWb20+YNZvNZOxYTFfPAsete1IRqPvt1XX7TCWk61t
+ gY4Yg/0tnfrrlxaVkGjirMqYkWi1q69WCZZ8Yh9LiL1wITmWNBtNu5rTDGTGS0vOgQew
+ nHhw==
+X-Gm-Message-State: AOAM530ql4stYISb5f+7F+QM5HBdq8Zr9h8/rKVDlrt93QUouA+45rQj
+ JBErILZDSrD93QMhGkslVNJ7yJT+Xiw4YXvZEyWKiS6841RNwNZ6gH4UzxWV++5kkvznODzdRx2
+ ljjQCPk8ev6q/3LI=
+X-Received: by 2002:a05:620a:31a6:: with SMTP id
+ bi38mr36721719qkb.140.1625855162359; 
+ Fri, 09 Jul 2021 11:26:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwY8ia3IyHUF5NfsGRjpMdeS9K2juXXIWNo1P7aDaAAFc2QdA3uD2mHhiSGb3UmYhSGlW9TDA==
+X-Received: by 2002:a05:620a:31a6:: with SMTP id
+ bi38mr36721696qkb.140.1625855162100; 
+ Fri, 09 Jul 2021 11:26:02 -0700 (PDT)
 Received: from t490s
  (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id x5sm2817692qke.92.2021.07.09.11.20.16
+ by smtp.gmail.com with ESMTPSA id j3sm2497277qth.63.2021.07.09.11.26.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 11:20:17 -0700 (PDT)
-Date: Fri, 9 Jul 2021 14:20:16 -0400
+ Fri, 09 Jul 2021 11:26:01 -0700 (PDT)
+Date: Fri, 9 Jul 2021 14:26:00 -0400
 From: Peter Xu <peterx@redhat.com>
 To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH 0/4] support dirtyrate measurement with dirty bitmap
-Message-ID: <YOiTYBITq1px8r1S@t490s>
-References: <cover.1624768443.git.huangy81@chinatelecom.cn>
+Subject: Re: [PATCH 3/4] memory: introduce DIRTY_MEMORY_DIRTY_RATE dirty bits
+ functions
+Message-ID: <YOiUuECbNs2WrS4A@t490s>
+References: <cover.1624771216.git.huangy81@chinatelecom.cn>
+ <a7553a5899b70d50afa04e06597967e20ae41873.1624771216.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <cover.1624768443.git.huangy81@chinatelecom.cn>
+In-Reply-To: <a7553a5899b70d50afa04e06597967e20ae41873.1624771216.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,11 +80,11 @@ Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,86 +105,252 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yong,
-
-On Sun, Jun 27, 2021 at 01:38:13PM +0800, huangy81@chinatelecom.cn wrote:
+On Sun, Jun 27, 2021 at 01:38:16PM +0800, huangy81@chinatelecom.cn wrote:
 > From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 > 
-> the dirtyrate measurement implemented by page-sampling originally, it
-> is not accurate in some scenarios, so we have introduced dirty-ring
-> based dirtyrate measurement(maybe it will be merged soon), it fix the
-> accuracy of page-sampling, and more importantly, it is at the
-> granualrity of vcpu.
+> introduce util functions to setup the DIRTY_MEMORY_DIRTY_RATE
+> dirty bits for the convenience of tracking dirty bitmap when
+> calculating dirtyrate.
 > 
-> dirty-ring method can be used when dirty-ring enable, as supplementary,
-> we introduce dirty-bitmap method to calculating dirtyrate when dirty log
-> enable, so that we can also get the accurate dirtyrate if needed in the
-> absence of dirty-ring.
+> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+> ---
+>  include/exec/ram_addr.h | 121 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  softmmu/physmem.c       |  61 ++++++++++++++++++++++++
+>  2 files changed, 182 insertions(+)
 > 
-> three things has done to implement the measurement:
-> - introduce a fresh new dirty bits named DIRTY_MEMORY_DIRTY_RATE, which
->   is used to store dirty bitmap after fetching it from kvm. why we do
->   not reuse the existing DIRTY_MEMORY_MIGRATION dirty bits is we do not
->   want to interfere with migration of and let implementation clear, this 
->   is also the reason why dirty_memory be split.
+> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+> index 6070a52..57dc96b 100644
+> --- a/include/exec/ram_addr.h
+> +++ b/include/exec/ram_addr.h
+> @@ -435,6 +435,12 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
+>                                                ram_addr_t length,
+>                                                unsigned client);
+>  
+> +void cpu_physical_memory_dirtyrate_clear_bit(ram_addr_t start,
+> +                                             ram_addr_t length);
+> +
+> +void cpu_physical_memory_dirtyrate_reprotect_bit(ram_addr_t start,
+> +                                                 ram_addr_t length);
+> +
+>  DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
+>      (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client);
+>  
+> @@ -523,5 +529,120 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
+>  
+>      return num_dirty;
+>  }
+> +
+> +/* Called with RCU critical section */
+> +static inline
+> +void cpu_physical_memory_dirtyrate_clear_dirty_bits(RAMBlock *rb)
+> +{
+> +    ram_addr_t addr;
+> +    ram_addr_t length = rb->used_length;
+> +    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
+> +
+> +    /* start address and length is aligned at the start of a word? */
+> +    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == rb->offset &&
+> +        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
+> +        int k;
+> +        int nr = BITS_TO_LONGS(length >> TARGET_PAGE_BITS);
+> +        unsigned long * const *src;
+> +        unsigned long idx = (word * BITS_PER_LONG) / DIRTY_MEMORY_BLOCK_SIZE;
+> +        unsigned long offset = BIT_WORD((word * BITS_PER_LONG) %
+> +                                        DIRTY_MEMORY_BLOCK_SIZE);
+> +
+> +        src = qatomic_rcu_read(
+> +                &ram_list.dirty_memory[DIRTY_MEMORY_DIRTY_RATE])->blocks;
+> +
+> +        for (k = 0; k < nr; k++) {
+> +            if (src[idx][offset]) {
+> +                qatomic_set(&src[idx][offset], 0);
+> +            }
+> +            if (++offset >= BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)) {
+> +                offset = 0;
+> +                idx++;
+> +            }
+> +        }
+> +    } else {
+> +        ram_addr_t offset = rb->offset;
+> +
+> +        for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
+> +            cpu_physical_memory_dirtyrate_clear_bit(addr + offset,
+> +                                                    TARGET_PAGE_SIZE);
+> +        }
+> +    }
+> +
+> +    return;
+> +}
+> +
+> +/* Called with RCU critical section */
+> +static inline
+> +uint64_t cpu_physical_memory_dirtyrate_stat_dirty_bits(RAMBlock *rb)
+> +{
+> +    uint64_t dirty_pages = 0;
+> +    ram_addr_t addr;
+> +    ram_addr_t length = rb->used_length;
+> +    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
+> +    unsigned long bits;
+> +
+> +    /* start address and length is aligned at the start of a word? */
+> +    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == rb->offset &&
+> +        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
+> +        int k;
+> +        int nr = BITS_TO_LONGS(length >> TARGET_PAGE_BITS);
+> +        unsigned long * const *src;
+> +        unsigned long idx = (word * BITS_PER_LONG) / DIRTY_MEMORY_BLOCK_SIZE;
+> +        unsigned long offset = BIT_WORD((word * BITS_PER_LONG) %
+> +                                        DIRTY_MEMORY_BLOCK_SIZE);
+> +
+> +        src = qatomic_rcu_read(
+> +                &ram_list.dirty_memory[DIRTY_MEMORY_DIRTY_RATE])->blocks;
+> +
+> +        for (k = 0; k < nr; k++) {
+> +            if (src[idx][offset]) {
+> +                bits = qatomic_read(&src[idx][offset]);
+> +                dirty_pages += ctpopl(bits);
+> +            }
+> +
+> +            if (++offset >= BITS_TO_LONGS(DIRTY_MEMORY_BLOCK_SIZE)) {
+> +                offset = 0;
+> +                idx++;
+> +            }
+> +        }
+> +    } else {
+> +        ram_addr_t offset = rb->offset;
+> +
+> +        for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
+> +            if (cpu_physical_memory_get_dirty(offset + addr,
+> +                                              TARGET_PAGE_SIZE,
+> +                                              DIRTY_MEMORY_DIRTY_RATE)) {
+> +                dirty_pages++;
+> +            }
+> +        }
+> +    }
+> +
+> +    return dirty_pages;
+> +}
+
+If my understanding in the cover letter was correct, all codes until here can
+be dropped if without the extra bitmap.
+
+> +
+> +static inline
+> +void cpu_physical_memory_dirtyrate_reset_protect(RAMBlock *rb)
+> +{
+> +    ram_addr_t addr;
+> +    ram_addr_t length = rb->used_length;
+> +    unsigned long word = BIT_WORD(rb->offset >> TARGET_PAGE_BITS);
+> +
+> +    /* start address and length is aligned at the start of a word? */
+> +    if (((word * BITS_PER_LONG) << TARGET_PAGE_BITS) == rb->offset &&
+> +        !(length & ((BITS_PER_LONG << TARGET_PAGE_BITS) - 1))) {
+> +        memory_region_clear_dirty_bitmap(rb->mr, 0, length);
+> +    } else {
+> +        ram_addr_t offset = rb->offset;
+> +
+> +        for (addr = 0; addr < length; addr += TARGET_PAGE_SIZE) {
+> +            cpu_physical_memory_dirtyrate_reprotect_bit(offset + addr,
+> +                                                        TARGET_PAGE_SIZE);
+> +        }
+> +    }
+> +
+> +    return;
+> +}
+
+Confused why we need this complexity.  Can we unconditionally do:
+
+static inline
+void cpu_physical_memory_dirtyrate_reset_protect(RAMBlock *rb)
+{
+    memory_region_clear_dirty_bitmap(rb->mr, 0, rb->used_length);
+}
+
+?
+
+Then we can even drop the helper, maybe?
+
+Below functions seem to be able to be dropped too if without the dirty rate
+bitmap.  Then, maybe, this patch is not needed..
+
+> +
+>  #endif
+>  #endif
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 9b171c9..d68649a 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1068,6 +1068,67 @@ bool cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
+>      return dirty;
+>  }
+>  
+> +void cpu_physical_memory_dirtyrate_clear_bit(ram_addr_t start,
+> +                                             ram_addr_t length)
+> +{
+> +    DirtyMemoryBlocks *blocks;
+> +    unsigned long end, page;
+> +    RAMBlock *ramblock;
+> +
+> +    if (length == 0) {
+> +        return;
+> +    }
+> +
+> +    end = TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> +    page = start >> TARGET_PAGE_BITS;
+> +
+> +    WITH_RCU_READ_LOCK_GUARD() {
+> +        blocks =
+> +            qatomic_rcu_read(&ram_list.dirty_memory[DIRTY_MEMORY_DIRTY_RATE]);
+> +        ramblock = qemu_get_ram_block(start);
+> +        /* Range sanity check on the ramblock */
+> +        assert(start >= ramblock->offset &&
+> +               start + length <= ramblock->offset + ramblock->used_length);
+> +        while (page < end) {
+> +            unsigned long idx = page / DIRTY_MEMORY_BLOCK_SIZE;
+> +            unsigned long offset = page % DIRTY_MEMORY_BLOCK_SIZE;
+> +            unsigned long num = MIN(end - page,
+> +                                    DIRTY_MEMORY_BLOCK_SIZE - offset);
+> +
+> +            clear_bit(num, blocks->blocks[idx]);
+> +            page += num;
+> +        }
+> +    }
+> +
+> +    return;
+> +}
+> +
+> +void cpu_physical_memory_dirtyrate_reprotect_bit(ram_addr_t start,
+> +                                                 ram_addr_t length)
+> +{
+> +    unsigned long end, start_page;
+> +    RAMBlock *ramblock;
+> +    uint64_t mr_offset, mr_size;
+> +
+> +    if (length == 0) {
+> +        return;
+> +    }
+> +
+> +    end = TARGET_PAGE_ALIGN(start + length) >> TARGET_PAGE_BITS;
+> +    start_page = start >> TARGET_PAGE_BITS;
+> +
+> +    ramblock = qemu_get_ram_block(start);
+> +    /* Range sanity check on the ramblock */
+> +    assert(start >= ramblock->offset &&
+> +        start + length <= ramblock->offset + ramblock->used_length);
+> +
+> +    mr_offset = (ram_addr_t)(start_page << TARGET_PAGE_BITS) - ramblock->offset;
+> +    mr_size = (end - start_page) << TARGET_PAGE_BITS;
+> +    memory_region_clear_dirty_bitmap(ramblock->mr, mr_offset, mr_size);
+> +
+> +    return;
+> +}
+> +
+>  DirtyBitmapSnapshot *cpu_physical_memory_snapshot_and_clear_dirty
+>      (MemoryRegion *mr, hwaddr offset, hwaddr length, unsigned client)
+>  {
+> -- 
+> 1.8.3.1
 > 
->   DIRTY_MEMORY_DIRTY_RATE dirty bits will be filled when
->   memory_global_dirty_log_sync executed if GLOBAL_DIRTY_DIRTY_RATE bit
->   be set in the global_dirty_tracking flag.
-
-I'm not 100% sure this is needed.
-
-Dirty rate measurements do not care about which page is dirtied, it looks like
-an overkill to introduce a new bitmap for it.
-
-IMHO we can directly do the calculation when synchronizing the dirty bits in
-below functions:
-
-        cpu_physical_memory_set_dirty_range
-        cpu_physical_memory_set_dirty_lebitmap
-        cpu_physical_memory_sync_dirty_bitmap
-
-Maybe we can define a global statistics for that?
-
-> 
-> - introduce kvm_get_manual_dirty_log_protect function so that we can
->   probe the protect caps of kvm when calculating.
-> 
-> - implement dirtyrate measurement with dirty bitmap with following step:
->   1. start the dirty log. 
-> 
->   2. probe the protect cap, if KVM_DIRTY_LOG_INITIALLY_SET enable, skip
->      skip the 1'R and do the reset page protection manually, since kvm
->      file bitmap with 1 bits if this cap is enabled. 
-> 
->   3. clear the DIRTY_MEMORY_DIRTY_RATE dirty bits, prepare to store 
->      the dirty bitmap.
-> 
->   4. start memory_global_dirty_log_sync and fetch dirty bitmap from kvm
-> 
->   5. reap the DIRTY_MEMORY_DIRTY_RATE dirty bits and do the calculation.
-> 
-> this patchset rebases on the commit 
-> "migration/dirtyrate: implement dirty-ring dirtyrate calculation",
-> since the above feature has not been merged, so we post this patch
-> for the sake of RFC. ideally, this patshset may be merged after it.
-
-I gave it a shot with some setup dirty workload, it runs well so far and also I
-do get accurate numbers (200MB/s measured as 201MB/s; 300MB/s measured as
-301MB/s, and so on).  Looks good to me in general.
-
-But as I mentioned above I feel like the changeset can be shrinked quite a bit
-if we can drop the extra bitmap; maybe it means we can drop half of the whole
-series.  But it's also possible I missed something, let's see.
-
-It'll slightly differ from dirty ring in that same page written will always
-only be counted once between two dirty map sync, but that's expected.  Dirty
-ring "sync" more frequently (either ring full, or current 1-sec timeout in the
-reaper), so it re-protects more frequently too.
-
-I still have some other small comments, I'll go into the patches.
-
-Thanks,
 
 -- 
 Peter Xu
