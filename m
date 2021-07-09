@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDCBB3C1CFE
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 03:27:02 +0200 (CEST)
-Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 827303C1DCC
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 05:33:00 +0200 (CEST)
+Received: from localhost ([::1]:56854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1fID-0002n3-IV
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 21:27:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
+	id 1m1hG7-0000Ie-2m
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 23:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m1fGz-00019e-0W
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 21:25:45 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:35380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1m1fGx-0000q5-4O
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 21:25:44 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- h1-20020a17090a3d01b0290172d33bb8bcso7331216pjc.0
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 18:25:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TCMcovb2XkRpdv2nToJwj5bMiFKFI+eovpMfc61V0xU=;
- b=D5ofqSP/RmcLPqse2Z//QSUFSgB99HeTxC4yxhAX+YFSdACbTNqYdMxnIjK/6jgSUf
- WasKYiL4zduR8NfVD1nIEQfSHTcVyHcfudsiw6wEmVqY7e8551Qq3dWkv5Xqj6XvObuR
- 3bZn5GK23K6eapz393m5+LTCyOxPGNTyGOgphJjNy7jcGOVODQkLMhehzQY2bGpA9YC2
- PhX/VuNS/CvUYVuliSUAqc5SOfb6GeCL3cHljJVCSXaY7k4dW3u1V1B9NZPBh5wjrhPv
- LPGGSMJz3kBKiaB9aCVgtn2nCvigmnGWLERkQUoXiOaPGabfAX55ABpqYIoHzhZKC5Qg
- EkeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TCMcovb2XkRpdv2nToJwj5bMiFKFI+eovpMfc61V0xU=;
- b=PNXa5DCgq4hLvcel/LyYOb/3S3s4/HXc2FkC+KoBXtK1sUFv+QihiP+/GnYmpAbfFp
- s40VaTi2foF+BQ2JlICtgT4/Tze89egexBbEpM6VFZ3eYPRuhUC0vpjxnmXC6unTKZ6d
- fM1aSA7uNkIsTUIb4b6kNUNCjQ1hbD/2f8Xdumb20sBXV0Y3xy96pECd7H1HWgeOZTxE
- d/t42QXn8ysPaYRrW1TXMNUuEQmMW6PE5//p/kRJFYDgHUn6jbblQQT6eUhqR2MA+5XL
- Ykce30KalGR/A5f/F+gPB3NjaD6BWf8gkaJYLE1OOnIrayp5VYOfumR6uZ8Cnf0XyZ8d
- 5lzw==
-X-Gm-Message-State: AOAM530BSy1a7xbIbkFM7pi+IAEvSmZvn5ZXN6UL5ipdVJhPF6uwM2SQ
- zLnAVeO9EhAlE/JsLe6F4xjKg8kzn1Sr+A==
-X-Google-Smtp-Source: ABdhPJyxW2DyiFt4Woz0JSlBXMmecldILUFsSljQf/YxUMiVlf1Vi54Yc+nO3E98rq6SshS1GcwTQA==
-X-Received: by 2002:a17:902:9a46:b029:129:acad:4551 with SMTP id
- x6-20020a1709029a46b0290129acad4551mr14350451plv.17.1625793941336; 
- Thu, 08 Jul 2021 18:25:41 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:206a:67b9:1ee9:8095])
- by smtp.gmail.com with ESMTPSA id g17sm5002955pgh.61.2021.07.08.18.25.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 08 Jul 2021 18:25:40 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] meson: Use input/output for entitlements target
-Date: Fri,  9 Jul 2021 10:25:33 +0900
-Message-Id: <20210709012533.58262-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+ (Exim 4.90_1)
+ (envelope-from <prvs=81790befc=alistair.francis@wdc.com>)
+ id 1m1hEK-0006HQ-ET; Thu, 08 Jul 2021 23:31:08 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:23409)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=81790befc=alistair.francis@wdc.com>)
+ id 1m1hEE-0006R9-02; Thu, 08 Jul 2021 23:31:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1625801461; x=1657337461;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=FGftd06KQUZ7tDQ5OGzIJ1X9u0u0bQAockp3XcvLTxU=;
+ b=gkfQhiFZXLXL49BLAwz6cQvvj5l3DEZP1a8mLWfKDpIkpgbxVKVL+gpi
+ 1LSQeCMvN1Oe0lDbNITf+D3cNvBGZyL36WfUoOYWo3cKfViF0P7bzs4wS
+ U9lsd31J8+N/nOYiwbfBr8MTeeR1nHtpijjPVuILencMtpaoOceAnFb+3
+ 06FWOcF9l7z8iIYKyxck+d2FpoLZ66PGWhdJfGLAdegJJ45eqeUR47xtD
+ 9voBgxDbZZ+SE10emNVpa5BdWCPIaR5pk8JM1ivTno+mMm6IDW4so8sc7
+ EEI+CNLs4cd3t5yMeVERycvKS8FO1Du9Wi6tlb8qRj62/s5x0ThO4bAwt g==;
+IronPort-SDR: /W2okUXLjoRwCiyaLlB591g9cJ4sePw48O/qCThKGv44xAUiSYn+ZfQxAQvhzTl8747Ew3pcat
+ fH6emdp4waqk8sLs7637j8ig7KFz620h5XM/qhEW/CSLnw8+lNEhA31my9pOhidbmUjeyXfZ/G
+ hlUIeofQdSQamRkZcXhUMPgenIg1lTcVGHO4hSgdkzTLIiRmP02wufqA819e2KHSIC1O2lBX5v
+ tvuK+9FgRwYgcPtvgjDIQmoFNbWbxL1SDVhX/2eztb9pnWdlVKhXE4Z+v0MAQC2DWCHfIhUtpV
+ Ang=
+X-IronPort-AV: E=Sophos;i="5.84,225,1620662400"; d="scan'208";a="285648619"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2021 11:30:55 +0800
+IronPort-SDR: oVPcahEAOFREzQ3uaxnhm09R2DnRKVwAa70FRfsluCl0nJ46EKdiTN2SnMy9uoacYxP+zkQyft
+ cptLvBLPtCJzPbTmt57IRYbkNYoiTWjKEjCdymMvvqyYnXXT7B/G7ZEice44NYI5QjAeOD/QCX
+ VDupBAPyC5eLapOoo+mxGyd2oC0dIo2Wydi/qX3JJMFdWwvlLAOEFc3oyqHTJEsQtX8+XYWPZL
+ SExYNHRdeXUfKXqyzIAW3Vn9G1/G98aOI74c3DRX1sqYYm/ayKPrYbiAtYjb47rHM911RjA9k1
+ t6JrsajjBKHFvaUb1QjtM+JH
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2021 20:07:53 -0700
+IronPort-SDR: O6zxN4L7z/gW8LFnjvYIoqgvYDnoTZ9cjepdq8DtkCS4B42lP3oW08/9JFN8PJHVskDkcPH/iZ
+ NdlgE1M6Fq55yZL8onJP8MG9sPbMubJfXRno7PC96WK0vM4aNQsYdhBM3xSslUo9X2nWpw++nx
+ i0kStOtWLy5Oi3wdFrfh9qe4/b8IHI6ibkSALYiLPHdSfDWNGyQbybV1ZOmYc4aVzn4Jny0QMS
+ vxM78mYvX5D6f1jyO5CWc5Ln06diwRNC2A3966YsWzTv6RGagbRW1Qy2Cn1HQH7SXeYCUnBTe3
+ bCE=
+WDCIronportException: Internal
+Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.107])
+ by uls-op-cesaip01.wdc.com with ESMTP; 08 Jul 2021 20:30:51 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 1/5] target/riscv: Expose interrupt pending bits as GPIO
+ lines
+Date: Fri,  9 Jul 2021 13:30:48 +1000
+Message-Id: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=81790befc=alistair.francis@wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,103 +88,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-input/output parameters respect dependencies.
+Expose the 12 interrupt pending bits in MIP as GPIO lines.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meson.build            | 30 +++++++++++++++++-------------
- scripts/entitlement.sh | 10 +++++-----
- 2 files changed, 22 insertions(+), 18 deletions(-)
+ target/riscv/cpu.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/meson.build b/meson.build
-index 7e12de01bec..d21adecc0d8 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2521,28 +2521,32 @@ foreach target : target_dirs
-                link_args: link_args,
-                gui_app: exe['gui'])
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 991a6bb760..86321baf9f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -565,11 +565,41 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+     mcc->parent_realize(dev, errp);
+ }
  
--    if 'CONFIG_HVF' in config_target
--      entitlements = meson.current_source_dir() / 'accel/hvf/entitlements.plist'
--    else
--      entitlements = '/dev/null'
--    endif
-     if targetos == 'darwin'
--      icon = meson.current_source_dir() / 'pc-bios/qemu.rsrc'
-+      icon = 'pc-bios/qemu.rsrc'
-+      build_input = [emulator, files(icon)]
-+      install_input = [
-+        get_option('bindir') / exe_name,
-+        meson.current_source_dir() / icon
-+      ]
-+      if 'CONFIG_HVF' in config_target
-+        entitlements = 'accel/hvf/entitlements.plist'
-+        build_input += files(entitlements)
-+        install_input += meson.current_source_dir() / entitlements
-+      endif
++#ifndef CONFIG_USER_ONLY
++static void riscv_cpu_set_irq(void *opaque, int irq, int level)
++{
++    RISCVCPU *cpu = RISCV_CPU(opaque);
 +
-       emulators += {exe['name'] : custom_target(exe['name'],
--                   depends: emulator,
-+                   input: build_input,
-                    output: exe['name'],
-                    command: [
--                     meson.current_source_dir() / 'scripts/entitlement.sh',
--                     meson.current_build_dir() / exe_name,
--                     meson.current_build_dir() / exe['name'],
--                     entitlements, icon
-+                     files('scripts/entitlement.sh'),
-+                     '@OUTPUT@',
-+                     '@INPUT@'
-                    ])
-       }
++    switch (irq) {
++    case IRQ_U_SOFT:
++    case IRQ_S_SOFT:
++    case IRQ_VS_SOFT:
++    case IRQ_M_SOFT:
++    case IRQ_U_TIMER:
++    case IRQ_S_TIMER:
++    case IRQ_VS_TIMER:
++    case IRQ_M_TIMER:
++    case IRQ_U_EXT:
++    case IRQ_S_EXT:
++    case IRQ_VS_EXT:
++    case IRQ_M_EXT:
++        riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++#endif /* CONFIG_USER_ONLY */
++
+ static void riscv_cpu_init(Object *obj)
+ {
+     RISCVCPU *cpu = RISCV_CPU(obj);
  
-       meson.add_install_script('scripts/entitlement.sh', '--install',
--                               get_option('bindir') / exe_name,
-                                get_option('bindir') / exe['name'],
--                               entitlements, icon)
-+                               install_input)
-     else
-       emulators += {exe['name']: emulator}
-     endif
-diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
-index d2a7079ce3e..e2c956a3ac9 100755
---- a/scripts/entitlement.sh
-+++ b/scripts/entitlement.sh
-@@ -8,10 +8,10 @@ if [ "$1" = --install ]; then
-   in_place=false
- fi
+     cpu_set_cpustate_pointers(cpu);
++
++#ifndef CONFIG_USER_ONLY
++    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq, 12);
++#endif /* CONFIG_USER_ONLY */
+ }
  
--SRC="$1"
--DST="$2"
--ENTITLEMENT="$3"
--ICON="$4"
-+DST="$1"
-+SRC="$2"
-+ICON="$3"
-+ENTITLEMENT="$4"
- 
- if $in_place; then
-   trap 'rm "$DST.tmp"' exit
-@@ -21,7 +21,7 @@ else
-   cd "$MESON_INSTALL_DESTDIR_PREFIX"
- fi
- 
--if test "$ENTITLEMENT" != '/dev/null'; then
-+if test -n "$ENTITLEMENT"; then
-   codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
- fi
- 
+ static Property riscv_cpu_properties[] = {
 -- 
-2.30.1 (Apple Git-130)
+2.31.1
 
 
