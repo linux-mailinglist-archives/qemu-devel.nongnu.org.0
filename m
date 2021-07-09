@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C243C1DF5
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 05:54:23 +0200 (CEST)
-Received: from localhost ([::1]:33482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 218113C1E00
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:05:34 +0200 (CEST)
+Received: from localhost ([::1]:36704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1hao-0006Ki-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 23:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47660)
+	id 1m1hlc-00025u-Vf
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m1hZd-00050s-QD
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 23:53:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31102)
+ id 1m1hkM-0001Q6-3E
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:04:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m1hZa-0001jP-41
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 23:53:08 -0400
+ id 1m1hkJ-0007E0-6a
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:04:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625802784;
+ s=mimecast20190719; t=1625803450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=USJQtR0pGVSPniZfwPmlw425WSj2zuW3iPCgpp0qdK4=;
- b=Kn/qwYkSmGw3Y2izvieVvgEFp05emlPqtAb00b6m/DZWSS+JfI9OXzzEuWY7PYJTsSZy6S
- V3twacopOspjefZDyj3H2hnyWTX1Udc0b8EvqjejNnncLHmi6vwMp6mBJ5wVdJM/5HtHxX
- LjI6PsEyWuFmXjcVg1AIN7bFtYJKm3I=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-SDfVWSHhMPiaKoRl1F9GTQ-1; Thu, 08 Jul 2021 23:53:01 -0400
-X-MC-Unique: SDfVWSHhMPiaKoRl1F9GTQ-1
-Received: by mail-pf1-f198.google.com with SMTP id
- t18-20020a056a001392b02903039eb2e663so5346671pfg.5
- for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 20:53:00 -0700 (PDT)
+ bh=5piogbcNGX3R3PUcAVZ/n6BZLTJx2klcsViEXc3rZpk=;
+ b=d7uykWBWWmPjRTqXDR1FAn9+4xItcWvQoJrcx3uAxTVP71jnIoe2kfNqYviDD8T1v62y3w
+ nD709EmVXq90VO/RqUEN1BKU3MDQOCpM5e11hz+J3iRdpW04tvtTZyd6gIYTG9VCzS6HOy
+ IYAJhphkRdnSUMbwOBE8qxGuieAFE0E=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-160-jkO4BOm8N6uWY-UJ0m0SoQ-1; Fri, 09 Jul 2021 00:04:09 -0400
+X-MC-Unique: jkO4BOm8N6uWY-UJ0m0SoQ-1
+Received: by mail-pl1-f199.google.com with SMTP id
+ v7-20020a1709028d87b029012945cac72fso2743463plo.7
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 21:04:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=USJQtR0pGVSPniZfwPmlw425WSj2zuW3iPCgpp0qdK4=;
- b=JVx5pFEYmlG86tiQCEoMIOQOO36ZqnGk30thFIriVg1lg4Cu/zyQ7chbgIUcYzg68N
- 5SI2uhA7tKErvasMuobbKXVfl2c24jHVYntH5DdXEOz/b+WVL0mpeM8Ch2HhPSAcEZmx
- Zd5Eh4AeuCIfdQeO9oM7mWvvcViAzeAPw+QaGT/4aAjJJLdVangpaLHCpgC6UpxMCOkC
- EENFE/cqykRNr61nX68ZS/r7b5vghCe8yQFk1XgpzXhDDi1X8mT2Cs0wpEbSVV4zP+xh
- oQNY6TVXeFoecW4JI4DTJp/PRptdvPje38D0bbGddPBeoBC6EHA7MBO8xtRzHZda4dkv
- xx0Q==
-X-Gm-Message-State: AOAM5316X2yS3Qr5fYTXlVXkqFX/0JTKYNIQSV+bCvnyocHP0JYG5Ltg
- v3xvPfNNpEM9v+eKS7+TOyP0BgsKwm2dlg8pgA5zMVrYc4ErJrajpHCRZEKHx0/VOrAg2cd8eOZ
- 5x6VUjwb78g1yhb8=
-X-Received: by 2002:a63:f348:: with SMTP id t8mr34926327pgj.23.1625802780072; 
- Thu, 08 Jul 2021 20:53:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwjvtTqe0KCc0lvi3sa/YcfMIWJbms3E+LZ7e8n1+716u6AYZ5utwdsiPLT97sczsdInfoErg==
-X-Received: by 2002:a63:f348:: with SMTP id t8mr34926301pgj.23.1625802779741; 
- Thu, 08 Jul 2021 20:52:59 -0700 (PDT)
+ bh=5piogbcNGX3R3PUcAVZ/n6BZLTJx2klcsViEXc3rZpk=;
+ b=UnUHQ30K63y4nQDvfMQ64bYpe0HghPT7gMNOyf0cj8leQ/5OUs7fL5FtWForNXFmG1
+ lhe2r4zqES3cUyZpqZkt+HgBnCmAq+NKdj1dUQ9Xn8rjbTbgXl99k6uDZgOJUPuj2LNV
+ XUxSa5P84Ey1WsKAxjZuLC299Cl9DPflipRa3cb/t9vONluAtI/LWDzGDeOIr1pqBk/T
+ 37fGO3+G5JwZa1H9ksffKwXsBtioDLsUOrOYJ8IpA9g8yvPAjH8eAqB60EHwOo1QEqZO
+ kEpsHJWGGf7ZxnpyI/EvZB0vY/ONXvlRs+10N+vYy+nq6ZZ1Ig03wWfmQZjVl1Xct5se
+ 32OQ==
+X-Gm-Message-State: AOAM533dxM2xjr3CtQee0vXU0heg8rc3ppGqxTdY6qVHGEwUef2mol3L
+ rkPb2WfxR4xtAiNcNrnV6V5eWq68t9E8YHgpxStBIruS6I5xlj20wV1DVQCwMBzt489KY90Uihi
+ 1igT8nd/lLauEdjnPnW9hoN+ObxIfaJfIem0X8MDhKpCJBoI8Ta74iUjZfDd8M+LarxI=
+X-Received: by 2002:a62:9242:0:b029:300:6fb1:38b7 with SMTP id
+ o63-20020a6292420000b02903006fb138b7mr34470470pfd.80.1625803448128; 
+ Thu, 08 Jul 2021 21:04:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbRpHc3DlmdRySBWBgMhpASSM+o1yuLa1UJd8xSJICyxKBIL5YuE5t0WOerMtVbY5t56CLUw==
+X-Received: by 2002:a62:9242:0:b029:300:6fb1:38b7 with SMTP id
+ o63-20020a6292420000b02903006fb138b7mr34470444pfd.80.1625803447804; 
+ Thu, 08 Jul 2021 21:04:07 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id a15sm4371618pff.128.2021.07.08.20.52.56
+ by smtp.gmail.com with ESMTPSA id b19sm4063736pjh.29.2021.07.08.21.04.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 08 Jul 2021 20:52:59 -0700 (PDT)
-Subject: Re: [PULL V2 1/6] qapi/net: Add IPFlowSpec and QMP command for filter
- passthrough
-To: Zhang Chen <chen.zhang@intel.com>
-References: <20210701091130.3022093-1-chen.zhang@intel.com>
- <20210701091130.3022093-2-chen.zhang@intel.com>
+ Thu, 08 Jul 2021 21:04:07 -0700 (PDT)
+Subject: Re: [PATCH v8 1/9] virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20210706072030.32365-1-lulu@redhat.com>
+ <20210706072030.32365-2-lulu@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a49385c6-5ccc-42db-b3ca-0f81b5734f05@redhat.com>
-Date: Fri, 9 Jul 2021 11:52:33 +0800
+Message-ID: <075a2959-74de-c8e4-4182-75b936a03eb3@redhat.com>
+Date: Fri, 9 Jul 2021 12:04:04 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210701091130.3022093-2-chen.zhang@intel.com>
+In-Reply-To: <20210706072030.32365-2-lulu@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,150 +102,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/7/1 下午5:11, Zhang Chen 写道:
-> Since the real user scenario does not need to monitor all traffic.
-> Add passthrough-filter-add and passthrough-filter-del to maintain
-> a network passthrough list in object with network packet processing
-> function. Add IPFlowSpec struct for all QMP commands.
-> Most the fields of IPFlowSpec are optional,except object-name.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+在 2021/7/6 下午3:20, Cindy Lu 写道:
+> In order to support configure interrupt for vhost-vdpa
+> introduce VIRTIO_CONFIG_IRQ_IDX -1 as a queue index,
+> then we can reuse the function guest_notifier_mask and
+> guest_notifier_pending.
+> we add the check of queue index, if the driver
+> is not support configure interrupt, the function will just return
 
 
-Hi:
-
-I would like to have ack from the QAPI guys for this patch.
+Typo in the subject.
 
 Thanks
 
 
-> ---
->   net/net.c     | 10 +++++++
->   qapi/net.json | 78 +++++++++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 88 insertions(+)
 >
-> diff --git a/net/net.c b/net/net.c
-> index 76bbb7c31b..00f2be7a58 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1195,6 +1195,16 @@ void qmp_netdev_del(const char *id, Error **errp)
->       }
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/display/vhost-user-gpu.c    |  6 ++++++
+>   hw/net/virtio-net.c            | 10 +++++++---
+>   hw/virtio/vhost-user-fs.c      |  9 +++++++--
+>   hw/virtio/vhost-vsock-common.c |  6 ++++++
+>   hw/virtio/virtio-crypto.c      |  6 ++++++
+>   include/hw/virtio/virtio.h     |  2 ++
+>   6 files changed, 34 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+> index 6cdaa1c73b..c232d55986 100644
+> --- a/hw/display/vhost-user-gpu.c
+> +++ b/hw/display/vhost-user-gpu.c
+> @@ -483,6 +483,9 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>   {
+>       VhostUserGPU *g = VHOST_USER_GPU(vdev);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>       return vhost_virtqueue_pending(&g->vhost->dev, idx);
 >   }
 >   
-> +void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
-> +{
-> +    /* TODO implement setup passthrough rule */
-> +}
-> +
-> +void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
-> +{
-> +    /* TODO implement delete passthrough rule */
-> +}
-> +
->   static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+> @@ -491,6 +494,9 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
 >   {
->       char *str;
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 7fab2e7cd8..bfe38faab5 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -7,6 +7,7 @@
->   ##
+>       VhostUserGPU *g = VHOST_USER_GPU(vdev);
 >   
->   { 'include': 'common.json' }
-> +{ 'include': 'sockets.json' }
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>       vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
+>   }
 >   
->   ##
->   # @set_link:
-> @@ -696,3 +697,80 @@
->   ##
->   { 'event': 'FAILOVER_NEGOTIATED',
->     'data': {'device-id': 'str'} }
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 66b9ff4511..f50235b5d6 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -3052,7 +3052,10 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>       VirtIONet *n = VIRTIO_NET(vdev);
+>       NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+>       assert(n->vhost_started);
+> -    return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> +    if (idx != VIRTIO_CONFIG_IRQ_IDX) {
+> +        return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
+> +    }
+> +    return false;
+>   }
+>   
+>   static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> @@ -3061,8 +3064,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>       VirtIONet *n = VIRTIO_NET(vdev);
+>       NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
+>       assert(n->vhost_started);
+> -    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+> -                             vdev, idx, mask);
+> +    if (idx != VIRTIO_CONFIG_IRQ_IDX) {
+> +        vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
+> +    }
+>   }
+>   
+>   static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index 6f7f91533d..7e8ca25f71 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -156,11 +156,13 @@ static void vuf_handle_output(VirtIODevice *vdev, VirtQueue *vq)
+>        */
+>   }
+>   
+> -static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> -                                            bool mask)
+> +static void vuf_guest_notifier_mask(VirtIODevice *vdev, int idx, bool mask)
+>   {
+>       VHostUserFS *fs = VHOST_USER_FS(vdev);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>       vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
+>   }
+>   
+> @@ -168,6 +170,9 @@ static bool vuf_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>   {
+>       VHostUserFS *fs = VHOST_USER_FS(vdev);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>       return vhost_virtqueue_pending(&fs->vhost_dev, idx);
+>   }
+>   
+> diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> index 4ad6e234ad..2112b44802 100644
+> --- a/hw/virtio/vhost-vsock-common.c
+> +++ b/hw/virtio/vhost-vsock-common.c
+> @@ -101,6 +101,9 @@ static void vhost_vsock_common_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>   {
+>       VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>       vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
+>   }
+>   
+> @@ -109,6 +112,9 @@ static bool vhost_vsock_common_guest_notifier_pending(VirtIODevice *vdev,
+>   {
+>       VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>       return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
+>   }
+>   
+> diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> index 54f9bbb789..1d5192f8b4 100644
+> --- a/hw/virtio/virtio-crypto.c
+> +++ b/hw/virtio/virtio-crypto.c
+> @@ -948,6 +948,9 @@ static void virtio_crypto_guest_notifier_mask(VirtIODevice *vdev, int idx,
+>   
+>       assert(vcrypto->vhost_started);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return;
+> +    }
+>       cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
+>   }
+>   
+> @@ -958,6 +961,9 @@ static bool virtio_crypto_guest_notifier_pending(VirtIODevice *vdev, int idx)
+>   
+>       assert(vcrypto->vhost_started);
+>   
+> +    if (idx == VIRTIO_CONFIG_IRQ_IDX) {
+> +        return false;
+> +    }
+>       return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
+>   }
+>   
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index b7ece7a6a8..63cb9455ed 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -67,6 +67,8 @@ typedef struct VirtQueueElement
+>   
+>   #define VIRTIO_NO_VECTOR 0xffff
+>   
+> +#define VIRTIO_CONFIG_IRQ_IDX -1
 > +
-> +##
-> +# @IPFlowSpec:
-> +#
-> +# IP flow specification.
-> +#
-> +# @protocol: Transport layer protocol like TCP/UDP, etc. The protocol is the
-> +#            string instead of enum, because it can be passed to getprotobyname(3)
-> +#            and avoid duplication with /etc/protocols.
-> +#
-> +# @object-name: The @object-name means a qemu object with network packet
-> +#               processing function, for example colo-compare, filtr-redirector
-> +#               filtr-mirror, etc. VM can running with multi network packet
-> +#               processing function objects. They can control different network
-> +#               data paths from netdev or chardev. So it needs the object-name
-> +#               to set the effective module.
-> +#
-> +# @source: Source address and port.
-> +#
-> +# @destination: Destination address and port.
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'struct': 'IPFlowSpec',
-> +  'data': { '*protocol': 'str', 'object-name': 'str',
-> +    '*source': 'InetSocketAddressBase',
-> +    '*destination': 'InetSocketAddressBase' } }
-> +
-> +##
-> +# @passthrough-filter-add:
-> +#
-> +# Add passthrough entry IPFlowSpec to a qemu object with network packet
-> +# processing function, for example filtr-mirror, COLO-compare, etc.
-> +# The object-name is necessary. The protocol and source/destination IP and
-> +# source/destination ports are optional. if only inputs part of the
-> +# information, it will match all traffic.
-> +#
-> +# Returns: Nothing on success
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "passthrough-filter-add",
-> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
-> +#      "source": {"host": "192.168.1.1", "port": "1234"},
-> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'passthrough-filter-add', 'boxed': true,
-> +     'data': 'IPFlowSpec' }
-> +
-> +##
-> +# @passthrough-filter-del:
-> +#
-> +# Delete passthrough entry IPFlowSpec to a qemu object with network packet
-> +# processing function, for example filtr-mirror, COLO-compare, etc.
-> +# The object-name is necessary. The protocol and source/destination IP and
-> +# source/destination ports are optional. if only inputs part of the
-> +# information, only the exact same rule will be deleted.
-> +#
-> +# Returns: Nothing on success
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "passthrough-filter-del",
-> +#      "arguments": { "protocol": "tcp", "object-name": "object0",
-> +#      "source": {"host": "192.168.1.1", "port": "1234"},
-> +#      "destination": {"host": "192.168.1.2", "port": "4321"} } }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'passthrough-filter-del', 'boxed': true,
-> +     'data': 'IPFlowSpec' }
+>   #define TYPE_VIRTIO_DEVICE "virtio-device"
+>   OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
+>   
 
 
