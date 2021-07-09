@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737C33C1F10
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:47:21 +0200 (CEST)
-Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199503C1F28
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:58:57 +0200 (CEST)
+Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1jM7-0003ls-SL
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36782)
+	id 1m1jXM-0005iO-5g
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1m1j6j-0004n1-0R; Fri, 09 Jul 2021 01:31:25 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:43619)
+ id 1m1j6k-0004qH-0Q; Fri, 09 Jul 2021 01:31:26 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:38113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1m1j6h-0008IU-3b; Fri, 09 Jul 2021 01:31:24 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 6DB4B5C00EB;
- Fri,  9 Jul 2021 01:31:20 -0400 (EDT)
+ id 1m1j6i-0008LT-6b; Fri, 09 Jul 2021 01:31:25 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6A6325C00BA;
+ Fri,  9 Jul 2021 01:31:23 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 09 Jul 2021 01:31:20 -0400
+ by compute2.internal (MEProxy); Fri, 09 Jul 2021 01:31:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=TXhzzxIW+IcWhVU0QMlhUaNeFs
- 7ytRFgGqBuU9GSSgA=; b=pE4c7ptfpcgzlMesFjGcnMMpxqMLGiVgXUpM4I1pDq
- mn3TMVyjzHGL92F393QlpR3PCUSMlwXBcMNxjqJWChr2vezWLaW+2S23agK5wpFd
- JDLfghNM5qDlK7QtwX8Vb+0tydDLZlSr3oBbbXVlEoS6N0Yrg7KqCZ/Zg4+sORNC
- +3zNeUD8x+/8/wm6HdI974gYHXwu1JbMwUVUobjfS8Ies19UhzmszCV8Fm73h/tb
- bJAfyzWZxteRmP4L/Clw3mKoI3nr4o1AxIxtrZZoo+QDInlH5sFghMdwaCSfdRl2
- kvFe78JcyHDaScPXU8PdSftT2TFHG6/UVX17/4nbeT+g==
+ :to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=d17kHWoQcvTHT
+ Z6cJuvQmfX6trtQiSrc6TZwqH63X4Q=; b=X1ttoa8hUoeIrsoeP85yRrbVSbhsM
+ qQHou0IM6CgY86JicannZMX1opi0dDdeD4PPmKuseAIPbLTMnHIQLHtRuFr7oH8O
+ 40UlVuoMknI9/4V11XMHbzlmU9Vx+2fh9fsIE6JT0ZZaXJWvzRtkj/tvUzqOzysw
+ DHdlm+ztQrqMGhg6KOchEbIz1kamZkwLhRbcc68UP4xMzFpSaUNmGLFhe2sOU8GE
+ loqMl0gaW3U/+S4Hao4WyCXlokt421qq9IrW1mRCtTQekGJSQbcEco3+PzdS+QS4
+ jFASig0HFFZFX9GIlpOyoElUW0naVtaM0Nu2+Nen335eZkUWY7KZsCekg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TXhzzxIW+IcWhVU0Q
- MlhUaNeFs7ytRFgGqBuU9GSSgA=; b=q9sJQmtiNyqHMBcM0u+W4nSDrV5vsjwbw
- 8Jt3ok2+ZLD9iyak8pmOaNC/LvhgnSmzzD9EFhq9f4Ovam9Up2po5210zn/b0MCp
- mbxTKFvES4a86VMaPgv2CdGTquo31QJhDcwJmLRYOFhBwMh6rlGNMlKd1i2o5Rkb
- SFRAXm/JdKdZ7eXdLHK2bhZKBgUICDqvaHmJJWZlMegYQt1/AakfySHp7Km0/7j3
- HfGTrv3yjVGKWvNy1Ze4241IQLWDhyxtRbRd8Ycy4kAzMIqqdBrQ7s0bFE1zGVYK
- 8lXQd4qfPKg7xRDkhy8dGQdrUtaZp7owSQdfgmGmlAI4+i2UqlXAA==
-X-ME-Sender: <xms:J9_nYNI7DLNaTYBR4kWs1byjKKT2So6AtXrcnFJ_OfWhjifXZdPxrA>
- <xme:J9_nYJJAgsPoJNRF6g0ZCV1VRpWTpycHmhjDTIIIvg1dOlExpyCVw5-X1NIAkBVCL
- WrXUq2tn7YoQpamJg>
-X-ME-Received: <xmr:J9_nYFsCcV4F1MMKp3zWQ2MvWRt0KuPALg4_jDFbaDmzfX_a_VJ8Og3Hv84L72XORUBmwxj-7G5DTKf9R0PSDWJtijYCyMJQcOb25EcgpYxThFnInveiaLtUpNLVwv_D8PL88g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdehgdeijecutefuodetggdotefrodftvf
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=d17kHWoQcvTHTZ6cJuvQmfX6trtQiSrc6TZwqH63X4Q=; b=osOEgrgT
+ MdPJIl2+reO/FoU2mcBwxYhaoIDTT4CT7vp1L2dnHq/b+f/xCjLP4ryF8z2+PNFK
+ d1xd+Rz+aKWoQ/ux7R8uS0cm63rlScDGHiVJ74UhmySTY3cBIxLZuyE1MB5UyXrM
+ EGcND8PqQUGERZPYGNo13b32cQavt2Mc+d5Lj7JzreXfguwCnlDBSbRKPN59U85y
+ OBNrv/f5al5oITd4Zkk/wcgc28K0fRTBXo8KWTjia8e2E+ffIg4x05EFovwtt6Jt
+ S6zMbYXNon+hYrBCT34x0x2Y9tK8CXbJy+qvcBO9JT54hygFDok+IaCToDNzvJSK
+ yVafOnIA0eN1OA==
+X-ME-Sender: <xms:K9_nYBQlASbY3ZSmcGb1DSbGVxhhvlp9Gz0SZZGxUyq6wpwl-gVvhg>
+ <xme:K9_nYKzdMgTHp1q0RaFjROd6ANkOD1IJX17xgmvGbUlTAtZnac0nkI8i8NqNsoOPv
+ vfCgIjbX7gIN4Aang>
+X-ME-Received: <xmr:K9_nYG1CwfY3jQ-tHj59B3rtnyL-BBetGZW-5VZFEns8PT_ShlbIBjSLajHerAWaXlPGuwA5uLiQScuEvnpNuu8xdlROerEvHaSIs3dBGkDYLnLCBuLOGL9h3pHSO18ulGcUUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdehgdeikecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
- dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
- ugdrrghuqeenucggtffrrghtthgvrhhnpeekhfeiffejveefveehtdeiiefhfedvjeelvd
- dvtdehffetudejtefhueeuleeftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
- mhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:J9_nYOYuAxnXuAiaLGUBABPUiPTg6xqsd7WHnyoEdpZAdqGCdhb89A>
- <xmx:J9_nYEZgyW6xzXwBex_ZP_iC_VOHhS6OFOYbzJHMd0g5Wt8owwO1Pw>
- <xmx:J9_nYCB-qw36KPIVVZkYamGDhX71nFDEE1u1y-akp3jYG3_1mQDYrQ>
- <xmx:KN_nYMGHuUa6FzTl93qlORDsjyJZr_R4k9y5yVSpuL3hWb6eiAxYnw>
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
+ ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
+ rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgleette
+ ejffelffdvudduveeiffegteelvefhteenucevlhhushhtvghrufhiiigvpedtnecurfgr
+ rhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:K9_nYJCiVrnechmV29s4WV9RuiQeQS3cN--Q6wPlvoJ-HVq2lmapRQ>
+ <xmx:K9_nYKhb9LjPBLwou4nSV4VfNOXqdihTEsLCOgjx9WUCe03U1mWzNQ>
+ <xmx:K9_nYNqSKvpR2Nl7OKjbDM3osn3oX-dQrfEklRZwwvn3ZkTPIjSnrQ>
+ <xmx:K9_nYLu53DV8QtyXraRFWInRGQshKIjRK6gppmkigT81DQHE1EEI5Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 9 Jul 2021 01:31:17 -0400 (EDT)
+ 9 Jul 2021 01:31:20 -0400 (EDT)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] wdt_aspeed: Fix behaviour of control register
-Date: Fri,  9 Jul 2021 15:01:05 +0930
-Message-Id: <20210709053107.1829304-1-andrew@aj.id.au>
+Subject: [PATCH 1/2] watchdog: aspeed: Sanitize control register values
+Date: Fri,  9 Jul 2021 15:01:06 +0930
+Message-Id: <20210709053107.1829304-2-andrew@aj.id.au>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210709053107.1829304-1-andrew@aj.id.au>
+References: <20210709053107.1829304-1-andrew@aj.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.25; envelope-from=andrew@aj.id.au;
@@ -91,27 +94,113 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, clg@kaod.org, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+While some of the critical fields remain the same, there is variation in
+the definition of the control register across the SoC generations.
+Reserved regions are adjusted, while in other cases the mutability or
+behaviour of fields change.
 
-I discovered a couple of bugs in the watchdog while testing a tool to poke
-Aspeed BMCs over their various AHB bridges. The immediate observation was that
-the model for the 2500 wasn't signalling use of the fixed 1MHz clock, which is
-resolved in the first patch. The other observation was that sequential writes to
-control weren't sticking if the enable bit wasn't toggled, which is fixed in the
-second patch.
+Introduce a callback to sanitize the value on writes to ensure model
+behaviour reflects the hardware.
 
-Please review.
-
-Andrew
-
-Andrew Jeffery (2):
-  watchdog: aspeed: Sanitize control register values
-  watchdog: aspeed: Fix sequential control writes
-
- hw/watchdog/wdt_aspeed.c         | 26 ++++++++++++++++++++++++--
+Fixes: 854123bf8d4b ("wdt: Add Aspeed watchdog device model")
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+ hw/watchdog/wdt_aspeed.c         | 24 ++++++++++++++++++++++--
  include/hw/watchdog/wdt_aspeed.h |  1 +
- 2 files changed, 25 insertions(+), 2 deletions(-)
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index 6352ba1b0e5b..faa3d35fdf21 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -118,13 +118,27 @@ static void aspeed_wdt_reload_1mhz(AspeedWDTState *s)
+     }
+ }
+ 
++static uint64_t aspeed_2400_sanitize_ctrl(uint64_t data)
++{
++    return data & 0xffff;
++}
++
++static uint64_t aspeed_2500_sanitize_ctrl(uint64_t data)
++{
++    return (data & ~(0xfUL << 8)) | WDT_CTRL_1MHZ_CLK;
++}
++
++static uint64_t aspeed_2600_sanitize_ctrl(uint64_t data)
++{
++    return data & ~(0x7UL << 7);
++}
+ 
+ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+                              unsigned size)
+ {
+     AspeedWDTState *s = ASPEED_WDT(opaque);
+     AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
+-    bool enable = data & WDT_CTRL_ENABLE;
++    bool enable;
+ 
+     offset >>= 2;
+ 
+@@ -144,6 +158,8 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
+         }
+         break;
+     case WDT_CTRL:
++        data = awc->sanitize_ctrl(data);
++        enable = data & WDT_CTRL_ENABLE;
+         if (enable && !aspeed_wdt_is_enabled(s)) {
+             s->regs[WDT_CTRL] = data;
+             awc->wdt_reload(s);
+@@ -207,11 +223,12 @@ static const MemoryRegionOps aspeed_wdt_ops = {
+ static void aspeed_wdt_reset(DeviceState *dev)
+ {
+     AspeedWDTState *s = ASPEED_WDT(dev);
++    AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(s);
+ 
+     s->regs[WDT_STATUS] = 0x3EF1480;
+     s->regs[WDT_RELOAD_VALUE] = 0x03EF1480;
+     s->regs[WDT_RESTART] = 0;
+-    s->regs[WDT_CTRL] = 0;
++    s->regs[WDT_CTRL] = awc->sanitize_ctrl(0);
+     s->regs[WDT_RESET_WIDTH] = 0xFF;
+ 
+     timer_del(s->timer);
+@@ -293,6 +310,7 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
+     awc->ext_pulse_width_mask = 0xff;
+     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
+     awc->wdt_reload = aspeed_wdt_reload;
++    awc->sanitize_ctrl = aspeed_2400_sanitize_ctrl;
+ }
+ 
+ static const TypeInfo aspeed_2400_wdt_info = {
+@@ -328,6 +346,7 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
+     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
+     awc->wdt_reload = aspeed_wdt_reload_1mhz;
++    awc->sanitize_ctrl = aspeed_2500_sanitize_ctrl;
+ }
+ 
+ static const TypeInfo aspeed_2500_wdt_info = {
+@@ -348,6 +367,7 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
+     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
+     awc->wdt_reload = aspeed_wdt_reload_1mhz;
++    awc->sanitize_ctrl = aspeed_2600_sanitize_ctrl;
+ }
+ 
+ static const TypeInfo aspeed_2600_wdt_info = {
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+index 80b03661e303..f945cd6c5833 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -44,6 +44,7 @@ struct AspeedWDTClass {
+     uint32_t reset_ctrl_reg;
+     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
+     void (*wdt_reload)(AspeedWDTState *s);
++    uint64_t (*sanitize_ctrl)(uint64_t data);
+ };
+ 
+ #endif /* WDT_ASPEED_H */
 -- 
 2.30.2
 
