@@ -2,81 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B2C3C253E
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:49:23 +0200 (CEST)
-Received: from localhost ([::1]:37286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A093C2546
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:51:19 +0200 (CEST)
+Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1qsc-0000LF-MM
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:49:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40230)
+	id 1m1quU-0002M9-NX
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:51:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1m1qqr-0006du-64
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 09:47:34 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:42728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1m1qqk-0002O7-PD
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 09:47:32 -0400
-Received: by mail-pl1-x631.google.com with SMTP id v13so5021651ple.9
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 06:47:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3sObSDj7mc5CWWDLARvw5iCTADFUxpN4tbIhkxj80dA=;
- b=n1DXeCaqMoQCgYkQScuJVbYNGW0JnKBnJJstDiAvpBmtBLAfwRAd85x89SeBV3r0Kd
- UQKC2774bAdIGiv6F70rQyalBAdWE5CGALvBAd5woxGZV2n+Z8VolpHjqGnmQX+qLFW3
- 1jjcLXa95mlv1x4rM5XD3JqwV7dPcE/qs6HBe4+Rrl/JOR1p+yBDUaRaFCROyPs4M9z/
- e0B7+LZqzRdmLbBkl5zTY8rQSpMbZu/QvUInKQKpPxu0IftsVTY75X8qFnHQMqL8OA9P
- P+FwHQUR5qHW+kXYTH6ViIgTey3fGsTJJSzKvr39k2xJ3ZC2m1XkMtjphkp/bj/YvVcH
- zCUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3sObSDj7mc5CWWDLARvw5iCTADFUxpN4tbIhkxj80dA=;
- b=spiBggsgElZM4y5VtVxQ0A3OAdZIU+YzGhZXrh04AoicTRYzy9B7GI/kfN3qcusODM
- ElbmzFBFsuxxzbS5sMzr8ePLXfvcgnHBl38FqX+uhnEs3gYBG7CKsgGL8XebWnmsgDch
- AVCuqgVpuPGCQXoZiZsEnKo7AvsYGuXGpjuLAwDj9p9xqx5HnJBpB7uiuGabeDm88/Ba
- hqnqn/ma/RnDdFGxOiwNqgA4zZAL5O1VFEto3PFeDc05P+fMH5ydkY2BOfQrqe+/XAnT
- 6sk80lgV0z0drxTm72lpgMf/F8nKY15pbARfHy1URRjo7EI6/kRGbaQxaic405MH/IPE
- mhYw==
-X-Gm-Message-State: AOAM531oxwkdMxxXtc+4ePGRcWuQpjImGUDb2BnTjXIWM8i0eno65dQn
- 6ziyBGi5zeUlut0HvSUWQm850w==
-X-Google-Smtp-Source: ABdhPJwr+hjL0uMcK/Q5QIpLSC7Q9MUdyrpyQWdN5SVq1vUp6X7hyu144cIhF6I6HjOgCSbt6DIeHg==
-X-Received: by 2002:a17:90a:5b10:: with SMTP id
- o16mr34466237pji.76.1625838442315; 
- Fri, 09 Jul 2021 06:47:22 -0700 (PDT)
-Received: from localhost (219-90-184-65.ip.adam.com.au. [219.90.184.65])
- by smtp.gmail.com with UTF8SMTPSA id p10sm6514995pfn.147.2021.07.09.06.47.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 06:47:21 -0700 (PDT)
-Message-ID: <f8b149b7-366d-f5cd-7820-7e5ceab0157d@ozlabs.ru>
-Date: Fri, 9 Jul 2021 23:46:46 +1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:88.0) Gecko/20100101
- Thunderbird/88.0
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m1qsR-0000hj-80; Fri, 09 Jul 2021 09:49:11 -0400
+Received: from mail-vi1eur05on2109.outbound.protection.outlook.com
+ ([40.107.21.109]:54529 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m1qsN-0002wz-MC; Fri, 09 Jul 2021 09:49:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gGYf1w74dyAmdVR0ueYHhGWIDMrt/QlD0mKJj9c8EVesBLXGQNacfJ7+6yRk4qQXtOHp5P+8kRerRx69pQD0EcCfsjq6xpcVwdfaob5DFexrjswbgNkYGWoB51RFaLfVZYgtlB+wG15v9XdV0ZqTaO0FjZk9HNI/S2y97yWYosXZMdwYgP4S1bqcotqJzAsG/Xe6pgCmhplMQGuMXsDMG8N1OMFGrvvBd+Yzb9l6D8dNwJAQgVH4sUYBhTNyH6Uv7V90kfY9XOYYSw0OJ2kf4GkBhVeueueBYmj1N7SSQ9aPc0umndoUfgoY9sO+iii8eQn1rk6Qa7mdhvFX2udvpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cf36GQrN51lUhELctJ3tpOAl9DTc3OvzSkyfS7xYS3I=;
+ b=oc8vIkM+b353nEySRl3TL7S4jL8Z9jEXgW50upIe7NeFwir+C1YsrAeA7v/4gS9yYLpfojcY4NQUgm3NUb1LT5jpjX9A13hAA8a2PPHW/Iyad9gNwOktDc7M+tMWV+xw7R2JoenuXlrPnFeCS+9fOcdlbYf/jv7reWl3gpUQEmH1HNFE29lftsRqgiixGFnSFB92ajK/hUbJvQIQTxB9Ivhv/VjFv435e+XsPb93wUL5gg+rT8WrL0vKnQTrzhMwQGZrOgc8CqfpsIdmTlR8LOf9YcBtHdTXePEiprqkN8U1wMM/mSC/mOKodJ3cQ0042dkBUofbPG2JLIyuxs03+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cf36GQrN51lUhELctJ3tpOAl9DTc3OvzSkyfS7xYS3I=;
+ b=B+4LEEkOAa8Q9uAztDjDTXhP9zoHOrKmZFvbeHw2Z2+KUvosW3T62D3/Wo60UE8osbXou6BxbfAzUXLUCEN4ZfFIMycTP90nuAcWhCypZ+WNKwVcCtrceD+D1L5e1zlkyheElYdxujHHwPBUZjihMogUPpkF1iyHqVmzfk2w7ng=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5384.eurprd08.prod.outlook.com (2603:10a6:20b:10c::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Fri, 9 Jul
+ 2021 13:49:03 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::75ce:1d52:cb60:e955%6]) with mapi id 15.20.4264.026; Fri, 9 Jul 2021
+ 13:49:02 +0000
+Subject: Re: [PATCH 1/2] iotests: Improve and rename test 291 to
+ qemu-img-bitmap
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, nsoffer@redhat.com, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
+References: <20210708013001.2576991-1-eblake@redhat.com>
+ <20210708013001.2576991-2-eblake@redhat.com>
+ <0abfb3e1-7075-39f6-16c9-3690377c2d56@virtuozzo.com>
+ <20210709131650.atmnvid6376msxpz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <37cad204-ccb7-454e-b91c-83be04c38167@virtuozzo.com>
+Date: Fri, 9 Jul 2021 16:49:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+In-Reply-To: <20210709131650.atmnvid6376msxpz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <d18ddc97-2293-bd5e-f91d-2cc2cf1fcf89@eik.bme.hu>
- <83533520-a1b6-29b3-66ee-c770ee2ff80c@ozlabs.ru>
- <433d7bea-60be-2962-4974-ba74ea4fe84@eik.bme.hu>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <433d7bea-60be-2962-4974-ba74ea4fe84@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=aik@ozlabs.ru; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-ClientProxiedBy: AM0P190CA0007.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:208:190::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.215) by
+ AM0P190CA0007.EURP190.PROD.OUTLOOK.COM (2603:10a6:208:190::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.19 via Frontend Transport; Fri, 9 Jul 2021 13:49:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d5876581-f951-4a1f-e2b1-08d942e04fa5
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5384:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5384B153FAD9E42F46725ACEC1189@AM7PR08MB5384.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2s7hyu/jbq5WdOze/DpUn/44ADozVeWTxsTEFJE+LFWJv1DcF4An7nCA8cBBC7Vriy295fcV10yyfZqiYim9Y2u1Rnr4Ke4BK62JxzIoxU2urqXbm8bAVAzvEKXTd1zFKdUg55Bi1TGgleWkaIPVdpjQfc/x87i3xQYcpKQiIHQRWVbBczwjMyt9lvXRVhnpKv1YBkLNX32M8ji9ETEKB7mSAp0MFHQA4sMP02BSoOl/BOfojuL31hx+KH4Pzpfogk01c3m9KJONeKrx9MF2z/gRiziyuqvMXG4ujLfIY04Ky/TRSAWzomUN9j3yuUsqsD93o20StAoDOs9j9y9EQMUbPJcLrAdA1NB2rwuZqgICsIOzaxcwMGR/pk0uDrvkJTliRU9lXVwi1oxXPoCC922GYDLoH+BiNlcil9w1rPO4GJpyqVt9L4VbBc4fGly5vIoCi7RZ4ZZVMmJpkmlHVplaXC2js46dcR1HS3J7iUZbH+lg+7EVR16UpsthBg6wtVlFLUPi9hGvMdwajmEBAfeG8ztgR3cod/bjPMVPfdPhqka+d55CRQfxMh9V8p2dHtzKYBI0/77GEpy1sjQRNlWDCNgEoKXUymiHF1TVlmkUeK78AqvPhHQ13VdAMBx/WfINnL9t/LQNnHy/fDrHVGpmfTq5a6D4fFOKZxPZQ7kvemdsQ+Yn8QMFto+SmeojG4eNxRp/nk3rR28Q+w3eHJumP0i/ieTPOFG0xNiHjF/QZYx0KZKT7MRq5/M52hzXRHncNmM5gPFxwsxdWnOgng==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(376002)(39830400003)(366004)(396003)(66946007)(956004)(54906003)(186003)(31686004)(2616005)(83380400001)(2906002)(38350700002)(38100700002)(478600001)(5660300002)(4326008)(66556008)(66476007)(8936002)(26005)(8676002)(86362001)(16576012)(316002)(52116002)(6486002)(31696002)(6916009)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UlA2bUxBMjZFNDlMVnRlRW5hQ3Npa2V1aU51dGV2bVlEdlJpRC83RHl3WEFE?=
+ =?utf-8?B?Q1NvcDNkcjY0cmNhS2d2anUrbUlwRTVjNnRjVlZSUm1YL3VKbWtmZFk2TUUy?=
+ =?utf-8?B?c2JlL01nRzJTdEJHLzE0R3pUMTNTbUhBMmpYZTZsT0wxQ2dPbWhoOW9GWHJY?=
+ =?utf-8?B?YTJKU1ZjMHN6czYvSThPRmlpL2djVUNvcTFqZ3hPbzNKeUUvd3hreFJXdlZL?=
+ =?utf-8?B?Yllwd21ucytGTm00d0tXNFI1Nm1zeE03QW1MZFpVa3ZVSFc4NWN3aTgyVlRU?=
+ =?utf-8?B?Q01oSDhYbGN6TUt5aHZnU0xoeTBkR0lQRGJ3N09aYjZZbkVNU1M1aHJzdWVn?=
+ =?utf-8?B?SHZHMkVaUFAwVGhWc01jNitVVXBZT3RxSDBzT0VyTG0xUk9UZEZ0bUV6ZkxM?=
+ =?utf-8?B?V2ZZQllEdCsrd2tCVjA4SDlhR3F0ZmlzOVlyZmFmeUZIZGNYemhhMVB4Z2pS?=
+ =?utf-8?B?Sm5iQ2hWRXlwbktSWTZFSSsya0lHVmlVMG1VSlF3TU4zV2VNbmFLMlRua0hx?=
+ =?utf-8?B?UUFCblFSY1BPZWJzbU53MzBvOVJZZHpyVGJPVmFNVGhnOFNxejdveDRtRWZV?=
+ =?utf-8?B?bmpnVjN5VHhNRmNORGtacGt4RCt5T1E0WkFmbTJGTjBpNW1RTHhweG9xMElV?=
+ =?utf-8?B?UmNlM0VTZ0tua21DMXR5ZTJNaDRTQzdGVlVyOW5BTVc2YVFUSEZUQzMzYUZQ?=
+ =?utf-8?B?VGR4eVd5ZXRqZHo2M2syZ2trWC9PVGQ3ZnRKUmxhOXdTT1RnMmRiOUpOZU1x?=
+ =?utf-8?B?YVZraXFmcVVDYVZXN2dzVWMreXZqYXBEb3BxaHlvc2xXYWE1c1I0a2VZSFJD?=
+ =?utf-8?B?Wml4dzlsZXNXbmVRbFJFS2E5K05FKzY1TGRGSWJkZEFiWGkxTFJMNXRhMExs?=
+ =?utf-8?B?dmJ5dnMxbW1tSmlWNVNuR0lxWlJvTEE0ajhYelFDRmJwM0EyWXE3Q1V4djl2?=
+ =?utf-8?B?U0FJMUVRdVNGS2pvTVlKb2NPZ3FiSVM1WXlGempGYUxGVmgrZVJ4RWN3ZnVW?=
+ =?utf-8?B?NWIxRDQ4bEpyQXppNTI1VytLTldqY1g5OXY4b1JMV3llWlh6dmRaRCt4RUF2?=
+ =?utf-8?B?V3JuTTg1VXFpN1dqeEErempNMzBBNEFGMjZ0MWlvNytiOWEzMkc0QVZWanho?=
+ =?utf-8?B?cFlTYUtCL2QzV3l1QWpoZjVxMUhERlNMdmd6S3hzQTIrM0Vqa3dKR0QrSU1M?=
+ =?utf-8?B?bnRreDVlbW1hS2E5bDNuTExiTkNpaTBsYzNaWTczdFVaVFNPaFgzWVNPclY4?=
+ =?utf-8?B?Yk5xdFcwWDRHaWdNcTY4d3g1KzNKcVZidXd5OE5iZjR4WFN2YTdoandqdGpE?=
+ =?utf-8?B?M2xMUjZWeHVLZis4U0JuNENyWmtMMTFTaG1hcFk5a21NQWMraDRtWHM2Nnlt?=
+ =?utf-8?B?UHBwTzlXZUlsNUg1Qm54Y29DSGN6VE0vVVdKdVA0OGVXSTlaZm1IM3B3VzRa?=
+ =?utf-8?B?VE5oZWkyUFpwekx2M0ErVWI5Qm05ejVOTGpPRktpQkxReFAwbTNDRHVlTzFT?=
+ =?utf-8?B?Lyt0cFMrTjBSSjhEREJnWGJha292NDBrbnlFYjkvQVpKdzVmUFYvUXdnZE1q?=
+ =?utf-8?B?ZEFHT1hCQUtOaGd6RTIyUTZMZlg0NGFqanpQUEdHdnhkUTRKMjh3VlJrWUJ1?=
+ =?utf-8?B?bnJsZllJWGdmZlhzaEEyR0Q0L3Q3SjA5TUtsVTdmdW5PSnBnRGhYWEJ6d2JP?=
+ =?utf-8?B?dmhOVzhrN1ZnSkxJK0d2Y0JOYzB4b0UrNGxERzZsZDNjSlFYV2s4eWZXZkVF?=
+ =?utf-8?Q?QpiiY7dmx9TkgJB00H05bhH4lMJAwCnysyGYnE2?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5876581-f951-4a1f-e2b1-08d942e04fa5
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2021 13:49:02.7836 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dj+gm2kPCnSsWFhKMYsZUs+QQ0eGdB5CNZ2oLIK28DcM0mVzowpA85SEzE8b3RRSqAlHJoDJRliiLR8xxwqH3MqXhicUI0XIBKfJ01omkQU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5384
+Received-SPF: pass client-ip=40.107.21.109;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,49 +148,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 09/07/2021 23:28, BALATON Zoltan wrote:
-> On Fri, 9 Jul 2021, Alexey Kardashevskiy wrote:
->> On 09/07/2021 08:34, BALATON Zoltan wrote:
->>> MorphOS still boots but this breaks Linux which changes a few things 
->>> in the device tree to fix it up to make it look the way it thinks is 
->>> better.
->>
->>
->> What are those things? What does the change break precisely? Does the 
->> kernel stop booting?
->> Can you please send output with the trace_vof_setprop tracepoint enabled?
+09.07.2021 16:16, Eric Blake wrote:
+> On Fri, Jul 09, 2021 at 09:33:50AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+>>> +++ b/tests/qemu-iotests/tests/qemu-img-bitmaps
 > 
-> It's fixing up some props that on Pegasos2 firmware are not how Linux 
-> expects them.
+>>> +echo
+>>> +echo "=== Check handling of inconsistent bitmap ==="
+>>> +echo
+>>> +
+>>> +$QEMU_IO -c abort "$TEST_IMG" 2>/dev/null
+>>> +$QEMU_IMG bitmap --add "$TEST_IMG" b4
+>>> +$QEMU_IMG bitmap --remove "$TEST_IMG" b1
+>>> +_img_info --format-specific | _filter_irrelevant_img_info
+>>> +$QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG" "$TEST_IMG.copy"
+>>
+>> Worth then removing remaining inconsistent bitmaps and try again?
+>>
+>> I think you should now remove $TEST_IMG.copy in _cleanup
+> 
+> $TEST_IMG.copy isn't created on failure (or if it is, that in itself
+> is a problem we should be avoiding),
 
-Why does it need to fix them then? You are building the FDT in QEMU, 
-built it in the way Linux like and then you do not depend on the kernel 
-fixing them up. What do I miss?
+Seems that's the case:
+./build/qemu-img create -f qcow2 x 1M
+./build/qemu-img bitmap --add x b1
+./build/qemu-io x
+qemu-io> abort
+Aborted (core dumped)
+  ./build/qemu-img info x
+image: x
+file format: qcow2
+virtual size: 1 MiB (1048576 bytes)
+disk size: 204 KiB
+cluster_size: 65536
+Format specific information:
+     compat: 1.1
+     compression type: zlib
+     lazy refcounts: false
+     bitmaps:
+         [0]:
+             flags:
+                 [0]: in-use
+                 [1]: auto
+             name: b1
+             granularity: 65536
+     refcount bits: 16
+     corrupt: false
+     extended l2: false
 
- From traces I see that (besides PCI) it mostly sets props for 
-linux-initrd/bootargs which you rather need to handle to keep the 
-machine's properties and the FDT in sync.
+
+ls y
+ls: cannot access 'y': No such file or directory
+./build/qemu-img convert --bitmaps -O qcow2 x y
+qemu-img: Failed to populate bitmap b1: Bitmap 'b1' is inconsistent and cannot be used
+Try block-dirty-bitmap-remove to delete this bitmap from disk[root@kvm master]#
+# ls y
+y
+./build/qemu-img info y
+image: y
+file format: qcow2
+virtual size: 1 MiB (1048576 bytes)
+disk size: 204 KiB
+cluster_size: 65536
+Format specific information:
+     compat: 1.1
+     compression type: zlib
+     lazy refcounts: false
+     bitmaps:
+         [0]:
+             flags:
+             name: b1
+             granularity: 65536
+     refcount bits: 16
+     corrupt: false
+     extended l2: false
 
 
-> Without this it's not booting. Attached is the trace 
-> output with VOF v23 as it is now (nosetprop) and another one after the 
-> patch that adds setprop callback to pegasos2 I'm sending separately. 
-> That patch restores Linux boot but I still think all this boilerplate 
-> would not be needed if we kept the default to allow setprop and that 
-> results in overall simpler code. If something breaks becuase of enabling 
-> setprop by default (which normally works on real Open Firmware) it's 
-> easy enough to debug by enabling vof_setprop trace points so I don't see 
-> this adds any value other than making board code more complex.
+WOW! It even contains the bitmap not marked in-use. That's a real bug.
 
+> so as written, there was nothing
+> that should have needed cleaning up until patch 2.  But your idea
+> (here and in patch 2) of demonstrating manual cleanup for recovery (in
+> addition to the goal of patch 2 of skipping broken bitmaps in the
+> first place) is reasonable, so I'll incorporate that into v2.
+> 
 
 
 -- 
-Alexey
+Best regards,
+Vladimir
 
