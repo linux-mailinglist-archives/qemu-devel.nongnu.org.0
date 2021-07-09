@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E427A3C2511
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:36:08 +0200 (CEST)
-Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1478B3C2515
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:40:17 +0200 (CEST)
+Received: from localhost ([::1]:57798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1qfo-0005a2-0h
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38308)
+	id 1m1qjn-0001ul-Th
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1qek-0004f1-J5; Fri, 09 Jul 2021 09:35:02 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:21448)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1qiT-0008VY-2i
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 09:38:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m1qei-0004uE-If; Fri, 09 Jul 2021 09:35:02 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 77D8C746392;
- Fri,  9 Jul 2021 15:34:58 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 412127462DB; Fri,  9 Jul 2021 15:34:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3F0D874570E;
- Fri,  9 Jul 2021 15:34:58 +0200 (CEST)
-Date: Fri, 9 Jul 2021 15:34:58 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH qemu v23] spapr: Fix implementation of Open Firmware
- client interface
-In-Reply-To: <YOeeR6Uj9mhqG0j2@yekko>
-Message-ID: <3ddc81f9-339-deed-d937-611e7ada6042@eik.bme.hu>
-References: <20210708065625.548396-1-aik@ozlabs.ru>
- <22b9ae49-7252-b664-ea98-99bb7baf4680@eik.bme.hu>
- <07d3a270-6d44-591d-d0ee-0264d3b4c7f2@ozlabs.ru>
- <4a903fde-4ea-a296-3132-bae249d261a@eik.bme.hu>
- <6a25eed6-22db-7d5c-6686-67322b70a83f@ozlabs.ru>
- <70991a4-7d9-3a1c-dd53-4b7da2c39a0@eik.bme.hu> <YOeeR6Uj9mhqG0j2@yekko>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m1qiP-0006ga-52
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 09:38:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625837928;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MJkiC9UfcAgiTQQpFHzoWg8h9+zrlPewDLEgMHbvXsM=;
+ b=QCIUeLpHTeVl3CbgTSpCxgMyRlTggxmgpAu9Sgr/wq0RpLJTkflyuH55zEzc/ABnFmb6JE
+ RXi02YTlD6g4GIEDIyktKbcE6NtlfQrkKha1kHxzwhK0U+ILKY9h/JjRqPM3USO3ZAuQAu
+ J7aptGhk+a0xVVhHgoGU1OnTp2iVH2Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-kOdYgBdtM9SZevfIOGh0KA-1; Fri, 09 Jul 2021 09:38:47 -0400
+X-MC-Unique: kOdYgBdtM9SZevfIOGh0KA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D68298042FE;
+ Fri,  9 Jul 2021 13:38:45 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B54015DF21;
+ Fri,  9 Jul 2021 13:38:39 +0000 (UTC)
+Date: Fri, 9 Jul 2021 15:38:38 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 3/3] memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
+ acpi_memory_hotplug_write()
+Message-ID: <20210709153838.75de8813@redhat.com>
+In-Reply-To: <87sg0n685k.fsf@dusky.pond.sub.org>
+References: <20210707003314.37110-1-danielhb413@gmail.com>
+ <20210707003314.37110-4-danielhb413@gmail.com>
+ <87h7h56jh2.fsf@dusky.pond.sub.org>
+ <20210709103913.5c938852@redhat.com>
+ <87sg0n685k.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 10%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,99 +83,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, groug@kaod.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, eblake@redhat.com,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Jul 2021, David Gibson wrote:
-> On Thu, Jul 08, 2021 at 03:00:22PM +0200, BALATON Zoltan wrote:
->> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>> On 08/07/2021 20:39, BALATON Zoltan wrote:
->>>> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>>>> On 08/07/2021 20:18, BALATON Zoltan wrote:
->>>>>> On Thu, 8 Jul 2021, Alexey Kardashevskiy wrote:
->>>>>>> This addresses the comments from v22.
->>>>>>>
->>>>>>> The functional changes are (the VOF ones need retesting with Pegasos2):
->>>>>>>
->>>>>>> (VOF) setprop will start failing if the machine class callback
->>>>>>> did not handle it;
->>>>>>
->>>>>> I'll try this later but I think I've seen guests using
->>>>>> setprop (Linux also does that for some property). How should
->>>>>> I allow that? Do I need a new callback for this? Could it be
->>>>>> allower unless there's a callback that could deby it? But
->>>>>> that was the previous way I think.
->>>>>
->>>>> A simple defined callback which always returns "true" should do.
->>>>
->>>> Yes but what's the point? That would just effectiverly disable this
->>>> change so if we need that, we could just as well keep the previous
->>>> behaviour which is to allow setprop unless there's a callback that
->>>> can decide otherwise. The spapr machine has such a callback so it
->>>> already does not allow all setprop and if I'll have a callback in
->>>> pegasos2 returning true that will allow what's allowed now so this
->>>> part of this patch does nothing indeed.
->>>>
->>>> Since guests could do all kinds of things that we don't know without
->>>> trying them restricting setprop is a good way to run into problems
->>>> with guests that were not tested that could otherwise just work.
->>>> Then we'll need another patch to enable that guest adding some more
->>>> properties to the list of allowed ones. Why it it a problem to allow
->>>> this by default in the first place and only reject changes for
->>>> machines that have a callback? Then I would not need more empty
->>>> callbacks in pegasos2.
->>>
->>>
->>> From here:
->>> https://patchwork.ozlabs.org/project/qemu-devel/patch/20210625055155.2252896-1-aik@ozlabs.ru/#2714158
->>>
->>> ===
->>>
->>>>>> +    if (vmo) {
->>>>>> +        VofMachineIfClass *vmc = VOF_MACHINE_GET_CLASS(vmo);
->>>>>> +
->>>>>> +        if (vmc->setprop &&
->>>>>> +            !vmc->setprop(ms, nodepath, propname, val, vallen)) {
->>>>>> +            goto trace_exit;
->>>>>
->>>>> This defaults to allowing the setprop if the machine doesn't provide a
->>>>> setprop callback.  I think it would be safer to default to prohibiting
->>>>> all setprops except those the machine explicitly allows.
->>>>
->>>>
->>>> Mmmm... I can imagine the client using the device tree as a temporary
->>>> storage. I'd rather add a trace for such cases.
->>>
->>> If they do, I think that's something we'll need to consider and
->>> account for that platform, rather than something we want to allow to
->>> begin with.
->>
->> I've seen that, yet I don't understand why. If I'll just add an empty
->> callback in pegasos2 to disable it then we're back to where we were before.
->> So my question is why do we want to explicitely enable setprop for every
->> guest when we encounter it one by one (especially if this works on other OF
->> implementations so guests are free to change the device tree therefore we
->> don't know in advance what are allowable properties). If you don't want it
->> for spapr I think you already have the callback for it that disallows it for
->> all but at a few properties but why change the default for other machines
->> that don't have a callback? If I can still add an empty callback that could
->> well be the default just to avoid more boilerplate in board code.
->
-> Because I think hitting the failure and deciphering that we need to
-> add setprop logic is likely to be less pain in the long run, than
-> allowing setprop by default, then discovering things break because the
-> guest expected that setprop to have some semantic effect beyond just
-> changing the dt, and we never even realized it was doing it.
+On Fri, 09 Jul 2021 13:25:43 +0200
+Markus Armbruster <armbru@redhat.com> wrote:
 
-What semantic effect does setprop have on real OpenFirmware besides 
-changing the device tree? I don't see the advantage in this (see in my 
-reply to Alexey) but sent a patch to add the callback to pegasos2 so you 
-can pick that if you want to keep this default or alternatively you can 
-revert the two hunks from VOF fix v23 to get back to prevous default. Both 
-would fix Linux on pegasos2 with VOF.
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > On Thu, 08 Jul 2021 15:08:57 +0200
+> > Markus Armbruster <armbru@redhat.com> wrote:
+> >  
+> >> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+> >>   
+> >> > MEM_UNPLUG_ERROR is deprecated since the introduction of
+> >> > DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
+> >> > MEM_UNPLUG_ERROR is pending.
+> >> >
+> >> > CC: Michael S. Tsirkin <mst@redhat.com>
+> >> > CC: Igor Mammedov <imammedo@redhat.com>
+> >> > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> >> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> >> > ---
+> >> >  hw/acpi/memory_hotplug.c | 13 +++++++++++--
+> >> >  1 file changed, 11 insertions(+), 2 deletions(-)
+> >> >
+> >> > diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> >> > index af37889423..fb9f4d2de7 100644
+> >> > --- a/hw/acpi/memory_hotplug.c
+> >> > +++ b/hw/acpi/memory_hotplug.c
+> >> > @@ -8,6 +8,7 @@
+> >> >  #include "qapi/error.h"
+> >> >  #include "qapi/qapi-events-acpi.h"
+> >> >  #include "qapi/qapi-events-machine.h"
+> >> > +#include "qapi/qapi-events-qdev.h"
+> >> >  
+> >> >  #define MEMORY_SLOTS_NUMBER          "MDNR"
+> >> >  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+> >> > @@ -177,9 +178,17 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
+> >> >              /* call pc-dimm unplug cb */
+> >> >              hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
+> >> >              if (local_err) {
+> >> > +                const char *error_pretty = error_get_pretty(local_err);
+> >> > +
+> >> >                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+> >> > -                qapi_event_send_mem_unplug_error(dev->id,
+> >> > -                                                 error_get_pretty(local_err));
+> >> > +
+> >> > +                /*
+> >> > +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
+> >> > +                 * while the deprecation of MEM_UNPLUG_ERROR is
+> >> > +                 * pending.
+> >> > +                 */
+> >> > +                qapi_event_send_mem_unplug_error(dev->id, error_pretty);
+> >> > +                qapi_event_send_device_unplug_error(dev->id, error_pretty);
+> >> >                  error_free(local_err);
+> >> >                  break;
+> >> >              }    
+> >> 
+> >> Same question as for PATCH 2: can dev->id be null?  
+> > only theoretically (if memory device were created directly without
+> > using device_add), which as far as I know is not the case as all
+> > memory devices are created using -device/device_add so far.
+> >
+> > ( for device_add case see qdev_device_add->qdev_set_id where
+> >   'id' is set to user provided or to generated "device[%d]" value)  
+> 
+> Something is set to a generated value, but it's not dev->id :)
+> 
+>     void qdev_set_id(DeviceState *dev, const char *id)
+> 
+> @id is the value of id=...  It may be null.
+> 
+> dev->id still is null here.
+> 
+>     {
+>         if (id) {
+>             dev->id = id;
+>         }
+> 
+> dev->id is now the value of id=...  It may be null.
+> 
+>         if (dev->id) {
+>             object_property_add_child(qdev_get_peripheral(), dev->id,
+>                                       OBJECT(dev));
+> 
+> If the user specified id=..., add @dev as child of /peripheral.  The
+> child's name is the (non-null) value of id=...
+> 
+>         } else {
+>             static int anon_count;
+>             gchar *name = g_strdup_printf("device[%d]", anon_count++);
+>             object_property_add_child(qdev_get_peripheral_anon(), name,
+>                                       OBJECT(dev));
+>             g_free(name);
+> 
+> Else, add @dev as child of /peripheral-anon.  The child's name is made
+> up.
+> 
+> 
+>         }
+>     }
+> 
+> dev->id is still the value of id=..., i.e. it may be null.
+yep, I was wrong and confused it child name in QOM tree.
 
-Regards,
-BALATON Zoltan
+> Sure dereferencing dev->id in acpi_memory_hotplug_write() is safe?
+
+it aren't safe since guest may trigger this error when
+memory-device is created without id.
+
 
