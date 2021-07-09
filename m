@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D7853C1BFC
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 01:23:38 +0200 (CEST)
-Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEF43C1C90
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 02:16:23 +0200 (CEST)
+Received: from localhost ([::1]:39994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1dMn-00014p-7G
-	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 19:23:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44238)
+	id 1m1eBq-0002aU-84
+	for lists+qemu-devel@lfdr.de; Thu, 08 Jul 2021 20:16:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1dLX-0000O7-TW
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 19:22:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58335)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m1dLU-0005za-7J
- for qemu-devel@nongnu.org; Thu, 08 Jul 2021 19:22:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625786534;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=92UxfcIOqBuc+OBWcIxTQv0cR+knRtgHXpbus9p6rDk=;
- b=OIXIYcCpVjBJ6tEFPTRgsSOkfftWLpeZIVkP6o2u501FRp+AAAJzCM48F5Fw2uKIMa+3XR
- ndOktm6sPN2TQhhiMCF0rPRcueciiutxenY1EMADOZ3uY5+3Anmaj89F4XDRx6PN6h5B3G
- RwjuQ7EWaF8msYsL3kR/rDyuPgsB2v4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430--K65nn4kNGyLWuuP1eMQlQ-1; Thu, 08 Jul 2021 19:22:08 -0400
-X-MC-Unique: -K65nn4kNGyLWuuP1eMQlQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2BB6801107;
- Thu,  8 Jul 2021 23:22:07 +0000 (UTC)
-Received: from redhat.com (ovpn-112-17.ams2.redhat.com [10.36.112.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 528615D6A8;
- Thu,  8 Jul 2021 23:22:05 +0000 (UTC)
-Date: Fri, 9 Jul 2021 00:22:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Cole Robinson <crobinso@redhat.com>
-Subject: Re: [PATCH] Move qemu.sasl to contrib/
-Message-ID: <YOeIh9lbc29E2Xs3@redhat.com>
-References: <d1a1e265dd846de6ca40406300d91cecfba69ef8.1625769570.git.crobinso@redhat.com>
- <YOdHyyEGzWzMWC0H@redhat.com>
- <CAFEAcA-NER3jDVoTnZN4T=gtzOTOmWvUMNOcPikjcj6Ay3NQJg@mail.gmail.com>
- <c4b6187f-49df-b94a-cad9-2773392671f3@redhat.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1eAp-0001qc-60
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 20:15:19 -0400
+Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:35565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1m1eAn-0004iO-8h
+ for qemu-devel@nongnu.org; Thu, 08 Jul 2021 20:15:18 -0400
+Received: by mail-oi1-x22d.google.com with SMTP id s24so10091512oiw.2
+ for <qemu-devel@nongnu.org>; Thu, 08 Jul 2021 17:15:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/8cFB5xe53QEqolvd7uZjPrpN2EBPwQT6oxw0Qs+H2A=;
+ b=KuSXurG18BydC4+SIqAxiA1Kr0t0jndbcZ35DDmbMoyidB7A7srBzn3Gy+EP3P7b15
+ KfDzPio9NDNN/Iuq/spBmgLsa41YB3Vq1DL1ihbaRn3KUMKp+3j9TCR3N4FgjrgOh8CA
+ 5RtMVp5bOlC08WdCuBsi4Wq2yXV+A5i7iBMuHglUUUX2kPBBV7tBtSPYw05KYblMGSXA
+ 0NPsqCAvynW9LSfiArEnf3hJTB77CrReYT465tczovJmF4thVGgCywNJ5YyhhJGF41TW
+ ilajWyjBskwl16AsiDQql08XzedTF3IhLzKbBTZ6iKDYQmLtzQRNwBWbaXYe1BwntgPS
+ 14rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/8cFB5xe53QEqolvd7uZjPrpN2EBPwQT6oxw0Qs+H2A=;
+ b=PLfNJhxYJssdC64VOJJYv8kyJp1M/lA0iGbWNiLGgX+U+u+GeQ6uWmBs7PlVaEqZJV
+ NcxCfNtttX3AAosWOn9wwKbgxksWPgI4hnI8eGm9sXu4f5m4G1TWueHH1R8kX+KJrIZR
+ uM2W7NCyVbDEh2HQI3QWoJX6sAhjZg2Ll+6ZRGorixZSdoCxvANRiMX/H86070NCK5pW
+ aofyp6gvp2cm6KXKK9Ui6zFt6EreiV8fDzGu2AE0r7TfX7d2tUhj/g+O2tGzlYMiaLu6
+ D4Aul0VBUNjAJ+nP8YsHSdwnGrKlMTT/uB/mo4dt3/bxGBr0+/iVIZg4heb93zT5HHg3
+ 1N9Q==
+X-Gm-Message-State: AOAM530nV13rYRcpTUXcT+G7tsT44+W0V+4eDdSIzWqmTiNmRmb36Z3F
+ vvC8uPHQ9RpyXF23ioV6jpWj2COQ0+CObGR1f5k=
+X-Google-Smtp-Source: ABdhPJwJC7+iH0jFsJAOANbdW2mtg5AtUGQCtov6ZSHRg9LXpfsgTlh44bKplNyL4U9XJj9klIaHB+H4AnVnYudXqPQ=
+X-Received: by 2002:aca:ef84:: with SMTP id n126mr15328329oih.59.1625789715928; 
+ Thu, 08 Jul 2021 17:15:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c4b6187f-49df-b94a-cad9-2773392671f3@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <797ADA26-0366-447F-85F0-5E27DC534479@gmail.com>
+ <CAMVc7JXgn5ttSEjPB_=rS9CsYiQOFS48hcAbr3NQnom-qk75VA@mail.gmail.com>
+ <F9601D44-9866-4CB7-B611-D8930DFBBE15@gmail.com>
+ <CAFEAcA-vGe5BQg6HVtub5mDD6CtQN1OKGPE3Q8eJsjqyDCROnw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-vGe5BQg6HVtub5mDD6CtQN1OKGPE3Q8eJsjqyDCROnw@mail.gmail.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Fri, 9 Jul 2021 09:15:05 +0900
+Message-ID: <CAMVc7JULWjm_ME0bO0VAmqw=8Jr-LvqJWxFk1KxSMk2orMDgvQ@mail.gmail.com>
+Subject: Re: Picture missing in About dialog on cocoa ui
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-oi1-x22d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Programmingkid <programmingkidx@gmail.com>,
+ QEMU devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 08, 2021 at 04:49:24PM -0400, Cole Robinson wrote:
-> On 7/8/21 3:18 PM, Peter Maydell wrote:
-> > On Thu, 8 Jul 2021 at 20:14, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >>
-> >> On Thu, Jul 08, 2021 at 02:39:57PM -0400, Cole Robinson wrote:
-> >>> It's not installed in any way, so seems like contrib/ material
-> >>
-> >> Not really.
-> >>
-> >> Contrib is stuff that is included on an ad-hoc basis with no
-> >> commitment to support and no guarantee that it is working at
-> >> all.  Yes, there is some stuff in contrib/ that doesn't
-> >> belong there based on this definition, and should be moved
-> >> out.
-> > 
-> > More generally, I would like to see us get rid of contrib/
-> > entirely. We should either support stuff (and have it in
-> > sensible places in the source tree) or kick it out.
-> > 
-> 
-> qemu.sasl to ui/ dir then?
+I tried [NSApp applicationIconImage] but had no luck. I suspect it is
+because Rez is for Carbon development and deprecated while NSApp is
+from AppKit. Loading from the filesystem is inevitable.
 
-Yeah, probably best
+By the way, I knew Rez is from Carbon but didn't know it is
+deprecated, which I have figured out just now by reading man. Reading
+the icon file and assigning it to [NSApp applicationIconImage] is a
+possible solution, but it requires modifications for all graphical
+backends (cocoa, gtk, and sdl) and of course an external icon file. Do
+you think removing the dependency on Rez is worth it?
 
-> Do you think we should install qemu.sasl to /etc/sasl2/qemu.conf? Its
-> what Fedora/RHEL packaging does by hand for qemu. And what libvirt does
-> for its equivalent config file
-
-Yes.
+See "[PATCH 1/4] cutils: Introduce bundle mechanism" for a general fix
+of the problem when loading a "bundled" file.
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Akihiko Odaki
 
+
+On Fri, Jul 9, 2021 at 2:51 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 8 Jul 2021 at 17:28, Programmingkid <programmingkidx@gmail.com> wrote:
+> > The problem with e31746ecf8dd2f25f687c94ac14016a3ba5debfc is it requires a
+> > picture file to be found in a certain path. My original code used QEMU's
+> > icon to obtain a picture. The reason why the picture in the About dialog
+> > stopped appearing was because of the move to the meson build system.
+> > A new patch has just been committed that fixes the missing icon issue.
+> > Using 'git revert e31746ecf8dd2f25f687c94ac14016a3ba5debfc' fixes the
+> > missing picture issue in the About dialog.
+>
+> If the icon is the same (same resolution, etc) then just using it
+> does seem better than loading it off the filesystem. But we should
+> also sort out why get_relocated_path() isn't working, because if QEMU.
+> can't load files that way then other things will also be broken I think.
+>
+> -- PMM
 
