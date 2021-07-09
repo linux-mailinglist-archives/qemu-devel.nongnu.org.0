@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3DE3C2615
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:38:14 +0200 (CEST)
-Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3FC3C2654
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:54:16 +0200 (CEST)
+Received: from localhost ([::1]:49824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rdt-0004DO-RR
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48508)
+	id 1m1rtP-0000YN-4k
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWa-0004zl-Dy
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:40 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45595)
+ id 1m1rdB-0004a2-8I
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:31 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWL-0005aD-KM
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:38 -0400
-Received: by mail-wr1-x431.google.com with SMTP id i8so12382933wrp.12
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:25 -0700 (PDT)
+ id 1m1rd8-00008t-U5
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:28 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id l7so11518872wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SXT7sol+1pk4kO/P5DB1EVTnMN8KnY6InxmVm1gqicQ=;
- b=RkoYfOLpcfdOcmrxw2sHSVVXqiyF7U/A6TSdTpsiqKl7mhBHHcQz8E5GDKpc1lHyF7
- yNydVDt3NDHMAKmnaqE7bR5qyDSsGT3Va1V8/lM+agFF7HQDb2eWkGb7N3C6nKpf2n++
- U82YzOKpNnUFzuOK+or1ECiFQTxetFBqSslahIrG5tNV6K/aSrnLcvHMvSPXr6tzHR/9
- F3x0KTbMxrLc3W9EPIuZ2yCz7exV8AHzlHzPdu9NWjNXAIF0kpZxBb5L+/GewtLNVUdd
- XQXByQTAp+r9vj8J2TIWBk4oX+KZ7o7j/tQ/a2Xr4nTEE+c9jDBd7FTDF+DgSMa/FtRj
- KC2g==
+ bh=CFyLbsCarDbcc8xVrNzNM3GtcCMt9zLW6sDCVFExxAQ=;
+ b=NH0b7hmoxCx9S6ssFxod8LRR4YjxD85nXwDLW6iufTMqTV4p6MlDiUQfGM08hm928Y
+ EfP1wP5sEGsLvE+p1LW7UmjMZTv3OlSdYgoYtwh4U2BunEb1rUpjhPYx3G/VuCaGlnGU
+ lub0FKjcIycvT/mt6fEiI9/4rZU0zFJMbibsxnPXvdLm2zhuGWZYmzX4buR74Q6Uh4Dv
+ oaR6Zr2kCabu/F7aZBHbsUALRlDyTXDaZ4FWUP4oAnnbCRpBGs5auErzV0WSLBDOwebv
+ qliTSkvmRJVpmt+8z69B8ILfod9KfM/Rmj20BeuGhTNtN8XwHQZF40A7L1TFidLvBSHE
+ evwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SXT7sol+1pk4kO/P5DB1EVTnMN8KnY6InxmVm1gqicQ=;
- b=Oplg2xDAqpmGcExSj6eyspFqHULaVMXxKpmEQRLgKdqWrN9s6f2usuM8vTTdnNGZ6e
- OeXiDtCBTeHcG3j2B86uEvPAtz1wye2u5leY/Th0HQFARYhv8l9PxyslJGgaa5L4COVg
- DMF7KK5JThgkFwbutLoelPOoXZtbb2qAD2reIz2D0vAvUdyRKglM6EXSBdo03fwL+7eX
- 69wHzymDM17lwr9QYWCTF+sY/zi1YSpE/Zq7vEW3AJabwcNmFSIvNrvMFtEa1kkD12wj
- co+4so4sWz/WpdY0ShseTWw6kFrpwUaWIGfWr7ZOFTk1KxgC3FcaFymQ7H8NhdM8M1qZ
- H6MA==
-X-Gm-Message-State: AOAM53228gPcLRyG6H1z7pF0LOND8sRLt3NTw7FpEgB+8gTLzFL1/tjN
- ENzcTg1Cynwx2TfKhtXgZHnqzw==
-X-Google-Smtp-Source: ABdhPJzFA9WV0NVe3S1WjybDwh31s1GF1dcYpfCfW0wj+hTFNUWK0ftkiiNp1eaSbSQj614R9TXqUQ==
-X-Received: by 2002:a5d:40c7:: with SMTP id b7mr41351702wrq.169.1625841024050; 
- Fri, 09 Jul 2021 07:30:24 -0700 (PDT)
+ bh=CFyLbsCarDbcc8xVrNzNM3GtcCMt9zLW6sDCVFExxAQ=;
+ b=eRpbNWt0PkTTEyC/2JbXkUn1HWUfzBSMQN64oYpYCJlBXozuVn5L61Y5PM96t6WIp/
+ k5oBj0dBFDhbNLk1GRR2dco5+vXFRpFQzH96O9QrccOfU9dZEOY/hIpmlMYmEyiW6mwB
+ j4sTjU+xqxEeSmoGENxKo4yCR/swQUXS0zmkAxpDVzs59tTKn6CqEYiJI3hg/reRa4Ue
+ XiyIXqTs8WHqRRscDxTeXzbIu2pCdCqOpkYwdf9vQta12a3bzkvsUTnaSka0vtmFHlif
+ YAziRo+yOf39rkCKr417Y/1wOBBXA+VQp376geHEh7XjwSGCriRt9VGR6VVRtG1+7mtG
+ 9ZRQ==
+X-Gm-Message-State: AOAM531fQso45/3M+jDoOx2SM183nZcUAgqfiPDaTPkFRF+zjrsyyNBF
+ OOCUeOqPTWmRcrAvGjE2Ym3QEA==
+X-Google-Smtp-Source: ABdhPJzd5QVdj/kpdmdHpU1O6ybIFBEH8lK+ivXG5k1ZjsYMUIvwErQ5kB9a2nTHdvu7MdjQ+VkV5A==
+X-Received: by 2002:adf:f592:: with SMTP id f18mr3652097wro.179.1625841445359; 
+ Fri, 09 Jul 2021 07:37:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a9sm5289092wrv.37.2021.07.09.07.30.12
+ by smtp.gmail.com with ESMTPSA id j10sm5360007wrt.35.2021.07.09.07.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 07:30:14 -0700 (PDT)
+ Fri, 09 Jul 2021 07:37:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A45EE1FF9A;
- Fri,  9 Jul 2021 15:30:08 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 69A0B1FF9B;
+ Fri,  9 Jul 2021 15:30:09 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 12/40] tests/docker: use explicit docker.io registry
-Date: Fri,  9 Jul 2021 15:29:37 +0100
-Message-Id: <20210709143005.1554-13-alex.bennee@linaro.org>
+Subject: [PATCH  v3 14/40] tests/docker: fix sorting in package lists
+Date: Fri,  9 Jul 2021 15:29:39 +0100
+Message-Id: <20210709143005.1554-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,110 +100,172 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-It is good practice to use an explicit registry for referencing the base
-image. This is because some distros will inject their own registries
-into the search path. For example registry.fedoraproject.org comes ahead
-of docker.io. Using an explicit registry avoids wasting time querying
-multiple registries for images that they won't have.
+This will make diffs in later patches clearer.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-5-berrange@redhat.com>
+Message-Id: <20210623142245.307776-7-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/centos8.docker             | 2 +-
- tests/docker/dockerfiles/debian-xtensa-cross.docker | 2 +-
- tests/docker/dockerfiles/debian10.docker            | 2 +-
- tests/docker/dockerfiles/debian11.docker            | 2 +-
- tests/docker/dockerfiles/ubuntu.docker              | 2 +-
- tests/docker/dockerfiles/ubuntu1804.docker          | 2 +-
- tests/docker/dockerfiles/ubuntu2004.docker          | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+ tests/docker/dockerfiles/centos8.docker       |  2 +-
+ tests/docker/dockerfiles/fedora.docker        |  4 ++--
+ tests/docker/dockerfiles/opensuse-leap.docker | 16 ++++++++--------
+ tests/docker/dockerfiles/ubuntu1804.docker    |  4 ++--
+ tests/docker/dockerfiles/ubuntu2004.docker    |  8 +++++---
+ 5 files changed, 18 insertions(+), 16 deletions(-)
 
 diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 03e0440e03..8f810810f3 100644
+index 8f810810f3..ee52305646 100644
 --- a/tests/docker/dockerfiles/centos8.docker
 +++ b/tests/docker/dockerfiles/centos8.docker
-@@ -1,4 +1,4 @@
--FROM centos:8.3.2011
-+FROM docker.io/centos:8
+@@ -22,9 +22,9 @@ ENV PACKAGES \
+     lzo-devel \
+     make \
+     mesa-libEGL-devel \
+-    nmap-ncat \
+     nettle-devel \
+     ninja-build \
++    nmap-ncat \
+     perl-Test-Harness \
+     pixman-devel \
+     python36 \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 64a413f5e0..4a0a84eb43 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:33
  
- RUN dnf -y update
+ # Please keep this list sorted alphabetically
  ENV PACKAGES \
-diff --git a/tests/docker/dockerfiles/debian-xtensa-cross.docker b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-index ba4148299c..2f11b3b7bc 100644
---- a/tests/docker/dockerfiles/debian-xtensa-cross.docker
-+++ b/tests/docker/dockerfiles/debian-xtensa-cross.docker
-@@ -5,7 +5,7 @@
- # using a prebuilt toolchains for Xtensa cores from:
- # https://github.com/foss-xtensa/toolchain/releases
- #
--FROM debian:stretch-slim
-+FROM docker.io/library/debian:stretch-slim
++    SDL2-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
+@@ -79,10 +80,10 @@ ENV PACKAGES \
+     mingw64-pixman \
+     mingw64-pkg-config \
+     mingw64-SDL2 \
+-    nmap-ncat \
+     ncurses-devel \
+     nettle-devel \
+     ninja-build \
++    nmap-ncat \
+     numactl-devel \
+     perl \
+     perl-Test-Harness \
+@@ -97,7 +98,6 @@ ENV PACKAGES \
+     python3-sphinx_rtd_theme \
+     python3-virtualenv \
+     rdma-core-devel \
+-    SDL2-devel \
+     snappy-devel \
+     sparse \
+     spice-server-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 7ebff1b3a8..6011447181 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -9,46 +9,46 @@ ENV PACKAGES \
+     cyrus-sasl-devel \
+     gcc \
+     gcc-c++ \
+-    mkisofs \
+     gettext-runtime \
+     git \
+     glib2-devel \
+     glusterfs-devel \
+-    libgnutls-devel \
+     gtk3-devel \
++    libSDL2-devel \
++    libSDL2_image-devel \
+     libaio-devel \
+     libattr-devel \
+     libcap-ng-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libgnutls-devel \
+     libiscsi-devel \
+     libjpeg8-devel \
++    libnuma-devel \
++    libpixman-1-0-devel \
+     libpmem-devel \
+     libpng16-devel \
+     librbd-devel \
+     libseccomp-devel \
++    libspice-server-devel \
+     libssh-devel \
+     lzo-devel \
+     make \
+-    libSDL2_image-devel \
++    mkisofs \
+     ncurses-devel \
+     ninja \
+-    libnuma-devel \
+     perl \
+-    libpixman-1-0-devel \
+     python3-base \
+     python3-virtualenv \
+     rdma-core-devel \
+-    libSDL2-devel \
+     snappy-devel \
+-    libspice-server-devel \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
+     usbredir-devel \
+     virglrenderer-devel \
+-    xen-devel \
+     vte-devel \
++    xen-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
  
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 4ffe47671e..a27b88df55 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -7,7 +7,7 @@
- # On its own you can't build much but the docker-foo-cross targets
- # build on top of the base debian image.
- #
--FROM debian:buster-slim
-+FROM docker.io/library/debian:buster-slim
- 
- # Duplicate deb line as deb-src
- RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-diff --git a/tests/docker/dockerfiles/debian11.docker b/tests/docker/dockerfiles/debian11.docker
-index 5adfd62d55..febf884f8f 100644
---- a/tests/docker/dockerfiles/debian11.docker
-+++ b/tests/docker/dockerfiles/debian11.docker
-@@ -8,7 +8,7 @@
- # On its own you can't build much but the docker-foo-cross targets
- # build on top of the base debian image.
- #
--FROM debian:bullseye-slim
-+FROM docker.io/library/debian:bullseye-slim
- 
- # Duplicate deb line as deb-src
- RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
-index 100cfa76e3..e0ff425c01 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -9,7 +9,7 @@
- # system won't pick up that it has changed.
- #
- 
--FROM ubuntu:20.04
-+FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES \
-     ccache \
-     clang \
 diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 86114be23a..adcdef8244 100644
+index 0acdb0d9ad..a50a35e6fe 100644
 --- a/tests/docker/dockerfiles/ubuntu1804.docker
 +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,4 +1,4 @@
--FROM ubuntu:18.04
-+FROM docker.io/library/ubuntu:18.04
- ENV PACKAGES \
-     ccache \
-     clang \
+@@ -46,10 +46,10 @@ ENV PACKAGES \
+     libxen-dev \
+     libzstd-dev \
+     make \
+-    python3-yaml \
++    ninja-build \
+     python3-sphinx \
+     python3-sphinx-rtd-theme \
+-    ninja-build \
++    python3-yaml \
+     sparse \
+     xfslibs-dev
+ RUN apt-get update && \
 diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index b33ed139d9..78755bc2e3 100644
+index 88b3cfa136..eee2ef3cac 100644
 --- a/tests/docker/dockerfiles/ubuntu2004.docker
 +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,4 +1,4 @@
--FROM ubuntu:20.04
-+FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES flex bison \
+@@ -1,8 +1,10 @@
+ FROM docker.io/library/ubuntu:20.04
+-ENV PACKAGES flex bison \
++ENV PACKAGES \
++    bison \
      bsdmainutils \
      ccache \
+     clang-10\
++    flex \
+     gcc \
+     gcovr \
+     genisoimage \
+@@ -65,8 +67,8 @@ ENV PACKAGES flex bison \
+     sparse \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    xfslibs-dev\
+-    vim
++    vim \
++    xfslibs-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
 -- 
 2.20.1
 
