@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 184D33C2602
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:33:15 +0200 (CEST)
-Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB943C2611
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:37:07 +0200 (CEST)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rZ4-00014J-3Y
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48268)
+	id 1m1rco-0001zp-LD
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWC-0004eM-NY
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:16 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38707)
+ id 1m1rWF-0004h4-Fx
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:19 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWA-0005VT-2R
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:16 -0400
-Received: by mail-wr1-x433.google.com with SMTP id g16so2518529wrw.5
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:13 -0700 (PDT)
+ id 1m1rWD-0005XH-7w
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:19 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id j34so6440451wms.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=isRhm7PtwuN/k+yKMymzpJRt/x/pmEeyNtpyI5WWM24=;
- b=FfWFLbMk9ybGSNQ9h3U1tOQD6i4xtHo0H6O3hQhDR3ebi+9jvuwKeAilCVsVvrGoaj
- IJQxmfYl6+qym4h4y6hiaJ4zMuzNgw48c8bzFzJ31K1BMKRqXWDRljUNiEDhLBIvPBOl
- SWRtv7YODQPPgcamBlSsfgEa5OFoFZNqMs4mVOJxNiFvsoGIiRnx+O1CCzmj9CABVDJL
- SSRrn4bdR4pK6wj+qILosMYMp/lJJzfI4G93/kEl4B/SGagUmgTgLeuP84E8Ny6Lkmb4
- qcBwhyZsk85RnqaC8AAtYJcT641nbRbf9cE6SdB+SkhaxRWrWtKqsn4yG01H7UB6vFjo
- TDlg==
+ bh=0T57Dc3nW1plGWjw3nuVtK4UawlZ6tR8xwYyvQKWOq4=;
+ b=yCBcgxwwU71Oa62Prvjvu8HXufc8O+ICYrwoZ0YDi7sSAxfs9AbWliBEegDs7/Bb8L
+ HkunK9ChUzfzjErRdCAHFSs7yw3bHGLHjYicKUSvzXfn3x6LMVfe4/y+bYtiwqh54tMy
+ WbDklCa5T3rNV8TNq3YBxO6GOhd9/ylwwscRWqP5eioo+Oq2229rKljkrCkKx519kQp2
+ WRXdVXoKP4enCqkWaphsohy7eXoDOS2V/Ipp2+LYOo1iPDHgpvLP3mkuAoQg000XE6xh
+ UrZf44EptvM7/w1M2C4m8HN9OkWjkmedf1XZJ8fRv7cmhLpWApxbqjhQZ4Z5kt+LkVxG
+ FrFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=isRhm7PtwuN/k+yKMymzpJRt/x/pmEeyNtpyI5WWM24=;
- b=XgrIi0Li780v9+2vlMJCMJB+/9okS4IPpkWC7xQ9izgGm2FuzrEiQLpIdpL68IxrN/
- 9RdM2a+/qZS5/DzRSdrMiy4DTO3zEUr9myGPcm991h3srZzHRi44HPxKO2v1i4uUMqbn
- ZtNxHt9daUTez+GIXnc0uEJ5yimCslSedfgJOOO7jZarYLlas58wxAWNJ8udkIzEpqid
- KCqWEArGfcOzB2ehctXOYKQ9/mP9Ra8DPBtVZEgh7KUL3jMvRP4L6WYyYVs/WEo1LRxZ
- sdbL5UwQQ254LegeRw0sAJEIRtZnXTHixNQILT9h5a+wOE365ogGHuSp/ZSWY8PQ3L5d
- ah+A==
-X-Gm-Message-State: AOAM530W6LRW3dYeDwhKazPhlsv7QNmjMY46maWM4o5VCOAmCCGd+sgK
- VtTeC6hzlROT42TimPK89bEycQ==
-X-Google-Smtp-Source: ABdhPJytwh4Nq/27EbsyqVLixnDRME9IYmRjUpN006ZrcfipUtuJj/PQiMr5L9BaUW+BLmfMOz6yOQ==
-X-Received: by 2002:adf:ed07:: with SMTP id a7mr9338889wro.70.1625841012321;
- Fri, 09 Jul 2021 07:30:12 -0700 (PDT)
+ bh=0T57Dc3nW1plGWjw3nuVtK4UawlZ6tR8xwYyvQKWOq4=;
+ b=G4nGsD5/G1Dbmiehl0H512gCSmmiJOh1b66yGjRmWSIdzFWXEbMx5Lf9h/k/VQ7gkd
+ ZfL3+sWaMjYRJ1qVDBAkuVQy5LCJrn0wMfMjkIOrSioMy3xU1SYbnnAQMcbyfPeEefGP
+ 6lwgbiw7i/iQ9qWOSEJD6oa4+TP5aMrRQ67p95ekiVRjrVo0uKD8sCKViCsHM6LTex38
+ sjPdhNarciF/ZQiPxnhPv4nJoYPF7J+kdxdwQxqsbfGLBoXfQt4wcpsYaYqmOYQ85Pjk
+ sCszhlssQD3whT8MHm9nEH4p6F0V8VnCJFNFMyihDQuwmBehY4r8hevUrNxcE6W8nPI0
+ zxIQ==
+X-Gm-Message-State: AOAM531dlTxGXHRgqkd3a/ppZNwNEHA4KzupTI9/aR0iTmE0D8azakkU
+ oN6q90Tir/BH9TY9jKNnNP8ZBA==
+X-Google-Smtp-Source: ABdhPJxSm8n5fy101xXqFrdG1iKxYWaX3gSLsUfaI9KIeoIWNxMNwkaOhgUl+HLOkO7csjFsIlgDtg==
+X-Received: by 2002:a05:600c:4109:: with SMTP id
+ j9mr40221791wmi.180.1625841015936; 
+ Fri, 09 Jul 2021 07:30:15 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v21sm1322368wml.5.2021.07.09.07.30.07
+ by smtp.gmail.com with ESMTPSA id n18sm10222489wms.3.2021.07.09.07.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 07:30:07 -0700 (PDT)
+ Fri, 09 Jul 2021 07:30:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A60461FF90;
+ by zen.linaroharston (Postfix) with ESMTP id D9CB31FF91;
  Fri,  9 Jul 2021 15:30:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/40] Jobs based on custom runners: add job definitions
- for QEMU's machines
-Date: Fri,  9 Jul 2021 15:29:29 +0100
-Message-Id: <20210709143005.1554-5-alex.bennee@linaro.org>
+Subject: [PATCH v3 05/40] tests/tcg: also disable the signals test for plugins
+Date: Fri,  9 Jul 2021 15:29:30 +0100
+Message-Id: <20210709143005.1554-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,247 +87,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
- berrange@redhat.com, kuhn.chenqun@huawei.com, f4bug@amsat.org,
- robhenry@microsoft.com, Willian Rampazzo <willianr@redhat.com>,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+Cc: fam@euphon.net, minyihh@uci.edu, berrange@redhat.com,
+ kuhn.chenqun@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ f4bug@amsat.org, robhenry@microsoft.com, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org, stefanha@redhat.com,
  crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cleber Rosa <crosa@redhat.com>
+This will be more important when plugins is enabled by default.
 
-The QEMU project has two machines (aarch64 and s390x) that can be used
-for jobs that do build and run tests.  This introduces those jobs,
-which are a mapping of custom scripts used for the same purpose.
-
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210630012619.115262-5-crosa@redhat.com>
+Fixes: eba61056e4 ("tests/tcg: generalise the disabling of the signals test")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/custom-runners.yml | 208 ++++++++++++++++++++++++++++++++
- 1 file changed, 208 insertions(+)
+ tests/tcg/multiarch/Makefile.target | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
-index a07b27384c..061d3cdfed 100644
---- a/.gitlab-ci.d/custom-runners.yml
-+++ b/.gitlab-ci.d/custom-runners.yml
-@@ -12,3 +12,211 @@
- # guarantees a fresh repository on each job run.
- variables:
-   GIT_STRATEGY: clone
-+
-+# All ubuntu-18.04 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/build-environment.yml task
-+# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+ubuntu-18.04-s390x-all-linux-static:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-+ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check-tcg V=1
-+
-+ubuntu-18.04-s390x-all:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-alldbg:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --disable-libssh
-+ - make clean
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-clang:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-18.04-s390x-tci:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --enable-tcg-interpreter
-+ - make --output-sync -j`nproc`
-+
-+ubuntu-18.04-s390x-notcg:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_18.04
-+ - s390x
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --disable-tcg
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+# All ubuntu-20.04 jobs should run successfully in an environment
-+# setup by the scripts/ci/setup/qemu/build-environment.yml task
-+# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
-+ubuntu-20.04-aarch64-all-linux-static:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
-+ # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+ - make --output-sync -j`nproc` check-tcg V=1
-+
-+ubuntu-20.04-aarch64-all:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-alldbg:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --enable-debug --disable-libssh
-+ - make clean
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-clang:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
-+
-+ubuntu-20.04-aarch64-tci:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --enable-tcg-interpreter
-+ - make --output-sync -j`nproc`
-+
-+ubuntu-20.04-aarch64-notcg:
-+ allow_failure: true
-+ needs: []
-+ stage: build
-+ tags:
-+ - ubuntu_20.04
-+ - aarch64
-+ rules:
-+ - if: '$CI_COMMIT_BRANCH =~ /^staging/'
-+   when: manual
-+ script:
-+ - mkdir build
-+ - cd build
-+ - ../configure --disable-libssh --disable-tcg
-+ - make --output-sync -j`nproc`
-+ - make --output-sync -j`nproc` check V=1
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index d57a115873..85a6fb7a2e 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -37,6 +37,8 @@ signals: LDFLAGS+=-lrt -lpthread
+ run-signals: signals
+ 	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
+ 
++run-plugin-signals-with-%:
++	$(call skip-test, $<, "BROKEN awaiting sigframe clean-ups and vdso support")
+ 
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
 -- 
 2.20.1
 
