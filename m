@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3A23C2799
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:32:06 +0200 (CEST)
-Received: from localhost ([::1]:36570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC4A3C279D
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 18:35:00 +0200 (CEST)
+Received: from localhost ([::1]:41918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1tQ5-0008Ce-Dd
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:32:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37642)
+	id 1m1tSt-0003W3-GO
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 12:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1t57-0001Yw-6j
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:25 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36517)
+ id 1m1t57-0001c2-WC
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:26 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m1t4y-0000wM-Nh
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:24 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- t14-20020a05600c198eb029020c8aac53d4so26460737wmq.1
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:10:14 -0700 (PDT)
+ id 1m1t4x-0000wr-Pp
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 12:10:25 -0400
+Received: by mail-wr1-x435.google.com with SMTP id a13so12819079wrf.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 09:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OMOutzP5V+LKhVzV0NiCVOi1/mPW5v43bptuBd6wcgo=;
- b=Dj7H1+4vg2laI7rDF8KXygC9Bv0KwQzh/VKAu0pphs+b99VzNX2Mr633kXFI/2Eyc3
- rPweFleCHGh9mpe606obQ4ghvjQLsGSNY2D4sP+qyWSp/MUXLcszQKOHRLX455xJ7YSZ
- oV415V5zbfixVebmc11rZrS3U/E7bwVhEEn6j5Ggf5VGwGqHKVnqHexKVgybTHFtYXjU
- Y6z4vy8wAZj84nU3+YFjLCyFc8HLQT2NIvc9m3n9ZGCj0aSDlYPRBtEmUL63Qv34lLd7
- LJTD5FWfF6mi3cD4hmWYXj++WYLrJ4335/mHjA6AOIMUbJDcb6P80sJaqzQFjwHq5qlH
- IvyA==
+ bh=g5RTMo3cZi5CJpdjcBxAxRPO+ziLZygfzXi5BsAwtdU=;
+ b=nYPSSlWm2EF0O1qqle987sSYtMkTDJNvV41p51RQI3NcJ7qgEtybkm84/QpWBac2r7
+ dF29cakrs2va8pBE+LWTloMpJ1j9RIZx9QKyrgaw9t1rFF53Q8t0X3JqPUH6o3HMNhMZ
+ Yg1qlcZ+4+4X+wtJMXnpx+fSDXV8ECaZQxl5tlo8fFKcUW9u0bbuP3Yr/8zlQidfrwbq
+ HNyRndrM2pwIpZl+JiUObJNg6LfUKir2ZuiGAjfQBG7fOlVsRlLNuHzHybvGqw/J+dYJ
+ X3EJstpajc179PCdZNkWb8mFEM1OGrBmJd4dE4OjXMAz5lgGnmh9FrBRiVpH0yQSgTyb
+ fmjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OMOutzP5V+LKhVzV0NiCVOi1/mPW5v43bptuBd6wcgo=;
- b=QxJRT2aeWPnQeWzdsvxs4+Kot2grtsoHsoc4eBGZLc1aRMcTkK2URjlROU6UWdHFFO
- 4rbqBBiIBCURQYcVVmi+ClAn85/1RhNR4ddiK8nGYt+9Yn5MaMOJHPNGo2Gz4RR+mq2Q
- gDTitRU6Ob91etrGIez/39zlFulq8LU3jpcXqDH2eZ83PeAkS4WIcesDNZN5LTteIV0O
- CQhFRriHsoKjfxoRGftf/ph29xNoaKi38xwBWlMq//YRkQ0wFdKeC//mN0yN6G2U2Qs9
- mIbkfy8dkJs0B5yNBvg24HqepX7Xbd1ERX+7Fd4XSz5vx52AqBRWbkygYB2piwSgMqFg
- Gwhw==
-X-Gm-Message-State: AOAM531S3r1xLnwaZBUpP2qAcDQs9tmV56jkGgRbUSUt4V98IUU9GW8t
- pP/K0K8gMcPWhXRbSrtIJ/5cEUOyVfV9cdve
-X-Google-Smtp-Source: ABdhPJzaFBuexlUbLIdAQ9xhd7z8Uj7c286u/rAqTCzSfvCoYfAfIcV1aw2FhLqjg8+20M4as8T/3w==
-X-Received: by 2002:a05:600c:4f87:: with SMTP id
- n7mr41290167wmq.9.1625847013810; 
- Fri, 09 Jul 2021 09:10:13 -0700 (PDT)
+ bh=g5RTMo3cZi5CJpdjcBxAxRPO+ziLZygfzXi5BsAwtdU=;
+ b=Z3z2ImvD42WhPk2wLPa8XRniYq7FCPQsJXbA3TODffAF1idAnQgT4FQc+7MbtDN+cF
+ 9st2EfOMdzlukcmlrEQkxai/YLFyL/ByjxBJuh+QFBGGL5pQkF5kvJHmqcVXjuXz3oKi
+ 8vDgchRg9tlFBlfQKC75K2qtOtTY9wP+ig6X0msgLNKxy+htbIk2ujUrSGnfuLqzSwwW
+ UUpEdF9HOpVUgvpaUHXtxRjrNURPNe/t3FK+uZY/2vIbnpBNHqLReNNnjzEW6UFoymEs
+ taFFi9mECrgzg4GpnUs5yhaFy/zNthfRvABtECRvJald1+pT26oHk6FxYMQIYZq4ZqjB
+ Bx+w==
+X-Gm-Message-State: AOAM530D0hNUUNdiGwDG6JxdjSof+in5PK9gelYqO40WBJAKmOka5BZ/
+ 4iRmfrCC2//3yIi/SmytbNX4/XyRHjwA7qrF
+X-Google-Smtp-Source: ABdhPJynDQS5nzVI8wekz3siPX2KEyMrNjTgYh7q+cVQ4euNDf89TqFyM19ITD0GdMlB6dOcZaHn9g==
+X-Received: by 2002:adf:f2d1:: with SMTP id d17mr24440230wrp.254.1625847014466; 
+ Fri, 09 Jul 2021 09:10:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id x19sm5232277wmi.10.2021.07.09.09.10.13
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 09:10:13 -0700 (PDT)
+ Fri, 09 Jul 2021 09:10:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/17] hw/arm/virt: Make PL061 GPIO lines pulled low, not high
-Date: Fri,  9 Jul 2021 17:09:58 +0100
-Message-Id: <20210709161003.25874-13-peter.maydell@linaro.org>
+Subject: [PULL 13/17] hw/gpio/pl061: Convert to 3-phase reset and assert GPIO
+ lines correctly on reset
+Date: Fri,  9 Jul 2021 17:09:59 +0100
+Message-Id: <20210709161003.25874-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709161003.25874-1-peter.maydell@linaro.org>
 References: <20210709161003.25874-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,36 +88,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the virt board we have two PL061 devices -- one for NonSecure which
-is inputs only, and one for Secure which is outputs only. For the former,
-we don't care whether its outputs are pulled low or high when the line is
-configured as an input, because we don't connect them. For the latter,
-we do care, because we wire the lines up to the gpio-pwr device, which
-assumes that level 1 means "do the action" and 1 means "do nothing".
-For consistency in case we add more outputs in future, configure both
-PL061s to pull GPIO lines down to 0.
+The PL061 comes out of reset with all its lines configured as input,
+which means they might need to be pulled to 0 or 1 depending on the
+'pullups' and 'pulldowns' properties.  Currently we do not assert
+these lines on reset; they will only be set whenever the guest first
+touches a register that triggers a call to pl061_update().
 
-Reported-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+Convert the device to three-phase reset so we have a place where we
+can safely call qemu_set_irq() to set the floating lines to their
+correct values.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/arm/virt.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/gpio/pl061.c      | 29 +++++++++++++++++++++++++----
+ hw/gpio/trace-events |  1 +
+ 2 files changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 4b96f060140..93ab9d21ea0 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -895,6 +895,9 @@ static void create_gpio_devices(const VirtMachineState *vms, int gpio,
-     MachineState *ms = MACHINE(vms);
+diff --git a/hw/gpio/pl061.c b/hw/gpio/pl061.c
+index 5ba398fcd42..4002ab51544 100644
+--- a/hw/gpio/pl061.c
++++ b/hw/gpio/pl061.c
+@@ -446,13 +446,14 @@ static void pl061_write(void *opaque, hwaddr offset,
+     return;
+ }
  
-     pl061_dev = qdev_new("pl061");
-+    /* Pull lines down to 0 if not driven by the PL061 */
-+    qdev_prop_set_uint32(pl061_dev, "pullups", 0);
-+    qdev_prop_set_uint32(pl061_dev, "pulldowns", 0xff);
-     s = SYS_BUS_DEVICE(pl061_dev);
-     sysbus_realize_and_unref(s, &error_fatal);
-     memory_region_add_subregion(mem, base, sysbus_mmio_get_region(s, 0));
+-static void pl061_reset(DeviceState *dev)
++static void pl061_enter_reset(Object *obj, ResetType type)
+ {
+-    PL061State *s = PL061(dev);
++    PL061State *s = PL061(obj);
++
++    trace_pl061_reset(DEVICE(s)->canonical_path);
+ 
+     /* reset values from PL061 TRM, Stellaris LM3S5P31 & LM3S8962 Data Sheet */
+     s->data = 0;
+-    s->old_out_data = 0;
+     s->old_in_data = 0;
+     s->dir = 0;
+     s->isense = 0;
+@@ -474,6 +475,24 @@ static void pl061_reset(DeviceState *dev)
+     s->amsel = 0;
+ }
+ 
++static void pl061_hold_reset(Object *obj)
++{
++    PL061State *s = PL061(obj);
++    int i, level;
++    uint8_t floating = pl061_floating(s);
++    uint8_t pullups = pl061_pullups(s);
++
++    for (i = 0; i < N_GPIOS; i++) {
++        if (extract32(floating, i, 1)) {
++            continue;
++        }
++        level = extract32(pullups, i, 1);
++        trace_pl061_set_output(DEVICE(s)->canonical_path, i, level);
++        qemu_set_irq(s->out[i], level);
++    }
++    s->old_out_data = pullups;
++}
++
+ static void pl061_set_irq(void * opaque, int irq, int level)
+ {
+     PL061State *s = (PL061State *)opaque;
+@@ -543,11 +562,13 @@ static Property pl061_props[] = {
+ static void pl061_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
+ 
+     dc->vmsd = &vmstate_pl061;
+-    dc->reset = &pl061_reset;
+     dc->realize = pl061_realize;
+     device_class_set_props(dc, pl061_props);
++    rc->phases.enter = pl061_enter_reset;
++    rc->phases.hold = pl061_hold_reset;
+ }
+ 
+ static const TypeInfo pl061_info = {
+diff --git a/hw/gpio/trace-events b/hw/gpio/trace-events
+index eb5fb4701c6..1dab99c5604 100644
+--- a/hw/gpio/trace-events
++++ b/hw/gpio/trace-events
+@@ -20,6 +20,7 @@ pl061_input_change(const char *id, int gpio, int level) "%s input %d changed to
+ pl061_update_istate(const char *id, uint32_t istate, uint32_t im, int level) "%s GPIORIS 0x%x GPIOIE 0x%x interrupt level %d"
+ pl061_read(const char *id, uint64_t offset, uint64_t r) "%s offset 0x%" PRIx64 " value 0x%" PRIx64
+ pl061_write(const char *id, uint64_t offset, uint64_t value) "%s offset 0x%" PRIx64 " value 0x%" PRIx64
++pl061_reset(const char *id) "%s reset"
+ 
+ # sifive_gpio.c
+ sifive_gpio_read(uint64_t offset, uint64_t r) "offset 0x%" PRIx64 " value 0x%" PRIx64
 -- 
 2.20.1
 
