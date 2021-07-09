@@ -2,88 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3825C3C2917
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 20:38:32 +0200 (CEST)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDE83C296A
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 21:03:10 +0200 (CEST)
+Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1vOR-0006yw-Ah
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 14:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33916)
+	id 1m1vmG-0005jG-Tu
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 15:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vNN-0006IQ-JR
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:37:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23107)
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1m1ubq-0002LO-Ma
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 13:48:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m1vNG-0003YW-MM
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 14:37:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1625855837;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AT5k3Ev8QPVxMk23MyE/MxnpLE30yLbTUG6t11D6uK4=;
- b=Yixus9aB6jx1np/vXtTsCJbIwoDlMAxJXfBhh+qwgUPVSiTqUJbiEWKm7tknKGI4rn3M1H
- fWMxXmtwPgSEIN1C01wFVgrz7qPMCZsTWqyeRcMsWRbiImTu07BdKr+40J77dI/RIVvGbT
- vIPC1FcW+BsrcY8faoLrjubtQYKqCTo=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-293-ycz9UTvsPm6TEYsqoJ6NZA-1; Fri, 09 Jul 2021 14:37:16 -0400
-X-MC-Unique: ycz9UTvsPm6TEYsqoJ6NZA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- p20-20020a05622a0494b029024f09fe9ec9so6331815qtx.4
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 11:37:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=AT5k3Ev8QPVxMk23MyE/MxnpLE30yLbTUG6t11D6uK4=;
- b=C1CFdSBK/qXZyTLMIw6v3cHGKU+p/GrEVVy9lrgmAL/euMJgU0AWLDc8zFA2mFrx2K
- H0D90SXKzDXpQ2peHSdF+SqhV7g/3TdFnXVBery2T+r70WiO1pJUUBZCFqrC08blDl07
- inbdumxq1LnBuiJCmVsOgqtucIFxvU9BqNHa8DeGKqohtiuXgnb/axqg2U0gCCT9RnDc
- 7L3kGMEoKAK43eaGptZV8RCcJqoxr/esyaae6FdLIwKljf5n3hkNB4J/R4xtJSOew1xJ
- +N8oMajbAvSJjESzmj2mkPIgMoUfRoSKxFEffhh6je6jCI+DVO0aWa+rrEQcv4ecqObn
- F6gg==
-X-Gm-Message-State: AOAM532FOHAtu3KJnML14nARLzdIqBaFGoK7at3Ei8mYaxC+Gu1bomyw
- 4UjecOVYfw9PYj9u5S1nc3LDaX7qHCqTzEZlxVqR1fs+IjXw2DVntU/PqA36u03Wm6K6NBihJSW
- XTf5CgA3K5oGuJ0g=
-X-Received: by 2002:a05:622a:394:: with SMTP id
- j20mr35512565qtx.270.1625855836513; 
- Fri, 09 Jul 2021 11:37:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzboqm1CwnTZ8eopVLG1Cu32p+ZMNuMvgRTi1GfN/oprIYHmTkcRdOsobVjeAXbWFAP73NGFA==
-X-Received: by 2002:a05:622a:394:: with SMTP id
- j20mr35512549qtx.270.1625855836328; 
- Fri, 09 Jul 2021 11:37:16 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id o123sm2877479qkd.6.2021.07.09.11.37.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 11:37:15 -0700 (PDT)
-Date: Fri, 9 Jul 2021 14:37:14 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH 1/4] memory: introduce DIRTY_MEMORY_DIRTY_RATE dirty bits
-Message-ID: <YOiXWi7osNDaIW5/@t490s>
-References: <cover.1624771216.git.huangy81@chinatelecom.cn>
- <b858f91a8df4233afa5cc93d27f0b1adee30fc52.1624771216.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <jarkko@kernel.org>) id 1m1ubm-0005X6-Nj
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 13:48:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D1BF7613CA;
+ Fri,  9 Jul 2021 17:48:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1625852891;
+ bh=5Tq/pBaB9hvhTsFosJ34/lSD7HWLZ1f5SQZEVWBmByc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hrlBRCSRCHjEt96oTyvcjj5VCjJTB2yMZae6hRCM3Yso4AkT/9xkrtHWVK5+pRDAo
+ isprVbfxUoAeyBJRwdm24wRhYfv6WtU2diL9ccTwC0AaNx9HxKqMiM5P1bCqPmsqz+
+ xugBpJBl9ZsLN0XNFJaOd9Lhi6U0GvIzUmxaDeiq3LOblj1JKD+pcOPLH2/a5ZM0SN
+ nHs0M+VjgvGcSBmA0BGOkDI0ePPN+rRIMBCGYD3Av5RAsoepMgBNGqVDWYcU+hYfXt
+ lmaGLe8VLvWNjY9JjZka3yT1hvb5qdEJwzivrovfjXGEGiyKXEb5h4Uq8FgJLz/1Th
+ bS6p24VRJ2/2A==
+Date: Fri, 9 Jul 2021 20:48:09 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH v3 00/33] Qemu SGX virtualization
+Message-ID: <20210709174809.dpqvqsw2rj3s76am@kernel.org>
+References: <20210709110955.73256-1-yang.zhong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <b858f91a8df4233afa5cc93d27f0b1adee30fc52.1624771216.git.huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+In-Reply-To: <20210709110955.73256-1-yang.zhong@intel.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=jarkko@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -74
+X-Spam_score: -7.5
+X-Spam_bar: -------
+X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 09 Jul 2021 15:02:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,42 +61,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: pbonzini@redhat.com, kai.huang@intel.com, eblake@redhat.com,
+ qemu-devel@nongnu.org, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jun 27, 2021 at 01:38:14PM +0800, huangy81@chinatelecom.cn wrote:
-> @@ -370,9 +374,17 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
->                      qatomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
->  
->                      if (global_dirty_tracking) {
-> -                        qatomic_or(
-> +                        if (global_dirty_tracking & GLOBAL_DIRTY_MIGRATION) {
-> +                            qatomic_or(
->                                  &blocks[DIRTY_MEMORY_MIGRATION][idx][offset],
->                                  temp);
-> +                        }
-> +
-> +                        if (global_dirty_tracking & GLOBAL_DIRTY_DIRTY_RATE) {
-> +                            qatomic_or(
-> +                                &blocks[DIRTY_MEMORY_DIRTY_RATE][idx][offset],
-> +                                temp);
+On Fri, Jul 09, 2021 at 07:09:22PM +0800, Yang Zhong wrote:
+> Since Sean Christopherson has left Intel and i am responsible for Qemu SGX
+> upstream work. His @intel.com address will be bouncing and his new email(
+> seanjc@google.com) is also in CC lists.
+> 
+> This series is Qemu SGX virtualization implementation rebased on latest
+> Qemu release. The numa support for SGX will be sent in another patchset
+> once this basic SGX patchset are merged.
+> 
+> You can find Qemu repo here:
+> 
+>      https://github.com/intel/qemu-sgx.git upstream
+> 
+> If you want to try SGX, you can directly install the linux release(at least 5.13.0-rc1+)
+> since kvm SGX has been merged into linux release.
+> 
+>      https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> 
+> To simplify, you'd better install linux on host and guest, which can support
+> SGX on host and guest kernel. And to me, use below reference command to boot
+> SGX guest:
+> 
+>      #qemu-system-x86_64 \
+>          ...... \
+>          -cpu host,+sgx-provisionkey \
+>          -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+>          -object memory-backend-epc,id=mem2,size=28M \
+>          -M sgx-epc.id.0=epc1,sgx-epc.memdev.0=mem1,sgx-epc.id.1=epc2,sgx-epc.memdev.1=mem2
+> 
+> Overview
+> ========
+> 
+> Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
+> for memory accesses in order to provide security accesses for sensitive
+> applications and data. SGX allows an application to use it's pariticular
+> address space as an *enclave*, which is a protected area provides confidentiality
+> and integrity even in the presence of privileged malware. Accesses to the
+> enclave memory area from any software not resident in the enclave are prevented,
+> including those from privileged software.
+> 
+> SGX virtaulization
+> ==================
+> 
+> The KVM SGX creates one new misc device, sgx_vepc, and Qemu will open '/dev/sgx_vepc'
+> device node to mmap() host EPC memory to guest. The Qemu also adds 'sgx-epc' device
+> to expose EPC sections to guest through CPUID and ACPI table.  The Qemu SGX also
+> supports multiple virtual EPC sections to guest, we just put them together physically
+> contiguous for the sake of simplicity. The kernel SGX NUMA has been merged into Linux
+> tip tree, we will support this function in the next phase.
+> 
+> Although the current host SGX subsystem can not support SGX2 feature, the KVM/Qemu
+> implementation still expose this feature to guest. Guest SGX2 support doesn't have
+> interaction with host kernel SGX driver, the SGX guest can normally use those new
+> instructions.
+> 
+> As for SGX virtualization detailed infomation, please reference docs/intel-sgx.txt
+> docuement(patch 33).
+> 
+> Changelog:
+> =========
+> 
+> (Changelog here is for global changes, please see each patch's changelog for changes
+>  made to specific patch.)
+> 
+> v2-->v3:
+>    - Rebased the sgx patches into latest Qemu release.
+>    - Implemented the compound property for SGX, ref patch5, the command from '-sgx-epc'
+>      to '-M'.
+>    - Moved the sgx common code from sgx-epc.c to sgx.c. The sgx-epc.c is
+>      only responsible for virtual epc device.
+>    - Removed the previous patch13(linux-headers: Add placeholder for KVM_CAP_SGX_ATTRIBUTE)
+>      because ehabkost@redhat.com updated Linux headers to 5.13-rc4 with commit 278f064e452.
+>    - Updated the patch1 because ram_flags were changed by David Hildenbra.
+>    - Added one patch24, which avoid reset operation caused by bios reset.
+>    - Added one patch25, which make prealloc property consistent with Qemu cmdline during VM
+>      reset.
+> 
+> v1-->v2:
+>    - Rebased the sgx patches into latest Qemu release.
+>    - Unified the "share" and "protected" arguments with ram_flags in the
+>      memory_region_init_ram_from_fd()(Paolo).
+>    - Added the new MemoryBackendEpcProperties and related documents(Eric Blake).
+>    - Changed the KVM_CAP_SGX_ATTRIBUTE from 195 to 196(Kai).
+>    - Changed the version and some grammar issues(Eric Blake).
+> 
+> 
+> Sean Christopherson (21):
+>   memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+>   hostmem: Add hostmem-epc as a backend for SGX EPC
+>   i386: Add 'sgx-epc' device to expose EPC sections to guest
+>   vl: Add sgx compound properties to expose SGX EPC sections to guest
+>   i386: Add primary SGX CPUID and MSR defines
+>   i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+>   i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+>   i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+>   i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+>   i386: Add feature control MSR dependency when SGX is enabled
+>   i386: Update SGX CPUID info according to hardware/KVM/user input
+>   i386: kvm: Add support for exposing PROVISIONKEY to guest
+>   i386: Propagate SGX CPUID sub-leafs to KVM
+>   Adjust min CPUID level to 0x12 when SGX is enabled
+>   hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+>   hw/i386/pc: Account for SGX EPC sections when calculating device
+>     memory
+>   i386/pc: Add e820 entry for SGX EPC section(s)
+>   i386: acpi: Add SGX EPC entry to ACPI tables
+>   q35: Add support for SGX EPC
+>   i440fx: Add support for SGX EPC
+>   doc: Add the SGX doc
+> 
+> Yang Zhong (12):
+>   qom: Add memory-backend-epc ObjectOptions support
+>   hostmem-epc: Add the reset interface for EPC backend reset
+>   sgx-epc: Add the reset interface for sgx-epc virt device
+>   sgx-epc: Avoid bios reset during sgx epc initialization
+>   hostmem-epc: Make prealloc consistent with qemu cmdline during reset
+>   qmp: Add query-sgx command
+>   hmp: Add 'info sgx' command
+>   i386: Add sgx_get_info() interface
+>   bitops: Support 32 and 64 bit mask macro
+>   qmp: Add the qmp_query_sgx_capabilities()
+>   Kconfig: Add CONFIG_SGX support
+>   sgx-epc: Add the fill_device_info() callback support
+> 
+>  backends/hostmem-epc.c                   | 118 ++++++++++
+>  backends/meson.build                     |   1 +
+>  default-configs/devices/i386-softmmu.mak |   1 +
+>  docs/intel-sgx.txt                       | 167 ++++++++++++++
+>  hmp-commands-info.hx                     |  15 ++
+>  hw/core/machine.c                        |  36 +++
+>  hw/i386/Kconfig                          |   5 +
+>  hw/i386/acpi-build.c                     |  22 ++
+>  hw/i386/fw_cfg.c                         |  10 +-
+>  hw/i386/meson.build                      |   2 +
+>  hw/i386/pc.c                             |  15 +-
+>  hw/i386/pc_piix.c                        |   4 +
+>  hw/i386/pc_q35.c                         |   3 +
+>  hw/i386/sgx-epc.c                        | 271 +++++++++++++++++++++++
+>  hw/i386/sgx-stub.c                       |  13 ++
+>  hw/i386/sgx.c                            | 178 +++++++++++++++
+>  hw/vfio/common.c                         |   1 +
+>  include/exec/memory.h                    |  15 +-
+>  include/hw/boards.h                      |   1 +
+>  include/hw/i386/pc.h                     |  10 +
+>  include/hw/i386/sgx-epc.h                |  68 ++++++
+>  include/monitor/hmp.h                    |   1 +
+>  include/qemu/bitops.h                    |   7 +
+>  monitor/hmp-cmds.c                       |  32 +++
+>  monitor/qmp-cmds.c                       |  19 ++
+>  qapi/machine.json                        |  43 +++-
+>  qapi/misc.json                           |  61 +++++
+>  qapi/qom.json                            |  19 ++
+>  qemu-options.hx                          |  10 +-
+>  softmmu/memory.c                         |   5 +
+>  softmmu/physmem.c                        |   3 +-
+>  stubs/meson.build                        |   1 +
+>  stubs/sgx-stub.c                         |  12 +
+>  target/i386/cpu.c                        | 168 +++++++++++++-
+>  target/i386/cpu.h                        |  16 ++
+>  target/i386/kvm/kvm.c                    |  75 +++++++
+>  target/i386/kvm/kvm_i386.h               |   2 +
+>  target/i386/machine.c                    |  20 ++
+>  tests/qtest/qmp-cmd-test.c               |   2 +
+>  39 files changed, 1442 insertions(+), 10 deletions(-)
+>  create mode 100644 backends/hostmem-epc.c
+>  create mode 100644 docs/intel-sgx.txt
+>  create mode 100644 hw/i386/sgx-epc.c
+>  create mode 100644 hw/i386/sgx-stub.c
+>  create mode 100644 hw/i386/sgx.c
+>  create mode 100644 include/hw/i386/sgx-epc.h
+>  create mode 100644 stubs/sgx-stub.c
+> 
+> -- 
+> 2.29.2.334.gfaefdd61ec
+> 
+> 
 
-So what I meant in the other thread is instead of operating on this bitmap we
-just record the number of total dirty pages, just like we used to do with rings.
+Is there anything preventing to submit these to the public mailing
+lists?
 
-PS. IIUC maybe this can even work for dirty rings.. because either dirty ring
-or dirty logging collect dirty bits into the slot bitmap, then it's further
-aggregated here from the slot bitmaps.  However merging them won't help much
-because dirty ring can provide finer-granule per-vcpu dirty info, which can be
-further used for per-vcpu throttling in the future.  So just raise this up.
-
-> +                        }
->                      }
-
--- 
-Peter Xu
-
+/Jarkko
 
