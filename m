@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2DF3C1EA3
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:52:11 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547A33C1E8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 06:42:28 +0200 (CEST)
+Received: from localhost ([::1]:38970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1iUl-0006W8-0R
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:52:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53826)
+	id 1m1iLL-0002nC-9H
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 00:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5u-0006Hy-6Y
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:30 -0400
-Received: from indium.canonical.com ([91.189.90.7]:32966)
+ id 1m1i5k-0006Cg-Ai
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:25 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m1i5g-0001In-3k
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:29 -0400
+ id 1m1i5c-0001Gk-HN
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 00:26:20 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m1i5Q-0005Dz-HK
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:26:01 +0000
+ id 1m1i5M-0005F9-1E
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 04:25:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AC5632E8210
- for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D9E002E81AE
+ for <qemu-devel@nongnu.org>; Fri,  9 Jul 2021 04:25:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Jul 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1895602@bugs.launchpad.net>
+Date: Fri, 09 Jul 2021 04:17:22 -0000
+From: Launchpad Bug Tracker <1898490@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor mslade th-huth
-X-Launchpad-Bug-Reporter: Michael Slade (mslade)
+X-Launchpad-Bug-Commenters: ethannij janitor noneenon novhak
+ s-launchpad-paulsd-com th-huth
+X-Launchpad-Bug-Reporter: Ethan (ethannij)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160013465143.17527.17390472512040751238.malonedeb@soybean.canonical.com>
-Message-Id: <162580423913.19936.2706368624111937570.malone@loganberry.canonical.com>
-Subject: [Bug 1895602] Re: older OS's do not detect CD change
+References: <160185589302.24503.10461684970761806737.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162580424243.19936.10578222260985412238.malone@loganberry.canonical.com>
+Subject: [Bug 1898490] Re: gtk with virtio and opengl black screen
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe01712f453e3d8fdd7cfee725621d71a8ae3628"; Instance="production"
-X-Launchpad-Hash: 82bbe956956978d20685dcbd77fa6786c7f44846
+X-Launchpad-Hash: 353b0feca251b5867d1cb875e91e960135d2bedd
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1895602 <1895602@bugs.launchpad.net>
+Reply-To: Bug 1898490 <1898490@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,33 +84,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1895602
+https://bugs.launchpad.net/bugs/1898490
 
 Title:
-  older OS's do not detect CD change
+  gtk with virtio and opengl black screen
 
 Status in QEMU:
   Expired
 
 Bug description:
-  There are at least two older operating systems, being FreeBSD 2.2 and
-  FreeDOS 1.2, that misbehave when the change command is used on the IDE
-  CD drive, and work fine on a real machine.  In both cases, changing
-  the CD causes the guest to either refuse to read the disc or appear to
-  read bad data, and in both cases the guest read the disc without issue
-  after a system_reset.
+  qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
+  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
+  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
+  -vga virtio -display sdl,gl=3Don Boots properly and has working 3d
+  acceleration with virgl.
 
-  A HD image that demonstrates this behavior can be produced if
-  necessary, however the FreeDOS 1.2 CD can be booted directly and used
-  to test:
+  Running qemu-system-x86_64 -name manjaro -enable-kvm -cpu host -smp
+  cores=3D4,threads=3D1 -M q35 -m 8G -cdrom /mnt/Storage/ISO/manjaro-
+  gnome-20.0.3-minimal-200606-linux56.iso -machine type=3Dpc,accel=3Dkvm
+  -vga virtio -display gtk,gl=3Don however, (difference being gtk instead
+  of sdl), the screen is black, and the vm still starts.
 
-  http://freedos.org/download/download/FD12CD.iso
+  System Specs
+  Gentoo Linux 64bit
+  Gentoo-Sources 5.8.13 Kernel
+  Qemu 5.10.0-r1 compiled with USE=3D"aio bzip2 caps curl fdt filecaps gtk =
+jpeg ncurses nls opengl oss pin-upstream-blobs png pulseaudio sdl seccomp s=
+lirp spice usb usbredir vhost-net virgl vnc xattr xkb" PYTHON_TARGETS=3D"py=
+thon3_7" QEMU_SOFTMMU_TARGETS=3D"x86_64" QEMU_USER_TARGETS=3D"x86_64"
 
-  (choose install then abort and you get a prompt in which you can type
-  "dir D:", say)
+  Ryzen 7 2700x
+  Nvidia 1070ti GPU
 
-  note, running eject before the change command does nothing to help.
+  I can confirm the same issue when using libvirt with opengl.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1895602/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1898490/+subscriptions
 
