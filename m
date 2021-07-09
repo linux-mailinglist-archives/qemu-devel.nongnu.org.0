@@ -2,49 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0FD3C1F18
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:51:38 +0200 (CEST)
-Received: from localhost ([::1]:41270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737C33C1F10
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 07:47:21 +0200 (CEST)
+Received: from localhost ([::1]:56830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1jQH-0003ku-By
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:51:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
+	id 1m1jM7-0003ls-SL
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 01:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1j7e-000892-2e
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 01:32:22 -0400
-Received: from mga02.intel.com ([134.134.136.20]:63459)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1m1j6j-0004n1-0R; Fri, 09 Jul 2021 01:31:25 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:43619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m1j7Z-0000Hb-Vp
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 01:32:21 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10039"; a="196825153"
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="196825153"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Jul 2021 22:32:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,226,1620716400"; d="scan'208";a="487926818"
-Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2021 22:32:09 -0700
-From: Yang Zhong <yang.zhong@intel.com>
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1m1j6h-0008IU-3b; Fri, 09 Jul 2021 01:31:24 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6DB4B5C00EB;
+ Fri,  9 Jul 2021 01:31:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Fri, 09 Jul 2021 01:31:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
+ :to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=TXhzzxIW+IcWhVU0QMlhUaNeFs
+ 7ytRFgGqBuU9GSSgA=; b=pE4c7ptfpcgzlMesFjGcnMMpxqMLGiVgXUpM4I1pDq
+ mn3TMVyjzHGL92F393QlpR3PCUSMlwXBcMNxjqJWChr2vezWLaW+2S23agK5wpFd
+ JDLfghNM5qDlK7QtwX8Vb+0tydDLZlSr3oBbbXVlEoS6N0Yrg7KqCZ/Zg4+sORNC
+ +3zNeUD8x+/8/wm6HdI974gYHXwu1JbMwUVUobjfS8Ies19UhzmszCV8Fm73h/tb
+ bJAfyzWZxteRmP4L/Clw3mKoI3nr4o1AxIxtrZZoo+QDInlH5sFghMdwaCSfdRl2
+ kvFe78JcyHDaScPXU8PdSftT2TFHG6/UVX17/4nbeT+g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TXhzzxIW+IcWhVU0Q
+ MlhUaNeFs7ytRFgGqBuU9GSSgA=; b=q9sJQmtiNyqHMBcM0u+W4nSDrV5vsjwbw
+ 8Jt3ok2+ZLD9iyak8pmOaNC/LvhgnSmzzD9EFhq9f4Ovam9Up2po5210zn/b0MCp
+ mbxTKFvES4a86VMaPgv2CdGTquo31QJhDcwJmLRYOFhBwMh6rlGNMlKd1i2o5Rkb
+ SFRAXm/JdKdZ7eXdLHK2bhZKBgUICDqvaHmJJWZlMegYQt1/AakfySHp7Km0/7j3
+ HfGTrv3yjVGKWvNy1Ze4241IQLWDhyxtRbRd8Ycy4kAzMIqqdBrQ7s0bFE1zGVYK
+ 8lXQd4qfPKg7xRDkhy8dGQdrUtaZp7owSQdfgmGmlAI4+i2UqlXAA==
+X-ME-Sender: <xms:J9_nYNI7DLNaTYBR4kWs1byjKKT2So6AtXrcnFJ_OfWhjifXZdPxrA>
+ <xme:J9_nYJJAgsPoJNRF6g0ZCV1VRpWTpycHmhjDTIIIvg1dOlExpyCVw5-X1NIAkBVCL
+ WrXUq2tn7YoQpamJg>
+X-ME-Received: <xmr:J9_nYFsCcV4F1MMKp3zWQ2MvWRt0KuPALg4_jDFbaDmzfX_a_VJ8Og3Hv84L72XORUBmwxj-7G5DTKf9R0PSDWJtijYCyMJQcOb25EcgpYxThFnInveiaLtUpNLVwv_D8PL88g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdehgdeijecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghjrdhi
+ ugdrrghuqeenucggtffrrghtthgvrhhnpeekhfeiffejveefveehtdeiiefhfedvjeelvd
+ dvtdehffetudejtefhueeuleeftdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
+ mhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:J9_nYOYuAxnXuAiaLGUBABPUiPTg6xqsd7WHnyoEdpZAdqGCdhb89A>
+ <xmx:J9_nYEZgyW6xzXwBex_ZP_iC_VOHhS6OFOYbzJHMd0g5Wt8owwO1Pw>
+ <xmx:J9_nYCB-qw36KPIVVZkYamGDhX71nFDEE1u1y-akp3jYG3_1mQDYrQ>
+ <xmx:KN_nYMGHuUa6FzTl93qlORDsjyJZr_R4k9y5yVSpuL3hWb6eiAxYnw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 9 Jul 2021 01:31:17 -0400 (EDT)
+From: Andrew Jeffery <andrew@aj.id.au>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3] remote/memory: Replace share parameter with ram_flags
-Date: Fri,  9 Jul 2021 13:28:00 +0800
-Message-Id: <20210709052800.63588-1-yang.zhong@intel.com>
-X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
+Subject: [PATCH 0/2] wdt_aspeed: Fix behaviour of control register
+Date: Fri,  9 Jul 2021 15:01:05 +0930
+Message-Id: <20210709053107.1829304-1-andrew@aj.id.au>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=yang.zhong@intel.com;
- helo=mga02.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=andrew@aj.id.au;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,37 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, pbonzini@redhat.com, philmd@redhat.com,
- peterx@redhat.com, david@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, clg@kaod.org, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: d5015b801340 ("softmmu/memory: Pass ram_flags to
-qemu_ram_alloc_from_fd()")
+Hello,
 
-Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
----
- hw/remote/memory.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I discovered a couple of bugs in the watchdog while testing a tool to poke
+Aspeed BMCs over their various AHB bridges. The immediate observation was that
+the model for the 2500 wasn't signalling use of the fixed 1MHz clock, which is
+resolved in the first patch. The other observation was that sequential writes to
+control weren't sticking if the enable bit wasn't toggled, which is fixed in the
+second patch.
 
-diff --git a/hw/remote/memory.c b/hw/remote/memory.c
-index 472ed2a272..6e21ab1a45 100644
---- a/hw/remote/memory.c
-+++ b/hw/remote/memory.c
-@@ -46,7 +46,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
-         subregion = g_new(MemoryRegion, 1);
-         memory_region_init_ram_from_fd(subregion, NULL,
-                                        name, sysmem_info->sizes[region],
--                                       true, msg->fds[region],
-+                                       RAM_SHARED, msg->fds[region],
-                                        sysmem_info->offsets[region],
-                                        errp);
- 
+Please review.
+
+Andrew
+
+Andrew Jeffery (2):
+  watchdog: aspeed: Sanitize control register values
+  watchdog: aspeed: Fix sequential control writes
+
+ hw/watchdog/wdt_aspeed.c         | 26 ++++++++++++++++++++++++--
+ include/hw/watchdog/wdt_aspeed.h |  1 +
+ 2 files changed, 25 insertions(+), 2 deletions(-)
+
 -- 
-2.29.2.334.gfaefdd61ec
+2.30.2
 
 
