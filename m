@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138A83C205B
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 09:59:50 +0200 (CEST)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42CE3C2099
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 10:14:53 +0200 (CEST)
+Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1lQK-0003RK-VN
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 03:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
+	id 1m1leu-0004W6-EY
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 04:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1lPA-0002Ym-Di
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:58:36 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:58347)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1ldq-0003pN-60
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 04:13:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m1lP8-0003wx-AM
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 03:58:36 -0400
-Received: from [192.168.100.1] ([82.142.13.34]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MkYHO-1lJP1k48uU-00m69B; Fri, 09 Jul 2021 09:58:31 +0200
-Subject: Re: [PATCH] fd-trans: Fix race condition on reallocation of the
- translation table.
-To: Owen Anderson <oanderso@google.com>
-References: <20210701221255.107976-1-oanderso@google.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <a5285163-230f-a50f-663b-820b673b9467@vivier.eu>
-Date: Fri, 9 Jul 2021 09:58:30 +0200
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m1ldm-0002km-M1
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 04:13:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625818420;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zcc9PfRb3oxi1wGMh5iSgMy6bAvrJj+sM2sxMgjJr5c=;
+ b=R//gyYGscQEODXp/6zNjAMAE2xgQr9LUwL1tVkPInwvTaXldfWFtVKZDgREMJYWpTndh5G
+ u1Ruf6iFPdJxaZxy21VOV4qo5omIyM33W1o/hpji7Vs4rB11z+DcWjwyzFKGrRWQ0grV4E
+ G1PUvWOfTWLX6XdlCI1XGH8xmJT8KiY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-473-3mb-BfxoP-6ozNtRtBm4Zg-1; Fri, 09 Jul 2021 04:13:38 -0400
+X-MC-Unique: 3mb-BfxoP-6ozNtRtBm4Zg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m40-20020a05600c3b28b02901f42375a73fso3704260wms.5
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 01:13:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=Zcc9PfRb3oxi1wGMh5iSgMy6bAvrJj+sM2sxMgjJr5c=;
+ b=AgZxauHmiWAn5wURyzXyfYupIIS53mcKyYPs4UsGubk7IyjkvAI1za8U979thDfKxU
+ MUuan2fThvKHPldgPfvros6DIG9WPO3f8ysBUwTWake3WbnOogGPmFCANh2XT+YQULPN
+ ONFIIqgcsKCmfy4+NEb0RAtY0iNlqGYYpq5bI+TR3zfvm2wP6IPVqwAP5gnVOjX+q6+L
+ /L2kQG/eKDlvHnS4KFdo7xYU08/epDbzKN9XZwpardZPSDmWkC5NnGc+TWdMcQo8s/3h
+ g7/wbrZX2km+CEz1vpkhG0KAsKDkxGFBWgUrxsV89ayAWfa9WqrNeCvD7Nse9zbIOzCv
+ ExhA==
+X-Gm-Message-State: AOAM532Kh+/U03LmtsZEJnHYLfmCJXeoRAbwEY1aTi4EjDQ1m3i7iic2
+ vpIlX9YZ23Ser2oJYJR1HFPMy/eZueu8j3mPRmt8C+ZPtpohNsuZSZCmML17IKrn0X/+zMxZiMW
+ PpHhwBwnBTLOjIsU=
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr39044542wrl.303.1625818417328; 
+ Fri, 09 Jul 2021 01:13:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwGWX/vJaG7Gk9dh09Ms5PF6LdpD4TrKSktL579S1i4pmx4g98nU7DkxbKBBaHYfVU0Alb/ZA==
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr39044524wrl.303.1625818417113; 
+ Fri, 09 Jul 2021 01:13:37 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23a45.dip0.t-ipconnect.de. [79.242.58.69])
+ by smtp.gmail.com with ESMTPSA id
+ v1sm4825411wre.20.2021.07.09.01.13.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 09 Jul 2021 01:13:35 -0700 (PDT)
+Subject: Re: [PATCH v3] remote/memory: Replace share parameter with ram_flags
+To: Yang Zhong <yang.zhong@intel.com>, qemu-devel@nongnu.org
+References: <20210709052800.63588-1-yang.zhong@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <32477171-db5b-514f-cb6e-b50bd142dc3e@redhat.com>
+Date: Fri, 9 Jul 2021 10:13:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210701221255.107976-1-oanderso@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+In-Reply-To: <20210709052800.63588-1-yang.zhong@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:5oStar7QDo3VkuhVlqzg4lMKyxRAHjj9V27Y3wq7u5YAnQlAZyy
- hf9f4QfmYNrMc4Lcbg6sSKRYKoQzymmZ5TT5KRBvhTFfWCta6T3AqBywcmeoJ6UKLROmRsC
- /Y8ycbg/N8797BTdFqM59U7DF7EyjE42D/zcE42gWHVWzz8/N+USQVAXQngXkxK6YIEoXKp
- KrRE1QAMR78Jj1GER1+pA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FlxknZ/j1PI=:IAdzes7DGcrgRB6b4WhWet
- T5GP0xzDmCqsUYVoJgy7qpPxcHJlMKhuQIptrPT8xLSi8prRBui/HQRRJgUHzEE+A6fB6Hc18
- cSt6tUCiYVtTbcSASlv/E7YjMi11t7LKPosnwrnJBm4r4qyknfkSnR+Ztc79VJSvRysWZS1Pk
- L8KY02bePAUQA+9FMUYLS0PkADVwIznCqJQnz3zD0xb2cvwTcINBLkhXov4utBLT2IrhmIusR
- INc4zkjpc53/OQa1vNJd+qJQDWJbU50rC7fDxlUwgpu1PrJrJ7ZU72c7CGeh5ulGMxZsDURuM
- /l+MwkkuR9eQ1nGLW/b82b3J1khFkontgthMK2BmV7JDEUQobhXuwxiuEAzlzbrlTxsUiMkAh
- zmXxZ2Uh3k12yW2gkFfHeFndhhqABxuakL4yo0FQ51D9ZgH9Qbowfjv5gTC3Co/EfU1FFVj4L
- RVZqnWtkSgtY84lhnhBm3jskoozDqBswmFkB0kUmecS6SRwXfel9BdecTYdfRd8veBBTNljlk
- GRqBMEYW8TSXnPS6ZrqdVa9cKB7j5V6xyp+DQjTU6p7tYqjWBtRc2+VVNnc9pzR9SQC5BrWP4
- DtRjLQkMPlCChcVkfaXG8EtNlxTSjpeg22YOfVlgshKeoDwazdI8LW5jSG6GtD3w2vc1DMgsp
- RMDQmtjCc2Mt83pzE/1/5JecuDMgQVDxJTYQzv33Pg7cd5Z7jaqqMHA+mKuQugfg0XZcEUg69
- D/0LLjNHue7cG8L1yVfQ+PR6qEhrUKRTDUgmz7uLXsI2IAW+FqxeYJxyWDk7hN1R+Ph2QffNE
- nN0oTX2gCBq+PLPVCsIY7BJHhfonTbD8sI+K80oMpQiNJmOB3WhSsqWvySjmdHZFkieeMqg
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,169 +99,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, philmd@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/07/2021 à 00:12, Owen Anderson a écrit :
-> The mapping from file-descriptors to translator functions is not guarded
-> on realloc which may cause invalid function pointers to be read from a
-> previously deallocated mapping.
+On 09.07.21 07:28, Yang Zhong wrote:
+> Fixes: d5015b801340 ("softmmu/memory: Pass ram_flags to
+> qemu_ram_alloc_from_fd()")
 > 
-> Signed-off-by: Owen Anderson <oanderso@google.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
 > ---
->  linux-user/fd-trans.c |  1 +
->  linux-user/fd-trans.h | 55 +++++++++++++++++++++++++++++++++++++------
->  linux-user/main.c     |  3 +++
->  3 files changed, 52 insertions(+), 7 deletions(-)
+>   hw/remote/memory.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-> index 23adaca836..86b6f484d3 100644
-> --- a/linux-user/fd-trans.c
-> +++ b/linux-user/fd-trans.c
-> @@ -267,6 +267,7 @@ enum {
->  };
->  
->  TargetFdTrans **target_fd_trans;
-> +QemuMutex target_fd_trans_lock;
->  unsigned int target_fd_max;
->  
->  static void tswap_nlmsghdr(struct nlmsghdr *nlh)
-> diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
-> index a3fcdaabc7..1b9fa2041c 100644
-> --- a/linux-user/fd-trans.h
-> +++ b/linux-user/fd-trans.h
-> @@ -16,6 +16,8 @@
->  #ifndef FD_TRANS_H
->  #define FD_TRANS_H
->  
-> +#include "qemu/lockable.h"
-> +
->  typedef abi_long (*TargetFdDataFunc)(void *, size_t);
->  typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
->  typedef struct TargetFdTrans {
-> @@ -25,12 +27,23 @@ typedef struct TargetFdTrans {
->  } TargetFdTrans;
->  
->  extern TargetFdTrans **target_fd_trans;
-> +extern QemuMutex target_fd_trans_lock;
->  
->  extern unsigned int target_fd_max;
->  
-> +static inline void fd_trans_init(void)
-> +{
-> +    qemu_mutex_init(&target_fd_trans_lock);
-> +}
-> +
->  static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
->  {
-> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
-> +    if (fd < 0) {
-> +        return NULL;
-> +    }
-> +
-> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-> +    if (fd < target_fd_max && target_fd_trans[fd]) {
->          return target_fd_trans[fd]->target_to_host_data;
->      }
->      return NULL;
-> @@ -38,7 +51,12 @@ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
->  
->  static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
->  {
-> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
-> +    if (fd < 0) {
-> +        return NULL;
-> +    }
-> +
-> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-> +    if (fd < target_fd_max && target_fd_trans[fd]) {
->          return target_fd_trans[fd]->host_to_target_data;
->      }
->      return NULL;
-> @@ -46,13 +64,19 @@ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
->  
->  static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
->  {
-> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
-> +    if (fd < 0) {
-> +        return NULL;
-> +    }
-> +
-> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-> +    if (fd < target_fd_max && target_fd_trans[fd]) {
->          return target_fd_trans[fd]->target_to_host_addr;
->      }
->      return NULL;
->  }
->  
-> -static inline void fd_trans_register(int fd, TargetFdTrans *trans)
-> +static inline void internal_fd_trans_register_unsafe(int fd,
-> +                                                     TargetFdTrans *trans)
->  {
->      unsigned int oldmax;
->  
-> @@ -67,18 +91,35 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
->      target_fd_trans[fd] = trans;
->  }
->  
-> -static inline void fd_trans_unregister(int fd)
-> +static inline void fd_trans_register(int fd, TargetFdTrans *trans)
-> +{
-> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-> +    internal_fd_trans_register_unsafe(fd, trans);
-> +}
-> +
-> +static inline void internal_fd_trans_unregister_unsafe(int fd)
->  {
->      if (fd >= 0 && fd < target_fd_max) {
->          target_fd_trans[fd] = NULL;
->      }
->  }
->  
-> +static inline void fd_trans_unregister(int fd)
-> +{
-> +    if (fd < 0) {
-> +        return;
-> +    }
-> +
-> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-> +    internal_fd_trans_unregister_unsafe(fd);
-> +}
-> +
->  static inline void fd_trans_dup(int oldfd, int newfd)
->  {
-> -    fd_trans_unregister(newfd);
-> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-> +    internal_fd_trans_unregister_unsafe(newfd);
->      if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
-> -        fd_trans_register(newfd, target_fd_trans[oldfd]);
-> +        internal_fd_trans_register_unsafe(newfd, target_fd_trans[oldfd]);
->      }
->  }
->  
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 2fb3a366a6..37ed50d98e 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -48,6 +48,7 @@
->  #include "target_elf.h"
->  #include "cpu_loop-common.h"
->  #include "crypto/init.h"
-> +#include "fd-trans.h"
->  
->  #ifndef AT_FLAGS_PRESERVE_ARGV0
->  #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
-> @@ -829,6 +830,8 @@ int main(int argc, char **argv, char **envp)
->      cpu->opaque = ts;
->      task_settid(ts);
->  
-> +    fd_trans_init();
-> +
->      ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
->          info, &bprm);
->      if (ret != 0) {
+> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+> index 472ed2a272..6e21ab1a45 100644
+> --- a/hw/remote/memory.c
+> +++ b/hw/remote/memory.c
+> @@ -46,7 +46,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+>           subregion = g_new(MemoryRegion, 1);
+>           memory_region_init_ram_from_fd(subregion, NULL,
+>                                          name, sysmem_info->sizes[region],
+> -                                       true, msg->fds[region],
+> +                                       RAM_SHARED, msg->fds[region],
+>                                          sysmem_info->offsets[region],
+>                                          errp);
+>   
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Just an info: no need to resend for added RBs or ACKs. The maintainer 
+will usually simply pick them up while picking up your patch. :)
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
