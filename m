@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F53A3C2648
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:50:35 +0200 (CEST)
-Received: from localhost ([::1]:39556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5753C2625
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:42:35 +0200 (CEST)
+Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rpq-0001Ii-Bl
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49684)
+	id 1m1ri6-0007ON-T0
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdZ-000577-3x
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:53 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43926)
+ id 1m1rdJ-0004cm-5u
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:37 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rdR-0000Gh-4F
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:52 -0400
-Received: by mail-wr1-x429.google.com with SMTP id a13so12426510wrf.10
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:44 -0700 (PDT)
+ id 1m1rdC-0000AE-Mr
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:36 -0400
+Received: by mail-wr1-x432.google.com with SMTP id r11so7193402wro.9
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QRopgnAuRpqjJ5MAitTX29dKnbdmWON3ciEwighPhUk=;
- b=wUy7RXdKogMqUjnYo9mo0WvZrU9dg/zQfXh8FP3tMXruXGMEmm3s1OD6MqAf6LZHT0
- ELzc99x1rgH7gnrrTtQtLGtJLbO1HVTncaRIL4b2chKtLE5DlUKsjZtcuQJ94R8FAU2E
- i90ktvNTQDFn92dkUYbRe3ZUjw1LevXYbFnmJnXN5a/oly0CQU81OE8eOCLt8an2POUO
- VX60LlCK5Y3OGMmXcJlmPiJvrGqNSwEcWathUQKLeKaLuHBFshIcYnLOBvmZ7U0CUBJr
- q3r9LIZ+i7mdCZcPaY4w/0TAn9Za+Re3VoThYjb1NquJ18NXWph6OadAbo+otT7dfFCO
- J3jQ==
+ bh=OsQYMRRF2LqfhugUabYWk+fOdkK5koC/O99HVRocaM4=;
+ b=AXYceRNDEgMmf7p8r8O9MlDFNaWM+9qmgYn5tmPh0fVPJgZPw2JcCR/DpUftBiZLFG
+ 6oEDaCVwEZzj1Vv6W6YN1GLKDMGNBkKYPf3grerhMqUBGcARF+he+ocEggAuA8llt1rN
+ UYL7rgnc11d+Z40+TcDmn4H1wXyptsS74fNyyIMehtFPg3qaDM+h8S6/kvuoQ/Cv7Dil
+ 34NLaL3Arl0nDjJJUc039sxAG4/0rZW2twd1lu3a/w3OEIo/RczQ6WpWpSu0THu/CrWS
+ uR1okzi/slFVDGPBrrJ4wquPCMDs/58cUHkW1ABlRyp7qejklD0rB9N4irMlpdf1HdDg
+ Tbpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QRopgnAuRpqjJ5MAitTX29dKnbdmWON3ciEwighPhUk=;
- b=MoG31Ll9spur53EHHZN/Qsj6Muech+kxZHSV/tGdVFCZZ+8+KPGOOC48kpDCVbuRT7
- VOxsftzxw0YntT2aI0sbPENwlvcgaNtV2FkA4cOxbjjX5tqnimwni/kK/45FhDABfftr
- KtJYuZ7oQNgCjhShXhXIKvEL7RGz3eSP2yPyBakDcgmKjGGIvmdkfNJj+MrNfEwlItMp
- SrWwui0d1MIX3WNh/PHh8ZthxAIBwD/3LLMiOsoNb2PPRoEZCNzzM1/lPTDDHunb8Pzz
- nnutfjMjkd/wKVIG7TZ5pmxm5bPJYoLENWN3npUlDu7gX6RrKY9aeqd9uFhWgcqwbR2d
- jcSQ==
-X-Gm-Message-State: AOAM5331gRVlBjrkEIVTrGNRqPM0hbbLIDFL5b7aRnld7QaPkq0Y70/b
- Y9HxFwxl1V/ravIlsl+FDJNeAA==
-X-Google-Smtp-Source: ABdhPJwZ1xUcELkIFr9RUfB6icNzIWGV9XjvTIYKfxwkUwMlFJJbnMXo8B4zXT4IZPmQEJFAQfZORg==
-X-Received: by 2002:adf:e107:: with SMTP id t7mr42169485wrz.165.1625841463428; 
- Fri, 09 Jul 2021 07:37:43 -0700 (PDT)
+ bh=OsQYMRRF2LqfhugUabYWk+fOdkK5koC/O99HVRocaM4=;
+ b=jCAqoaCf2LsTzMrOStsZo2/ed/WcaC5KsyZpkJoBJIJ3ffSbjNdvPMKXyHUbHQ3JRI
+ IMN7RFDBFkzHI5A2X4AHjfPhL6lDkCMm63No7eSL9MposJZZ1W9pWBYD7lhLp3PM30WA
+ xebDRzOAjT5YMAiqFWn/tyZKggN9qTn7aSObA2sJRViY8ybNPcyNjW7wqXEWZyVFeHa1
+ lC128/wWKW2BJ7qrlsGh1Mgc7REbY+2yyddc5qqed3MowulKUFOmKu7MbE5swPzCzLOb
+ RTjUJnE1ktI/fOHNmr9Xn4el/ZPm8w6DkIhDYZoLIPx4on9o7zgyOWSVOMHWFITIFf31
+ WFrQ==
+X-Gm-Message-State: AOAM532lbDxHemBDQJhuehKSQfwVt3hZ2nc2D5KNlNt83Hc5KYTGYXGd
+ TplnJTQ+jCHUf60Y4tRp93vG0Q==
+X-Google-Smtp-Source: ABdhPJwhkUod1Qmj4Okkvjtn45Y3c0XdWodr0F38wNH6WyvIEXmSMQYgQf3oej3b5pib8BbFw1vv9g==
+X-Received: by 2002:a05:6000:1379:: with SMTP id
+ q25mr40964293wrz.188.1625841448181; 
+ Fri, 09 Jul 2021 07:37:28 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x1sm12584109wmc.0.2021.07.09.07.37.31
+ by smtp.gmail.com with ESMTPSA id u16sm6544980wrw.36.2021.07.09.07.37.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 07:37:41 -0700 (PDT)
+ Fri, 09 Jul 2021 07:37:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2F63F1FFAA;
+ by zen.linaroharston (Postfix) with ESMTP id 696371FFAB;
  Fri,  9 Jul 2021 15:30:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 23/40] tests/docker: expand opensuse-leap package list
-Date: Fri,  9 Jul 2021 15:29:48 +0100
-Message-Id: <20210709143005.1554-24-alex.bennee@linaro.org>
+Subject: [PATCH  v3 24/40] tests/vm: update NetBSD to 9.2
+Date: Fri,  9 Jul 2021 15:29:49 +0100
+Message-Id: <20210709143005.1554-25-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,148 +87,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, minyihh@uci.edu,
- berrange@redhat.com, kuhn.chenqun@huawei.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
- robhenry@microsoft.com, Willian Rampazzo <willianr@redhat.com>,
- mahmoudabdalghany@outlook.com, aaron@os.amperecomputing.com, cota@braap.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, ma.mandourr@gmail.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, aaron@os.amperecomputing.com, mahmoudabdalghany@outlook.com,
+ Gerd Hoffmann <kraxel@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, minyihh@uci.edu, cota@braap.org,
+ Reinoud Zandijk <reinoud@netbsd.org>, Brad Smith <brad@comstyle.com>,
+ Thomas Huth <thuth@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ kuhn.chenqun@huawei.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, berrange@redhat.com,
+ f4bug@amsat.org, robhenry@microsoft.com, pbonzini@redhat.com,
+ ma.mandourr@gmail.com, Ryo ONODERA <ryoon@netbsd.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Brad Smith <brad@comstyle.com>
 
-This is the fully expanded list of build pre-requisites QEMU can
-conceivably use in any scenario.
+tests/vm: update NetBSD to 9.2
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-16-berrange@redhat.com>
+Signed-off-by: Brad Smith <brad@comstyle.com>
+Message-Id: <YLe+LZ/j0pxVGeBi@humpty.home.comstyle.com>
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Acked-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/opensuse-leap.docker | 59 ++++++++++++++++++-
- 1 file changed, 58 insertions(+), 1 deletion(-)
+ tests/vm/netbsd | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 6011447181..5a8bee0289 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -2,53 +2,110 @@ FROM registry.opensuse.org/opensuse/leap:15.2
+diff --git a/tests/vm/netbsd b/tests/vm/netbsd
+index b9efc269d2..4cc58df130 100755
+--- a/tests/vm/netbsd
++++ b/tests/vm/netbsd
+@@ -22,8 +22,8 @@ class NetBSDVM(basevm.BaseVM):
+     name = "netbsd"
+     arch = "x86_64"
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-+    Mesa-devel \
-+    alsa-lib-devel \
-     bc \
-     brlapi-devel \
-     bzip2 \
-+    ca-certificates \
-     ccache \
-+    clang \
-+    ctags \
-     cyrus-sasl-devel \
-+    dbus-1 \
-+    diffutils \
-+    findutils \
-     gcc \
-     gcc-c++ \
-+    gcovr \
-     gettext-runtime \
-     git \
-     glib2-devel \
-+    glibc-locale \
-+    glibc-static \
-     glusterfs-devel \
-     gtk3-devel \
-+    hostname \
-+    jemalloc-devel \
-     libSDL2-devel \
-     libSDL2_image-devel \
-     libaio-devel \
-+    libasan6 \
-     libattr-devel \
-+    libbpf-devel \
-+    libbz2-devel \
-+    libcacard-devel \
-     libcap-ng-devel \
-+    libcurl-devel \
-+    libdrm-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libffi-devel \
-+    libgcrypt-devel \
-     libgnutls-devel \
-     libiscsi-devel \
-     libjpeg8-devel \
-+    libndctl-devel \
-+    libnettle-devel \
-+    libnfs-devel \
-     libnuma-devel \
-     libpixman-1-0-devel \
-     libpmem-devel \
-     libpng16-devel \
-+    libpulse-devel \
-     librbd-devel \
-     libseccomp-devel \
-     libspice-server-devel \
-     libssh-devel \
-+    libtasn1-devel \
-+    libubsan1 \
-+    libudev-devel \
-+    libusb-1_0-devel \
-+    libxml2-devel \
-+    libzstd-devel \
-+    llvm \
-+    lttng-ust-devel \
-     lzo-devel \
-     make \
-     mkisofs \
-+    ncat \
-     ncurses-devel \
-     ninja \
--    perl \
-+    openssh \
-+    pam-devel \
-+    perl-Test-Harness \
-+    perl-base \
-+    pkgconfig \
-+    python3-Pillow \
-+    python3-PyYAML \
-+    python3-Sphinx \
-     python3-base \
-+    python3-numpy \
-+    python3-opencv \
-+    python3-pip \
-+    python3-setuptools \
-+    python3-sphinx_rtd_theme \
-     python3-virtualenv \
-+    python3-wheel \
-     rdma-core-devel \
-+    rpm \
-+    sed \
-     snappy-devel \
-+    sparse \
-+    spice-protocol-devel \
-     systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-+    tesseract-ocr \
-+    tesseract-ocr-traineddata-english \
-+    texinfo \
-     usbredir-devel \
-+    util-linux \
-     virglrenderer-devel \
-     vte-devel \
-+    which \
-     xen-devel \
-+    xfsprogs-devel \
-     zlib-devel
- ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
- 
+-    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.1/images/NetBSD-9.1-amd64.iso"
+-    csum = "65bddc95945991c3b2021f9c8ded7f34c25f0a7611b7aa15a15fe23399e902307e926ae97fcd01dc1662ac67b5f6e4be643c6a2b581692ddcb616d30125066f9"
++    link = "https://cdn.netbsd.org/pub/NetBSD/NetBSD-9.2/images/NetBSD-9.2-amd64.iso"
++    csum = "5ee0ea101f73386b9b424f5d1041e371db3c42fdd6f4e4518dc79c4a08f31d43091ebe93425c9f0dcaaed2b51131836fe6774f33f89030b58d64709b35fda72f"
+     size = "20G"
+     pkgs = [
+         # tools
 -- 
 2.20.1
 
