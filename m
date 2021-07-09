@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FAC3C240F
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:13:55 +0200 (CEST)
-Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E42CB3C23F2
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 15:03:49 +0200 (CEST)
+Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1qKI-00013d-Pj
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:13:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57548)
+	id 1m1qAU-00082Q-DN
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 09:03:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pz3-0004jW-8e
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pz3-0004jX-GF
  for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:51:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35518)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pz1-0003eF-70
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m1pz1-0003e4-6V
  for qemu-devel@nongnu.org; Fri, 09 Jul 2021 08:51:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1625835114;
@@ -23,28 +23,28 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KQuJCjDrGSiSFIC6CCRUFouFtwiOu1LLZbr/eMafehk=;
- b=carqZ7s9qmvaokrghmMLrYolMgWkAMouek+iqE9dkyfuE7o2CXgPPdqn3tyAXkWmttJxlD
- p9FStmwDwA56+Pbh3YQmFxawJqlyEiYhoAbVGBCPWHFVKdyj6rtXXcmzCajODZiEIJazWN
- R6UIhFqHeeBC3T3B4lE4IQv4e5BZZkY=
+ bh=EUjYRrPh/uMXJj5DcnYCcs6U4CPI7sd0Nwrnp8gCfz0=;
+ b=cZMj7bNJ1xmB+WS32L3XWWfkXUc18/BglYSOeKrMXlFpauc7yNl4CuODs4gdV054DvHTH2
+ 0nAkGy+uvI9gfNFfc0V+YlzEQdEvnYHVXYRdynRijG0Va/usqVF+M2N2eMMijTradhe3ig
+ c/9zCF4ITKsjTe1EgfpZuQFuFz46OMc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-MrQX2O9rNP6YjrGP2lYM9g-1; Fri, 09 Jul 2021 08:51:50 -0400
-X-MC-Unique: MrQX2O9rNP6YjrGP2lYM9g-1
+ us-mta-156-10h-n_meNdePR-Ysbh4V7w-1; Fri, 09 Jul 2021 08:51:52 -0400
+X-MC-Unique: 10h-n_meNdePR-Ysbh4V7w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4126801107;
- Fri,  9 Jul 2021 12:51:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64CB2100C660;
+ Fri,  9 Jul 2021 12:51:51 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-203.ams2.redhat.com [10.36.113.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6E16760843;
- Fri,  9 Jul 2021 12:51:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1632B60843;
+ Fri,  9 Jul 2021 12:51:49 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 16/28] block/rbd: fix type of task->complete
-Date: Fri,  9 Jul 2021 14:50:23 +0200
-Message-Id: <20210709125035.191321-17-kwolf@redhat.com>
+Subject: [PULL 17/28] MAINTAINERS: add block/rbd.c reviewer
+Date: Fri,  9 Jul 2021 14:50:24 +0200
+Message-Id: <20210709125035.191321-18-kwolf@redhat.com>
 In-Reply-To: <20210709125035.191321-1-kwolf@redhat.com>
 References: <20210709125035.191321-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,29 +82,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Lieven <pl@kamp.de>
 
-task->complete is a bool not an integer.
+adding myself as a designated reviewer.
 
 Signed-off-by: Peter Lieven <pl@kamp.de>
-Message-Id: <20210707180449.32665-1-pl@kamp.de>
-Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
+Message-Id: <20210707180449.32665-2-pl@kamp.de>
+Acked-by: Ilya Dryomov <idryomov@gmail.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/rbd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/rbd.c b/block/rbd.c
-index 01a7b94d62..dcf82b15b8 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -1066,7 +1066,7 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
- static void qemu_rbd_finish_bh(void *opaque)
- {
-     RBDTask *task = opaque;
--    task->complete = 1;
-+    task->complete = true;
-     aio_co_wake(task->co);
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 86ec36a062..0e9f338e32 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3061,6 +3061,7 @@ F: block/vmdk.c
  
+ RBD
+ M: Ilya Dryomov <idryomov@gmail.com>
++R: Peter Lieven <pl@kamp.de>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/rbd.c
 -- 
 2.31.1
 
