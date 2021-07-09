@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24AB3C270A
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:45:18 +0200 (CEST)
-Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 751113C270C
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 17:47:04 +0200 (CEST)
+Received: from localhost ([::1]:45084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1sgo-00067Q-1v
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:45:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32868)
+	id 1m1siV-0007pX-GZ
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 11:47:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1sfY-0004hD-CW
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:44:00 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:41781)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1shQ-000750-7F
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:45:56 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m1sfW-0005Wh-R8
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:44:00 -0400
-Received: by mail-pl1-x629.google.com with SMTP id z2so2307100plg.8
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 08:43:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m1shO-0006Vl-Ko
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 11:45:55 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id i20so16982281ejw.4
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 08:45:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LuhcCMpt2x77Hes0d/MHS8FkZqV2ika15hSqmzaeWBs=;
- b=rkXpJB6yqSnsTyNEIv0TvL6EvJLDmNdE5CnrqRaBURNcd3V1jCg9rPI+NYZAB5ezIW
- IH0JAOigJcptebvUUF+5TdelngVZ9sSOhnDYvYj+KMbulu+kfYlmhJZrDX1w/AWUP0vF
- iXXuyssYZG/m0qQGQP8+5pkNPqmrw5/JkcKC+flKtIiBAqetT43UBUKohPmEf9qrnjh7
- rUiiUuU/v0MbhO5jQnxXLBtpdQkwCxDydb7bq3vGj2a8r0CaBOoVApBGp9OiJPlMWlBo
- DQcu5+BDlMfnQaEtQh4kMek4WhM56fycEnZECmbFo7IKV3CAz6+/fRUsrgbPDgG8aZ7y
- bEQw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=H1PTYtBri0Ev9+RXXtQ5rwXmADgTHRmYvYIYjzB8wIQ=;
+ b=laWWO7llCp687zkn70kOBnwOCiUEkKqeU+kQJQ7h92CXVb5ZuUKB+51PUDGXAYEFhU
+ 8maTzF88yN0VqIY4XfO2wyHr6YfkcLL3oCsH+KKe1qTnInMPPECUke4oi2UUZO9Jkkm6
+ XZEDhP7x9qn78krygIoPVx0kQULzKG+trtDuo4DxBcGmj3SZ7YWNlCxAfYHNLw9agdsv
+ ParYQrEw4nLWZ0W/TZ6LqHBHQmSN+3n3+OHuUlYk42whk0Udjib9uvfufeNDBFZtIVsM
+ OOJlgF1stOOK6B5IKUsZtvoDH9AxLimRGPBbw9I1lsfC1+DkAQh6kHeTrGYYLTcTi4Yw
+ NxuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LuhcCMpt2x77Hes0d/MHS8FkZqV2ika15hSqmzaeWBs=;
- b=mSL/9Ce9BTPXjyYtu7Gi1whcmBl6ab51/VaPid75UcQ2PiCApSz7Z9nzb37UdTPcjU
- 2nsQCNjClnL/wFJemb4R/GuMV/GkTiNa9jqv/cTU/Zv1IJ/uE7KP5egXqhrXXEI6+5Gs
- psnrlrKr/czWPpzr6XM+kNlE7HBh3nP/I8VP+fTD9V8+WBy7xujU+gpqTAlBgSN5e4FF
- yQ475T/b5fDWgDiOLUxUJZcsEnnHXevCc1CeaAPw/kFXE75PuppKEvji2y8ajRg3JBNK
- HZx1M3AGN35pDxQTngpcPap+CVF8cfgqLyRXFBfo0dmg/mL2m70hT65l3kCh6yjG42Gh
- 3WtA==
-X-Gm-Message-State: AOAM531MkFjgRdxa3QZOZpVttFL+QRijzKub6KbHNS6kZtY+WKiboLht
- yYKRxpJXgokv5sLCZhqjA8njlQ==
-X-Google-Smtp-Source: ABdhPJxw22buaPBCyhdxaDjgs/yvNhNSFskQZTBwtaI4hJD4Xu4Q8Z67ZfXCGZaKvDvP2N+NLJ7bqQ==
-X-Received: by 2002:a17:902:b58f:b029:12a:d11d:51d0 with SMTP id
- a15-20020a170902b58fb029012ad11d51d0mr5616207pls.42.1625845437283; 
- Fri, 09 Jul 2021 08:43:57 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id c141sm7011898pfc.13.2021.07.09.08.43.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 09 Jul 2021 08:43:56 -0700 (PDT)
-Subject: Re: [PATCH v1 5/5] hw/intc: ibex_timer: Convert the timer to use
- RISC-V CPU GPIO lines
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
- <85c77d5c22719a8a93561f5fbe4d0bc0d63b6266.1625801410.git.alistair.francis@wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dd6cc6eb-ff90-d7f3-9f0f-e35f9691554d@linaro.org>
-Date: Fri, 9 Jul 2021 08:43:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=H1PTYtBri0Ev9+RXXtQ5rwXmADgTHRmYvYIYjzB8wIQ=;
+ b=sHVFMFxWYZ+0dGUZV/0PGOlZkBOJoTskwehBNhszGxyxA3jhSMK2GDdUWunmNgU6+j
+ U13HKbqp8k54W5Oc1NX3nJEGqMBBPrc6CmdwdVIavnhiJdXMUyWWBwIckHdtFgyEk4gX
+ Cvaka7Dp5ayOP/J1ygRLQRP9mou1HYypORMsonYex6guwytzf4D7gBIrbjPTD6r2a7qv
+ lVAWH+GTAwC9eX1FoiP+YyUUtD963wYCJ2z1ruA64Q6LvSkRjTwvxGuo9GFU1r7147TK
+ cP4zF1uS2Zt0Y+yz/i8wYL89f4soQbLwjunMlYcsolAAfsLXfTrOSGqxh6uv2lws1K4x
+ saSw==
+X-Gm-Message-State: AOAM533FoWEVYk55JzjOGYUDr4Sy9xPI6uBw1H9Op4ita7sDY+Idt1Y5
+ d4Ak4f5YtUYGC4hYk/1B0eNFPMjfRc/v97ZQvRYoOg==
+X-Google-Smtp-Source: ABdhPJzVOWdrwyPYhe1wEc5JlskTUDFgQKv0ndqeoaOLvIkJV/WjiMBWXxCCimoRtzCzpVF5kZEFQhsTKMRjFWbPUmk=
+X-Received: by 2002:a17:906:924a:: with SMTP id
+ c10mr20913786ejx.85.1625845553099; 
+ Fri, 09 Jul 2021 08:45:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <85c77d5c22719a8a93561f5fbe4d0bc0d63b6266.1625801410.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+References: <20210708151748.408754-1-pbonzini@redhat.com>
+In-Reply-To: <20210708151748.408754-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 9 Jul 2021 16:45:14 +0100
+Message-ID: <CAFEAcA_jiK+scAPgAO2tQB1Uwgvy4F3fVbwvpDK+nx4Sa2cJEQ@mail.gmail.com>
+Subject: Re: [PULL 00/48] Misc patches for QEMU 6.1 soft freeze
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,22 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 8:31 PM, Alistair Francis wrote:
-> @@ -48,5 +48,7 @@ struct IbexTimerState {
->       uint32_t timebase_freq;
->   
->       qemu_irq irq;
-> +
-> +    qemu_irq m_timer_irqs;
+On Thu, 8 Jul 2021 at 16:21, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 81224eaca6675978489cd7c6172f17ca1f54b494:
+>
+>   configure: allow the selection of alternate config in the build (2021-07-08 14:01:52 +0200)
+>
+> ----------------------------------------------------------------
+> * More SVM fixes (Lara)
+> * Module annotation database (Gerd)
+> * Memory leak fixes (myself)
+> * Build fixes (myself)
+> * --with-devices-* support (Alex)
+>
 
-The plural here is a bit misleading.  Otherwise,
+New warnings in the docs build:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+/home/pm/qemu/docs/../include/qemu/module.h:127: warning: Function
+parameter or member 'name' not described in 'module_arch'
+/home/pm/qemu/docs/../include/qemu/module.h:127: warning: Excess
+function parameter 'arch' description in 'module_arch'
 
+The macro parameter and the name used in the doc comment
+don't match.
 
-r~
+thanks
+-- PMM
 
