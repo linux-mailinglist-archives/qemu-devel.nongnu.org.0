@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5024A3C262A
-	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:44:23 +0200 (CEST)
-Received: from localhost ([::1]:47226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26FE3C2634
+	for <lists+qemu-devel@lfdr.de>; Fri,  9 Jul 2021 16:47:35 +0200 (CEST)
+Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m1rjq-0002B4-8u
-	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48514)
+	id 1m1rmx-0001dd-01
+	for lists+qemu-devel@lfdr.de; Fri, 09 Jul 2021 10:47:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWa-000508-J9
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:40 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55064)
+ id 1m1rdR-0004q8-Em
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:45 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m1rWS-0005ai-3U
- for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:30:40 -0400
-Received: by mail-wm1-x332.google.com with SMTP id k32so3253400wms.4
- for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:30:29 -0700 (PDT)
+ id 1m1rdK-0000Dq-5G
+ for qemu-devel@nongnu.org; Fri, 09 Jul 2021 10:37:45 -0400
+Received: by mail-wr1-x429.google.com with SMTP id a13so12426005wrf.10
+ for <qemu-devel@nongnu.org>; Fri, 09 Jul 2021 07:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vkh+QsJsZ9gD8kp+cvBC59Qmlqe+1EP3ZHDMKhG7zhs=;
- b=BQCTmaboIE3f31NI7DH2eYzek+nujMmyXPnHp2Q4/Y6ZF+C+ow2c/iSi2yfid3I14X
- s0ZvBGpMZcFSVXWIhgAPN+I6QsUkXvQvmoiK31vy13T2kdzKA8jBBL+JRsrdOjJVSoo8
- mcj1n12X/EwkK/8EI7KSP7eRrJAo6QUiEn4AkotKjw2poIvntBv4c0Vlu5eW1NJcloLE
- d7I2aOj8nRG317vqpmAcuP7RCQazDZIhka1wgFwo4XvUAH8rAqir0ak0733MbwR/HWjg
- x80gN1acgIkCOJD0HERTOm+JNCyMkyJj1498vNNlpTXGup2bfkBtt1eVb4eNpuzheO04
- k4UA==
+ bh=7OPU4as02HZtXljAleSB6EF+rLr9JRR7CPBqu3EwDbk=;
+ b=g1IkrS/pBLh8PjekjpNkTTq4yR4EhUaLxX3OQWDEGinrdjB8K250OoIPeMhFNL0ZgC
+ h19Qke/V57RKUPxqKWQgQAvcJIMMdP7Et87ZDA+a4lsv0GEsnRW3kLmKvBV+MNugJKi1
+ cfZL86jrArJmLCTSr5l5v3fb+gqCbzlw0X+6YzFILTnYzP9afBPyigJc5MfjzJ/alrZl
+ 5+OMsKFlE8G0uq92kgH+30etVo2PhM0ID33xoFABekItXf49CrsfrLiC7c2V9lK59vuM
+ Ey7bjE0zC8hRDu5lnideRQAeAEHu1Mi1G5iH8Kl3uq69pUryjppjJ2Snt1aqjOY2idzf
+ seLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vkh+QsJsZ9gD8kp+cvBC59Qmlqe+1EP3ZHDMKhG7zhs=;
- b=hieMqKI96kN0jTHPseu3HF5WBR4rQ6U06iLDQaY8ZJp4bgkEAd4N3hXxVBsPJlWUpR
- mJ1A3n24VBYDhv7X8Uva/Z8e/0klBCckgPvKnmyDQwXWndSovyo44ma3Rr53cOWQONgO
- XaQd0X9ymlRRIn48ca99nVv86HqsyhYmjo6Wdbywt4JoC4HtHFabYWSUNQXDuKOX+PPu
- vUhWA070NJFmixL51jIZ6A8uornRcOoH475JFTVJL0eLYRknBDBFarLh7lde7z6vKm22
- EYYrkAwFw+TiTno9FulPAN1jUDLICI3OVaW4C8kqdRVTjSwqzCFQBsiF22a6SHQQiuGU
- 2M2A==
-X-Gm-Message-State: AOAM533rbv1Kt+99g9r6UxM2ngg+JyTd22M31GfVkkKqj5wLqclY1hYJ
- +eQ5r4dyzv4XCiniG5ww6hG9yw==
-X-Google-Smtp-Source: ABdhPJxvkL1/fTy8l5mC8YPFsVyBNbA3CNzLSf2kRicwtJPeVDR1fGNrlfIi3X5GUd1VLcypDYcedQ==
-X-Received: by 2002:a05:600c:154b:: with SMTP id
- f11mr12635622wmg.82.1625841028419; 
- Fri, 09 Jul 2021 07:30:28 -0700 (PDT)
+ bh=7OPU4as02HZtXljAleSB6EF+rLr9JRR7CPBqu3EwDbk=;
+ b=eHQAzqKtpTH6Lr/p1wtsnn1ZXw8tqXksEaKxLRdqKLb7ujg+jEmv05zgolnKsqbM/3
+ +V3E3BRQWNieEkVhLglGJv/pVYj4hwuv2gkJB2JIiY8tzNW1HNnS7QV3AqHc8hjAXdqx
+ IzKePmxMxvQipph5Qatp1I9eEHZWuUoe+4GJdvRtQsuzYsSIh5/7ZguFSCE25hJlNmxc
+ 423S8v6JX5rA5mUwhnlTl6tWTra/8Rtk5fRsasjToC1UiRH5aZSJCzSDzyku5nhNW1/u
+ 7W8jyE9D9+qVVeuUWw4aL2Sv2iKQyxqGsDZZ1pLc0Y0nk1+4qbFtnKdrXecltFOR/9/A
+ 3Dnw==
+X-Gm-Message-State: AOAM531EuQo7BGXfuIlHl+onj5Jqp9E7MkvnGxkntdGiv+W47OY+i4Bx
+ yb6Xsfqf+ikFnCN77LhaiG6DTQ==
+X-Google-Smtp-Source: ABdhPJz1DDuizRgZrXKzBVrdb02as+Odu2vr1GQ7kaQat1isblp46hGGFSM+ykbhPISrxg+/qJP/wg==
+X-Received: by 2002:adf:e10c:: with SMTP id t12mr41559906wrz.36.1625841456455; 
+ Fri, 09 Jul 2021 07:37:36 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p11sm4440982wro.78.2021.07.09.07.30.15
+ by smtp.gmail.com with ESMTPSA id u12sm5501511wrt.50.2021.07.09.07.37.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 09 Jul 2021 07:30:24 -0700 (PDT)
+ Fri, 09 Jul 2021 07:37:31 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CB8F21FFA6;
- Fri,  9 Jul 2021 15:30:10 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 023AE1FFA9;
+ Fri,  9 Jul 2021 15:30:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v3 21/40] tests/docker: expand ubuntu1804 package list
-Date: Fri,  9 Jul 2021 15:29:46 +0100
-Message-Id: <20210709143005.1554-22-alex.bennee@linaro.org>
+Subject: [PATCH  v3 22/40] tests/docker: expand ubuntu2004 package list
+Date: Fri,  9 Jul 2021 15:29:47 +0100
+Message-Id: <20210709143005.1554-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210709143005.1554-1-alex.bennee@linaro.org>
 References: <20210709143005.1554-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,21 +106,21 @@ conceivably use in any scenario.
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-14-berrange@redhat.com>
+Message-Id: <20210623142245.307776-15-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 61 +++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/ubuntu2004.docker | 50 +++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index ee8545e4b1..0880bf3e29 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,54 +1,113 @@
- FROM docker.io/library/ubuntu:18.04
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 25f56adfb2..39de63d012 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,25 +1,44 @@
+ FROM docker.io/library/ubuntu:20.04
  ENV PACKAGES \
 +    bc \
-+    bsdmainutils \
+     bsdmainutils \
 +    bzip2 \
 +    ca-certificates \
      ccache \
@@ -133,11 +132,10 @@ index ee8545e4b1..0880bf3e29 100644
 +    findutils \
 +    g++ \
      gcc \
-+    gcovr \
-+    genisoimage \
+     gcovr \
+     genisoimage \
      gettext \
      git \
-+    glusterfs-common \
 +    hostname \
      libaio-dev \
 +    libasan5 \
@@ -158,14 +156,12 @@ index ee8545e4b1..0880bf3e29 100644
      libgbm-dev \
 +    libgcrypt20-dev \
 +    libglib2.0-dev \
++    libglusterfs-dev \
 +    libgnutls28-dev \
      libgtk-3-dev \
      libibverbs-dev \
      libiscsi-dev \
-     libjemalloc-dev \
-     libjpeg-turbo8-dev \
-+    liblttng-ust-dev \
-     liblzo2-dev \
+@@ -30,39 +49,66 @@ ENV PACKAGES \
      libncursesw5-dev \
      libnfs-dev \
      libnuma-dev \
@@ -180,6 +176,7 @@ index ee8545e4b1..0880bf3e29 100644
      libsdl2-dev \
 +    libsdl2-image-dev \
      libseccomp-dev \
+     libslirp-dev \
      libsnappy-dev \
      libspice-protocol-dev \
      libspice-server-dev \
@@ -201,31 +198,32 @@ index ee8545e4b1..0880bf3e29 100644
 +    locales \
      make \
 +    multipath-tools \
-+    netcat-openbsd \
+     ncat \
 +    nettle-dev \
      ninja-build \
 +    openssh-client \
 +    perl-base \
 +    pkgconf \
 +    python3 \
-+    python3-numpy \
-+    python3-opencv \
+     python3-numpy \
+     python3-opencv \
+-    python3-pil \
 +    python3-pillow \
-+    python3-pip \
+     python3-pip \
 +    python3-setuptools \
      python3-sphinx \
      python3-sphinx-rtd-theme \
-+    python3-venv \
+     python3-venv \
 +    python3-wheel \
      python3-yaml \
-+    rpm2cpio \
+     rpm2cpio \
 +    sed \
      sparse \
--    xfslibs-dev
 +    systemtap-sdt-dev \
 +    tar \
-+    tesseract-ocr \
-+    tesseract-ocr-eng \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    xfslibs-dev
 +    texinfo \
 +    xfslibs-dev \
 +    zlib1g-dev
