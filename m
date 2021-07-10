@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E36C3C3562
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:57:45 +0200 (CEST)
-Received: from localhost ([::1]:42682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9698B3C3564
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:59:11 +0200 (CEST)
+Received: from localhost ([::1]:44866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2FMO-0007CC-8t
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:57:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59022)
+	id 1m2FNm-0000Dq-MI
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:59:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2Exg-0006EJ-GS
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:32:12 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:46909)
+ id 1m2Exj-0006ME-49
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:32:15 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:43933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2Exe-0002UK-PD
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:32:12 -0400
-Received: by mail-pl1-x630.google.com with SMTP id c15so6622300pls.13
+ id 1m2Exf-0002Uj-FL
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:32:14 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ x21-20020a17090aa395b029016e25313bfcso7798878pjp.2
  for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=N9trJ1kjKGoNILkYQrFrW0/ogeTQmik7Rpq4HjTsUMQ=;
- b=tpns8aJPE6wLgu/SUznDn9IsAIvqw6libgybVkfiz6F7Y3v25IAa0nx32UMVNnniNk
- 9F80eI4iJZQroZV9B9+uuv/CC40RTKS5gTJ1N5xmPoQ4nJIyHzIHonNp8KSDvADhvPws
- KBMw/BBQp/sl9Vk7ojcB/cpCKGMZSrQUGqMPZsL6TYXjktruW3TPAx+S1lztwULkrtCU
- SQzlhN1tRwSbfrjCJthwBuqKgFD3txkSvaWk0tSVnWtEB3njyIrk54qYX/WiDTXhNZbr
- MOh529cfRrD2uudOY+d1OAh49wP2i74O3XwB7oiaoa+lt1VzPpEkqrIOs37DZ/VTmFh2
- xIlA==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=i7Yv44S3soVKhBIR2nVe5GqBZQT4ofBHKeU6kY+QU8k=;
+ b=V0dlMkBDUppj2vYrDVMIW1RhDpAgvvk4A5reOzDZwhxgm3mPK9nw99kGeeuNkJTd/q
+ Xv39QeJ/Ih+fFBr5tP9WgIsTSp2ujPjUnSjHskwqebuCMMw1FyNARx7lJ7vsj0J/t2vm
+ ZHF80rOdojmT9HxTi2l+CLgwd0xteSc/7GcHxLgAhDxa9ME4Y0Lk47nNnpksCY/z/75O
+ tYq76F4ZpiM0mY76FPwgQ7FteH0TAobAnuB1BLL0Id9//8U2VMqgPu9A+Qb7Vtg9CJso
+ 3+90vqmLNenIaGYGOqnc6vVivPlxID+2xrBa/bKJ+yRduBaezArY3YiqJvfqAu1kqlfe
+ Iivw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N9trJ1kjKGoNILkYQrFrW0/ogeTQmik7Rpq4HjTsUMQ=;
- b=h2QOHa5KPzgMdCBAUjJmrur9+05l534ZMjA4eEsGOE2Vh37QAyQasLrKXop/v3cIh1
- l8oK6Rfiy1mXz3lqikTZrauqnEpjBkCF1x20eVvLLw5HOXnmWvwbmRvpeVU0/Nbn1nGN
- lZXUIP+dnjLPCmnYuPTf1Wcao1hLIJb5Bfhdn7QAdz/dno4B4c85kaIFSkRvMbkzXyRQ
- Uut50YA12NErim+GpB4j2l8jmsplWG/6Z4KgvajMkYkho2F2lyHnn41Nd2dOjMJZsVQH
- Xv3ClbEW4zM6408nAYeysR7hS37FgBVtB1tPifeEzNR3/1ThBJ830kv94vVjrPRGhSOF
- B0uA==
-X-Gm-Message-State: AOAM531juDcZL6VYnPeGDhpH1+SSY4HsowrKEEDMucvB8gMNQq2HVbED
- oc6c7WcLqFNlcYE7vWkQ5BNP2VTo9Df+Jg==
-X-Google-Smtp-Source: ABdhPJwal1GmSslzL67mW4/0KXALokxZ2sqSeZa4S0jhZ2CzJomMCFCNFKY4s/wZSK9lIv4sRP1xRw==
-X-Received: by 2002:a17:902:9895:b029:128:cdfb:f389 with SMTP id
- s21-20020a1709029895b0290128cdfbf389mr35038289plp.45.1625931129519; 
- Sat, 10 Jul 2021 08:32:09 -0700 (PDT)
+ bh=i7Yv44S3soVKhBIR2nVe5GqBZQT4ofBHKeU6kY+QU8k=;
+ b=Fjeueui8zYL8ZYydcxFocEZ4/CJ9dUKVXTzpuFxbfVOGw/WoiM58EIRsLcAJRYv7VI
+ bOJ1db4q8+h5vqPdG0qjgWzSYrN8vDjcpgogWal6jEkjQzvFNbTc06Kf9GK+4h/X0suj
+ pP0vnEZs3NVlq10fe+Qb2hHqO3gISabuigmjBYOWcW1ew408T7qBVoRCGE3CvHPt7R/u
+ gxvd9MFmfMO3DKDaEBF3FsqKRhjbBRjMCeHPRJlzh2zHng/oREeK47PUVJCgOKIwj9YV
+ o+4KLVKjs68JEGcSSXCkmAX7hr7lNjvZeRcs1NB3xUKTALJUO0NwpOfJXVLKsQdCaatb
+ 61lg==
+X-Gm-Message-State: AOAM532rKDEZaSwsIlWuzstfsnQ2WWDWISkAsV4aPnAbEhG19gC4Xs3D
+ t8dYdm+njmx1GBHckRmtW1Hpz0nQGziNxg==
+X-Google-Smtp-Source: ABdhPJwTNwA4nnN/Xr4auPxOktkRWnHAC/T0HWYxwkDqtNIPQ+4qTJkJJinhKg6IWyzXOJBIi7u7tw==
+X-Received: by 2002:a17:902:9a04:b029:129:7769:2b01 with SMTP id
+ v4-20020a1709029a04b029012977692b01mr31621654plp.76.1625931130118; 
+ Sat, 10 Jul 2021 08:32:10 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id u23sm11975374pgk.38.2021.07.10.08.32.09
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 10 Jul 2021 08:32:09 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 37/41] accel/tcg: Move tb_lookup to cpu-exec.c
-Date: Sat, 10 Jul 2021 08:31:39 -0700
-Message-Id: <20210710153143.1320521-38-richard.henderson@linaro.org>
+Subject: [PATCH 38/41] accel/tcg: Split out log_cpu_exec
+Date: Sat, 10 Jul 2021 08:31:40 -0700
+Message-Id: <20210710153143.1320521-39-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210710153143.1320521-1-richard.henderson@linaro.org>
 References: <20210710153143.1320521-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,125 +85,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we've moved helper_lookup_tb_ptr, the only user
-of tb-lookup.h is cpu-exec.c; merge the contents in.
+Split out CPU_LOG_EXEC and CPU_LOG_TB_CPU logging from
+cpu_tb_exec to a new function.  Perform only one pc
+range check after a combined mask check.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Use the new function in lookup_tb_ptr.  This enables
+CPU_LOG_TB_CPU between indirectly chained tbs.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/tb-lookup.h | 49 -------------------------------------------
- accel/tcg/cpu-exec.c  | 31 ++++++++++++++++++++++++++-
- 2 files changed, 30 insertions(+), 50 deletions(-)
- delete mode 100644 accel/tcg/tb-lookup.h
+ accel/tcg/cpu-exec.c | 61 ++++++++++++++++++++++++--------------------
+ 1 file changed, 34 insertions(+), 27 deletions(-)
 
-diff --git a/accel/tcg/tb-lookup.h b/accel/tcg/tb-lookup.h
-deleted file mode 100644
-index 9c9e0079da..0000000000
---- a/accel/tcg/tb-lookup.h
-+++ /dev/null
-@@ -1,49 +0,0 @@
--/*
-- * Copyright (C) 2017, Emilio G. Cota <cota@braap.org>
-- *
-- * License: GNU GPL, version 2 or later.
-- *   See the COPYING file in the top-level directory.
-- */
--#ifndef EXEC_TB_LOOKUP_H
--#define EXEC_TB_LOOKUP_H
--
--#ifdef NEED_CPU_H
--#include "cpu.h"
--#else
--#include "exec/poison.h"
--#endif
--
--#include "exec/exec-all.h"
--#include "tb-hash.h"
--
--/* Might cause an exception, so have a longjmp destination ready */
--static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
--                                          target_ulong cs_base,
--                                          uint32_t flags, uint32_t cflags)
--{
--    TranslationBlock *tb;
--    uint32_t hash;
--
--    /* we should never be trying to look up an INVALID tb */
--    tcg_debug_assert(!(cflags & CF_INVALID));
--
--    hash = tb_jmp_cache_hash_func(pc);
--    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
--
--    if (likely(tb &&
--               tb->pc == pc &&
--               tb->cs_base == cs_base &&
--               tb->flags == flags &&
--               tb->trace_vcpu_dstate == *cpu->trace_dstate &&
--               tb_cflags(tb) == cflags)) {
--        return tb;
--    }
--    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
--    if (tb == NULL) {
--        return NULL;
--    }
--    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
--    return tb;
--}
--
--#endif /* EXEC_TB_LOOKUP_H */
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index fb6668606f..0d92698030 100644
+index 0d92698030..67ed25beb9 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -40,7 +40,6 @@
- #include "sysemu/replay.h"
- #include "exec/helper-proto.h"
- #include "tb-hash.h"
--#include "tb-lookup.h"
- #include "tb-context.h"
- #include "internal.h"
- 
-@@ -146,6 +145,36 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
+@@ -175,6 +175,36 @@ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+     return tb;
  }
- #endif /* CONFIG USER ONLY */
  
-+/* Might cause an exception, so have a longjmp destination ready */
-+static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
-+                                          target_ulong cs_base,
-+                                          uint32_t flags, uint32_t cflags)
++static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
++                                const TranslationBlock *tb)
 +{
-+    TranslationBlock *tb;
-+    uint32_t hash;
++    if (unlikely(qemu_loglevel_mask(CPU_LOG_TB_CPU | CPU_LOG_EXEC))
++        && qemu_log_in_addr_range(pc)) {
 +
-+    /* we should never be trying to look up an INVALID tb */
-+    tcg_debug_assert(!(cflags & CF_INVALID));
++        qemu_log_mask(CPU_LOG_EXEC,
++                      "Trace %d: %p [" TARGET_FMT_lx
++                      "/" TARGET_FMT_lx "/%#x] %s\n",
++                      cpu->cpu_index, tb->tc.ptr, tb->cs_base, pc, tb->flags,
++                      lookup_symbol(pc));
 +
-+    hash = tb_jmp_cache_hash_func(pc);
-+    tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
++#if defined(DEBUG_DISAS)
++        if (qemu_loglevel_mask(CPU_LOG_TB_CPU)) {
++            FILE *logfile = qemu_log_lock();
++            int flags = 0;
 +
-+    if (likely(tb &&
-+               tb->pc == pc &&
-+               tb->cs_base == cs_base &&
-+               tb->flags == flags &&
-+               tb->trace_vcpu_dstate == *cpu->trace_dstate &&
-+               tb_cflags(tb) == cflags)) {
-+        return tb;
++            if (qemu_loglevel_mask(CPU_LOG_TB_FPU)) {
++                flags |= CPU_DUMP_FPU;
++            }
++#if defined(TARGET_I386)
++            flags |= CPU_DUMP_CCOP;
++#endif
++            log_cpu_state(cpu, flags);
++            qemu_log_unlock(logfile);
++        }
++#endif /* DEBUG_DISAS */
 +    }
-+    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
-+    if (tb == NULL) {
-+        return NULL;
-+    }
-+    qatomic_set(&cpu->tb_jmp_cache[hash], tb);
-+    return tb;
 +}
 +
  /**
   * helper_lookup_tb_ptr: quick check for next tb
   * @env: current cpu state
+@@ -196,11 +226,9 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
+     if (tb == NULL) {
+         return tcg_code_gen_epilogue;
+     }
+-    qemu_log_mask_and_addr(CPU_LOG_EXEC, pc,
+-                           "Chain %d: %p ["
+-                           TARGET_FMT_lx "/" TARGET_FMT_lx "/%#x] %s\n",
+-                           cpu->cpu_index, tb->tc.ptr, cs_base, pc, flags,
+-                           lookup_symbol(pc));
++
++    log_cpu_exec(pc, cpu, tb);
++
+     return tb->tc.ptr;
+ }
+ 
+@@ -222,28 +250,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+     TranslationBlock *last_tb;
+     const void *tb_ptr = itb->tc.ptr;
+ 
+-    qemu_log_mask_and_addr(CPU_LOG_EXEC, itb->pc,
+-                           "Trace %d: %p ["
+-                           TARGET_FMT_lx "/" TARGET_FMT_lx "/%#x] %s\n",
+-                           cpu->cpu_index, itb->tc.ptr,
+-                           itb->cs_base, itb->pc, itb->flags,
+-                           lookup_symbol(itb->pc));
+-
+-#if defined(DEBUG_DISAS)
+-    if (qemu_loglevel_mask(CPU_LOG_TB_CPU)
+-        && qemu_log_in_addr_range(itb->pc)) {
+-        FILE *logfile = qemu_log_lock();
+-        int flags = 0;
+-        if (qemu_loglevel_mask(CPU_LOG_TB_FPU)) {
+-            flags |= CPU_DUMP_FPU;
+-        }
+-#if defined(TARGET_I386)
+-        flags |= CPU_DUMP_CCOP;
+-#endif
+-        log_cpu_state(cpu, flags);
+-        qemu_log_unlock(logfile);
+-    }
+-#endif /* DEBUG_DISAS */
++    log_cpu_exec(itb->pc, cpu, itb);
+ 
+     qemu_thread_jit_execute();
+     ret = tcg_qemu_tb_exec(env, tb_ptr);
 -- 
 2.25.1
 
