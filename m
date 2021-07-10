@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E533C3574
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 18:07:04 +0200 (CEST)
-Received: from localhost ([::1]:33672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 640A93C3584
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 18:25:57 +0200 (CEST)
+Received: from localhost ([::1]:39092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2FVP-0003Rv-7Y
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 12:07:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
+	id 1m2Fng-0001CU-13
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 12:25:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2FUC-0002dd-H4
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 12:05:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:51136)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m2Fmb-0000XV-Cw
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 12:24:49 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2FUA-0006ur-26
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 12:05:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2FU6-0000Ms-QE
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 16:05:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C1DA72E806E
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 16:05:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m2FmZ-0002aY-Mt
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 12:24:49 -0400
+Received: by mail-ed1-x531.google.com with SMTP id l2so19120744edt.1
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 09:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MCpTpOUMl5BQkG/3DsdC2knKJsRJh5XaaGIVHEGdCes=;
+ b=s3QamOvWcvNvVpPujFJYZ/AZOfXZcFMa7TMoexN4QQMzxWjQwky+7ssDOhH8I7r1DZ
+ 69NcEwS+ImY/U0ZGEid6ay5UzpS9OAtgyGLiNVUdnw8vwFs/qMvneZIBqosOQg9dIbFJ
+ aaANbFG2e5x+S0xGB36eeL3eyNxMgKT0HWaB9wL9zEnRNnx645Hs6FqurdNrAL8IOWu3
+ YkqrSq6xGk7bfE2HNXYelgaHpzepAiRpiVCCWwAGnLCcjlml22X/BPB55rFxPjyh0P5h
+ 9fcfX5DIczqhowrgGAN4fuoCfGgnMDYnNb2Y2WBKG4G+M3HlIJW2ZOJAmRfacyByNu2o
+ AbFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MCpTpOUMl5BQkG/3DsdC2knKJsRJh5XaaGIVHEGdCes=;
+ b=bAkddm5k5y+lcjISJATPWXi6+9aaiuouiQw7vzAJQ48R7Yk4xYuMdDaqr72bftit03
+ jQ9dkLKZHOmmjmhIYwWpzKJI6chT4FQ1M1wfEnFZCO0Y/8KW/MLctopDXnEd7RZp45vp
+ vLuGSIuySXMFMhq7pR59SY3q+ptVIk9T6eeuj4KNbYfntRQnEeFm8AVO+QmxX5N4V27Q
+ wuBsiHTjjDwnITcqVrBiZCZqNEL+PCLQSaFvlSUsk0zewD6X6xiwJ+9zjtnndQKTXWgU
+ kd1HSN6LBeWSiKzRZmqf4CloATkeOQdZ7hxHjR7mCWPfyH3z9ftrKmbHn73DVxyAWcFs
+ 1X+g==
+X-Gm-Message-State: AOAM531Y45ihKZaTiR2+sMt3VQ0PGXAXLVHS7t+B6Ab07N5F2lPwNZaM
+ KxMSZD7Iv0DHDLGByip7YNegTaDwz3iz+LCJJQWwTg==
+X-Google-Smtp-Source: ABdhPJzE5/R4lJCODVgonrmi9Pj34RqosMZaod0DrQOHAAVdn9LEmoQpB6PdUTbG5zeF+RLz9uBJdzge73V6LIfOhB4=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr32950604edy.44.1625934285675; 
+ Sat, 10 Jul 2021 09:24:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Jul 2021 15:57:12 -0000
-From: Floyd42 <1905297@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: axelheider janitor michaelpeter philmd th-huth
-X-Launchpad-Bug-Reporter: Michael Peter (michaelpeter)
-X-Launchpad-Bug-Modifier: Floyd42 (axelheider)
-References: <160614967524.17013.9714069541645314856.malonedeb@wampee.canonical.com>
-Message-Id: <162593263218.18220.10953924983942644289.malone@gac.canonical.com>
-Subject: [Bug 1905297] Re: Zynq7000 UART clock reset initialization
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 20e4af6483835e2d269f51989b0dd25741b120bb
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210710153143.1320521-1-richard.henderson@linaro.org>
+In-Reply-To: <20210710153143.1320521-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 10 Jul 2021 17:24:06 +0100
+Message-ID: <CAFEAcA_27xmAsRqTU6x6biqkPFZqHNT+LM2Q92HkSMW5OdFoJA@mail.gmail.com>
+Subject: Re: [PATCH 00/41] tcg patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,64 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905297 <1905297@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Any update?
+On Sat, 10 Jul 2021 at 16:33, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 05de778b5b8ab0b402996769117b88c7ea5c7c61:
+>
+>   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-07-09 14:30:01 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210710
+>
+> for you to fetch changes up to ad1a706f386c2281adb0b09257d892735e405834:
+>
+>   cpu: Add breakpoint tracepoints (2021-07-09 21:31:11 -0700)
+>
+> ----------------------------------------------------------------
+> Add translator_use_goto_tb.
+> Cleanups in prep of breakpoint fixes.
+> Misc fixes.
+>
+> ----------------------------------------------------------------
 
-** Changed in: qemu
-       Status: Expired =3D> Incomplete
+Is this intended as a pullreq despite the "PATCH" in the subject?
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905297
-
-Title:
-  Zynq7000 UART clock reset initialization
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  Hello,
-
-  we have come across a strange behavior in the Zynq7000 model of Qemu
-  that seems to have been  introduced between 5.0.0 and 5.1.0.
-
-  =
-
-  The reset values of the SLCR register, in particular those for UART_CLK_C=
-TRL, are such that
-  the UARTs should find functional clocks. Up to 5.0.0 this was also the be=
-havior that was
-  implemented in QEMU.
-
-  Starting in 5.1.0, we found that - despite correct reset values [1] - the=
- UARTs are non-functional
-  upon reset. Some investigation revealed that the cause for that is that t=
-he corresponding
-  clocks are not properly initialized.
-
-  Between 5.0.0 and 5.1.0, there are three commits  that touch the Zynq
-  UART clocks [2]. The last of them [3] triggers the faulty behavior.
-
-  Attached is a patch that applies 5.2.0-rc2 and yields a functional UART. =
-We surmise that the
-  underlying device release issue runs much deeper, so it is only meant to =
-identify the issue.
-
-
-  [1] hw/misc/zynq_slcr.c
-        static void zynq_slcr_reset_init(Object *obj, ResetType type)
-         s->regs[R_UART_CLK_CTRL]  =3D 0x00003F03;
-  [2] 38867cb7ec90..5b49a34c6800
-  [3] commit 5b49a34c6800d0cb917f959d8e75e5775f0fac3f (refs/bisect/bad)
-        Author: Damien Hedde <damien.hedde@greensocs.com>
-        Date:   Mon Apr 6 15:52:50 2020 +0200
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905297/+subscriptions
+thanks
+-- PMM
 
