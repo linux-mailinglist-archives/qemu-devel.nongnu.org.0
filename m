@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97413C32D0
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:32:28 +0200 (CEST)
-Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 493F63C32CF
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:31:56 +0200 (CEST)
+Received: from localhost ([::1]:55998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m24fD-0005YS-3Y
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
+	id 1m24eh-0003kB-BZ
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZP-0000CX-TG
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:27 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45708)
+ id 1m24ZO-000062-0d
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:26 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZO-0000bs-A3
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:27 -0400
+ id 1m24ZM-0000aa-8x
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:25 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m24Z9-0003gS-UY
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:12 +0000
+ id 1m24Z9-0003n1-1u
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 04F4D2E826F
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:04 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D044F2E8206
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:02 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Sat, 10 Jul 2021 04:17:20 -0000
-From: Launchpad Bug Tracker <1905297@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1905562@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor michaelpeter philmd th-huth
-X-Launchpad-Bug-Reporter: Michael Peter (michaelpeter)
+X-Launchpad-Bug-Commenters: jamespharvey20 janitor th-huth
+X-Launchpad-Bug-Reporter: James Harvey (jamespharvey20)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160614967524.17013.9714069541645314856.malonedeb@wampee.canonical.com>
-Message-Id: <162589064019.5654.15245040083649718287.malone@loganberry.canonical.com>
-Subject: [Bug 1905297] Re: Zynq7000 UART clock reset initialization
+References: <160630934472.9591.9894580742878185011.malonedeb@soybean.canonical.com>
+Message-Id: <162589064104.5654.17646096618353785391.malone@loganberry.canonical.com>
+Subject: [Bug 1905562] Re: Guest seems suspended after host freed memory for
+ it using oom-killer
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: bf8cfead19f58f01b49a178aeab016a1c4a42bfb
+X-Launchpad-Hash: 132a515a8ea4fad4c022a080bb69250d45aa8050
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905297 <1905297@bugs.launchpad.net>
+Reply-To: Bug 1905562 <1905562@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,51 +84,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905297
+https://bugs.launchpad.net/bugs/1905562
 
 Title:
-  Zynq7000 UART clock reset initialization
+  Guest seems suspended after host freed memory for it using oom-killer
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello,
+  Host: qemu 5.1.0, linux 5.5.13
+  Guest: Windows 7 64-bit
 
-  we have come across a strange behavior in the Zynq7000 model of Qemu
-  that seems to have been  introduced between 5.0.0 and 5.1.0.
+  This guest ran a memory intensive process, and triggered oom-killer on
+  host.  Luckily, it killed chromium.  My understanding is this should
+  mean qemu should have continued running unharmed.  But, the spice
+  connection shows the host system clock is stuck at the exact time oom-
+  killer was triggered.  The host is completely unresponsive.
+
+  I can telnet to the qemu monitor.  "info status" shows "running".
+  But, multiple times running "info registers -a" and saving the output
+  to text files shows the registers are 100% unchanged, so it's not
+  really running.
+
+  On the host, top shows around 4% CPU usage by qemu.  strace shows
+  about 1,000 times a second, these 6 lines repeat:
+
+  0.000698 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c10) =3D 0 <0.000010>
+  0.000034 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c60) =3D 0 <0.000009>
+  0.000031 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c20) =3D 0 <0.000007>
+  0.000028 ioctl(18, KVM_IRQ_LINE_STATUS, 0x7fff1f030c70) =3D 0 <0.000007>
+  0.000030 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=
+=3D7, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN=
+}, {fd=3D11, events         =3DPOLLIN}, {fd=3D16, events=3DPOLLIN}, {fd=3D3=
+2, events=3DPOLLIN}, {fd=3D34, events=3DPOLLIN}, {fd=3D39, events=3DPOLLIN}=
+, {fd=3D40, events=3DPOLLIN}, {fd=3D41, events=3DPOLLI         N}, {fd=3D42=
+, events=3DPOLLIN}, {fd=3D43, events=3DPOLLIN}, {fd=3D44, events=3DPOLLIN},=
+ {fd=3D45, events=3DPOLLIN}], 16, {tv_sec=3D0, tv_nsec=3D0}, NULL, 8) =3D 0=
+ (Timeout)          <0.000009>
+  0.000043 ppoll([{fd=3D4, events=3DPOLLIN}, {fd=3D6, events=3DPOLLIN}, {fd=
+=3D7, events=3DPOLLIN}, {fd=3D8, events=3DPOLLIN}, {fd=3D9, events=3DPOLLIN=
+}, {fd=3D11, events         =3DPOLLIN}, {fd=3D16, events=3DPOLLIN}, {fd=3D3=
+2, events=3DPOLLIN}, {fd=3D34, events=3DPOLLIN}, {fd=3D39, events=3DPOLLIN}=
+, {fd=3D40, events=3DPOLLIN}, {fd=3D41, events=3DPOLLI         N}, {fd=3D42=
+, events=3DPOLLIN}, {fd=3D43, events=3DPOLLIN}, {fd=3D44, events=3DPOLLIN},=
+ {fd=3D45, events=3DPOLLIN}], 16, {tv_sec=3D0, tv_nsec=3D769662}, NULL, 8) =
+=3D 0 (Tim         eout) <0.000788>
+
+  In the monitor, "info irq" shows IRQ 0 is increasing about 1,000 times
+  a second.  IRQ 0 seems to be for the system clock, and 1,000 times a
+  second seems to be the frequency a windows 7 guest might have the
+  clock at.
+
+  Those fd's are for: (9) [eventfd]; [signalfd], type=3DSTREAM, 4 x the
+  spice socket file, and "TCP localhost:ftnmtp->localhost:36566
+  (ESTABLISHED)".
+
+  Because the guest's registers aren't changing, it seems to me like
+  monitor thinks the VM is running, but it's actually effectively in a
+  paused state.  I think all the strace activity shown above must be
+  generated by the host.  Perhaps it's repeatedly trying to contact the
+  guest to inject a new clock, and communicate with it on the various
+  eventfd's, spice socket, etc.  So, I'm thinking the strace doesn't
+  give any information about the real reason why the VM is acting as if
+  it's paused.
+
+  I've checked "info block", and there's nothing showing that a device
+  is paused, or that there's any issues with them.  (Can't remember what
+  term can be there, but a paused/blocked/etc block device I think
+  caused a VM to act like this for me in the past.)
 
   =
 
-  The reset values of the SLCR register, in particular those for UART_CLK_C=
-TRL, are such that
-  the UARTs should find functional clocks. Up to 5.0.0 this was also the be=
-havior that was
-  implemented in QEMU.
+  Is there something I can provide to help fix the bug here?
 
-  Starting in 5.1.0, we found that - despite correct reset values [1] - the=
- UARTs are non-functional
-  upon reset. Some investigation revealed that the cause for that is that t=
-he corresponding
-  clocks are not properly initialized.
-
-  Between 5.0.0 and 5.1.0, there are three commits  that touch the Zynq
-  UART clocks [2]. The last of them [3] triggers the faulty behavior.
-
-  Attached is a patch that applies 5.2.0-rc2 and yields a functional UART. =
-We surmise that the
-  underlying device release issue runs much deeper, so it is only meant to =
-identify the issue.
-
-
-  [1] hw/misc/zynq_slcr.c
-        static void zynq_slcr_reset_init(Object *obj, ResetType type)
-         s->regs[R_UART_CLK_CTRL]  =3D 0x00003F03;
-  [2] 38867cb7ec90..5b49a34c6800
-  [3] commit 5b49a34c6800d0cb917f959d8e75e5775f0fac3f (refs/bisect/bad)
-        Author: Damien Hedde <damien.hedde@greensocs.com>
-        Date:   Mon Apr 6 15:52:50 2020 +0200
+  Is there something I can do, to try to get the VM running again?  (I
+  sadly have unsaved work in it.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905297/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905562/+subscriptions
 
