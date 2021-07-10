@@ -2,75 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CB53C35F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 19:55:50 +0200 (CEST)
-Received: from localhost ([::1]:58882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9567A3C35F8
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 19:55:04 +0200 (CEST)
+Received: from localhost ([::1]:55798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2HCg-0001EJ-1f
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 13:55:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
+	id 1m2HBv-0007Wk-K3
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 13:55:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2H7d-0006ln-7c
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:50:37 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33522)
+ id 1m2HAD-0005I9-Kl
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:53:17 -0400
+Received: from mail-ot1-f45.google.com ([209.85.210.45]:41926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2H7b-0001N4-JI
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:50:36 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id d2so17307302wrn.0
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 10:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=y5KSWA1vpNfd6M+9kKkYOA/X1eCKYfSslffBBwebk8k=;
- b=u42PE4D/A64yM3hVVOsKQ6T9Ox3DEH4QSxhPeKCdkKcJ5CV8jm4xpopXdCyDxiciQn
- l0BoezHDLZRRCZC9jh0d6r4Hawepz5MSXWQaPbWUW2ww4NV6JssMhRosFtugUMEM3gBK
- gtw29zXQAjb0w2MmATHWsrGncWPLlws/B6EWqZpIItFZ821bN+CcSL/WPx0osecu0d8k
- B2cKFfNWHJtX9lvqVn442gtoK8OK5+Z7A5/8Y5WNvz+vflUYgAbMMg5r6x46IdSgSJaW
- Hr/Z9fZBiaxAsQ/TidCKnWii3HAv/tRe2x7U1ndGHOiuJHkm7KHZ7aOkVq1+r5umAWsd
- 5AJA==
+ id 1m2HAC-00034F-BP
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:53:17 -0400
+Received: by mail-ot1-f45.google.com with SMTP id
+ f12-20020a056830204cb029048bcf4c6bd9so13204119otp.8
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 10:53:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=y5KSWA1vpNfd6M+9kKkYOA/X1eCKYfSslffBBwebk8k=;
- b=GcGUlnn9lWkEhTUr0fKiHH6O465NiXhhtI4dcv9FUv39OkL6xI2ItRi+oTz65a2K42
- l2n4WDUUGn8jY4uNSz0zmHA+r21qWFrxmJbeL8v3goFs2YDU0gL/VC4XJcVZobZhc4z+
- wrtMcSFthZZy17JJ4CNOpRSOSaPG0zE9UnTSfuHNOGFK5w7AX9Ezxjay2EDetR2cnweg
- /D2Deckk2/2/QumAcjMV4wxOysifJoCRtNoDny7/BaZJxvKVM3Xk0GKnlAi9WPrFyOjH
- DhoNp/RpzbJueZQl+M9RgAtdkfA3X9T+k2sSzG5A9jFbVdr5iVWyJDpYOyZMnRzDhaWm
- hyyg==
-X-Gm-Message-State: AOAM532Q45Nxrq05FbfkztrdedPc3ymbZ8efAoaf1uVFDwE9ORidmin2
- /OMUnM1BgorK1YzHk1SUds6xzskxCxrUdQ==
-X-Google-Smtp-Source: ABdhPJzHusJlhsRGpTqFNpxpqY9393zpSLuZAKBdsFH0AdwK8KmCcY1fnZ64NcHMbizOeT+hXu+eMw==
-X-Received: by 2002:adf:dc8b:: with SMTP id r11mr50164893wrj.363.1625939434077; 
- Sat, 10 Jul 2021 10:50:34 -0700 (PDT)
-Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id x8sm1465068wrt.93.2021.07.10.10.50.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Jul 2021 10:50:33 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [NOTFORMERGE PATCH v3 8/8] dp8393x: don't force 32-bit register access
-Date: Sat, 10 Jul 2021 19:49:54 +0200
-Message-Id: <20210710174954.2577195-9-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210710174954.2577195-1-f4bug@amsat.org>
-References: <20210710174954.2577195-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VzLKE6IXbZNdI4I5ytpCyNg8pXYAfsve6xeSbbsX5Bc=;
+ b=rhqFJWYXrmwtWzUm2YvikWntRGVCJeSIclLIwXv5IdJ5njWBR87OFOzo8Rw7w4dNFo
+ Y8mlsQpDC6RnIeSioEZQbim7krmKy4qDMuVuY4QmSbrLhwlGhRpsMrmIL7QgeFU/5eUG
+ Rhy2SdR8ZCR5vuy3naN3qd3sOR53KhhNN3kcnXSh6SCwz2HssEqIWZ8h1Uvk7ZBjuLhR
+ Iq3eAz4C6FBLTo6ryLMbO2X7xFHjfEdneHlCcka4oo6GtfU6UZ+Lk0ylsFOACilkDzIh
+ 5tmqdT7/o6E4xIRSspgW8XMUhBHTEnO6KhL7q0eCZzew9tBr9JV3YYbC7X49Lrmk7MR6
+ +hiA==
+X-Gm-Message-State: AOAM5318VvIbCePFS19tmvaM8awxiCKBeYTHYuoKSUkBXGpJSRsWmwVJ
+ dEO9LIKf5loqQDtYD68Vs6vIIBjioMjXCky4GlrvGzKlgON8Nw==
+X-Google-Smtp-Source: ABdhPJwBBi/eU3sVTxsvEwxZjwRN2qh4REHjHHciatrndBMRSKpr2EmHvZCMR+FhDRctb+UfyOY4Zud1cGIlnlqUyM0=
+X-Received: by 2002:a9d:73d0:: with SMTP id m16mr12053482otk.37.1625939594526; 
+ Sat, 10 Jul 2021 10:53:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+References: <20210710174954.2577195-1-f4bug@amsat.org>
+ <20210710174954.2577195-3-f4bug@amsat.org>
+In-Reply-To: <20210710174954.2577195-3-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Sat, 10 Jul 2021 19:53:02 +0200
+Message-ID: <CAAdtpL41OJ6wE_eBHNBqaS-WzZbxH5DMJsZAWnxwTHtDt37dMQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] dp8393x: Replace 0x40 magic value by
+ SONIC_REG16_COUNT definition
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.210.45;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f45.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,91 +73,63 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Laurent Vivier <laurent@vivier.eu>, Finn Thain <fthain@linux-m68k.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Laurent Vivier <laurent@vivier.eu>, Finn Thain <fthain@linux-m68k.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Typo 'SONIC_REG_COUNT' in subject.
 
-Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" set .impl.min_access_size
-and .impl.max_access_size to 4 to try and fix the Linux jazzsonic driver which uses
-32-bit accesses.
-
-The problem with forcing the register access to 32-bit in this way is that since the
-dp8393x uses 16-bit registers, a manual endian swap is required for devices on big
-endian machines with 32-bit accesses.
-
-For both access sizes and machine endians the QEMU memory API can do the right thing
-automatically: all that is needed is to set .impl.min_access_size to 2 to declare that
-the dp8393x implements 16-bit registers.
-
-Normally .impl.max_access_size should also be set to 2, however that doesn't quite
-work in this case since the register stride is specified using a (dynamic) it_shift
-property which is applied during the MMIO access itself. The effect of this is that
-for a 32-bit access the memory API performs 2 x 16-bit accesses, but the use of
-it_shift within the MMIO access itself causes the register value to be repeated in both
-the top 16-bits and bottom 16-bits. The Linux jazzsonic driver expects the stride to be
-zero-extended up to access size and therefore fails to correctly detect the dp8393x
-device due to the extra data in the top 16-bits.
-
-The solution here is to remove .impl.max_access_size so that the memory API will
-correctly zero-extend the 16-bit registers to the access size up to and including
-it_shift. Since it_shift is never greater than 2 than this will always do the right
-thing for both 16-bit and 32-bit accesses regardless of the machine endian, allowing
-the manual endian swap code to be removed.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 3fe9a838ec ("dp8393x: Always use 32-bit accesses")
-Message-Id: <20210705214929.17222-2-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/net/dp8393x.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index a9224a5bc88..71c82a07c23 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -588,15 +588,14 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
- 
-     trace_dp8393x_read(reg, reg_names[reg], val, size);
- 
--    return s->big_endian ? val << 16 : val;
-+    return val;
- }
- 
--static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-+static void dp8393x_write(void *opaque, hwaddr addr, uint64_t val,
-                           unsigned int size)
- {
-     dp8393xState *s = opaque;
-     int reg = addr >> s->it_shift;
--    uint32_t val = s->big_endian ? data >> 16 : data;
- 
-     trace_dp8393x_write(reg, reg_names[reg], val, size);
- 
-@@ -677,11 +676,16 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-     }
- }
- 
-+/*
-+ * Since .impl.max_access_size is effectively controlled by the it_shift
-+ * property, leave it unspecified for now to allow the memory API to
-+ * correctly zero extend the 16-bit register values to the access size up to and
-+ * including it_shift.
-+ */
- static const MemoryRegionOps dp8393x_ops = {
-     .read = dp8393x_read,
-     .write = dp8393x_write,
--    .impl.min_access_size = 4,
--    .impl.max_access_size = 4,
-+    .impl.min_access_size = 2,
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
--- 
-2.31.1
-
+On Sat, Jul 10, 2021 at 7:50 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/net/dp8393x.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 9118364aa33..d1e147a82a6 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -85,6 +85,7 @@ static const char *reg_names[] =3D {
+>  #define SONIC_MPT    0x2e
+>  #define SONIC_MDT    0x2f
+>  #define SONIC_DCR2   0x3f
+> +#define SONIC_REG_COUNT  0x40
+>
+>  #define SONIC_CR_HTX     0x0001
+>  #define SONIC_CR_TXP     0x0002
+> @@ -158,7 +159,7 @@ struct dp8393xState {
+>
+>      /* Registers */
+>      uint8_t cam[16][6];
+> -    uint16_t regs[0x40];
+> +    uint16_t regs[SONIC_REG_COUNT];
+>
+>      /* Temporaries */
+>      uint8_t tx_buffer[0x10000];
+> @@ -972,7 +973,7 @@ static void dp8393x_realize(DeviceState *dev, Error *=
+*errp)
+>
+>      address_space_init(&s->as, s->dma_mr, "dp8393x");
+>      memory_region_init_io(&s->mmio, OBJECT(dev), &dp8393x_ops, s,
+> -                          "dp8393x-regs", 0x40 << s->it_shift);
+> +                          "dp8393x-regs", SONIC_REG_COUNT << s->it_shift=
+);
+>
+>      s->nic =3D qemu_new_nic(&net_dp83932_info, &s->conf,
+>                            object_get_typename(OBJECT(dev)), dev->id, s);
+> @@ -987,7 +988,7 @@ static const VMStateDescription vmstate_dp8393x =3D {
+>      .minimum_version_id =3D 0,
+>      .fields =3D (VMStateField []) {
+>          VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
+> -        VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
+> +        VMSTATE_UINT16_ARRAY(regs, dp8393xState, SONIC_REG_COUNT),
+>          VMSTATE_END_OF_LIST()
+>      }
+>  };
+> --
+> 2.31.1
+>
 
