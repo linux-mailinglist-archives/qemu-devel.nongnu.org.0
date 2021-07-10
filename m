@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 209B63C36EE
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 23:28:07 +0200 (CEST)
-Received: from localhost ([::1]:50930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60113C36F2
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 23:31:29 +0200 (CEST)
+Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2KW6-0000l2-6S
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 17:28:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43290)
+	id 1m2KZM-0002JU-OV
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 17:31:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m2KTr-0007kN-JA
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 17:25:53 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56018
+ id 1m2KX6-0001Y4-Cd
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 17:29:08 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56046
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m2KTq-00048d-6s
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 17:25:47 -0400
+ id 1m2KX3-0006c9-L8
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 17:29:08 -0400
 Received: from host86-145-86-170.range86-145.btcentralplus.com
  ([86.145.86.170] helo=[192.168.1.65])
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m2KTh-000411-7X; Sat, 10 Jul 2021 22:25:41 +0100
+ id 1m2KWv-00042R-0u; Sat, 10 Jul 2021 22:29:01 +0100
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210710174954.2577195-1-f4bug@amsat.org>
- <20210710174954.2577195-6-f4bug@amsat.org>
+ <20210710174954.2577195-7-f4bug@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <294b7369-197c-bf03-e18e-2c2885b11fee@ilande.co.uk>
-Date: Sat, 10 Jul 2021 22:25:38 +0100
+Message-ID: <36de5aff-cbf5-6398-774c-db482e1f1d35@ilande.co.uk>
+Date: Sat, 10 Jul 2021 22:28:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210710174954.2577195-6-f4bug@amsat.org>
+In-Reply-To: <20210710174954.2577195-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.145.86.170
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 5/8] dp8393x: Migrate registers as array of uint16
+Subject: Re: [PATCH v3 6/8] dp8393x: Store CRC using device configured
+ endianess
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -72,39 +73,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/07/2021 18:49, Philippe Mathieu-Daudé wrote:
 
-> The CAM registers are now arrays of 3 uint16_t. We can avoid using
-> the VMSTATE_BUFFER_UNSAFE() macro by using VMSTATE_UINT16_2DARRAY()
-> which is more appropriate.
+> Little-Endian CRC is dubious. The datasheet does not
+> specify it being little-endian. Use big-endian access
+> when the device is configured in such endianess.
+> (This is a theoretical bug fix.)
 > 
-> Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->   hw/net/dp8393x.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   hw/net/dp8393x.c | 11 ++++++++---
+>   1 file changed, 8 insertions(+), 3 deletions(-)
 > 
 > diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index 2c3047c8688..68516241a1f 100644
+> index 68516241a1f..ac93412f70b 100644
 > --- a/hw/net/dp8393x.c
 > +++ b/hw/net/dp8393x.c
-> @@ -983,10 +983,10 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
+> @@ -827,7 +827,7 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+>       s->regs[SONIC_TRBA0] = s->regs[SONIC_CRBA0];
 >   
->   static const VMStateDescription vmstate_dp8393x = {
->       .name = "dp8393x",
-> -    .version_id = 0,
-> -    .minimum_version_id = 0,
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
->       .fields = (VMStateField []) {
-> -        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 3 * 2),
-> +        VMSTATE_UINT16_2DARRAY(cam, dp8393xState, 16, 3),
->           VMSTATE_UINT16_ARRAY(regs, dp8393xState, SONIC_REG_COUNT),
->           VMSTATE_END_OF_LIST()
->       }
+>       /* Calculate the ethernet checksum */
+> -    checksum = cpu_to_le32(crc32(0, buf, pkt_size));
+> +    checksum = crc32(0, buf, pkt_size);
+>   
+>       /* Put packet into RBA */
+>       trace_dp8393x_receive_packet(dp8393x_crba(s));
+> @@ -837,8 +837,13 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+>       address += pkt_size;
+>   
+>       /* Put frame checksum into RBA */
+> -    address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+> -                        &checksum, sizeof(checksum));
+> +    if (s->big_endian) {
+> +        address_space_stl_be(&s->as, address, checksum,
+> +                             MEMTXATTRS_UNSPECIFIED, NULL);
+> +    } else {
+> +        address_space_stl_le(&s->as, address, checksum,
+> +                             MEMTXATTRS_UNSPECIFIED, NULL);
+> +    }
+>       address += sizeof(checksum);
+>   
+>       /* Pad short packets to keep pointers aligned */
 
-I'm not convinced that this needs an extra patch and couldn't be squashed into the 
-previous patch, but still:
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+This is obviously new to the series: I can test this on big endian m68k but are you 
+sure that this won't break big endian MIPS? Or do we not care for now since we don't 
+have a working test image?
 
 
 ATB,
