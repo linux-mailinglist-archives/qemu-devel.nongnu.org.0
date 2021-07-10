@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F4F3C34BC
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 15:36:42 +0200 (CEST)
-Received: from localhost ([::1]:56874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66D03C34E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 16:42:09 +0200 (CEST)
+Received: from localhost ([::1]:38386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2D9t-0000fq-KQ
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 09:36:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44186)
+	id 1m2EBE-0007JP-E7
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 10:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2D8g-00087D-8F
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 09:35:26 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46655)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m2EA9-0006dU-NT; Sat, 10 Jul 2021 10:41:01 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:38625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2D8e-0003wc-KU
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 09:35:25 -0400
-Received: by mail-ej1-x636.google.com with SMTP id c17so22114914ejk.13
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 06:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=bv2x+/IM5RPoLHyBso4Qc4w3zof+JniDBUBCT67odU4=;
- b=n8gHg7Dd3wkrkSbtUqB8X9qL8ikmwIGpy9Y4OEEJf4oU+W0NZzo7zDRzZlkjtpxQ51
- v4h6/tzQJwTuZKuZVaYh7zMSL2ZkzBNcTricScxo0O0Wu89exEaKCZS7czU8+xP/6Vw0
- 5LSIICInf3Wxq0XTpoWpdI4xzDifauX41jdz/0foBSxqp8DfnipEbOQzMZU79paI6ZxA
- 0YXC6yqw0l73YDEcuozrMH7z/MfFWizoBefm3RhZwHnKrVyVQia1znzuRtOOSWpe6QgG
- 2ffWS0p0y7tY/WGtRH/zMgZE2mzkFEEIp5DqvPm7phxGcRTtsRu2iU3U86M0trTUxc68
- 1O+Q==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m2EA8-0003Oh-CC; Sat, 10 Jul 2021 10:41:01 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id r132so19676298yba.5;
+ Sat, 10 Jul 2021 07:40:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=d5yR93fbZ8qO9YmWwUFCzwKqdNjzkVXi/Bn28rjzd5o=;
+ b=c2w0d/79E+3n6dAy8niV5SWGJ0y8iUpriKYAYrBnKMacW+jeJwtgRXKHIqdUR54I4s
+ gS3V2ZHp1tsLuOcnS+7it1yeyRDb2ua3bima5kz7rOS8OEiHDIB8ohXlHT0wBmJeJHJe
+ lba83RXQhbiP6DVvDypmrmmrgfzidoA6F2oLpmnK3h/hHNGN9uOl6titrQMRPYGMZsSA
+ QoKDGoEqoMKpphVFfu2PzDpK4fjET+/m+QD8AyMid58IqW1rJPwe40Lfa4gL4hhtEGz5
+ yz737VCZ1VPDxlaX8T4tdqJPRTJpDGrF87tCFUHghBKERJzVAd9ebN3MRW+Vq0SLdmDG
+ 8axg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=bv2x+/IM5RPoLHyBso4Qc4w3zof+JniDBUBCT67odU4=;
- b=PQIWR8o5R7b0JIkcnEqYbMDus/nE/OE7hqOo+vrGxfVdwes/YaZKK1d2I/PxCLGM5Z
- nsC2OnX0LTkOk/LKkWxh7dXuHJm3M1IimYJdpb2f9YUKFqKz8Ek6I9tvIZB8sIEsKaai
- 4he5o8DHXPzZ+/AEDAa7u4i63XafTH4eaixfa79yPGiqkmVPxj7ussExt/rGZWVDFkwq
- aMqUc72io5R+SyvLodJ0wQrPyQssM10jQejfHla1jALP2t5/jp1q5ih8HGGScjz8dSfQ
- zJHOQPELRDycPT2CLbUB/d1BZw/JbYdlJaLnFgPkffHmi2opSq4rNf337YqIcBFYb+tW
- H1TQ==
-X-Gm-Message-State: AOAM530ORCAyLi947TMbx45BTqfVHdLuvGjoKMXTfOO/Z6XdJb8dlijv
- QxMjzwSTD+C7AGz88SZrP2vexsLZQIbpTUka2dkYr/6leTMymQ==
-X-Google-Smtp-Source: ABdhPJwYXueGZsEry1g2nOY1hQCAtbozzKt2vpcHRiSSJdNCJYADybFpL6dLzY/xBUX1kg/HbOmoV5G+A9qWv3lDeck=
-X-Received: by 2002:a17:906:16cd:: with SMTP id
- t13mr22881216ejd.250.1625924122753; 
- Sat, 10 Jul 2021 06:35:22 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=d5yR93fbZ8qO9YmWwUFCzwKqdNjzkVXi/Bn28rjzd5o=;
+ b=lZkVfwrKd49u3RqM0MKlOmaHXnIjFqU4cU5XrMtPkZH/9VXuVHg7k4CEUcyA554Tu1
+ aRFrERZhoyz2Bo1mQ01UM9S7R+I+sVDu/hPd1irAvq1k3mrHmi3kLeLUZDiiUfOGWZJT
+ MQLPgj4xYx57CVFaxlOaAP2dUU3dVQfgoI9afYxG+4bJ8Cl5/0NDe0lHhkVlGIY5ko2b
+ TT/29S+WCQO23mABI7qUiyjMyA4222tNJlz/OuXecTHCafHJjuuAk1vLN0H42tdsBx6v
+ GcwbJCGaLeYCRumIdF7Jlhwdds23dVWSgup6GzJcfZHVG0RoPj0v9gnFpdfxVpeVqgqL
+ 0lsg==
+X-Gm-Message-State: AOAM5310Rnxdx+gx+r3SmnLj5P5MIgtBK7IWkz6SMJ1taxvHe8zzeCqT
+ CL7iSDUDoqXtBHsMlIqdt7cu3+JcANRL2+X9tf8=
+X-Google-Smtp-Source: ABdhPJztzKaWykRM3rgFKUuvIwhcmdgMY5Gp0N9rxghHJXDhFS2IY2yceUy47AxQZmHYp7984+598wdoTeKkUSwr+6k=
+X-Received: by 2002:a25:dbce:: with SMTP id
+ g197mr50366847ybf.152.1625928057640; 
+ Sat, 10 Jul 2021 07:40:57 -0700 (PDT)
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 10 Jul 2021 14:34:44 +0100
-Message-ID: <CAFEAcA9ykYzTbuUskdCFkYYdYqZcUM5K2ciuFLKKh9_Y2GW7Dg@mail.gmail.com>
-Subject: retrying failed gitlab CI external jobs (travis)
-To: QEMU Developers <qemu-devel@nongnu.org>
+References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+In-Reply-To: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 10 Jul 2021 22:40:46 +0800
+Message-ID: <CAEUhbmWBmVP0XtJycrk0e=pcxwBucNpV8nfUYkQZz_i9hWek3Q@mail.gmail.com>
+Subject: Re: [PATCH v1 1/5] target/riscv: Expose interrupt pending bits as
+ GPIO lines
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
 X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,19 +76,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; we now have travis's CI hooked into gitlab, which is nice. However,
-unlike the gitlab native CI jobs, there's no UI for saying "retry this"
-when the "travis CI" part of the overall gitlab pipeline fails.
-This is awkward because travis seems to be prone to intermittent failures.
-Is there any way we can make the jobs retryable?
+On Fri, Jul 9, 2021 at 11:30 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> Expose the 12 interrupt pending bits in MIP as GPIO lines.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  target/riscv/cpu.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>
 
-thanks
--- PMM
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
