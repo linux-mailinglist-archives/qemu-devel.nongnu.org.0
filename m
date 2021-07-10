@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9826A3C32C9
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:28:29 +0200 (CEST)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2103C32C8
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:28:13 +0200 (CEST)
+Received: from localhost ([::1]:41302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m24bM-0002va-Km
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:28:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
+	id 1m24b6-0001rs-Sp
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZO-00006p-AE
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45588)
+ id 1m24Z9-0007o4-Jx
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:11 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZM-0000aX-GH
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:26 -0400
+ id 1m24Z7-0000Wd-Rj
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:11 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m24Z8-0003mm-9y
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:10 +0000
+ id 1m24Z2-0003mA-3F
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:04 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A0A192E81FD
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6E3F62E8224
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:25:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Jul 2021 04:17:21 -0000
-From: Launchpad Bug Tracker <1905651@bugs.launchpad.net>
+Date: Sat, 10 Jul 2021 04:17:25 -0000
+From: Launchpad Bug Tracker <1906536@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: arm linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dje janitor th-huth
-X-Launchpad-Bug-Reporter: Doug Evans (dje)
+X-Launchpad-Bug-Commenters: ajbennee alecop janitor philmd pmaydell th-huth
+X-Launchpad-Bug-Reporter: Alex Coplan (alecop)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160635886967.28413.180075874214780604.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162589064169.5654.5909569497251448974.malone@loganberry.canonical.com>
-Subject: [Bug 1905651] Re: Tests cannot call g_error
+References: <160692480491.27592.13493676422712150173.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162589064594.5654.6314187731662141268.malone@loganberry.canonical.com>
+Subject: [Bug 1906536] Re: Unable to set SVE VL to 1024 bits or above since
+ 7b6a2198
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: ce682b054a5c481d939666d061583035f5b11e2b
+X-Launchpad-Hash: d88a410a7df185975bf09dbdd4bd4b71912e1956
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -70,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905651 <1905651@bugs.launchpad.net>
+Reply-To: Bug 1906536 <1906536@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,75 +85,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905651
+https://bugs.launchpad.net/bugs/1906536
 
 Title:
-  Tests cannot call g_error
+  Unable to set SVE VL to 1024 bits or above since 7b6a2198
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I stumbled on this writing a new test, using tests/qtest/e1000e-test.c
-  as a template.
+  Prior to 7b6a2198e71794c851f39ac7a92d39692c786820, the QEMU option
+  sve-max-vq could be used to set the vector length of the
+  implementation. This is useful (among other reasons) for testing
+  software compiled with a fixed SVE vector length. Since this commit,
+  the vector length is capped at 512 bits.
 
-  g_error() causes SIGTRAP, not SIGABRT, and thus the abort handler doesn't=
- get run.
-  This in turn means qemu is not killed, which hangs the test because the t=
-ap-driver.pl script hangs waiting for more input.
-  There are a few tests that call g_error().
+  To reproduce the issue:
 
-  The SIGABRT handler explicitly kills qemu, e.g.:
+  $ cat rdvl.s
+  .global _start
+  _start:
+    rdvl x0, #1
+    asr x0, x0, #4
+    mov x8, #93 // exit
+    svc #0
+  $ aarch64-linux-gnu-as -march=3Darmv8.2-a+sve rdvl.s -o rdvl.o
+  $ aarch64-linux-gnu-ld rdvl.o
+  $ for vl in 1 2 4 8 16; do ../build-qemu/aarch64-linux-user/qemu-aarch64 =
+-cpu max,sve-max-vq=3D$vl a.out; echo $?; done
+  1
+  2
+  4
+  4
+  4
 
-  qos-test.c:
-      qtest_add_abrt_handler(kill_qemu_hook_func, s);
+  For a QEMU built prior to the above revision, we get the output:
+  1
+  2
+  4
+  8
+  16
 
-  ref:
-  https://git.qemu.org/?p=3Dqemu.git;a=3Dblob;f=3Dtests/qtest/libqtest.c;h=
-=3De49f3a1e45f4cd96279241fdb2bbe231029ab922;hb=3DHEAD#l272
-
-  But not unexpectedly there's no such handler for SIGTRAP.
-
-  Apply this patch to trigger a repro:
-
-  diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-  index fc226fdfeb..e83ace1b5c 100644
-  --- a/tests/qtest/e1000e-test.c
-  +++ b/tests/qtest/e1000e-test.c
-  @@ -87,6 +87,9 @@ static void e1000e_send_verify(QE1000E *d, int *test_so=
-ckets, QGuestAllocator *a
-       /* Wait for TX WB interrupt */
-       e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
-
-  +    g_message("Test g_error hang ...");
-  +    g_error("Pretend something timed out");
-  +
-       /* Check DD bit */
-       g_assert_cmphex(le32_to_cpu(descr.upper.data) & dsta_dd, =3D=3D, dst=
-a_dd);
-
-  Then:
-
-  configure
-  make
-  make check-qtest-i386
-
-  check-qtest-i386 will take awhile. To repro faster:
-
-  $ grep qtest-i386/qos-test Makefile.mtest
-  .test.name.229 :=3D qtest-i386/qos-test
-  $ make run-test-229
-  Running test qtest-i386/qos-test
-  ** Message: 18:40:49.821: Test g_error hang ...
-
-  ** (tests/qtest/qos-test:3820728): ERROR **: 18:40:49.821: Pretend someth=
-ing timed out
-  ERROR qtest-i386/qos-test - Bail out! FATAL-ERROR: Pretend something time=
-d out
-
-  At this point things are hung because tap-driver.pl is still waiting
-  for input because qemu is still running.
+  as expected. It seems that either the old behavior should be restored,
+  or there should be an option to force a higher vector length?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905651/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1906536/+subscriptions
 
