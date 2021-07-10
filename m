@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACB53C35E9
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 19:51:52 +0200 (CEST)
-Received: from localhost ([::1]:44600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5743C35EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 19:51:57 +0200 (CEST)
+Received: from localhost ([::1]:45050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2H8p-0008KV-8y
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 13:51:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45698)
+	id 1m2H8u-0000B3-3f
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 13:51:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2H72-0005pj-MH
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:50:00 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37601)
+ id 1m2H76-0005sf-Lt
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:50:04 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:43561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2H71-0000vt-2W
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:50:00 -0400
-Received: by mail-wr1-x430.google.com with SMTP id i94so17235373wri.4
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 10:49:57 -0700 (PDT)
+ id 1m2H75-0000yg-9G
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:50:04 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ q18-20020a1ce9120000b02901f259f3a250so8330800wmc.2
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 10:50:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kE5DEyfQo7/40LoJhy/tb9hNnD7C2EQV6IaO+zvVn5k=;
- b=N0mvVArVCwn/aP7x9CZaCNmvTTvpb5Eu5ZpzrFZ9dHOzyYioneouCOxvRCPSdbnQiK
- 6nCwY97p4T9re/sAtQrIZOmDR4WoltjU7aJbc/BMjAo8XFxUQngZwzKCYvB49Fgf6Y0w
- m+xeJ2fbug/pU2IDo70K0nsXTjuRSIKnaIQHpBY4xSnRPome3gJpo03FnOHxIoP1UQwo
- QzJ87CEMgT5+vVBw8zjLg6LyWp8ja49bChZmmFP4yZaHIHpWnOTug7sMptS2ELW1ZCDl
- z9gq3hnpkO0qz0vxTgjCBOqp9T6SmyjtAXaEcKpi90GvSjTWIBfvuJQzXlPhKWAByTW+
- m9tg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=3MSEzATk19r9ft3099Sl+079BzMi8xPFVuglcUqce0A=;
+ b=qJkguGvVzi7FEApAaAcgwMnwJaM9Vpjt04icrlx4661EiitfEp6IsvHs7EzpBBdWAe
+ IELhp0gF+CbsDnasAJsvaoK+kV0creI2ZzfCUT/SfLVqEIlcu30ME25zMnZLUAKOr/0A
+ 9FnmzCwnUOrd4ILHwzrb9Tx9Knc+glaW/3Q4jlNErjKsyeRNGk5xte6+WQwWOQfhN6vN
+ 45xZM4GFdW2hRZ1Gh18poxesxaMaTWv6jrKEa15tCdWsDddo3Ed3M1hgcBuQ9wG1ICg9
+ wso3biWogGNuAD0hccDE5CLNrQUCRGWG71Ljq9cxnfUnPWoyyOYJm5bIRyfRJEt5sAyM
+ eYEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kE5DEyfQo7/40LoJhy/tb9hNnD7C2EQV6IaO+zvVn5k=;
- b=InrkLCQNMAdTPAfh54LuJKmS5rARFf2WaMjG3uUsvA/POhkLHYJA0IB40kff4Omf6n
- W3j8dBF1hJry2/yUB2v7CqH2e2IU1k1PSDJsoMn0CUm3VLTsjzTPYiseV7dXHaqPQo7V
- M6DNLzJCgJfWuNaoE4VoPyrNyoPupm8dqhPLHpLeFDpPlocnDrJXcXMuURBGqj1Gzc7a
- ZBFKjKzha0Fa5B+Q3+n6qCC57SYbW1JfA6S1jrirJOustqeXVZaz0X9w0DFdQ9I8MM8R
- PxVQj5Wc4tusKHOP1j+o1R8YS8gmRC57jzFa8Y/3LF82ueYgU3+DkhkqlhXfOoHTHbjv
- Opyg==
-X-Gm-Message-State: AOAM532MJr6T8EG5H3nZy2ESRnmj2pmojJyyB/tE3S3IOcc5Ax+wxEC9
- 1iqIkDUY0k/m3X3jkx6X+xhGEKLwLDvBJQ==
-X-Google-Smtp-Source: ABdhPJxD7kwsY0FWPGCF83UD62ZKNEzL2BTRDnaHeCRNfb7/nd0M/a2FBVfPhBYSbpGdkgeLFSxdyQ==
-X-Received: by 2002:a05:6000:2c7:: with SMTP id
- o7mr45227615wry.0.1625939396603; 
- Sat, 10 Jul 2021 10:49:56 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=3MSEzATk19r9ft3099Sl+079BzMi8xPFVuglcUqce0A=;
+ b=Y+cTkvhr8bc4K5WoJZepe8yhfQIeirEEdFMtztC8JehGW9jbZ7NbxQHMckLQxqzyD6
+ z9+9zwskgf2I5tqpCuhMvOpqNR1b8kxSKTlo6jYgHXawuwiBqrSGSrRBi6TAPgCBtnfq
+ lMbvIBLXYGQfalmLUA9o2dAyCCCTZdESF0ZbWD2zq8nA8n+0Bkoi8mkWBeIhNAjAnsfN
+ ZIJLNAUiqZUG0iQ881KwfB+kW75fgUFbz6mstt3X2GB+Db4a3r/V2RIuKuQyKQ/kUhuq
+ Ms5ffGOfFABsA6aJiGoC+vJhhiyJdZubaMgvrecfHA4+LjxiDU023P41t6rRIq5wh4v7
+ gW9Q==
+X-Gm-Message-State: AOAM532CxZQEcdL7le+zQpMjQrexseF90OHVWSDD3+vm3TdYgoogXR2E
+ TOTJrh9x04c4odqlJQVBepqhymzlX3XR+g==
+X-Google-Smtp-Source: ABdhPJz8LMWAQ6yp3Yim3aNFMwk23UJNcecX/C8uTCr1uKeSJ7ArKDW72RZysUefPQOSM/Il/TWdGQ==
+X-Received: by 2002:a1c:f616:: with SMTP id w22mr5401227wmc.73.1625939401220; 
+ Sat, 10 Jul 2021 10:50:01 -0700 (PDT)
 Received: from x1w.. (93.red-83-35-24.dynamicip.rima-tde.net. [83.35.24.93])
- by smtp.gmail.com with ESMTPSA id s9sm9060698wrn.87.2021.07.10.10.49.55
+ by smtp.gmail.com with ESMTPSA id d24sm15256012wmb.42.2021.07.10.10.50.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Jul 2021 10:49:56 -0700 (PDT)
+ Sat, 10 Jul 2021 10:50:00 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/8] dp8393x: fixes and improvements
-Date: Sat, 10 Jul 2021 19:49:46 +0200
-Message-Id: <20210710174954.2577195-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/8] dp8393x: Replace address_space_rw(is_write=1) by
+ address_space_write()
+Date: Sat, 10 Jul 2021 19:49:47 +0200
+Message-Id: <20210710174954.2577195-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210710174954.2577195-1-f4bug@amsat.org>
+References: <20210710174954.2577195-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -90,39 +93,41 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Mark, Finn.=0D
-=0D
-This respin aims go group all the fixes sent/suggested on the list=0D
-the last weeks around the dp8393x device.=0D
-=0D
-Mark, can you send your S-o-b for patches 4 & 6?=0D
-=0D
-The last 2 patches are included for Mark, but I don't plan to merge=0D
-them without Finn's Ack, and apparently they require more work.=0D
-=0D
-Tested with NetBSD guest on Magnum Jazz.=0D
-=0D
-Based-on mips-next.=0D
-=0D
-Mark Cave-Ayland (1):=0D
-  NOTFORMERGE dp8393x: don't force 32-bit register access=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (7):=0D
-  dp8393x: Replace address_space_rw(is_write=3D1) by address_space_write()=
-=0D
-  dp8393x: Replace 0x40 magic value by SONIC_REG16_COUNT definition=0D
-  dp8393x: Only shift the device registers mapping by 1 bit=0D
-  dp8393x: Store CAM registers as 16-bit=0D
-  dp8393x: Migrate registers as array of uint16=0D
-  dp8393x: Store CRC using device configured endianess=0D
-  NOTFORMERGE dp8393x: Rewrite dp8393x_get() / dp8393x_put()=0D
-=0D
- hw/m68k/q800.c   |   2 +-=0D
- hw/mips/jazz.c   |   2 +-=0D
- hw/net/dp8393x.c | 219 +++++++++++++++++++++--------------------------=0D
- 3 files changed, 99 insertions(+), 124 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Replace address_space_rw(is_write=1) by address_space_write()
+and remove pointless cast.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/net/dp8393x.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 11810c9b600..9118364aa33 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -816,8 +816,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+         size = sizeof(uint16_t) * width;
+         address = dp8393x_crda(s) + sizeof(uint16_t) * 6 * width;
+         dp8393x_put(s, width, 0, 0);
+-        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+-                         (uint8_t *)s->data, size, 1);
++        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
++                            s->data, size);
+ 
+         /* Move to next descriptor */
+         s->regs[SONIC_CRDA] = s->regs[SONIC_LLFA];
+@@ -846,8 +846,8 @@ static ssize_t dp8393x_receive(NetClientState *nc, const uint8_t * buf,
+     /* Pad short packets to keep pointers aligned */
+     if (rx_len < padded_len) {
+         size = padded_len - rx_len;
+-        address_space_rw(&s->as, address, MEMTXATTRS_UNSPECIFIED,
+-            (uint8_t *)"\xFF\xFF\xFF", size, 1);
++        address_space_write(&s->as, address, MEMTXATTRS_UNSPECIFIED,
++                            "\xFF\xFF\xFF", size);
+         address += size;
+     }
+ 
+-- 
+2.31.1
+
 
