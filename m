@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8483C32CE
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:31:54 +0200 (CEST)
-Received: from localhost ([::1]:55688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E54E3C334E
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 08:52:22 +0200 (CEST)
+Received: from localhost ([::1]:38950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m24ef-0003Xf-2m
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48444)
+	id 1m26qa-00058R-QX
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 02:52:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24Z9-0007o1-EN
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45076)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24Z6-0000TI-0V
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:11 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m24Yz-0003gS-Js
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 519902E8209
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:25:57 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m26pr-0004S8-19
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 02:51:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58289)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m26pn-0003A7-MX
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 02:51:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625899889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SdbUkSz0SIHUxOSzOfSFF+4DmvSEKm37FDOPAe5+rGQ=;
+ b=bHhei8PqSHY1zOnLBdUhd/UmM3LYV2iNkzq6786PBW6Rd3qDnOqfQ37Jix3KB3mw4I/liV
+ lA32s/j8nYLh1KOQKSWW9TJ+aLa1r/AJoDy6CSsqlX0wQPpyOJiNz/nMWLBZVBKeiHLr5W
+ CZkMvZXjvIWGrywz0hz3N2RptRU6gKE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-522-BDn-QyFTMgCcZpENLgJq2w-1; Sat, 10 Jul 2021 02:51:26 -0400
+X-MC-Unique: BDn-QyFTMgCcZpENLgJq2w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90CF2801B0F
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 06:51:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-151.ams2.redhat.com
+ [10.36.114.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0BCB19D9F;
+ Sat, 10 Jul 2021 06:51:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 71A6F1132B52; Sat, 10 Jul 2021 08:51:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Use of migrate_add_blocker() in qxl.c
+Date: Sat, 10 Jul 2021 08:51:20 +0200
+Message-ID: <8735sm4q6v.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Jul 2021 04:17:38 -0000
-From: Launchpad Bug Tracker <1907061@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: keyboard lag laggy minimize slow window
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: evren320 janitor th-huth
-X-Launchpad-Bug-Reporter: Evren (evren320)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160733469549.5156.11028511366608269661.malonedeb@gac.canonical.com>
-Message-Id: <162589065857.5654.15030291935169146269.malone@loganberry.canonical.com>
-Subject: [Bug 1907061] Re: qemu-system-x86_64 minimizing window causes
- keyboard input lag globally
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 212bcedfe8891763b3fb2036f7fecc5278c37678
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.45,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,52 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907061 <1907061@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+migrate_add_blocker() fails when running with --only-migratable, and
+when migration is in progress.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+qxl.c continues after migrate_add_blocker() fails:
 
--- =
+        {
+            /*
+             * Windows 8 drivers place qxl commands in the vram
+             * (instead of the ram) bar.  We can't live migrate such a
+             * guest, so add a migration blocker in case we detect
+             * this, to avoid triggering the assert in pre_save().
+             *
+             * https://cgit.freedesktop.org/spice/win32/qxl-wddm-dod/commit=
+/?id=3Df6e099db39e7d0787f294d5fd0dce328b5210faa
+             */
+            void *msg =3D qxl_phys2virt(qxl, ext->cmd.data, ext->group_id);
+            if (msg !=3D NULL && (
+                    msg < (void *)qxl->vga.vram_ptr ||
+                    msg > ((void *)qxl->vga.vram_ptr + qxl->vga.vram_size))=
+) {
+                if (!qxl->migration_blocker) {
+                    Error *local_err =3D NULL;
+                    error_setg(&qxl->migration_blocker,
+                               "qxl: guest bug: command not in ram bar");
+                    migrate_add_blocker(qxl->migration_blocker, &local_err)=
+;
+                    if (local_err) {
+                        error_report_err(local_err);
+                    }
+                }
+            }
+        }
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907061
+Why is this safe?  If the blocker is needed to prevent a crash, as the
+comment says, then what prevents the crash when adding the blocker
+fails?
 
-Title:
-  qemu-system-x86_64 minimizing window causes keyboard input lag
-  globally
+Code goes back to
 
-Status in QEMU:
-  Expired
+    commit 86dbcdd9c7590d06db89ca256c5eaf0b4aba8858
+    Author: Gerd Hoffmann <kraxel@redhat.com>
+    Date:   Mon Apr 10 13:31:31 2017 +0200
 
-Bug description:
-  After qemu window is minimized, it causes keyboard lag on the host for al=
-l applications, pressed keys will be delayed and very laggy, typing to note=
-pad or any other text extremely slowly appear on the screen, queue is slowl=
-y processed.
-  If qemu window is open back to normal size, keyboard is back to normal, e=
-verything is back to normal and stable, this behavior i have been testing s=
-ince several months of qemu releases, i am reporting a bit late here, not b=
-reaking but it seems important and everytime i accidently minimize qemu, i =
-remember it later and take qemu window to normal size back always, i try ne=
-ver minimize it anymore.
-  This problem does not occur if using -display none
-  Guest OS doesn't matter for this behavior, result is always same
-  I am using:
-  qemu 5.1.0.0
-  qemu-system-x86_64w.exe
-  Windows 10 build 2004
-  4K screen dpi scaling set to 150%
+        qxl: add migration blocker to avoid pre-save assert
 
-  If requested, i can record a video to see the problem clearly, but i
-  think all information i give already clear now.
+        Cc: 1635339@bugs.launchpad.net
+        Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+        Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+        Message-id: 20170410113131.2585-1-kraxel@redhat.com
 
-  Thanks for making quality software, hope all bugs fixed
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907061/+subscriptions
 
