@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8D53C3536
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:39:48 +0200 (CEST)
-Received: from localhost ([::1]:38318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2C883C352D
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:35:08 +0200 (CEST)
+Received: from localhost ([::1]:49528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2F51-0008Eg-Ai
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
+	id 1m2F0V-0005SY-PL
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:35:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2ExO-000560-13
+ id 1m2ExO-00056c-93
  for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:31:54 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:41843)
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:43739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2ExM-0002FS-7m
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:31:53 -0400
-Received: by mail-pj1-x1035.google.com with SMTP id
- oj10-20020a17090b4d8ab0290172f77377ebso7822189pjb.0
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:31:51 -0700 (PDT)
+ id 1m2ExM-0002Fp-Ld
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:31:54 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id a127so11671828pfa.10
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:31:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XCqRJMe+RdTFdeG7cM5qJnxRaVl12uLPvY3JnI4VuRk=;
- b=nwlCfDEU+AT8OMBSeTIrvwv4l7jOmWubC+VKK2zzeHHX26Z6GIKqXM4kVnF8leugWQ
- 8c+cV7SK5LRtmFmUBGTYY0h8rer16X+biWFbL3hXNEz98yssyK29i0CnpLxOzR79Levk
- OTXmlxjLRHUCqMEBmPWG/f8/GLWbPMtpwFlTbyYZNBP0ORVIJKZvHqxuyEOw/JRSKAkQ
- 5gb12cYUGWsO4umE8D/BUWi8t1Gwh4LJb8H2hShqLqWQeMjNBnh+ArUtx5ZauJ7RPVwA
- lSG4hgpTggzEBW0YIt4e0hBcp8llQkEjsnhZ6oSA5RBAvvtbWM0lcmDl8sXl5pikjD8Q
- Q//A==
+ bh=966eOOQRBaspjRNs052m7zB6E/T5XsOP0DeM1nAzdlc=;
+ b=sQuD/u1b5YzsFYuc2hKS4vTmW0o1CV+T3BOcAcu+4FEwArKTlf//ki+jy21+D6d9uO
+ iB4yeOsL8s6PeZ/zOrB5RtIK3+wh54qBuCmAIZz8BIg7TvgUUsOJzmLuAo3mgDH1laHF
+ 5Zk/9t1At/QKwYIIxvW/1hlkYXQs+maAKYwlqdEP21hDYCZbmTi74u8deiQ59Wx/kbwn
+ MSejRMPq5QjN4Nm8coMqKA5mVCmNGPdgCKiq6R30IGJdzs8/GEjK7pEg6HVx34sylDCv
+ imPIbgLjy4LCOtNz889iNam60C1tFNAeJ29naHUwf4lfeJujW4gHJt7ZbyPKz5JFaZQN
+ rmQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XCqRJMe+RdTFdeG7cM5qJnxRaVl12uLPvY3JnI4VuRk=;
- b=HbDGKT7gBwDgd5CfvDap8N1YyPc59OpC4fPONNr3ku2Srom77sbn2HLw3pP8nVo+qy
- Suy8pDVFA4i3Qz+7i06PG1X+9CA3c8XgoxlBYP6Gq92S5Ihib2UoxUg+y4PUz+f7wFti
- Dzx7yiN4VqNp1CgYOsQXE1WE7bNLPdeSlYVFhJAuRAfp2PLdtRAsaCAKL5yzfSERWj4k
- JGUS6dDhgt2cH+78+Y/8ia44Sc+5kV2hgb4DIJZ0JleADfC73s5yEd2aaekFS3WVPjZ3
- vtTM7ePzPtTdeqKnL7ADX3Y9dYYjj1NawkQHAaW9iKvsN7j3PR5hYU7o153xGPHcEHjd
- tBww==
-X-Gm-Message-State: AOAM531jHafFhKdgDnCdmzJo00gVaTvGoDZ5j1XjV9YbRtPnd2iKgsiZ
- PZchCvMBohnj/xjPYB77dWEpGVI/VcD/fA==
-X-Google-Smtp-Source: ABdhPJxWQgloEl8cH692D93CgmwT7O04s+aqrZnvn2bs4gRewPdig1Ib+/K9x6r9+RHD4DQiVB8xdQ==
-X-Received: by 2002:a17:902:864c:b029:10d:8c9e:5f56 with SMTP id
- y12-20020a170902864cb029010d8c9e5f56mr36119865plt.8.1625931110857; 
- Sat, 10 Jul 2021 08:31:50 -0700 (PDT)
+ bh=966eOOQRBaspjRNs052m7zB6E/T5XsOP0DeM1nAzdlc=;
+ b=N9JzFEpX6+/M1xpqYNUjj/aFRZs7m/5Q6cS9ZipNBrCm+/scdayrjqioLVnkfqFXLf
+ Huw4lNVmbC/kcKGAIPcjI5+X2K49Wh0hy16h68Dc7xP0gmOcgaqwsbcwGxcN7auKcPEe
+ Thay5EJKADi2EoDHETiObSfKxM5as/fU03R2Y3VwWGA+453ozwMh11J26W5REO46q2kN
+ oaE0re5eNrJ7D0m8oO0at1j/y/gvhdw9f78e7lwZJQJbKchyNo1LVDNR10g3hT+NmBDK
+ /XSj5fQ6kzYAON16F7bTlTwrtGLXjcCt5bZ+9nR8DQO7Sk4R8z3EXjjvHSEm0T8W4Bm3
+ fJCw==
+X-Gm-Message-State: AOAM531FJQc0CvivIvTHI7Q+hgAshUpauFMUoftS5qlAGQjFYNlfwUfJ
+ Uhry5EZjtnzgToBuCHy3anZXGU9xQX3jrw==
+X-Google-Smtp-Source: ABdhPJxGwTXOUPROVJLWahxE/uye/VfbAFkkgVX5V9xZRQMcprtxGVpga+2DGAdzlJAt7ScngJgblw==
+X-Received: by 2002:a63:b48:: with SMTP id a8mr33036940pgl.169.1625931111470; 
+ Sat, 10 Jul 2021 08:31:51 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id u23sm11975374pgk.38.2021.07.10.08.31.50
+ by smtp.gmail.com with ESMTPSA id u23sm11975374pgk.38.2021.07.10.08.31.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 10 Jul 2021 08:31:50 -0700 (PDT)
+ Sat, 10 Jul 2021 08:31:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/41] target/alpha: Remove in_superpage
-Date: Sat, 10 Jul 2021 08:31:10 -0700
-Message-Id: <20210710153143.1320521-9-richard.henderson@linaro.org>
+Subject: [PATCH 09/41] target/alpha: Use translator_use_goto_tb
+Date: Sat, 10 Jul 2021 08:31:11 -0700
+Message-Id: <20210710153143.1320521-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210710153143.1320521-1-richard.henderson@linaro.org>
 References: <20210710153143.1320521-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,67 +86,30 @@ Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The number of links across (normal) pages using this is low,
-and it will shortly violate the contract for breakpoints.
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/translate.c | 24 ++----------------------
- 1 file changed, 2 insertions(+), 22 deletions(-)
+ target/alpha/translate.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index cb2cb2de6b..bb7b5ce994 100644
+index bb7b5ce994..833d3baa7b 100644
 --- a/target/alpha/translate.c
 +++ b/target/alpha/translate.c
-@@ -438,24 +438,9 @@ static DisasJumpType gen_store_conditional(DisasContext *ctx, int ra, int rb,
-     return DISAS_NEXT;
- }
+@@ -440,12 +440,7 @@ static DisasJumpType gen_store_conditional(DisasContext *ctx, int ra, int rb,
  
--static bool in_superpage(DisasContext *ctx, int64_t addr)
--{
--#ifndef CONFIG_USER_ONLY
--    return ((ctx->tbflags & ENV_FLAG_PS_USER) == 0
--            && addr >> TARGET_VIRT_ADDR_SPACE_BITS == -1
--            && ((addr >> 41) & 3) == 2);
--#else
--    return false;
--#endif
--}
--
  static bool use_goto_tb(DisasContext *ctx, uint64_t dest)
  {
- #ifndef CONFIG_USER_ONLY
--    /* If the destination is in the superpage, the page perms can't change.  */
--    if (in_superpage(ctx, dest)) {
--        return true;
--    }
-     /* Check for the dest on the same page as the start of the TB.  */
-     return ((ctx->base.tb->pc ^ dest) & TARGET_PAGE_MASK) == 0;
- #else
-@@ -2990,7 +2975,7 @@ static void alpha_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
- {
-     DisasContext *ctx = container_of(dcbase, DisasContext, base);
-     CPUAlphaState *env = cpu->env_ptr;
--    int64_t bound, mask;
-+    int64_t bound;
- 
-     ctx->tbflags = ctx->base.tb->flags;
-     ctx->mem_idx = cpu_mmu_index(env, false);
-@@ -3019,12 +3004,7 @@ static void alpha_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     ctx->lit = NULL;
- 
-     /* Bound the number of insns to execute to those left on the page.  */
--    if (in_superpage(ctx, ctx->base.pc_first)) {
--        mask = -1ULL << 41;
--    } else {
--        mask = TARGET_PAGE_MASK;
--    }
--    bound = -(ctx->base.pc_first | mask) / 4;
-+    bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
-     ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
+-#ifndef CONFIG_USER_ONLY
+-    /* Check for the dest on the same page as the start of the TB.  */
+-    return ((ctx->base.tb->pc ^ dest) & TARGET_PAGE_MASK) == 0;
+-#else
+-    return true;
+-#endif
++    return translator_use_goto_tb(&ctx->base, dest);
  }
  
+ static DisasJumpType gen_bdirect(DisasContext *ctx, int ra, int32_t disp)
 -- 
 2.25.1
 
