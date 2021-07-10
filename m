@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8243C32D2
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:33:35 +0200 (CEST)
-Received: from localhost ([::1]:34302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B97413C32D0
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:32:28 +0200 (CEST)
+Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m24gI-0000A9-DB
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48536)
+	id 1m24fD-0005YS-3Y
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:32:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZR-0000Gr-DW
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:29 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45790)
+ id 1m24ZP-0000CX-TG
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:27 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZP-0000cy-I2
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:29 -0400
+ id 1m24ZO-0000bs-A3
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:27 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m24ZB-0003mP-7l
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:13 +0000
+ id 1m24Z9-0003gS-UY
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:12 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 392C82E8221
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:05 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 04F4D2E826F
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:04 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Jul 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1905226@bugs.launchpad.net>
+Date: Sat, 10 Jul 2021 04:17:20 -0000
+From: Launchpad Bug Tracker <1905297@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: intel-hda
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jacob11 janitor th-huth
-X-Launchpad-Bug-Reporter: Jacob (jacob11)
+X-Launchpad-Bug-Commenters: janitor michaelpeter philmd th-huth
+X-Launchpad-Bug-Reporter: Michael Peter (michaelpeter)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160610307277.21225.14284199677830070930.malonedeb@gac.canonical.com>
-Message-Id: <162589063950.5654.5525410751946078791.malone@loganberry.canonical.com>
-Subject: [Bug 1905226] Re: intel-hda: stream reset bits are broken
+References: <160614967524.17013.9714069541645314856.malonedeb@wampee.canonical.com>
+Message-Id: <162589064019.5654.15245040083649718287.malone@loganberry.canonical.com>
+Subject: [Bug 1905297] Re: Zynq7000 UART clock reset initialization
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 177f13161e40ee484217ba96312dca0543a3d06d
+X-Launchpad-Hash: bf8cfead19f58f01b49a178aeab016a1c4a42bfb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905226 <1905226@bugs.launchpad.net>
+Reply-To: Bug 1905297 <1905297@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,43 +83,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905226
+https://bugs.launchpad.net/bugs/1905297
 
 Title:
-  intel-hda: stream reset bits are broken
+  Zynq7000 UART clock reset initialization
 
 Status in QEMU:
   Expired
 
 Bug description:
-  From HD audio spec, section 3.3.35:
+  Hello,
 
-  "Stream Reset (SRST): Writing a 1 causes the corresponding stream to
-  be reset. [...] After the stream hardware has completed sequencing
-  into the reset state, it will report a 1 in this bit. Software must
-  read a 1 from this bit to verify that the stream is in reset. Writing
-  a 0 causes the corresponding stream to exit reset. When the stream
-  hardware is ready to begin operation, it will report a 0 in this bit.
-  Software must read a 0 from this bit before accessing any of the
-  stream registers."
+  we have come across a strange behavior in the Zynq7000 model of Qemu
+  that seems to have been  introduced between 5.0.0 and 5.1.0.
 
-  So to reset a stream I set the bit, but it never reads back as 1 so
-  the driver either times out or will hang forever waiting for it to
-  become 1. I looked into why this happens and found that as of the
-  latest version (8110fa1), in function intel_hda_set_st_ctl() of the
-  https://github.com/qemu/qemu/blob/master/hw/audio/intel-hda.c,
+  =
 
-      if (st->ctl & 0x01) {
-          /* reset */
-          dprint(d, 1, "st #%d: reset\n", reg->stream);
-          st->ctl =3D SD_STS_FIFO_READY << 24;
-      }
+  The reset values of the SLCR register, in particular those for UART_CLK_C=
+TRL, are such that
+  the UARTs should find functional clocks. Up to 5.0.0 this was also the be=
+havior that was
+  implemented in QEMU.
 
-  This causes the bit to immediately become set to 0 even if I write a
-  1, and clearly does not meet the spec. I checked behaviour of real
-  hardware and it works as expected, i.e. I see the bit will become 1
-  and 0 when I write to it.
+  Starting in 5.1.0, we found that - despite correct reset values [1] - the=
+ UARTs are non-functional
+  upon reset. Some investigation revealed that the cause for that is that t=
+he corresponding
+  clocks are not properly initialized.
+
+  Between 5.0.0 and 5.1.0, there are three commits  that touch the Zynq
+  UART clocks [2]. The last of them [3] triggers the faulty behavior.
+
+  Attached is a patch that applies 5.2.0-rc2 and yields a functional UART. =
+We surmise that the
+  underlying device release issue runs much deeper, so it is only meant to =
+identify the issue.
+
+
+  [1] hw/misc/zynq_slcr.c
+        static void zynq_slcr_reset_init(Object *obj, ResetType type)
+         s->regs[R_UART_CLK_CTRL]  =3D 0x00003F03;
+  [2] 38867cb7ec90..5b49a34c6800
+  [3] commit 5b49a34c6800d0cb917f959d8e75e5775f0fac3f (refs/bisect/bad)
+        Author: Damien Hedde <damien.hedde@greensocs.com>
+        Date:   Mon Apr 6 15:52:50 2020 +0200
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905226/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905297/+subscriptions
 
