@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D223C3588
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 18:31:28 +0200 (CEST)
-Received: from localhost ([::1]:43050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D72A63C35E8
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 19:49:09 +0200 (CEST)
+Received: from localhost ([::1]:39758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2Ft1-00049C-PJ
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 12:31:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36594)
+	id 1m2H6C-0004vP-93
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 13:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2Fri-00030T-L3
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 12:30:06 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:34572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2Frg-00066p-Tg
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 12:30:06 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id hr1so22964243ejc.1
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 09:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ATwMRIIMLw/gSaqYIZdJMf0QKUryf0/sEgzcJt5SJ54=;
- b=fSFEfelT46bfcKXE/1qt4exfbMlvILJy74OQzseAKfI1UP4mLZEMZR+D0yZ+RQPlVh
- g0CgWuF29wzUYhmmDIG7uvlR/vHOptAy4pjCWFugc5CQX3L4wlQJZ9RypMl2KDLBxEad
- +mmsSitJCX4asqoXXtOPp11j6ChfGrfdRuKsUnZvRdXkrYD7DSilsqXsd9C6z6a0gW6m
- K26GsjCR85CjXy5FXKytYt7ZZa7PTnH4mdgwzWSamEmCHaOTkrQtEohQHX4Ui1+7Ynz/
- HkeCqOFQ0no5/AMq4i8GqlC5k2I4kbKWS8/mWafuCoDB8Y/9YOH5P0xUJZ6TgOgB9aL6
- aZfA==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1m2H5K-00040a-5J
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:48:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1m2H5G-00082g-Sz
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 13:48:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1625939289;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=npqCH9Sipfg3ToVo0HSqme/3n5lAyUPLjQtZp63Jzic=;
+ b=i7OvS4b7tX7gcvDz7XjBsjkjpcz31Tc7+ZnfXmvK/VWa08KpSuP4butT3J5xyJz26pAFue
+ qp+yXM0eXrF+pvsD6ioF1UcGstj7p0NxDv0mf2pQUDHDfufh029TfPPEtXmzfAaLfYfzgt
+ bN0xJva1O5jq7Ftk7aQ+L8E1RTlSgQw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-daFrR6M7NuW2Q7xPDzd3Pg-1; Sat, 10 Jul 2021 13:48:08 -0400
+X-MC-Unique: daFrR6M7NuW2Q7xPDzd3Pg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m31-20020a05600c3b1fb02902082e9b2132so5659320wms.5
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 10:48:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ATwMRIIMLw/gSaqYIZdJMf0QKUryf0/sEgzcJt5SJ54=;
- b=be43Aq/Al3xZAmudTtYyquPfZCl18N9zHW5elujlsIgArA0LhKhWFQQBm0Uh/S+J5t
- zTBVUoX1bRd544q8/068hl35iI+QakiVEaSOjeLGdhnB3A0CwHRkRQRbFLU0ONd33dHw
- 9413PRZk8U3oA6JRUX7sJiwHA9SdnKE5IB+eQ8Izt5K9rRcXSg9XBwCO0eP+CmMgR9bj
- tRSWD8yB9tG31n9QuM3LP69mHrFyVIn9wtqVQx1l7Zxbq6p3ozpOM7WCPp9YKYmg4Ag8
- 3IEV5C3pZiIcMcY0WXkT4qaq/vVmKQWEAuDn8H7L4TgUT0hVjrOomO6l+VnWNKFn+wwq
- zMZQ==
-X-Gm-Message-State: AOAM531RKAjJc/6mqW4J4iyY/iS4dzOzauUgcuXt476pJ6d1WRuRtU2G
- rWflmp/3zpVaR0LHLxm4C9qXPS9a9zODoGwoP4kLW1ykp0HEB7G9
-X-Google-Smtp-Source: ABdhPJxOs4/3Gyaq0et3P259ZaL8QadEmiLqVrGGXIw/Qowu5p57LUht9JcFQogTj5e1g6GFp4LRrEParAzaSeNDa50=
-X-Received: by 2002:a17:907:a05c:: with SMTP id
- gz28mr2867779ejc.56.1625934603504; 
- Sat, 10 Jul 2021 09:30:03 -0700 (PDT)
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=npqCH9Sipfg3ToVo0HSqme/3n5lAyUPLjQtZp63Jzic=;
+ b=not3PZHQEdsnz8hPWW8GiovPwHG2bfZcltjLYMFQHYJAUChehCxXrPIet/ERriI0xV
+ ToPuLrIp5ECS6eVIh8F6xCSlszWhzSsyElqa/kowvFdHI12KQuAnSML0w+ZEspyRNBuk
+ 94SHjjP5ZA16ii51BSJbLl2tvTr3Pj8oEjoCeor0NKRYwbxKDWXogtaOEkw6JU7Fa9Cb
+ PcVIEnsgkAX4GsS2Gg2685eygUExlMR3pmwF+3Zq2Sc76nJMhJS9kBeYcX8jijQJS437
+ QxEiCxDXlHdL6Csea9aNdjIqs5VFzQ6oZtlHo0rSfhSOZxkcxXcvOKVD3C8b2nZy8IL4
+ C45Q==
+X-Gm-Message-State: AOAM530LjZu+CZI1MCrqJyLL7riU6brcDtjZQiTLt89X4mt2qzYCJ2K/
+ YwEGlsjcsRXuzpBbas4m5Mt4aNSzU1zX42lU/jS4lrcTwUSx/m+1R509qzshGcpXmN4Ne0/w/B1
+ +X9sM+SyEz2DC6WY=
+X-Received: by 2002:a5d:48ce:: with SMTP id p14mr49837429wrs.170.1625939286931; 
+ Sat, 10 Jul 2021 10:48:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJztmhWKdV7ZRzUW/9Yyl3fTIwoq9iyiudPxkG0kjsdn0F80Aw5iu6kx/ZErvphyu2LcFllKoQ==
+X-Received: by 2002:a5d:48ce:: with SMTP id p14mr49837407wrs.170.1625939286676; 
+ Sat, 10 Jul 2021 10:48:06 -0700 (PDT)
+Received: from [192.168.1.120] (93-173-255-129.bb.netvision.net.il.
+ [93.173.255.129])
+ by smtp.gmail.com with ESMTPSA id c125sm13568585wme.36.2021.07.10.10.48.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 10 Jul 2021 10:48:06 -0700 (PDT)
+From: Nir Soffer <nsoffer@redhat.com>
+Subject: Re: [PATCH v2 1/3] iotests: Improve and rename test 291 to
+ qemu-img-bitmap
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210709153951.2801666-1-eblake@redhat.com>
+ <20210709153951.2801666-2-eblake@redhat.com>
+Message-ID: <ddf1b914-3aaf-6b6d-d72c-4971f5fc7139@redhat.com>
+Date: Sat, 10 Jul 2021 20:48:04 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <CAFEAcA9ykYzTbuUskdCFkYYdYqZcUM5K2ciuFLKKh9_Y2GW7Dg@mail.gmail.com>
-In-Reply-To: <CAFEAcA9ykYzTbuUskdCFkYYdYqZcUM5K2ciuFLKKh9_Y2GW7Dg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 10 Jul 2021 17:29:24 +0100
-Message-ID: <CAFEAcA8LvPSUw+x9GhPvKFvZqx6zLtUDYOT7Uh2zYef3RZx-7A@mail.gmail.com>
-Subject: Re: retrying failed gitlab CI external jobs (travis)
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210709153951.2801666-2-eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.452,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,27 +102,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, John Snow <jsnow@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 10 Jul 2021 at 14:34, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Hi; we now have travis's CI hooked into gitlab, which is nice. However,
-> unlike the gitlab native CI jobs, there's no UI for saying "retry this"
-> when the "travis CI" part of the overall gitlab pipeline fails.
-> This is awkward because travis seems to be prone to intermittent failures.
-> Is there any way we can make the jobs retryable?
+On 7/9/21 6:39 PM, Eric Blake wrote:
+> Enhance the test to demonstrate existing less-than-stellar behavior of
+> qemu-img with a qcow2 image containing an inconsistent bitmap: we
+> don't diagnose the problem until after copying the entire image (a
+> potentially long time), and when we do diagnose the failure, we still
+> end up leaving an empty bitmap in the destination.  This mess will be
+> cleaned up in the next patch.
+> 
+> While at it, rename the test now that we support useful iotest names,
+> and fix a missing newline in the error message thus exposed.
 
-Also on the subject of the external travis job, what determines
-when it runs? I would expect it to be run always, but if you look
-at https://gitlab.com/qemu-project/qemu/-/pipelines
-you can see that it didn't get run for the pipeline for
-staging commit fc32b91a. It's not just "doesn't run for staging"
-because it did run in the pipeline for staging ebd1f710.
+Much nicer with a meaningful name!
 
--- PMM
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>   block/dirty-bitmap.c                          |  2 +-
+>   .../{291 => tests/qemu-img-bitmaps}           | 19 +++++++-
+>   .../{291.out => tests/qemu-img-bitmaps.out}   | 48 ++++++++++++++++++-
+>   3 files changed, 66 insertions(+), 3 deletions(-)
+>   rename tests/qemu-iotests/{291 => tests/qemu-img-bitmaps} (88%)
+>   rename tests/qemu-iotests/{291.out => tests/qemu-img-bitmaps.out} (75%)
+> 
+> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+> index 68d295d6e3ed..0ef46163e3ea 100644
+> --- a/block/dirty-bitmap.c
+> +++ b/block/dirty-bitmap.c
+> @@ -193,7 +193,7 @@ int bdrv_dirty_bitmap_check(const BdrvDirtyBitmap *bitmap, uint32_t flags,
+>           error_setg(errp, "Bitmap '%s' is inconsistent and cannot be used",
+>                      bitmap->name);
+>           error_append_hint(errp, "Try block-dirty-bitmap-remove to delete"
+> -                          " this bitmap from disk");
+> +                          " this bitmap from disk\n");
+>           return -1;
+>       }
+> 
+> diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/tests/qemu-img-bitmaps
+> similarity index 88%
+> rename from tests/qemu-iotests/291
+> rename to tests/qemu-iotests/tests/qemu-img-bitmaps
+> index 20efb080a6c0..2f51651d0ce5 100755
+> --- a/tests/qemu-iotests/291
+> +++ b/tests/qemu-iotests/tests/qemu-img-bitmaps
+> @@ -3,7 +3,7 @@
+>   #
+>   # Test qemu-img bitmap handling
+>   #
+> -# Copyright (C) 2018-2020 Red Hat, Inc.
+> +# Copyright (C) 2018-2021 Red Hat, Inc.
+>   #
+>   # This program is free software; you can redistribute it and/or modify
+>   # it under the terms of the GNU General Public License as published by
+> @@ -27,11 +27,13 @@ status=1 # failure is the default!
+>   _cleanup()
+>   {
+>       _cleanup_test_img
+> +    _rm_test_img "$TEST_IMG.copy"
+>       nbd_server_stop
+>   }
+>   trap "_cleanup; exit \$status" 0 1 2 3 15
+> 
+>   # get standard environment, filters and checks
+> +cd ..
+>   . ./common.rc
+>   . ./common.filter
+>   . ./common.nbd
+> @@ -129,6 +131,21 @@ $QEMU_IMG map --output=json --image-opts \
+> 
+>   nbd_server_stop
+> 
+> +echo
+> +echo "=== Check handling of inconsistent bitmap ==="
+> +echo
+> +
+> +$QEMU_IO -c abort "$TEST_IMG" 2>/dev/null
+> +$QEMU_IMG bitmap --add "$TEST_IMG" b4
+> +$QEMU_IMG bitmap --remove "$TEST_IMG" b1
+> +_img_info --format-specific | _filter_irrelevant_img_info
+> +$QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG" "$TEST_IMG.copy" &&
+> +    echo "unexpected success"
+> +# Bug - even though we failed at conversion, we left a file around with
+> +# a bitmap marked as not corrupt
+> +TEST_IMG=$TEST_IMG.copy _img_info --format-specific \
+> +    | _filter_irrelevant_img_info
+> +
+>   # success, all done
+>   echo '*** done'
+>   rm -f $seq.full
+> diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/tests/qemu-img-bitmaps.out
+> similarity index 75%
+> rename from tests/qemu-iotests/291.out
+> rename to tests/qemu-iotests/tests/qemu-img-bitmaps.out
+> index 23411c0ff4d9..b762362075d1 100644
+> --- a/tests/qemu-iotests/291.out
+> +++ b/tests/qemu-iotests/tests/qemu-img-bitmaps.out
+> @@ -1,4 +1,4 @@
+> -QA output created by 291
+> +QA output created by qemu-img-bitmaps
+> 
+>   === Initial image setup ===
+> 
+> @@ -115,4 +115,50 @@ Format specific information:
+>   [{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
+>   { "start": 2097152, "length": 1048576, "depth": 0, "zero": false, "data": false},
+>   { "start": 3145728, "length": 7340032, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
+> +
+> +=== Check handling of inconsistent bitmap ===
+> +
+> +image: TEST_DIR/t.IMGFMT
+> +file format: IMGFMT
+> +virtual size: 10 MiB (10485760 bytes)
+> +cluster_size: 65536
+> +backing file: TEST_DIR/t.IMGFMT.base
+> +backing file format: IMGFMT
+> +Format specific information:
+> +    bitmaps:
+> +        [0]:
+> +            flags:
+> +                [0]: in-use
+> +                [1]: auto
+> +            name: b2
+> +            granularity: 65536
+> +        [1]:
+> +            flags:
+> +                [0]: in-use
+> +            name: b0
+> +            granularity: 65536
+> +        [2]:
+> +            flags:
+> +                [0]: auto
+> +            name: b4
+> +            granularity: 65536
+> +    corrupt: false
+> +qemu-img: Failed to populate bitmap b0: Bitmap 'b0' is inconsistent and cannot be used
+> +Try block-dirty-bitmap-remove to delete this bitmap from disk
+
+In this context a more useful error message would be:
+
+     Try "qemu-img bitmap --remove" ...
+
+but this is not a new issue.
+
+> +image: TEST_DIR/t.IMGFMT.copy
+> +file format: IMGFMT
+> +virtual size: 10 MiB (10485760 bytes)
+> +cluster_size: 65536
+> +Format specific information:
+> +    bitmaps:
+> +        [0]:
+> +            flags:
+> +            name: b0
+> +            granularity: 65536
+> +        [1]:
+> +            flags:
+> +                [0]: auto
+> +            name: b4
+> +            granularity: 65536
+> +    corrupt: false
+>   *** done
+> 
+
+Reviewed-by: Nir Soffer <nsoffer@redhat.com>
+
 
