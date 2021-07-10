@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13CD63C350A
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:06:08 +0200 (CEST)
-Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 428663C350B
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:07:23 +0200 (CEST)
+Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2EYQ-0000uH-QH
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:06:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55016)
+	id 1m2EZe-0002VN-Bs
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:07:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1m2EXL-00006f-RJ
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:04:59 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:46753)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m2EYT-0001Zw-Of
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:06:09 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1m2EXK-0001ET-5S
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:04:59 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id w15so13092494pgk.13
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m2EYP-000226-NU
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:06:09 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id l24so18783698edr.11
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jPlPeCVYlQvb5i2Gecd/5N70Lmg/f9+8hHCIY2oTTZo=;
- b=Td85Io886L+gnhSbivtv906cEPTubS2vyzNGRzQ2hG6FqlDmyi+M4hTZdkAdcqhtCa
- JPdN5BX/YHedZcu93Rujr4A+y8YXJxUM5aYoCBb0SzQ/Ur3aRnGO3IM8rDMVgeiN2MQd
- 62VXtWjdkOiW3acVgsUElWc4PDZQK6L/Y4p4DdC5PrtgoUps5jkd++4+nkIvrM6AeRMy
- 4v4EfAA92Fa0JL4lQ/X7kAaPLPqKjEQ4zvtIro1PQObZN2dgBgnhKxlu/NfcaU/wO8uX
- RMopbb3P6Nv9YzxCtVLjeFElK3XG6l8L41fCXc3NcQo1aQYx6ANymkT92B2RqBLDxZRV
- Ga9Q==
+ :cc; bh=YyGS8w5rVX/MgsQu5sXDouu1WhX5OGnNH3bn4/RCnt4=;
+ b=KpVEZ31zk+PujdQ6UIP64NxbQVQGALA1x8uLu3Fl5fXtRJn7B5AycnceZJlID6UBdH
+ fHd8TX8ubI5sw2KTDNhqtSkvzglcMmZ1yIICVxU+goDgkhfx03wSWTG24QpBCyC6rbpO
+ ib9o174mPaBpKPk9iB4avCN08veaP27YFXSPVqrike5JUK4/XQt7zHt70N71uKbncaf3
+ FMFj5VMAUbci3lJPOQ9oKjzRhnKYyR+jOJFagdskY1Us+42EWlTU0/xLLi/NxJQdNC9K
+ KnuA9IP3bRkNZcJD6tmtXFCJcIekyFN7LiP8T3nrb1Mj23iv3W7ZMEZOnsQ1Brgkc32a
+ IVwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jPlPeCVYlQvb5i2Gecd/5N70Lmg/f9+8hHCIY2oTTZo=;
- b=qQvufzwxQu3rgXZSETV2AIrKOSvk+WBAjsVOXjR1lSxnYXQGnwrPvsia72m6BFd6vG
- gNmP62zIdGGxY9MrVW9/377A3B+SBQfhHEKB/YSTzhD95nZZJLLZgD4zHqkbhDedySsf
- PjQohT0h+BedssC2a6c3NczLPHsKTSD/Mmxy6sc6xg1qlvvv73ube3h7sUfA/tGyQAIT
- 2/ruiv0RVhgrsW5KclYlK0lI7+HjGC9+cT2/kxnAqcnDGuUMHVa669poVVDBF8iDO48n
- yOfXVpfl349Pgd+B/s/XEJ8lRZAtBqQeJCxpGexOTK8Gq7H7NVaffabiQKqJAch3eUcP
- gFtQ==
-X-Gm-Message-State: AOAM530rcWUDBdsHQPip9RMyz2OY/nQZdLnHlKdDEGlcPLMvUUnldMRC
- nV2Nt6HhdkFZil1RHud+jWtzCbOAuLIR/rtA
-X-Google-Smtp-Source: ABdhPJwcEBB6ES+fZgJ+lPRJytRCYkohKT2970xdfYiwkJNATUSiKzBLG040Qur5oIe2QdnsORUiFw==
-X-Received: by 2002:a63:d60b:: with SMTP id q11mr43827633pgg.270.1625929496284; 
- Sat, 10 Jul 2021 08:04:56 -0700 (PDT)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com.
- [209.85.210.171])
- by smtp.gmail.com with ESMTPSA id b33sm11232098pgb.92.2021.07.10.08.04.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 10 Jul 2021 08:04:55 -0700 (PDT)
-Received: by mail-pf1-f171.google.com with SMTP id b12so11634580pfv.6;
- Sat, 10 Jul 2021 08:04:55 -0700 (PDT)
-X-Received: by 2002:a63:655:: with SMTP id 82mr12467700pgg.133.1625929495457; 
- Sat, 10 Jul 2021 08:04:55 -0700 (PDT)
+ bh=YyGS8w5rVX/MgsQu5sXDouu1WhX5OGnNH3bn4/RCnt4=;
+ b=W/9OV6goBz7NIVib6lGp4Umy9bZU9y2v31vcdSODaT8GxUJh+BnDqlFAZVVROypKM6
+ XPbGi33/JHGa0t0ZrYsDQRXmPcmQZvhNqVeShSOScLXMj2DFWDUsz3+qZXEv+rwOvf/e
+ 2u32Ew44LBPBpsOWXQYsJ233yz6uoE3t62BXJwsDdiabZKkSgN3ZF9w/QPMkcm+Wf80s
+ ySjwkSfHwr33LLrmVsthUvDj0xyUVMLMlFqBnG1QiHiUYqnR1HBGTWRLHDDT1S8Rub81
+ OaBuIi/8nES0vKRbsP+4lNrrDNMcMDxz/Xe7Qy/Wn7/gDEyXY2EkL3ZajN1T0CMY6Kee
+ V75w==
+X-Gm-Message-State: AOAM533sq6yPE29ej6sz8+xLcnt01oOB9G2ptGdqP/tBidDwribpWtHJ
+ r06yRbbIB1eeFqWS81xIJQpw/xBVStbbRJZE3uo0Xg==
+X-Google-Smtp-Source: ABdhPJyDNAv3NOvt32x38nHztVfTOt3d5AgZ18B+hbTbyN/xq/yIAxU9Sdz8kQF2oYgJrNBlkyu0YJ8g5pi+BxlVlJE=
+X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr30130088eds.204.1625929563709; 
+ Sat, 10 Jul 2021 08:06:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
- <20210409074857.166082-7-zhiwei_liu@c-sky.com>
-In-Reply-To: <20210409074857.166082-7-zhiwei_liu@c-sky.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Sat, 10 Jul 2021 23:04:44 +0800
-X-Gmail-Original-Message-ID: <CANzO1D2t_Pwbfv7YBu5GqV6qyyDqWmRf0y2ocu+_swnxStJxFA@mail.gmail.com>
-Message-ID: <CANzO1D2t_Pwbfv7YBu5GqV6qyyDqWmRf0y2ocu+_swnxStJxFA@mail.gmail.com>
-Subject: Re: [RFC PATCH 06/11] target/riscv: Update CSR xtvec in CLIC mode
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Content-Type: multipart/alternative; boundary="00000000000001b38205c6c636d1"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52b.google.com
+References: <20210708195552.2730970-1-ehabkost@redhat.com>
+In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 10 Jul 2021 16:05:24 +0100
+Message-ID: <CAFEAcA_5QfQ61RKqt65dgqVZ=tW2yK5=kERtR6E9Kdby-_Fewg@mail.gmail.com>
+Subject: Re: [PULL v2 00/15] Machine queue, 2021-07-07
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,206 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wxy194768@alibaba-inc.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000001b38205c6c636d1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-LIU Zhiwei <zhiwei_liu@c-sky.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=889=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:51=E5=AF=AB=E9=81=93=EF=BC=9A
-
-> The new CLIC interrupt-handling mode is encoded as a new state in the
-> existing WARL xtvec register, where the low two bits of are 11.
+On Thu, 8 Jul 2021 at 20:55, Eduardo Habkost <ehabkost@redhat.com> wrote:
 >
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> ---
->  target/riscv/csr.c | 22 ++++++++++++++++++++--
->  1 file changed, 20 insertions(+), 2 deletions(-)
+> Changes v2:
+> * Fix doc build warning
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index f6c84b9fe4..39ff72041a 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -637,9 +637,18 @@ static int read_mtvec(CPURISCVState *env, int csrno,
-> target_ulong *val)
+> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
 >
->  static int write_mtvec(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 >=3D rese=
-rved */
-> +    /*
-> +     * bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 3 =3D CLIC,
-> +     * others reserved
-> +     */
->      if ((val & 3) < 2) {
->          env->mtvec =3D val;
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
+>
+> for you to fetch changes up to 53d1b5fcfb40c47da4c060dc913df0e9f62894bd:
+>
+>   vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus (2021-07-08 15:54:45 -0400)
+>
+> ----------------------------------------------------------------
+> Machine queue, 2021-07-07
+>
+> Deprecation:
+> * Deprecate pmem=on with non-DAX capable backend file
+>   (Igor Mammedov)
+>
+> Feature:
+> * virtio-mem: vfio support (David Hildenbrand)
+>
+> Cleanup:
+> * vmbus: Don't make QOM property registration conditional
+>   (Eduardo Habkost)
 >
 
-We might need to zero new fields in mcause when set back to basic mode:
 
-Section 4.7:
-When basic mode is written to xtvec,
-the new xcause state fields (mhinv and mpil) are zeroed.
-The other new xcause fields, mpp and mpie, appear as zero in the xcause CSR
-but the corresponding state bits in the mstatus register are not cleared.
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-> +    } else if ((val & 1) && env->clic) {
-> +        /*
-> +         * If only CLIC mode is supported, writes to bit 1 are also
-> ignored and
-> +         * it is always set to one. CLIC mode hardwires xtvec bits 2-5 t=
-o
-> zero.
-> +         */
-> +        env->mtvec =3D ((val & ~0x3f) << 6) | (0b000011);
->      } else {
->          qemu_log_mask(LOG_UNIMP, "CSR_MTVEC: reserved mode not
-> supported\n");
->      }
-> @@ -837,9 +846,18 @@ static int read_stvec(CPURISCVState *env, int csrno,
-> target_ulong *val)
->
->  static int write_stvec(CPURISCVState *env, int csrno, target_ulong val)
->  {
-> -    /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 >=3D rese=
-rved */
-> +    /*
-> +     * bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 3 =3D CLIC,
-> +     * others reserved
-> +     */
->      if ((val & 3) < 2) {
->          env->stvec =3D val;
->
-
-Same to write_mtvec()
-
-Regards,
-Frank Chang
-
-
-> +    } else if ((val & 1) && env->clic) {
-> +        /*
-> +         * If only CLIC mode is supported, writes to bit 1 are also
-> ignored and
-> +         * it is always set to one. CLIC mode hardwires xtvec bits 2-5 t=
-o
-> zero.
-> +         */
-> +        env->stvec =3D ((val & ~0x3f) << 6) | (0b000011);
->      } else {
->          qemu_log_mask(LOG_UNIMP, "CSR_STVEC: reserved mode not
-> supported\n");
->      }
-> --
-> 2.25.1
->
->
->
-
---00000000000001b38205c6c636d1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_l=
-iu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=
-=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:51=E5=AF=AB=E9=81=93=
-=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">The new CLIC interrupt-handling mode is encoded as a n=
-ew state in the<br>
-existing WARL xtvec register, where the low two bits of are 11.<br>
-<br>
-Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@c-sky.com" targe=
-t=3D"_blank">zhiwei_liu@c-sky.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/csr.c | 22 ++++++++++++++++++++--<br>
-=C2=A01 file changed, 20 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index f6c84b9fe4..39ff72041a 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -637,9 +637,18 @@ static int read_mtvec(CPURISCVState *env, int csrno, t=
-arget_ulong *val)<br>
-<br>
-=C2=A0static int write_mtvec(CPURISCVState *env, int csrno, target_ulong va=
-l)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 &=
-gt;=3D reserved */<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored=
-, 3 =3D CLIC,<br>
-+=C2=A0 =C2=A0 =C2=A0* others reserved<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0 =C2=A0 =C2=A0if ((val &amp; 3) &lt; 2) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;mtvec =3D val;<br></blockquote><d=
-iv><br></div><div>We might need to zero new fields in mcause when set back =
-to basic mode:</div><div><br></div><div>Section 4.7:</div><div>When basic m=
-ode is written to xtvec,</div><div>the new xcause state fields (mhinv and m=
-pil) are zeroed.</div><div>The other new xcause fields, mpp and mpie, appea=
-r as zero in the xcause CSR</div><div>but the corresponding state bits in t=
-he mstatus register are not cleared.</div><div>=C2=A0</div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 } else if ((val &amp; 1) &amp;&amp; env-&gt;clic) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If only CLIC mode is supported, writes=
- to bit 1 are also ignored and<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* it is always set to one. CLIC mode har=
-dwires xtvec bits 2-5 to zero.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mtvec =3D ((val &amp; ~0x3f) &lt;&lt; =
-6) | (0b000011);<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log_mask(LOG_UNIMP, &quot;CSR_MTVEC:=
- reserved mode not supported\n&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-@@ -837,9 +846,18 @@ static int read_stvec(CPURISCVState *env, int csrno, t=
-arget_ulong *val)<br>
-<br>
-=C2=A0static int write_stvec(CPURISCVState *env, int csrno, target_ulong va=
-l)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 /* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored, 2 &=
-gt;=3D reserved */<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* bits [1:0] encode mode; 0 =3D direct, 1 =3D vectored=
-, 3 =3D CLIC,<br>
-+=C2=A0 =C2=A0 =C2=A0* others reserved<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-=C2=A0 =C2=A0 =C2=A0if ((val &amp; 3) &lt; 2) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;stvec =3D val;<br></blockquote><d=
-iv><br></div><div>Same to write_mtvec()</div><div><br></div><div>Regards,</=
-div><div>Frank Chang</div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">
-+=C2=A0 =C2=A0 } else if ((val &amp; 1) &amp;&amp; env-&gt;clic) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* If only CLIC mode is supported, writes=
- to bit 1 are also ignored and<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* it is always set to one. CLIC mode har=
-dwires xtvec bits 2-5 to zero.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;stvec =3D ((val &amp; ~0x3f) &lt;&lt; =
-6) | (0b000011);<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_log_mask(LOG_UNIMP, &quot;CSR_STVEC:=
- reserved mode not supported\n&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---00000000000001b38205c6c636d1--
+-- PMM
 
