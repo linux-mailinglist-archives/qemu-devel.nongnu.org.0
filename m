@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689B43C32D3
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:34:07 +0200 (CEST)
-Received: from localhost ([::1]:36612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E8243C32D2
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 06:33:35 +0200 (CEST)
+Received: from localhost ([::1]:34302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m24go-0001mL-GT
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:34:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48596)
+	id 1m24gI-0000A9-DB
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 00:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZV-0000Qu-2h
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45834)
+ id 1m24ZR-0000Gr-DW
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m24ZR-0000dJ-Qc
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:32 -0400
+ id 1m24ZP-0000cy-I2
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 00:26:29 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m24ZC-0003md-4v
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:14 +0000
+ id 1m24ZB-0003mP-7l
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9778F2E8232
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:06 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 392C82E8221
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 04:26:05 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Jul 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1904652@bugs.launchpad.net>
+Date: Sat, 10 Jul 2021 04:17:19 -0000
+From: Launchpad Bug Tracker <1905226@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Tags: intel-hda
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cwmyung janitor th-huth
-X-Launchpad-Bug-Reporter: Cheolwoo,Myung (cwmyung)
+X-Launchpad-Bug-Commenters: jacob11 janitor th-huth
+X-Launchpad-Bug-Reporter: Jacob (jacob11)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160567182664.18318.5998464734058327883.malonedeb@wampee.canonical.com>
-Message-Id: <162589063881.5654.6286064442261561863.malone@loganberry.canonical.com>
-Subject: [Bug 1904652] Re: Assertion failure in usb-ohci
+References: <160610307277.21225.14284199677830070930.malonedeb@gac.canonical.com>
+Message-Id: <162589063950.5654.5525410751946078791.malone@loganberry.canonical.com>
+Subject: [Bug 1905226] Re: intel-hda: stream reset bits are broken
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: b5a241dd09a0676c65b5c2e0e2675b3ab3e9c53b
+X-Launchpad-Hash: 177f13161e40ee484217ba96312dca0543a3d06d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904652 <1904652@bugs.launchpad.net>
+Reply-To: Bug 1905226 <1905226@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,83 +84,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904652
+https://bugs.launchpad.net/bugs/1905226
 
 Title:
-  Assertion failure in usb-ohci
+  intel-hda: stream reset bits are broken
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hello,
+  From HD audio spec, section 3.3.35:
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  usb-ohci.
+  "Stream Reset (SRST): Writing a 1 causes the corresponding stream to
+  be reset. [...] After the stream hardware has completed sequencing
+  into the reset state, it will report a 1 in this bit. Software must
+  read a 1 from this bit to verify that the stream is in reset. Writing
+  a 0 causes the corresponding stream to exit reset. When the stream
+  hardware is ready to begin operation, it will report a 0 in this bit.
+  Software must read a 0 from this bit before accessing any of the
+  stream registers."
 
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
+  So to reset a stream I set the bit, but it never reads back as 1 so
+  the driver either times out or will hang forever waiting for it to
+  become 1. I looked into why this happens and found that as of the
+  latest version (8110fa1), in function intel_hda_set_st_ctl() of the
+  https://github.com/qemu/qemu/blob/master/hw/audio/intel-hda.c,
 
-  This was found in version 5.2.0 (master)
+      if (st->ctl & 0x01) {
+          /* reset */
+          dprint(d, 1, "st #%d: reset\n", reg->stream);
+          st->ctl =3D SD_STS_FIFO_READY << 24;
+      }
 
-  --------
-
-  ```
-
-  Program terminated with signal SIGABRT, Aborted.
-
-  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
-e.c:51
-  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-  [Current thread is 1 (Thread 0x7f34d0411440 (LWP 9418))]
-  gdb-peda$ bt
-  #0  0x00007f34c8d4ef47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007f34c8d508b1 in __GI_abort () at abort.c:79
-  #2  0x000055d3a2081844 in ohci_frame_boundary (opaque=3D0x55d3a4ecdaf0) a=
-t ../hw/usb/hcd-ohci.c:1297
-  #3  0x000055d3a25be155 in timerlist_run_timers (timer_list=3D0x55d3a3fd98=
-40) at ../util/qemu-timer.c:574
-  #4  0x000055d3a25beaba in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at ../util/qemu-timer.c:588
-  #5  0x000055d3a25beaba in qemu_clock_run_all_timers () at ../util/qemu-ti=
-mer.c:670
-  #6  0x000055d3a25e69a1 in main_loop_wait (nonblocking=3D<optimized out>) =
-at ../util/main-loop.c:531
-  #7  0x000055d3a2433972 in qemu_main_loop () at ../softmmu/vl.c:1678
-  #8  0x000055d3a1d0969b in main (argc=3D<optimized out>, argc@entry=3D0x15=
-, argv=3D<optimized out>,
-      argv@entry=3D0x7ffc6de722a8, envp=3D<optimized out>) at ../softmmu/ma=
-in.c:50
-  #9  0x00007f34c8d31b97 in __libc_start_main (main=3D
-      0x55d3a1d09690 <main>, argc=3D0x15, argv=3D0x7ffc6de722a8, init=3D<op=
-timized out>, fini=3D<optimized out>, rtld_fini=3D<optimized out>, stack_en=
-d=3D0x7ffc6de72298) at ../csu/libc-start.c:310
-  #10 0x000055d3a1d095aa in _start ()
-  ```
-
-  To reproduce the assertion failure, please run the QEMU with the
-  following command line.
-
-  ```
-  [Terminal 1]
-
-  $ qemu-system-i386 -m 512 -drive
-  file=3D./fs.img,index=3D1,media=3Ddisk,format=3Draw -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -drive
-  if=3Dnone,id=3Dstick,file=3D./usbdisk.img,format=3Draw -device pci-ohci,i=
-d=3Dusb
-  -device usb-storage,bus=3Dusb.0,drive=3Dstick
-
-  [Terminal 2]
-
-  $ ./repro_log ./fs.img ./pci-ohci
-
-  ```
-
-  Please let me know if I can provide any further info.
-  -Cheolwoo, Myung (Seoul National University)
+  This causes the bit to immediately become set to 0 even if I write a
+  1, and clearly does not meet the spec. I checked behaviour of real
+  hardware and it works as expected, i.e. I see the bit will become 1
+  and 0 when I write to it.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904652/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905226/+subscriptions
 
