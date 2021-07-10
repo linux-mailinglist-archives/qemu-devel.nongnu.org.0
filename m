@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428663C350B
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:07:23 +0200 (CEST)
-Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 443B13C3526
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 17:33:28 +0200 (CEST)
+Received: from localhost ([::1]:40452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2EZe-0002VN-Bs
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55158)
+	id 1m2Eys-0007qI-No
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 11:33:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2EYT-0001Zw-Of
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:06:09 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44592)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m2ExJ-0004wX-DO
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:31:49 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:45637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2EYP-000226-NU
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:06:09 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id l24so18783698edr.11
- for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:06:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m2ExH-0002B8-8M
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 11:31:48 -0400
+Received: by mail-pg1-x529.google.com with SMTP id y17so13139939pgf.12
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 08:31:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YyGS8w5rVX/MgsQu5sXDouu1WhX5OGnNH3bn4/RCnt4=;
- b=KpVEZ31zk+PujdQ6UIP64NxbQVQGALA1x8uLu3Fl5fXtRJn7B5AycnceZJlID6UBdH
- fHd8TX8ubI5sw2KTDNhqtSkvzglcMmZ1yIICVxU+goDgkhfx03wSWTG24QpBCyC6rbpO
- ib9o174mPaBpKPk9iB4avCN08veaP27YFXSPVqrike5JUK4/XQt7zHt70N71uKbncaf3
- FMFj5VMAUbci3lJPOQ9oKjzRhnKYyR+jOJFagdskY1Us+42EWlTU0/xLLi/NxJQdNC9K
- KnuA9IP3bRkNZcJD6tmtXFCJcIekyFN7LiP8T3nrb1Mj23iv3W7ZMEZOnsQ1Brgkc32a
- IVwg==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dk+zuhETsq+BLQbY3QHW1Nzi0+O3z9iny10j1AXt6ak=;
+ b=LXePg6goPC97RG3lJx0SdNDAHJ+FYyyMOYpVSNubPuu23T+Xfjt0HZeCBo+4o/hQwQ
+ Sr8V7gqZOiTkzcJsUWi7McYa71993AEkldm7nkVPXG1CZA4p6W1nv/pb+h8qED57uPDs
+ hroQtyumi4Q6gVjGhOXPz0PcYCofpcQ77fXQatFlPxVfLIR2SC2IzCzpzlN3h9tBZLJM
+ AX1wFS3zulVkWgUNMnK0y6BaAq1UErTqFruSnG8UHapOagbdEr7mgPXwlYmoJqFrOh1Z
+ XL3rD8CDNlp6p3vldvZkPtn2He7Z3HDCfGm9xIDtau0E8HZeF5bqTLwA2amkY8KsVjdS
+ /9CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YyGS8w5rVX/MgsQu5sXDouu1WhX5OGnNH3bn4/RCnt4=;
- b=W/9OV6goBz7NIVib6lGp4Umy9bZU9y2v31vcdSODaT8GxUJh+BnDqlFAZVVROypKM6
- XPbGi33/JHGa0t0ZrYsDQRXmPcmQZvhNqVeShSOScLXMj2DFWDUsz3+qZXEv+rwOvf/e
- 2u32Ew44LBPBpsOWXQYsJ233yz6uoE3t62BXJwsDdiabZKkSgN3ZF9w/QPMkcm+Wf80s
- ySjwkSfHwr33LLrmVsthUvDj0xyUVMLMlFqBnG1QiHiUYqnR1HBGTWRLHDDT1S8Rub81
- OaBuIi/8nES0vKRbsP+4lNrrDNMcMDxz/Xe7Qy/Wn7/gDEyXY2EkL3ZajN1T0CMY6Kee
- V75w==
-X-Gm-Message-State: AOAM533sq6yPE29ej6sz8+xLcnt01oOB9G2ptGdqP/tBidDwribpWtHJ
- r06yRbbIB1eeFqWS81xIJQpw/xBVStbbRJZE3uo0Xg==
-X-Google-Smtp-Source: ABdhPJyDNAv3NOvt32x38nHztVfTOt3d5AgZ18B+hbTbyN/xq/yIAxU9Sdz8kQF2oYgJrNBlkyu0YJ8g5pi+BxlVlJE=
-X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr30130088eds.204.1625929563709; 
- Sat, 10 Jul 2021 08:06:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Dk+zuhETsq+BLQbY3QHW1Nzi0+O3z9iny10j1AXt6ak=;
+ b=MPdl7y3ZIapvN9DYoZDI98d4e/8ePM3dgpNwGvG22Z5lRqtVQL5J5LFHJjU6iURS4e
+ wC6iXYTDkUWcOt2weEhhcHf2OsVIyiPNIcblgs2Kf4x+2u1lmMRmLUgVIMd3m5VTffqV
+ s6iKxbQJb4i+N/VHU0N17xG/CHW4O6QMzWDtyYorX7U8CxSGL04w6QFl3pp3GLEGrhEQ
+ g9J+BnXmIcmiCtIHoZbvwoH5UfteMMpB6HCj15fxbu8ZBDRJUt2WtDFb6O66hqUEomes
+ b1V4peYAzWH3k9SSfLNSVBxu5Ll/fqvUoXlRQBbfXmcyAZ2h6orffZmFN+Oom6wziV/o
+ pn7g==
+X-Gm-Message-State: AOAM532W6EWGAyhIOMmtdwbUTAlUvjrLB7GGUu91gMdueESYIlR5Cwfu
+ h15wwWwrgfLi+QruUC0f+CFZcIwNnPVF5A==
+X-Google-Smtp-Source: ABdhPJz87usBcWyjcuMnRzUG7v88SGmdlps+FQytaBBqAzaAh9u+dvqxiUmywoNjHH//2NQJ6V0I9g==
+X-Received: by 2002:aa7:81c5:0:b029:2f7:d4e3:78e9 with SMTP id
+ c5-20020aa781c50000b02902f7d4e378e9mr44196917pfn.31.1625931104931; 
+ Sat, 10 Jul 2021 08:31:44 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id u23sm11975374pgk.38.2021.07.10.08.31.44
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Jul 2021 08:31:44 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/41] tcg patch queue
+Date: Sat, 10 Jul 2021 08:31:02 -0700
+Message-Id: <20210710153143.1320521-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210708195552.2730970-1-ehabkost@redhat.com>
-In-Reply-To: <20210708195552.2730970-1-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 10 Jul 2021 16:05:24 +0100
-Message-ID: <CAFEAcA_5QfQ61RKqt65dgqVZ=tW2yK5=kERtR6E9Kdby-_Fewg@mail.gmail.com>
-Subject: Re: [PULL v2 00/15] Machine queue, 2021-07-07
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,48 +83,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 8 Jul 2021 at 20:55, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> Changes v2:
-> * Fix doc build warning
->
-> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
->
-> for you to fetch changes up to 53d1b5fcfb40c47da4c060dc913df0e9f62894bd:
->
->   vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus (2021-07-08 15:54:45 -0400)
->
-> ----------------------------------------------------------------
-> Machine queue, 2021-07-07
->
-> Deprecation:
-> * Deprecate pmem=on with non-DAX capable backend file
->   (Igor Mammedov)
->
-> Feature:
-> * virtio-mem: vfio support (David Hildenbrand)
->
-> Cleanup:
-> * vmbus: Don't make QOM property registration conditional
->   (Eduardo Habkost)
->
+The following changes since commit 05de778b5b8ab0b402996769117b88c7ea5c7c61:
 
+  Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2021-07-09 14:30:01 +0100)
 
-Applied, thanks.
+are available in the Git repository at:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210710
 
--- PMM
+for you to fetch changes up to ad1a706f386c2281adb0b09257d892735e405834:
+
+  cpu: Add breakpoint tracepoints (2021-07-09 21:31:11 -0700)
+
+----------------------------------------------------------------
+Add translator_use_goto_tb.
+Cleanups in prep of breakpoint fixes.
+Misc fixes.
+
+----------------------------------------------------------------
+Liren Wei (2):
+      accel/tcg: Hoist tcg_tb_insert() up above tb_link_page()
+      tcg: Bake tb_destroy() into tcg_region_tree
+
+Philippe Mathieu-Daudé (1):
+      tcg: Avoid including 'trace-tcg.h' in target translate.c
+
+Richard Henderson (38):
+      tcg: Add separator in INDEX_op_call dump
+      tcg: Move tb_phys_invalidate_count to tb_ctx
+      accel/tcg: Introduce translator_use_goto_tb
+      target/alpha: Remove use_exit_tb
+      target/alpha: Remove in_superpage
+      target/alpha: Use translator_use_goto_tb
+      target/arm: Use DISAS_TOO_MANY for ISB and SB
+      target/arm: Use translator_use_goto_tb for aarch64
+      target/arm: Use translator_use_goto_tb for aarch32
+      target/avr: Use translator_use_goto_tb
+      target/avr: Mark some helpers noreturn
+      target/cris: Use translator_use_goto_tb
+      target/hppa: Use translator_use_goto_tb
+      target/i386: Use translator_use_goto_tb
+      target/m68k: Use translator_use_goto_tb
+      target/microblaze: Use translator_use_goto_tb
+      target/mips: Use translator_use_goto_tb
+      target/mips: Fix missing else in gen_goto_tb
+      target/nios2: Use translator_use_goto_tb
+      target/openrisc: Use translator_use_goto_tb
+      target/ppc: Use translator_use_goto_tb
+      target/riscv: Use translator_use_goto_tb
+      target/rx: Use translator_use_goto_tb
+      target/s390x: Use translator_use_goto_tb
+      target/s390x: Remove use_exit_tb
+      target/sh4: Use translator_use_goto_tb
+      target/sparc: Use translator_use_goto_tb
+      target/tricore: Use translator_use_goto_tb
+      target/tricore: Use tcg_gen_lookup_and_goto_ptr
+      target/xtensa: Use translator_use_goto_tb
+      tcg: Fix prologue disassembly
+      target/i386: Use cpu_breakpoint_test in breakpoint_handler
+      accel/tcg: Move helper_lookup_tb_ptr to cpu-exec.c
+      accel/tcg: Move tb_lookup to cpu-exec.c
+      accel/tcg: Split out log_cpu_exec
+      accel/tcg: Log tb->cflags with -d exec
+      tcg: Remove TCG_TARGET_HAS_goto_ptr
+      cpu: Add breakpoint tracepoints
+
+ accel/tcg/tb-context.h              |   1 +
+ accel/tcg/tb-lookup.h               |  49 ----------------
+ include/exec/translator.h           |  10 ++++
+ include/tcg/tcg-opc.h               |   3 +-
+ include/tcg/tcg.h                   |   4 --
+ target/avr/helper.h                 |   8 +--
+ tcg/aarch64/tcg-target.h            |   1 -
+ tcg/arm/tcg-target.h                |   1 -
+ tcg/i386/tcg-target.h               |   1 -
+ tcg/mips/tcg-target.h               |   1 -
+ tcg/ppc/tcg-target.h                |   1 -
+ tcg/riscv/tcg-target.h              |   1 -
+ tcg/s390/tcg-target.h               |   1 -
+ tcg/sparc/tcg-target.h              |   1 -
+ tcg/tci/tcg-target.h                |   1 -
+ accel/tcg/cpu-exec.c                | 112 ++++++++++++++++++++++++++++--------
+ accel/tcg/tcg-runtime.c             |  22 -------
+ accel/tcg/translate-all.c           |  23 ++++----
+ accel/tcg/translator.c              |  11 ++++
+ cpu.c                               |  13 +++--
+ target/alpha/translate.c            |  47 ++-------------
+ target/arm/translate-a64.c          |  26 ++-------
+ target/arm/translate-sve.c          |   1 -
+ target/arm/translate.c              |  17 +-----
+ target/avr/translate.c              |   9 ++-
+ target/cris/translate.c             |   6 +-
+ target/hppa/translate.c             |   6 +-
+ target/i386/tcg/sysemu/bpt_helper.c |  12 +---
+ target/i386/tcg/translate.c         |  15 +----
+ target/m68k/translate.c             |  13 +----
+ target/microblaze/translate.c       |  12 +---
+ target/mips/tcg/translate.c         |  21 ++-----
+ target/nios2/translate.c            |  15 +----
+ target/openrisc/translate.c         |  16 +++---
+ target/ppc/translate.c              |  11 +---
+ target/riscv/translate.c            |  20 +------
+ target/rx/translate.c               |  12 +---
+ target/s390x/translate.c            |  19 +-----
+ target/sh4/translate.c              |  12 +---
+ target/sparc/translate.c            |  20 ++-----
+ target/tricore/translate.c          |  20 ++-----
+ target/xtensa/translate.c           |   7 +--
+ tcg/region.c                        |  33 +++--------
+ tcg/tcg-op.c                        |   2 +-
+ tcg/tcg.c                           |  14 ++---
+ trace-events                        |   5 ++
+ 46 files changed, 217 insertions(+), 439 deletions(-)
+ delete mode 100644 accel/tcg/tb-lookup.h
 
