@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D25C3C339C
-	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 09:46:48 +0200 (CEST)
-Received: from localhost ([::1]:54140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 037963C3471
+	for <lists+qemu-devel@lfdr.de>; Sat, 10 Jul 2021 14:12:18 +0200 (CEST)
+Received: from localhost ([::1]:37718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m27hG-0005VB-V9
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 03:46:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35124)
+	id 1m2Bq9-0007P8-Lg
+	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 08:12:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m27fU-0004WY-59
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 03:44:56 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:44290)
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1m2BpD-0006f0-Nz
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 08:11:15 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:36505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m27fS-000415-B8
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 03:44:55 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 3DDE8222D4;
- Sat, 10 Jul 2021 07:44:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1625903091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h5PsQEb1w8SDuOv+FBkKFMzwQeZ5uv60hKfgQaminws=;
- b=amtYSvRjm22iG9yXw5kBuj8rkbHD3NVK9055kQOoms2qZ9VglxhoW6zskMlTSb3Ausy7nM
- GPWCupwIL9MHbLaUovZypzCOioSDMAuGkKGiCjEpHjPU6WxF340tOVADo18MsbcxNlC4gk
- a7rPxN6qZKn8+Y9xBNgoC+Pm7c2/G2E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1625903091;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h5PsQEb1w8SDuOv+FBkKFMzwQeZ5uv60hKfgQaminws=;
- b=EWLZhHgeWq/ovOuu4ng6xYeabZt+fF84Ka0PCCfIBLkaK/dpkpcJp+Pt0bi/NaU7lNVTcK
- cuVqo1Zc9knOLLDA==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id CFE341340F;
- Sat, 10 Jul 2021 07:44:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id PExtMPJP6WAkZgAAGKfGzw
- (envelope-from <cfontana@suse.de>); Sat, 10 Jul 2021 07:44:50 +0000
-Subject: Re: [PATCH v1 1/1] vfio: Make migration support non experimental by
- default.
-To: Tarun Gupta <targupta@nvidia.com>, alex.williamson@redhat.com,
- qemu-devel@nongnu.org
-References: <20210308160949.4290-1-targupta@nvidia.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <e8ad19da-0064-2edc-e7c6-6114031ea0f8@suse.de>
-Date: Sat, 10 Jul 2021 09:44:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1m2BpC-0006ZH-AC
+ for qemu-devel@nongnu.org; Sat, 10 Jul 2021 08:11:15 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id x16so5586500plg.3
+ for <qemu-devel@nongnu.org>; Sat, 10 Jul 2021 05:11:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=g8zsFu5rW5azZAh0KkZmLRtLk/zohaM1eAdPEwtqz6U=;
+ b=Gi3Ohac2yIvB6cOBkGycp7PenLUxDj7HRLEsJgdNhXrRPwXIHiI42eeLTE7I370m/5
+ CjzfxfMF+5dgi76S9prnGTTvQS3BZiKeKILT/r1Ez7t6UzXQdjjrnQ7Ox6P0BdhkI/KQ
+ 7KDU8hXa42XdHWY1Z3MBxwAsA4/qinOc2Gvc97EJ6R1Scb4baKifunZWeiKhaY3ZZ5xR
+ Wl5qiaP1hJTbWmM8Ox8xLTI4dyJj0qrMm3hR0uqZtS1cxDJpJ+a0eqi1ixkB7NpYLGp/
+ nNGR5bCGOv5sil5h0QduPf30OjEbfOXfAhf8J3kR2xudpB/r2xLSwgSUvJhu6BYT2guf
+ zQUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=g8zsFu5rW5azZAh0KkZmLRtLk/zohaM1eAdPEwtqz6U=;
+ b=ZRXJlmocwuDDvbw08waIQpB3rDWgbaPnZQK78fFBhHB98sTIuEqiYV0bFU3Z/ScMS3
+ OfbkDduLK6ZEIS/EsGlibHLFRmHKocVQ1rWpktiU9ikYGzh6whiVJahXzc93iEltnKiS
+ YlLzoRF1+JJ+kajU57oeFNb0qpENIMmylHzDLhXjAqUKhYE+dGxsVkIeC09w90JRhIjJ
+ 5JmS6xX4S1y+Ngog3oGJ06U41sVa7J7PIJ91VSDef5pY+ifeDw9ufCqYF3dzn+dTedKf
+ ypfHvR9r+ZM+EbFJObpb2bu2a0BuNeXXlbjK9Av9TOJsUhzI5nbmNUKF8Aj4x2ecC7EA
+ dAQw==
+X-Gm-Message-State: AOAM5305u9AZU3sh3umpwR3szL9uWOHuMRk1ur4fnCIn3EKy22xJ+FWf
+ ecF1dL6/JZypwlR9B6cm/eY=
+X-Google-Smtp-Source: ABdhPJyqBld7tPgEcw+tcvh7jnmcshvfels6X7wyaA5yLSuwQ5wyb2RvdCRxPY5yEFc/7JHQIGUcJQ==
+X-Received: by 2002:a17:90a:fd93:: with SMTP id
+ cx19mr4114727pjb.65.1625919072772; 
+ Sat, 10 Jul 2021 05:11:12 -0700 (PDT)
+Received: from localhost (g164.115-65-218.ppp.wakwak.ne.jp. [115.65.218.164])
+ by smtp.gmail.com with ESMTPSA id
+ p12sm9677459pfo.94.2021.07.10.05.11.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 10 Jul 2021 05:11:11 -0700 (PDT)
+Date: Sat, 10 Jul 2021 21:11:03 +0900
+From: Stafford Horne <shorne@gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 2/4] target/openrisc: Use tcg_constant_tl for dc->R0
+Message-ID: <YOmOV6gJSAw+dTmL@antec>
+References: <20210708213754.830485-1-richard.henderson@linaro.org>
+ <20210708213754.830485-3-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210308160949.4290-1-targupta@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210708213754.830485-3-richard.henderson@linaro.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=shorne@gmail.com; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,49 +83,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, quintela@redhat.com, cohuck@redhat.com,
- dgilbert@redhat.com, lushenming@huawei.com,
- Kirti Wankhede <kwankhede@nvidia.com>, dnigam@nvidia.com, philmd@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/8/21 5:09 PM, Tarun Gupta wrote:
-> VFIO migration support in QEMU is experimental as of now, which was done to
-> provide soak time and resolve concerns regarding bit-stream.
-> But, with the patches discussed in
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg784931.html , we have
-> corrected ordering of saving PCI config space and bit-stream.
-> 
-> So, this patch proposes to make vfio migration support in QEMU to be enabled
-> by default. Tested by successfully migrating mdev device.
-> 
-> Signed-off-by: Tarun Gupta <targupta@nvidia.com>
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> ---
->  hw/vfio/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index f74be78209..15e26f460b 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3199,7 +3199,7 @@ static Property vfio_pci_dev_properties[] = {
->      DEFINE_PROP_BIT("x-igd-opregion", VFIOPCIDevice, features,
->                      VFIO_FEATURE_ENABLE_IGD_OPREGION_BIT, false),
->      DEFINE_PROP_BOOL("x-enable-migration", VFIOPCIDevice,
-> -                     vbasedev.enable_migration, false),
-> +                     vbasedev.enable_migration, true),
->      DEFINE_PROP_BOOL("x-no-mmap", VFIOPCIDevice, vbasedev.no_mmap, false),
->      DEFINE_PROP_BOOL("x-balloon-allowed", VFIOPCIDevice,
->                       vbasedev.ram_block_discard_allowed, false),
-> 
+On Thu, Jul 08, 2021 at 02:37:52PM -0700, Richard Henderson wrote:
+> The temp allocated for tcg_const_tl is auto-freed at branches,
+> but pure constants are not.  So we can remove the extra hoop
+> jumping in trans_l_swa.
 
-Hello,
+This is nice.
 
-has plain snapshot been tested?
-If I issue the HMP command "savevm", and then "loadvm", will things work fine?
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Thanks,
+Reviewed-by: Stafford Horne <shorne@gmail.com>
 
-CLaudio
 
