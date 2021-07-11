@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6596E3C3D51
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 16:23:20 +0200 (CEST)
-Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AAE33C3D54
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 16:29:03 +0200 (CEST)
+Received: from localhost ([::1]:41202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2aMY-0003ml-T9
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 10:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56156)
+	id 1m2aS6-0008Av-Hr
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 10:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2aLg-00036C-Dm
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 10:22:24 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:42947)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m2aQo-00071u-DR
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 10:27:42 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2aLe-0007Iw-Qf
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 10:22:24 -0400
-Received: by mail-ej1-x630.google.com with SMTP id bg14so27939071ejb.9
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 07:22:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m2aQm-0003Ir-Ie
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 10:27:42 -0400
+Received: by mail-pg1-x534.google.com with SMTP id h4so15326883pgp.5
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 07:27:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7AICqMTH/3BLGlAwZfxLo9aeQZzJ2k5NCYR8LZfqSvI=;
- b=PdkizLyr6aAWC+7GoUJbPFst63QGVUPEeholq2dR/uhe4heEh0CEzssm4TZGHqN8I5
- z4Tr6SYFc+SKVHHZOrKXCABKy7ZdE2/rv/fHpW0a0PI98JigNF0vlzWXkVQ8UFQdHFkG
- /Lo26BXcPMKb3U2SllVu1gP0SPlX2EtX5NV6BneyuP4Sk7Wc0tzCcRMlfE1ySh6V9yXY
- 2wbTfb9e+UKN6p1z1ndkYXM0f51TLTacPwpYCPRgLwC0FdhluDhQYEc6eBLRZilCduwR
- xKbw1jQ2N1SNB4WLi5JApl7jFG0av8eJOecjbVxW1ge73BPioKZbtEmuOVgJpowQ0fP9
- nzLg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yRQ/d3+oC+cleP63Ul3TOjcWK2U3IazfC75RKMmc1WE=;
+ b=TtNidgaSoLU8RR/K+wTIVeXhnm7VC/dsWD2rvliJL++cR3LuCHhpDdNQAdbxWncJjv
+ Z1PpzL+zM1bZbsl/OuiSo048o1KX2k7366unAHfzIgt3cGeel9EDfAlbarY+WxxCgPeg
+ 3Txzoi+kmD4Cu67y9U1zVY0VfBKOzjIqb7GODf7H0H2QyhbeYeUhjEkNjHysxW8M/Obk
+ NfpYeBg7I2VGsBEaD9ioEx3gd2vfVanUgf7EloBIdggNijWLa3XcGTuMwf4ioYfXXppD
+ v+LMXZgMWKH+vv+9efrw3YXr7D4Kryv5JWgF7rM6OGuy4q+0rY/CkAoDjhAl5z/SrhO6
+ HTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7AICqMTH/3BLGlAwZfxLo9aeQZzJ2k5NCYR8LZfqSvI=;
- b=WV4rFkwPIgl0lQ/wJJ9Mk/bXHOmJL+iYk0NPt+Ow3PtfWcqGlQWh825kHYhCB7cVLA
- Sj/RP8YilXUFWY8+ZUS+NFbgti13+aCZuJl5s8FEO53ymabBtqcagOnm4mMQSDwWrmsa
- OCb64j6j1wWGueBg+ulgWHACDo43KWrKnoe3Hd10aa3lQyIkQwNkWNmwTY6LPz5mY9ct
- VhllR7hQT6HUJue7/VaNvt8nrA3WsotXQ3JpNhlXVzgFIky3T4BNqOqz0IU7EMeTBwXn
- xz2cTKut3c9h2E7gMTj+QCMj7/o3iVq8aecE3hOVV+XdN92PM+L+OrTRSdDCj+icRj/Y
- 9lQA==
-X-Gm-Message-State: AOAM531u6uHnDWUllQ96FlvkBp4cjz8hzvCan5a/5tHEekHfWJokz/fo
- ujojE7xuKAVnJAGhEsbK8i8uQms45L/HzaejhxD3sg==
-X-Google-Smtp-Source: ABdhPJxDdxARPh213Ryjye1dpmwjB+OtfH4WfNiytoDTspNt9NpIWNA0oxMXAzJ5wbfGCJ6S+ouibAAHptzVx7AZZXM=
-X-Received: by 2002:a17:906:924a:: with SMTP id
- c10mr31097279ejx.85.1626013341179; 
- Sun, 11 Jul 2021 07:22:21 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yRQ/d3+oC+cleP63Ul3TOjcWK2U3IazfC75RKMmc1WE=;
+ b=lPP7l1xuxRqJ53CpyrsSVP3QDxKPMyTk0U8MjB5bewOzUOHXdv4z5EWH6cUU9Ycmwu
+ 05C5+tjv0L0hFegR70L53OYxlHZT7xRP4cTge2dFwMdkiEiHoVtjEdBXLxqH115qzIQX
+ pGQbyb+Q/zCtXbpKjsktEagtaiAT6VoYbHiWtVJhaziPypMoOlfTi1F2BfYHJgS85+83
+ Bh3YaPzEbpmhRHJBGnxMLgY4gg6JnSN/6hbWkwTXNwPkxLqWH41h8rpe9uId+GWUu9UE
+ 51zUwADTDMt0sZpkHIC6cs9SSq9uCJFFv4aARZCM3+A9p12ygy1+rmgZwtS0ZtIQqvvZ
+ amMw==
+X-Gm-Message-State: AOAM532QJeMabQp4ptHMiZUJAzA+nyp/4ACpiF5BP9AMSrBPbVUElkL6
+ /KjQijmw7myc244JOSBMmEkT8g==
+X-Google-Smtp-Source: ABdhPJw3zNLbSLs/6f6ilCIV3VDDqEQH0boizO0DaY3FN0PO/wdQ9PtNq5DO/rDbrw1kvt6kDvLU9A==
+X-Received: by 2002:a63:ce14:: with SMTP id y20mr47252452pgf.432.1626013658229; 
+ Sun, 11 Jul 2021 07:27:38 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id b2sm10545629pgh.9.2021.07.11.07.27.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Jul 2021 07:27:37 -0700 (PDT)
+Subject: Re: intermittent hang in qos-test for qemu-system-i386 on 32-bit arm
+ host
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
  <20210711120854.andcppzuxo6ztykd@Rk>
  <CAFEAcA9tF7pU1uEC06tppkKCL7m+5OYWm8T5MO_qF4P2P_UuOQ@mail.gmail.com>
  <d21e1a9e-1df4-4fce-d6de-e7a15131b684@linaro.org>
-In-Reply-To: <d21e1a9e-1df4-4fce-d6de-e7a15131b684@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 11 Jul 2021 15:21:41 +0100
-Message-ID: <CAFEAcA92V5rkyHr8Bjtd1VHM2QYLumMrUtQRZK5h2iWB7N-wAw@mail.gmail.com>
-Subject: Re: intermittent hang in qos-test for qemu-system-i386 on 32-bit arm
- host
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ <CAFEAcA92V5rkyHr8Bjtd1VHM2QYLumMrUtQRZK5h2iWB7N-wAw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7539ea85-bc6c-53ef-94a7-20fd68d2306e@linaro.org>
+Date: Sun, 11 Jul 2021 07:27:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA92V5rkyHr8Bjtd1VHM2QYLumMrUtQRZK5h2iWB7N-wAw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.631,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,12 +96,19 @@ Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 11 Jul 2021 at 14:23, Richard Henderson
-<richard.henderson@linaro.org> wrote:
-> I believe that I had to perform the install under tcg because I couldn't find the right
-> magic to boot off the debian cdrom with kvm.
+On 7/11/21 7:21 AM, Peter Maydell wrote:
+> On Sun, 11 Jul 2021 at 14:23, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>> I believe that I had to perform the install under tcg because I couldn't find the right
+>> magic to boot off the debian cdrom with kvm.
+> 
+> Weird, it ought not in theory to care...
 
-Weird, it ought not in theory to care...
+Looking back at the install script I used, I had u-boot boot off the cdrom, and I'm 
+booting the kernel directly for kvm.  I guess there's something about the specific u-boot 
+image I had that didn't work with kvm.  It has been long enough that I don't recall any 
+further details.
 
--- PMM
+
+r~
 
