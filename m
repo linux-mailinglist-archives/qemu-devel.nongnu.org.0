@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F33D3C3F83
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 23:24:35 +0200 (CEST)
-Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28D43C3F7D
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 23:21:20 +0200 (CEST)
+Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2gwE-0007A8-8D
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 17:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55960)
+	id 1m2gt5-0000d8-UH
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 17:21:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2gjc-0008B8-2x
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:11:32 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42573)
+ id 1m2grR-0006zD-Dd
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:19:37 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2gja-0007Vh-Hg
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:11:31 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id r11so16857472wro.9
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 14:11:30 -0700 (PDT)
+ id 1m2grO-00057A-HL
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:19:37 -0400
+Received: by mail-wr1-x436.google.com with SMTP id v5so22138529wrt.3
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 14:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ullh4nTE/uo1kNH6VLUCVAcg39XDupueIapcLcg3Jo0=;
- b=ZQ29LSe8cYx6Wp0uomFQdo7ITLTGZB1D72T4f1qxpVp27ChQu+nDCJ9wFhy/JkiD1S
- 0ISFvqJqw/no6qeZdEakC+BD/bkFt6ewEGJ8Gm+CE0OhDsrXW9edseWLbYGKtw8G5o8x
- F9iNSQppeo2znsnc9gF0ojthNMS6gRG0Hl3UBUFUxlIvH2wJeVpd1oWkcopfKLZ83b0i
- U7pbWKEThnjFhIkiPcWV+aXkeCDL3eyQz/UqD4ZbNZyjxQ3ZD6DmldfC6uvWFWAYEqXj
- JvtoHGJHk0Iblaj2L3+peta65IY0AYJXd+VCdc1zE74prMPW199ngyFjup2Gs6H3TNS9
- knbA==
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=dXiUpv9n2Fna8GIiuEmUgUSfsFLa72u4J3g09Ro27M0=;
+ b=JJAGoAxETu9TwZctWS/nImFoTeZud0WfW9mwQ8D5j1sLDO289bOeDhZ6UKRDzOkbSb
+ wwA0N9FG8dXYIwjxD3O0JCjPfxg1h3IA6qY+Ish7WSQqYb2VnqXWnFL0W5iWFd56VafD
+ mOHabLYdkuEgmNU27IBdRhNUngnTa1HxBio2CGgFB2/damNvjUNTuSDOQX1DDYtxsKAc
+ nCAF7caqheRF2YcXptIu2OEefKtMGS/GLn3RfkxxCpvKyjCWeZaHa9JBBNrWn9H6dTwF
+ VHWoVcwdC+H2mNpwDF6Th9k/bX1UrBV3mGtghpvBBZAUsDho+tMbl+5NMEmged/Jaj2z
+ qLDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ullh4nTE/uo1kNH6VLUCVAcg39XDupueIapcLcg3Jo0=;
- b=N8RRlvanqjcowuF6o4xtRURrbhl9BPS84enbda+s8h/yqkhwB5c6SyUBZ2QkmDCpgt
- oy9QYwRcR2VM1dmFMDtDyXMVVwIvrOtoTfaRH39GKDd+U8QPLQVTWABv0AM7XFBP1TnS
- thGTny0No3DfITi7ThGghAaffthxLv9oP0+MtrybHQAhFymCy/LG0fHpZh8LEfIdlQXj
- j6wvxHvmzc+idHAtSMf20x5pBpwc16wjkq6z3ZVyk9F7iR8eSBPSRkE6F7MOvBpkuS1g
- gsse2aebN9ek65joKmlLfO8CBUuLzEv4k9wZ11kBL9O2eB9sGqpB51K+a5XzU9a0TfGv
- wFvA==
-X-Gm-Message-State: AOAM5310SryQU0UCY8NAtUl+AsJNKPm7cQrLQGXJ66fzw63hvXTEHRXt
- P2INn5On1VJIp/lJPlF2/ipKvxk+MmNPPSex
-X-Google-Smtp-Source: ABdhPJxddhKwt7gi1JUoeBk/ro0ZesDzru6hin49YYInA89v+gpQs4deSfW6/mM5e29cwgMGPIVtVA==
-X-Received: by 2002:a5d:4bc6:: with SMTP id l6mr17164463wrt.53.1626037888969; 
- Sun, 11 Jul 2021 14:11:28 -0700 (PDT)
-Received: from localhost.localdomain
- (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr. [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id r67sm6437805wma.6.2021.07.11.14.11.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jul 2021 14:11:28 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dXiUpv9n2Fna8GIiuEmUgUSfsFLa72u4J3g09Ro27M0=;
+ b=LIEKFQ9k+qNLfp0R31msIQ0qwyC3FQCgqosrD3kctRWn5LvtjEwCHoPXZDYoEE5RZw
+ 1rPvdfJ3beQ+y417xhfIHCg6yqlIyAbVpQHUL2cPruoOVALaYxlIKN4CT3n1g4Mi3HvJ
+ 33vZ6IWAPN5lDrLDqdm/lGzgWt7Ho7jPzy64iX+5wlo4bOvLs8z+MQOzbtmyms7Runhn
+ YPUaqpSGTE35XEXgJq3y3jWwKB7esBu6NXU8bJs44N+6TAI1dalMSnqfRBrqnz05+nxA
+ 7iuNHmyje3EEUtLg7Hp8h4/niBQvkx4tbzB1YH5kTeFTOhkdtpg/zjf9fajO7+r2Pz0e
+ kgoQ==
+X-Gm-Message-State: AOAM533KQ8Ah9IDm1ElsQfZOPFyecDJrnhw3oHJ8oh0zntlBAGCgdKYC
+ TIAbJcuyBvH7F8Pas/0VQ0zYEWRKmEzHM1nZ
+X-Google-Smtp-Source: ABdhPJzZAalWUkLli6Y+ZanQjVr2ctq02UGWGVbTrcSvdGgyT8lU30+/pv+vxqoqSvB7evMkiNSBFg==
+X-Received: by 2002:a5d:6b86:: with SMTP id n6mr21676519wrx.298.1626038372611; 
+ Sun, 11 Jul 2021 14:19:32 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id q5sm10679742wmc.0.2021.07.11.14.19.31
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 11 Jul 2021 14:19:32 -0700 (PDT)
+Subject: Re: [PULL 00/19] MIPS patches for 2021-07-11
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] hw/sd: sdhci: Enable 64-bit system bus capability in the
- default SD/MMC host controller
-Date: Sun, 11 Jul 2021 23:10:57 +0200
-Message-Id: <20210711211057.2714586-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210711211057.2714586-1-f4bug@amsat.org>
-References: <20210711211057.2714586-1-f4bug@amsat.org>
+References: <20210711210016.2710100-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <524c3759-da29-b98a-7b0d-c37f0822f006@amsat.org>
+Date: Sun, 11 Jul 2021 23:19:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210711210016.2710100-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.631,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,54 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joanne Koong <joannekoong@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joanne Koong <joannekoong@gmail.com>
+On 7/11/21 10:59 PM, Philippe Mathieu-Daudé wrote:
+> The following changes since commit 9516034d05a8c71ef157a59f525e4c4f7ed79827:
+> 
+>   Merge remote-tracking branch 'remotes/cminyard/tags/for-qemu-6.1-2' into staging (2021-07-11 14:32:49 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/philmd/qemu.git tags/mips-next-20210711
 
-The default SD/MMC host controller uses SD spec v2.00. 64-bit system bus capability
-was added in v2.
-
-In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1ul << 28))
-where 28 represents the BUS64BIT SDHC_CAPAB field.
-
-Signed-off-by: Joanne Koong <joannekoong@gmail.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210623185921.24113-1-joannekoong@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/sdhci-internal.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
-index e8c753d6d1e..a76fc704e5e 100644
---- a/hw/sd/sdhci-internal.h
-+++ b/hw/sd/sdhci-internal.h
-@@ -316,16 +316,16 @@ extern const VMStateDescription sdhci_vmstate;
-  * - 3.3v and 1.8v voltages
-  * - SDMA/ADMA1/ADMA2
-  * - high-speed
-+ * - 64-bit system bus
-  * max host controller R/W buffers size: 512B
-  * max clock frequency for SDclock: 52 MHz
-  * timeout clock frequency: 52 MHz
-  *
-  * does not support:
-  * - 3.0v voltage
-- * - 64-bit system bus
-  * - suspend/resume
-  */
--#define SDHC_CAPAB_REG_DEFAULT 0x057834b4
-+#define SDHC_CAPAB_REG_DEFAULT 0x157834b4
- 
- #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
-     DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
--- 
-2.31.1
-
+Resending with correct tag.
 
