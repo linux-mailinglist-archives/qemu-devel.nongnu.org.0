@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D423C3F31
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 22:31:58 +0200 (CEST)
-Received: from localhost ([::1]:35738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB14D3C3F45
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 22:43:10 +0200 (CEST)
+Received: from localhost ([::1]:49280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2g7J-0000RB-SZ
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 16:31:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51476)
+	id 1m2gI9-0001WX-T5
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 16:43:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2g3l-0004xT-9x
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 16:28:17 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2g3j-0003AR-Kt
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 16:28:17 -0400
-Received: by mail-wr1-x430.google.com with SMTP id g16so12060756wrw.5
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 13:28:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6hP0EfbUQcC8PaBvpy7HEIFv/kWBuFPbf81A2JTimrU=;
- b=GJVHQWgE7iEQIyKeRrJQ55jykYNKKoxgW/brLTxb69kXSTyn7FyPWQno+L5am7idiF
- F059os6yQ6YxFFMnU7Z3t37cnOcCkPIvcY+W6k2h8rp3GfgBKbOyqApP6QSqpINtTLi8
- 8A8qnntV7EgfDp/HLgmWK4B3eVDceq7zScGCkWi0XqqKm6ac9XXFo/yG/VD0WW9gsidI
- UUSi3u6bXpovzCDV9yesIE3l6Dn2sS4TAbIvC57fiN6saukRDwG7VlDQWbMILX71UlsS
- OZopiHg6BTqEiy4sUfxwclbXOWW9KZxNNVwYLhUGoIwclaS4wAUxgq6OgPLPaotrR5nD
- D69g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6hP0EfbUQcC8PaBvpy7HEIFv/kWBuFPbf81A2JTimrU=;
- b=RQfb5GwGKWhCpoGJHCx4oazbolQkq7MO6D9ApP+5Mpd0FtY9SD/sCYMaGS2AVOuXmk
- VBC6KM8wJmc+Yrm+8t1/+gm2o9Tp8gp7/WPjkPAWyaqh5JfBdZfy+EXsD9lu5myvt+zR
- jqX/t48O5qJCsnHkVTssCtL2T20QjGVF+cR8o8+uCBe+OU4DWUNdjXdVpi9RC/C+yS/s
- 9U2l0T3R62885obSxCZ8LY3q7KLIpg5EX7g9IQJv6sB4nlEnFbdBk7uERLajyhuaAKfN
- vMsPo8WhlZZW88lm7YnIQ4v/+JjutibAm9KvVq1FFFgkDR3qljkn9DqH/3KeEu2E0m5s
- qzWQ==
-X-Gm-Message-State: AOAM531I9Zmj1ob4f8Y6DFIFZI/YrA+xYpfC5EDtHp9XE2cVocDVnn0T
- 8sCqJPSK2wfbZD4iJhNO5YQ=
-X-Google-Smtp-Source: ABdhPJyH2I6JOF1T2DDNtLYv+7Q87rj3tehOCkI78hYk+qN1uwJ2sT5XKkcBi7Z/gQOnbBysvGkiCw==
-X-Received: by 2002:a5d:6b8d:: with SMTP id n13mr24796400wrx.258.1626035294313; 
- Sun, 11 Jul 2021 13:28:14 -0700 (PDT)
-Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
- [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id z13sm12681651wro.79.2021.07.11.13.28.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Jul 2021 13:28:13 -0700 (PDT)
-Subject: Re: [PATCH v4 0/5] dp8393x: fixes and improvements
-To: qemu-devel@nongnu.org
-References: <20210711103612.2661521-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e5abac9d-e6df-2774-7ba9-596ba729c591@amsat.org>
-Date: Sun, 11 Jul 2021 22:28:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m2g93-00031b-LP; Sun, 11 Jul 2021 16:33:45 -0400
+Received: from mout.web.de ([212.227.15.14]:42499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m2g91-0006Vg-Om; Sun, 11 Jul 2021 16:33:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1626035607;
+ bh=dVGAZd/c/b+BR7KEKl5PrQk5rtj6IqYJ8g0QO6exBxI=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=hT0YMxBHapwTMg4EE1PJQlxWr5gdcbuumtuWsVpzKb54+FTo7KwNMzclvP02JQXNg
+ HwzWKnAvxL94fCdc/pT5123lpgCQIxabdEblak+0lIAIEFf1xe4Vn7S7rh4XTiQXjo
+ l6Lj49W8sD1h2br+TnOPtaZKZrNUlEx91qyb0pNU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([89.247.255.236]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mo6Jz-1lMDim1vel-00pOG0; Sun, 11
+ Jul 2021 22:33:27 +0200
+Date: Sun, 11 Jul 2021 22:33:18 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 4/4] replication: Remove workaround
+Message-ID: <20210711223318.65e8e50c@gecko.fritz.box>
+In-Reply-To: <1d86fa67-930c-2a6c-ab01-37a798c794d1@virtuozzo.com>
+References: <cover.1625680555.git.lukasstraub2@web.de>
+ <906c163474aa1fcdf4ffa3cdfb4ad39cb7fc49cb.1625680555.git.lukasstraub2@web.de>
+ <1d86fa67-930c-2a6c-ab01-37a798c794d1@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210711103612.2661521-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/U1ifeibfjPgd/swuKinrV_c";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:BHSrRZjDVHeopv7ZPuldq18NgctmFJjBNAAvLLG/iSD5Wpzez1B
+ X7gyPJU3G+Zz3IzWT+DtcXrhNk5zRYJ5QW7XyDzHv5k/7KcwkQfPgQBWSnBWsCDdXuVdLSl
+ 565a8+pxJB6kguwvlrX/YE12KCh+VdCqRm6W8z0wpKcqpPKWiffPGuuhizXuY4gPI/ElWn5
+ 5hSo0qJS0RIVp1ijHrA2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u1hOl1JsBhg=:MtyKI6HC3kzl59k6p71xky
+ 671zONgBidJ5Nyw9p5E1ZoKEqMz6BMvlaHA7GKNRx9gwjzuoaXOO59lG5t2VswzcSj7n8ScMI
+ CZ74Y6dZuyJpyoXM3n5ZjsTjGM23ZpsRLjNck1zdFrKTxIummxMyCTo2KzVa/zdLecds6HRJV
+ 8kHIWEVX4YH6WuJ/gHSVA7nlRpeH0yajwtC16Z5F9BVbWWxUFrq8lpdT+5N6i8NR7cTuDpuOY
+ IdoLnU8SqDa9MHLnr96GJyjfvE/UpTxGWW+YIM2ipYD7gZKHhPKf5P8CstaToyhBk/8Fkt3P6
+ /Cty9K8hPdcatTpYmkhcmBcBV8ThMCcAEfjRneWt9Az8ig0AKe9zevk908c+bKwDaBInt5XTl
+ LG2GzMxRCTLeZbP4kFFizltPe0rWSobeGyxXDkvCUIij1IP6fdEQ2nJtjZ/OwicPv0MDilpDE
+ 4nQRgeLOvkE/PNkx5F8L1dm5eHePWAo7RB8P9x7EcPt+tCBY9IuJpXz8yIsSDInAQXkn5/8mC
+ 8EIeL8vCVZTQlAdSQGHI4LLaWxGFxqfASFB4FFY2OIaBqOJ3cbvzUzF0IwfAaRqh98tuMbD8t
+ EMgmZQvcXEPh/hrr9CiXdDKJtbEwTy2aSow1KJUeZQXgNRIDSmtRD2KjTG+CfLvhX74rGNVpz
+ ttG3VEKsHo220naP6BNlGLL1OVoUJFTS4dZ+9N8FkEfoNse/TVO99HVOALrk1hzgMPCNuJ24z
+ Bw5ju+ua92QMDfQ++lGNs5U4hABn1VuDiw77FfL4r3EecqZvfiWADg6GJPXO+A8lwySvHYFg2
+ wGZ67Hbc3WJrk+kBwUoTr8U1PmQgcFUeYKAqQ3URHfUfdlBBGfUaCsisIqtdlMNU773vutC24
+ qNw6qQM9wZO3JXwuIRVyz0og9NH04/K0qtEVxefQSoC3G5YTEThCFgpbl5yBWTEtNbTnoO95B
+ A1VqNo6u0HV7zvSd3289Br26SYxLJrstrPEMhuAe5TudgBJUhIzjpsGKAFTMnlTqk4TNNVNB7
+ mvHEFG7ofGoU7xF91MY6+Gjn32dmpzr/K3nfzb4VFcf9OPSdigAZBIxxZTi9khljIJCl8mGSJ
+ yb3z8/XpvmbfmuB3VdKNQKkRmxxkYB5s2sM
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.631,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,36 +83,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>, Finn Thain <fthain@linux-m68k.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/21 12:36 PM, Philippe Mathieu-Daudé wrote:
-> Hi Mark,
-> 
-> This should be the last respin.
-> 
-> Since v3:
-> - dropped worrying patches
-> - squashed migration patch
-> - added tags
-> 
-> Patch #3 (dp8393x: Store CAM registers as 16-bit) still
-> misses your S-o-b tag.
-> 
-> Based-on mips-next.
-> 
-> Mark Cave-Ayland (1):
->   dp8393x: don't force 32-bit register access
-> 
-> Philippe Mathieu-Daudé (4):
->   dp8393x: Replace address_space_rw(is_write=1) by address_space_write()
->   dp8393x: Replace 0x40 magic value by SONIC_REG16_COUNT definition
->   dp8393x: Store CAM registers as 16-bit
->   dp8393x: Rewrite dp8393x_get() / dp8393x_put()
+--Sig_/U1ifeibfjPgd/swuKinrV_c
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Series applied to mips-next.
+On Fri, 9 Jul 2021 10:49:23 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+
+> 07.07.2021 21:15, Lukas Straub wrote:
+> > Remove the workaround introduced in commit
+> > 6ecbc6c52672db5c13805735ca02784879ce8285
+> > "replication: Avoid blk_make_empty() on read-only child".
+> >=20
+> > It is not needed anymore since s->hidden_disk is guaranteed to be
+> > writable when secondary_do_checkpoint() runs. Because replication_start=
+(),
+> > _do_checkpoint() and _stop() are only called by COLO migration code
+> > and COLO-migration doesn't inactivate disks. =20
+>=20
+> If look at replication_child_perm() you should also be sure that it alway=
+s works only with RW disks..
+>=20
+> Actually, I think that it would be correct just require BLK_PERM_WRITE in=
+ replication_child_perm() unconditionally. Let generic layer care about all=
+ these RD/WR things. In _child_perm() we can require WRITE and don't care. =
+If something goes wrong and we can't get WRITE permission we should see cle=
+an error-out.
+>=20
+> Opposite, if we don't require WRITE permission in some case and still do =
+WRITE request, it may crash.
+>=20
+> Still, this may be considered as a preexisting problem of replication_chi=
+ld_perm() and fixed separately.
+
+Hmm, unconditionally requesting write doesn't work, since qemu on the
+secondary side is started with "-miration incoming", it goes into
+runstate RUN_STATE_INMIGRATE from the beginning and then blockdev_init()
+opens every blockdev with BDRV_O_INACTIVE and then it errors out with
+-drive driver=3Dreplication,...: Block node is read-only.
+
+> >=20
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de> =20
+>=20
+> So, for this one commit (with probably updated commit message accordingly=
+ to my comments, or even rebased on fixed replication_child_perm()):
+>=20
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>=20
+>=20
+> > ---
+> >   block/replication.c | 12 +-----------
+> >   1 file changed, 1 insertion(+), 11 deletions(-)
+> >=20
+> > diff --git a/block/replication.c b/block/replication.c
+> > index c0d4a6c264..68b46d65a8 100644
+> > --- a/block/replication.c
+> > +++ b/block/replication.c
+> > @@ -348,17 +348,7 @@ static void secondary_do_checkpoint(BlockDriverSta=
+te *bs, Error **errp)
+> >           return;
+> >       }
+> >=20
+> > -    BlockBackend *blk =3D blk_new(qemu_get_current_aio_context(),
+> > -                                BLK_PERM_WRITE, BLK_PERM_ALL);
+> > -    blk_insert_bs(blk, s->hidden_disk->bs, &local_err);
+> > -    if (local_err) {
+> > -        error_propagate(errp, local_err);
+> > -        blk_unref(blk);
+> > -        return;
+> > -    }
+> > -
+> > -    ret =3D blk_make_empty(blk, errp);
+> > -    blk_unref(blk);
+> > +    ret =3D bdrv_make_empty(s->hidden_disk, errp);
+> >       if (ret < 0) {
+> >           return;
+> >       }
+> > --
+> > 2.20.1
+> >  =20
+>=20
+>=20
+
+
+
+--=20
+
+
+--Sig_/U1ifeibfjPgd/swuKinrV_c
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDrVY4ACgkQNasLKJxd
+slhhrg/+Pypzak+DdvyxNcWjWBQ+7gloJZCDwDko5zt7K6vOjHuBkCJi9KhlQPX8
+SQ9sTuYsdHNOOi0E9WHRTqBkMe316WbC9p7txbD0Q7DU/7Ctqd3T/1dwJjCLLxGI
+6pUkMqzYrIju3VcWJJF8tdD4ohwG+Y+m/TjXirEWwA3Hsf5X5HvmF/imli+9UKCp
+M1gWCZCAcBCkgDTfI/ZnL7LcRe9J4LoU+N0aXO8JkBLAqqxT27zFwgFXpsFbWEp1
+3fFJIqaaRsGZF8Plch8gJO//VuYfKa3SdO+eXwY8LMEto0us9Z2/YTjhslcr55bL
+8Eim+/G9wxWsEvV0kPo0FeDcbplgcko8ENtc6Od1lu8dToqX0luy18mQJw2w3Eg5
+gcociaONdPGhkt6dQWtpfKfQeskpwwxezJafVDejkJx1cJem45jpUSxJLBVTJpSn
+wYVh9I60IySHqgf6tCKAYN/NH1qpuOSuzT3/RcOer7/dPzRL1RnuhZezjez2vx+4
+7t3Gso+jUILzTNEmfxrxO+4r0Bkcgb803VLts5QE/jV1kKJ5WvpLdTCdtSszoSR8
+3C56uCti/JagUmWVzIYulFZTnts0IMsCHYEg0FN/rdRt6J0kgzpu0qtCTyrbUhpF
+1QaOIZFv0dldkpYab8U3/FGmrQv0PsEXhaOR6igvsyfGhJBccv0=
+=LyPG
+-----END PGP SIGNATURE-----
+
+--Sig_/U1ifeibfjPgd/swuKinrV_c--
 
