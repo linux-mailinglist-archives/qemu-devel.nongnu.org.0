@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9543C3F82
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 23:24:28 +0200 (CEST)
-Received: from localhost ([::1]:43024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8883C3F70
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 23:14:57 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2gw7-0006ma-Aj
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 17:24:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55324)
+	id 1m2gmu-00047p-VH
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 17:14:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2gdX-0005s1-Lx; Sun, 11 Jul 2021 17:05:16 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34527)
+ id 1m2gjH-0006qv-62
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:11:11 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2gdW-0003Ne-9h; Sun, 11 Jul 2021 17:05:15 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id p8so22103120wrr.1;
- Sun, 11 Jul 2021 14:05:13 -0700 (PDT)
+ id 1m2gjF-0007EC-Eb
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:11:10 -0400
+Received: by mail-wr1-x432.google.com with SMTP id l7so21179343wrv.7
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 14:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3VeLPF64Gtf0A8p0waM15kMcV9uEKxx/9D+6L9eQx1E=;
- b=Yd2ibyrecjfGsJ8YxmJKhXvSdtyc/RQFjzyxvU1gVUdk2zTin9MvfzGi/8/z/56/QP
- xx6ZPXmvpXknedQuCBE8yNis+EAgJIyf+K0SjpKigZw3dIpSRH82b4wvzMxDZxLodo/i
- ZdnxMivMgfj7AYn4sDrH+Dz+Jk2h5RwayYZ5rAyvY1jwYuOfboJcAyH8q+KSW6s4LwxN
- z+j5RpunuToHvdhm0XDxDT6DsdGjzIrVKnA1dWtdui0Tb1XbTCcYtnMmTK6qjKEaYIEK
- JjzV2QK8d7atEUPpNVw0Nq+5M+SPosd4nzrH5BPIE7KpHwql5YBBo+W54Iv+saZ87VdS
- 9tMg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=abunXidX42zq4hJcoM5e64zCT3rqFPwKgueoe651fYA=;
+ b=CftCWsGtEEBBZ4KJPx+ZazCt/lMvomUjsZPwjUC07z0AztqHhzLnkK+PiLH7FvTanG
+ VhzPj7U8iM+SgUZnGSVhh4LaAYVYoe33uWqoZgZTJz39b3Yt1RNP5uX2wwYVG3WqxaMG
+ La/VbK1i8S3eIursK2OGEySOhwujdfFfUzHkQ/Q9XztDkvzRjERsBTw2ttnTO5gKQ6YL
+ kolAIAa3Byot1GwetwJVKzCu5BWJ1rBUZj6vtXnCRmskZrCWFYreU2O4twAoZ4qf+LVk
+ RMTLfRMMgZYp63QN6y91dH73KRfWTnWBpcFj/pjJ4Xx1mJyayUNdkOieXcYCO/o0qXe1
+ m1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3VeLPF64Gtf0A8p0waM15kMcV9uEKxx/9D+6L9eQx1E=;
- b=Ye1ykXqLqh5AdSHgJgP85SB5HjqVjx/H93r84pUQ4wzvbr56XGdJjpdDo3lTPyFcjx
- Jb7AfAgFYvpZQfhYIIrgZjeyNC2AI+nE8kJddn3+cSQgMs08wfr2lGVjNrTSlgHDIPgO
- bKdZ4Y+Q40mvp04CgNlQGNehwDi+1ebMzltIkAij7jZgsCFzn+YAsNEAgxUy4sjzdKRG
- DpMrpYewPW/MkPkEnHN+GwUEAgcToO8ZCV9Vhu+klht/bMxp42JoV1mA5DoZMIuD3lNN
- qR+wNTGtkmCsZX/staZndnYs4a7zRNi/fxlT2PN+R3g2lKKVS9ZwmrGJAxIhMKAPfDKh
- 1fmw==
-X-Gm-Message-State: AOAM531qobMtK8smwP3Hb43MLPqF6AkghwYwQPhdEsOkHBwgqBsJN0n4
- yKR+1AK8++YdFCTyJYcEb/k=
-X-Google-Smtp-Source: ABdhPJwZk7KnJjzoxeUC0SLT0awiaO6JzK4P0sH5Zi1AFEg49yyOoA4kCqBEvvbG6nXL+64A5Svg3g==
-X-Received: by 2002:adf:eccf:: with SMTP id s15mr53462676wro.176.1626037511993; 
- Sun, 11 Jul 2021 14:05:11 -0700 (PDT)
-Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
- [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id o7sm14203881wrv.72.2021.07.11.14.05.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Jul 2021 14:05:11 -0700 (PDT)
-Subject: Re: [PATCH 3/9] tests/acceptance: Tag NetBSD tests as 'os:netbsd'
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20210623180021.898286-1-f4bug@amsat.org>
- <20210623180021.898286-4-f4bug@amsat.org>
- <6dc3fe10-924f-9f3d-baea-90e2539f58ee@amsat.org>
- <CAAdtpL6+M2e=SvGFMgJBxanQJgTz0kg1th-9BxHy1TaWEfafog@mail.gmail.com>
- <CAPan3WqaXEGchtJNN0UfcXxu+wJQttCjyFW5CrtS=+5eqa7wow@mail.gmail.com>
- <10114d64-aa8c-997d-dc0a-09d541f61962@amsat.org>
-Message-ID: <76558fbe-93b5-b6a3-7372-0c38173a87ad@amsat.org>
-Date: Sun, 11 Jul 2021 23:05:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=abunXidX42zq4hJcoM5e64zCT3rqFPwKgueoe651fYA=;
+ b=j6R/j/xvcGG3/xAg4lY3uVBV3w9irCkAGzj/DU3md0QIudHWpvIin6SiLPQLGIWmm6
+ aStm52mQI7/G7Jt+KFdEmy4U6ZZ9VG+zEUsbNrf54octSWPmuDXpq7XiFWyXs28UvAo6
+ IK7MoKqTmcEpKoftHqox1Mw0KZ5CSDSMwseH960mNBzmeVycM+RKAvgB5kjYYmfkB/gN
+ vGuvu+A/bCd8BxpiPgVrjVUKFCTDtMYal3f+niBChyfC0tlZqXjC0TKYvGS6Wore0qek
+ 7WCQgedj4JocEdHkq6Q+9TcfkARPeM+LrMcWR8WSiqkgVWStZ6TpHsRTsQnyvfrsTxjt
+ 8ODw==
+X-Gm-Message-State: AOAM5308Ypa8GH2UPHwbfzqGIm8vJuQLdslqOhgYW6FjjBOA9gsr9TWc
+ Re4spz6Dgh0Pc/kDzZ/RP+tCTroNTBPTj2kK
+X-Google-Smtp-Source: ABdhPJw851i8NKNTyh/ewaBn84ShQ71bquVSy6Jo49k3uh/Y+CdBXzYMvqkVTHl0H75XEiGNsLgS6w==
+X-Received: by 2002:a5d:4b44:: with SMTP id w4mr9837928wrs.275.1626037867339; 
+ Sun, 11 Jul 2021 14:11:07 -0700 (PDT)
+Received: from localhost.localdomain
+ (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr. [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id v30sm12961478wrv.85.2021.07.11.14.11.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Jul 2021 14:11:06 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/4] SD/MMC patches for 2021-07-11
+Date: Sun, 11 Jul 2021 23:10:53 +0200
+Message-Id: <20210711211057.2714586-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <10114d64-aa8c-997d-dc0a-09d541f61962@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.631,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,31 +83,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ryo ONODERA <ryoon@netbsd.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Tom Yan <tom.ty89@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
- Warner Losh <imp@bsdimp.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/21 10:55 AM, Philippe Mathieu-Daudé wrote:
-> Hi Niek,
-> 
-> On 7/4/21 2:35 PM, Niek Linnenbank wrote:
->> for test_arm_orangepi_uboot_netbsd9:
->>
->> Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com
->> <mailto:nieklinnenbank@gmail.com>>
-> 
-> Thanks for the review. Does your R-b tag applies for this single
-> patch or all patches related to test_arm_orangepi_uboot_netbsd9
-> in this series (3-5)?
-
-Soft-freeze is in 2 days and no review from the NetBSD team,
-so postponing these patches to v6.2.
+The following changes since commit 9516034d05a8c71ef157a59f525e4c4f7ed79827=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/cminyard/tags/for-qemu-6.1-2' into =
+staging (2021-07-11 14:32:49 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/philmd/qemu.git tags/sdmmc-20210711=0D
+=0D
+for you to fetch changes up to a36cbb79763630837e7a73ae0d67aca210ebc791:=0D
+=0D
+  hw/sd: sdhci: Enable 64-bit system bus capability in the default SD/MMC h=
+ost controller (2021-07-11 23:02:51 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+SD/MMC patches queue=0D
+=0D
+- sdcard: Check for valid address range in SEND_WRITE_PROT (CMD30)=0D
+- sdhci: Enable 64-bit system bus capability in default host controller=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Joanne Koong (1):=0D
+  hw/sd: sdhci: Enable 64-bit system bus capability in the default=0D
+    SD/MMC host controller=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/sd/sdcard: When card is in wrong state, log which state it is=0D
+  hw/sd/sdcard: Extract address_in_range() helper, log invalid accesses=0D
+  hw/sd/sdcard: Check for valid address range in SEND_WRITE_PROT (CMD30)=0D
+=0D
+ hw/sd/sdhci-internal.h         |  4 +--=0D
+ hw/sd/sd.c                     | 40 ++++++++++++++-------=0D
+ tests/qtest/fuzz-sdcard-test.c | 66 ++++++++++++++++++++++++++++++++++=0D
+ MAINTAINERS                    |  3 +-=0D
+ tests/qtest/meson.build        |  1 +=0D
+ 5 files changed, 98 insertions(+), 16 deletions(-)=0D
+ create mode 100644 tests/qtest/fuzz-sdcard-test.c=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
