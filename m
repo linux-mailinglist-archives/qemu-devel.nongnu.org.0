@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331433C3EA4
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 19:57:24 +0200 (CEST)
-Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477DF3C3EE8
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 21:52:18 +0200 (CEST)
+Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2dhj-0000Ad-9a
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 13:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
+	id 1m2fUu-00024g-Qj
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 15:52:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2dgJ-0007gb-B3
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:55:55 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2dgH-0002ip-H5
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:55:55 -0400
-Received: by mail-ej1-x632.google.com with SMTP id hr1so28957101ejc.1
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 10:55:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hABYkDWtk2F3+KuNHjUk14kDFOwa5l8X8WHMnAamNUQ=;
- b=lmhlyGpLDuB08e3p7of5/YJwiHb/B0rgQMFEWSdM5YqaML7271p7boU22g4UNFX7ov
- 5NbiSp4HPQJ6gywbsqVGb7uaSkWe5YzfUqWv4YOQMlWHGxSf7HjbyPXheHzg5FMmcJ3P
- tyQqShutcsQ4wh3sEiYr9kr4SCuM8fl3Q48xUQGq4T2DZtCAmbNP4zQpAqKJ5w+mFNYp
- QdK9chmWZ0O5ssT1uMdTg8rdWqjDxpmCFVdBOylGhYxIl/zO85zmfp089sygoU+kT1yR
- IFElOp2oL+P3raA3MWaPJUYMJDispRzsD3SOPnwN3amejniMOy+X0lp7dAKjYFKVSPFO
- oSkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hABYkDWtk2F3+KuNHjUk14kDFOwa5l8X8WHMnAamNUQ=;
- b=WPvxsxGt70LI3w8b53zfnpNUP3oOj2XO/QQJBdm5AUbCUum2C1e17sLb1y4AoHsFlS
- 8whMA1776kUv4W96dKHVnKOCn5LDAaqYZJri8BvEkAoRpYaoS0gFSGlANAJOJc+HjZqJ
- AU43FLfqfhCPBRg4mENelqgdi1PzFz8vtqgLH0ck5MI7atgT/9e695LohIA/72nVggqe
- zpTW0XXIcHyUabY1ytcovFWaxY1LTc/0IwIdljevTAgf7nasFtXsZpnDpcpo82YhLdQ2
- h/LY1Z+fXboCy2kXOIXMcZMh/wz+lryb1NNAs4tFj8VPxsV4jEX/5+fSHAlu4yTgl0lN
- vyvg==
-X-Gm-Message-State: AOAM531mNklLUfKS/H+vfuWqKTXs1pdS1iLqF9FpUB1ZdPdu3iBRbxMi
- Rwu4RdpgY0Dzs8d0X4pQUmJKU18J5DmeUehBtWYW4w==
-X-Google-Smtp-Source: ABdhPJzbkFW0qtqamcFi2sDWjGxpFvbGttvrm0cnkJTc0I7SJ61H7uwZWhjPu4l9D+EU0tywFM9TlgGDsZh3BHzjon0=
-X-Received: by 2002:a17:907:a05c:: with SMTP id
- gz28mr7816976ejc.56.1626026151959; 
- Sun, 11 Jul 2021 10:55:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m2fTS-0001PY-SK
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 15:50:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56518
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m2fTR-0000sw-78
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 15:50:46 -0400
+Received: from host86-145-86-170.range86-145.btcentralplus.com
+ ([86.145.86.170] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m2fTE-0009rw-AI; Sun, 11 Jul 2021 20:50:36 +0100
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210711103612.2661521-1-f4bug@amsat.org>
+ <20210711103612.2661521-3-f4bug@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <d803e38f-3452-f4b8-5d56-5340989f4369@ilande.co.uk>
+Date: Sun, 11 Jul 2021 20:50:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210708151909.907124-1-cohuck@redhat.com>
- <CAFEAcA96yLiVh-gSxZdW1kNvmJHarqNH_p3HXtpp41gQ6eDuZA@mail.gmail.com>
- <87k0lzecjs.fsf@redhat.com>
-In-Reply-To: <87k0lzecjs.fsf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 11 Jul 2021 18:55:12 +0100
-Message-ID: <CAFEAcA-LvjTqp2u6Lj31Dy1X_E5rN=giUfo7W3ghU+ayKMsLeQ@mail.gmail.com>
-Subject: Re: [PULL 00/17] s390x update for softfreeze
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210711103612.2661521-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.145.86.170
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v4 2/5] dp8393x: Replace 0x40 magic value by
+ SONIC_REG16_COUNT definition
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.631,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,45 +66,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Laurent Vivier <laurent@vivier.eu>, Finn Thain <fthain@linux-m68k.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Jul 2021 at 16:23, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> On Fri, Jul 09 2021, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> > On Thu, 8 Jul 2021 at 16:19, Cornelia Huck <cohuck@redhat.com> wrote:
-> >>
-> >> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
-> >>
-> >>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://gitlab.com/cohuck/qemu.git tags/s390x-20210708
-> >>
-> >> for you to fetch changes up to 7ab3eb42b0d795f7321c4fca0ea06cb76a005b04:
-> >>
-> >>   target/s390x: split sysemu part of cpu models (2021-07-07 14:01:59 +0200)
-> >>
-> >> ----------------------------------------------------------------
-> >> s390x updates:
-> >> - add gen16 cpumodels
-> >> - refactor/cleanup some code
-> >> - bugfixes
-> >>
-> >> ----------------------------------------------------------------
-> >>
-> >
-> > Hi -- this doesn't seem to be signed with the GPG key I have
-> > on record for you. If I need to do an update, could you let me
-> > know which keyserver you've uploaded to, please?
->
-> Whoops, forgot to upload. Sent out to keys.openpgp.org right now.
+On 11/07/2021 11:36, Philippe Mathieu-Daudé wrote:
 
-I still can't see it -- can you double-check, please?
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Tested-by: Finn Thain <fthain@linux-m68k.org>
+> Message-Id: <20210710174954.2577195-3-f4bug@amsat.org>
+> ---
+>   hw/net/dp8393x.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+> index 9118364aa33..d1e147a82a6 100644
+> --- a/hw/net/dp8393x.c
+> +++ b/hw/net/dp8393x.c
+> @@ -85,6 +85,7 @@ static const char *reg_names[] = {
+>   #define SONIC_MPT    0x2e
+>   #define SONIC_MDT    0x2f
+>   #define SONIC_DCR2   0x3f
+> +#define SONIC_REG_COUNT  0x40
+>   
+>   #define SONIC_CR_HTX     0x0001
+>   #define SONIC_CR_TXP     0x0002
+> @@ -158,7 +159,7 @@ struct dp8393xState {
+>   
+>       /* Registers */
+>       uint8_t cam[16][6];
+> -    uint16_t regs[0x40];
+> +    uint16_t regs[SONIC_REG_COUNT];
+>   
+>       /* Temporaries */
+>       uint8_t tx_buffer[0x10000];
+> @@ -972,7 +973,7 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
+>   
+>       address_space_init(&s->as, s->dma_mr, "dp8393x");
+>       memory_region_init_io(&s->mmio, OBJECT(dev), &dp8393x_ops, s,
+> -                          "dp8393x-regs", 0x40 << s->it_shift);
+> +                          "dp8393x-regs", SONIC_REG_COUNT << s->it_shift);
+>   
+>       s->nic = qemu_new_nic(&net_dp83932_info, &s->conf,
+>                             object_get_typename(OBJECT(dev)), dev->id, s);
+> @@ -987,7 +988,7 @@ static const VMStateDescription vmstate_dp8393x = {
+>       .minimum_version_id = 0,
+>       .fields = (VMStateField []) {
+>           VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
+> -        VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
+> +        VMSTATE_UINT16_ARRAY(regs, dp8393xState, SONIC_REG_COUNT),
+>           VMSTATE_END_OF_LIST()
+>       }
+>   };
 
-thanks
--- PMM
+I just noticed that the subject line is wrong here: the subject line mentions 
+SONIC_REG16_COUNT whereas the variable name in the patch is SONIC_REG_COUNT. This is 
+trivial enough to fix without resending the series though.
+
+
+ATB,
+
+Mark.
 
