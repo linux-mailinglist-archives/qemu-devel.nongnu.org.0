@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477DF3C3EE8
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 21:52:18 +0200 (CEST)
-Received: from localhost ([::1]:46132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0B73C3EEF
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 21:59:23 +0200 (CEST)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2fUu-00024g-Qj
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 15:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
+	id 1m2fbm-0003yO-Au
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 15:59:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m2fTS-0001PY-SK
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 15:50:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56518
+ id 1m2fag-0003Is-IL
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 15:58:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:56542
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m2fTR-0000sw-78
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 15:50:46 -0400
+ id 1m2fae-0006ut-V8
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 15:58:14 -0400
 Received: from host86-145-86-170.range86-145.btcentralplus.com
  ([86.145.86.170] helo=[192.168.1.65])
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m2fTE-0009rw-AI; Sun, 11 Jul 2021 20:50:36 +0100
+ id 1m2faS-0009tl-40; Sun, 11 Jul 2021 20:58:04 +0100
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210711103612.2661521-1-f4bug@amsat.org>
- <20210711103612.2661521-3-f4bug@amsat.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <d803e38f-3452-f4b8-5d56-5340989f4369@ilande.co.uk>
-Date: Sun, 11 Jul 2021 20:50:33 +0100
+Message-ID: <6ba02e03-ae68-066e-6d9b-95f685205b1d@ilande.co.uk>
+Date: Sun, 11 Jul 2021 20:58:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210711103612.2661521-3-f4bug@amsat.org>
+In-Reply-To: <20210711103612.2661521-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.145.86.170
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v4 2/5] dp8393x: Replace 0x40 magic value by
- SONIC_REG16_COUNT definition
+Subject: Re: [PATCH v4 0/5] dp8393x: fixes and improvements
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -74,57 +72,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/07/2021 11:36, Philippe Mathieu-Daudé wrote:
 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Tested-by: Finn Thain <fthain@linux-m68k.org>
-> Message-Id: <20210710174954.2577195-3-f4bug@amsat.org>
-> ---
->   hw/net/dp8393x.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+> Hi Mark,
 > 
-> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-> index 9118364aa33..d1e147a82a6 100644
-> --- a/hw/net/dp8393x.c
-> +++ b/hw/net/dp8393x.c
-> @@ -85,6 +85,7 @@ static const char *reg_names[] = {
->   #define SONIC_MPT    0x2e
->   #define SONIC_MDT    0x2f
->   #define SONIC_DCR2   0x3f
-> +#define SONIC_REG_COUNT  0x40
->   
->   #define SONIC_CR_HTX     0x0001
->   #define SONIC_CR_TXP     0x0002
-> @@ -158,7 +159,7 @@ struct dp8393xState {
->   
->       /* Registers */
->       uint8_t cam[16][6];
-> -    uint16_t regs[0x40];
-> +    uint16_t regs[SONIC_REG_COUNT];
->   
->       /* Temporaries */
->       uint8_t tx_buffer[0x10000];
-> @@ -972,7 +973,7 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
->   
->       address_space_init(&s->as, s->dma_mr, "dp8393x");
->       memory_region_init_io(&s->mmio, OBJECT(dev), &dp8393x_ops, s,
-> -                          "dp8393x-regs", 0x40 << s->it_shift);
-> +                          "dp8393x-regs", SONIC_REG_COUNT << s->it_shift);
->   
->       s->nic = qemu_new_nic(&net_dp83932_info, &s->conf,
->                             object_get_typename(OBJECT(dev)), dev->id, s);
-> @@ -987,7 +988,7 @@ static const VMStateDescription vmstate_dp8393x = {
->       .minimum_version_id = 0,
->       .fields = (VMStateField []) {
->           VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
-> -        VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
-> +        VMSTATE_UINT16_ARRAY(regs, dp8393xState, SONIC_REG_COUNT),
->           VMSTATE_END_OF_LIST()
->       }
->   };
+> This should be the last respin.
+> 
+> Since v3:
+> - dropped worrying patches
+> - squashed migration patch
+> - added tags
+> 
+> Patch #3 (dp8393x: Store CAM registers as 16-bit) still
+> misses your S-o-b tag.
+> 
+> Based-on mips-next.
+> 
+> Mark Cave-Ayland (1):
+>    dp8393x: don't force 32-bit register access
+> 
+> Philippe Mathieu-Daudé (4):
+>    dp8393x: Replace address_space_rw(is_write=1) by address_space_write()
+>    dp8393x: Replace 0x40 magic value by SONIC_REG16_COUNT definition
+>    dp8393x: Store CAM registers as 16-bit
+>    dp8393x: Rewrite dp8393x_get() / dp8393x_put()
+> 
+>   hw/net/dp8393x.c | 206 ++++++++++++++++++++---------------------------
+>   1 file changed, 87 insertions(+), 119 deletions(-)
 
-I just noticed that the subject line is wrong here: the subject line mentions 
-SONIC_REG16_COUNT whereas the variable name in the patch is SONIC_REG_COUNT. This is 
-trivial enough to fix without resending the series though.
+Thanks Phil. A small typo in the subject line of patch 2, but otherwise this series 
+passes my local tests (assuming "dp8393x: fix CAM descriptor entry index" is already 
+applied to mips-next).
+
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
