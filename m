@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4DB3C3B86
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:33:59 +0200 (CEST)
-Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1881B3C3B8A
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:37:47 +0200 (CEST)
+Received: from localhost ([::1]:56524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2Wmc-0005CU-SO
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46572)
+	id 1m2WqI-0007ue-2r
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2Wln-0004XW-OF
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:33:07 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46622)
+ id 1m2Wos-0006Ab-5l
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:18 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2Wlm-0001jo-8D
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:33:07 -0400
-Received: by mail-wr1-x431.google.com with SMTP id d12so19455947wre.13
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 03:33:05 -0700 (PDT)
+ id 1m2Woq-00040R-Nf
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:17 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id m2so9047346wrq.2
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 03:36:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=l8yVMd8p8m11HK6h/7ngWZdAO4IGq5z7Sc5Ev7D8ecE=;
- b=UpurAXYZRXPp69L7rsbqEbfjIfsDNGLeC0fH5u5qnIc7ChrXJNwzxRlMT3p0C+lGr1
- NlbK+iXG0+PgXCjt2iWYeBXBq2tlbXigVOZblO0FPnyPzU9O35dCH73HkL1jV6dKIvWq
- PY26noo79wvuE7E1WWepZk3eeOuHsEamwYh4nppskvVTuWg9AID2riHTdfFsgDnnB8nT
- +I661Iat5HCT+fKRIe9hFrQAo0FwtCd7KCEjwI+5y6XHKRjZubBs1yyILQAV3//GUUk9
- HMZa2bNTYGDQRQZAoet4WygDCqFjOhN4r6zEsUzKoNchterh2g3lln5rTthSQNp0xRy3
- kC1Q==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7tqYYRGiuvQ56JEde0xugddht60zFo+FlRvB+xgS034=;
+ b=p2DElWjtdnMR2S+UOufU33KgiFJ8hc7tBL6WEDQ0sGMdJzd2JGbuFBlS5B2HdhrOTj
+ 0nI5Jn0JFLfuPEYtHS7pArakTxitVAx9wNKIPDLCLUuZJc9NrV4FEFDI4mnoSf2SPrwf
+ 2khtuoKYlLi2SU9wlSS7U+x/XiwcmLC7aRZJBjG0AzUsTRdabO7/188iS4f7MQgLq6SF
+ 3DKN9f8IXV/gJGvzTxSoCkzjb24ur4SZ9kHQMzLS2mXLg2i5R68e+mhuQCnsbASDcIKG
+ oNVr8YpiglE/JXesnU1uavbbonsRKeNO78V5YC8PhlGLN9eIJ5OExkVTJlz3MyNQJhan
+ 5Esw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=l8yVMd8p8m11HK6h/7ngWZdAO4IGq5z7Sc5Ev7D8ecE=;
- b=HanpeAya/FXdodX/UfaxGFSviKcPOuLi85cq/5a10JxfBKNh9LzwriGqFgFk2r0M1O
- U93utLDNodM6uocv3sUG3oyOXyJ7ho2VD3tTUE3V5uvZd7lWkOofHJUSoBTDjbsGP2pS
- Uvr9Mfxmi4dtZd+C+ZMQ5CQoZ7XnmdV2bPoh3QMYQ1MYSywmjYZfFBk2n20kJNseoNDn
- If5/NqqZa+OvB3UdygN5XDFkdr65FXgBf3goOCG0kRwMt86acVMEGEpQ+lf8aA92x4tp
- HzMn773m1jU6N5k8u9kMqIx4Zh4xz9hSdqQo5aNYYvReIdDhUVCc2gMAumNje/6/zGmh
- IZLg==
-X-Gm-Message-State: AOAM530bm0bi7eBtG099JRo6LDgkEMcHv/pnEQkCbmLHCBcFlnRsamxR
- A03zzk8r8oKUfTm6K8jycU8=
-X-Google-Smtp-Source: ABdhPJx3Jy9yYjU6DZ5/c7z3QnJWy3mBsRlR5kXN6OMpjiV4NKcUu77AmKrwNX67AQfGSYyXnzRWxw==
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr1557403wrq.210.1625999584341; 
- Sun, 11 Jul 2021 03:33:04 -0700 (PDT)
-Received: from [172.19.58.38] (static-189-95-145-212.ipcom.comunitel.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=7tqYYRGiuvQ56JEde0xugddht60zFo+FlRvB+xgS034=;
+ b=Qx6aoUnAgXRMEKwNSSHRr8k6gFSUJRwDstk9F1wuQEiZ9LyfhbENLey6OY9R42u03b
+ Bji32HO/iFtff/XTkUFuLfsgNVmpzaBzqGVrv6QolmJL7q3IaqTxpTcRXlc0ixtFetVn
+ xnWpEPwiAJrno69Brmd/LmV3tXCZgOIV5rDKrhRu/GOKoKM854yuEa5ZJn0lFD+2REbX
+ 4EWyC701VBbtCpbUm94DXB9IoH5Un8Z9jYzw4KzbYlb9ewutvTXj2Uensphmb/ivPyI5
+ lHlu5uIAxK5tU748q6gq8EuaQH2BrSBo8rE7O9CC9Zn5dolQDL+IfRObSp8HyYEDrYw5
+ LZ1g==
+X-Gm-Message-State: AOAM532IJnA/NWk/2E08v76PCEK0S6qipF88EDuJhJ4g311CUsI3ePIH
+ My+Hr9KEBdegAtW9YwsExlyVlVJ7h1AKuQ==
+X-Google-Smtp-Source: ABdhPJyMG9IMLdf0EL25KORDaaQT1eastMvctUBBq2w32Q3nTY+u6VKuJp95bi/9yc6UBZHh7FBpGQ==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr8386292wrt.126.1625999774980; 
+ Sun, 11 Jul 2021 03:36:14 -0700 (PDT)
+Received: from x1w.. (static-189-95-145-212.ipcom.comunitel.net.
  [212.145.95.189])
- by smtp.gmail.com with ESMTPSA id w9sm9573123wmc.19.2021.07.11.03.33.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Jul 2021 03:33:03 -0700 (PDT)
-Subject: Re: [PATCH v3 0/8] dp8393x: fixes and improvements
-To: Finn Thain <fthain@linux-m68k.org>
-References: <20210710174954.2577195-1-f4bug@amsat.org>
- <d4266ef3-693a-c00-117-96987fd16117@linux-m68k.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8a8ff514-8931-b6ba-f82b-163f79bdb7a6@amsat.org>
-Date: Sun, 11 Jul 2021 12:33:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ by smtp.gmail.com with ESMTPSA id h10sm11921197wmb.46.2021.07.11.03.36.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 11 Jul 2021 03:36:14 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/5] dp8393x: fixes and improvements
+Date: Sun, 11 Jul 2021 12:36:07 +0200
+Message-Id: <20210711103612.2661521-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <d4266ef3-693a-c00-117-96987fd16117@linux-m68k.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -89,64 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Finn Thain <fthain@linux-m68k.org>, Jason Wang <jasowang@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/21 4:08 AM, Finn Thain wrote:
-> On Sat, 10 Jul 2021, Philippe Mathieu-Daudé wrote:
-> 
->>
->> The last 2 patches are included for Mark, but I don't plan to merge
->>
->> them without Finn's Ack, and apparently they require more work.
->>
-> 
-> 
-> I tested the patch series both with and without the last 2 patches. Both 
-> builds worked fine with my NetBSD/arc, Linux/mipsel and Linux/m68k guests.
-> 
-> Tested-by: Finn Thain <fthain@linux-m68k.org>
-
-Thank you very much :)
-
-> I have no objection to patch 8/8 ("dp8393x: don't force 32-bit register 
-> access"). I asked Mark to explain why it was a bug fix (since it didn't 
-> change QEMU behaviour in my tests) but when I looked into it I found that 
-> he is quite right, the patch does fix a theoretical bug.
-
-OK.
-
-> My only objection to patch 7/8 ("dp8393x: Rewrite dp8393x_get() / 
-> dp8393x_put()") was that it could be churn.
-> 
-> If I'm right that the big_endian flag should go away, commit b1600ff195 
-> ("hw/mips/jazz: specify correct endian for dp8393x device") has already 
-> taken mainline in the wrong direction and amounts to churn.
-
-We might figure out with a BE guest image, the remove the endian flag.
-I don't think the patch is worth removing, because it simplifies and
-we'll only have to fix the endianess in 2 places, dp8393x_get/put. I
-prefer to restrict the address space accesses there.
-
-> I have the same reservations about patch 6/8 ("dp8393x: Store CRC using 
-> device configured endianess"). Perhaps that should be NOTFORMERGE too 
-> (even though it too a theoretical bug fix).
-
-OK, dropped.
-
-> Is there a good way to avoid using big_endian for storing the CRC and the 
-> other DMA operations?
-
-Could be, but I'd rather see this fixed generically in the MemoryRegion
-API, not in this particular device model.
-
-> BTW, if you see "sn0: receive buffers exhausted" occasionally logged by 
-> the NetBSD 9.2 kernel, accompanied by packet loss, it's not a regression 
-> in QEMU. I first observed it last year when stress testing dp8393x with 
-> NetBSD 5.1. I believe this to be an old NetBSD sn driver bug because Linux 
-> is unaffected.
-> 
+Hi Mark,=0D
+=0D
+This should be the last respin.=0D
+=0D
+Since v3:=0D
+- dropped worrying patches=0D
+- squashed migration patch=0D
+- added tags=0D
+=0D
+Patch #3 (dp8393x: Store CAM registers as 16-bit) still=0D
+misses your S-o-b tag.=0D
+=0D
+Based-on mips-next.=0D
+=0D
+Mark Cave-Ayland (1):=0D
+  dp8393x: don't force 32-bit register access=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  dp8393x: Replace address_space_rw(is_write=3D1) by address_space_write()=
+=0D
+  dp8393x: Replace 0x40 magic value by SONIC_REG16_COUNT definition=0D
+  dp8393x: Store CAM registers as 16-bit=0D
+  dp8393x: Rewrite dp8393x_get() / dp8393x_put()=0D
+=0D
+ hw/net/dp8393x.c | 206 ++++++++++++++++++++---------------------------=0D
+ 1 file changed, 87 insertions(+), 119 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
