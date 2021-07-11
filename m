@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1E13C39E2
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 04:10:23 +0200 (CEST)
-Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F41E43C3A5F
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 06:28:36 +0200 (CEST)
+Received: from localhost ([::1]:38290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2OvG-00052K-0M
-	for lists+qemu-devel@lfdr.de; Sat, 10 Jul 2021 22:10:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39052)
+	id 1m2R52-0005QR-1h
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 00:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m2Ou2-0004AM-2H
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 22:09:06 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:53129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m2Ou0-0001jm-4g
- for qemu-devel@nongnu.org; Sat, 10 Jul 2021 22:09:05 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id AC0EA3201064;
- Sat, 10 Jul 2021 22:09:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Sat, 10 Jul 2021 22:09:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-id:content-type:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=vSbbkfYtZsGr4Ca7g+fXTVn85jFmuE2U5p40MlQ2ys8=; b=LdP93obR
- /VpyNiKp4FgmvXj25oUi3605GAq+CNpAZn6hqvBgtpD4HhFJx4g/+X/q6rCe+U6U
- 2ajtTeAoBNPlE1j4eHc33AVSzXTevEW/JHayAQT0uCdoHyb8D9ipgJ412K6HOUXv
- nhfPgbq1MVXO8bnOTNPTFz0f8Nzf4yLZKMeHBJUQlPIKPRz51EGkXURJ8Mb7QPtH
- A3FgZcTq/pEz3F65LrMvGwJ6UW+6wdkzVMr77nxL8bVbn8A2RU7sGRF+gNlFoyOH
- QJwQpj3C/EvyxD+KKnytfWMOJB2W8kyGgu1D8bCZTDrM+LNCq/DB8yU/QV4A0tMH
- NqMRPgJjdgornA==
-X-ME-Sender: <xms:u1LqYMAtVQSlBCAfOyMQOXLac_5l06N5ijRLm1KOakyi7ffSELCbBQ>
- <xme:u1LqYOgWVVQpQAchr1N46BUBxpt2M4pa5U357wKwRWv5BYxDNgagIIELer1KJKwlv
- BB--AzFdnct7dnDVoM>
-X-ME-Received: <xmr:u1LqYPmID6BRFBppUrrW99t4YRY10kEnatcng7O_ZECxppUrS_efSWVuvvD3zpp6XGHBzS5-3nDyeUbcRSdNVu87YEr2NBW3caU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtdelgdehfecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvufgjkfhfgggtsehmtderredttdejnecuhfhrohhmpefhihhnnhcuvfhh
- rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
- gvrhhnpeefffejiefgheevheefvefhteeggfeijeeiveeihfffffdugfefkeelfffhgfeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfth
- hhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:u1LqYCx0HJS2S1gTDNnChe0w007pbzCjMfgW4FQUQHOBGjZ890aGFA>
- <xmx:u1LqYBTDUB3qSJrvurFqiD1eyaUB740tr8_TIwLJ_N3gN9w0LWl6nQ>
- <xmx:u1LqYNaj_bmRD66cWVhafMZz1l7nWyUZ6vosUBrLwa4YIkv8svP1LA>
- <xmx:vFLqYMeeQUv5KcCSDUZ_wXvgh24aQY8fjFnb7rzU8KUSv30otSCGDg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 10 Jul 2021 22:08:57 -0400 (EDT)
-Date: Sun, 11 Jul 2021 12:08:26 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 0/8] dp8393x: fixes and improvements
-In-Reply-To: <20210710174954.2577195-1-f4bug@amsat.org>
-Message-ID: <d4266ef3-693a-c00-117-96987fd16117@linux-m68k.org>
-References: <20210710174954.2577195-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m2R37-0000gk-Ga
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 00:26:37 -0400
+Received: from indium.canonical.com ([91.189.90.7]:35676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m2R35-0000aM-67
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 00:26:37 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m2R2z-0006UO-Ir
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 04:26:29 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 301072E8296
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 04:26:12 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="-1463811774-1824221605-1625963912=:6"
-Content-ID: <fafec589-1f43-cccd-97d7-469686783bc9@nippy.intranet>
-Received-SPF: none client-ip=64.147.123.20; envelope-from=fthain@linux-m68k.org;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 11 Jul 2021 04:17:15 -0000
+From: Launchpad Bug Tracker <1878501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: i386 linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: husseydevin janitor laurent-vivier rth th-huth
+X-Launchpad-Bug-Reporter: easyaspi314 (husseydevin)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <158941344748.31408.6066832909673515633.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162597703680.19787.12022336062273094861.malone@loganberry.canonical.com>
+Subject: [Bug 1878501] Re: qemu-i386 does not define AT_SYSINFO
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
+X-Launchpad-Hash: 77247c48bf0024f32294c04605d68af507f9f35e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.001, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,60 +71,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Reply-To: Bug 1878501 <1878501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+[Expired for QEMU because there has been no activity for 60 days.]
 
----1463811774-1824221605-1625963912=:6
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <9730eab-32ed-8c7-3716-edddead661e5@nippy.intranet>
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-On Sat, 10 Jul 2021, Philippe Mathieu-Daud=C3=A9 wrote:
+-- =
 
->=20
-> The last 2 patches are included for Mark, but I don't plan to merge
->=20
-> them without Finn's Ack, and apparently they require more work.
->=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1878501
 
+Title:
+  qemu-i386 does not define AT_SYSINFO
 
-I tested the patch series both with and without the last 2 patches. Both=20
-builds worked fine with my NetBSD/arc, Linux/mipsel and Linux/m68k guests.
+Status in QEMU:
+  Expired
 
-Tested-by: Finn Thain <fthain@linux-m68k.org>
+Bug description:
+  qemu-i386 does not define the AT_SYSINFO auxval when running i386
+  Linux binaries.
 
-I have no objection to patch 8/8 ("dp8393x: don't force 32-bit register=20
-access"). I asked Mark to explain why it was a bug fix (since it didn't=20
-change QEMU behaviour in my tests) but when I looked into it I found that=
-=20
-he is quite right, the patch does fix a theoretical bug.
+  On most libcs, this is properly handled, but this is mandatory for the
+  i686 Bionic (Android) libc or it will segfault.
 
-My only objection to patch 7/8 ("dp8393x: Rewrite dp8393x_get() /=20
-dp8393x_put()") was that it could be churn.
+  This is due to a blind assumption that getauxval(AT_SYSINFO) will
+  return a valid function pointer:
 
-If I'm right that the big_endian flag should go away, commit b1600ff195=20
-("hw/mips/jazz: specify correct endian for dp8393x device") has already=20
-taken mainline in the wrong direction and amounts to churn.
+  The code varies from version to version, but it looks like this:
 
-I have the same reservations about patch 6/8 ("dp8393x: Store CRC using=20
-device configured endianess"). Perhaps that should be NOTFORMERGE too=20
-(even though it too a theoretical bug fix).
+  void *__libc_sysinfo;
+  // mangled as _Z19__libc_init_sysinfov
+  void __libc_init_sysinfo() {
+    bool dummy;
+    // __bionic_getauxval =3D getauxval
+    __libc_sysinfo =3D reinterpret_cast<void *>(__bionic_getauxval(AT_SYSIN=
+FO, dummy));
+  }
 
-Is there a good way to avoid using big_endian for storing the CRC and the=
-=20
-other DMA operations?
+  A simple way to reproduce is to compile a basic C program against the
+  NDK:
 
-BTW, if you see "sn0: receive buffers exhausted" occasionally logged by=20
-the NetBSD 9.2 kernel, accompanied by packet loss, it's not a regression=20
-in QEMU. I first observed it last year when stress testing dp8393x with=20
-NetBSD 5.1. I believe this to be an old NetBSD sn driver bug because Linux=
-=20
-is unaffected.
----1463811774-1824221605-1625963912=:6--
+  int main(void) { return 0; }
+
+  $ i686-linux-android-clang -static empty.c -o empty
+  $ qemu-i386 -cpu max ./empty
+  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+  Segmentation fault
+
+  The place where it segfaults is misleading: It will, at least on the
+  current NDK, crash on __set_thread_area, this is due to it calling a
+  function pointer to __libc_sysinfo returned by __kernel_syscall.
+
+  QEMU 4.1.1 (aarch64)
+  Pixel 2 XL via Termux
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1878501/+subscriptions
 
