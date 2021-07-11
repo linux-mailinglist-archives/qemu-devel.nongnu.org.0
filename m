@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA693C3A65
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 06:32:12 +0200 (CEST)
-Received: from localhost ([::1]:49876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E083C3AD3
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 07:57:12 +0200 (CEST)
+Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2R8W-0004gz-0A
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 00:32:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36274)
+	id 1m2SSk-0008GF-Rw
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 01:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2R3C-0000vk-WE
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 00:26:43 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36126)
+ id 1m2SRN-0007Xx-92
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 01:55:45 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46076)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2R3B-0000gE-C5
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 00:26:42 -0400
+ id 1m2SRL-0003LK-6S
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 01:55:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2R37-00065c-BV
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 04:26:37 +0000
+ id 1m2SRI-00028C-OF
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:55:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 136DA2E8386
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 04:26:18 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B3DB22E8136
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:55:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Jul 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1779955@bugs.launchpad.net>
+Date: Sun, 11 Jul 2021 05:46:29 -0000
+From: Thomas Huth <1905297@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor likan pmaydell th-huth
-X-Launchpad-Bug-Reporter: Kan Li (likan)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <153065712229.13372.17157400567540509420.malonedeb@gac.canonical.com>
-Message-Id: <162597703823.19787.1915920950060675512.malone@loganberry.canonical.com>
-Subject: [Bug 1779955] Re: qemu linux-user requires read permissions on memory
- passed to syscalls that should only need write access
+X-Launchpad-Bug-Commenters: axelheider janitor michaelpeter philmd th-huth
+X-Launchpad-Bug-Reporter: Michael Peter (michaelpeter)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160614967524.17013.9714069541645314856.malonedeb@wampee.canonical.com>
+Message-Id: <162598238974.7727.17016195109291613599.malone@chaenomeles.canonical.com>
+Subject: [Bug 1905297] Re: Zynq7000 UART clock reset initialization
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 8376a7addd684b5b1a23e20b0b1061ce6eeb08ec
+X-Launchpad-Hash: 98663c60fba6ad7e213ca5c40f2d21e87d358340
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -72,64 +70,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1779955 <1779955@bugs.launchpad.net>
+Reply-To: Bug 1905297 <1905297@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+I guess the patch has never been sent to the qemu-devel mailing list and
+thus was never considered for inclusion. Anyway, let's move this ticket
+over to the new bug tracker at gitlab.com, maybe it gets more attention
+there...
 
 ** Changed in: qemu
        Status: Incomplete =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #468
+   https://gitlab.com/qemu-project/qemu/-/issues/468
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1779955
+https://bugs.launchpad.net/bugs/1905297
 
 Title:
-  qemu linux-user requires read permissions on memory passed to syscalls
-  that should only need write access
+  Zynq7000 UART clock reset initialization
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When read() function takes an mmap'ed address as output buffer, it
-  returns EFAULT. The expected behavior is it should just work.
+  Hello,
 
-  The following code works for qemu-system-arm, but not for qemu-arm-
-  static.
+  we have come across a strange behavior in the Zynq7000 model of Qemu
+  that seems to have been  introduced between 5.0.0 and 5.1.0.
 
-  QEMU version affected: latest release 2.12.0.
+  =
 
-  Steps to reproduce (please substitute /path/to/qemu-arm-static with
-  the path of the binary, and /tmp/a.cpp with the example source code
-  attached):
+  The reset values of the SLCR register, in particular those for UART_CLK_C=
+TRL, are such that
+  the UARTs should find functional clocks. Up to 5.0.0 this was also the be=
+havior that was
+  implemented in QEMU.
 
-  # First register binfmt_misc
-  [hidden]$ docker run --rm --privileged multiarch/qemu-user-static:registe=
-r --reset
+  Starting in 5.1.0, we found that - despite correct reset values [1] - the=
+ UARTs are non-functional
+  upon reset. Some investigation revealed that the cause for that is that t=
+he corresponding
+  clocks are not properly initialized.
 
-  # Compile the code and run
-  [hidden]$ docker run --rm -it -v /tmp/a.cpp:/tmp/a.cpp -v /path/to/qemu-a=
-rm-static:/usr/bin/qemu-arm-static arm32v7/ubuntu:18.04 bash -c '{ apt upda=
-te -y && apt install -y g++; } >& /dev/null && g++ -std=3Dc++14 /tmp/a.cpp =
--o /tmp/a.out && echo hehe > /tmp/haha.txt && /tmp/a.out'
-  ofd=3D3
-  ftruncate=3D0
-  mmap=3D0xff3f5000
-  fd=3D4
-  0xff3f5023 -1 14
+  Between 5.0.0 and 5.1.0, there are three commits  that touch the Zynq
+  UART clocks [2]. The last of them [3] triggers the faulty behavior.
 
-  The expected result in qemu-system-arm as well as natively on x86_64 host:
-  hidden$ ./a.out
-  ofd=3D3
-  ftruncate=3D0
-  mmap=3D0xb6fb7000
-  fd=3D4
-  0xb6fb7023 5 0
+  Attached is a patch that applies 5.2.0-rc2 and yields a functional UART. =
+We surmise that the
+  underlying device release issue runs much deeper, so it is only meant to =
+identify the issue.
+
+
+  [1] hw/misc/zynq_slcr.c
+        static void zynq_slcr_reset_init(Object *obj, ResetType type)
+         s->regs[R_UART_CLK_CTRL]  =3D 0x00003F03;
+  [2] 38867cb7ec90..5b49a34c6800
+  [3] commit 5b49a34c6800d0cb917f959d8e75e5775f0fac3f (refs/bisect/bad)
+        Author: Damien Hedde <damien.hedde@greensocs.com>
+        Date:   Mon Apr 6 15:52:50 2020 +0200
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1779955/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905297/+subscriptions
 
