@@ -2,94 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCFA3C3E41
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 19:18:06 +0200 (CEST)
-Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 863CE3C3E45
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 19:21:14 +0200 (CEST)
+Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2d5h-0001GO-PK
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 13:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56238)
+	id 1m2d8j-0007Et-JP
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 13:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1m2d2z-0006gu-R6
+ id 1m2d2z-0006gp-PC
  for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:17 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:28668)
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29188
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1m2d2w-0006x4-1O
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:17 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16BH5Gkc152793; Sun, 11 Jul 2021 13:15:11 -0400
+ id 1m2d2v-0006xD-Fr
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:16 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16BH4LJb001295; Sun, 11 Jul 2021 13:15:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=q/fY2Bu4rVcrLv7cwmwpWlBAJuzH5E8jNRTtNk1jvYM=;
- b=El7kQF4SNHEjGrIIiSnX0PdaIH0epwCYZCYq38WZUxoSJuEYTE1XFCT7ealI8bxmqQW8
- NgZlfOk7puypwL7N0B+h8DxJ5+ARAoZeg6k+HQ9GCCXt3R8mtNt6WmfpWTn5Prwc+INo
- cGhYvpfkaOcPKtbdecug5bFDvvD30TfXV6DUUQas4WKPBMYMxjUos4ZEwVediNZhSTBO
- DgOoU36C6lfPFjOFVAIbwN0w/roQJanM0Dg/3KT1fzr1CFCUCHavmO3Ov4UwvkvUFJ7O
- N7z25k5DFJg+jQBWVzN8FgRzLzpb7EebCYNsRWbaOKCIMritubIXgnPEFVwhz2i1GLtH 0w== 
+ bh=7rZeEkLmgucP+J2b8+rT/eZRIj/aExfygA0vc2EHvt4=;
+ b=VR7xQsFUY0T7XGjGbgbDlcHFfDPyeDUeKwhYy+UVzQ14RFxIB4WxkuW9F8qzZ6kbEflJ
+ JyNJJuDM7tdB58Jt8sT8rMG5uCdRNj82BYmioUyT1n7Q5ODQXKy7azRG9eBo1F/sBXrH
+ X2NemFuxWGa9p6taEfb6ztEqXZ3EHgon/Qg2yxn4yesGUgFx1scJgnt2IY5gHEWRfxTq
+ P3KP5B72o0WyC4tIxzEua0LREhntev5x2+ewPccJvaDKVNfHgxJyn1invUZk64d14jJQ
+ RSBQoJb55rQB+2yay6yShqFAPLkIxaPtTQcz44dJ+Lrl1Ks3OmjwiUW+VAuXMROqeoyq pQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39qrubu2y3-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qrmck9dg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Jul 2021 13:15:11 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16BH4snY002178;
+ Sun, 11 Jul 2021 13:15:10 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qrmck9d0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sun, 11 Jul 2021 13:15:10 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16BH5IDQ152884;
- Sun, 11 Jul 2021 13:15:10 -0400
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39qrubu2xs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 11 Jul 2021 13:15:10 -0400
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16BHDPOq018475;
- Sun, 11 Jul 2021 17:15:09 GMT
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16BHBcfF022587;
+ Sun, 11 Jul 2021 17:15:10 GMT
 Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma01wdc.us.ibm.com with ESMTP id 39q369qkn9-1
+ [9.57.198.25]) by ppma03dal.us.ibm.com with ESMTP id 39q36a5gd9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 11 Jul 2021 17:15:09 +0000
+ Sun, 11 Jul 2021 17:15:10 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
  by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16BHF9Y439321940
+ 16BHF95r36897238
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Sun, 11 Jul 2021 17:15:09 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 303FE112065;
+ by IMSVA (Postfix) with ESMTP id 4AAFA112061;
  Sun, 11 Jul 2021 17:15:09 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 22D54112063;
+ by IMSVA (Postfix) with ESMTP id 3B36C112066;
  Sun, 11 Jul 2021 17:15:09 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Sun, 11 Jul 2021 17:15:09 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] tests: acpi: prepare for new TPM 1.2 related tables
-Date: Sun, 11 Jul 2021 13:15:04 -0400
-Message-Id: <20210711171506.39375-8-stefanb@linux.vnet.ibm.com>
+Subject: [PULL 8/9] tests: acpi: Add test cases for TPM 1.2 with TCPA table
+Date: Sun, 11 Jul 2021 13:15:05 -0400
+Message-Id: <20210711171506.39375-9-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
 References: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cZKqbh8jyq3HTTO0XTewQifmD4fJWGQk
-X-Proofpoint-ORIG-GUID: qwR57cLuuyy5J8g3QASRL97M1Otgh9O3
+X-Proofpoint-ORIG-GUID: DtbprNO6Z0UCU5Lee6sq825nCGofjwSk
+X-Proofpoint-GUID: owBnGAS2ZuFncfQQM5OKioWV7w3VeaQz
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-11_09:2021-07-09,
+ definitions=2021-07-11_10:2021-07-09,
  2021-07-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  priorityscore=1501
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0
- spamscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
+ phishscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2107110141
 Received-SPF: none client-ip=148.163.158.5;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -117,30 +118,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Message-id: 20210708183814.925960-8-stefanb@linux.vnet.ibm.com
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-id: 20210708183814.925960-9-stefanb@linux.vnet.ibm.com
 ---
- tests/data/acpi/q35/DSDT.tis.tpm12          | 0
- tests/data/acpi/q35/TCPA.tis.tpm12          | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 3 files changed, 2 insertions(+)
- create mode 100644 tests/data/acpi/q35/DSDT.tis.tpm12
- create mode 100644 tests/data/acpi/q35/TCPA.tis.tpm12
+ tests/qtest/bios-tables-test.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/TCPA.tis.tpm12 b/tests/data/acpi/q35/TCPA.tis.tpm12
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..fb093b32b9 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/TCPA.tis.tpm12",
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 4ccbe56158..ddfd2d2b2a 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1145,11 +1145,16 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+ #endif
+ }
+ 
+-static void test_acpi_q35_tcg_tpm_tis(void)
++static void test_acpi_q35_tcg_tpm2_tis(void)
+ {
+     test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_2_0);
+ }
+ 
++static void test_acpi_q35_tcg_tpm12_tis(void)
++{
++    test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_1_2);
++}
++
+ static void test_acpi_tcg_dimm_pxm(const char *machine)
+ {
+     test_data data;
+@@ -1518,7 +1523,8 @@ int main(int argc, char *argv[])
+             return ret;
+         }
+         qtest_add_func("acpi/q35/oem-fields", test_acpi_oem_fields_q35);
+-        qtest_add_func("acpi/q35/tpm-tis", test_acpi_q35_tcg_tpm_tis);
++        qtest_add_func("acpi/q35/tpm2-tis", test_acpi_q35_tcg_tpm2_tis);
++        qtest_add_func("acpi/q35/tpm12-tis", test_acpi_q35_tcg_tpm12_tis);
+         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+         qtest_add_func("acpi/oem-fields", test_acpi_oem_fields_pc);
+         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
 -- 
 2.31.1
 
