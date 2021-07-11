@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5102E3C3B90
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:41:04 +0200 (CEST)
-Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5233C3C20
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 14:11:42 +0200 (CEST)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2WtT-0004gQ-C2
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
+	id 1m2YJB-0003ZQ-Tj
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 08:11:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2WpH-0006Xk-9s
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:43 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35658)
+ (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
+ id 1m2YIC-0002DI-6K
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 08:10:40 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2WpF-0004GW-MF
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:43 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- k31-20020a05600c1c9fb029021727d66d33so7844629wms.0
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 03:36:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <coiby.xu@gmail.com>)
+ id 1m2YI4-0003Rn-7Z
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 08:10:39 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id n10so374830plk.1
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=qQHrIVyJXHGkbXKhjJkgDmeXIckABcf9Z2uGW8Bcsrk=;
- b=YnWfC6kmGSLD14yMHKdJVN71izMjnT7G8HrVPcZ6dKQm5tnKfo5aBeuWVnKGsRavVk
- DSvKhaLSOsz3czG2DaTmqtcXe18jtUYMaYlIPyG5eLOMyVu16DBz8zK2jPwtDYDu3RTE
- D3v3vE5iJCEpt0PKpTtJhhxNTG+4XxS5pptsPOhq5ihNskD317qVm73GIhub0UlbI8V/
- ht0HjnZaIvpz9mppjRtx8iK84CuQUnJOxIi/ex61zFHCLgeFUno0EzUIuBr8FlM3M3+h
- IFHuWJAy8g0uH2VVBcb7KAgNlyHZ+yzygDzPubps2Sougtf649OHxdJh/TLb64l66HuV
- taFg==
+ h=from:date:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UVDaAbY23qFoxVoC5DmMccbAr7OsbqhWULQWKxrpAkw=;
+ b=ArUFpTv+VJzcByWVBY8MHHaz/fHZ2iZ7BTnPB677B4KMLecYG4IWM44v1yuKwPUyLJ
+ yE+6QhnjHNzH7hbPHrKTB7vcCs5jU6tKIBSX7scYfwlBI4BOtd2Z2TNEblIzpRQ6XZET
+ isg1aAoDYcB6dghlYEEnAsm/aQyCf9S9UZNx9t5ZNxjCAiay4xR+PBdu6WSKUPmJ3/S+
+ dE2Eo3O3Ts13eZ8WNnUNzPgO4WPS9XGF8/+ZbVPsJYJ/VCVwon0zcJ6P3pTvnwxY4QeK
+ io98eQJIEVEwFEHNBktYJhd5tWru+w9FywsdTLVg20LvVCvonZHYAthKFE1Kui5h+CoE
+ aqqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qQHrIVyJXHGkbXKhjJkgDmeXIckABcf9Z2uGW8Bcsrk=;
- b=XqcyyBGNPO7W4ETbjPWBaCcgoCoiAXtd9c+1WYZZnCo2iF7oWpSmt4ASGLowMLkid5
- /8RREUEVrTLf9axkt47s4arUnS1aiqyvmU1o5sUoJlkm9tq+BaB3yS81/RlzX6QUU3yr
- +H2/cz/OHsnvZ9AejPsL8Gn046bwAh2MJApDP1EDETm7/E5VJRxFoV5DIqeUTCwuc8id
- fBuBWF37AJSs6PX5u42QzHsD6np56E9LKx0JOg3+Zh2IKnbr5CBFNyfnIkughxpuO+ML
- 3h0/wX72P899559wTquGnyyrkzutygeogWm2a3ngTSxFuSgczwYkFUNmTgoRgkMgwXq3
- tCeA==
-X-Gm-Message-State: AOAM530/ld+lzAtLgZBlLFlo0TeRTEQ9qQboD0u/XzrGtrKJoEv/QKMq
- ooW7kECL54+AHRrSABqCtB85mf6hjNMqGA==
-X-Google-Smtp-Source: ABdhPJzP6tHeY/Njq9hho1h/0Ifv2N6B0etrXP45aD4LUN1240Qw+Zuaa4S4qheJzbg3prqtAm/Fag==
-X-Received: by 2002:a7b:cf03:: with SMTP id l3mr25864087wmg.110.1625999800268; 
- Sun, 11 Jul 2021 03:36:40 -0700 (PDT)
-Received: from x1w.. (static-189-95-145-212.ipcom.comunitel.net.
- [212.145.95.189])
- by smtp.gmail.com with ESMTPSA id i2sm16896993wmq.43.2021.07.11.03.36.39
+ h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UVDaAbY23qFoxVoC5DmMccbAr7OsbqhWULQWKxrpAkw=;
+ b=g90Jc4Azde1E5PWI3bgz3tV5JDHR92AwrVFtXxfpNqCNdwdUctHB5sHzzBNKMcOrK7
+ h00GcYfItq1hSxZBBaTMSDs/wE03WvvR7jatesZRaODn1LjB9qlFo+jbJ790qJNlBcDM
+ dxEWkzBMp0Ymxa4dZp/3rD83tz8ykctSngFu9NM0cPMZ2qGBwwnEK1MyGyb8WH/UiTDD
+ LzksKxM9BDmZHCztnnnUXdjE6Ll5/bDO/dGaFNLVMXdABNz78ON0rOAftWwpEYnLdTMo
+ n+L2mwRszncF4OvsGjGZ1HKg8zoKKMeSb/dSkCvXSaQWZ2zYby85nLjrADhL4X7PjeII
+ SNSw==
+X-Gm-Message-State: AOAM531fxLlaPrgnmXoRxArXjsj3pIys7s1S8ToOFfwW/5q/q97iwza8
+ ley7cFztuBT950m0NF7Z7wE=
+X-Google-Smtp-Source: ABdhPJyVqzykZNp/K6ZXwSbHtgCCclR6CoqWh8d8IDQ73iY84j1hEeEFDjhggzxATDOkKHCrnok/lA==
+X-Received: by 2002:a17:902:9a01:b029:11a:d4e:8f4 with SMTP id
+ v1-20020a1709029a01b029011a0d4e08f4mr39367476plp.52.1626005430171; 
+ Sun, 11 Jul 2021 05:10:30 -0700 (PDT)
+Received: from localhost ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id f2sm14137111pga.49.2021.07.11.05.10.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jul 2021 03:36:39 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] dp8393x: don't force 32-bit register access
-Date: Sun, 11 Jul 2021 12:36:12 +0200
-Message-Id: <20210711103612.2661521-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210711103612.2661521-1-f4bug@amsat.org>
-References: <20210711103612.2661521-1-f4bug@amsat.org>
+ Sun, 11 Jul 2021 05:10:29 -0700 (PDT)
+From: Coiby Xu <coiby.xu@gmail.com>
+X-Google-Original-From: Coiby Xu <Coiby.Xu@gmail.com>
+Date: Sun, 11 Jul 2021 20:08:54 +0800
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: intermittent hang in qos-test for qemu-system-i386 on 32-bit arm
+ host
+Message-ID: <20210711120854.andcppzuxo6ztykd@Rk>
+References: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.001,
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=coiby.xu@gmail.com; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,94 +85,217 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Finn Thain <fthain@linux-m68k.org>, Jason Wang <jasowang@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Hi Peter,
 
-Commit 3fe9a838ec "dp8393x: Always use 32-bit accesses" set .impl.min_access_size
-and .impl.max_access_size to 4 to try and fix the Linux jazzsonic driver which uses
-32-bit accesses.
+On Sat, Jul 10, 2021 at 02:30:36PM +0100, Peter Maydell wrote:
+>I've noticed recently that intermittently 'make check' will hang on
+>my aarch32 test system (really an aarch64 box with an aarch32 chroot).
 
-The problem with forcing the register access to 32-bit in this way is that since the
-dp8393x uses 16-bit registers, a manual endian swap is required for devices on big
-endian machines with 32-bit accesses.
+I have a newbie question. How do you do an aarch32 chroot on an aarch64
+box? At least, this issue seems to be not reproducible on an aarch64 box
+directly. I specifically ran the qos-test for 5 consecutive times and
+each time the test could finish successfully, 
 
-For both access sizes and machine endians the QEMU memory API can do the right thing
-automatically: all that is needed is to set .impl.min_access_size to 2 to declare that
-the dp8393x implements 16-bit registers.
+$ MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))} \
+   QTEST_QEMU_BINARY=build/i386-softmmu/qemu-system-i386 QTEST_QEMU_IMG=build/qemu-img \
+   QTEST_QEMU_STORAGE_DAEMON_BINARY=build/storage-daemon/qemu-storage-daemon \
+   build/tests/qtest/qos-test
 
-Normally .impl.max_access_size should also be set to 2, however that doesn't quite
-work in this case since the register stride is specified using a (dynamic) it_shift
-property which is applied during the MMIO access itself. The effect of this is that
-for a 32-bit access the memory API performs 2 x 16-bit accesses, but the use of
-it_shift within the MMIO access itself causes the register value to be repeated in both
-the top 16-bits and bottom 16-bits. The Linux jazzsonic driver expects the stride to be
-zero-extended up to access size and therefore fails to correctly detect the dp8393x
-device due to the extra data in the top 16-bits.
+>
+>I think from grep that this must be the vhost-user-blk test.
+>
+>Here's the process tree:
+>
+>pmaydell 13126  0.0  0.0   8988  6416 ?        S    Jul09   0:01 make
+>-C build/all-a32 check V=1 GCC_COLORS= -j9
+>pmaydell 19632  0.0  0.0   4432  2096 ?        S    Jul09   0:00  \_
+>bash -o pipefail -c echo 'MALLOC_PERTURB_=${MALLOC_PERTURB_:-$((
+>${RANDOM:-0} % 255 + 1))} QTEST_QEMU_IMG=./qemu-img
+>G_TEST_DBUS_DAEMON=/home/peter.maydell/qemu/tests/dbus-vmstate-daemon.sh
+>QTEST_QEMU_BINARY=./qemu-system-i386
+>QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
+>tests/qtest/qos-test --tap -k' &&
+>MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+>QTEST_QEMU_IMG=./qemu-img
+>G_TEST_DBUS_DAEMON=/home/peter.maydell/qemu/tests/dbus-vmstate-daemon.sh
+>QTEST_QEMU_BINARY=./qemu-system-i386
+>QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
+>tests/qtest/qos-test --tap -k -m quick < /dev/null |
+>./scripts/tap-driver.pl --test-name="qtest-i386/qos-test"
+>pmaydell 19634  0.0  0.0  13608  3076 ?        Sl   Jul09   0:02
+>\_ tests/qtest/qos-test --tap -k -m quick
+>pmaydell 20679  0.0  0.0 109076 16100 ?        Sl   Jul09   0:00
+>|   \_ ./storage-daemon/qemu-storage-daemon --blockdev
+>driver=file,node-name=disk0,filename=qtest.X7RL2X --export
+>type=vhost-user-blk,id=disk0,addr.type=unix,addr.path=/tmp/qtest-19634-sock.9LJoHn,node-name=disk0,writable=on,num-queues=1
+>pmaydell 20681  0.0  0.2 447828 46544 ?        Sl   Jul09   0:00
+>|   \_ ./qemu-system-i386 -qtest unix:/tmp/qtest-19634.sock -qtest-log
+>/dev/null -chardev socket,path=/tmp/qtest-19634.qmp,id=char0 -mon
+>chardev=char0,mode=control -display none -M pc -device
+>vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
+>memory-backend-memfd,id=mem,size=256M,share=on -M memory-backend=mem
+>-m 256M -chardev socket,id=char1,path=/tmp/qtest-19634-sock.9LJoHn
+>-accel qtest
+>pmaydell 19635  0.0  0.0  10256  7176 ?        S    Jul09   0:00
+>\_ perl ./scripts/tap-driver.pl --test-name=qtest-i386/qos-test
+>
+>
+>Backtrace from tests/qtest/qos-test (not as helpful as it could
+>be since this is an optimized build):
+>
+>(gdb) thread apply all bt
+>
+>Thread 2 (Thread 0xf76ff240 (LWP 19636)):
+>#0  syscall () at ../sysdeps/unix/sysv/linux/arm/syscall.S:37
+>#1  0x005206de in qemu_futex_wait (val=<optimised out>, f=<optimised
+>out>) at /home/peter.maydell/qemu/include/qemu/futex.h:29
+>#2  qemu_event_wait (ev=ev@entry=0x5816fc <rcu_call_ready_event>) at
+>../../util/qemu-thread-posix.c:480
+>#3  0x005469c2 in call_rcu_thread (opaque=<optimised out>) at
+>../../util/rcu.c:258
+>#4  0x0051fbc2 in qemu_thread_start (args=<optimised out>) at
+>../../util/qemu-thread-posix.c:541
+>#5  0xf785a614 in start_thread (arg=0xf6ce711c) at pthread_create.c:463
+>#6  0xf77f57ec in ?? () at ../sysdeps/unix/sysv/linux/arm/clone.S:73
+>from /lib/arm-linux-gnueabihf/libc.so.6
+>Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+>
+>Thread 1 (Thread 0xf7a04010 (LWP 19634)):
+>#0  __libc_do_syscall () at ../sysdeps/unix/sysv/linux/arm/libc-do-syscall.S:46
+>#1  0xf7861d8c in __libc_read (fd=12, buf=buf@entry=0xff9ce8e4,
+>nbytes=nbytes@entry=1024) at ../sysdeps/unix/sysv/linux/read.c:27
+>#2  0x004ebc5a in read (__nbytes=1024, __buf=0xff9ce8e4,
+>__fd=<optimised out>) at
+>/usr/include/arm-linux-gnueabihf/bits/unistd.h:44
+>#3  qtest_client_socket_recv_line (s=0x1a46cb8) at
+>../../tests/qtest/libqtest.c:494
+>#4  0x004ebd4e in qtest_rsp_args (s=s@entry=0x1a46cb8,
+>expected_args=expected_args@entry=1) at
+>../../tests/qtest/libqtest.c:521
+>#5  0x004ec1ee in qtest_query_target_endianness (s=0x1a46cb8) at
+>../../tests/qtest/libqtest.c:570
+>#6  0x004ec94a in qtest_init_without_qmp_handshake
+>(extra_args=<optimised out>) at ../../tests/qtest/libqtest.c:332
+>#7  0x004ecd7a in qtest_init (extra_args=<optimised out>) at
+>../../tests/qtest/libqtest.c:339
+>#8  0x004ded10 in qtest_start (
+>    args=0x1a63710 "-M pc  -device
+>vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
+>memory-backend-memfd,id=mem,size=256M,share=on  -M memory-backend=mem
+>-m 256M -chardev socket,id=char1,path=/tmp/qtest-19634-so"...) at
+>../../tests/qtest/libqtest-single.h:29
+>#9  restart_qemu_or_continue (
+>    path=0x1a63710 "-M pc  -device
+>vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
+>memory-backend-memfd,id=mem,size=256M,share=on  -M memory-backend=mem
+>-m 256M -chardev socket,id=char1,path=/tmp/qtest-19634-so"...) at
+>../../tests/qtest/qos-test.c:105
+>#10 run_one_test (arg=<optimised out>) at ../../tests/qtest/qos-test.c:178
+>#11 0xf794ee74 in ?? () from /usr/lib/arm-linux-gnueabihf/libglib-2.0.so.0
+>Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+>
+>
+>Backtrace from qemu-system-i386:
+>
+>(gdb) thread apply all bt
+>
+>Thread 4 (Thread 0xdfd0cb90 (LWP 20734)):
+>#0  0xf6f85206 in __libc_do_syscall () at
+>../sysdeps/unix/sysv/linux/arm/libc-do-syscall.S:47
+>#1  0xf6f93492 in __GI___sigtimedwait (set=<optimised out>,
+>    set@entry=0xdfd0c3c4, info=info@entry=0xdfd0c324,
+>timeout=timeout@entry=0x0) at
+>../sysdeps/unix/sysv/linux/sigtimedwait.c:42
+>#2  0xf7073e6c in __sigwait (set=set@entry=0xdfd0c3c4,
+>sig=sig@entry=0xdfd0c3c0) at ../sysdeps/unix/sysv/linux/sigwait.c:28
+>#3  0x00c999a6 in dummy_cpu_thread_fn (arg=0x24d1168) at
+>../../accel/dummy-cpus.c:46
+>#4  0x00e18ba2 in qemu_thread_start (args=<optimised out>) at
+>../../util/qemu-thread-posix.c:541
+>#5  0xf706b614 in start_thread (arg=0xa8db8843) at pthread_create.c:463
+>#6  0xf70067ec in  () at ../sysdeps/unix/sysv/linux/arm/clone.S:73
+>
+>Thread 3 (Thread 0xe07fcb90 (LWP 20710)):
+>#0  0xf6f85204 in __libc_do_syscall () at
+>../sysdeps/unix/sysv/linux/arm/libc-do-syscall.S:46
+>#1  0xf6fff948 in __GI___poll (fds=0x2409b90, nfds=3, timeout=-1) at
+>../sysdeps/unix/sysv/linux/poll.c:29
+>#2  0xf781692e in  () at /usr/lib/arm-linux-gnueabihf/libglib-2.0.so.0
+>
+>Thread 2 (Thread 0xf1201b90 (LWP 20703)):
+>#0  0xf7074f04 in __libc_do_syscall () at
+>../sysdeps/unix/sysv/linux/arm/libc-do-syscall.S:46
+>#1  0xf7072ad2 in __lll_lock_wait (futex=futex@entry=0x14f2e68
+><qemu_global_mutex>, private=0) at lowlevellock.c:43
+>#2  0xf706d3e2 in __GI___pthread_mutex_lock
+>(mutex=mutex@entry=0x14f2e68 <qemu_global_mutex>) at
+>pthread_mutex_lock.c:78
+>#3  0x00e18c9c in qemu_mutex_lock_impl (mutex=0x14f2e68
+><qemu_global_mutex>, file=0x1355bd4 "../../util/rcu.c", line=266)
+>    at ../../util/qemu-thread-posix.c:79
+>#4  0x00c1403a in qemu_mutex_lock_iothread_impl (file=0x1355bd4
+>"../../util/rcu.c", line=line@entry=266) at ../../softmmu/cpus.c:493
+>#5  0x00e15ad4 in call_rcu_thread (opaque=<optimised out>) at
+>../../util/rcu.c:266
+>#6  0x00e18ba2 in qemu_thread_start (args=<optimised out>) at
+>../../util/qemu-thread-posix.c:541
+>#7  0xf706b614 in start_thread (arg=0xa8db8843) at pthread_create.c:463
+>#8  0xf70067ec in  () at ../sysdeps/unix/sysv/linux/arm/clone.S:73
+>
+>Thread 1 (Thread 0xf12f9010 (LWP 20681)):
+>#0  0xf6f85204 in __libc_do_syscall () at
+>../sysdeps/unix/sysv/linux/arm/libc-do-syscall.S:46
+>#1  0xf6fff948 in __GI___poll (fds=0x3248040, nfds=2, timeout=-1) at
+>../sysdeps/unix/sysv/linux/poll.c:29
+>#2  0xf781692e in  () at /usr/lib/arm-linux-gnueabihf/libglib-2.0.so.0
+>
+>Backtrace of qemu-storage-daemon:
+>
+>(gdb) thread apply all bt
+>
+>Thread 2 (Thread 0xf21ffdd0 (LWP 20722)):
+>#0  syscall () at ../sysdeps/unix/sysv/linux/arm/syscall.S:37
+>#1  0x009a9986 in qemu_futex_wait (val=<optimised out>, f=<optimised
+>out>) at /home/peter.maydell/qemu/include/qemu/futex.h:29
+>#2  qemu_event_wait (ev=ev@entry=0xa64958 <rcu_call_ready_event>) at
+>../../util/qemu-thread-posix.c:480
+>#3  0x009a5d66 in call_rcu_thread (opaque=<optimised out>) at
+>../../util/rcu.c:258
+>#4  0x009a8e6a in qemu_thread_start (args=<optimised out>) at
+>../../util/qemu-thread-posix.c:541
+>#5  0xf79dd614 in start_thread (arg=0xa310c11f) at pthread_create.c:463
+>#6  0xf79787ec in ?? () at ../sysdeps/unix/sysv/linux/arm/clone.S:73
+>from /lib/arm-linux-gnueabihf/libc.so.6
+>Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+>
+>Thread 1 (Thread 0xf22f7010 (LWP 20679)):
+>#0  __libc_do_syscall () at ../sysdeps/unix/sysv/linux/arm/libc-do-syscall.S:46
+>#1  0xf7971a04 in __GI_ppoll (fds=0x117c578, nfds=5,
+>timeout=<optimised out>, timeout@entry=0x0, sigmask=sigmask@entry=0x0)
+>    at ../sysdeps/unix/sysv/linux/ppoll.c:39
+>#2  0x009a68fc in ppoll (__ss=0x0, __timeout=0x0, __nfds=<optimised
+>out>, __fds=<optimised out>)
+>    at /usr/include/arm-linux-gnueabihf/bits/poll2.h:77
+>#3  qemu_poll_ns (fds=<optimised out>, nfds=<optimised out>,
+>timeout=<optimised out>) at ../../util/qemu-timer.c:336
+>#4  0x009c0222 in os_host_main_loop_wait (timeout=-1) at
+>../../util/main-loop.c:250
+>#5  main_loop_wait (nonblocking=<optimised out>) at ../../util/main-loop.c:531
+>#6  0x008ee92a in main (argc=5, argv=0xffdce5c4) at
+>../../storage-daemon/qemu-storage-daemon.c:345
+>
+>
+>Any ideas ?
+>
+>thanks
+>-- PMM
 
-The solution here is to remove .impl.max_access_size so that the memory API will
-correctly zero-extend the 16-bit registers to the access size up to and including
-it_shift. Since it_shift is never greater than 2 than this will always do the right
-thing for both 16-bit and 32-bit accesses regardless of the machine endian, allowing
-the manual endian swap code to be removed.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 3fe9a838ec ("dp8393x: Always use 32-bit accesses")
-Message-Id: <20210705214929.17222-2-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Finn Thain <fthain@linux-m68k.org>
----
- hw/net/dp8393x.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 4057a263de3..45b954e46c2 100644
---- a/hw/net/dp8393x.c
-+++ b/hw/net/dp8393x.c
-@@ -588,15 +588,14 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
- 
-     trace_dp8393x_read(reg, reg_names[reg], val, size);
- 
--    return s->big_endian ? val << 16 : val;
-+    return val;
- }
- 
--static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-+static void dp8393x_write(void *opaque, hwaddr addr, uint64_t val,
-                           unsigned int size)
- {
-     dp8393xState *s = opaque;
-     int reg = addr >> s->it_shift;
--    uint32_t val = s->big_endian ? data >> 16 : data;
- 
-     trace_dp8393x_write(reg, reg_names[reg], val, size);
- 
-@@ -677,11 +676,16 @@ static void dp8393x_write(void *opaque, hwaddr addr, uint64_t data,
-     }
- }
- 
-+/*
-+ * Since .impl.max_access_size is effectively controlled by the it_shift
-+ * property, leave it unspecified for now to allow the memory API to
-+ * correctly zero extend the 16-bit register values to the access size up to and
-+ * including it_shift.
-+ */
- static const MemoryRegionOps dp8393x_ops = {
-     .read = dp8393x_read,
-     .write = dp8393x_write,
--    .impl.min_access_size = 4,
--    .impl.max_access_size = 4,
-+    .impl.min_access_size = 2,
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
 -- 
-2.31.1
-
+Best regards,
+Coiby
 
