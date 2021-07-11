@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73DD3C3F65
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 23:06:38 +0200 (CEST)
-Received: from localhost ([::1]:50080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 846723C3F67
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 23:08:20 +0200 (CEST)
+Received: from localhost ([::1]:52982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2ger-0007KL-LO
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 17:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
+	id 1m2ggV-0000sw-Ho
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 17:08:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2gZf-0007Gt-Tz
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:01:16 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:38858)
+ id 1m2gZi-0007Ka-Au
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:01:18 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:42524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2gZc-0000sF-Eu
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:01:14 -0400
-Received: by mail-wr1-x431.google.com with SMTP id g16so12170467wrw.5
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 14:01:10 -0700 (PDT)
+ id 1m2gZg-0000vY-9k
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 17:01:17 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id r11so16822786wro.9
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 14:01:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tHcqs60mfxo/e3jX7K3pLTYrZwZ3U9mqtq1fq2E7FmU=;
- b=DJlM6GK3XS4YRn6llladplsOp4fGPoWxJKcNwHbwlXcic78iRs2bI2HrIziWaRbOPW
- nVq58dJPsBlbx5eV5g1Exmo5J07WaM2nxlX1aJHlXTIm88osLZdwCxWS4MNmKUfKFxtq
- oah4aVxhvpmWvIrksWWK24F96tsuBG6TeXAoUd626gsw0h2Hmo7yH3smrcSAuFctoo/k
- sFKQVsThAg7iy84Dtx9/oTa92dvjxbK0xbM23PD+recpALDdBSVRwiX2uWyBNzhjywwO
- W6CJBXi/KTAhnFMcGaw/3G7g09e85V5V1Yzb+l6D4dFhgh2jREhJv3/fnZOlfO/jC/0L
- Ei+g==
+ bh=LPkKd/bGwI5hB12Pdrnj0cRDWsw/8wL9DWSbjxiM6ac=;
+ b=Se6ngAvCvvrDp5ImtUKRlrr3Jg+oun2i9urIle1hifLndUhcAB1OOrx/rKTgk2pJuO
+ RwVPAD/fNeA7CHCnOFvsg4TvCTHLeUwFm107mfryZT2dCwajh5pBfSMnKpqLyt07j8bZ
+ uVDm0UZektzxUBeafclZ62TjOq4DdlnaZMz6gzHvQaXhWTGkokCmC5o+xrmxipKRjcqF
+ wKf6T9Qp3KQofY9JtUbAEvwnRxU0QNmuy41zLt9pmZQQFx5zTmmkQBSG3+tmCTr0cdh+
+ d9aMQlP2EBIVyupEfp5wPmKxMIX5UsRpQm/a39onC55otCNUf93oLa4ACZ+AlXWNvBMt
+ 1diQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tHcqs60mfxo/e3jX7K3pLTYrZwZ3U9mqtq1fq2E7FmU=;
- b=kcq6EOS4OvaqYoXeQcyaqgkuhfCODUvr0u/6YR9tuaWvwB6xp46X/NKch6op3GBfSz
- 6hpieOsSIpcCo8BQl/B+U7n9up1sQXaRaiywuBad7DscHiSvwpzCyg7Ik53nYX226Ykq
- qgEvlQ6a2amDpMYtvTcmvBaSIPdpbHxG+ugCt/iP8Vr/iEwG/5pYylpSfFvaInvBWt+9
- TCIbyEIXVU065BA2nWyJdzO8Zhb1m37tqIezgCYdGA0Fk0szk6yJ3CFlLxrlliZzCPxf
- iOwmeb8vcS4pImTq9sGAixplrDkDDeHdD5bfMVSWiviRRpHQFtuvMS7FaygIRi9xzoRw
- u6eQ==
-X-Gm-Message-State: AOAM532iz1rSahEYPXycd1ONejfpmO5sFTG4M+gXCV3YM1+qauqrYZ1M
- GEz34n1k1uQz+ZXpzF5XlFtalgO9NTjXJjfr
-X-Google-Smtp-Source: ABdhPJxr4B+iP59QLojWnXEjJTvXqhLHwSKxJrDlFPYIUNo0pf62S1ppYd6XALNGo+9x9YOjh5+FLw==
-X-Received: by 2002:adf:90c6:: with SMTP id i64mr55417248wri.168.1626037269838; 
- Sun, 11 Jul 2021 14:01:09 -0700 (PDT)
+ bh=LPkKd/bGwI5hB12Pdrnj0cRDWsw/8wL9DWSbjxiM6ac=;
+ b=IrCVr257kqKf5GDQiWkwZfqT0SGnkz0cxMPt+Y44tmVwZyUk5xjxnv8o8nnJtH0nso
+ 71tXcXTv5OBrUjrFmeS48/qYiDjsBQoHCULz6LUN1Yv1QNHJw6hUdfFI+CJu/pBzSyW0
+ xno4RHQ361X2ccKU7dgaxvoMRKyl9gd8bz0VMg6S+Dn+M8Uq8s5ZEPqZeMQozitERz4P
+ rY7XLO3X5rSLbgTdFil67YY/9NDCqAAF9ZCfDDtYFmzCXLXf1nR7HKfHnb9V2ecqbcJp
+ DtCEKntHyAcEVtLMHtrLZHB49/uJ2R1mRBtNnn0XK0yR5ImY7aeWWhLVG/bpU1WBUx5M
+ nMWw==
+X-Gm-Message-State: AOAM530D58wBlG2+1+oQ7IJnCWtLeCMbVdtI2Fl33+nV+dHjwgdNfB10
+ kLYbl35y9b56OJ19Xuj3W5emgsxG1Eo/FSe2
+X-Google-Smtp-Source: ABdhPJyT8WWwGGfKrkDaeOoRJJ7XxDgXPhdvuEhJ3xTNJvZ1DeiU9uKVaYuvxL8ruSt0W4moU5zD7g==
+X-Received: by 2002:a5d:4a4c:: with SMTP id v12mr28580227wrs.256.1626037274845; 
+ Sun, 11 Jul 2021 14:01:14 -0700 (PDT)
 Received: from localhost.localdomain
  (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr. [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id f1sm11819055wri.74.2021.07.11.14.01.08
+ by smtp.gmail.com with ESMTPSA id l22sm3697964wmp.41.2021.07.11.14.01.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jul 2021 14:01:09 -0700 (PDT)
+ Sun, 11 Jul 2021 14:01:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/19] target/mips/tx79: Introduce PPACW opcode (Parallel Pack
- to Word)
-Date: Sun, 11 Jul 2021 23:00:06 +0200
-Message-Id: <20210711210016.2710100-10-f4bug@amsat.org>
+Subject: [PULL 10/19] target/mips/tx79: Introduce PROT3W opcode (Parallel
+ Rotate 3 Words)
+Date: Sun, 11 Jul 2021 23:00:07 +0200
+Message-Id: <20210711210016.2710100-11-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210711210016.2710100-1-f4bug@amsat.org>
 References: <20210711210016.2710100-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,70 +94,65 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the PPACW opcode (Parallel Pack to Word).
+Introduce the PROT3W opcode (Parallel Rotate 3 Words).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210214175912.732946-22-f4bug@amsat.org>
+Message-Id: <20210214175912.732946-25-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  target/mips/tcg/tx79.decode      |  1 +
- target/mips/tcg/tx79_translate.c | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
+ target/mips/tcg/tx79_translate.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/target/mips/tcg/tx79.decode b/target/mips/tcg/tx79.decode
-index 63fbe9694bb..653910371d2 100644
+index 653910371d2..2f65dce2431 100644
 --- a/target/mips/tcg/tx79.decode
 +++ b/target/mips/tcg/tx79.decode
-@@ -38,6 +38,7 @@ PCGTH           011100 ..... ..... ..... 00110 001000   @rs_rt_rd
- PSUBB           011100 ..... ..... ..... 01001 001000   @rs_rt_rd
- PCGTB           011100 ..... ..... ..... 01010 001000   @rs_rt_rd
- PEXTLW          011100 ..... ..... ..... 10010 001000   @rs_rt_rd
-+PPACW           011100 ..... ..... ..... 10011 001000   @rs_rt_rd
- PEXTLH          011100 ..... ..... ..... 10110 001000   @rs_rt_rd
- PEXTLB          011100 ..... ..... ..... 11010 001000   @rs_rt_rd
+@@ -54,6 +54,7 @@ PEXTUW          011100 ..... ..... ..... 10010 101000   @rs_rt_rd
+ PCPYLD          011100 ..... ..... ..... 01110 001001   @rs_rt_rd
+ PAND            011100 ..... ..... ..... 10010 001001   @rs_rt_rd
+ PXOR            011100 ..... ..... ..... 10011 001001   @rs_rt_rd
++PROT3W          011100 00000 ..... ..... 11111 001001   @rt_rd
+ 
+ # MMI3
  
 diff --git a/target/mips/tcg/tx79_translate.c b/target/mips/tcg/tx79_translate.c
-index f0e3d8c0b66..90c33d26a9f 100644
+index 90c33d26a9f..402790249f3 100644
 --- a/target/mips/tcg/tx79_translate.c
 +++ b/target/mips/tcg/tx79_translate.c
-@@ -374,6 +374,36 @@ static bool trans_PCEQW(DisasContext *ctx, arg_rtype *a)
-  * PEXTLW  rd, rs, rt        Parallel Extend Lower from Word
-  */
+@@ -593,3 +593,31 @@ static bool trans_PCPYUD(DisasContext *s, arg_rtype *a)
  
-+/* Parallel Pack to Word */
-+static bool trans_PPACW(DisasContext *ctx, arg_rtype *a)
+     return true;
+ }
++
++/* Parallel Rotate 3 Words Left */
++static bool trans_PROT3W(DisasContext *ctx, arg_rtype *a)
 +{
-+    TCGv_i64 a0, b0, t0;
++    TCGv_i64 ax;
 +
 +    if (a->rd == 0) {
 +        /* nop */
 +        return true;
 +    }
++    if (a->rt == 0) {
++        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
++        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
++        return true;
++    }
 +
-+    a0 = tcg_temp_new_i64();
-+    b0 = tcg_temp_new_i64();
-+    t0 = tcg_temp_new_i64();
++    ax = tcg_temp_new_i64();
 +
-+    gen_load_gpr(a0, a->rs);
-+    gen_load_gpr(b0, a->rt);
++    tcg_gen_mov_i64(ax, cpu_gpr_hi[a->rt]);
++    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], ax, cpu_gpr[a->rt], 0, 32);
 +
-+    gen_load_gpr_hi(t0, a->rt); /* b1 */
-+    tcg_gen_deposit_i64(cpu_gpr[a->rd], b0, t0, 32, 32);
++    tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rt], ax, 0, 32);
++    tcg_gen_rotri_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], 32);
 +
-+    gen_load_gpr_hi(t0, a->rs); /* a1 */
-+    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], a0, t0, 32, 32);
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(b0);
-+    tcg_temp_free(a0);
++    tcg_temp_free(ax);
 +
 +    return true;
 +}
-+
- static void gen_pextw(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 a, TCGv_i64 b)
- {
-     tcg_gen_deposit_i64(dl, b, a, 32, 32);
 -- 
 2.31.1
 
