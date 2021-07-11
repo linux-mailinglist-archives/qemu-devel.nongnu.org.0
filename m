@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE023C3C1F
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 14:10:55 +0200 (CEST)
-Received: from localhost ([::1]:33120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1273C3C35
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 14:18:45 +0200 (CEST)
+Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2YIQ-0001vV-8X
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 08:10:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
+	id 1m2YQ0-0007yD-8F
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 08:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2YHO-0001Dz-Vz
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 08:09:51 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:37607)
+ id 1m2YOC-0006vQ-L8
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 08:16:52 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2YHN-00030n-Ed
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 08:09:50 -0400
-Received: by mail-ed1-x532.google.com with SMTP id h8so9176221eds.4
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:09:48 -0700 (PDT)
+ id 1m2YOA-0007jV-Tm
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 08:16:52 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id dj21so2612429edb.0
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yqOCIvRQ9oJk7ZmDvt2REqUw9FGKACUBpRVsSABKFUo=;
- b=VpxiSXS0GjOOgdU9KNSawv6SdBWpqpVu+ZxBPx2PIjeLSA8COnVuOOUGnuhkwPaoQ9
- HpZsZ+YWPz3jQ9E8334YXWTxsmwCkU9lndUI7obLCKkY6qmHdrbKOoG13AU4HWgdJ9O3
- PPn24osK9pWpmYBQib59v41l83+NikJVAI+2U8Ffm2AUjO/+ULTAanT9Axa2xDVASz5f
- G8jjHVd27sKdzafzY/J4BOac6T/GRBHH6KW60dOD6Qu1egPyjCTV0ILfkJ9O0nQhC/+g
- Mk45cDCT54pw9EvHTLUGPmOfo7/tJGhj6rC1narmX6I+BiMK+cslLIaE4Pu3/PeEzGHz
- PV3w==
+ :cc; bh=NUJ5Z9LbnDP/loAZG4Y98E3umNgTHeJ/lSmu6kKMZhY=;
+ b=RUP2F/H0HkT//eYM3JDGyM+rjDE7n5RcBBwbwdX4TH5G6FUS23snAeMRqMpJ9PLl2+
+ GariX/gq1a6KnR7QdIK22WsSqx8r1O5d1Ec86jla3h4rUTvxfTp882Z/6najG5kcZjwL
+ +unFi14Phca8/sO/JjWo+tCD2HOPcNEq2y7QahdmtvYapYklGNr0+1QCbB6bG2dlvRaA
+ AtcSw/NY9+MBy+zqy9gzXGoRoVMNfRReRSeiumQCFL7FRJV598hq9HrhBepPoP4Gm9He
+ KNSx6UWlAmF6c0Mxj5je0pbZgiokVI5SNvM0sB04XOIYkiUmrpJF0xDLAIiFT8ndpEw7
+ HpxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yqOCIvRQ9oJk7ZmDvt2REqUw9FGKACUBpRVsSABKFUo=;
- b=VUJxH2J/y4+W4izs0xPEYaFTWc6h2G9ERpg21nK9bbJTqn/0pKS6QUMFTV1MHd1n84
- cUXDq0dpNOHHkP6T6+qlryhi6dQoTyPtD3EXdWk4NlwuRVOjseYjC39Ny23MUytsDRtd
- G4TDs5N2M7KYMX0HR7IOS8P8FweN1KVfqNMKVxLQZ4RGos/XZWs/cTiW4KbI6vDAsRHi
- +oXV9BVnkURUE7H60BTmd4ko7iXqQFpjq4T2i5ZbqbBLN7rS/jRgjixXs8+rx0P2xJVS
- C/MXKHXTHDlV5XqJ8gSwHNEDAJDkyU3qcaMEAxFwlYcwDrNID2dr0+MT1vVWiajn1id0
- KeGA==
-X-Gm-Message-State: AOAM533RWRIL68bVoFMdHV7wu+RS7utcOwj8r3s+SgQ/Si+5RJrDsTDB
- /vq3qJfSEx4SV7iBDDeXS5hYcGfC8jqVpcOLbU7hQg==
-X-Google-Smtp-Source: ABdhPJxoGr4I5STqzYcFetd8svgNGu1MivzOJdjbXwDQcm/UnOBpZqSY+TVG+f4YI2JVyASwHb3eF9RwU1gH1jev+Sk=
-X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr34945814eds.204.1626005387613; 
- Sun, 11 Jul 2021 05:09:47 -0700 (PDT)
+ bh=NUJ5Z9LbnDP/loAZG4Y98E3umNgTHeJ/lSmu6kKMZhY=;
+ b=cT2TVD4lYmE3kL1nDTGQU1CpYHhORh2fk6GWbh+eU19SfGEEHfNmcQXIMoBh92Z2I/
+ Ni7bcgyOgbX6zud7WRvmg6Jv6rftELGJJG0/6wOk2fA4LJEzBPJyEh5sWeHdTRFZpOtp
+ r4d1wHQZO+IoiAy3J3km9BGkKSGYugBRbL/IbQgTgbTlMaF8pbPb9xHwOjMxn1Q5dQGU
+ sZc1IfPoBIierILdPxoxbzw/dca3xGYSzjUR/WrREb8jYIHeS3Lurg1dt9fWFAS8Q96B
+ +HVx9iCzSO20eE3+XQ0M/MnasukxTXH18ENbTHaivyHKQo8ZYQwnrP5/PFKLebuAG9/z
+ waJw==
+X-Gm-Message-State: AOAM531HbkU5HxNHICrOdX8TcYEa8KIywj4S9dVAr6OiK1iqIF2DQ1WK
+ h2vHz3/jUrHZRiFashLorzJcAxG/8gyOr2c5b+qJZQ==
+X-Google-Smtp-Source: ABdhPJyYDDR3UOQgXo50dJcCiwwm+3hC8x6JoeE4vHxfxj5zQEeahaOYohkcHRet3GZ3aSk1kA26fp3ZngTxXlbOsCM=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr37410629edy.44.1626005809160; 
+ Sun, 11 Jul 2021 05:16:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210709140951.2775730-1-eblake@redhat.com>
-In-Reply-To: <20210709140951.2775730-1-eblake@redhat.com>
+References: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
+ <20210711120854.andcppzuxo6ztykd@Rk>
+In-Reply-To: <20210711120854.andcppzuxo6ztykd@Rk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 11 Jul 2021 13:09:08 +0100
-Message-ID: <CAFEAcA8Oe0Tk0y-JvrovHBnTMW0Dp4Zx9=uTUnO9QhooKxPEOA@mail.gmail.com>
-Subject: Re: [PULL 0/4] NBD patches for soft freeze, 2021-07-09
-To: Eric Blake <eblake@redhat.com>
+Date: Sun, 11 Jul 2021 13:16:10 +0100
+Message-ID: <CAFEAcA9tF7pU1uEC06tppkKCL7m+5OYWm8T5MO_qF4P2P_UuOQ@mail.gmail.com>
+Subject: Re: intermittent hang in qos-test for qemu-system-i386 on 32-bit arm
+ host
+To: Coiby Xu <coiby.xu@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,35 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 9 Jul 2021 at 15:13, Eric Blake <eblake@redhat.com> wrote:
+On Sun, 11 Jul 2021 at 13:10, Coiby Xu <coiby.xu@gmail.com> wrote:
 >
-> The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
+> Hi Peter,
 >
->   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
+> On Sat, Jul 10, 2021 at 02:30:36PM +0100, Peter Maydell wrote:
+> >I've noticed recently that intermittently 'make check' will hang on
+> >my aarch32 test system (really an aarch64 box with an aarch32 chroot).
 >
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-07-09
->
-> for you to fetch changes up to 62967c9927ec4d733b923c70f9f5428dd1d2e0d7:
->
->   nbd: register yank function earlier (2021-07-09 08:27:33 -0500)
->
-> ----------------------------------------------------------------
-> nbd patches for 2021-07-09
->
-> - enhance 'qemu-img map --output=json' to make it easier to duplicate
-> backing chain allocation patterns
-> - fix a race in the 'yank' QMP command in relation to NBD requests
->
+> I have a newbie question. How do you do an aarch32 chroot on an aarch64
+> box? At least, this issue seems to be not reproducible on an aarch64 box
+> directly. I specifically ran the qos-test for 5 consecutive times and
+> each time the test could finish successfully,
 
-This failed iotest 253 in the build-tcg-disabled gitlab CI:
-https://gitlab.com/qemu-project/qemu/-/jobs/1415082341
+Your aarch64 host CPU needs to support aarch32 at EL0 (some
+AArch64 CPUs are pure-64 bit these days). The host kernel needs
+to implement the 32-bit compat layer. It probably also needs to be
+built for 4K pages (which mostly means "not RedHat"). Then you can
+set up the 32-bit chroot however you'd normally set up a chroot
+(for Debian you can do this with debootstrap; other distros will vary;
+schroot is also a bit nicer than raw chroot IMHO.)
 
-thanks
 -- PMM
 
