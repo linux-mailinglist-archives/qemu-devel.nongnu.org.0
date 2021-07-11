@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8340C3C3B74
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:07:11 +0200 (CEST)
-Received: from localhost ([::1]:38906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224893C3B75
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:12:25 +0200 (CEST)
+Received: from localhost ([::1]:43622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2WMg-00080h-4O
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:07:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41112)
+	id 1m2WRj-00036K-Uo
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:12:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2WLK-0007Hz-J7
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:05:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54024)
+ id 1m2WQI-0002PN-1Z
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:10:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2WLI-0006sD-8n
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:05:46 -0400
+ id 1m2WQE-0001lj-N2
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:10:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2WLE-0003ks-Na
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 10:05:40 +0000
+ id 1m2WQA-00048t-Ox
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 10:10:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A57982E8058
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 10:05:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B602E2E8135
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 10:10:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Jul 2021 09:59:34 -0000
-From: Thomas Huth <1873769@bugs.launchpad.net>
+Date: Sun, 11 Jul 2021 10:01:46 -0000
+From: Thomas Huth <1779955@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: audio
+X-Launchpad-Bug-Tags: arm linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aperamak janitor markostamcar th-huth vvaltchev
-X-Launchpad-Bug-Reporter: =?utf-8?q?Marko_=C5=A0tamcar_=28markostamcar=29?=
+X-Launchpad-Bug-Commenters: janitor likan pmaydell th-huth
+X-Launchpad-Bug-Reporter: Kan Li (likan)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158737489336.27883.11672421823937229418.malonedeb@gac.canonical.com>
-Message-Id: <162599757429.17687.15080547801442727507.malone@gac.canonical.com>
-Subject: [Bug 1873769] Re: SB16 audio playback freezes emulation in Windows 95
- guest
+References: <153065712229.13372.17157400567540509420.malonedeb@gac.canonical.com>
+Message-Id: <162599770634.18026.9666543993685053638.malone@gac.canonical.com>
+Subject: [Bug 1779955] Re: qemu linux-user requires read permissions on memory
+ passed to syscalls that should only need write access
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: bec70b042f3c281526a398fbe8e2da9da53ca938
+X-Launchpad-Hash: 3458b9c9986159d07fcab9f2261f3466d73c147c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1873769 <1873769@bugs.launchpad.net>
+Reply-To: Bug 1779955 <1779955@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,48 +80,64 @@ This is an automated cleanup. This bug report has been moved to QEMU's
 new bug tracker on gitlab.com and thus gets marked as 'expired' now.
 Please continue with the discussion here:
 
- https://gitlab.com/qemu-project/qemu/-/issues/469
+ https://gitlab.com/qemu-project/qemu/-/issues/470
 
-
-** Tags added: audio
 
 ** Changed in: qemu
        Status: Confirmed =3D> Expired
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #469
-   https://gitlab.com/qemu-project/qemu/-/issues/469
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #470
+   https://gitlab.com/qemu-project/qemu/-/issues/470
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1873769
+https://bugs.launchpad.net/bugs/1779955
 
 Title:
-  SB16 audio playback freezes emulation in Windows 95 guest
+  qemu linux-user requires read permissions on memory passed to syscalls
+  that should only need write access
 
 Status in QEMU:
   Expired
 
 Bug description:
-  - QEMU 4.2.93 (v5.0.0-rc3) built from latest git master
-  20038cd7a8412feeb49c01f6ede89e36c8995472 using MSYS2 on Windows 10 and
-  launched on same Windows 10
+  When read() function takes an mmap'ed address as output buffer, it
+  returns EFAULT. The expected behavior is it should just work.
 
-  - Launched using "qemu-system-i386.exe -drive format=3Draw,file=3Dhdd-
-  2gb.img -soundhw pcspk,sb16 -m 16 -cpu pentium -vga std -cdrom
-  Windows_95.iso -boot c"
+  The following code works for qemu-system-arm, but not for qemu-arm-
+  static.
 
-  - I have attached video screen capture of the issue
+  QEMU version affected: latest release 2.12.0.
 
-  ---
+  Steps to reproduce (please substitute /path/to/qemu-arm-static with
+  the path of the binary, and /tmp/a.cpp with the example source code
+  attached):
 
-  I decided to make my first ever QEMU build after encountering the
-  dsound issues using the latest 4.2.0 binary from
-  https://qemu.weilnetz.de/w64/. In my 5.0.0-rc3 build the sound
-  playback is working correctly, however the whole Windows 95 UI freezes
-  while sound is playing.
+  # First register binfmt_misc
+  [hidden]$ docker run --rm --privileged multiarch/qemu-user-static:registe=
+r --reset
+
+  # Compile the code and run
+  [hidden]$ docker run --rm -it -v /tmp/a.cpp:/tmp/a.cpp -v /path/to/qemu-a=
+rm-static:/usr/bin/qemu-arm-static arm32v7/ubuntu:18.04 bash -c '{ apt upda=
+te -y && apt install -y g++; } >& /dev/null && g++ -std=3Dc++14 /tmp/a.cpp =
+-o /tmp/a.out && echo hehe > /tmp/haha.txt && /tmp/a.out'
+  ofd=3D3
+  ftruncate=3D0
+  mmap=3D0xff3f5000
+  fd=3D4
+  0xff3f5023 -1 14
+
+  The expected result in qemu-system-arm as well as natively on x86_64 host:
+  hidden$ ./a.out
+  ofd=3D3
+  ftruncate=3D0
+  mmap=3D0xb6fb7000
+  fd=3D4
+  0xb6fb7023 5 0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1873769/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1779955/+subscriptions
 
