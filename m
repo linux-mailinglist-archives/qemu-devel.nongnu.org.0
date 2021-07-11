@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E473C3B9D
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:42:22 +0200 (CEST)
-Received: from localhost ([::1]:38332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722C83C3B8B
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 12:38:06 +0200 (CEST)
+Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2Wuj-0006C6-7S
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47324)
+	id 1m2Wqb-0008R4-GL
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 06:38:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2Wp1-0006Hz-VL
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:27 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42880)
+ id 1m2Wp7-0006Lk-2U
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:33 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:34344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2Wp0-000471-Iu
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:27 -0400
-Received: by mail-wr1-x430.google.com with SMTP id r11so14833723wro.9
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 03:36:26 -0700 (PDT)
+ id 1m2Wp5-0004AH-Iw
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 06:36:32 -0400
+Received: by mail-wr1-x435.google.com with SMTP id p8so20103450wrr.1
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 03:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ciVo7kEqxY4swYhIluiodO0kr4geA/OgIFKlydbaSPI=;
- b=k5wd24nPiUZP0klrfhD/ftxHQvKRSpn3QX1YWr+dR614rzAAAF5IFwYC1zSIcQ+Bon
- 8fuvF77G2E9ue+g8UKSCFFsyaPxe0JAug1jEM0R4drB5Ninz5LvxXvS0K8lHCr5e5pqP
- UDqj1k+RynemhCER00WSgsQYpCq3AYyLCR9fBmvjryU02frf21O+8lWJPobZZo7lD0ry
- rbKTg7FhOF0jPSy3z1bE5BXv0/YuT8JtHrr29cCnHywORB1TROFq9pc8KvfogWX/Ilia
- yewn9fBzTmH0MSvVKURJVcNEEjZssVJglzqso/fDDpufKEoc1oknLtBjS7cUySzh6Cge
- aihw==
+ bh=D2ifaiSyT2ObTU4DYndDlaBCTGyO6T4d5PvvzrO+4sI=;
+ b=XpnpyUpRcOiPcGZJzRMH8PqJLNjPKCz9GlBVVuwKlQmI/zG6F9SdvCkHE/5IrBqOH2
+ BAmFNaWLEK5JlSiKBPrtS6ix2RKf0X0eP27J6GpWJxMNJWm8UeLl1kVHqGcpOCOt6fqx
+ fwdHChHcZFPlcXkIbP9GABt8CNDIbGz5OhkXFL1H8Lmvxp4zoyj6Fn5ZkroIbSLWHaX0
+ bcYwqt7Tyvsot9MTxRTQfS1t6x5znQSgIEhO84x8mCkGKIzvOBsZXpjYFV+LMFFoYfs8
+ ZB7986MwbCw/zAdgUoFrePHGw4wRDPsgOkwPA3CJS62T5UX/+4hiLA8mpAOowwpMUbEu
+ ZdgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ciVo7kEqxY4swYhIluiodO0kr4geA/OgIFKlydbaSPI=;
- b=FrPO9skDpFn07DU/Do05pgzl7lJp67sporjJabwZ3MR6bitZpTPVtFZPgn57k8u4V5
- 0X9Lutfui0+WaW5yFDNsa95htdO2teeD2c9LvN0o7QjQ82cpdEzxNQ1fLt/EKMlYBV3/
- m+tec9AlWO0nM5dYt13LHSstis4oBSnSHQ6PeDI62JK6vikf77fRZkHxhPHuyOnQbRDd
- E0lenhN6QgFDglOK+/RDh/bgezfmBz64A6XLA7aQZ7e1qOE4hO3I/plK/Yo0WnLZP9Tl
- 637tOCvnxKKRnUSQ3paXeuU+6XTD+HMXp+shIpaJc02dKXZFEQ6JJC4Elf9HFq5U+Jgk
- ug8A==
-X-Gm-Message-State: AOAM532iVItMOR0haZZr+IF9T3HPYfB/8bZcWSNJtrHxf54c/GabgDCj
- HbjBt1agxsngSNbKHlPbQO2M+RQk+KRcMw==
-X-Google-Smtp-Source: ABdhPJxqxhcGWqi1BjMywXXQ7OZbdJQ7hgvhruyFkbdtdPWJH+7lxRQhkwdXNZWSbFQcv4iGWaDh+Q==
-X-Received: by 2002:adf:a54b:: with SMTP id j11mr35078063wrb.305.1625999785075; 
- Sun, 11 Jul 2021 03:36:25 -0700 (PDT)
+ bh=D2ifaiSyT2ObTU4DYndDlaBCTGyO6T4d5PvvzrO+4sI=;
+ b=pmioQst3Sh1IZLOJoQpAYuKx8vJyPA7YU+LHe4ZImqX72Rxr+lrd/bGAycCH1+Qe+c
+ b1UsDvSbTV67IGlrM6PVkiFsD984wQcbFlFGu9SndIUnNoERNpwicvAU5izwiurjMz1U
+ dmAUrZ/80fUgH3uYXBrCas/8xVwMh1l37eLhYGO4CXvKGlNXFBTcFkhJPEXbYkXD+B11
+ dUw7YLGygyxeB35y3yE5UqBTEpl9UQb+JGQX9C+/NWofhZ+kqapJif0nxJxow3o66pBU
+ LB+0LFkLOu0fWwUCC0wA1AzmdsfEAP8GuuBo7xqNIEcplqcsTgyqHL609VT7Rg/f4gEv
+ /Pvg==
+X-Gm-Message-State: AOAM530z14s5+Yr2vffwWRAO5Ee7yuAqtfScnM9BjszOFpr1gHgtM4b7
+ Qc0CwHFj3JrrurR+kD8ZD9Kgc4eGr/94qQ==
+X-Google-Smtp-Source: ABdhPJxlcgEMuLlJVjlv+WBYQOdthRqRlVtvHxsZFFJFSQhl/2Nx+hpeeVlH0trA8zU49J+eS2u0gQ==
+X-Received: by 2002:adf:e0c8:: with SMTP id m8mr52763077wri.261.1625999790130; 
+ Sun, 11 Jul 2021 03:36:30 -0700 (PDT)
 Received: from x1w.. (static-189-95-145-212.ipcom.comunitel.net.
  [212.145.95.189])
- by smtp.gmail.com with ESMTPSA id x8sm3425829wrt.93.2021.07.11.03.36.24
+ by smtp.gmail.com with ESMTPSA id f12sm16331659wmg.16.2021.07.11.03.36.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 11 Jul 2021 03:36:24 -0700 (PDT)
+ Sun, 11 Jul 2021 03:36:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/5] dp8393x: Replace 0x40 magic value by SONIC_REG16_COUNT
- definition
-Date: Sun, 11 Jul 2021 12:36:09 +0200
-Message-Id: <20210711103612.2661521-3-f4bug@amsat.org>
+Subject: [PATCH v4 3/5] dp8393x: Store CAM registers as 16-bit
+Date: Sun, 11 Jul 2021 12:36:10 +0200
+Message-Id: <20210711103612.2661521-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210711103612.2661521-1-f4bug@amsat.org>
 References: <20210711103612.2661521-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -16
 X-Spam_score: -1.7
 X-Spam_bar: -
@@ -94,53 +93,101 @@ Cc: Finn Thain <fthain@linux-m68k.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Per the DP83932C datasheet from July 1995:
+
+  4.0 SONIC Registers
+  4.1 THE CAM UNIT
+
+    The Content Addressable Memory (CAM) consists of sixteen
+    48-bit entries for complete address filtering of network
+    packets. Each entry corresponds to a 48-bit destination
+    address that is user programmable and can contain any
+    combination of Multicast or Physical addresses. Each entry
+    is partitioned into three 16-bit CAM cells accessible
+    through CAM Address Ports (CAP 2, CAP 1 and CAP 0) with
+    CAP0 corresponding to the least significant 16 bits of
+    the Destination Address and CAP2 corresponding to the
+    most significant bits.
+
+Store the CAM registers as 16-bit as it simplifies the code.
+
+Having now the CAM registers as arrays of 3 uint16_t, we can avoid
+using the VMSTATE_BUFFER_UNSAFE macro by using VMSTATE_UINT16_2DARRAY
+which is more appropriate. This breaks the migration stream however.
+
+Co-developed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Co-developed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Finn Thain <fthain@linux-m68k.org>
-Message-Id: <20210710174954.2577195-3-f4bug@amsat.org>
+Message-Id: <20210710174954.2577195-5-f4bug@amsat.org>
 ---
- hw/net/dp8393x.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Missing:
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/net/dp8393x.c | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
-index 9118364aa33..d1e147a82a6 100644
+index d1e147a82a6..283de9db0bf 100644
 --- a/hw/net/dp8393x.c
 +++ b/hw/net/dp8393x.c
-@@ -85,6 +85,7 @@ static const char *reg_names[] = {
- #define SONIC_MPT    0x2e
- #define SONIC_MDT    0x2f
- #define SONIC_DCR2   0x3f
-+#define SONIC_REG_COUNT  0x40
- 
- #define SONIC_CR_HTX     0x0001
- #define SONIC_CR_TXP     0x0002
-@@ -158,7 +159,7 @@ struct dp8393xState {
+@@ -158,7 +158,7 @@ struct dp8393xState {
+     MemoryRegion mmio;
  
      /* Registers */
-     uint8_t cam[16][6];
--    uint16_t regs[0x40];
-+    uint16_t regs[SONIC_REG_COUNT];
+-    uint8_t cam[16][6];
++    uint16_t cam[16][3];
+     uint16_t regs[SONIC_REG_COUNT];
  
      /* Temporaries */
-     uint8_t tx_buffer[0x10000];
-@@ -972,7 +973,7 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
+@@ -281,15 +281,13 @@ static void dp8393x_do_load_cam(dp8393xState *s)
+         address_space_read(&s->as, dp8393x_cdp(s),
+                            MEMTXATTRS_UNSPECIFIED, s->data, size);
+         index = dp8393x_get(s, width, 0) & 0xf;
+-        s->cam[index][0] = dp8393x_get(s, width, 1) & 0xff;
+-        s->cam[index][1] = dp8393x_get(s, width, 1) >> 8;
+-        s->cam[index][2] = dp8393x_get(s, width, 2) & 0xff;
+-        s->cam[index][3] = dp8393x_get(s, width, 2) >> 8;
+-        s->cam[index][4] = dp8393x_get(s, width, 3) & 0xff;
+-        s->cam[index][5] = dp8393x_get(s, width, 3) >> 8;
+-        trace_dp8393x_load_cam(index, s->cam[index][0], s->cam[index][1],
+-                               s->cam[index][2], s->cam[index][3],
+-                               s->cam[index][4], s->cam[index][5]);
++        s->cam[index][0] = dp8393x_get(s, width, 1);
++        s->cam[index][1] = dp8393x_get(s, width, 2);
++        s->cam[index][2] = dp8393x_get(s, width, 3);
++        trace_dp8393x_load_cam(index,
++                               s->cam[index][0] >> 8, s->cam[index][0] & 0xff,
++                               s->cam[index][1] >> 8, s->cam[index][1] & 0xff,
++                               s->cam[index][2] >> 8, s->cam[index][2] & 0xff);
+         /* Move to next entry */
+         s->regs[SONIC_CDC]--;
+         s->regs[SONIC_CDP] += size;
+@@ -592,8 +590,7 @@ static uint64_t dp8393x_read(void *opaque, hwaddr addr, unsigned int size)
+     case SONIC_CAP1:
+     case SONIC_CAP0:
+         if (s->regs[SONIC_CR] & SONIC_CR_RST) {
+-            val = s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg) + 1] << 8;
+-            val |= s->cam[s->regs[SONIC_CEP] & 0xf][2 * (SONIC_CAP0 - reg)];
++            val = s->cam[s->regs[SONIC_CEP] & 0xf][SONIC_CAP0 - reg];
+         }
+         break;
+     /* All other registers have no special contraints */
+@@ -984,10 +981,10 @@ static void dp8393x_realize(DeviceState *dev, Error **errp)
  
-     address_space_init(&s->as, s->dma_mr, "dp8393x");
-     memory_region_init_io(&s->mmio, OBJECT(dev), &dp8393x_ops, s,
--                          "dp8393x-regs", 0x40 << s->it_shift);
-+                          "dp8393x-regs", SONIC_REG_COUNT << s->it_shift);
- 
-     s->nic = qemu_new_nic(&net_dp83932_info, &s->conf,
-                           object_get_typename(OBJECT(dev)), dev->id, s);
-@@ -987,7 +988,7 @@ static const VMStateDescription vmstate_dp8393x = {
-     .minimum_version_id = 0,
+ static const VMStateDescription vmstate_dp8393x = {
+     .name = "dp8393x",
+-    .version_id = 0,
+-    .minimum_version_id = 0,
++    .version_id = 1,
++    .minimum_version_id = 1,
      .fields = (VMStateField []) {
-         VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
--        VMSTATE_UINT16_ARRAY(regs, dp8393xState, 0x40),
-+        VMSTATE_UINT16_ARRAY(regs, dp8393xState, SONIC_REG_COUNT),
+-        VMSTATE_BUFFER_UNSAFE(cam, dp8393xState, 0, 16 * 6),
++        VMSTATE_UINT16_2DARRAY(cam, dp8393xState, 16, 3),
+         VMSTATE_UINT16_ARRAY(regs, dp8393xState, SONIC_REG_COUNT),
          VMSTATE_END_OF_LIST()
      }
- };
 -- 
 2.31.1
 
