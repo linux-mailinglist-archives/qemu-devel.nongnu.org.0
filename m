@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475833C3DC7
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 17:55:43 +0200 (CEST)
-Received: from localhost ([::1]:46144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93FD93C3E4E
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 19:23:33 +0200 (CEST)
+Received: from localhost ([::1]:34220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2bnx-0005WX-Ty
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 11:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43546)
+	id 1m2dAy-0003eW-MW
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 13:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2bmt-0004qX-ST
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 11:54:35 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:39881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2bmr-00071q-3M
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 11:54:35 -0400
-Received: by mail-ed1-x530.google.com with SMTP id v1so23123990edt.6
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 08:54:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0+8LayWZt2LlyFbg7XzamFDG1bUzff/MBYLf3eHPTpQ=;
- b=qlOEFqwhJxhhKoeecQuQfRXYvXwBssYXBbjQygHlKMp0qwEIFfCUmP3iVclC0T+k/c
- 3njm6LGOyrrHHVwvaoOryMhclP0BZBVdNAuqRe+XlSSXXIMA1Y/4vq338IlizpmuMKK8
- VpOyPiKz2kXfIWpyjN+COdP7x3amonMWsP7lmW3aHyPXHlgpbqrDdF7E1xF3qdOZY+Sd
- JSjVg5WBMLzTxBv1NRU8AHsBlkcuek1ToiYmTvBWkR6+voTW/obv/hjnegkLujaRgMnG
- VapnmE0MqyG7PDn5+tgl6/MTMSHsJpXRyqaroptWC+gx8VRLnfe/rCM9aS2gjJJpUkaf
- itNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0+8LayWZt2LlyFbg7XzamFDG1bUzff/MBYLf3eHPTpQ=;
- b=o4f46d4F1n7Avm/yz16xmWj5MdA7xX/W65i315glA2f5512qCoyLwlRfj4TiCbOwpo
- dfBX/+C2UNk+0pN8WRI0Zbsx3y3QsphSX0h3R3gDs7Q8eELxs4cBxRQKs5KOMbDyKoo1
- YCpi75IFqvw1vw8BOj3FdOZVLKyPecVUhp69+YWgSDBebVo+7nQWwG9d+q54p+NQrSck
- rVKHhnJ3jbXkA7gV+s4+GoKp78i2gIDbg2TjcsBKW6twkaikrXLACQ9zN584OINrfo6W
- j6IfmKHITTxvtEfoXfuM4tOdv9Nt930XtLcHP5qaYwJTHkYoOcfU7QnWAkGyNeq91fLd
- lFVw==
-X-Gm-Message-State: AOAM532F28ealIYxZjG+sSbHbWuaZ76Og1lsMbICHnSaxuE5RfU5lZ4f
- d5b3QRwEbFYi7nB5k4xxF9wNawDKfNhAXBJTe6M+zu77u/6DjKLf
-X-Google-Smtp-Source: ABdhPJwpjm9KxBVjfDMFiVCEh4TrBWiSLonT99EigTXP4We6gDF1CKWd1eApLjlx5xQ7Xj+Q6hdekQSsJ08kQuw4MgI=
-X-Received: by 2002:aa7:c14e:: with SMTP id r14mr28378991edp.251.1626018870901; 
- Sun, 11 Jul 2021 08:54:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1m2d2z-0006gx-Tt
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49684)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1m2d2v-0006wu-F4
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:17 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16BH5JIc127259; Sun, 11 Jul 2021 13:15:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=Gs4IYYf06Ksv38HdGLJg/HmcTVh6T5Amaod7L/xVaZM=;
+ b=C2Bhl6mMgPvlYD/qg8d9KIUM8aT5XSx75EQmehYLh0aZ1FS7QrexJfcY3UnV2enFHgYp
+ suXzuUFiwuwPPx7dB/2csVCSKZH+5fBQzgumT0sISFhwoZ4RhXujWnpa8xHOlrq4Ucaq
+ TW9fDqchcbPKvnUAlkCRsvmi4inW5XlIoEhPazm8OSVeImk9CY0dM7P3xrDjiyF8+FkL
+ 6F2BLvkgNfsnKwvzVoJGbJFaga0VkyRt9VoCU3upgQV1dWPi3RnAL0+ltYZgvQ4t9h/S
+ TacEBHqpsCApzshyI9N0jrTEigyYPtulnSYTtU1suYKXxIWGXrgk0vGWbnFht7SzByjQ 9g== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39qrmb3bqc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Jul 2021 13:15:10 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16BHCCJW013349;
+ Sun, 11 Jul 2021 17:15:09 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma02dal.us.ibm.com with ESMTP id 39qt391mea-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Jul 2021 17:15:09 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16BHF8Q114942646
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 11 Jul 2021 17:15:08 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72D96112061;
+ Sun, 11 Jul 2021 17:15:08 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 662B9112064;
+ Sun, 11 Jul 2021 17:15:08 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Sun, 11 Jul 2021 17:15:08 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] Merge tpm 2021/07/11 v1
+Date: Sun, 11 Jul 2021 13:14:57 -0400
+Message-Id: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.31.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _2SUT4N-xQdAbaBAMRx3PcDu6R09OmTK
+X-Proofpoint-GUID: _2SUT4N-xQdAbaBAMRx3PcDu6R09OmTK
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 11 Jul 2021 16:53:51 +0100
-Message-ID: <CAFEAcA9PSZaHkV-qL9jvXX_MFKwYJJTSQ4FjQJfwyRi7GvJvWg@mail.gmail.com>
-Subject: Re: intermittent hang in qos-test for qemu-system-i386 on 32-bit arm
- host
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-11_10:2021-07-09,
+ 2021-07-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0
+ phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
+ suspectscore=0 impostorscore=0 mlxlogscore=999 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107110141
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,294 +99,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: peter.maydell@linaro.org, Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 10 Jul 2021 at 14:30, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> I've noticed recently that intermittently 'make check' will hang on
-> my aarch32 test system (really an aarch64 box with an aarch32 chroot).
->
-> I think from grep that this must be the vhost-user-blk test.
+This series extends TPM-related ACPI test cases to also verify the TPM 1.2
+ACPI table 'TCPA'.
 
-I've also now seen this on qemu-system-i386 guest x86-64 Linux host:
+   Stefan
 
-Process tree:
-petmay01 28992  0.0  0.0 123812  8612 ?        Sl   14:46   0:01
-                           \_ tests/qtest/qos-test --tap -k -m quick
-petmay01 30068  0.0  0.0 379204 20580 ?        Sl   14:46   0:00
-                           |   \_ ./storage-daemon/qemu-storage-daemon
---blockdev driver=file,node-name=disk0,filename=qtest.6kY6px --export
-type=vhost-user-blk,id=disk0,addr.type=unix,addr.path=/tmp/qtest-28992-sock.4Kgtk1,node-name=disk0,writable=on,num-queues=1
-petmay01 30070  0.0  0.1 1083248 63748 ?       Sl   14:46   0:00
-                           |   \_ ./qemu-system-i386 -qtest
-unix:/tmp/qtest-28992.sock -qtest-log /dev/null -chardev
-socket,path=/tmp/qtest-28992.qmp,id=char0 -mon
-chardev=char0,mode=control -display none -M pc -device
-vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
-memory-backend-memfd,id=mem,size=256M,share=on -M memory-backend=mem
--m 256M -chardev socket,id=char1,path=/tmp/qtest-28992-sock.4Kgtk1
--accel qtest
+The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
 
+  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
 
-Backtrace, qos-test:
-(gdb) thread apply all bt
+are available in the Git repository at:
 
-Thread 2 (Thread 0x7fd086f1c700 (LWP 28995)):
-#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
-#1  0x000056448599484b in qemu_futex_wait (val=<optimised out>,
-f=<optimised out>)
-    at /mnt/nvmedisk/linaro/qemu-for-merges/include/qemu/futex.h:29
-#2  qemu_event_wait (ev=ev@entry=0x564485c322e8 <rcu_call_ready_event>)
-    at ../../util/qemu-thread-posix.c:480
-#3  0x000056448599dc18 in call_rcu_thread (opaque=opaque@entry=0x0) at
-../../util/rcu.c:258
-#4  0x0000564485993966 in qemu_thread_start (args=<optimised out>)
-    at ../../util/qemu-thread-posix.c:541
-#5  0x00007fd088b446db in start_thread (arg=0x7fd086f1c700) at
-pthread_create.c:463
-#6  0x00007fd08886d71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+  git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2021-07-11-1
 
-Thread 1 (Thread 0x7fd089d9a900 (LWP 28992)):
-#0  0x00007fd088b4e474 in __libc_read (fd=6,
-buf=buf@entry=0x7fff05f024f0, nbytes=nbytes@entry=1024)
-    at ../sysdeps/unix/sysv/linux/read.c:27
-#1  0x0000564485947cb2 in read (__nbytes=1024, __buf=0x7fff05f024f0,
-__fd=<optimised out>)
-    at /usr/include/x86_64-linux-gnu/bits/unistd.h:44
-#2  qtest_client_socket_recv_line (s=0x5644866f38b0) at
-../../tests/qtest/libqtest.c:494
-#3  0x0000564485947e61 in qtest_rsp_args (s=s@entry=0x5644866f38b0,
-    expected_args=expected_args@entry=1) at ../../tests/qtest/libqtest.c:521
-#4  0x000056448594846f in qtest_query_target_endianness (s=0x5644866f38b0)
-    at ../../tests/qtest/libqtest.c:570
-#5  0x0000564485948ed2 in qtest_init_without_qmp_handshake
-(extra_args=<optimised out>)
-    at ../../tests/qtest/libqtest.c:332
-#6  0x0000564485949616 in qtest_init (extra_args=<optimised out>) at
-../../tests/qtest/libqtest.c:339
-#7  0x00005644859338cd in qtest_start (
-    args=0x5644866f6d00 "-M pc  -device
-vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
-memory-backend-memfd,id=mem,size=256M,share=on  -M memory-backend=mem
--m 256M -chardev socket,id=char1,path=/tmp/qtest-28992-so"...) at
-../../tests/qtest/libqtest-single.h:29
-#8  restart_qemu_or_continue (
-    path=0x5644866f6d00 "-M pc  -device
-vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 -object
-memory-backend-memfd,id=mem,size=256M,share=on  -M memory-backend=mem
--m 256M -chardev socket,id=char1,path=/tmp/qtest-28992-so"...) at
-../../tests/qtest/qos-test.c:105
-#9  run_one_test (arg=<optimised out>) at ../../tests/qtest/qos-test.c:178
-#10 0x00007fd08990c05a in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#11 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#12 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#13 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#14 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#15 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#16 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#17 0x00007fd08990bf8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#18 0x00007fd08990c232 in g_test_run_suite () from
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#19 0x00007fd08990c251 in g_test_run () from
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#20 0x0000564485932359 in main (argc=<optimised out>, argv=<optimised
-out>, envp=<optimised out>)
-    at ../../tests/qtest/qos-test.c:338
+for you to fetch changes up to a1b5cc4a84164bc36d355853a11b706ed52bce15:
 
-Backtrace, qemu-system-i386:Thread 4 (Thread 0x7f965ac7f700 (LWP 30079)):
-#0  0x00007f9674b6938c in __GI___sigtimedwait (set=<optimised out>,
-    set@entry=0x7f965ac7c090, info=info@entry=0x7f965ac7bfd0,
-timeout=timeout@entry=0x0)
-    at ../sysdeps/unix/sysv/linux/sigtimedwait.c:42
-#1  0x00007f9674f2c54c in __sigwait (set=set@entry=0x7f965ac7c090,
-sig=sig@entry=0x7f965ac7c08c)
-    at ../sysdeps/unix/sysv/linux/sigwait.c:28
-#2  0x000055c2a04af6b3 in dummy_cpu_thread_fn (arg=arg@entry=0x55c2a1727aa0)
-    at ../../accel/dummy-cpus.c:46
-#3  0x000055c2a07664e6 in qemu_thread_start (args=<optimised out>)
-    at ../../util/qemu-thread-posix.c:541
-#4  0x00007f9674f216db in start_thread (arg=0x7f965ac7f700) at
-pthread_create.c:463
-#5  0x00007f9674c4a71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+  tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs (2021-07-09 09:13:16 -0400)
 
-Thread 3 (Thread 0x7f965b662700 (LWP 30078)):
-#0  0x00007f9674c3dcb9 in __GI___poll (fds=0x7f963c003240, nfds=3, timeout=-1)
-    at ../sysdeps/unix/sysv/linux/poll.c:29
-#1  0x00007f967969a6e9 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#2  0x00007f967969aa82 in g_main_loop_run () at
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#3  0x000055c2a05ce261 in iothread_run
-(opaque=opaque@entry=0x55c2a144af00) at ../../iothread.c:73
-#4  0x000055c2a07664e6 in qemu_thread_start (args=<optimised out>)
-    at ../../util/qemu-thread-posix.c:541
-#5  0x00007f9674f216db in start_thread (arg=0x7f965b662700) at
-pthread_create.c:463
-#6  0x00007f9674c4a71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+----------------------------------------------------------------
+Stefan Berger (9):
+      tests: Rename TestState to TPMTestState
+      tests: Add tpm_version field to TPMTestState and fill it
+      tests: acpi: Prepare for renaming of TPM2 related ACPI files
+      tests: Add suffix 'tpm2' or 'tpm12' to ACPI table files
+      tests: acpi: tpm2: Add the renamed ACPI files and drop old ones
+      tests: tpm: Create TPM 1.2 response in TPM emulator
+      tests: acpi: prepare for new TPM 1.2 related tables
+      tests: acpi: Add test cases for TPM 1.2 with TCPA table
+      tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs
 
-Thread 2 (Thread 0x7f965bf64700 (LWP 30076)):
-#0  0x00007f9674f2b1fd in __lll_lock_wait () at
-../sysdeps/unix/sysv/linux/x86_64/lowlevellock.S:135
-#1  0x00007f9674f24025 in __GI___pthread_mutex_lock
-(mutex=mutex@entry=0x55c2a12cad80 <qemu_global_mutex>) at
-../nptl/pthread_mutex_lock.c:80
-#2  0x000055c2a0766649 in qemu_mutex_lock_impl (mutex=0x55c2a12cad80
-<qemu_global_mutex>, file=0x55c2a0cec7c2 "../../util/rcu.c", line=266)
-at ../../util/qemu-thread-posix.c:79
-#3  0x000055c2a0522c3f in qemu_mutex_lock_iothread_impl
-(file=file@entry=0x55c2a0cec7c2 "../../util/rcu.c",
-line=line@entry=266) at ../../softmmu/cpus.c:493
-#4  0x000055c2a0773a5d in call_rcu_thread (opaque=opaque@entry=0x0) at
-../../util/rcu.c:266
-#5  0x000055c2a07664e6 in qemu_thread_start (args=<optimised out>)
-    at ../../util/qemu-thread-posix.c:541
-#6  0x00007f9674f216db in start_thread (arg=0x7f965bf64700) at
-pthread_create.c:463
-#7  0x00007f9674c4a71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+ tests/data/acpi/q35/DSDT.tis.tpm12              | Bin 0 -> 8465 bytes
+ tests/data/acpi/q35/{DSDT.tis => DSDT.tis.tpm2} | Bin
+ tests/data/acpi/q35/TCPA.tis.tpm12              | Bin 0 -> 50 bytes
+ tests/data/acpi/q35/{TPM2.tis => TPM2.tis.tpm2} | Bin
+ tests/qtest/bios-tables-test.c                  |  20 ++++++++++++++------
+ tests/qtest/tpm-crb-test.c                      |   5 +++--
+ tests/qtest/tpm-emu.c                           |  24 ++++++++++++++++++------
+ tests/qtest/tpm-emu.h                           |  11 ++++++++---
+ tests/qtest/tpm-tis-device-test.c               |   3 ++-
+ tests/qtest/tpm-tis-test.c                      |   3 ++-
+ tests/qtest/tpm-tis-util.c                      |   2 +-
+ 11 files changed, 48 insertions(+), 20 deletions(-)
+ create mode 100644 tests/data/acpi/q35/DSDT.tis.tpm12
+ rename tests/data/acpi/q35/{DSDT.tis => DSDT.tis.tpm2} (100%)
+ create mode 100644 tests/data/acpi/q35/TCPA.tis.tpm12
+ rename tests/data/acpi/q35/{TPM2.tis => TPM2.tis.tpm2} (100%)
 
-Thread 1 (Thread 0x7f967cfc3440 (LWP 30070)):
-#0  0x00007f9674c3dcb9 in __GI___poll (fds=0x55c2a165ea00, nfds=2, timeout=-1)
-    at ../sysdeps/unix/sysv/linux/poll.c:29
-#1  0x00007f967969a6e9 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#2  0x00007f967969aa82 in g_main_loop_run () at
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#3  0x000055c2a04afe5e in vhost_user_read
-(dev=dev@entry=0x55c2a24a9c80, msg=msg@entry=0x7ffc2dc57ca0)
-    at ../../hw/virtio/vhost-user.c:402
-#4  0x000055c2a04b10f9 in vhost_user_get_u64
-(dev=dev@entry=0x55c2a24a9c80, request=request@entry=1,
-u64=u64@entry=0x7ffc2dc57f60) at ../../hw/virtio/vhost-user.c:1334
-#5  0x000055c2a04b2b9e in vhost_user_get_features
-(features=0x7ffc2dc57f60, dev=0x55c2a24a9c80)
-    at ../../hw/virtio/vhost-user.c:1356
-#6  0x000055c2a04b2b9e in vhost_user_backend_init (dev=0x55c2a24a9c80,
-opaque=0x55c2a24a9f00, errp=0x7ffc2dc580e0) at
-../../hw/virtio/vhost-user.c:1877
-#7  0x000055c2a04a0d06 in vhost_dev_init
-(hdev=hdev@entry=0x55c2a24a9c80, opaque=opaque@entry=0x55c2a24a9f00,
-backend_type=backend_type@entry=VHOST_BACKEND_TYPE_USER,
-busyloop_timeout=busyloop_timeout@entry=0,
-errp=errp@entry=0x7ffc2dc580e0) at ../../hw/virtio/vhost.c:1302
-#8  0x000055c2a04bb09e in vhost_user_blk_connect
-(dev=dev@entry=0x55c2a24a9a30, errp=errp@entry=0x7ffc2dc580e0) at
-../../hw/block/vhost-user-blk.c:339
-#9  0x000055c2a04bb59b in vhost_user_blk_realize_connect
-(errp=0x7ffc2dc580e0, s=0x55c2a24a9a30)
-    at ../../hw/block/vhost-user-blk.c:440
-#10 0x000055c2a04bb59b in vhost_user_blk_device_realize
-(dev=0x55c2a24a9a30, errp=0x7ffc2dc580e0)
-    at ../../hw/block/vhost-user-blk.c:513
-#11 0x000055c2a05544b8 in virtio_device_realize (dev=0x55c2a24a9a30,
-errp=0x7ffc2dc58130)
-    at ../../hw/virtio/virtio.c:3657
-#12 0x000055c2a05b9b76 in device_set_realized (obj=0x55c2a24a9a30,
-value=true, errp=0x7ffc2dc581b0)
-    at ../../hw/core/qdev.c:761
-#13 0x000055c2a05a5f86 in property_set_bool (obj=0x55c2a24a9a30,
-v=<optimised out>, name=<optimised out>, opaque=0x55c2a14268e0,
-errp=0x7ffc2dc581b0) at ../../qom/object.c:2257
-#14 0x000055c2a05a83ab in object_property_set
-(obj=obj@entry=0x55c2a24a9a30, name=name@entry=0x55c2a0902a99
-"realized", v=v@entry=0x55c2a24f4eb0, errp=errp@entry=0x7ffc2dc58300)
-at ../../qom/object.c:1402
-#15 0x000055c2a05ab36f in object_property_set_qobject
-(obj=obj@entry=0x55c2a24a9a30, name=name@entry=0x55c2a0902a99
-"realized", value=value@entry=0x55c2a24f4df0,
-errp=errp@entry=0x7ffc2dc58300)
-    at ../../qom/qom-qobject.c:28
-#16 0x000055c2a05a85e4 in object_property_set_bool
-(obj=0x55c2a24a9a30, name=0x55c2a0902a99 "realized", value=<optimised
-out>, errp=0x7ffc2dc58300) at ../../qom/object.c:1472
-#17 0x000055c2a036a47f in virtio_pci_realize (pci_dev=0x55c2a24a17b0,
-errp=0x7ffc2dc58300)
-    at ../../hw/virtio/virtio-pci.c:1907
-#18 0x000055c2a038f64f in pci_qdev_realize (qdev=0x55c2a24a17b0,
-errp=<optimised out>)
-    at ../../hw/pci/pci.c:2116
-#19 0x000055c2a05b9b76 in device_set_realized (obj=0x55c2a24a17b0,
-value=true, errp=0x7ffc2dc58410)
-    at ../../hw/core/qdev.c:761
-#20 0x000055c2a05a5f86 in property_set_bool (obj=0x55c2a24a17b0,
-v=<optimised out>, name=<optimised out>, opaque=0x55c2a14268e0,
-errp=0x7ffc2dc58410) at ../../qom/object.c:2257
-#21 0x000055c2a05a83ab in object_property_set
-(obj=obj@entry=0x55c2a24a17b0, name=name@entry=0x55c2a0902a99
-"realized", v=v@entry=0x55c2a24ef1c0, errp=errp@entry=0x55c2a12ded88
-<error_fatal>)
-    at ../../qom/object.c:1402
-#22 0x000055c2a05ab36f in object_property_set_qobject
-(obj=obj@entry=0x55c2a24a17b0, name=name@entry=0x55c2a0902a99
-"realized", value=value@entry=0x55c2a24ef180,
-errp=errp@entry=0x55c2a12ded88 <error_fatal>)
-    at ../../qom/qom-qobject.c:28
-#23 0x000055c2a05a85e4 in object_property_set_bool
-(obj=0x55c2a24a17b0, name=name@entry=0x55c2a0902a99 "realized",
-value=value@entry=true, errp=errp@entry=0x55c2a12ded88 <error_fatal>)
-    at ../../qom/object.c:1472
-#24 0x000055c2a05b8a3c in qdev_realize (dev=<optimised out>,
-bus=bus@entry=0x55c2a189c160, errp=errp@entry=0x55c2a12ded88
-<error_fatal>) at ../../hw/core/qdev.c:389
-#25 0x000055c2a0312c8e in qdev_device_add (opts=0x55c2a1422400,
-errp=errp@entry=0x55c2a12ded88 <error_fatal>) at
-../../softmmu/qdev-monitor.c:673
-#26 0x000055c2a04e5e7f in device_init_func (opaque=<optimised out>,
-opts=<optimised out>, errp=0x55c2a12ded88 <error_fatal>) at
-../../softmmu/vl.c:1183
-#27 0x000055c2a076fbda in qemu_opts_foreach (list=<optimised out>,
-func=func@entry=0x55c2a04e5e70 <device_init_func>,
-opaque=opaque@entry=0x0, errp=errp@entry=0x55c2a12ded88 <error_fatal>)
-    at ../../util/qemu-option.c:1137
-#28 0x000055c2a04e89dd in qemu_create_cli_devices () at ../../softmmu/vl.c:2617
-#29 0x000055c2a04e89dd in qmp_x_exit_preconfig (errp=<optimised out>)
-at ../../softmmu/vl.c:2665
-#30 0x000055c2a04ebc0d in qemu_init (argc=<optimised out>,
-argv=<optimised out>, envp=<optimised out>)
-    at ../../softmmu/vl.c:3697
-#31 0x000055c2a01c68e9 in main (argc=<optimised out>, argv=<optimised
-out>, envp=<optimised out>)
-    at ../../softmmu/main.c:49
+-- 
+2.31.1
 
-
-Backtrace, qemu-storage-daemon:
-Thread 2 (Thread 0x7fb0bc104700 (LWP 30077)):
-#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
-#1  0x000055a679ea5a4b in qemu_futex_wait (val=<optimised out>,
-f=<optimised out>)
-    at /mnt/nvmedisk/linaro/qemu-for-merges/include/qemu/futex.h:29
-#2  qemu_event_wait (ev=ev@entry=0x55a67a1c87c8 <rcu_call_ready_event>)
-    at ../../util/qemu-thread-posix.c:480
-#3  0x000055a679eb1368 in call_rcu_thread (opaque=opaque@entry=0x0) at
-../../util/rcu.c:258
-#4  0x000055a679ea4b66 in qemu_thread_start (args=<optimised out>)
-    at ../../util/qemu-thread-posix.c:541
-#5  0x00007fb0cbe7d6db in start_thread (arg=0x7fb0bc104700) at
-pthread_create.c:463
-#6  0x00007fb0cbba671f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 1 (Thread 0x7fb0ce6070c0 (LWP 30068)):
-#0  0x00007fb0cbb99db6 in __GI_ppoll (fds=0x55a67aab9ec0, nfds=5,
-timeout=<optimised out>,
-    timeout@entry=0x0, sigmask=sigmask@entry=0x0) at
-../sysdeps/unix/sysv/linux/ppoll.c:39
-#1  0x000055a679eb61b9 in ppoll (__ss=0x0, __timeout=0x0,
-__nfds=<optimised out>,
-    __fds=<optimised out>) at /usr/include/x86_64-linux-gnu/bits/poll2.h:77
-#2  qemu_poll_ns (fds=<optimised out>, nfds=<optimised out>,
-timeout=timeout@entry=-1)
-    at ../../util/qemu-timer.c:336
-#3  0x000055a679ebd325 in os_host_main_loop_wait (timeout=-1) at
-../../util/main-loop.c:250
-#4  main_loop_wait (nonblocking=<optimised out>) at ../../util/main-loop.c:531
-#5  0x000055a679da650a in main (argc=5, argv=0x7fff3724cbf8)
-    at ../../storage-daemon/qemu-storage-daemon.c:345
-
-thanks
--- PMM
 
