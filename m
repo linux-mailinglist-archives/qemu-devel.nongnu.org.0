@@ -2,99 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D453C3E47
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 19:21:16 +0200 (CEST)
-Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C4C3C3E42
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 19:18:08 +0200 (CEST)
+Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2d8l-0007Te-Qn
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 13:21:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56294)
+	id 1m2d5j-0001N6-FQ
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 13:18:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1m2d33-0006oq-CM
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:21 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50352)
+ id 1m2d30-0006iH-Io
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:19 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62856
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1m2d2w-0006xy-1g
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:21 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16BH5Igj127220; Sun, 11 Jul 2021 13:15:11 -0400
+ id 1m2d2w-0006ws-1R
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 13:15:18 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16BH43Ul180402; Sun, 11 Jul 2021 13:15:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=6pGdJRnOJILLZc0Wl6q/G6fJOcR/8P2vjR2ENZ1ubQs=;
- b=mr2Zta7B14euCYV2jotncwbB0jd6vFlgwMxqxg+5tB9SaTc5xghMTpFhsSRyUGpxeJkU
- RmSz96O/Wu9U4WYDyKD56Y7wJGkFeI7c8SOsJSIdRxwII5djTb7RvnCLg6q3We4vmtcv
- 7yOMszta/ps47YT2pSNl4PEWnA9zMM9jynXnzhZ2mQ8tp5TJOiWaF5caxSlGYk6af6Xq
- tAokMZDQZnPJz+kkiLeTrPHQbIgUA4vegCXzXjD97EKNE7AH3OTu4kYK4S5yqPGHr/1h
- 2VtcdQpQ1fiai7u4dA0TDoFjy/DqgKdSM79rHqfZQJbakdRdIhybz78KxPOHrBk3QXeS QQ== 
+ bh=RWYg3U8AAShd4ZejQF8QHETTN3fzzIHJMpSDzLZcoiA=;
+ b=tmBAWzLlPqtF3w1auvvaPK27DSWeUddXaIjfzkKRymMGgZKHl6G/zcEibr/3yIj6Ui0e
+ 8bgn73NsLqrr3VIeqH+uBfGXJMLN85d95imapndOoP8ehJ7e8+tQwDikjYL1SQUAEpSO
+ Yz0kOMQ5yK7GKWJ0uOm5jhNqSkKrFVzOyO4YmA85Xf4sSZYjx7efDIQUCDLrze83/5W9
+ nVebU3Lp4mXDRtuHjF+FaqOJi9I2YNOVH4kU/jpN+COIt6YZPOXsfs8r4Fpm72rg1hnK
+ CSyehbrdK5lsEJ5F4A+dvrRtqldzRhikt0Q6uJMaqmjC0/XoM6yRmRbg9SDOm6fWmS9L MA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39qrmb3bqp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 11 Jul 2021 13:15:11 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16BH5JqS127309;
- Sun, 11 Jul 2021 13:15:10 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39qrmb3bqe-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qs3aaxdx-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sun, 11 Jul 2021 13:15:10 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16BHCA3W013188;
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16BH4qJH182330;
+ Sun, 11 Jul 2021 13:15:10 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qs3aaxdm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sun, 11 Jul 2021 13:15:10 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16BHCL5Q003816;
  Sun, 11 Jul 2021 17:15:09 GMT
 Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma02dal.us.ibm.com with ESMTP id 39qt391mee-1
+ [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 39q369nj8k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Sun, 11 Jul 2021 17:15:09 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
  by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16BHF82O14942652
+ 16BHF8tl14942654
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Sun, 11 Jul 2021 17:15:08 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF6FA112065;
+ by IMSVA (Postfix) with ESMTP id C697011206B;
  Sun, 11 Jul 2021 17:15:08 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 97485112061;
+ by IMSVA (Postfix) with ESMTP id B0024112066;
  Sun, 11 Jul 2021 17:15:08 +0000 (GMT)
 Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Sun, 11 Jul 2021 17:15:08 +0000 (GMT)
 From: Stefan Berger <stefanb@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] tests: Add tpm_version field to TPMTestState and fill it
-Date: Sun, 11 Jul 2021 13:14:59 -0400
-Message-Id: <20210711171506.39375-3-stefanb@linux.vnet.ibm.com>
+Subject: [PULL 3/9] tests: acpi: Prepare for renaming of TPM2 related ACPI
+ files
+Date: Sun, 11 Jul 2021 13:15:00 -0400
+Message-Id: <20210711171506.39375-4-stefanb@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
 References: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BwtnxYy4A8_u-iulu5X7fIHPnWDqY0OL
-X-Proofpoint-GUID: yoR0gjSvJKrvGKYGGPHeuMyz2FfiDZEc
+X-Proofpoint-GUID: 50upl8xEURYQYSeh3tWs4wa8ElvdZuTm
+X-Proofpoint-ORIG-GUID: RHDc10kd_xgEI-o4Z6FxqHLEGv5-Kyik
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-07-11_10:2021-07-09,
  2021-07-11 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0
- phishscore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
- suspectscore=0 impostorscore=0 mlxlogscore=999 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ mlxlogscore=999 phishscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ adultscore=0 malwarescore=0 clxscore=1015 bulkscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2107110141
-Received-SPF: none client-ip=148.163.156.1;
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,134 +110,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Igor Mammedov <imammedo@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>,
+Cc: Stefan Berger <stefanb@linux.ibm.com>, peter.maydell@linaro.org,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-id: 20210708183814.925960-3-stefanb@linux.vnet.ibm.com
+Message-id: 20210708183814.925960-4-stefanb@linux.vnet.ibm.com
 ---
- tests/qtest/bios-tables-test.c    |  5 +++--
- tests/qtest/tpm-crb-test.c        |  1 +
- tests/qtest/tpm-emu.c             | 13 ++++++++++---
- tests/qtest/tpm-emu.h             |  2 ++
- tests/qtest/tpm-tis-device-test.c |  1 +
- tests/qtest/tpm-tis-test.c        |  1 +
- 6 files changed, 18 insertions(+), 5 deletions(-)
+ tests/data/acpi/q35/DSDT.tis.tpm2           | 0
+ tests/data/acpi/q35/TPM2.tis.tpm2           | 0
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ 3 files changed, 2 insertions(+)
+ create mode 100644 tests/data/acpi/q35/DSDT.tis.tpm2
+ create mode 100644 tests/data/acpi/q35/TPM2.tis.tpm2
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index a622f91a37..93c9d306b5 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1092,7 +1092,7 @@ static void test_acpi_piix4_tcg_numamem(void)
- uint64_t tpm_tis_base_addr;
- 
- static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
--                              uint64_t base)
-+                              uint64_t base, enum TPMVersion tpm_version)
- {
- #ifdef CONFIG_TPM
-     gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
-@@ -1113,6 +1113,7 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
-     g_mutex_init(&test.data_mutex);
-     g_cond_init(&test.data_cond);
-     test.data_cond_signal = false;
-+    test.tpm_version = tpm_version;
- 
-     thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
-     tpm_emu_test_wait_cond(&test);
-@@ -1145,7 +1146,7 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
- 
- static void test_acpi_q35_tcg_tpm_tis(void)
- {
--    test_acpi_tcg_tpm("q35", "tis", 0xFED40000);
-+    test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_2_0);
- }
- 
- static void test_acpi_tcg_dimm_pxm(const char *machine)
-diff --git a/tests/qtest/tpm-crb-test.c b/tests/qtest/tpm-crb-test.c
-index 50936f1482..7b94453390 100644
---- a/tests/qtest/tpm-crb-test.c
-+++ b/tests/qtest/tpm-crb-test.c
-@@ -156,6 +156,7 @@ int main(int argc, char **argv)
-     g_mutex_init(&test.data_mutex);
-     g_cond_init(&test.data_cond);
-     test.data_cond_signal = false;
-+    test.tpm_version = TPM_VERSION_2_0;
- 
-     thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
-     tpm_emu_test_wait_cond(&test);
-diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-index b9cddcc240..8baf49eafd 100644
---- a/tests/qtest/tpm-emu.c
-+++ b/tests/qtest/tpm-emu.c
-@@ -56,9 +56,16 @@ static void *tpm_emu_tpm_thread(void *data)
-         s->tpm_msg->code = be32_to_cpu(s->tpm_msg->code);
- 
-         /* reply error */
--        s->tpm_msg->tag = cpu_to_be16(TPM2_ST_NO_SESSIONS);
--        s->tpm_msg->len = cpu_to_be32(sizeof(struct tpm_hdr));
--        s->tpm_msg->code = cpu_to_be32(TPM_RC_FAILURE);
-+        switch (s->tpm_version) {
-+        case TPM_VERSION_2_0:
-+            s->tpm_msg->tag = cpu_to_be16(TPM2_ST_NO_SESSIONS);
-+            s->tpm_msg->len = cpu_to_be32(sizeof(struct tpm_hdr));
-+            s->tpm_msg->code = cpu_to_be32(TPM_RC_FAILURE);
-+            break;
-+        default:
-+            g_debug("unsupport TPM version %u", s->tpm_version);
-+            g_assert_not_reached();
-+        }
-         qio_channel_write(ioc, (char *)s->tpm_msg, be32_to_cpu(s->tpm_msg->len),
-                           &error_abort);
-     }
-diff --git a/tests/qtest/tpm-emu.h b/tests/qtest/tpm-emu.h
-index b066ad63fb..f7b1e3c6ab 100644
---- a/tests/qtest/tpm-emu.h
-+++ b/tests/qtest/tpm-emu.h
-@@ -18,6 +18,7 @@
- 
- #include "qemu/sockets.h"
- #include "io/channel.h"
-+#include "sysemu/tpm.h"
- 
- struct tpm_hdr {
-     uint16_t tag;
-@@ -34,6 +35,7 @@ typedef struct TPMTestState {
-     QIOChannel *tpm_ioc;
-     GThread *emu_tpm_thread;
-     struct tpm_hdr *tpm_msg;
-+    enum TPMVersion tpm_version;
- } TPMTestState;
- 
- void tpm_emu_test_wait_cond(TPMTestState *s);
-diff --git a/tests/qtest/tpm-tis-device-test.c b/tests/qtest/tpm-tis-device-test.c
-index d36ae20243..3ddefb51ec 100644
---- a/tests/qtest/tpm-tis-device-test.c
-+++ b/tests/qtest/tpm-tis-device-test.c
-@@ -46,6 +46,7 @@ int main(int argc, char **argv)
-     g_mutex_init(&test.data_mutex);
-     g_cond_init(&test.data_cond);
-     test.data_cond_signal = false;
-+    test.tpm_version = TPM_VERSION_2_0;
- 
-     thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
-     tpm_emu_test_wait_cond(&test);
-diff --git a/tests/qtest/tpm-tis-test.c b/tests/qtest/tpm-tis-test.c
-index 6fee4779ea..a4a25ba745 100644
---- a/tests/qtest/tpm-tis-test.c
-+++ b/tests/qtest/tpm-tis-test.c
-@@ -40,6 +40,7 @@ int main(int argc, char **argv)
-     g_mutex_init(&test.data_mutex);
-     g_cond_init(&test.data_cond);
-     test.data_cond_signal = false;
-+    test.tpm_version = TPM_VERSION_2_0;
- 
-     thread = g_thread_new(NULL, tpm_emu_ctrl_thread, &test);
-     tpm_emu_test_wait_cond(&test);
+diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/data/acpi/q35/TPM2.tis.tpm2 b/tests/data/acpi/q35/TPM2.tis.tpm2
+new file mode 100644
+index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..b301b8fa06 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.tis.tpm2",
++"tests/data/acpi/q35/TPM2.tis.tpm2",
 -- 
 2.31.1
 
