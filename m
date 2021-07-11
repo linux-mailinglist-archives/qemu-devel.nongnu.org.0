@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E083C3AD3
-	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 07:57:12 +0200 (CEST)
-Received: from localhost ([::1]:36512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA923C3AD4
+	for <lists+qemu-devel@lfdr.de>; Sun, 11 Jul 2021 07:59:19 +0200 (CEST)
+Received: from localhost ([::1]:39446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2SSk-0008GF-Rw
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 01:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49284)
+	id 1m2SUp-0001pI-1a
+	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 01:59:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2SRN-0007Xx-92
+ id 1m2SRN-0007Xy-9n
  for qemu-devel@nongnu.org; Sun, 11 Jul 2021 01:55:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46076)
+Received: from indium.canonical.com ([91.189.90.7]:46104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2SRL-0003LK-6S
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 01:55:44 -0400
+ id 1m2SRL-0003Le-Bn
+ for qemu-devel@nongnu.org; Sun, 11 Jul 2021 01:55:45 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2SRI-00028C-OF
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:55:40 +0000
+ id 1m2SRJ-00029U-Mi
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:55:41 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B3DB22E8136
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:55:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AAD6A2E8135
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 05:55:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Jul 2021 05:46:29 -0000
+Date: Sun, 11 Jul 2021 05:48:03 -0000
 From: Thomas Huth <1905297@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,14 +42,14 @@ X-Launchpad-Bug-Commenters: axelheider janitor michaelpeter philmd th-huth
 X-Launchpad-Bug-Reporter: Michael Peter (michaelpeter)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <160614967524.17013.9714069541645314856.malonedeb@wampee.canonical.com>
-Message-Id: <162598238974.7727.17016195109291613599.malone@chaenomeles.canonical.com>
-Subject: [Bug 1905297] Re: Zynq7000 UART clock reset initialization
+Message-Id: <162598248392.17927.5293916110724725551.malone@gac.canonical.com>
+Subject: [Bug 1905297] Moved bug report
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 98663c60fba6ad7e213ca5c40f2d21e87d358340
+X-Launchpad-Hash: fbee46c69f278a301f7e3b2276799a430867a8c3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -68
@@ -74,16 +74,11 @@ Reply-To: Bug 1905297 <1905297@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I guess the patch has never been sent to the qemu-devel mailing list and
-thus was never considered for inclusion. Anyway, let's move this ticket
-over to the new bug tracker at gitlab.com, maybe it gets more attention
-there...
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #468
-   https://gitlab.com/qemu-project/qemu/-/issues/468
+ https://gitlab.com/qemu-project/qemu/-/issues/468
 
 -- =
 
