@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC903C6423
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:49:24 +0200 (CEST)
-Received: from localhost ([::1]:53192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FAB13C642B
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:51:51 +0200 (CEST)
+Received: from localhost ([::1]:32788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m31vf-0008Sn-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:49:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51556)
+	id 1m31y2-0005KC-6c
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:51:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1m31qe-0001jz-H9; Mon, 12 Jul 2021 15:44:13 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:35360)
+ id 1m31ql-0001mT-Kq; Mon, 12 Jul 2021 15:44:19 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1m31qd-0002k4-1L; Mon, 12 Jul 2021 15:44:12 -0400
-Received: by mail-pg1-x534.google.com with SMTP id v7so19407640pgl.2;
- Mon, 12 Jul 2021 12:44:10 -0700 (PDT)
+ id 1m31qg-0002m4-4t; Mon, 12 Jul 2021 15:44:17 -0400
+Received: by mail-pg1-x532.google.com with SMTP id v7so19407784pgl.2;
+ Mon, 12 Jul 2021 12:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wRfDFV6yTB2ZuXd+VVBhYM2WQzFkI+90BZxZxc0QIw0=;
- b=qpxtvA9xDey7WszVaV7/wLwJnu6rwnvx/IDi0b3D8FBinUfkRWcLa1/dGw6T3hhzTB
- VMdLOUNmj9wp0VYBhBFEBIUmhO0sTjsfPNXRPxhA0QN9jm2yD24Cd8b+8lqC2W6X20T4
- 8kmgXNeDtFLQ3Rj/IrWbp2yLvWSGJyW+fRTib9YtN6EztKS5y4m9MZMgUs5uo4qYJX/n
- Wlr8vsr4Dd5+TO1AeahCcG8N7OZLpAL5HnnfSLyvlRSoyzqicBiDmVAM6JnzYHTv5Qzw
- mgmsTux+TAQOwe+qrCkxoUO1hONKyTgVTY7jIhw9cDf9R811TWwhquP5O/33Q7zrCK3U
- kPvA==
+ bh=nWJxP6xnK+ZBRcXbZa0JA6jsoboZu8/9RIOA+TP2LgU=;
+ b=mbjOvgJJmIoJZ3bEXyp0RW5NNPzuVWn34sZWuA0Xk+mVTZcmbjClKQZOM1tzmPP0Zp
+ pMF25kaX/UeLx00ni6cn+9U7PTQR3nwY+Se/3L78D+5bQthkecL34+DM7xpRj/XPajUS
+ 4oVoKq/IM5zQEgo4Y7vqX8APq6+FdjluALXQBMiJ3A8wNqK7srmldLiDzy7futb/Z5zw
+ Bkbo2AqH8HghNOjeOYVh6sROb8OBfb3q5EjKzfnble4pglthqQRH2N/FcT5i8RZGR7e0
+ mYLx0zEO7wyAT4P285eBtQLgdKFa8IyKDWDNbQxBpXoqmu6a+dRkDB2oVlT/aUsR/pPA
+ fMuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wRfDFV6yTB2ZuXd+VVBhYM2WQzFkI+90BZxZxc0QIw0=;
- b=qJHXWXHZglBnz/I5pef5Dg/tXovT9NmWmIQIxiz1g9NGQLUHEM67v8Bb7kNXaq13ki
- 2W1LGEC7iY3OKM4720AUeCpnCiHATx5W+hZKeX2LmPOiyYe5CFMsFCkdEGeam+r9zK3d
- +rDz4s8F/Xn1IMDop8CJY4InECAuwSLzGPAYJE9ur9HOTL9HJiSk7ZY9QpTSKGDeCHY2
- 5BCp2W+aZBrSfj4k5bWt9PA7q9HJP56yo6wgf+3YguwtsPRFcfvotrHLYuP2JQlPlC+M
- F7XIQlaj7sPQn51Gi6Zt/j/ojpeN5tojLHvux5IRbEoUvmj4Ga8s3wGwCHRLjsJpXjz3
- 5UnQ==
-X-Gm-Message-State: AOAM533W5hp8tYBq0t7nNtxS7+DTO/87lCGDChEIcBSR2j+g2wWFhqbj
- GSWGV6qblz7Gg+CKsxWaKIWfsDTJ1cE=
-X-Google-Smtp-Source: ABdhPJw4T8E0W6MHig0LxCOCZ6wGhs5iOe16WOzvRAZm0QsQ24Ck27NAs6lq4FDw+bhNnqeQ/sGbzA==
-X-Received: by 2002:a63:d80a:: with SMTP id b10mr688159pgh.47.1626119049436;
- Mon, 12 Jul 2021 12:44:09 -0700 (PDT)
+ bh=nWJxP6xnK+ZBRcXbZa0JA6jsoboZu8/9RIOA+TP2LgU=;
+ b=Rd666QfsGvLQoPec/0srABRmCHPHvnnn1iHlloPtS3HW1zxVU6L1Nf9O4eo6djbLsH
+ cYwsieLTy3+SD2x75bSZxLjcJ1/B4aXBpHSQ9MEPOk8Aulvb46F3ZhthX3RpjQ+XrF6l
+ QNoTaOTkBE9VNSVrMxdGj8Ovvvv5VlkkAeMwcDRbISH5p7yxJzPe5UUVl3aZmBIwoeCh
+ nsrmGGaIIPvqFjmQgXLsGGC24vtW60oGp11Lh29RqdCthkbQ3G+vYh0HCMBFBZqEvfth
+ v/E1NsyFvS2tLW8IsfLgFUFy7NpQRpHoQeBM5XUTY0Dr88La3IwPEZ//f7t0TyXwpg7I
+ Oa0w==
+X-Gm-Message-State: AOAM532GamLch2oWBU8NKX54Cc1ipIUubSF+zAGHhkiLphEFSm2m06Y5
+ Bc8xIjQbZFetooSdkXshKkPmqnmR1P4=
+X-Google-Smtp-Source: ABdhPJxHSEI4DWTLknKCyIUcMEZPeF1jyJr9yz1okCs5uTFU2angOxesxtXOTxM7G9yhbxZ6QNYBKw==
+X-Received: by 2002:a63:f557:: with SMTP id e23mr682013pgk.55.1626119052223;
+ Mon, 12 Jul 2021 12:44:12 -0700 (PDT)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:a7d9:90df:d3f0:78a8:2eb9])
- by smtp.gmail.com with ESMTPSA id e21sm17075088pfc.172.2021.07.12.12.44.05
+ by smtp.gmail.com with ESMTPSA id e21sm17075088pfc.172.2021.07.12.12.44.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 12:44:09 -0700 (PDT)
+ Mon, 12 Jul 2021 12:44:11 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 5/7] qapi/qdev.json: add DEVICE_UNPLUG_ERROR QAPI event
-Date: Mon, 12 Jul 2021 16:43:37 -0300
-Message-Id: <20210712194339.813152-6-danielhb413@gmail.com>
+Subject: [PATCH v5 6/7] spapr: use DEVICE_UNPLUG_ERROR to report unplug errors
+Date: Mon, 12 Jul 2021 16:43:38 -0300
+Message-Id: <20210712194339.813152-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210712194339.813152-1-danielhb413@gmail.com>
 References: <20210712194339.813152-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=danielhb413@gmail.com; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=danielhb413@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,132 +87,100 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At this moment we only provide one event to report a hotunplug error,
-MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
-machine is now able to report unplug errors for other device types, such
-as CPUs.
+Linux Kernel 5.12 is now unisolating CPU DRCs in the device_removal
+error path, signalling that the hotunplug process wasn't successful.
+This allow us to send a DEVICE_UNPLUG_ERROR in drc_unisolate_logical()
+to signal this error to the management layer.
 
-Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
-create a generic DEVICE_UNPLUG_ERROR event that can be used by all
-unplug errors in the future. This event has a similar API as the
-existing DEVICE_DELETED event, with an extra optional 'msg' parameter
-that can be used to explain the reason for the error.
-
-With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated.
+We also have another error path in spapr_memory_unplug_rollback() for
+configured LMB DRCs. Kernels older than 5.13 will not unisolate the LMBs
+in the hotunplug error path, but it will reconfigure them. Let's send
+the DEVICE_UNPLUG_ERROR event in that code path as well to cover the
+case of older kernels.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- docs/system/deprecated.rst | 10 ++++++++++
- qapi/machine.json          |  6 +++++-
- qapi/qdev.json             | 30 +++++++++++++++++++++++++++++-
- stubs/qdev.c               |  7 +++++++
- 4 files changed, 51 insertions(+), 2 deletions(-)
+ hw/ppc/spapr.c     |  9 ++++++++-
+ hw/ppc/spapr_drc.c | 17 +++++++++++------
+ 2 files changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 6d438f1c8d..c0c3431ada 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, which is deprecated
- (the ISA has never been upstreamed to a compiler toolchain). Therefore
- this CPU is also deprecated.
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 1611d7ab05..5459f9a7e9 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -29,6 +29,7 @@
+ #include "qemu/datadir.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-events-machine.h"
++#include "qapi/qapi-events-qdev.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/hostmem.h"
+@@ -3686,13 +3687,19 @@ void spapr_memory_unplug_rollback(SpaprMachineState *spapr, DeviceState *dev)
  
+     /*
+      * Tell QAPI that something happened and the memory
+-     * hotunplug wasn't successful.
++     * hotunplug wasn't successful. Keep sending
++     * MEM_UNPLUG_ERROR even while sending DEVICE_UNPLUG_ERROR
++     * until the deprecation MEM_UNPLUG_ERROR is due.
+      */
+     if (dev->id) {
+         qapi_error = g_strdup_printf("Memory hotunplug rejected by the guest "
+                                      "for device %s", dev->id);
+         qapi_event_send_mem_unplug_error(dev->id, qapi_error);
+     }
 +
-+QEMU API (QAPI) events
-+----------------------
-+
-+``MEM_UNPLUG_ERROR`` (since 6.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Use the more generic event ``DEVICE_UNPLUG_ERROR`` instead.
-+
-+
- System emulator machines
- ------------------------
- 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index c3210ee1fb..a595c753d2 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1271,6 +1271,9 @@
- #
- # @msg: Informative message
- #
-+# Features:
-+# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_ERROR instead.
-+#
- # Since: 2.4
- #
- # Example:
-@@ -1283,7 +1286,8 @@
- #
- ##
- { 'event': 'MEM_UNPLUG_ERROR',
--  'data': { 'device': 'str', 'msg': 'str' } }
-+  'data': { 'device': 'str', 'msg': 'str' },
-+  'features': ['deprecated'] }
- 
- ##
- # @SMPConfiguration:
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index d1d3681a50..52c36c7b9c 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -84,7 +84,9 @@
- #        This command merely requests that the guest begin the hot removal
- #        process.  Completion of the device removal process is signaled with a
- #        DEVICE_DELETED event. Guest reset will automatically complete removal
--#        for all devices.
-+#        for all devices.  If an error in the hot removal process is detected,
-+#        the device will not be removed and a DEVICE_UNPLUG_ERROR event is
-+#        sent.  Some errors cannot be detected.
- #
- # Since: 0.14
- #
-@@ -124,3 +126,29 @@
- ##
- { 'event': 'DEVICE_DELETED',
-   'data': { '*device': 'str', 'path': 'str' } }
-+
-+##
-+# @DEVICE_UNPLUG_ERROR:
-+#
-+# Emitted when a device hot unplug error occurs.
-+#
-+# @device: the device's ID if it has one
-+#
-+# @path: the device's path within the object model
-+#
-+# @msg: optional informative message
-+#
-+# Since: 6.2
-+#
-+# Example:
-+#
-+# <- { "event": "DEVICE_UNPLUG_ERROR"
-+#      "data": { "device": "core1",
-+#                "msg": "Device hotunplug rejected by the guest for device core1",
-+#                "path": "/machine/peripheral/core1" },
-+#      },
-+#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
-+#
-+##
-+{ 'event': 'DEVICE_UNPLUG_ERROR',
-+  'data': { '*device': 'str', 'path': 'str' , '*msg': 'str' } }
-diff --git a/stubs/qdev.c b/stubs/qdev.c
-index 92e6143134..ffa8f7b59e 100644
---- a/stubs/qdev.c
-+++ b/stubs/qdev.c
-@@ -21,3 +21,10 @@ void qapi_event_send_device_deleted(bool has_device,
- {
-     /* Nothing to do. */
++    qapi_event_send_device_unplug_error(!!dev->id, dev->id,
++                                        dev->canonical_path,
++                                        qapi_error != NULL, qapi_error);
  }
+ 
+ /* Callback to be called during DRC release. */
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index a4d9496f76..a3a15fd2ed 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -17,6 +17,8 @@
+ #include "hw/ppc/spapr_drc.h"
+ #include "qom/object.h"
+ #include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qapi/qapi-events-qdev.h"
+ #include "qapi/visitor.h"
+ #include "qemu/error-report.h"
+ #include "hw/ppc/spapr.h" /* for RTAS return codes */
+@@ -160,6 +162,10 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+          * means that the kernel is refusing the removal.
+          */
+         if (drc->unplug_requested && drc->dev) {
++            const char qapi_error_fmt[] = "Device hotunplug rejected by the "
++                                          "guest for device %s";
++            g_autofree char *qapi_error = NULL;
 +
-+void qapi_event_send_device_unplug_error(bool has_device, const char *device,
-+                                         const char *path,
-+                                         bool has_msg, const char *msg)
-+{
-+    /* Nothing to do. */
-+}
+             if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB) {
+                 spapr = SPAPR_MACHINE(qdev_get_machine());
+ 
+@@ -169,14 +175,13 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+             drc->unplug_requested = false;
+ 
+             if (drc->dev->id) {
+-                error_report("Device hotunplug rejected by the guest "
+-                             "for device %s", drc->dev->id);
++                qapi_error = g_strdup_printf(qapi_error_fmt, drc->dev->id);
++                error_report(qapi_error_fmt, drc->dev->id);
+             }
+ 
+-            /*
+-             * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
+-             * it is implemented.
+-             */
++            qapi_event_send_device_unplug_error(!!drc->dev->id, drc->dev->id,
++                                                drc->dev->canonical_path,
++                                                qapi_error != NULL, qapi_error);
+         }
+ 
+         return RTAS_OUT_SUCCESS; /* Nothing to do */
 -- 
 2.31.1
 
