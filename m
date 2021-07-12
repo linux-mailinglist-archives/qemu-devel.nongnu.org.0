@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B4D3C4675
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 12:21:57 +0200 (CEST)
-Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B924E3C4676
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 12:23:22 +0200 (CEST)
+Received: from localhost ([::1]:52314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2t4W-000150-Ir
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 06:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
+	id 1m2t5t-00036F-MF
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 06:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2t3L-0000AY-Ca
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:20:43 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36708)
+ id 1m2t54-0002Q1-Mm
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:22:30 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m2t3J-0004rd-GQ
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:20:43 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id v5so24867374wrt.3
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 03:20:40 -0700 (PDT)
+ id 1m2t53-0006A8-2H
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:22:30 -0400
+Received: by mail-wm1-x336.google.com with SMTP id j34so11034493wms.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 03:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BIrGsf64xh/em8bVbev3arFNkwnc1GL2/l222EhYMfk=;
- b=I9X+tF6wex7r0siOkbqCKh3RwasiveIlDuME/3+hKLrdLaokGlNbD1C2xNJ184TciK
- +xDzH8YpZKgSjqgY+S1YnMqTS1r0rPylGie0lE5nJ5RUqZn+1NXaDAcikv+Z/Wyql9Jn
- 5RFOZuKNV9yJbq6zr/a4jrpE/2RB1Np/Og/TX4th+pEmWPb7BDNrL2Wfg9Hgt+F5Fier
- 3xDYeL75/o9A21rKGR1ao5+b8sKl8eO2uIsNfsvaP935sQ8UzSFavSSV+irKMq4tjweg
- 3ywhiYlqamdwKnOsgoXC7u4JViLLLLjL8iGvSwkPi3LKktwMZgq5REWeVNoHqHZsRBJW
- elSg==
+ bh=b8b0QZT3xgaNXdz31jbzkopG7p0cTVaBNd9N9XeAeI0=;
+ b=dAw4qhENFoMO/Ra3U7vkSEdmJCqiDK3o4i23RkqrbIy479jUMVdgqzCiqRG2oS/5wP
+ xdysftg1tHyN22ccM/NzQn/E5Id3FvCjb54xjoDSIV32eQ7klNCWeGPYYQpxqBoRe2BU
+ WcnxbZt+YFe5MtX/kMIAcbWfwTk++jo+WajmhpUF2anrm8WBEak+1Yj13HfdpcMouxMt
+ u+mRW6n5OghpKdB/3lhSgKGTkOSdjs7Y09qAfCYuM3WnjJAR+b4ULKmNzwCmRIomRWlB
+ MVzLIzZ+els5YCbVdt6a6gwtHjMisybdzlJzceflkWswpUr+/HS94QlDdJ7q3DbGcfTA
+ v61A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BIrGsf64xh/em8bVbev3arFNkwnc1GL2/l222EhYMfk=;
- b=CQlaveaB/aCuDLz+COIjLb0VRGIENavlBpkl87YS4WA3MPRbtXEHonuWpVZIo6A7Lg
- 6jh+Zlhywhc9w4YtdZM/U6hymIRTcofl4HUeXj8Dqkp3nu+hQ/0KIhsyPglpfFz53Bbt
- Nxwy+K+bvG/EM8h+UmPtx183lKOsC0y4GjLwzFajbD6veOpLOazShFulnwa2Vqj3YglM
- y1P4jI3+DL6Lj/vd/13s6LmQQYJac3YSsptmRai7xDlsQRMxjtsSDV1mebOI7dX5BO96
- euUqMUlRpnddYLuPUDPsi6EUaf0GDQ3YCcGH8BwBTuAKMMfdbXwhjD/1fpt553yVQxeK
- c+9A==
-X-Gm-Message-State: AOAM532wwDWJQFaTuH/OWcRq2U76fZJazO9J+lMNxCmf3zIkL8WRbv2a
- FXxzpoLBTujBOC+OfbwDr+Q=
-X-Google-Smtp-Source: ABdhPJyCTbOSNiS8tRBU25eM/ffVq6ciyarRN+TdModgDnh61rcaAup3kXO6TjLLEqZxwSKelNnkpQ==
-X-Received: by 2002:a05:6000:1544:: with SMTP id
- 4mr21140314wry.288.1626085239038; 
- Mon, 12 Jul 2021 03:20:39 -0700 (PDT)
+ bh=b8b0QZT3xgaNXdz31jbzkopG7p0cTVaBNd9N9XeAeI0=;
+ b=Q/5wYMGM9pJ1Vc3gMezYlvLnd3Svftws8vtT2+GFz0MosBtYR3aSCUisfLKz6E0iKV
+ ngXNRwjIgkxwblm6a9LoZJ7Xfk4+i7VSK7t+/LHSpzYswj0T2avGZL80rH+3JaVLIaiv
+ IxeD/yIlXyhvlxx8e00BV+8+r//98HmglNh6kz8uAxH4V8pn8DsGXENdc7yX6rLSNayR
+ K51FYqJ0oqQDwK03Ln9oYa8wPKruc70+QE3l9lUEp9Do8lr/d4/bTRUKG/dEVlhUm/0e
+ vgCb0pi7ZqQqzXlckoQXg0OEFi6c7UHeJhVnWsiNlZcD8HbwXrXWL9tBpHh+zudGhY1W
+ ZVSQ==
+X-Gm-Message-State: AOAM533+7zjITmdlZMhC9PpRbvEjrH9J2j0gOlS61gu6Vd77md9zXPlU
+ rxF4NW3eA3TQLCubAV/O3Co=
+X-Google-Smtp-Source: ABdhPJxk/8iFEXCkdFfFArQ9KGWaQ0OCVHawoJ3hHxone4FWIJuPv75LVsXYEsMkcczLnVZdm2RD/A==
+X-Received: by 2002:a05:600c:3786:: with SMTP id
+ o6mr13560667wmr.155.1626085347108; 
+ Mon, 12 Jul 2021 03:22:27 -0700 (PDT)
 Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
  [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id h10sm14408632wmb.46.2021.07.12.03.20.37
+ by smtp.gmail.com with ESMTPSA id f5sm15027025wrg.67.2021.07.12.03.22.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Jul 2021 03:20:38 -0700 (PDT)
-Subject: Re: [PULL 4/4] hw/sd: sdhci: Enable 64-bit system bus capability in
- the default SD/MMC host controller
-To: qemu-devel@nongnu.org, Andrey Smirnov <andrew.smirnov@gmail.com>
+ Mon, 12 Jul 2021 03:22:26 -0700 (PDT)
+Subject: Re: [PULL 0/4] SD/MMC patches for 2021-07-11
+To: qemu-devel@nongnu.org
 References: <20210711211057.2714586-1-f4bug@amsat.org>
- <20210711211057.2714586-5-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8f15fdea-0373-97f6-138e-368998b7f0e1@amsat.org>
-Date: Mon, 12 Jul 2021 12:20:36 +0200
+Message-ID: <d86892d0-1e38-5cc9-4bf2-6d0063beb715@amsat.org>
+Date: Mon, 12 Jul 2021 12:22:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210711211057.2714586-5-f4bug@amsat.org>
+In-Reply-To: <20210711211057.2714586-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,57 +89,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Alexander Bulekov <alxndr@bu.edu>,
- Joanne Koong <joannekoong@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/11/21 11:10 PM, Philippe Mathieu-Daudé wrote:
-> From: Joanne Koong <joannekoong@gmail.com>
+> The following changes since commit 9516034d05a8c71ef157a59f525e4c4f7ed79827:
 > 
-> The default SD/MMC host controller uses SD spec v2.00. 64-bit system bus capability
-> was added in v2.
+>   Merge remote-tracking branch 'remotes/cminyard/tags/for-qemu-6.1-2' into staging (2021-07-11 14:32:49 +0100)
 > 
-> In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1ul << 28))
-> where 28 represents the BUS64BIT SDHC_CAPAB field.
+> are available in the Git repository at:
 > 
-> Signed-off-by: Joanne Koong <joannekoong@gmail.com>
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-Id: <20210623185921.24113-1-joannekoong@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  hw/sd/sdhci-internal.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   https://github.com/philmd/qemu.git tags/sdmmc-20210711
 > 
-> diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
-> index e8c753d6d1e..a76fc704e5e 100644
-> --- a/hw/sd/sdhci-internal.h
-> +++ b/hw/sd/sdhci-internal.h
-> @@ -316,16 +316,16 @@ extern const VMStateDescription sdhci_vmstate;
->   * - 3.3v and 1.8v voltages
->   * - SDMA/ADMA1/ADMA2
->   * - high-speed
-> + * - 64-bit system bus
->   * max host controller R/W buffers size: 512B
->   * max clock frequency for SDclock: 52 MHz
->   * timeout clock frequency: 52 MHz
->   *
->   * does not support:
->   * - 3.0v voltage
-> - * - 64-bit system bus
->   * - suspend/resume
->   */
-> -#define SDHC_CAPAB_REG_DEFAULT 0x057834b4
-> +#define SDHC_CAPAB_REG_DEFAULT 0x157834b4
->  
->  #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
->      DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
+> for you to fetch changes up to a36cbb79763630837e7a73ae0d67aca210ebc791:
 > 
+>   hw/sd: sdhci: Enable 64-bit system bus capability in the default SD/MMC host controller (2021-07-11 23:02:51 +0200)
+> 
+> ----------------------------------------------------------------
+> SD/MMC patches queue
+> 
+> - sdcard: Check for valid address range in SEND_WRITE_PROT (CMD30)
+> - sdhci: Enable 64-bit system bus capability in default host controller
+> 
+> ----------------------------------------------------------------
 
-Unfortunately this breaks the TYPE_IMX_USDHC model for which
-I don't have the datasheet, so I don't know how to fix it.
-
-I suppose it is simpler to remove the COMMON_PROPERTIES macro
-to avoid such problems.
+Please disregard this pull request. I'm going to send another
+one without the SDHCI patch.
 
