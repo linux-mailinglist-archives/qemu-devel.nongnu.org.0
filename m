@@ -2,88 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F9A3C5EDA
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:09:07 +0200 (CEST)
-Received: from localhost ([::1]:59752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460DA3C5EDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:12:12 +0200 (CEST)
+Received: from localhost ([::1]:38052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2xYQ-0004ci-4K
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:09:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51892)
+	id 1m2xbP-0000zG-C5
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:12:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m2xVD-0008NG-Qz
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:05:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47316)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1m2xZF-0006Sf-T2
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:09:57 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29284
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m2xVC-0000jD-BL
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:05:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626102345;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FFMPHrel8seilC8G5dAt8wqJTQO1m9MFcGGbdpm8MnA=;
- b=SR1f0CsCKHY0VF2Vpd5IUqzqy4jivKLvcqLJlAOLCwbjBHTk6fvYeKe/UA6r9hMzKiv3Gt
- zsxIB6PxzOPPvvaBCdkBNjkIEZg9mEuTEKK7EbxvtE1i6AV6UoEvhzdJdjN/6nZ0CuDhh8
- SlIbM1x2CwkHnwsWas/ZpQgeU6a8XGE=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-0p8l5bu-PHK1y1HaQwhRbw-1; Mon, 12 Jul 2021 11:05:43 -0400
-X-MC-Unique: 0p8l5bu-PHK1y1HaQwhRbw-1
-Received: by mail-il1-f199.google.com with SMTP id
- h3-20020a056e0213a3b029020127afb1b0so12207804ilo.1
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:05:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=FFMPHrel8seilC8G5dAt8wqJTQO1m9MFcGGbdpm8MnA=;
- b=sqQnFSYy7n49G226OQiFJJFb2i9f010iuL1nXzQiMNnlG5etN0pD95sJo/NfG1OuZ+
- YdVWEwjal1xg0amxxaE2efIDWuymfXUs0K4MuzcTrVDCqWeeXHm/XTADyk/R4FJKgizd
- VQpsimOYSZo5BlIDak4h6M0Z3DfKMBY9KMypGbGemFtJAwpBUbt3lhMv6nUW0RJdka7c
- LzZXrFFS79IfQRAb5ee3RE/zFF9iSANkfOMILj83egwM5zKi+IszXreacZuyGWLQGIQF
- DucnFhgoxqy49w85ctjiKEWjQFzlEbxk0K9CuzQc+7UsxehIHQhkHubrKnB95nNP83zj
- Ew0Q==
-X-Gm-Message-State: AOAM532NFSVn7OJpZU0VA+rErhKitNMv/nlko6brSyjwn917zFqBh75X
- X6RpPGB2dx+fZlXFfJreWy3AB36gz5elLGwMT465UN5kYg1HRAGLZzLREZ5/VIodNp2l1S+oNfj
- k1J0ql1iuqs6k+Bg=
-X-Received: by 2002:a92:8747:: with SMTP id d7mr723535ilm.173.1626102343383;
- Mon, 12 Jul 2021 08:05:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3EFAYqgUajoecQPA5xnL5ir9ACdsSZ+MSSDmf/Qo4eFuR36AtcRBm/KAaAyCN6l1/1Owbxg==
-X-Received: by 2002:a92:8747:: with SMTP id d7mr723520ilm.173.1626102343253;
- Mon, 12 Jul 2021 08:05:43 -0700 (PDT)
-Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id p19sm8162803iob.7.2021.07.12.08.05.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 08:05:42 -0700 (PDT)
-Date: Mon, 12 Jul 2021 17:05:40 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [RFC PATCH 3/6] pc/machine: Perform zero-check for the value of
- -smp dies
-Message-ID: <20210712150540.hjgcvmpc2ciplcrj@gator>
-References: <20210702100739.13672-1-wangyanan55@huawei.com>
- <20210702100739.13672-4-wangyanan55@huawei.com>
- <20210712150401.is7nxfwewf7taexa@gator>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
+ id 1m2xZD-0003c3-Qq
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:09:57 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16CF3SVd078229
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 11:09:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=IK2CjrdoylnRqyudxj1xt2dibQCB2d/3fOZsrnTCYkA=;
+ b=eWGJI1QZq6unK3ZFSoDd9LvNa34gCZA62Zt6zAPWnQC1CalrxR9Hlicu5VIXATIELKSH
+ bJZrj1yNDMNahM3TO4ylmksC4oqfQsr68QwiScw2IYlNZqTFHmHMDz3FP1nn5BpGYoIX
+ SQo56rQ1kMZeGcYRmqhSWvRgzh5akyFYrIhL28KTVKFiKlgKQGVMZu2jHu/w+YLJqrME
+ uI1zb3X10r75IuNlHoEuqwgiUFU0+Slvnx9OhRbXDXeLjCgnXVoIYv/rLaCmE9U2OaL1
+ BLM+uzCQwkpteY4P3h7RTawZoi6gKZJ4ZLp3iScYbMEa2epywFgjkpJ5Vn7pK4otviyD Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qs654p5m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 11:09:54 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16CF3fbA079405
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 11:09:54 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qs654p55-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 11:09:54 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16CF7fjc018303;
+ Mon, 12 Jul 2021 15:09:53 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma03dal.us.ibm.com with ESMTP id 39rkgt2u6n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 15:09:53 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16CF9qFi9634272
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 15:09:52 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 21DCD7805E;
+ Mon, 12 Jul 2021 15:09:52 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C74617806A;
+ Mon, 12 Jul 2021 15:09:51 +0000 (GMT)
+Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Jul 2021 15:09:51 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
+Subject: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
+Date: Mon, 12 Jul 2021 11:09:40 -0400
+Message-Id: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210712150401.is7nxfwewf7taexa@gator>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: tl0lA-F6hS9Vu5Jm2nnX-qOSm4QJplho
+X-Proofpoint-GUID: FqtfulRRY56f11Wk75YzURqODTHvj5jz
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-12_09:2021-07-12,
+ 2021-07-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ adultscore=0 spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ clxscore=1015 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107120118
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,63 +108,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: philmd@redhat.com, Stefan Berger <stefanb@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 12, 2021 at 05:04:04PM +0200, Andrew Jones wrote:
-> On Fri, Jul 02, 2021 at 06:07:36PM +0800, Yanan Wang wrote:
-> > It's possible that dies parameter is explicitly specified as "dies=0"
-> > in the cmdline, if so we will wrongly calculate the other ommited
-> > parameters such as "sockets = maxcpus / (dies * cores * threads);"
-> > with a zeroed dies value.
-> > 
-> > So perform zero-check (default the value to 1 if zeroed) for -smp dies
-> > before using it to calculate other parameters.
-> 
-> OK, dies=0 may make some sense for a user that doesn't want to describe
-> dies.
-> 
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
+This series of patches adds test case for TPM 1.2 ACPI tables.
 
-But... this is the pc smp parse function, not the general one, so maybe my
-comment from patch 1 should apply here as well, which is, that dies=0
-should be an error rather than silently changed to dies=1.
+  Stefan
 
-> 
-> > 
-> > Fixes: 1b45842203540 (vl.c: Add -smp, dies=* command line support and update doc)
-> > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> > ---
-> >  hw/i386/pc.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index a44511c937..93d1f12a49 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -714,12 +714,14 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
-> >  {
-> >      unsigned cpus    = config->has_cpus ? config->cpus : 0;
-> >      unsigned sockets = config->has_sockets ? config->sockets : 0;
-> > -    unsigned dies    = config->has_dies ? config->dies : 1;
-> > +    unsigned dies    = config->has_dies ? config->dies : 0;
-> >      unsigned cores   = config->has_cores ? config->cores : 0;
-> >      unsigned threads = config->has_threads ? config->threads : 0;
-> >      unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
-> >  
-> >      /* compute missing values, prefer sockets over cores over threads */
-> > +    dies = dies > 0 ? dies : 1;
-> > +
-> >      if (cpus == 0 || sockets == 0) {
-> >          cores = cores > 0 ? cores : 1;
-> >          threads = threads > 0 ? threads : 1;
-> > -- 
-> > 2.19.1
-> > 
+v3:
+  - Define enum TPMVersion for when CONFIG_TPM is not defined
+    affected patches 2 and 6
+
+v2:
+  - Proper handling of renaming of files holding expected ACPI data
+
+
+Stefan Berger (9):
+  tests: Rename TestState to TPMTestState
+  tests: Add tpm_version field to TPMTestState and fill it
+  tests: acpi: Prepare for renaming of TPM2 related ACPI files
+  tests: Add suffix 'tpm2' or 'tpm12' to ACPI table files
+  tests: acpi: tpm2: Add the renamed ACPI files and drop old ones
+  tests: tpm: Create TPM 1.2 response in TPM emulator
+  tests: acpi: prepare for new TPM 1.2 related tables
+  tests: acpi: Add test cases for TPM 1.2 with TCPA table
+  tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs
+
+ tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 0 -> 8465 bytes
+ .../data/acpi/q35/{DSDT.tis => DSDT.tis.tpm2} | Bin
+ tests/data/acpi/q35/TCPA.tis.tpm12            | Bin 0 -> 50 bytes
+ .../data/acpi/q35/{TPM2.tis => TPM2.tis.tpm2} | Bin
+ tests/qtest/bios-tables-test.c                |  20 ++++++++++-----
+ tests/qtest/tpm-crb-test.c                    |   5 ++--
+ tests/qtest/tpm-emu.c                         |  24 +++++++++++++-----
+ tests/qtest/tpm-emu.h                         |  18 ++++++++++---
+ tests/qtest/tpm-tis-device-test.c             |   3 ++-
+ tests/qtest/tpm-tis-test.c                    |   3 ++-
+ tests/qtest/tpm-tis-util.c                    |   2 +-
+ 11 files changed, 55 insertions(+), 20 deletions(-)
+ create mode 100644 tests/data/acpi/q35/DSDT.tis.tpm12
+ rename tests/data/acpi/q35/{DSDT.tis => DSDT.tis.tpm2} (100%)
+ create mode 100644 tests/data/acpi/q35/TCPA.tis.tpm12
+ rename tests/data/acpi/q35/{TPM2.tis => TPM2.tis.tpm2} (100%)
+
+-- 
+2.31.1
 
 
