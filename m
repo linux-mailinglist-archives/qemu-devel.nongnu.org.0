@@ -2,89 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D5263C5D7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:41:00 +0200 (CEST)
-Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C39373C5DC8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:53:33 +0200 (CEST)
+Received: from localhost ([::1]:36036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2wB9-0001A3-F7
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:40:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50098)
+	id 1m2wNI-0004cf-Se
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m2vms-0002sS-RZ
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:15:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m2vmq-0003Fu-HC
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:15:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095751;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uk4kyEJKLEo4by9chxBhpndxw/+BuxYt1A7roSwZFFg=;
- b=SQtoAd1nE5++Uu1twKHu5j4cGZMC4dtWqlYCzZ4zQtx0BlE93SP9tJqgzHr1++pgIKMVlD
- dw08OJ1BSivS2BatVR03pNdzujW65uCeTaFCIYQaYDSvB1U/5Ai/j4msbxE2W8znkpj49z
- 8L0hCJn7jzCWYM7W/Kj+b0GIPnOSrVg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-ssDmzdVYP7qCyleV1J4QJw-1; Mon, 12 Jul 2021 09:15:49 -0400
-X-MC-Unique: ssDmzdVYP7qCyleV1J4QJw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- e1-20020a0564021481b02903a66550f6f4so1500893edv.21
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 06:15:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m2vrh-0001Nh-FW
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:20:53 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:46025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m2vrf-0006Zs-9v
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:20:53 -0400
+Received: by mail-ej1-x632.google.com with SMTP id dt7so4735614ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 06:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HQeYeez/e9xBkVfSDATvSpwnyq9O90AoobrkYhA5ojo=;
+ b=O8yywF9JY87ybhNrqjpQU/sQZ+wk+1sv/d4OiIrivfheU9fE+qqyRWsCk5tV4uyRzB
+ KML0nqAClGSg5L2CCfukHfuyIaNeGve1qsHTwZk1gdR/cwhHFHFDXCi04GfKKVyfG8pU
+ 82UHSJJAArycOpoHsayWlJJLzelqn2T38TUtekRIXf/detYg0q2bdh7K41vYOkoPUWHR
+ VY8F7uA4Aw0utYilrKdFzsl8DDccn0jhoPcf2OOCynyo7WKzNOYQwMlL5y1L1V14LShu
+ f6fetJ7b0v4UJoYWUqwCqKKyN9W7CnvQ3WPxbtjYEbWIfRy6+XnaFPO3BPka+JvbShIj
+ 5hNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=uk4kyEJKLEo4by9chxBhpndxw/+BuxYt1A7roSwZFFg=;
- b=eQYROsjxvQn0fLrBxRz1RWTjNbz/RD0g2qq9FiyfdOWy5DtVzQ5W+pyDQo2syuwXRH
- 1P7Rbp0Pnu7EVtnB99xe2SOlAQOiAjTYgVbjIN3MRPUuzNV8ZLrUgJ6M9/A+A72VWHcY
- 547QNu22GGdkNA2Or5b+d1PQ3OKDrsusZZtUDSh5wWzYii6KiyQf1MWh6fwldrkl0xBG
- fmoburWb6SxzAcPuWUZRo56ecGFTNBjZR91ONfhHcpwqFrgwNzU7sI3Cfox3g7MOnDTz
- EjaqiBLi1EB7h0QiwmxfZPS0tgSltHHCvAC6YYfpNvDBGqolpB0yubo67UTxYv4mgHtm
- MbVw==
-X-Gm-Message-State: AOAM530cgUoJouGq0pJ/syg4sg394oEe/6CuYPGJraoceikynoEmw+68
- yOQVcdiWfspqi+JRQr1Ox01aFl+4/aFMW2UsYp1x1ysajSBmkEHVWN7ErSyGVBfT1SUt2StQKIt
- a7etOz96GgZnP+tI=
-X-Received: by 2002:a17:906:794f:: with SMTP id
- l15mr40359440ejo.462.1626095748493; 
- Mon, 12 Jul 2021 06:15:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/AlrEixljyy9K4eCagBZr3wpUe29/sx4e0Xf4faeDkhPFL10O/dAGScUn2ov6tIEYN0z9sw==
-X-Received: by 2002:a17:906:794f:: with SMTP id
- l15mr40359408ejo.462.1626095748266; 
- Mon, 12 Jul 2021 06:15:48 -0700 (PDT)
-Received: from redhat.com ([2.55.156.48])
- by smtp.gmail.com with ESMTPSA id nc29sm605032ejc.10.2021.07.12.06.15.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 06:15:47 -0700 (PDT)
-Date: Mon, 12 Jul 2021 09:15:43 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH V2 00/18] vhost-vDPA multiqueue
-Message-ID: <20210712091500-mutt-send-email-mst@kernel.org>
-References: <20210706082717.37730-1-jasowang@redhat.com>
- <ce31242d-08a9-b1e4-f260-8c31ca4b49c0@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HQeYeez/e9xBkVfSDATvSpwnyq9O90AoobrkYhA5ojo=;
+ b=IXyOpNjfVPUPxQV7zZl5e2W4WdABbakIW2e3B6+8GSRcrf2y0DHX/Z7qvz4RDIat9i
+ eFK/UgceZ3ygS3jcT99zpHgfVo+ubmyhKG6RKRvBr/WSn2sGe8T5tOntRPwao0bj//2z
+ wNAhuES3lkAPH7eIX+5gALmkgaAuo+0EkiOjJDvEkxupWxLGA18eM9Wo6rVdCRKmgfTG
+ sRLNuDoi3J71yuhvANrRoyQYDbf378HGCoZJ8YfvNY43ugvLs3N28e4XDYoKIFgXQFye
+ yX+st/LWp0HpHE5F60HxSPNsAJqgG46jyUxRIB+wLZR6VwaxbRxztt/y/iohMybeKyiY
+ bDnw==
+X-Gm-Message-State: AOAM530T2+4IxtfoESyDUsq68E22xMVKyu5U0bl/1Tg93zhQEkdhXN7w
+ 93IqFvteUVo+otMnN9SKQYmJ1JT4JrlYXkfY+ePMIQ==
+X-Google-Smtp-Source: ABdhPJybQGljxLUWoK1eWfUAphCiYCDzkrzuGc0nb7V7kW4tAOwKIYq2tksIBoCKqd6+hUrlG11ICliVH/2RS/q5XNU=
+X-Received: by 2002:a17:907:3e02:: with SMTP id
+ hp2mr51982536ejc.4.1626096049429; 
+ Mon, 12 Jul 2021 06:20:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ce31242d-08a9-b1e4-f260-8c31ca4b49c0@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
+In-Reply-To: <20210711171506.39375-1-stefanb@linux.vnet.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 12 Jul 2021 14:20:09 +0100
+Message-ID: <CAFEAcA-xRDY2_YhSeVp=yO3CXB8DbqcPBHAVnHTuL37FTOg0zg@mail.gmail.com>
+Subject: Re: [PULL 0/9] Merge tpm 2021/07/11 v1
+To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,83 +77,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, elic@nvidia.com, lulu@redhat.com,
- qemu-devel@nongnu.org, lingshan.zhu@intel.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 12, 2021 at 01:44:45PM +0800, Jason Wang wrote:
-> 
-> 在 2021/7/6 下午4:26, Jason Wang 写道:
-> > Hi All:
-> > 
-> > This patch implements the multiqueue support for vhost-vDPA. The most
-> > important requirement the control virtqueue support. The virtio-net
-> > and vhost-net core are tweak to support control virtqueue as if what
-> > data queue pairs are done: a dedicated vhost_net device which is
-> > coupled with the NetClientState is intrdouced so most of the existing
-> > vhost codes could be reused with minor changes. With the control
-> > virtqueue, vhost-vDPA are extend to support creating and destroying
-> > multiqueue queue pairs plus the control virtqueue.
-> > 
-> > Tests are done via the vp_vdpa driver in L1 guest plus vdpa simulator
-> > on L0.
-> > 
-> > Please reivew.
-> 
-> 
-> If no objection, I will queue this for 6.1.
-> 
-> Thanks
+On Sun, 11 Jul 2021 at 18:15, Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
+>
+> This series extends TPM-related ACPI test cases to also verify the TPM 1.2
+> ACPI table 'TCPA'.
+>
+>    Stefan
+>
+> The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2021-07-11-1
+>
+> for you to fetch changes up to a1b5cc4a84164bc36d355853a11b706ed52bce15:
+>
+>   tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs (2021-07-09 09:13:16 -0400)
+>
+> ----------------------------------------------------------------
+> Stefan Berger (9):
+>       tests: Rename TestState to TPMTestState
+>       tests: Add tpm_version field to TPMTestState and fill it
+>       tests: acpi: Prepare for renaming of TPM2 related ACPI files
+>       tests: Add suffix 'tpm2' or 'tpm12' to ACPI table files
+>       tests: acpi: tpm2: Add the renamed ACPI files and drop old ones
+>       tests: tpm: Create TPM 1.2 response in TPM emulator
+>       tests: acpi: prepare for new TPM 1.2 related tables
+>       tests: acpi: Add test cases for TPM 1.2 with TCPA table
+>       tests: acpi: tpm1.2: Add expected TPM 1.2 ACPI blobs
+
+Hi; this fails some of the gitlab CI jobs, specifically the
+build-without-default-features and build-disabled jobs:
+
+https://gitlab.com/qemu-project/qemu/-/jobs/1416896806
+https://gitlab.com/qemu-project/qemu/-/jobs/1416896861
+
+In file included from ../tests/qtest/bios-tables-test.c:65:
+../tests/qtest/tpm-emu.h:41:21: error: field 'tpm_version' has incomplete type
+41 | enum TPMVersion tpm_version;
+| ^~~~~~~~~~~
+../tests/qtest/bios-tables-test.c:1095:62: error: parameter 4
+('tpm_version') has incomplete type
+1095 | uint64_t base, enum TPMVersion tpm_version)
+| ~~~~~~~~~~~~~~~~^~~~~~~~~~~
+../tests/qtest/bios-tables-test.c:1094:13: error: function declaration
+isn't a prototype [-Werror=strict-prototypes]
+1094 | static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
+| ^~~~~~~~~~~~~~~~~
+../tests/qtest/bios-tables-test.c: In function 'test_acpi_q35_tcg_tpm2_tis':
+../tests/qtest/bios-tables-test.c:1150:49: error: 'TPM_VERSION_2_0'
+undeclared (first use in this function); did you mean
+'GLIB_VERSION_2_30'?
+1150 | test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_2_0);
+| ^~~~~~~~~~~~~~~
+| GLIB_VERSION_2_30
+../tests/qtest/bios-tables-test.c:1150:49: note: each undeclared
+identifier is reported only once for each function it appears in
+../tests/qtest/bios-tables-test.c: In function 'test_acpi_q35_tcg_tpm12_tis':
+../tests/qtest/bios-tables-test.c:1155:49: error: 'TPM_VERSION_1_2'
+undeclared (first use in this function); did you mean
+'GLIB_VERSION_2_26'?
+1155 | test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_1_2);
+| ^~~~~~~~~~~~~~~
+| GLIB_VERSION_2_26
+cc1: all warnings being treated as errors
+
+etc
 
 
-Just to make sure I understand, this basically works by
-passing the cvq through to the guest right?
-Giving up on maintaining the state in qemu.
+Perhaps the tests meson.build is not disabling building of
+TPM-related parts of the tests when TPM is disabled ?
 
-> 
-> > 
-> > Changes since V1:
-> > 
-> > - validating all features that depends on ctrl vq
-> > - typo fixes and commit log tweaks
-> > - fix build errors because max_qps is used before it is introduced
-> > 
-> > Thanks
-> > 
-> > Jason Wang (18):
-> >    vhost_net: remove the meaningless assignment in vhost_net_start_one()
-> >    vhost: use unsigned int for nvqs
-> >    vhost_net: do not assume nvqs is always 2
-> >    vhost-vdpa: remove the unnecessary check in vhost_vdpa_add()
-> >    vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
-> >    vhost-vdpa: fix leaking of vhost_net in vhost_vdpa_add()
-> >    vhost-vdpa: tweak the error label in vhost_vdpa_add()
-> >    vhost-vdpa: fix the wrong assertion in vhost_vdpa_init()
-> >    vhost-vdpa: remove the unncessary queue_index assignment
-> >    vhost-vdpa: open device fd in net_init_vhost_vdpa()
-> >    vhost-vdpa: classify one time request
-> >    vhost-vdpa: prepare for the multiqueue support
-> >    vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
-> >    net: introduce control client
-> >    vhost-net: control virtqueue support
-> >    virito-net: use "qps" instead of "queues" when possible
-> >    virtio-net: vhost control virtqueue support
-> >    vhost-vdpa: multiqueue support
-> > 
-> >   hw/net/vhost_net.c             |  48 +++++++---
-> >   hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
-> >   hw/virtio/vhost-vdpa.c         |  55 ++++++++++-
-> >   include/hw/virtio/vhost-vdpa.h |   1 +
-> >   include/hw/virtio/vhost.h      |   2 +-
-> >   include/hw/virtio/virtio-net.h |   5 +-
-> >   include/net/net.h              |   5 +
-> >   include/net/vhost_net.h        |   7 +-
-> >   net/net.c                      |  24 ++++-
-> >   net/tap.c                      |   1 +
-> >   net/vhost-user.c               |   1 +
-> >   net/vhost-vdpa.c               | 156 ++++++++++++++++++++++++-------
-> >   12 files changed, 332 insertions(+), 138 deletions(-)
-> > 
-
+thanks
+-- PMM
 
