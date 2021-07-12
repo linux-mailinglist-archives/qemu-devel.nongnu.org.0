@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D785C3C5D3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:27:19 +0200 (CEST)
-Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806DF3C5D49
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:29:44 +0200 (CEST)
+Received: from localhost ([::1]:57612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2vxu-0005A8-Sj
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47076)
+	id 1m2w0F-0002nE-Gc
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:29:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vcY-0004qD-Lp
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55840)
+ id 1m2vcf-0004rh-TP
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vcV-0006WR-Q7
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:14 -0400
+ id 1m2vcZ-0006Wx-Fo
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095111;
+ s=mimecast20190719; t=1626095114;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ljca2EtDsyBCHMiMaqIVmcRcA5xgzDpG3uLMPhbHmyM=;
- b=g2kjKKhiv2J8gEJspzdA3ZIopZH+h6/TEXzt0OUIOI51+jZP/Zeu+6SPrHjfRlV7NAMQhx
- 8N0nOlwEKvdx1/+oucPfROQK9aqbqI37rV89QT9eD+FBZX+xpsLQSMykhATbtXTkro0OcX
- P8JC/VB0s93w1WIDV03sN7HzwHDLkn0=
+ bh=QNgYwaGsh8Ek+Kwq2EAytYQz/a0GH2k1+bLKORLyXAs=;
+ b=BbKmuHeM7vD/rhO5kG3+Yaiau94pIzJcl5Z6uZK+fiOyr/zGey68Epm5AplKJLtIBdqgmd
+ WQgEEgWzCcGeE5MPga+LqEQvtfvSgvbbhw1b+i/S36uD6Sp+/gvI6ThL81PmN/n9Ee2LIe
+ dEgC7p6EE8PfEz00ZD3W/KTZWyb4Cus=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-PR2pD8jvML2Ur82NdvD5Qw-1; Mon, 12 Jul 2021 09:05:09 -0400
-X-MC-Unique: PR2pD8jvML2Ur82NdvD5Qw-1
+ us-mta-446-itvWoim9OtCxf3DcqePI3Q-1; Mon, 12 Jul 2021 09:05:12 -0400
+X-MC-Unique: itvWoim9OtCxf3DcqePI3Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC355100CF71;
- Mon, 12 Jul 2021 13:05:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBE5318414A1;
+ Mon, 12 Jul 2021 13:05:11 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8DC865C1D1;
- Mon, 12 Jul 2021 13:04:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 322CB5C1D1;
+ Mon, 12 Jul 2021 13:05:08 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/22] crypto: flip priority of backends to prefer gcrypt
-Date: Mon, 12 Jul 2021 14:02:13 +0100
-Message-Id: <20210712130223.1825930-13-berrange@redhat.com>
+Subject: [PULL 13/22] crypto: introduce build system for gnutls crypto backend
+Date: Mon, 12 Jul 2021 14:02:14 +0100
+Message-Id: <20210712130223.1825930-14-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,70 +88,87 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Originally we preferred to use nettle over gcrypt because
-gnutls already links to nettle and thus it minimizes the
-dependencies. In retrospect this was the wrong criteria to
-optimize for.
-
-Currently shipping versions of gcrypt have cipher impls that
-are massively faster than those in nettle and this is way
-more important.  The nettle library is also not capable of
-enforcing FIPS compliance, since it considers that out of
-scope. It merely aims to provide general purpose impls of
-algorithms, and usage policy is left upto the layer above,
-such as GNUTLS.
+This introduces the build logic needed to decide whether we can
+use gnutls as a crypto driver backend. The actual implementations
+will be introduced in following patches. We only wish to use
+gnutls if it has version 3.6.14 or newer, because that is what
+finally brings HW accelerated AES-XTS mode for x86_64.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- meson.build | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ meson.build | 36 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 32 insertions(+), 4 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 2cf2e8b0b8..cc08561fbd 100644
+index cc08561fbd..29fcbbe81f 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -827,22 +827,13 @@ if not get_option('gnutls').auto() or have_system
-                       kwargs: static_kwargs)
+@@ -820,11 +820,34 @@ if 'CONFIG_OPENGL' in config_host
  endif
  
--# Nettle has priority over gcrypt
-+# Gcrypt has priority over nettle
- gcrypt = not_found
- nettle = not_found
- xts = 'none'
- if get_option('nettle').enabled() and get_option('gcrypt').enabled()
-   error('Only one of gcrypt & nettle can be enabled')
--elif (not get_option('nettle').auto() or have_system) and not get_option('gcrypt').enabled()
--  nettle = dependency('nettle', version: '>=3.4',
+ gnutls = not_found
++gnutls_crypto = not_found
+ if not get_option('gnutls').auto() or have_system
+-  gnutls = dependency('gnutls', version: '>=3.5.18',
 -                      method: 'pkg-config',
--                      required: get_option('nettle'),
+-                      required: get_option('gnutls'),
 -                      kwargs: static_kwargs)
--  if nettle.found() and not cc.has_header('nettle/xts.h', dependencies: nettle)
--    xts = 'private'
--  endif
--endif
--if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
-+elif (not get_option('gcrypt').auto() or have_system) and not get_option('nettle').enabled()
-   gcrypt = dependency('libgcrypt', version: '>=1.8',
-                          method: 'config-tool',
-                          required: get_option('gcrypt'),
-@@ -856,6 +847,15 @@ if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
-       cc.find_library('gpg-error', required: true, kwargs: static_kwargs)])
++  # For general TLS support our min gnutls matches
++  # that implied by our platform support matrix
++  #
++  # For the crypto backends, we look for a newer
++  # gnutls:
++  #
++  #   Version 3.6.8  is needed to get XTS
++  #   Version 3.6.13 is needed to get PBKDF
++  #   Version 3.6.14 is needed to get HW accelerated XTS
++  #
++  # If newer enough gnutls isn't available, we can
++  # still use a different crypto backend to satisfy
++  # the platform support requirements
++  gnutls_crypto = dependency('gnutls', version: '>=3.6.14',
++                             method: 'pkg-config',
++                             required: get_option('gnutls'),
++                             kwargs: static_kwargs)
++  if gnutls_crypto.found()
++    gnutls = gnutls_crypto
++  else
++    # Our min version if all we need is TLS
++    gnutls = dependency('gnutls', version: '>=3.5.18',
++                        method: 'pkg-config',
++                        required: get_option('gnutls'),
++                        kwargs: static_kwargs)
++  endif
+ endif
+ 
+ # Gcrypt has priority over nettle
+@@ -856,6 +879,9 @@ if (not get_option('nettle').auto() or have_system) and not gcrypt.found()
+     xts = 'private'
    endif
  endif
-+if (not get_option('nettle').auto() or have_system) and not gcrypt.found()
-+  nettle = dependency('nettle', version: '>=3.4',
-+                      method: 'pkg-config',
-+                      required: get_option('nettle'),
-+                      kwargs: static_kwargs)
-+  if nettle.found() and not cc.has_header('nettle/xts.h', dependencies: nettle)
-+    xts = 'private'
-+  endif
++if gcrypt.found() or nettle.found()
++  gnutls_crypto = not_found
 +endif
  
  gtk = not_found
  gtkx11 = not_found
+@@ -1240,6 +1266,7 @@ config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
+ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
+ config_host_data.set('CONFIG_GETTID', has_gettid)
+ config_host_data.set('CONFIG_GNUTLS', gnutls.found())
++config_host_data.set('CONFIG_GNUTLS_CRYPTO', gnutls_crypto.found())
+ config_host_data.set('CONFIG_GCRYPT', gcrypt.found())
+ config_host_data.set('CONFIG_NETTLE', nettle.found())
+ config_host_data.set('CONFIG_QEMU_PRIVATE_XTS', xts == 'private')
+@@ -2961,6 +2988,7 @@ summary(summary_info, bool_yn: true, section: 'Block layer support')
+ summary_info = {}
+ summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
+ summary_info += {'GNUTLS support':    gnutls.found()}
++summary_info += {'GNUTLS crypto':     gnutls_crypto.found()}
+ # TODO: add back version
+ summary_info += {'libgcrypt':         gcrypt.found()}
+ # TODO: add back version
 -- 
 2.31.1
 
