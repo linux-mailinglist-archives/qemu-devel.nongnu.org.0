@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2107D3C6281
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 20:17:33 +0200 (CEST)
-Received: from localhost ([::1]:59054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73293C6287
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 20:21:49 +0200 (CEST)
+Received: from localhost ([::1]:33428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m30Um-0001s1-7D
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 14:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33036)
+	id 1m30Yu-0003mT-NF
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 14:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m30T3-0000Wa-5R
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:15:45 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m30T1-0006Vr-Ds
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:15:44 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id ec55so4506018edb.1
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 11:15:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KPwnKziYaJi7gT9Dj+MDs3xnWNzYveTHX+aLg0cmpm4=;
- b=MMjdxALQ9EVXqK9uFnUG7UTwlwQ5Z9PHqtNlUSJ6duwLZhpo6qpNAZnstQvFO5AOIP
- oqZYHROlW16dbvsI8H7lgD94aiiw2gzeXUcfs9EtVes80Fw7Ky76EKBtEcKsjpg0fHX2
- Ak+StFa19njqEx9HIh5afDTlWWa3f4THxs8kuI6Jpl42RpfmUH9BOKtv/iUm0J9+8QWs
- fJ5LTa5XVN3swKz1eOvSnFwl3vx+ZrY+DDhBc2sUDPn5Q594DbUOv6/Vh19JBUATxP8B
- C6zst5L7tn60pIzQh5TFVBl+7EqmoaQFSfgcz74afQuNMMyI+jxx1wOR7gzrznVqR4vU
- pbzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KPwnKziYaJi7gT9Dj+MDs3xnWNzYveTHX+aLg0cmpm4=;
- b=izvjdK937LL6amPBzG8JDQaaSfhozzTXb0FF1EjU38LSM/ujjShCdf75di5n4LvSP2
- CXysfOxV9j9kE7hbd2w65eqcbsr9X5mY95/NUzADSL404JxiKwbPd8qRaxpInF/ytYcl
- 8HmCpfSLhezlOchAwolVeg9rKsTDLZRTzwE2coid9glEP9NylMkbgV1xowL24+zsv/VB
- ka7KCvHC13LY5od6SNsxlUw/ghPD6jVtOrwORFi47FpOozYk9K92h1HY5S3BW1pbUbhJ
- Rsc9fSCqvKTj+6XJrzuV4EJvGOQSP6sxooFDilJ5bJHbJD49A53u6BxQfPME+9AbB7pW
- HuKw==
-X-Gm-Message-State: AOAM533A24hmA09HeOr0vwDOGlplWVM9+ouwp7cAVQsIit0uJdV9MGAs
- lbCsfwDB18RIS4MszCeF28DnR0xW0k+A2KHIEKuHnQ==
-X-Google-Smtp-Source: ABdhPJyQHcPvVd5e0M0hYT2Hh85xw42/5YRoKCWJ4KOcS6O9YHxQ+M7QEbj/0Ky8qZgrL+6zr1hweMHjnzFJ+GvXDdI=
-X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr128774eds.204.1626113741667; 
- Mon, 12 Jul 2021 11:15:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m30XT-0002mV-Su
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:20:19 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57900
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m30XR-0000ra-Nd
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:20:19 -0400
+Received: from host86-145-86-170.range86-145.btcentralplus.com
+ ([86.145.86.170] helo=[192.168.1.65])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1m30XE-0004fR-9U; Mon, 12 Jul 2021 19:20:08 +0100
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210712154004.1410832-1-richard.henderson@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <7cd438df-bb46-73cc-b27a-c3cc6122f369@ilande.co.uk>
+Date: Mon, 12 Jul 2021 19:20:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210708151909.907124-1-cohuck@redhat.com>
- <CAFEAcA96yLiVh-gSxZdW1kNvmJHarqNH_p3HXtpp41gQ6eDuZA@mail.gmail.com>
- <87k0lzecjs.fsf@redhat.com>
- <CAFEAcA-LvjTqp2u6Lj31Dy1X_E5rN=giUfo7W3ghU+ayKMsLeQ@mail.gmail.com>
- <87h7h0doc5.fsf@redhat.com>
-In-Reply-To: <87h7h0doc5.fsf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Jul 2021 19:15:02 +0100
-Message-ID: <CAFEAcA8Pwz7=H6yZ2tDJAAYvYyLKOy-Az-Zq9N8F3kS8Tqz=XA@mail.gmail.com>
-Subject: Re: [PULL 00/17] s390x update for softfreeze
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210712154004.1410832-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.145.86.170
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/10] tcg: breakpoint reorg
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,54 +63,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Jul 2021 at 07:43, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> On Sun, Jul 11 2021, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> > On Fri, 9 Jul 2021 at 16:23, Cornelia Huck <cohuck@redhat.com> wrote:
-> >>
-> >> On Fri, Jul 09 2021, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >>
-> >> > On Thu, 8 Jul 2021 at 16:19, Cornelia Huck <cohuck@redhat.com> wrote:
-> >> >>
-> >> >> The following changes since commit 9aef0954195cc592e86846dbbe7f3c2c5603690a:
-> >> >>
-> >> >>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-07-06 11:24:58 +0100)
-> >> >>
-> >> >> are available in the Git repository at:
-> >> >>
-> >> >>   https://gitlab.com/cohuck/qemu.git tags/s390x-20210708
-> >> >>
-> >> >> for you to fetch changes up to 7ab3eb42b0d795f7321c4fca0ea06cb76a005b04:
-> >> >>
-> >> >>   target/s390x: split sysemu part of cpu models (2021-07-07 14:01:59 +0200)
-> >> >>
-> >> >> ----------------------------------------------------------------
-> >> >> s390x updates:
-> >> >> - add gen16 cpumodels
-> >> >> - refactor/cleanup some code
-> >> >> - bugfixes
-> >> >>
-> >> >> ----------------------------------------------------------------
-> >> >>
-> >> >
-> >> > Hi -- this doesn't seem to be signed with the GPG key I have
-> >> > on record for you. If I need to do an update, could you let me
-> >> > know which keyserver you've uploaded to, please?
-> >>
-> >> Whoops, forgot to upload. Sent out to keys.openpgp.org right now.
-> >
-> > I still can't see it -- can you double-check, please?
->
-> Hum. Now sent out to pgp.mit.edu and keyserver.ubuntu.com as well, in
-> case something went wrong.
+On 12/07/2021 16:39, Richard Henderson wrote:
 
-Thanks; was able to get it from keyserver.ubuntu.com; now
-processing the pullreq.
+> This is fixing #404 ("windows xp boot takes much longer...")
+> and several other similar reports.
+> 
+> For v2, all prerequisites and 7 of the patches from v1 with
+> reviews are now upstream.
+> 
+> Mark Cave-Ayland reported success with WinXP with v1, with
+> this patch set being even faster than b55f54bc~1.  Which was
+> a bit of a surprise, but I'll take it.  It means that it's
+> probably not worth making the breakpoint detection scheme
+> any more complicated.
+> 
+> I'd still like some more feedback.  Given this is fixing a
+> regression from qemu 5.2 I feel comfortable delaying this
+> past soft freeze, but not past hard freeze on the 20th.
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (10):
+>    accel/tcg: Reduce CF_COUNT_MASK to match TCG_MAX_INSNS
+>    accel/tcg: Move curr_cflags into cpu-exec.c
+>    accel/tcg: Add CF_NO_GOTO_TB and CF_NO_GOTO_PTR
+>    accel/tcg: Drop CF_NO_GOTO_PTR from -d nochain
+>    accel/tcg: Handle -singlestep in curr_cflags
+>    accel/tcg: Use CF_NO_GOTO_{TB,PTR} in cpu_exec_step_atomic
+>    accel/tcg: Move cflags lookup into tb_find
+>    accel/tcg: Adjust interface of TranslatorOps.breakpoint_check
+>    accel/tcg: Hoist tb_cflags to a local in translator_loop
+>    accel/tcg: Encode breakpoint info into tb->cflags
+> 
+>   include/exec/exec-all.h       |  30 +++++---
+>   include/exec/translator.h     |  17 +++--
+>   accel/tcg/cpu-exec.c          | 130 ++++++++++++++++++++++++++++------
+>   accel/tcg/translate-all.c     |   7 +-
+>   accel/tcg/translator.c        |  79 ++++++++++++++-------
+>   cpu.c                         |  24 -------
+>   target/alpha/translate.c      |  12 +---
+>   target/arm/translate-a64.c    |  14 ++--
+>   target/arm/translate.c        |  20 +++---
+>   target/avr/translate.c        |   6 +-
+>   target/cris/translate.c       |  14 ++--
+>   target/hexagon/translate.c    |  13 +---
+>   target/hppa/translate.c       |   7 +-
+>   target/i386/tcg/translate.c   |  15 ++--
+>   target/m68k/translate.c       |  14 +---
+>   target/microblaze/translate.c |  14 +---
+>   target/mips/tcg/translate.c   |  14 ++--
+>   target/nios2/translate.c      |  13 +---
+>   target/openrisc/translate.c   |  11 +--
+>   target/ppc/translate.c        |  13 +---
+>   target/riscv/translate.c      |  11 +--
+>   target/rx/translate.c         |   8 +--
+>   target/s390x/translate.c      |  12 ++--
+>   target/sh4/translate.c        |  12 ++--
+>   target/sparc/translate.c      |   9 ++-
+>   target/tricore/translate.c    |  13 +---
+>   target/xtensa/translate.c     |  12 ++--
+>   tcg/tcg-op.c                  |  28 ++++----
+>   28 files changed, 280 insertions(+), 292 deletions(-)
 
--- PMM
+FWIW I've just tested this v2 patchset on top of git master (bd38ae26ce) and I still 
+see the same improvement i.e. WinXP boot to the login screen goes down from 2m 38s to 
+25s so:
+
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+ATB,
+
+Mark.
 
