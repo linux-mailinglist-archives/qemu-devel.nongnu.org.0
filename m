@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425353C5D7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:40:42 +0200 (CEST)
-Received: from localhost ([::1]:34374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65653C5D8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:43:35 +0200 (CEST)
+Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2wAr-0000PY-7U
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:40:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46602)
+	id 1m2wDe-0006JQ-O6
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:43:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vbB-0001jG-AZ
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:03:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22274)
+ id 1m2vbY-0002PI-Li
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:04:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vb9-00066R-4N
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:03:48 -0400
+ id 1m2vbV-0006Cr-N0
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:04:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095026;
+ s=mimecast20190719; t=1626095049;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L8BSeZLjpWBMuCHAN/znjs+zucu9uxIXQbcDw3HobHU=;
- b=U+oHci3fJAV9g4UUj/3vgCpOapADbx6UDgmfrZZIGv7oCsYpzyGQ9lJYpN9Zndp64A5X/f
- XwnXsj8voSeVN9Q5C/T4lY0KuG0iM5WDllgCKttFI8U9cSBfV5XmoV6lfuezp4DSFCQHRb
- 4+VCU0qMqMfflJ9wBAN2rupk0mYRsLg=
+ bh=bUDXNZeHtEXlluYMrjWRSW7Mg/H+OplDoGzEFHmRrbk=;
+ b=TTtJyUZOkshASKSf5+8eVSlfUE+1S3x7A3+HZGYcABp1xhkH4dr5w8v4RARu/EcYXTSBpL
+ HgVgEGyEHsnBWI26NYQKeTMNWFUmtjizFGdSWXqG9pmKTZeXySMiQzWzP8flpzJD70VWfi
+ LcDcQS4KQsZUWPJRgTsZpBCaaDyIwm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-2Z_Z48lZNKeCgX2NH8jD3w-1; Mon, 12 Jul 2021 09:03:43 -0400
-X-MC-Unique: 2Z_Z48lZNKeCgX2NH8jD3w-1
+ us-mta-395-wv7GSaYFPH-bGZkgqNzg6A-1; Mon, 12 Jul 2021 09:04:08 -0400
+X-MC-Unique: wv7GSaYFPH-bGZkgqNzg6A-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 011169F92B;
- Mon, 12 Jul 2021 13:03:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F388E802E64;
+ Mon, 12 Jul 2021 13:04:06 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45DF25C1D1;
- Mon, 12 Jul 2021 13:03:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1DD5A5C1D1;
+ Mon, 12 Jul 2021 13:03:56 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/22] crypto: drop gcrypt thread initialization code
-Date: Mon, 12 Jul 2021 14:02:07 +0100
-Message-Id: <20210712130223.1825930-7-berrange@redhat.com>
+Subject: [PULL 09/22] crypto: delete built-in DES implementation
+Date: Mon, 12 Jul 2021 14:02:10 +0100
+Message-Id: <20210712130223.1825930-10-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -88,103 +88,555 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is only required on gcrypt < 1.6.0, and is thus obsolete
-since
-
-  commit b33a84632a3759c00320fd80923aa963c11207fc
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Fri May 14 13:04:08 2021 +0100
-
-    crypto: bump min gcrypt to 1.8.0, dropping RHEL-7 support
+The built-in DES implementation is used for the VNC server password
+authentication scheme. When building system emulators it is reasonable
+to expect that an external crypto library is being used. It is thus
+not worth keeping a home grown DES implementation in tree.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- crypto/init.c | 62 ---------------------------------------------------
- 1 file changed, 62 deletions(-)
+ crypto/cipher-builtin.c.inc |  72 -------
+ crypto/desrfb.c             | 416 ------------------------------------
+ crypto/meson.build          |   1 -
+ 3 files changed, 489 deletions(-)
+ delete mode 100644 crypto/desrfb.c
 
-diff --git a/crypto/init.c b/crypto/init.c
-index ea233b9192..fb7f1bff10 100644
---- a/crypto/init.c
-+++ b/crypto/init.c
-@@ -35,21 +35,6 @@
- #include "crypto/random.h"
+diff --git a/crypto/cipher-builtin.c.inc b/crypto/cipher-builtin.c.inc
+index 7597cf4a10..70743f253c 100644
+--- a/crypto/cipher-builtin.c.inc
++++ b/crypto/cipher-builtin.c.inc
+@@ -19,7 +19,6 @@
+  */
  
- /* #define DEBUG_GNUTLS */
+ #include "crypto/aes.h"
+-#include "crypto/desrfb.h"
+ #include "crypto/xts.h"
+ 
+ typedef struct QCryptoCipherBuiltinAESContext QCryptoCipherBuiltinAESContext;
+@@ -265,69 +264,10 @@ static const struct QCryptoCipherDriver qcrypto_cipher_aes_driver_xts = {
+ };
+ 
+ 
+-typedef struct QCryptoCipherBuiltinDESRFB QCryptoCipherBuiltinDESRFB;
+-struct QCryptoCipherBuiltinDESRFB {
+-    QCryptoCipher base;
 -
+-    /* C.f. alg_key_len[QCRYPTO_CIPHER_ALG_DES_RFB] */
+-    uint8_t key[8];
+-};
+-
+-static int qcrypto_cipher_encrypt_des_rfb(QCryptoCipher *cipher,
+-                                          const void *in, void *out,
+-                                          size_t len, Error **errp)
+-{
+-    QCryptoCipherBuiltinDESRFB *ctx
+-        = container_of(cipher, QCryptoCipherBuiltinDESRFB, base);
+-    size_t i;
+-
+-    if (!qcrypto_length_check(len, 8, errp)) {
+-        return -1;
+-    }
+-
+-    deskey(ctx->key, EN0);
+-
+-    for (i = 0; i < len; i += 8) {
+-        des((void *)in + i, out + i);
+-    }
+-
+-    return 0;
+-}
+-
+-static int qcrypto_cipher_decrypt_des_rfb(QCryptoCipher *cipher,
+-                                          const void *in, void *out,
+-                                          size_t len, Error **errp)
+-{
+-    QCryptoCipherBuiltinDESRFB *ctx
+-        = container_of(cipher, QCryptoCipherBuiltinDESRFB, base);
+-    size_t i;
+-
+-    if (!qcrypto_length_check(len, 8, errp)) {
+-        return -1;
+-    }
+-
+-    deskey(ctx->key, DE1);
+-
+-    for (i = 0; i < len; i += 8) {
+-        des((void *)in + i, out + i);
+-    }
+-
+-    return 0;
+-}
+-
+-static const struct QCryptoCipherDriver qcrypto_cipher_des_rfb_driver = {
+-    .cipher_encrypt = qcrypto_cipher_encrypt_des_rfb,
+-    .cipher_decrypt = qcrypto_cipher_decrypt_des_rfb,
+-    .cipher_setiv = qcrypto_cipher_no_setiv,
+-    .cipher_free = qcrypto_cipher_ctx_free,
+-};
+-
+ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+                              QCryptoCipherMode mode)
+ {
+     switch (alg) {
+-    case QCRYPTO_CIPHER_ALG_DES_RFB:
+-        return mode == QCRYPTO_CIPHER_MODE_ECB;
+     case QCRYPTO_CIPHER_ALG_AES_128:
+     case QCRYPTO_CIPHER_ALG_AES_192:
+     case QCRYPTO_CIPHER_ALG_AES_256:
+@@ -356,18 +296,6 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+     }
+ 
+     switch (alg) {
+-    case QCRYPTO_CIPHER_ALG_DES_RFB:
+-        if (mode == QCRYPTO_CIPHER_MODE_ECB) {
+-            QCryptoCipherBuiltinDESRFB *ctx;
+-
+-            ctx = g_new0(QCryptoCipherBuiltinDESRFB, 1);
+-            ctx->base.driver = &qcrypto_cipher_des_rfb_driver;
+-            memcpy(ctx->key, key, sizeof(ctx->key));
+-
+-            return &ctx->base;
+-        }
+-        goto bad_mode;
+-
+     case QCRYPTO_CIPHER_ALG_AES_128:
+     case QCRYPTO_CIPHER_ALG_AES_192:
+     case QCRYPTO_CIPHER_ALG_AES_256:
+diff --git a/crypto/desrfb.c b/crypto/desrfb.c
+deleted file mode 100644
+index b2a105ebbc..0000000000
+--- a/crypto/desrfb.c
++++ /dev/null
+@@ -1,416 +0,0 @@
 -/*
-- * We need to init gcrypt threading if
+- * This is D3DES (V5.09) by Richard Outerbridge with the double and
+- * triple-length support removed for use in VNC.  Also the bytebit[] array
+- * has been reversed so that the most significant bit in each byte of the
+- * key is ignored, not the least significant.
 - *
-- *   - gcrypt < 1.6.0
+- * These changes are:
+- *  Copyright (C) 1999 AT&T Laboratories Cambridge.  All Rights Reserved.
 - *
+- * This software is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 - */
 -
--#if (defined(CONFIG_GCRYPT) &&                  \
--     (GCRYPT_VERSION_NUMBER < 0x010600))
--#define QCRYPTO_INIT_GCRYPT_THREADS
--#else
--#undef QCRYPTO_INIT_GCRYPT_THREADS
--#endif
+-/* D3DES (V5.09) -
+- *
+- * A portable, public domain, version of the Data Encryption Standard.
+- *
+- * Written with Symantec's THINK (Lightspeed) C by Richard Outerbridge.
+- * Thanks to: Dan Hoey for his excellent Initial and Inverse permutation
+- * code;  Jim Gillogly & Phil Karn for the DES key schedule code; Dennis
+- * Ferguson, Eric Young and Dana How for comparing notes; and Ray Lau,
+- * for humouring me on.
+- *
+- * Copyright (c) 1988,1989,1990,1991,1992 by Richard Outerbridge.
+- * (GEnie : OUTER; CIS : [71755,204]) Graven Imagery, 1992.
+- */
 -
- #ifdef DEBUG_GNUTLS
- static void qcrypto_gnutls_log(int level, const char *str)
- {
-@@ -57,55 +42,8 @@ static void qcrypto_gnutls_log(int level, const char *str)
- }
- #endif
- 
--#ifdef QCRYPTO_INIT_GCRYPT_THREADS
--static int qcrypto_gcrypt_mutex_init(void **priv)
--{                                                                             \
--    QemuMutex *lock = NULL;
--    lock = g_new0(QemuMutex, 1);
--    qemu_mutex_init(lock);
--    *priv = lock;
--    return 0;
--}
+-#include "qemu/osdep.h"
+-#include "crypto/desrfb.h"
 -
--static int qcrypto_gcrypt_mutex_destroy(void **priv)
+-static void scrunch(unsigned char *, unsigned long *);
+-static void unscrun(unsigned long *, unsigned char *);
+-static void desfunc(unsigned long *, unsigned long *);
+-static void cookey(unsigned long *);
+-
+-static unsigned long KnL[32] = { 0L };
+-
+-static const unsigned short bytebit[8]	= {
+-        01, 02, 04, 010, 020, 040, 0100, 0200 };
+-
+-static const unsigned long bigbyte[24] = {
+-        0x800000L,	0x400000L,	0x200000L,	0x100000L,
+-        0x80000L,	0x40000L,	0x20000L,	0x10000L,
+-        0x8000L,	0x4000L,	0x2000L,	0x1000L,
+-        0x800L, 	0x400L, 	0x200L, 	0x100L,
+-        0x80L,		0x40L,		0x20L,		0x10L,
+-        0x8L,		0x4L,		0x2L,		0x1L	};
+-
+-/* Use the key schedule specified in the Standard (ANSI X3.92-1981). */
+-
+-static const unsigned char pc1[56] = {
+-        56, 48, 40, 32, 24, 16,  8,	 0, 57, 49, 41, 33, 25, 17,
+-         9,  1, 58, 50, 42, 34, 26,	18, 10,  2, 59, 51, 43, 35,
+-        62, 54, 46, 38, 30, 22, 14,	 6, 61, 53, 45, 37, 29, 21,
+-        13,  5, 60, 52, 44, 36, 28,	20, 12,  4, 27, 19, 11,  3 };
+-
+-static const unsigned char totrot[16] = {
+-        1, 2, 4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27, 28 };
+-
+-static const unsigned char pc2[48] = {
+-        13, 16, 10, 23,  0,  4,  2, 27, 14,  5, 20,  9,
+-        22, 18, 11,  3, 25,  7, 15,  6, 26, 19, 12,  1,
+-        40, 51, 30, 36, 46, 54, 29, 39, 50, 44, 32, 47,
+-        43, 48, 38, 55, 33, 52, 45, 41, 49, 35, 28, 31 };
+-
+-/* Thanks to James Gillogly & Phil Karn! */
+-void deskey(unsigned char *key, int edf)
 -{
--    QemuMutex *lock = *priv;
--    qemu_mutex_destroy(lock);
--    g_free(lock);
--    return 0;
--}
+-        register int i, j, l, m, n;
+-        unsigned char pc1m[56], pcr[56];
+-        unsigned long kn[32];
 -
--static int qcrypto_gcrypt_mutex_lock(void **priv)
+-        for ( j = 0; j < 56; j++ ) {
+-                l = pc1[j];
+-                m = l & 07;
+-                pc1m[j] = (key[l >> 3] & bytebit[m]) ? 1 : 0;
+-                }
+-        for( i = 0; i < 16; i++ ) {
+-                if( edf == DE1 ) m = (15 - i) << 1;
+-                else m = i << 1;
+-                n = m + 1;
+-                kn[m] = kn[n] = 0L;
+-                for( j = 0; j < 28; j++ ) {
+-                        l = j + totrot[i];
+-                        if( l < 28 ) pcr[j] = pc1m[l];
+-                        else pcr[j] = pc1m[l - 28];
+-                        }
+-                for( j = 28; j < 56; j++ ) {
+-                    l = j + totrot[i];
+-                    if( l < 56 ) pcr[j] = pc1m[l];
+-                    else pcr[j] = pc1m[l - 28];
+-                    }
+-                for( j = 0; j < 24; j++ ) {
+-                        if( pcr[pc2[j]] ) kn[m] |= bigbyte[j];
+-                        if( pcr[pc2[j + 24]] ) kn[n] |= bigbyte[j];
+-                        }
+-                }
+-        cookey(kn);
+-        return;
+-        }
+-
+-static void cookey(register unsigned long *raw1)
 -{
--    QemuMutex *lock = *priv;
--    qemu_mutex_lock(lock);
--    return 0;
--}
+-        register unsigned long *cook, *raw0;
+-        unsigned long dough[32];
+-        register int i;
 -
--static int qcrypto_gcrypt_mutex_unlock(void **priv)
+-        cook = dough;
+-        for( i = 0; i < 16; i++, raw1++ ) {
+-                raw0 = raw1++;
+-                *cook	 = (*raw0 & 0x00fc0000L) << 6;
+-                *cook	|= (*raw0 & 0x00000fc0L) << 10;
+-                *cook	|= (*raw1 & 0x00fc0000L) >> 10;
+-                *cook++ |= (*raw1 & 0x00000fc0L) >> 6;
+-                *cook	 = (*raw0 & 0x0003f000L) << 12;
+-                *cook	|= (*raw0 & 0x0000003fL) << 16;
+-                *cook	|= (*raw1 & 0x0003f000L) >> 4;
+-                *cook++ |= (*raw1 & 0x0000003fL);
+-                }
+-        usekey(dough);
+-        return;
+-        }
+-
+-void usekey(register unsigned long *from)
 -{
--    QemuMutex *lock = *priv;
--    qemu_mutex_unlock(lock);
--    return 0;
--}
+-        register unsigned long *to, *endp;
 -
--static struct gcry_thread_cbs qcrypto_gcrypt_thread_impl = {
--    (GCRY_THREAD_OPTION_PTHREAD | (GCRY_THREAD_OPTION_VERSION << 8)),
--    NULL,
--    qcrypto_gcrypt_mutex_init,
--    qcrypto_gcrypt_mutex_destroy,
--    qcrypto_gcrypt_mutex_lock,
--    qcrypto_gcrypt_mutex_unlock,
--    NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
--};
--#endif /* QCRYPTO_INIT_GCRYPT */
+-        to = KnL, endp = &KnL[32];
+-        while( to < endp ) *to++ = *from++;
+-        return;
+-        }
 -
- int qcrypto_init(Error **errp)
- {
--#ifdef QCRYPTO_INIT_GCRYPT_THREADS
--    gcry_control(GCRYCTL_SET_THREAD_CBS, &qcrypto_gcrypt_thread_impl);
--#endif /* QCRYPTO_INIT_GCRYPT_THREADS */
+-void des(unsigned char *inblock, unsigned char *outblock)
+-{
+-        unsigned long work[2];
 -
- #ifdef CONFIG_GNUTLS
-     int ret;
-     ret = gnutls_global_init();
+-        scrunch(inblock, work);
+-        desfunc(work, KnL);
+-        unscrun(work, outblock);
+-        return;
+-        }
+-
+-static void scrunch(register unsigned char *outof, register unsigned long *into)
+-{
+-        *into	 = (*outof++ & 0xffL) << 24;
+-        *into	|= (*outof++ & 0xffL) << 16;
+-        *into	|= (*outof++ & 0xffL) << 8;
+-        *into++ |= (*outof++ & 0xffL);
+-        *into	 = (*outof++ & 0xffL) << 24;
+-        *into	|= (*outof++ & 0xffL) << 16;
+-        *into	|= (*outof++ & 0xffL) << 8;
+-        *into	|= (*outof   & 0xffL);
+-        return;
+-        }
+-
+-static void unscrun(register unsigned long *outof, register unsigned char *into)
+-{
+-        *into++ = (unsigned char)((*outof >> 24) & 0xffL);
+-        *into++ = (unsigned char)((*outof >> 16) & 0xffL);
+-        *into++ = (unsigned char)((*outof >>  8) & 0xffL);
+-        *into++ = (unsigned char)(*outof++	 & 0xffL);
+-        *into++ = (unsigned char)((*outof >> 24) & 0xffL);
+-        *into++ = (unsigned char)((*outof >> 16) & 0xffL);
+-        *into++ = (unsigned char)((*outof >>  8) & 0xffL);
+-        *into	=  (unsigned char)(*outof	 & 0xffL);
+-        return;
+-        }
+-
+-static const unsigned long SP1[64] = {
+-        0x01010400L, 0x00000000L, 0x00010000L, 0x01010404L,
+-        0x01010004L, 0x00010404L, 0x00000004L, 0x00010000L,
+-        0x00000400L, 0x01010400L, 0x01010404L, 0x00000400L,
+-        0x01000404L, 0x01010004L, 0x01000000L, 0x00000004L,
+-        0x00000404L, 0x01000400L, 0x01000400L, 0x00010400L,
+-        0x00010400L, 0x01010000L, 0x01010000L, 0x01000404L,
+-        0x00010004L, 0x01000004L, 0x01000004L, 0x00010004L,
+-        0x00000000L, 0x00000404L, 0x00010404L, 0x01000000L,
+-        0x00010000L, 0x01010404L, 0x00000004L, 0x01010000L,
+-        0x01010400L, 0x01000000L, 0x01000000L, 0x00000400L,
+-        0x01010004L, 0x00010000L, 0x00010400L, 0x01000004L,
+-        0x00000400L, 0x00000004L, 0x01000404L, 0x00010404L,
+-        0x01010404L, 0x00010004L, 0x01010000L, 0x01000404L,
+-        0x01000004L, 0x00000404L, 0x00010404L, 0x01010400L,
+-        0x00000404L, 0x01000400L, 0x01000400L, 0x00000000L,
+-        0x00010004L, 0x00010400L, 0x00000000L, 0x01010004L };
+-
+-static const unsigned long SP2[64] = {
+-        0x80108020L, 0x80008000L, 0x00008000L, 0x00108020L,
+-        0x00100000L, 0x00000020L, 0x80100020L, 0x80008020L,
+-        0x80000020L, 0x80108020L, 0x80108000L, 0x80000000L,
+-        0x80008000L, 0x00100000L, 0x00000020L, 0x80100020L,
+-        0x00108000L, 0x00100020L, 0x80008020L, 0x00000000L,
+-        0x80000000L, 0x00008000L, 0x00108020L, 0x80100000L,
+-        0x00100020L, 0x80000020L, 0x00000000L, 0x00108000L,
+-        0x00008020L, 0x80108000L, 0x80100000L, 0x00008020L,
+-        0x00000000L, 0x00108020L, 0x80100020L, 0x00100000L,
+-        0x80008020L, 0x80100000L, 0x80108000L, 0x00008000L,
+-        0x80100000L, 0x80008000L, 0x00000020L, 0x80108020L,
+-        0x00108020L, 0x00000020L, 0x00008000L, 0x80000000L,
+-        0x00008020L, 0x80108000L, 0x00100000L, 0x80000020L,
+-        0x00100020L, 0x80008020L, 0x80000020L, 0x00100020L,
+-        0x00108000L, 0x00000000L, 0x80008000L, 0x00008020L,
+-        0x80000000L, 0x80100020L, 0x80108020L, 0x00108000L };
+-
+-static const unsigned long SP3[64] = {
+-        0x00000208L, 0x08020200L, 0x00000000L, 0x08020008L,
+-        0x08000200L, 0x00000000L, 0x00020208L, 0x08000200L,
+-        0x00020008L, 0x08000008L, 0x08000008L, 0x00020000L,
+-        0x08020208L, 0x00020008L, 0x08020000L, 0x00000208L,
+-        0x08000000L, 0x00000008L, 0x08020200L, 0x00000200L,
+-        0x00020200L, 0x08020000L, 0x08020008L, 0x00020208L,
+-        0x08000208L, 0x00020200L, 0x00020000L, 0x08000208L,
+-        0x00000008L, 0x08020208L, 0x00000200L, 0x08000000L,
+-        0x08020200L, 0x08000000L, 0x00020008L, 0x00000208L,
+-        0x00020000L, 0x08020200L, 0x08000200L, 0x00000000L,
+-        0x00000200L, 0x00020008L, 0x08020208L, 0x08000200L,
+-        0x08000008L, 0x00000200L, 0x00000000L, 0x08020008L,
+-        0x08000208L, 0x00020000L, 0x08000000L, 0x08020208L,
+-        0x00000008L, 0x00020208L, 0x00020200L, 0x08000008L,
+-        0x08020000L, 0x08000208L, 0x00000208L, 0x08020000L,
+-        0x00020208L, 0x00000008L, 0x08020008L, 0x00020200L };
+-
+-static const unsigned long SP4[64] = {
+-        0x00802001L, 0x00002081L, 0x00002081L, 0x00000080L,
+-        0x00802080L, 0x00800081L, 0x00800001L, 0x00002001L,
+-        0x00000000L, 0x00802000L, 0x00802000L, 0x00802081L,
+-        0x00000081L, 0x00000000L, 0x00800080L, 0x00800001L,
+-        0x00000001L, 0x00002000L, 0x00800000L, 0x00802001L,
+-        0x00000080L, 0x00800000L, 0x00002001L, 0x00002080L,
+-        0x00800081L, 0x00000001L, 0x00002080L, 0x00800080L,
+-        0x00002000L, 0x00802080L, 0x00802081L, 0x00000081L,
+-        0x00800080L, 0x00800001L, 0x00802000L, 0x00802081L,
+-        0x00000081L, 0x00000000L, 0x00000000L, 0x00802000L,
+-        0x00002080L, 0x00800080L, 0x00800081L, 0x00000001L,
+-        0x00802001L, 0x00002081L, 0x00002081L, 0x00000080L,
+-        0x00802081L, 0x00000081L, 0x00000001L, 0x00002000L,
+-        0x00800001L, 0x00002001L, 0x00802080L, 0x00800081L,
+-        0x00002001L, 0x00002080L, 0x00800000L, 0x00802001L,
+-        0x00000080L, 0x00800000L, 0x00002000L, 0x00802080L };
+-
+-static const unsigned long SP5[64] = {
+-        0x00000100L, 0x02080100L, 0x02080000L, 0x42000100L,
+-        0x00080000L, 0x00000100L, 0x40000000L, 0x02080000L,
+-        0x40080100L, 0x00080000L, 0x02000100L, 0x40080100L,
+-        0x42000100L, 0x42080000L, 0x00080100L, 0x40000000L,
+-        0x02000000L, 0x40080000L, 0x40080000L, 0x00000000L,
+-        0x40000100L, 0x42080100L, 0x42080100L, 0x02000100L,
+-        0x42080000L, 0x40000100L, 0x00000000L, 0x42000000L,
+-        0x02080100L, 0x02000000L, 0x42000000L, 0x00080100L,
+-        0x00080000L, 0x42000100L, 0x00000100L, 0x02000000L,
+-        0x40000000L, 0x02080000L, 0x42000100L, 0x40080100L,
+-        0x02000100L, 0x40000000L, 0x42080000L, 0x02080100L,
+-        0x40080100L, 0x00000100L, 0x02000000L, 0x42080000L,
+-        0x42080100L, 0x00080100L, 0x42000000L, 0x42080100L,
+-        0x02080000L, 0x00000000L, 0x40080000L, 0x42000000L,
+-        0x00080100L, 0x02000100L, 0x40000100L, 0x00080000L,
+-        0x00000000L, 0x40080000L, 0x02080100L, 0x40000100L };
+-
+-static const unsigned long SP6[64] = {
+-        0x20000010L, 0x20400000L, 0x00004000L, 0x20404010L,
+-        0x20400000L, 0x00000010L, 0x20404010L, 0x00400000L,
+-        0x20004000L, 0x00404010L, 0x00400000L, 0x20000010L,
+-        0x00400010L, 0x20004000L, 0x20000000L, 0x00004010L,
+-        0x00000000L, 0x00400010L, 0x20004010L, 0x00004000L,
+-        0x00404000L, 0x20004010L, 0x00000010L, 0x20400010L,
+-        0x20400010L, 0x00000000L, 0x00404010L, 0x20404000L,
+-        0x00004010L, 0x00404000L, 0x20404000L, 0x20000000L,
+-        0x20004000L, 0x00000010L, 0x20400010L, 0x00404000L,
+-        0x20404010L, 0x00400000L, 0x00004010L, 0x20000010L,
+-        0x00400000L, 0x20004000L, 0x20000000L, 0x00004010L,
+-        0x20000010L, 0x20404010L, 0x00404000L, 0x20400000L,
+-        0x00404010L, 0x20404000L, 0x00000000L, 0x20400010L,
+-        0x00000010L, 0x00004000L, 0x20400000L, 0x00404010L,
+-        0x00004000L, 0x00400010L, 0x20004010L, 0x00000000L,
+-        0x20404000L, 0x20000000L, 0x00400010L, 0x20004010L };
+-
+-static const unsigned long SP7[64] = {
+-        0x00200000L, 0x04200002L, 0x04000802L, 0x00000000L,
+-        0x00000800L, 0x04000802L, 0x00200802L, 0x04200800L,
+-        0x04200802L, 0x00200000L, 0x00000000L, 0x04000002L,
+-        0x00000002L, 0x04000000L, 0x04200002L, 0x00000802L,
+-        0x04000800L, 0x00200802L, 0x00200002L, 0x04000800L,
+-        0x04000002L, 0x04200000L, 0x04200800L, 0x00200002L,
+-        0x04200000L, 0x00000800L, 0x00000802L, 0x04200802L,
+-        0x00200800L, 0x00000002L, 0x04000000L, 0x00200800L,
+-        0x04000000L, 0x00200800L, 0x00200000L, 0x04000802L,
+-        0x04000802L, 0x04200002L, 0x04200002L, 0x00000002L,
+-        0x00200002L, 0x04000000L, 0x04000800L, 0x00200000L,
+-        0x04200800L, 0x00000802L, 0x00200802L, 0x04200800L,
+-        0x00000802L, 0x04000002L, 0x04200802L, 0x04200000L,
+-        0x00200800L, 0x00000000L, 0x00000002L, 0x04200802L,
+-        0x00000000L, 0x00200802L, 0x04200000L, 0x00000800L,
+-        0x04000002L, 0x04000800L, 0x00000800L, 0x00200002L };
+-
+-static const unsigned long SP8[64] = {
+-        0x10001040L, 0x00001000L, 0x00040000L, 0x10041040L,
+-        0x10000000L, 0x10001040L, 0x00000040L, 0x10000000L,
+-        0x00040040L, 0x10040000L, 0x10041040L, 0x00041000L,
+-        0x10041000L, 0x00041040L, 0x00001000L, 0x00000040L,
+-        0x10040000L, 0x10000040L, 0x10001000L, 0x00001040L,
+-        0x00041000L, 0x00040040L, 0x10040040L, 0x10041000L,
+-        0x00001040L, 0x00000000L, 0x00000000L, 0x10040040L,
+-        0x10000040L, 0x10001000L, 0x00041040L, 0x00040000L,
+-        0x00041040L, 0x00040000L, 0x10041000L, 0x00001000L,
+-        0x00000040L, 0x10040040L, 0x00001000L, 0x00041040L,
+-        0x10001000L, 0x00000040L, 0x10000040L, 0x10040000L,
+-        0x10040040L, 0x10000000L, 0x00040000L, 0x10001040L,
+-        0x00000000L, 0x10041040L, 0x00040040L, 0x10000040L,
+-        0x10040000L, 0x10001000L, 0x10001040L, 0x00000000L,
+-        0x10041040L, 0x00041000L, 0x00041000L, 0x00001040L,
+-        0x00001040L, 0x00040040L, 0x10000000L, 0x10041000L };
+-
+-static void desfunc(register unsigned long *block, register unsigned long *keys)
+-{
+-        register unsigned long fval, work, right, leftt;
+-        register int round;
+-
+-        leftt = block[0];
+-        right = block[1];
+-        work = ((leftt >> 4) ^ right) & 0x0f0f0f0fL;
+-        right ^= work;
+-        leftt ^= (work << 4);
+-        work = ((leftt >> 16) ^ right) & 0x0000ffffL;
+-        right ^= work;
+-        leftt ^= (work << 16);
+-        work = ((right >> 2) ^ leftt) & 0x33333333L;
+-        leftt ^= work;
+-        right ^= (work << 2);
+-        work = ((right >> 8) ^ leftt) & 0x00ff00ffL;
+-        leftt ^= work;
+-        right ^= (work << 8);
+-        right = ((right << 1) | ((right >> 31) & 1L)) & 0xffffffffL;
+-        work = (leftt ^ right) & 0xaaaaaaaaL;
+-        leftt ^= work;
+-        right ^= work;
+-        leftt = ((leftt << 1) | ((leftt >> 31) & 1L)) & 0xffffffffL;
+-
+-        for( round = 0; round < 8; round++ ) {
+-                work  = (right << 28) | (right >> 4);
+-                work ^= *keys++;
+-                fval  = SP7[ work		 & 0x3fL];
+-                fval |= SP5[(work >>  8) & 0x3fL];
+-                fval |= SP3[(work >> 16) & 0x3fL];
+-                fval |= SP1[(work >> 24) & 0x3fL];
+-                work  = right ^ *keys++;
+-                fval |= SP8[ work		 & 0x3fL];
+-                fval |= SP6[(work >>  8) & 0x3fL];
+-                fval |= SP4[(work >> 16) & 0x3fL];
+-                fval |= SP2[(work >> 24) & 0x3fL];
+-                leftt ^= fval;
+-                work  = (leftt << 28) | (leftt >> 4);
+-                work ^= *keys++;
+-                fval  = SP7[ work		 & 0x3fL];
+-                fval |= SP5[(work >>  8) & 0x3fL];
+-                fval |= SP3[(work >> 16) & 0x3fL];
+-                fval |= SP1[(work >> 24) & 0x3fL];
+-                work  = leftt ^ *keys++;
+-                fval |= SP8[ work		 & 0x3fL];
+-                fval |= SP6[(work >>  8) & 0x3fL];
+-                fval |= SP4[(work >> 16) & 0x3fL];
+-                fval |= SP2[(work >> 24) & 0x3fL];
+-                right ^= fval;
+-                }
+-
+-        right = (right << 31) | (right >> 1);
+-        work = (leftt ^ right) & 0xaaaaaaaaL;
+-        leftt ^= work;
+-        right ^= work;
+-        leftt = (leftt << 31) | (leftt >> 1);
+-        work = ((leftt >> 8) ^ right) & 0x00ff00ffL;
+-        right ^= work;
+-        leftt ^= (work << 8);
+-        work = ((leftt >> 2) ^ right) & 0x33333333L;
+-        right ^= work;
+-        leftt ^= (work << 2);
+-        work = ((right >> 16) ^ leftt) & 0x0000ffffL;
+-        leftt ^= work;
+-        right ^= (work << 16);
+-        work = ((right >> 4) ^ leftt) & 0x0f0f0f0fL;
+-        leftt ^= work;
+-        right ^= (work << 4);
+-        *block++ = right;
+-        *block = leftt;
+-        return;
+-        }
+-
+-/* Validation sets:
+- *
+- * Single-length key, single-length plaintext -
+- * Key	  : 0123 4567 89ab cdef
+- * Plain  : 0123 4567 89ab cde7
+- * Cipher : c957 4425 6a5e d31d
+- *
+- * Double-length key, single-length plaintext -
+- * Key	  : 0123 4567 89ab cdef fedc ba98 7654 3210
+- * Plain  : 0123 4567 89ab cde7
+- * Cipher : 7f1d 0a77 826b 8aff
+- *
+- * Double-length key, double-length plaintext -
+- * Key	  : 0123 4567 89ab cdef fedc ba98 7654 3210
+- * Plain  : 0123 4567 89ab cdef 0123 4567 89ab cdff
+- * Cipher : 27a0 8440 406a df60 278f 47cf 42d6 15d7
+- *
+- * Triple-length key, single-length plaintext -
+- * Key	  : 0123 4567 89ab cdef fedc ba98 7654 3210 89ab cdef 0123 4567
+- * Plain  : 0123 4567 89ab cde7
+- * Cipher : de0b 7c06 ae5e 0ed5
+- *
+- * Triple-length key, double-length plaintext -
+- * Key	  : 0123 4567 89ab cdef fedc ba98 7654 3210 89ab cdef 0123 4567
+- * Plain  : 0123 4567 89ab cdef 0123 4567 89ab cdff
+- * Cipher : ad0d 1b30 ac17 cf07 0ed1 1c63 81e4 4de5
+- *
+- * d3des V5.0a rwo 9208.07 18:44 Graven Imagery
+- **********************************************************************/
+diff --git a/crypto/meson.build b/crypto/meson.build
+index 7cbf1a6ba7..b384ca8b57 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -5,7 +5,6 @@ crypto_ss.add(files(
+   'block-qcow.c',
+   'block.c',
+   'cipher.c',
+-  'desrfb.c',
+   'hash.c',
+   'hmac.c',
+   'ivgen-essiv.c',
 -- 
 2.31.1
 
