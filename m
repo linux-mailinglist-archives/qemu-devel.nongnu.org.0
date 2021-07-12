@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806DF3C5D49
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:29:44 +0200 (CEST)
-Received: from localhost ([::1]:57612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D42433C5D47
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:28:36 +0200 (CEST)
+Received: from localhost ([::1]:52976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2w0F-0002nE-Gc
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:29:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
+	id 1m2vz9-0007zq-Oh
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:28:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vcf-0004rh-TP
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57947)
+ id 1m2vcz-0005BC-Qq
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vcZ-0006Wx-Fo
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:21 -0400
+ id 1m2vcx-0006gS-Vt
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095114;
+ s=mimecast20190719; t=1626095139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QNgYwaGsh8Ek+Kwq2EAytYQz/a0GH2k1+bLKORLyXAs=;
- b=BbKmuHeM7vD/rhO5kG3+Yaiau94pIzJcl5Z6uZK+fiOyr/zGey68Epm5AplKJLtIBdqgmd
- WQgEEgWzCcGeE5MPga+LqEQvtfvSgvbbhw1b+i/S36uD6Sp+/gvI6ThL81PmN/n9Ee2LIe
- dEgC7p6EE8PfEz00ZD3W/KTZWyb4Cus=
+ bh=90UEmj6hnKRH2F95YgW3bN+/oqYjJi6Agr2PCVa8eYo=;
+ b=UP4XOo39uoYi7qXpAbEnoTioP1VUYBIFv/EoH2KQ9haZioE13YWig/Ticsy2Zcd9d1jbfQ
+ 1nQ1VNzXNkpqbJ1VyqLvqwxdiGS/LPquSi5UAeZDRtu4ivyA8EkxAvZzSoNKQkcjCEjb9v
+ ImsOIdZSg7ACp/INlgeSZ3cmCrpT65k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-itvWoim9OtCxf3DcqePI3Q-1; Mon, 12 Jul 2021 09:05:12 -0400
-X-MC-Unique: itvWoim9OtCxf3DcqePI3Q-1
+ us-mta-49-AEkfJEKoNw6xe3fRV6ZaMw-1; Mon, 12 Jul 2021 09:05:37 -0400
+X-MC-Unique: AEkfJEKoNw6xe3fRV6ZaMw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBE5318414A1;
- Mon, 12 Jul 2021 13:05:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 357A8100CF85;
+ Mon, 12 Jul 2021 13:05:36 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 322CB5C1D1;
- Mon, 12 Jul 2021 13:05:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A48E95C1D1;
+ Mon, 12 Jul 2021 13:05:14 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/22] crypto: introduce build system for gnutls crypto backend
-Date: Mon, 12 Jul 2021 14:02:14 +0100
-Message-Id: <20210712130223.1825930-14-berrange@redhat.com>
+Subject: [PULL 15/22] crypto: add gnutls hash provider
+Date: Mon, 12 Jul 2021 14:02:16 +0100
+Message-Id: <20210712130223.1825930-16-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,87 +88,140 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This introduces the build logic needed to decide whether we can
-use gnutls as a crypto driver backend. The actual implementations
-will be introduced in following patches. We only wish to use
-gnutls if it has version 3.6.14 or newer, because that is what
-finally brings HW accelerated AES-XTS mode for x86_64.
+This adds support for using gnutls as a provider of the crypto
+hash APIs.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- meson.build | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
+ crypto/hash-gnutls.c | 104 +++++++++++++++++++++++++++++++++++++++++++
+ crypto/meson.build   |   2 +
+ 2 files changed, 106 insertions(+)
+ create mode 100644 crypto/hash-gnutls.c
 
-diff --git a/meson.build b/meson.build
-index cc08561fbd..29fcbbe81f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -820,11 +820,34 @@ if 'CONFIG_OPENGL' in config_host
- endif
- 
- gnutls = not_found
-+gnutls_crypto = not_found
- if not get_option('gnutls').auto() or have_system
--  gnutls = dependency('gnutls', version: '>=3.5.18',
--                      method: 'pkg-config',
--                      required: get_option('gnutls'),
--                      kwargs: static_kwargs)
-+  # For general TLS support our min gnutls matches
-+  # that implied by our platform support matrix
-+  #
-+  # For the crypto backends, we look for a newer
-+  # gnutls:
-+  #
-+  #   Version 3.6.8  is needed to get XTS
-+  #   Version 3.6.13 is needed to get PBKDF
-+  #   Version 3.6.14 is needed to get HW accelerated XTS
-+  #
-+  # If newer enough gnutls isn't available, we can
-+  # still use a different crypto backend to satisfy
-+  # the platform support requirements
-+  gnutls_crypto = dependency('gnutls', version: '>=3.6.14',
-+                             method: 'pkg-config',
-+                             required: get_option('gnutls'),
-+                             kwargs: static_kwargs)
-+  if gnutls_crypto.found()
-+    gnutls = gnutls_crypto
-+  else
-+    # Our min version if all we need is TLS
-+    gnutls = dependency('gnutls', version: '>=3.5.18',
-+                        method: 'pkg-config',
-+                        required: get_option('gnutls'),
-+                        kwargs: static_kwargs)
-+  endif
- endif
- 
- # Gcrypt has priority over nettle
-@@ -856,6 +879,9 @@ if (not get_option('nettle').auto() or have_system) and not gcrypt.found()
-     xts = 'private'
+diff --git a/crypto/hash-gnutls.c b/crypto/hash-gnutls.c
+new file mode 100644
+index 0000000000..17911ac5d1
+--- /dev/null
++++ b/crypto/hash-gnutls.c
+@@ -0,0 +1,104 @@
++/*
++ * QEMU Crypto hash algorithms
++ *
++ * Copyright (c) 2021 Red Hat, Inc.
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include <gnutls/crypto.h>
++#include "qapi/error.h"
++#include "crypto/hash.h"
++#include "hashpriv.h"
++
++
++static int qcrypto_hash_alg_map[QCRYPTO_HASH_ALG__MAX] = {
++    [QCRYPTO_HASH_ALG_MD5] = GNUTLS_DIG_MD5,
++    [QCRYPTO_HASH_ALG_SHA1] = GNUTLS_DIG_SHA1,
++    [QCRYPTO_HASH_ALG_SHA224] = GNUTLS_DIG_SHA224,
++    [QCRYPTO_HASH_ALG_SHA256] = GNUTLS_DIG_SHA256,
++    [QCRYPTO_HASH_ALG_SHA384] = GNUTLS_DIG_SHA384,
++    [QCRYPTO_HASH_ALG_SHA512] = GNUTLS_DIG_SHA512,
++    [QCRYPTO_HASH_ALG_RIPEMD160] = GNUTLS_DIG_RMD160,
++};
++
++gboolean qcrypto_hash_supports(QCryptoHashAlgorithm alg)
++{
++    size_t i;
++    const gnutls_digest_algorithm_t *algs;
++    if (alg >= G_N_ELEMENTS(qcrypto_hash_alg_map) ||
++        qcrypto_hash_alg_map[alg] == GNUTLS_DIG_UNKNOWN) {
++        return false;
++    }
++    algs = gnutls_digest_list();
++    for (i = 0; algs[i] != GNUTLS_DIG_UNKNOWN; i++) {
++        if (algs[i] == qcrypto_hash_alg_map[alg]) {
++            return true;
++        }
++    }
++    return false;
++}
++
++
++static int
++qcrypto_gnutls_hash_bytesv(QCryptoHashAlgorithm alg,
++                           const struct iovec *iov,
++                           size_t niov,
++                           uint8_t **result,
++                           size_t *resultlen,
++                           Error **errp)
++{
++    int i, ret;
++    gnutls_hash_hd_t hash;
++
++    if (!qcrypto_hash_supports(alg)) {
++        error_setg(errp,
++                   "Unknown hash algorithm %d",
++                   alg);
++        return -1;
++    }
++
++    ret = gnutls_hash_get_len(qcrypto_hash_alg_map[alg]);
++    if (*resultlen == 0) {
++        *resultlen = ret;
++        *result = g_new0(uint8_t, *resultlen);
++    } else if (*resultlen != ret) {
++        error_setg(errp,
++                   "Result buffer size %zu is smaller than hash %d",
++                   *resultlen, ret);
++        return -1;
++    }
++
++    ret = gnutls_hash_init(&hash, qcrypto_hash_alg_map[alg]);
++    if (ret < 0) {
++        error_setg(errp,
++                   "Unable to initialize hash algorithm: %s",
++                   gnutls_strerror(ret));
++        return -1;
++    }
++
++    for (i = 0; i < niov; i++) {
++        gnutls_hash(hash, iov[i].iov_base, iov[i].iov_len);
++    }
++
++    gnutls_hash_deinit(hash, *result);
++    return 0;
++}
++
++
++QCryptoHashDriver qcrypto_hash_lib_driver = {
++    .hash_bytesv = qcrypto_gnutls_hash_bytesv,
++};
+diff --git a/crypto/meson.build b/crypto/meson.build
+index fc8de287e1..d6df83f2ab 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -28,6 +28,8 @@ if nettle.found()
    endif
+ elif gcrypt.found()
+   crypto_ss.add(gcrypt, files('hash-gcrypt.c', 'hmac-gcrypt.c', 'pbkdf-gcrypt.c'))
++elif gnutls_crypto.found()
++  crypto_ss.add(gnutls, files('hash-gnutls.c', 'hmac-glib.c', 'pbkdf-stub.c')
+ else
+   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
  endif
-+if gcrypt.found() or nettle.found()
-+  gnutls_crypto = not_found
-+endif
- 
- gtk = not_found
- gtkx11 = not_found
-@@ -1240,6 +1266,7 @@ config_host_data.set('CONFIG_XKBCOMMON', xkbcommon.found())
- config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
- config_host_data.set('CONFIG_GETTID', has_gettid)
- config_host_data.set('CONFIG_GNUTLS', gnutls.found())
-+config_host_data.set('CONFIG_GNUTLS_CRYPTO', gnutls_crypto.found())
- config_host_data.set('CONFIG_GCRYPT', gcrypt.found())
- config_host_data.set('CONFIG_NETTLE', nettle.found())
- config_host_data.set('CONFIG_QEMU_PRIVATE_XTS', xts == 'private')
-@@ -2961,6 +2988,7 @@ summary(summary_info, bool_yn: true, section: 'Block layer support')
- summary_info = {}
- summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
- summary_info += {'GNUTLS support':    gnutls.found()}
-+summary_info += {'GNUTLS crypto':     gnutls_crypto.found()}
- # TODO: add back version
- summary_info += {'libgcrypt':         gcrypt.found()}
- # TODO: add back version
 -- 
 2.31.1
 
