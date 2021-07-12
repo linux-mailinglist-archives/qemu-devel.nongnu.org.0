@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73C423C4650
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 11:42:42 +0200 (CEST)
-Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBD33C4659
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 11:51:03 +0200 (CEST)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2sSX-0002aM-8x
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 05:42:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60132)
+	id 1m2sac-0005VF-Hx
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 05:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2sQT-0001mp-Vu
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:40:37 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:33772)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m2sQR-0000XD-Fh
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:40:33 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id dj21so7192575edb.0
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 02:40:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=13yfotU+8FIjRf2AZAL6cdnBM6kIK5f80OlpfdU1glY=;
- b=BgMIAM52swPfssf7rGMsRbr8RzlQ3CF5Su8ivVZ+5Ex7fd2NV6OZu4P5FPoqzFZiaE
- u0eVdUkCH9tGeNdQ+lEO5nawjyn85k0t+zzBgl39ak/BusxTBOegjYE94wJ3rixrEN9+
- aYUzEVlUjpkGFAbjETOHjXm6HMH4EAPj41c1k6QJivAhAvKJiFbpMhnz5W4W3h+lDv9l
- PT3SDPISVopRf2wiABNEapYzdFPX1pvZ/wax9tH3ruGEyT9rnFwt8wWP89aHRhvMKNsl
- Z1GypveHHB1y7qmkab5cVD0twTgCNGdxX0DXGIRoYrMK/3FIKOXDsxD/K9yLI2NY9eHk
- J6uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=13yfotU+8FIjRf2AZAL6cdnBM6kIK5f80OlpfdU1glY=;
- b=fEf6rSBPBsIrEVv9bgYvJ9InhaDj1WXMIGTouO+Q+TB3UoIBJgXedmZ5G0WRq/AueT
- YZ2XjSf0KDjpx3WfK1t+yU1OmWcpB5rxPYmnhhVLNnE4CtHVAdkZXJAbyGobZIljaQaV
- zgxMXiTt6Ms8euiP1usEpmQ+1ybCAmGBOK5LbTXqXGKnU/7h7upkPxcIAgl+aKT1MbEb
- LEoCipKgue0mWBFk6jJ/wRyxVekFmSOJ9NJUP3MA2pDzttcfCUHB+6xzwN8NqPkgEX8W
- 0VrRSF8nHM2ikjbjzkvArUGLsvRDIMaEWf9X91n9NcrNPr3UxSZ0UcG1H6W2xAvVh5lV
- /c2w==
-X-Gm-Message-State: AOAM531zqJcDAXw2ITLMiJ8eC+yDadIc4vXH68UP8yL8oxD5mw9FlZgR
- R7ssjNaUwhUa2rq5w5nhAZ6rQWGDFeYTCrlYZIOyWA==
-X-Google-Smtp-Source: ABdhPJwhLBBOheHhwuTDnG6Vj/336sr3tygJM971LtdK52G7hcT4EcZuHucCfGEU1tcwhQDwWIUplJtnyJwPoc99CyI=
-X-Received: by 2002:a05:6402:1e8e:: with SMTP id
- f14mr50689831edf.52.1626082829570; 
- Mon, 12 Jul 2021 02:40:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFEAcA-L5kztvCiS-Y+_LDiaFgWzuCpPYN1-cHNY9Q8qpi538Q@mail.gmail.com>
- <CAFEAcA9PSZaHkV-qL9jvXX_MFKwYJJTSQ4FjQJfwyRi7GvJvWg@mail.gmail.com>
- <20210711222033.tb3paw53ayxrkagb@Rk> <20210711225032.smu6kxhqvt3xniwk@Rk>
-In-Reply-To: <20210711225032.smu6kxhqvt3xniwk@Rk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 12 Jul 2021 10:39:50 +0100
-Message-ID: <CAFEAcA9a-PX_xaFF7AB=1DqUL-Yn3qqSYWmw4uSedeuGhKTaRw@mail.gmail.com>
-Subject: Re: intermittent hang in qos-test for qemu-system-i386 on 32-bit arm
- host
-To: Coiby Xu <coiby.xu@gmail.com>
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1m2sZc-0004gb-8F
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:50:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50185)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1m2sZX-0007GU-Qo
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:49:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626083394;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OM/iwwVYUbe1CyDjJQ54Gx8sBHDi8QnZ+IrtfImXwD4=;
+ b=AUwSm9/HWbh3dS1vpzJwr4GGgzfaSONVVfWryBpIqYZf6snukc2/VC41ZXGjNrf/pwwJ4W
+ uXREMixtLpL9b6mlkgrMN9PN5DjmUPHp5U1FqAP7alsvvFsOfUh3+kTt/byjvw5KofDzY3
+ MwQkdS+9U0cVc7BC9JDmWW2Tu4cg+YU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-BFOy-0--N_qociMcxZyTLg-1; Mon, 12 Jul 2021 05:49:52 -0400
+X-MC-Unique: BFOy-0--N_qociMcxZyTLg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D7DA802E6C;
+ Mon, 12 Jul 2021 09:49:51 +0000 (UTC)
+Received: from starship (unknown [10.40.192.10])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C438860871;
+ Mon, 12 Jul 2021 09:49:45 +0000 (UTC)
+Message-ID: <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
+Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
+ shadow page table in Linux QEMU/KVM
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: harry harry <hiharryharryharry@gmail.com>, kvm@vger.kernel.org, 
+ qemu-devel@nongnu.org
+Date: Mon, 12 Jul 2021 12:49:44 +0300
+In-Reply-To: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
+References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,33 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, mathieu.tarral@protonmail.com,
+ stefanha@redhat.com, Sean Christopherson <sean.j.christopherson@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 11 Jul 2021 at 23:55, Coiby Xu <coiby.xu@gmail.com> wrote:
->
-> On Mon, Jul 12, 2021 at 06:20:33AM +0800, Coiby Xu wrote:
-> >On Sun, Jul 11, 2021 at 04:53:51PM +0100, Peter Maydell wrote:
-> >>On Sat, 10 Jul 2021 at 14:30, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >>>
-> >>>I've noticed recently that intermittently 'make check' will hang on
-> >>>my aarch32 test system (really an aarch64 box with an aarch32 chroot).
-> >>>
-> >>>I think from grep that this must be the vhost-user-blk test.
-> >>
-> >>I've also now seen this on qemu-system-i386 guest x86-64 Linux host:
-> >
-> >Good to to know that! This makes it much easier for me to debug this
-> >issue.
->
-> Which i386 image do you use for the guest? Could you share the download
-> link? I can't find a suitable i386 qcow2 image. For example, [1] is
-> outdated.
+On Sun, 2021-07-11 at 15:13 -0500, harry harry wrote:
+> Hi all,
+> 
+> I hope you are very well! May I know whether it is possible to enable
+> two-dimensional page translation (e.g., Intel EPT) mechanisms and
+> shadow page table mechanisms in Linux QEMU/KVM at the same time on a
+> physical server? For example, if the physical server has 80 cores, is
+> it possible to let 40 cores use Intel EPT mechanisms for page
+> translation and the other 40 cores use shadow page table mechanisms?
+> Thanks!
 
-I'm just running "make check" on the x86-64 host, which runs tests
-on qemu-system-i386 (assuming you built i386 targets).
+Nope sadly. EPT/NPT is enabled by a module param.
 
--- PMM
+Best regards,
+	Maxim Levitsky
+
+> 
+> Best,
+> Harry
+> 
+
+
 
