@@ -2,68 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C245A3C5EA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 16:56:56 +0200 (CEST)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1D83C5EA8
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 16:58:44 +0200 (CEST)
+Received: from localhost ([::1]:59596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2xMd-0007rm-QX
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 10:56:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49038)
+	id 1m2xON-0002Jc-0o
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 10:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m2xKo-0006to-G9
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:55:02 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:40947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m2xKm-0000rO-4z
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:55:02 -0400
-Received: by mail-io1-xd33.google.com with SMTP id l5so22989275iok.7
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 07:54:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6PVBEzwUnzx4QLZUAUReR9NUGO6EXj4SdT/w1GHZT8U=;
- b=TQfZ7Qv3rZ9Yt5TFVAr3CdQh16gMLh5qXfEBLwMzwA8cZCtH2cTNxgqfttSpCLPV2b
- URi3aPsuBJp28/u6yXzHo7agdnxKRZ3IJY02rs9HV2TiEOlP2LaEFSa3x9ncfSDKJpbk
- e9r8/mfZctLPRE/fOfz1FKFli7mmtoF94iTCIZlm7daQCM5D9LTrFylo+9yw0FvmRLMa
- iLI1/6BtnS2YNkIX2sj+nOW3Ot/q6gL+ohbwRVpk1+N6HvA1cehKGEA51RdV89QOW++3
- ngCo+7FWs8PcUeKFgweZsHDJwaniJYZjASv1+HEJOxeMeLoMR3SayqkFAKIK5daU3TXW
- afhw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m2xMY-0008NX-2t
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:56:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m2xMW-00029Q-Kn
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:56:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626101807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EIaOy0ZdtgupMLERyIJaVzlGSOfhe1UAB0sQ8IpslD4=;
+ b=TP0txy6DfiHoCBs87aZR1vyVRmMM+xc5ufEIzvpkMsAQdDETWp6wLsQsjPf/P9ClzGz+u/
+ D7IQwXYyqw8oI/rk5hB3OHoge68jk2RNFfD2icXc4dIeXrQFgg+34DtNk3Smm1ewG9fhmk
+ MstCMKHhgTkanpm1yNXWa29UPpwtez4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-300-io-a1XxkOMabgd7p-2M7mg-1; Mon, 12 Jul 2021 10:56:46 -0400
+X-MC-Unique: io-a1XxkOMabgd7p-2M7mg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ p3-20020a05600c3583b02901f55d71e34aso114151wmq.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 07:56:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6PVBEzwUnzx4QLZUAUReR9NUGO6EXj4SdT/w1GHZT8U=;
- b=Hl2K7/N2CnVCeb3t2CtvMTH81aFb25UcGqhJTRw2EsOSwgN6U96Jp5k/U/Z/I3W/Rr
- 3WcN8IvpsRfWZsT1FEzR0E7oQ5J/tWRrC7+mjVDWP1Zo1VVyJK8cPj7cAIK93W17r7NR
- xMM6B51dwszeCmB8JXt8wp7JbdGyXXKbJYPevj7pLZnctbA3L5L1GNtJwdNgAavAJQmn
- JsaBsuAE3OGG0+aXn2OxRibCVQxl1MDWZjfKq5y2iursvCeFCO3JMyEu8QFjzJDLG++7
- L3yPLea1ymSKhAPY20otspF+YXcuI9vfDDVIdPEosLeRvWYYp+I+aqI0pS4iEPpOs3Xx
- /WDg==
-X-Gm-Message-State: AOAM531jNi2l8/bb7Wmppa9l9WBZUkaRRhY6GqPhnbUWkWfJ+LCILLkP
- lO4netiDJptpAM9HrIRKPg8X91nkh70wAyzSRFA=
-X-Google-Smtp-Source: ABdhPJwf2+bY5/LNABDnFAtcos8HzCFxyCKKCu5lPOi5zldjg6GN5liF3OfpMXegfABH7IkWaEn8nkx8Y4xfl2crnE8=
-X-Received: by 2002:a5d:91d8:: with SMTP id k24mr40070125ior.84.1626101698885; 
- Mon, 12 Jul 2021 07:54:58 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EIaOy0ZdtgupMLERyIJaVzlGSOfhe1UAB0sQ8IpslD4=;
+ b=SQ/ro7IVpqjjSP/n1tUNCRbGll0mfhusK+yHrkdtryAMxNQ/06jVsKK+3eAVTKCaIF
+ Yr4xEEp+WOA539GiJCRxeqRq5lJATE/mxBOiUoUSslDYuQ80e7niaxKSRJMlwH0RaljP
+ layxWLqYKASwCTQjm4elc/CbqxkWVzCX/dBeIYlc6xvIe8c/KofKzdQ8CMAKg4pLqYe1
+ oqyclYsu4dJmM8h7E/MVMz2kxHyk1OCCHeeHwejJzy+bn842aGJ/ACj2weDWJcdU9+FH
+ O56+5fKXlqfdfy8D0hyqwHR6ZSEal2GLOiruFEqdAG+N9ZLuEqH2YEbeBN3/iIJKD8di
+ ydxw==
+X-Gm-Message-State: AOAM533AJ/EpLeGFDGkyryK5AD/i8shG6YHgf2otVNMp0iek0kFoXfJr
+ E/B+ACo7fYcGqiY+JiYUiajvVJuwFSV//PTnHC1zzy8FkjpuadZQv7RZZ6o/M8EYdK/sXUF4+CO
+ RW9IHT7fbUaIqvcufqfM1JSAZDZZ9mW3KcQIw3M4BQN6pA5DRa/VgKWYQa1WuPljy
+X-Received: by 2002:a05:600c:3b93:: with SMTP id
+ n19mr14956839wms.3.1626101805204; 
+ Mon, 12 Jul 2021 07:56:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxi/ZG6O39+ENzV+E2ipkgPLlZJ2Jew33iiI+3+poXf57nJCbioIgAKvYxi90tgmuuAwtJDPw==
+X-Received: by 2002:a05:600c:3b93:: with SMTP id
+ n19mr14956814wms.3.1626101804978; 
+ Mon, 12 Jul 2021 07:56:44 -0700 (PDT)
+Received: from localhost.localdomain
+ (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr. [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id i2sm20007477wmq.43.2021.07.12.07.56.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 07:56:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 1/4] hw/i386/pc: pc_system_ovmf_table_find: Assert that flash
+ was parsed
+Date: Mon, 12 Jul 2021 16:56:27 +0200
+Message-Id: <20210712145630.2857814-2-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210712145630.2857814-1-philmd@redhat.com>
+References: <20210712145630.2857814-1-philmd@redhat.com>
 MIME-Version: 1.0
-References: <20210712131030.465621-1-pbonzini@redhat.com>
-In-Reply-To: <20210712131030.465621-1-pbonzini@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Mon, 12 Jul 2021 16:54:47 +0200
-Message-ID: <CAM9Jb+gj50rym=VF+AeBn6_EDqgzPyOdOuWBr3B3UsmXyaChBw@mail.gmail.com>
-Subject: Re: [PATCH] io_uring: move LuringState typedef to block/aio.h
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd33.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,93 +97,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Qemu Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Laszlo Ersek <lersek@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> The LuringState typedef is defined twice, in include/block/raw-aio.h and
-> block/io_uring.c.  Move it in include/block/aio.h, which is included
-> everywhere the typedef is needed, since include/block/aio.h already has
-> to define the forward reference to the struct.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  block/io_uring.c        | 4 ++--
->  include/block/aio.h     | 8 ++++----
->  include/block/raw-aio.h | 1 -
->  3 files changed, 6 insertions(+), 7 deletions(-)
->
-> diff --git a/block/io_uring.c b/block/io_uring.c
-> index 00a3ee9fb8..aa856a4c5d 100644
-> --- a/block/io_uring.c
-> +++ b/block/io_uring.c
-> @@ -46,7 +46,7 @@ typedef struct LuringQueue {
->      QSIMPLEQ_HEAD(, LuringAIOCB) submit_queue;
->  } LuringQueue;
->
-> -typedef struct LuringState {
-> +struct LuringState {
->      AioContext *aio_context;
->
->      struct io_uring ring;
-> @@ -56,7 +56,7 @@ typedef struct LuringState {
->
->      /* I/O completion processing.  Only runs in I/O thread.  */
->      QEMUBH *completion_bh;
-> -} LuringState;
-> +};
->
->  /**
->   * luring_resubmit:
-> diff --git a/include/block/aio.h b/include/block/aio.h
-> index 807edce9b5..8e2e4fe10f 100644
-> --- a/include/block/aio.h
-> +++ b/include/block/aio.h
-> @@ -54,7 +54,7 @@ typedef void IOHandler(void *opaque);
->  struct Coroutine;
->  struct ThreadPool;
->  struct LinuxAioState;
-> -struct LuringState;
-> +typedef struct LuringState LuringState;
->
->  /* Is polling disabled? */
->  bool aio_poll_disabled(AioContext *ctx);
-> @@ -209,7 +209,7 @@ struct AioContext {
->       * State for Linux io_uring.  Uses aio_context_acquire/release for
->       * locking.
->       */
-> -    struct LuringState *linux_io_uring;
-> +    LuringState *linux_io_uring;
->
->      /* State for file descriptor monitoring using Linux io_uring */
->      struct io_uring fdmon_io_uring;
-> @@ -513,10 +513,10 @@ struct LinuxAioState *aio_setup_linux_aio(AioContext *ctx, Error **errp);
->  struct LinuxAioState *aio_get_linux_aio(AioContext *ctx);
->
->  /* Setup the LuringState bound to this AioContext */
-> -struct LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp);
-> +LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp);
->
->  /* Return the LuringState bound to this AioContext */
-> -struct LuringState *aio_get_linux_io_uring(AioContext *ctx);
-> +LuringState *aio_get_linux_io_uring(AioContext *ctx);
->  /**
->   * aio_timer_new_with_attrs:
->   * @ctx: the aio context
-> diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-> index 251b10d273..af0ea0fba4 100644
-> --- a/include/block/raw-aio.h
-> +++ b/include/block/raw-aio.h
-> @@ -59,7 +59,6 @@ void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s);
->  #endif
->  /* io_uring.c - Linux io_uring implementation */
->  #ifdef CONFIG_LINUX_IO_URING
-> -typedef struct LuringState LuringState;
->  LuringState *luring_init(Error **errp);
->  void luring_cleanup(LuringState *s);
->  int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
-> --
+From: Dov Murik <dovmurik@linux.ibm.com>
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Add assertion in pc_system_ovmf_table_find that verifies that the flash
+was indeed previously parsed (looking for the OVMF table) by
+pc_system_parse_ovmf_flash.
+
+Now pc_system_ovmf_table_find distinguishes between "no one called
+pc_system_parse_ovmf_flash" (which will abort due to assertion failure)
+and "the flash was parsed but no OVMF table was found, or it is invalid"
+(which will return false).
+
+Suggested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Reviewed-by: Tom Lendacky <thomas.lendacky@amd.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210701052749.934744-2-dovmurik@linux.ibm.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/i386/pc_sysfw.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index 6ce37a2b052..e353f2a4e9b 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -126,6 +126,7 @@ void pc_system_flash_cleanup_unused(PCMachineState *pcms)
+ 
+ #define OVMF_TABLE_FOOTER_GUID "96b582de-1fb2-45f7-baea-a366c55a082d"
+ 
++static bool ovmf_flash_parsed;
+ static uint8_t *ovmf_table;
+ static int ovmf_table_len;
+ 
+@@ -136,10 +137,12 @@ static void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size)
+     int tot_len;
+ 
+     /* should only be called once */
+-    if (ovmf_table) {
++    if (ovmf_flash_parsed) {
+         return;
+     }
+ 
++    ovmf_flash_parsed = true;
++
+     if (flash_size < TARGET_PAGE_SIZE) {
+         return;
+     }
+@@ -183,6 +186,8 @@ bool pc_system_ovmf_table_find(const char *entry, uint8_t **data,
+     int tot_len = ovmf_table_len;
+     QemuUUID entry_guid;
+ 
++    assert(ovmf_flash_parsed);
++
+     if (qemu_uuid_parse(entry, &entry_guid) < 0) {
+         return false;
+     }
+-- 
+2.31.1
+
 
