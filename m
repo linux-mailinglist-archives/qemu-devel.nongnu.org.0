@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2803C5CB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:56:31 +0200 (CEST)
-Received: from localhost ([::1]:38114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 837833C5C94
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:48:21 +0200 (CEST)
+Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2vU6-0005XY-91
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
+	id 1m2vMC-0006gL-8n
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:48:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m2vGv-0007Do-GQ
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:42:53 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46908)
+ id 1m2v7S-0004zr-C4
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:33:06 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m2vGu-0006FB-11
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:42:53 -0400
-Received: by mail-wr1-x433.google.com with SMTP id d12so24791650wre.13
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:42:51 -0700 (PDT)
+ id 1m2v7P-0002M1-AN
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:33:06 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id p8so25389352wrr.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gwRw1ob/qac5/FqzuOGenSxZqRN/B2GFmh5qC/YLlU8=;
- b=wvKdg8x+R0d8HM6PpRLWZyWX+9mMlLKRohz1oRgDXwet5ayQcVaFGmpOn6Vmo5+UQP
- UfZT77C8QXTjvVRMGqowZ6hiJUa4QfDs8Ct2sjMGau9A6xyQZgZ+HWNpUAAREbwL6wb9
- O3CqPCiw5PxRDUcVKiiCxUJ6fs5ramDbAG8a/nj6PlSmLtjBx8OD8SsAYCXCU6XAUjGr
- xTXwxgWp10jpbK4OhIGGaN12nIIWtNMTumZJAIGksiDDFw5/vxv28XzLLOgQGqeuzjfg
- IC4oMwsDfP0hNyf8iAzVIZvz1npq3q+zeu7Ju+V3YdXftGtK3qo6Ow7/aLo0CSJe9R8x
- GEIA==
+ bh=cP7o8wiVJfZhkAdD0nznZLEDoJtABzddO1b/wxyVoMc=;
+ b=V7I8i4qOEK4uS2xjB3G/A+sTdR0spA1Wi4WRNn7jp8I5mKFj33EO0od5q6Nx0/XpLl
+ +/ya/cEe+CPFERMfztEDKIaPQ21EpD/STKJGlgjX9VmggWTrAaYJJnUfHJsAR1JNYhyE
+ 9/jYstCWvG0SGEdaE2MymSYV/T5dwOqO0RYrAMvL7VAxeX7ixVP2o7ct/pK7X/3U966g
+ MrVorCyHGDTXMZX4EPeQn88FHvQ/IYIfYz+xNWvjYA68QriLBGxEjpc2ZpQQCIGOBNHh
+ 0Idw4gbz0MaidTRTrMIvpwNrAvqfUKcPufES1/bUiQKxCdUs+Neu+29g873Q5EoV6cEY
+ d5FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gwRw1ob/qac5/FqzuOGenSxZqRN/B2GFmh5qC/YLlU8=;
- b=REQtRENdM0CVunpdkDmZlHVjKGnH+i72T9GSuWZCGNdtFxdGsjeflI7L9YLOfVhBrG
- KpW9yahmIDyNYFm5tEUt1ii3e9sjXAa8zC3xxFvNeajCXQSR6yQBMsZ4eyo98vfWCiId
- vOW/WV4+y35GUYon9z6Uko6v1QPQkDKKLT4q03d+Xy3ABuIbM+I/QxFdQRglC9UMMi/b
- p2/peHEskP8oFn55afrBb/0WpdETMcTrggxBOgfAOwhD+HD6ReiLnV2hSU/gPCBn9RH3
- w/g9Em4zdx+kzyZncvETUVw2R9oF23hNmDQu6coI24InUjDdWDDUj70sZuvjgQgWN+t9
- 04+w==
-X-Gm-Message-State: AOAM531mgYu1TpBF3EV5FRCI22jN4ddxgJpmPWHNCe2ZF/G5tx2GwloW
- wqINGAo6rY2IKeqUPOEPYSLc5w==
-X-Google-Smtp-Source: ABdhPJww8iH+dnUWq1cpI40JBalwVSC5UxMBAcy8Pq/XWK7j2lExY4mjDoqrApZYI+VJJJ8ILZ15RQ==
-X-Received: by 2002:a5d:5989:: with SMTP id n9mr3183238wri.8.1626093770399;
- Mon, 12 Jul 2021 05:42:50 -0700 (PDT)
+ bh=cP7o8wiVJfZhkAdD0nznZLEDoJtABzddO1b/wxyVoMc=;
+ b=Bzp6/EWYgGOqsoc1Z8a/3ZYlfxZt6YCV1o2EXirqJh5z8tsDxprWnaQFEaxrvBwGxG
+ CURFguNCrxUcLTyXPOHpgmDQ/IdJnUhV0bmJbZoGUfbbIF6DZFBD/N4M0tRDUvZ1if3L
+ a4eTha3756N5SWZmEXJwuCA1X59wLy2+teSSec1TSyCDWL8jT681j5A7c7gxBffH4RAk
+ Hds5FbobobwbCzSJCZUXMI0fPbwWOUnaV1GgnqlvwZijLXPC5PMtrHvxRJmH0WHL+bmx
+ FB80+jAs4wo6m6uVoCohM/Ajz4JbeEEh99N5Ndd+dbGghkU7To8wlGrM58428GypCnK9
+ Ma/A==
+X-Gm-Message-State: AOAM531g9qXTIGJsYex4dMk36IFigr2gveDThuiefzXGWgIhwXo+h9PK
+ w1ij0Q0AuIGJwG4XcuBdMAD04A==
+X-Google-Smtp-Source: ABdhPJx2CS3NBzlIcNRm0TokPfYvmJhmONQp+/44GApHOrJPinW802Cs7Cp5RCpJJlk+lLXFhIA2jQ==
+X-Received: by 2002:adf:e507:: with SMTP id j7mr58755669wrm.152.1626093182138; 
+ Mon, 12 Jul 2021 05:33:02 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k5sm13437493wmk.11.2021.07.12.05.42.49
+ by smtp.gmail.com with ESMTPSA id o17sm11255883wms.32.2021.07.12.05.32.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 05:42:49 -0700 (PDT)
+ Mon, 12 Jul 2021 05:32:56 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D1F661FFA6;
- Mon, 12 Jul 2021 13:26:55 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0DAA31FFAA;
+ Mon, 12 Jul 2021 13:26:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 18/40] tests/docker: remove mingw packages from Fedora
-Date: Mon, 12 Jul 2021 13:26:31 +0100
-Message-Id: <20210712122653.11354-19-alex.bennee@linaro.org>
+Subject: [PULL 20/40] tests/docker: expand fedora package list
+Date: Mon, 12 Jul 2021 13:26:33 +0100
+Message-Id: <20210712122653.11354-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210712122653.11354-1-alex.bennee@linaro.org>
 References: <20210712122653.11354-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,8 +88,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
  Willian Rampazzo <willianr@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -97,52 +98,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-There are dedicated containers providing mingw packages for Fedora.
+This is the fully expanded list of build pre-requisites QEMU can
+conceivably use in any scenario.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-11-berrange@redhat.com>
-Message-Id: <20210709143005.1554-19-alex.bennee@linaro.org>
+Message-Id: <20210623142245.307776-13-berrange@redhat.com>
+Message-Id: <20210709143005.1554-21-alex.bennee@linaro.org>
 
 diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index f667f03cc5..5849ea7617 100644
+index 5849ea7617..eec1add7f6 100644
 --- a/tests/docker/dockerfiles/fedora.docker
 +++ b/tests/docker/dockerfiles/fedora.docker
-@@ -52,33 +52,6 @@ ENV PACKAGES \
+@@ -3,63 +3,83 @@ FROM registry.fedoraproject.org/fedora:33
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+     SDL2-devel \
++    SDL2_image-devel \
++    alsa-lib-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
+     bzip2-devel \
++    ca-certificates \
+     capstone-devel \
+     ccache \
+     clang \
++    ctags \
+     cyrus-sasl-devel \
++    daxctl-devel \
+     dbus-daemon \
+     device-mapper-multipath-devel \
+     diffutils \
+     findutils \
+     gcc \
+     gcc-c++ \
++    gcovr \
+     genisoimage \
+     gettext \
+     git \
+     glib2-devel \
++    glibc-langpack-en \
++    glibc-static \
+     glusterfs-api-devel \
+     gnutls-devel \
+     gtk3-devel \
+     hostname \
++    jemalloc-devel \
+     libaio-devel \
+     libasan \
+     libattr-devel \
++    libbpf-devel \
+     libcacard-devel \
+     libcap-ng-devel \
+     libcurl-devel \
++    libdrm-devel \
+     libepoxy-devel \
+     libfdt-devel \
+-    libbpf-devel \
+     libffi-devel \
++    libgcrypt-devel \
+     libiscsi-devel \
+     libjpeg-devel \
++    libnfs-devel \
+     libpmem-devel \
+     libpng-devel \
+     librbd-devel \
+     libseccomp-devel \
+     libslirp-devel \
+     libssh-devel \
++    libtasn1-devel \
+     libubsan \
+     libudev-devel \
++    liburing-devel \
+     libusbx-devel \
+     libxml2-devel \
+     libzstd-devel \
+     llvm \
++    lttng-ust-devel \
      lzo-devel \
      make \
++    mesa-libgbm-devel \
      meson \
--    mingw32-bzip2 \
--    mingw32-curl \
--    mingw32-glib2 \
--    mingw32-gmp \
--    mingw32-gnutls \
--    mingw32-gtk3 \
--    mingw32-libjpeg-turbo \
--    mingw32-libpng \
--    mingw32-libtasn1 \
--    mingw32-nettle \
--    mingw32-nsis \
--    mingw32-pixman \
--    mingw32-pkg-config \
--    mingw32-SDL2 \
--    mingw64-bzip2 \
--    mingw64-curl \
--    mingw64-glib2 \
--    mingw64-gmp \
--    mingw64-gnutls \
--    mingw64-gtk3 \
--    mingw64-libjpeg-turbo \
--    mingw64-libpng \
--    mingw64-libtasn1 \
--    mingw64-nettle \
--    mingw64-pixman \
--    mingw64-pkg-config \
--    mingw64-SDL2 \
      ncurses-devel \
      nettle-devel \
      ninja-build \
+     nmap-ncat \
+     numactl-devel \
+-    perl \
++    openssh-clients \
++    pam-devel \
+     perl-Test-Harness \
++    perl-base \
+     pixman-devel \
++    pkgconfig \
++    pulseaudio-libs-devel \
+     python3 \
+     python3-PyYAML \
+     python3-numpy \
+@@ -70,19 +90,25 @@ ENV PACKAGES \
+     python3-sphinx_rtd_theme \
+     python3-virtualenv \
+     rdma-core-devel \
++    rpm \
++    sed \
+     snappy-devel \
+     sparse \
++    spice-protocol \
+     spice-server-devel \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
+     tesseract \
+     tesseract-langpack-eng \
++    texinfo \
+     usbredir-devel \
++    util-linux \
+     virglrenderer-devel \
+     vte291-devel \
+     which \
+     xen-devel \
++    xfsprogs-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
+ 
 -- 
 2.20.1
 
