@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC533C5ECF
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:04:40 +0200 (CEST)
-Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4323C5ED6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:07:09 +0200 (CEST)
+Received: from localhost ([::1]:54868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2xU7-00054t-E4
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:04:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51062)
+	id 1m2xWW-0001K1-Sk
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:07:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m2xRs-0001tm-Mw
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:02:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m2xRr-0006vB-3I
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:02:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626102138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3TWvN2BLPJ97DByz6rcuPQlXr6wmZbGKSvkp1RPwrDc=;
- b=XA4M2BrxzE3WlgxsoofBDiyzlfKtMPp2LIRPDZEYbVkdH3LZLhiCVUI79GsjRlTsOrB6sT
- eaIcttgS/JAsZllmaUL5K1vwdfnoU9q1YU3m0RRKAu3eO3AqYeQcu6iEQ98ZjEMrzZsNUK
- b6qFXs+K5bNqZAYps8pcNuI8M7PsXLU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-34nT4yYsMnapgHXmlUWv3g-1; Mon, 12 Jul 2021 11:02:17 -0400
-X-MC-Unique: 34nT4yYsMnapgHXmlUWv3g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F182100CCC2
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 15:02:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-19.ams2.redhat.com
- [10.36.112.19])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 10AD81971B;
- Mon, 12 Jul 2021 15:02:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E941113865F; Mon, 12 Jul 2021 17:02:14 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/devel/qapi-code-gen: Update examples to match current
- code
-Date: Mon, 12 Jul 2021 17:02:14 +0200
-Message-Id: <20210712150214.624281-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1m2xSa-0003Ub-4V
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:03:04 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45640)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1m2xSX-0007MI-OR
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:03:03 -0400
+Received: by mail-wr1-x433.google.com with SMTP id t5so12210263wrw.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZYK6c2AP1WcE5HtD2karR+j5D92DM2OQ0s035Kx9Bjs=;
+ b=EStNtg7+U/Bu+gRW+sRW4xpwU9TfT4Xt3la9XUMazS2/dpscwT807celuJmzOCDBtR
+ 35pFPBks8c3wr0u3UqFhmM5VmbVZASIGCg1P2SSwczMoaOW9dhlL+OSZZNuBT8+VIK7S
+ bgbRivGHwyAzSMo3HV3g2nhOh8fKPxZNXhgqbmiMSEyVfkHVSwfOrz5t0FbH9ph55oH6
+ Gy+Zy4paESScf6kKeXrRcNaunAqSPgOOqTHgMW83l0eT7zaEN8V/5PLhaz0+Xm0yb7yD
+ /pej5NgKH4QmZyZNYlsgOoJF9TuHh4xQqdwjlNQtbSXAzMimBn528sf9N1xHxOXH8kVi
+ tYiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZYK6c2AP1WcE5HtD2karR+j5D92DM2OQ0s035Kx9Bjs=;
+ b=HUkGL8+IiCivIbaQyjb5o+jB811ft0ZqIig0xcoRv3o4FLatSAaSvzhLxGJCLVwIYr
+ yPLcIbORl756Q//sBWRLnK7/ScxznxJnm5TlPsOMnKL+VO5hXYGtlgu7soOL+YxV2+p3
+ QWOX4ARwqiuyMiTfTDg4zkk8Q59rlZKkgfQOQQr8s2gdd0acAMqrsO2YkqXWJaQ3hzTw
+ P4grt3YpwbXpJYVbrgZUcXzmH8khqRZA0Okg46HZ4FC29lhKIgJxRu0iUjoazfA+e7MK
+ dXM7M8ZrxqdWcIakA/rKAl2zngquOaV8Wmr/ZlQkjpb0EYDxnchWpmTz7gK4eCXdNJG6
+ HsUA==
+X-Gm-Message-State: AOAM5306YmPZoYk1Iy0DzqgjcRuEV3WXA6kpyQzS793v07/PHER5u2/d
+ 8NwMro/Tz/r8sXBlUoMzkltLNrDgvIUHODbG5Uh1Bg==
+X-Google-Smtp-Source: ABdhPJyQ4NCdYGlPn98aJimMu+3bruXrDU4xOqSuZrwQ2F3U/ZzYouYs+91E+gljXaQT4bawsgrFd9eXYxWweMHKs9M=
+X-Received: by 2002:a5d:464b:: with SMTP id j11mr59866970wrs.356.1626102179984; 
+ Mon, 12 Jul 2021 08:02:59 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210612160615.330768-1-anup.patel@wdc.com>
+ <20210612160615.330768-4-anup.patel@wdc.com>
+ <CAEUhbmV1L7sL+9=3=onkXZoR0FYpV93gKCVxFJ5O5-Jw36PQgA@mail.gmail.com>
+ <CAAhSdy2q7S08eF8NfqvEeFORkrGDaZsDJftCTaq7c9zi7WU2SQ@mail.gmail.com>
+ <CAEUhbmW9XEk0rZivzQTMhFwL4Egjh0jR9HxEnwJMSOyBntiQig@mail.gmail.com>
+ <CAAhSdy1QW+sQi0L+NfCSfL6k4ZQaU9sqt=ZdDQ=ZK8ygykZnxg@mail.gmail.com>
+ <CAEUhbmXLcgF59QXFveqpJJ-QzexfR++b+JE-ECKntgMnFQ_boA@mail.gmail.com>
+In-Reply-To: <CAEUhbmXLcgF59QXFveqpJJ-QzexfR++b+JE-ECKntgMnFQ_boA@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 12 Jul 2021 20:32:48 +0530
+Message-ID: <CAAhSdy195JTXoZsk=XOZmQog2X4ZP2Npty-74SvorC8Kjjdm9g@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] hw/riscv: virt: Add optional ACLINT support to
+ virt machine
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::433;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,88 +83,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- docs/devel/qapi-code-gen.txt | 23 ++++++++++++++++-------
- 1 file changed, 16 insertions(+), 7 deletions(-)
+On Mon, Jul 12, 2021 at 6:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Mon, Jul 12, 2021 at 6:54 PM Anup Patel <anup@brainfault.org> wrote:
+> >
+> > On Mon, Jul 12, 2021 at 11:45 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > On Mon, Jul 12, 2021 at 1:39 PM Anup Patel <anup@brainfault.org> wrote:
+> > > >
+> > > > On Mon, Jun 14, 2021 at 5:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > >
+> > > > > On Sun, Jun 13, 2021 at 12:14 AM Anup Patel <anup.patel@wdc.com> wrote:
+> > > > > >
+> > > > > > We extend virt machine to emulate ACLINT devices only when "aclint=on"
+> > > > > > parameter is passed along with machine name in QEMU command-line.
+> > > > > >
+> > > > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > > > > > ---
+> > > > > >  hw/riscv/virt.c         | 110 +++++++++++++++++++++++++++++++++++++++-
+> > > > > >  include/hw/riscv/virt.h |   2 +
+> > > > > >  2 files changed, 111 insertions(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > > > > > index 977d699753..a35f66af13 100644
+> > > > > > --- a/hw/riscv/virt.c
+> > > > > > +++ b/hw/riscv/virt.c
+> > > > > > @@ -50,6 +50,7 @@ static const MemMapEntry virt_memmap[] = {
+> > > > > >      [VIRT_TEST] =        {   0x100000,        0x1000 },
+> > > > > >      [VIRT_RTC] =         {   0x101000,        0x1000 },
+> > > > > >      [VIRT_CLINT] =       {  0x2000000,       0x10000 },
+> > > > > > +    [VIRT_ACLINT_SSWI] = {  0x2F00000,        0x4000 },
+> > > > >
+> > > > > How about we reuse the same register space to support both CLINT and
+> > > > > ACLINT? This saves some register space for future extension.
+> > > >
+> > > > The intention of placing ACLINT SSWI separate from ACLINT MTIMER and
+> > > > MSWI is to minimize PMP region usage.
+> > >
+> > > Okay, so this leaves spaces for 240 ACLINT MTIMER and MSWI devices in
+> > > total, if we put ACLINT SSWI at 0x2F00000, and we still have spaces
+> > > for 64 ACLINT SSWI devices. Is this enough?
+> >
+> > We just need one instance of MTIMER, MSWI, and SSWI per-socket.
+> > Current limit of max sockets in RISC-V virt machine is 8. We will be
+> > reducing this to 4 due space required by IMSICs. This means no matter
+> > what 8 instances of each MTIMER, MSWI, and SSWI is the max we
+> > can go for RISC-V virt machine. This limits are due to the fact that
+> > we want to fit devices in first 2GB space.
+> >
+>
+> Can you list the maximum ACLINT devices and their memory map we intend
+> to support and with that we can see how many PMP is used?
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index c1cb6f987d..233022184b 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -1496,8 +1496,12 @@ Example:
- 
- 
-     bool visit_type_UserDefOne_members(Visitor *v, UserDefOne *obj, Error **errp);
--    bool visit_type_UserDefOne(Visitor *v, const char *name, UserDefOne **obj, Error **errp);
--    bool visit_type_UserDefOneList(Visitor *v, const char *name, UserDefOneList **obj, Error **errp);
-+
-+    bool visit_type_UserDefOne(Visitor *v, const char *name,
-+                     UserDefOne **obj, Error **errp);
-+
-+    bool visit_type_UserDefOneList(Visitor *v, const char *name,
-+                     UserDefOneList **obj, Error **errp);
- 
-     bool visit_type_q_obj_my_command_arg_members(Visitor *v, q_obj_my_command_arg *obj, Error **errp);
- 
-@@ -1518,7 +1522,8 @@ Example:
-         return true;
-     }
- 
--    bool visit_type_UserDefOne(Visitor *v, const char *name, UserDefOne **obj, Error **errp)
-+    bool visit_type_UserDefOne(Visitor *v, const char *name,
-+                     UserDefOne **obj, Error **errp)
-     {
-         bool ok = false;
- 
-@@ -1528,6 +1533,7 @@ Example:
-         if (!*obj) {
-             /* incomplete */
-             assert(visit_is_dealloc(v));
-+            ok = true;
-             goto out_obj;
-         }
-         if (!visit_type_UserDefOne_members(v, *obj, errp)) {
-@@ -1543,7 +1549,8 @@ Example:
-         return ok;
-     }
- 
--    bool visit_type_UserDefOneList(Visitor *v, const char *name, UserDefOneList **obj, Error **errp)
-+    bool visit_type_UserDefOneList(Visitor *v, const char *name,
-+                     UserDefOneList **obj, Error **errp)
-     {
-         bool ok = false;
-         UserDefOneList *tail;
-@@ -1628,11 +1635,13 @@ Example:
-     $ cat qapi-generated/example-qapi-commands.c
- [Uninteresting stuff omitted...]
- 
--    static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in, QObject **ret_out, Error **errp)
-+
-+    static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in,
-+                                    QObject **ret_out, Error **errp)
-     {
-         Visitor *v;
- 
--        v = qobject_output_visitor_new(ret_out);
-+        v = qobject_output_visitor_new_qmp(ret_out);
-         if (visit_type_UserDefOne(v, "unused", &ret_in, errp)) {
-             visit_complete(v, ret_out);
-         }
-@@ -1650,7 +1659,7 @@ Example:
-         UserDefOne *retval;
-         q_obj_my_command_arg arg = {0};
- 
--        v = qobject_input_visitor_new(QOBJECT(args));
-+        v = qobject_input_visitor_new_qmp(QOBJECT(args));
-         if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
-             goto out;
-         }
--- 
-2.31.1
+For 4 sockets, we will have following layout:
+0x2000000-0x200FFFF (Socket0 MTIMER and MSWI)
+0x2010000-0x201FFFF (Socket1 MTIMER and MSWI)
+0x2020000-0x202FFFF (Socket2 MTIMER and MSWI)
+0x2030000-0x203FFFF (Socket3 MTIMER and MSWI)
+0x2F00000-0x2F03FFF (Socket0 SSWI)
+0x2F04000-0x2F07FFF (Socket1 SSWI)
+0x2F08000-0x2F0bFFF (Socket2 SSWI)
+0x2F0C000-0x2F0FFFF (Socket3 SSWI)
 
+OpenSBI will create one PMP region to protect all
+MTIMERs and MSWIs which is:
+0x2000000-0x203FFFF
+
+Regards,
+Anup
+
+>
+> Regards,
+> Bin
 
