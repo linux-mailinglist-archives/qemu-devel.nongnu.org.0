@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F343C5D4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:32:38 +0200 (CEST)
-Received: from localhost ([::1]:38164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6ED3C5D5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:36:56 +0200 (CEST)
+Received: from localhost ([::1]:50450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2w33-0000du-8i
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47600)
+	id 1m2w7D-0000Zl-BY
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vdq-00066l-VY
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:06:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39977)
+ id 1m2vdy-00069i-G0
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:06:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vdo-00077X-LK
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:06:34 -0400
+ id 1m2vdw-0007AL-Ad
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:06:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095192;
+ s=mimecast20190719; t=1626095199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wn/r2MCwAdAEySOeEd0ft8OGoQnq/WsyyRSmoWbCYFs=;
- b=Dfye8qc03vkcI7cpFDxlmTzKIgU+MBoUBccysowQx2K+V9sj0O8xTj0BBptxprOTs9MsX/
- eyLDOUqMKfP4DPYJk7xRBPMJTauJc2JGDneEuwFvkc//4tPcWF3fJ5SZcJyeasnC0cOsqJ
- pibioiLDPewwo6BZ4ept5lfLW2bhUco=
+ bh=gX70GM7iPcVN2VHP2PayfpuVvJsvGiDLRcAOQ0HBm3E=;
+ b=TF5XGLo27rFYi8Tiwt2Fuk+vsOF4KsTnhA9wffmMVjXz6s9mnqTFogflx9awo7qq7zLFix
+ JiWW53dkghq3QlKx+CjqNqUFCtman2r+rx0N4htOY+JCLn9d8oH8LjYvquKj0MEd3KBI+X
+ NvjFOa/gc29RueZ9OF5paYW4X0hLEPE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-Cp9UY-B8O7WaUuJXQVsM1Q-1; Mon, 12 Jul 2021 09:06:28 -0400
-X-MC-Unique: Cp9UY-B8O7WaUuJXQVsM1Q-1
+ us-mta-383-m913wQTWPrSRvdXP0vdhqw-1; Mon, 12 Jul 2021 09:06:37 -0400
+X-MC-Unique: m913wQTWPrSRvdXP0vdhqw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C0D6804146;
- Mon, 12 Jul 2021 13:06:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96B14100CF6E;
+ Mon, 12 Jul 2021 13:06:36 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A8DD5C1D1;
- Mon, 12 Jul 2021 13:06:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 806E85C1D1;
+ Mon, 12 Jul 2021 13:06:27 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/22] seccomp: don't block getters for resource control
- syscalls
-Date: Mon, 12 Jul 2021 14:02:22 +0100
-Message-Id: <20210712130223.1825930-22-berrange@redhat.com>
+Subject: [PULL 22/22] tests/migration: fix unix socket migration
+Date: Mon, 12 Jul 2021 14:02:23 +0100
+Message-Id: <20210712130223.1825930-23-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,53 +81,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Otubo <otubo@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Jiri Pirko <jiri@resnulli.us>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recent GLibC calls sched_getaffinity in code paths related to malloc and
-when QEMU blocks access, it sends it off into a bad codepath resulting
-in stack exhaustion[1]. The GLibC bug is being fixed[2], but none the
-less, GLibC has valid reasons to want to use sched_getaffinity.
+From: Hyman <huangy81@chinatelecom.cn>
 
-It is not unreasonable for code to want to run many resource syscalls
-for information gathering, so it is a bit too harsh for QEMU to block
-them.
+The test aborts and error message as the following be throwed:
+"No such file or directory: '/var/tmp/qemu-migrate-{pid}.migrate",
+when the unix socket migration test nearly done. The reason is
+qemu removes the unix socket file after migration before
+guestperf.py script do it. So pre-check if the socket file exists
+when removing it to prevent the guestperf program from aborting.
 
-[1] https://bugzilla.redhat.com/show_bug.cgi?id=1975693
-[2] https://sourceware.org/pipermail/libc-alpha/2021-June/128271.html
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Eduardo Otubo <otubo@redhat.com>
+See also commit f9cc00346d3 ("tests/migration: fix unix socket batch
+migration").
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Hyman <huangy81@chinatelecom.cn>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- softmmu/qemu-seccomp.c | 6 ------
- 1 file changed, 6 deletions(-)
+ tests/migration/guestperf/engine.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
-index 9c29d9cf00..f50026778c 100644
---- a/softmmu/qemu-seccomp.c
-+++ b/softmmu/qemu-seccomp.c
-@@ -97,17 +97,11 @@ static const struct QemuSeccompSyscall denylist[] = {
-     { SCMP_SYS(vfork),                  QEMU_SECCOMP_SET_SPAWN },
-     { SCMP_SYS(execve),                 QEMU_SECCOMP_SET_SPAWN },
-     /* resource control */
--    { SCMP_SYS(getpriority),            QEMU_SECCOMP_SET_RESOURCECTL },
-     { SCMP_SYS(setpriority),            QEMU_SECCOMP_SET_RESOURCECTL },
-     { SCMP_SYS(sched_setparam),         QEMU_SECCOMP_SET_RESOURCECTL },
--    { SCMP_SYS(sched_getparam),         QEMU_SECCOMP_SET_RESOURCECTL },
-     { SCMP_SYS(sched_setscheduler),     QEMU_SECCOMP_SET_RESOURCECTL,
-       ARRAY_SIZE(sched_setscheduler_arg), sched_setscheduler_arg },
--    { SCMP_SYS(sched_getscheduler),     QEMU_SECCOMP_SET_RESOURCECTL },
-     { SCMP_SYS(sched_setaffinity),      QEMU_SECCOMP_SET_RESOURCECTL },
--    { SCMP_SYS(sched_getaffinity),      QEMU_SECCOMP_SET_RESOURCECTL },
--    { SCMP_SYS(sched_get_priority_max), QEMU_SECCOMP_SET_RESOURCECTL },
--    { SCMP_SYS(sched_get_priority_min), QEMU_SECCOMP_SET_RESOURCECTL },
- };
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 7c991c4407..87a6ab2009 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -423,7 +423,7 @@ def run(self, hardware, scenario, result_dir=os.getcwd()):
+             progress_history = ret[0]
+             qemu_timings = ret[1]
+             vcpu_timings = ret[2]
+-            if uri[0:5] == "unix:":
++            if uri[0:5] == "unix:" and os.path.exists(uri[5:]):
+                 os.remove(uri[5:])
  
- static inline __attribute__((unused)) int
+             if os.path.exists(srcmonaddr):
 -- 
 2.31.1
 
