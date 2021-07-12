@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68453C5D66
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:37:09 +0200 (CEST)
-Received: from localhost ([::1]:51780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E123C5D69
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:37:56 +0200 (CEST)
+Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2w7Q-0001V3-V8
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:37:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48874)
+	id 1m2w8B-0003Zp-Ou
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1m2viR-0002q3-LA
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:11:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1m2viQ-0000lO-4R
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:11:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095477;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BOw9n8cwdGuw2ZXr5gCJOWOTHCO5x6bd3gOnjgUDUhY=;
- b=R+Lxd0D7xdEgZIDgXtMRW53dpBCSa1y8gi+/GPAWlnDfYGZCASAKcyoSgSGFkYuyESWWmi
- cjxFoT2q95zqMreo35ukxX9JFTNwdFjP/xS2+kltfl0PqsO6cSuYo2KbYNUbKkzZZ83m5s
- 7JmeDlGhn1WyZI9JgzX4rb4hjghvAPQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-Yz5WTe6JO9mBhKQ2MVlT6g-1; Mon, 12 Jul 2021 09:11:15 -0400
-X-MC-Unique: Yz5WTe6JO9mBhKQ2MVlT6g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0389719057A0;
- Mon, 12 Jul 2021 13:11:14 +0000 (UTC)
-Received: from starship (unknown [10.40.192.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 502D45D6AD;
- Mon, 12 Jul 2021 13:11:08 +0000 (UTC)
-Message-ID: <d95d40428ec07ee07e7c583a383d5f324f89686a.camel@redhat.com>
-Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
- shadow page table in Linux QEMU/KVM
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: harry harry <hiharryharryharry@gmail.com>
-Date: Mon, 12 Jul 2021 16:11:06 +0300
-In-Reply-To: <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
-References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
- <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
- <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m2vio-00037D-Lo; Mon, 12 Jul 2021 09:11:42 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:33424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m2vin-00010X-5N; Mon, 12 Jul 2021 09:11:42 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id r135so28953365ybc.0;
+ Mon, 12 Jul 2021 06:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hVycRudzHLn8GrmOX28fmHXLn4kkizA0cxFd3cvzEbY=;
+ b=lXYnRCSHvWlS5/N6GBDjxSzmA2DWeqKZksX082eB1hfHW37V8yfY3IYtSXD8dyR7id
+ f29NL9XD9HkecvSqo9RxOtFleF6eqn/o49lBV129mRn6GH9NKsxbAwkNXASz0oFnKTwL
+ dbAygIhZOQla4RYiB9VMgaUPZfoLnWywNSebxthLLBel49GOf0EXw+Dzd/xzEsl0a2gA
+ 1M/KS7qi0WCO/7yoFKDzYoi+4nWLlQOjm02456dFQm9aiewCNFiPSab/R0D+Gwt0pr+o
+ mhlw+sFCapRP9Efh9UtsjJStHhOuiMGAnXmTEUtb0g5KiBBqsTTIRbCRslgn36Warjk5
+ uoow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hVycRudzHLn8GrmOX28fmHXLn4kkizA0cxFd3cvzEbY=;
+ b=LCTZOkQAJa9Gp8SlgQuDKTj+G5wnC+dbyG/1INbutoohkauP0z6uE4Rhdv6X1Zhnz9
+ p8rPJuZGX7bcKCfr9R2Hi/eI3hJOmhWDN9fSp3Y3mfyJRTZhc5niGv5yfrxlkt0/9SUd
+ Rt7PaEski4tR4EXxg3ojluFO+ew0kRIItksXP0ff5RhnuuFhWOTe6QosM9GsIDpKcp75
+ JK+Pkub8PASCaGz2fNLOzd5YX6ajqHzDbZxEGuC9dr9tRex5zEH34UnSqxzs3iCI66TO
+ R98ZFBZh3iPKbTVkCLrD7kW09dmufPq1H79x8SdIzmlyOnGnJ9lSsj0nRkuKU2pz5IRB
+ 30pw==
+X-Gm-Message-State: AOAM533M/vqXsTIXr6BdjrNU5SFKApCxBRZUBDOILiLPcs+A3nXtAURV
+ a0gygKw9huBDBXOxbJx5+NFHSoZOMGH2fyatS7M=
+X-Google-Smtp-Source: ABdhPJxw1SQEHLpt3ScKb7IrlNbTOUtL/GKLXccTDu9mbxiMRg7i0X8vH4I2xlEYyDxUKiOiw4pbzQVIzilUVvZXML8=
+X-Received: by 2002:a25:be09:: with SMTP id h9mr69012076ybk.239.1626095498654; 
+ Mon, 12 Jul 2021 06:11:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlevitsk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210612160615.330768-1-anup.patel@wdc.com>
+ <20210612160615.330768-4-anup.patel@wdc.com>
+ <CAEUhbmV1L7sL+9=3=onkXZoR0FYpV93gKCVxFJ5O5-Jw36PQgA@mail.gmail.com>
+ <CAAhSdy2q7S08eF8NfqvEeFORkrGDaZsDJftCTaq7c9zi7WU2SQ@mail.gmail.com>
+ <CAEUhbmW9XEk0rZivzQTMhFwL4Egjh0jR9HxEnwJMSOyBntiQig@mail.gmail.com>
+ <CAAhSdy1QW+sQi0L+NfCSfL6k4ZQaU9sqt=ZdDQ=ZK8ygykZnxg@mail.gmail.com>
+In-Reply-To: <CAAhSdy1QW+sQi0L+NfCSfL6k4ZQaU9sqt=ZdDQ=ZK8ygykZnxg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 12 Jul 2021 21:11:27 +0800
+Message-ID: <CAEUhbmXLcgF59QXFveqpJJ-QzexfR++b+JE-ECKntgMnFQ_boA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] hw/riscv: virt: Add optional ACLINT support to
+ virt machine
+To: Anup Patel <anup@brainfault.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,53 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- mathieu.tarral@protonmail.com, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-07-12 at 08:02 -0500, harry harry wrote:
-> Dear Maxim,
-> 
-> Thanks for your reply. I knew, in our current design/implementation,
-> EPT/NPT is enabled by a module param. I think it is possible to modify
-> the QEMU/KVM code to let it support EPT/NPT and show page table (SPT)
-> simultaneously (e.g., for an 80-core server, 40 cores use EPT/NPT and
-> the other 40 cores use SPT). What do you think? Thanks!
-> 
-> Best regards,
-> Harry
-> 
-> On Mon, Jul 12, 2021 at 4:49 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
-> > On Sun, 2021-07-11 at 15:13 -0500, harry harry wrote:
-> > > Hi all,
-> > > 
-> > > I hope you are very well! May I know whether it is possible to enable
-> > > two-dimensional page translation (e.g., Intel EPT) mechanisms and
-> > > shadow page table mechanisms in Linux QEMU/KVM at the same time on a
-> > > physical server? For example, if the physical server has 80 cores, is
-> > > it possible to let 40 cores use Intel EPT mechanisms for page
-> > > translation and the other 40 cores use shadow page table mechanisms?
-> > > Thanks!
-> > 
-> > Nope sadly. EPT/NPT is enabled by a module param.
-> > 
-> > Best regards,
-> >         Maxim Levitsky
-> > 
-> > > Best,
-> > > Harry
-> > > 
-For same VM, I don't think it is feasable.
+On Mon, Jul 12, 2021 at 6:54 PM Anup Patel <anup@brainfault.org> wrote:
+>
+> On Mon, Jul 12, 2021 at 11:45 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Mon, Jul 12, 2021 at 1:39 PM Anup Patel <anup@brainfault.org> wrote:
+> > >
+> > > On Mon, Jun 14, 2021 at 5:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > On Sun, Jun 13, 2021 at 12:14 AM Anup Patel <anup.patel@wdc.com> wrote:
+> > > > >
+> > > > > We extend virt machine to emulate ACLINT devices only when "aclint=on"
+> > > > > parameter is passed along with machine name in QEMU command-line.
+> > > > >
+> > > > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > > > > ---
+> > > > >  hw/riscv/virt.c         | 110 +++++++++++++++++++++++++++++++++++++++-
+> > > > >  include/hw/riscv/virt.h |   2 +
+> > > > >  2 files changed, 111 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > > > > index 977d699753..a35f66af13 100644
+> > > > > --- a/hw/riscv/virt.c
+> > > > > +++ b/hw/riscv/virt.c
+> > > > > @@ -50,6 +50,7 @@ static const MemMapEntry virt_memmap[] = {
+> > > > >      [VIRT_TEST] =        {   0x100000,        0x1000 },
+> > > > >      [VIRT_RTC] =         {   0x101000,        0x1000 },
+> > > > >      [VIRT_CLINT] =       {  0x2000000,       0x10000 },
+> > > > > +    [VIRT_ACLINT_SSWI] = {  0x2F00000,        0x4000 },
+> > > >
+> > > > How about we reuse the same register space to support both CLINT and
+> > > > ACLINT? This saves some register space for future extension.
+> > >
+> > > The intention of placing ACLINT SSWI separate from ACLINT MTIMER and
+> > > MSWI is to minimize PMP region usage.
+> >
+> > Okay, so this leaves spaces for 240 ACLINT MTIMER and MSWI devices in
+> > total, if we put ACLINT SSWI at 0x2F00000, and we still have spaces
+> > for 64 ACLINT SSWI devices. Is this enough?
+>
+> We just need one instance of MTIMER, MSWI, and SSWI per-socket.
+> Current limit of max sockets in RISC-V virt machine is 8. We will be
+> reducing this to 4 due space required by IMSICs. This means no matter
+> what 8 instances of each MTIMER, MSWI, and SSWI is the max we
+> can go for RISC-V virt machine. This limits are due to the fact that
+> we want to fit devices in first 2GB space.
+>
 
-For multiple VMs make some use NPT/EPT and some don't,
-this should be possible to implement.
+Can you list the maximum ACLINT devices and their memory map we intend
+to support and with that we can see how many PMP is used?
 
-Why do you need it?
-
-Best regards,
-	Maxim Levitsky
-
+Regards,
+Bin
 
