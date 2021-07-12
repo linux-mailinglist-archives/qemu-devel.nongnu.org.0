@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309193C4209
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 05:38:48 +0200 (CEST)
-Received: from localhost ([::1]:47724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D88B3C4309
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 06:28:18 +0200 (CEST)
+Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2mmM-0005wl-OQ
-	for lists+qemu-devel@lfdr.de; Sun, 11 Jul 2021 23:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52734)
+	id 1m2nYH-0001pB-3q
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 00:28:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <caihuoqing@baidu.com>)
- id 1m2mkx-0005FV-S0
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 23:37:19 -0400
-Received: from usmx01.baidu.com ([12.0.243.41]:59124 helo=baidu.com)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <caihuoqing@baidu.com>) id 1m2mku-0003kO-4U
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 23:37:17 -0400
-Received: from BJHW-Mail-Ex13.internal.baidu.com (unknown [10.127.64.36])
- by Forcepoint Email with ESMTPS id 265A3C3625D63C30EC62;
- Sun, 11 Jul 2021 20:37:04 -0700 (PDT)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex13.internal.baidu.com (10.127.64.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.10; Mon, 12 Jul 2021 11:37:03 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.4; Mon, 12 Jul 2021 11:37:02 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <alex.williamson@redhat.com>, <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>
-Subject: [PATCH] vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI
- processor
-Date: Mon, 12 Jul 2021 11:36:55 +0800
-Message-ID: <20210712033655.390-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m2nWQ-0007X6-2n
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:22 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m2nWM-0006G8-Ma
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:21 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m2nWF-0005KZ-CN
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:11 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 186402E819C
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:04 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-EX02.internal.baidu.com (172.31.51.42) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex13_2021-07-12 11:37:03:355
-Received-SPF: pass client-ip=12.0.243.41; envelope-from=caihuoqing@baidu.com;
- helo=baidu.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Jul 2021 04:17:54 -0000
+From: Launchpad Bug Tracker <1914667@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor programmingkidx th-huth
+X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <161248158218.12871.10682279346002918371.malonedeb@soybean.canonical.com>
+Message-Id: <162606347426.2726.7919712289581748356.malone@loganberry.canonical.com>
+Subject: [Bug 1914667] Re: High cpu usage when guest is idle on
+ qemu-system-i386
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
+X-Launchpad-Hash: 36b4d8d2fc2408dba98fabca558db57d8db0d2d7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,56 +71,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cai Huoqing <caihuoqing@baidu.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1914667 <1914667@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix pba_offset initialization value for BAIDU KUNLUN Virtual
-Function device. The KUNLUN hardware returns an incorrect
-value for the VF PBA offset, and add a quirk to instead
-return a hardcoded value of 0xb400.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- hw/vfio/pci.c            | 8 ++++++++
- include/hw/pci/pci_ids.h | 4 ++++
- 2 files changed, 12 insertions(+)
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index ab4077aad2..72b7abf623 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -1499,6 +1499,14 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
-         if (vdev->vendor_id == PCI_VENDOR_ID_CHELSIO &&
-             (vdev->device_id & 0xff00) == 0x5800) {
-             msix->pba_offset = 0x1000;
-+        /*
-+         * BAIDU KUNLUN Virtual Function devices are encoded as 0x3685 for
-+         * KUNLUN AI processor. The KUNLUN hardware returns an incorrect
-+         * value for the VF PBA offset. The correct value is 0xb400.
-+         */
-+        } else if (vdev->vendor_id == PCI_VENDOR_ID_BAIDU &&
-+                   vdev->device_id == PCI_DEVICE_ID_KUNLUN_VF) {
-+            msix->pba_offset = 0xb400;
-         } else if (vdev->msix_relo == OFF_AUTOPCIBAR_OFF) {
-             error_setg(errp, "hardware reports invalid configuration, "
-                        "MSIX PBA outside of specified BAR");
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index 5c14681b82..bc73c50277 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -227,6 +227,10 @@
- #define PCI_VENDOR_ID_FREESCALE          0x1957
- #define PCI_DEVICE_ID_MPC8533E           0x0030
- 
-+#define PCI_VENDOR_ID_BAIDU              0x1d22
-+#define PCI_DEVICE_ID_KUNLUN             0x3684
-+#define PCI_DEVICE_ID_KUNLUN_VF          0x3685
-+
- #define PCI_VENDOR_ID_INTEL              0x8086
- #define PCI_DEVICE_ID_INTEL_82378        0x0484
- #define PCI_DEVICE_ID_INTEL_82441        0x1237
--- 
-2.25.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914667
+
+Title:
+  High cpu usage when guest is idle on qemu-system-i386
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  When running Windows XP in qemu-system-i386, the cpu usage of QEMU is
+  about 100% even when the guest CPU usage is close to 2%. The host cpu
+  usage should be low when the guest cpu usage is low.
+
+  Command: qemu-system-i386 -hda <Windows XP HD image>
+
+  Using this command also shows around 100% host CPU usage:
+  qemu-system-i386 -m 700 -hda <Windows XP HD image> -usb -device usb-audio=
+ -net nic,model=3Drtl8139 -net user -hdb mountable.img -soundhw pcspk
+
+  Using the Penryn CPU option also saw this problem:
+  qemu-system-i386 -hda <Windows XP HD image> -m 700 -cpu Penryn-v1
+
+  Using "-cpu pentium2" saw the same high host cpu usage.
+
+  =
+
+  My Info:
+  M1 MacBook Air
+  Mac OS 11.1
+  qemu-system-i386 version 5.2 (1ba089f2255bfdb071be3ce6ac6c3069e8012179)
+  Windows XP SP3 Build 2600
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914667/+subscriptions
 
