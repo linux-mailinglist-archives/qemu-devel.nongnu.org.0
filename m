@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42433C5D47
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:28:36 +0200 (CEST)
-Received: from localhost ([::1]:52976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AA13C5D4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:30:57 +0200 (CEST)
+Received: from localhost ([::1]:33514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2vz9-0007zq-Oh
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:28:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
+	id 1m2w1Q-0005h7-4z
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vcz-0005BC-Qq
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55436)
+ id 1m2vdb-0005oy-7E
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:06:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vcx-0006gS-Vt
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:05:41 -0400
+ id 1m2vdY-0006r3-01
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:06:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095139;
+ s=mimecast20190719; t=1626095175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=90UEmj6hnKRH2F95YgW3bN+/oqYjJi6Agr2PCVa8eYo=;
- b=UP4XOo39uoYi7qXpAbEnoTioP1VUYBIFv/EoH2KQ9haZioE13YWig/Ticsy2Zcd9d1jbfQ
- 1nQ1VNzXNkpqbJ1VyqLvqwxdiGS/LPquSi5UAeZDRtu4ivyA8EkxAvZzSoNKQkcjCEjb9v
- ImsOIdZSg7ACp/INlgeSZ3cmCrpT65k=
+ bh=yeSMvZXdNsNQu3ORIpYf/cckmfR6IMoBFlCMlPz5uTY=;
+ b=FzfE5mojhOTdqNnMH8pxJtMzkOASZ27O6PrKHGk355bKjwPInDcw6Zxick3xacwdeZWY+l
+ W81onn5ptH8LSP3hFw0TZr2Z7Mx1W58VwiKxEaWD1wFc+vlnPlWfiLC7+LqRmfe5jUH9JS
+ 2NZNgV3Ils+RJD/i3JNhV/jugJKtFhw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-AEkfJEKoNw6xe3fRV6ZaMw-1; Mon, 12 Jul 2021 09:05:37 -0400
-X-MC-Unique: AEkfJEKoNw6xe3fRV6ZaMw-1
+ us-mta-242-KVNctUVVNZCxn6z4cjwplA-1; Mon, 12 Jul 2021 09:06:12 -0400
+X-MC-Unique: KVNctUVVNZCxn6z4cjwplA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 357A8100CF85;
- Mon, 12 Jul 2021 13:05:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C18A11835ACB;
+ Mon, 12 Jul 2021 13:06:11 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A48E95C1D1;
- Mon, 12 Jul 2021 13:05:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3406C5C1D1;
+ Mon, 12 Jul 2021 13:06:01 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/22] crypto: add gnutls hash provider
-Date: Mon, 12 Jul 2021 14:02:16 +0100
-Message-Id: <20210712130223.1825930-16-berrange@redhat.com>
+Subject: [PULL 19/22] net/rocker: use GDateTime for formatting timestamp in
+ debug messages
+Date: Mon, 12 Jul 2021 14:02:20 +0100
+Message-Id: <20210712130223.1825930-20-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,140 +89,39 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds support for using gnutls as a provider of the crypto
-hash APIs.
+The GDateTime APIs provided by GLib avoid portability pitfalls, such
+as some platforms where 'struct timeval.tv_sec' field is still 'long'
+instead of 'time_t'. When combined with automatic cleanup, GDateTime
+often results in simpler code too.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- crypto/hash-gnutls.c | 104 +++++++++++++++++++++++++++++++++++++++++++
- crypto/meson.build   |   2 +
- 2 files changed, 106 insertions(+)
- create mode 100644 crypto/hash-gnutls.c
+ hw/net/rocker/rocker.h | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-diff --git a/crypto/hash-gnutls.c b/crypto/hash-gnutls.c
-new file mode 100644
-index 0000000000..17911ac5d1
---- /dev/null
-+++ b/crypto/hash-gnutls.c
-@@ -0,0 +1,104 @@
-+/*
-+ * QEMU Crypto hash algorithms
-+ *
-+ * Copyright (c) 2021 Red Hat, Inc.
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <gnutls/crypto.h>
-+#include "qapi/error.h"
-+#include "crypto/hash.h"
-+#include "hashpriv.h"
-+
-+
-+static int qcrypto_hash_alg_map[QCRYPTO_HASH_ALG__MAX] = {
-+    [QCRYPTO_HASH_ALG_MD5] = GNUTLS_DIG_MD5,
-+    [QCRYPTO_HASH_ALG_SHA1] = GNUTLS_DIG_SHA1,
-+    [QCRYPTO_HASH_ALG_SHA224] = GNUTLS_DIG_SHA224,
-+    [QCRYPTO_HASH_ALG_SHA256] = GNUTLS_DIG_SHA256,
-+    [QCRYPTO_HASH_ALG_SHA384] = GNUTLS_DIG_SHA384,
-+    [QCRYPTO_HASH_ALG_SHA512] = GNUTLS_DIG_SHA512,
-+    [QCRYPTO_HASH_ALG_RIPEMD160] = GNUTLS_DIG_RMD160,
-+};
-+
-+gboolean qcrypto_hash_supports(QCryptoHashAlgorithm alg)
-+{
-+    size_t i;
-+    const gnutls_digest_algorithm_t *algs;
-+    if (alg >= G_N_ELEMENTS(qcrypto_hash_alg_map) ||
-+        qcrypto_hash_alg_map[alg] == GNUTLS_DIG_UNKNOWN) {
-+        return false;
-+    }
-+    algs = gnutls_digest_list();
-+    for (i = 0; algs[i] != GNUTLS_DIG_UNKNOWN; i++) {
-+        if (algs[i] == qcrypto_hash_alg_map[alg]) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+
-+static int
-+qcrypto_gnutls_hash_bytesv(QCryptoHashAlgorithm alg,
-+                           const struct iovec *iov,
-+                           size_t niov,
-+                           uint8_t **result,
-+                           size_t *resultlen,
-+                           Error **errp)
-+{
-+    int i, ret;
-+    gnutls_hash_hd_t hash;
-+
-+    if (!qcrypto_hash_supports(alg)) {
-+        error_setg(errp,
-+                   "Unknown hash algorithm %d",
-+                   alg);
-+        return -1;
-+    }
-+
-+    ret = gnutls_hash_get_len(qcrypto_hash_alg_map[alg]);
-+    if (*resultlen == 0) {
-+        *resultlen = ret;
-+        *result = g_new0(uint8_t, *resultlen);
-+    } else if (*resultlen != ret) {
-+        error_setg(errp,
-+                   "Result buffer size %zu is smaller than hash %d",
-+                   *resultlen, ret);
-+        return -1;
-+    }
-+
-+    ret = gnutls_hash_init(&hash, qcrypto_hash_alg_map[alg]);
-+    if (ret < 0) {
-+        error_setg(errp,
-+                   "Unable to initialize hash algorithm: %s",
-+                   gnutls_strerror(ret));
-+        return -1;
-+    }
-+
-+    for (i = 0; i < niov; i++) {
-+        gnutls_hash(hash, iov[i].iov_base, iov[i].iov_len);
-+    }
-+
-+    gnutls_hash_deinit(hash, *result);
-+    return 0;
-+}
-+
-+
-+QCryptoHashDriver qcrypto_hash_lib_driver = {
-+    .hash_bytesv = qcrypto_gnutls_hash_bytesv,
-+};
-diff --git a/crypto/meson.build b/crypto/meson.build
-index fc8de287e1..d6df83f2ab 100644
---- a/crypto/meson.build
-+++ b/crypto/meson.build
-@@ -28,6 +28,8 @@ if nettle.found()
-   endif
- elif gcrypt.found()
-   crypto_ss.add(gcrypt, files('hash-gcrypt.c', 'hmac-gcrypt.c', 'pbkdf-gcrypt.c'))
-+elif gnutls_crypto.found()
-+  crypto_ss.add(gnutls, files('hash-gnutls.c', 'hmac-glib.c', 'pbkdf-stub.c')
- else
-   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
- endif
+diff --git a/hw/net/rocker/rocker.h b/hw/net/rocker/rocker.h
+index 941c932265..412fa44d01 100644
+--- a/hw/net/rocker/rocker.h
++++ b/hw/net/rocker/rocker.h
+@@ -25,14 +25,9 @@
+ #if defined(DEBUG_ROCKER)
+ #  define DPRINTF(fmt, ...) \
+     do {                                                           \
+-        struct timeval tv;                                         \
+-        char timestr[64];                                          \
+-        time_t now;                                                \
+-        gettimeofday(&tv, NULL);                                   \
+-        now = tv.tv_sec;                                           \
+-        strftime(timestr, sizeof(timestr), "%T", localtime(&now)); \
+-        fprintf(stderr, "%s.%06ld ", timestr, tv.tv_usec);         \
+-        fprintf(stderr, "ROCKER: " fmt, ## __VA_ARGS__);           \
++        g_autoptr(GDateTime) now = g_date_time_new_now_local();    \
++        g_autofree char *nowstr = g_date_time_format(now, "%T.%f");\
++        fprintf(stderr, "%s ROCKER: " fmt, nowstr, ## __VA_ARGS__);\
+     } while (0)
+ #else
+ static inline GCC_FMT_ATTR(1, 2) int DPRINTF(const char *fmt, ...)
 -- 
 2.31.1
 
