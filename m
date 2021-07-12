@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B403C5E6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 16:37:00 +0200 (CEST)
-Received: from localhost ([::1]:37212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCFC3C5E70
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 16:37:05 +0200 (CEST)
+Received: from localhost ([::1]:37534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2x3L-0002ub-DJ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 10:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45578)
+	id 1m2x3Q-00037c-As
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 10:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m2x28-0001Qm-UJ
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:35:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36143)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m2x2P-0001lq-Ea
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:36:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m2x27-0003rk-9q
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:35:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m2x2N-00042M-LX
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:36:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626100541;
+ s=mimecast20190719; t=1626100558;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pKjGuijc4zsgikeoVoC4aIXR4+18vq+t69Wopd9SIHk=;
- b=GkprtwcJmnW9cwe2+UDyJETO7D3fDOG/gPZ2F1rIQ/6yXm+jP4aaeg/ccJs8rFm67iQLaV
- e2oA0TVydbqSCaXI28uhVKkcnp6cL6eJK+xstA3U7eEDhVTGpp3IM8UU7htrRfkL7bdN73
- 93p4IRKSixhTw35unem2OixO5v9kOU8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-Mcx0SU4_M_ucEkTPjqhSEA-1; Mon, 12 Jul 2021 10:35:39 -0400
-X-MC-Unique: Mcx0SU4_M_ucEkTPjqhSEA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m9-20020a0560000089b02901362e1cd6a3so7157387wrx.13
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 07:35:38 -0700 (PDT)
+ bh=5JnLKKAF+soqrUb/DMYY79wtv3GnKZcCHuUBfBTnAfs=;
+ b=hM2oKlG9sZuqykDlt+M+juZzM7CHl3j+PqsXqnEKdUfKEGmyMV0KfXoxT4iepBauGTng19
+ MeTKHKD+pxv/1FNk7uvxJVfL1AFwwcIx+8VJ9lRACxOG+vCOyrUUPvhT1e83aGp5HLspVb
+ LvW1AhNO6AtDERLuC7qzzAVqHx/JBnc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-RG9fWi-4OHCCJkBg2AnWvA-1; Mon, 12 Jul 2021 10:35:57 -0400
+X-MC-Unique: RG9fWi-4OHCCJkBg2AnWvA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p9-20020a7bcc890000b02902190142995dso4333054wma.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 07:35:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pKjGuijc4zsgikeoVoC4aIXR4+18vq+t69Wopd9SIHk=;
- b=sZczlOWtjS52sTpqZnYwYHGciSIQktJi75axV3t7MGdGPsylbL0WDT7BzWAI15QIck
- 6RT05SkaVY6eryJMFvZZtLAiij6P+m1gLgNJQzFpOdh2uLV/I77TPxSA94PpHqjpWjWc
- wcsCX/TwCAqXfqzHsos+L5eag6oJxQHI97GVOIUsz9aTTwZpm+xIXNv8lTf68DKlHgu6
- zg+4MA0Rn1GaxU2HcTn1u+BXEgvQFIpBL1sfPB0XCg+aYIWvtOQptcmfpr1vlKOoLeCs
- N/9EOUTvgjVbQ/tHaf+LaquUJhr5U+H8vSsUSF7cGF+H14PG2OGfNfHo8kkMtBdIAMXN
- LcqQ==
-X-Gm-Message-State: AOAM532vfQ0DAkNnoES4HyJSweegBh7NWLpw7pl3ujJvGoLNpO3x5dNO
- R5ap+ag+fAqVTibdkMlYZJdHvotF4dSC1Giw+SeZfrPYsEKOmdid8EahTUQDMP+zCyMTg5xkfWo
- l5ZzYQEA2JVNirOg=
-X-Received: by 2002:a5d:598d:: with SMTP id n13mr43000998wri.246.1626100537963; 
- Mon, 12 Jul 2021 07:35:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwuBMjGSSLxcAmxFaG9ka1J0WIrpHFLH8XIanLhjioKQgvtU58mryPWPL8FA15l8PSxjH3F8w==
-X-Received: by 2002:a5d:598d:: with SMTP id n13mr43000978wri.246.1626100537853; 
- Mon, 12 Jul 2021 07:35:37 -0700 (PDT)
+ bh=5JnLKKAF+soqrUb/DMYY79wtv3GnKZcCHuUBfBTnAfs=;
+ b=T50evlEBty/SuNcckipopaZbbLsWQ4nQHvXfX9SxdBDwA0qamjHgkILv89q9tGJyLG
+ EDrmTqFlOvE3XIeUdgQvvUe5YVyHrFS4tExWe+GN/mV6eClNGuDHg3J9e9YfnpxMZtly
+ ZmSInQhH+MCoE7OwXy180RSXHV8FbPaYHbERlToT0p/9Ivz1PDPxS4BxgCs8Kx5HSgya
+ z8WtteYRzB88qVgqN+5xMV3vTghwzVLlzgsbHTzX120yOrzYx+i+1jcyw6a+hBE3BlN3
+ SycJlj9zoU7kwxEHyOP9SLvwa2lCzL+ak+hZZvno5FqPpWyVxtEdRxMw3a8oeE5qgUrM
+ b4fw==
+X-Gm-Message-State: AOAM530zYqbmpMvHz9MVPBzq6h9/It2RoLt1xT/EG46N+NCsLyc8wOqM
+ /EBUR0V2C5Yg4nITfXnxUsVsii1XzlmYAfp4IDaOi+gNcGDC9Ki3rz4lCXwxiQ/yohojGHT+eei
+ CZZso+utBIDlzXiQ=
+X-Received: by 2002:adf:e107:: with SMTP id t7mr59472832wrz.165.1626100556157; 
+ Mon, 12 Jul 2021 07:35:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJydqSc8hjeK1XeVwc6rd6aauvT/Z9auFVUJzHEEsi6TFoR8wMVlCmvcdfUsSmSe5o1HH/wd7Q==
+X-Received: by 2002:adf:e107:: with SMTP id t7mr59472818wrz.165.1626100556055; 
+ Mon, 12 Jul 2021 07:35:56 -0700 (PDT)
 Received: from [192.168.1.27] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
  [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id p8sm13901257wre.76.2021.07.12.07.35.37
+ by smtp.gmail.com with ESMTPSA id v15sm20338360wmj.39.2021.07.12.07.35.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Jul 2021 07:35:37 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS: remove Laszlo Ersek's entries
-To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
-References: <20210708071409.9671-1-lersek@redhat.com>
+ Mon, 12 Jul 2021 07:35:55 -0700 (PDT)
+Subject: Re: [PATCH v3 0/2] hw/i386/pc: Clarify pc_system_ovmf_table_find usage
+To: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20210701052749.934744-1-dovmurik@linux.ibm.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8a64a663-6795-f7bf-b9af-da8ba59980d0@redhat.com>
-Date: Mon, 12 Jul 2021 16:35:36 +0200
+Message-ID: <fd59b7a3-2001-cebe-19d5-1882ada9f12d@redhat.com>
+Date: Mon, 12 Jul 2021 16:35:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210708071409.9671-1-lersek@redhat.com>
+In-Reply-To: <20210701052749.934744-1-dovmurik@linux.ibm.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
@@ -98,42 +98,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/21 9:14 AM, Laszlo Ersek wrote:
-> I've relinquished my edk2 roles with the following commit message [1] [2]
-> [3]:
+On 7/1/21 7:27 AM, Dov Murik wrote:
+> Add assertion to verify that the flash was parsed (looking for the OVMF table),
+> and add documentation for pc_system_ovmf_table_find.
+
+> Dov Murik (2):
+>   hw/i386/pc: pc_system_ovmf_table_find: Assert that flash was parsed
+>   hw/i386/pc: Document pc_system_ovmf_table_find
 > 
->> Maintainers.txt: remove Laszlo Ersek's entries
->>
->> I'm relinquishing all my roles listed in "Maintainers.txt", for personal
->> reasons.
->>
->> My email address <lersek@redhat.com> remains functional.
->>
->> To my understanding, my employer is working to assign others engineers
->> to the edk2 project (at their discretion).
+>  hw/i386/pc_sysfw.c | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 > 
-> [1] https://edk2.groups.io/g/devel/message/77585
-> [2] https://listman.redhat.com/archives/edk2-devel-archive/2021-July/msg00202.html
-> [3] http://mid.mail-archive.com/20210708070916.8937-1-lersek@redhat.com
-> 
-> Accordingly, remove my entries from QEMU's MAINTAINERS file as well, which
-> all relate to guest firmware.
-> 
-> Cc: Daniel P. Berrange <berrange@redhat.com>
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Kashyap Chamarthy <kchamart@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-> ---
->  MAINTAINERS | 3 ---
->  1 file changed, 3 deletions(-)
 
 Thanks, queued to fw-edk2 tree.
 
