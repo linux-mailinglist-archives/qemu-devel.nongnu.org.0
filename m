@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F0B3C60B8
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:38:15 +0200 (CEST)
-Received: from localhost ([::1]:46300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D423C60A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:32:10 +0200 (CEST)
+Received: from localhost ([::1]:41660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2ywg-0005PR-AV
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:38:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
+	id 1m2yqn-0001qO-KD
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:32:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <daniel.baluta@gmail.com>)
- id 1m2wRn-00018R-1H; Mon, 12 Jul 2021 09:58:11 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50863)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m2yoM-0000Ix-5q
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:29:38 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:54852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <daniel.baluta@gmail.com>)
- id 1m2wRk-0003fS-M7; Mon, 12 Jul 2021 09:58:10 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id l6so3195113wmq.0;
- Mon, 12 Jul 2021 06:58:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=wj/cUzJkdOIt4LmqdlFU45SJTSn3DdUvFL0Abm2lGrg=;
- b=HDuzWnhI9PSB/HPzQBtMSM5wuCTkSyYnm1qjfIUsRSOFDWaUCbI9OoYLngAr0FFc0Y
- 8awWYvkmG/k7b+bOzFFekaGsFo+3ln2WIx1Pyd9TXQPFtArR9EKeU2gO6ykejunjxODo
- TMzoCEMWZF/6QIZQ4C+OyHjbeGlS+aViChpZ0xgKaF1a1bwR9qiMJklDAA0jr3JSYfDW
- yrg81mGy4Ta9FlQBbPkHc35bNlT55qSivyeCuEtAWDQdViEnuEKh8DlhHoYbrEKmLUMl
- 2PwPHXFznz2+Th7gxAPaiuG38LDlZycizZxSA/XHvFHNi6A4eDcRSvDlQNhXJsUsIa3h
- MnLQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m2yoJ-0003sA-8Q
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:29:37 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id g24so10422964pji.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 09:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XtmWpkq01X97gueXkOGca0rUJj7jLFPy9fArTJSIkGA=;
+ b=ALScJZfpSz939LnT30Tm5r7dq7tNdRA8RauQl+vogrF+C5TABvAEjO5+VjZ15n/fwi
+ sineEp/zYAGPPr4kuDDCyYkiV8fF8ZPHnqqUJ3Z6+okE1C/tTFq2CeH8WT1ds08XMZLE
+ pvxLBP/oIMFNEkYzpYczYi5VckJMAK+Oq+f6lApbba8my/TWUp62KRE4sXFfY0jGzL/T
+ mk7x+zRQetZtePspOXEnP829hvxpjwqJZfM0oi2GobTge9H+wWhU9KrslNiExHNeQ+Xq
+ VSkli1GBuOqup7xHzPcXF+kj1D3ejujdqfoDRAHqMdnjX30cOYfqdkRhzqZvl092E4uD
+ SjLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wj/cUzJkdOIt4LmqdlFU45SJTSn3DdUvFL0Abm2lGrg=;
- b=HmC82oHXA5aRC4V8p5yalQsITIX031HgHs7yATsvuycaDcSBoOVlf/dI9KNFoFdDyf
- i07HP4eePNcdRU2Ms9ZTgO8/ouwdYEKl3fu/OML1gjUDPHkRqBAWLd+351UoadQV0xa4
- tZkhWfGhEHGNL8uqZkdn0NGJS+uyQgamISGGu2H9UDTD6/l5euBRp590utX5D8J4QuY3
- MI0g+dkBJtHfG09gv30KRJpuBw5ESgAuCWBZAQwNIzdYb41rGVPOPaH1wtrqw5qiuRWR
- kXpaLwenl4mIAlNjLV72oJIXAhjSzjC1uV4EC05ru5QCA98rCEQYmqCCKOFTLWaNGl36
- drhg==
-X-Gm-Message-State: AOAM5332ZHJ01cYqsUm4VLTgfm+dqDP+iha7R6JcW7pp+/VMkfEAYcsb
- qRhpmygjO7fiqo+Ir0Lhdm9ziSlycP9EnDMj/xA=
-X-Google-Smtp-Source: ABdhPJy8RIPfX4I/e5nPQVhuEsvExdgWrdUOt1qhtxnqV0ePwoDCVF/4uawKCY14G4AnwOXewcFk1fu6Qw/1w+MAgRI=
-X-Received: by 2002:a7b:c002:: with SMTP id c2mr55468786wmb.118.1626098284293; 
- Mon, 12 Jul 2021 06:58:04 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XtmWpkq01X97gueXkOGca0rUJj7jLFPy9fArTJSIkGA=;
+ b=StTSSVQsffvXP5GA2DPvfv8wEJbKdX3CQrOmMySY8cDT5ug3DagEZtFW74JMYvanzd
+ qUyVj8d/C7HpizQISzvhhDxq3FIu4zh2YAtum/gCGYvGivfNSi6MPEq//XvEff82Wx1L
+ 9qDwwmuRkmBKq3KTsyw2kLXcyjnzs3QInxA8ofAzAYls0J/FlaFiGhYdcr29pJ3P0ncn
+ II7Rgn6JFTCoDScn8RSpyiEhL6DRLTt5YyMINBGYuuykXPqJ/k1Fdgj4WF/X3w9DDNTO
+ /uBXbUlKiykwUr906y7T3BAyu5S/o0oi5ejOOBaXv8fYsE97zrih/yuMlU20pSkPXM4G
+ bd5Q==
+X-Gm-Message-State: AOAM533RWQduUv/Db8Zlk0S4LD2UihtqJT5Mye1EwbbdX4X+ppUuffwI
+ g2hIGHILN4ODuQ1UTl/amL6zsg==
+X-Google-Smtp-Source: ABdhPJyhp2pFQlKoF167q88eUP3wwDyrnAMI/1MGpPpZVoKGYGtGq6c92VeR73QETC1mJIRrf69mEw==
+X-Received: by 2002:a17:90b:4b82:: with SMTP id
+ lr2mr46178111pjb.111.1626107372459; 
+ Mon, 12 Jul 2021 09:29:32 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id w9sm12859994pfu.112.2021.07.12.09.29.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jul 2021 09:29:32 -0700 (PDT)
+Subject: Re: [PATCH] target/i386/tcg/sysemu/bpt_helper.c: typo since
+ cpu_breakpoint and cpu_watchpoint are in a union, the code should access only
+ one of them
+To: Dmitry Voronetskiy <davoronetskiy@gmail.com>, qemu-devel@nongnu.org
+References: <20210613180838.21349-1-davoronetskiy@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <17761933-8df7-6edd-9c35-121e9b990398@linaro.org>
+Date: Mon, 12 Jul 2021 09:29:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210707113937.72602-1-daniel.baluta@oss.nxp.com>
- <CAFEAcA_L7nrw4zBV7pKYcV+H+4qJT60PFkJYA_w-8FSwOqNmXw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_L7nrw4zBV7pKYcV+H+4qJT60PFkJYA_w-8FSwOqNmXw@mail.gmail.com>
-From: Daniel Baluta <daniel.baluta@gmail.com>
-Date: Mon, 12 Jul 2021 16:57:50 +0300
-Message-ID: <CAEnQRZCJC4WmrGy6NnMmwUkscjn-HcOQmvni580t58b4s7pFKQ@mail.gmail.com>
-Subject: Re: [PATCH] hw: timer: Add i.MX sysctr timer implementation
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=daniel.baluta@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <20210613180838.21349-1-davoronetskiy@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.479,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 12 Jul 2021 12:37:15 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,335 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mancas Viorica <vioricamancas@yahoo.com>,
- Daniel Baluta <daniel.baluta@oss.nxp.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>
+Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 7, 2021 at 10:21 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> On Wed, 7 Jul 2021 at 12:39, Daniel Baluta <daniel.baluta@oss.nxp.com> wr=
-ote:
-> >
-> > From: Viorica Mancas <vioricamancas@yahoo.com>
-> >
-> > The System Counter (SYS_CTR) is a programmable system counter, which pr=
-ovides a
-> > shared time base to multiple processors. It is intended for application=
-s where the counter
-> > is always powered on, and supports multiple unrelated clocks.
-> >
-> > This system counter can be found on NXP i.MX8MN.
-> >
-> > Signed-off-by: Viorica Mancas <vioricamancas@yahoo.com>
-> > Signed-off-by: Daniel Baluta <daniel.baluta@nxp.com>
->
-> Is there a board model or an update to an existing board that
-> would use this device? We don't usually take device models that
-> are completely unused upstream.
+On 6/13/21 11:08 AM, Dmitry Voronetskiy wrote:
+> Signed-off-by: Dmitry Voronetskiy<davoronetskiy@gmail.com>
+> ---
+>   target/i386/tcg/sysemu/bpt_helper.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hi Peter,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This can be found in i.MX8MN board. Should we add this patch together
-with the upcoming patches for i.MX8?
+I've got a small queue of other i386 tcg stuff, so I'll include this.
 
-We tried first to upstream the low hanging fruits. :)
 
-Thanks for review. Will address them in the next versions.
-
->
-> In the meantime, some high-level review notes below.
->
-> > +#ifndef DEBUG_IMX_SYSCTR
-> > +#define DEBUG_IMX_SYSCTR 0
-> > +#endif
-> > +
-> > +#define DPRINTF(fmt, args...) \
-> > +    do { \
-> > +        if (DEBUG_IMX_SYSCTR) { \
-> > +            fprintf(stderr, "[%s]%s: " fmt , TYPE_IMX_SYSCTR_TIMER, \
-> > +                                             __func__, ##args); \
-> > +        } \
-> > +    } while (0)
->
-> Avoid DPRINTF in new code, please; prefer tracepoints.
->
-> > +#define low(x) (x & 0xFFFFFFFFLL)
-> > +#define high(x) (x >> 32)
-> > +
-> > +#define CLEAR_LOW_MASK (0xFFFFFFFFUL << 32)
-> > +#define CLEAR_HIGH_MASK (0xFFFFFFFF)
->
-> Don't define your own access/masking stuff like this -- prefer
-> eg extract64(), deposit64(), or the FIELD macros from
-> registerfields.h.
->
-> > +static void imx_sysctr_timer_init(Object *obj)
-> > +{
-> > +    IMXSysctrState *t =3D IMX_SYSCTR_TIMER(obj);
-> > +
-> > +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &t->irq);
->
-> You might as well put this in realize with the mmio
-> init call, and avoid having to have an init method.
->
-> > +static void imx_sysctr_timer_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    IMXSysctrState *s =3D IMX_SYSCTR_TIMER(dev);
-> > +
-> > +    memory_region_init_io(&s->iomem,
-> > +                            OBJECT(s),
-> > +                            &timer_ops,
-> > +                            s,
-> > +                            TYPE_IMX_SYSCTR_TIMER,
-> > +                            0x20000);
-> > +    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-> > +
-> > +    s->timer =3D ptimer_init(imx_sysctr_timeout, s, PTIMER_POLICY_DEFA=
-ULT);
->
-> Almost no device wants the default policy -- it is
-> defined as "the somewhat broken thing that ptimer has
-> traditionally done, to avoid changing behaviour of
-> existing device models". Have a look at the policy flags
-> to see which ones you want -- there's a comment in ptimer.h
-> explaining them.
->
-> > +
-> > +    /* the default freq is 24Mhz and divided by 3*/
-> > +    ptimer_transaction_begin(s->timer);
-> > +    ptimer_set_freq(s->timer, 24000000 / 3);
-> > +    ptimer_transaction_commit(s->timer);
-> > +}
-> > +
-> > +static void imx_sysctr_timer_reset(DeviceState *dev)
-> > +{
-> > +    IMXSysctrState *s =3D IMX_SYSCTR_TIMER(dev);
-> > +
-> > +    ptimer_transaction_begin(s->timer);
-> > +    /* stop timer */
-> > +    ptimer_stop(s->timer);
-> > +    s->cmpcr =3D 0;
-> > +    s->cmpcv =3D 0;
-> > +    s->cnt =3D 0;
-> > +
-> > +    s->next_timeout =3D SYSCTR_TIMER_MAX;
-> > +
-> > +    ptimer_set_limit(s->timer, SYSCTR_TIMER_MAX, 1);
-> > +
-> > +    /* if the timer is still enabled, restart it */
-> > +    if ((s->cmpcr & SYSCTR_CMPCR_EN)) {
-> > +        ptimer_run(s->timer, 1);
->
-> You just zeroed cmpcr, this can never happen.
->
-> > +    }
-> > +    ptimer_transaction_commit(s->timer);
-> > +
-> > +    DPRINTF("System counter was reset\n");
-> > +
-> > +}
-> > +
-> > +static void imx_sysctr_timer_class_init(ObjectClass *klass, void *data=
-)
-> > +{
-> > +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> > +
-> > +    dc->realize =3D imx_sysctr_timer_realize;
-> > +    dc->reset =3D imx_sysctr_timer_reset;
->
-> All new devices should have a vmstate struct so that snapshot
-> and migration work.
->
-> > +}
-> > +
-> > +static const TypeInfo imx_sysctr_timer_info =3D {
-> > +    .name          =3D TYPE_IMX_SYSCTR_TIMER,
-> > +    .parent        =3D TYPE_SYS_BUS_DEVICE,
-> > +    .instance_size =3D sizeof(IMXSysctrState),
-> > +    .instance_init =3D imx_sysctr_timer_init,
-> > +    .class_init    =3D imx_sysctr_timer_class_init,
-> > +};
-> > +
-> > +static void imx_sysctr_timer_register_types(void)
-> > +{
-> > +    type_register_static(&imx_sysctr_timer_info);
-> > +}
-> > +
-> > +type_init(imx_sysctr_timer_register_types)
-> > +
-> > +static const char *imx_sysctr_timer_reg_name(uint32_t reg)
->
-> I would move this function further up -- the usual convention is
-> that the type_init stuff is the last thing in the file. If
-> you put it near the top of the file you won't need the
-> separate prototype for it that you currently have.
->
-> > +{
-> > +    switch (reg) {
-> > +    case CMPCR:
-> > +        return "CMPCR";
-> > +    case CMPCV_LO:
-> > +        return "CMPCV_LO";
-> > +    case CMPCV_HI:
-> > +        return "CMPCV_HI";
-> > +    case CNTCV_HI:
-> > +        return "CNTCV_HI";
-> > +    case CNTCV_LO:
-> > +        return "CNTCV_LO";
-> > +    default:
-> > +        return "[?]";
-> > +    }
-> > +}
-> > \ No newline at end of file
->
-> Fix the missing newline :-)
->
-> > diff --git a/hw/timer/meson.build b/hw/timer/meson.build
-> > index 598d058506..b6cd52a0b1 100644
-> > --- a/hw/timer/meson.build
-> > +++ b/hw/timer/meson.build
-> > @@ -19,6 +19,7 @@ softmmu_ss.add(when: 'CONFIG_HPET', if_true: files('h=
-pet.c'))
-> >  softmmu_ss.add(when: 'CONFIG_I8254', if_true: files('i8254_common.c', =
-'i8254.c'))
-> >  softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_epit.c'))
-> >  softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_gpt.c'))
-> > +softmmu_ss.add(when: 'CONFIG_IMX', if_true: files('imx_sysctr_timer.c'=
-))
-> >  softmmu_ss.add(when: 'CONFIG_LM32_DEVICES', if_true: files('lm32_timer=
-.c'))
-> >  softmmu_ss.add(when: 'CONFIG_MILKYMIST', if_true: files('milkymist-sys=
-ctl.c'))
-> >  softmmu_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gictimer.=
-c'))
-> > diff --git a/include/hw/timer/imx_sysctr_timer.h b/include/hw/timer/imx=
-_sysctr_timer.h
-> > new file mode 100644
-> > index 0000000000..c36ae9b393
-> > --- /dev/null
-> > +++ b/include/hw/timer/imx_sysctr_timer.h
-> > @@ -0,0 +1,84 @@
-> > +/*
-> > + * QEMU NXP Sysctr Timer
-> > + *
-> > + * Author: Viorica Mancas <vioricamancas@yahoo.com>
-> > + *
-> > + * Permission is hereby granted, free of charge, to any person obtaini=
-ng a copy
-> > + * of this software and associated documentation files (the "Software"=
-), to deal
-> > + * in the Software without restriction, including without limitation t=
-he rights
-> > + * to use, copy, modify, merge, publish, distribute, sublicense, and/o=
-r sell
-> > + * copies of the Software, and to permit persons to whom the Software =
-is
-> > + * furnished to do so, subject to the following conditions:
-> > + *
-> > + * The above copyright notice and this permission notice shall be incl=
-uded in
-> > + * all copies or substantial portions of the Software.
-> > + *
-> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXP=
-RESS OR
-> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABI=
-LITY,
-> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT S=
-HALL
-> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES O=
-R OTHER
-> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARI=
-SING FROM,
-> > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALI=
-NGS IN
-> > + * THE SOFTWARE.
-> > + */
-> > +
-> > +#ifndef IMX_SYSCTR_H
-> > +#define IMX_SYSCTR_H
-> > +
-> > +#include "hw/sysbus.h"
-> > +#include "hw/ptimer.h"
-> > +#include "hw/misc/imx_ccm.h"
-> > +#include "qom/object.h"
-> > +
-> > +/*
-> > + * sysctr : System counter
-> > + *
-> > + * The System Counter inputs two counter clock sources and outputs a c=
-ounter
-> > + * value and interrupt signals (one per compare frame) to the platform=
-=E2=80=99s
-> > + * interrupt controller.
-> > + */
-> > +
-> > +/* The counter in the timer is 56 bits (first 8 are 0) */
-> > +#define SYSCTR_TIMER_MAX  0X00FFFFFFFFFFFFFFUL
->
-> defining this as MAKE_64BIT_MASK(0, 56) would save
-> people counting all those 'F's :-)
->
-> > +
-> > +/* addresses */
-> > +#define CMP_OFFSET     0x10000
-> > +
-> > +#define CNTCV_LO       0x8
-> > +#define CNTCV_HI       0xc
-> > +#define CMPCV_LO       (CMP_OFFSET + 0x20)
-> > +#define CMPCV_HI       (CMP_OFFSET + 0x24)
-> > +#define CMPCR          (CMP_OFFSET + 0x2c)
->
-> Not obligatory, but you might consider using the REG32() macro
-> from registerfields.h for defining register offset values.
->
-> Do these defines really need to be public, or could they be put
-> in the .c file ? Generally the .h file has the stuff that users
-> of the device need, and anything that's purely internal to the
-> implementation goes in the .c file.
->
-> > +
-> > +/* Control register.  Not all of these bits have any effect (yet) */
-> > +#define SYSCTR_CMPCR_EN        (1 << 0)  /*  Enable */
-> > +#define SYSCTR_CMPCR_IMASK     (1 << 1)  /*  Enable */
-> > +#define SYSCTR_CMPCR_ISTAT     (1 << 2)  /*  Compare (interrupt) statu=
-s (read only) */
-> > +/* interupt condition: ISTAT =3D (CNTCV >=3D CMPCV) */
-> > +
-> > +#define CMPCR_WRITE (SYSCTR_CMPCR_IMASK | SYSCTR_CMPCR_EN)
-> > +
-> > +#define TYPE_IMX_SYSCTR_TIMER "imx.sysctr-timer"
-> > +
-> > +typedef struct IMXSysctrState IMXSysctrState;
-> > +DECLARE_INSTANCE_CHECKER(IMXSysctrState, IMX_SYSCTR_TIMER,
-> > +                         TYPE_IMX_SYSCTR_TIMER)
->
-> Prefer OBJECT_DECLARE_SIMPLE_TYPE, which will do the typedef
-> for you.
->
-> > +
-> > +struct IMXSysctrState {
-> > +    /*< private >*/
-> > +    SysBusDevice parent_obj;
-> > +
-> > +    /*< public >*/
-> > +    ptimer_state *timer;
-> > +    MemoryRegion  iomem;
-> > +
-> > +    qemu_irq irq;
-> > +
-> > +    uint32_t cmpcr; /* Compare Control Register */
-> > +    uint64_t cnt;   /* Counter on 56 bits */
-> > +    uint64_t cmpcv; /* Compare Count Value */
-> > +
-> > +    uint64_t next_timeout;
-> > +};
-> > +
-> > +#endif /* IMX_SYSCTR_H */
->
-> thanks
-> -- PMM
+r~
 
