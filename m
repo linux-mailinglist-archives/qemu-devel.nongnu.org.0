@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E7153C65E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 00:03:39 +0200 (CEST)
-Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C752C3C65E8
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 00:06:01 +0200 (CEST)
+Received: from localhost ([::1]:51682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m341a-0004gv-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 18:03:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50668)
+	id 1m343s-0007Z7-Tt
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 18:06:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m33tv-0000ac-PN
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:43 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52956)
+ id 1m33tx-0000ea-1l
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:45 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:42649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m33ts-0006rY-RI
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:43 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id bt15so5844225pjb.2
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:55:40 -0700 (PDT)
+ id 1m33tu-0006t3-96
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:44 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ i16-20020a17090acf90b02901736d9d2218so842279pju.1
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=V4NDEP6+OPN3RZuxFlIMW6dNi+3smAct890DuJEN23o=;
- b=QPmfAvbabUtgs8i44opkL8TVTPxkjd+6w/WNlclRMTNopwLELhWfrIQnTh1nYeJObF
- V4R7GLhDRbBpA72gjlYNen8xeSV0TN+u0s9mD6PIAbBbwYqMxf5Zb2vs25DcBqmteK+a
- FxWM1XzLrJ4Lo1zesZO3YuRbRn16BEveJQ0IHstqgc3V+lLhBT6KgOL8HTQeG0TeLSUO
- iZbrtW7AonexFnLAjAhmzhDdxNjVidDBnIE30Y6cmCBSDXC4n2d41ijoBR8Jz7TR4MBT
- xVUYOh9OL6/PAZE0gcflVozCc30fOY9OUUcUReXYOsjT7cGHzdMJRlPpQIy6Uu8jb22P
- ZCeg==
+ bh=7XETLGHbzSx1DKTz4qiEULjf7r49YPKh/uFQ3WSm96o=;
+ b=aFRau+l+IQuB//pmHt5hO7GeCYO3oqJ1azjwDPsr8FPMP+lVeBZ9uoBFC3R49eEuEo
+ BJOsqCxd7vWf3aYAdzO9e4qEeAAKCHBeUWdOZsa8rjO6sKtSpj4b6W4ZU6Tv8fWETbHA
+ +DX9Gt7D9iRt0+QpeFL5m+7i5v7d54WzSEGXLPYzw1RfciGTjRkQtdnoqZYK1q3vrQfq
+ eszGcng4eq9N8ilep9OOjedlRwQcun2Q4SfGoaSMEafJALeEvllwF6Js62NR3n/pzAgV
+ /L0C+fV2PuGvzWQEIfLBY/QwSg4XljxM3z3SqfkQO6MJVxNgkGNX38oAeboB4r3WSrHm
+ wmkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=V4NDEP6+OPN3RZuxFlIMW6dNi+3smAct890DuJEN23o=;
- b=D2GjO8FayQ/7956L1rgmmeigzvPnaPPYoPP6j4sXQPwjfPyy+FxZ4JZkkLy36tGAwH
- uo4L+3ZuWeJFMEGngeF3X0D+0Xw8+zEXEROM12i242JQUcytlukDk7oyeFwvoU8GPJk4
- pNhWBu9gFEWzT+i2ufkxBvLPUew8ipWu4C1FYYb/tCqrITKHGIiJfAJsr8hm5tlOsfYt
- BvYHuzSFRqsnnjxOQ3fMVvfzuLnbhcsmBZwz5eWEwRgXQkq9dJFkjONWj+29rWRlZdbh
- 2cQO7V7+VnddDys04ujp3+xRFkOZa0JHdNbs3EUQsPAIL5eer/e0IVXtxCDdpqDfyIxH
- 0I8w==
-X-Gm-Message-State: AOAM531vVTQQWrC6ByhPIibXqwP1YznNK+9vGPNkGtoj9AcWMHyQUZBw
- YUWD9KOpKY+rad9V3aGFT7+SGKL2tWdLvw==
-X-Google-Smtp-Source: ABdhPJyJCPeu7EbTaSZQmQiaBixk13lotszPbyHr9eZlrXiafZQR+q/D066hT1OUq+Jlh/WsafBbdw==
-X-Received: by 2002:a17:90a:a087:: with SMTP id
- r7mr16124415pjp.84.1626126939211; 
- Mon, 12 Jul 2021 14:55:39 -0700 (PDT)
+ bh=7XETLGHbzSx1DKTz4qiEULjf7r49YPKh/uFQ3WSm96o=;
+ b=ABiSHkF+aaIsXcJzJ1d+PP+U5x+M2G14wa6Re5zRvgvj8VWVe1YBqkiH/dcnb7LrWF
+ ov2pBz3dAki4qfIZr65nSJPNoZeK/pgZioLNY29oYmwhJDQPlPnlrSuT2b3gEfezXr7U
+ VrLhQv917EpDnBakxdEAbO/SIBrF0iHuJOghHXai3UEbX+h/koQutqOmvtMKcm2tSvsc
+ ugHnk9KL6bWTAOoqrVJAgfX98qvVb4/TKREArgiIFaKA60VGbmJ2ksBoHnnmKLSV5FE6
+ JrUu1pXDLT/W690sM+Ze+XE4Mv0mLhPJWnqcEaIdLdc/QrrCiww31hGDCvn+ws4GDxTz
+ vLfQ==
+X-Gm-Message-State: AOAM530Q5+pO5mq27/5NszukvTMc4LkLH4Xp1QWnr+EBVssN38t70SaQ
+ Lt0rnAZCX4svLBm3EZBGXLdQPKLiQQlIIg==
+X-Google-Smtp-Source: ABdhPJz2Bo9jIPm1EXaWuYT5Gar3Tv+/dEymg4ycTbDyNUPIgGBQV8o3LeQlQiMApVJJHNxk75uucw==
+X-Received: by 2002:a17:90a:e2c5:: with SMTP id
+ fr5mr1042981pjb.34.1626126941048; 
+ Mon, 12 Jul 2021 14:55:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id d2sm376932pjo.50.2021.07.12.14.55.38
+ by smtp.gmail.com with ESMTPSA id d2sm376932pjo.50.2021.07.12.14.55.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 14:55:38 -0700 (PDT)
+ Mon, 12 Jul 2021 14:55:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/11] util/selfmap: Discard mapping on error
-Date: Mon, 12 Jul 2021 14:55:27 -0700
-Message-Id: <20210712215535.1471256-4-richard.henderson@linaro.org>
+Subject: [PATCH 06/11] hw/ppc/spapr_events: Remove unused variable from
+ check_exception
+Date: Mon, 12 Jul 2021 14:55:30 -0700
+Message-Id: <20210712215535.1471256-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210712215535.1471256-1-richard.henderson@linaro.org>
 References: <20210712215535.1471256-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
  envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,79 +85,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From clang-13:
-util/selfmap.c:26:21: error: variable 'errors' set but not used \
+hw/ppc/spapr_events.c:937:14: error: variable 'xinfo' set but not used \
     [-Werror,-Wunused-but-set-variable]
 
-Quite right of course, but there's no reason not to check errors.
-
-First, incrementing errors is incorrect, because qemu_strtoul
-returns an errno not a count -- just or them together so that
-we have a non-zero value at the end.
-
-Second, if we have an error, do not add the struct to the list,
-but free it instead.
-
-Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: qemu-ppc@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/selfmap.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ hw/ppc/spapr_events.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/util/selfmap.c b/util/selfmap.c
-index 2ec99dfdda..0178c2ff8b 100644
---- a/util/selfmap.c
-+++ b/util/selfmap.c
-@@ -23,29 +23,33 @@ GSList *read_self_maps(void)
-             gchar **fields = g_strsplit(lines[i], " ", 6);
-             if (g_strv_length(fields) > 4) {
-                 MapInfo *e = g_new0(MapInfo, 1);
--                int errors;
-+                int errors = 0;
-                 const char *end;
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index 0cfc19be19..23e2e2fff1 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -934,7 +934,6 @@ static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+                             uint32_t nret, target_ulong rets)
+ {
+     uint32_t mask, buf, len, event_len;
+-    uint64_t xinfo;
+     SpaprEventLogEntry *event;
+     struct rtas_error_log header;
+     int i;
+@@ -944,13 +943,9 @@ static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         return;
+     }
  
--                errors  = qemu_strtoul(fields[0], &end, 16, &e->start);
--                errors += qemu_strtoul(end + 1, NULL, 16, &e->end);
-+                errors |= qemu_strtoul(fields[0], &end, 16, &e->start);
-+                errors |= qemu_strtoul(end + 1, NULL, 16, &e->end);
+-    xinfo = rtas_ld(args, 1);
+     mask = rtas_ld(args, 2);
+     buf = rtas_ld(args, 4);
+     len = rtas_ld(args, 5);
+-    if (nargs == 7) {
+-        xinfo |= (uint64_t)rtas_ld(args, 6) << 32;
+-    }
  
-                 e->is_read  = fields[1][0] == 'r';
-                 e->is_write = fields[1][1] == 'w';
-                 e->is_exec  = fields[1][2] == 'x';
-                 e->is_priv  = fields[1][3] == 'p';
- 
--                errors += qemu_strtoul(fields[2], NULL, 16, &e->offset);
-+                errors |= qemu_strtoul(fields[2], NULL, 16, &e->offset);
-                 e->dev = g_strdup(fields[3]);
--                errors += qemu_strtou64(fields[4], NULL, 10, &e->inode);
-+                errors |= qemu_strtou64(fields[4], NULL, 10, &e->inode);
- 
--                /*
--                 * The last field may have leading spaces which we
--                 * need to strip.
--                 */
--                if (g_strv_length(fields) == 6) {
--                    e->path = g_strdup(g_strchug(fields[5]));
-+                if (!errors) {
-+                    /*
-+                     * The last field may have leading spaces which we
-+                     * need to strip.
-+                     */
-+                    if (g_strv_length(fields) == 6) {
-+                        e->path = g_strdup(g_strchug(fields[5]));
-+                    }
-+                    map_info = g_slist_prepend(map_info, e);
-+                } else {
-+                    g_free(e);
-                 }
--                map_info = g_slist_prepend(map_info, e);
-             }
- 
-             g_strfreev(fields);
+     event = rtas_event_log_dequeue(spapr, mask);
+     if (!event) {
 -- 
 2.25.1
 
