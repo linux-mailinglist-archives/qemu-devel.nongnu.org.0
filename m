@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718083C5F86
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:42:48 +0200 (CEST)
-Received: from localhost ([::1]:36224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C243C5FAA
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:46:24 +0200 (CEST)
+Received: from localhost ([::1]:50260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2y51-0006tO-Gq
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
+	id 1m2y8V-0007n9-3R
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:46:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2y2c-0003ze-3Q
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:40:21 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:44842)
+ id 1m2y2h-0003zj-Mh
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:40:24 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:38855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2y2U-0000v3-MQ
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:40:14 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- p4-20020a17090a9304b029016f3020d867so226416pjo.3
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:40:08 -0700 (PDT)
+ id 1m2y2V-0000vB-0c
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:40:19 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ me13-20020a17090b17cdb0290173bac8b9c9so2450189pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aJUMslg4EAxSiYS9zA1U7hEkodGULeANuLs91s86cRg=;
- b=d/+oLDVTeNIirW6asf3jP7Xxzanwb7rHfjtheWoqnNFbNCWLohCEx68oAJJnYQLAfD
- JjiudqrtjkProhmLDgwN6Z5/sNSEoCmG3DD7cDc5fIRPlwJoQxi1l5sXaHPqqjPEhboQ
- iOzKj5Igyez22zcVGsKiC5Fl1wYbKzRBvNU327Ad5SMkPwm3KFWc6dPiN8BKwCFPEtcD
- LTRiRqBseTB97t/KW/mpVEBtTm9QDhx6mv9Sbxluz8vhHNCdHZz4RVNhAdFa7d7aLxod
- YIH/kmT9M5vEveRSSiiLITYJIxNjJvCiyPri11WykHNTvcCWkZ4MI6JPgWhb3OhWezdT
- zjhQ==
+ bh=aZodwPrqQjUt8vQ3rujRtm0PKCZdI4rcPhp5DEtvTCc=;
+ b=LfdovceokOsOtRtP4Q0rw0GoW5OJXAhkoOS/0RHQj1yIuTX0RidxI0NirnLryYNtL2
+ hPvVbXbQI77hBiZW9FyDMgytDwVQIo3C/E6o4QkrgOYbgQcpxp17zIVnYref4h07jJxv
+ /bDXO3yox1j1UxSQ/FBuVI8VM3dwPW6xJ8DDndiulttjEAb93mmJxJsR5/lGcAIMgEqi
+ uORkw1HiAXy/8lcRIk1FNzo1Uhikx8aVJ0xwBKREhoHwkkL4sxlZGwjNX0K68stWqQOq
+ 6QwedpLgTSpMSIIpz/RAY35nCGDt53PKJeGF5+PT6yRVU1t+i+LQ7ScZZKKeH81STMZD
+ hEAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aJUMslg4EAxSiYS9zA1U7hEkodGULeANuLs91s86cRg=;
- b=j07OwgDGrXv5JB68ODoqHQacsDtH1LIvXRo0mr4hu2Ae3JUsa/t2UQnnDCBUH6VzaJ
- JHJtKBfJPl46DcYPi1G/dOKXDbKS6AB0B9Dg2ea5JDELX50OU0/NtVLjuDjFZQPbyNcB
- E6QF9XOslS1RQJh0kAijVepCFzFD6Dao/Zvuyzm+FXPTlNeN9kEIca8356MSWmUVQOro
- 9Uwl+TtRaInvakNeCkb+fM9tb2A//TSOw29x+eVmEGi9UxCazmc+nQgTFFG4rgsojxUf
- MzMiwub8PoWLS5tgYdUQ8zeneQtlJ91GSvkgG3TR6r/6InSkmo3g0HfcjEIxwvO3ptp9
- Qwdg==
-X-Gm-Message-State: AOAM530ky8gnMGsATkh9DpX92haFtzTN9K8mEJmX8G11ii60uRRpNy4V
- ofal3wKzjZxt6JrGEWnhrPXA4CdIl3mlBA==
-X-Google-Smtp-Source: ABdhPJz1ric2mj46jRlMcO+Na5K97Q9TCfTktfESSAnr6lM1kcOr4+s8wedjyfiz0f1jjFs2+3E2tg==
-X-Received: by 2002:a17:90a:8912:: with SMTP id
- u18mr24154112pjn.90.1626104407967; 
- Mon, 12 Jul 2021 08:40:07 -0700 (PDT)
+ bh=aZodwPrqQjUt8vQ3rujRtm0PKCZdI4rcPhp5DEtvTCc=;
+ b=U5HFzaBfDC8UylRsREBMyE/ZzSYgiZVxKWCx6sAXWsNpr6xB5Xo6y/Kaetp6+UBG/+
+ 6lD4WdMN+L3uP728gteRr8HwuVnAf8fyS4gxie7s914VLzrIwocQTNCryQuh7kl10b0Z
+ Fu1aukTJC46axrJenM8ulMlHHUPiy1xWL+ZSC5srGkNrDdiqev1zKGJdZhuJy0fCWQ5w
+ XRETaXv9IVXs6YZRlICKofKO6YQapskziWQsBiQuDoihimMJQOrtAr4HduAHa7k8fm/9
+ BRsvllQkf3eOOv21NiLZi3W1HFPy21sSnL7Ipw3IMSfFs0D4PY6xkjNflWm0F2c21s7W
+ kNfg==
+X-Gm-Message-State: AOAM5311hQWyk0CjXxQdbT3+ZAOAizCK0SxuPhu8vYVv1TXIft/DfN6N
+ OxCFAKFBSknrnu1vJHN7Dq9RrMZsHjft9g==
+X-Google-Smtp-Source: ABdhPJyLKQB3nWRFqQ7hvqIvAqKtTqFRQiBw+EMe0rppJ+7Q13F5K5sp2N96wXpC0jYI36o0kcvu6g==
+X-Received: by 2002:a17:90a:a60f:: with SMTP id
+ c15mr52640766pjq.187.1626104408642; 
+ Mon, 12 Jul 2021 08:40:08 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b33sm18247635pgb.92.2021.07.12.08.40.07
+ by smtp.gmail.com with ESMTPSA id b33sm18247635pgb.92.2021.07.12.08.40.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 08:40:07 -0700 (PDT)
+ Mon, 12 Jul 2021 08:40:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 05/10] accel/tcg: Handle -singlestep in curr_cflags
-Date: Mon, 12 Jul 2021 08:39:59 -0700
-Message-Id: <20210712154004.1410832-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 06/10] accel/tcg: Use CF_NO_GOTO_{TB,
+ PTR} in cpu_exec_step_atomic
+Date: Mon, 12 Jul 2021 08:40:00 -0700
+Message-Id: <20210712154004.1410832-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210712154004.1410832-1-richard.henderson@linaro.org>
 References: <20210712154004.1410832-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,61 +88,44 @@ Cc: mark.cave-ayland@ilande.co.uk, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Exchange the test in translator_use_goto_tb for CF_NO_GOTO_TB,
-and the test in tb_gen_code for setting CF_COUNT_MASK to 1.
+Request that the one TB returns immediately, so that
+we release the exclusive lock as soon as possible.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c      | 8 +++++++-
- accel/tcg/translate-all.c | 2 +-
- accel/tcg/translator.c    | 2 +-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ accel/tcg/cpu-exec.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 70ea3c7d68..2206c463f5 100644
+index 2206c463f5..5bb099174f 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -149,7 +149,13 @@ uint32_t curr_cflags(CPUState *cpu)
- {
-     uint32_t cflags = cpu->tcg_cflags;
+@@ -330,8 +330,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
+     CPUArchState *env = (CPUArchState *)cpu->env_ptr;
+     TranslationBlock *tb;
+     target_ulong cs_base, pc;
+-    uint32_t flags;
+-    uint32_t cflags = (curr_cflags(cpu) & ~CF_PARALLEL) | 1;
++    uint32_t flags, cflags;
+     int tb_exit;
  
--    if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
-+    /*
-+     * For singlestep and -d nochain, suppress goto_tb so that
-+     * we can log -d cpu,exec after every TB.
-+     */
-+    if (singlestep) {
-+        cflags |= CF_NO_GOTO_TB | 1;
-+    } else if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
-         cflags |= CF_NO_GOTO_TB;
-     }
+     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
+@@ -341,8 +340,14 @@ void cpu_exec_step_atomic(CPUState *cpu)
+         cpu->running = true;
  
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 997e44c73b..491c1a56b2 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1432,7 +1432,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-     }
-     QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
+         cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
+-        tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
  
--    if (cpu->singlestep_enabled || singlestep) {
-+    if (cpu->singlestep_enabled) {
-         max_insns = 1;
-     }
- 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 2ea5a74f30..a59eb7c11b 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -39,7 +39,7 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
-     }
- 
-     /* Suppress goto_tb in the case of single-steping.  */
--    if (db->singlestep_enabled || singlestep) {
-+    if (db->singlestep_enabled) {
-         return false;
-     }
- 
++        cflags = curr_cflags(cpu);
++        /* Execute in a serial context. */
++        cflags &= ~CF_PARALLEL;
++        /* After 1 insn, return and release the exclusive lock. */
++        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR | 1;
++
++        tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+         if (tb == NULL) {
+             mmap_lock();
+             tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
 -- 
 2.25.1
 
