@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B2A3C5C2D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:30:34 +0200 (CEST)
-Received: from localhost ([::1]:52304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C6363C5C36
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:33:42 +0200 (CEST)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2v4y-00076J-UJ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:30:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39780)
+	id 1m2v80-0004Zb-MF
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:33:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m2v1f-00047n-4C
+ id 1m2v1f-00047b-1G
  for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:27:07 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46017)
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m2v1d-0007vf-EL
+ id 1m2v1c-0007vZ-QR
  for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:27:06 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- u8-20020a7bcb080000b02901e44e9caa2aso11380095wmj.4
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:27:05 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id v5so25369153wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:27:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vfMIiyHNfTwBacCZ/Z5kXuUc3K4JlBoxSMTzFBkGMIE=;
- b=U8kaS19zVZwGOyfBs4xSViFZJK4/UO5JjcrFwKvrE+iLdxpetjxf8DnkOBh6hUXcDm
- B8DwhwCJLr6DtiGqoceG71EN7wVI5HQ9BVwJ3pJ85YqCcvy2ZDZ+jJxKmeGc+yfX3q2B
- YfKeXfS9Yj4oE9n1r/H8OP9+U7XfNrS7C60ZnDVqy9hCd/U5w7v3MXi/27gXHMuLx7WD
- gmKx/pzpw30c4S1WBFkVmmZEC7qGdyEnyAPO4gX7EaNdbSGPGHJvEv8M6m/dktbAP3JK
- QrAFmUIHKQP0YzyRjTuNaxKZuPSEUNADaHeZJP/oILkQi+B2g5R2sq9L6Td5PqDqOOGs
- GaQg==
+ bh=tx0LVkEeNkiisbZ/NNlmcCoTtxFb5VF+oTFhCuDdy2I=;
+ b=Bv4ghHQvcMURFku2egcCKn58fNild1gAethoK1n7QYvfMHOpaZmLwnk9ESk4rLkwBz
+ psAmfIEZx14T/ThQl+9LucLP7eVeQV6zHBlx1pu6zqPaLSkY/p1l9ZbtuJ9pqYv6iCaE
+ kzuyyt6xBsrSj7sbTFYS52kcquyYba/nzd7c+RsEixE63yREgIeNPo9cb20G35kTMA5v
+ 3oD3UHDRLW+BLk9ebB2xXnT6MLEKZXNp3yw8UVigLyVT9bOA7CkP0yp4OeCQ8OjOueKj
+ 2BfGiru7fnokQ+KcUYBRbjJLCZE7FfHpyEIKFv7QleD6cq1DcJXdcPQUru59zw8sm1Oy
+ 3DNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vfMIiyHNfTwBacCZ/Z5kXuUc3K4JlBoxSMTzFBkGMIE=;
- b=cWsnqyt6wkXOex9HYdNhvr2FyI6It3Uxh9FDcKCGrTz4ksKKVn13eoPCn13F1iyvYU
- 7bCf3bUW1tyaXPTibacOUs0nZk762UrysXzabLSectXsl0RbqvOPANcQLXpvHX9Dy64i
- 5foFV2jrWjjkD6TjmBqmaCZh6y81Mp2OOHymvhIPE3FbBxKASY+Cmd1ASQa2o+wvQgYH
- TjFJle2E38j37lOdCvQOSvYtsNHWFlupuJvClUv497wXBAMQtktdIKB3gOL82wl412kT
- 4H2t1BiQLwEvMrAxIA8SpCxOmiE9oNA5HrEOn+J2itr9bkdfLVeEZduPlvU4Qk4a96Fo
- luvg==
-X-Gm-Message-State: AOAM530cB1Mq0/jivXhUIe/pYB8bp/nehCDsiWy7NEXCj9Txcmnt/IwW
- DVgD//gxxTp60tBpC51GeK9QLw==
-X-Google-Smtp-Source: ABdhPJzoSke/WD25do16sbPPB1iMLhoT8BtuLEQkp7TpuufB1oCNhHleVIZUuC0dhJKTrVbGtRD2sw==
-X-Received: by 2002:a1c:4b04:: with SMTP id y4mr2945735wma.185.1626092824194; 
- Mon, 12 Jul 2021 05:27:04 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o14sm8309852wrj.66.2021.07.12.05.26.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=tx0LVkEeNkiisbZ/NNlmcCoTtxFb5VF+oTFhCuDdy2I=;
+ b=mYinU8E+C8I+xEEzQQ1/9DJTjY/6SIxfJxiS1UaK04nPMOTnco9XkI+EGNrlzMP++h
+ btt2bVbJ7XirgFmahFFvqXXZdervRM7bqjS+hsXxI8o5Bx2bUjXbvq0tuN1tuRwH/m9q
+ ZNqaq5XlJsTyCqGlNUDZWDzQNMxyFXMC9XZrMRRNznK5HuiZFbE7CST/ISoENGjtIlGw
+ 2hLBxy/AA1iX/tGIVrrWmlHRJWAnzNR8Jrkr8/mvGTq8IMqh9rsRH//ZH2XiYIMk9VvD
+ S8FsIxvf3gi+UU3qPZQhqoBbjG+mnEVhZcK5EaYXx4eOIRMyzdKS5FeQWAO49VExggPi
+ 0g3A==
+X-Gm-Message-State: AOAM532t5OzuVPchbh1au//762sC6cIqxyBepM3qdVffpiVZSeR5TtdZ
+ C4XT7efpKcEQPVVXai/BarxjyQ==
+X-Google-Smtp-Source: ABdhPJySay4Dvy12osQcsZftqoolLfIVXXebrQsuW2xCj7qvH4nUsaigboJffViNgwW43GqlyelKCw==
+X-Received: by 2002:adf:ebd2:: with SMTP id v18mr60260668wrn.248.1626092822408; 
  Mon, 12 Jul 2021 05:27:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c2sm10212382wrn.28.2021.07.12.05.26.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 05:26:55 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5A96C1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 12C671FF8F;
  Mon, 12 Jul 2021 13:26:54 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/40] build: validate that system capstone works before using
- it
-Date: Mon, 12 Jul 2021 13:26:19 +0100
-Message-Id: <20210712122653.11354-7-alex.bennee@linaro.org>
+Subject: [PULL 03/40] Jobs based on custom runners: docs and gitlab-runner
+ setup playbook
+Date: Mon, 12 Jul 2021 13:26:16 +0100
+Message-Id: <20210712122653.11354-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210712122653.11354-1-alex.bennee@linaro.org>
 References: <20210712122653.11354-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,52 +88,207 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Cleber Rosa <crosa@redhat.com>
 
-Some versions of capstone have shipped a broken pkg-config file which
-puts the -I path without the trailing '/capstone' suffix. This breaks
-the ability to "#include <capstone.h>". Upstream and most distros have
-fixed this, but a few stragglers remain, notably FreeBSD.
+To have the jobs dispatched to custom runners, gitlab-runner must
+be installed, active as a service and properly configured.  The
+variables file and playbook introduced here should help with those
+steps.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+The playbook introduced here covers the Linux distributions and
+has been primarily tested on OS/machines that the QEMU project
+has available to act as runners, namely:
+
+ * Ubuntu 20.04 on aarch64
+ * Ubuntu 18.04 on s390x
+
+But, it should work on all other Linux distributions.  Earlier
+versions were tested on FreeBSD too, so chances of success are
+high.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Tested-by: Willian Rampazzo <willianr@redhat.com>
+Tested-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210625172211.451010-2-berrange@redhat.com>
-Message-Id: <20210709143005.1554-7-alex.bennee@linaro.org>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210630012619.115262-4-crosa@redhat.com>
+Message-Id: <20210709143005.1554-4-alex.bennee@linaro.org>
 
-diff --git a/meson.build b/meson.build
-index eb362ee5eb..cea8196e53 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1644,6 +1644,19 @@ if capstone_opt in ['enabled', 'auto', 'system']
-                         kwargs: static_kwargs, method: 'pkg-config',
-                         required: capstone_opt == 'system' or
-                                   capstone_opt == 'enabled' and not have_internal)
+diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+index bfedbb1025..b3bf3ef615 100644
+--- a/docs/devel/ci.rst
++++ b/docs/devel/ci.rst
+@@ -70,3 +70,58 @@ privileges, such as those from the ``root`` account or those obtained
+ by ``sudo``.  If necessary, please refer to ``ansible-playbook``
+ options such as ``--become``, ``--become-method``, ``--become-user``
+ and ``--ask-become-pass``.
 +
-+  # Some versions of capstone have broken pkg-config file
-+  # that reports a wrong -I path, causing the #include to
-+  # fail later. If the system has such a broken version
-+  # do not use it.
-+  if capstone.found() and not cc.compiles('#include <capstone.h>',
-+                                          dependencies: [capstone])
-+    capstone = not_found
-+    if capstone_opt == 'system'
-+      error('system capstone requested, it does not appear to work')
-+    endif
-+  endif
++gitlab-runner setup and registration
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-   if capstone.found()
-     capstone_opt = 'system'
-   elif have_internal
++The gitlab-runner agent needs to be installed on each machine that
++will run jobs.  The association between a machine and a GitLab project
++happens with a registration token.  To find the registration token for
++your repository/project, navigate on GitLab's web UI to:
++
++ * Settings (the gears-like icon at the bottom of the left hand side
++   vertical toolbar), then
++ * CI/CD, then
++ * Runners, and click on the "Expand" button, then
++ * Under "Set up a specific Runner manually", look for the value under
++   "And this registration token:"
++
++Copy the ``scripts/ci/setup/vars.yml.template`` file to
++``scripts/ci/setup/vars.yml``.  Then, set the
++``gitlab_runner_registration_token`` variable to the value obtained
++earlier.
++
++To run the playbook, execute::
++
++  cd scripts/ci/setup
++  ansible-playbook -i inventory gitlab-runner.yml
++
++Following the registration, it's necessary to configure the runner tags,
++and optionally other configurations on the GitLab UI.  Navigate to:
++
++ * Settings (the gears like icon), then
++ * CI/CD, then
++ * Runners, and click on the "Expand" button, then
++ * "Runners activated for this project", then
++ * Click on the "Edit" icon (next to the "Lock" Icon)
++
++Tags are very important as they are used to route specific jobs to
++specific types of runners, so it's a good idea to double check that
++the automatically created tags are consistent with the OS and
++architecture.  For instance, an Ubuntu 20.04 aarch64 system should
++have tags set as::
++
++  ubuntu_20.04,aarch64
++
++Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
++would contain::
++
++  ubuntu-20.04-aarch64-all:
++   tags:
++   - ubuntu_20.04
++   - aarch64
++
++It's also recommended to:
++
++ * increase the "Maximum job timeout" to something like ``2h``
++ * give it a better Description
+diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
+index ee088604d1..f4a6183f1f 100644
+--- a/scripts/ci/setup/.gitignore
++++ b/scripts/ci/setup/.gitignore
+@@ -1,2 +1,2 @@
+ inventory
+-
++vars.yml
+diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+new file mode 100644
+index 0000000000..1127db516f
+--- /dev/null
++++ b/scripts/ci/setup/gitlab-runner.yml
+@@ -0,0 +1,71 @@
++# Copyright (c) 2021 Red Hat, Inc.
++#
++# Author:
++#  Cleber Rosa <crosa@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++#
++# This is an ansible playbook file.  Run it to set up systems with the
++# gitlab-runner agent.
++---
++- name: Installation of gitlab-runner
++  hosts: all
++  vars_files:
++    - vars.yml
++  tasks:
++    - debug:
++        msg: 'Checking for a valid GitLab registration token'
++      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
++
++    - name: Create a group for the gitlab-runner service
++      group:
++        name: gitlab-runner
++
++    - name: Create a user for the gitlab-runner service
++      user:
++        user: gitlab-runner
++        group: gitlab-runner
++        comment: GitLab Runner
++        home: /home/gitlab-runner
++        shell: /bin/bash
++
++    - name: Remove the .bash_logout file when on Ubuntu systems
++      file:
++        path: /home/gitlab-runner/.bash_logout
++        state: absent
++      when: "ansible_facts['distribution'] == 'Ubuntu'"
++
++    - name: Set the Operating System for gitlab-runner
++      set_fact:
++        gitlab_runner_os: "{{ ansible_facts[\"system\"]|lower }}"
++    - debug:
++        msg: gitlab-runner OS is {{ gitlab_runner_os }}
++
++    - name: Set the architecture for gitlab-runner
++      set_fact:
++        gitlab_runner_arch: "{{ ansible_to_gitlab_arch[ansible_facts[\"architecture\"]] }}"
++    - debug:
++        msg: gitlab-runner arch is {{ gitlab_runner_arch }}
++
++    - name: Download the matching gitlab-runner
++      get_url:
++        dest: /usr/local/bin/gitlab-runner
++        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
++        owner: gitlab-runner
++        group: gitlab-runner
++        mode: u=rwx,g=rwx,o=rx
++
++    - name: Register the gitlab-runner
++      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
++
++    - name: Install the gitlab-runner service using its own functionality
++      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
++      register: gitlab_runner_install_service_result
++      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
++
++    - name: Enable the gitlab-runner service
++      service:
++        name: gitlab-runner
++        state: started
++        enabled: yes
+diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
+new file mode 100644
+index 0000000000..e48089761f
+--- /dev/null
++++ b/scripts/ci/setup/vars.yml.template
+@@ -0,0 +1,12 @@
++# The version of the gitlab-runner to use
++gitlab_runner_version: 13.12.0
++# The URL of the gitlab server to use, usually https://gitlab.com unless you're
++# using a private GitLab instance
++gitlab_runner_server_url: https://gitlab.com
++# A mapping of the ansible to gitlab architecture nomenclature
++ansible_to_gitlab_arch:
++  x86_64: amd64
++  aarch64: arm64
++  s390x: s390x
++# A unique token made available by GitLab to your project for registering runners
++gitlab_runner_registration_token: PLEASE_PROVIDE_A_VALID_TOKEN
 -- 
 2.20.1
 
