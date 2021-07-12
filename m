@@ -2,162 +2,162 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1B03C63A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:23:19 +0200 (CEST)
-Received: from localhost ([::1]:54234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA1A3C63B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:25:00 +0200 (CEST)
+Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m31WP-0006KF-9t
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:23:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45446)
+	id 1m31Y3-000135-W6
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:25:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m31TO-000490-P7
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:20:10 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:40872)
+ id 1m31Tg-0004Sc-To
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:20:30 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:5698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m31TM-0003Ro-QN
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:20:10 -0400
+ id 1m31Te-0003h7-1e
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:20:28 -0400
 Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16CJJAOb004239; Mon, 12 Jul 2021 19:20:05 GMT
+ 16CJJAwV004235; Mon, 12 Jul 2021 19:20:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=mhobqyASTPU/m00IlDt+ScATUchjteSRIvtAhBOmyt0=;
- b=Z1/7SvC2tuDsZFwdHXeME3XqU8PWFpIT2RK6avGgXEGNVtj4aLScl6YCTQFBk9UfFGJy
- 02EXApoDAQv1/0FNKBjeej5hUmoFsV9cm4X1jd7+Y2GfKsAlwmRKRqJZq0eSFy5TJZCM
- jlCbHjXAlTii7yi5zZNaEleS5eOEstsc3n5vayR491cXC/1eHR2OuPdi1RuZvO1QV2mw
- XvgUP6eU6m5fOOQoDDzZkgG0xs16DGccghbKm2g3FuL8fNLwlL0etJfhX7mFgfU7wzMo
- Jrr55N8SweDOgMJHo/LfSNBRia09ZoqtrY4YzmO5T589C+e8nlJpnFHoAEm0IlFuRORm 5A== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 39rpxr8s7n-1
+ bh=Bqf39mWqX5SQqqri1jUx6KOlJ3arDNHMI7cPtDYLAYY=;
+ b=SMziRYqxAeXdVI81Ephi9s3wzaPquANN6lqJ1GMf/A3D/PgbSnV4wetkmwTuhQzQiSUc
+ FW3kIt8nXXOLQi30jmo2ISFwEVATaNGOWtEXMo76vjtniQF/D5NIEpEzrzm72hs6H5E/
+ WyH8YBE3eX8MIS7IFS1XfpbsuNzp45OKfEW+XsBsWJTXo/cgzByJAkTHB0XMs6QVOuzl
+ jHZC1CMjVM/+ysd76E5jXAkaVlkxSlc9qje0MnVSLuGtqsCzfWmm6zC1r3SSEXlZUZZs
+ v5iw7g6bYIHnUcp8XPc591AeQpIdFMrORuw/UB822HJCaivEAZ9K4jy8ulkssmhX13+d Zg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39rpxr8s8d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 19:20:04 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CJErqS013275;
- Mon, 12 Jul 2021 19:20:03 GMT
+ Mon, 12 Jul 2021 19:20:23 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CJEiBk083932;
+ Mon, 12 Jul 2021 19:20:22 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
- by userp3020.oracle.com with ESMTP id 39qnav005b-1
+ (mail-dm6nam12lp2169.outbound.protection.outlook.com [104.47.59.169])
+ by aserp3020.oracle.com with ESMTP id 39q3c89pgw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 19:20:03 +0000
+ Mon, 12 Jul 2021 19:20:21 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MaoVh0cFpgqMhqLm2g8D4KasVAz5cDcUHaEBQybAI5JeqXGLlqK0v7gSeTAbNb5eNt4eRfFmGqLqa3hruaQvxig7eI4utwFo6+8F6vv8R+0HOAjWOwnncHiInrKMAjfBkP/JWIZEsB4I2wDogIqqm6BS2GqMeILoIThw8OMllclPyP6+GV9ST1hin2Dn3eckA/Vc3cgRCDSJEjiPwYRbtVbq8OKfnXYjLwJpPASBETtswuj+GGBMuulpHKsMD+Ggp8AtI0me1ybOQi/3Yw3lTLA4Sbw8mjKTgIl9E4wYW4JYfX7t9tITSTUYes885zt3mP/QXXBe0gcVmWkwBS6UWA==
+ b=A7da7RQIBdOCdb3fHnLokBOHDeRqwsiH+0gNDatxntWKFF1JAOkbd/k47D7qfDEXqQ3Uk194z4w3LgeT4GfEwTtRUdU4hXmHIWB8soViMbJaGnWCf+qlqC6EZSkUJq/veKvLqnHZJhpS4VFycJ8HZHw8IDuc9LEROTbY8reO0hmzfqCc+ChKs8tRelDqBWQnKi97BLGZtLbIooFFxrkRQBdfB1ll+/h6qjLMF+jwY5fZL0ko6k5Iwr794dQv7HdB+43RgTuoi/0rvXxW7i7RCFrnsXDMVTV+gZLstqIcm6dgq0EenDOO3lqSNhL5aR5Fzwm5Z6yn8qI68+y8qy51Tw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhobqyASTPU/m00IlDt+ScATUchjteSRIvtAhBOmyt0=;
- b=M98wJOUXzWHjVx+vMF8ShuLc5Zgnu1hqTKsBfmDjUVsNBurl2wjo8N563dm36+Z3PY6KB1Xkcg0PHLU/8rt2OsRLZuAW8SKxZsIpoAm5gO323aIhYldAWNAtU04z2mTQ95GUhhUGnGN1ZQYLb+3ZECSid8hCeoW35rH8gQWDu1x5/iXi1YK6jEVxHXhppgdwF8xMQ0KwSg6B0AMoM2Upc5QmMgtQbSmIvmr2EXe/Pk0I3WiHFFtPH2heUtRFxfGexwFL6fm4hl75JMcsmqIB88F2tfrqMbIeTr5oVmAIXQ5SrHpFQ6PT5fpFU2mekGPdhaH7IXeGxUqPKsTsQ44nkQ==
+ bh=Bqf39mWqX5SQqqri1jUx6KOlJ3arDNHMI7cPtDYLAYY=;
+ b=ogLY7WRc6FipyJUFhBh5zpO15MhiwcjApOi/ZEWlcVEMW5Nns0qihySBjDPRMQz1LDQNmSFxudrsINTnQNPtkJL687k4hll0hhy3p/rAxAVF63kYrrePN6597smhGxQkMjQEp+Gy3B1HTOgXsqNXEZJ5dUf851pTNHGkulS4HpnrLll19tuqmRYCXD3weBAasXGucqrgKwxJRTZpz8IKx0YqtBmySBy/aJ5RlCjcxi5r1UEDzhNPJKD/0P02xSIFFPVU6CY+bpu9OAuMOxtW5BuXcg/z9Vg5yXn7TKzSSUcKuJg2MkLZykcQAwHqJvelfPhmILxNZgnhO2pErZNkEg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhobqyASTPU/m00IlDt+ScATUchjteSRIvtAhBOmyt0=;
- b=MkF3JmS9F0MjsBnOrc8NgY5YjtBIHLELm804riGXYKGqtXbSEgqiH/C7Sl5tkoLayqPJA+1V8PRPazQSo5rlRDg2L0ZW2TUmlE09xXS08jKWwMWCdn4y6wRk3TjA5RXAOzQsPbihRznh5dBFH4dRap9quZ+q0NmePUvBNzxjK2E=
+ bh=Bqf39mWqX5SQqqri1jUx6KOlJ3arDNHMI7cPtDYLAYY=;
+ b=nbB3P/HjKlnOiANW7Yzt2Fle+UDdGsP2C34VgHpCQaMhyiYx+ooqrOdCmw/6CM+rRScFqGmXTmboZiInjPH9z2ecEVnv/tWnjC4XMBykIskKhc8yemv6SSylKKGlo/P5kAcqTT28yok3vN23bfF8lrUfhMiCOKjzjHYSeE3T6Ko=
 Authentication-Results: oracle.com; dkim=none (message not signed)
  header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BYAPR10MB3128.namprd10.prod.outlook.com (2603:10b6:a03:14e::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Mon, 12 Jul
- 2021 19:20:00 +0000
+ 2021 19:20:10 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::a00d:eb40:2bf6:8812]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::a00d:eb40:2bf6:8812%7]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
- 19:20:00 +0000
-Subject: Re: [PATCH V5 12/25] cpr: QMP interfaces for restart
+ 19:20:10 +0000
+Subject: Re: [PATCH V5 20/25] chardev: cpr framework
 To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
- <1625678434-240960-13-git-send-email-steven.sistare@oracle.com>
- <CAJ+F1CJCPKL9uKSMTsa5eZrvgBCgo2cHQQ=OUNLGRP+dMXCoqA@mail.gmail.com>
+ <1625678434-240960-21-git-send-email-steven.sistare@oracle.com>
+ <CAJ+F1CKewOW60x281gNM_8mfsygGL5jK7GOJba0MPmHgR3nk1Q@mail.gmail.com>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <ce85a7ae-7db3-658e-71aa-ed2b800bb5fe@oracle.com>
-Date: Mon, 12 Jul 2021 15:19:56 -0400
+Message-ID: <7e07ac54-e6dd-4554-1e2b-c51b12239fd2@oracle.com>
+Date: Mon, 12 Jul 2021 15:20:06 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <CAJ+F1CJCPKL9uKSMTsa5eZrvgBCgo2cHQQ=OUNLGRP+dMXCoqA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKewOW60x281gNM_8mfsygGL5jK7GOJba0MPmHgR3nk1Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR03CA0035.namprd03.prod.outlook.com
- (2603:10b6:a03:33e::10) To BYAPR10MB3240.namprd10.prod.outlook.com
+X-ClientProxiedBy: MN2PR06CA0026.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::31) To BYAPR10MB3240.namprd10.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.1.92] (24.62.106.7) by
- SJ0PR03CA0035.namprd03.prod.outlook.com (2603:10b6:a03:33e::10) with
+ MN2PR06CA0026.namprd06.prod.outlook.com (2603:10b6:208:23d::31) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend
- Transport; Mon, 12 Jul 2021 19:19:58 +0000
+ Transport; Mon, 12 Jul 2021 19:20:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4c30f25d-0808-492a-d584-08d9456a0b2b
+X-MS-Office365-Filtering-Correlation-Id: 32f290bc-f029-4bce-d03c-08d9456a10f9
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3128:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB31285F7432A3D5CD6AFF4871F9159@BYAPR10MB3128.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB31283CCE48899028BD035CD4F9159@BYAPR10MB3128.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:655;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: usqPP/k34uiQvw6Sxv5YdiFCFYxgECTwhk/QVfFo5OQ7mzCvROP7AKwd8SkEsem8E0tT5kE54vEkd7gX/e1EbhZrO0egt2MlzQjfLDg/dE7ZEr6xbKxvELx435+pmHvwEDE6xzKv6C+IyaNIZLIqL2rhxHMyyD9JwDVgOx6Ul7IEu3fXwOk/C40aXQq7wXoWBJv0DhLnkrosUPLSDfe6TQmGAxsUfInwzhuoUoR1WKnzewoY+b/4ePELigvDgA2LTcILfVb21dP8rqr0tgZWccM3uYL2tco51ila7rY0oglTsve+gK5qBeeC3ecCnKwMOD+LnPzzoKi6Sh8H6TmkVAuMBIMZxbhGbwcFf1g8VPQgO91CiVKZO+sonUgA+XTRepX4EY4zNLQL+0Gxe5M45atyhza9cDaJZXorZLrnxM6RTF1YxSy9YpBktGG+jg505I9iaE4n/Ahx4yniJeodmJijoFU/4zglLTAvxqMGJNYoALKNgP9Qgh8RFAffUfKHQzLspO4Rkd0XnUOuxe9iJEAUNFIjFN5X/Ty5X52/jemecyMzIpyHmHcznRHbIqAHbgr51qw4ztzbHc+rSvH0xuDr+eEuyp3soUORZctH2e59kffhNf6dVmFDH5FSaK1qe3nmQ7Z6c585bUoxUnvvqhZcdJjGxEx11+bZ9v+DHSpD5X9JsMTPNMrF8s+ED3k8ZkqBIYrZ1F0B4SgZ7fm6GplNzEM162WCcWBfgRf9rwA=
+X-Microsoft-Antispam-Message-Info: hiHMyy9H5A+oGUDF6wPmAPjrx+ZNZFvs1HAzl/q20t4DnZviXFi2Gzt9qQXVK3ThxTtaGMNT9FqWb76QwhLNldrsKsf+ZyO0wFjF0BdZ+zeUw+jBhDleMfglY7B19UEBqQA2QntEQA9iMUTaIQi7DYzIoRsazQK6PUYDwRiAQ/0wFfEu65HTsrqV98L65V9YWjV2i7434K/bQccYxst428PlSXKix9KYiVHz6zfrisWdTnqBQFuSVeVeKwFtIxauYfP2pCn+s02S37INjPluQImcdMSNFK/F58wimrqVzyRLhlZETQqsSxCyPfjXkhcQt0f6mM9EF0wIhok43W3j7erMVQAZP0/UXBEHJkeQIMlV9yuBZem6T9mcJGkLJ6HPgTtP5YNaAB5pb2hLSoNeYRD5ICLoUmZZ+lngAPpL/IWnSxSZEjiy968UfDgSuxc46K2s5ti/3ZR7YQiR5jCYycBkXnnNdB+w+tAFu8tU/i6pRygHItyBNfz6M5Xiaj2Skt6MHrK/Dl8oKBSezOijjmJBwPIBhkwNrU7eQTc/SGs9sGqcDPoSD3GYNRSvMgv0YP0vePNUjvHHVSWKTYNEt1tYBbg+m/eGSCi2KwwSKVQ7ObHrScl51N5X7+HLCXwEjsHhD38DgL6pd12RZeLYRkTSJr+red6GL8+NeJkyva/E1RuIcMDaTMg8tpe2116YXpYp+GTKv0t4RCuoGPzpaQOWdb2r4/Rdls6akPxpOZs=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(376002)(39860400002)(396003)(346002)(366004)(478600001)(2906002)(66476007)(5660300002)(66556008)(36916002)(26005)(8936002)(6486002)(8676002)(53546011)(66946007)(83380400001)(7416002)(44832011)(6916009)(31696002)(4326008)(36756003)(186003)(86362001)(38100700002)(54906003)(316002)(31686004)(16576012)(2616005)(956004)(45980500001)(43740500002);
+ SFS:(136003)(376002)(39860400002)(396003)(346002)(366004)(478600001)(2906002)(66476007)(5660300002)(66556008)(36916002)(26005)(8936002)(6486002)(8676002)(53546011)(66946007)(83380400001)(7416002)(30864003)(44832011)(6916009)(31696002)(4326008)(36756003)(186003)(86362001)(38100700002)(54906003)(316002)(31686004)(16576012)(2616005)(956004)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFE4WXdDK1JXZUhtNXJETWgyK0QxR3ROYlorYTVGQzI4RHRxUTJCNUtsZEZv?=
- =?utf-8?B?RzVMdjJNNjNCaWg2c2VDSGtlSiszcGNYNTBvbXVCZ280eSs4Q2EvZERmVits?=
- =?utf-8?B?d1V1TkxDRm5XamtUdjl3aHp6eUduOXh1eGlZa2FZNUYrd1dXaVFvcncvOGNy?=
- =?utf-8?B?SUJveTRMODhzVmFKY3VwSldPWEJNS0hWSkxYNE9ySmFJM3RRRFRWUFhwbldN?=
- =?utf-8?B?RzVTaEZGdmRrM29NU3cxVTYvTlBDdGRDVk9wdGcveXRHRUJEVSsxZ1h2VGtk?=
- =?utf-8?B?cUsrd1o5NzFaTndpamtHOWVmZlJSTWNTaEJSMGMwNUpwMjd5SUwxQkpTVXNT?=
- =?utf-8?B?aVF4cFMwb2M0T0tybWdyc1BpOVN2M21JQVp1aG85TXEzN3dGMCt4cUJNN3hE?=
- =?utf-8?B?aHYvVk44NWZsSC9OYVIrZjVERlV5QUorOVV6dDZZR3dqMmRBNllyTUh5NlpO?=
- =?utf-8?B?a3VmWkNjN29XNFlGclRLVzhRY3FMRG5MUXg1S0hwMnprRVQ1L1BYYnZtVTcy?=
- =?utf-8?B?QzRheHFZT3h1VEQxRTlBRXE2RlFKcnBTZytxWlpRMzJyc2w2bXlZSkZkL3dC?=
- =?utf-8?B?YVBkMDFlNlplN0hFaURzUS9yQnkwTWM5M1JzVkVuQkVOdVVybndVWlIvUHJv?=
- =?utf-8?B?UHRqQnM5VzNDZ2l5M0M0N0o2cHZpSTMwa0ZIOUYwdFdaeUZDcndaQW9GSXd6?=
- =?utf-8?B?UVFNNVdpaTZMeTl4ZVNyLzJoZGttRnd3bGloRHZVczN4Q0NMOEQ4NUltZHBK?=
- =?utf-8?B?UFhPMEFZMm9haWNTWDMvajJtZ3J2TkVuaTJZNC9XKzB0NllOcDhnR3R5TXZO?=
- =?utf-8?B?YWZMWnYzeVNxSE5ueHJsTVVtQ05oeE8yejhiZUdPNzZPQVJxaHhpTXM1Umdo?=
- =?utf-8?B?Y0JqY0FXbHU2MStNbzFEOUJLR1VJNU1NREhSbSs4Wi9nakczQnp5Qis1c0pU?=
- =?utf-8?B?OG16dVRzbmxtZUpONDZoWEJCTDRmaVdVYTF4T0FZK0EzYjVLbjZCejFWeFJj?=
- =?utf-8?B?a2NLRnRLdkUwclQwQjRoOG15R0kzOS9YN0w4djl1UzJYT1dIdVRhcHRRcXI5?=
- =?utf-8?B?aDMvR1BHekt5WHY4SWxydXBhQmJOR1d4UHhtUEcrNmlDa3NBMWlsTCtRS09F?=
- =?utf-8?B?WXFvTkU1bUZqdlg4cDZPVjBKeUliMjF6YVpqeWxVNGZMckVmN3dyYzJRbWxj?=
- =?utf-8?B?b0MwUitnU3RxZWd6NnhUSUgxK1pCKy9WQzVwcitYVE00RGd3a1hyd09hcS9E?=
- =?utf-8?B?SmcrRmZnWjl5MVhYWG5JUExGY2w0Zk12Z1FCUVNiSE1QNzJ4ZzJKRDNHeEF3?=
- =?utf-8?B?eWR0U3ZaYndWbTRMNkxJclFFcVM0Zmt3T1d0bEplOHBuRDRMbXA1d0hETmNh?=
- =?utf-8?B?V0c1eFllaDlQRGh2VGVvN2JZYklaQmxvSkxjM3VNckxJZFV1anhDSDRtV3dv?=
- =?utf-8?B?a2piRVliVGIzbWVha25KMExJNUJEV2hMU2d5V0NtMkxuZFVLTkd0OWhENXpm?=
- =?utf-8?B?ZWFTR0VRaG1zSXE1ZjJWUW1XY2VTSmhFUy9EUW1jcXBWZ0RmNVhqY1BwcGFU?=
- =?utf-8?B?c0lMOTQ1R3Y2TDdKKzA1bzNkUEpEMHlxbEsyU2d6L0gyS05VajUxUkdWQzBj?=
- =?utf-8?B?WktIemRZMUNtclFUVGVWSDZNWm4wNHlzcExJZU1xYTlsNC9HVWt3Nk44NjlL?=
- =?utf-8?B?cERBVExGblEwSVl1OFUza0hjdUJ2UVlKSW9kdUtWR0Y5QjVITDFiU1J2MkNW?=
- =?utf-8?Q?YJj6K5HAa5//lhnjytVJfi26Ai+1t5Fck6Re3mj?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q0tNVVducG5kcElsOVFBWE1sanBzVWxyYUppcU5RUDlGcEdLV0NQZDUrekhW?=
+ =?utf-8?B?T2pGSzRudDRxa1pkeEN0a0ZpbnVlQVBMU2FFc1FFbG9jNGFZTldESTVYRjI5?=
+ =?utf-8?B?L25neW5vcGN1Y21HRit2b05uSDExOUljbXROVE93YVlRQjVnN1BCQ0NZWCtl?=
+ =?utf-8?B?d043ajhrdmhocFFHRzRhdno3NjZZT2xRR0lCc1daZHF6d1VXSzNwOWJXeG95?=
+ =?utf-8?B?YXIxUHdTc2p4TzRhT1FnUFFRbVhxZkgzMERxNlJjWVZZTjlkYmJCZy9Lb2w3?=
+ =?utf-8?B?VElYQUNQZGV3OEhmOW4rK0tBaWF1TDhjSWlZN0s2N0tQMFhzREJTc2ZiODBI?=
+ =?utf-8?B?WStSanUwY2pNNkR3RUVCbisyZUluZ0VLQzRFTEhiQnErMU1jYnNIWlA0T3pY?=
+ =?utf-8?B?a3pXN1B0WWJuN0szQVlUL1pIOWRCTDFpN2FNS0NFanJKazNPYy9VZ0NjSWhK?=
+ =?utf-8?B?cUhOTjdKekJQOWpsdDZYcjYwZk1vVmFaV0hyU0pHYU8zU2dXSHJ5bmFrWklG?=
+ =?utf-8?B?bDlOb3ZQOHdDM2MwQm8yM21CMXhsQkxVdjJHUTBObGY3QnVDNGNtWkRiNGZn?=
+ =?utf-8?B?SjVIQktzSW1ybVp0dkV1SjBhNE1tQVpZWVM3cUxMKzNMSVJJNUQrckttenFh?=
+ =?utf-8?B?QkY1TXZqNzh1UzRCbC9GK0hIN3gyem9zWC9oRHFlWS9xMER5OXJwMWVkakdz?=
+ =?utf-8?B?SHNwNlZlUExoSkFvNXhNNWxDY3Z5UVVVcWJxS01UUWtGeHArOE5XVXlxaUp4?=
+ =?utf-8?B?U1FsQUVBelZVSU8rV1A0UmJOckpjYnpJYjlRUTd5eFdGZ3ZvQW1qVFZGRlNP?=
+ =?utf-8?B?YXc4eUxXNHJpOVNna2QyTDBSUXhXdG9wOXI0bUk2bE9zUkdlVldzbnBDTnk2?=
+ =?utf-8?B?dFNPZHEzblVCV2FFS2RvRVhESHo4Y2puMy9XbDM5ZzFpUFZONEg0dFQzQU95?=
+ =?utf-8?B?L3dvbjl0RDNyQ1QwcENqZkNOLy9UNFJhM3NmazJpS0dFTm1PM2VNWWRTbUhw?=
+ =?utf-8?B?WlRleHBWb3lTclYwZUVCMHlJdUZWWXVjUzNodFJsamsxMlJJcnI5Tm5zWDhE?=
+ =?utf-8?B?emJGSDVnQnNDeTJIdXExd3YxNTlVeVFLTmhTT09YN1lqTTJzZ01sZEVyL2dw?=
+ =?utf-8?B?WEdKOG5rdlJ0Q21tb3pObDBlaUZMc3lybGlacnp2aG40bXUvdThGUmt6V0FW?=
+ =?utf-8?B?YUNnd1h2TExiZ25PVnBwM0g5YkRwUk1pTDJENjFsZVo4cU9vS2hpK2R2UG4r?=
+ =?utf-8?B?cENNTUlLM1VSS09XWE1RZjRrNnVtZEFYbUFhZVhyRDFhQ3BDWUxQbFR5aitv?=
+ =?utf-8?B?WFd0cE1Gc1djZTN4SGVvMUFvTUpHd1dqdHQ0dmNZUWxRbFlmVHdIODZzM2Jz?=
+ =?utf-8?B?VXNlQ2R5YjZrNEtuZ29nSzhnakdCK0cxTVY1L2lnNlhCbEFGMlNzMGJNcWVB?=
+ =?utf-8?B?QlNmQVNSM09vR0xWRnZSTVhPVXpZWEYxOUR0YkwzRlNyZDRwYnlLbDJoVG5H?=
+ =?utf-8?B?RE5oUjZxNnlGVG5OcHRVYzhPSlZKWklrYkFrdzdycDJybXdRQyt5Q3hSZm01?=
+ =?utf-8?B?eUZjR2ZjT3V6aUxkLzZQYTZ0YWxJMDlpa0hQLzVrdXRrSTR1aStwQ3IyR095?=
+ =?utf-8?B?RWtUc09uVkYrRVJ6NWorc3JwUkx0N1h5c3N3VEhDRFBFUmtKOWlRVkV3a3pX?=
+ =?utf-8?B?d2hKTEVwZ0xxUXl5NGJINmtKSDcwZE1aQmlZdmRZOWVWQlRSeVdNRWduZS9F?=
+ =?utf-8?Q?/htlQuFIJlASSixpdpbl0FWnYG5lDaOKDVWRYHF?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c30f25d-0808-492a-d584-08d9456a0b2b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32f290bc-f029-4bce-d03c-08d9456a10f9
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 19:20:00.7377 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 19:20:10.4702 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xcFoc1LOO4PAMzPzWwN+ZrihRfp62U5Oyr1tut1bSZAWgmidngvtC63kISN2UrX1BoinpoZEebxOiNttpSApQbOstomiwe24a1EOHqG38cQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: MImaWL/7wNSk6khoN5wJpxBt2JYzOLT1RZDsdojbZ2kin4p7NdoMdjAmeO+odiQ6p95y21DN53/bu1NhTiAVGCATuN3WaL9Xc4yYqJYROrE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3128
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0
- spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ malwarescore=0 mlxscore=0
+ suspectscore=0 phishscore=0 adultscore=0 mlxlogscore=999 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
  definitions=main-2107120137
-X-Proofpoint-GUID: eWRvGuv7b-ZIMu90YrhchL9sR2MqWmJg
-X-Proofpoint-ORIG-GUID: eWRvGuv7b-ZIMu90YrhchL9sR2MqWmJg
+X-Proofpoint-GUID: pJzPbdn0dMOwY8RpDIPwIne6ND4dyEIl
+X-Proofpoint-ORIG-GUID: pJzPbdn0dMOwY8RpDIPwIne6ND4dyEIl
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -42
@@ -192,95 +192,301 @@ Cc: Jason Zeng <jason.zeng@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/2021 11:49 AM, Marc-André Lureau wrote:
+On 7/8/2021 12:03 PM, Marc-André Lureau wrote:
 > Hi
 > 
-> On Wed, Jul 7, 2021 at 9:33 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
+> On Wed, Jul 7, 2021 at 9:37 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
 > 
->     cprexec calls cprexec().  Syntax:
->       { 'command': 'cprexec', 'data': { 'argv': [ 'str' ] } }
+>     Add QEMU_CHAR_FEATURE_CPR for devices that support cpr.
+>     Add the chardev close_on_cpr option for devices that can be closed on cpr
+>     and reopened after exec.
+>     cpr is allowed only if either QEMU_CHAR_FEATURE_CPR or close_on_cpr is set
+>     for all chardevs in the configuration.
 > 
->     Add the restart mode:
->       { 'enum': 'CprMode', 'data': [ 'reboot', 'restart' ] }
 > 
+> Why not do the right thing by default?
+
+Char devices with buffering in the qemu process do not support cpr, as there is no general mechanism 
+for saving and restoring the buffer and synchronizing that with device operation.  In theory vmstate 
+could provide that mechanism, but sync'ing the device with vmstate operations would be non-trivial, 
+as every device handles it differently, and I did not tackle it.  However, some very  useful devices 
+do not buffer, and do support cpr, so I introduce QEMU_CHAR_FEATURE_CPR to identify them.  CPR support
+can be incrementally added to more devices in the future via this mechanism.
+
+> Could use some tests in tests/unit/test-char.c
+
+OK, I'll check it out.  I have deferred adding unit tests until I get more buy in on the patch series.
+
 >     Signed-off-by: Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>>
 >     ---
->      monitor/qmp-cmds.c |  5 +++++
->      qapi/cpr.json      | 16 +++++++++++++++-
->      2 files changed, 20 insertions(+), 1 deletion(-)
+>      chardev/char.c         | 41 ++++++++++++++++++++++++++++++++++++++---
+>      include/chardev/char.h |  5 +++++
+>      migration/cpr.c        |  3 +++
+>      qapi/char.json         |  5 ++++-
+>      qemu-options.hx        | 26 ++++++++++++++++++++++----
+>      5 files changed, 72 insertions(+), 8 deletions(-)
 > 
->     diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
->     index 1128604..7326f7d 100644
->     --- a/monitor/qmp-cmds.c
->     +++ b/monitor/qmp-cmds.c
->     @@ -179,6 +179,11 @@ void qmp_cprsave(const char *file, CprMode mode, Error **errp)
->          cprsave(file, mode, errp);
+>     diff --git a/chardev/char.c b/chardev/char.c
+>     index d959eec..f10fb94 100644
+>     --- a/chardev/char.c
+>     +++ b/chardev/char.c
+>     @@ -36,6 +36,7 @@
+>      #include "qemu/help_option.h"
+>      #include "qemu/module.h"
+>      #include "qemu/option.h"
+>     +#include "qemu/env.h"
+>      #include "qemu/id.h"
+>      #include "qemu/coroutine.h"
+>      #include "qemu/yank.h"
+>     @@ -239,6 +240,9 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
+>          ChardevClass *cc = CHARDEV_GET_CLASS(chr);
+>          /* Any ChardevCommon member would work */
+>          ChardevCommon *common = backend ? backend->u.null.data : NULL;
+>     +    char fdname[40];
+> 
+> 
+> Please use g_autoptr char *fdname = NULL; & g_strdup_printf()
+
+Will do.  
+(the glibc functions are new to me, and my fingers do not automatically type them).
+
+>     +
+>     +    chr->close_on_cpr = (common && common->close_on_cpr);
+> 
+>          if (common && common->has_logfile) {
+>              int flags = O_WRONLY | O_CREAT;
+>     @@ -248,7 +252,14 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
+>              } else {
+>                  flags |= O_TRUNC;
+>              }
+>     -        chr->logfd = qemu_open_old(common->logfile, flags, 0666);
+>     +        snprintf(fdname, sizeof(fdname), "%s_log", chr->label);
+>     +        chr->logfd = getenv_fd(fdname);
+>     +        if (chr->logfd < 0) {
+>     +            chr->logfd = qemu_open_old(common->logfile, flags, 0666);
+>     +            if (!chr->close_on_cpr) {
+>     +                setenv_fd(fdname, chr->logfd);
+>     +            }
+>     +        }
+>              if (chr->logfd < 0) {
+>                  error_setg_errno(errp, errno,
+>                                   "Unable to open logfile %s",
+>     @@ -300,11 +311,12 @@ static void char_finalize(Object *obj)
+>          if (chr->be) {
+>              chr->be->chr = NULL;
+>          }
+>     -    g_free(chr->filename);
+>     -    g_free(chr->label);
+>          if (chr->logfd != -1) {
+>              close(chr->logfd);
+>     +        unsetenv_fdv("%s_log", chr->label);
+>          }
+>     +    g_free(chr->filename);
+>     +    g_free(chr->label);
+>          qemu_mutex_destroy(&chr->chr_write_lock);
 >      }
 > 
->     +void qmp_cprexec(strList *args, Error **errp)
->     +{
->     +    cprexec(args, errp);
->     +}
+>     @@ -504,6 +516,8 @@ void qemu_chr_parse_common(QemuOpts *opts, ChardevCommon *backend)
+> 
+>          backend->has_logappend = true;
+>          backend->logappend = qemu_opt_get_bool(opts, "logappend", false);
 >     +
->      void qmp_cprload(const char *file, Error **errp)
->      {
->          cprload(file, errp);
->     diff --git a/qapi/cpr.json b/qapi/cpr.json
->     index b6fdc89..2467e48 100644
->     --- a/qapi/cpr.json
->     +++ b/qapi/cpr.json
->     @@ -16,10 +16,12 @@
->      #
->      # @reboot: checkpoint can be cprload'ed after a host kexec reboot.
->      #
->     +# @restart: checkpoint can be cprload'ed after restarting qemu.
->     +#
->      # Since: 6.1
->      ##
->      { 'enum': 'CprMode',
->     -  'data': [ 'reboot' ] }
->     +  'data': [ 'reboot', 'restart' ] }
+>     +    backend->close_on_cpr = qemu_opt_get_bool(opts, "close-on-cpr", false);
 > 
 > 
->      ##
->     @@ -61,6 +63,18 @@
->                  'mode': 'CprMode' } }
+> If set to true and the backend doesn't implement the CPR feature, it should raise an error.
+
+Setting to true is the workaround for missing CPR support, so that cpr may still be performed.  
+The device will be reopened post exec.  That is not as nice as transparently preserving the device, 
+but is nicer than disallowing cpr because some device(s) of many do not support it.
+
+>      }
 > 
->      ##
->     +# @cprexec:
->     +#
->     +# Restart qemu.
->     +#
->     +# @argv: arguments to exec
+>      static const ChardevClass *char_get_class(const char *driver, Error **errp)
+>     @@ -945,6 +959,9 @@ QemuOptsList qemu_chardev_opts = {
+>              },{
+>                  .name = "abstract",
+>                  .type = QEMU_OPT_BOOL,
+>     +        },{
+>     +            .name = "close-on-cpr",
+>     +            .type = QEMU_OPT_BOOL,
+>      #endif
+>              },
+>              { /* end of list */ }
+>     @@ -1212,6 +1229,24 @@ GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
+>          return source;
+>      }
+> 
+>     +static int chr_cpr_capable(Object *obj, void *opaque)
+>     +{
+>     +    Chardev *chr = (Chardev *)obj;
+>     +    Error **errp = opaque;
+>     +
+>     +    if (qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_CPR) || chr->close_on_cpr) {
 > 
 > 
-> Why is it not then called cpr-restart ? 
+> That'd be easy to misuse. Chardev should always explicitly support CPR feature (even if close_on_cpr is set)
 
-I'll change the description.  exec is the key aspect to convey.
-
-< Why does it take the whole argv? 
-
-It takes the whole argv because the caller may provide a prefix command to
-modify the process context before executing qemu.  We do that.
-
-> Could argv be made optional?
-
-If argv is omitted, I could exec the qemu binary with no args, but I don't think that 
-would be useful.  It may even be confusing, if the caller has a bug and passes no args;
-qemu would start and do nothing, rather than fail with an "exec failed" message.
+Given my explanation at top, does this make sense now?
 
 - Steve
 
->     +#
->     +# Since: 6.1
->     +##
->     +{ 'command': 'cprexec',
->     +  'data': { 'argv': [ 'str' ] } }
+
+>     +        return 0;
+>     +    }
+>     +    error_setg(errp, "error: chardev %s -> %s is not capable of cpr",
+>     +               chr->label, chr->filename);
+>     +    return 1;
+>     +}
 >     +
->     +##
->      # @cprload:
+>     +bool qemu_chr_cpr_capable(Error **errp)
+>     +{
+>     +    return !object_child_foreach(get_chardevs_root(), chr_cpr_capable, errp);
+>     +}
+>     +
+>      void qemu_chr_cleanup(void)
+>      {
+>          object_unparent(get_chardevs_root());
+>     diff --git a/include/chardev/char.h b/include/chardev/char.h
+>     index 7c0444f..e488ad1 100644
+>     --- a/include/chardev/char.h
+>     +++ b/include/chardev/char.h
+>     @@ -50,6 +50,8 @@ typedef enum {
+>          /* Whether the gcontext can be changed after calling
+>           * qemu_chr_be_update_read_handlers() */
+>          QEMU_CHAR_FEATURE_GCONTEXT,
+>     +    /* Whether the device supports cpr */
+>     +    QEMU_CHAR_FEATURE_CPR,
+> 
+>          QEMU_CHAR_FEATURE_LAST,
+>      } ChardevFeature;
+>     @@ -67,6 +69,7 @@ struct Chardev {
+>          int be_open;
+>          /* used to coordinate the chardev-change special-case: */
+>          bool handover_yank_instance;
+>     +    bool close_on_cpr;
+>          GSource *gsource;
+>          GMainContext *gcontext;
+>          DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
+>     @@ -291,4 +294,6 @@ void resume_mux_open(void);
+>      /* console.c */
+>      void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
+> 
+>     +bool qemu_chr_cpr_capable(Error **errp);
+>     +
+>      #endif
+>     diff --git a/migration/cpr.c b/migration/cpr.c
+>     index 6333988..feff97f 100644
+>     --- a/migration/cpr.c
+>     +++ b/migration/cpr.c
+>     @@ -138,6 +138,9 @@ void cprexec(strList *args, Error **errp)
+>              error_setg(errp, "cprexec requires cprsave with restart mode");
+>              return;
+>          }
+>     +    if (!qemu_chr_cpr_capable(errp)) {
+>     +        return;
+>     +    }
+>          if (vfio_cprsave(errp)) {
+>              return;
+>          }
+>     diff --git a/qapi/char.json b/qapi/char.json
+>     index adf2685..5efaf59 100644
+>     --- a/qapi/char.json
+>     +++ b/qapi/char.json
+>     @@ -204,12 +204,15 @@
+>      # @logfile: The name of a logfile to save output
+>      # @logappend: true to append instead of truncate
+>      #             (default to false to truncate)
+>     +# @close-on-cpr: if true, close device's fd on cprsave. defaults to false.
+>     +#                since 6.1.
 >      #
->      # Start virtual machine from checkpoint file that was created earlier using
+>      # Since: 2.6
+>      ##
+>      { 'struct': 'ChardevCommon',
+>        'data': { '*logfile': 'str',
+>     -            '*logappend': 'bool' } }
+>     +            '*logappend': 'bool',
+>     +            '*close-on-cpr': 'bool' } }
+> 
+>      ##
+>      # @ChardevFile:
+>     diff --git a/qemu-options.hx b/qemu-options.hx
+>     index fa53734..d5ff45f 100644
+>     --- a/qemu-options.hx
+>     +++ b/qemu-options.hx
+>     @@ -3134,43 +3134,57 @@ DEFHEADING(Character device options:)
+> 
+>      DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
+>          "-chardev help\n"
+>     -    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off][,close-on-cpr=on|off]\n"
+>          "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off][,reconnect=seconds]\n"
+>          "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
+>     -    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
+>     +    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID][,close-on-cpr=on|off] (tcp)\n"
+>          "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
+>     -    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off] (unix)\n"
+>     +    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off][,close-on-cpr=on|off] (unix)\n"
+>          "-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr]\n"
+>          "         [,localport=localport][,ipv4=on|off][,ipv6=on|off][,mux=on|off]\n"
+>     -    "         [,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,logfile=PATH][,logappend=on|off][,close-on-cpr=on|off]\n"
+>          "-chardev msmouse,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
+>          "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev pipe,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>      #ifdef _WIN32
+>          "-chardev console,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>          "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>      #else
+>          "-chardev pty,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev stdio,id=id[,mux=on|off][,signal=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>      #endif
+>      #ifdef CONFIG_BRLAPI
+>          "-chardev braille,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>      #endif
+>      #if defined(__linux__) || defined(__sun__) || defined(__FreeBSD__) \
+>              || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+>          "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev tty,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>      #endif
+>      #if defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__)
+>          "-chardev parallel,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev parport,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>      #endif
+>      #if defined(CONFIG_SPICE)
+>          "-chardev spicevmc,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>          "-chardev spiceport,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
+>     +    "         [,close-on-cpr=on|off]\n"
+>      #endif
+>          , QEMU_ARCH_ALL
+>      )
+>     @@ -3245,6 +3259,10 @@ The general form of a character device option is:
+>          ``logappend`` option controls whether the log file will be truncated
+>          or appended to when opened.
+> 
+>     +    Every backend supports the ``close-on-cpr`` option.  If on, the
+>     +    devices's descriptor is closed during cprsave, and reopened after exec.
+>     +    This is useful for devices that do not support cpr.
+>     +
+>      The available backends are:
+> 
+>      ``-chardev null,id=id``
 >     -- 
 >     1.8.3.1
 > 
