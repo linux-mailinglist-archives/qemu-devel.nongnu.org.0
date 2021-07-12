@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE9C3C5E8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 16:45:03 +0200 (CEST)
-Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E453C5EA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 16:54:55 +0200 (CEST)
+Received: from localhost ([::1]:53196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2xB8-0001ng-NP
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 10:45:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47304)
+	id 1m2xKh-0006JC-0U
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 10:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2xA8-0000dx-JM
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:44:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2xA7-0001xO-3F
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:44:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626101038;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/hur5bIhEYkoQXxvA1D+ZqSlUPy6prLJMFDVP9XQz8k=;
- b=XhQbIOghs0l6Qt10Q9BexWx/KBWkNMR4DvE8DpZkZr45FnMUtjNeIYWlOUFxd/8xXnt0Xw
- pIQPbpT8QmrAEwpZyJG3afKRUqA6xrnfotdlirngWH+5lt+Ame9nUpc21Og0y5B4N/sil0
- e13lJsdBzdDU+/xc3nJcpCWdgjU6wDk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404--D6HKpjGPxaE6Dt4B6ImKQ-1; Mon, 12 Jul 2021 10:43:57 -0400
-X-MC-Unique: -D6HKpjGPxaE6Dt4B6ImKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84DE71932482;
- Mon, 12 Jul 2021 14:43:55 +0000 (UTC)
-Received: from redhat.com (ovpn-114-105.ams2.redhat.com [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC88D1962F;
- Mon, 12 Jul 2021 14:43:48 +0000 (UTC)
-Date: Mon, 12 Jul 2021 15:43:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Brijesh Singh <brijesh.singh@amd.com>
-Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
- SEV-SNP
-Message-ID: <YOxVIjuQnQnO9ytT@redhat.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-3-brijesh.singh@amd.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m2xJH-0004w7-Nm
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:53:27 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33567)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m2xJC-0008G2-Fk
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 10:53:27 -0400
+Received: by mail-wr1-x436.google.com with SMTP id d2so26079727wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 07:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zs3nwvFstwK9O0R2ZuekWvi/c8UlKcrXqpReEUSXf5Q=;
+ b=l9jCbMp4GoXR+Y/v5x8BaUVqZODjH387JdMoqpLKRI6zpulYfAaQTOAAfAiVaCVPvn
+ wFHv461xP03Z2fGCq7QnlPVv3NUVysC4Af5EgbsWLnhCIANUPgFZoAnXEOQRdJquHQOK
+ VfsFagBr0sWrYHcK/yYL3d1lVK58VsEB/E3ZT5WMD7aOtofeL04gpUc8Db67kMWBXjeM
+ 0diA1ARZnIKzPvmqBI1WYFBhLA21OD+ViwMJuyt62xZvWRGdqU3MfmOAPbN9i/zcGL9m
+ 1phJmgKb01LzCFX5Cjp3EECpmzCSu6h3MM3fIT1qZs3Gr52GE1GcE+BD7Pw6kcrucrb0
+ Fpug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=zs3nwvFstwK9O0R2ZuekWvi/c8UlKcrXqpReEUSXf5Q=;
+ b=nMeydXOVzU6tcl0Oe4q1VB1bNWVxHjoaTGFYRU1nbV1AaCJbZeL5kA5osmdlKwGGf6
+ ipkAcGqjwKOivNl86/uGB+z0/OlW3+fNcjzz8NzxfkOJFjz0D/tR0dRXy4aTV4KwowVe
+ a5LIYvCoshRQ0wN5UqqudrZ8O69s3f1PHBF3+QoxPFM2w/h95gPfz2UakHKs19J4zDNJ
+ YFT5YN7PXaIUzrp3FE4cvqGj2LmrrzKqOgtBIbJyS/sSF6rd9ytyPu3UUhF7PLdjZXwg
+ 99ouk9Fog4v+L0DVdgLJ034ApjlB15sIAGdxu/W+OHBPgG7pe16KbhO/0C+tSVlJQrQL
+ 31vw==
+X-Gm-Message-State: AOAM531RP56DCzE3rPOfSe0je6YySwAOZ+YNoSPG5kDl7tdheIq+Jdfb
+ ZY2WRMFT4hKR8rI68UH2CxNLZA==
+X-Google-Smtp-Source: ABdhPJwGMj4rfDjULvam06SUBZIaEz7DY4kMVnwPW9i+QfpsQ4SZz5t8TQUWvH+MIRGzrLW2eqmMgQ==
+X-Received: by 2002:adf:fb92:: with SMTP id a18mr58682726wrr.182.1626101601049; 
+ Mon, 12 Jul 2021 07:53:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r3sm6783938wrw.24.2021.07.12.07.53.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 07:53:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4BD6A1FF7E;
+ Mon, 12 Jul 2021 15:53:19 +0100 (BST)
+References: <20210712122653.11354-1-alex.bennee@linaro.org>
+ <87im1fvgak.fsf@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: Re: [PULL for 6.1 00/40] testing and plugin updates
+Date: Mon, 12 Jul 2021 15:51:31 +0100
+In-reply-to: <87im1fvgak.fsf@linaro.org>
+Message-ID: <87fswjvb1c.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210709215550.32496-3-brijesh.singh@amd.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,78 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 09, 2021 at 04:55:46PM -0500, Brijesh Singh wrote:
-> To launch the SEV-SNP guest, a user can specify up to 8 parameters.
-> Passing all parameters through command line can be difficult.
 
-This sentence applies to pretty much everything in QEMU and the
-SEV-SNP example is nowhere near an extreme example IMHO.
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
->                                                              To simplify
-> the launch parameter passing, introduce a .ini-like config file that can be
-> used for passing the parameters to the launch flow.
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>
+>> The following changes since commit 86108e23d798bcd3fce35ad271b198f8a8611=
+746:
+>>
+>>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-=
+6.1-pull-request' into staging (2021-07-11 18:49:25 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-1207=
+21-1
+>>
+>> for you to fetch changes up to 88e5a469c820b6242e280d0a7e8128371f535bcc:
+>>
+>>   MAINTAINERS: Added myself as a reviewer for TCG Plugins (2021-07-12
+>>   11:10:14 +0100)
+>
+> I'm sending a v2 (pull-testing-and-plugins-120721-2) of the PR which is
+> re-based and applies to fixes from Paolo. Just running it through CI now
+> but if you want to take the v2 tag now you can.
 
-Inventing a new config file format for usage by just one specific
-niche feature in QEMU is something I'd say we do not want.
+*sigh* still seeing build failures with the next patches - need to do
+ more debugging.
 
-Our long term goal in QEMU is to move to a world where 100% of
-QEMU configuration is provided in JSON format, using the QAPI
-schema to define the accepted input set.  
 
-> 
-> The contents of the config file will look like this:
-> 
-> $ cat snp-launch.init
-> 
-> # SNP launch parameters
-> [SEV-SNP]
-> init_flags = 0
-> policy = 0x1000
-> id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
-
-These parameters are really tiny and trivial to provide on the command
-line, so I'm not finding this config file compelling.
-
-> 
-> 
-> Add 'snp' property that can be used to indicate that SEV guest launch
-> should enable the SNP support.
-> 
-> SEV-SNP guest launch examples:
-> 
-> 1) launch without additional parameters
-> 
->   $(QEMU_CLI) \
->     -object sev-guest,id=sev0,snp=on
-> 
-> 2) launch with optional parameters
->   $(QEMU_CLI) \
->     -object sev-guest,id=sev0,snp=on,launch-config=<file>
-> 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> ---
->  docs/amd-memory-encryption.txt |  81 +++++++++++-
->  qapi/qom.json                  |   6 +
->  target/i386/sev.c              | 227 +++++++++++++++++++++++++++++++++
->  3 files changed, 312 insertions(+), 2 deletions(-)
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
