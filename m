@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABD03C430C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 06:30:52 +0200 (CEST)
-Received: from localhost ([::1]:40110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CF63C4308
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 06:28:17 +0200 (CEST)
+Received: from localhost ([::1]:59820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2nal-0007Zq-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 00:30:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35110)
+	id 1m2nYG-0001oL-5I
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 00:28:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2nWU-0007bn-4R
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38702)
+ id 1m2nWQ-0007XD-Dv
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:22 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2nWS-0006OA-IO
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:25 -0400
+ id 1m2nWN-0006Ja-IK
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:22 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2nWO-0005Lk-7K
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:20 +0000
+ id 1m2nWH-0005KA-GP
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 80FC32E81C7
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:12 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8BB402E8201
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Jul 2021 04:17:55 -0000
-From: Launchpad Bug Tracker <1912857@bugs.launchpad.net>
+Date: Mon, 12 Jul 2021 04:17:56 -0000
+From: Launchpad Bug Tracker <1914021@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: imperialguy janitor th-huth
-X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
+X-Launchpad-Bug-Commenters: janitor johndong pmaydell th-huth
+X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161135175608.19792.5002633896122919993.malonedeb@wampee.canonical.com>
-Message-Id: <162606347581.2726.3818728862374590332.malone@loganberry.canonical.com>
-Subject: [Bug 1912857] Re: virtio-serial blocks hostfwd ssh on windows 10 host
+References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162606347656.2726.13923445276018101638.malone@loganberry.canonical.com>
+Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
+ instruction) but gdb remote-debug exited normally
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 1960dcf633515f529f10a65629d194adce6869eb
+X-Launchpad-Hash: de2ced336d2eaeb8f6dbf97a17c5a8b78ce8ae12
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912857 <1912857@bugs.launchpad.net>
+Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,65 +84,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912857
+https://bugs.launchpad.net/bugs/1914021
 
 Title:
-  virtio-serial blocks hostfwd ssh on windows 10 host
+  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
+  debug exited normally
 
 Status in QEMU:
   Expired
 
 Bug description:
-  qemu-system-x86_64
-  =C2=A0=C2=A0-display none
-  =C2=A0=C2=A0-hda archlinux.qcow2
-  =C2=A0=C2=A0-m 4G
-  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
-  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+  I'm getting Illegal instruction (core dumped) when running the
+  attached a.out_err binary in qemu, but when using Gdb to remote-debug
+  the program, it exited normally. will appreciate if you can help look
+  into this qemu issue.
 
-  --> THIS WORKS - meaning I can ssh into the vm via port 2222
+  readelf -h a.out_err
+  ELF Header:
+    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+    Class:                             ELF32
+    Data:                              2's complement, little endian
+    Version:                           1 (current)
+    OS/ABI:                            UNIX - System V
+    ABI Version:                       0
+    Type:                              EXEC (Executable file)
+    Machine:                           ARM
+    Version:                           0x1
+    Entry point address:               0x8220
+    Start of program headers:          52 (bytes into file)
+    Start of section headers:          54228 (bytes into file)
+    Flags:                             0x5000200, Version5 EABI, soft-float=
+ ABI
+    Size of this header:               52 (bytes)
+    Size of program headers:           32 (bytes)
+    Number of program headers:         3
+    Size of section headers:           40 (bytes)
+    Number of section headers:         16
+    Section header string table index: 15
 
-  qemu-system-x86_64
-  =C2=A0=C2=A0-display none
-  =C2=A0=C2=A0-hda archlinux.qcow2
-  =C2=A0=C2=A0-m 4G
-  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
-  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
-  =C2=A0=C2=A0-device virtio-serial
-  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
-  =C2=A0=C2=A0-chardev socket,id=3Dcid0,host=3Dlocalhost,port=3D55298,serve=
-r,nowait
-
-  --> DOES NOT WORK - meaning I cannot ssh into the vm
-
-  Not only does the port 2222 not work, but I am not able to perform any
-  serial transfer on port 55298 as well.
-
-  The following doesn't work either:
-
-  qemu-system-x86_64
-  =C2=A0=C2=A0-display none
-  =C2=A0=C2=A0-hda archlinux.qcow2
-  =C2=A0=C2=A0-m 4G
-  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
-  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
-  =C2=A0=C2=A0-device virtio-serial
-  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
-  =C2=A0=C2=A0-chardev file,id=3Dcid0,path=3Dmypath
-
-  No matter which character device I use for my virtserialport
-  communication (socket or udp or file or pipe), the hostfwd doesn't
-  work.
-
-  Also, if I enable the display, I am unable to type anything in the
-  emulator window when I use virtserialport.
-
-  Host: Windows 10
-  Guest: archlinux
-  QEMU version 5.2
-
-  The same thing works just fine on a Mac OS X host (tested on Big Sur)
+  qemu-arm version 4.0.0
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912857/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
 
