@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C893C65E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 00:03:28 +0200 (CEST)
-Received: from localhost ([::1]:46620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3F13C65E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 00:05:47 +0200 (CEST)
+Received: from localhost ([::1]:50938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m341P-0004Ay-L2
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 18:03:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50772)
+	id 1m343e-00074z-9B
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 18:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m33ty-0000hb-BN
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:46 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:43773)
+ id 1m33tz-0000kv-7U
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:47 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:38750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m33tv-0006u7-D2
+ id 1m33tw-0006vA-OE
  for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:46 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id a127so17679288pfa.10
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:55:42 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id
+ me13-20020a17090b17cdb0290173bac8b9c9so143788pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:55:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=98hXjA4uSUkP3B9/WqgmYEJVY206bbsiqYmueSYFIP8=;
- b=A5XxD2ZlTroVbml+CU5XK4A8VhlUBbeMGrH1M3bFs2BBQ16nsA/0PzI7KsIUBgdiy+
- 7zBW98ZemlXuEvpaTWZXpv/zx1KsS+xt+N7xTOKo79YOy/KWfkKPUGWDQHzrdg6j3zsI
- /C9MXey4d7zJGsBs+qMWmCcKYGt6pk2FiPt9faPHlz+I69AeNPZhYDauHPs4NLRK/UoZ
- GxA6YuBtwQk4AuaTEzJFBoojJvn220UN+8tYfdet5ll24iqpyQxbxH4Rh9IPIMp+MkP7
- Eibgt6eOXgZ6mOU9Hgz5LVamFs2wmdQAfSVXg6llWzsE7UUIUf6WswOeFlCS4HNhK70w
- S6Yg==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=m7emFn9ZXxGGMcBZFosB1EnmF9R96t2zGLMZbzq44mc=;
+ b=rxNTD/co5NHhu5YAUrO/4/3Q6zmq5wj1krlkzCno+nne0/ipSHG0K/ycuc0vCcEg22
+ /yvZwjVZQo36lgaJiYiuy7opmBQMwI9a/2KK43qbqVsiehBLNdseNKpSoC3neWC6vErJ
+ bFGB+sb2l30hqigiXYBHpnAya6yWoQwsejs2EFNb5Cj3npC32sE5n4+xu7MCx+ol4h1c
+ boNSoY31FvdpeWY/YJXvNUhUuUDowrIE+EDsOUFrt/xJOalgaheaVBXWggRRK820oH1B
+ eWa84HO8OC7vdMUtAq89eZzkc77iuu3l7Ake8hYt6VF5V2kt2FtEgiXslbfL4qgXAZ9d
+ 8bOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=98hXjA4uSUkP3B9/WqgmYEJVY206bbsiqYmueSYFIP8=;
- b=e2xFhb6CEIP5U60za4TN81TUrPH08ES9/8grIwIh87J4t8rOXUe/cMBimmhcazxVvo
- c1qOcyvJrE8QmIXHSBIHLhTngfCL2/zrqLtaBSb2zc+NHej/26S/B5gp6JgIIlpr+5jK
- lSyRCJa4wV5jZEIFB8o6omqOiIL0QVxkuLNoFWvF9P0yBKqv2ytQHea5v0wxsGvRszB0
- oV3FO8DO/8koG1r0pcg5/CEHlV/5NouWKuAZm/m+5kblUu13I0LYjSQrjlA11bBvRoBV
- QF6zCpu6so8sv1I03lPVWOyRYg4vMso2ypjVLvK+S6uNgMIWJO/Sl5fMGKVV0+I9YaVM
- CWpw==
-X-Gm-Message-State: AOAM531GCboyfE2EpBAjh2xQwvK/OscL7ipQ8LUC9Zly/JXfyRDRzK23
- ikGzaYV39h8/MvtxmZaPCTmRFshj5o0IOA==
-X-Google-Smtp-Source: ABdhPJz/PeScgqyHHTC6zJGd7QPNrrrvuPzKQ3T3RFAKNIdQSWUgb4UgYftxW7qmWIbhL19lcV7mEA==
-X-Received: by 2002:aa7:828f:0:b029:200:6e27:8c8f with SMTP id
- s15-20020aa7828f0000b02902006e278c8fmr1318855pfm.44.1626126942220; 
- Mon, 12 Jul 2021 14:55:42 -0700 (PDT)
+ bh=m7emFn9ZXxGGMcBZFosB1EnmF9R96t2zGLMZbzq44mc=;
+ b=g0e1QodO9uK6Ifrw5Rc+derBFLScwWg58xn537BhRjGRjsUs7JzVt/1VfUwFHk1HJ6
+ Gj6YHOLsNv7cmldpyZyW49m2ujDEzOVHEiEnPtJG145YWxswgG7ULNjpqkO5dGsCFKXl
+ k0HOPsfie2EJ10DfIUuqVL7b+rrbj5DCuAVzaQjQ+cKjVHVl1dCCwVx6C04oQ6CsIXWp
+ zo6/rqEpP1sHHfX9TZtAG/+2H8rN9DKJI6sLi/47ERWMBCn7uLm4HYIrTSHAsGIKkq6s
+ mvbl/1EEspISz1kcWMITOvlomzISM2d4JX1/1+y0MR1fO4u1vcKoQGmhNy3kbBz44NWZ
+ 7AOQ==
+X-Gm-Message-State: AOAM530XLwESUKNpqI4YXhFVBsSNYzIeCiF29CiU+mxFRDhQ454qj4ov
+ eRSTQuSZlLJioKUGpjC/z9RNpcf/38xrPQ==
+X-Google-Smtp-Source: ABdhPJwwA1OwQyav8nbzLjQ6EtTdx4cENSVCGtCT9AwKP0dcdOsPYWXwbcNQNRekar9rHSqbtRWAVQ==
+X-Received: by 2002:a17:90a:1de3:: with SMTP id
+ v90mr934918pjv.219.1626126943457; 
+ Mon, 12 Jul 2021 14:55:43 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id d2sm376932pjo.50.2021.07.12.14.55.41
+ by smtp.gmail.com with ESMTPSA id d2sm376932pjo.50.2021.07.12.14.55.43
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 14:55:41 -0700 (PDT)
+ Mon, 12 Jul 2021 14:55:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 08/11] linux-user/syscall: Remove unused variable from execve
-Date: Mon, 12 Jul 2021 14:55:32 -0700
-Message-Id: <20210712215535.1471256-9-richard.henderson@linaro.org>
+Subject: [PATCH 10/11] tcg/ppc: Replace TCG_TARGET_CALL_DARWIN with
+ _CALL_DARWIN
+Date: Mon, 12 Jul 2021 14:55:34 -0700
+Message-Id: <20210712215535.1471256-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210712215535.1471256-1-richard.henderson@linaro.org>
 References: <20210712215535.1471256-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,48 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From clang-13:
-linux-user/syscall.c:8503:17: error: variable 'total_size' set but not used \
-    [-Werror,-Wunused-but-set-variable]
+If __APPLE__, ensure that _CALL_DARWIN is set, then remove
+our local TCG_TARGET_CALL_DARWIN.
 
-Cc: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 3 ---
- 1 file changed, 3 deletions(-)
+ tcg/ppc/tcg-target.c.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2e826206d2..c27debba8c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8500,7 +8500,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             abi_ulong guest_envp;
-             abi_ulong addr;
-             char **q;
--            int total_size = 0;
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index e0f4665213..2202ce017e 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -25,8 +25,8 @@
+ #include "elf.h"
+ #include "../tcg-pool.c.inc"
  
-             argc = 0;
-             guest_argp = arg2;
-@@ -8532,7 +8531,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                     break;
-                 if (!(*q = lock_user_string(addr)))
-                     goto execve_efault;
--                total_size += strlen(*q) + 1;
-             }
-             *q = NULL;
+-#if defined _CALL_DARWIN || defined __APPLE__
+-#define TCG_TARGET_CALL_DARWIN
++#if !defined _CALL_DARWIN && defined __APPLE__
++#define _CALL_DARWIN 1
+ #endif
+ #ifdef _CALL_SYSV
+ # define TCG_TARGET_CALL_ALIGN_ARGS   1
+@@ -169,7 +169,7 @@ static const int tcg_target_call_oarg_regs[] = {
+ };
  
-@@ -8544,7 +8542,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                     break;
-                 if (!(*q = lock_user_string(addr)))
-                     goto execve_efault;
--                total_size += strlen(*q) + 1;
-             }
-             *q = NULL;
- 
+ static const int tcg_target_callee_save_regs[] = {
+-#ifdef TCG_TARGET_CALL_DARWIN
++#ifdef _CALL_DARWIN
+     TCG_REG_R11,
+ #endif
+     TCG_REG_R14,
+@@ -2372,7 +2372,7 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ # define LINK_AREA_SIZE                (6 * SZR)
+ # define LR_OFFSET                     (1 * SZR)
+ # define TCG_TARGET_CALL_STACK_OFFSET  (LINK_AREA_SIZE + 8 * SZR)
+-#elif defined(TCG_TARGET_CALL_DARWIN)
++#elif defined(_CALL_DARWIN)
+ # define LINK_AREA_SIZE                (6 * SZR)
+ # define LR_OFFSET                     (2 * SZR)
+ #elif TCG_TARGET_REG_BITS == 64
 -- 
 2.25.1
 
