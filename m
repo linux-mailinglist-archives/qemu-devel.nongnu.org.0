@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1AB3C6457
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:56:16 +0200 (CEST)
-Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3193C6464
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:57:28 +0200 (CEST)
+Received: from localhost ([::1]:44582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m322J-0003Cb-BP
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:56:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
+	id 1m323T-0004qw-5D
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m320X-0002TK-1j
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:54:25 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:56245)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3217-0002qw-P5
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:55:01 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:38545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m320U-0001tU-Vz
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:54:24 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3215-0002LN-76
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:55:01 -0400
 Received: from [192.168.100.1] ([82.142.17.146]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MSZDt-1lanjl3IPh-00St4h; Mon, 12 Jul 2021 21:54:08 +0200
-Subject: Re: [PATCH v3 0/8] linux-user: target <-> host errno conversion code
- refactor
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210708170550.1846343-1-f4bug@amsat.org>
+ 1MhFpq-1lYcwU32m2-00ePUG; Mon, 12 Jul 2021 21:54:56 +0200
+Subject: Re: [PATCH] fd-trans: Fix race condition on reallocation of the
+ translation table.
+To: Owen Anderson <oanderso@google.com>
+References: <20210701221255.107976-1-oanderso@google.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <719c1598-184d-80d3-0bd6-95d954269e64@vivier.eu>
-Date: Mon, 12 Jul 2021 21:54:08 +0200
+Message-ID: <a1431e68-5a1d-7aca-3fad-214f45cb9474@vivier.eu>
+Date: Mon, 12 Jul 2021 21:54:56 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210708170550.1846343-1-f4bug@amsat.org>
+In-Reply-To: <20210701221255.107976-1-oanderso@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:vIrWawEWswuZjvabJtNeUBHH2hKx8dSmakD39bhf+5DWZnS7Mk7
- LyVTY+INm4fZb7opzLfEtmZxHJpyVUMpQFGIwBpUwncyHaR+X3iL6e7rXkmr9QBuHHFJAjD
- miv6oi/gfoVAc1qVvaorQwt0nfU2AtuDyRhNVOznW6Rqv7KAYxmxtkJa86q1F5p//ZFm9kX
- j2wG6R67m/hPk3kgVZHug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:k/lY63iHxIQ=:hb2EiAc1D8iKun03tv9QAu
- Rx7m8U9EDeEvVNq17+T40AIIDtgF2tHAkSwV1WTadiCLCSAnIEulb7v0Xetxkl+DveZ30uUmw
- taF8OU0GbgfEc7fXObrfE9QpUc1j6p/nLYd4HMYvyTAwI7NGrG6G2hxILAAtf+lDgTPUG2JdU
- +yL+jzAB6fFa5gWSbgSASSs0hYvjL0m10ksDkMLjWx8Rre0TErDk1VdGjBIqKLmA5Sum/VHqP
- rlnyytd/FzvUkv/CvbebjpJsmTD8CPuAej6iPf99qie7vW1xUCv1DMKj1l2YwdGy8O5YSS3Sr
- UmpqMnPG60bc90TpEQt5PA79d1MnjC1YnjhwATkjvm3Ns2dSjyucrCu5G83p4tifutsgj0L9h
- DL4U9YusBwH3Wx/MP+XrGzqwd4iUxBff0hfEFUMf0w2XMf+WC4eXuXQZYLkm2ePJKRrLFiFjk
- lYDUiIdoZOvOSeOayg+gMvL8NlpFD8Gnu14Ls+4kLzj3hvoJ0MrwlzTBwV/KhL00kFxiKXGYT
- TaS8lkdSk2YflD2pDFdNFG2HOLKXYpHZOO0215otgG2Y6/nhG5Dg3ASbNa9mn3Kt9hd9UGPf1
- J5dkP4bjNGKRlvDnFI84cTEwyN7KObXc/0bszaLKq7LR31nJbKSbsGAkIk9ZnSIyinVbcmPa5
- fdqVAbtpOW9yGrkeNVmjdFwk5csonv/zoZPjmzSnEmeHGmYn0YeQv9lcHcjFRMoAuXAz183CJ
- sDlC1SYDEWmFQa9/haFv9DDQp4E/qjTXknQxzLoja67YUUA9axIDupPmCDQ6RbyGiIcCtgFdb
- zl4XSWDquc11gVFqW44yu+ZJrEisbFcewk3qupjoQCuu0FWA+bRID+M8oQ7uHvh5e5IpuOe
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:o6v9AcH6yL23BQyStNZhghFUkWmIYyNZa9NIeUOc5Mz06opWooD
+ LInTQHQM0Tp39IvQwb3VESB0pi8JmkTNqbQm6J7TTB6aAYJols7nvxEwZ4OSpKjUjqyTY2R
+ DRFc3UBu3MYzVgGzm22F1Jg0RB8QfS8RqZxZvC7JcctR+QKHHbz9x1aUCf4w4gM2oSIDzYE
+ 7Ie0Kr95KkU20AKWIm09Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Q+hobPqsCQw=:kKbvorT3a1KkuaZCgfK5kr
+ aWInWWaSsF5CqiFEz4VFhwsFUuhbuAvaIgbvr8BaO1xx8IajxuL+SJfkXlsXH4oYlNZUk38cN
+ vu25vRw41wuc6hqbqugMbsYGkIpJN3QtYvDvFL+qc63Qb76wTydMFgO9W6iw7OrWCD0nudaPr
+ qJomyWt+TUpyMKnkJ6QRoyFQnX0OLYXhXJOREeq3OiF78LP4Le6BFIOai/yoefPOvyzebQr4T
+ UvPcQtYg2uurK/Ai/U0hJcnCPhz9+ZgIqh+rSCwmYJNaG41GdRbOTei3dt3b1j39RhAn2dgLD
+ U40kQaStQtWXnan7SeX5Nun7i+a4f2oi3aTzIZeImIWGt9GtDcAMtMdZONrLPRC0UGC5FzWZq
+ SvoENQg0ZoONcLUQB5dOqX6Wgxhp0p6gT+ZlhrwQnO94uP4TTD/NgTp9ECRPXpjNBSloguM/5
+ 1zDST5mH1ZI3KtA9M8O76Ch8P8bcDGkt7eov3aKtSbUm8LpFaBZ+KOTG4HAvVwKP7wXxAe+Mb
+ gEacF2XH6WZFwXnRLMk4mIHDclLbBWPCMYgCnbAqZjY3jFy+vePXiUhJe/o2Vi4hmWDuUTULq
+ poq3wwNeH5JAOop98cSEGROS7MB+tQ8egYdgSFHDN7RZ0L9U7i+gmtccguM6IVV/iyP5zo8Fo
+ 92maqKk6IauNivsXhKWR3Xas6Gy6oA01jBaDzljqBgaP3HhpwqCgpha7dfmB/aOb1HvSkHgjo
+ ZoML/UQpQHt0x/FBFKxk6BtOF20KkPLuXffHbIRjrLa0/d3TZvgEiX/A68nqB+dAAsmTF5Sr6
+ 769yX2sTueNhGZS+XurTHwRC4VOgGhwkzRlkaff7gHp7KA+xJUdVjceY6CypPrUW9HfI8gf
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,89 +71,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/07/2021 à 19:05, Philippe Mathieu-Daudé a écrit :
-> Hi,
+Le 02/07/2021 à 00:12, Owen Anderson a écrit :
+> The mapping from file-descriptors to translator functions is not guarded
+> on realloc which may cause invalid function pointers to be read from a
+> previously deallocated mapping.
 > 
-> This series extract code related to target errno conversion
-> (to/from host) into a separate header.
+> Signed-off-by: Owen Anderson <oanderso@google.com>
+> ---
+>  linux-user/fd-trans.c |  1 +
+>  linux-user/fd-trans.h | 55 +++++++++++++++++++++++++++++++++++++------
+>  linux-user/main.c     |  3 +++
+>  3 files changed, 52 insertions(+), 7 deletions(-)
 > 
-> Since v2:
-> - addressed Richard / Laurent review comments
-> Since v1:
-> - addressed Taylor / Richard / Laurent review comments
-> 
-> Based-on: <20210708100756.212085-1-laurent@vivier.eu>
-> 
-> Philippe Mathieu-Daudé (8):
->   linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)
->   linux-user/sparc: Rename target_errno.h -> target_errno_defs.h
->   linux-user: Extract target errno to 'target_errno_defs.h'
->   linux-user/alpha: Move errno definitions to 'target_errno_defs.h'
->   linux-user/hppa: Move errno definitions to 'target_errno_defs.h'
->   linux-user/mips: Move errno definitions to 'target_errno_defs.h'
->   linux-user: Simplify host <-> target errno conversion using macros
->   linux-user/syscall: Remove ERRNO_TABLE_SIZE check
-> 
->  linux-user/aarch64/target_errno_defs.h        |   7 +
->  linux-user/alpha/target_errno_defs.h          | 204 ++++++++++++++++
->  linux-user/alpha/target_syscall.h             | 194 ---------------
->  linux-user/arm/target_errno_defs.h            |   7 +
->  linux-user/cris/target_errno_defs.h           |   7 +
->  .../target_errno_defs.h}                      |   4 +-
->  linux-user/hexagon/target_errno_defs.h        |   7 +
->  linux-user/hppa/target_errno_defs.h           | 220 +++++++++++++++++
->  linux-user/hppa/target_syscall.h              | 210 -----------------
->  linux-user/i386/target_errno_defs.h           |   7 +
->  linux-user/m68k/target_errno_defs.h           |   7 +
->  linux-user/microblaze/target_errno_defs.h     |   7 +
->  linux-user/mips/target_errno_defs.h           | 221 ++++++++++++++++++
->  linux-user/mips/target_syscall.h              | 211 -----------------
->  linux-user/mips64/target_errno_defs.h         |  10 +
->  linux-user/mips64/target_syscall.h            | 211 -----------------
->  linux-user/nios2/target_errno_defs.h          |   7 +
->  linux-user/openrisc/target_errno_defs.h       |   7 +
->  linux-user/ppc/target_errno_defs.h            |   7 +
->  linux-user/riscv/target_errno_defs.h          |   7 +
->  linux-user/s390x/target_errno_defs.h          |   7 +
->  linux-user/sh4/target_errno_defs.h            |   7 +
->  .../{target_errno.h => target_errno_defs.h}   |  11 +-
->  linux-user/sparc/target_syscall.h             |   2 -
->  linux-user/syscall_defs.h                     |   2 +-
->  linux-user/x86_64/target_errno_defs.h         |   7 +
->  linux-user/xtensa/target_errno_defs.h         |   7 +
->  linux-user/syscall.c                          | 164 ++-----------
->  linux-user/errnos.c.inc                       | 140 +++++++++++
->  linux-user/safe-syscall.S                     |   2 +-
->  30 files changed, 926 insertions(+), 985 deletions(-)
->  create mode 100644 linux-user/aarch64/target_errno_defs.h
->  create mode 100644 linux-user/alpha/target_errno_defs.h
->  create mode 100644 linux-user/arm/target_errno_defs.h
->  create mode 100644 linux-user/cris/target_errno_defs.h
->  rename linux-user/{errno_defs.h => generic/target_errno_defs.h} (99%)
->  create mode 100644 linux-user/hexagon/target_errno_defs.h
->  create mode 100644 linux-user/hppa/target_errno_defs.h
->  create mode 100644 linux-user/i386/target_errno_defs.h
->  create mode 100644 linux-user/m68k/target_errno_defs.h
->  create mode 100644 linux-user/microblaze/target_errno_defs.h
->  create mode 100644 linux-user/mips/target_errno_defs.h
->  create mode 100644 linux-user/mips64/target_errno_defs.h
->  create mode 100644 linux-user/nios2/target_errno_defs.h
->  create mode 100644 linux-user/openrisc/target_errno_defs.h
->  create mode 100644 linux-user/ppc/target_errno_defs.h
->  create mode 100644 linux-user/riscv/target_errno_defs.h
->  create mode 100644 linux-user/s390x/target_errno_defs.h
->  create mode 100644 linux-user/sh4/target_errno_defs.h
->  rename linux-user/sparc/{target_errno.h => target_errno_defs.h} (97%)
->  create mode 100644 linux-user/x86_64/target_errno_defs.h
->  create mode 100644 linux-user/xtensa/target_errno_defs.h
->  create mode 100644 linux-user/errnos.c.inc
+> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+> index 23adaca836..86b6f484d3 100644
+> --- a/linux-user/fd-trans.c
+> +++ b/linux-user/fd-trans.c
+> @@ -267,6 +267,7 @@ enum {
+>  };
+>  
+>  TargetFdTrans **target_fd_trans;
+> +QemuMutex target_fd_trans_lock;
+>  unsigned int target_fd_max;
+>  
+>  static void tswap_nlmsghdr(struct nlmsghdr *nlh)
+> diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
+> index a3fcdaabc7..1b9fa2041c 100644
+> --- a/linux-user/fd-trans.h
+> +++ b/linux-user/fd-trans.h
+> @@ -16,6 +16,8 @@
+>  #ifndef FD_TRANS_H
+>  #define FD_TRANS_H
+>  
+> +#include "qemu/lockable.h"
+> +
+>  typedef abi_long (*TargetFdDataFunc)(void *, size_t);
+>  typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
+>  typedef struct TargetFdTrans {
+> @@ -25,12 +27,23 @@ typedef struct TargetFdTrans {
+>  } TargetFdTrans;
+>  
+>  extern TargetFdTrans **target_fd_trans;
+> +extern QemuMutex target_fd_trans_lock;
+>  
+>  extern unsigned int target_fd_max;
+>  
+> +static inline void fd_trans_init(void)
+> +{
+> +    qemu_mutex_init(&target_fd_trans_lock);
+> +}
+> +
+>  static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
+>  {
+> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+> +    if (fd < 0) {
+> +        return NULL;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    if (fd < target_fd_max && target_fd_trans[fd]) {
+>          return target_fd_trans[fd]->target_to_host_data;
+>      }
+>      return NULL;
+> @@ -38,7 +51,12 @@ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
+>  
+>  static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+>  {
+> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+> +    if (fd < 0) {
+> +        return NULL;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    if (fd < target_fd_max && target_fd_trans[fd]) {
+>          return target_fd_trans[fd]->host_to_target_data;
+>      }
+>      return NULL;
+> @@ -46,13 +64,19 @@ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+>  
+>  static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
+>  {
+> -    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
+> +    if (fd < 0) {
+> +        return NULL;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    if (fd < target_fd_max && target_fd_trans[fd]) {
+>          return target_fd_trans[fd]->target_to_host_addr;
+>      }
+>      return NULL;
+>  }
+>  
+> -static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+> +static inline void internal_fd_trans_register_unsafe(int fd,
+> +                                                     TargetFdTrans *trans)
+>  {
+>      unsigned int oldmax;
+>  
+> @@ -67,18 +91,35 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+>      target_fd_trans[fd] = trans;
+>  }
+>  
+> -static inline void fd_trans_unregister(int fd)
+> +static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+> +{
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    internal_fd_trans_register_unsafe(fd, trans);
+> +}
+> +
+> +static inline void internal_fd_trans_unregister_unsafe(int fd)
+>  {
+>      if (fd >= 0 && fd < target_fd_max) {
+>          target_fd_trans[fd] = NULL;
+>      }
+>  }
+>  
+> +static inline void fd_trans_unregister(int fd)
+> +{
+> +    if (fd < 0) {
+> +        return;
+> +    }
+> +
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    internal_fd_trans_unregister_unsafe(fd);
+> +}
+> +
+>  static inline void fd_trans_dup(int oldfd, int newfd)
+>  {
+> -    fd_trans_unregister(newfd);
+> +    QEMU_LOCK_GUARD(&target_fd_trans_lock);
+> +    internal_fd_trans_unregister_unsafe(newfd);
+>      if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
+> -        fd_trans_register(newfd, target_fd_trans[oldfd]);
+> +        internal_fd_trans_register_unsafe(newfd, target_fd_trans[oldfd]);
+>      }
+>  }
+>  
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 2fb3a366a6..37ed50d98e 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -48,6 +48,7 @@
+>  #include "target_elf.h"
+>  #include "cpu_loop-common.h"
+>  #include "crypto/init.h"
+> +#include "fd-trans.h"
+>  
+>  #ifndef AT_FLAGS_PRESERVE_ARGV0
+>  #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
+> @@ -829,6 +830,8 @@ int main(int argc, char **argv, char **envp)
+>      cpu->opaque = ts;
+>      task_settid(ts);
+>  
+> +    fd_trans_init();
+> +
+>      ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+>          info, &bprm);
+>      if (ret != 0) {
 > 
 
-Series applied to my linux-user-for-6.1 branch.
+Applied to my linux-user-for-6.1 branch.
 
 Thanks,
 Laurent
