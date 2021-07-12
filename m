@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EDD3C463E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 11:26:50 +0200 (CEST)
-Received: from localhost ([::1]:57026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D80283C464A
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 11:37:57 +0200 (CEST)
+Received: from localhost ([::1]:59768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2sDB-0006ca-9p
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 05:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57884)
+	id 1m2sNw-0000a2-PL
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 05:37:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m2sCK-0005xB-Ej
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:25:56 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:33778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m2sCI-0006fN-TL
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:25:56 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id 62so9843504iob.0
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 02:25:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O4+twl76yHpRe2vqVnwCiz+byWlOw0MacuFNAZwhTLY=;
- b=UTY0uqRWwyXsIMcVDNfJwW4CMs/c6SSPs+PtGLzzQtk8m8llPvQeHbjxQ/dLTT/XCO
- yawF7pvTiE15iX2yB7aCG8/2TF+QwBgcxlF11u5E5DvrkV1/7ZmCymNOjUkP8THfwEED
- IEr2o+w+kM4WwQgN93Lz7fh15x4ILx+B+snsOlEuzEjCvobEzvH8cV1gmHtG3cfsPSMR
- 7+lbLfObp1egCwYSNbIJ22By5ysKaiRRNpvq23SWb2nix2B3Mk5PfOG9rAld6cvhDbmo
- thdKIq2MsgUCqW5oXB5DA6Ln8dV5u3PMNqCqhCcFG9se7hqRvbnhDQPu4fx0cf1RkFWD
- QYvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O4+twl76yHpRe2vqVnwCiz+byWlOw0MacuFNAZwhTLY=;
- b=AdCsdcv+/2mgtc4Jn0j06ETBtDBq4l+TRluoLA2vLbPoJuEqtNt4bHXuTffkbY5FRh
- gkd9RhYeEYSBRj/GU4WsIijEvDxMQIg0p6x0T5TQfhg7cA7AJRYqpQOFgP5sqRbpStZC
- 19M8BuZrWfMxH0/rDsMVi41b5Ge0AJE+FojEBnaQ9sBL/OMyfRs4XZUJElm/uyA/tAkr
- zsQTYxl4CRetGGlx+OzVJhrA9ZMXo6jSEbUxY3aI9Dz7ZI5tfx5oUdAbvHbqC9gpQn4T
- VNN5HhLlo3OgimlYNGL8uaZuNsXlCal5R78E9uQhWQM+D3riMdiD+sRTKZprq7ZgV/Eg
- r+Kw==
-X-Gm-Message-State: AOAM530WSCejedRnUaIJr2VdRdSwfU2KnJ2eX5WMHMMiZo8aGAjwn5WT
- 4bCzhwvzJX+YGhv56SRZvxfzI70kjEVpexr8J64=
-X-Google-Smtp-Source: ABdhPJzBY1JWcmAWOtAtaXp2IHLO0hv2jdlDtOab9XssKfsqyiOgJZ/cSUK8ZvOWEnlZ8B6zD7m/RXAmC57vvn2EdCs=
-X-Received: by 2002:a5d:9cd9:: with SMTP id w25mr26954783iow.36.1626081953346; 
- Mon, 12 Jul 2021 02:25:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1m2sMx-0008KQ-2y
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:36:55 -0400
+Received: from mga14.intel.com ([192.55.52.115]:57125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1m2sMu-0006g4-9L
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 05:36:54 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10042"; a="209768872"
+X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; d="scan'208";a="209768872"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Jul 2021 02:36:47 -0700
+X-IronPort-AV: E=Sophos;i="5.84,232,1620716400"; d="scan'208";a="491957376"
+Received: from yangzhon-virtual.bj.intel.com (HELO yangzhon-Virtual)
+ ([10.238.144.101])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA256;
+ 12 Jul 2021 02:36:45 -0700
+Date: Mon, 12 Jul 2021 17:23:31 +0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v3 05/33] vl: Add sgx compound properties to expose SGX
+ EPC sections to guest
+Message-ID: <20210712092331.GB8378@yangzhon-Virtual>
+References: <20210709110955.73256-1-yang.zhong@intel.com>
+ <20210709110955.73256-6-yang.zhong@intel.com>
+ <a14c4d43-f197-a25e-bf53-01489427c792@redhat.com>
 MIME-Version: 1.0
-References: <20210712083135.15755-1-david@redhat.com>
-In-Reply-To: <20210712083135.15755-1-david@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Mon, 12 Jul 2021 11:25:42 +0200
-Message-ID: <CAM9Jb+gZbV85hmBMBDgY7FjBs6FJftCyB4jHvVquyS8dCaBTTQ@mail.gmail.com>
-Subject: Re: [PATCH v1] vfio: Fix CID 1458134 in
- vfio_register_ram_discard_listener()
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a14c4d43-f197-a25e-bf53-01489427c792@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: pass client-ip=192.55.52.115; envelope-from=yang.zhong@intel.com;
+ helo=mga14.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,87 +62,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
+ qemu-devel@nongnu.org, jarkko@kernel.org, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->   CID 1458134:  Integer handling issues  (BAD_SHIFT)
->     In expression "1 << ctz64(container->pgsizes)", left shifting by more
->     than 31 bits has undefined behavior.  The shift amount,
->     "ctz64(container->pgsizes)", is 64.
->
-> Commit 5e3b981c330c ("vfio: Support for RamDiscardManager in the !vIOMMU
-> case") added an assertion that our granularity is at least as big as the
-> page size.
->
-> Although unlikely, we could have a page size that does not fit into
-> 32 bit. In that case, we'd try shifting by more than 31 bit.
->
-> Let's use 1ULL instead and make sure we're not shifting by more than 63
-> bit by asserting that any bit in container->pgsizes is set.
->
-> Fixes: CID 1458134
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Auger Eric <eric.auger@redhat.com>
-> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
-> Cc: teawater <teawaterz@linux.alibaba.com>
-> Cc: Marek Kedzierski <mkedzier@redhat.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/vfio/common.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 3f0d111360..8728d4d5c2 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -783,7 +783,8 @@ static void vfio_register_ram_discard_listener(VFIOContainer *container,
->                                                                  section->mr);
->
->      g_assert(vrdl->granularity && is_power_of_2(vrdl->granularity));
-> -    g_assert(vrdl->granularity >= 1 << ctz64(container->pgsizes));
-> +    g_assert(container->pgsizes &&
-> +             vrdl->granularity >= 1ULL << ctz64(container->pgsizes));
->
->      ram_discard_listener_init(&vrdl->listener,
->                                vfio_ram_discard_notify_populate,
-
-> Fixes: d5015b801340 ("softmmu/memory: Pass ram_flags to
-> qemu_ram_alloc_from_fd()")
->
-> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> ---
->  hw/remote/memory.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/remote/memory.c b/hw/remote/memory.c
-> index 472ed2a272..6e21ab1a45 100644
-> --- a/hw/remote/memory.c
-> +++ b/hw/remote/memory.c
-> @@ -46,7 +46,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
->          subregion = g_new(MemoryRegion, 1);
->          memory_region_init_ram_from_fd(subregion, NULL,
->                                         name, sysmem_info->sizes[region],
-> -                                       true, msg->fds[region],
-> +                                       RAM_SHARED, msg->fds[region],
->                                         sysmem_info->offsets[region],
->                                         errp);
+On Fri, Jul 09, 2021 at 06:07:13PM +0200, Paolo Bonzini wrote:
+> On 09/07/21 13:09, Yang Zhong wrote:
+> >+    sgx_epc = g_malloc0(sizeof(*sgx_epc));
+> >+    pcms->sgx_epc = sgx_epc;
+> >+
+> 
+> No need to malloc this, it's small.
 >
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+  Thanks Paolo, i will use g_new0() to replace this malloc, thanks!
+ 
+  Yang
+  
+ 
+> >  }
+> >+##
+> >+# @SgxEPC:
+> >+#
+> >+# Sgx EPC cmdline information
+> >+#
+> >+# @id: device's ID
+> >+#
+> >+# @memdev: memory backend linked with device
+> >+#
+> >+# Since: 6.1
+> >+##
+> >+{ 'struct': 'SgxEPC',
+> >+  'data': { 'id': [ 'str' ],
+> >+            'memdev': [ 'str' ]
+> >+          }
+> >+}
+> 
+> Is the "id" needed at all?  If not, you can make the property just a
+> string list.
+> 
+
+  The current "id" is only shown in 'info memory-devices" command in the
+  monitor.
+
+   qemu) info memory-devices
+    Memory device [sgx-epc]: "epc1"
+      memaddr: 0x180000000
+      size: 29360128
+      memdev: /objects/mem1
+    Memory device [sgx-epc]: "epc2"
+      memaddr: 0x181c00000
+      size: 10485760
+      memdev: /objects/mem2
+
+ If this "id" is not MUST, i can remove this. thanks!
+
+
+> If not, you should still make the property a list, and SgxEPC can be
+> just the id/memdev pair.
+> 
+
+  The SGX EPC will support NUMA function, 
+
+   -object memory-backend-ram,size=2G,host-nodes=0,policy=bind,id=node0 \ 
+   -object memory-backend-epc,id=mem0,size=100M \
+   -sgx-epc id=epc0,memdev=mem0,node=0 \
+   -numa node,nodeid=0,cpus=0-1,memdev=node0 \
+
+  Sorry this is older command style, i will change this to compound 
+  property in the NUMA patchset.
+
+  So, the SgxEPC struct still needed even i removed 'id'.
+
+
+> Also please place the compound property in PCMachineState, not in
+> MachineState.  You can call the field something else than sgx_epc to
+> avoid conflicts with the SGXEPCState, for example sgx_epc_memdevs or
+> sgx_epc_backends.  Later it can be moved to X86MachineState if
+> needed, but in any case it should not be in common
+> target-independent code.
+> 
+  
+  Yes, i will directly move compound property get/set from MachineState 
+  to X86MachineState and change the sgx_epc to sgx_epc_backends to avoid
+  conflicts(In fact, i have done this and it works well). Thanks!
+
+  Yang
+
+> Paolo
 
