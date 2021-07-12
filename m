@@ -2,90 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4363C438F
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 07:47:05 +0200 (CEST)
-Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3088E3C43E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 08:11:14 +0200 (CEST)
+Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2omX-0003U4-1t
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 01:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48632)
+	id 1m2p9s-0002io-Oj
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 02:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m2okQ-0002Hb-VX
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 01:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29150)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m2p8e-0001sX-Mu
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 02:09:56 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6294
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m2okO-000305-Vq
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 01:44:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626068692;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7PW37pTVScCwsTqHTcBYOA+aW8kcS0pqtjf2P3/KHXI=;
- b=U/4JNUmAhE45ffQfs4TUcLAblfTvBduyNWQJxLXujz2+wE3jwj2+K8/BX2R/e2P9WshPqr
- GuAKY3qCYMjbT6MXrNTSipNt5OkpN7Y5RIxMDvcogMyvjXQkxfAo1vNeSzGds7D6pAiRTN
- jymfHK3dPy25/ghqQimMGw6F5TGnnOM=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-6GKgRDNFNpymtRXftM8HUw-1; Mon, 12 Jul 2021 01:44:50 -0400
-X-MC-Unique: 6GKgRDNFNpymtRXftM8HUw-1
-Received: by mail-pg1-f198.google.com with SMTP id
- k3-20020a6568c30000b029022887377adeso13680563pgt.15
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 22:44:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=7PW37pTVScCwsTqHTcBYOA+aW8kcS0pqtjf2P3/KHXI=;
- b=mWIhFzCKfKEeRnA+xBpETg4TeNT2zPDf/FK0/DDmIdA0rLpGrVZyRtHbuRIlgPzTB8
- TT6Brz0OURD5v65yeUN021R0+pnI9GAYtFcHitkW6Y/cF3Det9QLDiif5/zHkf2jVwre
- Ofibw03wiHQGepU+weSuLQ/Bljo26xGxYRNvmaN6bVZRcbiXkZjpvLAb9HG6fzu+l2aN
- aKNZhtaPnlV/SlclVmBCTqQygq7YenrAuA6voVQ0Sqaaxd/ELqkQ81yowsBXLmmyR0Zu
- gpXPNhD63ZXxVItzmQ6bQ/XZ9Nx/Iqk0i3bMRlhMsrS6G7mPUd79c+G+QFO0HdbWPu4x
- R0Mw==
-X-Gm-Message-State: AOAM5306QqZkVxb7PsQWzyHXcmfjGyn6QG/V9xasWuucsEap7JAovYdx
- fn08o/E9fmge9Ncjt2bi4OM6oiM+sW2tcEeYuU154nyOabEc4NA9sKKPudMBnqOUyxAU6xje14u
- 2wn5yGHR13eac+28=
-X-Received: by 2002:a65:5086:: with SMTP id r6mr51410572pgp.237.1626068689561; 
- Sun, 11 Jul 2021 22:44:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzmXzhL9uIWV7dVrIx08BXT5ZwQWMzEc9kzWeA53aqdc1SaXJl4nLvLkqxtBgZF/R9MEUcDmg==
-X-Received: by 2002:a65:5086:: with SMTP id r6mr51410553pgp.237.1626068689317; 
- Sun, 11 Jul 2021 22:44:49 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id y6sm15670958pgk.79.2021.07.11.22.44.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 11 Jul 2021 22:44:48 -0700 (PDT)
-Subject: Re: [PATCH V2 00/18] vhost-vDPA multiqueue
-To: qemu-devel@nongnu.org, mst@redhat.com
-References: <20210706082717.37730-1-jasowang@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <ce31242d-08a9-b1e4-f260-8c31ca4b49c0@redhat.com>
-Date: Mon, 12 Jul 2021 13:44:45 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m2p8c-00082G-Qc
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 02:09:56 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16C64duN095611; Mon, 12 Jul 2021 02:09:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=QwcRWDHzaYwT2PNMzWVzEMbP1Sm/r0O5ahengU3yrpg=;
+ b=DtN2Y+Bqolp3JBes67gqBbpu+H0d5jolFsvKt5F5dC899DnAUH/Kopw2c3Xr/riq2zUb
+ yWnztBzcAPeQT9P2xCx5+69EX9lFgcxophB4Vr4mpAMm/r9FBYG58xGhZd4JsNnlCfvZ
+ /pXq4MQhe2BVhkEiX153aNCWmHivFU1yHfDwfy6nFFJOp1jBWo1ZF8x1qFVvldHEfl0w
+ joDfSljA0SCkeyQLDWOZM5M7keGSezt0JwICYFB8P4SwIQwIp14+tOvO8lKTQhyFaysj
+ xtWmLXEYReX8IQti4IaQ2OrOtMJnuteQHYLRMGWOeG70W0qBKvdDY++qnLGwGfM7sk3h VA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qrmcxswk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 02:09:45 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16C64veU096337;
+ Mon, 12 Jul 2021 02:09:45 -0400
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qrmcxsw8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 02:09:44 -0400
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16C67TPe016984;
+ Mon, 12 Jul 2021 06:09:43 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 39q3688a9y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 06:09:42 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16C69eEr28639598
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 06:09:40 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7368BA4065;
+ Mon, 12 Jul 2021 06:09:40 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 024DBA4064;
+ Mon, 12 Jul 2021 06:09:36 +0000 (GMT)
+Received: from [9.160.8.119] (unknown [9.160.8.119])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Jul 2021 06:09:35 +0000 (GMT)
+Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
+ SEV-SNP
+To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
+ Connor Kuehl <ckuehl@redhat.com>
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-3-brijesh.singh@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <8b053bdf-42fb-d329-4cd8-f326ad98e10b@linux.ibm.com>
+Date: Mon, 12 Jul 2021 09:09:34 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210706082717.37730-1-jasowang@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210709215550.32496-3-brijesh.singh@amd.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.631, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: XmOcEoLLDVhPvXTWyx_kxZuX3LeDlxQN
+X-Proofpoint-GUID: yCsM2qik6evqdrca-lM__5ctpe1NStui
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-12_04:2021-07-09,
+ 2021-07-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
+ phishscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107120047
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.631,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,77 +117,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
- lulu@redhat.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-ÔÚ 2021/7/6 ÏÂÎç4:26, Jason Wang Ð´µÀ:
-> Hi All:
->
-> This patch implements the multiqueue support for vhost-vDPA. The most
-> important requirement the control virtqueue support. The virtio-net
-> and vhost-net core are tweak to support control virtqueue as if what
-> data queue pairs are done: a dedicated vhost_net device which is
-> coupled with the NetClientState is intrdouced so most of the existing
-> vhost codes could be reused with minor changes. With the control
-> virtqueue, vhost-vDPA are extend to support creating and destroying
-> multiqueue queue pairs plus the control virtqueue.
->
-> Tests are done via the vp_vdpa driver in L1 guest plus vdpa simulator
-> on L0.
->
-> Please reivew.
 
+On 10/07/2021 0:55, Brijesh Singh wrote:
+> To launch the SEV-SNP guest, a user can specify up to 8 parameters.
+> Passing all parameters through command line can be difficult. To simplify
+> the launch parameter passing, introduce a .ini-like config file that can be
+> used for passing the parameters to the launch flow.
+> 
+> The contents of the config file will look like this:
+> 
+> $ cat snp-launch.init
+> 
+> # SNP launch parameters
+> [SEV-SNP]
+> init_flags = 0
+> policy = 0x1000
+> id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
+> 
+> 
+> Add 'snp' property that can be used to indicate that SEV guest launch
+> should enable the SNP support.
+> 
+> SEV-SNP guest launch examples:
+> 
+> 1) launch without additional parameters
+> 
+>   $(QEMU_CLI) \
+>     -object sev-guest,id=sev0,snp=on
+> 
+> 2) launch with optional parameters
+>   $(QEMU_CLI) \
+>     -object sev-guest,id=sev0,snp=on,launch-config=<file>
+> 
 
-If no objection, I will queue this for 6.1.
+Not directly SNP-related, but in an internal communication Connor told
+me he wants to allow the SEV configuration (like dh-cert-file etc.) to
+be set using QMP commands when the machine launches instead (or in
+addition to) setting them via QEMU command-line parameters.
 
-Thanks
+Whatever the configuration solution decided for the SEV parameters
+should also apply to these new SNP settings (policy, id_block, etc.).
 
-
->
-> Changes since V1:
->
-> - validating all features that depends on ctrl vq
-> - typo fixes and commit log tweaks
-> - fix build errors because max_qps is used before it is introduced
->
-> Thanks
->
-> Jason Wang (18):
->    vhost_net: remove the meaningless assignment in vhost_net_start_one()
->    vhost: use unsigned int for nvqs
->    vhost_net: do not assume nvqs is always 2
->    vhost-vdpa: remove the unnecessary check in vhost_vdpa_add()
->    vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
->    vhost-vdpa: fix leaking of vhost_net in vhost_vdpa_add()
->    vhost-vdpa: tweak the error label in vhost_vdpa_add()
->    vhost-vdpa: fix the wrong assertion in vhost_vdpa_init()
->    vhost-vdpa: remove the unncessary queue_index assignment
->    vhost-vdpa: open device fd in net_init_vhost_vdpa()
->    vhost-vdpa: classify one time request
->    vhost-vdpa: prepare for the multiqueue support
->    vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
->    net: introduce control client
->    vhost-net: control virtqueue support
->    virito-net: use "qps" instead of "queues" when possible
->    virtio-net: vhost control virtqueue support
->    vhost-vdpa: multiqueue support
->
->   hw/net/vhost_net.c             |  48 +++++++---
->   hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
->   hw/virtio/vhost-vdpa.c         |  55 ++++++++++-
->   include/hw/virtio/vhost-vdpa.h |   1 +
->   include/hw/virtio/vhost.h      |   2 +-
->   include/hw/virtio/virtio-net.h |   5 +-
->   include/net/net.h              |   5 +
->   include/net/vhost_net.h        |   7 +-
->   net/net.c                      |  24 ++++-
->   net/tap.c                      |   1 +
->   net/vhost-user.c               |   1 +
->   net/vhost-vdpa.c               | 156 ++++++++++++++++++++++++-------
->   12 files changed, 332 insertions(+), 138 deletions(-)
->
-
+-Dov
 
