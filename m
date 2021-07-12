@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D144C3C5B27
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 13:11:16 +0200 (CEST)
-Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCAE3C5B2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 13:15:54 +0200 (CEST)
+Received: from localhost ([::1]:59596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2tqF-0005VY-U5
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 07:11:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
+	id 1m2tuj-0008TX-MD
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 07:15:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2tol-0004fs-23
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 07:09:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46761)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m2tsf-0006SO-MF; Mon, 12 Jul 2021 07:13:45 -0400
+Received: from mout.web.de ([212.227.15.14]:53743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2tnv-0006nC-4p
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 07:09:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626088129;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gwm8FhW1AGGohpr3SgReYwaP/SfONzINswapFtKfkko=;
- b=OQPwYxjHVnkvf+HNNMzkF8/ALCv/wvgzg+Npx32+l+DakRpbf0qU3Xn8T6ADn4lfPhS6fw
- s8L9TKhXQgPNg8oT2ehP4K9ALp/7KD7xQ5rvuoiEOtgvrJXeRvi8uWjjCLDJuOVrhr/Doq
- +/B5GPL4+vueYZpaSzJpEPYWW0YdB04=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-z2NOXxpWOWyZae0WBCoWNw-1; Mon, 12 Jul 2021 07:08:42 -0400
-X-MC-Unique: z2NOXxpWOWyZae0WBCoWNw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA4A71835AC5;
- Mon, 12 Jul 2021 11:08:41 +0000 (UTC)
-Received: from redhat.com (ovpn-114-105.ams2.redhat.com [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F10141346F;
- Mon, 12 Jul 2021 11:08:37 +0000 (UTC)
-Date: Mon, 12 Jul 2021 12:08:34 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: retrying failed gitlab CI external jobs (travis)
-Message-ID: <YOwisuzpWCsPe/CT@redhat.com>
-References: <CAFEAcA9ykYzTbuUskdCFkYYdYqZcUM5K2ciuFLKKh9_Y2GW7Dg@mail.gmail.com>
- <CAFEAcA8LvPSUw+x9GhPvKFvZqx6zLtUDYOT7Uh2zYef3RZx-7A@mail.gmail.com>
- <YOwJyhZGXUhbF+nH@redhat.com>
- <CAFEAcA9ragK95AtCz0zCfxpDs0kF6SxXtq10smW44b4abCkTmQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1m2trW-0007MO-23; Mon, 12 Jul 2021 07:13:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1626088337;
+ bh=TbV8guR5dWJ7t/o/2CW8Ha8vRwSmNNELkUspntiv2W8=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=seyUsdKjHFWlj2pvc8mJQyuHL7Q+qD0Tr9GTiOrO3qFkQHjXbLPQmjp7kWOYbfnfD
+ /zbk44l3DXSNPvcNtvPFgdCBPjLDTBUnpFvTLLZOIs2xoVQJBOVi/rH2WQ7S+I5cU8
+ 38fhhgND/Ymb3qhGVwpGOLub1eah774zjdqkLDt8=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.76]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LyUy6-1l7LQl0Phe-015pj2; Mon, 12
+ Jul 2021 13:12:17 +0200
+Date: Mon, 12 Jul 2021 13:12:07 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v3 4/4] replication: Remove workaround
+Message-ID: <20210712131207.59b03db9@gecko.fritz.box>
+In-Reply-To: <3dfeee12-4803-36fe-504a-77537e8ebad7@virtuozzo.com>
+References: <cover.1625680555.git.lukasstraub2@web.de>
+ <906c163474aa1fcdf4ffa3cdfb4ad39cb7fc49cb.1625680555.git.lukasstraub2@web.de>
+ <1d86fa67-930c-2a6c-ab01-37a798c794d1@virtuozzo.com>
+ <20210711223318.65e8e50c@gecko.fritz.box>
+ <3dfeee12-4803-36fe-504a-77537e8ebad7@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9ragK95AtCz0zCfxpDs0kF6SxXtq10smW44b4abCkTmQ@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; boundary="Sig_/+ktIwLEg5/gZbxVchWn_eL4";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:CzJPW+LAa9TIh1mta6G7hmaiJpiP0gWswXJisQCDSCGjLdDDvq9
+ HuyfY8okAri4eGHyagQmW5KkdHQZ6q+2+cm8uKjRluUZoSFODNaxifNilV9TR7VpKrMq+Nd
+ NS8E1Lk04H1Ttiym1O9zsxHk8UxZHGNOV9pYQ7cgfWZCZ9/Cpqh1L3TtrKQbRG8G50sAqAg
+ gQfBM0XmyQv73RlWie2DA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gTgs/oxDMqE=:MRHhjDaHR6oVMZgQgCOBIK
+ ct1exyGnUKRSA/JAAHJUSIdNnwfbVxQSXnZrxh3u/8yvEmGcyMuGW8Ipaod/3xX8H57NTE46U
+ 7hWBwXaePl0s00/9SQztalSv5ohD6yex/xvk4DmSr7lYMdexyUMyUzAchKi0vOdFkdV72Dz0k
+ iEVOJZoBY1G3NE1les5EmMzNkK9YmlXDWEmH5PzOY/0ACy2SX5bOyB1+DnIX5I1Gmwk1204VP
+ T2s8qQZGT+ia2sExOUbivnYEFrNQLroXrX5yW3oeSaVs9dtSTwjojHF3rj1owke5fWad2W165
+ EXx9/ghK68MdOcdl+9xZ0DiyBBlCfK2uIxjDbNCBl6dB/YKKIBRnQA/FltrZEqjuHU6GF9n+M
+ nX3j7JpTsy7BpLA60neKnWGCXL+VlMrP5oZAuRn0AjEc+qE67afx1hh79D59rCX1cxQaks8ST
+ p2r0m8TcVhhkAil6eTHDnA/mH114hp9vf6B9ux3pYuh4PCJetp2evxevwSCwbBEO16VinUS2f
+ qaLl7iEvdYWsE+oeoNEQSdOcfchY3mDX16utJDfcH910zHCoV0b4cyiFvZ141xPgKOzM7oqvj
+ p11XnTTJAKR4Qrp5obk9YLL3//NggDrMQvR45HgTGXg7NwQEkoFEcnZhf9NCJDd8+gB2XBK/I
+ KuId4LOBjzMR/sJ+T3zmHD7McnSh33vpidxQTMW3TdYvH+JEl5/bO1XRBjHY90AHwHkrMIukF
+ wPp+GhBTiEpLtn5UcpWMq11JPcbrhPHmQ9CQBkDQe3MERRu7TtarHbT5wLq/WzTw+z0IukGN+
+ szinhSe0eNqG+I4w+drfeESnGHp2UX8SEoWFtFD1L/iLnBAG8CayH5gGI6mFAwNPyeRybfiJc
+ PmM+/XIQzlS6GIesykC/be7GfSyGBEqyfZeTXuxJ/OhbTF54gpb8eaDArfmvYxs+conNsPXLo
+ 6jTv2hp+ebTkth0TJgIy37NH4gIEXos+UEoV07fPJ9NeIqWNxcRQ8yZKcuPucScFkRX6pj01X
+ yCRXdjbP1PCylQIXaAe94OkLgFtRHcK1rc7daMzwCqXde4AtxH2yUTFNP5418065uVv4T7isA
+ OsnRISbhpuR+KmRSZshQknrVsYreyrl8MXF
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,52 +85,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block <qemu-block@nongnu.org>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 12, 2021 at 12:03:02PM +0100, Peter Maydell wrote:
-> On Mon, 12 Jul 2021 at 10:22, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > WRT missing job for commit fc32b91a, I see there is a Travis stage
-> > reported here:
-> >
-> >   https://gitlab.com/qemu-project/qemu/-/pipelines/334907106/builds
-> >
-> > So I presume there was some delay in running the Travis jobs and
-> > thus they only got reported after you sent the mail.
-> >
-> > The extra stage in the pipeline is not triggered/tracked by GitLab
-> > itself. Rather it relies on Travis to see the changes, runs its job
-> > and pushes information back to GitLab. This is completely asynchronous
-> > to the rest of the normal GitLab pipeline, so unfortunately if Travis
-> > hasn't even started the job yet, we see nothing :=(
-> 
-> Hmm. If nothing shows up in the gitlab pipeline, it doesn't really
-> work as a gating CI step, because I won't see if it fails...
+--Sig_/+ktIwLEg5/gZbxVchWn_eL4
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Agreed, the Travis integration isn't ideal in this respect. We probably
-have to consider to be merely a nice sanity check, rather than fully
-gating CI.
+On Mon, 12 Jul 2021 13:06:19 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
 
-The way I've integrated Cirrus CI into GitLab is more useful, because
-that uses the GitLab job to directly trigger the Cirrus job, and so
-we don't suffer from the asynchronous feedback loop going missing
-entirely as with Travis.
+> 11.07.2021 23:33, Lukas Straub wrote:
+> > On Fri, 9 Jul 2021 10:49:23 +0300
+> > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> wrote:
+> >  =20
+> >> 07.07.2021 21:15, Lukas Straub wrote: =20
+> >>> Remove the workaround introduced in commit
+> >>> 6ecbc6c52672db5c13805735ca02784879ce8285
+> >>> "replication: Avoid blk_make_empty() on read-only child".
+> >>>
+> >>> It is not needed anymore since s->hidden_disk is guaranteed to be
+> >>> writable when secondary_do_checkpoint() runs. Because replication_sta=
+rt(),
+> >>> _do_checkpoint() and _stop() are only called by COLO migration code
+> >>> and COLO-migration doesn't inactivate disks. =20
+> >>
+> >> If look at replication_child_perm() you should also be sure that it al=
+ways works only with RW disks..
+> >>
+> >> Actually, I think that it would be correct just require BLK_PERM_WRITE=
+ in replication_child_perm() unconditionally. Let generic layer care about =
+all these RD/WR things. In _child_perm() we can require WRITE and don't car=
+e. If something goes wrong and we can't get WRITE permission we should see =
+clean error-out.
+> >>
+> >> Opposite, if we don't require WRITE permission in some case and still =
+do WRITE request, it may crash.
+> >>
+> >> Still, this may be considered as a preexisting problem of replication_=
+child_perm() and fixed separately. =20
+> >=20
+> > Hmm, unconditionally requesting write doesn't work, since qemu on the
+> > secondary side is started with "-miration incoming", it goes into
+> > runstate RUN_STATE_INMIGRATE from the beginning and then blockdev_init()
+> > opens every blockdev with BDRV_O_INACTIVE and then it errors out with
+> > -drive driver=3Dreplication,...: Block node is read-only. =20
+>=20
+> Ah, OK. So we need this check in _child_perm().. Then, maybe, leave check=
+ or assertion in secondary_do_checkpoint, that hidden_disk is writable?
 
-It would be nice to integrate Traviss in the same way as Cirrus, but
-I'm still not sure it is possible with Travis' REST API.
+Good Idea. I will add assertions to secondary_do_checkpoint and replication=
+_co_writev too.
+
+> >  =20
+> >>>
+> >>> Signed-off-by: Lukas Straub <lukasstraub2@web.de> =20
+> >>
+> >> So, for this one commit (with probably updated commit message accordin=
+gly to my comments, or even rebased on fixed replication_child_perm()):
+> >>
+> >> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >>
+> >> =20
+> >>> ---
+> >>>    block/replication.c | 12 +-----------
+> >>>    1 file changed, 1 insertion(+), 11 deletions(-)
+> >>>
+> >>> diff --git a/block/replication.c b/block/replication.c
+> >>> index c0d4a6c264..68b46d65a8 100644
+> >>> --- a/block/replication.c
+> >>> +++ b/block/replication.c
+> >>> @@ -348,17 +348,7 @@ static void secondary_do_checkpoint(BlockDriverS=
+tate *bs, Error **errp)
+> >>>            return;
+> >>>        }
+> >>>
+> >>> -    BlockBackend *blk =3D blk_new(qemu_get_current_aio_context(),
+> >>> -                                BLK_PERM_WRITE, BLK_PERM_ALL);
+> >>> -    blk_insert_bs(blk, s->hidden_disk->bs, &local_err);
+> >>> -    if (local_err) {
+> >>> -        error_propagate(errp, local_err);
+> >>> -        blk_unref(blk);
+> >>> -        return;
+> >>> -    }
+> >>> -
+> >>> -    ret =3D blk_make_empty(blk, errp);
+> >>> -    blk_unref(blk);
+> >>> +    ret =3D bdrv_make_empty(s->hidden_disk, errp);
+> >>>        if (ret < 0) {
+> >>>            return;
+> >>>        }
+> >>> --
+> >>> 2.20.1
+> >>>     =20
+> >>
+> >> =20
+> >=20
+> >=20
+> >  =20
+>=20
+>=20
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+--=20
+
+
+--Sig_/+ktIwLEg5/gZbxVchWn_eL4
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmDsI4cACgkQNasLKJxd
+slhgpg/7BwhJ83Oe+7xPf3JvC4Be7nW+LsPiaMMk0xNfnfWNtZNYxxtKB4kFvpyP
+/MvD2EYuo3j6pDHg06LsXnHRnUV+o6DBbn2p6i8JDNzK2xhpTnCxN/QB85mtPoGg
+vPHR1BEEl5wNbwianAEPAenrm6Nqd2pis6Hjyvq8j4pE6SrYCxBffGYWe/3DcUkM
+Q0D8N4oS1PMYi+x+2XbYzcAuhKsxW/iqtK0w0HPuj4E5jTY31gB3ShUT6EaLBQ6o
+sCkjAGKFL94MinFvGrPVUM7/IGvvxe90uIHKcIDtKAlNe93xbZ32EIjSu4Y9KB9b
+3KE+SpaBEAX0jgCC03kyJM4N4slmIp08mCTPx99ubMuGchD1C6W0e4jDlMb/HSR2
+AYA2CNje3kIkOxBVdI71mkawLzQVlJtbgZhP2voxlqIExD3CEXpZlT+NqcDO2VzJ
+n9iCfVFczWTMljbCcGj+0D53a7y2rRFXAN6dPaj9/MwI1BpTf2JnAiq51wSXZ0do
+WZzBWsBjuE608c/RL+Ezk5c6agfpk48u6Sc5M6s/EGByZ59u4fN2a0+4DGJlDARo
+9mzZlDAOrH971kAHau7PvS75NtQQOCCm1d7amQ7vqDKyR4mfC3q8c7Qj5i+CJQqG
+zVOqnZP86sAhSpq3n17Tkd/rawkF06ZLx4hWaHs6YjyuR+ftz2s=
+=G49d
+-----END PGP SIGNATURE-----
+
+--Sig_/+ktIwLEg5/gZbxVchWn_eL4--
 
