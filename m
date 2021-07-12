@@ -2,54 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73293C6287
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 20:21:49 +0200 (CEST)
-Received: from localhost ([::1]:33428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E8163C62B3
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 20:35:08 +0200 (CEST)
+Received: from localhost ([::1]:39234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m30Yu-0003mT-NF
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 14:21:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
+	id 1m30lm-0008Oq-SO
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 14:35:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m30XT-0002mV-Su
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:20:19 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57900
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m30kZ-0007j2-Gv
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:33:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m30XR-0000ra-Nd
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:20:19 -0400
-Received: from host86-145-86-170.range86-145.btcentralplus.com
- ([86.145.86.170] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m30XE-0004fR-9U; Mon, 12 Jul 2021 19:20:08 +0100
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210712154004.1410832-1-richard.henderson@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <7cd438df-bb46-73cc-b27a-c3cc6122f369@ilande.co.uk>
-Date: Mon, 12 Jul 2021 19:20:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m30kW-0002jM-D4
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 14:33:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626114826;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=o5+4WcLT5xJ+zVWt1Ks5KjU16Eg9fDOaSiQWRH6X2Cs=;
+ b=XEIsEejcO82B6sgF7YROlfimdLyxJufPj3Tm+IoLgDavFfFWQC2OCyCcZSHNMQME7JnXkr
+ 6QkoKgy0YP0GQUNI+HqXNp64o7LWBqurUyK/dy9XHtKRIeIMF+hmdzC56LIYZx+UKdpYKI
+ oxFetHvFT5lXn9cwXKL8WvERRhkr2SA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-IgMq4lJAMZiUI_OJ8uhuxg-1; Mon, 12 Jul 2021 14:33:45 -0400
+X-MC-Unique: IgMq4lJAMZiUI_OJ8uhuxg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i3-20020a05600c3543b02902075ed92710so7672567wmq.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 11:33:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=o5+4WcLT5xJ+zVWt1Ks5KjU16Eg9fDOaSiQWRH6X2Cs=;
+ b=KFtHXjv4bLXmDriOC4afDjxiuHFLAag7kjqWfY2oE3Me5o4r5M1uopU5XL1JaCN55E
+ nVQjDhWXZlmKKC+PC4m7eHtu+677Dsd1p1bf0jMSyeoAoPC/LDkLijXTxaI4H/hK2MGZ
+ TP3W1HazUXSopvyoPX36z6BqHOJHLH/wTwY1tyzTsEWpvoudGa1rjKVgRgR1pV5T3slg
+ K4vVZc3nsBk0y3o0MQvaP15/Fv1QuaRJRFv1nre2+8uRMUtgswydBvfEnHCD8SZR+sUJ
+ RTm+caeN8RO2P/xc2ASavS/iJKyxOhz7k4Zu2TKl3nXLm0gg/I2uADVE5HRlzYS/igxr
+ +8uA==
+X-Gm-Message-State: AOAM531aYLOUqugj9l2t4At5+2rsMfQLO3ZrE3rEOd1KPPHyVRt7soiu
+ HdFvQQW5cLN5lSkPYd61LPHejKnowgM62F1x+9nQc3pueQG/zbVHizOR7dfsh49LpF8k8hdvR04
+ Zz7Natm7V6p63kHs=
+X-Received: by 2002:adf:d086:: with SMTP id y6mr400016wrh.247.1626114824241;
+ Mon, 12 Jul 2021 11:33:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzBvasbg4t8TGeReO2YhVntK/Q0KXNWP1tNLn3I1G/EcgEtxO+uo4JmiPilsZGlneRmwOfizQ==
+X-Received: by 2002:adf:d086:: with SMTP id y6mr399991wrh.247.1626114824019;
+ Mon, 12 Jul 2021 11:33:44 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id e11sm13335504wrt.0.2021.07.12.11.33.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 11:33:42 -0700 (PDT)
+Date: Mon, 12 Jul 2021 19:33:40 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 2/3] migration: Don't do migrate cleanup if during
+ postcopy resume
+Message-ID: <YOyLBA89pUWPq9LU@work-vm>
+References: <20210708190653.252961-1-peterx@redhat.com>
+ <20210708190653.252961-3-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210712154004.1410832-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.145.86.170
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 00/10] tcg: breakpoint reorg
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+In-Reply-To: <20210708190653.252961-3-peterx@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,82 +97,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, f4bug@amsat.org
+Cc: Li Xiaohui <xiaohli@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/07/2021 16:39, Richard Henderson wrote:
+* Peter Xu (peterx@redhat.com) wrote:
+> Below process could crash qemu with postcopy recovery:
+> 
+>   1. (hmp) migrate -d ..
+>   2. (hmp) migrate_start_postcopy
+>   3. [network down, postcopy paused]
+>   4. (hmp) migrate -r $WRONG_PORT
+>      when try the recover on an invalid $WRONG_PORT, cleanup_bh will be cleared
+>   5. (hmp) migrate -r $RIGHT_PORT
+>      [qemu crash on assert(cleanup_bh)]
+> 
+> The thing is we shouldn't cleanup if it's postcopy resume; the error is set
+> mostly because the channel is wrong, so we return directly waiting for the user
+> to retry.
+> 
+> migrate_fd_cleanup() should only be called when migration is cancelled or
+> completed.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-> This is fixing #404 ("windows xp boot takes much longer...")
-> and several other similar reports.
-> 
-> For v2, all prerequisites and 7 of the patches from v1 with
-> reviews are now upstream.
-> 
-> Mark Cave-Ayland reported success with WinXP with v1, with
-> this patch set being even faster than b55f54bc~1.  Which was
-> a bit of a surprise, but I'll take it.  It means that it's
-> probably not worth making the breakpoint detection scheme
-> any more complicated.
-> 
-> I'd still like some more feedback.  Given this is fixing a
-> regression from qemu 5.2 I feel comfortable delaying this
-> past soft freeze, but not past hard freeze on the 20th.
-> 
-> 
-> r~
-> 
-> 
-> Richard Henderson (10):
->    accel/tcg: Reduce CF_COUNT_MASK to match TCG_MAX_INSNS
->    accel/tcg: Move curr_cflags into cpu-exec.c
->    accel/tcg: Add CF_NO_GOTO_TB and CF_NO_GOTO_PTR
->    accel/tcg: Drop CF_NO_GOTO_PTR from -d nochain
->    accel/tcg: Handle -singlestep in curr_cflags
->    accel/tcg: Use CF_NO_GOTO_{TB,PTR} in cpu_exec_step_atomic
->    accel/tcg: Move cflags lookup into tb_find
->    accel/tcg: Adjust interface of TranslatorOps.breakpoint_check
->    accel/tcg: Hoist tb_cflags to a local in translator_loop
->    accel/tcg: Encode breakpoint info into tb->cflags
-> 
->   include/exec/exec-all.h       |  30 +++++---
->   include/exec/translator.h     |  17 +++--
->   accel/tcg/cpu-exec.c          | 130 ++++++++++++++++++++++++++++------
->   accel/tcg/translate-all.c     |   7 +-
->   accel/tcg/translator.c        |  79 ++++++++++++++-------
->   cpu.c                         |  24 -------
->   target/alpha/translate.c      |  12 +---
->   target/arm/translate-a64.c    |  14 ++--
->   target/arm/translate.c        |  20 +++---
->   target/avr/translate.c        |   6 +-
->   target/cris/translate.c       |  14 ++--
->   target/hexagon/translate.c    |  13 +---
->   target/hppa/translate.c       |   7 +-
->   target/i386/tcg/translate.c   |  15 ++--
->   target/m68k/translate.c       |  14 +---
->   target/microblaze/translate.c |  14 +---
->   target/mips/tcg/translate.c   |  14 ++--
->   target/nios2/translate.c      |  13 +---
->   target/openrisc/translate.c   |  11 +--
->   target/ppc/translate.c        |  13 +---
->   target/riscv/translate.c      |  11 +--
->   target/rx/translate.c         |   8 +--
->   target/s390x/translate.c      |  12 ++--
->   target/sh4/translate.c        |  12 ++--
->   target/sparc/translate.c      |   9 ++-
->   target/tricore/translate.c    |  13 +---
->   target/xtensa/translate.c     |  12 ++--
->   tcg/tcg-op.c                  |  28 ++++----
->   28 files changed, 280 insertions(+), 292 deletions(-)
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-FWIW I've just tested this v2 patchset on top of git master (bd38ae26ce) and I still 
-see the same improvement i.e. WinXP boot to the login screen goes down from 2m 38s to 
-25s so:
+> ---
+>  migration/migration.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 8786104c9a..bb1edf862a 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3975,7 +3975,18 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+>      }
+>      if (error_in) {
+>          migrate_fd_error(s, error_in);
+> -        migrate_fd_cleanup(s);
+> +        if (resume) {
+> +            /*
+> +             * Don't do cleanup for resume if channel is invalid, but only dump
+> +             * the error.  We wait for another channel connect from the user.
+> +             * The error_report still gives HMP user a hint on what failed.
+> +             * It's normally done in migrate_fd_cleanup(), but call it here
+> +             * explicitly.
+> +             */
+> +            error_report_err(error_copy(s->error));
+> +        } else {
+> +            migrate_fd_cleanup(s);
+> +        }
+>          return;
+>      }
+>  
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
 
