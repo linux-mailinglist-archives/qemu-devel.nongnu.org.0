@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14FA43C657D
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 23:32:21 +0200 (CEST)
-Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCEE3C65C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 23:58:12 +0200 (CEST)
+Received: from localhost ([::1]:33004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m33XI-0001Dx-5X
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 17:32:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46300)
+	id 1m33wI-0003Oi-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 17:58:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m33Ve-0008Bq-19
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:30:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
- id 1m33Va-00060T-Sw
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:30:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626125431;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2Z/wcTzaU0ugHwzQmuOZR7Sw/MGReqmJ5uBpwADs+1k=;
- b=W/csC6AjDTfgzexgGDPfTlIiokdOuuLO5xcLDuD8YNMSyDU8QH31h41xlq35HAEjMs07Vg
- n+PR5RFDw+lw+Bk/vTzfm48vWrep+eit9ikzfzIKgKvJn6MoL7xv+gRRE7+8V4i8Tj2K7P
- vNQpMB5gKQzkHwMTb3Os6t8UDEImE0A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-wfJpcr58O6aVChTbQKSFTA-1; Mon, 12 Jul 2021 17:30:30 -0400
-X-MC-Unique: wfJpcr58O6aVChTbQKSFTA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEB0C50751;
- Mon, 12 Jul 2021 21:30:28 +0000 (UTC)
-Received: from [10.10.117.211] (ovpn-117-211.rdu2.redhat.com [10.10.117.211])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C5C11893C;
- Mon, 12 Jul 2021 21:30:28 +0000 (UTC)
-Subject: Re: [PATCH 0/3] Atomic cleanup + clang-12 build fix
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210712155918.1422519-1-richard.henderson@linaro.org>
-From: Cole Robinson <crobinso@redhat.com>
-Message-ID: <f186b5b5-8db2-a43b-d5cc-2563d76c7211@redhat.com>
-Date: Mon, 12 Jul 2021 17:30:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m33tu-0000XI-6y
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:42 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m33tr-0006q7-0N
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:55:41 -0400
+Received: by mail-pg1-x529.google.com with SMTP id t9so19744434pgn.4
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:55:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KuFWlyQfsTC700l34L8WQPukt8R7vtzeaY2C9szAhUk=;
+ b=jbItZAHGEmy0SbDe55s3CLuobrI+dGMjU5tKIaoD3NFiHsLQr7fBF30+ja9iSWW2E1
+ pBTYZYQhh/dCZHeGng16AaqXhvAyfarM0bbTI9n0NPrG0K+TZ1IOO7bqiwdjugALiE6a
+ dxexLaUDBUX3bK3tFB+oRAbukxTkvOIaunmvOf8QZmX2BqpugU/lHnB/tkJtATry2kT/
+ xVbO8T/JR5mUrRIKdMmxKoKuRmYnQMS6B7pjMvUDLH5IPP/up6FFr9HZXBMk30Ow+q9O
+ Yv5CcT7px9kQs+fcZzdW/HtSlnAUJUcJhh240W/cCOMJXGtQDvJtf/9esS5Md9/aLMf0
+ cq0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KuFWlyQfsTC700l34L8WQPukt8R7vtzeaY2C9szAhUk=;
+ b=PEzRt6TDnaY2TVqrqiSXrxD0JWLahgfkwuXvHF/IgfUskKMbVQgwO7eQhcf8hJzgC+
+ Fh2v5Emxug8iJCcn653Mb8qP1WECPeMgGvnfgqP7bGCBb3+dFX8JpfLCsmB8JzbuIQ9M
+ z/aj5zCx4wlEbGge/DkWbLC7yra/bcr+sMHoumnC/mTDZ1uJvSPsZ+DVpttkxAf2evZA
+ ABTTQpmTvd6Q7KnjdO2a5Tw+Y/lAPAz0Ax57Iv/pkfEwo7FuM4mH3Bwy2ZjhqEGDOGtw
+ pbQqcx0OYIeWr70kU3MwFB0Zif6AV9Wh2uW4E5254mD+hKQWvPYoPsW3BhDqLTxQ2h81
+ 8z1g==
+X-Gm-Message-State: AOAM5308lQbo1ejo5Jvl7zlCNpDU8PEtP3gK4nvPTLJ592RLjEFxQqW9
+ Swq/dipfQ8Kih42TANixDyv6L3x8IjqkMw==
+X-Google-Smtp-Source: ABdhPJxriLA9xg8TANt82jyR8+NwAazKuO2UQhxHydSG9bRfASxrke2PzNga/4qqc9v8LbKa3mlngQ==
+X-Received: by 2002:a05:6a00:1481:b029:304:87ea:8dcc with SMTP id
+ v1-20020a056a001481b029030487ea8dccmr1138354pfu.46.1626126937302; 
+ Mon, 12 Jul 2021 14:55:37 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id d2sm376932pjo.50.2021.07.12.14.55.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 14:55:36 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/11] Fixes for clang-13 plus tcg/ppc
+Date: Mon, 12 Jul 2021 14:55:24 -0700
+Message-Id: <20210712215535.1471256-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210712155918.1422519-1-richard.henderson@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crobinso@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crobinso@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, peter.maydell@linaro.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Brad Smith <brad@comstyle.com>,
+ Eric Blake <eblake@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/21 11:59 AM, Richard Henderson wrote:
-> The first two patches are not strictly required, but they
-> were useful in tracking down the root problem here.
-> 
-> I understand the logic behind the clang-12 warning, but I think
-> it's a clear mistake that it should be enabled by default for a
-> target where alignment is not enforced by default.
-> 
-> I found over a dozen places where we would have to manually add
-> QEMU_ALIGNED(8) to uint64_t declarations in order to suppress
-> all of the instances.  IMO there's no point fighting this.
-> 
+The goal here was to address Brad's report for clang vs ppc32.
 
-I tested your patches, they seem to get rid of the warnings. The errors
-persist.
+Somewhere in between here and there I forgot about the ppc32 part,
+needed a newer clang for gcc135, accidentally built master instead
+of the clang-12 release branch, fixed a bunch of buggy looking
+things, and only then remembered I was building ppc64 and wasn't
+going to test what I thought I would.
 
-FWIW here's my reproduce starting from fedora 34 x86_64 host:
+So: Brad, could you double-check this fixes your problem?
 
-$ sudo mock --root fedora-35-i386 --install dnf --install dnf-utils
---install fedora-packager --install clang
-$ sudo mock --root fedora-35-i386 --shell --enable-network
-# dnf builddep -y qemu
-# git clone https://github.com/qemu/qemu
-# cd qemu
-# CC=clang CXX=clang++ ./configure --disable-werror
-# make V=1
+Others: Only patch 7 obviously should have been using the
+variable indicated as unused.  But please double-check.
 
-Thanks,
-Cole
+
+r~
+
+
+Cc: Alex Bennée <alex.bennee@linaro.org>
+Cc: Brad Smith <brad@comstyle.com>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-block@nongnu.org
+Cc: qemu-ppc@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+
+Richard Henderson (11):
+  nbd/server: Remove unused variable
+  accel/tcg: Remove unused variable in cpu_exec
+  util/selfmap: Discard mapping on error
+  net/checksum: Remove unused variable in net_checksum_add_iov
+  hw/audio/adlib: Remove unused variable in adlib_callback
+  hw/ppc/spapr_events: Remove unused variable from check_exception
+  hw/pci-hist/pnv_phb4: Fix typo in pnv_phb4_ioda_write
+  linux-user/syscall: Remove unused variable from execve
+  tests/unit: Remove unused variable from test_io
+  tcg/ppc: Replace TCG_TARGET_CALL_DARWIN with _CALL_DARWIN
+  tcg/ppc: Ensure _CALL_SYSV is set for 32-bit ELF
+
+ accel/tcg/cpu-exec.c     |  3 ---
+ hw/audio/adlib.c         |  3 +--
+ hw/pci-host/pnv_phb4.c   |  2 +-
+ hw/ppc/spapr_events.c    |  5 -----
+ linux-user/syscall.c     |  3 ---
+ nbd/server.c             |  4 ----
+ net/checksum.c           |  4 +---
+ tests/unit/test-iov.c    |  5 +----
+ util/selfmap.c           | 28 ++++++++++++++++------------
+ tcg/ppc/tcg-target.c.inc | 25 ++++++++++++++++++++-----
+ 10 files changed, 40 insertions(+), 42 deletions(-)
+
+-- 
+2.25.1
 
 
