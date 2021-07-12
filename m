@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B063C6006
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:03:07 +0200 (CEST)
-Received: from localhost ([::1]:51396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFCE3C6008
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:03:08 +0200 (CEST)
+Received: from localhost ([::1]:51514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2yOg-0003HO-4q
+	id 1m2yOg-0003Lq-Qf
 	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:03:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35416)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2yL5-0000MS-Ms
+ id 1m2yL9-0000Nm-Cv
  for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:59:27 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:39605)
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m2yL4-00074i-4F
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:59:23 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id a2so18711313pgi.6
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:59:21 -0700 (PDT)
+ id 1m2yL4-000759-DD
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:59:27 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id v7so18725339pgl.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=L/58asou9sVz0CWQlJ3eJYnasOlqmgcxUQzFR2mZ0sk=;
- b=Rr4l8Pq0Fru7J1aM6DENrUZ3knxuIUnxPuYfR+bOhE9P5T44c+aIwtoNyGvqJE+K4c
- ZDXFGVrHPHJf34K9PqfxXNv7U9+KQjJEtqVyTl1IFYOglKuhH6YKKLM8sii4YOrphBL/
- 4nG4ne69zYgkwRKErlSmkWw04nQYoq5U+19I5R6TDH62+QjdbwBN6C5cMcQR7TPQgNlf
- TUC0oOta5NMOtm72W/TXcl1zeoRGey8HPuUcBnuPbK/dZlwHGoyUAfC0gWA3RPAG2Qd2
- 5Qt8+MmAbkKZ0+/W3+diOw7S92G7Q59uLu7IhMFPra30XY3TjnVYYHP//qLKKNuqy/aw
- gqEw==
+ bh=T+H4xJOdclX41RzHCXkYk0QTpQSN2UXGitrvAjova9Y=;
+ b=hv/W9EfLFSGRnP0eeXoPohDuSVF+lu4KQfqa26tKk3D++6X/Agq0XYWZpOQR9z8K2h
+ 7MNuwGmSg+j32u9twFPUx9Gef3NWq7xcTghvqdi+8M6S2OlB32Z7Jhc9DbOwzFc5EJfg
+ oZ9fJJr+wObRQbA38iUqjxvflb63dMzklJZU4ISNdnDyqqw2Lt6h9APux8+Y1VUBKtZ6
+ fnC1O2ciMMu+PClEz4DQiLmewDgfbSnhWf4gcTwNMzUaDxsFaGvDC65/NaPt6ANIjIkK
+ xoYpHZiKtDIL3BJPqBBYDnhnK72N8iLv0GziUGaY9jC151zKZgaLudEcIe6xHQ6FKQ7O
+ exbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=L/58asou9sVz0CWQlJ3eJYnasOlqmgcxUQzFR2mZ0sk=;
- b=VGJDp/yT1DNfypaCufVWRCwnd6LdLx6GWAzbtlSzUb/iLxW6DdE6aI1M1Ij6NFlLYU
- qOPCkVn48PuccycLqIhgjtpU3m2XBySnHW8ihU173LfPUCXNvN39ewF4nt9QjxFNxHam
- Wi9V+Gv4fJXVbp3gIxWfuVMhPuxEIKsiHrcpD8SueqL7/oCO7foKMqxlK7oTJXLHQycO
- JgKSAn/NgBT9kSyPsAW4tAom4pJ5v+iJH1YYd3c0/kFjfg3R7/oc5/MfQMFLe0LX9fan
- uJ31LIJwAwd8I/CaMDlh6c7u2mFQ1YSw5jIOfjxz0qJiZ+g6uA3BmFT5VZVbWK9VMXUu
- zn+w==
-X-Gm-Message-State: AOAM532NfYUMp8G8Pzr8pl2NoFFjTR3kfTSqVk54RXF6A7dihiigskk+
- pbKgL0+tAkMoYFb2fDSy5Gs8XDomCkWP7w==
-X-Google-Smtp-Source: ABdhPJxsmkyIszw4RLgkHf8xKN2wKW/5IJuSi+Afie7lPmt0BS94yXfMOPYJbCVsDBf8IvyCQCzkhg==
-X-Received: by 2002:a05:6a00:2403:b029:309:8a37:2d51 with SMTP id
- z3-20020a056a002403b02903098a372d51mr54062484pfh.79.1626105560566; 
- Mon, 12 Jul 2021 08:59:20 -0700 (PDT)
+ bh=T+H4xJOdclX41RzHCXkYk0QTpQSN2UXGitrvAjova9Y=;
+ b=taIVtmMathcFfJWQ7zkownBK0ztKq2IdvqD/xOp3PluusxB9Dky2kkeKkbayhv3iko
+ GXwpnuNG7VKoCkrcXdWeahkcibXxceTOZK7xKzWWD7Fv5lKVJa0SqFm6xoC9OtRPxucT
+ 4lYXZFCvqrToiD2vYCElbjXPecB1r9FnYgLbd0KfXtc3AEWwFv9OnQ9s7UpLXYz1HPRi
+ DcqBfDCoDmX/V7MwjOvWxztokcJRgw+6oheeBSHlN+Dap/zmw1uwAODPhdehdIZjFmiK
+ pqVajkdRi3UhtKDdNTkPOpWBHX/B/aXjRsxC/Rbujd3R0S2rh29URp0lnoM/wYcb+sg4
+ 92UA==
+X-Gm-Message-State: AOAM532piTX9l509FL0ZQwVUDFyPMdajBj5zn2/ITHDcRiMbsDHoKNxK
+ KqV9K/5p6QXFU8BDXEoYWVlMpWswTZGfxg==
+X-Google-Smtp-Source: ABdhPJzWF7UPegKb4XQALSNM6H7dI1JfDhkl1j62nu4utobAoxr5CQMVtPStbuYrl52tVTIz2xF6/Q==
+X-Received: by 2002:a62:c501:0:b029:32a:dfe9:8648 with SMTP id
+ j1-20020a62c5010000b029032adfe98648mr10123860pfg.28.1626105561184; 
+ Mon, 12 Jul 2021 08:59:21 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id j16sm16745021pfi.165.2021.07.12.08.59.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 12 Jul 2021 08:59:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] qemu/atomic: Use macros for CONFIG_ATOMIC64
-Date: Mon, 12 Jul 2021 08:59:17 -0700
-Message-Id: <20210712155918.1422519-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] configure: Conditionally disable clang-12
+ -Watomic-alignment
+Date: Mon, 12 Jul 2021 08:59:18 -0700
+Message-Id: <20210712155918.1422519-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210712155918.1422519-1-richard.henderson@linaro.org>
 References: <20210712155918.1422519-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,51 +88,45 @@ Cc: peter.maydell@linaro.org, pbonzini@redhat.com, crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clang warnings about questionable atomic usage get localized
-to the inline function in atomic.h.  By using a macro, we get
-the full traceback to the original use that caused the warning.
+The i386 abi does not align uint64_t (or double) in structures to 8
+bytes, only to 4 bytes.  Furthermore, the hardware does not require
+8 byte alignent for cmpxchg8b, so the warning is confusing and useless.
+
+Retain the warning for hosts (notably x86_64) where the ABI is sane,
+and one has to do something extraordinary to remove alignment.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/atomic.h | 25 +++++--------------------
- 1 file changed, 5 insertions(+), 20 deletions(-)
+ configure | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
-index c5d6df6bf8..bf89855209 100644
---- a/include/qemu/atomic.h
-+++ b/include/qemu/atomic.h
-@@ -273,26 +273,11 @@
+diff --git a/configure b/configure
+index 95e0a08938..163b4edee2 100755
+--- a/configure
++++ b/configure
+@@ -3927,6 +3927,22 @@ if compile_prog "" "" ; then
+   atomic64=yes
+ fi
  
- /* Abstractions to access atomically (i.e. "once") i64/u64 variables */
- #ifdef CONFIG_ATOMIC64
--static inline int64_t qatomic_read_i64(const int64_t *ptr)
--{
--    /* use __nocheck because sizeof(void *) might be < sizeof(u64) */
--    return qatomic_read__nocheck(ptr);
--}
--
--static inline uint64_t qatomic_read_u64(const uint64_t *ptr)
--{
--    return qatomic_read__nocheck(ptr);
--}
--
--static inline void qatomic_set_i64(int64_t *ptr, int64_t val)
--{
--    qatomic_set__nocheck(ptr, val);
--}
--
--static inline void qatomic_set_u64(uint64_t *ptr, uint64_t val)
--{
--    qatomic_set__nocheck(ptr, val);
--}
-+/* Use __nocheck because sizeof(void *) might be < sizeof(u64) */
-+#define qatomic_read_i64  qatomic_read__nocheck
-+#define qatomic_read_u64  qatomic_read__nocheck
-+#define qatomic_set_i64   qatomic_set__nocheck
-+#define qatomic_set_u64   qatomic_set__nocheck
- 
- static inline void qatomic64_init(void)
- {
++# Test for clang atomic misalignment warning vs ABI structure misalignment.
++# E.g. i386 only aligns structures to 4 bytes by default.
++if test "$atomic64" = "yes" ; then
++cat > $TMPC << EOF
++#include <stdint.h>
++struct X { uint64_t x; };
++uint64_t foo(struct X *p) { return __atomic_exchange_n(&p->x, 0, 0); }
++EOF
++  if ! compile_prog "-Werror" "" ; then
++    if cc_has_warning_flag "-Wno-atomic-alignment" ; then
++      glib_cflags="-Wno-atomic-alignment $glib_cflags"
++      CONFIGURE_CFLAGS="$CONFIGURE_CFLAGS -Wno-atomic-alignment"
++    fi
++  fi
++fi
++
+ #########################################
+ # See if --dynamic-list is supported by the linker
+ ld_dynamic_list="no"
 -- 
 2.25.1
 
