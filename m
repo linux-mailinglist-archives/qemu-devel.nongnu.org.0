@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7383C5D22
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:21:31 +0200 (CEST)
-Received: from localhost ([::1]:59028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7890B3C5D35
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:26:40 +0200 (CEST)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2vsI-0000nE-Gm
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
+	id 1m2vxH-0002cF-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vb4-0001dd-7P
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:03:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47339)
+ id 1m2vbG-0001rt-Qa
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:03:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vb2-00064b-JA
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:03:41 -0400
+ id 1m2vbD-00067b-Ud
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:03:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095020;
+ s=mimecast20190719; t=1626095031;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uTE/eywtLgbhjyVi/AnhtdOXluTrf5xevKaYcXV2E88=;
- b=SiZZ2fVq0Z4Wxw3eK+1FMmm35+jK8r6U5PaUBh37LLcpmBuf5rdXP11b8GVbbG1qaCmDU3
- uxKzV+tcuKtsryF+W49d1JfmU/sZt5NifK7KwGToUo9qv6Si90cHoyUYJ8ZoCCwkJxVIdN
- jHSR77kzpojfZjV7+Qd3BKFnXMLwUMc=
+ bh=8fEHTebAAYkeCCzcE/kQ5UEdFr3pnksM7CMswzz6ZoQ=;
+ b=On6ZU9E4ufwqBkOncKVLkD9HsCj1YY2bRsAa8CijweBB1OJEJ9WaQjFFNhgEVt86nBALfs
+ x4X+oSu42DkrJSXrKLCTdvRxYSDDld39ywYtfKQi6r0zQgVm8AefvXTr4hUqbpY3T7ik2E
+ 7CDkpYE5LeVaiSSLkuHACLEDoDmk8TQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-E6gy4hsSP22ery9EF9HM0A-1; Mon, 12 Jul 2021 09:03:38 -0400
-X-MC-Unique: E6gy4hsSP22ery9EF9HM0A-1
+ us-mta-409-gcvU3yA0PRyOXP9AVYztSw-1; Mon, 12 Jul 2021 09:03:50 -0400
+X-MC-Unique: gcvU3yA0PRyOXP9AVYztSw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E11EE9F93A;
- Mon, 12 Jul 2021 13:03:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E1D7100CF73;
+ Mon, 12 Jul 2021 13:03:49 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC9985C1D1;
- Mon, 12 Jul 2021 13:03:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 864795C1D1;
+ Mon, 12 Jul 2021 13:03:42 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/22] crypto: fix gcrypt min version 1.8 regression
-Date: Mon, 12 Jul 2021 14:02:06 +0100
-Message-Id: <20210712130223.1825930-6-berrange@redhat.com>
+Subject: [PULL 07/22] crypto: drop custom XTS support in gcrypt driver
+Date: Mon, 12 Jul 2021 14:02:08 +0100
+Message-Id: <20210712130223.1825930-8-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,41 +88,229 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The min gcrypt was bumped:
-
-  commit b33a84632a3759c00320fd80923aa963c11207fc
-  Author: Daniel P. Berrangé <berrange@redhat.com>
-  Date:   Fri May 14 13:04:08 2021 +0100
-
-    crypto: bump min gcrypt to 1.8.0, dropping RHEL-7 support
-
-but this was accidentally lost in conflict resolution for
-
-  commit 5761251138cb69c310e9df7dfc82c4c6fd2444e4
-  Author: Paolo Bonzini <pbonzini@redhat.com>
-  Date:   Thu Jun 3 11:15:26 2021 +0200
-
-    configure, meson: convert crypto detection to meson
+The XTS cipher mode was introduced in gcrypt 1.8.0, which
+matches QEMU's current minimum version.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ crypto/cipher-gcrypt.c.inc | 127 -------------------------------------
+ meson.build                |  14 +---
+ 2 files changed, 1 insertion(+), 140 deletions(-)
 
+diff --git a/crypto/cipher-gcrypt.c.inc b/crypto/cipher-gcrypt.c.inc
+index 42d4137534..3aab08a1a9 100644
+--- a/crypto/cipher-gcrypt.c.inc
++++ b/crypto/cipher-gcrypt.c.inc
+@@ -18,10 +18,6 @@
+  *
+  */
+ 
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-#include "crypto/xts.h"
+-#endif
+-
+ #include <gcrypt.h>
+ 
+ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+@@ -59,10 +55,6 @@ typedef struct QCryptoCipherGcrypt {
+     QCryptoCipher base;
+     gcry_cipher_hd_t handle;
+     size_t blocksize;
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-    gcry_cipher_hd_t tweakhandle;
+-    uint8_t iv[XTS_BLOCK_SIZE];
+-#endif
+ } QCryptoCipherGcrypt;
+ 
+ 
+@@ -178,90 +170,6 @@ static const struct QCryptoCipherDriver qcrypto_gcrypt_ctr_driver = {
+     .cipher_free = qcrypto_gcrypt_ctx_free,
+ };
+ 
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-static void qcrypto_gcrypt_xts_ctx_free(QCryptoCipher *cipher)
+-{
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-
+-    gcry_cipher_close(ctx->tweakhandle);
+-    qcrypto_gcrypt_ctx_free(cipher);
+-}
+-
+-static void qcrypto_gcrypt_xts_wrape(const void *ctx, size_t length,
+-                                     uint8_t *dst, const uint8_t *src)
+-{
+-    gcry_error_t err;
+-    err = gcry_cipher_encrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
+-    g_assert(err == 0);
+-}
+-
+-static void qcrypto_gcrypt_xts_wrapd(const void *ctx, size_t length,
+-                                     uint8_t *dst, const uint8_t *src)
+-{
+-    gcry_error_t err;
+-    err = gcry_cipher_decrypt((gcry_cipher_hd_t)ctx, dst, length, src, length);
+-    g_assert(err == 0);
+-}
+-
+-static int qcrypto_gcrypt_xts_encrypt(QCryptoCipher *cipher, const void *in,
+-                                      void *out, size_t len, Error **errp)
+-{
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-
+-    if (len & (ctx->blocksize - 1)) {
+-        error_setg(errp, "Length %zu must be a multiple of block size %zu",
+-                   len, ctx->blocksize);
+-        return -1;
+-    }
+-
+-    xts_encrypt(ctx->handle, ctx->tweakhandle,
+-                qcrypto_gcrypt_xts_wrape, qcrypto_gcrypt_xts_wrapd,
+-                ctx->iv, len, out, in);
+-    return 0;
+-}
+-
+-static int qcrypto_gcrypt_xts_decrypt(QCryptoCipher *cipher, const void *in,
+-                                      void *out, size_t len, Error **errp)
+-{
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-
+-    if (len & (ctx->blocksize - 1)) {
+-        error_setg(errp, "Length %zu must be a multiple of block size %zu",
+-                   len, ctx->blocksize);
+-        return -1;
+-    }
+-
+-    xts_decrypt(ctx->handle, ctx->tweakhandle,
+-                qcrypto_gcrypt_xts_wrape, qcrypto_gcrypt_xts_wrapd,
+-                ctx->iv, len, out, in);
+-    return 0;
+-}
+-
+-static int qcrypto_gcrypt_xts_setiv(QCryptoCipher *cipher,
+-                                    const uint8_t *iv, size_t niv,
+-                                    Error **errp)
+-{
+-    QCryptoCipherGcrypt *ctx = container_of(cipher, QCryptoCipherGcrypt, base);
+-
+-    if (niv != ctx->blocksize) {
+-        error_setg(errp, "Expected IV size %zu not %zu",
+-                   ctx->blocksize, niv);
+-        return -1;
+-    }
+-
+-    memcpy(ctx->iv, iv, niv);
+-    return 0;
+-}
+-
+-static const struct QCryptoCipherDriver qcrypto_gcrypt_xts_driver = {
+-    .cipher_encrypt = qcrypto_gcrypt_xts_encrypt,
+-    .cipher_decrypt = qcrypto_gcrypt_xts_decrypt,
+-    .cipher_setiv = qcrypto_gcrypt_xts_setiv,
+-    .cipher_free = qcrypto_gcrypt_xts_ctx_free,
+-};
+-#endif /* CONFIG_QEMU_PRIVATE_XTS */
+-
+-
+ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+                                              QCryptoCipherMode mode,
+                                              const uint8_t *key,
+@@ -323,12 +231,7 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+         gcrymode = GCRY_CIPHER_MODE_ECB;
+         break;
+     case QCRYPTO_CIPHER_MODE_XTS:
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-        drv = &qcrypto_gcrypt_xts_driver;
+-        gcrymode = GCRY_CIPHER_MODE_ECB;
+-#else
+         gcrymode = GCRY_CIPHER_MODE_XTS;
+-#endif
+         break;
+     case QCRYPTO_CIPHER_MODE_CBC:
+         gcrymode = GCRY_CIPHER_MODE_CBC;
+@@ -354,23 +257,6 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+     }
+     ctx->blocksize = gcry_cipher_get_algo_blklen(gcryalg);
+ 
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-    if (mode == QCRYPTO_CIPHER_MODE_XTS) {
+-        if (ctx->blocksize != XTS_BLOCK_SIZE) {
+-            error_setg(errp,
+-                       "Cipher block size %zu must equal XTS block size %d",
+-		       ctx->blocksize, XTS_BLOCK_SIZE);
+-            goto error;
+-        }
+-        err = gcry_cipher_open(&ctx->tweakhandle, gcryalg, gcrymode, 0);
+-        if (err != 0) {
+-            error_setg(errp, "Cannot initialize cipher: %s",
+-                       gcry_strerror(err));
+-            goto error;
+-        }
+-    }
+-#endif
+-
+     if (alg == QCRYPTO_CIPHER_ALG_DES_RFB) {
+         /* We're using standard DES cipher from gcrypt, so we need
+          * to munge the key so that the results are the same as the
+@@ -380,16 +266,6 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+         err = gcry_cipher_setkey(ctx->handle, rfbkey, nkey);
+         g_free(rfbkey);
+     } else {
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-        if (mode == QCRYPTO_CIPHER_MODE_XTS) {
+-            nkey /= 2;
+-            err = gcry_cipher_setkey(ctx->tweakhandle, key + nkey, nkey);
+-            if (err != 0) {
+-                error_setg(errp, "Cannot set key: %s", gcry_strerror(err));
+-                goto error;
+-            }
+-        }
+-#endif
+         err = gcry_cipher_setkey(ctx->handle, key, nkey);
+     }
+     if (err != 0) {
+@@ -400,9 +276,6 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+     return &ctx->base;
+ 
+  error:
+-#ifdef CONFIG_QEMU_PRIVATE_XTS
+-    gcry_cipher_close(ctx->tweakhandle);
+-#endif
+     gcry_cipher_close(ctx->handle);
+     g_free(ctx);
+     return NULL;
 diff --git a/meson.build b/meson.build
-index dd7f9ed6a8..10370a6961 100644
+index 10370a6961..45ca8d67e3 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -843,7 +843,7 @@ elif (not get_option('nettle').auto() or have_system) and not get_option('gcrypt
-   endif
- endif
- if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
--  gcrypt = dependency('libgcrypt', version: '>=1.5',
-+  gcrypt = dependency('libgcrypt', version: '>=1.8',
+@@ -847,16 +847,7 @@ if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
                           method: 'config-tool',
                           required: get_option('gcrypt'),
                           kwargs: static_kwargs)
+-  if gcrypt.found() and cc.compiles('''
+-    #include <gcrypt.h>
+-    int main(void) {
+-      gcry_cipher_hd_t handle;
+-      gcry_cipher_open(&handle, GCRY_CIPHER_AES, GCRY_CIPHER_MODE_XTS, 0);
+-      return 0;
+-    }
+-    ''', dependencies: gcrypt)
+-    xts = 'gcrypt'
+-  endif
++  xts = 'gcrypt'
+   # Debian has removed -lgpg-error from libgcrypt-config
+   # as it "spreads unnecessary dependencies" which in
+   # turn breaks static builds...
+@@ -2973,9 +2964,6 @@ summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
+ summary_info += {'GNUTLS support':    gnutls.found()}
+ # TODO: add back version
+ summary_info += {'libgcrypt':         gcrypt.found()}
+-if gcrypt.found()
+-   summary_info += {'  XTS':             xts != 'private'}
+-endif
+ # TODO: add back version
+ summary_info += {'nettle':            nettle.found()}
+ if nettle.found()
 -- 
 2.31.1
 
