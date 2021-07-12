@@ -2,89 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C45A3C644B
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:54:13 +0200 (CEST)
-Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1AB3C6457
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:56:16 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m320K-0001UQ-LW
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53656)
+	id 1m322J-0003Cb-BP
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1m31vl-0001r0-LB
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:49:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32238)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m320X-0002TK-1j
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:54:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:56245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1m31vi-0006DT-Ko
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:49:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626119365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VglE1nzvJzSAFhKD0U4DV8uK4swT3aiO6J6hKirGq3Q=;
- b=aASQODMa6nbrcK7VO86MNfX7laOKqi5GYUhcQhgBAfJo6IsfeYByABNTGxuf4uUNMNbTVb
- HPfIQy+vMlr6XbSJXAgCMSlRGna99kg4AUVqh+M3WPa0MvrsCynQZaCSyc4viMnQqmHl/f
- 5WFiOI/tBbmy8xZsFpZPGWuPsdpy6c4=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-g9LHoRP9Oz6_c8xPdTjyyA-1; Mon, 12 Jul 2021 15:49:24 -0400
-X-MC-Unique: g9LHoRP9Oz6_c8xPdTjyyA-1
-Received: by mail-oi1-f200.google.com with SMTP id
- 64-20020aca06430000b0290240ce72dd5eso13803043oig.4
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 12:49:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VglE1nzvJzSAFhKD0U4DV8uK4swT3aiO6J6hKirGq3Q=;
- b=WWfxhwvbRvsgubYBggbbjbQabKLlJ6DdVPgg+/61JAijA7p6C6X6AlKId9cdwvG6YH
- UjKl/aHB41czbw1PfVsh8oPA3pAZZ7B3L286pHTpGBBZLhCNVSE27fjNr7Gll9HUZlm+
- lxRzH1CWjHq7jTaMnGT6zZBUbJibMup8kRf1pd/0S3H2VmygaQYXj3AF2h1qOOxqr3sA
- gL4fkejo4oQ+8vFN9a66DrP9EddK6lYSMIAu+qTFOGaGkryIiwDix3Nc28fKaB1C1MZN
- XXfcCGKh4FtftkWrCVi2UJEEtk92beeN6DQq02OCHKw+wg/gFpPgroVqPtjUkBoUm7jB
- KCoA==
-X-Gm-Message-State: AOAM531YvV/CQwzYm14t1eNQ3ai+WFM0V6Z82BH5Wk9PSIQCUpk3Mk8E
- f97qERGONIFMbYT/3C56iepLgRhi7fMcI0bbzJijM1gwDacLnDH98D4BhC/wONs9xyGdVI/NVM2
- 2aaQ1cl8qL0IAOjQ=
-X-Received: by 2002:aca:3904:: with SMTP id g4mr11456706oia.129.1626119363587; 
- Mon, 12 Jul 2021 12:49:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4PYnvkVygIEknGqt5hKhcHfBdkooiKa6ok7h66xZM2ZWq57htmD2dW3l7rICoize6vmFN/Q==
-X-Received: by 2002:aca:3904:: with SMTP id g4mr11456699oia.129.1626119363436; 
- Mon, 12 Jul 2021 12:49:23 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id v203sm3397743oib.37.2021.07.12.12.49.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 12:49:23 -0700 (PDT)
-Date: Mon, 12 Jul 2021 13:49:22 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Subject: Re: [PATCH] vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI
- processor
-Message-ID: <20210712134922.510d0cff.alex.williamson@redhat.com>
-In-Reply-To: <20210712033655.390-1-caihuoqing@baidu.com>
-References: <20210712033655.390-1-caihuoqing@baidu.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m320U-0001tU-Vz
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:54:24 -0400
+Received: from [192.168.100.1] ([82.142.17.146]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MSZDt-1lanjl3IPh-00St4h; Mon, 12 Jul 2021 21:54:08 +0200
+Subject: Re: [PATCH v3 0/8] linux-user: target <-> host errno conversion code
+ refactor
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210708170550.1846343-1-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <719c1598-184d-80d3-0bd6-95d954269e64@vivier.eu>
+Date: Mon, 12 Jul 2021 21:54:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <20210708170550.1846343-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:vIrWawEWswuZjvabJtNeUBHH2hKx8dSmakD39bhf+5DWZnS7Mk7
+ LyVTY+INm4fZb7opzLfEtmZxHJpyVUMpQFGIwBpUwncyHaR+X3iL6e7rXkmr9QBuHHFJAjD
+ miv6oi/gfoVAc1qVvaorQwt0nfU2AtuDyRhNVOznW6Rqv7KAYxmxtkJa86q1F5p//ZFm9kX
+ j2wG6R67m/hPk3kgVZHug==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:k/lY63iHxIQ=:hb2EiAc1D8iKun03tv9QAu
+ Rx7m8U9EDeEvVNq17+T40AIIDtgF2tHAkSwV1WTadiCLCSAnIEulb7v0Xetxkl+DveZ30uUmw
+ taF8OU0GbgfEc7fXObrfE9QpUc1j6p/nLYd4HMYvyTAwI7NGrG6G2hxILAAtf+lDgTPUG2JdU
+ +yL+jzAB6fFa5gWSbgSASSs0hYvjL0m10ksDkMLjWx8Rre0TErDk1VdGjBIqKLmA5Sum/VHqP
+ rlnyytd/FzvUkv/CvbebjpJsmTD8CPuAej6iPf99qie7vW1xUCv1DMKj1l2YwdGy8O5YSS3Sr
+ UmpqMnPG60bc90TpEQt5PA79d1MnjC1YnjhwATkjvm3Ns2dSjyucrCu5G83p4tifutsgj0L9h
+ DL4U9YusBwH3Wx/MP+XrGzqwd4iUxBff0hfEFUMf0w2XMf+WC4eXuXQZYLkm2ePJKRrLFiFjk
+ lYDUiIdoZOvOSeOayg+gMvL8NlpFD8Gnu14Ls+4kLzj3hvoJ0MrwlzTBwV/KhL00kFxiKXGYT
+ TaS8lkdSk2YflD2pDFdNFG2HOLKXYpHZOO0215otgG2Y6/nhG5Dg3ASbNa9mn3Kt9hd9UGPf1
+ J5dkP4bjNGKRlvDnFI84cTEwyN7KObXc/0bszaLKq7LR31nJbKSbsGAkIk9ZnSIyinVbcmPa5
+ fdqVAbtpOW9yGrkeNVmjdFwk5csonv/zoZPjmzSnEmeHGmYn0YeQv9lcHcjFRMoAuXAz183CJ
+ sDlC1SYDEWmFQa9/haFv9DDQp4E/qjTXknQxzLoja67YUUA9axIDupPmCDQ6RbyGiIcCtgFdb
+ zl4XSWDquc11gVFqW44yu+ZJrEisbFcewk3qupjoQCuu0FWA+bRID+M8oQ7uHvh5e5IpuOe
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -33
+X-Spam_score: -3.4
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,74 +72,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mst@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Jul 2021 11:36:55 +0800
-Cai Huoqing <caihuoqing@baidu.com> wrote:
-
-> Fix pba_offset initialization value for BAIDU KUNLUN Virtual
-> Function device. The KUNLUN hardware returns an incorrect
-> value for the VF PBA offset, and add a quirk to instead
-> return a hardcoded value of 0xb400.
+Le 08/07/2021 à 19:05, Philippe Mathieu-Daudé a écrit :
+> Hi,
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-> ---
->  hw/vfio/pci.c            | 8 ++++++++
->  include/hw/pci/pci_ids.h | 4 ++++
->  2 files changed, 12 insertions(+)
+> This series extract code related to target errno conversion
+> (to/from host) into a separate header.
 > 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index ab4077aad2..72b7abf623 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -1499,6 +1499,14 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
->          if (vdev->vendor_id == PCI_VENDOR_ID_CHELSIO &&
->              (vdev->device_id & 0xff00) == 0x5800) {
->              msix->pba_offset = 0x1000;
-> +        /*
-> +         * BAIDU KUNLUN Virtual Function devices are encoded as 0x3685 for
-> +         * KUNLUN AI processor. The KUNLUN hardware returns an incorrect
-> +         * value for the VF PBA offset. The correct value is 0xb400.
-> +         */
+> Since v2:
+> - addressed Richard / Laurent review comments
+> Since v1:
+> - addressed Taylor / Richard / Laurent review comments
+> 
+> Based-on: <20210708100756.212085-1-laurent@vivier.eu>
+> 
+> Philippe Mathieu-Daudé (8):
+>   linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)
+>   linux-user/sparc: Rename target_errno.h -> target_errno_defs.h
+>   linux-user: Extract target errno to 'target_errno_defs.h'
+>   linux-user/alpha: Move errno definitions to 'target_errno_defs.h'
+>   linux-user/hppa: Move errno definitions to 'target_errno_defs.h'
+>   linux-user/mips: Move errno definitions to 'target_errno_defs.h'
+>   linux-user: Simplify host <-> target errno conversion using macros
+>   linux-user/syscall: Remove ERRNO_TABLE_SIZE check
+> 
+>  linux-user/aarch64/target_errno_defs.h        |   7 +
+>  linux-user/alpha/target_errno_defs.h          | 204 ++++++++++++++++
+>  linux-user/alpha/target_syscall.h             | 194 ---------------
+>  linux-user/arm/target_errno_defs.h            |   7 +
+>  linux-user/cris/target_errno_defs.h           |   7 +
+>  .../target_errno_defs.h}                      |   4 +-
+>  linux-user/hexagon/target_errno_defs.h        |   7 +
+>  linux-user/hppa/target_errno_defs.h           | 220 +++++++++++++++++
+>  linux-user/hppa/target_syscall.h              | 210 -----------------
+>  linux-user/i386/target_errno_defs.h           |   7 +
+>  linux-user/m68k/target_errno_defs.h           |   7 +
+>  linux-user/microblaze/target_errno_defs.h     |   7 +
+>  linux-user/mips/target_errno_defs.h           | 221 ++++++++++++++++++
+>  linux-user/mips/target_syscall.h              | 211 -----------------
+>  linux-user/mips64/target_errno_defs.h         |  10 +
+>  linux-user/mips64/target_syscall.h            | 211 -----------------
+>  linux-user/nios2/target_errno_defs.h          |   7 +
+>  linux-user/openrisc/target_errno_defs.h       |   7 +
+>  linux-user/ppc/target_errno_defs.h            |   7 +
+>  linux-user/riscv/target_errno_defs.h          |   7 +
+>  linux-user/s390x/target_errno_defs.h          |   7 +
+>  linux-user/sh4/target_errno_defs.h            |   7 +
+>  .../{target_errno.h => target_errno_defs.h}   |  11 +-
+>  linux-user/sparc/target_syscall.h             |   2 -
+>  linux-user/syscall_defs.h                     |   2 +-
+>  linux-user/x86_64/target_errno_defs.h         |   7 +
+>  linux-user/xtensa/target_errno_defs.h         |   7 +
+>  linux-user/syscall.c                          | 164 ++-----------
+>  linux-user/errnos.c.inc                       | 140 +++++++++++
+>  linux-user/safe-syscall.S                     |   2 +-
+>  30 files changed, 926 insertions(+), 985 deletions(-)
+>  create mode 100644 linux-user/aarch64/target_errno_defs.h
+>  create mode 100644 linux-user/alpha/target_errno_defs.h
+>  create mode 100644 linux-user/arm/target_errno_defs.h
+>  create mode 100644 linux-user/cris/target_errno_defs.h
+>  rename linux-user/{errno_defs.h => generic/target_errno_defs.h} (99%)
+>  create mode 100644 linux-user/hexagon/target_errno_defs.h
+>  create mode 100644 linux-user/hppa/target_errno_defs.h
+>  create mode 100644 linux-user/i386/target_errno_defs.h
+>  create mode 100644 linux-user/m68k/target_errno_defs.h
+>  create mode 100644 linux-user/microblaze/target_errno_defs.h
+>  create mode 100644 linux-user/mips/target_errno_defs.h
+>  create mode 100644 linux-user/mips64/target_errno_defs.h
+>  create mode 100644 linux-user/nios2/target_errno_defs.h
+>  create mode 100644 linux-user/openrisc/target_errno_defs.h
+>  create mode 100644 linux-user/ppc/target_errno_defs.h
+>  create mode 100644 linux-user/riscv/target_errno_defs.h
+>  create mode 100644 linux-user/s390x/target_errno_defs.h
+>  create mode 100644 linux-user/sh4/target_errno_defs.h
+>  rename linux-user/sparc/{target_errno.h => target_errno_defs.h} (97%)
+>  create mode 100644 linux-user/x86_64/target_errno_defs.h
+>  create mode 100644 linux-user/xtensa/target_errno_defs.h
+>  create mode 100644 linux-user/errnos.c.inc
+> 
 
-What is the incorrect value and what is the BAR size?  This information
-in the comment could help debugging later.
+Series applied to my linux-user-for-6.1 branch.
 
-> +        } else if (vdev->vendor_id == PCI_VENDOR_ID_BAIDU &&
-> +                   vdev->device_id == PCI_DEVICE_ID_KUNLUN_VF) {
-
-Since we don't have an "encoding" like the previous quirk, we can use
-vfio_pci_is() here:
-
-        } else if (vfio_pci_is(vdev, PCI_VENDOR_ID_BAIDU,
-                               PCI_DEVICE_ID_KUNLUN_VF)) {
-
-> +            msix->pba_offset = 0xb400;
->          } else if (vdev->msix_relo == OFF_AUTOPCIBAR_OFF) {
->              error_setg(errp, "hardware reports invalid configuration, "
->                         "MSIX PBA outside of specified BAR");
-> diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-> index 5c14681b82..bc73c50277 100644
-> --- a/include/hw/pci/pci_ids.h
-> +++ b/include/hw/pci/pci_ids.h
-> @@ -227,6 +227,10 @@
->  #define PCI_VENDOR_ID_FREESCALE          0x1957
->  #define PCI_DEVICE_ID_MPC8533E           0x0030
->  
-> +#define PCI_VENDOR_ID_BAIDU              0x1d22
-> +#define PCI_DEVICE_ID_KUNLUN             0x3684
-
-Let's not add a device ID that we don't use elsewhere in the code, we
-only use the vendor ID and the VF ID below.  Thanks,
-
-Alex
-
-> +#define PCI_DEVICE_ID_KUNLUN_VF          0x3685
-> +
->  #define PCI_VENDOR_ID_INTEL              0x8086
->  #define PCI_DEVICE_ID_INTEL_82378        0x0484
->  #define PCI_DEVICE_ID_INTEL_82441        0x1237
+Thanks,
+Laurent
 
 
