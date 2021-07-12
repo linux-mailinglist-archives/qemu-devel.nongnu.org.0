@@ -2,108 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3088E3C43E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 08:11:14 +0200 (CEST)
-Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AD63C4431
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 08:17:12 +0200 (CEST)
+Received: from localhost ([::1]:52714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2p9s-0002io-Oj
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 02:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51874)
+	id 1m2pFf-00052O-AF
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 02:17:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m2p8e-0001sX-Mu
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 02:09:56 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6294
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m2p8c-00082G-Qc
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 02:09:56 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16C64duN095611; Mon, 12 Jul 2021 02:09:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=QwcRWDHzaYwT2PNMzWVzEMbP1Sm/r0O5ahengU3yrpg=;
- b=DtN2Y+Bqolp3JBes67gqBbpu+H0d5jolFsvKt5F5dC899DnAUH/Kopw2c3Xr/riq2zUb
- yWnztBzcAPeQT9P2xCx5+69EX9lFgcxophB4Vr4mpAMm/r9FBYG58xGhZd4JsNnlCfvZ
- /pXq4MQhe2BVhkEiX153aNCWmHivFU1yHfDwfy6nFFJOp1jBWo1ZF8x1qFVvldHEfl0w
- joDfSljA0SCkeyQLDWOZM5M7keGSezt0JwICYFB8P4SwIQwIp14+tOvO8lKTQhyFaysj
- xtWmLXEYReX8IQti4IaQ2OrOtMJnuteQHYLRMGWOeG70W0qBKvdDY++qnLGwGfM7sk3h VA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39qrmcxswk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jul 2021 02:09:45 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16C64veU096337;
- Mon, 12 Jul 2021 02:09:45 -0400
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39qrmcxsw8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jul 2021 02:09:44 -0400
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16C67TPe016984;
- Mon, 12 Jul 2021 06:09:43 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 39q3688a9y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jul 2021 06:09:42 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16C69eEr28639598
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 06:09:40 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7368BA4065;
- Mon, 12 Jul 2021 06:09:40 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 024DBA4064;
- Mon, 12 Jul 2021 06:09:36 +0000 (GMT)
-Received: from [9.160.8.119] (unknown [9.160.8.119])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 12 Jul 2021 06:09:35 +0000 (GMT)
-Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
- SEV-SNP
-To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
- Connor Kuehl <ckuehl@redhat.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-3-brijesh.singh@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <8b053bdf-42fb-d329-4cd8-f326ad98e10b@linux.ibm.com>
-Date: Mon, 12 Jul 2021 09:09:34 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m2pEF-000425-J5; Mon, 12 Jul 2021 02:15:43 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:40613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m2pED-0005T1-Q2; Mon, 12 Jul 2021 02:15:43 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id p22so27157585yba.7;
+ Sun, 11 Jul 2021 23:15:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M6SMl93cfZKlSg+WMb7uEQTDvqjpWYF2ZLPtOoPc9nQ=;
+ b=UqB5EqR8nGamCHRc9E9hj2iJh1t+PsQ4SUsn6eYV/ViwaK2q5VDEyKrlV3j2n505bp
+ UgNCEKfrJKOPVcl+gvfn5nxeD9L3QdMO7U165UzI8Ck28cwcxlzdGlRrB7lHNfztFMdv
+ jyGri+s9wJi8vFS5aAyWRymuVXJwUpls/JCKAPGm8W+v/gT17ordmO7UI6uU5Tjq2LcL
+ 9AzMU1iJCtwx+Dj6P54xkLeR7RO9oSfWkEi47hSkexGbYy3s8efTy/F30Bbq6hDCuPC7
+ VKgP79ZZqQz+l/GiG88ACID4+BK7UvunrtWyaQGGZ66tSpzNHPBgQrjwVHyr9NY0igVU
+ YXWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M6SMl93cfZKlSg+WMb7uEQTDvqjpWYF2ZLPtOoPc9nQ=;
+ b=P7OXxA4XhKDepnkCX2kuyfp78qEuJwXbqgEFWgllxCTH4r/USXK07cSPEo+B8o0zc5
+ UPPRB/xKLKK+lxCzM3+onjIH3el2ZD8jCmyRt8g2ZHdo8a4VRzQloQVJbfKxgG6n1kdF
+ YAHZF5gqUJPttzpnpmLvJ4TkkqWPtEnEMJpo2qtjWMLDrTzti7mt19iaBd3lCM6WOSwF
+ 2eV21PC/4nA0L26HWAmTNkdI0yL04DqqMsUcZvsSXuuE2if/11GKK2n5ug9MqSmNO6D4
+ eEscaa2nW9ODt18/h1r7ulxTVaeyZYEGw5h6DZIqHsH1j57QwSIBboaaa7+7uqQkzk8k
+ Ot5w==
+X-Gm-Message-State: AOAM531zlhxema3mPqn8NR+ZubSn3WRhbCg2n8f82McCYd+cAbMnxDhD
+ P06sKTC9+ZEuo3nIMVRafREVYrDYmsRU96hIhqA=
+X-Google-Smtp-Source: ABdhPJyyWAOtdavILXEBVJdXZEztFygJ0kqjijCZEKbBnjvvfNPp4xHORIOVEb+zh8aHq2nipNJ0OhH8vH7FGWb7EEw=
+X-Received: by 2002:a25:dbce:: with SMTP id
+ g197mr60076900ybf.152.1626070538942; 
+ Sun, 11 Jul 2021 23:15:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210709215550.32496-3-brijesh.singh@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: XmOcEoLLDVhPvXTWyx_kxZuX3LeDlxQN
-X-Proofpoint-GUID: yCsM2qik6evqdrca-lM__5ctpe1NStui
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-12_04:2021-07-09,
- 2021-07-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- malwarescore=0 mlxlogscore=999 adultscore=0 impostorscore=0 spamscore=0
- phishscore=0 mlxscore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107120047
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20210612160615.330768-1-anup.patel@wdc.com>
+ <20210612160615.330768-4-anup.patel@wdc.com>
+ <CAEUhbmV1L7sL+9=3=onkXZoR0FYpV93gKCVxFJ5O5-Jw36PQgA@mail.gmail.com>
+ <CAAhSdy2q7S08eF8NfqvEeFORkrGDaZsDJftCTaq7c9zi7WU2SQ@mail.gmail.com>
+In-Reply-To: <CAAhSdy2q7S08eF8NfqvEeFORkrGDaZsDJftCTaq7c9zi7WU2SQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 12 Jul 2021 14:15:28 +0800
+Message-ID: <CAEUhbmW9XEk0rZivzQTMhFwL4Egjh0jR9HxEnwJMSOyBntiQig@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] hw/riscv: virt: Add optional ACLINT support to
+ virt machine
+To: Anup Patel <anup@brainfault.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.631,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,59 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
- James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jul 12, 2021 at 1:39 PM Anup Patel <anup@brainfault.org> wrote:
+>
+> On Mon, Jun 14, 2021 at 5:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Sun, Jun 13, 2021 at 12:14 AM Anup Patel <anup.patel@wdc.com> wrote:
+> > >
+> > > We extend virt machine to emulate ACLINT devices only when "aclint=on"
+> > > parameter is passed along with machine name in QEMU command-line.
+> > >
+> > > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > > ---
+> > >  hw/riscv/virt.c         | 110 +++++++++++++++++++++++++++++++++++++++-
+> > >  include/hw/riscv/virt.h |   2 +
+> > >  2 files changed, 111 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> > > index 977d699753..a35f66af13 100644
+> > > --- a/hw/riscv/virt.c
+> > > +++ b/hw/riscv/virt.c
+> > > @@ -50,6 +50,7 @@ static const MemMapEntry virt_memmap[] = {
+> > >      [VIRT_TEST] =        {   0x100000,        0x1000 },
+> > >      [VIRT_RTC] =         {   0x101000,        0x1000 },
+> > >      [VIRT_CLINT] =       {  0x2000000,       0x10000 },
+> > > +    [VIRT_ACLINT_SSWI] = {  0x2F00000,        0x4000 },
+> >
+> > How about we reuse the same register space to support both CLINT and
+> > ACLINT? This saves some register space for future extension.
+>
+> The intention of placing ACLINT SSWI separate from ACLINT MTIMER and
+> MSWI is to minimize PMP region usage.
 
+Okay, so this leaves spaces for 240 ACLINT MTIMER and MSWI devices in
+total, if we put ACLINT SSWI at 0x2F00000, and we still have spaces
+for 64 ACLINT SSWI devices. Is this enough?
 
-On 10/07/2021 0:55, Brijesh Singh wrote:
-> To launch the SEV-SNP guest, a user can specify up to 8 parameters.
-> Passing all parameters through command line can be difficult. To simplify
-> the launch parameter passing, introduce a .ini-like config file that can be
-> used for passing the parameters to the launch flow.
-> 
-> The contents of the config file will look like this:
-> 
-> $ cat snp-launch.init
-> 
-> # SNP launch parameters
-> [SEV-SNP]
-> init_flags = 0
-> policy = 0x1000
-> id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
-> 
-> 
-> Add 'snp' property that can be used to indicate that SEV guest launch
-> should enable the SNP support.
-> 
-> SEV-SNP guest launch examples:
-> 
-> 1) launch without additional parameters
-> 
->   $(QEMU_CLI) \
->     -object sev-guest,id=sev0,snp=on
-> 
-> 2) launch with optional parameters
->   $(QEMU_CLI) \
->     -object sev-guest,id=sev0,snp=on,launch-config=<file>
-> 
+>
+> When we have multiple sockets, each socket will have it's own set of
+> ACLINT devices so we deliberately keep ACLINT MTIMER and MSWI
+> devices of all sockets next to each other so that we need just 1-2 PMP
+> regions to cover all M-level ACLINT devices.
+>
+> In general, RISC-V platform vendors will have to carefully design
+> memory layout of M-level devices so that M-mode runtime firmware
+> needs fewer PMP regions. The spare PMP regions can be used by
+> M-mode runtime firmware to partition the system into domains and
+> implement TEE.
+>
+> >
+> > >      [VIRT_PCIE_PIO] =    {  0x3000000,       0x10000 },
+> > >      [VIRT_PLIC] =        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * 2) },
+> > >      [VIRT_UART0] =       { 0x10000000,         0x100 },
+> > > @@ -279,6 +280,78 @@ static void create_fdt_socket_clint(RISCVVirtState *s,
+> > >      g_free(clint_cells);
+> > >  }
 
-Not directly SNP-related, but in an internal communication Connor told
-me he wants to allow the SEV configuration (like dh-cert-file etc.) to
-be set using QMP commands when the machine launches instead (or in
-addition to) setting them via QEMU command-line parameters.
-
-Whatever the configuration solution decided for the SEV parameters
-should also apply to these new SNP settings (policy, id_block, etc.).
-
--Dov
+Regards,
+Bin
 
