@@ -2,145 +2,170 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394843C6187
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 19:07:45 +0200 (CEST)
-Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6DF3C618F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 19:08:51 +0200 (CEST)
+Received: from localhost ([::1]:33656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2zPE-00080K-8c
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 13:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48144)
+	id 1m2zQI-00027M-Sr
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 13:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1m2zN5-0006IF-9n
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 13:05:31 -0400
-Received: from mail-dm6nam10on20616.outbound.protection.outlook.com
- ([2a01:111:f400:7e88::616]:47329
- helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1m2zOm-0008Kn-5k
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 13:07:18 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:49230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1m2zN2-0004H2-J3
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 13:05:30 -0400
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1m2zOj-0005Xn-Pf
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 13:07:15 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16CGv7QX003725; Mon, 12 Jul 2021 17:07:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=rdjB6i8ipvWyPdtHnLhFFFnOGHaHVUBZj1nQVg+3n+I=;
+ b=OSKX77qRWV0iIXlcED4K78jM7iENV2fGwNpKOSyfmmDqmVYvFSYHXOxEmRYP791xndJ7
+ Vv7XmDj2QUf4iOHCnYlgUAu3H7t2EaurMzI1cfJ9fU9i4gajK906NGmb5XV3D9D97AZL
+ MDke0/XRHwLIy/szg8IS2KBLaMX6CP0iTEF+YW4RwrvY5FuIcvYi7bTsBB/lnh3ejgPQ
+ FddoRjJ8lGL92Z/nfMsrqppnlyeL7t8aNZ7Cw0Sf/bwr7eDG4IF7PktyzRAzNhr2grMP
+ etO5wcsU8l5diOcGy1lWSgkDAvL43syE93xrG8cLRl365zDfoTiV0O4dYVy3ggscAhFv fA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39rqkb0cx9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 17:07:06 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CGtBlL065118;
+ Mon, 12 Jul 2021 17:07:05 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
+ by userp3020.oracle.com with ESMTP id 39qnaum7p6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 17:07:05 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SddVApZePdy47TCZi+c+q7IIxGRZTDAEWqckO8LeVURiOUm7BoJnU5611REXgRNj49O2tAt7JMu71LTOUWbJBfJxgh+tX6+TAJLn546k1xUXOP8VlIqdbcl2tgBktDm9pLLg238qW0ahvmuDe3s5ll49LnT10qqWv/N/5InCQrFoMtN+1JyGXHDjUTmm1+xlON2qZVekn4c1uRIFe7B1VDh1IuPpYPOYP/DP4TFAbLe4x9QVJRDXlXHl26I0kt6xFk6Fv4rwrziw/zld8FL6h3GrEBkVdqlGPcMdK9AAibXBUU7BWD5zmaM9p4EUhoTsGG72G86o+S4PfdZqSrCW7w==
+ b=clmhsLHjqDj6QeXQ4OXJCpu9M/AxaugW9q6qYRRqZWi+fYbZK0YsjEPBJ0XQFukDEqi4CV7KHWNAqgOH7Dt5iLKUKAUAgFIxiiY7qEo0dTbpkm8RstBGeQpr7iqb6frjYS5ICThcUqroSHGFMH/nVOTNrtJfcQSMHbfIDB4cM0VQbapbsK2GVM1BfhMBV1S2Vl9VJQo3Vd3KmEkUVshwTa0dvqHFCU2sqotB6lT6qYJl+scqYc6o50J+uUui0ohiFr+fe+EsKz4bK/h8aZODwFHje4voS32gi5txdA/H2hVEul6ISzHswxJXXufyr7yns2+zeW0dxtdmpj0GC2MF/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5IFcNVltQIYH2BGw7I7yaJhWGFAgmMNMj0fO9Ffwmyw=;
- b=ST8qD7iPDIEZClcLKUStA+S3uX7U8k9B58HGnVgXYb9teCVhDdLbuGZZcR2lCSPYXPWbIQy+VcbTYDAy6cOL0Q/NcT7oqAM2yOQrU7M1U9aARtvVqsf+BRfYjBNwPtIwKxUt+RGgEMfV7c3NBv+iAyjlx9p5+tvm0BKC2rSN42j2MEETixNdmd0UDtFi0ow2CeTReH5pyvorErL6X2h6pnNL6BneC/gXbALD1mOAmEUu11XLL8MB0L28p53Sas1iCSOdUfNMjdwo5K8Q85DQxzQR6X0vL0VFXD61fumjwaxs7Tii0Y14hpCKsGC6Ez0W5N1sl4q521ZixaJdF1nOAg==
+ bh=rdjB6i8ipvWyPdtHnLhFFFnOGHaHVUBZj1nQVg+3n+I=;
+ b=NH02giU1+p7wKm+RG8ifQyPgb89qqXrIhrJelc1DKIGCjeW1xp1lqb+caHB766UlmmKCDGazhtOW7geBZZT02P89aKD2aAMIKdF0EcuLc5UYH2+TGluaCN5A5UW4BpVbuQyJDZrj+GdOFrH7gndq0qK0b7q90dj1DwmeT2GELRRuGvy0AUnMDI3SJ2Jurfh9yGVVFZeLkpvcwqWi0NberWiAejTjQyxw5wX6VkObtkJPBaEhnralITNxB8UJz626sVoA43POm5pfL7ir+gWOkQOJZJzNLK38/RTd5fW1LZeOde4EQNhQQJKi2tBODtV1k1sj4JL26ZnqgeagGm98bg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5IFcNVltQIYH2BGw7I7yaJhWGFAgmMNMj0fO9Ffwmyw=;
- b=bBkYRJj9qEycVgyL6UmGwaWDovaenyPNjUANN7bsPssv8o1RaiJ+b7n6H+OuzYgmyOaocdaOUXS2yO1ozycmJ8PKGWBjIX613f3NcRNtwkOKmN1W7LWqGBApu+l/nZ4G+JM/q8aQv1Ijum9tvKtYYfz3J0LzhXK/I+Fey1i4xLQ=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com (2603:10b6:5:398::12)
- by DM4PR12MB5167.namprd12.prod.outlook.com (2603:10b6:5:396::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20; Mon, 12 Jul
- 2021 17:00:24 +0000
-Received: from DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::73:2581:970b:3208]) by DM4PR12MB5229.namprd12.prod.outlook.com
- ([fe80::73:2581:970b:3208%3]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
- 17:00:24 +0000
-Subject: Re: [RFC PATCH 0/6] Add AMD Secure Nested Paging (SEV-SNP) support
-To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
-Cc: Connor Kuehl <ckuehl@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, James Bottomley
- <jejb@linux.ibm.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, Michael Roth <michael.roth@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Message-ID: <532930b2-2a43-f4d0-8214-ea8b10c37448@amd.com>
-Date: Mon, 12 Jul 2021 12:00:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ bh=rdjB6i8ipvWyPdtHnLhFFFnOGHaHVUBZj1nQVg+3n+I=;
+ b=xzjL1+SQ3yI5UvIf4SZBIeOYgTEbDeR373yXG6G/PxJA6O8uxGhWwtBCvYYs2229PCmMfHa//W9Ja1GalL6fRQiQ9KHBTMCK4ljHx9CrmxYED4RDWp2dokWWE/tGyWau+SZaVowbda02d5pgAyZNSugk30LTTuD3p8AwzZYqKZo=
+Authentication-Results: oracle.com; dkim=none (message not signed)
+ header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
+Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
+ by SJ0PR10MB4638.namprd10.prod.outlook.com (2603:10b6:a03:2d8::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Mon, 12 Jul
+ 2021 17:07:03 +0000
+Received: from BYAPR10MB3240.namprd10.prod.outlook.com
+ ([fe80::a00d:eb40:2bf6:8812]) by BYAPR10MB3240.namprd10.prod.outlook.com
+ ([fe80::a00d:eb40:2bf6:8812%7]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
+ 17:07:03 +0000
+Subject: Re: [PATCH V5 01/25] qemu_ram_volatile
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
+ <1625678434-240960-2-git-send-email-steven.sistare@oracle.com>
+ <CAJ+F1CJ+rOSfuvpmF=u-HbmWxKkA-F8cobww1b4M-tnZO=ra5g@mail.gmail.com>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <6de8ecd4-fb59-b5cc-1e75-12b7b844d65e@oracle.com>
+Date: Mon, 12 Jul 2021 13:06:58 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <20210709215550.32496-1-brijesh.singh@amd.com>
+In-Reply-To: <CAJ+F1CJ+rOSfuvpmF=u-HbmWxKkA-F8cobww1b4M-tnZO=ra5g@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN6PR2101CA0025.namprd21.prod.outlook.com
- (2603:10b6:805:106::35) To DM4PR12MB5229.namprd12.prod.outlook.com
- (2603:10b6:5:398::12)
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0149.namprd13.prod.outlook.com
+ (2603:10b6:806:27::34) To BYAPR10MB3240.namprd10.prod.outlook.com
+ (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.118] (165.204.77.1) by
- SN6PR2101CA0025.namprd21.prod.outlook.com (2603:10b6:805:106::35) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.3 via Frontend
- Transport; Mon, 12 Jul 2021 17:00:23 +0000
+Received: from [192.168.1.92] (24.62.106.7) by
+ SA9PR13CA0149.namprd13.prod.outlook.com (2603:10b6:806:27::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.11 via Frontend Transport; Mon, 12 Jul 2021 17:07:01 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8fd285a9-d757-4a88-9c8e-08d945568a2c
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5167:
+X-MS-Office365-Filtering-Correlation-Id: db35a15e-f681-45c4-5610-08d945577829
+X-MS-TrafficTypeDiagnostic: SJ0PR10MB4638:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM4PR12MB5167910C1C74ADEFC39A9CADEC159@DM4PR12MB5167.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB463883EDA14DD1AA33763EBBF9159@SJ0PR10MB4638.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1923;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EUFAdlMtkDI6sZe+R/M6lmV+FOVju+ew3QoMV18xTZ5yrou8VS4K+Kkx/FaCbGSZNxNSmsKY9MaLbCB3OP3t/3VAKkQ2GBsc10/QGC97E4ofsAE4PKXI+d7q24bsT6LVlRS3qauxfMXsQB1DiOSdGqnqpgMZbc/lsvK+Lp+wxi++hejwAG9w++IhG2rbcgG0HFVF0vJ6A1cpernq3u7xC8BWd1ba67AG1eIHuDOWsFgT0CxdTqhjFQTWsPCi9Cdnhp14VWz8EolsVXLQdiYy5jLNW7nN3B5XjhaVoz/PnF3w6DeVweHJersMlE7O/4soWhiI2JitwU8Z0kPEthXJ0vmxlEkT1AXlLgXTU/zxkYORprowlJXmIrkXSPDfjejKwjIAOpfGeA8m47lgIblRQx33t7qmIW896P6uWYh6BecdVxQU+ppai1OizK3Tv0GfGT/flrrHzjAlZQlvfUm6v63tOewpjfBwbWXaJ4IJbkGPsqQdmhY+M29WIVIQJC2H88sO1uJCgnxXTV1YmlvwAV2f+FZVlhgg93lDRqgNyzKJrWrYWGnt3InkbPVCGrpcYYJ5nMKSUznPgcRGjDBxWqf8aIkkFzMGOudGLV1Ne+owdSF/GfNVf8NIXLfIjOTbBkqI/g393RJjL6ZXsVFiW7BG3ORL2WkOVxpWFEhN6z3bNmGXhApa1iGNvfqA5ksrFnzCKx8HYORYHaw3H4XatviZisgVTWKzkZYiETdekIbpIQ2D55u/ifJP6KK2L8HqGfHaBuQg6k+i7tG/2mxN8ptjHWlhmt+7UVPQliQ73fTYv8IQxiscNiBZqn6qQCLSQvJNdA1RhvJ/rxCYjklve43VonqiVRR5hIuDD87KsxA=
+X-Microsoft-Antispam-Message-Info: c8FB2nOj1DvlonZURl5+KQPOD5nlAZgB5bRMC7IA724T9kCxhT7Rl2n1ay0HMAgZQlgOwjn55Nd60piBVdLuqun2asxHjJg0NGgHuRl6vicUW896qu3qHb1W+nSRRxyemTu7Ex0fACqzEvv354onivDMaLME/0G0E5DTAKR8L1wP44ZJux7b+VLMGJcNzzqyvypiCsyP5Y2qnFMnve4raquSs3eLg/KNavdphMW6E3GFe1moNWbjrON11+bC55ImkqvOXj9iZVjgtl5VTL2UJjLHz/polJMvccvJYJKnGymY9jIf6UtzP0qEXR/X/+TfGyNIu7PVULYDSpTQzqTdgm/m9ACe3s16m1bQUrCDvDAk75d0/oB7LQ5WF1Z7TOUNHMq0mRot/HOzjfkfgFmRkuWPEKD7yFRubiWvou2eZmQHtyKCs9xTigk2TfPISn/sx+IipzYdG01PrTwQhgF4dvzAnvCaLjxHUh5nYXytxEkKlSRj/V6wmCZce4ndzg5tyEHv2SFQqqKkUWNxlVqVWXJOqIrlfypNBFfvoWc6ByO7MDeDN0BxdiHao/a+OxLOzgpEGOCDXCdx1i8kMFX8JjmWdKLb5kvG80DR+ITvt4J3opnxrMHyst6ifITfVxfX3tTGJsaPT0En7aQ90w7TE2ciS5DC6y1eJWC+UoaD2JcbouMS36kqV5sQsN4Re2Ld7VkhbjvkxEVlBG8QiQ9CN/5DuzFNebUVXvu0Q6c9n2k=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5229.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(396003)(376002)(136003)(346002)(53546011)(186003)(36756003)(16576012)(31686004)(26005)(83380400001)(54906003)(6486002)(7416002)(86362001)(966005)(4326008)(8676002)(31696002)(316002)(478600001)(5660300002)(2906002)(66476007)(66946007)(38100700002)(956004)(66556008)(8936002)(2616005)(43740500002)(45980500001);
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(39860400002)(376002)(346002)(136003)(396003)(31686004)(316002)(8936002)(16576012)(54906003)(2906002)(44832011)(66476007)(956004)(38100700002)(2616005)(31696002)(66946007)(66556008)(8676002)(86362001)(36756003)(53546011)(478600001)(186003)(83380400001)(4326008)(6666004)(6486002)(26005)(7416002)(5660300002)(36916002)(6916009)(43740500002)(45980500001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amNucEY3cmpvNE51bTVPUU5KY0RZQkxiSVh6TjRCc0hDbGZwREJoelJZZVQz?=
- =?utf-8?B?QWhpV2NCK0VuZDdPMWpkbEtSbi9LNTc1NFlkVTR1enB0TWFMQWxtSmFXTldT?=
- =?utf-8?B?VEJzTUp5L1BsdldHQVZsNDA0RGRaUUhQTWRrNkhaQkRzRkE2K0NHanB6THZR?=
- =?utf-8?B?enFSV29UZjFJNm5YU05VcEtkbFhIWFRzTkdRaitLeXl4Y0pJYVAwQlQrYXFj?=
- =?utf-8?B?R3VRZUNwSGtFU0VLd2hVTm04NW5aK1RuLytFNXA5amdlYWJyMkIyT1JzVkcy?=
- =?utf-8?B?THF3TWFQOFZ5L2RhL1NBbzJQZnhmMU1SUjM0dzFsaExFRDZIWi9JL01tb3RR?=
- =?utf-8?B?d0xuWkUydkR5Q3QzZnR3TDZZTGNvRC9FcGUvMnRzdlpkVVRrd0QzL0JjdWlN?=
- =?utf-8?B?T1ovWHliL0RteEM4cDAxNFVJU0RUaHVoMWFpN1ZNWGtUSGI3S0JOQ3RJNlZM?=
- =?utf-8?B?OFFxdGdMQ0xUNnlVWldKSUpGMU84Vm5ybUhSTGJNN2NQa1FMdTNYaGpMUWVQ?=
- =?utf-8?B?OFl6bzRTRTdaRGdaa0s3dnpHVVZESDNYOFg5ME84U0EyU2VtR3ZTdE9sZHFM?=
- =?utf-8?B?RWJ3WlJnOEFLSW5TZUVnWllBb2JzN3FVRE1HM3ZBNUUzaThaYUtndmovQjY3?=
- =?utf-8?B?OU9qTklOaHUzSjd6ck4wemRjZHMvUGY2bkJqL1IrN1JrYTdJZDNwa01WUitC?=
- =?utf-8?B?YVd6V2ZmeHJXQUhOcEJpYlVseFRjUmVmQ28rc21lNkd0a2kzeXFLT01Kbzh1?=
- =?utf-8?B?aWZ6ZW5ZR3l1K1ZtSTVmSWF5aFVyeERwUWtBYytWaWtJWkxZVEM4bGdVNTRY?=
- =?utf-8?B?UGlyV0YwbzZJR3IwRkYxL0VJS3BvN2YzQVVVbE0yWU5LM3VzTk92RW1WaFl2?=
- =?utf-8?B?b1hUK3BoY0RDTWMxb25WNG9EVEZhbEViR0JoYUlzRk1HcW4xbEhvQWVENEdN?=
- =?utf-8?B?a3oxTVk0M3R5UlJIN010a0NjbEJRbTBuL1pPd2FyWVgxbmNvdndzM0NzZ0hB?=
- =?utf-8?B?Y0IzY1YwUjl4NlV3MmJCM2MzWE9ta1dTb0VJWVhmT05UalU1OVdOSnh2bW5N?=
- =?utf-8?B?bmhiNU1IY2ZFT3VaUW1iQlZkdkpsYVFJK2V4U1czLzJ2S1Vjcld2bWhRL2Zo?=
- =?utf-8?B?Tmplbkg2R2JQYUdpQXozSlNma3l4UlJSL0dWVEN5Q2RQOUFJRDgwcjhTQmwr?=
- =?utf-8?B?T3Jwd2VrRDhzVVlJbHJvL1pwbml5N3BhQ2pyR1JmTGVwWjBJZ2ErRk9JM1FT?=
- =?utf-8?B?K1FsMnZzdkJUaUdLNm1rT0RaU0hNR0JnanJYTlJTVVRidFZLRTVjSWE5VFR1?=
- =?utf-8?B?MmJSTkRHWHFodXhEbCtQTE9seUF6SjNYSHZoZUEvWm1qTlhPL2dlT1JLYWR6?=
- =?utf-8?B?WUthWFhXTFYrNWVtODlBbHJjSW5JV3RPaW5Hci9Cd2YzSld1eWxqZDQwRzdY?=
- =?utf-8?B?RVBrY1ZVS0dPUXBqUyt5VkgvT2tIem5jV080UTFBQXBGTzkvT1N5NlRBRnZ5?=
- =?utf-8?B?OUtNRFpxVmJpRGFTRG9oaFM4TityeE4vaStvYWYrOXkvR3lmb1hBQ0E4R1Yz?=
- =?utf-8?B?Y3N4bVdmTk4yVTZlME1Zd3ArMUwvbzM0Nkc1U3dKSUtPN3YzTGRIak9tRjEw?=
- =?utf-8?B?YmhWOURZZzB4U0VDR3FnVkczUVN1bzhtbUZYbWNnQ2xkMXUvWkFHYzdOWm5D?=
- =?utf-8?B?ZC9NTExmby9lb3RpMm9xOXU0bS9Fd096aXpIa1VFLzBoUVk3MUtGSk9CeExp?=
- =?utf-8?Q?k6vv/MbCPzBJjxXezigkiEZh26dnDntJF1hUge2?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8fd285a9-d757-4a88-9c8e-08d945568a2c
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5229.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZWx3V0swUkxadERQNlV2RnFTRStTMk5UTjY1SnFBM0pTV3pVK3JhMzV4RnVU?=
+ =?utf-8?B?V003NTFIRHBlNFEvS0phUGI2K2ExUkJ2MnlsVTIvNDZPUTdPdS9sbENDUXFN?=
+ =?utf-8?B?NFBYT2VJdG1ROEJ1SWVtaHdoRStHQVlJb3dVM1JIcVRqSUxGQW1sZXRFU2VJ?=
+ =?utf-8?B?b29wTjhoR0FQRStYL0pyWG4vYzVmaG5aaUNjK2NlWGdsN0oxME9ma2Jwc2Ry?=
+ =?utf-8?B?UTF0WWloSXdPdDQ1UDJlQ25kcE4xYVcvVjJoSUI4MEljTWkwcXJuRWVjWG8v?=
+ =?utf-8?B?VUI0RGU4VnlZWlRFVGtKSVRxSFNsaWp0MTdTWVdrb1Z5NGxKaHFudXVKT1VC?=
+ =?utf-8?B?VXg0c1hBOUJIaUR6S3ZpVzVxaU43ZTlycWVWTjlBUVVCQ1M4bENJcmFSUTMy?=
+ =?utf-8?B?RXRSeEJSNWYyTUwzUTU0VUlLWWRYVjVhZTVZT0FIR1hQVUt1WGNEaGhzU3g0?=
+ =?utf-8?B?STVLTnEwWTU5TEo2djl5MmU0bVcrSnVtaEVrYk5EUXZsM2Z0WUM5ZDIxdnRX?=
+ =?utf-8?B?OHVnaVFZQUYvTXN6VkZsNS9BQUsvRUljeitRVGd4eWpXM1hsOWV2WThHQzRx?=
+ =?utf-8?B?T01uZS9Lc3VKTE0raWVsU3Zzdnltdzc4Mm4yVm4rQmxPL0VGTS9EbDJ6bjFw?=
+ =?utf-8?B?Q0xHaDZObVBOM1JMaTJzaktGU0sySmIvT25GVkdmU2FJUlB2NHNzang5Smx5?=
+ =?utf-8?B?cGlkNFM1TEJ4U3RSb3ladHBva1ZXb3hSSFIvenM4bU9OYXZtRWFHcWNNMHhq?=
+ =?utf-8?B?T0wyWTRCdzZJNzhZeUtBc1JaTGg3NTlwMDdzSGlMOFQ1dERRSXZTZzlOM3U0?=
+ =?utf-8?B?R1FJcng3eklLRFpoT21SZk1rWnczdnJtMTFpRWJEaWRxbnpJQncvRGYvVm95?=
+ =?utf-8?B?elhGWVY4SkI2ZlBkenRWZGQrRkNwSkdMREZGZmNENkp6aThMNEN6bUw0dWZ3?=
+ =?utf-8?B?aGswMG1STEl5Z0ZaemNxYnhZQnB4bS9lQ0pja0dqaHBrZWtWSEZFcXhFSHl5?=
+ =?utf-8?B?eUwrR3pLQkhGYUkwNUxOZmVaRlk3dFBUOVhQU29aSklDT0V5cVBzcTg4bzY1?=
+ =?utf-8?B?ZzN5UXZINzRvMFgySGthOEkwVXVaNW96cmo3QTVLQVNubVNieDJ0dXdyVUJM?=
+ =?utf-8?B?bkp4NTdkd1J0M212OW1mOWJpSHMvbTNMVUZMSzA1N2pock1VU2xsMTAzK0Jl?=
+ =?utf-8?B?MW5qUCtsVy9YZFVQM2UzMHc1eGdZcVQ0aXNnV3JlOWFpS0lvRXBUcEZteDJR?=
+ =?utf-8?B?Y3ZWTXN1MTNzVjVmb3REc0VFTXB3Qkp1SEVWT3VCYmlBWnZlS3R3eWw3WEZG?=
+ =?utf-8?B?dElNYTM3SDY3OTl5ZHJUMzE2VHRCcXI0ZGRJdi9ZZ0dMTm5HcnV3QWVqV09m?=
+ =?utf-8?B?WitHdkxIbVJhRGtNNmZuZGtUekVNUGJkYUZZdU4yQ1VqZVZ0ZDNDK0pucW9Z?=
+ =?utf-8?B?Q0ZVSE92ZWZKNXcwTlhObzJ1MlpZNDFld0hiQnhqb3NoUTk4NTllSXZOUDBX?=
+ =?utf-8?B?QmgwRG8veTZQb3BaTjBmUmJRbjhxZEpMaUIxcWVaZWdLY3JkdTQ1QllHd0hy?=
+ =?utf-8?B?WklOeUZUcmpKbGl6UUlQcDFXbWdQenFQb0hmcVdpdUw1MWU3MGZVNmhoTWJN?=
+ =?utf-8?B?ZmYxZGl6TVArV2RGYi9ORDdFMkVxdkgvQ2JkR3FBSDdITWpJUHhCUmI0N3hL?=
+ =?utf-8?B?ekI5RHpEOEZkYnVORHFxOTNRek9SNmUzWXh0RlJPN2JpdTczN3ZTYVdYVDZY?=
+ =?utf-8?Q?VBqITh7LqXmb/ymLcX0zFJ8PmbtiG/1big0iPhk?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: db35a15e-f681-45c4-5610-08d945577829
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 17:00:24.1142 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 17:07:03.2100 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SkwOEqvK5gHTU3JaNYum1CEsYWeqirnFdS2t+6V79f9qw1gTAjtwonsYwLdrrSUzWa/aQR4bW+rplYZ0CB3KDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5167
-Received-SPF: softfail client-ip=2a01:111:f400:7e88::616;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0pUKmP/nO94YqVeS23CMakfHz/3hSGIb4tYCzWyl+ZPTq5zeFMzZnJ8wx4T1CojqOE1zDb4j6i4w+q9J9jDKBqBWkREtYZwzKcgY5+t5wNE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4638
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107120126
+X-Proofpoint-ORIG-GUID: Gkq6dXPGo8ySTrDAJmV-vIBAFNpq3x7T
+X-Proofpoint-GUID: Gkq6dXPGo8ySTrDAJmV-vIBAFNpq3x7T
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.479, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -153,60 +178,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/21 4:55 PM, Brijesh Singh wrote:
-> SEV-SNP builds upon existing SEV and SEV-ES functionality while adding
-> new hardware-based memory protections. SEV-SNP adds strong memory integrity
-> protection to help prevent malicious hypervisor-based attacks like data
-> replay, memory re-mapping and more in order to create an isolated memory
-> encryption environment.
-> 
-> The patches to support the SEV-SNP in Linux kernel and OVMF are available:
-> https://lore.kernel.org/kvm/20210707181506.30489-1-brijesh.singh@amd.com/
-> https://lore.kernel.org/kvm/20210707183616.5620-1-brijesh.singh@amd.com/
-> https://edk2.groups.io/g/devel/message/77335?p=,,,20,0,0,0::Created,,posterid%3A5969970,20,2,20,83891508
-> 
-> The Qemu patches uses the command id added by the SEV-SNP hypervisor
-> patches to bootstrap the SEV-SNP VMs.
-> 
-> TODO:
->  * Add support to filter CPUID values through the PSP.
-> 
-> Additional resources
-> ---------------------
-> SEV-SNP whitepaper
-> https://www.amd.com/system/files/TechDocs/SEV-SNP-strengthening-vm-isolation-with-integrity-protection-and-more.pdf
-> 
-> APM 2: https://www.amd.com/system/files/TechDocs/24593.pdf (section 15.36)
-> 
-> GHCB spec:
-> https://developer.amd.com/wp-content/resources/56421.pdf
-> 
-> SEV-SNP firmware specification:
-> https://www.amd.com/system/files/TechDocs/56860.pdf
-> 
-> Brijesh Singh (6):
->   linux-header: add the SNP specific command
->   i386/sev: extend sev-guest property to include SEV-SNP
->   i386/sev: initialize SNP context
->   i386/sev: add the SNP launch start context
->   i386/sev: add support to encrypt BIOS when SEV-SNP is enabled
->   i386/sev: populate secrets and cpuid page and finalize the SNP launch
-> 
->  docs/amd-memory-encryption.txt |  81 +++++-
->  linux-headers/linux/kvm.h      |  47 ++++
->  qapi/qom.json                  |   6 +
->  target/i386/sev.c              | 498 ++++++++++++++++++++++++++++++++-
->  target/i386/sev_i386.h         |   1 +
->  target/i386/trace-events       |   4 +
->  6 files changed, 628 insertions(+), 9 deletions(-)
+Will do for all comments - steve
 
-Don't forget to update target/i386/sev-stub.c as appropriate, too.
-
-Thanks,
-Tom
-
+On 7/8/2021 8:01 AM, Marc-André Lureau wrote:
+> Hi
 > 
+> On Wed, Jul 7, 2021 at 9:35 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
+> 
+>     Add a function that returns true if any ram_list block represents
+>     volatile memory.
+> 
+>     Signed-off-by: Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>>
+>     ---
+>      include/exec/memory.h |  8 ++++++++
+>      softmmu/memory.c      | 30 ++++++++++++++++++++++++++++++
+>      2 files changed, 38 insertions(+)
+> 
+>     diff --git a/include/exec/memory.h b/include/exec/memory.h
+>     index b116f7c..7ad63f8 100644
+>     --- a/include/exec/memory.h
+>     +++ b/include/exec/memory.h
+>     @@ -2649,6 +2649,14 @@ bool ram_block_discard_is_disabled(void);
+>       */
+>      bool ram_block_discard_is_required(void);
+> 
+>     +/**
+>     + * qemu_ram_volatile: return true if any memory regions are writable and not
+>     + * backed by shared memory.
+>     + *
+>     + * @errp: returned error message identifying the bad region.
+>     + */
+>     +bool qemu_ram_volatile(Error **errp);
+> 
+> 
+> Usually, bool-value functions with an error return true on success. If it deviates from the recommendation, it should at least be documented.
+> 
+> Also, we have a preference for using _is_ in the function name for such tests.
+> 
+>     +
+>      #endif
+> 
+>      #endif
+>     diff --git a/softmmu/memory.c b/softmmu/memory.c
+>     index f016151..e9536bc 100644
+>     --- a/softmmu/memory.c
+>     +++ b/softmmu/memory.c
+>     @@ -2714,6 +2714,36 @@ void memory_global_dirty_log_stop(void)
+>          memory_global_dirty_log_do_stop();
+>      }
+> 
+>     +/*
+>     + * Return true if any memory regions are writable and not backed by shared
+>     + * memory.
+>     + */
+> 
+> 
+> Let's not duplicate API comments.
+> 
+>     +bool qemu_ram_volatile(Error **errp)
+>     +{
+>     +    RAMBlock *block;
+>     +    MemoryRegion *mr;
+>     +    bool ret = false;
+>     +
+>     +    rcu_read_lock();
+> 
+> 
+> RCU_READ_LOCK_GUARD()
+>  
+> 
+>     +    QLIST_FOREACH_RCU(block, &ram_list.blocks, next) {
+> 
+> 
+> RAMBLOCK_FOREACH() should do.
+> 
+> Or rather use the qemu_ram_foreach_block() helper.
+> 
+> 
+>     +        mr = block->mr;
+>     +        if (mr &&
+>     +            memory_region_is_ram(mr) &&
+>     +            !memory_region_is_ram_device(mr) &&
+>     +            !memory_region_is_rom(mr) &&
+>     +            (block->fd == -1 || !qemu_ram_is_shared(block))) {
+>     +
+>     +            error_setg(errp, "Memory region %s is volatile",
+>     +                       memory_region_name(mr));
+>     +            ret = true;
+>     +            break;
+>     +        }
+>     +    }
+>     +
+>     +    rcu_read_unlock();
+>     +    return ret;
+>     +}
+>     +
+>      static void listener_add_address_space(MemoryListener *listener,
+>                                             AddressSpace *as)
+>      {
+>     -- 
+>     1.8.3.1
+> 
+> 
+> 
+> 
+> -- 
+> Marc-André Lureau
 
