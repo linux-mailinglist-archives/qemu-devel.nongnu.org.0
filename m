@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693C23C437E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 07:33:05 +0200 (CEST)
-Received: from localhost ([::1]:50588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D5F3C437F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 07:34:34 +0200 (CEST)
+Received: from localhost ([::1]:54940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2oYx-0005Ig-VW
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 01:33:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54340)
+	id 1m2oaP-0008Ea-Eb
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 01:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1m2mrK-0007SW-1p
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 23:43:54 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:52161)
+ id 1m2oB1-0006hO-Lw
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 01:08:19 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34668)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yezhiyong@bytedance.com>)
- id 1m2mrF-0001xe-Nv
- for qemu-devel@nongnu.org; Sun, 11 Jul 2021 23:43:51 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id n11so9345367pjo.1
- for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 20:43:48 -0700 (PDT)
+ id 1m2oAx-0002Mg-JI
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 01:08:17 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso9797218pjx.1
+ for <qemu-devel@nongnu.org>; Sun, 11 Jul 2021 22:08:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=P0UPJEWy7KCGGXec/MbDU7xIgvNTe5rdeqVh83pd+CE=;
- b=PjdORWwzZdzQhmSlUDQD5r3fz6OhmIR2hf1qi1pb+8HdKhv9Jv9/ipA/8Ba5a8uvJD
- xkEddua3D98JyMH1LIdVEVmzPzRzdL8szHl6RUp/kvaboJCqa77MbrnPuNmYWtua0hyy
- 1S+cloV6i3AwoT+3N9ayeRUOVFifbZ59qbZTrXXczrIRagPBycuAkbQQj6Ka/t1rUmPA
- 1dAMiSNoTM6DmfohJudAflbAq7S+SHGdSmcYOKPkNr2MXkFALzPATEAT7cxO5x4PSOcL
- boVnb/i3R+lBnzRQloBvaV2i1Atvc9VPpFSsql/1p/0UIoZE41E4YaFNhFyObi5feosu
- 3Qnw==
+ b=tKxB8O0EgpLhorhtE7HL8pS9WzVBd9/IFtwxjTdTsz0xemmsFADQiN2gP7GXqXILY5
+ LoDaTmfewK14bA03Sy/QWvxs5bRbS4cGRevuwUiWQlQMPjSg7cJYbQF+s6QWSGC0N5we
+ nXQ1PO01rEf/vF7hdobnFIUByjcrSwVAYSv3ScRzqnWDSBjK9f5R+uzzCjSfOnyNroII
+ p/zZ+tHoqrZmweTZy5IHQgUAaSNggxXM3QtNXQ4zkQHrOwMNbxrbo6boAuhJXtPJx03J
+ xOmiBFX6+CS/m/PQp4DNBgUC3ximSeHMCvhETyrrOCBn2+eBqh25fknMygNp18hY7+P+
+ 236A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
  bh=P0UPJEWy7KCGGXec/MbDU7xIgvNTe5rdeqVh83pd+CE=;
- b=fjYsEgFF0NjcHjTkD09EjxruJqcH/mstXOO1bzWTJzDX4vYUMeBr0SIeRli1BqDIZj
- TstSpcR+oZ1v8xosOz1VGCzkn/cNNJtI0RJUyOsxSYLtJcdeSiz6NaQieWc7079zmbG3
- 35nFZ+XfRGT0oAfmmbBaEavjUJuzq+UybZFapErRw24gF8flzpqHUu/+3lRrI6B0zYp/
- yP6OpgZYkgN2IrZx2aGzcDnkzocvEEQ6RV3InEB4Tpnn6M5Hsk14k2urbVyEpMIziPDI
- Mx8iBaYjWVXmrZOPSSws69MqPE+DnpmVVbtcjwW5my/ScL8oY3mpZFE9CSkEtXkg6poF
- 11GA==
-X-Gm-Message-State: AOAM532Eyq8zk055lObGiZaK/hq5H5EAkSb7b4p7OwZpCDLOk/T8JPCM
- yDJKYLH1vetdDTGpanP/9UAqfA==
-X-Google-Smtp-Source: ABdhPJz81japP30wHYLBpSohMXDd6lG1oi9O/BLGQxqrkHCyqrFg2rlbn1f6bfHkSWRXTPpo0Adp9w==
-X-Received: by 2002:a17:90a:420c:: with SMTP id
- o12mr50479386pjg.101.1626061427110; 
- Sun, 11 Jul 2021 20:43:47 -0700 (PDT)
+ b=OwvOBWzqSaRBo4J7UDzCAp6ATv4Ujn+ewxuQJ/7Mt/IWu/Z6IHh6winvu4nO6QRUi7
+ dzHCDjFrpe+XZvmIgzp0rHlJtzPg+aJHuIqgYgGspHjvN3HUFYFz8nCQ+R+0UF73Mgs2
+ cX3WovXI37OIJ2FO9WPwM2Qzr3ALMHMTk/yF/by4LPcl+mZG7KbUlSstwhwFYoiCtYDN
+ HPRnJY2h8UMkXsY2xR6igsEh5il4Woe9vVYgeQZdSy7UYtFzK/seXGH4+Sv4jcTWDFm4
+ A5x2k2VHNEAmvRebDyY6mWhVjftjAvI8U3xWHhbI1PSC5S5SKFMojKlrfIkOHW3p2vsP
+ SyCw==
+X-Gm-Message-State: AOAM532uAtxGdnq8KvOVKeS3kVzFUFLJQKVRFoafI32q4hpSJ7mEjrdL
+ UXL07v3495DnTKDJCIQVU3Wthg==
+X-Google-Smtp-Source: ABdhPJxmV49NDK1O5PtLBQ/MyD330OdpccwDDbwF1CXvscMIyKQDlIUh/T8tT7W0zMZG2r/hMuYwyA==
+X-Received: by 2002:a17:90a:cc7:: with SMTP id 7mr12891483pjt.20.1626066493484; 
+ Sun, 11 Jul 2021 22:08:13 -0700 (PDT)
 Received: from C02D383UML85.bytedance.net ([139.177.225.251])
- by smtp.gmail.com with ESMTPSA id w9sm10085345pfu.112.2021.07.11.20.43.44
+ by smtp.gmail.com with ESMTPSA id j16sm15683455pgh.69.2021.07.11.22.08.10
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Sun, 11 Jul 2021 20:43:46 -0700 (PDT)
+ Sun, 11 Jul 2021 22:08:12 -0700 (PDT)
 From: Zhiyong Ye <yezhiyong@bytedance.com>
-To: qemu-block@nongnu.org
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
 Subject: [PATCH] block: Do not poll in bdrv_set_aio_context_ignore() when
  acquiring new_context
-Date: Mon, 12 Jul 2021 11:43:03 +0800
-Message-Id: <20210712034303.49531-1-yezhiyong@bytedance.com>
+Date: Mon, 12 Jul 2021 13:07:51 +0800
+Message-Id: <20210712050751.50749-1-yezhiyong@bytedance.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=yezhiyong@bytedance.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=yezhiyong@bytedance.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -71,7 +72,7 @@ X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 12 Jul 2021 01:30:51 -0400
+X-Mailman-Approved-At: Mon, 12 Jul 2021 01:30:54 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,8 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Zhiyong Ye <yezhiyong@bytedance.com>,
- qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: kwolf@redhat.com, Zhiyong Ye <yezhiyong@bytedance.com>, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
