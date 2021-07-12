@@ -2,151 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE0F3C63A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:23:05 +0200 (CEST)
-Received: from localhost ([::1]:53500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EC03C63A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 21:23:07 +0200 (CEST)
+Received: from localhost ([::1]:53630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m31WB-0005pC-Ss
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:23:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45374)
+	id 1m31WE-0005uF-31
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 15:23:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m31T7-0003l0-Eg
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:19:54 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:31286)
+ id 1m31TD-0003o2-OO
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:19:59 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m31T3-0003G5-KV
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:19:53 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ id 1m31TB-0003LY-LV
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 15:19:59 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16CJJjB5003471; Mon, 12 Jul 2021 19:19:45 GMT
+ 16CJIVt0024392; Mon, 12 Jul 2021 19:19:54 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
  references : from : message-id : date : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=OYf8pr+cMn5mOMG+5Qvn+Hyi2lh/apC37U9h07qacS4=;
- b=G6oNrJphf+mHNce8cQR+EQHz8CXpmZPF3gN/liM6rnZIFFO5yUTrcpGOomM3pfC42G6G
- NkRYOfrj5xVvDJseHGcpNdGKiTaeTmMeGCogtLhEwore1obI3dxjFLmXssVe/wdaKjfj
- qDd1n9OcCniJLO4wgVhZg6vazeBf5kGVycaOWsT4wrOHtUnz6vp77uWObIuwTisz0a/T
- y8t6EnaW95pfj49IpEOqB6try2kqFSvn4VhsLbY2NCLG8ned47A2WG8Os2tZb+gmeNSI
- gMSBusiiDp524GOpD2mKhCjn497rpU7b4G8O9+cARYz1iXCCUeSoD9qNCkAwTEe1NLTA pA== 
+ bh=LUyp9uQT1KvEzobKzSoq79FS4wymP/PwvDCXwAP9jT8=;
+ b=lXBq12pTPfr2mN94uASTwOx4Cqm2YWhlQzhXpXx1BA7LCGRDyAtohpcRvS+2spnFc7xw
+ Fsg/KlPK9eEWD7iwA91ksE+Jm2V+SkdVLJNf9sTKIIhpcqz53S4bJCDWsuPt3BLI8cXS
+ YOmV1hIDimwtUHCad3Ws3OC6bDsDemDUq9QNxjK3wYn4BFBHkm3xsBAAlC/E0FBPE8j8
+ KggyrHSfydowXYZeqp8O89k67TpTNa15+QpdP+Z9W6+PjVB3L3rXXRPA2flMHvdTteZp
+ 77huXT9oGwdXy+2kqAnqG+l3+YkXCuBT+O2OWDmaKpR7aIK8TFt3zOWVLpBaEZrJvYO5 qg== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 39rpd8rwfp-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 39rqm0rpqb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 19:19:45 +0000
+ Mon, 12 Jul 2021 19:19:54 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CJEros124705;
- Mon, 12 Jul 2021 19:19:44 GMT
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CJEqpX124662;
+ Mon, 12 Jul 2021 19:19:54 GMT
 Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2173.outbound.protection.outlook.com [104.47.59.173])
- by aserp3030.oracle.com with ESMTP id 39qycsmjqj-1
+ (mail-dm6nam12lp2170.outbound.protection.outlook.com [104.47.59.170])
+ by aserp3030.oracle.com with ESMTP id 39qycsmjwf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 19:19:44 +0000
+ Mon, 12 Jul 2021 19:19:53 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WKHXYUqSeJxx9ZDC9h/MOcN7hwi6PBxk1nqaHhjVobN8iQS5SesPZUOzrgpeXpEgUz9HQteLLbI23aE935AOwJc+Bm/QwpgT20gYtdASJl9jqmSF4kxGSV2J0PRIPPJOys9ocFHiFrYRc0qLRimGncwKMZ0rI3oSDj2sLrfTKatewlyNTfJvEFUWu1VVtlCeO+q9sTontofsmftjRJEeGXFElTPor51ywb4uxqlXWZbmMX35CaOBee8dovlY2+4YPvQ8okQ1JzaDLgxoUum38Na1UHf7osxViUT9yAkz3e3jp0gEfwUNH/OiS/Qldya7zndDOjliTyrSEBRv8M5JdQ==
+ b=LC2Mb/JY/zuFeFYdHFPIwot4uRzFqnxxHvC6PXVv7fLmpMBIJ3/eqqI6kXaSJCtpUm6LV7DJWxgNBzknr23/eqkQTh+A1bl4wNqdu3qk2LrRT3U6TKOZYOXdsGEeoOQGzYsofeFkr9FOoU9gBFuGR+UxIsPzUUTxCO/TpQeiDIVE+IYHmdvFGkeXekGauLwEBSTb1YnNhLOgKIgmQJoTVrB7RPwND7wC0kHONs6dX7nGKMTCO4qSbjOWp1TgbQmqEGQdBAi9i0GrhONs89i+AO5LGiOXDkyeNFNpfdlec6caTRVlcqW5r48iT6zMlCbPeg0I+0SQ06CRPWW84L3Ldw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYf8pr+cMn5mOMG+5Qvn+Hyi2lh/apC37U9h07qacS4=;
- b=nUqkzB5yGANGsqWMqOTCZzcbXMsYAXSnee0VutIPCAfBFT1qGbodO6VKvntNmyI3OnFcBSezklXyGntc38xiYWDMeqCxjQh5ptLE1PNLFi9oq6tkllEgop8xsarelWJOkhIIRXogdQ04sMzjfn2hv5tGWgM4NE0uT6ZmW/R+/8MjdEukPFXcQUfcKQokVrQQXd0dVDO6GL5UQZS16hpjus+zuTrSBV1WTK4WPp5yk1gWgQEmTBdUST6V4ajFDPxacjJfXjpR8M2Tm5ifYN0dbSPbvaFArBmJhA7bUhzV/P9B06wJ8yi+4vzpAwqBQUZvKRkl3FX+z4FJnC6Mb2IAAQ==
+ bh=LUyp9uQT1KvEzobKzSoq79FS4wymP/PwvDCXwAP9jT8=;
+ b=P9wSHhEhvEfsUYAaI6p4pkyzVyITGicM+k+dN0MWUBACxMEjr/dIISkB7qmuh+q7osDOHHXIxRhj73HRf7hqdaoHX+Sfxt9NwGUnvQkxraszo7Pr0XsSlnua+GqPM4ssXf9nEihe6yH3bl4PNHYHU+ct4zV4PF514hnir62ki4CW4T6ti1iG9V64Ewz2DYFrU4fYLpcb3SZ912VVEERtsLLj0EwTfebvIrsM23VRLzos0jsmuk6S2TAq3YVA22Le6L+5VdYG54VJcs4N765iCmUUn+RHplW2Wz00RGjyg5eauc0alh7M/TN9SFV9TaTKyouD1afC1owsEw6DkHe30A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYf8pr+cMn5mOMG+5Qvn+Hyi2lh/apC37U9h07qacS4=;
- b=jBaFm9jUhqGIb4yVjJVMqLcMOI+2pW6k5+rx1TqAFeI/2i8GtKdhDj7wnZ83FuRUIetKDhQru7qajgAY3Et6CpsNN4D8sFx6s6BL/vJxpyXHVTu1Z0GHYx3qnZ7qtEeayHE9IlFMfFXIpnZ2rQdhAPXEba4bepu8aXCGhCMdFQY=
+ bh=LUyp9uQT1KvEzobKzSoq79FS4wymP/PwvDCXwAP9jT8=;
+ b=mam1F8TqL2fnlkVHRDT2+oskj8zP35++MyubApyMgRJxhPI99K6ySrkYQY+uKWLTwPqEAm21JB4vQEt5q/LhEsyvSOpGfWHwhRH3AeM6aNfbeYekR3UhhIcAlqs6Y/lhgtnDTFHLhcZDa0bYBroWxdL6IRcHSTUMeK6LHLmRiIM=
 Authentication-Results: oracle.com; dkim=none (message not signed)
  header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BYAPR10MB3128.namprd10.prod.outlook.com (2603:10b6:a03:14e::13)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Mon, 12 Jul
- 2021 19:19:42 +0000
+ 2021 19:19:51 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::a00d:eb40:2bf6:8812]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::a00d:eb40:2bf6:8812%7]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
- 19:19:42 +0000
-Subject: Re: [PATCH V5 10/25] util: env var helpers
+ 19:19:51 +0000
+Subject: Re: [PATCH V5 11/25] cpr: restart mode
 To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
 References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
- <1625678434-240960-11-git-send-email-steven.sistare@oracle.com>
- <CAJ+F1CKEPHdJLNc7gHzsRm8xz7=qXES2v-mjPrp_6WS+73hp6Q@mail.gmail.com>
+ <1625678434-240960-12-git-send-email-steven.sistare@oracle.com>
+ <CAJ+F1CLAKCE__kj4cMgGUvUzqfGkT1igbqpdQ3CZWtgD8SGL7Q@mail.gmail.com>
+ <CAJ+F1CKfKw9UDcs-jo4SXNvPfEUKcQsyD9+Z1hN+rzw_FE1WrA@mail.gmail.com>
 From: Steven Sistare <steven.sistare@oracle.com>
 Organization: Oracle Corporation
-Message-ID: <a682572b-8d24-c6e3-9036-2ba6349eb4e6@oracle.com>
-Date: Mon, 12 Jul 2021 15:19:38 -0400
+Message-ID: <372734b6-a181-2b05-c7cd-93bd62a234e0@oracle.com>
+Date: Mon, 12 Jul 2021 15:19:47 -0400
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <CAJ+F1CKEPHdJLNc7gHzsRm8xz7=qXES2v-mjPrp_6WS+73hp6Q@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKfKw9UDcs-jo4SXNvPfEUKcQsyD9+Z1hN+rzw_FE1WrA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR13CA0153.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::8) To BYAPR10MB3240.namprd10.prod.outlook.com
+X-ClientProxiedBy: SJ0PR13CA0170.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::25) To BYAPR10MB3240.namprd10.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.1.92] (24.62.106.7) by
- SJ0PR13CA0153.namprd13.prod.outlook.com (2603:10b6:a03:2c7::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.11 via Frontend Transport; Mon, 12 Jul 2021 19:19:40 +0000
+ SJ0PR13CA0170.namprd13.prod.outlook.com (2603:10b6:a03:2c7::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.11 via Frontend
+ Transport; Mon, 12 Jul 2021 19:19:50 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d9b8194c-42f7-4831-07c9-08d9456a0013
+X-MS-Office365-Filtering-Correlation-Id: 09c2500e-b03c-4db6-5e0e-08d9456a05d2
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3128:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB312813F02DE6F8AA43483AC2F9159@BYAPR10MB3128.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB3128823268D17125437D3AD7F9159@BYAPR10MB3128.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1284;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IGvt511rPnUT6bo8XdZxyADWdPlcwr6Y79hn1CbiJEfyCSUbyLAyUly9mO3ZXQ2fH/yDWiPydIF1zCkIQLaxc1+5igqORrJJZFXEPSK1va1mzU1iKdKMH5CJO8xPlpCwCFql0kxShyC7aFIkpnGbbk8mWZCJFS+LquxqGylEFhoqzF28XA4L3ev3ji7s7dumsbVHimrjWKlD3I8C9D4o9YnmJtrIT6HaG8ZvhuUOjJIzpIw31MmbGF2VEdMCd3wsvBKWLXa3PGkpG1IVe5+Yi4JghXaIc4bNOq0rnBfIZzJWT2M39PzQJ9mPbRYtNAMNOKosLIfvJwFe8yhpgiDwaXeOtennwvWwSypJtUVpM9WT2UtkJCCHuamqlp1psMM8RBvwQ50HBoiO2u4kmdxDuKbOOysqraLc+ZhwJpyWvGpqawdRNNNAI9l7PN1Fu0x87oo7GOD3TIfamGze4TeTYdzAiPEwwSLh7p9RT+DtIaSYr8YpRxS844c8GhMtJiThaZK5cQn9eR/qm9IP3uMIMP8JArXauksq1GJQb4hkCDXrtMFZbdSYfeAV2MLJOc9xL3cD9MUTwAcoZOr1ZvRcSQ7Ab2vTTfhwe9KFeEDWC5PsnV+FUhYObXZke1b943umnhdNzthIp5yO0kWLoZZaN6CYwm7T+Y2CYnEs/bWSL7N2U18wcz53DnKkfdPibPGWgWEq+QfO78kSfzQNzDQyM40aYQtd+DuJFgpl2bKqwKg=
+X-Microsoft-Antispam-Message-Info: v32VPxfilGGP9pLhBd78IbBmWBisl9Mlo0r/M9AWtOuRnmnDkedwqqT0dTwjkC+P+BBpun8I2GnSLQ/s00wX5JEg1S9BrGkgywsBljow5FhFmHczLr9uQFycZS5xpjNya3zVNF+ZsTR3NzXbP5S/zHF6krPMtNpZAzeAefYQMx1YxMteQzTfsJOFCAYpBDa4sAO1mqKSZ2zyp1cKteRfzBBlA94H/CmW833VNFDenkx9srnLI+58gnCO0J0mvTmuo+tyY+WLKHI2NsmTDzEiYq6kkmHPwjBjasw4n/vyQOr36VBYUy7bxoM7WHV3KCyAMyQDYndJdySE2cPe8Z1/UTZr6kOurJRLpJdew+cdphWdFUYW3u7Lg/TOXTwLPF9TouF6eFeZOP0SnRXe3CVfX88Oda4uhw/tcj0LfjbOgKGUIkMkKHw84LAHDf0NBgTA8MHLpLGbMNQ3AlCGauB2hxnio5LgehG2DIM/k+etgynMVix2HGeY4gXHryW/e6Cr4lozhhPLqoJfF6sDYjo4sZ7QDUiKL0MfcpqiFgbVjdh+qZJn3DwLX69PZDkrO1XYBazrjlNBCPGYImH/fYrNP6LQ+KQy6rOffUfnjw86jpIB5u2hy26c6si04XE9RN9tRnmYAhY8l+Yj5GX3VVU8lNJ63DULLNW4FdyZbImsIYBAareHFrn5LC+THag9Iw7y4Kq/L6IVJ3YLEjW5J3zuFxi8SxLT5Zjm61IF1y24i1gGGxfVvnc9m4cGY4QSTOtLs9wNF3SYa8TGQaCridIWpYDpMKSiC8H5c0I31Pkr1GEfYDo00LKyFFCc6m/r25iN
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(376002)(39860400002)(396003)(346002)(366004)(478600001)(2906002)(66476007)(5660300002)(66556008)(36916002)(26005)(8936002)(6486002)(8676002)(53546011)(66946007)(83380400001)(7416002)(44832011)(6916009)(31696002)(4326008)(36756003)(186003)(86362001)(38100700002)(54906003)(316002)(31686004)(16576012)(2616005)(956004)(45980500001)(43740500002);
+ SFS:(136003)(376002)(39860400002)(396003)(346002)(366004)(966005)(478600001)(2906002)(66476007)(5660300002)(66556008)(36916002)(26005)(8936002)(6486002)(8676002)(53546011)(66946007)(83380400001)(7416002)(44832011)(6916009)(6666004)(31696002)(4326008)(36756003)(186003)(86362001)(38100700002)(54906003)(316002)(31686004)(16576012)(2616005)(956004)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?di95Y1lWeERNcGJoWnFPbW9nSEw0d2FRamhyZ3J1L3VXd0xESDd0U3UvQTdG?=
- =?utf-8?B?dUFidGN6bkszZEhpRkpPUlN6cnc1R3RsQmV2dFB5MjVJTit3SnZ2NXVkOUpE?=
- =?utf-8?B?eGFiaTFOb3dEYlBtNUNrTkdMNHFVcUJCaHpXSXZQZWp2Mk16UjQ4STFYUnBs?=
- =?utf-8?B?TEQ4SmQ3WE9pcExESWpTTnUwZ3JiWkl1bDFrd3NyL3djci9FQmhSRW9zM0tT?=
- =?utf-8?B?MlMwb1dBVE1NQlo5dE9VbU05K0IzUHlYMkpNOFdMWlVRVlJKTDgvNXBuS04x?=
- =?utf-8?B?REdjSDNTdzJOd3lrWnExR2djYko2K0dRWjhRQ2dYeXdzZG1aTXhKVlhHTU1Y?=
- =?utf-8?B?VWZVaThocDJCTVpxcnh4R0ZTeC9kYi9CdlNqaGhKaGZNbmlHdzZDSnZVTHMy?=
- =?utf-8?B?MlRCajNMcFFNMU9hREhOQUFiVktwb3NSc0NpTkYxazM5SXZMTWhSUng2TTNq?=
- =?utf-8?B?eHA2WGFRZ3Y5V0FJbFNXWlFUbUUrWWFiS0thRUpTdGFkNmJyaytUZnVsaCsv?=
- =?utf-8?B?eGc2cThER05qRHZ5TThacDNlTk5jbC9MdmxnQ1RZczJYeFYyVDk4WWUvWE9L?=
- =?utf-8?B?NitjZCtSU3pBTU1NUXRmbHdmU21YMlY4N3k2Vk9LZmptRGl6enFnR21MN2ty?=
- =?utf-8?B?eUpyYTFFRURXRHk1VGtFck8xRGhsazUzakhiTEpvaDZqMlpDUnZ2ZThYUUpr?=
- =?utf-8?B?dmV6NmxjTlRCdEFjcHp0SGRrTjBuZDdKekdkWlQxRWdGUlBsdnBzbEpsYkdt?=
- =?utf-8?B?VkRrWkZ1MCsyaG00KzBRT1BWR3EyTHVNR2h3MXJzL2hqcFRJTVoxOXF4ZXNB?=
- =?utf-8?B?aDZvamNCc0R3YVUrQUFsbXB2VlZxcGJQTE9EaWJGL3BSaFN1SVN4cVphWjl5?=
- =?utf-8?B?REQybWZLdnZwSFZUOXBGRWFuY2gyM2MwZ3hla0EvaVV1cVhva05qUXNuUjRJ?=
- =?utf-8?B?bkJzZENobGdZdnJ0dDNVNlJWL1c3WGg2MVlvbzhPUnhNT2VLamI1ZTBPWWRa?=
- =?utf-8?B?R1d5cHR6Y0Exa1VpYjU2ejdyVnZDbW1URTFhVHdxZm1yOTJlejFYcjZVRnVk?=
- =?utf-8?B?TjBwOFhDT2hRR0ZWaUhLQzBKWm9LbDI0cDR3Q1Rib254R0M5WklvNzJST0Qx?=
- =?utf-8?B?aXBab3ZpMGpVckE4L3JDOExQMWVBV29lRnVMV0tNM2hDbEZ5aER5U2VwMW4z?=
- =?utf-8?B?cjBIQlVUSTBaejZKMXhBN01pckVOTUtqTnB5UmY1VjJlbFJHOGF3b1RqRUVw?=
- =?utf-8?B?WGNCUXRpcytpV0VoaFRYVThnSWs3clIwWnZKbTI2STZlR3BYZHk4T0tnaVZs?=
- =?utf-8?B?ekVKR3RKbHZRbHc4L2RodElGdDlvSEtwaUYvQ0MvVitIVFFwUzRPV3NjL1dt?=
- =?utf-8?B?K2NNczNZQlo5Ny9jR3hQOTNOOGFnaFlFWEtERXpaRTFCZS92V2t0NndvNzNV?=
- =?utf-8?B?MEUwMlg3cDdYVWRNMU8vdDdHRDFWNk1neExyeS9pK085UllhT3RZV1FaeE9q?=
- =?utf-8?B?a3VrVFU1ZEhkZDM5MDMwRkRrbmM1QUlUYjBuQXFhV2hUVVdyRHJnV0R6M1lO?=
- =?utf-8?B?WC9YUDFFR250cU9KMnRwdE5UQktSZkUyUjJoLzBPMnRQR2FvZHFBZGQzRlJp?=
- =?utf-8?B?TUJna2JvVlh5R3pwQnpkdE9rdjU5SGdhMG1SemtoRWNGb1NMdzB5UHllT2tD?=
- =?utf-8?B?TDBIMDFobVM4RmtDb0VsSHVmUUVybTgvaUs0U1FhOG1QbnVxTFNMYWJoMUxP?=
- =?utf-8?Q?G+JbckdzbC0CSkTKxWAkmJgsl72okeM+OXMBVIa?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cURTbXNJaFkzRGk5Ykdpc1kweHdZWlB4WTViWSswRjYvY24zWjkrUHlSalIw?=
+ =?utf-8?B?eExrczI0SnZDY0VFejZ2SGduR0RpajRmTk1vYUlYT0EzTkxJN0s3dlJ5NTFO?=
+ =?utf-8?B?RXdPSUZ1ZkpmaTl0S0dQOWY3YUNsayszQUtNdlNCVEZKcmhSVUFQWXpNNUpE?=
+ =?utf-8?B?aFpNeUV6Q3Fja0x3V2pMMmZNcU9jeXBIdlpQRUQ0U3JGVDZLdVBvelUwZU5r?=
+ =?utf-8?B?Zm1Yb2phVVlUWGdHZFlIdUQ0SDdNam11YWhOODlMUnNUREZ5V0g0eXozcWhS?=
+ =?utf-8?B?RWIzaVRBY0lhMVNaTG5VbUJadmFGZytMOGtXSGVpVjhkUnJmTTJaVDlXS1dq?=
+ =?utf-8?B?ZlV5YkNmcDZveVk1eG5pSFBFbGIvdlZkZzRYMTVXMGhUbXMwSWlQK1B6VjQ0?=
+ =?utf-8?B?K280cHBwZ0xhcThKREhEcDhNeWJJcERQNEFPcmwrcXpKYlFFRk1rN01NZWtN?=
+ =?utf-8?B?b3ZYMGpuU1dSYWRtNFQ3WmRVWnpqMG9FZlNYYzVlRTFURmlMTVgvQzBhencz?=
+ =?utf-8?B?aW1IdkZnbDZCa1pSVFppanM0bTBLUlBCc0N0SElObWt0djBYRXNQdEpFT3d1?=
+ =?utf-8?B?V2RKR3ZkNjlZVmFtM0M5dWJHWGlKcVBzWlhHblNNRldKNCtnVGN6S0NYVU15?=
+ =?utf-8?B?eWZGQ3d2K0JnblVyTi9yTE5GQWhzelMySjNHSmFQZ3dqVFhCQjNqdTJrNzl5?=
+ =?utf-8?B?WGFYU2o3c1NGL29keElST0FNcWFubFNpMkFQVHdwaWNaa21wS1hWb3pORFRr?=
+ =?utf-8?B?dXlIQmVjaUJCckZsL21pVlRrTkRqOFpBMjJwdCtqSVljaTZWei84MEVYOCsw?=
+ =?utf-8?B?ZDdCN1VTUEpVaCtESkdMaTNjUVVPRnFzOUNVVEtKZUlPZHE5N01SY2lmQVAy?=
+ =?utf-8?B?OSthNWhSODhzN1ZoMEtPcVdjWDEzQVBMRVVrSlFmekpjVVRFZkpMU0NBY1Vk?=
+ =?utf-8?B?bkhUTjVSc1VBNnhId3VSUzFGSkVCL0pNR1ZHb3p6TUsyK00wOTE2NHQ0SnNu?=
+ =?utf-8?B?U1NoZFdXRnJiNzVqdkdtbnQ1dVg1YkMrSDJnY2RlWGQvWWJrT3pOWHF5aU1Y?=
+ =?utf-8?B?M29nMmF3V0lidUppd1dNdHFNOE0veUsvbXZ2TEVtTlZaR3FLWDdiV2p1UmlH?=
+ =?utf-8?B?QzBzTmRxVlNnMGpNN1dxTnI4ZTNaODFhWVNpcUVqUWs5K2JPMUZFY0NQcEEx?=
+ =?utf-8?B?cUJKVXl1NU1ZRDdBeE96L2lGK0JQYTNhaGVZay9rRWl6bUpQbEdkWGFiZjNR?=
+ =?utf-8?B?WDkzMnZNS3hzdDVIK3VXaGsrZThaSElBTXhxRFdxYmk2Y1loNk83eVlmK0VR?=
+ =?utf-8?B?c1NsYUVpd2xIV3BTdndubnloYTNnblBvMWE5M3lvWlJFQ0ZjUWhqdmRTL2Za?=
+ =?utf-8?B?ZXM1VGVEcy9xUDZpUGVLblJHbXVTbmduV3k0S050eFN5c1dadXVnb1d1SExD?=
+ =?utf-8?B?Z3k2VU5lS2JITnlBQUp0dlkvalRTS1JsSUIxYnNEdEh6TlVyQzViQTZvdDA3?=
+ =?utf-8?B?NXJLK2NVY1BMVjNXVW9CKy9renppaVdjOTZtcWQ4NFkrNUFpKzJ2OUhVcVkw?=
+ =?utf-8?B?MWc1aHNXb3djTlAydldVYnpsV2xldFE1M0liM3B0UkZRZ2J3N293Z2JHNFRa?=
+ =?utf-8?B?RVNKYXUwU2VZSURJQVIyaWJsT1FEeEJubWNya21HZktaaTR6TWh5c0YrYkp1?=
+ =?utf-8?B?WEpyOHR1d3EzSXU3ZS9heFBlY2JWNjQvNHNVbEVyMnZ4TGFuZWx5WGRDd0k2?=
+ =?utf-8?Q?/MNl5d/C4AXdbTTkfpuwxv+Kntepl9B4714hLv7?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9b8194c-42f7-4831-07c9-08d9456a0013
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09c2500e-b03c-4db6-5e0e-08d9456a05d2
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 19:19:42.2881 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 19:19:51.7587 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tzYW12GEYm4lbcHWJrxGPGkDXDGTF2JTS/FSN1xXEIOp3LII3cN7k+Jq4XMExOzkvwk6UxDh7iUGtqFJLr2r61LfdNmoPXzyVOcVee9oLaE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: zxWQS78koV0LHCPe0omRxT+mNICH9y+VZnmiWqxBkQFVT/1dsc9Lciq3XQtaLo4QVrghp2qZ7BhSleSKgjuOjDig+58n403+JXcRsn9iXoA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3128
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043
  signatures=668682
@@ -155,8 +157,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2107120137
-X-Proofpoint-GUID: 8sCoYJU3mbXQNPOIrGYeufqR4Icqz1ys
-X-Proofpoint-ORIG-GUID: 8sCoYJU3mbXQNPOIrGYeufqR4Icqz1ys
+X-Proofpoint-GUID: aZmZX4N1pjZDGCepfxJVObVfpaJj67_7
+X-Proofpoint-ORIG-GUID: aZmZX4N1pjZDGCepfxJVObVfpaJj67_7
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -42
@@ -192,265 +194,157 @@ Cc: Jason Zeng <jason.zeng@linux.intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/8/2021 11:10 AM, Marc-André Lureau wrote:
-> Hi
+On 7/8/2021 11:54 AM, Marc-André Lureau wrote:
+> On Thu, Jul 8, 2021 at 7:43 PM Marc-André Lureau <marcandre.lureau@gmail.com <mailto:marcandre.lureau@gmail.com>> wrote:
 > 
-> On Wed, Jul 7, 2021 at 9:30 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
+>     Hi
 > 
->     Add functions for saving fd's and other values in the environment via
->     setenv, and for reading them back via getenv.
+>     On Wed, Jul 7, 2021 at 9:31 PM Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>> wrote:
+> 
+>         Provide the cprsave restart mode, which preserves the guest VM across a
+>         restart of the qemu process.  After cprsave, the caller passes qemu
+>         command-line arguments to cprexec, which directly exec's the new qemu
+>         binary.  The arguments must include -S so new qemu starts in a paused state.
+>         The caller resumes the guest by calling cprload.
+> 
+>         To use the restart mode, qemu must be started with the memfd-alloc machine
+>         option.  The memfd's are saved to the environment and kept open across exec,
+>         after which they are found from the environment and re-mmap'd.  Hence guest
+>         ram is preserved in place, albeit with new virtual addresses in the qemu
+>         process.
+> 
+>         The restart mode supports vfio devices in a subsequent patch.
+> 
+>         Signed-off-by: Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>>
 > 
 > 
-> I understand that the rest of the series will rely on environment variables to associate and recover the child-passed FDs, but I am not really convinced that it is a good idea.
+>     What's the plan to make it work with -object memory-backend-memfd -machine memory-backend? > (or memory-backend-file, I guess that should work?)
 > 
-> Environment variables have a number of issues that we may encounter down the road: namespace, limits, concurrency, observability etc.. I wonder if the VMState couldn't have a section about the FD to recover. Or maybe just another shared memory region?
+> 
+> It seems to be addressed in some way in a later "hostmem-memfd: cpr support" patch. 
 
-They also have some advantages.  Their post-exec value can be observed via /proc/$pid/environ,
-and modified values can be observed by calling printenv() in a debugger.  They are naturally carried
-across exec, with no external file to create and potentially lose.  Lastly, libcs already defines
-put and get methods, so the additional layered code is small and simple.  The number of variables
-is small, and I would rather not over-engineer an alternate solution until the env proves
-inadequate.  The limits on env size are huge on Linux.  The limits are smaller on Windows, but
-that is just one of multiple issues to be addressed to support live update on windows.
+Correct, but in both cases you also need the memfd-alloc machine option so that misc small 
+segments are preserved.  For some discussion see:
+  https://lore.kernel.org/qemu-devel/YKPEWicpOeh3yo5%2F@stefanha-x1.localdomain/
 
-For the alternatives, shared memory is no more observable (maybe less) and also has no concurrency
-protection.  VMstate does not help because the descriptors are needed before the vmstate file
-is opened.
- 
-> Some comments below. These new utils could also have some unit tests.
+> Imho it's worth mentioning in the commit message, reorganize patches closer. 
 
 OK.
 
->     Signed-off-by: Steve Sistare <steven.sistare@oracle.com <mailto:steven.sistare@oracle.com>>
->     ---
->      MAINTAINERS        |  2 ++
->      include/qemu/env.h | 23 +++++++++++++
->      util/env.c         | 95 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->      util/meson.build   |  1 +
->      4 files changed, 121 insertions(+)
->      create mode 100644 include/qemu/env.h
->      create mode 100644 util/env.c
-> 
->     diff --git a/MAINTAINERS b/MAINTAINERS
->     index c48dd37..8647a97 100644
->     --- a/MAINTAINERS
->     +++ b/MAINTAINERS
->     @@ -2865,6 +2865,8 @@ S: Maintained
->      F: include/migration/cpr.h
->      F: migration/cpr.c
->      F: qapi/cpr.json
->     +F: include/qemu/env.h
->     +F: util/env.c
-> 
->      Record/replay
->      M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru <mailto:pavel.dovgaluk@ispras.ru>>
->     diff --git a/include/qemu/env.h b/include/qemu/env.h
->     new file mode 100644
->     index 0000000..3dad503
->     --- /dev/null
->     +++ b/include/qemu/env.h
->     @@ -0,0 +1,23 @@
->     +/*
->     + * Copyright (c) 2021 Oracle and/or its affiliates.
->     + *
->     + * This work is licensed under the terms of the GNU GPL, version 2.
->     + * See the COPYING file in the top-level directory.
->     + *
->     + */
->     +
->     +#ifndef QEMU_ENV_H
->     +#define QEMU_ENV_H
->     +
->     +#define FD_PREFIX "QEMU_FD_"
->     +
->     +typedef int (*walkenv_cb)(const char *name, const char *val, void *handle);
->     +
->     +int getenv_fd(const char *name);
->     +void setenv_fd(const char *name, int fd);
->     +void unsetenv_fd(const char *name);
->     +void unsetenv_fdv(const char *fmt, ...);
->     +int walkenv(const char *prefix, walkenv_cb cb, void *handle);
->     +void printenv(void);
-> 
-> 
-> Please use qemu prefix, that avoids potential confusion with system libraries.
-> 
->     +
->     +#endif
->     diff --git a/util/env.c b/util/env.c
->     new file mode 100644
->     index 0000000..863678d
->     --- /dev/null
->     +++ b/util/env.c
->     @@ -0,0 +1,95 @@
->     +/*
->     + * Copyright (c) 2021 Oracle and/or its affiliates.
->     + *
->     + * This work is licensed under the terms of the GNU GPL, version 2.
->     + * See the COPYING file in the top-level directory.
->     + */
->     +
->     +#include "qemu/osdep.h"
->     +#include "qemu/cutils.h"
->     +#include "qemu/env.h"
->     +
->     +static uint64_t getenv_ulong(const char *prefix, const char *name, int *err)
->     +{
->     +    char var[80], *val;
->     +    uint64_t res = 0;
->     +
->     +    snprintf(var, sizeof(var), "%s%s", prefix, name);
-> 
-> 
-> No check for success / truncation...
-> 
-> Please use g_autofree char *var = g_strdup_printf()..
-> 
->     +    val = getenv(var);
-> 
-> 
-> For consistency, I'd use g_getenv()
-> 
->     +    if (val) {
->     +        *err = qemu_strtoul(val, NULL, 10, &res);
->     +    } else {
->     +        *err = -ENOENT;
->     +    }
->     +    return res;
->     +}
->     +
->     +static void setenv_ulong(const char *prefix, const char *name, uint64_t val)
->     +{
->     +    char var[80], val_str[80];
->     +    snprintf(var, sizeof(var), "%s%s", prefix, name);
->     +    snprintf(val_str, sizeof(val_str), "%"PRIu64, val);
-> 
-> 
-> g_strdup_printf
-> 
->     +    setenv(var, val_str, 1);
-> 
-> 
-> g_setenv(), and return error value (or assert() if that makes more sense)
-> 
->     +}
->     +
->     +static void unsetenv_ulong(const char *prefix, const char *name)
->     +{
->     +    char var[80];
->     +    snprintf(var, sizeof(var), "%s%s", prefix, name);
-> 
-> 
-> g_strdup_printf
->  
-> 
->     +    unsetenv(var);
-> 
-> 
-> g_unsetenv
-> 
->     +}
->     +
->     +int getenv_fd(const char *name)
->     +{
->     +    int err;
->     +    int fd = getenv_ulong(FD_PREFIX, name, &err);
-> 
-> 
-> I'd try to use qemu_parse_fd() instead.
-> 
->     +    return err ? -1 : fd;
->     +}
->     +
->     +void setenv_fd(const char *name, int fd)
->     +{
-> 
-> 
-> Maybe check fd >= 0 ?
-> 
->     +    setenv_ulong(FD_PREFIX, name, fd);
->     +}
->     +
->     +void unsetenv_fd(const char *name)
->     +{
->     +    unsetenv_ulong(FD_PREFIX, name);
->     +}
->     +
->     +void unsetenv_fdv(const char *fmt, ...)
->     +{
->     +    va_list args;
->     +    char buf[80];
->     +    va_start(args, fmt);
->     +    vsnprintf(buf, sizeof(buf), fmt, args);
->     +    va_end(args);
-> 
-> 
-> That seems to be a leftover.
+> And the checks be added anyway for unsupported configurations.
 
-It is called in the subsequent vfio cpr patches.
+The only-cpr-capable option in the next to last patch performs those checks.
 
->     +}
->     +
->     +int walkenv(const char *prefix, walkenv_cb cb, void *handle)
+>     There should be some extra checks before accepting cprexec() on a misconfigured VM.
 > 
->     +{
->     +    char *str, name[128];
->     +    char **envp = environ;
->     +    size_t prefix_len = strlen(prefix);
->     +
->     +    while (*envp) {
->     +        str = *envp++;
->     +        if (!strncmp(str, prefix, prefix_len)) {
+>         ---
+>          migration/cpr.c   | 21 +++++++++++++++++++++
+>          softmmu/physmem.c |  6 +++++-
+>          2 files changed, 26 insertions(+), 1 deletion(-)
 > 
->     +            char *val = strchr(str, '=');
->     +            str += prefix_len;
->     +            strncpy(name, str, val - str);
+>         diff --git a/migration/cpr.c b/migration/cpr.c
+>         index c5bad8a..fb57dec 100644
+>         --- a/migration/cpr.c
+>         +++ b/migration/cpr.c
+>         @@ -29,6 +29,7 @@
+>          #include "sysemu/xen.h"
+>          #include "hw/vfio/vfio-common.h"
+>          #include "hw/virtio/vhost.h"
+>         +#include "qemu/env.h"
+> 
+>          QEMUFile *qf_file_open(const char *path, int flags, int mode,
+>                                        const char *name, Error **errp)
+>         @@ -108,6 +109,26 @@ done:
+>              return;
+>          }
+> 
+>         +static int preserve_fd(const char *name, const char *val, void *handle)
+>         +{
+>         +    qemu_clr_cloexec(atoi(val));
+>         +    return 0;
+>         +}
+>         +
+>         +void cprexec(strList *args, Error **errp)
+>         +{
+>         +    if (xen_enabled()) {
+>         +        error_setg(errp, "xen does not support cprexec");
+>         +        return;
+>         +    }
+>         +    if (!runstate_check(RUN_STATE_SAVE_VM)) {
+>         +        error_setg(errp, "runstate is not save-vm");
+>         +        return;
+>         +    }
+>         +    walkenv(FD_PREFIX, preserve_fd, 0);
 > 
 > 
-> g_strndup() to avoid potential buffer overflow.
+>     I am  not convinced that relying on environment variables here is the best thing to do.
 > 
->     +            name[val - str] = 0;
->     +            if (cb(name, val + 1, handle)) {
->     +                return 1;
->     +            }
->     +        }
->     +    }
->     +    return 0;
->     +}
->     +
->     +void printenv(void)
->     +{
->     +    char **ptr = environ;
->     +    while (*ptr) {
->     +        puts(*ptr++);
->     +    }
->     +}
+>         +    qemu_system_exec_request(args);
+>         +}
+>         +
+>          void cprload(const char *file, Error **errp)
+>          {
+>              QEMUFile *f;
+>         diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>         index b149250..8a65ef7 100644
+>         --- a/softmmu/physmem.c
+>         +++ b/softmmu/physmem.c
+>         @@ -65,6 +65,7 @@
+>          #include "qemu/pmem.h"
+> 
+>          #include "qemu/memfd.h"
+>         +#include "qemu/env.h"
+>          #include "migration/vmstate.h"
+> 
+>          #include "qemu/range.h"
+>         @@ -1986,7 +1987,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
+>                  } else {
+>                      name = memory_region_name(new_block->mr);
+>                      if (ms->memfd_alloc) {
 > 
 > 
-> Is this really useful? I doubt it.
+> 
+>         -                int mfd = -1;          /* placeholder until next patch */
+>         +                int mfd = getenv_fd(name);
+>                          mr->align = QEMU_VMALLOC_ALIGN;
+>                          if (mfd < 0) {
+>                              mfd = qemu_memfd_create(name, maxlen + mr->align,
+>         @@ -1994,7 +1995,9 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
+>                              if (mfd < 0) {
+>                                  return;
+>                              }
+>         +                    setenv_fd(name, mfd);
+>                          }
+>         +                qemu_clr_cloexec(mfd);
+> 
+> 
+>     Why clear it now, and on exec again?
 
-I call it from gdb for debugging, but I can delete it and cast g_listenv() instead:
-  print *(((char ** (*)(void))g_listenv)())@100
-
-Will do on the rest.
+That's a bug, thanks.  This should be qemu_set_cloexec(), so the mfd is closed for
+any misc fork/exec calls prior to cprexec.
 
 - Steve
 
->     diff --git a/util/meson.build b/util/meson.build
->     index 0ffd7f4..5e8097a 100644
->     --- a/util/meson.build
->     +++ b/util/meson.build
->     @@ -23,6 +23,7 @@ util_ss.add(files('host-utils.c'))
->      util_ss.add(files('bitmap.c', 'bitops.c'))
->      util_ss.add(files('fifo8.c'))
->      util_ss.add(files('cacheinfo.c', 'cacheflush.c'))
->     +util_ss.add(files('env.c'))
->      util_ss.add(files('error.c', 'qemu-error.c'))
->      util_ss.add(files('qemu-print.c'))
->      util_ss.add(files('id.c'))
->     -- 
->     1.8.3.1
+
+>                          new_block->flags |= RAM_SHARED;
+>                          addr = file_ram_alloc(new_block, maxlen, mfd,
+>                                                false, false, 0, errp);
+>         @@ -2246,6 +2249,7 @@ void qemu_ram_free(RAMBlock *block)
+>              }
 > 
+>              qemu_mutex_lock_ramlist();
+>         +    unsetenv_fd(memory_region_name(block->mr));
+>              QLIST_REMOVE_RCU(block, next);
+>              ram_list.mru_block = NULL;
+>              /* Write list before version */
+>         -- 
+>         1.8.3.1
+> 
+> 
+> 
+> 
+>     -- 
+>     Marc-André Lureau
 > 
 > 
 > 
