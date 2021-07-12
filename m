@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF523C5D48
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:28:44 +0200 (CEST)
-Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B923C5D33
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:24:57 +0200 (CEST)
+Received: from localhost ([::1]:40116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2vzH-0000Bs-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:28:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46688)
+	id 1m2vvc-0007WT-8A
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:24:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vbP-0001uF-JE
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:04:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35851)
+ id 1m2vbr-0003BN-Ta
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:04:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2vbN-0006AH-BE
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:04:03 -0400
+ id 1m2vbo-0006Hf-SC
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:04:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626095039;
+ s=mimecast20190719; t=1626095067;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yuijaGsrrKHF5U6H3x1r7TRHe5ZdnYoXcJTuAQYTGKI=;
- b=NMoqUFtryDAzAVk+jARBrUDw5yS+hFvDaimJa41cFl+yvERDII9H41PsZFHRuRcjrgCAT+
- zKmR6VPw+0S1PFY08Wbu6y1NFBrdLjunzE7100Vu+qp6pWizg/jiv+W+FJijC4EaZXEptc
- OnCCywveAbfIbcNNsyoDRLfDr8VlKKU=
+ bh=Dj8ZBPdr5+EElTHPBXLd0NrIcfBAjogANmD9xlGVsfU=;
+ b=i4xZONvvKpuf+sF6yHorjcnORSzPa3lw9kfWDZMRzMppoRv4YUpL7VM+iLpuK6Mz/P7RGI
+ G3c7D4YbXlfglsK+zTwwLhrNmHDcTOs6yVrFz8YIhaO2kqY0/fJkroyFTLFpMNrwhvl+Ng
+ BD/lQbcIsjvwYjHD59Gd+ncgVs9oQK4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-579-dfvsoepUOUaIS3FENoWK1Q-1; Mon, 12 Jul 2021 09:03:57 -0400
-X-MC-Unique: dfvsoepUOUaIS3FENoWK1Q-1
+ us-mta-139-gH3vJvu6MNmsPMNOWepEug-1; Mon, 12 Jul 2021 09:04:26 -0400
+X-MC-Unique: gH3vJvu6MNmsPMNOWepEug-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95E61100CCC0;
- Mon, 12 Jul 2021 13:03:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94E7A802C87;
+ Mon, 12 Jul 2021 13:04:25 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-105.ams2.redhat.com
  [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDA315C1D1;
- Mon, 12 Jul 2021 13:03:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D55A5C1D1;
+ Mon, 12 Jul 2021 13:04:07 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/22] crypto: add crypto tests for single block DES-ECB and
- DES-CBC
-Date: Mon, 12 Jul 2021 14:02:09 +0100
-Message-Id: <20210712130223.1825930-9-berrange@redhat.com>
+Subject: [PULL 10/22] crypto: delete built-in XTS cipher mode support
+Date: Mon, 12 Jul 2021 14:02:11 +0100
+Message-Id: <20210712130223.1825930-11-berrange@redhat.com>
 In-Reply-To: <20210712130223.1825930-1-berrange@redhat.com>
 References: <20210712130223.1825930-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,54 +88,188 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GNUTLS crypto provider doesn't support DES-ECB, only DES-CBC.
-We can use the latter to simulate the former, if we encrypt only
-1 block (8 bytes) of data at a time, using an all-zeros IV. This
-is a very inefficient way to use the QCryptoCipher APIs, but
-since the VNC authentication challenge is only 16 bytes, this
-is acceptable. No other part of QEMU should be using DES. This
-test case demonstrates the equivalence of ECB and CBC for the
-single-block case.
+The built-in AES+XTS implementation is used for the LUKS encryption
+When building system emulators it is reasonable to expect that an
+external crypto library is being used instead. The performance of the
+builtin XTS implementation is terrible as it has no CPU acceleration
+support. It is thus not worth keeping a home grown XTS implementation
+for the built-in cipher backend.
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/unit/test-crypto-cipher.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ crypto/cipher-builtin.c.inc | 60 -------------------------------------
+ crypto/meson.build          |  6 ++--
+ meson.build                 |  7 ++---
+ 3 files changed, 6 insertions(+), 67 deletions(-)
 
-diff --git a/tests/unit/test-crypto-cipher.c b/tests/unit/test-crypto-cipher.c
-index fd0a8de34c..7dca7b26e4 100644
---- a/tests/unit/test-crypto-cipher.c
-+++ b/tests/unit/test-crypto-cipher.c
-@@ -149,6 +149,29 @@ static QCryptoCipherTestData test_data[] = {
-             "39f23369a9d9bacfa530e26304231461"
-             "b2eb05e2c39be9fcda6c19078c6a9d1b",
-     },
-+    {
-+        /*
-+         * Testing 'password' as plaintext fits
-+         * in single AES block, and gives identical
-+         * ciphertext in ECB and CBC modes
-+         */
-+        .path = "/crypto/cipher/des-rfb-ecb-56-one-block",
-+        .alg = QCRYPTO_CIPHER_ALG_DES_RFB,
-+        .mode = QCRYPTO_CIPHER_MODE_ECB,
-+        .key = "0123456789abcdef",
-+        .plaintext = "70617373776f7264",
-+        .ciphertext = "73fa80b66134e403",
-+    },
-+    {
-+        /* See previous comment */
-+        .path = "/crypto/cipher/des-rfb-cbc-56-one-block",
-+        .alg = QCRYPTO_CIPHER_ALG_DES_RFB,
-+        .mode = QCRYPTO_CIPHER_MODE_CBC,
-+        .key = "0123456789abcdef",
-+        .iv = "0000000000000000",
-+        .plaintext = "70617373776f7264",
-+        .ciphertext = "73fa80b66134e403",
-+    },
-     {
-         .path = "/crypto/cipher/des-rfb-ecb-56",
-         .alg = QCRYPTO_CIPHER_ALG_DES_RFB,
+diff --git a/crypto/cipher-builtin.c.inc b/crypto/cipher-builtin.c.inc
+index 70743f253c..b409089095 100644
+--- a/crypto/cipher-builtin.c.inc
++++ b/crypto/cipher-builtin.c.inc
+@@ -19,7 +19,6 @@
+  */
+ 
+ #include "crypto/aes.h"
+-#include "crypto/xts.h"
+ 
+ typedef struct QCryptoCipherBuiltinAESContext QCryptoCipherBuiltinAESContext;
+ struct QCryptoCipherBuiltinAESContext {
+@@ -31,7 +30,6 @@ typedef struct QCryptoCipherBuiltinAES QCryptoCipherBuiltinAES;
+ struct QCryptoCipherBuiltinAES {
+     QCryptoCipher base;
+     QCryptoCipherBuiltinAESContext key;
+-    QCryptoCipherBuiltinAESContext key_tweak;
+     uint8_t iv[AES_BLOCK_SIZE];
+ };
+ 
+@@ -193,39 +191,6 @@ static int qcrypto_cipher_aes_decrypt_cbc(QCryptoCipher *cipher,
+     return 0;
+ }
+ 
+-static int qcrypto_cipher_aes_encrypt_xts(QCryptoCipher *cipher,
+-                                          const void *in, void *out,
+-                                          size_t len, Error **errp)
+-{
+-    QCryptoCipherBuiltinAES *ctx
+-        = container_of(cipher, QCryptoCipherBuiltinAES, base);
+-
+-    if (!qcrypto_length_check(len, AES_BLOCK_SIZE, errp)) {
+-        return -1;
+-    }
+-    xts_encrypt(&ctx->key, &ctx->key_tweak,
+-                do_aes_encrypt_ecb, do_aes_decrypt_ecb,
+-                ctx->iv, len, out, in);
+-    return 0;
+-}
+-
+-static int qcrypto_cipher_aes_decrypt_xts(QCryptoCipher *cipher,
+-                                          const void *in, void *out,
+-                                          size_t len, Error **errp)
+-{
+-    QCryptoCipherBuiltinAES *ctx
+-        = container_of(cipher, QCryptoCipherBuiltinAES, base);
+-
+-    if (!qcrypto_length_check(len, AES_BLOCK_SIZE, errp)) {
+-        return -1;
+-    }
+-    xts_decrypt(&ctx->key, &ctx->key_tweak,
+-                do_aes_encrypt_ecb, do_aes_decrypt_ecb,
+-                ctx->iv, len, out, in);
+-    return 0;
+-}
+-
+-
+ static int qcrypto_cipher_aes_setiv(QCryptoCipher *cipher, const uint8_t *iv,
+                              size_t niv, Error **errp)
+ {
+@@ -256,14 +221,6 @@ static const struct QCryptoCipherDriver qcrypto_cipher_aes_driver_cbc = {
+     .cipher_free = qcrypto_cipher_ctx_free,
+ };
+ 
+-static const struct QCryptoCipherDriver qcrypto_cipher_aes_driver_xts = {
+-    .cipher_encrypt = qcrypto_cipher_aes_encrypt_xts,
+-    .cipher_decrypt = qcrypto_cipher_aes_decrypt_xts,
+-    .cipher_setiv = qcrypto_cipher_aes_setiv,
+-    .cipher_free = qcrypto_cipher_ctx_free,
+-};
+-
+-
+ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+                              QCryptoCipherMode mode)
+ {
+@@ -274,7 +231,6 @@ bool qcrypto_cipher_supports(QCryptoCipherAlgorithm alg,
+         switch (mode) {
+         case QCRYPTO_CIPHER_MODE_ECB:
+         case QCRYPTO_CIPHER_MODE_CBC:
+-        case QCRYPTO_CIPHER_MODE_XTS:
+             return true;
+         default:
+             return false;
+@@ -310,9 +266,6 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+             case QCRYPTO_CIPHER_MODE_CBC:
+                 drv = &qcrypto_cipher_aes_driver_cbc;
+                 break;
+-            case QCRYPTO_CIPHER_MODE_XTS:
+-                drv = &qcrypto_cipher_aes_driver_xts;
+-                break;
+             default:
+                 goto bad_mode;
+             }
+@@ -320,19 +273,6 @@ static QCryptoCipher *qcrypto_cipher_ctx_new(QCryptoCipherAlgorithm alg,
+             ctx = g_new0(QCryptoCipherBuiltinAES, 1);
+             ctx->base.driver = drv;
+ 
+-            if (mode == QCRYPTO_CIPHER_MODE_XTS) {
+-                nkey /= 2;
+-                if (AES_set_encrypt_key(key + nkey, nkey * 8,
+-                                        &ctx->key_tweak.enc)) {
+-                    error_setg(errp, "Failed to set encryption key");
+-                    goto error;
+-                }
+-                if (AES_set_decrypt_key(key + nkey, nkey * 8,
+-                                        &ctx->key_tweak.dec)) {
+-                    error_setg(errp, "Failed to set decryption key");
+-                    goto error;
+-                }
+-            }
+             if (AES_set_encrypt_key(key, nkey * 8, &ctx->key.enc)) {
+                 error_setg(errp, "Failed to set encryption key");
+                 goto error;
+diff --git a/crypto/meson.build b/crypto/meson.build
+index b384ca8b57..fc8de287e1 100644
+--- a/crypto/meson.build
++++ b/crypto/meson.build
+@@ -23,14 +23,14 @@ crypto_ss.add(files(
+ 
+ if nettle.found()
+   crypto_ss.add(nettle, files('hash-nettle.c', 'hmac-nettle.c', 'pbkdf-nettle.c'))
++  if xts == 'private'
++    crypto_ss.add(files('xts.c'))
++  endif
+ elif gcrypt.found()
+   crypto_ss.add(gcrypt, files('hash-gcrypt.c', 'hmac-gcrypt.c', 'pbkdf-gcrypt.c'))
+ else
+   crypto_ss.add(files('hash-glib.c', 'hmac-glib.c', 'pbkdf-stub.c'))
+ endif
+-if xts == 'private'
+-  crypto_ss.add(files('xts.c'))
+-endif
+ 
+ crypto_ss.add(when: 'CONFIG_SECRET_KEYRING', if_true: files('secret_keyring.c'))
+ crypto_ss.add(when: 'CONFIG_AF_ALG', if_true: files('afalg.c', 'cipher-afalg.c', 'hash-afalg.c'))
+diff --git a/meson.build b/meson.build
+index 45ca8d67e3..2cf2e8b0b8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -830,7 +830,7 @@ endif
+ # Nettle has priority over gcrypt
+ gcrypt = not_found
+ nettle = not_found
+-xts = 'private'
++xts = 'none'
+ if get_option('nettle').enabled() and get_option('gcrypt').enabled()
+   error('Only one of gcrypt & nettle can be enabled')
+ elif (not get_option('nettle').auto() or have_system) and not get_option('gcrypt').enabled()
+@@ -838,8 +838,8 @@ elif (not get_option('nettle').auto() or have_system) and not get_option('gcrypt
+                       method: 'pkg-config',
+                       required: get_option('nettle'),
+                       kwargs: static_kwargs)
+-  if nettle.found() and cc.has_header('nettle/xts.h', dependencies: nettle)
+-    xts = 'nettle'
++  if nettle.found() and not cc.has_header('nettle/xts.h', dependencies: nettle)
++    xts = 'private'
+   endif
+ endif
+ if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
+@@ -847,7 +847,6 @@ if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
+                          method: 'config-tool',
+                          required: get_option('gcrypt'),
+                          kwargs: static_kwargs)
+-  xts = 'gcrypt'
+   # Debian has removed -lgpg-error from libgcrypt-config
+   # as it "spreads unnecessary dependencies" which in
+   # turn breaks static builds...
 -- 
 2.31.1
 
