@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C4DB3C4313
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 06:33:22 +0200 (CEST)
-Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1BD3C4311
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 06:33:18 +0200 (CEST)
+Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2ndB-000532-7w
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 00:33:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1m2nd7-00050A-Rr
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 00:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2nWj-0008Rl-MF
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38940)
+ id 1m2nWX-0007lD-3o
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:29 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2nWi-0006Rn-1T
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:41 -0400
+ id 1m2nWU-0006QH-1a
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 00:26:28 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2nWS-0005Ly-1U
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:24 +0000
+ id 1m2nWQ-0005Li-5E
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:22 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4BA652E8270
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:16 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0E30A2E8245
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 04:26:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Jul 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1910605@bugs.launchpad.net>
+Date: Mon, 12 Jul 2021 04:17:23 -0000
+From: Launchpad Bug Tracker <1911188@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm linux-user
+X-Launchpad-Bug-Tags: storage
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor lthoang th-huth
-X-Launchpad-Bug-Reporter: Linh Hoang (lthoang)
+X-Launchpad-Bug-Commenters: berrange janitor phidica th-huth
+X-Launchpad-Bug-Reporter: Violet (phidica)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161005904521.27189.16928489496057445235.malonedeb@soybean.canonical.com>
-Message-Id: <162606343931.2726.2287639545115728076.malone@loganberry.canonical.com>
-Subject: [Bug 1910605] Re: qemu-arm-static ioctl USBDEVFS_BULK return -1
- (EFAULT) Bad address
+References: <161045460597.3279.18327990327654492890.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162606344358.2726.7595898348089105261.malone@loganberry.canonical.com>
+Subject: [Bug 1911188] Re: qemu-system-x86_64 prints obscure error message and
+ exits when encountering an empty argument
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: c37cf9853be21c38445ac486bac3aef8fdd89de7
+X-Launchpad-Hash: b5a50cb7ffa0b7a7645645c20df6114745a69da9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -72,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910605 <1910605@bugs.launchpad.net>
+Reply-To: Bug 1911188 <1911188@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,33 +85,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910605
+https://bugs.launchpad.net/bugs/1911188
 
 Title:
-  qemu-arm-static ioctl USBDEVFS_BULK return -1 (EFAULT) Bad address
+  qemu-system-x86_64 prints obscure error message and exits when
+  encountering an empty argument
 
 Status in QEMU:
   Expired
 
 Bug description:
+  QEMU emulator version 4.2.1 (qemu-4.2.1-1.fc32) on Fedora 32.
 
-  Snippet of code sample:
+  When writing a script to start qemu automatically, I ran into a very
+  confusing error message due to a bug in my script and had trouble
+  understanding it. I isolated the problem to the following:
 
-  struct usbdevfs_bulktransfer Bulk;
-  Bulk.ep =3D hUsb->UsbOut;          =
+  $ qemu-system-x86_64 ""
+  qemu-system-x86_64: Initialization of device ide-hd failed: Device needs =
+media, but drive is empty
 
-  Bulk.len =3D Len;          =
+  As you can see, running qemu with an empty argument prints a seemingly
+  random and unrelated error message about an ide-hd device, and the
+  program immediately exits with code 1. This happens when an empty
+  argument appears anywhere in the arguments list, always causing the
+  program to immediately die with this error.
 
-  Bulk.data =3D (void *)pData;          =
+  This is a simply baffling message to be encountering when the problem
+  is really an empty argument.
 
-  Bulk.timeout =3D Timeout;
-  Bytes =3D ioctl(hUsb->fd, USBDEVFS_BULK, &Bulk)
-
-  The above code sample return -1 (EFAULT) Bad address when using qemu-
-  arm-static but is running ok when on qemu-aarch64-static.
-
-  I use a 64-bit intel laptop
+  Expected behaviour: Either flatly ignore the empty argument, or at
+  most trigger a warning (eg, "warning: saw empty argument"). It should
+  not at all prevent the program from running.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910605/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1911188/+subscriptions
 
