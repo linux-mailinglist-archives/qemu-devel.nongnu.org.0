@@ -2,81 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8343C6746
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 01:57:41 +0200 (CEST)
-Received: from localhost ([::1]:51350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E863C674B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 02:01:23 +0200 (CEST)
+Received: from localhost ([::1]:56598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m35nw-0003Qh-CM
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 19:57:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
+	id 1m35rW-0006yx-FV
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 20:01:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m35mw-0002b4-Qp
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:56:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47624)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1m35or-0004IB-8m
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:58:37 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m35mu-0001Tx-9J
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:56:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626134194;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OYCd7k09M6qVOp8M0sZaAhZZoo/aR0SDE4CMqxpwesU=;
- b=DlZcsKDgYpr4SVxIs1fCqLQZU6vHZ+KE6R292adRyXtE8nzexBINwptn/AbTRoE6kXSwOl
- 8DUlFvtMITsXITxiCBoxUz2PiN0hx3g2hiToNUC5yjJws7hpgu1JZtzW/qsjk3FcCYKsar
- 9kQXW71chDz4mC5uOK8XdTsXHDvoTns=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-y4Lgsf9EMNmZPgQomhlUjg-1; Mon, 12 Jul 2021 19:56:32 -0400
-X-MC-Unique: y4Lgsf9EMNmZPgQomhlUjg-1
-Received: by mail-oi1-f199.google.com with SMTP id
- l4-20020aca57040000b0290240a9d123c6so14216184oib.0
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:56:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OYCd7k09M6qVOp8M0sZaAhZZoo/aR0SDE4CMqxpwesU=;
- b=hpyS92B7O/MZLGQOe9NQDb/nyOS/RCt/bsS5giAJMDW2F9ulzy//n3Y57cM+qEDfc5
- WcoAQuNiYlomQpF3sSTkR8b2j4e/5qbRZ7a7sWi78SHz5uydobWTWVLGZqEweADfrCro
- b3vWKLpmOalmpwn0K8ycnl7TtxEQ92Kzj2E62r6OgZ6T32wRIVggNryi3/gFrXHiEkvc
- Q34tF3G081AIQFI86d3/9qiUTexHh3tcLSF/WxRQ/ArL8IBhTOAOjmSGORxxKaY2YpFv
- M7JyRxsyQKzju8VAyxupPuZjMfmx6rkK/l4dOdbLrLjTp589KKHJildrXmmw+xIoCYqO
- BWDw==
-X-Gm-Message-State: AOAM530zjz3vETi/k3/qjgN20PZlDtsbc4wJuiLWWqdMl97Mz9mAyekJ
- +kym3h++2n9kR4estVoTeOW02Ke7IWO8xaAZ1Ltl4UiUlQ1xYCUUjM0UOqiEy8rX7VmejLItqoa
- 8wB+TpaC6LovgdU0j9cO8GfyngoSIArQ=
-X-Received: by 2002:a9d:20a2:: with SMTP id x31mr1107487ota.263.1626134191450; 
- Mon, 12 Jul 2021 16:56:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7y0CRxJtItgssqbYpiSWGpkKcqaAZ0psUlNdyclW/D8cer3QULzJ9rYCG1sxeEQr8vOIEZ0g5iinir/Hy2VQ=
-X-Received: by 2002:a9d:20a2:: with SMTP id x31mr1107474ota.263.1626134191248; 
- Mon, 12 Jul 2021 16:56:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1m35om-0002zJ-U5
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:58:36 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16CNlFF0026160; Mon, 12 Jul 2021 23:58:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2020-01-29; bh=ublohvYmiNs2RubS5Bw8lmoG8AeafozCf6949AIEaEM=;
+ b=CAiDHF2f7h06xhkjpJZLowOtnpALudEQQnAEnCrs5Ang5rmd/mUDyBITNmACfe13G5as
+ Ttyr/6MMaZityFj/FQEtCBg9+mErfxBn8M81k9EWI+iE1g0w16B++24ROqoog/l9Y2vG
+ ABAqn9dJHz5vreyZl0XjA3bp381oA0x0BI/y4ukezu5uJWoBi4D1ihFuuNyFXJEZxagU
+ uAq5ZC7ZSGXk3/GCrtCMMJChkdLAnBKpZW5SE4IlcyjfiQwTynX/y/Aal23xvQULvnbg
+ dOjyhq2WOBnQSf4cm0316YVBX4wSjBw80mvBXqM3GscsjnsExyCxqQRssXj6WVvKQl8S eA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39rpxr968c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 23:58:28 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CNosEe167701;
+ Mon, 12 Jul 2021 23:58:27 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
+ by userp3020.oracle.com with ESMTP id 39qnavtx6v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 23:58:27 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kDCSx83YpD/YJ3HhAGV7JyKcXI3uGnbfCqA2A2kBjAtZ125RbL9wxWgSCfmg4FPz08cctBKGHixEszJ185SFsgvwwH1smHxt4tYxvXmB7i1hceji/NS8oJASoA6+5dGdrGTK4rI09lMA1AWpT8guZmhA3a6Fr3ZbW158EH6f39SFM0/h2Nx4dQDy5cqlk8pWzTNPDcF2ou1/OJ82Y3OM5JKu2/8B2L+739ttUtDVqGnWKA0dn52HV19NbPpqiBCAD/TmGlj3v+RSDSiyLpDa7F7IeG/sz9ER3YXvtypFKScgFO+PPTRvGFaJZCydMGPbYbSUGChKA1UTnKfX2HNNOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ublohvYmiNs2RubS5Bw8lmoG8AeafozCf6949AIEaEM=;
+ b=VkBEmrlzIdYWlTjIexNQpwdkmanrspKu+xaJ+C4DWKFsiQiRf+4WPYDW7QB5Z4ixkxTDnNTXATVZnnlgOPYDyCfbtI9xzLL39DVIbYhe6ht9cXo8DosJnRRAzoq5dYwQI9ZQ7EYsSEXNzLbJJdmoq/oxPw8cqJ9IZMCF7cNP9hZmicgsEN2kPAxOtHEfDE7TxT2levH8PPu/dH6RFfYxBgQs4sP937klxpQvDxl07sJuwpSrDMAQb8RWTFUjGpkSfzNjCaliag9Ugnme0th4+ZRdHI9S+tczFhOWffQ+y98guJF2lwKKCV3Bq0w3bwvYSOnJxTwoZNY04CmZpT4E9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ublohvYmiNs2RubS5Bw8lmoG8AeafozCf6949AIEaEM=;
+ b=tBC4pSuCeE1xmUB8nMZxLgrglGiB+Nhaz46RiD19PVk0OuFynpxOxel2Tng+KupJL2u6jT1zpEO6ScREvaTRZdEDcVsz7n4NrtlEMB+S8AZAqTldYWwc4DFpzMqXq+u13+fFzMigYqyWwWGKYoUT0rsM+CSTf0KR9ZwuHAlteig=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by BYAPR10MB2598.namprd10.prod.outlook.com (2603:10b6:a02:b1::33)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.26; Mon, 12 Jul
+ 2021 23:58:25 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::18a:7c1f:bf20:ba6c]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::18a:7c1f:bf20:ba6c%3]) with mapi id 15.20.4308.027; Mon, 12 Jul 2021
+ 23:58:24 +0000
+From: Dongli Zhang <dongli.zhang@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RESEND v2 0/3] To add HMP interface to dump PCI MSI-X table/PBA
+Date: Mon, 12 Jul 2021 16:58:09 -0700
+Message-Id: <20210712235812.19725-1-dongli.zhang@oracle.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SA0PR11CA0019.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::24) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
 MIME-Version: 1.0
-References: <20210625182021.803227-1-jsnow@redhat.com>
- <20210625182021.803227-8-jsnow@redhat.com>
- <9c281e4f-820b-71ac-b0e6-c804e442bd96@virtuozzo.com>
-In-Reply-To: <9c281e4f-820b-71ac-b0e6-c804e442bd96@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 12 Jul 2021 19:56:20 -0400
-Message-ID: <CAFn=p-ZtWKa5d2jMwDrLjvh3YZeWmXT_fysmpH_2=5xU2y5r8Q@mail.gmail.com>
-Subject: Re: [PATCH 07/10] iotests/297: return error code from run_linters()
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000d3aa0605c6f5de20"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (138.3.200.16) by
+ SA0PR11CA0019.namprd11.prod.outlook.com (2603:10b6:806:d3::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.20 via Frontend Transport; Mon, 12 Jul 2021 23:58:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 08e3d289-5310-4a30-34d0-08d94590efa1
+X-MS-TrafficTypeDiagnostic: BYAPR10MB2598:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR10MB259811021AF8CB2250FB35DAF0159@BYAPR10MB2598.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 93x9UyOMowpVZtgnlm4JaBM3qBEMDZtjW0x45i4laTcmOmQdDRlXu3oI6RX1+K8sXxLoO9QkHXBVuFJA1uthsg9jG3VFsIuG71ZdeImyT5TvgpqVhZuTSXsFxhxyFViNuoXe9fTUc4p0ThrAY5N6/1G7WWiBmINM40PefoTy3flFebybii0TNX8fw5MjmHiDsKfgG784t7jKOJn2c1XpaGZo/ow8d9khcJvazgKkQMAIkPYpRPsfuDvkEz1XUvgU5xCEcUxEBBInBIXg0jUQ3cVANOOzKNe313pHVC6XtxulPTzQmBkdzFrQx6HN1LSnD1KbTtxjuvSE5pezcKMaY5saHbw9eV7J3bkuXcA2XzzKcltOt2KW2WUWvbKGf8pbfflO3xrmhobJPL7fcxfylYckmfQz//pIDUVLqchoNIIpyjpPtUJBOLnidpYRq2zRCYmLArz3txEm/5wGPyBiYPDcXt6GutWEKx8a+B7gj9UHt+GqOQQx3DrS2le1fg+0IM8clOACxkzKsCDmc8FjR1kG3iAI3f1/dGBlPromVOtwihe5BTQvtxG1jyJRdB9m+tlvwKUA1S63s91A8lhBw14mWKGydq9WNHx7MDJkuAWCVr3iu9+WkC3wt726HXXs7flbcihN5djrncWKAW4SB7V9fsb4n6cwF1RZMl0m75KV/v2hGwwBPvJPgJMau+dj5OizPvnDKxPtcr17uUEPowSEn6fit4nV41b3mq/CmTcoNSij5pPP+jCKtr9IkmpS1H5niHDoyS4LW1wrC+nRlokHaNGj/UGeSx78ONhAR6F9ZZmLEeHgCCz1+FZ/uOC7
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(39860400002)(136003)(376002)(396003)(366004)(5660300002)(6666004)(86362001)(38350700002)(38100700002)(52116002)(6506007)(66476007)(44832011)(66556008)(66946007)(6486002)(36756003)(956004)(2906002)(2616005)(966005)(8676002)(107886003)(186003)(6512007)(6916009)(4326008)(1076003)(478600001)(8936002)(316002)(26005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qZnJWZr5jv+mVqqY8BD6NT8HEMDIUSCcjxtSC9K91o+5eGxoxPcifG2Y5bf1?=
+ =?us-ascii?Q?+mZ++3S6wAvBvnzv+zkca+QMcHvLMSDVkGMxGeewmhKPSVwRDVRrKqP+HDa0?=
+ =?us-ascii?Q?+0GHMuDKU41jHTOqDH5xn7eSD43JGXVNwfH7NvE10e/FzpfOFti6aDGyC98u?=
+ =?us-ascii?Q?6ycD2F6DrvpMcQut4+iSXvPMjkR0BL8Y/nXk4usuDw+9qekM9xOebHY7hS4y?=
+ =?us-ascii?Q?/lzRJP2eXLfqT7PCg24BQoE+BSmxzcRT/Uv/44bHcuAw8jpT0yeim9JxPezV?=
+ =?us-ascii?Q?8UJ21tot/f01C1nIKvoEhkrLaAfH0k3R/oXTlP3MtR5Y70ivz9RbRUGeY0zG?=
+ =?us-ascii?Q?h/kmlSpg031EuXxDaS2vI5LcG6K7OxpIbqP0VJsjZiZK8FpnFnkMJBPiKh/s?=
+ =?us-ascii?Q?0aswMi9ByJykBX0UwzTYRFx0pnJy4ur4poR8Nv86IMV/nQPwhTswNIlwD2tj?=
+ =?us-ascii?Q?H7pD6TGgytHqpsUGLbwhlte4EQFD7L+tNJ6kYZbSMgL6EnpWCfNjRkvV6lIV?=
+ =?us-ascii?Q?s+F8wk8bTyuENfd0+A46OLc0p61bX3wHuGBcvNM1VrD3s0TDBDf+0Uc/7Poi?=
+ =?us-ascii?Q?r00xH+ZNzNYGd7CpcU4GzMWEUub49da5Q+BrlvQWU+8zyENX/qvvh9WVlR5G?=
+ =?us-ascii?Q?OwdKWeM146ifeReA7tnY6AdNh3OYxxYcZMh8jjTG6Bp9Tj3t4wnf/njBVac3?=
+ =?us-ascii?Q?nGEWhVUGLDglIuZOopUsExe8A0f7Pb8iDcLdCYKR/MgalXThCXmI1Lp9LyAc?=
+ =?us-ascii?Q?Z/Y2uUCgSs052EFcKc3A7k1/tSQNdEQcTW7olW/wY6JKHLFFhWG9VxFpmfBg?=
+ =?us-ascii?Q?HCEBSlMnJMsHE38Lg0iOJV8a/U4iS2XVdg57NsfoMVvuDdCERbyt8T5dbXJD?=
+ =?us-ascii?Q?XKBV0jtDuzsP6T9rRdhTifzUbSWUBmXHiGDhNG3x0xCbUhGR0zYjRI8b9BCf?=
+ =?us-ascii?Q?Vl0R9DxxGbjKWGRvaL2etiMmq6KqbiCiTe7FUIifnSsOX2Fw4yh2RDNA41ns?=
+ =?us-ascii?Q?jAYuPDQaeot/WT3MA1Dn8rM4jVyQkcZl/Klcrsn8wviT3o+bglZsZuZrQH+K?=
+ =?us-ascii?Q?5jVj0R0rOEXSmlG1qcnZoKTuH9kYp+fuaqh6q3GFn8rI1J7k+qzCgGVTvui0?=
+ =?us-ascii?Q?N8hSs2vqCkeqeJNif73vsfvaEWYI9q1uMZsO3fp7vmdhjwX46awdjh11q0Zg?=
+ =?us-ascii?Q?DNhRtrkGNBVLvjqP9/gvJKySGp6eswLZNUtVHhtSktP45KulmnUQ+emua0Wg?=
+ =?us-ascii?Q?7duetSHuvYd0+Cnq4j6/lALCKu0x/7Dmg4NjHDuJujaaGhxmeW4+WzNRXAvl?=
+ =?us-ascii?Q?6zebV4QAtmhE1qGXYBA2tzs6?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08e3d289-5310-4a30-34d0-08d94590efa1
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 23:58:24.9111 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hd/0ka/krkQlG1s/7Y7Wkb+1azsdigKiAj0OnlUFiTnq2aHpRIO0R9DPUI22VR+H5IZnRbZYeQ+jIfReFpoBrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2598
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=843 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107120162
+X-Proofpoint-GUID: FbVMs13aIxFK7383u8KEyCLijn1MoIHq
+X-Proofpoint-ORIG-GUID: FbVMs13aIxFK7383u8KEyCLijn1MoIHq
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=dongli.zhang@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,236 +162,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, joe.jin@oracle.com, dgilbert@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d3aa0605c6f5de20
-Content-Type: text/plain; charset="UTF-8"
+I have just rebased the v2 patchset on top of most recent qemu to resend.
 
-On Tue, Jul 6, 2021 at 5:49 AM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+This patch is to introduce the new HMP command to dump the MSI-X table/PBA.
 
-> 25.06.2021 21:20, John Snow wrote:
-> > This turns run_linters() into a bit of a hybrid test; returning non-zero
-> > on failed execution while also printing diffable information. This is
-> > done for the benefit of the avocado simple test runner, which will soon
-> > be attempting to execute this test from a different environment.
-> >
-> > (Note: universal_newlines is added to the pylint invocation for type
-> > consistency with the mypy run -- it's not strictly necessary, but it
-> > avoids some typing errors caused by our re-use of the 'p' variable.)
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
-> > ---
-> >   tests/qemu-iotests/297 | 10 ++++++++--
-> >   1 file changed, 8 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-> > index 1e8334d1d4..7db1f9ed45 100755
-> > --- a/tests/qemu-iotests/297
-> > +++ b/tests/qemu-iotests/297
-> > @@ -68,19 +68,22 @@ def run_linters(
-> >       files: List[str],
-> >       directory: str = '.',
-> >       env: Optional[Mapping[str, str]] = None,
-> > -) -> None:
-> > +) -> int:
-> > +    ret = 0
-> >
-> >       print('=== pylint ===')
-> >       sys.stdout.flush()
-> >
-> >       # Todo notes are fine, but fixme's or xxx's should probably just be
-> >       # fixed (in tests, at least)
-> > -    subprocess.run(
-> > +    p = subprocess.run(
-> >           ('python3', '-m', 'pylint', '--score=n', '--notes=FIXME,XXX',
-> *files),
-> >           cwd=directory,
-> >           env=env,
-> >           check=False,
-> > +        universal_newlines=True,
-> >       )
-> > +    ret += p.returncode
-> >
-> >       print('=== mypy ===')
-> >       sys.stdout.flush()
-> > @@ -113,9 +116,12 @@ def run_linters(
-> >               universal_newlines=True
-> >           )
-> >
-> > +        ret += p.returncode
-> >           if p.returncode != 0:
-> >               print(p.stdout)
-> >
-> > +    return ret
-> > +
-> >
-> >   def main() -> None:
-> >       for linter in ('pylint-3', 'mypy'):
-> >
->
-> Hmm..
->
-> 1. Rather unusual for a function in python to return int error-code, more
-> usual is raising exceptions..
->
->
-It is strange, but I felt that if these tests were going to run in "two
-contexts" that I would avoid raising Exceptions and trying to understand
-how it would affect either call stack.
+Here is the RFC v1:
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg04673.html
+
+The idea was inspired by below discussion:
+
+https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg09020.html
 
 
-> 2. making a sum of return codes looks odd to me
->
->
-Just a cheap way to state that a 0 return is good, and a non-zero return
-code is failure.
+(qemu) info msix -d /machine/peripheral/vscsi0
+Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
+0xfee00000 0x00000000 0x00004041 0x00000000
+0xfee00000 0x00000000 0x00004051 0x00000000
+0xfee00000 0x00000000 0x00004061 0x00000000
+0xfee00000 0x00000000 0x00004071 0x00000000
+0xfee01000 0x00000000 0x000040b1 0x00000000
+0xfee02000 0x00000000 0x000040c1 0x00000000
+0xfee03000 0x00000000 0x000040d1 0x00000000
+
+MSI-X PBA
+0 0 0 0 0 0 0
+
+virtio pci vector info:
+config: 0
+queue 0: 1
+queue 1: 2
+queue 2: 3
+queue 3: 4
+queue 4: 5
+queue 5: 6
 
 
-> 3. Do we really want to run mypy if pylint failed? Maybe better not doing
-> it, and just switch s/check=False/check=True/ ? This way:
->
->
-I suppose we could. For the sake of CI, I like seeing more output instead
-of less so that you can save yourself the trouble and fix everything before
-re-submitting the CI job. What do you think?
+Changed since RFC v1:
+  - Add heading to MSI-X table (suggested by David Alan Gilbert)
+  - Add device specific interface, e.g., to dump virtio-pci queue-to-vector
+    mapping (Suggested By Jason)
 
 
-> 3.1 the function becomes native wrapper for subprocess.run, and raise same
-> exceptions
-> 3.2 we don't waste CI time by running mypy when pylint failed anyway
->
->
-> --
-> Best regards,
-> Vladimir
->
->
+ hmp-commands-info.hx       | 14 +++++++++
+ hw/pci/msix.c              | 63 +++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-pci.c     | 22 ++++++++++++++
+ hw/virtio/virtio.c         | 10 +++++++
+ include/hw/pci/msix.h      |  2 ++
+ include/hw/pci/pci.h       |  3 ++
+ include/hw/virtio/virtio.h |  2 ++
+ include/monitor/hmp.h      |  1 +
+ softmmu/qdev-monitor.c     | 36 +++++++++++++++++++++++
+ 9 files changed, 153 insertions(+)
 
---000000000000d3aa0605c6f5de20
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you very much!
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 6, 2021 at 5:49 AM Vladim=
-ir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsem=
-entsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">25.06.2021 21:20, John Snow wrote:<br>
-&gt; This turns run_linters() into a bit of a hybrid test; returning non-ze=
-ro<br>
-&gt; on failed execution while also printing diffable information. This is<=
-br>
-&gt; done for the benefit of the avocado simple test runner, which will soo=
-n<br>
-&gt; be attempting to execute this test from a different environment.<br>
-&gt; <br>
-&gt; (Note: universal_newlines is added to the pylint invocation for type<b=
-r>
-&gt; consistency with the mypy run -- it&#39;s not strictly necessary, but =
-it<br>
-&gt; avoids some typing errors caused by our re-use of the &#39;p&#39; vari=
-able.)<br>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/297 | 10 ++++++++--<br>
-&gt;=C2=A0 =C2=A01 file changed, 8 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297<br>
-&gt; index 1e8334d1d4..7db1f9ed45 100755<br>
-&gt; --- a/tests/qemu-iotests/297<br>
-&gt; +++ b/tests/qemu-iotests/297<br>
-&gt; @@ -68,19 +68,22 @@ def run_linters(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0files: List[str],<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0directory: str =3D &#39;.&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0env: Optional[Mapping[str, str]] =3D None,<b=
-r>
-&gt; -) -&gt; None:<br>
-&gt; +) -&gt; int:<br>
-&gt; +=C2=A0 =C2=A0 ret =3D 0<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0print(&#39;=3D=3D=3D pylint =3D=3D=3D&#39;)<=
-br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sys.stdout.flush()<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# Todo notes are fine, but fixme&#39;s or xx=
-x&#39;s should probably just be<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0# fixed (in tests, at least)<br>
-&gt; -=C2=A0 =C2=A0 subprocess.run(<br>
-&gt; +=C2=A0 =C2=A0 p =3D subprocess.run(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(&#39;python3&#39;, &#39;-m&#3=
-9;, &#39;pylint&#39;, &#39;--score=3Dn&#39;, &#39;--notes=3DFIXME,XXX&#39;,=
- *files),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cwd=3Ddirectory,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env=3Denv,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0check=3DFalse,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 universal_newlines=3DTrue,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-&gt; +=C2=A0 =C2=A0 ret +=3D p.returncode<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0print(&#39;=3D=3D=3D mypy =3D=3D=3D&#39;)<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sys.stdout.flush()<br>
-&gt; @@ -113,9 +116,12 @@ def run_linters(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0universal_newlin=
-es=3DTrue<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret +=3D p.returncode<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if p.returncode !=3D 0:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0print(p.stdout)<=
-br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 return ret<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0def main() -&gt; None:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0for linter in (&#39;pylint-3&#39;, &#39;mypy=
-&#39;):<br>
-&gt; <br>
-<br>
-Hmm..<br>
-<br>
-1. Rather unusual for a function in python to return int error-code, more u=
-sual is raising exceptions..<br>
-<br></blockquote><div><br></div><div>It is strange, but I felt that if thes=
-e tests were going to run in &quot;two contexts&quot; that I would avoid ra=
-ising Exceptions and trying to understand how it would affect either call s=
-tack.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-2. making a sum of return codes looks odd to me<br>
-<br></blockquote><div><br></div><div>Just a cheap way to state that a 0 ret=
-urn is good, and a non-zero return code is failure.<br></div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-3. Do we really want to run mypy if pylint failed? Maybe better not doing i=
-t, and just switch s/check=3DFalse/check=3DTrue/ ? This way:<br>
-<br></blockquote><div><br></div><div>I suppose we could. For the sake of CI=
-, I like seeing more output instead of less so that you can save yourself t=
-he trouble and fix everything before re-submitting the CI job. What do you =
-think?<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-3.1 the function becomes native wrapper for subprocess.run, and raise same =
-exceptions<br>
-3.2 we don&#39;t waste CI time by running mypy when pylint failed anyway<br=
->
-<br>
-<br>
--- <br>
-Best regards,<br>
-Vladimir<br>
-<br>
-</blockquote></div></div>
+Dongli Zhang
 
---000000000000d3aa0605c6f5de20--
 
 
