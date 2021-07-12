@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19F23C674A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 02:01:19 +0200 (CEST)
-Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B703C674D
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 02:01:33 +0200 (CEST)
+Received: from localhost ([::1]:56936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m35rS-0006xm-TK
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 20:01:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41888)
+	id 1m35rf-0007CV-Ov
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 20:01:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1m35os-0004J1-7c
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:58:38 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:46890)
+ id 1m35ow-0004Rn-6y
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:58:42 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:47610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1m35om-00030O-Vf
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:58:37 -0400
+ id 1m35on-00031h-D4
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 19:58:41 -0400
 Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16CNkXuu027063; Mon, 12 Jul 2021 23:58:31 GMT
+ 16CNkXuv027063; Mon, 12 Jul 2021 23:58:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=TyB3YHk5pbJuNdHCnsEOD1oq20ebr4PwcsqUnGIM0ik=;
- b=yvQQtKb4njueuFaruvbWKLKt89ekQurv6uL5Pi47QMyblO4rFjg48NUHn28Pl8NmEIP3
- PGRn61PrPavqxjDro1t4mNlNzLjlCCbYZVuYCOSdLNSCcUwjajdb5/32z6mpFbkmv7ra
- VDg4SXSNo4/7UVa8gAtYCL0DIm/1MaqF2RfjiOka+xStLVfjYEFsc0L/2ooQv/Br1KRC
- ConNZDLPHmILNUbBb1mkxVfIi2uUYfbIZUDaQcnzSlynq3y7dEfTowzIrAvp3H885MQH
- hGFmLfqtsKAWKdjHqjS7J50a4ujJaFz0xbgrQzGkRbI4/mmMLGRyRXHIVSP8KGVWtCDR Xg== 
+ bh=pOUOkrLDxwy08vEw86GdZvYTKurgDcLSp5cbw46jsJ8=;
+ b=mQ0qKKEmyNVxNyshxYmWzz/G7GPSogy3BwNLYBsyzH9F7aCVpFwRlbSEMpYQfEPI2+XO
+ ytGQPiZLKHXuAD2HgxyOsz+HejqCTMSZKBljm1ctUwe9nvOErMDt3gQ3208vkLMCd7yI
+ SXAnIsP48lrvZilOhmU2fC+8KRBJ2VwV626/1PF7jsnBKDcGsKrvWOQpGNUQqZ0NJB5d
+ ciDJWzNWxWMxaWnf4um2E4K/2tGWINcpwEFhikXGOJKcBKlsV6Yd+6RxAixKhPTv5Wm0
+ BqP91m8gWwKAYQf0ptjK5ZLRgXhtSRCNgXerO2r04jt6PjSl+zlg60A2G/UmWCFJZGQm jg== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 39rqm0s497-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 39rqm0s499-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 23:58:31 +0000
+ Mon, 12 Jul 2021 23:58:32 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CNon9D078762;
- Mon, 12 Jul 2021 23:58:30 GMT
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16CNon9F078762;
+ Mon, 12 Jul 2021 23:58:31 GMT
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
- by aserp3030.oracle.com with ESMTP id 39qycten6x-1
+ by aserp3030.oracle.com with ESMTP id 39qycten6x-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 23:58:30 +0000
+ Mon, 12 Jul 2021 23:58:31 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RTRl55a08AJAqod7rE+D5kBlFpnaxktY46RBc94nC1ijoef/fqjdjJul5QHIcl6MU7FdX8z0a5iERqzwz7X+IwNY0fsZXilv0/eiKAba/yNryIjv5mTiT4IPVKyFCZWkU3gBDO2X5qNh3NjY4d8M1njDuvZbdJwA3tNEGDKAfLTLGUE/rNvBZnXx0NpYz8fkNeeAAqn21Wvz+nxIYdT5TyeitKcI5gWQa5tVnd8oc764TOjtzWg8d5gt7Jc9VFuEbydstFx+UIgCerzSW2COJxO54Y00aVb7Qh18Le9pFWzx0WqHsXbvI+RhDtX0jbYGx7nzu9GoPRXyk+5nY5gN+w==
+ b=GcX8vFEBiXvuNDzAtdPtENg6wu7CFurG+dj/cgsHA1TvEfeQ63XDPu48WL8CGDfOg1+4ytp38AivqZ3Srf8MnTs/CrBK/shq+vH3Xi1X0Jb732dMx16HfHZIq0rjNTIEkNIywZ8BrvomGB9Jy+gKpfxBRs1v2CujzcBC1BkK3ZMiN2wAEtc8OGTvwAf4DTaKIlsUgYKVjv4filvIrHinaHYjPLiNW42yqXVJCUuW2PsmehptHTFAa7OhF0bpkZ/jHFhEXIwN6GouC2d6Zm9e8O8py6v6NaS7oKFi2KZzawz6qCm3KgAEb0yaa76IElPiFw73RYEAWirvL/Kf3dWERQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TyB3YHk5pbJuNdHCnsEOD1oq20ebr4PwcsqUnGIM0ik=;
- b=VgV1+JJCvYaMbM/8jXuMOua09Yfr98h9MDgEGqU8Yb0N8PGhqRYfKAAJc2BrNqjDG0t+/Yg3j78202O8hWaMYKSL543kfHN2/3LZQsGyjKYMUBcJYkpRxjPV+Qvf2SNo897FNQeYz/F3ixGb2IRH+eEoD4LygbY9qIFXIzZcksRPo4VWh5BeZZXtDTNEN2v3dJmn0C7jpRT9Ow83hZUKz7TIIaCPnwYPvf/RNMcvlG+guJBTiIiPZveAyStiUjdER4kEovMFeBJFc+2iMEBh+MYLJwuIMpHVwmHZ3ximB4gXpL6bb7Oo3pOnMqPz314pjbTwAGZwHkQQZcqCTM+AIQ==
+ bh=pOUOkrLDxwy08vEw86GdZvYTKurgDcLSp5cbw46jsJ8=;
+ b=bidOp8kgZiS1iVyJjdFNx8+sFlfAKBRdiXGPdKFprg1DKHAn/BM0U2OS8U8TgN53ipOC3TaFrSE/ar4hO1n/LPdfpygguOYZvkgt0qWZiUlv5oP7iYF0wOUBQoEv9wxHsExiCO5DwwCWVrPL+Ata/tTG2ZFKa0/SV+BfLX+J60vKNwrVVk64AdN7P1mqwV8/FcfE1y58YE4AJVRV1jHpecPSm4baSB0LXPk0u8ee2M/n7KzovasGG3ZQ7QZnblMAQ7orMZZo8q7J9uXMHyonJlmZKIFR6mqbWDdFIcjupb6BCdqeC4JLQpWgi3WWoJvkxV5UxzSH7VFPCzsqvnPiSQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TyB3YHk5pbJuNdHCnsEOD1oq20ebr4PwcsqUnGIM0ik=;
- b=ejB47ubpuREXqujMypcy1qdg7rO3Kwl3eHLqg7TVz9krUnP8tosYtlJRjFs4Ormd78zQEgUcD9oS0YRhP3DaUlvZc4bWzUEVs3Xaz9BObe4D9J1EXwwowPbYy6qANxmRZN6QIODieC/7OU5G5yFzvWMrQ0z0EcWZupLerYpmVsY=
+ bh=pOUOkrLDxwy08vEw86GdZvYTKurgDcLSp5cbw46jsJ8=;
+ b=Ne8aWjcKL18mMRXRHlFSeHXceJiZqIuiGMRAsOD7KRhImp1bacjm1W00iyqfYUvyKqM0FvIuTlp51XyAZGkXD9wDrDWZT1q9sxGavdvR9PCHjr1HLdvQ2ijsC4NZHMXastI6Nlvj+oU6Zh/o+QmtUIghplQipNJ9kDZdAiQt8OA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
  by BYAPR10MB2598.namprd10.prod.outlook.com (2603:10b6:a02:b1::33)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.26; Mon, 12 Jul
- 2021 23:58:27 +0000
+ 2021 23:58:28 +0000
 Received: from BYAPR10MB2663.namprd10.prod.outlook.com
  ([fe80::18a:7c1f:bf20:ba6c]) by BYAPR10MB2663.namprd10.prod.outlook.com
  ([fe80::18a:7c1f:bf20:ba6c%3]) with mapi id 15.20.4308.027; Mon, 12 Jul 2021
- 23:58:27 +0000
+ 23:58:28 +0000
 From: Dongli Zhang <dongli.zhang@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v2 2/3] msix/hmp: add interface to dump device specific
- info
-Date: Mon, 12 Jul 2021 16:58:11 -0700
-Message-Id: <20210712235812.19725-3-dongli.zhang@oracle.com>
+Subject: [PATCH RESEND v2 3/3] virtio-pci/hmp: implement device specific hmp
+ interface
+Date: Mon, 12 Jul 2021 16:58:12 -0700
+Message-Id: <20210712235812.19725-4-dongli.zhang@oracle.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210712235812.19725-1-dongli.zhang@oracle.com>
 References: <20210712235812.19725-1-dongli.zhang@oracle.com>
@@ -88,53 +88,53 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (138.3.200.16) by
  SA0PR11CA0019.namprd11.prod.outlook.com (2603:10b6:806:d3::24) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.20 via Frontend Transport; Mon, 12 Jul 2021 23:58:26 +0000
+ 15.20.4308.20 via Frontend Transport; Mon, 12 Jul 2021 23:58:27 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3f4c57f2-e868-4681-cffb-08d94590f121
+X-MS-Office365-Filtering-Correlation-Id: 9e09bea4-791e-4180-e5d6-08d94590f1d7
 X-MS-TrafficTypeDiagnostic: BYAPR10MB2598:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB259838DB66F691B21F4DEC1BF0159@BYAPR10MB2598.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:183;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB25981B573B50AD5DAA180A61F0159@BYAPR10MB2598.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:192;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FIWX2UNTZvKZ+2yPiyYi+3UwCctOaUjMkX5YYs9Y8Vh++zcIIId3NJvl4EhFjojom/5pMspKcV1aBMuQIm3LUde4bzyjS9V2Y5HBlTAxcYXYfqxE73TiXoaBI2GVfJsrutfxMydlnZzsXIaJNz/x9OCY59e2rR/xEfxZVsF0bh6JkHgA+Z3sqaMYJYXRU11g/osnvbkJPtM+0GBZEx+0pM1+7fUVeZKhqSTEs1r8ACIDCGTqHYZgy6TY/ZjcdpsAmW+CUXfkwfZM0Zqk2ErkgPHxxnNSVr1y1OrWIJGkQLPgrdv9ac4ta/S43IZrwxdrMhgYVO6S8R+K9+H4ZlxiFMG2RFP33ujKUOG/jlvbw8Dtw2LhZqZhUYpQt0j32Py7EdxDuXI6BaPcHE9CqDWEzaEo6scfbVoOur997EhF7LlepkhP35yfrPtNqxQ0pP1De04UzFo7s42Umq/DHWecvY5UI1ASun+BnhLhh93L0oAqYDQqcm1dKwW8NINvM8b/XtEHIl+/GbSX6279eiJ5AWFp2wkPd5/dDb/rh0sPmtu9qkmnFnVmp1jfZ0pwvD9oM6ufONGiBOXm/ZBC6V7LGNg2dZ5UDIIpx4z3PY34cl2LraVOm0uFFtEstx77MpY1dIgasbxkUhFfZScFjCCs/OpDWq+wE6uILzIwoATZ/5US4Dhdgu+yl1IoZYQRzLzNZjz0BmhDwlWw2nISn4kGjg==
+X-Microsoft-Antispam-Message-Info: kaCSghbBqhRU2YdKJEQ9rhAK3/EQaHRrsF3iIpdalfJI+b1NtykSNPFrkRuYnwT/yePaG0QBBDUY8ya7CXXUy03fcARGHiI1tiNdEeoUfxOCSmWYyIVMEo8adMgyKbetkxsvDx/uRWLSQwPcPXgfuB8idrJV/fDj7HfR+EDYk8xBpXeAeeuzhBC2MoJ/O5kgciclc03ZsR7TsGbwDxt4whCGE4BVJcCi4eZwsNQq8yOW8wz212LR4MszC7UTgsO7e0dH3780zsBb3woCo3r5LeieLaHeaLbnnL+AQWSfZr58fyUy/GMc9k+3vy8lSfbUCF35nm5p+gOeO8B+RhgIgh4TxuydJcLGEOR+6tLnnmoNuprjMWNLWPBCbVpZMqQPzWPOX3EpmlOX3s0/Uvb5r66vpGwu7Wyb5UACdU+wTC3/or9x+OU/Sko4+/Xt8r4zJReMdkrmGPJkigiHTHgKQMjdyqzNqJDW1atcwmQ6NBOjKWhs8fBvi/bg1b5wGo8QBCs8NJYh5N3yzlUodWxJAFTaBziXCyKAV9oj6hTARdc76immJuso4NcI7kmXrxRZ1699ypSZHaQA54OlTY3VIi+u/H4l37uNf01meRyHZGAwcNfg3E4KSFrEjuJ00hLmjbuTH2mA+5pa9YAC69GPOZ8W9NFMyOVRefzrDb3JOTSDqBHgv/gzI9li0jlCBAKWjsiY1vBscARfEejZwjKIsg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(346002)(39860400002)(136003)(376002)(396003)(366004)(5660300002)(6666004)(86362001)(38350700002)(38100700002)(52116002)(6506007)(66476007)(44832011)(66556008)(66946007)(6486002)(36756003)(956004)(2906002)(83380400001)(2616005)(8676002)(107886003)(186003)(6512007)(6916009)(4326008)(1076003)(478600001)(8936002)(316002)(26005);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?+HVW56ZodZnONNQD8m4kAf0JnCRDUSzUCKDa1Zfnk/Hk0wbg7C0lWYv38XAh?=
- =?us-ascii?Q?gslPlegIPw75U842QRRpdJCAVIUU5FuIaCQswiYIS00zguAM9rrCyOponPP8?=
- =?us-ascii?Q?socvOI7WcVf+ZitQgQM46/azGIRZVxJA7ZkMtoIcHKH5ESZS9QLIYO2gS3kP?=
- =?us-ascii?Q?3ME3grszFO365A58SizIKv9j0OakOVM+hRPdoT9GiHxNfA4oYei7qH4eEMXX?=
- =?us-ascii?Q?QP2ELu2ns4r2yFeB4tn/0jtqo96wUlXN7dVKHnhTGbF5IXNWh4az7HVcU81j?=
- =?us-ascii?Q?5Q94Nx6IKxsBqpo8EJnuAppVXSlaDTLpFbDoO9YrzcVIPxWp2o0ZXNScMTdk?=
- =?us-ascii?Q?WQ9+afJL2dIDlpgdQ/9rE2KayVP+2oMSLIOiTqb1w81SDA0h9Mlp8RQrpd5y?=
- =?us-ascii?Q?QnKAJoQ4ucaEik2M2fJxYo9P9n31Bb3vGrzEEHhne9mRkSdlQv/AELyZrLqq?=
- =?us-ascii?Q?fmNTgXW9XN5J1GY2CrUCp0cPK01IDFVmdKFDC7GFFictXq17v34lVD7iyxdd?=
- =?us-ascii?Q?2wQ0zBUIWTWw2cfs1lOStlUHo082f+pIFXkt4giZK72jeY2OWCHWwPqoBY2B?=
- =?us-ascii?Q?Xc/6s573WBHFd/Jexu7jq+V2MMLmYWOe9LwzV56iCmJq6T+gcH3WruX92Mcb?=
- =?us-ascii?Q?hL7pcw0cRb4fe41QYLZpOsBfDjfFYTyw5r4xEq82HnCQB1M3pKZDbNTXPk2e?=
- =?us-ascii?Q?ZlN1euoW0Y6Ji855bj1YayiJxPRI1OYzitmpa48/nNx0lvzk0MBZCfvHRzhl?=
- =?us-ascii?Q?5phvlANSqum+RjGdFD/+545cFvIooVT1EvodF2A+0Vid9FtaCqcYThEh2VlD?=
- =?us-ascii?Q?AZ0Swt8ttz+aolyM7yq13nWtPeRSBwDGtxxz28Yb/zMncSN8+5JTCbyfgADJ?=
- =?us-ascii?Q?n3B4a6Coxz8hQPDsigE7RCq45luMYBsUWTs09m0KZge/pNpe6BZrXhAL0itc?=
- =?us-ascii?Q?i1QH6QIqvI/y67sS3keBgwj+rdk6nhvUQcQRLnR5TTxElXy8atu/bGJBF8nY?=
- =?us-ascii?Q?18rfxitIo6U2g99DT3HiONL9VrJw2hTTcfEfr0F3UyYszJGMIrmc7PgW/xDw?=
- =?us-ascii?Q?+p78GjNqUAg5Sn6axfqCZsWSxzvBTpVHoo37C6LNpls1n90xbtPyF9Lo1ji0?=
- =?us-ascii?Q?s8RPMjCtWxRKrgtF79Y2+JH96uMmubbyrk3fVNCtFez2liVgUHV1EQ5QO97S?=
- =?us-ascii?Q?/nFA4SXOZAQDzI7xEETbbX22XQ6pf1cFMWgE9bp/hK4V9bSwEwA/DEQXr77A?=
- =?us-ascii?Q?ecO70Fp9lJWuL9X8Mi5+O/Yd0znrfZfdvVMfYw9bd6ZzVgdR2Ahl/ijLJvBy?=
- =?us-ascii?Q?f2ldbAbDaQ9ziShMhk1YxZ7i?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kJJB+iMiLdYapweZiTcKbG++BIerxDecNsEWwhYf0+xh1P0eHQhs79MfHPov?=
+ =?us-ascii?Q?2H6rBZkjxbzD2dza80qP+q+Jizi6MkP2W11qh7zNF1GWsHII6MaMD0VWAdY3?=
+ =?us-ascii?Q?2yQ7pgAnA6J7qNq/wnahOwWmHK3E81MQzay77ibzcCgYBcXfzV5iu98cyt0K?=
+ =?us-ascii?Q?kOiZl5VlEnVOLGfZ1eWeeWKCoQFuY0hCk7R1PRZ36cHx3NppJZWbl7kB2AJr?=
+ =?us-ascii?Q?eaJroOAk1dBSyClO618mboS4TEIl7cRZFBzX+fT1SImfOHnTE9wGsQ8OYes2?=
+ =?us-ascii?Q?C4yTvgaMtZxe1YFTaeRr7W4OS9orb3n7aD/Up2JRbvy2rfcA38JkJlV2J/Me?=
+ =?us-ascii?Q?ohL0ucBvkU7gBM8rgNcPGiErfgbBPeKZf/b6Ji7ycAjV2gVSsTHEcF1DyAPq?=
+ =?us-ascii?Q?fKUpQN3aPTSgqdoucdCW7gXDZgnJoJj+4i3kCVCF6EpPPIdrFPN22QJrtCt8?=
+ =?us-ascii?Q?mQbju6h3QeukcJ/lKGnTpyl8IGOK9znIvgxPKioktiJ4lRH8HqgV468kHNk2?=
+ =?us-ascii?Q?Md+EV4i0n4ZANyudwZ2GnxDk7wbF2X6l+hb0SmeKkN3qgXanWjCWrsL/xaSl?=
+ =?us-ascii?Q?iOH+KAA1ubN3EUJUzzsEi7EZoQ0ryJEVB4wzPfTK+q4hi8F5MrfkHDwIUMOa?=
+ =?us-ascii?Q?1fD10IkwIAEKSKcj23gF6bP3XcaClAFREg2CZyuQGqskS8v+XspUIq+0aRoh?=
+ =?us-ascii?Q?mdglqEFslS+KhWCPFcxKqOMLDUNYGx1Q6cQ91/7DoYkRTm+hCcg0Ov+ekCgZ?=
+ =?us-ascii?Q?A6NNDMyu60gXI8DBuLFQ1pnAD2cot9Mw2Oy5EySsSBQX+aSJT60prHcawISW?=
+ =?us-ascii?Q?dpQd1PIbPMZyyFYweikOwovQoBNc4jMjPMJneUBkIgRGEkDKlEuWMh3RCe9C?=
+ =?us-ascii?Q?54T3rOWXS3TDwf4pm/wstIdShr8C/xZ1K5IMwnja/yp1+bSjboYCdOWVOL97?=
+ =?us-ascii?Q?uSMJEOu7IQswWr2IlWYRrgnR6hChx4DKuyzq+Hrc82l1Ia0jsXVxtP5dHyCG?=
+ =?us-ascii?Q?Nni2td8RJY8kaCCJSuLJUhcfI3s/UFoBLerI2h3zcEZHSLND3VTU790raptd?=
+ =?us-ascii?Q?iBtkthWdF8tza9F9gblaB+Cb/OyQTQkV8RAZMLS8A0+7somo/nw3VNrC9DmM?=
+ =?us-ascii?Q?tvehV6cX5IpcTZh4+jP7c5+oXsc8TwnTKTHNByAwxqUDeALcMFlvIYOoEkr7?=
+ =?us-ascii?Q?JEbbYESBUkEFPKy8wP69+FDj8x3rL+ju6Eg6tXDXYAsHr4zKCtblOdp5AQjE?=
+ =?us-ascii?Q?qZNeMyqiTbm49iP6wTnkdTdAyMMEub12zajIO6KafgKX67ZNhKvGYqRuqeax?=
+ =?us-ascii?Q?bMdRqeuXEyv8888RCJmxFgAI?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f4c57f2-e868-4681-cffb-08d94590f121
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e09bea4-791e-4180-e5d6-08d94590f1d7
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 23:58:27.4107 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 23:58:28.5870 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mvxNw2ajfNgG2nCcN1BaywiEh1nXP5hrAK0vxhDHKJvJVjbTbwO2jeuluFOJGgfRvoW/oUkhW7YtCzhV0GWEIQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sXioWNkqtf48G056hK65v2hp1pVfN4otDpzcieOmtN1SKn2IJkiW6N5TUOmwvulsvYo2SHxv0gZfzB/sEPWm5g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2598
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043
  signatures=668682
@@ -143,8 +143,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0
  spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2104190000 definitions=main-2107120162
-X-Proofpoint-GUID: PnoCFTqeiwEoADEhoMmuHsKwWj_su_Do
-X-Proofpoint-ORIG-GUID: PnoCFTqeiwEoADEhoMmuHsKwWj_su_Do
+X-Proofpoint-GUID: 5ZH8khKnzz_Qeb5fhgkFSkus8Rjxlreg
+X-Proofpoint-ORIG-GUID: 5ZH8khKnzz_Qeb5fhgkFSkus8Rjxlreg
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=dongli.zhang@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -173,93 +173,122 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the previous patch is to dump the MSI-X table, sometimes we may
-need to dump device specific data, e.g., to help match the vector with
-the specific device queue.
+This patch is to implement the device specific interface to dump the
+mapping between virtio queues and vectors.
 
-This patch is to add the PCI device specific interface to help dump
-those information. Any PCI device class may implement this
-PCIDeviceClass->msix_info interface.
+(qemu) info msix -d /machine/peripheral/vscsi0
+Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
+0xfee00000 0x00000000 0x00004041 0x00000000
+0xfee00000 0x00000000 0x00004051 0x00000000
+0xfee00000 0x00000000 0x00004061 0x00000000
+0xfee00000 0x00000000 0x00004071 0x00000000
+0xfee01000 0x00000000 0x000040b1 0x00000000
+0xfee02000 0x00000000 0x000040c1 0x00000000
+0xfee03000 0x00000000 0x000040d1 0x00000000
+
+MSI-X PBA
+0 0 0 0 0 0 0
+
+virtio pci vector info:
+config: 0
+queue 0: 1
+queue 1: 2
+queue 2: 3
+queue 3: 4
+queue 4: 5
+queue 5: 6
 
 Cc: Jason Wang <jasowang@redhat.com>
 Cc: Joe Jin <joe.jin@oracle.com>
 Suggested-by: Jason Wang <jasowang@redhat.com>
 Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 ---
- hmp-commands-info.hx   |  7 ++++---
- include/hw/pci/pci.h   |  3 +++
- softmmu/qdev-monitor.c | 11 +++++++++++
- 3 files changed, 18 insertions(+), 3 deletions(-)
+ hw/virtio/virtio-pci.c     | 22 ++++++++++++++++++++++
+ hw/virtio/virtio.c         | 10 ++++++++++
+ include/hw/virtio/virtio.h |  2 ++
+ 3 files changed, 34 insertions(+)
 
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index ce5c550d44..4e831d7ae4 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -223,9 +223,10 @@ ERST
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 433060ac02..2971e8049c 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -38,6 +38,7 @@
+ #include "hw/virtio/virtio-bus.h"
+ #include "qapi/visitor.h"
+ #include "sysemu/replay.h"
++#include "monitor/monitor.h"
  
-     {
-         .name       = "msix",
--        .args_type  = "dev:s",
--        .params     = "dev",
--        .help       = "dump MSI-X information",
-+        .args_type  = "info:-d,dev:s",
-+        .params     = "[-d] dev",
-+        .help       = "dump MSI-X information; "
-+                      "(-d: show device specific info)",
-         .cmd        = hmp_info_msix,
-     },
+ #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
  
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 6be4e0c460..4620b9e757 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -129,6 +129,8 @@ typedef void PCIMapIORegionFunc(PCIDevice *pci_dev, int region_num,
-                                 pcibus_t addr, pcibus_t size, int type);
- typedef void PCIUnregisterFunc(PCIDevice *pci_dev);
- 
-+typedef void PCIMSIXInfoFunc(Monitor *mon, PCIDevice *dev, Error **errp);
-+
- typedef struct PCIIORegion {
-     pcibus_t addr; /* current PCI mapping address. -1 means not mapped */
- #define PCI_BAR_UNMAPPED (~(pcibus_t)0)
-@@ -224,6 +226,7 @@ struct PCIDeviceClass {
-     PCIUnregisterFunc *exit;
-     PCIConfigReadFunc *config_read;
-     PCIConfigWriteFunc *config_write;
-+    PCIMSIXInfoFunc *msix_info;
- 
-     uint16_t vendor_id;
-     uint16_t device_id;
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 7837a17d0d..7fd3fe0ada 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -1011,7 +1011,9 @@ void hmp_info_msix(Monitor *mon, const QDict *qdict)
- {
-     const char *name = qdict_get_str(qdict, "dev");
-     DeviceState *dev = find_device_state(name, NULL);
-+    bool info = qdict_get_try_bool(qdict, "info", false);
-     PCIDevice *pci_dev;
-+    PCIDeviceClass *pc;
-     Error *err = NULL;
- 
-     if (!dev) {
-@@ -1027,6 +1029,15 @@ void hmp_info_msix(Monitor *mon, const QDict *qdict)
-     pci_dev = PCI_DEVICE(dev);
-     msix_dump_info(mon, pci_dev, &err);
- 
-+    if (info) {
-+        pc = PCI_DEVICE_GET_CLASS(pci_dev);
-+        if (pc->msix_info) {
-+            pc->msix_info(mon, pci_dev, &err);
-+        } else {
-+            error_setg(&err, "Device specific info not supported");
-+        }
-+    }
-+
- exit:
-     hmp_handle_error(mon, err);
+@@ -1587,6 +1588,26 @@ static void virtio_pci_modern_io_region_unmap(VirtIOPCIProxy *proxy,
+                                 &region->mr);
  }
+ 
++static void virtio_pci_dc_msix_info(Monitor *mon, PCIDevice *dev,
++                                    Error **errp)
++{
++    DeviceState *qdev = DEVICE(dev);
++    VirtIOPCIProxy *proxy = to_virtio_pci_proxy_fast(qdev);
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    int num = virtio_get_num_queues(vdev);
++    int i;
++
++    monitor_printf(mon, "virtio pci vector info:\n");
++
++    monitor_printf(mon, "config: %d\n", virtio_get_config_vector(vdev));
++
++    for (i = 0; i < num; i++)
++        monitor_printf(mon, "queue %d: %u\n",
++                       i, virtio_get_vector(vdev, i));
++
++    monitor_printf(mon, "\n");
++}
++
+ static void virtio_pci_pre_plugged(DeviceState *d, Error **errp)
+ {
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+@@ -2004,6 +2025,7 @@ static void virtio_pci_class_init(ObjectClass *klass, void *data)
+     k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+     k->revision = VIRTIO_PCI_ABI_VERSION;
+     k->class_id = PCI_CLASS_OTHERS;
++    k->msix_info = virtio_pci_dc_msix_info;
+     device_class_set_parent_realize(dc, virtio_pci_dc_realize,
+                                     &vpciklass->parent_dc_realize);
+     dc->reset = virtio_pci_reset;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 874377f37a..ea54939e98 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2581,6 +2581,16 @@ void virtio_notify_config(VirtIODevice *vdev)
+     virtio_notify_vector(vdev, vdev->config_vector);
+ }
+ 
++uint16_t virtio_get_vector(VirtIODevice *vdev, int n)
++{
++    return vdev->vq[n].vector;
++}
++
++uint16_t virtio_get_config_vector(VirtIODevice *vdev)
++{
++    return vdev->config_vector;
++}
++
+ static bool virtio_device_endian_needed(void *opaque)
+ {
+     VirtIODevice *vdev = opaque;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 8bab9cfb75..6746227f73 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -268,6 +268,8 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+ void virtio_reset(void *opaque);
+ void virtio_update_irq(VirtIODevice *vdev);
+ int virtio_set_features(VirtIODevice *vdev, uint64_t val);
++uint16_t virtio_get_vector(VirtIODevice *vdev, int n);
++uint16_t virtio_get_config_vector(VirtIODevice *vdev);
+ 
+ /* Base devices.  */
+ typedef struct VirtIOBlkConf VirtIOBlkConf;
 -- 
 2.17.1
 
