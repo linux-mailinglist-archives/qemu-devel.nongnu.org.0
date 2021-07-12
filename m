@@ -2,74 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113A23C5C09
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:23:26 +0200 (CEST)
-Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0027E3C5C12
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:25:06 +0200 (CEST)
+Received: from localhost ([::1]:46840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2uy4-0001LF-Mk
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:23:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
+	id 1m2uzi-0002zI-1E
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m2ux3-0000ei-SS
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:22:21 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:33284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m2ux2-0005fx-6A
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:22:21 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id bu12so34267681ejb.0
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2E/1h7/RoKg4VQ+CqTW0g38KxXfWx7lcegiEW9aNbd0=;
- b=pokoaQBgbBK7zD5QL0EoPjEHPqJo71whxRxWW8rn+gYGBdK0OEAiYceLo/dVx2AcXU
- nsWgTsYjDOe1xR7O48odNuxRklBmc5OCp2ol6rm30smIqsIn1h6A1f1HMLfavp2dm67g
- /ZFrxI3ny7SkV00B9ToPhpo4cepAbyMsXM3KgIqIW8jA3FEewZOScRmFmOR8uKexvr4b
- yBmRgxDMpnfkwh2i4nD0QKSGZBGxxsH58eK7NxbTp0rX7NwntLMbJDPV8UV8rbFKibxK
- UmNlU+8z1FygHCddmGPyimsnAqbt7G3flGq33brCZkcc3EOcrLVbBb6HDa7/kdB0W9TN
- 0PzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=2E/1h7/RoKg4VQ+CqTW0g38KxXfWx7lcegiEW9aNbd0=;
- b=szkB0tajzFuo0G3bWPFg5LrDcdCCJVaJzqNiPTN0QGK1xI7wr2A6072VsGg7Ftoudq
- YipAaNxuOQYRxSn0p/i73YQu/YLq0SFm8da36NeyazS3tCzfMf7Z8bUyTgpZgzpIHbQS
- JAcyMXWGTjRYMO6pCaaMWoEkyw8AZ3Y7kcd530OdlhPrRebso2VpVUk0GUSz7hwZighJ
- cIYodtcFQMzQuwKTqIXsU9eVacmdh0tiAZirDAdrZ4wFVjv0IveaURDXCBVCqHA4b/LB
- 4IfInDbw97udqR5SwXZ9yoVTNBWicG7EdXidrCTeCkiwY38j2fqrmZ/UxefLG7QdCcap
- zlmg==
-X-Gm-Message-State: AOAM533wFeSJW3U75ZLIJFt2SbWJUDTlhZpxHviJHqM6l5PuVjwyZz9+
- icZzD1Pw2Qb7AWGwmzeCVpEuQIsEoXc=
-X-Google-Smtp-Source: ABdhPJz9IYqmQRiMncFIu1kA4p7WJB6siDbEdnTwnOXwuKnHwfvDmLvi6/e35/Ka3wqM87QrgB/y/w==
-X-Received: by 2002:a17:906:5d13:: with SMTP id
- g19mr53379847ejt.90.1626092537605; 
- Mon, 12 Jul 2021 05:22:17 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id gu15sm2693209ejb.63.2021.07.12.05.22.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 05:22:17 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] disable modular TCG on Darwin
-Date: Mon, 12 Jul 2021 14:22:08 +0200
-Message-Id: <20210712122208.456264-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m2uyR-0002Cg-S4
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:23:47 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m2uyP-0006EE-5f
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:23:47 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GNjTM18Mfz1CHyY;
+ Mon, 12 Jul 2021 20:17:59 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 12 Jul 2021 20:23:34 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Mon, 12 Jul 2021 20:23:33 +0800
+Subject: Re: [PATCH 2/4] qemu-options: re-arrange CPU topology options
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ <qemu-devel@nongnu.org>
+References: <20210628113047.462498-1-berrange@redhat.com>
+ <20210628113047.462498-3-berrange@redhat.com> <YOwVMUkX948MrNxC@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <8bde35cc-85cb-e36b-3d04-ef602edd8d15@huawei.com>
+Date: Mon, 12 Jul 2021 20:23:32 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <YOwVMUkX948MrNxC@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme716-chm.china.huawei.com (10.1.199.112) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,40 +69,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, akihiko.odaki@gmail.com
+Cc: Igor Mammedov <imammedo@redhat.com>, Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accelerator modularity does not work on Darwin:
+On 2021/7/12 18:10, Daniel P. Berrangé wrote:
+> On Mon, Jun 28, 2021 at 12:30:45PM +0100, Daniel P. Berrangé wrote:
+>> The list of CPU topology options are presented in a fairly arbitrary
+>> order currently. Re-arrange them so that they're ordered from largest to
+>> smallest unit
+>>
+>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>> ---
+>>   qemu-options.hx | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index ba3ca9da1d..aa33dfdcfd 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -196,17 +196,17 @@ SRST
+>>   ERST
+>>   
+>>   DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+>> -    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
+>> +    "-smp [cpus=]n[,maxcpus=cpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]\n"
+>>       "                set the number of CPUs to 'n' [default=1]\n"
+>>       "                maxcpus= maximum number of total cpus, including\n"
+>>       "                offline CPUs for hotplug, etc\n"
+>> +    "                sockets= number of discrete sockets in the system\n",
+>> +    "                dies= number of CPU dies on one socket (for PC only)\n"
+>>       "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
+>>       "                threads= number of threads on one CPU core\n"
+>> -    "                dies= number of CPU dies on one socket (for PC only)\n"
+>> -    "                sockets= number of discrete sockets in the system\n",
+>>           QEMU_ARCH_ALL)
+> Stupid typo in this posting - didn't adjust the trailing ',' when moving
+> the lines.
+I can fix it incidentally in [1] if you wish. :)
 
-ld: illegal thread local variable reference to regular symbol _current_cpu for architecture x86_64
-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg00259.html
 
-Fix by avoiding modular TCG builds.
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meson.build b/meson.build
-index b2e8731410..a1f767e250 100644
---- a/meson.build
-+++ b/meson.build
-@@ -92,7 +92,11 @@ if cpu in ['x86', 'x86_64']
-   }
- endif
- 
--modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
-+modular_tcg = []
-+# Darwin does not support references to thread-local variables in modules
-+if target != 'darwin'
-+  modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
-+endif
- 
- edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
- install_edk2_blobs = false
--- 
-2.31.1
+Thanks,
+Yanan
+.
+>>   SRST
+>> -``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
+>> +``-smp [cpus=]n[,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
+>>       Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+>>       are supported. On Sparc32 target, Linux limits the number of usable
+>>       CPUs to 4. For the PC target, the number of cores per die, the
+>> -- 
+>> 2.31.1
+>>
+> Regards,
+> Daniel
 
 
