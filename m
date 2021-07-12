@@ -2,76 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62EAD3C6546
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 23:07:55 +0200 (CEST)
-Received: from localhost ([::1]:36640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14DF83C6569
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 23:23:37 +0200 (CEST)
+Received: from localhost ([::1]:41790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m339d-00074M-JJ
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 17:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
+	id 1m33Op-0005fn-M5
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 17:23:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m337o-0005wr-Nl
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:06:00 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m337m-0004Jk-Ee
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:06:00 -0400
-Received: by mail-wr1-x432.google.com with SMTP id g16so17586897wrw.5
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:05:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jmR6qvXsjv146Udn9zBwMCdzaSgA4ZEohGBLRdU9LIg=;
- b=GOG6o0+1Q5ci8xmgL1ar5Gye0IRLIRXtVTL+7XkbX8WzId6dQYt5MUujA87IIQkpw6
- zTmDOJem486im2kzohHrhXaxdfoU71aM00u4zhZW1ItFCM0aGmFIQAkzRc5rYm6QIeu7
- r2GYmcgfgTvBtOMwy/n/6lamkw4TWyvtR9aeRowQ9HdGsm4Y4/GxoasBtxrlAr/W0GJK
- IdpsRDM8XqkVCJff3u0weXOTVe8eGs0Et7BsgKhHhebFROv3LyR3s60BCxCov++SkmR5
- x3ibX59vQRHhx5WpFrVUN7KALB6toerZuDXHJivr4p70lSWOi/yDCUtJDoOJDdRpc/aj
- D52w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=jmR6qvXsjv146Udn9zBwMCdzaSgA4ZEohGBLRdU9LIg=;
- b=PLKdHlA3xN4TKeQoXKJ/G101hCeuY2KwiIfOeuln4nykNoVEnWl7/Kjhk4d5axUS97
- stSWu+IUrUOURDtzs6gFABVq5J20p4wZMAfdxIVKBORxq5gJzsR48SbhMLZ4lm5GlzzH
- NfLtvjRckfOPJJx8CF6hkkXFqTChwvcmVhc13hq7SsYM3lWyspjT6O5BuNjEqhKWMVMk
- CLlh9N9V7zzBkL7K8N65bUPU8lSUSLHlXMdlmFDXQBUMk/VxfYkgRUmP0VKhTMyDipVD
- T3ZF6MH3wteFFRVnISfAmqjaCoMTdfIhSIb4HhxfA/PhiXH26r7u9Fx2cNBKOYupStuu
- XsDA==
-X-Gm-Message-State: AOAM532z8/d++dXa9fFicjgSYB1CWeL523+vjcU0N9npOdOss+ijH0p7
- ee8Tp4FlP3o0E4PydfkNIHvdqw==
-X-Google-Smtp-Source: ABdhPJwbfy7Ihn4RJx+CRNV8ut40+3TMdawxYPVb1jj6Jiv3tjdoMWNxDY8Ga0rKHio00u8M2B75SQ==
-X-Received: by 2002:a5d:6284:: with SMTP id k4mr1147653wru.387.1626123956262; 
- Mon, 12 Jul 2021 14:05:56 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v9sm3473018wml.36.2021.07.12.14.05.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 14:05:55 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9F5C81FF7E;
- Mon, 12 Jul 2021 22:05:54 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL v4 00/42] testing, build and plugin updates
-Date: Mon, 12 Jul 2021 22:05:54 +0100
-Message-Id: <20210712210554.1951-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1m33Nz-00042Y-2W; Mon, 12 Jul 2021 17:22:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29518
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
+ id 1m33Nx-00082G-8g; Mon, 12 Jul 2021 17:22:42 -0400
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16CL40Gn128855; Mon, 12 Jul 2021 17:22:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=7zi+9oIk7fpLJtPW1uGVz1/GNSWnK2mc64slVM8Rn+I=;
+ b=Ze3uw1A1H6FOWNaHSBw6vJPs8O7ulVL3zQNGQ0WOcse1IOPn3FuA+5T5rpJWHDkN6Fbn
+ 8vKuxG9NnE/O9p8leoiEsgquYGifKVS57Q4nUzS+72eMZcdO9wOm5RvXWisLC64kUr2V
+ rp1SPEC0q7YtMvPSq95Any7XKAYMQisH2pWJMlB5rdI0x6/eac/um3ZhBTlfyKPw2izk
+ nsrPd7cbsaNFUA1qJRi+FxKxbKpvQju6QGRvuEzqf0xFphRn1FKmZSJ0YeTKjsViiwjV
+ 7AbKdLoRsLQwQyeUdkK8Fd+5GMzOfqoScPnE+nBC0wkCsxUXEpurezMnGwGxnQuec0YZ hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qs3bewy4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 17:22:37 -0400
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16CL47wM129274;
+ Mon, 12 Jul 2021 17:22:37 -0400
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 39qs3bewxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 17:22:37 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16CLDTXG032142;
+ Mon, 12 Jul 2021 21:22:35 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04fra.de.ibm.com with ESMTP id 39q368ggkd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 12 Jul 2021 21:22:35 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16CLMUgV26018232
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 12 Jul 2021 21:22:31 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E1CE111C050;
+ Mon, 12 Jul 2021 21:22:30 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7014B11C058;
+ Mon, 12 Jul 2021 21:22:30 +0000 (GMT)
+Received: from sig-9-145-173-31.de.ibm.com (unknown [9.145.173.31])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 12 Jul 2021 21:22:30 +0000 (GMT)
+Message-ID: <77fc7f4a9e90eff3fd7deaf3255a1e4ae1266808.camel@linux.ibm.com>
+Subject: Re: [PATCH v5 0/2] target/s390x: Fix SIGILL/SIGFPE/SIGTRAP psw.addr
+ reporting
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: "jonathan.albrecht" <jonathan.albrecht@linux.vnet.ibm.com>, Laurent
+ Vivier <laurent@vivier.eu>
+Date: Mon, 12 Jul 2021 23:22:30 +0200
+In-Reply-To: <f3f012abaaacfb68dea99547e4fae5c0@imap.linux.ibm.com>
+References: <20210623023250.3667563-1-iii@linux.ibm.com>
+ <87a6n5j976.fsf@redhat.com>
+ <3624d483-dd11-6464-bbfd-ed2921b2fcfe@vivier.eu>
+ <f3f012abaaacfb68dea99547e4fae5c0@imap.linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EjhsJH26LLWdbemYn8_o1oFLsYudZ7tH
+X-Proofpoint-ORIG-GUID: 8Rc1oESz110DD7PY24qAs4oiWiwAVBxq
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-12_11:2021-07-12,
+ 2021-07-12 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=849 phishscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ adultscore=0 malwarescore=0 clxscore=1015 bulkscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107120146
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,174 +115,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>,
+ Ulrich Weigand <ulrich.weigand@de.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Andreas Krebbel <krebbel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bd38ae26cea0d1d6a97f930248df149204c210a2:
+On Mon, 2021-07-12 at 10:59 -0400, jonathan.albrecht wrote:
+> On 2021-07-02 8:01 am, Laurent Vivier wrote:
+> > Le 02/07/2021 à 12:34, Cornelia Huck a écrit :
+> > > On Wed, Jun 23 2021, Ilya Leoshkevich <iii@linux.ibm.com> wrote:
+> > > 
+> > > 
+> > > What's the status of this and
+> > > <20210621141452.2045-1-jonathan.albrecht@linux.vnet.ibm.com>? 
+> > > linux-user
+> > > is not really my turf, but it would be sad if this fell through the
+> > > cracks.
+> > > 
+> > 
+> > If from the S390x point of view they are correct, I can collect them
+> > via linux-user.
+> > 
+> 
+> IIUC, the latest versions of these two series should be ready now:
+> 
+> https://lore.kernel.org/qemu-devel/20210705210434.45824-1-iii@linux.ibm.com/
+> https://lore.kernel.org/qemu-devel/20210709160459.4962-1-jonathan.albrecht@linux.vnet.ibm.com/
+> 
+> Can they still get into 6.1?
+> 
+> Thanks,
+> 
+> Jon
 
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210710' into staging (2021-07-12 11:02:39 +0100)
+The test patch from my v6 series hasn't been reviewed yet:
 
-are available in the Git repository at:
+https://lore.kernel.org/qemu-devel/20210705210434.45824-3-iii@linux.ibm.com/
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-120721-4
+Could anyone have a look, please?
 
-for you to fetch changes up to 312ad3f702789db630c8e43aaad718a1459b2018:
-
-  MAINTAINERS: Added myself as a reviewer for TCG Plugins (2021-07-12 20:13:24 +0100)
-
-----------------------------------------------------------------
-Testing and plugin updates:
-
-  - custom runner playbooks for configuring GitLab runners
-  - integrate Cirrus jobs into GitLab via cirrus-run
-  - clean-up docker package lists
-  - bump NetBSD to 9.2
-  - bump OpenBSD to 6.9
-  - make test-mmap more hexagon friendly
-  - fixup handling of hostaddr for plugins
-  - disallow some incompatible plugin configurations
-  - enable plugins by default for most TCG builds
-  - honour main build -Wall settings for plugins
-  - new execlog plugin
-  - new cache modelling plugin
-  - fix io_uring build regression
-  - disable modular TCG on Darwin
-
-----------------------------------------------------------------
-Alex Bennée (9):
-      tests/tcg: also disable the signals test for plugins
-      tests/tcg: make test-mmap a little less aggressive
-      plugins: fix-up handling of internal hostaddr for 32 bit
-      meson.build: move TCG plugin summary output
-      configure: don't allow plugins to be enabled for a non-TCG build
-      configure: add an explicit static and plugins check
-      configure: stop user enabling plugins on Windows for now
-      tcg/plugins: enable by default for most TCG builds
-      contrib/plugins: enable -Wall for building plugins
-
-Alexandre Iooss (2):
-      contrib/plugins: add execlog to log instruction execution and memory access
-      docs/devel: tcg-plugins: add execlog plugin description
-
-Brad Smith (2):
-      tests/vm: update NetBSD to 9.2
-      tests/vm: update openbsd to release 6.9
-
-Cleber Rosa (4):
-      Jobs based on custom runners: documentation and configuration placeholder
-      Jobs based on custom runners: build environment docs and playbook
-      Jobs based on custom runners: docs and gitlab-runner setup playbook
-      Jobs based on custom runners: add job definitions for QEMU's machines
-
-Daniel P. Berrangé (18):
-      build: validate that system capstone works before using it
-      gitlab: support for FreeBSD 12, 13 and macOS 11 via cirrus-run
-      cirrus: delete FreeBSD and macOS jobs
-      hw/usb/ccid: remove references to NSS
-      tests/docker: don't use BUILDKIT in GitLab either
-      tests/docker: use project specific container registries
-      tests/docker: use explicit docker.io registry
-      tests/docker: remove FEATURES env var from templates
-      tests/docker: fix sorting in package lists
-      tests/docker: fix mistakes in centos package lists
-      tests/docker: fix mistakes in fedora package list
-      tests/docker: fix mistakes in ubuntu package lists
-      tests/docker: remove mingw packages from Fedora
-      tests/docker: expand centos8 package list
-      tests/docker: expand fedora package list
-      tests/docker: expand ubuntu1804 package list
-      tests/docker: expand ubuntu2004 package list
-      tests/docker: expand opensuse-leap package list
-
-Mahmoud Mandour (5):
-      plugins: Added a new cache modelling plugin
-      plugins/cache: Enable cache parameterization
-      plugins/cache: Added FIFO and LRU eviction policies
-      docs/devel: Added cache plugin to the plugins docs
-      MAINTAINERS: Added myself as a reviewer for TCG Plugins
-
-Paolo Bonzini (2):
-      meson: fix condition for io_uring stubs
-      disable modular TCG on Darwin
-
- docs/ccid.txt                                      |  15 +-
- docs/devel/ci.rst                                  | 127 ++++
- docs/devel/index.rst                               |   1 +
- docs/devel/tcg-plugins.rst                         |  86 ++-
- .gitlab-ci.d/cirrus/README.rst                     |  54 ++
- configure                                          | 142 +++--
- meson.build                                        |  21 +-
- include/qemu/plugin-memory.h                       |   2 +-
- accel/tcg/cputlb.c                                 |   2 +-
- contrib/plugins/cache.c                            | 641 +++++++++++++++++++++
- contrib/plugins/execlog.c                          | 153 +++++
- plugins/api.c                                      |   4 +-
- tests/tcg/multiarch/test-mmap.c                    | 208 +++----
- .cirrus.yml                                        |  55 --
- .gitlab-ci.d/buildtest.yml                         |  23 -
- .gitlab-ci.d/cirrus.yml                            | 102 ++++
- .gitlab-ci.d/cirrus/build.yml                      |  35 ++
- .gitlab-ci.d/cirrus/freebsd-12.vars                |  13 +
- .gitlab-ci.d/cirrus/freebsd-13.vars                |  13 +
- .gitlab-ci.d/cirrus/macos-11.vars                  |  15 +
- .gitlab-ci.d/custom-runners.yml                    | 222 +++++++
- .gitlab-ci.d/qemu-project.yml                      |   2 +
- .travis.yml                                        |  12 +-
- MAINTAINERS                                        |   2 +
- contrib/plugins/Makefile                           |   4 +-
- scripts/ci/setup/.gitignore                        |   2 +
- scripts/ci/setup/build-environment.yml             | 116 ++++
- scripts/ci/setup/gitlab-runner.yml                 |  71 +++
- scripts/ci/setup/inventory.template                |   1 +
- scripts/ci/setup/vars.yml.template                 |  12 +
- scripts/coverity-scan/coverity-scan.docker         |   1 -
- stubs/meson.build                                  |   4 +-
- tests/docker/common.rc                             |  19 +-
- tests/docker/docker.py                             |   4 +-
- tests/docker/dockerfiles/centos8.docker            |  82 ++-
- .../docker/dockerfiles/debian-xtensa-cross.docker  |   2 +-
- tests/docker/dockerfiles/debian10.docker           |   4 +-
- tests/docker/dockerfiles/debian11.docker           |   2 +-
- tests/docker/dockerfiles/fedora-cris-cross.docker  |   2 +-
- tests/docker/dockerfiles/fedora-i386-cross.docker  |   2 +-
- tests/docker/dockerfiles/fedora-win32-cross.docker |   3 +-
- tests/docker/dockerfiles/fedora-win64-cross.docker |   3 +-
- tests/docker/dockerfiles/fedora.docker             |  67 +--
- tests/docker/dockerfiles/opensuse-leap.docker      |  77 ++-
- tests/docker/dockerfiles/ubuntu.docker             |   4 +-
- tests/docker/dockerfiles/ubuntu1804.docker         |  70 ++-
- tests/docker/dockerfiles/ubuntu2004.docker         |  64 +-
- tests/docker/run                                   |   3 -
- tests/docker/test-clang                            |   2 +-
- tests/docker/test-debug                            |   2 +-
- tests/docker/test-mingw                            |   3 +-
- tests/docker/test-misc                             |   2 +-
- tests/docker/test-tsan                             |   2 +-
- tests/tcg/hexagon/Makefile.target                  |   9 -
- tests/tcg/i386/Makefile.target                     |   3 +
- tests/tcg/multiarch/Makefile.target                |   2 +
- tests/vm/netbsd                                    |   4 +-
- tests/vm/openbsd                                   |   4 +-
- 58 files changed, 2225 insertions(+), 377 deletions(-)
- create mode 100644 docs/devel/ci.rst
- create mode 100644 .gitlab-ci.d/cirrus/README.rst
- create mode 100644 contrib/plugins/cache.c
- create mode 100644 contrib/plugins/execlog.c
- create mode 100644 .gitlab-ci.d/cirrus.yml
- create mode 100644 .gitlab-ci.d/cirrus/build.yml
- create mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars
- create mode 100644 .gitlab-ci.d/cirrus/freebsd-13.vars
- create mode 100644 .gitlab-ci.d/cirrus/macos-11.vars
- create mode 100644 .gitlab-ci.d/custom-runners.yml
- create mode 100644 scripts/ci/setup/.gitignore
- create mode 100644 scripts/ci/setup/build-environment.yml
- create mode 100644 scripts/ci/setup/gitlab-runner.yml
- create mode 100644 scripts/ci/setup/inventory.template
- create mode 100644 scripts/ci/setup/vars.yml.template
-
--- 
-2.20.1
+Best regards,
+Ilya
 
 
