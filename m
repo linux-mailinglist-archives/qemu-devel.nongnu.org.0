@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F523C5D0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:18:46 +0200 (CEST)
-Received: from localhost ([::1]:53502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46AAC3C5CF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:11:56 +0200 (CEST)
+Received: from localhost ([::1]:36162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2vpd-0005WB-J1
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
+	id 1m2vj1-0001OA-97
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:11:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m2vDd-0000cW-Qg
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:39:29 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34789)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m2vPs-0008GX-Qp
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:52:08 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:43930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m2vDb-0004Kn-Qc
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:39:29 -0400
-Received: by mail-ej1-x629.google.com with SMTP id hr1so34326548ejc.1
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:39:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=t2WzP6NLQLmPKLfdDV5pnhzDjjv9Kss8E+YkvBAh4jU=;
- b=U9+t0h5dDz90ZKDmWZsL+JDxAcQ7w0zmKIrlc8J8exUqNDk8HkehZbhhGcTE+Jbu2f
- upFppgxDxHkS2rWG9vqPOj7sY7ulxNugSpFI+dveNbr2eozZE9/VW185P6LbQf4Zd/gC
- 0DfQkcjPtRPWMC4tMnvwvU+NWXf/8h01Qai9n7TGwVTSSO4fZZLKyS8vstHGy1k6u4Hj
- 1gIzQ+wU9sMvpK2/NBRk9L3KqaV78jdKjkcMvU0Vs09dVkx2uZSLzH3VTysTvlpj5ZEc
- w4d3d/hJHMWmMxon7jQaMJ/Iw7xRqmNPDG4PIt+j479UaVBLBjMlQhcoO6rUYB23Vrzm
- 2L8Q==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m2vPo-0000qS-4N
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:52:08 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ q18-20020a1ce9120000b02901f259f3a250so11435305wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:52:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:references:date:in-reply-to:message-id
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=0ScwMtqb5LpVRMdQVJY1hGGZ2J3WVMROqRUlpu9kvXo=;
+ b=l15CJOX4FjaKVq58vjNdDJf+8q3Wuij2qdxYpgxgkFZF2lm+oPi5+m5fCSPyz5BFQA
+ Gd6qzyrIECn4HC54Vuzi7Af6CTU7JyvwgvxG1QazJcz4gYaI1yD+a5U/KxZ3oV9mFeYq
+ bZu5qhK2m9McQiXHLOZNZ36D+zafb/jFMpuHAqKQNIZAPRteeyKvpv/dI4C7YSqSD49X
+ a0Te4OgsiG4VuAJ29KyrPQ1P31i77p6hBKqr0Vnb614pKD/u0GuCnvLpAKRi+oZzzgJt
+ 0Fr1drfK+0HGLAGo9dw6uQjpeH73a0TMUa1o0nZfZab3uudToNmGCvPMJWJySpEZNY6s
+ Cy2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=t2WzP6NLQLmPKLfdDV5pnhzDjjv9Kss8E+YkvBAh4jU=;
- b=EdnKipuctRc6EjDI3Ho14FEDEJEXGGTfYQ/P33tEO2S4/klN2UHzxDBtIyI8Cz4kuI
- m8Gb4QfFraQqIYGGMcHMtt0wznymp/M/elhCk+h8qIMqfzkLOWaXTUGxxd/oZ/riWEfK
- KQzQnzIDCN/3Pyt2CcQ8NC+69QIit3uMF3+3mw+/GKg0Pbw/i0p2T5aWbIId5109reUR
- 9+rOutjWe6p5Jj2zNGLDMWKqC80HKpbIhUuB2Mqc0CUAfrwZCU8drtQ3Ov2i2cL8WtYL
- E1FeIYs5YTuwMhQAl4MareJkQYo91I2cJpUiWJvtzfsUcUmmCepKHL7rP6uxJju7aUwR
- m1/A==
-X-Gm-Message-State: AOAM530tZBHBdGe35bXyk6iQtAa45kbXR2/8DhP9ABVKX5h9VNAkOzXb
- EdHdvxgWJBpB5L2u7dSAL2BViqOZ63o=
-X-Google-Smtp-Source: ABdhPJwZEYXVQbP/EPplU5Qp2PVEBi5JpcW7FTUG3CqseQ2GhdQWuP9d9SeFh9nGnkWW415+ppcXmA==
-X-Received: by 2002:a17:906:2287:: with SMTP id
- p7mr29374954eja.181.1626093566388; 
- Mon, 12 Jul 2021 05:39:26 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q23sm7860644edt.22.2021.07.12.05.39.25
+ h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
+ :message-id:user-agent:mime-version:content-transfer-encoding;
+ bh=0ScwMtqb5LpVRMdQVJY1hGGZ2J3WVMROqRUlpu9kvXo=;
+ b=PjF3V6X8KXeOJf8tH3Lqia6w35AMzbXiVhvH+NDTtn9ZGNoQb3FKlO2zsGjNv/LrHH
+ G6fQf3tHIVn7WvDI6ENtHWhdefxfvLJ5PeupYSl/TfEYiy9EsO1Xa8ZwFCC34PihkEI1
+ IyM+rEbvZZU6KjCJJMvkE/a/9P3XwhZ65JTSVtI6U4qD+PTq8BFttoPJ/pueZo0Nia+w
+ a6kSYespsJ0o582hhj8cOu3VuG6kLzaNJ3a137WP1RDOKlOridd4i6foiiC5Gb5WlAlX
+ MiWBsRe7GQkAxXHRQSfedEerAc7BNipioVWZm5vejPrGXvPU3/bftc9tA13+XgnIlzjD
+ 7YMA==
+X-Gm-Message-State: AOAM5300cAucosOLtUg0e2iNDr3cY0AlkP7KOYmo9obmxBswkVDz3At+
+ spyacgwJlXBph8WD7hfGt+iumQ==
+X-Google-Smtp-Source: ABdhPJy+aEGpsL1UR17gbSwhvtZ36dM5NIAEFKGyYpCE1PNoUJ8FVgqtqhvSgktU4MK0hVVI9drY4Q==
+X-Received: by 2002:a05:600c:204c:: with SMTP id
+ p12mr3642387wmg.167.1626094322334; 
+ Mon, 12 Jul 2021 05:52:02 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s24sm15035663wra.33.2021.07.12.05.52.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 05:39:26 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: fix condition for io_uring stubs
-Date: Mon, 12 Jul 2021 14:39:17 +0200
-Message-Id: <20210712123917.463123-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
+ Mon, 12 Jul 2021 05:52:01 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AEBC91FF7E;
+ Mon, 12 Jul 2021 13:52:00 +0100 (BST)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] disable modular TCG on Darwin
+References: <20210712122208.456264-1-pbonzini@redhat.com>
+Date: Mon, 12 Jul 2021 13:52:00 +0100
+In-Reply-To: <20210712122208.456264-1-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 12 Jul 2021 14:22:08 +0200")
+Message-ID: <87o8b7vgnj.fsf@linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: qemu-devel@nongnu.org, akihiko.odaki@gmail.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CONFIG_LINUX_IO_URING is not included in config-host.mak and therefore is
-not usable in "when" clauses.  Just include it unconditionally, it will
-be quietly elided by the linker if liburing is not available (including
-on non-Linux).
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-At this point, the difference between libraries that have config-host.mak
-entries and those that do not is quite confusing.  The remaining ~dozen
-should be converted in 6.2.
+> Accelerator modularity does not work on Darwin:
+>
+> ld: illegal thread local variable reference to regular symbol _current_cp=
+u for architecture x86_64
+> clang: error: linker command failed with exit code 1 (use -v to see invoc=
+ation)
+>
+> Fix by avoiding modular TCG builds.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- stubs/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Queued to HEAD, thanks.
 
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 2e79ff9f4d..42e81ab5c3 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -15,7 +15,7 @@ stub_ss.add(files('fdset.c'))
- stub_ss.add(files('fw_cfg.c'))
- stub_ss.add(files('gdbstub.c'))
- stub_ss.add(files('get-vm-name.c'))
--stub_ss.add(when: 'CONFIG_LINUX_IO_URING', if_true: files('io_uring.c'))
-+stub_ss.add(files('io_uring.c'))
- stub_ss.add(files('iothread-lock.c'))
- stub_ss.add(files('isa-bus.c'))
- stub_ss.add(files('is-daemonized.c'))
--- 
-2.31.1
-
+--=20
+Alex Benn=C3=A9e
 
