@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4243C6531
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 22:54:29 +0200 (CEST)
-Received: from localhost ([::1]:53308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EAD3C6546
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 23:07:55 +0200 (CEST)
+Received: from localhost ([::1]:36640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m32wf-0007Bu-1F
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 16:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39212)
+	id 1m339d-00074M-JJ
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 17:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1m32qJ-0004wM-8Y
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 16:47:55 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10968
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1m32qG-0007Es-0E
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 16:47:54 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16CKXSSu045889
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:47:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=ysGLDF477EENF7jBU8VTcM5wHTgwkuOumR0gLIcjaU4=;
- b=DQN2uhzZKLKEt4sIEqOtxAbClteprAGeeBFI1NVLyyoq+Pv8SRyTSAND7xLLMZutPI8C
- Y0CcEgczIhkhCxhuxqnQU3Bi2pMUwJ2VX5bH25zS9Z0WJva4WobzjGy9pRISGa0v8t6c
- rh/NbZvAK1uOLMfLAEC/GSpxONirc0Dy3htfPPkDmPGcdSPQD1X3qax8VchylO8nuAmP
- 1eOXq7Btnrx1PmVR9hfpdovoi47XDR9EfdTIGR0JzQW/Rcj2Y585WX8EF9XYIUX+aobu
- yywIFN+OyQ2Ui/CBJWpqFvwfJJ4s1Ju1YbkpDtFTcLwWx+NNAZi//4R6g6/09Mn1qrOj Uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39qs65drbh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:47:51 -0400
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16CKk17J100101
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:47:50 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39qs65drb3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jul 2021 16:47:50 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16CKgMP0024489;
- Mon, 12 Jul 2021 20:47:50 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02wdc.us.ibm.com with ESMTP id 39q36afrvs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 12 Jul 2021 20:47:50 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16CKlnl550987318
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 12 Jul 2021 20:47:49 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1777CBE056;
- Mon, 12 Jul 2021 20:47:49 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B1CEABE04F;
- Mon, 12 Jul 2021 20:47:48 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com?044watson.ibm.com (unknown [9.47.158.153])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 12 Jul 2021 20:47:48 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org, marcandre.lureau@redhat.com
-Subject: [PATCH v4 10/10] tests: Use QMP to check whether a TPM device model
- is available
-Date: Mon, 12 Jul 2021 16:47:36 -0400
-Message-Id: <20210712204736.365349-11-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210712204736.365349-1-stefanb@linux.vnet.ibm.com>
-References: <20210712204736.365349-1-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m337o-0005wr-Nl
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:06:00 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m337m-0004Jk-Ee
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 17:06:00 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g16so17586897wrw.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 14:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jmR6qvXsjv146Udn9zBwMCdzaSgA4ZEohGBLRdU9LIg=;
+ b=GOG6o0+1Q5ci8xmgL1ar5Gye0IRLIRXtVTL+7XkbX8WzId6dQYt5MUujA87IIQkpw6
+ zTmDOJem486im2kzohHrhXaxdfoU71aM00u4zhZW1ItFCM0aGmFIQAkzRc5rYm6QIeu7
+ r2GYmcgfgTvBtOMwy/n/6lamkw4TWyvtR9aeRowQ9HdGsm4Y4/GxoasBtxrlAr/W0GJK
+ IdpsRDM8XqkVCJff3u0weXOTVe8eGs0Et7BsgKhHhebFROv3LyR3s60BCxCov++SkmR5
+ x3ibX59vQRHhx5WpFrVUN7KALB6toerZuDXHJivr4p70lSWOi/yDCUtJDoOJDdRpc/aj
+ D52w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jmR6qvXsjv146Udn9zBwMCdzaSgA4ZEohGBLRdU9LIg=;
+ b=PLKdHlA3xN4TKeQoXKJ/G101hCeuY2KwiIfOeuln4nykNoVEnWl7/Kjhk4d5axUS97
+ stSWu+IUrUOURDtzs6gFABVq5J20p4wZMAfdxIVKBORxq5gJzsR48SbhMLZ4lm5GlzzH
+ NfLtvjRckfOPJJx8CF6hkkXFqTChwvcmVhc13hq7SsYM3lWyspjT6O5BuNjEqhKWMVMk
+ CLlh9N9V7zzBkL7K8N65bUPU8lSUSLHlXMdlmFDXQBUMk/VxfYkgRUmP0VKhTMyDipVD
+ T3ZF6MH3wteFFRVnISfAmqjaCoMTdfIhSIb4HhxfA/PhiXH26r7u9Fx2cNBKOYupStuu
+ XsDA==
+X-Gm-Message-State: AOAM532z8/d++dXa9fFicjgSYB1CWeL523+vjcU0N9npOdOss+ijH0p7
+ ee8Tp4FlP3o0E4PydfkNIHvdqw==
+X-Google-Smtp-Source: ABdhPJwbfy7Ihn4RJx+CRNV8ut40+3TMdawxYPVb1jj6Jiv3tjdoMWNxDY8Ga0rKHio00u8M2B75SQ==
+X-Received: by 2002:a5d:6284:: with SMTP id k4mr1147653wru.387.1626123956262; 
+ Mon, 12 Jul 2021 14:05:56 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v9sm3473018wml.36.2021.07.12.14.05.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 14:05:55 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9F5C81FF7E;
+ Mon, 12 Jul 2021 22:05:54 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL v4 00/42] testing, build and plugin updates
+Date: Mon, 12 Jul 2021 22:05:54 +0100
+Message-Id: <20210712210554.1951-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: qVCx9oejuAXtbjEvTp5WGFOgtbo0jjQQ
-X-Proofpoint-GUID: sIu0vMVp9ehUl2utNY-UmyjbEAJp1zE6
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-12_11:2021-07-12,
- 2021-07-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 phishscore=0
- adultscore=0 spamscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- clxscore=1015 impostorscore=0 suspectscore=0 lowpriorityscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107120142
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,133 +84,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>, philmd@redhat.com,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use QMP to check whether a given TPM device model is available
-and if it is not the case then skip a test that requires it.
+The following changes since commit bd38ae26cea0d1d6a97f930248df149204c210a2:
 
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
----
- tests/qtest/bios-tables-test.c | 14 +++++++------
- tests/qtest/tpm-emu.c          | 37 ++++++++++++++++++++++++++++++++++
- tests/qtest/tpm-emu.h          |  2 ++
- 3 files changed, 47 insertions(+), 6 deletions(-)
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210710' into staging (2021-07-12 11:02:39 +0100)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index ddfd2d2b2a..64add7da72 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1094,7 +1094,6 @@ uint64_t tpm_tis_base_addr;
- static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
-                               uint64_t base, enum TPMVersion tpm_version)
- {
--#ifdef CONFIG_TPM
-     gchar *tmp_dir_name = g_strdup_printf("qemu-test_acpi_%s_tcg_%s.XXXXXX",
-                                           machine, tpm_if);
-     char *tmp_path = g_dir_make_tmp(tmp_dir_name, NULL);
-@@ -1140,19 +1139,22 @@ static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
-     g_free(tmp_dir_name);
-     g_free(args);
-     free_test_data(&data);
--#else
--    g_test_skip("TPM disabled");
--#endif
- }
- 
- static void test_acpi_q35_tcg_tpm2_tis(void)
- {
--    test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_2_0);
-+    if (!tpm_model_is_available("-machine q35", "tpm-tis"))
-+        g_test_skip("TPM disabled");
-+    else
-+        test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_2_0);
- }
- 
- static void test_acpi_q35_tcg_tpm12_tis(void)
- {
--    test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_1_2);
-+    if (!tpm_model_is_available("-machine q35", "tpm-tis"))
-+        g_test_skip("TPM disabled");
-+    else
-+        test_acpi_tcg_tpm("q35", "tis", 0xFED40000, TPM_VERSION_1_2);
- }
- 
- static void test_acpi_tcg_dimm_pxm(const char *machine)
-diff --git a/tests/qtest/tpm-emu.c b/tests/qtest/tpm-emu.c
-index 32c704194b..553f1ad4ee 100644
---- a/tests/qtest/tpm-emu.c
-+++ b/tests/qtest/tpm-emu.c
-@@ -16,6 +16,8 @@
- #include "backends/tpm/tpm_ioctl.h"
- #include "io/channel-socket.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qlist.h"
-+#include "qapi/qmp/qstring.h"
- #include "tpm-emu.h"
- 
- void tpm_emu_test_wait_cond(TPMTestState *s)
-@@ -192,3 +194,38 @@ void *tpm_emu_ctrl_thread(void *data)
-     object_unref(OBJECT(lioc));
-     return NULL;
- }
-+
-+bool tpm_model_is_available(const char *args, const char *tpm_if)
-+{
-+    QTestState *qts;
-+    QDict *rsp_tpm;
-+    bool ret = false;
-+
-+    qts = qtest_init(args);
-+    if (!qts)
-+        return false;
-+
-+    rsp_tpm = qtest_qmp(qts, "{ 'execute': 'query-tpm'}");
-+    if (!qdict_haskey(rsp_tpm, "error")) {
-+        QDict *rsp_models = qtest_qmp(qts,
-+                                      "{ 'execute': 'query-tpm-models'}");
-+        if (qdict_haskey(rsp_models, "return")) {
-+            QList *models = qdict_get_qlist(rsp_models, "return");
-+            QListEntry *e;
-+
-+            QLIST_FOREACH_ENTRY(models, e) {
-+                QString *s = qobject_to(QString, qlist_entry_obj(e));
-+                const char *ename = qstring_get_str(s);
-+                if (!strcmp(ename, tpm_if)) {
-+                    ret = true;
-+                }
-+            }
-+            qobject_unref(models);
-+        }
-+        qobject_unref(rsp_models);
-+    }
-+    qobject_unref(rsp_tpm);
-+    qtest_quit(qts);
-+
-+    return ret;
-+}
-diff --git a/tests/qtest/tpm-emu.h b/tests/qtest/tpm-emu.h
-index fcb5d7a1d6..c33d99af37 100644
---- a/tests/qtest/tpm-emu.h
-+++ b/tests/qtest/tpm-emu.h
-@@ -22,6 +22,7 @@
- #include "qemu/sockets.h"
- #include "io/channel.h"
- #include "sysemu/tpm.h"
-+#include "libqos/libqtest.h"
- 
- struct tpm_hdr {
-     uint16_t tag;
-@@ -50,5 +51,6 @@ typedef struct TPMTestState {
- 
- void tpm_emu_test_wait_cond(TPMTestState *s);
- void *tpm_emu_ctrl_thread(void *data);
-+bool tpm_model_is_available(const char *args, const char *tpm_if);
- 
- #endif /* TESTS_TPM_EMU_H */
+are available in the Git repository at:
+
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-120721-4
+
+for you to fetch changes up to 312ad3f702789db630c8e43aaad718a1459b2018:
+
+  MAINTAINERS: Added myself as a reviewer for TCG Plugins (2021-07-12 20:13:24 +0100)
+
+----------------------------------------------------------------
+Testing and plugin updates:
+
+  - custom runner playbooks for configuring GitLab runners
+  - integrate Cirrus jobs into GitLab via cirrus-run
+  - clean-up docker package lists
+  - bump NetBSD to 9.2
+  - bump OpenBSD to 6.9
+  - make test-mmap more hexagon friendly
+  - fixup handling of hostaddr for plugins
+  - disallow some incompatible plugin configurations
+  - enable plugins by default for most TCG builds
+  - honour main build -Wall settings for plugins
+  - new execlog plugin
+  - new cache modelling plugin
+  - fix io_uring build regression
+  - disable modular TCG on Darwin
+
+----------------------------------------------------------------
+Alex Bennée (9):
+      tests/tcg: also disable the signals test for plugins
+      tests/tcg: make test-mmap a little less aggressive
+      plugins: fix-up handling of internal hostaddr for 32 bit
+      meson.build: move TCG plugin summary output
+      configure: don't allow plugins to be enabled for a non-TCG build
+      configure: add an explicit static and plugins check
+      configure: stop user enabling plugins on Windows for now
+      tcg/plugins: enable by default for most TCG builds
+      contrib/plugins: enable -Wall for building plugins
+
+Alexandre Iooss (2):
+      contrib/plugins: add execlog to log instruction execution and memory access
+      docs/devel: tcg-plugins: add execlog plugin description
+
+Brad Smith (2):
+      tests/vm: update NetBSD to 9.2
+      tests/vm: update openbsd to release 6.9
+
+Cleber Rosa (4):
+      Jobs based on custom runners: documentation and configuration placeholder
+      Jobs based on custom runners: build environment docs and playbook
+      Jobs based on custom runners: docs and gitlab-runner setup playbook
+      Jobs based on custom runners: add job definitions for QEMU's machines
+
+Daniel P. Berrangé (18):
+      build: validate that system capstone works before using it
+      gitlab: support for FreeBSD 12, 13 and macOS 11 via cirrus-run
+      cirrus: delete FreeBSD and macOS jobs
+      hw/usb/ccid: remove references to NSS
+      tests/docker: don't use BUILDKIT in GitLab either
+      tests/docker: use project specific container registries
+      tests/docker: use explicit docker.io registry
+      tests/docker: remove FEATURES env var from templates
+      tests/docker: fix sorting in package lists
+      tests/docker: fix mistakes in centos package lists
+      tests/docker: fix mistakes in fedora package list
+      tests/docker: fix mistakes in ubuntu package lists
+      tests/docker: remove mingw packages from Fedora
+      tests/docker: expand centos8 package list
+      tests/docker: expand fedora package list
+      tests/docker: expand ubuntu1804 package list
+      tests/docker: expand ubuntu2004 package list
+      tests/docker: expand opensuse-leap package list
+
+Mahmoud Mandour (5):
+      plugins: Added a new cache modelling plugin
+      plugins/cache: Enable cache parameterization
+      plugins/cache: Added FIFO and LRU eviction policies
+      docs/devel: Added cache plugin to the plugins docs
+      MAINTAINERS: Added myself as a reviewer for TCG Plugins
+
+Paolo Bonzini (2):
+      meson: fix condition for io_uring stubs
+      disable modular TCG on Darwin
+
+ docs/ccid.txt                                      |  15 +-
+ docs/devel/ci.rst                                  | 127 ++++
+ docs/devel/index.rst                               |   1 +
+ docs/devel/tcg-plugins.rst                         |  86 ++-
+ .gitlab-ci.d/cirrus/README.rst                     |  54 ++
+ configure                                          | 142 +++--
+ meson.build                                        |  21 +-
+ include/qemu/plugin-memory.h                       |   2 +-
+ accel/tcg/cputlb.c                                 |   2 +-
+ contrib/plugins/cache.c                            | 641 +++++++++++++++++++++
+ contrib/plugins/execlog.c                          | 153 +++++
+ plugins/api.c                                      |   4 +-
+ tests/tcg/multiarch/test-mmap.c                    | 208 +++----
+ .cirrus.yml                                        |  55 --
+ .gitlab-ci.d/buildtest.yml                         |  23 -
+ .gitlab-ci.d/cirrus.yml                            | 102 ++++
+ .gitlab-ci.d/cirrus/build.yml                      |  35 ++
+ .gitlab-ci.d/cirrus/freebsd-12.vars                |  13 +
+ .gitlab-ci.d/cirrus/freebsd-13.vars                |  13 +
+ .gitlab-ci.d/cirrus/macos-11.vars                  |  15 +
+ .gitlab-ci.d/custom-runners.yml                    | 222 +++++++
+ .gitlab-ci.d/qemu-project.yml                      |   2 +
+ .travis.yml                                        |  12 +-
+ MAINTAINERS                                        |   2 +
+ contrib/plugins/Makefile                           |   4 +-
+ scripts/ci/setup/.gitignore                        |   2 +
+ scripts/ci/setup/build-environment.yml             | 116 ++++
+ scripts/ci/setup/gitlab-runner.yml                 |  71 +++
+ scripts/ci/setup/inventory.template                |   1 +
+ scripts/ci/setup/vars.yml.template                 |  12 +
+ scripts/coverity-scan/coverity-scan.docker         |   1 -
+ stubs/meson.build                                  |   4 +-
+ tests/docker/common.rc                             |  19 +-
+ tests/docker/docker.py                             |   4 +-
+ tests/docker/dockerfiles/centos8.docker            |  82 ++-
+ .../docker/dockerfiles/debian-xtensa-cross.docker  |   2 +-
+ tests/docker/dockerfiles/debian10.docker           |   4 +-
+ tests/docker/dockerfiles/debian11.docker           |   2 +-
+ tests/docker/dockerfiles/fedora-cris-cross.docker  |   2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker  |   2 +-
+ tests/docker/dockerfiles/fedora-win32-cross.docker |   3 +-
+ tests/docker/dockerfiles/fedora-win64-cross.docker |   3 +-
+ tests/docker/dockerfiles/fedora.docker             |  67 +--
+ tests/docker/dockerfiles/opensuse-leap.docker      |  77 ++-
+ tests/docker/dockerfiles/ubuntu.docker             |   4 +-
+ tests/docker/dockerfiles/ubuntu1804.docker         |  70 ++-
+ tests/docker/dockerfiles/ubuntu2004.docker         |  64 +-
+ tests/docker/run                                   |   3 -
+ tests/docker/test-clang                            |   2 +-
+ tests/docker/test-debug                            |   2 +-
+ tests/docker/test-mingw                            |   3 +-
+ tests/docker/test-misc                             |   2 +-
+ tests/docker/test-tsan                             |   2 +-
+ tests/tcg/hexagon/Makefile.target                  |   9 -
+ tests/tcg/i386/Makefile.target                     |   3 +
+ tests/tcg/multiarch/Makefile.target                |   2 +
+ tests/vm/netbsd                                    |   4 +-
+ tests/vm/openbsd                                   |   4 +-
+ 58 files changed, 2225 insertions(+), 377 deletions(-)
+ create mode 100644 docs/devel/ci.rst
+ create mode 100644 .gitlab-ci.d/cirrus/README.rst
+ create mode 100644 contrib/plugins/cache.c
+ create mode 100644 contrib/plugins/execlog.c
+ create mode 100644 .gitlab-ci.d/cirrus.yml
+ create mode 100644 .gitlab-ci.d/cirrus/build.yml
+ create mode 100644 .gitlab-ci.d/cirrus/freebsd-12.vars
+ create mode 100644 .gitlab-ci.d/cirrus/freebsd-13.vars
+ create mode 100644 .gitlab-ci.d/cirrus/macos-11.vars
+ create mode 100644 .gitlab-ci.d/custom-runners.yml
+ create mode 100644 scripts/ci/setup/.gitignore
+ create mode 100644 scripts/ci/setup/build-environment.yml
+ create mode 100644 scripts/ci/setup/gitlab-runner.yml
+ create mode 100644 scripts/ci/setup/inventory.template
+ create mode 100644 scripts/ci/setup/vars.yml.template
+
 -- 
-2.31.1
+2.20.1
 
 
