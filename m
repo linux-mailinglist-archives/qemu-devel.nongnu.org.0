@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8998B3C6039
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:14:27 +0200 (CEST)
-Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BE83C604F
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:18:19 +0200 (CEST)
+Received: from localhost ([::1]:56592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2yZe-0007Iv-KR
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:14:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38352)
+	id 1m2ydO-0000mh-KA
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:18:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m2yYf-0006cR-88
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:13:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39655)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m2ycB-00005s-Hj
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:17:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1m2yYb-0000vj-5z
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:13:23 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m2ycA-0003Nn-4o
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:17:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626106399;
+ s=mimecast20190719; t=1626106620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Pyes+qE6wYr6dCLVUi0138kwyzI9Ol2QkhRME9c2Rr8=;
- b=dxIzlEMIKBcK9uDJL+B6NjFUFfmHXSTYATMppkZ3OOffCc83Y2rO47daduWWFvyGLBJz6P
- RArHnDNyUxOGdsvhVMEc74s3egQkbOMrIy7d7G58xZdYBzNtd7RrPkrczYfj0TywJWCo9r
- nkMEVlYS5bSLCjOKnirX9vt8BR3WvMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-YDRZufDEPxi1WX2KPLxShg-1; Mon, 12 Jul 2021 12:13:16 -0400
-X-MC-Unique: YDRZufDEPxi1WX2KPLxShg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1383C8015C6;
- Mon, 12 Jul 2021 16:13:16 +0000 (UTC)
-Received: from redhat.com (ovpn-113-49.phx2.redhat.com [10.3.113.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9300410023B0;
- Mon, 12 Jul 2021 16:13:15 +0000 (UTC)
-Date: Mon, 12 Jul 2021 11:13:13 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/4] NBD patches for soft freeze, 2021-07-09
-Message-ID: <20210712161313.n2v7gu2ud2wfmoyp@redhat.com>
-References: <20210709140951.2775730-1-eblake@redhat.com>
- <CAFEAcA8Oe0Tk0y-JvrovHBnTMW0Dp4Zx9=uTUnO9QhooKxPEOA@mail.gmail.com>
+ bh=Hv4m93hmoudOevzGUzFxzEjRFWqYizzI6pHJhlPwIo0=;
+ b=EaWxgtEC9KEbrgRsXwZCeCTf87afbr0M7nqM6ylMo7bkwuSdkT2mqSnAbxHyhHfnno02QA
+ hwZ407U+IYp7jbdnKc0LkK48sCAgwM82W2yuN2siSDQ2HDvqruwJqKsL8NYqkcrFXQ9lz9
+ KdQb00Bxtmxhw2m5We1gktYmvNMD/SU=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-R1uyNb0tNVOk5TTridEesQ-1; Mon, 12 Jul 2021 12:16:59 -0400
+X-MC-Unique: R1uyNb0tNVOk5TTridEesQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m31-20020a05600c3b1fb02902082e9b2132so7534021wms.5
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 09:16:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Hv4m93hmoudOevzGUzFxzEjRFWqYizzI6pHJhlPwIo0=;
+ b=pOeffEbkQ0M6v2LFDo75d4r9yJjsZOzP56PejGq1yHFW8OiZxzHuWUj8h1SUjw3kj2
+ SyfUrX+2uIgQ7OloanXd++Sq90r+DUZWo/+NE7cuKeDlgDrcqmlxiGythbBwZPrRQBV7
+ gMONbVEVEdfAZQuigMAW5McxK6ssvhjL4JlyiaTfuSAFLmEvJMslVwMJXqRsd4n5n2dA
+ YBxGXRUgna2pCCPg5m6N2E0QryEvdC5QSrc6lflikzWOQN3laE8Khfl3CzG1JR+bYKBq
+ OtnJhLCd8jHg9UrMv0NFGhpo5NUKQOLP5chSnG7mnsOt6KXJLU2KQngS5yxT4VqvrulR
+ jMmQ==
+X-Gm-Message-State: AOAM533QpvLp8jEliuU5QeOloPb68BirOrQWJ2yeX1jO8uzwoiAkS+Gy
+ TCAo6x5htvOXJEcm0wR+BK2lHx8F4ty7CEVwFg25sanVdVTzOrILaeFWTHMRrx/YUXV5nOQdtUc
+ DwHe+XHFpJEBZwuw=
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr14947721wrd.200.1626106618455; 
+ Mon, 12 Jul 2021 09:16:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuWXAOlvcvmFmv8M6/I60QDW7+lh/3hblT43L11NLgeijLJdr4cQXCiexPwU/a6XZY3DSKRQ==
+X-Received: by 2002:adf:d1cd:: with SMTP id b13mr14947690wrd.200.1626106618278; 
+ Mon, 12 Jul 2021 09:16:58 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id s6sm4879504wrt.45.2021.07.12.09.16.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 09:16:57 -0700 (PDT)
+Date: Mon, 12 Jul 2021 17:16:56 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Brijesh Singh <brijesh.singh@amd.com>
+Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
+ SEV-SNP
+Message-ID: <YOxq979AtHz/0IPP@work-vm>
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-3-brijesh.singh@amd.com>
+ <YOxS6R5NADizMui2@work-vm>
+ <14ebb720-1aee-fb3f-bd49-e41139e64b14@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Oe0Tk0y-JvrovHBnTMW0Dp4Zx9=uTUnO9QhooKxPEOA@mail.gmail.com>
-User-Agent: NeoMutt/20210205-569-37ed14
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <14ebb720-1aee-fb3f-bd49-e41139e64b14@amd.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,42 +99,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ armbru@redhat.com, qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 11, 2021 at 01:09:08PM +0100, Peter Maydell wrote:
-> On Fri, 9 Jul 2021 at 15:13, Eric Blake <eblake@redhat.com> wrote:
-> >
-> > The following changes since commit 9db3065c62a983286d06c207f4981408cf42184d:
-> >
-> >   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.1-pull-request' into staging (2021-07-08 16:30:18 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-07-09
-> >
-> > for you to fetch changes up to 62967c9927ec4d733b923c70f9f5428dd1d2e0d7:
-> >
-> >   nbd: register yank function earlier (2021-07-09 08:27:33 -0500)
-> >
-> > ----------------------------------------------------------------
-> > nbd patches for 2021-07-09
-> >
-> > - enhance 'qemu-img map --output=json' to make it easier to duplicate
-> > backing chain allocation patterns
-> > - fix a race in the 'yank' QMP command in relation to NBD requests
-> >
+* Brijesh Singh (brijesh.singh@amd.com) wrote:
 > 
-> This failed iotest 253 in the build-tcg-disabled gitlab CI:
-> https://gitlab.com/qemu-project/qemu/-/jobs/1415082341
+> 
+> On 7/12/21 9:34 AM, Dr. David Alan Gilbert wrote:
+> > > 
+> > > $ cat snp-launch.init
+> > > 
+> > > # SNP launch parameters
+> > > [SEV-SNP]
+> > > init_flags = 0
+> > > policy = 0x1000
+> > > id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
+> > 
+> > Wouldn't the 'gosvw' and 'hostdata' also be in there?
+> > 
+> 
+> I did not included all the 8 parameters in the commit messages, mainly
+> because some of them are big. I just picked 3 smaller ones.
 
-Also 146, 211, and 241 needed updating to match the new expected
-output.  Will post a v2 pull request soon.
+It would be good to have a full example, even if one of them was
+something like:
 
+  stuff = ".....<upto 4096 bytes>...."
+
+so we'd just be able to get more of an idea.
+
+Dave
+
+> -Brijesh
+> 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
