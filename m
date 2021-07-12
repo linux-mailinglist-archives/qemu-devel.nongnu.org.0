@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DDD43C4670
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 12:12:14 +0200 (CEST)
-Received: from localhost ([::1]:47512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B4D3C4675
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 12:21:57 +0200 (CEST)
+Received: from localhost ([::1]:50002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2sv7-0006fL-Nc
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 06:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38326)
+	id 1m2t4W-000150-Ir
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 06:21:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2suB-0005vb-EL
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:11:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m2su5-0005Wt-FU
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:11:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626084668;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jHURF0O8iapO6swEZhZE4I1ULv7gi40VAZ5TRiGm1jQ=;
- b=PPlutC3V4siJDn8ZCxlpQ7S2VjdhP7hVjSMYugbJ2PykHYp0PlzfbeM2iBpTt4arvTJryK
- FCJiNd0FrAr4q4w4Al3Oy7pAjU+fqNcT/zcNOWzdDZ7FlsHBlekOtt+Wq9grCjef6qliel
- c2iM4OYVW6vgy3Jwd9XAWO/5/NZGhYQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-Q6TGs8JNOEO-lOiw63bU_Q-1; Mon, 12 Jul 2021 06:11:03 -0400
-X-MC-Unique: Q6TGs8JNOEO-lOiw63bU_Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AC9391272;
- Mon, 12 Jul 2021 10:11:02 +0000 (UTC)
-Received: from redhat.com (ovpn-114-105.ams2.redhat.com [10.36.114.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AE1E1971B;
- Mon, 12 Jul 2021 10:11:00 +0000 (UTC)
-Date: Mon, 12 Jul 2021 11:10:57 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 2/4] qemu-options: re-arrange CPU topology options
-Message-ID: <YOwVMUkX948MrNxC@redhat.com>
-References: <20210628113047.462498-1-berrange@redhat.com>
- <20210628113047.462498-3-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m2t3L-0000AY-Ca
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:20:43 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36708)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m2t3J-0004rd-GQ
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 06:20:43 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id v5so24867374wrt.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 03:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BIrGsf64xh/em8bVbev3arFNkwnc1GL2/l222EhYMfk=;
+ b=I9X+tF6wex7r0siOkbqCKh3RwasiveIlDuME/3+hKLrdLaokGlNbD1C2xNJ184TciK
+ +xDzH8YpZKgSjqgY+S1YnMqTS1r0rPylGie0lE5nJ5RUqZn+1NXaDAcikv+Z/Wyql9Jn
+ 5RFOZuKNV9yJbq6zr/a4jrpE/2RB1Np/Og/TX4th+pEmWPb7BDNrL2Wfg9Hgt+F5Fier
+ 3xDYeL75/o9A21rKGR1ao5+b8sKl8eO2uIsNfsvaP935sQ8UzSFavSSV+irKMq4tjweg
+ 3ywhiYlqamdwKnOsgoXC7u4JViLLLLjL8iGvSwkPi3LKktwMZgq5REWeVNoHqHZsRBJW
+ elSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BIrGsf64xh/em8bVbev3arFNkwnc1GL2/l222EhYMfk=;
+ b=CQlaveaB/aCuDLz+COIjLb0VRGIENavlBpkl87YS4WA3MPRbtXEHonuWpVZIo6A7Lg
+ 6jh+Zlhywhc9w4YtdZM/U6hymIRTcofl4HUeXj8Dqkp3nu+hQ/0KIhsyPglpfFz53Bbt
+ Nxwy+K+bvG/EM8h+UmPtx183lKOsC0y4GjLwzFajbD6veOpLOazShFulnwa2Vqj3YglM
+ y1P4jI3+DL6Lj/vd/13s6LmQQYJac3YSsptmRai7xDlsQRMxjtsSDV1mebOI7dX5BO96
+ euUqMUlRpnddYLuPUDPsi6EUaf0GDQ3YCcGH8BwBTuAKMMfdbXwhjD/1fpt553yVQxeK
+ c+9A==
+X-Gm-Message-State: AOAM532wwDWJQFaTuH/OWcRq2U76fZJazO9J+lMNxCmf3zIkL8WRbv2a
+ FXxzpoLBTujBOC+OfbwDr+Q=
+X-Google-Smtp-Source: ABdhPJyCTbOSNiS8tRBU25eM/ffVq6ciyarRN+TdModgDnh61rcaAup3kXO6TjLLEqZxwSKelNnkpQ==
+X-Received: by 2002:a05:6000:1544:: with SMTP id
+ 4mr21140314wry.288.1626085239038; 
+ Mon, 12 Jul 2021 03:20:39 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id h10sm14408632wmb.46.2021.07.12.03.20.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jul 2021 03:20:38 -0700 (PDT)
+Subject: Re: [PULL 4/4] hw/sd: sdhci: Enable 64-bit system bus capability in
+ the default SD/MMC host controller
+To: qemu-devel@nongnu.org, Andrey Smirnov <andrew.smirnov@gmail.com>
+References: <20210711211057.2714586-1-f4bug@amsat.org>
+ <20210711211057.2714586-5-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8f15fdea-0373-97f6-138e-368998b7f0e1@amsat.org>
+Date: Mon, 12 Jul 2021 12:20:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210628113047.462498-3-berrange@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210711211057.2714586-5-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.631,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,63 +91,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "wangyanan \(Y\)" <wangyanan55@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Joanne Koong <joannekoong@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 28, 2021 at 12:30:45PM +0100, Daniel P. Berrangé wrote:
-> The list of CPU topology options are presented in a fairly arbitrary
-> order currently. Re-arrange them so that they're ordered from largest to
-> smallest unit
+On 7/11/21 11:10 PM, Philippe Mathieu-Daudé wrote:
+> From: Joanne Koong <joannekoong@gmail.com>
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> The default SD/MMC host controller uses SD spec v2.00. 64-bit system bus capability
+> was added in v2.
+> 
+> In this change, we arrive at 0x157834b4 by computing (0x057834b4 | (1ul << 28))
+> where 28 represents the BUS64BIT SDHC_CAPAB field.
+> 
+> Signed-off-by: Joanne Koong <joannekoong@gmail.com>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Message-Id: <20210623185921.24113-1-joannekoong@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  qemu-options.hx | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  hw/sd/sdhci-internal.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index ba3ca9da1d..aa33dfdcfd 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -196,17 +196,17 @@ SRST
->  ERST
+> diff --git a/hw/sd/sdhci-internal.h b/hw/sd/sdhci-internal.h
+> index e8c753d6d1e..a76fc704e5e 100644
+> --- a/hw/sd/sdhci-internal.h
+> +++ b/hw/sd/sdhci-internal.h
+> @@ -316,16 +316,16 @@ extern const VMStateDescription sdhci_vmstate;
+>   * - 3.3v and 1.8v voltages
+>   * - SDMA/ADMA1/ADMA2
+>   * - high-speed
+> + * - 64-bit system bus
+>   * max host controller R/W buffers size: 512B
+>   * max clock frequency for SDclock: 52 MHz
+>   * timeout clock frequency: 52 MHz
+>   *
+>   * does not support:
+>   * - 3.0v voltage
+> - * - 64-bit system bus
+>   * - suspend/resume
+>   */
+> -#define SDHC_CAPAB_REG_DEFAULT 0x057834b4
+> +#define SDHC_CAPAB_REG_DEFAULT 0x157834b4
 >  
->  DEF("smp", HAS_ARG, QEMU_OPTION_smp,
-> -    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
-> +    "-smp [cpus=]n[,maxcpus=cpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]\n"
->      "                set the number of CPUs to 'n' [default=1]\n"
->      "                maxcpus= maximum number of total cpus, including\n"
->      "                offline CPUs for hotplug, etc\n"
-> +    "                sockets= number of discrete sockets in the system\n",
-> +    "                dies= number of CPU dies on one socket (for PC only)\n"
->      "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
->      "                threads= number of threads on one CPU core\n"
-> -    "                dies= number of CPU dies on one socket (for PC only)\n"
-> -    "                sockets= number of discrete sockets in the system\n",
->          QEMU_ARCH_ALL)
-
-Stupid typo in this posting - didn't adjust the trailing ',' when moving
-the lines.
-
->  SRST
-> -``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
-> +``-smp [cpus=]n[,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
->      Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
->      are supported. On Sparc32 target, Linux limits the number of usable
->      CPUs to 4. For the PC target, the number of cores per die, the
-> -- 
-> 2.31.1
+>  #define DEFINE_SDHCI_COMMON_PROPERTIES(_state) \
+>      DEFINE_PROP_UINT8("sd-spec-version", _state, sd_spec_version, 2), \
 > 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Unfortunately this breaks the TYPE_IMX_USDHC model for which
+I don't have the datasheet, so I don't know how to fix it.
 
+I suppose it is simpler to remove the COMMON_PROPERTIES macro
+to avoid such problems.
 
