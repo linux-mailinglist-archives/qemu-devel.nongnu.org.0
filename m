@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1803F3C601C
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:08:10 +0200 (CEST)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71A423C6020
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 18:08:43 +0200 (CEST)
+Received: from localhost ([::1]:41976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2yTY-0006GS-KX
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
+	id 1m2yU6-0007VC-HB
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 12:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2yMZ-0001jq-99
+ id 1m2yMW-0001jm-Sf
  for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:00:59 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38802)
+Received: from indium.canonical.com ([91.189.90.7]:38822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m2yMT-00083K-EO
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:00:55 -0400
+ id 1m2yMT-00083w-AA
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 12:00:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m2yMQ-0008Gg-BP
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:00:46 +0000
+ id 1m2yMR-0008Ho-3v
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:00:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 513BA2E8135
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:00:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 16F0D2E8019
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 16:00:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Jul 2021 15:51:01 -0000
+Date: Mon, 12 Jul 2021 15:52:59 -0000
 From: Elvis Stansvik <1859106@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: chungy elvstone janitor philmd th-huth
 X-Launchpad-Bug-Reporter: Mike Swanson (chungy)
 X-Launchpad-Bug-Modifier: Elvis Stansvik (elvstone)
 References: <157861943690.5587.1150668522953222724.malonedeb@gac.canonical.com>
-Message-Id: <162610506137.23758.4635908488038476123.malone@soybean.canonical.com>
+Message-Id: <162610517949.12571.15039969398044012364.malone@wampee.canonical.com>
 Subject: [Bug 1859106] Re: 4.2 regression: ReactOS crashes on boot
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 3d15a286de68763511ceb8541417ab076b30524d
+X-Launchpad-Hash: 087d33dde22662d89406d51279407faf11651a56
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,12 +75,7 @@ Reply-To: Bug 1859106 <1859106@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As a workaround, I have extracted bios.bin and vgabios-stdvga.bin from
-http://launchpadlibrarian.net/318981898/seabios_1.10.2-1ubuntu1_all.deb,
-passing -bios bios.bin to qemu and making sure vgabios-stdvga.bin is in
-the current working directory when running qemu in order for it to be
-used (seems like there is no command line option for qemu to specify the
-VGA bios).
+@th-huth Aha, thanks!
 
 -- =
 
