@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C050E3C5BA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:07:44 +0200 (CEST)
-Received: from localhost ([::1]:40746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113A23C5C09
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 14:23:26 +0200 (CEST)
+Received: from localhost ([::1]:44584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2uit-0005E5-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:07:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
+	id 1m2uy4-0001LF-Mk
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 08:23:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m2uhP-0003tD-8v
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:06:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45727)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m2uhK-0006ms-BC
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:06:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626091564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jXk4/tlgrBt32jT9R4FomDjmS1mQcDOLB4wmI5fQl3w=;
- b=GclWmTuJeHfgTmc8hkqbcaeNRcRWptkXS6u/IBL6kBwsFhhVv8ZjBRLj/Vq3IXnf6GEHNK
- ZGnUTVaqjNdJSNaINiQ5jJHGyApND3Lv2HySmcinEuvAL487NwTKmnX/fwcVgkysNTM7LB
- Ey2Eyv/CKZXCt5cLqjXjYIBvSsIyB+A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-R3pbyFRoMNCZch9HELhkUg-1; Mon, 12 Jul 2021 08:06:00 -0400
-X-MC-Unique: R3pbyFRoMNCZch9HELhkUg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7871B10C1ADC;
- Mon, 12 Jul 2021 12:05:59 +0000 (UTC)
-Received: from localhost (ovpn-112-230.ams2.redhat.com [10.36.112.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84C05189C7;
- Mon, 12 Jul 2021 12:05:49 +0000 (UTC)
-Date: Mon, 12 Jul 2021 13:05:45 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Mike Christie <michael.christie@oracle.com>
-Subject: Re: question on vhost, limiting kernel threads and NPROC
-Message-ID: <YOwwGbOhkDEy/KvQ@stefanha-x1.localdomain>
-References: <b6d181c2-ec7b-913b-3eea-142fcce7c104@oracle.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m2ux3-0000ei-SS
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:22:21 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:33284)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m2ux2-0005fx-6A
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 08:22:21 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id bu12so34267681ejb.0
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 05:22:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2E/1h7/RoKg4VQ+CqTW0g38KxXfWx7lcegiEW9aNbd0=;
+ b=pokoaQBgbBK7zD5QL0EoPjEHPqJo71whxRxWW8rn+gYGBdK0OEAiYceLo/dVx2AcXU
+ nsWgTsYjDOe1xR7O48odNuxRklBmc5OCp2ol6rm30smIqsIn1h6A1f1HMLfavp2dm67g
+ /ZFrxI3ny7SkV00B9ToPhpo4cepAbyMsXM3KgIqIW8jA3FEewZOScRmFmOR8uKexvr4b
+ yBmRgxDMpnfkwh2i4nD0QKSGZBGxxsH58eK7NxbTp0rX7NwntLMbJDPV8UV8rbFKibxK
+ UmNlU+8z1FygHCddmGPyimsnAqbt7G3flGq33brCZkcc3EOcrLVbBb6HDa7/kdB0W9TN
+ 0PzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=2E/1h7/RoKg4VQ+CqTW0g38KxXfWx7lcegiEW9aNbd0=;
+ b=szkB0tajzFuo0G3bWPFg5LrDcdCCJVaJzqNiPTN0QGK1xI7wr2A6072VsGg7Ftoudq
+ YipAaNxuOQYRxSn0p/i73YQu/YLq0SFm8da36NeyazS3tCzfMf7Z8bUyTgpZgzpIHbQS
+ JAcyMXWGTjRYMO6pCaaMWoEkyw8AZ3Y7kcd530OdlhPrRebso2VpVUk0GUSz7hwZighJ
+ cIYodtcFQMzQuwKTqIXsU9eVacmdh0tiAZirDAdrZ4wFVjv0IveaURDXCBVCqHA4b/LB
+ 4IfInDbw97udqR5SwXZ9yoVTNBWicG7EdXidrCTeCkiwY38j2fqrmZ/UxefLG7QdCcap
+ zlmg==
+X-Gm-Message-State: AOAM533wFeSJW3U75ZLIJFt2SbWJUDTlhZpxHviJHqM6l5PuVjwyZz9+
+ icZzD1Pw2Qb7AWGwmzeCVpEuQIsEoXc=
+X-Google-Smtp-Source: ABdhPJz9IYqmQRiMncFIu1kA4p7WJB6siDbEdnTwnOXwuKnHwfvDmLvi6/e35/Ka3wqM87QrgB/y/w==
+X-Received: by 2002:a17:906:5d13:: with SMTP id
+ g19mr53379847ejt.90.1626092537605; 
+ Mon, 12 Jul 2021 05:22:17 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id gu15sm2693209ejb.63.2021.07.12.05.22.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 05:22:17 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] disable modular TCG on Darwin
+Date: Mon, 12 Jul 2021 14:22:08 +0200
+Message-Id: <20210712122208.456264-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <b6d181c2-ec7b-913b-3eea-142fcce7c104@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="N7ArdoMLpSs+ZgNE"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.699, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,106 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, "jasowang@redhat.com" <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Christian Brauner <christian.brauner@ubuntu.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kraxel@redhat.com, akihiko.odaki@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---N7ArdoMLpSs+ZgNE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Accelerator modularity does not work on Darwin:
 
-On Fri, Jul 09, 2021 at 11:25:37AM -0500, Mike Christie wrote:
-> Hi,
->=20
-> The goal of this email is to try and figure how we want to track/limit th=
-e
-> number of kernel threads created by vhost devices.
->=20
-> Background:
-> -----------
-> For vhost-scsi, we've hit a issue where the single vhost worker thread ca=
-n't
-> handle all IO the being sent from multiple queues. IOPs is stuck at aroun=
-d
-> 500K. To fix this, we did this patchset:
->=20
-> https://lore.kernel.org/linux-scsi/20210525180600.6349-1-michael.christie=
-@oracle.com/
->=20
-> which allows userspace to create N threads and map them to a dev's virtqu=
-eues.
-> With this we can get around 1.4M IOPs.
->=20
-> Problem:
-> --------
-> While those patches were being reviewed, a concern about tracking all the=
-se
-> new possible threads was raised here:
->=20
-> https://lore.kernel.org/linux-scsi/YL45CfpHyzSEcAJv@stefanha-x1.localdoma=
-in/
->=20
-> To save you some time, the question is what does other kernel code using =
-the
-> kthread API do to track the number of kernel threads created on behalf of
-> a userspace thread. The answer is they don't do anything so we will have =
-to
-> add that code.
->=20
-> I started to do that here:
->=20
-> https://lkml.org/lkml/2021/6/23/1233
->=20
-> where those patches would charge/check the vhost device owner's RLIMIT_NP=
-ROC
-> value. But, the question of if we really want to do this has come up whic=
-h is
-> why I'm bugging lists like libvirt now.
->=20
-> Question/Solution:
-> ------------------
-> I'm bugging everyone so we can figure out:
->=20
-> If we need to specifically track the number of kernel threads being made
-> for the vhost kernel use case by the RLIMIT_NPROC limit?
->=20
-> Or, is it ok to limit the number of devices with the RLIMIT_NOFILE limit.
-> Then each device has a limit on the number of threads it can create.
+ld: illegal thread local variable reference to regular symbol _current_cpu for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
-Do we want to add an interface where an unprivileged userspace process
-can create large numbers of kthreads? The number is indirectly bounded
-by RLIMIT_NOFILE * num_virtqueues, but there is no practical way to
-use that rlimit since num_virtqueues various across vhost devices and
-RLIMIT_NOFILE might need to have a specific value to control file
-descriptors.
+Fix by avoiding modular TCG builds.
 
-io_uring worker threads are limited by RLIMIT_NPROC. I think it makes
-sense in vhost too where the device instance is owned by a specific
-userspace process and can be accounted against that process' rlimit.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-I don't have a specific use case other than that I think vhost should be
-safe and well-behaved.
-
-Stefan
-
---N7ArdoMLpSs+ZgNE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDsMBkACgkQnKSrs4Gr
-c8iczAgArXvbkfEdzLQ1/34BfWIPk9xP+mfxQl9to6qpTOpxVNmCLve2xxM2MEzv
-1m7pvftik+qnjquVUrruzQafErBn3ipkByCXTvJi5OxSSHKIPjAu1ilZfowaAmfk
-3tHtYxlYvbxQ/I7Fr6aDcPKO16qS/he30gdhZImjYjvWW390nsh3six0eEBU4G0x
-dNv36uBYMaeV1Iox7xi+z3tCYmkZXc8L67RpP+RCDirUBU7B9voDqwASbKC4OUKT
-g+iOVEO2jjAw/vLope8bTelYHWO2G8eqrP24w025+naDFgpbFlmeLXIWf+yhIKVt
-gauY5XtL0NP2mGlVaueTMizZGhNNeg==
-=uXha
------END PGP SIGNATURE-----
-
---N7ArdoMLpSs+ZgNE--
+diff --git a/meson.build b/meson.build
+index b2e8731410..a1f767e250 100644
+--- a/meson.build
++++ b/meson.build
+@@ -92,7 +92,11 @@ if cpu in ['x86', 'x86_64']
+   }
+ endif
+ 
+-modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
++modular_tcg = []
++# Darwin does not support references to thread-local variables in modules
++if target != 'darwin'
++  modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
++endif
+ 
+ edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
+ install_edk2_blobs = false
+-- 
+2.31.1
 
 
