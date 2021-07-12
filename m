@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B02A3C5D58
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:35:37 +0200 (CEST)
-Received: from localhost ([::1]:45452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447273C5DC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 15:52:23 +0200 (CEST)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2w5v-0005dz-QU
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46378)
+	id 1m2wMA-0002X5-Af
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 09:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1m2vaJ-0000Li-AP
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:02:55 -0400
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:34728)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m2vgT-00006x-Pr
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:09:17 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:46010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1m2vaH-0005q3-H9
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:02:54 -0400
-Received: by mail-lf1-x129.google.com with SMTP id f30so43160697lfj.1
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 06:02:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m2vgR-0008B9-8I
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 09:09:17 -0400
+Received: by mail-il1-x12c.google.com with SMTP id b6so9809227iln.12
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 06:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aSF0pnmVvIClrfNgv64NSNsd/ppKcaFCPNt3AwYYpfk=;
- b=fJOM+jhlrrfR8nbXG5hxAb9lBrBRexO2VfuxTw2gYtxS54zCZgztqA2oR49VstdvKE
- EgGvBcAET2qehUJSddtBAE3QuddnlHHw/faxTdURKVVK8jwlbZDQZlG5tW2YcJNkiIFd
- Eo7w0yep/iSzALln2SdK0K5lCyvvJeCHZZA+4SzjTROAeXvDmq+4mbfbXcEGv2knbZP6
- XkznFyBtExKQ+7jBrK832rFSx7C1jfTeJjrmxtfw2rNxqDfhI6b6Ia0DTbIWlGElgf2q
- sNVRRNGhHNmv3ulLXXNNBCKICnAig/h+EShHfz+jBCAP41ew7u7j96zPl8ClRzYEpCGd
- aEgg==
+ :cc:content-transfer-encoding;
+ bh=xmcKWCO6RA7yIp/zQQ8oTjg8fJCzT8AJgH6jCup4uhQ=;
+ b=StCzMwZoyuPOzK5GH88OI9IRWLpUBK7Oy6Rsf0894JmegrzwqaYViGqSe/TENe9J4X
+ dL9lXZ1qPdi22DevNpXmrsqJjgrVhsVjt/v58e5Eq6QkqtTbYQfHdduFVHiUya3XvE90
+ 1HVhQWxEYGB+wcLRfamuxIYVhdwg+AOr7ej4l8E+rx9d6xJwGR6hgJSGstOY2+LvPwVP
+ O2ay3WQiT5NlsumVh8a/bPzqnjpfYAys2TLEyEwysZnuoda8IIHbaGnjFEG3lVw9yD41
+ 1zn4ONhwaIWiPndZAIiOsvKaiMiKTh8WiVmH+27ud6Ww7YzvBMsXbS/XEugLUvPZrxQs
+ CAZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aSF0pnmVvIClrfNgv64NSNsd/ppKcaFCPNt3AwYYpfk=;
- b=XaPQ6fmMyr9pwLt+/K8HHC3B3wlLlbKACrvxQZ+TNPwNLZcbNR1w9/NiFIsi+rzCO0
- JD3P75Xr5D6KPlfZ18idakV0+roXEapPHQ5YRwBSj6JdkjI6JUih+G7VFWHFI4n/EdBr
- lJ3b01X0or0bGXxsnGRt0pF1qk/HpapJ1rJERubxYLetMRr3e9Vd/FoB16n6FvaqdqQO
- 524rDMx2k2GRWzvIVv8psFqlAZPzq++ucmICD6R4KS9tRdorpuy6TszVyskNpCfaqLqM
- soG3WRv27cdpTaLD9TqNJPFmqLuR9zNn9XuQ9RuSQjcZockNagfJyVwniQpYeA9JroVE
- tUKg==
-X-Gm-Message-State: AOAM532H5sojbS3Emg/pPC8K1+YgLj+cG+94TJPiHmc7aMqAVgHtwotb
- S5AYrEwWaqfIBqtyKHY5Y7nGVnpSS9zgYeFvqng=
-X-Google-Smtp-Source: ABdhPJyZAOEWJU9rLa84PUXgVTQgn/rgVHZ8sK/73MCH4VT8DjrYtS/ZteRRC/KeCq/ubbfK4gIA/q5rtBpWRGve6WI=
-X-Received: by 2002:a05:6512:3b20:: with SMTP id
- f32mr12190347lfv.279.1626094971640; 
- Mon, 12 Jul 2021 06:02:51 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xmcKWCO6RA7yIp/zQQ8oTjg8fJCzT8AJgH6jCup4uhQ=;
+ b=JmKgT19IynKKQyF90khoXsExwlW1SKESj04THfiEWAEZXauzSUk93k6ATKtviFv2Nw
+ 2Rqle3z45lIG+VLBkiL04pjuP/086ZJxAQPppeCiphaGCSjyAi/G/7+cccMEeGF7+Ral
+ TQe6YS9pkMffya7Acdbi8et1tscFRN+pPxVBMF8iO3Y0iL1TRU6y5mRB9DA4q4iRJv3Y
+ qBp/O97wlWUsj4GpFW0BQLAgprtlBACsUYdJ43qDGRIEhQbaXJqzy6CzW5BbE5z6tOHF
+ I69bMP7Z6llEHHZmlqMb1YZVEMZWMQEvq57n4/eKAKS8pgsEwsU94YzX5ushRWloh4ae
+ 4VKg==
+X-Gm-Message-State: AOAM532UE7/CgJaKIAMOxa5uMGo2/aVhQPhQqfLb7Ulkz/SX78DMvDdh
+ 9NJoMKuU/0dt+kgA5SsFteGORI+/13DjTQgVc3I=
+X-Google-Smtp-Source: ABdhPJx5JFrIBg1DdLKH+v8RJW/lGbGJMYVoLjQTj8T+tuN79mPLuqOw6LAN4A9XIwHm9hpPS1NIDgVyZxQ49UWMPZg=
+X-Received: by 2002:a92:508:: with SMTP id q8mr7574511ile.89.1626095354271;
+ Mon, 12 Jul 2021 06:09:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
- <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
-In-Reply-To: <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
-From: harry harry <hiharryharryharry@gmail.com>
-Date: Mon, 12 Jul 2021 08:02:46 -0500
-Message-ID: <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
-Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
- shadow page table in Linux QEMU/KVM
-To: Maxim Levitsky <mlevitsk@redhat.com>
+References: <20210628113047.462498-1-berrange@redhat.com>
+ <20210628113047.462498-3-berrange@redhat.com>
+In-Reply-To: <20210628113047.462498-3-berrange@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Mon, 12 Jul 2021 15:09:03 +0200
+Message-ID: <CAM9Jb+j2hZuYvWzvN8EEk=qyniPR7UETYiLe7ZBvGG8sfzb-FQ@mail.gmail.com>
+Subject: Re: [PATCH 2/4] qemu-options: re-arrange CPU topology options
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=hiharryharryharry@gmail.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x12c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,46 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- mathieu.tarral@protonmail.com, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Qemu Developers <qemu-devel@nongnu.org>,
+ "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear Maxim,
+> The list of CPU topology options are presented in a fairly arbitrary
+> order currently. Re-arrange them so that they're ordered from largest to
+> smallest unit
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  qemu-options.hx | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index ba3ca9da1d..aa33dfdcfd 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -196,17 +196,17 @@ SRST
+>  ERST
+>
+>  DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+> -    "-smp [cpus=3D]n[,maxcpus=3Dcpus][,cores=3Dcores][,threads=3Dthreads=
+][,dies=3Ddies][,sockets=3Dsockets]\n"
+> +    "-smp [cpus=3D]n[,maxcpus=3Dcpus][,sockets=3Dsockets][,dies=3Ddies][=
+,cores=3Dcores][,threads=3Dthreads]\n"
+>      "                set the number of CPUs to 'n' [default=3D1]\n"
+>      "                maxcpus=3D maximum number of total cpus, including\=
+n"
+>      "                offline CPUs for hotplug, etc\n"
+> +    "                sockets=3D number of discrete sockets in the system=
+\n",
+> +    "                dies=3D number of CPU dies on one socket (for PC on=
+ly)\n"
+>      "                cores=3D number of CPU cores on one socket (for PC,=
+ it's on one die)\n"
+>      "                threads=3D number of threads on one CPU core\n"
+> -    "                dies=3D number of CPU dies on one socket (for PC on=
+ly)\n"
+> -    "                sockets=3D number of discrete sockets in the system=
+\n",
+>          QEMU_ARCH_ALL)
+>  SRST
+> -``-smp [cpus=3D]n[,cores=3Dcores][,threads=3Dthreads][,dies=3Ddies][,soc=
+kets=3Dsockets][,maxcpus=3Dmaxcpus]``
+> +``-smp [cpus=3D]n[,maxcpus=3Dmaxcpus][,sockets=3Dsockets][,dies=3Ddies][=
+,cores=3Dcores][,threads=3Dthreads]``
+>      Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+>      are supported. On Sparc32 target, Linux limits the number of usable
+>      CPUs to 4. For the PC target, the number of cores per die, the
 
-Thanks for your reply. I knew, in our current design/implementation,
-EPT/NPT is enabled by a module param. I think it is possible to modify
-the QEMU/KVM code to let it support EPT/NPT and show page table (SPT)
-simultaneously (e.g., for an 80-core server, 40 cores use EPT/NPT and
-the other 40 cores use SPT). What do you think? Thanks!
+Looks cleaner. With the nit mentioned by Dan:
 
-Best regards,
-Harry
-
-On Mon, Jul 12, 2021 at 4:49 AM Maxim Levitsky <mlevitsk@redhat.com> wrote:
->
-> On Sun, 2021-07-11 at 15:13 -0500, harry harry wrote:
-> > Hi all,
-> >
-> > I hope you are very well! May I know whether it is possible to enable
-> > two-dimensional page translation (e.g., Intel EPT) mechanisms and
-> > shadow page table mechanisms in Linux QEMU/KVM at the same time on a
-> > physical server? For example, if the physical server has 80 cores, is
-> > it possible to let 40 cores use Intel EPT mechanisms for page
-> > translation and the other 40 cores use shadow page table mechanisms?
-> > Thanks!
->
-> Nope sadly. EPT/NPT is enabled by a module param.
->
-> Best regards,
->         Maxim Levitsky
->
-> >
-> > Best,
-> > Harry
-> >
->
->
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
