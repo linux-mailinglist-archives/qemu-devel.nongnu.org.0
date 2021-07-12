@@ -2,147 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FFBE3C5FEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:58:16 +0200 (CEST)
-Received: from localhost ([::1]:43782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AA1C3C5FF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 12 Jul 2021 17:58:50 +0200 (CEST)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m2yJz-0006Sh-AG
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:58:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34800)
+	id 1m2yKX-0007lF-89
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 11:58:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m2yIZ-00053L-OL
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:56:53 -0400
-Received: from mail-bn7nam10on2048.outbound.protection.outlook.com
- ([40.107.92.48]:25728 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m2yIX-0004jq-Gk
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:56:47 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TJUi3Ggm/r6WR+WZ4kL2cji5G2BLgoDrbivwYqXpC2RnkDq5K2GoKDTpVAVdKPqWq6Z+R43UAzlJgSYN+oWEqSFKJokPMLSQgSxtQHv+2UkgsU3No/Vfr+G6olRUcl/hAWiOYMDUkSFfpeXoVlHntFZjDP5dQOxVByNnm2vw/IczmJYuK+FWs42QBSGO1Ult058OgpZj0eIgVwmkI/LYjolTooYlSlqTFQ0l9P4k19gTR3eNCXjATpF058nvFEKRcgP/HoQa/pIXEXkjd3A8+mzEPLYrElg6oQBRQmQbSpaelxwXQ4rTPlFIEbDnPpWmof2IlDTTfc0n0P+m517cIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hXQuCxC0yocQbPXY7Pl/p/P4Fsaeo/luRhzWiB48UEQ=;
- b=JHMEODBAmFoWB89yy9T3eQf+7Z/DYKgOuZaGPsgusARJyl5jsOeFrqBVkNfLK2bJEtXuLsv+AHsA17FMYWqtMadcmGha0UiSofyN/ckf5qEsv7v9SuHwA4cZwT7vbJfPZB3Q8qKnzIgzXEOvz0f0OHc8Be4PYMPHM2feij4T73vEt1xr6zJ051YFXSxEtEBHZdP9XvUiXlev7r4IGVHGV5OlXvng216/F3rLGIy1r94hPFDX4PWQkHYT0ZoDhNLxUr2kajNfRLsnIaYzpYOUlF0skoQXAUUgLpU2h3APtGEDvqhHD+4XH90SU7gS7HBLdHCZAmzTxgAx7/lHLkt2Hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hXQuCxC0yocQbPXY7Pl/p/P4Fsaeo/luRhzWiB48UEQ=;
- b=qYz7fFexRuuBn/eaukuold/bQ+0GPMS8eoUkQGbDHbvR/XJog+OM666qfrppDBpr0msancJEFgvmIY3EiQSZBMd+EL/9/X7CpKzHAbLcz3nbT6kMJtYMI9mBhFAwW3tUa0D3v3G1RrwuikapIVJxzHUhyTKK1fiIBIkOlknOENo=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
- by SN6PR12MB2782.namprd12.prod.outlook.com (2603:10b6:805:73::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Mon, 12 Jul
- 2021 15:56:42 +0000
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa]) by SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa%3]) with mapi id 15.20.4308.026; Mon, 12 Jul 2021
- 15:56:42 +0000
-Cc: brijesh.singh@amd.com, qemu-devel@nongnu.org,
- Connor Kuehl <ckuehl@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>, kvm@vger.kernel.org,
- Michael Roth <michael.roth@amd.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
- SEV-SNP
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-3-brijesh.singh@amd.com> <YOxVIjuQnQnO9ytT@redhat.com>
-From: Brijesh Singh <brijesh.singh@amd.com>
-Message-ID: <cd63ed13-ba05-84de-ecba-6e497cf7874d@amd.com>
-Date: Mon, 12 Jul 2021 10:56:40 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YOxVIjuQnQnO9ytT@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN4PR0601CA0002.namprd06.prod.outlook.com
- (2603:10b6:803:2f::12) To SN6PR12MB2718.namprd12.prod.outlook.com
- (2603:10b6:805:6f::22)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m2yJ9-0005au-EP
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:57:23 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43823)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1m2yJ7-0005c1-1A
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 11:57:22 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id l26so20413531eda.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 08:57:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zDAJ3AUAWV14jHZU6jgRbyE693LSkFWsPzEstYbo31k=;
+ b=YUAaWPYAXgLyhRTWVLWB1DnKf9jEN7GCiUDfWPz83GgqOq6TfZxqNAeYCdjunG88QF
+ nOplaWBFbFFHjaDn12N1lHRUzPYAjCd7dewm1nvNV/7/kxg6G47mAL2FV3CtNq8WOS3a
+ CM0UItGxnJCcUrzKTLVNpgEV0p9QtV24ziVWRnCWU7CqkDbi9H1/OvBdVOvMYVosNenC
+ T2ekWUs8ihae5EQD3RnQp2ro6sUDPy/tfbZ2Rppl/Ws5kSuuXCERsNTiF8Zos0mXkwq0
+ MGKH4ZFXjWO90cccCTY6WuzG1jb+s4zbROVSaz1wPuu3j0fvx059Rd6FhJYG5bjCRCwe
+ r2yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=zDAJ3AUAWV14jHZU6jgRbyE693LSkFWsPzEstYbo31k=;
+ b=jb/mRsdQLBrjJTaymUGWWodby//aNeU1/K+RDMRVr4CZQUKyL2RDEChdKx++o+z0IB
+ /PZ+VnAaRjpL8kF2eI6gGrTtLfeH6Zo5Jb+B87v1UwteiKalPzdPug93Aq+rZ6szvV8N
+ /UQDEdzu+2brH1d/pARsDOKEGM/iiklc6GoROvCj1e272/SRGeSdcIG1jWN2TsPJs5mO
+ l9JcVh6AV1xe/EacpmJrabzu/UHssAXIjhMKztVaskJ1n+E5fFzVWGBLVOmxzO5sGBw6
+ 4ZB4+kvK8jf4gcrnwxQCLfrSk6NBg9en49gwFCtvR324HOhMXI2JHckT8+hVbc7YYG0q
+ FMjQ==
+X-Gm-Message-State: AOAM532ng88CO5/Qa5nT6aV6qRMc9t/6Nyd+0AaWxA5ggtUUZjpoJF2H
+ tthpVne40mPK4944yJmghPVhau9WhYY=
+X-Google-Smtp-Source: ABdhPJywyY3WA9pEcMIaMJh9RcyNHtkvOkgp/p3gbd9N4pOJrM1+yLearDEZMDLG9DmgVOo77I+3oA==
+X-Received: by 2002:a05:6402:b79:: with SMTP id
+ cb25mr65447075edb.164.1626105439516; 
+ Mon, 12 Jul 2021 08:57:19 -0700 (PDT)
+Received: from localhost.localdomain ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id k14sm8331316edq.79.2021.07.12.08.57.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 08:57:19 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] trace, lttng: require .pc files
+Date: Mon, 12 Jul 2021 17:57:10 +0200
+Message-Id: <20210712155710.520889-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.31.95] (165.204.77.1) by
- SN4PR0601CA0002.namprd06.prod.outlook.com (2603:10b6:803:2f::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend
- Transport; Mon, 12 Jul 2021 15:56:42 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f50f62e-128f-42af-ef93-08d9454da479
-X-MS-TrafficTypeDiagnostic: SN6PR12MB2782:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR12MB2782C5C8E325FD43910F2B17E5159@SN6PR12MB2782.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6cHTn/7XTBc9WZqE6Mk1xdi74N5aRt/1pZZXUjcKdf2/cc7pEOM1OTT4VMTyLXDc6fUHKNFFu79kaxIOngoAYZCI9kWKEZH4jZKhQutyNJ0AHlsf7SoCUtdzjoWBRwoAePTIQuSNy1Ac1nretz/epabOM9GyTYjiRcpz0xmo4as4Np844SWMTF+Vd5Uy2Mi9Q4n0pZE8FilWGKoqDGkiAs+H5mpdN19HXjtaCWbgm0ys6TYuRru1hGHaga+2BhBOTdvfcegkirT5+WCf09+XpQO6T7CcxvWOttHrT1riYSCHVb/X31sb+gZYOJXMS4YY94jneRKOBsovR270FWBzmWwon9H+MZ+K6/LSSqLH0EAEsHK1qxjFWjj3Ja3SUa4UUMt3piBHzW+I4ebErGOgANcRxPkOuqU7+bLo6TTRRHbUZw0QVcQDYhkT8ZdWUbzTweJXKqJL/bQxxUqBHACtbj/DrfdwvVUph2wF5vhTkArbYI1ezzaCmTZ6lem3yLHSa2XdN9DZ88W56afNvcqxnK2sSH8Lk0TSR2csQLzQ574MCmzU8y/qs738wYYP8RPjVzMgHhE47Jm3B8THzQRFLs6kDTBTNAZsbBsCLshJmn7QwoLUFygp3dioHx8x+2j2qYB1X/xMcbpVxMmFurY9PsweWYP93OT3q2+OR/Pl4T59BRpNUsdh+N5uoem2FTIBmkKVE7kCK1jbyZmmXxl4WgS5BNEgGZkLwl8HmrRpngwjZYmztt4SatUKNYRGyt57JtxjDiIdGzXe4TQoALOHZg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(136003)(396003)(376002)(366004)(86362001)(5660300002)(186003)(66556008)(66476007)(26005)(52116002)(66946007)(31696002)(31686004)(36756003)(53546011)(478600001)(83380400001)(6916009)(6486002)(38350700002)(16576012)(44832011)(8676002)(4326008)(2616005)(38100700002)(956004)(8936002)(2906002)(316002)(7416002)(54906003)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXppbC9sTUl3QlJZNFRsbDBtTEhuSC96YXl1WENGa3JBcnExZlZ1dEUzK1Ir?=
- =?utf-8?B?STdrYjRLeGQ0VHo4cFlyaEMzZytiNEF0c05Yd0F6cmVQbmhKZ01HKzlZV3pn?=
- =?utf-8?B?UXVSdHJqcW45NjJOeEs5UE5CbllxckVZb1dYTkwxdWIwNjVYQ3JubjBvQ0M2?=
- =?utf-8?B?SGtoYS81aXI5TXN3YjFxVVVNWGdxTHlsaW5LNnNxd1VDQVhCK1E0N1BKeUVL?=
- =?utf-8?B?T2dzaW9UeHV2T2h4alIybmw0VWFaNDhqY2pLN29LZHROSS9kK21tVXlSTldh?=
- =?utf-8?B?RjVvWFpwT1dibDBHZldJeithZXZpTDNSdTVjaFhxckxnOGQzU0FiTC9Eb1Ba?=
- =?utf-8?B?cUhKSUhyR2psU21lY2ZYeTNkK0xXYnJqdE5pR0FjRjBMcDYxQTIxakRieGpD?=
- =?utf-8?B?TDlPSFVTYnBRbVlyU0MrUWZ6UmZOODBWcVB4aDFoUUlKVG9WVlhwYTBXSDFL?=
- =?utf-8?B?a1JwNUJCWS9rOEx0VjhyNnFnYUdEajA5K1VSNGcybXBPcG02MisyMjY1eDlM?=
- =?utf-8?B?MHFscmJ1akNhVlNzNVYwT1JYUHA0V0RFSVBaekZXY0JvOCtyZXg0U1J1T1NF?=
- =?utf-8?B?UzhSN0dScXVFeE1PTnRsZUFiRzBRa1VzQUYwaldwV2pMUTFmVnVySEcvQk1o?=
- =?utf-8?B?UmNRVWZFYjBJSnh5Y01vWWlPTXM1c3hXcGEvekdlaU41bThxRkhpRXhMWVpx?=
- =?utf-8?B?Z1hzZHJJOFdvb05UcW1zWFdTZkUwemhPZ2dIYnRHZlgwS3RKTVY0Q0Z5WE5H?=
- =?utf-8?B?ZVZHNHNpdkdkZEhYQ3dqaGpUM0FpRHZ4cXVQSmhQODJWcVB6NjRQbmZ0Tjdi?=
- =?utf-8?B?bFF4REIvaXlUZXY1b1Q5MDRyQlBGbDFiTDIwdmJlVmp2b01OZ0VUb2xSaE0r?=
- =?utf-8?B?dSt0WFNoRlR0WTl6ckhjWk9XWHRWVlFjU1BFOXhJZWtSRmRZYmdjQ3pCNmJX?=
- =?utf-8?B?QitZMGVrL3NZbXZEZ3ducmZ3c2hjODFzZlJNandQaGo5cjZhSnNQRm9OQ0xp?=
- =?utf-8?B?azRMc1JTWlNOU2FvTjd2V3pYYWVTdW5sOStXcHlzUk5uV3F6d3o4UVZWd3NS?=
- =?utf-8?B?TGYzbUNUZVZiMENRRzRJRmhaMGhyd09wbXptTk8zUjAydVVsZHlweFI5ZTJT?=
- =?utf-8?B?bFBoa3R3UWRXdEdJNXJyOXlNbnliYVM0dWduc0t6ZkF6cHBaQitDMDYwSzhs?=
- =?utf-8?B?eDA2WnNteVAwb3pBN2ZpSHU2eENxbU1UdG1mSVAveS85VHhMMWZ6L2wwUXdF?=
- =?utf-8?B?Tis3amVkcXgveW5paVNMM0huZVpDaDVVTGg4L1JGZEtKM3NjT0FqNXorUTVu?=
- =?utf-8?B?bWlEejV4b0ZvYWg3T0s1STh5MDl6a3RVd1JDb2pPUmZBQzMwZ2dVVnBldFZW?=
- =?utf-8?B?b3E0b1V2RHUrZFIwcThCNlVyY3BuUXZ3V1ZYK1NMQVNVd1FhcFozaksrQUVV?=
- =?utf-8?B?RGpEb004elFabTRpWVQ3ZXFIYmtGMHFXTkhEc2RkdTdqL2FzWjdoWWdQU1ps?=
- =?utf-8?B?YWtUcS9LaGhub0NSZk5ZNXlHWkM2MDBwUmRmNUJVaVBoUVNvaVgrTHU5dGtJ?=
- =?utf-8?B?OEFYbTE3VnRXdGFIVzhnajNIQWdoZ1lwTXpYMlRqcFllUTRQLy9RTURuZkhZ?=
- =?utf-8?B?ajNjeGtUTzJOdXpJcG1xNFQ0a3NvOVJTbnc0MkZBTXNacDBTR0NlR3pndVJD?=
- =?utf-8?B?andIaW1kUHQ0azhqalZUalVpME94OXp4RlpQbzBBblR1SUQ1RHU1eUtIMGlZ?=
- =?utf-8?Q?FZIQUGqeTxE+I8TWkwBQZjrl1lPaAGXDpHbPBJ+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f50f62e-128f-42af-ef93-08d9454da479
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jul 2021 15:56:42.5028 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KkLi7z4aUvQcSF8CrM8Z3G78TnuRQRrK2ObeR/xK9yI8s9Htu/sN2oycEhNsn6TTkQjq5xoa+IFlx+z9rxBVyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2782
-Received-SPF: softfail client-ip=40.107.92.48;
- envelope-from=brijesh.singh@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -155,87 +82,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The next version of lttng-libs will not require liburcu at run time anymore.
+Therefore, it is expected that distros will not include the urcubp libraries
+anymore when installing lttng-ust-devel.
 
+To avoid future problems, just require pkg-config to detect lttng-ust.
+The .pc files for lttng-ust correctly include liburcubp.a for static
+builds, and have always done since pkg-config files were added in 2011.
 
-On 7/12/21 9:43 AM, Daniel P. Berrangé wrote:
-> On Fri, Jul 09, 2021 at 04:55:46PM -0500, Brijesh Singh wrote:
->> To launch the SEV-SNP guest, a user can specify up to 8 parameters.
->> Passing all parameters through command line can be difficult.
-> 
-> This sentence applies to pretty much everything in QEMU and the
-> SEV-SNP example is nowhere near an extreme example IMHO.
-> 
->>                                                               To simplify
->> the launch parameter passing, introduce a .ini-like config file that can be
->> used for passing the parameters to the launch flow.
-> 
-> Inventing a new config file format for usage by just one specific
-> niche feature in QEMU is something I'd say we do not want.
-> 
-> Our long term goal in QEMU is to move to a world where 100% of
-> QEMU configuration is provided in JSON format, using the QAPI
-> schema to define the accepted input set.
-> 
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure         | 18 ++----------------
+ meson.build       |  4 ----
+ trace/meson.build |  2 +-
+ 3 files changed, 3 insertions(+), 21 deletions(-)
 
-I am open to all suggestions. I was trying to avoid passing all these 
-parameters through the command line because some of them can be huge (up 
-to a page size)
+diff --git a/configure b/configure
+index 85db248ac1..4d0a2bfdd8 100755
+--- a/configure
++++ b/configure
+@@ -3606,21 +3606,8 @@ fi
+ ##########################################
+ # For 'ust' backend, test if ust headers are present
+ if have_backend "ust"; then
+-  cat > $TMPC << EOF
+-#include <lttng/tracepoint.h>
+-int main(void) { return 0; }
+-EOF
+-  if compile_prog "" "-Wl,--no-as-needed -ldl" ; then
+-    if $pkg_config lttng-ust --exists; then
+-      lttng_ust_libs=$($pkg_config --libs lttng-ust)
+-    else
+-      lttng_ust_libs="-llttng-ust -ldl"
+-    fi
+-    if $pkg_config liburcu-bp --exists; then
+-      urcu_bp_libs=$($pkg_config --libs liburcu-bp)
+-    else
+-      urcu_bp_libs="-lurcu-bp"
+-    fi
++  if $pkg_config lttng-ust --exists; then
++    lttng_ust_libs=$($pkg_config --libs lttng-ust)
+   else
+     error_exit "Trace backend 'ust' missing lttng-ust header files"
+   fi
+@@ -4773,7 +4760,6 @@ fi
+ if have_backend "ust"; then
+   echo "CONFIG_TRACE_UST=y" >> $config_host_mak
+   echo "LTTNG_UST_LIBS=$lttng_ust_libs" >> $config_host_mak
+-  echo "URCU_BP_LIBS=$urcu_bp_libs" >> $config_host_mak
+ fi
+ if have_backend "dtrace"; then
+   echo "CONFIG_TRACE_DTRACE=y" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 6b4b7bfb48..def209a287 100644
+--- a/meson.build
++++ b/meson.build
+@@ -323,10 +323,6 @@ lttng = not_found
+ if 'CONFIG_TRACE_UST' in config_host
+   lttng = declare_dependency(link_args: config_host['LTTNG_UST_LIBS'].split())
+ endif
+-urcubp = not_found
+-if 'CONFIG_TRACE_UST' in config_host
+-  urcubp = declare_dependency(link_args: config_host['URCU_BP_LIBS'].split())
+-endif
+ pixman = not_found
+ if have_system or have_tools
+   pixman = dependency('pixman-1', required: have_system, version:'>=0.21.8',
+diff --git a/trace/meson.build b/trace/meson.build
+index 08f83a15c3..ef18f11d64 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -26,7 +26,7 @@ foreach dir : [ '.' ] + trace_events_subdirs
+                                 input: trace_events_file,
+                                 command: [ tracetool, group, '--format=ust-events-h', '@INPUT@', '@OUTPUT@' ],
+                                 depend_files: tracetool_depends)
+-    trace_ss.add(trace_ust_h, lttng, urcubp)
++    trace_ss.add(trace_ust_h, lttng)
+     genh += trace_ust_h
+   endif
+   trace_ss.add(trace_h, trace_c)
+-- 
+2.31.1
 
-
->>
->> The contents of the config file will look like this:
->>
->> $ cat snp-launch.init
->>
->> # SNP launch parameters
->> [SEV-SNP]
->> init_flags = 0
->> policy = 0x1000
->> id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
-> 
-> These parameters are really tiny and trivial to provide on the command
-> line, so I'm not finding this config file compelling.
-> 
-
-I have only included 3 small parameters. Other parameters can be up to a 
-page size. The breakdown looks like this:
-
-policy: 8 bytes
-flags: 8 bytes
-id_block: 96 bytes
-id_auth: 4096 bytes
-host_data: 32 bytes
-gosvw: 16 bytes
-
-
-
->>
->>
->> Add 'snp' property that can be used to indicate that SEV guest launch
->> should enable the SNP support.
->>
->> SEV-SNP guest launch examples:
->>
->> 1) launch without additional parameters
->>
->>    $(QEMU_CLI) \
->>      -object sev-guest,id=sev0,snp=on
->>
->> 2) launch with optional parameters
->>    $(QEMU_CLI) \
->>      -object sev-guest,id=sev0,snp=on,launch-config=<file>
->>
->> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
->> ---
->>   docs/amd-memory-encryption.txt |  81 +++++++++++-
->>   qapi/qom.json                  |   6 +
->>   target/i386/sev.c              | 227 +++++++++++++++++++++++++++++++++
->>   3 files changed, 312 insertions(+), 2 deletions(-)
-> 
-> Regards,
-> Daniel
-> 
 
