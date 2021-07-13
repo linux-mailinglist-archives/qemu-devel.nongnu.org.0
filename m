@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B96D3C6D91
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:35:11 +0200 (CEST)
-Received: from localhost ([::1]:41360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0113C6D8F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:34:34 +0200 (CEST)
+Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Eoo-0001CA-N9
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:35:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52910)
+	id 1m3EoD-00005R-FL
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elr-00026L-0D
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elr-00026M-40
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26963)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elo-0001lv-OE
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elo-0001lH-MJ
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626168723;
+ s=mimecast20190719; t=1626168722;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vOHi1GfBISiP67Wfd+hkUIKk0KCrNGVykxV0thCuQu4=;
- b=hejh+7oUAZV+ynFFL5vTYt40YOU48YwpckhtIr+7H3VWZaOghR1ZoNEKyQQYMgsDjgEeLo
- KbAe2R+XmK2JsEgnXc3Zp4LHTyNJ9iDIEtbOo7CwpftsGmzHNRJCFAu/sLpyHFQ/UMrxNC
- W253qJmVIcIyvjoYusRjZFxq8UfxVF8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PoifXsEARlE+hDkNjuTSVkIg29xuVTVXJBtuLIBRdnA=;
+ b=FG6AHeS5uET6kDhZlh98RCMDb+7R8ZvGypzBXkbgFnreh9VJtAv3j/NACTbkIbDtNMtSDO
+ TTu72UCA32rjzGRmRqW5IwD0alEdHMQ+fm7oe0A0ffv0IVOJvYoPUZjj+fd+LlvtsSG1PR
+ dYlhBB7w2vB8c0mEcdGO1Ttg21/244k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-kME68_TUOk-XdLry7rIo_w-1; Tue, 13 Jul 2021 05:32:00 -0400
-X-MC-Unique: kME68_TUOk-XdLry7rIo_w-1
+ us-mta-91-H9DHTPIPPVu8Fn8bWvKASg-1; Tue, 13 Jul 2021 05:32:01 -0400
+X-MC-Unique: H9DHTPIPPVu8Fn8bWvKASg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75311804140
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:31:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40D01934102
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:32:00 +0000 (UTC)
 Received: from thuth.com (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A39A5D9CA;
- Tue, 13 Jul 2021 09:31:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B71FD5D9CA;
+ Tue, 13 Jul 2021 09:31:59 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 0/4] Fixes for the --without-default-features configure switch
-Date: Tue, 13 Jul 2021 11:31:51 +0200
-Message-Id: <20210713093155.677589-1-thuth@redhat.com>
+Subject: [PATCH 1/4] configure: Fix --without-default-features propagation to
+ meson
+Date: Tue, 13 Jul 2021 11:31:52 +0200
+Message-Id: <20210713093155.677589-2-thuth@redhat.com>
+In-Reply-To: <20210713093155.677589-1-thuth@redhat.com>
+References: <20210713093155.677589-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -78,20 +82,28 @@ Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Many features do not get properly disabled when the user runs the
-configure script with --without-default-features. Let's fix that now.
+A typo prevents that many features get disabled when the user
+runs "configure" with the --without-default-features switch.
 
-Thomas Huth (4):
-  configure: Fix --without-default-features propagation to meson
-  configure: Allow vnc to get disabled with --without-default-features
-  configure: Fix the default setting of the "xen" feature
-  configure: Let --without-default-features disable vhost-kernel and
-    vhost-vdpa
+Reported-by: Cole Robinson <crobinso@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- configure   | 8 +++++---
- meson.build | 2 +-
- 2 files changed, 6 insertions(+), 4 deletions(-)
-
+diff --git a/configure b/configure
+index 85db248ac1..229ea52516 100755
+--- a/configure
++++ b/configure
+@@ -5205,7 +5205,7 @@ if test "$skip_meson" = no; then
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+-        $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
++        $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
+ 	-Dtcg_interpreter=$tcg_interpreter \
+         $cross_arg \
+         "$PWD" "$source_path"
 -- 
 2.27.0
 
