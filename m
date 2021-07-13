@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704DC3C7469
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:23:52 +0200 (CEST)
-Received: from localhost ([::1]:54504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A54553C7473
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:26:10 +0200 (CEST)
+Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LCJ-0003qP-FN
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36680)
+	id 1m3LEX-00012I-MN
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:26:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m3L7u-0003g5-4e
+ id 1m3L7u-0003g7-Ip
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25907)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m3L7r-0006t5-RU
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:17 -0400
+ id 1m3L7r-0006sw-LF
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1626193155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iDOsa+YZklmppSeTxiW3ulwDrygNecVSrhdB1n/I3a8=;
- b=SOoX6tMfX4k+23YLezan5iVu0l50be0AlR3zE4Q8grpofkPxXzj2aCrLuiQOhOLDc1DmX0
- 3whwv/ZFO7qSw7Yzf4OE9/NoKjvvbDyfboi57dO6ntJPZb5Zd4abLV6oB3JljUhX22bo3m
- WYdjJIoPpDKE6SNnc4x5E8SBOik1I8w=
+ bh=ALEnfj4s62YiLhb4PH6vAUPHNn69yqcAhnzmcAIB5hI=;
+ b=S0osXQ2FcCRvCfJ3D1WXYivTYu+UZiSwZZiCsQd4lEg9HAbXk/1n8LEcuTxmrJ/M1T9ns/
+ WFVtD447tUVy6/8WvtgDrfX4r+eEuGZS6M8iOw1NdEmXCFJPcNUmOsf1iRPTdm62bwDDGt
+ y6E1+B6nigwU2YMyiQcZOibzixLtZ5M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-B6fmKCoyNsyKmzbj52J81w-1; Tue, 13 Jul 2021 12:19:11 -0400
-X-MC-Unique: B6fmKCoyNsyKmzbj52J81w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-122-eKtbZfxoM_i_gZY6WOWK4g-1; Tue, 13 Jul 2021 12:19:13 -0400
+X-MC-Unique: eKtbZfxoM_i_gZY6WOWK4g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF3F0802C88;
- Tue, 13 Jul 2021 16:19:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 468EF801AEB;
+ Tue, 13 Jul 2021 16:19:12 +0000 (UTC)
 Received: from localhost (ovpn-112-172.ams2.redhat.com [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2345110016FD;
- Tue, 13 Jul 2021 16:19:06 +0000 (UTC)
-Date: Tue, 13 Jul 2021 15:51:15 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCF455D6AB;
+ Tue, 13 Jul 2021 16:19:11 +0000 (UTC)
+Date: Tue, 13 Jul 2021 15:58:04 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 2/3] iothread: add aio-max-batch parameter
-Message-ID: <YO2oY/OObOC9Io1e@stefanha-x1.localdomain>
+Subject: Re: [PATCH 3/3] linux-aio: limit the batch size using
+ `aio-max-batch` parameter
+Message-ID: <YO2p/Ns7SsV6LE1x@stefanha-x1.localdomain>
 References: <20210707150019.201442-1-sgarzare@redhat.com>
- <20210707150019.201442-3-sgarzare@redhat.com>
+ <20210707150019.201442-4-sgarzare@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210707150019.201442-3-sgarzare@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210707150019.201442-4-sgarzare@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="7mHlAADOAiYD8Gxb"
+ protocol="application/pgp-signature"; boundary="u9obwYTG/0YXmETZ"
 Content-Disposition: inline
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -89,72 +90,45 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---7mHlAADOAiYD8Gxb
+--u9obwYTG/0YXmETZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 07, 2021 at 05:00:18PM +0200, Stefano Garzarella wrote:
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 156f98203e..f64bb69f74 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -86,6 +86,9 @@
->  # @poll-shrink: how many ns will be removed from polling time, 0 means t=
-hat
->  #               it's not configured (since 2.9)
->  #
-> +# @aio-max-batch: maximum number of requests in a bacth for the AIO engi=
-ne,
+On Wed, Jul 07, 2021 at 05:00:19PM +0200, Stefano Garzarella wrote:
+> @@ -371,7 +375,7 @@ static int laio_do_submit(int fd, struct qemu_laiocb *laiocb, off_t offset,
+>      s->io_q.in_queue++;
+>      if (!s->io_q.blocked &&
+>          (!s->io_q.plugged ||
+> -         s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
+> +         s->io_q.in_queue >= max_batch)) {
 
-s/bacth/batch/
+Is it safe to drop the MAX_EVENTS case?
 
-> +#                 0 means that the engine will use its default (since 6.=
-1)
-> +#
->  # Since: 2.0
->  ##
->  { 'struct': 'IOThreadInfo',
-> @@ -93,7 +96,8 @@
->             'thread-id': 'int',
->             'poll-max-ns': 'int',
->             'poll-grow': 'int',
-> -           'poll-shrink': 'int' } }
-> +           'poll-shrink': 'int',
-> +           'aio-max-batch': 'int' } }
-> =20
->  ##
->  # @query-iothreads:
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index 652be317b8..23fd586614 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -516,12 +516,17 @@
->  #               algorithm detects it is spending too long polling withou=
-t
->  #               encountering events. 0 selects a default behaviour (defa=
-ult: 0)
->  #
-> +# @aio-max-batch: maximum number of requests in a bacth for the AIO engi=
-ne,
+Perhaps the following can be used:
 
-s/bacth/batch/
+  int64_t max_batch = s->aio_context->aio_max_batch ?: DEFAULT_MAX_BATCH;
+  max_batch = MIN_NON_ZERO(MAX_EVENTS - s->io_q.in_flight + s->io_q.in_queue, max_batch);
 
---7mHlAADOAiYD8Gxb
+Here we'll only need to check against max_batch but it takes into
+account MAX_EVENT and in_flight.
+
+Stefan
+
+--u9obwYTG/0YXmETZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDtqGMACgkQnKSrs4Gr
-c8hKfQf+PA6DGGJWVoSBVi10WOiix80+qL0JkIVSNyRyR7J3CricoZ9/t92MIEy0
-nEjSSicXzmN6/gq5dy5+qXuqWjSSgNbIMhpfNvKPs5dgSQqB8i7n7ErkDZs1cdPu
-STky2jiVPq6fsODEY1Gn35VCLUGXCrmls0CqqDCY1jeIUUjm8HHDlgqc1SnFAjol
-H8jMMRtObePbfC6SkuYA8AVXtXrFL68irZjXHQ4ECvUdYThEk3d7wDddcBH5Ly0a
-53Jj/wbCUpWBSyOHV/t7oTRxVwDhZ22PWbDxzcDp4czqK8TPsXi6X5x1tr54Wa+C
-JwCgwe4UkkbsImz1pS5/dVSpvQu4JQ==
-=ir7R
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDtqfwACgkQnKSrs4Gr
+c8iGAQgAoYW2gIIuBdkaoqZ8FF7ibiAsfUHIfCZ924C7jaNChmadesnrvBunK1QB
+vaNAUKdu197lriv3Oq4sHe6J0JDDgKbZCdS/Wy6cUSK4W9CaRjoHWRsEeumQ/sbR
+8gT7ntrg1Se8Cri8kASX+Sl/Rl3wSDuj+Qrpzmn10jclkfBif80YiToO0X6gf/pW
+F4fzTPSJ8MBjpZWl4pMW734NDhOeM68vz+WQNt8N4Z+ExfW/oOyLdIJYPfXXCrjO
+/CfxANIbdvo0wfhEmmD8doRN8G+VkvQmO/Cq23/LqpjFwK5wZ2stJtvRJDBM68uB
+vxBGhfDPNlExjGGk+7TI2V/H9ww9Kg==
+=jpuX
 -----END PGP SIGNATURE-----
 
---7mHlAADOAiYD8Gxb--
+--u9obwYTG/0YXmETZ--
 
 
