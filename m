@@ -2,84 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676E03C7692
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 20:40:55 +0200 (CEST)
-Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5107A3C769E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 20:41:59 +0200 (CEST)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3NKw-0001Up-FC
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 14:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
+	id 1m3NLy-0003Sd-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 14:41:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1m3NJi-00005Y-Rc
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 14:39:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25114)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1m3NKg-0001ry-8x
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 14:40:38 -0400
+Received: from mail-dm6nam10on2075.outbound.protection.outlook.com
+ ([40.107.93.75]:16385 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
- id 1m3NJg-0005Ml-Vj
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 14:39:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626201575;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YH5vtP7RabFFVbPIK03GrqGLx7TSitYoEoxD7fxdAn0=;
- b=K01qcutv1qslyQjUWsjbUj4fyD+0Hc4BNgQ3xgUAErtWkMaZtRRiH0exT0HPaE3E91oFI4
- wHbUR1oLuulnH/Jip/gxcqQBHL19qYZdyTiD9i7gjTETmDJRHReiU7r3CoREDw0ySTDZkd
- 3bHOXHEtRJPp0xSHheIkxhMM7L91qoY=
-Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
- [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-cxgQvGcJP5GYKUId8vIeNA-1; Tue, 13 Jul 2021 14:39:34 -0400
-X-MC-Unique: cxgQvGcJP5GYKUId8vIeNA-1
-Received: by mail-oo1-f70.google.com with SMTP id
- c25-20020a4a8f990000b029024c6d57447aso10311545ooj.17
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 11:39:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YH5vtP7RabFFVbPIK03GrqGLx7TSitYoEoxD7fxdAn0=;
- b=WEgz6s1hf8fEXgbk6YFO/9OwyEYn8y3o/KkQQeu2tE101f87xDUaUiFoWANbDxqxcu
- 9rl3B/VD0FpbjmGxPvrB2s7zvez8bUmC9tFKY+gV2HnzqCwFLWPGE8uuq8MGBWxD/Vwa
- 5moOzZUNeqPZnKdToPBaL5qbMrw2GHdX+Lw1AOc7+DDFSddA7IkydZ+jf3H94zrKBPE9
- bCBpgDAvdp8hPpB3sRnwEtTErgrFnGeBkD4Pi5B+H7OpUneogk1BJC5jfWyGlQzjH1kZ
- UGGXBnkvTk1IFzxgUSVlWt533A0aIiNaO77wF0zwiS84cRpIUoY5Wp4JjSIM1cVJ/Iyp
- xoeA==
-X-Gm-Message-State: AOAM530i95zjJS/qHSduoDsu4AV2krktqrNQTR5I3X/8Yrt3RR7OQQst
- eQAgGfgn30olca1zsoGkgq/WMkCOl4dF3+OrRufXz+ONDnDsm6E4mqp0Cwo7uU0H3X4dH1TEc98
- T87VI6ztzRwwkHSKnFrctr2fCwQ4f2CU=
-X-Received: by 2002:aca:5b07:: with SMTP id p7mr4381362oib.118.1626201573573; 
- Tue, 13 Jul 2021 11:39:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqF1ZFMbUKsl+w5xFbKyClp7pAxgDcnP/SFaUXQc7wG++boZH4GsXLcwNyrK1Wx6zKgBdWc2yiNbrBhkhd7I0=
-X-Received: by 2002:aca:5b07:: with SMTP id p7mr4381345oib.118.1626201573345; 
- Tue, 13 Jul 2021 11:39:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1m3NKd-00062k-Kk
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 14:40:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eMiOSAV4bO54IEcHmOh9+KayMm6ACE4/6XbN1irovNBAk8Njr4Y0N1bNvaJ205bOx1X++RryvXCLjYCR2DtR2VRBGtQTxUEukeWUs3OtmQF1dLcAmIWNAx9AuCmVZ/qmlW/Z3L8cIw29GHLsbJg33yQZ4jfKRd0u7OnNxeq9vWWzlccCUX2BK2CwYBowPS0d1xSfjdp4zQf6uHBqoRroFKusG3c90HJDvXyV8j+hC1dqxK6d9eIcH+/DrkPzuKNu8jc6oFqenK78l1X1MEs4wNhn77+S4XgtUKdpT5WrtCt3ZCNg7hq6LOrJji1eI9Tcd3k/vm34QYc2eRy29d6sRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=asN7n5fQoAMQqA5RhSWYOxlHzp13aahzsmdHVuh9tv4=;
+ b=VMuyV6E520AFbgEZQ0Nmo64GVXu1g6J2UwaDm92I6xrrKeUtDYIPSYbxVIHzJy/lvcKrkpMUdvVayJkJ/c0XlK/wYxqzZlFLPTgiYj5fSRJHpRuYP8+iEr1rU0dPyoA4J8p3S16CK7MXIRA9q6On+jrEtE57wyNR37FEQ0HTzdbZFHQ2r9ts74X7+zeDkOVn17afx+FphbEqn7HPpDtXinpXOr2Mr8p5HGV6fCS+sfL9TbezeJ3iM9OtLgWc4jYa5qJyMUisDdsXPCLNCQRc28K3RTh5xysgHz1xSpIJE+nEaJxEyR0oR3yBwWPkzgrd7MIKyQX0RjNgWEHpbdo4lw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=asN7n5fQoAMQqA5RhSWYOxlHzp13aahzsmdHVuh9tv4=;
+ b=fzD1ABm21cOIH2tNrpg/AdM43J8rXXDNDdtBrRFARWyOxZhD5/aIWlKMQHyQ+Lcc2QiD3ThF3xW3Mc9/jYd0vfqbjSpZP1LfU1B9zMXzZ9bomtAdS6tKemyLSKbMduFZNObWLUL0UL3PKfywMwBZq092cilKsKFJt3A2teYVRXs=
+Authentication-Results: daynix.com; dkim=none (message not signed)
+ header.d=none;daynix.com; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
+ by CH2PR12MB3831.namprd12.prod.outlook.com (2603:10b6:610:29::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Tue, 13 Jul
+ 2021 18:40:31 +0000
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0%9]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 18:40:31 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
+References: <20210405131420.598273-1-basil@daynix.com>
+ <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
+ instead of 10
+From: Michael Roth <michael.roth@amd.com>
+Cc: Yan Vugenfirer <yan@daynix.com>
+To: Developers <qemu-devel@nongnu.org>,
+ Konstantin Kostiuk <konstantin@daynix.com>
+Date: Tue, 13 Jul 2021 13:40:22 -0500
+Message-ID: <162620162248.49683.11801775260591979390@amd.com>
+User-Agent: alot/0.9
+X-ClientProxiedBy: SA9P223CA0010.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:806:26::15) To CH2PR12MB4133.namprd12.prod.outlook.com
+ (2603:10b6:610:7a::13)
 MIME-Version: 1.0
-References: <20210709153951.2801666-1-eblake@redhat.com>
- <20210709153951.2801666-3-eblake@redhat.com>
- <a5a194b3-4d9c-c64a-ad62-be20e5a64b99@redhat.com>
- <20210713174834.zbnqmo2mfzcdsdcq@redhat.com>
-In-Reply-To: <20210713174834.zbnqmo2mfzcdsdcq@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Tue, 13 Jul 2021 21:39:16 +0300
-Message-ID: <CAMRbyysbLTfm78t3He=DOd=2hrx2CubGaovk+bNH-FMNp+-cVQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] qemu-img: Fail fast on convert --bitmaps with
- inconsistent bitmap
-To: Eric Blake <eblake@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=nsoffer@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (165.204.77.1) by
+ SA9P223CA0010.NAMP223.PROD.OUTLOOK.COM (2603:10b6:806:26::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.20 via Frontend Transport; Tue, 13 Jul 2021 18:40:30 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e3538d7-237d-45bc-a245-08d9462db102
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3831:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB383184860A8497AB2EA5FCD895149@CH2PR12MB3831.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: o+zKCjtIDHmq8FMK++TJ1laJqsrqGl7Sl7TBr7DyLIzJ0EO2eyPGC/dJqGym38G8RDaZLaR6IMnZIaNJe8mg3zPvb9tU4GysK9Xg1UJIQkecIvSphZEcURRp76r9UO6QUdtMh0ildAnktmFcwuHN0QyS3P+0E7MQQx77EdXO+wqmiYWvQo+OMl7JEMozHauAnw9Tnbwsh+j/NSWoOHxxnCh44KNqSPwN7N8U7OHY00ahALJg5LcG8X0wYlnDp2c9dgl/CHoaDN40IoV5UHr7qgjbqUzChj3NyshSkbgMHVGqf6MKH4WmgNbHzwNodkJxU/MA8pgH4VeV7W83/h0TrMRd+pZHHgrdwfWbyQ7GMtFiennUUTnXzy+Eia7yoxGAGBZcwVardHaZwaBfNxWr+1As71GWB2bpPtzVP/A1bEkZcFIGEYL1OpPJgOBgZ4/ImtSyUraiUd/yJbjKF3qeeiVSFMHWMt2WpJV+5052G+vdoEJmhKllR1Z6DWIBWiu2FmQPD4GlIrlXsjqX3GeEi38BeOyPACwViFlIkS8UK717oMucGie9IB17H7SRFLKJudBQquMLzsrQrdZwT34LDqcs5F3Bf6j8l84z5p13HLaPpu0dGVUM55JggXQsJwYxmVpE2QImPqAMD5kT6V8a82pYvnsr5nYy6wbrX7mX/9Xak9U3FkMsyT/92erv131i+cQ0KmRB9tLfCz35M9lqOzOExktOQa5PMO1BFOOAS8gIgQZx7ht+P6HAURB+NB0IBr23RGU/vo4joODOEHpTjvnw8ImsQkH+wGzcDoIMR00ags/tIKf8kD/EXHe50H52GtaEsoLdJBxT3+fd7xZOiQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(376002)(366004)(136003)(39860400002)(38350700002)(966005)(53546011)(956004)(186003)(26005)(8676002)(5660300002)(52116002)(6486002)(66556008)(66946007)(66476007)(8936002)(316002)(38100700002)(86362001)(4326008)(2906002)(6496006)(110136005)(83380400001)(36756003)(478600001)(6666004)(2616005)(44832011);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ck8rVjZNZ0tCVS9GZTZUMjBrNnpaeDA0RXN2T0NCV3M3VHlxRE9GQkRBR3c0?=
+ =?utf-8?B?RjZ5K2liZFgrT0FPWWRyMUYvUks5MWhKNDBXUExyK0UvTVI5UUVUMXI4MjA2?=
+ =?utf-8?B?cmIyd3RBY2dNd3hVWmkyZy9abEVjbENYSEFOY21kYVdFbmpmM1IzWmhDVUxh?=
+ =?utf-8?B?TGFHZ3l2SGZyQWRHTlJWL21adXZ3bHI4dnJ1RWJ3OCtybVo4R3RPMW0vdTNR?=
+ =?utf-8?B?MDNQdUcrZlN0YWgreXkranNpSDlpckt3UHpZaHpTSE00L2lwbnVTTFdWYUgy?=
+ =?utf-8?B?Z1pFcFdmeUZ5Nms1cjBwWVJueklMbk9pcVE2anIrcnpJcytVYzRRSW00L1Q0?=
+ =?utf-8?B?SmxGaE1kYXJZR3kvNHlyNkE0aVRBb0RtczVTRk1Xa3Q2MFUzQm1mNFNWL2Ja?=
+ =?utf-8?B?cnZZRmRTZWZ5RDRkZFJCWklNUldEUUl1Y3RPbHhMdVd0NjFHalpkSmRGR3Fz?=
+ =?utf-8?B?clh1UnduKzVPTDBBTUFuNDVwdVh4Y2s2WDBYWWpKZm96dUFpRmdHZExzWWNX?=
+ =?utf-8?B?OGkrQ2hJNHM0SmpMTXNTQmhhVEVQakpDR2ZaVXhoaTRXZTNhalBoY0RqcHVj?=
+ =?utf-8?B?VUpRaVNlTUNtRyszMDJubm1qcUpqNVNFa2VLdkN0QTJRN3IyRXJhZDYrZnNL?=
+ =?utf-8?B?RlVHWE1pQVhTTUhxTzZVMkc2RExWMUhTaXV0bG1aZEtJcUxPVi9ESjZMci9R?=
+ =?utf-8?B?bHF5Q1I0clRTYTkyT3lZd3NZai8waklVSDFjSDcrU01ocVMxVExVYlNxZlpU?=
+ =?utf-8?B?cHNuYkJGVDNGbXI0dE9GNmRuK3R3S0pFOGlUOXFxOXFhRXA5WU52VExGVStK?=
+ =?utf-8?B?b2JtRG8rSUV0RTl6QW1zS05jMFE3Nm9wNmo1N0xHcnhFa0o2SDF0anZkcTJO?=
+ =?utf-8?B?ejYvUXA5c2NWNklyMmJYS2EwWFpsWXdaQ1N1eXpVdTVtNjNBRlpFVjM1bzFq?=
+ =?utf-8?B?UXI2cDlWSXB3dVVmZEg1aG13eVZPMVcwaUJVenZ3Vm1sMGZmenhhODRtblRU?=
+ =?utf-8?B?TGRuU1R2Y1Fud25Ba21WVVd1M3lVZTh0VlN0bWdXSHlZMmM2TFRFU3B6M1Rm?=
+ =?utf-8?B?NVpYWWtqWDRadkQ2RXRHYlQyaGxzS0dtbU5FcnZJVm5TbjVubDFaT2gzcExQ?=
+ =?utf-8?B?NytFRWFScy9YQXFHUjB5TC83eE5UaFZYazRsbnpIOURZbysrdjdDUlAxMXQw?=
+ =?utf-8?B?TjRpcEc3UTFnUTNHQ2J5OXhNZGs5M0JSUkd0OTBIVlNCY0ZCWFVCZ1lGM2Vh?=
+ =?utf-8?B?ajNtQTRWWDEvdUtlcU5QUExCMTZ0YVpOVkdEditNVTNnZ2FROXRLRkQ4aGVD?=
+ =?utf-8?B?QnBNMSs1N0FSK0hsbCtvNkhrZzJoVFYxOU5SdkRCcGdWbjQ4TnZkNXU3c3gw?=
+ =?utf-8?B?YnN1anJNL3lkbW92c3JwVFlpSVNYR1llS1dQRmMrY0Z0OXUxeXRDV1hGOWw0?=
+ =?utf-8?B?UUh6dTcrMkIveDFwUEVOWXNYM09udEFhT0ltRkpHM2VnM0NSOUVGMFVDM2dI?=
+ =?utf-8?B?YXVYYUYzMEpHOWxuR1A4T0hEOE9JdzRFM3VaRG53dmJBMWpzQ0lhcjRyd3NB?=
+ =?utf-8?B?SUZmbC9UNGtFaE1wMFl4V3NJd1lkVHQzRThVWlJ4NEN5TVVUVmhUcmhYeFJn?=
+ =?utf-8?B?a0lweGMxb0NnUUZsZmVxQWtOSTdkS2JjQ3lmWEZGbWR4cTh2bHBYTHBrYTVp?=
+ =?utf-8?B?d3hIWTFqRk9ja0V2NTNOdFBSbHEwc2t1TXdmbEZHbnFjZTYrM0pxNDEzY1dj?=
+ =?utf-8?Q?6hXu3iPw9pKIDZNvSJs+/rhtahNxozl9I3nPEZ8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e3538d7-237d-45bc-a245-08d9462db102
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 18:40:30.9407 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fQR8+sQJPfDra5WjxjJTTOdg0DVwRhRvxSWveN0L84NDZXcsqpSNw9eFCS3zPRqQo3F9iPJJLcYnW4PJoE8B9A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3831
+Received-SPF: softfail client-ip=40.107.93.75;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,120 +144,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 13, 2021 at 8:48 PM Eric Blake <eblake@redhat.com> wrote:
->
-> On Sat, Jul 10, 2021 at 09:06:24PM +0300, Nir Soffer wrote:
-> > On 7/9/21 6:39 PM, Eric Blake wrote:
-> > > Waiting until the end of the convert operation (a potentially
-> > > time-consuming task) to finally detect that we can't copy a bitmap is
-> > > bad, comparing to failing fast up front.  Furthermore, this prevents
-> > > us from leaving a file behind with a bitmap that is not marked as
-> > > inconsistent even though it does not have sane contents.
-> >
-> > I don't think this is an issue since qemu-img terminate with non-zero
-> > exit code, and we cannot ensure that image is complete if we fail in
-> > the middle of the operation for all image formats and protocols.
-> >
-> > For files we could use a temporary file and rename after successful
-> > conversion for for raw format on block device we don't have any way
-> > to mark the contents as temporary.
->
-> Atomic rename into place for files is nice, but as you point out, it
-> doesn't help when targetting block devices.  So whatever we do to keep
-> block devices robust even across temporary state changes is also
-> sufficient for files, even if we can indeed improve the situation for
-> files in a later patch.
+Quoting Konstantin Kostiuk (2021-04-22 02:43:25)
+> ping
 
-I think management tools should handle this. In oVirt we keep metadata
-and cluster locks for any kind of volume and we use them to mark volumes
-being copied as temporary, so from our point of view proper cleanup in
-failure flows is non-issue.
+I've been trying to get these queued but I'm hitting an issue where qga
+reports:
 
-> > But failing fast is very important.
-> >
-> > > This fixes the problems exposed in the previous patch to the iotest.
-> > >
-> > > Signed-off-by: Eric Blake <eblake@redhat.com>
-> > > ---
-> > >   qemu-img.c                                    | 30 +++++++++++++++++--
-> > >   tests/qemu-iotests/tests/qemu-img-bitmaps     |  2 --
-> > >   tests/qemu-iotests/tests/qemu-img-bitmaps.out | 20 ++-----------
-> > >   3 files changed, 29 insertions(+), 23 deletions(-)
-> > >
-> > > diff --git a/qemu-img.c b/qemu-img.c
-> > > index 7956a8996512..e84b3c530155 100644
-> > > --- a/qemu-img.c
-> > > +++ b/qemu-img.c
-> > > @@ -2101,6 +2101,30 @@ static int convert_do_copy(ImgConvertState *s)
-> > >       return s->ret;
-> > >   }
-> > >
-> > > +/* Check that bitmaps can be copied, or output an error */
-> > > +static int convert_check_bitmaps(BlockDriverState *src)
-> > > +{
-> > > +    BdrvDirtyBitmap *bm;
-> > > +
-> > > +    if (!bdrv_supports_persistent_dirty_bitmap(src)) {
-> > > +        error_report("Source lacks bitmap support");
-> > > +        return -1;
-> > > +    }
-> > > +    FOR_EACH_DIRTY_BITMAP(src, bm) {
-> > > +        const char *name;
-> > > +
-> > > +        if (!bdrv_dirty_bitmap_get_persistence(bm)) {
-> > > +            continue;
-> > > +        }
-> > > +        name = bdrv_dirty_bitmap_name(bm);
-> > > +        if (bdrv_dirty_bitmap_inconsistent(bm)) {
-> > > +            error_report("Cannot copy inconsistent bitmap '%s'", name);
-> >
-> > We can add a useful hint:
-> >
-> >     Try "qemu-img bitmap --remove" to delete this bitmap from disk.
+  failed to load qga-vss.dll: The specified module could not be found.
+
+via LoadLibraryA(QGA_VSS_DLL) returning error code 126. What's weird is
+it seems to find qga-vss.dll in the install directory, and you can see it
+access it in WinDBG and various trace tools, but somehow it reports not
+found. Are you seeing this issue?
+
+I'll debug more this week and try to get these in for rc1, but if you happe=
+n
+to have more of a clue than me then any insights would be much appreciated.
+
+>=20
+> On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
+>=20
+>     Currently Requester freeze times out after 10 seconds, while
+>     the default timeout for Writer Freeze is 60 seconds. according to
+>     VSS Documentation [1].
+>     [1]: https://docs.microsoft.com/en-us/windows/win32/vss/
+>     overview-of-processing-a-backup-under-vss
+>=20
+>     Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909073
+>=20
+>     Signed-off-by: Basil Salman <bsalman@daynix.com>
+>     Signed-off-by: Basil Salman <basil@daynix.com>
+>     ---
+>     =C2=A0qga/vss-win32/requester.cpp | 2 +-
+>     =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+>     diff --git a/qga/vss-win32/requester.cpp b/qga/vss-win32/requester.cp=
+p
+>     index 5378c55d23..940a2c8f55 100644
+>     --- a/qga/vss-win32/requester.cpp
+>     +++ b/qga/vss-win32/requester.cpp
+>     @@ -18,7 +18,7 @@
+>     =C2=A0#include <inc/win2003/vsbackup.h>
+>=20
+>     =C2=A0/* Max wait time for frozen event (VSS can only hold writes for=
+ 10
+>     seconds) */
+>     -#define VSS_TIMEOUT_FREEZE_MSEC 10000
+>     +#define VSS_TIMEOUT_FREEZE_MSEC 60000
+>=20
+>     =C2=A0/* Call QueryStatus every 10 ms while waiting for frozen event =
+*/
+>     =C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10
+>     --
+>     2.17.2
+>=20
 >
-> Yeah, that might be worthwhile.
->
-> >
-> > > +            return -1;
-> > > +        }
-> > > +    }
-> > > +    return 0;
-> > > +}
-> > > +
-> > >   static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *dst)
-> > >   {
-> > >       BdrvDirtyBitmap *bm;
-> > > @@ -2127,6 +2151,7 @@ static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *dst)
-> > >                                 &err);
-> > >           if (err) {
-> > >               error_reportf_err(err, "Failed to populate bitmap %s: ", name);
-> > > +            qmp_block_dirty_bitmap_remove(dst->node_name, name, NULL);
-> >
-> > This may fail for the same reason populate failed (e.g. storage became
-> > inaccessibel in the middle of the copy). Since we fail the convert, I don't
-> > think it worth to try to do this kind of cleanup.
-> >
-> > If we have a way to disable the bitmap before merge, and enable it after
-> > successful merge it make more sense, since if the operation fails we are
-> > left with disabled bitmap.
->
-> If we got this far, the guest-visible data WAS copied successfully.
-> 'qemu-img compare' will report success.  The only thing broken at this
-> point is a bogus bitmap, and leaving a just-created (but empty) bitmap
-> in place rather than erasing it (since we just created it a few lines
-> above) is not nice.  I see no problem with keeping this cleanup path
-> intact, even if it is seldom reached, and even though we still exit
-> the overall qemu-img convert with an error.
-
-Sure, no reason to delay this fix. With or without hint on errors,
-
-Reviewed-by: Nir Soffer <nsoffer@redhat.com>
-
 
