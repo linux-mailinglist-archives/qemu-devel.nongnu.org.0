@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1333F3C6EB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:39:22 +0200 (CEST)
-Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7C43C6EC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:45:15 +0200 (CEST)
+Received: from localhost ([::1]:50804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Fov-0003ZI-3r
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:39:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
+	id 1m3Fuc-0007zo-Gh
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:45:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3Fnm-00025C-5u
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:38:10 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38709)
+ id 1m3FtW-00071B-Df
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:44:06 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3Fnk-0007P6-Cx
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:38:09 -0400
-Received: by mail-ej1-x632.google.com with SMTP id gb6so40588627ejc.5
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:38:07 -0700 (PDT)
+ id 1m3FtU-00038U-1e
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:44:06 -0400
+Received: by mail-ed1-x534.google.com with SMTP id dj21so12712492edb.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zzINCQ5tg4gd3KK1zI6mJwuLGmxvKlH7VQs/cs6Fajg=;
- b=jCKQvb5WqKgWhLfIISZbbm8RufRE4xYRgHE4DLC0D4FkA8APmYMLLoz03pWXrNzJw8
- xI27Y+NAyvf/SUz2lTyNB3zjf1dEN1N6O9O9/4udSl87B4gsssjio1AWoJRRPaim9tpL
- Sxpm2tC4D1YNrUwPEE6FOtC9+whc1XhA2PKQrOu/2LdIJWCx2SHbr1Jw3EbkLUQ/SDbp
- m8UjPZVm2GNMbyM0K3S+OHQ2ygK/dHFktmbeBD90g19Sp78FM7ldzD1unvhx++EzAHKw
- QW332+6HuXPijD5HMvitOgOLtozhANYSmSpdShxulepWnT6/fOVECrfrO0Dfs/HQPToj
- PnBg==
+ :cc; bh=Az/2PHI96AtBR1ylatRFGXqu5fi6wlmc+MdQzPHxgW8=;
+ b=lFKnnerA3Xk/XcA6DjTXPdzNL1U2YyB1TxYrXWUQUXCo1/8yv/xOpQXPtGpvxfA9BQ
+ l0xlkFQIm338vsSS8NqALD77AWh2d84uau+al+yOBhgoh8+8roBy4juvK+idYW4Kaynj
+ 1EXmUIavsLNpfwIR7XkcpTAhJL6GR6SA6M808+a5shRwNkMfbgOOW6AsrfYFNKP63x2j
+ ZYWnzhznAsdeE8XH+fK+vqqDWcLA8B2uDABvrCH2C39tnOZN4JB7uElQ23lzXRqv3wvY
+ 0eFfA9+r2wn6YU7JszZZdig1zoP0hfigj+F/NOLwEZxmAw1qh++3H/mcDLQgASExNaBe
+ uGsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zzINCQ5tg4gd3KK1zI6mJwuLGmxvKlH7VQs/cs6Fajg=;
- b=uQgwh5NRLc/oQEYmnWYrAGkzJbujBDmavSyxk7x0q/WVj+H6aL0slXa1XzqMcXUdBj
- UdLRIKiQdK2heCVoP3OJbomLmnGeeSJjIi4TkzSX9uUjtBvvpHZdrSDXHSKl8ah3xs/D
- Iihms5O/YAKeWe7GGsN7MpTXaQ6LRXmRcE9tuUTUBGnAn2ykqyosJ/aRY/3iHtBDLm7b
- O1fc6ukMLEyGcUGLI0S+zOyQWb5fCotaBYBkRZMCEZHY8jkaZaI48aK2wF0tdzxjPsys
- d92wq8RM/Y8y7dFsVN4W/7TJmJ1FgsJO1WmxSl+7ArbMgRcP7A13/cv2MYe/w6CMgLxG
- JzMQ==
-X-Gm-Message-State: AOAM533keMFI7J51Wq9dfl86NNLuThpzEsajJ+T1+WLJ8cXDfoTXZmBS
- +gZAYc+gm0uQIgzeiTpvm94QNiCtZoSnnWylSpQGfQ==
-X-Google-Smtp-Source: ABdhPJwTKdPTE2v8WIqDkw3+lqkmtX4dNzKosDTgQ+bOK2CImxOl6aJ1kTBxS8OOtfqB6lxmmLCw20orSosbWJO9bCk=
-X-Received: by 2002:a17:906:16cd:: with SMTP id
- t13mr4863923ejd.250.1626172686937; 
- Tue, 13 Jul 2021 03:38:06 -0700 (PDT)
+ bh=Az/2PHI96AtBR1ylatRFGXqu5fi6wlmc+MdQzPHxgW8=;
+ b=tQDxg3xzwYj0rqJyLn8G20iptxwOgCCXGVmtYhE3w2jhTOQphQ2llRpi7fjQ0ajqVT
+ 6BpbznOlG+xwVKfAbfkhSBtBTrmmaMKg1o37mFMrcvH3ghx2HxplZZXNHoUWdtvKqCkg
+ ZvHgjvKoO/2pMKs++I+fiLRXFbzSw4EhDM4RqHhstIdaRyhNlt83yHA/fYCjBe874r8f
+ QkUc+lXdjZs2ltwLrBcQgslIIzXuOVW2Ui9H8Yz7WhQRV4T6vpNOhXVuHm3E+AKrqJvF
+ vOe/3IG3mkye62Yfv1vH0lXwV/KWXPrk6NPJ0ZrE7XbhhAQIH9HCl7jaFRym8GW0A00S
+ NZgg==
+X-Gm-Message-State: AOAM531wAq53ydxxr8FK/ClEHOFe3xcvZ5ki4ibdCV+bJXwAPPYYPMcl
+ 9S7aa3Bj3Xp5nVdPwV3Dp/JbvkEW3cOMqyMmzhNiTw==
+X-Google-Smtp-Source: ABdhPJwCWe6VPj3VTD/JWP2raTKknrSsve052vzH7Ivp7EPS74g/uvwtti6M2VraobXbVUQf1EDs6Skx/m1g3r/LmL8=
+X-Received: by 2002:a05:6402:1ca4:: with SMTP id
+ cz4mr4904630edb.52.1626173042392; 
+ Tue, 13 Jul 2021 03:44:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210706100141.303960-1-pbonzini@redhat.com>
- <20210706100141.303960-38-pbonzini@redhat.com>
-In-Reply-To: <20210706100141.303960-38-pbonzini@redhat.com>
+References: <20200714003254.4044149-1-alistair.francis@wdc.com>
+ <20200714003254.4044149-5-alistair.francis@wdc.com>
+In-Reply-To: <20200714003254.4044149-5-alistair.francis@wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Jul 2021 11:37:27 +0100
-Message-ID: <CAFEAcA8JNoPcn8OBw1up0_q-ezw_Dcu4smg3HiiYjJuT8k0-Vg@mail.gmail.com>
-Subject: Re: [PULL 37/40] machine: add smp compound property
-To: Paolo Bonzini <pbonzini@redhat.com>
+Date: Tue, 13 Jul 2021 11:43:22 +0100
+Message-ID: <CAFEAcA-OmEhVkZFryiJjy693pTEtMLR=MHzEi6y4FSu7Zy=6Dg@mail.gmail.com>
+Subject: Re: [PULL 04/15] RISC-V: Copy the fdt in dram instead of ROM
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,43 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Atish Patra <atish.patra@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 6 Jul 2021 at 11:39, Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Tue, 14 Jul 2020 at 01:44, Alistair Francis <alistair.francis@wdc.com> wrote:
 >
-> Make -smp syntactic sugar for a compound property "-machine
-> smp.{cores,threads,cpu,...}".  machine_smp_parse is replaced by the
-> setter for the property.
+> From: Atish Patra <atish.patra@wdc.com>
 >
-> numa-test will now cover the new syntax, while other tests
-> still use -smp.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Currently, the fdt is copied to the ROM after the reset vector. The firmware
+> has to copy it to DRAM. Instead of this, directly copy the device tree to a
+> pre-computed dram address. The device tree load address should be as far as
+> possible from kernel and initrd images. That's why it is kept at the end of
+> the DRAM or 4GB whichever is lesser.
 
-Hi; Coverity reports a leak in this code (CID 1458085):
+Hi; Coverity reports an issue in this code (CID 1458136):
 
-> +static void
-> +machine_parse_property_opt(QemuOptsList *opts_list, const char *propname,
-> +                           const char *arg, Error **errp)
+> +uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
 > +{
-> +    QDict *opts, *prop;
-> +    bool help = false;
-> +    ERRP_GUARD();
+> +    uint32_t temp, fdt_addr;
+> +    hwaddr dram_end = dram_base + mem_size;
+> +    int fdtsize = fdt_totalsize(fdt);
 > +
-> +    prop = keyval_parse(arg, opts_list->implied_opt_name, &help, errp);
-> +    if (help) {
-> +        qemu_opts_print_help(opts_list, true);
-> +        return;
-
-In this return path we don't unref 'prop'.
-
+> +    if (fdtsize <= 0) {
+> +        error_report("invalid device-tree");
+> +        exit(1);
 > +    }
-> +    opts = qdict_new();
-> +    qdict_put(opts, propname, prop);
-> +    keyval_merge(machine_opts_dict, opts, errp);
-> +    qobject_unref(opts);
+> +
+> +    /*
+> +     * We should put fdt as far as possible to avoid kernel/initrd overwriting
+> +     * its content. But it should be addressable by 32 bit system as well.
+> +     * Thus, put it at an aligned address that less than fdt size from end of
+> +     * dram or 4GB whichever is lesser.
+> +     */
+> +    temp = MIN(dram_end, 4096 * MiB);
+> +    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+> +
+> +    fdt_pack(fdt);
+
+fdt_pack() can return an error code, but we are not checking its
+return value here.
+
+(This is one of Coverity's heuristics where it only reports failure
+to check errors if it sees enough other callsites in the codebase
+which do check errors to make it decide this is an "always need a
+check" API, which is why the error has only popped up now a year on...)
+
+> +    /* copy in the device tree */
+> +    qemu_fdt_dumpdtb(fdt, fdtsize);
+> +
+> +    rom_add_blob_fixed_as("fdt", fdt, fdtsize, fdt_addr,
+> +                          &address_space_memory);
+> +
+> +    return fdt_addr;
 > +}
 
 thanks
