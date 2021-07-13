@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870673C78F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:27:39 +0200 (CEST)
-Received: from localhost ([::1]:43030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8E63C78F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:27:38 +0200 (CEST)
+Received: from localhost ([::1]:42988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3PwI-00065Z-Er
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:27:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
+	id 1m3PwH-00064H-7Z
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppz-0002AL-3w
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60999)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PqG-0002gZ-2Q
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppv-0008Gc-Qc
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:06 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PqC-0008Su-IV
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211263;
+ s=mimecast20190719; t=1626211280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/5TXKC1dQEU+Xky60erz3/gHcfcWsiMRRr6v27umNWU=;
- b=SAX6PyGC8V3XRYSS5RE5r6ybj9KFHQVXs4OrHsU1clYL8XtzVdxy+ve7/aNJY22kdidNyG
- 7Ar0Fn7Wk4wAOmqeCzPzj9l2wPel8PxB4RlkNoryozfbsknaybML34xva6LVDFwugrX0lJ
- 1bNwwN2uClpjHWueVDSmLsmsqbCLZVU=
+ bh=JtX7+yJJi9eBr6Yjxo5IXUWuTnmp8evQVTVARjL0NOU=;
+ b=QDrXrTDK7TxQ/jvJJWp1wm2Kkpa9ezfpwSbaFJrqnXReB83dN7hE1y5q7PCy1pEUmPWfZt
+ vGZDLkJ1NcwuirNbvH66+eSZQ/XiFzSP4ULO4+E+ruvHN6cMEvGlAuTXPgAgJezHKtPMx1
+ NCf1pm7Av5gpljuMpqqa6bxZ1UB9yIc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-aqCCbEMmN22sgMgKfZkL2w-1; Tue, 13 Jul 2021 17:21:01 -0400
-X-MC-Unique: aqCCbEMmN22sgMgKfZkL2w-1
+ us-mta-220-TYmfDntyMKalfrS6Fcf_RQ-1; Tue, 13 Jul 2021 17:21:18 -0400
+X-MC-Unique: TYmfDntyMKalfrS6Fcf_RQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75AB68015F5;
- Tue, 13 Jul 2021 21:20:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D5A0100B3B4;
+ Tue, 13 Jul 2021 21:21:16 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21AF219C44;
- Tue, 13 Jul 2021 21:20:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 85DCF19C44;
+ Tue, 13 Jul 2021 21:20:59 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 10/23] avocado_qemu: Add SMMUv3 tests
-Date: Tue, 13 Jul 2021 17:19:10 -0400
-Message-Id: <20210713211923.3809241-11-crosa@redhat.com>
+Subject: [PULL 11/23] avocado_qemu: Add Intel iommu tests
+Date: Tue, 13 Jul 2021 17:19:11 -0400
+Message-Id: <20210713211923.3809241-12-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,7 +87,8 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
  Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  David Gibson <david@gibson.dropbear.id.au>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -98,46 +99,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-Add new tests checking the good behavior of the SMMUv3 protecting
-2 virtio pci devices (block and net). We check the guest boots and
-we are able to install a package. Different guest configs are tested:
-standard, passthrough an strict=0. This is tested with both fedora 31 and
-33. The former uses a 5.3 kernel without range invalidation whereas the
-latter uses a 5.8 kernel that features range invalidation.
+Add Intel IOMMU functional tests based on fedora 31.
+Different configs are checked:
+- strict
+- caching mode, strict
+- passthrough.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210706131729.30749-4-eric.auger@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210706131729.30749-5-eric.auger@redhat.com>
 [CR: split long lines]
-[CR: added MAINTAINERS entry]
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- MAINTAINERS              |   1 +
- tests/acceptance/smmu.py | 137 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 138 insertions(+)
- create mode 100644 tests/acceptance/smmu.py
+ tests/acceptance/intel_iommu.py | 119 ++++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
+ create mode 100644 tests/acceptance/intel_iommu.py
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c340bb02b0..148153d74f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -171,6 +171,7 @@ L: qemu-arm@nongnu.org
- S: Maintained
- F: hw/arm/smmu*
- F: include/hw/arm/smmu*
-+F: tests/acceptance/smmu.py
- 
- AVR TCG CPUs
- M: Michael Rolnik <mrolnik@gmail.com>
-diff --git a/tests/acceptance/smmu.py b/tests/acceptance/smmu.py
+diff --git a/tests/acceptance/intel_iommu.py b/tests/acceptance/intel_iommu.py
 new file mode 100644
-index 0000000000..b3c4de6bf4
+index 0000000000..474d62f6bf
 --- /dev/null
-+++ b/tests/acceptance/smmu.py
-@@ -0,0 +1,137 @@
-+# SMMUv3 Functional tests
++++ b/tests/acceptance/intel_iommu.py
+@@ -0,0 +1,119 @@
++# INTEL_IOMMU Functional tests
 +#
 +# Copyright (c) 2021 Red Hat, Inc.
 +#
@@ -149,17 +135,17 @@ index 0000000000..b3c4de6bf4
 +import os
 +
 +from avocado import skipIf
-+from avocado_qemu import LinuxTest, BUILD_DIR
++from avocado_qemu import LinuxTest
 +
 +@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-+class SMMU(LinuxTest):
++class IntelIOMMU(LinuxTest):
 +    """
-+    :avocado: tags=accel:kvm
-+    :avocado: tags=cpu:host
-+    :avocado: tags=arch:aarch64
-+    :avocado: tags=machine:virt
++    :avocado: tags=arch:x86_64
 +    :avocado: tags=distro:fedora
-+    :avocado: tags=smmu
++    :avocado: tags=distro_version:31
++    :avocado: tags=machine:q35
++    :avocado: tags=accel:kvm
++    :avocado: tags=intel_iommu
 +    """
 +
 +    IOMMU_ADDON = ',iommu_platform=on,disable-modern=off,disable-legacy=on'
@@ -172,25 +158,24 @@ index 0000000000..b3c4de6bf4
 +        self.vm.add_args('-device', 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
 +                         'drive=drv0,id=virtio-disk0,bootindex=1,'
 +                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
++        self.vm.add_args('-device', 'virtio-gpu-pci' + self.IOMMU_ADDON)
 +        self.vm.add_args('-drive',
 +                         'file=%s,if=none,cache=writethrough,id=drv0' % path)
 +
 +    def setUp(self):
-+        super(SMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
++        super(IntelIOMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
 +
-+    def common_vm_setup(self, custom_kernel=False):
-+        self.require_accelerator("kvm")
-+        self.vm.add_args("-accel", "kvm")
-+        self.vm.add_args("-cpu", "host")
-+        self.vm.add_args("-machine", "iommu=smmuv3")
-+        self.vm.add_args("-d", "guest_errors")
-+        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
-+                         'edk2-aarch64-code.fd'))
++    def add_common_args(self):
 +        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
 +        self.vm.add_args('-object',
 +                         'rng-random,id=rng0,filename=/dev/urandom')
 +
-+        if custom_kernel is False:
++    def common_vm_setup(self, custom_kernel=None):
++        self.require_accelerator("kvm")
++        self.add_common_args()
++        self.vm.add_args("-accel", "kvm")
++
++        if custom_kernel is None:
 +            return
 +
 +        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
@@ -205,74 +190,57 @@ index 0000000000..b3c4de6bf4
 +                             '-initrd', self.initrd_path)
 +        self.launch_and_wait()
 +        self.ssh_command('cat /proc/cmdline')
++        self.ssh_command('dmesg | grep -e DMAR -e IOMMU')
++        self.ssh_command('find /sys/kernel/iommu_groups/ -type l')
 +        self.ssh_command('dnf -y install numactl-devel')
 +
++    def test_intel_iommu(self):
++        """
++        :avocado: tags=intel_iommu_intremap
++        """
 +
-+    # 5.3 kernel without RIL #
-+
-+    def test_smmu_noril(self):
-+        """
-+        :avocado: tags=smmu_noril
-+        :avocado: tags=smmu_noril_tests
-+        :avocado: tags=distro_version:31
-+        """
-+        self.common_vm_setup()
-+        self.run_and_check()
-+
-+    def test_smmu_noril_passthrough(self):
-+        """
-+        :avocado: tags=smmu_noril_passthrough
-+        :avocado: tags=smmu_noril_tests
-+        :avocado: tags=distro_version:31
-+        """
 +        self.common_vm_setup(True)
++        self.vm.add_args('-device', 'intel-iommu,intremap=on')
++        self.vm.add_args('-machine', 'kernel_irqchip=split')
++
 +        self.kernel_params = (self.distro.default_kernel_params +
-+                              ' iommu.passthrough=on')
++                              ' quiet intel_iommu=on')
 +        self.run_and_check()
 +
-+    def test_smmu_noril_nostrict(self):
++    def test_intel_iommu_strict(self):
 +        """
-+        :avocado: tags=smmu_noril_nostrict
-+        :avocado: tags=smmu_noril_tests
-+        :avocado: tags=distro_version:31
++        :avocado: tags=intel_iommu_strict
 +        """
++
 +        self.common_vm_setup(True)
++        self.vm.add_args('-device', 'intel-iommu,intremap=on')
++        self.vm.add_args('-machine', 'kernel_irqchip=split')
 +        self.kernel_params = (self.distro.default_kernel_params +
-+                              ' iommu.strict=0')
++                              ' quiet intel_iommu=on,strict')
 +        self.run_and_check()
 +
-+    # 5.8 kernel featuring range invalidation
-+    # >= v5.7 kernel
++    def test_intel_iommu_strict_cm(self):
++        """
++        :avocado: tags=intel_iommu_strict_cm
++        """
 +
-+    def test_smmu_ril(self):
-+        """
-+        :avocado: tags=smmu_ril
-+        :avocado: tags=smmu_ril_tests
-+        :avocado: tags=distro_version:33
-+        """
-+        self.common_vm_setup()
-+        self.run_and_check()
-+
-+    def test_smmu_ril_passthrough(self):
-+        """
-+        :avocado: tags=smmu_ril_passthrough
-+        :avocado: tags=smmu_ril_tests
-+        :avocado: tags=distro_version:33
-+        """
 +        self.common_vm_setup(True)
++        self.vm.add_args('-device', 'intel-iommu,intremap=on,caching-mode=on')
++        self.vm.add_args('-machine', 'kernel_irqchip=split')
 +        self.kernel_params = (self.distro.default_kernel_params +
-+                              ' iommu.passthrough=on')
++                              ' quiet intel_iommu=on,strict')
 +        self.run_and_check()
 +
-+    def test_smmu_ril_nostrict(self):
++    def test_intel_iommu_pt(self):
 +        """
-+        :avocado: tags=smmu_ril_nostrict
-+        :avocado: tags=smmu_ril_tests
-+        :avocado: tags=distro_version:33
++        :avocado: tags=intel_iommu_pt
 +        """
++
 +        self.common_vm_setup(True)
++        self.vm.add_args('-device', 'intel-iommu,intremap=on')
++        self.vm.add_args('-machine', 'kernel_irqchip=split')
 +        self.kernel_params = (self.distro.default_kernel_params +
-+                              ' iommu.strict=0')
++                              ' quiet intel_iommu=on iommu=pt')
 +        self.run_and_check()
 -- 
 2.31.1
