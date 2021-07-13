@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B561C3C7781
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 21:50:22 +0200 (CEST)
-Received: from localhost ([::1]:43466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8743C7784
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 21:51:56 +0200 (CEST)
+Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3OQ9-0001FK-OD
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 15:50:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55024)
+	id 1m3ORf-0004Rj-9X
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 15:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3OIh-0005CR-GC
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 15:42:39 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3OId-0007PA-Ue
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 15:42:37 -0400
-Received: by mail-ed1-x531.google.com with SMTP id v1so34737842edt.6
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 12:42:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=RACHyTAUb8tgNCa8nMywfpMo//Rgy7gGeID2hTFJZ7Y=;
- b=QLrer2mdN/TvptsheV3nfTF194SbydC3aKUVfmIzw3d5XB9cVug0GfVRowsqdL5PAO
- JDM0nqOfTitEqvNE3xswjHtHP9glC/IR32sdQ7muidCSM4YIHYIsWE1uFsi2k5eLaHT8
- Ugmg6BG2pxjZEBKwvg5zRHUNjHfsiwIDaAWZcEfpG/0otHhyRLJ4fMfFc6Ugk0USuKci
- 2l9qSFwHtZK9RKAYzkghVDW8Kce5+RXQA6366/PUpM0dwk2c3ZvzAlOxe6R0RrdYjVW8
- Q2uqvvb4bkB+lc6LTZC6LlvqM4w00P9+Bt6k3IDQqM/sZ4YpPvjUTAbZzT1jk264EHj/
- Gtog==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1m3OJx-0008Cs-DZ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 15:43:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1m3OJt-0008Au-Rh
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 15:43:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626205432;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TfwpAxWdq/iLjJYcF/GX4CTSHf/ZJ89HG1UM9GomtSU=;
+ b=H/5aRDG3UGvsGjrtL/8eLwaPF3jmhE9tf3ixIIk2wfCLj7nbPsCEB1AhmjFPS9t4ex12x6
+ fmEW+6YTjEsT/m6zDfQ+nW3n7kWDKezak2amDgFa/QerQUitYSCAuH6BDnOu6zVhcMY3EN
+ VPxjPfXOwsDSjJe+qYZ7XOhJLRzOHE0=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-B7LxOc3TPJGX3GBczuiXtg-1; Tue, 13 Jul 2021 15:43:49 -0400
+X-MC-Unique: B7LxOc3TPJGX3GBczuiXtg-1
+Received: by mail-oo1-f70.google.com with SMTP id
+ t24-20020a4ac8980000b029025fd0948c41so3288255ooq.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 12:43:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=RACHyTAUb8tgNCa8nMywfpMo//Rgy7gGeID2hTFJZ7Y=;
- b=OSsnTj1nuLNF1j35ktKGTRfaQGX5idQ9Fid7yr3MlUUXFFab5YpCaIOwRjd5mdhDhL
- bF+RotiFLprkOYSoY5tQKtfwyQPAP/cEixN6XFr+kgWVSZ1Y+VcDcTiCmv35gup0kW4/
- RaOxMSwaFUZOOoDW17sPY2i03B8u4EhcWXiy1ur/NBpasBk0DLsQGfgcYvbtPXFSpnWJ
- iZltspS4djGzcIYfAv83y1AoDd73uJoZxaGNCDKYS78KGcvShVVFJp2Q/MCAIsM+JQPb
- cTTRXiUNOzMCrUZ0YbAKU8xmlrvFaBUe8+IoFoqeJXKZu1sXQDP21kkhgLRSwq6KTuY/
- 0ttQ==
-X-Gm-Message-State: AOAM533sR6X6bfaASUXNCble7bsRVp8lzBucZY37LpbA/gjrpTC2VnY/
- bKdHGJstSxewBFGC5FEVOUSPOz+HnxgBE2OJ9hlAGQ60f/PyoaoK
-X-Google-Smtp-Source: ABdhPJxMK2SgDoXsMLcktpVJDIHFcMDzsguZp4vhfZ3RluX3ojN8Ue2t0Nrm9cYyGEDe9/4FE1np4ct3Gc+ClhrPX5w=
-X-Received: by 2002:a05:6402:1ca4:: with SMTP id
- cz4mr7910959edb.52.1626205354169; 
- Tue, 13 Jul 2021 12:42:34 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TfwpAxWdq/iLjJYcF/GX4CTSHf/ZJ89HG1UM9GomtSU=;
+ b=H0mQJvjL7+qFKWmWML+q1cd2IYWmdpfUrq93g4cFrACzpVF5Z/PhWlCDr4M3qZRp7f
+ TL7l9F62+y5SVEpcHimOPf2DMAW+q4+JSqldjetBpqIOJ3zE8MSOxzWXOHBM5HIQpvYn
+ dqWo0xYtpWDn9fq7Gb4/aw8sf2l/y9284bFYXWchaxs3XGCQt7OUO7NI/SiK6vEN2JL1
+ Dp8blLCGB8DYMcNYie5OkSqmFdbgck4KEa5TBArkEwNmplfHI7xtE98a456DVKxhoW+v
+ hv3wdBDW3tTpwWHm7Luaaq1OmhiYIuEeiyDKsDUHzIDBf9CLLDdma+H1N4GESL9Dv7VS
+ GP1A==
+X-Gm-Message-State: AOAM5315zUDcmluudJ0AvtAFuv4+FfIFJuLrZ2x/0FXrnQf+IF8BJ5Gp
+ d3Gx07Mun43oxyqEAr390p/+Xhhk1AJVaUt05IfFkH0SaUq6NPJ+zHPtrFe3u2eTPKjkGlWlKYC
+ u9zgQsllL6qwSrlc=
+X-Received: by 2002:aca:47ca:: with SMTP id u193mr808474oia.116.1626205429168; 
+ Tue, 13 Jul 2021 12:43:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzn0Ym8Bo6UEpxllKmM6CjZHOL3hGxUERLSNVIQVbRuSkM8t19i5ABzMulw/0UVWDEo1BbZTQ==
+X-Received: by 2002:aca:47ca:: with SMTP id u193mr808460oia.116.1626205428933; 
+ Tue, 13 Jul 2021 12:43:48 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id v203sm4156686oib.37.2021.07.13.12.43.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 12:43:48 -0700 (PDT)
+Date: Tue, 13 Jul 2021 13:43:47 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
+Message-ID: <20210713134347.1dc8c4b7.alex.williamson@redhat.com>
+In-Reply-To: <20210706100141.303960-37-pbonzini@redhat.com>
+References: <20210706100141.303960-1-pbonzini@redhat.com>
+ <20210706100141.303960-37-pbonzini@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Jul 2021 20:41:54 +0100
-Message-ID: <CAFEAcA-9cLv8OJnMqRRaXBvCcPp7Qh-xjVjMWMvuKXsT8sZTTA@mail.gmail.com>
-Subject: migration test, random hang, x86-64 host
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,272 +97,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Random hang in 'make check' for x86-64 host, clang build,
-qemu-system-i386 target. I think I've seen this occasionally
-in the past.
+On Tue,  6 Jul 2021 12:01:37 +0200
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-This is with commit 708f50199b59 plus a merge of the
-ppc pullreq c785a40179b, but the latter doesn't touch anything
-relevant here.
+> Switch from QemuOpts to keyval.  This enables the introduction
+> of non-scalar machine properties, and JSON syntax in the future.
+> 
+> For JSON syntax to be supported right now, we would have to
+> consider what would happen if string-based dictionaries (produced by
+> -M key=val) were to be merged with strongly-typed dictionaries
+> (produced by -M {'key': 123}).
+> 
+> The simplest way out is to never enter the situation, and only allow one
+> -M option when JSON syntax is in use.  However, we want options such as
+> -smp to become syntactic sugar for -M, and this is a problem; as soon
+> as -smp becomes a shortcut for -M, QEMU would forbid using -M '{....}'
+> together with -smp.  Therefore, allowing JSON syntax right now for -M
+> would be a forward-compatibility nightmare and it would be impossible
+> anyway to introduce -M incrementally in tools.
+> 
+> Instead, support for JSON syntax is delayed until after the main
+> options are converted to QOM compound properties.  These include -boot,
+> -acpitable, -smbios, -m, -semihosting-config, -rtc and -fw_cfg.  Once JSON
+> syntax is introduced, these options will _also_ be forbidden together
+> with -M '{...}'.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  softmmu/vl.c | 315 ++++++++++++++++++++++++---------------------------
+>  1 file changed, 146 insertions(+), 169 deletions(-)
 
-Process tree:
-
-petmay01 17386  0.0  0.0  13920  3100 ?        S    19:41   0:00
-                       \_ bash -o pipefail -c echo
-'MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/mnt/nvmedisk/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-i386
-QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
-tests/qtest/migration-test --tap -k' &&
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/mnt/nvmedisk/linaro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-i386
-QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-storage-daemon
-tests/qtest/migration-test --tap -k -m quick < /dev/null |
-./scripts/tap-driver.pl --test-name="qtest-i386/migration-test"
-petmay01 17387 35.6  0.0 108676  5176 ?        Rl   19:41  19:23
-                           \_ tests/qtest/migration-test --tap -k -m
-quick
-petmay01 18514  127  0.6 2355552 195772 ?      Sl   19:42  68:56
-                           |   \_ ./qemu-system-i386 -qtest
-unix:/tmp/qtest-17387.sock -qtest-log /dev/null -chardev
-socket,path=/tmp/qtest-17387.qmp,id=char0 -mon
-chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-source,debug-threads=on -m 150M -serial
-file:/tmp/migration-test-GIqa8F/src_serial -drive
-file=/tmp/migration-test-GIqa8F/bootsect,format=raw -accel qtest
-petmay01 18527  0.0  0.0      0     0 ?        Z    19:42   0:01
-                           |   \_ [qemu-system-i38] <defunct>
-petmay01 18687  0.0  0.2 1100052 88064 ?       Sl   19:42   0:00
-                           |   \_ ./qemu-system-i386 -qtest
-unix:/tmp/qtest-17387.sock -qtest-log /dev/null -chardev
-socket,path=/tmp/qtest-17387.qmp,id=char0 -mon
-chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-target,debug-threads=on -m 150M -serial
-file:/tmp/migration-test-GIqa8F/dest_serial -incoming defer -drive
-file=/tmp/migration-test-GIqa8F/bootsect,format=raw -accel qtest
-petmay01 17388  0.0  0.0  37760 11484 ?        S    19:41   0:00
-                           \_ perl ./scripts/tap-driver.pl
---test-name=qtest-i386/migration-test
+This breaks the below long standing test VM.  libvirt log and xml
+provided below.  I'm using libvirt version 7.3.0.
 
 
-Thread backtraces, process 18514:
-
-Thread 5 (Thread 0x7fc85b7fe700 (LWP 18560)):
-#0  0x00007fc89c5b37c6 in futex_abstimed_wait_cancelable (private=0,
-abstime=0x0, expected=0, futex_word=0x560cad14f420) at
-../sysdeps/unix/sysv/linux/futex-internal.h:205
-#1  0x00007fc89c5b37c6 in do_futex_wait (sem=sem@entry=0x560cad14f420,
-abstime=0x0)
-    at sem_waitcommon.c:111
-#2  0x00007fc89c5b38b8 in __new_sem_wait_slow (sem=0x560cad14f420,
-abstime=0x0) at sem_waitcommon.c:181
-#3  0x0000560caa2ca21d in qemu_sem_wait (sem=0x560cad14f420) at
-../../util/qemu-thread-posix.c:357
-#4  0x0000560ca9137426 in multifd_send_sync_main (f=0x560cad014d80) at
-../../migration/multifd.c:617
-#5  0x0000560ca9d14231 in ram_save_iterate (f=<optimised out>,
-opaque=<optimised out>)
-    at ../../migration/ram.c:2906
-#6  0x0000560ca94f2f0e in qemu_savevm_state_iterate (f=<optimised
-out>, postcopy=false)
-    at ../../migration/savevm.c:1295
-#7  0x0000560ca926ea16 in migration_iteration_run (s=<optimised out>)
-    at ../../migration/migration.c:3534
-#8  0x0000560ca926ea16 in migration_thread (opaque=<optimised out>) at
-../../migration/migration.c:3767
-#9  0x0000560caa2cabf7 in qemu_thread_start (args=0x560cad138330) at
-../../util/qemu-thread-posix.c:541
-#10 0x00007fc89c5aa6db in start_thread (arg=0x7fc85b7fe700) at
-pthread_create.c:463
-#11 0x00007fc89bcaf71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 4 (Thread 0x7fc88256a700 (LWP 18524)):
-#0  0x00007fc89bca4317 in ioctl () at ../sysdeps/unix/syscall-template.S:78
-#1  0x0000560ca9cc5879 in kvm_vcpu_ioctl (cpu=<optimised out>, type=44672)
-    at ../../accel/kvm/kvm-all.c:3011
-#2  0x0000560ca9cc43d2 in kvm_cpu_exec (cpu=0x560cad0ff9c0) at
-../../accel/kvm/kvm-all.c:2837
-#3  0x0000560ca9be0d14 in kvm_vcpu_thread_fn (arg=0x560cad0ff9c0) at
-../../accel/kvm/kvm-accel-ops.c:49
-#4  0x0000560caa2cabf7 in qemu_thread_start (args=0x560cad10d090) at
-../../util/qemu-thread-posix.c:541
-#5  0x00007fc89c5aa6db in start_thread (arg=0x7fc88256a700) at
-pthread_create.c:463
-#6  0x00007fc89bcaf71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 3 (Thread 0x7fc882e5c700 (LWP 18522)):
-#0  0x00007fc89bca2cb9 in __GI___poll (fds=0x7fc874003240, nfds=3, timeout=-1)
-    at ../sysdeps/unix/sysv/linux/poll.c:29
-#1  0x00007fc8a1f436e9 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#2  0x00007fc8a1f43a82 in g_main_loop_run () at
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#3  0x0000560ca9d3f979 in iothread_run (opaque=<optimised out>) at
-../../iothread.c:73
-#4  0x0000560caa2cabf7 in qemu_thread_start (args=0x560cad03e420) at
-../../util/qemu-thread-posix.c:541
-#5  0x00007fc89c5aa6db in start_thread (arg=0x7fc882e5c700) at
-pthread_create.c:463
-#6  0x00007fc89bcaf71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 2 (Thread 0x7fc88375e700 (LWP 18519)):
-#0  0x00007fc89bca9639 in syscall () at
-../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
-#1  0x0000560caa2ca74b in qemu_futex_wait (val=4294967295, f=<optimised out>)
-    at /mnt/nvmedisk/linaro/qemu-for-merges/include/qemu/futex.h:29
-#2  0x0000560caa2ca74b in qemu_event_wait (ev=0x560cac45f224
-<rcu_call_ready_event>)
-    at ../../util/qemu-thread-posix.c:480
-#3  0x0000560caa2d7c22 in call_rcu_thread (opaque=<optimised out>) at
-../../util/rcu.c:258
-#4  0x0000560caa2cabf7 in qemu_thread_start (args=0x560cacd69840) at
-../../util/qemu-thread-posix.c:541
-#5  0x00007fc89c5aa6db in start_thread (arg=0x7fc88375e700) at
-pthread_create.c:463
-#6  0x00007fc89bcaf71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 1 (Thread 0x7fc8a45a5440 (LWP 18514)):
-#0  0x00007fc89bca2db6 in __GI_ppoll (fds=0x560cad573f20, nfds=6,
-timeout=<optimised out>, sigmask=0x0)
-    at ../sysdeps/unix/sysv/linux/ppoll.c:39
-#1  0x0000560caa27f8e1 in qemu_poll_ns (fds=0x560cad573f20,
-nfds=<optimised out>, timeout=<optimised out>) at
-../../util/qemu-timer.c:348
-#2  0x0000560caa28568c in os_host_main_loop_wait (timeout=1000000000)
-at ../../util/main-loop.c:250
-#3  0x0000560caa28568c in main_loop_wait (nonblocking=<optimised out>)
-at ../../util/main-loop.c:531
----Type <return> to continue, or q <return> to quit---
-#5  0x0000560ca8fcdcbb in main (argc=<optimised out>, argv=<optimised
-out>, envp=<optimised out>)
-    at ../../softmmu/main.c:50
+/usr/local/bin/qemu-system-x86_64 \
+-name guest=Steam-GeForce,debug-threads=on \
+-S \
+-object '{"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-2-Steam-GeForce/master-key.aes"}' \
+-blockdev '{"driver":"file","filename":"/usr/share/edk2/ovmf/OVMF_CODE.fd","node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"driver":"raw","file":"libvirt-pflash0-storage"}' \
+-blockdev '{"driver":"file","filename":"/var/lib/libvirt/qemu/nvram/Steam_VARS.fd","node-name":"libvirt-pflash1-storage","auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","file":"libvirt-pflash1-storage"}' \
+-machine pc-i440fx-6.0,accel=kvm,usb=off,vmport=off,dump-guest-core=off,pflash0=libvirt-pflash0-format,pflash1=libvirt-pflash1-format,memory-backend=pc.ram \
+-cpu host,migratable=on,hv-time,hv-relaxed,hv-vapic,hv-spinlocks=0x1fff,hv-vendor-id=KeenlyKVM,kvm=off \
+-m 4096 \
+-object '{"qom-type":"memory-backend-file","id":"pc.ram","mem-path":"/dev/hugepages/libvirt/qemu/2-Steam-GeForce","x-use-canonical-path-for-ramblock-id":false,"prealloc":true,"size":4294967296}' \
+-overcommit mem-lock=off \
+-smp 4,sockets=1,dies=1,cores=2,threads=2 \
+-uuid 2b417d4b-f25b-4522-a5be-e105f032f99c \
+-display none \
+-no-user-config \
+-nodefaults \
+-chardev socket,id=charmonitor,fd=38,server=on,wait=off \
+-mon chardev=charmonitor,id=monitor,mode=control \
+-rtc base=localtime,driftfix=slew \
+-global kvm-pit.lost_tick_policy=delay \
+-no-hpet \
+-no-shutdown \
+-boot menu=on,strict=on \
+-device nec-usb-xhci,id=usb,bus=pci.0,addr=0x8 \
+-device virtio-scsi-pci,id=scsi0,num_queues=4,bus=pci.0,addr=0x5 \
+-blockdev '{"driver":"file","filename":"/mnt/ssd/Steam-2019-08-02.img","node-name":"libvirt-2-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-2-format","read-only":true,"cache":{"direct":true,"no-flush":false},"driver":"raw","file":"libvirt-2-storage"}' \
+-blockdev '{"driver":"file","filename":"/mnt/ssd/Steam.qcow2","node-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"}' \
+-blockdev '{"node-name":"libvirt-1-format","read-only":false,"cache":{"direct":true,"no-flush":false},"driver":"qcow2","file":"libvirt-1-storage","backing":"libvirt-2-format"}' \
+-device scsi-hd,bus=scsi0.0,channel=0,scsi-id=0,lun=0,device_id=drive-scsi0-0-0-0,drive=libvirt-1-format,id=scsi0-0-0-0,bootindex=2,write-cache=on \
+-netdev tap,fd=41,id=hostnet0,vhost=on,vhostfd=42 \
+-device virtio-net-pci,netdev=hostnet0,id=net0,mac=52:54:00:60:ef:ac,bus=pci.0,addr=0x3 \
+-audiodev id=audio1,driver=none \
+-device vfio-pci,host=0000:01:00.0,id=hostdev0,bus=pci.0,addr=0x4,rombar=1 \
+-device vfio-pci,host=0000:01:00.1,id=hostdev1,bus=pci.0,addr=0x6,rombar=0 \
+-device vfio-pci,host=0000:02:00.0,id=hostdev2,bus=pci.0,addr=0x2 \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-msg timestamp=on
+2021-07-13T19:37:27.680710Z qemu-system-x86_64: Parameter 'drive' is missing
+2021-07-13 19:37:27.703+0000: shutting down, reason=failed
 
 
-Thread backtraces, process 18687:
-Thread 4 (Thread 0x7fb61957b700 (LWP 18696)):
-#0  0x00007fb6335c1ad3 in futex_wait_cancelable (private=<optimised
-out>, expected=0, futex_word=0x556a2b37e07c) at
-../sysdeps/unix/sysv/linux/futex-internal.h:88
-#1  0x00007fb6335c1ad3 in __pthread_cond_wait_common (abstime=0x0,
-mutex=0x556a29e3af40 <qemu_global_mutex>, cond=0x556a2b37e050) at
-pthread_cond_wait.c:502
-#2  0x00007fb6335c1ad3 in __pthread_cond_wait (cond=0x556a2b37e050,
-mutex=0x556a29e3af40 <qemu_global_mutex>) at pthread_cond_wait.c:655
-#3  0x0000556a27ca94f4 in qemu_cond_wait_impl (cond=0x556a2b37e050,
-mutex=0x556a29e3af40 <qemu_global_mutex>, file=0x556a27f12095
-"../../softmmu/cpus.c", line=419) at
-../../util/qemu-thread-posix.c:194
-#4  0x0000556a27627693 in qemu_wait_io_event (cpu=0x556a2b3709c0) at
-../../softmmu/cpus.c:419
-#5  0x0000556a275c0d2b in kvm_vcpu_thread_fn (arg=0x556a2b3709c0) at
-../../accel/kvm/kvm-accel-ops.c:54
-#6  0x0000556a27caabf7 in qemu_thread_start (args=0x556a2b37e090) at
-../../util/qemu-thread-posix.c:541
-#7  0x00007fb6335bb6db in start_thread (arg=0x7fb61957b700) at
-pthread_create.c:463
-#8  0x00007fb632cc071f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+<domain type='kvm'>
+  <name>Steam-GeForce</name>
+  <uuid>2b417d4b-f25b-4522-a5be-e105f032f99c</uuid>
+  <memory unit='KiB'>4194304</memory>
+  <currentMemory unit='KiB'>4194304</currentMemory>
+  <memoryBacking>
+    <hugepages/>
+  </memoryBacking>
+  <vcpu placement='static'>4</vcpu>
+  <cputune>
+    <vcpupin vcpu='0' cpuset='3'/>
+    <vcpupin vcpu='1' cpuset='7'/>
+    <vcpupin vcpu='2' cpuset='2'/>
+    <vcpupin vcpu='3' cpuset='6'/>
+    <emulatorpin cpuset='0,4'/>
+  </cputune>
+  <os>
+    <type arch='x86_64' machine='pc-i440fx-6.0'>hvm</type>
+    <loader readonly='yes' type='pflash'>/usr/share/edk2/ovmf/OVMF_CODE.fd</loader>
+    <nvram template='/usr/share/edk2/ovmf/OVMF_VARS.fd'>/var/lib/libvirt/qemu/nvram/Steam_VARS.fd</nvram>
+    <bootmenu enable='yes'/>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+    <hyperv>
+      <relaxed state='on'/>
+      <vapic state='on'/>
+      <spinlocks state='on' retries='8191'/>
+      <vendor_id state='on' value='KeenlyKVM'/>
+    </hyperv>
+    <kvm>
+      <hidden state='on'/>
+    </kvm>
+    <vmport state='off'/>
+  </features>
+  <cpu mode='host-passthrough' check='none' migratable='on'>
+    <topology sockets='1' dies='1' cores='2' threads='2'/>
+  </cpu>
+  <clock offset='localtime'>
+    <timer name='rtc' tickpolicy='catchup'/>
+    <timer name='pit' tickpolicy='delay'/>
+    <timer name='hpet' present='no'/>
+    <timer name='hypervclock' present='yes'/>
+  </clock>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <emulator>/usr/local/bin/qemu-system-x86_64</emulator>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2' cache='none'/>
+      <source file='/mnt/ssd/Steam.qcow2'/>
+      <target dev='sda' bus='scsi'/>
+      <boot order='2'/>
+      <address type='drive' controller='0' bus='0' target='0' unit='0'/>
+    </disk>
+    <controller type='scsi' index='0' model='virtio-scsi'>
+      <driver queues='4'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+    </controller>
+    <controller type='pci' index='0' model='pci-root'/>
+    <controller type='usb' index='0' model='nec-xhci'>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x08' function='0x0'/>
+    </controller>
+    <interface type='direct'>
+      <mac address='52:54:00:60:ef:ac'/>
+      <source dev='enp4s0' mode='bridge'/>
+      <model type='virtio'/>
+      <link state='up'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x03' function='0x0'/>
+    </interface>
+    <input type='mouse' bus='ps2'/>
+    <input type='keyboard' bus='ps2'/>
+    <audio id='1' type='none'/>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <source>
+        <address domain='0x0000' bus='0x01' slot='0x00' function='0x0'/>
+      </source>
+      <rom bar='on'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x04' function='0x0'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <source>
+        <address domain='0x0000' bus='0x01' slot='0x00' function='0x1'/>
+      </source>
+      <rom bar='off'/>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
+    </hostdev>
+    <hostdev mode='subsystem' type='pci' managed='yes'>
+      <source>
+        <address domain='0x0000' bus='0x02' slot='0x00' function='0x0'/>
+      </source>
+      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
+    </hostdev>
+    <memballoon model='none'/>
+  </devices>
+</domain>
 
-Thread 3 (Thread 0x7fb619e6d700 (LWP 18694)):
-#0  0x00007fb632cb3cb9 in __GI___poll (fds=0x7fb60c003240, nfds=3, timeout=-1)
-    at ../sysdeps/unix/sysv/linux/poll.c:29
-#1  0x00007fb638f546e9 in  () at /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#2  0x00007fb638f54a82 in g_main_loop_run () at
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#3  0x0000556a2771f979 in iothread_run (opaque=<optimised out>) at
-../../iothread.c:73
-#4  0x0000556a27caabf7 in qemu_thread_start (args=0x556a2b2af420) at
-../../util/qemu-thread-posix.c:541
-#5  0x00007fb6335bb6db in start_thread (arg=0x7fb619e6d700) at
-pthread_create.c:463
-#6  0x00007fb632cc071f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 2 (Thread 0x7fb61a76f700 (LWP 18691)):
-#0  0x00007fb632cba639 in syscall () at
-../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
-#1  0x0000556a27caa74b in qemu_futex_wait (val=4294967295, f=<optimised out>)
-    at /mnt/nvmedisk/linaro/qemu-for-merges/include/qemu/futex.h:29
-#2  0x0000556a27caa74b in qemu_event_wait (ev=0x556a29e3f224
-<rcu_call_ready_event>)
-    at ../../util/qemu-thread-posix.c:480
-#3  0x0000556a27cb7c22 in call_rcu_thread (opaque=<optimised out>) at
-../../util/rcu.c:258
-#4  0x0000556a27caabf7 in qemu_thread_start (args=0x556a2afda840) at
-../../util/qemu-thread-posix.c:541
-#5  0x00007fb6335bb6db in start_thread (arg=0x7fb61a76f700) at
-pthread_create.c:463
-#6  0x00007fb632cc071f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 1 (Thread 0x7fb63b5b6440 (LWP 18687)):
-#0  0x00007fb632cb3db6 in __GI_ppoll (fds=0x556a2c0baa50, nfds=7,
-timeout=<optimised out>, sigmask=0x0)
-    at ../sysdeps/unix/sysv/linux/ppoll.c:39
-#1  0x0000556a27c5f8e1 in qemu_poll_ns (fds=0x556a2c0baa50,
-nfds=<optimised out>, timeout=<optimised out>) at
-../../util/qemu-timer.c:348
-#2  0x0000556a27c6568c in os_host_main_loop_wait (timeout=1000000000)
-at ../../util/main-loop.c:250
-#3  0x0000556a27c6568c in main_loop_wait (nonblocking=<optimised out>)
-at ../../util/main-loop.c:531
-#4  0x0000556a274b7517 in qemu_main_loop () at ../../softmmu/runstate.c:726
-#5  0x0000556a269adcbb in main (argc=<optimised out>, argv=<optimised
-out>, envp=<optimised out>)
-    at ../../softmmu/main.c:50
-
-
-Thread backtraces, migration-test process:
-
-Thread 2 (Thread 0x7faa2ff97700 (LWP 17390)):
-#0  syscall () at ../sysdeps/unix/sysv/linux/x86_64/syscall.S:38
-#1  0x0000557a3da6f5fb in qemu_futex_wait (val=4294967295, f=<optimised out>)
-    at /mnt/nvmedisk/linaro/qemu-for-merges/include/qemu/futex.h:29
-#2  qemu_event_wait (ev=0x557a3e78b5c4 <rcu_call_ready_event>) at
-../../util/qemu-thread-posix.c:480
-#3  0x0000557a3da7a6d2 in call_rcu_thread (opaque=<optimised out>) at
-../../util/rcu.c:258
-#4  0x0000557a3da6faa7 in qemu_thread_start (args=0x557a3fbd0590) at
-../../util/qemu-thread-posix.c:541
-#5  0x00007faa30c266db in start_thread (arg=0x7faa2ff97700) at
-pthread_create.c:463
-#6  0x00007faa3032b71f in clone () at
-../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-
-Thread 1 (Thread 0x7faa316e1780 (LWP 17387)):
-#0  0x00007faa302ee7a0 in __GI___nanosleep
-(requested_time=requested_time@entry=0x7ffd6a1505f0,
-    remaining=remaining@entry=0x0) at ../sysdeps/unix/sysv/linux/nanosleep.c:28
-#1  0x00007faa30321657 in usleep (useconds=<optimised out>) at
-../sysdeps/posix/usleep.c:32
-#2  0x0000557a3da1aafa in wait_for_migration_status (who=<optimised
-out>, goal=<optimised out>,
-    ungoals=<optimised out>) at ../../tests/qtest/migration-helpers.c:157
-#3  0x0000557a3da1806a in test_multifd_tcp_cancel () at
-../../tests/qtest/migration-test.c:1375
-#4  0x00007faa3124f05a in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#5  0x00007faa3124ef8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#6  0x00007faa3124ef8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#7  0x00007faa3124ef8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#8  0x00007faa3124ef8b in ?? () from /usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#9  0x00007faa3124f232 in g_test_run_suite () from
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#10 0x00007faa3124f251 in g_test_run () from
-/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0
-#11 0x0000557a3da168e2 in main (argc=1, argv=0x7ffd6a150c98) at
-../../tests/qtest/migration-test.c:1494
-
-thanks
--- PMM
 
