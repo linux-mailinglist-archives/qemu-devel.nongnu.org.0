@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E933C7305
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:18:44 +0200 (CEST)
-Received: from localhost ([::1]:44016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E32D3C730A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:20:02 +0200 (CEST)
+Received: from localhost ([::1]:46354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3KBH-0004lj-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:18:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
+	id 1m3KCX-0006Oi-ES
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:20:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3KAN-00046O-7A
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:17:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28676)
+ (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
+ id 1m3KBI-0005Jj-4P
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:18:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36327)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3KAI-0005qZ-HT
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:17:46 -0400
+ (Exim 4.90_1) (envelope-from <crobinso@redhat.com>)
+ id 1m3KBG-0006Uv-HC
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:18:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626189460;
+ s=mimecast20190719; t=1626189521;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yovSSQEGbUYCWJX8x+9468hcCINettZUXT6OxIzKb70=;
- b=YpQ9KGbxSZvsQ60elbqqPq7CiCyagWyd44hr4sKOGWaarY6l/CrRmADW+rsouOK5gPV95L
- gS9dOD8jR5ubY3IuMhaSx17sAXxpoX9UGAfHDTZs2i1I9x47pMu0AlYy2TaR8m2h/INQeu
- 3auSU/JRNzXNQM3qydNgr0bUoYYvong=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-sCqF1JiVPhaa37rHUCcZLw-1; Tue, 13 Jul 2021 11:17:09 -0400
-X-MC-Unique: sCqF1JiVPhaa37rHUCcZLw-1
-Received: by mail-wr1-f70.google.com with SMTP id
- t8-20020a05600001c8b029013e2027cf9aso4841408wrx.9
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:17:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yovSSQEGbUYCWJX8x+9468hcCINettZUXT6OxIzKb70=;
- b=OCZiuhz8cXYCXqJkCKfPnv9IOzx9+ZZ94Z7b0qw6pe7lbVUHDeXy88SiL2vsv+F8Yh
- GIyyhy7sQX+PSxO1GAzqTHZ4k+dYnhGm1CCcDcYT4qjudmb0tedpbeb67XOiPqXMIXok
- W5/6hyZzrY7IjdcX3gQauXRstNi9hO2n2Zfacc043sFkNQ9CgwX220jtPd8oVLoQAeFg
- JmWaTMCM/ZUJ+wwdfkTS4UeOXKHMu12j+xM/6grfhqBPxTpulZRo0vqIqjeqnxVWzcPr
- X0TUym7vTjsrh3kveWJ/crliXA1Hsgqx0msMFohB3bpaqxoFdYpTfrawUeUUL79iNTBH
- LrGQ==
-X-Gm-Message-State: AOAM533J4cCu/oNeDfM72OjsVLNSx3zNEgjREvu1wda5noW5vZWmAPOD
- +uIrCunZVLjVCxrNaWUSc/E5mV/3kW+i2jyb8ZFWHRPMKzeHkPQ6M8O6qAvwEtJf1zeLRSbsV2b
- Z3irWKALE6sV5C6U=
-X-Received: by 2002:a5d:6943:: with SMTP id r3mr6408711wrw.3.1626189426720;
- Tue, 13 Jul 2021 08:17:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJykLwt/Pdhx2nsz3LkcRCBixvE8FfGZ8wRrG0rT434xcPRoWWUbP9FBPue/bQBMJnr6vguZBQ==
-X-Received: by 2002:a5d:6943:: with SMTP id r3mr6408681wrw.3.1626189426531;
- Tue, 13 Jul 2021 08:17:06 -0700 (PDT)
-Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id p15sm15001724wmq.43.2021.07.13.08.17.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 08:17:04 -0700 (PDT)
-Date: Tue, 13 Jul 2021 11:17:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v6 5/6] hw/acpi/ich9: Set ACPI PCI hot-plug as default on
- Q35
-Message-ID: <20210713111542-mutt-send-email-mst@kernel.org>
-References: <20210713004205.775386-1-jusual@redhat.com>
- <20210713004205.775386-6-jusual@redhat.com>
- <20210713095931.61fa1281@redhat.com>
+ bh=hVUqzfPPZf2UFLSkI/Eg7Rv4cb2KLvwS7DYzN3vvqE8=;
+ b=e8e5H5HfuoVWM6rGETsEl8WoAsQmDAUJ92KZuzBPXAvoJ2knARUNq6cVIGFmggoqPJ4lu4
+ mfKmzdHgm0S5e3bs4MBvtODXhv/KA4Ox7LcQMlqVAkcFr8kD9qSSTVSiUnrpoYQ5Zyk1Ht
+ WyLmnvmyQm8YRmmEpTn7F4ULmDw+8H8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-7POlVNDqO1-qHqILJn58ag-1; Tue, 13 Jul 2021 11:18:38 -0400
+X-MC-Unique: 7POlVNDqO1-qHqILJn58ag-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CCD88015C6;
+ Tue, 13 Jul 2021 15:18:37 +0000 (UTC)
+Received: from [10.10.115.211] (ovpn-115-211.rdu2.redhat.com [10.10.115.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A047560C05;
+ Tue, 13 Jul 2021 15:18:36 +0000 (UTC)
+Subject: Re: [PATCH 0/3] Atomic cleanup + clang-12 build fix
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210712155918.1422519-1-richard.henderson@linaro.org>
+ <f186b5b5-8db2-a43b-d5cc-2563d76c7211@redhat.com>
+ <67a16913-363a-8157-d5fc-1350702b431b@linaro.org>
+ <4cc4bbf6-d856-35ab-3687-3fce79b7f8d7@linaro.org>
+From: Cole Robinson <crobinso@redhat.com>
+Message-ID: <e37ae8b2-441f-f7e1-b125-78bbd85ad4a2@redhat.com>
+Date: Tue, 13 Jul 2021 11:18:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713095931.61fa1281@redhat.com>
+In-Reply-To: <4cc4bbf6-d856-35ab-3687-3fce79b7f8d7@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crobinso@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crobinso@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,83 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 13, 2021 at 09:59:31AM +0200, Igor Mammedov wrote:
-> On Tue, 13 Jul 2021 02:42:04 +0200
-> Julia Suvorova <jusual@redhat.com> wrote:
+On 7/13/21 10:43 AM, Richard Henderson wrote:
+> On 7/12/21 5:37 PM, Richard Henderson wrote:
+>> On 7/12/21 2:30 PM, Cole Robinson wrote:
+>>> On 7/12/21 11:59 AM, Richard Henderson wrote:
+>>>> The first two patches are not strictly required, but they
+>>>> were useful in tracking down the root problem here.
+>>>>
+>>>> I understand the logic behind the clang-12 warning, but I think
+>>>> it's a clear mistake that it should be enabled by default for a
+>>>> target where alignment is not enforced by default.
+>>>>
+>>>> I found over a dozen places where we would have to manually add
+>>>> QEMU_ALIGNED(8) to uint64_t declarations in order to suppress
+>>>> all of the instances.  IMO there's no point fighting this.
+>>>>
+>>>
+>>> I tested your patches, they seem to get rid of the warnings. The errors
+>>> persist.
+>>>
+>>> FWIW here's my reproduce starting from fedora 34 x86_64 host:
+>>>
+>>> $ sudo mock --root fedora-35-i386 --install dnf --install dnf-utils
+>>> --install fedora-packager --install clang
+>>> $ sudo mock --root fedora-35-i386 --shell --enable-network
+>>> # dnf builddep -y qemu
+>>> # git clone https://github.com/qemu/qemu
+>>> # cd qemu
+>>> # CC=clang CXX=clang++ ./configure --disable-werror
+>>> # make V=1
+>>
+>> Ho hum.  So, the warnings are where clang has decided to insert calls
+>> to libatomic.
+>>
+>> So we either have to
+>>
+>> (1) work around all of the places, which, unless we set up an i386
+>> clang-12 builder will quickly bitrot, or
 > 
-> > Q35 has three different types of PCI devices hot-plug: PCIe Native,
-> > SHPC Native and ACPI hot-plug. This patch changes the default choice
-> > for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
-> > ability to use SHPC and PCIe Native for hot-plugged bridges.
+> Update: (1) is out.  There's a warning in cputlb.c vs a pointer that's
+> known to be aligned, and it still fires.  I have filed a bug:
 > 
-> Before we flip the switch,
-> has the issue about not hotplug ports not getting IO (Michael)
-> been addressed, if not are there any plans to fix it?
+>   https://bugs.llvm.org/show_bug.cgi?id=51076
+> 
+>>
+>> (2) write our own routines, compatible with libatomic, using cmpxchg8b
+>> directly.  which requires no (extra) locking, and so is compatible
+>> with the tcg jit output, or
+>>
+>> (3) file a bug with clang, and document "use clang-11 and not clang-12".
+> 
+> So, Cole, with respect to (3), is this just general regression testing
+> that discovered this (in which case, yay) or is there some other reason
+> clang is required?
+> 
+> Assuming that (3) isn't really viable long term, I guess (2) is the only
+> viable option.
 > 
 
-I think it's a guest bug frankly. We'll workaround it
-by setting io-reserve to 4k for hotplugged bridges,
-I think this is minor enough that it's better to just
-merge now and fix on top.
-I've added this note to the commit log though.
+I never tested building qemu with clang prior to this so no idea if it's
+a regression.
 
-> > This is a list of the PCIe Native hot-plug issues that led to this
-> > change:
-> >     * no racy behavior during boot (see 110c477c2ed)
-> >     * no delay during deleting - after the actual power off software
-> >       must wait at least 1 second before indicating about it. This case
-> >       is quite important for users, it even has its own bug:
-> >           https://bugzilla.redhat.com/show_bug.cgi?id=1594168
-> >     * no timer-based behavior - in addition to the previous example,
-> >       the attention button has a 5-second waiting period, during which
-> >       the operation can be canceled with a second press. While this
-> >       looks fine for manual button control, automation will result in
-> >       the need to queue or drop events, and the software receiving
-> >       events in all sort of unspecified combinations of attention/power
-> >       indicator states, which is racy and uppredictable.
-> >     * fixes:
-> >         * https://bugzilla.redhat.com/show_bug.cgi?id=1752465
-> >         * https://bugzilla.redhat.com/show_bug.cgi?id=1690256
-> > 
-> > To return to PCIe Native hot-plug:
-> >     -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
-> > 
-> > Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >  hw/acpi/ich9.c | 2 +-
-> >  hw/i386/pc.c   | 1 +
-> >  2 files changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> > index 2f4eb453ac..778e27b659 100644
-> > --- a/hw/acpi/ich9.c
-> > +++ b/hw/acpi/ich9.c
-> > @@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
-> >      pm->disable_s3 = 0;
-> >      pm->disable_s4 = 0;
-> >      pm->s4_val = 2;
-> > -    pm->use_acpi_hotplug_bridge = false;
-> > +    pm->use_acpi_hotplug_bridge = true;
-> >  
-> >      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
-> >                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> > diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> > index 8e1220db72..7e03848792 100644
-> > --- a/hw/i386/pc.c
-> > +++ b/hw/i386/pc.c
-> > @@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_0[] = {
-> >      { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
-> >      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
-> >      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
-> > +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
-> >  };
-> >  const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
-> >  
+There's some interest in using clang (eventually with cfi) to build the
+Fedora qemu package,  so I gave it a test run. If this case is
+problematic we could keep using gcc for it and clang for every other
+arch, in the short/medium term.
+
+Richard can you clarify, do you think the errors are a clang bug as
+well, or strictly a qemu issue? If it's clang maybe I can get Red Hat
+llvm devs to help
+
+Thanks,
+Cole
 
 
