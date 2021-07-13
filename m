@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0113C6D8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:34:34 +0200 (CEST)
-Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52CB03C6D8B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:33:33 +0200 (CEST)
+Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3EoD-00005R-FL
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52912)
+	id 1m3EnE-0004qW-BQ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elr-00026M-40
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elr-00026R-Ey
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30633)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elo-0001lH-MJ
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:06 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elp-0001ma-6B
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626168722;
+ s=mimecast20190719; t=1626168724;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PoifXsEARlE+hDkNjuTSVkIg29xuVTVXJBtuLIBRdnA=;
- b=FG6AHeS5uET6kDhZlh98RCMDb+7R8ZvGypzBXkbgFnreh9VJtAv3j/NACTbkIbDtNMtSDO
- TTu72UCA32rjzGRmRqW5IwD0alEdHMQ+fm7oe0A0ffv0IVOJvYoPUZjj+fd+LlvtsSG1PR
- dYlhBB7w2vB8c0mEcdGO1Ttg21/244k=
+ bh=hIYsrOpqxvAbiZavlkHiYx+Dm+aeGDVjfN6/6O9RXIE=;
+ b=ejyUYpm2pTSDPkPX8VM06kNhSHJCptUADv6fHkh1+mgit0Yt29pX2nHeobcfVj9vtegYTe
+ D1GPYvmfcB9wXoO378cseMegr4Sfs89JszLkUfXyg+FDLLp1Liq7nGf6vCu/7hLTRHFo6S
+ i+XA8SuddVdDf41BWhW+mpjcMIXimPA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-H9DHTPIPPVu8Fn8bWvKASg-1; Tue, 13 Jul 2021 05:32:01 -0400
-X-MC-Unique: H9DHTPIPPVu8Fn8bWvKASg-1
+ us-mta-398-0ArlSNE7MgOTDoVMNdeGQQ-1; Tue, 13 Jul 2021 05:32:02 -0400
+X-MC-Unique: 0ArlSNE7MgOTDoVMNdeGQQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40D01934102
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:32:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 166CE100CCC5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:32:02 +0000 (UTC)
 Received: from thuth.com (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B71FD5D9CA;
- Tue, 13 Jul 2021 09:31:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F15145DAA5;
+ Tue, 13 Jul 2021 09:32:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 1/4] configure: Fix --without-default-features propagation to
- meson
-Date: Tue, 13 Jul 2021 11:31:52 +0200
-Message-Id: <20210713093155.677589-2-thuth@redhat.com>
+Subject: [PATCH 2/4] configure: Allow vnc to get disabled with
+ --without-default-features
+Date: Tue, 13 Jul 2021 11:31:53 +0200
+Message-Id: <20210713093155.677589-3-thuth@redhat.com>
 In-Reply-To: <20210713093155.677589-1-thuth@redhat.com>
 References: <20210713093155.677589-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -82,28 +82,42 @@ Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A typo prevents that many features get disabled when the user
-runs "configure" with the --without-default-features switch.
+There's no reason why we should keep VNC enabled when the user
+specified --without-default-features.
 
 Reported-by: Cole Robinson <crobinso@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure   | 2 +-
+ meson.build | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 85db248ac1..229ea52516 100755
+index 229ea52516..1974c46f6e 100755
 --- a/configure
 +++ b/configure
-@@ -5205,7 +5205,7 @@ if test "$skip_meson" = no; then
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
-         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
--        $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
-+        $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
- 	-Dtcg_interpreter=$tcg_interpreter \
-         $cross_arg \
-         "$PWD" "$source_path"
+@@ -304,7 +304,7 @@ virtiofsd="auto"
+ virtfs="auto"
+ libudev="auto"
+ mpath="auto"
+-vnc="enabled"
++vnc="auto"
+ sparse="auto"
+ vde="$default_feature"
+ vnc_sasl="auto"
+diff --git a/meson.build b/meson.build
+index 6cd2dc582a..5dedaf73e3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -900,7 +900,7 @@ vnc = not_found
+ png = not_found
+ jpeg = not_found
+ sasl = not_found
+-if get_option('vnc').enabled()
++if not get_option('vnc').disabled()
+   vnc = declare_dependency() # dummy dependency
+   png = dependency('libpng', required: get_option('vnc_png'),
+                    method: 'pkg-config', kwargs: static_kwargs)
 -- 
 2.27.0
 
