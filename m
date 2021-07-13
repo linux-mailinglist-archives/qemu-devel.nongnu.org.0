@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00073C71E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:12:06 +0200 (CEST)
-Received: from localhost ([::1]:42926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8553C71E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:11:40 +0200 (CEST)
+Received: from localhost ([::1]:41540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3J8n-0002pP-VR
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56230)
+	id 1m3J8N-0001tL-AV
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifk-0000CE-TY
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:05 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:52511)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifn-0000LF-7D
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:52221)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifi-00066W-SE
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:04 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifl-00067W-8n
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:06 -0400
 Received: from quad ([82.142.17.146]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1Miqzy-1lXFi733m0-00euyL; Tue, 13
- Jul 2021 15:41:59 +0200
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MA88C-1lssXC0q5a-00BfXv; Tue, 13
+ Jul 2021 15:42:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] fd-trans: Fix race condition on reallocation of the
- translation table.
-Date: Tue, 13 Jul 2021 15:41:49 +0200
-Message-Id: <20210713134152.288423-10-laurent@vivier.eu>
+Subject: [PULL 10/12] linux-user: update syscall_nr.h to Linux v5.13
+Date: Tue, 13 Jul 2021 15:41:50 +0200
+Message-Id: <20210713134152.288423-11-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210713134152.288423-1-laurent@vivier.eu>
 References: <20210713134152.288423-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rQUx2TeaU63sRiprdz7nfJf3PMXktjWGKkp7ymBTmBTI+vgQson
- yWrE3iuZy9W3DHi3UMKWz/MlBvr0KhE+zIypZdzhd9lqF4oWtPeeAVKJ4LA+FRILiB8ZC0d
- NxFLMc4Tm/K/maTN3yDS45bIuhvK3SojRg4sPqtFfvGOmIxUJCzTMZRYCofjm+KsNA4z0/G
- 3CRvnrY2gsp6W+snMCYhg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:588x8dZ/+j8=:GIFqVy0R+Byu7NpWSB3mDx
- uLS3A8mpmsWbX5gKEtMTW7i1CeHgvyF7fI9PtPy7U1yuYXYBWgiX098+kXUtV5oP02jEYbhXk
- 2B9NsA8A2S6koMDQkfD5XFUlQmZiQGxR6eb7XS10XXJIil3EipqZIB/SPTtl4hqJwu0SP46Ag
- 57PQ0Iq9fAmEFluJKTGLkTZYQj8IGsbHvxfxA7vtW8VF/81QQ9Ped/p1Qb6MVJB08FcY09f+I
- bqzSBNktfM7DMjMKN9/Y85L+bqnqDAN8ekMkTGlMKcg5BBtMpUc2Ch87XprldsmyiuAVD05aK
- iB12vLoFrMVT6QgMDP0zYxWIZEqkZ4ZxjISp4D1N5KJp/9sWpubEPyZufoogt5t0jzyqWl3AU
- POGY2lMeYNhPxH5x/2duJO9aZTOYDTqJZYvYNyx+ecmUO6/Bcke3K8rh2WaEsEWMfX3QToxe/
- xN7ggM3kxKw106gyJCfyWYdjilCPOa7IVTHUwDCJuCIeS+htPrs3Nj8HKGPXOIlMa2pKlOiXD
- Fu82PcZrY02LSi/g0gL7EFaAisPq0Tacb5oWr4YU3ubus89QGIVczJxMHStWbAzPAH7Z81M3k
- DlbQ+KJVyMiv3XzfT+zrbDm7M3DfwHZJwfyyDmFiOFAG4PZAdCueCgdJM0Pdr/dWKdP5TQlq7
- ElVl1AsyNwE+0T/C7W8+PrIx5owFUruyXnEcVA5uHryqGDaF+NfbDQYtpqh8sirerXEvtMb+T
- iWI1J8pisLrIp0pfkzua3zluwW1NrQvxGyCj+xqM62MsR46+uhzoxKIEIzsCUF+opOBaLK46V
- rRaOHSu+PxJLJdr5kxwzQD6TYNNu82oQJPziz2zTPYtX40IuYNki9woog9bmJL2x6Lroq6J
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:aHqhiTotPPHP5VvVS4Rah0E20i4e3afHwFMnFWIxdeYqwbUQud0
+ 3c0l2DAUh0Y34QEWhm7C2pYo5pxWAO9/HWZOXy94nYDYtzk7QBan5nQvsGM9vdoZd1WHAD7
+ HByEAdFRHsM4MpTll3EgqEQxrFXs0raXkzvvYkHCPmZVlycAtN2c9RtVJT8l+XMlvauQ2C5
+ Vc0PC/Agz62cSgJhJMaLQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:I35201S4Sa4=:vOQwceT7dDsg2eqa1AfBqN
+ 9/01vvrnczCePUPnaUARHIKxzF/oXSgimbOPXEiQNaVayi7CGFIW+IQBU7vP6ClnMB7163zxd
+ KpWGXuBNzF6kezM/teeNMKpMPutaw4rshTdI3JnEh+S7U5lt6T2jZCP/MQuKr6k8e4+00/GCx
+ X+fdF9L2ryzwKU8bXUlzsoQRzhUlHMasxN1aeJM95wVO49YgQF2d9i7xDnt8KvU09C0r+s84d
+ z4835xxkWiRvEPmO7dVmrj4b2FWUiZQ1qQyYvV9YoE/5YcB5c3hFfruma1diOw9N2tVZ9kHKg
+ UCxrrVg1NnVc0vWW+jy42XyCq8gDpiJxxt3W1LX0QLOms+Rhj7LEHKUIOwuP10IYJ53lEMI2q
+ cPPCo/5aWsVMKkW0U/geHe09QA0u8lNhYe1m8RiwIcLjRaAXtDl3VnFHtvd6y/eFOxmTtu+IW
+ dxwNPYvPDbL1xL4gW2v8gBMgwk5rNRGJMgFeQENr1o84Gnhm1JHOf2C0mZew5BpahKepQcC/d
+ UMhACM/ePH8V3ukOOL7wbaDzG905O/VPMGVAbvaRn0Zba1ErbyfDYIUyVoqoTynjSANS5zBxI
+ BHDCZCpuYnpvql1cTYYVnmKjSBZMu7cLSOD1YhM21ILAtd/1mvR2TEfcRLtH4ytU7B2clC78a
+ ugWUl4Z5xG81eqt9rlXcG4H7D9nAYVIGvIqZsxQgRLhSIaFfOvyerwbMkRkaC7lpsWW8xqkmG
+ o4M8Gl7fqA22uqjAFhuyrtGsHI/+TtK1SgZx9iq+OIp/ARhc4zo7Of6B82PiJnVBYuL6ZGVwQ
+ ImX23jFuyi4IWpHeE0QyqFiGKHn9Fz+fZcLOkn7BB+PfZBjL13IHTAYGOKDYHjDWw4dz6N+
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,172 +66,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Owen Anderson <oanderso@google.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: Taylor Simpson <tsimpson@quicinc.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Owen Anderson <oanderso@google.com>
+Automatically generated using scripts/gensyscalls.sh
 
-The mapping from file-descriptors to translator functions is not guarded
-on realloc which may cause invalid function pointers to be read from a
-previously deallocated mapping.
-
-Signed-off-by: Owen Anderson <oanderso@google.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210701221255.107976-1-oanderso@google.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Message-Id: <20210708215756.268805-2-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/fd-trans.c |  1 +
- linux-user/fd-trans.h | 55 +++++++++++++++++++++++++++++++++++++------
- linux-user/main.c     |  3 +++
- 3 files changed, 52 insertions(+), 7 deletions(-)
+ linux-user/aarch64/syscall_nr.h  |  8 +++++++-
+ linux-user/hexagon/syscall_nr.h  | 12 +++++++++++-
+ linux-user/nios2/syscall_nr.h    |  8 +++++++-
+ linux-user/openrisc/syscall_nr.h |  8 +++++++-
+ linux-user/riscv/syscall32_nr.h  |  8 +++++++-
+ linux-user/riscv/syscall64_nr.h  |  8 +++++++-
+ 6 files changed, 46 insertions(+), 6 deletions(-)
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 23adaca83639..86b6f484d30b 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -267,6 +267,7 @@ enum {
- };
+diff --git a/linux-user/aarch64/syscall_nr.h b/linux-user/aarch64/syscall_nr.h
+index 6fd5b331e780..12ef002d60f9 100644
+--- a/linux-user/aarch64/syscall_nr.h
++++ b/linux-user/aarch64/syscall_nr.h
+@@ -302,6 +302,12 @@
+ #define TARGET_NR_openat2 437
+ #define TARGET_NR_pidfd_getfd 438
+ #define TARGET_NR_faccessat2 439
+-#define TARGET_NR_syscalls 440
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_syscalls 447
  
- TargetFdTrans **target_fd_trans;
-+QemuMutex target_fd_trans_lock;
- unsigned int target_fd_max;
+ #endif /* LINUX_USER_AARCH64_SYSCALL_NR_H */
+diff --git a/linux-user/hexagon/syscall_nr.h b/linux-user/hexagon/syscall_nr.h
+index da1314f7132d..b047dbbf6df3 100644
+--- a/linux-user/hexagon/syscall_nr.h
++++ b/linux-user/hexagon/syscall_nr.h
+@@ -317,6 +317,16 @@
+ #define TARGET_NR_fsmount 432
+ #define TARGET_NR_fspick 433
+ #define TARGET_NR_pidfd_open 434
+-#define TARGET_NR_syscalls 436
++#define TARGET_NR_close_range 436
++#define TARGET_NR_openat2 437
++#define TARGET_NR_pidfd_getfd 438
++#define TARGET_NR_faccessat2 439
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_syscalls 447
  
- static void tswap_nlmsghdr(struct nlmsghdr *nlh)
-diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
-index a3fcdaabc758..1b9fa2041c06 100644
---- a/linux-user/fd-trans.h
-+++ b/linux-user/fd-trans.h
-@@ -16,6 +16,8 @@
- #ifndef FD_TRANS_H
- #define FD_TRANS_H
+ #endif /* LINUX_USER_HEXAGON_SYSCALL_NR_H */
+diff --git a/linux-user/nios2/syscall_nr.h b/linux-user/nios2/syscall_nr.h
+index e37f40179bf3..11a37b32e8b1 100644
+--- a/linux-user/nios2/syscall_nr.h
++++ b/linux-user/nios2/syscall_nr.h
+@@ -322,6 +322,12 @@
+ #define TARGET_NR_openat2 437
+ #define TARGET_NR_pidfd_getfd 438
+ #define TARGET_NR_faccessat2 439
+-#define TARGET_NR_syscalls 440
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_syscalls 447
  
-+#include "qemu/lockable.h"
-+
- typedef abi_long (*TargetFdDataFunc)(void *, size_t);
- typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
- typedef struct TargetFdTrans {
-@@ -25,12 +27,23 @@ typedef struct TargetFdTrans {
- } TargetFdTrans;
+ #endif /* LINUX_USER_NIOS2_SYSCALL_NR_H */
+diff --git a/linux-user/openrisc/syscall_nr.h b/linux-user/openrisc/syscall_nr.h
+index a8fc0295109a..f7faddb54c58 100644
+--- a/linux-user/openrisc/syscall_nr.h
++++ b/linux-user/openrisc/syscall_nr.h
+@@ -323,6 +323,12 @@
+ #define TARGET_NR_openat2 437
+ #define TARGET_NR_pidfd_getfd 438
+ #define TARGET_NR_faccessat2 439
+-#define TARGET_NR_syscalls 440
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_syscalls 447
  
- extern TargetFdTrans **target_fd_trans;
-+extern QemuMutex target_fd_trans_lock;
+ #endif /* LINUX_USER_OPENRISC_SYSCALL_NR_H */
+diff --git a/linux-user/riscv/syscall32_nr.h b/linux-user/riscv/syscall32_nr.h
+index 079b804daef5..1327d7dffab9 100644
+--- a/linux-user/riscv/syscall32_nr.h
++++ b/linux-user/riscv/syscall32_nr.h
+@@ -296,6 +296,12 @@
+ #define TARGET_NR_openat2 437
+ #define TARGET_NR_pidfd_getfd 438
+ #define TARGET_NR_faccessat2 439
+-#define TARGET_NR_syscalls 440
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_syscalls 447
  
- extern unsigned int target_fd_max;
+ #endif /* LINUX_USER_RISCV_SYSCALL32_NR_H */
+diff --git a/linux-user/riscv/syscall64_nr.h b/linux-user/riscv/syscall64_nr.h
+index d54224ccec64..6659751933d5 100644
+--- a/linux-user/riscv/syscall64_nr.h
++++ b/linux-user/riscv/syscall64_nr.h
+@@ -302,6 +302,12 @@
+ #define TARGET_NR_openat2 437
+ #define TARGET_NR_pidfd_getfd 438
+ #define TARGET_NR_faccessat2 439
+-#define TARGET_NR_syscalls 440
++#define TARGET_NR_process_madvise 440
++#define TARGET_NR_epoll_pwait2 441
++#define TARGET_NR_mount_setattr 442
++#define TARGET_NR_landlock_create_ruleset 444
++#define TARGET_NR_landlock_add_rule 445
++#define TARGET_NR_landlock_restrict_self 446
++#define TARGET_NR_syscalls 447
  
-+static inline void fd_trans_init(void)
-+{
-+    qemu_mutex_init(&target_fd_trans_lock);
-+}
-+
- static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
-+    if (fd < 0) {
-+        return NULL;
-+    }
-+
-+    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-+    if (fd < target_fd_max && target_fd_trans[fd]) {
-         return target_fd_trans[fd]->target_to_host_data;
-     }
-     return NULL;
-@@ -38,7 +51,12 @@ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
- 
- static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
-+    if (fd < 0) {
-+        return NULL;
-+    }
-+
-+    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-+    if (fd < target_fd_max && target_fd_trans[fd]) {
-         return target_fd_trans[fd]->host_to_target_data;
-     }
-     return NULL;
-@@ -46,13 +64,19 @@ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
- 
- static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
- {
--    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
-+    if (fd < 0) {
-+        return NULL;
-+    }
-+
-+    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-+    if (fd < target_fd_max && target_fd_trans[fd]) {
-         return target_fd_trans[fd]->target_to_host_addr;
-     }
-     return NULL;
- }
- 
--static inline void fd_trans_register(int fd, TargetFdTrans *trans)
-+static inline void internal_fd_trans_register_unsafe(int fd,
-+                                                     TargetFdTrans *trans)
- {
-     unsigned int oldmax;
- 
-@@ -67,18 +91,35 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
-     target_fd_trans[fd] = trans;
- }
- 
--static inline void fd_trans_unregister(int fd)
-+static inline void fd_trans_register(int fd, TargetFdTrans *trans)
-+{
-+    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-+    internal_fd_trans_register_unsafe(fd, trans);
-+}
-+
-+static inline void internal_fd_trans_unregister_unsafe(int fd)
- {
-     if (fd >= 0 && fd < target_fd_max) {
-         target_fd_trans[fd] = NULL;
-     }
- }
- 
-+static inline void fd_trans_unregister(int fd)
-+{
-+    if (fd < 0) {
-+        return;
-+    }
-+
-+    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-+    internal_fd_trans_unregister_unsafe(fd);
-+}
-+
- static inline void fd_trans_dup(int oldfd, int newfd)
- {
--    fd_trans_unregister(newfd);
-+    QEMU_LOCK_GUARD(&target_fd_trans_lock);
-+    internal_fd_trans_unregister_unsafe(newfd);
-     if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
--        fd_trans_register(newfd, target_fd_trans[oldfd]);
-+        internal_fd_trans_register_unsafe(newfd, target_fd_trans[oldfd]);
-     }
- }
- 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 2fb3a366a699..37ed50d98e2e 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -48,6 +48,7 @@
- #include "target_elf.h"
- #include "cpu_loop-common.h"
- #include "crypto/init.h"
-+#include "fd-trans.h"
- 
- #ifndef AT_FLAGS_PRESERVE_ARGV0
- #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
-@@ -829,6 +830,8 @@ int main(int argc, char **argv, char **envp)
-     cpu->opaque = ts;
-     task_settid(ts);
- 
-+    fd_trans_init();
-+
-     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
-         info, &bprm);
-     if (ret != 0) {
+ #endif /* LINUX_USER_RISCV_SYSCALL64_NR_H */
 -- 
 2.31.1
 
