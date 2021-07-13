@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85CC33C78FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:31:22 +0200 (CEST)
-Received: from localhost ([::1]:53568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6903C7903
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:34:35 +0200 (CEST)
+Received: from localhost ([::1]:35104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Pzs-0004hq-W5
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:31:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
+	id 1m3Q30-0002rP-5C
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PpZ-0000uv-Vg
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56569)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppu-00022L-OT
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PpX-0007y2-LJ
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:41 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pps-0008EO-MU
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211238;
+ s=mimecast20190719; t=1626211260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lVrCW+9bkJ3UiipuCQw08Ayt4tSHmF98EV0Ie7W1YCU=;
- b=UuYHDAh5uW6gXpQtd/o1Y5zlfK2ventnCunDPNaKQOU94MeQrRO8Ee7bpAtY3UOYcV498/
- Pevs9c6rr6YrWVedyIXGTc2btm6TODajpiBuvJdk59q31AlZLHyuCPTxcMYqFNr1Z/Pn44
- YCGJVonh0JujsgpR3GqSHplGry8jI4c=
+ bh=UK5a17W+X7crhERhK6kAeWAmsiRofQ74sUVXfii3LxI=;
+ b=LbvzM5FfbY/ACa7TkbeyDRa7s+2sb9qsPfODHeCcNYubuzUiOs6DYEDWdDUjjQN8bwS/ZV
+ DeryzcUGd1taRpsCzvWHa5wkFY6ifoUHoke2CThZUu5IWs2sQ/3Y1WDI+5LW9Rd8j8PVN4
+ z7kzxYB1c3co0tgPGnht7KPkBnFh3Uo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-TutVqvu3NpO1rV8Y1yYjPA-1; Tue, 13 Jul 2021 17:20:36 -0400
-X-MC-Unique: TutVqvu3NpO1rV8Y1yYjPA-1
+ us-mta-394-5Y87oJ-eOMGVcSH0BqTNxg-1; Tue, 13 Jul 2021 17:20:56 -0400
+X-MC-Unique: 5Y87oJ-eOMGVcSH0BqTNxg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53EA85074B;
- Tue, 13 Jul 2021 21:20:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB896802921;
+ Tue, 13 Jul 2021 21:20:54 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C6E5F19C44;
- Tue, 13 Jul 2021 21:20:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 510D919C44;
+ Tue, 13 Jul 2021 21:20:52 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/23] Acceptance Tests: rename attribute holding the distro
- image checksum
-Date: Tue, 13 Jul 2021 17:19:04 -0400
-Message-Id: <20210713211923.3809241-5-crosa@redhat.com>
+Subject: [PULL 08/23] avocado_qemu: Fix KNOWN_DISTROS map into the LinuxDistro
+ class
+Date: Tue, 13 Jul 2021 17:19:08 -0400
+Message-Id: <20210713211923.3809241-9-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -55,9 +55,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -97,93 +97,168 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This renames the attribute that holds the checksum for the image Linux
-distribution image used.
+From: Willian Rampazzo <willianr@redhat.com>
 
-The current name of the attribute is not very descriptive.  Also, in
-preparation for making the distribution used configurable, which will
-add distro related parameters, attributes and tags, let's make the
-naming of those more uniform.
+As the KNOWN_DISTROS grows, more loosely methods will be created in
+the avocado_qemu/__init__.py file.
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20210414221457.1653745-2-crosa@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Let's refactor the code so that KNOWN_DISTROS and related methods are
+packaged in a class
+
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <20210706131729.30749-2-eric.auger@redhat.com>
+[CR: moved aarch64 definition from patch 2 to 1]
+[CR: protect get() when arch is not defined]
 [CR: split long lines]
+Acked-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py |  4 ++--
- tests/acceptance/boot_linux.py            | 12 ++++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 86 +++++++++++++----------
+ 1 file changed, 49 insertions(+), 37 deletions(-)
 
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 420c00f1a9..0e62c15c60 100644
+index c3163af3b7..256befafc4 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -312,7 +312,7 @@ class LinuxTest(Test, LinuxSSHMixIn):
+@@ -306,34 +306,50 @@ def ssh_command(self, command):
+                          f'Guest command failed: {command}')
+         return stdout_lines, stderr_lines
+ 
++class LinuxDistro:
++    """Represents a Linux distribution
+ 
+-#: A collection of known distros and their respective image checksum
+-KNOWN_DISTROS = {
+-    'fedora': {
+-        '31': {
+-            'x86_64':
+-            {'checksum': ('e3c1b309d9203604922d6e255c2c5d09'
+-                          '8a309c2d46215d8fc026954f3c5c27a0')},
+-            'aarch64':
+-            {'checksum': ('1e18d9c0cf734940c4b5d5ec592facae'
+-                          'd2af0ad0329383d5639c997fdf16fe49')},
+-            'ppc64':
+-            {'checksum': ('7c3528b85a3df4b2306e892199a9e1e4'
+-                          '3f991c506f2cc390dc4efa2026ad2f58')},
+-            's390x':
+-            {'checksum': ('4caaab5a434fd4d1079149a072fdc789'
+-                          '1e354f834d355069ca982fdcaf5a122d')},
++    Holds information of known distros.
++    """
++    #: A collection of known distros and their respective image checksum
++    KNOWN_DISTROS = {
++        'fedora': {
++            '31': {
++                'x86_64':
++                {'checksum': ('e3c1b309d9203604922d6e255c2c5d09'
++                              '8a309c2d46215d8fc026954f3c5c27a0')},
++                'aarch64':
++                {'checksum': ('1e18d9c0cf734940c4b5d5ec592facae'
++                              'd2af0ad0329383d5639c997fdf16fe49')},
++                'ppc64':
++                {'checksum': ('7c3528b85a3df4b2306e892199a9e1e4'
++                              '3f991c506f2cc390dc4efa2026ad2f58')},
++                's390x':
++                {'checksum': ('4caaab5a434fd4d1079149a072fdc789'
++                              '1e354f834d355069ca982fdcaf5a122d')},
+             }
+         }
+     }
+ 
++    def __init__(self, name, version, arch):
++        self.name = name
++        self.version = version
++        self.arch = arch
++        try:
++            info = self.KNOWN_DISTROS.get(name).get(version).get(arch)
++        except AttributeError:
++            # Unknown distro
++            info = None
++        self._info = info or {}
+ 
+-def get_known_distro_checksum(distro, distro_version, arch):
+-    try:
+-        return KNOWN_DISTROS.get(distro).get(distro_version).\
+-            get(arch).get('checksum')
+-    except AttributeError:
+-        return None
++    @property
++    def checksum(self):
++        """Gets the cloud-image file checksum"""
++        return self._info.get('checksum', None)
++
++    @checksum.setter
++    def checksum(self, value):
++        self._info['checksum'] = value
+ 
+ 
+ class LinuxTest(Test, LinuxSSHMixIn):
+@@ -344,24 +360,24 @@ class LinuxTest(Test, LinuxSSHMixIn):
      """
  
      timeout = 900
--    chksum = None
-+    distro_checksum = None
+-    distro_checksum = None
++    distro = None
      username = 'root'
      password = 'password'
  
-@@ -360,7 +360,7 @@ def download_boot(self):
+     def _set_distro(self):
+-        distro = self.params.get(
++        distro_name = self.params.get(
+             'distro',
+             default=self._get_unique_tag_val('distro'))
+-        if not distro:
+-            distro = 'fedora'
+-        self.distro = distro
++        if not distro_name:
++            distro_name = 'fedora'
+ 
+         distro_version = self.params.get(
+             'distro_version',
+             default=self._get_unique_tag_val('distro_version'))
+         if not distro_version:
+             distro_version = '31'
+-        self.distro_version = distro_version
++
++        self.distro = LinuxDistro(distro_name, distro_version, self.arch)
+ 
+         # The distro checksum behaves differently than distro name and
+         # version. First, it does not respect a tag with the same
+@@ -370,13 +386,9 @@ def _set_distro(self):
+         # order of precedence is: parameter, attribute and then value
+         # from KNOWN_DISTROS.
+         distro_checksum = self.params.get('distro_checksum',
+-                                          default=self.distro_checksum)
+-        if not distro_checksum:
+-            distro_checksum = get_known_distro_checksum(self.distro,
+-                                                        self.distro_version,
+-                                                        self.arch)
++                                          default=None)
+         if distro_checksum:
+-            self.distro_checksum = distro_checksum
++            self.distro.checksum = distro_checksum
+ 
+     def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
+         super(LinuxTest, self).setUp()
+@@ -418,14 +430,14 @@ def download_boot(self):
+         self.log.info('Downloading/preparing boot image')
+         # Fedora 31 only provides ppc64le images
+         image_arch = self.arch
+-        if self.distro == 'fedora':
++        if self.distro.name == 'fedora':
+             if image_arch == 'ppc64':
+                 image_arch = 'ppc64le'
+ 
          try:
              boot = vmimage.get(
-                 'fedora', arch=image_arch, version='31',
--                checksum=self.chksum,
-+                checksum=self.distro_checksum,
+-                self.distro, arch=image_arch, version=self.distro_version,
+-                checksum=self.distro_checksum,
++                self.distro.name, arch=image_arch, version=self.distro.version,
++                checksum=self.distro.checksum,
                  algorithm='sha256',
                  cache_dir=self.cache_dirs[0],
                  snapshot_dir=self.workdir)
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 4c8a5994b2..3901c23690 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -20,7 +20,8 @@ class BootLinuxX8664(LinuxTest):
-     :avocado: tags=arch:x86_64
-     """
- 
--    chksum = 'e3c1b309d9203604922d6e255c2c5d098a309c2d46215d8fc026954f3c5c27a0'
-+    distro_checksum = ('e3c1b309d9203604922d6e255c2c5d09'
-+                       '8a309c2d46215d8fc026954f3c5c27a0')
- 
-     def test_pc_i440fx_tcg(self):
-         """
-@@ -66,7 +67,8 @@ class BootLinuxAarch64(LinuxTest):
-     :avocado: tags=machine:gic-version=2
-     """
- 
--    chksum = '1e18d9c0cf734940c4b5d5ec592facaed2af0ad0329383d5639c997fdf16fe49'
-+    distro_checksum = ('1e18d9c0cf734940c4b5d5ec592facae'
-+                       'd2af0ad0329383d5639c997fdf16fe49')
- 
-     def add_common_args(self):
-         self.vm.add_args('-bios',
-@@ -119,7 +121,8 @@ class BootLinuxPPC64(LinuxTest):
-     :avocado: tags=arch:ppc64
-     """
- 
--    chksum = '7c3528b85a3df4b2306e892199a9e1e43f991c506f2cc390dc4efa2026ad2f58'
-+    distro_checksum = ('7c3528b85a3df4b2306e892199a9e1e4'
-+                       '3f991c506f2cc390dc4efa2026ad2f58')
- 
-     def test_pseries_tcg(self):
-         """
-@@ -136,7 +139,8 @@ class BootLinuxS390X(LinuxTest):
-     :avocado: tags=arch:s390x
-     """
- 
--    chksum = '4caaab5a434fd4d1079149a072fdc7891e354f834d355069ca982fdcaf5a122d'
-+    distro_checksum = ('4caaab5a434fd4d1079149a072fdc789'
-+                       '1e354f834d355069ca982fdcaf5a122d')
- 
-     @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-     def test_s390_ccw_virtio_tcg(self):
 -- 
 2.31.1
 
