@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA24E3C731B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:25:16 +0200 (CEST)
-Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0246F3C7320
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:25:56 +0200 (CEST)
+Received: from localhost ([::1]:55968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3KHa-0003mg-Lc
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:25:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52898)
+	id 1m3KIE-0004yS-VX
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3KG5-00024Z-Rz
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:23:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37136)
+ id 1m3KGM-0002Or-Ci
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:23:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3KG4-0001dg-7k
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:23:41 -0400
+ id 1m3KGK-0001nS-TV
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:23:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626189819;
+ s=mimecast20190719; t=1626189836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=h/lliOj01L6AGN+/INwVfeKgpNSkD7f7PthKAwI5Xp4=;
- b=Xd3Yu52X5iFL5Fah1/Hg5DhWIZkODtW93qolOdpoO87VkyJrbskzHqsDocsRijO0R9x9sM
- yDaLObnARvK5TCCHBhI4QQq1QJq9Ktjf4dWrWPYRGhM7reJrF0xuO+51oxzttdBQnDVzCJ
- fGEGHYRnWu9+vjdeOlo3bX7kHDOhcQQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YYeaLDFCI+qBQWjEoAPvCNuevMUuWd8mkDHFtWClOn8=;
+ b=OP7l12stm0E3NTYYlJEUq1rF5/pQsSZJjD/SGvRD84ahQmjq1J4fI1bYkbwWBNMu5ZjcVc
+ 2cjnPdXpipsCeNTeZ3YzxhvomXb07oeOTfoUm5x4+38B9Xwi5agPNe+Y0qHKP0U2We74/I
+ pxRSrHgtVdOy0GQtuPZg4GZ+ywvy5mk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-qklM-yb_MWad1AtrBMVOew-1; Tue, 13 Jul 2021 11:23:36 -0400
-X-MC-Unique: qklM-yb_MWad1AtrBMVOew-1
+ us-mta-182-2Nhl2Y6xMB-RHG5JXaDpuw-1; Tue, 13 Jul 2021 11:23:52 -0400
+X-MC-Unique: 2Nhl2Y6xMB-RHG5JXaDpuw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83B4D9F92B;
- Tue, 13 Jul 2021 15:23:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B50A80414A;
+ Tue, 13 Jul 2021 15:23:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-214.ams2.redhat.com
  [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89C0F5D9CA;
- Tue, 13 Jul 2021 15:23:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD1FC5DF21;
+ Tue, 13 Jul 2021 15:23:35 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, lizhijian@cn.fujitsu.com, lvivier@redhat.com,
  peterx@redhat.com
-Subject: [PULL 0/6] migration queue
-Date: Tue, 13 Jul 2021 16:23:18 +0100
-Message-Id: <20210713152324.217255-1-dgilbert@redhat.com>
+Subject: [PULL 1/6] migration/rdma: prevent from double free the same mr
+Date: Tue, 13 Jul 2021 16:23:19 +0100
+Message-Id: <20210713152324.217255-2-dgilbert@redhat.com>
+In-Reply-To: <20210713152324.217255-1-dgilbert@redhat.com>
+References: <20210713152324.217255-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -81,39 +84,42 @@ Cc: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
 
-The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
+backtrace:
+'0x00007ffff5f44ec2 in __ibv_dereg_mr_1_1 (mr=0x7fff1007d390) at /home/lizhijian/rdma-core/libibverbs/verbs.c:478
+478             void *addr              = mr->addr;
+(gdb) bt
+ #0  0x00007ffff5f44ec2 in __ibv_dereg_mr_1_1 (mr=0x7fff1007d390) at /home/lizhijian/rdma-core/libibverbs/verbs.c:478
+ #1  0x0000555555891fcc in rdma_delete_block (block=<optimized out>, rdma=0x7fff38176010) at ../migration/rdma.c:691
+ #2  qemu_rdma_cleanup (rdma=0x7fff38176010) at ../migration/rdma.c:2365
+ #3  0x00005555558925b0 in qio_channel_rdma_close_rcu (rcu=0x555556b8b6c0) at ../migration/rdma.c:3073
+ #4  0x0000555555d652a3 in call_rcu_thread (opaque=opaque@entry=0x0) at ../util/rcu.c:281
+ #5  0x0000555555d5edf9 in qemu_thread_start (args=0x7fffe88bb4d0) at ../util/qemu-thread-posix.c:541
+ #6  0x00007ffff54c73f9 in start_thread () at /lib64/libpthread.so.0
+ #7  0x00007ffff53f3b03 in clone () at /lib64/libc.so.6 '
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+Message-Id: <20210708144521.1959614-1-lizhijian@cn.fujitsu.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ migration/rdma.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-are available in the Git repository at:
-
-  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20210713a
-
-for you to fetch changes up to 63268c4970a5f126cc9af75f3ccb8057abef5ec0:
-
-  migration: Move bitmap_mutex out of migration_bitmap_clear_dirty() (2021-07-13 16:21:57 +0100)
-
-----------------------------------------------------------------
-Migration pull 2021-07-13
-
-----------------------------------------------------------------
-Laurent Vivier (1):
-      migration: failover: emit a warning when the card is not fully unplugged
-
-Li Zhijian (1):
-      migration/rdma: prevent from double free the same mr
-
-Peter Xu (4):
-      migration: Release return path early for paused postcopy
-      migration: Don't do migrate cleanup if during postcopy resume
-      migration: Clear error at entry of migrate_fd_connect()
-      migration: Move bitmap_mutex out of migration_bitmap_clear_dirty()
-
- migration/migration.c | 41 ++++++++++++++++++++++++++++++++++++-----
- migration/ram.c       | 13 +++++++++++--
- migration/rdma.c      |  1 +
- 3 files changed, 48 insertions(+), 7 deletions(-)
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 38a099f7ee..5c2d113aa9 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -1143,6 +1143,7 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
+ 
+     for (i--; i >= 0; i--) {
+         ibv_dereg_mr(local->block[i].mr);
++        local->block[i].mr = NULL;
+         rdma->total_registrations--;
+     }
+ 
+-- 
+2.31.1
 
 
