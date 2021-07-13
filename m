@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FCD3C7534
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:46:13 +0200 (CEST)
-Received: from localhost ([::1]:36162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48FB3C7527
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:44:04 +0200 (CEST)
+Received: from localhost ([::1]:56040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LXw-0006Ss-Bs
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:46:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41060)
+	id 1m3LVr-0000wW-R9
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:44:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3LU9-0006pO-TR
+ id 1m3LU9-0006oX-DX
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:17 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:41937)
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3LU7-0005c7-9F
+ id 1m3LU7-0005c8-9J
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:17 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id z2so8495015plg.8
+Received: by mail-pl1-x633.google.com with SMTP id u3so6275313plf.5
  for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:42:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5EWJdV5hfn22q5jQ60G/msWBWIk7ubQOKQ9is2UGCgo=;
- b=ub9gaUFnz0WMOZ1FR659xiDvlyOSvBxlZCUyyyMX42od0HVgs52thNs2LNS2c8bbBQ
- SHS1S3I9xWa5S8tDDvwHJdiLRBFMGDBOArqtSFMyQMs3yD4UeC2EtRzhjDqG6R/7p94M
- NqqDK+kM5Z0c2GhDh5SnMCIRhW86xgZ++kH0AuLZ8QSHd89UqEhUONnBm5839sa72ury
- gytmfRGda21Mtue8howpyIz+suGJI2MiLwKFK+uthgMwE+P2tP7vhcpTFDEL2AmzXFyC
- +8mEMtttF2KMWU3lCI/APne/gHKWvoh98xaIp3jkZeiB4s7e8ZDYb6/uRyNVHRdjU9f7
- +Heg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CpJOU5mZm1ReiYCrMc7/11RGyN8K++oSudXAQV3mu7Q=;
+ b=hLxrnRie01rUw0Ssrf52r0Z7c7gQHYYgLUuk6O9Z+ktdE7tbWegJHrZrGrR8OtKQCQ
+ 8DbXiy7lkDI8Tm/drJLDQGuMxr0wTtK00ms+KrogSyvXFUTQzsrlqTTeuerZxGqWxxj9
+ ScYgC22MzCps09HggWbUFGTbOqHRAlGeU7fxOV9MVf79le+ZYset3k3/zEjDIQCa0llf
+ d0T8VjAL1+kVp7hDJiGK8sKLUv8YQJFvHpe7RqLQitlpR1ZQdK1BpNitzeMSI7zK/r6W
+ ClOoydvo2XlMFPsOD71RTeqnUTby2SOTJ9nGzCykQ3YvEdR1F11PVjAATgY7tpIZZLxg
+ 0z7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5EWJdV5hfn22q5jQ60G/msWBWIk7ubQOKQ9is2UGCgo=;
- b=WRtSK6LjzjmEJE+t3sMyuDGLXzjDxm/dX3r/XxqPblh1ZjqHCnKd6Gxb34ulhI4OaD
- w6BLw4c1bxG3n9laPzjNIpMn3wHrJXZiLwneBzRxntYy5ehFgrcB+ku/mj4OuNrLToHA
- Yine3gt65LHpqa8DNwQkOug+Mh+ClhwWbyXRGNJAJLxg/Tqi4K9ZusiKlga5mUwVaSn6
- MBRO4g2TvOog5jsn9dV7nhZSgPdcfp+rYuHQs/EjxTAtVBqiujAGm6MeaMw3S5mEDqiX
- lh+izVr30SaCoVP3bO4sfo3qplKSl7ZCAq77CaS29zUQ3Y/r8wrQijI6+obD2iEw55Kd
- gFag==
-X-Gm-Message-State: AOAM530MKEY449CoM+K+BOs8xecipBVqQ4ZrDZ63JQwdOdXnSwgPzlY5
- aKlNPT7Jzo1B6g+aeLLJCSQiuWu60TnU2g==
-X-Google-Smtp-Source: ABdhPJwl9TP3e/vktQtKtDp3EcmiXprpY4qxgNqmng4h/DFeYvMqAGf3q3j+vlJoIZZNeNs2Vy/2uQ==
-X-Received: by 2002:a17:90a:1909:: with SMTP id
- 9mr5236132pjg.105.1626194532300; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CpJOU5mZm1ReiYCrMc7/11RGyN8K++oSudXAQV3mu7Q=;
+ b=KThmnx8gvz0357cBs1QTcOAVefSUb1wDdJc/B7vMzQwe2/3MTKQOqFYGKIJo2Qh0Zi
+ iLaxmIYB4Hsd/bRHVf5JivyLVcMNxv9pi49PCEIX+JUUlcFZ4iYX5C60ScUTI54rBuRz
+ En8egvaexCs39pXeA+C5X0dwjNt4qhJqsX8XJfOvWYTSmQ466AVoshQotTEmtiGne37x
+ pzqEdUIE+DcV3D+Avkw+TPfhs8Ci84IZLCTRfgwoVJhESftLAuk5QRNtYIxqOA+u4ECs
+ tXGvyojsDuLeVpFoqHK9JU0sL7L5ZJVSAYI2sodWS23fmJlkq34E+57jRNi+ktQAEKwa
+ SkjA==
+X-Gm-Message-State: AOAM53376Ygz5LGJerFWahQxJmpr92uJLJ60WIV78mDSu564U5+eJ7+L
+ 3eo5W+MQfB0Kea9D3dpnu1//29pHUWbmuw==
+X-Google-Smtp-Source: ABdhPJyk2yI6/8TEjO/hixS4ubKKkDn7y8PoXUwov1A473MIK2B3dtTUT+ydhD2fOM3UGHzn1bGgXA==
+X-Received: by 2002:a17:90a:4404:: with SMTP id
+ s4mr236811pjg.218.1626194532823; 
  Tue, 13 Jul 2021 09:42:12 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id z13sm4947865pfn.94.2021.07.13.09.42.11
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id z13sm4947865pfn.94.2021.07.13.09.42.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 13 Jul 2021 09:42:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/14] misc translator patch queue
-Date: Tue, 13 Jul 2021 09:41:57 -0700
-Message-Id: <20210713164211.1520109-1-richard.henderson@linaro.org>
+Subject: [PULL 01/14] target/i386: Tidy hw_breakpoint_remove
+Date: Tue, 13 Jul 2021 09:41:58 -0700
+Message-Id: <20210713164211.1520109-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210713164211.1520109-1-richard.henderson@linaro.org>
+References: <20210713164211.1520109-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,53 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Dmitry Voronetskiy <davoronetskiy@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
+From: Dmitry Voronetskiy <davoronetskiy@gmail.com>
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
+Since cpu_breakpoint and cpu_watchpoint are in a union,
+the code should access only one of them.
 
-are available in the Git repository at:
+Signed-off-by: Dmitry Voronetskiy <davoronetskiy@gmail.com>
+Message-Id: <20210613180838.21349-1-davoronetskiy@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/i386/tcg/sysemu/bpt_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-misc-20210713
+diff --git a/target/i386/tcg/sysemu/bpt_helper.c b/target/i386/tcg/sysemu/bpt_helper.c
+index 624f90b789..4d96a48a3c 100644
+--- a/target/i386/tcg/sysemu/bpt_helper.c
++++ b/target/i386/tcg/sysemu/bpt_helper.c
+@@ -109,9 +109,9 @@ static void hw_breakpoint_remove(CPUX86State *env, int index)
+ 
+     case DR7_TYPE_DATA_WR:
+     case DR7_TYPE_DATA_RW:
+-        if (env->cpu_breakpoint[index]) {
++        if (env->cpu_watchpoint[index]) {
+             cpu_watchpoint_remove_by_ref(cs, env->cpu_watchpoint[index]);
+-            env->cpu_breakpoint[index] = NULL;
++            env->cpu_watchpoint[index] = NULL;
+         }
+         break;
+ 
+-- 
+2.25.1
 
-for you to fetch changes up to 6e94937a54c6ef80c3f523d8560c8b6521e6c79c:
-
-  target/hppa: Clean up DisasCond (2021-07-13 08:13:19 -0700)
-
-----------------------------------------------------------------
-Cleanup alpha, hppa, or1k wrt tcg_constant_tl.
-Implement x86 fcs:fip, fds:fdp.
-Trivial x86 watchpoint cleanup.
-
-----------------------------------------------------------------
-Dmitry Voronetskiy (1):
-      target/i386: Tidy hw_breakpoint_remove
-
-Richard Henderson (11):
-      target/i386: Split out do_fninit
-      target/alpha: Store set into rx flag
-      target/alpha: Use dest_sink for HW_RET temporary
-      target/alpha: Use tcg_constant_i64 for zero and lit
-      target/alpha: Use tcg_constant_* elsewhere
-      target/openrisc: Use tcg_constant_*
-      target/openrisc: Use tcg_constant_tl for dc->R0
-      target/openrisc: Cache constant 0 in DisasContext
-      target/openrisc: Use dc->zero in gen_add, gen_addc
-      target/hppa: Use tcg_constant_*
-      target/hppa: Clean up DisasCond
-
-Ziqiao Kong (2):
-      target/i386: Trivial code motion and code style fix
-      target/i386: Correct implementation for FCS, FIP, FDS and FDP
-
- target/i386/cpu.h                   |   2 +
- target/alpha/translate.c            |  70 +--
- target/hppa/translate.c             |  99 +---
- target/i386/tcg/fpu_helper.c        |  42 +-
- target/i386/tcg/sysemu/bpt_helper.c |   4 +-
- target/i386/tcg/translate.c         | 970 +++++++++++++++++++-----------------
- target/openrisc/translate.c         |  68 +--
- 7 files changed, 599 insertions(+), 656 deletions(-)
 
