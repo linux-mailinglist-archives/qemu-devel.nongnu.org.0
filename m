@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52D233C790A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:37:58 +0200 (CEST)
-Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A44F3C78FC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:31:22 +0200 (CEST)
+Received: from localhost ([::1]:53590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Q6H-0003ZK-96
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:37:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45346)
+	id 1m3Pzt-0004is-A6
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:31:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PqJ-0002uQ-QP
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44138)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PqT-0003Kg-Pp
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PqH-00004q-Og
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:27 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PqS-0000CP-8v
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211285;
+ s=mimecast20190719; t=1626211295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t5bMoV8DVyKDKClunF8PHt3LKrK6DZFobxjtihc5tp4=;
- b=bwsvmX9xOY2XEHOo16IrNq6anq645ZTBISO5F71Qf6Scm6P0FkpNic0Mp0aUhpdD3Xe2P1
- V6MSvpQJ6bRG1lq5iA91Xapl1UcrD++9iyvtr38v9pPFcuCuIX8SzgpH/qoU/rwHH4bqKY
- KL10veat+dP4EwxBVc0GbLZPluJWdUc=
+ bh=UhXgC4zJbg4b1kov60jazcjIPEWd3z4BiZLh6vYghKM=;
+ b=Yn8a9cp5vwJ1GfkVz7GKrWtZ24g/EgO2uZneEuQ28y8eUAgVT8vlrTTtmB/BBsMigvk68U
+ YHkIhnGx3bE0B/KUKiKH/NL5uaawLNDbljfs/8HuXo2J63PzzNWQmJbdkpOVn2OZYmy7/w
+ 7Yzt/N62pWZvWlGilDtvKBLd5XyE7mQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-Xf6dxCVFPQe39GKnYlLu3w-1; Tue, 13 Jul 2021 17:21:21 -0400
-X-MC-Unique: Xf6dxCVFPQe39GKnYlLu3w-1
+ us-mta-470-1_lTN5I8N8WcwGseGd1A_A-1; Tue, 13 Jul 2021 17:21:34 -0400
+X-MC-Unique: 1_lTN5I8N8WcwGseGd1A_A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6C411084F4B;
- Tue, 13 Jul 2021 21:21:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08C5418414A0;
+ Tue, 13 Jul 2021 21:21:32 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 79CE519C44;
- Tue, 13 Jul 2021 21:21:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EBF019C44;
+ Tue, 13 Jul 2021 21:21:18 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 12/23] tests/acceptance: Tag NetBSD tests as 'os:netbsd'
-Date: Tue, 13 Jul 2021 17:19:12 -0400
-Message-Id: <20210713211923.3809241-13-crosa@redhat.com>
+Subject: [PULL 13/23] tests/acceptance: Automatic set -cpu to the test vm
+Date: Tue, 13 Jul 2021 17:19:13 -0400
+Message-Id: <20210713211923.3809241-14-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +54,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,9 +86,8 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
- Eric Auger <eric.auger@redhat.com>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- qemu-arm@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Cleber Rosa <crosa@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  David Gibson <david@gibson.dropbear.id.au>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
@@ -97,61 +96,96 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-Avocado allows us to select set of tests using tags.
-When wanting to run all tests using a NetBSD guest OS,
-it is convenient to have them tagged, add the 'os:netbsd'
-tag.
+This introduces a new feature to the functional tests: automatic setting of
+the '-cpu VALUE' option to the created vm if the test is tagged with
+'cpu:VALUE'. The 'cpu' property is made available to the test object as well.
 
-It allows one to run the NetBSD tests with:
+For example, for a simple test as:
 
- $ avocado --show=app,console run -t os:netbsd tests/acceptance/
+    def test(self):
+        """
+        :avocado: tags=cpu:host
+        """
+        self.assertEqual(self.cpu, "host")
+        self.vm.launch()
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210623180021.898286-4-f4bug@amsat.org>
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+The resulting QEMU evocation will be like:
+
+    qemu-system-x86_64 -display none -vga none \
+        -chardev socket,id=mon,path=/var/tmp/avo_qemu_sock_pdgzbgd_/qemu-1135557-monitor.sock \
+        -mon chardev=mon,mode=control -cpu host
+
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-[PMD: ammend the commit message with example command]
+Tested-by: Cleber Rosa <crosa@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20210430133414.39905-2-wainersm@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 1 +
- tests/acceptance/ppc_prep_40p.py       | 2 ++
- 2 files changed, 3 insertions(+)
+ docs/devel/testing.rst                    | 17 +++++++++++++++++
+ tests/acceptance/avocado_qemu/__init__.py |  5 +++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 3ae11a7a8f..0a8222f17d 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -905,6 +905,7 @@ def test_arm_orangepi_uboot_netbsd9(self):
-         :avocado: tags=arch:arm
-         :avocado: tags=machine:orangepi-pc
-         :avocado: tags=device:sd
-+        :avocado: tags=os:netbsd
-         """
-         # This test download a 304MB compressed image and expand it to 2GB
-         deb_url = ('http://snapshot.debian.org/archive/debian/'
-diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-index 96ba13b894..2993ee3b07 100644
---- a/tests/acceptance/ppc_prep_40p.py
-+++ b/tests/acceptance/ppc_prep_40p.py
-@@ -27,6 +27,7 @@ def test_factory_firmware_and_netbsd(self):
-         """
-         :avocado: tags=arch:ppc
-         :avocado: tags=machine:40p
-+        :avocado: tags=os:netbsd
-         :avocado: tags=slowness:high
-         """
-         bios_url = ('http://ftpmirror.your.org/pub/misc/'
-@@ -64,6 +65,7 @@ def test_openbios_and_netbsd(self):
-         """
-         :avocado: tags=arch:ppc
-         :avocado: tags=machine:40p
-+        :avocado: tags=os:netbsd
-         """
-         drive_url = ('https://cdn.netbsd.org/pub/NetBSD/iso/7.1.2/'
-                      'NetBSD-7.1.2-prep.iso')
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 19cbf532ae..8f572255d3 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -904,6 +904,17 @@ name.  If one is not given explicitly, it will either be set to
+ ``None``, or, if the test is tagged with one (and only one)
+ ``:avocado: tags=arch:VALUE`` tag, it will be set to ``VALUE``.
+ 
++cpu
++~~~
++
++The cpu model that will be set to all QEMUMachine instances created
++by the test.
++
++The ``cpu`` attribute will be set to the test parameter of the same
++name. If one is not given explicitly, it will either be set to
++``None ``, or, if the test is tagged with one (and only one)
++``:avocado: tags=cpu:VALUE`` tag, it will be set to ``VALUE``.
++
+ machine
+ ~~~~~~~
+ 
+@@ -983,6 +994,12 @@ architecture of a kernel or disk image to boot a VM with.
+ This parameter has a direct relation with the ``arch`` attribute.  If
+ not given, it will default to None.
+ 
++cpu
++~~~
++
++The cpu model that will be set to all QEMUMachine instances created
++by the test.
++
+ machine
+ ~~~~~~~
+ 
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 1de1edce0d..3a218057b3 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -213,6 +213,9 @@ def setUp(self):
+         self.arch = self.params.get('arch',
+                                     default=self._get_unique_tag_val('arch'))
+ 
++        self.cpu = self.params.get('cpu',
++                                   default=self._get_unique_tag_val('cpu'))
++
+         self.machine = self.params.get('machine',
+                                        default=self._get_unique_tag_val('machine'))
+ 
+@@ -242,6 +245,8 @@ def get_vm(self, *args, name=None):
+             name = str(uuid.uuid4())
+         if self._vms.get(name) is None:
+             self._vms[name] = self._new_vm(name, *args)
++            if self.cpu is not None:
++                self._vms[name].add_args('-cpu', self.cpu)
+             if self.machine is not None:
+                 self._vms[name].set_machine(self.machine)
+         return self._vms[name]
 -- 
 2.31.1
 
