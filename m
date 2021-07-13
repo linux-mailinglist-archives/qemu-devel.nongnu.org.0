@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2E983C691E
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:16:44 +0200 (CEST)
-Received: from localhost ([::1]:48718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462223C6921
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:17:29 +0200 (CEST)
+Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m39qe-0004yj-1h
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:16:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
+	id 1m39rM-0007Iz-C7
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:17:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m39pD-00034i-KN; Tue, 13 Jul 2021 00:15:15 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44987)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m39pC-00080n-0S; Tue, 13 Jul 2021 00:15:15 -0400
-Received: by mail-io1-xd31.google.com with SMTP id z26so13954507ioz.11;
- Mon, 12 Jul 2021 21:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=f0Gcc6Yw9aAZlgu2mg36MyiSjMJuEw3yM0rUvFUqkbM=;
- b=d7kZg5a42vU+W3y5jMaKIE/4md7vt2DuKPStg5E1PAWYWZ+ru5qyJGiCFl8iv4BdGM
- cNbz7gVtVv756fRmHm5n3FXz2jhzD0Q+3GvRSVgDESplhe0lUkB3TKWSrwv9kVgUQ/g2
- OQfk365eekEKIrfr125baXx/wKxj3a78wAKVjl9c5kcCR8iI4AnTTryGtyGYK86aQaGq
- /bl6GXLUwJ/DaGR90cdMbHE/OtCoY78Ln4YWWofmpJh02uzxXC1ZRTk8mBelAWfwpVrC
- /vicFBxDn2Fb+9BT/fhUXtVbOErkEeqvZiBnrl/9lKd8nY5PDOuYWr6H7eLAGzMrVYSn
- a6IQ==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m39qL-0005R0-Ei
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:16:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m39qJ-0000nE-Q3
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:16:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626149782;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iaU0V7Exdo3haIDFuAJ7bOaIEGMNiGQYhDqu9RwFDuc=;
+ b=B8lwpvclHE6iDq9pUunM7DEB2bQudl+9L2vX8E7VLrK8N+x2QqantJ9rs11afchA30ao1g
+ wkNZWbZkLpFZyivS+AsMM0poNY9iCNkqnncKw8A/sXMafSnNbPZWDy0pj+5IJWLu21UBJ4
+ fYtvUZS6p6Aj6uGETeMpweyBdhVU59s=
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
+ [209.85.216.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-_sLjC46XNY-s4muVh7Q52A-1; Tue, 13 Jul 2021 00:16:21 -0400
+X-MC-Unique: _sLjC46XNY-s4muVh7Q52A-1
+Received: by mail-pj1-f70.google.com with SMTP id
+ t5-20020a17090a4485b029016f7fcb8a3dso1201578pjg.2
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 21:16:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=f0Gcc6Yw9aAZlgu2mg36MyiSjMJuEw3yM0rUvFUqkbM=;
- b=YX7SUPqLftD4obsk3NpoK0c0Az+RPvMCckY+bN3kvbHy9JegSGCv3pcM8A0l11vsFX
- Tzt+CGYWVFdMU7T794okovtvgmH7qTnir6OseVLsuAVDTzVMzSODRqQA/SBvuURl0IFF
- k3MmyLzspyblBxvVcWsgBU4Vgxv4YGcArOphDznqaSQqwP0fgXIUCr2UM42roRSx3emv
- Lrv4C2qi8uoXTngLOEMmIK1LVKqKW0y78ucCPKmDdXa1t/y0JNYOmYQ00eW74wFttA9u
- DdKTv9AREIeRNEKtTQzvM5jD1k4uhbW/atG7xErT6pvTWshnWoj/wV2yL7ME9oGu+nIc
- Oxbg==
-X-Gm-Message-State: AOAM532KysQTnzGiKa6eP/TnNgV23Qyi2QpttmD0LX1FtFXy5/sYyHtk
- PQl6NaMvRTAh4w1gVu48cvp/bPEB5Spo5MZIAoI=
-X-Google-Smtp-Source: ABdhPJwH7duu14OyoMVqzfKt0QGAU3nptD2OFke5FVzWiPquJsTRSIAPhUx1Q8l9PSa+F6yhK1mbyh2kNkPVlpYOrSo=
-X-Received: by 2002:a05:6602:140e:: with SMTP id
- t14mr1766224iov.42.1626149712882; 
- Mon, 12 Jul 2021 21:15:12 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=iaU0V7Exdo3haIDFuAJ7bOaIEGMNiGQYhDqu9RwFDuc=;
+ b=XxE57x3RiJcrp2exHiziMk9JD/zPu4r9wbNL/w2nBpeBTl3TwfgMnYf0L03XKatxhL
+ 136yZcc3UWXk/cZlZjlKf4KKdHHgh0K/ve/+4Bgj6tRnTUAVYbLjL0sX4HmVv6OJ+S7H
+ vkXemo9v6n5DDHp2532Uwk0GEh6DCelIm0XVOu3tnfpyq+0TlqE5dNZMhTF9FpAHgo1Z
+ KuP8+dtpTaunSaD/PwuycIgv41MADUr08DrCivKORCu9QnxTS8g9GaFEI3J+eYTxI7af
+ 6chxyIHOcUytlxAFcP93gGBLgjhWwUvmtJtYuh5ndg+obo9oXVLXOb82oIlTE/2nf3K9
+ NGiQ==
+X-Gm-Message-State: AOAM531rvzSvtSFcvsKvDdDYLtM4V1m2kXPPKVp1tIDe1Z6gf5bkQnwC
+ 1/F75CE61bfQ4zlj92o+7Y3780lJA2bjUnU12KYSwGm4xlGlfvlz4EFn8Pmf7hgGnBZXXOSomob
+ KLfDeGaZ98szXE8Y=
+X-Received: by 2002:a05:6a00:a1e:b029:303:56b5:414b with SMTP id
+ p30-20020a056a000a1eb029030356b5414bmr2634372pfh.48.1626149780584; 
+ Mon, 12 Jul 2021 21:16:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVu7z9x4RGpAk/6E4d/UNf4UfiERJAWAYOLHFkNjxSltsBDdg4jPunDKNyD3rLKsFsBIOkrw==
+X-Received: by 2002:a05:6a00:a1e:b029:303:56b5:414b with SMTP id
+ p30-20020a056a000a1eb029030356b5414bmr2634345pfh.48.1626149780223; 
+ Mon, 12 Jul 2021 21:16:20 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id u24sm17899045pfm.200.2021.07.12.21.16.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 12 Jul 2021 21:16:19 -0700 (PDT)
+Subject: Re: [PATCH RESEND v2 3/3] virtio-pci/hmp: implement device specific
+ hmp interface
+To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
+References: <20210712235812.19725-1-dongli.zhang@oracle.com>
+ <20210712235812.19725-4-dongli.zhang@oracle.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <3dece29e-7705-475c-f5d8-387c31f113fe@redhat.com>
+Date: Tue, 13 Jul 2021 12:16:14 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210709042608.883256-1-richard.henderson@linaro.org>
- <20210709042608.883256-7-richard.henderson@linaro.org>
-In-Reply-To: <20210709042608.883256-7-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 13 Jul 2021 14:14:46 +1000
-Message-ID: <CAKmqyKPo7ujHKnAnHyJE-ueoAN==X5gb5QAyC6AwZM5O-_2Ojw@mail.gmail.com>
-Subject: Re: [PATCH 06/17] target/riscv: Use gpr_src in branches
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210712235812.19725-4-dongli.zhang@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,100 +103,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ joe.jin@oracle.com, dgilbert@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 2:39 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Narrow the scope of t0 in trans_jalr.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+ÔÚ 2021/7/13 ÉÏÎç7:58, Dongli Zhang Ð´µÀ:
+> This patch is to implement the device specific interface to dump the
+> mapping between virtio queues and vectors.
+>
+> (qemu) info msix -d /machine/peripheral/vscsi0
+> Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
+> 0xfee00000 0x00000000 0x00004041 0x00000000
+> 0xfee00000 0x00000000 0x00004051 0x00000000
+> 0xfee00000 0x00000000 0x00004061 0x00000000
+> 0xfee00000 0x00000000 0x00004071 0x00000000
+> 0xfee01000 0x00000000 0x000040b1 0x00000000
+> 0xfee02000 0x00000000 0x000040c1 0x00000000
+> 0xfee03000 0x00000000 0x000040d1 0x00000000
+>
+> MSI-X PBA
+> 0 0 0 0 0 0 0
+>
+> virtio pci vector info:
+> config: 0
+> queue 0: 1
+> queue 1: 2
+> queue 2: 3
+> queue 3: 4
+> queue 4: 5
+> queue 5: 6
+>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: Joe Jin <joe.jin@oracle.com>
+> Suggested-by: Jason Wang <jasowang@redhat.com>
+> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 
-Alistair
+
+Acked-by: Jason Wang <jasowang@redhat.com>
+
 
 > ---
->  target/riscv/insn_trans/trans_rvi.c.inc | 25 ++++++++++---------------
->  1 file changed, 10 insertions(+), 15 deletions(-)
+>   hw/virtio/virtio-pci.c     | 22 ++++++++++++++++++++++
+>   hw/virtio/virtio.c         | 10 ++++++++++
+>   include/hw/virtio/virtio.h |  2 ++
+>   3 files changed, 34 insertions(+)
 >
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index 6e736c9d0d..a603925637 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -54,24 +54,25 @@ static bool trans_jal(DisasContext *ctx, arg_jal *a)
->
->  static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->  {
-> -    /* no chaining with JALR */
->      TCGLabel *misaligned = NULL;
-> -    TCGv t0 = tcg_temp_new();
->
-> -
-> -    gen_get_gpr(cpu_pc, a->rs1);
-> -    tcg_gen_addi_tl(cpu_pc, cpu_pc, a->imm);
-> +    tcg_gen_addi_tl(cpu_pc, gpr_src(ctx, a->rs1), a->imm);
->      tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
->
->      if (!has_ext(ctx, RVC)) {
-> +        TCGv t0 = tcg_temp_new();
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 433060ac02..2971e8049c 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -38,6 +38,7 @@
+>   #include "hw/virtio/virtio-bus.h"
+>   #include "qapi/visitor.h"
+>   #include "sysemu/replay.h"
+> +#include "monitor/monitor.h"
+>   
+>   #define VIRTIO_PCI_REGION_SIZE(dev)     VIRTIO_PCI_CONFIG_OFF(msix_present(dev))
+>   
+> @@ -1587,6 +1588,26 @@ static void virtio_pci_modern_io_region_unmap(VirtIOPCIProxy *proxy,
+>                                   &region->mr);
+>   }
+>   
+> +static void virtio_pci_dc_msix_info(Monitor *mon, PCIDevice *dev,
+> +                                    Error **errp)
+> +{
+> +    DeviceState *qdev = DEVICE(dev);
+> +    VirtIOPCIProxy *proxy = to_virtio_pci_proxy_fast(qdev);
+> +    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
+> +    int num = virtio_get_num_queues(vdev);
+> +    int i;
 > +
->          misaligned = gen_new_label();
->          tcg_gen_andi_tl(t0, cpu_pc, 0x2);
->          tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
-> +        tcg_temp_free(t0);
->      }
->
->      if (a->rd != 0) {
->          tcg_gen_movi_tl(cpu_gpr[a->rd], ctx->pc_succ_insn);
->      }
+> +    monitor_printf(mon, "virtio pci vector info:\n");
 > +
-> +    /* No chaining with JALR. */
->      lookup_and_goto_ptr(ctx);
->
->      if (misaligned) {
-> @@ -80,21 +81,18 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
->      }
->      ctx->base.is_jmp = DISAS_NORETURN;
->
-> -    tcg_temp_free(t0);
->      return true;
->  }
->
->  static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->  {
->      TCGLabel *l = gen_new_label();
-> -    TCGv source1, source2;
-> -    source1 = tcg_temp_new();
-> -    source2 = tcg_temp_new();
-> -    gen_get_gpr(source1, a->rs1);
-> -    gen_get_gpr(source2, a->rs2);
-> +    TCGv src1 = gpr_src(ctx, a->rs1);
-> +    TCGv src2 = gpr_src(ctx, a->rs2);
->
-> -    tcg_gen_brcond_tl(cond, source1, source2, l);
-> +    tcg_gen_brcond_tl(cond, src1, src2, l);
->      gen_goto_tb(ctx, 1, ctx->pc_succ_insn);
+> +    monitor_printf(mon, "config: %d\n", virtio_get_config_vector(vdev));
 > +
->      gen_set_label(l); /* branch taken */
->
->      if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
-> @@ -105,9 +103,6 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
->      }
->      ctx->base.is_jmp = DISAS_NORETURN;
->
-> -    tcg_temp_free(source1);
-> -    tcg_temp_free(source2);
-> -
->      return true;
->  }
->
-> --
-> 2.25.1
->
->
+> +    for (i = 0; i < num; i++)
+> +        monitor_printf(mon, "queue %d: %u\n",
+> +                       i, virtio_get_vector(vdev, i));
+> +
+> +    monitor_printf(mon, "\n");
+> +}
+> +
+>   static void virtio_pci_pre_plugged(DeviceState *d, Error **errp)
+>   {
+>       VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+> @@ -2004,6 +2025,7 @@ static void virtio_pci_class_init(ObjectClass *klass, void *data)
+>       k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+>       k->revision = VIRTIO_PCI_ABI_VERSION;
+>       k->class_id = PCI_CLASS_OTHERS;
+> +    k->msix_info = virtio_pci_dc_msix_info;
+>       device_class_set_parent_realize(dc, virtio_pci_dc_realize,
+>                                       &vpciklass->parent_dc_realize);
+>       dc->reset = virtio_pci_reset;
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 874377f37a..ea54939e98 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -2581,6 +2581,16 @@ void virtio_notify_config(VirtIODevice *vdev)
+>       virtio_notify_vector(vdev, vdev->config_vector);
+>   }
+>   
+> +uint16_t virtio_get_vector(VirtIODevice *vdev, int n)
+> +{
+> +    return vdev->vq[n].vector;
+> +}
+> +
+> +uint16_t virtio_get_config_vector(VirtIODevice *vdev)
+> +{
+> +    return vdev->config_vector;
+> +}
+> +
+>   static bool virtio_device_endian_needed(void *opaque)
+>   {
+>       VirtIODevice *vdev = opaque;
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 8bab9cfb75..6746227f73 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -268,6 +268,8 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+>   void virtio_reset(void *opaque);
+>   void virtio_update_irq(VirtIODevice *vdev);
+>   int virtio_set_features(VirtIODevice *vdev, uint64_t val);
+> +uint16_t virtio_get_vector(VirtIODevice *vdev, int n);
+> +uint16_t virtio_get_config_vector(VirtIODevice *vdev);
+>   
+>   /* Base devices.  */
+>   typedef struct VirtIOBlkConf VirtIOBlkConf;
+
 
