@@ -2,124 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148A43C72C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:05:50 +0200 (CEST)
-Received: from localhost ([::1]:60288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A963C72CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:08:30 +0200 (CEST)
+Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Jyn-0004dV-4v
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:05:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47200)
+	id 1m3K1N-00016U-Pw
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:08:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1m3Ju3-0005Xq-LJ
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:00:56 -0400
-Received: from mail-dm6nam10on2119.outbound.protection.outlook.com
- ([40.107.93.119]:62877 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m3K0a-0000P4-Bp
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:07:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1m3Ju1-0002nJ-RM
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:00:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gk//zLFIroQwSkeEbq4YMWHSzz2bL3aMSPNMVViwtyLhtdd7odHOGqnEVTjbMRAWgTuviJPHmnCK4Omqy5QZbScPa8idAzSnFMn+jQooRTbqjiIvR9//v1y5KznB94x6jZuMWVaqn/1sRTnCxsHVon+snhzvS+1UG/fS6qxQ/xW/H7HWCSBnyVNmfxII0ZyqFhURaNCCc6Y1arii1BX72lnlJIZvOiqorastrOKYWBA09xkEHaNrwKn7+zvrF5FThOokmF9TT2Gr2R8AKr1P8lbcyNQ3VHiTpm8lIpOBX01lZO0ETEJMa+XweHwNG7uc1bmBRwPg9LO4s2hgC3sEFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QFxHskgv/DDhlRtMs0bUtJKw4NKSMc85hmoXTLn2nII=;
- b=P0K+RmCP8H06qNtUUl1MF8w1iRoKnlVJB8CbSrBOxby/vp4w7xpV2vmKYFHVliifjpk44fiNX/NLOVeUKB1InPje9flVvIleIfpVNXUAVfYXHkmx3P4SHZd8BBupAWngQ8ofPr1ZB8HrQhh7ideIa1/Uy5uKUJzNWmLOwFKI/1ERkQRFjjvSTOP1gKD0VH7i4lkreWZrN7STbHQIUD9cs10WYbEzolTI/3B9q3NHfPpm72TkKWPe+D8valHwC30VS0re2+R9c11dkFeusvFiRE5gagaPeOY/PBKhaK2GpA7ixHPsCm4pHI6gZX8DlzjMoYlR1Bi6R/QjXKFawPb8ug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QFxHskgv/DDhlRtMs0bUtJKw4NKSMc85hmoXTLn2nII=;
- b=3S/DhnVoO8wF44oyhrBqoYImJsPYcyLanCwsCeyS7x0oqU8YXikiW9Yn8aX26+DMn+czv7uBViHKRfihGGVlIgKArMFhzMuts20RsX42K2/oEn09VLfHi4kf5AfqZTWbEb3C7NPxZQnIfrfw7MATNUmS/OHqN2+sxMmz5OvAupU=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA0PR03MB5481.namprd03.prod.outlook.com (2603:10b6:806:b4::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Tue, 13 Jul
- 2021 15:00:51 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::24fc:a5d:be8d:eb3f]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::24fc:a5d:be8d:eb3f%3]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
- 15:00:51 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 4/4] fuzz: add an instrumentation filter
-Date: Tue, 13 Jul 2021 11:00:37 -0400
-Message-Id: <20210713150037.9297-5-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210713150037.9297-1-alxndr@bu.edu>
-References: <20210713150037.9297-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR11CA0002.namprd11.prod.outlook.com
- (2603:10b6:208:23b::7) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m3K0X-000795-FE
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:07:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626188855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iMUlyRNNTNus1eFOkZe86yrapouZRznKZ5P26DkuyUM=;
+ b=K7fZmxHxuI4QidqgIOabHu6tyffoMM9FONv6JvuVLrL0Z7b95IRuaymcaosuDSWOO6n27A
+ ksFvdsc3SGgIi5ubY6QhuEniUgBBRXvM38SS3ZhVtDMDqBZ42NF4sx4mJR2YrJz7vJLaSm
+ brdqeFh1XswZZs5wbmAlhXWvGjsfdg0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-l_5r9GSANeGkPqox50kyvQ-1; Tue, 13 Jul 2021 11:07:34 -0400
+X-MC-Unique: l_5r9GSANeGkPqox50kyvQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ i7-20020a05600c3547b0290229a389ceb2so625643wmq.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:07:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=iMUlyRNNTNus1eFOkZe86yrapouZRznKZ5P26DkuyUM=;
+ b=nTJhbcfdczeusYuFGFiLXkaJzXpJqbCHHfromJtAC9CB8vTYCi9Y9LAvZUchZ4rgjt
+ twdYHpCHkeJd6zqREESCny0K6q3UlaC7rO0uzAuZy2xac58zqE2MJOEpCrPFekIZ065l
+ onnc8iyjEElykyXFckaxsyMZbMUKXv+6Bn9mf4zEfAqu79Low22pMK9JA7opCcZDE+KU
+ gxvn177OhBpbMv/hdtAp4NOW6u9X9eW9hc6tNkO8kqFQHQKuWLxcTtt1C47U7njpizsm
+ Y0ueWdbkxVus26FnKRG6pIZyIYhugVtTQFFADAZ1QO3kIps5DhZIbWWh/TgGHpRphXmG
+ AYYw==
+X-Gm-Message-State: AOAM5316qlWHezmPb2XW9PDa+41cbnKc2v0YFQoE+d8rBMBUuxKJhsoZ
+ 9uyGnA4ebIpYy33voC0KWn0Nbq0/AaP3DPOyyyGNeqFA46Bl5e9MIru4Fm87TDAxt+cTtkKWNW6
+ 11nX99Gy/PQS+Fn8=
+X-Received: by 2002:a05:600c:4ed3:: with SMTP id
+ g19mr5456744wmq.145.1626188853100; 
+ Tue, 13 Jul 2021 08:07:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBsS05C3MQkBqvS831MpsGT1Akf07kI2yc1Gveb+sfO1LncbmwqyV5t38twbFIX5bKWIJDOw==
+X-Received: by 2002:a05:600c:4ed3:: with SMTP id
+ g19mr5456714wmq.145.1626188852843; 
+ Tue, 13 Jul 2021 08:07:32 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ o11sm3001156wmc.2.2021.07.13.08.07.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 08:07:32 -0700 (PDT)
+Subject: Re: [Virtio-fs] [PATCH v2 7/9] virtiofsd: Add inodes_by_handle hash
+ table
+From: Max Reitz <mreitz@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+References: <20210609155551.44437-1-mreitz@redhat.com>
+ <20210609155551.44437-8-mreitz@redhat.com>
+ <20210611200459.GB767764@redhat.com>
+ <9cea5642-e5ea-961f-d816-0998e52aad9f@redhat.com>
+ <20210617212143.GD1142820@redhat.com>
+ <1e5dafd2-34e0-1a25-2cb5-6822eaf2502c@redhat.com>
+ <20210618182901.GB1252241@redhat.com>
+ <eec1bcd6-957d-8e9f-457c-fb717b71336b@redhat.com>
+Message-ID: <eda4ee02-56f8-079d-0829-041ed3471aed@redhat.com>
+Date: Tue, 13 Jul 2021 17:07:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.74.210.193) by
- MN2PR11CA0002.namprd11.prod.outlook.com (2603:10b6:208:23b::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4308.20 via Frontend Transport; Tue, 13 Jul 2021 15:00:50 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 664dd5a0-9db9-4a26-1644-08d9460f0150
-X-MS-TrafficTypeDiagnostic: SA0PR03MB5481:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB54815B63B0E7819EB74838EABA149@SA0PR03MB5481.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UO0vO+rEuu9SdwG309HCDh/tJxGgiYi+rNAPsa/WUcj1JFyamIIe1qZuqVBubN/Q7BblyHry8L6NPLvEGJtTDLYN/HUBBF2XZZluNoCIyuKsp0Wl8z5uBEX7Y1nbNF6i7OD5uQ4pO9nobC/xyUWi3W7kkTjKS1YiLNkOhUcs3lZPFLWnGT5lEAPlIoYb75JywidrbrTLG4DsRcffVjwlGHkpluU5t2NglrPfGjUICejyy+f3LDviZ+yzrTE/vBSViTComDbOW/sOeO8V9rPRsoQgte9ZWPVLfy5bv6dviBkcWNBu1s5spTSyl48X1Dj6jdO0lnZ6P1Ns2xeOK/lvYxPGIK5XgAs0ElOrdgQPErAgXPGW9fACf6k8D3zuDyH15lYkf5e+gw9+YlBp7nSA+WTA8SyLP8hrM201GecbwAHBgRHmvWkAsrtLHqhsIE6ZUcSfMFPHHUVtot/6wi+aXoaoy6TMmtTSZd9llINTW/Oz86yuQPgDyZD7lm5blTVkn7vsVx7E19rzWmo4P5pEuBaKg3ZoxVTQHt110pMLQvc8owQ2CKKjNCa5OQ3nr9S88PjvIBe52iIO3sOKtO95NT3micJSIEDVnlC0CvLUlZkp2TU3lFqG3ZuXJPjG052FE1Ie6BZlaZTPBBfsDANJCzbgWky7z2/wrglVL+BD605gZWUJJY2HYQWAw61/LLodScr8AF4O/EFUD95XZ7FgA3tfRi1bC/GTCW+ohZhLY0deRLHwR6WaPpTV1gpQSustwyv+L8IGaa4iuKLtm1GgwQ5rdIkWsmtrDzLbOVvtZtmCIc4M/XcmjHjzmZqBFpJ6
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(366004)(39860400002)(136003)(346002)(376002)(75432002)(6506007)(478600001)(66946007)(52116002)(8676002)(2906002)(86362001)(6486002)(36756003)(66556008)(316002)(26005)(5660300002)(8936002)(66476007)(83380400001)(956004)(54906003)(786003)(4326008)(2616005)(6666004)(38350700002)(38100700002)(1076003)(186003)(6512007)(6916009)(966005)(21314003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eSpdKO0fVXDV/4oNz9tp4Sx0XUKTUU/IbT7r1El8rxPUY/WKzgvg6q7pHxB3?=
- =?us-ascii?Q?IZOEA/R8pULZyHdXGuXZ5nZE7RTHK+sc+dJq4IqfvNLIRW4avoaMRznEtR47?=
- =?us-ascii?Q?s2A2/HZpiqWg8VQmFM4XhREwXRusikC5cYPGkqBPFZY6UWUYQoUbR/z+1LXR?=
- =?us-ascii?Q?n1t9GLMw32YBm3yqCw/uHkjCZzJEODJ1vvRyq8CmKNSdjXsGWzweU1Fm07Ou?=
- =?us-ascii?Q?v+GMlVmUl/L02U7Z7FSGDKmA9TkfWjGj+4lGf7/frUKTSGfHpLTOEA8n/zHy?=
- =?us-ascii?Q?xFh2LeOub2YM/hGChMhJFBrDLqOFy/ymDoL7qROFY2Wz2f6Ug93I58koH37G?=
- =?us-ascii?Q?HNudUtWCrICLDh5w90sNj1SrYRo+ii4Asaque2qSB/DgPAK8EJ00jycJ1mfN?=
- =?us-ascii?Q?t7L9DxCrePvlusFMSIgUwpPF0VaLTIiU+VKVj4HrNvvgBufgyaEv3v9v2TD3?=
- =?us-ascii?Q?GfF2ny2SlCG9bdNxBE0yli8hHp8VEK//tLAA3YuupCS70gdlbC1C5tEeOxO5?=
- =?us-ascii?Q?nR/mYe+IlK99BHqTUirbxk3X/DHQ4mRey38bdOL7PTWsL42HWsYjdvI3tPEq?=
- =?us-ascii?Q?0zKyibCQj7wJ0KMdmXrqaE2jROXzW3BeDLufyFz93UdSCslRtmXJiaCEIJUy?=
- =?us-ascii?Q?KdrdlKoh39DTG0Kgvg2oCAFkzcK/Vj2efvRFPdt4yAYpMntmbP0N2vIZ+1qD?=
- =?us-ascii?Q?jKwmBp85I5qQAwQjoye9mjUnuvF07/MVfnN+P1cIifJ7cq9VWr2hdXKgVPAE?=
- =?us-ascii?Q?FVHnFyVbjE6ma+MleEEus9iClufs32CpIRbflpwW+BI88pUJ0ainZ2BL8Wr4?=
- =?us-ascii?Q?jPHbPybHfi/TtJB2DDXs8x1Lm2h0Q5udWOqIn3J4eJLEA7tM5ciq/sYku7ep?=
- =?us-ascii?Q?m8122H+x4o6GZv4ajqsu83VrZujK36hl35H5rc/RFWCRgc6229aVr3VuS6/c?=
- =?us-ascii?Q?oqs8mH//n00Egp8sVvTsIFV1JHaxoLUjfCYgOvliUfECBE4DehGYHbMqqSLL?=
- =?us-ascii?Q?f1Dr+VwGgFdu9fqyH6lTkCPFF9cIjWbNH8tx60y/yb+N0Qv+UZI0uUvepHib?=
- =?us-ascii?Q?6AAxxzC4P2CFCEoR6TYmMy6We/hek48+z6yfFQeAZlngHR2LMMWlEyI/IBJD?=
- =?us-ascii?Q?LdsFTq+qoyFXE9MPG2zaQYdkV8fmaChiF9y8c6LhjMRbyhwOcl6HLl6sxbfl?=
- =?us-ascii?Q?+gMsCXRFDGCr6AxWXKbBqnw63ERTX0mFduvDECWFujJySh4Ho8htos3SKMyX?=
- =?us-ascii?Q?JmOrmSYJchRAP7irPKMuAuIDkMElvDgsb9WyqWSjG0cz/hsPuhZqZzeB1Oax?=
- =?us-ascii?Q?ovz4oCkH97jo2geVzDQgwiOV?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 664dd5a0-9db9-4a26-1644-08d9460f0150
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 15:00:51.1894 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X3CtGkOwO29X9bUX60NJzrrsXzQ/KSANLxElxd0YhzPTpqjpluXkbrVPzXtI21qY
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5481
-Received-SPF: pass client-ip=40.107.93.119; envelope-from=alxndr@bu.edu;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.998,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <eec1bcd6-957d-8e9f-457c-fb717b71336b@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,99 +108,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
- Alexander Bulekov <alxndr@bu.edu>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default, -fsanitize=fuzzer instruments all code with coverage
-information. However, this means that libfuzzer will track coverage over
-hundreds of source files that are unrelated to virtual-devices. This
-means that libfuzzer will optimize inputs for coverage observed in timer
-code, memory APIs etc. This slows down the fuzzer and stores many inputs
-that are not relevant to the actual virtual-devices.
+So I’m coming back to this after three weeks (well, PTO), and this again 
+turns into a bit of a pain, actually.
 
-With this change, clang versions that support the
-"-fsanitize-coverage-allowlist" will only instrument a subset of the
-compiled code, that is directly related to virtual-devices.
+I don’t think it’s anything serious, but I had thought we had found 
+something that would make us both happy because it wouldn’t be too ugly, 
+and now it’s turning ugly again...  So I’m sending this mail as a heads 
+up before I send v3 in the next days, to explain my thought process.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
----
- configure                                     | 28 +++++++++++++++----
- .../oss-fuzz/instrumentation-filter-template  | 15 ++++++++++
- 2 files changed, 37 insertions(+), 6 deletions(-)
- create mode 100644 scripts/oss-fuzz/instrumentation-filter-template
+On 21.06.21 11:02, Max Reitz wrote:
+> On 18.06.21 20:29, Vivek Goyal wrote:
+>
 
-diff --git a/configure b/configure
-index e799d908a3..99d6182af9 100755
---- a/configure
-+++ b/configure
-@@ -4943,13 +4943,21 @@ fi
- 
- ##########################################
- # checks for fuzzer
--if test "$fuzzing" = "yes" && test -z "${LIB_FUZZING_ENGINE+xxx}"; then
-+if test "$fuzzing" = "yes" ; then
-   write_c_fuzzer_skeleton
--  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
--    have_fuzzer=yes
--  else
--    error_exit "Your compiler doesn't support -fsanitize=fuzzer"
--    exit 1
-+  if test -z "${LIB_FUZZING_ENGINE+xxx}"; then
-+    if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer" ""; then
-+      have_fuzzer=yes
-+    else
-+      error_exit "Your compiler doesn't support -fsanitize=fuzzer"
-+      exit 1
-+    fi
-+  fi
-+
-+  have_clang_coverage_filter=no
-+  echo > $TMPTXT
-+  if compile_prog "$CPU_CFLAGS -Werror -fsanitize=fuzzer -fsanitize-coverage-allowlist=$TMPTXT" ""; then
-+    have_clang_coverage_filter=yes
-   fi
- fi
- 
-@@ -5843,6 +5851,14 @@ if test "$fuzzing" = "yes" ; then
-   else
-     FUZZ_EXE_LDFLAGS="$LIB_FUZZING_ENGINE"
-   fi
-+
-+  # Specify a filter to only instrument code that is directly related to
-+  # virtual-devices.
-+  if test "$have_clang_coverage_filter" = "yes" ; then
-+    cp "$source_path/scripts/oss-fuzz/instrumentation-filter-template" \
-+       instrumentation-filter
-+    QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize-coverage-allowlist=instrumentation-filter"
-+  fi
- fi
- 
- if test "$plugins" = "yes" ; then
-diff --git a/scripts/oss-fuzz/instrumentation-filter-template b/scripts/oss-fuzz/instrumentation-filter-template
-new file mode 100644
-index 0000000000..76d2b6139a
---- /dev/null
-+++ b/scripts/oss-fuzz/instrumentation-filter-template
-@@ -0,0 +1,15 @@
-+# Code that we actually want the fuzzer to target
-+# See: https://clang.llvm.org/docs/SanitizerCoverage.html#disabling-instrumentation-without-source-modification
-+#
-+src:*/hw/*
-+src:*/include/hw/*
-+src:*/slirp/*
-+src:*/net/*
-+
-+# We don't care about coverage over fuzzer-specific code, however we should
-+# instrument the fuzzer entry-point so libFuzzer always sees at least some
-+# coverage - otherwise it will exit after the first input
-+src:*/tests/qtest/fuzz/fuzz.c
-+
-+# Enable instrumentation for all functions in those files
-+fun:*
--- 
-2.28.0
+[...]
+
+>> I am still reading your code and trying to understand it. But one
+>> question came to mind. What happens if we can generate file handle
+>> during lookup. But can't generate when same file is looked up again.
+>>
+>> - A file foo.txt is looked. We can create file handle and we add it
+>>    to lo->inodes_by_handle as well as lo->inodes_by_ds.
+>>
+>> - Say somebody deleted file and created again and inode number got
+>>    reused.
+>>
+>> - Now during ->revalidation path, lookup happens again. This time say
+>>    we can't generate file handle. If am reading lo_do_find() code
+>>    correctly, it will find the old inode using ids and return same
+>>    inode as result of lookup. And we did not recognize that inode
+>>    number has been reused.
+>
+> Oh, that’s a good point.  If an lo_inode has no O_PATH fd but is only 
+> addressed by handle, we must always look it up by handle.
+
+Also, just wanted to throw in this remark:
+
+Now that I read the code again, lo_do_find() already has a condition to 
+prevent this.  It’s this:
+
+if (p && fhandle != NULL && p->fhandle != NULL) {
+     p = NULL;
+}
+
+There’s just one thing wrong with it, and that is the `fhandle != NULL` 
+part.  It has no place there.  But this piece of code does exactly what 
+we’d need it do if it were just:
+
+if (p && p->fhandle != NULL) {
+     p = NULL;
+}
+
+[...]
+
+> However, you made a good point in that we must require 
+> name_to_handle_at() to work if it worked before for some inode, not 
+> because it would be simpler, but because it would be wrong otherwise.
+>
+> As for the other way around...  Well, now I don’t have a strong 
+> opinion on it.  Handling temporary name_to_handle_at() failure after 
+> it worked the first time should not add extra complexity, but it 
+> wouldn’t be symmetric.  Like, allowing temporary failure sometimes but 
+> not at other times.
+
+(I think I mistyped here, it should be “Handling name_to_handle_at() 
+randomly working after it failed the first time”.)
+
+> The next question is, how do we detect temporary failure, because if 
+> we look up some new inode, name_to_handle_at() fails, we ignore it, 
+> and then it starts to work and we fail all further lookups, that’s not 
+> good.  We should have the first lookup fail.  I suppose ENOTSUPP means 
+> “OK to ignore”, and for everything else we should let lookup fail?  
+> (And that pretty much answers my "what if name_to_handle_at() works 
+> the first time, but then fails" question.  If we let anything but 
+> ENOTSUPP let the lookup fail, then we should do so every time.)
+
+I don’t think this will work as cleanly as I’d hoped.
+
+The problem I’m facing is that get_file_handle() doesn’t only call 
+name_to_handle_at(), but also contains a lot of code managing 
+mount_fds.  There are a lot of places that can fail, too, and I think we 
+should have them fall back to using an O_PATH FD:
+
+Say mount_fds doesn’t contain an FD for the new handle’s mount ID yet, 
+so we want to add one.  However, it turns out that the file is not a 
+regular file or directory, so we cannot open it as a regular FD and add 
+it to mount_fds; or that it is a regular file, but without permission to 
+open it O_RDONLY.  So we cannot return a file handle, because it will 
+not be usable until a mount FD is added.
+
+I think in such a case we should fall back to an O_PATH FD, because this 
+is not some unexpected error, but just an unfortunate (but reproducible 
+and valid) circumstance where using `-o inode_file_handles` fails to do 
+something that works without it.
+
+Now, however, this means that the next time we try to generate a handle 
+for this file (to look it up), it will absolutely work if some other FD 
+was added to mount_fds for this mount ID in the meantime.
+
+
+We could get around this by not trying to open the file for which we are 
+to generate a handle to add its FD to mount_fds, but instead doing what 
+the open_by_handle_at() man page suggests:
+
+> The mount_id argument returns an identifier for the filesystem mount 
+> that corresponds to pathname. This corresponds to the first field in 
+> one of the records in /proc/self/mountinfo. Opening the pathname in 
+> the fifth field of that record yields a file descriptor for the mount 
+> point; that file descriptor can be used in a subsequent call to 
+> open_by_handle_at().
+
+However, I’d rather avoid parsing mountinfo.  And as far as I 
+understand, the only problem here is that we’ll have to cope with the 
+fact that sometimes on lookups, we can generate a file handle, but the 
+lo_inode we want to find has no file handle attached to it (because 
+get_file_handle() failed the first time), and so we won’t find it by 
+that handle but have to look it up by its inode ID. (Which is safe, 
+because that lo_inode must have an O_PATH FD attached to it, so the 
+inode ID cannot be reused.)  And that’s something that this series 
+already does, so I tend to favor that over parsing mountinfo.
+
+Max
 
 
