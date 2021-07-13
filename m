@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A39E03C6906
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:07:01 +0200 (CEST)
-Received: from localhost ([::1]:36702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369673C691F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:16:50 +0200 (CEST)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m39hE-0005C6-OE
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:07:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
+	id 1m39qj-0002s4-3G
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1m39gN-0004Q6-Dz
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:06:07 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1m39gK-0008Mr-AH
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:06:07 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id l7so27650461wrv.7
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 21:06:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=031Pod1KbCCvKM0qkC5w5g65jVqWCxebY6KViuOg9Gs=;
- b=X6+WCTS+pbd7MT/e+qF5a64SzgWYJOpZ6L3YRBdhCDNC/tbaoUGZ3ZRU10vA2IHx1E
- TAWnJgQl0/OGpGDQTdC3e9daoM4ekn3ddjYM2hPTvIaHb/e1vL5oMndCZijz2wCCRs0k
- c+Or5rEP/ai1repIg7jg/hl/0k9KVf7Ln90a+ofUX+Ax6MfRw9CEnNgxlapAutVfLzRu
- hYvYTlbd8up7V2wj6za0OLulSkRq+HeBNmT4xVjvo5eJIRBbcbu6SXopOtCiJeDaOp+b
- HYgp4ykhwtbTGIBV8BUc6o1S7aObcHYVw6YWcvgXwLLSJgyPfjZz6Iee/kFREA7QYxiv
- gaYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=031Pod1KbCCvKM0qkC5w5g65jVqWCxebY6KViuOg9Gs=;
- b=OFu+MXaOuiCJtm1MrJ1jmdMAM5CwIzc6DpQCR4L6sFBBvTaN/CcyFjZvvaoUVwPG+7
- lNmzsHgA13GzLifu+9obND5bl3WuOgS8EEHN4QHXaIAhciG+SN9lRHLZwUVu1C9Fy8Tf
- SDtbVWb+vWGpvYzHuND5ghD/byI2GAmZKguNEaUBfHrXaGwGGHnqWxAMlbmLWO6gEo9X
- eJ11JSb82Dkyl4Z9gseoEXEyY6BtgklSAssyBSv+0FB7QemgblN2nlDu9I+oRXJ+reik
- W8Rfw8cHq7KRjvcsx6MLWDNafnO7CdeTdalVp+ci+30AXLahccIjhXj3rtiI3xpLvGtT
- Pdyw==
-X-Gm-Message-State: AOAM533JtrRgs/MIBwiHgkJLbrwMxnG3lJ3IQmZ3TfE8KVS1zQwe9xil
- mzbJJSSDD5/VtnyYpy3A5PaPWXRenB4xWoLwDzUSjg==
-X-Google-Smtp-Source: ABdhPJzWhgLY3YxHahIP0f3PHIA0pyIkvkl2wibSPcd9vVL1jldz/LzP2rpxcW3exUmgzUpygw9IIAtSckwJzgPAE5w=
-X-Received: by 2002:a5d:4d4b:: with SMTP id a11mr2860857wru.325.1626149162126; 
- Mon, 12 Jul 2021 21:06:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m39mF-00084P-TV
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:11 -0400
+Received: from ozlabs.org ([203.11.71.1]:48341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m39mC-00053y-UW
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:11 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GP6f74hJwz9sWl; Tue, 13 Jul 2021 14:11:59 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1626149519;
+ bh=HnVqV+OYtVIoPETjajxkaWT2CCHlHi88WUfMbmFjdR0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=maMhsCIK+wcYMHLsrD0MbunIS+vuFYa//cWDVef1+/SjECzHHw1sXoBe9w0SmfIuR
+ PiDLELSFSK8MOXW4yUiOAFhrLULjfq+lrEjHk08uQeDNE5zIUPUpE5QbxM/ppVOc2h
+ bxn/usmun10aSi6vp/kVtUdC7leN+i9bIdoNuu2o=
+Date: Tue, 13 Jul 2021 14:09:59 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v6 2/6] hw/acpi/ich9: Enable ACPI PCI hot-plug
+Message-ID: <YO0SF+gPFYc6OYn6@yekko>
+References: <20210713004205.775386-1-jusual@redhat.com>
+ <20210713004205.775386-3-jusual@redhat.com>
 MIME-Version: 1.0
-References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
- <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
-In-Reply-To: <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 13 Jul 2021 09:35:51 +0530
-Message-ID: <CAAhSdy3w7NbJLjUd3V2i98a4e3V9TKzQHic8inz1TERXMmW4+A@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42f;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6KSy56HsYQ0s+wnj"
+Content-Disposition: inline
+In-Reply-To: <20210713004205.775386-3-jusual@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,213 +61,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, David Gibson <dgibson@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 9:01 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-> CPU GPIO lines to set the timer and soft MIP bits.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/intc/sifive_clint.h |  2 +
->  hw/intc/sifive_clint.c         | 72 ++++++++++++++++++++++++----------
->  2 files changed, 54 insertions(+), 20 deletions(-)
->
-> diff --git a/include/hw/intc/sifive_clint.h b/include/hw/intc/sifive_clint.h
-> index a30be0f3d6..921b1561dd 100644
-> --- a/include/hw/intc/sifive_clint.h
-> +++ b/include/hw/intc/sifive_clint.h
-> @@ -40,6 +40,8 @@ typedef struct SiFiveCLINTState {
->      uint32_t time_base;
->      uint32_t aperture_size;
->      uint32_t timebase_freq;
-> +    qemu_irq *timer_irqs;
-> +    qemu_irq *soft_irqs;
->  } SiFiveCLINTState;
->
->  DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
-> index 0f41e5ea1c..c635a47507 100644
-> --- a/hw/intc/sifive_clint.c
-> +++ b/hw/intc/sifive_clint.c
-> @@ -28,6 +28,12 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/intc/sifive_clint.h"
->  #include "qemu/timer.h"
-> +#include "hw/irq.h"
-> +
-> +typedef struct sifive_clint_callback {
-> +    SiFiveCLINTState *s;
-> +    int num;
-> +} sifive_clint_callback;
->
->  static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+
+--6KSy56HsYQ0s+wnj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 13, 2021 at 02:42:01AM +0200, Julia Suvorova wrote:
+> Add acpi_pcihp to ich9_pm as part of
+> 'acpi-pci-hotplug-with-bridge-support' option. Set default to false.
+>=20
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
+Since it looks safe, however I think there are a couple of unnecessary
+changes here:
+
+
+[snip]
+> @@ -103,6 +105,7 @@ static void *acpi_set_bsel(PCIBus *bus, void *opaque)
+>  static void acpi_set_pci_info(void)
 >  {
-> @@ -39,7 +45,9 @@ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
->   * Called when timecmp is written to update the QEMU timer or immediately
->   * trigger timer interrupt if mtimecmp <= current timer value.
->   */
-> -static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
-> +static void sifive_clint_write_timecmp(SiFiveCLINTState *s, RISCVCPU *cpu,
-> +                                       int hartid,
-> +                                       uint64_t value,
->                                         uint32_t timebase_freq)
->  {
->      uint64_t next;
-> @@ -51,12 +59,12 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
->      if (cpu->env.timecmp <= rtc_r) {
->          /* if we're setting an MTIMECMP value in the "past",
->             immediately raise the timer interrupt */
-> -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> +        qemu_irq_raise(s->timer_irqs[hartid]);
-
-This breaks multi-socket support.
-
-Please use "hartid - s->hartid_base" as an index.
-
->          return;
+>      static bool bsel_is_set;
+> +    Object *host =3D acpi_get_i386_pci_host();
+>      PCIBus *bus;
+>      unsigned bsel_alloc =3D ACPI_PCIHP_BSEL_DEFAULT;
+> =20
+> @@ -111,7 +114,11 @@ static void acpi_set_pci_info(void)
 >      }
->
->      /* otherwise, set up the future timer interrupt */
-> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
-> +    qemu_irq_lower(s->timer_irqs[hartid]);
->      diff = cpu->env.timecmp - rtc_r;
->      /* back to ns (note args switched in muldiv64) */
->      next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> @@ -70,8 +78,9 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
->   */
->  static void sifive_clint_timer_cb(void *opaque)
+>      bsel_is_set =3D true;
+> =20
+> -    bus =3D find_i440fx(); /* TODO: Q35 support */
+> +    if (!host) {
+
+AFAICT acpi_get_i386_pci_host() still can't return NULL, so I'm not
+sure this test is necessary.
+
+[snip]
+> -static Object *acpi_get_i386_pci_host(void)
+> +Object *acpi_get_i386_pci_host(void)
 >  {
-> -    RISCVCPU *cpu = opaque;
-> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> +    sifive_clint_callback *state = opaque;
+>      PCIHostState *host;
+> =20
+> @@ -320,7 +320,10 @@ static void acpi_get_pci_holes(Range *hole, Range *h=
+ole64)
+>      Object *pci_host;
+> =20
+>      pci_host =3D acpi_get_i386_pci_host();
+> -    g_assert(pci_host);
 > +
-> +    qemu_irq_raise(state->s->timer_irqs[state->num]);
->  }
->
->  /* CPU wants to read rtc or timecmp register */
-> @@ -137,7 +146,11 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
->          if (!env) {
->              error_report("clint: invalid timecmp hartid: %zu", hartid);
->          } else if ((addr & 0x3) == 0) {
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MSIP, BOOL_TO_MASK(value));
-> +            if (value) {
-> +                qemu_irq_raise(clint->soft_irqs[hartid]);
-> +            } else {
-> +                qemu_irq_lower(clint->soft_irqs[hartid]);
-> +            }
+> +    if (!pci_host) {
+> +        return;
+> +    }
 
-Eventthis is broken for multi-socket.
+Likewise this change.
 
-Use "hartid - clint->hartid_base" as index.
-
->          } else {
->              error_report("clint: invalid sip write: %08x", (uint32_t)addr);
+> =20
+>      range_set_bounds1(hole,
+>                        object_property_get_uint(pci_host,
+> @@ -1765,6 +1768,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          PCIBus *bus =3D NULL;
+> =20
+>          pci_host =3D acpi_get_i386_pci_host();
+> +
+>          if (pci_host) {
+>              bus =3D PCI_HOST_BRIDGE(pci_host)->bus;
 >          }
-> @@ -153,13 +166,13 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
->          } else if ((addr & 0x7) == 0) {
->              /* timecmp_lo */
->              uint64_t timecmp_hi = env->timecmp >> 32;
-> -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
-> +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
->                  timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase_freq);
->              return;
->          } else if ((addr & 0x7) == 4) {
->              /* timecmp_hi */
->              uint64_t timecmp_lo = env->timecmp;
-> -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
-> +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
->                  value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase_freq);
->          } else {
->              error_report("clint: invalid timecmp write: %08x", (uint32_t)addr);
-> @@ -205,6 +218,12 @@ static void sifive_clint_realize(DeviceState *dev, Error **errp)
->      memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_clint_ops, s,
->                            TYPE_SIFIVE_CLINT, s->aperture_size);
->      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-> +
-> +    s->timer_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
-> +    qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
-> +
-> +    s->soft_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
-> +    qdev_init_gpio_out(dev, s->soft_irqs, s->num_harts);
->  }
->
->  static void sifive_clint_class_init(ObjectClass *klass, void *data)
-> @@ -228,7 +247,6 @@ static void sifive_clint_register_types(void)
->
->  type_init(sifive_clint_register_types)
->
-> -
->  /*
->   * Create CLINT device.
->   */
-> @@ -238,29 +256,43 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
->      bool provide_rdtime)
->  {
->      int i;
-> +
-> +    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
-> +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
-> +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
-> +    qdev_prop_set_uint32(dev, "sip-base", sip_base);
-> +    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
-> +    qdev_prop_set_uint32(dev, "time-base", time_base);
-> +    qdev_prop_set_uint32(dev, "aperture-size", size);
-> +    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-> +
->      for (i = 0; i < num_harts; i++) {
->          CPUState *cpu = qemu_get_cpu(hartid_base + i);
-> +        RISCVCPU *rvcpu = RISCV_CPU(cpu);
->          CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
-> +        sifive_clint_callback *cb = g_malloc0(sizeof(sifive_clint_callback));
-> +
->          if (!env) {
-> +            g_free(cb);
->              continue;
->          }
->          if (provide_rdtime) {
->              riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
->          }
-> +
-> +        cb->s = SIFIVE_CLINT(dev);
-> +        cb->num = i;
->          env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> -                                  &sifive_clint_timer_cb, cpu);
-> +                                  &sifive_clint_timer_cb, cb);
->          env->timecmp = 0;
-> +
-> +        qdev_connect_gpio_out_named(dev, NULL, i,
-> +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_TIMER));
-> +        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
-> +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_SOFT));
->      }
->
-> -    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
-> -    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
-> -    qdev_prop_set_uint32(dev, "num-harts", num_harts);
-> -    qdev_prop_set_uint32(dev, "sip-base", sip_base);
-> -    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
-> -    qdev_prop_set_uint32(dev, "time-base", time_base);
-> -    qdev_prop_set_uint32(dev, "aperture-size", size);
-> -    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
->      return dev;
->  }
-> --
-> 2.31.1
->
->
+> @@ -2321,7 +2325,9 @@ static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg)
+>      QObject *o;
+> =20
+>      pci_host =3D acpi_get_i386_pci_host();
+> -    g_assert(pci_host);
+> +    if (!pci_host) {
+> +        return false;
+> +    }
 
-Regards,
-Anup
+And this one.
+
+> =20
+>      o =3D object_property_get_qobject(pci_host, PCIE_HOST_MCFG_BASE, NUL=
+L);
+>      if (!o) {
+> @@ -2351,7 +2357,7 @@ void acpi_build(AcpiBuildTables *tables, MachineSta=
+te *machine)
+>      AcpiPmInfo pm;
+>      AcpiMiscInfo misc;
+>      AcpiMcfgInfo mcfg;
+> -    Range pci_hole, pci_hole64;
+> +    Range pci_hole =3D {}, pci_hole64 =3D {};
+>      uint8_t *u;
+>      size_t aml_len =3D 0;
+>      GArray *tables_blob =3D tables->table_data;
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--6KSy56HsYQ0s+wnj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDtEhcACgkQbDjKyiDZ
+s5KINhAAyCxrj1Tw3fe/wdgkK7KiJx5nkBloFXrOWWSRQQ6pxAbh9rqe1AxlNkd6
+59VMVKBUCQ83/ccx8cENRc5jv+YItLnaN32eIwlZUf6zixDjnCmS+KHqZQJ4qVEI
+1JMlrFPG2ie7xFCwxO3hzrOgZjrRH+kmX2nwWGXoJny5BZHKFv2nGGdd1nXz4+oY
+U/fD5MrHAMye+s3EYdyyVuqfNGzISyYhN5qpTTXbHhy5LTQddl2sPBFJjyRmOaMl
+LCmD+RdmDTaKnwd48U4AcE0mPByMs6MVkyRCpjP5qmljz5cQ2Aq5g2AOWMtaCheL
+hm2Lj6eRFlgwXLx7c1kSAy+dtR7O++n24RI0JniXUpRBydnQxNO3Zdvip/Rv/MAM
+JvGmWsCFlIpI56DG7AJ5xhr5eeWj3n7bF9L0h+L3lDbkHo+jWbXkEnn9b0WBKvWf
+DxtWo043vjOQ/vSL1aO061JzhFAJ9OYMjgKT16K//+2G10sCzRgFBBcaALvqgz/3
+/R5Bp2bviGcWNoBjjcTmFnDh3ZM8RuGOdQ7aukiAJqtevQn40UFMZwUYAJZsXFYx
+SZLXmuy3qM7HcvEqb4Pmemh+TDMmvdYjwBjvIXo996CMedf5GpaSE+ohx+bGoEfd
+TjJh7rDeQqiDYl5Tx2LMxtFoC5/kMNZ++a6974ukBCQuFUyN+C0=
+=ZBx5
+-----END PGP SIGNATURE-----
+
+--6KSy56HsYQ0s+wnj--
 
