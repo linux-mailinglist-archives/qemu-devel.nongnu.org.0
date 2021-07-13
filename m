@@ -2,70 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5C73C69A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 07:09:32 +0200 (CEST)
-Received: from localhost ([::1]:42490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB1F3C69C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 07:39:50 +0200 (CEST)
+Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Afj-0007Dx-7B
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 01:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38192)
+	id 1m3B92-000695-Bj
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 01:39:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1m3Aev-0006TB-FH
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 01:08:41 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1m3Aet-0004eE-Bl
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 01:08:41 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id p8so28715627wrr.1
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 22:08:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hGKITZMuQWykn+nuptJW5bZMVk0A6lheh44dlerEhdw=;
- b=tSUvoN6dFPsBI1w9GwaRKDrMENRaEkCUyj/PBKcbP0HiEBvgP5ViSg1R1SUYONQ1DT
- 94aLVoDpQ/z3xMyYVfCMPPZyZHbiB4oEfnnmXTYEWjXwbquW0mK1jeCVhesze0reB7qo
- qX7ebb0r9tGsWzT/qKWG3o212GPJ4YmmdHbNhBQ9BxvQ8Pko2VbT0jJvejgdKM6qIw1w
- XprOtKcwuyNpJTGPXIpaWf6XmFgYF3mYkw2Fk8JnJjH5M897MKV7umA32AlLgvdVIv7m
- 1hvL4ZiBMpuq506Kxjmc2aWmukYWLQDe1025qAov1VOglBP/FSv5Nupv6lZLANh/X6di
- AgFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hGKITZMuQWykn+nuptJW5bZMVk0A6lheh44dlerEhdw=;
- b=NxU4rGeVwJpfv/ox3mEQhNxkn9rzlau80gZvl0Gq8AgdL0mngMUVs596UXWFk51Ezf
- sTLiLIG3mIrHLTlcQKUe4WWJbtcbAAUMdusaIsSMNLnZmDiG/8aX7NGDjKnoHVm0IDfU
- ksIbnUqeg21MbOlLO8B8+bqeT+fn63pBcLwjLuT9lWGLx1UJzlqhnYfQkvItCLTkZ7sT
- vxc18PYfoxfDQpMYgRvdr+NsQp9DlfOSCTthR3luO1ySyX6FI/u3ZKB+vO19q0vsEckT
- tyq/ne7O1C8079gibBQv7iIJfDD0Gxxgb6pk1RJ6OXtfE3TxqRTPj8ylCH4ZRzepHlU3
- OL/w==
-X-Gm-Message-State: AOAM532D+kgI5jQp08VVT7ZaEZiEMIvlRSiMgV2VOXcCJF4f+83lwar8
- a0A1RhPLpNPKBQvrMPLd9j/An8q8iSfWQuVn6Ku5zA==
-X-Google-Smtp-Source: ABdhPJxcQFEaZQjPFqrSPSNVWcbZucxcOPCuYx0w9iikvHhM/5e53hvTx+RUtdVjn0ot0GIo030/D6HvFAN5Uucshaw=
-X-Received: by 2002:a5d:6e81:: with SMTP id k1mr3180625wrz.144.1626152917006; 
- Mon, 12 Jul 2021 22:08:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from
+ <BATV+5ed7718f52b0c846131f+6533+infradead.org+hch@casper.srs.infradead.org>)
+ id 1m3B0V-0002r9-7y; Tue, 13 Jul 2021 01:30:59 -0400
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1]:49750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+5ed7718f52b0c846131f+6533+infradead.org+hch@casper.srs.infradead.org>)
+ id 1m3B0S-0008HL-TO; Tue, 13 Jul 2021 01:30:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=sB+NFj9NADKAxiEcRKRS7St86v6A8h4ntYhh2hdlodA=; b=LN1XKIoPELsBvXzKzzaBw4VzYF
+ iGXLvwamc+iMaAunMrBmSmdhd2dRIXVTPAN/MkZ6y5Jbxh5aqZ1SLwj6/M/pwpid9QNOhrgk/Qp1N
+ 3/LdjyhgIT8skCpgoyLVGs6D+rf5ZGeh3q3uSm+10AX2Ggz6YC0fZRI8IyXM7mOk4kBBgDrJuhHMP
+ UeMD9oMHg5cJJp2Jo2DNgBjR2fnVbUo+zGi1aQFiZ/ezofsjVovKXnA91B8c6NSiAYTe9pYPQMqy7
+ 9lSuMil0vUTRrO8bIGEZfI6YkPlxXIWxbcM3bKxfzQIP3pOJyTW8fxMIl2S/0htVDo0xrqdGMoYAQ
+ 7DMbl95g==;
+Received: from hch by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat
+ Linux)) id 1m3B00-000lln-Nl; Tue, 13 Jul 2021 05:30:30 +0000
+Date: Tue, 13 Jul 2021 06:30:28 +0100
+From: Christoph Hellwig <hch@infradead.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC PATCH 1/2] hw/nvme: add mi device
+Message-ID: <YO0k9JFO93EMaFIj@infradead.org>
+References: <CGME20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26@epcas5p1.samsung.com>
+ <20210709135545.GA11148@test-zns>
+ <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
- <a5f2909ca7fd9637ad90da0be9661f1e718e3dc5.1625801410.git.alistair.francis@wdc.com>
-In-Reply-To: <a5f2909ca7fd9637ad90da0be9661f1e718e3dc5.1625801410.git.alistair.francis@wdc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 13 Jul 2021 10:38:25 +0530
-Message-ID: <CAAhSdy3mFcQAjyAjoJO9rE4_rnxa3hVBNES6PzGNnpJWSj63NQ@mail.gmail.com>
-Subject: Re: [PATCH v1 4/5] hw/intc: sifive_plic: Convert the PLIC to use
- RISC-V CPU GPIO lines
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42d;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+5ed7718f52b0c846131f+6533+infradead.org+hch@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,225 +67,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: fam@euphon.net, kwolf@redhat.com, jg123.choi@samsung.com,
+ qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
+ qemu-devel@nongnu.org, linux-nvme@lists.infradead.org, mreitz@redhat.com,
+ its@irrelevant.dk, u.kishore@samsung.com,
+ Padmakar Kalghatgi <p.kalghatgi@samsung.com>, kbusch@kernel.org,
+ javier.gonz@samsung.com, prakash.v@samsung.com, mohit.kap@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 9:06 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-> CPU GPIO lines to set the external MIP bits.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/intc/sifive_plic.h |  4 ++++
->  hw/intc/sifive_plic.c         | 38 ++++++++++++++++++++++++++++-------
->  hw/riscv/microchip_pfsoc.c    |  2 +-
->  hw/riscv/shakti_c.c           |  3 ++-
->  hw/riscv/sifive_e.c           |  2 +-
->  hw/riscv/sifive_u.c           |  2 +-
->  hw/riscv/virt.c               |  3 ++-
->  7 files changed, 42 insertions(+), 12 deletions(-)
->
-> diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
-> index 1e451a270c..da1dc64c6d 100644
-> --- a/include/hw/intc/sifive_plic.h
-> +++ b/include/hw/intc/sifive_plic.h
-> @@ -72,9 +72,13 @@ struct SiFivePLICState {
->      uint32_t context_base;
->      uint32_t context_stride;
->      uint32_t aperture_size;
-> +
-> +    qemu_irq *s_external_irqs;
-> +    qemu_irq *m_external_irqs;
->  };
->
->  DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-> +    uint32_t num_harts,
->      uint32_t hartid_base, uint32_t num_sources,
->      uint32_t num_priorities, uint32_t priority_base,
->      uint32_t pending_base, uint32_t enable_base,
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 78903beb06..dc17b55408 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -29,6 +29,7 @@
->  #include "hw/intc/sifive_plic.h"
->  #include "target/riscv/cpu.h"
->  #include "migration/vmstate.h"
-> +#include "hw/irq.h"
->
->  #define RISCV_DEBUG_PLIC 0
->
-> @@ -139,18 +140,22 @@ static void sifive_plic_update(SiFivePLICState *plic)
->      for (addrid = 0; addrid < plic->num_addrs; addrid++) {
->          uint32_t hartid = plic->addr_config[addrid].hartid;
->          PLICMode mode = plic->addr_config[addrid].mode;
-> -        CPUState *cpu = qemu_get_cpu(hartid);
-> -        CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
-> -        if (!env) {
-> -            continue;
-> -        }
->          int level = sifive_plic_irqs_pending(plic, addrid);
-> +
->          switch (mode) {
->          case PLICMode_M:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
-> +            if (level) {
-> +                qemu_irq_raise(plic->m_external_irqs[hartid]);
-> +            } else {
-> +                qemu_irq_lower(plic->m_external_irqs[hartid]);
-> +            }
->              break;
->          case PLICMode_S:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-> +            if (level) {
-> +                qemu_irq_raise(plic->s_external_irqs[hartid]);
-> +            } else {
-> +                qemu_irq_lower(plic->s_external_irqs[hartid]);
-> +            }
->              break;
->          default:
->              break;
-> @@ -456,6 +461,12 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
->      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &plic->mmio);
->      qdev_init_gpio_in(dev, sifive_plic_irq_request, plic->num_sources);
->
-> +    plic->s_external_irqs = g_malloc(sizeof(qemu_irq) * plic->num_harts);
-> +    qdev_init_gpio_out(dev, plic->s_external_irqs, plic->num_harts);
-> +
-> +    plic->m_external_irqs = g_malloc(sizeof(qemu_irq) * plic->num_harts);
-> +    qdev_init_gpio_out(dev, plic->m_external_irqs, plic->num_harts);
-> +
->      /* We can't allow the supervisor to control SEIP as this would allow the
->       * supervisor to clear a pending external interrupt which will result in
->       * lost a interrupt in the case a PLIC is attached. The SEIP bit must be
-> @@ -520,6 +531,7 @@ type_init(sifive_plic_register_types)
->   * Create PLIC device.
->   */
->  DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-> +    uint32_t num_harts,
->      uint32_t hartid_base, uint32_t num_sources,
->      uint32_t num_priorities, uint32_t priority_base,
->      uint32_t pending_base, uint32_t enable_base,
-> @@ -527,6 +539,8 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->      uint32_t context_stride, uint32_t aperture_size)
->  {
->      DeviceState *dev = qdev_new(TYPE_SIFIVE_PLIC);
-> +    int i;
-> +
->      assert(enable_stride == (enable_stride & -enable_stride));
->      assert(context_stride == (context_stride & -context_stride));
->      qdev_prop_set_string(dev, "hart-config", hart_config);
-> @@ -542,5 +556,15 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->      qdev_prop_set_uint32(dev, "aperture-size", aperture_size);
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-> +
-> +    for (i = 0; i < num_harts; i++) {
-> +        CPUState *cpu = qemu_get_cpu(hartid_base + i);
-> +
-> +        qdev_connect_gpio_out_named(dev, NULL, i,
-> +                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
-> +        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
-> +                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
-> +    }
-> +
->      return dev;
->  }
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index eb8e79e0a1..eef55f69fd 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -274,7 +274,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->
->      /* PLIC */
->      s->plic = sifive_plic_create(memmap[MICROCHIP_PFSOC_PLIC].base,
-> -        plic_hart_config, 0,
-> +        plic_hart_config, ms->smp.cpus, 0,
->          MICROCHIP_PFSOC_PLIC_NUM_SOURCES,
->          MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES,
->          MICROCHIP_PFSOC_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-> index 18f70fadaa..09d4e1433e 100644
-> --- a/hw/riscv/shakti_c.c
-> +++ b/hw/riscv/shakti_c.c
-> @@ -106,13 +106,14 @@ type_init(shakti_c_machine_type_info_register)
->
->  static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
->      MemoryRegion *system_memory = get_system_memory();
->
->      sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
->
->      sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
-> -        (char *)SHAKTI_C_PLIC_HART_CONFIG, 0,
-> +        (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
->          SHAKTI_C_PLIC_NUM_SOURCES,
->          SHAKTI_C_PLIC_NUM_PRIORITIES,
->          SHAKTI_C_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index ddc658c8d6..03bff21527 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -198,7 +198,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
->
->      /* MMIO */
->      s->plic = sifive_plic_create(memmap[SIFIVE_E_DEV_PLIC].base,
-> -        (char *)SIFIVE_E_PLIC_HART_CONFIG, 0,
-> +        (char *)SIFIVE_E_PLIC_HART_CONFIG, ms->smp.cpus, 0,
->          SIFIVE_E_PLIC_NUM_SOURCES,
->          SIFIVE_E_PLIC_NUM_PRIORITIES,
->          SIFIVE_E_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 273c86418c..6d1f9464c2 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -829,7 +829,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->
->      /* MMIO */
->      s->plic = sifive_plic_create(memmap[SIFIVE_U_DEV_PLIC].base,
-> -        plic_hart_config, 0,
-> +        plic_hart_config, ms->smp.cpus, 0,
->          SIFIVE_U_PLIC_NUM_SOURCES,
->          SIFIVE_U_PLIC_NUM_PRIORITIES,
->          SIFIVE_U_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4a3cd2599a..8bbafae429 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -548,6 +548,7 @@ static void virt_machine_init(MachineState *machine)
->      MemoryRegion *system_memory = get_system_memory();
->      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      char *plic_hart_config, *soc_name;
->      size_t plic_hart_config_len;
->      target_ulong start_addr = memmap[VIRT_DRAM].base;
-> @@ -619,7 +620,7 @@ static void virt_machine_init(MachineState *machine)
->          /* Per-socket PLIC */
->          s->plic[i] = sifive_plic_create(
->              memmap[VIRT_PLIC].base + i * memmap[VIRT_PLIC].size,
-> -            plic_hart_config, base_hartid,
-> +            plic_hart_config, ms->smp.cpus, base_hartid,
+On Mon, Jul 12, 2021 at 12:03:27PM +0100, Stefan Hajnoczi wrote:
+> Why did you decide to implement -device nvme-mi as a device on
+> TYPE_NVME_BUS? If the NVMe spec somehow requires this then I'm surprised
+> that there's no NVMe bus interface (callbacks). It seems like this could
+> just as easily be a property of an NVMe controller -device
+> nvme,mi=on|off or -device nvme-subsys,mi=on|off? I'm probably just not
+> familiar enough with MI and NVMe architecture...
 
-Use "hart_count" instead of "ms->smp.cpus", otherwise it breaks multi-socket
-support in virt machine.
+I'm too far away from qemu these days to understand what TYPE_NVME_BUS
+is.  Bt NVMe-MI has tree possible transports:
 
->              VIRT_PLIC_NUM_SOURCES,
->              VIRT_PLIC_NUM_PRIORITIES,
->              VIRT_PLIC_PRIORITY_BASE,
-> --
-> 2.31.1
->
->
-
-Regards,
-Anup
+ 1) out of band through smbus.  This seems something that could be
+    trivially modelled in qemu
+ 2) out of band over MCTP / PCIe VDM.
+ 3) in band using NVMe admin commands that pass through MI commands
 
