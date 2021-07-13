@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69DD43C74A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:34:39 +0200 (CEST)
-Received: from localhost ([::1]:38180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 306313C74C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:36:36 +0200 (CEST)
+Received: from localhost ([::1]:43726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LMk-0005Zg-Eb
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38756)
+	id 1m3LOd-0000u7-1N
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3LJM-0006DR-1i
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3LJK-0006UI-DD
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626193865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W3uePn9UVa3i6V03QEhFetVWKHbDolPccNQv7IXmjUU=;
- b=VlQV9RmtzYLwsMEeZXvJKlCDpxHpAvE2P/YY0+COgOa2Ij/aVnDC4vuRrQ1k41EfD3eYdX
- P+/fmdcCsmNrvdDrCSKfUtUJ2r0ax6iW1/awYylwBLhG7u38ooNWlyQr6/TYL7JUDHXdNq
- jOq/Oo2n84XKtYD29H6sZkCNU8WS6pA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-W0a45obPO6-nOaz4Zq6_CA-1; Tue, 13 Jul 2021 12:31:04 -0400
-X-MC-Unique: W0a45obPO6-nOaz4Zq6_CA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFA2F100C609;
- Tue, 13 Jul 2021 16:31:03 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-113-1.ams2.redhat.com
- [10.36.113.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DEA460C05;
- Tue, 13 Jul 2021 16:31:01 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] qemu-options: rewrite help for -smp options
-Date: Tue, 13 Jul 2021 17:30:51 +0100
-Message-Id: <20210713163051.2133045-5-berrange@redhat.com>
-In-Reply-To: <20210713163051.2133045-1-berrange@redhat.com>
-References: <20210713163051.2133045-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m3LJZ-0006go-Lx
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:24 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m3LJY-0006dP-62
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:21 -0400
+Received: by mail-wr1-x436.google.com with SMTP id v5so31298657wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:31:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WNxyFoGLZi8Pcrm1fSlygAgPHnpQi352g65t/kVD9KU=;
+ b=jovAwq69Ee2pNRrc/GxLRRSDQy9rz20SaWwF9nYwhKEGwLicracCczqPevh9aVVLxm
+ tt3vbHIwctOvxJjzOvi4Hm5ror2VH8/6wFZijFHFHmw00XDW+bDQg2ijdfvOlBdgcxLS
+ shOXfUytdFPyyA3cb1iNXzN2g64FOaoq1HK6b1oWbOvBMFf5FRauO9yucQAli1MJrRIF
+ 89vgIKASrhDruldxyMpCtld6qRTNKFPE+5X/vnlq0VSCevF8QShsW8WE1jE/nDFKoqfn
+ ddE3zUKL9CdiIfgukUzQTnpeKHDRlabAYNlwWrDJbwDgUU+GMqzlocJRXs+l+6IyEKhl
+ 3pcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WNxyFoGLZi8Pcrm1fSlygAgPHnpQi352g65t/kVD9KU=;
+ b=eIzRnjVM5ljdBmtWJiq7p+hlh9iSqMjlRCeyiTQczF6Ysmtqeyn53H+15s84KtL8vf
+ O9pucz0wzAbg5GTtfgj5nHEDJUSX2K4SRNJ9wYPUpKqn5hUurs+7uDF898hENkMmfKhx
+ uwTjTzJAOlJpXxMo0rV4i+QkxjmxT7AlbXolOLxVtk/YD5a2bQ/Dg4Tydpx4Z2xjKVzL
+ hNn3JQ32cjjN8Vm69151ZTCUfIGHQaHENCV4iroAZ5m8grhu1rn2ZmMePSIyri90S8eQ
+ AGp0DlKMnMPDWl9KClKKFPJ0881OWdtKcWi1QXDEsK4pnbvaFdACiR6zF+BMbU8l3K+d
+ G0IQ==
+X-Gm-Message-State: AOAM5317vcYGrhBF0LWqHW0/60bGRCRqGAi8M24iPJRTMHd7z3XM0rMl
+ WzA/sOAIipQK4CHfhqymFx4=
+X-Google-Smtp-Source: ABdhPJwxI60O1Qw0Q3Bsrk+SFIe59aCVJOZ5XvNuVNFOS4YQ68quch/we0+NmeMEehaI6PONJR95Kg==
+X-Received: by 2002:a5d:414b:: with SMTP id c11mr7044701wrq.162.1626193878852; 
+ Tue, 13 Jul 2021 09:31:18 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id 11sm2778041wmo.10.2021.07.13.09.31.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 09:31:18 -0700 (PDT)
+Subject: Re: [PATCH 05/11] hw/audio/adlib: Remove unused variable in
+ adlib_callback
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210712215535.1471256-1-richard.henderson@linaro.org>
+ <20210712215535.1471256-6-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e1dc5d49-a2cd-f4dc-96ba-9d150bd9cff6@amsat.org>
+Date: Tue, 13 Jul 2021 18:31:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210712215535.1471256-6-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.368,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,73 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -smp option help is peculiarly specific about mentioning the CPU
-upper limits, but these are wrong. The "PC" target has varying max
-CPU counts depending on the machine type picked. Notes about guest
-OS limits are inappropriate for QEMU docs. There are way too many
-machine types for it to be practical to mention actual limits, and
-some limits are even modified by downstream distribtions. Thus it
-is better to remove the specific limits entirely.
+On 7/12/21 11:55 PM, Richard Henderson wrote:
+> From clang-13:
+> hw/audio/adlib.c:189:18: error: variable 'net' set but not used \
+>     [-Werror,-Wunused-but-set-variable]
+> 
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  hw/audio/adlib.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-The CPU topology reporting is also not neccessarily specific to the
-PC platform and descriptions around the rules of usage are somewhat
-terse. Expand this information with some examples to show effects
-of defaulting.
-
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- qemu-options.hx | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
-
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 14ff35dd4e..214c477dcc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -207,14 +207,27 @@ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
-         QEMU_ARCH_ALL)
- SRST
- ``-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
--    Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
--    are supported. On Sparc32 target, Linux limits the number of usable
--    CPUs to 4. For the PC target, the number of cores per die, the
--    number of threads per cores, the number of dies per packages and the
--    total number of sockets can be specified. Missing values will be
--    computed. If any on the three values is given, the total number of
--    CPUs n can be omitted. maxcpus specifies the maximum number of
--    hotpluggable CPUs.
-+    Simulate a SMP system with '\ ``n``\ ' CPUs initially present on
-+    the machine type board. On boards supporting CPU hotplug, the optional
-+    '\ ``maxcpus``\ ' parameter can be set to enable further CPUs to be
-+    added at runtime. If omitted the maximum number of CPUs will be
-+    set to match the initial CPU count. Both parameters are subject to
-+    an upper limit that is determined by the specific machine type chosen.
-+
-+    To control reporting of CPU topology information, the number of sockets,
-+    dies per socket, cores per die, and threads per core can be specified.
-+    The sum `` sockets * cores * dies * threads `` must be equal to the
-+    maximum CPU count. CPU targets may only support a subset of the topology
-+    parameters. Where a CPU target does not support use of a particular
-+    topology parameter, its value should be assumed to be 1 for the purpose
-+    of computing the CPU maximum count.
-+
-+    Either the initial CPU count, or at least one of the topology parameters
-+    must be specified. Values for any omitted parameters will be computed
-+    from those which are given. Historically preference was given to the
-+    coarsest topology parameters when computing missing values (ie sockets
-+    preferred over cores, which were preferred over threads), however, this
-+    behaviour is considered liable to change.
- ERST
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
--- 
-2.31.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
