@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3391E3C7819
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 22:39:12 +0200 (CEST)
-Received: from localhost ([::1]:53890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F6C3C781C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 22:39:56 +0200 (CEST)
+Received: from localhost ([::1]:55718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3PBO-0005tM-Px
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 16:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
+	id 1m3PC7-00074t-Qs
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 16:39:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3PAE-0004NS-SA
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 16:37:58 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46838)
+ id 1m3PAs-0005Te-OQ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 16:38:38 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3PAD-0003Ia-93
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 16:37:58 -0400
-Received: by mail-ej1-x629.google.com with SMTP id c17so43774335ejk.13
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 13:37:56 -0700 (PDT)
+ id 1m3PAr-0003ij-6e
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 16:38:38 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id gb6so43850490ejc.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 13:38:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yRs39ah8rWPoM3QIbY4d+LDTieewALTKnCdivHb9Y28=;
- b=lVJN+QjEzmc3+nGVIBjLWLnvszB0+HCfryIGWjDG2oJS2tRfu7/RcOpLv7TDyrzxm5
- 0XxvNahS6JPW2L/ORb/797abrnBW+yowL9jc1O3/lPRfS5ieXiTpud6sqfdcOJvrtNfg
- 6V81UCX3zngHxtH+bTTk3PIId5eoJ9N5pPRU85hyw+o9K+Que+wpj6Uwbvc3vF5zp0Qa
- qznxS+3iniv/Ka5ygnaSwAvpsf5mEls3apqJ5LcvD0u8mXHBEISYZ7TGaAOoC+F0UH0o
- hGXvQEWCxZFtZcBKAT3UOf3Nf4Ha662WWdFZ/0tlQkVYlFjfTHXCGrLWSr3dQFL17M6R
- Gw/A==
+ :cc; bh=YsPTmUwT3FM8HcluG32jCkjHJgc2Pn76wC0DtRPolos=;
+ b=yZwvmhfwOumGLXhS9g5aEhCeY/OLaYYgDTPhw/XbGn3e25iPazFbLtabJbgujID8qq
+ caxiGww78HLUvyGUKd9UKGRhYVdyJAopWjg82T/wLt8PxYk0Hj7wxmICf3806sQTNWw+
+ R4hcO/1VoEgT2FsyuKTIGODpS3bIwx+tUTn/WcdZCpV04z+6iNCTPlHvGGYgkZnldg8l
+ Ok5DGOtC7M/iOW/ZSWByUF9IQvs4pACFvANeM3p6t6VHJ9kwqFqeNtzgoV5Mt3eDvMf1
+ dfGNrmQ8CnhrliDtQP8HDDVK3hVJVF5lbhZuCCBstH+2f06Qn9DWemGnrKL13KKjzyvS
+ dSZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yRs39ah8rWPoM3QIbY4d+LDTieewALTKnCdivHb9Y28=;
- b=rkw5aooGSef5E7y9WcbBpu3yYIObNZJe0GgPgiivSBJA2U2l6HipI5ZM5VndqjyJ5R
- CaOC2UZsULWgwysnF4rXam61cYoKV6pafcUzBB+2y2VkCanjzSi3nkWUz8WvwHgdPsS7
- Le8m3Rlcl9+2jPxPwuKXeukWzz64/77Ym1SUMFLDoV16pYH9kKtkFdmaRdmyqFo3fN/o
- bkpOYavi9yoTiUQ7UvYwG+SFkP34Eum4JiDbOirMKl1buqoGgnDZbsHRYkG/s+MNpGkC
- CbkCknBSzABFOwsOAmACS0ttO/izggQGvX0zDL3f0U6QZrbLjo7O6E3qd4Im3Lpci4m3
- rCmQ==
-X-Gm-Message-State: AOAM5324GoQ28kkzrO5lEPHwr2P03i6gq2V7J7GWmCs0CW1xeIRe6nX2
- tsM1uyxoHzkg3VcocuPrp6z3LkG+FlLn8cToQixBRw==
-X-Google-Smtp-Source: ABdhPJxsh6E7wuEP+BAvPV3+9Q9s1l1570Vu9U11sP4wjbw+RNcXTCbASihh7jPFI6sJcmtxTVtFdDZ+sXzpzRRaF/o=
-X-Received: by 2002:a17:906:924a:: with SMTP id
- c10mr7942228ejx.85.1626208674934; 
- Tue, 13 Jul 2021 13:37:54 -0700 (PDT)
+ bh=YsPTmUwT3FM8HcluG32jCkjHJgc2Pn76wC0DtRPolos=;
+ b=ttQE9YM2KNj5fiJz+/AUFkSDNUR3k14pw12LS3R/oD9jjc5hlfAaCs1rYvYZvU01Sh
+ 3TpTbHlXOvadewtn/q/o19VOfK6tRzVZRV5+Es9n7yy40QWqb4x3G/a3bRclAtRkXBmO
+ gH9+5qjMRh77XPG4jejzNDAzBqEIdMv1syUmYh+hosoWleedgVMLkIOAxz+7if4g95IZ
+ Fs3VXnPESf4qy1eODWv0pSIrbfRNJ3aX8rB3/OLJZBNziEpcP2UWrpECKrmJdy90/6gB
+ abfeMmJ5O5H0Tr2mnJRJhemvlRKdoOnMNa8WrBCAyoeXUfKbruRvEQKn5E9/OXR37Plw
+ SWMw==
+X-Gm-Message-State: AOAM530SUZZcpuDO9RX2qHjnfRmh4Wn1RAI9DMNMmPgWXN/7DI2KplRr
+ 0MbXrvz3ddrGX50dT6f0pRE6bWGwenNX8z+GTnP9nyIvIsw3tW+R
+X-Google-Smtp-Source: ABdhPJzhm4HI2tHLY43opTZNOZtmmk++XDEr/ECTWlxjiZLajSOIYMy4vfGBAUnIqeyFnUhRfY9AEyAlsGxnc0kfGPs=
+X-Received: by 2002:a17:906:f9c5:: with SMTP id
+ lj5mr7957781ejb.482.1626208715820; 
+ Tue, 13 Jul 2021 13:38:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210713020736.28960-1-david@gibson.dropbear.id.au>
-In-Reply-To: <20210713020736.28960-1-david@gibson.dropbear.id.au>
+References: <CAFEAcA-9cLv8OJnMqRRaXBvCcPp7Qh-xjVjMWMvuKXsT8sZTTA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-9cLv8OJnMqRRaXBvCcPp7Qh-xjVjMWMvuKXsT8sZTTA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 13 Jul 2021 21:37:15 +0100
-Message-ID: <CAFEAcA-11JbzDYY81jpSvqtmoWo3kL575xF11-XGxjLgYpscKQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] ppc-for-6.1 queue 20210713
-To: David Gibson <david@gibson.dropbear.id.au>
+Date: Tue, 13 Jul 2021 21:37:56 +0100
+Message-ID: <CAFEAcA8doj_gQRqZwnk2Z6t3B4jrgtksEFOabf8dmRbMMS-+gg@mail.gmail.com>
+Subject: Re: migration test, random hang, x86-64 host
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Jul 2021 at 03:07, David Gibson <david@gibson.dropbear.id.au> wrote:
+On Tue, 13 Jul 2021 at 20:41, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> The following changes since commit 57e28d34c0cb04abf7683ac6a12c87ede447c320:
+> Random hang in 'make check' for x86-64 host, clang build,
+> qemu-system-i386 target. I think I've seen this occasionally
+> in the past.
 >
->   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210708' into staging (2021-07-12 19:15:11 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.1-20210713
->
-> for you to fetch changes up to c785a40179b10ce2d7a4afdb04f63c98d53a1756:
->
->   mv64361: Remove extra break from a switch case (2021-07-13 10:12:17 +1000)
->
-> ----------------------------------------------------------------
-> ppc patch queue 2021-07-13
->
-> I thought I'd sent the last PR before the 6.1 soft freeze, but
-> unfortunately I need one more.  This last minute one puts in a SLOF
-> update, along with a couple of bugfixes.
->
-> ----------------------------------------------------------------
+> This is with commit 708f50199b59 plus a merge of the
+> ppc pullreq c785a40179b
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+...which is now upstream as commit c6502434928ae.
 
 -- PMM
 
