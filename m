@@ -2,54 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A313C691B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:16:03 +0200 (CEST)
-Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A39E03C6906
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:07:01 +0200 (CEST)
+Received: from localhost ([::1]:36702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m39py-0001yS-BG
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59800)
+	id 1m39hE-0005C6-OE
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m39mG-00085C-23
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:12 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45657 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m39mD-00054v-1k
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:11 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GP6f745NPz9sWw; Tue, 13 Jul 2021 14:11:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1626149519;
- bh=a/VgQyYlwuLE9PtDLwMomwppQ9gnrXxQI3qDLCvQ2XY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JDCLqfB7CCMrmbW2GyL0171bsN2sd9bzMDfzFYPez4guJgm3aQQhuOfIiv8vSaOCA
- NFtSm8Se8H9Tftnj9OxRHH93JfTHXRWU9xEdPaChZ1rna5Ua048g3DqErR2VZLUvNZ
- bq2ORA9EpzK3okZK7byPtxgyZE9m6pXdcnVf327U=
-Date: Tue, 13 Jul 2021 14:02:29 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v6 1/6] hw/i386/acpi-build: Add ACPI PCI hot-plug methods
- to Q35
-Message-ID: <YO0QVS0132RVmbai@yekko>
-References: <20210713004205.775386-1-jusual@redhat.com>
- <20210713004205.775386-2-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1m39gN-0004Q6-Dz
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:06:07 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:40790)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1m39gK-0008Mr-AH
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:06:07 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id l7so27650461wrv.7
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 21:06:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=031Pod1KbCCvKM0qkC5w5g65jVqWCxebY6KViuOg9Gs=;
+ b=X6+WCTS+pbd7MT/e+qF5a64SzgWYJOpZ6L3YRBdhCDNC/tbaoUGZ3ZRU10vA2IHx1E
+ TAWnJgQl0/OGpGDQTdC3e9daoM4ekn3ddjYM2hPTvIaHb/e1vL5oMndCZijz2wCCRs0k
+ c+Or5rEP/ai1repIg7jg/hl/0k9KVf7Ln90a+ofUX+Ax6MfRw9CEnNgxlapAutVfLzRu
+ hYvYTlbd8up7V2wj6za0OLulSkRq+HeBNmT4xVjvo5eJIRBbcbu6SXopOtCiJeDaOp+b
+ HYgp4ykhwtbTGIBV8BUc6o1S7aObcHYVw6YWcvgXwLLSJgyPfjZz6Iee/kFREA7QYxiv
+ gaYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=031Pod1KbCCvKM0qkC5w5g65jVqWCxebY6KViuOg9Gs=;
+ b=OFu+MXaOuiCJtm1MrJ1jmdMAM5CwIzc6DpQCR4L6sFBBvTaN/CcyFjZvvaoUVwPG+7
+ lNmzsHgA13GzLifu+9obND5bl3WuOgS8EEHN4QHXaIAhciG+SN9lRHLZwUVu1C9Fy8Tf
+ SDtbVWb+vWGpvYzHuND5ghD/byI2GAmZKguNEaUBfHrXaGwGGHnqWxAMlbmLWO6gEo9X
+ eJ11JSb82Dkyl4Z9gseoEXEyY6BtgklSAssyBSv+0FB7QemgblN2nlDu9I+oRXJ+reik
+ W8Rfw8cHq7KRjvcsx6MLWDNafnO7CdeTdalVp+ci+30AXLahccIjhXj3rtiI3xpLvGtT
+ Pdyw==
+X-Gm-Message-State: AOAM533JtrRgs/MIBwiHgkJLbrwMxnG3lJ3IQmZ3TfE8KVS1zQwe9xil
+ mzbJJSSDD5/VtnyYpy3A5PaPWXRenB4xWoLwDzUSjg==
+X-Google-Smtp-Source: ABdhPJzWhgLY3YxHahIP0f3PHIA0pyIkvkl2wibSPcd9vVL1jldz/LzP2rpxcW3exUmgzUpygw9IIAtSckwJzgPAE5w=
+X-Received: by 2002:a5d:4d4b:: with SMTP id a11mr2860857wru.325.1626149162126; 
+ Mon, 12 Jul 2021 21:06:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="w+zUBqQLhjOUlU+H"
-Content-Disposition: inline
-In-Reply-To: <20210713004205.775386-2-jusual@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+ <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
+In-Reply-To: <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Tue, 13 Jul 2021 09:35:51 +0530
+Message-ID: <CAAhSdy3w7NbJLjUd3V2i98a4e3V9TKzQHic8inz1TERXMmW4+A@mail.gmail.com>
+Subject: Re: [PATCH v1 2/5] hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::42f;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,287 +77,213 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, David Gibson <dgibson@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---w+zUBqQLhjOUlU+H
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Jul 13, 2021 at 02:42:00AM +0200, Julia Suvorova wrote:
-> Implement notifications and gpe to support q35 ACPI PCI hot-plug.
-> Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
->=20
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-I'm not especially familiar with either x86 or ACPI code, so my
-review's depth is according.
-
+On Fri, Jul 9, 2021 at 9:01 AM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
+> CPU GPIO lines to set the timer and soft MIP bits.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/i386/acpi-build.h    |  4 ++++
->  include/hw/acpi/ich9.h  |  2 ++
->  include/hw/acpi/pcihp.h |  3 ++-
->  hw/acpi/pcihp.c         |  6 +++---
->  hw/acpi/piix4.c         |  4 +++-
->  hw/i386/acpi-build.c    | 30 +++++++++++++++++++-----------
->  6 files changed, 33 insertions(+), 16 deletions(-)
->=20
-> diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
-> index 74df5fc612..487ec7710f 100644
-> --- a/hw/i386/acpi-build.h
-> +++ b/hw/i386/acpi-build.h
-> @@ -5,6 +5,10 @@
-> =20
->  extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
-> =20
-> +/* PCI Hot-plug registers bases. See docs/spec/acpi_pci_hotplug.txt */
-> +#define ACPI_PCIHP_SEJ_BASE 0x8
-> +#define ACPI_PCIHP_BNMR_BASE 0x10
+>  include/hw/intc/sifive_clint.h |  2 +
+>  hw/intc/sifive_clint.c         | 72 ++++++++++++++++++++++++----------
+>  2 files changed, 54 insertions(+), 20 deletions(-)
+>
+> diff --git a/include/hw/intc/sifive_clint.h b/include/hw/intc/sifive_clint.h
+> index a30be0f3d6..921b1561dd 100644
+> --- a/include/hw/intc/sifive_clint.h
+> +++ b/include/hw/intc/sifive_clint.h
+> @@ -40,6 +40,8 @@ typedef struct SiFiveCLINTState {
+>      uint32_t time_base;
+>      uint32_t aperture_size;
+>      uint32_t timebase_freq;
+> +    qemu_irq *timer_irqs;
+> +    qemu_irq *soft_irqs;
+>  } SiFiveCLINTState;
+>
+>  DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
+> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
+> index 0f41e5ea1c..c635a47507 100644
+> --- a/hw/intc/sifive_clint.c
+> +++ b/hw/intc/sifive_clint.c
+> @@ -28,6 +28,12 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/intc/sifive_clint.h"
+>  #include "qemu/timer.h"
+> +#include "hw/irq.h"
 > +
->  void acpi_setup(void);
-> =20
->  #endif
-> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
-> index df519e40b5..596120d97f 100644
-> --- a/include/hw/acpi/ich9.h
-> +++ b/include/hw/acpi/ich9.h
-> @@ -28,6 +28,8 @@
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/acpi/tco.h"
-> =20
-> +#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
-> +
->  typedef struct ICH9LPCPMRegs {
->      /*
->       * In ich9 spec says that pm1_cnt register is 32bit width and
-> diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
-> index 2dd90aea30..af1a169fc3 100644
-> --- a/include/hw/acpi/pcihp.h
-> +++ b/include/hw/acpi/pcihp.h
-> @@ -55,7 +55,8 @@ typedef struct AcpiPciHpState {
->  } AcpiPciHpState;
-> =20
->  void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
-> -                     MemoryRegion *address_space_io, bool bridges_enable=
-d);
-> +                     MemoryRegion *address_space_io, bool bridges_enable=
-d,
-> +                     uint16_t io_base);
-> =20
->  void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                     DeviceState *dev, Error **errp);
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index 4999277d57..d98a284b7a 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -37,7 +37,6 @@
->  #include "qom/qom-qobject.h"
->  #include "trace.h"
-> =20
-> -#define ACPI_PCIHP_ADDR 0xae00
->  #define ACPI_PCIHP_SIZE 0x0018
->  #define PCI_UP_BASE 0x0000
->  #define PCI_DOWN_BASE 0x0004
-> @@ -488,10 +487,11 @@ static const MemoryRegionOps acpi_pcihp_io_ops =3D {
->  };
-> =20
->  void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
-> -                     MemoryRegion *address_space_io, bool bridges_enable=
-d)
-> +                     MemoryRegion *address_space_io, bool bridges_enable=
-d,
-> +                     uint16_t io_base)
+> +typedef struct sifive_clint_callback {
+> +    SiFiveCLINTState *s;
+> +    int num;
+> +} sifive_clint_callback;
+>
+>  static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
 >  {
->      s->io_len =3D ACPI_PCIHP_SIZE;
-> -    s->io_base =3D ACPI_PCIHP_ADDR;
-> +    s->io_base =3D io_base;
-> =20
->      s->root =3D root_bus;
->      s->legacy_piix =3D !bridges_enabled;
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 0bd23d74e2..48f7a1edbc 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -49,6 +49,8 @@
->  #define GPE_BASE 0xafe0
->  #define GPE_LEN 4
-> =20
-> +#define ACPI_PCIHP_ADDR_PIIX4 0xae00
+> @@ -39,7 +45,9 @@ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+>   * Called when timecmp is written to update the QEMU timer or immediately
+>   * trigger timer interrupt if mtimecmp <= current timer value.
+>   */
+> -static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+> +static void sifive_clint_write_timecmp(SiFiveCLINTState *s, RISCVCPU *cpu,
+> +                                       int hartid,
+> +                                       uint64_t value,
+>                                         uint32_t timebase_freq)
+>  {
+>      uint64_t next;
+> @@ -51,12 +59,12 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+>      if (cpu->env.timecmp <= rtc_r) {
+>          /* if we're setting an MTIMECMP value in the "past",
+>             immediately raise the timer interrupt */
+> -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
+> +        qemu_irq_raise(s->timer_irqs[hartid]);
+
+This breaks multi-socket support.
+
+Please use "hartid - s->hartid_base" as an index.
+
+>          return;
+>      }
+>
+>      /* otherwise, set up the future timer interrupt */
+> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
+> +    qemu_irq_lower(s->timer_irqs[hartid]);
+>      diff = cpu->env.timecmp - rtc_r;
+>      /* back to ns (note args switched in muldiv64) */
+>      next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+> @@ -70,8 +78,9 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+>   */
+>  static void sifive_clint_timer_cb(void *opaque)
+>  {
+> -    RISCVCPU *cpu = opaque;
+> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
+> +    sifive_clint_callback *state = opaque;
 > +
->  struct pci_status {
->      uint32_t up; /* deprecated, maintained for migration compatibility */
->      uint32_t down;
-> @@ -607,7 +609,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegi=
-on *parent,
-> =20
->      if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
->          acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
-> -                        s->use_acpi_hotplug_bridge);
-> +                        s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX=
-4);
->      }
-> =20
->      s->cpu_hotplug_legacy =3D true;
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 357437ff1d..e1c246d6e8 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -219,10 +219,6 @@ static void acpi_get_pm_info(MachineState *machine, =
-AcpiPmInfo *pm)
->          /* w2k requires FADT(rev1) or it won't boot, keep PC compatible =
-*/
->          pm->fadt.rev =3D 1;
->          pm->cpu_hp_io_base =3D PIIX4_CPU_HOTPLUG_IO_BASE;
-> -        pm->pcihp_io_base =3D
-> -            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
-> -        pm->pcihp_io_len =3D
-> -            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
->      }
->      if (lpc) {
->          uint64_t smi_features =3D object_property_get_uint(lpc,
-> @@ -238,6 +234,10 @@ static void acpi_get_pm_info(MachineState *machine, =
-AcpiPmInfo *pm)
->          pm->smi_on_cpu_unplug =3D
->              !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT)=
-);
->      }
-> +    pm->pcihp_io_base =3D
-> +        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
-> +    pm->pcihp_io_len =3D
-> +        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
-> =20
->      /* The above need not be conditional on machine type because the res=
-et port
->       * happens to be the same on PIIX (pc) and ICH9 (q35). */
-> @@ -392,6 +392,9 @@ static void build_append_pci_bus_devices(Aml *parent_=
-scope, PCIBus *bus,
-> =20
->          if (!pdev) {
->              if (bsel) { /* add hotplug slots for non present devices */
-> +                if (pci_bus_is_express(bus) && slot > 0) {
-> +                    break;
-> +                }
->                  dev =3D aml_device("S%.02X", PCI_DEVFN(slot, 0));
->                  aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
->                  aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16=
-)));
-> @@ -521,7 +524,7 @@ static void build_append_pci_bus_devices(Aml *parent_=
-scope, PCIBus *bus,
->              QLIST_FOREACH(sec, &bus->child, sibling) {
->                  int32_t devfn =3D sec->parent_dev->devfn;
-> =20
-> -                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
-> +                if (pci_bus_is_root(sec)) {
->                      continue;
->                  }
-> =20
-> @@ -1251,7 +1254,7 @@ static void build_piix4_isa_bridge(Aml *table)
->      aml_append(table, scope);
+> +    qemu_irq_raise(state->s->timer_irqs[state->num]);
 >  }
-> =20
-> -static void build_piix4_pci_hotplug(Aml *table)
-> +static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+>
+>  /* CPU wants to read rtc or timecmp register */
+> @@ -137,7 +146,11 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
+>          if (!env) {
+>              error_report("clint: invalid timecmp hartid: %zu", hartid);
+>          } else if ((addr & 0x3) == 0) {
+> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MSIP, BOOL_TO_MASK(value));
+> +            if (value) {
+> +                qemu_irq_raise(clint->soft_irqs[hartid]);
+> +            } else {
+> +                qemu_irq_lower(clint->soft_irqs[hartid]);
+> +            }
+
+Eventthis is broken for multi-socket.
+
+Use "hartid - clint->hartid_base" as index.
+
+>          } else {
+>              error_report("clint: invalid sip write: %08x", (uint32_t)addr);
+>          }
+> @@ -153,13 +166,13 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
+>          } else if ((addr & 0x7) == 0) {
+>              /* timecmp_lo */
+>              uint64_t timecmp_hi = env->timecmp >> 32;
+> -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
+> +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
+>                  timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase_freq);
+>              return;
+>          } else if ((addr & 0x7) == 4) {
+>              /* timecmp_hi */
+>              uint64_t timecmp_lo = env->timecmp;
+> -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
+> +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
+>                  value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase_freq);
+>          } else {
+>              error_report("clint: invalid timecmp write: %08x", (uint32_t)addr);
+> @@ -205,6 +218,12 @@ static void sifive_clint_realize(DeviceState *dev, Error **errp)
+>      memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_clint_ops, s,
+>                            TYPE_SIFIVE_CLINT, s->aperture_size);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+> +
+> +    s->timer_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
+> +    qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
+> +
+> +    s->soft_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
+> +    qdev_init_gpio_out(dev, s->soft_irqs, s->num_harts);
+>  }
+>
+>  static void sifive_clint_class_init(ObjectClass *klass, void *data)
+> @@ -228,7 +247,6 @@ static void sifive_clint_register_types(void)
+>
+>  type_init(sifive_clint_register_types)
+>
+> -
+>  /*
+>   * Create CLINT device.
+>   */
+> @@ -238,29 +256,43 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
+>      bool provide_rdtime)
 >  {
->      Aml *scope;
->      Aml *field;
-> @@ -1260,20 +1263,22 @@ static void build_piix4_pci_hotplug(Aml *table)
->      scope =3D  aml_scope("_SB.PCI0");
-> =20
->      aml_append(scope,
-> -        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x0=
-8));
-> +        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr),=
- 0x08));
->      field =3D aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_=
-ZEROS);
->      aml_append(field, aml_named_field("PCIU", 32));
->      aml_append(field, aml_named_field("PCID", 32));
->      aml_append(scope, field);
-> =20
->      aml_append(scope,
-> -        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04=
-));
-> +        aml_operation_region("SEJ", AML_SYSTEM_IO,
-> +                             aml_int(pcihp_addr + ACPI_PCIHP_SEJ_BASE), =
-0x04));
->      field =3D aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_Z=
-EROS);
->      aml_append(field, aml_named_field("B0EJ", 32));
->      aml_append(scope, field);
-> =20
->      aml_append(scope,
-> -        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x0=
-8));
-> +        aml_operation_region("BNMR", AML_SYSTEM_IO,
-> +                             aml_int(pcihp_addr + ACPI_PCIHP_BNMR_BASE),=
- 0x08));
->      field =3D aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_=
-ZEROS);
->      aml_append(field, aml_named_field("BNUM", 32));
->      aml_append(field, aml_named_field("PIDX", 32));
-> @@ -1407,7 +1412,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          build_piix4_isa_bridge(dsdt);
->          build_isa_devices_aml(dsdt);
->          if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-> -            build_piix4_pci_hotplug(dsdt);
-> +            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+>      int i;
+> +
+> +    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
+> +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+> +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+> +    qdev_prop_set_uint32(dev, "sip-base", sip_base);
+> +    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
+> +    qdev_prop_set_uint32(dev, "time-base", time_base);
+> +    qdev_prop_set_uint32(dev, "aperture-size", size);
+> +    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
+> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+> +
+>      for (i = 0; i < num_harts; i++) {
+>          CPUState *cpu = qemu_get_cpu(hartid_base + i);
+> +        RISCVCPU *rvcpu = RISCV_CPU(cpu);
+>          CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+> +        sifive_clint_callback *cb = g_malloc0(sizeof(sifive_clint_callback));
+> +
+>          if (!env) {
+> +            g_free(cb);
+>              continue;
 >          }
->          build_piix4_pci0_int(dsdt);
->      } else {
-> @@ -1455,6 +1460,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>          if (provide_rdtime) {
+>              riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
 >          }
->          build_q35_isa_bridge(dsdt);
->          build_isa_devices_aml(dsdt);
-> +        if (pm->pcihp_bridge_en) {
-> +            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
-> +        }
->          build_q35_pci0_int(dsdt);
->          if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
->              build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
-> @@ -1489,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      {
->          aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
-> =20
-> -        if (misc->is_piix4 && (pm->pcihp_bridge_en || pm->pcihp_root_en)=
-) {
-> +        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
->              method =3D aml_method("_E01", 0, AML_NOTSERIALIZED);
->              aml_append(method,
->                  aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+> +
+> +        cb->s = SIFIVE_CLINT(dev);
+> +        cb->num = i;
+>          env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> -                                  &sifive_clint_timer_cb, cpu);
+> +                                  &sifive_clint_timer_cb, cb);
+>          env->timecmp = 0;
+> +
+> +        qdev_connect_gpio_out_named(dev, NULL, i,
+> +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_TIMER));
+> +        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
+> +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_SOFT));
+>      }
+>
+> -    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
+> -    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+> -    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+> -    qdev_prop_set_uint32(dev, "sip-base", sip_base);
+> -    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
+> -    qdev_prop_set_uint32(dev, "time-base", time_base);
+> -    qdev_prop_set_uint32(dev, "aperture-size", size);
+> -    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
+> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+>      return dev;
+>  }
+> --
+> 2.31.1
+>
+>
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---w+zUBqQLhjOUlU+H
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDtEFMACgkQbDjKyiDZ
-s5IVmg/+ORnH/HR829WfgqARgz3VSrtHWRzgQNBKR0vN8+UjIqkvl0hQkRIc1U3y
-Xd8Aic8mTrx4MJDVAh+TlYGzc2GZCmPGSXvnAAOJLvjOMaV2WLhrdOHqHM7P4q/I
-0NbI+YsJbVya3ezN5IN1b9FwyfTT0wqwU/AjyRDKaeVvO2eSP8IqbHCM8wNNy35F
-KbseYrXFdwe7sQx8CK7bOgHEGF7mvf4IaW1FR2RWBtnOIMp+EeDVMH+di3OkREMJ
-fXdmOLgZXoJqldcdphtGPkYTKGBG4pv2DgTEh6lm2sBoNaSneYoPOah2sCZzIaPi
-gXsSg6rAWAC8MVzei3K4vNAS6ae0OSFOP4AN3oNUAqmo0JiUGCkxcx25hneqT63Q
-GuWi4Ce8gGbIyqYJgl4FS6IuoPiGo7smbKCMgucO0K7dceQHLkWyg4FQh+ro6iHq
-GLcrTq+LAqeSl1JABE2Nd5BUZ4jczkeC3RSADpmTqRpUQGH2etwRy/vqG8KNJ1fs
-ZXe3mOg2gvgksd+NuN7VFkNvQY93vcESOCtnaBUTIeCxw4msr/9O31xL32i/h0ZD
-sS/X934036W/ENIU5oLvs4B3vvLkKfiBIanPII0bFEBoDqfVADWUPVtfWqYE2yqQ
-Fi8AR3io+r/bc2yms1N/1FjKj5IU7YQokpvYFcRrQF90SPTBadQ=
-=yyyj
------END PGP SIGNATURE-----
-
---w+zUBqQLhjOUlU+H--
+Regards,
+Anup
 
