@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EF43C7550
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:51:30 +0200 (CEST)
-Received: from localhost ([::1]:51148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B90383C754F
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:51:24 +0200 (CEST)
+Received: from localhost ([::1]:50632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Ld3-0008NY-Fo
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1m3Lcx-00081m-PJ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3LUE-0006u8-JR
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:22 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:33373)
+ id 1m3LUG-0006wg-2p
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:24 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:44688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3LUC-0005gn-7X
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:22 -0400
-Received: by mail-pl1-x629.google.com with SMTP id d1so6185095plg.0
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:42:19 -0700 (PDT)
+ id 1m3LUC-0005hS-Tc
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:23 -0400
+Received: by mail-pf1-x434.google.com with SMTP id p36so10460874pfw.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l5PqM6iGSweKZSS09TGPy9jM/MAv4I7LtiO9ZGckioo=;
- b=Qp1pi/xijJ3l5zDukur8AAb6SI1qrJBbW7UckSBVDBlFdjZJ48z7ty7P2gijabMufK
- lbyXKyYR07XKWWlvWOiLW71yfzv7Gv3OcUWtoRIObzxn+ggaxUrf+i8SVNXj86CbqdXg
- j7Y9JV9SacZpCxtlDbILTayDgTcmgg9NLmEJsH4cIPlqacB21DHoQJzC0S6jpaOjtseC
- qveKbvHZT+2de3w7/HMHzIyF5B0UKvRUi3UaXejTRVQBT8Ufbs6g+B1kGtqxEKEXVXaY
- 9eUCD79JR3XKg6WOWbSPvt/vlzWGpGOp5SGEK1GCqUw9oH8AcXXVpthYZs2zaSt6tvHg
- umGQ==
+ bh=NgDcFwijqvI5Ustjzi412a6qyjRC0UcEnEWmUALegEQ=;
+ b=UtAP+N0VLB7vjoOe328EuJCbOheLmI6MpvCMqEP+gcKTOvx73b5IfF4QEu3wHUigyS
+ ZIaKo6yS9Fog5D8lYDorS24LyTAPY2/ZaHMrrPTijOkNQsHNs6wnMpE6dVOc4otgBV2z
+ sqfYuweMLaN0tUBfMPoTTrDzNGlpUg97P2Fb8T3GYdTNMlrYiehIoO3KLtjCdbZUhRaz
+ 34BKvYjkf/Iod4nA5xdq0TpmzGIMSjJiI2eUAm82j51TNVhRSG0OHrIHuHRahXSvvZSH
+ kt6WYieVUjSbAgdCRY+D6+vf9eGzONbM1gMUopFEPxu88tDbJs7iJpUYU0t8vC6hh2UX
+ jqmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l5PqM6iGSweKZSS09TGPy9jM/MAv4I7LtiO9ZGckioo=;
- b=VF6SVArPiR6kHkp7WMREJ7+bM5JbdZxIutGUre9BEKm/QJQPoSITursw88NO58p8Nx
- A6CnJg/FZHddI/IZJujHK0IMfCFnhi45qTb7moxq0S709PDRDf4mOfSkf1Mud0nCqbLS
- Varu/LEl94LDa4W0xnzVPSvV1vitrcjSs6dd8uxj2pd0uCHApe2v/EqHN1hJN1DLsu4m
- rOwFTF9yQ64l+HIl5bF2Oe94GTgvvJ/nwl6eCt7/LCwPFXB35786KL0dv40gNO6bfrn+
- 2/U5RRNDtNNOORKqJHEO7t+bBcjdE99lChVgVyR2Z5g4Q8XtemnqbiewWc8Nj2DGxLaQ
- Z0OA==
-X-Gm-Message-State: AOAM533KmLGUKFwkl4sahM6PSWj0UYSyeo8dsbwUYF0mDy1svokSHffW
- bh6Tm3zTMabpNM4fYYXHXWRszq7Q5eBCPA==
-X-Google-Smtp-Source: ABdhPJw/j8vPhV9o305iKrm1WHU/e2EVydTUbGC3S7jusvhKHv/SQ/nfuzh1+9UMLR34YTjgzMBE7A==
-X-Received: by 2002:a17:90a:a60f:: with SMTP id
- c15mr5029285pjq.187.1626194538823; 
- Tue, 13 Jul 2021 09:42:18 -0700 (PDT)
+ bh=NgDcFwijqvI5Ustjzi412a6qyjRC0UcEnEWmUALegEQ=;
+ b=mFZwNxfCBErgWuOUJfQSXkE5oXvpmrYPHKYNPKM3YPB03ZfedLoxCXzzqji3W1yDAz
+ DttxOv99bXzA9bGQkwmvUi4XukWlEGI0XqB+EJtx/HUJpjmyD8CgmtYXjLNYNMBpJdpU
+ My7orBc3/cwb+ShNh1OAe2RVIXnouLxkk2fV1EjCp2f/TJurAEwJ6xYHN/9TfUxxstzc
+ WqQfquno93e6UKop2nRofD+IWAdHACMJ6twpHojajmI/tuDmluL4jSnNDcEsrtqfpiCr
+ YtJiCa8GFbA6urxCJXLF1r08+Xk7L2Pfg2t3k3mjOpqZFK0sqGrBBwdszHHwblQYIOGg
+ Opmw==
+X-Gm-Message-State: AOAM5307u8T3Kw6FGflCE5PzqLvdw/alvOPQquScUGxjRtNGiG8n3Tc2
+ Tzqp7WphD2w35pUgRz+yAtd/Bx/lc4hijQ==
+X-Google-Smtp-Source: ABdhPJzd82qQeeHHsQgkglRTtUC/lLPyj9WiHWVQggP3frnMky32FK+c7HLLqyu0Rks37HAOXr3bnA==
+X-Received: by 2002:aa7:8683:0:b029:32e:2a35:941e with SMTP id
+ d3-20020aa786830000b029032e2a35941emr3072513pfo.44.1626194539415; 
+ Tue, 13 Jul 2021 09:42:19 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id z13sm4947865pfn.94.2021.07.13.09.42.18
+ by smtp.gmail.com with ESMTPSA id z13sm4947865pfn.94.2021.07.13.09.42.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 09:42:18 -0700 (PDT)
+ Tue, 13 Jul 2021 09:42:19 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/14] target/openrisc: Cache constant 0 in DisasContext
-Date: Tue, 13 Jul 2021 09:42:08 -0700
-Message-Id: <20210713164211.1520109-12-richard.henderson@linaro.org>
+Subject: [PULL 12/14] target/openrisc: Use dc->zero in gen_add, gen_addc
+Date: Tue, 13 Jul 2021 09:42:09 -0700
+Message-Id: <20210713164211.1520109-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210713164211.1520109-1-richard.henderson@linaro.org>
 References: <20210713164211.1520109-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,68 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Stafford Horne <shorne@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are virtually certain to have fetched constant 0 once, at the
-beginning of the TB, so we might as well use it elsewhere.
+We still need the t0 temporary for computing overflow,
+but we do not need to initialize it to zero first.
 
 Reviewed-by: Stafford Horne <shorne@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/translate.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ target/openrisc/translate.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/target/openrisc/translate.c b/target/openrisc/translate.c
-index 2db529b7de..6aba4c2ffc 100644
+index 6aba4c2ffc..059da48475 100644
 --- a/target/openrisc/translate.c
 +++ b/target/openrisc/translate.c
-@@ -52,6 +52,8 @@ typedef struct DisasContext {
+@@ -199,10 +199,10 @@ static void gen_ove_cyov(DisasContext *dc)
  
-     /* The temporary corresponding to register 0 for this compilation.  */
-     TCGv R0;
-+    /* The constant zero. */
-+    TCGv zero;
- } DisasContext;
- 
- static inline bool is_user(DisasContext *dc)
-@@ -536,10 +538,8 @@ static bool trans_l_extbz(DisasContext *dc, arg_da *a)
- 
- static bool trans_l_cmov(DisasContext *dc, arg_dab *a)
+ static void gen_add(DisasContext *dc, TCGv dest, TCGv srca, TCGv srcb)
  {
--    TCGv zero = tcg_constant_tl(0);
--
-     check_r0_write(dc, a->d);
--    tcg_gen_movcond_tl(TCG_COND_NE, cpu_R(dc, a->d), cpu_sr_f, zero,
-+    tcg_gen_movcond_tl(TCG_COND_NE, cpu_R(dc, a->d), cpu_sr_f, dc->zero,
-                        cpu_R(dc, a->a), cpu_R(dc, a->b));
-     return true;
- }
-@@ -630,9 +630,8 @@ static void do_bf(DisasContext *dc, arg_l_bf *a, TCGCond cond)
-     target_ulong tmp_pc = dc->base.pc_next + a->n * 4;
-     TCGv t_next = tcg_constant_tl(dc->base.pc_next + 8);
-     TCGv t_true = tcg_constant_tl(tmp_pc);
--    TCGv t_zero = tcg_constant_tl(0);
+-    TCGv t0 = tcg_const_tl(0);
++    TCGv t0 = tcg_temp_new();
+     TCGv res = tcg_temp_new();
  
--    tcg_gen_movcond_tl(cond, jmp_pc, cpu_sr_f, t_zero, t_true, t_next);
-+    tcg_gen_movcond_tl(cond, jmp_pc, cpu_sr_f, dc->zero, t_true, t_next);
-     dc->delayed_branch = 2;
- }
+-    tcg_gen_add2_tl(res, cpu_sr_cy, srca, t0, srcb, t0);
++    tcg_gen_add2_tl(res, cpu_sr_cy, srca, dc->zero, srcb, dc->zero);
+     tcg_gen_xor_tl(cpu_sr_ov, srca, srcb);
+     tcg_gen_xor_tl(t0, res, srcb);
+     tcg_gen_andc_tl(cpu_sr_ov, t0, cpu_sr_ov);
+@@ -216,11 +216,11 @@ static void gen_add(DisasContext *dc, TCGv dest, TCGv srca, TCGv srcb)
  
-@@ -1594,8 +1593,9 @@ static void openrisc_tr_tb_start(DisasContextBase *db, CPUState *cs)
+ static void gen_addc(DisasContext *dc, TCGv dest, TCGv srca, TCGv srcb)
+ {
+-    TCGv t0 = tcg_const_tl(0);
++    TCGv t0 = tcg_temp_new();
+     TCGv res = tcg_temp_new();
  
-     /* Allow the TCG optimizer to see that R0 == 0,
-        when it's true, which is the common case.  */
-+    dc->zero = tcg_constant_tl(0);
-     if (dc->tb_flags & TB_FLAGS_R0_0) {
--        dc->R0 = tcg_constant_tl(0);
-+        dc->R0 = dc->zero;
-     } else {
-         dc->R0 = cpu_regs[0];
-     }
+-    tcg_gen_add2_tl(res, cpu_sr_cy, srca, t0, cpu_sr_cy, t0);
+-    tcg_gen_add2_tl(res, cpu_sr_cy, res, cpu_sr_cy, srcb, t0);
++    tcg_gen_add2_tl(res, cpu_sr_cy, srca, dc->zero, cpu_sr_cy, dc->zero);
++    tcg_gen_add2_tl(res, cpu_sr_cy, res, cpu_sr_cy, srcb, dc->zero);
+     tcg_gen_xor_tl(cpu_sr_ov, srca, srcb);
+     tcg_gen_xor_tl(t0, res, srcb);
+     tcg_gen_andc_tl(cpu_sr_ov, t0, cpu_sr_ov);
 -- 
 2.25.1
 
