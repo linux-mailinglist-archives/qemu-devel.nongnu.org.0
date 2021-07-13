@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDFC3C6F0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:57:57 +0200 (CEST)
-Received: from localhost ([::1]:56644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5893C6F11
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:59:16 +0200 (CEST)
+Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3G6u-0005Fe-8T
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:57:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49758)
+	id 1m3G8B-0006jm-VG
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:59:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3G5x-0004aI-NP
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:56:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31200)
+ id 1m3G7N-00062q-05
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:58:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3G5v-0003fs-Ri
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:56:57 -0400
+ id 1m3G7L-0004iu-Ik
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:58:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626173814;
+ s=mimecast20190719; t=1626173903;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=srrOsB14J0bpQs/jxZCbTwPe3OZhINa5Is9WAM+yN/0=;
- b=AeGT2hahYE7dG1aBV2vmSPjk+c01ZkVzJeFVHkKW8hlU2lGipq6XRHPtVADFbSzVVqKRrf
- 5eeQ0PXfeqMPdKlF6f14B+sfB4SErkv4S6kBEHyetJqR+CXcCNTVuPF4+msccU7YFU69e8
- Njq+m0HjGiViJd7m0rK6JBbt/XHpHAI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-q3F4QmXNM9-5ZsycUwmWpA-1; Tue, 13 Jul 2021 06:56:53 -0400
-X-MC-Unique: q3F4QmXNM9-5ZsycUwmWpA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m31-20020a05600c3b1fb02902082e9b2132so369594wms.5
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:56:53 -0700 (PDT)
+ bh=juovBBqnqQ0+q6ZTZvEpy3aELyCs2RwScuX794yXldc=;
+ b=JRrDPT8ECQJ0zbsMGrfz7WJPcZtcupRHV3y9B6iPaiYMhTy5g6ANHovpArPgHmLRjFaINt
+ V21mi0bKeQKmIQNvgBZLC9iaRiGBCBO68wtTpUrK3bA0eONPxeL9BKfsyJY/9Vpe7oDfNZ
+ mNcS985In1nfg9BFsYbuEkluyVfY1vg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-Xr8WlImsODamz9YeMS87QQ-1; Tue, 13 Jul 2021 06:58:21 -0400
+X-MC-Unique: Xr8WlImsODamz9YeMS87QQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ r18-20020adff1120000b029013e2b4ee624so4283619wro.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:58:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=srrOsB14J0bpQs/jxZCbTwPe3OZhINa5Is9WAM+yN/0=;
- b=OcOReY8usBGzXZY/8v+6uk8MBAvsRXFAYgObt+Z2RtXTvC07DDYQ3u+i2VebYtKXaY
- xKPB3sqgatvEFnMY5dFQqCliT9Y+RL7E2xgzzlkuhrH+G878R1oYt4mwKfGeXiS3nonP
- QR29iGzknG51T9sfmF0at1lUkdXBe8cjhrRU2LOa6kB5lIv7PynugGrDQwzMEPqho56d
- E/vQYqBZBVoSeWorVrZ44G6StejX8Pse2kGKBH809p4MHmiQH4HOR+CuPNFVJI8X5zoS
- PpRTpc1pY4Ky7YhkfolJ3iQiQ9wtXCCTVoUHoXHAkZQWzS8xTJqjxHqggQKBBiLF3X+H
- NuVQ==
-X-Gm-Message-State: AOAM532nfEfTagGVPe8sBtMzQQr3EjzkoGB4MjeiWbw9ZdAqs0dsT5OZ
- I2EG5oyBc6K23IOg37pEc0gpGJUGx2cimYhUC2veEFUHHTEy8ymVvsecwkqwj0xWGnb5Nf84Gws
- 50UEr4cNMZkyWqyE=
-X-Received: by 2002:a05:600c:1c0d:: with SMTP id
- j13mr4458638wms.34.1626173812348; 
- Tue, 13 Jul 2021 03:56:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxG81XpiqYHGeRy/akS8+FwwzZoiqyqSTauq7kIjtEVQCsXazQmr9HnALkBNSgAzykLT2zBYQ==
-X-Received: by 2002:a05:600c:1c0d:: with SMTP id
- j13mr4458616wms.34.1626173812151; 
- Tue, 13 Jul 2021 03:56:52 -0700 (PDT)
+ bh=juovBBqnqQ0+q6ZTZvEpy3aELyCs2RwScuX794yXldc=;
+ b=WWEOt2sMbjxe87OZtda1TqC/l5aQOccbc68J6sXvBTQEoBuGiFyCieD2mX7ZihJxym
+ KPyKiHJOFYbdT9T6cBnfnYLDJFMM18FSdY8MopktqFgZR6qFlhOUQEq4RGEaCI7im1dH
+ lPDYnL8G87I7oi74XiJ+myoHPwta/uFDmOl7aE0VHR0JQqalFJaxR50mfPnFp1RsLWGH
+ M5fBQmUOGKEeRlczP27ws7n4S7StuPxMHpuK3LWaPnuJWSQQx5z3MRVVS9IMyEnKDWqa
+ eY1bZSx42LOGFkLnqqkvIrdKx+rIZpYX92Rpg/WsjrkLIGhGPaCmEv2vKvd/JbSGoAaz
+ pjxQ==
+X-Gm-Message-State: AOAM532R6XobbICg7VcSSmS12/hqgmMs63f95EXh0BbjeTEaq/XWH1Z7
+ 5u1y8DsEYNrpXtHGJgf32/ac+8cGct3jCGOoWc6aWIDLC78MOPWTDSJw/7Z4NYfRaR9OrnHyB6O
+ R4jWR3kdSBdl/TOk=
+X-Received: by 2002:a1c:1d8e:: with SMTP id d136mr4420944wmd.52.1626173900729; 
+ Tue, 13 Jul 2021 03:58:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwaQ2fKDx+QrMmiDfTcjwhyeiBgJS4PiAAes7e/fYndj4B2nGUIyrlTG7dtCbpoti8bKaCKvg==
+X-Received: by 2002:a1c:1d8e:: with SMTP id d136mr4420934wmd.52.1626173900553; 
+ Tue, 13 Jul 2021 03:58:20 -0700 (PDT)
 Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
  [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id k13sm13125911wrp.34.2021.07.13.03.56.49
+ by smtp.gmail.com with ESMTPSA id 6sm2056655wmi.3.2021.07.13.03.58.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 03:56:50 -0700 (PDT)
-Date: Tue, 13 Jul 2021 11:56:48 +0100
+ Tue, 13 Jul 2021 03:58:19 -0700 (PDT)
+Date: Tue, 13 Jul 2021 11:58:17 +0100
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-Subject: Re: [PATCH] migration/rdma: prevent from double free the same mr
-Message-ID: <YO1xcLQfgK9vBK20@work-vm>
-References: <20210708144521.1959614-1-lizhijian@cn.fujitsu.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] migration: failover: emit a warning when the card is not
+ fully unplugged
+Message-ID: <YO1xyXg7HW8GmvVi@work-vm>
+References: <20210701131458.112036-1-lvivier@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210708144521.1959614-1-lizhijian@cn.fujitsu.com>
+In-Reply-To: <20210701131458.112036-1-lvivier@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
@@ -97,48 +96,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Li Zhijian (lizhijian@cn.fujitsu.com) wrote:
-> backtrace:
-> '0x00007ffff5f44ec2 in __ibv_dereg_mr_1_1 (mr=0x7fff1007d390) at /home/lizhijian/rdma-core/libibverbs/verbs.c:478
-> 478             void *addr              = mr->addr;
-> (gdb) bt
->  #0  0x00007ffff5f44ec2 in __ibv_dereg_mr_1_1 (mr=0x7fff1007d390) at /home/lizhijian/rdma-core/libibverbs/verbs.c:478
->  #1  0x0000555555891fcc in rdma_delete_block (block=<optimized out>, rdma=0x7fff38176010) at ../migration/rdma.c:691
->  #2  qemu_rdma_cleanup (rdma=0x7fff38176010) at ../migration/rdma.c:2365
->  #3  0x00005555558925b0 in qio_channel_rdma_close_rcu (rcu=0x555556b8b6c0) at ../migration/rdma.c:3073
->  #4  0x0000555555d652a3 in call_rcu_thread (opaque=opaque@entry=0x0) at ../util/rcu.c:281
->  #5  0x0000555555d5edf9 in qemu_thread_start (args=0x7fffe88bb4d0) at ../util/qemu-thread-posix.c:541
->  #6  0x00007ffff54c73f9 in start_thread () at /lib64/libpthread.so.0
->  #7  0x00007ffff53f3b03 in clone () at /lib64/libc.so.6 '
+* Laurent Vivier (lvivier@redhat.com) wrote:
+> When the migration fails or is canceled we wait the end of the unplug
+> operation to be able to plug it back. But if the unplug operation
+> is never finished we stop to wait and QEMU emits a warning to inform
+> the user.
 > 
-> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+> Based-on: 20210629155007.629086-1-lvivier@redhat.com
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
 Queued
 
 > ---
->  migration/rdma.c | 1 +
->  1 file changed, 1 insertion(+)
+>  migration/migration.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/migration/rdma.c b/migration/rdma.c
-> index b6cc4bef4a8..0f22b8227c0 100644
-> --- a/migration/rdma.c
-> +++ b/migration/rdma.c
-> @@ -1143,6 +1143,7 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 3b06d43a7f42..e065c62e5189 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -3689,6 +3689,10 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
+>              while (timeout-- && qemu_savevm_state_guest_unplug_pending()) {
+>                  qemu_sem_timedwait(&s->wait_unplug_sem, 250);
+>              }
+> +            if (qemu_savevm_state_guest_unplug_pending()) {
+> +                warn_report("migration: partially unplugged device on "
+> +                            "failure");
+> +            }
+>          }
 >  
->      for (i--; i >= 0; i--) {
->          ibv_dereg_mr(local->block[i].mr);
-> +        local->block[i].mr = NULL;
->          rdma->total_registrations--;
->      }
->  
+>          migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
 > -- 
-> 2.30.2
-> 
-> 
+> 2.31.1
 > 
 > 
 -- 
