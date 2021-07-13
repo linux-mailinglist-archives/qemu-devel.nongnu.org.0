@@ -2,105 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 991FA3C6BE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 10:07:17 +0200 (CEST)
-Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4633D3C6BF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 10:21:50 +0200 (CEST)
+Received: from localhost ([::1]:49878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3DRk-0003PO-KX
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 04:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37632)
+	id 1m3Dfn-0006SD-04
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 04:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m3DQU-0002d0-3Y
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:05:58 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56008)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1m3DeU-0005Bo-TT
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:20:26 -0400
+Received: from mga09.intel.com ([134.134.136.24]:56319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m3DQS-0007R7-8X
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:05:57 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16D83NvG061557; Tue, 13 Jul 2021 04:05:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=JCbYkbmxpcl4s3hpG8rFjTAfqObviZZhKack65HfRaQ=;
- b=stQGKBkTErktHREmyqQLHQPvqCSe4VDX+VLYrgs3rXa5RV/d9pecEgPX+1tWRuGdM/bz
- eL7Ry4bTKHMdQviCUy1CEljNyGtRGP3rG4JjRvlcp/TD41Pb8lWPmeFIdDi8VgIaAItT
- Y2Vt0SxbJxIaCJo8kayoSpUFoLZor1J2mMy4tByIpmLv7MFgVTKrGJVRZPvSHQlqvq8x
- V8ekH5MTfa1yOH1JcJRk4QKO08U1yaDCUTwSeAD6TGn14BJ8DaMU2biA7HaIJQa6HKS4
- q2m6kCOpP2zdy2Fc2mjfRW5ItXmR89pGPWNLDrp4zhuLE1N5FhioLBo6nRbA3NzKp6ZL MQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39qrudbgwv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Jul 2021 04:05:48 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16D83eBZ063155;
- Tue, 13 Jul 2021 04:05:47 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39qrudbgvv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Jul 2021 04:05:47 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16D83Lra015077;
- Tue, 13 Jul 2021 08:05:45 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 39q368958w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 13 Jul 2021 08:05:45 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 16D83bQl31326536
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 13 Jul 2021 08:03:38 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9FF38A405C;
- Tue, 13 Jul 2021 08:05:42 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9B2FDA406A;
- Tue, 13 Jul 2021 08:05:38 +0000 (GMT)
-Received: from [9.160.8.119] (unknown [9.160.8.119])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 13 Jul 2021 08:05:38 +0000 (GMT)
-Subject: Re: [RFC PATCH 0/6] Add AMD Secure Nested Paging (SEV-SNP) support
-To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <e68a9760-121f-72ee-f8ae-193b92bde403@linux.ibm.com>
-Date: Tue, 13 Jul 2021 11:05:37 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210709215550.32496-1-brijesh.singh@amd.com>
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1m3DeS-0008UG-Cv
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:20:26 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="210097572"
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="210097572"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 01:20:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="429966874"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga002.jf.intel.com with ESMTP; 13 Jul 2021 01:20:11 -0700
+Received: from shsmsx604.ccr.corp.intel.com (10.109.6.214) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 13 Jul 2021 01:20:10 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX604.ccr.corp.intel.com (10.109.6.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 13 Jul 2021 16:20:08 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.010;
+ Tue, 13 Jul 2021 16:20:08 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: RE: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Thread-Topic: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Thread-Index: AQHXbeunvJLboMuimkuCIYxaPrgzEKsth5XAgAAGCwCAAWbAwIAGyxGAgAEKbICAAHLHgIABKgLggACGHwCAAUoocIAACfIAgAZdEOA=
+Date: Tue, 13 Jul 2021 08:20:08 +0000
+Message-ID: <22867e1aa6fe4533943e912b4b2e080f@intel.com>
+References: <20210630200805.280905-1-peterx@redhat.com>
+ <33f137dae5c346078a3a7a658bb5f1ab@intel.com> <YN26SDxZS1aShbHi@t490s>
+ <27cb8a0141fa493a8d4bb6bb918e8a82@intel.com> <YOSaDzCd4ZmcRQHl@t490s>
+ <2eb1ccd7105d4823898ea68a614d16f9@intel.com> <YOXZ1fzH+qXGJLs1@t490s>
+ <e392987d17f345969dd86be513b1702b@intel.com> <YOdEVI74aWIao3lU@t490s>
+ <b242b77a68c64ae9aa13ae0dc6c081ec@intel.com> <YOhhoHJFyiQAEBRZ@t490s>
+In-Reply-To: <YOhhoHJFyiQAEBRZ@t490s>
+Accept-Language: en-US
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Cff8pOgg45Q5genl7gyk6eH65UPTJqbS
-X-Proofpoint-ORIG-GUID: _H61TdGLiXZXC6XpSW7Ldy814GkD5ilY
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-13_03:2021-07-13,
- 2021-07-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0 mlxscore=0
- spamscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107130051
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.479,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=wei.w.wang@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,79 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ David Hildenbrand <david@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Brijesh,
-
-On 10/07/2021 0:55, Brijesh Singh wrote:
-> SEV-SNP builds upon existing SEV and SEV-ES functionality while adding
-> new hardware-based memory protections. SEV-SNP adds strong memory integrity
-> protection to help prevent malicious hypervisor-based attacks like data
-> replay, memory re-mapping and more in order to create an isolated memory
-> encryption environment.
-> 
-> The patches to support the SEV-SNP in Linux kernel and OVMF are available:
-> https://lore.kernel.org/kvm/20210707181506.30489-1-brijesh.singh@amd.com/
-> https://lore.kernel.org/kvm/20210707183616.5620-1-brijesh.singh@amd.com/
-> https://edk2.groups.io/g/devel/message/77335?p=,,,20,0,0,0::Created,,posterid%3A5969970,20,2,20,83891508
-> 
-> The Qemu patches uses the command id added by the SEV-SNP hypervisor
-> patches to bootstrap the SEV-SNP VMs.
-> 
-> TODO:
->  * Add support to filter CPUID values through the PSP.
-> 
-> Additional resources
-> ---------------------
-> SEV-SNP whitepaper
-> https://www.amd.com/system/files/TechDocs/SEV-SNP-strengthening-vm-isolation-with-integrity-protection-and-more.pdf
-> 
-> APM 2: https://www.amd.com/system/files/TechDocs/24593.pdf (section 15.36)
-> 
-> GHCB spec:
-> https://developer.amd.com/wp-content/resources/56421.pdf
-> 
-> SEV-SNP firmware specification:
-> https://www.amd.com/system/files/TechDocs/56860.pdf
-> 
-> Brijesh Singh (6):
->   linux-header: add the SNP specific command
->   i386/sev: extend sev-guest property to include SEV-SNP
->   i386/sev: initialize SNP context
->   i386/sev: add the SNP launch start context
->   i386/sev: add support to encrypt BIOS when SEV-SNP is enabled
->   i386/sev: populate secrets and cpuid page and finalize the SNP launch
-> 
->  docs/amd-memory-encryption.txt |  81 +++++-
->  linux-headers/linux/kvm.h      |  47 ++++
->  qapi/qom.json                  |   6 +
->  target/i386/sev.c              | 498 ++++++++++++++++++++++++++++++++-
->  target/i386/sev_i386.h         |   1 +
->  target/i386/trace-events       |   4 +
->  6 files changed, 628 insertions(+), 9 deletions(-)
-> 
-
-It might be useful to allow the user to view SNP-related status/settings
-in HMP's `info sev` and QMP's qom-list/qom-get under
-/machine/confidential-guest-support .
-
-(Not sure whether HMP is deprecated and new stuff should not be added
-there.)
-
-Particularly confusing is the `policy` attribute which is only relevant
-for SEV / SEV-ES, while there's a new `snp.policy` attribute for SNP...
-Maybe the irrelevant attributes should not be added to the tree when not
-in SNP.
-
--Dov
+T24gRnJpZGF5LCBKdWx5IDksIDIwMjEgMTA6NDggUE0sIFBldGVyIFh1IHdyb3RlOg0KPiBPbiBG
+cmksIEp1bCAwOSwgMjAyMSBhdCAwODo1ODowOEFNICswMDAwLCBXYW5nLCBXZWkgVyB3cm90ZToN
+Cj4gPiBPbiBGcmlkYXksIEp1bHkgOSwgMjAyMSAyOjMxIEFNLCBQZXRlciBYdSB3cm90ZToNCj4g
+PiA+ID4gPiBZZXMgSSB0aGluayB0aGlzIGlzIHRoZSBwbGFjZSBJIGRpZG4ndCBtYWtlIG15c2Vs
+ZiBjbGVhci4gIEl0J3MNCj4gPiA+ID4gPiBub3QgYWJvdXQgc2xlZXBpbmcsIGl0J3MgYWJvdXQg
+dGhlIGNtcHhjaGcgYmVpbmcgZXhwZW5zaXZlDQo+ID4gPiA+ID4gYWxyZWFkeSB3aGVuIHRoZSB2
+bQ0KPiA+ID4gaXMgaHVnZS4NCj4gPiA+ID4NCj4gPiA+ID4gT0suDQo+ID4gPiA+IEhvdyBkaWQg
+eW91IHJvb3QgY2F1c2UgdGhhdCBpdCdzIGNhdXNlZCBieSBjbXB4Y2hnLCBpbnN0ZWFkIG9mDQo+
+ID4gPiA+IGxvY2sgY29udGVudGlvbiAoaS5lLiBzeXNjYWxsIGFuZCBzbGVlcCkgb3Igc29tZSBv
+dGhlciBjb2RlIGluc2lkZQ0KPiA+ID4gcHRocmVhZF9tdXRleF9sb2NrKCkuIERvIHlvdSBoYXZl
+IGN5Y2xlcyBhYm91dCBjbXB4Y2hnIHYucy4gY3ljbGVzDQo+ID4gPiBvZiBwdGhyZWFkX211dGV4
+X2xvY2soKT8NCj4gPiA+DQo+ID4gPiBXZSd2ZSBnb3QgInBlcmYgdG9wIC1nIiBzaG93aW5nIGEg
+aHVnZSBhbW91bnQgb2Ygc3RhY2tzIGx5aW5nIGluDQo+ID4gPiBwdGhyZWFkX211dGV4X2xvY2so
+KS4NCj4gPg0KPiA+IFRoaXMgb25seSBleHBsYWlucyBwdGhyZWFkX211dGV4X2xvY2sgaXMgdGhl
+IGNhdXNlLCBub3Qgcm9vdCBjYXVzZWQgdG8NCj4gY21weGNoZy4NCj4gDQo+IEkgdGhpbmsgdGhh
+dCdzIGVub3VnaCBhbHJlYWR5IHRvIHByb3ZlIHdlIGNhbiBtb3ZlIHRoZSBsb2NrIGVsc2V3aGVy
+ZS4NCj4gDQo+IEl0J3Mgbm90IHJlYWxseSBhIGhlYXZ5IHJhY2UgYmV0d2VlbiB0aHJlYWRzOyBp
+dCdzIHRoZSBwdXJlIG92ZXJoZWFkIHdlIGNhbGxlZCBpdA0KPiB0b28gbWFueSB0aW1lcy4gIFNv
+IGl0J3Mgbm90IHJlYWxseSBhIHByb2JsZW0geWV0IGFib3V0ICJ3aGF0IHR5cGUgb2YgbG9jayB3
+ZQ0KPiBzaG91bGQgdXNlIiAobXV0ZXggb3Igc3BpbiBsb2NrKSBvciAiaG93IHRoaXMgbG9jayBp
+cyBpbXBsZW1lbnRlZCIgKHNheSwgd2hldGhlcg0KPiB1c2luZyBjbXB4Y2hnIG9ubHkgb3Igb3B0
+aW1pemUgdXNpbmcgdGVzdCArIHRlc3QtYW5kLXNldCwgYXMgdGhhdCBzb3VuZHMgbGlrZSBhDQo+
+IGdvb2Qgb3B0aW1pemF0aW9uIG9mIHB1cmUgdGVzdC1hbmQtc2V0IHNwaW5sb2NrcykgYmVjYXVz
+ZSB0aGUgbG9jayBpcyBub3QgYnVzeSBhdA0KPiBhbGwuDQoNCkp1c3QgRllJOg0KdGhlcmUgaXMg
+YSBiaWcgd2hpbGUoMSkge30gaW5zaWRlIHB0aHJlYWRfbXV0ZXhfbG9jaywgbm90IHN1cmUgaWYg
+dGhlIGhvdHNwb3QgaXMgaW4gdGhlIGxvb3AgdGhlcmUuDQoNCg0KPiA+IFdoYXQgaWYgdGhlIGd1
+ZXN0IGdldHMgc3RvcHBlZCBhbmQgdGhlbiB0aGUgbWlncmF0aW9uIHRocmVhZCBnb2VzIHRvIHNs
+ZWVwPw0KPiANCj4gSXNuJ3QgdGhlIGJhbGxvb24gY29kZSBydW4gaW4gYSBzdGFuZGFsb25lIGlv
+dGhyZWFkPyAgV2h5IGd1ZXN0IHN0b3BwZWQgY2FuDQo+IHN0b3AgbWlncmF0aW9uIHRocmVhZD8N
+Cg0KWWVzLCBpdCBpcyBhc3luYyBhcyB5b3Uga25vdy4gR3Vlc3QgcHV0cyBoaW50cyBpbnRvIHRo
+ZSB2cSwgdGhlbiBnZXRzIHBhdXNlZCwNCmFuZCB0aGVuIHRoZSBkZXZpY2UgdGFrZXMgdGhlIG11
+dGV4LCB0aGVuIHRoZSBtaWdyYXRpb24gdGhyZWFkIGdldHMgYmxvY2tlZC4NCkluIGdlbmVyYWws
+IHdoZW4gd2UgdXNlIG11dGV4LCB3ZSBuZWVkIHRvIGNvbnNpZGVyIHRoYXQgY2FzZSB0aGF0IGl0
+IGNvdWxkIGJlIGJsb2NrZWQuDQoNCj4gRnJvbSB3aGF0IEkgbGVhcm5lZCBpbiB0aGUgcGFzdCBm
+ZXcgeWVhcnMsIGZ1bm5pbHkgInNwZWVkIG9mIG1pZ3JhdGlvbiIgaXMNCj4gbm9ybWFsbHkgbm90
+IHdoYXQgcGVvcGxlIGNhcmUgdGhlIG1vc3QuICBJc3N1ZXMgYXJlIG1vc3RseSB3aXRoIGNvbnZl
+cmdlbmNlDQo+IGFuZCBiZWluZyB0cmFuc3BhcmVudCB0byB1c2VycyB1c2luZyB0aGUgVk1zIHNv
+IHRoZXkgYXJlbid0IGV2ZW4gYXdhcmUuDQoNClllcywgbWlncmF0aW9uIHRpbWUgaXNu4oCZdCB0
+aGF0IGNyaXRpY2FsbHkgaW1wb3J0YW50LCBidXQgc2hvcnRlciBpcyBiZXR0ZXIgdGhhbiBsb25n
+ZXIuDQpTa2lwcGluZyB0aG9zZSBmcmVlIHBhZ2VzIHNhdmVzIG5ldHdvcmsgYmFuZHdpZHRoLCB3
+aGljaCBpcyBhbHNvIGdvb2QuDQpPaGVyd2lzZSwgMC1wYWdlIG9wdGltaXphdGlvbiBpbiBtaWdy
+YXRpb24gaXMgYWxzbyBtZWFuaW5nbGVzcy4NCkluIHRoZW9yeSwgZnJlZSBwYWdlcyBpbiB0aGUg
+bGFzdCByb3VuZCBjb3VsZCBhbHNvIGJlIHNraXBwZWQgdG8gcmVkdWNlIGRvd250aW1lDQooanVz
+dCBoYXZlbid0IGdvdCBhIGdvb2QgdGVzdGNhc2UgdG8gc2hvdyBpdCkuDQoNCj4gPg0KPiA+IFNl
+ZW1zIHdlIGxhY2sgcmVzb3VyY2VzIGZvciB0aG9zZSB0ZXN0cyByaWdodCBub3cuIElmIHlvdSBh
+cmUgdXJnZW50IGZvciBhDQo+IGRlY2lzaW9uIHRvIGhhdmUgaXQgd29yayBmaXJzdCwgSSdtIGFs
+c28gT0sgd2l0aCB5b3UgdG8gbWVyZ2UgaXQuDQo+IA0KPiBObyBJIGNhbid0IG1lcmdlIGl0IG15
+c2VsZiBhcyBJJ20gbm90IHRoZSBtYWludGFpbmVyLiA6KSBJIGhhdmVuJ3QgcmVjZWl2ZWQgYW55
+IGFjaw0KPiB5ZXQsIHNvIGF0IGxlYXN0IEknbGwgbmVlZCB0byBzZWUgaG93IERhdmUgYW5kIEp1
+YW4gdGhpbmsuICBJdCdzIGp1c3QgdGhhdCBJIGRvbid0DQo+IHRoaW5rIHFlbXVzcGluIGNvdWxk
+IGhlbHAgbXVjaCBpbiB0aGlzIGNhc2UsIGFuZCBJIGRvbid0IHdhbnQgdG8gbWVzcyB1cCB0aGUN
+Cj4gaXNzdWUgdG9vLg0KPiANCg0KWWVzLCBJJ20gYWxzbyBPSyBpZiB0aGV5IHdhbnQgdG8gbWVy
+Z2UgaXQuDQpJZiBpdCBpcyBwb3NzaWJsZSB0aGF0IGFueW9uZSBmcm9tIHlvdXIgdGVzdGluZyB0
+ZWFtIChRQT8pIGNvdWxkIGhlbHAgZG8gYSByZWdyZXNzaW9uIHRlc3Qgb2YgZnJlZSBwYWdlIGhp
+bnQsDQpjaGVja2luZyB0aGUgZGlmZmVyZW5jZSAoZS5nLiBtaWdyYXRpb24gdGltZSBvZiBhbiBp
+ZGxlIGd1ZXN0KSBhZnRlciBhcHBseWluZyB0aGlzIHBhdGNoLCB0aGF0IHdvdWxkIGJlIGdyZWF0
+ZXIuIA0KVGhhbmtzIQ0KDQpCZXN0LA0KV2VpDQo=
 
