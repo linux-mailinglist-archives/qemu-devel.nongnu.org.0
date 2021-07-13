@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C793C78F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:25:04 +0200 (CEST)
-Received: from localhost ([::1]:34168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870673C78F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:27:39 +0200 (CEST)
+Received: from localhost ([::1]:43030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Ptn-000860-7K
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45228)
+	id 1m3PwI-00065Z-Er
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:27:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppx-00027O-N7
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55548)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppz-0002AL-3w
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppu-0008Fo-Ok
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:05 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppv-0008Gc-Qc
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211262;
+ s=mimecast20190719; t=1626211263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S5dZ8DclsjkpdzCUuxjcyTgqtpLFUVUhRxkTUrExvOw=;
- b=gy9WwOH2Fs0IYWuuIIG8Kjt9VzjlFQl433kHQ3IyEUXLbF3v2JdOjQeX2T50bUb/5mim1a
- 5agT7mmSxTSe95vOd/VUs0v7XnUVCo0iE1RkqILYzaklSctLDDLMnUUzJSteVuDEiwr/Sl
- 1LUjN1reZEMV7kl44OD9S8xlqDK+d8U=
+ bh=/5TXKC1dQEU+Xky60erz3/gHcfcWsiMRRr6v27umNWU=;
+ b=SAX6PyGC8V3XRYSS5RE5r6ybj9KFHQVXs4OrHsU1clYL8XtzVdxy+ve7/aNJY22kdidNyG
+ 7Ar0Fn7Wk4wAOmqeCzPzj9l2wPel8PxB4RlkNoryozfbsknaybML34xva6LVDFwugrX0lJ
+ 1bNwwN2uClpjHWueVDSmLsmsqbCLZVU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-zWyC23B-PMCR7cZ374EWgg-1; Tue, 13 Jul 2021 17:20:59 -0400
-X-MC-Unique: zWyC23B-PMCR7cZ374EWgg-1
+ us-mta-482-aqCCbEMmN22sgMgKfZkL2w-1; Tue, 13 Jul 2021 17:21:01 -0400
+X-MC-Unique: aqCCbEMmN22sgMgKfZkL2w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02FE8100B3AC;
- Tue, 13 Jul 2021 21:20:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75AB68015F5;
+ Tue, 13 Jul 2021 21:20:59 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B158519C59;
- Tue, 13 Jul 2021 21:20:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21AF219C44;
+ Tue, 13 Jul 2021 21:20:57 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 09/23] Acceptance Tests: Add default kernel params and pxeboot
- url to the KNOWN_DISTROS collection
-Date: Tue, 13 Jul 2021 17:19:09 -0400
-Message-Id: <20210713211923.3809241-10-crosa@redhat.com>
+Subject: [PULL 10/23] avocado_qemu: Add SMMUv3 tests
+Date: Tue, 13 Jul 2021 17:19:10 -0400
+Message-Id: <20210713211923.3809241-11-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -97,106 +96,184 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Willian Rampazzo <willianr@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
 
-When running LinuxTests we may need to run the guest with
-custom params. It is practical to store the pxeboot URL
-and the default kernel params so that the
-tests just need to fetch those and augment the kernel params.
+Add new tests checking the good behavior of the SMMUv3 protecting
+2 virtio pci devices (block and net). We check the guest boots and
+we are able to install a package. Different guest configs are tested:
+standard, passthrough an strict=0. This is tested with both fedora 31 and
+33. The former uses a 5.3 kernel without range invalidation whereas the
+latter uses a 5.8 kernel that features range invalidation.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210706131729.30749-3-eric.auger@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20210706131729.30749-4-eric.auger@redhat.com>
 [CR: split long lines]
+[CR: added MAINTAINERS entry]
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 58 +++++++++++++++++++++--
- 1 file changed, 55 insertions(+), 3 deletions(-)
+ MAINTAINERS              |   1 +
+ tests/acceptance/smmu.py | 137 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 138 insertions(+)
+ create mode 100644 tests/acceptance/smmu.py
 
-diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 256befafc4..1de1edce0d 100644
---- a/tests/acceptance/avocado_qemu/__init__.py
-+++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -317,17 +317,59 @@ class LinuxDistro:
-             '31': {
-                 'x86_64':
-                 {'checksum': ('e3c1b309d9203604922d6e255c2c5d09'
--                              '8a309c2d46215d8fc026954f3c5c27a0')},
-+                              '8a309c2d46215d8fc026954f3c5c27a0'),
-+                 'pxeboot_url': ('https://archives.fedoraproject.org/'
-+                                 'pub/archive/fedora/linux/releases/31/'
-+                                 'Everything/x86_64/os/images/pxeboot/'),
-+                 'kernel_params': ('root=UUID=b1438b9b-2cab-4065-a99a-'
-+                                   '08a96687f73c ro no_timer_check '
-+                                   'net.ifnames=0 console=tty1 '
-+                                   'console=ttyS0,115200n8'),
-+                },
-                 'aarch64':
-                 {'checksum': ('1e18d9c0cf734940c4b5d5ec592facae'
--                              'd2af0ad0329383d5639c997fdf16fe49')},
-+                              'd2af0ad0329383d5639c997fdf16fe49'),
-+                'pxeboot_url': 'https://archives.fedoraproject.org/'
-+                               'pub/archive/fedora/linux/releases/31/'
-+                               'Everything/aarch64/os/images/pxeboot/',
-+                'kernel_params': ('root=UUID=b6950a44-9f3c-4076-a9c2-'
-+                                  '355e8475b0a7 ro earlyprintk=pl011,0x9000000'
-+                                  ' ignore_loglevel no_timer_check'
-+                                  ' printk.time=1 rd_NO_PLYMOUTH'
-+                                  ' console=ttyAMA0'),
-+                },
-                 'ppc64':
-                 {'checksum': ('7c3528b85a3df4b2306e892199a9e1e4'
-                               '3f991c506f2cc390dc4efa2026ad2f58')},
-                 's390x':
-                 {'checksum': ('4caaab5a434fd4d1079149a072fdc789'
-                               '1e354f834d355069ca982fdcaf5a122d')},
--            }
-+            },
-+            '32': {
-+                'aarch64':
-+                {'checksum': ('b367755c664a2d7a26955bbfff985855'
-+                              'adfa2ca15e908baf15b4b176d68d3967'),
-+                'pxeboot_url': ('http://dl.fedoraproject.org/pub/fedora/linux/'
-+                                'releases/32/Server/aarch64/os/images/'
-+                                'pxeboot/'),
-+                'kernel_params': ('root=UUID=3df75b65-be8d-4db4-8655-'
-+                                  '14d95c0e90c5 ro no_timer_check net.ifnames=0'
-+                                  ' console=tty1 console=ttyS0,115200n8'),
-+                },
-+            },
-+            '33': {
-+                'aarch64':
-+                {'checksum': ('e7f75cdfd523fe5ac2ca9eeece68edc1'
-+                              'a81f386a17f969c1d1c7c87031008a6b'),
-+                'pxeboot_url': ('http://dl.fedoraproject.org/pub/fedora/linux/'
-+                                'releases/33/Server/aarch64/os/images/'
-+                                'pxeboot/'),
-+                'kernel_params': ('root=UUID=d20b3ffa-6397-4a63-a734-'
-+                                  '1126a0208f8a ro no_timer_check net.ifnames=0'
-+                                  ' console=tty1 console=ttyS0,115200n8'
-+                                  ' console=tty0'),
-+                 },
-+            },
-         }
-     }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c340bb02b0..148153d74f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -171,6 +171,7 @@ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/arm/smmu*
+ F: include/hw/arm/smmu*
++F: tests/acceptance/smmu.py
  
-@@ -351,6 +393,16 @@ def checksum(self):
-     def checksum(self, value):
-         self._info['checksum'] = value
- 
-+    @property
-+    def pxeboot_url(self):
-+        """Gets the repository url where pxeboot files can be found"""
-+        return self._info.get('pxeboot_url', None)
+ AVR TCG CPUs
+ M: Michael Rolnik <mrolnik@gmail.com>
+diff --git a/tests/acceptance/smmu.py b/tests/acceptance/smmu.py
+new file mode 100644
+index 0000000000..b3c4de6bf4
+--- /dev/null
++++ b/tests/acceptance/smmu.py
+@@ -0,0 +1,137 @@
++# SMMUv3 Functional tests
++#
++# Copyright (c) 2021 Red Hat, Inc.
++#
++# Author:
++#  Eric Auger <eric.auger@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++import os
 +
-+    @property
-+    def default_kernel_params(self):
-+        """Gets the default kernel parameters"""
-+        return self._info.get('kernel_params', None)
++from avocado import skipIf
++from avocado_qemu import LinuxTest, BUILD_DIR
 +
- 
- class LinuxTest(Test, LinuxSSHMixIn):
-     """Facilitates having a cloud-image Linux based available.
++@skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
++class SMMU(LinuxTest):
++    """
++    :avocado: tags=accel:kvm
++    :avocado: tags=cpu:host
++    :avocado: tags=arch:aarch64
++    :avocado: tags=machine:virt
++    :avocado: tags=distro:fedora
++    :avocado: tags=smmu
++    """
++
++    IOMMU_ADDON = ',iommu_platform=on,disable-modern=off,disable-legacy=on'
++    kernel_path = None
++    initrd_path = None
++    kernel_params = None
++
++    def set_up_boot(self):
++        path = self.download_boot()
++        self.vm.add_args('-device', 'virtio-blk-pci,bus=pcie.0,scsi=off,' +
++                         'drive=drv0,id=virtio-disk0,bootindex=1,'
++                         'werror=stop,rerror=stop' + self.IOMMU_ADDON)
++        self.vm.add_args('-drive',
++                         'file=%s,if=none,cache=writethrough,id=drv0' % path)
++
++    def setUp(self):
++        super(SMMU, self).setUp(None, 'virtio-net-pci' + self.IOMMU_ADDON)
++
++    def common_vm_setup(self, custom_kernel=False):
++        self.require_accelerator("kvm")
++        self.vm.add_args("-accel", "kvm")
++        self.vm.add_args("-cpu", "host")
++        self.vm.add_args("-machine", "iommu=smmuv3")
++        self.vm.add_args("-d", "guest_errors")
++        self.vm.add_args('-bios', os.path.join(BUILD_DIR, 'pc-bios',
++                         'edk2-aarch64-code.fd'))
++        self.vm.add_args('-device', 'virtio-rng-pci,rng=rng0')
++        self.vm.add_args('-object',
++                         'rng-random,id=rng0,filename=/dev/urandom')
++
++        if custom_kernel is False:
++            return
++
++        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
++        initrd_url = self.distro.pxeboot_url + 'initrd.img'
++        self.kernel_path = self.fetch_asset(kernel_url)
++        self.initrd_path = self.fetch_asset(initrd_url)
++
++    def run_and_check(self):
++        if self.kernel_path:
++            self.vm.add_args('-kernel', self.kernel_path,
++                             '-append', self.kernel_params,
++                             '-initrd', self.initrd_path)
++        self.launch_and_wait()
++        self.ssh_command('cat /proc/cmdline')
++        self.ssh_command('dnf -y install numactl-devel')
++
++
++    # 5.3 kernel without RIL #
++
++    def test_smmu_noril(self):
++        """
++        :avocado: tags=smmu_noril
++        :avocado: tags=smmu_noril_tests
++        :avocado: tags=distro_version:31
++        """
++        self.common_vm_setup()
++        self.run_and_check()
++
++    def test_smmu_noril_passthrough(self):
++        """
++        :avocado: tags=smmu_noril_passthrough
++        :avocado: tags=smmu_noril_tests
++        :avocado: tags=distro_version:31
++        """
++        self.common_vm_setup(True)
++        self.kernel_params = (self.distro.default_kernel_params +
++                              ' iommu.passthrough=on')
++        self.run_and_check()
++
++    def test_smmu_noril_nostrict(self):
++        """
++        :avocado: tags=smmu_noril_nostrict
++        :avocado: tags=smmu_noril_tests
++        :avocado: tags=distro_version:31
++        """
++        self.common_vm_setup(True)
++        self.kernel_params = (self.distro.default_kernel_params +
++                              ' iommu.strict=0')
++        self.run_and_check()
++
++    # 5.8 kernel featuring range invalidation
++    # >= v5.7 kernel
++
++    def test_smmu_ril(self):
++        """
++        :avocado: tags=smmu_ril
++        :avocado: tags=smmu_ril_tests
++        :avocado: tags=distro_version:33
++        """
++        self.common_vm_setup()
++        self.run_and_check()
++
++    def test_smmu_ril_passthrough(self):
++        """
++        :avocado: tags=smmu_ril_passthrough
++        :avocado: tags=smmu_ril_tests
++        :avocado: tags=distro_version:33
++        """
++        self.common_vm_setup(True)
++        self.kernel_params = (self.distro.default_kernel_params +
++                              ' iommu.passthrough=on')
++        self.run_and_check()
++
++    def test_smmu_ril_nostrict(self):
++        """
++        :avocado: tags=smmu_ril_nostrict
++        :avocado: tags=smmu_ril_tests
++        :avocado: tags=distro_version:33
++        """
++        self.common_vm_setup(True)
++        self.kernel_params = (self.distro.default_kernel_params +
++                              ' iommu.strict=0')
++        self.run_and_check()
 -- 
 2.31.1
 
