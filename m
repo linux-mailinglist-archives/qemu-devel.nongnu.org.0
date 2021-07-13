@@ -2,75 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C59B3C752D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:44:52 +0200 (CEST)
-Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A018B3C7557
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:54:15 +0200 (CEST)
+Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LWd-0003NO-ID
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:44:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41234)
+	id 1m3Lfi-0007k0-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:54:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3LUF-0006wT-VK
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:23 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:37839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3LUE-0005hx-02
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:23 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id t9so22131865pgn.4
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=XIRufaelCqcDThyPCfIwauMBr0gxGhP21bSIuzV5jtE=;
- b=qPtOMHs5JOoPf3+tW//LAfW5OSqNKknZLPrg8HFK6OMaMzyWqocB/9pwUARnrN5hK5
- 5wbPGOFpY1+LPUH3w6FtQVhKw7Pvk1d7tsupb6vVM1fzkF4TUaFfQyxG9rnuyUPjlFlj
- yjib1o1cyEgbVrQxwFNOWNnjfz1H3r0UXiPrsDBPHaeGdCzILiAy8Iij94jfAYkho3w1
- /+w4PRcGDBVoWWLy94GhDgfd9ln6Gmnoh60zHAxfQMPoikL4r8nIBwq6chvuCEXd47cC
- kQjP9FrXq5bwbogyTUu4BY2UrjjSTM+K35vtGaTS0XCQc9UBq3qbz2Hr3POBFR3CL8VC
- +v6w==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3LUZ-0007uM-8l
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56452)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3LUX-0005tM-1i
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:42:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626194560;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dx5X9XgzTV7uVTJUmsO9C024JKO8sBWKxi3wpinZ868=;
+ b=SFhoM286mkJJQ/fS+1QlEO9DOxUIPxqlK5ZrQYveD56cJuo3bZXjPgsoFF5J3Y4uszBwmf
+ PlvFhXivDakPz1FVXn/W3T3Mp2Cs0B97/B0Fl3M//HyeQHLRYEQJ80I878QXNrk6vR/e0X
+ lRWCuEdlgnSUi372G0wdJVNyqZVKwfc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-514-Uaq9jFMsMDm6Nob8Af7oJQ-1; Tue, 13 Jul 2021 12:42:38 -0400
+X-MC-Unique: Uaq9jFMsMDm6Nob8Af7oJQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ y15-20020a5d614f0000b029013cd60e9baaso6630110wrt.7
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:42:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XIRufaelCqcDThyPCfIwauMBr0gxGhP21bSIuzV5jtE=;
- b=MRZksn7OgF2/82zeHPMVDeY5AonAZRrovAtfXAKIrijfreDb6sRx96+s36MD9cqOtg
- N2sSJJ7vULo2cl/f7b353p40XMiLzBtmoDe1BENTN6wpL2KgrBt0G6FSVosXg1DVP8fn
- bUpKQTOfqUTaY6Km0ReXVdtfvMdgyHlK7Yyq2fvZvQ3217361tq4KKKNVjNmJ1oDIO/k
- gXVUO7aXCV86kx6FzOlNZTPkabZH5OhNqndBVeqPO9YRlc9WoSvq2ARNDNyhkhk+LTY9
- lpE8Uiv6I6L1p3g+hoL4Cz+w8EZvePlSZrD4s/S1ngWzEJ6ijI1MTERxV7sLNzUWVz8z
- Oz3w==
-X-Gm-Message-State: AOAM5323XSo1MsCgzeae0puBWEvkwiTY2mKnd1+W9H4lnLp8ltjDEMzF
- mD+0Kog9w/r0x4NpwAodNJqVvZFL2u0hMg==
-X-Google-Smtp-Source: ABdhPJzvx7Fk922pWqnpHJd7bMhCVDOTc1b3Si0HzCBENH5GHm20hscrCnmpxmaD9Zg4Wce7ju9JuA==
-X-Received: by 2002:aa7:8602:0:b029:32d:3e9b:27de with SMTP id
- p2-20020aa786020000b029032d3e9b27demr5382822pfn.39.1626194540614; 
- Tue, 13 Jul 2021 09:42:20 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id z13sm4947865pfn.94.2021.07.13.09.42.20
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 09:42:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 14/14] target/hppa: Clean up DisasCond
-Date: Tue, 13 Jul 2021 09:42:11 -0700
-Message-Id: <20210713164211.1520109-15-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210713164211.1520109-1-richard.henderson@linaro.org>
-References: <20210713164211.1520109-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Dx5X9XgzTV7uVTJUmsO9C024JKO8sBWKxi3wpinZ868=;
+ b=FAwlQ3lBBuYY7i8g3CyUoXDnQycZ0zFFTaUd/X2mf3UpxNKxSebQ8CqFU0tyfLUv1i
+ yT4ZqGhCWTFeUBypd/HS1zxuWITYzU+eCg9zlRSLZ6Ek4d0T3v8m68R/02GM22YK27S3
+ O0Ak/q2sOxqzckGClBeBT7LDN/WM0Ks9dUNZ6PZISmkaf7Q9V8nOVmYMCWreOvEQxOKn
+ 2zGvviNsj5krmTejX2J7Qq/xg36EKX4t2O1F0izfg/1MCLXaqFnlGZYFAYIvE0idY5UQ
+ 0sE1lOBhRBJ/1QeMJH3Lk0HcqQtKQaDP9YMo6DR1I9dnaR83kG4HlbaVkxeJjuNnAn50
+ ihwA==
+X-Gm-Message-State: AOAM532CcYTH76ZhsST8byVyxdk2HLd+lhWdYwAG1aH4e1ZAux8zXXtc
+ E6O2Y7M0QOD6+4oRNOnaa/NNiO/o2zEI+qqyHcJkJR0WwNuJLZVccthJ7GKxf4s4ptoaUe1XPKE
+ 9FfbsTa7F8e625d8=
+X-Received: by 2002:a5d:410b:: with SMTP id l11mr6970408wrp.173.1626194557561; 
+ Tue, 13 Jul 2021 09:42:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwABR4gn2Snb2vEtB4kCSkhZoqKIhHL66Onv3vZrfGji48EOf2EaqdeCqqURGAL06qHm/+8kQ==
+X-Received: by 2002:a5d:410b:: with SMTP id l11mr6970386wrp.173.1626194557365; 
+ Tue, 13 Jul 2021 09:42:37 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id s24sm19264525wra.33.2021.07.13.09.42.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 09:42:37 -0700 (PDT)
+Subject: Re: [PATCH 1/4] configure: Fix --without-default-features propagation
+ to meson
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210713093155.677589-1-thuth@redhat.com>
+ <20210713093155.677589-2-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0ea4b6c5-c0f9-9ce2-a291-9cc1171ed93a@redhat.com>
+Date: Tue, 13 Jul 2021 18:42:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210713093155.677589-2-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,167 +101,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The a0_is_n flag is redundant with comparing a0 to cpu_psw_n.
-The a1_is_0 flag can be removed by initializing a1 to $0,
-which also means that cond_prep can be removed entirely.
++Alex
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/hppa/translate.c | 43 +++++++++--------------------------------
- 1 file changed, 9 insertions(+), 34 deletions(-)
+On 7/13/21 11:31 AM, Thomas Huth wrote:
+> A typo prevents that many features get disabled when the user
+> runs "configure" with the --without-default-features switch.
+> 
+> Reported-by: Cole Robinson <crobinso@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 85db248ac1..229ea52516 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5205,7 +5205,7 @@ if test "$skip_meson" = no; then
+>          -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+>          -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+>          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+> -        $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
+> +        $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
 
-diff --git a/target/hppa/translate.c b/target/hppa/translate.c
-index fa668072d0..2552747138 100644
---- a/target/hppa/translate.c
-+++ b/target/hppa/translate.c
-@@ -252,8 +252,6 @@
- typedef struct DisasCond {
-     TCGCond c;
-     TCGv_reg a0, a1;
--    bool a0_is_n;
--    bool a1_is_0;
- } DisasCond;
- 
- typedef struct DisasContext {
-@@ -448,9 +446,7 @@ static DisasCond cond_make_n(void)
-     return (DisasCond){
-         .c = TCG_COND_NE,
-         .a0 = cpu_psw_n,
--        .a0_is_n = true,
--        .a1 = NULL,
--        .a1_is_0 = true
-+        .a1 = tcg_constant_reg(0)
-     };
- }
- 
-@@ -458,7 +454,7 @@ static DisasCond cond_make_0_tmp(TCGCond c, TCGv_reg a0)
- {
-     assert (c != TCG_COND_NEVER && c != TCG_COND_ALWAYS);
-     return (DisasCond){
--        .c = c, .a0 = a0, .a1_is_0 = true
-+        .c = c, .a0 = a0, .a1 = tcg_constant_reg(0)
-     };
- }
- 
-@@ -482,26 +478,14 @@ static DisasCond cond_make(TCGCond c, TCGv_reg a0, TCGv_reg a1)
-     return r;
- }
- 
--static void cond_prep(DisasCond *cond)
--{
--    if (cond->a1_is_0) {
--        cond->a1_is_0 = false;
--        cond->a1 = tcg_const_reg(0);
--    }
--}
--
- static void cond_free(DisasCond *cond)
- {
-     switch (cond->c) {
-     default:
--        if (!cond->a0_is_n) {
-+        if (cond->a0 != cpu_psw_n) {
-             tcg_temp_free(cond->a0);
-         }
--        if (!cond->a1_is_0) {
--            tcg_temp_free(cond->a1);
--        }
--        cond->a0_is_n = false;
--        cond->a1_is_0 = false;
-+        tcg_temp_free(cond->a1);
-         cond->a0 = NULL;
-         cond->a1 = NULL;
-         /* fallthru */
-@@ -559,9 +543,8 @@ static TCGv_reg dest_gpr(DisasContext *ctx, unsigned reg)
- static void save_or_nullify(DisasContext *ctx, TCGv_reg dest, TCGv_reg t)
- {
-     if (ctx->null_cond.c != TCG_COND_NEVER) {
--        cond_prep(&ctx->null_cond);
-         tcg_gen_movcond_reg(ctx->null_cond.c, dest, ctx->null_cond.a0,
--                           ctx->null_cond.a1, dest, t);
-+                            ctx->null_cond.a1, dest, t);
-     } else {
-         tcg_gen_mov_reg(dest, t);
-     }
-@@ -668,11 +651,9 @@ static void nullify_over(DisasContext *ctx)
-         assert(ctx->null_cond.c != TCG_COND_ALWAYS);
- 
-         ctx->null_lab = gen_new_label();
--        cond_prep(&ctx->null_cond);
- 
-         /* If we're using PSW[N], copy it to a temp because... */
--        if (ctx->null_cond.a0_is_n) {
--            ctx->null_cond.a0_is_n = false;
-+        if (ctx->null_cond.a0 == cpu_psw_n) {
-             ctx->null_cond.a0 = tcg_temp_new();
-             tcg_gen_mov_reg(ctx->null_cond.a0, cpu_psw_n);
-         }
-@@ -685,7 +666,7 @@ static void nullify_over(DisasContext *ctx)
-         }
- 
-         tcg_gen_brcond_reg(ctx->null_cond.c, ctx->null_cond.a0,
--                          ctx->null_cond.a1, ctx->null_lab);
-+                           ctx->null_cond.a1, ctx->null_lab);
-         cond_free(&ctx->null_cond);
-     }
- }
-@@ -699,10 +680,9 @@ static void nullify_save(DisasContext *ctx)
-         }
-         return;
-     }
--    if (!ctx->null_cond.a0_is_n) {
--        cond_prep(&ctx->null_cond);
-+    if (ctx->null_cond.a0 != cpu_psw_n) {
-         tcg_gen_setcond_reg(ctx->null_cond.c, cpu_psw_n,
--                           ctx->null_cond.a0, ctx->null_cond.a1);
-+                            ctx->null_cond.a0, ctx->null_cond.a1);
-         ctx->psw_n_nonzero = true;
-     }
-     cond_free(&ctx->null_cond);
-@@ -1178,7 +1158,6 @@ static void do_add(DisasContext *ctx, unsigned rt, TCGv_reg in1,
-     /* Emit any conditional trap before any writeback.  */
-     cond = do_cond(cf, dest, cb_msb, sv);
-     if (is_tc) {
--        cond_prep(&cond);
-         tmp = tcg_temp_new();
-         tcg_gen_setcond_reg(cond.c, tmp, cond.a0, cond.a1);
-         gen_helper_tcond(cpu_env, tmp);
-@@ -1273,7 +1252,6 @@ static void do_sub(DisasContext *ctx, unsigned rt, TCGv_reg in1,
- 
-     /* Emit any conditional trap before any writeback.  */
-     if (is_tc) {
--        cond_prep(&cond);
-         tmp = tcg_temp_new();
-         tcg_gen_setcond_reg(cond.c, tmp, cond.a0, cond.a1);
-         gen_helper_tcond(cpu_env, tmp);
-@@ -1399,7 +1377,6 @@ static void do_unit(DisasContext *ctx, unsigned rt, TCGv_reg in1,
- 
-         if (is_tc) {
-             TCGv_reg tmp = tcg_temp_new();
--            cond_prep(&cond);
-             tcg_gen_setcond_reg(cond.c, tmp, cond.a0, cond.a1);
-             gen_helper_tcond(cpu_env, tmp);
-             tcg_temp_free(tmp);
-@@ -1855,7 +1832,6 @@ static bool do_cbranch(DisasContext *ctx, target_sreg disp, bool is_n,
-     }
- 
-     taken = gen_new_label();
--    cond_prep(cond);
-     tcg_gen_brcond_reg(c, cond->a0, cond->a1, taken);
-     cond_free(cond);
- 
-@@ -1952,7 +1928,6 @@ static bool do_ibranch(DisasContext *ctx, TCGv_reg dest,
-         tcg_gen_lookup_and_goto_ptr();
-         return nullify_end(ctx);
-     } else {
--        cond_prep(&ctx->null_cond);
-         c = ctx->null_cond.c;
-         a0 = ctx->null_cond.a0;
-         a1 = ctx->null_cond.a1;
--- 
-2.25.1
+The option should be name plural (default_features)...
+
+What is 'auto_features' used for?
+
+>  	-Dtcg_interpreter=$tcg_interpreter \
+>          $cross_arg \
+>          "$PWD" "$source_path"
+> 
 
 
