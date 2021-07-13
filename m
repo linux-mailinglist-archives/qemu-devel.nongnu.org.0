@@ -2,78 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D867D3C7865
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:02:43 +0200 (CEST)
-Received: from localhost ([::1]:40878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1534A3C787C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:03:20 +0200 (CEST)
+Received: from localhost ([::1]:42538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3PYA-0000Ok-7q
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:02:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
+	id 1m3PYl-0001Uq-2C
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3PVj-0007pk-9l
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:00:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22143)
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1m3PWu-00006r-La
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:01:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3PVc-0002IO-CP
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:00:07 -0400
+ (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
+ id 1m3PWs-00038c-CA
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:01:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626210001;
+ s=mimecast20190719; t=1626210081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NMaYBTfm4H1DYO2luNtfCYTiO6V0PBqr4awtnZ+4v60=;
- b=UnB9nt58t+FqcrZqcj2Y6friCzdTbyc+/FcEVQrUURj8C5r8BK/kVMp3USCb1YQpYi75Gt
- sxrek7XepDc1WV7/0yYlz/4WbGIHmtW2lz/DuZVIbUbz/Y4P/JXa7ZLb5Mn3GGiEZm7VmH
- RAXVbZYJlQfcNed3Be4z0gt3YNw6qDY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-26x9e1SMM2W-4QirtWVV8Q-1; Tue, 13 Jul 2021 16:59:59 -0400
-X-MC-Unique: 26x9e1SMM2W-4QirtWVV8Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- k3-20020a5d52430000b0290138092aea94so201083wrc.20
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 13:59:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NMaYBTfm4H1DYO2luNtfCYTiO6V0PBqr4awtnZ+4v60=;
- b=Y5PwdH88UiO6PF+v1BSOQIC382PaK21tXxsUljtrqslzY5wH1U5qNPuKI1iNKPSIQ9
- 4YIMzbhJicbXI/cvw1+baen6XpAP2kps0ArDRTQhhGtteiaLJRlMakF+61TpvztdzItB
- LOtSiY1RJzpzVKWIPh9k1mHXFQp5mrPpnsjWPv+O406kB3CLPI1PV/ONuCFapyNbYbDu
- RHptyCHcwYTlXrrZpGg+WCjugCChHKXfVN1dmc5H5fNShzIYZ5cRBMVi4tiZJEa5kEVb
- mqO0R/RMiQld4sCfdXRcTVMn9iqMFikS5i7H8lr0M7tiA+cTpR4X4yuZkxPMVHUeyVc8
- zY9g==
-X-Gm-Message-State: AOAM532lIvI+zsqpBlqMRoTiABomc/8K7OaJYFwVL+axVpcSx8BLjktF
- CSftMOsVTO23IeXqmpPWJZbW7J7ziXGUeLMSBM/mLcHBGuHOaYxnzwkNr79muyp+Oqv6SadTYSD
- 04EI5stJP7bN4z8U=
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr143691wms.130.1626209998146; 
- Tue, 13 Jul 2021 13:59:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTAyyLuVIYUkMhnykey1lQZqON+ZeBPIXbOwndJWCYuF14K4wJHd1QwnCOIMi9LVTmb9GQvQ==
-X-Received: by 2002:a05:600c:1d28:: with SMTP id
- l40mr143665wms.130.1626209997954; 
- Tue, 13 Jul 2021 13:59:57 -0700 (PDT)
-Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id b20sm152658wmj.7.2021.07.13.13.59.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 13:59:56 -0700 (PDT)
-Date: Tue, 13 Jul 2021 16:59:52 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Dongli Zhang <dongli.zhang@oracle.com>
-Subject: Re: [PATCH RESEND v2 0/3] To add HMP interface to dump PCI MSI-X
- table/PBA
-Message-ID: <20210713165917-mutt-send-email-mst@kernel.org>
-References: <20210712235812.19725-1-dongli.zhang@oracle.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=79JTb//e4TzuVsMOXC2Mg8fRSx6HbK3RF3Ul4caMr/g=;
+ b=cZLBystqjGTXWbFhxSehzIQG97tGN8JlH9qedjK9EI26D0nv24VsnPCnVb3ftbuQpzyefs
+ xpnQ055iJzTr96qMAYFFNBcg6ttIilaYbC0vR6J4hWWSIUic1dJCzHMyhjBnVgUXb0ugbR
+ TnkIfaOnb58O7p5fqTGPKMwyq+w8fR8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-452-YZ2AwtFRMH2f9jyNOXOw8Q-1; Tue, 13 Jul 2021 17:01:19 -0400
+X-MC-Unique: YZ2AwtFRMH2f9jyNOXOw8Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5FE0106B7D6;
+ Tue, 13 Jul 2021 21:01:18 +0000 (UTC)
+Received: from wrampazz.redhat.com (ovpn-114-43.rdu2.redhat.com [10.10.114.43])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 074C41002D71;
+ Tue, 13 Jul 2021 21:01:12 +0000 (UTC)
+From: Willian Rampazzo <willianr@redhat.com>
+To: f4bug@amsat.org, philmd@redhat.com, crosa@redhat.com,
+ alex.bennee@linaro.org, qemu-devel@nongnu.org, thuth@redhat.com,
+ wainersm@redhat.com
+Subject: [PATCH v3] tests/acceptance: allow control over tags during
+ check-acceptance
+Date: Tue, 13 Jul 2021 18:01:11 -0300
+Message-Id: <20210713210111.173349-1-willianr@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210712235812.19725-1-dongli.zhang@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=willianr@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=willianr@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -94,75 +78,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, jasowang@redhat.com,
- joe.jin@oracle.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 12, 2021 at 04:58:09PM -0700, Dongli Zhang wrote:
-> I have just rebased the v2 patchset on top of most recent qemu to resend.
-> 
-> This patch is to introduce the new HMP command to dump the MSI-X table/PBA.
-> 
-> Here is the RFC v1:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg04673.html
-> 
-> The idea was inspired by below discussion:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg09020.html
+Although it is possible to run a specific test using the avocado
+command-line, a user may want to use a specific tag while running the
+``make check-acceptance`` during the development or debugging.
 
-Fails build for microblaze:
+This allows using the AVOCADO_TAGS environment variable where the user
+takes total control of which tests should run based on the tags defined.
 
-/scm/qemu/build/../softmmu/qdev-monitor.c:1030: undefined reference to `msix_dump_info'
-collect2: error: ld returned 1 exit status
-[2525/8445] Compiling C object libqemu-microblaze-softmmu.fa.p/meson-generated_.._qapi_qapi-visit-misc-target.c.o
+This also makes the check-acceptance command flexible to restrict tests
+based on tags while running on CI.
 
-> 
-> (qemu) info msix -d /machine/peripheral/vscsi0
-> Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
-> 0xfee00000 0x00000000 0x00004041 0x00000000
-> 0xfee00000 0x00000000 0x00004051 0x00000000
-> 0xfee00000 0x00000000 0x00004061 0x00000000
-> 0xfee00000 0x00000000 0x00004071 0x00000000
-> 0xfee01000 0x00000000 0x000040b1 0x00000000
-> 0xfee02000 0x00000000 0x000040c1 0x00000000
-> 0xfee03000 0x00000000 0x000040d1 0x00000000
-> 
-> MSI-X PBA
-> 0 0 0 0 0 0 0
-> 
-> virtio pci vector info:
-> config: 0
-> queue 0: 1
-> queue 1: 2
-> queue 2: 3
-> queue 3: 4
-> queue 4: 5
-> queue 5: 6
-> 
-> 
-> Changed since RFC v1:
->   - Add heading to MSI-X table (suggested by David Alan Gilbert)
->   - Add device specific interface, e.g., to dump virtio-pci queue-to-vector
->     mapping (Suggested By Jason)
-> 
-> 
->  hmp-commands-info.hx       | 14 +++++++++
->  hw/pci/msix.c              | 63 +++++++++++++++++++++++++++++++++++++++++
->  hw/virtio/virtio-pci.c     | 22 ++++++++++++++
->  hw/virtio/virtio.c         | 10 +++++++
->  include/hw/pci/msix.h      |  2 ++
->  include/hw/pci/pci.h       |  3 ++
->  include/hw/virtio/virtio.h |  2 ++
->  include/monitor/hmp.h      |  1 +
->  softmmu/qdev-monitor.c     | 36 +++++++++++++++++++++++
->  9 files changed, 153 insertions(+)
-> 
-> Thank you very much!
-> 
-> Dongli Zhang
-> 
+e.g.:
+
+AVOCADO_TAGS="foo bar baz" make check-acceptance
+
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+---
+ docs/devel/testing.rst | 14 ++++++++++++++
+ tests/Makefile.include | 12 +++++++++---
+ 2 files changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 4e42392810..a81b44cf18 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -760,6 +760,20 @@ in the current directory, tagged as "quick", run:
+ 
+   avocado run -t quick .
+ 
++It is also possible to run tests based on tags using the
++``make check-acceptance`` command and the ``AVOCADO_TAGS`` environment
++variable:
++
++.. code::
++
++   AVOCADO_TAGS=quick make check-acceptance
++
++Note that tags separated with commas have an AND behavior, while tags
++separated by spaces have an OR behavior. For more information on Avocado
++tags, see:
++
++ https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/tags.html
++
+ The ``avocado_qemu.Test`` base test class
+ -----------------------------------------
+ 
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index e4dcb17329..0ce331f9a9 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -92,7 +92,12 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+ AVOCADO_SHOW=app
+-AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
++ifndef AVOCADO_TAGS
++	AVOCADO_CMDLINE_TAGS=$(patsubst %-softmmu,-t arch:%, \
++						 $(filter %-softmmu,$(TARGETS)))
++else
++	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
++endif
+ 
+ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+ 	$(call quiet-command, \
+@@ -128,8 +133,9 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+ 	$(call quiet-command, \
+             $(TESTS_VENV_DIR)/bin/python -m avocado \
+             --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+-            --filter-by-tags-include-empty --filter-by-tags-include-empty-key \
+-            $(AVOCADO_TAGS) \
++            $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
++			--filter-by-tags-include-empty-key) \
++            $(AVOCADO_CMDLINE_TAGS) \
+             $(if $(GITLAB_CI),,--failfast) tests/acceptance, \
+             "AVOCADO", "tests/acceptance")
+ 
+-- 
+2.31.1
 
 
