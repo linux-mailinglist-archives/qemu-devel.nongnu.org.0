@@ -2,78 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9583C7387
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:49:26 +0200 (CEST)
-Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCCE3C7464
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:21:27 +0200 (CEST)
+Received: from localhost ([::1]:45784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Kev-0000Bg-Qu
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:49:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
+	id 1m3L9y-0006Rc-5b
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:21:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3KdM-0006rb-Vb
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:47:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51703)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1m3L7r-0003dV-Al
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3KdL-0001rh-95
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:47:44 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1m3L7o-0006q9-Ob
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626191262;
+ s=mimecast20190719; t=1626193150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qgfJqsJzUYBJKyLF6NDQVYjvjs2kFwcd1FiCbIuPlw4=;
- b=a5zYFPz8uQWfJ2LJ5tolGZNSx0FO/OqDRLkHKsq80W3whg8zQt4BoyMaaJe3IKdgROC0v9
- uHwJ4dMkPyqZ0+1OkzpKgphole9E0a5nG2dSwme2pdepG9ZtBLWOJjgtm6xxW64pRPWDuO
- i5he8l+Ylk0QIp5b0vtSiePOVwX+Yj4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-DfEP9FTiPxyFvOssTNGx1Q-1; Tue, 13 Jul 2021 11:47:41 -0400
-X-MC-Unique: DfEP9FTiPxyFvOssTNGx1Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- 5-20020a0560001565b029013fe432d176so2566212wrz.23
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:47:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=qgfJqsJzUYBJKyLF6NDQVYjvjs2kFwcd1FiCbIuPlw4=;
- b=kFaGhc9U+TFQCjR/mk2fwO2oy5AH9gJx//+LpfIQ1N5bu8emZdkDDBC9EEWojTq1Sg
- o0kgrPnUjaxnTaObFpJbXLaFMxLzuNjJG9c51opYrUMRcn/wv3MbMU+oHkZm28QZpClz
- qjL0b/1WsFtoJFwAPgaHIrSWfL4uxHQu54F81pYntwOvuxwQ/sGo5GDoI18Q0tUezc1C
- 4tFIJVevV25yRGbcVHIFdS6Fl1zIZJX/YL3T+KaU0GztWpY+YU1V1BdJgyEvVJ1bAlId
- Ra2e/43nGioQ4bSji2Q2g+da7bPe6BV/m8zzNnjdiv/1GsWTx5tOTOkS/FLmbwdnNhHC
- hHwA==
-X-Gm-Message-State: AOAM532CH5k7nX47wTPuGn/04GNu6OKz3jVPB+o/FDwTsAbbcGm3wOVx
- m1M5X9kAmn6OwmIhp+ztK6566vnY207+zUAgKtaqldQxTGDDJMhbRHHIvBbG9anrPiuWtWn6OhW
- MSvmTU0B9qhmzU0M=
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr6457818wri.188.1626191260156; 
- Tue, 13 Jul 2021 08:47:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrb92/k/MlMUC/x5i9Mo4sJqSECpo0bDh5ykIijW1iVt+9XsrwIe2RJ1vo6Xf1mUWB4Dkrkw==
-X-Received: by 2002:a05:6000:186e:: with SMTP id
- d14mr6457785wri.188.1626191259975; 
- Tue, 13 Jul 2021 08:47:39 -0700 (PDT)
-Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id u16sm21933817wrw.36.2021.07.13.08.47.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 08:47:37 -0700 (PDT)
-Date: Tue, 13 Jul 2021 11:47:33 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V4 18/25] vhost: reset vhost devices upon cprsave
-Message-ID: <20210713114651-mutt-send-email-mst@kernel.org>
-References: <1625589956-81651-1-git-send-email-steven.sistare@oracle.com>
- <1625589956-81651-19-git-send-email-steven.sistare@oracle.com>
+ bh=Zkm6ppgu/oPo+cyfMJJsJvuR3hA1pMQ+p026sUYZzAg=;
+ b=Xq+n83ohlPJoPYSque3g/dGE3szrZoJzLzwbKoj8xnaLRsHbN/xjLUKrLXwuSpCZ1ENegA
+ rnjB7wUcQaapASEGzG3nU+I8hb77pQwQBEiJI/scTJhXjDtIS9fe5C7HCnq643oXS03v9s
+ OGe76cMihHlL/NicBBZkT/uJ85UXq7c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-571-0IG_eL-RM2muBdYtX3EOIw-1; Tue, 13 Jul 2021 12:19:08 -0400
+X-MC-Unique: 0IG_eL-RM2muBdYtX3EOIw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB897802C89;
+ Tue, 13 Jul 2021 16:19:07 +0000 (UTC)
+Received: from localhost (ovpn-113-28.rdu2.redhat.com [10.10.113.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 83AA55D6AB;
+ Tue, 13 Jul 2021 16:19:07 +0000 (UTC)
+Date: Tue, 13 Jul 2021 09:22:09 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH 0/4] docs: improve -smp documentation
+Message-ID: <20210713132209.6afj2w7xmfyuu3od@habkost.net>
+References: <20210628113047.462498-1-berrange@redhat.com>
+ <20210709204857.n3lgxit32lcvlkv7@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <1625589956-81651-19-git-send-email-steven.sistare@oracle.com>
+In-Reply-To: <20210709204857.n3lgxit32lcvlkv7@habkost.net>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -94,89 +80,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "wangyanan \(Y\)" <wangyanan55@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 06, 2021 at 09:45:49AM -0700, Steve Sistare wrote:
-> A vhost device is implicitly preserved across re-exec because its fd is not
-> closed, and the value of the fd is specified on the command line for the
-> new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
-> which fails because the device already has an owner.  To fix, reset the
-> owner prior to exec.
-> 
-> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+On Fri, Jul 09, 2021 at 04:48:57PM -0400, Eduardo Habkost wrote:
+> On Mon, Jun 28, 2021 at 12:30:43PM +0100, Daniel P. Berrang=C3=A9 wrote:
+> > This is a spin off from this thread:
+> >=20
+> >   https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06135.html
+> >=20
+> > to improve the documentation of the current behaviour of -smp
+> > arg. In that thread it is suggested that we change the behaviour
+> > to prefer use of cores over sockets, when topology is omitted. This
+> > documentation update explicitly notes that default topology is liable
+> > to change, to allow for this enhancement.
+>=20
+> Queued, thanks!
 
-Makes sense superficially.
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-
-I didn't really read the series deeply enough to just the rest of it.
+I had to remove it due to build failures:
+https://gitlab.com/ehabkost/qemu/-/jobs/1413791527#L1139
 
 
-> ---
->  hw/virtio/vhost.c         | 11 +++++++++++
->  include/hw/virtio/vhost.h |  1 +
->  migration/cpr.c           |  1 +
->  3 files changed, 13 insertions(+)
-> 
-> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> index e2163a0..8c0c9c3 100644
-> --- a/hw/virtio/vhost.c
-> +++ b/hw/virtio/vhost.c
-> @@ -1820,6 +1820,17 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
->      hdev->vdev = NULL;
->  }
->  
-> +void vhost_dev_reset_all(void)
-> +{
-> +    struct vhost_dev *dev;
-> +
-> +    QLIST_FOREACH(dev, &vhost_devices, entry) {
-> +        if (dev->vhost_ops->vhost_reset_device(dev) < 0) {
-> +            VHOST_OPS_DEBUG("vhost_reset_device failed");
-> +        }
-> +    }
-> +}
-> +
->  int vhost_net_set_backend(struct vhost_dev *hdev,
->                            struct vhost_vring_file *file)
->  {
-> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-> index 4a8bc75..71704d4 100644
-> --- a/include/hw/virtio/vhost.h
-> +++ b/include/hw/virtio/vhost.h
-> @@ -106,6 +106,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
->  void vhost_dev_cleanup(struct vhost_dev *hdev);
->  int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
->  void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-> +void vhost_dev_reset_all(void);
->  int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
->  void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
->  
-> diff --git a/migration/cpr.c b/migration/cpr.c
-> index 578466c..6333988 100644
-> --- a/migration/cpr.c
-> +++ b/migration/cpr.c
-> @@ -142,6 +142,7 @@ void cprexec(strList *args, Error **errp)
->          return;
->      }
->      walkenv(FD_PREFIX, preserve_fd, 0);
-> +    vhost_dev_reset_all();
->      qemu_system_exec_request(args);
->  }
->  
-> -- 
-> 1.8.3.1
+FAILED: libqemu-microblazeel-softmmu.fa.p/softmmu_vl.c.o
+cc -Ilibqemu-microblazeel-softmmu.fa.p -I. -I.. -Itarget/microblaze -I../ta=
+rget/microblaze -I../capstone/include/capstone -Iqapi -Itrace -Iui -Iui/sha=
+der -I/usr/include/pixman-1 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/inc=
+lude -fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=3Dgn=
+u11 -O2 -g -isystem /builds/ehabkost/qemu/linux-headers -isystem linux-head=
+ers -iquote . -iquote /builds/ehabkost/qemu -iquote /builds/ehabkost/qemu/i=
+nclude -iquote /builds/ehabkost/qemu/disas/libvixl -iquote /builds/ehabkost=
+/qemu/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3D2 -m32 -D_GNU=
+_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes -W=
+redundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-al=
+iasing -fno-common -fwrapv -m32 -Wold-style-declaration -Wold-style-definit=
+ion -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qual=
+ifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined =
+-Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs -Wno-shift-negative-va=
+lue -Wno-psabi -fstack-protector-strong -fPIC -isystem../linux-headers -isy=
+stemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"microblazeel-softmmu-con=
+fig-target.h"' '-DCONFIG_DEVICES=3D"microblazeel-softmmu-config-devices.h"'=
+ -MD -MQ libqemu-microblazeel-softmmu.fa.p/softmmu_vl.c.o -MF libqemu-micro=
+blazeel-softmmu.fa.p/softmmu_vl.c.o.d -o libqemu-microblazeel-softmmu.fa.p/=
+softmmu_vl.c.o -c ../softmmu/vl.c
+./qemu-options.def: In function 'help':
+./qemu-options.def:52:1: error: expected ')' before 'QEMU_ARCH_ALL'
+   52 | QEMU_ARCH_ALL)
+      | ^~~~~~~~~~~~~
+../softmmu/vl.c:809:10: note: in definition of macro 'DEF'
+  809 |     if ((arch_mask) & arch_type)                               \
+      |          ^~~~~~~~~
+../softmmu/vl.c:809:9: note: to match this '('
+  809 |     if ((arch_mask) & arch_type)                               \
+      |         ^
+./qemu-options.def:43:1: note: in expansion of macro 'DEF'
+   43 | DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+      | ^~~
+../softmmu/vl.c:809:21: error: invalid operands to binary & (have 'const ch=
+ar *' and 'uint32_t' {aka 'const unsigned int'})
+  809 |     if ((arch_mask) & arch_type)                               \
+      |         ~           ^
+      |         |
+      |         const char *
+./qemu-options.def:43:1: note: in expansion of macro 'DEF'
+   43 | DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+      | ^~~
+./qemu-options.def: At top level:
+./qemu-options.def:49:1: error: initialization of 'unsigned int' from 'cons=
+t char *' makes integer from pointer without a cast [-Werror=3Dint-conversi=
+on]
+   49 | "                dies=3D number of CPU dies on one socket (for PC o=
+nly)\n"
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+../softmmu/vl.c:845:34: note: in definition of macro 'DEF'
+  845 |     { option, opt_arg, opt_enum, arch_mask },
+      |                                  ^~~~~~~~~
+./qemu-options.def:49:1: note: (near initialization for 'qemu_options[7].ar=
+ch_mask')
+   49 | "                dies=3D number of CPU dies on one socket (for PC o=
+nly)\n"
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+../softmmu/vl.c:845:34: note: in definition of macro 'DEF'
+  845 |     { option, opt_arg, opt_enum, arch_mask },
+      |                                  ^~~~~~~~~
+./qemu-options.def:52:1: error: expected '}' before 'QEMU_ARCH_ALL'
+   52 | QEMU_ARCH_ALL)
+      | ^~~~~~~~~~~~~
+../softmmu/vl.c:845:34: note: in definition of macro 'DEF'
+  845 |     { option, opt_arg, opt_enum, arch_mask },
+      |                                  ^~~~~~~~~
+../softmmu/vl.c:845:5: note: to match this '{'
+  845 |     { option, opt_arg, opt_enum, arch_mask },
+      |     ^
+./qemu-options.def:43:1: note: in expansion of macro 'DEF'
+   43 | DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+      | ^~~
+cc1: all warnings being treated as errors
+[663/5259] Compiling C object libqemu-microblazeel-softmmu.fa.p/accel_tcg_t=
+cg-accel-ops-icount.c.o
+ninja: build stopped: subcommand failed.
+make: *** [Makefile:154: run-ninja] Error 1
+
+--=20
+Eduardo
 
 
