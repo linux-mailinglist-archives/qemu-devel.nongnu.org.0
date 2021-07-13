@@ -2,86 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A447E3C6EB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:39:02 +0200 (CEST)
-Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B9093C6EBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:40:44 +0200 (CEST)
+Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Fob-000135-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:39:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43444)
+	id 1m3FqF-0005Qd-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:40:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m3Fk2-0008HA-H5; Tue, 13 Jul 2021 06:34:18 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:34779)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3FlE-0000GN-Cb
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:35:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m3Fk0-0004Dn-EE; Tue, 13 Jul 2021 06:34:18 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id D2A663200933;
- Tue, 13 Jul 2021 06:34:13 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 13 Jul 2021 06:34:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=s90usuO+THzHso5UX988akMJ+6g
- G66L/yTH/3iCjOus=; b=bR6F0lGjeqhjcwpJ5kkkA3iN02Yc0UKL+Ps0qGdgCsQ
- lSBYr9bVo72j8MBkXss5LRc+JTgo7MyU+FKC86W8sSlN28w7G0clyi76M7R9CAkS
- EkttjuS+fli+MzxnGXYBSxwFkKo9vGAFw1frJoAqFlEtSrPCCSZnuXN3Qa++Talc
- 2HeRRrMuwynna3UDUqvn1mI1bqU3G0it8q7jVJnpCkZNbpsSH6mkK2iFmi+zgt1f
- Tm1npOfPZa2FCPvlfl0q877+W4Hb4uxD4J30KdVWBiq4ABerIQsF2ZQrloAHgwoM
- cZMkyAmOLe02O9HNiEuh0Pxc5g9YV4fhujwVtp+CsbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=s90usu
- O+THzHso5UX988akMJ+6gG66L/yTH/3iCjOus=; b=tZi4g/Crkc6oD1LyKNLztW
- kLbuB7U+rgW4yvuUffsGyDeeoxrIN+bZQ45qA/ReSv2OU3w+oSiF5oSN5suBkY6/
- KHErKn3Yc+cSdVz47E7VXEVApQhiI/h3A5CBp0qSNF4C8GZxzlUPklraawRPEAfV
- 2mMXQmvfzgnJuCG9D8avO9dtNsJc6orVTjS0+C9KoLjQL2s5OuOI5ExdXm7bMNS7
- iFqrUOjScsCql8Lja7Ftl6jD4ZLGSvSNaR2O7Jtr+fTWmc/3cI4/j3hK+AIMIQi4
- +xchuVzS2jUItCes8P5v7K/suNe1Tbog84K7/7j8WWNCyYpI/83rMjOBAEMKvu1w
- ==
-X-ME-Sender: <xms:I2ztYG1ZRfMlUr9ocd_IUHTaRpRED-bGzNYUJQxi8PPt0jO5PkA62Q>
- <xme:I2ztYJEdUSEQUs_UlX4QjYRr1NiR6uYgBbKKkMQTdqVc5QrLYqgHpQksqWqGKuYSO
- PId5LB_45grcwx4QZo>
-X-ME-Received: <xmr:I2ztYO40Jgftl1a5CYZRoYnrmFM8zspBeHLe32KYBuR7zUjZRVFXOcFmobvVqUBuf8Q72zngDOwSzOi_Ch2Wjus4pGGjoFYmq3BDvEdHfQ_xQ6vQWQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgddvudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:I2ztYH3JHdOE1luaGB03VWEx13S0W35SFMYUXHCFLFYH7fXy6-mDHA>
- <xmx:I2ztYJHcNAj_pHbkwZ_uwh3JF6Lh_-M3GtjXp5s5QO4N17mZFSxsHw>
- <xmx:I2ztYA_MPpEn988N5J2V8_3OlZ-IToH3WekgZir8mCPwrxFOhzXlEQ>
- <xmx:JWztYCOSWAGSTlddldtnqJJ2TWR-bc2xiz1KQT_JNlnhv4DDxRdiLA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 13 Jul 2021 06:34:10 -0400 (EDT)
-Date: Tue, 13 Jul 2021 12:34:08 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/nvme: fix mmio read
-Message-ID: <YO1sIGG9CS5lnUj7@apples.localdomain>
-References: <20210713054359.831878-1-its@irrelevant.dk>
- <CAFEAcA8Qo7xfjAHNbZmDiVUkhnL2WRrEWp7U-urxOTBnao8Oyg@mail.gmail.com>
- <YO1ori+GqpbhxARg@apples.localdomain>
- <CAFEAcA-9V9RtOq+QCn-d+HMrxsKxRgpjkOPV0Ta4W5sh6WWo7w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3FlC-00055K-2A
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:35:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626172528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k9eY/7VZEGpalke+qqewQ9gbVCGb9zJzeUsiUN+6C7o=;
+ b=gfeYGq8zq9hYythgS0MGzZu1JO1Z/aV+UccV8KZxMkJP6M2quRmSx9ppKQcugYbq06W+j9
+ E4OQZ/ICUAtQ+TzPypDqh5iXvVkllOkQOqwwgjv2GcORhDA0J4dC74eCYj7vmfL/lqZWDe
+ 0hfo21EiL+LSJt4hpMmen78/YFh7coM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-176-9-mb0W3ANoKrWgHwjyEP_A-1; Tue, 13 Jul 2021 06:35:21 -0400
+X-MC-Unique: 9-mb0W3ANoKrWgHwjyEP_A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m9-20020a0560000089b02901362e1cd6a3so8452758wrx.13
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:35:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=k9eY/7VZEGpalke+qqewQ9gbVCGb9zJzeUsiUN+6C7o=;
+ b=gscEUQ5cb1Up9hzxP/5Vm/E0+20VpjrIeDBJWiottQ6I3ibEHZONiUQvvPPwbELZYV
+ N++8KqfVFKl+rQDarMEQXbt/oyQ0jHpYCAGzEYLY9Oth+daJGv1ktoMvjGFW6lQIuusc
+ 0TLfm7Vl27Ib2JViIZVV6QmdyZEBjQ2YxrrCIDxfekd9TWcFXFJ7B7Bu9WzlFJDlrFuv
+ SdwmvtixH4ECxnbyuEUSCfm1xWDVkmawn11kIzYYjVNRoQTpZBrD2dNMRqWzaBBq67Be
+ YszLJHVNFw5GnskfXnkaId+45WRjohI3rSY4r7SszYQXScRc/GwAZJJvi3FEI2ByMxo6
+ RzOw==
+X-Gm-Message-State: AOAM5322Tgzi5EdkHSj06BalsT89cvf+ObGFfP/dNdeCG0If2Kvo2TpX
+ c8WDOdgmC5ivBfAgo8VfZ8SSx9+kIirkWSndMHkEtsdzqvjxUwZch9SnuhgCx1z3XOeqbYv5olc
+ WKUwp8VTFtucs9ZE=
+X-Received: by 2002:a05:600c:2319:: with SMTP id
+ 25mr19485869wmo.91.1626172520398; 
+ Tue, 13 Jul 2021 03:35:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyoKrodGNYiQvtdeBHaIFaZ8ULcVCKVR1QwLfEkoHRZsZW4vVk5mdklsNtcdMtlnUfSfxjfvQ==
+X-Received: by 2002:a05:600c:2319:: with SMTP id
+ 25mr19485850wmo.91.1626172520256; 
+ Tue, 13 Jul 2021 03:35:20 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id m7sm2222013wms.0.2021.07.13.03.35.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 03:35:19 -0700 (PDT)
+Subject: Re: [PULL 0/4] OVMF patches for 2021-07-12
+To: Peter Maydell <peter.maydell@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
+References: <20210712145630.2857814-1-philmd@redhat.com>
+ <CAFEAcA8Epk4WKPj6fjFEPyYrT7FQzMRK1A8rf7hN8Buex6Xmng@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e6299310-4d65-682a-2359-24226c37a349@redhat.com>
+Date: Tue, 13 Jul 2021 12:35:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gDYpwGcWLNUrbG5a"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA-9V9RtOq+QCn-d+HMrxsKxRgpjkOPV0Ta4W5sh6WWo7w@mail.gmail.com>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+In-Reply-To: <CAFEAcA8Epk4WKPj6fjFEPyYrT7FQzMRK1A8rf7hN8Buex6Xmng@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,58 +102,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Cc: Dov Murik <dovmurik@linux.ibm.com>, Laszlo Ersek <lersek@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/13/21 12:25 PM, Peter Maydell wrote:
+> On Mon, 12 Jul 2021 at 16:02, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>
+>> The following changes since commit bd38ae26cea0d1d6a97f930248df149204c210a2:
+>>
+>>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210710' into staging (2021-07-12 11:02:39 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/philmd/qemu.git tags/fw-edk2-20210712
+>>
+>> for you to fetch changes up to d1e79210457323b225c369fa00e97577e0d0da95:
+>>
+>>   MAINTAINERS: remove Laszlo Ersek's entries (2021-07-12 16:55:23 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Patches related to EDK2/OVMF
+>>
+>> - MAINTAINERS: remove Laszlo Ersek's entries
+>> - Introduce X86_FW_OVMF Kconfig symbol
+>> - pc_system_ovmf_table_find: Assert that flash was parsed, document
+>>
+>> ----------------------------------------------------------------
+> 
+> So, even though this pullreq doesn't seem to be changing gitlab CI
+> config, I get a "yaml invalid" failure in the pipeline:
+> https://gitlab.com/qemu-project/qemu/-/pipelines/335995843
+> 
+> "'build-edk2' job needs 'docker-edk2' job but it was not added to the pipeline"
+> 
+> Any ideas what that's about?
 
---gDYpwGcWLNUrbG5a
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For me this is related to what I tried to fix last year but
+couldn't convince Daniel there was a problem. See this thread:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg773939.html
 
-On Jul 13 11:31, Peter Maydell wrote:
-> On Tue, 13 Jul 2021 at 11:19, Klaus Jensen <its@irrelevant.dk> wrote:
-> >
-> > On Jul 13 11:07, Peter Maydell wrote:
-> > > Looking at the surrounding code, I notice that we guard this "read si=
-ze bytes
-> > > from &n->bar + addr" with
-> > >     if (addr < sizeof(n->bar)) {
-> > >
-> > > but that doesn't account for 'size', so if the guest asks to read
-> > > 4 bytes starting at offset sizeof(n->bar)-1 then we'll still read
-> > > 3 bytes beyond the end of the buffer...
-> >
-> > The buffer is at least sizeof(n->bar) + 8 bytes (there are two doorbell
-> > registers following the controller registers). It is wrong for the host
-> > to read those, but as per the spec it is undefined behavior.
->=20
-> I don't know about the doorbell registers, but with this code
-> (or the old memcpy()) you'll access whatever the next thing after
-> "NvmeBar bar" in the NvmeCtrl struct is, which looks like it's the
-> first part of 'struct NvmeParams".
->=20
-
-Sorry, you are of course right. I remembered how the bar was allocated
-incorrectly.
-
---gDYpwGcWLNUrbG5a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDtbB4ACgkQTeGvMW1P
-DemB6wgAsDt8mQTkA8121RbkEubPaMz+cepngL9Git6axQ3hxfI+gmTy1lhvEk0i
-/xxNH/85oPDVsFOUrIcXnRYNLaE9pqrvl8pKrK4iiDCInAr8FZtMnptkW3WCkcb9
-xQxJmQt6Q/X018v5RHGZXWED0afYQQs5oeLkEmss6kyC8rGpK/P6cHiFOg7FtawD
-chviE3r8DCG5QWPSv2RHedgIwGTrfqNlYnOHAtCYTqA1wPMQQrH3P2UrRRpdu7x4
-LyB/niQp1HAB8xYnaIjFkifuDfOvQjI8vyz2xVX+yNo0K9OGMWPdxbxpqZWXlMEL
-vUpQMG8qj/FB32UWM5V4qgrL+nvlDQ==
-=hpA4
------END PGP SIGNATURE-----
-
---gDYpwGcWLNUrbG5a--
 
