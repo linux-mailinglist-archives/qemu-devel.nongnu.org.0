@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84DEB3C72BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:00:48 +0200 (CEST)
-Received: from localhost ([::1]:47962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3823C72BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:03:32 +0200 (CEST)
+Received: from localhost ([::1]:53052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Jtv-0004mI-Ip
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:00:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
+	id 1m3JwY-0008IG-PH
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:03:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1m3JsU-0003xy-T1
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 10:59:18 -0400
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:38408)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3Jtz-0005SR-5h
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:00:51 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1m3JsS-0001gH-93
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 10:59:18 -0400
-Received: by mail-qt1-x832.google.com with SMTP id r17so5894297qtp.5
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 07:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=t2jLvkA/02G8F0BL54HH5TZC/6hLYM02RizDFZZna/c=;
- b=WZMZAGshujSqDhgn0+4yHZpAZhPpQD9CrH5E/iaxLUvZgaOdsL30zHr3iqHZet2dkH
- q/eJIiH5nHRdZB+sJ/3DCd6G1fVgsjUfeLbRRCFoYpTx4k99EiV9Dh+zOMxsGKR6VOe0
- Nw23U/4n9UGZjVT6Ax22OANEUlUFWNzJmO8fa8LBMQB5lN9yTzF/tf4m5+33lx0ol03S
- syzeUd4nkcGGEf4NskbB/PJAnl0zJHS9racCHJL/ZYz9rChr0ErNcc1ufqTT/duQUsKh
- jJo/IWbYVBSiMgc87WaFS3C+I6a/TIYiTUWRD6p2y1jAnwF6V1HdA6VUTuQ7YfShXs3Z
- jLJA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3Jtw-0002j8-K9
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:00:50 -0400
+Received: by mail-ej1-x629.google.com with SMTP id gb6so42029741ejc.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:00:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xh7G3eepPC9eetpPSo6p5bU5RSKOl6XrfF0tmioEzgk=;
+ b=vcfJqIuigyDEMG3WaRqpf0bwExfQhFK525JbDdU8pNW5qrDd/enzZf+JdkfmEAji5W
+ CEZbjy1vuWsNvWt6yq+7WhJvv+hLSUrPr3MVqTwl5jVFCCpUG4GV8QdP+inVX2NrCtZx
+ rPLLj9ebv2P/lMAFmZSPvIFAsoxWH94o4qFij+Hf/4uCy/qjQ+uNldcq7k3gsRtGlI6N
+ FFkbYkfu3O2BnV1QZ1YLMw8Ceso+LhLSZrVFGJeR8IgL0h2kt/dkvxG86C2v/MGzFNG2
+ OSdF4t8dbxJmAvkeK6hMqPWqfqc1xbkWHG8nJAbVF9ehY7+VXRjGhg1XxzN9hqbcOk2G
+ mgow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=t2jLvkA/02G8F0BL54HH5TZC/6hLYM02RizDFZZna/c=;
- b=bcRtfRqLsWpmlcPyUVm7qCb0bWxik6V7rPLQAfLf4faAmvATfEyB8pQKZYSYSUI7XW
- gbhOI3xB2rfpovgZ1eg7wNFXACWhaa9R22D4kaUYhzzqP3zpaXcvI5WlgQwxWLNKDbMf
- zbsk6pBzH+QgfpR6rkrc/RFHqd+8mImB5jh5kUgG8x/CYcPzvyZaMnuvDLV3XNRKzJEu
- ZRALa03NCCXUnRRLN1Qnz8gdeCF9fxWy6MODDsFdk820GX1e987o40RFqdk+1RJrGD2S
- W6t7Ko2spgIOML4lRsPweZ/GHmpM11r3BMLhJMVhbE5sBictsrbSCxKZ4uCT2G5gVcmj
- XOaw==
-X-Gm-Message-State: AOAM532mLql+sfIE7buw6qF0syo/4Nvf0yKhyEaG17OY0eLfh4XQEhtS
- JPuZ1NuJ8swA5CE/L/1Aixk=
-X-Google-Smtp-Source: ABdhPJxEZML/DqbwPA/pP8yqMbc1NSXYKoBxb6p1iK/qLkTeVVt9G8DBbNXi0AtBVvEOSFpejwv9Rw==
-X-Received: by 2002:a05:622a:1a97:: with SMTP id
- s23mr4421040qtc.75.1626188355354; 
- Tue, 13 Jul 2021 07:59:15 -0700 (PDT)
-Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id d21sm8022707qkl.42.2021.07.13.07.59.14
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 13 Jul 2021 07:59:15 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: usb-host device not working
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <YO2pPp1awcCXVZUZ@redhat.com>
-Date: Tue, 13 Jul 2021 10:59:13 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <BB33144A-3F1D-4255-8217-3AA542519C34@gmail.com>
-References: <7E422E91-63A4-4D36-B5FF-7FD2181FB845@gmail.com>
- <YO2pPp1awcCXVZUZ@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x832.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xh7G3eepPC9eetpPSo6p5bU5RSKOl6XrfF0tmioEzgk=;
+ b=O51u1Ug/u04krGy8lD8HXzrvOm7oSjX0nujEawDJiwPPd8k2sTueMEMxwF9nw+KstF
+ CuYMtUhOKesvA2d7D8RqyHf6H1/QTNG+NwSeigky+v1U4Lo9oc8syi2AoeVqZUiOQRx7
+ op+iUCzm8lmKr0SqCFyOhnZTmIHfkhWYiy/3PKhQOhB0BrjsjhE3LldBXinY4XordM5i
+ rNJrtJ8uJUzHjzXrqH6yeOEwgR7VNHGesgxs/J91FXJB7xD38DIu2DKhVr8N/vCrOBkQ
+ vH8JA92VHLVRKaAM0TZlUYiJQQk7pBTSndazXy82ylM8FDZbGtSizW6JbLcLZc1/esQd
+ LpmQ==
+X-Gm-Message-State: AOAM532EAzj7YiJTNUG3HntOWnItRSEyTTjNbrtDtmDkbYjIcYmLTqzM
+ DgA/sLtWVdLul0ZTBrIedtLAbv9hc3xWS87MtTK7hw==
+X-Google-Smtp-Source: ABdhPJySPpUWydba8gKv5QxWiSWJr/9PvlUnddkLO2UTmncnBRP9256OLHNITD1Ia9ZbSkzjBo92iFQLxfUVN6va7AA=
+X-Received: by 2002:a17:906:a2d7:: with SMTP id
+ by23mr1665321ejb.382.1626188446573; 
+ Tue, 13 Jul 2021 08:00:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210712175026.2990347-1-eblake@redhat.com>
+In-Reply-To: <20210712175026.2990347-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Jul 2021 16:00:07 +0100
+Message-ID: <CAFEAcA_TnKWOO6MnMhtYW_=apWswmnmp5sRWUa09Sjw+eoGacg@mail.gmail.com>
+Subject: Re: [PULL v2 0/4] NBD patches for soft freeze, 2021-07-09
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,65 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Howard Spoelstra <hsp.cat7@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, QEMU devel list <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 12 Jul 2021 at 18:52, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit bd38ae26cea0d1d6a97f930248df149204c210a2:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210710' into staging (2021-07-12 11:02:39 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2021-07-09-v2
+>
+> for you to fetch changes up to 0b9cd6b947d905b388e84df4070056fad138588e:
+>
+>   nbd: register yank function earlier (2021-07-12 11:24:00 -0500)
+>
+> Only sending the altered patch compared to v1
+>
+> ----------------------------------------------------------------
+> nbd patches for 2021-07-09
+>
+> - enhance 'qemu-img map --output=json' to make it easier to duplicate
+> backing chain allocation patterns
+> - fix a race in the 'yank' QMP command in relation to NBD requests
+>
 
 
-> On Jul 13, 2021, at 10:54 AM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Tue, Jul 13, 2021 at 10:49:12AM -0400, Programmingkid wrote:
->> I have been having problems with using host USB devices lately. I use =
-to be able to use host USB devices but can't currently. After doing some =
-git bisecting I found it was this patch that causes this issue:
->>=20
->> commit 627302afb2f85cdd4b59595361876487aef19b7a (refs/bisect/bad)
->> Author: Gerd Hoffmann <kraxel@redhat.com>
->> Date:   Thu Jun 24 12:38:35 2021 +0200
->>=20
->>    usb: build usb-host as module
->>=20
->>    Drop one more shared library dependency (libusb) from core qemu.
->>=20
->>    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->>    Reviewed-by: Jose R. Ziviani <jziviani@suse.de>
->>    Message-Id: <20210624103836.2382472-34-kraxel@redhat.com>
->>    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>=20
->> I build QEMU like this:
->>=20
->> ./configure --target-list=3Di386-softmmu --enable-libusb && make -j 9
->>=20
->> This command use to work but fails now with the above commit:
->>=20
->> qemu-system-i386 -usb -device =
-usb-host,vendorid=3D0x093a,productid=3D0x2510
->>=20
->> I think this is a bug with the commit. Any suggestions?
->=20
-> It'll be helpful to explain what kind of failure you observe, =
-including
-> any exact error messages seen ?=20
->=20
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
->=20
+Applied, thanks.
 
-Sure, here is what I see:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
 
-qemu-system-i386: -device usb-host,vendorid=3D0x093a,productid=3D0x2510: =
-'usb-host' is not a valid device model name
-
-
+-- PMM
 
