@@ -2,79 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0793C6B0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:16:25 +0200 (CEST)
-Received: from localhost ([::1]:42538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA333C6B13
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:17:25 +0200 (CEST)
+Received: from localhost ([::1]:44990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3CeW-0003VU-64
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:16:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55468)
+	id 1m3CfU-0005TQ-F0
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m3CXj-0005OI-Nh
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:09:23 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:41781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1m3CXh-0000IQ-SK
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:09:23 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id A92E8320096D;
- Tue, 13 Jul 2021 03:09:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 13 Jul 2021 03:09:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=l8jOBS
- LAg811erg8MPdG21fgbfN6eCv6NUUGzysC0eo=; b=UB60vgyQnY+yaKuKfYHklY
- 7we+XZFZK0lmLkDqDaC3rzVsaN2dc1aTNNZQj6BoBZcnSBeFNnl4xT/etsJKWYEy
- zsOh2hN+0ZeIhSsuhCQzh7lnzDrC6UoTH+ZFg4Dredp5qRVQNejE6qXYWvHChTrQ
- 8nmpDbbF1bV6pkDqT8Koib1rMZLzKmHJ1mp0kWQHK/o/bDQEqSFaeH9LcCPL9t8+
- pbIpE6yyjpgBOaGv3ieNdzMqyCIz2guk3KUnu5lLSxF/mkd2cjX4iwOicQ6IquL1
- +iM3HLCEnjj+elurASBkER5T1wmWMmh1E7uFMTH1RzSoDlz7L944amvNDc0uCL3g
- ==
-X-ME-Sender: <xms:HTztYIY9mwCPJ4dA-lXhe0dXQYhqNWcOuDQYkXOYxIWv4vmC2ojgmQ>
- <xme:HTztYDay3e5edGvHlmq7aZ24JIcbhMYcwcV4fTy6CVzvDzCBKD2OnPd2ojhAgUqxI
- jxmtcS4-1L7R2UtH3A>
-X-ME-Received: <xmr:HTztYC-9qffVYU7RbojUSz3TWTt6W60EK0UKXQKJVw_t9cyKB9L7lgv_f9LTY2NoVzxkWyYecZ2L5rUJsVLuElLr_Mi984Uxd6s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeggdekvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvufgjkfhfgggtsehmtderredttdejnecuhfhrohhmpefhihhnnhcuvfhh
- rghinhcuoehfthhhrghinheslhhinhhugidqmheikehkrdhorhhgqeenucggtffrrghtth
- gvrhhnpeefffejiefgheevheefvefhteeggfeijeeiveeihfffffdugfefkeelfffhgfeh
- vdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehfth
- hhrghinheslhhinhhugidqmheikehkrdhorhhg
-X-ME-Proxy: <xmx:HTztYCozdWFoaSRo7B1w-nI6XVpSSnvIIM8uR_UVjYTFlNM2nf4sFw>
- <xmx:HTztYDpJ2p16S3GnK1w_Jllzzrpo6W_WP5CLmrJqK047LolMkheTIw>
- <xmx:HTztYATmGaLrXHVva106ep9IaP0kjgA8Mhs8Kts8Xy5kJ1-TyxmjSg>
- <xmx:HjztYK2Dy0S2xQyqMrWP78nlcULbKg2r1mHBCFS-FmOlUP6DYrteDQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 13 Jul 2021 03:09:16 -0400 (EDT)
-Date: Tue, 13 Jul 2021 17:08:52 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, 
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
-Subject: Re: [PATCH v3 0/8] dp8393x: fixes and improvements
-In-Reply-To: <b6d444e1-eb3e-b21e-d0d6-5e8a5581b623@linux-m68k.org>
-Message-ID: <ea9453bc-d31c-4a8e-608a-e6da9bcbe2e9@linux-m68k.org>
-References: <20210710174954.2577195-1-f4bug@amsat.org>
- <d4266ef3-693a-c00-117-96987fd16117@linux-m68k.org>
- <8a8ff514-8931-b6ba-f82b-163f79bdb7a6@amsat.org>
- <b6d444e1-eb3e-b21e-d0d6-5e8a5581b623@linux-m68k.org>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1m3CeB-00045N-FF
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:16:04 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:52081)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1m3Ce8-0005dU-BW
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:16:03 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id n11so11601164pjo.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 00:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZIxC97vo3D/9ttg5bUmdmcZs3xyDx1jpdRBLzqRnrn4=;
+ b=L/qp8DgRV3vXBa7RXmsw8KdAM7mX6XIj2Bdirec//LXfwez+T/sRnL+utnaBW/StI3
+ wZ8TFgZhZryx0fq2seaiBOivAbOPremRbzkzpY0Gsf3Aml9cRb2zJOpCnCPp5TEtyzTS
+ YF2m7hwB5kCdCwByjnp/o5pKyAp80Z8DT2MT6gPFifkB38I4OsrkseJhD71BVJjrtYG8
+ svYY4I4zRc/dbu/1oNSce/VcS+Qh6xUFixOXtr1iQyh5pUedSjh8nzGZTG2pDU5hArSf
+ 0w3EqAnVSm18Si6t4HGIflPHovFLEJ0zRds6KfLipyZPmO31XCD/LeYOolhsrFLvehJy
+ Um9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZIxC97vo3D/9ttg5bUmdmcZs3xyDx1jpdRBLzqRnrn4=;
+ b=Dm2JhsBCId+ybVeA6m3EJJcewNt34zYBfKAV6ANHc77/EEgsjI5pE4jroCVMqRRkk8
+ rPFvo9GwUDCnJGqm5nK7bkqrNJBg/sTm3QvUkULAoOxW6C5iz5imcupicEy/cIWUiCM4
+ fE+Yoqf0CVc9S4psEf7q/6Am+pilgSb3RsMlNuWepcQE5O4cJmj2e8/WTpW2xOPUjvOu
+ VR3RYaBJqM6jbYwHXvSgX/WXwcPR9XgLOTsLwF2o4eyOzOlxO4Id+dRNki2JqqzOH2ww
+ uFw3Klpz1+CP8KUFGTyjUvExayoBPkJKs1mqZejD/Aveo6YE2SaB6+JwB3YOjpLBZfs1
+ bTKA==
+X-Gm-Message-State: AOAM532CsNrzHbHKhJMAbvOAQpkf1yRqw8DYB/axeaz81ZfqQuQFKg6d
+ IvIEmH5QHa2CAxr+he9svUwN0yFoCmW8WwqX
+X-Google-Smtp-Source: ABdhPJykeWLaas46TZ9by8/73KbjyoSaUJYQ3ZYi35yKlGlMNQs04jpMzxjKcwg7gjQDooVrAH/dcg==
+X-Received: by 2002:a17:902:bd96:b029:129:24e:43b5 with SMTP id
+ q22-20020a170902bd96b0290129024e43b5mr2507112pls.66.1626160558340; 
+ Tue, 13 Jul 2021 00:15:58 -0700 (PDT)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com.
+ [209.85.210.169])
+ by smtp.gmail.com with ESMTPSA id d13sm17865411pfn.136.2021.07.13.00.15.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 00:15:57 -0700 (PDT)
+Received: by mail-pf1-f169.google.com with SMTP id q10so18688468pfj.12;
+ Tue, 13 Jul 2021 00:15:57 -0700 (PDT)
+X-Received: by 2002:aa7:938c:0:b029:32a:1725:a3d7 with SMTP id
+ t12-20020aa7938c0000b029032a1725a3d7mr3073973pfe.64.1626160557533; Tue, 13
+ Jul 2021 00:15:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="-1463811774-1996588142-1626160132=:10"
-Received-SPF: none client-ip=64.147.123.25; envelope-from=fthain@linux-m68k.org;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20210409074857.166082-1-zhiwei_liu@c-sky.com>
+ <20210409074857.166082-12-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210409074857.166082-12-zhiwei_liu@c-sky.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Tue, 13 Jul 2021 15:15:46 +0800
+X-Gmail-Original-Message-ID: <CANzO1D17WurLgK2+s1d-U8z4tRFGDKcLBjgOenExuLFA9Po2nQ@mail.gmail.com>
+Message-ID: <CANzO1D17WurLgK2+s1d-U8z4tRFGDKcLBjgOenExuLFA9Po2nQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 11/11] target/riscv: Update interrupt return in CLIC
+ mode
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: multipart/alternative; boundary="000000000000612c9f05c6fc0211"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,46 +90,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wxy194768@alibaba-inc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+--000000000000612c9f05c6fc0211
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
----1463811774-1996588142-1626160132=:10
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+LIU Zhiwei <zhiwei_liu@c-sky.com> =E6=96=BC 2021=E5=B9=B44=E6=9C=889=E6=97=
+=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:55=E5=AF=AB=E9=81=93=EF=BC=9A
 
-On Mon, 12 Jul 2021, Finn Thain wrote:
+> When a vectored interrupt is selected and serviced, the hardware will
+> automatically clear the corresponding pending bit in edge-triggered mode.
+> This may lead to a lower priviledge interrupt pending forever.
+>
+> Therefore when interrupts return, pull a pending interrupt to service.
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> ---
+>  target/riscv/op_helper.c | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index 1eddcb94de..42563b22ba 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -24,6 +24,10 @@
+>  #include "exec/exec-all.h"
+>  #include "exec/helper-proto.h"
+>
+> +#if !defined(CONFIG_USER_ONLY)
+> +#include "hw/intc/riscv_clic.h"
+> +#endif
+> +
+>  /* Exceptions processing helpers */
+>  void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
+>                                            uint32_t exception, uintptr_t
+> pc)
+> @@ -130,6 +134,17 @@ target_ulong helper_sret(CPURISCVState *env,
+> target_ulong cpu_pc_deb)
+>          mstatus =3D set_field(mstatus, MSTATUS_SPIE, 1);
+>          mstatus =3D set_field(mstatus, MSTATUS_SPP, PRV_U);
+>          env->mstatus =3D mstatus;
+> +
+> +        if (riscv_clic_is_clic_mode(env)) {
+> +            CPUState *cs =3D env_cpu(env);
+> +            target_ulong spil =3D get_field(env->scause, SCAUSE_SPIL);
+> +            env->mintstatus =3D set_field(env->mintstatus, MINTSTATUS_SI=
+L,
+> spil);
+> +            env->scause =3D set_field(env->scause, SCAUSE_SPIE, 0);
+> +            env->scause =3D set_field(env->scause, SCAUSE_SPP, PRV_U);
+> +            qemu_mutex_lock_iothread();
+> +            riscv_clic_get_next_interrupt(env->clic, cs->cpu_index);
+> +            qemu_mutex_unlock_iothread();
+> +        }
+>      }
+>
+>      riscv_cpu_set_mode(env, prev_priv);
+> @@ -172,6 +187,16 @@ target_ulong helper_mret(CPURISCVState *env,
+> target_ulong cpu_pc_deb)
+>          riscv_cpu_set_virt_enabled(env, prev_virt);
+>      }
+>
+> +    if (riscv_clic_is_clic_mode(env)) {
+> +        CPUState *cs =3D env_cpu(env);
+> +        target_ulong mpil =3D get_field(env->mcause, MCAUSE_MPIL);
+> +        env->mintstatus =3D set_field(env->mintstatus, MINTSTATUS_MIL,
+> mpil);
+> +        env->mcause =3D set_field(env->mcause, MCAUSE_MPIE, 0);
+> +        env->mcause =3D set_field(env->mcause, MCAUSE_MPP, PRV_U);
+> +        qemu_mutex_lock_iothread();
+> +        riscv_clic_get_next_interrupt(env->clic, cs->cpu_index);
+> +        qemu_mutex_unlock_iothread();
+> +    }
+>      return retpc;
+>  }
+>
+> --
+> 2.25.1
+>
+>
+>
+A little note here.
 
-> On Sun, 11 Jul 2021, Philippe Mathieu-Daud=C3=A9 wrote:
->=20
-> >=20
-> > > If I'm right that the big_endian flag should go away, commit=20
-> > > b1600ff195 ("hw/mips/jazz: specify correct endian for dp8393x=20
-> > > device") has already taken mainline in the wrong direction and=20
-> > > amounts to churn.
-> >=20
-> > We might figure out with a BE guest image, the remove the endian flag.
->=20
-> Yes, it's hard to make progress without a BE guest. However, for testing=
-=20
-> dp8393x we probably don't need a disk image. I think we only need=20
-> working firmware, since the RISC/os firmware appears to implement BOOTP=
-=20
-> and TFTP and appears to contain a SONIC driver.
+According to spec, for nesting interrupts:
+  To take advantage of hardware preemption in the new CLIC,
+  inline handlers must save and restore xepc and xcause before enabling
+interrupts.
+  (Section 9.2)
 
-I think we probably can install RISC/os once the firmware can be made to=20
-work.
+However, xstatus.xpp will be set to U-mode when xret instruction is
+executed.
+Which will incorrectly switch to U-mode when executing xret instruction
+second time in first ISR.
+E.g.
 
-The file "RISCos_5.01.iso", found in the Bitsavers archive, contains=20
-several kernel binaries, one of which is "unix.r4030eb_std".
+ISR 1 --------------------------------------------------------- xret =3D>
+Current privilege is incorrectly set to U-mode.
+                ISR 2 --------------- xret =3D> xstatus.xpp is set to U-mod=
+e.
 
-From=20the "r4030" in its name, and from the symbol names and string=20
-constants it contains, this binary appears to have all the drivers for the=
-=20
-MIPS Magnum 4000.
----1463811774-1996588142-1626160132=:10--
+Therefore, in our SiFive CLIC hardware implementation.
+xstatus.xpp is set to the privilege mode when xret instruction is executed
+(i.e. current privilege mode) under CLIC mode.
+But this behavior is not documented in CLIC spec explicitly.
+
+Regards,
+Frank Chang
+
+--000000000000612c9f05c6fc0211
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_l=
+iu@c-sky.com">zhiwei_liu@c-sky.com</a>&gt; =E6=96=BC 2021=E5=B9=B44=E6=9C=
+=889=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=883:55=E5=AF=AB=E9=81=93=
+=EF=BC=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">When a vectored interrupt is selected and serviced, th=
+e hardware will<br>
+automatically clear the corresponding pending bit in edge-triggered mode.<b=
+r>
+This may lead to a lower priviledge interrupt pending forever.<br>
+<br>
+Therefore when interrupts return, pull a pending interrupt to service.<br>
+<br>
+Signed-off-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@c-sky.com" targe=
+t=3D"_blank">zhiwei_liu@c-sky.com</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/op_helper.c | 25 +++++++++++++++++++++++++<br>
+=C2=A01 file changed, 25 insertions(+)<br>
+<br>
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c<br>
+index 1eddcb94de..42563b22ba 100644<br>
+--- a/target/riscv/op_helper.c<br>
++++ b/target/riscv/op_helper.c<br>
+@@ -24,6 +24,10 @@<br>
+=C2=A0#include &quot;exec/exec-all.h&quot;<br>
+=C2=A0#include &quot;exec/helper-proto.h&quot;<br>
+<br>
++#if !defined(CONFIG_USER_ONLY)<br>
++#include &quot;hw/intc/riscv_clic.h&quot;<br>
++#endif<br>
++<br>
+=C2=A0/* Exceptions processing helpers */<br>
+=C2=A0void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0uint32_t exception, uintptr_t pc)<br>
+@@ -130,6 +134,17 @@ target_ulong helper_sret(CPURISCVState *env, target_ul=
+ong cpu_pc_deb)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mstatus =3D set_field(mstatus, MSTATUS_SP=
+IE, 1);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mstatus =3D set_field(mstatus, MSTATUS_SP=
+P, PRV_U);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;mstatus =3D mstatus;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (riscv_clic_is_clic_mode(env)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong spil =3D get_field(=
+env-&gt;scause, SCAUSE_SPIL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mintstatus =3D set_field=
+(env-&gt;mintstatus, MINTSTATUS_SIL, spil);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;scause =3D set_field(env=
+-&gt;scause, SCAUSE_SPIE, 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;scause =3D set_field(env=
+-&gt;scause, SCAUSE_SPP, PRV_U);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_get_next_interrupt(en=
+v-&gt;clic, cs-&gt;cpu_index);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0riscv_cpu_set_mode(env, prev_priv);<br>
+@@ -172,6 +187,16 @@ target_ulong helper_mret(CPURISCVState *env, target_ul=
+ong cpu_pc_deb)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_cpu_set_virt_enabled(env, prev_virt=
+);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
++=C2=A0 =C2=A0 if (riscv_clic_is_clic_mode(env)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong mpil =3D get_field(env-&gt;mcause=
+, MCAUSE_MPIL);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mintstatus =3D set_field(env-&gt;mints=
+tatus, MINTSTATUS_MIL, mpil);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mcause =3D set_field(env-&gt;mcause, M=
+CAUSE_MPIE, 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;mcause =3D set_field(env-&gt;mcause, M=
+CAUSE_MPP, PRV_U);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_mutex_lock_iothread();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_clic_get_next_interrupt(env-&gt;clic, cs=
+-&gt;cpu_index);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_mutex_unlock_iothread();<br>
++=C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0return retpc;<br>
+=C2=A0}<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br></blockquote><div><br></div><div>A little note here.</div><div><br></di=
+v><div>According to spec, for nesting interrupts:</div><div>=C2=A0 To take =
+advantage of hardware preemption in the new CLIC,</div><div>=C2=A0 inline h=
+andlers must save and restore xepc and xcause before enabling interrupts.<b=
+r></div><div>=C2=A0 (Section 9.2)</div><div><br></div><div>However, xstatus=
+.xpp will be set to U-mode when xret instruction is executed.</div><div>Whi=
+ch will incorrectly switch to U-mode when executing xret instruction second=
+ time in first ISR.</div><div>E.g.</div><div><br></div><div>ISR 1 ---------=
+------------------------------------------------ xret =3D&gt; Current privi=
+lege is incorrectly set to U-mode.<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 ISR 2 --------------- xret =3D&gt; xstatus.xpp is set =
+to U-mode.</div><div><br></div><div>Therefore, in our SiFive CLIC hardware =
+implementation.</div><div>xstatus.xpp is set to the privilege mode when xre=
+t instruction is executed</div><div>(i.e. current privilege mode) under CLI=
+C mode.</div><div>But this behavior is not documented in CLIC spec explicit=
+ly.</div><div><br></div><div>Regards,</div><div>Frank Chang</div></div></di=
+v>
+
+--000000000000612c9f05c6fc0211--
 
