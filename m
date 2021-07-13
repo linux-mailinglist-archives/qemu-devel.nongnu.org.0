@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C603C7904
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:34:36 +0200 (CEST)
-Received: from localhost ([::1]:35224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231EA3C7909
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:37:09 +0200 (CEST)
+Received: from localhost ([::1]:45978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Q31-0002w8-B0
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45668)
+	id 1m3Q5U-0001i9-4J
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqr-0003tp-AB
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56936)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqt-0003w6-3r
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqn-0000Vw-Rl
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:01 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqr-0000Y3-1Q
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211317;
+ s=mimecast20190719; t=1626211320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lMX7ki4cnbCXlmpVeEr19Jl9NrQG84YK8sEiItrl4SU=;
- b=Dl/IGe1Nk7G8TeFdChLt2u2unzAdWTGLKozOhvJZR6jdElMUHnpGS9WSvCXRDnRyRp8GDf
- pAvslP47mpbs78Rnwzc1rOuBcV9zd1tnPV0q8TQ96WLf73ECQ2zDL42kaGn0Gh8j1o8I9x
- fB3hTfS9LdLns3ndwzyWIxsiJHEizGQ=
+ bh=EL0S1BsutMs8Xb80zGucKtSMGZAlWUUZ9gPC25goyNY=;
+ b=CSBgz1cuvXIsFrpRW6FwqKYPNt7ZFn68xvt2dICpycugAHvg9PyAaEPyqAnq0qgSTyognR
+ Z7XPp6v8LqopihXVsThJ/xiPxzOda8f4UdqLZ5FdhgiXcIgYLRuS6JbHm8C7Q8tpKhv5Sp
+ smZNi6HhX37wBU6Bko6HJSoTRjLlwA0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-scmEGFtzO_uDP9e8vNDNPg-1; Tue, 13 Jul 2021 17:21:55 -0400
-X-MC-Unique: scmEGFtzO_uDP9e8vNDNPg-1
+ us-mta-299-aeqxeJ0BO8e2eOMEhP_WMA-1; Tue, 13 Jul 2021 17:21:58 -0400
+X-MC-Unique: aeqxeJ0BO8e2eOMEhP_WMA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FC081084F4B;
- Tue, 13 Jul 2021 21:21:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D663B100B3AD;
+ Tue, 13 Jul 2021 21:21:55 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9203E19C44;
- Tue, 13 Jul 2021 21:21:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FC4A19C44;
+ Tue, 13 Jul 2021 21:21:53 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/23] python/qemu: Add args property to the QEMUMachine class
-Date: Tue, 13 Jul 2021 17:19:17 -0400
-Message-Id: <20210713211923.3809241-18-crosa@redhat.com>
+Subject: [PULL 18/23] tests/acceptance: Add set_vm_arg() to the Test class
+Date: Tue, 13 Jul 2021 17:19:18 -0400
+Message-Id: <20210713211923.3809241-19-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -98,35 +98,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-This added the args property to QEMUMachine so that users of the class
-can access and handle the list of arguments to be given to the QEMU
-binary.
+The set_vm_arg method is added to avocado_qemu.Test class on this
+change. Use that method to set (or replace) an argument to the list of
+arguments given to the QEMU binary.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Suggested-by: Cleber Rosa <crosa@redhat.com>
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210430133414.39905-6-wainersm@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20210430133414.39905-7-wainersm@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/qemu/machine/machine.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ tests/acceptance/avocado_qemu/__init__.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 94846dd71b..971ed7e8c6 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -316,6 +316,11 @@ def _base_args(self) -> List[str]:
-                 args.extend(['-device', device])
-         return args
+diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+index 3a218057b3..2c4fef3e14 100644
+--- a/tests/acceptance/avocado_qemu/__init__.py
++++ b/tests/acceptance/avocado_qemu/__init__.py
+@@ -251,6 +251,27 @@ def get_vm(self, *args, name=None):
+                 self._vms[name].set_machine(self.machine)
+         return self._vms[name]
  
-+    @property
-+    def args(self) -> List[str]:
-+        """Returns the list of arguments given to the QEMU binary."""
-+        return self._args
++    def set_vm_arg(self, arg, value):
++        """
++        Set an argument to list of extra arguments to be given to the QEMU
++        binary. If the argument already exists then its value is replaced.
 +
-     def _pre_launch(self) -> None:
-         if self._console_set:
-             self._remove_files.append(self._console_address)
++        :param arg: the QEMU argument, such as "-cpu" in "-cpu host"
++        :type arg: str
++        :param value: the argument value, such as "host" in "-cpu host"
++        :type value: str
++        """
++        if not arg or not value:
++            return
++        if arg not in self.vm.args:
++            self.vm.args.extend([arg, value])
++        else:
++            idx = self.vm.args.index(arg) + 1
++            if idx < len(self.vm.args):
++                self.vm.args[idx] = value
++            else:
++                self.vm.args.append(value)
++
+     def tearDown(self):
+         for vm in self._vms.values():
+             vm.shutdown()
 -- 
 2.31.1
 
