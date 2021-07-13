@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5CF3C79BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:34:37 +0200 (CEST)
-Received: from localhost ([::1]:49866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E193C79AD
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:31:50 +0200 (CEST)
+Received: from localhost ([::1]:41408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Qz6-0005lt-TD
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:34:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55934)
+	id 1m3QwP-0008Vp-II
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QfE-0007Qx-M2
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:14:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28142)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3QjS-0008Ar-J6
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:18:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QfC-0001oQ-UN
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:14:04 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3QjR-0004rA-2W
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:18:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626214442;
+ s=mimecast20190719; t=1626214704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2j8JeaRNU7honPrSPdps+w1y4dHjJhJPeexiXUjAfAU=;
- b=XWipdkl4AgcRqQ313kACUL7hYIrHGSoVfHGWbw7wt202xm2T+wD0nnD8OOMPQB8w29GUCC
- 5ZxrupHoEk6EzG/H5LRiLncGfQVviB/C8Rj0285NjJcRgI7TJcAUnMH8Y8QKoB2MmI32r0
- SguGbMIaC8lmkC+KJbDKjtPO2MXR76A=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-aT1p3KTKOo-AYMh8DCyZig-1; Tue, 13 Jul 2021 18:10:39 -0400
-X-MC-Unique: aT1p3KTKOo-AYMh8DCyZig-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p9-20020a7bcc890000b02902190142995dso966526wma.4
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:39 -0700 (PDT)
+ bh=hj6OpAcXjn5Xf3YPHfYV2oqtFpdzJWD/UnjKsVqGlOM=;
+ b=isLnwPGAT3/tbNGm0vMRD+iPx3Dz4KZ48w8Dff1k1dZakcir+qD0eEOpCsPK3Bm5mopJ+9
+ z+91lInNenAaCcj7miBBpCv3CmbnYKQIyqK1+C6JIwbQAHYXtF0IueriACLhBgW7ELrRXi
+ HQ2jzv1Xg4PJEQuaxcfOyp2J2AYe4Xk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-AKiP6tx6OhmycYtCaYTAiQ-1; Tue, 13 Jul 2021 18:18:21 -0400
+X-MC-Unique: AKiP6tx6OhmycYtCaYTAiQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h15-20020adffd4f0000b0290137e68ed637so305937wrs.22
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:18:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2j8JeaRNU7honPrSPdps+w1y4dHjJhJPeexiXUjAfAU=;
- b=iWyq9Z1/bz2RVzr2OUuE8GEbPYhm08NuuUy+lGBjmYlNeDDCMt7BP1bq68dxNTRJKS
- lmQsauSPtRdFQ2G6slKeU86PPF3ewKoluqu0JGTwkj6/JQZJoEi1pEZWcGbc0lGljo3U
- +isXSeOoA+Y24BrP5wsPHdurJ2q+ssywahVGNLjeYX9HJJA3Sd2JzxsV257y2MbKSdYz
- UG5tjugzfLXCIYZTM8BD45rMEhiX4p1wD+6+PD5YjAvp9c5Yc0AVLn8SlvF8fcZ7H9VP
- pZ2vT7fcW+Br8R/K/CsxMix/SLherllQSmj7ePWfVgfguh4TYdZ2n2huMDq+h1daxjXT
- Lr0g==
-X-Gm-Message-State: AOAM5302U0ykjnr9a50X46Ub9Qz+ByV02zurgKEOnhi7bevuv3ANv0iR
- O4C51r9TbKHdozs0lVFMkwIrnR272pIgYwMcrpLP354NTWTyaD8lmDBIEQbBVo/ZhU8fYFYSElX
- rMVu/140hkC+epwVhgtvOsaK9JHdUTYSrNNSnvyhxTQFFQhkWkUJUyOUV+E0R
-X-Received: by 2002:a5d:6786:: with SMTP id v6mr8599801wru.290.1626214238523; 
- Tue, 13 Jul 2021 15:10:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/lkoBjhY5OkOfpGb4zj9kVBB4+P7VEuDaps1UiOLb4VTY4yCMme3Wkko5omNabR6r6ZeI9w==
-X-Received: by 2002:a5d:6786:: with SMTP id v6mr8599782wru.290.1626214238292; 
- Tue, 13 Jul 2021 15:10:38 -0700 (PDT)
-Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id h15sm108585wrq.88.2021.07.13.15.10.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:10:37 -0700 (PDT)
-Date: Tue, 13 Jul 2021 18:10:36 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 10/23] docs: Add documentation for vhost based RNG
- implementation
-Message-ID: <20210713220946.212562-11-mst@redhat.com>
-References: <20210713220946.212562-1-mst@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hj6OpAcXjn5Xf3YPHfYV2oqtFpdzJWD/UnjKsVqGlOM=;
+ b=sIh0gBjv9wNR2smCSdZD0ZYWNMRu3oUfrMV0LvfkH6icfnezHBmtjbKC/Y5u3xKOEY
+ +ZSN9G7RRosnvsvR40pO7EOB7HDv/DoKIFSV4k14afynKvupLULSIW0vRZezlmgyZjCi
+ 8nuddfqiLyfjX5PmlhN4RvodC/lNCzK2PFjGQneK+q0lDsfbn7ERuzC8xOXmPMhMQM0d
+ zK132NOZEsI5o29JltKX/PXTLuRu/AhBRpBlWCKG+viSlOxO9Ynl9GKrKJaIEz6NW2je
+ ngWTF9SKIbjAxj4VUFlgC16yyNKfnimqguVM80BTUVMoJoJGdPBFmCS04rNdMchw9A6p
+ 8b0w==
+X-Gm-Message-State: AOAM532ffLRSVT8NXm+7wkwya6JnqQHq5pVwANN5YvZ7cMGaRwOBwzWR
+ 4ZuZVJpdZp5u9G71bwDkJgdmSAs8xSirzzccMs03TlB5no9I20q6cQEx9Ci7vNSIQI62Oo3b9De
+ LG87UA0DFWMxPdnE=
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr8518747wro.232.1626214700174; 
+ Tue, 13 Jul 2021 15:18:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxgGg9WU8VNIztg3nTESeqyuxeVWOa7uSrW4Y/34V3wB8jrScIvhwtbIzx4zjU0ITYFnm6+og==
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr8518714wro.232.1626214699930; 
+ Tue, 13 Jul 2021 15:18:19 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id t15sm159295wrx.17.2021.07.13.15.18.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 15:18:19 -0700 (PDT)
+Subject: Re: [PATCH v2 4/5] hw/nvme: fix mmio read
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20210713192428.950160-1-its@irrelevant.dk>
+ <20210713192428.950160-5-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <30506100-68db-1fa2-ab32-f9f446c7193a@redhat.com>
+Date: Wed, 14 Jul 2021 00:18:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713220946.212562-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+In-Reply-To: <20210713192428.950160-5-its@irrelevant.dk>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,118 +99,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, Laurent Vivier <lvivier@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
+On 7/13/21 9:24 PM, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> The new PMR test unearthed a long-standing issue with MMIO reads on
+> big-endian hosts.
+> 
+> Fix this by unconditionally storing all controller registers in little
+> endian.
+> 
+> Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/nvme/ctrl.c | 304 ++++++++++++++++++++++++++++---------------------
+>  1 file changed, 174 insertions(+), 130 deletions(-)
+> 
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 0449cc4dee9b..ddac9344a74e 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -439,10 +439,12 @@ static uint8_t nvme_sq_empty(NvmeSQueue *sq)
+>  
+>  static void nvme_irq_check(NvmeCtrl *n)
+>  {
+> +    uint32_t intms = le32_to_cpu(n->bar.intms);
+> +
+>      if (msix_enabled(&(n->parent_obj))) {
+>          return;
+>      }
+> -    if (~n->bar.intms & n->irq_status) {
+> +    if (~intms & n->irq_status) {
+>          pci_irq_assert(&n->parent_obj);
+>      } else {
+>          pci_irq_deassert(&n->parent_obj);
+> @@ -1289,7 +1291,7 @@ static void nvme_post_cqes(void *opaque)
+>          if (ret) {
+>              trace_pci_nvme_err_addr_write(addr);
+>              trace_pci_nvme_err_cfs();
+> -            n->bar.csts = NVME_CSTS_FAILED;
+> +            n->bar.csts = cpu_to_le64(NVME_CSTS_FAILED);
 
-Add description and example for the vhost-user based RNG implementation.
-Tailored on Viresh Kumar's vhost-user-i2c documentation.
+The load/store API is safer than the cpu_to_X() one because
+it removes alignment problems. Here it becomes:
 
-Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Message-Id: <20210710005929.1702431-5-mathieu.poirier@linaro.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- docs/tools/index.rst          |  1 +
- docs/tools/vhost-user-rng.rst | 74 +++++++++++++++++++++++++++++++++++
- 2 files changed, 75 insertions(+)
- create mode 100644 docs/tools/vhost-user-rng.rst
+               stq_le_p(&n->bar.csts, NVME_CSTS_FAILED);
 
-diff --git a/docs/tools/index.rst b/docs/tools/index.rst
-index d923834a73..9d80fa89ec 100644
---- a/docs/tools/index.rst
-+++ b/docs/tools/index.rst
-@@ -15,5 +15,6 @@ Contents:
-    qemu-nbd
-    qemu-pr-helper
-    qemu-trace-stap
-+   vhost-user-rng
-    virtfs-proxy-helper
-    virtiofsd
-diff --git a/docs/tools/vhost-user-rng.rst b/docs/tools/vhost-user-rng.rst
-new file mode 100644
-index 0000000000..7f69d7bb3c
---- /dev/null
-+++ b/docs/tools/vhost-user-rng.rst
-@@ -0,0 +1,74 @@
-+QEMU vhost-user-rng - RNG emulation backend
-+===========================================
-+
-+Synopsis
-+--------
-+
-+**vhost-user-rng** [*OPTIONS*]
-+
-+Description
-+-----------
-+
-+This program is a vhost-user backend that emulates a VirtIO random number
-+generator (RNG).  It uses the host's random number generator pool,
-+/dev/urandom by default but configurable at will, to satisfy requests from
-+guests.
-+
-+This program is designed to work with QEMU's ``-device
-+vhost-user-rng-pci`` but should work with any virtual machine monitor
-+(VMM) that supports vhost-user. See the Examples section below.
-+
-+Options
-+-------
-+
-+.. program:: vhost-user-rng
-+
-+.. option:: -h, --help
-+
-+  Print help.
-+
-+.. option:: -v, --verbose
-+
-+   Increase verbosity of output
-+
-+.. option:: -s, --socket-path=PATH
-+
-+  Listen on vhost-user UNIX domain socket at PATH. Incompatible with --fd.
-+
-+.. option:: -f, --fd=FDNUM
-+
-+  Accept connections from vhost-user UNIX domain socket file descriptor FDNUM.
-+  The file descriptor must already be listening for connections.
-+  Incompatible with --socket-path.
-+
-+.. option:: -p, --period
-+
-+  Rate, in milliseconds, at which the RNG hardware can generate random data.
-+  Used in conjunction with the --max-bytes option.
-+
-+.. option:: -m, --max-bytes
-+
-+  In conjuction with the --period parameter, provides the maximum number of byte
-+  per milliseconds a RNG device can generate.
-+
-+Examples
-+--------
-+
-+The daemon should be started first:
-+
-+::
-+
-+  host# vhost-user-rng --socket-path=rng.sock --period=1000 --max-bytes=4096
-+
-+The QEMU invocation needs to create a chardev socket the device can
-+use to communicate as well as share the guests memory over a memfd.
-+
-+::
-+
-+  host# qemu-system								\
-+      -chardev socket,path=$(PATH)/rng.sock,id=rng0				\
-+      -device vhost-user-rng-pci,chardev=rng0					\
-+      -m 4096 									\
-+      -object memory-backend-file,id=mem,size=4G,mem-path=/dev/shm,share=on	\
-+      -numa node,memdev=mem							\
-+      ...
--- 
-MST
+>              break;
+>          }
+>          QTAILQ_REMOVE(&cq->req_list, req, entry);
+> @@ -4022,7 +4024,7 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+>          trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
+>          return NVME_INVALID_QID | NVME_DNR;
+>      }
+> -    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
+> +    if (unlikely(!qsize || qsize > NVME_CAP_MQES(le64_to_cpu(n->bar.cap)))) {
+
+And here:
+
+ if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))) {
+
+>          trace_pci_nvme_err_invalid_create_sq_size(qsize);
+>          return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+>      }
+
+However for the BAR is likely aligned, so using the cpu_to() API
+shouldn't be a problem until we try to deprecate/remove it.
 
 
