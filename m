@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5893C6F11
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:59:16 +0200 (CEST)
-Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B1FC3C6F16
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 13:03:07 +0200 (CEST)
+Received: from localhost ([::1]:33108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3G8B-0006jm-VG
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:59:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49958)
+	id 1m3GBu-0000H6-Mb
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 07:03:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3G7N-00062q-05
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:58:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3G7L-0004iu-Ik
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:58:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626173903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=juovBBqnqQ0+q6ZTZvEpy3aELyCs2RwScuX794yXldc=;
- b=JRrDPT8ECQJ0zbsMGrfz7WJPcZtcupRHV3y9B6iPaiYMhTy5g6ANHovpArPgHmLRjFaINt
- V21mi0bKeQKmIQNvgBZLC9iaRiGBCBO68wtTpUrK3bA0eONPxeL9BKfsyJY/9Vpe7oDfNZ
- mNcS985In1nfg9BFsYbuEkluyVfY1vg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-Xr8WlImsODamz9YeMS87QQ-1; Tue, 13 Jul 2021 06:58:21 -0400
-X-MC-Unique: Xr8WlImsODamz9YeMS87QQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r18-20020adff1120000b029013e2b4ee624so4283619wro.1
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:58:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3GAx-0007ru-08
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 07:02:07 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:42557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3GAv-0007nY-EC
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 07:02:06 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id k27so8990161edk.9
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:02:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IVj0MWFabo2OK2H+IZeN4YuYEiEKtrzvSUNu25VelHk=;
+ b=mFFlzlb3Oi2ITjOg0M6beINRZmr2wPG/fHn9IvFPU1Wx5mBW2i4KOHlDnA0iBTdYJe
+ +GvwF75YZ3qDs48U/qWQ5uvO5YOsUi/fhzLRQfzSEBrl56DNbhEGpSFckWThAisiDS4o
+ IPCHFF2oTtvQT6TgDCgLyzRMcODRnpMbpXngbRySgzjO+uGzzUbsQmhFn4hXRpP4X7dx
+ aeIjVDWg9XRNqFG8kIJZwDMCgp9UPwWlgYHXGUD0GZiS1Ew6+2JFSdrkaPm1Kj0XABgm
+ 8pPIbAeDYd+a2PmBuh4opyLIZca3QPpKumwEcfGt/k2wOFQ3pkVaapX/aiGiyECuFLN7
+ 3u0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=juovBBqnqQ0+q6ZTZvEpy3aELyCs2RwScuX794yXldc=;
- b=WWEOt2sMbjxe87OZtda1TqC/l5aQOccbc68J6sXvBTQEoBuGiFyCieD2mX7ZihJxym
- KPyKiHJOFYbdT9T6cBnfnYLDJFMM18FSdY8MopktqFgZR6qFlhOUQEq4RGEaCI7im1dH
- lPDYnL8G87I7oi74XiJ+myoHPwta/uFDmOl7aE0VHR0JQqalFJaxR50mfPnFp1RsLWGH
- M5fBQmUOGKEeRlczP27ws7n4S7StuPxMHpuK3LWaPnuJWSQQx5z3MRVVS9IMyEnKDWqa
- eY1bZSx42LOGFkLnqqkvIrdKx+rIZpYX92Rpg/WsjrkLIGhGPaCmEv2vKvd/JbSGoAaz
- pjxQ==
-X-Gm-Message-State: AOAM532R6XobbICg7VcSSmS12/hqgmMs63f95EXh0BbjeTEaq/XWH1Z7
- 5u1y8DsEYNrpXtHGJgf32/ac+8cGct3jCGOoWc6aWIDLC78MOPWTDSJw/7Z4NYfRaR9OrnHyB6O
- R4jWR3kdSBdl/TOk=
-X-Received: by 2002:a1c:1d8e:: with SMTP id d136mr4420944wmd.52.1626173900729; 
- Tue, 13 Jul 2021 03:58:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwaQ2fKDx+QrMmiDfTcjwhyeiBgJS4PiAAes7e/fYndj4B2nGUIyrlTG7dtCbpoti8bKaCKvg==
-X-Received: by 2002:a1c:1d8e:: with SMTP id d136mr4420934wmd.52.1626173900553; 
- Tue, 13 Jul 2021 03:58:20 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id 6sm2056655wmi.3.2021.07.13.03.58.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 03:58:19 -0700 (PDT)
-Date: Tue, 13 Jul 2021 11:58:17 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH] migration: failover: emit a warning when the card is not
- fully unplugged
-Message-ID: <YO1xyXg7HW8GmvVi@work-vm>
-References: <20210701131458.112036-1-lvivier@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IVj0MWFabo2OK2H+IZeN4YuYEiEKtrzvSUNu25VelHk=;
+ b=kmXT4Bra5wlOP93+/zplhOC87lG7mvvP6/Cd/U9hbOeh3WKhOqlQv95QTdreylH7Rd
+ gRaTqqpYuaBPrXUsYfju6cKsvxzXNI2EgY9VP+Mz5uKLSZIj2kEyZ6/vvUipB9iBshAJ
+ I1YUS7lH88LNmxPhrwS4vM6dHNy0G6i0hZYnfFJHaic86RPRh0r/QF0gPMjSDt2xDTUS
+ rzjElA12M7op0BDjaFPnIsX3Rf4ZE9z6R1w/zkMUSMF/bMeMwWP4KQzd3RYLlGT7uqe1
+ vRKfudAwapRmhqLqoYBqSWuZ9zu8U806QEvvemgaJjJzV8Uf37QDBkPTB7dHdPhTIa0H
+ zEeQ==
+X-Gm-Message-State: AOAM531loQJmySmj638mOewKfkL7XWJbrHX1GSK5u5L9sVZZ4Mdr6rzB
+ hUZQ+LtgwRcQNmtL/GvXXeifyDp3IPOn6kpuxutMcQ==
+X-Google-Smtp-Source: ABdhPJx9IflwjqknjwJ7iD54T/21SpsDk43km+i6k4MH+LVu0MUEw39+cXdp2QvivnzeSKrwT7cyZytaPZ4fzOrBUUw=
+X-Received: by 2002:a05:6402:1ca4:: with SMTP id
+ cz4mr4986255edb.52.1626174123536; 
+ Tue, 13 Jul 2021 04:02:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210701131458.112036-1-lvivier@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210709051728.170203-1-david@gibson.dropbear.id.au>
+ <20210709051728.170203-23-david@gibson.dropbear.id.au>
+In-Reply-To: <20210709051728.170203-23-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Jul 2021 12:01:23 +0100
+Message-ID: <CAFEAcA8TTYyBf2mvQWWS29JupFo6D-wLjOZ1YSMgtksw_QE3fQ@mail.gmail.com>
+Subject: Re: [PULL 22/33] spapr: Implement Open Firmware client interface
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,45 +78,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc <qemu-ppc@nongnu.org>,
+ Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laurent Vivier (lvivier@redhat.com) wrote:
-> When the migration fails or is canceled we wait the end of the unplug
-> operation to be able to plug it back. But if the unplug operation
-> is never finished we stop to wait and QEMU emits a warning to inform
-> the user.
-> 
-> Based-on: 20210629155007.629086-1-lvivier@redhat.com
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+On Fri, 9 Jul 2021 at 06:17, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> From: Alexey Kardashevskiy <aik@ozlabs.ru>
+>
+> The PAPR platform describes an OS environment that's presented by
+> a combination of a hypervisor and firmware. The features it specifies
+> require collaboration between the firmware and the hypervisor.
 
-Queued
+Hi; Coverity reports issues in this code:
 
-> ---
->  migration/migration.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 3b06d43a7f42..e065c62e5189 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -3689,6 +3689,10 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
->              while (timeout-- && qemu_savevm_state_guest_unplug_pending()) {
->                  qemu_sem_timedwait(&s->wait_unplug_sem, 250);
->              }
-> +            if (qemu_savevm_state_guest_unplug_pending()) {
-> +                warn_report("migration: partially unplugged device on "
-> +                            "failure");
+
+> +static uint32_t vof_package_to_path(const void *fdt, uint32_t phandle,
+> +                                    uint32_t buf, uint32_t len)
+> +{
+> +    uint32_t ret = -1;
+
+Here we declare 'ret' as an unsigned type...
+
+> +    char tmp[VOF_MAX_PATH] = "";
+> +
+> +    ret = phandle_to_path(fdt, phandle, tmp, sizeof(tmp));
+> +    if (ret > 0) {
+
+...so this is doing an unsigned comparison, which means that
+the negative values returned from phandle_to_path() (whose return
+type is 'int') will not be detected (viewed as unsigned values
+they will all be positive and >2GB).
+
+> +        if (VOF_MEM_WRITE(buf, tmp, ret) != MEMTX_OK) {
+
+This then means that we will attempt to write >2GB of data here...
+
+> +            ret = -1;
+> +        }
+> +    }
+> +
+> +    trace_vof_package_to_path(phandle, tmp, ret);
+> +
+> +    return ret;
+> +}
+> +
+> +static uint32_t vof_instance_to_path(void *fdt, Vof *vof, uint32_t ihandle,
+> +                                     uint32_t buf, uint32_t len)
+> +{
+> +    uint32_t ret = -1;
+> +    uint32_t phandle = vof_instance_to_package(vof, ihandle);
+> +    char tmp[VOF_MAX_PATH] = "";
+> +
+> +    if (phandle != -1) {
+> +        ret = phandle_to_path(fdt, phandle, tmp, sizeof(tmp));
+> +        if (ret > 0) {
+
+This function has the same problem.
+
+> +            if (VOF_MEM_WRITE(buf, tmp, ret) != MEMTX_OK) {
+> +                ret = -1;
 > +            }
->          }
->  
->          migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG, new_state);
-> -- 
-> 2.31.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +        }
+> +    }
+> +    trace_vof_instance_to_path(ihandle, phandle, tmp, ret);
+> +
+> +    return ret;
+> +}
 
+thanks
+-- PMM
 
