@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306423C74A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:34:38 +0200 (CEST)
-Received: from localhost ([::1]:38076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A641D3C74A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:35:55 +0200 (CEST)
+Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LMj-0005VU-71
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:34:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38714)
+	id 1m3LNy-0007Xa-O4
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:35:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3LJG-00061E-KA
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46064)
+ id 1m3LJI-00065c-2K
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3LJE-0006Qz-5n
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:02 -0400
+ id 1m3LJG-0006SC-H1
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626193859;
+ s=mimecast20190719; t=1626193861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=54jzWDH0rmayboNsH5snM/GCZMQ13iGyrjAmAAagVHo=;
- b=gFlU+C0yUUjxuUBJye+9wmH3VCxx/51oFpAIwAA9Y+as9cx9tQ6Ab8gEuB6H+g9ccjRakP
- El/zFebqZ1adwpy6SgqjerhczhM4013xokTuD+jwu45YBxHD5Y0t6z+/0pjXU7/0Pe7BrM
- bS54Pm/+3DyI4BfyBAJPpfR/6pAtwEE=
+ bh=8ncj6UfgXfyYJVu5Zq2gUhaIY6oM9Yvm7OvqcPJwCBg=;
+ b=KKxj0zTv5780RWoAQue9Jtj3Kmylig3GbSpjAikivkP08T/DTTpcZmaTLGdldv06gWwmJb
+ mZYjMQG7jZVYNY0OAOsTeAblEWWFIEDoXk+j35VIJqvrZnsQ9iO3pc3o4OSvKAkpk21ppd
+ GQa32nVH5ZEBlrpbIvqupjTDwKW78gQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-FucOSBqCOF-KduvGtjyc5Q-1; Tue, 13 Jul 2021 12:30:58 -0400
-X-MC-Unique: FucOSBqCOF-KduvGtjyc5Q-1
+ us-mta-584-CWe_94lTN_6-rIDcswg9pA-1; Tue, 13 Jul 2021 12:31:00 -0400
+X-MC-Unique: CWe_94lTN_6-rIDcswg9pA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCBE718414A0;
- Tue, 13 Jul 2021 16:30:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 763305074D;
+ Tue, 13 Jul 2021 16:30:59 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-113-1.ams2.redhat.com
  [10.36.113.1])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4A7E60C05;
- Tue, 13 Jul 2021 16:30:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B7B260C05;
+ Tue, 13 Jul 2021 16:30:57 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] docs: fix typo s/Intel/AMD/ in CPU model notes
-Date: Tue, 13 Jul 2021 17:30:48 +0100
-Message-Id: <20210713163051.2133045-2-berrange@redhat.com>
+Subject: [PATCH v2 2/4] qemu-options: re-arrange CPU topology options
+Date: Tue, 13 Jul 2021 17:30:49 +0100
+Message-Id: <20210713163051.2133045-3-berrange@redhat.com>
 In-Reply-To: <20210713163051.2133045-1-berrange@redhat.com>
 References: <20210713163051.2133045-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -87,26 +87,45 @@ Cc: Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The list of CPU topology options are presented in a fairly arbitrary
+order currently. Re-arrange them so that they're ordered from largest to
+smallest unit
+
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/system/cpu-models-x86.rst.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qemu-options.hx | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
-index f40ee03ecc..9119f5dff5 100644
---- a/docs/system/cpu-models-x86.rst.inc
-+++ b/docs/system/cpu-models-x86.rst.inc
-@@ -227,7 +227,7 @@ features are included if using "Host passthrough" or "Host model".
- Preferred CPU models for AMD x86 hosts
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8965dabc83..6b72617844 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -196,17 +196,17 @@ SRST
+ ERST
  
--The following CPU models are preferred for use on Intel hosts.
-+The following CPU models are preferred for use on AMD hosts.
- Administrators / applications are recommended to use the CPU model that
- matches the generation of the host CPUs in use. In a deployment with a
- mixture of host CPU models between machines, if live migration
+ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+-    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
++    "-smp [cpus=]n[,maxcpus=cpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]\n"
+     "                set the number of CPUs to 'n' [default=1]\n"
+-    "                maxcpus= maximum number of total cpus, including\n"
++    "                maxcpus= maximum number of total CPUs, including\n"
+     "                offline CPUs for hotplug, etc\n"
+-    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
+-    "                threads= number of threads on one CPU core\n"
++    "                sockets= number of discrete sockets in the system\n"
+     "                dies= number of CPU dies on one socket (for PC only)\n"
+-    "                sockets= number of discrete sockets in the system\n",
++    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
++    "                threads= number of threads on one CPU core\n",
+         QEMU_ARCH_ALL)
+ SRST
+-``-smp [cpus=]n[,cores=cores][,threads=threads][,dies=dies][,sockets=sockets][,maxcpus=maxcpus]``
++``-smp [cpus=]n[,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
+     Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+     are supported. On Sparc32 target, Linux limits the number of usable
+     CPUs to 4. For the PC target, the number of cores per die, the
 -- 
 2.31.1
 
