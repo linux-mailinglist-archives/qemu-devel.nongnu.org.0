@@ -2,54 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A74C83C6922
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:20:15 +0200 (CEST)
-Received: from localhost ([::1]:54662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F863C6919
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:13:07 +0200 (CEST)
+Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m39u2-0000aU-HX
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:20:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
+	id 1m39n8-00008Q-5L
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:13:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m39mG-00086z-VV
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:12 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43171 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m39mC-00052w-QE
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:12 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GP6f752Ccz9sX3; Tue, 13 Jul 2021 14:11:59 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1626149519;
- bh=mdq+BL5raxen+JtbVS4+cAQCrvQwu3a81Jq7KbZ7R/U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=leIWwGd/5LebOH2UfBZ5ndqBg16ht84BHF3VYlWcAtwBDYLlS/9e77tPSCFcn6ht8
- 7zxIU45ciW16idnK8glWlgMxd94Kr+/Z9U2WiAMszcJdd9XwwpQtKmdJ470NH2OzjB
- u3/skxN9lg3bLTFFyHMpHVeTM8YsY5iwLDmIfG4Q=
-Date: Tue, 13 Jul 2021 14:11:24 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Julia Suvorova <jusual@redhat.com>
-Subject: Re: [PATCH v6 5/6] hw/acpi/ich9: Set ACPI PCI hot-plug as default on
- Q35
-Message-ID: <YO0SbMqumYzocy/J@yekko>
-References: <20210713004205.775386-1-jusual@redhat.com>
- <20210713004205.775386-6-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m39ly-0007X5-13; Tue, 13 Jul 2021 00:11:54 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:42512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m39lw-0004mc-GA; Tue, 13 Jul 2021 00:11:53 -0400
+Received: by mail-io1-xd30.google.com with SMTP id x10so6647420ion.9;
+ Mon, 12 Jul 2021 21:11:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O3K1OjamQzEuGDpKoBgiSg1CQAV3h1YVVi0i3VMb/90=;
+ b=GnwYNX6K1pIt6CLY/WMPfGQD/UsFIHx90+AvrOLNAelHGPelUCqYCMY6fV+gU57rIR
+ 441nsVkGy0a/bt9EYX1xpjoonEEPSMtkBUgyf6XUqk6690VuZM0fL4yDY+VrHBJ0GZOb
+ lvHWlqKQQOnsgrS1F2ajPMXjnSYrnWtHYNG+PuFayau5zrT/OWTumpt3jXC41EhwIdEV
+ xuM4y/UNurOTroDoYcBNrWsjKmW42mN419b4EhyonOgKK9KsU02m6Bp9vT3+Z0Jow71r
+ XMD0O5bI1pQOJFFeY2htExJ1QgBUEBsqwMI+hu8iaIYzVDKoezbPT9NueMVSygU3K1Zj
+ NXlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O3K1OjamQzEuGDpKoBgiSg1CQAV3h1YVVi0i3VMb/90=;
+ b=stneu+Kk85qV7DbM3CDn25y18BYavghGeGxjqHyiv+g0l+65PuhlppklRtxgiLN1/4
+ x7QEe+3liFxmCNvurChED+KqR+EZBlOcCxP9pdhl0ppbFZZaWycHxGNvnfCXZ2N64dgE
+ 4j/7ZJMuSTqdI9UPtSdwcaGndEp0EdJh1g+8rni9TGDyb7umYS7j/Jizh2+a9y8V/kCm
+ U8/B7IHyr6XYHrpuqsqzqRrzrPHt/QFotP4QWvS429fgQT542W79zMmUXnf0mxzO+HUX
+ pjtRGPC302K/Wc8kiSOW5+Q1heknGfzb2lFHs/ETh7OEENH8XfVQYmWI87AmFqzUQPIJ
+ OzPw==
+X-Gm-Message-State: AOAM531R9v5WjpHVa/5FEBGptCKj/rMT2xJPXW295TLvK4kx5rlJJpah
+ jqWsnDPRn90Q/ZOx1XIor2kJBuht44TjjUFlO9A=
+X-Google-Smtp-Source: ABdhPJwBvTNvGn7gJD6x2Fpu8KlEnLLzmfryohRTr9k63qKblvwCaLiThkMAGPC1b4WRRFB9CHJKiXDDHRHF/mwz7r0=
+X-Received: by 2002:a6b:7905:: with SMTP id i5mr1751626iop.175.1626149510995; 
+ Mon, 12 Jul 2021 21:11:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3MIXlGjDsHfSFjC+"
-Content-Disposition: inline
-In-Reply-To: <20210713004205.775386-6-jusual@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <20210709042608.883256-5-richard.henderson@linaro.org>
+In-Reply-To: <20210709042608.883256-5-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 13 Jul 2021 14:11:25 +1000
+Message-ID: <CAKmqyKOTh8bWQqzEy1AoOsMpEEo1iuFW-BPAU+TFVstsnnc7fg@mail.gmail.com>
+Subject: Re: [PATCH 04/17] target/riscv: Use gpr_{src,
+ dst} in word division operations
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,106 +77,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, David Gibson <dgibson@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jul 9, 2021 at 2:44 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Allocate new temps to hold the source extensions, and
+> extend directly from the source registers.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
---3MIXlGjDsHfSFjC+
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Tue, Jul 13, 2021 at 02:42:04AM +0200, Julia Suvorova wrote:
-> Q35 has three different types of PCI devices hot-plug: PCIe Native,
-> SHPC Native and ACPI hot-plug. This patch changes the default choice
-> for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
-> ability to use SHPC and PCIe Native for hot-plugged bridges.
->=20
-> This is a list of the PCIe Native hot-plug issues that led to this
-> change:
->     * no racy behavior during boot (see 110c477c2ed)
->     * no delay during deleting - after the actual power off software
->       must wait at least 1 second before indicating about it. This case
->       is quite important for users, it even has its own bug:
->           https://bugzilla.redhat.com/show_bug.cgi?id=3D1594168
->     * no timer-based behavior - in addition to the previous example,
->       the attention button has a 5-second waiting period, during which
->       the operation can be canceled with a second press. While this
->       looks fine for manual button control, automation will result in
->       the need to queue or drop events, and the software receiving
->       events in all sort of unspecified combinations of attention/power
->       indicator states, which is racy and uppredictable.
->     * fixes:
->         * https://bugzilla.redhat.com/show_bug.cgi?id=3D1752465
->         * https://bugzilla.redhat.com/show_bug.cgi?id=3D1690256
->=20
-> To return to PCIe Native hot-plug:
->     -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=3Doff
->=20
-> Signed-off-by: Julia Suvorova <jusual@redhat.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Alistair
 
 > ---
->  hw/acpi/ich9.c | 2 +-
->  hw/i386/pc.c   | 1 +
->  2 files changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 2f4eb453ac..778e27b659 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMReg=
-s *pm)
->      pm->disable_s3 =3D 0;
->      pm->disable_s4 =3D 0;
->      pm->s4_val =3D 2;
-> -    pm->use_acpi_hotplug_bridge =3D false;
-> +    pm->use_acpi_hotplug_bridge =3D true;
-> =20
->      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
->                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 8e1220db72..7e03848792 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_0[] =3D {
->      { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
->      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
->      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
-> +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
->  };
->  const size_t pc_compat_6_0_len =3D G_N_ELEMENTS(pc_compat_6_0);
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---3MIXlGjDsHfSFjC+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDtEmwACgkQbDjKyiDZ
-s5LZSBAAnZohkuXGRTGaB5iwZ8Wd2s2EgldAQTCvVWQbv7s739kWWvVpJLz6r/xD
-ceiCK0dG2G8qZ6Ms/7cMg4Br95A7DEdLlZ6nCtSbM02UK5OWA7dYS1CXk17tqNel
-d8II13R8cRD5OFCH+0tasIZYSL57HYS2CCnJ559nK7kKjQYvZ1o11ySYPednWkW8
-vhBf3wI5kRbvwhZUuHMuW7BoEaml6jTx8Z/FzkbBNXT256M2NpMknu4+CBAFsTlO
-gGRhhHH+JBlUrfjwWF7Rd+zO9pruy+ndxOMr5xiiw4tCYPkR8Ywwg7mud5wEFwTF
-GmPq4F3hGbsKZWKcNfm3g7qEdW/dw33rfiSjHJWfzKYRethHnJRcp5E3YSYpfJ/a
-+WSSPxtRy7wAcSlVgHIEt0u1JPYIVYfc0URZuvOZwH3BKTHmRwAae5QmT0ThJkBh
-hhcVfkPdRsh9AOukpCVp4jLY0/YglnmaoC7ztsMuwO5k6adoDuA/0D9Ai4YZg9Mz
-ZGVdGyPdeA2XPbiizn+UWLZIFmjkZ3s6RH72zCt7taaLw3KXL3inVEDFU4jnGgyW
-NDpJ4aAysYaafJoQ+cxLZDwLOAAXdbyYZ6sj5VxJUWNv1nBjyTRVLHuBTuZ4whSR
-MX1+Us/kjfHOXbDnEdlFY0HG/fg6/sB5w8mnLgQgvfl6cjumCxo=
-=TMhd
------END PGP SIGNATURE-----
-
---3MIXlGjDsHfSFjC+--
+>  target/riscv/translate.c | 46 +++++++++++++++++++---------------------
+>  1 file changed, 22 insertions(+), 24 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index a60b198623..7dedfd548b 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -502,42 +502,40 @@ static void gen_mulw(TCGv ret, TCGv arg1, TCGv arg2)
+>  static bool gen_arith_div_w(DisasContext *ctx, arg_r *a,
+>                              void(*func)(TCGv, TCGv, TCGv))
+>  {
+> -    TCGv source1, source2;
+> -    source1 = tcg_temp_new();
+> -    source2 = tcg_temp_new();
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = gpr_src(ctx, a->rs2);
+> +    TCGv ext1 = tcg_temp_new();
+> +    TCGv ext2 = tcg_temp_new();
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> -    tcg_gen_ext32s_tl(source1, source1);
+> -    tcg_gen_ext32s_tl(source2, source2);
+> +    tcg_gen_ext32s_tl(ext1, src1);
+> +    tcg_gen_ext32s_tl(ext2, src2);
+>
+> -    (*func)(source1, source1, source2);
+> +    (*func)(dest, ext1, ext2);
+> +    tcg_temp_free(ext1);
+> +    tcg_temp_free(ext2);
+>
+> -    tcg_gen_ext32s_tl(source1, source1);
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> +    tcg_gen_ext32s_tl(dest, dest);
+>      return true;
+>  }
+>
+>  static bool gen_arith_div_uw(DisasContext *ctx, arg_r *a,
+>                              void(*func)(TCGv, TCGv, TCGv))
+>  {
+> -    TCGv source1, source2;
+> -    source1 = tcg_temp_new();
+> -    source2 = tcg_temp_new();
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = gpr_src(ctx, a->rs2);
+> +    TCGv ext1 = tcg_temp_new();
+> +    TCGv ext2 = tcg_temp_new();
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> -    tcg_gen_ext32u_tl(source1, source1);
+> -    tcg_gen_ext32u_tl(source2, source2);
+> +    tcg_gen_ext32u_tl(ext1, src1);
+> +    tcg_gen_ext32u_tl(ext2, src2);
+>
+> -    (*func)(source1, source1, source2);
+> +    (*func)(dest, ext1, ext2);
+> +    tcg_temp_free(ext1);
+> +    tcg_temp_free(ext2);
+>
+> -    tcg_gen_ext32s_tl(source1, source1);
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> +    tcg_gen_ext32s_tl(dest, dest);
+>      return true;
+>  }
+>
+> --
+> 2.25.1
+>
+>
 
