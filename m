@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC223C6DA5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:39:21 +0200 (CEST)
-Received: from localhost ([::1]:49394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 336883C6DA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:40:47 +0200 (CEST)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Esq-0006gz-8y
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:39:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53896)
+	id 1m3EuE-0008A9-5x
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:40:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m3Er7-0004mC-5w
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:37:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m3Er5-0005Em-FD
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:37:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626169050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=it6nM0iF7koh3EMA7FXN3eVf57VsIKnjsjicOcJLfM8=;
- b=FpocKuLO11X/MD8Wpo8pigF+yHC/yZchPAVehgphuj0fgSxbmkxdgGzYwvxyzsht0bt0EF
- rU/CwIIeOPE+Xdy9ZrB85PvM2EaY6/4MTxjtzpd7zTLENqWpB1TY7bAImTRpExFy7k9yFx
- eO8/wHIMyJ4PzQ9Twk9IlHT/pJ8jRjI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-3arSOKjpPhe0hSFdoFPcnQ-1; Tue, 13 Jul 2021 05:37:27 -0400
-X-MC-Unique: 3arSOKjpPhe0hSFdoFPcnQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12645802C80;
- Tue, 13 Jul 2021 09:37:25 +0000 (UTC)
-Received: from localhost (ovpn-113-192.ams2.redhat.com [10.36.113.192])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 454F95D9CA;
- Tue, 13 Jul 2021 09:37:24 +0000 (UTC)
-Date: Tue, 13 Jul 2021 10:37:23 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Christoph Hellwig <hch@infradead.org>,
- Padmakar Kalghatgi <p.kalghatgi@samsung.com>, its@irrelevant.dk
-Subject: Re: [RFC PATCH 1/2] hw/nvme: add mi device
-Message-ID: <YO1e01ex1yOvy0SB@stefanha-x1.localdomain>
-References: <CGME20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26@epcas5p1.samsung.com>
- <20210709135545.GA11148@test-zns>
- <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
- <YO0k9JFO93EMaFIj@infradead.org>
+ (Exim 4.90_1) (envelope-from <caihuoqing@baidu.com>)
+ id 1m3Ere-0005TE-SR
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:38:08 -0400
+Received: from usmx01.baidu.com ([12.0.243.41]:43206 helo=baidu.com)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <caihuoqing@baidu.com>) id 1m3ErZ-0005TS-2J
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:38:03 -0400
+Received: from BC-Mail-Ex25.internal.baidu.com (unknown [172.31.51.19])
+ by Forcepoint Email with ESMTPS id 9E1A374B26F6BECACFFF;
+ Tue, 13 Jul 2021 02:37:53 -0700 (PDT)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex25.internal.baidu.com (172.31.51.19) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.4; Tue, 13 Jul 2021 17:37:51 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.4; Tue, 13 Jul 2021 17:37:50 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <alex.williamson@redhat.com>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>
+Subject: [PATCH v2] vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI
+ processor
+Date: Tue, 13 Jul 2021 17:37:43 +0800
+Message-ID: <20210713093743.942-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <YO0k9JFO93EMaFIj@infradead.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="FJ3AFhudtxOv0ink"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex06.internal.baidu.com (10.127.64.16) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Received-SPF: pass client-ip=12.0.243.41; envelope-from=caihuoqing@baidu.com;
+ helo=baidu.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,83 +61,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, jg123.choi@samsung.com,
- qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
- qemu-devel@nongnu.org, linux-nvme@lists.infradead.org, mreitz@redhat.com,
- u.kishore@samsung.com, kbusch@kernel.org, javier.gonz@samsung.com,
- prakash.v@samsung.com, mohit.kap@samsung.com
+Cc: Cai Huoqing <caihuoqing@baidu.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---FJ3AFhudtxOv0ink
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix pba_offset initialization value for BAIDU KUNLUN Virtual
+Function device. The KUNLUN hardware returns an incorrect
+value for the VF PBA offset, and add a quirk to instead
+return a hardcoded value of 0xb400.
+v1->v2:
+        *add the incorrect value and BAR size to comment
+        *use vfio_pci_is instead of using an "encoding"
+        *remove unused device id PCI_DEVICE_ID_KUNLUN
 
-On Tue, Jul 13, 2021 at 06:30:28AM +0100, Christoph Hellwig wrote:
-On Tue, Jul 13, 2021 at 06:30:28AM +0100, Christoph Hellwig wrote:
-> On Mon, Jul 12, 2021 at 12:03:27PM +0100, Stefan Hajnoczi wrote:
-> > Why did you decide to implement -device nvme-mi as a device on
-> > TYPE_NVME_BUS? If the NVMe spec somehow requires this then I'm surprise=
-d
-> > that there's no NVMe bus interface (callbacks). It seems like this coul=
-d
-> > just as easily be a property of an NVMe controller -device
-> > nvme,mi=3Don|off or -device nvme-subsys,mi=3Don|off? I'm probably just =
-not
-> > familiar enough with MI and NVMe architecture...
->=20
-> I'm too far away from qemu these days to understand what TYPE_NVME_BUS
-> is.  Bt NVMe-MI has tree possible transports:
->=20
->  1) out of band through smbus.  This seems something that could be
->     trivially modelled in qemu
->  2) out of band over MCTP / PCIe VDM.
->  3) in band using NVMe admin commands that pass through MI commands
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+ hw/vfio/pci.c            | 9 +++++++++
+ include/hw/pci/pci_ids.h | 3 +++
+ 2 files changed, 12 insertions(+)
 
-Thanks for explaining!
-
-Common NVMe-MI code can be shared by -device nvme-mi-smbus, in-band NVMe
-MI commands (part of -device nvme), a vsock transport, etc. This patch
-has nvme_mi_admin_command() as the entry point to common MI code, so not
-much needs to be done to achieve this.
-
-My question about why -device nvme-mi was because this "device" doesn't
-implement any bus interface (callbacks). The bus effectively just serves
-as an owner of this device. The guest does not access the device via the
-bus. So I'm not sure a -device is appropriate, it's an usual device.
-
-If the device is kept, please name it -device nvme-mi-vsock so it's
-clear this is the NVMe-MI vsock transport. I think the device could be
-dropped and instead an -device nvme,mi-vsock=3Don|off property could be
-added to enable the MI vsock transport on a specific NVMe controller.
-This raises the question of whether the port number should be
-configurable so multiple vsock Management Endpoints can coexist.
-
-I don't have time to explore the architectural model, but here's the
-link in case anyone wants to think through all the options for NVMe MI
-Management Endpoints and how QEMU should model them:
-"1.4 NVM Subsystem Architectural Model"
-https://nvmexpress.org/wp-content/uploads/NVM-Express-Management-Interface-=
-1.2-2021.06.02-Ratified.pdf
-
-Stefan
-
---FJ3AFhudtxOv0ink
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDtXtMACgkQnKSrs4Gr
-c8inEQf/U6sSy1v1hoDbepdDfWRZaQqji0O3DrFd0KLoR342ayiCqDhuFpxXTtI/
-iIYgOwTEOgq75oa99+5kO+U++Z+U6fcRGnlIqDpt1eekJEYP9YC0i8k1iaRJnkyf
-HSuUqZnZ1JGiNoZehu94Cc0h3+e4gKq18I1P/fuwiSQGTecSUCxG+OqAiaCE+9IL
-HxRSjqTCZ5J8P/DZ9RqbHuhLvbqDqwdP9z2ECcks0iqRdiQTg9aTbMSWbNEY7+1J
-QGquZTO1i/ZClSD0cytLjbGA2oy/2nGlQDPoaFG2RlF4Q4oyW6eaFdI9DOFRXX44
-DVABjgPOEnmHLffsU79r+ovVU8L4Ig==
-=2984
------END PGP SIGNATURE-----
-
---FJ3AFhudtxOv0ink--
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index ab4077aad2..ad29fb4dff 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -1499,6 +1499,15 @@ static void vfio_msix_early_setup(VFIOPCIDevice *vdev, Error **errp)
+         if (vdev->vendor_id == PCI_VENDOR_ID_CHELSIO &&
+             (vdev->device_id & 0xff00) == 0x5800) {
+             msix->pba_offset = 0x1000;
++        /*
++         * BAIDU KUNLUN Virtual Function devices are encoded as 0x3685 for
++         * KUNLUN AI processor. The KUNLUN hardware returns an incorrect
++         * value of 0x460000 for the VF PBA offset while the BAR itself 0x10000.
++         * The correct value is 0xb400.
++         */
++        } else if (vfio_pci_is(vdev, PCI_VENDOR_ID_BAIDU,
++                   PCI_DEVICE_ID_KUNLUN_VF)) {
++            msix->pba_offset = 0xb400;
+         } else if (vdev->msix_relo == OFF_AUTOPCIBAR_OFF) {
+             error_setg(errp, "hardware reports invalid configuration, "
+                        "MSIX PBA outside of specified BAR");
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index 5c14681b82..11abe22d46 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -227,6 +227,9 @@
+ #define PCI_VENDOR_ID_FREESCALE          0x1957
+ #define PCI_DEVICE_ID_MPC8533E           0x0030
+ 
++#define PCI_VENDOR_ID_BAIDU              0x1d22
++#define PCI_DEVICE_ID_KUNLUN_VF          0x3685
++
+ #define PCI_VENDOR_ID_INTEL              0x8086
+ #define PCI_DEVICE_ID_INTEL_82378        0x0484
+ #define PCI_DEVICE_ID_INTEL_82441        0x1237
+-- 
+2.25.1
 
 
