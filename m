@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19FCB3C7495
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:33:15 +0200 (CEST)
-Received: from localhost ([::1]:58298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1C33C7496
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:33:17 +0200 (CEST)
+Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LLO-0008WL-3q
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:33:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38504)
+	id 1m3LLQ-0000Jk-0f
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3LIV-0005f2-Gb
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:30:17 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44634)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3LIS-0005rS-A3
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:30:13 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id f9so25617908wrq.11
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TnsHP+LgslSo6I/gLOAu+N9H8xnL2F0P4OMd3cGG+CI=;
- b=QOk+hBqhD7c2mjgbK4XxjbYA1+eQzF8fwq8opyAbdhRYGjXRFdd8u5d4IGOi0Q72x6
- leDIsoFotoJ7oWuKsXuhjlpUh/prgbCI2ch4gjCnmHG2GjNC5KM18W7g1WLJ3IVF58pA
- YVGjPGDFYfB1av9X1hwH4aXmbsUq/eQ3owTSlvWA5oxpO8HnVSEwo0/8a9arb4w6PQlc
- NQZFQun7WZZBDDHOlVRyw7qmXH1r6S3apUU97ELKtyjzU6E9ujg2HytKybIHqb0AkAQ/
- rerhbhfZv8+/Z4gGIhbU6FTderFs0MeiLtokd40f8mWO8OwCmBaIzZP531M2msTkR9Fg
- IT4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TnsHP+LgslSo6I/gLOAu+N9H8xnL2F0P4OMd3cGG+CI=;
- b=aKGXEgz6WZzahFpZfFGzksgx/2GHKgIj6vouyM02tWMItYxTi2H08hFgK55snnsT8m
- o0pWE/2ziTT1vaTm7b2nPZEACqqQoICVqs85YnMJTPQ+msABy5uMihqPyxWmt22d4crY
- E0f1W6I5GePldHNFtk55uJHzmiQpSHqznSuv8a4O5A+hghA/dA3lATRa/50cXy4XMpOO
- A4YvtQfC9So60t229jGrdzt9TT2CpWtIxu8JuOPoerL38z2GTb2R7+B3MZDFmTW/ibgD
- sqXBElkelNRvt95pYRTdoFqH3Cv8plMDDaNeOo5AzeY5uoaTqpkGXiDHorpkemPWYm+2
- YdvQ==
-X-Gm-Message-State: AOAM531mwo9hRUpacrb7Veq0PTlKPo0r5q3R/SsfwPrn76UH4V0/qJoI
- R6ZnU7sqksCQFfSwgZIPBvtUIWX2wNgPhg==
-X-Google-Smtp-Source: ABdhPJwvcnr0YJNSHv3tNAjh8WBSG/885RR8cJiEdCH3oEWuGksIPYxrgvX64vY7xiU4OwJMp6+GjA==
-X-Received: by 2002:a5d:5609:: with SMTP id l9mr6859023wrv.123.1626193810558; 
- Tue, 13 Jul 2021 09:30:10 -0700 (PDT)
-Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
- [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id l34sm3273011wms.45.2021.07.13.09.30.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 09:30:10 -0700 (PDT)
-Subject: Re: [PATCH 09/11] tests/unit: Remove unused variable from test_io
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210712215535.1471256-1-richard.henderson@linaro.org>
- <20210712215535.1471256-10-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <acf73bfa-11f2-f9ac-3132-d93bcc8d7053@amsat.org>
-Date: Tue, 13 Jul 2021 18:30:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m3LJE-0005xr-7I
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:31:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m3LJB-0006P4-9V
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:30:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626193856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=cfAvBv9OYufbEJfecDd0MBl21N2h8Psouex/8b6h380=;
+ b=h7RDE1Dvibb1xvZo1hnGCyrg6gYFH/CfU1KSj2R2gvamVAJE1BwroC6w1CGMEn0ciKXss/
+ Yv8x01PgOdYFW0gDofaUmuNSgG0uVAD0AaVW1kRUQZe4+x2DKi+AYD1gRV64IYVHPfO9ZH
+ GWCNzWdQE7oZom78nYvMOZIqs+VXHpw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-26-04VUR0sENMarFYf402-KzQ-1; Tue, 13 Jul 2021 12:30:54 -0400
+X-MC-Unique: 04VUR0sENMarFYf402-KzQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18452804146;
+ Tue, 13 Jul 2021 16:30:54 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-113-1.ams2.redhat.com
+ [10.36.113.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65A9E60C5F;
+ Tue, 13 Jul 2021 16:30:52 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] docs: improve -smp documentation
+Date: Tue, 13 Jul 2021 17:30:47 +0100
+Message-Id: <20210713163051.2133045-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210712215535.1471256-10-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.368,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,18 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/21 11:55 PM, Richard Henderson wrote:
-> From clang-13:
-> tests/unit/test-iov.c:161:26: error: variable 't' set but not used \
->     [-Werror,-Wunused-but-set-variable]
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tests/unit/test-iov.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+Changed in v2:=0D
+=0D
+ - Fix misplaced ',' breaking build=0D
+ - Two small typo fixes=0D
+=0D
+Daniel P. Berrang=C3=A9 (4):=0D
+  docs: fix typo s/Intel/AMD/ in CPU model notes=0D
+  qemu-options: re-arrange CPU topology options=0D
+  qemu-options: tweak to show that CPU count is optional=0D
+  qemu-options: rewrite help for -smp options=0D
+=0D
+ docs/system/cpu-models-x86.rst.inc |  2 +-=0D
+ qemu-options.hx                    | 41 ++++++++++++++++++++----------=0D
+ 2 files changed, 28 insertions(+), 15 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
