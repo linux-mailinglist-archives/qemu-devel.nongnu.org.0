@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3CBD3C798A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:20:06 +0200 (CEST)
-Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD263C7972
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:12:56 +0200 (CEST)
+Received: from localhost ([::1]:37536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Ql3-0001lp-Pv
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:20:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54952)
+	id 1m3Qe7-0001gH-4H
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QbY-0006Tg-TG
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QbY-0006TP-DZ
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28452)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QbT-0007Vm-Du
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:16 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QbU-0007X5-8b
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626214209;
+ s=mimecast20190719; t=1626214211;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=lyp89ZPtX0m2AdteMnhWIX5MkjMSEjvK2F/qngcfcBM=;
- b=amgsidvh9pVW+wH2JWcNmwFA1b2FuL/27yHG8JtFfaVY4cOJgnYf2YZl2HE2C3dD2epSxg
- Qoo/5hW6Tdv1VC1XRAOayF34YK7QvV+4FITizmMEXCG9vV7Biigih3eF3Wle6mllrdGuQO
- 8HIfg3IsYJlaV1jK8md+8Bw6hTraTzM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-kKS4tevQM8qszJWQIM2eoA-1; Tue, 13 Jul 2021 18:10:06 -0400
-X-MC-Unique: kKS4tevQM8qszJWQIM2eoA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m40-20020a05600c3b28b02901f42375a73fso150124wms.5
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:06 -0700 (PDT)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3i4DyvYX94w5eyf6eVKq7jHnyEBcb4z6P2pthb6TVgs=;
+ b=J+nS/rai8MMQyoB/c5/GIv2CgS+Qvx0yKQfLwmMmosVZX2zt46xPabREyLPOLoHBOFAAgi
+ 3XH4AMbQlN1o7BVElBAcsoMvl78qGF3YBvIjeui4cXBaIhfm3fL9McW1b1vh6LK41zMdOx
+ 8ZpLXHUbQWOZ53ErpogtZgdo2mZtMBM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-267-DNJ4NA3INuGNSg3l8Lxyow-1; Tue, 13 Jul 2021 18:10:10 -0400
+X-MC-Unique: DNJ4NA3INuGNSg3l8Lxyow-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ g9-20020adff3c90000b0290140a25efc6dso339914wrp.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=lyp89ZPtX0m2AdteMnhWIX5MkjMSEjvK2F/qngcfcBM=;
- b=YVgIXyiAhMPK8HKwCbB/W5pQ5euEolmj1u9NbPRs19GbviSHjniuGJjPsS9zeTA0mH
- sahV8NDzpKPCzWsgjDYs6KW81kjzstlk+ooS7mPwBVRQRlBo4StYRgIfq76vtVWUV7M5
- /o51CLW9XJKnWQlNJ/Q07n2wdE+uEbi4XG/L+FaVXEC3Vj5ShWwty7ot0X49g0aHC2zp
- rrXlF/WPdjELyWG6eH376HA0P7dJodDOAwg5qMtNTpJlFlh/5Oj7fKHWkLcNafts52oL
- 6X9FKON6x4DEQ1NrT5SVwuvMDIvugkXrQONFLLvbz8WXK9FbPvg4FnjY5BJAdUDV8NqD
- Kong==
-X-Gm-Message-State: AOAM532KFh1JtxU6PHI42/k5fUjbtkssP9rRRfFfZ/1bEh+4qu+RfIwM
- HaO73VX9XJkIHxxscNF5T0dGUEfP2gSNxrQaUdokA7Avr3/hEX91Ca5poeDgQqhu+NEP8ZZdsAV
- o5Sl6aE6ygiFb9hgMJvUtJSW9LAlxv3r1HpcMz6LBKygf8K5eqA6jAb1X2KJM
-X-Received: by 2002:adf:ba07:: with SMTP id o7mr8416342wrg.160.1626214205224; 
- Tue, 13 Jul 2021 15:10:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7uzgOr5hzjh2wAT8lW/GVNF2jwXJUSMTwcTnRc/OfdTlgxvFYQrcSaEcNjzzsf9pVCUqhSw==
-X-Received: by 2002:adf:ba07:: with SMTP id o7mr8416307wrg.160.1626214204858; 
- Tue, 13 Jul 2021 15:10:04 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3i4DyvYX94w5eyf6eVKq7jHnyEBcb4z6P2pthb6TVgs=;
+ b=jNTXgdm+mDdnEDd+TUXLuAP+HeV7T+XmJA03kFwe3ePC7uJAbPZmuZIxBaye5N5MT1
+ u582IIRO9FsBeGCX7abFyTPLdUcfg7WXaVXb9LnP1AL2SkOm9/LwsjJy69353DBxMCuS
+ vOVUv/k9rt2obzfNfvs9qhoDt2y3BiwIJlo7O1cSutiAFkCNiEc4yX5NAddt978nltdo
+ hkaQvZ7ZXwigvlRMrpIQGGgY3WbFrW3ZEOz41nMNGYlHQDnTsUsqTu7Zr648DI6XEIgz
+ sMp+fZScPk5mi6F0vbuy1q2Sf89F8OdAHZ1SZAWQE1QJ8p4HlaIDLkUxqbpfSugMU975
+ +OLg==
+X-Gm-Message-State: AOAM5317RqkocLLMQcQMOZWrdmy82PU1yWPIf6aZLd/tLTXfF2AW14A/
+ sMhE2GIrhQCgO2vUQ+ZaMK2p+HlIlNOu5Z0UR5H3Bcmiy06aCCKtvQ0hmMo+o6Tcj3l3NEvd7z/
+ 8/pPPzIotBpJllJOd6PLvKr2iGes8/SOs5KxHhmSm0brEHu+u1FtXJqKoBdjU
+X-Received: by 2002:a5d:5403:: with SMTP id g3mr8352637wrv.403.1626214208906; 
+ Tue, 13 Jul 2021 15:10:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvhNfx7P79vA5XzpPELzCRYI2jwMw25Uzq3Mecly5j2/kKgkcLLhgz/dngbUZYK5yVB8QcnQ==
+X-Received: by 2002:a5d:5403:: with SMTP id g3mr8352598wrv.403.1626214208626; 
+ Tue, 13 Jul 2021 15:10:08 -0700 (PDT)
 Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id l2sm242439wms.21.2021.07.13.15.10.03
+ by smtp.gmail.com with ESMTPSA id c12sm127554wrr.90.2021.07.13.15.10.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:10:04 -0700 (PDT)
-Date: Tue, 13 Jul 2021 18:10:01 -0400
+ Tue, 13 Jul 2021 15:10:08 -0700 (PDT)
+Date: Tue, 13 Jul 2021 18:10:05 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/23] pc,pci,virtio: lots of new features
-Message-ID: <20210713220946.212562-1-mst@redhat.com>
+Subject: [PULL 01/23] hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
+Message-ID: <20210713220946.212562-2-mst@redhat.com>
+References: <20210713220946.212562-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210713220946.212562-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
@@ -90,134 +93,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Julia Suvorova <jusual@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
+From: Julia Suvorova <jusual@redhat.com>
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
+Implement notifications and gpe to support q35 ACPI PCI hot-plug.
+Use 0xcc4 - 0xcd7 range for 'acpi-pci-hotplug' io ports.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to cf171f90d5e41730ad3e0ce23f1990f34b7e63ef:
-
-  vhost-vsock: SOCK_SEQPACKET feature bit support (2021-07-13 16:59:12 -0400)
-
-----------------------------------------------------------------
-pc,pci,virtio: lots of new features
-
-Lots of last minute stuff.
-
-vhost-user-rng.
-vhost-user-i2c.
-vhost-vsock SOCK_SEQPACKET support.
-IOMMU bypass.
-ACPI based pci hotplug.
-
+Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-Id: <20210713004205.775386-2-jusual@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/i386/acpi-build.h    |  4 ++++
+ include/hw/acpi/ich9.h  |  2 ++
+ include/hw/acpi/pcihp.h |  3 ++-
+ hw/acpi/pcihp.c         |  6 +++---
+ hw/acpi/piix4.c         |  4 +++-
+ hw/i386/acpi-build.c    | 30 +++++++++++++++++++-----------
+ 6 files changed, 33 insertions(+), 16 deletions(-)
 
-----------------------------------------------------------------
-Arseny Krasnov (1):
-      vhost-vsock: SOCK_SEQPACKET feature bit support
-
-Julia Suvorova (6):
-      hw/i386/acpi-build: Add ACPI PCI hot-plug methods to Q35
-      hw/acpi/ich9: Enable ACPI PCI hot-plug
-      hw/pci/pcie: Do not set HPC flag if acpihp is used
-      bios-tables-test: Allow changes in DSDT ACPI tables
-      hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
-      bios-tables-test: Update golden binaries
-
-Mathieu Poirier (4):
-      vhost-user-rng: Add vhost-user-rng implementation
-      vhost-user-rng-pci: Add vhost-user-rng-pci implementation
-      vhost-user-rng: backend: Add RNG vhost-user daemon implementation
-      docs: Add documentation for vhost based RNG implementation
-
-Peter Xu (1):
-      docs: Add '-device intel-iommu' entry
-
-Viresh Kumar (2):
-      hw/virtio: add boilerplate for vhost-user-i2c device
-      hw/virtio: add vhost-user-i2c-pci boilerplate
-
-Xingang Wang (9):
-      hw/pci/pci_host: Allow PCI host to bypass iommu
-      hw/pxb: Add a bypass iommu property
-      hw/arm/virt: Add default_bus_bypass_iommu machine option
-      hw/i386: Add a default_bus_bypass_iommu pc machine option
-      hw/pci: Add pci_bus_range() to get PCI bus number range
-      hw/arm/virt-acpi-build: Add IORT support to bypass SMMUv3
-      hw/i386/acpi-build: Add DMAR support to bypass iommu
-      hw/i386/acpi-build: Add IVRS support to bypass iommu
-      docs: Add documentation for iommu bypass
-
- docs/bypass-iommu.txt                    |  89 +++++++
- hw/i386/acpi-build.h                     |   5 +
- include/hw/acpi/ich9.h                   |   5 +
- include/hw/acpi/pcihp.h                  |   3 +-
- include/hw/arm/virt.h                    |   1 +
- include/hw/i386/pc.h                     |   1 +
- include/hw/pci/pci.h                     |   2 +
- include/hw/pci/pci_host.h                |   1 +
- include/hw/pci/pcie_port.h               |   5 +-
- include/hw/virtio/vhost-user-i2c.h       |  28 +++
- include/hw/virtio/vhost-user-rng.h       |  33 +++
- hw/acpi/acpi-x86-stub.c                  |   6 +
- hw/acpi/ich9.c                           |  70 ++++++
- hw/acpi/pcihp.c                          |  26 +-
- hw/acpi/piix4.c                          |   4 +-
- hw/arm/virt-acpi-build.c                 | 114 ++++++++-
- hw/arm/virt.c                            |  26 ++
- hw/core/machine.c                        |   1 -
- hw/i386/acpi-build.c                     | 114 +++++++--
- hw/i386/pc.c                             |  21 ++
- hw/i386/pc_q35.c                         |  11 +
- hw/pci-bridge/pci_expander_bridge.c      |   3 +
- hw/pci-host/q35.c                        |   2 +
- hw/pci/pci.c                             |  34 ++-
- hw/pci/pci_host.c                        |   1 +
- hw/pci/pcie.c                            |   8 +-
- hw/pci/pcie_port.c                       |   1 +
- hw/virtio/vhost-user-i2c-pci.c           |  69 ++++++
- hw/virtio/vhost-user-i2c.c               | 288 ++++++++++++++++++++++
- hw/virtio/vhost-user-rng-pci.c           |  79 ++++++
- hw/virtio/vhost-user-rng.c               | 294 ++++++++++++++++++++++
- hw/virtio/vhost-vsock.c                  |  12 +-
- tools/vhost-user-rng/main.c              | 403 +++++++++++++++++++++++++++++++
- docs/tools/index.rst                     |   1 +
- docs/tools/vhost-user-rng.rst            |  74 ++++++
- hw/virtio/Kconfig                        |  10 +
- hw/virtio/meson.build                    |   4 +
- qemu-options.hx                          |  33 +++
- tests/data/acpi/q35/DSDT                 | Bin 7859 -> 8289 bytes
- tests/data/acpi/q35/DSDT.acpihmat        | Bin 9184 -> 9614 bytes
- tests/data/acpi/q35/DSDT.bridge          | Bin 7877 -> 11003 bytes
- tests/data/acpi/q35/DSDT.cphp            | Bin 8323 -> 8753 bytes
- tests/data/acpi/q35/DSDT.dimmpxm         | Bin 9513 -> 9943 bytes
- tests/data/acpi/q35/DSDT.ipmibt          | Bin 7934 -> 8364 bytes
- tests/data/acpi/q35/DSDT.memhp           | Bin 9218 -> 9648 bytes
- tests/data/acpi/q35/DSDT.mmio64          | Bin 8990 -> 9419 bytes
- tests/data/acpi/q35/DSDT.nohpet          | Bin 7717 -> 8147 bytes
- tests/data/acpi/q35/DSDT.numamem         | Bin 7865 -> 8295 bytes
- tests/data/acpi/q35/DSDT.tis             | Bin 8465 -> 8894 bytes
- tools/meson.build                        |   8 +
- tools/vhost-user-rng/50-qemu-rng.json.in |   5 +
- tools/vhost-user-rng/meson.build         |  10 +
- 52 files changed, 1863 insertions(+), 42 deletions(-)
- create mode 100644 docs/bypass-iommu.txt
- create mode 100644 include/hw/virtio/vhost-user-i2c.h
- create mode 100644 include/hw/virtio/vhost-user-rng.h
- create mode 100644 hw/virtio/vhost-user-i2c-pci.c
- create mode 100644 hw/virtio/vhost-user-i2c.c
- create mode 100644 hw/virtio/vhost-user-rng-pci.c
- create mode 100644 hw/virtio/vhost-user-rng.c
- create mode 100644 tools/vhost-user-rng/main.c
- create mode 100644 docs/tools/vhost-user-rng.rst
- create mode 100644 tools/vhost-user-rng/50-qemu-rng.json.in
- create mode 100644 tools/vhost-user-rng/meson.build
+diff --git a/hw/i386/acpi-build.h b/hw/i386/acpi-build.h
+index 74df5fc612..487ec7710f 100644
+--- a/hw/i386/acpi-build.h
++++ b/hw/i386/acpi-build.h
+@@ -5,6 +5,10 @@
+ 
+ extern const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio;
+ 
++/* PCI Hot-plug registers bases. See docs/spec/acpi_pci_hotplug.txt */
++#define ACPI_PCIHP_SEJ_BASE 0x8
++#define ACPI_PCIHP_BNMR_BASE 0x10
++
+ void acpi_setup(void);
+ 
+ #endif
+diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+index df519e40b5..596120d97f 100644
+--- a/include/hw/acpi/ich9.h
++++ b/include/hw/acpi/ich9.h
+@@ -28,6 +28,8 @@
+ #include "hw/acpi/acpi_dev_interface.h"
+ #include "hw/acpi/tco.h"
+ 
++#define ACPI_PCIHP_ADDR_ICH9 0x0cc4
++
+ typedef struct ICH9LPCPMRegs {
+     /*
+      * In ich9 spec says that pm1_cnt register is 32bit width and
+diff --git a/include/hw/acpi/pcihp.h b/include/hw/acpi/pcihp.h
+index 2dd90aea30..af1a169fc3 100644
+--- a/include/hw/acpi/pcihp.h
++++ b/include/hw/acpi/pcihp.h
+@@ -55,7 +55,8 @@ typedef struct AcpiPciHpState {
+ } AcpiPciHpState;
+ 
+ void acpi_pcihp_init(Object *owner, AcpiPciHpState *, PCIBus *root,
+-                     MemoryRegion *address_space_io, bool bridges_enabled);
++                     MemoryRegion *address_space_io, bool bridges_enabled,
++                     uint16_t io_base);
+ 
+ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                    DeviceState *dev, Error **errp);
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 4999277d57..d98a284b7a 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -37,7 +37,6 @@
+ #include "qom/qom-qobject.h"
+ #include "trace.h"
+ 
+-#define ACPI_PCIHP_ADDR 0xae00
+ #define ACPI_PCIHP_SIZE 0x0018
+ #define PCI_UP_BASE 0x0000
+ #define PCI_DOWN_BASE 0x0004
+@@ -488,10 +487,11 @@ static const MemoryRegionOps acpi_pcihp_io_ops = {
+ };
+ 
+ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+-                     MemoryRegion *address_space_io, bool bridges_enabled)
++                     MemoryRegion *address_space_io, bool bridges_enabled,
++                     uint16_t io_base)
+ {
+     s->io_len = ACPI_PCIHP_SIZE;
+-    s->io_base = ACPI_PCIHP_ADDR;
++    s->io_base = io_base;
+ 
+     s->root = root_bus;
+     s->legacy_piix = !bridges_enabled;
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 0bd23d74e2..48f7a1edbc 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -49,6 +49,8 @@
+ #define GPE_BASE 0xafe0
+ #define GPE_LEN 4
+ 
++#define ACPI_PCIHP_ADDR_PIIX4 0xae00
++
+ struct pci_status {
+     uint32_t up; /* deprecated, maintained for migration compatibility */
+     uint32_t down;
+@@ -607,7 +609,7 @@ static void piix4_acpi_system_hot_add_init(MemoryRegion *parent,
+ 
+     if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
+         acpi_pcihp_init(OBJECT(s), &s->acpi_pci_hotplug, bus, parent,
+-                        s->use_acpi_hotplug_bridge);
++                        s->use_acpi_hotplug_bridge, ACPI_PCIHP_ADDR_PIIX4);
+     }
+ 
+     s->cpu_hotplug_legacy = true;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 357437ff1d..e1c246d6e8 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -219,10 +219,6 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
+         pm->fadt.rev = 1;
+         pm->cpu_hp_io_base = PIIX4_CPU_HOTPLUG_IO_BASE;
+-        pm->pcihp_io_base =
+-            object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
+-        pm->pcihp_io_len =
+-            object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+     }
+     if (lpc) {
+         uint64_t smi_features = object_property_get_uint(lpc,
+@@ -238,6 +234,10 @@ static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+         pm->smi_on_cpu_unplug =
+             !!(smi_features & BIT_ULL(ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT));
+     }
++    pm->pcihp_io_base =
++        object_property_get_uint(obj, ACPI_PCIHP_IO_BASE_PROP, NULL);
++    pm->pcihp_io_len =
++        object_property_get_uint(obj, ACPI_PCIHP_IO_LEN_PROP, NULL);
+ 
+     /* The above need not be conditional on machine type because the reset port
+      * happens to be the same on PIIX (pc) and ICH9 (q35). */
+@@ -392,6 +392,9 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+ 
+         if (!pdev) {
+             if (bsel) { /* add hotplug slots for non present devices */
++                if (pci_bus_is_express(bus) && slot > 0) {
++                    break;
++                }
+                 dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
+                 aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
+                 aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
+@@ -521,7 +524,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+             QLIST_FOREACH(sec, &bus->child, sibling) {
+                 int32_t devfn = sec->parent_dev->devfn;
+ 
+-                if (pci_bus_is_root(sec) || pci_bus_is_express(sec)) {
++                if (pci_bus_is_root(sec)) {
+                     continue;
+                 }
+ 
+@@ -1251,7 +1254,7 @@ static void build_piix4_isa_bridge(Aml *table)
+     aml_append(table, scope);
+ }
+ 
+-static void build_piix4_pci_hotplug(Aml *table)
++static void build_x86_acpi_pci_hotplug(Aml *table, uint64_t pcihp_addr)
+ {
+     Aml *scope;
+     Aml *field;
+@@ -1260,20 +1263,22 @@ static void build_piix4_pci_hotplug(Aml *table)
+     scope =  aml_scope("_SB.PCI0");
+ 
+     aml_append(scope,
+-        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(0xae00), 0x08));
++        aml_operation_region("PCST", AML_SYSTEM_IO, aml_int(pcihp_addr), 0x08));
+     field = aml_field("PCST", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("PCIU", 32));
+     aml_append(field, aml_named_field("PCID", 32));
+     aml_append(scope, field);
+ 
+     aml_append(scope,
+-        aml_operation_region("SEJ", AML_SYSTEM_IO, aml_int(0xae08), 0x04));
++        aml_operation_region("SEJ", AML_SYSTEM_IO,
++                             aml_int(pcihp_addr + ACPI_PCIHP_SEJ_BASE), 0x04));
+     field = aml_field("SEJ", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("B0EJ", 32));
+     aml_append(scope, field);
+ 
+     aml_append(scope,
+-        aml_operation_region("BNMR", AML_SYSTEM_IO, aml_int(0xae10), 0x08));
++        aml_operation_region("BNMR", AML_SYSTEM_IO,
++                             aml_int(pcihp_addr + ACPI_PCIHP_BNMR_BASE), 0x08));
+     field = aml_field("BNMR", AML_DWORD_ACC, AML_NOLOCK, AML_WRITE_AS_ZEROS);
+     aml_append(field, aml_named_field("BNUM", 32));
+     aml_append(field, aml_named_field("PIDX", 32));
+@@ -1407,7 +1412,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         build_piix4_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
+         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+-            build_piix4_pci_hotplug(dsdt);
++            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
+         }
+         build_piix4_pci0_int(dsdt);
+     } else {
+@@ -1455,6 +1460,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         }
+         build_q35_isa_bridge(dsdt);
+         build_isa_devices_aml(dsdt);
++        if (pm->pcihp_bridge_en) {
++            build_x86_acpi_pci_hotplug(dsdt, pm->pcihp_io_base);
++        }
+         build_q35_pci0_int(dsdt);
+         if (pcms->smbus && !pcmc->do_not_add_smb_acpi) {
+             build_smb0(dsdt, pcms->smbus, ICH9_SMB_DEV, ICH9_SMB_FUNC);
+@@ -1489,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     {
+         aml_append(scope, aml_name_decl("_HID", aml_string("ACPI0006")));
+ 
+-        if (misc->is_piix4 && (pm->pcihp_bridge_en || pm->pcihp_root_en)) {
++        if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
+             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
+             aml_append(method,
+                 aml_acquire(aml_name("\\_SB.PCI0.BLCK"), 0xFFFF));
+-- 
+MST
 
 
