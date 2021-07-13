@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD693C6C1E
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 10:41:39 +0200 (CEST)
-Received: from localhost ([::1]:60040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F0D3C6CD1
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:03:08 +0200 (CEST)
+Received: from localhost ([::1]:39920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Dz0-0006Qe-S6
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 04:41:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
+	id 1m3EJn-0005OQ-Ni
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:03:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1m3Dy4-0005go-8G
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:40:40 -0400
-Received: from mga01.intel.com ([192.55.52.88]:49492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1m3Dy1-0006aV-KS
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:40:39 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="231924238"
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="231924238"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2021 01:40:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="654075281"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by fmsmga005.fm.intel.com with ESMTP; 13 Jul 2021 01:40:25 -0700
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 13 Jul 2021 01:40:24 -0700
-Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
- SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Tue, 13 Jul 2021 16:40:22 +0800
-Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
- SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.010;
- Tue, 13 Jul 2021 16:40:21 +0800
-From: "Wang, Wei W" <wei.w.wang@intel.com>
-To: Peter Xu <peterx@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Thread-Topic: [PATCH] migration: Move bitmap_mutex out of
- migration_bitmap_clear_dirty()
-Thread-Index: AQHXbeunvJLboMuimkuCIYxaPrgzEKtAp0+A
-Date: Tue, 13 Jul 2021 08:40:21 +0000
-Message-ID: <9a8224c9a02b4d9395f6581b24deaa54@intel.com>
-References: <20210630200805.280905-1-peterx@redhat.com>
-In-Reply-To: <20210630200805.280905-1-peterx@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m3EHr-00030v-KE
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:01:07 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m3EHp-0004sS-3F
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:01:07 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m3EHk-00012J-7d
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:01:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 350772E8167
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:01:00 +0000 (UTC)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=wei.w.wang@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Jul 2021 08:51:32 -0000
+From: Alexander Richardson <1916269@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: i386 tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arichardson janitor th-huth
+X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
+X-Launchpad-Bug-Modifier: Alexander Richardson (arichardson)
+References: <161375459275.29060.15778429539023668893.malonedeb@soybean.canonical.com>
+Message-Id: <162616629280.24709.9078223427806292512.malone@soybean.canonical.com>
+Subject: [Bug 1916269] Re: TCG: QEMU incorrectly raises exception on SSE4.2
+ CRC32 instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
+X-Launchpad-Hash: 6fd369874073ec0f4346d746bbad8916180979c1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
 X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,71 +72,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras
- Soares Passos <lsoaresp@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Reply-To: Bug 1916269 <1916269@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thursday, July 1, 2021 4:08 AM, Peter Xu wrote:
-> Taking the mutex every time for each dirty bit to clear is too slow, espe=
-cially we'll
-> take/release even if the dirty bit is cleared.  So far it's only used to =
-sync with
-> special cases with qemu_guest_free_page_hint() against migration thread,
-> nothing really that serious yet.  Let's move the lock to be upper.
->=20
-> There're two callers of migration_bitmap_clear_dirty().
->=20
-> For migration, move it into ram_save_iterate().  With the help of MAX_WAI=
-T
-> logic, we'll only run ram_save_iterate() for no more than 50ms-ish time, =
-so taking
-> the lock once there at the entry.  It also means any call sites to
-> qemu_guest_free_page_hint() can be delayed; but it should be very rare, o=
-nly
-> during migration, and I don't see a problem with it.
->=20
-> For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot to t=
-ake
-> that lock even when calling ramblock_sync_dirty_bitmap(), where another
-> example is migration_bitmap_sync() who took it right.  So let the mutex c=
-over
-> both the
-> ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.
->=20
-> It's even possible to drop the lock so we use atomic operations upon rb->=
-bmap
-> and the variable migration_dirty_pages.  I didn't do it just to still be =
-safe, also
-> not predictable whether the frequent atomic ops could bring overhead too =
-e.g.
-> on huge vms when it happens very often.  When that really comes, we can
-> keep a local counter and periodically call atomic ops.  Keep it simple fo=
-r now.
->=20
-> Cc: Wei Wang <wei.w.wang@intel.com>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Reported on GitLab as https://gitlab.com/qemu-project/qemu/-/issues/427
 
-FWIW
-Reviewed-by: Wei Wang <wei.w.wang@intel.com>
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #427
+   https://gitlab.com/qemu-project/qemu/-/issues/427
 
-If no one could help do a regression test of free page hint, please documen=
-t something like this in the patch:
-Locking at the coarser granularity is possible to minimize the improvement =
-brought by free page hints, but seems not causing critical issues.
-We will let users of free page hints to report back any requirement and com=
-e up with a better solution later.
+-- =
 
-Best,
-Wei
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916269
 
+Title:
+  TCG: QEMU incorrectly raises exception on SSE4.2 CRC32 instruction
 
+Status in QEMU:
+  Expired
+
+Bug description:
+  If I run FreeBSD on QEMU 5.2 with TCG acceleration -cpu Nehalem, I get
+  a FPU exception when executing crc32
+  (https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=3D253617). This is
+  not a problem with the default CPU (or KVM) since that does not
+  support SSE 4.2.
+
+  Attaching GDB shows this is triggered in
+  target/i386/tcg/translate.c:3067
+
+      /* simple MMX/SSE operation */
+      if (s->flags & HF_TS_MASK) {
+          gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+          return;
+      }
+
+  However, according to
+  https://software.intel.com/sites/default/files/m/8/b/8/D9156103.pdf,
+  page 61 the CRC32 instruction works no matter what the value of the TS
+  bit.
+
+  The code sequence in question is:
+  0xffffffff8105a4de <+126>:	f2 48 0f 38 f1 de	crc32q %rsi,%rbx
+  0xffffffff8105a4e4 <+132>:	f2 48 0f 38 f1 ca	crc32q %rdx,%rcx.
+
+  This should work even with the FPU disabled.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916269/+subscriptions
 
