@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1E33C78F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:25:47 +0200 (CEST)
-Received: from localhost ([::1]:36314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997283C78F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:27:59 +0200 (CEST)
+Received: from localhost ([::1]:44998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3PuU-00015H-56
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:25:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
+	id 1m3Pwc-0007Oz-JS
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pp4-0008VF-99
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44234)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PpK-0000Fa-59
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pp0-0007XU-0d
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:09 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PpG-0007ns-Nm
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211205;
+ s=mimecast20190719; t=1626211222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o/hmecJHLqWZ/BY8YWnw3VpukSO4hxCzqvER0n9EBPk=;
- b=dJn1xqq2ls9d6feHKlXE45hEGZrb8ylbfzO15pMMGgZKhmwmbSwovhiKviADXNqejp9LCK
- ubms1HY+Ek9A8Rswn3Nc26/2+wyUy6GlWJ66COQfUYfLo3zQprowQVnTC4yPOtOzqo6EbH
- kxhQT4eIM+V05AdYlwPn07EMjVr/paI=
+ bh=5WjdnKvlhDKw/K0bGSWT2bC924E+aJKhN61S3ckmz/c=;
+ b=fB3UHC9EYFhmmVTdfTgtTa05clkOeuSaQqFpd/9KxhvJRBIigK3C0zMKpIsLtVHk6Y1s5n
+ I/HhXpQcC8KKVeZvhbmX0B6Lixthe34X0q7Dyc534B5i/IcXqO9baSe5DCtOQGZM8mkB54
+ 0kmR90KXOYSJscGz+7M6LgKLXuVxLFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-42-NpgRYWq_PeOXNyFr-_uV_g-1; Tue, 13 Jul 2021 17:19:58 -0400
-X-MC-Unique: NpgRYWq_PeOXNyFr-_uV_g-1
+ us-mta-284-fprFwuLMNGO2qHz9dF8DlA-1; Tue, 13 Jul 2021 17:20:20 -0400
+X-MC-Unique: fprFwuLMNGO2qHz9dF8DlA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E09AA1084F4B;
- Tue, 13 Jul 2021 21:19:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88122804300;
+ Tue, 13 Jul 2021 21:20:18 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 600DC19C44;
- Tue, 13 Jul 2021 21:19:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A5B019C45;
+ Tue, 13 Jul 2021 21:19:55 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 01/23] Acceptance Tests: use the job work directory for created
- VMs
-Date: Tue, 13 Jul 2021 17:19:01 -0400
-Message-Id: <20210713211923.3809241-2-crosa@redhat.com>
+Subject: [PULL 02/23] Acceptance Tests: log information when creating
+ QEMUMachine
+Date: Tue, 13 Jul 2021 17:19:02 -0400
+Message-Id: <20210713211923.3809241-3-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -97,38 +97,44 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMUMachine uses a base temporary directory for all temporary
-needs.  By setting it to the Avocado's workdir, it's possible to
-keep the temporary files during debugging sessions much more
-easily by setting the "--keep-tmp" command line option.
-
-Reference: https://avocado-framework.readthedocs.io/en/85.0/api/test/avocado.html#avocado.Test.workdir
-Reference:
-https://avocado-framework.readthedocs.io/en/85.0/config/index.html#run-keep-tmp
+Including its base temporary directory, given that information useful
+for debugging can be put there.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210211220146.2525771-4-crosa@redhat.com>
+Message-Id: <20210211220146.2525771-5-crosa@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 93c4b9851f..693c226d91 100644
+index 693c226d91..4ce09de4fa 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -221,7 +221,8 @@ def setUp(self):
+@@ -219,10 +219,12 @@ def setUp(self):
+         if self.qemu_bin is None:
+             self.cancel("No QEMU binary defined or found in the build tree")
  
-     def _new_vm(self, *args):
+-    def _new_vm(self, *args):
++    def _new_vm(self, name, *args):
          self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
--        vm = QEMUMachine(self.qemu_bin, sock_dir=self._sd.name)
-+        vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
-+                         sock_dir=self._sd.name)
+         vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
+                          sock_dir=self._sd.name)
++        self.log.debug('QEMUMachine "%s" created', name)
++        self.log.debug('QEMUMachine "%s" temp_dir: %s', name, vm.temp_dir)
          if args:
              vm.add_args(*args)
          return vm
+@@ -235,7 +237,7 @@ def get_vm(self, *args, name=None):
+         if not name:
+             name = str(uuid.uuid4())
+         if self._vms.get(name) is None:
+-            self._vms[name] = self._new_vm(*args)
++            self._vms[name] = self._new_vm(name, *args)
+             if self.machine is not None:
+                 self._vms[name].set_machine(self.machine)
+         return self._vms[name]
 -- 
 2.31.1
 
