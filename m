@@ -2,82 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86473C6DC5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:51:35 +0200 (CEST)
-Received: from localhost ([::1]:33844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5E53C6DC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:52:50 +0200 (CEST)
+Received: from localhost ([::1]:37126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3F4g-0007sO-U0
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56694)
+	id 1m3F5t-0001jA-Qz
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:52:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3F3Q-0006p5-85; Tue, 13 Jul 2021 05:50:16 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46975)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3F3N-0005sz-L2; Tue, 13 Jul 2021 05:50:15 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id d12so29015945wre.13;
- Tue, 13 Jul 2021 02:50:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j1DK2UF5ZgzZEY1UDq41etrSA1BnEGsxFTcB6KYxODA=;
- b=Sw2Hn7OfFNPCU20J53cD3gxhh2QC3GR3uu35hfNZKpK/q+wepwY9YjX9V1E5G0RQpi
- MyfixKhZ3YUpggRq4G66iP6w7zWny6jAW/t4G8AZbVuN03vsOqVH1YjoiPdozf5StBhS
- Dfu7GVe5ysq/XY6S3kBsN2tnxPi3fVBMjqjZZLZVZAfeXdgxfeKUumzJgSeB8GPc7WkG
- l/p3CehHWAuvS8QQ0/tii9GFYS12dMSzfy76cmAMYgXEcHTVnc0SU7f9EtYzUVrlLH/K
- r5r63h+rvWYUPg7ytosPt++xgpz7qHbjDDwbW/q30FJHyfNpTpQyAoSw1KV56/7Y49pd
- Kuqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j1DK2UF5ZgzZEY1UDq41etrSA1BnEGsxFTcB6KYxODA=;
- b=NWbnH9ff8UNFVLpaBvHtP+WfvnQtw3CMghWetUVIruNnfjzMLzn/IX71pNjUv8Jyak
- 7woTO+HlW8iNFjaR0EqCfrucppcvYloHdfg1KwqX8r2fUQwI0JYe34MTAmlcpDr7rBpq
- CZho0MlBRFqsoeL6xNeg1bT3EOgY+OjAw7taJQVqh9rp45YOybEvJcIkCP/gLJg6H1a6
- orJG2XuVIdtyLngR3PalWc734LzJGVNmx25W4IcqaY2igepJaQnUoQ8hTOo35f3nmkur
- aT5mMmRwCtlVbRD/l+1R22hAzrf4W7R9pjbDTS77tVzvPo2nPvzVIT1HfV97sYX42YOM
- 7OMQ==
-X-Gm-Message-State: AOAM530bhmqfHQPrHaNha+ExzGrKyXY+zzUEEPSOJP1Au9Z4AMwu7LAE
- TVYkOvnXXX8gHpAQp9jYw22Tf6UyY9U1og==
-X-Google-Smtp-Source: ABdhPJzvf062wX/jgSe1VeQLhoBf/Pq8EGXWTUGWi9UGycTszw8ZhymZQ0IgWYXNE6Ye05GMiwP6kw==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr4490766wre.419.1626169810617; 
- Tue, 13 Jul 2021 02:50:10 -0700 (PDT)
-Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
- [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id d24sm1820508wmb.42.2021.07.13.02.50.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 02:50:09 -0700 (PDT)
-Subject: Re: [PATCH 2/2] tests/acceptance: Add tests for the Pegasos2 machine
-To: Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210515134555.307404-1-f4bug@amsat.org>
- <20210515134555.307404-3-f4bug@amsat.org>
- <cba2fc2f-9a6c-ea5d-5005-82713e4b645b@redhat.com>
- <875yxf1935.fsf@p50.localhost.localdomain>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2bae817a-68f8-befb-7d2a-4b0eb3853c8c@amsat.org>
-Date: Tue, 13 Jul 2021 11:50:08 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m3F3j-0007A6-6G; Tue, 13 Jul 2021 05:50:35 -0400
+Received: from mail-eopbgr60125.outbound.protection.outlook.com
+ ([40.107.6.125]:8641 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m3F3h-00065b-I7; Tue, 13 Jul 2021 05:50:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J2jGe8Q5+fA/MGZ1UwUbGY6b1T/1f2pURbf8mQrSIyvFuXxQXOwk5tyTATmIz/2ecJYQLz2bLdTE2xpzS1aVWvWtnbjgVQvJjok1DelCjzGCNgbhxlCPVKj7pLGTtSHycI2dfYnN06rUQ/euWRpF29W+2ScA2/54PKu/hZl5KySclTHu6gAUm7JvJJWQHAw9T4E75tN/80F2iLHjoDo6y24LhjI7H4SxNJTYdWLJSCf9vbrvxIvJ0Lf0O/q6cmtvotWu4F42BsfuveCCo01nRBGnxs1009Deggogct7zzjXz3mWsrSoCfAeCCkJtQSmIeE0ziYJSzlJd24IPeLzJIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LcX3sRwdTBMAR7NatWfHBZiFG0pprXs0ivgQ5/4Dl5o=;
+ b=kuWadFPfIg5mecE3QaUgWrdNar/kj1/oZSXEuA/sNdi/c3feIKVLEEZLaRanZpL7ftd6ZVrDWO9Ja7GWRNbq2sGnXdveqj2BLanMHVGMdtAA637OPb9V75UGugtwqNWsMbDYaOxE3gWVK5asx9XCd8d+/F6oxqt2LQBlYZVJ14JJ9gkhPrl98FvuLCymIJtEAkgliJ0iJDPIPxEv5sZ3Ky+Ly3ZDQlwAUbkfxmgoBnXBEBPiGYju2ourDv0EvTPsQhE0ewChC8v8Y5aqHiSMdfEbGVXAR0wAoyKlFsGcxpjZKfBGvtVkNe7+v3fBKGe6IydjkJqWfPbKfjj/mewegw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LcX3sRwdTBMAR7NatWfHBZiFG0pprXs0ivgQ5/4Dl5o=;
+ b=G/rdeQgy6sc1G9JLZDIvat078wppfiMVDB/3K7iHhk0VOuhtHRBFx1GZP1wIH6lwUiCv9/xP1/6Q+tqSJfadcFzEquSAif9I+A1iu8gPb2IrGMe0Nr06CacMKuEKmDjENkeQsowbcnqZ/AxUNUAbycVTOpfiVCHB4P38pDUOba0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1713.eurprd08.prod.outlook.com (2603:10a6:203:34::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Tue, 13 Jul
+ 2021 09:50:30 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 09:50:30 +0000
+Subject: Re: [PATCH 10/10] python: Add iotest linters to test suite
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-block@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
+References: <20210625182021.803227-1-jsnow@redhat.com>
+ <20210625182021.803227-11-jsnow@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <8c61eec0-3b6e-28d1-7bbb-867a8cef3be4@virtuozzo.com>
+Date: Tue, 13 Jul 2021 12:50:28 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <875yxf1935.fsf@p50.localhost.localdomain>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210625182021.803227-11-jsnow@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: HE1P18901CA0012.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:3:8b::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.215) by
+ HE1P18901CA0012.EURP189.PROD.OUTLOOK.COM (2603:10a6:3:8b::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.20 via Frontend Transport; Tue, 13 Jul 2021 09:50:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 90b1e01e-8417-4f0f-dd90-08d945e3a69a
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1713:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB17131C6AEDBE0C40133528D5C1149@AM5PR0801MB1713.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: jPljy9pY5aRBeQFjldbP/F/eIwL4+8Tm4Eo9T4/4MMjjBb9OCxQj3dzy3u3rOtipRPFlYrs7Djyuk+Axi4sAsAbHuTsGEo6+i2YdNhdg21Ev4ZBfpzAXzZLq0ihQorFz22TMTzVuU4y5o/oIC7jYQmnTEJin6KWMzgl0N4/6r1aAaMRSKeUF73+DWJQjpgrH1bWJycfvPkcRxd+QudTi5uP/zHLSAM3OtJ0xh9YY48qMqBrHQuoyDu1tqZlnYIFOBO/FqTTFELy+wYHZ6O04JAC+9sppNoKmB/UieoIL3+ldd7liQeAo+sXNr6NUf907iqwPzveGYTcUMYMO3aG02OTcejTp3hNJn5eJU6jiihiPmiQwGciy5lVUUwtXWxQkPSfX2wpzl1qgijONrPO7g4ugt6d4ivE7icjfMI7Gynyut2Tm93kh31mE7K3eGWVUG0WH2g9lH8hWWXYZgoFBiRlbaktxKYsZCmSuGAZw351az2LYTAn2lHp+UpUGEurpUBV1P99gNqHzcGmr9EAI9KXKjqpltJi1g0DE6wS0GYOESO5aZKE9ZyA7lB0WMHKBb3I5P4nI8iyX/KZ4U56muaTEDE1OYiF36P/HoJgDTciEBgnfE9ycMlD+Gm2dMGN7beKoiYPdrfLLxCIKBq5OhA325ztEIpVlc3LoelmyQa06239pI19WkUU5lAkTn0pM3vTTmOS2tyQytd0sJkuYMmV851MrvBzurtsiZcWEAUXmiV2gQAdRCy2jq6DgW4V5RYcMuosOk8UomJTo8d52mA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38350700002)(2616005)(956004)(498600001)(36756003)(4744005)(6486002)(26005)(4326008)(8676002)(186003)(86362001)(52116002)(31696002)(2906002)(38100700002)(5660300002)(31686004)(16576012)(8936002)(66476007)(54906003)(66556008)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U2xpcWRrOTIrYkJ3OHBLa2gzbWl6RkxPcWMzZHppNHZ0TkswNzJhSTd2RVEw?=
+ =?utf-8?B?Q01pd1BrWmZLRVJwb3gvUERhTTVibGdIMWQ4S1JQRzV5UXlRdy9iaXYvZ2xH?=
+ =?utf-8?B?S3JzVzlxdUNaTWpVYjQ5TlRjZkhHdXBPTWN1L2NRY3d0ZHJZa0d3TDltNGxr?=
+ =?utf-8?B?SHRGcVh3N3VYamRyWSs1cGhYUFlDUEd2RFRIUWpXSnZXeTJXbVZDOEx3NjUz?=
+ =?utf-8?B?dy9sUnhpNVo3TW96VndCaE5ZbGJJR3dNZnBsM29IZGNhcEY3NFcyekpoTUt0?=
+ =?utf-8?B?WFNiT3RyMVk1N1dHWUR0VzRJWDlyMDA1RkkvdFdqa2p5U2ZoelJDK1NmREw0?=
+ =?utf-8?B?Z0Q0RmRCMEpIS3pMUkYxNE4rRTFuMmR6V3VUblY4UkhESFoyMUhxbHVnUCta?=
+ =?utf-8?B?M0NFK0dqU0lscmg3dHp6WHd4aXFBdURxWEdFQStNaFRYWE9Xa3BXQ2xheFpJ?=
+ =?utf-8?B?eFZkZFJIbmNSZkpzamQzSHlqQTBEb0lFRDdMMSt1Zi92Mk41L3h3ZndSelUx?=
+ =?utf-8?B?MWg0UW5zTkQyalFQcTJZNEQycVl0eVJNS1JhZkErZWhpWHNQaFFkWDV2cVJh?=
+ =?utf-8?B?V2NBNXppTFNJalFIOGJ4Q21VNTZRRzR1Y0RGZ1Vhak55RWllcDIxTDRQbCty?=
+ =?utf-8?B?T002U1BpaGYzKzdWbFpINzY4b21nWkhSSkErMVZKTFIxanFVTGhCK3BnWEJT?=
+ =?utf-8?B?c3U5M29aZzA4dFVjdFRIdElRdDNBUlorZmFSREk5TWkvdFNMZDB1a1JIa0FK?=
+ =?utf-8?B?T0UvWHcvb3lDR0VIanFNZDdjSkg2OVpkOU9qWnhuVFJQeWc5cnlDLzE2RERF?=
+ =?utf-8?B?NjZNeGV4UXQyWUl3L2ZFcndzSVIzc3czZWdKT1lhYUhUdk9zZGlPektCVGlI?=
+ =?utf-8?B?VHZzWExENEh6UmhDbnZMZ2dLNkJldTNXZ291clR3b2luSUpxK0M4TjNHRStG?=
+ =?utf-8?B?R0dHSGxpWUJLemQ2STVTUG83bWFtZEtpbWE1eWJyakd3ZmpaYTZpRVN1TjZt?=
+ =?utf-8?B?bUJEWFV1RC9uRE9mQkhrVmhCUGwxMVIza3FZRnlVY3A5bTUwTlF2UlhXVktD?=
+ =?utf-8?B?cHdyRlhPcVBaOGtwemZGaEZUSk9rM3o2aE14MkR3T0RmRk9WNWhzYWcyclBx?=
+ =?utf-8?B?YVZic1FNNjYvZWlWSEpFaE8yOGVQUXVsRGFKa2kvUlJaMmVUbVA4UGpHZ001?=
+ =?utf-8?B?dW9lUTZpNFZ1REJ5S1MrK0FGVUlSa3YzcHdlRlFnT2ErZWxYREtmd0dhZ3Ix?=
+ =?utf-8?B?NWNhL05YSVFReUVpc1NzVDhzSU1zcHFMZUl4SmtLbjBxWWswbkdjTEF4SzVn?=
+ =?utf-8?B?MkdxZEZrZG1RbHhEY3VNeU9ZOWlxb1FpRDFEYm1aOEF6VVBHaTQ3MVh1NWZa?=
+ =?utf-8?B?cGtmcTk2MXV6OFozbDU2ZzZ5WXVzY3F3VVNjNnFXSk5MM2tGZjBJSno3OFBY?=
+ =?utf-8?B?eUttZVQzSVRuN2pMOGpDdFZLWTc5a3BUcmMvU1l6U2g3eE0yRmZQSCtkSlAx?=
+ =?utf-8?B?Vlk5Uk5xQTdQcTVRWElaTndKZ3ltb2I0WDNsdlBJbWlOWFFLcUVLbjFNMHpS?=
+ =?utf-8?B?V1F1WjRzMFY2L0R3MHlaN1djbkc1S1JxcWdiSzg5TWN4Szh3d2IvZkVTRHdK?=
+ =?utf-8?B?aFJNcU9hak1VWmVYWi9wSlI4ZmVSVmxOTVg2SFUxWjFEd1ZDdTRBNTdMYWVl?=
+ =?utf-8?B?a0NDUGNERVlIQ0VlNXROM296TS9YaWtkaVNOM0VVWmo5WDlrbXVMbm9VSXEz?=
+ =?utf-8?Q?3vh1F/U73IYKu6xFFhDT4LIhAYDd7eHbsnQx/yQ?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90b1e01e-8417-4f0f-dd90-08d945e3a69a
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 09:50:30.5541 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z1B2u+dpK+tsXK0cJlKF/YKMjYnhrMRdBk5zVygUZYuYP+j8lGz/y4cV7cIjL6dxh0ygoY7RyNH4w3rCeAOXKFA/vm0LTcgCFSJ6cnKxdeE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1713
+Received-SPF: pass client-ip=40.107.6.125;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-1.479,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,256 +145,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 12:05 AM, Cleber Rosa wrote:
-> Wainer dos Santos Moschetta writes:
+25.06.2021 21:20, John Snow wrote:
+> As a convenience, since iotests is an extremely prominent user of the
+> qemu.qmp and qemu.machine packages and already implements a linting
+> regime, run those tests as well so that it's very hard to miss
+> regressions caused by changes to the python library.
 > 
->> Hi,
->>
->> On 5/15/21 10:45 AM, Philippe Mathieu-Daudé wrote:
->>> Add a pair of tests for the Pegasos2 machine following the steps from:
->>> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01553.html
->>>
->>>    $ PEGASOS2_ROM_PATH=/tmp/pegasos2.rom AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
->>>      avocado --show=app,console,tesseract \
->>>        run -t machine:pegasos2 tests/acceptance/
->>>     (1/2) tests/acceptance/machine_ppc_pegasos.py:PPCPegasos2.test_rom_serial_console:
->>>    console: PegasosII Boot Strap (c) 2002-2003 bplan GmbH
->>>    console: Running on CPU PVR:000C0209
->>>    console: Enable L1 ICache...                                                    Done.
->>>    console: Reading W83194 :                                                       FAILED.
->>>    console: Setting Front Side Bus to 133MHz...                                    FAILED.
->>>    console: Configuring DDR...                                                     Done.
->>>    console: Configuring PCI0...                                                    Done.
->>>    console: Configuring PCI1...                                                    Done.
->>>    console: Configuring ETH...                                                     Done.
->>>    console: Releasing IDE reset ...                                                Done.
->>>    console: Configuring Legacy Devices
->>>    console: Initializing KBD...                                                    Done.
->>>    console: Testing 10000000 Bytes, Pass: 00000000 Failed: 00000000
->>>    console: RAM TEST (fill linear)...                                              Done.
->>>    console: FFFFFFFF
->>>    console: SmartFirmware:
->>>    console: cpu0: PowerPC,G4 CPUClock 599 Mhz BUSClock 133 Mhz (Version 0x000C,0x0209)
->>>    console: no/bad nvramrc - performing default startup script
->>>    console: channel 1 unit 0 : atapi | QEMU DVD-ROM                             | 2.5+
->>>    console: ATA device not present or not responding
->>>    console: Welcome to SmartFirmware(tm) for bplan Pegasos2 version 1.1 (20040405172512)
->>>    PASS (5.23 s)
->>>     (2/2) tests/acceptance/machine_ppc_pegasos.py:PPCPegasos2.test_morphos_cdrom_vga:
->>>    ...
->>>    console: Welcome to SmartFirmware(tm) for bplan Pegasos2 version 1.1 (20040405172512)
->>>    console: SmartFirmware(tm) Copyright 1996-2001 by CodeGen, Inc.
->>>    console: All Rights Reserved.
->>>    console: Pegasos BIOS Extensions Copyright 2001-2003 by bplan GmbH.
->>>    console: All Rights Reserved.
->>>    console: entering main read/eval loop...
->>>    console: ok boot cd boot.img
->>>    console: ISO-9660 filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"
->>>    console: " flags=0x2 extent=0x20 size=0x1800
->>>    console: Memory used before SYS_Init: 9MB
->>>    console: PCI ATA/ATAPI Driver@2: PIO Mode 4
->>>    console: PCI ATA/ATAPI Driver@2: UDMA Mode 5
->>>    console: ide.device@2: QEMU     QEMU DVD-ROM     <CDROM>
->>>    console: ide.device@2:  CDRom <CD001>,<MORPHOS > found, bootable
->>>    tesseract: Ambient Screen 4: Saturday, 15 May 2021, 13:36:06 &
->>>    tesseract: keymap
->>>    tesseract: Albanian keyboard with 101/104 keys
->>>    tesseract: ‘American keyboard with Greek input extension, 105 keys
->>>    tesseract: Belarusian keyboard with 105 keys
->>>    tesseract: Belgian keyboard with 105 keys J
->>>    tesseract: British Apple keyboard
->>>    tesseract: British keyboard with 105 keys
->>>    tesseract: Bulgarian keyboard with 104 keys
->>>    tesseract: Canadian keyboard with 105 keys
->>>    tesseract: Colemak layout for keyboards with 101/104 keys
->>>    tesseract: Croatian keyboard with 101/108 keys
->>>    tesseract: Czech keyboard (QWERTY) with 101/104 keys
->>>    tesseract: Czech keyboard (QWERTZ) with 101/104 keys
->>>    tesseract: Danish keyboard with 105 keys
->>>    PASS (28.56 s)
->>>    RESULTS    : PASS 2 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
->>>    JOB TIME   : 34.42 s
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> ---
->>>   tests/acceptance/machine_ppc_pegasos.py | 98 +++++++++++++++++++++++++
->>>   1 file changed, 98 insertions(+)
->>>   create mode 100644 tests/acceptance/machine_ppc_pegasos.py
->>>
->>> diff --git a/tests/acceptance/machine_ppc_pegasos.py b/tests/acceptance/machine_ppc_pegasos.py
->>> new file mode 100644
->>> index 00000000000..d36e920ebde
->>> --- /dev/null
->>> +++ b/tests/acceptance/machine_ppc_pegasos.py
->>> @@ -0,0 +1,98 @@
->>> +# Functional tests for the Pegasos2 machine.
->>> +#
->>> +# Copyright (c) 2021 Philippe Mathieu-Daudé <f4bug@amsat.org>
->>> +#
->>> +# This work is licensed under the terms of the GNU GPL, version 2 or later.
->>> +# See the COPYING file in the top-level directory.
->>> +#
->>> +# SPDX-License-Identifier: GPL-2.0-or-later
->>> +
->>> +import os
->>> +import time
->>> +
->>> +from avocado import skipUnless
->>> +from avocado_qemu import Test
->>> +from avocado_qemu import exec_command_and_wait_for_pattern
->>> +from avocado_qemu import wait_for_console_pattern
->>> +from tesseract_utils import tesseract_available, tesseract_ocr
->>> +
->>> +PIL_AVAILABLE = True
->>> +try:
->>> +    from PIL import Image
->>> +except ImportError:
->>> +    PIL_AVAILABLE = False
->>> +
->>> +
->>> +@skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
->>> +@skipUnless(os.getenv('PEGASOS2_ROM_PATH'), 'PEGASOS2_ROM_PATH not available')
->>> +class PPCPegasos2(Test):
->>> +    timeout = 60
->>> +
->>> +    def test_rom_serial_console(self):
->>> +        """
->>> +        :avocado: tags=arch:ppc
->>> +        :avocado: tags=machine:pegasos2
->>> +        :avocado: tags=device:mv64361
->>> +        :avocado: tags=device:vt8231
->>> +        """
->>> +        rom_hash = '3248e02596480f2dba5944bd219ecfad'
->>
->> rom_hash the same on both test methods, so it can be an object attribute.
->>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>   python/tests/iotests.sh | 2 ++
+>   1 file changed, 2 insertions(+)
+>   create mode 100755 python/tests/iotests.sh
 > 
-> Good point, agreed.  One more suggestion, is to convert this to a sha1
-> instead, as it's the default fetch_asset() hash algorithm.  The
-> equivalent sha1 hash would be "08dc28afb3d10fb223376a28eebfd07c9f8df9fa".
+> diff --git a/python/tests/iotests.sh b/python/tests/iotests.sh
+> new file mode 100755
+> index 0000000000..ec2fc58066
+> --- /dev/null
+> +++ b/python/tests/iotests.sh
+> @@ -0,0 +1,2 @@
+> +#!/bin/sh -e
+> +PYTHONPATH=../tests/qemu-iotests/ python3 -m linters
+> 
 
-IIRC the agreement / recommendation was to use the hash provided with
-blob first, and if not present, add one using the default (which
-currently is sha1). I used MD5 because this is what was already
-available in [1], I haven't generated it. But ...
 
->>> +        rom_path = self.fetch_asset('file://' + os.getenv('PEGASOS2_ROM_PATH'),
->>> +                                    asset_hash=rom_hash, algorithm='md5')
->>
->> The tester may have the ROM file hosted elsewhere, so I wouldn't
->> prefix it with 'file://'.
->>
-> 
-> While I also agree with your suggestion, since Avocado 85.0, the best way
-> to go about assets that are not publicly available is to reference it by
-> name it and have registered locally with "avocado assets register".
-> 
-> According to [1], users would need to:
-> 
-> 1. Download and ELF file that contains the ROM
-> 2. Extract the rom with "tail -c +85581 up050404 | head -c 524288 >pegasos2.rom"
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-... since Wainer suggested that, the up050404 file MD5 is public:
-http://www.bplan-gmbh.de/flash_update_for_pegasos_ii_en.html
-MD5 checksum:dea2d54d14726bb818e5fa3be9610fcc
-
-So you can use that to verify 'up050404' then os.seek() to extract
-the rom, no need to verify the rom anymore.
-
-> Then, I'd suggest we ask users to run:
-> 
-> 3. avocado assets register --hash 08dc28afb3d10fb223376a28eebfd07c9f8df9fa pegasos2.rom file://`pwd`/pegasos2.rom
-
-And here we'd register 'up050404'.
-
-> With that, we can now simply use:
-> 
->    rom_path = self.fetch_asset('pegasos2.rom', asset_hash=self.rom_hash)
-
-Wow, this is awesome!
-
->>> +
->>> +        self.vm.set_console()
->>> +        self.vm.add_args('-bios', rom_path)
->>> +        self.vm.launch()
->>> +        msg = 'PegasosII Boot Strap (c) 2002-2003 bplan GmbH'
->>> +        wait_for_console_pattern(self, msg)
->>> +        msg = 'Welcome to SmartFirmware(tm) for bplan Pegasos2 version 1.1'
->>> +        wait_for_console_pattern(self, msg)
->>> +
->>> +    def test_morphos_cdrom_vga(self):
->>> +        """
->>> +        :avocado: tags=arch:ppc
->>> +        :avocado: tags=machine:pegasos2
->>> +        :avocado: tags=device:mv64361
->>> +        :avocado: tags=device:vt8231
->>> +        :avocado: tags=device:ati-vga
->>> +        """
->>> +        rom_hash = '3248e02596480f2dba5944bd219ecfad'
->>> +        rom_path = self.fetch_asset('file://' + os.getenv('PEGASOS2_ROM_PATH'),
->>> +                                    asset_hash=rom_hash, algorithm='md5')
->>
->> Likewise.
->>
->> - Wainer
->>
->>> +        iso_url = 'https://www.morphos-team.net/morphos-3.15.iso'
->>> +        iso_hash = 'a19dbfbbc4728e0ba9ceb6335db69ca4'
->>> +        iso_path = self.fetch_asset(iso_url,
->>> +                                    asset_hash=iso_hash, algorithm='md5')
->>> +
->>> +        self.vm.set_console()
->>> +        self.vm.add_args('-bios', rom_path,
->>> +                         '-device', 'ati-vga,romfile=',
->>> +                         '-cdrom', iso_path)
->>> +        self.vm.launch()
->>> +        msg = 'Welcome to SmartFirmware(tm) for bplan Pegasos2 version 1.1'
->>> +        wait_for_console_pattern(self, msg)
->>> +        wait_for_console_pattern(self, 'entering main read/eval loop...')
->>> +        msg = 'filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"'
->>> +        exec_command_and_wait_for_pattern(self, 'boot cd boot.img', msg)
->>> +
->>> +        msg = 'ide.device@2:  CDRom <CD001>,<MORPHOS > found, bootable'
->>> +        wait_for_console_pattern(self, msg)
->>> +        if PIL_AVAILABLE:
->>> +            delay_s = 20 if tesseract_available(4) else 8
->>> +
->>> +            self.log.info('VM launched, waiting for display')
->>> +            # TODO: Use avocado.utils.wait.wait_for to catch the
->>> +            #       'displaysurface_create 1120x832' trace-event.
->>> +            time.sleep(delay_s)
->>> +
->>> +            screenshot_path = os.path.join(self.workdir, "dump.ppm")
->>> +            self.vm.command('human-monitor-command',
->>> +                            command_line='screendump %s' % screenshot_path)
->>> +            width, height = Image.open(screenshot_path).size
->>> +            self.assertEqual(width, 2048)
->>> +            self.assertEqual(height, 1152)
->>> +
->>> +            if tesseract_available(4):
->>> +                lines = tesseract_ocr(screenshot_path, tesseract_version=4)
->>> +                text = '\n'.join(lines)
->>> +                msg = 'American keyboard with Greek input extension, 105 keys'
->>> +                self.assertIn(msg, text)
-> 
-> Phil,
-> 
-> If you don't mind, I'll send a respin of this test with Wainer's and my
-> suggestions.
-
-Sure, thank you!
-
-> 
-> Cheers,
-> - Cleber.
-> 
-> [1] - https://lists.nongnu.org/archive/html/qemu-ppc/2021-01/msg00112.html
-> [2] - http://web.archive.org/web/20071021223056/http://www.bplan-gmbh.de/up050404/up050404
-> 
+-- 
+Best regards,
+Vladimir
 
