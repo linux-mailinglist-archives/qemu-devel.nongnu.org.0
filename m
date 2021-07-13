@@ -2,84 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D33A33C721D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:25:10 +0200 (CEST)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 652DD3C71FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:20:42 +0200 (CEST)
+Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3JLR-0005KK-QM
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:25:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58984)
+	id 1m3JH7-0004AG-D5
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:20:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3Irs-0001VJ-NP
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:54:36 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:51197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3Irq-0003zJ-WD
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:54:36 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id cu14so6874984pjb.0
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 06:54:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iKExeXRawWuutqBao5avDgZqGNuHn22p/KbPoItNd38=;
- b=SH6lHj8Qnu+jCfKwyAnCpP02nxLv6OowU0AFVCEUTN53c0/RYf7Y5Cnzl96OLVF+pz
- JvbbJM4sLt6/fD27RO43/iqGsRXQ99qad6T6LOIV+HX7fPC8Gq8OjSUlao/Wg1Syr1Ba
- 6ojQ8vVKULhEdGgRWXySlFvS42q2UD5AopxNPYqOkFW39M8w3HNwtgov+vCrlVV4Hc77
- lN6sJograP99gWAxovGCvsPOJBG8Z8MImXH2GLbfT/AFr/7XLeZ01OlPD81iqu4FJ7tp
- XZity/Lh9M2w/a8QGHvKTvIK0itTU5A8Hh8MfusvJq7ci1jCUsvH53ZhOAn9EfNgvoOD
- yCTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iKExeXRawWuutqBao5avDgZqGNuHn22p/KbPoItNd38=;
- b=guBiHj+o3VUUyzZy77w2ygT4OCXdqZXms8TsH0BhaSigvUjJUoM76PBSdEp6H8XwlJ
- QaKEtuQS45Hj84zTbCFwG4cAFdMCO9BnNhj12Ofv0W4EaMsij0Hs3qMTuesHtK8fVz2F
- IiTHJ04FJEoZ3s4qYznPK7R0Cu0opeE9R5CO/JDAomGpZWu7PRpmJeKtE1aVCEPgENfN
- ncnxz6Tp+X/Wiq6PBz8QW6qv9+Bnl68YgM8SWQyCqkzG8EBnDrxRbcoUk059LQcEiz9J
- KH/nmMGNpcGscDNOJBY4iHFG/JUkNZ8D5pHO8bgvsfWZfn93AP4uy2drwDywbY3rKSX3
- 0k7A==
-X-Gm-Message-State: AOAM530KY0++kiyb21urp7SZUq/CvLgBm3Atb8UFQpLKM1keL0KKBOJl
- ACyQ/B5YPsQIxDJQ6TGxw3caIw==
-X-Google-Smtp-Source: ABdhPJysfgeyO58ZxxLVkuKjPi4UKoxDtV9d2qwsuDT7pE/PRgei9xhh+GRUlJr84ElxYcIAo5dXgA==
-X-Received: by 2002:a17:902:b418:b029:12a:edee:a7ff with SMTP id
- x24-20020a170902b418b029012aedeea7ffmr3600520plr.59.1626184473331; 
- Tue, 13 Jul 2021 06:54:33 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id g27sm21515411pgl.19.2021.07.13.06.54.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 06:54:33 -0700 (PDT)
-Subject: Re: [PATCH 01/11] nbd/server: Remove unused variable
-To: Eric Blake <eblake@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20210712215535.1471256-1-richard.henderson@linaro.org>
- <20210712215535.1471256-2-richard.henderson@linaro.org>
- <bdb476db-6e95-b90e-f218-85612009a7aa@virtuozzo.com>
- <20210713130134.zfti7sgxcw4i3dbd@redhat.com>
- <20210713131438.hx2gp6v2jc2qvba3@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d431966e-de56-02f5-bec8-5fa3a7091b19@linaro.org>
-Date: Tue, 13 Jul 2021 06:54:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m3Is2-0001jt-HH
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:54:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m3Is0-00043k-5m
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:54:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626184483;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5is6YPuVMf7wMFyyVjJqqdGLAGYZdzE4kdRAIqEh0KI=;
+ b=F4SR0mdY893Kx8sUlhR412HqnYxVmF/xhcDqyoCDKC66yQ/zNgRY4Q9YKOEypHKD69vmOB
+ WkwbsHbV7xitaZtFrHXXpL4mWI0npo/xwd8BB6HWsTiz4om8TJTSizZHiurOcfj0eoUF2/
+ 9EYyAY+IGlacegAN1pd9ZMxQRU/oegM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-UsedLM0-NouTNiFhIG2j6A-1; Tue, 13 Jul 2021 09:54:39 -0400
+X-MC-Unique: UsedLM0-NouTNiFhIG2j6A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C276610C1ADC;
+ Tue, 13 Jul 2021 13:54:38 +0000 (UTC)
+Received: from redhat.com (ovpn-113-1.ams2.redhat.com [10.36.113.1])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B2D405D6AB;
+ Tue, 13 Jul 2021 13:54:37 +0000 (UTC)
+Date: Tue, 13 Jul 2021 14:54:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] meson: fix condition for io_uring stubs
+Message-ID: <YO2bGlLhH8eY9Ff1@redhat.com>
+References: <20210712151810.508249-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210713131438.hx2gp6v2jc2qvba3@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.368,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210712151810.508249-1-pbonzini@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,34 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 6:14 AM, Eric Blake wrote:
-> Hmm; in glib 2.68.2 (on Fedora 34), g_autofree does NOT include an
-> attribute unused.  Thus, does this silence the compiler?  (Even cooler
-> would be making the comment a link to an actual bug in the clang
-> database, but I couldn't quickly find one)
+On Mon, Jul 12, 2021 at 05:18:10PM +0200, Paolo Bonzini wrote:
+> CONFIG_LINUX_IO_URING is not included in config-host.mak and therefore is
+> not usable in "when" clauses.  Check the availability of the library,
+> which matches the condition for the non-stubbed version block/io_uring.c.
 > 
-> diff --git i/nbd/server.c w/nbd/server.c
-> index b60ebc3ab6ac..393cbd81c57a 100644
-> --- i/nbd/server.c
-> +++ w/nbd/server.c
-> @@ -973,7 +973,8 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
->   {
->       int ret;
->       g_autofree char *export_name = NULL;
-> -    g_autofree bool *bitmaps = NULL;
-> +    /* G_GNUC_UNUSED needed to work around a clang bug */
-> +    g_autofree G_GNUC_UNUSED bool *bitmaps = NULL;
+> At this point, the difference between libraries that have config-host.mak
+> entries and those that do not is quite confusing.  The remaining ~dozen
+> should be converted in 6.2.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  stubs/meson.build | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-That works.  I found
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-   https://bugs.llvm.org/show_bug.cgi?id=3888
+> 
+> diff --git a/stubs/meson.build b/stubs/meson.build
+> index 2e79ff9f4d..d3fa8646b3 100644
+> --- a/stubs/meson.build
+> +++ b/stubs/meson.build
+> @@ -15,7 +15,9 @@ stub_ss.add(files('fdset.c'))
+>  stub_ss.add(files('fw_cfg.c'))
+>  stub_ss.add(files('gdbstub.c'))
+>  stub_ss.add(files('get-vm-name.c'))
+> -stub_ss.add(when: 'CONFIG_LINUX_IO_URING', if_true: files('io_uring.c'))
+> +if linux_io_uring.found()
+> +  stub_ss.add(files('io_uring.c'))
+> +endif
+>  stub_ss.add(files('iothread-lock.c'))
+>  stub_ss.add(files('isa-bus.c'))
+>  stub_ss.add(files('is-daemonized.c'))
+> -- 
+> 2.31.1
+> 
+> 
 
-and gave it a nudge.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-
-r~
 
