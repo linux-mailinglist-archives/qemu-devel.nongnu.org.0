@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AB13C7919
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:40:40 +0200 (CEST)
-Received: from localhost ([::1]:56912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E41F3C7906
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:34:59 +0200 (CEST)
+Received: from localhost ([::1]:37222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Q8t-0000YN-SS
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:40:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1m3Q3O-0004HW-FN
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqg-0003TE-Je
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqi-0003Td-6y
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52236)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqb-0000M5-PW
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:50 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Pqe-0000Op-EV
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:21:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211304;
+ s=mimecast20190719; t=1626211306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jIPqrucXgCQLRwS3ADnW9VQVQAYQkQWhk23O+X1mY7w=;
- b=BAa9CO3q/j8BNMrdW5+g/7HcI27tJq39RKEOg7tYtMyCkqgm/YpCHn/n67brDi3DDiOEgV
- 0H8lMgLF9eqXA1212BTpC79R2WIZSC+p9Hu/T3OP1GZwp50yRKqJL/w7U1HNUzdPshv4vE
- Ozhnc0bVrr/z8cKnBjCMzL9fy/IddhU=
+ bh=snt2gY+1Tn6roJs4CdC0FTTEVPWvkwPrgfRH/7pXsGU=;
+ b=heBsZsNa7g0nbDkVt6qrpNc8oqr6QpO/1l+loA06SzJEnsN09QaXrF/X/Wef1nwEkATrsS
+ gkYW5+Dy/Izlzz2RMeD1D7/j0dqR+Zh437fYsmgcBki3PtxjdG+bi3C0uJIc2AC9lTqtKb
+ m7TLNJ9cUTt2qwnx5nx7i0ZtqppDa88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-541-PV9AiBsxPZG7R1dC6e0p4A-1; Tue, 13 Jul 2021 17:21:39 -0400
-X-MC-Unique: PV9AiBsxPZG7R1dC6e0p4A-1
+ us-mta-129-vbfEFe9dOHaQ3kP_vUmGFQ-1; Tue, 13 Jul 2021 17:21:41 -0400
+X-MC-Unique: vbfEFe9dOHaQ3kP_vUmGFQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0936802C80;
- Tue, 13 Jul 2021 21:21:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7694B343CD;
+ Tue, 13 Jul 2021 21:21:39 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F0DD19C44;
- Tue, 13 Jul 2021 21:21:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CFC519C44;
+ Tue, 13 Jul 2021 21:21:36 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 15/23] tests/acceptance: Let the framework handle "cpu:VALUE"
- tagged tests
-Date: Tue, 13 Jul 2021 17:19:15 -0400
-Message-Id: <20210713211923.3809241-16-crosa@redhat.com>
+Subject: [PULL 16/23] tests/acceptance: Tagging tests with "cpu:VALUE"
+Date: Tue, 13 Jul 2021 17:19:16 -0400
+Message-Id: <20210713211923.3809241-17-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -99,161 +98,211 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-The tests that are already tagged with "cpu:VALUE" don't need to add
-"-cpu VALUE" to the list of arguments of the vm object because the avocado_qemu
-framework is able to handle it automatically.
+The existing tests which are passing "-cpu VALUE" argument to the vm object
+are now properly "cpu:VALUE" tagged, so letting the avocado_qemu framework to
+handle that automatically.
 
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210430133414.39905-4-wainersm@redhat.com>
+Message-Id: <20210430133414.39905-5-wainersm@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/boot_linux.py         | 3 ---
- tests/acceptance/boot_xen.py           | 1 -
- tests/acceptance/machine_mips_malta.py | 1 -
- tests/acceptance/replay_kernel.py      | 8 +++-----
- tests/acceptance/reverse_debugging.py  | 2 +-
- tests/acceptance/tcg_plugins.py        | 9 ++++-----
- 6 files changed, 8 insertions(+), 16 deletions(-)
+ tests/acceptance/boot_linux_console.py   | 13 ++++++++-----
+ tests/acceptance/pc_cpu_hotplug_props.py |  2 +-
+ tests/acceptance/replay_kernel.py        |  9 ++++++---
+ tests/acceptance/virtio-gpu.py           |  4 ++--
+ 4 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 34c4366366..ab19146d1e 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -79,7 +79,6 @@ def test_virt_tcg_gicv2(self):
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 0a8222f17d..5248c8097d 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -239,6 +239,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+         :avocado: tags=arch:mips64el
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:5KEc
          """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
--        self.vm.add_args("-cpu", "max")
-         self.vm.add_args("-machine", "virt,gic-version=2")
-         self.add_common_args()
-         self.launch_and_wait(set_up_ssh_connection=False)
-@@ -92,7 +91,6 @@ def test_virt_tcg_gicv3(self):
-         """
-         self.require_accelerator("tcg")
-         self.vm.add_args("-accel", "tcg")
--        self.vm.add_args("-cpu", "max")
-         self.vm.add_args("-machine", "virt,gic-version=3")
-         self.add_common_args()
-         self.launch_and_wait(set_up_ssh_connection=False)
-@@ -104,7 +102,6 @@ def test_virt_kvm(self):
-         """
-         self.require_accelerator("kvm")
-         self.vm.add_args("-accel", "kvm")
--        self.vm.add_args("-cpu", "host")
-         self.vm.add_args("-machine", "virt,gic-version=host")
-         self.add_common_args()
-         self.launch_and_wait(set_up_ssh_connection=False)
-diff --git a/tests/acceptance/boot_xen.py b/tests/acceptance/boot_xen.py
-index 75c2d44492..3479b5233b 100644
---- a/tests/acceptance/boot_xen.py
-+++ b/tests/acceptance/boot_xen.py
-@@ -48,7 +48,6 @@ def launch_xen(self, xen_path):
- 
-         xen_command_line = self.XEN_COMMON_COMMAND_LINE
-         self.vm.add_args('-machine', 'virtualization=on',
--                         '-cpu', 'cortex-a57',
-                          '-m', '768',
-                          '-kernel', xen_path,
-                          '-append', xen_command_line,
-diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/machine_mips_malta.py
-index b1fd075f51..b67d8cb141 100644
---- a/tests/acceptance/machine_mips_malta.py
-+++ b/tests/acceptance/machine_mips_malta.py
-@@ -62,7 +62,6 @@ def do_test_i6400_framebuffer_logo(self, cpu_cores_count):
-         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-                                'clocksource=GIC console=tty0 console=ttyS0')
-         self.vm.add_args('-kernel', kernel_path,
--                         '-cpu', 'I6400',
-                          '-smp', '%u' % cpu_cores_count,
-                          '-vga', 'std',
+         kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+                       'raw/9ad2df38/mips/malta/mips64el/'
+@@ -258,8 +259,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+         kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
+                                + 'console=ttyS0 console=tty '
+                                + 'rdinit=/sbin/init noreboot')
+-        self.vm.add_args('-cpu', '5KEc',
+-                         '-kernel', kernel_path,
++        self.vm.add_args('-kernel', kernel_path,
+                          '-initrd', initrd_path,
+                          '-append', kernel_command_line,
+                          '-no-reboot')
+@@ -287,7 +287,6 @@ def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
+                                + 'mem=256m@@0x0 '
+                                + 'console=ttyS0')
+         self.vm.add_args('-no-reboot',
+-                         '-cpu', 'I7200',
+                          '-kernel', kernel_path,
                           '-append', kernel_command_line)
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 71facdaa75..75f80506c1 100644
---- a/tests/acceptance/replay_kernel.py
-+++ b/tests/acceptance/replay_kernel.py
-@@ -156,8 +156,7 @@ def test_aarch64_virt(self):
-                                'console=ttyAMA0')
-         console_pattern = 'VFS: Cannot open root device'
- 
--        self.run_rr(kernel_path, kernel_command_line, console_pattern,
--                    args=('-cpu', 'cortex-a53'))
-+        self.run_rr(kernel_path, kernel_command_line, console_pattern)
- 
-     def test_arm_virt(self):
+         self.vm.launch()
+@@ -299,6 +298,7 @@ def test_mips_malta32el_nanomips_4k(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
          """
-@@ -301,7 +300,7 @@ def test_ppc64_e500(self):
-         tar_url = ('https://www.qemu-advent-calendar.org'
-                    '/2018/download/day19.tar.xz')
-         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
--        self.do_test_advcal_2018(file_path, 'uImage', ('-cpu', 'e5500'))
-+        self.do_test_advcal_2018(file_path, 'uImage')
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -311,6 +311,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -323,6 +324,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -335,6 +337,7 @@ def test_aarch64_virt(self):
+         :avocado: tags=arch:aarch64
+         :avocado: tags=machine:virt
+         :avocado: tags=accel:tcg
++        :avocado: tags=cpu:cortex-a53
+         """
+         kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
+                       '/linux/releases/29/Everything/aarch64/os/images/pxeboot'
+@@ -1168,9 +1171,9 @@ def test_ppc64_e500(self):
+         """
+         :avocado: tags=arch:ppc64
+         :avocado: tags=machine:ppce500
++        :avocado: tags=cpu:e5500
+         """
+         tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+-        self.vm.add_args('-cpu', 'e5500')
+         self.do_test_advcal_2018('19', tar_hash, 'uImage')
  
      def test_ppc_g3beige(self):
+@@ -1212,7 +1215,7 @@ def test_xtensa_lx60(self):
          """
-@@ -348,8 +347,7 @@ def test_xtensa_lx60(self):
-         tar_url = ('https://www.qemu-advent-calendar.org'
-                    '/2018/download/day02.tar.xz')
-         file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
--        self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf',
--                                 args=('-cpu', 'dc233c'))
-+        self.do_test_advcal_2018(file_path, 'santas-sleigh-ride.elf')
+         :avocado: tags=arch:xtensa
+         :avocado: tags=machine:lx60
++        :avocado: tags=cpu:dc233c
+         """
+         tar_hash = '49e88d9933742f0164b60839886c9739cb7a0d34'
+-        self.vm.add_args('-cpu', 'dc233c')
+         self.do_test_advcal_2018('02', tar_hash, 'santas-sleigh-ride.elf')
+diff --git a/tests/acceptance/pc_cpu_hotplug_props.py b/tests/acceptance/pc_cpu_hotplug_props.py
+index f48f68fc6b..2e86d5017a 100644
+--- a/tests/acceptance/pc_cpu_hotplug_props.py
++++ b/tests/acceptance/pc_cpu_hotplug_props.py
+@@ -25,11 +25,11 @@
+ class OmittedCPUProps(Test):
+     """
+     :avocado: tags=arch:x86_64
++    :avocado: tags=cpu:qemu64
+     """
+     def test_no_die_id(self):
+         self.vm.add_args('-nodefaults', '-S')
+         self.vm.add_args('-smp', '1,sockets=2,cores=2,threads=2,maxcpus=8')
+-        self.vm.add_args('-cpu', 'qemu64')
+         self.vm.add_args('-device', 'qemu64-x86_64-cpu,socket-id=1,core-id=0,thread-id=0')
+         self.vm.launch()
+         self.assertEquals(len(self.vm.command('query-cpus-fast')), 2)
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 75f80506c1..bb32b31240 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -392,6 +392,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
+         :avocado: tags=slowness:high
++        :avocado: tags=cpu:5KEc
+         """
+         kernel_url = ('https://github.com/philmd/qemu-testing-blob/'
+                       'raw/9ad2df38/mips/malta/mips64el/'
+@@ -412,7 +413,7 @@ def test_mips64el_malta_5KEc_cpio(self):
+                                'rdinit=/sbin/init noreboot')
+         console_pattern = 'Boot successful.'
+         self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
+-                    args=('-initrd', initrd_path, '-cpu', '5KEc'))
++                    args=('-initrd', initrd_path))
  
- @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
- class ReplayKernelSlow(ReplayKernelBase):
-diff --git a/tests/acceptance/reverse_debugging.py b/tests/acceptance/reverse_debugging.py
-index be01aca217..d2921e70c3 100644
---- a/tests/acceptance/reverse_debugging.py
-+++ b/tests/acceptance/reverse_debugging.py
-@@ -207,4 +207,4 @@ def test_aarch64_virt(self):
-         kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
+     def do_test_mips_malta32el_nanomips(self, kernel_path_xz):
+         kernel_path = self.workdir + "kernel"
+@@ -424,14 +425,14 @@ def do_test_mips_malta32el_nanomips(self, kernel_path_xz):
+                                'mem=256m@@0x0 '
+                                'console=ttyS0')
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+-        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5,
+-                    args=('-cpu', 'I7200'))
++        self.run_rr(kernel_path, kernel_command_line, console_pattern, shift=5)
  
-         self.reverse_debugging(
--            args=('-kernel', kernel_path, '-cpu', 'cortex-a53'))
-+            args=('-kernel', kernel_path))
-diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
-index aa6e18b62d..9ca1515c3b 100644
---- a/tests/acceptance/tcg_plugins.py
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -25,7 +25,7 @@ class PluginKernelBase(LinuxKernelTest):
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
+     def test_mips_malta32el_nanomips_4k(self):
+         """
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -445,6 +446,7 @@ def test_mips_malta32el_nanomips_16k_up(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+@@ -458,6 +460,7 @@ def test_mips_malta32el_nanomips_64k_dbg(self):
+         :avocado: tags=arch:mipsel
+         :avocado: tags=machine:malta
+         :avocado: tags=endian:little
++        :avocado: tags=cpu:I7200
+         """
+         kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
+                       'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
+diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
+index e7979343e9..589332c1b7 100644
+--- a/tests/acceptance/virtio-gpu.py
++++ b/tests/acceptance/virtio-gpu.py
+@@ -60,6 +60,7 @@ def test_virtio_vga_virgl(self):
+         """
+         :avocado: tags=arch:x86_64
+         :avocado: tags=device:virtio-vga
++        :avocado: tags=cpu:host
+         """
+         kernel_command_line = (
+             self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+@@ -72,7 +73,6 @@ def test_virtio_vga_virgl(self):
+         initrd_path = self.fetch_asset(self.INITRD_URL)
  
-     def run_vm(self, kernel_path, kernel_command_line,
--               plugin, plugin_log, console_pattern, args):
-+               plugin, plugin_log, console_pattern, args=None):
+         self.vm.set_console()
+-        self.vm.add_args("-cpu", "host")
+         self.vm.add_args("-m", "2G")
+         self.vm.add_args("-machine", "pc,accel=kvm")
+         self.vm.add_args("-device", "virtio-vga,virgl=on")
+@@ -101,6 +101,7 @@ def test_vhost_user_vga_virgl(self):
+         """
+         :avocado: tags=arch:x86_64
+         :avocado: tags=device:vhost-user-vga
++        :avocado: tags=cpu:host
+         """
+         kernel_command_line = (
+             self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+@@ -140,7 +141,6 @@ def test_vhost_user_vga_virgl(self):
+         )
  
-         vm = self.get_vm()
-         vm.set_console()
-@@ -80,8 +80,7 @@ def test_aarch64_virt_insn(self):
- 
-         self.run_vm(kernel_path, kernel_command_line,
-                     "tests/plugin/libinsn.so", plugin_log.name,
--                    console_pattern,
--                    args=('-cpu', 'cortex-a53'))
-+                    console_pattern)
- 
-         with plugin_log as lf, \
-              mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-@@ -108,7 +107,7 @@ def test_aarch64_virt_insn_icount(self):
-         self.run_vm(kernel_path, kernel_command_line,
-                     "tests/plugin/libinsn.so", plugin_log.name,
-                     console_pattern,
--                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
-+                    args=('-icount', 'shift=1'))
- 
-         with plugin_log as lf, \
-              mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-@@ -134,7 +133,7 @@ def test_aarch64_virt_mem_icount(self):
-         self.run_vm(kernel_path, kernel_command_line,
-                     "tests/plugin/libmem.so,arg=both", plugin_log.name,
-                     console_pattern,
--                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
-+                    args=('-icount', 'shift=1'))
- 
-         with plugin_log as lf, \
-              mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
+         self.vm.set_console()
+-        self.vm.add_args("-cpu", "host")
+         self.vm.add_args("-m", "2G")
+         self.vm.add_args("-object", "memory-backend-memfd,id=mem,size=2G")
+         self.vm.add_args("-machine", "pc,memory-backend=mem,accel=kvm")
 -- 
 2.31.1
 
