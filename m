@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2803C6E53
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:21:29 +0200 (CEST)
-Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E22153C6E59
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 12:23:29 +0200 (CEST)
+Received: from localhost ([::1]:54984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3FXc-0005EW-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39568)
+	id 1m3FZZ-0007aF-0v
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 06:23:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3FWK-0003xh-BQ; Tue, 13 Jul 2021 06:20:08 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3FWI-0002eA-F9; Tue, 13 Jul 2021 06:20:08 -0400
-Received: by mail-wr1-x430.google.com with SMTP id l7so28853184wrv.7;
- Tue, 13 Jul 2021 03:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n/aQS5Y7DBS+6/KzXpPMMbFiXGKCUPw797pYsN/2ykw=;
- b=QLkVNCZDAdXlDrQYFfYAEUt5L/+9xv/RQI/9kru7P3jxJ/zzgvHwdcKiPnLjH+Ig7C
- R1B04HFCYiRkDZNQHKYdfNtIs6cx9oyNPy6bZPrtUq9qvqkxVwH7qkeiKxulxEqK+Pgt
- B7vaywqScb0PVqfMlpXDf99tF78aJr24AH60tp075SKkRXcyMFJJU4L01UAHJCDXU/YG
- ZDawh/t3ElWVox+vFv/Yx4EaAFg3D2uOg2/CDzOOSGQUFfEiY9hbnPGK2Rhrv8hz0QSc
- 9Jmp4yF1lsTH0RbNjeeOgeeAUheEaoy1Phb2ts5Ip0DhFIxpeFMcFeYVKtTnhRU7/0+X
- +vyw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m3FYX-0006i9-Bt
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m3FYU-0004F3-AZ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 06:22:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626171740;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MUt8GDjPfxK/nCgyW2MK4q/JJAJ4bPQ81O6I2j/jy6Q=;
+ b=c6ILPY2gfGMWdrJzjt/DXiArfhl+6s/edp1S+KhLz/TV1dD8BLb40ACiqZGzgtJvUd/6Zb
+ BxL4g8suS7fFP/Xn2sQcqTz+h0xcLmGzqvYkE9oaLs/C6AHUwQubA+JtuoAxcfpcLCOYFq
+ uZNR8qGXKuAyZKUhnZOktkOsEONho68=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-9dcBt7E8PB2A-nkyX_ybfg-1; Tue, 13 Jul 2021 06:22:18 -0400
+X-MC-Unique: 9dcBt7E8PB2A-nkyX_ybfg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ j6-20020adff5460000b029013c7749ad05so6193164wrp.8
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 03:22:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=n/aQS5Y7DBS+6/KzXpPMMbFiXGKCUPw797pYsN/2ykw=;
- b=BS+Z2yibLDrBQ2gcgB4ZqrYd3gJRBb/InRBclci0nDO3O+sgV+2XYZrap9is/qBVfT
- FF4yEdzqcBGBOnmfROnxB/Y0+5p5XQP+bFcg+lK6E+xgnrWDdBYZLVirdlCIbxeDcIDF
- ne5/y3VH8WKtfhOix8dg+xT2+qbswvkkbqGUPhrL1/Y6TJI8vDRT+0DPfoH4DN/VFZiQ
- iybqCjPOcx5TeQCskn5yCGDLsyqY0ihZglCC0a05GOzKZE5Fo2JFi8c/LaBRMNUtzrUb
- HotIBKeBWTYODWVDUFdzw+wJHCO9BcJuIqj9G+GbU94rJyLYXhi4Fbc5yDcMiuTpziwH
- eQow==
-X-Gm-Message-State: AOAM530M76LuTI6259R2xnu6xIShATYJl5wXGtK2LBLjJoC1CBtqMXLI
- SzTZk9xIdVsB/7jOoOGHeJxQ/J9FYf6hXg==
-X-Google-Smtp-Source: ABdhPJyLCBoaRA5ddxK22u8nmTLBD1Rh2ReW0mCROKhcObSK+4YCW0to9e/bfiQiufmJRkQov4KFnw==
-X-Received: by 2002:adf:e3cf:: with SMTP id k15mr4666774wrm.60.1626171604424; 
- Tue, 13 Jul 2021 03:20:04 -0700 (PDT)
-Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
- [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id d14sm6644718wrs.49.2021.07.13.03.20.02
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=MUt8GDjPfxK/nCgyW2MK4q/JJAJ4bPQ81O6I2j/jy6Q=;
+ b=TR5RTbkN06sr/qbp9oEJbxBnb4keux8cRRBC8U36BKNd1VSdnK/dvjkzEv4uxAn4Yg
+ ZuM8FSIpCWRhHIdVfkB5v1OXnaRQ3XOKyLQ9zAU5oyj1jhJ5dD+f+H7yJzvG5HisZB5d
+ z1D9I4pmU4yHJZd9vaD31U5z7NHQ5AbiF0FteqMYEPWgmvz+IYEr62ALD6lhKyQvdDJJ
+ dBjcfi6ztcel2Dvradm5alVcROSX5ZYfvK4+f/XYro14rkuBSwKqbhlOLm8HqbUsO6R5
+ FeK6xkEf542fNu5e2itjve2ERw6RjCZ8bx5Q6a1R+Tb243ODSEWiWSgdpymx5euq0nVf
+ R9kA==
+X-Gm-Message-State: AOAM532wojCeSTKNCblalgM97tvdRzyw1r+QJX/pLzU0dj+cPsLpSzr0
+ eRljuVYZY/99plwTRPMgADRGzFvVt4EuGKyo2Y8AdPoV+zcKOu0oKandwYCBM2nXuWdn8K3CSnf
+ 9gpSTbqckhlm3B2E=
+X-Received: by 2002:adf:ce10:: with SMTP id p16mr4672154wrn.205.1626171737560; 
+ Tue, 13 Jul 2021 03:22:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsar1EYYWTGZuOOs1AITrpx7wkowAvss5HN8ZQEnUjFVcRlMH6rhukhKJulFbaOvQ7Va4qhg==
+X-Received: by 2002:adf:ce10:: with SMTP id p16mr4672136wrn.205.1626171737320; 
+ Tue, 13 Jul 2021 03:22:17 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
+ (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
+ [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+ by smtp.gmail.com with ESMTPSA id f13sm17651288wrt.86.2021.07.13.03.22.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 03:20:02 -0700 (PDT)
-Subject: Re: [PATCH] hw/display/xlnx_dp: fix an out-of-bounds read in
- xlnx_dp_read
-To: Qiang Liu <cyruscyliu@gmail.com>
-References: <1626146083-19434-1-git-send-email-cyruscyliu@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5c8d9875-ecf1-4f67-f26d-da010bdab9bb@amsat.org>
-Date: Tue, 13 Jul 2021 12:20:01 +0200
+ Tue, 13 Jul 2021 03:22:16 -0700 (PDT)
+Subject: Re: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+To: "Wang, Wei W" <wei.w.wang@intel.com>, Peter Xu <peterx@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20210630200805.280905-1-peterx@redhat.com>
+ <9a8224c9a02b4d9395f6581b24deaa54@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <c12b6a4e-0802-6cfa-57b2-7c7f4e4f5241@redhat.com>
+Date: Tue, 13 Jul 2021 12:22:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1626146083-19434-1-git-send-email-cyruscyliu@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <9a8224c9a02b4d9395f6581b24deaa54@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-1.479,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,92 +103,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 5:14 AM, Qiang Liu wrote:
-> xlnx_dp_read allows an out-of-bounds read at its default branch because
-> of an improper index.
+On 13.07.21 10:40, Wang, Wei W wrote:
+> On Thursday, July 1, 2021 4:08 AM, Peter Xu wrote:
+>> Taking the mutex every time for each dirty bit to clear is too slow, especially we'll
+>> take/release even if the dirty bit is cleared.  So far it's only used to sync with
+>> special cases with qemu_guest_free_page_hint() against migration thread,
+>> nothing really that serious yet.  Let's move the lock to be upper.
+>>
+>> There're two callers of migration_bitmap_clear_dirty().
+>>
+>> For migration, move it into ram_save_iterate().  With the help of MAX_WAIT
+>> logic, we'll only run ram_save_iterate() for no more than 50ms-ish time, so taking
+>> the lock once there at the entry.  It also means any call sites to
+>> qemu_guest_free_page_hint() can be delayed; but it should be very rare, only
+>> during migration, and I don't see a problem with it.
+>>
+>> For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot to take
+>> that lock even when calling ramblock_sync_dirty_bitmap(), where another
+>> example is migration_bitmap_sync() who took it right.  So let the mutex cover
+>> both the
+>> ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.
+>>
+>> It's even possible to drop the lock so we use atomic operations upon rb->bmap
+>> and the variable migration_dirty_pages.  I didn't do it just to still be safe, also
+>> not predictable whether the frequent atomic ops could bring overhead too e.g.
+>> on huge vms when it happens very often.  When that really comes, we can
+>> keep a local counter and periodically call atomic ops.  Keep it simple for now.
+>>
+>> Cc: Wei Wang <wei.w.wang@intel.com>
+>> Cc: David Hildenbrand <david@redhat.com>
+>> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Cc: Juan Quintela <quintela@redhat.com>
+>> Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+>> Signed-off-by: Peter Xu <peterx@redhat.com>
 > 
-> According to
-> https://www.xilinx.com/html_docs/registers/ug1087/ug1087-zynq-ultrascale-registers.html
-> (DP Module), registers 0x3A4/0x3A4/0x3AC are allowed.
+> FWIW
+> Reviewed-by: Wei Wang <wei.w.wang@intel.com>
 > 
-> DP_INT_MASK	0x000003A4	32	mixed	0xFFFFF03F	Interrupt Mask Register for intrN.
-> DP_INT_EN	0x000003A8	32	mixed	0x00000000	Interrupt Enable Register.
-> DP_INT_DS	0x000003AC	32	mixed	0x00000000	Interrupt Disable Register.
-> 
-> In xlnx_dp_write, when the offset is 0x3A8 and 0x3AC, the virtual device
-> will write s->core_registers[0x3A4
->>> 2]. That is to say, the maxize of s->core_registers could be ((0x3A4
->>> 2) + 1). However, the current size of s->core_registers is (0x3AF >>
->>> 2), that is ((0x3A4 >> 2) + 2), which is out of the range.
-> In xlxn_dp_read, the access to offset 0x3A8 or 0x3AC will be directed to
-> the offset 0x3A8 (incorrect functionality) or 0x3AC (out-of-bounds read)
-> rather than 0x3A4.
-> 
-> This patch adjusts the size of s->core_registers and enforces the read
-> access to offset 0x3A* and 0x3AC to 0x3A4. BTW, because the size of this
-> MMIO region is 0x3AF, this patch also removes the assertion in
-> xlnx_dp_write.
-> 
-> Fixes: 58ac482a66de ("introduce xlnx-dp")
-> Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-> ---
->  hw/display/xlnx_dp.c         | 7 ++++---
->  include/hw/display/xlnx_dp.h | 2 +-
->  2 files changed, 5 insertions(+), 4 deletions(-)
+> If no one could help do a regression test of free page hint, please document something like this in the patch:
+> Locking at the coarser granularity is possible to minimize the improvement brought by free page hints, but seems not causing critical issues.
+> We will let users of free page hints to report back any requirement and come up with a better solution later.
 
-Can you provide a qtest reproducer please?
+Can you send an official patch for the free page hinting clean_bmap 
+handling I reported?
 
-> diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-> index 7bcbb13..8903181 100644
-> --- a/hw/display/xlnx_dp.c
-> +++ b/hw/display/xlnx_dp.c
-> @@ -713,8 +713,10 @@ static uint64_t xlnx_dp_read(void *opaque, hwaddr offset, unsigned size)
->          ret = 0;
->          break;
->      default:
-> -        assert(offset <= (0x3AC >> 2));
-> -        ret = s->core_registers[offset];
-> +        if (offset == (0x3A8 >> 2) || offset == (0x3AC >> 2))
-> +            ret = s->core_registers[DP_INT_MASK];
-> +        else 
+I can then give both tests in combination a quick test (before/after 
+this patch here).
 
-Invalid code style.
+Cheers
 
-> +            ret = s->core_registers[offset];
->          break;
->      }
->  
-> @@ -876,7 +878,6 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
->          xlnx_dp_update_irq(s);
->          break;
->      default:
-> -        assert(offset <= (0x504C >> 2));
->          s->core_registers[offset] = value;
->          break;
->      }
-> diff --git a/include/hw/display/xlnx_dp.h b/include/hw/display/xlnx_dp.h
-> index e85e428..99a6d47 100644
-> --- a/include/hw/display/xlnx_dp.h
-> +++ b/include/hw/display/xlnx_dp.h
-> @@ -39,7 +39,7 @@
->  #define AUD_CHBUF_MAX_DEPTH                 (32 * KiB)
->  #define MAX_QEMU_BUFFER_SIZE                (4 * KiB)
->  
-> -#define DP_CORE_REG_ARRAY_SIZE              (0x3AF >> 2)
-> +#define DP_CORE_REG_ARRAY_SIZE              (0x3A8 >> 2)
+-- 
+Thanks,
 
-NAck: this breaks migration.
-
->  #define DP_AVBUF_REG_ARRAY_SIZE             (0x238 >> 2)
->  #define DP_VBLEND_REG_ARRAY_SIZE            (0x1DF >> 2)
->  #define DP_AUDIO_REG_ARRAY_SIZE             (0x50 >> 2)
-> 
+David / dhildenb
 
 
