@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 737313C6965
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:34:47 +0200 (CEST)
-Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697AC3C698C
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:53:38 +0200 (CEST)
+Received: from localhost ([::1]:38862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3A86-0000hr-Hh
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:34:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33868)
+	id 1m3AQK-0003hd-WB
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:53:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1m3A4r-0003QP-3m
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:31:25 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43859)
+ (Exim 4.90_1) (envelope-from <akalita@cs.stonybrook.edu>)
+ id 1m3APT-00032a-1K
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:52:43 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:43716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1m3A4o-0004h7-ST
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:31:24 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id a13so28604097wrf.10
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 21:31:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akalita@cs.stonybrook.edu>)
+ id 1m3APQ-0007Qd-5v
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:52:42 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id w188so2730562oif.10
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 21:52:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vm0eg8ogQQaVfVEkF7oSohLUoXs+wl4ihDscPZHTMqQ=;
- b=Uxbl1R3mFG2Sfqqg9a/z1iaGBRVltJjvyiZEfybwPa8EKg2soEWOk3Uh8/ydHpGxqe
- C9sEqQB2Ipnzp6Xy9h8HFUIwqdc2y2h5ywvo1RcpMjhBotxGf1bUlW2M6F/0mC7COU7G
- jbw8MB50d9D8Dw1/cm7IUI0NMYbfG8UjokNhySLIfTz7B5ypqOCUsoqbxQ9Ri24cu6fT
- yLIp7aAm4pu/f+fCN0z9R9BxJ9ABKl9pGAFqN15SNpA8LwyzSRjrNHOsFOM3OIHzytE1
- V4pVPNR0rHApofuVdY+mEloxPMcc6DvtZMBl0EJ3hw2KMWxgbYq/CV4MC8RPDtGbrjyM
- 3kFA==
+ d=stonybrook.edu; s=sbu-gmail;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=dN9ccz4utFDb79X//WXdP1dAQb5ezCHdVjljRK7zawA=;
+ b=uoepc+V+B3Z7gyQQk4ymX/MKJeo/RHNquhCGBMk07ze5eanb5hsg3ulR633/PEwVFJ
+ Ww9qm2jl6cg1+DO7rwJv2cGac2PkDFD5DueZrfi5tVhNybp2TSDgcgEdSCTYT/br3K+d
+ 5X/zw6vos/mFYY6GD1Qs+9WtSvvjZA10yr6ZA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vm0eg8ogQQaVfVEkF7oSohLUoXs+wl4ihDscPZHTMqQ=;
- b=a7EIuDZSm1s3tV2/7VYWuyOZPklF9rlF1to/jWlIEoXSYLLVq5S/wdKhh9EDizppxa
- y+FgpzDZFHzHpyJ0TkeSbMU4xXjY+ZhvZ86ERxSytIBfn+/A2/DNBZdgsV2Fy/kvQJT0
- eIXH/3uC08czkjeXzpp59DbNNukbS00hflLWvDgBqK8tLmy6M51t2hZy3jGkbe1oAOvg
- 5DWrfarNzTIyKWie2WKXqcIOo2r3ccuPylz8ztNWz8ktXofxcU7krPR73qiy9X9hKjEA
- HtmjkFxai4sMZ8zGazhT3O+VqqLSw38EM6KwSr4e1llAES6lDyyLjF6LcvcG9Mgagan6
- 0tZg==
-X-Gm-Message-State: AOAM531WDehYU3o7yM99EnztbQ8XKrS7zitBDzIkgWPPNhAyvfWNOXrw
- xaB83Bgc0ciWpog+LJtlgRxDoZAg/ItcFlSiFYogjw==
-X-Google-Smtp-Source: ABdhPJxaUT9gjks+OBTvSTioLWe+DGeyuiJbAM6OStSaHSV4nP40F9psGa/bxTWkMDZhpIjPybNQtiYqe+NeLVCUtuI=
-X-Received: by 2002:a05:6000:2a1:: with SMTP id
- l1mr2925308wry.128.1626150680883; 
- Mon, 12 Jul 2021 21:31:20 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=dN9ccz4utFDb79X//WXdP1dAQb5ezCHdVjljRK7zawA=;
+ b=GTljyhdQPlpivcwLQZIIc4rkf7+rgj622eNgIpy+rF0zB7QrsuJpTUwGcfHDLRqj0u
+ K3I89/1VFIHDjFwe9yr5Hd+ObTrf4jhZa40fev3Igi+5TID0OSkOAZlDKRujU/blh13W
+ W51uYxD6pTtQPcFnRJ8BAfpXBMbeSp/GCcxL6+34HmgN+opdzX9EJjYIWe4CZHq8081c
+ D0eLFQixvwMXuFGyqOWpaCdCRKmYgmwffqZvdtIXzjn9bVWGYdRlVzG4kEu8WEjo1jKw
+ 4rvFsFTOucEg/5+XdaQ0txKbE60nNh15DURS/wiz/3buFIrW1o4oUGNXF7g/Y6KMq0uT
+ YVMA==
+X-Gm-Message-State: AOAM530vbIPGCL6KB+SfkVSIMnzcs9xon6S5qtTZ/6uP3582I/b9cHEz
+ 2AAK4VrznQAeiDuIIhtJaxD1tinjg0Tee5+KJinL7eWSB5aL/A==
+X-Google-Smtp-Source: ABdhPJwwgWvJc7Y7wuUr9/AXQuwbE1bkV74BpbT5tWpGG9H4LwsfbG2M9D4+Yl2/jAhkBYCoDns+afnX39Q7GeN4ox8=
+X-Received: by 2002:aca:ac56:: with SMTP id v83mr1795118oie.178.1626151957933; 
+ Mon, 12 Jul 2021 21:52:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
- <a5f2909ca7fd9637ad90da0be9661f1e718e3dc5.1625801410.git.alistair.francis@wdc.com>
-In-Reply-To: <a5f2909ca7fd9637ad90da0be9661f1e718e3dc5.1625801410.git.alistair.francis@wdc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Tue, 13 Jul 2021 10:01:09 +0530
-Message-ID: <CAAhSdy0haNO6fyMzrej1dDNpsAvxO3As=vhsaOkvEUw3Pvyp3g@mail.gmail.com>
-Subject: Re: [PATCH v1 4/5] hw/intc: sifive_plic: Convert the PLIC to use
- RISC-V CPU GPIO lines
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::42b;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+From: Arnabjyoti Kalita <akalita@cs.stonybrook.edu>
+Date: Tue, 13 Jul 2021 10:22:27 +0530
+Message-ID: <CAJGDS+He0uxNKjRNqS+=DktDB=wKB-aifvRWArqV=7+8Eg2EaA@mail.gmail.com>
+Subject: Block I/O in the middle of guest code execution
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000cdcc0605c6fa01b4"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=akalita@cs.stonybrook.edu; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,226 +71,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 9:06 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-> CPU GPIO lines to set the external MIP bits.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/intc/sifive_plic.h |  4 ++++
->  hw/intc/sifive_plic.c         | 38 ++++++++++++++++++++++++++++-------
->  hw/riscv/microchip_pfsoc.c    |  2 +-
->  hw/riscv/shakti_c.c           |  3 ++-
->  hw/riscv/sifive_e.c           |  2 +-
->  hw/riscv/sifive_u.c           |  2 +-
->  hw/riscv/virt.c               |  3 ++-
->  7 files changed, 42 insertions(+), 12 deletions(-)
->
-> diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
-> index 1e451a270c..da1dc64c6d 100644
-> --- a/include/hw/intc/sifive_plic.h
-> +++ b/include/hw/intc/sifive_plic.h
-> @@ -72,9 +72,13 @@ struct SiFivePLICState {
->      uint32_t context_base;
->      uint32_t context_stride;
->      uint32_t aperture_size;
-> +
-> +    qemu_irq *s_external_irqs;
-> +    qemu_irq *m_external_irqs;
->  };
->
->  DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-> +    uint32_t num_harts,
->      uint32_t hartid_base, uint32_t num_sources,
->      uint32_t num_priorities, uint32_t priority_base,
->      uint32_t pending_base, uint32_t enable_base,
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 78903beb06..dc17b55408 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -29,6 +29,7 @@
->  #include "hw/intc/sifive_plic.h"
->  #include "target/riscv/cpu.h"
->  #include "migration/vmstate.h"
-> +#include "hw/irq.h"
->
->  #define RISCV_DEBUG_PLIC 0
->
-> @@ -139,18 +140,22 @@ static void sifive_plic_update(SiFivePLICState *plic)
->      for (addrid = 0; addrid < plic->num_addrs; addrid++) {
->          uint32_t hartid = plic->addr_config[addrid].hartid;
->          PLICMode mode = plic->addr_config[addrid].mode;
-> -        CPUState *cpu = qemu_get_cpu(hartid);
-> -        CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
-> -        if (!env) {
-> -            continue;
-> -        }
->          int level = sifive_plic_irqs_pending(plic, addrid);
-> +
->          switch (mode) {
->          case PLICMode_M:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
-> +            if (level) {
-> +                qemu_irq_raise(plic->m_external_irqs[hartid]);
-> +            } else {
-> +                qemu_irq_lower(plic->m_external_irqs[hartid]);
-> +            }
->              break;
->          case PLICMode_S:
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-> +            if (level) {
-> +                qemu_irq_raise(plic->s_external_irqs[hartid]);
-> +            } else {
-> +                qemu_irq_lower(plic->s_external_irqs[hartid]);
-> +            }
+--000000000000cdcc0605c6fa01b4
+Content-Type: text/plain; charset="UTF-8"
 
-All qemu_irq_xyz() calls are broken for multi-socket, just like CLINT.
+Hello Stefan/all,
 
-Please use "hartid - plic->hartid_base" as index.
+I was reading your blog post on the QEMU overall architecture (link - "
+http://blog.vmsplice.net/2011/03/qemu-internals-overall-architecture-and.html")
+and I have a few questions with regards to executing I/O operations (block
+I/O) in the middle of guest code execution.
 
-Regards,
-Anup
+I am running QEMU version 5.0.1 and my target and host architecture is
+x86-64. I am using the virtio-blk block driver frontend with a qcow2 image
+file as a backing file storage.
 
->              break;
->          default:
->              break;
-> @@ -456,6 +461,12 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
->      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &plic->mmio);
->      qdev_init_gpio_in(dev, sifive_plic_irq_request, plic->num_sources);
->
-> +    plic->s_external_irqs = g_malloc(sizeof(qemu_irq) * plic->num_harts);
-> +    qdev_init_gpio_out(dev, plic->s_external_irqs, plic->num_harts);
-> +
-> +    plic->m_external_irqs = g_malloc(sizeof(qemu_irq) * plic->num_harts);
-> +    qdev_init_gpio_out(dev, plic->m_external_irqs, plic->num_harts);
-> +
->      /* We can't allow the supervisor to control SEIP as this would allow the
->       * supervisor to clear a pending external interrupt which will result in
->       * lost a interrupt in the case a PLIC is attached. The SEIP bit must be
-> @@ -520,6 +531,7 @@ type_init(sifive_plic_register_types)
->   * Create PLIC device.
->   */
->  DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-> +    uint32_t num_harts,
->      uint32_t hartid_base, uint32_t num_sources,
->      uint32_t num_priorities, uint32_t priority_base,
->      uint32_t pending_base, uint32_t enable_base,
-> @@ -527,6 +539,8 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->      uint32_t context_stride, uint32_t aperture_size)
->  {
->      DeviceState *dev = qdev_new(TYPE_SIFIVE_PLIC);
-> +    int i;
-> +
->      assert(enable_stride == (enable_stride & -enable_stride));
->      assert(context_stride == (context_stride & -context_stride));
->      qdev_prop_set_string(dev, "hart-config", hart_config);
-> @@ -542,5 +556,15 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->      qdev_prop_set_uint32(dev, "aperture-size", aperture_size);
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-> +
-> +    for (i = 0; i < num_harts; i++) {
-> +        CPUState *cpu = qemu_get_cpu(hartid_base + i);
-> +
-> +        qdev_connect_gpio_out_named(dev, NULL, i,
-> +                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
-> +        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
-> +                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
-> +    }
-> +
->      return dev;
->  }
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index eb8e79e0a1..eef55f69fd 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -274,7 +274,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->
->      /* PLIC */
->      s->plic = sifive_plic_create(memmap[MICROCHIP_PFSOC_PLIC].base,
-> -        plic_hart_config, 0,
-> +        plic_hart_config, ms->smp.cpus, 0,
->          MICROCHIP_PFSOC_PLIC_NUM_SOURCES,
->          MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES,
->          MICROCHIP_PFSOC_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-> index 18f70fadaa..09d4e1433e 100644
-> --- a/hw/riscv/shakti_c.c
-> +++ b/hw/riscv/shakti_c.c
-> @@ -106,13 +106,14 @@ type_init(shakti_c_machine_type_info_register)
->
->  static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
->      MemoryRegion *system_memory = get_system_memory();
->
->      sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
->
->      sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
-> -        (char *)SHAKTI_C_PLIC_HART_CONFIG, 0,
-> +        (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
->          SHAKTI_C_PLIC_NUM_SOURCES,
->          SHAKTI_C_PLIC_NUM_PRIORITIES,
->          SHAKTI_C_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index ddc658c8d6..03bff21527 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -198,7 +198,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
->
->      /* MMIO */
->      s->plic = sifive_plic_create(memmap[SIFIVE_E_DEV_PLIC].base,
-> -        (char *)SIFIVE_E_PLIC_HART_CONFIG, 0,
-> +        (char *)SIFIVE_E_PLIC_HART_CONFIG, ms->smp.cpus, 0,
->          SIFIVE_E_PLIC_NUM_SOURCES,
->          SIFIVE_E_PLIC_NUM_PRIORITIES,
->          SIFIVE_E_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 273c86418c..6d1f9464c2 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -829,7 +829,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->
->      /* MMIO */
->      s->plic = sifive_plic_create(memmap[SIFIVE_U_DEV_PLIC].base,
-> -        plic_hart_config, 0,
-> +        plic_hart_config, ms->smp.cpus, 0,
->          SIFIVE_U_PLIC_NUM_SOURCES,
->          SIFIVE_U_PLIC_NUM_PRIORITIES,
->          SIFIVE_U_PLIC_PRIORITY_BASE,
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4a3cd2599a..8bbafae429 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -548,6 +548,7 @@ static void virt_machine_init(MachineState *machine)
->      MemoryRegion *system_memory = get_system_memory();
->      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      char *plic_hart_config, *soc_name;
->      size_t plic_hart_config_len;
->      target_ulong start_addr = memmap[VIRT_DRAM].base;
-> @@ -619,7 +620,7 @@ static void virt_machine_init(MachineState *machine)
->          /* Per-socket PLIC */
->          s->plic[i] = sifive_plic_create(
->              memmap[VIRT_PLIC].base + i * memmap[VIRT_PLIC].size,
-> -            plic_hart_config, base_hartid,
-> +            plic_hart_config, ms->smp.cpus, base_hartid,
->              VIRT_PLIC_NUM_SOURCES,
->              VIRT_PLIC_NUM_PRIORITIES,
->              VIRT_PLIC_PRIORITY_BASE,
-> --
-> 2.31.1
->
->
+I want to do something like below (in TCG) -
+
+static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock
+*itb)
+{
+           log_cpu_state(cpu, flags);
+           qemu_log_unlock(logfile);
+    }
+           #endif /* DEBUG_DISAS */
+           if (cond is true) {
+               virtio_blk_data_plane_handle_output(vdev, vq);  <- calling
+block I/O function here
+           }
+           ret = tcg_qemu_tb_exec(env, tb_ptr);
+           cpu->can_do_io = 1;
+           last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
+           .......
+}
+
+I have a few questions regarding this.
+
+- Is it possible to call block I/O functions like this? Or do I have to
+"call" it from the event loop (main_loop_wait) ?
+
+- Making a change like this requires me to actually finish the block
+operation first before I start executing the next TCG block. I see that
+"virtio_blk_data_plane_handle_output" makes a lot of aio thread usages and
+coroutines. How do I make this call synchronous and essentially run it in
+the same thread?
+
+Thank you very much.
+
+Best Regards,
+Arnabjyoti Kalita
+
+--000000000000cdcc0605c6fa01b4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello Stefan/all,</div><div><br></div><div>I was read=
+ing your blog post on the QEMU overall architecture (link - &quot;<a href=
+=3D"http://blog.vmsplice.net/2011/03/qemu-internals-overall-architecture-an=
+d.html" target=3D"_blank">http://blog.vmsplice.net/2011/03/qemu-internals-o=
+verall-architecture-and.html</a>&quot;) and I have a few questions with reg=
+ards to executing I/O operations (block I/O) in the middle of guest code ex=
+ecution.<br><br></div><div>I am running QEMU version 5.0.1 and my target an=
+d host architecture is x86-64. I am using the virtio-blk block driver front=
+end with a qcow2 image file as a backing file storage. <br></div><div><br><=
+/div><div>I want to do something like below (in TCG) -</div><div><br></div>=
+<div>static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationB=
+lock *itb)<br>{</div><div>=C2=A0=C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 log=
+_cpu_state(cpu, flags);<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 qe=
+mu_log_unlock(logfile);<br>=C2=A0 =C2=A0 }<br>=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #endif /* DEBUG_DISAS */</div><div>=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (cond is true) {<=
+br></div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 virtio_blk_data_plane_handle_output(vdev, vq);=C2=A0 &lt;- callin=
+g block I/O function here</div><div>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 }<br>=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 ret =3D tcg_qemu_tb_exec(env, tb_ptr);<br>=C2=A0 =C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cpu-&gt;can_do_io =3D 1;<br>=C2=A0 =C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 last_tb =3D (TranslationBlock *)=
+(ret &amp; ~TB_EXIT_MASK);<br></div><div>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 .......</div><div>}</div><div><br></div><div>I =
+have a few questions regarding this.</div><div><br></div><div>- Is it possi=
+ble to call block I/O functions like this? Or do I have to &quot;call&quot;=
+ it from the event loop (main_loop_wait) ?</div><div><br></div><div>- Makin=
+g a change like this requires me to actually finish the block operation fir=
+st before I start executing the next TCG block. I see that &quot;virtio_blk=
+_data_plane_handle_output&quot; makes a lot of aio thread usages and corout=
+ines. How do I make this call synchronous and essentially run it in the sam=
+e thread?<br><br></div><div>Thank you very much.<br><br></div><div>Best Reg=
+ards,<br></div><div>Arnabjyoti Kalita<br></div><div><br> <br></div><div><br=
+></div><div><br></div><div><br></div></div>
+
+--000000000000cdcc0605c6fa01b4--
 
