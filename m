@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1B63C6D8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:33:33 +0200 (CEST)
-Received: from localhost ([::1]:34216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D7253C6D9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 11:36:36 +0200 (CEST)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3EnE-0004tA-NK
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:33:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52934)
+	id 1m3EqB-00039F-J4
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 05:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elu-000288-EU
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33224)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elv-0002BD-MV
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elt-0001pD-1d
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1m3Elu-0001q3-99
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 05:32:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626168728;
+ s=mimecast20190719; t=1626168729;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7gU7JvQMNAPyRLUMeCXKXca13jffBqCyiDPn8OaDu+c=;
- b=Wr2tXPsUz4/DL0khBdQdDfmF9C+HhyJiibN6i2Ks6qJuS7nsC5pM6I2vtjabPNVJ3AePZi
- 9wUU04gvuaiDidfuMkmg6j2MfmSHn6nKn/Wdldjb8lqF3nEjA4e2nZ8/KIvGm0EE1qVIQg
- A9BD7keoPR3wd4w45fKchhT3zinrrI8=
+ bh=FGkt2CEPta8MslrRwnqaK0IU8XII98o3qUzy/H1TYDw=;
+ b=TFGjHUDQb7pd3n9iZv0ih5rl6R5BnCHPJI1dY5HyKzmmKHNRiItRiVu5ycqvwlttzJAShJ
+ 1iI25RTz+UfsyE4xqaJPZ6gaRHkd5eCtOD1sOXBcQBazeyTWgUFJmmaNu+lsGKiPTdGAwv
+ NbrcLKKHsvygbmvlIMZvguc5znWCkPA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-6yP7UhgzM3uWclY9vA6W4w-1; Tue, 13 Jul 2021 05:32:07 -0400
-X-MC-Unique: 6yP7UhgzM3uWclY9vA6W4w-1
+ us-mta-124-muTOt_vdNt6MzweeEMoaaw-1; Tue, 13 Jul 2021 05:32:08 -0400
+X-MC-Unique: muTOt_vdNt6MzweeEMoaaw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 509D91934105
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:32:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCF81100CCC0
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:32:07 +0000 (UTC)
 Received: from thuth.com (ovpn-112-56.ams2.redhat.com [10.36.112.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 77AE45D9CA;
- Tue, 13 Jul 2021 09:32:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADE1F5D9CA;
+ Tue, 13 Jul 2021 09:32:06 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 3/4] configure: Fix the default setting of the "xen" feature
-Date: Tue, 13 Jul 2021 11:31:54 +0200
-Message-Id: <20210713093155.677589-4-thuth@redhat.com>
+Subject: [PATCH 4/4] configure: Let --without-default-features disable
+ vhost-kernel and vhost-vdpa
+Date: Tue, 13 Jul 2021 11:31:55 +0200
+Message-Id: <20210713093155.677589-5-thuth@redhat.com>
 In-Reply-To: <20210713093155.677589-1-thuth@redhat.com>
 References: <20210713093155.677589-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -81,32 +82,36 @@ Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "xen" variable should either contain "enabled", "disabled" or
-nothing (for auto detection). But when the user currently runs the
-configure script with --without-default-features, it gets set to
-"no" instead. This does not work as expected, the feature will still
-be enabled if the Xen headers are present. Thus set the variable
-to "disabled" instead if default_feature switch has been set.
+The vhost_kernel and vhost_vdpa variables should be pre-initialized with
+the $default_feature setting so that these features get disabled when
+the user runs the configure scripts with --without-default-features.
 
 Reported-by: Cole Robinson <crobinso@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/configure b/configure
-index 1974c46f6e..6c7336b763 100755
+index 6c7336b763..89cc9b24eb 100755
 --- a/configure
 +++ b/configure
-@@ -311,7 +311,7 @@ vnc_sasl="auto"
- vnc_jpeg="auto"
- vnc_png="auto"
- xkbcommon="auto"
--xen="$default_feature"
-+xen=${default_feature:+disabled}
- xen_ctrl_version="$default_feature"
- xen_pci_passthrough="auto"
- linux_aio="$default_feature"
+@@ -321,6 +321,7 @@ attr="auto"
+ xfs="$default_feature"
+ tcg="enabled"
+ membarrier="$default_feature"
++vhost_kernel="$default_feature"
+ vhost_net="$default_feature"
+ vhost_crypto="$default_feature"
+ vhost_scsi="$default_feature"
+@@ -328,6 +329,7 @@ vhost_vsock="$default_feature"
+ vhost_user="no"
+ vhost_user_blk_server="auto"
+ vhost_user_fs="$default_feature"
++vhost_vdpa="$default_feature"
+ bpf="auto"
+ kvm="auto"
+ hax="auto"
 -- 
 2.27.0
 
