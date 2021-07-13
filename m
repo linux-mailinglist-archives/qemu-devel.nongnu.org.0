@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECDB3C71E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:09:23 +0200 (CEST)
-Received: from localhost ([::1]:34334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27303C71E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:14:40 +0200 (CEST)
+Received: from localhost ([::1]:50272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3J6A-0005Z2-30
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56198)
+	id 1m3JBH-0007lT-UR
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifj-0008W0-9D
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:03 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:40017)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifn-0000L2-52
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:07 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:37829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifd-00063n-MZ
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:02 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifk-00067R-Rs
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:06 -0400
 Received: from quad ([82.142.17.146]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MUGNZ-1ldHcn0MKp-00RHgo; Tue, 13
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MPXQi-1lqhlo2gug-00MYbj; Tue, 13
  Jul 2021 15:41:54 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] Linux user for 6.1 patches
-Date: Tue, 13 Jul 2021 15:41:40 +0200
-Message-Id: <20210713134152.288423-1-laurent@vivier.eu>
+Subject: [PULL 01/12] linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)
+Date: Tue, 13 Jul 2021 15:41:41 +0200
+Message-Id: <20210713134152.288423-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210713134152.288423-1-laurent@vivier.eu>
+References: <20210713134152.288423-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YQ/oVlBqnEVOmnCoIgGVPqGfNXnmA9KALEGuGf7+vSn7ZTm8ToJ
- hpMFP+wk8gPHp+BISuWD7WHzexIoirrB2/E/BYhCKZM81pXmMQZgO7dBG/zyHE2BmYx3b4/
- lLp98JndoN65+5qmRCTvfR496MI4CfDqPl1N/i7fT2lF3koD1jNXVy7oXUFLUqcoZO6RIrB
- X8S69rCwAsICQviW1uVuw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0PDulTv+6eo=:MMOv/yKWaFr47V97d9d4sU
- kghm1AFVewjD7YXiCPkbu1tPRY3gxHDQIsDEHXff67GfO9tkUwLCELCtRdCH8+2sgIM5UIPtR
- xqrOhT3F6xk3/oHxAi1mCynOZ+RWrIv4ymnRRexC4xbUD0AadRDMJEyNyxDK1n3zZjtvy3e4o
- ZW17F0IvIh2CHPv2zQx+AOZ4g+6sIhIBzYEKRdtvVUVm7D8gpmLZd2kCNGaMlI16UEiuUEka8
- sFyP9x00D+V8og5oCLw4xY4JfUV3iYrTPljFMcpkZMOfkskCvyUSSqDNmKskz90X+0PWGXZzl
- kHdAhZPKummNF2lHeGDAhgp2VOVJoikyqAxqw03FbWXDrbUTYO5F5LnYgRGvQq+PP22O3gJWs
- tvEYJ/5mhHCnXxJ06HRulmZ60ExntmQ4iFsAt6DgUumj48VAY+UZCg8S+coDMju7PLom1YnrL
- g94PmRZW2fM11Pwo/NCc72U91Rnb/3E5TEb1H/XVBqdWCfHKbaEu+8u08E05w/HtpqeLTEpiO
- 3IhuiEhqY0q9iXeeZl2i+ELB4z+fQpYeZMGxg/oHbBLuNA8z/ZE2cScsc+BSNWts2cmlENgyI
- Z4sJ0PfVTv7OqCIW86DBPL1PigO1ylfSlWSdSoFvqXCOwSwNtCXQ56J46pQvLG6TSs/+ADFE9
- n7FDSe43OBuys0lXZ9ZK7bDsrRzAfbSfF7D/gIdsfsswptoOIJrnD1eNXycHyOCbIqVcGbssJ
- 8dVENTnXwQeKw628V01Q4YYEJ0+jejoWdAsQAcr2oegpv4NAbLOfTYRka6nLOMtmSjobQj//1
- /XtWXLiBTsm1/vp6aWPDCx1DaFcTMhRzmlZ38c4jkAzmtbyJ02v0wW7w/YXdr5e8IeqfCcI
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:8MFXMEi9VvtHtmSkLfksD14c3gnzNr3YMakgEWHpUMCk70ZtASL
+ 97c8Z3Swe2k0M1Pt2Th6JCxeRWJ1NqmsRlv9ezJIiZ0+uNj2GHqHjQ0TbeOrX7KXV7KMIWz
+ 6ns5+g2dYiXJyfPXIh4frVRHFQbxtlXRvENcUZWBYfyN4/kd39dPzB+krBZ1Nd6ZLB1s1sk
+ QcbJ3crqxYJeLQtNLhz4Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VwZBF7/bTnw=:gg3Us2HzguusUIwN1rhjsb
+ 8aYeSxvmPduZPM2E47hiYxji/UAs4fNTZ12bzk4tw247GL5Y1IkFBIK7uSdtkrBfsEtEZqZF2
+ OqCb/V+fqHyIfHSf4LL6PpnyWIO0i3uHu2/0eI00cHtKhH8BGmTwEyuStHDlsL81ohCoXBGYr
+ ROotbpNOwNvuy/ZMVcr0CQ1ZWMg8IwUUidmv5+iBvBF8XbVd/Oj1An9YeAFIpW/QiakOeFbE+
+ vQE8KwUq2A/YJhF9x8qX2esViE1s9+MByR6QfkCWMsuXStKYIiRN4cPPBZY52529yDKvOxVIV
+ 0z3z1Fnk5Igq7iZkiPotZe255ldBCZga2ayJIlJ0I7po0hjfoVm9RfOM/A8Qim0ztbOI/OLqy
+ 9KxYyAswGmugIiKcPPJ8J0TqAxq6nGpulI4TUiHuowvCa+ff55Jhv/a/LZYoO9PzCVOuPmHSC
+ gVFlBcO9I8ufpZfyXGra0Gwp0x6s+e6xo0utmhZWzlAO3cNb+ZqTCK6Koe0hHbKrN9Jfwj8k6
+ 1qh5eXLLrWPLzIc/D4Ulcx8s56Gfq2Tovhw7Jq+dfNytGWpnSPLnLau0iF1r2L3/n55Q2MfbL
+ Z9AULGMpKVbJrgGEhv+e4D4FDKRsWhwBpSS/iUhMEbLBJN5r2IlOWItYmqXRuzCDe9Ft/hjn5
+ vq2nsYFG+c9PgTzuprrwn73hlEM5D8cMMEcgEBrNFd+JZDKVHDByZcfH66nxaWhC9SVy/6ssq
+ lQ3sulj8aD/JZDbRxX2biZBulb+Z7a80xgbfoYs5UoAijURDGyArzgs77zc7IPrkasdQyvq42
+ UBzzT92Lc8vqpnsaQD7vk0cae2YLdUAiIhFQvUnw8MCfODc4qjznorojl2zHSyCfy41J9Dj
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,133 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit bd38ae26cea0d1d6a97f930248df149204c210a2=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210710' =
-into staging (2021-07-12 11:02:39 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.1-pull-request=0D
-=0D
-for you to fetch changes up to 2fa4ad3f9000c385f71237984fdd1eefe2a91900:=0D
-=0D
-  linux-user: update syscall.tbl to Linux v5.13 (2021-07-13 13:59:59 +0200)=
-=0D
-=0D
-----------------------------------------------------------------=0D
-Linux-user pull request 20210713=0D
-=0D
-Update headers to linux v5.13=0D
-cleanup errno target headers=0D
-Fix race condition on fd translation table=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (3):=0D
-  linux-user: update syscall_nr.h to Linux v5.13=0D
-  linux-user, mips: update syscall-args-o32.c.inc to Linux v5.13=0D
-  linux-user: update syscall.tbl to Linux v5.13=0D
-=0D
-Owen Anderson (1):=0D
-  fd-trans: Fix race condition on reallocation of the translation table.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (8):=0D
-  linux-user/syscall: Fix RF-kill errno (typo in ERFKILL)=0D
-  linux-user/sparc: Rename target_errno.h -> target_errno_defs.h=0D
-  linux-user: Extract target errno to 'target_errno_defs.h'=0D
-  linux-user/alpha: Move errno definitions to 'target_errno_defs.h'=0D
-  linux-user/hppa: Move errno definitions to 'target_errno_defs.h'=0D
-  linux-user/mips: Move errno definitions to 'target_errno_defs.h'=0D
-  linux-user: Simplify host <-> target errno conversion using macros=0D
-  linux-user/syscall: Remove ERRNO_TABLE_SIZE check=0D
-=0D
- linux-user/aarch64/syscall_nr.h               |   8 +-=0D
- linux-user/aarch64/target_errno_defs.h        |   7 +=0D
- linux-user/alpha/syscall.tbl                  |   7 +=0D
- linux-user/alpha/target_errno_defs.h          | 204 ++++++++++++++++=0D
- linux-user/alpha/target_syscall.h             | 194 ---------------=0D
- linux-user/arm/syscall.tbl                    |   7 +=0D
- linux-user/arm/target_errno_defs.h            |   7 +=0D
- linux-user/cris/target_errno_defs.h           |   7 +=0D
- linux-user/errnos.c.inc                       | 140 +++++++++++=0D
- linux-user/fd-trans.c                         |   1 +=0D
- linux-user/fd-trans.h                         |  55 ++++-=0D
- .../target_errno_defs.h}                      |   4 +-=0D
- linux-user/hexagon/syscall_nr.h               |  12 +-=0D
- linux-user/hexagon/target_errno_defs.h        |   7 +=0D
- linux-user/hppa/syscall.tbl                   |  31 ++-=0D
- linux-user/hppa/target_errno_defs.h           | 220 +++++++++++++++++=0D
- linux-user/hppa/target_syscall.h              | 210 -----------------=0D
- linux-user/i386/syscall_32.tbl                |  21 +-=0D
- linux-user/i386/target_errno_defs.h           |   7 +=0D
- linux-user/m68k/syscall.tbl                   |   7 +=0D
- linux-user/m68k/target_errno_defs.h           |   7 +=0D
- linux-user/main.c                             |   3 +=0D
- linux-user/microblaze/syscall.tbl             |   7 +=0D
- linux-user/microblaze/target_errno_defs.h     |   7 +=0D
- linux-user/mips/syscall-args-o32.c.inc        |   5 +-=0D
- linux-user/mips/syscall_o32.tbl               |  19 +-=0D
- linux-user/mips/target_errno_defs.h           | 221 ++++++++++++++++++=0D
- linux-user/mips/target_syscall.h              | 211 -----------------=0D
- linux-user/mips64/syscall_n32.tbl             |  19 +-=0D
- linux-user/mips64/syscall_n64.tbl             |   7 +=0D
- linux-user/mips64/target_errno_defs.h         |  10 +=0D
- linux-user/mips64/target_syscall.h            | 211 -----------------=0D
- linux-user/nios2/syscall_nr.h                 |   8 +-=0D
- linux-user/nios2/target_errno_defs.h          |   7 +=0D
- linux-user/openrisc/syscall_nr.h              |   8 +-=0D
- linux-user/openrisc/target_errno_defs.h       |   7 +=0D
- linux-user/ppc/syscall.tbl                    |  39 ++--=0D
- linux-user/ppc/target_errno_defs.h            |   7 +=0D
- linux-user/riscv/syscall32_nr.h               |   8 +-=0D
- linux-user/riscv/syscall64_nr.h               |   8 +-=0D
- linux-user/riscv/target_errno_defs.h          |   7 +=0D
- linux-user/s390x/syscall.tbl                  |  19 +-=0D
- linux-user/s390x/target_errno_defs.h          |   7 +=0D
- linux-user/safe-syscall.S                     |   2 +-=0D
- linux-user/sh4/syscall.tbl                    |   7 +=0D
- linux-user/sh4/target_errno_defs.h            |   7 +=0D
- linux-user/sparc/syscall.tbl                  |  19 +-=0D
- .../{target_errno.h =3D> target_errno_defs.h}   |  11 +-=0D
- linux-user/sparc/target_syscall.h             |   2 -=0D
- linux-user/syscall.c                          | 164 ++-----------=0D
- linux-user/syscall_defs.h                     |   2 +-=0D
- linux-user/x86_64/syscall_64.tbl              |  27 ++-=0D
- linux-user/x86_64/target_errno_defs.h         |   7 +=0D
- linux-user/xtensa/syscall.tbl                 |   7 +=0D
- linux-user/xtensa/target_errno_defs.h         |   7 +=0D
- scripts/update-mips-syscall-args.sh           |  13 +-=0D
- 56 files changed, 1205 insertions(+), 1078 deletions(-)=0D
- create mode 100644 linux-user/aarch64/target_errno_defs.h=0D
- create mode 100644 linux-user/alpha/target_errno_defs.h=0D
- create mode 100644 linux-user/arm/target_errno_defs.h=0D
- create mode 100644 linux-user/cris/target_errno_defs.h=0D
- create mode 100644 linux-user/errnos.c.inc=0D
- rename linux-user/{errno_defs.h =3D> generic/target_errno_defs.h} (99%)=0D
- create mode 100644 linux-user/hexagon/target_errno_defs.h=0D
- create mode 100644 linux-user/hppa/target_errno_defs.h=0D
- create mode 100644 linux-user/i386/target_errno_defs.h=0D
- create mode 100644 linux-user/m68k/target_errno_defs.h=0D
- create mode 100644 linux-user/microblaze/target_errno_defs.h=0D
- create mode 100644 linux-user/mips/target_errno_defs.h=0D
- create mode 100644 linux-user/mips64/target_errno_defs.h=0D
- create mode 100644 linux-user/nios2/target_errno_defs.h=0D
- create mode 100644 linux-user/openrisc/target_errno_defs.h=0D
- create mode 100644 linux-user/ppc/target_errno_defs.h=0D
- create mode 100644 linux-user/riscv/target_errno_defs.h=0D
- create mode 100644 linux-user/s390x/target_errno_defs.h=0D
- create mode 100644 linux-user/sh4/target_errno_defs.h=0D
- rename linux-user/sparc/{target_errno.h =3D> target_errno_defs.h} (97%)=0D
- create mode 100644 linux-user/x86_64/target_errno_defs.h=0D
- create mode 100644 linux-user/xtensa/target_errno_defs.h=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Affected targets: alpha, hppa, mips/64, sparc
+
+Fixes: fe8ed7d5794 ("linux-user: Handle ERFKILL and EHWPOISON")
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210708170550.1846343-2-f4bug@amsat.org>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 2e826206d227..4842a1987b79 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -629,7 +629,7 @@ static uint16_t host_to_target_errno_table[ERRNO_TABLE_SIZE] = {
+ #ifdef ENOMSG
+     [ENOMSG]            = TARGET_ENOMSG,
+ #endif
+-#ifdef ERKFILL
++#ifdef ERFKILL
+     [ERFKILL]           = TARGET_ERFKILL,
+ #endif
+ #ifdef EHWPOISON
+-- 
+2.31.1
+
 
