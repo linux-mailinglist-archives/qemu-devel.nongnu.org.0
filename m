@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C318C3C7384
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:48:22 +0200 (CEST)
-Received: from localhost ([::1]:37462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D9583C7387
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:49:26 +0200 (CEST)
+Received: from localhost ([::1]:41056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Kdx-0006El-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:48:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58418)
+	id 1m3Kev-0000Bg-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:49:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Kbd-0004NT-TI
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:45:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60891)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3KdM-0006rb-Vb
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:47:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Kba-0000db-Ao
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:45:56 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3KdL-0001rh-95
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:47:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626191152;
+ s=mimecast20190719; t=1626191262;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BzBMOHYkm73QcgYRBrUbDxPAZ5V4YMTZWsOanFNkh8I=;
- b=CGSh9htEam8Ntpxjo7dQEVdI3/v2kokzfpquDLx+Kwzmmi5xk3dWlWGtIZCEOb0gdfO8vX
- yGI2N2opcA37KlyBcUsrlGJCt299DhH48RXEGziNvwQqQqf3rvafHvzhW9RxynrA0YI4kM
- wjyf/43Fwqw8k4q5sY63nsB5x3hlxR8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-meRwk2k5NkazWU5WSxNZWQ-1; Tue, 13 Jul 2021 11:45:51 -0400
-X-MC-Unique: meRwk2k5NkazWU5WSxNZWQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j141-20020a1c23930000b0290212502cb19aso1649498wmj.0
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:45:51 -0700 (PDT)
+ bh=qgfJqsJzUYBJKyLF6NDQVYjvjs2kFwcd1FiCbIuPlw4=;
+ b=a5zYFPz8uQWfJ2LJ5tolGZNSx0FO/OqDRLkHKsq80W3whg8zQt4BoyMaaJe3IKdgROC0v9
+ uHwJ4dMkPyqZ0+1OkzpKgphole9E0a5nG2dSwme2pdepG9ZtBLWOJjgtm6xxW64pRPWDuO
+ i5he8l+Ylk0QIp5b0vtSiePOVwX+Yj4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-DfEP9FTiPxyFvOssTNGx1Q-1; Tue, 13 Jul 2021 11:47:41 -0400
+X-MC-Unique: DfEP9FTiPxyFvOssTNGx1Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ 5-20020a0560001565b029013fe432d176so2566212wrz.23
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:47:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=BzBMOHYkm73QcgYRBrUbDxPAZ5V4YMTZWsOanFNkh8I=;
- b=Exz36ZHEFK6Djc5lJ9gEVjDf4htmLoYujIW3k6aKvxWx2+lASSYI7ma13z5cRxhyIM
- jgZspB2hPFVjFWhu6ufMQkS7Y2FP5bYL3F2kfgK5vRy8zCeYJo4aZKoyW8vBK11ndKXa
- sqbu9rRG+ihpcXl6vSgSrq+DYT+3XXNSkRHAUUIBvl6eWfg1bWRuPUZyCj7ZCGtiOved
- trKB+5lS4wHJ6iDxqW3QZAmbG0oRdJRcgKwYTuTWktWC3kr5OGFoOPqBxk2fj9FA0zcB
- vGYAIn/aZJCeYFNHmh4q+dxn2o/XLTwysn0ktlAGrziDlYsVrUeJl/5MobeCT5pE2MQH
- aX2w==
-X-Gm-Message-State: AOAM533xGISy7REbFFDc/CwxeC+vzV9xuEzcDpyWbYNbLB+YX1/IyMOg
- mHD1SEDZXkSv6Ws96Xd5X93jELBojSt/dTWwE4WXf3kGU+MKw0MryaQ2V3qsLyd3tho7YYpQTo0
- vuWLQEuUqyCLJMI0=
-X-Received: by 2002:a5d:457b:: with SMTP id a27mr6463453wrc.280.1626191150476; 
- Tue, 13 Jul 2021 08:45:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAltvON959dQNLJFs3qbW6TC75bLd2DsDo85JF2Uww6LOtMRA7pw57BTgC/nsgLCfePGe3ow==
-X-Received: by 2002:a5d:457b:: with SMTP id a27mr6463422wrc.280.1626191150245; 
- Tue, 13 Jul 2021 08:45:50 -0700 (PDT)
+ bh=qgfJqsJzUYBJKyLF6NDQVYjvjs2kFwcd1FiCbIuPlw4=;
+ b=kFaGhc9U+TFQCjR/mk2fwO2oy5AH9gJx//+LpfIQ1N5bu8emZdkDDBC9EEWojTq1Sg
+ o0kgrPnUjaxnTaObFpJbXLaFMxLzuNjJG9c51opYrUMRcn/wv3MbMU+oHkZm28QZpClz
+ qjL0b/1WsFtoJFwAPgaHIrSWfL4uxHQu54F81pYntwOvuxwQ/sGo5GDoI18Q0tUezc1C
+ 4tFIJVevV25yRGbcVHIFdS6Fl1zIZJX/YL3T+KaU0GztWpY+YU1V1BdJgyEvVJ1bAlId
+ Ra2e/43nGioQ4bSji2Q2g+da7bPe6BV/m8zzNnjdiv/1GsWTx5tOTOkS/FLmbwdnNhHC
+ hHwA==
+X-Gm-Message-State: AOAM532CH5k7nX47wTPuGn/04GNu6OKz3jVPB+o/FDwTsAbbcGm3wOVx
+ m1M5X9kAmn6OwmIhp+ztK6566vnY207+zUAgKtaqldQxTGDDJMhbRHHIvBbG9anrPiuWtWn6OhW
+ MSvmTU0B9qhmzU0M=
+X-Received: by 2002:a05:6000:186e:: with SMTP id
+ d14mr6457818wri.188.1626191260156; 
+ Tue, 13 Jul 2021 08:47:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrb92/k/MlMUC/x5i9Mo4sJqSECpo0bDh5ykIijW1iVt+9XsrwIe2RJ1vo6Xf1mUWB4Dkrkw==
+X-Received: by 2002:a05:6000:186e:: with SMTP id
+ d14mr6457785wri.188.1626191259975; 
+ Tue, 13 Jul 2021 08:47:39 -0700 (PDT)
 Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id c15sm2049718wmr.28.2021.07.13.08.45.48
+ by smtp.gmail.com with ESMTPSA id u16sm21933817wrw.36.2021.07.13.08.47.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 08:45:49 -0700 (PDT)
-Date: Tue, 13 Jul 2021 11:45:46 -0400
+ Tue, 13 Jul 2021 08:47:37 -0700 (PDT)
+Date: Tue, 13 Jul 2021 11:47:33 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 00/35] acpi: refactor error prone build_header() and
- packed structures usage in ACPI tables
-Message-ID: <20210713114350-mutt-send-email-mst@kernel.org>
-References: <20210708154617.1538485-1-imammedo@redhat.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V4 18/25] vhost: reset vhost devices upon cprsave
+Message-ID: <20210713114651-mutt-send-email-mst@kernel.org>
+References: <1625589956-81651-1-git-send-email-steven.sistare@oracle.com>
+ <1625589956-81651-19-git-send-email-steven.sistare@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210708154617.1538485-1-imammedo@redhat.com>
+In-Reply-To: <1625589956-81651-19-git-send-email-steven.sistare@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -92,137 +94,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 08, 2021 at 11:45:42AM -0400, Igor Mammedov wrote:
-> v2:
->   - drop test related patches, they will be sent as a separate series
->   - fix bios_loader pointer initialization ordering when using TPM1.2
->   - extend commit message of [1/35] and add extra comment about
->     table length patching 
+On Tue, Jul 06, 2021 at 09:45:49AM -0700, Steve Sistare wrote:
+> A vhost device is implicitly preserved across re-exec because its fd is not
+> closed, and the value of the fd is specified on the command line for the
+> new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
+> which fails because the device already has an owner.  To fix, reset the
+> owner prior to exec.
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+
+Makes sense superficially.
+
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+I didn't really read the series deeply enough to just the rest of it.
 
 
-So I think this is in good shape, and I really like the code size
-reduction. Given a rush to push things before the freeze, I'm inclined
-to just defer API rework to the next release. This kind of thing is
-better at the beginning of the cycle so we can iron out API kinks if any
-surface.
-
-> Highlights:
->   * drop pointer arithmetic in ACPI tables code
->   * use endian agnostic API
->   * simplifies review of tables. /in most cases just line by line comparision with spec/
+> ---
+>  hw/virtio/vhost.c         | 11 +++++++++++
+>  include/hw/virtio/vhost.h |  1 +
+>  migration/cpr.c           |  1 +
+>  3 files changed, 13 insertions(+)
 > 
-> Series replaces build_header() with acpi_init_table()/acpi_table_composed()
-> API that hides pointer/offset arithmetic from user, to prevent
-> errors caused by it [1].
-> While doing above, it was necessary to split table header from
-> packed structure that was describing the table, which is
-> counter-productive since it still leaves packed structure drawbacks.
-> So that sort of forced me to rewrite tables that were composed with
-> help of packed structures to preferred build_append_int_noprefix() API.
-> In cases where refactoring to build_append_int_noprefix() was small,
-> it was squashed with acpi_init_table()/acpi_table_composed() patch.
-> Conversion reduced code size quite a bit despite me adding doc comments
-> for every table row.
-> 
-> 1) commits
->    bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
->    4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
-> 
-> Link to repo:
->    https://gitlab.com/imammedo/qemu/-/commits/acpi_build_header_refactoring_v2
-> 
-> CC: mst@redhat.com
-> 
-> 
-> 
-> Igor Mammedov (35):
->   acpi: add helper routines to initialize ACPI tables
->   acpi: build_rsdt: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_xsdt: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_slit: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_fadt: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_tpm2: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: acpi_build_hest: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: build_mcfg: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_hmat: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: nvdimm_build_nfit: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: nvdimm_build_ssdt: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: vmgenid_build_acpi: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: x86: build_dsdt: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: build_hpet: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_tpm_tcpa: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: arm/x86: build_srat: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: use build_append_int_noprefix() API to compose SRAT table
->   acpi: build_dmar_q35: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: build_waet: use acpi_init_table()/acpi_table_composed() instead
->     of build_header()
->   acpi: build_amd_iommu: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: madt: arm/x86: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: x86: remove dead code
->   acpi: x86: set enabled when composing _MAT entries
->   acpi: x86: madt: use build_append_int_noprefix() API to compose MADT
->     table
->   acpi: arm/virt: madt: use build_append_int_noprefix() API to compose
->     MADT table
->   acpi: build_dsdt_microvm: use acpi_init_table()/acpi_table_composed()
->     instead of build_header()
->   acpi: arm: virt: build_dsdt: use
->     acpi_init_table()/acpi_table_composed() instead of build_header()
->   acpi: arm: virt: build_iort: use
->     acpi_init_table()/acpi_table_composed() instead of build_header()
->   acpi: arm/virt: convert build_iort() to endian agnostic
->     build_append_FOO() API
->   acpi: arm/virt: build_spcr: fix invalid cast
->   acpi: arm/virt: build_spcr: use
->     acpi_init_table()/acpi_table_composed() instead of build_header()
->   acpi: arm/virt: build_gtdt: use
->     acpi_init_table()/acpi_table_composed() instead of build_header()
->   acpi: build_facs: use build_append_int_noprefix() API to compose table
->   acpi: remove no longer used build_header()
->   acpi: AcpiGenericAddress no longer used to map/access fields of MMIO,
->     drop packed attribute
-> 
->  include/hw/acpi/acpi-defs.h          | 528 +------------------------
->  include/hw/acpi/acpi_dev_interface.h |   3 +-
->  include/hw/acpi/aml-build.h          |  21 +-
->  include/hw/i386/pc.h                 |   7 +-
->  hw/acpi/acpi-x86-stub.c              |   3 +-
->  hw/acpi/aml-build.c                  | 193 ++++++----
->  hw/acpi/cpu.c                        |  17 +-
->  hw/acpi/ghes.c                       |  10 +-
->  hw/acpi/hmat.c                       |  14 +-
->  hw/acpi/nvdimm.c                     |  64 ++--
->  hw/acpi/pci.c                        |  18 +-
->  hw/acpi/vmgenid.c                    |  16 +-
->  hw/arm/virt-acpi-build.c             | 550 +++++++++++++++------------
->  hw/i386/acpi-build.c                 | 284 ++++++++------
->  hw/i386/acpi-common.c                | 158 ++++----
->  hw/i386/acpi-microvm.c               |  13 +-
->  16 files changed, 750 insertions(+), 1149 deletions(-)
-> 
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index e2163a0..8c0c9c3 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1820,6 +1820,17 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+>      hdev->vdev = NULL;
+>  }
+>  
+> +void vhost_dev_reset_all(void)
+> +{
+> +    struct vhost_dev *dev;
+> +
+> +    QLIST_FOREACH(dev, &vhost_devices, entry) {
+> +        if (dev->vhost_ops->vhost_reset_device(dev) < 0) {
+> +            VHOST_OPS_DEBUG("vhost_reset_device failed");
+> +        }
+> +    }
+> +}
+> +
+>  int vhost_net_set_backend(struct vhost_dev *hdev,
+>                            struct vhost_vring_file *file)
+>  {
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 4a8bc75..71704d4 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -106,6 +106,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+>  void vhost_dev_cleanup(struct vhost_dev *hdev);
+>  int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+>  void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+> +void vhost_dev_reset_all(void);
+>  int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+>  void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+>  
+> diff --git a/migration/cpr.c b/migration/cpr.c
+> index 578466c..6333988 100644
+> --- a/migration/cpr.c
+> +++ b/migration/cpr.c
+> @@ -142,6 +142,7 @@ void cprexec(strList *args, Error **errp)
+>          return;
+>      }
+>      walkenv(FD_PREFIX, preserve_fd, 0);
+> +    vhost_dev_reset_all();
+>      qemu_system_exec_request(args);
+>  }
+>  
 > -- 
-> 2.27.0
+> 1.8.3.1
 
 
