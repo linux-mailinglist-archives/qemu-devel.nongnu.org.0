@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420263C6957
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:27:20 +0200 (CEST)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3337B3C6956
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:27:19 +0200 (CEST)
+Received: from localhost ([::1]:37944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3A0t-0000E6-AC
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33326)
+	id 1m3A0s-00007a-8N
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m39zW-0005ye-1L
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40200)
+ id 1m39zV-0005y9-8e
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m39zR-0008LR-3X
+ id 1m39zT-0008Mv-4z
  for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m39zN-0003eO-A8
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:45 +0000
+ id 1m39zO-0003fG-0R
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2A5952E8186
+ by loganberry.canonical.com (Postfix) with ESMTP id DE5B82E8180
  for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 13 Jul 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1917591@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1917565@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: acpi boot inaccessible windows
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor mushoz th-huth
-X-Launchpad-Bug-Reporter: Jaap Buurman (mushoz)
+X-Launchpad-Bug-Commenters: imammedo janitor nick-kvmhv th-huth
+X-Launchpad-Bug-Reporter: Nick (nick-kvmhv)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161476294129.24350.17797047071467820347.malonedeb@soybean.canonical.com>
-Message-Id: <162614983842.15811.12472231618279194820.malone@loganberry.canonical.com>
-Subject: [Bug 1917591] Re: qemu-i386 under aarch64: Segfaulting on Steamcmd
+References: <161474788220.8516.15014999465847517073.malonedeb@gac.canonical.com>
+Message-Id: <162614983907.15811.3991418258451714209.malone@loganberry.canonical.com>
+Subject: [Bug 1917565] Re: Windows 10 fails with "Boot device inaccessible"
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: cfaf2aea5d0ba84caee1f1c9aa461162960dbac6
+X-Launchpad-Hash: 4875152814775f6dbdfd8b99c63fe4283f12cb0d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917591 <1917591@bugs.launchpad.net>
+Reply-To: Bug 1917565 <1917565@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,60 +84,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917591
+https://bugs.launchpad.net/bugs/1917565
 
 Title:
-  qemu-i386 under aarch64: Segfaulting on Steamcmd
+  Windows 10 fails with "Boot device inaccessible"
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I am trying to set up a Valheim server on my Raspberry Pi 4 (8GB). I
-  have installed the aarch64 image of Arm Arch Linux.
+  The issue is happening on all versions I tried after the following
+  commit. I can also remove this individual change from master and it
+  starts to work.
 
-  I installed qemu-user-static (version 5.2.0 at this time of writing) from=
- the AUR: https://aur.archlinux.org/packages/qemu-user-static/
-  I have correctly set up binfmt support: https://aur.archlinux.org/package=
-s/binfmt-qemu-static-all-arch/
+  OVMF_CODE.fd is what comes with Ubuntu 20.04 through package manager.
 
-  This allows me to successfully run i386 and amd64 docker images:
+  =
 
-  [alarm@server ~]$ sudo docker run --rm i386/debian uname -a
-  WARNING: The requested image's platform (linux/386) does not match the de=
-tected host platform (linux/arm64/v8) and no specific platform was requested
-  Linux 9fd8d345b0aa 5.11.1-1-ARCH #1 SMP Tue Feb 23 20:00:47 MST 2021 i686=
- GNU/Linux
+  git diff af1b80ae56c9495999e8ccf7b70ef894378de642~ af1b80ae56c9495999e8cc=
+f7b70ef894378de642
+  diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+  index b7bcbbbb2a..7a5a8b3521 100644
+  --- a/hw/i386/acpi-build.c
+  +++ b/hw/i386/acpi-build.c
+  @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dev =3D aml_device(=
+"PCI0");
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_HID", aml_eisaid("PNP0A03")));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_ADR", aml_int(0)));
+  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
+, dev);
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
+_scope);
 
-  and
+  @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_HID", aml_eisaid("PNP0A08")));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_CID", aml_eisaid("PNP0A03")));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, aml=
+_name_decl("_ADR", aml_int(0)));
+  -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+  +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dev, bui=
+ld_q35_osc_method());
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(sb_scope=
+, dev);
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0aml_append(dsdt, sb=
+_scope);
 
-  [alarm@server ~]$ sudo docker run --rm amd64/debian uname -a
-  WARNING: The requested image's platform (linux/amd64) does not match the =
-detected host platform (linux/arm64/v8) and no specific platform was reques=
-ted
-  Linux 4f50fd228ab6 5.11.1-1-ARCH #1 SMP Tue Feb 23 20:00:47 MST 2021 x86_=
-64 GNU/Linux
-
-  However, when I try to run the docker image that is going to host the
-  server, the download of Valheim never succeeds because the used
-  steamcmd application segfaults:
-
-  The following command successfully runs the server: sudo docker run -d
-  --name valheim-server -p 2456-2458:2456-2458/udp -e SERVER_NAME=3D"My
-  Server" -e WORLD_NAME=3D"Neotopia" -e SERVER_PASS=3D"secret" lloesche
-  /valheim-server
-
-  However, when we look into the container's logs via this command: sudo
-  docker logs valheim-server
-
-  We see the following entry in the log file: ./steamcmd.sh: line 38:
-  86 Segmentation fault      (core dumped) $DEBUGGER "$STEAMEXE" "$@"
-
-  This means that the download never completes, and therefor the Valheim
-  server is never actually started. Any help would be much appreciated.
-  If there is anything unclear or if you need more details, please let
-  me know!
+  The virtual machine start command:
+  x86_64-softmmu/qemu-system-x86_64 -name guest=3Dwin10-dev,debug-threads=
+=3Don -blockdev '{"driver":"file","filename":"/usr/share/OVMF/OVMF_CODE.fd"=
+,"node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unm=
+ap"}' -blockdev '{"node-name":"libvirt-pflash0-format","read-only":true,"dr=
+iver":"raw","file":"libvirt-pflash0-storage"}' -blockdev '{"driver":"file",=
+"filename":"/var/lib/libvirt/qemu/nvram/win10-dev_VARS.fd","node-name":"lib=
+virt-pflash1-storage","auto-read-only":true,"discard":"unmap"}' -blockdev '=
+{"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","fil=
+e":"libvirt-pflash1-storage"}' -machine pc-q35-4.2,accel=3Dkvm,usb=3Doff,vm=
+port=3Doff,dump-guest-core=3Doff,pflash0=3Dlibvirt-pflash0-format,pflash1=
+=3Dlibvirt-pflash1-format -cpu Skylake-Client-IBRS,ss=3Don,vmx=3Don,pdcm=3D=
+on,hypervisor=3Don,tsc-adjust=3Don,clflushopt=3Don,umip=3Don,md-clear=3Don,=
+stibp=3Don,arch-capabilities=3Don,ssbd=3Don,xsaves=3Don,pdpe1gb=3Don,ibpb=
+=3Don,amd-ssbd=3Don,skip-l1dfl-vmentry=3Don,pschange-mc-no=3Don,hv-time,hv-=
+relaxed,hv-vapic,hv-spinlocks=3D0x1fff -m 6144 -overcommit mem-lock=3Doff -=
+smp 4,sockets=3D4,cores=3D1,threads=3D1 -uuid 5646e540-5022-4ace-8d6a-d7c4b=
+61a6d3d -no-user-config -nodefaults -rtc base=3Dlocaltime,driftfix=3Dslew -=
+global kvm-pit.lost_tick_policy=3Ddelay -no-hpet -global ICH9-LPC.disable_s=
+3=3D1 -global ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device pcie-root-p=
+ort,port=3D0x10,chassis=3D1,id=3Dpci.1,bus=3Dpcie.0,multifunction=3Don,addr=
+=3D0x2 -device pcie-root-port,port=3D0x11,chassis=3D2,id=3Dpci.2,bus=3Dpcie=
+.0,addr=3D0x2.0x1 -device pcie-root-port,port=3D0x12,chassis=3D3,id=3Dpci.3=
+,bus=3Dpcie.0,addr=3D0x2.0x2 -device pcie-root-port,port=3D0x13,chassis=3D4=
+,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x3 -device pcie-root-port,port=3D0x14,=
+chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2.0x4 -device qemu-xhci,p2=3D1=
+5,p3=3D15,id=3Dusb,bus=3Dpci.2,addr=3D0x0 -device virtio-serial-pci,id=3Dvi=
+rtio-serial0,bus=3Dpci.3,addr=3D0x0 -blockdev '{"driver":"host_device","fil=
+ename":"/dev/disk/by-id/scsi-1SanDisk_Extreme_SSD_20072F404043","aio":"nati=
+ve","node-name":"libvirt-2-storage","cache":{"direct":true,"no-flush":false=
+},"auto-read-only":true,"discard":"unmap"}' -blockdev '{"node-name":"libvir=
+t-2-format","read-only":false,"cache":{"direct":true,"no-flush":false},"dri=
+ver":"raw","file":"libvirt-2-storage"}' -device ide-hd,bus=3Dide.0,drive=3D=
+libvirt-2-format,id=3Dsata0-0-0,bootindex=3D1,write-cache=3Don -device ide-=
+cd,bus=3Dide.1,id=3Dsata0-0-1 -netdev user,id=3Dhostnet0 -device e1000e,net=
+dev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:10:5b:55,bus=3Dpci.1,addr=3D0x0 -ch=
+ardev pty,id=3Dcharserial0 -device isa-serial,chardev=3Dcharserial0,id=3Dse=
+rial0 -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserial=
+port,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,nam=
+e=3Dcom.redhat.spice.0 -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D1 =
+-spice port=3D5900,addr=3D127.0.0.1,disable-ticketing=3Don,image-compressio=
+n=3Doff,seamless-migration=3Don -device qxl-vga,id=3Dvideo0,ram_size=3D6710=
+8864,vram_size=3D67108864,vram64_size_mb=3D0,vgamem_mb=3D16,max_outputs=3D1=
+,bus=3Dpcie.0,addr=3D0x1 -device ich9-intel-hda,id=3Dsound0,bus=3Dpcie.0,ad=
+dr=3D0x1b -device hda-duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -cha=
+rdev spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-redir,chardev=3Dc=
+harredir0,id=3Dredir0,bus=3Dusb.0,port=3D2 -chardev spicevmc,id=3Dcharredir=
+1,name=3Dusbredir -device usb-redir,chardev=3Dcharredir1,id=3Dredir1,bus=3D=
+usb.0,port=3D3 -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.4,addr=3D=
+0x0 -msg timestamp=3Don -D ./log.txt -monitor stdio -d
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917591/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1917565/+subscriptions
 
