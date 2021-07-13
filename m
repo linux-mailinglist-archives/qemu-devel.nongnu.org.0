@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E166C3C7832
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 22:51:41 +0200 (CEST)
-Received: from localhost ([::1]:35950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D867D3C7865
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:02:43 +0200 (CEST)
+Received: from localhost ([::1]:40878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3PNU-0004tc-P0
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 16:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38198)
+	id 1m3PYA-0000Ok-7q
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m3PMi-00044T-De
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 16:50:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23740)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3PVj-0007pk-9l
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:00:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m3PMg-0003lS-KY
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 16:50:52 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3PVc-0002IO-CP
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626209449;
+ s=mimecast20190719; t=1626210001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Z8o2HyP+xkHniAL9JTVRisK0oK0pLs956/zV2eniE1M=;
- b=dA2kCUzzl+gJ2JBmHxT9yuEGxWxFxHtyQquao7AWOiPNQgB1Vd4e+gcLwlOpYk9qmxYPDe
- EGJ3wMhHVYxaHJcBM9MVOm2ZJQB5i9/3env3olzKr5wCS2jeEc8o0EcCnZ+xcWTaZB4LUh
- fvH1jhmXDxEaQKMkufRWaBcok6q1EZo=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551--VHAcnbzP22c-e6oAgpHdA-1; Tue, 13 Jul 2021 16:50:47 -0400
-X-MC-Unique: -VHAcnbzP22c-e6oAgpHdA-1
-Received: by mail-vs1-f69.google.com with SMTP id
- o20-20020a67e1540000b0290293b5c01bdeso3609349vsl.21
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 13:50:47 -0700 (PDT)
+ bh=NMaYBTfm4H1DYO2luNtfCYTiO6V0PBqr4awtnZ+4v60=;
+ b=UnB9nt58t+FqcrZqcj2Y6friCzdTbyc+/FcEVQrUURj8C5r8BK/kVMp3USCb1YQpYi75Gt
+ sxrek7XepDc1WV7/0yYlz/4WbGIHmtW2lz/DuZVIbUbz/Y4P/JXa7ZLb5Mn3GGiEZm7VmH
+ RAXVbZYJlQfcNed3Be4z0gt3YNw6qDY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-26x9e1SMM2W-4QirtWVV8Q-1; Tue, 13 Jul 2021 16:59:59 -0400
+X-MC-Unique: 26x9e1SMM2W-4QirtWVV8Q-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k3-20020a5d52430000b0290138092aea94so201083wrc.20
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 13:59:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z8o2HyP+xkHniAL9JTVRisK0oK0pLs956/zV2eniE1M=;
- b=esEAD0NBQsqsZjNzWAASNLRa8DQWM5hZUMqJrgcHtoDGIKpkL1oSKEH0cMdYeemnJk
- uNK2zPT3AfC3krNQAHx+cfuTpCVcsIAJH2+YOsLoDMNE98QRkPKP0ezgA483+xk0+puI
- pYhZ7vVJSCJXsM81HWG31lIauMRw8/a1hO+flkCSYMD72gB2qElWRhXfNHXXtDu1kkB+
- WV7oyEODqnBB+RWoZ0uObj0y5fHr6Cdvor19MsMWeJJPX/RMIxG2U+xD19msUbWpQbPn
- N7ysqunkx5evXVxXbpX5ufxEDlLMyxFfTi558Kd6OLORGEnsOY7iEC/RosaH+kq18dm1
- UJZQ==
-X-Gm-Message-State: AOAM531qNTS4UEKoiti69E6bgtcBFanp3o86rbLDIH+otLBPCGSnAjzX
- A0RplaAqQklZ9YjA28UAyXaqo0pAl62r4AAhghy7WRKKsFYNOA7RHYsmVFWSZEosC7d0bWOCuih
- h5p/WBGzdrUm92x5yuJxtSAoGEcqHXSQ=
-X-Received: by 2002:ab0:758e:: with SMTP id q14mr8561705uap.113.1626209446788; 
- Tue, 13 Jul 2021 13:50:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyHA8+wGn3dpHh/jAcjjbKOAdn6VTx+eYDfyL1HkD5bGM+qK9vI03PGlauAVS715ZiKB7jJ3bEmkrUNmjGpnOI=
-X-Received: by 2002:ab0:758e:: with SMTP id q14mr8561686uap.113.1626209446648; 
- Tue, 13 Jul 2021 13:50:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=NMaYBTfm4H1DYO2luNtfCYTiO6V0PBqr4awtnZ+4v60=;
+ b=Y5PwdH88UiO6PF+v1BSOQIC382PaK21tXxsUljtrqslzY5wH1U5qNPuKI1iNKPSIQ9
+ 4YIMzbhJicbXI/cvw1+baen6XpAP2kps0ArDRTQhhGtteiaLJRlMakF+61TpvztdzItB
+ LOtSiY1RJzpzVKWIPh9k1mHXFQp5mrPpnsjWPv+O406kB3CLPI1PV/ONuCFapyNbYbDu
+ RHptyCHcwYTlXrrZpGg+WCjugCChHKXfVN1dmc5H5fNShzIYZ5cRBMVi4tiZJEa5kEVb
+ mqO0R/RMiQld4sCfdXRcTVMn9iqMFikS5i7H8lr0M7tiA+cTpR4X4yuZkxPMVHUeyVc8
+ zY9g==
+X-Gm-Message-State: AOAM532lIvI+zsqpBlqMRoTiABomc/8K7OaJYFwVL+axVpcSx8BLjktF
+ CSftMOsVTO23IeXqmpPWJZbW7J7ziXGUeLMSBM/mLcHBGuHOaYxnzwkNr79muyp+Oqv6SadTYSD
+ 04EI5stJP7bN4z8U=
+X-Received: by 2002:a05:600c:1d28:: with SMTP id
+ l40mr143691wms.130.1626209998146; 
+ Tue, 13 Jul 2021 13:59:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTAyyLuVIYUkMhnykey1lQZqON+ZeBPIXbOwndJWCYuF14K4wJHd1QwnCOIMi9LVTmb9GQvQ==
+X-Received: by 2002:a05:600c:1d28:: with SMTP id
+ l40mr143665wms.130.1626209997954; 
+ Tue, 13 Jul 2021 13:59:57 -0700 (PDT)
+Received: from redhat.com ([2.55.15.23])
+ by smtp.gmail.com with ESMTPSA id b20sm152658wmj.7.2021.07.13.13.59.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 13:59:56 -0700 (PDT)
+Date: Tue, 13 Jul 2021 16:59:52 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Dongli Zhang <dongli.zhang@oracle.com>
+Subject: Re: [PATCH RESEND v2 0/3] To add HMP interface to dump PCI MSI-X
+ table/PBA
+Message-ID: <20210713165917-mutt-send-email-mst@kernel.org>
+References: <20210712235812.19725-1-dongli.zhang@oracle.com>
 MIME-Version: 1.0
-References: <20210707152454.246519-1-willianr@redhat.com>
- <a10abbac-4ea1-d2fc-daae-da8a8e0f151c@redhat.com>
-In-Reply-To: <a10abbac-4ea1-d2fc-daae-da8a8e0f151c@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 13 Jul 2021 17:50:20 -0300
-Message-ID: <CAKJDGDYKKeGuFvTXik8g0rmRc2G+Ss-PD6DGj6yL5hVzjj4gvw@mail.gmail.com>
-Subject: Re: [PATCH v2] tests/acceptance: allow control over tags during
- check-acceptance
-To: Wainer Moschetta <wainersm@redhat.com>
+In-Reply-To: <20210712235812.19725-1-dongli.zhang@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -90,66 +94,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa Junior <crosa@redhat.com>,
- Philippe Mathieu Daude <philmd@redhat.com>
+Cc: berrange@redhat.com, ehabkost@redhat.com, jasowang@redhat.com,
+ joe.jin@oracle.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Wainer,
+On Mon, Jul 12, 2021 at 04:58:09PM -0700, Dongli Zhang wrote:
+> I have just rebased the v2 patchset on top of most recent qemu to resend.
+> 
+> This patch is to introduce the new HMP command to dump the MSI-X table/PBA.
+> 
+> Here is the RFC v1:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg04673.html
+> 
+> The idea was inspired by below discussion:
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2021-03/msg09020.html
 
-On Fri, Jul 9, 2021 at 4:32 PM Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
->
-> Hi,
->
-> On 7/7/21 12:24 PM, Willian Rampazzo wrote:
-> > Although it is possible to run a specific test using the avocado
-> > command-line, a user may want to use a specific tag while running the
-> > ``make check-acceptance`` during the development or debugging.
-> I always wanted that feature, thanks for implementing it!
+Fails build for microblaze:
 
-I'm glad it is helpful.
+/scm/qemu/build/../softmmu/qdev-monitor.c:1030: undefined reference to `msix_dump_info'
+collect2: error: ld returned 1 exit status
+[2525/8445] Compiling C object libqemu-microblaze-softmmu.fa.p/meson-generated_.._qapi_qapi-visit-misc-target.c.o
 
-> >
-> > This allows using the AVOCADO_TAGS environment variable where the user
-> > takes total control of which tests should run based on the tags defined.
-> >
-> > This also makes the check-acceptance command flexible to restrict tests
-> > based on tags while running on CI.
-> >
-> > e.g.:
-> >
-> > AVOCADO_TAGS="foo bar baz" make check-acceptance
->
-> If I run `AVOCADO_TAGS="machine:malta arch:mips" make check-acceptance`
-> it is going to get the tests with 'machine:malta' *or* 'arch:mips' tags,
-> whereas with AVOCADO_TAGS="machine:malta,arch:mips" it gets those with
-> 'machine:malta' *and* 'arch:mips', i.e., the semantic is different. I
-> think it deserves a mention in the docs/devel/testing.rst, maybe linking
-> to Avocado's doc [1] as well.
-
-Okay, that is fair. I'll summarize something in the testing
-documentation and point to the Avocado doc to avoid duplication.
-
->
-> [1]
-> https://avocado-framework.readthedocs.io/en/latest/guides/user/chapters/tags.html
->
-> >
-> > Signed-off-by: Willian Rampazzo <willianr@redhat.com>
-> > ---
-> >   docs/devel/testing.rst |  8 ++++++++
-> >   tests/Makefile.include | 12 +++++++++---
-> >   2 files changed, 17 insertions(+), 3 deletions(-)
->
-> Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->
-> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->
-
-Thanks for testing and reviewing.
+> 
+> (qemu) info msix -d /machine/peripheral/vscsi0
+> Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
+> 0xfee00000 0x00000000 0x00004041 0x00000000
+> 0xfee00000 0x00000000 0x00004051 0x00000000
+> 0xfee00000 0x00000000 0x00004061 0x00000000
+> 0xfee00000 0x00000000 0x00004071 0x00000000
+> 0xfee01000 0x00000000 0x000040b1 0x00000000
+> 0xfee02000 0x00000000 0x000040c1 0x00000000
+> 0xfee03000 0x00000000 0x000040d1 0x00000000
+> 
+> MSI-X PBA
+> 0 0 0 0 0 0 0
+> 
+> virtio pci vector info:
+> config: 0
+> queue 0: 1
+> queue 1: 2
+> queue 2: 3
+> queue 3: 4
+> queue 4: 5
+> queue 5: 6
+> 
+> 
+> Changed since RFC v1:
+>   - Add heading to MSI-X table (suggested by David Alan Gilbert)
+>   - Add device specific interface, e.g., to dump virtio-pci queue-to-vector
+>     mapping (Suggested By Jason)
+> 
+> 
+>  hmp-commands-info.hx       | 14 +++++++++
+>  hw/pci/msix.c              | 63 +++++++++++++++++++++++++++++++++++++++++
+>  hw/virtio/virtio-pci.c     | 22 ++++++++++++++
+>  hw/virtio/virtio.c         | 10 +++++++
+>  include/hw/pci/msix.h      |  2 ++
+>  include/hw/pci/pci.h       |  3 ++
+>  include/hw/virtio/virtio.h |  2 ++
+>  include/monitor/hmp.h      |  1 +
+>  softmmu/qdev-monitor.c     | 36 +++++++++++++++++++++++
+>  9 files changed, 153 insertions(+)
+> 
+> Thank you very much!
+> 
+> Dongli Zhang
+> 
 
 
