@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F9B3C6B34
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:26:16 +0200 (CEST)
-Received: from localhost ([::1]:51190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4303C6BA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:43:23 +0200 (CEST)
+Received: from localhost ([::1]:55092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Co3-0001hK-LU
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
+	id 1m3D4c-00055R-3e
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:43:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m3CnA-0000wM-W9
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:25:21 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m3Cn7-0003GN-S9
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:25:20 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GPBrx62zfz7BvD;
- Tue, 13 Jul 2021 15:21:37 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 13 Jul 2021 15:25:04 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 13 Jul 2021 15:25:04 +0800
-Subject: Re: [RFC PATCH 4/6] machine: Uniformly use maxcpus to calculate the
- missing values
-To: Andrew Jones <drjones@redhat.com>
-References: <20210702100739.13672-1-wangyanan55@huawei.com>
- <20210702100739.13672-5-wangyanan55@huawei.com>
- <20210712152532.n36xvjbbjpxjzhrn@gator>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <974fd1cf-541f-a1c7-e280-c1279cc4913b@huawei.com>
-Date: Tue, 13 Jul 2021 15:25:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
+ id 1m3D3L-00048R-Fw; Tue, 13 Jul 2021 03:42:03 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:37390)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
+ id 1m3D3J-00070H-TZ; Tue, 13 Jul 2021 03:42:03 -0400
+Received: by mail-pf1-x436.google.com with SMTP id 17so18798976pfz.4;
+ Tue, 13 Jul 2021 00:42:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=zBIuddja685c24E6dnKH3bKIcRki0Rgq8+pCOGs0uIs=;
+ b=DR2SO9LrRmyodTBTP2wVmctUfgpZ+gWUlB26jKsbzeLqJOipWNC+W8X+uMeksMR450
+ 84fzfRzRO2BMXdwgFAbOxAWB55hVARd2z29vhqC5+6ryPF+Pa8NTKDCwtL3sz/TW3oUC
+ QdSY8tVF7XjpLpDrBJKQDMvRQEo+hfWwqYNP2/FTYswjPjAJzNj49s+74d5uRwX/0hAC
+ HLS0VWcGGTZmu+3BNaCvatZ80xwmcJWqb6LtjYvDVMN7/OGCIMFJP6LHPVmxrJj0tD60
+ 2G9q4LBebn0XwCG2BiqhEsqIHkOTS1rpivCRKcngC/dKZLzMg24mflMX2ptwPesf/Vpk
+ HHoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=zBIuddja685c24E6dnKH3bKIcRki0Rgq8+pCOGs0uIs=;
+ b=lDaAXNoxnqfjtJm7Bx3Dee3GsOqHL0MZ6/qknKb9SG+lmLHlBgGcAlLGIhZvuXezU/
+ 8R92+9ncKPdQvMA22BZ7jGtMjvXFSqRPTwbPj++LAGAjldA0mKP3nWi9Ou6ERkaGbNBT
+ LzrlCZ1UgNpra+spt+v+VcUyElbiJAgM8cOMk/Atf0K06uJdN03zxJGTimNqyFjqn7RQ
+ x89zBe+6lR+6i9MNF/q9xSmzSnktr/4JJSMzDOrIghHnFLm2GQoEySXpxyDW51kIzedK
+ R+DPjI28oKukKBkQ3QUd+4xp7e0+VQmxAzOWVdIvrYAxvkasw/2hBib6ztV9Wb/zs9sw
+ OQDg==
+X-Gm-Message-State: AOAM532j5xx6gYSjgGAX25J5YYa/6/CoCzdmCzGh683WgoTBFNpjWYen
+ 79Xr2rqMYI0uOSUzRiRQqFE=
+X-Google-Smtp-Source: ABdhPJydyfbeTQLQnRFj+Ebx/okOUSQ5mm9R1h9GSydiTwDs8pl+BMFzr6VznSNFwi4EERk/iE7HGQ==
+X-Received: by 2002:a62:4e0f:0:b029:329:20be:287a with SMTP id
+ c15-20020a624e0f0000b029032920be287amr3304167pfb.55.1626162119439; 
+ Tue, 13 Jul 2021 00:41:59 -0700 (PDT)
+Received: from [10.0.20.43] ([103.217.166.124])
+ by smtp.googlemail.com with ESMTPSA id y9sm17636881pfn.182.2021.07.13.00.41.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 00:41:58 -0700 (PDT)
+Message-ID: <e3f179b3e2dc4ca79a3796a4001ca89bc8b819ff.camel@gmail.com>
+Subject: Re: [PATCH v2 1/3] hw: aspeed_gpio: Fix memory size
+From: Rashmica Gupta <rashmica.g@gmail.com>
+To: Joel Stanley <joel@jms.id.au>, =?ISO-8859-1?Q?C=E9dric?= Le Goater
+ <clg@kaod.org>
+Date: Tue, 13 Jul 2021 17:41:54 +1000
+In-Reply-To: <20210713065854.134634-2-joel@jms.id.au>
+References: <20210713065854.134634-1-joel@jms.id.au>
+ <20210713065854.134634-2-joel@jms.id.au>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
-In-Reply-To: <20210712152532.n36xvjbbjpxjzhrn@gator>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=rashmica.g@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,211 +84,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com, Paolo
- Bonzini <pbonzini@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Drew,
+On Tue, 2021-07-13 at 16:28 +0930, Joel Stanley wrote:
+> The macro used to calculate the maximum memory size of the MMIO
+> region
+> had a mistake, causing all GPIO models to create a mapping of 0x9D8.
+> The intent was to have it be 0x9D8 - 0x800.
+> 
+> This extra size doesn't matter on ast2400 and ast2500, which have a
+> 4KB
+> region set aside for the GPIO controller.
+> 
+> On the ast2600 the 3.3V and 1.8V GPIO controllers are 2KB apart, so
+> the
+> regions would overlap. Worse was the 1.8V controller would map over
+> the
+> top of the following perianal, which happens to be the RTC.
+> 
+> The mmio region used by each device is a maximum of 2KB, so avoid the
+> calculations and hard code this as the maximum.
+> 
+> Fixes: 36d737ee82b2 ("hw/gpio: Add in AST2600 specific
+> implementation")
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 
-On 2021/7/12 23:25, Andrew Jones wrote:
-> On Fri, Jul 02, 2021 at 06:07:37PM +0800, Yanan Wang wrote:
->> We are currently using maxcpus to calculate value of sockets but using
->> cpus to calculate value of cores/threads. This makes cmdlines like
->> "-smp 8,maxcpus=12,cores=4" work while "-smp 8,maxcpus=12,sockets=3"
->> break the invalid cpu topology check.
->>
->> This patch allows us to uniformly use maxcpus to calculate the missing
->> values. Also the if branch of "cpus == 0 || sockets == 0" was splited
->> into branches of "cpus == 0" and "sockets == 0" so that we can clearly
->> figure out that we are parsing -smp cmdlines with a preference of cpus
->> over sockets over cores over threads.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/core/machine.c | 36 +++++++++++++++++++-----------------
->>   hw/i386/pc.c      | 37 +++++++++++++++++++------------------
->>   2 files changed, 38 insertions(+), 35 deletions(-)
->>
->> diff --git a/hw/core/machine.c b/hw/core/machine.c
->> index 1e194677cd..58882835be 100644
->> --- a/hw/core/machine.c
->> +++ b/hw/core/machine.c
->> @@ -752,34 +752,36 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>       }
->>   
->>       /* compute missing values, prefer sockets over cores over threads */
->> -    if (cpus == 0 || sockets == 0) {
->> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> +
->> +    if (cpus == 0) {
->> +        sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->>           threads = threads > 0 ? threads : 1;
->> -        if (cpus == 0) {
->> -            sockets = sockets > 0 ? sockets : 1;
->> -            cpus = cores * threads * sockets;
->> -        } else {
->> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -            sockets = maxcpus / (cores * threads);
->> -            sockets = sockets > 0 ? sockets : 1;
->> -        }
->> +        cpus = sockets * cores * threads;
->> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> +    } else if (sockets == 0) {
->> +        cores = cores > 0 ? cores : 1;
->> +        threads = threads > 0 ? threads : 1;
->> +        sockets = maxcpus / (cores * threads);
->> +        sockets = sockets > 0 ? sockets : 1;
-> As stated in the other patch, this rounding up of a fractional sockets
-> shouldn't be here. maxcpus or (cpus==maxcpus) should always be selected by
-> the user to be a product of whole number sockets, cores, threads.
-I also default sockets to 1 if computed as zero because we are doing
-this for cores/threads and I did't see the difference between them.
+derp. Sorry about that. This looks correct.
 
-Anyway, now that we are using maxcpus for all calculations, so we can
-either get rid of all the rounding-ups for sockets/cores/threads or just
-keep them all.
+Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
+> ---
+>  hw/gpio/aspeed_gpio.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+> index 6ae0116be70b..b3dec4448009 100644
+> --- a/hw/gpio/aspeed_gpio.c
+> +++ b/hw/gpio/aspeed_gpio.c
+> @@ -207,7 +207,6 @@
+>  #define GPIO_1_8V_MEM_SIZE            0x9D8
+>  #define GPIO_1_8V_REG_ARRAY_SIZE      ((GPIO_1_8V_MEM_SIZE - \
+>                                        GPIO_1_8V_REG_OFFSET) >> 2)
+> -#define GPIO_MAX_MEM_SIZE           MAX(GPIO_3_6V_MEM_SIZE,
+> GPIO_1_8V_MEM_SIZE)
+>  
+>  static int aspeed_evaluate_irq(GPIOSets *regs, int gpio_prev_high,
+> int gpio)
+>  {
+> @@ -849,7 +848,7 @@ static void aspeed_gpio_realize(DeviceState *dev,
+> Error **errp)
+>      }
+>  
+>      memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_gpio_ops, s,
+> -            TYPE_ASPEED_GPIO, GPIO_MAX_MEM_SIZE);
+> +            TYPE_ASPEED_GPIO, 0x800);
+>  
+>      sysbus_init_mmio(sbd, &s->iomem);
+>  }
 
-With the rouding-up, we get:
--smp cpus=12,cores=16,maxcpus=12 --> -smp 
-cpus=12,sockets=0,cores=16,threads=1,maxcpus=12 --> error_report
-
-without the rounding-up we get:
--smp cpus=12,cores=16,maxcpus=12 --> -smp 
-cpus=12,sockets=1,cores=16,threads=1,maxcpus=12 --> error_report
-
-We will both get an error report as expected, but I can get rid of the 
-rounding if it's preferred.
->>       } else if (cores == 0) {
->>           threads = threads > 0 ? threads : 1;
->> -        cores = cpus / (sockets * threads);
->> +        cores = maxcpus / (sockets * threads);
->>           cores = cores > 0 ? cores : 1;
-> Now that we're using maxcpus for the calculation, then no rounding for
-> cores either...
->
->>       } else if (threads == 0) {
->> -        threads = cpus / (cores * sockets);
->> +        threads = maxcpus / (sockets * cores);
->>           threads = threads > 0 ? threads : 1;
-> ...or threads.
->
->> -    } else if (sockets * cores * threads < cpus) {
->> +    }
->> +
->> +    if (sockets * cores * threads < cpus) {
->>           error_setg(errp, "cpu topology: "
->> -                   "sockets (%u) * cores (%u) * threads (%u) < "
->> -                   "smp_cpus (%u)",
->> +                   "sockets (%u) * cores (%u) * threads (%u) "
->> +                   "< smp_cpus (%u)",
-> Why make this change?
-No need actually, will change it back. :)
->>                      sockets, cores, threads, cpus);
->>           return;
->>       }
->>   
->> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -
->>       if (maxcpus < cpus) {
->>           error_setg(errp, "maxcpus must be equal to or greater than smp");
->>           return;
->> @@ -795,9 +797,9 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->>       }
->>   
->>       ms->smp.cpus = cpus;
->> +    ms->smp.sockets = sockets;
->>       ms->smp.cores = cores;
->>       ms->smp.threads = threads;
->> -    ms->smp.sockets = sockets;
->>       ms->smp.max_cpus = maxcpus;
->>   }
->>   
->> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
->> index 93d1f12a49..1812f33ab1 100644
->> --- a/hw/i386/pc.c
->> +++ b/hw/i386/pc.c
->> @@ -721,35 +721,36 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>   
->>       /* compute missing values, prefer sockets over cores over threads */
->>       dies = dies > 0 ? dies : 1;
->> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->>   
->> -    if (cpus == 0 || sockets == 0) {
->> +    if (cpus == 0) {
->> +        sockets = sockets > 0 ? sockets : 1;
->>           cores = cores > 0 ? cores : 1;
->>           threads = threads > 0 ? threads : 1;
->> -        if (cpus == 0) {
->> -            sockets = sockets > 0 ? sockets : 1;
->> -            cpus = cores * threads * dies * sockets;
->> -        } else {
->> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -            sockets = maxcpus / (dies * cores * threads);
->> -            sockets = sockets > 0 ? sockets : 1;
->> -        }
->> +        cpus = sockets * dies * cores * threads;
->> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> +    } else if (sockets == 0) {
->> +        cores = cores > 0 ? cores : 1;
->> +        threads = threads > 0 ? threads : 1;
->> +        sockets = maxcpus / (dies * cores * threads);
->> +        sockets = sockets > 0 ? sockets : 1;
->>       } else if (cores == 0) {
->>           threads = threads > 0 ? threads : 1;
->> -        cores = cpus / (sockets * dies * threads);
->> +        cores = maxcpus / (sockets * dies * threads);
->>           cores = cores > 0 ? cores : 1;
->>       } else if (threads == 0) {
->> -        threads = cpus / (cores * dies * sockets);
->> +        threads = maxcpus / (sockets * dies * cores);
->>           threads = threads > 0 ? threads : 1;
->> -    } else if (sockets * dies * cores * threads < cpus) {
->> +    }
->> +
->> +    if (sockets * dies * cores * threads < cpus) {
->>           error_setg(errp, "cpu topology: "
->> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
->> -                   "smp_cpus (%u)",
->> +                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
->> +                   "< smp_cpus (%u)",
->>                      sockets, dies, cores, threads, cpus);
->>           return;
->>       }
->>   
-> Same comments as for the general function.
->
-> Thanks,
-> drew
->
->> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->> -
->>       if (maxcpus < cpus) {
->>           error_setg(errp, "maxcpus must be equal to or greater than smp");
->>           return;
->> @@ -765,10 +766,10 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->>       }
->>   
->>       ms->smp.cpus = cpus;
->> -    ms->smp.cores = cores;
->> -    ms->smp.threads = threads;
->>       ms->smp.sockets = sockets;
->>       ms->smp.dies = dies;
->> +    ms->smp.cores = cores;
->> +    ms->smp.threads = threads;
->>       ms->smp.max_cpus = maxcpus;
->>   }
->>   
->> -- 
->> 2.19.1
->>
-Thanks,
-Yanan
-.
-> .
 
 
