@@ -2,74 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BF93C6B05
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:11:13 +0200 (CEST)
-Received: from localhost ([::1]:60934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DF963C6B0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:13:29 +0200 (CEST)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3CZT-0005Iu-9y
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:11:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53284)
+	id 1m3Cbg-0008B7-LC
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:13:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1m3CNy-00076t-HI; Tue, 13 Jul 2021 02:59:18 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:46000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1m3CNw-000227-BX; Tue, 13 Jul 2021 02:59:18 -0400
-Received: by mail-pg1-x529.google.com with SMTP id y17so20754935pgf.12;
- Mon, 12 Jul 2021 23:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=jXr0oYdxuCPhHpRyN6xru8psZhpSihWPYHRi9fijk8M=;
- b=jlVJQYOVvbWP7le3mhf/a7ofMoKCi1W+H7AZEnKTCGgyWpf9PuDWlqQ0a6VMOAUmk3
- b/CgX/eUNjZkMIWhJNNms28r6DGtVjUR4AByPf4BfauA4EqdmTcJhhHWzVK/NMpc7uVs
- nEBEWC79oeeicaxnwg7Q1S2m9J5ESeXc2F8lVLdedf8YRosjITDey5WWLvVcq2mR1FX6
- jR8indKOp8qhaxyIU40I9qVzv19pwPHWxm9y4m5Rr9eqa5x9qoVfbJtu7iAiQwj+f4Nz
- NVOXEf5vFDBndrvH5LFHl5Z9nBuyg9syzmg1ZuHptn6R6C4sFd07L7DN+uyI8nZG0Bh8
- QeBg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m3CRu-0001wN-NS
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:03:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1m3CRp-0004kQ-Ah
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:03:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626159794;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=koKdVjo2QqaZo96dRBCfvYG2LdBqxiCmnymcDVoaY7o=;
+ b=B53tIUsBf70fBE+/6r2XkaLAO0VDdVvAW5BWgV2g/j7K7VlmgznFbzRdAPB2dmJBx48HVb
+ foDMTjunz1nVm0l1UROi/JwicKMSPgnZ/4XLA357TbtyW3/V628I6FK4ZxR7VF4HwxAZyW
+ fv77KTqXlRDM/xRwLHSZf/Zzli8oYFs=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-66-DbGjONSaNXeLljArH7K1gg-1; Tue, 13 Jul 2021 03:03:12 -0400
+X-MC-Unique: DbGjONSaNXeLljArH7K1gg-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ b15-20020a631b4f0000b029022ca62fda1aso4024413pgm.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 00:03:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jXr0oYdxuCPhHpRyN6xru8psZhpSihWPYHRi9fijk8M=;
- b=PCYoLBBNzhRzcMvEnKNnre3N7twW1jW3k9B/hOQUUbr5VfujwhqZCV4HthPi37eQ5B
- VIyzDNNFjSWAHnVqjzbPG7Rk6yG7+0dpcR81K/xOv7IyH4jNp6QzBrfICY/vRz+v1iVv
- SJI5d9f8BwnQ4n9gw1eVy/ES++BBTvpaN3rDRkhFKT6GYApXpjmCS047eVFcAK8mULnr
- +8F9HR7frQ9NiXC+7A0gQ56FtuZIJ3Qf5vfc6hgNtphqaQzpwMENjk0qrIvon26Qiyl3
- tHKcyTuj9fFBiRnSN41TWCuNdKS+d7LIq2MbJhCZl2Mbhu+2/DJXkVrlc3AuIkU1gV4c
- kF+g==
-X-Gm-Message-State: AOAM533VwuhkUd3snbxsEw93P3PKWD8cZju8wBZlMJisj3TkwXjCViKv
- LsssVIXYRzzXB0o08dRsBPU=
-X-Google-Smtp-Source: ABdhPJw/lqiL5QoL7WyTrpJmodW2R53iXOO/IhgE2T/fnPeHevuHp8pjGtVekBF0/C2ijKp199Q3sw==
-X-Received: by 2002:a62:15c5:0:b029:32c:ea9f:a5ed with SMTP id
- 188-20020a6215c50000b029032cea9fa5edmr2955428pfv.27.1626159554762; 
- Mon, 12 Jul 2021 23:59:14 -0700 (PDT)
-Received: from localhost.localdomain ([45.124.203.14])
- by smtp.gmail.com with ESMTPSA id o184sm20334846pga.18.2021.07.12.23.59.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 12 Jul 2021 23:59:13 -0700 (PDT)
-From: Joel Stanley <joel@jms.id.au>
-To: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2 3/3] hw: aspeed_gpio: Clarify GPIO controller name
-Date: Tue, 13 Jul 2021 16:28:54 +0930
-Message-Id: <20210713065854.134634-4-joel@jms.id.au>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210713065854.134634-1-joel@jms.id.au>
-References: <20210713065854.134634-1-joel@jms.id.au>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=koKdVjo2QqaZo96dRBCfvYG2LdBqxiCmnymcDVoaY7o=;
+ b=iUq2kUt9kVTGd476Jfh7iFvBPw8SBYKO/yOV8T+JCfdzUJjiBoSsbUAwRylvL9l1Fu
+ 9QdHiLFjntuA+v6oVTwExSmyzcGFB0O2fhbegJTqEnUKl/FrHNAt9tC1YU1QfPh/m64X
+ OdLu3qJ2ycGmp2tFmBg4s+i/ci7YPtsFZmV2k7q/X2BvWAizxiSV2mCOQTe067GhZ8Un
+ CROM2ULoRp9hM+50dil8gOZyCWOQn3aBBu6+B3iEq1npc/XVye8WgbWjumDBUUdQNaWB
+ fkV/gIAgAQmxD2IehIZCP2mNFGQdAUT2o0tF5zudzU8rTNok9iOmphwVk5FbUuzFPz6I
+ 6FZA==
+X-Gm-Message-State: AOAM530nHnzz4Y+UR0iB1V/qS0/bY4d6rYs2KjS12/V+PiY5XqVPdvG6
+ mNWrnKslbvkLq0/d6m9ZLiC7EUy8L5/Txd/WxNwgteOku9cJn6zNjvXJVrFmO0yjYcE/024+3iR
+ /ekzBX75Rx4WCAcQ=
+X-Received: by 2002:a17:902:8ec7:b029:11b:acb4:ac43 with SMTP id
+ x7-20020a1709028ec7b029011bacb4ac43mr2364380plo.1.1626159791361; 
+ Tue, 13 Jul 2021 00:03:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzIYGFyhnWsahtuIOYKDIHdviYElgw9GwdNk/gneYKdnIbMrzE5/VHAnZcYthHpmKjZcOoE0g==
+X-Received: by 2002:a17:902:8ec7:b029:11b:acb4:ac43 with SMTP id
+ x7-20020a1709028ec7b029011bacb4ac43mr2364364plo.1.1626159791068; 
+ Tue, 13 Jul 2021 00:03:11 -0700 (PDT)
+Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id p40sm16925509pfw.79.2021.07.13.00.03.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 13 Jul 2021 00:03:10 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] hw/net: e1000: Correct the initial value of VET
+ register
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
+ <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
+ <CAEUhbmWqU=sM6s1ogQB6vQmBSf6KrobW9xUcWCbt2aaO3OtuOg@mail.gmail.com>
+ <CAEUhbmWZ3D50J08T5bCFAu_hStQ7n=T8O48OVaTAbrdLh48FbQ@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <63ff5849-d830-87cc-486c-7fc292220424@redhat.com>
+Date: Tue, 13 Jul 2021 15:03:05 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <CAEUhbmWZ3D50J08T5bCFAu_hStQ7n=T8O48OVaTAbrdLh48FbQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=joel.stan@gmail.com; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,111 +105,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Christina Wang <christina.wang@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Markus Carlstedt <markus.carlstedt@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two GPIO controllers in the ast2600; one is 3.3V and the other
-is 1.8V.
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- hw/gpio/aspeed_gpio.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+在 2021/7/13 上午7:06, Bin Meng 写道:
+> On Mon, Jul 5, 2021 at 1:57 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>> On Mon, Jul 5, 2021 at 12:21 PM Jason Wang <jasowang@redhat.com> wrote:
+>>>
+>>> 在 2021/7/2 下午5:24, Bin Meng 写道:
+>>>> From: Christina Wang <christina.wang@windriver.com>
+>>>>
+>>>> The initial value of VLAN Ether Type (VET) register is 0x8100, as per
+>>>> the manual and real hardware.
+>>>>
+>>>> While Linux e1000 driver always writes VET register to 0x8100, it is
+>>>> not always the case for everyone. Drivers relying on the reset value
+>>>> of VET won't be able to transmit and receive VLAN frames in QEMU.
+>>>>
+>>>> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+>>>> Signed-off-by: Christina Wang <christina.wang@windriver.com>
+>>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>>>> ---
+>>>>
+>>>> (no changes since v1)
+>>>>
+>>>>    hw/net/e1000.c | 2 ++
+>>>>    1 file changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+>>>> index 4f75b44cfc..20cbba6411 100644
+>>>> --- a/hw/net/e1000.c
+>>>> +++ b/hw/net/e1000.c
+>>>> @@ -29,6 +29,7 @@
+>>>>    #include "hw/pci/pci.h"
+>>>>    #include "hw/qdev-properties.h"
+>>>>    #include "migration/vmstate.h"
+>>>> +#include "net/eth.h"
+>>>>    #include "net/net.h"
+>>>>    #include "net/checksum.h"
+>>>>    #include "sysemu/sysemu.h"
+>>>> @@ -254,6 +255,7 @@ static const uint32_t mac_reg_init[] = {
+>>>>        [MANC]    = E1000_MANC_EN_MNG2HOST | E1000_MANC_RCV_TCO_EN |
+>>>>                    E1000_MANC_ARP_EN | E1000_MANC_0298_EN |
+>>>>                    E1000_MANC_RMCP_EN,
+>>>> +    [VET]     = ETH_P_VLAN,
+>>>
+>>> I wonder if we need a compat flag for this, since we change the behavior.
+>>>
+>>> (See e1000_properties[])
+>>>
+>> No we don't need to since it does not break migration.
+> Ping?
 
-diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-index dc721aec5da7..dfa6d6cb40a9 100644
---- a/hw/gpio/aspeed_gpio.c
-+++ b/hw/gpio/aspeed_gpio.c
-@@ -164,12 +164,12 @@
- #define GPIO_YZAAAB_DIRECTION      (0x1E4 >> 2)
- #define GPIO_AC_DATA_VALUE         (0x1E8 >> 2)
- #define GPIO_AC_DIRECTION          (0x1EC >> 2)
--#define GPIO_3_6V_MEM_SIZE         0x1F0
--#define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
-+#define GPIO_3_3V_MEM_SIZE         0x1F0
-+#define GPIO_3_3V_REG_ARRAY_SIZE   (GPIO_3_3V_MEM_SIZE >> 2)
- 
- /* AST2600 only - 1.8V gpios */
- /*
-- * The AST2600 two copies of the GPIO controller: the same 3.6V gpios as the
-+ * The AST2600 two copies of the GPIO controller: the same 3.3V gpios as the
-  * AST2400 (memory offsets 0x0-0x198) and a second controller with 1.8V gpios
-  * (memory offsets 0x800-0x9D4).
-  */
-@@ -380,7 +380,7 @@ static uint32_t update_value_control_source(GPIOSets *regs, uint32_t old_value,
-     return new_value;
- }
- 
--static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] = {
-+static const AspeedGPIOReg aspeed_3_3v_gpios[GPIO_3_3V_REG_ARRAY_SIZE] = {
-     /* Set ABCD */
-     [GPIO_ABCD_DATA_VALUE] =     { 0, gpio_reg_data_value },
-     [GPIO_ABCD_DIRECTION] =      { 0, gpio_reg_direction },
-@@ -800,7 +800,7 @@ static const GPIOSetProperties ast2500_set_props[] = {
-     [7] = {0x000000ff,  0x000000ff,  {"AC"} },
- };
- 
--static GPIOSetProperties ast2600_3_6v_set_props[] = {
-+static GPIOSetProperties ast2600_3_3v_set_props[] = {
-     [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
-     [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
-     [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-@@ -927,7 +927,7 @@ static void aspeed_gpio_ast2400_class_init(ObjectClass *klass, void *data)
-     agc->nr_gpio_pins = 216;
-     agc->nr_gpio_sets = 7;
-     agc->gap = 196;
--    agc->reg_table = aspeed_3_6v_gpios;
-+    agc->reg_table = aspeed_3_3v_gpios;
- }
- 
- static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-@@ -938,17 +938,17 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-     agc->nr_gpio_pins = 228;
-     agc->nr_gpio_sets = 8;
-     agc->gap = 220;
--    agc->reg_table = aspeed_3_6v_gpios;
-+    agc->reg_table = aspeed_3_3v_gpios;
- }
- 
--static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void *data)
-+static void aspeed_gpio_ast2600_3_3v_class_init(ObjectClass *klass, void *data)
- {
-     AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
- 
--    agc->props = ast2600_3_6v_set_props;
-+    agc->props = ast2600_3_3v_set_props;
-     agc->nr_gpio_pins = 208;
-     agc->nr_gpio_sets = 7;
--    agc->reg_table = aspeed_3_6v_gpios;
-+    agc->reg_table = aspeed_3_3v_gpios;
- }
- 
- static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-@@ -984,10 +984,10 @@ static const TypeInfo aspeed_gpio_ast2500_info = {
-     .instance_init  = aspeed_gpio_init,
- };
- 
--static const TypeInfo aspeed_gpio_ast2600_3_6v_info = {
-+static const TypeInfo aspeed_gpio_ast2600_3_3v_info = {
-     .name           = TYPE_ASPEED_GPIO "-ast2600",
-     .parent         = TYPE_ASPEED_GPIO,
--    .class_init     = aspeed_gpio_ast2600_3_6v_class_init,
-+    .class_init     = aspeed_gpio_ast2600_3_3v_class_init,
-     .instance_init  = aspeed_gpio_init,
- };
- 
-@@ -1003,7 +1003,7 @@ static void aspeed_gpio_register_types(void)
-     type_register_static(&aspeed_gpio_info);
-     type_register_static(&aspeed_gpio_ast2400_info);
-     type_register_static(&aspeed_gpio_ast2500_info);
--    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
-+    type_register_static(&aspeed_gpio_ast2600_3_3v_info);
-     type_register_static(&aspeed_gpio_ast2600_1_8v_info);
- }
- 
--- 
-2.32.0
+
+I admit migration "works" but it doesn't mean it's not broken. It 
+changes the guest visible default value of VET register, so it may break 
+things silently for the guest.
+
+For old machine types, we should stick the value to the one without this 
+fix.
+
+Thanks
+
+
+>
 
 
