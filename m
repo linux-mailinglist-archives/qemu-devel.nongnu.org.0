@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2113C71FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:19:49 +0200 (CEST)
-Received: from localhost ([::1]:40100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00073C71E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:12:06 +0200 (CEST)
+Received: from localhost ([::1]:42926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3JGG-0002vp-SN
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56384)
+	id 1m3J8n-0002pP-VR
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:12:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifu-0000a4-C7
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:14 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:56965)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifk-0000CE-TY
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:05 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifo-0006Cp-Vc
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:10 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3Ifi-00066W-SE
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:42:04 -0400
 Received: from quad ([82.142.17.146]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M8hEd-1m7PPS1Kz3-004ksC; Tue, 13
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1Miqzy-1lXFi733m0-00euyL; Tue, 13
  Jul 2021 15:41:59 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/12] linux-user/syscall: Remove ERRNO_TABLE_SIZE check
-Date: Tue, 13 Jul 2021 15:41:48 +0200
-Message-Id: <20210713134152.288423-9-laurent@vivier.eu>
+Subject: [PULL 09/12] fd-trans: Fix race condition on reallocation of the
+ translation table.
+Date: Tue, 13 Jul 2021 15:41:49 +0200
+Message-Id: <20210713134152.288423-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210713134152.288423-1-laurent@vivier.eu>
 References: <20210713134152.288423-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:kCSWo2qBWccEQtM77bnB63g1WgctXkQa5HhTmKnGKFPaKQ/Z0M6
- IhxG50U5o62nGeFQKM8ONZ7WYhDghsKe+M1PMQmpiWnn1hf3dTvg8RkNoXiUfw5bvCo7cfO
- m6i1q+12L5W9Y+iwnwzalHq6YDv3b94Jhlk2XRZSxFr1gDXJaoeaRhdg1xd4ke/X7Fp1ONF
- FEoB1p28NNeeT/GMhprAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:m052WbsLj20=:TnrIIq2vL8Os6za+JImb6G
- tGhLWfIMfxLEyhcFD8/gK2QztkupnmgOCYcGYgUfILg+e4j++6QRVuz9V8s3NSvXd/W80zSNN
- yW83Ox1aIL0huE894KKaxwMmOVRKb+WBAsfKnTlOEebVjCSVHftKr3rOOzZi/XaI7CFt/00aa
- 0lEX9oBJMwaatJE7LQNEQRSCMxO8vmGgjArY2GN/pEgZC3+Mz8aySzelASglehAptHB3S/sGm
- dZTyfE0/QhwKQdDdBTo4pmmIK+KcQ0ugAKOHrjFUFylItFeGXLyQ+EwQNgPu7/j2Xz1LKfEu7
- gLegmg/Dw/IfO3SZLVFY1QBhcqd46qqFf0btB96pPcvJY0UjHNYUHkRY0gRbdP41Iaq+v34tC
- xyKX1R9OpiL9aIc91OErVoKQj4MBk7h7h9O6Si8XAPt9VwmCtndEk3cJVhGkWU+zBEpAOZfzL
- aMvzPzhTFKnPJ2oOMlgWsdb4Z1KPodoXE5aGSR54cGDKC4XMhBh8UAaSqqKypEfFib0kTDtLS
- bUdyKpyPzAbBmF9QMQU5rRb320N4KsAjrP9/EmRbNjGF7P584CxfaM9wKnPhD/Xm1P1jkIh1/
- NWCaQ7b2XW38HyfxKSc7UUIeRODyIMjZ6wRUuzHOyWl4N4FqBEbSjAvtNQ9UgDmjBRBQKVJim
- 6xE9IRJce7dlRLP691kdZYIKm7ge0cw87mTjucRSnuBWuCRT90ApAtZ/L0ZUJcQ6l2k89FcZd
- LnWvLIJOve6bVc1V3SdQVq/B7xDD+OViwEysS1KvpJPtA0enChcR7SJtoOS+LeBsFcO1AGhmB
- YovWO0OTZ9Skk30t/pwfJVS2JlcQZEt7feZsKzs+cgXAYBHoTYRG7dXYmek+1jZU+pcbbt6
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:rQUx2TeaU63sRiprdz7nfJf3PMXktjWGKkp7ymBTmBTI+vgQson
+ yWrE3iuZy9W3DHi3UMKWz/MlBvr0KhE+zIypZdzhd9lqF4oWtPeeAVKJ4LA+FRILiB8ZC0d
+ NxFLMc4Tm/K/maTN3yDS45bIuhvK3SojRg4sPqtFfvGOmIxUJCzTMZRYCofjm+KsNA4z0/G
+ 3CRvnrY2gsp6W+snMCYhg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:588x8dZ/+j8=:GIFqVy0R+Byu7NpWSB3mDx
+ uLS3A8mpmsWbX5gKEtMTW7i1CeHgvyF7fI9PtPy7U1yuYXYBWgiX098+kXUtV5oP02jEYbhXk
+ 2B9NsA8A2S6koMDQkfD5XFUlQmZiQGxR6eb7XS10XXJIil3EipqZIB/SPTtl4hqJwu0SP46Ag
+ 57PQ0Iq9fAmEFluJKTGLkTZYQj8IGsbHvxfxA7vtW8VF/81QQ9Ped/p1Qb6MVJB08FcY09f+I
+ bqzSBNktfM7DMjMKN9/Y85L+bqnqDAN8ekMkTGlMKcg5BBtMpUc2Ch87XprldsmyiuAVD05aK
+ iB12vLoFrMVT6QgMDP0zYxWIZEqkZ4ZxjISp4D1N5KJp/9sWpubEPyZufoogt5t0jzyqWl3AU
+ POGY2lMeYNhPxH5x/2duJO9aZTOYDTqJZYvYNyx+ecmUO6/Bcke3K8rh2WaEsEWMfX3QToxe/
+ xN7ggM3kxKw106gyJCfyWYdjilCPOa7IVTHUwDCJuCIeS+htPrs3Nj8HKGPXOIlMa2pKlOiXD
+ Fu82PcZrY02LSi/g0gL7EFaAisPq0Tacb5oWr4YU3ubus89QGIVczJxMHStWbAzPAH7Z81M3k
+ DlbQ+KJVyMiv3XzfT+zrbDm7M3DfwHZJwfyyDmFiOFAG4PZAdCueCgdJM0Pdr/dWKdP5TQlq7
+ ElVl1AsyNwE+0T/C7W8+PrIx5owFUruyXnEcVA5uHryqGDaF+NfbDQYtpqh8sirerXEvtMb+T
+ iWI1J8pisLrIp0pfkzua3zluwW1NrQvxGyCj+xqM62MsR46+uhzoxKIEIzsCUF+opOBaLK46V
+ rRaOHSu+PxJLJdr5kxwzQD6TYNNu82oQJPziz2zTPYtX40IuYNki9woog9bmJL2x6Lroq6J
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,50 +68,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Owen Anderson <oanderso@google.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Owen Anderson <oanderso@google.com>
 
-Now than target_to_host_errno() always return an errno, we can
-remove the unused and arbitrary ERRNO_TABLE_SIZE definition.
+The mapping from file-descriptors to translator functions is not guarded
+on realloc which may cause invalid function pointers to be read from a
+previously deallocated mapping.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Owen Anderson <oanderso@google.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210708170550.1846343-9-f4bug@amsat.org>
+Message-Id: <20210701221255.107976-1-oanderso@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 5 -----
- 1 file changed, 5 deletions(-)
+ linux-user/fd-trans.c |  1 +
+ linux-user/fd-trans.h | 55 +++++++++++++++++++++++++++++++++++++------
+ linux-user/main.c     |  3 +++
+ 3 files changed, 52 insertions(+), 7 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 94ec6f730b3f..376629c68915 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -507,8 +507,6 @@ static inline int next_free_host_timer(void)
- }
- #endif
+diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
+index 23adaca83639..86b6f484d30b 100644
+--- a/linux-user/fd-trans.c
++++ b/linux-user/fd-trans.c
+@@ -267,6 +267,7 @@ enum {
+ };
  
--#define ERRNO_TABLE_SIZE 1200
--
- static inline int host_to_target_errno(int host_errno)
+ TargetFdTrans **target_fd_trans;
++QemuMutex target_fd_trans_lock;
+ unsigned int target_fd_max;
+ 
+ static void tswap_nlmsghdr(struct nlmsghdr *nlh)
+diff --git a/linux-user/fd-trans.h b/linux-user/fd-trans.h
+index a3fcdaabc758..1b9fa2041c06 100644
+--- a/linux-user/fd-trans.h
++++ b/linux-user/fd-trans.h
+@@ -16,6 +16,8 @@
+ #ifndef FD_TRANS_H
+ #define FD_TRANS_H
+ 
++#include "qemu/lockable.h"
++
+ typedef abi_long (*TargetFdDataFunc)(void *, size_t);
+ typedef abi_long (*TargetFdAddrFunc)(void *, abi_ulong, socklen_t);
+ typedef struct TargetFdTrans {
+@@ -25,12 +27,23 @@ typedef struct TargetFdTrans {
+ } TargetFdTrans;
+ 
+ extern TargetFdTrans **target_fd_trans;
++extern QemuMutex target_fd_trans_lock;
+ 
+ extern unsigned int target_fd_max;
+ 
++static inline void fd_trans_init(void)
++{
++    qemu_mutex_init(&target_fd_trans_lock);
++}
++
+ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
  {
-     switch (host_errno) {
-@@ -548,9 +546,6 @@ const char *target_strerror(int err)
-         return "Successful exit from sigreturn";
+-    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
++    if (fd < 0) {
++        return NULL;
++    }
++
++    QEMU_LOCK_GUARD(&target_fd_trans_lock);
++    if (fd < target_fd_max && target_fd_trans[fd]) {
+         return target_fd_trans[fd]->target_to_host_data;
      }
+     return NULL;
+@@ -38,7 +51,12 @@ static inline TargetFdDataFunc fd_trans_target_to_host_data(int fd)
  
--    if ((err >= ERRNO_TABLE_SIZE) || (err < 0)) {
--        return NULL;
--    }
-     return strerror(target_to_host_errno(err));
+ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+ {
+-    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
++    if (fd < 0) {
++        return NULL;
++    }
++
++    QEMU_LOCK_GUARD(&target_fd_trans_lock);
++    if (fd < target_fd_max && target_fd_trans[fd]) {
+         return target_fd_trans[fd]->host_to_target_data;
+     }
+     return NULL;
+@@ -46,13 +64,19 @@ static inline TargetFdDataFunc fd_trans_host_to_target_data(int fd)
+ 
+ static inline TargetFdAddrFunc fd_trans_target_to_host_addr(int fd)
+ {
+-    if (fd >= 0 && fd < target_fd_max && target_fd_trans[fd]) {
++    if (fd < 0) {
++        return NULL;
++    }
++
++    QEMU_LOCK_GUARD(&target_fd_trans_lock);
++    if (fd < target_fd_max && target_fd_trans[fd]) {
+         return target_fd_trans[fd]->target_to_host_addr;
+     }
+     return NULL;
  }
  
+-static inline void fd_trans_register(int fd, TargetFdTrans *trans)
++static inline void internal_fd_trans_register_unsafe(int fd,
++                                                     TargetFdTrans *trans)
+ {
+     unsigned int oldmax;
+ 
+@@ -67,18 +91,35 @@ static inline void fd_trans_register(int fd, TargetFdTrans *trans)
+     target_fd_trans[fd] = trans;
+ }
+ 
+-static inline void fd_trans_unregister(int fd)
++static inline void fd_trans_register(int fd, TargetFdTrans *trans)
++{
++    QEMU_LOCK_GUARD(&target_fd_trans_lock);
++    internal_fd_trans_register_unsafe(fd, trans);
++}
++
++static inline void internal_fd_trans_unregister_unsafe(int fd)
+ {
+     if (fd >= 0 && fd < target_fd_max) {
+         target_fd_trans[fd] = NULL;
+     }
+ }
+ 
++static inline void fd_trans_unregister(int fd)
++{
++    if (fd < 0) {
++        return;
++    }
++
++    QEMU_LOCK_GUARD(&target_fd_trans_lock);
++    internal_fd_trans_unregister_unsafe(fd);
++}
++
+ static inline void fd_trans_dup(int oldfd, int newfd)
+ {
+-    fd_trans_unregister(newfd);
++    QEMU_LOCK_GUARD(&target_fd_trans_lock);
++    internal_fd_trans_unregister_unsafe(newfd);
+     if (oldfd < target_fd_max && target_fd_trans[oldfd]) {
+-        fd_trans_register(newfd, target_fd_trans[oldfd]);
++        internal_fd_trans_register_unsafe(newfd, target_fd_trans[oldfd]);
+     }
+ }
+ 
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 2fb3a366a699..37ed50d98e2e 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -48,6 +48,7 @@
+ #include "target_elf.h"
+ #include "cpu_loop-common.h"
+ #include "crypto/init.h"
++#include "fd-trans.h"
+ 
+ #ifndef AT_FLAGS_PRESERVE_ARGV0
+ #define AT_FLAGS_PRESERVE_ARGV0_BIT 0
+@@ -829,6 +830,8 @@ int main(int argc, char **argv, char **envp)
+     cpu->opaque = ts;
+     task_settid(ts);
+ 
++    fd_trans_init();
++
+     ret = loader_exec(execfd, exec_path, target_argv, target_environ, regs,
+         info, &bprm);
+     if (ret != 0) {
 -- 
 2.31.1
 
