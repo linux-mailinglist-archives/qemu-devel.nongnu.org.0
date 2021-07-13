@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FDB73C7177
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 15:49:58 +0200 (CEST)
-Received: from localhost ([::1]:56284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B7E3C715E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 15:44:15 +0200 (CEST)
+Received: from localhost ([::1]:38898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3InM-0004yc-QX
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 09:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54082)
+	id 1m3Ihq-0001ps-Be
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 09:44:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3IbW-0008SZ-1a
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:42 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40490)
+ id 1m3IbV-0008Q4-5U
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:41 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3IbQ-0003dI-DR
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:41 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id l7so29611864wrv.7
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 06:37:34 -0700 (PDT)
+ id 1m3IbQ-0003dQ-D2
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:40 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id v5so30525221wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 06:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hzoBamT9L0is33IwFMKLrmnDteA/k33y/OWd2P4v5ng=;
- b=rR55kHlQIl1wQrwUm7Xj4eNLUchExUoJuFxbGK2hPb/tq6itxRee7QxMeQXHH18+m5
- dEuOfmI2C12ZOblK0FJgPYD37OBJ3lUMDj0A7dVJ5JcXxfSue26SQhPVQWKHMYmQU4Db
- irwul/UrxmiUeUo3SF0XtgJ1lHY3tCBTcjemaaydQ71Jtq6fNowUWZ35chPKdteooQ9n
- 8cGS9lX575VTDi1wnwhl872p3bNlF7JIJhbGYS4HpG1dBHpnIwu1YYbvcdYkYMliBZS5
- 40teNAimv/aDyVTaXQfw4E6Dv5CxhfBkUtwJ/bnPy+BPPPYexpZhmaX5PPckBBrGKIvx
- mSuQ==
+ bh=k6grFFqHPB3tF2ojR0KuBO/NFzUsEvLnrBSRggUNVfs=;
+ b=jN1Sbx1VY9KoDtcdpRFKvgdmKxbzlK32P+heZlXMenNUzJaIIYmthJkFo2AqBd27xa
+ mlbsFs/Wice4pEIlCSNEc3CT7GTRxOu/CchTGAOlfeaGi7cYTQGSE/AAmEXFsNJeTOPs
+ zpDda8v1mvRdElHuEvayjttRDcDPfczPrF2Gm/sp4NovMv2ob9pHKOBdJkm5Znwi+47y
+ TDv2mXhq//qnX9WC4+MOlfxPP/NZOdmyVuCMIOwKU+56yOewEqUGCZZh2y2LrR3EePVn
+ JQe1bKbOrA+hJHMwLHpbiuraagoQM5LdutRoneYzVo8fw/liP6Re6hr05lsWx25dqboo
+ 7HvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hzoBamT9L0is33IwFMKLrmnDteA/k33y/OWd2P4v5ng=;
- b=ceNHWq3wRJCyQV1XCASwavulXdKbZ92PAAu/ryT6agzgnuksj+VFqFBP1XudZSarX0
- AxeH8Tg1uNv+W6MI8vRI7WKGTMFuQbjItKOQokyzNQnOsKJRIxFl/F31OkxYDdCr8llI
- O6t5+atgpLaFabmYrFOBxP9PuVxCdi3AzFVTIe57PjDsZcgZL83dZaFXzOSlreFmUaGR
- czg24MCpKTRyQltQYPdQe/Q7QsPH8yReriym0N8kvWKfj6f/AuiAo2TxZZuSbT3LSvZv
- Bjpe+ZBuoQrwYwr4tW2JDthARhZgSyNQBY3T0LPNku6QONnaK9gpPJKdgtoBO4ovzT/+
- f38w==
-X-Gm-Message-State: AOAM532bsXdOcWnqpKM1NAjr3V0EuSna04+md5arzANuSx0tKmUKBId5
- 3rY0Yfhg1Lm9GwWGtKOKfN85vGU4jRfUGuBI
-X-Google-Smtp-Source: ABdhPJw2rxp2JLV20GQ2+1j7o80ISN4qJMoLbml6hXzdka1OlyyhsR19sZlkwh8aFnav9D+2tOPmxQ==
-X-Received: by 2002:adf:f9cb:: with SMTP id w11mr5862352wrr.57.1626183453988; 
- Tue, 13 Jul 2021 06:37:33 -0700 (PDT)
+ bh=k6grFFqHPB3tF2ojR0KuBO/NFzUsEvLnrBSRggUNVfs=;
+ b=KK535vjwzyP0uvUDB9PCJxVIIi9Om62Opxyz9wk3uwXI1WWv5c671KRNCDpC3if/1E
+ SMvyBwap+y97YWOwG4bEGBWOaX7m5HuoYUYM7HrS9nZXe38D5WURXtjJDIU36D51Weye
+ Ttx9y47TnhGMm+zK7svxXbHIp2i6cGjT3HWaU65//qei+VYtAMKPT8s6cSyWlzFGSwYI
+ aHA7MSp1NPpfIW2HV37EkS6yYI0wSOMZ89MFJSTlFyQQaqWu9OPCQnc1wlAOIXsiCO6p
+ loYER/dqIgGRr2QGOLHaZwd2H2St7wjkafQ9Vve1Wil+11QT31TTKjpiTGhsvbIooJDX
+ DlOA==
+X-Gm-Message-State: AOAM531lsjv+4cROu+iPLAfibXZg/8pKf8X649qdWwTxKyfBRzxop8TJ
+ w5HeR99YpqNsopjqv2Ta/BcFeg==
+X-Google-Smtp-Source: ABdhPJzAnvVu6/SF3bfB9J5GrcKSmVepVqxP+gwQ0e6uk5SsUa0desiOHBw26qJT668icl0omjrV0w==
+X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr5853166wrq.210.1626183454587; 
+ Tue, 13 Jul 2021 06:37:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j6sm9827443wrm.97.2021.07.13.06.37.33
+ by smtp.gmail.com with ESMTPSA id j6sm9827443wrm.97.2021.07.13.06.37.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 06:37:33 -0700 (PDT)
+ Tue, 13 Jul 2021 06:37:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 06/34] target/arm: Fix 48-bit saturating shifts
-Date: Tue, 13 Jul 2021 14:36:58 +0100
-Message-Id: <20210713133726.26842-7-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 07/34] target/arm: Fix calculation of LTP mask when LR
+ is 0
+Date: Tue, 13 Jul 2021 14:36:59 +0100
+Message-Id: <20210713133726.26842-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210713133726.26842-1-peter.maydell@linaro.org>
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,68 +86,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In do_sqrshl48_d() and do_uqrshl48_d() we got some of the edge
-cases wrong and failed to saturate correctly:
-
-(1) In do_sqrshl48_d() we used the same code that do_shrshl_bhs()
-does to obtain the saturated most-negative and most-positive 48-bit
-signed values for the large-shift-left case.  This gives (1 << 47)
-for saturate-to-most-negative, but we weren't sign-extending this
-value to the 64-bit output as the pseudocode requires.
-
-(2) For left shifts by less than 48, we copied the "8/16 bit" code
-from do_sqrshl_bhs() and do_uqrshl_bhs().  This doesn't do the right
-thing because it assumes the C type we're working with is at least
-twice the number of bits we're saturating to (so that a shift left by
-bits-1 can't shift anything off the top of the value).  This isn't
-true for bits == 48, so we would incorrectly return 0 rather than the
-most-positive value for situations like "shift (1 << 44) right by
-20".  Instead check for saturation by doing the shift and signextend
-and then testing whether shifting back left again gives the original
-value.
+In mve_element_mask(), we calculate a mask for tail predication which
+should have a number of 1 bits based on the value of LR.  However,
+our MAKE_64BIT_MASK() macro has undefined behaviour when passed a
+zero length.  Special case this to give the all-zeroes mask we
+require.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/mve_helper.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ target/arm/mve_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 8cbfd3a8c53..f17e5a413fd 100644
+index f17e5a413fd..c75432c5fef 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1579,9 +1579,8 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
-         }
-         return src >> -shift;
-     } else if (shift < 48) {
--        int64_t val = src << shift;
--        int64_t extval = sextract64(val, 0, 48);
--        if (!sat || val == extval) {
-+        int64_t extval = sextract64(src << shift, 0, 48);
-+        if (!sat || src == (extval >> shift)) {
-             return extval;
-         }
-     } else if (!sat || src == 0) {
-@@ -1589,7 +1588,7 @@ static inline int64_t do_sqrshl48_d(int64_t src, int64_t shift,
+@@ -64,7 +64,8 @@ static uint16_t mve_element_mask(CPUARMState *env)
+          */
+         int masklen = env->regs[14] << env->v7m.ltpsize;
+         assert(masklen <= 16);
+-        mask &= MAKE_64BIT_MASK(0, masklen);
++        uint16_t ltpmask = masklen ? MAKE_64BIT_MASK(0, masklen) : 0;
++        mask &= ltpmask;
      }
  
-     *sat = 1;
--    return (1ULL << 47) - (src >= 0);
-+    return sextract64((1ULL << 47) - (src >= 0), 0, 48);
- }
- 
- /* Operate on 64-bit values, but saturate at 48 bits */
-@@ -1612,9 +1611,8 @@ static inline uint64_t do_uqrshl48_d(uint64_t src, int64_t shift,
-             return extval;
-         }
-     } else if (shift < 48) {
--        uint64_t val = src << shift;
--        uint64_t extval = extract64(val, 0, 48);
--        if (!sat || val == extval) {
-+        uint64_t extval = extract64(src << shift, 0, 48);
-+        if (!sat || src == (extval >> shift)) {
-             return extval;
-         }
-     } else if (!sat || src == 0) {
+     if ((env->condexec_bits & 0xf) == 0) {
 -- 
 2.20.1
 
