@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A473C716D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 15:47:18 +0200 (CEST)
-Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 828FE3C7161
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 15:44:27 +0200 (CEST)
+Received: from localhost ([::1]:39694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Ikn-0008N2-4R
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 09:47:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54210)
+	id 1m3Ii2-0002Lb-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 09:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3IbZ-0008W3-SI
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:49 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51933)
+ id 1m3IbX-0008UB-10
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:44 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:34646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3IbR-0003dm-Ca
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:45 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id n4so3255586wms.1
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 06:37:36 -0700 (PDT)
+ id 1m3IbR-0003e0-Te
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:37:42 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso1661778wmc.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 06:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=KPIYZ3zIq5bH2bgXU9pNq5i9SxEKiNByuloEeu6bbIM=;
- b=SPIBGNyWKDEeVV0cl9XGjDkfUKZJHstzBPR9I54/HUkKedoXMECvpGWCiGnKLmXhA6
- We9/KzJ1HODr/XckHCD5Sm8Pl0c0BDfAx9X6wTStwiLT6CNbEFPTnEidbPrcEKECZj2q
- sX/yPrv/j3h8dRU0xxNW0xx5/w3q/hsSZ3OlafJqJBhuvk5bBZRXoT+2O4MCpCqs7/jD
- ZJc6EcqD303gxuAhfnMZm1gOfD3ypvDVX+f0ByuiS9jDPNEPHuicoybHWdMZkbwdciY1
- i8fcKI5t8I1pKAcjmTXSDDedD+BbV1aK8D2/GW/kYzhKEPRDh1YZBLMUDfRkWVZJ15AW
- ZgGA==
+ bh=YEUxhatg18yYkk6DxfXs5vGtqzQve7WvoaIOOBTMxb4=;
+ b=uF7x+HyAWZqUjVXr3ZVV4UL8sKwCdvSPBhUzU5f3hW0o/QtHeeTV1G45D21K501ZG4
+ F4eKkKOfOy+/TYU7TIvHG82nFUMmMj90gqnR2+ADW+B2/LlUEJ8yQoa9o+9nHUM7vm3y
+ WOIFqrhU1Z5D8U6R52+Oj1DVxey0cmqh9DWOhk7oftypf7JW/gobSp6YAqiNQnuXvyNh
+ Xl13mZ6gtoxgsiOJSMHTXGuREck2u9Havtt28fX7cNXPWmMOG2DQhXIcOhUDYGOcj/ns
+ uqf66HMeFO6oH30Ic9v3tckVmsXDa78JI1/mt08X3GknOeYyarg4axVZhzfnAHxFnhY5
+ v1Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KPIYZ3zIq5bH2bgXU9pNq5i9SxEKiNByuloEeu6bbIM=;
- b=IGKDjbe7NnmJ3riy7fodpPMjWMDcZq/v5i4GxND8bjq5EM8J74K9qiryIr0G8Zyjm0
- obl+NOmdOuhvEIttdP4hhVFTzeVCsYm70oJdRooTZBukWPWcbqp0K9r/YGq7TAj9V46X
- ywB1oSDKKu0l1GtwLnQKnJo+yN79Gnxht4pHZWQVLpzw6QJgcBHqZR08DZjBUkxnvb61
- PfGWURGn/Klj/ebGW+8jI9RDHj9nBpkXa4PGggWa0v5Qnnl/uG+dk0EexSsbS84iWOth
- hk7gIUdRuEw65rvSqZUiAcdBdTvzSE6nIWn0VZN7c8WkE+9Ur9sHcItfaR0e40XrSSCd
- lW0g==
-X-Gm-Message-State: AOAM530ufhPWNFnTNi6czYxYpOKzw8ykPRl+EQAhjg9s3lDQnpyovN/8
- xoz2qruiqJwDKTSu+nygjFcnO5tCAiUxs2nl
-X-Google-Smtp-Source: ABdhPJxv+gaGHK5fr8Y2H3uasw0A/MzgBv6pZXfDllLmhV1Bb6njTpQ6Gpk7siXztpJKvvdPjcKgKg==
-X-Received: by 2002:a05:600c:2197:: with SMTP id
- e23mr5174184wme.101.1626183455932; 
- Tue, 13 Jul 2021 06:37:35 -0700 (PDT)
+ bh=YEUxhatg18yYkk6DxfXs5vGtqzQve7WvoaIOOBTMxb4=;
+ b=SyyhPWBFIh34BmZm/CrMBT91Tcaf4q7c3NNBOba8G9/m63m0sXHMvbRpYUAGE4oiAT
+ Xb1PIDc/ELuLdAIyU62WaGhv0q2aBzGZRhO4Ccf2fUMfdlHtxT1fufiwQpCjLbRHYLMK
+ d0/r+rZ6wIee0+TvhsXpX/Lt4wnRH08JpGUX4ar1KHlKLOm5kNNvBhyBQgKaDgwoNAHo
+ iVCQmyAn+8bBkh/x0tlSIWg0USsOSH4Z7JkOr1lPg+iwJlxdyqoHu+c1n9EUFyHvXYcD
+ qox6RaOR2d/TZ1FQqtT4heHiQzhnMICZcMMSlJlP/+eXq7Q1jyPrWMOR3AuvQZ7JAYYT
+ FuYQ==
+X-Gm-Message-State: AOAM532uOxcU9qvLixVFM1nezEVtWxpdRGSo/uaZpODdxlBCvoorPeUK
+ LOdraVYVpN8AC2uLrZES4/gWKZTpFDfYNeb9
+X-Google-Smtp-Source: ABdhPJyI6d95G7H/Lk46izsooBeEFo4Q7DkkkDDdkgb5eheW1iOKgztNMoKJoeYkoB7kdVvrAW5NZg==
+X-Received: by 2002:a1c:f616:: with SMTP id w22mr5044718wmc.131.1626183456535; 
+ Tue, 13 Jul 2021 06:37:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j6sm9827443wrm.97.2021.07.13.06.37.35
+ by smtp.gmail.com with ESMTPSA id j6sm9827443wrm.97.2021.07.13.06.37.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 06:37:35 -0700 (PDT)
+ Tue, 13 Jul 2021 06:37:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 09/34] target/arm: Factor out mve_eci_mask()
-Date: Tue, 13 Jul 2021 14:37:01 +0100
-Message-Id: <20210713133726.26842-10-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 10/34] target/arm: Fix VLDRB/H/W for predicated
+ elements
+Date: Tue, 13 Jul 2021 14:37:02 +0100
+Message-Id: <20210713133726.26842-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210713133726.26842-1-peter.maydell@linaro.org>
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,93 +88,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In some situations we need a mask telling us which parts of the
-vector correspond to beats that are not being executed because of
-ECI, separately from the combined "which bytes are predicated away"
-mask.  Factor this mask calculation out of mve_element_mask() into
-its own function.
+For vector loads, predicated elements are zeroed, instead of
+retaining their previous values (as happens for most data
+processing operations). This means we need to distinguish
+"beat not executed due to ECI" (don't touch destination
+element) from "beat executed but predicated out" (zero
+destination element).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/mve_helper.c | 58 ++++++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 24 deletions(-)
+ target/arm/mve_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index b111ba3b106..b0cbfda3cce 100644
+index b0cbfda3cce..f78228f70c1 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -26,6 +26,35 @@
- #include "exec/exec-all.h"
- #include "tcg/tcg.h"
- 
-+static uint16_t mve_eci_mask(CPUARMState *env)
-+{
-+    /*
-+     * Return the mask of which elements in the MVE vector correspond
-+     * to beats being executed. The mask has 1 bits for executed lanes
-+     * and 0 bits where ECI says this beat was already executed.
-+     */
-+    int eci;
-+
-+    if ((env->condexec_bits & 0xf) != 0) {
-+        return 0xffff;
-+    }
-+
-+    eci = env->condexec_bits >> 4;
-+    switch (eci) {
-+    case ECI_NONE:
-+        return 0xffff;
-+    case ECI_A0:
-+        return 0xfff0;
-+    case ECI_A0A1:
-+        return 0xff00;
-+    case ECI_A0A1A2:
-+    case ECI_A0A1A2B0:
-+        return 0xf000;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- static uint16_t mve_element_mask(CPUARMState *env)
- {
-     /*
-@@ -68,30 +97,11 @@ static uint16_t mve_element_mask(CPUARMState *env)
-         mask &= ltpmask;
-     }
- 
--    if ((env->condexec_bits & 0xf) == 0) {
--        /*
--         * ECI bits indicate which beats are already executed;
--         * we handle this by effectively predicating them out.
--         */
--        int eci = env->condexec_bits >> 4;
--        switch (eci) {
--        case ECI_NONE:
--            break;
--        case ECI_A0:
--            mask &= 0xfff0;
--            break;
--        case ECI_A0A1:
--            mask &= 0xff00;
--            break;
--        case ECI_A0A1A2:
--        case ECI_A0A1A2B0:
--            mask &= 0xf000;
--            break;
--        default:
--            g_assert_not_reached();
--        }
--    }
--
-+    /*
-+     * ECI bits indicate which beats are already executed;
-+     * we handle this by effectively predicating them out.
-+     */
-+    mask &= mve_eci_mask(env);
-     return mask;
+@@ -153,12 +153,13 @@ static void mve_advance_vpt(CPUARMState *env)
+     env->v7m.vpr = vpr;
  }
  
+-
++/* For loads, predicated lanes are zeroed instead of keeping their old values */
+ #define DO_VLDR(OP, MSIZE, LDTYPE, ESIZE, TYPE)                         \
+     void HELPER(mve_##OP)(CPUARMState *env, void *vd, uint32_t addr)    \
+     {                                                                   \
+         TYPE *d = vd;                                                   \
+         uint16_t mask = mve_element_mask(env);                          \
++        uint16_t eci_mask = mve_eci_mask(env);                          \
+         unsigned b, e;                                                  \
+         /*                                                              \
+          * R_SXTM allows the dest reg to become UNKNOWN for abandoned   \
+@@ -166,8 +167,9 @@ static void mve_advance_vpt(CPUARMState *env)
+          * then take an exception.                                      \
+          */                                                             \
+         for (b = 0, e = 0; b < 16; b += ESIZE, e++) {                   \
+-            if (mask & (1 << b)) {                                      \
+-                d[H##ESIZE(e)] = cpu_##LDTYPE##_data_ra(env, addr, GETPC()); \
++            if (eci_mask & (1 << b)) {                                  \
++                d[H##ESIZE(e)] = (mask & (1 << b)) ?                    \
++                    cpu_##LDTYPE##_data_ra(env, addr, GETPC()) : 0;     \
+             }                                                           \
+             addr += MSIZE;                                              \
+         }                                                               \
 -- 
 2.20.1
 
