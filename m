@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3277B3C695C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:29:38 +0200 (CEST)
-Received: from localhost ([::1]:46596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921A53C6927
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:23:29 +0200 (CEST)
+Received: from localhost ([::1]:59144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3A32-0005rT-PM
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:29:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33424)
+	id 1m39xA-0003hE-MZ
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:23:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m39zn-0006u2-1q
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:26:11 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40884)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m39sV-0000Ir-UG; Tue, 13 Jul 2021 00:18:39 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:36391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m39zl-0008VC-00
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:26:10 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m39zX-0003eN-P2
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:55 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 09EA62E81FB
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:53 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m39sU-0002cF-3p; Tue, 13 Jul 2021 00:18:39 -0400
+Received: by mail-io1-xd32.google.com with SMTP id u7so25442070ion.3;
+ Mon, 12 Jul 2021 21:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=x7Clm5ksw5+HQ36YWYxc8gtzkpJUwJ43fDS5ZJjrGus=;
+ b=AkEiiWPVbm89w/J79L5diuQi2rPiBUHuELXLQJmVe8yQE5vejagbewTYnHx2hI2sNg
+ Z7wnhe8ZJV6Jyv2Xu5KweSUEW02g7oM4zvfN20cQB/T3GnZvxZLcSNTKk1NrDvM64vnS
+ EYIPGzoILeV5GX6J4nTkCKNj7iTd5PlDr4cGrm5yu/dgEbUo2hVwvlcBWJ1u33oaaBBX
+ 9VYCMHZzdHketOtnrbza6eLg8+Q9hr+AjwXBMduia9FMszpLT8PmYq5BeiN23OYh6pU2
+ Ezptoc91YmqK73w5duZIszAbAGvTHKesiF5uuQJzwUvdv3CV5WB5w41w7MAKjqvO9wbH
+ gsXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=x7Clm5ksw5+HQ36YWYxc8gtzkpJUwJ43fDS5ZJjrGus=;
+ b=T+WzI9l1mJn3zpFebAAV1cPnZyxnWFpjkhdppvMF85bD6GtiNZWIqBjHtb8DDOV0bY
+ 37odvZOUjdz8V6uGvp+J6XKMEzpcf0zeNgvWTrEqq7kn8kK8ssBIW83tH7iClrx/jdMk
+ pUrR+lXUTRoqk2zxgCr2xChQ/VXYwY/xWOB+6DjUyRd0qBg8fxkId/0o7SP4e8bIMw6g
+ KlPoWYJNjobnYQxOA8O3Wi8WRJ6CgOK4m3luVenJW709rcHcYH/h3ONXGm/iDbaFcGGd
+ lXOKGbNfA629TWyYALgw4scU2yoRIuXN2NT/K5AwimH59SBL33m+MD5/7ElUqQhbucaH
+ 8M4Q==
+X-Gm-Message-State: AOAM532EWUWPbr13p1ROZRLvUEQCV5ljVBEIEveIYbdSe5YY1VgzyKOT
+ wcxjKOXvH2iZH9wZBaL9Xw3TJTKCMBYcoSZuoJA=
+X-Google-Smtp-Source: ABdhPJyGxahhUtfDRsAZ8dibh72dKmE6rOi+Oka/4m/JY2EGiPt80FLarUKulFvXfW4CgJRc4HBqpcfshIPwUR1KfF0=
+X-Received: by 2002:a02:3781:: with SMTP id r123mr2153957jar.26.1626149916573; 
+ Mon, 12 Jul 2021 21:18:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Jul 2021 04:17:24 -0000
-From: Launchpad Bug Tracker <1908416@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm uefi windows windows10
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor raspiduino th-huth
-X-Launchpad-Bug-Reporter: A user (raspiduino)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160813009293.16281.11756114510615914668.malonedeb@soybean.canonical.com>
-Message-Id: <162614984442.15811.18414525876062041671.malone@loganberry.canonical.com>
-Subject: [Bug 1908416] Re: qemu-system-aarch64 can't run Windows 10 for ARM
- version 2004
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: a50a6958e4bbd69e661f97c3e8cf7e852cb5e5a1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <20210709042608.883256-8-richard.henderson@linaro.org>
+In-Reply-To: <20210709042608.883256-8-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 13 Jul 2021 14:18:10 +1000
+Message-ID: <CAKmqyKPskqW_nSeondUs5pMn6a3k=ed=PuX8P45Zxiy8Vx5mQw@mail.gmail.com>
+Subject: Re: [PATCH 07/17] target/riscv: Use gpr_{src,
+ dst} for integer load/store
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,53 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908416 <1908416@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+On Fri, Jul 9, 2021 at 2:32 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
--- =
+Alistair
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908416
-
-Title:
-  qemu-system-aarch64 can't run Windows 10 for ARM version 2004
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  Problem: qemu-system-aarch64 can't run Windows 10 for ARM version 2004
-  (20H2) or newer
-
-  Host OS: Windows 10 x64 version 20H2
-  CPU    : Intel Pentium Dual-core T4300 (no vt-x)
-  QEMU   : QEMU version 5.1.0 from qemu.org
-
-  cmdline: qemu-system-aarch64.exe -M virt -cpu cortex-a72 -smp 3
-  --accel tcg,thread=3Dmulti -m 2048 -pflash QEMU_EFI.img -pflash
-  QEMU_VARS.img -device VGA -device nec-usb-xhci -device usb-kbd -device
-  usb-mouse -device usb-storage,drive=3Dcdrom -drive
-  file=3D"isofile.iso",media=3Dcdrom,if=3Dnone,id=3Dcdrom
-
-  Note: QEMU_VARS and QEMU_EFI are taken from edk2
-
-  Details: From this post (https://kitsunemimi.pw/notes/posts/running-
-  windows-10-for-arm64-in-a-qemu-virtual-machine.html) and from what I
-  have tried, QEMU can't run Windows ARM newer or equal to the 2004
-  version. When we boot a 2004 iso (made from uupdump.ml), it stuck as
-  the boot screen with the Windows ARM logo and nothing else. When I
-  check the machine state and registers through the QEMU monitor, it
-  shows that the VM is still running, but the registers are completely
-  frozen! But if I try the older version, like 19H2, it works! Please
-  help!
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908416/+subscriptions
+> ---
+>  target/riscv/insn_trans/trans_rvi.c.inc | 45 +++++++++++++++----------
+>  1 file changed, 28 insertions(+), 17 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index a603925637..a422dc9ef4 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -138,15 +138,21 @@ static bool trans_bgeu(DisasContext *ctx, arg_bgeu *a)
+>
+>  static bool gen_load(DisasContext *ctx, arg_lb *a, MemOp memop)
+>  {
+> -    TCGv t0 = tcg_temp_new();
+> -    TCGv t1 = tcg_temp_new();
+> -    gen_get_gpr(t0, a->rs1);
+> -    tcg_gen_addi_tl(t0, t0, a->imm);
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv addr = gpr_src(ctx, a->rs1);
+> +    TCGv temp = NULL;
+>
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, memop);
+> -    gen_set_gpr(a->rd, t1);
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> +    if (a->imm) {
+> +        temp = tcg_temp_new();
+> +        tcg_gen_addi_tl(temp, addr, a->imm);
+> +        addr = temp;
+> +    }
+> +
+> +    tcg_gen_qemu_ld_tl(dest, addr, ctx->mem_idx, memop);
+> +
+> +    if (temp) {
+> +        tcg_temp_free(temp);
+> +    }
+>      return true;
+>  }
+>
+> @@ -177,19 +183,24 @@ static bool trans_lhu(DisasContext *ctx, arg_lhu *a)
+>
+>  static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
+>  {
+> -    TCGv t0 = tcg_temp_new();
+> -    TCGv dat = tcg_temp_new();
+> -    gen_get_gpr(t0, a->rs1);
+> -    tcg_gen_addi_tl(t0, t0, a->imm);
+> -    gen_get_gpr(dat, a->rs2);
+> +    TCGv addr = gpr_src(ctx, a->rs1);
+> +    TCGv data = gpr_src(ctx, a->rs2);
+> +    TCGv temp = NULL;
+>
+> -    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx, memop);
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(dat);
+> +    if (a->imm) {
+> +        temp = tcg_temp_new();
+> +        tcg_gen_addi_tl(temp, addr, a->imm);
+> +        addr = temp;
+> +    }
+> +
+> +    tcg_gen_qemu_st_tl(data, addr, ctx->mem_idx, memop);
+> +
+> +    if (temp) {
+> +        tcg_temp_free(temp);
+> +    }
+>      return true;
+>  }
+>
+> -
+>  static bool trans_sb(DisasContext *ctx, arg_sb *a)
+>  {
+>      return gen_store(ctx, a, MO_SB);
+> --
+> 2.25.1
+>
+>
 
