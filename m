@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C060F3C6BB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:51:23 +0200 (CEST)
-Received: from localhost ([::1]:35232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A297D3C6BCE
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:57:50 +0200 (CEST)
+Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3DCM-0002po-RT
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
+	id 1m3DIa-00063K-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:57:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m3DAL-0000OM-TE
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:49:17 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2251)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m3DAI-0003JX-Eu
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:49:17 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GPCLF1hVnz1CJDy;
- Tue, 13 Jul 2021 15:43:33 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 13 Jul 2021 15:49:09 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 13 Jul 2021 15:49:08 +0800
-Subject: Re: [RFC PATCH 4/6] machine: Uniformly use maxcpus to calculate the
- missing values
-To: Andrew Jones <drjones@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210702100739.13672-1-wangyanan55@huawei.com>
- <20210702100739.13672-5-wangyanan55@huawei.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <1b76cfaa-a259-7ed4-635e-173bc3aa018c@huawei.com>
-Date: Tue, 13 Jul 2021 15:49:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3DHU-0004ur-66
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:56:40 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:44608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3DHS-0000KU-DU
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:56:39 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id l1so10148159edr.11
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 00:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uqA9yD6mqgaSCjVIClvHKPuQ7/otlm+gzbKwq4E/6J4=;
+ b=U3XhJxlCTwfDLcvqbScH/apv2P5N+fGKvIuqf+vVp3IdMhHhXkG+VXiC0h5S6NHGRA
+ GLb0BLS+UnaHKEtALCSDfndtGb/MaaoBEE0vB1rnjDAIbUTArAFYFAtaep7xqqz9tQfK
+ S4rExSxdOYuGorWRjO9kLBeE9NGuk8hrCLCBO1saV3vsEltYkdagoqQQ22DtHaRE/VFa
+ 52FSNu/Cleqx5T6HlU82qf04214r2uCGbIIilOoXxgzrDv+ohjfpjcTHtXq0evKniA+p
+ ++NVTDLehNZr7iMbbsYmFYsHZnyLAb8hpNnZ/NEONPJUJYWTR4vWLOm1H3Pl5TQgXqXT
+ LByg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uqA9yD6mqgaSCjVIClvHKPuQ7/otlm+gzbKwq4E/6J4=;
+ b=jeF6r4Zpi7H04SIsLSB7C8DNKhW84yCch28qqc7YxTrba+GdxpFucCHEBWqdirJx7D
+ nbUEa8HiKxWIU23mGMvBMVbSGkhPqp1Jk9g40ijOb3Xtca/WG0buN8WwBWwIPtlX3UOB
+ guwJg12k2Nh0KXFdH37vlTeR0bIo1i1nVGx4E7FWIQUP6rStVEVHhvjt1dgd/rfjTCWB
+ Nn+KmCaUrODhQG/rl8QzpPHsxU/3TOCZyCCq6Nna51PM4VtCKj0YdztuS+R8lF2JBpvu
+ Zdq4024LKQx6l83vK3LMFy9c47UqvV5+rBWgp02+Jllwlq0bn5NbALYm5yYlWMBFUcMd
+ ZD6Q==
+X-Gm-Message-State: AOAM5308Jd/RxZrnRwt7wxw2X6XLtZAnJcZQujqnTN/QvYv1/PNm2X5H
+ pxgPbfjz0HGIleGArdwlw2Gp/1Cobz4TxKC3o8lQVQ==
+X-Google-Smtp-Source: ABdhPJx51u33uJ+SgaPQ5lZ82a0ZuNQdKh4hif5D0yhYlq99yEzCK7fpFohvpSn3XgLniJBJ4JssY36iJfNYBnZd7Ig=
+X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr4003833eds.204.1626162995752; 
+ Tue, 13 Jul 2021 00:56:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210702100739.13672-5-wangyanan55@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210712102846.2783382-1-f4bug@amsat.org>
+In-Reply-To: <20210712102846.2783382-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 13 Jul 2021 08:55:56 +0100
+Message-ID: <CAFEAcA8noPkByvvKFfX_-RBZTK_xtZ19OqW7RQ1sRMvXYqB1+w@mail.gmail.com>
+Subject: Re: [PULL 0/3] SD/MMC patches for 2021-07-12
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,212 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/7/2 18:07, Yanan Wang wrote:
-> We are currently using maxcpus to calculate value of sockets but using
-> cpus to calculate value of cores/threads. This makes cmdlines like
-> "-smp 8,maxcpus=12,cores=4" work while "-smp 8,maxcpus=12,sockets=3"
-> break the invalid cpu topology check.
+On Mon, 12 Jul 2021 at 11:30, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> This patch allows us to uniformly use maxcpus to calculate the missing
-> values. Also the if branch of "cpus == 0 || sockets == 0" was splited
-> into branches of "cpus == 0" and "sockets == 0" so that we can clearly
-> figure out that we are parsing -smp cmdlines with a preference of cpus
-> over sockets over cores over threads.
-BTW, after this patch, configs like:
--smp maxcpus=16 --> -smp 1,sockets=1,cores=1,threads=1,maxcpus=16
--smp sockets=2,maxcpus=16 --> -smp 2,sockets=2,cores=1,threads=1,maxcpus=16
-......
-still can not work. So I suggest to use the parameters computed by 
-maxcpus to calculate
-the value of cpus if it's omitted. The diff based on this patch is:
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 93c5227920..924c48fd43 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -757,13 +757,7 @@ static void smp_parse(MachineState *ms, 
-SMPConfiguration *config, Error **errp)
-      /* compute missing values, prefer sockets over cores over threads */
-      maxcpus = maxcpus > 0 ? maxcpus : cpus;
-
--    if (cpus == 0) {
--        sockets = sockets > 0 ? sockets : 1;
--        cores = cores > 0 ? cores : 1;
--        threads = threads > 0 ? threads : 1;
--        cpus = sockets * cores * threads;
--        maxcpus = maxcpus > 0 ? maxcpus : cpus;
--    } else if (sockets == 0) {
-+    if (sockets == 0) {
-          cores = cores > 0 ? cores : 1;
-          threads = threads > 0 ? threads : 1;
-          sockets = maxcpus / (cores * threads);
-@@ -777,6 +771,9 @@ static void smp_parse(MachineState *ms, 
-SMPConfiguration *config, Error **errp)
-          threads = threads > 0 ? threads : 1;
-      }
-
-+    cpus = cpus > 0 ? cpus : sockets * cores * threads;
-+    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-+
-      if (sockets * cores * threads < cpus) {
-          error_setg(errp, "cpu topology: "
-                     "sockets (%u) * cores (%u) * threads (%u) < "
-
-
-Thanks,
-Yanan
-.
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->   hw/core/machine.c | 36 +++++++++++++++++++-----------------
->   hw/i386/pc.c      | 37 +++++++++++++++++++------------------
->   2 files changed, 38 insertions(+), 35 deletions(-)
+> The following changes since commit d1987c8114921eb30859854de664f879b5626d=
+a7:
 >
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 1e194677cd..58882835be 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -752,34 +752,36 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->       }
->   
->       /* compute missing values, prefer sockets over cores over threads */
-> -    if (cpus == 0 || sockets == 0) {
-> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +
-> +    if (cpus == 0) {
-> +        sockets = sockets > 0 ? sockets : 1;
->           cores = cores > 0 ? cores : 1;
->           threads = threads > 0 ? threads : 1;
-> -        if (cpus == 0) {
-> -            sockets = sockets > 0 ? sockets : 1;
-> -            cpus = cores * threads * sockets;
-> -        } else {
-> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (cores * threads);
-> -            sockets = sockets > 0 ? sockets : 1;
-> -        }
-> +        cpus = sockets * cores * threads;
-> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +    } else if (sockets == 0) {
-> +        cores = cores > 0 ? cores : 1;
-> +        threads = threads > 0 ? threads : 1;
-> +        sockets = maxcpus / (cores * threads);
-> +        sockets = sockets > 0 ? sockets : 1;
->       } else if (cores == 0) {
->           threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * threads);
-> +        cores = maxcpus / (sockets * threads);
->           cores = cores > 0 ? cores : 1;
->       } else if (threads == 0) {
-> -        threads = cpus / (cores * sockets);
-> +        threads = maxcpus / (sockets * cores);
->           threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * cores * threads < cpus) {
-> +    }
-> +
-> +    if (sockets * cores * threads < cpus) {
->           error_setg(errp, "cpu topology: "
-> -                   "sockets (%u) * cores (%u) * threads (%u) < "
-> -                   "smp_cpus (%u)",
-> +                   "sockets (%u) * cores (%u) * threads (%u) "
-> +                   "< smp_cpus (%u)",
->                      sockets, cores, threads, cpus);
->           return;
->       }
->   
-> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -
->       if (maxcpus < cpus) {
->           error_setg(errp, "maxcpus must be equal to or greater than smp");
->           return;
-> @@ -795,9 +797,9 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->       }
->   
->       ms->smp.cpus = cpus;
-> +    ms->smp.sockets = sockets;
->       ms->smp.cores = cores;
->       ms->smp.threads = threads;
-> -    ms->smp.sockets = sockets;
->       ms->smp.max_cpus = maxcpus;
->   }
->   
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 93d1f12a49..1812f33ab1 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -721,35 +721,36 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->   
->       /* compute missing values, prefer sockets over cores over threads */
->       dies = dies > 0 ? dies : 1;
-> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
->   
-> -    if (cpus == 0 || sockets == 0) {
-> +    if (cpus == 0) {
-> +        sockets = sockets > 0 ? sockets : 1;
->           cores = cores > 0 ? cores : 1;
->           threads = threads > 0 ? threads : 1;
-> -        if (cpus == 0) {
-> -            sockets = sockets > 0 ? sockets : 1;
-> -            cpus = cores * threads * dies * sockets;
-> -        } else {
-> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (dies * cores * threads);
-> -            sockets = sockets > 0 ? sockets : 1;
-> -        }
-> +        cpus = sockets * dies * cores * threads;
-> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +    } else if (sockets == 0) {
-> +        cores = cores > 0 ? cores : 1;
-> +        threads = threads > 0 ? threads : 1;
-> +        sockets = maxcpus / (dies * cores * threads);
-> +        sockets = sockets > 0 ? sockets : 1;
->       } else if (cores == 0) {
->           threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * dies * threads);
-> +        cores = maxcpus / (sockets * dies * threads);
->           cores = cores > 0 ? cores : 1;
->       } else if (threads == 0) {
-> -        threads = cpus / (cores * dies * sockets);
-> +        threads = maxcpus / (sockets * dies * cores);
->           threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * dies * cores * threads < cpus) {
-> +    }
-> +
-> +    if (sockets * dies * cores * threads < cpus) {
->           error_setg(errp, "cpu topology: "
-> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
-> -                   "smp_cpus (%u)",
-> +                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-> +                   "< smp_cpus (%u)",
->                      sockets, dies, cores, threads, cpus);
->           return;
->       }
->   
-> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -
->       if (maxcpus < cpus) {
->           error_setg(errp, "maxcpus must be equal to or greater than smp");
->           return;
-> @@ -765,10 +766,10 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
->       }
->   
->       ms->smp.cpus = cpus;
-> -    ms->smp.cores = cores;
-> -    ms->smp.threads = threads;
->       ms->smp.sockets = sockets;
->       ms->smp.dies = dies;
-> +    ms->smp.cores = cores;
-> +    ms->smp.threads = threads;
->       ms->smp.max_cpus = maxcpus;
->   }
->   
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
+ into staging (2021-07-11 22:20:51 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/sdmmc-20210712
+>
+> for you to fetch changes up to 59b63d78be1f67c87b79331dcc825e485efd3bcf:
+>
+>   hw/sd/sdcard: Check for valid address range in SEND_WRITE_PROT (CMD30) =
+(2021-07-12 12:27:38 +0200)
+>
+> ----------------------------------------------------------------
+> SD/MMC patches queue
+>
+> - sdcard: Check for valid address range in SEND_WRITE_PROT (CMD30)
+>
+> ----------------------------------------------------------------
 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
