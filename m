@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BD83C798C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:21:05 +0200 (CEST)
-Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7E73C7995
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:23:57 +0200 (CEST)
+Received: from localhost ([::1]:45974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Qm0-0003cT-GR
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:21:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
+	id 1m3Qom-00012C-9f
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qc5-0007Sr-ED
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50679)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QcA-0007cH-TZ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qc3-0007yY-B3
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:49 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qc9-00082c-1e
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626214246;
+ s=mimecast20190719; t=1626214252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pGNVy1FELi8qpaAI6ieUTmFEXCRocQuU2XFIwFNetIA=;
- b=T4vgEuT9A9m9tx5IJ9CweyKTLP47jC4sxVjDF8m4zTTqJED7dKuSdMAjYqvx23Jl15sUPF
- JUbyR8c8zkp7w/g4ilIFn3hP3xwsDXB1KTlkIaOdb0egH+tW+VQWwiDJfPXAWg3NjsubxA
- FpF3jVGTkP1xtXOju4InA041f/svHqk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-Fhy54vN6NUGF8lJE5qY-tQ-1; Tue, 13 Jul 2021 18:10:45 -0400
-X-MC-Unique: Fhy54vN6NUGF8lJE5qY-tQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- i7-20020a05600c3547b0290229a389ceb2so948532wmq.0
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:45 -0700 (PDT)
+ bh=3J1FzfuBru52M0OTYvHXT9ubbEEIGS4eMsEdSAk30s8=;
+ b=d7fBYREpCM6hXRdWD1q1f52Pa9HVBfzTD3fGjRYZfXoz4FWNNZ2qBY0l//DJUaWt6ZwAr2
+ XhifXzZ4ZdgqD5DPpdNW0RRsZaJ4CM0Km6YW6E/3HvnodxBw71sFBvQyeiuzgoPz+lwd9A
+ hfaDTkEHOkTz5t86T8GEyybt6aAcuVk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-yz9r0FBhPf-NLov82dvbNg-1; Tue, 13 Jul 2021 18:10:49 -0400
+X-MC-Unique: yz9r0FBhPf-NLov82dvbNg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ x6-20020a7bc2060000b0290218ad9a8d4aso968940wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pGNVy1FELi8qpaAI6ieUTmFEXCRocQuU2XFIwFNetIA=;
- b=CBnSYxMmxFjvtR33/a+s68ouS3WihaJ5n1kOsjF8JPI+3tifMWEXTzcWHD1i3MmO5k
- L+dLz2+L7HV7u0kHQ18pYQnCiqC4SQd8ipJzPr3yJ+vL9Qr3irwkWokk2w0t2CwsRlbH
- 4tK8K/huGmZRVz2nc6alzishem38CR+zuos2DOKa1qfSci/TVWxQoUiUFsUR2YlwFPdM
- z6HF999MX+PB6WNoEGQLdHnNaQHj0iLStcvsTi5AUFLVywsQE4DBCwXnCYGvcsN5Q/Ha
- jbtMkgoYQWzK9sFphobb6KhBnS5L6n45wtKDulp/ZHei9xqxknhWwpPF7jFPhXbVavPs
- c7fg==
-X-Gm-Message-State: AOAM533TtupQ/Cgr2b3Okkxzf6KUo0FZswmMHiMSnRYMpyfQISZrXJoB
- p8CycNQ00R4cn8bNiIVrfhVbRzh9CWuAYDt287yL676MjmWSmmfgf9AOKoTjcwO62LYSHEdvXK2
- IpHwrRAQ5VCQDq97Wjaz+BqRGi2IQVJsZz8nW7CBF68jdeuEK3e2MhS1oKkld
-X-Received: by 2002:a5d:6804:: with SMTP id w4mr8365540wru.417.1626214243818; 
- Tue, 13 Jul 2021 15:10:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtFqUSpxjemS90mOp60GTDvrKlEl5h7op4sTcM69V9cpukYGvEcui1lfjRIqqLtH1qYphw+Q==
-X-Received: by 2002:a5d:6804:: with SMTP id w4mr8365517wru.417.1626214243579; 
- Tue, 13 Jul 2021 15:10:43 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=3J1FzfuBru52M0OTYvHXT9ubbEEIGS4eMsEdSAk30s8=;
+ b=eLxBKdi4nEACRI6bKSgrd92xwtXjbyNNnmtJJ+ImN64DTfwSi60Ex1La8xeR6Z9gzN
+ 6ITD/t0U4VqPyZktYaE7FMIMTNk+bswZ+mgs2Z5FOKjdJc8OlD8hG29pewXWBO5qzs6y
+ exFgtLaLYTGS2k/lEgkPwFxJ4DiJx3p0qOK1gxu4afRss20dtgI88h8eC8KD/S0soWNK
+ 33aPJyTn+fGPwbeL4c14A2J0leQEBLhk3KxB/o41y0iarAVPTWFTSqbHauWlDu+oNMpz
+ zgQfzdDaXy1yCMbx6pSyFnNFor/3qkoLUj0+eTLaK2Bq2uNCvlrE+IOPkaq7QCzAPgVA
+ gViA==
+X-Gm-Message-State: AOAM531DeEG4MWzbOEOElhgf1/5RiWmDXBp5+4AwPRRYtVZ7M+7OPdNq
+ X+l7i4a7SgqNHEIGTSXdEBa0mhNWwSHaPRDIuYnoTyxrLsX5KA9tBq6wsb2wBJeDcg0hALE428x
+ LsqydsdzM0IZx4jco0JM8o9+S7mof5QrbGyxVqG+Yal1c3F0cmuTF3JA/HlKO
+X-Received: by 2002:a05:600c:224a:: with SMTP id
+ a10mr416444wmm.7.1626214248358; 
+ Tue, 13 Jul 2021 15:10:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxACicG0Ga3JT3SAf/SoV6G0ZgLyLOOmAOaYGPZjKEllmOr4blPI5kdQpkkwA+t1Z4Do+bE4w==
+X-Received: by 2002:a05:600c:224a:: with SMTP id
+ a10mr416417wmm.7.1626214248167; 
+ Tue, 13 Jul 2021 15:10:48 -0700 (PDT)
 Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id d18sm237257wmp.46.2021.07.13.15.10.42
+ by smtp.gmail.com with ESMTPSA id r19sm118068wrg.74.2021.07.13.15.10.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:10:43 -0700 (PDT)
-Date: Tue, 13 Jul 2021 18:10:41 -0400
+ Tue, 13 Jul 2021 15:10:47 -0700 (PDT)
+Date: Tue, 13 Jul 2021 18:10:44 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/23] hw/virtio: add vhost-user-i2c-pci boilerplate
-Message-ID: <20210713220946.212562-13-mst@redhat.com>
+Subject: [PULL 13/23] docs: Add '-device intel-iommu' entry
+Message-ID: <20210713220946.212562-14-mst@redhat.com>
 References: <20210713220946.212562-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210713220946.212562-1-mst@redhat.com>
@@ -72,10 +72,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,116 +95,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Yi Liu <yi.l.liu@intel.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Jing Zhao <jinzhao@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Lei Yang <leiyang@redhat.com>, Chao Yang <chayang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Viresh Kumar <viresh.kumar@linaro.org>
+From: Peter Xu <peterx@redhat.com>
 
-This allows is to instantiate a vhost-user-i2c device as part of a PCI
-bus. It is mostly boilerplate which looks pretty similar to the
-vhost-user-fs-pci device.
+The parameters of intel-iommu device are non-trivial to understand.  Add an
+entry for it so that people can reference to it when using.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-Message-Id: <8a083eaa57d93feaab12acd1f94b225879212f20.1625806763.git.viresh.kumar@linaro.org>
+There're actually a few more options there, but I hide them explicitly because
+they shouldn't be used by normal QEMU users.
+
+Cc: Chao Yang <chayang@redhat.com>
+Cc: Lei Yang <leiyang@redhat.com>
+Cc: Jing Zhao <jinzhao@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Jason Wang <jasowang@redhat.com>
+Reviewed-by: Yi Liu <yi.l.liu@intel.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210707154114.197580-1-peterx@redhat.com>
+Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user-i2c-pci.c | 69 ++++++++++++++++++++++++++++++++++
- hw/virtio/meson.build          |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 hw/virtio/vhost-user-i2c-pci.c
+ qemu-options.hx | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/hw/virtio/vhost-user-i2c-pci.c b/hw/virtio/vhost-user-i2c-pci.c
-new file mode 100644
-index 0000000000..70b7b65fd9
---- /dev/null
-+++ b/hw/virtio/vhost-user-i2c-pci.c
-@@ -0,0 +1,69 @@
-+/*
-+ * Vhost-user i2c virtio device PCI glue
-+ *
-+ * Copyright (c) 2021 Viresh Kumar <viresh.kumar@linaro.org>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/virtio/vhost-user-i2c.h"
-+#include "virtio-pci.h"
-+
-+struct VHostUserI2CPCI {
-+    VirtIOPCIProxy parent_obj;
-+    VHostUserI2C vdev;
-+};
-+
-+typedef struct VHostUserI2CPCI VHostUserI2CPCI;
-+
-+#define TYPE_VHOST_USER_I2C_PCI "vhost-user-i2c-pci-base"
-+
-+DECLARE_INSTANCE_CHECKER(VHostUserI2CPCI, VHOST_USER_I2C_PCI,
-+                         TYPE_VHOST_USER_I2C_PCI)
-+
-+static void vhost_user_i2c_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-+{
-+    VHostUserI2CPCI *dev = VHOST_USER_I2C_PCI(vpci_dev);
-+    DeviceState *vdev = DEVICE(&dev->vdev);
-+
-+    vpci_dev->nvectors = 1;
-+    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-+}
-+
-+static void vhost_user_i2c_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
-+    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
-+    k->realize = vhost_user_i2c_pci_realize;
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
-+    pcidev_k->device_id = 0; /* Set by virtio-pci based on virtio id */
-+    pcidev_k->revision = 0x00;
-+    pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
-+}
-+
-+static void vhost_user_i2c_pci_instance_init(Object *obj)
-+{
-+    VHostUserI2CPCI *dev = VHOST_USER_I2C_PCI(obj);
-+
-+    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
-+                                TYPE_VHOST_USER_I2C);
-+}
-+
-+static const VirtioPCIDeviceTypeInfo vhost_user_i2c_pci_info = {
-+    .base_name = TYPE_VHOST_USER_I2C_PCI,
-+    .non_transitional_name = "vhost-user-i2c-pci",
-+    .instance_size = sizeof(VHostUserI2CPCI),
-+    .instance_init = vhost_user_i2c_pci_instance_init,
-+    .class_init = vhost_user_i2c_pci_class_init,
-+};
-+
-+static void vhost_user_i2c_pci_register(void)
-+{
-+    virtio_pci_types_register(&vhost_user_i2c_pci_info);
-+}
-+
-+type_init(vhost_user_i2c_pci_register);
-diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
-index 948e668ed3..08629c8f2c 100644
---- a/hw/virtio/meson.build
-+++ b/hw/virtio/meson.build
-@@ -28,6 +28,7 @@ virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
- virtio_ss.add(when: ['CONFIG_VHOST_USER_RNG', 'CONFIG_VIRTIO_PCI'], if_true: files('vhost-user-rng-pci.c'))
- virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
-+virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_I2C'], if_true: files('vhost-user-i2c-pci.c'))
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 8965dabc83..0fcc8973dd 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -926,6 +926,39 @@ SRST
  
- virtio_pci_ss = ss.source_set()
- virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
+ ``-device pci-ipmi-bt,bmc=id``
+     Like the KCS interface, but defines a BT interface on the PCI bus.
++
++``-device intel-iommu[,option=...]``
++    This is only supported by ``-machine q35``, which will enable Intel VT-d
++    emulation within the guest.  It supports below options:
++
++    ``intremap=on|off`` (default: auto)
++        This enables interrupt remapping feature.  It's required to enable
++        complete x2apic.  Currently it only supports kvm kernel-irqchip modes
++        ``off`` or ``split``, while full kernel-irqchip is not yet supported.
++        The default value is "auto", which will be decided by the mode of
++        kernel-irqchip.
++
++    ``caching-mode=on|off`` (default: off)
++        This enables caching mode for the VT-d emulated device.  When
++        caching-mode is enabled, each guest DMA buffer mapping will generate an
++        IOTLB invalidation from the guest IOMMU driver to the vIOMMU device in
++        a synchronous way.  It is required for ``-device vfio-pci`` to work
++        with the VT-d device, because host assigned devices requires to setup
++        the DMA mapping on the host before guest DMA starts.
++
++    ``device-iotlb=on|off`` (default: off)
++        This enables device-iotlb capability for the emulated VT-d device.  So
++        far virtio/vhost should be the only real user for this parameter,
++        paired with ats=on configured for the device.
++
++    ``aw-bits=39|48`` (default: 39)
++        This decides the address width of IOVA address space.  The address
++        space has 39 bits width for 3-level IOMMU page tables, and 48 bits for
++        4-level IOMMU page tables.
++
++    Please also refer to the wiki page for general scenarios of VT-d
++    emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
++
+ ERST
+ 
+ DEF("name", HAS_ARG, QEMU_OPTION_name,
 -- 
 MST
 
