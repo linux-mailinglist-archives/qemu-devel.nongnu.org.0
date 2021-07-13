@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361B63C7989
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:18:39 +0200 (CEST)
-Received: from localhost ([::1]:57270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86113C798D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:21:15 +0200 (CEST)
+Received: from localhost ([::1]:37610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Qje-0006WC-7m
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:18:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55352)
+	id 1m3QmA-0003nP-4D
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:21:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qca-0000B1-KR
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:11:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qce-0000Rm-T5
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:11:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3QcY-0008JK-6v
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:11:20 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qcc-0008N5-0o
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:11:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626214277;
+ s=mimecast20190719; t=1626214281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5PzNQJlTGNrpijxK0VyVgr7xwJWYbOTHaTkK7HI7uYg=;
- b=SElgyys7cu1JAvAt4rA64IS9nJVeNoZ9LL7mesrizVeUrePhnnJuqKpzRo4dhR1///KSRu
- c+rCWuPTw00HSzNQla+WI61hUpzQbByDLbPUetMmTdz8cjldqYsvrhvB6YzZXcNR7i6GnV
- 1OrKkrHTZP0wVj/PvJHItkNs2La8804=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-zXj1Ayn9N2qcQu6Au1po1g-1; Tue, 13 Jul 2021 18:11:16 -0400
-X-MC-Unique: zXj1Ayn9N2qcQu6Au1po1g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so147544wmh.9
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:11:16 -0700 (PDT)
+ bh=flEK484QxMT1aHuKxIzbr2uWeLGle3LeEcxZhYEt/9E=;
+ b=aCil7zAxXxtjxc8XzwtgeWyPXHqU2lQUAyQgDO6gnG8ZE2b2FXcm2Kx++GUhzNOpcJaRJN
+ GYvVCbqs0MF4sL6qZDcnpjS4p8yS43cfG6nH96yDTX3O717FPXaXiVlfgWrRPRd8xxu23g
+ BxnLvsi7y1ELN81ydP3wS/Q5uIJKIhw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-422-iXcQ75oEPsK4SEG411b2tA-1; Tue, 13 Jul 2021 18:11:19 -0400
+X-MC-Unique: iXcQ75oEPsK4SEG411b2tA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ d9-20020adffbc90000b029011a3b249b10so334804wrs.3
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:11:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=5PzNQJlTGNrpijxK0VyVgr7xwJWYbOTHaTkK7HI7uYg=;
- b=rYcbM13GXKVw04LsngvqGk/izZMJPKIIOyKMKKkW2BTEAukFLXGRfFHA7l1y48Qvm0
- qFhsntdgJqTasCgXhxPChVqsNgCPANf1LJmRF9dCX8sftedatl7po9/kWGNLZ673Ln4g
- xhHZ9sZfYc9ouje6frmcx3xn7l/mcZcNpVDXOo4YL3WSrbcwj8E0SDMvFGMpn5Y5VkeW
- H+cSyh2TvVUfeuEF9/SqQpiVBn/gmq1b0eTRmRTD0DbCrJD8RzgN0sh4twYJ0cbESWZ9
- 2taOGNN8zdttEm/RQOmSOx6G0KG1vo5To3q9FBDl5nx46BTB5ljXfdc2B4jUCv3+kSyG
- pB7A==
-X-Gm-Message-State: AOAM531OjvwGHsVW8aqTwWHzvJloaTYmsWNyE0EXpqj9bzrBd48VN1Gt
- DLIMHbTFIq8VP8qIEfdWQUWJj0nviZ/5bLKwQDNlZ72mRAZf75PKQdwANtrnmH3Tp5kqM+QNMT5
- xfpXzHbt+sDc8bipYivKqy4jBPGCQN/IC7k6rCXy8XrqiFOCRVktJfoAiTM1c
-X-Received: by 2002:adf:eccf:: with SMTP id s15mr8299797wro.176.1626214274867; 
- Tue, 13 Jul 2021 15:11:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLS6osSrZ+ob3TO3W29OKjdwb3Y+cUd/B5Zq54nl4mPcYSWzmUh5qmnPMyUN2pjB5xcoG1oQ==
-X-Received: by 2002:adf:eccf:: with SMTP id s15mr8299765wro.176.1626214274619; 
- Tue, 13 Jul 2021 15:11:14 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=flEK484QxMT1aHuKxIzbr2uWeLGle3LeEcxZhYEt/9E=;
+ b=jyIOPRe+wVElQma/Wk2mz2cNblD3rfXSheto6CnhxXevgqNpQlzjODNUzLBmeUa3y+
+ OGdr5gkB1g8QCySYEC6nWfR35lLLwfQhP2fBELFvamVXlXsC4rYyR+5O1yQ8Wb5Z0WuQ
+ d9p7ZuvCEikqnTloAmxUS0WJIIPT2FDVQS6ussO9xgtbMgMjkP8EXLG8ogjbedXRTCRH
+ gmTW7axD92rXT2Cr4Ro2Vry2SS2rH/H7vSwmtsnAV0rByNqmNft4gM5I1Jv5wj7FxAKU
+ c3cL7BEjEarHxeMx9bSoTJOA7m5H1lR1OQcSLMBfscf6ViXzanqvXYSldRBXYxTv/lLN
+ IB7w==
+X-Gm-Message-State: AOAM532h4sJa/D2/91Svl0RiVhlvBwG4mWnukKmIGMPoeZLczjhutzbp
+ bddvMcspEuJE85jUNWYY4DyTsALrRZULQaFZ9zz98Q5cwrv9lygyy/eT5VwCxmsg37sKxthCNxK
+ aeU579DooI01Ke1ps6TdSgvF2vBGPc8WzB8PCdhtFJOQz2Zz+eqVffZBhX807
+X-Received: by 2002:a05:6000:10c3:: with SMTP id
+ b3mr8497278wrx.271.1626214278480; 
+ Tue, 13 Jul 2021 15:11:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLlEFDx1orgfBLk5oh4WlQ45ddz/PCP/CySmd1a13+CuF562YCIERHuyPL0/uwK/Wh1enqtA==
+X-Received: by 2002:a05:6000:10c3:: with SMTP id
+ b3mr8497261wrx.271.1626214278346; 
+ Tue, 13 Jul 2021 15:11:18 -0700 (PDT)
 Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id r4sm115204wre.84.2021.07.13.15.11.12
+ by smtp.gmail.com with ESMTPSA id o11sm263555wmq.1.2021.07.13.15.11.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:11:14 -0700 (PDT)
-Date: Tue, 13 Jul 2021 18:11:10 -0400
+ Tue, 13 Jul 2021 15:11:17 -0700 (PDT)
+Date: Tue, 13 Jul 2021 18:11:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/23] hw/i386/acpi-build: Add DMAR support to bypass iommu
-Message-ID: <20210713220946.212562-21-mst@redhat.com>
+Subject: [PULL 21/23] hw/i386/acpi-build: Add IVRS support to bypass iommu
+Message-ID: <20210713220946.212562-22-mst@redhat.com>
 References: <20210713220946.212562-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210713220946.212562-1-mst@redhat.com>
@@ -72,10 +72,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -106,155 +105,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-In DMAR table, the drhd is set to cover all PCI devices when intel_iommu
-is on. To support bypass iommu feature, we need to walk the PCI bus with
-bypass_iommu disabled and add explicit scope data in DMAR drhd structure.
-
-/mnt/sdb/wxg/qemu-next/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
- -machine q35,accel=kvm,default_bus_bypass_iommu=true \
- -cpu host \
- -m 16G \
- -smp 36,sockets=2,cores=18,threads=1 \
- -device pxb-pcie,bus_nr=0x10,id=pci.10,bus=pcie.0,addr=0x3 \
- -device pxb-pcie,bus_nr=0x20,id=pci.20,bus=pcie.0,addr=0x4,bypass_iommu=true \
- -device pcie-root-port,port=0x1,chassis=1,id=pci.11,bus=pci.10,addr=0x0 \
- -device pcie-root-port,port=0x2,chassis=2,id=pci.21,bus=pci.20,addr=0x0 \
- -device virtio-scsi-pci,id=scsi0,bus=pci.11,addr=0x0 \
- -device virtio-scsi-pci,id=scsi1,bus=pci.21,addr=0x0 \
- -drive file=/mnt/sdb/wxg/fedora-48g.qcow2,format=qcow2,if=none,id=drive-scsi0-0-0-0,cache=none,aio=native \
- -device scsi-hd,bus=scsi1.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0-0-0-0,id=scsi0-0-0-0,bootindex=1 \
- -device intel-iommu \
- -nographic \
-
-And we get the guest configuration:
-
-~ lspci -vt
--+-[0000:20]---00.0-[21]----00.0  Red Hat, Inc. Virtio SCSI
- +-[0000:10]---00.0-[11]----00.0  Red Hat, Inc. Virtio SCSI
- \-[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
-             +-01.0  Device 1234:1111
-             +-02.0  Intel Corporation 82574L Gigabit Network Connection
-             +-03.0  Red Hat, Inc. QEMU PCIe Expander bridge
-             +-04.0  Red Hat, Inc. QEMU PCIe Expander bridge
-             +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface Controller
-             +-1f.2  Intel Corporation 82801IR/IO/IH (ICH9R/DO/DH) 6 port SATA Controller [AHCI mode]
-             \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus Controller
-
-With bypass_iommu enabled on root bus, the attached devices will bypass iommu:
-
-/sys/class/iommu/dmar0
-├── devices
-│   ├── 0000:10:00.0 -> ../../../../pci0000:10/0000:10:00.0
-│   └── 0000:11:00.0 -> ../../../../pci0000:10/0000:10:00.0/0000:11:00.0
+Check bypass_iommu to exclude the devices which will bypass iommu.
 
 Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
-Message-Id: <1625748919-52456-8-git-send-email-wangxingang5@huawei.com>
+Message-Id: <1625748919-52456-9-git-send-email-wangxingang5@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 68 ++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 66 insertions(+), 2 deletions(-)
+ hw/i386/acpi-build.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index bc966a4110..7efc6285ac 100644
+index 7efc6285ac..17836149fe 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -2022,6 +2022,56 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-                  x86ms->oem_table_id);
- }
+@@ -2263,7 +2263,7 @@ ivrs_host_bridges(Object *obj, void *opaque)
+     if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
+         PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
  
-+/*
-+ * Insert DMAR scope for PCI bridges and endpoint devcie
-+ */
-+static void
-+insert_scope(PCIBus *bus, PCIDevice *dev, void *opaque)
-+{
-+    GArray *scope_blob = opaque;
-+    AcpiDmarDeviceScope *scope = NULL;
-+
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
-+        /* Dmar Scope Type: 0x02 for PCI Bridge */
-+        build_append_int_noprefix(scope_blob, 0x02, 1);
-+    } else {
-+        /* Dmar Scope Type: 0x01 for PCI Endpoint Device */
-+        build_append_int_noprefix(scope_blob, 0x01, 1);
-+    }
-+
-+    /* length */
-+    build_append_int_noprefix(scope_blob,
-+                              sizeof(*scope) + sizeof(scope->path[0]), 1);
-+    /* reserved */
-+    build_append_int_noprefix(scope_blob, 0, 2);
-+    /* enumeration_id */
-+    build_append_int_noprefix(scope_blob, 0, 1);
-+    /* bus */
-+    build_append_int_noprefix(scope_blob, pci_bus_num(bus), 1);
-+    /* device */
-+    build_append_int_noprefix(scope_blob, PCI_SLOT(dev->devfn), 1);
-+    /* function */
-+    build_append_int_noprefix(scope_blob, PCI_FUNC(dev->devfn), 1);
-+}
-+
-+/* For a given PCI host bridge, walk and insert DMAR scope */
-+static int
-+dmar_host_bridges(Object *obj, void *opaque)
-+{
-+    GArray *scope_blob = opaque;
-+
-+    if (object_dynamic_cast(obj, TYPE_PCI_HOST_BRIDGE)) {
-+        PCIBus *bus = PCI_HOST_BRIDGE(obj)->bus;
-+
+-        if (bus) {
 +        if (bus && !pci_bus_bypass_iommu(bus)) {
-+            pci_for_each_device(bus, pci_bus_num(bus), insert_scope,
-+                                scope_blob);
-+        }
-+    }
-+
-+    return 0;
-+}
-+
- /*
-  * VT-d spec 8.1 DMA Remapping Reporting Structure
-  * (version Oct. 2014 or later)
-@@ -2041,6 +2091,15 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-     /* Root complex IOAPIC use one path[0] only */
-     size_t ioapic_scope_size = sizeof(*scope) + sizeof(scope->path[0]);
-     IntelIOMMUState *intel_iommu = INTEL_IOMMU_DEVICE(iommu);
-+    GArray *scope_blob = g_array_new(false, true, 1);
-+
-+    /*
-+     * A PCI bus walk, for each PCI host bridge.
-+     * Insert scope for each PCI bridge and endpoint device which
-+     * is attached to a bus with iommu enabled.
-+     */
-+    object_child_foreach_recursive(object_get_root(),
-+                                   dmar_host_bridges, scope_blob);
- 
-     assert(iommu);
-     if (x86_iommu_ir_supported(iommu)) {
-@@ -2054,8 +2113,9 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-     /* DMAR Remapping Hardware Unit Definition structure */
-     drhd = acpi_data_push(table_data, sizeof(*drhd) + ioapic_scope_size);
-     drhd->type = cpu_to_le16(ACPI_DMAR_TYPE_HARDWARE_UNIT);
--    drhd->length = cpu_to_le16(sizeof(*drhd) + ioapic_scope_size);
--    drhd->flags = ACPI_DMAR_INCLUDE_PCI_ALL;
-+    drhd->length =
-+        cpu_to_le16(sizeof(*drhd) + ioapic_scope_size + scope_blob->len);
-+    drhd->flags = 0;            /* Don't include all pci device */
-     drhd->pci_segment = cpu_to_le16(0);
-     drhd->address = cpu_to_le64(Q35_HOST_BRIDGE_IOMMU_ADDR);
- 
-@@ -2069,6 +2129,10 @@ build_dmar_q35(GArray *table_data, BIOSLinker *linker, const char *oem_id,
-     scope->path[0].device = PCI_SLOT(Q35_PSEUDO_DEVFN_IOAPIC);
-     scope->path[0].function = PCI_FUNC(Q35_PSEUDO_DEVFN_IOAPIC);
- 
-+    /* Add scope found above */
-+    g_array_append_vals(table_data, scope_blob->data, scope_blob->len);
-+    g_array_free(scope_blob, true);
-+
-     if (iommu->dt_supported) {
-         atsr = acpi_data_push(table_data, sizeof(*atsr));
-         atsr->type = cpu_to_le16(ACPI_DMAR_TYPE_ATSR);
+             pci_for_each_device(bus, pci_bus_num(bus), insert_ivhd, ivhd_blob);
+         }
+     }
 -- 
 MST
 
