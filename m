@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1C733C7907
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:37:05 +0200 (CEST)
-Received: from localhost ([::1]:45626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268B83C7916
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:40:03 +0200 (CEST)
+Received: from localhost ([::1]:55604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Q5Q-0001UC-L6
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:37:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45868)
+	id 1m3Q8I-00087c-3Q
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PrB-0004Ki-MQ
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55304)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PrD-0004P5-42
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PrA-0000j0-5d
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:21 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3PrA-0000m3-LX
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:22:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211337;
+ s=mimecast20190719; t=1626211340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sWGl7pEtJ1J3FHqvu3ZJ1mgZQaatUycxUYwgyMO1Jyg=;
- b=BSPGEz0S3UoUec944Y79rqrAt7zVDPb+O2iR7gemMMYENcAN8g7w/qu2D6Pjo6nLre1HXu
- sFK2dOEl7rIZw0tq6ZIeZ5X5RI7BzPQ+ZjQA4eAQPlchW9wNzDvuqVKNKj8qWh2ZbdbJcL
- i7fmekYzqc0MP0BE4OorKAaaw8xgkq4=
+ bh=GRT3B5Wxzq0jFQitt44SK22Id/avAGWaSnYHAamy4vs=;
+ b=Fq/SlV8fovt9OrQj7bW/VJw9jT9nwNhIYLRpjbH+XBh0aVain8UZrv+aZqWBpbH5s4No8E
+ OjudgbvzumOsgwFswJyKJZa+UMK/jS1eR5sdt5jRECjuJTaJWENHfU3Scg458PChXgtvIJ
+ JQHXIFHNBh60yPyEKzYgG5jZq4LqcQQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-ZSDzdpYbMRiDE69Y2FwJOg-1; Tue, 13 Jul 2021 17:22:16 -0400
-X-MC-Unique: ZSDzdpYbMRiDE69Y2FwJOg-1
+ us-mta-483-p2cEvcV-NqyaIX27ub0M4Q-1; Tue, 13 Jul 2021 17:22:18 -0400
+X-MC-Unique: p2cEvcV-NqyaIX27ub0M4Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB96802C80;
- Tue, 13 Jul 2021 21:22:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3806E1084F55;
+ Tue, 13 Jul 2021 21:22:16 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 019FC19C44;
- Tue, 13 Jul 2021 21:22:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCBAB19C44;
+ Tue, 13 Jul 2021 21:22:13 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 21/23] Acceptance tests: do not try to reuse packages from the
- system
-Date: Tue, 13 Jul 2021 17:19:21 -0400
-Message-Id: <20210713211923.3809241-22-crosa@redhat.com>
+Subject: [PULL 22/23] tests/acceptance/linux_ssh_mips_malta.py: drop identical
+ setUp
+Date: Tue, 13 Jul 2021 17:19:22 -0400
+Message-Id: <20210713211923.3809241-23-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -97,46 +97,48 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The premise behind the original behavior is that it would save people
-from downloading Avocado (and other dependencies) if already installed
-on the system.  To be honest, I think it's extremely rare that the
-same versions described as dependencies will be available on most
-systems.  But, the biggest motivations here are that:
+These tests' setUp do not do anything beyong what their base class do.
+And while they do decorate the setUp() we can decorate the classes
+instead, so no functionality is lost here.
 
- 1) Hacking on QEMU in the same system used to develop Avocado leads
-    to confusion with regards to the exact bits that are being used;
-
- 2) Not reusing Python packages from system wide installations gives
-    extra assurance that the same behavior will be seen from tests run
-    on different machines;
-
-With regards to downloads, pip already caches the downloaded wheels
-and tarballs under ~/.cache/pip, so there should not be more than
-one download even if the venv is destroyed and recreated.
+This is possible because since Avocado 76.0 we can decorate setUp()
+directly.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20210415215141.1865467-3-crosa@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210415215141.1865467-4-crosa@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+[PMD: added note to commit message about Avocado feature/version]
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/acceptance/linux_ssh_mips_malta.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index e4dcb17329..6e16c05f10 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -96,7 +96,7 @@ AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
+diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+index 61c9079d04..4de1947418 100644
+--- a/tests/acceptance/linux_ssh_mips_malta.py
++++ b/tests/acceptance/linux_ssh_mips_malta.py
+@@ -19,6 +19,8 @@
+ from avocado.utils import ssh
  
- $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
- 	$(call quiet-command, \
--            $(PYTHON) -m venv --system-site-packages $@, \
-+            $(PYTHON) -m venv $@, \
-             VENV, $@)
- 	$(call quiet-command, \
-             $(TESTS_VENV_DIR)/bin/python -m pip -q install -r $(TESTS_VENV_REQ), \
+ 
++@skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
++@skipUnless(ssh.SSH_CLIENT_BINARY, 'No SSH client available')
+ class LinuxSSH(Test, LinuxSSHMixIn):
+ 
+     timeout = 150 # Not for 'configure --enable-debug --enable-debug-tcg'
+@@ -65,11 +67,6 @@ def get_kernel_info(self, endianess, wordsize):
+         kernel_hash = self.IMAGE_INFO[endianess]['kernel_hash'][wordsize]
+         return kernel_url, kernel_hash
+ 
+-    @skipUnless(ssh.SSH_CLIENT_BINARY, 'No SSH client available')
+-    @skipUnless(os.getenv('AVOCADO_TIMEOUT_EXPECTED'), 'Test might timeout')
+-    def setUp(self):
+-        super(LinuxSSH, self).setUp()
+-
+     def ssh_disconnect_vm(self):
+         self.ssh_session.quit()
+ 
 -- 
 2.31.1
 
