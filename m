@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C2983C695D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:29:39 +0200 (CEST)
-Received: from localhost ([::1]:46584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4ED3C695B
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:29:32 +0200 (CEST)
+Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3A38-0005qu-AT
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:29:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33344)
+	id 1m3A31-0005lH-P6
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:29:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m39zY-00064C-Bh
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40560)
+ id 1m39zU-0005xz-Rh
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m39zW-0008Q4-Oa
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:56 -0400
+ id 1m39zR-0008Kf-DJ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:25:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m39zS-0003eU-C7
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:50 +0000
+ id 1m39zL-0003eN-Q0
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 29D1E2E8192
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id C2A552E8180
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 13 Jul 2021 04:17:16 -0000
-From: Launchpad Bug Tracker <1916344@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1917940@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: libslirp mac networking osx podman slirp user-mode
+X-Launchpad-Bug-Tags: i386
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: adamchappell imperialguy janitor programmingkidx
- th-huth
-X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
+X-Launchpad-Bug-Commenters: janitor jrtc27 th-huth
+X-Launchpad-Bug-Reporter: Jessica Clarke (jrtc27)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
-Message-Id: <162614983630.15811.12218379028587771338.malone@loganberry.canonical.com>
-Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
- on Mac OS X host
+References: <161497253793.31770.9218035606388599691.malonedeb@gac.canonical.com>
+Message-Id: <162614983703.15811.9933162001567801541.malone@loganberry.canonical.com>
+Subject: [Bug 1917940] Re: -bios edk2-$arch-code doesn't work for x86
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="1b66c075b8638845e61f40eb9036fabeaa01f591"; Instance="production"
-X-Launchpad-Hash: 5c5cc28da1037640ed3de10b976878e0b8618279
+X-Launchpad-Hash: cb9bff9d7da924cd43d7f019daf87a3b86278fee
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
+Reply-To: Bug 1917940 <1917940@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,49 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916344
+https://bugs.launchpad.net/bugs/1917940
 
 Title:
-  User mode networking not working properly on QEMU on Mac OS X host
+  -bios edk2-$arch-code doesn't work for x86
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Steps to reproduce:
+  Whilst creating a flash device is recommended, -bios <file> is
+  extremely useful in many cases as it automatically searches
+  $PREFIX/share/qemu rather than requiring the caller (be it a human or
+  a script) to work out where that directory is for the QEMU being
+  called and prepend it to the file name.
 
-  1. Install QEMU using homebrew on Mac OS X (I tried on Catalina and Big S=
-ur)
-  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
-  3. Install podman inside the guest
-  4. Run podman pull alpine
-
-  The result is:
-
-  [root@localhost ~]# podman pull alpine
-  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
-es.conf)
-  Trying to pull docker.io/library/alpine:latest...
-  Getting image source signatures
-  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
-iB / 2.7MiB
-  =C2=A0=C2=A0unexpected EOF
-  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
-1171596/1": error happened during read: unexpected EOF
-
-  This is happening because QEMU is telling the guest that the TCP
-  connection is closed even before reading all the data from the host
-  socket and forwarding it to the guest.
-
-  This issue doesn't happen on a Linux host. So, that tells me that this
-  has something to do with QEMU installation on Mac OS X.
-
-  This could be a slirp related issue. So, QEMU/slirp may need to work
-  together on fixing this. Here's the link to the libslirp issue:
-
-  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+  Currently, all the x86 EDK2 FD code files are 3653632 bytes in size,
+  or 0x37c000 bytes. However, for some reason I cannot find the answer
+  to (I traced the code back to
+  7587cf44019d593bb12703e7046bd7738996c55c), x86's -bios only allows
+  files that are multiples of 64K in size (x86_bios_rom_init), which
+  would require the EDK2 ROMs to be rounded up to 0x380000 bytes. If I
+  delete the check, QEMU is able to load the only-16K-multiple-sized
+  EDK2 and boot an OS just fine. If I pad EDK2 with 16K of zeroes at the
+  *start* (since the ROM gets mapped counting backwards), it also works
+  just fine (but padding at the *end* doesn't). Please therefore either
+  relax the check in x86_bios_rom_init or ensure the EDK2 binary is
+  suitably padded.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1917940/+subscriptions
 
