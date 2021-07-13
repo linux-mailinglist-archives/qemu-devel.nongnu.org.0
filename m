@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C693B3C732B
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:28:31 +0200 (CEST)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A1A43C7321
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 17:26:14 +0200 (CEST)
+Received: from localhost ([::1]:57248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3KKk-0002ZH-R4
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53000)
+	id 1m3KIX-0005pl-9j
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 11:26:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3KGW-000316-Sv
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:24:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45250)
+ id 1m3KGX-00034R-NR
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:24:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3KGV-0001uN-7L
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:24:08 -0400
+ id 1m3KGW-0001vO-7V
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:24:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626189846;
+ s=mimecast20190719; t=1626189847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0snJlGCX5abLMsB6dvL+8UI1xERqaWyAo489B2AWz0I=;
- b=d5W9CAwvUu9+E29xGlvGkM/vBQFUk66x6mv7ATBntrIqFWzokGUS4mEygWqOtY0tPmNqfQ
- 17kHhj2UIhIAcMcAJKvyLURHg9AJQqRUHPK8uXgAW79G53IgN3Rpp870/44SZL8TaYczNA
- 1/Slmb+39S8g3kPAxtYEy5FeTdylUa4=
+ bh=CYkl2IofeyeQumPRxRyNIkr/pAekVpIOtEyuFrgduXI=;
+ b=AqAFoOzcKHru9nSZeOGPiVmGc6AZ5mgSUqpE8OKVIopaMWAmqIaFaQuzHiTPuwQMYTT3Sz
+ fp1cXsgW4lQ1sQBnPmaYoaB4lgs5ei+J9bMFHfL+HCYS0Z3zlcByf3IvOOPsyt0VPCkaUi
+ bxxQwvmJXw7M/zo1ND36rtbgs6HmM9A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-J4ydi55hPUiRdT5Ulap2CQ-1; Tue, 13 Jul 2021 11:24:04 -0400
-X-MC-Unique: J4ydi55hPUiRdT5Ulap2CQ-1
+ us-mta-435-ldUujXumO5qKE9XG5ZiJQg-1; Tue, 13 Jul 2021 11:24:06 -0400
+X-MC-Unique: ldUujXumO5qKE9XG5ZiJQg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1A12804140;
- Tue, 13 Jul 2021 15:24:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4B9804141;
+ Tue, 13 Jul 2021 15:24:05 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-214.ams2.redhat.com
  [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8EBDE5D9CA;
- Tue, 13 Jul 2021 15:24:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 092D45D9CA;
+ Tue, 13 Jul 2021 15:24:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, lizhijian@cn.fujitsu.com, lvivier@redhat.com,
  peterx@redhat.com
-Subject: [PULL 3/6] migration: Release return path early for paused postcopy
-Date: Tue, 13 Jul 2021 16:23:21 +0100
-Message-Id: <20210713152324.217255-4-dgilbert@redhat.com>
+Subject: [PULL 4/6] migration: Don't do migrate cleanup if during postcopy
+ resume
+Date: Tue, 13 Jul 2021 16:23:22 +0100
+Message-Id: <20210713152324.217255-5-dgilbert@redhat.com>
 In-Reply-To: <20210713152324.217255-1-dgilbert@redhat.com>
 References: <20210713152324.217255-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -86,65 +87,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-When postcopy pause triggered, we rely on the migration thread to cleanup the
-to_dst_file handle, and the return path thread to cleanup the from_dst_file
-handle (which is stored in the local variable "rp").
+Below process could crash qemu with postcopy recovery:
 
-Within the process, from_dst_file cleanup (qemu_fclose) is postponed until it's
-setup again due to a postcopy recovery.
+  1. (hmp) migrate -d ..
+  2. (hmp) migrate_start_postcopy
+  3. [network down, postcopy paused]
+  4. (hmp) migrate -r $WRONG_PORT
+     when try the recover on an invalid $WRONG_PORT, cleanup_bh will be cleared
+  5. (hmp) migrate -r $RIGHT_PORT
+     [qemu crash on assert(cleanup_bh)]
 
-It used to work before yank was born; after yank is introduced we rely on the
-refcount of IOC to correctly unregister yank function in channel_close().  If
-without the early and on-time release of from_dst_file handle the yank function
-will be leftover during paused postcopy.
+The thing is we shouldn't cleanup if it's postcopy resume; the error is set
+mostly because the channel is wrong, so we return directly waiting for the user
+to retry.
 
-Without this patch, below steps (quoted from Xiaohui) could trigger qemu src
-crash:
+migrate_fd_cleanup() should only be called when migration is cancelled or
+completed.
 
-  1.Boot vm on src host
-  2.Boot vm on dst host
-  3.Enable postcopy on src&dst host
-  4.Load stressapptest in vm and set postcopy speed to 50M
-  5.Start migration from src to dst host, change into postcopy mode when migration is active.
-  6.When postcopy is active, down the network card(do migration via this network) on dst host.
-  7.Wait untill postcopy is paused on src&dst host.
-  8.Before up network card, recover migration on dst host, will get error like following.
-  9.Ignore the error of step 8, go on recovering migration on src host:
-
-  After step 9, qemu on src host will core dump after some seconds:
-  qemu-kvm: ../util/yank.c:107: yank_unregister_instance: Assertion `QLIST_EMPTY(&entry->yankfns)' failed.
-  1.sh: line 38: 44662 Aborted                 (core dumped)
-
-Reported-by: Li Xiaohui <xiaohli@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210708190653.252961-2-peterx@redhat.com>
+Message-Id: <20210708190653.252961-3-peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ migration/migration.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index d717cd089a..38ebc6c1ab 100644
+index 38ebc6c1ab..20c48cfff1 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2818,12 +2818,12 @@ out:
-              * Maybe there is something we can do: it looks like a
-              * network down issue, and we pause for a recovery.
-              */
-+            qemu_fclose(rp);
-+            ms->rp_state.from_dst_file = NULL;
-+            rp = NULL;
-             if (postcopy_pause_return_path_thread(ms)) {
-                 /* Reload rp, reset the rest */
--                if (rp != ms->rp_state.from_dst_file) {
--                    qemu_fclose(rp);
--                    rp = ms->rp_state.from_dst_file;
--                }
-+                rp = ms->rp_state.from_dst_file;
-                 ms->rp_state.error = false;
-                 goto retry;
-             }
+@@ -3979,7 +3979,18 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
+     }
+     if (error_in) {
+         migrate_fd_error(s, error_in);
+-        migrate_fd_cleanup(s);
++        if (resume) {
++            /*
++             * Don't do cleanup for resume if channel is invalid, but only dump
++             * the error.  We wait for another channel connect from the user.
++             * The error_report still gives HMP user a hint on what failed.
++             * It's normally done in migrate_fd_cleanup(), but call it here
++             * explicitly.
++             */
++            error_report_err(error_copy(s->error));
++        } else {
++            migrate_fd_cleanup(s);
++        }
+         return;
+     }
+ 
 -- 
 2.31.1
 
