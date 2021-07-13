@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 906593C6BB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:49:55 +0200 (CEST)
-Received: from localhost ([::1]:60378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C060F3C6BB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 09:51:23 +0200 (CEST)
+Received: from localhost ([::1]:35232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3DAw-0000iX-MQ
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33528)
+	id 1m3DCM-0002po-RT
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 03:51:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
- id 1m3D9Q-0007oo-Ag; Tue, 13 Jul 2021 03:48:24 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:38746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rashmica.g@gmail.com>)
- id 1m3D9M-0002jK-I8; Tue, 13 Jul 2021 03:48:20 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id h4so20876493pgp.5;
- Tue, 13 Jul 2021 00:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=JchWDQn8hAq686/79NInUizMlp8B2d1fC53Lfwh3/WE=;
- b=Mq2Q06trerugpduswcygmB56Yo9wy0b0k2Rcr2rMoiNS97CEpTKCjWOrXyDTdhG+lA
- 80K7NXzZX8IjiwC0bHL5+Pjr8+29Af7LAVuE4QODCkATca0kKhq28sVrwoRVkaC9+CzE
- 4Paw2ulAI8kFTUbO759oMNFWuyBfQffHysHbqSv/Cc9zulXQNUTOP7J7mFxVSCwADUuu
- 8M64q+X9zydwcHsN1OGS4t3Y2lKhX7+zi/eSGijnM4PfAnRkje/ebSKFKbKsbVLOEq3z
- lbb0ObEx/H1HjVCCE1bGMRCOeIqb2lt1Hfs1EMcYvGdQMvRvVlIvVhQWN+LNKwhBipm7
- 545w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=JchWDQn8hAq686/79NInUizMlp8B2d1fC53Lfwh3/WE=;
- b=KGcnLs75tTUS2oi2KfXn0dHNdIo897zWOXPNwNbvk1kkh0H+aXVtpnC91Y/Ijm/uUM
- /tSwJEhAMBRRwap4eFwjR4l18sj3/5uIrRK2PqdhLsFYuEnO4bg0715wai9KvQwH4p1g
- hG3BZD116WOhGHX3zby35Q8L1Qp96l7wEwpR9c3qc65hbkCh67Mb6EP/lBrDnc5usXEA
- v9bN14tT6O3KWS5kQ6TrTjcoLK+/qTpsl9H0Umnq5vclESgr1+6ZcM07A/Udwl7gLplD
- 74dvc84boPArmwL9/Z1Y3W7p69LGrp7wT0+2gCNnBPmDG05n2F0OOvkgolugSnCZYs/q
- E9SA==
-X-Gm-Message-State: AOAM532Lymyqxbq9z5Oox010NKZmpZqUzmElZFABH68SDIjgE1U6RFrM
- ZmGExCM/hHim0+BLDB/icxc=
-X-Google-Smtp-Source: ABdhPJxqy3yRrmfWXMlDaKThfoIzSbrqHZNAO9fJnR/CQpBLeBuHC2i5mVCrT29bJnnIMTdhRMKTIQ==
-X-Received: by 2002:a65:6a01:: with SMTP id m1mr3140048pgu.201.1626162494876; 
- Tue, 13 Jul 2021 00:48:14 -0700 (PDT)
-Received: from [10.0.20.43] ([103.217.166.124])
- by smtp.googlemail.com with ESMTPSA id w14sm22104309pgo.75.2021.07.13.00.48.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 00:48:14 -0700 (PDT)
-Message-ID: <92f6c1442cb2397a02b288fbcdf0cb7a760a86c6.camel@gmail.com>
-Subject: Re: [PATCH v2 3/3] hw: aspeed_gpio: Clarify GPIO controller name
-From: Rashmica Gupta <rashmica.g@gmail.com>
-To: Joel Stanley <joel@jms.id.au>, =?ISO-8859-1?Q?C=E9dric?= Le Goater
- <clg@kaod.org>
-Date: Tue, 13 Jul 2021 17:48:09 +1000
-In-Reply-To: <20210713065854.134634-4-joel@jms.id.au>
-References: <20210713065854.134634-1-joel@jms.id.au>
- <20210713065854.134634-4-joel@jms.id.au>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m3DAL-0000OM-TE
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:49:17 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2251)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1m3DAI-0003JX-Eu
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 03:49:17 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GPCLF1hVnz1CJDy;
+ Tue, 13 Jul 2021 15:43:33 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 13 Jul 2021 15:49:09 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Tue, 13 Jul 2021 15:49:08 +0800
+Subject: Re: [RFC PATCH 4/6] machine: Uniformly use maxcpus to calculate the
+ missing values
+To: Andrew Jones <drjones@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20210702100739.13672-1-wangyanan55@huawei.com>
+ <20210702100739.13672-5-wangyanan55@huawei.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <1b76cfaa-a259-7ed4-635e-173bc3aa018c@huawei.com>
+Date: Tue, 13 Jul 2021 15:49:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20210702100739.13672-5-wangyanan55@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=rashmica.g@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme718-chm.china.huawei.com (10.1.199.114) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.479,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,128 +70,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, yuzenghui@huawei.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2021-07-13 at 16:28 +0930, Joel Stanley wrote:
-> There are two GPIO controllers in the ast2600; one is 3.3V and the
-> other
-> is 1.8V.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-Thanks for picking this up.
-Reviewed-by: Rashmica Gupta <rashmica.g@gmail.com>
-> ---
->  hw/gpio/aspeed_gpio.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> index dc721aec5da7..dfa6d6cb40a9 100644
-> --- a/hw/gpio/aspeed_gpio.c
-> +++ b/hw/gpio/aspeed_gpio.c
-> @@ -164,12 +164,12 @@
->  #define GPIO_YZAAAB_DIRECTION      (0x1E4 >> 2)
->  #define GPIO_AC_DATA_VALUE         (0x1E8 >> 2)
->  #define GPIO_AC_DIRECTION          (0x1EC >> 2)
-> -#define GPIO_3_6V_MEM_SIZE         0x1F0
-> -#define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
-> +#define GPIO_3_3V_MEM_SIZE         0x1F0
-> +#define GPIO_3_3V_REG_ARRAY_SIZE   (GPIO_3_3V_MEM_SIZE >> 2)
->  
->  /* AST2600 only - 1.8V gpios */
->  /*
-> - * The AST2600 two copies of the GPIO controller: the same 3.6V
-> gpios as the
-> + * The AST2600 two copies of the GPIO controller: the same 3.3V
-> gpios as the
->   * AST2400 (memory offsets 0x0-0x198) and a second controller with
-> 1.8V gpios
->   * (memory offsets 0x800-0x9D4).
->   */
-> @@ -380,7 +380,7 @@ static uint32_t
-> update_value_control_source(GPIOSets *regs, uint32_t old_value,
->      return new_value;
->  }
->  
-> -static const AspeedGPIOReg
-> aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] = {
-> +static const AspeedGPIOReg
-> aspeed_3_3v_gpios[GPIO_3_3V_REG_ARRAY_SIZE] = {
->      /* Set ABCD */
->      [GPIO_ABCD_DATA_VALUE] =     { 0, gpio_reg_data_value },
->      [GPIO_ABCD_DIRECTION] =      { 0, gpio_reg_direction },
-> @@ -800,7 +800,7 @@ static const GPIOSetProperties
-> ast2500_set_props[] = {
->      [7] = {0x000000ff,  0x000000ff,  {"AC"} },
->  };
->  
-> -static GPIOSetProperties ast2600_3_6v_set_props[] = {
-> +static GPIOSetProperties ast2600_3_3v_set_props[] = {
->      [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
->      [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
->      [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-> @@ -927,7 +927,7 @@ static void
-> aspeed_gpio_ast2400_class_init(ObjectClass *klass, void *data)
->      agc->nr_gpio_pins = 216;
->      agc->nr_gpio_sets = 7;
->      agc->gap = 196;
-> -    agc->reg_table = aspeed_3_6v_gpios;
-> +    agc->reg_table = aspeed_3_3v_gpios;
->  }
->  
->  static void aspeed_gpio_2500_class_init(ObjectClass *klass, void
-> *data)
-> @@ -938,17 +938,17 @@ static void
-> aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
->      agc->nr_gpio_pins = 228;
->      agc->nr_gpio_sets = 8;
->      agc->gap = 220;
-> -    agc->reg_table = aspeed_3_6v_gpios;
-> +    agc->reg_table = aspeed_3_3v_gpios;
->  }
->  
-> -static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass,
-> void *data)
-> +static void aspeed_gpio_ast2600_3_3v_class_init(ObjectClass *klass,
-> void *data)
->  {
->      AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
->  
-> -    agc->props = ast2600_3_6v_set_props;
-> +    agc->props = ast2600_3_3v_set_props;
->      agc->nr_gpio_pins = 208;
->      agc->nr_gpio_sets = 7;
-> -    agc->reg_table = aspeed_3_6v_gpios;
-> +    agc->reg_table = aspeed_3_3v_gpios;
->  }
->  
->  static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass,
-> void *data)
-> @@ -984,10 +984,10 @@ static const TypeInfo aspeed_gpio_ast2500_info
-> = {
->      .instance_init  = aspeed_gpio_init,
->  };
->  
-> -static const TypeInfo aspeed_gpio_ast2600_3_6v_info = {
-> +static const TypeInfo aspeed_gpio_ast2600_3_3v_info = {
->      .name           = TYPE_ASPEED_GPIO "-ast2600",
->      .parent         = TYPE_ASPEED_GPIO,
-> -    .class_init     = aspeed_gpio_ast2600_3_6v_class_init,
-> +    .class_init     = aspeed_gpio_ast2600_3_3v_class_init,
->      .instance_init  = aspeed_gpio_init,
->  };
->  
-> @@ -1003,7 +1003,7 @@ static void aspeed_gpio_register_types(void)
->      type_register_static(&aspeed_gpio_info);
->      type_register_static(&aspeed_gpio_ast2400_info);
->      type_register_static(&aspeed_gpio_ast2500_info);
-> -    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
-> +    type_register_static(&aspeed_gpio_ast2600_3_3v_info);
->      type_register_static(&aspeed_gpio_ast2600_1_8v_info);
->  }
->  
+On 2021/7/2 18:07, Yanan Wang wrote:
+> We are currently using maxcpus to calculate value of sockets but using
+> cpus to calculate value of cores/threads. This makes cmdlines like
+> "-smp 8,maxcpus=12,cores=4" work while "-smp 8,maxcpus=12,sockets=3"
+> break the invalid cpu topology check.
+>
+> This patch allows us to uniformly use maxcpus to calculate the missing
+> values. Also the if branch of "cpus == 0 || sockets == 0" was splited
+> into branches of "cpus == 0" and "sockets == 0" so that we can clearly
+> figure out that we are parsing -smp cmdlines with a preference of cpus
+> over sockets over cores over threads.
+BTW, after this patch, configs like:
+-smp maxcpus=16 --> -smp 1,sockets=1,cores=1,threads=1,maxcpus=16
+-smp sockets=2,maxcpus=16 --> -smp 2,sockets=2,cores=1,threads=1,maxcpus=16
+......
+still can not work. So I suggest to use the parameters computed by 
+maxcpus to calculate
+the value of cpus if it's omitted. The diff based on this patch is:
 
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 93c5227920..924c48fd43 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -757,13 +757,7 @@ static void smp_parse(MachineState *ms, 
+SMPConfiguration *config, Error **errp)
+      /* compute missing values, prefer sockets over cores over threads */
+      maxcpus = maxcpus > 0 ? maxcpus : cpus;
+
+-    if (cpus == 0) {
+-        sockets = sockets > 0 ? sockets : 1;
+-        cores = cores > 0 ? cores : 1;
+-        threads = threads > 0 ? threads : 1;
+-        cpus = sockets * cores * threads;
+-        maxcpus = maxcpus > 0 ? maxcpus : cpus;
+-    } else if (sockets == 0) {
++    if (sockets == 0) {
+          cores = cores > 0 ? cores : 1;
+          threads = threads > 0 ? threads : 1;
+          sockets = maxcpus / (cores * threads);
+@@ -777,6 +771,9 @@ static void smp_parse(MachineState *ms, 
+SMPConfiguration *config, Error **errp)
+          threads = threads > 0 ? threads : 1;
+      }
+
++    cpus = cpus > 0 ? cpus : sockets * cores * threads;
++    maxcpus = maxcpus > 0 ? maxcpus : cpus;
++
+      if (sockets * cores * threads < cpus) {
+          error_setg(errp, "cpu topology: "
+                     "sockets (%u) * cores (%u) * threads (%u) < "
+
+
+Thanks,
+Yanan
+.
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>   hw/core/machine.c | 36 +++++++++++++++++++-----------------
+>   hw/i386/pc.c      | 37 +++++++++++++++++++------------------
+>   2 files changed, 38 insertions(+), 35 deletions(-)
+>
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 1e194677cd..58882835be 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -752,34 +752,36 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>       }
+>   
+>       /* compute missing values, prefer sockets over cores over threads */
+> -    if (cpus == 0 || sockets == 0) {
+> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +
+> +    if (cpus == 0) {
+> +        sockets = sockets > 0 ? sockets : 1;
+>           cores = cores > 0 ? cores : 1;
+>           threads = threads > 0 ? threads : 1;
+> -        if (cpus == 0) {
+> -            sockets = sockets > 0 ? sockets : 1;
+> -            cpus = cores * threads * sockets;
+> -        } else {
+> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -            sockets = maxcpus / (cores * threads);
+> -            sockets = sockets > 0 ? sockets : 1;
+> -        }
+> +        cpus = sockets * cores * threads;
+> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +    } else if (sockets == 0) {
+> +        cores = cores > 0 ? cores : 1;
+> +        threads = threads > 0 ? threads : 1;
+> +        sockets = maxcpus / (cores * threads);
+> +        sockets = sockets > 0 ? sockets : 1;
+>       } else if (cores == 0) {
+>           threads = threads > 0 ? threads : 1;
+> -        cores = cpus / (sockets * threads);
+> +        cores = maxcpus / (sockets * threads);
+>           cores = cores > 0 ? cores : 1;
+>       } else if (threads == 0) {
+> -        threads = cpus / (cores * sockets);
+> +        threads = maxcpus / (sockets * cores);
+>           threads = threads > 0 ? threads : 1;
+> -    } else if (sockets * cores * threads < cpus) {
+> +    }
+> +
+> +    if (sockets * cores * threads < cpus) {
+>           error_setg(errp, "cpu topology: "
+> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+> -                   "smp_cpus (%u)",
+> +                   "sockets (%u) * cores (%u) * threads (%u) "
+> +                   "< smp_cpus (%u)",
+>                      sockets, cores, threads, cpus);
+>           return;
+>       }
+>   
+> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -
+>       if (maxcpus < cpus) {
+>           error_setg(errp, "maxcpus must be equal to or greater than smp");
+>           return;
+> @@ -795,9 +797,9 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>       }
+>   
+>       ms->smp.cpus = cpus;
+> +    ms->smp.sockets = sockets;
+>       ms->smp.cores = cores;
+>       ms->smp.threads = threads;
+> -    ms->smp.sockets = sockets;
+>       ms->smp.max_cpus = maxcpus;
+>   }
+>   
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 93d1f12a49..1812f33ab1 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -721,35 +721,36 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>   
+>       /* compute missing values, prefer sockets over cores over threads */
+>       dies = dies > 0 ? dies : 1;
+> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>   
+> -    if (cpus == 0 || sockets == 0) {
+> +    if (cpus == 0) {
+> +        sockets = sockets > 0 ? sockets : 1;
+>           cores = cores > 0 ? cores : 1;
+>           threads = threads > 0 ? threads : 1;
+> -        if (cpus == 0) {
+> -            sockets = sockets > 0 ? sockets : 1;
+> -            cpus = cores * threads * dies * sockets;
+> -        } else {
+> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -            sockets = maxcpus / (dies * cores * threads);
+> -            sockets = sockets > 0 ? sockets : 1;
+> -        }
+> +        cpus = sockets * dies * cores * threads;
+> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +    } else if (sockets == 0) {
+> +        cores = cores > 0 ? cores : 1;
+> +        threads = threads > 0 ? threads : 1;
+> +        sockets = maxcpus / (dies * cores * threads);
+> +        sockets = sockets > 0 ? sockets : 1;
+>       } else if (cores == 0) {
+>           threads = threads > 0 ? threads : 1;
+> -        cores = cpus / (sockets * dies * threads);
+> +        cores = maxcpus / (sockets * dies * threads);
+>           cores = cores > 0 ? cores : 1;
+>       } else if (threads == 0) {
+> -        threads = cpus / (cores * dies * sockets);
+> +        threads = maxcpus / (sockets * dies * cores);
+>           threads = threads > 0 ? threads : 1;
+> -    } else if (sockets * dies * cores * threads < cpus) {
+> +    }
+> +
+> +    if (sockets * dies * cores * threads < cpus) {
+>           error_setg(errp, "cpu topology: "
+> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
+> -                   "smp_cpus (%u)",
+> +                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+> +                   "< smp_cpus (%u)",
+>                      sockets, dies, cores, threads, cpus);
+>           return;
+>       }
+>   
+> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -
+>       if (maxcpus < cpus) {
+>           error_setg(errp, "maxcpus must be equal to or greater than smp");
+>           return;
+> @@ -765,10 +766,10 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>       }
+>   
+>       ms->smp.cpus = cpus;
+> -    ms->smp.cores = cores;
+> -    ms->smp.threads = threads;
+>       ms->smp.sockets = sockets;
+>       ms->smp.dies = dies;
+> +    ms->smp.cores = cores;
+> +    ms->smp.threads = threads;
+>       ms->smp.max_cpus = maxcpus;
+>   }
+>   
 
 
