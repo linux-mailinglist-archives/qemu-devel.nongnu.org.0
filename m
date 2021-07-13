@@ -2,68 +2,153 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB1E3C679C
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 02:47:41 +0200 (CEST)
-Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D163C679E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 02:49:11 +0200 (CEST)
+Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m36aJ-00030f-Ad
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 20:47:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50252)
+	id 1m36bm-000622-7z
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 20:49:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1m36Wk-0005yJ-Bb
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 20:43:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56815)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1m36aE-0003xR-Oh; Mon, 12 Jul 2021 20:47:35 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:54024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1m36Wh-0002ts-6L
- for qemu-devel@nongnu.org; Mon, 12 Jul 2021 20:43:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626137033;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=coe4wXpm6vEZP4DMzEUTiQ2VMBIawHDhqoeFnL50v8M=;
- b=c8/keMr6xc5ZjAMSlYwXjAh4i9A+rr2rE6WzfJh7ZeW92shHR1lhK1cfX7wQrrF37f/nGc
- XNS9crkmblcdviOyDxJ4bLiEzu9nmsfttv055s48zJSaqrlIVNxVv3W6LdYqjsOwd/YGae
- F5Epf7Ekb5ouzOMcJ6hrwANliF94fhQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-XQktxCB2MySHe_iuIaSMMA-1; Mon, 12 Jul 2021 20:43:50 -0400
-X-MC-Unique: XQktxCB2MySHe_iuIaSMMA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74A78800D62;
- Tue, 13 Jul 2021 00:43:49 +0000 (UTC)
-Received: from pc-58.home (unknown [10.40.192.104])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B53425C1D1;
- Tue, 13 Jul 2021 00:43:47 +0000 (UTC)
-From: Julia Suvorova <jusual@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 6/6] bios-tables-test: Update golden binaries
-Date: Tue, 13 Jul 2021 02:42:05 +0200
-Message-Id: <20210713004205.775386-7-jusual@redhat.com>
-In-Reply-To: <20210713004205.775386-1-jusual@redhat.com>
-References: <20210713004205.775386-1-jusual@redhat.com>
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1m36aC-0005BU-ET; Mon, 12 Jul 2021 20:47:34 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16D0fN4X019971; Tue, 13 Jul 2021 00:47:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2020-01-29; bh=PpYj0NShJ4MFJUa7pWD+OofVyv73wfgpbrtB/jWDVD4=;
+ b=kUIWLRbd4IqwM+7WAtjOaUDCUyXXPKgVAqu1zU3G9vLILditWSleURwXjzINQea7aaVC
+ WJyXGBeCF8ri/JyCMv/mxgUCYBxspqoB8t2rW17HyCj+D2KDStUpbGoHb5sEY4uM+9vA
+ pYk7vSfOMo3iVxg4xAKxZeOSCxAn3UiCCXwjrJQwRsduMkV+Bbu1+XnHTMvPrfutGKOC
+ 2HT87ZVdDzrK5cccOS2lhHp5f+gJDNZcYaR6a06aXaTzXWMpTOCA+okHSFnBmFpy5XA/
+ 4JgTtvc5dRfy2KnlAHpgWcyovmE/byR5O/nl2Q83TAcjrLn/hiSPus85mb4kiMkVHaLm Qw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39rnxdhcxe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 13 Jul 2021 00:47:29 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16D0ev9B156275;
+ Tue, 13 Jul 2021 00:47:28 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2045.outbound.protection.outlook.com [104.47.66.45])
+ by userp3020.oracle.com with ESMTP id 39qnavxde6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 13 Jul 2021 00:47:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bYcq6DHovkZ0i6PVu5r0rDKCVy6vlEDALcGfAeDv2VAjESBL42LcVxD9NnamRcg9CYuyM1dg1lx7DVzKgkioKP+iHoIf4FM2C1c4wgVJwPtB4Iz6iVeNYT8EVw2N8LMxZfBig/GE9OscO0R3SJQZrqyYV1kEE1oKb317+knmuQDxB8UoptTzUzIa7ub6eyl7OVBhqM44nkKPKOvYrMfGw0WxN77BHQyiVNEooB7F1pa7Sjq4daWemw2DC5LIQtz+GDdWbQ6+y/y3kmYhIWm8JqKNEoS7g3UUkoAGAfcHzr6ubE0So8DkWiqFdgUtaZEcoiQo+elod24CX2TfE3I3VA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PpYj0NShJ4MFJUa7pWD+OofVyv73wfgpbrtB/jWDVD4=;
+ b=VEsXZJCwTTFZqs3Ng8JjuigD7wZ0rG3fArpZNUjE4L7m/3hYVGkvsafDAyITQuv5e71n7Ss9CN6/T6lYCE+GErZzOGzNMDmRXl136p65cucsz4sD3UA7EqongNv8U2tJjq/tq+zz+tgvzYNx8ODppAqv0W2N46gB5mq7LfnOCuPCVQdZ6q9sPzopX9uDikC0B9MfVPFXHL5EsQNiffvkLnSiVN9cgJrAc1qEqirE2At1z8hYWaVy+1rRWT6utuiBkNEW3APRHoGs5T0Lo+cK13eeDHd5SyOo6YnK/fj09qh8Otjk7tpqVKpkFRKN17seybK1dqxVOm1nCZ6nKlYuQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PpYj0NShJ4MFJUa7pWD+OofVyv73wfgpbrtB/jWDVD4=;
+ b=QYhCwBe4lDc2nxLXBQAgSd1VN4YSV0aPzMf8YQa82i34tuSlz5Sz/snJ2gvITBdPEyxhuQ61HmShxuvbSIYK4I5GODlxqVis9J8gwQ3Swv6l45djhBIEuHGjARneld5ScO6S8kUfWWl4Weubc7DOZoy2XNqBMOjjRfWDhKmEJmk=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
+ by BY5PR10MB3809.namprd10.prod.outlook.com (2603:10b6:a03:1fe::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Tue, 13 Jul
+ 2021 00:47:26 +0000
+Received: from BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::18a:7c1f:bf20:ba6c]) by BYAPR10MB2663.namprd10.prod.outlook.com
+ ([fe80::18a:7c1f:bf20:ba6c%3]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
+ 00:47:26 +0000
+From: Dongli Zhang <dongli.zhang@oracle.com>
+To: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH RESEND 1/1] multi-process: fix usage information
+Date: Mon, 12 Jul 2021 17:47:18 -0700
+Message-Id: <20210713004718.20381-1-dongli.zhang@oracle.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: SN7PR04CA0153.namprd04.prod.outlook.com
+ (2603:10b6:806:125::8) To BYAPR10MB2663.namprd10.prod.outlook.com
+ (2603:10b6:a02:a9::20)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jusual@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jusual@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (138.3.200.16) by
+ SN7PR04CA0153.namprd04.prod.outlook.com (2603:10b6:806:125::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.20 via Frontend Transport; Tue, 13 Jul 2021 00:47:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6f7cbd77-739b-4eea-d887-08d94597c897
+X-MS-TrafficTypeDiagnostic: BY5PR10MB3809:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BY5PR10MB38096BA623CB2BC2F54F9606F0149@BY5PR10MB3809.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: maL15Jm13W3/VDWkPQ3PHSbV2Ej3G182nOaEsfEfkJYf4/E6GNT6lodshT/AQQygrpZtoCgJcDoSvel8CFicghPm/hMIP+2Zty9CcVUSzmZRUJpg2yclDkAbzCscC4376XW7zvH0AnsAzTBD5ticqetkV6MC9O5/0zrXdC3N9W3vahj8WCCe4X+iyoX1Q+Cv1Ig6uXb3yWFOnhS0BpiFnfjyFsZzofGFMyy1es0XLECMZSzRuWGaLee8IwuPuNR0oIzVcAwmRApGWKQLY3jeaazBJBEvJkDN8rypfLmf/XyXm7FhgglFl8yjuppMRT2R5W+yn4pPqHbWFC716LWrYc7LOrTaGvQYAMn9IzCbpdQnCa5iYUQMuOkb/zRhY1wT9sL6Kzfy6A1OU3yJ3qPWEu5J6w3e1yMuBh2+kwxnVp0oV+PUb+ZQnZCPMdEiU9h9Rm878jCZzArDA2yW9mcXafa5vTpJPWFbaemAkFhqzPPEtjXWA7LF9Oc5q+TGkhpC9YcFX7sCSShfvx7dGoXDXzEo+tEP1t1hHhhEfeQoNByd7ifEHVAq0anMMEuJRbZhznMoOI794t4PWbEwA6AViBr8ibeY6r0nHJZsL0oVhFxuB2HGqehIdrrIN5pl8KUePpLyfSvEh7Bu1O1UNsnTGwJ/KgWODzrjBCYl8eU0Ko3yhMjFZMu3MO9GQpj9KEMNWxf43WqZ3+95bopPHr5YkFndOjNJCw5R/TxwQHXW2zVdJ9OlZyEEqKXytiU90WK7lCW9YYVISs3P0Yqy6yB8AJmpuTY9TEB8cv4qhTOxJ0E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(39850400004)(376002)(366004)(346002)(396003)(8936002)(6506007)(44832011)(956004)(4326008)(86362001)(186003)(8676002)(2616005)(6666004)(1076003)(26005)(316002)(107886003)(66946007)(5660300002)(36756003)(6512007)(2906002)(478600001)(66556008)(52116002)(66476007)(83380400001)(6486002)(38100700002)(38350700002)(966005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0/v2JOMRpTnW0jft3rDrDUETt2hl/+4HKyi80sY4Y5UsNGCUBNJF6Wo8ulb4?=
+ =?us-ascii?Q?dJdzG78QgMCZtcUenQ/Yl4NTJ+QlX9TiQrSLEEJoEZ6+Q9SnnW1GT+Zncij+?=
+ =?us-ascii?Q?JKMFBp4j6Uekbwp8t7Xn2vezciIpc6F9J84VFRg3RnjYfoiFmphARFE8ep0O?=
+ =?us-ascii?Q?g3xg+dF6rFs/uT34KZ61rklVlxasF2i7agTawn2xQcnVPPdZEMIJwQxVNNyQ?=
+ =?us-ascii?Q?2Po28yZVSVwxvD7bbyY9BH6pTsNd33aw5Le/K4gouuDoGl8U53YtIcOhQbkD?=
+ =?us-ascii?Q?Smjedm4PxdHjQFL8SsyUKXc4yg6a/2YTXYYs+TNqU9jW5AMXS4oe5U1CbpnU?=
+ =?us-ascii?Q?7Umklsa13cXxYugHpKAJmjRYgZRnnVrFTXMv6a20AbQU7I1HmO2TZdxhaVy3?=
+ =?us-ascii?Q?+EU0lsPgVpWhQ+IWa8c9w3GuRuQGRcNu5uedwVIAqBw2AjRCQueNRSYRQksW?=
+ =?us-ascii?Q?+37rD+uY4TgnmdCObHCDAgAr4lKTTkwqfMwPMvJy0zmhPk3SQGrwtCU8hnWA?=
+ =?us-ascii?Q?Gmbfs3siveF5YWBKCQziJilPfFWHQXMhtlGXu5PNZ+Mb64GtQW614JJtGl+8?=
+ =?us-ascii?Q?+aA0tTvj2iKg7FU6KWaIvUuYPYjT+RvVUvh+FwJlkx1nh4MJuX7fVMK9L/6b?=
+ =?us-ascii?Q?UqHaKSO1/wBYpf+RjTgjwbWKfCX4Bv1TwgRJ6OTpUjxMnT/OAQmeV3OGq8Nk?=
+ =?us-ascii?Q?zhpCMJ8XY5cbkZDm9IndIruW5H1GGrrTpX+bvlpCcRr/k+WCFwyYxEIUEErw?=
+ =?us-ascii?Q?S3myNuBwVtYj3HFLdEKKIN5qomiBS3QIXwhXJkl2HX1PCPzwlAupo4/FdmIx?=
+ =?us-ascii?Q?7dIyy7o2AUaRaGBHozxjqwe9T4qok13V+vpDTMfOjI1O7NOWdrnRHSGoQCvQ?=
+ =?us-ascii?Q?3I/qOFbCvdxbSKqqy9X7F0zXK/4EIsvL7RxCIdDSk00mIlZ/HKyjBtVwC04u?=
+ =?us-ascii?Q?EAVgmRSlPQkyF0CCad3ilAc9qqxeMatbgCHdTRXEosWm1XUsLPRw4Ahswjdg?=
+ =?us-ascii?Q?5GhQwAgSVjxPKUg75zIt4Rb9B0y5IBc0UAUMhjOlCMoxN+J/BnmuUwUfcyj/?=
+ =?us-ascii?Q?LFb5hdL1AiwI+89WFfHFOJ0WaBVpZUqmtr4aPYsv51fIUA4WlhpIFjowfSN7?=
+ =?us-ascii?Q?tp80FOrdOpyp3kZTwXlu551saYKVAG03/j1V58gRsnBSqxPtb3EQ9LZ377cl?=
+ =?us-ascii?Q?LKZtdFPwW6KE19E4yQI79Haj3qug3DT6xkvYq8hyLbDtCO3WuXPk+DdyvFwc?=
+ =?us-ascii?Q?OqBE+l/GvmqG+DYt2w5hXm8Uz3CSrQTJriUi0pun6PeuQCurq4tqUq9AyXdk?=
+ =?us-ascii?Q?O9Caaxaw8I8o8Pr0Y6uJErcD?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f7cbd77-739b-4eea-d887-08d94597c897
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 00:47:25.9727 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BBxEAlZGj5BBwglJteBj6Nkxb8wMKEPSVdZKsF3PATYxmhbyj5mNCWAL5/eSmqEUXTFizJbOmlFgrV74ZMSUQQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB3809
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10043
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107130002
+X-Proofpoint-GUID: W2_vawXOSC6RWOGQU4wtkxIrG2P1yvZt
+X-Proofpoint-ORIG-GUID: W2_vawXOSC6RWOGQU4wtkxIrG2P1yvZt
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=dongli.zhang@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_BL=0.001,
+ RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,392 +161,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, David Gibson <dgibson@redhat.com>,
- Julia Suvorova <jusual@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: elena.ufimtseva@oracle.com, jag.raman@oracle.com, mjt@tls.msk.ru,
+ laurent@vivier.eu, john.g.johnson@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add ACPI hot-plug registers to DSDT Q35 tables.
-Changes in the tables:
+From source code, the 'devid' of x-remote-object should be one of devices
+in remote QEMU process.
 
-+    Scope (_SB.PCI0)
-+    {
-+        OperationRegion (PCST, SystemIO, 0x0CC4, 0x08)
-+        Field (PCST, DWordAcc, NoLock, WriteAsZeros)
-+        {
-+            PCIU,   32,
-+            PCID,   32
-+        }
-+
-+        OperationRegion (SEJ, SystemIO, 0x0CCC, 0x04)
-+        Field (SEJ, DWordAcc, NoLock, WriteAsZeros)
-+        {
-+            B0EJ,   32
-+        }
-+
-+        OperationRegion (BNMR, SystemIO, 0x0CD4, 0x08)
-+        Field (BNMR, DWordAcc, NoLock, WriteAsZeros)
-+        {
-+            BNUM,   32,
-+            PIDX,   32
-+        }
-+
-+        Mutex (BLCK, 0x00)
-+        Method (PCEJ, 2, NotSerialized)
-+        {
-+            Acquire (BLCK, 0xFFFF)
-+            BNUM = Arg0
-+            B0EJ = (One << Arg1)
-+            Release (BLCK)
-+            Return (Zero)
-+        }
-+
-+        Method (AIDX, 2, NotSerialized)
-+        {
-+            Acquire (BLCK, 0xFFFF)
-+            BNUM = Arg0
-+            PIDX = (One << Arg1)
-+            Local0 = PIDX /* \_SB_.PCI0.PIDX */
-+            Release (BLCK)
-+            Return (Local0)
-+        }
-+
-+        Method (PDSM, 6, Serialized)
-+        {
-+            If ((Arg0 == ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d") /* Device Labeling Interface */))
-+            {
-+                Local0 = AIDX (Arg4, Arg5)
-+                If ((Arg2 == Zero))
-+                {
-+                    If ((Arg1 == 0x02))
-+                    {
-+                        If (!((Local0 == Zero) | (Local0 == 0xFFFFFFFF)))
-+                        {
-+                            Return (Buffer (One)
-+                            {
-+                                 0x81                                             // .
-+                            })
-+                        }
-+                    }
-+
-+                    Return (Buffer (One)
-+                    {
-+                         0x00                                             // .
-+                    })
-+                }
-+                ElseIf ((Arg2 == 0x07))
-+                {
-+                    Local1 = Package (0x02)
-+                        {
-+                            Zero,
-+                            ""
-+                        }
-+                    Local1 [Zero] = Local0
-+                    Return (Local1)
-+                }
-+            }
-+        }
-+    }
-+
-...
-
-     Scope (_GPE)
-     {
-         Name (_HID, "ACPI0006" /* GPE Block Device */)  // _HID: Hardware ID
-+        Method (_E01, 0, NotSerialized)  // _Exx: Edge-Triggered GPE, xx=0x00-0xFF
-+        {
-+            Acquire (\_SB.PCI0.BLCK, 0xFFFF)
-+            \_SB.PCI0.PCNT ()
-+            Release (\_SB.PCI0.BLCK)
-+        }
-...
-
-+
-+        Device (PHPR)
-+        {
-+            Name (_HID, "PNP0A06" /* Generic Container Device */)  // _HID: Hardware ID
-+            Name (_UID, "PCI Hotplug resources")  // _UID: Unique ID
-+            Name (_STA, 0x0B)  // _STA: Status
-+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-+            {
-+                IO (Decode16,
-+                    0x0CC4,             // Range Minimum
-+                    0x0CC4,             // Range Maximum
-+                    0x01,               // Alignment
-+                    0x18,               // Length
-+                    )
-+            })
-+        }
-     }
-...
-
-And if there is a port in configuration:
-
-             Device (S10)
-             {
-                 Name (_ADR, 0x00020000)  // _ADR: Address
-+                Name (BSEL, Zero)
-+                Device (S00)
-+                {
-+                    Name (_SUN, Zero)  // _SUN: Slot User Number
-+                    Name (_ADR, Zero)  // _ADR: Address
-+                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
-+                    {
-+                        PCEJ (BSEL, _SUN)
-+                    }
-+
-+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-+                    {
-+                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
-+                    }
-+                }
-+
-...
-
-+                Method (DVNT, 2, NotSerialized)
-+                {
-+                    If ((Arg0 & One))
-+                    {
-+                        Notify (S00, Arg1)
-+                    }
-...
-
-Signed-off-by: Julia Suvorova <jusual@redhat.com>
+Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+Reviewed-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |  11 -----------
- tests/data/acpi/q35/DSDT                    | Bin 7859 -> 8289 bytes
- tests/data/acpi/q35/DSDT.acpihmat           | Bin 9184 -> 9614 bytes
- tests/data/acpi/q35/DSDT.bridge             | Bin 7877 -> 11003 bytes
- tests/data/acpi/q35/DSDT.cphp               | Bin 8323 -> 8753 bytes
- tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9513 -> 9943 bytes
- tests/data/acpi/q35/DSDT.ipmibt             | Bin 7934 -> 8364 bytes
- tests/data/acpi/q35/DSDT.memhp              | Bin 9218 -> 9648 bytes
- tests/data/acpi/q35/DSDT.mmio64             | Bin 8990 -> 9419 bytes
- tests/data/acpi/q35/DSDT.nohpet             | Bin 7717 -> 8147 bytes
- tests/data/acpi/q35/DSDT.numamem            | Bin 7865 -> 8295 bytes
- tests/data/acpi/q35/DSDT.tis                | Bin 8465 -> 8894 bytes
- 12 files changed, 11 deletions(-)
+Resend to be applied as trivial patch.
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index c5167f48af..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,12 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/DSDT.tis",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.nohpet",
-diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-index cccf92f0466fa4eaf2e9e06675b3b102c7a8eb86..842533f53e6db40935c3cdecd1d182edba6c17d4 100644
-GIT binary patch
-delta 466
-zcmdmN`_O^QCD<h-QGtPh@##jc-%Rxaeu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<G;GT)YD@@JX+P)68R#4_I1z>pzYIYyru7HSX=AqfOH`-McSBME?12>6O_{w~AM
-zs2<(q#S-8V5X2Gh;pxH~;1^)vXkf;`5g!WTIeRL2<d+oWl%`L9C@af$gy#qkqr_wu
-axlArUmKczQ0&Xmm%j9g?Mc6>LFaQ7^vWU|F
+I have verified by reading the code and playing with below orchestrator.
+https://github.com/finallyjustice/sample/blob/master/kvm/multiprocess/orchestrator.py
 
-delta 57
-zcmaFpu-TT&CD<iovm65h<GYPqznM0xu-ukp6q(E@C(JD1D7ZOLj-PSz8u@fiH<p<A
-NV5fKiyUDT&wgCMJ5G4Qr
+ docs/system/multi-process.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/data/acpi/q35/DSDT.acpihmat b/tests/data/acpi/q35/DSDT.acpihmat
-index b3c1dd6bc40210425ac37dba88a650b0ea60ce1c..8d00f2ea0dd78f962e136273d68cb0c568e43c27 100644
-GIT binary patch
-delta 465
-zcmaFh-sjEb66_Mvr^>*<xM(BSZ>D+yKS90tV5j&1XHSFZh5+Z_5Jv7JJX{>njRGK!
-zGf+HK0Z6zgL^lMxdc`wxpW)$RiEiWuah#nDT)lu2PJX^YjNDfs+CUs<C%;f%g#b^N
-z2!&`yCm&~T1`*W&XIC$#Xk`%Z|NnvvkcxuJdd5r!kRj3PAn_#(BHE5XO&H36sz8Pn
-zfQSUB+5{07wg8u4U%mxCtdlbYg}DSSn4f$aY+B_zQT&y!<Y8yu0+3lbxd{uDCucD%
-zker;!#k4?pQtjjfhRF#$|AByEiJ~AgW8)Ga!LU$#f#~EcF7^T;Rwf2shQxw|jzk8A
-zC5f9^nK|Tx{8{4N16(=cJv?1_9i0O_4Gav-7(^`NT@4HwqLpLxnPFiF@g9;ufU{pn
-zv^tUiNQHo}=w=lqenyVyCNGu%kAR@bfwCgpz+hJJ$S*0#DNUcur!32Mgy#qkqr_xG
-a<xDO=mKcx?0&Xmm7c1Mci?D%=WdHyz0)`?0
-
-delta 71
-zcmeD4e&EjK66_N4K$(GoarH*7-%OiTSUBXxMdIB9Tsh)BJY9GlodY}#3=GT|1RMo7
-b*D3QePQIy<&gsSy6CdmpFJL#>OVt(t-l7wM
-
-diff --git a/tests/data/acpi/q35/DSDT.bridge b/tests/data/acpi/q35/DSDT.bridge
-index eb5d27d95b2cdeda5f7e1f6b151cfea02e6bd907..55ad4bd7ab4759d68031b2f1d0307355a7332fe7 100644
-GIT binary patch
-delta 3198
-zcmb7{PjBNy7{<qr)4Gn+I*q$&cAGY+LX|*TvUJ;~5-Xb6L2YP^RW}I9E1aH4$|7<A
-zA*j%#J*>Ebzd(?3;ItCjk3cyfap1s>(;m2R;mDzf?)%1mvr$RXI0q}wJmcRyGxq%P
-zuaB<kis_igS8p&T{QI+VC34M5-S?cbXB!6vw__X5v5>e_71=%4P#92N&%?#cyB()e
-z^@POlsv^1P2^2=TP^p4ZwrWR0;?LkV6h_&q*Yfs(`BB~#%7@1LOn==rDpk>4M|FMO
-zZeor0*IZ~Zgt!}6-edZkCAjH-)u0x_+IVS%bsM@lW1CKGzIzz=o2j&-{ju}g-_F)I
-zweK_k)Uv-AwKlSzeAei$`=_j%^;?SAP5<z%-(Y@2y@ns_y_Sjz=RLTvA2Z!0|5TZ6
-zFUCcdWGC&$cPEVXPM*hOe`UoFB>%-q`jNitRSFN7yZ-pC7>!!cp`ilXu#Vl0p#rR-
-z)s~+Bx3VB?xEEE)-nWlrZ~wqd+Lm1?6}Fk|)lnG-`TftoXg~S#6aPgnH*=|8s=~4_
-zt)9+3dyMUAd(Zr@R^R2;PtJpaCwnFHNM%f9a@naIGWX&gr+~#y-2x(*OkeaW)q;Ry
-zk5$moGaihZ+QYGHwoX5#a`&PnIfY_yyFhGV6oQXul%*gUG^B_G5l2BLGr}B7j2N*Y
-z2A`rc5ajJ}EEI_#(hy`y1_g-|BhGXlWmF-^CIy)x$V}uQn-pYL_IU8zXCp%%QV^Mf
-z$k7=^kN00OWsV?oks(_YL?MO}fx#{J0)};qh9p6dL<C5{*rp&VG1S``e0bJCkZlT*
-zBuMgh$PLC01(_$t{8$DbIej6>4h2~t$ii62I7X3zXvENNGWg_m1cDSPNQxk-n~+->
-zyA))R7>gl;Pr0B$kX;IrCP+GRkP-#aLk4GhbO;4mq999=8RaktSMCtxPIL$b$q*wG
-zmBAf@hGdx_%TXbYK|!*_$WF=N{f(@@2ACA&E<x^22^nHgkbA_qH<`h2?ws(VRVc^`
-zK~^S1MlmQzju^R-3_f-Xham4!kX3@Lj)Y8PP>?lZtPL|bof*dM;kuPGKeUd;ZsM#d
-zu%~z`X?4}JrXr#!hC%`X$C$v8QIMm7fZaQA@+ipJ1F^};>Yzd^dDcuYYzcO_P+?OK
-z2OhQsn@;FqW3YRK3R{DHAXL~KEa;)a_F!oa6}AU!EN^ue&YE!Y5*QS~f=OEJYrHw|
-zCDgEvk(T@Vm9L?O<%RrwU%&GAP{XVzzth)6J}Bt-873oDfV1FJoLB>m{f0R*(AaZx
-z$j83Jt2^-XsE7PL(C|hL{0?dyR(%c6xvb6bAde3lzZ8V<kEz6T_<jKY<NNrC@$XB%
-CMohN=
-
-delta 73
-zcmewzdeoN7CD<k8s2l?WWBW#~-%OiTSZ+%)icDsd6J{206x<vr$Im!<jeG_tYfOBw
-dQ@nr!>ttC4dw%|4LxXsZct@8Y9tH*`1^^Ot5>o&G
-
-diff --git a/tests/data/acpi/q35/DSDT.cphp b/tests/data/acpi/q35/DSDT.cphp
-index e55d12990c98d8eed760b858ce18a036b612da1c..ccde2add9f87db0c0eaf0cc155717d5744e4ef40 100644
-GIT binary patch
-delta 466
-zcmZp6+~~sP66_LUsKmg)=(&;WH&eZUpP*iRuv2`1v!_9HLx6K|2qX6q9xjgPMgb7V
-z87LmA03=)#q8ox;z2X_U&+u@uL^pDSIL=N6u3kV1CqLgHM(!&RZ6J=blV7N>LV%}B
-zghDi<laI4EgNSN?v#S?Vv@(eI|9?RSNJT+qJ!2*V$dG7tkoXb?5p74HCJbdjRUpF(
-zKtuvmZGwmkTYyWjFW&+m*2x)y!dwCu%uhZIHm&lVDE`V<^02dS0m!VJ+=K<nld~8W
-zNKVe=Vp<?PsdjP#!{h{>|3JX7L{X5Lv2h8IU|1-=Ky-2z7khyaD-#1RLt;TfM<N5m
-zlElrd%&VoD{8=V%loPfUv5a>$Fl2~Uj?rg^g&M>|NCE-Qej(B7NCF@g0=}Y~kIV5h
-zsz*0@u>^Po1aZWBc)IWg_yrg^8kjL~#D{`-&YlV$`6UH8rRkG5%FD7H;W@&?C^7kp
-Zd?uG4OAN?D0XLS(ZVI;SB5WXA7y#g;hnxTa
-
-delta 57
-zcmdn!((K6P66_MvtiZs)7_^b=H`8VnmetaXB9kx53o{Ei3T{?Z;Afm%qnOU=#u5`B
-N>=Z9xH~FoiEdbPr5E}ph
-
-diff --git a/tests/data/acpi/q35/DSDT.dimmpxm b/tests/data/acpi/q35/DSDT.dimmpxm
-index 95901f94c0d445919cb84dd1f6d98c646ae8176e..b062e30117f955c7a2ac9629a0512324bbd28bf2 100644
-GIT binary patch
-delta 500
-zcmZ4Kb={ZCCD<k8x*7umqwz+r-%Rxaeu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<G;GTSPoIkUyP2e@*?dw9C=Iywh<8W<RuF^E{kyBZiWL@USWGsD6V;yomR0B66D
-zXmun3kO~oDpiUEpwis~O`-Qm#aWx3|if+zT=4VuoZt`LY@CXQk*cRXyVBiR}j3Yi2
-zXg4q>6g=`v3UW%*Cx@%ZvK`?$!ow&rxk@FI%a0`n<Ol&bmdS5aY}rNFKsGY~09jj*
-AH2?qr
-
-delta 75
-zcmccayV8rxCD<iIQ<Z^%QFbHOZ>G&EEVc?F8u9J{t{m|mo-VwO&H<hV1_ovflQ*b{
-fGC2xvKCZ&gI9W+8ozsmaCO+6HUchehWHnm=`KA-;
-
-diff --git a/tests/data/acpi/q35/DSDT.ipmibt b/tests/data/acpi/q35/DSDT.ipmibt
-index ce07e9f152def6a22ab29b3bde98b7d1f15a0522..1c5737692f56fc678e685a4ad0bb1df38d487a14 100644
-GIT binary patch
-delta 480
-zcmZWlF;Buk7`=lEq!cYuqYRQ7Vi+`92Q>~3^jZa^<w7AbIg*x1AQ(I7povkOT=o7y
-zO&DE_zre_1;^5%s?Bb6Q?}8>I-tdz5?tSm&`@XmD^P=GxwR;r+n0^p<!WXigTyY)U
-z#i*!}ON^Wvj1MF+MtU+Qi0O5efuWL1$1J%p{wj$A>BTugx@MNxhi+R{7=Is)ae{Qa
-zZmGCv?5hOoWwZyBMU2c+h-5h%4*eE)_@@`J4R{F2alH?er92z@XJalN=5z3Vy`Ex3
-zu;EyfL3x6<k||Ms+kE+S*3Yb)*)J>oj4YpLbq~EDOFJM))3z82Qn%;S1Jsj-?1BD5
-zG7Nit2H<Wsn4ujp>Q7IEKms&<@45*<zxjy6AL(jEaCfm8a|=Zykw>_wY1#%*wp>$N
-z10>s64gcM6wBDG2kzFIXF@ZZ|Yvxg(pMp7ZRT6LkS4YX%##){Q$J{#WVOLiRN5_8m
-i<bW<`<|6}XAi+6W$+SgVXz)ULN1#uc?WhvrE#L<Umx=`d
-
-delta 71
-zcmZ4E_|KNhCD<k8pBw`NqtZq$H|EXxEVm`aMdIB9Tsh)BJY9GlodY}#3=GT|1RMo7
-b&ynM2ocvurozsmaCO+6HUchd0hJq~s<(w1f
-
-diff --git a/tests/data/acpi/q35/DSDT.memhp b/tests/data/acpi/q35/DSDT.memhp
-index 7acf6243f08cd906aa8a02d3acf1d720b36385ea..7b6f6487b229cac3424a5215c8f1755c0c85310c 100644
-GIT binary patch
-delta 480
-zcmZqj*x=3O66_MPL6w1l@%l!t-%Rxaeu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<G;GHb~P`Lo2k2e@*?dw9C=Iywh<8W<RuF^E{kyBZiWL@USWGsD6V;yomR0B66D
-zXmun3kO~1`(amm3{EX_+O<pVk9sxlRlLPz$3><+5bHs-N?E!|mf=7NyK~8D<WCLYc
-jwj(@8co-!n2P<cC`LV=+EEI5KnS4~)mR*DmWD5fTV<d`8
-
-delta 71
-zcmdns-Q>aL66_Mfq{6_!cz+|;Z>G&EEL!s7BJu74t{m|mo-VwO&H<hV1_ovf0*->4
-b7bx>HPX4Wu&gsSy6CdmpFJL!0N7WVpu^|&B
-
-diff --git a/tests/data/acpi/q35/DSDT.mmio64 b/tests/data/acpi/q35/DSDT.mmio64
-index 77d46369e48efca9a9e5024542c77cd26144beff..2e0a772a85275c9c3b4c9317d98cc7c3d27417f3 100644
-GIT binary patch
-delta 479
-zcmZWl%}T>S7~Ji@Y1C9x)PoXRr3XPH_=Db>O|+>dU78kztt36!iee6WP!L;BUUlyh
-zp)Vjlg1v}>9()BazJiCkOBDq7Ffg<8&G3D<8_%YoJ9_1L1^`I!g|E<sWT)m`M{_YU
-zRno%9sla4c6cVH@ae|m$RT$_BX*ovGg~=CDh>&)Y6Qrp|k$q^kRffs;{un1nv#XYZ
-zO?^ipP}@dZK%T|OD27OuvtG|{aEE_-0h@q_kQ~=LK%UF9p?@~!;$c1q@5k%OdJOB1
-zH56<|X(Kf%NN=l8AI|cbbv^cJO*|sY=UE4bUXZ2xAef*{Ary?>oKp`_PwcS=I@75z
-zY<C!dyRjfm_l3AW5)FYtQ1`v7Isl#eLo~cJRW3!`O>89Gf~gPY5jIs-T><i%Yp9EW
-zWNQoI-y8PV`y*gvS4i%Uz#Wp6e!$biFh?$n5nRCKeloVPnrFcYx5|3h)s@20v43!~
-hN7plxv98z^;W*vRGzUu28ZVSK>1(DGmt(vHd;|L@ije>S
-
-delta 71
-zcmX@@InRyDCD<iIPMLv$amq%n-%OiTSWM)^MdIB9Tsh)BJY9GlodY}#3=GT|1RMo7
-buTtV?oXo0{&gsD#6CdmpFW@k_RK*_vr*sly
-
-diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
-index 0b10128e42af0c7b65e010963085bbf690a64065..ceb61f4115c2ccf4bcbb0d529551236933ecee15 100644
-GIT binary patch
-delta 504
-zcmZ2#bJ?EDCD<k8vOEI=<NA$UxlHu}eu8@O!A|i3&YlL*4FS%<A&lHdc(^#C8wEfd
-zXP|hf0+4V~h;9gW^@?ZYKEuPs65YrR;y61QxOxF4ocw%)7`d-Nw1GIzPJW@j3IU!j
-z5em_aPCm}w3?ixl&aPfe(aIp+|NjLUAQc6b^^BPeAVZ?nLE=joM6?}&nlO|BRe=mE
-z01*jLwFx3FYymF8zI+ROSSM!)3UdiuFhBV;*tE)bqWCLc$-~aR1t7C>auXIPPtIak
-zAUQdci)n%Iq}s^|43iUh{sRHS5=B8~#>OQ;f?=Wf0@2A?T<irxtV|5N42cB^9f=GK
-zOA<GiGu@U9@@I*64{+s(_waP#b#xB!G%zqQV-T^7cQr6%h*pl#XNH9##Cu2r0nUCQ
-z(dtM7AQb|>qMI{i_!+&To4i;8JOY9sCI|Qh7&rnA=7<jk+5-%A1&{oaf}GNHg`(8r
-z{L-T2)MB7qaEK!pH%Gj4P_Q5`7neKZ5uPJFj1rT}WHY(^SYkj95pZLf{6f~2U4#u}
-GI|BgciIJ56
-
-delta 71
-zcmca?zto1yCD<iIRgQsyar;KDT&B&_m~Tspi^RJJxN^jMc)IX9ItO?f7#Nr_2sjFE
-bJ}k@6I9X0UozsmaCO+6HUchd0zq~B~$tDvn
-
-diff --git a/tests/data/acpi/q35/DSDT.numamem b/tests/data/acpi/q35/DSDT.numamem
-index e4c4582e7f76b072ab1123c748b89ea33ea1db87..a3f846df541a70ce0730d0351954b78818bbcdd0 100644
-GIT binary patch
-delta 480
-zcmdmK``m%cCD<h-U4emtv411iZ>D+yKS90tV5j&1XHSFZh5+Z_5Jv7JJX{>njRGK!
-zGf+HK0Z6zgL^lMxdc`wxpW)$RiEiWuah#nDT)lu2PJX^YjNDfs+CUs<C%;f%g#b^N
-z2!&`yCm&~T1`*W&XIC$#Xk`%Z|NnvvkcxuJdd5r!kRj3PAn_#(BHE5XO&H36sz8Pn
-zfQSUB+5{07wg8u4U%mxCtdlbYg}DSSn4f$aY+B_zQT&y!<Y8yu0+3lbxd{uDCucD%
-zker;!#k4?pQtjjfhRF#$|AByEiJ~AgW8)Ga!LU$#f#~EcF7^T;Rwf2shQxw|jzk8A
-zC5f9^nIB39`Lo2k2e@*?dw9C=Iywh<8W<RuF^E{kyBZiWL@USWGsD6V;yomR0B66D
-zXmun3kO~1`(anEl_!-rso4i;8JOY9sCI|Qh7&rnA=7<jk+5-%A1&{oaf}GOy$<JkF
-j*^clW;bD}R%q5q}<;M~OvQWT{Wpa(2ExQOC$QA|wu$qg6
-
-delta 71
-zcmaFvu+x^yCD<ioryK(V<BW}5znM0xusoC$7m0TdaOH^i@O0sIbPn(|FfcG<5O5US
-b94^PtIC+zNI;R^;Onk6Yynx+gWd&OR`Gym&
-
-diff --git a/tests/data/acpi/q35/DSDT.tis b/tests/data/acpi/q35/DSDT.tis
-index 15a26a14e4be5280c0f1cc09f66428311100b7ab..d1433e3c14570bbd17b029a9aec6bc53134c3b7d 100644
-GIT binary patch
-delta 469
-zcmbQ}w9l2xCD<iopArKD<JpZ|znSU<`~>ylgPr07oIMSq8v>kzLm0V_@NjWNHwu6_
-z&Oq@{1t8&~5Zw^$>J`t(eTIjNCAyIt#Bp{qaP<O8IQjVoF>+slXajMao%}+56#_h6
-zA{3$-oqU|V8AMbAoL#+`qLo3s|NjdzKq?9<>lrf{K!!xCgT$9Gh-f<kHDM?Nssb5S
-z03s5gY7<0U*aBRFefbvnuujep6y_4RV1DvxuxXX=MDbU?l82pr3qWS&<R&aoo}9(7
-zKyq>>7t;daNwt#`7$zt1{09PtC5nQ~jEzfx1j9n{1)`I)xY!GXSeY1j84?Q;IuaQe
-zmLzUwWxg%R<j*qsp^UJth-JL1fgwY*a*RGREYu(#LJ|mY_6vztM-l+35bzY+{9Q(x
-zQ9ZiJizUD#Ac!O0!_$Q~z%RhS(ZGy>BR&+wbM{p5$S*0#DNUdJR#ukn2+t87Mv2J+
-da+#d|nlT^?1>7e$$=R`quz@Vuyk9Pe2>{`!ixL0;
-
-delta 62
-zcmdnzI?;*CCD<iIP?3RwasNiH-%OiTSZ+%)icDsd6J{3h72F&sC(Sr{hkQDxhh|KC
-Suv5H%!(<HwyUn=@flL4**AWN+
-
+diff --git a/docs/system/multi-process.rst b/docs/system/multi-process.rst
+index 46bb0cafc2..210531ee17 100644
+--- a/docs/system/multi-process.rst
++++ b/docs/system/multi-process.rst
+@@ -45,7 +45,7 @@ Following is a description of command-line used to launch mpqemu.
+       -device lsi53c895a,id=lsi0                                         \
+       -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
+       -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0  \
+-      -object x-remote-object,id=robj1,devid=lsi1,fd=4,
++      -object x-remote-object,id=robj1,devid=lsi0,fd=4,
+ 
+ * QEMU:
+ 
 -- 
-2.30.2
+2.17.1
 
 
