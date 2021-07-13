@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E98B3C68D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 05:16:20 +0200 (CEST)
-Received: from localhost ([::1]:48216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB49B3C68E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 05:26:22 +0200 (CEST)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m38uA-0005k5-W2
-	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 23:16:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50642)
+	id 1m393t-0001Ji-HI
+	for lists+qemu-devel@lfdr.de; Mon, 12 Jul 2021 23:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1m38sr-0004gn-9D; Mon, 12 Jul 2021 23:14:57 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39697)
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1m392d-0000Fg-3J
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 23:25:03 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:44552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
- id 1m38sp-00052j-II; Mon, 12 Jul 2021 23:14:56 -0400
-Received: by mail-wr1-x435.google.com with SMTP id f17so28434019wrt.6;
- Mon, 12 Jul 2021 20:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=xOo8X9eGtDGtE4fN+bJhxWrOuktKzY54MAxp7iyHlZw=;
- b=ix/oKmMFdqsguxXtU+GHtM2B/zbH1S//SS13Itj1NFlGK/tMsG+Z/1/bGxdzZihVAI
- wZ/tkwpEFDKk3CP+GD/30tkekF7tIVtIKbyMPd+UfBqy019SoljGvrQ29lDUHiH0X3CX
- 21cFVhLAis9kz/RUNRXeFbU8YElIhtKRj2MX+bLzGYKw/MA9x38C31Bc1Dp2rdkmZDBT
- ve45IUletnuJVK2pliYa59ndJcbwCdB+leioaJlj6EMaevJuG+7NDToTKPYch1ik6qm7
- DRwtrQPw5VKIwe46oZAa65BipZdGX7SVFHdxdRj7vOXVZk/MFEBLyDC4CY5ooAQYDZpn
- 4zPw==
+ (Exim 4.90_1) (envelope-from <viresh.kumar@linaro.org>)
+ id 1m392Z-0005Is-6v
+ for qemu-devel@nongnu.org; Mon, 12 Jul 2021 23:25:02 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ p4-20020a17090a9304b029016f3020d867so1227990pjo.3
+ for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 20:24:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=xdGSq4xkSbFxXKYKUFuqVQ2blLXXe589pueDmTQ1kLQ=;
+ b=Z7SSti1r7ZYtrgVPpeeH2r6hlHIZ5+o3lxdPO5bY6q3qxAs6lAI5H9/b6z2YydLcjy
+ INYt6fyZ3zyFQOAcStIqV1GlJVlzRbFJ7TqGr5sniQP4zOcPDKA60CqcntAl8ROa/nrR
+ 0d3bJSx3vsra+ziHIroMnTupdRV79KhD0bCTNrsQ3gkXc2ZZttFXsTtJmciPOzqBIElx
+ b6r/BdC+qNrDdlS4C7xobBt/OF3YnNmimK69NdreTBYuJATevX4i1VKjWMwd5t6p1syA
+ ZbGiVYRpR0q1qHo2nKA7LRbthhLzAuQDo1fG3nvlyst201s8IdeDCMMxo5+Doi4PY0hY
+ sc3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=xOo8X9eGtDGtE4fN+bJhxWrOuktKzY54MAxp7iyHlZw=;
- b=nOQGYiDsLqV8U/hgqwEzvkULKDMkz1P1wrBh2szNYfLaHqvP1WNj9Imi1jALwFyPtz
- MDOH/XTlVj2UUinBa6n5CUEnsVoutS/FH52P6BcJbX8jj2UXOzmVnVuqJ9B0QcThCpex
- XfgNoHVuZ8llQgLdMPneJPjctKND4bycljobtFAfkpitzo27h4yCSl00s/yn3Fc5CbwI
- 8pXDGv7riHRD93u0yJaOU9xlwtRBd/sIZS6NyC/gvn83QCZEErGSGDZSYl+VagIPOB1f
- J0qM7qeroDTvlPt0K5pKm7xX9VeSh6Q/cPIyT6iFubew+Nyk7zqeVwY/wsCSJNPkdkTh
- 9erA==
-X-Gm-Message-State: AOAM530IQ/yX9H2c6YyyiJTiYuNEjeYJ/cz9d251jJpeFBlBqt+LmLcN
- Ce6kX4Uo1+qXt1iI5PS+fE8=
-X-Google-Smtp-Source: ABdhPJyUkGsEon/MnKkVR2gI0RjV8g4Ed9DjpZJhrAr0C6M8gfB+zB3kBKuAzvp9jTevJQOOxiQL1w==
-X-Received: by 2002:adf:a1c2:: with SMTP id v2mr2629308wrv.155.1626146092983; 
- Mon, 12 Jul 2021 20:14:52 -0700 (PDT)
-Received: from localhost ([147.78.177.108])
- by smtp.gmail.com with ESMTPSA id o3sm15293671wrm.5.2021.07.12.20.14.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 12 Jul 2021 20:14:52 -0700 (PDT)
-From: Qiang Liu <cyruscyliu@gmail.com>
-To: 
-Subject: [PATCH] hw/display/xlnx_dp: fix an out-of-bounds read in xlnx_dp_read
-Date: Tue, 13 Jul 2021 11:14:43 +0800
-Message-Id: <1626146083-19434-1-git-send-email-cyruscyliu@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=cyruscyliu@gmail.com; helo=mail-wr1-x435.google.com
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=xdGSq4xkSbFxXKYKUFuqVQ2blLXXe589pueDmTQ1kLQ=;
+ b=jOwZ37UXXrsK2qFmhDTfp4BTc5aWO5Unpa03zgIaFUYlWwJwn7cAZaZr+Qb5Eyei/p
+ qF6K6Jy24OSYoNfQ0wpWF4aOPiVkm+yQl4H15n2zk+PYqO82A/KJyf3LK3/23WP0y5rh
+ gKVpiBq8nAtmepYQZIxl0CE3bFdDLY8ifAYiy0VcmiqgfjTAvF8xPgmDnS9jgrMUB7ti
+ NV9r3WqurDEpLPTg08/pPo7icUEN5yOwwgoxoDYZV5YBk2P6T/eg9+Ze8HlJ5iv4u1zq
+ iJlJm8isE20GMrEv4/xoo0cRhmoYE1Q3F7IsikvLc2+ZkG45OuM9jMBsE29nFhJWe7Sh
+ hrtg==
+X-Gm-Message-State: AOAM533ZOU/QdmNIpZEcMcXStZlaSXO1nfLOP9pVK2Hy7Qu6pUDjrIUv
+ t9QCVUoALjEvs8p2E2SB2khNPw==
+X-Google-Smtp-Source: ABdhPJykMrNdss8IIaGueZniHnan9XcyHSi52ahpCYgyfFj6DDgxI/qzhUjV3WoVtcmZI6PJnqUMKQ==
+X-Received: by 2002:a17:90a:3c8d:: with SMTP id
+ g13mr17235810pjc.229.1626146696952; 
+ Mon, 12 Jul 2021 20:24:56 -0700 (PDT)
+Received: from localhost ([106.201.108.2])
+ by smtp.gmail.com with ESMTPSA id q17sm17220379pfk.186.2021.07.12.20.24.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 12 Jul 2021 20:24:55 -0700 (PDT)
+Date: Tue, 13 Jul 2021 08:54:53 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH] gitignore: Update with some filetypes
+Message-ID: <20210713032453.edryxntclvrkko32@vireshk-i7>
+References: <79262dbe1f7888eb02e1911501eebafa6f2f6400.1616583806.git.viresh.kumar@linaro.org>
+ <877djl3d78.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <877djl3d78.fsf@linaro.org>
+User-Agent: NeoMutt/20180716-391-311a52
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=viresh.kumar@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -74,85 +88,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Qiang Liu <cyruscyliu@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- "open list:Xilinx ZynqMP and..." <qemu-arm@nongnu.org>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-xlnx_dp_read allows an out-of-bounds read at its default branch because
-of an improper index.
+On 26-05-21, 13:13, Alex Bennée wrote:
+> 
+> Viresh Kumar <viresh.kumar@linaro.org> writes:
+> 
+> > Update .gitignore to ignore .swp and .patch files.
+> >
+> > Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+> 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 
-According to
-https://www.xilinx.com/html_docs/registers/ug1087/ug1087-zynq-ultrascale-registers.html
-(DP Module), registers 0x3A4/0x3A4/0x3AC are allowed.
+No one picked it up yet, do I need to do something here ?
 
-DP_INT_MASK	0x000003A4	32	mixed	0xFFFFF03F	Interrupt Mask Register for intrN.
-DP_INT_EN	0x000003A8	32	mixed	0x00000000	Interrupt Enable Register.
-DP_INT_DS	0x000003AC	32	mixed	0x00000000	Interrupt Disable Register.
-
-In xlnx_dp_write, when the offset is 0x3A8 and 0x3AC, the virtual device
-will write s->core_registers[0x3A4
->> 2]. That is to say, the maxize of s->core_registers could be ((0x3A4
->> 2) + 1). However, the current size of s->core_registers is (0x3AF >>
->> 2), that is ((0x3A4 >> 2) + 2), which is out of the range.
-In xlxn_dp_read, the access to offset 0x3A8 or 0x3AC will be directed to
-the offset 0x3A8 (incorrect functionality) or 0x3AC (out-of-bounds read)
-rather than 0x3A4.
-
-This patch adjusts the size of s->core_registers and enforces the read
-access to offset 0x3A* and 0x3AC to 0x3A4. BTW, because the size of this
-MMIO region is 0x3AF, this patch also removes the assertion in
-xlnx_dp_write.
-
-Fixes: 58ac482a66de ("introduce xlnx-dp")
-Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
----
- hw/display/xlnx_dp.c         | 7 ++++---
- include/hw/display/xlnx_dp.h | 2 +-
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 7bcbb13..8903181 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -713,8 +713,10 @@ static uint64_t xlnx_dp_read(void *opaque, hwaddr offset, unsigned size)
-         ret = 0;
-         break;
-     default:
--        assert(offset <= (0x3AC >> 2));
--        ret = s->core_registers[offset];
-+        if (offset == (0x3A8 >> 2) || offset == (0x3AC >> 2))
-+            ret = s->core_registers[DP_INT_MASK];
-+        else 
-+            ret = s->core_registers[offset];
-         break;
-     }
- 
-@@ -876,7 +878,6 @@ static void xlnx_dp_write(void *opaque, hwaddr offset, uint64_t value,
-         xlnx_dp_update_irq(s);
-         break;
-     default:
--        assert(offset <= (0x504C >> 2));
-         s->core_registers[offset] = value;
-         break;
-     }
-diff --git a/include/hw/display/xlnx_dp.h b/include/hw/display/xlnx_dp.h
-index e85e428..99a6d47 100644
---- a/include/hw/display/xlnx_dp.h
-+++ b/include/hw/display/xlnx_dp.h
-@@ -39,7 +39,7 @@
- #define AUD_CHBUF_MAX_DEPTH                 (32 * KiB)
- #define MAX_QEMU_BUFFER_SIZE                (4 * KiB)
- 
--#define DP_CORE_REG_ARRAY_SIZE              (0x3AF >> 2)
-+#define DP_CORE_REG_ARRAY_SIZE              (0x3A8 >> 2)
- #define DP_AVBUF_REG_ARRAY_SIZE             (0x238 >> 2)
- #define DP_VBLEND_REG_ARRAY_SIZE            (0x1DF >> 2)
- #define DP_AUDIO_REG_ARRAY_SIZE             (0x50 >> 2)
 -- 
-2.7.4
-
+viresh
 
