@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0E33C7485
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:30:02 +0200 (CEST)
-Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18A2C3C749A
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:33:43 +0200 (CEST)
+Received: from localhost ([::1]:32992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LIH-0003ja-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:30:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
+	id 1m3LLq-00026a-4s
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:33:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3LGR-00080W-8O
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:28:07 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45869)
+ id 1m3LDp-0001Bs-Ji; Tue, 13 Jul 2021 12:25:25 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3LGP-0004R3-C3
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:28:06 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- u8-20020a7bcb080000b02901e44e9caa2aso2755053wmj.4
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:28:04 -0700 (PDT)
+ id 1m3LDo-0002A7-48; Tue, 13 Jul 2021 12:25:25 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso2036221wmh.4; 
+ Tue, 13 Jul 2021 09:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tOXLfBRxl9jR8v0SSW+tlnn4Nah1FsfFTxsOyv2drsI=;
- b=hrPNOowmqMUSF20IQpGqlqSQ8XIONwuTZwuCEcC36S1npvg0QhbdJE8S66UuxLZ0F5
- Wu3hcK62RfJB55iSuaUVj0qVShLqvb280UK8wqLbxnN9TwFtgGDzVtdlKW6hLuY4grYL
- D6RXgCtTq1bRpIvz6HAhUHr43Pd1o+R7sygvgvir8W4T+aIJb5mwgy6mfvGOhGh4UE0Z
- W36KVu+OYNqPldUhLC6g1jCrxD/O2j1+I8+VfVk3zuVXaWWw/9lHVKefThVds5MOT7em
- /sXgmhBqXChKk2nnV3D11jUS+0x1d/j2r5vOsJ5M7uurTF7+8ZREMk0RPMVYNLTzc02s
- lImA==
+ bh=FKcvy4P506OZELcLSPYwYcapLEA3QqyPpE/yLcD855U=;
+ b=rpHoJcqExOQQ0yM47tZM1RcHVhrLpNgevEXnTNSMxAdbwAzQglBXHCfe9zZv41tpY8
+ V+PLv+p5vX4lc9uhDTOBzksTSGPdaLqKvipey7OZcwJ3gd2bXAHU4hqjxf/baA0fFg+2
+ QNVm/I1XZJSRQ4NnKXC78heW8daHE6xV6Oxh2yrgXIotGQD4zlxOwcbomJcQQEJskq4R
+ jcOAd7CWaweASF17J66N1WK3TZEN0Ej+6ETmjNXD9hrvJkS6ReAbGJRIxeHKcpVtjvAJ
+ N7qnJeMYoB4uPYlm4VKTUkGxGpMcFPmWQpdaO9w95AJNoJbSSsPERdRvWpBsKk50uUis
+ o2BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tOXLfBRxl9jR8v0SSW+tlnn4Nah1FsfFTxsOyv2drsI=;
- b=Qy/EPObvIm8eaD/VZ27ZkYTnLlqWjqPUiXnNfqtQLKbbAftGtiAHIF0YxZbQjyrzLq
- ipKsbN0ugMsD6zilou2geRPqH9YuvHPERDSbZpyFhXeb5wG1yPOeRXmWRawqh45EEWh+
- 65UyX4rJ6bmf3MhKEtnRgE7bIq8aALpPq/IMD8lfUus59hJfXSCthfjgptNx3lv6Su1a
- NoNc2IeFbdnvxO6Sgkp8R6IQs73+8BWs1LVGevGJnvAFY0/SxmO7N31VfYv1iVJ3glte
- 4gn33lC99d9hwyKRnSuGaRdiJx8dgiuUm4D7k3wasiZ8pDcsuVVnLJ53e/IbOUCtLK73
- 86eg==
-X-Gm-Message-State: AOAM530ihApHh0bnadS8PNDW8O44tHzUolB//n8IM2KlfQNFa7rdoi/7
- NM5rlkkDYbHWMU3FXohonEpNBh/eZxSE5w==
-X-Google-Smtp-Source: ABdhPJwPtgUaKgfMcLf5CtNbqEX9Zj3sbfz14SLuyprzKhxlMFUx/O3I9jETjKR07mc6n+qjgJC7Dg==
-X-Received: by 2002:a05:600c:3589:: with SMTP id
- p9mr230621wmq.182.1626193683720; 
- Tue, 13 Jul 2021 09:28:03 -0700 (PDT)
+ bh=FKcvy4P506OZELcLSPYwYcapLEA3QqyPpE/yLcD855U=;
+ b=psjMo8ugek/McCHP5Con0DKdq+RMST0/i+HK+hwjhezzfYk83pqVtvHVQMM0dxqDOS
+ OSje9cycXlgf1a9QKKhgCe0O7nPVMbUPrVhcPx4HPjCBU6fEbkFez0s+k0oCIWJ4Lgah
+ Rz94YmVe+8UQWlQbMAzOzSl+6tCH5ZYmq6Z8NB+fkUcZ7Nzbfd8XSgqj/ocubzSYX68n
+ UCro6YFGjCo1TlshPU3yQwV5ahNodpmqVDpZ8ujXwCM/JHmUBNgSCwK8KkWrEN+bm5pI
+ 8wjY5UicQ1A1oehyQV+ELKt0MFjR2R+5aHgd40IGKFhoqcD0MFbFHBA8uzSCXzfwICSQ
+ GMxQ==
+X-Gm-Message-State: AOAM530F+LmWQUILWvK8ss04trLkgVSdhpjr2f+TZX4OJtxasSzpJKac
+ Esp9LVuV1rGwtJqpuQBtOJI=
+X-Google-Smtp-Source: ABdhPJyKTLCWk9miIyRQ4rqAxhSBhu+9dVVRZ7y5Jppf9RU2E7QQcxkhtPDnFFXgt4xBuvMfq01fWg==
+X-Received: by 2002:a05:600c:1c0d:: with SMTP id
+ j13mr6141816wms.34.1626193522318; 
+ Tue, 13 Jul 2021 09:25:22 -0700 (PDT)
 Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
  [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id o3sm17328115wrm.5.2021.07.13.09.28.00
+ by smtp.gmail.com with ESMTPSA id l14sm12644117wrs.22.2021.07.13.09.25.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 09:28:02 -0700 (PDT)
-Subject: Re: [PATCH 02/11] accel/tcg: Remove unused variable in cpu_exec
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210712215535.1471256-1-richard.henderson@linaro.org>
- <20210712215535.1471256-3-richard.henderson@linaro.org>
+ Tue, 13 Jul 2021 09:25:20 -0700 (PDT)
+Subject: Re: [PATCH v2 1/3] docs: Add skeletal documentation of cubieboard
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210713142226.19155-1-peter.maydell@linaro.org>
+ <20210713142226.19155-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <801f2380-393a-b5df-5396-d1ccd9d24f86@amsat.org>
-Date: Tue, 13 Jul 2021 18:27:59 +0200
+Message-ID: <65ba54f9-7e22-f323-0488-185e8c990bb3@amsat.org>
+Date: Tue, 13 Jul 2021 18:25:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210712215535.1471256-3-richard.henderson@linaro.org>
+In-Reply-To: <20210713142226.19155-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,50 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Beniamino Galvani <b.galvani@gmail.com>, Rob Herring <robh@kernel.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/21 11:55 PM, Richard Henderson wrote:
-> From clang-13:
-> accel/tcg/cpu-exec.c:783:15: error: variable 'cc' set but not used \
->     [-Werror,-Wunused-but-set-variable]
+On 7/13/21 4:22 PM, Peter Maydell wrote:
+> Add skeletal documentation of the cubieboard machine.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  accel/tcg/cpu-exec.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index e22bcb99f7..a8d8cea586 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -780,7 +780,6 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
->  
->  int cpu_exec(CPUState *cpu)
->  {
-> -    CPUClass *cc = CPU_GET_CLASS(cpu);
->      int ret;
->      SyncClocks sc = { 0 };
->  
-> @@ -819,14 +818,12 @@ int cpu_exec(CPUState *cpu)
->           * so we only perform the workaround for clang.
->           */
->          cpu = current_cpu;
-> -        cc = CPU_GET_CLASS(cpu);
->  #else
->          /*
->           * Non-buggy compilers preserve these locals; assert that
->           * they have the correct value.
+>  docs/system/arm/cubieboard.rst | 16 ++++++++++++++++
+>  docs/system/target-arm.rst     |  1 +
+>  MAINTAINERS                    |  1 +
+>  3 files changed, 18 insertions(+)
+>  create mode 100644 docs/system/arm/cubieboard.rst
 
-Maybe update comment to singular, otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->           */
->          g_assert(cpu == current_cpu);
-> -        g_assert(cc == CPU_GET_CLASS(cpu));
->  #endif
->  
->  #ifndef CONFIG_SOFTMMU
-> 
-
 
