@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605C43C71D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:06:11 +0200 (CEST)
-Received: from localhost ([::1]:51318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB393C71BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:03:06 +0200 (CEST)
+Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3J34-0006CU-C0
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:06:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54764)
+	id 1m3J05-0000Gc-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:03:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3Ibt-0000Wk-Db
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:38:06 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35490)
+ id 1m3Ibt-0000W4-8B
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:38:05 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3Ibi-0003q5-IE
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:38:05 -0400
-Received: by mail-wr1-x435.google.com with SMTP id m2so19483547wrq.2
+ id 1m3Ibi-0003qR-RG
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:38:04 -0400
+Received: by mail-wr1-x432.google.com with SMTP id l7so29613268wrv.7
  for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 06:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xdTiVrTGrjwqxBrVWc02ZyC5Zuxj4JEnIGJ5DSfl9U4=;
- b=AXeeUJfeCTahTk0Hs73SVfHTU3+XXQffQhq6aAS4UwsRCaCxnCXzeCQgCp8gZZ+Gkf
- bC55Qcx3c4lwH5PLeRJniY5IMp2RrANCfDv4Y08EmaUlSCw73xzTV3ga0gGyEdsWRtn5
- /b1D0b7HKTYgZCOCMh0EjoWTeOgN1R8pl10X9jdwS6B/eHp1gTKn+8dzmA0axYfFI8A0
- yXVtZJGsVYqyS2y+BztJ125ZUAejHKkSYrIbClWXpM93Bvxy5I6SBSvzkZc7gslhwGqk
- eYKc8Fn8FbQWG8tGKgoTZ15a7WAi1kUaidzG6trDZTL217/Wrm4akrGnX5mto2s4Fb95
- vTsg==
+ bh=jcneWcHtRSIWZQaKInlpxUM3P5jf//GWQwWQ0tWibxQ=;
+ b=VLLBm8gzy+J77EPIHFW42M3zd3AfUbT2GcsCckWaLh8SURn9o8j+YwUvnSdsuk5e26
+ nc9jqmgr4pay/VBhOG/JGxStW7KJD1xsNR5YykBujOSGBHMxFz3kgBFYKaUHMCumq53l
+ +l/pHZ3ITgNNTLwIcHtUQqpDblxyrZVfjjhEIDt0bvE35hD5Vx8VK+1fIeiSJviNd0MA
+ 7CacftQNpqE10Ovb/7sIcVFKuYLnrLCVGI23u7+9ETJ7KkTPRVQgWkUAqK4ZDC/DgEME
+ otYsUMciM45ubOOXqHC5dz4oUtX0iKRJbgKx6BCf8RUe3Pr7W688y5KeBYRu+G7uAlXV
+ DLLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xdTiVrTGrjwqxBrVWc02ZyC5Zuxj4JEnIGJ5DSfl9U4=;
- b=jvaaci+tEM/mBPSvqanxhZ/rcStlkuaOcKTmFq3Z9i85OmA90C6L7yUjcFxot4Fa0c
- c869uNlBDNB1goDRM2CWVqVP2u/HBrqKMBMi7IMjpNwqH4NmTjtILAoV/eQA9ib2h8D9
- KJXfIBRISJveZb/4vzaPTsrvIdYe36+HrpBXfZa+URzfGJssVXff7gzjvEa5KeWkuvcu
- UMg8yBbbOeUFe57lUxzcQe2LOW0X84uxZt6ieBBxUI9MrfEpT9jWi1UdqKlIoUs8dh6T
- BrbLHRHZgfaBB1ruAevLu0FKz3zGOgEURvqCUldg+kk+IgFm+gstnGUeJ2ngzVteg2Yx
- SN4g==
-X-Gm-Message-State: AOAM530lDsIeN4LvKMSQZstfAGaDgBYHr0QnjPxWr8BZDZkEo1M7MWJN
- U+fQDJwXM/jielgvVclPC64Qhtord7K5N3ss
-X-Google-Smtp-Source: ABdhPJzySUwMdE76HsEfWvu8an/vcUOGr80w2pP6i8kmSmJvA0YWSWzv12hvNj2B3/JVKD90mTbw2w==
-X-Received: by 2002:a5d:420b:: with SMTP id n11mr5816072wrq.395.1626183471783; 
- Tue, 13 Jul 2021 06:37:51 -0700 (PDT)
+ bh=jcneWcHtRSIWZQaKInlpxUM3P5jf//GWQwWQ0tWibxQ=;
+ b=X7zaAY5p5RizHvgfLhhJPBVucW0f0ztQDCRU1YbaPtwwfUBVDOaB7kM3y44TJvawdi
+ Z0XCIHUN5H+osy9btlElobjL0Cpis9/CqMLxOaWlondFtrhPQZCvzLzQ/hVHn3krGhJD
+ 6+rdRspoNthgsH8J28MVwAxTfYmj9rY+2QWiq9iXMQ9S/9BTa9GZld4fxEYl+3l7zFvP
+ N7xjaRRf8QrY16sZb5gAodvIa/MDme5u5ZVmYdfKBj+onW/yFHkbxJ/zs9EwlSjbZv4c
+ 908g/dTkXNCZGwU6I17BrZ7PmtjYjxS0uDDMyedLTPdO2nrAwk8qjCNPLX4+ZhjtE0cA
+ NqvA==
+X-Gm-Message-State: AOAM53202ZuA9p9DkKyqFvA+2W9mtX6tJc2hfMPHbZmPPEi4oPObLeNt
+ BuTPfOm0mciHFMmCTq3QEpUOCg==
+X-Google-Smtp-Source: ABdhPJwW7RYDsb1ajKd3dsrRi/any7DBm2NZnDjhRSqaIN4/PsQgJqdcVO77BdryfUHxqcqO6VT5EA==
+X-Received: by 2002:a5d:48ce:: with SMTP id p14mr5919155wrs.170.1626183473595; 
+ Tue, 13 Jul 2021 06:37:53 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j6sm9827443wrm.97.2021.07.13.06.37.51
+ by smtp.gmail.com with ESMTPSA id j6sm9827443wrm.97.2021.07.13.06.37.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 06:37:51 -0700 (PDT)
+ Tue, 13 Jul 2021 06:37:53 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 30/34] target/arm: Implement MVE VPNOT
-Date: Tue, 13 Jul 2021 14:37:22 +0100
-Message-Id: <20210713133726.26842-31-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 31/34] target/arm: Implement MVE VCTP
+Date: Tue, 13 Jul 2021 14:37:23 +0100
+Message-Id: <20210713133726.26842-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210713133726.26842-1-peter.maydell@linaro.org>
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,63 +86,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VPNOT insn, which inverts the bits in VPR.P0
-(subject to both predication and to beatwise execution).
+Implement the MVE VCTP insn, which sets the VPR.P0 predicate bits so
+as to predicate any element at index Rn or greater is predicated.  As
+with VPNOT, this insn itself is predicable and subject to beatwise
+execution.
+
+The calculation of the mask is the same as is used to determine
+ltpmask in mve_element_mask(), but we precalculate masklen in
+generated code to avoid having to have 4 helpers specialized by size.
+
+We put the decode line in with the low-overhead-loop insns in
+t32.decode because it's logically part of that collection of insn
+patterns, even though it is an MVE only insn.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-mve.h    |  1 +
- target/arm/mve.decode      |  1 +
- target/arm/mve_helper.c    | 17 +++++++++++++++++
- target/arm/translate-mve.c | 19 +++++++++++++++++++
- 4 files changed, 38 insertions(+)
+ target/arm/helper-mve.h    |  2 ++
+ target/arm/translate-a32.h |  1 +
+ target/arm/t32.decode      |  1 +
+ target/arm/mve_helper.c    | 20 ++++++++++++++++++++
+ target/arm/translate-mve.c |  2 +-
+ target/arm/translate.c     | 33 +++++++++++++++++++++++++++++++++
+ 6 files changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index c36640e75e9..5844bb891ed 100644
+index 5844bb891ed..55f9151ccbf 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -123,6 +123,7 @@ DEF_HELPER_FLAGS_4(mve_vorn, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- DEF_HELPER_FLAGS_4(mve_veor, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
- 
+@@ -125,6 +125,8 @@ DEF_HELPER_FLAGS_4(mve_veor, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  DEF_HELPER_FLAGS_4(mve_vpsel, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-+DEF_HELPER_FLAGS_1(mve_vpnot, TCG_CALL_NO_WG, void, env)
+ DEF_HELPER_FLAGS_1(mve_vpnot, TCG_CALL_NO_WG, void, env)
  
++DEF_HELPER_FLAGS_2(mve_vctp, TCG_CALL_NO_WG, void, env, i32)
++
  DEF_HELPER_FLAGS_4(mve_vaddb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  DEF_HELPER_FLAGS_4(mve_vaddh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
-diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 6ac9cb8e4d4..82dc07bc30e 100644
---- a/target/arm/mve.decode
-+++ b/target/arm/mve.decode
-@@ -573,6 +573,7 @@ VCMPGT            1111 1110 0 . .. ... 1 ... 1 1111 0 0 . 0 ... 1 @vcmp
- VCMPLE            1111 1110 0 . .. ... 1 ... 1 1111 1 0 . 0 ... 1 @vcmp
+ DEF_HELPER_FLAGS_4(mve_vaddw, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
+index 6f4d65ddb00..88f15df60e8 100644
+--- a/target/arm/translate-a32.h
++++ b/target/arm/translate-a32.h
+@@ -48,6 +48,7 @@ long neon_element_offset(int reg, int element, MemOp memop);
+ void gen_rev16(TCGv_i32 dest, TCGv_i32 var);
+ void clear_eci_state(DisasContext *s);
+ bool mve_eci_check(DisasContext *s);
++void mve_update_eci(DisasContext *s);
+ void mve_update_and_store_eci(DisasContext *s);
+ bool mve_skip_vmov(DisasContext *s, int vn, int index, int size);
  
- {
-+  VPNOT           1111 1110 0 0 11 000 1 000 0 1111 0100 1101
-   VPST            1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
-   VCMPEQ_scalar   1111 1110 0 . .. ... 1 ... 0 1111 0 1 0 0 .... @vcmp_scalar
+diff --git a/target/arm/t32.decode b/target/arm/t32.decode
+index 2d47f31f143..78fadef9d62 100644
+--- a/target/arm/t32.decode
++++ b/target/arm/t32.decode
+@@ -748,5 +748,6 @@ BL               1111 0. .......... 11.1 ............         @branch24
+       # This is DLSTP
+       DLS        1111 0 0000 0 size:2 rn:4 1110 0000 0000 0001
+     }
++    VCTP         1111 0 0000 0 size:2 rn:4 1110 1000 0000 0001
+   ]
  }
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 40e652229d6..6efb3c69636 100644
+index 6efb3c69636..210e70d1727 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -2214,6 +2214,23 @@ void HELPER(mve_vpsel)(CPUARMState *env, void *vd, void *vn, void *vm)
+@@ -2231,6 +2231,26 @@ void HELPER(mve_vpnot)(CPUARMState *env)
      mve_advance_vpt(env);
  }
  
-+void HELPER(mve_vpnot)(CPUARMState *env)
++/*
++ * VCTP: P0 unexecuted bits unchanged, predicated bits zeroed,
++ * otherwise set according to value of Rn. The calculation of
++ * newmask here works in the same way as the calculation of the
++ * ltpmask in mve_element_mask(), but we have pre-calculated
++ * the masklen in the generated code.
++ */
++void HELPER(mve_vctp)(CPUARMState *env, uint32_t masklen)
 +{
-+    /*
-+     * P0 bits for unexecuted beats (where eci_mask is 0) are unchanged.
-+     * P0 bits for predicated lanes in executed bits (where mask is 0) are 0.
-+     * P0 bits otherwise are inverted.
-+     * (This is the same logic as VCMP.)
-+     * This insn is itself subject to predication and to beat-wise execution,
-+     * and after it executes VPT state advances in the usual way.
-+     */
 +    uint16_t mask = mve_element_mask(env);
 +    uint16_t eci_mask = mve_eci_mask(env);
-+    uint16_t beatpred = ~env->v7m.vpr & mask;
-+    env->v7m.vpr = (env->v7m.vpr & ~(uint32_t)eci_mask) | (beatpred & eci_mask);
++    uint16_t newmask;
++
++    assert(masklen <= 16);
++    newmask = masklen ? MAKE_64BIT_MASK(0, masklen) : 0;
++    newmask &= mask;
++    env->v7m.vpr = (env->v7m.vpr & ~(uint32_t)eci_mask) | (newmask & eci_mask);
 +    mve_advance_vpt(env);
 +}
 +
@@ -150,35 +177,62 @@ index 40e652229d6..6efb3c69636 100644
      void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
      {                                                                   \
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 43f917e609e..be961864ada 100644
+index be961864ada..be5a3e1a1f5 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -889,6 +889,25 @@ static bool trans_VPST(DisasContext *s, arg_VPST *a)
+@@ -93,7 +93,7 @@ bool mve_eci_check(DisasContext *s)
+     }
+ }
+ 
+-static void mve_update_eci(DisasContext *s)
++void mve_update_eci(DisasContext *s)
+ {
+     /*
+      * The helper function will always update the CPUState field,
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 28e478927df..e0b0cabc39f 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -8677,6 +8677,39 @@ static bool trans_LCTP(DisasContext *s, arg_LCTP *a)
      return true;
  }
  
-+static bool trans_VPNOT(DisasContext *s, arg_VPNOT *a)
++static bool trans_VCTP(DisasContext *s, arg_VCTP *a)
 +{
 +    /*
-+     * Invert the predicate in VPR.P0. We have call out to
-+     * a helper because this insn itself is beatwise and can
-+     * be predicated.
++     * M-profile Create Vector Tail Predicate. This insn is itself
++     * predicated and is subject to beatwise execution.
 +     */
-+    if (!dc_isar_feature(aa32_mve, s)) {
++    TCGv_i32 rn_shifted, masklen;
++
++    if (!dc_isar_feature(aa32_mve, s) || a->rn == 13 || a->rn == 15) {
 +        return false;
 +    }
++
 +    if (!mve_eci_check(s) || !vfp_access_check(s)) {
 +        return true;
 +    }
 +
-+    gen_helper_mve_vpnot(cpu_env);
++    /*
++     * We pre-calculate the mask length here to avoid having
++     * to have multiple helpers specialized for size.
++     * We pass the helper "rn <= (1 << (4 - size)) ? (rn << size) : 16".
++     */
++    rn_shifted = tcg_temp_new_i32();
++    masklen = load_reg(s, a->rn);
++    tcg_gen_shli_i32(rn_shifted, masklen, a->size);
++    tcg_gen_movcond_i32(TCG_COND_LEU, masklen,
++                        masklen, tcg_constant_i32(1 << (4 - a->size)),
++                        rn_shifted, tcg_constant_i32(16));
++    gen_helper_mve_vctp(cpu_env, masklen);
++    tcg_temp_free_i32(masklen);
++    tcg_temp_free_i32(rn_shifted);
 +    mve_update_eci(s);
 +    return true;
 +}
-+
- static bool trans_VADDV(DisasContext *s, arg_VADDV *a)
+ 
+ static bool op_tbranch(DisasContext *s, arg_tbranch *a, bool half)
  {
-     /* VADDV: vector add across vector */
 -- 
 2.20.1
 
