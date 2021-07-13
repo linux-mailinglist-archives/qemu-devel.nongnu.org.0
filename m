@@ -2,64 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54553C7473
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:26:10 +0200 (CEST)
-Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67FCC3C73BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:01:19 +0200 (CEST)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LEX-00012I-MN
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:26:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36694)
+	id 1m3KqT-0004RQ-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:01:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m3L7u-0003g7-Ip
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26488)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m3Koa-0003jI-Ox
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:59:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1m3L7r-0006sw-LF
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:19:18 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m3KoY-0001aY-AI
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 11:59:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626193155;
+ s=mimecast20190719; t=1626191956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ALEnfj4s62YiLhb4PH6vAUPHNn69yqcAhnzmcAIB5hI=;
- b=S0osXQ2FcCRvCfJ3D1WXYivTYu+UZiSwZZiCsQd4lEg9HAbXk/1n8LEcuTxmrJ/M1T9ns/
- WFVtD447tUVy6/8WvtgDrfX4r+eEuGZS6M8iOw1NdEmXCFJPcNUmOsf1iRPTdm62bwDDGt
- y6E1+B6nigwU2YMyiQcZOibzixLtZ5M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-eKtbZfxoM_i_gZY6WOWK4g-1; Tue, 13 Jul 2021 12:19:13 -0400
-X-MC-Unique: eKtbZfxoM_i_gZY6WOWK4g-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 468EF801AEB;
- Tue, 13 Jul 2021 16:19:12 +0000 (UTC)
-Received: from localhost (ovpn-112-172.ams2.redhat.com [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCF455D6AB;
- Tue, 13 Jul 2021 16:19:11 +0000 (UTC)
-Date: Tue, 13 Jul 2021 15:58:04 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [PATCH 3/3] linux-aio: limit the batch size using
- `aio-max-batch` parameter
-Message-ID: <YO2p/Ns7SsV6LE1x@stefanha-x1.localdomain>
-References: <20210707150019.201442-1-sgarzare@redhat.com>
- <20210707150019.201442-4-sgarzare@redhat.com>
+ bh=1TtydL4aDmzsNx8moNybospMfkfRWqKTGBgZ0ln3vAQ=;
+ b=AGI/5oCTrFQKAIRIJIS/jiiswTCGlFw9PhqagJxo3kt7RIw0DD8baJ9ey7MaC3oIjuAEC3
+ Wg9rwfY46OEcBBc3GEkuRWClu3wIuDOhwJVKfgLmDOVXmRM32G6RDJX7DPW1/bLmkpHBHs
+ QVVBx2PJekPlvdMspbBTkkWkYxT64zU=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-nD5M-ELVOruf3T6TK_w_Ag-1; Tue, 13 Jul 2021 11:59:15 -0400
+X-MC-Unique: nD5M-ELVOruf3T6TK_w_Ag-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ o14-20020a05620a0d4eb02903a5eee61155so182018qkl.9
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 08:59:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=1TtydL4aDmzsNx8moNybospMfkfRWqKTGBgZ0ln3vAQ=;
+ b=shwUdDNB/S/0Mdwx3DCsfySS3SegP15Kc6zb8+1sK+a82R4RB+PuozFeJIajBUtpqb
+ tMYHrOgMdl0YLoRJAnyCAsb45VCIiYjpnAgrqD/dgSeUM0bchOEdZrjiTlgq5YRUOXWp
+ 1zlcQCoBoIM4x7nSfnrvG7IrGsfifEC34X4N+XWFF3gD2/b9lt0EPzPZSojLB6J2jh8H
+ 9l0HFVxW5u2hSOg7BqQEnbTRE49AuWMB/6R+NMvwgU/FDjTyIrkeqeDsvH0XL5eEniZZ
+ MEYiWK88/dA71GBlMetjtGaAJ7VBy13LLa2iZnxY/lhfXGz7hYjJyRyBJadb5seOlk3V
+ v1Lg==
+X-Gm-Message-State: AOAM5334Yp99BZM9phWmbCVr/gQjK1dNZHa22xsHci/Fd+TbKvDLN/DI
+ CCjbtz5YHoqklkx6esIMQgMpPjf9UUa0vTKkrx6bTAnoAJxhRPhQ8zv1p+j4HG2hFCaUsTjbc8+
+ pze7A/z+JuuTeaf8=
+X-Received: by 2002:a0c:eece:: with SMTP id h14mr5647527qvs.12.1626191954725; 
+ Tue, 13 Jul 2021 08:59:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx4nShnH2GnAbF/cOXJtqy/u1g1eLzgv/cp84WMHudE7bZ09THkz5tQ0uHdHcFb4v6P37ZJEA==
+X-Received: by 2002:a0c:eece:: with SMTP id h14mr5647508qvs.12.1626191954462; 
+ Tue, 13 Jul 2021 08:59:14 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id c16sm8052731qka.122.2021.07.13.08.59.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 13 Jul 2021 08:59:13 -0700 (PDT)
+Date: Tue, 13 Jul 2021 11:59:12 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Wang, Wei W" <wei.w.wang@intel.com>
+Subject: Re: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Message-ID: <YO24UM1oWQqLMtvZ@t490s>
+References: <20210630200805.280905-1-peterx@redhat.com>
+ <9a8224c9a02b4d9395f6581b24deaa54@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210707150019.201442-4-sgarzare@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <9a8224c9a02b4d9395f6581b24deaa54@intel.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="u9obwYTG/0YXmETZ"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,55 +94,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---u9obwYTG/0YXmETZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Tue, Jul 13, 2021 at 08:40:21AM +0000, Wang, Wei W wrote:
+> On Thursday, July 1, 2021 4:08 AM, Peter Xu wrote:
+> > Taking the mutex every time for each dirty bit to clear is too slow, especially we'll
+> > take/release even if the dirty bit is cleared.  So far it's only used to sync with
+> > special cases with qemu_guest_free_page_hint() against migration thread,
+> > nothing really that serious yet.  Let's move the lock to be upper.
+> > 
+> > There're two callers of migration_bitmap_clear_dirty().
+> > 
+> > For migration, move it into ram_save_iterate().  With the help of MAX_WAIT
+> > logic, we'll only run ram_save_iterate() for no more than 50ms-ish time, so taking
+> > the lock once there at the entry.  It also means any call sites to
+> > qemu_guest_free_page_hint() can be delayed; but it should be very rare, only
+> > during migration, and I don't see a problem with it.
+> > 
+> > For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot to take
+> > that lock even when calling ramblock_sync_dirty_bitmap(), where another
+> > example is migration_bitmap_sync() who took it right.  So let the mutex cover
+> > both the
+> > ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.
+> > 
+> > It's even possible to drop the lock so we use atomic operations upon rb->bmap
+> > and the variable migration_dirty_pages.  I didn't do it just to still be safe, also
+> > not predictable whether the frequent atomic ops could bring overhead too e.g.
+> > on huge vms when it happens very often.  When that really comes, we can
+> > keep a local counter and periodically call atomic ops.  Keep it simple for now.
+> > 
+> > Cc: Wei Wang <wei.w.wang@intel.com>
+> > Cc: David Hildenbrand <david@redhat.com>
+> > Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+> > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > Cc: Juan Quintela <quintela@redhat.com>
+> > Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> 
+> FWIW
+> Reviewed-by: Wei Wang <wei.w.wang@intel.com>
 
-On Wed, Jul 07, 2021 at 05:00:19PM +0200, Stefano Garzarella wrote:
-> @@ -371,7 +375,7 @@ static int laio_do_submit(int fd, struct qemu_laiocb *laiocb, off_t offset,
->      s->io_q.in_queue++;
->      if (!s->io_q.blocked &&
->          (!s->io_q.plugged ||
-> -         s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
-> +         s->io_q.in_queue >= max_batch)) {
+Thanks, Wei.
 
-Is it safe to drop the MAX_EVENTS case?
+> 
+> If no one could help do a regression test of free page hint, please document something like this in the patch:
+> Locking at the coarser granularity is possible to minimize the improvement brought by free page hints, but seems not causing critical issues.
+> We will let users of free page hints to report back any requirement and come up with a better solution later.
 
-Perhaps the following can be used:
+Didn't get a chance to document it as it's in a pull now; but as long as you're
+okay with no-per-page lock (which I still don't agree with), I can follow this up.
 
-  int64_t max_batch = s->aio_context->aio_max_batch ?: DEFAULT_MAX_BATCH;
-  max_batch = MIN_NON_ZERO(MAX_EVENTS - s->io_q.in_flight + s->io_q.in_queue, max_batch);
+Are below parameters enough for me to enable free-page-hint?
 
-Here we'll only need to check against max_batch but it takes into
-account MAX_EVENT and in_flight.
+     -object iothread,id=io1 \
+     -device virtio-balloon,free-page-hint=on,iothread=io1 \
 
-Stefan
+I tried to verify it's running by tracing inside guest with kprobe
+report_free_page_func() but it didn't really trigger.  Guest has kernel
+5.11.12-300.fc34.x86_64, should be fairly new to have that supported.  Do you
+know what I'm missing?
 
---u9obwYTG/0YXmETZ
-Content-Type: application/pgp-signature; name="signature.asc"
+P.S. This also reminded me that, maybe we want an entry in qemu-options.hx for
+balloon device, as it has lots of options, some of them may not be easy to be
+setup right.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDtqfwACgkQnKSrs4Gr
-c8iGAQgAoYW2gIIuBdkaoqZ8FF7ibiAsfUHIfCZ924C7jaNChmadesnrvBunK1QB
-vaNAUKdu197lriv3Oq4sHe6J0JDDgKbZCdS/Wy6cUSK4W9CaRjoHWRsEeumQ/sbR
-8gT7ntrg1Se8Cri8kASX+Sl/Rl3wSDuj+Qrpzmn10jclkfBif80YiToO0X6gf/pW
-F4fzTPSJ8MBjpZWl4pMW734NDhOeM68vz+WQNt8N4Z+ExfW/oOyLdIJYPfXXCrjO
-/CfxANIbdvo0wfhEmmD8doRN8G+VkvQmO/Cq23/LqpjFwK5wZ2stJtvRJDBM68uB
-vxBGhfDPNlExjGGk+7TI2V/H9ww9Kg==
-=jpuX
------END PGP SIGNATURE-----
-
---u9obwYTG/0YXmETZ--
+-- 
+Peter Xu
 
 
