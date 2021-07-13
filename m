@@ -2,148 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D162D3C7220
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:26:35 +0200 (CEST)
-Received: from localhost ([::1]:59616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F16493C721E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 16:25:49 +0200 (CEST)
+Received: from localhost ([::1]:57218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3JMo-0007YQ-Pf
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:26:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
+	id 1m3JM4-0005yO-Vo
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 10:25:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m3IuL-0006NF-EP
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:57:09 -0400
-Received: from mail-bn7nam10on2069.outbound.protection.outlook.com
- ([40.107.92.69]:5846 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3IuV-0006sO-D1
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:57:19 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:40089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m3IuJ-0005Lg-ND
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:57:09 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oIYDbgivzurld21FUWA9gxTLtMpFsK76EIeoxTN43Z8WQ2cf2N5sbRE5yfH4B9Npc2WdnNB+w6sIzCbQ5c4eweUYZ5InNhkoKxH0fimGKstcZCDy63rSEwHCUNsXgwAU1AcD644Fk7Q0WA1CCmTEWJkW8AMFNTEvUz5L9fqGuUNS/QK/SDG/hJml6s4rzeAzXrFfcV0DrWkCo1MA87rgQlVwHVRCnxYyLpE44ccOwqBANOrgQZGLaB+wZW1QGDeiYb5r9ox7wP4ZjBudvYF6wXTc2bDJvMgJaaHOLohMv9i3Oab3so8sbST7FvoLGJJbfJrpcqpmGWgTR4SnJbBaCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H1g0DYTJz/5UqbyrxVC/vmS7uLkzEnfqJUoyD2Snc4A=;
- b=C9cQmkNZly5fTkHQX0kUw7zdmDwDaXHk7UNBv0UMiQC6s6Xk7RkNscUlIf+B/dOLfdTb1Oha87P7anu96jpthDnQBj4I+QSuchk+iZq9QL0Pe5HMYCDm1APYtuGcsmGWGlxh5EF5tyxIshPeuxdu15r5UVdyEpqPE0TARaHwhD+hAl8PB0FDrnQYA9WZFxvzt4KFQRc1cWqI3uZuhU8Rt57KcjZcJVUPl372fX1QO5OhY+DY5BQj7yjkPymWEb7l2QoKPhzVBIOlBZm7n/KnXskxCkSKHycIx3fzrGEP7ec0FABRO3+nn+q9ydnt4CS+Izk/j1Dw4tBBUS/3CJ7PGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H1g0DYTJz/5UqbyrxVC/vmS7uLkzEnfqJUoyD2Snc4A=;
- b=KG85FoKdt/p9iVcnbwbbYwSa17JTSHK1G3VIRHusjesdE/HunUWXDE02l4St2/iyj1myo4BvfFgeI+bfi58cSCfjWTezAqwlHc3BysPqeFzMlD8iLMNehqMo2c73kdZfvSY+TpbuzDpGIDuJnPmiVz9reDPH1xQL+jj1Jk1NTBo=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
- by SA0PR12MB4574.namprd12.prod.outlook.com (2603:10b6:806:94::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Tue, 13 Jul
- 2021 13:57:04 +0000
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa]) by SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa%3]) with mapi id 15.20.4308.027; Tue, 13 Jul 2021
- 13:57:04 +0000
-Cc: brijesh.singh@amd.com, qemu-devel@nongnu.org,
- Connor Kuehl <ckuehl@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Tom Lendacky
- <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, Michael Roth <michael.roth@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [RFC PATCH 0/6] Add AMD Secure Nested Paging (SEV-SNP) support
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <e68a9760-121f-72ee-f8ae-193b92bde403@linux.ibm.com>
- <YO1PbIPXem0E0Bgd@work-vm>
-From: Brijesh Singh <brijesh.singh@amd.com>
-Message-ID: <31b1e40a-53f0-c2fd-bb90-9234892d2dac@amd.com>
-Date: Tue, 13 Jul 2021 08:57:02 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1m3IuT-0005UL-KZ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 09:57:19 -0400
+Received: from [192.168.100.1] ([82.142.17.146]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MekGB-1lSb313jWf-00aoM1; Tue, 13 Jul 2021 15:57:15 +0200
+Subject: Re: [PATCH 08/11] linux-user/syscall: Remove unused variable from
+ execve
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210712215535.1471256-1-richard.henderson@linaro.org>
+ <20210712215535.1471256-9-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <26e6be99-7cc9-762e-7c66-18a326fee038@vivier.eu>
+Date: Tue, 13 Jul 2021 15:57:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <YO1PbIPXem0E0Bgd@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0401CA0042.namprd04.prod.outlook.com
- (2603:10b6:803:2a::28) To SN6PR12MB2718.namprd12.prod.outlook.com
- (2603:10b6:805:6f::22)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.31.95] (165.204.77.1) by
- SN4PR0401CA0042.namprd04.prod.outlook.com (2603:10b6:803:2a::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.20 via Frontend
- Transport; Tue, 13 Jul 2021 13:57:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1525b0be-4541-45cc-a2bb-08d946061894
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4574:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4574DD21A56040712BFBE440E5149@SA0PR12MB4574.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V2b9qvlvgmsX8Bxb8Y0N1da1u9Hbc4L2RGYHtBX0fA06qJzT+ke+lpIqY6x/GV+ib69ffDtk9huHcr9pzotLxae2t4kEkS2fEabWHJRm5oemZVPLlSnjcXr3vQoKbVr+06PLNR7G0ouBtfp3zmgCxQ4PCqUkvHXnjFOU7LNWn8NyiRgzwVGhpVeFZHFUWHhhxBJ8kbNhdxEsb4lgYm58LQFTWG+xAyB67halm+Qnv0x97HZ36XpKi+wHyl6FeLtg5LiZheVg3OR3UUYH0spsDcCBxNU9+t2SpZTGtWXZ7I++PpAVrEOlGeib8eMrdcJ8E6FJ7sGzhOepggzE5W26m52ertp5Me17FTKOScHG5vxQMPwwzT1kgwrUJD5s8i/RDwhdIuf+wlFZCwD7rHuU3ofEN13popPYfFmm2/G+2VtSQBecrgcwdTis9bBEItwOtlo/SHbiOJj+xi7BSYgJGMlj3+Q+3w62VzcMwizDOc5QnVcOlPDS9xEeKxjiRomNx8rMTmnLeI7wgrjB/XXqA10oRQw76t2U4Fbjkr5Ot4mieXUNGMvWPF0uLrDuyJV5bcXbJjCEx8UsOieMbtgiS/ntJv511f5qYRTrouTSRUubmsbmyI0RsvIJwYSHteKj12Lv0+z6ZiL4aFjwOor8QDUDHX6RUZ0aVeCT41dLAkKQx2bItdZDnvvtesNd49g2bNaKZTZb6ug8jO+Z0RjIFxJUB2rwDrF9Shyg3Q0vqPtpKXsK1z+OJJmgHCYc8w129NwPpVe0uJzbyKOdIjA5BA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39860400002)(366004)(396003)(376002)(8676002)(66556008)(558084003)(2616005)(86362001)(2906002)(4326008)(66476007)(44832011)(478600001)(54906003)(53546011)(38100700002)(26005)(956004)(7416002)(110136005)(31696002)(38350700002)(6486002)(52116002)(8936002)(31686004)(316002)(16576012)(186003)(5660300002)(66946007)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OFZYVUwwYW40UXlza3IwSE1JYjBhM0E1ekZWU0x1UkV4VEUrOFpxYWtEK0JC?=
- =?utf-8?B?WFNJUWwyMUMxaUowM3lXWUFKMEhudUNPaFVYMDhjVDBKT2IzYmtHUU5NNklN?=
- =?utf-8?B?NHA5MlR5cTRkSWZpYlJhREZFTk8xSWlIRnlyQ1c3aDRsT1BYOUhocGFiaXlZ?=
- =?utf-8?B?NTJoYVAvRmdCd3REdEJTU0cyWVU5dVo1bjJTS3dmZnJHdjdsdnV4bzBlbGdk?=
- =?utf-8?B?VnZpZXhVdmQ1L0huRkNITTMvOWpaRW00YkJ4cWp3dzN2Y1grOFlwd2p3dDVS?=
- =?utf-8?B?QSt5d1d3VnpxK1puU2dHNzBwRmNkVzU4NXdPbEJhb3BzZXdkOVR4QmlQcXpM?=
- =?utf-8?B?LzdNbFczWUdkd0lXTjFoSEZ4VU9VdlZ1OUR6SmlwVHRaYlRJWXZzSis4R2ZK?=
- =?utf-8?B?R0YrRE9tbFFMQlptTnlHVUp6T01tS3d3QndISEljSlRMVWFNdW5xSDF6cjJK?=
- =?utf-8?B?Y2J5a3pEUGRmSzZwbnkzWFBERENHWm9kYngyVTdBRDY5WlNtbWR0MlVZd3lK?=
- =?utf-8?B?Z2dKM25GTlFpT08vZlV5dGhaeXRSSjVrSzhnVzVpUmdzOVlEZXlucnNCZ05Z?=
- =?utf-8?B?TnlYRUhHaHZSaTJNSnIyTFQvUUhJdFZhL3RtU0JxN3hmVm5rU3ZCNE4vK3Fx?=
- =?utf-8?B?aTV5MENpcGhqUmthVjNwanhUeWNGSlpHUE9HY3ZBenBhOSsxYXl5NEY5V2FL?=
- =?utf-8?B?Q1JhN1NmSHA1SGpMK1JwVUY4K00zeDNsSW45VDg5MWVESmdrQjh5aVhpOU1n?=
- =?utf-8?B?b1VxRlJZVCt3OGlTWU5ZZ1NubXZlb3VDTmtvY29RVnd6K0pIVVY0VUhLV0ly?=
- =?utf-8?B?eFMxRGQwMmNzYndUdzcwdUtoSEVkRWxDcE5YYlNIay9TYmYyNGcxblgxdXAy?=
- =?utf-8?B?U3lLM3lqaFM3QWFJVW5CK213RTVZWVJWb0k0K05Bb2hnMFV5YXZjQUh2Ymdz?=
- =?utf-8?B?ejFUN1hPaDNnYjYvbWxnY004U0h2ZTNjL1FMbDN2eklQWkM3WEN3UTVicDcr?=
- =?utf-8?B?Z1pyMjIrbUM1bU5oVmUzSWVVVjRvN3lXblcxUmU1LzN3K3cybG5DMVdRZ3FV?=
- =?utf-8?B?dWwrcTZORlpiV1M2dmpTSmxieXhGSkV0YXdrL2xXU1hJUTBHNUlSeHc2WmZG?=
- =?utf-8?B?bmhYU3JBa1BKUjBwSWU2dk1TZWlhTk9VQnlDYmJyOXJHbjRaYzFUQUlzdFc3?=
- =?utf-8?B?b0NjV1ZORnpVSXFtZ2hsOGt0bmhFcmZDNGkwR1dKd3NUUTk2NHl4YUdBZVRn?=
- =?utf-8?B?bTcxZXRBaElCUEVyTVJGUjhlVWdsa1ZwZU04bUsxNzU0UXhOOVlMTGJEN2ZR?=
- =?utf-8?B?ZE5CN3V4VTdNbmVhRVZDNHIvYktSQm03d2NHQm5nb0xIYnFtd3hvY2lHNnlT?=
- =?utf-8?B?Qkp2QzZCUWdrYkpsemJVdzk4VmVmTXNTaDFsblB3TmVrYlpLem9BVTdtaVBR?=
- =?utf-8?B?dWlZMUtiZ3NJdXNJZjl6Z3AyL2lhc013dDhwK2F0N00vc1JiWWtycWtqa04v?=
- =?utf-8?B?WHZCL0N0WlhPRGEwTXpuODRWRS9ON0tMY1JmVytuWU5CUndtaWlSQmFqUmsy?=
- =?utf-8?B?QUF2SWFGejMwYlUwUUQ5cXIvZ0ZidGU1MTNLSXNsNnlKaDVZQ095enE4SU1X?=
- =?utf-8?B?cjBPajNkQy9memVkckxjTmFSbThtdnFFeWoyS3lKZ3hCaXNNYXhrazNkeVFq?=
- =?utf-8?B?Qll0WG1tK0JwbHdkd1djbUFVaGpKU28yaUtYQnpLenBHZ2luWDgyeStjNUEr?=
- =?utf-8?Q?MDl0xhmGzZdRcpRp8bWW3J1/UjAN3nSRgkI2VPJ?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1525b0be-4541-45cc-a2bb-08d946061894
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jul 2021 13:57:04.7716 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0hvdyrhHQQtNhwXpUfDWVW5FaU9NSXeAxeVEjP5WmutJAzuHIcEXh3sX+SciAjEgwPI02tSg9MUJFiwVmjcpkA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4574
-Received-SPF: softfail client-ip=40.107.92.69;
- envelope-from=brijesh.singh@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+In-Reply-To: <20210712215535.1471256-9-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UrZucqGkK110atoT2lsW8AgfVkMg8OTXAgNpyVinYkDh9MVYn6S
+ gXG1voA+fzq4wvpCyWVSRr8jjLKop6spHHkPmuMQ2dp/cmvX7/ZBHEp1gg4C4ZMuRatspZl
+ r0vh/e8diE9lm/hHlcC/TX65BXkuQp6h+ybs52QXP8KEFcX8za86UHj7SJRoUZOUeHGbsHH
+ fzz5A3d09Aks3jVC3ue4w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xk5aL4LBSmo=:8Yjvx8yk3TjsaqgoaB7oKe
+ Pqz8N/KFf3CJ6LBnfXMpyAgo/6QseekvD02eLtrsQQuK9u9VwdzC1qjgQAZIIe1Cj+mFFbk9Y
+ lBbA6fqOeicnEKmdNvetsRzcMUww50NCqF/yohwAHzF6kCUYeNgu/8zNdGDJW0T15RQ9lXRsY
+ B7lAscFFjHfjdFeM3VjUeIbp0SSeUYEteZgL5i73fVuDuRBMU65ZKsF9rSQiC6eIc5w3ZUVVa
+ 9sQ9LYxQqabc9qdhHJZry3J59pYMXeymtFAT+0efccWe6ar3QKSpT52mvx2oRyze9pYYuGBu0
+ F/437feH9xyunJti0murIjHMbqPchxZePrCClyfpCRvZyiCnp8wI5Z4x0MSWDNf9Zu8xSIc02
+ XrlwgEYQGPm36DyrjEtIK5uUVuf4aV6O36RB0YyF/5e38IpGHO9/wSMcY2dcQee0eOCtvIwM9
+ 7uHvtqwyD5Y3S867kMnDt/AMCFuAFHFTWIZrS9fMPNrzm757PIYaJ+YMmRtnY5CyrRRxvgwnR
+ Etyp1oIS7s61626UYjFxmT3WMC+AR61JPDXXsLdmhHtTBGi9VWMl1ID3c/7OJUpwScclodkGJ
+ FJQ0RUV5kc4xTn2tCfE3IB3UBYOg1qQsxuMe2vxh1QsDLUuj075t5ly3XXveVYpnSQRnVopy0
+ VkJqQYYp7V7bd/JwtXjk+nbP/bUW2vNg8FmynvTrDLt1iIX8vCRxGaCMVjkP5XSPnL6KpMssf
+ CCFxgyjQn/+lsyK37Ez79cJzPczgTpKndDAcF2j/2zq8lne5QXAcjrqxaCedt0whMJeJ6cTZb
+ 6YsIym0BccA3xvLgYkm3pAi+mJlRqQ7mt4A62WUZbYhZpgXnaP8jxHVbhCza5ITFvk8n9PX
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.368,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -159,12 +75,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 12/07/2021 à 23:55, Richard Henderson a écrit :
+> From clang-13:
+> linux-user/syscall.c:8503:17: error: variable 'total_size' set but not used \
+>     [-Werror,-Wunused-but-set-variable]
+> 
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/syscall.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2e826206d2..c27debba8c 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8500,7 +8500,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>              abi_ulong guest_envp;
+>              abi_ulong addr;
+>              char **q;
+> -            int total_size = 0;
+>  
+>              argc = 0;
+>              guest_argp = arg2;
+> @@ -8532,7 +8531,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>                      break;
+>                  if (!(*q = lock_user_string(addr)))
+>                      goto execve_efault;
+> -                total_size += strlen(*q) + 1;
+>              }
+>              *q = NULL;
+>  
+> @@ -8544,7 +8542,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>                      break;
+>                  if (!(*q = lock_user_string(addr)))
+>                      goto execve_efault;
+> -                total_size += strlen(*q) + 1;
+>              }
+>              *q = NULL;
+>  
+> 
 
-
-On 7/13/21 3:31 AM, Dr. David Alan Gilbert wrote:
-> adding it to QMP as well (unles sit's purely for debug and may change).
-
-We have query-sev QMP, I will extend to add a new 'snp: bool' field.
-
-thanks
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 
