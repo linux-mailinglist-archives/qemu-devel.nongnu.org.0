@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C34B3C6915
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:11:52 +0200 (CEST)
-Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A74C83C6922
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:20:15 +0200 (CEST)
+Received: from localhost ([::1]:54662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m39lv-0006vd-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:11:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59572)
+	id 1m39u2-0000aU-HX
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m39kt-00069s-Ih; Tue, 13 Jul 2021 00:10:47 -0400
-Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:44871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m39ko-0003mB-37; Tue, 13 Jul 2021 00:10:47 -0400
-Received: by mail-il1-x12e.google.com with SMTP id r16so14866113ilt.11;
- Mon, 12 Jul 2021 21:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ADMnpfMlSis2I/L0LO3Jub9IdziaaoxeH5za35/zw10=;
- b=Zo+8PKD6gG5x2zZ1nOxffUChRwsFf7e0M4RsaDyjx/x+ghTS3/p/XlFSO42qJqCCHJ
- a8euRWXU7ke93harknguaOxSbokPjF36vyjaW7jOTS9PwbFBbYEo1kakfp03CmRtIAcC
- tBepJSn9lWRLpg/+TsmM4pC6Np9wjzYf17lhrdE9t+I8yDy3tArIKWwpWy+nxh5H6tIZ
- Q/bn2o+8xlMEKX5RPQ0Y6j0dX+lkIeWe0+a9jZ3kZPBoULRr5vHmc32/arbYVLrJoyvs
- dbwoK/Ru7AOyD2pN0JWFlTT+PN1q+gzFIDWkH1DT6fjgqnLJRSoBCn2nlnE/TDLzt80g
- 8sgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ADMnpfMlSis2I/L0LO3Jub9IdziaaoxeH5za35/zw10=;
- b=ss//A020jclzphKj6PLNBcU1KHdWaCuKLOalzc17plQXTxmQOaw/30q2hrm9oR+wrq
- Nn/3mnt06SEEN07KdBpMjjp0WdXeO3OhHgwgqS3CWohHlZVNMyERxvY75yVgEF49iThx
- QK93L13j/Y+0apVKqgzT8/k5EHpNFRQ9xcOP8KWtEyqHfnVXfHWIkQTTIKz1ZmY4sexG
- vdvjd11FUTy3Jn06oq10JhVb/t6yrtrFEhoHsUtXE7VDgVjFLA7rya6cF6zpN+wd2ZQP
- /oXRJ5/+7NNcnX+9UpJSBqbKN3fzGr+c5OdtBeqis3HNMsSclvP7vhnOkhzhS8KeWvly
- 1jFg==
-X-Gm-Message-State: AOAM531Mrx4j5ZL+PS2RhE7gHQULV25xAbTFLpf/3V+ezT1eSROKZnh3
- 81J35WitpLP4eH7sKrPEkMsnEQNFwdvVRb4E5rA=
-X-Google-Smtp-Source: ABdhPJw2SiWF5sAt68Tguga9NV93iT8fijqCZy74f4CAh5hWIOrUpywIKUVOzE1VaU2/1+Ge0NYIyB0xR2VguBzzZtw=
-X-Received: by 2002:a92:c907:: with SMTP id t7mr1494253ilp.267.1626149440639; 
- Mon, 12 Jul 2021 21:10:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m39mG-00086z-VV
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:12 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43171 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m39mC-00052w-QE
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:12:12 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GP6f752Ccz9sX3; Tue, 13 Jul 2021 14:11:59 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1626149519;
+ bh=mdq+BL5raxen+JtbVS4+cAQCrvQwu3a81Jq7KbZ7R/U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=leIWwGd/5LebOH2UfBZ5ndqBg16ht84BHF3VYlWcAtwBDYLlS/9e77tPSCFcn6ht8
+ 7zxIU45ciW16idnK8glWlgMxd94Kr+/Z9U2WiAMszcJdd9XwwpQtKmdJ470NH2OzjB
+ u3/skxN9lg3bLTFFyHMpHVeTM8YsY5iwLDmIfG4Q=
+Date: Tue, 13 Jul 2021 14:11:24 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Julia Suvorova <jusual@redhat.com>
+Subject: Re: [PATCH v6 5/6] hw/acpi/ich9: Set ACPI PCI hot-plug as default on
+ Q35
+Message-ID: <YO0SbMqumYzocy/J@yekko>
+References: <20210713004205.775386-1-jusual@redhat.com>
+ <20210713004205.775386-6-jusual@redhat.com>
 MIME-Version: 1.0
-References: <20210709042608.883256-1-richard.henderson@linaro.org>
- <20210709042608.883256-4-richard.henderson@linaro.org>
-In-Reply-To: <20210709042608.883256-4-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 13 Jul 2021 14:10:14 +1000
-Message-ID: <CAKmqyKMuBs-ykLVPVFvgO2XSyj3doFgEHFijhAxO35-Up6ugZQ@mail.gmail.com>
-Subject: Re: [PATCH 03/17] target/riscv: Use gpr_{src, dst} in shift operations
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3MIXlGjDsHfSFjC+"
+Content-Disposition: inline
+In-Reply-To: <20210713004205.775386-6-jusual@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,138 +62,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, David Gibson <dgibson@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 2:43 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> These operations are slightly more complicated since
-> we need to crop the shift operand.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--3MIXlGjDsHfSFjC+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
+On Tue, Jul 13, 2021 at 02:42:04AM +0200, Julia Suvorova wrote:
+> Q35 has three different types of PCI devices hot-plug: PCIe Native,
+> SHPC Native and ACPI hot-plug. This patch changes the default choice
+> for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
+> ability to use SHPC and PCIe Native for hot-plugged bridges.
+>=20
+> This is a list of the PCIe Native hot-plug issues that led to this
+> change:
+>     * no racy behavior during boot (see 110c477c2ed)
+>     * no delay during deleting - after the actual power off software
+>       must wait at least 1 second before indicating about it. This case
+>       is quite important for users, it even has its own bug:
+>           https://bugzilla.redhat.com/show_bug.cgi?id=3D1594168
+>     * no timer-based behavior - in addition to the previous example,
+>       the attention button has a 5-second waiting period, during which
+>       the operation can be canceled with a second press. While this
+>       looks fine for manual button control, automation will result in
+>       the need to queue or drop events, and the software receiving
+>       events in all sort of unspecified combinations of attention/power
+>       indicator states, which is racy and uppredictable.
+>     * fixes:
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=3D1752465
+>         * https://bugzilla.redhat.com/show_bug.cgi?id=3D1690256
+>=20
+> To return to PCIe Native hot-plug:
+>     -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=3Doff
+>=20
+> Signed-off-by: Julia Suvorova <jusual@redhat.com>
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/riscv/translate.c | 68 +++++++++++++++-------------------------
->  1 file changed, 26 insertions(+), 42 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 2cfcb849b8..a60b198623 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -778,18 +778,14 @@ static bool gen_arith(DisasContext *ctx, arg_r *a,
->  static bool gen_shift(DisasContext *ctx, arg_r *a,
->                          void(*func)(TCGv, TCGv, TCGv))
->  {
-> -    TCGv source1 = tcg_temp_new();
-> -    TCGv source2 = tcg_temp_new();
-> +    TCGv dest = gpr_dst(ctx, a->rd);
-> +    TCGv src1 = gpr_src(ctx, a->rs1);
-> +    TCGv src2 = gpr_src(ctx, a->rs2);
-> +    TCGv ext2 = tcg_temp_new();
->
-> -    gen_get_gpr(source1, a->rs1);
-> -    gen_get_gpr(source2, a->rs2);
-> -
-> -    tcg_gen_andi_tl(source2, source2, TARGET_LONG_BITS - 1);
-> -    (*func)(source1, source1, source2);
-> -
-> -    gen_set_gpr(a->rd, source1);
-> -    tcg_temp_free(source1);
-> -    tcg_temp_free(source2);
-> +    tcg_gen_andi_tl(ext2, src2, TARGET_LONG_BITS - 1);
-> +    (*func)(dest, src1, ext2);
-> +    tcg_temp_free(ext2);
->      return true;
->  }
->
-> @@ -805,58 +801,46 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->  static bool gen_shifti(DisasContext *ctx, arg_shift *a,
->                         void(*func)(TCGv, TCGv, TCGv))
->  {
-> +    TCGv dest, src1, src2;
-> +
->      if (a->shamt >= TARGET_LONG_BITS) {
->          return false;
->      }
->
-> -    TCGv source1 = tcg_temp_new();
-> -    TCGv source2 = tcg_temp_new();
-> +    dest = gpr_dst(ctx, a->rd);
-> +    src1 = gpr_src(ctx, a->rs1);
-> +    src2 = tcg_constant_tl(a->shamt);
->
-> -    gen_get_gpr(source1, a->rs1);
-> -
-> -    tcg_gen_movi_tl(source2, a->shamt);
-> -    (*func)(source1, source1, source2);
-> -
-> -    gen_set_gpr(a->rd, source1);
-> -    tcg_temp_free(source1);
-> -    tcg_temp_free(source2);
-> +    (*func)(dest, src1, src2);
->      return true;
->  }
->
->  static bool gen_shiftw(DisasContext *ctx, arg_r *a,
->                         void(*func)(TCGv, TCGv, TCGv))
->  {
-> -    TCGv source1 = tcg_temp_new();
-> -    TCGv source2 = tcg_temp_new();
-> +    TCGv dest = gpr_dst(ctx, a->rd);
-> +    TCGv src1 = gpr_src(ctx, a->rs1);
-> +    TCGv src2 = gpr_src(ctx, a->rs2);
-> +    TCGv ext2 = tcg_temp_new();
->
-> -    gen_get_gpr(source1, a->rs1);
-> -    gen_get_gpr(source2, a->rs2);
-> +    tcg_gen_andi_tl(ext2, src2, 31);
-> +    (*func)(dest, src1, ext2);
-> +    tcg_gen_ext32s_tl(dest, dest);
->
-> -    tcg_gen_andi_tl(source2, source2, 31);
-> -    (*func)(source1, source1, source2);
-> -    tcg_gen_ext32s_tl(source1, source1);
-> -
-> -    gen_set_gpr(a->rd, source1);
-> -    tcg_temp_free(source1);
-> -    tcg_temp_free(source2);
-> +    tcg_temp_free(ext2);
->      return true;
->  }
->
->  static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,
->                          void(*func)(TCGv, TCGv, TCGv))
->  {
-> -    TCGv source1 = tcg_temp_new();
-> -    TCGv source2 = tcg_temp_new();
-> +    TCGv dest = gpr_dst(ctx, a->rd);
-> +    TCGv src1 = gpr_src(ctx, a->rs1);
-> +    TCGv src2 = tcg_constant_tl(a->shamt);
->
-> -    gen_get_gpr(source1, a->rs1);
-> -    tcg_gen_movi_tl(source2, a->shamt);
-> +    (*func)(dest, src1, src2);
-> +    tcg_gen_ext32s_tl(dest, dest);
->
-> -    (*func)(source1, source1, source2);
-> -    tcg_gen_ext32s_tl(source1, source1);
-> -
-> -    gen_set_gpr(a->rd, source1);
-> -    tcg_temp_free(source1);
-> -    tcg_temp_free(source2);
->      return true;
->  }
->
-> --
-> 2.25.1
->
->
+>  hw/acpi/ich9.c | 2 +-
+>  hw/i386/pc.c   | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+> index 2f4eb453ac..778e27b659 100644
+> --- a/hw/acpi/ich9.c
+> +++ b/hw/acpi/ich9.c
+> @@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMReg=
+s *pm)
+>      pm->disable_s3 =3D 0;
+>      pm->disable_s4 =3D 0;
+>      pm->s4_val =3D 2;
+> -    pm->use_acpi_hotplug_bridge =3D false;
+> +    pm->use_acpi_hotplug_bridge =3D true;
+> =20
+>      object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+>                                     &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 8e1220db72..7e03848792 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_0[] =3D {
+>      { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
+>      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+>      { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
+> +    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
+>  };
+>  const size_t pc_compat_6_0_len =3D G_N_ELEMENTS(pc_compat_6_0);
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--3MIXlGjDsHfSFjC+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmDtEmwACgkQbDjKyiDZ
+s5LZSBAAnZohkuXGRTGaB5iwZ8Wd2s2EgldAQTCvVWQbv7s739kWWvVpJLz6r/xD
+ceiCK0dG2G8qZ6Ms/7cMg4Br95A7DEdLlZ6nCtSbM02UK5OWA7dYS1CXk17tqNel
+d8II13R8cRD5OFCH+0tasIZYSL57HYS2CCnJ559nK7kKjQYvZ1o11ySYPednWkW8
+vhBf3wI5kRbvwhZUuHMuW7BoEaml6jTx8Z/FzkbBNXT256M2NpMknu4+CBAFsTlO
+gGRhhHH+JBlUrfjwWF7Rd+zO9pruy+ndxOMr5xiiw4tCYPkR8Ywwg7mud5wEFwTF
+GmPq4F3hGbsKZWKcNfm3g7qEdW/dw33rfiSjHJWfzKYRethHnJRcp5E3YSYpfJ/a
++WSSPxtRy7wAcSlVgHIEt0u1JPYIVYfc0URZuvOZwH3BKTHmRwAae5QmT0ThJkBh
+hhcVfkPdRsh9AOukpCVp4jLY0/YglnmaoC7ztsMuwO5k6adoDuA/0D9Ai4YZg9Mz
+ZGVdGyPdeA2XPbiizn+UWLZIFmjkZ3s6RH72zCt7taaLw3KXL3inVEDFU4jnGgyW
+NDpJ4aAysYaafJoQ+cxLZDwLOAAXdbyYZ6sj5VxJUWNv1nBjyTRVLHuBTuZ4whSR
+MX1+Us/kjfHOXbDnEdlFY0HG/fg6/sB5w8mnLgQgvfl6cjumCxo=
+=TMhd
+-----END PGP SIGNATURE-----
+
+--3MIXlGjDsHfSFjC+--
 
