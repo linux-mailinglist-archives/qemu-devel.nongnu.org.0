@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F663C691D
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:16:22 +0200 (CEST)
-Received: from localhost ([::1]:47038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E983C691E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 06:16:44 +0200 (CEST)
+Received: from localhost ([::1]:48718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m39qH-0003sI-CK
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:16:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60058)
+	id 1m39qe-0004yj-1h
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 00:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m39oa-0002ON-RM
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:14:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m39oY-0007IQ-La
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 00:14:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626149673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6QRmVYZtFPh0orRMZTcFm1YM3cfeTe9wzgsmDxtk+1A=;
- b=ePPPIBY96dbvzoCVObKQZtITbVVYrgTTd79LaXb8uLPJjmhsA2NIWwVsPI0scdqpe6izU5
- zSqWKBbK6qvr9QIyHvhfdO/E85I1B6IZJCXGA/+STlDTWxtrGMzxA2GQxUXSc3XCh6FDas
- hss9ZNQKqedcOQlVNBlbT5FCMVSqaUE=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-qOAA-VsFNq2aWXujWf28gA-1; Tue, 13 Jul 2021 00:14:32 -0400
-X-MC-Unique: qOAA-VsFNq2aWXujWf28gA-1
-Received: by mail-pf1-f199.google.com with SMTP id
- 124-20020a6217820000b02902feebfd791eso14334192pfx.19
- for <qemu-devel@nongnu.org>; Mon, 12 Jul 2021 21:14:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m39pD-00034i-KN; Tue, 13 Jul 2021 00:15:15 -0400
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:44987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m39pC-00080n-0S; Tue, 13 Jul 2021 00:15:15 -0400
+Received: by mail-io1-xd31.google.com with SMTP id z26so13954507ioz.11;
+ Mon, 12 Jul 2021 21:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=f0Gcc6Yw9aAZlgu2mg36MyiSjMJuEw3yM0rUvFUqkbM=;
+ b=d7kZg5a42vU+W3y5jMaKIE/4md7vt2DuKPStg5E1PAWYWZ+ru5qyJGiCFl8iv4BdGM
+ cNbz7gVtVv756fRmHm5n3FXz2jhzD0Q+3GvRSVgDESplhe0lUkB3TKWSrwv9kVgUQ/g2
+ OQfk365eekEKIrfr125baXx/wKxj3a78wAKVjl9c5kcCR8iI4AnTTryGtyGYK86aQaGq
+ /bl6GXLUwJ/DaGR90cdMbHE/OtCoY78Ln4YWWofmpJh02uzxXC1ZRTk8mBelAWfwpVrC
+ /vicFBxDn2Fb+9BT/fhUXtVbOErkEeqvZiBnrl/9lKd8nY5PDOuYWr6H7eLAGzMrVYSn
+ a6IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=6QRmVYZtFPh0orRMZTcFm1YM3cfeTe9wzgsmDxtk+1A=;
- b=eUO9PSIQAPRsMM+li3FVI1aVDQ4zy1dpkaYTk8vUBG0C91hujquyx9jvPTWmTHwB1L
- Pi4xn96mBBOPaG4emymVk6RhaQFXQOIdkH9eM1FDhUuaPkcgQg9bmpcgxvYHAmLQCAVX
- sjL65iuGi8Pmc/c9HbDAEkFqgimbfXwJCUfxZr9rf/SxblIvVO7OtDE+vFESvVsPO6/p
- JoKkLUgr11OW5NyxW88o121/4w9S7KTZTPHj5xTisClZ57/qbNZBAQw250en3GJLX5ik
- 73alekxfSsSkHguJX3yXT+C8OtY+Z2Los07Y6cZlPKJvAKXXJEDqdSAQBFPaeYtHzuW4
- zmnw==
-X-Gm-Message-State: AOAM531q4/ZBGe6WyQ6d/jmfpJJ79gDP6ZuIlMlaL7pHbAB5C4u4FlBf
- 302SdtSX8JP1HsvXWlMFJyZvEEv8C1jBl9QUiA3kLSM6RbmHG+L0YRZbZsoqeiOWXdGry141KVh
- x+q5BmlW0u0vrSmc=
-X-Received: by 2002:a17:903:2286:b029:129:cb04:c1d7 with SMTP id
- b6-20020a1709032286b0290129cb04c1d7mr1943150plh.58.1626149671125; 
- Mon, 12 Jul 2021 21:14:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGRK7u4kDj0/t6wdOhtyzizERqlQdn/ZHZ8jHlfiLFvWkiOQfUIiYrJ2xEjBVMKgBrY1JxsQ==
-X-Received: by 2002:a17:903:2286:b029:129:cb04:c1d7 with SMTP id
- b6-20020a1709032286b0290129cb04c1d7mr1943119plh.58.1626149670842; 
- Mon, 12 Jul 2021 21:14:30 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id j3sm13128367pfc.10.2021.07.12.21.14.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 12 Jul 2021 21:14:30 -0700 (PDT)
-Subject: Re: [PATCH RESEND v2 2/3] msix/hmp: add interface to dump device
- specific info
-To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
-References: <20210712235812.19725-1-dongli.zhang@oracle.com>
- <20210712235812.19725-3-dongli.zhang@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <d90f764f-ba01-1968-3413-61b4ebbc76fb@redhat.com>
-Date: Tue, 13 Jul 2021 12:14:22 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=f0Gcc6Yw9aAZlgu2mg36MyiSjMJuEw3yM0rUvFUqkbM=;
+ b=YX7SUPqLftD4obsk3NpoK0c0Az+RPvMCckY+bN3kvbHy9JegSGCv3pcM8A0l11vsFX
+ Tzt+CGYWVFdMU7T794okovtvgmH7qTnir6OseVLsuAVDTzVMzSODRqQA/SBvuURl0IFF
+ k3MmyLzspyblBxvVcWsgBU4Vgxv4YGcArOphDznqaSQqwP0fgXIUCr2UM42roRSx3emv
+ Lrv4C2qi8uoXTngLOEMmIK1LVKqKW0y78ucCPKmDdXa1t/y0JNYOmYQ00eW74wFttA9u
+ DdKTv9AREIeRNEKtTQzvM5jD1k4uhbW/atG7xErT6pvTWshnWoj/wV2yL7ME9oGu+nIc
+ Oxbg==
+X-Gm-Message-State: AOAM532KysQTnzGiKa6eP/TnNgV23Qyi2QpttmD0LX1FtFXy5/sYyHtk
+ PQl6NaMvRTAh4w1gVu48cvp/bPEB5Spo5MZIAoI=
+X-Google-Smtp-Source: ABdhPJwH7duu14OyoMVqzfKt0QGAU3nptD2OFke5FVzWiPquJsTRSIAPhUx1Q8l9PSa+F6yhK1mbyh2kNkPVlpYOrSo=
+X-Received: by 2002:a05:6602:140e:: with SMTP id
+ t14mr1766224iov.42.1626149712882; 
+ Mon, 12 Jul 2021 21:15:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210712235812.19725-3-dongli.zhang@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-1.479, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <20210709042608.883256-7-richard.henderson@linaro.org>
+In-Reply-To: <20210709042608.883256-7-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 13 Jul 2021 14:14:46 +1000
+Message-ID: <CAKmqyKPo7ujHKnAnHyJE-ueoAN==X5gb5QAyC6AwZM5O-_2Ojw@mail.gmail.com>
+Subject: Re: [PATCH 06/17] target/riscv: Use gpr_src in branches
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,104 +77,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- joe.jin@oracle.com, dgilbert@redhat.com, pbonzini@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-ÔÚ 2021/7/13 ÉÏÎç7:58, Dongli Zhang Ð´µÀ:
-> While the previous patch is to dump the MSI-X table, sometimes we may
-> need to dump device specific data, e.g., to help match the vector with
-> the specific device queue.
+On Fri, Jul 9, 2021 at 2:39 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> This patch is to add the PCI device specific interface to help dump
-> those information. Any PCI device class may implement this
-> PCIDeviceClass->msix_info interface.
+> Narrow the scope of t0 in trans_jalr.
 >
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: Joe Jin <joe.jin@oracle.com>
-> Suggested-by: Jason Wang <jasowang@redhat.com>
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Acked-by: Jason Wang <jasowang@redhat.com>
-
+Alistair
 
 > ---
->   hmp-commands-info.hx   |  7 ++++---
->   include/hw/pci/pci.h   |  3 +++
->   softmmu/qdev-monitor.c | 11 +++++++++++
->   3 files changed, 18 insertions(+), 3 deletions(-)
+>  target/riscv/insn_trans/trans_rvi.c.inc | 25 ++++++++++---------------
+>  1 file changed, 10 insertions(+), 15 deletions(-)
 >
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index ce5c550d44..4e831d7ae4 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -223,9 +223,10 @@ ERST
->   
->       {
->           .name       = "msix",
-> -        .args_type  = "dev:s",
-> -        .params     = "dev",
-> -        .help       = "dump MSI-X information",
-> +        .args_type  = "info:-d,dev:s",
-> +        .params     = "[-d] dev",
-> +        .help       = "dump MSI-X information; "
-> +                      "(-d: show device specific info)",
->           .cmd        = hmp_info_msix,
->       },
->   
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 6be4e0c460..4620b9e757 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -129,6 +129,8 @@ typedef void PCIMapIORegionFunc(PCIDevice *pci_dev, int region_num,
->                                   pcibus_t addr, pcibus_t size, int type);
->   typedef void PCIUnregisterFunc(PCIDevice *pci_dev);
->   
-> +typedef void PCIMSIXInfoFunc(Monitor *mon, PCIDevice *dev, Error **errp);
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index 6e736c9d0d..a603925637 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -54,24 +54,25 @@ static bool trans_jal(DisasContext *ctx, arg_jal *a)
+>
+>  static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>  {
+> -    /* no chaining with JALR */
+>      TCGLabel *misaligned = NULL;
+> -    TCGv t0 = tcg_temp_new();
+>
+> -
+> -    gen_get_gpr(cpu_pc, a->rs1);
+> -    tcg_gen_addi_tl(cpu_pc, cpu_pc, a->imm);
+> +    tcg_gen_addi_tl(cpu_pc, gpr_src(ctx, a->rs1), a->imm);
+>      tcg_gen_andi_tl(cpu_pc, cpu_pc, (target_ulong)-2);
+>
+>      if (!has_ext(ctx, RVC)) {
+> +        TCGv t0 = tcg_temp_new();
 > +
->   typedef struct PCIIORegion {
->       pcibus_t addr; /* current PCI mapping address. -1 means not mapped */
->   #define PCI_BAR_UNMAPPED (~(pcibus_t)0)
-> @@ -224,6 +226,7 @@ struct PCIDeviceClass {
->       PCIUnregisterFunc *exit;
->       PCIConfigReadFunc *config_read;
->       PCIConfigWriteFunc *config_write;
-> +    PCIMSIXInfoFunc *msix_info;
->   
->       uint16_t vendor_id;
->       uint16_t device_id;
-> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-> index 7837a17d0d..7fd3fe0ada 100644
-> --- a/softmmu/qdev-monitor.c
-> +++ b/softmmu/qdev-monitor.c
-> @@ -1011,7 +1011,9 @@ void hmp_info_msix(Monitor *mon, const QDict *qdict)
->   {
->       const char *name = qdict_get_str(qdict, "dev");
->       DeviceState *dev = find_device_state(name, NULL);
-> +    bool info = qdict_get_try_bool(qdict, "info", false);
->       PCIDevice *pci_dev;
-> +    PCIDeviceClass *pc;
->       Error *err = NULL;
->   
->       if (!dev) {
-> @@ -1027,6 +1029,15 @@ void hmp_info_msix(Monitor *mon, const QDict *qdict)
->       pci_dev = PCI_DEVICE(dev);
->       msix_dump_info(mon, pci_dev, &err);
->   
-> +    if (info) {
-> +        pc = PCI_DEVICE_GET_CLASS(pci_dev);
-> +        if (pc->msix_info) {
-> +            pc->msix_info(mon, pci_dev, &err);
-> +        } else {
-> +            error_setg(&err, "Device specific info not supported");
-> +        }
-> +    }
+>          misaligned = gen_new_label();
+>          tcg_gen_andi_tl(t0, cpu_pc, 0x2);
+>          tcg_gen_brcondi_tl(TCG_COND_NE, t0, 0x0, misaligned);
+> +        tcg_temp_free(t0);
+>      }
+>
+>      if (a->rd != 0) {
+>          tcg_gen_movi_tl(cpu_gpr[a->rd], ctx->pc_succ_insn);
+>      }
 > +
->   exit:
->       hmp_handle_error(mon, err);
->   }
-
+> +    /* No chaining with JALR. */
+>      lookup_and_goto_ptr(ctx);
+>
+>      if (misaligned) {
+> @@ -80,21 +81,18 @@ static bool trans_jalr(DisasContext *ctx, arg_jalr *a)
+>      }
+>      ctx->base.is_jmp = DISAS_NORETURN;
+>
+> -    tcg_temp_free(t0);
+>      return true;
+>  }
+>
+>  static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>  {
+>      TCGLabel *l = gen_new_label();
+> -    TCGv source1, source2;
+> -    source1 = tcg_temp_new();
+> -    source2 = tcg_temp_new();
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = gpr_src(ctx, a->rs2);
+>
+> -    tcg_gen_brcond_tl(cond, source1, source2, l);
+> +    tcg_gen_brcond_tl(cond, src1, src2, l);
+>      gen_goto_tb(ctx, 1, ctx->pc_succ_insn);
+> +
+>      gen_set_label(l); /* branch taken */
+>
+>      if (!has_ext(ctx, RVC) && ((ctx->base.pc_next + a->imm) & 0x3)) {
+> @@ -105,9 +103,6 @@ static bool gen_branch(DisasContext *ctx, arg_b *a, TCGCond cond)
+>      }
+>      ctx->base.is_jmp = DISAS_NORETURN;
+>
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> -
+>      return true;
+>  }
+>
+> --
+> 2.25.1
+>
+>
 
