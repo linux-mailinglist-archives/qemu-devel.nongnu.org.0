@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA523C7975
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:13:19 +0200 (CEST)
-Received: from localhost ([::1]:39688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CBB3C7980
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 00:16:01 +0200 (CEST)
+Received: from localhost ([::1]:48894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3QeU-00037Q-4k
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54998)
+	id 1m3Qh6-0000qx-LX
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 18:16:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qbe-0006X4-4t
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31661)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qbl-0006ez-6N
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qbc-0007bV-BU
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:21 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m3Qbj-0007hz-F8
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 18:10:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626214219;
+ s=mimecast20190719; t=1626214226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Hx1EPiPggxOFuAl77QnkazGCnyRccijDT3bkBz4qVPY=;
- b=UUx9JYjz9T3l0StwPbObbnBfIVueZPF8zvKl55xySTFvJBtsCUqQj/Ik02RlWgGKvlKXlw
- jOTD49xPaG8SKsVIbhlMAi3kjJGX41IK7636skkYunSlVLIuFiz+WFKMaRdMnVua+oqwWG
- vm0pOq7U7YuAeDEnvVtilCtB0umom4I=
+ bh=VuLuulZoA+GBhWrc6iIgJsgWdXQ39YAw9fcUpNmdcKo=;
+ b=SajJFllPValNOi6BrcnhCc1bi7CNfgMg8rlc3nJSLcH2BANLMgaAiapiK8GfdVtpSYo0Im
+ NHsG2silbrQbzTRVCeFsiqrEZhLuoWV8IStH+qnH8kxxgWcSZ/bOPrWo+zJ/KC1/m41u36
+ xSHETX2IiTWkVl3hoWDyOZzKEZOqn64=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-8GD9ywi4P_GTrAbTKhdtcQ-1; Tue, 13 Jul 2021 18:10:18 -0400
-X-MC-Unique: 8GD9ywi4P_GTrAbTKhdtcQ-1
+ us-mta-573-8kYCzsaNMue6nogLqOMP1w-1; Tue, 13 Jul 2021 18:10:25 -0400
+X-MC-Unique: 8kYCzsaNMue6nogLqOMP1w-1
 Received: by mail-wm1-f70.google.com with SMTP id
- l17-20020a05600c4f11b0290225ef65c35dso969620wmq.2
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:18 -0700 (PDT)
+ m31-20020a05600c3b1fb02902082e9b2132so971035wms.5
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 15:10:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Hx1EPiPggxOFuAl77QnkazGCnyRccijDT3bkBz4qVPY=;
- b=sIGNBedj3MfCr8Ezd3SocoPtXVir0wpXHEdCZqFEiyQH0eFlJvoaWQxFzyB8+8Ayxq
- eDBphO5rwMWgCwdKbuibQUBOSQgVFY/xZZZ5RmVcyc5eefPMWPdmsLcCG5n0m13mdGY6
- dc+6OefFOrmdwhL3XVV0Wcn8ZIcwqePrWQIIvTCKB21hOrCBpO0HpFUsmdmhGqsN1voO
- eC/q/9+VeVpXeXWw97U5BqvSnGuvJPgjRgLs9puh4W5GAWEI3sd69PBWRHs3+2lxcte0
- yM4IO5l2AsCpLrxmZa+7uK1rD+kprLOdBKDyKRlZPFrqxfhvDVMYJ4P0/9ZvKaHe7QS6
- +omg==
-X-Gm-Message-State: AOAM531rTPpaW+pdTENVIhkhKgWjKmhrz7Joe+nkehmix/POFaw/suBn
- 45Ga6OnAWfpWtc7eAXQ3Cj58n1pqhcjzsdEE/KT30n0wJNh5A1huIjiv6ayv6OUzPcIhuk2bzrl
- scFYZnamidpLh1Hg7cJSTvHgWpB+XcsPCmrfzarMQ1KQDrQSiogONsvvGhyVN
-X-Received: by 2002:a1c:7e44:: with SMTP id z65mr408789wmc.1.1626214216627;
- Tue, 13 Jul 2021 15:10:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzakRcGuN6ePndKT9arscPNmug3IpZ6s5RhkrkWH9R9/aiHiA2a8x4NWC4lsBXxpB3V4E5YXg==
-X-Received: by 2002:a1c:7e44:: with SMTP id z65mr408748wmc.1.1626214216263;
- Tue, 13 Jul 2021 15:10:16 -0700 (PDT)
+ bh=VuLuulZoA+GBhWrc6iIgJsgWdXQ39YAw9fcUpNmdcKo=;
+ b=pz85x6eRk4sqG7K4+gNXmfKLCnP++YYv8dBolE0T+P1GbKQLwjGFihgFp4UaPtB0eN
+ 09jmrK00/YfmS6k4NzeC/YJcRRCD4C1nF2wIJ2qHk362xr/Yfl5g6qUlAHXGBZCuwpPS
+ g0MoJnD5rT765rTZs1ioTvFHjguk3NinK7eXjz3hzmHmzsnakKeYxDtTRObhThUm+Y2s
+ nx0r3Od2ZyDy93cxGYr9sFJlodkuUo0EQH57txt7cySW0A08kgBvFCgZhvBo/gnnPxm1
+ kaveVVBU9C/xeq+vDRe4zXsL5seJ7rQ0SkfAlNpOuhAgECT2TJOD1Jc2C19pNve//6HO
+ XQZA==
+X-Gm-Message-State: AOAM5326YoQsSq9pWrz1UB9N/CmFC0n4qAPOdQHQSavsDZHzcOjEZjCM
+ SSG3p+Nr+bl9IPCygToKrhxoqEeuHABaRbX6gyNP1o8sKLCI1c8QKv2m13GFF3tHVhAkmsXErYv
+ PO309TpEEQhG/hs25DaJpPT4aK3u8uFF6YDRfHA4fSjFuN6zIg2/uH87Eub1a
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr8775572wrs.97.1626214223610; 
+ Tue, 13 Jul 2021 15:10:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3er7tzuUYJbw3XpwF3jCBZpyvbRhVai343v77n/95LrZA9/5QsMiMTwLovw6utan8qdjXKw==
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr8775543wrs.97.1626214223378; 
+ Tue, 13 Jul 2021 15:10:23 -0700 (PDT)
 Received: from redhat.com ([2.55.15.23])
- by smtp.gmail.com with ESMTPSA id q81sm1412969wme.18.2021.07.13.15.10.14
+ by smtp.gmail.com with ESMTPSA id t22sm283246wmi.22.2021.07.13.15.10.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 13 Jul 2021 15:10:15 -0700 (PDT)
-Date: Tue, 13 Jul 2021 18:10:12 -0400
+ Tue, 13 Jul 2021 15:10:22 -0700 (PDT)
+Date: Tue, 13 Jul 2021 18:10:19 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/23] hw/pci/pcie: Do not set HPC flag if acpihp is used
-Message-ID: <20210713220946.212562-4-mst@redhat.com>
+Subject: [PULL 05/23] hw/acpi/ich9: Set ACPI PCI hot-plug as default on Q35
+Message-ID: <20210713220946.212562-6-mst@redhat.com>
 References: <20210713220946.212562-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210713220946.212562-1-mst@redhat.com>
@@ -96,159 +96,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Julia Suvorova <jusual@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
+ Julia Suvorova <jusual@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Julia Suvorova <jusual@redhat.com>
 
-Instead of changing the hot-plug type in _OSC register, do not
-set the 'Hot-Plug Capable' flag. This way guest will choose ACPI
-hot-plug if it is preferred and leave the option to use SHPC with
-pcie-pci-bridge.
+Q35 has three different types of PCI devices hot-plug: PCIe Native,
+SHPC Native and ACPI hot-plug. This patch changes the default choice
+for cold-plugged bridges from PCIe Native to ACPI Hot-plug with
+ability to use SHPC and PCIe Native for hot-plugged bridges.
 
-The ability to control hot-plug for each downstream port is retained,
-while 'hotplug=off' on the port means all hot-plug types are disabled.
+This is a list of the PCIe Native hot-plug issues that led to this
+change:
+    * no racy behavior during boot (see 110c477c2ed)
+    * no delay during deleting - after the actual power off software
+      must wait at least 1 second before indicating about it. This case
+      is quite important for users, it even has its own bug:
+          https://bugzilla.redhat.com/show_bug.cgi?id=1594168
+    * no timer-based behavior - in addition to the previous example,
+      the attention button has a 5-second waiting period, during which
+      the operation can be canceled with a second press. While this
+      looks fine for manual button control, automation will result in
+      the need to queue or drop events, and the software receiving
+      events in all sort of unspecified combinations of attention/power
+      indicator states, which is racy and uppredictable.
+    * fixes:
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1752465
+        * https://bugzilla.redhat.com/show_bug.cgi?id=1690256
+
+To return to PCIe Native hot-plug:
+    -global ICH9-LPC.acpi-pci-hotplug-with-bridge-support=off
+
+Known issue: older linux guests need the following flag
+to allow hotplugged pci express devices to use io:
+        -device pcie-root-port,io-reserve=4096.
+io is unusual for pci express so this seems minor.
+We'll fix this by a follow up patch.
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20210713004205.775386-4-jusual@redhat.com>
+Message-Id: <20210713004205.775386-6-jusual@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/hw/pci/pcie_port.h |  5 ++++-
- hw/acpi/pcihp.c            |  8 ++++++++
- hw/core/machine.c          |  1 -
- hw/i386/pc_q35.c           | 11 +++++++++++
- hw/pci/pcie.c              |  8 +++++++-
- hw/pci/pcie_port.c         |  1 +
- 6 files changed, 31 insertions(+), 3 deletions(-)
+ hw/acpi/ich9.c | 2 +-
+ hw/i386/pc.c   | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
-index bea8ecad0f..e25b289ce8 100644
---- a/include/hw/pci/pcie_port.h
-+++ b/include/hw/pci/pcie_port.h
-@@ -57,8 +57,11 @@ struct PCIESlot {
-     /* Disable ACS (really for a pcie_root_port) */
-     bool        disable_acs;
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 2f4eb453ac..778e27b659 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -427,7 +427,7 @@ void ich9_pm_add_properties(Object *obj, ICH9LPCPMRegs *pm)
+     pm->disable_s3 = 0;
+     pm->disable_s4 = 0;
+     pm->s4_val = 2;
+-    pm->use_acpi_hotplug_bridge = false;
++    pm->use_acpi_hotplug_bridge = true;
  
--    /* Indicates whether hot-plug is enabled on the slot */
-+    /* Indicates whether any type of hot-plug is allowed on the slot */
-     bool        hotplug;
-+
-+    bool        native_hotplug;
-+
-     QLIST_ENTRY(PCIESlot) next;
+     object_property_add_uint32_ptr(obj, ACPI_PM_PROP_PM_IO_BASE,
+                                    &pm->pm_io_base, OBJ_PROP_FLAG_READ);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8e1220db72..7e03848792 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -98,6 +98,7 @@ GlobalProperty pc_compat_6_0[] = {
+     { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
+     { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+     { "qemu64" "-" TYPE_X86_CPU, "stepping", "3" },
++    { "ICH9-LPC", "acpi-pci-hotplug-with-bridge-support", "off" },
  };
- 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 9fdc6342b0..f4d706e47d 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -31,6 +31,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_port.h"
- #include "hw/i386/acpi-build.h"
- #include "hw/acpi/acpi.h"
- #include "hw/pci/pci_bus.h"
-@@ -336,6 +337,13 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-             object_dynamic_cast(OBJECT(dev), TYPE_PCI_BRIDGE)) {
-             PCIBus *sec = pci_bridge_get_sec_bus(PCI_BRIDGE(pdev));
- 
-+            /* Remove all hot-plug handlers if hot-plug is disabled on slot */
-+            if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT) &&
-+                !PCIE_SLOT(pdev)->hotplug) {
-+                qbus_set_hotplug_handler(BUS(sec), NULL);
-+                return;
-+            }
-+
-             qbus_set_hotplug_handler(BUS(sec), OBJECT(hotplug_dev));
-             /* We don't have to overwrite any other hotplug handler yet */
-             assert(QLIST_EMPTY(&sec->child));
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 57c18f909a..11c26eeabd 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -584,7 +584,6 @@ static void machine_set_memdev(Object *obj, const char *value, Error **errp)
-     ms->ram_memdev_id = g_strdup(value);
- }
- 
--
- static void machine_init_notify(Notifier *notifier, void *data)
- {
-     MachineState *machine = MACHINE(qdev_get_machine());
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 46a0f196f4..04b4a4788d 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -37,6 +37,7 @@
- #include "sysemu/kvm.h"
- #include "hw/kvm/clock.h"
- #include "hw/pci-host/q35.h"
-+#include "hw/pci/pcie_port.h"
- #include "hw/qdev-properties.h"
- #include "hw/i386/x86.h"
- #include "hw/i386/pc.h"
-@@ -136,6 +137,7 @@ static void pc_q35_init(MachineState *machine)
-     ram_addr_t lowmem;
-     DriveInfo *hd[MAX_SATA_PORTS];
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-+    bool acpi_pcihp;
- 
-     /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-      * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-@@ -236,6 +238,15 @@ static void pc_q35_init(MachineState *machine)
-     object_property_set_link(OBJECT(machine), PC_MACHINE_ACPI_DEVICE_PROP,
-                              OBJECT(lpc), &error_abort);
- 
-+    acpi_pcihp = object_property_get_bool(OBJECT(lpc),
-+                                          "acpi-pci-hotplug-with-bridge-support",
-+                                          NULL);
-+
-+    if (acpi_pcihp) {
-+        object_register_sugar_prop(TYPE_PCIE_SLOT, "native-hotplug",
-+                                   "false", true);
-+    }
-+
-     /* irq lines */
-     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
- 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index fd0fa157e8..6e95d82903 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -529,7 +529,13 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
-                                PCI_EXP_SLTCAP_PIP |
-                                PCI_EXP_SLTCAP_AIP |
-                                PCI_EXP_SLTCAP_ABP);
--    if (s->hotplug) {
-+
-+    /*
-+     * Enable native hot-plug on all hot-plugged bridges unless
-+     * hot-plug is disabled on the slot.
-+     */
-+    if (s->hotplug &&
-+        (s->native_hotplug || DEVICE(dev)->hotplugged)) {
-         pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
-                                    PCI_EXP_SLTCAP_HPS |
-                                    PCI_EXP_SLTCAP_HPC);
-diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
-index eb563ad435..da850e8dde 100644
---- a/hw/pci/pcie_port.c
-+++ b/hw/pci/pcie_port.c
-@@ -148,6 +148,7 @@ static Property pcie_slot_props[] = {
-     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
-     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
-     DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
-+    DEFINE_PROP_BOOL("native-hotplug", PCIESlot, native_hotplug, true),
-     DEFINE_PROP_END_OF_LIST()
- };
+ const size_t pc_compat_6_0_len = G_N_ELEMENTS(pc_compat_6_0);
  
 -- 
 MST
