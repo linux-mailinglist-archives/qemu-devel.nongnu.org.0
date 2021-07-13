@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328EA3C7478
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:26:55 +0200 (CEST)
-Received: from localhost ([::1]:36974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C0E33C7485
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 18:30:02 +0200 (CEST)
+Received: from localhost ([::1]:51348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3LFG-0002X6-6T
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:26:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37352)
+	id 1m3LIH-0003ja-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 12:30:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3LDK-0008AD-FP; Tue, 13 Jul 2021 12:24:55 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45881)
+ id 1m3LGR-00080W-8O
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:28:07 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m3LDI-0001q5-HO; Tue, 13 Jul 2021 12:24:54 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id t5so17424479wrw.12;
- Tue, 13 Jul 2021 09:24:51 -0700 (PDT)
+ id 1m3LGP-0004R3-C3
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 12:28:06 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ u8-20020a7bcb080000b02901e44e9caa2aso2755053wmj.4
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 09:28:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FeFPEjksjP/DqohhB4wXQsXjzvOwDAbB73VvkxLfcq4=;
- b=p6sXwvGfHHEFyNqz9yH2/1Rpx1N/63+7N7MjktYCZtp/38Mlc2yMYtpTdYkydLDgd4
- ptiUlHjDliIoab/LxXxoXqrzvyMupnOE6PSO8vxYstKrS2UahHlsWTvYbvTs3tu0klj3
- lSlmhhr3l67oeDONdFdxH2gSBPc28T3TMeY+zgnBFrfT9FxZlYfenKzcREO1VLA5W+0T
- GX/RqhrkOPo9hfLhEhhY+6RwNbV1TZQ66K09fiJBlAU2Z6N0zCRnQfffl/pnpYB6WLXt
- UagZaga5T0HyiKt/35aD4YyDHTDGmm8OpDU0tuMW+IKIOvZuMd62B03GpJpakhAJwDIC
- jJlQ==
+ bh=tOXLfBRxl9jR8v0SSW+tlnn4Nah1FsfFTxsOyv2drsI=;
+ b=hrPNOowmqMUSF20IQpGqlqSQ8XIONwuTZwuCEcC36S1npvg0QhbdJE8S66UuxLZ0F5
+ Wu3hcK62RfJB55iSuaUVj0qVShLqvb280UK8wqLbxnN9TwFtgGDzVtdlKW6hLuY4grYL
+ D6RXgCtTq1bRpIvz6HAhUHr43Pd1o+R7sygvgvir8W4T+aIJb5mwgy6mfvGOhGh4UE0Z
+ W36KVu+OYNqPldUhLC6g1jCrxD/O2j1+I8+VfVk3zuVXaWWw/9lHVKefThVds5MOT7em
+ /sXgmhBqXChKk2nnV3D11jUS+0x1d/j2r5vOsJ5M7uurTF7+8ZREMk0RPMVYNLTzc02s
+ lImA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=FeFPEjksjP/DqohhB4wXQsXjzvOwDAbB73VvkxLfcq4=;
- b=nLkr62eRo7w4lk8UwhXy8/0MtpNtX+lpW8yydlOnKGrvMu6+FT3W7P0he9VCF/scuH
- RBcrTU6Fl+piyxg7B+QkVhy0yQVJ/wErU7KMBaxNen5v7id6hid42tnplQ0kbUlNQJRW
- vVq0Cs4OJKf3PMZnKV97NHVuCEPuONSTqJEEv3sD6dDB32KZiFjubIa/3+m4/WC/x1zs
- /A1esNbDPg3z9IQaWG47d7oog4VCLDkmwxNPZgrK0xwsslDRTS9tsFysyMLJOzxzuoec
- L5uQOZ6lkQldgDzdWKTVgJJDwIFeU8Q1TeOiDN/x0CvPGbyE6leKFMLx9XcrzhFF9Xn0
- WRuw==
-X-Gm-Message-State: AOAM533r0DwB93N7wPxOTtKVoICRTB9Tz1aDocrCD1v5pcg39onhhKcI
- KkQhCIguVAAsw+hPCdg91O8=
-X-Google-Smtp-Source: ABdhPJx0offZrHBSEZKU+8IFL0NR10/W4S1VaifgF8S8Mn5cix9knDDW9/BGWCxuYMJFdt4FDbBYcA==
-X-Received: by 2002:a5d:6992:: with SMTP id g18mr7037175wru.118.1626193491031; 
- Tue, 13 Jul 2021 09:24:51 -0700 (PDT)
+ bh=tOXLfBRxl9jR8v0SSW+tlnn4Nah1FsfFTxsOyv2drsI=;
+ b=Qy/EPObvIm8eaD/VZ27ZkYTnLlqWjqPUiXnNfqtQLKbbAftGtiAHIF0YxZbQjyrzLq
+ ipKsbN0ugMsD6zilou2geRPqH9YuvHPERDSbZpyFhXeb5wG1yPOeRXmWRawqh45EEWh+
+ 65UyX4rJ6bmf3MhKEtnRgE7bIq8aALpPq/IMD8lfUus59hJfXSCthfjgptNx3lv6Su1a
+ NoNc2IeFbdnvxO6Sgkp8R6IQs73+8BWs1LVGevGJnvAFY0/SxmO7N31VfYv1iVJ3glte
+ 4gn33lC99d9hwyKRnSuGaRdiJx8dgiuUm4D7k3wasiZ8pDcsuVVnLJ53e/IbOUCtLK73
+ 86eg==
+X-Gm-Message-State: AOAM530ihApHh0bnadS8PNDW8O44tHzUolB//n8IM2KlfQNFa7rdoi/7
+ NM5rlkkDYbHWMU3FXohonEpNBh/eZxSE5w==
+X-Google-Smtp-Source: ABdhPJwPtgUaKgfMcLf5CtNbqEX9Zj3sbfz14SLuyprzKhxlMFUx/O3I9jETjKR07mc6n+qjgJC7Dg==
+X-Received: by 2002:a05:600c:3589:: with SMTP id
+ p9mr230621wmq.182.1626193683720; 
+ Tue, 13 Jul 2021 09:28:03 -0700 (PDT)
 Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
  [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id t9sm17893377wrq.92.2021.07.13.09.24.48
+ by smtp.gmail.com with ESMTPSA id o3sm17328115wrm.5.2021.07.13.09.28.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 09:24:50 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] docs: Add skeletal documentation of highbank and
- midway
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210713142226.19155-1-peter.maydell@linaro.org>
- <20210713142226.19155-4-peter.maydell@linaro.org>
+ Tue, 13 Jul 2021 09:28:02 -0700 (PDT)
+Subject: Re: [PATCH 02/11] accel/tcg: Remove unused variable in cpu_exec
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210712215535.1471256-1-richard.henderson@linaro.org>
+ <20210712215535.1471256-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <cb786a0a-c5a7-7910-e541-e16256053af1@amsat.org>
-Date: Tue, 13 Jul 2021 18:24:47 +0200
+Message-ID: <801f2380-393a-b5df-5396-d1ccd9d24f86@amsat.org>
+Date: Tue, 13 Jul 2021 18:27:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713142226.19155-4-peter.maydell@linaro.org>
+In-Reply-To: <20210712215535.1471256-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,21 +91,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>, Rob Herring <robh@kernel.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 4:22 PM, Peter Maydell wrote:
-> Add skeletal documentation for the highbank and midway machines.
+On 7/12/21 11:55 PM, Richard Henderson wrote:
+> From clang-13:
+> accel/tcg/cpu-exec.c:783:15: error: variable 'cc' set but not used \
+>     [-Werror,-Wunused-but-set-variable]
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  docs/system/arm/highbank.rst | 19 +++++++++++++++++++
->  docs/system/target-arm.rst   |  1 +
->  MAINTAINERS                  |  1 +
->  3 files changed, 21 insertions(+)
->  create mode 100644 docs/system/arm/highbank.rst
+>  accel/tcg/cpu-exec.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index e22bcb99f7..a8d8cea586 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -780,7 +780,6 @@ static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
+>  
+>  int cpu_exec(CPUState *cpu)
+>  {
+> -    CPUClass *cc = CPU_GET_CLASS(cpu);
+>      int ret;
+>      SyncClocks sc = { 0 };
+>  
+> @@ -819,14 +818,12 @@ int cpu_exec(CPUState *cpu)
+>           * so we only perform the workaround for clang.
+>           */
+>          cpu = current_cpu;
+> -        cc = CPU_GET_CLASS(cpu);
+>  #else
+>          /*
+>           * Non-buggy compilers preserve these locals; assert that
+>           * they have the correct value.
 
+Maybe update comment to singular, otherwise:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+>           */
+>          g_assert(cpu == current_cpu);
+> -        g_assert(cc == CPU_GET_CLASS(cpu));
+>  #endif
+>  
+>  #ifndef CONFIG_SOFTMMU
+> 
+
 
