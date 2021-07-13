@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74963C78F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:26:40 +0200 (CEST)
-Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 333343C78F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 23:29:19 +0200 (CEST)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3PvL-0003gC-H0
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:26:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45064)
+	id 1m3Pxu-0001ya-6k
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 17:29:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppg-00017K-BC
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30401)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppq-0001kW-Dr
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppc-00083U-TF
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:48 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m3Ppo-0008Bd-NN
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 17:20:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626211244;
+ s=mimecast20190719; t=1626211256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7I/gsK3Fum/jvHVEyzJdD3/PNj9ftt2gW1TCv6cq5vU=;
- b=blBoumVkHk2qVAn45DOX9n9U+J6t3ubwJjqzcTj1fml4jP/1j6o2zBpoz8Hodyh2tx+w2z
- X96+Kke6dJQVLbb5QNNW9+L/LRxk4eJLl92EPwNKAnxKNY3vAhYxUChZO5kSmkzpJUtYV5
- upBd91Fm2IZUkZ1O0RsocM9OuINpboA=
+ bh=dObAmHePKlBhssvuYSm7yPTQOhbUAmlem4+csh72HAU=;
+ b=CUYXJsktXEN8Aa5HjmrH4R5XTURNjQ5Uy8E10mK1haq8BTAdx39KvEdnH7Ifx4po6FDsNz
+ xJfWQHbN6zoneWU/kKzfAxkkPNtnthg5nf06BFIEUFdgWuHqZDM/3l6MXyxWoZJtESnh9t
+ BUknikZO0iU9mQ6ayKmkWZoS93PVIPg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-3wywiKNXMBu_9ZqYd_LMPA-1; Tue, 13 Jul 2021 17:20:41 -0400
-X-MC-Unique: 3wywiKNXMBu_9ZqYd_LMPA-1
+ us-mta-428-mn3Ms-AbMLClCHMfJe3Pkg-1; Tue, 13 Jul 2021 17:20:54 -0400
+X-MC-Unique: mn3Ms-AbMLClCHMfJe3Pkg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 469D01007273;
- Tue, 13 Jul 2021 21:20:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30B5818414A0;
+ Tue, 13 Jul 2021 21:20:52 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE5ED19C44;
- Tue, 13 Jul 2021 21:20:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 727DF17F72;
+ Tue, 13 Jul 2021 21:20:39 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Subject: [PULL 06/23] Acceptance Tests: support choosing specific distro and
- version
-Date: Tue, 13 Jul 2021 17:19:06 -0400
-Message-Id: <20210713211923.3809241-7-crosa@redhat.com>
+Subject: [PULL 07/23] tests/acceptance: Ignore binary data sent on serial
+ console
+Date: Tue, 13 Jul 2021 17:19:07 -0400
+Message-Id: <20210713211923.3809241-8-crosa@redhat.com>
 In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
 References: <20210713211923.3809241-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -97,188 +97,53 @@ Cc: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests based on the LinuxTest class give the test writer a ready to
-use guest operating system, currently pinned to Fedora 31.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-With this change, it's now possible to choose different distros and
-versions, similar to how other tags and parameter can be set for the
-target arch, accelerator, etc.
+If a guest sends binary data on the serial console, we get:
 
-One of the reasons for this work, is that some development features
-depend on updates on the guest side.  For instance the tests on
-virtiofs_submounts.py, require newer kernels, and may benefit from
-running, say on Fedora 34, without the need for a custom kernel.
+ File "tests/acceptance/avocado_qemu/__init__.py", line 92,
+   in _console_interaction msg = console.readline().strip()
+ File "/usr/lib64/python3.8/codecs.py", line 322,
+   in decode (result, consumed) = self._buffer_decode(data, self.errors, final)
+ UnicodeDecodeError: 'utf-8' codec can't decode byte 0xa9 in position 2: invalid start byte
 
-Please notice that the pre-caching of the Fedora 31 images done during
-the early stages of `make check-acceptance` (before the tests are
-actually executed) are not expanded here to cover every new image
-added.  But, the tests will download other needed images (and cache
-them) during the first execution.
+Since we use the console with readline(), fix it the easiest
+way possible: ignore binary data (all current tests compare
+text string anyway).
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20210414221457.1653745-4-crosa@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210515134555.307404-2-f4bug@amsat.org>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- docs/devel/testing.rst                    | 65 +++++++++++++++++++++++
- tests/acceptance/avocado_qemu/__init__.py | 47 ++++++++++++----
- 2 files changed, 102 insertions(+), 10 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 4e42392810..19cbf532ae 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -922,6 +922,39 @@ The preserved value of the ``qemu_bin`` parameter or the result of the
- dynamic probe for a QEMU binary in the current working directory or
- source tree.
- 
-+LinuxTest
-+~~~~~~~~~
-+
-+Besides the attributes present on the ``avocado_qemu.Test`` base
-+class, the ``avocado_qemu.LinuxTest`` adds the following attributes:
-+
-+distro
-+......
-+
-+The name of the Linux distribution used as the guest image for the
-+test.  The name should match the **Provider** column on the list
-+of images supported by the avocado.utils.vmimage library:
-+
-+https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
-+
-+distro_version
-+..............
-+
-+The version of the Linux distribution as the guest image for the
-+test.  The name should match the **Version** column on the list
-+of images supported by the avocado.utils.vmimage library:
-+
-+https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
-+
-+distro_checksum
-+...............
-+
-+The sha256 hash of the guest image file used for the test.
-+
-+If this value is not set in the code or by a test parameter (with the
-+same name), no validation on the integrity of the image will be
-+performed.
-+
- Parameter reference
- -------------------
- 
-@@ -962,6 +995,38 @@ qemu_bin
- 
- The exact QEMU binary to be used on QEMUMachine.
- 
-+LinuxTest
-+~~~~~~~~~
-+
-+Besides the parameters present on the ``avocado_qemu.Test`` base
-+class, the ``avocado_qemu.LinuxTest`` adds the following parameters:
-+
-+distro
-+......
-+
-+The name of the Linux distribution used as the guest image for the
-+test.  The name should match the **Provider** column on the list
-+of images supported by the avocado.utils.vmimage library:
-+
-+https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
-+
-+distro_version
-+..............
-+
-+The version of the Linux distribution as the guest image for the
-+test.  The name should match the **Version** column on the list
-+of images supported by the avocado.utils.vmimage library:
-+
-+https://avocado-framework.readthedocs.io/en/latest/guides/writer/libs/vmimage.html#supported-images
-+
-+distro_checksum
-+...............
-+
-+The sha256 hash of the guest image file used for the test.
-+
-+If this value is not set in the code or by this parameter no
-+validation on the integrity of the image will be performed.
-+
- Skipping tests
- --------------
- The Avocado framework provides Python decorators which allow for easily skip
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 3a144cded4..1f1728ab83 100644
+index 1f1728ab83..c3163af3b7 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -345,8 +345,39 @@ class LinuxTest(Test, LinuxSSHMixIn):
-     username = 'root'
-     password = 'password'
- 
-+    def _set_distro(self):
-+        distro = self.params.get(
-+            'distro',
-+            default=self._get_unique_tag_val('distro'))
-+        if not distro:
-+            distro = 'fedora'
-+        self.distro = distro
-+
-+        distro_version = self.params.get(
-+            'distro_version',
-+            default=self._get_unique_tag_val('distro_version'))
-+        if not distro_version:
-+            distro_version = '31'
-+        self.distro_version = distro_version
-+
-+        # The distro checksum behaves differently than distro name and
-+        # version. First, it does not respect a tag with the same
-+        # name, given that it's not expected to be used for filtering
-+        # (distro name versions are the natural choice).  Second, the
-+        # order of precedence is: parameter, attribute and then value
-+        # from KNOWN_DISTROS.
-+        distro_checksum = self.params.get('distro_checksum',
-+                                          default=self.distro_checksum)
-+        if not distro_checksum:
-+            distro_checksum = get_known_distro_checksum(self.distro,
-+                                                        self.distro_version,
-+                                                        self.arch)
-+        if distro_checksum:
-+            self.distro_checksum = distro_checksum
-+
-     def setUp(self, ssh_pubkey=None, network_device_type='virtio-net'):
-         super(LinuxTest, self).setUp()
-+        self._set_distro()
-         self.vm.add_args('-smp', '2')
-         self.vm.add_args('-m', '1024')
-         # The following network device allows for SSH connections
-@@ -382,20 +413,16 @@ def download_boot(self):
-         vmimage.QEMU_IMG = qemu_img
- 
-         self.log.info('Downloading/preparing boot image')
--        distro = 'fedora'
--        distro_version = '31'
--        known_distro_checksum = get_known_distro_checksum(distro,
--                                                          distro_version,
--                                                          self.arch)
--        distro_checksum = self.distro_checksum or known_distro_checksum
-         # Fedora 31 only provides ppc64le images
-         image_arch = self.arch
--        if image_arch == 'ppc64':
--            image_arch = 'ppc64le'
-+        if self.distro == 'fedora':
-+            if image_arch == 'ppc64':
-+                image_arch = 'ppc64le'
-+
-         try:
-             boot = vmimage.get(
--                distro, arch=image_arch, version=distro_version,
--                checksum=distro_checksum,
-+                self.distro, arch=image_arch, version=self.distro_version,
-+                checksum=self.distro_checksum,
-                 algorithm='sha256',
-                 cache_dir=self.cache_dirs[0],
-                 snapshot_dir=self.workdir)
+@@ -86,14 +86,17 @@ def _console_interaction(test, success_message, failure_message,
+     assert not keep_sending or send_string
+     if vm is None:
+         vm = test.vm
+-    console = vm.console_socket.makefile()
++    console = vm.console_socket.makefile(mode='rb', encoding='utf-8')
+     console_logger = logging.getLogger('console')
+     while True:
+         if send_string:
+             vm.console_socket.sendall(send_string.encode())
+             if not keep_sending:
+                 send_string = None # send only once
+-        msg = console.readline().strip()
++        try:
++            msg = console.readline().decode().strip()
++        except UnicodeDecodeError:
++            msg = None
+         if not msg:
+             continue
+         console_logger.debug(msg)
 -- 
 2.31.1
 
