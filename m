@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754873C6C12
-	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 10:37:11 +0200 (CEST)
-Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDD693C6C1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 13 Jul 2021 10:41:39 +0200 (CEST)
+Received: from localhost ([::1]:60040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Dug-0004mL-IC
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 04:37:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43046)
+	id 1m3Dz0-0006Qe-S6
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 04:41:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1m3Dtp-000455-06
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:36:17 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:45819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1m3Dtn-0003vo-C8
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:36:16 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id k184so33506283ybf.12
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 01:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DV+E8/h6XkImYvhzArstkH7Yeve0Y444gqwEOLnNwyY=;
- b=MybAnRbNupjXlta1kIw8rOw8SsiQsaf7q6UtLDPnjEeNV4dV/NbQLeNPAHHf/hK0oL
- fxnSwHV3e4kbVDYkWFMHKfoH1ZsZzpuQNjy5f/eMFiSHZKfHiF+zUq3qpgiKOTNe/dtL
- HJfDSfABqgyDp7NTPfc5XV9gyCedq8NR3imCCs/dzCuXKZDYPjNKGzopZiqnnprdf+KU
- NjACm/A4nf4MyNKEAtWxQ5fS2GiRD9Vz7HHcfZ9GFtlo/25/ENfOIrUUClcILOy0Y7LP
- Ze7rJh3bmqRoNSMQSFX7dgznaXTEJdwQUjpASMrJ1V66WNRdg6LjsiO2v7pwr59Tihqc
- a6bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DV+E8/h6XkImYvhzArstkH7Yeve0Y444gqwEOLnNwyY=;
- b=ZBZ8ppRBPM09NAVzkKkulLDCuwiVNutoF4mzdyzB9ui9Gil6D8U0s2O5/lzJ87W9Zv
- oFrtJp33lXPCKM5Mh1ZezrCQB2UysLIF3+PJpqPXHJobH2MHrjjnFUbmhA6/KCRp95ZY
- rkUZ2wux8gUBkKw6DIYHkZ+ZR+jvyzOVOjuFaLJg2uFiEiNG1rAy+58nEGlKjsHg9iUb
- Cg+5bM5bnpYVr+MAweqatpjcXPIkXbyiz9ZOB8AyTfXLSFh5+0ovf1GpQPBz1v6JlpYY
- gw675OZPVG/AY5QCWcyAXdCVGla6vzjwTOq+xX0VpO/AurrOZdUeeFAXObVOwmBn1yl5
- pyDw==
-X-Gm-Message-State: AOAM531q+2cLdzErEhXKBJTBBzxd31GIsuOEvLAyoxqV5R+6aWb1lGd9
- i/Ctjm12cnyBhJS9eUeq7WPPneox3tNvzFSRxQA=
-X-Google-Smtp-Source: ABdhPJxStUxBR9e+OEqvepO74loTMikq9Z0DJ6EI43cVw50Y4jlSpXnG4C4eo/phpE9yi/u2bar7msQCx7WZewSAhew=
-X-Received: by 2002:a5b:504:: with SMTP id o4mr4361865ybp.332.1626165374114;
- Tue, 13 Jul 2021 01:36:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
- <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
- <CAEUhbmWqU=sM6s1ogQB6vQmBSf6KrobW9xUcWCbt2aaO3OtuOg@mail.gmail.com>
- <CAEUhbmWZ3D50J08T5bCFAu_hStQ7n=T8O48OVaTAbrdLh48FbQ@mail.gmail.com>
- <63ff5849-d830-87cc-486c-7fc292220424@redhat.com>
-In-Reply-To: <63ff5849-d830-87cc-486c-7fc292220424@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 13 Jul 2021 16:36:03 +0800
-Message-ID: <CAEUhbmV5CaXr9-7W4v5hyTqvJoi1xtg0pxBiY9O6QkOjPWRJcQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] hw/net: e1000: Correct the initial value of VET
- register
-To: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1m3Dy4-0005go-8G
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:40:40 -0400
+Received: from mga01.intel.com ([192.55.52.88]:49492)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1m3Dy1-0006aV-KS
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 04:40:39 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10043"; a="231924238"
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="231924238"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2021 01:40:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,236,1620716400"; d="scan'208";a="654075281"
+Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
+ by fmsmga005.fm.intel.com with ESMTP; 13 Jul 2021 01:40:25 -0700
+Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
+ fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 13 Jul 2021 01:40:24 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX605.ccr.corp.intel.com (10.109.6.215) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Tue, 13 Jul 2021 16:40:22 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.010;
+ Tue, 13 Jul 2021 16:40:21 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Peter Xu <peterx@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Thread-Topic: [PATCH] migration: Move bitmap_mutex out of
+ migration_bitmap_clear_dirty()
+Thread-Index: AQHXbeunvJLboMuimkuCIYxaPrgzEKtAp0+A
+Date: Tue, 13 Jul 2021 08:40:21 +0000
+Message-ID: <9a8224c9a02b4d9395f6581b24deaa54@intel.com>
+References: <20210630200805.280905-1-peterx@redhat.com>
+In-Reply-To: <20210630200805.280905-1-peterx@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=wei.w.wang@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,85 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Christina Wang <christina.wang@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Carlstedt <markus.carlstedt@windriver.com>
+Cc: Leonardo Bras
+ Soares Passos <lsoaresp@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 13, 2021 at 3:03 PM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2021/7/13 =E4=B8=8A=E5=8D=887:06, Bin Meng =E5=86=99=E9=81=93:
-> > On Mon, Jul 5, 2021 at 1:57 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >> On Mon, Jul 5, 2021 at 12:21 PM Jason Wang <jasowang@redhat.com> wrote=
-:
-> >>>
-> >>> =E5=9C=A8 2021/7/2 =E4=B8=8B=E5=8D=885:24, Bin Meng =E5=86=99=E9=81=
-=93:
-> >>>> From: Christina Wang <christina.wang@windriver.com>
-> >>>>
-> >>>> The initial value of VLAN Ether Type (VET) register is 0x8100, as pe=
-r
-> >>>> the manual and real hardware.
-> >>>>
-> >>>> While Linux e1000 driver always writes VET register to 0x8100, it is
-> >>>> not always the case for everyone. Drivers relying on the reset value
-> >>>> of VET won't be able to transmit and receive VLAN frames in QEMU.
-> >>>>
-> >>>> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
-> >>>> Signed-off-by: Christina Wang <christina.wang@windriver.com>
-> >>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >>>> ---
-> >>>>
-> >>>> (no changes since v1)
-> >>>>
-> >>>>    hw/net/e1000.c | 2 ++
-> >>>>    1 file changed, 2 insertions(+)
-> >>>>
-> >>>> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> >>>> index 4f75b44cfc..20cbba6411 100644
-> >>>> --- a/hw/net/e1000.c
-> >>>> +++ b/hw/net/e1000.c
-> >>>> @@ -29,6 +29,7 @@
-> >>>>    #include "hw/pci/pci.h"
-> >>>>    #include "hw/qdev-properties.h"
-> >>>>    #include "migration/vmstate.h"
-> >>>> +#include "net/eth.h"
-> >>>>    #include "net/net.h"
-> >>>>    #include "net/checksum.h"
-> >>>>    #include "sysemu/sysemu.h"
-> >>>> @@ -254,6 +255,7 @@ static const uint32_t mac_reg_init[] =3D {
-> >>>>        [MANC]    =3D E1000_MANC_EN_MNG2HOST | E1000_MANC_RCV_TCO_EN =
-|
-> >>>>                    E1000_MANC_ARP_EN | E1000_MANC_0298_EN |
-> >>>>                    E1000_MANC_RMCP_EN,
-> >>>> +    [VET]     =3D ETH_P_VLAN,
-> >>>
-> >>> I wonder if we need a compat flag for this, since we change the behav=
-ior.
-> >>>
-> >>> (See e1000_properties[])
-> >>>
-> >> No we don't need to since it does not break migration.
-> > Ping?
->
->
-> I admit migration "works" but it doesn't mean it's not broken. It
-> changes the guest visible default value of VET register, so it may break
-> things silently for the guest.
->
-> For old machine types, we should stick the value to the one without this
-> fix.
+On Thursday, July 1, 2021 4:08 AM, Peter Xu wrote:
+> Taking the mutex every time for each dirty bit to clear is too slow, espe=
+cially we'll
+> take/release even if the dirty bit is cleared.  So far it's only used to =
+sync with
+> special cases with qemu_guest_free_page_hint() against migration thread,
+> nothing really that serious yet.  Let's move the lock to be upper.
+>=20
+> There're two callers of migration_bitmap_clear_dirty().
+>=20
+> For migration, move it into ram_save_iterate().  With the help of MAX_WAI=
+T
+> logic, we'll only run ram_save_iterate() for no more than 50ms-ish time, =
+so taking
+> the lock once there at the entry.  It also means any call sites to
+> qemu_guest_free_page_hint() can be delayed; but it should be very rare, o=
+nly
+> during migration, and I don't see a problem with it.
+>=20
+> For COLO, move it up to colo_flush_ram_cache().  I think COLO forgot to t=
+ake
+> that lock even when calling ramblock_sync_dirty_bitmap(), where another
+> example is migration_bitmap_sync() who took it right.  So let the mutex c=
+over
+> both the
+> ramblock_sync_dirty_bitmap() and migration_bitmap_clear_dirty() calls.
+>=20
+> It's even possible to drop the lock so we use atomic operations upon rb->=
+bmap
+> and the variable migration_dirty_pages.  I didn't do it just to still be =
+safe, also
+> not predictable whether the frequent atomic ops could bring overhead too =
+e.g.
+> on huge vms when it happens very often.  When that really comes, we can
+> keep a local counter and periodically call atomic ops.  Keep it simple fo=
+r now.
+>=20
+> Cc: Wei Wang <wei.w.wang@intel.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Juan Quintela <quintela@redhat.com>
+> Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Could you please propose a solution on how to handle such a scenario
-in a generic way in QEMU? (+Peter)
+FWIW
+Reviewed-by: Wei Wang <wei.w.wang@intel.com>
 
-The POR reset value is wrong in QEMU and has carried forward the wrong
-value for years, and correcting it to its right value needs to do
-what?
+If no one could help do a regression test of free page hint, please documen=
+t something like this in the patch:
+Locking at the coarser granularity is possible to minimize the improvement =
+brought by free page hints, but seems not causing critical issues.
+We will let users of free page hints to report back any requirement and com=
+e up with a better solution later.
 
-Regards,
-Bin
+Best,
+Wei
+
+
 
