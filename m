@@ -2,58 +2,169 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE2C33C7E74
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 08:18:23 +0200 (CEST)
-Received: from localhost ([::1]:60352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E66EB3C7E75
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 08:18:46 +0200 (CEST)
+Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3YDu-00066z-Sa
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 02:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55482)
+	id 1m3YEI-0006wR-0R
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 02:18:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m3YCY-00058W-GO
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:16:58 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:60040
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1m3YD2-0005So-Dq
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:17:28 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:54286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m3YCW-0002pQ-IX
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:16:58 -0400
-Received: from host86-145-86-170.range86-145.btcentralplus.com
- ([86.145.86.170] helo=[192.168.1.65])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1m3YCK-0004hO-Ao; Wed, 14 Jul 2021 07:16:48 +0100
-To: Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210706100141.303960-1-pbonzini@redhat.com>
- <20210706100141.303960-37-pbonzini@redhat.com>
- <20210713134347.1dc8c4b7.alex.williamson@redhat.com>
- <20210713171000.0e3447f9.alex.williamson@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <2e95d601-9449-9331-46b1-5a1bb2f48735@ilande.co.uk>
-Date: Wed, 14 Jul 2021 07:16:43 +0100
+ (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
+ id 1m3YCz-0003Ab-N9
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:17:28 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16E6Dcmr015038; Wed, 14 Jul 2021 06:17:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=P+Fwya0vRLffZv+MHUBkOxfPahmUQvFT7txeCrntLZo=;
+ b=P91uJn7sd0vQ526D6ZxGmnuk59K1QAuxWsv3q4vEfcdW+i6Fw2YvocVmLjmq+CL86HNn
+ 2e6eGDfIY55LrRgENiVDkdyvxouMpb5y7D/tvF9L4GF5PBPH0PsExxxvws2fG+0nzJ2P
+ itADXSGjkiNyjSRrjOA5nfRbxNIMBYBWGum0rF4R1QpcTDX55HyWIwlUwE2+DMcg5zY6
+ AMcHwScfMzXBxQHJaa2Z0m9xF+XbAdOJeSi+uneCZ6tlUOF9ormzSQCXO6VjGlVZfR17
+ CjstDAmHpVvJcRca8hDQTdbviF0x2P5mtA9t4uLTYH44vOr114YNK/V2ovYTrarU1GTr 9Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 39sbtuhm6d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Jul 2021 06:17:22 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16E6Exlf144583;
+ Wed, 14 Jul 2021 06:17:20 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+ by userp3020.oracle.com with ESMTP id 39qnb2aawg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Jul 2021 06:17:20 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iNZdUSqjGyxR6jiAlFDy4165SYpWDsaYF9sgtQlagsisl4evBsrKMq0Mr3+875/kjuNvsxjliYIdSLlLGrphR0oglFfWesmk2LtEkAVJ1aJsDrSTnTfp2Y9qDps8NiZdmrY9aeXM4BpWV6RZfGhfoDHoNTVG0yf/fjmu63iTRnC/72qdJyuTTXiIvxKI0SIxWSwqkMYqswQrsQVbZPPkkggW+4hU7iHN9cZM8w5q8DpMnb5OSGx6salwpeFDjpfwRlfA98ebOMulTRKC95ODLPQbtQiiwZ3/48ASYH1SM00PoXbqWWejmqC6nTcFxlErWPb+iWBCPQbYJof370wk7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P+Fwya0vRLffZv+MHUBkOxfPahmUQvFT7txeCrntLZo=;
+ b=lvEo9ykbRUCObay6w/bSsSio1M4LznRt1gYIF+OI8t9B+swa/aqmJSVE/gwkINzKJNsDcLaU5lWuFVI7ZJQZrmi9bEp14x4nb27Gii5+WIuo+OVeICuwKIwaEaQA7Y6M+HkVU6ZtY+YrJtUsFqF2rxEirOuI5BIo+YDY/eK+qi1eYpbWjkQ6qb9r7qbSjEYHE8Bq1zQRMi36GAboGW9hQe6WFdELLun8P4NNLr7C+ruzB+Ug5dF2MbLOmNxLVpMrvj0gANCyK+YanUJEgHnHf8szMEvE9Kb0K6MiU6mHxRF94JqJoymJlj04GwNCa7c4UQkr1EVVhXEVG+acAECmwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P+Fwya0vRLffZv+MHUBkOxfPahmUQvFT7txeCrntLZo=;
+ b=rrhFv7O7JbGSXzKA9bO5zrp7c23vsq8vcRyHcHlPFCl84FXfwhpg5G4goOa0XefHXvzAFr3Xlw2SJ3GM6DCGXTZRdVR1zJL72XX5Zk+ffy2dHxAGayyhoQDY9oTNkhPl/dv0ypH8LS1A+sqLU659oBGQ8QOJqyZSou6kq6VR05k=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
+Received: from BN7PR10MB2659.namprd10.prod.outlook.com (2603:10b6:406:c5::18)
+ by BN0PR10MB4821.namprd10.prod.outlook.com (2603:10b6:408:125::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Wed, 14 Jul
+ 2021 06:17:18 +0000
+Received: from BN7PR10MB2659.namprd10.prod.outlook.com
+ ([fe80::f90f:61ab:5e6b:d2f6]) by BN7PR10MB2659.namprd10.prod.outlook.com
+ ([fe80::f90f:61ab:5e6b:d2f6%7]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
+ 06:17:18 +0000
+Subject: Re: [PATCH v3 1/3] msix/hmp: add hmp interface to dump MSI-X info
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210714004754.22243-1-dongli.zhang@oracle.com>
+ <20210714004754.22243-2-dongli.zhang@oracle.com>
+ <8735shmorf.fsf@dusky.pond.sub.org>
+From: Dongli Zhang <dongli.zhang@oracle.com>
+Message-ID: <ae859cde-5d56-01f8-4ef8-bffce9303ff1@oracle.com>
+Date: Tue, 13 Jul 2021 23:17:14 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210713171000.0e3447f9.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ Thunderbird/78.6.1
+In-Reply-To: <8735shmorf.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.145.86.170
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PULL 36/40] vl: switch -M parsing to keyval
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.368,
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0214.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c1::9) To BN7PR10MB2659.namprd10.prod.outlook.com
+ (2603:10b6:406:c5::18)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2601:646:c303:6700::7d72] (2601:646:c303:6700::7d72) by
+ SJ0PR13CA0214.namprd13.prod.outlook.com (2603:10b6:a03:2c1::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.12 via Frontend Transport; Wed, 14 Jul 2021 06:17:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4742afd2-b4a1-4760-86aa-08d9468f0813
+X-MS-TrafficTypeDiagnostic: BN0PR10MB4821:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BN0PR10MB482147064B709BC501C59249F0139@BN0PR10MB4821.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uVm40GUWW2ypbOjViuXCMmccC5uJbSb33oclqQQV1s9DhXs7LkCj3m1HzAuKwn+0uHabD7AHoE6lP6bbWfH9Bb2Ak6mM1zSgEiBCx18LTUYV2+McZk/JAV2hNza7iXkiSwGm2VbaiyqMJmtP3FzSn8fY9lWq9d2kPvv72k6QoKB4xUkHYvNChuxqQ4YhM4SbE7PYNtmhLmjW0wldteO3eadXQ9FVc1soUcw0JFMLCEs/ejnEWjpgcpRUj4FnbOeG6iW6qJetCKDckMyJrq3J3RZXSOCXuGofih2Mdw8lQ0lSek4lr+OtTYiYv/Ha/MiY/e6qYX0t0lMP6+SDKLPbcjafRsZnyKQTmu2Fv73BoHtziun88kA1mhzFfNYQYv69A9ZOCg//fyoCbNifjmYfNBh63nSHwJ0O+uDbK/GSTt+ur0NEJEs7/rJqUlQXDaHKM0UWjUX+WDSetKNOguVktSmdxrxr/s7pVYvGtHeYh2MobHfKhqVMM9sfxji4aZye6kCI/IJS5ty7plJxi0kdWznRoy+/PauXKCdbgeWoiIK1Bn9yhJD0d/fXa1eA1wQEPFqSahXnwy06kKjgygZISOxWP8l3Na4K607tMgRFHSSlm0TGHr4eClQ9h7BQ3XYNbhOwzInk1KFZRIYqCaaByKqaQY770V1VNRev2p8+ms9y8yyiVzhCHuWpI8u+/RYlQNJJ+87xO73Pxkkr75mIv41u1RRrkYyLX3623T9GGewhIHqkJsJP+T5qnizymAQL
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN7PR10MB2659.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(366004)(376002)(39860400002)(346002)(53546011)(8936002)(186003)(316002)(8676002)(6916009)(6486002)(5660300002)(31696002)(66556008)(86362001)(31686004)(83380400001)(4326008)(38100700002)(2906002)(6666004)(2616005)(478600001)(66946007)(66476007)(44832011)(36756003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MWY3MzN4Z3RaQ1MwZXN0b1UzeE1kWitwSEt6Q2FFaElWblJxUXhoQnBsL29Z?=
+ =?utf-8?B?V3JlWS9GaHA5SEhGWitYTXBaOE1PYk5RZlpJZzdNK1FGcm01dHRDYWw1dzlh?=
+ =?utf-8?B?RjZ6WWhsQnh1ZVd0eCsxSVo2WmlwZ09QNHBtTmFoS0dSRE5YT3RNSDBwK2gw?=
+ =?utf-8?B?NG9xUUdQS1JoVGhvbDZnRkQ4bWRxbTk4aFlpTVlHS3FzQ2RXM0NGSXFPa213?=
+ =?utf-8?B?a3ZMQlZ6amtYbWllMHNtMEtJUncydTI5TWs4S2M5RlRHR2F0elg0eStneVYw?=
+ =?utf-8?B?aE5OTkN6YjJxaWxSMWxDWjJUWGkxbng0Y2xBajF1eHoyWTVkeG9SM0dqSGFq?=
+ =?utf-8?B?bzBHbFFEQmZQWi8ybnphM1Nqa2R0OTZlcXhmb0tLMGQvcENYWlB4NVFmdXpw?=
+ =?utf-8?B?cFNpcnRSaGd2RmZNM25XVEhHTkM1SzBWU2NXVjdtMWN5akZROVpyYjVwL0Qz?=
+ =?utf-8?B?RnBWMzY1MzRHYTJPK3hRYkMrZ0k1b2kyakFuaHVqTXZCSHdXMlEydVRUQW9G?=
+ =?utf-8?B?eDNzdVFoODJXQW10am1GMUtnc1RjTUtMMWpsU0d3dEI5dVlRQWYrK0VwaWMr?=
+ =?utf-8?B?a2pKOEQ3Z3ZuR3pZZ2lqS0lUblBKL1pMSitsdDhkOTJQZmhRZkVzOXNXUytP?=
+ =?utf-8?B?cXFRaXRWcmRSZ1BlaDh2eldHL3FudVBMZ0xlVEpTSHh2Tkgwa1k5dVR5SVhJ?=
+ =?utf-8?B?Wk5KTTJHZ2dEdEh5d015VURSSEFKUVorbVJDZ2N4d252QW1OenRPcnRRYTVC?=
+ =?utf-8?B?b2xFY0NKUVptczV1K2ZGRUdvdEl4aytBQzZXelQrc1hqTnZvRHpYcXA0ZEpn?=
+ =?utf-8?B?SHc1alFwLzl3cDhGQ3dON296amxaLzVOYVNJQzEzMGx3UzltQTc0aWVCOUt1?=
+ =?utf-8?B?QWJveFJtYWd6dUhyMmhJWUR3Y25mRXdKVUkvQ1RxNFl2M3orbWViSXRPNlNE?=
+ =?utf-8?B?R0poWHJldFdKaThqRHh3OHNlZkFkZlZZRU9JM0lrdDlFU3ZJb1M5ZHVtaG5M?=
+ =?utf-8?B?TzBZbm1DSnZJL2xtdnlMRWxIL0xVWU9UV2xWdXFwTW5QNHZLWHRzNUJsY0cz?=
+ =?utf-8?B?WFRQZGpQM09nUUE4NjBHMEFNQnBoNCtYeVkzejlvcUdJV1crNWtWamVwRU5G?=
+ =?utf-8?B?UnNTYlNDYkg5bkZUeDNzaDFmUjJCbEFMVFRYQXcvK3lXdjgxalFjQ1BCQ3o4?=
+ =?utf-8?B?MzY1cElzeGpJcFRjQ1J3K0RuWGE2VjUxSGIxRExzNGRBaC9sK3VlQklJeFJ3?=
+ =?utf-8?B?NWJuMkJLNW9nSzBpb29KYVBoWjdKRGdXMmNWQXZWZDdFTXh6dFZveDNpS00y?=
+ =?utf-8?B?SW5HYy9vaGJYbFUzUGhWY2pOK21Sd242Ym04WEV3aC9LM01xajFqTXZESHhy?=
+ =?utf-8?B?aEFZUE5aSlBhZk1LL056dTVqdjQ2UkJlSlBVRTdWUXYxMjJxaHJtNy84WE45?=
+ =?utf-8?B?YjJIb1hjNTMxdThWRnVXUkFFVDhUQ3lnR3R4M3lIZHNNVzE1S2VVb05WQTFx?=
+ =?utf-8?B?ZEZpRzhOVDIrMUJSY3JOZTNPVUZWc1VQekRZWGVOdFh2MFF0dkVCcXZzc2Rk?=
+ =?utf-8?B?ZVExMC9POFBZcndTOFc1TDIvTkRJOEFMaklYNG9PSHR5bkRuTERod3FlT1J5?=
+ =?utf-8?B?MW5zdWUxSU56aDVPNEV5YXBmZ2UrbS9EQWxoNnpPd2hDM3VXclI3S1hadXJv?=
+ =?utf-8?B?MkZmNThXMkhSaUNXUmI0a0wvbVZ1WVNWd3FzNG0wb21pM3VXakNzK0FjalIy?=
+ =?utf-8?B?UWdGK29MM2FRT1YreENNZTQ2bE9PeVNiMnZWcitlNmpMYzR1QkNZc1lMZGpE?=
+ =?utf-8?B?RFJVem95MGw4b3Y3R3Z0QT09?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4742afd2-b4a1-4760-86aa-08d9468f0813
+X-MS-Exchange-CrossTenant-AuthSource: BN7PR10MB2659.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 06:17:18.0770 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9qTY5wK4t8XuvAuxGDXLv+Puwf9VkYhKGNqVOCZ7qtQH/5LswegsAN5hB4VpKBxMHiGuQ/T8m1r6oFcFwmDITg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR10MB4821
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10044
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ spamscore=0 suspectscore=0 adultscore=0 mlxlogscore=740 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
+ definitions=main-2107140040
+X-Proofpoint-GUID: 9lDkFe6tBbyBVNCWUfmAR31jl7xhU5Xa
+X-Proofpoint-ORIG-GUID: 9lDkFe6tBbyBVNCWUfmAR31jl7xhU5Xa
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=dongli.zhang@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,84 +178,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+ jasowang@redhat.com, joe.jin@oracle.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/07/2021 00:10, Alex Williamson wrote:
+Hi Markus,
 
-> On Tue, 13 Jul 2021 13:43:47 -0600
-> Alex Williamson <alex.williamson@redhat.com> wrote:
+On 7/13/21 10:46 PM, Markus Armbruster wrote:
+> Dongli Zhang <dongli.zhang@oracle.com> writes:
 > 
->> On Tue,  6 Jul 2021 12:01:37 +0200
->> Paolo Bonzini <pbonzini@redhat.com> wrote:
+>> This patch is to add the HMP interface to dump MSI-X table and PBA, in
+>> order to help diagnose the loss of IRQ issue in VM (e.g., if an MSI-X
+>> vector is erroneously masked permanently). Here is the example with
+>> vhost-scsi:
 >>
->>> Switch from QemuOpts to keyval.  This enables the introduction
->>> of non-scalar machine properties, and JSON syntax in the future.
->>>
->>> For JSON syntax to be supported right now, we would have to
->>> consider what would happen if string-based dictionaries (produced by
->>> -M key=val) were to be merged with strongly-typed dictionaries
->>> (produced by -M {'key': 123}).
->>>
->>> The simplest way out is to never enter the situation, and only allow one
->>> -M option when JSON syntax is in use.  However, we want options such as
->>> -smp to become syntactic sugar for -M, and this is a problem; as soon
->>> as -smp becomes a shortcut for -M, QEMU would forbid using -M '{....}'
->>> together with -smp.  Therefore, allowing JSON syntax right now for -M
->>> would be a forward-compatibility nightmare and it would be impossible
->>> anyway to introduce -M incrementally in tools.
->>>
->>> Instead, support for JSON syntax is delayed until after the main
->>> options are converted to QOM compound properties.  These include -boot,
->>> -acpitable, -smbios, -m, -semihosting-config, -rtc and -fw_cfg.  Once JSON
->>> syntax is introduced, these options will _also_ be forbidden together
->>> with -M '{...}'.
->>>
->>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>> ---
->>>   softmmu/vl.c | 315 ++++++++++++++++++++++++---------------------------
->>>   1 file changed, 146 insertions(+), 169 deletions(-)
+>> (qemu) info msix /machine/peripheral/vscsi0
+>> Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
+>> 0xfee00000 0x00000000 0x00004041 0x00000000
+>> 0xfee00000 0x00000000 0x00004051 0x00000000
+>> 0xfee00000 0x00000000 0x00004061 0x00000000
+>> 0xfee00000 0x00000000 0x00004071 0x00000000
+>> 0xfee01000 0x00000000 0x000040b1 0x00000000
+>> 0xfee02000 0x00000000 0x000040c1 0x00000000
+>> 0xfee03000 0x00000000 0x000040d1 0x00000000
 >>
->> This breaks the below long standing test VM.  libvirt log and xml
->> provided below.  I'm using libvirt version 7.3.0.
+>> MSI-X PBA
+>> 0 0 0 0 0 0 0
+>>
+>> Since the number of MSI-X entries is not determined and might be very
+>> large, it is sometimes inappropriate to dump via QMP.
 > 
-> A trivial reproducer:
+> Why?  What makes HMP different?
+
+Here are two reasons.
+
+1. The size of MSI-X table is nondeterministic and might be very large, e.g.,
+the PCI_MSIX_FLAGS_QSIZE is 0x07FF. The "info tlb" (which is a table and similar
+to MSI-X) and "info lapic" also only support hmp.
+
+2. The [PATCH 3/3] of this patchset support device specific data, the
+definitional of which varies depending on each device type (so far only
+virtio-pci supports the interface).
+
+Thank you very much!
+
+Dongli Zhang
+
 > 
-> qemu-system-x86_64 -blockdev '{"driver":"file","filename":"/usr/share/edk2/ovmf/OVMF_CODE.fd","node-name":"pflash0-storage","auto-read-only":true,"discard":"unmap"}' -blockdev '{"node-name":"pflash0-format","read-only":true,"driver":"raw","file":"pflash0-storage"}' -machine pc,pflash0=pflash0-format
+>> Therefore, this patch dumps MSI-X information only via HMP, which is
+>> similar to the implementation of hmp_info_mem().
+>>
+>> Cc: Jason Wang <jasowang@redhat.com>
+>> Cc: Joe Jin <joe.jin@oracle.com>
+>> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+>> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Acked-by: Jason Wang <jasowang@redhat.com>
 > 
-> backtrace:
-> 
-> #0  error_setg_internal
->      (errp=0x7fffffffd6c8, src=0x55555618bc10 "../../home/alwillia/Work/qemu.git/qapi/qobject-input-visitor.c", line=172, func=0x55555618bf20 <__func__.27> "qobject_input_get_object", fmt=0x55555618bc98 "Parameter '%s' is missing") at ../../home/alwillia/Work/qemu.git/util/error.c:93
-> #1  0x0000555555f8d255 in qobject_input_get_object (qiv=0x5555569c59b0, name=0x555556920ef0 "drive", consume=true, errp=0x7fffffffd6c8) at ../../home/alwillia/Work/qemu.git/qapi/qobject-input-visitor.c:172
-> #2  0x0000555555f8d28b in qobject_input_get_keyval (qiv=0x5555569c59b0, name=0x555556920ef0 "drive", errp=0x7fffffffd6c8) at ../../home/alwillia/Work/qemu.git/qapi/qobject-input-visitor.c:184
-> #3  0x0000555555f8e3a9 in qobject_input_type_str_keyval (v=0x5555569c59b0, name=0x555556920ef0 "drive", obj=0x7fffffffd5a8, errp=0x7fffffffd6c8)
->      at ../../home/alwillia/Work/qemu.git/qapi/qobject-input-visitor.c:551
-> #4  0x0000555555f59e51 in visit_type_str (v=0x5555569c59b0, name=0x555556920ef0 "drive", obj=0x7fffffffd5a8, errp=0x7fffffffd6c8) at ../../home/alwillia/Work/qemu.git/qapi/qapi-visit-core.c:337
-> #5  0x00005555558c3b70 in set_drive_helper (obj=0x5555569208a0, v=0x5555569c59b0, name=0x555556920ef0 "drive", opaque=0x5555564c8300 <pflash_cfi01_properties>, iothread=false, errp=0x7fffffffd6c8)
->      at ../../home/alwillia/Work/qemu.git/hw/core/qdev-properties-system.c:97
-> #6  0x00005555558c3e0b in set_drive (obj=0x5555569208a0, v=0x5555569c59b0, name=0x555556920ef0 "drive", opaque=0x5555564c8300 <pflash_cfi01_properties>, errp=0x7fffffffd6c8)
->      at ../../home/alwillia/Work/qemu.git/hw/core/qdev-properties-system.c:171
-> #7  0x0000555555edb821 in field_prop_set (obj=0x5555569208a0, v=0x5555569c59b0, name=0x555556920ef0 "drive", opaque=0x5555564c8300 <pflash_cfi01_properties>, errp=0x7fffffffd6c8)
->      at ../../home/alwillia/Work/qemu.git/hw/core/qdev-properties.c:86
-> #8  0x0000555555eb7f15 in object_property_set (obj=0x5555569208a0, name=0x555556920ef0 "drive", v=0x5555569c59b0, errp=0x7fffffffd768) at ../../home/alwillia/Work/qemu.git/qom/object.c:1402
-> #9  0x0000555555ebad9e in property_set_alias (obj=0x55555683dde0, v=0x5555569c59b0, name=0x5555566fc8a0 "pflash0", opaque=0x555556920ed0, errp=0x7fffffffd768)
->      at ../../home/alwillia/Work/qemu.git/qom/object.c:2695
-> #10 0x0000555555eb7f15 in object_property_set (obj=0x55555683dde0, name=0x5555566fc8a0 "pflash0", v=0x5555569c59b0, errp=0x7fffffffd7b8) at ../../home/alwillia/Work/qemu.git/qom/object.c:1402
-> #11 0x0000555555eb3aa3 in object_set_properties_from_qdict (obj=0x55555683dde0, qdict=0x5555566fa5b0, v=0x5555569c59b0, errp=0x5555565d9308 <error_fatal>)
->      at ../../home/alwillia/Work/qemu.git/qom/object_interfaces.c:55
-> #12 0x0000555555eb3bc3 in object_set_properties_from_keyval (obj=0x55555683dde0, qdict=0x5555566fa5b0, from_json=false, errp=0x5555565d9308 <error_fatal>)
->      at ../../home/alwillia/Work/qemu.git/qom/object_interfaces.c:79
-> #13 0x0000555555cb3f5f in qemu_apply_machine_options (qdict=0x5555566fa5b0) at ../../home/alwillia/Work/qemu.git/softmmu/vl.c:1833
-> #14 0x0000555555cb8606 in qemu_init (argc=7, argv=0x7fffffffdae8, envp=0x7fffffffdb28) at ../../home/alwillia/Work/qemu.git/softmmu/vl.c:3634
-> #15 0x00005555558326d1 in main (argc=7, argv=0x7fffffffdae8, envp=0x7fffffffdb28) at ../../home/alwillia/Work/qemu.git/softmmu/main.c:49
-
-Is this the same bug fixed by the proposed patch at 
-https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg03324.html?
-
-
-ATB,
-
-Mark.
 
