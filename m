@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4D13C85CA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:12:23 +0200 (CEST)
-Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7985B3C85CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:14:50 +0200 (CEST)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3fcc-0004di-GD
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37532)
+	id 1m3fez-00022H-Fl
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:14:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fZh-0001mv-NP
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20212)
+ id 1m3fZk-0001vA-7b
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fZg-0006VU-4f
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:21 -0400
+ id 1m3fZi-0006Xl-Me
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626271759;
+ s=mimecast20190719; t=1626271762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2pEfCj7tJ6O3ajy12njk3cgZ4W3wxtHAU7diBNQpVqo=;
- b=eCYWzm3OdMSGPvvXC2e9QJJsmeVAe9AcDOh7ut7d0D6TY5aY9ErFgUTCC3cc3vFpzpEMqS
- vnYgnh5Wv0hB+6JyOsOiNi+93646bdCswM3slQWYFDT7cyn++Mf6BD55TSE6Mohevd42iS
- FiiJaX49J6u/g1gLKvBRM7cpqVLzy9M=
+ bh=lIAbQ3KrD6G+4SachCT7rsnMB5ST91SX/LJCO+y76Xc=;
+ b=T4qlwdV5+VkVxu6VkiooEKHgVxAgM2mU9EvLlW/GDI+LMearDpCPgwn7L5DdflrqAatopt
+ wXvbPT2EWjBj51fO+F3OcCmxq2b6rndZiEXwd+8PLjkCnRVcDemp9U0XTy6MLnMUCKgiLj
+ eqrdlB1LHoabdb0sP/Z5TmHhXYgBHso=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-j9MtCLOuMJ-gYbLguIT9Xw-1; Wed, 14 Jul 2021 10:09:18 -0400
-X-MC-Unique: j9MtCLOuMJ-gYbLguIT9Xw-1
+ us-mta-218-njDFEMXVMlq4CDC-pN6psw-1; Wed, 14 Jul 2021 10:09:21 -0400
+X-MC-Unique: njDFEMXVMlq4CDC-pN6psw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15C8B804140;
- Wed, 14 Jul 2021 14:09:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28FDB10C1ADC;
+ Wed, 14 Jul 2021 14:09:20 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-160.ams2.redhat.com
  [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EB9ED69CB4;
- Wed, 14 Jul 2021 14:09:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 62F8269CB4;
+ Wed, 14 Jul 2021 14:09:17 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/26] crypto: remove obsolete crypto test condition
-Date: Wed, 14 Jul 2021 15:08:34 +0100
-Message-Id: <20210714140858.2247409-3-berrange@redhat.com>
+Subject: [PULL 03/26] crypto: skip essiv ivgen tests if AES+ECB isn't available
+Date: Wed, 14 Jul 2021 15:08:35 +0100
+Message-Id: <20210714140858.2247409-4-berrange@redhat.com>
 In-Reply-To: <20210714140858.2247409-1-berrange@redhat.com>
 References: <20210714140858.2247409-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -91,39 +91,44 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we now require gcrypt >= 1.8.0, there is no need
-to exclude the pbkdf test case.
-
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/unit/test-crypto-pbkdf.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ tests/unit/test-crypto-ivgen.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/tests/unit/test-crypto-pbkdf.c b/tests/unit/test-crypto-pbkdf.c
-index c50fd639d2..43c417f6b4 100644
---- a/tests/unit/test-crypto-pbkdf.c
-+++ b/tests/unit/test-crypto-pbkdf.c
-@@ -229,10 +229,8 @@ static QCryptoPbkdfTestData test_data[] = {
-     },
+diff --git a/tests/unit/test-crypto-ivgen.c b/tests/unit/test-crypto-ivgen.c
+index f581e6aba7..29630ed348 100644
+--- a/tests/unit/test-crypto-ivgen.c
++++ b/tests/unit/test-crypto-ivgen.c
+@@ -136,8 +136,15 @@ struct QCryptoIVGenTestData {
+ static void test_ivgen(const void *opaque)
+ {
+     const struct QCryptoIVGenTestData *data = opaque;
+-    uint8_t *iv = g_new0(uint8_t, data->niv);
+-    QCryptoIVGen *ivgen = qcrypto_ivgen_new(
++    g_autofree uint8_t *iv = g_new0(uint8_t, data->niv);
++    g_autoptr(QCryptoIVGen) ivgen = NULL;
++
++    if (!qcrypto_cipher_supports(data->cipheralg,
++                                 QCRYPTO_CIPHER_MODE_ECB)) {
++        return;
++    }
++
++    ivgen = qcrypto_ivgen_new(
+         data->ivalg,
+         data->cipheralg,
+         data->hashalg,
+@@ -152,9 +159,6 @@ static void test_ivgen(const void *opaque)
+                             &error_abort);
  
-     /* non-RFC misc test data */
--#ifdef CONFIG_NETTLE
-     {
--        /* empty password test.
--         * Broken with libgcrypt <= 1.5.0, hence CONFIG_NETTLE */
-+        /* empty password test. */
-         .path = "/crypto/pbkdf/nonrfc/sha1/iter2",
-         .hash = QCRYPTO_HASH_ALG_SHA1,
-         .iterations = 2,
-@@ -244,7 +242,6 @@ static QCryptoPbkdfTestData test_data[] = {
-                "\xbf\x03\xe1\x1c\x71\xca\x79\x4e\x07\x97",
-         .nout = 20
-     },
--#endif
-     {
-         /* Password exceeds block size test */
-         .path = "/crypto/pbkdf/nonrfc/sha256/iter1200",
+     g_assert(memcmp(iv, data->iv, data->niv) == 0);
+-
+-    qcrypto_ivgen_free(ivgen);
+-    g_free(iv);
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.31.1
 
