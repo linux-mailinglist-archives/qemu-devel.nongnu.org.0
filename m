@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EFE23C7F52
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 09:27:52 +0200 (CEST)
-Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F903C7F54
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 09:29:28 +0200 (CEST)
+Received: from localhost ([::1]:41948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3ZJ9-0007Xg-Ei
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 03:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40034)
+	id 1m3ZKh-0001pO-70
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 03:29:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1m3ZGl-00056A-UE
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 03:25:26 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1m3ZGk-0007hL-3c
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 03:25:23 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id a16so1636579ybt.8
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 00:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xJuQJduVQqSwrMrGVIOZV1+nEWsQFBcDDVLvFcXiTTU=;
- b=YfXOs7Fc1SOz+MsBM5YfEWpOwOIZ2cDK3q6Kp8PqNbie+LT14Qr0UVFvjd6K/Q7psi
- ooaLswyGOKGo+kcvCNT+tRrrQ59REij6fWceKRdbSWSCGVLI9SRsCXr/F9HiP8jtAJ4e
- iA4Zs6gDrB4M4ishXL8mEfInAP8KDaJ1RU6w2kh4hZz70uAGevsSI8pF+wp3xYWP+5hb
- 7aH/76h1KBgff+JQpuZwteuJBpAl3s1ZZjFc5wGJwNWjVBi7JKK5Bduo+J+Ep1d27O/f
- 1pKFO4Y/JqyKRR5Q4YIbxRrBmSLptUqPzj5zvN9J3lQTjAXYChAjnKXLBIm3IQLC4Q8h
- re8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xJuQJduVQqSwrMrGVIOZV1+nEWsQFBcDDVLvFcXiTTU=;
- b=eim3UueuiRSQ0/N5HVgGIiL/2CTFsXdPI8f3deeCAC+3XQpuGMkhpMsPmvto54jQ47
- AbvuDMciUa1RGVQkIMtKTUIX48eVubsHxvPRfuA25qxQ9ksCkXS1Mqrv6q/d0frywm59
- nFZj51WrgvlmH5mzFIz+C9BnGoiTRekC9S7UowaCsXAcFD7T2KeUy3IvFM+PtWGvkOZW
- g+voFVfJ81QdAxAr71ao1cNfWI8njamU/uTo2UgOXOrrpfv04uqx0aPybiYmNpw9fIAk
- SO/ah2QtSIJSmBnj8MquwS/nxI6AH2Ls1Ld9mOW7kPXni76cdV7XejEYFt1/1xySLH9u
- FeOQ==
-X-Gm-Message-State: AOAM533Jmp+De2HrSlHkSEBPIs3OjG+1rTDBEA99kcPqLzR3fvdWnLFJ
- quupjCaXR7pRenNSr1r4QjnJPtyLwgQr2k1nhpQjXKoWSGk=
-X-Google-Smtp-Source: ABdhPJy7YPW7YeEc3Qykr6DKuN/t45fDA2geKuJXC2SvpC0CyAeeZ+pYlQbco7M5dMRDzEnL71NFlm9dYtIca4NopO4=
-X-Received: by 2002:a25:80d4:: with SMTP id c20mr11497700ybm.345.1626247520440; 
- Wed, 14 Jul 2021 00:25:20 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
+ id 1m3ZGi-00054o-Vo; Wed, 14 Jul 2021 03:25:21 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:61797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
+ id 1m3ZGg-0007eb-Sk; Wed, 14 Jul 2021 03:25:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1626247517; x=1657783517;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=aK5q1LfWMp0Zj3X51JFq8pt1YpO/bfu94V3Z/HHoSvI=;
+ b=G9/SoyboF7MvvF5rPbjzhOrgoJz+q7ADwgzkzpGKKpqVza9fvm9xGnM4
+ 3I5jDfxkopZqTd5BVVv2SoBMWXDsxebiCCTA7jfoiUUbt9PaOHi1hQSMN
+ vV55POg7so73Rpl5kvhpgVFj0P6456wKy38RBi10ljebYnANaO+vvGdmO
+ 3GEctxy2uPDFTClGaxUgqY+dFd6UkDzGpB5+pFr2ITTaEd3pV5UbF1LDk
+ 2uHoKNaT1F80kkPnAXs8eX1PJfO33GMRgN7CO3jixCNboJEkRZ2Nn3kCy
+ EIUOziFMKwRtVL6C/y1ACwwTbObuNRZxHqy/ijVKSur/waoRr/VeRwNTq w==;
+IronPort-SDR: KP/SBNPBVtHld5ySvdXn1BuslhBUJ+LOXOPUMU3RgLRfLcHp1vYOjzTJOwVRqddFpzFqI3AI3n
+ eYYKU7eRRmiL9CZr+lLcFEVKy+lscKY1rwOsw6JGBcn9u2HdKYuLe2kwwM6LkHOvBFUHiDqNC4
+ PPDRZjIZE3rI292gpniTb9i6lGQMb95GyOmdlpiaoclhYWfSzmbj8YYQur7djgcmyClj+t5k2Y
+ dBvsKK+vG3255BDd0efC7X1klToAOjEL05nWj5RF5ffOvJRa6LGZuL3MnqInMTh2yV6dXu6K4H
+ F6s=
+X-IronPort-AV: E=Sophos;i="5.84,238,1620662400"; d="scan'208";a="179344528"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2021 15:25:15 +0800
+IronPort-SDR: /m2P4vKkH6K81q7QRVeHJV5qWbdyy4ml3UmYMfgXDnb9UM/LrPiyUex23NS+LHARcJj62PkagW
+ mmR3Kx0krc7NG+Y4W+FbUAJ4YkutkUDVCQ9gQttNFxeXh/H2heNodGulEAPXtx5NVQ549KuhkL
+ azM/AamOTK/1lb0PqjD5xPYRJLUIJzplrFmrVVMW5Qyevnp6Lx1XsDxnCRE9ywujhRy15BKEBV
+ XnXbBJnsM7Sze/5wWwEXxd3Hwh1zbxIlDe6ffQTGPbM6EqZe/s2d/NLhPIfcj14PanQcClG4V2
+ 30iAFMUrsvKQQaCStBx23biB
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2021 00:01:59 -0700
+IronPort-SDR: 7jT0YsNB27Vu9jALH7fWStT7SujC0L7pjqr3+Fx5yHPj/5mlK6um4xRfvC9L2IMqPeOeJMYCaF
+ jhL2qOftSdj6Y2QDPZiQwNAbkvd92cm+2J4ycjYfWzH3iR85F/ZyxRmY1Bbf4VUOOB1pW2r7so
+ GfJULDht792Sc0WWklXJtJdsOKkqCRlEDXXuicYqHEysG7V7FRkDM7MceH46RpQ8WlTyAkdeLH
+ +rJeKl3FshAbtA/FHhSBDkyk5V5s+W8jhpW3OweVybq/zn88QkrJRdy7aep1vhETYjarG+5Tn9
+ WKY=
+WDCIronportException: Internal
+Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.112])
+ by uls-op-cesaip01.wdc.com with ESMTP; 14 Jul 2021 00:25:13 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 5/5] hw/intc: ibex_timer: Convert the timer to use RISC-V
+ CPU GPIO lines
+Date: Wed, 14 Jul 2021 17:25:11 +1000
+Message-Id: <78eb66f16d6096a60479759e2c1deb524c39757e.1626247467.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
+References: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-References: <20210621125017.113989-1-konstantin@daynix.com>
- <CAJ28CFSxqVawommAhzH+Fu++Xf4gtQdBQCZ6mHGVpTi6qUK2MA@mail.gmail.com>
- <CAJ28CFS4qBccGOd+e2rSN0dL2k5ROb5NJgcKe2CyzR2RZ+CF3Q@mail.gmail.com>
-In-Reply-To: <CAJ28CFS4qBccGOd+e2rSN0dL2k5ROb5NJgcKe2CyzR2RZ+CF3Q@mail.gmail.com>
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Wed, 14 Jul 2021 10:25:09 +0300
-Message-ID: <CAJ28CFSuag9RjOfdDHOOtccoGxLUc63EKhkd5F52S5=gFJ_8kw@mail.gmail.com>
-Subject: Re: [PATCH] qga-win: Add support of Windows Server 2022 in get-osinfo
- command
-To: Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000c5ebfe05c7104114"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=8220343f1=alistair.francis@wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,109 +91,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c5ebfe05c7104114
-Content-Type: text/plain; charset="UTF-8"
+Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
+CPU GPIO lines to set the timer MIP bits.
 
-ping
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/hw/timer/ibex_timer.h |  2 ++
+ hw/riscv/opentitan.c          |  3 +++
+ hw/timer/ibex_timer.c         | 17 ++++++++++++-----
+ 3 files changed, 17 insertions(+), 5 deletions(-)
 
+diff --git a/include/hw/timer/ibex_timer.h b/include/hw/timer/ibex_timer.h
+index 6a43537003..b6f69b38ee 100644
+--- a/include/hw/timer/ibex_timer.h
++++ b/include/hw/timer/ibex_timer.h
+@@ -48,5 +48,7 @@ struct IbexTimerState {
+     uint32_t timebase_freq;
+ 
+     qemu_irq irq;
++
++    qemu_irq m_timer_irq;
+ };
+ #endif /* HW_IBEX_TIMER_H */
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index 88a0200972..fb0750c16f 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -176,6 +176,9 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->timer),
+                        0, qdev_get_gpio_in(DEVICE(&s->plic),
+                        IBEX_TIMER_TIMEREXPIRED0_0));
++    qdev_connect_gpio_out_named(DEVICE(&s->timer), NULL, 0,
++                                qdev_get_gpio_in(DEVICE(qemu_get_cpu(0)),
++                                                 IRQ_M_TIMER));
+ 
+     create_unimplemented_device("riscv.lowrisc.ibex.gpio",
+         memmap[IBEX_DEV_GPIO].base, memmap[IBEX_DEV_GPIO].size);
+diff --git a/hw/timer/ibex_timer.c b/hw/timer/ibex_timer.c
+index 5befb53506..66e1f8e48c 100644
+--- a/hw/timer/ibex_timer.c
++++ b/hw/timer/ibex_timer.c
+@@ -77,7 +77,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+         /*
+          * If the mtimecmp was in the past raise the interrupt now.
+          */
+-        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
++        qemu_irq_raise(s->m_timer_irq);
+         if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
+             s->timer_intr_state |= R_INTR_STATE_IS_0_MASK;
+             qemu_set_irq(s->irq, true);
+@@ -86,7 +86,7 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+     }
+ 
+     /* Setup a timer to trigger the interrupt in the future */
+-    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
++    qemu_irq_lower(s->m_timer_irq);
+     qemu_set_irq(s->irq, false);
+ 
+     diff = cpu->env.timecmp - now;
+@@ -106,10 +106,8 @@ static void ibex_timer_update_irqs(IbexTimerState *s)
+ static void ibex_timer_cb(void *opaque)
+ {
+     IbexTimerState *s = opaque;
+-    CPUState *cs = qemu_get_cpu(0);
+-    RISCVCPU *cpu = RISCV_CPU(cs);
+ 
+-    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
++    qemu_irq_raise(s->m_timer_irq);
+     if (s->timer_intr_enable & R_INTR_ENABLE_IE_0_MASK) {
+         s->timer_intr_state |= R_INTR_STATE_IS_0_MASK;
+         qemu_set_irq(s->irq, true);
+@@ -280,12 +278,21 @@ static void ibex_timer_init(Object *obj)
+     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->mmio);
+ }
+ 
++static void ibex_timer_realize(DeviceState *dev, Error **errp)
++{
++    IbexTimerState *s = IBEX_TIMER(dev);
++
++    qdev_init_gpio_out(dev, &s->m_timer_irq, 1);
++}
++
++
+ static void ibex_timer_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     dc->reset = ibex_timer_reset;
+     dc->vmsd = &vmstate_ibex_timer;
++    dc->realize = ibex_timer_realize;
+     device_class_set_props(dc, ibex_timer_properties);
+ }
+ 
+-- 
+2.31.1
 
-On Sun, Jul 11, 2021 at 8:18 PM Konstantin Kostiuk <konstantin@daynix.com>
-wrote:
-
-> ping
->
-> On Sun, Jul 4, 2021 at 8:51 AM Konstantin Kostiuk <konstantin@daynix.com>
-> wrote:
->
->> ping
->>
->> On Mon, Jun 21, 2021 at 3:50 PM Kostiantyn Kostiuk <konstantin@daynix.com>
->> wrote:
->>
->>> Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
->>> ---
->>>  qga/commands-win32.c | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
->>> index 300b87c859..93b08fd4b5 100644
->>> --- a/qga/commands-win32.c
->>> +++ b/qga/commands-win32.c
->>> @@ -2209,9 +2209,10 @@ typedef struct _ga_win_10_0_server_t {
->>>      char const *version_id;
->>>  } ga_win_10_0_server_t;
->>>
->>> -static ga_win_10_0_server_t const WIN_10_0_SERVER_VERSION_MATRIX[3] = {
->>> +static ga_win_10_0_server_t const WIN_10_0_SERVER_VERSION_MATRIX[4] = {
->>>      {14393, "Microsoft Windows Server 2016",    "2016"},
->>>      {17763, "Microsoft Windows Server 2019",    "2019"},
->>> +    {20344, "Microsoft Windows Server 2022",    "2022"},
->>>      {0, 0}
->>>  };
->>>
->>> --
->>> 2.25.1
->>>
->>
-
---000000000000c5ebfe05c7104114
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" c=
-lass=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div>ping</div>=
-</div></div><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, Jul 11, 2021 at 8:18 PM Konstantin Kostiuk &lt;<a h=
-ref=3D"mailto:konstantin@daynix.com">konstantin@daynix.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
-ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Sun, Jul 4, 2021 at 8:51 AM Konstantin Kostiuk &lt;<a href=3D"ma=
-ilto:konstantin@daynix.com" target=3D"_blank">konstantin@daynix.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
-=3D"ltr">ping<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Mon, Jun 21, 2021 at 3:50 PM Kostiantyn Kostiuk &lt;<a =
-href=3D"mailto:konstantin@daynix.com" target=3D"_blank">konstantin@daynix.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:konstantin@daynix=
-.com" target=3D"_blank">konstantin@daynix.com</a>&gt;<br>
----<br>
-=C2=A0qga/commands-win32.c | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index 300b87c859..93b08fd4b5 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -2209,9 +2209,10 @@ typedef struct _ga_win_10_0_server_t {<br>
-=C2=A0 =C2=A0 =C2=A0char const *version_id;<br>
-=C2=A0} ga_win_10_0_server_t;<br>
-<br>
--static ga_win_10_0_server_t const WIN_10_0_SERVER_VERSION_MATRIX[3] =3D {<=
-br>
-+static ga_win_10_0_server_t const WIN_10_0_SERVER_VERSION_MATRIX[4] =3D {<=
-br>
-=C2=A0 =C2=A0 =C2=A0{14393, &quot;Microsoft Windows Server 2016&quot;,=C2=
-=A0 =C2=A0 &quot;2016&quot;},<br>
-=C2=A0 =C2=A0 =C2=A0{17763, &quot;Microsoft Windows Server 2019&quot;,=C2=
-=A0 =C2=A0 &quot;2019&quot;},<br>
-+=C2=A0 =C2=A0 {20344, &quot;Microsoft Windows Server 2022&quot;,=C2=A0 =C2=
-=A0 &quot;2022&quot;},<br>
-=C2=A0 =C2=A0 =C2=A0{0, 0}<br>
-=C2=A0};<br>
-<br>
---<br>
-2.25.1<br>
-</blockquote></div>
-</blockquote></div>
-</blockquote></div></div>
-
---000000000000c5ebfe05c7104114--
 
