@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00A23C925C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 22:44:43 +0200 (CEST)
-Received: from localhost ([::1]:49994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1003C925B
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 22:44:38 +0200 (CEST)
+Received: from localhost ([::1]:49756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3lkI-0008QR-Tk
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 16:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35296)
+	id 1m3lkD-0008Gs-6L
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 16:44:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3liq-0006Vb-R1
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:43:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53169)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lih-0006Rh-PL
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:43:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lio-0006O4-4s
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:43:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lie-0006H3-VU
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:43:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626295389;
+ s=mimecast20190719; t=1626295379;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bMRFKA8nRr9EQGBt/bDh0F7NGfU+wtqPAFh18CPbfz4=;
- b=SndxMBELqDtDSglbmPj5vzHLDzm2pnHArL7kbwzsFI1SIuRQVZoxIGxJBlnAtUIL3SPJyh
- 2/g6CAajNVE+hCDoXE33J5mcct5IS9Zq5bNarFrMbQJh2vwMJGmNhXylnChR3E1DApqU7S
- eYmtDfNKv38zuiGGo8e0u9gv9xpTP8w=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-S82lcJ4IOZa0M5kCCaQBlw-1; Wed, 14 Jul 2021 16:42:53 -0400
-X-MC-Unique: S82lcJ4IOZa0M5kCCaQBlw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p4-20020a5d63840000b0290126f2836a61so2179626wru.6
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 13:42:52 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1K83Xan5y/+/i4D+YxXdho6YG5RzwV0V4SgPvALJQ84=;
+ b=DWUS8Rq8uxiRStK0H738hFW5REwzG+nrif/2jAwcuwXzf+pbHU7YJjzE4zBW+oa5Od9HC2
+ 3I9OzMFFQLJZF7TxvOE1Li4zcljnLbdHby+1OjbBhWKGKnMn39Ix5+1CNlN4cwubVLH6/m
+ EpO2Npg91b0ijmufBIz5wTQ09qkHG4Y=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-_VHBpI0MN6CjKOHeX40rbQ-1; Wed, 14 Jul 2021 16:42:58 -0400
+X-MC-Unique: _VHBpI0MN6CjKOHeX40rbQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u13-20020a5d6dad0000b029012e76845945so2144010wrs.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 13:42:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=672XMMl73AtcBS8euF2S4HC9AYruDiPUJdVVL4EpAOU=;
- b=iLImc8/wT5f7dS9g6V8Fwnc/aho1gWmByb7TZSGecqOOjaO5NvCTaLZhWXX7nzA5lS
- FPxT4pZbeuMn3l/l7+k6pm+rHPnKnK1flZAY7K7Ap3TrhO5R/nijGUHSn+ct+z1SUA8p
- OXh0TGH0+1JxxZbGnRUZG/fbWi6/4Ztufe0zMPwVg8MKzujmIxZmLdkDQNbtRCTVw6lY
- Vz6V2ptS/SmYiDXe/88NEbqNRS/6lfA0qbfIRxfrrtQkJ5jiVHZL3NZKN/UFxnK977Q7
- bV9y336YbWr6h1jzK23rC0HZZsQdU7l8WcH1ZrqoZxXKuFLFlCqDqIswBJhYED2+qUcT
- +5Bw==
-X-Gm-Message-State: AOAM533ABvSylQnMbLaepWW36hqlJ22gVj7F41pdyWiCZbkHQAZs8g8Q
- lPyBotpMaOL6HjhIia6bMWfL4qTg8Ff/wY7L0lqBq2vqjHUBOEGAbKbsgFezMWtzaYE7+OyVFyJ
- xcsiqtasW0OoVf0t5ZQ+dIfwyRR4+hNUDqcIuAo0CViBp9gKkoWiX97x5Pdh7hn+J
-X-Received: by 2002:a05:600c:a04:: with SMTP id z4mr57769wmp.103.1626295371533; 
- Wed, 14 Jul 2021 13:42:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw/Ymuf3+IMEVJuxtI8AUoaEP3tKDAJSlDZ+jqSs0Gevzg1OyWew4TS1bAZAebXkgAQ/tIcqA==
-X-Received: by 2002:a05:600c:a04:: with SMTP id z4mr57754wmp.103.1626295371305; 
- Wed, 14 Jul 2021 13:42:51 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1K83Xan5y/+/i4D+YxXdho6YG5RzwV0V4SgPvALJQ84=;
+ b=WuEFejX8BLDWO44AGhiv56ia5rpaJG/KamPSgcggdgHWuw/c0KGilVtzEbjYPQsXVW
+ S8Xm5mPkpIH8a4Vebd8jpocYRRtKC0Xpyh3nfjmNWD6DUNGX2PsGrtki4PWDBxyOwo6h
+ j9OOZE/pQ0xmykwUe2Gi+Il1gxu0iVQ7KbWKnnnkZvoRDd0Bu9h3XdilLR6azHiq2fHa
+ clOuM15aeVU8EAcN04mak7nDrZkwH4caxMrQMd9tGH46DiICuG6imPQEktarNSmV+vK+
+ TshA/RLw3JtMY/P5xxCB065m8H4DejvWaP2HpYZio8OUJm+4EdZV8/nKRDxeoLWukDBG
+ noug==
+X-Gm-Message-State: AOAM530PXDg//XUi9UWgLFW6eQhgz/ePhrtabYxNHDxpZgON2VuV9ren
+ w0OCJwts9QQwV0MGhw5BetVuUuhP3rLQVk/TnySu6D4bfYMiRo2sZZ288358qhniyB0vq9hi+rl
+ YsrmsMLSwrz3pqbFKx9le7ZMNNX2uL34gNA07SRG5llSV5i2GO+QW0/X2A3ML5aOO
+X-Received: by 2002:a1c:4c0a:: with SMTP id z10mr96908wmf.24.1626295376455;
+ Wed, 14 Jul 2021 13:42:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwRypEUeb8x14MwUxi1+J1pDxpcSVvrY75F1YHzt+8gjCt2oTuRcxAs56W4/D72BwN5yRQ4Fg==
+X-Received: by 2002:a1c:4c0a:: with SMTP id z10mr96889wmf.24.1626295376141;
+ Wed, 14 Jul 2021 13:42:56 -0700 (PDT)
 Received: from localhost.localdomain
  (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr. [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id k20sm4249529wrd.70.2021.07.14.13.42.49
+ by smtp.gmail.com with ESMTPSA id 129sm3168066wmz.26.2021.07.14.13.42.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 13:42:50 -0700 (PDT)
+ Wed, 14 Jul 2021 13:42:55 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] OVMF patches for 2021-07-14
-Date: Wed, 14 Jul 2021 22:42:37 +0200
-Message-Id: <20210714204238.3145092-1-philmd@redhat.com>
+Subject: [PULL 1/5] gitlab-ci: Extract EDK2 job rules to reusable section
+Date: Wed, 14 Jul 2021 22:42:38 +0200
+Message-Id: <20210714204238.3145092-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210714204238.3145092-1-philmd@redhat.com>
+References: <20210714204238.3145092-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -93,59 +96,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Dov Murik <dovmurik@linux.ibm.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>
+ Willian Rampazzo <willianr@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a9649a719a44894b81f38dc1c5c1888ee684acef=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull=
--request' into staging (2021-07-14 18:09:09 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/fw-edk2-20210714=0D
-=0D
-for you to fetch changes up to 2669350db2c3df33f4e68c518e9f31f91502a83d:=0D
-=0D
-  MAINTAINERS: remove Laszlo Ersek's entries (2021-07-14 22:28:59 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-Patches related to EDK2/OVMF=0D
-=0D
-- MAINTAINERS: remove Laszlo Ersek's entries=0D
-- Introduce X86_FW_OVMF Kconfig symbol=0D
-- pc_system_ovmf_table_find: Assert that flash was parsed, document=0D
-- gitlab-ci: Fix the jobs building EDK2 blobs=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Dov Murik (2):=0D
-  hw/i386/pc: pc_system_ovmf_table_find: Assert that flash was parsed=0D
-  hw/i386/pc: Document pc_system_ovmf_table_find=0D
-=0D
-Laszlo Ersek (1):=0D
-  MAINTAINERS: remove Laszlo Ersek's entries=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  gitlab-ci: Extract EDK2 job rules to reusable section=0D
-  hw/i386: Introduce X86_FW_OVMF Kconfig symbol=0D
-=0D
- include/hw/i386/pc.h          |   1 +=0D
- hw/i386/pc_sysfw.c            | 107 ------------------------=0D
- hw/i386/pc_sysfw_ovmf-stubs.c |  26 ++++++=0D
- hw/i386/pc_sysfw_ovmf.c       | 151 ++++++++++++++++++++++++++++++++++=0D
- .gitlab-ci.d/edk2.yml         |  27 +++---=0D
- MAINTAINERS                   |   4 +-=0D
- hw/i386/Kconfig               |   4 +=0D
- hw/i386/meson.build           |   2 +=0D
- 8 files changed, 201 insertions(+), 121 deletions(-)=0D
- create mode 100644 hw/i386/pc_sysfw_ovmf-stubs.c=0D
- create mode 100644 hw/i386/pc_sysfw_ovmf.c=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+All jobs depending on 'docker-edk2' job must use at most all
+the rules that triggers it. The simplest way to ensure that
+is to always use the same rules. Extract all the rules to a
+reusable section, and include this section (with the 'extends'
+keyword) in both 'docker-edk2' and 'build-edk2' jobs.
+
+The problem was introduced in commit 71920809cea ("gitlab-ci.yml:
+Add jobs to build EDK2 firmware binaries"), but was revealed in
+commit 1925468ddbf ("docker: EDK2 build job depends on EDK2
+container") and eventually failed on CI:
+https://gitlab.com/qemu-project/qemu/-/pipelines/335995843
+
+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20210714101003.3113726-1-philmd@redhat.com>
+---
+ .gitlab-ci.d/edk2.yml | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
+
+diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+index ba7280605c4..aae2f7ad880 100644
+--- a/.gitlab-ci.d/edk2.yml
++++ b/.gitlab-ci.d/edk2.yml
+@@ -1,10 +1,22 @@
+-docker-edk2:
+- stage: containers
+- rules: # Only run this job when the Dockerfile is modified
++# All jobs needing docker-edk2 must use the same rules it uses.
++.edk2_job_rules:
++ rules: # Only run this job when ...
+  - changes:
++   # this file is modified
+    - .gitlab-ci.d/edk2.yml
++   # or the Dockerfile is modified
+    - .gitlab-ci.d/edk2/Dockerfile
++   # or roms/edk2/ is modified (submodule updated)
++   - roms/edk2/*
+    when: always
++ - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
++   when: always
++ - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
++   when: always
++
++docker-edk2:
++ extends: .edk2_job_rules
++ stage: containers
+  image: docker:19.03.1
+  services:
+  - docker:19.03.1-dind
+@@ -24,16 +36,9 @@ docker-edk2:
+  - docker push $IMAGE_TAG
+ 
+ build-edk2:
++ extends: .edk2_job_rules
+  stage: build
+  needs: ['docker-edk2']
+- rules: # Only run this job when ...
+- - changes: # ... roms/edk2/ is modified (submodule updated)
+-   - roms/edk2/*
+-   when: always
+- - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
+-   when: always
+- - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
+-   when: always
+  artifacts:
+    paths: # 'artifacts.zip' will contains the following files:
+    - pc-bios/edk2*bz2
+-- 
+2.31.1
 
 
