@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0F73C829F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:18:25 +0200 (CEST)
-Received: from localhost ([::1]:50290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85DE13C829D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:17:43 +0200 (CEST)
+Received: from localhost ([::1]:48324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3byC-0004e4-SZ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1m3bxW-00034l-Bb
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m3bso-0005qT-6W
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:12:50 -0400
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:46892)
+ id 1m3buL-0001Kq-5v
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:14:25 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:45051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m3bsm-0003CL-Mv
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:12:49 -0400
-Received: by mail-io1-xd32.google.com with SMTP id p186so1315248iod.13
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 03:12:48 -0700 (PDT)
+ id 1m3buJ-0004Mk-Ix
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:14:24 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id v26so1332399iom.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 03:14:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=g8/uBdHS75KyU703p0E+tbIxBCagTSrYNQiB0JbVEHc=;
- b=VITK5Y1h8LONEthPmAf/YkNl1/b8gSy/8A58JypzePlwEruUrjrqeFrucXK0HCr5EG
- dkM5dHieHq4QW2r2P4aPx8c/kH/MyOAG9JMKuFod1zgZkvbygSb7MIT+mhszAGDl7keT
- 4LrWTIUbxRIEYqSVJuILU8fjcIFcE6TynnnbvCoOQPsVn6dW0OHrrziDIhxzooQlBSNH
- RS+lkSaFcOwKOq2ZVmD+11O/O9tdrYH7NHr2srK7upkJN/jyNHZBqRug6QAOXUicGiEx
- ymArcTJb0i/MVZCQoCr1mFL+YVVxo4NmnSQl/LgmnqDS4ZsWqXTzolOEwQcJfa3/qcV/
- 4M+A==
+ :cc:content-transfer-encoding;
+ bh=SUsbANzlI7N6m0b2hhxisORpnsRBPZ/HbDoOz/DQaRk=;
+ b=t5rggvxpxEWU9vl4xB4QYoP8DC9DdJteE+s9vMMftABBfO+WDBm3yCGZfUSGfzOTwX
+ f6Uk0+bJRhA4wu52139zE2flvj21JtoDW+to2iiGI+2yjmhm7i9ZNctxILE147bS/6FR
+ oI7Wt6ps68yBans2VGtsjLDkamhQTi/fv2wQfb1q3gdsuIvsRRdKfYt+R6hLCrZ1sgXM
+ Ol8NKgocdU3hUnilvhqgTEvEeNpceAd2i5Ftrhvzkv0+OyOCSDY27Zr9mWJ3yP3xgZJ7
+ 4Sp1zqvlT19jqZyCUOUga31J1QypzXpOqyZYEwxttoJ/qAg8fCzLwuktMzXb3NT0pGeO
+ 5gLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=g8/uBdHS75KyU703p0E+tbIxBCagTSrYNQiB0JbVEHc=;
- b=YcBB/WClgt7Q7DlbKqzCQLQUBx9glNKvA25YYCe3S/kZqGuYMOcCh8rcwlZlzSswte
- EF7W1yiUUab7YwoaD/rwbSfuqnUquBQeQbSuNxeH3wz5GlQoNIapUxO3N7DqQ/Fcva+E
- 8wcmcyftjfCgP5pAyPem3LNVHSFGDZA+yZ6rzhnHwTSuAylL3kwKHYMTv3louh8m6J2Z
- C6XFjt+BVO1433+IHo9AdkFSDxzLSIE8W/n0piazPpdDjU4rIARcgeLBfSxEJ8T1Q9Oc
- 6JOnuxSIxnsd/Uh3VwtlbpbiI4OacRlWKIk8Ad2mN857KJE+VdsNaCn40ZNU/lGZoV5a
- TfIA==
-X-Gm-Message-State: AOAM530XG4VJZ200aICpuZNKqO802em8U9ApPdOmVZUbmy590esSqwD/
- g+skuhm0zl7pfyPJzINbFgq3pYAVzorLfuTlNFs=
-X-Google-Smtp-Source: ABdhPJxeb+ZaBYPa0EN4Ll2Z7PH58rt11zGhbZlMtM28QBl7YWalDl37BTMNFRdkxYOj3ttucugTwoJj8PPlxndx9xM=
-X-Received: by 2002:a6b:f41a:: with SMTP id i26mr6607557iog.162.1626257567319; 
- Wed, 14 Jul 2021 03:12:47 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SUsbANzlI7N6m0b2hhxisORpnsRBPZ/HbDoOz/DQaRk=;
+ b=tZ1bYN8TNk1OJY5FewNe/YL6zL9tAZe52DdTk6+0XztyUFU3tZIzxP+rfRXMDRKy70
+ uuE0jQkhNztG9AsuyP1OV5UdE2VJto+hUMebzxpD68dQBdBaWftAj9HnrC15TDi0f0ir
+ RfyTpBZl7quXB5fuz1p42xQdxDngUEVbTxVg9N/LRyU6zAeNLG+DJUYzobRKoJKQUl+E
+ 5019oI+hoiZ3CXhKVR9G/WhZRA3lgUeDbqq1JKOD4cTxzB2YK/Q2gvyylpRMSbT+0+1e
+ gFcML6XjMSil9CCJJkMGllsjud15lIEMcLYhqHsciAy6HdgFnPzcgZUfiY9qqLRHNFoE
+ fxEw==
+X-Gm-Message-State: AOAM530H9BqxapEuzQgPDX+fnNVLqBJpP5p5DDdyi10a9ENm4D3qcsU/
+ ZlA3pVQs4jEoMwvFHBpsH9ohCCSeeYgh6er+DAdMRwRW4+U=
+X-Google-Smtp-Source: ABdhPJy7zlkXM4TC0g6HaIkuy2RcQfD8sPbWKU5b1yYyYyuyuK+2RT0PAmM5/nSQC1AADItkWClvqe/fHV2EmIkAkeY=
+X-Received: by 2002:a6b:e70f:: with SMTP id b15mr4488431ioh.67.1626257662333; 
+ Wed, 14 Jul 2021 03:14:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210714092946.569516-1-stefanha@redhat.com>
- <20210714092946.569516-3-stefanha@redhat.com>
-In-Reply-To: <20210714092946.569516-3-stefanha@redhat.com>
+ <20210714092946.569516-2-stefanha@redhat.com>
+In-Reply-To: <20210714092946.569516-2-stefanha@redhat.com>
 From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 14 Jul 2021 12:12:36 +0200
-Message-ID: <CAM9Jb+i4eAZBo32tVfdLJeSaSPW14gGcA9TFgxF_CqB8Q378AA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] memory: add memory_region_is_mapped_shared()
+Date: Wed, 14 Jul 2021 12:14:11 +0200
+Message-ID: <CAM9Jb+gOd4eUV5Hz=xTh1ATrzEuXuDcynRy+y=ontwDmu8HyJg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] tests/qtest/vhost-user-test: use share=on with
+ memfd
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd32.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,58 +88,36 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Add a function to query whether a memory region is mmap(MAP_SHARED).
-> This will be used to check that vhost-user memory regions can be shared
-> with the device backend process in the next patch.
+> Add share=3Don for consistency and to prevent future bugs in the test.
 >
-> An inline function in "exec/memory.h" would have been nice but RAMBlock
-> fields are only accessible from memory.c (see "exec/ramblock.h").
+> Note that share=3Don is the default for memory-backend-memfd so existing
+> tests work.
 >
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  include/exec/memory.h | 11 +++++++++++
->  softmmu/memory.c      |  6 ++++++
->  2 files changed, 17 insertions(+)
+>  tests/qtest/vhost-user-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index c3d417d317..5976f05a01 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2763,6 +2763,17 @@ static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
->      }
->  }
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.=
+c
+> index 3d6337fb5c..6c0891d429 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -40,7 +40,7 @@
+>  #define QEMU_CMD_MEM    " -m %d -object memory-backend-file,id=3Dmem,siz=
+e=3D%dM," \
+>                          "mem-path=3D%s,share=3Don -numa node,memdev=3Dme=
+m"
+>  #define QEMU_CMD_MEMFD  " -m %d -object memory-backend-memfd,id=3Dmem,si=
+ze=3D%dM," \
+> -                        " -numa node,memdev=3Dmem"
+> +                        "share=3Don -numa node,memdev=3Dmem"
+>  #define QEMU_CMD_CHR    " -chardev socket,id=3D%s,path=3D%s%s"
+>  #define QEMU_CMD_NETDEV " -netdev vhost-user,id=3Dhs0,chardev=3D%s,vhost=
+force"
 >
-> +/**
-> + * memory_region_is_mapped_shared: check whether a memory region is
-> + * mmap(MAP_SHARED)
-> + *
-> + * Returns %true is a memory region is mmap(MAP_SHARED). This is always false
-> + * on memory regions that do not support memory_region_get_ram_ptr().
-> + *
-> + * @mr: the memory region being queried
-> + */
-> +bool memory_region_is_mapped_shared(MemoryRegion *mr);
-> +
->  /**
->   * address_space_read: read from an address space.
->   *
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index bfedaf9c4d..3c4510c809 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -1811,6 +1811,12 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
->      return mr->ram_device;
->  }
->
-> +bool memory_region_is_mapped_shared(MemoryRegion *mr)
-> +{
-> +    return memory_access_is_direct(mr, false) &&
-> +           (mr->ram_block->flags & RAM_SHARED);
-> +}
-> +
->  uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
->  {
->      uint8_t mask = mr->dirty_log_mask;
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
