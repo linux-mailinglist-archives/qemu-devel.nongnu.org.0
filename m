@@ -2,67 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9283C8EBE
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:47:49 +0200 (CEST)
-Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CD13C8EC1
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:48:52 +0200 (CEST)
+Received: from localhost ([::1]:48824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3krE-0000lt-3l
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
+	id 1m3ksF-0002V3-VE
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:48:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3kpr-0008G7-S8
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:46:23 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3kpq-0001la-66
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:46:23 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id ee25so4735632edb.5
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 12:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xJ47BL1PBnNtjksUHjy7eE1RtMuDf85wJfUn+r+VWFM=;
- b=PpsjVGD75OuHA5AADuK61DApRVzm5XjA158uYG1fVnQye0ZmX775l+JdOMSRz9Enxj
- D415qMB27nNdrRsh6uh0RXh9jCaK883WchKVbHxUcpQVtkHi+VHbGsSaSukySq4iIi+W
- R6XU72N5wXoZ6+rf8v1nBqVNaA46oEU4cZuII1eBLAkCnPuj3uK9TyMv9olmhw5Bu591
- HB04BpPo2ds2tYbyZ/QHNkoYFz/v7segZ9elYQUFsIQCp/JldYbZJX/QAai8x/6R4NrL
- mb+I0zok5+I+g35wpfN1nPGYTOSJg5qjMoH2ImTcyLKByplXkKpNe5m2ADcHw1hpk8xP
- C1lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xJ47BL1PBnNtjksUHjy7eE1RtMuDf85wJfUn+r+VWFM=;
- b=gpUXOxx4P+abkyK7jTLQsVbHoiutAxNM1Zt5W28I48jsvJiSb5ObP80vpzHxW/E2S3
- XJY+3BUGLvX85GXcVQAZxZKdYlERSQ1IUK/0Krwu0om8HM2ZadeRWt36jBjoir7W4iow
- PI7HPff+LwExndXtCyJObfn6YVeZsf/endjqP+VEskov/FQMF1PEVfP8qBhFfTVDonvK
- 9/Me43/d2kMpNl/hc7DCgdq0xcoqA9zVXRxOtxs90ldCdrYddn/kGHfTNW4Q/ImvXHtD
- bamzhi0KXdow43MEbAxgzNh2glq45V1Fxygw19Z4oXH4bJ4zqOW4Q4DAElU91NWNUIIi
- c1NQ==
-X-Gm-Message-State: AOAM533gQqIXt+RbqTamhYz4/FE8zyHvJwnTH6b9PdEbx5TQp2cbN26X
- pV2LOI0qalYVKbvVl3c+q5walWiEqd9w7V6JuS2Jgg==
-X-Google-Smtp-Source: ABdhPJwXWTv8MF9s2gKYPSo4HIrVF6BXBIhI+KBBf87K4KIRDl1WHMpLo64hOkpHZVAKINN7A6fnSVUiXzZVqod0DEg=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr15714231edt.100.1626291979992; 
- Wed, 14 Jul 2021 12:46:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <tianrui-wei@outlook.com>)
+ id 1m3kqI-0000FU-QB; Wed, 14 Jul 2021 15:46:50 -0400
+Received: from mail-me3aus01olkn2181.outbound.protection.outlook.com
+ ([40.92.63.181]:57665 helo=AUS01-ME3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tianrui-wei@outlook.com>)
+ id 1m3kqG-00021S-42; Wed, 14 Jul 2021 15:46:50 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gAC+ak2tq3Ej2mD8D/CNt3SZHlzzMUJFm5AWJFU7E6ujXeTfbvPwxW9uTxWMOBZdPARZ8ZMLdWMaWlSMbyXR5GZZj7MTVnqlsICAOQJ9rq6OvBgYE59bEViFj4gWOZEB1dOxR+UAfcG8srOiUnKnt0ltdjcTcPzXVLDZIadXvtb44JiLlygi4uwpV97nMjYKs6zpIyUJHHx3Bl4sPt2xNCDesVptI9Ozr3jYs5pYW0R3Tiw0U3yGzFZ/MST/ULvaSIABoF8IN54YmJtJHb2mDEXCC/PnMLj1AtMCW/2G/gKnYn1kMGRVvjirXWWOJh1YkI35Sflea67mDP7cIu7IcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dQGKadhcWWzL1Me5oFZqBSyzOX+yN1qjqYxAgQB/o84=;
+ b=bUiGy8olh9fdrMDdNzUzCGMLewhFQd2hQXGvW5YfzWBQy4FH/HcquMj+LZwQ4eKpHlrBJgFMH7EOdLFTHJXGNRGgJlHLgTb47zKKWdq0HeHzf5/4vubvuguz0F/bTwDSiz6hX0G5wvX16e4PX+3rUGni1CDO8URr3XNBowZOZmT0CnGXHKvLnjS2scRAMH02T8CkfKeVVxqUpw3d23xepXwJr53mJXtrsHQavCGT4Xp4RZyKm9JahCAjyI2knLGkQLg/48bGfCVrBSSytqtgjKGGpuBA/RbcRUyoK+fLwqILte0xVDFOLgi4FzVP6V5COSwIrk5ulJWlYGCkV9KLaQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dQGKadhcWWzL1Me5oFZqBSyzOX+yN1qjqYxAgQB/o84=;
+ b=C9CKWaY9P7iIKWfwZgbn//vHV1+0NdCKYuWSueZwhr2UW83PtSNE/rsu61T0Sp+VoyFoG6D3d+ZUnV5YQXpkpUQshMFkcJo3vuD7HLChrhTEESO4Z6GP5bjYbtd6O8yIKKUgi5gKCiYVty+pTlX6u5+UbhfyDHpfcQgOu76UBHR/+/dDL7Eot3EEmS5R+pAGWEcx4UpAnzAf1uOuDV9/su1Syax+UZx+MIGx2yCzmWhDcHz0eQ9Am7YGyzIr29SaC0vp2ApxEyN6MmwHc/TSFHXZfKs1HsOlqrGK3u3klRre4lloHiotBTVBziIpAh+NPa14z5dZwAm9A7zlZpMPIA==
+Received: from SY4PR01MB6798.ausprd01.prod.outlook.com (2603:10c6:10:137::12)
+ by SYBPR01MB4812.ausprd01.prod.outlook.com (2603:10c6:10:5f::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
+ 2021 19:46:35 +0000
+Received: from SY4PR01MB6798.ausprd01.prod.outlook.com
+ ([fe80::a44f:289d:7a25:339b]) by SY4PR01MB6798.ausprd01.prod.outlook.com
+ ([fe80::a44f:289d:7a25:339b%4]) with mapi id 15.20.4331.023; Wed, 14 Jul 2021
+ 19:46:35 +0000
+From: Tianrui Wei <tianrui-wei@outlook.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] hw/intc/arm_gicv3: Fix GICv3 redistributor security checking
+Date: Thu, 15 Jul 2021 03:46:16 +0800
+Message-ID: <SY4PR01MB6798FDE7B97E478254D6B955F6139@SY4PR01MB6798.ausprd01.prod.outlook.com>
+X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TMN: [dHh9EQt9tWWHoNPWGQY2mB6E055Y+a5c]
+X-ClientProxiedBy: HK0PR03CA0098.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::14) To SY4PR01MB6798.ausprd01.prod.outlook.com
+ (2603:10c6:10:137::12)
+X-Microsoft-Original-Message-ID: <20210714194616.1145207-1-tianrui-wei@outlook.com>
 MIME-Version: 1.0
-References: <162621155674.487037.8788212042441164398.stgit@omen>
-In-Reply-To: <162621155674.487037.8788212042441164398.stgit@omen>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 14 Jul 2021 20:45:40 +0100
-Message-ID: <CAFEAcA-m0hk1CTWj2W2bvYnuZgcn9xiUiS48kdopSgV-FkWcKg@mail.gmail.com>
-Subject: Re: [PULL 0/3] VFIO update 2021-07-13 (for v6.1)
-To: Alex Williamson <alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (180.160.46.166) by
+ HK0PR03CA0098.apcprd03.prod.outlook.com (2603:1096:203:b0::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.22 via Frontend Transport; Wed, 14 Jul 2021 19:46:33 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da83d54a-b1ff-4785-167a-08d947001672
+X-MS-TrafficTypeDiagnostic: SYBPR01MB4812:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Pl+UaK9Nx0+iC2GfiVT3NYfKfjwxbmRhDAitFHf2incn/WHsoOniHPPak4e0KIjjqVCryLWfNKoFrIBbVInF+1rTue9fB+NS/1Q910p18k4QyDbtrVPK4fctYckRVQOhVaq+qBF+dz0EK0gFBjN+RGSvr/JXe7BPf5CvANtbsop6j8lmBGWGH03pZgCAmYR0hNw4fdAhKmfBHu+jHSa7uFRPeBXEY7QBS3s+u5nzWqEj6/YWKHu26cwWA3SqPpXlr1ZP8/bGluKHfogvvSBwRYtexh2lsBODV0uefFpjIMiIX84ogWyfyzvOtPzqhXCojBm1dVYXxCh74Oi6QS1WWoQfoDf9TnZffQiSMWyTstRlGnQ0PqaMchgYOd1RcexIoBLmw0jiAgWxA6XK/1s1PdaqAPZ8iMnIC0ifQGFfOYh2w3NS2Xdo86f78oK/Jgdo
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: Ncou5cGVa276ScpnXBEJF4J8cxPbGYa0wC8X4vXq0F28q17fvKpLYrbFL7NZegEE23PWEnPwsXMrb3hrAEj0Izbw5n2c+kfCpliqTT1Uq65F4mEduGg+G2vOf12cULP5TRuqTiahMTS8Yp0qQLM7VA==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da83d54a-b1ff-4785-167a-08d947001672
+X-MS-Exchange-CrossTenant-AuthSource: SY4PR01MB6798.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 19:46:35.8394 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SYBPR01MB4812
+Received-SPF: pass client-ip=40.92.63.181;
+ envelope-from=tianrui-wei@outlook.com;
+ helo=AUS01-ME3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,62 +99,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Pankaj Gupta <pankaj.gupta@ionos.com>,
- Auger Eric <eric.auger@redhat.com>, Cai Huoqing <caihuoqing@baidu.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: sergey.fedorov@linaro.org, qemu-trivial@nongnu.org,
+ shlomo.pongratz@huawei.com, Jonathan Balkind <jbalkind@ucsb.edu>,
+ f4bug@amsat.org, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ shannon.zhao@linaro.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Jul 2021 at 22:42, Alex Williamson
-<alex.williamson@redhat.com> wrote:
->
-> The following changes since commit 961fef0ace0b2a997544deec2f01981b9c9c96e3:
->
->   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20210712' into staging (2021-07-13 17:51:50 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20210713.0
->
-> for you to fetch changes up to fefc1861d4ba8b9b4d7153dc6b359a65468d15cb:
->
->   vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI processor (2021-07-13 11:31:14 -0600)
->
-> ----------------------------------------------------------------
-> VFIO update 2021-07-13
->
->  * Coverity fix to discard listener (David Hildenbrand)
->
->  * MSI-X PBA quirk for BAIDU VFs, additional helper use cases (Cai Huoqing)
->
-> ----------------------------------------------------------------
-> Cai Huoqing (2):
->       vfio/pci: Change to use vfio_pci_is()
->       vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI processor
->
-> David Hildenbrand (1):
->       vfio: Fix CID 1458134 in vfio_register_ram_discard_listener()
->
->  hw/vfio/common.c         |  3 ++-
->  hw/vfio/pci.c            | 12 ++++++++++--
->  include/hw/pci/pci_ids.h |  3 +++
->  3 files changed, 15 insertions(+), 3 deletions(-)
+For redistributor to send sgi, we must test NSACR bits in secure mode.
+However, current implementation inverts the security check, wrongly
+skipping this it when the CPU is in secure state, and only carrying out
+the check when the CPU is not secure or security is not implemented.
+This patch corrects this problem by correcting the inversion of CPU
+secure state checking. It has been tested to work with Linux version 5.11
+in both aarch64 and arm version of qemu.
 
-Something seems to have gone wrong with your pullrequest. Specifically,
-it appears to be based on commit 961fef0ace0b2a997 "Merge remote-tracking
-branch 'remotes/alistair/tags/pull-riscv-to-apply-20210712' into staging",
-which is not a commit that has ever been in master and indeed does not
-compile on all systems. (This is lucky, because if it had compiled
-I might not have noticed the mistake...)
+According to “Arm Generic Interrupt Controller Architecture
+Specification GIC architecture version 3 and version 4,” p. 930, 2008.
+Chapter 12, page 530, when there is only one security state implemented,
+GICD.CTLR.DS is always 0, thus checking NSACR in non-secure state. When
+cpu is in secure state, ns = 0, thus the NSACR check is never performed.
 
-Pull requests should always be based only on commits in master.
+Signed-off-by: Tianrui Wei <tianrui-wei@outlook.com>
+Signed-off-by: Jonathan Balkind <jbalkind@ucsb.edu>
+Tested-by: Tianrui Wei <tianrui-wei@outlook.com>
+---
+ hw/intc/arm_gicv3_redist.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+index 53da703ed8..84cfcfd18f 100644
+--- a/hw/intc/arm_gicv3_redist.c
++++ b/hw/intc/arm_gicv3_redist.c
+@@ -564,7 +564,7 @@ void gicv3_redist_send_sgi(GICv3CPUState *cs, int grp, int irq, bool ns)
+         return;
+     }
+ 
+-    if (ns && !(cs->gic->gicd_ctlr & GICD_CTLR_DS)) {
++    if (!ns && !(cs->gic->gicd_ctlr & GICD_CTLR_DS)) {
+         /* If security is enabled we must test the NSACR bits */
+         int nsaccess = gicr_ns_access(cs, irq);
+ 
+-- 
+2.32.0
+
 
