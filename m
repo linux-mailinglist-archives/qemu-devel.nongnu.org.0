@@ -2,48 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE763C80EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 11:02:17 +0200 (CEST)
-Received: from localhost ([::1]:36218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23C33C80EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 11:03:25 +0200 (CEST)
+Received: from localhost ([::1]:38298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3amW-0007ix-7E
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 05:02:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
+	id 1m3and-0000g2-23
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 05:03:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1m3aka-0006W5-5O
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:00:17 -0400
-Received: from mga18.intel.com ([134.134.136.126]:36425)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1m3akU-00047B-Vd
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:00:15 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10044"; a="197583876"
-X-IronPort-AV: E=Sophos;i="5.84,238,1620716400"; d="scan'208";a="197583876"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2021 01:59:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,238,1620716400"; d="scan'208";a="459923832"
-Received: from devel-wwang.sh.intel.com ([10.239.48.132])
- by orsmga008.jf.intel.com with ESMTP; 14 Jul 2021 01:59:50 -0700
-From: Wei Wang <wei.w.wang@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1] migration: clear the memory region dirty bitmap when
- skipping free pages
-Date: Wed, 14 Jul 2021 03:51:04 -0400
-Message-Id: <20210714075104.397484-1-wei.w.wang@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3alp-0007hf-Fg
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:01:33 -0400
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3aln-0005BR-Nl
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:01:33 -0400
+Received: by mail-ej1-x633.google.com with SMTP id dp20so310561ejc.7
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dYajh4Q1ICP++tRf3RaIXOKAvpgkEQ7tQX1fI8OL5b4=;
+ b=vFMavCPXOTtNqhurgQ5mEkQijz9Bh+4qHPWUVeGUhmp/9YY7n6Sje8smmeywVvfyTM
+ bSAruEK9KjizstbgH47+myDqn5aCQpOCUEip6c6Bdk+LcZ6Bu9hCKxUT1OE9h0S7LtJ/
+ SFKrXDUecmCcin47gX7RB1kemoAU5118JMyRO5dpfX7FdiYTkP5GlUvP206MUn92N1sn
+ 72F5H6cPevb2uqbUvuGoRyn025mxx+yL4LWXNKiRSBtpCPZ0iVnJNkaAtQsbIg/s1DFm
+ o9BslDKAZe73AlUHcq4uLEdtAz6sdrkmnGPAcOWy8EpGUmxWMDyC41SLQ7C1FYMFX2wp
+ sh+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dYajh4Q1ICP++tRf3RaIXOKAvpgkEQ7tQX1fI8OL5b4=;
+ b=NVT62Ycbh/AaxbdcB8KeLuNg+ZZbvqU8fZZo7r6FvkrKHKIMGNoy1zi6GkmG+rauny
+ oj/+EZnUMaIElGDMqPjoQcdRUILWrfyvjiYv4b1KK0wN5pWYR6sxq6ldcA2QkkvNAbZG
+ YhCKZ+4pVaKfo5udSfNmFSaCq9KlvvEqHoMBWoeEmApGwTMxiIsFtN2+WVxc1zM8/s4i
+ v59jkilUoZ8LtSXbT+UdgMxQx5nlmPZHIsLs42cmmUBJjKbosj7MjFRAIz8A8G7GS3PF
+ Rfqlr6gzSFgRpE9Oxm+Zi3L6w03zKFGsR0oaHtXmKwRqgwW9UBlUz9Io69FuUP4MIm21
+ PCwg==
+X-Gm-Message-State: AOAM533vIhoJZTEfz/71xdb4hcj3VD/izz+pik+GgogD5H7AbAqnOp7w
+ HIo5w3ogxtKmCCmQ+ODteMLaKi0FbgXMwfchIBujcA==
+X-Google-Smtp-Source: ABdhPJwgPCQVBar1qpTkza7IW2qK1hLsLeQHGgfG4WswvUyOBdRMeAhRQskeBhJYh9TVeIJrWD4wGag9osZuLze4pHc=
+X-Received: by 2002:a17:906:f9c5:: with SMTP id
+ lj5mr11324460ejb.482.1626253289894; 
+ Wed, 14 Jul 2021 02:01:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.126;
- envelope-from=wei.w.wang@intel.com; helo=mga18.intel.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, HEXHASH_WORD=1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
+ <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
+ <CAEUhbmWqU=sM6s1ogQB6vQmBSf6KrobW9xUcWCbt2aaO3OtuOg@mail.gmail.com>
+ <CAEUhbmWZ3D50J08T5bCFAu_hStQ7n=T8O48OVaTAbrdLh48FbQ@mail.gmail.com>
+ <63ff5849-d830-87cc-486c-7fc292220424@redhat.com>
+ <CAEUhbmV5CaXr9-7W4v5hyTqvJoi1xtg0pxBiY9O6QkOjPWRJcQ@mail.gmail.com>
+ <891042a0-10d5-c1df-ae85-7950ae387a41@redhat.com>
+ <CAEUhbmW__q9mqDK2_XpTqB2Nmdu0_Mj4UrypOi3TugOuGud11A@mail.gmail.com>
+ <62d56b3b-ef11-2384-d3cd-0d34046400ee@redhat.com>
+ <CAEUhbmVtydsZBwnt+QVnZp9uwvKNru2CZ_trq07eJ5mT=UcqUA@mail.gmail.com>
+In-Reply-To: <CAEUhbmVtydsZBwnt+QVnZp9uwvKNru2CZ_trq07eJ5mT=UcqUA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 14 Jul 2021 10:00:50 +0100
+Message-ID: <CAFEAcA_5LugG0JbBX=gN=dYE301nVNuDUpe9--_8o3rw9_y4Jg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] hw/net: e1000: Correct the initial value of VET
+ register
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,154 +89,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, david@redhat.com, dgilbert@redhat.com, peterx@redhat.com,
- quintela@redhat.com
+Cc: Markus Carlstedt <markus.carlstedt@windriver.com>,
+ Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Christina Wang <christina.wang@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When skipping free pages, their corresponding dirty bits in the memory
-region dirty bitmap need to be cleared. Otherwise the skipped pages will
-be sent in the next round after the migration thread syncs dirty bits
-from the memory region dirty bitmap.
+On Wed, 14 Jul 2021 at 04:42, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Wed, Jul 14, 2021 at 11:10 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> >
+> > =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=885:11, Bin Meng =E5=86=99=E9=81=93=
+:
+> > > Can we get some agreement among maintainers?
+> >
+> >
+> > It's not about the agreement but about to have a stable ABI. I don't
+> > know the case for sd but e1000 is used in various  and we work hard to
+> > unbreak the migration compatibility among downstream versions. Git log
+> > on e1000.c will tell you more.
+>
+> Agreement or stable ABI, whatever we call, but we should be in some consi=
+stency.
+>
+> IMHO maintainers should reach an agreement to some extent on how
+> compatibility should be achieved. I just found silly to add a property
+> to fix a real bug in the model, and we preserve the bug all over
+> releases.
+>
+> I can find plenty of examples in the current QEMU tree that were
+> accepted that changed the bugous register behavior, but it was not
+> asked to add new properties to keep the bugos behavior.
+>
+> e.g.: commit ce8e43760e8e ("hw/net: fsl_etsec: Reverse the RCTRL.RSF logi=
+c")
 
-migration_clear_memory_region_dirty_bitmap_range is put outside the
-bitmap_mutex, becasue memory_region_clear_dirty_bitmap is possible to block
-on the kvm slot mutex (don't want holding bitmap_mutex while blocked on
-another mutex), and clear_bmap_test_and_clear uses atomic operation.
+There is basically a judgement call going on here about whether the
+device is "significant enough" that it's worth the effort of
+preserving back-compatibility of bugs.
 
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Reported-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Wei Wang <wei.w.wang@intel.com>
----
- capstone        |  2 +-
- migration/ram.c | 73 +++++++++++++++++++++++++++++++++++++------------
- slirp           |  2 +-
- ui/keycodemapdb |  2 +-
- 4 files changed, 58 insertions(+), 21 deletions(-)
+There is at least one clear rule: if the device isn't used by any
+machine with a versioned machine type, then there is no need to
+provide back-compatibility of old buggy behaviour. (There would
+be no way for the user to select the old behaviour by choosing a
+-4.2 machine type.) This is why the fsl_etsec device doesn't need
+to handle that.
 
-diff --git a/capstone b/capstone
-index f8b1b83301..22ead3e0bf 160000
---- a/capstone
-+++ b/capstone
-@@ -1 +1 @@
--Subproject commit f8b1b833015a4ae47110ed068e0deb7106ced66d
-+Subproject commit 22ead3e0bfdb87516656453336160e0a37b066bf
-diff --git a/migration/ram.c b/migration/ram.c
-index 88ff34f574..c44c6e2fed 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -789,6 +789,51 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-     return find_next_bit(bitmap, size, start);
- }
- 
-+static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
-+                                                       RAMBlock *rb,
-+                                                       unsigned long page)
-+{
-+    uint8_t shift;
-+    hwaddr size, start;
-+
-+    if (!rb->clear_bmap || !clear_bmap_test_and_clear(rb, page)) {
-+        return;
-+    }
-+
-+    shift = rb->clear_bmap_shift;
-+    /*
-+     * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
-+     * can make things easier sometimes since then start address
-+     * of the small chunk will always be 64 pages aligned so the
-+     * bitmap will always be aligned to unsigned long. We should
-+     * even be able to remove this restriction but I'm simply
-+     * keeping it.
-+     */
-+    assert(shift >= 6);
-+
-+    size = 1ULL << (TARGET_PAGE_BITS + shift);
-+    start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
-+    trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
-+    memory_region_clear_dirty_bitmap(rb->mr, start, size);
-+}
-+
-+static void
-+migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
-+                                                 RAMBlock *rb,
-+                                                 unsigned long start,
-+                                                 unsigned long npages)
-+{
-+    unsigned long page_to_clear, i, nchunks;
-+    unsigned long chunk_pages = 1UL << rb->clear_bmap_shift;
-+
-+    nchunks = (start + npages) / chunk_pages - start / chunk_pages + 1;
-+
-+    for (i = 0; i < nchunks; i++) {
-+        page_to_clear = start + i * chunk_pages;
-+        migration_clear_memory_region_dirty_bitmap(rs, rb, page_to_clear);
-+    }
-+}
-+
- static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-                                                 RAMBlock *rb,
-                                                 unsigned long page)
-@@ -805,26 +850,9 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-      * the page in the chunk we clear the remote dirty bitmap for all.
-      * Clearing it earlier won't be a problem, but too late will.
-      */
--    if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
--        uint8_t shift = rb->clear_bmap_shift;
--        hwaddr size = 1ULL << (TARGET_PAGE_BITS + shift);
--        hwaddr start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
--
--        /*
--         * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
--         * can make things easier sometimes since then start address
--         * of the small chunk will always be 64 pages aligned so the
--         * bitmap will always be aligned to unsigned long.  We should
--         * even be able to remove this restriction but I'm simply
--         * keeping it.
--         */
--        assert(shift >= 6);
--        trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
--        memory_region_clear_dirty_bitmap(rb->mr, start, size);
--    }
-+    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
- 
-     ret = test_and_clear_bit(page, rb->bmap);
--
-     if (ret) {
-         rs->migration_dirty_pages--;
-     }
-@@ -2742,6 +2770,15 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
-         start = offset >> TARGET_PAGE_BITS;
-         npages = used_len >> TARGET_PAGE_BITS;
- 
-+        /*
-+         * The skipped free pages are equavelent to be sent from clear_bmap's
-+         * perspective, so clear the bits from the memory region bitmap which
-+         * are initially set. Otherwise those skipped pages will be sent in
-+         * the next round after syncing from the memory region bitmap.
-+         */
-+        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
-+                                                         start, npages);
-+
-         qemu_mutex_lock(&ram_state->bitmap_mutex);
-         ram_state->migration_dirty_pages -=
-                       bitmap_count_one_with_offset(block->bmap, start, npages);
-diff --git a/slirp b/slirp
-index 8f43a99191..2faae0f778 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-+Subproject commit 2faae0f778f818fadc873308f983289df697eb93
-diff --git a/ui/keycodemapdb b/ui/keycodemapdb
-index 6119e6e19a..320f92c36a 160000
---- a/ui/keycodemapdb
-+++ b/ui/keycodemapdb
-@@ -1 +1 @@
--Subproject commit 6119e6e19a050df847418de7babe5166779955e4
-+Subproject commit 320f92c36a80bfafc5d57834592a7be5fd79f104
--- 
-2.25.1
+For PCI devices it's a bit fuzzier because in theory you can plug
+any PCI card into a versioned x86 PC machine.
 
+We don't want to preserve bug-compatibility for absolutely
+everything, because the codebase would quickly clog up with weird
+behaviour that we never test and which is not of any use to users
+either. So you have to look at:
+ * how easy is providing the back-compat?
+ * how commonly used in production is the device?
+ * how likely is it that guests might care?
+ * would the behaviour change cause odd behaviour across
+   a cross-version migration from the old QEMU?
+
+Migration compat is similar, but not quite the same because the
+compatibility handling tends to be less invasive, so we take the
+"provide compat" choice more often. For non-versioned machine types,
+again, we're OK with breaking back-compat as long as we bump a
+migration version number so the user gets an error message rather
+than weird behaviour.
+
+thanks
+-- PMM
 
