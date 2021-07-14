@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F6A3C89D0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:28:55 +0200 (CEST)
-Received: from localhost ([::1]:58432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8053C89D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:29:55 +0200 (CEST)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3igo-0005pN-Hr
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51874)
+	id 1m3ihm-0008C3-ES
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:29:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m3idW-0008Oj-Ox
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:30 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:41488)
+ id 1m3idc-0008S4-Df
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:40 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m3idV-0005hr-9F
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:30 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- a5-20020a7bc1c50000b02901e3bbe0939bso1962183wmj.0
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:25:28 -0700 (PDT)
+ id 1m3idW-0005jk-T9
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:34 -0400
+Received: by mail-wm1-x331.google.com with SMTP id g12so2084437wme.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jcYcrXSu+KqlQ/6QrGFdUV6rCUe9Kbh1qvz/TUIqCys=;
- b=gHiJmZ0V0T4FyGzjyh+GYXbsTnUi6dFa+GD35KyQc9kb5ER5DHmK6M8QHGpNOX1eIH
- /UmUOwG8IlfrjCKbOppD0UEOKuQ/oO5YPIAqXltwBJrV0uwQTO7Sxmsi9lF3k/GNrf8j
- VdRpkjUhptMrAAMTqIWfyEysUL8meP+tcEk3t+qMXs80IGaqxCttzps26GfkU/GnfTA/
- vfkvqilCJPVmHQqoue6q7rXXU8ngc5LuSxPM8MV0of4evqV3EfQ0UOxzdkxJs4IS9rB4
- b2jgHmW/sHsI+wiCJUyUr7iI9cwVFmusSEaDw9UGIjZFHWfbq0V9Jd8Xcl5Sm6V8gLe2
- KY8g==
+ bh=/MgSxNTXj24fmsVtKLZKGMUSHi7S+elrSni9PhwS8No=;
+ b=Ild5PhSy4FIQvEheWdayucZkih6yFYrmi8Xy8NEkIk0egsavgSXuQjo/Mk9yy5bUYg
+ JmtcFY7vMjWmWpwyM0ExXlS3jIFfYj1WVuGjpx833g+X94TcgRekdwORKlspXG7fDhrw
+ 7ZxNbTVuW7l9sPa4YI8gq0A87FKdqDZ6kf4FJiFzyhaKT3Kgn+kw6fojMdAsDGuex6sA
+ Gfgi8P2G33k4mBeCMNTvn28bKpR6LADlwTfFp2LeWbiRcOYbosjEmRfOXbIB9TL97kwW
+ 419NimGZLj8PU4qrZ6mpDlYP0u8fnIoDQt4Nanc1qzWynpyXI3s/AnOHnxwZUtS42hvG
+ qdXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jcYcrXSu+KqlQ/6QrGFdUV6rCUe9Kbh1qvz/TUIqCys=;
- b=LAOmUC+RldKjuBuzT4fWWxfUu3Ng5z/V17/Fx5tZe7hkzNIS7uXs1BNp1OKe2NscNt
- QpZ3ukwepnOeGehkiWd/2COHnTuqNbU2/kdw84BQAkZA9uNiymbwhRw7YQI92swcnPS5
- TqSzdc7ogmS2YOva5DJGYnNScHiLYDwhRbC0OLRJnxCWYNkZUoqhZ1LUzHJicERW39o8
- 31jE7vBvUjUeTJ8ytdF98AwZOd9TyMHKm6zjQwiYME26paX8HQjMgHj7DubXE3yYuwy4
- XZFARuXro4hNOHuH9I0XQXtJyRxqTjphudK8MJ/+FF7jWAfb6eijuU+6tSJerHsGW3/M
- br0A==
-X-Gm-Message-State: AOAM531oKaUHbEn8G7rSfUYE2hx6H9s498tXP/rUv3Rm2SiivEA0FiSD
- 9NfUXxuE4VwDfguUjLD9WAv7jwZjPSPiGw==
-X-Google-Smtp-Source: ABdhPJwTygRiSwFZOD/UFdaLLZOCa9HwqFcYy+Jzfc2Zy8+g0WVmBHHfRXrIWgdFwLjie9QxMDLHAQ==
-X-Received: by 2002:a1c:2142:: with SMTP id h63mr12753967wmh.84.1626283527752; 
- Wed, 14 Jul 2021 10:25:27 -0700 (PDT)
+ bh=/MgSxNTXj24fmsVtKLZKGMUSHi7S+elrSni9PhwS8No=;
+ b=aD0GsyEosp7OR0HBuZ0nxsjJ/BSHmc4bTw8a/Wq+LQszMVZrrkh84Ja+9He9HXWmA/
+ WZ3HPILX8AAhQe2hBUWSzPLq09/F3eFxff9hZvg8T+uIevZnF2Mvuq8Fix3yabGukCWI
+ Ub95+zIlx1lq5WVV84reW6hb8LjcamifNPZrB8RRstZAbCo66HRHOKeKgsbt4EckJMRk
+ TdgfafUfKi/Owh3fsTUlMKt4hUJB2X0FqVj+LP0zxFkVLyr85lNNt3SbMGwDkjavFxeg
+ 3+Jv66/+Wd4jOs/UV7PG8V6t8XyJnEegg1StsHVTTjDxg6YEcf+0dv9EqPl+Ibze4bxZ
+ 9/LQ==
+X-Gm-Message-State: AOAM531hSwmoF+kRQgUFXrCSyV3PLoZWVO56PvVZ0ac1Ulo/Zz3HvZr4
+ Mc+83cBw1AxLqC6f7LeKtekN85tomk0NZw==
+X-Google-Smtp-Source: ABdhPJx+tYkda9XkMF9q5uybC6XHoaKJB/yahIkm9lha77NhfRYEvZvfMZwplJOXRaDk6cPhx4QqAg==
+X-Received: by 2002:a05:600c:1d11:: with SMTP id
+ l17mr12534006wms.169.1626283529202; 
+ Wed, 14 Jul 2021 10:25:29 -0700 (PDT)
 Received: from localhost.localdomain ([102.41.175.227])
- by smtp.gmail.com with ESMTPSA id l18sm6434393wme.29.2021.07.14.10.25.26
+ by smtp.gmail.com with ESMTPSA id l18sm6434393wme.29.2021.07.14.10.25.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 10:25:27 -0700 (PDT)
+ Wed, 14 Jul 2021 10:25:28 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] docs/devel/tcg-plugins: added cores arg to cache plugin
-Date: Wed, 14 Jul 2021 19:21:51 +0200
-Message-Id: <20210714172151.8494-6-ma.mandourr@gmail.com>
+Subject: [PATCH 6/6] plugins/cache: Fixed "function decl. is not a prototype"
+ warnings
+Date: Wed, 14 Jul 2021 19:21:52 +0200
+Message-Id: <20210714172151.8494-7-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210714172151.8494-1-ma.mandourr@gmail.com>
 References: <20210714172151.8494-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,37 +91,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- docs/devel/tcg-plugins.rst | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ contrib/plugins/cache.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 595b8e0ea4..370c11373f 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -330,11 +330,8 @@ configuration when a given working set is run::
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+index 60f7be208b..f82a8310dc 100644
+--- a/contrib/plugins/cache.c
++++ b/contrib/plugins/cache.c
+@@ -541,7 +541,7 @@ static int icmp(gconstpointer a, gconstpointer b)
+     return insn_a->imisses < insn_b->imisses ? 1 : -1;
+ }
  
- will report the following::
+-static void log_stats()
++static void log_stats(void)
+ {
+     int i, iters;
+     CoreStats cs;
+@@ -578,7 +578,7 @@ static void log_stats()
+     qemu_plugin_outs(rep->str);
+ }
  
--    Data accesses: 996479, Misses: 507
--    Miss rate: 0.050879%
--
--    Instruction accesses: 2641737, Misses: 18617
--    Miss rate: 0.704726%
-+    core #, data accesses, data misses, dmiss rate, insn accesses, insn misses, imiss rate
-+    0       996695         508             0.0510%  2642799        18617           0.7044%
+-static void log_top_insns()
++static void log_top_insns(void)
+ {
+     int i;
+     GList *curr, *miss_insns;
+@@ -633,7 +633,7 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+     g_mutex_unlock(&mtx);
+ }
  
-     address, data misses, instruction
-     0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)
-@@ -378,3 +375,9 @@ The plugin has a number of arguments, all of them are optional:
-   Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
-   :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
-   both instruction and data caches. (default: POLICY = :code:`lru`)
-+
-+  * arg="cores=N"
-+
-+  Sets the number of cores for which we maintain separate icache and dcache.
-+  (default: for linux-user, N = 1, for full system emulation: N = cores
-+  available to guest)
+-static void policy_init()
++static void policy_init(void)
+ {
+     switch (policy) {
+     case LRU:
 -- 
 2.25.1
 
