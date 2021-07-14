@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37B523C8767
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:27:08 +0200 (CEST)
-Received: from localhost ([::1]:47934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267C33C86A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:10:44 +0200 (CEST)
+Received: from localhost ([::1]:48234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3gmv-00073N-IZ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:27:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51440)
+	id 1m3gX5-000338-5Y
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:10:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3gUm-0006FX-Ui
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:08:20 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37535)
+ id 1m3gNn-0007Ta-Nj
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:01:09 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3gUi-0003tq-Db
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:08:20 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i94so3651276wri.4
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:08:16 -0700 (PDT)
+ id 1m3gNh-0007c2-Mj
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:01:07 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ g8-20020a1c9d080000b02901f13dd1672aso3614911wme.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:01:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cP7o8wiVJfZhkAdD0nznZLEDoJtABzddO1b/wxyVoMc=;
- b=xElSes+wdG27JjYs/wYOiMA/a+YlqRIiin1df+7etVgYw/M1Cjg5JOVquXOXKI7JCg
- WB/dvFwFpvKVWThQ9Hp7Z+IJU/6MtI1HHJsghYZ3UgCSFxzpKHqxy7IH9YNmaIdthuCL
- Yy7iDNZ1uWZJ3kjk0Z+IA6+hBQ8Zny1Rl43/e/UeTXKPxhlwwGLoIAH9/zuO+6eJkHje
- 61l/wKLIvPS36WpQjZXxzNLFFcJnD0aJkpJZPv1vfgXlQOr2rJ7t/SG0HZ4Y3aZXDrDf
- C5pLNgLK1D53oG55wqnzhhL7oukuLCgHMPAqfCOBjb+4trNmHKmGo3T6YPJEw4hk/I05
- ZRCA==
+ bh=SmFE7FnSh3z5LhPSBBcy1LLJxZ6gzWkY9BVFfkjPXgk=;
+ b=yxbZOlZ0Y0rbv0crK9F4+RP7p2yXB873KGrqdj8haYZuGFl+Xo1ZKTQMH2Db4nkVMi
+ p0r4hBBHA748Ub7UEEdyMPDM+E967SaUey3c0ZFxGzHspirkUycgyupqZ7z1qVjXSLQU
+ Ca0e8DBUgTD2dPqiT4MIPda/HPa9hsEdUrm9YoYPwaCmA5ZzeDYyZOYZL3mlNBoV9Q0p
+ F2adJq1ugqOjNbzptFKZrLnLz/tlAsEcZZCNwbDXD7dpVsBO1p25DnedX88iK04eXWhX
+ RAWWJJB8nMDKcLf8JtNFo8IfxPzjKURBuPrvcQsrLskEwD1lQNTpsvz+YCZWdA/h6TXf
+ zqLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cP7o8wiVJfZhkAdD0nznZLEDoJtABzddO1b/wxyVoMc=;
- b=Ami+UcZtfDkt/wmpwzu1ooPqSWJEE6HpGJZAbrhEmmXGpnxU+Q9JOJSOsnO2xssS+t
- jEEh62kb5Mh9UkGQ4vZ8RTvjIUmWgUFkVOPtbe+HF9P1boUFaymoekMQlw3gVwBGlH9r
- SECwxDazvBqV1bEhY6wUg3HSV6yQQWDJlM0lcwhKe3x/EXZhFv0R63w9Bb4Fq0Uxcj1l
- NRtCOVVpRqDsMCizKICk8GJusLAuz+JkBh8P0WkFTz55QQg8VhehLWj8iGK/Sf5fqhs1
- MdaeE3+bCqBGaGVEDCaaW25/EamtyjXjncLmtlv0/EmrFFstNTHIPyHUHzl1Vhada/MW
- GHEg==
-X-Gm-Message-State: AOAM532eEcD6KOaEJ55qn/LrrPHVsQNd12bGxPVfCKLmKi/5Y//TAEPI
- pjMZ6fbzA+iuUy7GNltlr2KLyw==
-X-Google-Smtp-Source: ABdhPJxINLkQCJyth9E51+lnK0QsyJ8RhGfya9F85G7f7tqxG4QfCBfRJkRb3PfQFrCDkKyf2e/3Xg==
-X-Received: by 2002:a05:6000:551:: with SMTP id
- b17mr13529183wrf.32.1626275294960; 
- Wed, 14 Jul 2021 08:08:14 -0700 (PDT)
+ bh=SmFE7FnSh3z5LhPSBBcy1LLJxZ6gzWkY9BVFfkjPXgk=;
+ b=eotY7I0oFZCZP6kpt0ToyF5ib+hj8gKhe5vv9OqH80OtG8uW/1+FzNFh2/I88yybc1
+ DFaBGe8OJJo2FZ/PXJ0CQu7E3SGr88ncimxarsDQDcc73lwn1kLAojaa9id1FxPE18fR
+ 9QG/zdUDevgHBC4ZhJ9WIJpajJ2pkixwK9Zqdy4rtFruCoZ7QEoQ1atyCCQwMvxBVXpg
+ T2qR4B5Mq9vC+8Nw/gT47u0bdKziosqZVgET8TtyJnFhudKaH+WnNvGnajxJumnAHW2V
+ VGvTwBTIyWCj7BU+2LVdqde4uT9AVPdBAzji28k9rZKIp2j53OnrgwftHwx9J9Ks08X+
+ ukGQ==
+X-Gm-Message-State: AOAM531qzQ/nhk0Duprl6daW6aNaxFJ2cVRDT9sVXeCQrll4FA8vxeen
+ AdNpqPXrUlup4poEwxwsYjTGsTQpfQRU6w==
+X-Google-Smtp-Source: ABdhPJwXpwCwVsQWv5PVBXIHr3cLmeXxJbg+UCWIzM5Z3gmDgnQGhFehYNZmcS4PIH66MsgTi0pjUw==
+X-Received: by 2002:a1c:f705:: with SMTP id v5mr4624573wmh.69.1626274859968;
+ Wed, 14 Jul 2021 08:00:59 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m6sm3834185wrw.9.2021.07.14.08.08.07
+ by smtp.gmail.com with ESMTPSA id o11sm5782968wmc.2.2021.07.14.08.00.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 08:08:07 -0700 (PDT)
+ Wed, 14 Jul 2021 08:00:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3C4A91FFAC;
+ by zen.linaroharston (Postfix) with ESMTP id 523EC1FFAE;
  Wed, 14 Jul 2021 16:00:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v5 22/44] tests/docker: expand fedora package list
-Date: Wed, 14 Jul 2021 16:00:14 +0100
-Message-Id: <20210714150036.21060-23-alex.bennee@linaro.org>
+Subject: [PULL v5 23/44] tests/docker: expand ubuntu1804 package list
+Date: Wed, 14 Jul 2021 16:00:15 +0100
+Message-Id: <20210714150036.21060-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714150036.21060-1-alex.bennee@linaro.org>
 References: <20210714150036.21060-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,125 +106,128 @@ Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-13-berrange@redhat.com>
-Message-Id: <20210709143005.1554-21-alex.bennee@linaro.org>
+Message-Id: <20210623142245.307776-14-berrange@redhat.com>
+Message-Id: <20210709143005.1554-22-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 5849ea7617..eec1add7f6 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -3,63 +3,83 @@ FROM registry.fedoraproject.org/fedora:33
- # Please keep this list sorted alphabetically
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index ee8545e4b1..0880bf3e29 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -1,54 +1,113 @@
+ FROM docker.io/library/ubuntu:18.04
  ENV PACKAGES \
-     SDL2-devel \
-+    SDL2_image-devel \
-+    alsa-lib-devel \
-     bc \
-     brlapi-devel \
-     bzip2 \
-     bzip2-devel \
++    bc \
++    bsdmainutils \
++    bzip2 \
 +    ca-certificates \
-     capstone-devel \
      ccache \
      clang \
-+    ctags \
-     cyrus-sasl-devel \
-+    daxctl-devel \
-     dbus-daemon \
-     device-mapper-multipath-devel \
-     diffutils \
-     findutils \
++    dbus \
++    debianutils \
++    diffutils \
++    exuberant-ctags \
++    findutils \
++    g++ \
      gcc \
-     gcc-c++ \
 +    gcovr \
-     genisoimage \
++    genisoimage \
      gettext \
      git \
-     glib2-devel \
-+    glibc-langpack-en \
-+    glibc-static \
-     glusterfs-api-devel \
-     gnutls-devel \
-     gtk3-devel \
-     hostname \
-+    jemalloc-devel \
-     libaio-devel \
-     libasan \
-     libattr-devel \
-+    libbpf-devel \
-     libcacard-devel \
-     libcap-ng-devel \
-     libcurl-devel \
-+    libdrm-devel \
-     libepoxy-devel \
-     libfdt-devel \
--    libbpf-devel \
-     libffi-devel \
-+    libgcrypt-devel \
-     libiscsi-devel \
-     libjpeg-devel \
-+    libnfs-devel \
-     libpmem-devel \
-     libpng-devel \
-     librbd-devel \
-     libseccomp-devel \
-     libslirp-devel \
-     libssh-devel \
-+    libtasn1-devel \
-     libubsan \
-     libudev-devel \
-+    liburing-devel \
-     libusbx-devel \
-     libxml2-devel \
-     libzstd-devel \
-     llvm \
-+    lttng-ust-devel \
-     lzo-devel \
++    glusterfs-common \
++    hostname \
+     libaio-dev \
++    libasan5 \
++    libasound2-dev \
+     libattr1-dev \
+     libbrlapi-dev \
+     libbz2-dev \
++    libc6-dev \
+     libcacard-dev \
+     libcap-ng-dev \
++    libcapstone-dev \
+     libcurl4-gnutls-dev \
++    libdaxctl-dev \
+     libdrm-dev \
+     libepoxy-dev \
+     libfdt-dev \
+     libffi-dev \
+     libgbm-dev \
++    libgcrypt20-dev \
++    libglib2.0-dev \
++    libgnutls28-dev \
+     libgtk-3-dev \
+     libibverbs-dev \
+     libiscsi-dev \
+     libjemalloc-dev \
+     libjpeg-turbo8-dev \
++    liblttng-ust-dev \
+     liblzo2-dev \
+     libncursesw5-dev \
+     libnfs-dev \
+     libnuma-dev \
++    libpam0g-dev \
+     libpixman-1-dev \
++    libpmem-dev \
++    libpng-dev \
++    libpulse-dev \
+     librbd-dev \
+     librdmacm-dev \
+     libsasl2-dev \
+     libsdl2-dev \
++    libsdl2-image-dev \
+     libseccomp-dev \
+     libsnappy-dev \
+     libspice-protocol-dev \
+     libspice-server-dev \
+     libssh-dev \
++    libsystemd-dev \
++    libtasn1-6-dev \
++    libtest-harness-perl \
++    libubsan1 \
++    libudev-dev \
+     libusb-1.0-0-dev \
+     libusbredirhost-dev \
+     libvdeplug-dev \
++    libvirglrenderer-dev \
+     libvte-2.91-dev \
+     libxen-dev \
++    libxml2-dev \
+     libzstd-dev \
++    llvm \
++    locales \
      make \
-+    mesa-libgbm-devel \
-     meson \
-     ncurses-devel \
-     nettle-devel \
++    multipath-tools \
++    netcat-openbsd \
++    nettle-dev \
      ninja-build \
-     nmap-ncat \
-     numactl-devel \
--    perl \
-+    openssh-clients \
-+    pam-devel \
-     perl-Test-Harness \
++    openssh-client \
 +    perl-base \
-     pixman-devel \
-+    pkgconfig \
-+    pulseaudio-libs-devel \
-     python3 \
-     python3-PyYAML \
-     python3-numpy \
-@@ -70,19 +90,25 @@ ENV PACKAGES \
-     python3-sphinx_rtd_theme \
-     python3-virtualenv \
-     rdma-core-devel \
-+    rpm \
++    pkgconf \
++    python3 \
++    python3-numpy \
++    python3-opencv \
++    python3-pillow \
++    python3-pip \
++    python3-setuptools \
+     python3-sphinx \
+     python3-sphinx-rtd-theme \
++    python3-venv \
++    python3-wheel \
+     python3-yaml \
++    rpm2cpio \
 +    sed \
-     snappy-devel \
      sparse \
-+    spice-protocol \
-     spice-server-devel \
-     systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-     tesseract \
-     tesseract-langpack-eng \
+-    xfslibs-dev
++    systemtap-sdt-dev \
++    tar \
++    tesseract-ocr \
++    tesseract-ocr-eng \
 +    texinfo \
-     usbredir-devel \
-+    util-linux \
-     virglrenderer-devel \
-     vte291-devel \
-     which \
-     xen-devel \
-+    xfsprogs-devel \
-     zlib-devel
- ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
- 
++    xfslibs-dev \
++    zlib1g-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
 -- 
 2.20.1
 
