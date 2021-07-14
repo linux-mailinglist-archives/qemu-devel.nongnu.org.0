@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 048C23C7F66
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 09:32:11 +0200 (CEST)
-Received: from localhost ([::1]:47140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A6B3C7F65
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 09:31:54 +0200 (CEST)
+Received: from localhost ([::1]:46576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3ZNK-0005Jt-1I
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 03:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
+	id 1m3ZN4-0004vh-0Z
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 03:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
- id 1m3ZGZ-0004yH-WA; Wed, 14 Jul 2021 03:25:14 -0400
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:58315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
- id 1m3ZGX-0007Y4-Ou; Wed, 14 Jul 2021 03:25:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1626247518; x=1657783518;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=UthoiwzbLQtBUVh9bXNXc+4p1ASTcTxTmBlt/hjknT8=;
- b=YAZ33gZdBlVCtFYb5Yn3SAxZXDRGowFrDxelE/UP9Kubdz9M7iCiXvhC
- yIw6jx/eiUxrwbL0T5ehv486vU9YaFH/LrN9XZT7xzZ5ZVH8NiRsF5O5W
- ttyRAiRt2xjM77D/PocOOJ2UIEa4m63tLS1d3couD/a8f8KPTzQR8AAKd
- SQzyAzJy48EQ3A5F2JYhOug8Wc3VbOgKCLjIOOvrq8soQ1ni+WmjqEjjO
- nVJvRCmKDJZG+2jn4IPaLnySwQRNOFIQAAmoKnMp9cIbCA4ATv3Ne2jvG
- yYS+MfrqE5Ik0cRr1RfxjiHfmGdfmTJi11ukRHcFwmDZ8Gtd5SrMCz/c8 A==;
-IronPort-SDR: A0CIsQuwr9ZCXsxQBO55SffbD6XSQiAosKc/ikIUBoSjKBBnNC1X6EodTx4R3ty1Iw4vjmcHgu
- txwg+6YommBD3Sn7jzCvPsKTsK2SXdJBIWt5T+6fdflFZXtqmM36mclkQ8fXIOW89lHMwmiUwO
- 2PFeNi3dm390Kfyrg73vkEL/yQania/MaCMUZG97TlH2yU3VZcLlC3IFNO9PElHKYAvwXk5NHr
- mKLjIgqc7dE9SDijBOtYo2T6krPy53M/6SmQPN1nd8VnTUgff5lLxLUKWXqBdEIh5BsmOLrHDJ
- Yyw=
-X-IronPort-AV: E=Sophos;i="5.84,238,1620662400"; d="scan'208";a="278349828"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 14 Jul 2021 15:25:16 +0800
-IronPort-SDR: iprGFcreH4H/BMhQZRv2JJsZDNB2idI1C2DMkQMYiKaDeZReZ//zIW5GgeHQN/Sjuh4uYmzc0m
- aa8IS3WCFmUvThtPLH8XmgIDCsG3frmwrkNPP8PFGAoy4EhwioMnFwttlBIQbWjdYVlMle6cbB
- L98Or8ii2qTDQSTwxv30Of371lnQBBdI6W5jvGEwByXOZ3WhhFMfn/5NjTME9WFDd+A0suQw9Y
- 8ogGgOmhRjHClKPb/lSRFy5eXm/J0sPKI0bCQJjPyfk45D+bV7ZXdBR9M4ElcmloaT/2IUJAyY
- TmkkU3Y+4UN6kL937CwhWwTB
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2021 00:03:12 -0700
-IronPort-SDR: Zr0F2Qbl7WNa+MKXcpHij7oiDnQAo1M8YEmBGuMy9eqY9E7ek2AG8qDS/MUtzdWKQbLmLNCwde
- qLV42dkfyKu9+YPYAAAKuFdwXJ3aFZspx3nz97ZZ4vhL2pWlfvtnaMYc5d96v3r8gML6BC/LGH
- BLk6I5sjEl553QoEu/oDb4D1455g8i+jufMRsxoAQE9wVvqRp94CaANZ7d8aF8gXfsjRMPwMP3
- jWogErxzPolSePYt7XnxZg4ReGbDqgSMEhq4AzDUBqtp6BjLTvIf6saGiYxbLgMjPOGcgBss4b
- bYA=
-WDCIronportException: Internal
-Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.112])
- by uls-op-cesaip02.wdc.com with ESMTP; 14 Jul 2021 00:25:04 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 4/5] hw/intc: sifive_plic: Convert the PLIC to use RISC-V
- CPU GPIO lines
-Date: Wed, 14 Jul 2021 17:25:02 +1000
-Message-Id: <389a6f1d9b73c6a8ee7c2e62c8324ee0dc135302.1626247467.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
-References: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1m3ZHl-0006jR-Ih
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 03:26:25 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:36675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1m3ZHj-0008Qr-MM
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 03:26:25 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id v189so1673682ybg.3
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 00:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8bTW6jNHIUGkVxAIMQ/XAPqoC4sdhQbX8mC2jIbGtEA=;
+ b=Nic/LwOf4YdU9CCV+XTYqgQXHaXgEzKjD3n5XkSfdyDMrkrhPmz1NlPa1rLD+gk4TR
+ HD7EkF2qHL4mnkshEMFk+JavxuTwYsHIwiu/EE3fhhitaPj28UQg4OrV1BqJb2fafmY4
+ MK3glJx8oir9C0n2RY0uc9MI/X+AcE5AzDBOODhyt7ikUZXdV6m7RDiulGCwVdXGOttD
+ nMLSoVJ2dsElk1+cjO4Dfhzkmof5Lhlfvhkz4k3fEt5VoieV/cD2hx9BGlIfo2ZQye41
+ JjLw6oBPN0CSeMz2JbV7HCzC12+lXiKV3UwGSnvX4BQXitRenFagq8qomuZAOTpMBeXV
+ mBPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8bTW6jNHIUGkVxAIMQ/XAPqoC4sdhQbX8mC2jIbGtEA=;
+ b=sopyu7FHhHjVsPYT4k/hB0KtvIoDdtR4eje59Xc9YycgU0mfRYaEupvW51K+nJSmMb
+ a20P6wZ0li8chZQFSbYSvwtoFeLrhysC7AGsg01KJmQj/i7+546NItSStkaBH/BCPPW1
+ oruE2u9euBYaHCBr1x75RCnux5WV3m2cU26zIEpgUiCzzlBNSUMTN3/KBZU6ruhVtdyF
+ UlDn/YNMiQ2RJ3WjKHpGDO+IbsyzT1LXZDJtG71jtdFVEd6TVgYp7eiywctqugCU52vn
+ e/jc4ZfrI0VhOBoj2n5xphytQzbaP64ATE2KZlZBTyiPnaMqvSUKftvpHkkBnX5oFLfO
+ h4pA==
+X-Gm-Message-State: AOAM5300QfyklIGNWTbSD64+ATYTUCwPi5onyWyAzoUH0AShitiRuduE
+ bW5iEtwEw7H95GFd1ZvJVLv8eJMRYiFKqjC7FE5QNA==
+X-Google-Smtp-Source: ABdhPJympwlXKCholSeqCXCYZS9k0sGzAbqKN6gZAo7elG7GVzlsLOPRJX+DVq9VYWyhNkCH1Tjt+Plb2/UbvhLcbyo=
+X-Received: by 2002:a25:587:: with SMTP id 129mr11401756ybf.379.1626247582586; 
+ Wed, 14 Jul 2021 00:26:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=8220343f1=alistair.francis@wdc.com;
- helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210610155811.3313927-1-konstantin@daynix.com>
+ <YMI3gundDsLZq1lw@redhat.com>
+ <CAJ28CFR0CBAsq4WokeW_OG8gG2UFGSL3H0UB-p2FgXxH3pjhbg@mail.gmail.com>
+ <YMI6dP82HBpGM5Bj@redhat.com>
+In-Reply-To: <YMI6dP82HBpGM5Bj@redhat.com>
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Wed, 14 Jul 2021 10:26:11 +0300
+Message-ID: <CAJ28CFQ6yMm6kCPMY5DckAg1__Qrk+Ar47FNXc5ON6QfvtDmgg@mail.gmail.com>
+Subject: Re: [PATCH v2] qga-win: Free GMatchInfo properly
+To: Michael Roth <michael.roth@amd.com>
+Content-Type: multipart/alternative; boundary="0000000000007a26e005c71045fd"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,198 +79,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Developers <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-CPU GPIO lines to set the external MIP bits.
+--0000000000007a26e005c71045fd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/hw/intc/sifive_plic.h |  4 ++++
- hw/intc/sifive_plic.c         | 30 +++++++++++++++++++++++-------
- hw/riscv/microchip_pfsoc.c    |  2 +-
- hw/riscv/shakti_c.c           |  3 ++-
- hw/riscv/sifive_e.c           |  2 +-
- hw/riscv/sifive_u.c           |  2 +-
- hw/riscv/virt.c               |  2 +-
- 7 files changed, 33 insertions(+), 12 deletions(-)
+CC Michael Roth
 
-diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
-index 1e451a270c..da1dc64c6d 100644
---- a/include/hw/intc/sifive_plic.h
-+++ b/include/hw/intc/sifive_plic.h
-@@ -72,9 +72,13 @@ struct SiFivePLICState {
-     uint32_t context_base;
-     uint32_t context_stride;
-     uint32_t aperture_size;
-+
-+    qemu_irq *s_external_irqs;
-+    qemu_irq *m_external_irqs;
- };
- 
- DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-+    uint32_t num_harts,
-     uint32_t hartid_base, uint32_t num_sources,
-     uint32_t num_priorities, uint32_t priority_base,
-     uint32_t pending_base, uint32_t enable_base,
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index 78903beb06..7a795f0a61 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -29,6 +29,7 @@
- #include "hw/intc/sifive_plic.h"
- #include "target/riscv/cpu.h"
- #include "migration/vmstate.h"
-+#include "hw/irq.h"
- 
- #define RISCV_DEBUG_PLIC 0
- 
-@@ -139,18 +140,14 @@ static void sifive_plic_update(SiFivePLICState *plic)
-     for (addrid = 0; addrid < plic->num_addrs; addrid++) {
-         uint32_t hartid = plic->addr_config[addrid].hartid;
-         PLICMode mode = plic->addr_config[addrid].mode;
--        CPUState *cpu = qemu_get_cpu(hartid);
--        CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
--        if (!env) {
--            continue;
--        }
-         int level = sifive_plic_irqs_pending(plic, addrid);
-+
-         switch (mode) {
-         case PLICMode_M:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MEIP, BOOL_TO_MASK(level));
-+            qemu_set_irq(plic->m_external_irqs[hartid - plic->hartid_base], level);
-             break;
-         case PLICMode_S:
--            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_SEIP, BOOL_TO_MASK(level));
-+            qemu_set_irq(plic->s_external_irqs[hartid - plic->hartid_base], level);
-             break;
-         default:
-             break;
-@@ -456,6 +453,12 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &plic->mmio);
-     qdev_init_gpio_in(dev, sifive_plic_irq_request, plic->num_sources);
- 
-+    plic->s_external_irqs = g_malloc(sizeof(qemu_irq) * plic->num_harts);
-+    qdev_init_gpio_out(dev, plic->s_external_irqs, plic->num_harts);
-+
-+    plic->m_external_irqs = g_malloc(sizeof(qemu_irq) * plic->num_harts);
-+    qdev_init_gpio_out(dev, plic->m_external_irqs, plic->num_harts);
-+
-     /* We can't allow the supervisor to control SEIP as this would allow the
-      * supervisor to clear a pending external interrupt which will result in
-      * lost a interrupt in the case a PLIC is attached. The SEIP bit must be
-@@ -520,6 +523,7 @@ type_init(sifive_plic_register_types)
-  * Create PLIC device.
-  */
- DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-+    uint32_t num_harts,
-     uint32_t hartid_base, uint32_t num_sources,
-     uint32_t num_priorities, uint32_t priority_base,
-     uint32_t pending_base, uint32_t enable_base,
-@@ -527,6 +531,8 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-     uint32_t context_stride, uint32_t aperture_size)
- {
-     DeviceState *dev = qdev_new(TYPE_SIFIVE_PLIC);
-+    int i;
-+
-     assert(enable_stride == (enable_stride & -enable_stride));
-     assert(context_stride == (context_stride & -context_stride));
-     qdev_prop_set_string(dev, "hart-config", hart_config);
-@@ -542,5 +548,15 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
-     qdev_prop_set_uint32(dev, "aperture-size", aperture_size);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-+
-+    for (i = 0; i < num_harts; i++) {
-+        CPUState *cpu = qemu_get_cpu(hartid_base + i);
-+
-+        qdev_connect_gpio_out_named(dev, NULL, i,
-+                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
-+        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
-+                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
-+    }
-+
-     return dev;
- }
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index eb8e79e0a1..eef55f69fd 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -274,7 +274,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* PLIC */
-     s->plic = sifive_plic_create(memmap[MICROCHIP_PFSOC_PLIC].base,
--        plic_hart_config, 0,
-+        plic_hart_config, ms->smp.cpus, 0,
-         MICROCHIP_PFSOC_PLIC_NUM_SOURCES,
-         MICROCHIP_PFSOC_PLIC_NUM_PRIORITIES,
-         MICROCHIP_PFSOC_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/shakti_c.c b/hw/riscv/shakti_c.c
-index 18f70fadaa..09d4e1433e 100644
---- a/hw/riscv/shakti_c.c
-+++ b/hw/riscv/shakti_c.c
-@@ -106,13 +106,14 @@ type_init(shakti_c_machine_type_info_register)
- 
- static void shakti_c_soc_state_realize(DeviceState *dev, Error **errp)
- {
-+    MachineState *ms = MACHINE(qdev_get_machine());
-     ShaktiCSoCState *sss = RISCV_SHAKTI_SOC(dev);
-     MemoryRegion *system_memory = get_system_memory();
- 
-     sysbus_realize(SYS_BUS_DEVICE(&sss->cpus), &error_abort);
- 
-     sss->plic = sifive_plic_create(shakti_c_memmap[SHAKTI_C_PLIC].base,
--        (char *)SHAKTI_C_PLIC_HART_CONFIG, 0,
-+        (char *)SHAKTI_C_PLIC_HART_CONFIG, ms->smp.cpus, 0,
-         SHAKTI_C_PLIC_NUM_SOURCES,
-         SHAKTI_C_PLIC_NUM_PRIORITIES,
-         SHAKTI_C_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-index ddc658c8d6..03bff21527 100644
---- a/hw/riscv/sifive_e.c
-+++ b/hw/riscv/sifive_e.c
-@@ -198,7 +198,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_E_DEV_PLIC].base,
--        (char *)SIFIVE_E_PLIC_HART_CONFIG, 0,
-+        (char *)SIFIVE_E_PLIC_HART_CONFIG, ms->smp.cpus, 0,
-         SIFIVE_E_PLIC_NUM_SOURCES,
-         SIFIVE_E_PLIC_NUM_PRIORITIES,
-         SIFIVE_E_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 273c86418c..6d1f9464c2 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -829,7 +829,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
- 
-     /* MMIO */
-     s->plic = sifive_plic_create(memmap[SIFIVE_U_DEV_PLIC].base,
--        plic_hart_config, 0,
-+        plic_hart_config, ms->smp.cpus, 0,
-         SIFIVE_U_PLIC_NUM_SOURCES,
-         SIFIVE_U_PLIC_NUM_PRIORITIES,
-         SIFIVE_U_PLIC_PRIORITY_BASE,
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 4a3cd2599a..4db40bacae 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -619,7 +619,7 @@ static void virt_machine_init(MachineState *machine)
-         /* Per-socket PLIC */
-         s->plic[i] = sifive_plic_create(
-             memmap[VIRT_PLIC].base + i * memmap[VIRT_PLIC].size,
--            plic_hart_config, base_hartid,
-+            plic_hart_config, hart_count, base_hartid,
-             VIRT_PLIC_NUM_SOURCES,
-             VIRT_PLIC_NUM_PRIORITIES,
-             VIRT_PLIC_PRIORITY_BASE,
--- 
-2.31.1
+On Thu, Jun 10, 2021 at 7:14 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
+> On Thu, Jun 10, 2021 at 07:08:36PM +0300, Konstantin Kostiuk wrote:
+> > On Thu, Jun 10, 2021 at 7:02 PM Daniel P. Berrang=C3=A9 <berrange@redha=
+t.com>
+> > wrote:
+> >
+> > > On Thu, Jun 10, 2021 at 06:58:11PM +0300, Kostiantyn Kostiuk wrote:
+> > > > The g_regex_match function creates match_info even if it
+> > > > returns FALSE. So we should always call g_match_info_free.
+> > > > A better solution is using g_autoptr for match_info variable.
+> > > >
+> > > > Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
+> > > > ---
+> > > >  qga/commands-win32.c | 3 +--
+> > > >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> > > > index 300b87c859..785a5cc6b2 100644
+> > > > --- a/qga/commands-win32.c
+> > > > +++ b/qga/commands-win32.c
+> > > > @@ -2494,7 +2494,7 @@ GuestDeviceInfoList
+> *qmp_guest_get_devices(Error
+> > > **errp)
+> > > >              continue;
+> > > >          }
+> > > >          for (j =3D 0; hw_ids[j] !=3D NULL; j++) {
+> > > > -            GMatchInfo *match_info;
+> > > > +            g_autoptr(GMatchInfo) match_info;
+> > >
+> > > This should be initialized to NULL otherwise...
+> > >
+> > > >              GuestDeviceIdPCI *id;
+> > > >              if (!g_regex_match(device_pci_re, hw_ids[j], 0,
+> > > &match_info)) {
+> > > >                  continue;
+> > >
+> > > this continue will trigger freeing of unintialized memory
+> > >
+> >
+> > But we always call match_info, so match_info is always initialized.
+> > The g_regex_match function creates match_info even if it returns FALSE.
+>
+> Opps, yes, you are right.
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-
+> https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-
+> https://www.instagram.com/dberrange :|
+>
+>
+
+--0000000000007a26e005c71045fd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">CC Michael Roth<br></div><br><div class=3D"gmail_quote"><d=
+iv dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 10, 2021 at 7:14 PM Daniel =
+P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat=
+.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">On Thu, Jun 10, 2021 at 07:08:36PM +0300, Konstantin Kostiuk wrote:<br>
+&gt; On Thu, Jun 10, 2021 at 7:02 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
+"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
+br>
+&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; On Thu, Jun 10, 2021 at 06:58:11PM +0300, Kostiantyn Kostiuk wrot=
+e:<br>
+&gt; &gt; &gt; The g_regex_match function creates match_info even if it<br>
+&gt; &gt; &gt; returns FALSE. So we should always call g_match_info_free.<b=
+r>
+&gt; &gt; &gt; A better solution is using g_autoptr for match_info variable=
+.<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; Signed-off-by: Kostiantyn Kostiuk &lt;<a href=3D"mailto:kons=
+tantin@daynix.com" target=3D"_blank">konstantin@daynix.com</a>&gt;<br>
+&gt; &gt; &gt; ---<br>
+&gt; &gt; &gt;=C2=A0 qga/commands-win32.c | 3 +--<br>
+&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+&gt; &gt; &gt; index 300b87c859..785a5cc6b2 100644<br>
+&gt; &gt; &gt; --- a/qga/commands-win32.c<br>
+&gt; &gt; &gt; +++ b/qga/commands-win32.c<br>
+&gt; &gt; &gt; @@ -2494,7 +2494,7 @@ GuestDeviceInfoList *qmp_guest_get_dev=
+ices(Error<br>
+&gt; &gt; **errp)<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br=
+>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for (j =3D 0; hw_ids[j] !=
+=3D NULL; j++) {<br>
+&gt; &gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GMatchInfo *match=
+_info;<br>
+&gt; &gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_autoptr(GMatchI=
+nfo) match_info;<br>
+&gt; &gt;<br>
+&gt; &gt; This should be initialized to NULL otherwise...<br>
+&gt; &gt;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GuestDeviceI=
+dPCI *id;<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!g_regex=
+_match(device_pci_re, hw_ids[j], 0,<br>
+&gt; &gt; &amp;match_info)) {<br>
+&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 continue;<br>
+&gt; &gt;<br>
+&gt; &gt; this continue will trigger freeing of unintialized memory<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; But we always call match_info, so match_info is always initialized.<br=
+>
+&gt; The g_regex_match function creates match_info even if it returns FALSE=
+.<br>
+<br>
+Opps, yes, you are right.<br>
+<br>
+Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.=
+com" target=3D"_blank">berrange@redhat.com</a>&gt;<br>
+<br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
+tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
+s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://www.flickr.com/photos/dberrange</a> :|<br>
+|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
+oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
+nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
+"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
+https://www.instagram.com/dberrange</a> :|<br>
+<br>
+</blockquote></div>
+
+--0000000000007a26e005c71045fd--
 
