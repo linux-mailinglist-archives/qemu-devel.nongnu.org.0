@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 047383C9416
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 00:57:07 +0200 (CEST)
-Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1F53C942C
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 01:02:59 +0200 (CEST)
+Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3noP-00089k-US
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 18:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55566)
+	id 1m3nu6-00032B-CQ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 19:02:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1m3nmp-00061J-K9
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 18:55:27 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:12363)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1m3nmo-0002re-5G
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 18:55:27 -0400
+ (Exim 4.90_1)
+ (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
+ id 1m3nsn-0002Fe-4j; Wed, 14 Jul 2021 19:01:37 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:27003)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
+ id 1m3nsj-0007Ly-Gj; Wed, 14 Jul 2021 19:01:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1626303326; x=1657839326;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=OD1OD6POPBTd8z08uayN2Tkv4UvAaQ0VAfNXqf1Peu0=;
- b=spjdh9P7JlCR6iKtfcc3b9OCTrkED1rzaVSwTsaKVkVOLWrcLmKm+l46
- Pj1WP4eeDbpNiZlBU/Tl6f5+94sxmkDldBd4mqYdiltjaV1eZ8bxZSoWK
- SCm26KdkrEMN5ohj2trK3v98h7ZZoGpA2AhuY7dmq47FGZnbn4fkK6/gy E=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jul 2021 15:55:19 -0700
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg05-sd.qualcomm.com with ESMTP; 14 Jul 2021 15:55:19 -0700
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id D7143E5F; Wed, 14 Jul 2021 17:55:18 -0500 (CDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] linux-test (tests/tcg/multiarch/linux-test.c) add check
-Date: Wed, 14 Jul 2021 17:55:09 -0500
-Message-Id: <1626303309-7946-3-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626303309-7946-1-git-send-email-tsimpson@quicinc.com>
-References: <1626303309-7946-1-git-send-email-tsimpson@quicinc.com>
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1626303692; x=1657839692;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=HEx7hskJBkjo4DXZJz2WBuEWdngpJD/Ko2p0QxEhjek=;
+ b=McvGIsIZVZvbktyRvyzy7v5Bwbavck5LOOn2Bf/6kl7Mk1i+mTmivdx8
+ ehy9IfqOl9h5rwOWePZI7sUxFNDjX1b5b1zAkg2CDp4iwQmTUCYHnj9+6
+ vpU8MUzpYFfiyx38rar1AUs8esWDSGj20l2qxkugm6ypNGjyhMmzoYf5Z
+ WLzy40568IxVrfbkRm51i/7+H0O6X5Ynp6QtT38ConfEepaM1njMhZ3C8
+ 7+nAmzbB33hCCZD+PAqmJlzXrzvxrtPWr8P6wq9PJxAwH1Fw+LNk8o9NA
+ NDs5G31b0GJ+BJR4Sa5k7so4i8F68nGqasNWTQ8rKV4VKQ82tI99BXSAh A==;
+IronPort-SDR: +JhpM9dCoTFN7Q6th3F4ULH+agMjJBImGAzePStAYuRym4RYLdD4nQI0939SeyqprijVfcyv/B
+ /1TMBxg6WFsyjsHrcPtKsPkGoCsR10/dt3fNfJSQZIskTSm0eohpRNcjdMH3VmneYuyCk5LxoL
+ 82KnVLqjmJLD84nhtQAVZyr1s69Gz6xvBN+8gA33kSZZTw5pf/4ggzgo99mtLCZeG2yIbgGcst
+ lpvtXPyIo8CA62H/ngkecdqpehlwuRB3VoXwti+tRjLb52etICLKHn9TkaeU0xkxCM3JJLUySC
+ SLs=
+X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="174602868"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 07:01:28 +0800
+IronPort-SDR: O1kcYHFlYWILyrRgUZuKFuu3MmctFG10qJ7X3WYNoVm5tS24NTpQql9zCqOhD2DtFKTSHB6bOn
+ GHsVEW29XlfXFFlhB8tsHxVwMVs0ptaHXqCUmVKXNj5/RJgjGylImxKQuFOgbUfi3HwPEAAY3J
+ eUwXJWFvdgSl63b07WRv3IJDb57DhsEjW0GIcN2WtMbh3E4jNgP/ahs4qLWUXMI3/v5fJA2sTj
+ G5dOazf+u9WspnQzMxLWVk0bMgG0BiegH8wC1tCR5NF6PHmFBcS75zW57EWTgvSAzz5zknRHNC
+ eL8YFJ4f/IgawR2BaPJmBPwh
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2021 15:39:33 -0700
+IronPort-SDR: rdN4kbgAdUBn8UwMUeB5z4DZiw8VI1Po5KLpu0Bt49ZdiOMRcGgXihfZelIVVmhUZkje+YaGnb
+ QJHpaPP4HpKYlirgO0XmH+Cw6ATotYyFb8vGMAbOAQvqgWNrWbUN6+or79bklzxIbSR2m+yC5d
+ 53CWKlqr878kseYFWIvIjPiNrXVWzE3cI9Iu+4GZvgvmvrvSU/oDKf0kcppVA39gsa9D8w/hlI
+ MzmC/Dy62kdEDSqREpyDOVEHQYARN5GEofMEkae9L0sfTmfOCM5TNuvRUuwl0G5D+EE2Ki2ARl
+ 7BU=
+WDCIronportException: Internal
+Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.113])
+ by uls-op-cesaip01.wdc.com with ESMTP; 14 Jul 2021 16:01:25 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 1/1] hw/riscv/boot: Check the error of fdt_pack()
+Date: Thu, 15 Jul 2021 09:01:22 +1000
+Message-Id: <07325315b49d5555269f76094e4bc5296e0643b9.1626303527.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=8220343f1=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,28 +87,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, alex.bennee@linaro.org,
- richard.henderson@linaro.org, tsimpson@quicinc.com, philmd@redhat.com
+Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
+ palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QWRkIGEgY2hlY2sgdGhhdCB0aGUgU0lHU0VHViBoYW5kbGVyIGlzIGNhbGxlZAoKUmV2aWV3ZWQt
-Ynk6IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPgpTaWdu
-ZWQtb2ZmLWJ5OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQogdGVz
-dHMvdGNnL211bHRpYXJjaC9saW51eC10ZXN0LmMgfCA4ICsrKysrKysrCiAxIGZpbGUgY2hhbmdl
-ZCwgOCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvdGVzdHMvdGNnL211bHRpYXJjaC9saW51
-eC10ZXN0LmMgYi90ZXN0cy90Y2cvbXVsdGlhcmNoL2xpbnV4LXRlc3QuYwppbmRleCBjOGM2YWVk
-Li5lMmQ4OGY4IDEwMDY0NAotLS0gYS90ZXN0cy90Y2cvbXVsdGlhcmNoL2xpbnV4LXRlc3QuYwor
-KysgYi90ZXN0cy90Y2cvbXVsdGlhcmNoL2xpbnV4LXRlc3QuYwpAQCAtNDM5LDEwICs0MzksMTQg
-QEAgc3RhdGljIHZvaWQgc2lnX2FsYXJtKGludCBzaWcpCiAgICAgYWxhcm1fY291bnQrKzsKIH0K
-IAorLyogQ291bnQgdGhlIG51bWJlciBvZiB0aW1lcyBoYW5kbGVyIGlzIGNhbGxlZCAqLworc3Rh
-dGljIGludCBzaWdfc2Vndl9jYWxsZWQ7CisKIHN0YXRpYyB2b2lkIHNpZ19zZWd2KGludCBzaWcs
-IHNpZ2luZm9fdCAqaW5mbywgdm9pZCAqcHVjKQogewogICAgIGlmIChzaWcgIT0gU0lHU0VHVikK
-ICAgICAgICAgZXJyb3IoInNpZ25hbCIpOworICAgIHNpZ19zZWd2X2NhbGxlZCsrOwogICAgIGxv
-bmdqbXAoam1wX2VudiwgMSk7CiB9CiAKQEAgLTQ5Miw2ICs0OTYsMTAgQEAgc3RhdGljIHZvaWQg
-dGVzdF9zaWduYWwodm9pZCkKICAgICAgICAgKih2b2xhdGlsZSB1aW50OF90ICopMCA9IDA7CiAg
-ICAgfQogCisgICAgaWYgKHNpZ19zZWd2X2NhbGxlZCA9PSAwKSB7CisgICAgICAgIGVycm9yKCJT
-SUdTRUdWIGhhbmRsZXIgbm90IGNhbGxlZCIpOworICAgIH0KKwogICAgIGFjdC5zYV9oYW5kbGVy
-ID0gU0lHX0RGTDsKICAgICBzaWdlbXB0eXNldCgmYWN0LnNhX21hc2spOwogICAgIGFjdC5zYV9m
-bGFncyA9IDA7Ci0tIAoyLjcuNAoK
+Coverity reports that we don't check the error result of fdt_pack(), so
+let's save the result and assert that it is 0.
+
+Fixes: Coverity CID 1458136
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ hw/riscv/boot.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 0d38bb7426..993bf89064 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -182,7 +182,7 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+ {
+     uint32_t temp, fdt_addr;
+     hwaddr dram_end = dram_base + mem_size;
+-    int fdtsize = fdt_totalsize(fdt);
++    int ret, fdtsize = fdt_totalsize(fdt);
+ 
+     if (fdtsize <= 0) {
+         error_report("invalid device-tree");
+@@ -198,7 +198,9 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+     temp = MIN(dram_end, 3072 * MiB);
+     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
+ 
+-    fdt_pack(fdt);
++    ret = fdt_pack(fdt);
++    /* Should only fail if we've built a corrupted tree */
++    g_assert(ret == 0);
+     /* copy in the device tree */
+     qemu_fdt_dumpdtb(fdt, fdtsize);
+ 
+-- 
+2.31.1
+
 
