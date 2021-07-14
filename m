@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BEF3C7BEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 04:43:58 +0200 (CEST)
-Received: from localhost ([::1]:45156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB8E3C7C66
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 05:02:58 +0200 (CEST)
+Received: from localhost ([::1]:50650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3UsP-0000ne-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 22:43:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42696)
+	id 1m3VAm-0006D6-Dj
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 23:02:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3Uqy-0007zM-Vj
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:42:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3Uqx-0007UR-DD
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:42:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626230546;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jLz7x4yUhQWg67tkIIZISfwZcVwQdPl8bcepOXdBrXk=;
- b=EV4UjpDFpaAW2yaAmMeeD6nzPfNkNnm4HcZHjmTCiDxFjQ4UCYS502Em21Dpwwc1/YwWFM
- GtbSSiPk/cB6KyF2/nn5OZVYZsMBRH7pobQWCI8CD3sMZXGWo02IHeYnXszITFMkKmvO8J
- N+iGR2llsDwJ3EKkL6/aQGSBmptgTE4=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-0XGcgXjhOeqsOO6qrcCw_g-1; Tue, 13 Jul 2021 22:42:25 -0400
-X-MC-Unique: 0XGcgXjhOeqsOO6qrcCw_g-1
-Received: by mail-pl1-f198.google.com with SMTP id
- p8-20020a1709028a88b029011c6ee150f3so569673plo.1
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 19:42:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m3V9X-0005R3-FJ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 23:01:39 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:33453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m3V9V-0006E5-OK
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 23:01:39 -0400
+Received: by mail-io1-xd30.google.com with SMTP id z11so312507iow.0
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 20:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2Y2tpcdkrFTFybB5VwTBa6i7eSSLkZsheXQyY0qK5vc=;
+ b=IKCusgb6uIOZztgexyC+fIR7KQpO5nCKaVO2LyaM6LrGQlG0vSZsObBqLMPSL1Ch1T
+ JtYe/TWrs1ce75EYo/Oa72Y9iub/tLJr4xxT0JPPPBj/8fPNCHC9Zmmn12c6nRRjxpjg
+ zctu/viRiYXaUp5PBTZ3R8i1by5RgdcDcdS9HUkLBBpPzY80jfUFV05cRFNnXjh+LfQ9
+ HsyYtj5/paykVWnrYUNdqpwq72+r+o21m9V7Rn1A0DNnjTfh2ixnHgiJDVZNF4IXinK4
+ bvHzsmBTRBTMBdDqPp6ynooS/dUWClNGMMYdKCdnTfe8RJcZjFu7Fb8hMKGvxytT3Y2B
+ +jDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=jLz7x4yUhQWg67tkIIZISfwZcVwQdPl8bcepOXdBrXk=;
- b=DHCHIa3ZxW04sQ89KeUwx7cL1NYraPBmEKcFh/r8rL0a73d7Ec9gBdIAJGcCW4MeLU
- +RS36adECFmM0KLkEiwGguBqWYNX7IYXm63/IygwdIiL43ySbN5BJ7v3vS9LJAXzOWcZ
- 3Sq6mh/dl82yDNCfSbzB6UcWQGf3vA7kk6elOHH1+PilWzP+x7+FmJhGcrSVKMqZeHjP
- d4OFsiSYBpVVRbDa6JeADk7p22xdgGU/o1w2b4obi7+7z/lHBWFipnx+0bdI+uEi7rWE
- lpRwTKhkgmeJokXGbZOn13UAMnuKzTkcPN20sJdWZvVxkWER7Zt6J2tYdLhq35UpRNcz
- 0P/Q==
-X-Gm-Message-State: AOAM5317PcqOKIrclgxVgvQbzIDsMq3K6LTMSzKHXQh7BEI6h5L55p17
- xI+tBHC92IIcKhHGRNFTZBNFbkcuILs0kgnS7RPliZDNzYwEudec1g3KN0wepXdlZ0ivIsB2WId
- X2UNhTbdsOJM0oLo=
-X-Received: by 2002:a62:8013:0:b029:328:68bb:fa7c with SMTP id
- j19-20020a6280130000b029032868bbfa7cmr7749859pfd.80.1626230544464; 
- Tue, 13 Jul 2021 19:42:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxfuxS7Kb7uHkh9e35niKZaiLHD3tRgVS79yQxquSDsREdKkKNOXHw2geJtmKeXvgwHpsvwIg==
-X-Received: by 2002:a62:8013:0:b029:328:68bb:fa7c with SMTP id
- j19-20020a6280130000b029032868bbfa7cmr7749831pfd.80.1626230544303; 
- Tue, 13 Jul 2021 19:42:24 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id b65sm524439pfa.32.2021.07.13.19.42.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 19:42:23 -0700 (PDT)
-Subject: Re: [PATCH v6 0/6] hmp, qmp: Add some commands to introspect virtio
- devices
-To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org
-References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <11b4c5b0-e595-2b86-2dab-54e821e47ad2@redhat.com>
-Date: Wed, 14 Jul 2021 10:42:15 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2Y2tpcdkrFTFybB5VwTBa6i7eSSLkZsheXQyY0qK5vc=;
+ b=q7ekqa35U5J3ED117YTZhDFRn4DxEWvThCA//meXRKTNBMDqsvT/zVbepQHvII/X09
+ KYHlRWXppg4/f7HdzNLMaJoxOLOHsQG11/0ld9tazvkH8Ra5X3dHjPJcdf0sZHH0FMxE
+ xPcW5bcLaLuG+4/lbjP5s1WIW721nAbet3SUUJFzeKkYt67XhW+RrPoGx0TqCz/kXtbk
+ 3vUVXQXv89cp2U6LDx6EICEGpbjMbnrX/afH/LKRMgveebiSFxUbv1qGwMOrQUk0dTAC
+ 30ijVd5EvZUUV17BFtSpWOBd7WnXlQhHcB/iKHUhxiPnaM0jAiPuk/BmWab5yEdEcROX
+ 9FSg==
+X-Gm-Message-State: AOAM530jm9IiFqWGnF8LRPSRbobyINoL/WSLqlx6DU2xZSPKIsduaA3f
+ tMCQm5nNbiJWQydU1P71vk0SrNPiWX7HXg4wd/0=
+X-Google-Smtp-Source: ABdhPJz2ddUcG8R9miFQ8U0vbPGEqPdcHi4ehObYjDm6hqYg6QnfBpXfi1T1GTw8ossk3yp38YzM8WwDqpJBNeY9L38=
+X-Received: by 2002:a05:6638:4120:: with SMTP id
+ ay32mr7007667jab.120.1626231695590; 
+ Tue, 13 Jul 2021 20:01:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210713163051.2133045-1-berrange@redhat.com>
+ <20210713163051.2133045-3-berrange@redhat.com>
+In-Reply-To: <20210713163051.2133045-3-berrange@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Wed, 14 Jul 2021 05:01:24 +0200
+Message-ID: <CAM9Jb+j5LDOH_5SZN_kP=u-CJOy1EcOdMk0orLTCH7TOoOk_2A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] qemu-options: re-arrange CPU topology options
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,29 +80,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
- mst@redhat.com, michael.roth@amd.com, david@redhat.com, armbru@redhat.com,
- amit@kernel.org, dgilbert@redhat.com, eric.auger@redhat.com,
- dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, si-wei.liu@oracle.com, marcandre.lureau@redhat.com,
- joao.m.martins@oracle.com, mreitz@redhat.com, laurent@vivier.eu
+Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Qemu Developers <qemu-devel@nongnu.org>, Yanan Wang <wangyanan55@huawei.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-ÔÚ 2021/7/12 ÏÂÎç6:35, Jonah Palmer Ð´µÀ:
->          Dump the information of the head element of the third queue of virtio-scsi:
+> The list of CPU topology options are presented in a fairly arbitrary
+> order currently. Re-arrange them so that they're ordered from largest to
+> smallest unit
 >
->          (qemu) virtio queue-element /machine/peripheral-anon/device[3]/virtio-backend 3
->          index: 122
->          ndescs: 3
->          descs: addr 0x7302d000 len 4096 (write), addr 0x3c951763 len 108 (write, next),
->                 addr 0x3c951728 len 51 (next)
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  qemu-options.hx | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 8965dabc83..6b72617844 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -196,17 +196,17 @@ SRST
+>  ERST
+>
+>  DEF("smp", HAS_ARG, QEMU_OPTION_smp,
+> -    "-smp [cpus=3D]n[,maxcpus=3Dcpus][,cores=3Dcores][,threads=3Dthreads=
+][,dies=3Ddies][,sockets=3Dsockets]\n"
+> +    "-smp [cpus=3D]n[,maxcpus=3Dcpus][,sockets=3Dsockets][,dies=3Ddies][=
+,cores=3Dcores][,threads=3Dthreads]\n"
+>      "                set the number of CPUs to 'n' [default=3D1]\n"
+> -    "                maxcpus=3D maximum number of total cpus, including\=
+n"
+> +    "                maxcpus=3D maximum number of total CPUs, including\=
+n"
+>      "                offline CPUs for hotplug, etc\n"
+> -    "                cores=3D number of CPU cores on one socket (for PC,=
+ it's on one die)\n"
+> -    "                threads=3D number of threads on one CPU core\n"
+> +    "                sockets=3D number of discrete sockets in the system=
+\n"
+>      "                dies=3D number of CPU dies on one socket (for PC on=
+ly)\n"
+> -    "                sockets=3D number of discrete sockets in the system=
+\n",
+> +    "                cores=3D number of CPU cores on one socket (for PC,=
+ it's on one die)\n"
+> +    "                threads=3D number of threads on one CPU core\n",
+>          QEMU_ARCH_ALL)
+>  SRST
+> -``-smp [cpus=3D]n[,cores=3Dcores][,threads=3Dthreads][,dies=3Ddies][,soc=
+kets=3Dsockets][,maxcpus=3Dmaxcpus]``
+> +``-smp [cpus=3D]n[,maxcpus=3Dmaxcpus][,sockets=3Dsockets][,dies=3Ddies][=
+,cores=3Dcores][,threads=3Dthreads]``
+>      Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
+>      are supported. On Sparc32 target, Linux limits the number of usable
+>      CPUs to 4. For the PC target, the number of cores per die, the
+> --
 
-
-I think it would be nice if we can show driver area and device area as 
-well here.
-
-Thanks
-
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
