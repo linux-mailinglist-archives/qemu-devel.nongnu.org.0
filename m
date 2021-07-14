@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 701713C80BF
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 10:55:27 +0200 (CEST)
-Received: from localhost ([::1]:56760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F363C80D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 10:57:11 +0200 (CEST)
+Received: from localhost ([::1]:59896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3afu-0001zD-8g
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 04:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55710)
+	id 1m3aha-00049W-7y
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 04:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m3aeg-0001BZ-DZ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 04:54:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51891)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3agf-0002w6-C4
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 04:56:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m3aee-00009X-Jq
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 04:54:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3agd-0001bq-Fm
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 04:56:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626252847;
+ s=mimecast20190719; t=1626252970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yoTSlfSLJf49FILAUBD+M2Zxvmatpzo8JJZ2460tIIU=;
- b=ROiuCe5aOTuRm2t3InyHib1xpnJ0/FVHAZI2L4ptRZZsfD8VC9Q8eiLibblTDDvj/D21lu
- CG5UREZGSZ/J2UeET8QPOsLD7YxqoGVy3YU6E4ZzZ5UTS1heNKV1yI9BwU4iHbgwK9iWxD
- BYx9IUtA77AKThMTJSVkEyLJ7r1PJDw=
+ bh=A9QuxlHiyq9t3ixn7iK1vNT94VOAr/cRXsALoQrhh44=;
+ b=IS7HFzQjN8YOyLWMHNpoqzotDSArXS3LQCqodSqWvamTyzzLM+GSOQUFY20tXmtCE0e8eN
+ MdyTsSvaLb78vPrKd/Mx1qW6pDEXEtnS/QsxHFSfe4eOz+fQvb3E+eZqk9vWVvFzTZX1y4
+ xeHDR+S8TnBNAr/FxE+q1L5ucdd29w0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-3hQlx1Z3PSO9CT9N7kr8zw-1; Wed, 14 Jul 2021 04:54:05 -0400
-X-MC-Unique: 3hQlx1Z3PSO9CT9N7kr8zw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-231-tVBWKhiOPUKOEgTebAgHGw-1; Wed, 14 Jul 2021 04:56:08 -0400
+X-MC-Unique: tVBWKhiOPUKOEgTebAgHGw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9DD59126D
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:54:04 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E71205C1D1;
- Wed, 14 Jul 2021 08:54:00 +0000 (UTC)
-Date: Wed, 14 Jul 2021 10:53:59 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v2 00/35] acpi: refactor error prone build_header() and
- packed structures usage in ACPI tables
-Message-ID: <20210714105359.0c6b0382@redhat.com>
-In-Reply-To: <20210713114350-mutt-send-email-mst@kernel.org>
-References: <20210708154617.1538485-1-imammedo@redhat.com>
- <20210713114350-mutt-send-email-mst@kernel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CE6A107AD82;
+ Wed, 14 Jul 2021 08:56:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
+ [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D46DB5DA61;
+ Wed, 14 Jul 2021 08:56:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3844C113865F; Wed, 14 Jul 2021 10:56:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 0/7] docs: State QEMU version and license in all HTML
+ footers
+References: <20210705095547.15790-1-peter.maydell@linaro.org>
+Date: Wed, 14 Jul 2021 10:56:05 +0200
+In-Reply-To: <20210705095547.15790-1-peter.maydell@linaro.org> (Peter
+ Maydell's message of "Mon, 5 Jul 2021 10:55:40 +0100")
+Message-ID: <87eec1l1ei.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -84,143 +86,137 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Jul 2021 11:45:46 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> On Thu, Jul 08, 2021 at 11:45:42AM -0400, Igor Mammedov wrote:
-> > v2:
-> >   - drop test related patches, they will be sent as a separate series
-> >   - fix bios_loader pointer initialization ordering when using TPM1.2
-> >   - extend commit message of [1/35] and add extra comment about
-> >     table length patching   
-> 
-> 
-> So I think this is in good shape, and I really like the code size
-> reduction. Given a rush to push things before the freeze, I'm inclined
-> to just defer API rework to the next release. This kind of thing is
-> better at the beginning of the cycle so we can iron out API kinks if any
-> surface.
+> This patchset is an effort to fix something up which I promised
+> Markus I would do after we got the initial conversion to Sphinx
+> done. The old QAPI reference documentation noted the documentation
+> license in the texinfo source (but not in the generated HTML or
+> in the generated manpages); Sphinx generated docs currently don't.
+>
+> The patchset starts with some tidyup that is possible now that
+> we have a single combined HTML manual rather than five separate ones.
+> Rather than putting common-to-all-QEMU info like the deprecation,
+> build and license pages into the "system" manual, we can move them
+> out to a new top level section which I have called "About". So that
+> the manual doesn't now start too abruptly, I've also added some
+> actual "about" text here (mostly cribbed or adapted from our website
+> or from other parts of the manual).
+>
+> Secondly, it uses the Sphinx template-override functionality to
+> add more text to the footer added to each HTML page, which will
+> now read:
+>
+> # =C2=A9 Copyright 2021, The QEMU Project Developers.
+> #
+> # Built with Sphinx using a theme provided by Read the Docs.
+> #
+> # This documentation is for QEMU version 6.0.50.
+> #
+> # QEMU and this manual are released under the GNU General Public License,=
+ version 2.
+>
+> where the last line is a hyperlink to the about/license page.
+>
+> I'm open to suggestions on:
+>  * name of the new top-level section
 
-ok, I'll respin once another merge window is open.
+"About" sounds good to me.
 
-As for tests part, that I dropped, should I repost it
-for merging during soft-freeze or we postpone that as well?
+>  * text wording
 
-> 
-> > Highlights:
-> >   * drop pointer arithmetic in ACPI tables code
-> >   * use endian agnostic API
-> >   * simplifies review of tables. /in most cases just line by line comparision with spec/
-> > 
-> > Series replaces build_header() with acpi_init_table()/acpi_table_composed()
-> > API that hides pointer/offset arithmetic from user, to prevent
-> > errors caused by it [1].
-> > While doing above, it was necessary to split table header from
-> > packed structure that was describing the table, which is
-> > counter-productive since it still leaves packed structure drawbacks.
-> > So that sort of forced me to rewrite tables that were composed with
-> > help of packed structures to preferred build_append_int_noprefix() API.
-> > In cases where refactoring to build_append_int_noprefix() was small,
-> > it was squashed with acpi_init_table()/acpi_table_composed() patch.
-> > Conversion reduced code size quite a bit despite me adding doc comments
-> > for every table row.
-> > 
-> > 1) commits
-> >    bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
-> >    4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
-> > 
-> > Link to repo:
-> >    https://gitlab.com/imammedo/qemu/-/commits/acpi_build_header_refactoring_v2
-> > 
-> > CC: mst@redhat.com
-> > 
-> > 
-> > 
-> > Igor Mammedov (35):
-> >   acpi: add helper routines to initialize ACPI tables
-> >   acpi: build_rsdt: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_xsdt: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_slit: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_fadt: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_tpm2: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: acpi_build_hest: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: build_mcfg: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_hmat: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: nvdimm_build_nfit: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: nvdimm_build_ssdt: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: vmgenid_build_acpi: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: x86: build_dsdt: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: build_hpet: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_tpm_tcpa: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: arm/x86: build_srat: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: use build_append_int_noprefix() API to compose SRAT table
-> >   acpi: build_dmar_q35: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: build_waet: use acpi_init_table()/acpi_table_composed() instead
-> >     of build_header()
-> >   acpi: build_amd_iommu: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: madt: arm/x86: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: x86: remove dead code
-> >   acpi: x86: set enabled when composing _MAT entries
-> >   acpi: x86: madt: use build_append_int_noprefix() API to compose MADT
-> >     table
-> >   acpi: arm/virt: madt: use build_append_int_noprefix() API to compose
-> >     MADT table
-> >   acpi: build_dsdt_microvm: use acpi_init_table()/acpi_table_composed()
-> >     instead of build_header()
-> >   acpi: arm: virt: build_dsdt: use
-> >     acpi_init_table()/acpi_table_composed() instead of build_header()
-> >   acpi: arm: virt: build_iort: use
-> >     acpi_init_table()/acpi_table_composed() instead of build_header()
-> >   acpi: arm/virt: convert build_iort() to endian agnostic
-> >     build_append_FOO() API
-> >   acpi: arm/virt: build_spcr: fix invalid cast
-> >   acpi: arm/virt: build_spcr: use
-> >     acpi_init_table()/acpi_table_composed() instead of build_header()
-> >   acpi: arm/virt: build_gtdt: use
-> >     acpi_init_table()/acpi_table_composed() instead of build_header()
-> >   acpi: build_facs: use build_append_int_noprefix() API to compose table
-> >   acpi: remove no longer used build_header()
-> >   acpi: AcpiGenericAddress no longer used to map/access fields of MMIO,
-> >     drop packed attribute
-> > 
-> >  include/hw/acpi/acpi-defs.h          | 528 +------------------------
-> >  include/hw/acpi/acpi_dev_interface.h |   3 +-
-> >  include/hw/acpi/aml-build.h          |  21 +-
-> >  include/hw/i386/pc.h                 |   7 +-
-> >  hw/acpi/acpi-x86-stub.c              |   3 +-
-> >  hw/acpi/aml-build.c                  | 193 ++++++----
-> >  hw/acpi/cpu.c                        |  17 +-
-> >  hw/acpi/ghes.c                       |  10 +-
-> >  hw/acpi/hmat.c                       |  14 +-
-> >  hw/acpi/nvdimm.c                     |  64 ++--
-> >  hw/acpi/pci.c                        |  18 +-
-> >  hw/acpi/vmgenid.c                    |  16 +-
-> >  hw/arm/virt-acpi-build.c             | 550 +++++++++++++++------------
-> >  hw/i386/acpi-build.c                 | 284 ++++++++------
-> >  hw/i386/acpi-common.c                | 158 ++++----
-> >  hw/i386/acpi-microvm.c               |  13 +-
-> >  16 files changed, 750 insertions(+), 1149 deletions(-)
-> > 
-> > -- 
-> > 2.27.0  
-> 
+Since Daniel reviewed already, I'd prefer to pass.
+
+>  * whether we need to have the version number in the footer
+>    (it's already in the sidebar under the QEMU logo, but this
+>    seemed a bit too inconspicious, so I added it to the footer
+>    since I was messing with it anyway)
+
+No objection.
+
+> You can find a built version of the docs at:
+> https://pm215.gitlab.io/-/qemu/-/jobs/1399259647/artifacts/public/index.h=
+tml
+
+Lovely improvements overall.
+
+> I had a look at getting our manpages to also state the license,
+> but this is tricky due to various deficiencies in Sphinx.
+> (We never have stated the license in our manpages, so this isn't
+> a regression compared to the old texinfo setup.)
+
+Leaving further improvement for later is okay.
+
+> Markus: do you feel this series is sufficient that we can remove
+> the TODO lines in docs/interop/qemu-ga-ref.rst,
+> docs/interop/qemu-qmp-ref.rst and docs/interop/qemu-storage-daemon-qmp-re=
+f.rst
+> as now being done?
+
+These:
+
+    ..
+       TODO: the old Texinfo manual used to note that this manual
+       is GPL-v2-or-later. We should make that reader-visible
+       both here and in our Sphinx manuals more generally.
+
+    ..
+       TODO: display the QEMU version, both here and in our Sphinx manuals
+       more generally.
+
+Copyright, license information and version are all visible in the page
+footers.  The TODOs can go.
+
+In the old Texinfo manual, copyright and license information was also
+visible in the source, like this
+
+    @copying
+    This is the QEMU QMP reference manual.
+   =20
+    Copyright @copyright{} 2016 The QEMU Project developers
+   =20
+    @quotation
+    This manual is free documentation: you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation, either version 2 of the
+    License, or (at your option) any later version.
+   =20
+    This manual is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    General Public License for more details.
+   =20
+    You should have received a copy of the GNU General Public License
+    along with this manual.  If not, see http://www.gnu.org/licenses/.
+    @end quotation
+    @end copying
+
+Such per-file notices are not strictly required, but we habitually have
+them in files holding source code.  I'm okay with omitting them in these
+.rst files.
+
+However, we got a bunch of .rst files with per-file copyright and
+license notices, like this:
+
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+    Vhost-user Protocol
+    =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+    :Copyright: 2014 Virtual Open Systems Sarl.
+    :Copyright: 2019 Intel Corporation
+    :Licence: This work is licensed under the terms of the GNU GPL,
+              version 2 or later. See the COPYING file in the top-level
+              directory.
+
+Rendered to HTML, the page has *two* blocks of copyright and license
+information: the above inline, and the footer.  This is confusing.
+Worse, the license information is contradictory in places, e.g. with the
+above, the inline license is GPLv2 or later, but the footer is GPLv2
+exactly.  I know the intent (footer applies to QEMU as a whole, inline
+just to this page), but legalese should be as clear as we can make it.
+
+Can we downgrade the inline notices to comments?
+
+This is a separate issue we can address on top for 6.1, so:
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
