@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA913C8863
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 18:10:53 +0200 (CEST)
-Received: from localhost ([::1]:39118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7ED03C888D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 18:20:12 +0200 (CEST)
+Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3hTE-00009k-K7
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 12:10:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35724)
+	id 1m3hcJ-0006ZF-6s
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 12:20:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1m3hSC-0007ZY-RZ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:09:44 -0400
-Received: from mail-oi1-x230.google.com ([2607:f8b0:4864:20::230]:47016)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m3hbG-0005eh-GF
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:19:06 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cminyard@mvista.com>)
- id 1m3hS7-0003TR-Vp
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:09:43 -0400
-Received: by mail-oi1-x230.google.com with SMTP id t25so2794219oiw.13
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 09:09:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mvista-com.20150623.gappssmtp.com; s=20150623;
- h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=spScO7rDL2llYd4IDGXCbpWed2O0ybnzf7Tr3D0iUH4=;
- b=JZ2+xcCbDNTYKWVM6G55kumjB0ooUdCCHcr1yfWyoh6+IXly4P4Rr16e6zCHMYcxBI
- 2s2icqaHJFWH2DWQaIZxEi1FATXfb8p1WKOyOim9iUlKsPcKgN03/Mit6NwD2ycLgA+V
- Nne65LJPIv8HFGzkdQWqABt5qOYbg1LGidUzJAvo4tK17g2Oetf2XZRhTz6KLgP8OMpN
- EyFERkCHij8TPLUdEcrIPJgVnTdKSfK8A9R3kX2t6Ed8j9y+xN8r0c23icqdmoGiRzpB
- YBCKQKkCC5vwwt449PwKEL07OgX8Tsu46xuPThKAbrbVugxwmFPb0zhPaKg+4zgmkdRl
- F47Q==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m3hbE-0001pY-Sz
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:19:06 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ b5-20020a17090a9905b029016fc06f6c5bso2046957pjp.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 09:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=74FUzAidO+W1bTmmXDJezlqzNDcF76NO+7vkwp4uXfI=;
+ b=xNJXC/62oDwtInm41+p0QZnYW943UgbhuOFPGKhYACoiUGGA/FnlVn46NJdTh/YmW/
+ /qAohzfSqRQx2uV1MTc/469x8jWdFqy9+BxEmfFxFNRXdlTE34oF3vFXvecPM1TGhUWy
+ m4eS8UeYGB7Y+/f5OL7QkjjWZ+IOqHe4x+95jKqEK4HAVKqE2ymZkppbBD53x3hfvoSK
+ yjGhj2Jruvc04YgcuZO0pramf48Cw5y2TsXXUC/d5jGZG4TVo5jiNzWdzJoVvw4RoPFc
+ O0n0NvFR53eu7gASRto24XP4+m0ZR3WBvYrekyF7rrUF05hwbfIT2Gvlnzjkgru0vV08
+ YtOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
- :references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=spScO7rDL2llYd4IDGXCbpWed2O0ybnzf7Tr3D0iUH4=;
- b=lnhzC/cjODNL+QJA6Bd0msEEmHlYc76ht/eLS6yReGFm/3mieljFYPnVDlLbmpqK1D
- Hd/N1iNcE9fv3RgBVRKIB3YkOaI6m0M9/Fvz6yFwcms72+q8nJftpP5UIGkG0PJabGUS
- K2GLwZCxHg9Ga2kWTOwM/kS15icatBzYtJ4xpPI1DAapskUJ2d9YGKQKLns3DPGs9dET
- QaLigOErfzdMx7XdEUZP5FWCoZzU1G3arx95DbvI0jYKlytyy8udV4tTeF1O38D8Ra1/
- lm5YPo2Thy9FKFNoJ9cnSocCR8D0e68iAhPTuUdazqBu/tE4FXd28aiD3XzZi8sSN+R/
- /9jQ==
-X-Gm-Message-State: AOAM5327ePrQHQGOHdq3dCjdWnmaFRSLitu5Zvt6RqyBSbVpbxbozWnD
- P1vt8cOvXUCPHWRAQfGmyOEnyw==
-X-Google-Smtp-Source: ABdhPJyHJ0WAHhrpLascBKU62ksss8a0+bxoU3hXSwkf42Ki/7caev4qiUUNEDZQua9CBkJ72lilAw==
-X-Received: by 2002:aca:b343:: with SMTP id c64mr7780883oif.137.1626278975934; 
- Wed, 14 Jul 2021 09:09:35 -0700 (PDT)
-Received: from minyard.net ([2001:470:b8f6:1b:6938:a190:9608:2d5d])
- by smtp.gmail.com with ESMTPSA id l20sm489464oof.8.2021.07.14.09.09.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 09:09:35 -0700 (PDT)
-Date: Wed, 14 Jul 2021 11:09:33 -0500
-From: Corey Minyard <cminyard@mvista.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 07/21] contrib/gitdm: add domain-map for MontaVista
-Message-ID: <20210714160933.GB3431@minyard.net>
-References: <20210714093638.21077-1-alex.bennee@linaro.org>
- <20210714093638.21077-8-alex.bennee@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=74FUzAidO+W1bTmmXDJezlqzNDcF76NO+7vkwp4uXfI=;
+ b=GZRnFAN8S0IuP4cKl40KxkNFOGeKzPlAaaKgvHBxcgQGV/4Yxsu0BwDF6/OCaiyyIa
+ yAnNJZnRpAHgao+oBXrpxGcYVEDZqpVhYSHJemvRDQh2NiBaXuvrsF0BMh8mUCJTAghv
+ SySdudH7DiGT4TY6OtenXRNKzc5AGuV9XNAHHt2wg2d6BUFuuQ7Gz6BkpqCcghruzuC1
+ 2/Dry22/CoPQK15Tc4qDRGwomilQlbIDltiv3yMvvoPO6Dw7gMctdKC2CzA034nSstBw
+ 4YGBzxMVqRDn+zlCfSI9yUzsdkt/LlzcQMBwOsit+k+VsCzV7uPylAOlP61jmJ2cI+rL
+ hsWA==
+X-Gm-Message-State: AOAM531Fczko2SAyuuyaRY6UVk2a2SrZUGZlOlt7gU5vqDvyYDqrR6bQ
+ 62WAWoRpkxgtVVWU30omPmehuA==
+X-Google-Smtp-Source: ABdhPJxWunW1gPD8WGAJ12egPwGXTPAEFDszzuzcZM1+K8tMMaRjzdkR6zAmYUGgssl6PPo926lCdA==
+X-Received: by 2002:a17:902:8bc2:b029:12a:f6e7:c4ff with SMTP id
+ r2-20020a1709028bc2b029012af6e7c4ffmr8347963plo.36.1626279543455; 
+ Wed, 14 Jul 2021 09:19:03 -0700 (PDT)
+Received: from [192.168.101.210] ([75.147.178.105])
+ by smtp.gmail.com with ESMTPSA id r15sm3803883pgk.72.2021.07.14.09.19.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Jul 2021 09:19:03 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] docs: document cubieboard, emcraft-sf2, highbank, 
+ midway
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210713142226.19155-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <27495ec6-f6c6-72eb-f92b-4b828b670b2a@linaro.org>
+Date: Wed, 14 Jul 2021 09:19:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210714093638.21077-8-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::230;
- envelope-from=cminyard@mvista.com; helo=mail-oi1-x230.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210713142226.19155-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,38 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: cminyard@mvista.com
-Cc: qemu-devel@nongnu.org, Corey Minyard <minyard@mvista.com>
+Cc: Beniamino Galvani <b.galvani@gmail.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 14, 2021 at 10:36:24AM +0100, Alex Bennée wrote:
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Cc: Corey Minyard <minyard@mvista.com>
+On 7/13/21 7:22 AM, Peter Maydell wrote:
+> Peter Maydell (3):
+>    docs: Add skeletal documentation of cubieboard
+>    docs: Add skeletal documentation of the emcraft-sf2
+>    docs: Add skeletal documentation of highbank and midway
 
-Acked-by: Corey Minyard <cminyard@mvista.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-You even got the (mis)spelling right!  Thanks.
-
--corey
-
-> ---
->  contrib/gitdm/domain-map | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index 0074da618f..efbbb15643 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -18,6 +18,7 @@ igalia.com      Igalia
->  intel.com       Intel
->  linaro.org      Linaro
->  microsoft.com   Microsoft
-> +mvista.com      MontaVista
->  nokia.com       Nokia
->  nuviainc.com    NUVIA
->  oracle.com      Oracle
-> -- 
-> 2.20.1
-> 
+r~
 
