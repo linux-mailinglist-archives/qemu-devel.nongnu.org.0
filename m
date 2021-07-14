@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8053C89D4
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:29:55 +0200 (CEST)
-Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4FD3C89D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:31:21 +0200 (CEST)
+Received: from localhost ([::1]:36008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3ihm-0008C3-ES
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51894)
+	id 1m3ijA-0001O9-EF
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:31:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m3idc-0008S4-Df
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:40 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m3idW-0005jk-T9
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:34 -0400
-Received: by mail-wm1-x331.google.com with SMTP id g12so2084437wme.2
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/MgSxNTXj24fmsVtKLZKGMUSHi7S+elrSni9PhwS8No=;
- b=Ild5PhSy4FIQvEheWdayucZkih6yFYrmi8Xy8NEkIk0egsavgSXuQjo/Mk9yy5bUYg
- JmtcFY7vMjWmWpwyM0ExXlS3jIFfYj1WVuGjpx833g+X94TcgRekdwORKlspXG7fDhrw
- 7ZxNbTVuW7l9sPa4YI8gq0A87FKdqDZ6kf4FJiFzyhaKT3Kgn+kw6fojMdAsDGuex6sA
- Gfgi8P2G33k4mBeCMNTvn28bKpR6LADlwTfFp2LeWbiRcOYbosjEmRfOXbIB9TL97kwW
- 419NimGZLj8PU4qrZ6mpDlYP0u8fnIoDQt4Nanc1qzWynpyXI3s/AnOHnxwZUtS42hvG
- qdXA==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m3ihq-0000K7-AI
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:29:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m3ihl-0000NR-IL
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:29:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626283791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=J4aFB/uKxXnBXjUlGHEb9ojkf1Pfaznz71pZk8uYwNQ=;
+ b=GS/oskCCHkbshFdESzaqY0VGmQTE3pdtlszZzvEo8LTFnrHFir+Vjh778FV3haenfVvHDq
+ 0QCcGd0M1ZkWh5e8z/up5yPE2/s9zrdQszsv0m8HF/Kfskii62NLeQTYmcSFC62660XV/7
+ fN3wtPJ/HhR+78VDZkhhODP+gOsJv64=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-427-FFMlsvEoM-aPyjjLN1XPQQ-1; Wed, 14 Jul 2021 13:29:50 -0400
+X-MC-Unique: FFMlsvEoM-aPyjjLN1XPQQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ y15-20020a5d614f0000b029013cd60e9baaso1879132wrt.7
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:29:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/MgSxNTXj24fmsVtKLZKGMUSHi7S+elrSni9PhwS8No=;
- b=aD0GsyEosp7OR0HBuZ0nxsjJ/BSHmc4bTw8a/Wq+LQszMVZrrkh84Ja+9He9HXWmA/
- WZ3HPILX8AAhQe2hBUWSzPLq09/F3eFxff9hZvg8T+uIevZnF2Mvuq8Fix3yabGukCWI
- Ub95+zIlx1lq5WVV84reW6hb8LjcamifNPZrB8RRstZAbCo66HRHOKeKgsbt4EckJMRk
- TdgfafUfKi/Owh3fsTUlMKt4hUJB2X0FqVj+LP0zxFkVLyr85lNNt3SbMGwDkjavFxeg
- 3+Jv66/+Wd4jOs/UV7PG8V6t8XyJnEegg1StsHVTTjDxg6YEcf+0dv9EqPl+Ibze4bxZ
- 9/LQ==
-X-Gm-Message-State: AOAM531hSwmoF+kRQgUFXrCSyV3PLoZWVO56PvVZ0ac1Ulo/Zz3HvZr4
- Mc+83cBw1AxLqC6f7LeKtekN85tomk0NZw==
-X-Google-Smtp-Source: ABdhPJx+tYkda9XkMF9q5uybC6XHoaKJB/yahIkm9lha77NhfRYEvZvfMZwplJOXRaDk6cPhx4QqAg==
-X-Received: by 2002:a05:600c:1d11:: with SMTP id
- l17mr12534006wms.169.1626283529202; 
- Wed, 14 Jul 2021 10:25:29 -0700 (PDT)
-Received: from localhost.localdomain ([102.41.175.227])
- by smtp.gmail.com with ESMTPSA id l18sm6434393wme.29.2021.07.14.10.25.27
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=J4aFB/uKxXnBXjUlGHEb9ojkf1Pfaznz71pZk8uYwNQ=;
+ b=Yni7900/JujYLP/vwAyDYZ5YTAnoaLknPsnOiw+Xb0sgr56a3BTVt0O43twQ7ONsJ/
+ LBnsHfE64cbeHC5DQhsf0+58NgSvM/dLMHUAKyk3i9cVt9A3Lr/aGR44AmDsyCu75sbb
+ 4WlYyvt14MInOgXcVzE+KoL2HS1gYaenT/0MOgxLsUMfnnJJutqCOWiF0O0d2/Lj4MnA
+ i3KtGq+9Bsllr1FxmMptCdq2oJ005NtuzMSzpuAuW4iF6pyMr1Df7sFVvoPbqk5N/pfq
+ XgysAvRg4rWDz7xWJnn+mSD3Fk5382m2iv/AaXbt7fKgbe230habx3oRRbI3gMqB7LEW
+ 3AZQ==
+X-Gm-Message-State: AOAM533peza2CccYFI+cFPjEIkiBoLhdPzOIJa/xeBmXmltrVYUANA07
+ DY5gDcP9Jxg+3ytZXPnYb0aiZQJrggCUc64FgEwSt557X5QlosYVl35wwISAPsMNSGMstdz5OeK
+ vJe3A9GxGFv8T2sw=
+X-Received: by 2002:a7b:c083:: with SMTP id r3mr12485378wmh.97.1626283784452; 
+ Wed, 14 Jul 2021 10:29:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzHRHFYlvAYhUza8YqsNpBHhmiuMHvMTvGHGnw+Rd2d+3Jjj5qRStlJOhoaHQ3r4aJmVGskZw==
+X-Received: by 2002:a7b:c083:: with SMTP id r3mr12485352wmh.97.1626283784199; 
+ Wed, 14 Jul 2021 10:29:44 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id p2sm2715589wma.27.2021.07.14.10.29.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 10:25:28 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] plugins/cache: Fixed "function decl. is not a prototype"
- warnings
-Date: Wed, 14 Jul 2021 19:21:52 +0200
-Message-Id: <20210714172151.8494-7-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210714172151.8494-1-ma.mandourr@gmail.com>
-References: <20210714172151.8494-1-ma.mandourr@gmail.com>
+ Wed, 14 Jul 2021 10:29:43 -0700 (PDT)
+Date: Wed, 14 Jul 2021 18:29:40 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Brijesh Singh <brijesh.singh@amd.com>
+Subject: Re: [RFC PATCH 6/6] i386/sev: populate secrets and cpuid page and
+ finalize the SNP launch
+Message-ID: <YO8fBDve7yOP4BZi@work-vm>
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-7-brijesh.singh@amd.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210709215550.32496-7-brijesh.singh@amd.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,48 +97,278 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
----
- contrib/plugins/cache.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+* Brijesh Singh (brijesh.singh@amd.com) wrote:
+> During the SNP guest launch sequence, a special secrets and cpuid page
+> needs to be populated by the SEV-SNP firmware. The secrets page contains
+> the VM Platform Communication Key (VMPCKs) used by the guest to send and
+> receive secure messages to the PSP. And CPUID page will contain the CPUID
+> value filtered through the PSP.
+> 
+> The guest BIOS (OVMF) reserves these pages in MEMFD and location of it
+> is available through the SNP boot block GUID. While finalizing the guest
+> boot flow, lookup for the boot block and call the SNP_LAUNCH_UPDATE
+> command to populate secrets and cpuid pages.
+> 
+> In order to support early boot code, the OVMF may ask hypervisor to
+> request the pre-validation of certain memory range. If such range is
+> present the call LAUNCH_UPDATE command to validate those address range
+> without affecting the measurement. See the SEV-SNP specification for
+> further details.
+> 
+> Finally, call the SNP_LAUNCH_FINISH to finalize the guest boot.
+> 
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+>  target/i386/sev.c        | 184 ++++++++++++++++++++++++++++++++++++++-
+>  target/i386/trace-events |   2 +
+>  2 files changed, 184 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 41dcb084d1..f438e09d33 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -93,6 +93,19 @@ typedef struct __attribute__((__packed__)) SevInfoBlock {
+>      uint32_t reset_addr;
+>  } SevInfoBlock;
+>  
+> +#define SEV_SNP_BOOT_BLOCK_GUID "bd39c0c2-2f8e-4243-83e8-1b74cebcb7d9"
+> +typedef struct __attribute__((__packed__)) SevSnpBootInfoBlock {
+> +    /* Prevalidate range address */
+> +    uint32_t pre_validated_start;
+> +    uint32_t pre_validated_end;
+> +    /* Secrets page address */
+> +    uint32_t secrets_addr;
+> +    uint32_t secrets_len;
+> +    /* CPUID page address */
+> +    uint32_t cpuid_addr;
+> +    uint32_t cpuid_len;
+> +} SevSnpBootInfoBlock;
+> +
+>  static SevGuestState *sev_guest;
+>  static Error *sev_mig_blocker;
+>  
+> @@ -1014,6 +1027,158 @@ static Notifier sev_machine_done_notify = {
+>      .notify = sev_launch_get_measure,
+>  };
+>  
+> +static int
+> +sev_snp_launch_update_gpa(uint32_t hwaddr, uint32_t size, uint8_t type)
+> +{
+> +    void *hva;
+> +    MemoryRegion *mr = NULL;
+> +
+> +    hva = gpa2hva(&mr, hwaddr, size, NULL);
+> +    if (!hva) {
+> +        error_report("SEV-SNP failed to get HVA for GPA 0x%x", hwaddr);
+> +        return 1;
+> +    }
+> +
+> +    return sev_snp_launch_update(sev_guest, hva, size, type);
+> +}
+> +
+> +struct snp_pre_validated_range {
+> +    uint32_t start;
+> +    uint32_t end;
+> +};
 
-diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index 60f7be208b..f82a8310dc 100644
---- a/contrib/plugins/cache.c
-+++ b/contrib/plugins/cache.c
-@@ -541,7 +541,7 @@ static int icmp(gconstpointer a, gconstpointer b)
-     return insn_a->imisses < insn_b->imisses ? 1 : -1;
- }
- 
--static void log_stats()
-+static void log_stats(void)
- {
-     int i, iters;
-     CoreStats cs;
-@@ -578,7 +578,7 @@ static void log_stats()
-     qemu_plugin_outs(rep->str);
- }
- 
--static void log_top_insns()
-+static void log_top_insns(void)
- {
-     int i;
-     GList *curr, *miss_insns;
-@@ -633,7 +633,7 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
-     g_mutex_unlock(&mtx);
- }
- 
--static void policy_init()
-+static void policy_init(void)
- {
-     switch (policy) {
-     case LRU:
+Just a thought, but maybe use a 'Range' from include/qemu/range.h ?
+
+Dave
+
+> +static struct snp_pre_validated_range pre_validated[2];
+> +
+> +static bool
+> +detectoverlap(uint32_t start, uint32_t end,
+> +              struct snp_pre_validated_range *overlap)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(pre_validated); i++) {
+> +        if (pre_validated[i].start < end && start < pre_validated[i].end) {
+> +            memcpy(overlap, &pre_validated[i], sizeof(*overlap));
+> +            return true;
+> +        }
+> +    }
+> +
+> +    return false;
+> +}
+> +
+> +static void snp_ovmf_boot_block_setup(void)
+> +{
+> +    struct snp_pre_validated_range overlap;
+> +    SevSnpBootInfoBlock *info;
+> +    uint32_t start, end, sz;
+> +    int ret;
+> +
+> +    /*
+> +     * Extract the SNP boot block for the SEV-SNP guests by locating the
+> +     * SNP_BOOT GUID. The boot block contains the information such as location
+> +     * of secrets and CPUID page, additionaly it may contain the range of
+> +     * memory that need to be pre-validated for the boot.
+> +     */
+> +    if (!pc_system_ovmf_table_find(SEV_SNP_BOOT_BLOCK_GUID,
+> +        (uint8_t **)&info, NULL)) {
+> +        error_report("SEV-SNP: failed to find the SNP boot block");
+> +        exit(1);
+> +    }
+> +
+> +    trace_kvm_sev_snp_ovmf_boot_block_info(info->secrets_addr,
+> +                                           info->secrets_len, info->cpuid_addr,
+> +                                           info->cpuid_len,
+> +                                           info->pre_validated_start,
+> +                                           info->pre_validated_end);
+> +
+> +    /* Populate the secrets page */
+> +    ret = sev_snp_launch_update_gpa(info->secrets_addr, info->secrets_len,
+> +                                    KVM_SEV_SNP_PAGE_TYPE_SECRETS);
+> +    if (ret) {
+> +        error_report("SEV-SNP: failed to insert secret page GPA 0x%x",
+> +                     info->secrets_addr);
+> +        exit(1);
+> +    }
+> +
+> +    /* Populate the cpuid page */
+> +    ret = sev_snp_launch_update_gpa(info->cpuid_addr, info->cpuid_len,
+> +                                    KVM_SEV_SNP_PAGE_TYPE_CPUID);
+> +    if (ret) {
+> +        error_report("SEV-SNP: failed to insert cpuid page GPA 0x%x",
+> +                     info->cpuid_addr);
+> +        exit(1);
+> +    }
+> +
+> +    /*
+> +     * Pre-validate the range using the LAUNCH_UPDATE_DATA, if the
+> +     * pre-validation range contains the CPUID and Secret page GPA then skip
+> +     * it. This is because SEV-SNP firmware pre-validates those pages as part
+> +     * of adding secrets and cpuid LAUNCH_UPDATE type.
+> +     */
+> +    pre_validated[0].start = info->secrets_addr;
+> +    pre_validated[0].end = info->secrets_addr + info->secrets_len;
+> +    pre_validated[1].start = info->cpuid_addr;
+> +    pre_validated[1].end = info->cpuid_addr + info->cpuid_len;
+> +    start = info->pre_validated_start;
+> +    end = info->pre_validated_end;
+> +
+> +    while (start < end) {
+> +        /* Check if the requested range overlaps with Secrets and CPUID page */
+> +        if (detectoverlap(start, end, &overlap)) {
+> +            if (start < overlap.start) {
+> +                sz = overlap.start - start;
+> +                if (sev_snp_launch_update_gpa(start, sz,
+> +                    KVM_SEV_SNP_PAGE_TYPE_UNMEASURED)) {
+> +                    error_report("SEV-SNP: failed to validate gpa 0x%x sz %d",
+> +                                 start, sz);
+> +                    exit(1);
+> +                }
+> +            }
+> +
+> +            start = overlap.end;
+> +            continue;
+> +        }
+> +
+> +        /* Validate the remaining range */
+> +        if (sev_snp_launch_update_gpa(start, end - start,
+> +            KVM_SEV_SNP_PAGE_TYPE_UNMEASURED)) {
+> +            error_report("SEV-SNP: failed to validate gpa 0x%x sz %d",
+> +                         start, end - start);
+> +            exit(1);
+> +        }
+> +
+> +        start = end;
+> +    }
+> +}
+> +
+> +static void
+> +sev_snp_launch_finish(SevGuestState *sev)
+> +{
+> +    int ret, error;
+> +    Error *local_err = NULL;
+> +    struct kvm_sev_snp_launch_finish *finish = &sev->snp_config.finish;
+> +
+> +    trace_kvm_sev_snp_launch_finish();
+> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_SNP_LAUNCH_FINISH, finish, &error);
+> +    if (ret) {
+> +        error_report("%s: SNP_LAUNCH_FINISH ret=%d fw_error=%d '%s'",
+> +                     __func__, ret, error, fw_error_to_str(error));
+> +        exit(1);
+> +    }
+> +
+> +    sev_set_guest_state(sev, SEV_STATE_RUNNING);
+> +
+> +    /* add migration blocker */
+> +    error_setg(&sev_mig_blocker,
+> +               "SEV: Migration is not implemented");
+> +    ret = migrate_add_blocker(sev_mig_blocker, &local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +        error_free(sev_mig_blocker);
+> +        exit(1);
+> +    }
+> +}
+> +
+> +
+>  static void
+>  sev_launch_finish(SevGuestState *sev)
+>  {
+> @@ -1048,7 +1213,12 @@ sev_vm_state_change(void *opaque, bool running, RunState state)
+>  
+>      if (running) {
+>          if (!sev_check_state(sev, SEV_STATE_RUNNING)) {
+> -            sev_launch_finish(sev);
+> +            if (sev_snp_enabled()) {
+> +                snp_ovmf_boot_block_setup();
+> +                sev_snp_launch_finish(sev);
+> +            } else {
+> +                sev_launch_finish(sev);
+> +            }
+>          }
+>      }
+>  }
+> @@ -1164,7 +1334,17 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>      }
+>  
+>      ram_block_notifier_add(&sev_ram_notifier);
+> -    qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+> +
+> +    /*
+> +     * The machine done notify event is used by the SEV guest to get the
+> +     * measurement of the encrypted images. When SEV-SNP is enabled then
+> +     * measurement is part of the attestation report and the measurement
+> +     * command does not exist. So skip registering the notifier.
+> +     */
+> +    if (!sev_snp_enabled()) {
+> +        qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+> +    }
+> +
+>      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+>  
+>      cgs->ready = true;
+> diff --git a/target/i386/trace-events b/target/i386/trace-events
+> index 0c2d250206..db91287439 100644
+> --- a/target/i386/trace-events
+> +++ b/target/i386/trace-events
+> @@ -13,3 +13,5 @@ kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa
+>  kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
+>  kvm_sev_snp_launch_start(uint64_t policy) "policy 0x%" PRIx64
+>  kvm_sev_snp_launch_update(void *addr, uint64_t len, int type) "addr %p len 0x%" PRIx64 " type %d"
+> +kvm_sev_snp_launch_finish(void) ""
+> +kvm_sev_snp_ovmf_boot_block_info(uint32_t secrets_gpa, uint32_t slen, uint32_t cpuid_gpa, uint32_t clen, uint32_t s, uint32_t e) "secrets 0x%x+0x%x cpuid 0x%x+0x%x pre-validate 0x%x+0x%x"
+> -- 
+> 2.17.1
+> 
 -- 
-2.25.1
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
