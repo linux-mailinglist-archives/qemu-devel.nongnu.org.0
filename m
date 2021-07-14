@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92ABA3C91ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 22:17:46 +0200 (CEST)
-Received: from localhost ([::1]:55476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 869193C9212
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 22:26:56 +0200 (CEST)
+Received: from localhost ([::1]:33800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3lKD-0000SR-4S
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 16:17:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
+	id 1m3lT5-0005GO-6T
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 16:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lIl-00077b-Ju
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43656)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lRG-0004LL-LV
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:25:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lIh-0005BS-UI
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:16:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lRC-0002MU-Qf
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:25:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626293768;
+ s=mimecast20190719; t=1626294297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+96Uly0hJqHnow8Pb5Rlc8gOnNql3vpPum949J6F5uE=;
- b=OND4MJIzPzCtq006RNGfOlXJgOUrmcCbU7owF1ngyNUF0T4Gh1+yco16NXYE+dpTxRaQJN
- jeLD50uzeKuQtRFE32+g44yeCm+Z9Sz27fsfkte8/pUqN2KpLowyI5xjiyJXTi/J+6QgCR
- WvIbt0b0XRluMSCXRbi35vQ0jTiCQBk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-599-Zrj2hK8SMWC9YRwEtJxCNA-1; Wed, 14 Jul 2021 16:16:07 -0400
-X-MC-Unique: Zrj2hK8SMWC9YRwEtJxCNA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h15-20020adffd4f0000b0290137e68ed637so2089467wrs.22
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 13:16:07 -0700 (PDT)
+ bh=pCLHHrFV7R4IQgoLn5Ud+opStwh5CO58Hrg9T6B1vmE=;
+ b=EEVml+ZA+qFPSq41oAHiDZifHe0KuqJSU7RBETmMd2A/2Jzd5l6j1oM8G+WC4ZA71zC7QW
+ vkLkX76W+JM9dPkYgMOGoLWtLgmoZWIlL3YRLbgIeSEj5KT/5L171fNq/QdziQ9xzulr04
+ TOvZ2hmJ3w7WROTXSz4wn7UTm1MZzuM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-K9IFsWZ1PvqzCh8n1bV2pA-1; Wed, 14 Jul 2021 16:24:55 -0400
+X-MC-Unique: K9IFsWZ1PvqzCh8n1bV2pA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m4-20020adffa040000b02901404c442853so2131412wrr.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 13:24:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+96Uly0hJqHnow8Pb5Rlc8gOnNql3vpPum949J6F5uE=;
- b=Dl/iDF7bku8CQWPwLVXAKpPzcCbJookckdBZrttooU3slA/41ZJKmAIA2lyG3qfWUE
- q0A3JMXkGnYBdpEQYYg4T37XxRH15EiyHBgA7d15qLta5tJ2Pktkm7xg+xnCf8rv+c+c
- BuAfEDlaThP3TXW0rrhXMm8lM7cCeGmNmmCzFluS4uEp3GoXJO/sWibTCxw5WwMIQSFa
- 0cPvuf7hETtxchq+8czyFiGBDJi/Tf6zhN/DSzLN2byCYKHlIxJ6+s38UlaJqNz4psnv
- QtuhWsUppoFR3rCqri8V+uiLSr/Z5l5oBXfZzDcGRkWC6Qxmr++SF7I4zVMp76NQF2/b
- O8kw==
-X-Gm-Message-State: AOAM531o7kktEQM1zqw0Tz75Ft+VnaB+QvdwbFmLwxXgnHlIXpdz+gWv
- 7JCFFuGWOQpuFfHFiXnonr4v2MS2uUkbfoLpCTUTNM/EZvF/radc7I/Q9WULC1npPGWsnnPgbd1
- EYBjQKJZpLxBjuKg=
-X-Received: by 2002:a7b:c452:: with SMTP id l18mr5950827wmi.164.1626293766594; 
- Wed, 14 Jul 2021 13:16:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwR//77vDOkh/5f9lKMgw7ufrrTWLx+v3Iw4n9OHfJrCXb4kDhT/3ET2wbjmg1lvhUCZxWJQg==
-X-Received: by 2002:a7b:c452:: with SMTP id l18mr5950809wmi.164.1626293766342; 
- Wed, 14 Jul 2021 13:16:06 -0700 (PDT)
+ bh=pCLHHrFV7R4IQgoLn5Ud+opStwh5CO58Hrg9T6B1vmE=;
+ b=ItXlanqqndJdVfYOFUlbCQ2/0k5eFpcVqzhH4MargEw6ns2lKTmpl+1UdUpzTjBfNP
+ kfMffynj7MyKT/OnD+ZrD9NCxlo0NdkBby8IMI4t7WCLKO+cgbIhZiMWy0uOpttOAds1
+ cIB8h0t25QUkX5Wxck9zdFfGVsmBMY2RaUbOnEFhQEXMVvZR7zvKhZRLou1kDc8yVhej
+ gc+KmAK7M0s5dS5hYh9PmWxLSWdjPwg1KHvNOer65RC/LGx0T7R0ZtpyKSNr0MDcaOTH
+ XhOR440zDAnWp2s4NW6tD6fIbNspiXrM/eMZLSl2s6OgNk7/EF442PtU/uDLsOGxpFm8
+ dNwg==
+X-Gm-Message-State: AOAM530ed2Sxd8lOp5A2ZbFTRvSpF5Ytl/GzXNMaYk3YsIPrTSy+6PNX
+ 495kWzOA4LHLroW23m0nFjx2ttxJc8/v9OKioOKFZAdD94YqcC97cL+Sz9KXuEQ1INFEBl/lLVn
+ ydCgjwCvQs3FH0We5WT7DDJOxLhs9zLe9UvkFQCzilcXbDKUW0uFDQXqAGncOcRW5
+X-Received: by 2002:a5d:644c:: with SMTP id d12mr14848535wrw.129.1626294294344; 
+ Wed, 14 Jul 2021 13:24:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZ8uyIZiJXbNUlJhDncHwFW/R4pjm8p0H1Z99QWzDTM6dAhV28oAcsXQGDH3N3demVWrsU+w==
+X-Received: by 2002:a5d:644c:: with SMTP id d12mr14848518wrw.129.1626294294138; 
+ Wed, 14 Jul 2021 13:24:54 -0700 (PDT)
 Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
  [86.222.93.116])
- by smtp.gmail.com with ESMTPSA id l14sm3582088wrs.22.2021.07.14.13.16.05
+ by smtp.gmail.com with ESMTPSA id j10sm3814529wrt.35.2021.07.14.13.24.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 13:16:05 -0700 (PDT)
-Subject: Re: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
- <bb8d222a-be8a-02b7-3ddc-de443290e29d@redhat.com>
- <36bcf543-0b56-7e2f-26e7-648ca3cf58dd@linux.ibm.com>
- <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com>
- <87a6mpez2b.fsf@dusky.pond.sub.org>
+ Wed, 14 Jul 2021 13:24:53 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1] gitlab-ci: Extract EDK2 job rules to reusable
+ section
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210714101003.3113726-1-philmd@redhat.com>
+ <871r8069us.fsf@p50.localhost.localdomain>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com>
-Date: Wed, 14 Jul 2021 22:16:03 +0200
+Message-ID: <ff3f5bc5-2dad-17aa-31c8-4a794a61d59b@redhat.com>
+Date: Wed, 14 Jul 2021 22:24:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <87a6mpez2b.fsf@dusky.pond.sub.org>
+In-Reply-To: <871r8069us.fsf@p50.localhost.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -102,75 +100,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/21 4:43 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+On 7/14/21 8:14 PM, Cleber Rosa wrote:
 > 
->> +Markus
->>
->> On 7/12/21 5:47 PM, Stefan Berger wrote:
->>>
->>> On 7/12/21 11:29 AM, Philippe Mathieu-Daudé wrote:
->>>> Hi Stefan,
->>>>
->>>> On 7/12/21 5:09 PM, Stefan Berger wrote:
->>>>> This series of patches adds test case for TPM 1.2 ACPI tables.
->>>>>
->>>>>    Stefan
->>>>>
->>>>> v3:
->>>>>    - Define enum TPMVersion for when CONFIG_TPM is not defined
->>>>>      affected patches 2 and 6
->>>> I think in 11fb99e6f48..e542b71805d we missed an extra patch
->>>> for qtests. Probably (untested):
->>>
->>> Shouldn't we have seen test compilation errors already?
->>>
->>> I didn't go down this route for the build system (as you show below)
->>> because in this series we are testing ACPI tables and I introduce the
->>> reference to enum TPMVersion here, which wasn't needed before. The
->>> alternative may be to go into 8/9 and eliminate all TPM code if
->>> CONFIG_TPM is not set. The introduction of the enum now passes the tests
->>> with --enable-tpm and --disable-tpm.
->>>
->>> Otherwise the BIOS test are skipped due to this here:
->>>
->>>
->>> static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
->>>                               uint64_t base, enum TPMVersion tpm_version)
->>> {
->>> #ifdef CONFIG_TPM
->>> [...]
->>>
->>> #else
->>>     g_test_skip("TPM disabled");
->>> #endif
->>> }
->>>
->>> So I didn't want to clutter this code with more #ifdef CONFIG_TPM but
->>> maybe that would be the right solution.
->>
->> IMO the "right" solution is to check via QMP if TMP is supported
->> or not. This is now doable since commit caff255a546 ("tpm: Return
->> QMP error when TPM is disabled in build").
->>
->> Long term we'd like to decouple the tests/ build from the various
->> QEMU configurations, and build the tests once.
+> Philippe Mathieu-Daudé writes:
 > 
-> This argument applies only to macros from target-specific headers like
-> $TARGET-config-target.h, not to macros from config-host.h.  #ifdef
-> CONFIG_TPM should be fine, shouldn't it?
+>> All jobs depending on 'docker-edk2' job must use at most all
+>> the rules that triggers it. The simplest way to ensure that
+>> is to always use the same rules. Extract all the rules to a
+>> reusable section, and include this section (with the 'extends'
+>> keyword) in both 'docker-edk2' and 'build-edk2' jobs.
+>>
+>> The problem was introduced in commit 71920809cea ("gitlab-ci.yml:
+>> Add jobs to build EDK2 firmware binaries"), but was revealed in
+>> commit 1925468ddbf ("docker: EDK2 build job depends on EDK2
+>> container") and eventually failed on CI:
+>> https://gitlab.com/qemu-project/qemu/-/pipelines/335995843
+>>
+>> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> If this is a correct fix, I'll send a similar fix for the
+>> OpenSBI jobs.
+>> ---
+>>  .gitlab-ci.d/edk2.yml | 27 ++++++++++++++++-----------
+>>  1 file changed, 16 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/edk2.yml b/.gitlab-ci.d/edk2.yml
+>> index ba7280605c4..aae2f7ad880 100644
+>> --- a/.gitlab-ci.d/edk2.yml
+>> +++ b/.gitlab-ci.d/edk2.yml
+>> @@ -1,10 +1,22 @@
+>> -docker-edk2:
+>> - stage: containers
+>> - rules: # Only run this job when the Dockerfile is modified
+>> +# All jobs needing docker-edk2 must use the same rules it uses.
+>> +.edk2_job_rules:
+>> + rules: # Only run this job when ...
+>>   - changes:
+>> +   # this file is modified
+>>     - .gitlab-ci.d/edk2.yml
+>> +   # or the Dockerfile is modified
+>>     - .gitlab-ci.d/edk2/Dockerfile
+>> +   # or roms/edk2/ is modified (submodule updated)
+>> +   - roms/edk2/*
+>>     when: always
+>> + - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
+>> +   when: always
+>> + - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
+>> +   when: always
+>> +
+>> +docker-edk2:
+>> + extends: .edk2_job_rules
+>> + stage: containers
+>>   image: docker:19.03.1
+>>   services:
+>>   - docker:19.03.1-dind
+>> @@ -24,16 +36,9 @@ docker-edk2:
+>>   - docker push $IMAGE_TAG
+>>  
+>>  build-edk2:
+>> + extends: .edk2_job_rules
+>>   stage: build
+>>   needs: ['docker-edk2']
+>> - rules: # Only run this job when ...
+>> - - changes: # ... roms/edk2/ is modified (submodule updated)
+>> -   - roms/edk2/*
+>> -   when: always
+>> - - if: '$CI_COMMIT_REF_NAME =~ /^edk2/' # or the branch/tag starts with 'edk2'
+>> -   when: always
+>> - - if: '$CI_COMMIT_MESSAGE =~ /edk2/i' # or last commit description contains 'EDK2'
+>> -   when: always
+>>   artifacts:
+>>     paths: # 'artifacts.zip' will contains the following files:
+>>     - pc-bios/edk2*bz2
+> 
+> 
+> Hi Phil,
+> 
+> This looks good, but have you triggered a pipeline with these changes?
+> It'd be helpful for an extra level of assurance for the intended results.
 
-Some definitions depend on the host (OS, libraries installed, ...),
-others depend on the --enable/--disable ./configure options.
+Yes, before sending this patch ;)
 
-IMO it would be nice if we could get qtests independent of the latter.
-
-I suppose config-host.h holds both kinds.
+https://gitlab.com/philmd_rh/qemu/-/pipelines/336800660
 
 
