@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3043C9226
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 22:33:31 +0200 (CEST)
-Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EE13C922A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 22:35:10 +0200 (CEST)
+Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3lZS-0000Ys-B5
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 16:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32912)
+	id 1m3lb3-00025G-7A
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 16:35:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3lY5-00084E-Ij
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:32:05 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:42721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3lY3-0007SR-Og
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:32:05 -0400
-Received: by mail-ed1-x536.google.com with SMTP id k27so4891072edk.9
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 13:32:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=N6dwKcApYBQ6YGiIDzi8HkPJr0ZO/l7+LJZ+hpWg66g=;
- b=b6C0nZBLIbhK8wT4S2oTzz519M8JaPxX+25Qc9SKdyCv7/4JFbyyTOUFehPtxTCHSp
- rR2h9Ob97XIm1FIZCeg/CeSeZECEy/+i5+VnF3G1TLTmELuW+PqhZsWQJ75mgLMOwhMx
- Hkbjy/TwwstjowxuTTkK3De2WQz0+Cw6ZWPYKkUCeQFHoTndxtqiXPTyBFUBTkfyNECX
- KRf3/eSUqUI5KzEil0JXxJgy+JrLV7O8oTIgsFK3cZKj4xAxpEjYZ47VgTCOeUBiY+I1
- OI/Zq+bMeaptA95Ps+HAuiGg9Sx/EGmAqp3YQSNgR3hPvzoLM3WYPWe1+FqkMrigREeE
- TORg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3la0-0001PJ-NE
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:34:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m3lZy-0000D0-6E
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 16:34:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626294840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YXxwJu5ug9E/sFgUWCQPQwM5/0Pe6KrS+hdaMOntSnE=;
+ b=XcKby123LXOHcrQWfxDmKyu7DgzDeMM7Fi9t0Sgxo4YiVe3KnxqQKBMD9tgKUJT3abMrly
+ gbt+JIitT/U2xIyewTzg4ta+yCMk0RWKgEbISvil4J01DvLOHS6oejvhhdXRDR9VqXfqcs
+ jHb+e37V8ti/Qg+hnm7jvujTM9T3mLw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-X5TM78gOMfa2iU2NgfphQw-1; Wed, 14 Jul 2021 16:33:59 -0400
+X-MC-Unique: X5TM78gOMfa2iU2NgfphQw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m6-20020a05600c4f46b0290205f5e73b37so1209269wmq.3
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 13:33:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=N6dwKcApYBQ6YGiIDzi8HkPJr0ZO/l7+LJZ+hpWg66g=;
- b=dNhTnyxUJkYWYbkyJy1evXmybW02df7oQouw8wbWTVMWWNHAc5Zqd2e6fiv36y1ba6
- Ay4iBT1PnMaWCNE6bFP/U/AMaBiAZPNjUfkPaOf2C4oLmDZtO2K7v7HiU3PRQmx7ovA4
- pDIBAGIJxOOL02ZgA0J3qzv2q4oadEVFnyYO2AYWPs+bzdljR3BDOK4diCjmpjIMCO5R
- mHx0LD/IIuosIrBMqfiJRswMHCQOwYdK3GLBPKRLBEOjOoxaldwjM8rncREDhPXTiHNO
- 4lZ7qk9y+VFAhLeot56AAGjex3QHBFZ+9ZldT/ZmjUK5skmFiUKIgTMzExRqA7kntO/x
- ueeg==
-X-Gm-Message-State: AOAM5339RhHMHCtNE1X6vScnjjLMLtLuNupQfcK1nSAsyEJMFpjbAbT5
- wBL3jiF/pqRAfjtXq+Mprx9KkcVoANljEdM5cDBx8g==
-X-Google-Smtp-Source: ABdhPJwljxSJEKFvOprIfkcoS+7MlhiebqrZGurpIIH/G7qnFJf8xDqe7gEykPd6X46NGFn7okuzZUaosa1bXwRnfbo=
-X-Received: by 2002:a05:6402:1ca4:: with SMTP id
- cz4mr227356edb.52.1626294721597; 
- Wed, 14 Jul 2021 13:32:01 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YXxwJu5ug9E/sFgUWCQPQwM5/0Pe6KrS+hdaMOntSnE=;
+ b=l9LPIM27b4TPfHOdJDTqGs3Bzfkek639AofwajbA+zYW9hbDPFtHpDFTPs57si99/O
+ me/MTfyOno0/9diB4aWDoveIHzSFmEIbcUYgyu9l2TP7lXPFpdQY5LWpUOs/Uj9cTL+Q
+ 2DCEeWl5qS4VRgDq4KXoas8phnq5RGmeeXR6Os+LXyUaBtjYOTnBo7R2eYnjl5D+w4jd
+ G44BBDYz2N8UUXobBUFDw8mZbiGQm3ojT0UzZZlRSc9du1qgPPLxiLFIWmBe8lSVSjQ2
+ R6ltptDjmPz67dOnswwgKJ0SwFjWHamQAQTbEG22QC0ZzF5bAlmyt7AUZfo3XsoL0ol5
+ fsHA==
+X-Gm-Message-State: AOAM530B51eYJ2XCApaaiy5EzO+k9la3kOkJ11Vm9XzC2FkuY8mEse+e
+ GHbwwJdyAQeCxMLU5vUqIRkSzoVTd3OYoBbKoF1DeZn9e1LE5etc3/zJ0zsJ9TMROu1GdS76SC3
+ ERspC1LShOEFQW9M=
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr6255811wmb.129.1626294835894; 
+ Wed, 14 Jul 2021 13:33:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOlE/9t+1nh8aQA4l+8ZyOH3B7TA6jdZYDpcBipP4rX2tcoEXFVEvUczqWYSlRPGQ4XR30VA==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr6255798wmb.129.1626294835738; 
+ Wed, 14 Jul 2021 13:33:55 -0700 (PDT)
+Received: from [192.168.1.24] (abayonne-654-1-142-116.w86-222.abo.wanadoo.fr.
+ [86.222.93.116])
+ by smtp.gmail.com with ESMTPSA id z7sm2753863wmp.34.2021.07.14.13.33.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Jul 2021 13:33:55 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1] gitlab-ci: Extract EDK2 job rules to reusable
+ section
+To: qemu-devel@nongnu.org
+References: <20210714101003.3113726-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <48427ddf-b670-4517-095d-d1fba7ae5151@redhat.com>
+Date: Wed, 14 Jul 2021 22:33:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210713220946.212562-1-mst@redhat.com>
-In-Reply-To: <20210713220946.212562-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 14 Jul 2021 21:31:21 +0100
-Message-ID: <CAFEAcA_ykJOv0s_44VKWFa3ti9pVD_u_3_G1MpAFdLRZ9oPH5w@mail.gmail.com>
-Subject: Re: [PULL 00/23] pc,pci,virtio: lots of new features
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210714101003.3113726-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,51 +99,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Jul 2021 at 23:10, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
->
->   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to cf171f90d5e41730ad3e0ce23f1990f34b7e63ef:
->
->   vhost-vsock: SOCK_SEQPACKET feature bit support (2021-07-13 16:59:12 -0400)
->
-> ----------------------------------------------------------------
-> pc,pci,virtio: lots of new features
->
-> Lots of last minute stuff.
->
-> vhost-user-rng.
-> vhost-user-i2c.
-> vhost-vsock SOCK_SEQPACKET support.
-> IOMMU bypass.
-> ACPI based pci hotplug.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+On 7/14/21 12:10 PM, Philippe Mathieu-Daudé wrote:
+> All jobs depending on 'docker-edk2' job must use at most all
+> the rules that triggers it. The simplest way to ensure that
+> is to always use the same rules. Extract all the rules to a
+> reusable section, and include this section (with the 'extends'
+> keyword) in both 'docker-edk2' and 'build-edk2' jobs.
+> 
+> The problem was introduced in commit 71920809cea ("gitlab-ci.yml:
+> Add jobs to build EDK2 firmware binaries"), but was revealed in
+> commit 1925468ddbf ("docker: EDK2 build job depends on EDK2
+> container") and eventually failed on CI:
+> https://gitlab.com/qemu-project/qemu/-/pipelines/335995843
+> 
+> Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> If this is a correct fix, I'll send a similar fix for the
+> OpenSBI jobs.
+> ---
+>  .gitlab-ci.d/edk2.yml | 27 ++++++++++++++++-----------
+>  1 file changed, 16 insertions(+), 11 deletions(-)
 
-This seems to produce a new meson warning:
+Queued to fw-edk2 tree.
 
-Configuring 50-qemu-gpu.json using configuration
-Configuring 50-qemu-virtiofsd.json using configuration
-Configuring 50-qemu-rng.json using configuration
-../../tools/vhost-user-rng/meson.build:7: WARNING: The variable(s)
-'libexecdir' in the input file
-'tools/vhost-user-rng/50-qemu-rng.json.in' are not present in the
-given configuration data.
-Configuring 50-edk2-i386-secure.json using configuration
-Configuring 50-edk2-x86_64-secure.json using configuration
-Configuring 60-edk2-aarch64.json using configuration
-
-(the build then seems to go on to complete OK).
-
--- PMM
 
