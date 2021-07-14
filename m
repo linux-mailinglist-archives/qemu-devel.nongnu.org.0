@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35DB3C8271
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:09:50 +0200 (CEST)
-Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C47D3C8272
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:10:57 +0200 (CEST)
+Received: from localhost ([::1]:34220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3bpu-0000ok-0z
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
+	id 1m3bqy-0001uI-2D
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:10:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bQK-0005JU-Qa
+ id 1m3bQJ-0005Ig-3m
  for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:24 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40661)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bQH-0000Fc-8M
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:24 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- f8-20020a1c1f080000b029022d4c6cfc37so2172687wmf.5
+ id 1m3bQG-0000Ex-Iw
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:22 -0400
+Received: by mail-wr1-x430.google.com with SMTP id g16so2412170wrw.5
  for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:43:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mkveh20OoO1fJ2jJIzs+75pAwAXlywpfOsc7TNI4PTQ=;
- b=iQXO4NwpRQ6aViXS1XZYUXb3hZN6kZ75yfx82DWeXLBFGo4GO3AS5tR+sWkhXcSf7R
- XJ0/7hNCkJ0Pe23W7284f91MjGHOpZRUAGP52A/RQambLCMVQpH9jeS4mZblAL1xZaIa
- +RDaFSGPNgFVYJWJFiN7SIFXLYZ9j7Ubhs3b3/vpl/Sg36ygpOPlRu/sN+J4Ef+4kYM/
- i6gjDRYZy1qNjWWoAMcBsninccc5BKcQwzluynbarHQMu4BYvcsgduhMegIFUKhhn3G2
- w6rRkg/LYuMl3ie9+RdJCvhJpvFA+hLyGiG/WIVYjuYteNq+KSyPhWh/Jl7ZGK1kCupJ
- nDFA==
+ bh=kvc0BPKB1sR/Rn+i6q+NnoukvDXoahmUQu52zM+1gKA=;
+ b=ZDyuL0pgoP+EjCBt4S0CSZrri964Z/E6apkOL4mN83RVfbLVU85n+hkOFT18ZMQ6Pi
+ ZccqU4uQokXbhrM8VigjGum3ucj0yyl0caP1CComYvLMTchWEvVELASfsFfqsJlgYjJ3
+ Ic5Cmn9rJcXqCEKYd/7GQRPDbtW93g9xxE8VcDH+LarKK3jPE6LYtTZzZWgKSUh54uKc
+ Q6b1zXV/+k9Chf+Cb11inQAtkh/gJPXzCPspjVApD98wjQ+vru1NG8so0GwsiFD+Yfm1
+ G/c7W5cPNOO67xkJQz2qJtnOWATPA9aYqQYqZHj4bOuYGcFNhrFNCOj/B0VjqoFkyRVm
+ Aklg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mkveh20OoO1fJ2jJIzs+75pAwAXlywpfOsc7TNI4PTQ=;
- b=hsj0GfJdqggxV8QhEds08O+T05jsZH2WbwfqpPci7mgkUHDe+anUFiZWF2a8lnpRRF
- +eCox5zp3WatpxfUWoRAEt7OL7OkB9DJf7J7lb2trMm16YoDnRiznzswNYQx7+YBln0T
- 5PdAkEkPuf04Sc53MrGM5PMJEu7vmY4+emYg0KMM6RWyh0UHk3NAC+Eu1c7hqtC3kYed
- BCDcYONThwjPZx7et/idWh4WqRdGl+BHF8ba0WzRvqjmYjDlJrNWQYhusv0OZx7tBeAo
- LLKBJuhiB5wDgLaNAAKxNHyJbtyTFMZ7PJm0Aviw573jHr+gadiI9b7QN1HJyeL3cvK7
- gIlw==
-X-Gm-Message-State: AOAM533Q24QTcLyH6Tog7B7BG/X4PcoMVtqzKHiLcvsIasEMvlTKVBi0
- mxgAuZZ/e31mqiPYeSgZDl0cxA==
-X-Google-Smtp-Source: ABdhPJym61fd1wEYXoliHX4euDgoPxZ7UZWr6DV9v+xyeVB0UVggpJggYGgujkmPEgYDm78rzkZR3g==
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr110628wmb.71.1626255799900;
+ bh=kvc0BPKB1sR/Rn+i6q+NnoukvDXoahmUQu52zM+1gKA=;
+ b=YZzok8Q3p4XZYvgvkH+CQLz6kMq03h+q79swFfw+/E797jbB05DMwXDFeg1juMofYR
+ H0NR+Dz/eWxo+byOrm+eh4Atj6i+qcX3BqGyZ9U/9d81FKqNch2R5kb6jTvaFVtnr4tA
+ odgBee/SGdpB7d6wzRZ8WLV/3ASSMhk8MWmxW55HJj8dZU2u2shuzHa3NdCl9v91o8vK
+ NKIqD19GrpcATbceVqQcVNEoI/JSKr6V5JSeubxZuNd8s9VdQc1XM7AEnl4L9DKQt4Xo
+ nrOHhvWMbt0W0VB1bN+j3QgwKtGPTNZ1x0MmFtYlfhGOq2jPA1//dbACB5CJaSTVE0ch
+ LStA==
+X-Gm-Message-State: AOAM531evTVW05HxUTxoUZ4gi9/ZoXkuXDu5qFzzp0F+OStTdoXc6Ok+
+ pii4eeHFlOHB9GZDo7x24TKlFARSEdKpsg==
+X-Google-Smtp-Source: ABdhPJwX1NNVJOWZa61cpksDBFwk6e49Y4VVFXsP+T/0yS+/m1wLOE52nrykTmfQ5sSE5MsYMIsA7w==
+X-Received: by 2002:a05:6000:551:: with SMTP id
+ b17mr11627281wrf.32.1626255799189; 
  Wed, 14 Jul 2021 02:43:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 6sm4921261wmi.3.2021.07.14.02.43.08
+ by smtp.gmail.com with ESMTPSA id e6sm2261933wrg.18.2021.07.14.02.43.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 14 Jul 2021 02:43:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E99C51FF91;
- Wed, 14 Jul 2021 10:37:20 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 0A9421FFAE;
+ Wed, 14 Jul 2021 10:37:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 14/21] contrib/gitdm: add domain-map for Crudebyte
-Date: Wed, 14 Jul 2021 10:37:12 +0100
-Message-Id: <20210714093719.21429-15-alex.bennee@linaro.org>
+Subject: [PATCH  v1 15/21] contrib/gitdm: add domain-map for ZTE
+Date: Wed, 14 Jul 2021 10:37:13 +0100
+Message-Id: <20210714093719.21429-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714093719.21429-1-alex.bennee@linaro.org>
 References: <20210714093719.21429-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,32 +87,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+Cc: Yi Wang <wang.yi59@zte.com.cn>, Yun Liu <liu.yunh@zte.com.cn>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let me know if you want to be moved to individual contributor or you
-want to keep with the work domain mapping.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Yi Wang <wang.yi59@zte.com.cn>
+Cc: Yun Liu <liu.yunh@zte.com.cn>
 ---
  contrib/gitdm/domain-map | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 5ac8288716..e42861cd11 100644
+index e42861cd11..bada5384dd 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -9,6 +9,7 @@ baidu.com       Baidu
- bytedance.com   ByteDance
- cmss.chinamobile.com China Mobile
- citrix.com      Citrix
-+crudebyte.com   Crudebyte
- eldorado.org.br Instituto de Pesquisas Eldorado
- fujitsu.com     Fujitsu
- google.com      Google
+@@ -40,3 +40,4 @@ windriver.com   Wind River
+ xilinx.com      Xilinx
+ yadro.com       YADRO
+ yandex-team.ru  Yandex
++zte.com.cn      ZTE
 -- 
 2.20.1
 
