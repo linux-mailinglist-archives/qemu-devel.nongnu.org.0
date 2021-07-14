@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9BD3C7E78
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 08:19:33 +0200 (CEST)
-Received: from localhost ([::1]:36040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CD33C7E87
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 08:27:46 +0200 (CEST)
+Received: from localhost ([::1]:40942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3YF2-0000Ts-Rv
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 02:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55860)
+	id 1m3YMz-0004F2-FJ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 02:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1m3YDN-0006En-MT
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:17:49 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:33770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1m3YDL-0003R6-Gy
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:17:49 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id r135so1477582ybc.0
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 23:17:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yom4PzHqs0Rl+0jsM96/u7THIyjnabtP29YWSpEVfd4=;
- b=gdOWgn+A7yqWC5rDoayuGjplYb1IQm5m+Mw2a08W2LKRuL+QiykyPuutNtl48X6SYV
- geF2usG7IOMS6i8905Q7wax7OdxRLgpP0kPrjQphEEQo/I+8drcJDSjl/15H/wKwxG87
- AXO22hPnV7+/1zBdlWJzq7U9tRuXpSo6AHP3ETh6/XDLMq33Evx0pIQDTWRSZS6p1LAs
- wXCMZ/vCQ5SFueLvG/WPhZgNkqy+7eQcaDec3pNZGfIHBJKJuSkz06bLp1qhVhjPEBc5
- /wz1UOc7ENaU1SgI8ZtOyq17OCRqfA3CiT2TsuBGwhWDiTECzTfoWCSk0/XgyqhBV1f+
- K3MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yom4PzHqs0Rl+0jsM96/u7THIyjnabtP29YWSpEVfd4=;
- b=fmiptddKozaXm99cSeyLXtr1EuLW07PJ9Dlx5IrvasMOyynrc9+tufDHM2jXEkYNpn
- QkP7Itbgz6FqSAJ+I2taiJNJprxO3oHoRw53eP9ARLYY/LULJBOdhDXKoiEY09XwO345
- KuQnXDhEXuZ9JgiINSR1aaAwve4ClL2GOHrRuVM6Xdeb0CjPlgfAm7spMudjHWuyyzVo
- vtszmVVZxsMXHhBnlh9tNiyT+5I2z5dSV+s8SeVRYj+8vYVx3cpRMMmG+4CqyjJe/Kks
- +pBWSCzqlbcElVKJlzXw4zIPkIWPCJbTJ512Vd5u/ECaLiA2jPUDs9Ve82cEmRdww4sI
- 9D2Q==
-X-Gm-Message-State: AOAM533/h9SLDh72SqJ/gV2jS7L+jVIaN8VpFkjMAEFXGGDvPZOcqasC
- QXk3OEelgoW0ox/Jo55hocEnVUNmz5MkM7FvbvN91Q==
-X-Google-Smtp-Source: ABdhPJxqv4e+oDSBfiiiQf+NETI3mUlwO0fl8HnbJYXR3KMfv5lLpzAeR7VNU9RJ6k73Lo2N2OAObunaURu48jRgl54=
-X-Received: by 2002:a25:3d41:: with SMTP id k62mr10728051yba.479.1626243466234; 
- Tue, 13 Jul 2021 23:17:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m3YLf-0003R8-8Z
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:26:23 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:51994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m3YLa-00012c-SH
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:26:21 -0400
+Received: from sas1-ec30c78b6c5b.qloud-c.yandex.net
+ (sas1-ec30c78b6c5b.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:2704:0:640:ec30:c78b])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 470082E150B;
+ Wed, 14 Jul 2021 09:26:11 +0300 (MSK)
+Received: from sas1-9d43635d01d6.qloud-c.yandex.net
+ (sas1-9d43635d01d6.qloud-c.yandex.net [2a02:6b8:c08:793:0:640:9d43:635d])
+ by sas1-ec30c78b6c5b.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ j0eCAChuBh-Q9xeGWLj; Wed, 14 Jul 2021 09:26:11 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1626243971; bh=2wYVIV2Qz19wAV+WwZJd702mhAnG+OWot7Nc/aovVmk=;
+ h=In-Reply-To:References:Date:Message-ID:To:From:Subject:Cc;
+ b=B1ZxWS0uVWMCFpUaNSJS41nVyz8+AW9qWneuYMx+ZZGps0sxPEU5hUC2hTmsyuj30
+ fo0yH1+tb3uNb4g8g39UoK+wpkt1WCCooMDbY+8yiu9/mFwl4C6NfYG8D8ivgnk9j9
+ g4boenn7x4Ki+1ByCMuVrx4GWrGU6JbzZXIi5vs8=
+Authentication-Results: sas1-ec30c78b6c5b.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:11::1:38])
+ by sas1-9d43635d01d6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ U2MX32Yu4E-Q828cBDF; Wed, 14 Jul 2021 09:26:09 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Subject: Re: [PATCH v1] vhost: make SET_VRING_ADDR, SET_FEATURES send replies
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210708082840.12428-1-den-plotnikov@yandex-team.ru>
+ <20210708080209-mutt-send-email-mst@kernel.org>
+ <fb1319a9-b677-1cb9-0cb5-c26484524089@yandex-team.ru>
+Message-ID: <3391c6f6-cacc-73cd-ef66-0ca71b4dbb57@yandex-team.ru>
+Date: Wed, 14 Jul 2021 09:26:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210405131420.598273-1-basil@daynix.com>
- <CAJ28CFRCW+Z+j2MunL_+PpNc0a1UUPvZ+baW=eopVJ6Odj3zTA@mail.gmail.com>
- <162620162248.49683.11801775260591979390@amd.com>
-In-Reply-To: <162620162248.49683.11801775260591979390@amd.com>
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Wed, 14 Jul 2021 09:17:35 +0300
-Message-ID: <CAJ28CFSV-=caj-3VqZ=CFjEAdJ19296PNpcVAOc1TOWhxZccew@mail.gmail.com>
-Subject: Re: [PATCH 1/3] qga-win: Increase VSS freeze timeout to 60 secs
- instead of 10
-To: Michael Roth <michael.roth@amd.com>
-Content-Type: multipart/alternative; boundary="0000000000001fa0e605c70f503b"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b35;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <fb1319a9-b677-1cb9-0cb5-c26484524089@yandex-team.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.368,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,170 +78,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, yc-core@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001fa0e605c70f503b
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Michael,
-
-qga-vss.dll has many dependencies. Please check that all DLLs are present
-in the same directory.
-
-Also, I have a similar problem in my setup. In my case, libgcc_s_seh-1.dll
-was renamed in MinGW which I used.
-
-Best wishes,
-Kostiantyn Kostiuk
-
-
-On Tue, Jul 13, 2021 at 9:40 PM Michael Roth <michael.roth@amd.com> wrote:
-
-> Quoting Konstantin Kostiuk (2021-04-22 02:43:25)
-> > ping
+On 08.07.2021 16:02, Denis Plotnikov wrote:
 >
-> I've been trying to get these queued but I'm hitting an issue where qga
-> reports:
+> On 08.07.2021 15:04, Michael S. Tsirkin wrote:
+>> On Thu, Jul 08, 2021 at 11:28:40AM +0300, Denis Plotnikov wrote:
+>>> On vhost-user-blk migration, qemu normally sends a number of commands
+>>> to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+>>> Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+>>> VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
+>>> data logging.
+>>> The issue is that qemu doesn't wait for reply from the vhost daemon
+>>> for these commands which may result in races between qemu expectation
+>>> of logging starting and actual login starting in vhost daemon.
+>>>
+>>> The race can appear as follows: on migration setup, qemu enables 
+>>> dirty page
+>>> logging by sending VHOST_USER_SET_FEATURES. The command doesn't 
+>>> arrive to a
+>>> vhost-user-blk daemon immediately and the daemon needs some time to 
+>>> turn the
+>>> logging on internally. If qemu doesn't wait for reply, after sending 
+>>> the
+>>> command, qemu may start migrate memory pages to a destination. At 
+>>> this time,
+>>> the logging may not be actually turned on in the daemon but some 
+>>> guest pages,
+>>> which the daemon is about to write to, may have already been 
+>>> transferred
+>>> without logging to the destination. Since the logging wasn't turned on,
+>>> those pages won't be transferred again as dirty. So we may end up with
+>>> corrupted data on the destination.
+>>> The same scenario is applicable for "used ring" data logging, which is
+>>> turned on with VHOST_USER_SET_VRING_ADDR command.
+>>>
+>>> To resolve this issue, this patch makes qemu wait for the commands 
+>>> result
+>>> explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated.
+>>>
+>>> Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+>>> ---
+>>>   hw/virtio/vhost-user.c | 31 ++++++++++++++++++++++++++++---
+>>>   1 file changed, 28 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>>> index ee57abe04526..15b5fac67cf3 100644
+>>> --- a/hw/virtio/vhost-user.c
+>>> +++ b/hw/virtio/vhost-user.c
+>>> @@ -1105,10 +1105,20 @@ static int vhost_user_set_vring_addr(struct 
+>>> vhost_dev *dev,
+>>>           .hdr.size = sizeof(msg.payload.addr),
+>>>       };
+>>>   +    bool reply_supported = 
+>>> virtio_has_feature(dev->protocol_features,
+>>> + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>>> +    if (reply_supported) {
+>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>>> +    }
+>>> +
+>>>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>>>           return -1;
+>>>       }
+>>>   +    if (reply_supported) {
+>>> +        return process_message_reply(dev, &msg);
+>>> +    }
+>>> +
+>>>       return 0;
+>>>   }
+>> Same - can we limit this to when logging is being enabled?
 >
->   failed to load qga-vss.dll: The specified module could not be found.
+> I think it's possible but do we really need some additional complexity?
 >
-> via LoadLibraryA(QGA_VSS_DLL) returning error code 126. What's weird is
-> it seems to find qga-vss.dll in the install directory, and you can see it
-> access it in WinDBG and various trace tools, but somehow it reports not
-> found. Are you seeing this issue?
+> Do you bother about delays on device initialization?  Would the reply 
+> for the command introduce significant device initialization time 
+> delay? In my understanding, this is done rarely on vhost-user device 
+> initialization. So, may be we can afford it to be a little bit longer?
 >
-> I'll debug more this week and try to get these in for rc1, but if you
-> happen
-> to have more of a clue than me then any insights would be much appreciated.
+> According to the migration case, in my understanding, major time the 
+> migration of vhost-user should be done with logging enabled. Otherwise 
+> it's hard to tell how to make sure that the memory migrates with 
+> consistent data. So here we shouldn't care too much about setup speed 
+> and should care more about data consistency. What do you think?
 >
-> >
-> > On Mon, Apr 5, 2021 at 4:14 PM Basil Salman <basil@daynix.com> wrote:
-> >
-> >     Currently Requester freeze times out after 10 seconds, while
-> >     the default timeout for Writer Freeze is 60 seconds. according to
-> >     VSS Documentation [1].
-> >     [1]: https://docs.microsoft.com/en-us/windows/win32/vss/
-> >     overview-of-processing-a-backup-under-vss
-> >
-> >     Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1909073
-> >
-> >     Signed-off-by: Basil Salman <bsalman@daynix.com>
-> >     Signed-off-by: Basil Salman <basil@daynix.com>
-> >     ---
-> >      qga/vss-win32/requester.cpp | 2 +-
-> >      1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> >     diff --git a/qga/vss-win32/requester.cpp
-> b/qga/vss-win32/requester.cpp
-> >     index 5378c55d23..940a2c8f55 100644
-> >     --- a/qga/vss-win32/requester.cpp
-> >     +++ b/qga/vss-win32/requester.cpp
-> >     @@ -18,7 +18,7 @@
-> >      #include <inc/win2003/vsbackup.h>
-> >
-> >      /* Max wait time for frozen event (VSS can only hold writes for 10
-> >     seconds) */
-> >     -#define VSS_TIMEOUT_FREEZE_MSEC 10000
-> >     +#define VSS_TIMEOUT_FREEZE_MSEC 60000
-> >
-> >      /* Call QueryStatus every 10 ms while waiting for frozen event */
-> >      #define VSS_TIMEOUT_EVENT_MSEC 10
-> >     --
-> >     2.17.2
-> >
-> >
+> Thanks!
 >
+> Denis
 
---0000000000001fa0e605c70f503b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+please, let me know if my points above seem to be unreasonable and I'll 
+send another version with reply sending only when logging is enabled.
 
-<div dir=3D"ltr"><div>Hi Michael,<br></div><div dir=3D"ltr"><br></div><div =
-dir=3D"ltr">qga-vss.dll has many dependencies. Please check that all DLLs a=
-re present in the same directory. <br></div><div dir=3D"ltr"><br></div><div=
->Also, I have a similar problem in my setup. In my case, libgcc_s_seh-1.dll=
- was renamed in MinGW <span class=3D"gmail-VIiyi" lang=3D"en"><span class=
-=3D"gmail-JLqJ4b gmail-ChMk0b"><span>which I used.</span></span></span> </d=
-iv><div dir=3D"ltr"><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_=
-signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best wi=
-shes,</div><div>Kostiantyn Kostiuk</div></div></div></div><br></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 1=
-3, 2021 at 9:40 PM Michael Roth &lt;<a href=3D"mailto:michael.roth@amd.com"=
->michael.roth@amd.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Quoting Konstantin Kostiuk (2021-04-22 02:43:25)<br>
-&gt; ping<br>
-<br>
-I&#39;ve been trying to get these queued but I&#39;m hitting an issue where=
- qga<br>
-reports:<br>
-<br>
-=C2=A0 failed to load qga-vss.dll: The specified module could not be found.=
-<br>
-<br>
-via LoadLibraryA(QGA_VSS_DLL) returning error code 126. What&#39;s weird is=
-<br>
-it seems to find qga-vss.dll in the install directory, and you can see it<b=
-r>
-access it in WinDBG and various trace tools, but somehow it reports not<br>
-found. Are you seeing this issue?<br>
-<br>
-I&#39;ll debug more this week and try to get these in for rc1, but if you h=
-appen<br>
-to have more of a clue than me then any insights would be much appreciated.=
-<br>
-<br>
-&gt; <br>
-&gt; On Mon, Apr 5, 2021 at 4:14 PM Basil Salman &lt;<a href=3D"mailto:basi=
-l@daynix.com" target=3D"_blank">basil@daynix.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Currently Requester freeze times out after 10 secon=
-ds, while<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the default timeout for Writer Freeze is 60 seconds=
-. according to<br>
-&gt;=C2=A0 =C2=A0 =C2=A0VSS Documentation [1].<br>
-&gt;=C2=A0 =C2=A0 =C2=A0[1]: <a href=3D"https://docs.microsoft.com/en-us/wi=
-ndows/win32/vss/" rel=3D"noreferrer" target=3D"_blank">https://docs.microso=
-ft.com/en-us/windows/win32/vss/</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0overview-of-processing-a-backup-under-vss<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Buglink: <a href=3D"https://bugzilla.redhat.com/sho=
-w_bug.cgi?id=3D1909073" rel=3D"noreferrer" target=3D"_blank">https://bugzil=
-la.redhat.com/show_bug.cgi?id=3D1909073</a><br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Basil Salman &lt;<a href=3D"mailto:b=
-salman@daynix.com" target=3D"_blank">bsalman@daynix.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Signed-off-by: Basil Salman &lt;<a href=3D"mailto:b=
-asil@daynix.com" target=3D"_blank">basil@daynix.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/vss-win32/requester.cpp | 2 +-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A01 file changed, 1 insertion(+), 1 deletion(-)=
-<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0diff --git a/qga/vss-win32/requester.cpp b/qga/vss-=
-win32/requester.cpp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0index 5378c55d23..940a2c8f55 100644<br>
-&gt;=C2=A0 =C2=A0 =C2=A0--- a/qga/vss-win32/requester.cpp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+++ b/qga/vss-win32/requester.cpp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0@@ -18,7 +18,7 @@<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0#include &lt;inc/win2003/vsbackup.h&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0/* Max wait time for frozen event (VSS can on=
-ly hold writes for 10<br>
-&gt;=C2=A0 =C2=A0 =C2=A0seconds) */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0-#define VSS_TIMEOUT_FREEZE_MSEC 10000<br>
-&gt;=C2=A0 =C2=A0 =C2=A0+#define VSS_TIMEOUT_FREEZE_MSEC 60000<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0/* Call QueryStatus every 10 ms while waiting=
- for frozen event */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0#define VSS_TIMEOUT_EVENT_MSEC 10<br>
-&gt;=C2=A0 =C2=A0 =C2=A0--<br>
-&gt;=C2=A0 =C2=A0 =C2=A02.17.2<br>
-&gt; <br>
-&gt;<br>
-</blockquote></div></div>
+Thanks!
 
---0000000000001fa0e605c70f503b--
+Denis
+
+>
+>>
+>>> @@ -1288,7 +1298,8 @@ static int vhost_user_set_vring_call(struct 
+>>> vhost_dev *dev,
+>>>       return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, 
+>>> file);
+>>>   }
+>>>   -static int vhost_user_set_u64(struct vhost_dev *dev, int request, 
+>>> uint64_t u64)
+>>> +static int vhost_user_set_u64(struct vhost_dev *dev, int request, 
+>>> uint64_t u64,
+>>> +                              bool need_reply)
+>>>   {
+>>>       VhostUserMsg msg = {
+>>>           .hdr.request = request,
+>>> @@ -1297,23 +1308,37 @@ static int vhost_user_set_u64(struct 
+>>> vhost_dev *dev, int request, uint64_t u64)
+>>>           .hdr.size = sizeof(msg.payload.u64),
+>>>       };
+>>>   +    if (need_reply) {
+>>> +        bool reply_supported = 
+>>> virtio_has_feature(dev->protocol_features,
+>>> + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>>> +        if (reply_supported) {
+>>> +            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>>> +        }
+>>> +    }
+>>> +
+>>>       if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+>>>           return -1;
+>>>       }
+>>>   +    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
+>>> +        return process_message_reply(dev, &msg);
+>>> +    }
+>>> +
+>>>       return 0;
+>>>   }
+>>>     static int vhost_user_set_features(struct vhost_dev *dev,
+>>>                                      uint64_t features)
+>>>   {
+>>> -    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
+>>> +    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
+>>> +                              true);
+>>>   }
+>> Same here. In fact,
+>>
+>>>   static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+>>>                                               uint64_t features)
+>>>   {
+>>> -    return vhost_user_set_u64(dev, 
+>>> VHOST_USER_SET_PROTOCOL_FEATURES, features);
+>>> +    return vhost_user_set_u64(dev, 
+>>> VHOST_USER_SET_PROTOCOL_FEATURES, features,
+>>> +                              false);
+>>>   }
+>>>     static int vhost_user_get_u64(struct vhost_dev *dev, int 
+>>> request, uint64_t *u64)
+>>> -- 
+>>> 2.25.1
 
