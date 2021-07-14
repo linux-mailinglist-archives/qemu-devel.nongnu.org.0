@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF033C87B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:33:58 +0200 (CEST)
-Received: from localhost ([::1]:43606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE24E3C87CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:36:03 +0200 (CEST)
+Received: from localhost ([::1]:49914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3gtU-0006YU-A7
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52310)
+	id 1m3gvb-0002PW-0i
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m3gZs-0003hH-Qt
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:13:36 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38477)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3glB-00054J-MT
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:25:19 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:35588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m3gZr-0007J2-4n
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:13:36 -0400
-Received: by mail-wr1-x432.google.com with SMTP id g16so3671076wrw.5
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:13:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=b+SyzHYFOk1E/GaAQ0K5wVgZaD0erJqoG+fb+9OgOB8=;
- b=Mq5DJDt6LsAiKPtkoJuqhTRoDRgc6444H24A09+6ESOkPaaNdHOA6hJHOSegCY8K/Y
- s2Bv3YlihLmb2glTehL1scff64AC5IzTdWOoqWwMTSIBqjGma0HV+7zoMCKtOfnCN9lO
- zk/OWwsRa9Nm34dhfK1924iYO/L28qaULyW6pVQrM4RAfnpVoHUE8kRmDRbkzrvyvCbZ
- TM5a9KyyW00Gr8pzB82hQA5fXmaaeBVUkG0p7JlvjcG7ylZF5ETDQF3qzxLgUiSG3x/2
- efCzHMWC7kOfONVi1OBKKjShaBu1Y9fORjAl6FURXMUbhqKEhdhEikaCovIonD0k2qeI
- F73g==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3gl9-0006aZ-1q
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:25:17 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id oz7so168771ejc.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9siXxpQrVp+2h32fbWWlHGH0Rfc5Y6ojgaWp3TdszrI=;
+ b=J1E/m+yF+4EKRcwmlMB13UJ0BWk69AFFAYGNjDjKaddG22qR3K8AAuwGrki0Ce54JY
+ rFKPwQ3zGWqZu8y/eYktgev5mLELecYr+tcfXDK0cdjO06zkNWKyJkItL0wtKbhNCw4G
+ qM0jF7Wgm/MNRQ07cRpqVIkSS5gjHQyx8UVZpoOqV85KCi5PUw2TPR1QKmplJQHFunnX
+ HYiIiKZggxB1P2BOXm7xAtIvQ8ntfnGKVvKqrvTeljl7WpQ/xjPQnB/GKJ27RrSAjUmS
+ zn7H+67WlLN6nZrZG+k9Nnp6mZp7w7Z3M/LWDBL68J/9Jzq8XY8d0YrB6jQuiYoVgrh4
+ EWGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=b+SyzHYFOk1E/GaAQ0K5wVgZaD0erJqoG+fb+9OgOB8=;
- b=BZdr+G1ybAgS51Ou5jBjViDJkTbqkJU5wUqibr3fYI/c+chn83nKuWv9AmaW9iJaz8
- pg+z+5Wkj+X73fxGr8GDgmh+FWGkq+93arbXADdVNq1FSWbNmLx1WON/11oGRE7FAdN/
- +t02yRCiOB8QvykfIIkPIt5cG3x5+8FFK3859p0aNBpY9M6p/2t+vP7neq2J6RaOz3BW
- 5XwU4bzvYW2RgV8l2ZkBRhzL89IEqd/lTBee7hVaBMq1s4eZTKc6cYYpQRycDRXmBz11
- xF1hoxSGbCte0R9drt1bTm/63TV1AIm4DelNpsoZUT2IYkHHrlTNDg4RsRTuMvBOScNx
- P8Cg==
-X-Gm-Message-State: AOAM530EcXClUEd8lGrby9sC9yj2d8tCOadRBVfAu0MJf7zepjBPn+bb
- gXA0Tk3Ct2eQp1F2YO53N7iSt/EDwLg=
-X-Google-Smtp-Source: ABdhPJwdRA2yln/Z27sI+P+wfrZCJ3hyIDQtAKQ6N09nBo2Skv6eq+N9+r3aHiBu99/ezw0PFQuoJA==
-X-Received: by 2002:a5d:634e:: with SMTP id b14mr13227997wrw.81.1626275612672; 
- Wed, 14 Jul 2021 08:13:32 -0700 (PDT)
-Received: from localhost.localdomain ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id
- p12sm1623689wma.19.2021.07.14.08.13.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 08:13:32 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/2] qemu-config: never call the callback after an error
-Date: Wed, 14 Jul 2021 17:13:18 +0200
-Message-Id: <20210714151319.617860-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210714151319.617860-1-pbonzini@redhat.com>
-References: <20210714151319.617860-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9siXxpQrVp+2h32fbWWlHGH0Rfc5Y6ojgaWp3TdszrI=;
+ b=T6wksRqOGW84ViGvirwkz0OQH1QY2KlJ15qTLyuYUV2OlJpT07LID6sBvjlOTUx9J0
+ +ThmakTiWfRI0An4IN9EtyqL6ZNdZkishEoKLspgWw9OLqSFBZk/er/QCsAYdsCYEwo/
+ 6RS3ti1jibsFR6DLAlUAvwgBWDyj7avtp3f2UjsVGOGB8Pb08eC0F8IfFnuvzgWM5Rur
+ KQk9cRZtFLZMk42iMd+I9Ip+MANWJIPulIVKFtetTf9cn/FgHsurz4H27+TPAvsKF+nL
+ 87hu0ivn68XdTd0cEp/9YV47KFC7DQN5+HnblWw7z/mXagSeiK0UBIKIw0I/26XKD4ka
+ e8fw==
+X-Gm-Message-State: AOAM530Tb+dRWtiz9qgkf33Uk5F9rZi7zMhtuxp6+Fmj3NObeNLRIhox
+ u0qHmbyDYlo2j8r1XsIH/C1unkuhK0p+A3cpqg6/6veQ0Z7IBg==
+X-Google-Smtp-Source: ABdhPJy9QuloCkW3CcPtj+eSzb1/72CuIpWRr+57hsYsJKPQI01OQbpppHEsOwXxv8o+mqImXPGaocsQ1jcBZjUO3FA=
+X-Received: by 2002:a17:906:924a:: with SMTP id
+ c10mr13061919ejx.85.1626276312674; 
+ Wed, 14 Jul 2021 08:25:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+References: <20210713164211.1520109-1-richard.henderson@linaro.org>
+In-Reply-To: <20210713164211.1520109-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 14 Jul 2021 16:24:32 +0100
+Message-ID: <CAFEAcA-X=eTo4qOkB+emn_niHX2Y2KKJNBEnziy17zQcEVg69A@mail.gmail.com>
+Subject: Re: [PULL 00/14] misc translator patch queue
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,41 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ensure that the callback to qemu_config_foreach is never called upon
-an error, by moving the invocation before the "out" label.
-
-Cc: armbru@redhat.com
-Fixes: 3770141139 ("qemu-config: parse configuration files to a QDict", 2021-06-04)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- util/qemu-config.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 84ee6dc4ea..7db810f1e0 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -417,12 +417,12 @@ static int qemu_config_foreach(FILE *fp, QEMUConfigCB *cb, void *opaque,
-         return res;
-     }
-     res = count;
--out:
-     if (qdict) {
-         cb(group, qdict, opaque, errp);
--        qobject_unref(qdict);
-     }
-+out:
-     loc_pop(&loc);
-+    qobject_unref(qdict);
-     return res;
- }
- 
--- 
-2.31.1
+On Tue, 13 Jul 2021 at 17:46, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
+>
+>   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-misc-20210713
+>
+> for you to fetch changes up to 6e94937a54c6ef80c3f523d8560c8b6521e6c79c:
+>
+>   target/hppa: Clean up DisasCond (2021-07-13 08:13:19 -0700)
+>
+> ----------------------------------------------------------------
+> Cleanup alpha, hppa, or1k wrt tcg_constant_tl.
+> Implement x86 fcs:fip, fds:fdp.
+> Trivial x86 watchpoint cleanup.
 
 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
