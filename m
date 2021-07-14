@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022653C7BE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 04:39:47 +0200 (CEST)
-Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C51E3C7BE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 04:42:37 +0200 (CEST)
+Received: from localhost ([::1]:42394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3UoL-0005bq-Dg
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 22:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41712)
+	id 1m3Ur6-0007Km-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 22:42:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3UmU-0004FK-3r
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:37:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44707)
+ id 1m3Upb-0006Rf-PZ
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:41:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46593)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3UmR-0003X4-Ff
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:37:49 -0400
+ id 1m3UpZ-0006F9-GI
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:41:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626230259;
+ s=mimecast20190719; t=1626230460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/6TquyMU7isqqkLfp+v1PCy2wlwHXPpgTO/NSJvCvXM=;
- b=LcXwg7nzvQXG36garYHnPh+OSRmAkEOy9kaRFypQHjIKb7fWNaRtguLu3oVsFf+37B8qCL
- NfWq06WJyeK5zDfDpw16sn/PrY1T7/1Bp4ISo2kgtrzAMqSTa98Tvw5BaydHga+mG25Fzb
- Acsg8cQ9/8ZoIMk0JGDDJNZ6UTQbHNs=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-GNVwhbdNOkaLgXLaoBPQLA-1; Tue, 13 Jul 2021 22:37:38 -0400
-X-MC-Unique: GNVwhbdNOkaLgXLaoBPQLA-1
-Received: by mail-pl1-f200.google.com with SMTP id
- o7-20020a1709026b07b029011a0d4de43dso558866plk.5
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 19:37:37 -0700 (PDT)
+ bh=oo+4Fb67xGaME4oVE/L6AZBixugGVIOIXxEjC8WGgWE=;
+ b=JrCLtqFhsNiRCMBasQehSPF+xpvZGWo9H73cuLAR7hCd3uilXdcF8/mOedjfVbX93zMkQI
+ oE3vq+raMhy5tLgOTT65mmat9+F+1/D6hBcBjb0f4t4vjNa7qzNPQ1u6ubFapuIHf5xHcO
+ 17cBXmXbHZvTft3ovooH8mKUALuhHTs=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-uTSYbz-sPUaIiQQoYYW2Kw-1; Tue, 13 Jul 2021 22:40:59 -0400
+X-MC-Unique: uTSYbz-sPUaIiQQoYYW2Kw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ x35-20020a056a0018a3b029032d069176ceso501160pfh.20
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 19:40:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=/6TquyMU7isqqkLfp+v1PCy2wlwHXPpgTO/NSJvCvXM=;
- b=d5bOrQgF05sPIg7yTYb2wp3TDx9p/vrMq4Cvtu/5dAXW2edN5Z1Gt4hVR5h81WX4DX
- OHYvvlhF+mrDguy2qt9p8Oi346ig4DnIrYeX70qC/ROtvRNKrHcuFpIrEfj3R90Ie+Je
- n7v9nwFC5P+BpQguYgc65V01j1uY8Mr/4BmT4/NAmzbrtir78VavtAiTNibFUXjlr5vA
- Oc1C/Cx7eD9rzox48qO1BKHe2sWhSYV6vmJqky/aCmZRodJiw2xdxZ3RI6yAy+/iZwye
- vCFkG4+CMzrKZO82nVFSrVTCWLFDpT18Lrp2pL9/O7uxq7iq/bt9DFCD6b+0nTyocrnT
- SC0w==
-X-Gm-Message-State: AOAM532EFJ7L/tERxvrv1lJ3aul2105qNbbROhmVSp6dJ0DY8Jzrw1p/
- kz9/5A3leX1TOn8fQSvQvfiDyBj0hUgjfxVZOt5DkWBiyVpw97enPYg5NqsyyTf2GNF7XBQfHDq
- wLU1nZTIJDH5CKV4=
-X-Received: by 2002:a62:f947:0:b029:2e9:c502:7939 with SMTP id
- g7-20020a62f9470000b02902e9c5027939mr7730116pfm.34.1626230256163; 
- Tue, 13 Jul 2021 19:37:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3DVDrZ+v6dBJ+2TjY11YaG3oYApDb2DSnx81Sg24GW+BXRwOSdfcQDDEfofoPSe+Ai59oiA==
-X-Received: by 2002:a62:f947:0:b029:2e9:c502:7939 with SMTP id
- g7-20020a62f9470000b02902e9c5027939mr7730090pfm.34.1626230255886; 
- Tue, 13 Jul 2021 19:37:35 -0700 (PDT)
+ bh=oo+4Fb67xGaME4oVE/L6AZBixugGVIOIXxEjC8WGgWE=;
+ b=ZrTfCQmUcXXDf6H9wgMMz0NXSbs5c+w3qsOwM+hVsM414nZ1Sl0/DSdSeseJxA2Nyr
+ VzvpmeCbuFZmhZm3lKoDdGEpaLeC0uChc0hz4+URnkh76f55DGuP08MXKemz84joGGWY
+ L1o8i4EkKBbihUGZkooTe1U+wIwxQWx1uVfQ3Hm8ZAHR+eI+DXi3L8tgv3rDlOiddpY2
+ R9ZD4cWmGN/VYb21+L1F1jM06Uqz+Xaul6IWoA1dHPGrsZEybG14cSuK8WnL7IMgPKYI
+ T84N+7hg5Lpb9UAJD6G5Ep5AGJaH1bdHU37pwgD+FgzwGhVABjAAdZsB+m7sQoBqCze/
+ xfxA==
+X-Gm-Message-State: AOAM533AJwfthCdzFnvbwXV+1mf3us0xz6y9oIzw4b8lIX4iuoOF8WDI
+ apdJPMByrsofAFuDGlF/F3pMWZhSJteyeKvXI7DSYFqr/1i7QBQ51b/j9ZvRg4w/rEh917GWYp1
+ 4s/Bjwj0uM8OGRlo=
+X-Received: by 2002:a17:90a:588b:: with SMTP id
+ j11mr7244457pji.114.1626230458775; 
+ Tue, 13 Jul 2021 19:40:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDEJLCL76SgG8kaNagN9mOH3/ZGWHMAx4CHAp8Fs377084ES+6mZfMpTYO9S0XCctNvOpagg==
+X-Received: by 2002:a17:90a:588b:: with SMTP id
+ j11mr7244423pji.114.1626230458520; 
+ Tue, 13 Jul 2021 19:40:58 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id t23sm512029pfe.8.2021.07.13.19.37.29
+ by smtp.gmail.com with ESMTPSA id e23sm509034pfd.26.2021.07.13.19.40.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 19:37:35 -0700 (PDT)
-Subject: Re: [PATCH v6 4/6] qmp: add QMP command x-debug-virtio-queue-status
+ Tue, 13 Jul 2021 19:40:58 -0700 (PDT)
+Subject: Re: [PATCH v6 6/6] hmp: add virtio commands
 To: Jonah Palmer <jonah.palmer@oracle.com>, qemu-devel@nongnu.org
 References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
- <1626086137-16292-5-git-send-email-jonah.palmer@oracle.com>
+ <1626086137-16292-7-git-send-email-jonah.palmer@oracle.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <b0c11f6c-31dd-121d-ab27-e83e5afa8596@redhat.com>
-Date: Wed, 14 Jul 2021 10:37:12 +0800
+Message-ID: <a92fd4c4-73cc-3b6b-89fa-b5ae35304a2d@redhat.com>
+Date: Wed, 14 Jul 2021 10:40:46 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1626086137-16292-5-git-send-email-jonah.palmer@oracle.com>
+In-Reply-To: <1626086137-16292-7-git-send-email-jonah.palmer@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,7 +89,7 @@ X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,207 +113,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 ÔÚ 2021/7/12 ÏÂÎç6:35, Jonah Palmer Ð´µÀ:
-> From: Laurent Vivier <lvivier@redhat.com>
->
-> This new command shows internal status of a VirtQueue.
-> (vrings and indexes).
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
-> ---
->   hw/virtio/virtio-stub.c |   6 +++
->   hw/virtio/virtio.c      |  37 ++++++++++++++++++
->   qapi/virtio.json        | 102 ++++++++++++++++++++++++++++++++++++++++++++++++
->   3 files changed, 145 insertions(+)
->
->   [Jonah: Added 'device-type' field to VirtQueueStatus and
->   qmp command x-debug-virtio-queue-status.]
->
-> diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-> index ddb592f..3c1bf17 100644
-> --- a/hw/virtio/virtio-stub.c
-> +++ b/hw/virtio/virtio-stub.c
-> @@ -17,3 +17,9 @@ VirtioStatus *qmp_x_debug_virtio_status(const char* path, Error **errp)
->   {
->       return qmp_virtio_unsupported(errp);
->   }
-> +
-> +VirtQueueStatus *qmp_x_debug_virtio_queue_status(const char *path,
-> +                                                 uint16_t queue, Error **errp)
+> +void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict)
 > +{
-> +    return qmp_virtio_unsupported(errp);
-> +}
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 81a0ee8..ccd4371 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3935,6 +3935,43 @@ static VirtIODevice *virtio_device_find(const char *path)
->       return NULL;
->   }
->   
-> +VirtQueueStatus *qmp_x_debug_virtio_queue_status(const char *path,
-> +                                                 uint16_t queue, Error **errp)
-> +{
-> +    VirtIODevice *vdev;
-> +    VirtQueueStatus *status;
+> +    Error *err = NULL;
+> +    const char *path = qdict_get_try_str(qdict, "path");
+> +    int queue = qdict_get_int(qdict, "queue");
+> +    VirtQueueStatus *s = qmp_x_debug_virtio_queue_status(path, queue, &err);
 > +
-> +    vdev = virtio_device_find(path);
-> +    if (vdev == NULL) {
-> +        error_setg(errp, "Path %s is not a VirtIO device", path);
-> +        return NULL;
+> +    if (err != NULL) {
+> +        hmp_handle_error(mon, err);
+> +        return;
 > +    }
 > +
-> +    if (queue >= VIRTIO_QUEUE_MAX || !virtio_queue_get_num(vdev, queue)) {
-> +        error_setg(errp, "Invalid virtqueue number %d", queue);
-> +        return NULL;
-> +    }
-> +
-> +    status = g_new0(VirtQueueStatus, 1);
-> +    status->device_type = qapi_enum_parse(&VirtioType_lookup, vdev->name,
-> +                                          VIRTIO_TYPE_UNKNOWN, NULL);
-> +    status->queue_index = vdev->vq[queue].queue_index;
-> +    status->inuse = vdev->vq[queue].inuse;
-> +    status->vring_num = vdev->vq[queue].vring.num;
-> +    status->vring_num_default = vdev->vq[queue].vring.num_default;
-> +    status->vring_align = vdev->vq[queue].vring.align;
-> +    status->vring_desc = vdev->vq[queue].vring.desc;
-> +    status->vring_avail = vdev->vq[queue].vring.avail;
-> +    status->vring_used = vdev->vq[queue].vring.used;
-> +    status->last_avail_idx = vdev->vq[queue].last_avail_idx;
+> +    monitor_printf(mon, "%s:\n", path);
+> +    monitor_printf(mon, "  device_type:          %s\n",
+> +                   VirtioType_str(s->device_type));
+> +    monitor_printf(mon, "  index:                %d\n", s->queue_index);
+> +    monitor_printf(mon, "  inuse:                %d\n", s->inuse);
+> +    monitor_printf(mon, "  last_avail_idx:       %d (%"PRId64" %% %"PRId64")\n",
+> +                   s->last_avail_idx, s->last_avail_idx % s->vring_num,
+> +                   s->vring_num);
+> +    monitor_printf(mon, "  shadow_avail_idx:     %d (%"PRId64" %% %"PRId64")\n",
+> +                   s->shadow_avail_idx, s->shadow_avail_idx % s->vring_num,
+> +                   s->vring_num);
+> +    monitor_printf(mon, "  used_idx:             %d (%"PRId64" %% %"PRId64")\n",
+> +                   s->used_idx, s->used_idx % s->vring_num, s->vring_num);
 
 
-As mentioned in previous versions. We need add vhost support otherwise 
-the value here is wrong.
-
-
-> +    status->shadow_avail_idx = vdev->vq[queue].shadow_avail_idx;
-
-
-The shadow index is something that is implementation specific e.g in the 
-case of vhost it's kind of meaningless.
+The modular information is not the case of packed ring where the queue 
+size does not have to be a power of 2.
 
 Thanks
 
 
-> +    status->used_idx = vdev->vq[queue].used_idx;
-> +    status->signalled_used = vdev->vq[queue].signalled_used;
-> +    status->signalled_used_valid = vdev->vq[queue].signalled_used_valid;
+> +    monitor_printf(mon, "  signalled_used:       %d (%"PRId64" %% %"PRId64")\n",
+> +                   s->signalled_used, s->signalled_used % s->vring_num,
+> +                   s->vring_num);
+> +    monitor_printf(mon, "  signalled_used_valid: %d\n", s->signalled_used_valid);
+> +    monitor_printf(mon, "  VRing:\n");
+> +    monitor_printf(mon, "    num:         %"PRId64"\n", s->vring_num);
+> +    monitor_printf(mon, "    num_default: %"PRId64"\n", s->vring_num_default);
+> +    monitor_printf(mon, "    align:       %"PRId64"\n", s->vring_align);
+> +    monitor_printf(mon, "    desc:        0x%016"PRIx64"\n", s->vring_desc);
+> +    monitor_printf(mon, "    avail:       0x%016"PRIx64"\n", s->vring_avail);
+> +    monitor_printf(mon, "    used:        0x%016"PRIx64"\n", s->vring_used);
 > +
-> +    return status;
-> +}
-> +
->   #define CONVERT_FEATURES(type, map)                \
->       ({                                           \
->           type *list = NULL;                         \
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> index 78873cd..7007e0c 100644
-> --- a/qapi/virtio.json
-> +++ b/qapi/virtio.json
-> @@ -406,3 +406,105 @@
->     'data': { 'path': 'str' },
->     'returns': 'VirtioStatus'
->   }
-> +
-> +##
-> +# @VirtQueueStatus:
-> +#
-> +# Status of a VirtQueue
-> +#
-> +# @device-type: VirtIO device type
-> +#
-> +# @queue-index: VirtQueue queue_index
-> +#
-> +# @inuse: VirtQueue inuse
-> +#
-> +# @vring-num: VirtQueue vring.num
-> +#
-> +# @vring-num-default: VirtQueue vring.num_default
-> +#
-> +# @vring-align: VirtQueue vring.align
-> +#
-> +# @vring-desc: VirtQueue vring.desc
-> +#
-> +# @vring-avail: VirtQueue vring.avail
-> +#
-> +# @vring-used: VirtQueue vring.used
-> +#
-> +# @last-avail-idx: VirtQueue last_avail_idx
-> +#
-> +# @shadow-avail-idx: VirtQueue shadow_avail_idx
-> +#
-> +# @used-idx: VirtQueue used_idx
-> +#
-> +# @signalled-used: VirtQueue signalled_used
-> +#
-> +# @signalled-used-valid: VirtQueue signalled_used_valid
-> +#
-> +# Since: 6.1
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtQueueStatus',
-> +  'data': {
-> +    'device-type': 'VirtioType',
-> +    'queue-index': 'uint16',
-> +    'inuse': 'uint32',
-> +    'vring-num': 'int',
-> +    'vring-num-default': 'int',
-> +    'vring-align': 'int',
-> +    'vring-desc': 'uint64',
-> +    'vring-avail': 'uint64',
-> +    'vring-used': 'uint64',
-> +    'last-avail-idx': 'uint16',
-> +    'shadow-avail-idx': 'uint16',
-> +    'used-idx': 'uint16',
-> +    'signalled-used': 'uint16',
-> +    'signalled-used-valid': 'uint16'
-> +  }
-> +}
-> +
-> +##
-> +# @x-debug-virtio-queue-status:
-> +#
-> +# Return the status of a given VirtQueue
-> +#
-> +# @path: QOBject path of the VirtIODevice
-> +#
-> +# @queue: queue number to examine
-> +#
-> +# Returns: Status of the VirtQueue
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "x-debug-virtio-queue-status",
-> +#      "arguments": {
-> +#          "path": "/machine/peripheral-anon/device[3]/virtio-backend",
-> +#          "queue": 0
-> +#      }
-> +#   }
-> +# <- { "return": {
-> +#      "signalled-used": 373,
-> +#      "inuse": 0,
-> +#      "vring-align": 4096,
-> +#      "vring-desc": 864411648,
-> +#      "signalled-used-valid": 0,
-> +#      "vring-num-default": 256,
-> +#      "vring-avail": 864415744,
-> +#      "queue-index": 0,
-> +#      "last-avail-idx": 373,
-> +#      "vring-used": 864416320,
-> +#      "used-idx": 373,
-> +#      "device-type": "virtio-net",
-> +#      "shadow-avail-idx": 619,
-> +#      "vring-num": 256
-> +#      }
-> +#    }
-> +#
-> +##
-> +
-> +{ 'command': 'x-debug-virtio-queue-status',
-> +  'data': { 'path': 'str', 'queue': 'uint16' },
-> +  'returns': 'VirtQueueStatus'
-> +}
+> +    qapi_free_VirtQueueStatus(s);
 
 
