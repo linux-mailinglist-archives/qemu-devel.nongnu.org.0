@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6493C85F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:19:21 +0200 (CEST)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6CF3C85CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:14:48 +0200 (CEST)
+Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3fjM-0003aB-KB
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37628)
+	id 1m3fex-0001vi-6u
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:14:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fZu-0002KE-Tw
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40068)
+ id 1m3fZy-0002Tw-38
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fZt-0006dt-1T
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:34 -0400
+ id 1m3fZw-0006fg-CE
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:09:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626271772;
+ s=mimecast20190719; t=1626271775;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EiIpk5ZxdF0TwzFxs03/LOtIdn6zVA3nCPYm54XOxdY=;
- b=aO0Bu9e4W3YJk5qZwK+1sJU+KCrkLHcLVG36yKZMZAr3WbGqlQkZcpGaqiD27WvrxvKxJ/
- jlfeYI8SkVEZizXGRLXBbwbFJkDrbL4xUTnwNiwU1AY5oEKDGkrEtEGemOyPG3LVh8q8ll
- tniqInJ/e9DTQMpJUAJgwH7gEZ/jPSM=
+ bh=8dJ/tLYHi9UB3LRgaug2qiIHxgx4VPxVzHrYqnFVxV8=;
+ b=CtlhXtOUOMn6jk5WFyI7YXhF2Bu8xwCitzLG1OFIrRZ2HHBpJ5vUCJLrVpHzshWtLemSq5
+ SRTQfiPuDiIckhlAEzS9MFmdotxbyyF7HS1NKJ3GXwW7f0LaWwKCtZljxTJWAYEfZpLVsL
+ VSgJasTa3XvG0fNyfHR445WKo2IRwCE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-1W2E2xXyM868gqTCAp6Dyw-1; Wed, 14 Jul 2021 10:09:31 -0400
-X-MC-Unique: 1W2E2xXyM868gqTCAp6Dyw-1
+ us-mta-229-43aUkieDMdG7aNRQnQbPPw-1; Wed, 14 Jul 2021 10:09:34 -0400
+X-MC-Unique: 43aUkieDMdG7aNRQnQbPPw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4004D100C628;
- Wed, 14 Jul 2021 14:09:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2F7AF100C620;
+ Wed, 14 Jul 2021 14:09:33 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-160.ams2.redhat.com
  [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7170218A50;
- Wed, 14 Jul 2021 14:09:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 86CF319C87;
+ Wed, 14 Jul 2021 14:09:30 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/26] crypto: use &error_fatal in crypto tests
-Date: Wed, 14 Jul 2021 15:08:36 +0100
-Message-Id: <20210714140858.2247409-5-berrange@redhat.com>
+Subject: [PULL 05/26] crypto: fix gcrypt min version 1.8 regression
+Date: Wed, 14 Jul 2021 15:08:37 +0100
+Message-Id: <20210714140858.2247409-6-berrange@redhat.com>
 In-Reply-To: <20210714140858.2247409-1-berrange@redhat.com>
 References: <20210714140858.2247409-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -91,179 +91,41 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using error_fatal provides better diagnostics when tests
-failed, than using asserts, because we see the text of
-the error message.
+The min gcrypt was bumped:
+
+  commit b33a84632a3759c00320fd80923aa963c11207fc
+  Author: Daniel P. Berrangé <berrange@redhat.com>
+  Date:   Fri May 14 13:04:08 2021 +0100
+
+    crypto: bump min gcrypt to 1.8.0, dropping RHEL-7 support
+
+but this was accidentally lost in conflict resolution for
+
+  commit 5761251138cb69c310e9df7dfc82c4c6fd2444e4
+  Author: Paolo Bonzini <pbonzini@redhat.com>
+  Date:   Thu Jun 3 11:15:26 2021 +0200
+
+    configure, meson: convert crypto detection to meson
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/unit/test-crypto-hash.c | 13 +++++++------
- tests/unit/test-crypto-hmac.c | 28 ++++++++--------------------
- 2 files changed, 15 insertions(+), 26 deletions(-)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/unit/test-crypto-hash.c b/tests/unit/test-crypto-hash.c
-index ce7d0ab9b5..1f4abb822b 100644
---- a/tests/unit/test-crypto-hash.c
-+++ b/tests/unit/test-crypto-hash.c
-@@ -104,7 +104,7 @@ static void test_hash_alloc(void)
-                                  strlen(INPUT_TEXT),
-                                  &result,
-                                  &resultlen,
--                                 NULL);
-+                                 &error_fatal);
-         g_assert(ret == 0);
-         g_assert(resultlen == expected_lens[i]);
- 
-@@ -139,7 +139,7 @@ static void test_hash_prealloc(void)
-                                  strlen(INPUT_TEXT),
-                                  &result,
-                                  &resultlen,
--                                 NULL);
-+                                 &error_fatal);
-         g_assert(ret == 0);
- 
-         g_assert(resultlen == expected_lens[i]);
-@@ -176,7 +176,7 @@ static void test_hash_iov(void)
-                                   iov, 3,
-                                   &result,
-                                   &resultlen,
--                                  NULL);
-+                                  &error_fatal);
-         g_assert(ret == 0);
-         g_assert(resultlen == expected_lens[i]);
-         for (j = 0; j < resultlen; j++) {
-@@ -210,7 +210,7 @@ static void test_hash_digest(void)
-                                   INPUT_TEXT,
-                                   strlen(INPUT_TEXT),
-                                   &digest,
--                                  NULL);
-+                                  &error_fatal);
-         g_assert(ret == 0);
-         g_assert_cmpstr(digest, ==, expected_outputs[i]);
-         g_free(digest);
-@@ -234,7 +234,7 @@ static void test_hash_base64(void)
-                                   INPUT_TEXT,
-                                   strlen(INPUT_TEXT),
-                                   &digest,
--                                  NULL);
-+                                  &error_fatal);
-         g_assert(ret == 0);
-         g_assert_cmpstr(digest, ==, expected_outputs_b64[i]);
-         g_free(digest);
-@@ -243,7 +243,8 @@ static void test_hash_base64(void)
- 
- int main(int argc, char **argv)
- {
--    g_assert(qcrypto_init(NULL) == 0);
-+    int ret = qcrypto_init(&error_fatal);
-+    g_assert(ret == 0);
- 
-     g_test_init(&argc, &argv, NULL);
-     g_test_add_func("/crypto/hash/iov", test_hash_iov);
-diff --git a/tests/unit/test-crypto-hmac.c b/tests/unit/test-crypto-hmac.c
-index ee55382a3c..23eb724d94 100644
---- a/tests/unit/test-crypto-hmac.c
-+++ b/tests/unit/test-crypto-hmac.c
-@@ -89,7 +89,6 @@ static void test_hmac_alloc(void)
-         QCryptoHmac *hmac = NULL;
-         uint8_t *result = NULL;
-         size_t resultlen = 0;
--        Error *err = NULL;
-         const char *exp_output = NULL;
-         int ret;
-         size_t j;
-@@ -101,14 +100,12 @@ static void test_hmac_alloc(void)
-         exp_output = data->hex_digest;
- 
-         hmac = qcrypto_hmac_new(data->alg, (const uint8_t *)KEY,
--                                strlen(KEY), &err);
--        g_assert(err == NULL);
-+                                strlen(KEY), &error_fatal);
-         g_assert(hmac != NULL);
- 
-         ret = qcrypto_hmac_bytes(hmac, (const char *)INPUT_TEXT,
-                                  strlen(INPUT_TEXT), &result,
--                                 &resultlen, &err);
--        g_assert(err == NULL);
-+                                 &resultlen, &error_fatal);
-         g_assert(ret == 0);
- 
-         for (j = 0; j < resultlen; j++) {
-@@ -131,7 +128,6 @@ static void test_hmac_prealloc(void)
-         QCryptoHmac *hmac = NULL;
-         uint8_t *result = NULL;
-         size_t resultlen = 0;
--        Error *err = NULL;
-         const char *exp_output = NULL;
-         int ret;
-         size_t j;
-@@ -146,14 +142,12 @@ static void test_hmac_prealloc(void)
-         result = g_new0(uint8_t, resultlen);
- 
-         hmac = qcrypto_hmac_new(data->alg, (const uint8_t *)KEY,
--                                strlen(KEY), &err);
--        g_assert(err == NULL);
-+                                strlen(KEY), &error_fatal);
-         g_assert(hmac != NULL);
- 
-         ret = qcrypto_hmac_bytes(hmac, (const char *)INPUT_TEXT,
-                                  strlen(INPUT_TEXT), &result,
--                                 &resultlen, &err);
--        g_assert(err == NULL);
-+                                 &resultlen, &error_fatal);
-         g_assert(ret == 0);
- 
-         exp_output = data->hex_digest;
-@@ -177,7 +171,6 @@ static void test_hmac_iov(void)
-         QCryptoHmac *hmac = NULL;
-         uint8_t *result = NULL;
-         size_t resultlen = 0;
--        Error *err = NULL;
-         const char *exp_output = NULL;
-         int ret;
-         size_t j;
-@@ -194,13 +187,11 @@ static void test_hmac_iov(void)
-         exp_output = data->hex_digest;
- 
-         hmac = qcrypto_hmac_new(data->alg, (const uint8_t *)KEY,
--                                strlen(KEY), &err);
--        g_assert(err == NULL);
-+                                strlen(KEY), &error_fatal);
-         g_assert(hmac != NULL);
- 
-         ret = qcrypto_hmac_bytesv(hmac, iov, 3, &result,
--                                  &resultlen, &err);
--        g_assert(err == NULL);
-+                                  &resultlen, &error_fatal);
-         g_assert(ret == 0);
- 
-         for (j = 0; j < resultlen; j++) {
-@@ -222,7 +213,6 @@ static void test_hmac_digest(void)
-         QCryptoHmacTestData *data = &test_data[i];
-         QCryptoHmac *hmac = NULL;
-         uint8_t *result = NULL;
--        Error *err = NULL;
-         const char *exp_output = NULL;
-         int ret;
- 
-@@ -233,14 +223,12 @@ static void test_hmac_digest(void)
-         exp_output = data->hex_digest;
- 
-         hmac = qcrypto_hmac_new(data->alg, (const uint8_t *)KEY,
--                                strlen(KEY), &err);
--        g_assert(err == NULL);
-+                                strlen(KEY), &error_fatal);
-         g_assert(hmac != NULL);
- 
-         ret = qcrypto_hmac_digest(hmac, (const char *)INPUT_TEXT,
-                                   strlen(INPUT_TEXT), (char **)&result,
--                                  &err);
--        g_assert(err == NULL);
-+                                  &error_fatal);
-         g_assert(ret == 0);
- 
-         g_assert_cmpstr((const char *)result, ==, exp_output);
+diff --git a/meson.build b/meson.build
+index b0e2b9a8a0..e7de68d795 100644
+--- a/meson.build
++++ b/meson.build
+@@ -839,7 +839,7 @@ elif (not get_option('nettle').auto() or have_system) and not get_option('gcrypt
+   endif
+ endif
+ if (not get_option('gcrypt').auto() or have_system) and not nettle.found()
+-  gcrypt = dependency('libgcrypt', version: '>=1.5',
++  gcrypt = dependency('libgcrypt', version: '>=1.8',
+                          method: 'config-tool',
+                          required: get_option('gcrypt'),
+                          kwargs: static_kwargs)
 -- 
 2.31.1
 
