@@ -2,167 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA0A3C893E
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:00:36 +0200 (CEST)
-Received: from localhost ([::1]:51624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116903C8944
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:02:30 +0200 (CEST)
+Received: from localhost ([::1]:56650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3iFO-0004bS-ON
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:00:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
+	id 1m3iHF-00085L-4T
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1m3iC9-0007gX-Ra
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:57:13 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21534)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1m3i8a-0007T3-On; Wed, 14 Jul 2021 12:53:32 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1m3iC7-0003f3-AZ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:57:13 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16EGtcdt032238; Wed, 14 Jul 2021 16:57:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2021-07-09;
- bh=imGJZLavO3HM5Ul8UPo2ousBPYxvdod4skLtnsaEUYE=;
- b=IA2+Ydnc7aDAZuw696DWH/PRXZRCPie3CSCPUDltbnSNGHESuI5OE4xQkwgFstu/0maJ
- +yRWB2h9UOcHgvcR3RMBGAS1spmgyIa7wectW6xstITGgziaCgpKLFqxWKtVOzlXAKm1
- 3N6daN+m03U169XJ2XPK3DAL7ixSH0o5a9w+XvZ5eQ0GPjxgJ37sEta4fqZQXfTVzX5+
- vo6UUqyaR/o99rqVrrY0XL612kPU9/TXQwaTc1i06tt4GIidfppF9d1SBl9lZlrmgQ4w
- DK7+rMcgm/NwGZ8/Dc2ureKoDoQhotOi/PHWAh/hhVSowF909iPG1cklW0pC1mWuN89W FQ== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2020-01-29;
- bh=imGJZLavO3HM5Ul8UPo2ousBPYxvdod4skLtnsaEUYE=;
- b=nUB+NneA1mqW+fKjFG1yp3NcbHmc8yVbkiIsfs9GVGCAaA5kK56ZEtxYXMnb7mkfKROx
- znoxRgy3des+toehpDeJn2PxUlHiLmhD6GSjurN4PSNvJAEuHI37W1WfjC5ydS3UQLgk
- EGQ/xKQDYY9DZZn8tSQGx/J0sRbECIubIxCAVkm0sNG4/OTYzWEMsbDJir9oSi92Lk4u
- Rpzth2JEdphUEO7VYu1XI7QVHuZB54NwOAkj2lQOA2yY3tC9np1ec6zhq3kWSIsKcNje
- wA2H9wyiUwd6qZXf+nSsYlbhXEp4l4wmouPfmRPbzodXBCedDHzM77jbPOI1pDGbmb8O dw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 39sbtujx94-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 14 Jul 2021 16:57:08 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16EGovq9168314;
- Wed, 14 Jul 2021 16:57:07 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
- by aserp3030.oracle.com with ESMTP id 39qyd12hr1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 14 Jul 2021 16:57:07 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Enmh8nVwhB+tQ+dB+bpcP0Yjlw6NEqI4XdCyPdG2sD77XbLlibrRgsBqzVD8e1bdBcookDyq9YvAkluVZjHVNe2cEbXs6YaRr/ruNWuLNgV+HQCy15CTuGJgID8yjZfm7mebq8iaB76jWDIC795WydmVpa9LWta4TB8/Hf0FO6kgwGf8sn/d9lRYpQKD1fsKU8aOl6YtcqOGIp9kVw14r3A2F8DYhCUioIhNUQulZ+LzWpvnNm3IGGZAJsbQxwrzh9vOzupGhQV2B7n2qEMvI2eKkm93Y/uoD1CJRwuZsK7sIeuuWILoAtog6llyPgS3BI387PrwkhNAktL+LZR18Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=imGJZLavO3HM5Ul8UPo2ousBPYxvdod4skLtnsaEUYE=;
- b=aTNjbry4y30EWghOhalY3AQV78AdDj/MzeV1sHST4zcb6/TmJ3BDYXOd+IyxIb/47oDTUyODKbfS7rENJgvjb/2Ur6cHz7i/X9rDjLIvryhHDnc7xwPH5O1RQl8Ixf36a+a/gq2IosgQNWP86g1HKvah/V2GDYkp1Xlqd9Czlaeg5snHaS1ivvtjUXC224um0QXI0OAxNeCgBCPBXafz8+a+XTj9JA6TR1TPHmCw6/VyD7ZezuMF4OOvfTbRowQ+n6I+hlK8LkeSdB+n3bfgGnFKnD5XVcWFRb5Y2HHnW/EPQwWK9NDjvejYKnV7W4ga3GJ+pNi7jw1ZQ0pQZ4R0GA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=imGJZLavO3HM5Ul8UPo2ousBPYxvdod4skLtnsaEUYE=;
- b=Pf1H/cQ9NAQWxW1e8CeBcDf1L3sqJHGmy21DTOmw8Z5i4gKc16Jsd/7EK1VwVkbUYvcvZJdngS79rafvfCuvuHOno/ntDRZ+myr9LpSOX6LSsQmFKT41r8Brdv19qykyMjTWTMlRuvwlHj4AZn/dlXEKXgY2oOICkVgRanZwgWw=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com (2603:10b6:a02:a9::20)
- by SJ0PR10MB5438.namprd10.prod.outlook.com (2603:10b6:a03:3b8::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.21; Wed, 14 Jul
- 2021 16:57:05 +0000
-Received: from BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::fd75:49c3:72bb:ca64]) by BYAPR10MB2663.namprd10.prod.outlook.com
- ([fe80::fd75:49c3:72bb:ca64%5]) with mapi id 15.20.4331.022; Wed, 14 Jul 2021
- 16:57:05 +0000
-From: Dongli Zhang <dongli.zhang@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/3] msix/hmp: add hmp interface to dump MSI-X info
-Date: Wed, 14 Jul 2021 09:56:52 -0700
-Message-Id: <20210714165654.23211-2-dongli.zhang@oracle.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210714165654.23211-1-dongli.zhang@oracle.com>
-References: <20210714165654.23211-1-dongli.zhang@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: SA0PR11CA0009.namprd11.prod.outlook.com
- (2603:10b6:806:d3::14) To BYAPR10MB2663.namprd10.prod.outlook.com
- (2603:10b6:a02:a9::20)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (138.3.200.16) by
- SA0PR11CA0009.namprd11.prod.outlook.com (2603:10b6:806:d3::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Wed, 14 Jul 2021 16:57:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4fd6c143-4a1d-485f-0555-08d946e868bf
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5438:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB5438702AE742FDF729F58F8AF0139@SJ0PR10MB5438.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:22;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dqE/xeKrQquz5Vpfu+S7T6hd+YZo7FYQGX9rq8gHkzJ3/NqhYZ1OEQeltZDCVx23qZnKFmbywzToRqdAN5NN08gKFs4TtEJiylfLclLGwxe2Arh5mKKssAFktEaM6522RMlIMAC+sIRmVMf3PLq+yHlzViCLkmXcd5tJc2Cyh4R7hCv8SWcCEAmhCpoRSEStFUBI8pPQBv+KgXmCPGXC6APfs5udo/a1Sza+FqdLWo9P4BQoKTA0zLeNTOYhnWxyrBc1p/ZdECA0hztgwg6Q8Fh0Af686DFrmnivXaFwiuBeQtLxvuUuuQ3j2fAr5pAuETnejgjcl4Z2QXqXagZh4hv1ldStHY0ttnPBR4NQRkef9baqEvL7du4ey+7IBzrSoLDIyPVi5oKRAjYLkkh1GpMJ3gjJ2/n/xZXXYETQNFAlcvQB32q3QoTpwJDyIh9AOlVXvpo1FBJlU9FVgTHqQ6+9pkz94tCLnX/XuxhaK/KBVhuyPxKUVy+2q8D+7UCBsRENMvFGFn1PwH+AAo9pDatqJmbN0HjOcKa04OzOHzD0rMh/XscTOu0g0hZ1gnzTScKrUI8xobj3H5UThLOUnp06F+A/s/s9TPRrpvtuGFaBjNSvymzrCwsqCZZvPKgsGhUFEdDUgu6Xcs5fUWfIyjpNBYjSVmFuuUTMto2wgZf/65n/obbZV5jS1vsf4FXtuhiITWlZKuBkWZ6GxsndWQqv3sUL4LkAfEE/gT1nKMQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB2663.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(376002)(39860400002)(346002)(366004)(36756003)(52116002)(6916009)(66476007)(6486002)(38350700002)(2906002)(8676002)(956004)(6512007)(44832011)(66946007)(2616005)(66556008)(6666004)(478600001)(8936002)(86362001)(5660300002)(4326008)(107886003)(26005)(83380400001)(186003)(1076003)(38100700002)(6506007)(316002)(309714004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8P2PsxqeRIbfWTtJjX0YiD/7Iu8T5rng0EGgctA1P6MF3Wed7kReMYre6bt9?=
- =?us-ascii?Q?z/CWtCmaDLsknnecLqth6YZHvBJLrOvj20yzic2q0Ba2qQWr5Ul1rogADa9+?=
- =?us-ascii?Q?KVqoao/MRd3V+yHIhu9qoZE20QYtdxXbacMKNUtH2IB83mJWbCITVKQGjcsZ?=
- =?us-ascii?Q?Wb8KOWQacjmwlRUnNvaQqn3jY6+gzfcoX3PK2zq/BKAL2kt+HgCWWyvJCHeV?=
- =?us-ascii?Q?XtHNZhbRtdEmeF9NXskSxu+YZfoyl81DbOl4ToGi0at0F4hyMSCDnYXO88UI?=
- =?us-ascii?Q?CXJGDFMkOpDTPekd2LbfZXEoMYVzpmaGPm7C0orSgHZnO0ZejJgk5Za9aVLx?=
- =?us-ascii?Q?FRMj/Q6wmcIUg25rqNGrsoRzFUafOb/KM25CVUQEpA2/jGxNMkYQ8y/BsXvf?=
- =?us-ascii?Q?3ROj9TRzlqv/GeDUzmUBjEaYRLzsUpVUES1HiY2w0wXGBxYX8Qlv/0QnDJ0T?=
- =?us-ascii?Q?/K252CTojg3kAp3vlbm8UIOQuhAz0bcr8oWgODvEzFhaZ6xDd9XkW16s7pbk?=
- =?us-ascii?Q?0pvWiURmtdzKLI3+mivW6g3mrdtwhzIa9UWwc3RvEm3Yf16DXO7JTqmjwAzg?=
- =?us-ascii?Q?qBpt+G62tfb86bwMOluebo9ZUSPfImstqA8madAxkeotaKTo/eZv5SUL30MO?=
- =?us-ascii?Q?9auTRq9JPLvb/rnO1MCYWP6faL+A+CmUurCrGAK22uaGIpvATMnMCgFJ79hQ?=
- =?us-ascii?Q?54HyS7p/UGIRex4kTOe8R3GOx3Iv0AUCbbhbD26De126raNH58g2X2yRpaa4?=
- =?us-ascii?Q?sUqihEtca4hUDTUQwIHElFmDc8UqEFE1U3sTOPIzddA9brLfA9eg6swPmGLD?=
- =?us-ascii?Q?qgWmqDSOURKcfYbOFbF5BavZzNdOrJ2yOpDXkh4+l0BDn4czIq98SrGZuthy?=
- =?us-ascii?Q?QA0zKgptdWZUAfiejmrZkleC+oo8/lU4fm6U6+SezPucxr/RbUh7+II1gLV2?=
- =?us-ascii?Q?Ffj8YGB0gVNaSelbShOHeOhZR9MOdzddB/a8m+PxEhgmEteliVxzfmbXiOhk?=
- =?us-ascii?Q?LPKCahGxrenZDpB6Lt7jD8QKXpkozn3G5ZzeFvfDTAeWGmC4/b6moY+l+0Qk?=
- =?us-ascii?Q?//DthNN6FRYZ649qRJQnw2hJzxtViY3ZhykNH/SoSnteghr4ylDOLNGuzzls?=
- =?us-ascii?Q?+Xe/KTpG09+x5RNmt/EWg8f7F3mqVO4nYGnbdM3UJntRZoOT+Axym+z0uNFD?=
- =?us-ascii?Q?mWvx+DcoSRi0+Xc8cCFJ+Ezv6XR2qvEJp7iNyliSmfoYvzUODi6EEyrZdg8M?=
- =?us-ascii?Q?5A3Z9l1Juqdzgb6qJLVCHMxwa/84TSyD7X4ZBkZ71n06lGwMc8iVnURhI5+w?=
- =?us-ascii?Q?ZNY+pmmY6wOvYEX8OD8/1hED?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fd6c143-4a1d-485f-0555-08d946e868bf
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2663.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 16:57:05.5300 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KsICGugb9f5OVour55UyOWjAzGqHQc1wmq3Jxc0QwEAQLtzixIufvZWoJIgpa2RYEWIARBA2v/m7LH786T/2jQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5438
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10045
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxlogscore=992
- adultscore=0 malwarescore=0 bulkscore=0 mlxscore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107140101
-X-Proofpoint-GUID: mHXQqjivm6-2aRMnC3kwNDmnJsmwKhUd
-X-Proofpoint-ORIG-GUID: mHXQqjivm6-2aRMnC3kwNDmnJsmwKhUd
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=dongli.zhang@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1m3i8Y-00011S-FC; Wed, 14 Jul 2021 12:53:32 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16EGXxiX022447; Wed, 14 Jul 2021 12:53:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references; s=pp1;
+ bh=UK9QrVvhn621HnBP7VYmqUA9xmcGXIry50KqANT1L7c=;
+ b=OQjGechF+h5c/TDm3REcrrAujzSVm8pVykpI1fIupgt5s0+LEZmFEZ+rnxFqGMQ4u/pf
+ If/ziw7KL8OAmft3SSkE3C6C1ouIITMLgTfzcvnALUPR8/xtqQyKeBSfiGMnfXAZmF0j
+ kuem0UhS8lTBRvD+6tVdwFqnpFxpsw3xDeZfCMjaTdSzYDHUpelEtSsF7TpCQ8/uqhfc
+ jb75liNzFWHXhAYOtwHZuSH/kKlgSCmoIZR3vnUzmy+NDoo1sKEmXlVKhSPB1oZ28DWT
+ WrAt0hQ2Dw0p8zN9cBNd2Oz8tjHp12ve2OeJXxL0kNQ4IgEfJLRhLdmNvzP1wAF5cHuq hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39sc8ka4hh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jul 2021 12:53:28 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16EGZ2FF027156;
+ Wed, 14 Jul 2021 12:53:27 -0400
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39sc8ka4gu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jul 2021 12:53:27 -0400
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16EGr0l2029040;
+ Wed, 14 Jul 2021 16:53:25 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 39q2th9vng-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jul 2021 16:53:25 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16EGrMXt28508642
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 14 Jul 2021 16:53:22 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6456BA405B;
+ Wed, 14 Jul 2021 16:53:22 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CCDFFA4067;
+ Wed, 14 Jul 2021 16:53:21 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.181.132])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 14 Jul 2021 16:53:21 +0000 (GMT)
+From: Pierre Morel <pmorel@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH v1 6/9] s390x: kvm: topology: interception of PTF instruction
+Date: Wed, 14 Jul 2021 18:53:13 +0200
+Message-Id: <1626281596-31061-7-git-send-email-pmorel@linux.ibm.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1626281596-31061-1-git-send-email-pmorel@linux.ibm.com>
+References: <1626281596-31061-1-git-send-email-pmorel@linux.ibm.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: hI7W9dEWZW3IYqRWqeZ-TzEJ7GzmEtkt
+X-Proofpoint-ORIG-GUID: a95Eezg3r1SCFsXbArSfe8SNI3TQG6gX
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-14_10:2021-07-14,
+ 2021-07-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=999 spamscore=0 suspectscore=0 impostorscore=0 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107140099
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -176,234 +105,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- jasowang@redhat.com, joe.jin@oracle.com, dgilbert@redhat.com,
- pbonzini@redhat.com
+Cc: thuth@redhat.com, ehabkost@redhat.com, david@redhat.com, cohuck@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, pbonzini@redhat.com,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is to add the HMP interface to dump MSI-X table and PBA, in
-order to help diagnose the loss of IRQ issue in VM (e.g., if an MSI-X
-vector is erroneously masked permanently). Here is the example with
-vhost-scsi:
+Interception of the PTF instruction depending on the new
+KVM_CAP_S390_CPU_TOPOLOGY KVM extension.
 
-(qemu) info msix /machine/peripheral/vscsi0
-Msg L.Addr Msg U.Addr Msg Data   Vect Ctrl
-0xfee00000 0x00000000 0x00004041 0x00000000
-0xfee00000 0x00000000 0x00004051 0x00000000
-0xfee00000 0x00000000 0x00004061 0x00000000
-0xfee00000 0x00000000 0x00004071 0x00000000
-0xfee01000 0x00000000 0x000040b1 0x00000000
-0xfee02000 0x00000000 0x000040c1 0x00000000
-0xfee03000 0x00000000 0x000040d1 0x00000000
+A global value is used to remember if a Topology change occured since
+the last interception of a PTF instruction with function code 0.
 
-MSI-X PBA
-0 0 0 0 0 0 0
-
-Since this is just for debugging by humans, provide the command only in
-HMP, not in QMP.
-
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Joe Jin <joe.jin@oracle.com>
-Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
 ---
-Changed since v1/v2:
-  - Add msix_present() to pci-stub.c to avoid build error
-Changed since v3:
-  - Rework commit message to explain why only HMP (suggested by Markus
-    Armbruster)
+ hw/s390x/cpu-topology.c            | 19 +++++++++++
+ include/hw/s390x/cpu-topology.h    |  8 +++++
+ include/hw/s390x/s390-virtio-ccw.h |  1 +
+ target/s390x/cpu.c                 |  4 +++
+ target/s390x/cpu.h                 |  1 +
+ target/s390x/kvm/kvm.c             | 52 ++++++++++++++++++++++++++++++
+ 6 files changed, 85 insertions(+)
 
- hmp-commands-info.hx   | 13 +++++++++
- hw/pci/msix.c          | 63 ++++++++++++++++++++++++++++++++++++++++++
- hw/pci/pci-stub.c      |  5 ++++
- include/hw/pci/msix.h  |  2 ++
- include/monitor/hmp.h  |  1 +
- softmmu/qdev-monitor.c | 25 +++++++++++++++++
- 6 files changed, 109 insertions(+)
-
-diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-index 27206ac049..ce5c550d44 100644
---- a/hmp-commands-info.hx
-+++ b/hmp-commands-info.hx
-@@ -221,6 +221,19 @@ SRST
-     Show PCI information.
- ERST
+diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
+index 1224137f56..5e1cac9529 100644
+--- a/hw/s390x/cpu-topology.c
++++ b/hw/s390x/cpu-topology.c
+@@ -19,12 +19,25 @@
+ #include "qemu/typedefs.h"
+ #include "hw/s390x/s390-virtio-ccw.h"
  
-+    {
-+        .name       = "msix",
-+        .args_type  = "dev:s",
-+        .params     = "dev",
-+        .help       = "dump MSI-X information",
-+        .cmd        = hmp_info_msix,
-+    },
-+
-+SRST
-+  ``info msix`` *dev*
-+    Dump MSI-X information for device *dev*.
-+ERST
-+
- #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
-     defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
-     {
-diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-index ae9331cd0b..4b4ec87eee 100644
---- a/hw/pci/msix.c
-+++ b/hw/pci/msix.c
-@@ -22,6 +22,7 @@
- #include "sysemu/xen.h"
- #include "migration/qemu-file-types.h"
- #include "migration/vmstate.h"
-+#include "monitor/monitor.h"
- #include "qemu/range.h"
- #include "qapi/error.h"
- #include "trace.h"
-@@ -669,3 +670,65 @@ const VMStateDescription vmstate_msix = {
-         VMSTATE_END_OF_LIST()
-     }
- };
-+
-+static void msix_dump_table(Monitor *mon, PCIDevice *dev)
++int s390_topology_changed(void)
 +{
-+    int vector;
-+    uint32_t val;
-+    uint8_t *table_entry;
++    const MachineState *ms = MACHINE(qdev_get_machine());
++    S390CcwMachineState *s390ms = S390_CCW_MACHINE(ms);
 +
-+    monitor_printf(mon, "Msg L.Addr ");
-+    monitor_printf(mon, "Msg U.Addr ");
-+    monitor_printf(mon, "Msg Data   ");
-+    monitor_printf(mon, "Vect Ctrl\n");
-+
-+    for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-+        table_entry = dev->msix_table + vector * PCI_MSIX_ENTRY_SIZE;
-+
-+        val = pci_get_long(table_entry + PCI_MSIX_ENTRY_LOWER_ADDR);
-+        monitor_printf(mon, "0x%08x ", val);
-+
-+        val = pci_get_long(table_entry + PCI_MSIX_ENTRY_UPPER_ADDR);
-+        monitor_printf(mon, "0x%08x ", val);
-+
-+        val = pci_get_long(table_entry + PCI_MSIX_ENTRY_DATA);
-+        monitor_printf(mon, "0x%08x ", val);
-+
-+        val = pci_get_long(table_entry + PCI_MSIX_ENTRY_VECTOR_CTRL);
-+        monitor_printf(mon, "0x%08x\n", val);
++    if (s390ms->topology_changed) {
++        s390ms->topology_changed = 0;
++        return 1;
 +    }
-+
-+    monitor_printf(mon, "\n");
++    return 0;
 +}
 +
-+static void msix_dump_pba(Monitor *mon, PCIDevice *dev)
-+{
-+    int vector;
-+
-+    monitor_printf(mon, "MSI-X PBA\n");
-+
-+    for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-+        monitor_printf(mon, "%d ", !!msix_is_pending(dev, vector));
-+
-+        if (vector % 16 == 15) {
-+            monitor_printf(mon, "\n");
-+        }
-+    }
-+
-+    if (vector % 16 != 15) {
-+        monitor_printf(mon, "\n");
-+    }
-+
-+    monitor_printf(mon, "\n");
-+}
-+
-+void msix_dump_info(Monitor *mon, PCIDevice *dev, Error **errp)
-+{
-+    if (!msix_present(dev)) {
-+        error_setg(errp, "MSI-X not available");
-+        return;
-+    }
-+
-+    msix_dump_table(mon, dev);
-+    msix_dump_pba(mon, dev);
-+}
-diff --git a/hw/pci/pci-stub.c b/hw/pci/pci-stub.c
-index 3a027c42e4..8191d49d56 100644
---- a/hw/pci/pci-stub.c
-+++ b/hw/pci/pci-stub.c
-@@ -91,3 +91,8 @@ MSIMessage msix_get_message(PCIDevice *dev, unsigned int vector)
+ static S390TopologyCores *s390_create_cores(S390TopologySocket *socket,
+                                             int origin)
  {
-     g_assert_not_reached();
+     DeviceState *dev;
+     S390TopologyCores *cores;
+     const MachineState *ms = MACHINE(qdev_get_machine());
++    S390CcwMachineState *s390ms = S390_CCW_MACHINE(ms);
+ 
+     if (socket->bus->num_children >= ms->smp.cores) {
+         return NULL;
+@@ -36,6 +49,7 @@ static S390TopologyCores *s390_create_cores(S390TopologySocket *socket,
+     cores = S390_TOPOLOGY_CORES(dev);
+     cores->origin = origin;
+     socket->cnt += 1;
++    s390ms->topology_changed = 1;
+ 
+     return cores;
  }
+@@ -45,6 +59,7 @@ static S390TopologySocket *s390_create_socket(S390TopologyBook *book, int id)
+     DeviceState *dev;
+     S390TopologySocket *socket;
+     const MachineState *ms = MACHINE(qdev_get_machine());
++    S390CcwMachineState *s390ms = S390_CCW_MACHINE(ms);
+ 
+     if (book->bus->num_children >= ms->smp.sockets) {
+         return NULL;
+@@ -56,6 +71,7 @@ static S390TopologySocket *s390_create_socket(S390TopologyBook *book, int id)
+     socket = S390_TOPOLOGY_SOCKET(dev);
+     socket->socket_id = id;
+     book->cnt++;
++    s390ms->topology_changed = 1;
+ 
+     return socket;
+ }
+@@ -77,6 +93,7 @@ static S390TopologyBook *s390_create_book(S390TopologyDrawer *drawer, int id)
+     book = S390_TOPOLOGY_BOOK(dev);
+     book->book_id = id;
+     drawer->cnt++;
++    s390ms->topology_changed = 1;
+ 
+     return book;
+ }
+@@ -98,6 +115,7 @@ static S390TopologyDrawer *s390_create_drawer(S390TopologyNode *node, int id)
+     drawer = S390_TOPOLOGY_DRAWER(dev);
+     drawer->drawer_id = id;
+     node->cnt++;
++    s390ms->topology_changed = 1;
+ 
+     return drawer;
+ }
+@@ -210,6 +228,7 @@ void s390_topology_new_cpu(int core_id)
+     bit = 63 - (core_id - origin);
+     set_bit(bit, &cores->mask);
+     cores->origin = origin;
++    s390ms->topology_changed = 1;
+ }
+ 
+ /*
+diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topology.h
+index 64424cb457..549a3e9a19 100644
+--- a/include/hw/s390x/cpu-topology.h
++++ b/include/hw/s390x/cpu-topology.h
+@@ -12,6 +12,7 @@
+ 
+ #include "hw/qdev-core.h"
+ #include "qom/object.h"
++#include "include/hw/sysbus.h"
+ 
+ #define S390_TOPOLOGY_CPU_TYPE    0x03
+ 
+@@ -88,4 +89,11 @@ S390TopologyNode *s390_get_topology(void);
+ void s390_topology_setup(MachineState *ms);
+ void s390_topology_new_cpu(int core_id);
+ 
++#define S390_PTF_REASON_NONE (0x00 << 8)
++#define S390_PTF_REASON_DONE (0x01 << 8)
++#define S390_PTF_REASON_BUSY (0x02 << 8)
++extern int s390_topology_changed(void);
 +
-+void msix_dump_info(Monitor *mon, PCIDevice *dev, Error **errp)
-+{
-+     monitor_printf(mon, "PCI devices not supported\n");
-+}
-diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-index 4c4a60c739..10a4500295 100644
---- a/include/hw/pci/msix.h
-+++ b/include/hw/pci/msix.h
-@@ -47,6 +47,8 @@ int msix_set_vector_notifiers(PCIDevice *dev,
-                               MSIVectorPollNotifier poll_notifier);
- void msix_unset_vector_notifiers(PCIDevice *dev);
- 
-+void msix_dump_info(Monitor *mon, PCIDevice *dev, Error **errp);
++#define S390_TOPO_FC_MASK 0xffUL
 +
- extern const VMStateDescription vmstate_msix;
+ #endif
+diff --git a/include/hw/s390x/s390-virtio-ccw.h b/include/hw/s390x/s390-virtio-ccw.h
+index fb3c3a50ce..a091468c79 100644
+--- a/include/hw/s390x/s390-virtio-ccw.h
++++ b/include/hw/s390x/s390-virtio-ccw.h
+@@ -30,6 +30,7 @@ struct S390CcwMachineState {
+     uint8_t loadparm[8];
+     int drawers;
+     int books;
++    int topology_changed;
+ };
  
- #define VMSTATE_MSIX_TEST(_field, _state, _test) {                   \
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 3baa1058e2..97c040a3c8 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -36,6 +36,7 @@ void hmp_info_irq(Monitor *mon, const QDict *qdict);
- void hmp_info_pic(Monitor *mon, const QDict *qdict);
- void hmp_info_rdma(Monitor *mon, const QDict *qdict);
- void hmp_info_pci(Monitor *mon, const QDict *qdict);
-+void hmp_info_msix(Monitor *mon, const QDict *qdict);
- void hmp_info_tpm(Monitor *mon, const QDict *qdict);
- void hmp_info_iothreads(Monitor *mon, const QDict *qdict);
- void hmp_quit(Monitor *mon, const QDict *qdict);
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 721dec2d82..7837a17d0d 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -19,6 +19,7 @@
+ struct S390CcwMachineClass {
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index 7b7b05f1d3..ac7b161190 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -35,6 +35,7 @@
+ #include "fpu/softfloat-helpers.h"
+ #include "disas/capstone.h"
+ #include "sysemu/tcg.h"
++#include "hw/s390x/cpu-topology.h"
  
- #include "qemu/osdep.h"
- #include "hw/sysbus.h"
-+#include "hw/pci/msix.h"
- #include "monitor/hmp.h"
- #include "monitor/monitor.h"
- #include "monitor/qdev.h"
-@@ -1005,3 +1006,27 @@ bool qmp_command_available(const QmpCommand *cmd, Error **errp)
+ #define CR0_RESET       0xE0UL
+ #define CR14_RESET      0xC2000000UL;
+@@ -154,6 +155,9 @@ static void s390_cpu_reset(CPUState *s, cpu_reset_type type)
+ 
+         env->pfault_token = -1UL;
+         env->bpbc = false;
++#if !defined(CONFIG_USER_ONLY)
++        s390_topology_changed();
++#endif
+         break;
+     default:
+         g_assert_not_reached();
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index d573ba205e..4eacd06c59 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -901,4 +901,5 @@ typedef S390CPU ArchCPU;
+ 
+ #include "exec/cpu-all.h"
+ 
++int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra);
+ #endif
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index d78261c089..7c3594d793 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -98,6 +98,7 @@
+ 
+ #define PRIV_B9_EQBS                    0x9c
+ #define PRIV_B9_CLP                     0xa0
++#define PRIV_B9_PTF                     0xa2
+ #define PRIV_B9_PCISTG                  0xd0
+ #define PRIV_B9_PCILG                   0xd2
+ #define PRIV_B9_RPCIT                   0xd3
+@@ -1453,6 +1454,54 @@ static int kvm_mpcifc_service_call(S390CPU *cpu, struct kvm_run *run)
      }
-     return true;
  }
-+
-+void hmp_info_msix(Monitor *mon, const QDict *qdict)
+ 
++int s390_handle_ptf(S390CPU *cpu, uint8_t r1, uintptr_t ra)
 +{
-+    const char *name = qdict_get_str(qdict, "dev");
-+    DeviceState *dev = find_device_state(name, NULL);
-+    PCIDevice *pci_dev;
-+    Error *err = NULL;
++    CPUS390XState *env = &cpu->env;
++    uint64_t reg = env->regs[r1];
++    uint8_t fc = reg & S390_TOPO_FC_MASK;
 +
-+    if (!dev) {
-+        error_setg(&err, "Device %s not found", name);
-+        goto exit;
++    if (!s390_has_feat(S390_FEAT_CONFIGURATION_TOPOLOGY)) {
++        s390_program_interrupt(env, PGM_OPERAND, ra);
++        return 0;
 +    }
 +
-+    if (!object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-+        error_setg(&err, "Not a PCI device");
-+        goto exit;
++    if (env->psw.mask & PSW_MASK_PSTATE) {
++        s390_program_interrupt(env, PGM_PRIVILEGED, ra);
++        return 0;
 +    }
 +
-+    pci_dev = PCI_DEVICE(dev);
-+    msix_dump_info(mon, pci_dev, &err);
++    if (reg & ~S390_TOPO_FC_MASK) {
++        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
++        return 0;
++    }
 +
-+exit:
-+    hmp_handle_error(mon, err);
++    switch (fc) {
++    case 0:    /* Horizontal polarization is already set */
++        env->regs[r1] = S390_PTF_REASON_DONE;
++        return 2;
++    case 1:    /* Vertical polarization is not supported */
++        env->regs[r1] = S390_PTF_REASON_NONE;
++        return 2;
++    case 2:    /* Report if a topology change report is pending */
++        return s390_topology_changed();
++    default:
++        s390_program_interrupt(env, PGM_SPECIFICATION, ra);
++        break;
++    }
++
++    return 0;
 +}
++
++static int kvm_handle_ptf(S390CPU *cpu, struct kvm_run *run)
++{
++    uint8_t r1 = (run->s390_sieic.ipb >> 20) & 0x0f;
++    uint8_t ret;
++
++    ret = s390_handle_ptf(cpu, r1, RA_IGNORED);
++    setcc(cpu, ret);
++    return 0;
++}
++
+ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+ {
+     int r = 0;
+@@ -1470,6 +1519,9 @@ static int handle_b9(S390CPU *cpu, struct kvm_run *run, uint8_t ipa1)
+     case PRIV_B9_RPCIT:
+         r = kvm_rpcit_service_call(cpu, run);
+         break;
++    case PRIV_B9_PTF:
++        r = kvm_handle_ptf(cpu, run);
++        break;
+     case PRIV_B9_EQBS:
+         /* just inject exception */
+         r = -1;
 -- 
-2.17.1
+2.25.1
 
 
