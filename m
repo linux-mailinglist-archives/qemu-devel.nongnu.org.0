@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29803C8613
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:25:44 +0200 (CEST)
-Received: from localhost ([::1]:46002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2163C860D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:24:08 +0200 (CEST)
+Received: from localhost ([::1]:41018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3fpX-0001l6-Ow
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38420)
+	id 1m3fnz-0006q6-V2
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:24:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fcE-0006Rh-EG
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:11:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47912)
+ id 1m3fcI-0006Vq-7f
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:12:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fcB-0008Fl-VQ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:11:57 -0400
+ id 1m3fcG-0008I7-Gy
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:12:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626271915;
+ s=mimecast20190719; t=1626271919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xp2o5PD1UTe8LJyY+jf30tqjE2o/ydPUbEBr1Unv9MY=;
- b=WB8Q3sCAuv3UeBbFujDpNn21bxdGHx838tUfIgzaMTQ9cOu4QifVAsWR/DQsj8KR+o5Sxt
- +GpLgbM79zrj9YLSx/t5lzuSgwrMYsTIaRnBWqEg3WyTcr6YiEbpLo8x2/XtlauovmtLwq
- KYah2I2WDxmWxqztbQhYxdIr51XSn/c=
+ bh=wn/r2MCwAdAEySOeEd0ft8OGoQnq/WsyyRSmoWbCYFs=;
+ b=D0rvcZuNtnzMxEinQD9W/E7f9Z43Bb6gq/fcKWRVATh6gSZuD3WwwRYsEJMysxme0u/NBy
+ y+Jx1qscgBHt/QIfPO0frJL31x6XlnN4O+bATPj2UHQCbL5/qj9iCCid1ObbPXVYSgU2E9
+ MLsxmZGQAkyz0RYHaLFIST6N6s/kAgA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-0t4A1lXGNMmoMeyRklh1YA-1; Wed, 14 Jul 2021 10:11:54 -0400
-X-MC-Unique: 0t4A1lXGNMmoMeyRklh1YA-1
+ us-mta-399-uZj6S0gkPteTh5oPu0Dkdw-1; Wed, 14 Jul 2021 10:11:57 -0400
+X-MC-Unique: uZj6S0gkPteTh5oPu0Dkdw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 335B610C1ADC;
- Wed, 14 Jul 2021 14:11:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A4F189CD1F;
+ Wed, 14 Jul 2021 14:11:56 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-160.ams2.redhat.com
  [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB04B19C87;
- Wed, 14 Jul 2021 14:11:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CCC818A50;
+ Wed, 14 Jul 2021 14:11:53 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] io: use GDateTime for formatting timestamp for websock
- headers
-Date: Wed, 14 Jul 2021 15:08:52 +0100
-Message-Id: <20210714140858.2247409-21-berrange@redhat.com>
+Subject: [PULL 21/26] seccomp: don't block getters for resource control
+ syscalls
+Date: Wed, 14 Jul 2021 15:08:53 +0100
+Message-Id: <20210714140858.2247409-22-berrange@redhat.com>
 In-Reply-To: <20210714140858.2247409-1-berrange@redhat.com>
 References: <20210714140858.2247409-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -92,39 +92,46 @@ Cc: Eduardo Otubo <otubo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GDateTime APIs provided by GLib avoid portability pitfalls, such
-as some platforms where 'struct timeval.tv_sec' field is still 'long'
-instead of 'time_t'. When combined with automatic cleanup, GDateTime
-often results in simpler code too.
+Recent GLibC calls sched_getaffinity in code paths related to malloc and
+when QEMU blocks access, it sends it off into a bad codepath resulting
+in stack exhaustion[1]. The GLibC bug is being fixed[2], but none the
+less, GLibC has valid reasons to want to use sched_getaffinity.
 
+It is not unreasonable for code to want to run many resource syscalls
+for information gathering, so it is a bit too harsh for QEMU to block
+them.
+
+[1] https://bugzilla.redhat.com/show_bug.cgi?id=1975693
+[2] https://sourceware.org/pipermail/libc-alpha/2021-June/128271.html
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Eduardo Otubo <otubo@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- io/channel-websock.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+ softmmu/qemu-seccomp.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index 03c1f7cb62..70889bb54d 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -177,15 +177,9 @@ qio_channel_websock_handshake_send_res(QIOChannelWebsock *ioc,
+diff --git a/softmmu/qemu-seccomp.c b/softmmu/qemu-seccomp.c
+index 9c29d9cf00..f50026778c 100644
+--- a/softmmu/qemu-seccomp.c
++++ b/softmmu/qemu-seccomp.c
+@@ -97,17 +97,11 @@ static const struct QemuSeccompSyscall denylist[] = {
+     { SCMP_SYS(vfork),                  QEMU_SECCOMP_SET_SPAWN },
+     { SCMP_SYS(execve),                 QEMU_SECCOMP_SET_SPAWN },
+     /* resource control */
+-    { SCMP_SYS(getpriority),            QEMU_SECCOMP_SET_RESOURCECTL },
+     { SCMP_SYS(setpriority),            QEMU_SECCOMP_SET_RESOURCECTL },
+     { SCMP_SYS(sched_setparam),         QEMU_SECCOMP_SET_RESOURCECTL },
+-    { SCMP_SYS(sched_getparam),         QEMU_SECCOMP_SET_RESOURCECTL },
+     { SCMP_SYS(sched_setscheduler),     QEMU_SECCOMP_SET_RESOURCECTL,
+       ARRAY_SIZE(sched_setscheduler_arg), sched_setscheduler_arg },
+-    { SCMP_SYS(sched_getscheduler),     QEMU_SECCOMP_SET_RESOURCECTL },
+     { SCMP_SYS(sched_setaffinity),      QEMU_SECCOMP_SET_RESOURCECTL },
+-    { SCMP_SYS(sched_getaffinity),      QEMU_SECCOMP_SET_RESOURCECTL },
+-    { SCMP_SYS(sched_get_priority_max), QEMU_SECCOMP_SET_RESOURCECTL },
+-    { SCMP_SYS(sched_get_priority_min), QEMU_SECCOMP_SET_RESOURCECTL },
+ };
  
- static gchar *qio_channel_websock_date_str(void)
- {
--    struct tm tm;
--    time_t now = time(NULL);
--    char datebuf[128];
-+    g_autoptr(GDateTime) now = g_date_time_new_now_utc();
- 
--    gmtime_r(&now, &tm);
--
--    strftime(datebuf, sizeof(datebuf), "%a, %d %b %Y %H:%M:%S GMT", &tm);
--
--    return g_strdup(datebuf);
-+    return g_date_time_format(now, "%a, %d %b %Y %H:%M:%S GMT");
- }
- 
- static void qio_channel_websock_handshake_send_res_err(QIOChannelWebsock *ioc,
+ static inline __attribute__((unused)) int
 -- 
 2.31.1
 
