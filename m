@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A8713C825A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:03:43 +0200 (CEST)
-Received: from localhost ([::1]:44586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF853C8286
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:12:44 +0200 (CEST)
+Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3bjy-0006d6-Ex
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:03:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38200)
+	id 1m3bsh-0004Uu-4J
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3bZ8-00040x-UA
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:52:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m3bZ6-0006CX-BG
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:52:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626256347;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=icg0gvPwRGJz9uuUXCiq7UXEwnGrtfXn8+lGykTSI4U=;
- b=ej58bkUl2qBiXz+iKOlN9KHQWrLoQBw6MlfFyhHGBtuKr7e57WVKk3l4BkoBv7CEYjlPKH
- mD1EMoii3rrfS+TCebc+rn6vLWLq6IFvY57JE+wIufNMJ0EYXw0uX9LHCh+yhQh7+A3BWX
- EP6Y5tSx9shad4Km/O9vj79MNakqHFI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-_stXVqrCNe-icP_MpYtyCA-1; Wed, 14 Jul 2021 05:52:26 -0400
-X-MC-Unique: _stXVqrCNe-icP_MpYtyCA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m9-20020a0560000089b02901362e1cd6a3so1202968wrx.13
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:52:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m3bm4-0003SH-RN
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:05:52 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:38911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m3bm1-0006zd-DT
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:05:52 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id r132so2271811yba.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 03:05:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=GWBwiAZRI2vriIoSuLf120fPxj3bWOa9TCo6f7XSto0=;
+ b=uI9s9YQa+ZW27UqINQThKm3eUeAYJ0vKdaJ/B+tCOO37wengz02IZTySWkDSNruhJG
+ znxId5K/kh/xm7UWYGz8q/+/zsIrbRbQ2q+P0295BfK7EBSX9DVo55pyoDiiel69uTxt
+ hfQ3rdo0Yq5LcO78K5Qkg5hW4ZQJb5J3IgFzNPxznF78SW5PY2NI5Rb94+c9iWYGDa5W
+ OAeT6SvHHy+oMaPn4vXfynrGuk9B2dzCADzGn5C7OAwNe127Pis0mU25P509HdiEzdjb
+ TDBG9opXQiA+fNcI4cKy3rPyi5qCrJylq4L5rgGhccpATpkICjlGaEiAxq8L/hSY/5b2
+ vxVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=icg0gvPwRGJz9uuUXCiq7UXEwnGrtfXn8+lGykTSI4U=;
- b=HTysobX+6ho+19EruZ+jYlDoc42nHTYtv/YVLlXFZHbA4LGq8LI3+R8wt+uAvh8urR
- tSIzzcgD4GcX4nsS5Xap69TPPc3/j5g3K9CN7YediHZZ66ml6Oxh2dNeXnFu3/hKXJJQ
- GrgIY/KlPF4ZoMVp1LLU4f1BD+MVmAwP7NPM9FUcgMJXMonJSbGorvmVcpdrMOMMHafc
- i5G20eczl8THVtrqPW4fgjn1Ae5sz1HR/xUeRMISekHNplonrNqgaSY3c4ET0i7gARXp
- bL7/eRXdrbK5MvN0/hMs5jSuOjpiwqzDyQXkdN4HUD5X/f1mL8UdK0n3i4vna1Tg78bt
- Fsag==
-X-Gm-Message-State: AOAM532/N9pS7xgp15FlVRzVelPe5rbTdKIOuawBtjPZ88iLJWXrZ6Sp
- Wx+o/4GC2FJlZFQd6LBmK0G3NsIMFJG1PyGc3+tV2guu/ViO9UN8BjYs0aYbTh+S+dLsAXfU54s
- JMgA/sywlhcmkG8g=
-X-Received: by 2002:a5d:6804:: with SMTP id w4mr11543885wru.417.1626256344946; 
- Wed, 14 Jul 2021 02:52:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGq1APKVeGWyFBIONIwgXSyQW6dds1jdrV4WQGl+a002MKBsxUMjBsprzsDXyASkBfy5FbSA==
-X-Received: by 2002:a5d:6804:: with SMTP id w4mr11543858wru.417.1626256344733; 
- Wed, 14 Jul 2021 02:52:24 -0700 (PDT)
-Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
- [82.29.237.198])
- by smtp.gmail.com with ESMTPSA id a64sm1529978wme.8.2021.07.14.02.52.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 02:52:24 -0700 (PDT)
-Date: Wed, 14 Jul 2021 10:52:21 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Brijesh Singh <brijesh.singh@amd.com>
-Subject: Re: [RFC PATCH 0/6] Add AMD Secure Nested Paging (SEV-SNP) support
-Message-ID: <YO6z1dJxuT5cNz6T@work-vm>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <e68a9760-121f-72ee-f8ae-193b92bde403@linux.ibm.com>
- <80b92ee9-97d8-76f2-8859-06e61fe10f71@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=GWBwiAZRI2vriIoSuLf120fPxj3bWOa9TCo6f7XSto0=;
+ b=KlDBifGERZPhBl+WBJiV+hcH+rmp3hqBvUk1FhUhaQvG2f4p4CLFFTMwQ7w6i4wpmQ
+ gKVfTjStR9fueBrxXS9Od6YlIcrEhDEawEkGfoqFX3p4oFm9bklFWxOEgvdn1CSBSxiM
+ 1lHdoTmD5s8pCwhFt0omvLb4oMX89mhF9vqpks2sKzEZ5boS0X+vU/ZKex7PnSwhMyqn
+ BgbFpWIc0uoDKPUanZth1RJapgVppsEZbnaPXEB7lBKuFsW4/vyi6Y5QWdtG/qT2JlUN
+ JoS9oBMkQ/r7f+lxN7iLo6+aetpmcNU+Wr8geLcnAObf3hNh9deieUfMK8E1FzLoqxvi
+ WY5g==
+X-Gm-Message-State: AOAM533uVW4LcB2Y9XG9kndNsW18HJQ4rzabNy7k/IVKQ8ig3fI11fEe
+ +rWwxJZFvbHZMPB/EPbqomMxdrKjA4lx46vzfBk=
+X-Google-Smtp-Source: ABdhPJyEB6nW5eNqiq+WXmzVl5LlI6+j8uLRqiafNUVRBGpv2XcVPlBrzsV4YBeaLnWjIER24b+KU6SAudND6t+UoWA=
+X-Received: by 2002:a5b:504:: with SMTP id o4mr12263496ybp.332.1626257148415; 
+ Wed, 14 Jul 2021 03:05:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <80b92ee9-97d8-76f2-8859-06e61fe10f71@amd.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210714093719.21429-1-alex.bennee@linaro.org>
+ <20210714093719.21429-13-alex.bennee@linaro.org>
+In-Reply-To: <20210714093719.21429-13-alex.bennee@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 14 Jul 2021 18:05:37 +0800
+Message-ID: <CAEUhbmWGG74SFjmj0_m2iEiqJHragMyrEpG9zo26HkCL=Mnr-g@mail.gmail.com>
+Subject: Re: [PATCH v1 12/21] contrib/gitdm: add domain-map/group-map for Wind
+ River
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,52 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, Ruimei Yan <ruimei.yan@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Brijesh Singh (brijesh.singh@amd.com) wrote:
-> 
-> 
-> On 7/13/21 3:05 AM, Dov Murik wrote:>
-> > Particularly confusing is the `policy` attribute which is only relevant
-> > for SEV / SEV-ES, while there's a new `snp.policy` attribute for SNP...
-> > Maybe the irrelevant attributes should not be added to the tree when not
-> > in SNP.
-> 
-> The policy fields are also applicable to the SNP. The main difference are:
-> 
-> - in SEV/SEV-ES the policy is 32-bit compare to 64-bit value in SEV-SNP.
-> However, for SEV-SNP spec uses lower 32-bit value and higher bits are marked
-> reserved.
-> 
-> - the bit field meaning are different
+Hi Alex,
 
-Ah, I see that from the SNP ABI spec (section 4.3).
+On Wed, Jul 14, 2021 at 5:59 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>
+> I've created a group-map as well as some windriver contributions have
+> come via non-corporate email. Let me know if you want the
+> contributions split.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Cc: Ruimei Yan <ruimei.yan@windriver.com>
+> Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> ---
+>  contrib/gitdm/domain-map          | 1 +
+>  contrib/gitdm/group-map-windriver | 6 ++++++
+>  gitdm.config                      | 1 +
+>  3 files changed, 8 insertions(+)
+>  create mode 100644 contrib/gitdm/group-map-windriver
+>
 
-That's a bit subtle; in that at the moment we select SEV or SEV-ES based
-on the existing guest policy flags; I think you're saying that SEV-SNP
-is enabled by the user explicitly.
+Thanks for the patch!
 
-> Based on this, we can introduce a new filed 'snp-policy'.
+Philippe posted a patch some time ago but it was not applied.
+http://patchwork.ozlabs.org/project/qemu-devel/patch/20201004180443.2035359=
+-19-f4bug@amsat.org/
 
-Yes, people are bound to confuse them if they're not clearly separated;
-although I guess whatever comes after SNP will probably share that
-longer field?
+You may drop the group-map-windriver if this patch is going to be
+picked up, as I replied to Philippe before. Thanks!
 
-Dave
-
-> -Brijesh
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Regards,
+Bin
 
