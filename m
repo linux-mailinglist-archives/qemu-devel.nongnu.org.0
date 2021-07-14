@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF823C864D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:44:43 +0200 (CEST)
-Received: from localhost ([::1]:58054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 852C43C866F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:57:38 +0200 (CEST)
+Received: from localhost ([::1]:37918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3g7u-0004JW-65
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
+	id 1m3gKP-0002Wz-6P
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3g6a-0003FW-MZ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:43:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3g6Z-0003qt-1V
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:43:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626273798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z+uy7uiaUHTh6gmxYUYrFocfKGqOWyGoww6pl2LgYq4=;
- b=Cvh5QuMvdNrWK55GLxnd4kQM0grMINkDxhCzYYhScvoV0FnymWVjEG2zK8tq89VyTnzwKA
- XjAXzTPDn2xbarxBgMozGH+Z6xG6o2ywNwiXavnLVa3VSFS46c/Yxn1KT17Kpf27BwEynY
- 7kOTOheh+K855RyRaK6BmufbJIypDB4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-217-R30RJxZVNcGKjNQNmP2f3Q-1; Wed, 14 Jul 2021 10:43:15 -0400
-X-MC-Unique: R30RJxZVNcGKjNQNmP2f3Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B9C2804145;
- Wed, 14 Jul 2021 14:43:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
- [10.36.112.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 758965C1D1;
- Wed, 14 Jul 2021 14:43:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 032B6113865F; Wed, 14 Jul 2021 16:43:09 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
-References: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
- <bb8d222a-be8a-02b7-3ddc-de443290e29d@redhat.com>
- <36bcf543-0b56-7e2f-26e7-648ca3cf58dd@linux.ibm.com>
- <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com>
-Date: Wed, 14 Jul 2021 16:43:08 +0200
-In-Reply-To: <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 12 Jul 2021 18:26:32
- +0200")
-Message-ID: <87a6mpez2b.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1m3gJa-0001gR-GR
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:56:46 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:43934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1m3gJY-0004Rh-Io
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:56:46 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id g5so3602272ybu.10
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 07:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JU1yGaB8yvz2d1qautO41EuaDLdK/ECfxSXn9sEifjg=;
+ b=Nr49fEDCNw+jGsjyu8NYK3mD/cTtZ8ltfbsolQdi1PgipF28NGgwWVYRK5lem/AVA9
+ s3urkgv2KGiwwtH3jw95HrMeyHxT5S/VRwNpkcVzvv3WUeNVTEKsFPsPVni5CR+VRuJl
+ 6K3oiqvrQ7pBf22JN1o70FOfrbk6s6OX4uvQ4kAFovxxxScBHZ2h6CoVe/87nkrCeekp
+ Hb7crWJeRFAZSGQY9MaCnCBxY7lLrPod9jxnUNnF/mZW44e9PJ/ZxpdwXuMz9Q2r5NiP
+ UGoxwd4tJKtPJ1s4xBd6KaSJqmzHpBC3dHtPMR0KUA+WctJJydC58GaW4QBba9JC+aGV
+ xCoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JU1yGaB8yvz2d1qautO41EuaDLdK/ECfxSXn9sEifjg=;
+ b=gMlVxE6Ip3292Mg+YHesYQ7msU5zfw+e7JuADPyxy3Ny9+jSsvMKkG5yIWE1rdNsdo
+ zxQMKqX+b/GqnVRCQWpcgVJRrZy6DIHL+cdP9dDvlcuqrHvJTX8AXokgb/nkVNYdAD1F
+ M0NOdawibSArJoe16q7mU+9f4HfzPrI7R+Fo/vL1lj2Ms8tj5sZSTxDGboW3CgZBcI3B
+ 2A67yEtSyxeEyiydoLzWPFIRdXsZm+HhUlOgGJ6+kDjG7oNfoLeahbOtzbFFPu/e5laf
+ izfAq4paGU6ImvGLLwkLqb8n0CjIndsi1WY3AvlQ7gmPWjFZjA/rk5MOs76oiSKonFy4
+ bh9g==
+X-Gm-Message-State: AOAM531IlqmD/qy6xJY1xQdJ/2we9ub9Kduk1IpKbcgCyEy5qsURBTia
+ IGmUTUDUCPhR5XbICSVJvWg1QRA2oMN1a1djQZI=
+X-Google-Smtp-Source: ABdhPJwkTKus9S5R6d7T0SpbBM4F0DXZYu9lou6JBJGTe9i5rIbTKLgncU6WwT0vjlLk34pUNPOL5huqKq1NYYYFZE4=
+X-Received: by 2002:a25:a489:: with SMTP id g9mr13383549ybi.266.1626274603019; 
+ Wed, 14 Jul 2021 07:56:43 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210709160843.339796-1-li.zhang@ionos.com>
+In-Reply-To: <20210709160843.339796-1-li.zhang@ionos.com>
+From: Li Zhang <zhlcindy@gmail.com>
+Date: Wed, 14 Jul 2021 16:56:32 +0200
+Message-ID: <CAD8of+oEMBcGoMbqJ74hDawxOv2bue1JsjLhsHQohzxfNigywQ@mail.gmail.com>
+Subject: Re: [PATCH v3 RESEND 1/2] qmp: Support chardev-change
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ Pankaj Gupta <pankaj.gupta@ionos.com>, QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=zhlcindy@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,70 +78,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
+Cc: Li Zhang <li.zhang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Ping
 
-> +Markus
+On Fri, Jul 9, 2021 at 6:11 PM Li Zhang <zhlcindy@gmail.com> wrote:
 >
-> On 7/12/21 5:47 PM, Stefan Berger wrote:
->>=20
->> On 7/12/21 11:29 AM, Philippe Mathieu-Daud=C3=A9 wrote:
->>> Hi Stefan,
->>>
->>> On 7/12/21 5:09 PM, Stefan Berger wrote:
->>>> This series of patches adds test case for TPM 1.2 ACPI tables.
->>>>
->>>> =C2=A0=C2=A0 Stefan
->>>>
->>>> v3:
->>>> =C2=A0=C2=A0 - Define enum TPMVersion for when CONFIG_TPM is not defin=
-ed
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 affected patches 2 and 6
->>> I think in 11fb99e6f48..e542b71805d we missed an extra patch
->>> for qtests. Probably (untested):
->>=20
->> Shouldn't we have seen test compilation errors already?
->>=20
->> I didn't go down this route for the build system (as you show below)
->> because in this series we are testing ACPI tables and I introduce the
->> reference to enum TPMVersion here, which wasn't needed before. The
->> alternative may be to go into 8/9 and eliminate all TPM code if
->> CONFIG_TPM is not set. The introduction of the enum now passes the tests
->> with --enable-tpm and --disable-tpm.
->>=20
->> Otherwise the BIOS test are skipped due to this here:
->>=20
->>=20
->> static void test_acpi_tcg_tpm(const char *machine, const char *tpm_if,
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint64_t base, enum TPMVersion tpm_version)
->> {
->> #ifdef CONFIG_TPM
->> [...]
->>=20
->> #else
->> =C2=A0=C2=A0=C2=A0 g_test_skip("TPM disabled");
->> #endif
->> }
->>=20
->> So I didn't want to clutter this code with more #ifdef CONFIG_TPM but
->> maybe that would be the right solution.
+> For some scenarios, we'd like to hot-add a monitor device.  But QEMU
+> doesn't support that, yet.  It does support hot-swapping character
+> backends with QMP command chardev-change.  This lets us pre-add a
+> monitor with a null character backend, then chardev-change to a
+> socket backend.  Except the chardev-change fails with "Chardev user
+> does not support chardev hotswap" because monitors don't provide the
+> required callback.  Implement it for QMP monitors.
 >
-> IMO the "right" solution is to check via QMP if TMP is supported
-> or not. This is now doable since commit caff255a546 ("tpm: Return
-> QMP error when TPM is disabled in build").
+> Signed-off-by: Li Zhang <li.zhang@ionos.com>
+> ---
+> v3 -> v2:
+>   * Rework the patch which is to add hotswap for QMP device
+>     https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg03167.html
+>   * Refactor the functions qmp_chardev_add and qmp_chardev_change
 >
-> Long term we'd like to decouple the tests/ build from the various
-> QEMU configurations, and build the tests once.
+>  monitor/monitor-internal.h |  1 +
+>  monitor/monitor.c          |  4 +-
+>  monitor/qmp.c              | 84 +++++++++++++++++++++++++++-----------
+>  3 files changed, 63 insertions(+), 26 deletions(-)
+>
+> diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+> index 9c3a09cb01..162f73119b 100644
+> --- a/monitor/monitor-internal.h
+> +++ b/monitor/monitor-internal.h
+> @@ -182,5 +182,6 @@ int get_monitor_def(Monitor *mon, int64_t *pval, const char *name);
+>  void help_cmd(Monitor *mon, const char *name);
+>  void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
+>  int hmp_compare_cmd(const char *name, const char *list);
+> +void monitor_flush_locked(Monitor *mon);
+>
+>  #endif
+> diff --git a/monitor/monitor.c b/monitor/monitor.c
+> index b90c0f4051..1b05ef3bdb 100644
+> --- a/monitor/monitor.c
+> +++ b/monitor/monitor.c
+> @@ -154,8 +154,6 @@ static inline bool monitor_is_hmp_non_interactive(const Monitor *mon)
+>      return !monitor_uses_readline(container_of(mon, MonitorHMP, common));
+>  }
+>
+> -static void monitor_flush_locked(Monitor *mon);
+> -
+>  static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+>                                    void *opaque)
+>  {
+> @@ -169,7 +167,7 @@ static gboolean monitor_unblocked(GIOChannel *chan, GIOCondition cond,
+>  }
+>
+>  /* Caller must hold mon->mon_lock */
+> -static void monitor_flush_locked(Monitor *mon)
+> +void monitor_flush_locked(Monitor *mon)
+>  {
+>      int rc;
+>      size_t len;
+> diff --git a/monitor/qmp.c b/monitor/qmp.c
+> index 092c527b6f..29b49ee041 100644
+> --- a/monitor/qmp.c
+> +++ b/monitor/qmp.c
+> @@ -46,6 +46,8 @@ struct QMPRequest {
+>  typedef struct QMPRequest QMPRequest;
+>
+>  QmpCommandList qmp_commands, qmp_cap_negotiation_commands;
+> +static void monitor_qmp_setup_handlers_bh(void *opaque);
+> +static void monitor_backend_init(MonitorQMP *mon, Chardev *chr);
+>
+>  static bool qmp_oob_enabled(MonitorQMP *mon)
+>  {
+> @@ -481,6 +483,35 @@ void monitor_data_destroy_qmp(MonitorQMP *mon)
+>      g_queue_free(mon->qmp_requests);
+>  }
+>
+> +static bool monitor_in_list(Monitor *mon)
+> +{
+> +    Monitor *mon_tmp;
+> +    QTAILQ_FOREACH(mon_tmp, &mon_list, entry) {
+> +        if (mon_tmp == mon) {
+> +            return true;
+> +        }
+> +    }
+> +    return false;
+> +}
+> +
+> +static int monitor_qmp_change(void *opaque)
+> +{
+> +    MonitorQMP *mon = opaque;
+> +
+> +    monitor_data_init(&mon->common, true, false,
+> +            qemu_chr_has_feature(mon->common.chr.chr,
+> +                                 QEMU_CHAR_FEATURE_GCONTEXT));
+> +    monitor_backend_init(mon, mon->common.chr.chr);
+> +    qemu_mutex_lock(&mon->common.mon_lock);
+> +    if (mon->common.out_watch) {
+> +        mon->common.out_watch = 0;
+> +        monitor_flush_locked(&mon->common);
+> +    }
+> +    qemu_mutex_unlock(&mon->common.mon_lock);
+> +
+> +    return 0;
+> +}
+> +
+>  static void monitor_qmp_setup_handlers_bh(void *opaque)
+>  {
+>      MonitorQMP *mon = opaque;
+> @@ -491,30 +522,15 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
+>      assert(context);
+>      qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
+>                               monitor_qmp_read, monitor_qmp_event,
+> -                             NULL, &mon->common, context, true);
+> -    monitor_list_append(&mon->common);
+> -}
+> +                             monitor_qmp_change, &mon->common, context, true);
+>
+> -void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+> -{
+> -    MonitorQMP *mon = g_new0(MonitorQMP, 1);
+> -
+> -    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
+> -        g_free(mon);
+> -        return;
+> +    if (!monitor_in_list(&mon->common)) {
+> +        monitor_list_append(&mon->common);
+>      }
+> -    qemu_chr_fe_set_echo(&mon->common.chr, true);
+> -
+> -    /* Note: we run QMP monitor in I/O thread when @chr supports that */
+> -    monitor_data_init(&mon->common, true, false,
+> -                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
+> -
+> -    mon->pretty = pretty;
+> -
+> -    qemu_mutex_init(&mon->qmp_queue_lock);
+> -    mon->qmp_requests = g_queue_new();
+> +}
+>
+> -    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
+> +static void monitor_backend_init(MonitorQMP *mon, Chardev *chr)
+> +{
+>      if (mon->common.use_io_thread) {
+>          /*
+>           * Make sure the old iowatch is gone.  It's possible when
+> @@ -532,7 +548,29 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+>      } else {
+>          qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read,
+>                                   monitor_qmp_read, monitor_qmp_event,
+> -                                 NULL, &mon->common, NULL, true);
+> -        monitor_list_append(&mon->common);
+> +                                 monitor_qmp_change, &mon->common, NULL, true);
+> +        if (!monitor_in_list(&mon->common)) {
+> +            monitor_list_append(&mon->common);
+> +        }
+>      }
+>  }
+> +
+> +void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+> +{
+> +    MonitorQMP *mon = g_new0(MonitorQMP, 1);
+> +
+> +    if (!qemu_chr_fe_init(&mon->common.chr, chr, errp)) {
+> +        g_free(mon);
+> +        return;
+> +    }
+> +    qemu_chr_fe_set_echo(&mon->common.chr, true);
+> +     /* Note: we run QMP monitor in I/O thread when @chr supports that */
+> +    monitor_data_init(&mon->common, true, false,
+> +                      qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_GCONTEXT));
+> +
+> +    mon->pretty = pretty;
+> +    qemu_mutex_init(&mon->qmp_queue_lock);
+> +    mon->qmp_requests = g_queue_new();
+> +    json_message_parser_init(&mon->parser, handle_qmp_command, mon, NULL);
+> +    monitor_backend_init(mon, chr);
+> +}
+> --
+> 2.25.1
+>
 
-This argument applies only to macros from target-specific headers like
-$TARGET-config-target.h, not to macros from config-host.h.  #ifdef
-CONFIG_TPM should be fine, shouldn't it?
 
+-- 
+
+Best Regards
+-Li
 
