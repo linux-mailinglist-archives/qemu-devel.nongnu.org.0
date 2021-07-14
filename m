@@ -2,82 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE8F53C8972
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:14:04 +0200 (CEST)
-Received: from localhost ([::1]:34698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3F13C8969
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:10:39 +0200 (CEST)
+Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3iSR-000617-VY
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47330)
+	id 1m3iP8-0007aO-UO
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:10:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3iHn-0003YJ-S8
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:03:03 -0400
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3iHm-0007bU-51
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:03:03 -0400
-Received: by mail-pg1-x529.google.com with SMTP id u14so3089835pga.11
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=EXF+F2qGwUCgDPVZP0ILsPlmMymyh4GGhgUCzyj0jK8=;
- b=oolBmRi4r2LpZ4AzlgAJzqyaQbWlg9xcu4f7tWJGJcr5cc+aP+Is4RMEuoc/mL9YE/
- BHEohONFcp4516ncuEa2UEvJrFeYqQi4YkJcR6uxxMcCKGpE1xIEDNEn0JUZ9O0X/v9T
- R5xUWl/70VUuumi+c1jnYZN1gmuuv3HKYzAdp65hSTcibEtlgE3jtqqMsDyDw8bwaTv7
- MDWLXt6B7QnGp+qpuX6DrCYwt4RcIe0IcagNDm55j4ZzidXWlzJk7Qgfk1IRByPjSqJ2
- jF9BzRBFagdiTk8sr4v2y4Oiw7KyTySdcljwLedeoB2RGuVZ32Qu6roD2bq5azxsfi/O
- zWiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EXF+F2qGwUCgDPVZP0ILsPlmMymyh4GGhgUCzyj0jK8=;
- b=IZRDZNng8d+i9NWydKaWDwXtV4WDR/jRAawt0SBYYHYGrLmSBpGIqlkCy71vDX6GBy
- 4K99RDu2Qr4Ft1Nk7mmdcf7odpgZXLbn3nbiaBgJ7exoUL4ThsL+WkbBTLnjER+hu7RU
- XUT6qjLdf1k1pY2G8F35OpcJce0FdT8bs4xlaVoNnOUSC+0jEwiKBUXpDmsNIwok7hDQ
- BgFlxNDKIcTaLVS62UoOwqnidohKyodankeDSyd+b9v6Wq5BlpwzFFz350AGU2TvHn1b
- DP1GUBqwOeiiLre6Ta/MtWlif1LlSlARQ4ptWUsPcpwv90PzTWcmqLUVYdD8QCINugfe
- zBBw==
-X-Gm-Message-State: AOAM531trJ1E52jEHZFsGV4vvnv3FFwvCNf92Fc2JA3sqB2RmPMBYK6o
- 8yNxf8r9z/opCytRJlvfMy4riV8LoeJAEA==
-X-Google-Smtp-Source: ABdhPJwXTCY+OKlvKzPaeKv/OtFlbg+fDGwLu79xqSu/SDXr0sKqIjyyx0QEEzg7c8oKe/48wvuSXg==
-X-Received: by 2002:a62:d108:0:b029:304:33e5:4dde with SMTP id
- z8-20020a62d1080000b029030433e54ddemr11291109pfg.74.1626282180157; 
- Wed, 14 Jul 2021 10:03:00 -0700 (PDT)
-Received: from [192.168.101.210] ([75.147.178.105])
- by smtp.gmail.com with ESMTPSA id c2sm3457942pgh.82.2021.07.14.10.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 10:02:59 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 01/34] target/arm: Note that we handle VMOVL as a
- special case of VSHLL
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210713133726.26842-1-peter.maydell@linaro.org>
- <20210713133726.26842-2-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <48388536-f22f-7ab4-70de-f5eaf84a5bf2@linaro.org>
-Date: Wed, 14 Jul 2021 10:02:58 -0700
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1m3iJa-0006bJ-IH; Wed, 14 Jul 2021 13:04:54 -0400
+Received: from [201.28.113.2] (port=28905 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1m3iJY-0000Ea-Bj; Wed, 14 Jul 2021 13:04:54 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 14 Jul 2021 14:04:46 -0300
+Received: from [127.0.0.1] (unknown [10.10.71.235])
+ by power9a (Postfix) with ESMTPS id 650A28013FC;
+ Wed, 14 Jul 2021 14:04:46 -0300 (-03)
+Subject: Re: [PATCH v3 2/4] target/ppc: divided mmu_helper.c in 2 files
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210708164957.28096-1-lucas.araujo@eldorado.org.br>
+ <20210708164957.28096-3-lucas.araujo@eldorado.org.br>
+ <0f225dcb-5d25-a672-9da3-dc39dca70d8c@linaro.org>
+ <592e6dc1-5c06-6d0c-d524-51c9af81a8e8@eldorado.org.br>
+Message-ID: <d50b10a0-ab7a-6553-2b6e-5731c39401ce@eldorado.org.br>
+Date: Wed, 14 Jul 2021 14:04:45 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713133726.26842-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <592e6dc1-5c06-6d0c-d524-51c9af81a8e8@eldorado.org.br>
+Content-Type: multipart/alternative;
+ boundary="------------9CD33331ACF20E645D0C1CD0"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 14 Jul 2021 17:04:46.0798 (UTC)
+ FILETIME=[5955CEE0:01D778D2]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) BAYES_20=-0.001, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,21 +62,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: luis.pires@eldorado.org.br, fernando.valle@eldorado.org.br,
+ matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 6:36 AM, Peter Maydell wrote:
-> Although the architecture doesn't define it as an alias, VMOVL
-> (vector move long) is encoded as a VSHLL with a zero shift.
-> Add a comment in the decode file noting that we handle VMOVL
-> as part of VSHLL.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/mve.decode | 2 ++
->   1 file changed, 2 insertions(+)
+This is a multi-part message in MIME format.
+--------------9CD33331ACF20E645D0C1CD0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+On 14/07/2021 08:23, Lucas Mateus Martins Araujo e Castro wrote:
+> On 08/07/2021 15:09, Richard Henderson wrote:
+>
+>> On 7/8/21 9:49 AM, Lucas Mateus Castro (alqotel) wrote:
+>>> +++ b/target/ppc/cpu.h
+>>> @@ -1327,6 +1327,26 @@ void store_40x_dbcr0(CPUPPCState *env,
+>>> uint32_t val);
+>>>   void store_40x_sler(CPUPPCState *env, uint32_t val);
+>>>   void store_booke_tcr(CPUPPCState *env, target_ulong val);
+>>>   void store_booke_tsr(CPUPPCState *env, target_ulong val);
+>>> +typedef struct mmu_ctx_t mmu_ctx_t;
+>>> +bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType 
+>>> access_type,
+>>> +                      hwaddr *raddrp, int *psizep, int *protp,
+>>> +                      int mmu_idx, bool guest_visible);
+>>> +int ppcmas_tlb_check(CPUPPCState *env, ppcmas_tlb_t *tlb,
+>>> +                            hwaddr *raddrp, target_ulong address,
+>>> +                            uint32_t pid);
+>>> +int ppcemb_tlb_check(CPUPPCState *env, ppcemb_tlb_t *tlb,
+>>> +                            hwaddr *raddrp,
+>>> +                            target_ulong address, uint32_t pid, int
+>>> ext,
+>>> +                            int i);
+>>> +int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t *ctx,
+>>> +                                     target_ulong eaddr,
+>>> +                                     MMUAccessType access_type, int
+>>> type,
+>>> +                                     int mmu_idx);
+>>> +hwaddr booke206_tlb_to_page_size(CPUPPCState *env,
+>>> +                                        ppcmas_tlb_t *tlb);
+>>> +/* Software driven TLB helpers */
+>>> +int ppc6xx_tlb_getnum(CPUPPCState *env, target_ulong eaddr,
+>>> +                                    int way, int is_code);
+>>
+>> Why are any of these going into cpu.h?
+>> Surely they are not used outside of target/ppc/.
+> At first I divided between internal.h and cpu.h based on what I thought
+> really shouldn't be used outside target/ppc, but looking back my logic
+> was flawed since all of this was inside mmu_helper.c, so it was only
+> visible inside mmu_helper.c, therefore none of it should be used outside
+> target/ppc. I'll fix this in the next version.
+
+Actually I spoke too soon, while most of these functions should just be 
+moved to internal.h some functions are in cpu.h because they need some 
+structures declared in cpu.h, more specifically ppcmas_tlb_t and 
+ppcemb_tlb_t.
+
+These functions are: ppcmas_tlb_check, ppcemb_tlb_check and 
+booke206_tlb_to_page_size, from what I gather these functions should be 
+in mmu_helper.c, but as they're still called in some 
+_get_physical_address functions they're in mmu_common.c for now.
+
+So for this patch is it better to leave this functions declaration in 
+cpu.h or do something else?
+
+>>
+>>
+>> r~
+>
+-- 
+Lucas Mateus M. Araujo e Castro
+Instituto de Pesquisas ELDORADO 
+<https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&utm_medium=email&utm_source=RD+Station>
+Departamento Computação Embarcada
+Estagiario
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+--------------9CD33331ACF20E645D0C1CD0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 14/07/2021 08:23, Lucas Mateus
+      Martins Araujo e Castro wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:592e6dc1-5c06-6d0c-d524-51c9af81a8e8@eldorado.org.br">On
+      08/07/2021 15:09, Richard Henderson wrote:
+      <br>
+      <br>
+      <blockquote type="cite">On 7/8/21 9:49 AM, Lucas Mateus Castro
+        (alqotel) wrote:
+        <br>
+        <blockquote type="cite">+++ b/target/ppc/cpu.h
+          <br>
+          @@ -1327,6 +1327,26 @@ void store_40x_dbcr0(CPUPPCState *env,
+          <br>
+          uint32_t val);
+          <br>
+            void store_40x_sler(CPUPPCState *env, uint32_t val);
+          <br>
+            void store_booke_tcr(CPUPPCState *env, target_ulong val);
+          <br>
+            void store_booke_tsr(CPUPPCState *env, target_ulong val);
+          <br>
+          +typedef struct mmu_ctx_t mmu_ctx_t;
+          <br>
+          +bool ppc_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType
+          access_type,
+          <br>
+          +                      hwaddr *raddrp, int *psizep, int
+          *protp,
+          <br>
+          +                      int mmu_idx, bool guest_visible);
+          <br>
+          +int ppcmas_tlb_check(CPUPPCState *env, ppcmas_tlb_t *tlb,
+          <br>
+          +                            hwaddr *raddrp, target_ulong
+          address,
+          <br>
+          +                            uint32_t pid);
+          <br>
+          +int ppcemb_tlb_check(CPUPPCState *env, ppcemb_tlb_t *tlb,
+          <br>
+          +                            hwaddr *raddrp,
+          <br>
+          +                            target_ulong address, uint32_t
+          pid, int
+          <br>
+          ext,
+          <br>
+          +                            int i);
+          <br>
+          +int get_physical_address_wtlb(CPUPPCState *env, mmu_ctx_t
+          *ctx,
+          <br>
+          +                                     target_ulong eaddr,
+          <br>
+          +                                     MMUAccessType
+          access_type, int
+          <br>
+          type,
+          <br>
+          +                                     int mmu_idx);
+          <br>
+          +hwaddr booke206_tlb_to_page_size(CPUPPCState *env,
+          <br>
+          +                                        ppcmas_tlb_t *tlb);
+          <br>
+          +/* Software driven TLB helpers */
+          <br>
+          +int ppc6xx_tlb_getnum(CPUPPCState *env, target_ulong eaddr,
+          <br>
+          +                                    int way, int is_code);
+          <br>
+        </blockquote>
+        <br>
+        Why are any of these going into cpu.h?
+        <br>
+        Surely they are not used outside of target/ppc/.
+        <br>
+      </blockquote>
+      At first I divided between internal.h and cpu.h based on what I
+      thought
+      <br>
+      really shouldn't be used outside target/ppc, but looking back my
+      logic
+      <br>
+      was flawed since all of this was inside mmu_helper.c, so it was
+      only
+      <br>
+      visible inside mmu_helper.c, therefore none of it should be used
+      outside
+      <br>
+      target/ppc. I'll fix this in the next version.
+      <br>
+    </blockquote>
+    <p>Actually I spoke too soon, while most of these functions should
+      just be moved to internal.h some functions are in cpu.h because
+      they need some structures declared in cpu.h, more specifically
+      ppcmas_tlb_t and ppcemb_tlb_t. <br>
+    </p>
+    <p>These functions are: ppcmas_tlb_check, ppcemb_tlb_check and
+      booke206_tlb_to_page_size, from what I gather these functions
+      should be in mmu_helper.c, but as they're still called in some
+      _get_physical_address functions they're in mmu_common.c for now.</p>
+    <p>So for this patch is it better to leave this functions
+      declaration in cpu.h or do something else?<br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:592e6dc1-5c06-6d0c-d524-51c9af81a8e8@eldorado.org.br">
+      <blockquote type="cite">
+        <br>
+        <br>
+        r~
+        <br>
+      </blockquote>
+      <br>
+    </blockquote>
+    <div class="moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href="https://www.eldorado.org.br/?utm_campaign=assinatura_de_e-mail&amp;utm_medium=email&amp;utm_source=RD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computação Embarcada<br>
+      Estagiario<br>
+      <a href="https://www.eldorado.org.br/disclaimer.html">Aviso Legal
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------9CD33331ACF20E645D0C1CD0--
 
