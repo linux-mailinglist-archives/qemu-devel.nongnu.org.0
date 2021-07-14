@@ -2,147 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EE193C8B4F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:54:54 +0200 (CEST)
-Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 504263C8B6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:08:19 +0200 (CEST)
+Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3k21-0003Va-4w
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43306)
+	id 1m3kEz-0007ad-Nc
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m3k0q-0002Bg-LZ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:53:40 -0400
-Received: from mail-dm6nam11on2087.outbound.protection.outlook.com
- ([40.107.223.87]:38369 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m3k0p-0007nF-0g
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:53:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JcUBK47xuLjCXxh5Ja7wIujfxLUVYm021O0XoJHjq49eaMjmHwRVTrscL5bnq1gljJuTp09mYFFb7bOEI/lbKfYDBLrkcB83bt/4Lc/d/6B0F6YXsjysnCtCkCIyy3JUeU9xvBICnyG5+Fje3S+8uoPsFVqLd1Deun+fVbUo4XW8yuWymvRS+l9yr0MVOrZalocC6OOgEKUPMqx5NldaLL0pyM3+stuApmjiowwZeXh1414tfuVr6tmqU/SZ4ZSIzdVhs5Tzo5Mlqu/iUpuTBEd9qNsWuinBHA9lDBgYKYd2r6288rhcp/FkYRzPFC6gXUk9GxwONsfw7aRTh1KjVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KDetNGIcJ05g8/YxduvFbSvSJujnG6wEVmbvo5f2tIA=;
- b=RAtW1nl/a/pc9YfSuyxAWhAgw3LUpAEW+wWkPB5KZu+udlhjsakt6q996u2QuXzGtAwv3JMAApFYH2WehzL1UuP4ZGQK0/28Zm1t+uwCQfNKaJF0QmXVmkGYZdPm25uYcfc+Hq7SuX/zGr9DfiDO+EQyES2sbFYPDm8qxI7IMfMHMXe2gaxBoM1vukEN6JqMY/nIFs7cnYFZcFYbbaAACwxVhP4S2LG/poqYE/FD7Pnwibn72cPbVrGkzoSH1ksEEnQowmqJTRVxnF8kBuD5FPluX3Y9ZGBLdfGE/+Inw1yHeDBxDT01DKcu9LvBHZav2hPhDfMgZ2Kd52MK21HNqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KDetNGIcJ05g8/YxduvFbSvSJujnG6wEVmbvo5f2tIA=;
- b=y06AP87Uv6phz2x125UuG8XYDlp5J6Q701YMu22n3htgRF0o/m08CTU745t7eXwThPZEYuq5Jy3WPoaeYAWdSTSmjtBwcDtm0p7+P0T+NhDNAsjwxWpQhLtkQV7v+6eAUfgyyeWxSH2wf1R8Mym/MII7/0T0VJ0k10IiEz8xgGs=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
- by SA0PR12MB4384.namprd12.prod.outlook.com (2603:10b6:806:9f::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
- 2021 18:53:36 +0000
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa]) by SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa%3]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
- 18:53:36 +0000
-Cc: brijesh.singh@amd.com, qemu-devel@nongnu.org,
- Connor Kuehl <ckuehl@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Tom Lendacky
- <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, Michael Roth <michael.roth@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [RFC PATCH 6/6] i386/sev: populate secrets and cpuid page and
- finalize the SNP launch
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-7-brijesh.singh@amd.com> <YO8fBDve7yOP4BZi@work-vm>
-From: Brijesh Singh <brijesh.singh@amd.com>
-Message-ID: <cf9152b0-f280-a1ba-1824-764616e84a0e@amd.com>
-Date: Wed, 14 Jul 2021 13:53:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <YO8fBDve7yOP4BZi@work-vm>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN4PR0801CA0003.namprd08.prod.outlook.com
- (2603:10b6:803:29::13) To SN6PR12MB2718.namprd12.prod.outlook.com
- (2603:10b6:805:6f::22)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m3kEC-0006uq-GN
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:07:28 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:45031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m3kEA-0000Nz-9w
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:07:27 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id v26so3451835iom.11
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 12:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jzQb1OvVyEER/77+4i+BUofw/MvEvB87/WJacllwEAI=;
+ b=vCsht1+TRs6KQRMhkYbQzhnn9naG2JTp71FWpdUXS+TM9NhK7HPbiEKaaN+16GLVXF
+ ddJ05EGQ3l8I8vs0eJYPylUqUyMqQhccd8pM9j8KeaLE6jm/MX28J5PDMFFuSr7OI3se
+ 5TNuEvQR9Ix6k1XzkXbOpqGFarb023w4uHVHKWiohKqFkh0FM4o/YRnqMW/v2RPKIEiO
+ E/cDmRIbGnVN/B6ChfYtdXuEpcFbMuq5fqoMToDcLxNPLQA94GYmAIRVZBQpmg8FUAXv
+ GGmQunDjELHh7SLQol57NrHKOb2Nk92YvXHi7Hw7kCOgbaQr279j6xDrEKYYpKB07v2U
+ otoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jzQb1OvVyEER/77+4i+BUofw/MvEvB87/WJacllwEAI=;
+ b=rnbKNATCYbOX4yYugAFyYQKbSjYlM4cwh3t7vGf6/58WAyxj11gOeQpShTx3VwYv1h
+ NfG+KYtoCQGYW6MooisYDwsG5PjQ8hzR4Bfo+hPbiV9lokwFfW870/HafJPW/YPU5elq
+ Ykkrrua7T9mGNdCm7HzJejKgiPfiKiFmB0UBuRmUpWBGcbb75f7RGVFxIrqJM9TIXg1q
+ hoknKgWujoNQZS+hUi1217weYvURJZV7UIMPwdk77frqkkKzlAx3VwppNI+wLbBCWETa
+ m0vLXz8Rky8FNDp4VvhE6obVR2Wh3qx1rcpLRgJuUcUrAopHtkw0Fjn5qf/Jylv1hRz/
+ N+PA==
+X-Gm-Message-State: AOAM532ehbbuKHc41YmCa28y5aQM+g71n6GZGATVc/urfrMZnVG80q0N
+ yUvlH3Krbuu92sy/fSbIDcTjYieinGcw557Ve5lg3UjfMxU=
+X-Google-Smtp-Source: ABdhPJx3qxa8A8C78npsAmjacvWVzh3J02+Ad70LiKLQxrnQyjaOuYXgjfMnf/U9sQNs0Y9/6Zk8JkVBk/SkScMba24=
+X-Received: by 2002:a6b:1497:: with SMTP id 145mr5212738iou.128.1626289644994; 
+ Wed, 14 Jul 2021 12:07:24 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.31.95] (165.204.77.1) by
- SN4PR0801CA0003.namprd08.prod.outlook.com (2603:10b6:803:29::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Wed, 14 Jul 2021 18:53:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2c054427-1a52-47f9-e034-08d946f8afcc
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4384:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4384FC3FAC007C7E72FCDD51E5139@SA0PR12MB4384.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KwWdwqmXgt41qmYu5hjEU9SLZGZjX6nNWsw120Pz1LPBB8+Oyot9nTi5uPgRX0rfYR+Phr5GYCio1pv5y/Buc/9XENQgDTe5wZ3ePVLyKubDnO8lyJ0SRdegLj1d2mLIFbkMn+0+SaKjzsyZM6lVgiKteBqADDoZNUfPTscNFFJnSgZRvFxnv0l4VbzGJGIThftYctgsHn6rK5EWOs/zUqjsgEGxx2CbyYZKrMPP1e0jq36L619bGJr+atyNZHloh53ytpjiFxZZEi8HpL4eLe1320tr+2+9butZjhgsJp/sSxYZEOLYLuWbx/E9M0b84A7WSr/lFqYxBXv5eY9dxbS0yOI8uF07uOuMEcBTl5HJATIqcf4TxINI9Wv/vdIWFa7V1CIGEuXmA+9ZEKhd8ZSzGN6D3+8D/IHMaeax2H6ytWSqIfHv/QmBuR8XlIn0K6I8ngs1fZW6X9h8Besx9r0Uoka6eTwHjrDmrrJR3e3kj7n27VgptG3A2kDKpZ9hCEzLE1rrj1nKJTm8jFML7q9zH8NwB9e1vUcF5f5qn2Kj8qvaSkJFcUH+oqkzUun0naPLMt0Rr8OH+bWoJF2PlkoGXv8Y5uAclmKVdrY51dXDr4eAOQFt2b7YjTrDl48ZNbB9eZcq6jX1PL1PZqT/ZPrndnKgI8BZ6r6jNe87eSBJfZxYyNGKLNfD79sqPM5MlqCyZJzAbNTTzG3jce4u5XPVE+PpzgUb6FyZFmIW8wTnB5tjq/Yirsg/tLudbLKXcAxIG2B3jedqWbhxYz5ZLQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(376002)(346002)(39860400002)(54906003)(4326008)(66476007)(36756003)(558084003)(316002)(8936002)(83380400001)(16576012)(31686004)(66946007)(31696002)(5660300002)(2906002)(7416002)(6916009)(86362001)(44832011)(38100700002)(478600001)(8676002)(186003)(6486002)(38350700002)(26005)(66556008)(52116002)(956004)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWVlN2c1SFROYURrdFFTcllnSlFzRXhVWlJyd3EyTzJKdmJFd2ordkJ6aER2?=
- =?utf-8?B?SHZnSm1SRkFpUHVjZnl5SEwzcUhrZDdhcnRIekhNSkxWeWhsSjgzSllyWk9o?=
- =?utf-8?B?eDFzNzM0VktYYURNMTcvK1hVV09ZTjU0MXltcGVyanVXay9qK004OW1Fblps?=
- =?utf-8?B?RC9FVWh6K3RESGF2WE90WnpJbEc4V0xEaW9VZnQwMWlWVVNUUVRlRzhRMFBj?=
- =?utf-8?B?R2FXL1FEWmVFNDR3K1UyRENaZXV1Vk1GWkVnWGh5LzVIQ3VZU0gvTS9MaXlG?=
- =?utf-8?B?Q3paY1RqT0JEK3lnSnhLdWs2WjZ0eDhMZ2hCY3E0cE9oQXBvYzBZb0pKWElC?=
- =?utf-8?B?QWNEVm11bnZRR2ZvTGdLN2UzTVVEQWxGS3BUSVhNN004Vlh3Wlp2YzEzVG5U?=
- =?utf-8?B?Lzd3akxxM2phNDYvRUR0bVg5bmVVRWJJUHVINHFmWWJFSjhpVVBqU0pRdnFT?=
- =?utf-8?B?R1Bqc0VPdC81L2FwelJuTHpqMkdxR3RVTmtITEIwbHViVlRxVE02bStjVld5?=
- =?utf-8?B?UUMzZlZtTjMyV0hKWllKSWQ4VTNhODVrK2ltYlhxRmUrZ3h5Ykk3WTd3dTAz?=
- =?utf-8?B?VkNpejlxYnVaa2lMRVBOck9Ic0dVZmFaRFExb1NJbmpIMVZRUUpnRXJaSE1V?=
- =?utf-8?B?U0wvSDN2NnVod1BVNGZuVVdwU1loYWh0OXVwYVhjNGM0QTFKWW1RUjV3TnBU?=
- =?utf-8?B?aXRFSzVhZnpCZExxeEFoczdxL2FjTjcxeW9UbEt5TUtLOFRINkZUcjZVRWpQ?=
- =?utf-8?B?Q3hDdTZUbGg1Ly83UnpVdlJCMUh3RFlkT1RxMzlKVmhTamx5N2IybWE2YUJp?=
- =?utf-8?B?S0c2UitSRW9jaWdBOFYwNDZEcCtsOTNnbnl5UXovMzFHWnBvNm9tY3JkL0dC?=
- =?utf-8?B?bkFReWdMVmtoNWFtbmozVGRPVHFCeWIvOHdrZ3FkNGY4ZWYraGlpNjVYVDhr?=
- =?utf-8?B?cDUxVDBYNmE0bmFEbEljQmVhb0JrckR2YWZVZE5sNk1CUkxZZXEralVydmVD?=
- =?utf-8?B?MCtIdTBYZXdEa3F2ZVBTZUFvZkdCWGdTcmZpT0RsNnAxZmhTSXBvUE9aRmhJ?=
- =?utf-8?B?YThMUkVHMTFTcm5XZDB6Uml5cTdLTGhtZ1dTdUo0Zmx0MnJCbTdjaCsyaWhY?=
- =?utf-8?B?TDJWclhUNGJYZ1RjL3gzbnFxUHpKSk5Ma2Z4ZmJneDVTQkxWNGhDOC95K1N4?=
- =?utf-8?B?ckQrb1NFbmJCaHNjZFEvd3FNR3dpbHZiWXJlMlVPcG83RFhmR3VxYjREMlF1?=
- =?utf-8?B?YmRaMHIvbCtveEVjM2lWend1YlFQTTNTVjY1OHdiSDRQZGdKN01zYUVVOEJ1?=
- =?utf-8?B?TXltWUplbmRsejRzK1BBZTlBMjhFd3BtajNkV1R3NkhRbGphb3lYc1pDUU9F?=
- =?utf-8?B?YktnMmpPNmtqZDczd0dPM0xUTmp5SmFqTk9aUkwvMWErQW11ZUtlaHRaaDJH?=
- =?utf-8?B?VU85WTNHanRKc3JNdjRLK2tpbUpSaFd1MFJ0TUZMU2ZjV1hObW9JSFR3dWIv?=
- =?utf-8?B?NFI3TUVPRXVxaVp6VDRGOWYvd3pnbTd6QTZTc0tDTENLNXVIMUZ0ekhNaENv?=
- =?utf-8?B?emkvK2VnaGtCWk9LL2pvY0l3Njc2WlZmQmhQREJVNi9kbXNHNFduSkFVTnpl?=
- =?utf-8?B?Y3FvT2hHWHFRRUFKc0JmemhlbnR1WHRRZmcvT1Z1R2FDYjREQndKQkVIOStG?=
- =?utf-8?B?YUd6aEFucXVIcjZ6NFVYNkx6aWFrSjVBOTNXWUhQYjJaQ1VsVktyOXVyckli?=
- =?utf-8?Q?gXmfGarx06+0S89cBc8EuQ8Gl+FPCwz/IK+wn4C?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c054427-1a52-47f9-e034-08d946f8afcc
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 18:53:36.6268 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SMXv9ZcHPRtJA13IAaHg0Nu+IoEnvi8Yn6NZEiyZzgCJhNBoXbR02uIqZE0F8h6VAJ+gFqYs36iTCioWYs9FHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4384
-Received-SPF: softfail client-ip=40.107.223.87;
- envelope-from=brijesh.singh@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
+References: <20210713220734.26302-1-niteesh.gs@gmail.com>
+In-Reply-To: <20210713220734.26302-1-niteesh.gs@gmail.com>
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Thu, 15 Jul 2021 00:36:59 +0530
+Message-ID: <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] python: AQMP-TUI Prototype
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000097847205c71a1012"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -156,21 +76,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000097847205c71a1012
+Content-Type: text/plain; charset="UTF-8"
 
+Hello all,
 
-On 7/14/21 12:29 PM, Dr. David Alan Gilbert wrote:>> +struct 
-snp_pre_validated_range {
->> +    uint32_t start;
->> +    uint32_t end;
->> +};
-> 
-> Just a thought, but maybe use a 'Range' from include/qemu/range.h ?
-> 
+UPDATE:  The pipelines have run and all tests passed #336491916
+Usually, the pipelines start running as soon as I push my code. But this
+time they took longer to start and there was no sign of starting. This is my
+first experience with pipelines so I assumed I messed up something from
+my side.
 
-I will look into it.
+Thanks,
+Niteesh.
 
-thanks
+On Wed, Jul 14, 2021 at 3:37 AM G S Niteesh Babu <niteesh.gs@gmail.com>
+wrote:
+
+> GitLab:
+> https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/
+> Based-on
+> <https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Based-on>:
+> <20210701041313.1696009-1-jsnow@redhat.com>
+>      [PATCH 00/20] python: introduce Asynchronous QMP package
+>
+> Updates in V2:
+> 1) Moved loop related initialization to 'run' function in 'App' class
+> 2) Added a module logger with support in TUI log messages.
+> 3) Corrected usage of logging.info and logging.debug
+> 4) Added an option in setup.cfg to silent pylint regarding duplicate-code
+> 4) Modified the arguments list to the TUI
+>
+> NOTE: I am not able to get the pipelines running after the v2 changes.
+> I was only able to test the changes locally using *make check*.
+>
+> This patch series introduces AQMP-TUI prototype. This prototype has been
+> helpfull in letting us try out different ideas and giving some insights
+> into things that we had to take care of in the upcoming TUI. It was also
+> helpfull in finding out bugs in the AQMP library.
+>
+> The intent for this patch series is to get comments on the architectural
+> design of the prototype. These comments will lay down the foundation for
+> the upcoming TUI.
+>
+> G S Niteesh Babu (6):
+>   python: disable pylint errors for aqmp-tui
+>   python: Add dependencies for AQMP TUI
+>   python/aqmp-tui: Add AQMP TUI draft
+>   python: add optional pygments dependency
+>   python/aqmp-tui: add syntax highlighting
+>   python: add entry point for aqmp-tui
+>
+>  python/Pipfile.lock          |  20 ++
+>  python/qemu/aqmp/aqmp_tui.py | 342 +++++++++++++++++++++++++++++++++++
+>  python/setup.cfg             |  36 +++-
+>  3 files changed, 397 insertions(+), 1 deletion(-)
+>  create mode 100644 python/qemu/aqmp/aqmp_tui.py
+>
+> --
+> 2.17.1
+>
+>
+
+--00000000000097847205c71a1012
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">Hello all,</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
+UPDATE:=C2=A0 The pipelines have run and all tests passed #336491916</div><=
+div class=3D"gmail_default" style=3D"font-size:small">Usually, the pipeline=
+s start running as soon as I push my code. But this</div><div class=3D"gmai=
+l_default" style=3D"font-size:small">time they took longer to start and the=
+re was no sign of starting. This is my</div><div class=3D"gmail_default" st=
+yle=3D"font-size:small">first experience=C2=A0with pipelines so I assumed I=
+ messed up something from</div><div class=3D"gmail_default" style=3D"font-s=
+ize:small">my side.</div><div class=3D"gmail_default" style=3D"font-size:sm=
+all"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Thank=
+s,</div><div class=3D"gmail_default" style=3D"font-size:small">Niteesh.</di=
+v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Wed, Jul 14, 2021 at 3:37 AM G S Niteesh Babu &lt;<a href=3D"mailto:ni=
+teesh.gs@gmail.com" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">GitLab: <a href=
+=3D"https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Base=
+d-on" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/niteesh.gs/qe=
+mu/-/commits/aqmp-tui-prototype-v1/<br>
+Based-on</a>: &lt;<a href=3D"mailto:20210701041313.1696009-1-jsnow@redhat.c=
+om" target=3D"_blank">20210701041313.1696009-1-jsnow@redhat.com</a>&gt;<br>
+=C2=A0 =C2=A0 =C2=A0[PATCH 00/20] python: introduce Asynchronous QMP packag=
+e<br>
+<br>
+Updates in V2:<br>
+1) Moved loop related initialization to &#39;run&#39; function in &#39;App&=
+#39; class<br>
+2) Added a module logger with support in TUI log messages.<br>
+3) Corrected usage of <a href=3D"http://logging.info" rel=3D"noreferrer" ta=
+rget=3D"_blank">logging.info</a> and logging.debug<br>
+4) Added an option in setup.cfg to silent pylint regarding duplicate-code<b=
+r>
+4) Modified the arguments list to the TUI<br>
+<br>
+NOTE: I am not able to get the pipelines running after the v2 changes.<br>
+I was only able to test the changes locally using *make check*.<br>
+<br>
+This patch series introduces AQMP-TUI prototype. This prototype has been<br=
+>
+helpfull in letting us try out different ideas and giving some insights<br>
+into things that we had to take care of in the upcoming TUI. It was also<br=
+>
+helpfull in finding out bugs in the AQMP library.<br>
+<br>
+The intent for this patch series is to get comments on the architectural<br=
+>
+design of the prototype. These comments will lay down the foundation for<br=
+>
+the upcoming TUI.<br>
+<br>
+G S Niteesh Babu (6):<br>
+=C2=A0 python: disable pylint errors for aqmp-tui<br>
+=C2=A0 python: Add dependencies for AQMP TUI<br>
+=C2=A0 python/aqmp-tui: Add AQMP TUI draft<br>
+=C2=A0 python: add optional pygments dependency<br>
+=C2=A0 python/aqmp-tui: add syntax highlighting<br>
+=C2=A0 python: add entry point for aqmp-tui<br>
+<br>
+=C2=A0python/Pipfile.lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 ++<b=
+r>
+=C2=A0python/qemu/aqmp/aqmp_tui.py | 342 ++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 36 +++-<br>
+=C2=A03 files changed, 397 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+</blockquote></div></div>
+
+--00000000000097847205c71a1012--
 
