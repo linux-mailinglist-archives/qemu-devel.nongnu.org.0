@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4C63C820F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 11:50:53 +0200 (CEST)
-Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFEF03C8218
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 11:52:33 +0200 (CEST)
+Received: from localhost ([::1]:40426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3bXW-0004bN-VO
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 05:50:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35368)
+	id 1m3bZA-0001zB-RD
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 05:52:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bKn-0003Q4-3b
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:37:41 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33409)
+ id 1m3bKo-0003SX-27
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:37:42 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bKl-0004q5-Ed
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:37:40 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d2so2460959wrn.0
+ id 1m3bKk-0004pQ-LA
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:37:41 -0400
+Received: by mail-wr1-x434.google.com with SMTP id d12so2338747wre.13
  for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=H5Kii2PogzarIn9PYUJZCxiGHhnTfz9RyRrmcIiHyXg=;
- b=tQSiQKIw8kikzzMlbqlW0ZY+33ln/u5USk4cqOYfYyNQpjKj7p1TSPwNUqOMKdelfF
- Jqyt2fdcIQYZaJ+ouhY8oQ6etcFdNFDbR6JjVlSkixW/9JPLVzqEW+S4M8hka4YJHt9e
- kXR4K8O0o1Vzu1psOsYxHPhI6AP4XC0yMUMqx476EnhYTnX8ibFFeQIx1D6n+9FwvGnR
- QlGhP+VQ9kUTXZhKHUgGkjFw3TLceR1f3gJOkqu9t9gY/nsuiqwYPEUKo2F5qF3GuT1l
- kcJnMdEJvtIbhBphtt+2exYzLsMUaY2aBOiW2HlUsx+x3A+270efIyk0kVKGVkX12OQ+
- QA8g==
+ bh=Dj4mMGcH2r0ZsEWBcoJNgJByYUBns+eSWULgbZIRVNI=;
+ b=BB2L8bJiwbZK3Tj83bQBAOhSoYMguSUGy9lPfTdzP/RKmI1K8E3W4I9EbvHBbY+MVj
+ Mv0NKpXzY3Nbn6tzsZvAnPnRS5vwoKJAsh5abT7DwLQWFktMEIXwrp1IDpOhCTGVf4vw
+ d4meX8eGMCXa3prJa5TZAt6krigeQohG+r/EbVmInIlvG1QEJTtzwRh1L1Ot4afHZ9T/
+ +gT9FKQ8ubfp96vwTX0zHv9yUAEcI2nXHXAC1Zu2C7BYtq2ekV3CDHOZOrjhQFyXiu+b
+ wFmj+7zZ3AQ91qvIrWek7Xp5GmAgOvUf8w+EcXZvA8hYAwmnyCL1PCloXp1m8GH3YFH3
+ EMwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H5Kii2PogzarIn9PYUJZCxiGHhnTfz9RyRrmcIiHyXg=;
- b=Uzznt3zJHTUo+lTba+sNSyzz5ddauSFiJNMeDjTSPWdr3ggL5owKADZTzaVla9//8C
- kQYWGlBYtapNHnwp9DTCxgJ9O91KZdYeePPpO0L0X+a4rOIqkiUtXUu6skdT0iBBGBTc
- k0NsNmlAtEVMWPkcSTi/GQGUwgc/WReo/VawGyq5u/XiV3SfDGNx1negI9QRibIcGJGz
- MUsZHAqF4BEYd5XHvI8pIg7GCkzuPHdC9RlHLZCsRHp4K4F2y5IktN2XF5GqMQ3gCe5X
- cnde99KmvqvUf/vZTphUxRF6YsW8wuvhlA700Nymx8euo5jSzAnl0nIG2+fYXCeAxyeR
- z13g==
-X-Gm-Message-State: AOAM532CTlGhOiQuH/L7znRmiKIWa/3zFxicKo0KkpAShSjGHovRRPN2
- 1hPwD0iMGUDo/4cieHtRaLDaaA==
-X-Google-Smtp-Source: ABdhPJxFBleCnXsDem+HpXJ8UUV5IHo8+5rvfQC0ccQq9RbCFQSN28vNNiV2LM/Qy+16+qmyCgLBFg==
-X-Received: by 2002:adf:82d2:: with SMTP id 76mr5290153wrc.5.1626255458122;
- Wed, 14 Jul 2021 02:37:38 -0700 (PDT)
+ bh=Dj4mMGcH2r0ZsEWBcoJNgJByYUBns+eSWULgbZIRVNI=;
+ b=t9h4BAPyu9KVTnbswuAaKFheZQFvX5L7pldpySnz05/AqFDXFUmYYLJTOu6nwQXoYM
+ HIFR2jBx7N0U4ZULRR6eI3pQzCzn+Kv53BJ9xoxG8uXI4lh80Nrde3wBzSyLJcUVdwz5
+ YsMSfzSXIQ8u5WHX1PHtk4OShUhL/a7e5xj68/zZUJtnwkeVKNaXcXAwsRgYhwqORYNb
+ mhygS+qZjVENdUIo8XSFZszm/2Fg/I1QmOA+kMAKhqlYxNdiBmr6oyfxK1D7NXp52jTX
+ eLj3HqmWPERtgNi+P+9V5lnsAykceynuJrKHTvivP33uYbnJBdsJ4Q0MX7GIKLVUxJLx
+ 9syA==
+X-Gm-Message-State: AOAM533OAdt77TqhiRudAxZkAr9IphyUUAl0PARkxLCv7GXfaXX0XFZr
+ bTD5pdN3L8gLdvTSiNrv7a4+jg==
+X-Google-Smtp-Source: ABdhPJx1gDem8kPwEkG1/P8zQC5HCj9K5KkwMySxn3v2Jxw+aQW2aSP0prfkyY2+7Q2nBp2W2mal/w==
+X-Received: by 2002:adf:f292:: with SMTP id k18mr11558369wro.265.1626255457420; 
+ Wed, 14 Jul 2021 02:37:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l15sm1952775wrv.87.2021.07.14.02.37.26
+ by smtp.gmail.com with ESMTPSA id n41sm4663105wms.26.2021.07.14.02.37.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 14 Jul 2021 02:37:35 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6C5391FFB4;
+ by zen.linaroharston (Postfix) with ESMTP id 83F1B1FFB5;
  Wed, 14 Jul 2021 10:37:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 19/21] contrib/gitdm: add an explicit academic entry for BU
-Date: Wed, 14 Jul 2021 10:37:17 +0100
-Message-Id: <20210714093719.21429-20-alex.bennee@linaro.org>
+Subject: [PATCH v1 20/21] contrib/gitdm: add a new interns group-map for
+ GSoC/Outreachy work
+Date: Wed, 14 Jul 2021 10:37:18 +0100
+Message-Id: <20210714093719.21429-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714093719.21429-1-alex.bennee@linaro.org>
 References: <20210714093719.21429-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,31 +87,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some reason Alexander's contributions were not getting grouped
-from the plain "edu" mapping.
+It makes sense to put our various interns in a group so we can see the
+overall impact of GSoC and Outreachy on the project.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Alexander Bulekov <alxndr@bu.edu>
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: César Belley <cesar.belley@lse.epita.fr>
 ---
- contrib/gitdm/group-map-academics | 3 +++
- 1 file changed, 3 insertions(+)
+ contrib/gitdm/group-map-interns | 13 +++++++++++++
+ gitdm.config                    |  3 ++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+ create mode 100644 contrib/gitdm/group-map-interns
 
-diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
-index bf3c894821..44745ca85b 100644
---- a/contrib/gitdm/group-map-academics
-+++ b/contrib/gitdm/group-map-academics
-@@ -16,3 +16,6 @@ cota@braap.org
- uni-paderborn.de
- edu
- edu.cn
+diff --git a/contrib/gitdm/group-map-interns b/contrib/gitdm/group-map-interns
+new file mode 100644
+index 0000000000..fe33a3231e
+--- /dev/null
++++ b/contrib/gitdm/group-map-interns
+@@ -0,0 +1,13 @@
++#
++# Group together everyone working as an intern via one of the various
++# outreach programs.
++#
 +
-+# Boston University
-+bu.edu
++# GSoC 2020 Virtual FIDO/U2F security key
++cesar.belley@lse.epita.fr
++
++# GSoC 2020 TCG performance
++ahmedkhaledkaraman@gmail.com
++
++# GSoC 2021 TCG plugins
++ma.mandourr@gmail.com
+diff --git a/gitdm.config b/gitdm.config
+index 47317bcee7..3ad781911f 100644
+--- a/gitdm.config
++++ b/gitdm.config
+@@ -42,9 +42,10 @@ GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
+ GroupMap contrib/gitdm/group-map-windriver Wind River
+ 
+ # Also group together our prolific individual contributors
+-# and those working under academic auspices
++# and those working under academic or intern auspices
+ GroupMap contrib/gitdm/group-map-individuals (None)
+ GroupMap contrib/gitdm/group-map-academics Academics (various)
++GroupMap contrib/gitdm/group-map-interns GSoC/Outreachy Interns
+ 
+ # Group together robots and other auto-reporters
+ GroupMap contrib/gitdm/group-map-robots Robots (various)
 -- 
 2.20.1
 
