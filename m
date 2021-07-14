@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AEC3C861F
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:27:20 +0200 (CEST)
-Received: from localhost ([::1]:52514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07E83C85E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:16:49 +0200 (CEST)
+Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3fr5-00068V-Dx
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:27:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38918)
+	id 1m3fgu-00063Q-LJ
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:16:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fdp-0001DW-V4
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:13:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m3fdm-00012J-Tx
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:13:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626272014;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wwTF4pLPQDzIxRPMede2nLTlrrmx85HvFIv+DrT1nCA=;
- b=T5SR/0kPPCs3UsuhUFUsZc19/s0RaRThWsgIF4z/WGnb3JSaTQswX0h0v8xpJMY4jcTc3Z
- Vko0ZOYcYbJ1P1Xrmqf1dMi1TZUu4gl6HTNkLO/iIl7MXe5aG2hrsW1aP0UG++jUDm5wQg
- +siNLmHZa+5hR3CTUccdCZb7teaji3o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-xwzUvY9NPf6FW8wcK-SX4A-1; Wed, 14 Jul 2021 10:13:32 -0400
-X-MC-Unique: xwzUvY9NPf6FW8wcK-SX4A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EEAC8CE4A8;
- Wed, 14 Jul 2021 14:12:49 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-160.ams2.redhat.com
- [10.36.114.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51A2E69CB4;
- Wed, 14 Jul 2021 14:12:46 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 26/26] qemu-options: rewrite help for -smp options
-Date: Wed, 14 Jul 2021 15:08:58 +0100
-Message-Id: <20210714140858.2247409-27-berrange@redhat.com>
-In-Reply-To: <20210714140858.2247409-1-berrange@redhat.com>
-References: <20210714140858.2247409-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
+ id 1m3faq-0003xG-St
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:10:35 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:33728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
+ id 1m3fan-0007Fv-Em
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:10:32 -0400
+Received: by mail-io1-xd30.google.com with SMTP id z11so2290075iow.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 07:10:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Tn+tD8MabUZu/dqKrPF3tR4Lh5o8PjL4ZFu3x4Dva5U=;
+ b=mZ00ax/AkCXP0Mdq4nB/x2QFmrKwqQ7Yvx/k/gAWj8NnzkwNFkRGLVyAEHAQxdNuWf
+ CunJC02EBU6GF0qzP7Ga9JiC8qYWh5trpv8Yv1qdpcUwue+2KAGuCrq+wop5Al/xxGfg
+ L1espi8QVkgoB9udyrK5A4F3kKC9qkLkHHBKZKxcaTm/KfJdhxPtM/vs2CfTqdZ5z6mT
+ 81xj1X2ncOQtpG+2oc/3OSJHYyl+LQ4M0C5g6FaCjlLN4c7GPj4V6AQr3Cs452sHGIgw
+ Pw9AKE4Vb6eSTfRbSeq08Ss/PZ4PZ9bro1XC4+5JC9FzV9nL6DoPyjRiyw7i2LxIora7
+ hwcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Tn+tD8MabUZu/dqKrPF3tR4Lh5o8PjL4ZFu3x4Dva5U=;
+ b=e1TpY+wfOeZN1z1/Nq09W4HxZNb6ZtYkxbmOqqK25gpiKhApYT9NawOQMhh3IHmReX
+ FM+Bo/E9jVytyaqEHdZIkLCTEP7zIrJLjwiMOUtSh1/E1sgiEgdX4HZRAafsmrk/ZlKa
+ rfHVHEipchyenpq9kwtd5zpm1vTUYVsSzbD7WS/z0lvaW4NFngfwMKtg6Fyj89SO4P84
+ n20meQ00QTilMwntDtVbipwQT6mH5dWR206uj79zGuNU3XSfZtEKXZoeGVW1GvKz8xoi
+ WPLSSX9XihGvExhR5hKlomcKV289v4FI9bVbHvlfIQB+QSOmNbAr70o6aIL5Su0w/T5N
+ 4KhQ==
+X-Gm-Message-State: AOAM533/1DjH9zp6nguyfp3TRvOAuT6BS1dxoEhNjEG8qQTUtb2vDtLO
+ jEbFRkdh5IMuFOJ1o5wWuQ1EJHW3Oe1lWvv7N1I=
+X-Google-Smtp-Source: ABdhPJw0ZP6tVnkSY4usp69ST1eruiViNrhwVcz4Fw8lY521lL5jd0WbwznliA1dqkesk3VlVbyjQTttGu17lfQz5gc=
+X-Received: by 2002:a02:93a3:: with SMTP id z32mr9164760jah.33.1626271823359; 
+ Wed, 14 Jul 2021 07:10:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210714093719.21429-1-alex.bennee@linaro.org>
+ <20210714100628.10460-1-alex.bennee@linaro.org>
+ <CAMVc7JWdA56X4ggKhZ7AdM0i5+0Xp4pbdvynswgJv+-anhDk5Q@mail.gmail.com>
+In-Reply-To: <CAMVc7JWdA56X4ggKhZ7AdM0i5+0Xp4pbdvynswgJv+-anhDk5Q@mail.gmail.com>
+From: Chetan <chetan4windows@gmail.com>
+Date: Wed, 14 Jul 2021 19:40:11 +0530
+Message-ID: <CAPPKfOF6bssuvTM_nKDjx5sXt2_Q4uEUfhGjz2=eBG748j4QQg@mail.gmail.com>
+Subject: Re: [PATCH v1 21/21] contrib/gitdm: add more individual contributor
+ entries.
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000056f31a05c715eaf4"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=chetan4windows@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,79 +79,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
- Gerd Hoffmann <kraxel@redhat.com>, Pankaj Gupta <pankaj.gupta@ionos.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Li Qiang <liq3ea@163.com>, Li Qiang <liq3ea@gmail.com>,
+ qemu Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -smp option help is peculiarly specific about mentioning the CPU
-upper limits, but these are wrong. The "PC" target has varying max
-CPU counts depending on the machine type picked. Notes about guest
-OS limits are inappropriate for QEMU docs. There are way too many
-machine types for it to be practical to mention actual limits, and
-some limits are even modified by downstream distribtions. Thus it
-is better to remove the specific limits entirely.
+--00000000000056f31a05c715eaf4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The CPU topology reporting is also not neccessarily specific to the
-PC platform and descriptions around the rules of usage are somewhat
-terse. Expand this information with some examples to show effects
-of defaulting.
+Hello,
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- qemu-options.hx | 29 +++++++++++++++++++++--------
- 1 file changed, 21 insertions(+), 8 deletions(-)
+I'm also an individual contributor. <chetan4windows@gmail.com>
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 14ff35dd4e..214c477dcc 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -207,14 +207,27 @@ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
-         QEMU_ARCH_ALL)
- SRST
- ``-smp [[cpus=]n][,maxcpus=maxcpus][,sockets=sockets][,dies=dies][,cores=cores][,threads=threads]``
--    Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
--    are supported. On Sparc32 target, Linux limits the number of usable
--    CPUs to 4. For the PC target, the number of cores per die, the
--    number of threads per cores, the number of dies per packages and the
--    total number of sockets can be specified. Missing values will be
--    computed. If any on the three values is given, the total number of
--    CPUs n can be omitted. maxcpus specifies the maximum number of
--    hotpluggable CPUs.
-+    Simulate a SMP system with '\ ``n``\ ' CPUs initially present on
-+    the machine type board. On boards supporting CPU hotplug, the optional
-+    '\ ``maxcpus``\ ' parameter can be set to enable further CPUs to be
-+    added at runtime. If omitted the maximum number of CPUs will be
-+    set to match the initial CPU count. Both parameters are subject to
-+    an upper limit that is determined by the specific machine type chosen.
-+
-+    To control reporting of CPU topology information, the number of sockets,
-+    dies per socket, cores per die, and threads per core can be specified.
-+    The sum `` sockets * cores * dies * threads `` must be equal to the
-+    maximum CPU count. CPU targets may only support a subset of the topology
-+    parameters. Where a CPU target does not support use of a particular
-+    topology parameter, its value should be assumed to be 1 for the purpose
-+    of computing the CPU maximum count.
-+
-+    Either the initial CPU count, or at least one of the topology parameters
-+    must be specified. Values for any omitted parameters will be computed
-+    from those which are given. Historically preference was given to the
-+    coarsest topology parameters when computing missing values (ie sockets
-+    preferred over cores, which were preferred over threads), however, this
-+    behaviour is considered liable to change.
- ERST
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
--- 
-2.31.1
+Regards,
+cp
 
+On Wed, Jul 14, 2021 at 5:05 PM Akihiko Odaki <akihiko.odaki@gmail.com>
+wrote:
+
+> I am Akihiko Odaki <akihiko.odaki@gmail.com> and an individual developer.
+>
+> Regards,
+> Akihiko Odaki
+>
+> On Wed, Jul 14, 2021 at 7:06 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> wrote:
+> >
+> > Again this is guess work based on public websites.
+> >
+> >  - Chetan lists himself as a freelancer on twitter.
+> >  - Akihiko lists themselves as an individual developer on GitHub
+> >  - Jiaxun's website looks like a personal one
+> >
+> > [AJB: Won't merge without confirmation from appropriate people.]
+> >
+> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > Cc: "K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com>
+> > Cc: Li Qiang <liq3ea@gmail.com>
+> > Cc: Li Qiang <liq3ea@163.com>
+> > Cc: Chetan Pant <chetan4windows@gmail.com>
+> > Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
+> > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> > ---
+> >  contrib/gitdm/group-map-individuals | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/contrib/gitdm/group-map-individuals
+> b/contrib/gitdm/group-map-individuals
+> > index 36bbb77c39..853fb98bc3 100644
+> > --- a/contrib/gitdm/group-map-individuals
+> > +++ b/contrib/gitdm/group-map-individuals
+> > @@ -29,3 +29,9 @@ mrolnik@gmail.com
+> >  huth@tuxfamily.org
+> >  jhogan@kernel.org
+> >  atar4qemu@gmail.com
+> > +dirty.ice.hu@gmail.com
+> > +liq3ea@163.com
+> > +liq3ea@gmail.com
+> > +chetan4windows@gmail.com
+> > +akihiko.odaki@gmail.com
+> > +jiaxun.yang@flygoat.com
+> > --
+> > 2.20.1
+> >
+>
+
+--00000000000056f31a05c715eaf4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>I&#39;m also an indiv=
+idual contributor.=20
+&lt;<a href=3D"mailto:chetan4windows@gmail.com" target=3D"_blank">chetan4wi=
+ndows@gmail.com</a>&gt;</div><div><br></div><div>Regards,</div><div>cp<br><=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Wed, Jul 14, 2021 at 5:05 PM Akihiko Odaki &lt;<a href=3D"mailto:ak=
+ihiko.odaki@gmail.com">akihiko.odaki@gmail.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">I am Akihiko Odaki &lt;<a hre=
+f=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.=
+com</a>&gt; and an individual developer.<br>
+<br>
+Regards,<br>
+Akihiko Odaki<br>
+<br>
+On Wed, Jul 14, 2021 at 7:06 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex=
+.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wrote:=
+<br>
+&gt;<br>
+&gt; Again this is guess work based on public websites.<br>
+&gt;<br>
+&gt;=C2=A0 - Chetan lists himself as a freelancer on twitter.<br>
+&gt;=C2=A0 - Akihiko lists themselves as an individual developer on GitHub<=
+br>
+&gt;=C2=A0 - Jiaxun&#39;s website looks like a personal one<br>
+&gt;<br>
+&gt; [AJB: Won&#39;t merge without confirmation from appropriate people.]<b=
+r>
+&gt;<br>
+&gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@lina=
+ro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+&gt; Cc: &quot;K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n&quot; &lt;<a href=3D"mail=
+to:dirty.ice.hu@gmail.com" target=3D"_blank">dirty.ice.hu@gmail.com</a>&gt;=
+<br>
+&gt; Cc: Li Qiang &lt;<a href=3D"mailto:liq3ea@gmail.com" target=3D"_blank"=
+>liq3ea@gmail.com</a>&gt;<br>
+&gt; Cc: Li Qiang &lt;<a href=3D"mailto:liq3ea@163.com" target=3D"_blank">l=
+iq3ea@163.com</a>&gt;<br>
+&gt; Cc: Chetan Pant &lt;<a href=3D"mailto:chetan4windows@gmail.com" target=
+=3D"_blank">chetan4windows@gmail.com</a>&gt;<br>
+&gt; Cc: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" targe=
+t=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br>
+&gt; Cc: Jiaxun Yang &lt;<a href=3D"mailto:jiaxun.yang@flygoat.com" target=
+=3D"_blank">jiaxun.yang@flygoat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 contrib/gitdm/group-map-individuals | 6 ++++++<br>
+&gt;=C2=A0 1 file changed, 6 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group=
+-map-individuals<br>
+&gt; index 36bbb77c39..853fb98bc3 100644<br>
+&gt; --- a/contrib/gitdm/group-map-individuals<br>
+&gt; +++ b/contrib/gitdm/group-map-individuals<br>
+&gt; @@ -29,3 +29,9 @@ <a href=3D"mailto:mrolnik@gmail.com" target=3D"_blan=
+k">mrolnik@gmail.com</a><br>
+&gt;=C2=A0 <a href=3D"mailto:huth@tuxfamily.org" target=3D"_blank">huth@tux=
+family.org</a><br>
+&gt;=C2=A0 <a href=3D"mailto:jhogan@kernel.org" target=3D"_blank">jhogan@ke=
+rnel.org</a><br>
+&gt;=C2=A0 <a href=3D"mailto:atar4qemu@gmail.com" target=3D"_blank">atar4qe=
+mu@gmail.com</a><br>
+&gt; +<a href=3D"mailto:dirty.ice.hu@gmail.com" target=3D"_blank">dirty.ice=
+.hu@gmail.com</a><br>
+&gt; +<a href=3D"mailto:liq3ea@163.com" target=3D"_blank">liq3ea@163.com</a=
+><br>
+&gt; +<a href=3D"mailto:liq3ea@gmail.com" target=3D"_blank">liq3ea@gmail.co=
+m</a><br>
+&gt; +<a href=3D"mailto:chetan4windows@gmail.com" target=3D"_blank">chetan4=
+windows@gmail.com</a><br>
+&gt; +<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko.=
+odaki@gmail.com</a><br>
+&gt; +<a href=3D"mailto:jiaxun.yang@flygoat.com" target=3D"_blank">jiaxun.y=
+ang@flygoat.com</a><br>
+&gt; --<br>
+&gt; 2.20.1<br>
+&gt;<br>
+</blockquote></div>
+
+--00000000000056f31a05c715eaf4--
 
