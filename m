@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730E83C7C7C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 05:13:07 +0200 (CEST)
-Received: from localhost ([::1]:33158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBCAD3C7D12
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 05:43:58 +0200 (CEST)
+Received: from localhost ([::1]:42328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3VKc-0005UP-HF
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 23:13:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50890)
+	id 1m3VoT-0005V6-5F
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 23:43:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m3VJO-0004Ph-PE
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 23:11:51 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:37657)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m3Vn3-0004iV-CE
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 23:42:29 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:34543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1m3VJN-00066L-DA
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 23:11:50 -0400
-Received: by mail-il1-x12b.google.com with SMTP id o8so154021ilf.4
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 20:11:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m3Vn1-0006oX-3u
+ for qemu-devel@nongnu.org; Tue, 13 Jul 2021 23:42:29 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id y38so933704ybi.1
+ for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 20:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=U5KBKzaYhRSjJK7zz5tP4D4Fkk6CbHknsAZWpwKg0hs=;
- b=oGNkVgbqn5FjSq+6YGTfXGXNnpd+nefonk8fHvonueXChj1t6P0aYqQQ6Ukhr6CZwW
- yEyPTXaKtp3CATw9b3saW7R5Bn9jYtd5lcVEeMLkXTCnp8mFtxFSfukdBB34EnkqPyZB
- afQ68UpRUwTQvM6+2Yw7lERi3FRYZBeNWpSiBoaQgnidXENI9WGT8QwMD3XhvAWuucdj
- ejMr4pi/q5WxRLqmwg1rBbi9weEL46kLjWoTBbfzD5Q17/29n9Jd6uGyjzRGXUcRlre4
- trw11tA+O0wufwWggB97J7m3CgaZGn1+HMGHYhfE9hiaGpgdFfbs3Q8JWY9yuzxFgOam
- phEA==
+ bh=hMuHXz7IVIOVRpt7ovcBAl+yqYdfciEMKCrsGAeT0GI=;
+ b=NC++M0tDnMocM8Z//05OibY5X5ibSSQ2iEQVNk3y5+ShdzMGTE9ZQRewoDar9oLAAU
+ snJpo8ngOvs08L7Xq51mmPGgj23ARnhD+Qcu0FOHiYHA5TRwCGZpuf1+3bd/OonRYVhM
+ qRWzDDcuxWg/I1Ev+gDLjnWyvWllxYQgMioComUPIO3WlDSx1y79oNTPf3vT+ucQoXlR
+ Au/sSmuWrzGjgoBp6GdwiFtPlgNr5QRbEeU007ZRL1J/u9vUdO/DxIn7HJavAF8QRPtL
+ ot/r6oBh6ZNkiEcbEaqz07fDPzgb7VXvBWmq7ub3KKq5j5YvP1hSNqxVu0+S7wWBihly
+ ejyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=U5KBKzaYhRSjJK7zz5tP4D4Fkk6CbHknsAZWpwKg0hs=;
- b=DgT9cgVQyjx0eWEIiWneBv/ObpE1dl1tyMf80YSRg1ymHvp/ey35LEz8DQWm4EoVIX
- AUCKTiSxy7EpFvQa6mKdn56eqNf18vEN8gmt/ck3T/2lY4Ek4YQUCBN5tMPLrz7IIrU8
- +xY9tEkcprklY+a3SI9cymHbzYF0d8RRVaiBltZEe2W/Tsp5XFZ3YPU41J02NCg5dqN0
- BVqWZKgz7inrXMzjG1UPErYJDAkrcAuh6ONkO4zR2J/B465FiE/MkkOiU7GnzsFNCPSs
- I2JZcZzUb9E6tUFgQH+mjgn3Q0k/murJzYNTwufKZNkCo4yTEEbqcMCehvJj9H1eI4p9
- AAiQ==
-X-Gm-Message-State: AOAM533PxMC1aYc8cDxrJFY7um0I91eiS9MWKsDkmFwZ8mkSpkv1PLzX
- +T/XcfNXz15NIWjQZhzGKiK2PylvS2JRkC5XOUE=
-X-Google-Smtp-Source: ABdhPJw29/XMb6rQmB1KfBOXUyq9+LTtnuR6gFZbNuAhyiEz3gOFF515XfyBm4tucEq5CQUuW/hy48fxQInlzw7VOJc=
-X-Received: by 2002:a05:6e02:1529:: with SMTP id
- i9mr5068969ilu.163.1626232307780; 
- Tue, 13 Jul 2021 20:11:47 -0700 (PDT)
+ bh=hMuHXz7IVIOVRpt7ovcBAl+yqYdfciEMKCrsGAeT0GI=;
+ b=BdTzCIl29M3q9hU1SygUFvIiwVNKE1VUbGtJvVS3Ubs0UiIkbn7mc/TTneH94FwxaI
+ DsxiutwKhR+Mv2SpbFCa0nhY9pkRs1VqzUFlN8zP/7ODuwEU++zAYKGEGFDm59uBgVxw
+ MMivha4SBXUOIzSDMa8wONbXZaDrFWrqzfZiHikCnjdmabFwd+qzIoAkKOiXrCQY0NuP
+ fBUVA2j2EFkVCcrE3AKQX0fEfLvVT+D8DgW+fOsL4olG7I6MktmMcMxignXLy+D6E7VF
+ +rdiRtghFJW27tbRPfLD6AdKbZmOtap7tEfinV2fb6GMAVk0oF0IB0q6NaLmZWogFI6o
+ nwWQ==
+X-Gm-Message-State: AOAM531axTjyQY3qXxwkKcd3XjDGRQBQ70XJfUWCCPm9PFSUJoyNjMUI
+ SzaNeC4VZqPUFCI9RMGBiLkn8azHwav/hf1Tj0Y=
+X-Google-Smtp-Source: ABdhPJwQ+DAUoJB0V8jSwVSjguHJ5dR4+crSAPct3V2Pf4x7TJkJWPN9sJs5zxgLzBiO40h5ZcmhJSpjXcSb6xaabkA=
+X-Received: by 2002:a25:dcd:: with SMTP id 196mr10600128ybn.306.1626234146009; 
+ Tue, 13 Jul 2021 20:42:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210713163051.2133045-1-berrange@redhat.com>
- <20210713163051.2133045-4-berrange@redhat.com>
-In-Reply-To: <20210713163051.2133045-4-berrange@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 14 Jul 2021 05:11:37 +0200
-Message-ID: <CAM9Jb+ihXZyb2WDcapE0Aea45z8X=isq+P53_rkdvKp68K1ZPA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] qemu-options: tweak to show that CPU count is
- optional
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
+ <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
+ <CAEUhbmWqU=sM6s1ogQB6vQmBSf6KrobW9xUcWCbt2aaO3OtuOg@mail.gmail.com>
+ <CAEUhbmWZ3D50J08T5bCFAu_hStQ7n=T8O48OVaTAbrdLh48FbQ@mail.gmail.com>
+ <63ff5849-d830-87cc-486c-7fc292220424@redhat.com>
+ <CAEUhbmV5CaXr9-7W4v5hyTqvJoi1xtg0pxBiY9O6QkOjPWRJcQ@mail.gmail.com>
+ <891042a0-10d5-c1df-ae85-7950ae387a41@redhat.com>
+ <CAEUhbmW__q9mqDK2_XpTqB2Nmdu0_Mj4UrypOi3TugOuGud11A@mail.gmail.com>
+ <62d56b3b-ef11-2384-d3cd-0d34046400ee@redhat.com>
+In-Reply-To: <62d56b3b-ef11-2384-d3cd-0d34046400ee@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 14 Jul 2021 11:42:14 +0800
+Message-ID: <CAEUhbmVtydsZBwnt+QVnZp9uwvKNru2CZ_trq07eJ5mT=UcqUA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] hw/net: e1000: Correct the initial value of VET
+ register
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x12b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,51 +87,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Qemu Developers <qemu-devel@nongnu.org>, Yanan Wang <wangyanan55@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Markus Carlstedt <markus.carlstedt@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Christina Wang <christina.wang@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> The initial CPU count number is not required, if any of the topology
-> options are given, since it can be computed.
+On Wed, Jul 14, 2021 at 11:10 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> ---
->  qemu-options.hx | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 6b72617844..14ff35dd4e 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -196,7 +196,7 @@ SRST
->  ERST
+> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=885:11, Bin Meng =E5=86=99=E9=81=93:
+> > On Tue, Jul 13, 2021 at 5:02 PM Jason Wang <jasowang@redhat.com> wrote:
+> >>
+> >> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=884:36, Bin Meng =E5=86=99=E9=81=
+=93:
+> >>> On Tue, Jul 13, 2021 at 3:03 PM Jason Wang <jasowang@redhat.com> wrot=
+e:
+> >>>> =E5=9C=A8 2021/7/13 =E4=B8=8A=E5=8D=887:06, Bin Meng =E5=86=99=E9=81=
+=93:
+> >>>>> On Mon, Jul 5, 2021 at 1:57 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >>>>>> On Mon, Jul 5, 2021 at 12:21 PM Jason Wang <jasowang@redhat.com> w=
+rote:
+> >>>>>>> =E5=9C=A8 2021/7/2 =E4=B8=8B=E5=8D=885:24, Bin Meng =E5=86=99=E9=
+=81=93:
+> >>>>>>>> From: Christina Wang <christina.wang@windriver.com>
+> >>>>>>>>
+> >>>>>>>> The initial value of VLAN Ether Type (VET) register is 0x8100, a=
+s per
+> >>>>>>>> the manual and real hardware.
+> >>>>>>>>
+> >>>>>>>> While Linux e1000 driver always writes VET register to 0x8100, i=
+t is
+> >>>>>>>> not always the case for everyone. Drivers relying on the reset v=
+alue
+> >>>>>>>> of VET won't be able to transmit and receive VLAN frames in QEMU=
+.
+> >>>>>>>>
+> >>>>>>>> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
+> >>>>>>>> Signed-off-by: Christina Wang <christina.wang@windriver.com>
+> >>>>>>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >>>>>>>> ---
+> >>>>>>>>
+> >>>>>>>> (no changes since v1)
+> >>>>>>>>
+> >>>>>>>>      hw/net/e1000.c | 2 ++
+> >>>>>>>>      1 file changed, 2 insertions(+)
+> >>>>>>>>
+> >>>>>>>> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+> >>>>>>>> index 4f75b44cfc..20cbba6411 100644
+> >>>>>>>> --- a/hw/net/e1000.c
+> >>>>>>>> +++ b/hw/net/e1000.c
+> >>>>>>>> @@ -29,6 +29,7 @@
+> >>>>>>>>      #include "hw/pci/pci.h"
+> >>>>>>>>      #include "hw/qdev-properties.h"
+> >>>>>>>>      #include "migration/vmstate.h"
+> >>>>>>>> +#include "net/eth.h"
+> >>>>>>>>      #include "net/net.h"
+> >>>>>>>>      #include "net/checksum.h"
+> >>>>>>>>      #include "sysemu/sysemu.h"
+> >>>>>>>> @@ -254,6 +255,7 @@ static const uint32_t mac_reg_init[] =3D {
+> >>>>>>>>          [MANC]    =3D E1000_MANC_EN_MNG2HOST | E1000_MANC_RCV_T=
+CO_EN |
+> >>>>>>>>                      E1000_MANC_ARP_EN | E1000_MANC_0298_EN |
+> >>>>>>>>                      E1000_MANC_RMCP_EN,
+> >>>>>>>> +    [VET]     =3D ETH_P_VLAN,
+> >>>>>>> I wonder if we need a compat flag for this, since we change the b=
+ehavior.
+> >>>>>>>
+> >>>>>>> (See e1000_properties[])
+> >>>>>>>
+> >>>>>> No we don't need to since it does not break migration.
+> >>>>> Ping?
+> >>>> I admit migration "works" but it doesn't mean it's not broken. It
+> >>>> changes the guest visible default value of VET register, so it may b=
+reak
+> >>>> things silently for the guest.
+> >>>>
+> >>>> For old machine types, we should stick the value to the one without =
+this
+> >>>> fix.
+> >>> Could you please propose a solution on how to handle such a scenario
+> >>> in a generic way in QEMU? (+Peter)
+> >>
+> >> Well, I think I've suggested you to have a look at how things is done =
+in
+> >> for handling such compatibility in e1000_properties.
+> >>
+> >>
+> >>> The POR reset value is wrong in QEMU and has carried forward the wron=
+g
+> >>> value for years, and correcting it to its right value needs to do
+> >>> what?
+> >>
+> >> We should stick to the wrong behavior for old machine types.
+> >>
+> >> That's all.
+> > So that means the following SD patch is also wrong (+Philippe) which
+> > changes the default value of capability register.
+> > http://patchwork.ozlabs.org/project/qemu-devel/patch/20210623185921.241=
+13-1-joannekoong@gmail.com/
 >
->  DEF("smp", HAS_ARG, QEMU_OPTION_smp,
-> -    "-smp [cpus=3D]n[,maxcpus=3Dcpus][,sockets=3Dsockets][,dies=3Ddies][=
-,cores=3Dcores][,threads=3Dthreads]\n"
-> +    "-smp [[cpus=3D]n][,maxcpus=3Dcpus][,sockets=3Dsockets][,dies=3Ddies=
-][,cores=3Dcores][,threads=3Dthreads]\n"
->      "                set the number of CPUs to 'n' [default=3D1]\n"
->      "                maxcpus=3D maximum number of total CPUs, including\=
-n"
->      "                offline CPUs for hotplug, etc\n"
-> @@ -206,7 +206,7 @@ DEF("smp", HAS_ARG, QEMU_OPTION_smp,
->      "                threads=3D number of threads on one CPU core\n",
->          QEMU_ARCH_ALL)
->  SRST
-> -``-smp [cpus=3D]n[,maxcpus=3Dmaxcpus][,sockets=3Dsockets][,dies=3Ddies][=
-,cores=3Dcores][,threads=3Dthreads]``
-> +``-smp [[cpus=3D]n][,maxcpus=3Dmaxcpus][,sockets=3Dsockets][,dies=3Ddies=
-][,cores=3Dcores][,threads=3Dthreads]``
->      Simulate an SMP system with n CPUs. On the PC target, up to 255 CPUs
->      are supported. On Sparc32 target, Linux limits the number of usable
->      CPUs to 4. For the PC target, the number of cores per die, the
-> --
+>
+> It should compat capareg for the old value for old machine types.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Yeah, it's already a property for the SD controller model but someone
+views it as a bug because the model implements 64-bit but not
+reporting it in the capability register.
+
+>
+>
+> >
+> > Can we get some agreement among maintainers?
+>
+>
+> It's not about the agreement but about to have a stable ABI. I don't
+> know the case for sd but e1000 is used in various  and we work hard to
+> unbreak the migration compatibility among downstream versions. Git log
+> on e1000.c will tell you more.
+
+Agreement or stable ABI, whatever we call, but we should be in some consist=
+ency.
+
+IMHO maintainers should reach an agreement to some extent on how
+compatibility should be achieved. I just found silly to add a property
+to fix a real bug in the model, and we preserve the bug all over
+releases.
+
+I can find plenty of examples in the current QEMU tree that were
+accepted that changed the bugous register behavior, but it was not
+asked to add new properties to keep the bugos behavior.
+
+e.g.: commit ce8e43760e8e ("hw/net: fsl_etsec: Reverse the RCTRL.RSF logic"=
+)
+
+Regards,
+Bin
 
