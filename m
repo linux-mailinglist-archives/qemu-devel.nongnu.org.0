@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41BB3C89B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:24:07 +0200 (CEST)
-Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272343C89C6
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 19:27:30 +0200 (CEST)
+Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3icA-0007WM-8V
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:24:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51378)
+	id 1m3ifR-00024R-0V
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 13:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m3iaq-0006pP-DZ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:22:44 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34696)
+ id 1m3idU-0008NB-DE
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:28 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m3ian-0003jx-Mi
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:22:44 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id u1so4215675wrs.1
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:22:40 -0700 (PDT)
+ id 1m3idP-0005dR-Hk
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 13:25:28 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ f8-20020a1c1f080000b029022d4c6cfc37so3081278wmf.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 10:25:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0rYHqZJbOr1f1bDr66lCrJu94JynbPXY9c/MqyNnUNE=;
- b=i5+Pre55ULZTKGum8lVm3HU2UmcTU1rAefh7pTHzsqkz0rGIwY7qkrqu8OSLAt1PZj
- HdYHPysuGIL8903UyfOn8QQ5okAeVydscUDAxfUlTjCOejq6mbiQkTf6npejP/Lqy3Dv
- Z55VqBtpnKPR/56uPRnkd8LH1aG2K+zDmlxJ0ST+pO/IFEJoAJ9ST7Bbvf+utLBet5jc
- qK1QnaS4YDliDFAAVz07i/tZO+6E0amSgU6EcIKdL8XC6XC/ty5cXzVo9l3a4iWzC4wf
- wxI5z/VLtI7VH4xKhgDF4YKtDTaDYjrL70/k9C4ZWivbo6Cm3XXkpZH7GNpf/s49vrXQ
- 3jZQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WnusAEAyfZfbEUVNFaz2SidIzioGK97iFgSAymrfuw8=;
+ b=h79E14m8AkzaudlYkN/EqOip6NbTl7HX4Yl0rCHXLGTrQDJYDuPyQ55dExS5IhrRyj
+ Smern6yuZFdLdQQnEtOiFJQ8LRxToeCEtlSeJFus0Na+ugATlBZnJ0+7tt3ycERCgmgW
+ SUodca4Q50z4Q06pujL0EY+k2HXEx2dOE1YtsdoV9nS08A3weKWh/z7jiYnA4uHxnYeL
+ Q6IHXJzsdA7xX1099IjAY1Ue40T/pT5+bBQIWa8VCAu2TAOAn2/xtXgFzC88/yPZi0ll
+ rWa6UYBi+mx8ZOdnW55BgPbGe9RfFT7RdyMI7Iw9t9fr92siFn6fD9RPwND0R44Rs9nL
+ 5Sdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0rYHqZJbOr1f1bDr66lCrJu94JynbPXY9c/MqyNnUNE=;
- b=C/XJqihWZyAbbH70e3YFpoasZdHgBFOeFdll/l/g0N+yr0N5myGPS0wTv48tnDX+we
- PEnxMp479oqOMI74DG140xzS5pjNPMJj1bgv9qyq4LN4N9WCtck7t3ugG/A9mXJgfSwF
- lxo6Za+rLw4MbXhDYUuhy1y62pa1RDEOfMdB/RYuHCnos/TOdapnPAy+Pu3FJAQAfY5Y
- QnfmcFF/kAj8GU6fbY8yjZQDYkMOq7vytjOq2sN/vOAbvGlk8hJAD7zWsRpclj864kAz
- JIQkVaYrYwrUvAUG+UOv6eiwJpMBLkd9arkwfV9PNYU15MrdVkq8QyAa+URPhVQCbGVv
- 2OjQ==
-X-Gm-Message-State: AOAM533tz3bLTmTkqIEMl/YSHe9Io9O8KtWGF8VTZdYqMkI6PulWhjpM
- EcjrPT8KwqByE2BoxiaguHooJg4Rn+phwA==
-X-Google-Smtp-Source: ABdhPJyGJN9WkxB20K7+OvwlMslDKrxJoWghY52ARPyWMlc3oLfVxDwg9djC40dHOyXWBwAvjxwwEg==
-X-Received: by 2002:adf:dc85:: with SMTP id r5mr14499818wrj.218.1626283358700; 
- Wed, 14 Jul 2021 10:22:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WnusAEAyfZfbEUVNFaz2SidIzioGK97iFgSAymrfuw8=;
+ b=ntBuTWDMD0GH55FaSP248FqALPXsnp9AU4mGBsNTXkHKNkygVLWXaSuhbRs8Jnjh5m
+ 9LWzv5PB25nn5dH48vAgZuUWSk71tcfvcSbbgyAfkNB25WN2M6xiQlNxX8LgfQWRMT4d
+ qrWqJ7DKigjcqJcmPzkAtHEMSN6t4YvLs1Zy3ltSIa7us4XY2qmJsgoC5cn+FTpxQBXT
+ HYp1iCfh/fLFDzJ0mtrUMrquMtaiAi/vGHulYzAukprRo+0mrmta3wjQwFwLSP8tThhl
+ S2AtFTC2mVq4uDQFc3UMt6e5zXjhXg6AbS00/sKoxx4WPUHSmHvLQy7jKRqczESqRe24
+ KbDA==
+X-Gm-Message-State: AOAM533VvHtX5CdpQBhV6W+xM8mD4LwzwpzwO1SDwxl9x6jCWAEXvJcO
+ N/RuNgOa5el1OsuGKUBvGaUm4GssxIeopg==
+X-Google-Smtp-Source: ABdhPJwEH3ZNE/vfGsYoYvM6/UHV2/3YA2WbyGn8cnnxUgenipXBKkdv+WUK1omVknbtYRN8kQMHdQ==
+X-Received: by 2002:a1c:1d8e:: with SMTP id d136mr12427234wmd.52.1626283521800; 
+ Wed, 14 Jul 2021 10:25:21 -0700 (PDT)
 Received: from localhost.localdomain ([102.41.175.227])
- by smtp.gmail.com with ESMTPSA id l18sm6434393wme.29.2021.07.14.10.22.37
+ by smtp.gmail.com with ESMTPSA id l18sm6434393wme.29.2021.07.14.10.25.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 10:22:38 -0700 (PDT)
+ Wed, 14 Jul 2021 10:25:21 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] plugins/cache: multicore cache emulation and minor
-Date: Wed, 14 Jul 2021 19:21:45 +0200
-Message-Id: <20210714172151.8494-1-ma.mandourr@gmail.com>
+Subject: [PATCH 1/6] plugins/cache: Fixed a bug with destroying FIFO metadata
+Date: Wed, 14 Jul 2021 19:21:47 +0200
+Message-Id: <20210714172151.8494-2-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210714172151.8494-1-ma.mandourr@gmail.com>
+References: <20210714172151.8494-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,43 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+This manifests itself when associativity degree is greater than the
+number of sets and FIFO is used, otherwise it's also a memory leak
+whenever FIFO was used.
 
-This series introduce some minor improvements/bug fixes in the cache
-plugins and multicore cache modelling.
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+ contrib/plugins/cache.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-One prominent bug is the use-after-free bug induced by linux-user
-multithreaded programs. Since plugin_exit is not guaranteed to be called
-after all callbacks, it may free data that subsequent callbacks may try
-to use.
-
-Trying to uninstall the plugin after exiting does not solve the problem
-since it will unregister the callbacks but it won't prevent the
-already-fired callback instances from continuing.
-
-To mitigate this issue, the data is NULLified on exitting so that
-callbacks can check whether plugin_exit has been called already or not.
-
-Also, raising the levels of warnings (by the time this is sent, it's not
-yet upstreamed but it's in the process of getting merged) induced some
-warnings, this is fixed in its own patch.
-
-Mahmoud Mandour (6):
-  plugins/cache: Fixed a bug with destroying FIFO metadata
-  plugins/cache: limited the scope of a mutex lock
-  plugins/cache: Fixed a use-after-free bug with multithreaded usermode
-  plugins/cache: Supported multicore cache modelling
-  docs/devel/tcg-plugins: added cores arg to cache plugin
-  plugins/cache: Fixed "function decl. is not a prototype" warnings
-
- contrib/plugins/cache.c    | 188 +++++++++++++++++++++++++++++--------
- docs/devel/tcg-plugins.rst |  13 ++-
- 2 files changed, 155 insertions(+), 46 deletions(-)
-
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+index bf0d2f6097..4a71602639 100644
+--- a/contrib/plugins/cache.c
++++ b/contrib/plugins/cache.c
+@@ -200,7 +200,7 @@ static void fifo_destroy(Cache *cache)
+ {
+     int i;
+ 
+-    for (i = 0; i < cache->assoc; i++) {
++    for (i = 0; i < cache->num_sets; i++) {
+         g_queue_free(cache->sets[i].fifo_queue);
+     }
+ }
 -- 
 2.25.1
 
