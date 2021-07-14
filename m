@@ -2,70 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07E83C85E6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:16:49 +0200 (CEST)
-Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B12B3C8631
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:31:35 +0200 (CEST)
+Received: from localhost ([::1]:35150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3fgu-00063Q-LJ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:16:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38014)
+	id 1m3fvC-0004sc-HK
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:31:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1m3faq-0003xG-St
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:10:35 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:33728)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1m3fan-0007Fv-Em
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:10:32 -0400
-Received: by mail-io1-xd30.google.com with SMTP id z11so2290075iow.0
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 07:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tn+tD8MabUZu/dqKrPF3tR4Lh5o8PjL4ZFu3x4Dva5U=;
- b=mZ00ax/AkCXP0Mdq4nB/x2QFmrKwqQ7Yvx/k/gAWj8NnzkwNFkRGLVyAEHAQxdNuWf
- CunJC02EBU6GF0qzP7Ga9JiC8qYWh5trpv8Yv1qdpcUwue+2KAGuCrq+wop5Al/xxGfg
- L1espi8QVkgoB9udyrK5A4F3kKC9qkLkHHBKZKxcaTm/KfJdhxPtM/vs2CfTqdZ5z6mT
- 81xj1X2ncOQtpG+2oc/3OSJHYyl+LQ4M0C5g6FaCjlLN4c7GPj4V6AQr3Cs452sHGIgw
- Pw9AKE4Vb6eSTfRbSeq08Ss/PZ4PZ9bro1XC4+5JC9FzV9nL6DoPyjRiyw7i2LxIora7
- hwcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tn+tD8MabUZu/dqKrPF3tR4Lh5o8PjL4ZFu3x4Dva5U=;
- b=e1TpY+wfOeZN1z1/Nq09W4HxZNb6ZtYkxbmOqqK25gpiKhApYT9NawOQMhh3IHmReX
- FM+Bo/E9jVytyaqEHdZIkLCTEP7zIrJLjwiMOUtSh1/E1sgiEgdX4HZRAafsmrk/ZlKa
- rfHVHEipchyenpq9kwtd5zpm1vTUYVsSzbD7WS/z0lvaW4NFngfwMKtg6Fyj89SO4P84
- n20meQ00QTilMwntDtVbipwQT6mH5dWR206uj79zGuNU3XSfZtEKXZoeGVW1GvKz8xoi
- WPLSSX9XihGvExhR5hKlomcKV289v4FI9bVbHvlfIQB+QSOmNbAr70o6aIL5Su0w/T5N
- 4KhQ==
-X-Gm-Message-State: AOAM533/1DjH9zp6nguyfp3TRvOAuT6BS1dxoEhNjEG8qQTUtb2vDtLO
- jEbFRkdh5IMuFOJ1o5wWuQ1EJHW3Oe1lWvv7N1I=
-X-Google-Smtp-Source: ABdhPJw0ZP6tVnkSY4usp69ST1eruiViNrhwVcz4Fw8lY521lL5jd0WbwznliA1dqkesk3VlVbyjQTttGu17lfQz5gc=
-X-Received: by 2002:a02:93a3:: with SMTP id z32mr9164760jah.33.1626271823359; 
- Wed, 14 Jul 2021 07:10:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1m3fnD-0006tC-K4
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:23:19 -0400
+Received: from mail-dm6nam10on20622.outbound.protection.outlook.com
+ ([2a01:111:f400:7e88::622]:43361
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
+ id 1m3fnB-00077Z-1r
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:23:19 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=it025ZpL8K0m95t0HWNAVi7ALncRGeVbMyvZ2K9ajpCbhT7kw6w0AEU8IaP3aLNALbh/1iqqJXgq2sibj9/aknGYgdfbvtgjXoGkENpQbS55pGK1xgjB5jD+8tYcccT99u5fGURIxiCCjTAKY4OvE1rreaXEE8lnTw+fyDxSBWCox/Tz3UOJIeWQBu6VTBQ9N6QuAdsenbZzVxua/1CPa8L4hwPki4mb8cqO767/SSfIxVm9mMbqs7KTBrFd+j0FmpIMWqqwWHEtZY3W4PY73MjmFYU7G1EUbzkeG2NvcQfNxwrdAUp+UV2qvvoybdtQb9EWRmr7K4MXtp15tidhTg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=We0hAltPWuTiM1Ps80dso2MNdYG5l/N00m4Hx77CwCA=;
+ b=dEynwfJMR3Qq5yXiO0dTVxDzFDH2cZujTLqK0kvBwIH8MJYUS/wLbZ3Ek2ysoLmiJXkn5SjPuEPs/cGU+fv9QrmQzYERP+4fkhT9xxKGWp4h204ZhBzzsXlenBzGEy8nRZ0QAismbtD/6LgRMhkYtWYjuRpKgni5tYlhTzpF3gWduD26qabLWouS7ukqR/25AubaS7p8wsFOFcgIDjh4DIGaVSMtFZO7RhzjkugCq2NAj9I7ZVs5G292lx0SwcSckpaYyFIfEXbEP9IqR1h+syf2/IaU5rQ2jz5rrXk87ImbNklcL26SxEsqpwhBKgtCaiDv+0rq3aum1ar/3RM/TA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=We0hAltPWuTiM1Ps80dso2MNdYG5l/N00m4Hx77CwCA=;
+ b=SCYKso73F3SkSEnk5SuJRiGNz/whnbQmKmPhhYd5u9pQEAuw9M76/wOLdeziyW50xBUawcIDSNOqbFIdNbTp/BYM8Elr7jYX9kvw0XW9Q01kgl1x1jEOFXbujbuz/WSKFj0wifbivxXsXiWdqFocnD5flzFyLuZ9rtletPT5cJM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
+ by SN1PR12MB2446.namprd12.prod.outlook.com (2603:10b6:802:26::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Wed, 14 Jul
+ 2021 14:18:12 +0000
+Received: from SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::a8a9:2aac:4fd1:88fa]) by SN6PR12MB2718.namprd12.prod.outlook.com
+ ([fe80::a8a9:2aac:4fd1:88fa%3]) with mapi id 15.20.4308.027; Wed, 14 Jul 2021
+ 14:18:12 +0000
+Cc: brijesh.singh@amd.com, qemu-devel@nongnu.org,
+ Connor Kuehl <ckuehl@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ kvm@vger.kernel.org, Michael Roth <michael.roth@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
+ SEV-SNP
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-3-brijesh.singh@amd.com>
+ <87h7gy4990.fsf@dusky.pond.sub.org>
+From: Brijesh Singh <brijesh.singh@amd.com>
+Message-ID: <5017886b-c075-8997-2c21-c04ddbd5e95e@amd.com>
+Date: Wed, 14 Jul 2021 09:18:09 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.11.0
+In-Reply-To: <87h7gy4990.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: SA0PR11CA0020.namprd11.prod.outlook.com
+ (2603:10b6:806:d3::25) To SN6PR12MB2718.namprd12.prod.outlook.com
+ (2603:10b6:805:6f::22)
 MIME-Version: 1.0
-References: <20210714093719.21429-1-alex.bennee@linaro.org>
- <20210714100628.10460-1-alex.bennee@linaro.org>
- <CAMVc7JWdA56X4ggKhZ7AdM0i5+0Xp4pbdvynswgJv+-anhDk5Q@mail.gmail.com>
-In-Reply-To: <CAMVc7JWdA56X4ggKhZ7AdM0i5+0Xp4pbdvynswgJv+-anhDk5Q@mail.gmail.com>
-From: Chetan <chetan4windows@gmail.com>
-Date: Wed, 14 Jul 2021 19:40:11 +0530
-Message-ID: <CAPPKfOF6bssuvTM_nKDjx5sXt2_Q4uEUfhGjz2=eBG748j4QQg@mail.gmail.com>
-Subject: Re: [PATCH v1 21/21] contrib/gitdm: add more individual contributor
- entries.
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000056f31a05c715eaf4"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=chetan4windows@gmail.com; helo=mail-io1-xd30.google.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Brijeshs-MacBook-Pro.local
+ (2607:fb90:f221:2aa6:5ca5:4e98:9569:a37d) by
+ SA0PR11CA0020.namprd11.prod.outlook.com (2603:10b6:806:d3::25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.21 via Frontend Transport; Wed, 14 Jul 2021 14:18:11 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4d16f25b-83f6-4a42-1b9f-08d946d236b6
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2446:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB2446F32055C8E28B571E7819E5139@SN1PR12MB2446.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u0oM1ftWF5Z9CSLs4aRBIZJbpeb1rWKR9X/B2Bu+kZ21h19yQJcUE8BV0UrsbDP0m9RAB0u7FxGtV7xiIpOOMArx+rCSlqrq6T7aWEGsZ7Ea1Vi/cMHDwrFAXyjiHUaTroS9emsOzZi6+ZHhSVI9EvFs/5IYhKzv4GxMWYLQne1kAFHaGxJtuHx/QSxzbbH8l3gpeiDggvhIRqMlVKiXv2IiXkS7hOx1rfLxnEHOBk39PQIsdzUVLljzV4E15Rus/yljCxk018fqGV+aZdQ5ZT2MiS3LSm86efk6UE43m3+bq3/3ZZbPkg85Dg20DA4w1h6YTp7/qhrIan7dFgO+8yKxOGZr9BGFeBCT0zsJbwk6WpyDB5ttVUecT2IGMKcD56JOTTA2AfytbweAqVs3UUa032hVi5Jc0Z2xi0nE1cFOKWYoCoquCHwettO2z/VZAFOcPFDnpEfH0gPXw5j3NX4ykOnmM5OGseQngwmwlzbwVW897/mgc1aenIVsZMP2z6muqqHmZzSUF1ugrSGW0b7pDy1EieLqm+a58R4pVKONxujMJx7P/ezowpvU2zyF3Zm2QAJJ9XMOkpdJ+2S10SjIH+D0lIOh1IQYXVmIvUFdJDI4akGawE0REYnHe4/Fc44LMTIoT40cGc9z15FFtPQ3sjqtHK5dpFOjIqlLUzIDHGH3gshiaVIEjQ/X6Z3xXuxsDStFt5X/ArEa9nKl66leywTxHBWx3ZSLEURAR/0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(376002)(39850400004)(136003)(396003)(6506007)(53546011)(36756003)(316002)(66556008)(8936002)(66946007)(2906002)(66476007)(31686004)(478600001)(4326008)(52116002)(54906003)(5660300002)(6512007)(7416002)(44832011)(2616005)(86362001)(6916009)(31696002)(38100700002)(6486002)(186003)(8676002)(83380400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjFOTEtsQnpmL3JmSmtDV2dtMG50MFpEV1FNSFZtSUhGNkVaVTNlcUF4bDk3?=
+ =?utf-8?B?SlJBYlVaQ1JoZ2NoZ2V0TkU4ZWVsYWxLTDQ0MDExRVptNzducGhiNFFCdU1G?=
+ =?utf-8?B?U3ZxdWtRaXl0TE40K24vd0dXdE1LTGx0T3JUa25ZWm9qZ054UXJ1VTZSVVY3?=
+ =?utf-8?B?TFc5TW43M01RQmx0Zzg5Y1ZrcFNpRHk5ODk2RWlZR1JWbWMzdVhOT0Fia3Zx?=
+ =?utf-8?B?U09rdWZaZmpTQ0JsMlRhU0JHV0dBYXkzN0NOS0dRNzByOHVZME0ra1EreGo4?=
+ =?utf-8?B?STE1aWV6NHFQbWc5ZnI0UWNIaTlDSmptRGI4eVZCYk45WU42Y0FNZjdQaVJm?=
+ =?utf-8?B?ZXcxU09pOWc0UFQ5WEtVMGhzMDdJS3hkbTlrdndBT0VuUGJucksrVCs5SGNt?=
+ =?utf-8?B?TXlsRDZ6aVd3N0I5bDFmRHp4U1NaQVZBd0NLUzFjTktGL1pRUG9NWktDaHF5?=
+ =?utf-8?B?amhnVTlHWXhzb3FzaGhCL2lneC95dUw5QkFTSGViYlRkdGpYNHFiMGdVdkR3?=
+ =?utf-8?B?bmdqNXh5TWJHY1c5QjNPSVRxSDJyK01iNVNtZ05iRTBoVm90OWFwUm5hMTJM?=
+ =?utf-8?B?WlRSSGJDeDdVcUVzM0QrSGIvK280WEZ3NlpwSjlxT0wrby9VUFg5cTA4bWQ0?=
+ =?utf-8?B?WWlEWk5TdDlxY1RRdlF5eW9HdFRNWnNxWW1jMzhNWkZncUQrc29NK29qRWtk?=
+ =?utf-8?B?cGR1ZnhlWUFHQWlJVko2b2YrSUhwY1lqUFVsZGQ3ZGppdEFqalBiWStoTVpS?=
+ =?utf-8?B?WEttMm10eVNVU0xDYWp1STNoQW9HSUQ4azM4MEJ6TCtjSXpUR3lSNmJBeld6?=
+ =?utf-8?B?NHozV3RGNE5DN081cTZlQnF1eUcydDdad2FoUVFjWHhleGVUZnFtdkI0MVVY?=
+ =?utf-8?B?bmlNd1dSeHJHN2VDdlVrdjZJdWwzUWJGai9LNzEwZHNZenBVZGR1a1NCckRI?=
+ =?utf-8?B?S2JXbWszdHNnaWhVcnVyZmFicHNycC8wY1ZOWTJJMWgvTlJvYmdYaldOSkJz?=
+ =?utf-8?B?VWV5Z2NXMTNYVGRBUFdFbTFIdjJTT0VXV1kydmV4NzJydWNRYkozTXBIVmtt?=
+ =?utf-8?B?VTZWb1k1bHMxaEJXT1RSazF2ZGlFbVArcnFPRWhMMVBwWjAzTjdRczlMZTVN?=
+ =?utf-8?B?RUtoSmp0bHBYS3VHdXNneGRtYVhmdjFjRzY1VmFzWlIybFFXZDR0KytQWUZH?=
+ =?utf-8?B?Q0h6UHhxRHhudCtsRDBZbTNMOUl4K0treE94Tmo5WHo4TDNzbHp6dmpzeExV?=
+ =?utf-8?B?SDRYVmlFQ2VhOFNuaW1HYSsxSHlXREQvNlZobTFsdEJsMHU0SXlmcmdhU0M5?=
+ =?utf-8?B?WHJjZEY2TGdCdjlralRpOTh1RWZNU3BCZXg3ZklYSVN3WUxVbnRVcjEwblZ5?=
+ =?utf-8?B?UFp2U0NORG5laEE3cGw5Z1pBcHNhYk1IcnVwRHZmVGZ5c1pwK0l5ZVZ4enps?=
+ =?utf-8?B?Y1JNSlVVR3crbVNlMTNUTHdralQydXIvcDRaK09HaEp4Yk4rLytSSTI4QVNw?=
+ =?utf-8?B?ZXUrWG1JNXUxZ1huMWUxRGFaNDR4NGNZcDZneFI5OUpuNjRuVGI5N1YzMzR6?=
+ =?utf-8?B?elpWcWhaR0ZaRnRlNmQwajlVUTBpSCsrTmJLS3liakM5ZjY2M3Z5WHFYajM3?=
+ =?utf-8?B?MzBocVFMNjFLYTUrMlMwUTVQRGlwdjY0TmNoQytoR0V0VDNBZ1RIR3RKSVR5?=
+ =?utf-8?B?QVdFWlpsdmsyekdQanpnQkoyNFdtSks0bk8zVGF4TmpXRm1CTzk2NSt1OEZN?=
+ =?utf-8?B?WkNYVk5NYjZoVkdiNW56OTZpb2pqLzNVd1hkUmpiLzFZbU1tRExiRng5bWZo?=
+ =?utf-8?B?ZDdta1BhTWVJUUE0QnJxQW9lMHJWY3Y1Y0RlYk9XWWlTRTc4dTBXTDFHdTVQ?=
+ =?utf-8?Q?DuGhLZDN/oYvF?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4d16f25b-83f6-4a42-1b9f-08d946d236b6
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 14:18:12.7514 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hyzp9H/cZIGFWg871NynXQTdwVC3cYlCH2tp7/cqAvUwdIqwS8S92QldJXs0TgshbDqdTXljollTJ93CfRIaLw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2446
+Received-SPF: softfail client-ip=2a01:111:f400:7e88::622;
+ envelope-from=brijesh.singh@amd.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,155 +160,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@163.com>, Li Qiang <liq3ea@gmail.com>,
- qemu Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?S8WRdsOhZ8OzLCBab2x0w6Fu?= <dirty.ice.hu@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000056f31a05c715eaf4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-I'm also an individual contributor. <chetan4windows@gmail.com>
-
-Regards,
-cp
-
-On Wed, Jul 14, 2021 at 5:05 PM Akihiko Odaki <akihiko.odaki@gmail.com>
-wrote:
-
-> I am Akihiko Odaki <akihiko.odaki@gmail.com> and an individual developer.
+On 7/13/21 8:46 AM, Markus Armbruster wrote:
+> Brijesh Singh <brijesh.singh@amd.com> writes:
 >
-> Regards,
-> Akihiko Odaki
+>> To launch the SEV-SNP guest, a user can specify up to 8 parameters.
+>> Passing all parameters through command line can be difficult. To simplify
+>> the launch parameter passing, introduce a .ini-like config file that can be
+>> used for passing the parameters to the launch flow.
+>>
+>> The contents of the config file will look like this:
+>>
+>> $ cat snp-launch.init
+>>
+>> # SNP launch parameters
+>> [SEV-SNP]
+>> init_flags = 0
+>> policy = 0x1000
+>> id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
+>>
+>>
+>> Add 'snp' property that can be used to indicate that SEV guest launch
+>> should enable the SNP support.
+>>
+>> SEV-SNP guest launch examples:
+>>
+>> 1) launch without additional parameters
+>>
+>>   $(QEMU_CLI) \
+>>     -object sev-guest,id=sev0,snp=on
+>>
+>> 2) launch with optional parameters
+>>   $(QEMU_CLI) \
+>>     -object sev-guest,id=sev0,snp=on,launch-config=<file>
+>>
+>> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> I acknowledge doing complex configuration on the command line can be
+> awkward.  But if we added a separate configuration file for every
+> configurable thing where that's the case, we'd have too many already,
+> and we'd constantly grow more.  I don't think this is a viable solution.
 >
-> On Wed, Jul 14, 2021 at 7:06 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> wrote:
-> >
-> > Again this is guess work based on public websites.
-> >
-> >  - Chetan lists himself as a freelancer on twitter.
-> >  - Akihiko lists themselves as an individual developer on GitHub
-> >  - Jiaxun's website looks like a personal one
-> >
-> > [AJB: Won't merge without confirmation from appropriate people.]
-> >
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Cc: "K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n" <dirty.ice.hu@gmail.com>
-> > Cc: Li Qiang <liq3ea@gmail.com>
-> > Cc: Li Qiang <liq3ea@163.com>
-> > Cc: Chetan Pant <chetan4windows@gmail.com>
-> > Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-> > Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> > ---
-> >  contrib/gitdm/group-map-individuals | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/contrib/gitdm/group-map-individuals
-> b/contrib/gitdm/group-map-individuals
-> > index 36bbb77c39..853fb98bc3 100644
-> > --- a/contrib/gitdm/group-map-individuals
-> > +++ b/contrib/gitdm/group-map-individuals
-> > @@ -29,3 +29,9 @@ mrolnik@gmail.com
-> >  huth@tuxfamily.org
-> >  jhogan@kernel.org
-> >  atar4qemu@gmail.com
-> > +dirty.ice.hu@gmail.com
-> > +liq3ea@163.com
-> > +liq3ea@gmail.com
-> > +chetan4windows@gmail.com
-> > +akihiko.odaki@gmail.com
-> > +jiaxun.yang@flygoat.com
-> > --
-> > 2.20.1
-> >
+> In my opinion, much of what we do on the command line should be done in
+> configuration files instead.  Not in several different configuration
+> languages, mind, but using one common language for all our configuration
+> needs.
 >
+> Some of us argue this language already exists: QMP.  It can't do
+> everything the command line can do, but that's a matter of putting in
+> the work.  However, JSON isn't a good configuration language[1].  To get
+> a decent one, we'd have to to extend JSON[2], or wrap another concrete
+> syntax around QMP's abstract syntax.
+>
+> But this doesn't help you at all *now*.
+>
+> I recommend to do exactly what we've done before for complex
+> configuration: define it in the QAPI schema, so we can use both dotted
+> keys and JSON on the command line, and can have QMP, too.  Examples:
+> -blockdev, -display, -compat.
+>
+> Questions?
 
---00000000000056f31a05c715eaf4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>I&#39;m also an indiv=
-idual contributor.=20
-&lt;<a href=3D"mailto:chetan4windows@gmail.com" target=3D"_blank">chetan4wi=
-ndows@gmail.com</a>&gt;</div><div><br></div><div>Regards,</div><div>cp<br><=
-/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Wed, Jul 14, 2021 at 5:05 PM Akihiko Odaki &lt;<a href=3D"mailto:ak=
-ihiko.odaki@gmail.com">akihiko.odaki@gmail.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">I am Akihiko Odaki &lt;<a hre=
-f=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko.odaki@gmail.=
-com</a>&gt; and an individual developer.<br>
-<br>
-Regards,<br>
-Akihiko Odaki<br>
-<br>
-On Wed, Jul 14, 2021 at 7:06 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex=
-.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wrote:=
-<br>
-&gt;<br>
-&gt; Again this is guess work based on public websites.<br>
-&gt;<br>
-&gt;=C2=A0 - Chetan lists himself as a freelancer on twitter.<br>
-&gt;=C2=A0 - Akihiko lists themselves as an individual developer on GitHub<=
-br>
-&gt;=C2=A0 - Jiaxun&#39;s website looks like a personal one<br>
-&gt;<br>
-&gt; [AJB: Won&#39;t merge without confirmation from appropriate people.]<b=
-r>
-&gt;<br>
-&gt; Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@lina=
-ro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
-&gt; Cc: &quot;K=C5=91v=C3=A1g=C3=B3, Zolt=C3=A1n&quot; &lt;<a href=3D"mail=
-to:dirty.ice.hu@gmail.com" target=3D"_blank">dirty.ice.hu@gmail.com</a>&gt;=
-<br>
-&gt; Cc: Li Qiang &lt;<a href=3D"mailto:liq3ea@gmail.com" target=3D"_blank"=
->liq3ea@gmail.com</a>&gt;<br>
-&gt; Cc: Li Qiang &lt;<a href=3D"mailto:liq3ea@163.com" target=3D"_blank">l=
-iq3ea@163.com</a>&gt;<br>
-&gt; Cc: Chetan Pant &lt;<a href=3D"mailto:chetan4windows@gmail.com" target=
-=3D"_blank">chetan4windows@gmail.com</a>&gt;<br>
-&gt; Cc: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com" targe=
-t=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br>
-&gt; Cc: Jiaxun Yang &lt;<a href=3D"mailto:jiaxun.yang@flygoat.com" target=
-=3D"_blank">jiaxun.yang@flygoat.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 contrib/gitdm/group-map-individuals | 6 ++++++<br>
-&gt;=C2=A0 1 file changed, 6 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group=
--map-individuals<br>
-&gt; index 36bbb77c39..853fb98bc3 100644<br>
-&gt; --- a/contrib/gitdm/group-map-individuals<br>
-&gt; +++ b/contrib/gitdm/group-map-individuals<br>
-&gt; @@ -29,3 +29,9 @@ <a href=3D"mailto:mrolnik@gmail.com" target=3D"_blan=
-k">mrolnik@gmail.com</a><br>
-&gt;=C2=A0 <a href=3D"mailto:huth@tuxfamily.org" target=3D"_blank">huth@tux=
-family.org</a><br>
-&gt;=C2=A0 <a href=3D"mailto:jhogan@kernel.org" target=3D"_blank">jhogan@ke=
-rnel.org</a><br>
-&gt;=C2=A0 <a href=3D"mailto:atar4qemu@gmail.com" target=3D"_blank">atar4qe=
-mu@gmail.com</a><br>
-&gt; +<a href=3D"mailto:dirty.ice.hu@gmail.com" target=3D"_blank">dirty.ice=
-.hu@gmail.com</a><br>
-&gt; +<a href=3D"mailto:liq3ea@163.com" target=3D"_blank">liq3ea@163.com</a=
-><br>
-&gt; +<a href=3D"mailto:liq3ea@gmail.com" target=3D"_blank">liq3ea@gmail.co=
-m</a><br>
-&gt; +<a href=3D"mailto:chetan4windows@gmail.com" target=3D"_blank">chetan4=
-windows@gmail.com</a><br>
-&gt; +<a href=3D"mailto:akihiko.odaki@gmail.com" target=3D"_blank">akihiko.=
-odaki@gmail.com</a><br>
-&gt; +<a href=3D"mailto:jiaxun.yang@flygoat.com" target=3D"_blank">jiaxun.y=
-ang@flygoat.com</a><br>
-&gt; --<br>
-&gt; 2.20.1<br>
-&gt;<br>
-</blockquote></div>
+I will take a look at the blockdev and try modeling after that. if I run
+into any questions then I will ask. thanks for the pointer Markus.
 
---00000000000056f31a05c715eaf4--
+-Brijesh
 
