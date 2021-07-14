@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FFF73C8682
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 16:58:56 +0200 (CEST)
-Received: from localhost ([::1]:40504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222A43C868C
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:02:06 +0200 (CEST)
+Received: from localhost ([::1]:44480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3gLf-0004Fz-El
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 10:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47780)
+	id 1m3gOi-00074R-PD
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m3gJh-0001nS-3c
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:56:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m3gJe-0004Y5-F0
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:56:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626274609;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=66mpSeLPShBX209PcEQqq6I3DL4h5/75RHs3fAbCrCo=;
- b=J6DfCk+eeIUDvwpMBWD7i76E47oJRKadUlgTibGGsqkYEWBof+t56mdH+MHJKSrIIe77D2
- uLabT4+bl6Q7lRRd5jWwaqEuBVRyjKOhit1B+cKiLwQ4+V60r/28mpk43cPGSlOnTwZMND
- RNc1c2QRfSp3NHXzCIggwizhskrJ04k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-jM9S0MomNj2BPVoM-VMvvQ-1; Wed, 14 Jul 2021 10:56:46 -0400
-X-MC-Unique: jM9S0MomNj2BPVoM-VMvvQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z4-20020a7bc1440000b0290228d7e174f1so537813wmi.0
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 07:56:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1m3gK0-0002QU-1V
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:57:12 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:40737)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zhlcindy@gmail.com>)
+ id 1m3gJy-0004nM-76
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 10:57:11 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id p22so3637491yba.7
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 07:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ijo4brgGYpv4RyUZzaZGVXtqqBdOrQfA7FF7LN/DFXk=;
+ b=IM25IgiILD4wFMCF+txjZI2u9xdn6UiJ/STG5qXeuZPK7qAA63Az7vfxJ4wT8ZKZXe
+ ihImC2xunqQvPLj0WJ/MhZad6ELUTG726wbi16/yP+xN4Hutz60SF6kHYfUsELLw9j/A
+ UsIPk9pjNn5HHpUSefgAgpHFWAXocdY7Y8FEMUjg+awtPLpt2NanoEYfdAfxUgQA6PHB
+ WKZf2NNgF/UIWvsYnOFoxkNoVsRjb2o8WHIL1qLQDqUcay28lofYvkIQHXG1OLCXLc0b
+ Kasq4l7tCLBTCxuLDXxtdqTv1Kb6MTxLrc6gJmvB831xFxYgWqJ1jeJQrbbEEILyPk4W
+ 3iNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=66mpSeLPShBX209PcEQqq6I3DL4h5/75RHs3fAbCrCo=;
- b=e1NktAW+8Q30IA/RiTP396UoSfz70sKF9XPk4L286kVKaOA+eiKIM9eCLOD0qITtJ0
- tamEIbTZHltsMIgf+0KEUDcNXjfI+CqI3wFEb2fWb7pNPVDOarmtzcinpYyyDLPbNw1K
- I1lX3mN4DcDafiC16DNY7H+6BLv1O3kEk0UuMYr/sRxb8NV5W/1TjnqY+L3ZhDlw7w/c
- +dD67qYDccb1CuJT/XD2brItnQJQv2ua7RkXAeVvL1QnC/SP4eS07/PQ3RPq+6ZEvTyG
- TzXVcOVEnvrq7g1V/a0wDI8dI6OfNWbYLJbGHeaRV5iffZi3RLTrgctgZ8DRA9vA9Hbl
- P61w==
-X-Gm-Message-State: AOAM530uwd10Y28go7PmySBjwaWTG0rlUFotspjXlL3b0vcW2OTmfMk8
- 9ZnyduXfJWgzbb+t2LqeoBFNNpH8Oqm4UxRl7b/0h7UTSGRBr6tefRAn82ii/tjx37QX/K96nQZ
- MYX7T+zHGxQvWiDA=
-X-Received: by 2002:a5d:6302:: with SMTP id i2mr13558734wru.366.1626274605803; 
- Wed, 14 Jul 2021 07:56:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyGd1JG8eEWw2cwJ7bODaRrPb3Gs0jIXTQ7S7kcNwQCLwnSGmB92BaDRciUXjXbyDgOl9BpOw==
-X-Received: by 2002:a5d:6302:: with SMTP id i2mr13558710wru.366.1626274605544; 
- Wed, 14 Jul 2021 07:56:45 -0700 (PDT)
-Received: from ?IPv6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id l34sm6424232wms.45.2021.07.14.07.56.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 07:56:45 -0700 (PDT)
-Subject: Re: [PATCH] configure: Drop obsolete check for the alloc_size
- attribute
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210714072855.785566-1-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <78a4a3af-ef79-07e2-e6a1-37d11e5ef7ac@redhat.com>
-Date: Wed, 14 Jul 2021 16:56:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ijo4brgGYpv4RyUZzaZGVXtqqBdOrQfA7FF7LN/DFXk=;
+ b=bbN8qZEDE1Oy2OEaDxKsKA0r2hvjB5RKenw87cb+0B/DSAfcUZ/nhEGwbj0GpwCnlk
+ tTzb+njGr3s3fWlAjmFMbXjVk8hF+zsP1ndlGSVn7EO05p8yc5YGdlq583uNxHl3z262
+ CnJLm3uMXvUZOouiCT5V6winGs3UwC9L6d3rvxgYmNNqbe4y9zzL3CE8ULA/lhFpzjJ5
+ KeAcMe0fZ99bfKfw/+q0HCU83eFRjm3WJFxNsR7UhLXx9hZ/6ip3gwUULWpP+BexTkf9
+ wH3Qur9HPWxZxS9cUfFFmaEEjSl55AT9OvNI8EFAeMrsGFsCD/cHXYqe1DstYFJ0W014
+ 1a7g==
+X-Gm-Message-State: AOAM532idUjlcexwSJU8LyaVZBbKJxI4ZJFAaQYdyF2hhExG8Y+IH39e
+ 9CYRA0uZJ7kj4RWkpG6brk0PNl10sRlW8Okk5tM=
+X-Google-Smtp-Source: ABdhPJzqNNtKy+n/bWVFd0tOB/vvvPNyXAh0/1UhqnMK0FqU5OvKgjlhxm4OndZ7U87XDEPcGclC9ajHkVfMtx8uOvw=
+X-Received: by 2002:a25:be02:: with SMTP id h2mr14272602ybk.91.1626274629311; 
+ Wed, 14 Jul 2021 07:57:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210714072855.785566-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.699, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210709160843.339796-1-li.zhang@ionos.com>
+ <20210709160843.339796-2-li.zhang@ionos.com>
+In-Reply-To: <20210709160843.339796-2-li.zhang@ionos.com>
+From: Li Zhang <zhlcindy@gmail.com>
+Date: Wed, 14 Jul 2021 16:56:58 +0200
+Message-ID: <CAD8of+oLBOGDfs+btkvvcyP16vUq3V0Lz8Cjd917DfuXMkK+kQ@mail.gmail.com>
+Subject: Re: [PATCH v3 RESEND 2/2] chardev: refactor qmp_chardev_add and
+ qmp_chardev_change
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, 
+ Pankaj Gupta <pankaj.gupta@ionos.com>, QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=zhlcindy@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,52 +80,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Li Zhang <li.zhang@ionos.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/07/21 09:28, Thomas Huth wrote:
-> We recently bumped our requirement for Clang to at least version 6.0.
-> And according to:
-> 
->   https://releases.llvm.org/6.0.0/tools/clang/docs/AttributeReference.html
-> 
-> Clang v6.0 supports the alloc_size attribute. Thus we can drop this
-> check in the configure script now.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Ping
+
+On Fri, Jul 9, 2021 at 6:11 PM Li Zhang <zhlcindy@gmail.com> wrote:
+>
+> To improve the problematic source code in qmp_chardev_change
+> and some redundant source code, the functions qmp_chardev_add
+> and qmp_chardev_change are refactored. It is mentioned in thread:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-04/msg03167.html
+>
+> Signed-off-by: Li Zhang <li.zhang@ionos.com>
 > ---
->   configure | 12 ------------
->   1 file changed, 12 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index a0a32c427c..eee1356814 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3184,18 +3184,6 @@ if ! compile_prog "$glib_cflags" "$glib_libs" ; then
->   	       "build target"
->   fi
->   
-> -# Silence clang 3.5.0 warnings about glib attribute __alloc_size__ usage
-> -cat > $TMPC << EOF
-> -#include <glib.h>
-> -int main(void) { return 0; }
-> -EOF
-> -if ! compile_prog "$glib_cflags -Werror" "$glib_libs" ; then
-> -    if cc_has_warning_flag "-Wno-unknown-attributes"; then
-> -        glib_cflags="-Wno-unknown-attributes $glib_cflags"
-> -        CONFIGURE_CFLAGS="-Wno-unknown-attributes $CONFIGURE_CFLAGS"
-> -    fi
-> -fi
+>  chardev/char.c | 72 ++++++++++++++++++++++++++------------------------
+>  1 file changed, 37 insertions(+), 35 deletions(-)
+>
+> diff --git a/chardev/char.c b/chardev/char.c
+> index d959eec522..cb6f287cd2 100644
+> --- a/chardev/char.c
+> +++ b/chardev/char.c
+> @@ -1028,23 +1028,10 @@ Chardev *qemu_chardev_new(const char *id, const char *typename,
+>      return chr;
+>  }
+>
+> -ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+> -                               Error **errp)
+> +static ChardevReturn *chardev_add(const char *id, Chardev *chr,
+> +                                  Error **errp)
+>  {
+> -    const ChardevClass *cc;
+>      ChardevReturn *ret;
+> -    Chardev *chr;
 > -
->   # Silence clang warnings triggered by glib < 2.57.2
->   cat > $TMPC << EOF
->   #include <glib.h>
-> 
+> -    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
+> -    if (!cc) {
+> -        return NULL;
+> -    }
+> -
+> -    chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+> -                      backend, NULL, false, errp);
+> -    if (!chr) {
+> -        return NULL;
+> -    }
+>
+>      if (!object_property_try_add_child(get_chardevs_root(), id, OBJECT(chr),
+>                                         errp)) {
+> @@ -1062,6 +1049,26 @@ ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+>      return ret;
+>  }
+>
+> +ChardevReturn *qmp_chardev_add(const char *id, ChardevBackend *backend,
+> +                               Error **errp)
+> +{
+> +    const ChardevClass *cc;
+> +    Chardev *chr;
+> +
+> +    cc = char_get_class(ChardevBackendKind_str(backend->type), errp);
+> +    if (!cc) {
+> +        return NULL;
+> +    }
+> +
+> +    chr = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc)),
+> +                      backend, NULL, false, errp);
+> +    if (!chr) {
+> +        return NULL;
+> +    }
+> +
+> +    return chardev_add(id, chr, errp);
+> +}
+> +
+>  ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+>                                    Error **errp)
+>  {
+> @@ -1070,7 +1077,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+>      Chardev *chr, *chr_new;
+>      bool closed_sent = false;
+>      bool handover_yank_instance;
+> -    ChardevReturn *ret;
+>
+>      chr = qemu_chr_find(id);
+>      if (!chr) {
+> @@ -1089,11 +1095,22 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+>          return NULL;
+>      }
+>
+> +    cc = CHARDEV_GET_CLASS(chr);
+> +    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
+> +    if (!cc_new) {
+> +        return NULL;
+> +    }
+> +
+>      be = chr->be;
+>      if (!be) {
+>          /* easy case */
+> -        object_unparent(OBJECT(chr));
+> -        return qmp_chardev_add(id, backend, errp);
+> +        chr_new = chardev_new(id, object_class_get_name(OBJECT_CLASS(cc_new)),
+> +                              backend, NULL, false, errp);
+> +        if (!chr_new) {
+> +            return NULL;
+> +        }
+> +
+> +        goto out;
+>      }
+>
+>      if (!be->chr_be_change) {
+> @@ -1101,12 +1118,6 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+>          return NULL;
+>      }
+>
+> -    cc = CHARDEV_GET_CLASS(chr);
+> -    cc_new = char_get_class(ChardevBackendKind_str(backend->type), errp);
+> -    if (!cc_new) {
+> -        return NULL;
+> -    }
+> -
+>      /*
+>       * The new chardev should not register a yank instance if the current
+>       * chardev has registered one already.
+> @@ -1147,18 +1158,9 @@ ChardevReturn *qmp_chardev_change(const char *id, ChardevBackend *backend,
+>       */
+>      chr->handover_yank_instance = handover_yank_instance;
+>
+> +out:
+>      object_unparent(OBJECT(chr));
+> -    object_property_add_child(get_chardevs_root(), chr_new->label,
+> -                              OBJECT(chr_new));
+> -    object_unref(OBJECT(chr_new));
+> -
+> -    ret = g_new0(ChardevReturn, 1);
+> -    if (CHARDEV_IS_PTY(chr_new)) {
+> -        ret->pty = g_strdup(chr_new->filename + 4);
+> -        ret->has_pty = true;
+> -    }
+> -
+> -    return ret;
+> +    return chardev_add(id, chr_new, errp);
+>  }
+>
+>  void qmp_chardev_remove(const char *id, Error **errp)
+> --
+> 2.25.1
+>
 
-Queued, thanks.
 
-Paolo
+-- 
 
+Best Regards
+-Li
 
