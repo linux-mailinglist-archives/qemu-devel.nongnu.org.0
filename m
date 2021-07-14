@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5713C826C
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:07:17 +0200 (CEST)
-Received: from localhost ([::1]:53422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A43F3C8270
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:08:50 +0200 (CEST)
+Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3bnQ-0004Ef-GT
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36674)
+	id 1m3bov-0007Sn-DG
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:08:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bQD-0005CC-Ab
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:17 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44954)
+ id 1m3bQG-0005IN-4S
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:24 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bQA-0000A1-DU
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:17 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id f9so2376707wrq.11
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:43:14 -0700 (PDT)
+ id 1m3bQE-0000Dr-JD
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:43:19 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id j34so1154840wms.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=993Z7YYGEEOBPgCRlt8+ZkIPHhNRNlEDDxS2FCW5LFQ=;
- b=rYjqB2gcMb29RxPyJ4J8aJ8CO9G4dRJ7kFX/RbifIQpZthbEk+P3R2gukqtASsEMCJ
- E/t7k/m1zLyMpuA50dLsqjJ8wgGZ06sBJBNv+EtpKb333iN7/R3dFdHGXOwd5RFrqtMg
- lvvrQ5VqNym1gE0J9UVlctQJYmDLoAMZRuQQ+/Qz0CgTzJJ3DL0Gar6wwpTR81Q7sH1S
- VVPctfyabu/FeYKrL4PNiUbeIMXHQ3ud223Q4Gzn4u2q6TjImOfEHt5K7qdRu7du+z7f
- jmcPHtSlTwcJBG/EIZtIAZbKKqSU2jSvv2kxYYEEUhrJvg0DC6TSTAopaZTM5SGNQT78
- r7vg==
+ bh=1EVjp93iyy+fsZ4pGlqUTgPVvJF7tVC1WY/cwqgCcuM=;
+ b=GcJyuOQdhE0gupz2ogxQKl59g1S36EkMKqGaqNU1jPoq7VzSFtBMuEfL+pUyXvh1/h
+ xxROAMpCaIOqksgH9fPIae92riESJC4P9lKssIIymdnig4ONbe6HTjDZqmIrjditHlWm
+ YfhAFGAEr5R/3WPqCuHFUznYkGpZ4kGIesakjUu7mSQ4EZtM6Qx+2Jg/Z4jFzvXyiqL4
+ CoEti0gjDEEtd7RaFOr29bA3IK9uixS+N/3jHy/wKaKXqKdgT3cYtWwP5UOsRBESWmqJ
+ s+1KmNdOEULS0oFXOFpJPtMCR8XUQSC1myuxrYQVKhuYCk4O/NRZqmzoi0WtgtROymWe
+ 2yqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=993Z7YYGEEOBPgCRlt8+ZkIPHhNRNlEDDxS2FCW5LFQ=;
- b=kGGbDbRt1X4gek3DLRTCzh5GeCXUjJGSjWH6Vc3oiwAoOiK8JYtMGQnZxtsbt8PV8o
- LhsPd8sbdPTe95ds/WKABcqeBiA26WpC4G1b4hkyuzD8Pyx4s08WRoC9PG675sA/u62b
- Pzgb3dF3XKN1UTG4pK4AkIQKBBqZ59jfJMKzeRx/e/zD4LJaUjVFoLIViB2fQlox5QMH
- k+KlVqCwMjVi96leGM//Jpk4Z5tmtn7GINhZ/7WKEzxxi+ey6OG1WcPPUw9VaMK6q24m
- TnucEbNCrBgDpTwxYli1qN/E1cWtTE9nWINTrl5DSboDT93gW6+UjERP/Fbs0DdsYxEA
- GKhw==
-X-Gm-Message-State: AOAM533iNz3zWYgaJ1e8vj/xqJ36gvcoa0wdNgpSwB9T87vYfD9paHi+
- /rDmpN72hAWA0a89gChsm4raoQ==
-X-Google-Smtp-Source: ABdhPJxNTRDQiYI7IqUzxuIIMAsdxT/ieBtPhqovJI+lwpoGpJ9rSExk2rgs28tCjbb+7qQfkHt41Q==
-X-Received: by 2002:adf:8069:: with SMTP id 96mr11791438wrk.56.1626255793153; 
- Wed, 14 Jul 2021 02:43:13 -0700 (PDT)
+ bh=1EVjp93iyy+fsZ4pGlqUTgPVvJF7tVC1WY/cwqgCcuM=;
+ b=sTuCZV0M1QeUNz/+NFqubBVJxhb4cLjlYzblucPdYGINlCTYShgQSRHmtfbdry8NZw
+ KS3oAorDinbk3Xp4w1GyF5wmxUYtjjOvnzzFNl/thwhKAMMtJbf51HvdqKlsjG2Maf6n
+ VPri1iLoU5tcfmyfB1s4X6YdcSUbKdgTT35j/Y9CQFeMbNS5MGQhTCgbzpve5GgsSBgo
+ dNY3wDaTEJlsmRQgi7QzjrgWIOcZmrA+OH86IPjxij4uulM3tcZq7PGNm9DL0eO4JXPu
+ MHTo+lWLFnO6yQi0QT9B0L893l5lsCUiT283P/MEXzI51sctjq61zTCb/xvpfvR0DAdD
+ +ziw==
+X-Gm-Message-State: AOAM532sfvyFLFrDnZ9iNlEMhQj5GkuKYwBk27D8F/LDyAQhLiSMV9uw
+ XmOM/wxvSaQbsfZEUY08TRxr1w==
+X-Google-Smtp-Source: ABdhPJxICeExcJBLmrn3NO6RbScCFczD4in/HPDgmetC1+RXOo64oJrdGk7V/TT+gwdtveol/zY5Lg==
+X-Received: by 2002:a7b:c147:: with SMTP id z7mr821091wmi.110.1626255797327;
+ Wed, 14 Jul 2021 02:43:17 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y16sm1989331wrw.42.2021.07.14.02.43.06
+ by smtp.gmail.com with ESMTPSA id v2sm1807874wro.48.2021.07.14.02.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 02:43:06 -0700 (PDT)
+ Wed, 14 Jul 2021 02:43:13 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 90A471FF87;
- Wed, 14 Jul 2021 10:36:40 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 7550A1FFA6;
+ Wed, 14 Jul 2021 10:37:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 18/21] contrib/gitdm: add group-map for Netflix
-Date: Wed, 14 Jul 2021 10:36:35 +0100
-Message-Id: <20210714093638.21077-19-alex.bennee@linaro.org>
+Subject: [PATCH  v1 09/21] gitdm.config: sort the corporate GroupMap entries
+Date: Wed, 14 Jul 2021 10:37:07 +0100
+Message-Id: <20210714093719.21429-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210714093638.21077-1-alex.bennee@linaro.org>
-References: <20210714093638.21077-1-alex.bennee@linaro.org>
+In-Reply-To: <20210714093719.21429-1-alex.bennee@linaro.org>
+References: <20210714093719.21429-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,44 +86,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Warner confirmed he works for Netflix on IRC.
+Lets try and keep them that way.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Warner Losh <imp@bsdimp.com>
 ---
- contrib/gitdm/group-map-netflix | 5 +++++
- gitdm.config                    | 1 +
- 2 files changed, 6 insertions(+)
- create mode 100644 contrib/gitdm/group-map-netflix
+ gitdm.config | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/contrib/gitdm/group-map-netflix b/contrib/gitdm/group-map-netflix
-new file mode 100644
-index 0000000000..468f95dcb2
---- /dev/null
-+++ b/contrib/gitdm/group-map-netflix
-@@ -0,0 +1,5 @@
-+#
-+# Netflix contributors using their personal emails
-+#
-+
-+imp@bsdimp.com
 diff --git a/gitdm.config b/gitdm.config
-index c60ebc6e47..47317bcee7 100644
+index 7378238c20..a3542d2fc7 100644
 --- a/gitdm.config
 +++ b/gitdm.config
-@@ -35,6 +35,7 @@ GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
+@@ -28,15 +28,15 @@ EmailMap contrib/gitdm/domain-map
+ #
+ # Use GroupMap to map a file full of addresses to the
+ # same employer. This is used for people that don't post from easily
+-# identifiable corporate emails.
++# identifiable corporate emails. Please keep this list sorted.
+ #
+ 
+-GroupMap contrib/gitdm/group-map-redhat Red Hat
+-GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
+ GroupMap contrib/gitdm/group-map-cadence Cadence Design Systems
  GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
  GroupMap contrib/gitdm/group-map-ibm IBM
  GroupMap contrib/gitdm/group-map-janustech Janus Technologies
-+GroupMap contrib/gitdm/group-map-netflix Netflix
- GroupMap contrib/gitdm/group-map-redhat Red Hat
- GroupMap contrib/gitdm/group-map-samsung Samsung
- GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
++GroupMap contrib/gitdm/group-map-redhat Red Hat
++GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
+ 
+ # Also group together our prolific individual contributors
+ # and those working under academic auspices
 -- 
 2.20.1
 
