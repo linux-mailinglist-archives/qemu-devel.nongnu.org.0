@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3B63C7E65
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 08:12:51 +0200 (CEST)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5DC73C7E6F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 08:16:19 +0200 (CEST)
+Received: from localhost ([::1]:57510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3Y8Y-0000uR-H8
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 02:12:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54092)
+	id 1m3YBu-0004DY-Sp
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 02:16:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1m3Y0G-0001oY-7l
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:04:17 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38636)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m3Y7K-00089e-30; Wed, 14 Jul 2021 02:11:34 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:33454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1m3Y0E-0002LE-5q
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 02:04:15 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id ee25so1535682edb.5
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 23:04:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m3Y7I-00075k-30; Wed, 14 Jul 2021 02:11:33 -0400
+Received: by mail-io1-xd34.google.com with SMTP id z11so720113iow.0;
+ Tue, 13 Jul 2021 23:11:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=M6WoG1J/7oU9tvy8WlCnKFPeewA1tefpoE/RTFbyerE=;
- b=kMdHhRevrrrNbFuDzHQ8IxzcB6E72QfBaOBTCTLL9jwmNl1vc7dTWm6d0YBamsCxIx
- hQJ31ktLFV4hd+FAXdmBAXDL1XG/PVYkRaDcz/AlHXYuPqs4rMGGD4O2wbEiA6vgO5Ue
- vM0TEgozcsTknGvvnT4iHp04uYSSRw1bUHSDfTZE07ETZYLCfBnecMICowJi0KiDP2+6
- k6CSbPtFXr3MsFkouDuV5XSjsGsuBEd8qF2X3BOBfZzfViaHW/rcn4SrXJptFJq7sLCq
- pP2G4cIE5dsVtlhtFogn9sGUi/S9i0wAwIqW2mnl8V6id9bGFTZ2JxzNTJmlqDr9bZil
- g/4w==
+ :cc; bh=VS0VL0sqQNRiNw1MxUGsjZ9fId/m1jO+TNUMBxlvLfM=;
+ b=qr1Y1Y5wmCq7mQl4CcmGFxvh+G90L6vfs12KnLL//g7g5GQ3kLqnNdtYWwwcDK75iG
+ dq/5LB2n5XIpdE2mTJShH153rVkcwZ9MzpatD2NgGHI2QMKyiq/q1WkI/RhvXRrwTulu
+ bScqdyJ+zoJDwS3ANX4eXCxlC+O922+gO8cCAS2v8Jo4WSnj+J+qroFs5UDnkM5TOqb7
+ lP4O2SmV6WTZRTbVaCLBQKCRuSnXXD9cwLl3yvIXvt0WgpLMQV5orISSTPrM+iJrAiUb
+ uETteiVVTqxLWA8Z2Scev6j70AGpo0S6fNtjU5cPFaJFEd1gHFVJFGrJlkuOHIU7rp4Z
+ PcqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=M6WoG1J/7oU9tvy8WlCnKFPeewA1tefpoE/RTFbyerE=;
- b=VwwimIK4Y29suK+L5yiIJXN9ykG/V1T/wVG/j96M+YhCXYPJUfTbGR7s06FHZu2zFh
- hAsysQzMZSSnE7O066s3AGYFuNdR4S6Z8/0UtP3cVgR1Md4HBOgFy6etgnV9h7t3U1td
- V18gY+2oHE5SKcaSrFMlstRLcPVHZQA+WHMy2cb7DqdFXvNxSedRFZhhcbqwPHCVq5LP
- wxWUbJwMNi0/gAN1Fhza6gx/MWJEypMdW0E3Gaci09Ll/kzbwfuWohHSpAYjinYOtIYy
- bFgXqg7UpY2KbS1oiG6kUcDHWqqCg1heLeaVxlTnT4bPENb5pCGtPEYaoIBkdh5zVhXT
- zlQg==
-X-Gm-Message-State: AOAM530jWZURzyDy0o2uzAWnzoJX4582a/LR+AyV7DFOnjjWO6zXJ995
- TZM3hRoZO0qEJgoSX/VnwWQKqNpsQemH1/+z+E0=
-X-Google-Smtp-Source: ABdhPJxuISeKktfy5RC/uZMAxrmBOiRk2cQanZonDHN91Wsgh6j9vpumOp2nxxUMDCM8L6PybU1/irfdByIYJk2Eeb0=
-X-Received: by 2002:a05:6402:752:: with SMTP id
- p18mr11151782edy.281.1626242652714; 
- Tue, 13 Jul 2021 23:04:12 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=VS0VL0sqQNRiNw1MxUGsjZ9fId/m1jO+TNUMBxlvLfM=;
+ b=bBAdLhsRh3op1YWc5J8oaIfhjYWpFfhziz0fK5xAwm1ZEd9sYs6iwSMeiQD2BWE+5R
+ vQDw9sl1WmugH6bQvXFGpzVacKbsu5cITslV/ajpJ6DG5b2irkaSPy6H0sJ/zjjaVZq3
+ 8neWIXqmqp34by8YiafpVXtPu2ITEZyTHNOrgWbPmItOX4iVJJf9P1/mDg7H2z0561mV
+ 4WF/40wU8Of6cisxGDkaWUlMpnO+5Uum545rGsaClB8aTiyM500/x0XbPoIsQdUqHwUh
+ 4TAz8wbLCXBhxuNHokW+RNgYUNrO3K3wd02RIpVibhAdn9FT4swa/WXTdR/48UOWE2DF
+ Zoug==
+X-Gm-Message-State: AOAM533VpoFk69C0n7MoLrnhyrF1QOZrUyJ8MWKrg+vIdR5SJs8+btnY
+ E/VTa7QxkxY5ByxFvdPDbEn1Yuw50uV5ycUO1cY=
+X-Google-Smtp-Source: ABdhPJxyt12uE07DWEuIS69qkl0bALf6+5/pNa100fbELQiVESYPxIAnq8hg5DT3n3KwU43NTfhIIJkwCPFuF+JEA5M=
+X-Received: by 2002:a6b:490d:: with SMTP id u13mr6200840iob.176.1626243089892; 
+ Tue, 13 Jul 2021 23:11:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210702092427.1323667-1-bmeng.cn@gmail.com>
- <434daef6-4afb-c796-9b63-f72cca403314@redhat.com>
- <CAEUhbmWqU=sM6s1ogQB6vQmBSf6KrobW9xUcWCbt2aaO3OtuOg@mail.gmail.com>
- <CAEUhbmWZ3D50J08T5bCFAu_hStQ7n=T8O48OVaTAbrdLh48FbQ@mail.gmail.com>
- <63ff5849-d830-87cc-486c-7fc292220424@redhat.com>
- <CAEUhbmV5CaXr9-7W4v5hyTqvJoi1xtg0pxBiY9O6QkOjPWRJcQ@mail.gmail.com>
- <891042a0-10d5-c1df-ae85-7950ae387a41@redhat.com>
- <CAEUhbmW__q9mqDK2_XpTqB2Nmdu0_Mj4UrypOi3TugOuGud11A@mail.gmail.com>
- <62d56b3b-ef11-2384-d3cd-0d34046400ee@redhat.com>
- <CAEUhbmVtydsZBwnt+QVnZp9uwvKNru2CZ_trq07eJ5mT=UcqUA@mail.gmail.com>
- <854f526c-8ee0-a910-e0f9-08cf09ad3213@redhat.com>
-In-Reply-To: <854f526c-8ee0-a910-e0f9-08cf09ad3213@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 14 Jul 2021 14:04:00 +0800
-Message-ID: <CAEUhbmViB8kx1OyxCY3dCNccdb7-5exABsk9x32qfapaqFOV0g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] hw/net: e1000: Correct the initial value of VET
- register
-To: Jason Wang <jasowang@redhat.com>
+References: <37f8680b1ae39de82f9594d8e7a0d9596de9be8b.1625801410.git.alistair.francis@wdc.com>
+ <3a9be7f66702c6fb18ab09ad9db0fdd50b1a7df6.1625801410.git.alistair.francis@wdc.com>
+ <CAAhSdy3w7NbJLjUd3V2i98a4e3V9TKzQHic8inz1TERXMmW4+A@mail.gmail.com>
+In-Reply-To: <CAAhSdy3w7NbJLjUd3V2i98a4e3V9TKzQHic8inz1TERXMmW4+A@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 14 Jul 2021 16:11:03 +1000
+Message-ID: <CAKmqyKOvS7hvYk3OHSkh97SDWkoRrTdMhf=Qvi8qsDdifm7q1w@mail.gmail.com>
+Subject: Re: [PATCH v1 2/5] hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
+To: Anup Patel <anup@brainfault.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,172 +77,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Carlstedt <markus.carlstedt@windriver.com>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Christina Wang <christina.wang@windriver.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 14, 2021 at 12:53 PM Jason Wang <jasowang@redhat.com> wrote:
+On Tue, Jul 13, 2021 at 2:06 PM Anup Patel <anup@brainfault.org> wrote:
 >
->
-> =E5=9C=A8 2021/7/14 =E4=B8=8A=E5=8D=8811:42, Bin Meng =E5=86=99=E9=81=93:
-> > On Wed, Jul 14, 2021 at 11:10 AM Jason Wang <jasowang@redhat.com> wrote=
-:
-> >>
-> >> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=885:11, Bin Meng =E5=86=99=E9=81=
-=93:
-> >>> On Tue, Jul 13, 2021 at 5:02 PM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> >>>> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=884:36, Bin Meng =E5=86=99=E9=81=
-=93:
-> >>>>> On Tue, Jul 13, 2021 at 3:03 PM Jason Wang <jasowang@redhat.com> wr=
-ote:
-> >>>>>> =E5=9C=A8 2021/7/13 =E4=B8=8A=E5=8D=887:06, Bin Meng =E5=86=99=E9=
-=81=93:
-> >>>>>>> On Mon, Jul 5, 2021 at 1:57 PM Bin Meng <bmeng.cn@gmail.com> wrot=
-e:
-> >>>>>>>> On Mon, Jul 5, 2021 at 12:21 PM Jason Wang <jasowang@redhat.com>=
- wrote:
-> >>>>>>>>> =E5=9C=A8 2021/7/2 =E4=B8=8B=E5=8D=885:24, Bin Meng =E5=86=99=
-=E9=81=93:
-> >>>>>>>>>> From: Christina Wang <christina.wang@windriver.com>
-> >>>>>>>>>>
-> >>>>>>>>>> The initial value of VLAN Ether Type (VET) register is 0x8100,=
- as per
-> >>>>>>>>>> the manual and real hardware.
-> >>>>>>>>>>
-> >>>>>>>>>> While Linux e1000 driver always writes VET register to 0x8100,=
- it is
-> >>>>>>>>>> not always the case for everyone. Drivers relying on the reset=
- value
-> >>>>>>>>>> of VET won't be able to transmit and receive VLAN frames in QE=
-MU.
-> >>>>>>>>>>
-> >>>>>>>>>> Reported-by: Markus Carlstedt <markus.carlstedt@windriver.com>
-> >>>>>>>>>> Signed-off-by: Christina Wang <christina.wang@windriver.com>
-> >>>>>>>>>> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >>>>>>>>>> ---
-> >>>>>>>>>>
-> >>>>>>>>>> (no changes since v1)
-> >>>>>>>>>>
-> >>>>>>>>>>       hw/net/e1000.c | 2 ++
-> >>>>>>>>>>       1 file changed, 2 insertions(+)
-> >>>>>>>>>>
-> >>>>>>>>>> diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-> >>>>>>>>>> index 4f75b44cfc..20cbba6411 100644
-> >>>>>>>>>> --- a/hw/net/e1000.c
-> >>>>>>>>>> +++ b/hw/net/e1000.c
-> >>>>>>>>>> @@ -29,6 +29,7 @@
-> >>>>>>>>>>       #include "hw/pci/pci.h"
-> >>>>>>>>>>       #include "hw/qdev-properties.h"
-> >>>>>>>>>>       #include "migration/vmstate.h"
-> >>>>>>>>>> +#include "net/eth.h"
-> >>>>>>>>>>       #include "net/net.h"
-> >>>>>>>>>>       #include "net/checksum.h"
-> >>>>>>>>>>       #include "sysemu/sysemu.h"
-> >>>>>>>>>> @@ -254,6 +255,7 @@ static const uint32_t mac_reg_init[] =3D {
-> >>>>>>>>>>           [MANC]    =3D E1000_MANC_EN_MNG2HOST | E1000_MANC_RC=
-V_TCO_EN |
-> >>>>>>>>>>                       E1000_MANC_ARP_EN | E1000_MANC_0298_EN |
-> >>>>>>>>>>                       E1000_MANC_RMCP_EN,
-> >>>>>>>>>> +    [VET]     =3D ETH_P_VLAN,
-> >>>>>>>>> I wonder if we need a compat flag for this, since we change the=
- behavior.
-> >>>>>>>>>
-> >>>>>>>>> (See e1000_properties[])
-> >>>>>>>>>
-> >>>>>>>> No we don't need to since it does not break migration.
-> >>>>>>> Ping?
-> >>>>>> I admit migration "works" but it doesn't mean it's not broken. It
-> >>>>>> changes the guest visible default value of VET register, so it may=
- break
-> >>>>>> things silently for the guest.
-> >>>>>>
-> >>>>>> For old machine types, we should stick the value to the one withou=
-t this
-> >>>>>> fix.
-> >>>>> Could you please propose a solution on how to handle such a scenari=
-o
-> >>>>> in a generic way in QEMU? (+Peter)
-> >>>> Well, I think I've suggested you to have a look at how things is don=
-e in
-> >>>> for handling such compatibility in e1000_properties.
-> >>>>
-> >>>>
-> >>>>> The POR reset value is wrong in QEMU and has carried forward the wr=
-ong
-> >>>>> value for years, and correcting it to its right value needs to do
-> >>>>> what?
-> >>>> We should stick to the wrong behavior for old machine types.
-> >>>>
-> >>>> That's all.
-> >>> So that means the following SD patch is also wrong (+Philippe) which
-> >>> changes the default value of capability register.
-> >>> http://patchwork.ozlabs.org/project/qemu-devel/patch/20210623185921.2=
-4113-1-joannekoong@gmail.com/
-> >>
-> >> It should compat capareg for the old value for old machine types.
-> > Yeah, it's already a property for the SD controller model but someone
-> > views it as a bug because the model implements 64-bit but not
-> > reporting it in the capability register.
+> On Fri, Jul 9, 2021 at 9:01 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
 > >
-> >>
-> >>> Can we get some agreement among maintainers?
-> >>
-> >> It's not about the agreement but about to have a stable ABI. I don't
-> >> know the case for sd but e1000 is used in various  and we work hard to
-> >> unbreak the migration compatibility among downstream versions. Git log
-> >> on e1000.c will tell you more.
-> > Agreement or stable ABI, whatever we call, but we should be in some con=
-sistency.
+> > Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
+> > CPU GPIO lines to set the timer and soft MIP bits.
 > >
-> > IMHO maintainers should reach an agreement to some extent on how
-> > compatibility should be achieved. I just found silly to add a property
-> > to fix a real bug in the model, and we preserve the bug all over
-> > releases.
->
->
-> That's the price for the stable ABI. See one of my recent fix -
-> d83f46d189 virtio-pci: compat page aligned ATS. It keeps the "buggy"
-> behavior to unbreak the migration.
->
-
-But this series does not break the migration, as we discussed in the
-previous thread.
-
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  include/hw/intc/sifive_clint.h |  2 +
+> >  hw/intc/sifive_clint.c         | 72 ++++++++++++++++++++++++----------
+> >  2 files changed, 54 insertions(+), 20 deletions(-)
 > >
-> > I can find plenty of examples in the current QEMU tree that were
-> > accepted that changed the bugous register behavior, but it was not
-> > asked to add new properties to keep the bugos behavior.
+> > diff --git a/include/hw/intc/sifive_clint.h b/include/hw/intc/sifive_clint.h
+> > index a30be0f3d6..921b1561dd 100644
+> > --- a/include/hw/intc/sifive_clint.h
+> > +++ b/include/hw/intc/sifive_clint.h
+> > @@ -40,6 +40,8 @@ typedef struct SiFiveCLINTState {
+> >      uint32_t time_base;
+> >      uint32_t aperture_size;
+> >      uint32_t timebase_freq;
+> > +    qemu_irq *timer_irqs;
+> > +    qemu_irq *soft_irqs;
+> >  } SiFiveCLINTState;
 > >
-> > e.g.: commit ce8e43760e8e ("hw/net: fsl_etsec: Reverse the RCTRL.RSF lo=
-gic")
+> >  DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
+> > diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
+> > index 0f41e5ea1c..c635a47507 100644
+> > --- a/hw/intc/sifive_clint.c
+> > +++ b/hw/intc/sifive_clint.c
+> > @@ -28,6 +28,12 @@
+> >  #include "hw/qdev-properties.h"
+> >  #include "hw/intc/sifive_clint.h"
+> >  #include "qemu/timer.h"
+> > +#include "hw/irq.h"
+> > +
+> > +typedef struct sifive_clint_callback {
+> > +    SiFiveCLINTState *s;
+> > +    int num;
+> > +} sifive_clint_callback;
+> >
+> >  static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+> >  {
+> > @@ -39,7 +45,9 @@ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
+> >   * Called when timecmp is written to update the QEMU timer or immediately
+> >   * trigger timer interrupt if mtimecmp <= current timer value.
+> >   */
+> > -static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+> > +static void sifive_clint_write_timecmp(SiFiveCLINTState *s, RISCVCPU *cpu,
+> > +                                       int hartid,
+> > +                                       uint64_t value,
+> >                                         uint32_t timebase_freq)
+> >  {
+> >      uint64_t next;
+> > @@ -51,12 +59,12 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+> >      if (cpu->env.timecmp <= rtc_r) {
+> >          /* if we're setting an MTIMECMP value in the "past",
+> >             immediately raise the timer interrupt */
+> > -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
+> > +        qemu_irq_raise(s->timer_irqs[hartid]);
 >
+> This breaks multi-socket support.
 >
-> I guess it's simply because fsl_etsec is not used in any
-> distributions/production environments or the maintainer may just not
-> notice things like this.
+> Please use "hartid - s->hartid_base" as an index.
 >
-> But for e1000(e), we should stick to a stable ABI for consistency.
-> Otherwise it would be very tricky to fix them after we saw real issues.
-> We had learnt a lot during the past decade.
+> >          return;
+> >      }
+> >
+> >      /* otherwise, set up the future timer interrupt */
+> > -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
+> > +    qemu_irq_lower(s->timer_irqs[hartid]);
+> >      diff = cpu->env.timecmp - rtc_r;
+> >      /* back to ns (note args switched in muldiv64) */
+> >      next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+> > @@ -70,8 +78,9 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+> >   */
+> >  static void sifive_clint_timer_cb(void *opaque)
+> >  {
+> > -    RISCVCPU *cpu = opaque;
+> > -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
+> > +    sifive_clint_callback *state = opaque;
+> > +
+> > +    qemu_irq_raise(state->s->timer_irqs[state->num]);
+> >  }
+> >
+> >  /* CPU wants to read rtc or timecmp register */
+> > @@ -137,7 +146,11 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
+> >          if (!env) {
+> >              error_report("clint: invalid timecmp hartid: %zu", hartid);
+> >          } else if ((addr & 0x3) == 0) {
+> > -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MSIP, BOOL_TO_MASK(value));
+> > +            if (value) {
+> > +                qemu_irq_raise(clint->soft_irqs[hartid]);
+> > +            } else {
+> > +                qemu_irq_lower(clint->soft_irqs[hartid]);
+> > +            }
 >
+> Eventthis is broken for multi-socket.
+>
+> Use "hartid - clint->hartid_base" as index.
 
-Okay, do we have such a kind of widely used device model list? And we
-should document such a process that we should keep compatibility on
-these devices as well.
+Thanks for testing this. I have fixed this and will send a v2. I also
+added multi-socket tests to my automated tests.
 
-Regarding this VET register, do you know what guest relies on the POR
-value which is zero? Zero is not a valid ethernet VLAN type. I don't
-think changing this will break any guests. The commit message says
-Linux e1000(e) driver just rewrites this register by itself. Given
-that's probably the most commonly used OS, it's not strange this bug
-gets unnoticed for years.
+Alistair
 
-Regards,
-Bin
+>
+> >          } else {
+> >              error_report("clint: invalid sip write: %08x", (uint32_t)addr);
+> >          }
+> > @@ -153,13 +166,13 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
+> >          } else if ((addr & 0x7) == 0) {
+> >              /* timecmp_lo */
+> >              uint64_t timecmp_hi = env->timecmp >> 32;
+> > -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
+> > +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
+> >                  timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase_freq);
+> >              return;
+> >          } else if ((addr & 0x7) == 4) {
+> >              /* timecmp_hi */
+> >              uint64_t timecmp_lo = env->timecmp;
+> > -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
+> > +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
+> >                  value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase_freq);
+> >          } else {
+> >              error_report("clint: invalid timecmp write: %08x", (uint32_t)addr);
+> > @@ -205,6 +218,12 @@ static void sifive_clint_realize(DeviceState *dev, Error **errp)
+> >      memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_clint_ops, s,
+> >                            TYPE_SIFIVE_CLINT, s->aperture_size);
+> >      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+> > +
+> > +    s->timer_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
+> > +    qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
+> > +
+> > +    s->soft_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
+> > +    qdev_init_gpio_out(dev, s->soft_irqs, s->num_harts);
+> >  }
+> >
+> >  static void sifive_clint_class_init(ObjectClass *klass, void *data)
+> > @@ -228,7 +247,6 @@ static void sifive_clint_register_types(void)
+> >
+> >  type_init(sifive_clint_register_types)
+> >
+> > -
+> >  /*
+> >   * Create CLINT device.
+> >   */
+> > @@ -238,29 +256,43 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
+> >      bool provide_rdtime)
+> >  {
+> >      int i;
+> > +
+> > +    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
+> > +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+> > +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+> > +    qdev_prop_set_uint32(dev, "sip-base", sip_base);
+> > +    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
+> > +    qdev_prop_set_uint32(dev, "time-base", time_base);
+> > +    qdev_prop_set_uint32(dev, "aperture-size", size);
+> > +    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
+> > +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+> > +
+> >      for (i = 0; i < num_harts; i++) {
+> >          CPUState *cpu = qemu_get_cpu(hartid_base + i);
+> > +        RISCVCPU *rvcpu = RISCV_CPU(cpu);
+> >          CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
+> > +        sifive_clint_callback *cb = g_malloc0(sizeof(sifive_clint_callback));
+> > +
+> >          if (!env) {
+> > +            g_free(cb);
+> >              continue;
+> >          }
+> >          if (provide_rdtime) {
+> >              riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
+> >          }
+> > +
+> > +        cb->s = SIFIVE_CLINT(dev);
+> > +        cb->num = i;
+> >          env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+> > -                                  &sifive_clint_timer_cb, cpu);
+> > +                                  &sifive_clint_timer_cb, cb);
+> >          env->timecmp = 0;
+> > +
+> > +        qdev_connect_gpio_out_named(dev, NULL, i,
+> > +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_TIMER));
+> > +        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
+> > +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_SOFT));
+> >      }
+> >
+> > -    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
+> > -    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
+> > -    qdev_prop_set_uint32(dev, "num-harts", num_harts);
+> > -    qdev_prop_set_uint32(dev, "sip-base", sip_base);
+> > -    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
+> > -    qdev_prop_set_uint32(dev, "time-base", time_base);
+> > -    qdev_prop_set_uint32(dev, "aperture-size", size);
+> > -    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
+> > -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> > -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
+> >      return dev;
+> >  }
+> > --
+> > 2.31.1
+> >
+> >
+>
+> Regards,
+> Anup
 
