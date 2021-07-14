@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BE83C8ADC
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:27:44 +0200 (CEST)
-Received: from localhost ([::1]:33582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9526F3C8AF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:33:06 +0200 (CEST)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3jbj-0000qf-VB
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36082)
+	id 1m3jgv-0002Hg-KT
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:33:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3jVa-0004EY-Ec
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:22 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34731)
+ id 1m3jVL-0003UX-5Q
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:07 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:42855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3jVY-0002B7-N3
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:22 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id u1so4417436wrs.1
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 11:21:20 -0700 (PDT)
+ id 1m3jVJ-00020z-PB
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:06 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id r11so4351966wro.9
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 11:21:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rCaNd4xCbOJUv0xEcYHrfGW6SVngssRwezattoH8sxI=;
- b=crMJU3TI/6zblXfeAcMXzTGN+sDdkzy24BX0a+MQLSClr4rUkGgBSdXKS9wn9RZadP
- O/GmxDUqSwWCuZWZ48LyO66v6acnnUWfue3If7PuqgGJ/dWgNzftPlAQ5mb0/b8neTn6
- ixcQRJG/B3b8AuZNg9bAkr8KzpIWf/JIxte53KPVQkCvIzPH6qMraWjLjAqAB5uGbVOs
- ktpGZALO+V7qWwJN7Oj0+nPq2BnNI1cFIo3ZLbNw3JudsSXU0DtMqWu0/MNVsvPWkso5
- X1zJYQSB/bjDhGNFtlwp+10aUIRQD3nCpMbUqzeQQDO/EVwuG92DMRbnnfr8uCLG0enF
- nUrA==
+ bh=esIygr0E9T94j67boLNWQxTQpKP1kT5Tz5kmDwipelY=;
+ b=ryVyDvzdctBufGibagFnA7SHtJGHxjGenjQoJEWdkgHZwa+8Cvq5br0u52Xy4Vh3S8
+ WJT6axb+OiCXJGbpCIEPe3iR1pqz2IG2+d0ADOcEEZMp4DaGzdbWXB5YmnNkKmt/VGGO
+ zkQ0wKv6A9i59HDopaZK4V6IuF+dngJhA6ZZ0Wk7ke/cx5HTM8QPKLGEwfdrTkD6i3qQ
+ 9P1twRUkXj+a5lWTpTi5pF1oBwpBTTYKHmRYdYbk7jTjcwZLYCdFaJwuAbf9XK1Vm2WC
+ 87LAcd/r5Is2odY1e4fggIUXTeuEhM1DGzmv+G7z6jWfHwhbpNoBeJlD6u+oSPHReF/A
+ 2xvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rCaNd4xCbOJUv0xEcYHrfGW6SVngssRwezattoH8sxI=;
- b=uaGR4Ig298L+MqVi6Ju1dR1lSukXDcUN0HeHyqpduSG8q4m2cQhgWqwWH1MqRFvLHl
- 6Ne3Lx2eivruEwV+ydRJRTSBUW2ODtiLZ93aFPgblww5FlioP+NnDEL/fLRgzQCJPsgM
- Om5oheqOTASVBYX7BBpy391EKdIo1RcAvsVFaYtk22m33+BezeWC3H9pjvXWB12/Ms2k
- DQCY6bvRaBkoO46KLK7ZcMC5n5Hgblygxje0fU4KsWrIXWD15oAqo05iW7N/FyusLx90
- jHAta3lYY+HbaiosRElIFG/jXtl39XrZfO9+thqoma4B/BFuVwe2QjXYkCDvuondmGFV
- u+nQ==
-X-Gm-Message-State: AOAM532BdPpbfVL6Wfh+bTupEKUYo7Cb/FCA8MkKIHFNo5WEKJdxf3Ca
- HkONlT+Bx5Lx+/45N9ACSwOU0A==
-X-Google-Smtp-Source: ABdhPJx7mR4BrdPMrgNkgA4g12Wpzaj80wdw/Yk0wA26CJoOdqNyokn4Muy0+J+WiWI/urUqrbWyrw==
-X-Received: by 2002:adf:9084:: with SMTP id i4mr14793015wri.23.1626286879443; 
- Wed, 14 Jul 2021 11:21:19 -0700 (PDT)
+ bh=esIygr0E9T94j67boLNWQxTQpKP1kT5Tz5kmDwipelY=;
+ b=Rf2P0p7aARkCGUpZyGeOwok+UICNVtprB46TKPDgHHJg7xxhI+E4mlJdMLQhcJ8Dhp
+ oWuFVkWgTLiCbL7oErTlc78cmI6/vZwbdn3ybL9AimWGZVxwgN/hJTgNY49ZyP9/vnuM
+ fyQQwDpySd73zjGsTjWlq9QAVUDz5DN0ZZH9ARtLb1S6nxtutwfln+wI5dOP3vzwsXNX
+ kbyNS12WJQ9GES5UIZMnoOCQ3vrJG25IuVDwUXERbl+tHGcJolhDJzXiOeDbd0u5znEl
+ SMx8kfgtN07Wvzb0biQt15HpNL6r7erq+II6UA3GFaMlEUC8FFnOvKSlMPKFtv5tG+IZ
+ rRbQ==
+X-Gm-Message-State: AOAM530QPmAaPQ1b2Kklms++kXaDbXmMw4cPD+NYAIFfqySSkBPS0a0n
+ IX/rz7EYfRLi+VPEQSd0Wg6j+g==
+X-Google-Smtp-Source: ABdhPJy59pFfWg5LomrZZbcWaSai0BuefS5MQ2jNZVEE4RrF9Q3b11uy6Dsl9zSe3kasFMBibz0SyA==
+X-Received: by 2002:a05:6000:1048:: with SMTP id
+ c8mr14380181wrx.202.1626286864401; 
+ Wed, 14 Jul 2021 11:21:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o5sm1849392wms.43.2021.07.14.11.21.06
+ by smtp.gmail.com with ESMTPSA id p8sm4820363wmc.24.2021.07.14.11.20.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 11:21:15 -0700 (PDT)
+ Wed, 14 Jul 2021 11:21:01 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9D1261FFAA;
- Wed, 14 Jul 2021 19:20:58 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 08A7C1FF90;
+ Wed, 14 Jul 2021 19:20:57 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/21] contrib/gitdm: add more individual contributor
- entries.
-Date: Wed, 14 Jul 2021 19:20:56 +0100
-Message-Id: <20210714182056.25888-22-alex.bennee@linaro.org>
+Subject: [PATCH  v2 04/21] configure: remove needless if leg
+Date: Wed, 14 Jul 2021 19:20:39 +0100
+Message-Id: <20210714182056.25888-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714182056.25888-1-alex.bennee@linaro.org>
 References: <20210714182056.25888-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,54 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Qiang <liq3ea@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Chetan Pant <chetan4windows@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also ensure Li's canonical gmail address is used.
+It was pointed out in review of the previous patch that the if leg
+isn't needed as the for loop will not enter on an empty $device_archs.
 
-Message-Id: <20210714100628.10460-1-alex.bennee@linaro.org>
+Fixes: d1d5e9eefd ("configure: allow the selection of alternate config in the build")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Li Qiang <liq3ea@gmail.com>
-Acked-by: Chetan Pant <chetan4windows@gmail.com>
-Acked-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-
+Message-Id: <20210714093638.21077-5-alex.bennee@linaro.org>
 ---
-v2
-  - dropped un-acked individuals
----
- contrib/gitdm/aliases               | 3 +++
- contrib/gitdm/group-map-individuals | 3 +++
- 2 files changed, 6 insertions(+)
+ configure | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/contrib/gitdm/aliases b/contrib/gitdm/aliases
-index c6ed215e68..4792413ce7 100644
---- a/contrib/gitdm/aliases
-+++ b/contrib/gitdm/aliases
-@@ -31,6 +31,9 @@ pbrook@c046a42c-6fe2-441c-8c8c-71466251a162 paul@codesourcery.com
- ths@c046a42c-6fe2-441c-8c8c-71466251a162 ths@networkno.de
- malc@c046a42c-6fe2-441c-8c8c-71466251a162 av1474@comtv.ru
+diff --git a/configure b/configure
+index 4d0a2bfdd8..013f327f4a 100755
+--- a/configure
++++ b/configure
+@@ -5083,12 +5083,10 @@ if test "$skip_meson" = no; then
+   echo "[properties]" >> $cross
  
-+# canonical emails
-+liq3ea@163.com liq3ea@gmail.com
-+
- # some broken tags
- yuval.shaia.ml.gmail.com yuval.shaia.ml@gmail.com
+   # unroll any custom device configs
+-  if test -n "$device_archs"; then
+-      for a in $device_archs; do
+-          eval "c=\$devices_${a}"
+-          echo "${a}-softmmu = '$c'" >> $cross
+-      done
+-  fi
++  for a in $device_archs; do
++      eval "c=\$devices_${a}"
++      echo "${a}-softmmu = '$c'" >> $cross
++  done
  
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index 9b6406e624..f816aa8770 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -31,3 +31,6 @@ jhogan@kernel.org
- atar4qemu@gmail.com
- minwoo.im.dev@gmail.com
- bmeng.cn@gmail.com
-+liq3ea@gmail.com
-+chetan4windows@gmail.com
-+akihiko.odaki@gmail.com
+   test -z "$cxx" && echo "link_language = 'c'" >> $cross
+   echo "[built-in options]" >> $cross
 -- 
 2.20.1
 
