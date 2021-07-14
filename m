@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B13D3C8747
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:23:40 +0200 (CEST)
-Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634C73C8729
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:14:28 +0200 (CEST)
+Received: from localhost ([::1]:34232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3gjb-00087w-9L
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:23:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50924)
+	id 1m3gah-00045G-Bm
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:14:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m3gSn-0001n7-8H
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:06:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40750)
+ id 1m3gT7-0002Y7-3e
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:06:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1m3gSh-0002Yd-Lt
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:06:15 -0400
+ id 1m3gT5-0002se-FF
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:06:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626275170;
+ s=mimecast20190719; t=1626275194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HFpMa/jESk4BgFHv2McqEBboIW5Op2BgaEAn6Vh8PaQ=;
- b=VOseV5roTlW529XQs/yv/wfhAd9FvlTmjThJ0jMt3Cf7cyApAx8ZadV0KcBCm3LQPdZJ0S
- yQbry75Ss1loYsjWSSB7t5ZpjC2QwVQuiFSXxNzPsLOHqc//H2oJ7/FJpwjE7KAdaTpqHN
- 9w74gzpiRMXGtsXxoMf8o3UNu1CDEU0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-X4Yk1v8TOMOptIit7taf0w-1; Wed, 14 Jul 2021 11:06:09 -0400
-X-MC-Unique: X4Yk1v8TOMOptIit7taf0w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- y6-20020a7bc1860000b0290227b53c7cefso908819wmi.1
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:06:09 -0700 (PDT)
+ bh=WtMJFHz7kQ7D4K47MK0JzAS7K2kJgHpax5z7zx96LFQ=;
+ b=exXoWa/VIClEltO9/wWmLzTuEhsOOmroPCEPUKcDEYiKqNeYyBuVg6CzhkbgcQ+kNPmmJv
+ BbEyif+IxUX7faKXZdfyFHBitlrOu8eocOFUiof0HbET//Ok0PlZGj8krLd3ACnpvA7qr2
+ Jeyp4GUr4mO9aoQ3X2Uyr4Y/1Q50GwQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-532-Ci7l0gohPSedyKH2rf6e_A-1; Wed, 14 Jul 2021 11:06:27 -0400
+X-MC-Unique: Ci7l0gohPSedyKH2rf6e_A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ z4-20020a7bc1440000b0290228d7e174f1so547577wmi.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:06:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HFpMa/jESk4BgFHv2McqEBboIW5Op2BgaEAn6Vh8PaQ=;
- b=CifEZYyuXa13VS5/ss0jiOWuSR3XVQc9U0cqeixeReK0HRLAcjH/hu9QxPiY6KWPDG
- R2jTZfzulCqaJpEmNP846RjFvz4rEg2YvrywygF1+wmQpuLI4RPYh30p0nE5hygK5imd
- VwXIWEjIzn9ktFpFb476HldCjv8nMv5jtw3ny/W9d9wgRJwbphTOaLeogsf4OOssoZf5
- JOCCEw/cj5V6U2d09Rs6/pP8f8B5yrdFMp9z5SGaR5K7Wt1Cf2PUkXsN6EIZ4Jib5CXT
- wWQYX12u66JMi8bjNu8uhjASLtjH2IFjr0QQMN1EE3w4MZp8svLtWNMmwwi97ks5zXvr
- IWCw==
-X-Gm-Message-State: AOAM532vNfywbx2V3UXd8B7pGPb5qDy/PAaqLDGfUkMqEnd+ba/zb6Yr
- TS3QokR7HBBvh2khcMpdN16+oYP5sZ5wnFK69p1yR490K3m5msXzmkkVLCfA8JsHFga5wVfmvXT
- GbgyRIwePsZGnq/6/rZHYBoOeOqz2lKTz8GpslRxWJnAQYwefyBpl5QMRGqjeL+v/ops=
-X-Received: by 2002:a05:600c:4fc7:: with SMTP id
- o7mr11583615wmq.16.1626275167859; 
- Wed, 14 Jul 2021 08:06:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdXxDeceR6h6ZKWZnDx+g/cMCPhpgSlmXHljEXrZUoxowPciG0ZJKb9qq4nt8Mc77hU4SU2g==
-X-Received: by 2002:a05:600c:4fc7:: with SMTP id
- o7mr11583567wmq.16.1626275167409; 
- Wed, 14 Jul 2021 08:06:07 -0700 (PDT)
+ bh=WtMJFHz7kQ7D4K47MK0JzAS7K2kJgHpax5z7zx96LFQ=;
+ b=SgleHAWhJPFfeQLHD+LprftN9XNK3rfUszFJ67sJvyrCw3RIuID7Mo9tw5s6up+ChY
+ ebeuT2L5V7NoD4JGMxtmpmrNCwc4hhaPwmrY3sHmnC9vHW3B5GsZV3eun0mdgOYxKFv4
+ Wmv3pvgOSqTTreehegmQrmEvZn7PtxEUDUz2wMh5R+gW1sMFZ2HeiD+EKDjkLFCkduTq
+ uYnbk0qNPQZO1KpxCs9GpqNQfkqj3oYJHZxabJx36oH1P+YrDNqWozfnYoUsYSE2ECIF
+ FGvvC92dRuPRB4IzPesvCRGgSuJYjYW4HH/0YgEZl6ADQ49eKAyTuKeR/8MnWN2ykN/A
+ BmGg==
+X-Gm-Message-State: AOAM532g3W6ZKPD41uOWVqgCf4I3YmmNlJOG8s02+pzDaTHDbwbbznOQ
+ 7UvQY5h3DeP0EAIFChSACKVDWwOqFTCo5w4kC0WKT7Gleluc901YyM8SzI+1bLhZG3f1tMJXHsg
+ osr/VLlVhGBLGhL4=
+X-Received: by 2002:adf:cd86:: with SMTP id q6mr13347708wrj.422.1626275186186; 
+ Wed, 14 Jul 2021 08:06:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQINEg0R6YEEBKB2e8fQypHrMyB1Y0d+y8ioRgwEky8iWGqO2xAhZ6gpT8+6iFOjEivhzjBg==
+X-Received: by 2002:adf:cd86:: with SMTP id q6mr13347681wrj.422.1626275186050; 
+ Wed, 14 Jul 2021 08:06:26 -0700 (PDT)
 Received: from ?IPv6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
  ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.gmail.com with ESMTPSA id m6sm3825868wrw.9.2021.07.14.08.06.05
+ by smtp.gmail.com with ESMTPSA id c2sm2923363wrn.28.2021.07.14.08.06.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 08:06:06 -0700 (PDT)
+ Wed, 14 Jul 2021 08:06:25 -0700 (PDT)
 Subject: Re: [PATCH 0/4] Fixes for the --without-default-features configure
  switch
-To: Cole Robinson <crobinso@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20210713093155.677589-1-thuth@redhat.com>
- <c7ac9cb5-3a39-a72a-6c4e-06c059a67cd2@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1a26cd56-172c-4878-5d3a-4112b132f8d5@redhat.com>
-Date: Wed, 14 Jul 2021 17:06:05 +0200
+Message-ID: <68bb3679-34de-76fa-2cb4-86a8d6de2aff@redhat.com>
+Date: Wed, 14 Jul 2021 17:06:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <c7ac9cb5-3a39-a72a-6c4e-06c059a67cd2@redhat.com>
+In-Reply-To: <20210713093155.677589-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,36 +101,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/07/21 16:54, Cole Robinson wrote:
-> Patches look fine and fix some issues but others persist
-> (--disable-system isn't triggered).
-
-I wouldn't say --disable-system counts as a feature, since it's really a 
-shortcut for choosing a subset of the targets.  Likewise for linux_user 
-and bsd_user.
-
-> IMO this needs an audit, but more
-> importantly 'configure' should be rearranged a bit to make this less
-> likely to regress:
+On 13/07/21 11:31, Thomas Huth wrote:
+> Many features do not get properly disabled when the user runs the
+> configure script with --without-default-features. Let's fix that now.
 > 
-> * move all the --enable/--disable variable init into one section with
-> nothing else mixed in
+> Thomas Huth (4):
+>    configure: Fix --without-default-features propagation to meson
+>    configure: Allow vnc to get disabled with --without-default-features
+>    configure: Fix the default setting of the "xen" feature
+>    configure: Let --without-default-features disable vhost-kernel and
+>      vhost-vdpa
 > 
-> * convert the values to all use
-> $default_yes/no/auto/enabled/disabled/... variable syntax so visually
-> it's consistent, and if a default is ever changed like $default_no ->
-> $default_yes then we behave correctly (as opposed to 'no' -> 'yes').
+>   configure   | 8 +++++---
+>   meson.build | 2 +-
+>   2 files changed, 6 insertions(+), 4 deletions(-)
+> 
 
-This is a nice idea.  We should only have default_yes/no/auto, plus 
-"auto" for Meson options.
-
-Also there's the idea of parsing --enable/--disable options for Meson 
-options automatically from the introspection data.  This has the 
-advantage that you get the default automatically from meson_options.txt 
-and -Dauto_features, without any code in configure.
+Queued, thanks.
 
 Paolo
 
