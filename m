@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0253C936E
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 23:54:37 +0200 (CEST)
-Received: from localhost ([::1]:51786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26C03C936F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 23:55:58 +0200 (CEST)
+Received: from localhost ([::1]:53956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3mpw-0007Ip-Nu
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 17:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47182)
+	id 1m3mrF-0000Kr-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 17:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m3moV-0006Cg-1k
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 17:53:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54137)
+ id 1m3mpM-0007RI-8L
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 17:54:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m3moT-00037E-O7
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 17:53:06 -0400
+ id 1m3mpK-0003dm-Lv
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 17:53:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626299584;
+ s=mimecast20190719; t=1626299637;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ecWMW3vbMt1HAIZNlAT/dd8BXp5Mh+gtspAnm1AfciY=;
- b=KlcfEYXtc+nNFYcY22jnZ1jzeN50LJ2jUudancf82p2Jk8Jm3dzSdXMqzCuifpJxQAs7cW
- TbipBEJTDzCimz2cWyR2h8+cMSPIjT/flASMrNkET4MgNfHkSpIUzRqcIuEw+MmEpNIoQ6
- nif15RBK51Uiimdu8a1qkCUQ8Tx8aOY=
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com
- [209.85.222.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-80-5Nni_ilUPUaDk9c4TZ8bSQ-1; Wed, 14 Jul 2021 17:53:01 -0400
-X-MC-Unique: 5Nni_ilUPUaDk9c4TZ8bSQ-1
-Received: by mail-ua1-f69.google.com with SMTP id
- x1-20020ab038010000b02902a206a03857so750299uav.3
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 14:53:01 -0700 (PDT)
+ bh=2lFajJeamlR5QQ3qRZjfAfMZMSCCMl1uHbPwU/5XZKc=;
+ b=JiteGb8I6COI6gN8c67IPsXHUuxSW9ygVf6cB+1JkSlhx1O+5i2sKhjUOJfquX/E/OB3De
+ 6ekjyMGyCxPltQxz4ArFMoaA7KBRP+ZbkojNJ6OCA0KWreQINwpr1FCuDLUvFaBlOTc1HJ
+ zQLNAjoZ0lIWGAI6ifjKWrWDnjjYyvY=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-JQIrQLWvMIW0dwlTmz753g-1; Wed, 14 Jul 2021 17:53:43 -0400
+X-MC-Unique: JQIrQLWvMIW0dwlTmz753g-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ y10-20020ab020aa0000b029029fe64e1166so750997ual.2
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 14:53:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ecWMW3vbMt1HAIZNlAT/dd8BXp5Mh+gtspAnm1AfciY=;
- b=WotyNv3XpLTiuN09lur7WjxHR5zMUj2ydBcLtc1Zf7ne3LXW155ofNINokUk6ZRTrJ
- rZi54pwg/vAxNSMOLE+OXqQX9crPye9wiS+0U8edq5OLe3f6TO2fBjLoBcZgQCbKodEJ
- yNDWGbZIL1uIaV52BLFtKkkVNgll79kai8k33UNu/p7ooWMS+FCY/mtESGdSiTMjYGHd
- 0ZtrTAmN3C5wnhELo7IWAWFSeEqKO5Mi6MEwQpGgldHzk2N8EvpjG8+S89L3H2OiP7yk
- fEc2S2jCA7SBXZ5VbNVyBAyw6Lzb80CHz6OSwdugt6/DyrU48iBOU6uiXfYOammkk0fI
- k70A==
-X-Gm-Message-State: AOAM531WH7P0zZc49JfknT2YY0NLgu8kLbIHnTJYpfYGJPP4Dz04osZE
- h8Odrko/v154mIRIVggMO1dsom9ue7+W0s4PhKzb1nfIpmNrvUXPtiYUBGoki4kw5UoTQlr7i8s
- MbgjfPK3lye8I9c3M9/iE/hFLUcrgViE=
-X-Received: by 2002:a67:31cd:: with SMTP id x196mr392451vsx.50.1626299580838; 
- Wed, 14 Jul 2021 14:53:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxOWFzui3hjshZmu6LfgF5RxkLgUVU7ljQeasJkbuihFDhcj8Uium5/vdPUOLt47rA4BW+6M5cgIYH+V51C+zg=
-X-Received: by 2002:a67:31cd:: with SMTP id x196mr392444vsx.50.1626299580715; 
- Wed, 14 Jul 2021 14:53:00 -0700 (PDT)
+ bh=2lFajJeamlR5QQ3qRZjfAfMZMSCCMl1uHbPwU/5XZKc=;
+ b=X8YyyYcYc0ghOM/TunCIkwkOOf9ibumOZzYoUArPzMEDlTOmq73gtRk1DG/k2rkTXR
+ pfGrx1TmQA5nY5ZiRJ8ZjVQj7P37Hl69OYeTmSbIRr0RjtPGwTWplTOiXh3pZcIFzv+J
+ i67Y81+hkiKEA969xPzd+tUvsKxzqLcDAi1HNnFGoh0K+LR5tjtVbKEfsWHiqXuSy9Zg
+ 8pcj0RCyYlO/6P7KvFi3Pznhyg5ZzB9QB2dQJZ7vD7tmCTBO0eshECe01/v5wQ+Ao9Dg
+ kSTd8nmbfzfgiFRn5+04d21j+n9z2bDZewdgLvqI7jxm41jktAyHhPiHpnaVDtcZbw4u
+ zZpg==
+X-Gm-Message-State: AOAM5324HyJT8SgzCvufbQmY3GZEWuo6Om9O4UTlJ5CoMgW3tyWgFsuW
+ S/29aaToETy/KMkNoJKXXwJwSm4hB0zFlY8Jb1S6eOrwZNrmr8FSWHWVsz856hFy6FHpuLiHTbD
+ NWmQRBu7UFa9baD18NA/+KRLOd2tMCZY=
+X-Received: by 2002:a05:6102:3661:: with SMTP id
+ bg1mr579174vsb.50.1626299623510; 
+ Wed, 14 Jul 2021 14:53:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx249zCKyXOGhJnJp3eTHW3e0VlrWEemTRM2Mg4b87tOYjgGrxLxf2j6lOR1PJQZuxN4qEF0gVM58yVYOb9Pes=
+X-Received: by 2002:a05:6102:3661:: with SMTP id
+ bg1mr579164vsb.50.1626299623401; 
+ Wed, 14 Jul 2021 14:53:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210714174051.28164-1-crosa@redhat.com>
- <20210714174051.28164-3-crosa@redhat.com>
-In-Reply-To: <20210714174051.28164-3-crosa@redhat.com>
+ <20210714174051.28164-4-crosa@redhat.com>
+In-Reply-To: <20210714174051.28164-4-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Wed, 14 Jul 2021 18:52:33 -0300
-Message-ID: <CAKJDGDZ9SkpS9N23fMt_WeHEP9ZX9TsNEzv=2UMYXvt=t39POg@mail.gmail.com>
-Subject: Re: [PATCH 2/6] tests/acceptance/virtio-gpu.py: combine x86_64 arch
- tags
+Date: Wed, 14 Jul 2021 18:53:17 -0300
+Message-ID: <CAKJDGDaRK4Z6XvHkKsdycW3pvN9Niaq7rrTT47NmwoHj4O6tCA@mail.gmail.com>
+Subject: Re: [PATCH 3/6] tests/acceptance/virtio-gpu.py: combine CPU tags
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -103,8 +104,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, Jul 14, 2021 at 2:41 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> The test class in question is x86_64 specific, so it's possible to set
-> the tags at the class level.
+> Like previously done with the arch tags, all tests use the same CPU
+> value so it's possible to combine them at the class level.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
