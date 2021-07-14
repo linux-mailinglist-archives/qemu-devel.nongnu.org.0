@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13193C8AFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:34:34 +0200 (CEST)
-Received: from localhost ([::1]:50948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CB83C8AFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:33:17 +0200 (CEST)
+Received: from localhost ([::1]:48604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3jiL-0004B0-U8
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36078)
+	id 1m3jh6-0002cB-5e
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:33:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3jVZ-0004BU-MQ
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:21 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50726)
+ id 1m3jcE-0002sj-TL
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:28:14 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:41519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3jVX-0002A6-TU
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:21 -0400
-Received: by mail-wm1-x335.google.com with SMTP id l6so2210896wmq.0
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 11:21:19 -0700 (PDT)
+ id 1m3jcA-0006ao-VV
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:28:14 -0400
+Received: by mail-wr1-x430.google.com with SMTP id k4so4378098wrc.8
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 11:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N2DtqjvFHn9zDh8Fuf7ubcsXK+LA1vRNOTRqEa7lRVY=;
- b=GHOGTiXlMv6T5yCVOii1O/7jbwpK20tF6Spsi6NlypgzG5ZHbQoKJb3azNYswCUbuv
- pyPimOLUJzmYdMW5SYDNKUGLehver0mGXAD+yYSuqvWLH8d5dWd2emRqy3GXUjUoOZVK
- oW08rRzcNOxZgpCgEsvLR4aj0772VFZ6Jzdu8O7EC3SoztMNaNryvanHNtPUQBu29a82
- qDdoRJuBKCnfzMVYbf8Z6oJajaHMQld//rOPYBFoM+S9Cd2k7qtNsiob6Wou4KRUNyJX
- aiGtsjzcwWkeoy8tc9Cq+i2cRHKakaGlbztnuUgODHK6+u2iqKd+TzxBMJo0PqV4MEir
- dwbg==
+ bh=MahSUq7EJua5My1f3HXZ9H/oUpbvLVcnEDR+GKXvQJY=;
+ b=UghS3sZQP4VoPUB+lxdFz2f8Mzxa8JxR/BxPI3WTL7nPnXiFnRODlib1bxmKr+tNEV
+ Z1DpmvyUx5vCJmyVd0x1Cj1xYG1D8ljOYElXEeZFxurfwmFi+mblLnfd6SgpHTgXFbna
+ F9jsoxjmtCiIPBjrz+Gd2cWXWt0GwXD/uGFYtm+7rKeUmJtFegfHdtpYsyF2iW4Md0bW
+ T7Cpph77MG99PDWYoeaqu9t6mMlSuolQLNb05FRM7YkLWjIU1AbgsD5/+Y1FtG9nG6r8
+ l40nsM4+y+aRPc6JNP6zEeIUdVSt05AsK6QQADVjhquSaY7Z4HfFihK1Cf8WodE7s5I6
+ HBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N2DtqjvFHn9zDh8Fuf7ubcsXK+LA1vRNOTRqEa7lRVY=;
- b=OaKcxYmyLq4ZQCbwzZ5gnkra14L+v5ZvyZrLsxW3Hbs+i7hpXqbrTZ3wnvHbMB2l4B
- JTePYtrrlIZo8vqcb9qG351A36q/diRCf3MD4BGPqYswNl3LT+elKqRiPf1PlNWHC7zp
- Q8mei4hw3ZSvQPp1fhTNWpXPZh9VGURfJbqTQUzRlNOlDG3878YwgD4rRJWZscOJC9/L
- 7a0IdZPENGDSMb7gk7YJgffOoeIIuPa0g3S8fq0KeokfEWbchZoND580VcHlT5vChLtb
- cXBMJNGrvWZexnPOzZOBFL2D+ZbqPss6m7H/2KQ9sCJvIeIF87+mgqy4Ek8fEoPNbeye
- Z7kQ==
-X-Gm-Message-State: AOAM5332OCPE5C+T2gS23glZx4VhSaLozG6tbSPUjR3aWmlNFM63gjqU
- IrY9VfFIn6hYd3DS0eZ/XIMP+A==
-X-Google-Smtp-Source: ABdhPJxzQriTd3g9j6TI6o5VTZmHYfAS8lGkFhOxoozECJntGtL35Tg/wkXQYpmY8xnBAwrGDw7Jgw==
-X-Received: by 2002:a1c:2782:: with SMTP id n124mr5659100wmn.114.1626286878519; 
- Wed, 14 Jul 2021 11:21:18 -0700 (PDT)
+ bh=MahSUq7EJua5My1f3HXZ9H/oUpbvLVcnEDR+GKXvQJY=;
+ b=i+G/cNcxUWZrFITlLTCVahuFCc6sy4iDITOWKGyvmcOMn0tTUbKWrIKwBwoW31pdy5
+ xqO52J5pQxZU+shdMBXJoHTuRlsGSZMdQcZ9J5cJIPgrI6lqmXy+V445F8Zhy685ugYg
+ uBsxEXUvVMoN3S2pK6SIRJZRAY8ELCHlRGF3pteS2nhFPFHYcGq14gf+5Wq93eGuQ9bF
+ LVFca4V7QlBX5i6/RUvn5Ta/kKYcab/Bt1CQnSStAt7u61s4fCaeJpDYpoISISiu9G1e
+ DEfne/23jLxSid8NVoT83nBg4RCOU8RYWeJ4oWxXhDeubXXqkMJrqq7BQ4uTGItByenv
+ WspQ==
+X-Gm-Message-State: AOAM5324Jxw41umK0y9xaneivG92cBJ7EhEFtRWZoZmLIkuc/Ui/RRdk
+ nnQDDxnN6mO32xaz1RDz9XlKvQ==
+X-Google-Smtp-Source: ABdhPJwDRPeQcIsd77x2yIa7AweInUJa1Tl4n/Pxv8ETi8wljsi8p8PTFUVW2wh3jwB6MverP/fZnQ==
+X-Received: by 2002:a5d:68c2:: with SMTP id p2mr14170684wrw.27.1626287288658; 
+ Wed, 14 Jul 2021 11:28:08 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c15sm2796295wmr.28.2021.07.14.11.21.06
+ by smtp.gmail.com with ESMTPSA id z11sm3382375wru.65.2021.07.14.11.28.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 11:21:15 -0700 (PDT)
+ Wed, 14 Jul 2021 11:28:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3F1771FFA5;
+ by zen.linaroharston (Postfix) with ESMTP id 6DEB41FFA9;
  Wed, 14 Jul 2021 19:20:58 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 17/21] contrib/gitdm: add domain-map for NVIDIA
-Date: Wed, 14 Jul 2021 19:20:52 +0100
-Message-Id: <20210714182056.25888-18-alex.bennee@linaro.org>
+Subject: [PATCH v2 19/21] contrib/gitdm: add an explicit academic entry for BU
+Date: Wed, 14 Jul 2021 19:20:54 +0100
+Message-Id: <20210714182056.25888-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714182056.25888-1-alex.bennee@linaro.org>
 References: <20210714182056.25888-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,31 +86,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>, Yishai Hadas <yishaih@nvidia.com>,
+Cc: Alexander Bulekov <alxndr@bu.edu>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>
-Cc: Yishai Hadas <yishaih@nvidia.com>
-Message-Id: <20210714093638.21077-18-alex.bennee@linaro.org>
----
- contrib/gitdm/domain-map | 1 +
- 1 file changed, 1 insertion(+)
+For some reason Alexander's contributions were not getting grouped
+from the plain "edu" mapping.
 
-diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 0b0cd9feee..329ff09029 100644
---- a/contrib/gitdm/domain-map
-+++ b/contrib/gitdm/domain-map
-@@ -24,6 +24,7 @@ microsoft.com   Microsoft
- mvista.com      MontaVista
- nokia.com       Nokia
- nuviainc.com    NUVIA
-+nvidia.com      NVIDIA
- oracle.com      Oracle
- proxmox.com     Proxmox
- quicinc.com     Qualcomm Innovation Center
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20210714093638.21077-20-alex.bennee@linaro.org>
+---
+ contrib/gitdm/group-map-academics | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/gitdm/group-map-academics b/contrib/gitdm/group-map-academics
+index bf3c894821..44745ca85b 100644
+--- a/contrib/gitdm/group-map-academics
++++ b/contrib/gitdm/group-map-academics
+@@ -16,3 +16,6 @@ cota@braap.org
+ uni-paderborn.de
+ edu
+ edu.cn
++
++# Boston University
++bu.edu
 -- 
 2.20.1
 
