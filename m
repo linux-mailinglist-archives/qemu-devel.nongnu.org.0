@@ -2,99 +2,154 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC033C7B44
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 04:02:11 +0200 (CEST)
-Received: from localhost ([::1]:57000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BDDD3C7B7C
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 04:07:36 +0200 (CEST)
+Received: from localhost ([::1]:60882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3UDy-0003js-3l
-	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 22:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36874)
+	id 1m3UJD-0006i4-5A
+	for lists+qemu-devel@lfdr.de; Tue, 13 Jul 2021 22:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3UCu-00034j-Sl
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:01:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39777)
+ (Exim 4.90_1)
+ (envelope-from <prvs=2829926e85=yanfei.xu@windriver.com>)
+ id 1m3UHa-0004xQ-24; Tue, 13 Jul 2021 22:05:54 -0400
+Received: from mx0b-0064b401.pphosted.com ([205.220.178.238]:46500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3UCr-0004J5-8j
- for qemu-devel@nongnu.org; Tue, 13 Jul 2021 22:01:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626228059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7NXMf3yrN1mUA+/zxLQUWmYhahKpiUcrFv/k21/KOV4=;
- b=GDRy+hANLIGAHI9XX2GYDBqpBeYSLc8fiNqDIuPQTBD0wBoeOPj/vzY5wcTnGLakZT/c+1
- MyQb58d1dAn9OTKv50lpkU/9DwLl+cQ6cF8ffndM5fPuiaDZrhNNXcE0LS0vlMKQcWtza6
- Ctsk1jWrLd/kCfGf1pz6+7haP1z8WZA=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7--rE6gvknN7Cu8XIH0r9ZpQ-1; Tue, 13 Jul 2021 22:00:57 -0400
-X-MC-Unique: -rE6gvknN7Cu8XIH0r9ZpQ-1
-Received: by mail-pl1-f199.google.com with SMTP id
- p8-20020a1709028a88b029011c6ee150f3so496819plo.1
- for <qemu-devel@nongnu.org>; Tue, 13 Jul 2021 19:00:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=7NXMf3yrN1mUA+/zxLQUWmYhahKpiUcrFv/k21/KOV4=;
- b=SfUUyp02Ea8xM6yzsEULX92yRO6l3zFLoB4Y2Za0mvqU4izZeiFk9uNi/JEhnwT17C
- UpvxRlvs3bncWdzaTEFEyjNKbwjKlQwOxoTwvHItJa59CsSh2ldhdgF0DGwHxSw9Vg/o
- cG9Ru3ac2oxA6WbUrLz7/LLWqHsHXZPySE8fpp5LaRVV31EsC94hsvovrv4We3gcQfGd
- kmBRkEJC1wmXMYDmi30FgDVAgvKIWrg0olAQvKK6eNrucQ86lE9wJFI2nXXN0Iv3stpJ
- TW3YD1zJz+Ds6crcinHgQ+ulYY9UHaRch79AYzL/BI4A8ndXn26E6pjlEfAMkJDHwoiw
- 9s0Q==
-X-Gm-Message-State: AOAM532rLhYjpWQ52R3QhsOwl5r0gTXVUOwtzDkWFONNqrXO58bwTCw+
- f3JN5xHoZo+VSZ++T+G9xYetILCPTpuZ5HDzt/BK5yQiiSel6zUDhdir4VaX0C9ioHwxP2YOBeP
- lFoqyU8ibQxXdHWU=
-X-Received: by 2002:a17:903:2309:b029:12a:965b:333 with SMTP id
- d9-20020a1709032309b029012a965b0333mr5800461plh.31.1626228056781; 
- Tue, 13 Jul 2021 19:00:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyITy0gio7fuZAT5m6SWHHcIsKxMZgvSiQyhdjciQjfadKeDgNYamT/AVM+44qZCZr9NjwhXw==
-X-Received: by 2002:a17:903:2309:b029:12a:965b:333 with SMTP id
- d9-20020a1709032309b029012a965b0333mr5800440plh.31.1626228056496; 
- Tue, 13 Jul 2021 19:00:56 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id f6sm432436pgl.2.2021.07.13.19.00.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 13 Jul 2021 19:00:56 -0700 (PDT)
-Subject: Re: [PATCH V2 00/18] vhost-vDPA multiqueue
-To: "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Zhu, Lingshan" <lingshan.zhu@intel.com>, Cindy Lu <lulu@redhat.com>,
- Eugenio Perez Martin <eperezma@redhat.com>
-References: <20210706082717.37730-1-jasowang@redhat.com>
- <ce31242d-08a9-b1e4-f260-8c31ca4b49c0@redhat.com>
- <20210712091500-mutt-send-email-mst@kernel.org>
- <CACGkMEs_sNOqdsDvpMR+Mx7TXY2wW8p_NVALvHLPgeAsiWNTGA@mail.gmail.com>
- <20210713114825-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <3a7964da-e367-6893-1590-17fee8f91650@redhat.com>
-Date: Wed, 14 Jul 2021 10:00:48 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210713114825-mutt-send-email-mst@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1)
+ (envelope-from <prvs=2829926e85=yanfei.xu@windriver.com>)
+ id 1m3UHX-0007Mi-G6; Tue, 13 Jul 2021 22:05:53 -0400
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16E22Had003997; Wed, 14 Jul 2021 02:05:47 GMT
+Received: from nam02-bn1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07lp2040.outbound.protection.outlook.com [104.47.51.40])
+ by mx0a-0064b401.pphosted.com with ESMTP id 39sjdc85hp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 14 Jul 2021 02:05:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LoA7vxC9zGuIqh/Mdl84dL9dZSRPVuzjvK6/x1zzN5SwJRve7zc8UBvLQsANKZyIomaB7IjXEWUEjSWZ6cnshv1WQcPCdOqWaPA2sMppoSuhCSXJdvrcezddwOLhGuxw5WsChIhXyA6plLsM1/CyF1u+KUXq5X+qqlMYCjicZJ27Ya764OlImwq3CqgUL2QEaH42nDIjQUxIZ7wqWpXKR7rPtTYNjHn5atxwA/J+YMvzA31GbYDIOdM6akp+b7b8g1zb3YjbeVcei0EWnZBoDPvtCBpqWLtm0URfyggiptoK31579MVWSGArPQQhNDbGF1hUd1SrKgdTtMN35WfrWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GGJMBBvfsDWG4TjZHgxlz4bi7k4GZyXEgQHCnrTYUg8=;
+ b=dy/Rbvj8+mTM+k/+UGBdxDY4VMIzOafnwvVMvXt3xzdUgl2M/ejXRCfmj0ZNuIYmgJpseT3oCgJ62y6/7xARqjETGsSuVvsct//qpAkPYXXpaCbwqOKm4djboOyvsvG0CoOD8DFnxJ0T8+piK5r+XvGHJzOlklMcYp8i6Bsg3qn4KBgqD3s9uBG8MfGtzflQ10AGm34SZZKeUsSL20iyuVjE+HMhOSQ+0/yd/L9u/ZJJFrGLfcZf08FMYyKFXzP9r9CoTHyDIEXZ98Xkh+kJLiZ77Z55HYTr/iFdAo07PQhqqUzUnV7CNWiYANtx4Hji9kepToHjv4yfGr5v91pubA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GGJMBBvfsDWG4TjZHgxlz4bi7k4GZyXEgQHCnrTYUg8=;
+ b=EG4WXAwPTxjH61llR8nniTOjq3Plzjoo66iRNI4wsAmoj7wMAA3JKt5Q3R30+ZTFhMWQekf/9xdyBRnsVf7ul688srs6LhXZwIDPEg5NmG3ALpqMAFhkyHyJHPJfc8IdSURqJOemTq1yM7bfwCwWMSZim8ouypf9S1kUftFv9dg=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=windriver.com;
+Received: from DM8PR11MB5734.namprd11.prod.outlook.com (2603:10b6:8:31::22) by
+ DM6PR11MB4595.namprd11.prod.outlook.com (2603:10b6:5:2ac::16) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4308.21; Wed, 14 Jul 2021 02:05:44 +0000
+Received: from DM8PR11MB5734.namprd11.prod.outlook.com
+ ([fe80::bce8:81f7:f5a1:af19]) by DM8PR11MB5734.namprd11.prod.outlook.com
+ ([fe80::bce8:81f7:f5a1:af19%8]) with mapi id 15.20.4331.021; Wed, 14 Jul 2021
+ 02:05:43 +0000
+Subject: =?UTF-8?Q?Re=3a_Question=ef=bc=9a_qemux86-64_reboot_hangs_at_=22reb?=
+ =?UTF-8?Q?oot=3a_machine_restart=22?=
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+To: qemu-devel@nongnu.org, qemu-discuss@nongnu.org
+References: <fb8ac165-0b49-5094-e036-b98b0c83deed@windriver.com>
+Message-ID: <c1e23f92-d4e7-2977-d544-71ebed3bdf47@windriver.com>
+Date: Wed, 14 Jul 2021 10:05:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <fb8ac165-0b49-5094-e036-b98b0c83deed@windriver.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0187.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::12) To DM8PR11MB5734.namprd11.prod.outlook.com
+ (2603:10b6:8:31::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.160] (60.247.85.82) by
+ SJ0PR13CA0187.namprd13.prod.outlook.com (2603:10b6:a03:2c3::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.12 via Frontend
+ Transport; Wed, 14 Jul 2021 02:05:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f914e85e-edbd-437d-cedd-08d9466be326
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4595:
+X-Microsoft-Antispam-PRVS: <DM6PR11MB45951FB781044CE73F07B495E4139@DM6PR11MB4595.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 26Y8nCsUzqH3ATSJ5QWwgKfc/dV4Brde9AB/UiI5zIE2Kp+GuPKT5pFroK2wGQRZLLs3ofDylIXEHdECajcoN/5oVnXy6hba/seq0xqNdRBG3Hzi4z3uvOUGd0X48Gmvymlx1MFBQeVdrU5JsDSLTgftOq+0BuzjruCezIjSst0oClxPwl0SjC4a5pa96ypHYWyj4pdjQSWe5LhXmiyfAfXLB5WV+8V7jDCTTVqgcx5XE31RP8NcxnDey/qwgftrBD5cjXLQUzZEsl5mbQzdRkylV5dqBBeupSNP7Fg7FUedoX2AoohoLOdEE/HHEA9DKxIWmMqyM2RleAHWKGpaGYnUKoZsobLMuXfyR2gBuDvVuRAouc/sKgzRfVk2uQlZrCP4Thdo4IlSf+jtTqda7r1YKouMfp537O3q4ed1+3Bqx+HeY9al56vb4EAthRshT0rkLAEtLIRmTexID8LsJm6lGkJ31qYqQbcu9UHoqHG7D81uskJhzO4685GSJq/rl4dmS0hcEmDjy7wtyANUnW6pshP2IDWK1S97TDKbg2GK2myjAHqSE/3TJgTx+6y9VjshjVpaKF8xwEyGnFCkefNoyqpX4R9Rwv8tachHEmFQLx+mAtCKMaVNjQ1uOWQOk61qRGZgdZP8f12VJUD+xyC4anz2W5u4rKjbQnxd5mAANjBUqlyopjaI2YsnGqN/WmDZCWR07XH44swXBOzCiYPzbvU5cTGEcIIcd4ZhunBh/1svwSxEEnUz31zbNhs1WYiwRCWcLR3thEmP5CyVBk63Np+He7AkdfIeCklPsgY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR11MB5734.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(376002)(346002)(39830400003)(366004)(66946007)(450100002)(31686004)(66476007)(5660300002)(86362001)(2616005)(956004)(66556008)(31696002)(6706004)(83380400001)(26005)(53546011)(16576012)(478600001)(186003)(6666004)(36756003)(316002)(52116002)(6486002)(38350700002)(2906002)(38100700002)(8936002)(78286007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YWIrem5WTTkya2xraitoaVg2Y0V4TzJPRnpGK3psM29ZN295WTQvSWxwZmJH?=
+ =?utf-8?B?Y3pBV3pqTFlXOFFFODQycTBJSkZiWWpuU2I1Y1JIK0lIazNIdnIwcndwVVQ1?=
+ =?utf-8?B?V0tZUFUxMFJ2V2VVSDk4YVlBWFRSQTlCckVqUk1taW1JcHB0MmJWSVB5cmJG?=
+ =?utf-8?B?L3FnZitiektzTjRZZ0Y5ZDNuTUtUN1I1cVJQSWFPaE4zWDhMME9wRVdJQTZr?=
+ =?utf-8?B?R09LYnNlZGk5WWw1RG80cGI5OGlIN0xPcmdJZDJwVmlnQjNITjlnRkdyUDYv?=
+ =?utf-8?B?RkYyQkJQVFdTK2dyN3ZEbkFtOEJGTndVQ252TWFmalQraWJpSUxuQmJBNGZi?=
+ =?utf-8?B?K2FoeCttbzFnZ0lJWi9SQjRGZWIyNkQ1amtmazJPSVhwT3RDYmEycjduc2lY?=
+ =?utf-8?B?c2dVYzM4dFRpNXZPT0tteDJxT3F5T1M3Z3RJWVZVWFYza2MwQ01VajVRWURC?=
+ =?utf-8?B?bWZPc3FrZXhTNDRDU25ma0U4REQ3Ky9lYzlXclljZ0l3WDBPS1VFdm00M3dI?=
+ =?utf-8?B?YWw3NzhDQ3hBUDBsQzE4R3FTOWpZdlJJd01jYllld3I0K2habzJUalpxOE5M?=
+ =?utf-8?B?SlVYek1HTUdabkQyUFBsQkJMSFI2SkJiVWpiMGZlQWx5em11WTZubElvZjEz?=
+ =?utf-8?B?S3IrdHRPRFNOcmk5NW44OGIvSkx1MVczamYvMXJBdkYreVJmNlJ5SVlCZkRy?=
+ =?utf-8?B?V3ljZWxNaklCcUZmQTZhU0lWWWJtdUdRcWZWZStLcHBXOVZoZUh6MEpmMXFI?=
+ =?utf-8?B?ejlvNURHeEVSUEtRZ2ZGcGxha3VVeXhHclVDUnBnbDlSNk1BRDRINUM5UytV?=
+ =?utf-8?B?a3E2Smx3b0RmNEx5eUpNR1UxV2xTN2cvZzJpZDBvODhSTlpNY2pOSXFvYUsv?=
+ =?utf-8?B?U3BoY3BKU3QvNmhmODExejhyS0wvaHhveXF0RVdGNS9ETnkrcXJsNmlYdldm?=
+ =?utf-8?B?VnlvQ0lLOGVPOXhIemtXMGZsZ0hYUjNwSFJaTnVqVEYySCsrTWlOb3k5aWVL?=
+ =?utf-8?B?d25kV2ZmL29jQXR2NWZVd2E1alFqY242MDBwZ29WVnZEMzIzSVZXcG1wbWRX?=
+ =?utf-8?B?UHRGczNKT01URkx4NUhXZU9ZWFRnL2JmVEtNK3FmTGtGbmcyZGdydjhacGNj?=
+ =?utf-8?B?bUlDVnVPOEEyK1FsNTR6M01HRldGalQ5S1NObUdyVStBUkt0c0h1VEhuM0Nx?=
+ =?utf-8?B?V21KR1BhMUs3eitQUVdiOFdDemNMRlNpejdFK2JRKzA4ZCtMZkR4MGtxcjRF?=
+ =?utf-8?B?WVFrSUhvem1aRkhSajc5VWRDZVZjSnk5blpBRDJjYjJtSmU2VnVaR0JqT0Q3?=
+ =?utf-8?B?NjAyYXROTmo1bGlUUEZiN0tySVUycFdIejlidkFJMWpyU00weXN5dVJTUXRY?=
+ =?utf-8?B?QklqZWZNeTFobkNsSHZkY1RCVEJnWXRUS1l5VzEycHRQbUlVVU9qTlZsLzZa?=
+ =?utf-8?B?UTVHVzRtRWxvVlJneTlPbVdhYmNtM0VXUnFLTWtJWHl1Z2N1R2MyZXBYK2pP?=
+ =?utf-8?B?Rk1QOGhPanFKb1FHMzVIcGE2VHl6bjJ1ejZvaU9jMytvMnUrcDIzUWtuNjk0?=
+ =?utf-8?B?bnV3NWFkb3hkc3FqUnJkeFd2YjJCVlVLQjdDRDZ3U3lmb3dIOFNnMTN3RHpW?=
+ =?utf-8?B?TnVDbjYvZmxDV21nRGVEcDRINDdUQmdJQW5QYUFjYm81WmlrTlRqZ1czUk9U?=
+ =?utf-8?B?ZExBem1BbDk3K2JGU0tXRk9abDJYT1pQUE1jdlpKVHhBLy82WnViWlMxbnNR?=
+ =?utf-8?Q?MQOUdeouKuH9qigeTf6KdPHSWXNXJkER3WiiXCa?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f914e85e-edbd-437d-cedd-08d9466be326
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5734.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2021 02:05:43.7296 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: eZxkdHuw9sz2VT9hHqDNPRX1mVkiuqLMG8+EDRXes5oozJ+l9MY4Vf0V+mwBapNuEbbih2m/Rgrn2OKw9ioMLA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4595
+X-Proofpoint-ORIG-GUID: 8vmSx3VJ0A_PcVKDk6Kbbmi1vd-YXnWH
+X-Proofpoint-GUID: 8vmSx3VJ0A_PcVKDk6Kbbmi1vd-YXnWH
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-13_12:2021-07-13,
+ 2021-07-13 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ mlxlogscore=999 priorityscore=1501 phishscore=0 clxscore=1011 adultscore=0
+ impostorscore=0 mlxscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107140008
+Received-SPF: pass client-ip=205.220.178.238;
+ envelope-from=prvs=2829926e85=yanfei.xu@windriver.com;
+ helo=mx0b-0064b401.pphosted.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.368, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.368,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,147 +166,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Gentle ping.
 
-在 2021/7/13 下午11:53, Michael S. Tsirkin 写道:
-> On Tue, Jul 13, 2021 at 10:34:50AM +0800, Jason Wang wrote:
->> On Mon, Jul 12, 2021 at 9:15 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->>> On Mon, Jul 12, 2021 at 01:44:45PM +0800, Jason Wang wrote:
->>>> 在 2021/7/6 下午4:26, Jason Wang 写道:
->>>>> Hi All:
->>>>>
->>>>> This patch implements the multiqueue support for vhost-vDPA. The most
->>>>> important requirement the control virtqueue support. The virtio-net
->>>>> and vhost-net core are tweak to support control virtqueue as if what
->>>>> data queue pairs are done: a dedicated vhost_net device which is
->>>>> coupled with the NetClientState is intrdouced so most of the existing
->>>>> vhost codes could be reused with minor changes. With the control
->>>>> virtqueue, vhost-vDPA are extend to support creating and destroying
->>>>> multiqueue queue pairs plus the control virtqueue.
->>>>>
->>>>> Tests are done via the vp_vdpa driver in L1 guest plus vdpa simulator
->>>>> on L0.
->>>>>
->>>>> Please reivew.
->>>>
->>>> If no objection, I will queue this for 6.1.
->>>>
->>>> Thanks
->>>
->>> Just to make sure I understand, this basically works by
->>> passing the cvq through to the guest right?
->>> Giving up on maintaining the state in qemu.
->> Yes, if I understand correctly. This is the conclusion since our last
->> discussion.
->>
->> We can handle migration by using shadow virtqueue on top (depends on
->> the Eugenio's work), and multiple IOTLB support on the vhost-vDPA.
->>
->> Thanks
-> I still think it's wrong to force userspace to use shadow vq or multiple
-> IOTLB. These should be implementation detail.
+Add qemu-discuss@nongnu.org
 
-
-Stick to a virtqueue interface doesn't mean we need to force the vendor 
-to implement the hardware control virtqueue. See below.
-
-
->
-> Short term I'm inclined to say just switch to userspace emulation
-> or to vhost for the duration of migration.
-> Long term I think we should push commands to the kernel and have it
-> pass them to the PF.
-
-
-So the issues are, I think we've discussed several times but it's time 
-to figure them out now:
-
-1) There's no guarantee that the control virtqueue is implemented in PF
-2) Something like pushing commands will bring extra issues:
-2.1) duplicating all the existing control virtqueue command via another uAPI
-2.2) no asynchronous support
-3) can't work for virtio_vdpa
-4) bring extra complications for the nested virtualization
-
-If we manage to overcome 2.1 and 2.2 it's just a re-invention of control 
-virtqueue.
-
-
->
-> So it worries me a bit that we are pushing this specific way into QEMU.
-> If you are sure it won't push other vendors in this direction and
-> we'll be able to back out later then ok, I won't nack it.
-
-
-Let me clarify, control virtqueue + multiple IOTLB is just the uAPI but 
-not the implementation. Parent/vendor is free to implement those 
-semantics in their comfortable way:
-
-1) Having a consistent (or re-using) uAPI to work for all kinds of 
-control virtqueue or event virtqueue
-
-2) Fit for all kinds of the hardware implementation
-
-2.1) Hardware doesn't have control virtqueue but using registers. Parent 
-just decode the cvq commands and translate them to register commands
-2.2) Hardware doesn't have control virtqueue but using other device (e.g 
-PF) to implement the semantics. Parent just decode the cvq commands and 
-send them to the device that implements the semantic (PF)
-2.3) Hardware does have control virtqueue with transport specific ASID 
-support. Parent just assign a different PASID to cvq, and let userspace 
-to use that cvq directly.
-2.4) Hardware does have control virtqueue with device specific ASID 
-support. Parent just assign a different device specific ASID and let 
-userspace to use that cvq directly.
-
-The above 4 should covers all the vendor cases that I know that at least 
-2.1 and 2.4 are supported by some vendors. Some vendors have the plan 
-for 2.3.
-
-Thanks
-
-
->
->>>>> Changes since V1:
->>>>>
->>>>> - validating all features that depends on ctrl vq
->>>>> - typo fixes and commit log tweaks
->>>>> - fix build errors because max_qps is used before it is introduced
->>>>>
->>>>> Thanks
->>>>>
->>>>> Jason Wang (18):
->>>>>     vhost_net: remove the meaningless assignment in vhost_net_start_one()
->>>>>     vhost: use unsigned int for nvqs
->>>>>     vhost_net: do not assume nvqs is always 2
->>>>>     vhost-vdpa: remove the unnecessary check in vhost_vdpa_add()
->>>>>     vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
->>>>>     vhost-vdpa: fix leaking of vhost_net in vhost_vdpa_add()
->>>>>     vhost-vdpa: tweak the error label in vhost_vdpa_add()
->>>>>     vhost-vdpa: fix the wrong assertion in vhost_vdpa_init()
->>>>>     vhost-vdpa: remove the unncessary queue_index assignment
->>>>>     vhost-vdpa: open device fd in net_init_vhost_vdpa()
->>>>>     vhost-vdpa: classify one time request
->>>>>     vhost-vdpa: prepare for the multiqueue support
->>>>>     vhost-vdpa: let net_vhost_vdpa_init() returns NetClientState *
->>>>>     net: introduce control client
->>>>>     vhost-net: control virtqueue support
->>>>>     virito-net: use "qps" instead of "queues" when possible
->>>>>     virtio-net: vhost control virtqueue support
->>>>>     vhost-vdpa: multiqueue support
->>>>>
->>>>>    hw/net/vhost_net.c             |  48 +++++++---
->>>>>    hw/net/virtio-net.c            | 165 ++++++++++++++++++---------------
->>>>>    hw/virtio/vhost-vdpa.c         |  55 ++++++++++-
->>>>>    include/hw/virtio/vhost-vdpa.h |   1 +
->>>>>    include/hw/virtio/vhost.h      |   2 +-
->>>>>    include/hw/virtio/virtio-net.h |   5 +-
->>>>>    include/net/net.h              |   5 +
->>>>>    include/net/vhost_net.h        |   7 +-
->>>>>    net/net.c                      |  24 ++++-
->>>>>    net/tap.c                      |   1 +
->>>>>    net/vhost-user.c               |   1 +
->>>>>    net/vhost-vdpa.c               | 156 ++++++++++++++++++++++++-------
->>>>>    12 files changed, 332 insertions(+), 138 deletions(-)
->>>>>
-
+On 7/9/21 5:27 PM, Xu, Yanfei wrote:
+> Hi experts，
+> 
+> When I used qemu6.0 to boot a VM, then I found that it will hang after I
+> execute "reboot" command. With a long time waiting, It didn't reboot and
+> leave the message as blow:
+> ------------cut here------------
+> root@qemux86-64:~# reboot
+> 
+> Broadcast message from root@qemux86-64 (ttyS0) (Fri Jul  9 09:09:31 2021):
+> 
+> The system is going down for reboot NOW!
+> INIT: Switching to runlevel: 6
+> INIT: Sending processes configured via /etc/inittab the TERM signal
+> Stopping syslogd/klogd: stopped syslogd (pid 255)
+> stopped klogd (pid 258)
+> done
+> Deconfiguring network interfaces... ifdown: interface lo not configured
+> done.
+> Sending all processes the TERM signal...
+> Sending all processes the KILL signal...
+> Unmounting remote filesystems...
+> Deactivating swap...
+> Unmounting local filesystems...
+> [   38.388532] EXT4-fs (vda): re-mounted. Opts: (null)
+> Rebooting... [   38.534593] reboot: Restarting system
+> [   38.534844] reboot: machine restart
+> 
+> 
+> 
+> The command booting VM I used is "
+> 
+> /path/to/qemu-system-x86_64 -device 
+> virtio-net-pci,netdev=net0,mac=52:54:00:12:35:02 -netdev 
+> user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23,tftp=/path/to/images/qemux86-64 
+> -object rng-random,filename=/dev/urandom,id=rng0 -device 
+> virtio-rng-pci,rng=rng0 -drive 
+> file=/path/to/core-image-minimal-qemux86-64-20210707062347.rootfs.ext4,if=virtio,format=raw 
+> -usb -device usb-tablet -cpu IvyBridge -machine q35 -smp 4 -m 256 
+> -serial mon:stdio -serial null -nographic -kernel 
+> /path/to/bzImage--5.10.41.bin -append root=/dev/vda rw  reboot=a 
+> mem=256M ip=dhcp console=ttyS0 console=ttyS1 oprofile.timer=1 
+> tsc=reliable no_timer_check rcupdate.rcu_expedited=1
+> "
+> 
+> 
+> I also tried the qemu5.2, It still has this issue. Did I miss something? 
+> Could you please give me some advises? Thanks!
+> 
+> 
+> 
+> Regards,
+> Yanfei
+> 
 
