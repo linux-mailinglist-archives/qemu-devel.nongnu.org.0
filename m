@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 509AC3C8302
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:38:16 +0200 (CEST)
-Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63E3C3C8325
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 12:44:49 +0200 (CEST)
+Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3cHP-0005I2-Bk
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:38:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
+	id 1m3cNj-00017e-U8
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 06:44:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m3cFh-0003T8-Ne
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:36:29 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:18804)
+ id 1m3cMM-0008Qp-83
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:43:22 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36061)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m3cFe-00039n-6L
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:36:29 -0400
+ id 1m3cMH-0007u4-OI
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 06:43:21 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9622474570E;
- Wed, 14 Jul 2021 12:36:20 +0200 (CEST)
+ by localhost (Postfix) with SMTP id F38B97457E6;
+ Wed, 14 Jul 2021 12:43:13 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 41ECA74570C; Wed, 14 Jul 2021 12:36:20 +0200 (CEST)
+ id A062A745708; Wed, 14 Jul 2021 12:43:13 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3FD4874570A;
- Wed, 14 Jul 2021 12:36:20 +0200 (CEST)
-Date: Wed, 14 Jul 2021 12:36:20 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 9E71F74570C;
+ Wed, 14 Jul 2021 12:43:13 +0200 (CEST)
+Date: Wed, 14 Jul 2021 12:43:13 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
 Subject: Re: [PATCH] tests/acceptance: Add tests for the Pegasos2 machine
 In-Reply-To: <78d672f2-9cd2-adae-502a-f72110ed7e6c@amsat.org>
-Message-ID: <1cc01841-c1b7-8d25-6a28-143bd148da5e@eik.bme.hu>
+Message-ID: <56206147-53a7-5b76-c31b-8f5dd46922@eik.bme.hu>
 References: <20210713014342.3086855-1-crosa@redhat.com>
  <78d672f2-9cd2-adae-502a-f72110ed7e6c@amsat.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-930148882-1626258980=:50496"
+Content-Type: multipart/mixed; boundary="3866299591-36842731-1626259393=:50496"
 X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -67,7 +66,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-930148882-1626258980=:50496
+--3866299591-36842731-1626259393=:50496
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8BIT
 
@@ -245,27 +244,19 @@ On Wed, 14 Jul 2021, Philippe Mathieu-Daudé wrote:
 >> +        wait_for_console_pattern(self, msg)
 >> +        wait_for_console_pattern(self, 'entering main read/eval loop...')
 >> +        msg = 'filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"'
-
-This should wait until these messages instead:
-
-ide.device@2: QEMU     QEMU DVD-ROM     <CDROM>
-ide.device@2:  CDRom <CD001>,<MORPHOS > found, bootable
-
-otherwise it could happen this test passes when cdrom somewhat works so it 
-can find the iso but DMA is not working so it can't actually read it. I've 
-seen this happening during development and when via-ide was in wrong mode 
-so waiting for the above lines confirm MorphOS could also read the CD not 
-just find it. (Although you seem to go further and try to parse the 
-graphical screen too. I think that's probably an overkill but could detect 
-if MorphOS booted and maybe test ati-vga too.)
-
-Regards,
-BALATON Zoltan
-
 >> +        exec_command_and_wait_for_pattern(self, 'boot cd boot.img', msg)
 >> +
 >> +        msg = 'ide.device@2:  CDRom <CD001>,<MORPHOS > found, bootable'
 >> +        wait_for_console_pattern(self, msg)
+
+Now I see it does wait for that here too. I don't know why you have so 
+many wait's instead of just two: "entering main read/eval loop\nok" and 
+this one but I don't know how these tests work so that's OK. Then 
+disregard my previous comment.
+
+Regards,
+BALATON Zoltan
+
 >> +        if PIL_AVAILABLE:
 >> +            delay_s = 20 if tesseract_available(4) else 8
 >> +
@@ -295,5 +286,5 @@ BALATON Zoltan
 > Phil.
 >
 >
---3866299591-930148882-1626258980=:50496--
+--3866299591-36842731-1626259393=:50496--
 
