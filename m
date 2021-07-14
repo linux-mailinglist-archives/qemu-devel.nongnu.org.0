@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B2F13C8743
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:22:38 +0200 (CEST)
-Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E02EA3C873F
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:20:49 +0200 (CEST)
+Received: from localhost ([::1]:52396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3gib-0005Ol-7K
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:22:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51512)
+	id 1m3ggq-0007rL-Tn
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:20:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3gUr-0006b2-Vw
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:08:26 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34730)
+ id 1m3gUq-0006VM-Ia
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:08:24 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3gUq-0003zd-6w
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:08:25 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso3599288wmc.1
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:08:23 -0700 (PDT)
+ id 1m3gUm-0003wh-J4
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:08:24 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id i94so3651557wri.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:08:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4RUje/NtLDQsjrm5Fp/QYjd0g9AvH8bzaEhpNLm1Wos=;
- b=D5xXGwNOt3XBk7rj9xcR7F3s0IyPbvJHbQBYWSZozT7jIdZQ8FfZULzpbzyTLa/uJA
- 2BVBrvF4Z8jm4L+lhpTQJfqgL/S4uI+rRVWOPUVJX3cdrQAp6YTtKJRLocpg5NmGt/wG
- HZ+LwdTePmrZpHVvm1nLL4ViWgpgu/ZCXMiBzIncPX0DLrB0yAuDo3gUnOOkGBZNkunl
- jevhToEH3naiApUFFm+bxVLZ+KGWweOIMjWLVnd+3NFQOPE58FUy4+DNCz+JAW4pDp2F
- teghh+3hvqhSJFukFMg3zMNu1Bx2fSe4pyp3Haovb3DYtMd0a3HafvRGEhmhYl0YzU6L
- A93A==
+ bh=A9S6TE13pwXS1W3k92CYjpEyHJNMbR3VdpMZy32eUSA=;
+ b=c37CSM9ZcJMIqBi0ATVcUWw8/zT+i21AIFwc5/nVzozHdVhsaLdQrb7A8HVwjq/E7N
+ hBL5wtPo0VCae58XuRu8AUmhuMGoxucvIZm0zIcWzK3zIbYKLjhAG1zuPkUWjf3A0BL3
+ ft4FIr73jUhpMYog7JeHwn9MNmB5bWP0xaKrRiPlRCCGnSrmEKW1gJNV/hkCWCABaoFT
+ hFfvs5AtNBXZfmPjMnVK95KjLdkwVcRlAn7spkaxgkkaoF520L+ZREik1zAXlkb+wDSe
+ zTsVpj4POsuNE05LhWK3gpKvaQMLlIL59+ytA8TtkVKCiZk935M86tckgX7qRcG3Jrps
+ ePzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4RUje/NtLDQsjrm5Fp/QYjd0g9AvH8bzaEhpNLm1Wos=;
- b=HDxaWv+AXvOz9Xrm07rg9hCXZzHYAgVm4s4jX4zslTwq3RhrVqrQcVcB/iGzUYIaMz
- uSCQuyIRikUkm1/hZV/W/yY3QB9LcP58xpFMGmZYz4vToilS0aZ6rY3PVW4nzL/0XkQc
- zWDZhg30oPUey0R0EY0U8pSQpIIJF8BIgGcaIps3PaKjcMc4ysZFQLEz2n+2Q4mAGNZD
- Bgs8OtPBXdQ70EVpQapMbSRu6TH8vMOjuY4ygGvPCkuyxQGlKTm6ljj1JHNYQjjvWm/9
- ggNa3fZbNxVvJkYf8utoyu6GnSbx+iv8E47dAp98hfeiQnsrOWrxK5k6wKqRCAF9cqwG
- Nwyg==
-X-Gm-Message-State: AOAM532KRo5DbGHrHrK1+j2OcXW4E1KlZJi4JnvSw+AgFnKw/M5tIyvs
- FLh3NcTEeOQ6c8BgmHebWQm10Q==
-X-Google-Smtp-Source: ABdhPJzf2lctl/m5DsezoxccWHmAss7gArO8Na00WvpFHZHo1tXJUvuP4yu0OKcZ5vxfpquqzem44Q==
-X-Received: by 2002:a05:600c:3b86:: with SMTP id
- n6mr12160543wms.28.1626275297464; 
- Wed, 14 Jul 2021 08:08:17 -0700 (PDT)
+ bh=A9S6TE13pwXS1W3k92CYjpEyHJNMbR3VdpMZy32eUSA=;
+ b=SKYTTSYLRIHTAtpOnWDlidme512VxFS7YTWG8TUKIxEkg9jb+R1VCd8HLGyAAb/ANS
+ oIh35kgbwietPruMVjW79Zu43uNccw7ZUiaC5OTmDIYPzz4fz8qLgDBWyFX5HqqcwWlI
+ oKd6BioNT4mLGovN9sIoXpBI6MJ8pBbinAaXPbpriFG98QFW0AvrvBcdgsA2z4fAWgoa
+ RToDFZn8SGaoj0cbJ3rkJqUM4zBhZ+M+1QnC8lGCz6xeVVgbAuW3BEEdbcdJk2UNxKZq
+ vB4c6TdIcikIezZy/pDTvh9vB8/fwl9S3z8OZ0INcOYHurn9YKPLclfV9CMlkzT3iqNA
+ OimA==
+X-Gm-Message-State: AOAM5315MrEzJ+/4Ec3zxk8nMUQ80O8OebEj9Ym50zoDtiQhu3MwVnSE
+ nfHXuVbAjUjrg9IFO0kA1BIIug==
+X-Google-Smtp-Source: ABdhPJyHopYzuYxRIoJ/SAO6zuf+aFiIu9IasyI9KeM1kCR5e5AQ2SCdQ2qhRvDZOuzRzuBUQFIffw==
+X-Received: by 2002:a5d:524e:: with SMTP id k14mr13671706wrc.264.1626275299246; 
+ Wed, 14 Jul 2021 08:08:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d14sm2986492wrs.49.2021.07.14.08.08.09
+ by smtp.gmail.com with ESMTPSA id l24sm5546702wmi.30.2021.07.14.08.08.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 14 Jul 2021 08:08:15 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1500D1FFC2;
+ by zen.linaroharston (Postfix) with ESMTP id 448951FFC4;
  Wed, 14 Jul 2021 16:00:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v5 41/44] plugins/cache: Enable cache parameterization
-Date: Wed, 14 Jul 2021 16:00:33 +0100
-Message-Id: <20210714150036.21060-42-alex.bennee@linaro.org>
+Subject: [PULL v5 43/44] docs/devel: Added cache plugin to the plugins docs
+Date: Wed, 14 Jul 2021 16:00:35 +0100
+Message-Id: <20210714150036.21060-44-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714150036.21060-1-alex.bennee@linaro.org>
 References: <20210714150036.21060-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,89 +94,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-Enabled configuring both icache and dcache parameters using plugin
-parameters.
-
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623125458.450462-3-ma.mandourr@gmail.com>
-Message-Id: <20210709143005.1554-38-alex.bennee@linaro.org>
+Message-Id: <20210628053808.17422-1-ma.mandourr@gmail.com>
+Message-Id: <20210709143005.1554-40-alex.bennee@linaro.org>
 
-diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index e9955cdc3a..b550ef31b0 100644
---- a/contrib/plugins/cache.c
-+++ b/contrib/plugins/cache.c
-@@ -99,8 +99,28 @@ static inline uint64_t extract_set(Cache *cache, uint64_t addr)
-     return (addr & cache->set_mask) >> cache->blksize_shift;
- }
- 
-+static const char *cache_config_error(int blksize, int assoc, int cachesize)
-+{
-+    if (cachesize % blksize != 0) {
-+        return "cache size must be divisible by block size";
-+    } else if (cachesize % (blksize * assoc) != 0) {
-+        return "cache size must be divisible by set size (assoc * block size)";
-+    } else {
-+        return NULL;
-+    }
-+}
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index 179867e9c1..7e54f12837 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -344,3 +344,62 @@ which will output an execution trace following this structure::
+   0, 0xd32, 0xf9893014, "adds r0, #0x14"
+   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
+   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
 +
-+static bool bad_cache_params(int blksize, int assoc, int cachesize)
-+{
-+    return (cachesize % blksize) != 0 || (cachesize % (blksize * assoc) != 0);
-+}
++- contrib/plugins/cache
 +
- static Cache *cache_init(int blksize, int assoc, int cachesize)
- {
-+    if (bad_cache_params(blksize, assoc, cachesize)) {
-+        return NULL;
-+    }
++Cache modelling plugin that measures the performance of a given cache
++configuration when a given working set is run::
 +
-     Cache *cache;
-     int i;
-     uint64_t blk_mask;
-@@ -397,7 +417,19 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
--        if (g_str_has_prefix(opt, "limit=")) {
-+        if (g_str_has_prefix(opt, "iblksize=")) {
-+            iblksize = g_ascii_strtoll(opt + 9, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "iassoc=")) {
-+            iassoc = g_ascii_strtoll(opt + 7, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "icachesize=")) {
-+            icachesize = g_ascii_strtoll(opt + 11, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "dblksize=")) {
-+            dblksize = g_ascii_strtoll(opt + 9, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "dassoc=")) {
-+            dassoc = g_ascii_strtoll(opt + 7, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "dcachesize=")) {
-+            dcachesize = g_ascii_strtoll(opt + 11, NULL, 10);
-+        } else if (g_str_has_prefix(opt, "limit=")) {
-             limit = g_ascii_strtoll(opt + 6, NULL, 10);
-         } else {
-             fprintf(stderr, "option parsing failed: %s\n", opt);
-@@ -406,7 +438,20 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
-     }
- 
-     dcache = cache_init(dblksize, dassoc, dcachesize);
-+    if (!dcache) {
-+        const char *err = cache_config_error(dblksize, dassoc, dcachesize);
-+        fprintf(stderr, "dcache cannot be constructed from given parameters\n");
-+        fprintf(stderr, "%s\n", err);
-+        return -1;
-+    }
++    qemu-x86_64 -plugin ./contrib/plugins/libcache.so \
++      -d plugin -D cache.log ./tests/tcg/x86_64-linux-user/float_convs
 +
-     icache = cache_init(iblksize, iassoc, icachesize);
-+    if (!icache) {
-+        const char *err = cache_config_error(iblksize, iassoc, icachesize);
-+        fprintf(stderr, "icache cannot be constructed from given parameters\n");
-+        fprintf(stderr, "%s\n", err);
-+        return -1;
-+    }
- 
-     rng = g_rand_new();
- 
++will report the following::
++
++    Data accesses: 996479, Misses: 507
++    Miss rate: 0.050879%
++
++    Instruction accesses: 2641737, Misses: 18617
++    Miss rate: 0.704726%
++
++    address, data misses, instruction
++    0x424f1e (_int_malloc), 109, movq %rax, 8(%rcx)
++    0x41f395 (_IO_default_xsputn), 49, movb %dl, (%rdi, %rax)
++    0x42584d (ptmalloc_init.part.0), 33, movaps %xmm0, (%rax)
++    0x454d48 (__tunables_init), 20, cmpb $0, (%r8)
++    ...
++
++    address, fetch misses, instruction
++    0x4160a0 (__vfprintf_internal), 744, movl $1, %ebx
++    0x41f0a0 (_IO_setb), 744, endbr64
++    0x415882 (__vfprintf_internal), 744, movq %r12, %rdi
++    0x4268a0 (__malloc), 696, andq $0xfffffffffffffff0, %rax
++    ...
++
++The plugin has a number of arguments, all of them are optional:
++
++  * arg="limit=N"
++
++  Print top N icache and dcache thrashing instructions along with their
++  address, number of misses, and its disassembly. (default: 32)
++
++  * arg="icachesize=N"
++  * arg="iblksize=B"
++  * arg="iassoc=A"
++
++  Instruction cache configuration arguments. They specify the cache size, block
++  size, and associativity of the instruction cache, respectively.
++  (default: N = 16384, B = 64, A = 8)
++
++  * arg="dcachesize=N"
++  * arg="dblksize=B"
++  * arg="dassoc=A"
++
++  Data cache configuration arguments. They specify the cache size, block size,
++  and associativity of the data cache, respectively.
++  (default: N = 16384, B = 64, A = 8)
++
++  * arg="evict=POLICY"
++
++  Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
++  :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
++  both instruction and data caches. (default: POLICY = :code:`lru`)
 -- 
 2.20.1
 
