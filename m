@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09A93C8AF2
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:29:43 +0200 (CEST)
-Received: from localhost ([::1]:40280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCC53C8ADB
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 20:27:36 +0200 (CEST)
+Received: from localhost ([::1]:32882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3jde-0005H4-K6
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35880)
+	id 1m3jbb-0000Om-7G
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 14:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3jVJ-0003RV-Dd
+ id 1m3jVJ-0003RE-9i
  for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:05 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53830)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:56014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3jVH-0001yr-KI
+ id 1m3jVH-0001zZ-KN
  for qemu-devel@nongnu.org; Wed, 14 Jul 2021 14:21:05 -0400
-Received: by mail-wm1-x336.google.com with SMTP id w13so2171215wmc.3
+Received: by mail-wm1-x331.google.com with SMTP id j34so2159793wms.5
  for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 11:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/vzVZob+DQSvmbdK2Jg6YPQZmor2cjGfEnPAuPc2kFE=;
- b=JmCFdvBcFxhrrGvHiFaflF3CtQQJnD3rw685/lDoO592Av/+ZSp9Q4XCYokuEYodpL
- bSbh/BrgRU3Fr3N/RkCom+4YbgNruwcWur0uZ2BEincT/InKAfItPHCO17fjd7jq4r80
- UWg4Wpw29ogCevQCdFobXsO+P45aKbRunx41RiYBl4y7AFsg+BJRS/9gyurHhYwEevvz
- E06sLZnZAnzTDKCxWHvwJMNQ/5hCZ2GoQ7PRCSr00KV2wjywjgtFTrmmOfyJZcnZYV8P
- 6ZE6bYz+SJ4PkC7FEyheAwGpep4J3C1qbOTjFKzA0PUbOM4Tl59PPDjaXh+hlMUC7+1Z
- 4mfQ==
+ bh=ph2AvIO8hHsWfHfct12Why6YoLFkLJudHR0rkhrmPB0=;
+ b=mhpcww3Ug6O3XYh0lLfeJnupmamyHdyp4D3h3nZywbXsF2bE4joByyC+eYJfYrSqgZ
+ y2c6msoZRrdTnueKLRuhtQIv/7U/1V9SqrzwaU3k4oelSw6ykgXb30ZV7TGRqIY9mip8
+ 1UaNI3+nfo3sStwLcOxfDZtUUn2GUWzA0ctSess0ALjVmhSnW0MRoIRObtdTTyCoHBLh
+ 4twxYs2aMW25lZ26H01RSvsvWX9bu6ptioCRh4UhJztgKUbTwqDfvBgTTPJ+ZsqCiBUb
+ QyUAopoR7YcEEObeV7s2yPziVGbQF4K1p6R7rxHCEbjkLWjQ5KssOqMx10+BxYspI2uv
+ 9YGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/vzVZob+DQSvmbdK2Jg6YPQZmor2cjGfEnPAuPc2kFE=;
- b=dR/yzDfLA73vg8HbwFEksyJAqc0kYIXDkb6HeuHzibAI6kWfnwT4fPQpNHAzZiZCac
- SZ23YsH4VCGofzhLnsrC86a5360syuIVOSjmCI/F7dsWrcAR8U3pza4Pzs6n8W0hKc1U
- Ph8BE/85KMic5p+9xazILqM235lTxXzJj18nxj57kE2TyL64nzidAaqLvX8AxUbaGtyy
- +5vNC2Ww/p8FqU5BeqlGTmf9OFeOWO5KC7e/ZfRzp0iYOm6m0St1t79wxqV3j4g2i64R
- 6dGy0yxKXGRjv1qMd8hwI3/ScaJjeUwEPYGGdbAkMcenP1m95wttTTYUxq/E+UZiftdW
- JgKA==
-X-Gm-Message-State: AOAM532KIYkjwigxmxJ2r6flVV3EX1cYe1/NZ7BKYgUJ+AOOC+Ez8tm4
- +96zNif9NnjLhxa+1sz8R9WG1pBvDKj51w==
-X-Google-Smtp-Source: ABdhPJxdOSJXM3zq/DDH5UkMvZ3EH4jgEN/u3Kyfyd33ptQhNm7gdQNMkb52wY7If1INNPyeemvjZQ==
-X-Received: by 2002:a7b:c751:: with SMTP id w17mr12497506wmk.117.1626286861615; 
- Wed, 14 Jul 2021 11:21:01 -0700 (PDT)
+ bh=ph2AvIO8hHsWfHfct12Why6YoLFkLJudHR0rkhrmPB0=;
+ b=bIQH9aDjtbNpOgh60u5VcsnVIAuxbAXj5+TqlLL/S1JNgkmFZa8Hw4gaRo1l69Qlgf
+ anUMZdxwwuE4WRpq/Vvifp8BGIMoNdf8ZCmLP2zYICIKx9WVljJniN4w9djAQV1Xl5Gp
+ ftwBHB9frLPENVtThlWact/YCsOhC6qxaWcceBY8haja7vN90/dc0IDWJa/sbpnCzpSe
+ z2l81/v32I6lGypj1WMNrrHGVhjx/wqIWqgcDqLyA4VTAhW+N5XM06c4VMDKtgNMZOIr
+ 5g7OLfqHwCoUj/NXT7+9p3vpgEXAe/0K96LkmpBSZdIGHAgXab++Z1wIA5EXiFkPNJI9
+ TptQ==
+X-Gm-Message-State: AOAM532/iBhgj7c99MErBmsE0I9VO3cCBKLnb1tFNLk2M3FzHuUXsWMg
+ 9IW6hHR4aGtbLljRqgkdIHL4mPGWAaHd3g==
+X-Google-Smtp-Source: ABdhPJxdWdk/WkcY4R9llyg6YOI74vpnT6m0z3a1K0gV0O+H/+pcypiGzkeSIyGugCNAdF4sbbGm8Q==
+X-Received: by 2002:a05:600c:4c94:: with SMTP id
+ g20mr1833454wmp.40.1626286862267; 
+ Wed, 14 Jul 2021 11:21:02 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x8sm3518106wrt.93.2021.07.14.11.20.57
+ by smtp.gmail.com with ESMTPSA id n23sm2793482wmc.38.2021.07.14.11.20.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 11:20:57 -0700 (PDT)
+ Wed, 14 Jul 2021 11:20:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CDC921FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id E849D1FF8F;
  Wed, 14 Jul 2021 19:20:56 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/21] docs: collect the disparate device emulation docs
- into one section
-Date: Wed, 14 Jul 2021 19:20:37 +0100
-Message-Id: <20210714182056.25888-3-alex.bennee@linaro.org>
+Subject: [PATCH v2 03/21] docs: add a section on the generalities of vhost-user
+Date: Wed, 14 Jul 2021 19:20:38 +0100
+Message-Id: <20210714182056.25888-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714182056.25888-1-alex.bennee@linaro.org>
 References: <20210714182056.25888-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,165 +87,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we are at it add a brief preamble that explains some of the
-common concepts in QEMU's device emulation which will hopefully lead
-to less confusing about our dizzying command line options.
+While we do mention some of this stuff in the various daemons and
+manuals the subtleties of the socket and memory sharing are sometimes
+missed. This document attempts to give some background on vhost-user
+daemons in general terms.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210714093638.21077-3-alex.bennee@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20210714093638.21077-4-alex.bennee@linaro.org>
 ---
- docs/system/device-emulation.rst          | 78 +++++++++++++++++++++++
- docs/system/{ => devices}/ivshmem.rst     |  0
- docs/system/{ => devices}/net.rst         |  0
- docs/system/{ => devices}/nvme.rst        |  0
- docs/system/{ => devices}/usb.rst         |  0
- docs/system/{ => devices}/virtio-pmem.rst |  0
- docs/system/index.rst                     |  6 +-
- 7 files changed, 79 insertions(+), 5 deletions(-)
- create mode 100644 docs/system/device-emulation.rst
- rename docs/system/{ => devices}/ivshmem.rst (100%)
- rename docs/system/{ => devices}/net.rst (100%)
- rename docs/system/{ => devices}/nvme.rst (100%)
- rename docs/system/{ => devices}/usb.rst (100%)
- rename docs/system/{ => devices}/virtio-pmem.rst (100%)
+ docs/interop/vhost-user.rst        |  2 +
+ docs/system/device-emulation.rst   |  1 +
+ docs/system/devices/vhost-user.rst | 59 ++++++++++++++++++++++++++++++
+ 3 files changed, 62 insertions(+)
+ create mode 100644 docs/system/devices/vhost-user.rst
 
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index d6085f7045..7fc693521e 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -1,3 +1,5 @@
++.. _vhost_user_proto:
++
+ ===================
+ Vhost-user Protocol
+ ===================
 diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-new file mode 100644
-index 0000000000..3156eeac2d
---- /dev/null
+index 3156eeac2d..ea7e1fd491 100644
+--- a/docs/system/device-emulation.rst
 +++ b/docs/system/device-emulation.rst
-@@ -0,0 +1,78 @@
-+.. _device-emulation:
+@@ -75,4 +75,5 @@ Emulated Devices
+    devices/net.rst
+    devices/nvme.rst
+    devices/usb.rst
++   devices/vhost-user.rst
+    devices/virtio-pmem.rst
+diff --git a/docs/system/devices/vhost-user.rst b/docs/system/devices/vhost-user.rst
+new file mode 100644
+index 0000000000..86128114fa
+--- /dev/null
++++ b/docs/system/devices/vhost-user.rst
+@@ -0,0 +1,59 @@
++.. _vhost_user:
 +
-+Device Emulation
-+----------------
++vhost-user back ends
++--------------------
 +
-+QEMU supports the emulation of a large number of devices from
-+peripherals such network cards and USB devices to integrated systems
-+on a chip (SoCs). Configuration of these is often a source of
-+confusion so it helps to have an understanding of some of the terms
-+used to describes devices within QEMU.
++vhost-user back ends are way to service the request of VirtIO devices
++outside of QEMU itself. To do this there are a number of things
++required.
 +
-+Common Terms
-+~~~~~~~~~~~~
-+
-+Device Front End
-+================
-+
-+A device front end is how a device is presented to the guest. The type
-+of device presented should match the hardware that the guest operating
-+system is expecting to see. All devices can be specified with the
-+``--device`` command line option. Running QEMU with the command line
-+options ``--device help`` will list all devices it is aware of. Using
-+the command line ``--device foo,help`` will list the additional
-+configuration options available for that device.
-+
-+A front end is often paired with a back end, which describes how the
-+host's resources are used in the emulation.
-+
-+Device Buses
-+============
-+
-+All devices exist on a BUS. Depending on the machine model you choose
-+(``-M foo``) a number of buses will have been automatically created.
-+In most cases the BUS a device is attached to can be inferred, for
-+example PCI devices are generally automatically allocated to the next
-+free slot of the PCI bus. However in complicated configurations you
-+can explicitly specify what bus a device is attached to and its
-+address. Some devices, for example a PCI SCSI host controller, will
-+add an additional bus to the system that other devices can be attached
-+to.
-+
-+Device Back End
-+===============
-+
-+The back end describes how the data from the emulated device will be
-+processed by QEMU. The configuration of the back end is usually
-+specific to the class of device being emulated. For example serial
-+devices will be backed by a ``--chardev`` which can redirect the data
-+to a file or socket or some other system. Storage devices are handled
-+by ``--blockdev`` which will specify how blocks are handled, for
-+example being stored in a qcow2 file or accessing a raw host disk
-+partition. Back ends can sometimes be stacked to implement features
-+like snapshots.
-+
-+While the choice of back end is generally transparent to the guest
-+there are cases where features will not be reported to the guest if
-+the back end is unable to support it.
-+
-+Device Pass Through
++vhost-user device
 +===================
 +
-+Device pass through is where the device is actually given access to
-+the underlying hardware. This can be as simple as exposing a single
-+USB device on the host system to the guest or dedicating a video card
-+in a PCI slot to the exclusive use of the guest.
++These are simple stub devices that ensure the VirtIO device is visible
++to the guest. The code is mostly boilerplate although each device has
++a ``chardev`` option which specifies the ID of the ``--chardev``
++device that connects via a socket to the vhost-user *daemon*.
 +
++vhost-user daemon
++=================
 +
-+Emulated Devices
-+~~~~~~~~~~~~~~~~
++This is a separate process that is connected to by QEMU via a socket
++following the :ref:`vhost_user_proto`. There are a number of daemons
++that can be built when enabled by the project although any daemon that
++meets the specification for a given device can be used.
 +
-+.. toctree::
-+   :maxdepth: 1
++Shared memory object
++====================
 +
-+   devices/ivshmem.rst
-+   devices/net.rst
-+   devices/nvme.rst
-+   devices/usb.rst
-+   devices/virtio-pmem.rst
-diff --git a/docs/system/ivshmem.rst b/docs/system/devices/ivshmem.rst
-similarity index 100%
-rename from docs/system/ivshmem.rst
-rename to docs/system/devices/ivshmem.rst
-diff --git a/docs/system/net.rst b/docs/system/devices/net.rst
-similarity index 100%
-rename from docs/system/net.rst
-rename to docs/system/devices/net.rst
-diff --git a/docs/system/nvme.rst b/docs/system/devices/nvme.rst
-similarity index 100%
-rename from docs/system/nvme.rst
-rename to docs/system/devices/nvme.rst
-diff --git a/docs/system/usb.rst b/docs/system/devices/usb.rst
-similarity index 100%
-rename from docs/system/usb.rst
-rename to docs/system/devices/usb.rst
-diff --git a/docs/system/virtio-pmem.rst b/docs/system/devices/virtio-pmem.rst
-similarity index 100%
-rename from docs/system/virtio-pmem.rst
-rename to docs/system/devices/virtio-pmem.rst
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 6092eb2d91..641d243ba4 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -16,15 +16,12 @@ Contents:
- 
-    quickstart
-    invocation
-+   device-emulation
-    keys
-    mux-chardev
-    monitor
-    images
--   net
-    virtio-net-failover
--   usb
--   nvme
--   ivshmem
-    linuxboot
-    generic-loader
-    guest-loader
-@@ -35,7 +32,6 @@ Contents:
-    gdb
-    managed-startup
-    cpu-hotplug
--   virtio-pmem
-    pr-manager
-    targets
-    security
++In order for the daemon to access the VirtIO queues to process the
++requests it needs access to the guest's address space. This is
++achieved via the ``memory-backend-file`` or ``memory-backend-memfd``
++objects. A reference to a file-descriptor which can access this object
++will be passed via the socket as part of the protocol negotiation.
++
++Currently the shared memory object needs to match the size of the main
++system memory as defined by the ``-m`` argument.
++
++Example
++=======
++
++First start you daemon.
++
++.. parsed-literal::
++
++  $ virtio-foo --socket-path=/var/run/foo.sock $OTHER_ARGS
++
++The you start your QEMU instance specifying the device, chardev and
++memory objects.
++
++.. parsed-literal::
++
++  $ |qemu_system| \\
++      -m 4096 \\
++      -chardev socket,id=ba1,path=/var/run/foo.sock \\
++      -device vhost-user-foo,chardev=ba1,$OTHER_ARGS \\
++      -object memory-backend-memfd,id=mem,size=4G,share=on \\
++      -numa node,memdev=mem \\
++        ...
++
 -- 
 2.20.1
 
