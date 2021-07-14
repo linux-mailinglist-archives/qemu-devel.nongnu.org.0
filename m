@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504263C8B6A
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:08:19 +0200 (CEST)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9867B3C8BD0
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:36:21 +0200 (CEST)
+Received: from localhost ([::1]:38908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3kEz-0007ad-Nc
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:08:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46304)
+	id 1m3kg8-0003kv-4z
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:36:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1m3kEC-0006uq-GN
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:07:28 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:45031)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3keZ-0002Yi-T9
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:34:43 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1m3kEA-0000Nz-9w
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:07:27 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id v26so3451835iom.11
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 12:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m3keW-00020Z-6f
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:34:43 -0400
+Received: by mail-ed1-x532.google.com with SMTP id v1so4698685edt.6
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 12:34:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jzQb1OvVyEER/77+4i+BUofw/MvEvB87/WJacllwEAI=;
- b=vCsht1+TRs6KQRMhkYbQzhnn9naG2JTp71FWpdUXS+TM9NhK7HPbiEKaaN+16GLVXF
- ddJ05EGQ3l8I8vs0eJYPylUqUyMqQhccd8pM9j8KeaLE6jm/MX28J5PDMFFuSr7OI3se
- 5TNuEvQR9Ix6k1XzkXbOpqGFarb023w4uHVHKWiohKqFkh0FM4o/YRnqMW/v2RPKIEiO
- E/cDmRIbGnVN/B6ChfYtdXuEpcFbMuq5fqoMToDcLxNPLQA94GYmAIRVZBQpmg8FUAXv
- GGmQunDjELHh7SLQol57NrHKOb2Nk92YvXHi7Hw7kCOgbaQr279j6xDrEKYYpKB07v2U
- otoA==
+ :cc; bh=eh4JgfI4Zpsc/Nbe+Nx0saDA/eOx7RpzBk/3orzO+PM=;
+ b=redavrohVXq+q3tp1GIsOI47qUD6g6rU2GSFhBvcT96c9MutGjp5ud/0hEEbq0AcG+
+ p8C0Qu2ESP5zO0O7n8Mlw5Xkgu8HeSdXB929Mpt/6r/n4Ssk2nKsfkA8RDtP5ysRy+vV
+ 5wrdPJviBI60gJP12wqrbvCpGu/WGsq3QUHHSG9hFYeG6L/4geiW4x432AyeGVtRqQxx
+ RWwy+0CVVJFYlslZcoOpitrpl6XA9QzvZGZTD6etYpA/Q+Id0TDaM8V4UktCrdEdBsLV
+ pYjQ3MpJ+18DqsvtEYNhnvaoh+nfjMkyu4HtiP540aKnk8L8ajYlq9MrOqTe4Jkw9df+
+ 74WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jzQb1OvVyEER/77+4i+BUofw/MvEvB87/WJacllwEAI=;
- b=rnbKNATCYbOX4yYugAFyYQKbSjYlM4cwh3t7vGf6/58WAyxj11gOeQpShTx3VwYv1h
- NfG+KYtoCQGYW6MooisYDwsG5PjQ8hzR4Bfo+hPbiV9lokwFfW870/HafJPW/YPU5elq
- Ykkrrua7T9mGNdCm7HzJejKgiPfiKiFmB0UBuRmUpWBGcbb75f7RGVFxIrqJM9TIXg1q
- hoknKgWujoNQZS+hUi1217weYvURJZV7UIMPwdk77frqkkKzlAx3VwppNI+wLbBCWETa
- m0vLXz8Rky8FNDp4VvhE6obVR2Wh3qx1rcpLRgJuUcUrAopHtkw0Fjn5qf/Jylv1hRz/
- N+PA==
-X-Gm-Message-State: AOAM532ehbbuKHc41YmCa28y5aQM+g71n6GZGATVc/urfrMZnVG80q0N
- yUvlH3Krbuu92sy/fSbIDcTjYieinGcw557Ve5lg3UjfMxU=
-X-Google-Smtp-Source: ABdhPJx3qxa8A8C78npsAmjacvWVzh3J02+Ad70LiKLQxrnQyjaOuYXgjfMnf/U9sQNs0Y9/6Zk8JkVBk/SkScMba24=
-X-Received: by 2002:a6b:1497:: with SMTP id 145mr5212738iou.128.1626289644994; 
- Wed, 14 Jul 2021 12:07:24 -0700 (PDT)
+ bh=eh4JgfI4Zpsc/Nbe+Nx0saDA/eOx7RpzBk/3orzO+PM=;
+ b=rkCckGmUlsNUIH3rwSsju/LHizcb9e9/z6EwVhNrDtI5qVCAjZjas6dmoPMc9gML1H
+ O+HkEYCZlVmuhrIvVLprAP0AsQExqpM+Tjm3QuNC3KOjoADUMwqOW0L6TA1Cud92AeqZ
+ tq6sBbEXAtAjKEGyFS+ZnhHUCCQGrGFfoL5dxBpYxC0GRgQq/RQfr8SmRrKes/FlP/T8
+ R20pQ4sKvRrhT4b5IUra3jpwMJBIFoOrt05nGbNCqf4MXxlEd8N38OqFCHiZzGLLQyhh
+ Q45ic3oJxBEiHGxeREnMWIel85Zkup1Xs62SsBZRipVv8YQQmlb2MGV8j/UQoD14J4sX
+ CBEQ==
+X-Gm-Message-State: AOAM5321R7mDIMTFhebvSztS3V5pI/sNvb50r8eLfrSJPku7vfNjPAgD
+ KtfKpsfxC+J79KMuPfrYdigGTa9QGu2XVxAuhGgLRg==
+X-Google-Smtp-Source: ABdhPJwEVSsiOdf1eBCzNA7W3PU4gwpPKHhJUw8Ma5yGysv/1pzInLnfm21mU2iwiHQt/yFzNv7GnzH8ueeKPsBqkDI=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr15654301edt.100.1626291278113; 
+ Wed, 14 Jul 2021 12:34:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210713220734.26302-1-niteesh.gs@gmail.com>
-In-Reply-To: <20210713220734.26302-1-niteesh.gs@gmail.com>
-From: "Niteesh G. S." <niteesh.gs@gmail.com>
-Date: Thu, 15 Jul 2021 00:36:59 +0530
-Message-ID: <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] python: AQMP-TUI Prototype
-To: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000097847205c71a1012"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210713211923.3809241-1-crosa@redhat.com>
+In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 14 Jul 2021 20:33:58 +0100
+Message-ID: <CAFEAcA9corAMJPn4oZ13ovrdfdCR1ZFuRHRcfnFVOiDs7pxfPQ@mail.gmail.com>
+Subject: Re: [PULL 00/23] Python and Acceptance Tests
+To: Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,150 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ryo ONODERA <ryoon@netbsd.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000097847205c71a1012
-Content-Type: text/plain; charset="UTF-8"
-
-Hello all,
-
-UPDATE:  The pipelines have run and all tests passed #336491916
-Usually, the pipelines start running as soon as I push my code. But this
-time they took longer to start and there was no sign of starting. This is my
-first experience with pipelines so I assumed I messed up something from
-my side.
-
-Thanks,
-Niteesh.
-
-On Wed, Jul 14, 2021 at 3:37 AM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
-
-> GitLab:
-> https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/
-> Based-on
-> <https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Based-on>:
-> <20210701041313.1696009-1-jsnow@redhat.com>
->      [PATCH 00/20] python: introduce Asynchronous QMP package
+On Tue, 13 Jul 2021 at 22:19, Cleber Rosa <crosa@redhat.com> wrote:
 >
-> Updates in V2:
-> 1) Moved loop related initialization to 'run' function in 'App' class
-> 2) Added a module logger with support in TUI log messages.
-> 3) Corrected usage of logging.info and logging.debug
-> 4) Added an option in setup.cfg to silent pylint regarding duplicate-code
-> 4) Modified the arguments list to the TUI
+> The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
 >
-> NOTE: I am not able to get the pipelines running after the v2 changes.
-> I was only able to test the changes locally using *make check*.
+>   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
 >
-> This patch series introduces AQMP-TUI prototype. This prototype has been
-> helpfull in letting us try out different ideas and giving some insights
-> into things that we had to take care of in the upcoming TUI. It was also
-> helpfull in finding out bugs in the AQMP library.
+> are available in the Git repository at:
 >
-> The intent for this patch series is to get comments on the architectural
-> design of the prototype. These comments will lay down the foundation for
-> the upcoming TUI.
+>   https://gitlab.com/cleber.gnu/qemu.git/ tags/python-next-pull-request
 >
-> G S Niteesh Babu (6):
->   python: disable pylint errors for aqmp-tui
->   python: Add dependencies for AQMP TUI
->   python/aqmp-tui: Add AQMP TUI draft
->   python: add optional pygments dependency
->   python/aqmp-tui: add syntax highlighting
->   python: add entry point for aqmp-tui
+> for you to fetch changes up to c4e2d499c94fb7d6ea43d28e2613559861ef5d79:
 >
->  python/Pipfile.lock          |  20 ++
->  python/qemu/aqmp/aqmp_tui.py | 342 +++++++++++++++++++++++++++++++++++
->  python/setup.cfg             |  36 +++-
->  3 files changed, 397 insertions(+), 1 deletion(-)
->  create mode 100644 python/qemu/aqmp/aqmp_tui.py
+>   tests/acceptance/cpu_queries.py: use the proper logging channels (2021-07-13 16:27:43 -0400)
 >
-> --
-> 2.17.1
+> ----------------------------------------------------------------
+> Python and Acceptance Tests
 >
+> - New SMMUv3 and Intel IOMMU tests
+> - Respect "cpu" tags and reduce boiler plate code
+> - Improved logging of qemu execution output
+> - Other misc improvements
 >
 
---00000000000097847205c71a1012
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">Hello all,</div><div class=3D"gmail_default" style=3D"font-si=
-ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
-UPDATE:=C2=A0 The pipelines have run and all tests passed #336491916</div><=
-div class=3D"gmail_default" style=3D"font-size:small">Usually, the pipeline=
-s start running as soon as I push my code. But this</div><div class=3D"gmai=
-l_default" style=3D"font-size:small">time they took longer to start and the=
-re was no sign of starting. This is my</div><div class=3D"gmail_default" st=
-yle=3D"font-size:small">first experience=C2=A0with pipelines so I assumed I=
- messed up something from</div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">my side.</div><div class=3D"gmail_default" style=3D"font-size:sm=
-all"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Thank=
-s,</div><div class=3D"gmail_default" style=3D"font-size:small">Niteesh.</di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Wed, Jul 14, 2021 at 3:37 AM G S Niteesh Babu &lt;<a href=3D"mailto:ni=
-teesh.gs@gmail.com" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">GitLab: <a href=
-=3D"https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Base=
-d-on" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/niteesh.gs/qe=
-mu/-/commits/aqmp-tui-prototype-v1/<br>
-Based-on</a>: &lt;<a href=3D"mailto:20210701041313.1696009-1-jsnow@redhat.c=
-om" target=3D"_blank">20210701041313.1696009-1-jsnow@redhat.com</a>&gt;<br>
-=C2=A0 =C2=A0 =C2=A0[PATCH 00/20] python: introduce Asynchronous QMP packag=
-e<br>
-<br>
-Updates in V2:<br>
-1) Moved loop related initialization to &#39;run&#39; function in &#39;App&=
-#39; class<br>
-2) Added a module logger with support in TUI log messages.<br>
-3) Corrected usage of <a href=3D"http://logging.info" rel=3D"noreferrer" ta=
-rget=3D"_blank">logging.info</a> and logging.debug<br>
-4) Added an option in setup.cfg to silent pylint regarding duplicate-code<b=
-r>
-4) Modified the arguments list to the TUI<br>
-<br>
-NOTE: I am not able to get the pipelines running after the v2 changes.<br>
-I was only able to test the changes locally using *make check*.<br>
-<br>
-This patch series introduces AQMP-TUI prototype. This prototype has been<br=
->
-helpfull in letting us try out different ideas and giving some insights<br>
-into things that we had to take care of in the upcoming TUI. It was also<br=
->
-helpfull in finding out bugs in the AQMP library.<br>
-<br>
-The intent for this patch series is to get comments on the architectural<br=
->
-design of the prototype. These comments will lay down the foundation for<br=
->
-the upcoming TUI.<br>
-<br>
-G S Niteesh Babu (6):<br>
-=C2=A0 python: disable pylint errors for aqmp-tui<br>
-=C2=A0 python: Add dependencies for AQMP TUI<br>
-=C2=A0 python/aqmp-tui: Add AQMP TUI draft<br>
-=C2=A0 python: add optional pygments dependency<br>
-=C2=A0 python/aqmp-tui: add syntax highlighting<br>
-=C2=A0 python: add entry point for aqmp-tui<br>
-<br>
-=C2=A0python/Pipfile.lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 ++<b=
-r>
-=C2=A0python/qemu/aqmp/aqmp_tui.py | 342 ++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 36 +++-<br>
-=C2=A03 files changed, 397 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
-<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div></div>
+Applied, thanks.
 
---00000000000097847205c71a1012--
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
