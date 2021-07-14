@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7ED03C888D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 18:20:12 +0200 (CEST)
-Received: from localhost ([::1]:48356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0FF3C88E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 18:46:44 +0200 (CEST)
+Received: from localhost ([::1]:57192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3hcJ-0006ZF-6s
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 12:20:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
+	id 1m3i1y-0005hz-O5
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 12:46:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3hbG-0005eh-GF
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:19:06 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:46603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3hbE-0001pY-Sz
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:19:06 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- b5-20020a17090a9905b029016fc06f6c5bso2046957pjp.5
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 09:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=74FUzAidO+W1bTmmXDJezlqzNDcF76NO+7vkwp4uXfI=;
- b=xNJXC/62oDwtInm41+p0QZnYW943UgbhuOFPGKhYACoiUGGA/FnlVn46NJdTh/YmW/
- /qAohzfSqRQx2uV1MTc/469x8jWdFqy9+BxEmfFxFNRXdlTE34oF3vFXvecPM1TGhUWy
- m4eS8UeYGB7Y+/f5OL7QkjjWZ+IOqHe4x+95jKqEK4HAVKqE2ymZkppbBD53x3hfvoSK
- yjGhj2Jruvc04YgcuZO0pramf48Cw5y2TsXXUC/d5jGZG4TVo5jiNzWdzJoVvw4RoPFc
- O0n0NvFR53eu7gASRto24XP4+m0ZR3WBvYrekyF7rrUF05hwbfIT2Gvlnzjkgru0vV08
- YtOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=74FUzAidO+W1bTmmXDJezlqzNDcF76NO+7vkwp4uXfI=;
- b=GZRnFAN8S0IuP4cKl40KxkNFOGeKzPlAaaKgvHBxcgQGV/4Yxsu0BwDF6/OCaiyyIa
- yAnNJZnRpAHgao+oBXrpxGcYVEDZqpVhYSHJemvRDQh2NiBaXuvrsF0BMh8mUCJTAghv
- SySdudH7DiGT4TY6OtenXRNKzc5AGuV9XNAHHt2wg2d6BUFuuQ7Gz6BkpqCcghruzuC1
- 2/Dry22/CoPQK15Tc4qDRGwomilQlbIDltiv3yMvvoPO6Dw7gMctdKC2CzA034nSstBw
- 4YGBzxMVqRDn+zlCfSI9yUzsdkt/LlzcQMBwOsit+k+VsCzV7uPylAOlP61jmJ2cI+rL
- hsWA==
-X-Gm-Message-State: AOAM531Fczko2SAyuuyaRY6UVk2a2SrZUGZlOlt7gU5vqDvyYDqrR6bQ
- 62WAWoRpkxgtVVWU30omPmehuA==
-X-Google-Smtp-Source: ABdhPJxWunW1gPD8WGAJ12egPwGXTPAEFDszzuzcZM1+K8tMMaRjzdkR6zAmYUGgssl6PPo926lCdA==
-X-Received: by 2002:a17:902:8bc2:b029:12a:f6e7:c4ff with SMTP id
- r2-20020a1709028bc2b029012af6e7c4ffmr8347963plo.36.1626279543455; 
- Wed, 14 Jul 2021 09:19:03 -0700 (PDT)
-Received: from [192.168.101.210] ([75.147.178.105])
- by smtp.gmail.com with ESMTPSA id r15sm3803883pgk.72.2021.07.14.09.19.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 09:19:03 -0700 (PDT)
-Subject: Re: [PATCH v2 0/3] docs: document cubieboard, emcraft-sf2, highbank, 
- midway
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210713142226.19155-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <27495ec6-f6c6-72eb-f92b-4b828b670b2a@linaro.org>
-Date: Wed, 14 Jul 2021 09:19:00 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210713142226.19155-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
+ id 1m3i0N-0004nK-Lb
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:45:03 -0400
+Received: from mx2.tachyum.com ([50.229.46.110]:60917)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mmorrell@tachyum.com>)
+ id 1m3i0M-0003TD-2C
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 12:45:03 -0400
+Received: by mx2.tachyum.com (Postfix, from userid 1000)
+ id 2D39510055F4; Wed, 14 Jul 2021 09:45:00 -0700 (PDT)
+Received: from THQ-EX1.tachyum.com (thq-ex1.tachyum.com [10.7.1.6])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mx2.tachyum.com (Postfix) with ESMTPS id 0247A10055EC;
+ Wed, 14 Jul 2021 09:44:58 -0700 (PDT)
+Received: from THQ-EX1.tachyum.com (10.7.1.6) by THQ-EX1.tachyum.com
+ (10.7.1.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.14; Wed, 14 Jul
+ 2021 09:44:57 -0700
+Received: from THQ-EX1.tachyum.com ([10.7.1.6]) by THQ-EX1.tachyum.com
+ ([10.7.1.6]) with mapi id 15.01.2176.014; Wed, 14 Jul 2021 09:44:57 -0700
+From: Michael Morrell <mmorrell@tachyum.com>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
+Thread-Topic: [PATCH 03/11] softfloat: Introduce float_flag_inorm_denormal
+Thread-Index: AQHXUq7C6V3VKBa6hEShFdzfX5jx76r5KqnAgAHh3oCAR+zssA==
+Date: Wed, 14 Jul 2021 16:44:57 +0000
+Message-ID: <eca2d26624004ddea64c11b725c5f163@tachyum.com>
+References: <20210527041405.391567-1-richard.henderson@linaro.org>
+ <20210527041405.391567-4-richard.henderson@linaro.org>
+ <44a76e8c6504461cbd4dc5752f0d443b@tachyum.com>
+ <c46f86e5-ab9e-1f64-f01d-7ec98413f1c5@linaro.org>
+In-Reply-To: <c46f86e5-ab9e-1f64-f01d-7ec98413f1c5@linaro.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.7.100.197]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Received-SPF: pass client-ip=50.229.46.110; envelope-from=mmorrell@tachyum.com;
+ helo=mx2.tachyum.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,19 +72,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beniamino Galvani <b.galvani@gmail.com>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 7:22 AM, Peter Maydell wrote:
-> Peter Maydell (3):
->    docs: Add skeletal documentation of cubieboard
->    docs: Add skeletal documentation of the emcraft-sf2
->    docs: Add skeletal documentation of highbank and midway
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+SnVzdCBjdXJpb3VzLiAgV2hhdCdzIHRoZSBleHBlY3RlZCB0aW1lbGluZSB0byBnZXQgdGhlc2Ug
+ZGVub3JtYWwgcGF0Y2hlcyBpbiB0aGUgdHJlZT8NCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
+LS0NCkZyb206IFJpY2hhcmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3Jn
+PiANClNlbnQ6IFNhdHVyZGF5LCBNYXkgMjksIDIwMjEgODoyMSBBTQ0KVG86IE1pY2hhZWwgTW9y
+cmVsbCA8bW1vcnJlbGxAdGFjaHl1bS5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmcNCkNjOiBh
+bGV4LmJlbm5lZUBsaW5hcm8ub3JnDQpTdWJqZWN0OiBSZTogW1BBVENIIDAzLzExXSBzb2Z0Zmxv
+YXQ6IEludHJvZHVjZSBmbG9hdF9mbGFnX2lub3JtX2Rlbm9ybWFsDQoNCk9uIDUvMjgvMjEgMTA6
+NDEgQU0sIE1pY2hhZWwgTW9ycmVsbCB3cm90ZToNCj4gSSdtIHByb2JhYmx5IG1pc3Npbmcgc29t
+ZXRoaW5nLCBidXQgd2h5IGRvIHdlIG5lZWQgYm90aCAiZmxvYXRfZmxhZ19pbm9ybV9kZW5vcm1h
+bCIgYW5kICJmbG9hdF9mbGFnX2lmbHVzaF9kZW5vcm1hbCI/DQo+IA0KPiBDb3VsZG4ndCB0aGUg
+Y29kZSB0aGF0IHNldHMgdGhlc2UgZmxhZ3Mgc2V0IGp1c3QgYSBzaW5nbGUgZmxhZyBmb3IgYWxs
+IA0KPiBkZW5vcm1hbCBpbnB1dHMgYW5kIHRoZSBjb2RlIHRoYXQgY2hlY2tzIHRoZXNlIGZsYWdz
+IGNoZWNrIHRoYXQgc2luZ2xlIGZsYWcgY29tYmluZWQgd2l0aCB0aGUgImZsdXNoX2lucHV0c190
+b196ZXJvIiBmbGFnIHRvIGFjY29tcGxpc2ggd2hhdCB0aGUgdHdvIHNlcGFyYXRlICJpbnB1dCBk
+ZW5vcm1hbCIgZmxhZ3MgZG8/DQoNClRoZSB0aGluZyB0aGF0IHlvdSdyZSBtaXNzaW5nIGlzIHRo
+YXQgbWFueSBndWVzdHMgbGVhdmUgdGhlIGFjY3VtdWxhdGVkIHNvZnRmbG9hdCBleGNlcHRpb25z
+IGluIHRoZSBmbG9hdF9zdGF0dXMgc3RydWN0dXJlIHVudGlsIHRoZSBndWVzdCBGUFNDUiByZWdp
+c3RlciBpcyByZWFkLiBVbmxlc3MgdGhlIGd1ZXN0IG5lZWRzIHRvIHJhaXNlIGFuIGV4Y2VwdGlv
+biBpbW1lZGlhdGVseSwgdGhlcmUncyBubyByZWFzb24gdG8gZG8gb3RoZXJ3aXNlLg0KDQpXaXRo
+IHRoaXMgc2V0dXAsIHlvdSBoYXZlIG5vIHRlbXBvcmFsIGNvbm5lY3Rpb24gYmV0d2VlbiAiYW55
+IGRlbm9ybWFsIiBhbmQgImZsdXNoLXRvLXplcm8gaXMgc2V0IiwgdGh1cyB0d28gZmxhZ3MuDQoN
+Cg0Kcn4NCg==
 
