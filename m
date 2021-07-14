@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9867B3C8BD0
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:36:21 +0200 (CEST)
-Received: from localhost ([::1]:38908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9283C8EBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 21:47:49 +0200 (CEST)
+Received: from localhost ([::1]:46238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3kg8-0003kv-4z
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:36:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50796)
+	id 1m3krE-0000lt-3l
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 15:47:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3keZ-0002Yi-T9
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:34:43 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39772)
+ id 1m3kpr-0008G7-S8
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:46:23 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3keW-00020Z-6f
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:34:43 -0400
-Received: by mail-ed1-x532.google.com with SMTP id v1so4698685edt.6
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 12:34:39 -0700 (PDT)
+ id 1m3kpq-0001la-66
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 15:46:23 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id ee25so4735632edb.5
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 12:46:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eh4JgfI4Zpsc/Nbe+Nx0saDA/eOx7RpzBk/3orzO+PM=;
- b=redavrohVXq+q3tp1GIsOI47qUD6g6rU2GSFhBvcT96c9MutGjp5ud/0hEEbq0AcG+
- p8C0Qu2ESP5zO0O7n8Mlw5Xkgu8HeSdXB929Mpt/6r/n4Ssk2nKsfkA8RDtP5ysRy+vV
- 5wrdPJviBI60gJP12wqrbvCpGu/WGsq3QUHHSG9hFYeG6L/4geiW4x432AyeGVtRqQxx
- RWwy+0CVVJFYlslZcoOpitrpl6XA9QzvZGZTD6etYpA/Q+Id0TDaM8V4UktCrdEdBsLV
- pYjQ3MpJ+18DqsvtEYNhnvaoh+nfjMkyu4HtiP540aKnk8L8ajYlq9MrOqTe4Jkw9df+
- 74WA==
+ :cc; bh=xJ47BL1PBnNtjksUHjy7eE1RtMuDf85wJfUn+r+VWFM=;
+ b=PpsjVGD75OuHA5AADuK61DApRVzm5XjA158uYG1fVnQye0ZmX775l+JdOMSRz9Enxj
+ D415qMB27nNdrRsh6uh0RXh9jCaK883WchKVbHxUcpQVtkHi+VHbGsSaSukySq4iIi+W
+ R6XU72N5wXoZ6+rf8v1nBqVNaA46oEU4cZuII1eBLAkCnPuj3uK9TyMv9olmhw5Bu591
+ HB04BpPo2ds2tYbyZ/QHNkoYFz/v7segZ9elYQUFsIQCp/JldYbZJX/QAai8x/6R4NrL
+ mb+I0zok5+I+g35wpfN1nPGYTOSJg5qjMoH2ImTcyLKByplXkKpNe5m2ADcHw1hpk8xP
+ C1lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eh4JgfI4Zpsc/Nbe+Nx0saDA/eOx7RpzBk/3orzO+PM=;
- b=rkCckGmUlsNUIH3rwSsju/LHizcb9e9/z6EwVhNrDtI5qVCAjZjas6dmoPMc9gML1H
- O+HkEYCZlVmuhrIvVLprAP0AsQExqpM+Tjm3QuNC3KOjoADUMwqOW0L6TA1Cud92AeqZ
- tq6sBbEXAtAjKEGyFS+ZnhHUCCQGrGFfoL5dxBpYxC0GRgQq/RQfr8SmRrKes/FlP/T8
- R20pQ4sKvRrhT4b5IUra3jpwMJBIFoOrt05nGbNCqf4MXxlEd8N38OqFCHiZzGLLQyhh
- Q45ic3oJxBEiHGxeREnMWIel85Zkup1Xs62SsBZRipVv8YQQmlb2MGV8j/UQoD14J4sX
- CBEQ==
-X-Gm-Message-State: AOAM5321R7mDIMTFhebvSztS3V5pI/sNvb50r8eLfrSJPku7vfNjPAgD
- KtfKpsfxC+J79KMuPfrYdigGTa9QGu2XVxAuhGgLRg==
-X-Google-Smtp-Source: ABdhPJwEVSsiOdf1eBCzNA7W3PU4gwpPKHhJUw8Ma5yGysv/1pzInLnfm21mU2iwiHQt/yFzNv7GnzH8ueeKPsBqkDI=
-X-Received: by 2002:aa7:c857:: with SMTP id g23mr15654301edt.100.1626291278113; 
- Wed, 14 Jul 2021 12:34:38 -0700 (PDT)
+ bh=xJ47BL1PBnNtjksUHjy7eE1RtMuDf85wJfUn+r+VWFM=;
+ b=gpUXOxx4P+abkyK7jTLQsVbHoiutAxNM1Zt5W28I48jsvJiSb5ObP80vpzHxW/E2S3
+ XJY+3BUGLvX85GXcVQAZxZKdYlERSQ1IUK/0Krwu0om8HM2ZadeRWt36jBjoir7W4iow
+ PI7HPff+LwExndXtCyJObfn6YVeZsf/endjqP+VEskov/FQMF1PEVfP8qBhFfTVDonvK
+ 9/Me43/d2kMpNl/hc7DCgdq0xcoqA9zVXRxOtxs90ldCdrYddn/kGHfTNW4Q/ImvXHtD
+ bamzhi0KXdow43MEbAxgzNh2glq45V1Fxygw19Z4oXH4bJ4zqOW4Q4DAElU91NWNUIIi
+ c1NQ==
+X-Gm-Message-State: AOAM533gQqIXt+RbqTamhYz4/FE8zyHvJwnTH6b9PdEbx5TQp2cbN26X
+ pV2LOI0qalYVKbvVl3c+q5walWiEqd9w7V6JuS2Jgg==
+X-Google-Smtp-Source: ABdhPJwXWTv8MF9s2gKYPSo4HIrVF6BXBIhI+KBBf87K4KIRDl1WHMpLo64hOkpHZVAKINN7A6fnSVUiXzZVqod0DEg=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr15714231edt.100.1626291979992; 
+ Wed, 14 Jul 2021 12:46:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210713211923.3809241-1-crosa@redhat.com>
-In-Reply-To: <20210713211923.3809241-1-crosa@redhat.com>
+References: <162621155674.487037.8788212042441164398.stgit@omen>
+In-Reply-To: <162621155674.487037.8788212042441164398.stgit@omen>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 14 Jul 2021 20:33:58 +0100
-Message-ID: <CAFEAcA9corAMJPn4oZ13ovrdfdCR1ZFuRHRcfnFVOiDs7pxfPQ@mail.gmail.com>
-Subject: Re: [PULL 00/23] Python and Acceptance Tests
-To: Cleber Rosa <crosa@redhat.com>
+Date: Wed, 14 Jul 2021 20:45:40 +0100
+Message-ID: <CAFEAcA-m0hk1CTWj2W2bvYnuZgcn9xiUiS48kdopSgV-FkWcKg@mail.gmail.com>
+Subject: Re: [PULL 0/3] VFIO update 2021-07-13 (for v6.1)
+To: Alex Williamson <alex.williamson@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,53 +76,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Willian Rampazzo <wrampazz@redhat.com>, John Snow <jsnow@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
- Reinoud Zandijk <reinoud@netbsd.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Greg Kurz <groug@kaod.org>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Ryo ONODERA <ryoon@netbsd.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Pankaj Gupta <pankaj.gupta@ionos.com>,
+ Auger Eric <eric.auger@redhat.com>, Cai Huoqing <caihuoqing@baidu.com>,
+ teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 13 Jul 2021 at 22:19, Cleber Rosa <crosa@redhat.com> wrote:
+On Tue, 13 Jul 2021 at 22:42, Alex Williamson
+<alex.williamson@redhat.com> wrote:
 >
-> The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
+> The following changes since commit 961fef0ace0b2a997544deec2f01981b9c9c96e3:
 >
->   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply-20210712' into staging (2021-07-13 17:51:50 +0100)
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/cleber.gnu/qemu.git/ tags/python-next-pull-request
+>   git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20210713.0
 >
-> for you to fetch changes up to c4e2d499c94fb7d6ea43d28e2613559861ef5d79:
+> for you to fetch changes up to fefc1861d4ba8b9b4d7153dc6b359a65468d15cb:
 >
->   tests/acceptance/cpu_queries.py: use the proper logging channels (2021-07-13 16:27:43 -0400)
+>   vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI processor (2021-07-13 11:31:14 -0600)
 >
 > ----------------------------------------------------------------
-> Python and Acceptance Tests
+> VFIO update 2021-07-13
 >
-> - New SMMUv3 and Intel IOMMU tests
-> - Respect "cpu" tags and reduce boiler plate code
-> - Improved logging of qemu execution output
-> - Other misc improvements
+>  * Coverity fix to discard listener (David Hildenbrand)
 >
+>  * MSI-X PBA quirk for BAIDU VFs, additional helper use cases (Cai Huoqing)
+>
+> ----------------------------------------------------------------
+> Cai Huoqing (2):
+>       vfio/pci: Change to use vfio_pci_is()
+>       vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI processor
+>
+> David Hildenbrand (1):
+>       vfio: Fix CID 1458134 in vfio_register_ram_discard_listener()
+>
+>  hw/vfio/common.c         |  3 ++-
+>  hw/vfio/pci.c            | 12 ++++++++++--
+>  include/hw/pci/pci_ids.h |  3 +++
+>  3 files changed, 15 insertions(+), 3 deletions(-)
 
+Something seems to have gone wrong with your pullrequest. Specifically,
+it appears to be based on commit 961fef0ace0b2a997 "Merge remote-tracking
+branch 'remotes/alistair/tags/pull-riscv-to-apply-20210712' into staging",
+which is not a commit that has ever been in master and indeed does not
+compile on all systems. (This is lucky, because if it had compiled
+I might not have noticed the mistake...)
 
-Applied, thanks.
+Pull requests should always be based only on commits in master.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
