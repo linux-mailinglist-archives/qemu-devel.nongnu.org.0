@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10AA13C879D
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:32:08 +0200 (CEST)
-Received: from localhost ([::1]:39300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2EA3C87A1
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:32:20 +0200 (CEST)
+Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3grn-0003Xn-1H
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:32:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
+	id 1m3grz-000406-UM
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:32:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3geO-0004we-DP
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:18:20 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45642)
+ id 1m3geY-00058u-R6
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:18:26 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3geL-0002H3-F9
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:18:16 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id t5so3653547wrw.12
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:18:10 -0700 (PDT)
+ id 1m3geT-0002NP-0d
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:18:26 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso4138281wmh.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NeABLV7StpNg0vKloEwYcA5/N3mgXlUJz7t9QWy+kVI=;
- b=SnVuM2tTOoKZl7/8ta0gSp2nA47BqMNLYBL/adjGYTz8k0EpSRZ2/5BPvZOyeMb/ay
- 1PcSUZg/i72VqRcfkqJur5D/ptE9SzKHMkgHe/IRU3uMsPtVvCbAzVdjDpr1xh/5PaYI
- 2XTI892QmrMj/dba0xd69O/ibZeYziOR91+hoaXj0BDLjlawz2QtLFhrupOmWlMbO5/N
- ALXGCiLOfEYR/8CScxWeblPY8D5rN7HzeBYbdQqO6jnZkLiZKHF0nUts8qCrVsdVaw1t
- EaaTWdItLkExSzyU3UGqJLBVmua/Jnpxut/U6yTgOiGKB0buyL/OPsV7pGAuzjfYQ/U3
- yNZg==
+ bh=c6c/2UKBKcmwZO3rKn9f4u9KmPaZeHBM5vy4ozHzctY=;
+ b=VIrK27poLTtyA7PxTkHxEbmRq22AN/2gBBLNxYEfYLhnBULcQ58C58lYcEafbYBmWO
+ RDv7+CyVAoxwJTEsD5M5xptYRwkUMDt6gHeU6oQWSnAOina/E1psunVR67TolB4we1Zv
+ bLdsjUqcfHkwbFY9i2eLtQ9xvobfj8tVXV4w9on8ZFx2I/B61dmOrJpm3iF9p6awSTUb
+ 9lqwWXeE9IlWKgCnzUN9LxeNp4OGtAwvdUp7zVdiZSaDefluVXS1yNUNwmVgSPtiQn1m
+ Y6+zsQyswdajKRFkXkqhFucSKBs+7JK6kNZ3eBw6jzutSs5J6YDBgvOyUJAFbDD8vFNH
+ AooA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NeABLV7StpNg0vKloEwYcA5/N3mgXlUJz7t9QWy+kVI=;
- b=JtFxGiTMJlBpdFFSXExL2vNUimLZwS1plw/c4k70NxfCCbP48bFUiHeivkXObgn1dT
- xS0HPJZfZIBfPX2EMjgRMfdsiqTBBiaOWJkSxUI6gYbh31PDPcgALVR7BQowY7chJueo
- 112BHIt3K9Aqd4+r6gDe1W/v11GKm65327zWZa63eIdz8oMS82Y7P6YUFTAQWJovreJP
- 6P+35QznGnqMdi9OFaoc1wNDvlsViJe6uwEzlta6PH79z+NeJJrq8r7PMSFa9iiszWwE
- VPawrG8q5bPng8FmfymP4gvPoDevW5ioPSN4axFWauayC/ZcB+a0lr894SeUsamB0+hh
- 0h7Q==
-X-Gm-Message-State: AOAM531nHylV+GlIFDXFs2Zry/UJd8ji+FA0Pc3vtqXB02rmSBt30JoZ
- SXT0k4xzGtvOeifrGbCp5hcmhQ==
-X-Google-Smtp-Source: ABdhPJyfXOHIs3YH/Wk69yhi30Er61KQVd4OCTDhqlm4c9RnyHVeEpOVgvse0sDEsL+nRn4v7cvf9w==
-X-Received: by 2002:a5d:4e4e:: with SMTP id r14mr14146863wrt.251.1626275889613; 
- Wed, 14 Jul 2021 08:18:09 -0700 (PDT)
+ bh=c6c/2UKBKcmwZO3rKn9f4u9KmPaZeHBM5vy4ozHzctY=;
+ b=exPvUHHn8FnbMYIEZawPVTNmZ1ryMCC9XQxxa8wspYavuWmKfB0sld+Hw9eDpab4Dq
+ eIDZiSXOi1euJG0vXNZzzAUJgJ1ySrAypbEBDX9D1p2XRbiH2p9yo4b3TCdFhJ19nKoO
+ A5aPnuZccODEsasziRoYpqZMeSpZ8fmGSNY4y50TUqvIphN7/TTMwvv7gXtJ7PiaQ/HH
+ smNAD0H4l/N9KkUnNphnIN5Pq5385rErt645fJ9YiSdMH7j/dHJITjjV+aEslhLBvjob
+ jbE/Ym8x4m3VoP3k2oRFmBeOuEBhOydzDbZJDKz9ZYg3LXBWrYugCf5ghGjpJOid0n02
+ 1hag==
+X-Gm-Message-State: AOAM533elA/QEBDEVImDZqoeFSqkIiBCo+RmHTYjhKSJEdadFjN1yA9O
+ zGDfP08bITr1dgaBybFPKsBikWRJaiKVHQ==
+X-Google-Smtp-Source: ABdhPJxAEYDtQYdPFiMSYFcKYcooz24UriLUOR+HdsS8x+OoxxLOkD0H0PBZsHs7XcVmcVRFIV6dRg==
+X-Received: by 2002:a05:600c:8a9:: with SMTP id
+ l41mr4818832wmp.152.1626275899616; 
+ Wed, 14 Jul 2021 08:18:19 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z7sm2162775wmp.34.2021.07.14.08.18.07
+ by smtp.gmail.com with ESMTPSA id t6sm3099249wru.75.2021.07.14.08.18.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 08:18:07 -0700 (PDT)
+ Wed, 14 Jul 2021 08:18:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A53141FF9F;
- Wed, 14 Jul 2021 16:00:38 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id C910B1FFB5;
+ Wed, 14 Jul 2021 16:00:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL v5 16/44] tests/docker: fix sorting in package lists
-Date: Wed, 14 Jul 2021 16:00:08 +0100
-Message-Id: <20210714150036.21060-17-alex.bennee@linaro.org>
+Subject: [PULL v5 28/44] tests/tcg: make test-mmap a little less aggressive
+Date: Wed, 14 Jul 2021 16:00:20 +0100
+Message-Id: <20210714150036.21060-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714150036.21060-1-alex.bennee@linaro.org>
 References: <20210714150036.21060-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,178 +88,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+The check_aligned_anonymous_unfixed_mmaps and
+check_aligned_anonymous_unfixed_colliding_mmaps do a lot of mmap's and
+copying of data. This is especially unfriendly to targets like hexagon
+which have quite large pages and need to do sanity checks on each
+memory access.
 
-This will make diffs in later patches clearer.
+While we are at it clean-up the white space and style issues from the
+legacy code. As we no longer do quite so much needless memory access
+we can also remove the hexagon timeout hack.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210623142245.307776-7-berrange@redhat.com>
-Message-Id: <20210709143005.1554-15-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Message-Id: <20210709143005.1554-27-alex.bennee@linaro.org>
 
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 8f810810f3..ee52305646 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -22,9 +22,9 @@ ENV PACKAGES \
-     lzo-devel \
-     make \
-     mesa-libEGL-devel \
--    nmap-ncat \
-     nettle-devel \
-     ninja-build \
-+    nmap-ncat \
-     perl-Test-Harness \
-     pixman-devel \
-     python36 \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 64a413f5e0..4a0a84eb43 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:33
+diff --git a/tests/tcg/multiarch/test-mmap.c b/tests/tcg/multiarch/test-mmap.c
+index 11d0e777b1..96257f8ebe 100644
+--- a/tests/tcg/multiarch/test-mmap.c
++++ b/tests/tcg/multiarch/test-mmap.c
+@@ -49,64 +49,62 @@ size_t test_fsize;
  
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-+    SDL2-devel \
-     bc \
-     brlapi-devel \
-     bzip2 \
-@@ -79,10 +80,10 @@ ENV PACKAGES \
-     mingw64-pixman \
-     mingw64-pkg-config \
-     mingw64-SDL2 \
--    nmap-ncat \
-     ncurses-devel \
-     nettle-devel \
-     ninja-build \
-+    nmap-ncat \
-     numactl-devel \
-     perl \
-     perl-Test-Harness \
-@@ -97,7 +98,6 @@ ENV PACKAGES \
-     python3-sphinx_rtd_theme \
-     python3-virtualenv \
-     rdma-core-devel \
--    SDL2-devel \
-     snappy-devel \
-     sparse \
-     spice-server-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 7ebff1b3a8..6011447181 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -9,46 +9,46 @@ ENV PACKAGES \
-     cyrus-sasl-devel \
-     gcc \
-     gcc-c++ \
--    mkisofs \
-     gettext-runtime \
-     git \
-     glib2-devel \
-     glusterfs-devel \
--    libgnutls-devel \
-     gtk3-devel \
-+    libSDL2-devel \
-+    libSDL2_image-devel \
-     libaio-devel \
-     libattr-devel \
-     libcap-ng-devel \
-     libepoxy-devel \
-     libfdt-devel \
-+    libgnutls-devel \
-     libiscsi-devel \
-     libjpeg8-devel \
-+    libnuma-devel \
-+    libpixman-1-0-devel \
-     libpmem-devel \
-     libpng16-devel \
-     librbd-devel \
-     libseccomp-devel \
-+    libspice-server-devel \
-     libssh-devel \
-     lzo-devel \
-     make \
--    libSDL2_image-devel \
-+    mkisofs \
-     ncurses-devel \
-     ninja \
--    libnuma-devel \
-     perl \
--    libpixman-1-0-devel \
-     python3-base \
-     python3-virtualenv \
-     rdma-core-devel \
--    libSDL2-devel \
-     snappy-devel \
--    libspice-server-devel \
-     systemd-devel \
-     systemtap-sdt-devel \
-     tar \
-     usbredir-devel \
-     virglrenderer-devel \
--    xen-devel \
-     vte-devel \
-+    xen-devel \
-     zlib-devel
- ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
+ void check_aligned_anonymous_unfixed_mmaps(void)
+ {
+-	void *p1;
+-	void *p2;
+-	void *p3;
+-	void *p4;
+-	void *p5;
+-	uintptr_t p;
+-	int i;
+-
+-	fprintf(stdout, "%s", __func__);
+-	for (i = 0; i < 0x1fff; i++)
+-	{
+-		size_t len;
+-
+-		len = pagesize + (pagesize * i & 7);
+-		p1 = mmap(NULL, len, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		p2 = mmap(NULL, len, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		p3 = mmap(NULL, len, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		p4 = mmap(NULL, len, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		p5 = mmap(NULL, len, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-
+-		/* Make sure we get pages aligned with the pagesize. The
+-		   target expects this.  */
+-		fail_unless (p1 != MAP_FAILED);
+-		fail_unless (p2 != MAP_FAILED);
+-		fail_unless (p3 != MAP_FAILED);
+-		fail_unless (p4 != MAP_FAILED);
+-		fail_unless (p5 != MAP_FAILED);
+-		p = (uintptr_t) p1;
+-		D(printf ("p=%x\n", p));
+-		fail_unless ((p & pagemask) == 0);
+-		p = (uintptr_t) p2;
+-		fail_unless ((p & pagemask) == 0);
+-		p = (uintptr_t) p3;
+-		fail_unless ((p & pagemask) == 0);
+-		p = (uintptr_t) p4;
+-		fail_unless ((p & pagemask) == 0);
+-		p = (uintptr_t) p5;
+-		fail_unless ((p & pagemask) == 0);
+-
+-		/* Make sure we can read from the entire area.  */
+-		memcpy (dummybuf, p1, pagesize);
+-		memcpy (dummybuf, p2, pagesize);
+-		memcpy (dummybuf, p3, pagesize);
+-		memcpy (dummybuf, p4, pagesize);
+-		memcpy (dummybuf, p5, pagesize);
+-
+-		munmap (p1, len);
+-		munmap (p2, len);
+-		munmap (p3, len);
+-		munmap (p4, len);
+-		munmap (p5, len);
+-	}
+-	fprintf(stdout, " passed\n");
++    void *p1;
++    void *p2;
++    void *p3;
++    void *p4;
++    void *p5;
++    uintptr_t p;
++    int i;
++    fprintf(stdout, "%s", __func__);
++    for (i = 0; i < 8; i++) {
++        size_t len;
++        len = pagesize + (pagesize * i);
++        p1 = mmap(NULL, len, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        p2 = mmap(NULL, len, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        p3 = mmap(NULL, len, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        p4 = mmap(NULL, len, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        p5 = mmap(NULL, len, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++
++        /*
++         * Make sure we get pages aligned with the pagesize. The
++         * target expects this.
++         */
++        fail_unless(p1 != MAP_FAILED);
++        fail_unless(p2 != MAP_FAILED);
++        fail_unless(p3 != MAP_FAILED);
++        fail_unless(p4 != MAP_FAILED);
++        fail_unless(p5 != MAP_FAILED);
++        p = (uintptr_t) p1;
++        D(printf("p=%x\n", p));
++        fail_unless((p & pagemask) == 0);
++        p = (uintptr_t) p2;
++        fail_unless((p & pagemask) == 0);
++        p = (uintptr_t) p3;
++        fail_unless((p & pagemask) == 0);
++        p = (uintptr_t) p4;
++        fail_unless((p & pagemask) == 0);
++        p = (uintptr_t) p5;
++        fail_unless((p & pagemask) == 0);
++
++        /* Make sure we can read from the entire area.  */
++        memcpy(dummybuf, p1, pagesize);
++        memcpy(dummybuf, p2, pagesize);
++        memcpy(dummybuf, p3, pagesize);
++        memcpy(dummybuf, p4, pagesize);
++        memcpy(dummybuf, p5, pagesize);
++        munmap(p1, len);
++        munmap(p2, len);
++        munmap(p3, len);
++        munmap(p4, len);
++        munmap(p5, len);
++    }
++    fprintf(stdout, " passed\n");
+ }
  
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index 0acdb0d9ad..a50a35e6fe 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -46,10 +46,10 @@ ENV PACKAGES \
-     libxen-dev \
-     libzstd-dev \
-     make \
--    python3-yaml \
-+    ninja-build \
-     python3-sphinx \
-     python3-sphinx-rtd-theme \
--    ninja-build \
-+    python3-yaml \
-     sparse \
-     xfslibs-dev
- RUN apt-get update && \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 88b3cfa136..eee2ef3cac 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,8 +1,10 @@
- FROM docker.io/library/ubuntu:20.04
--ENV PACKAGES flex bison \
-+ENV PACKAGES \
-+    bison \
-     bsdmainutils \
-     ccache \
-     clang-10\
-+    flex \
-     gcc \
-     gcovr \
-     genisoimage \
-@@ -65,8 +67,8 @@ ENV PACKAGES flex bison \
-     sparse \
-     tesseract-ocr \
-     tesseract-ocr-eng \
--    xfslibs-dev\
--    vim
-+    vim \
-+    xfslibs-dev
- RUN apt-get update && \
-     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
- RUN dpkg -l $PACKAGES | sort > /packages.txt
+ void check_large_anonymous_unfixed_mmap(void)
+@@ -135,52 +133,54 @@ void check_large_anonymous_unfixed_mmap(void)
+ 
+ void check_aligned_anonymous_unfixed_colliding_mmaps(void)
+ {
+-	char *p1;
+-	char *p2;
+-	char *p3;
+-	uintptr_t p;
+-	int i;
+-
+-	fprintf(stdout, "%s", __func__);
+-	for (i = 0; i < 0x2fff; i++)
+-	{
+-		int nlen;
+-		p1 = mmap(NULL, pagesize, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		fail_unless (p1 != MAP_FAILED);
+-		p = (uintptr_t) p1;
+-		fail_unless ((p & pagemask) == 0);
+-		memcpy (dummybuf, p1, pagesize);
+-
+-		p2 = mmap(NULL, pagesize, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		fail_unless (p2 != MAP_FAILED);
+-		p = (uintptr_t) p2;
+-		fail_unless ((p & pagemask) == 0);
+-		memcpy (dummybuf, p2, pagesize);
+-
+-
+-		munmap (p1, pagesize);
+-		nlen = pagesize * 8;
+-		p3 = mmap(NULL, nlen, PROT_READ, 
+-			  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+-		fail_unless (p3 != MAP_FAILED);
+-
+-		/* Check if the mmaped areas collide.  */
+-		if (p3 < p2 
+-		    && (p3 + nlen) > p2)
+-			fail_unless (0);
+-
+-		memcpy (dummybuf, p3, pagesize);
+-
+-		/* Make sure we get pages aligned with the pagesize. The
+-		   target expects this.  */
+-		p = (uintptr_t) p3;
+-		fail_unless ((p & pagemask) == 0);
+-		munmap (p2, pagesize);
+-		munmap (p3, nlen);
+-	}
+-	fprintf(stdout, " passed\n");
++    char *p1;
++    char *p2;
++    char *p3;
++    uintptr_t p;
++    int i;
++
++    fprintf(stdout, "%s", __func__);
++    for (i = 0; i < 2; i++) {
++        int nlen;
++        p1 = mmap(NULL, pagesize, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        fail_unless(p1 != MAP_FAILED);
++        p = (uintptr_t) p1;
++        fail_unless((p & pagemask) == 0);
++        memcpy(dummybuf, p1, pagesize);
++
++        p2 = mmap(NULL, pagesize, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        fail_unless(p2 != MAP_FAILED);
++        p = (uintptr_t) p2;
++        fail_unless((p & pagemask) == 0);
++        memcpy(dummybuf, p2, pagesize);
++
++
++        munmap(p1, pagesize);
++        nlen = pagesize * 8;
++        p3 = mmap(NULL, nlen, PROT_READ,
++                  MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++        fail_unless(p3 != MAP_FAILED);
++
++        /* Check if the mmaped areas collide.  */
++        if (p3 < p2
++            && (p3 + nlen) > p2) {
++            fail_unless(0);
++        }
++
++        memcpy(dummybuf, p3, pagesize);
++
++        /*
++         * Make sure we get pages aligned with the pagesize. The
++         * target expects this.
++         */
++        p = (uintptr_t) p3;
++        fail_unless((p & pagemask) == 0);
++        munmap(p2, pagesize);
++        munmap(p3, nlen);
++    }
++    fprintf(stdout, " passed\n");
+ }
+ 
+ void check_aligned_anonymous_fixed_mmaps(void)
+diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+index 0992787d50..050cd61c1a 100644
+--- a/tests/tcg/hexagon/Makefile.target
++++ b/tests/tcg/hexagon/Makefile.target
+@@ -18,15 +18,6 @@
+ # Hexagon doesn't support gdb, so skip the EXTRA_RUNS
+ EXTRA_RUNS =
+ 
+-# Hexagon has 64K pages, so increase the timeout to keep
+-# test-mmap from timing out
+-ifeq ($(CONFIG_DEBUG_TCG),y)
+-TIMEOUT=800
+-else
+-TIMEOUT=500
+-endif
+-
+-
+ CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
+ CFLAGS += -fno-unroll-loops
+ 
 -- 
 2.20.1
 
