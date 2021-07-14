@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F523C7D93
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 06:33:31 +0200 (CEST)
-Received: from localhost ([::1]:35614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05B23C7D90
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 06:31:31 +0200 (CEST)
+Received: from localhost ([::1]:57224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3WaQ-0006fC-AH
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 00:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41306)
+	id 1m3WYU-00023T-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 00:31:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3WUf-0004D4-CA
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 00:27:33 -0400
-Received: from indium.canonical.com ([91.189.90.7]:52160)
+ id 1m3WUe-0004BK-K3
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 00:27:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:52090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3WUd-0003ne-PP
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 00:27:33 -0400
+ id 1m3WUd-0003n6-2j
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 00:27:32 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m3WUa-0006uj-N8
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 04:27:29 +0000
+ id 1m3WUZ-00070M-NO
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 04:27:28 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BDCEE2E8187
+ by loganberry.canonical.com (Postfix) with ESMTP id 320E02E854E
  for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 04:26:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Jul 2021 04:17:20 -0000
-From: Launchpad Bug Tracker <1918084@bugs.launchpad.net>
+Date: Wed, 14 Jul 2021 04:17:21 -0000
+From: Launchpad Bug Tracker <1918149@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eddyh janitor philmd th-huth
-X-Launchpad-Bug-Reporter: Eddy Hahn (eddyh)
+X-Launchpad-Bug-Commenters: galli-leo janitor th-huth
+X-Launchpad-Bug-Reporter: Leonardo (galli-leo)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161517335801.3660.13243926426355834161.malonedeb@soybean.canonical.com>
-Message-Id: <162623624107.32682.13317011741465061908.malone@loganberry.canonical.com>
-Subject: [Bug 1918084] Re: Build fails on macOS 11.2.2
+References: <161521552307.29654.2972591810140156041.malonedeb@wampee.canonical.com>
+Message-Id: <162623624174.32682.11832246798693352029.malone@loganberry.canonical.com>
+Subject: [Bug 1918149] Re: qemu-user reports wrong fault_addr in signal handler
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="48411ad9fd448ca55fc57f9555fc375624a85324"; Instance="production"
-X-Launchpad-Hash: a97b46abe8f12ce04cb91cc531099125eea96a39
+X-Launchpad-Hash: 5b83301d732dc3247bfed622e648e7fdbe216884
 Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1918084 <1918084@bugs.launchpad.net>
+Reply-To: Bug 1918149 <1918149@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,51 +83,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1918084
+https://bugs.launchpad.net/bugs/1918149
 
 Title:
-  Build fails on macOS 11.2.2
+  qemu-user reports wrong fault_addr in signal handler
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Hi,
+  When a SEGV signal occurs and si_addr of the info struct is nil, qemu
+  still tries to translate the address from host to guest
+  (handle_cpu_signal in accel/tcg/user-exec.c). This means, that the
+  actual signal handler, will receive a fault_addr that is something
+  like 0xffffffffbf709000.
 
-  I got the latest version from git. I have pre-compiled the dependency
-  libraries. All good. configure creates the necessary files. When I
-  build I got the following error:
+  I was able to get this to happen, by branching to a non canonical address=
+ on aarch64.
+  I used 5.2 (commit: 553032db17). However, building from source, this only=
+ seems to happen, if I use the same configure flags as the debian build:
 
-  [1368/6454] Compiling C object libcapstone.a.p/capstone_arch_AArch64_AArc=
-h64InstPrinter.c.o
-  ninja: build stopped: subcommand failed.
-  make[1]: *** [run-ninja] Error 1
-  make: *** [all] Error 2
+  ../configure --static --target-list=3Daarch64-linux-user --disable-
+  system --enable-trace-backends=3Dsimple --disable-linux-io-uring
+  --disable-pie --extra-cflags=3D"-fstack-protector-strong -Wformat
+  -Werror=3Dformat-security -Wdate-time -D_FORTIFY_SOURCE=3D2"  --extra-
+  ldflags=3D"-Wl,-z,relro -Wl,--as-needed"
 
-  I've ran make as make -j 8
-
-  original config:
-
-  PKG_CONFIG_PATH=3D"$SERVERPLUS_DIR/dependencies/glib/lib/pkgconfig:$SERVE=
-RPLUS_DIR/dependencies/pixman/lib/pkgconfig:$SERVERPLUS_DIR/dependencies/cy=
-rus-
-  sasl/lib/pkgconfig" ./configure --prefix=3D"$SERVERPLUS_DIR" --enable-
-  hvf --enable-cocoa --enable-vnc-sasl --enable-auth-pam
-  --ninja=3D/opt/build/build/stage/tools/ninja/ninja
-  --python=3D"$SERVERPLUS_DIR/dependencies/python/bin/python3" --enable-
-  bsd-user
-
-  if I build with --target-list=3Dx86_64-softmmu then it will build but I
-  will get only the x86_64 QEMU built. With 5.0 I could build all
-  emulators.
-
-  $SERVERPLUS_DIR is my target dir.
-
-  Thanks,
-
-  Eddy
+  Let me know, if you need more details.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1918084/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1918149/+subscriptions
 
 
