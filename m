@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A953C81D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 11:39:28 +0200 (CEST)
-Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 584423C8200
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 11:45:35 +0200 (CEST)
+Received: from localhost ([::1]:41822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3bMV-0004vJ-3Y
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 05:39:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34954)
+	id 1m3bSQ-0000ms-9y
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 05:45:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bK2-00020H-Ml
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:36:54 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44886)
+ id 1m3bK0-0001wd-PB
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:36:52 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:35715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m3bK1-0004Kh-87
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:36:54 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f9so2354182wrq.11
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:36:52 -0700 (PDT)
+ id 1m3bJz-0004J6-3r
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 05:36:52 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ m11-20020a05600c3b0bb0290228f19cb433so3487483wms.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 02:36:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uHeHl3pMrRvL9Wr2ptGPC5oRo8vbMCPQj9p2Od1ROSQ=;
- b=eTr7XmaVtou0Yp9fFXqZt00qHTouoEJgFyYT00FJfyM/wqb0p7XQ2BCkgpjW2INoWS
- Peq0Iy+Xo57ZJklCDTXsP0+b9QVa6cawpv91qRGOfPqIb221dfyEtA09bXnhcC7kXuZL
- fClCzBhZD5zSWkJMJxJMbxee5+Qziuy1+3udAgmuF6aTGP/tDPXmJSYIB1Ka8AFdtCFV
- oTJWXiopG7SMEeA3DTv9qHcJrIN4h5JK0kiWh2voH0XSqqFr3/lHUmvs7SPLbqk6bCSY
- 605vRGq7pwAv6qQpWsyt5ZdIzrtf4Nee3jWExednAK5kPa50SD8XbBgEkntdqHu/Gzzx
- QZWw==
+ bh=iypXcdw5mlwuIysZPQWovjCubqXhpHUzMF180LrBYeI=;
+ b=YV6s4S45wruuKlTWS1n1PBEVH2wxuSNLr7i87XMMRBmb6lo0WdDthheCceWhvrDM6S
+ QtDxKR+d3k5yEgwaSAygJxFSyZIhomo4HWVmhKWwsojkKR8G1tPX6C49RT8R8fQenZam
+ IhOMMT5/1/Je+63BxZkxUEUGYUoSM1WtTerdB98/Ud/D0GISLebSECeOk3s1kZ/IC+cW
+ CqI6wfcckGcLLiANr7VPWBr+uoDaLtyuWockE1V0LQsb423ABPjIStyIIgmEWj33z/v4
+ P5Q+hPxVACNk+ObX7sYOcGfFgAlTGMQBm3nhDulkXwGjjA/FFa+TeJ6+vyGAtQ3GdObR
+ tmOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uHeHl3pMrRvL9Wr2ptGPC5oRo8vbMCPQj9p2Od1ROSQ=;
- b=CqekM9IwfkRRraAddlBctQ8x/CuXJ30fYYfg22K7d3YGtgpaIwnogfZLT/mYSzbR6N
- TkUGDUsUJgcdXX25ukeFRGdQojtlnd5d2UEwHAwVm2lQTNgtNlk5s8dj3iGVfAICezmk
- QvxKhNHJcQivIHGOtez06HpEyfz+u2Tg9Td9qMEG/OV9/gTbIjns7ocoIDdszqDy999T
- Iu5FUGJyMIV1Y866ZkZ3/CRCfbwVOm9F0M5uEW4ecNOzfmh8GY+JLW7Ir6cr6PFzrvxY
- 7kJTJwhdV/TLudRd/hqXgkejuEpRndM0ra0FXA0lM7zk9BGuCnBJyBNZAEbV9gzIGP89
- s+ew==
-X-Gm-Message-State: AOAM530kPQyfPCHiv8m91pfrrVBb+EeH/BihtOieZ/S18ypGUSHv2NJU
- Lyp0gn5eCE2OQPHYKChmzGmOag==
-X-Google-Smtp-Source: ABdhPJx+3Tm/snDgHcSz8GNMHQT5npFsA5mzwT1Hd95qxN4vxn6x8IOEqkYIDs3WWdEZwGe9Sk8ZNA==
-X-Received: by 2002:adf:f50e:: with SMTP id q14mr11604001wro.183.1626255411889; 
- Wed, 14 Jul 2021 02:36:51 -0700 (PDT)
+ bh=iypXcdw5mlwuIysZPQWovjCubqXhpHUzMF180LrBYeI=;
+ b=rkb9x6NQYezVeTljRSguzHI1zq8XxHfooa1C+irAylRUwv+ZNdGV7GDo2JpxMkCfAP
+ 9kuopW8V1GSurZAza4/K1AckxRbWoAXl/drFATsS4Z+Wzflh2WDHYkdQo/qD6CxbvuJk
+ ZRIbzGLpsudxS6Vms5KNmvwnFnvZBcLHrSc5C19DbVijtjjeMOVfPXCqgFjA6nwIBCie
+ d5xpBkgmqLB7b04BAeZbVaPZ1sId0Q/mVTnEFBa3oli8enT0P3hkt5r+DoanFHFY17/y
+ kX42gMN9+ZlkO2V8fWYzy4UUOmPaM1vYBdt+h8z0D9toGjnVFu7j1GrjM3e632UbYbnB
+ 8ODA==
+X-Gm-Message-State: AOAM5334NzjBPKrIrpevvFWFGiVB5LxpKlXdIrBRyP2NC3fOdN2psuJg
+ /+uDQBnHOcrPtmUpOONJfIHROg==
+X-Google-Smtp-Source: ABdhPJwVMw5x4rCgr4a998u4676F2l1YJvkdduN/pcZdaXWWgl1Yta2bp1YwpF3B/2CAz++GRLoc9A==
+X-Received: by 2002:a1c:493:: with SMTP id 141mr5810389wme.172.1626255409243; 
+ Wed, 14 Jul 2021 02:36:49 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z16sm2018564wrl.8.2021.07.14.02.36.40
+ by smtp.gmail.com with ESMTPSA id y3sm1941871wrh.16.2021.07.14.02.36.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 14 Jul 2021 02:36:45 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 730CD1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 8862D1FF93;
  Wed, 14 Jul 2021 10:36:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 06/21] .mailmap: fix up some broken commit authors
-Date: Wed, 14 Jul 2021 10:36:23 +0100
-Message-Id: <20210714093638.21077-7-alex.bennee@linaro.org>
+Subject: [PATCH  v1 07/21] contrib/gitdm: add domain-map for MontaVista
+Date: Wed, 14 Jul 2021 10:36:24 +0100
+Message-Id: <20210714093638.21077-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210714093638.21077-1-alex.bennee@linaro.org>
 References: <20210714093638.21077-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,36 +87,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nick Hudson <hnick@vmware.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Marek Dolata <mkdolata@us.ibm.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Corey Minyard <minyard@mvista.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: 49a6f3bffb ("target/arm: Correct the encoding of MDCCSR_EL0 and DBGDSCRint")
-Fixes: 5a07192a04 ("target/i386: Fix handling of k_gs_base register in 32-bit mode in gdbstub")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Nick Hudson <hnick@vmware.com>
-Cc: Marek Dolata <mkdolata@us.ibm.com>
+Cc: Corey Minyard <minyard@mvista.com>
 ---
- .mailmap | 4 ++++
- 1 file changed, 4 insertions(+)
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.mailmap b/.mailmap
-index a1bd659817..082ff893ab 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -27,6 +27,10 @@ Paul Brook <paul@codesourcery.com> pbrook <pbrook@c046a42c-6fe2-441c-8c8c-714662
- Thiemo Seufer <ths@networkno.de> ths <ths@c046a42c-6fe2-441c-8c8c-71466251a162>
- malc <av1474@comtv.ru> malc <malc@c046a42c-6fe2-441c-8c8c-71466251a162>
- 
-+# Corrupted Author fields
-+Marek Dolata <mkdolata@us.ibm.com> mkdolata@us.ibm.com <mkdolata@us.ibm.com>
-+Nick Hudson <hnick@vmware.com> hnick@vmware.com <hnick@vmware.com>
-+
- # There is also a:
- #    (no author) <(no author)@c046a42c-6fe2-441c-8c8c-71466251a162>
- # for the cvs2svn initialization commit e63c3dc74bf.
+diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+index 0074da618f..efbbb15643 100644
+--- a/contrib/gitdm/domain-map
++++ b/contrib/gitdm/domain-map
+@@ -18,6 +18,7 @@ igalia.com      Igalia
+ intel.com       Intel
+ linaro.org      Linaro
+ microsoft.com   Microsoft
++mvista.com      MontaVista
+ nokia.com       Nokia
+ nuviainc.com    NUVIA
+ oracle.com      Oracle
 -- 
 2.20.1
 
