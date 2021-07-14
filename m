@@ -2,90 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3043E3C8774
-	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:29:36 +0200 (CEST)
-Received: from localhost ([::1]:58144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10AA13C879D
+	for <lists+qemu-devel@lfdr.de>; Wed, 14 Jul 2021 17:32:08 +0200 (CEST)
+Received: from localhost ([::1]:39300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3gpL-0005Xi-62
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54796)
+	id 1m3grn-0003Xn-1H
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 11:32:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m3gkn-0004Ur-FD
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:24:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38195)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m3gkj-0006Kg-PG
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:24:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626276288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=umqLb9384vYinFe5s1M1VFoPdWWxiTE1iZ59gEKbSqE=;
- b=QESyjbhnROPDthLG1GrSnluKodTkHbNIYGQioYqVs/wXHKNUqWuzh+et/te/mteyKi9GVg
- P9V4TFmP4BtvUGVTHt4v7VJ2uTZeXRtXLVEOxGp26RgGdMKiLTzfMoSoP9QSWRt14PjL1A
- IqrO/xnL5AWUNvNafVsWmJsMfBsfEtM=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-5Hzj3LtAOtOVWLqmWAIYEw-1; Wed, 14 Jul 2021 11:24:47 -0400
-X-MC-Unique: 5Hzj3LtAOtOVWLqmWAIYEw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- p6-20020a05621415c6b02902f61b4b012eso918283qvz.2
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:24:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m3geO-0004we-DP
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:18:20 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m3geL-0002H3-F9
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 11:18:16 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id t5so3653547wrw.12
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 08:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NeABLV7StpNg0vKloEwYcA5/N3mgXlUJz7t9QWy+kVI=;
+ b=SnVuM2tTOoKZl7/8ta0gSp2nA47BqMNLYBL/adjGYTz8k0EpSRZ2/5BPvZOyeMb/ay
+ 1PcSUZg/i72VqRcfkqJur5D/ptE9SzKHMkgHe/IRU3uMsPtVvCbAzVdjDpr1xh/5PaYI
+ 2XTI892QmrMj/dba0xd69O/ibZeYziOR91+hoaXj0BDLjlawz2QtLFhrupOmWlMbO5/N
+ ALXGCiLOfEYR/8CScxWeblPY8D5rN7HzeBYbdQqO6jnZkLiZKHF0nUts8qCrVsdVaw1t
+ EaaTWdItLkExSzyU3UGqJLBVmua/Jnpxut/U6yTgOiGKB0buyL/OPsV7pGAuzjfYQ/U3
+ yNZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=umqLb9384vYinFe5s1M1VFoPdWWxiTE1iZ59gEKbSqE=;
- b=PkhXY7oeQhTbhNAlNAe4rsyRCP6AkAAP2NWw1gUqsy199S4YT2Y0W2PKUib/WHEZxC
- 7jHF0v1Edsx7TjIWuzJJd+mhIQ19oKQSw/0QXva3SkA64l0kEKTnc1sStj4XWO7BmMT8
- Cos7fpWAwjjukCTLVlWVCOTI/0DDIaedhkwYtdpnb5BH9vmFgbMCak1mYtFQ/rCiymlu
- fIFGew91qvFZcA81pepCjVsLqm5vu+FfFSgejHfZrbx/Q+hMQo5d2G5j/6MAaqVe+nZi
- 6RhffjAoOyFEetZhXUaJahrqt2ggdEKxT5q+br7BqvpLU7C3A0gFUjLjr0kSbMwihFpG
- kzvA==
-X-Gm-Message-State: AOAM532y0RuojvWPwebfYFS0+QedcfmlOjs/1wLRyumUR3MAWCG5/Bxm
- YbwXcrnDAwNnhDzhZjlObddFC85ca4sd66MMtzOLOeVKKShtpJeojTwHhzPY+Ek3g1lHFBMRdZ2
- Q4PuF3LbaoMRoKpc=
-X-Received: by 2002:a05:6214:16ca:: with SMTP id
- d10mr11113212qvz.59.1626276286586; 
- Wed, 14 Jul 2021 08:24:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyo75orFoNw/wR4Sl2ui6Zm2cpKYSXIDei9QUCiBIMVJgteiDNqnq3EWfD4EIppbIH9FiEqug==
-X-Received: by 2002:a05:6214:16ca:: with SMTP id
- d10mr11113197qvz.59.1626276286388; 
- Wed, 14 Jul 2021 08:24:46 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id k124sm1107541qkc.132.2021.07.14.08.24.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NeABLV7StpNg0vKloEwYcA5/N3mgXlUJz7t9QWy+kVI=;
+ b=JtFxGiTMJlBpdFFSXExL2vNUimLZwS1plw/c4k70NxfCCbP48bFUiHeivkXObgn1dT
+ xS0HPJZfZIBfPX2EMjgRMfdsiqTBBiaOWJkSxUI6gYbh31PDPcgALVR7BQowY7chJueo
+ 112BHIt3K9Aqd4+r6gDe1W/v11GKm65327zWZa63eIdz8oMS82Y7P6YUFTAQWJovreJP
+ 6P+35QznGnqMdi9OFaoc1wNDvlsViJe6uwEzlta6PH79z+NeJJrq8r7PMSFa9iiszWwE
+ VPawrG8q5bPng8FmfymP4gvPoDevW5ioPSN4axFWauayC/ZcB+a0lr894SeUsamB0+hh
+ 0h7Q==
+X-Gm-Message-State: AOAM531nHylV+GlIFDXFs2Zry/UJd8ji+FA0Pc3vtqXB02rmSBt30JoZ
+ SXT0k4xzGtvOeifrGbCp5hcmhQ==
+X-Google-Smtp-Source: ABdhPJyfXOHIs3YH/Wk69yhi30Er61KQVd4OCTDhqlm4c9RnyHVeEpOVgvse0sDEsL+nRn4v7cvf9w==
+X-Received: by 2002:a5d:4e4e:: with SMTP id r14mr14146863wrt.251.1626275889613; 
+ Wed, 14 Jul 2021 08:18:09 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z7sm2162775wmp.34.2021.07.14.08.18.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 14 Jul 2021 08:24:45 -0700 (PDT)
-Date: Wed, 14 Jul 2021 11:24:44 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Wang, Wei W" <wei.w.wang@intel.com>
-Subject: Re: [PATCH v1] migration: clear the memory region dirty bitmap when
- skipping free pages
-Message-ID: <YO8BvCfk7qSAHKHZ@t490s>
-References: <20210714075104.397484-1-wei.w.wang@intel.com>
- <20210714062715-mutt-send-email-mst@kernel.org>
- <25a2203f-fe82-41a6-ab40-2e4b5522fa14@redhat.com>
- <64973ae51976490b864ded3ff628058c@intel.com>
+ Wed, 14 Jul 2021 08:18:07 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A53141FF9F;
+ Wed, 14 Jul 2021 16:00:38 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL v5 16/44] tests/docker: fix sorting in package lists
+Date: Wed, 14 Jul 2021 16:00:08 +0100
+Message-Id: <20210714150036.21060-17-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210714150036.21060-1-alex.bennee@linaro.org>
+References: <20210714150036.21060-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <64973ae51976490b864ded3ff628058c@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,56 +86,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "quintela@redhat.com" <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 14, 2021 at 02:58:31PM +0000, Wang, Wei W wrote:
-> On Wednesday, July 14, 2021 6:30 PM, David Hildenbrand wrote:
-> > 
-> > On 14.07.21 12:27, Michael S. Tsirkin wrote:
-> > > On Wed, Jul 14, 2021 at 03:51:04AM -0400, Wei Wang wrote:
-> > >> When skipping free pages, their corresponding dirty bits in the
-> > >> memory region dirty bitmap need to be cleared. Otherwise the skipped
-> > >> pages will be sent in the next round after the migration thread syncs
-> > >> dirty bits from the memory region dirty bitmap.
-> > >>
-> > >> migration_clear_memory_region_dirty_bitmap_range is put outside the
-> > >> bitmap_mutex, becasue
-> > >
-> > > because?
-> > >
-> > >> memory_region_clear_dirty_bitmap is possible to block on the kvm slot
-> > >> mutex (don't want holding bitmap_mutex while blocked on another
-> > >> mutex), and clear_bmap_test_and_clear uses atomic operation.
-> > 
-> > How is that different from our existing caller?
-> > 
-> > Please either clean everything up, completely avoiding the lock (separate
-> > patch), or move it under the lock.
-> > 
-> > Or am I missing something important?
-> 
-> That seems ok to me and Peter to have it outside the lock. Not sure if Dave or Juan knows the reason why clear_bmap needs to be under the mutex given that it is atomic operation.
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Yes it looks ok to not have the lock to me, but I still think it's easier to
-put all bitmap ops under the bitmap_mutex, so we handle clear_bmap/bmap the
-same way.  It's also what we did in the existing code (although by accident).
+This will make diffs in later patches clearer.
 
-Then we can replace clear_bmap atomic ops to normal mem accesses in a follow up
-patch.  But it won't affect a huge lot - unlike normal bmap, clear_bmap is
-normally per 1g chunk so modifying clear_bmap happens much less frequently.
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210623142245.307776-7-berrange@redhat.com>
+Message-Id: <20210709143005.1554-15-alex.bennee@linaro.org>
 
-Atomic ops will be needed of course if we want a spinlock version of
-bitmap_mutex, however I still don't know whether that'll really help anything.
-
-Thanks,
-
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 8f810810f3..ee52305646 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -22,9 +22,9 @@ ENV PACKAGES \
+     lzo-devel \
+     make \
+     mesa-libEGL-devel \
+-    nmap-ncat \
+     nettle-devel \
+     ninja-build \
++    nmap-ncat \
+     perl-Test-Harness \
+     pixman-devel \
+     python36 \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 64a413f5e0..4a0a84eb43 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:33
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
++    SDL2-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
+@@ -79,10 +80,10 @@ ENV PACKAGES \
+     mingw64-pixman \
+     mingw64-pkg-config \
+     mingw64-SDL2 \
+-    nmap-ncat \
+     ncurses-devel \
+     nettle-devel \
+     ninja-build \
++    nmap-ncat \
+     numactl-devel \
+     perl \
+     perl-Test-Harness \
+@@ -97,7 +98,6 @@ ENV PACKAGES \
+     python3-sphinx_rtd_theme \
+     python3-virtualenv \
+     rdma-core-devel \
+-    SDL2-devel \
+     snappy-devel \
+     sparse \
+     spice-server-devel \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 7ebff1b3a8..6011447181 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -9,46 +9,46 @@ ENV PACKAGES \
+     cyrus-sasl-devel \
+     gcc \
+     gcc-c++ \
+-    mkisofs \
+     gettext-runtime \
+     git \
+     glib2-devel \
+     glusterfs-devel \
+-    libgnutls-devel \
+     gtk3-devel \
++    libSDL2-devel \
++    libSDL2_image-devel \
+     libaio-devel \
+     libattr-devel \
+     libcap-ng-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libgnutls-devel \
+     libiscsi-devel \
+     libjpeg8-devel \
++    libnuma-devel \
++    libpixman-1-0-devel \
+     libpmem-devel \
+     libpng16-devel \
+     librbd-devel \
+     libseccomp-devel \
++    libspice-server-devel \
+     libssh-devel \
+     lzo-devel \
+     make \
+-    libSDL2_image-devel \
++    mkisofs \
+     ncurses-devel \
+     ninja \
+-    libnuma-devel \
+     perl \
+-    libpixman-1-0-devel \
+     python3-base \
+     python3-virtualenv \
+     rdma-core-devel \
+-    libSDL2-devel \
+     snappy-devel \
+-    libspice-server-devel \
+     systemd-devel \
+     systemtap-sdt-devel \
+     tar \
+     usbredir-devel \
+     virglrenderer-devel \
+-    xen-devel \
+     vte-devel \
++    xen-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
+ 
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+index 0acdb0d9ad..a50a35e6fe 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -46,10 +46,10 @@ ENV PACKAGES \
+     libxen-dev \
+     libzstd-dev \
+     make \
+-    python3-yaml \
++    ninja-build \
+     python3-sphinx \
+     python3-sphinx-rtd-theme \
+-    ninja-build \
++    python3-yaml \
+     sparse \
+     xfslibs-dev
+ RUN apt-get update && \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 88b3cfa136..eee2ef3cac 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,8 +1,10 @@
+ FROM docker.io/library/ubuntu:20.04
+-ENV PACKAGES flex bison \
++ENV PACKAGES \
++    bison \
+     bsdmainutils \
+     ccache \
+     clang-10\
++    flex \
+     gcc \
+     gcovr \
+     genisoimage \
+@@ -65,8 +67,8 @@ ENV PACKAGES flex bison \
+     sparse \
+     tesseract-ocr \
+     tesseract-ocr-eng \
+-    xfslibs-dev\
+-    vim
++    vim \
++    xfslibs-dev
+ RUN apt-get update && \
+     DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
+ RUN dpkg -l $PACKAGES | sort > /packages.txt
 -- 
-Peter Xu
+2.20.1
 
 
