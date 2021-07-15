@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44AF23C999A
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:26:13 +0200 (CEST)
-Received: from localhost ([::1]:59562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28FDB3C99A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:28:12 +0200 (CEST)
+Received: from localhost ([::1]:37522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3vl6-0007Bi-8k
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34172)
+	id 1m3vn1-00032F-63
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vcK-00061M-8N
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:08 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27213)
+ id 1m3vcM-00065E-SG
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:12 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vcI-0003aa-45
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:07 -0400
+ id 1m3vcJ-0003UP-1d
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1626333426; x=1657869426;
+ t=1626333427; x=1657869427;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=z/ClrNoVNTB6Ni1MIH2PRYQ8QXs+hHuddAsSsBZMUC8=;
- b=VZKhMe/LebdQLxWx7XyNMt7lXDJBADIWMeO/EKElBdHPWEeGhlEGE7ma
- KS82+UO2wt9pzkaQuFeKURhHla5En6e33/96uxu0WRZG3IyU7xeh2HVX6
- JndLLDhXAtokK0//quiK8czqbWws4G93Oe5jzDd/qWzgax8kq1jmuBhK9
- jDfhwVm75nACqt5Chvk9dplS/GRGc7zaC/w3RU6xWucaNryVx2FlK6rWi
- nUsaUJ+48ENawzVp0YGYHEvQ2wofEE1zoddEIjwG/9jDf0SzLGcJYea1M
- Ec9NTOo8JNM2/jVKZT58YICNkoVNlXdYmzO35wGJA6a9PKmjMmZmpu+Yk A==;
-IronPort-SDR: j/1IhWNL7x5PLKIlmEXvJrbxF1LvtkTq0RQisSmDjdi5mErB3HoFHtivlCKh9I1YsCSSh76mdN
- JhGv3rWkwZj7+mUO2B9nEK0bKUXtUeNCfcRMfc5b5K46aYDZij6D/vJ7xr1XnEcMtER90jr5+A
- I9LrRQrkI6t8kTA8gZLxR4Y2rHfH7wvfJV/WXkFUvj9qLEFxjAKMUdAMwH+KTeH8OjZHt7ns6+
- +ebsDv9uaGIMyAgO6KaosqDLOfBvt0rP1BMA2X9UZE6rOd3cS9rQ/930sxj49c/Ne/R6D1i4Pb
- uiY=
-X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212310"
+ bh=W42T9tCGl/VZPfz3tvGyGRPlXKy+CcWqs/dXc2q7Ppo=;
+ b=NKPxtVBkkLcGrkuDNPzxVm03dn3DOfqqwccMefgC7xrPHAWsJQr3x7Fu
+ zIm+VqQ/OtykrstFTPACBOij1rqdRF8xxc9Iqy31NDo8GtTwtx0uynlpx
+ IHSsJB5v56pFKdT3ANxzSEnp8mlW76xIeahHlT9UtFKjHB398nUk3nnFT
+ 6bqbjXk1yDmfc9W3KG4kv68q1OTgnt33gXPWmOT/98Toa9TnbxeeRBeiE
+ QdD+c3SUjoZgiLIsj296SvWkl4nRTEYOwChGOFAnB7UbX3HNO+jr/GSyY
+ P6qd/7BBHTCRqSX4gJ/YSp18y1W+tuADhQhbesn4LSVzYkFr71XI/VsvM A==;
+IronPort-SDR: t8ZFm/KKVHeTFqs25mecyTKKhmmBbfziUIg9vFFUSvVSemiTFdmRB2uNt6QUalsvgg6OICKiHe
+ /5kxv781EOwLllp9PMAQeX8hR3DKncDuYWxF5iL0nh9VFlgQ8AAruA2WOIvdy2Jsu1dhPSw0+A
+ CFmKgiqgam9RH3Yq87lXPNHqiz2bX9YMTVRWiauj+26wxteaOhnJ2PIosQdLRvuJEvODyZWX/1
+ 2VetnCAJz6nG8QzofcKOoZ2TDA/UVrxjmOxgWqbLNYAQbW5vq09xpkg0CYqMn+tiGc/yCbvGKK
+ hQg=
+X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212311"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 15:16:43 +0800
-IronPort-SDR: iyXw9OEgwdS+ZB4x6ltQA6eBK0idLDoN1GbsxogxB1MYRYG0KgoFU8z2CT3+tWIa/KDFaLF+4w
- 4Qscx4lOi0ji6gR1ci7fZCuatHjPAjVlIn86BNG1sssikSj1poVzikofaWjMeOtLwlRGjYPkIW
- S2o+SIgiBW5SWJDpsJLMimVuB0+NS9y6oOftAkuXudnDLJgCEEt57cNG1xkosFdlw7JVBoFJnG
- ypAO74BnWkqD2Y63ZBUW2p13ThlZ2WK9bkH4A6u/0Mu+d/tj3HMTe7jY9AjfyibntKmjc0hLZR
- 3NNC3oSq4typPerwh7l0p8at
+IronPort-SDR: NklwrFWerG3SjhPaW0Tdm9B+5ssc4zWD9JZ+EdDS6PdT3v+LLhe+uQofwiJx87rqKVrWjdr/U0
+ MvMZzEFgg3+f4eI1LTgm8aSgYJJWksU30z9LO3TiCy0eJz5RMcC6PLGvXpTpSdyN50Tt2Gu6Ay
+ pPXyE3yA2pMvoFWAmszMUCcdGxYlwPqE+cDhYcJzHALn7a4Pw/N5iGCmLFEn66dwx+FzQGBqCO
+ BAWT2QJYepFs8eBLERMB0YbojK9Z4fKqlLywELUbdfysNPbTGZghutvUCPeDRV/uJF2v6kGkho
+ qwjVasshwVViLn/mBpxtoZLR
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2021 23:54:45 -0700
-IronPort-SDR: ySomnvEeJZ4ZjTyLSzIIvMFdZing+h0DOLNFDlus0Q06GpLHiAxAzv7eSNeh/JLkY3AsmT3pVO
- +VKkwjdIBrd/t5GKxO5sEYRIfR2ogoAfkEB0NYOgkES4eBGq6Hmdnbe8VXAMquQOpL5BJriEbf
- SFIItMJYcG37F7M+6QNgh/OfI+HckbybPY5TULN6WXz41qSgkmgtZeEubejuuJGp04gTKssl+n
- W3ClvMRNxn8AVszR5WFzg60WhyU+DDQJrRc5Kew7xR7Xqf/upu83ojv6L7U15I9AWieT6wR+Sq
- 2O4=
+ 14 Jul 2021 23:54:46 -0700
+IronPort-SDR: jW56WcnafIJqpSvVjxtpIUvERU9SEar+a14wre2PFr7xqlw7olta8twcZ+FVjhMXpwrHfeSGfo
+ UPlv9Gjz4uw86cmCclGdrvfvZkzbnvHB1SE+CS3MrGcTzf4uKgMD0hO8eIxg1UfwI5VLNt/Qyq
+ rShM6f3bLlWLEvhid9auExZaC5dLCT/wn4jwCm+XutN67OqODaOnv3J7Em4M8KUA1Dz9NyNtFx
+ wswV9rw3+p68MzewRG5mvfW97UTphWUU7wQs83qQB9ICqwt0nF5YxQpcTMgCmHgHUa7WiIJpQy
+ Ukg=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.248])
@@ -62,9 +62,9 @@ Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 11/12] hw/riscv: opentitan: Add the flash alias
-Date: Thu, 15 Jul 2021 00:16:39 -0700
-Message-Id: <20210715071640.232070-12-alistair.francis@wdc.com>
+Subject: [PULL v2 12/12] hw/riscv/boot: Check the error of fdt_pack()
+Date: Thu, 15 Jul 2021 00:16:40 -0700
+Message-Id: <20210715071640.232070-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715071640.232070-1-alistair.francis@wdc.com>
 References: <20210715071640.232070-1-alistair.francis@wdc.com>
@@ -96,63 +96,41 @@ Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OpenTitan has an alias of flash avaliable which is called virtual flash.
-Add support for that in the QEMU model.
+Coverity reports that we don't check the error result of fdt_pack(), so
+let's save the result and assert that it is 0.
 
+Fixes: Coverity CID 1458136
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: c9cfbd2dd840fd0076877b8ea4d6dcfce60db5e9.1625801868.git.alistair.francis@wdc.com
+Message-id: 07325315b49d5555269f76094e4bc5296e0643b9.1626303527.git.alistair.francis@wdc.com
 ---
- include/hw/riscv/opentitan.h | 2 ++
- hw/riscv/opentitan.c         | 6 ++++++
- 2 files changed, 8 insertions(+)
+ hw/riscv/boot.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index a488f5e8ec..9f93bebdac 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -40,6 +40,7 @@ struct LowRISCIbexSoCState {
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 0d38bb7426..993bf89064 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -182,7 +182,7 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+ {
+     uint32_t temp, fdt_addr;
+     hwaddr dram_end = dram_base + mem_size;
+-    int fdtsize = fdt_totalsize(fdt);
++    int ret, fdtsize = fdt_totalsize(fdt);
  
-     MemoryRegion flash_mem;
-     MemoryRegion rom;
-+    MemoryRegion flash_alias;
- };
+     if (fdtsize <= 0) {
+         error_report("invalid device-tree");
+@@ -198,7 +198,9 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+     temp = MIN(dram_end, 3072 * MiB);
+     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
  
- typedef struct OpenTitanState {
-@@ -54,6 +55,7 @@ enum {
-     IBEX_DEV_ROM,
-     IBEX_DEV_RAM,
-     IBEX_DEV_FLASH,
-+    IBEX_DEV_FLASH_VIRTUAL,
-     IBEX_DEV_UART,
-     IBEX_DEV_GPIO,
-     IBEX_DEV_SPI,
-diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index 933c211b11..36a41c8b5b 100644
---- a/hw/riscv/opentitan.c
-+++ b/hw/riscv/opentitan.c
-@@ -59,6 +59,7 @@ static const MemMapEntry ibex_memmap[] = {
-     [IBEX_DEV_NMI_GEN] =        {  0x411c0000,  0x1000  },
-     [IBEX_DEV_OTBN] =           {  0x411d0000,  0x10000 },
-     [IBEX_DEV_PERI] =           {  0x411f0000,  0x10000 },
-+    [IBEX_DEV_FLASH_VIRTUAL] =  {  0x80000000,  0x80000 },
- };
+-    fdt_pack(fdt);
++    ret = fdt_pack(fdt);
++    /* Should only fail if we've built a corrupted tree */
++    g_assert(ret == 0);
+     /* copy in the device tree */
+     qemu_fdt_dumpdtb(fdt, fdtsize);
  
- static void opentitan_board_init(MachineState *machine)
-@@ -134,8 +135,13 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-     /* Flash memory */
-     memory_region_init_rom(&s->flash_mem, OBJECT(dev_soc), "riscv.lowrisc.ibex.flash",
-                            memmap[IBEX_DEV_FLASH].size, &error_fatal);
-+    memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
-+                             "riscv.lowrisc.ibex.flash_virtual", &s->flash_mem, 0,
-+                             memmap[IBEX_DEV_FLASH_VIRTUAL].size);
-     memory_region_add_subregion(sys_mem, memmap[IBEX_DEV_FLASH].base,
-                                 &s->flash_mem);
-+    memory_region_add_subregion(sys_mem, memmap[IBEX_DEV_FLASH_VIRTUAL].base,
-+                                &s->flash_alias);
- 
-     /* PLIC */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->plic), errp)) {
 -- 
 2.31.1
 
