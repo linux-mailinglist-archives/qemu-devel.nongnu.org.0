@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C5603C998E
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:21:12 +0200 (CEST)
-Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2AD3C9990
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:21:59 +0200 (CEST)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3vgF-00054I-5k
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:21:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34060)
+	id 1m3vh0-0006cn-W9
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vc4-0005U6-GV
+ id 1m3vc4-0005Uf-MA
  for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:52 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27213)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vc1-0003aa-8N
+ id 1m3vc2-0003VO-L2
  for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1626333410; x=1657869410;
+ t=1626333411; x=1657869411;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=T7M2Jn/m9oUZiWeXDP9KO8IcaM1DA9eJTUHJ/HQ+0HA=;
- b=iRs98L9jcTEbL9kBhaikXylhaDjmcOr0DWOS3IQfEk76vNcVN4Szav6/
- t07emHXCNu1ykpyd3H8chkHbGjb4vZZT8qxyFXkIQ4IUEJ2cFCtuc0Uyy
- P3mPm9d0xXmSPmpJxWWuiS7UawsPHv+KfJbd04FgC20gABFSvF5AIeKb6
- 4i5f+s0xXB/CtSYWBpmoc2nMak/DEZP9MBeX2JQynsxa1JOdcQ0NprsU9
- lD8SHFIZWDKm+KGKie1Am5jSLzrNKRDnn+KHiRFNyafZO0OUXJ+mggddV
- tHhzVHY4Dy8362O2Gg0A3ohw+3qTPBpMNW3An4TEveH55pQC9oU+pl8n/ g==;
-IronPort-SDR: wCN8PBJM/mw74dISwIDfGTwtXJ+lFnQMsyWdONs/k2Sb7FxMer8PSufqHrE/cs/8hNneGMvYxJ
- bY/JMxIMDl93Zs6hF1034J+MalP0coMEmM8GG8uaqXTKHCKLwFr+vxIka72x6kl7m/9ECGp72J
- BDugp7RtPIh+oO/x3fVIc1i6DrD43jOhqldEavtOdIGcR5cRI3h/sgvkU0+AbFwl4V+Tc8wQ/P
- C56oLfWYGVRwpK82LvPtF44RapgPe8/4vn0XhqVv2AGFhzuWRFhqzUa8f+pMkXGmD1N7sAW1xI
- TsE=
-X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212302"
+ bh=RoRHBbakSWJHXSQUaN07cP0CANZsUUdsXB3Th0i7Nyw=;
+ b=KqrOz4EEwlhDylUHq2Xs4nzrFc4zLGTOgaNI5j20rHU/SkX5yWMGBtM3
+ qKYdsLssL/t6ztn2T9xIbJD0Q4Z+iG+ly/FDDyxVutTIQHUtrLFnFqbQa
+ WMb7Ldg2A0TJoNpASyb49kEDD+PcDo6c++wF4HupWayMvMnvUSAS+kS4o
+ dK+k8g30eqzpZDqjUojMHZCCfWwcA16LRei4AApjrUACqlHJjh2fWm7sC
+ 2tvdQLcF788sG96PgCH/jaYGyPBip+D2SHmBXw72TQdAF7j/AoVnvrsb+
+ XvC4Q/kFHp6VmDjzJDmUtiq1HJ7B3mukAlfkfl4NfKJdfYhTO62tGKJBB Q==;
+IronPort-SDR: 8QDWSgN3gFalGxe9lEwSsJnHTtLGHdrJl95zbv+4/GUGCNgNx+1oV2wyG+xy9rH/HSgRdKX/N0
+ Oa8nzkRokb8xaxiANluxMR8KrKAL/NTzhbX5M0gXSDsAo7YRjbJiOaSCA8uSAPbkDSiOSeMx/c
+ M+QtQRZ42Qymn/0Yrv6AAEniZVpbaZVeCFTWshC5oinFxekouOrJc0TSgl8wEYoxiQT6NkAinL
+ 0/HtL6EY0gL5okWAm1qld1mJ7biTCQCegQFpKHifuUYB7k2EPGkOisf3SHWZH7WtRvRMipGW5T
+ 2y0=
+X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212303"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 15:16:42 +0800
-IronPort-SDR: svbN7orJF4HbR39YqBZw5A+A5dNUDOJoqKf41HQxFV+WPTeXn/tZVvoUjPTzqqGrk903HoxMPU
- lVGtiVKIKE/5vD75SbgeUfbabhhJZoYWEy0xLs0ty6MHeA7g3EHanSPz1hbRyB3JPCRcZWeyg5
- jhdqi6iaYGWzVk8G6yF+2HogNqAw7C736h3hc5FNKG98tVX8ZQiwQvRUz0AWQdEkGNwNcRIF7U
- TVpQBfvMYW38X7bTg73xMXPT9NjyDTrpN6VFK+wRjAod0pICWvpZGEfSflSxq8RHOx9NKxcndU
- t36qSKgqt03D15HLnBN6gEp2
+IronPort-SDR: 2EYAvRdXzQo6PbzU4v9KlWBo6uptyxre6oQBwUCsz9UZtRErXoHwlFUAmfHv2rQ0nCGjQFqfSD
+ 1r5bN4LV5T6WNmvtbutp6pVhn/VM3HwCNVA/yK0hJuI2txDZy71IN40E6XPkcu2HftpoYusUZS
+ XAishXqqCs2M53mwiluU7VqEja6qoOENhAxTAwcdcShlQdp03NAcOjb+rewWZFSELYgEXOctcF
+ qWyzw0C18+/SrukXYWIcJBgDQv7XKSlYZ+/5V0BHAlbDqD0IYsTwHMgSatfSNTrvzJY2cd4Z3n
+ cGwgbXT5Nqwl3vrj2M+ye+gQ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Jul 2021 23:54:45 -0700
-IronPort-SDR: qIVEPipJPogY0mv0/GyFA9mKTKBuId0CFQ1sqtH3V3BrpAjGcv7o30s0pKZDiyLCm51n55Rqlj
- hGas9UjFNiapulRY6dkZsI5r+vD5h1V/i62uXGRWXbkNe7AopAV/+JC2Ma+lNHSnNOGkmOkeuF
- rL13dBhc21zcC9Deu3sqDCLDLnXs9Xeo0gfZKHhMzVd9Cya/fGxNKQs0lPNNIHvC547uCZyH5f
- DPjwSu6OxiFS6X02t3H5v+KrqG1q5KpgRI2NgtO4BDyAu2y1kTwzB/KN0/dvTJlAEUP033K0dd
- 0eU=
+IronPort-SDR: aXTMk15hPQapxSosGGAqE2f8R8uWtsXy0neFtZuj1cDUSUub936W+2HBexp0riT1nkxReRpmb4
+ SdNgFfaYcjEdjgC+Q+VqLpqGyyAMhJzkjYuIxzQXbySBXYGGZU+T4NPjbKSsBsDA3kQk4a6h6t
+ Zrf3/LMsLjgXX3kCvR6XXXpcujOgFibmYtbV+vZYsja94ZsE4I7ySdcUft6NGVBYzRfVwAltdT
+ WtbzTJDQR7kfujUwwfmThKcp3z5SUuBwB8NROso7oIkz8BlMmEB7JarC9xBPNTz8O46fyPbgcG
+ L/g=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.248])
@@ -62,14 +62,13 @@ Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 04/12] docs/system: riscv: Add documentation for virt machine
-Date: Thu, 15 Jul 2021 00:16:32 -0700
-Message-Id: <20210715071640.232070-5-alistair.francis@wdc.com>
+Subject: [PULL v2 05/12] target/riscv: hardwire bits in hideleg and hedeleg
+Date: Thu, 15 Jul 2021 00:16:33 -0700
+Message-Id: <20210715071640.232070-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715071640.232070-1-alistair.francis@wdc.com>
 References: <20210715071640.232070-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.45;
  envelope-from=prvs=8230c157d=alistair.francis@wdc.com;
@@ -80,7 +79,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,187 +92,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Jose Martins <josemartins90@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bmeng.cn@gmail.com>
+From: Jose Martins <josemartins90@gmail.com>
 
-This adds detailed documentation for RISC-V `virt` machine,
-including the following information:
+The specification mandates for certain bits to be hardwired in the
+hypervisor delegation registers. This was not being enforced.
 
-  - Supported devices
-  - Hardware configuration information
-  - Boot options
-  - Running Linux kernel
-  - Running U-Boot
-
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Jose Martins <josemartins90@gmail.com>
+Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210627142816.19789-2-bmeng.cn@gmail.com
+Message-id: 20210522155902.374439-1-josemartins90@gmail.com
+[ Changes by AF:
+ - Improve indentation
+ - Convert delegable_excps to a #define to avoid failures with GCC 8
+]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/virt.rst   | 138 +++++++++++++++++++++++++++++++++++
- docs/system/target-riscv.rst |   1 +
- 2 files changed, 139 insertions(+)
- create mode 100644 docs/system/riscv/virt.rst
+ target/riscv/csr.c | 54 ++++++++++++++++++++++++++--------------------
+ 1 file changed, 31 insertions(+), 23 deletions(-)
 
-diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-new file mode 100644
-index 0000000000..3709f05797
---- /dev/null
-+++ b/docs/system/riscv/virt.rst
-@@ -0,0 +1,138 @@
-+'virt' Generic Virtual Platform (``virt``)
-+==========================================
-+
-+The `virt` board is a platform which does not correspond to any real hardware;
-+it is designed for use in virtual machines. It is the recommended board type
-+if you simply want to run a guest such as Linux and do not care about
-+reproducing the idiosyncrasies and limitations of a particular bit of
-+real-world hardware.
-+
-+Supported devices
-+-----------------
-+
-+The ``virt`` machine supports the following devices:
-+
-+* Up to 8 generic RV32GC/RV64GC cores, with optional extensions
-+* Core Local Interruptor (CLINT)
-+* Platform-Level Interrupt Controller (PLIC)
-+* CFI parallel NOR flash memory
-+* 1 NS16550 compatible UART
-+* 1 Google Goldfish RTC
-+* 1 SiFive Test device
-+* 8 virtio-mmio transport devices
-+* 1 generic PCIe host bridge
-+* The fw_cfg device that allows a guest to obtain data from QEMU
-+
-+Note that the default CPU is a generic RV32GC/RV64GC. Optional extensions
-+can be enabled via command line parameters, e.g.: ``-cpu rv64,x-h=true``
-+enables the hypervisor extension for RV64.
-+
-+Hardware configuration information
-+----------------------------------
-+
-+The ``virt`` machine automatically generates a device tree blob ("dtb")
-+which it passes to the guest, if there is no ``-dtb`` option. This provides
-+information about the addresses, interrupt lines and other configuration of
-+the various devices in the system. Guest software should discover the devices
-+that are present in the generated DTB.
-+
-+If users want to provide their own DTB, they can use the ``-dtb`` option.
-+These DTBs should have the following requirements:
-+
-+* The number of subnodes of the /cpus node should match QEMU's ``-smp`` option
-+* The /memory reg size should match QEMU’s selected ram_size via ``-m``
-+* Should contain a node for the CLINT device with a compatible string
-+  "riscv,clint0" if using with OpenSBI BIOS images
-+
-+Boot options
-+------------
-+
-+The ``virt`` machine can start using the standard -kernel functionality
-+for loading a Linux kernel, a VxWorks kernel, an S-mode U-Boot bootloader
-+with the default OpenSBI firmware image as the -bios. It also supports
-+the recommended RISC-V bootflow: U-Boot SPL (M-mode) loads OpenSBI fw_dynamic
-+firmware and U-Boot proper (S-mode), using the standard -bios functionality.
-+
-+Running Linux kernel
-+--------------------
-+
-+Linux mainline v5.12 release is tested at the time of writing. To build a
-+Linux mainline kernel that can be booted by the ``virt`` machine in
-+64-bit mode, simply configure the kernel using the defconfig configuration:
-+
-+.. code-block:: bash
-+
-+  $ export ARCH=riscv
-+  $ export CROSS_COMPILE=riscv64-linux-
-+  $ make defconfig
-+  $ make
-+
-+To boot the newly built Linux kernel in QEMU with the ``virt`` machine:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-+      -display none -serial stdio \
-+      -kernel arch/riscv/boot/Image \
-+      -initrd /path/to/rootfs.cpio \
-+      -append "root=/dev/ram"
-+
-+To build a Linux mainline kernel that can be booted by the ``virt`` machine
-+in 32-bit mode, use the rv32_defconfig configuration. A patch is required to
-+fix the 32-bit boot issue for Linux kernel v5.12.
-+
-+.. code-block:: bash
-+
-+  $ export ARCH=riscv
-+  $ export CROSS_COMPILE=riscv64-linux-
-+  $ curl https://patchwork.kernel.org/project/linux-riscv/patch/20210627135117.28641-1-bmeng.cn@gmail.com/mbox/ > riscv.patch
-+  $ git am riscv.patch
-+  $ make rv32_defconfig
-+  $ make
-+
-+Replace ``qemu-system-riscv64`` with ``qemu-system-riscv32`` in the command
-+line above to boot the 32-bit Linux kernel. A rootfs image containing 32-bit
-+applications shall be used in order for kernel to boot to user space.
-+
-+Running U-Boot
-+--------------
-+
-+U-Boot mainline v2021.04 release is tested at the time of writing. To build an
-+S-mode U-Boot bootloader that can be booted by the ``virt`` machine, use
-+the qemu-riscv64_smode_defconfig with similar commands as described above for Linux:
-+
-+.. code-block:: bash
-+
-+  $ export CROSS_COMPILE=riscv64-linux-
-+  $ make qemu-riscv64_smode_defconfig
-+
-+Boot the 64-bit U-Boot S-mode image directly:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-+      -display none -serial stdio \
-+      -kernel /path/to/u-boot.bin
-+
-+To test booting U-Boot SPL which in M-mode, which in turn loads a FIT image
-+that bundles OpenSBI fw_dynamic firmware and U-Boot proper (S-mode) together,
-+build the U-Boot images using riscv64_spl_defconfig:
-+
-+.. code-block:: bash
-+
-+  $ export CROSS_COMPILE=riscv64-linux-
-+  $ export OPENSBI=/path/to/opensbi-riscv64-generic-fw_dynamic.bin
-+  $ make qemu-riscv64_spl_defconfig
-+
-+The minimal QEMU commands to run U-Boot SPL are:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-riscv64 -M virt -smp 4 -m 2G \
-+      -display none -serial stdio \
-+      -bios /path/to/u-boot-spl \
-+      -device loader,file=/path/to/u-boot.itb,addr=0x80200000
-+
-+To test 32-bit U-Boot images, switch to use qemu-riscv32_smode_defconfig and
-+riscv32_spl_defconfig builds, and replace ``qemu-system-riscv64`` with
-+``qemu-system-riscv32`` in the command lines above to boot the 32-bit U-Boot.
-diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-index a5cc06b726..89a866e4f4 100644
---- a/docs/system/target-riscv.rst
-+++ b/docs/system/target-riscv.rst
-@@ -69,6 +69,7 @@ undocumented; you can get a complete list by running
-    riscv/microchip-icicle-kit
-    riscv/shakti-c
-    riscv/sifive_u
-+   riscv/virt
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 62b968326c..9a4ed18ac5 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -411,28 +411,36 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
  
- RISC-V CPU firmware
- -------------------
+ static const target_ulong delegable_ints = S_MODE_INTERRUPTS |
+                                            VS_MODE_INTERRUPTS;
++static const target_ulong vs_delegable_ints = VS_MODE_INTERRUPTS;
+ static const target_ulong all_ints = M_MODE_INTERRUPTS | S_MODE_INTERRUPTS |
+                                      VS_MODE_INTERRUPTS;
+-static const target_ulong delegable_excps =
+-    (1ULL << (RISCV_EXCP_INST_ADDR_MIS)) |
+-    (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) |
+-    (1ULL << (RISCV_EXCP_ILLEGAL_INST)) |
+-    (1ULL << (RISCV_EXCP_BREAKPOINT)) |
+-    (1ULL << (RISCV_EXCP_LOAD_ADDR_MIS)) |
+-    (1ULL << (RISCV_EXCP_LOAD_ACCESS_FAULT)) |
+-    (1ULL << (RISCV_EXCP_STORE_AMO_ADDR_MIS)) |
+-    (1ULL << (RISCV_EXCP_STORE_AMO_ACCESS_FAULT)) |
+-    (1ULL << (RISCV_EXCP_U_ECALL)) |
+-    (1ULL << (RISCV_EXCP_S_ECALL)) |
+-    (1ULL << (RISCV_EXCP_VS_ECALL)) |
+-    (1ULL << (RISCV_EXCP_M_ECALL)) |
+-    (1ULL << (RISCV_EXCP_INST_PAGE_FAULT)) |
+-    (1ULL << (RISCV_EXCP_LOAD_PAGE_FAULT)) |
+-    (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT)) |
+-    (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
+-    (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
+-    (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
+-    (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
++#define DELEGABLE_EXCPS ((1ULL << (RISCV_EXCP_INST_ADDR_MIS)) | \
++                         (1ULL << (RISCV_EXCP_INST_ACCESS_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_ILLEGAL_INST)) | \
++                         (1ULL << (RISCV_EXCP_BREAKPOINT)) | \
++                         (1ULL << (RISCV_EXCP_LOAD_ADDR_MIS)) | \
++                         (1ULL << (RISCV_EXCP_LOAD_ACCESS_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_STORE_AMO_ADDR_MIS)) | \
++                         (1ULL << (RISCV_EXCP_STORE_AMO_ACCESS_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_U_ECALL)) | \
++                         (1ULL << (RISCV_EXCP_S_ECALL)) | \
++                         (1ULL << (RISCV_EXCP_VS_ECALL)) | \
++                         (1ULL << (RISCV_EXCP_M_ECALL)) | \
++                         (1ULL << (RISCV_EXCP_INST_PAGE_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_LOAD_PAGE_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_STORE_PAGE_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) | \
++                         (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)))
++static const target_ulong vs_delegable_excps = DELEGABLE_EXCPS &
++    ~((1ULL << (RISCV_EXCP_S_ECALL)) |
++      (1ULL << (RISCV_EXCP_VS_ECALL)) |
++      (1ULL << (RISCV_EXCP_M_ECALL)) |
++      (1ULL << (RISCV_EXCP_INST_GUEST_PAGE_FAULT)) |
++      (1ULL << (RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT)) |
++      (1ULL << (RISCV_EXCP_VIRT_INSTRUCTION_FAULT)) |
++      (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
+ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
+     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+     SSTATUS_SUM | SSTATUS_MXR;
+@@ -620,7 +628,7 @@ static RISCVException read_medeleg(CPURISCVState *env, int csrno,
+ static RISCVException write_medeleg(CPURISCVState *env, int csrno,
+                                     target_ulong val)
+ {
+-    env->medeleg = (env->medeleg & ~delegable_excps) | (val & delegable_excps);
++    env->medeleg = (env->medeleg & ~DELEGABLE_EXCPS) | (val & DELEGABLE_EXCPS);
+     return RISCV_EXCP_NONE;
+ }
+ 
+@@ -1039,7 +1047,7 @@ static RISCVException read_hedeleg(CPURISCVState *env, int csrno,
+ static RISCVException write_hedeleg(CPURISCVState *env, int csrno,
+                                     target_ulong val)
+ {
+-    env->hedeleg = val;
++    env->hedeleg = val & vs_delegable_excps;
+     return RISCV_EXCP_NONE;
+ }
+ 
+@@ -1053,7 +1061,7 @@ static RISCVException read_hideleg(CPURISCVState *env, int csrno,
+ static RISCVException write_hideleg(CPURISCVState *env, int csrno,
+                                     target_ulong val)
+ {
+-    env->hideleg = val;
++    env->hideleg = val & vs_delegable_ints;
+     return RISCV_EXCP_NONE;
+ }
+ 
 -- 
 2.31.1
 
