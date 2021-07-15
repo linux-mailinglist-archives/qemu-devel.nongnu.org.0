@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6B83CA0C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 16:33:41 +0200 (CEST)
-Received: from localhost ([::1]:56388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 058BA3CA0C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 16:33:32 +0200 (CEST)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m42Qm-0001NG-Ft
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 10:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54756)
+	id 1m42Qd-0002Aj-0i
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 10:33:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1m42Mo-0000C4-W9; Thu, 15 Jul 2021 10:29:35 -0400
-Received: from [201.28.113.2] (port=29944 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1m42Mn-0005Yk-4e; Thu, 15 Jul 2021 10:29:34 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 15 Jul 2021 11:29:29 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 0736280141F;
- Thu, 15 Jul 2021 11:29:28 -0300 (-03)
-Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
- for ppc32
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
- <1ff77be7-2ecb-1f6d-974c-60e6f54fb163@eik.bme.hu>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <b067d850-e677-e64e-dfad-476b1ecc4038@eldorado.org.br>
-Date: Thu, 15 Jul 2021 11:29:28 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1m42OV-00019K-Rj
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:31:22 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:46980)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1m42OU-0006r2-68
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:31:19 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id p186so6656497iod.13
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 07:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=InVyrsnS4xSE0ho42nbn0V7T3xKfd/8vP8i2Oz3QWR4=;
+ b=kcOFc7EJg6vy2aCMIVZOqpfZ6AfCUDKMxP++Ii8mnZK4hdoOJTTz7ky1bbpybXDtuz
+ 2MhKVqt7LhksfibJRLw+AVJfnW09ki7j2QvbhqpstHq245EGDKHeVQKItYJrTUSkOCzW
+ b4SnlU/I5k7/oXJ+EqJZLq9DE6QPpt0sErx3WUzaZ2HIoRsJ1DRrHgTO7p2C6g9Maz45
+ 9u3ZufPJUfBoeG6jfVz7GbQ27x9yzc90zc0heXw7IBNeas6nZ0lXCcMFkUGN3BfAW2Wg
+ WxKiGVKXUECuMJYJRdiP0TBELbvgWEre4+C/1sGjv0+qbN0VldHc2HGdm163QLKexzRo
+ R12A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=InVyrsnS4xSE0ho42nbn0V7T3xKfd/8vP8i2Oz3QWR4=;
+ b=Pf3Iv/vW646CRWNj3nuFhJcKMkhpSwLkbwjiIwGOvxcFHXscyi/RNmD26z5U7fVt8z
+ q4PLZEssC8il7lawHUZbreb45XEtVSrQEoxER08Ej5xKIXOivvQougxBLiRZlhf27vlV
+ e3IkGstOvADSc98CkrG94+T686pVi3VlwbLRoRfmoik3gam1yR9WvYLH9cjz0QOel74F
+ 6+NPOMCglu+/GWORiQw1QJbvVV8rSTx7Btz5ZB18NW3dufjjNBnmbUYeSTx4kGJnK+3I
+ g19G2HR2Nw2nQnU2scUlQyYwttYXwc/cXKgm+0G0walc0xL6bBr34ChTJeY135XMY7EP
+ aLrA==
+X-Gm-Message-State: AOAM5314phzxKgnUU7t+KDwaVAI9qflYJYavJAOKYy/jTprxyc7N5aG5
+ v0RJXGK1843+SzJzl9RkUE2LPgZFFWPSiGb9pgc=
+X-Google-Smtp-Source: ABdhPJxg6Vchj0Cl2e6WhFkE4I9x0VaSCTz2kKfIX4Ap5YnKh7lSYHY3NIki02aWQkEdHCqe+pa1RlPlxBmaDKGVMRo=
+X-Received: by 2002:a6b:4e02:: with SMTP id c2mr3472548iob.166.1626359477161; 
+ Thu, 15 Jul 2021 07:31:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1ff77be7-2ecb-1f6d-974c-60e6f54fb163@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Jul 2021 14:29:29.0312 (UTC)
- FILETIME=[D2180600:01D77985]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) BAYES_20=-0.001, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210714182056.25888-1-alex.bennee@linaro.org>
+ <20210714182056.25888-21-alex.bennee@linaro.org>
+In-Reply-To: <20210714182056.25888-21-alex.bennee@linaro.org>
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+Date: Thu, 15 Jul 2021 16:31:05 +0200
+Message-ID: <CAD-LL6ju4f+v_dfqZ+wsjaS=J1HXfYGzWYgvXSHFQAu-nYALGA@mail.gmail.com>
+Subject: Re: [PATCH v2 20/21] contrib/gitdm: add a new interns group-map for
+ GSoC/Outreachy work
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000e9da5a05c72a5276"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,50 +78,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9sar_Belley?= <cesar.belley@lse.epita.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/07/2021 10:14, BALATON Zoltan wrote:
-> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você 
-> possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de 
-> e-mail suspeito entre imediatamente em contato com o DTI.
-> 
-> On Thu, 15 Jul 2021, matheus.ferst@eldorado.org.br wrote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>
->> In commit 8f0a4b6a9, we started to require L=0 for ppc32 to match what
->> The Programming Environments Manual say:
->>
->> "For 32-bit implementations, the L field must be cleared, otherwise
->> the instruction form is invalid."
->>
->> Further digging, however, shown that older CPUs have different behavior
->> concerning invalid forms. E.g.: 440 and 405 manuals say that:
->>
->> "Unless otherwise noted, the PPC440 will execute all invalid instruction
->> forms without causing an Illegal Instruction exception".
->>
->> While the PowerISA has an arguably more restrictive:
->>
->> "In general, any attempt to execute an invalid form of an instruction
->> will either cause the system illegal instruction error handler to be
->> invoked or yield boundedly undefined results."
->>
->> Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
-> 
-> By the way, instead of putting this in the commit message usually a
-> Reported-by tag is used instead to note who reported the problem but I
-> don't mind either way, just seems unusual to have it in commit message.
-> 
+--000000000000e9da5a05c72a5276
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ah, I forgot the tag... again. I swear I'll get used to email workflow 
-someday. I can send it again if someone thinks it's better.
+On Wed, Jul 14, 2021 at 8:28 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+> It makes sense to put our various interns in a group so we can see the
+> overall impact of GSoC and Outreachy on the project.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
+> Cc: Mahmoud Mandour <ma.mandourr@gmail.com>
+> Cc: C=C3=A9sar Belley <cesar.belley@lse.epita.fr>
+> Message-Id: <20210714093638.21077-21-alex.bennee@linaro.org>
+>
+
+Reviewed-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+
+--000000000000e9da5a05c72a5276
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 8:28 PM Alex =
+Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" target=3D"_blank"=
+>alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">It makes sense to put our various interns in a group=
+ so we can see the<br>
+overall impact of GSoC and Outreachy on the project.<br>
+<br>
+Signed-off-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
+g" target=3D"_blank">alex.bennee@linaro.org</a>&gt;<br>
+Cc: Ahmed Karaman &lt;<a href=3D"mailto:ahmedkhaledkaraman@gmail.com" targe=
+t=3D"_blank">ahmedkhaledkaraman@gmail.com</a>&gt;<br>
+Cc: Mahmoud Mandour &lt;<a href=3D"mailto:ma.mandourr@gmail.com" target=3D"=
+_blank">ma.mandourr@gmail.com</a>&gt;<br>
+Cc: C=C3=A9sar Belley &lt;<a href=3D"mailto:cesar.belley@lse.epita.fr" targ=
+et=3D"_blank">cesar.belley@lse.epita.fr</a>&gt;<br>
+Message-Id: &lt;<a href=3D"mailto:20210714093638.21077-21-alex.bennee@linar=
+o.org" target=3D"_blank">20210714093638.21077-21-alex.bennee@linaro.org</a>=
+&gt;<br></blockquote><div><br></div><div>Reviewed-by: Mahmoud Mandour &lt;<=
+a href=3D"mailto:ma.mandourr@gmail.com" target=3D"_blank">ma.mandourr@gmail=
+.com</a>&gt;</div></div></div>
+
+--000000000000e9da5a05c72a5276--
 
