@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3313C9720
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:22:14 +0200 (CEST)
-Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2529D3C9754
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:25:28 +0200 (CEST)
+Received: from localhost ([::1]:36238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3st3-0002Z1-1l
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:22:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36098)
+	id 1m3swB-00042h-7f
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:25:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3ss1-0001sm-Sd
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:21:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33203)
+ id 1m3svD-0003Mt-OY
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:24:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1m3srt-0004bR-5A
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:21:07 -0400
+ id 1m3svB-0007Y5-S6
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:24:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626322859;
+ s=mimecast20190719; t=1626323065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RtxCjNmJ17aZm7SOz8W2cjKUhLeP03N8Y+/T5taCxeo=;
- b=fjHjVCEi8T7uXtmWpJpe4VkPHzn7H6JVxFkQg/HDQaVgEjQ7SQefysrV7/QsPFqHt3u/oN
- I1kdH1EN5oFFmCN0+7yDTVIrReSdwDSOWgNxu509ClWzf/yka6rXxK1d1DIrtA/04ReAAn
- ZJUWy2jrdRzMlV0t7YDzfEc88KNlpXk=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-PJUFgx_UMCKzZoynzHIiug-1; Thu, 15 Jul 2021 00:20:54 -0400
-X-MC-Unique: PJUFgx_UMCKzZoynzHIiug-1
-Received: by mail-pj1-f72.google.com with SMTP id
- j11-20020a17090a840bb029017582e03c3bso2175804pjn.7
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 21:20:53 -0700 (PDT)
+ bh=lA0UXtT24+WN9X4+cFzIyBgjbedMYYD4CtMvmMVF4Vg=;
+ b=OeI0PhrWFTG0nzmgid1gdBgXcb7pUp1pMt/C8xByGcw3+GY6P0zQgEfJ9cXyl16UdT9DgG
+ pjNrpDVCMwi+PLbpgbJ9AGz8+VpaRxNIpbO7r11C62xFvTPP5t4VsCnt8GRZuoLVZH6sKm
+ k+Uy9BC63Rv6RaqFwT4ElT9YmCL7SJc=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-vppIWZ-eOCaCarGkQpqlzA-1; Thu, 15 Jul 2021 00:24:23 -0400
+X-MC-Unique: vppIWZ-eOCaCarGkQpqlzA-1
+Received: by mail-pj1-f71.google.com with SMTP id
+ dw7-20020a17090b0947b0290173b4d6dd74so2583476pjb.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 21:24:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=RtxCjNmJ17aZm7SOz8W2cjKUhLeP03N8Y+/T5taCxeo=;
- b=dEl+uhA/QWVrRMHoE+x5V5gZD2M363a0KT3zcM96zbGYGpwDBjBXLFjSwmJAwvzB5W
- CItlcJifACMDdd9m/NdmGS3p77zO1dHA3M+SjvtzWlqlfwuMFwT2hHNLiWlxzMTxuN9X
- zqvnX/ayjw3ONEnpDHiXFW1llFsemo9FqAS2g7D23kqkgOevimpicMJF0QFp0jg1LvDs
- EqK+JH6YOfIxjEIYuSdXlpztrmmTiuuc4SXqhpuH4EEqTC+ygzfFis19xriT/3NMn3xb
- vtD0SY+ahflNo2tExqGF9Y0b5KaZx+8ENiBwtOwfXMXaKpc69kyHHxkHtVrIU4PMYrqv
- ukPQ==
-X-Gm-Message-State: AOAM533IV2PsecFI2BAuhza0vwknUMHaNqd8XLWTHYt9sroV/CeaZkIi
- m5nV6zNdF2s87z4UH+H9IDgXApiMqwFQlimCBGMQQ0clAsSEbhgVfdPw6KzuqMHwALV3ASaqZmI
- +ynBBTeZ9qfFXYfA=
-X-Received: by 2002:a17:90a:5644:: with SMTP id d4mr2010799pji.9.1626322852416; 
- Wed, 14 Jul 2021 21:20:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzqzGQnp+NnhdRPcJZcR0B16kapNE+Jwyl4eviifcnqP5k9MIEi71qkqvoDvtZJg5+OOiZDog==
-X-Received: by 2002:a17:90a:5644:: with SMTP id d4mr2010775pji.9.1626322852217; 
- Wed, 14 Jul 2021 21:20:52 -0700 (PDT)
+ bh=lA0UXtT24+WN9X4+cFzIyBgjbedMYYD4CtMvmMVF4Vg=;
+ b=fr5KL1xfrIE75MQ2M0hFlA9UPbiU1lgoL5NaDReN9+lyXCj7aiNqcgD1gWnqmU2rVU
+ MCNCu5yeupbA6ckiuEKIgOw5x/QD2DriQJkc4I3f7HleRdoB7Bjbn4ZxhnA05eauUvVE
+ /HgaQw42048bFHdZ+1QLzy9pszEZWGwgijf18xRR8idJptNcAhV80yVdhSiVo4OBThDd
+ 2kFb217prJ466lZtTZA25cZ0oj5rlF+8YkH18dBZ4heQAyOP5sDM4kthF757QEF6VTMR
+ 0lyLu5OqIHxFyUhdp5ymrl0Qj+E6LZTULaP6+CkntC+Stea1pVusdHfRiY0PurP8jUw5
+ iwxQ==
+X-Gm-Message-State: AOAM532rSEtmnL6fKfRtkWDMlhNQtn7K0eYoHE+CnnzT4VZY8c91xKTY
+ WooF2CgiOndN2S6Z+0/vI5hhCPGF878d0/YjRsznDHr2J7VrdKQoibpb99tRMefgck1dfR/Rekq
+ JijV7D+5xrjjslk0=
+X-Received: by 2002:a65:67d6:: with SMTP id b22mr2174634pgs.271.1626323062585; 
+ Wed, 14 Jul 2021 21:24:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDGJ70qmmLaOG/UzeaLqZL8jdCRocut4MZjvXKseOtqz265Jhucx4rbJlQ5KNBvsrXDHDQpg==
+X-Received: by 2002:a65:67d6:: with SMTP id b22mr2174606pgs.271.1626323062310; 
+ Wed, 14 Jul 2021 21:24:22 -0700 (PDT)
 Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id y198sm4484718pfg.116.2021.07.14.21.20.48
+ by smtp.gmail.com with ESMTPSA id n6sm4720687pgb.60.2021.07.14.21.24.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 21:20:51 -0700 (PDT)
-Subject: Re: [PULL V2 3/6] hmp-commands: Add new HMP command for filter
- passthrough
-To: "Zhang, Chen" <chen.zhang@intel.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <20210701091130.3022093-1-chen.zhang@intel.com>
- <20210701091130.3022093-4-chen.zhang@intel.com> <YO8xWHrtParXqSip@work-vm>
- <BN0PR11MB57570940435B251AA6D8DF3F9B129@BN0PR11MB5757.namprd11.prod.outlook.com>
+ Wed, 14 Jul 2021 21:24:21 -0700 (PDT)
+Subject: Re: [PATCH V2 00/18] vhost-vDPA multiqueue
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <09927fb3-7971-c989-906c-e93cd3114b8c@redhat.com>
-Date: Thu, 15 Jul 2021 12:20:46 +0800
+To: qemu-devel@nongnu.org, mst@redhat.com
+References: <20210706082717.37730-1-jasowang@redhat.com>
+ <ce31242d-08a9-b1e4-f260-8c31ca4b49c0@redhat.com>
+Message-ID: <2bfaf233-f776-f74e-ee17-9b1e388dc1be@redhat.com>
+Date: Thu, 15 Jul 2021 12:24:18 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <BN0PR11MB57570940435B251AA6D8DF3F9B129@BN0PR11MB5757.namprd11.prod.outlook.com>
+In-Reply-To: <ce31242d-08a9-b1e4-f260-8c31ca4b49c0@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,11 +80,11 @@ Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -9
+X-Spam_score: -1.0
+X-Spam_bar: -
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
@@ -104,27 +100,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: eperezma@redhat.com, elic@nvidia.com, lingshan.zhu@intel.com,
+ lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2021/7/15 上午11:07, Zhang, Chen 写道:
-> Oh, good idea. I will quick update it.
-> By the way,  please review or tag other patches in this series.
-> Maybe we can catch up 6.1 merge window.
+在 2021/7/12 下午1:44, Jason Wang 写道:
 >
-> Thanks
-> Chen
+> 在 2021/7/6 下午4:26, Jason Wang 写道:
+>> Hi All:
+>>
+>> This patch implements the multiqueue support for vhost-vDPA. The most
+>> important requirement the control virtqueue support. The virtio-net
+>> and vhost-net core are tweak to support control virtqueue as if what
+>> data queue pairs are done: a dedicated vhost_net device which is
+>> coupled with the NetClientState is intrdouced so most of the existing
+>> vhost codes could be reused with minor changes. With the control
+>> virtqueue, vhost-vDPA are extend to support creating and destroying
+>> multiqueue queue pairs plus the control virtqueue.
+>>
+>> Tests are done via the vp_vdpa driver in L1 guest plus vdpa simulator
+>> on L0.
+>>
+>> Please reivew.
 >
+>
+> If no objection, I will queue this for 6.1.
 
-Note that we probably miss the soft-freeze since it's actually a new 
-feature.
 
-It could only be done for 6.2.
+Hi Michael:
+
+So we miss the soft freeze, want to know if the series is fine from your 
+side, and if you'd like to merge them (for 6.2 probably?).
 
 Thanks
 
