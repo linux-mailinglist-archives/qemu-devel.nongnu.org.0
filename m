@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E1EC3C9887
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:50:27 +0200 (CEST)
-Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929A73C9888
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:51:31 +0200 (CEST)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3uGQ-0002Ae-9K
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:50:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
+	id 1m3uHS-0003tF-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3uFT-0001LO-I2
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3uFP-0004CG-Bg
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626328161;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ipA76JNxdxLDlSTCMwPxBIkeLK7x4efnQus0oNxIGW0=;
- b=KCZvx566I8ILL8J0N4xL/1cPmco9XNkkBfV6mKz7jCJPVYBT/5sQkfpHjAgvQqqyCF38Sz
- gAbLlinfICmzdCJsZvpBLVs9753XaDJ6OcGRjr1uydppNhDZX7oanz+Ht00nJkRpKsxxD5
- m1lwHZsH5VzTALD7MfOahqpRyno5R/o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-y2nLD1pHMMycJJkp57J-zA-1; Thu, 15 Jul 2021 01:49:20 -0400
-X-MC-Unique: y2nLD1pHMMycJJkp57J-zA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 080C880431B;
- Thu, 15 Jul 2021 05:49:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
- [10.36.112.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 02E9E5C232;
- Thu, 15 Jul 2021 05:49:15 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8D8B1113865F; Thu, 15 Jul 2021 07:49:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
-References: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
- <bb8d222a-be8a-02b7-3ddc-de443290e29d@redhat.com>
- <36bcf543-0b56-7e2f-26e7-648ca3cf58dd@linux.ibm.com>
- <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com>
- <87a6mpez2b.fsf@dusky.pond.sub.org>
- <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com>
-Date: Thu, 15 Jul 2021 07:49:13 +0200
-In-Reply-To: <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 14 Jul 2021 22:16:03
- +0200")
-Message-ID: <87a6modt46.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1m3uFg-0001fZ-6z
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:40 -0400
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:37500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
+ id 1m3uFe-0004Ni-L0
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:39 -0400
+Received: by mail-lj1-x231.google.com with SMTP id h19so7003053ljl.4
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 22:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=A/PvA1DB0W5wp+a8Jesrkmf512SBcdKf2TLwujd0mHs=;
+ b=EQxYapb1uUstI3d8aTGl3fY9z0le160jeIBGmL2nJsbgqr8ux2VlwMfhBbvyrU8pQo
+ bNR8hbUCicTntkRekvIJrfI1oiY8jMQY6LG2RqZZ8rH4Qk+K1mfaRAubuliuOGn32wYq
+ 2ULQBmdyU0Zc8yZGWfUCbNYWnEUB1DckK5blR+j56gTolJ6G15pHDB3xLyijxHdOSvIJ
+ teEKXgBkGGVXZiuFZKv90lxPVqjmPUSJf52lERWJOC5tqrLXA7MNI6VM+rFKlxR5PKOA
+ 1/PvL9UtKxnKFn96ge3mQdQ136cbmM6nqN26LgtTtrvmyw056OBZ+Hsy9h3uVUYLcwHB
+ J7pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=A/PvA1DB0W5wp+a8Jesrkmf512SBcdKf2TLwujd0mHs=;
+ b=pZmui1qiZQHtktDOUfbqTUh5jk5FEP7dy+H2ErvIGEneglx+vlphB+V5XF2FfJASn3
+ EKhdGlYKB5RFAGjLImx6YAriNc6NfcT+u4IMLktBbp+Q7HOPtAMnnzVThs1sTUEGMqOA
+ y2Ojm/D1SVAU/i3MEb7rsvnUKJeGpK1VLd2hx3mWZaXbdzDfDN2fs2hk9GiXLTeWWgBp
+ CjWY+0Xu7ffSTghjMexKbHP9uK8xKa2LXd/dFCVMunjS0TDBNpX20elqnGhinWiRNGqI
+ HGcodftXlpjdVfzY2TQCEQiv7z/stHFyDPS5ZkJyy8zT7heWWYpPx5vnNGUVjyExkGpN
+ hIow==
+X-Gm-Message-State: AOAM532zPtFjBCVpZOiiAAYQAwP2w7gzl/jpae6Nug05NTgVe6dcLhIK
+ iFqEQEswXxVDPim7Tx53Wi2rRMHK4XzBTiS/1Rk=
+X-Google-Smtp-Source: ABdhPJyu6X9WsZWORN2UOxa5XsxOWtYz/s7oZ1sB/2kxB204aN6CUmy6sAFqeT/NuDU/UphlBBt0ssJTs6NraAsRDJU=
+X-Received: by 2002:a2e:3515:: with SMTP id z21mr2142470ljz.250.1626328175946; 
+ Wed, 14 Jul 2021 22:49:35 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
+ <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
+ <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
+ <d95d40428ec07ee07e7c583a383d5f324f89686a.camel@redhat.com>
+ <YOxYM+8qCIyV+rTJ@google.com>
+ <CA+-xGqOSd0yhU4fEcobf3tW0mLb0TmLGycTwXNVUteyvvnXjdw@mail.gmail.com>
+ <YO8jPvScgCmtj0JP@google.com>
+In-Reply-To: <YO8jPvScgCmtj0JP@google.com>
+From: harry harry <hiharryharryharry@gmail.com>
+Date: Thu, 15 Jul 2021 00:49:34 -0500
+Message-ID: <CA+-xGqOkH-hU1guGx=t-qtjsRdO92oX+8HhcO1eXnCigMc+NPw@mail.gmail.com>
+Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
+ shadow page table in Linux QEMU/KVM
+To: Sean Christopherson <seanjc@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=hiharryharryharry@gmail.com; helo=mail-lj1-x231.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,41 +83,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
+Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
+ stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Hi Sean,
 
-> On 7/14/21 4:43 PM, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>=20
->>> +Markus
-
-[...]
-
->>> IMO the "right" solution is to check via QMP if TMP is supported
->>> or not. This is now doable since commit caff255a546 ("tpm: Return
->>> QMP error when TPM is disabled in build").
->>>
->>> Long term we'd like to decouple the tests/ build from the various
->>> QEMU configurations, and build the tests once.
->>=20
->> This argument applies only to macros from target-specific headers like
->> $TARGET-config-target.h, not to macros from config-host.h.  #ifdef
->> CONFIG_TPM should be fine, shouldn't it?
+> No, each vCPU has its own MMU instance, where an "MMU instance" is (mostly) a KVM
+> construct.  Per-vCPU MMU instances are necessary because each vCPU has its own
+> relevant state, e.g. CR0, CR4, EFER, etc..., that affects the MMU instance in
+> some way.  E.g. the MMU instance is used to walk guest page tables when
+> translating GVA->GPA for emulation, so per-vCPU MMUs are necessary even when
+> using TDP.
 >
-> Some definitions depend on the host (OS, libraries installed, ...),
-> others depend on the --enable/--disable ./configure options.
->
-> IMO it would be nice if we could get qtests independent of the latter.
+> However, shadow/TDP PTEs are shared between compatible MMU instances.  E.g. in
+> the common case where all vCPUs in a VM use identical settings, there will
+> effectively be a single set of TDP page tables shared by all vCPUs.
 
-Why?
-
-> I suppose config-host.h holds both kinds.
-
-Yes.
-
+What do you mean by "MMU instance"? Do you mean VMCS? MMU is hardware.
+Could you please share me the code of the MMU instance in KVM? Thanks!
 
