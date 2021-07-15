@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611EB3CA4F4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 20:07:39 +0200 (CEST)
-Received: from localhost ([::1]:57496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3F03CA57E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 20:24:30 +0200 (CEST)
+Received: from localhost ([::1]:39380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m45lp-0001sU-SN
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 14:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41708)
+	id 1m4629-0001hI-7v
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 14:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m45kU-00014I-4A
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 14:06:14 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43960)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m460v-00005q-6G; Thu, 15 Jul 2021 14:23:13 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m45kR-0001ZH-VU
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 14:06:13 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id v20so10727985eji.10
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 11:06:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TYUZy/fGaZMY02EOH3opW93fWs0XTmXB2xvBnZaqMMY=;
- b=aWrR6S0rKF4sH83WHAYu22rJ0wXHWL6d5uApWk7cRtjrHYFbvwO21VfyA4M4fQ4h/n
- +5psXuhn08YzcI1bZ00x0P0nWsrKr9Fmu8zXF359OAPhnK7bGN5VI6eW25hzYRBbfy1t
- 0Jbtf7EVbiDrBGRIvBSv+1KDibtLoxs2mqMzMEqRRvfc7bg9kTiBuYtQ7fDnICmrTIn1
- Lnu4+MRMbEBHlfJvVhF92u8GndeP/I3vIEpkW7QhqqVuuMk4Vftkc5NUNOgyISHLoWWK
- k9RN7VgaST35HR/nkXA3m/AygR0KXweGWKTqaZDoO8J7Adr1JvCxxLyG/I7XiQEJJlc8
- shLg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m460t-0004kC-PH; Thu, 15 Jul 2021 14:23:12 -0400
+Received: by mail-wr1-x436.google.com with SMTP id a13so8956360wrf.10;
+ Thu, 15 Jul 2021 11:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TCggTfEOFQatakSs/1uicTptFzpCDU7ByyHQSfMH370=;
+ b=pS6uM9PN5+0x3HWnYRQIl2ZTOWZt8ANIkVEaPshA8eb4inpM1DMNlnOIpg7te57TGJ
+ oiUB2weGcECdWgeSH41H7Gwk4K2FsZSNzd93vafpLw3BurxL1eaktCUey4kyYpBTZecw
+ IttfX6VAeSoFjkUUXA3PW2mXvj2MD5qkQ76OdGT3yB4bTtEcQmgJovjKio+PEfpe6IOJ
+ x8nJr+rbyd7U/HZ158jRSmNLp3M/K18K1NwC9w0udGkhmfw1NKHwKM7JLsqHXZZGkYLK
+ pXvQGIvnEmIIyyV5fDyU95+dBX5ikkSRgvunoZ1GmO7nt3XUetBf2sUkqTgPu4JHWo8U
+ sb+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TYUZy/fGaZMY02EOH3opW93fWs0XTmXB2xvBnZaqMMY=;
- b=qEoQYxmmlADZZ1CHbCnB8Nq+4UFjcAL5FSO1kR6xhV9pkkhHRzJTb5ZhzypcUhB88O
- VtIduDCv0Hr0el+DMkL94ytRFXNW4tCYxsIo/9PaKQ2nicyeSUulQ13j9Q/Fet0MQ+4C
- 7x9e4+EG1ipxbPojf44c7jLNy9iY5mO4Ric+n4doIJit/5jfkUainz8/H4dit1ZwNne9
- KKhHmo9ivPHIHItbEtgHQ6aXgdBd1E9Ql4nFweR2dPG85lI3Y1Y71QpTyExwqAFM7jRD
- N32g6Tm++HJUnPu9v6FwvC4hvE8SutT0P+rgfAqUBKt+ysstHKk+/BTa45G41i0Zl9Xy
- i3kg==
-X-Gm-Message-State: AOAM532TS1ms+/2mDMtrS3LVepnpQZbMG4apHAk2Pyup6NAZ9JTnQLkV
- Y4owec8neucW+uCp4+wSk1LdAoaQvijkwdHXPR8rRw==
-X-Google-Smtp-Source: ABdhPJzN4zq2KCNvLJmGN693dVUaiESaBax4qQ0AQcgN81QzjFBhRdXjvwt136u364+ajbe5u2oEg7x2OD7/b2tikAs=
-X-Received: by 2002:a17:906:a2d7:: with SMTP id
- by23mr6792231ejb.382.1626372370154; 
- Thu, 15 Jul 2021 11:06:10 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TCggTfEOFQatakSs/1uicTptFzpCDU7ByyHQSfMH370=;
+ b=cfP9Inc3KAm1/8WPmlsvD/+OfaUOZNgv1CzmpN2GoqYflRS1IQxAf8HYvRBMlBAnof
+ x+2zV5535Tj/8LXzrT4yBWqYZhODRMJwsOgEnZ1GyHdN9A/ZIIgvJWOHXOtVb1XAuPhE
+ x5IRNX7dTCjFWsayBe+BRIOq9pWsihS/tXu2L9CcIQ0Gq2f4Omsh8vuScjyCptut7FyN
+ nHMDQzMVwqo91HJPMV8XNDrFjZ4vy8W7XBoknbmFQuakSn00DLjRRfXRg+Bl+1fSvWbf
+ XVwKnlLNMj1dTKqsK+ysgR9rWtA/epQB0UASTE2kW5wvQEqVDWAw2jx2Z3pgOF8LSyp9
+ mE2Q==
+X-Gm-Message-State: AOAM531ZYnXwtQszGmZqs8Mt8P5wIuhNOdiQwh+bnz0/gZmzMq0z9qX0
+ 0mYUzER3xxIXgEmJtZCd12wzBPli33YM7Q==
+X-Google-Smtp-Source: ABdhPJyvoxKYBWzvwnAC/dN4dY7Jfc/w/6A5yifu1BmZyy/F1f5S9/h4qlBs7cvCejEmky833cbsBg==
+X-Received: by 2002:a5d:4d0b:: with SMTP id z11mr7134222wrt.411.1626373389164; 
+ Thu, 15 Jul 2021 11:23:09 -0700 (PDT)
+Received: from [192.168.1.24] (abordeaux-654-1-74-136.w109-214.abo.wanadoo.fr.
+ [109.214.221.136])
+ by smtp.gmail.com with ESMTPSA id o11sm8941481wmc.2.2021.07.15.11.23.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jul 2021 11:23:08 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Remove duplicate 'plus1' function from Neon
+ and SVE decode
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210715095341.701-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <37f7fefe-db63-26d1-8a9d-d974b754890b@amsat.org>
+Date: Thu, 15 Jul 2021 20:23:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210714150036.21060-1-alex.bennee@linaro.org>
-In-Reply-To: <20210714150036.21060-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Jul 2021 19:05:28 +0100
-Message-ID: <CAFEAcA9OLvmqLySo_S3MW+gtEdx2WgWO-c9qaVxU1t1JkSYOzg@mail.gmail.com>
-Subject: Re: [PULL v5 00/44] testing, build and plugin updates
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210715095341.701-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,55 +88,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Jul 2021 at 16:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit 4aa2454d94cca99d86aa32e71bd7c8159df91c=
-59:
->
->   Merge remote-tracking branch 'remotes/ehabkost-gl/tags/x86-next-pull-re=
-quest' into staging (2021-07-14 12:00:56 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-and-plugins-14072=
-1-5
->
-> for you to fetch changes up to a6b95a9733a94f38b289430bf46987809f53ab16:
->
->   MAINTAINERS: Added myself as a reviewer for TCG Plugins (2021-07-14 15:=
-54:13 +0100)
->
-> ----------------------------------------------------------------
-> Testing and plugin updates:
->
->   - custom runner playbooks for configuring GitLab runners
->   - integrate Cirrus jobs into GitLab via cirrus-run
->   - clean-up docker package lists
->   - bump NetBSD to 9.2
->   - bump OpenBSD to 6.9
->   - make test-mmap more hexagon friendly
->   - fixup handling of hostaddr for plugins
->   - disallow some incompatible plugin configurations
->   - fix handling of -ldl for BSDs
->   - remove some old unused symbols from the plugin symbol map
->   - enable plugins by default for most TCG builds
->   - honour main build -Wall settings for plugins
->   - new execlog plugin
->   - new cache modelling plugin
->   - fix io_uring build regression
->   - disable modular TCG on Darwin
->
+On 7/15/21 11:53 AM, Peter Maydell wrote:
+> The Neon and SVE decoders use private 'plus1' functions to implement
+> "add one" for the !function decoder syntax.  We have a generic
+> "plus_1" function in translate.h, so use that instead.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/neon-ls.decode     | 4 ++--
+>  target/arm/neon-shared.decode | 2 +-
+>  target/arm/sve.decode         | 2 +-
+>  target/arm/translate-neon.c   | 5 -----
+>  target/arm/translate-sve.c    | 5 -----
+>  5 files changed, 4 insertions(+), 14 deletions(-)
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
-
--- PMM
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
