@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C1F53C942C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 01:02:59 +0200 (CEST)
-Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D18333C9565
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 03:02:31 +0200 (CEST)
+Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3nu6-00032B-CQ
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 19:02:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
+	id 1m3pll-0003hk-MM
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 21:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
- id 1m3nsn-0002Fe-4j; Wed, 14 Jul 2021 19:01:37 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:27003)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=8220343f1=alistair.francis@wdc.com>)
- id 1m3nsj-0007Ly-Gj; Wed, 14 Jul 2021 19:01:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1626303692; x=1657839692;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=HEx7hskJBkjo4DXZJz2WBuEWdngpJD/Ko2p0QxEhjek=;
- b=McvGIsIZVZvbktyRvyzy7v5Bwbavck5LOOn2Bf/6kl7Mk1i+mTmivdx8
- ehy9IfqOl9h5rwOWePZI7sUxFNDjX1b5b1zAkg2CDp4iwQmTUCYHnj9+6
- vpU8MUzpYFfiyx38rar1AUs8esWDSGj20l2qxkugm6ypNGjyhMmzoYf5Z
- WLzy40568IxVrfbkRm51i/7+H0O6X5Ynp6QtT38ConfEepaM1njMhZ3C8
- 7+nAmzbB33hCCZD+PAqmJlzXrzvxrtPWr8P6wq9PJxAwH1Fw+LNk8o9NA
- NDs5G31b0GJ+BJR4Sa5k7so4i8F68nGqasNWTQ8rKV4VKQ82tI99BXSAh A==;
-IronPort-SDR: +JhpM9dCoTFN7Q6th3F4ULH+agMjJBImGAzePStAYuRym4RYLdD4nQI0939SeyqprijVfcyv/B
- /1TMBxg6WFsyjsHrcPtKsPkGoCsR10/dt3fNfJSQZIskTSm0eohpRNcjdMH3VmneYuyCk5LxoL
- 82KnVLqjmJLD84nhtQAVZyr1s69Gz6xvBN+8gA33kSZZTw5pf/4ggzgo99mtLCZeG2yIbgGcst
- lpvtXPyIo8CA62H/ngkecdqpehlwuRB3VoXwti+tRjLb52etICLKHn9TkaeU0xkxCM3JJLUySC
- SLs=
-X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="174602868"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 07:01:28 +0800
-IronPort-SDR: O1kcYHFlYWILyrRgUZuKFuu3MmctFG10qJ7X3WYNoVm5tS24NTpQql9zCqOhD2DtFKTSHB6bOn
- GHsVEW29XlfXFFlhB8tsHxVwMVs0ptaHXqCUmVKXNj5/RJgjGylImxKQuFOgbUfi3HwPEAAY3J
- eUwXJWFvdgSl63b07WRv3IJDb57DhsEjW0GIcN2WtMbh3E4jNgP/ahs4qLWUXMI3/v5fJA2sTj
- G5dOazf+u9WspnQzMxLWVk0bMgG0BiegH8wC1tCR5NF6PHmFBcS75zW57EWTgvSAzz5zknRHNC
- eL8YFJ4f/IgawR2BaPJmBPwh
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2021 15:39:33 -0700
-IronPort-SDR: rdN4kbgAdUBn8UwMUeB5z4DZiw8VI1Po5KLpu0Bt49ZdiOMRcGgXihfZelIVVmhUZkje+YaGnb
- QJHpaPP4HpKYlirgO0XmH+Cw6ATotYyFb8vGMAbOAQvqgWNrWbUN6+or79bklzxIbSR2m+yC5d
- 53CWKlqr878kseYFWIvIjPiNrXVWzE3cI9Iu+4GZvgvmvrvSU/oDKf0kcppVA39gsa9D8w/hlI
- MzmC/Dy62kdEDSqREpyDOVEHQYARN5GEofMEkae9L0sfTmfOCM5TNuvRUuwl0G5D+EE2Ki2ARl
- 7BU=
-WDCIronportException: Internal
-Received: from unknown (HELO toolbox.wdc.com) ([10.225.165.113])
- by uls-op-cesaip01.wdc.com with ESMTP; 14 Jul 2021 16:01:25 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 1/1] hw/riscv/boot: Check the error of fdt_pack()
-Date: Thu, 15 Jul 2021 09:01:22 +1000
-Message-Id: <07325315b49d5555269f76094e4bc5296e0643b9.1626303527.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m3pjI-0002ti-1t
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 20:59:56 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m3pjG-0002ww-Cp
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 20:59:55 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ g6-20020a17090adac6b029015d1a9a6f1aso4569293pjx.1
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 17:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ndABTHBkUQmwNULC/CKmulGxTKzWFYJuy4Z1422sPPs=;
+ b=aoRRo6KxCb57l+2LLTx4snHRMZ63+vx6GqzFcfW5Z/OAXby7L6a/dZ6XyjkgMZgjdp
+ VxN3GJomZmc2hHoTKWW4z7MgC6AIycE/7BYudFPJqAqroIDa67o6bzJ+eCGm6ybyJs8k
+ BKEgJnBoqdaHFKudZHJtideiDPjMvBk/+pas+sfKu6fNaDYEHrnpSx+lZuytHE+cvgMU
+ 0C/zytkkjzHjqa3PE8/weQB0ezdP8LxWMcldkZdO2pnS1WOI6HcTgF3EMv3bGl0S21fr
+ uWTIAeCRZV0SlTEBBSC3H852KbdZwPX0faUJHunVI7Fm0TkcqGhOAQYcEdJss1/9K0kQ
+ LbhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ndABTHBkUQmwNULC/CKmulGxTKzWFYJuy4Z1422sPPs=;
+ b=CwJJrJIHJbBw4Ap19FRv0VkNkg4uw/pljuTKEUJVq+hgl+prpn3hDTSgFJkncOMvmE
+ sHTHbyRIet/aWnOItrHY6DBIXSJnU6cpioI2/2jtk77VmrQlO3INWq01YfRg82R1awJA
+ vzDEiyQW8rDtYCgkORtJF9KSgMtihxfXTlntpUz8BaaZvawmJem4sgrym6ozGV/Eb+26
+ 1N2+A4ZH4DQDOeLHC4f2kKdKMnZ4XDZQwQrBmi6DpMAuMBcrxruq0Daw9zgMt4YKCLXF
+ 5pu2sqZ/q0XcMIQ0aabiDXLfpZBpDE5b0QBKRfQtO5QSgusvaoJ5/wMqS6Z7P0FmzL/h
+ Sseg==
+X-Gm-Message-State: AOAM533B3iY5q75pZsjUuuyVTV1AQ5jRTV34zxRcNthpXwE1Xu2d/bt3
+ wG82tHNEJYkY0i9CM+iWmIQ83w==
+X-Google-Smtp-Source: ABdhPJwLef1c43a1cFYpWGcfFT4FEU8TrEsO2HguZpo1LzOaNWxLt89IQmtKYNEActL+lAAEULR/xA==
+X-Received: by 2002:a17:90a:642:: with SMTP id
+ q2mr6349504pje.205.1626310792482; 
+ Wed, 14 Jul 2021 17:59:52 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id l11sm3324283pjw.45.2021.07.14.17.59.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 14 Jul 2021 17:59:52 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] Hexagon (target/hexagon) remove
+ put_user_*/get_user_*
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1626303309-7946-1-git-send-email-tsimpson@quicinc.com>
+ <1626303309-7946-2-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f321397d-4066-73da-2f9d-44bfd06e6e17@linaro.org>
+Date: Wed, 14 Jul 2021 17:59:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=8220343f1=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+In-Reply-To: <1626303309-7946-2-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,46 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
- palmer@dabbelt.com, alistair23@gmail.com
+Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity reports that we don't check the error result of fdt_pack(), so
-let's save the result and assert that it is 0.
+On 7/14/21 3:55 PM, Taylor Simpson wrote:
+> +    target_ulong pc = env->gpr[HEX_REG_PC];
+> +    uint8_t width = env->mem_log_stores[slot_num].width;
+> +    target_ulong va = env->mem_log_stores[slot_num].va;
+> +
+> +    switch (width) {
+>       case 1:
+> -        put_user_u8(env->mem_log_stores[slot_num].data32,
+> -                    env->mem_log_stores[slot_num].va);
+> +        cpu_stb_data_ra(env, va, env->mem_log_stores[slot_num].data32, pc);
 
-Fixes: Coverity CID 1458136
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
----
- hw/riscv/boot.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+No, you need to pass the host return address, not the guest.
+This should be
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 0d38bb7426..993bf89064 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -182,7 +182,7 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
- {
-     uint32_t temp, fdt_addr;
-     hwaddr dram_end = dram_base + mem_size;
--    int fdtsize = fdt_totalsize(fdt);
-+    int ret, fdtsize = fdt_totalsize(fdt);
- 
-     if (fdtsize <= 0) {
-         error_report("invalid device-tree");
-@@ -198,7 +198,9 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
-     temp = MIN(dram_end, 3072 * MiB);
-     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
- 
--    fdt_pack(fdt);
-+    ret = fdt_pack(fdt);
-+    /* Should only fail if we've built a corrupted tree */
-+    g_assert(ret == 0);
-     /* copy in the device tree */
-     qemu_fdt_dumpdtb(fdt, fdtsize);
- 
--- 
-2.31.1
+     uintptr_t ra = GETPC();
 
+
+r~
 
