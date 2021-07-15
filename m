@@ -2,47 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E8B3C9EB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:34:33 +0200 (CEST)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9EE3C9EB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:34:13 +0200 (CEST)
+Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m40ZU-0005y6-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:34:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59136)
+	id 1m40Z9-0006OY-Sp
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:34:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1m40W6-00041J-6h; Thu, 15 Jul 2021 08:31:02 -0400
-Received: from [201.28.113.2] (port=30836 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1m40W3-0002FK-Lh; Thu, 15 Jul 2021 08:31:01 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 15 Jul 2021 09:29:53 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 18D2A80141F;
- Thu, 15 Jul 2021 09:29:53 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli for
- ppc32
-Date: Thu, 15 Jul 2021 09:29:50 -0300
-Message-Id: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m40XM-0004fE-ML
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:32:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20765)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m40XD-0002sm-IL
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:32:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626352330;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=x4Kr+0PozhU7rBhZke7yAFvxjZN4F1cxJ4+QPwWQKyI=;
+ b=VxOp+aVvBFSzAF/jkpEPRmFKkjrLfqj0nuWA97NbkCBRiIWXosMbx+KStzUmOXgxvF+gY0
+ 3BZIg2r6fCpkFlGPg1fq4rMZ+4uIq1OvgR2dTn0oylcDgV9qFfW5WXZN3R6VDqTz7p32Bh
+ 9raoD1XC1xFMr0io9aLEAUghFAumQt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-tYkJkY4zMI6Lu_86Mlh2ew-1; Thu, 15 Jul 2021 08:32:08 -0400
+X-MC-Unique: tYkJkY4zMI6Lu_86Mlh2ew-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09F45074B;
+ Thu, 15 Jul 2021 12:32:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
+ [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7346F5C225;
+ Thu, 15 Jul 2021 12:32:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 09387113865F; Thu, 15 Jul 2021 14:32:06 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] QAPI patches patches for 2021-07-15
+Date: Thu, 15 Jul 2021 14:32:05 +0200
+Message-Id: <20210715123206.212379-1-armbru@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Jul 2021 12:29:53.0435 (UTC)
- FILETIME=[1CF016B0:01D77975]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,120 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>, richard.henderson@linaro.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+The following changes since commit a9649a719a44894b81f38dc1c5c1888ee684acef:
 
-In commit 8f0a4b6a9, we started to require L=0 for ppc32 to match what
-The Programming Environments Manual say:
+  Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull-request' into staging (2021-07-14 18:09:09 +0100)
 
-"For 32-bit implementations, the L field must be cleared, otherwise
-the instruction form is invalid."
+are available in the Git repository at:
 
-Further digging, however, shown that older CPUs have different behavior
-concerning invalid forms. E.g.: 440 and 405 manuals say that:
+  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-07-15
 
-"Unless otherwise noted, the PPC440 will execute all invalid instruction
-forms without causing an Illegal Instruction exception".
+for you to fetch changes up to a0c7b99bf75d85b616fa219a7d866fc72970f327:
 
-While the PowerISA has an arguably more restrictive:
+  qapi: Fix crash on missing enum member name (2021-07-15 12:56:41 +0200)
 
-"In general, any attempt to execute an invalid form of an instruction
-will either cause the system illegal instruction error handler to be
-invoked or yield boundedly undefined results."
+----------------------------------------------------------------
+QAPI patches patches for 2021-07-15
 
-Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
-broke AROS boot on sam460ex. This patch address this regression by only
-logging a guest error, except for CPUs known to raise an exception for
-this case (e500 and e500mc).
+----------------------------------------------------------------
+Markus Armbruster (1):
+      qapi: Fix crash on missing enum member name
 
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 2 deletions(-)
+ scripts/qapi/expr.py                     | 2 +-
+ tests/qapi-schema/enum-dict-no-name.err  | 2 ++
+ tests/qapi-schema/enum-dict-no-name.json | 2 ++
+ tests/qapi-schema/enum-dict-no-name.out  | 0
+ 4 files changed, 5 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qapi-schema/enum-dict-no-name.err
+ create mode 100644 tests/qapi-schema/enum-dict-no-name.json
+ create mode 100644 tests/qapi-schema/enum-dict-no-name.out
 
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index f4fcfadbfc..1c35b60eb4 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
- 
- static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
- {
-+    if ((ctx->insns_flags & PPC_64B) == 0) {
-+        /*
-+         * For 32-bit implementations, The Programming Environments Manual says
-+         * that "the L field must be cleared, otherwise the instruction form is
-+         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
-+         * forms (e.g., section "Instruction Formats" of the 405 and 440
-+         * manuals, "Integer Compare Instructions" of the 601 manual), with the
-+         * notable exception of the e500 and e500mc, where L=1 was reported to
-+         * cause an exception.
-+         */
-+        if (a->l) {
-+            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-+                /*
-+                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
-+                 * generate an illegal instruction exception.
-+                 */
-+                return false;
-+            } else {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
-+                        s ? "" : "L", ctx->cia);
-+            }
-+        }
-+        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-+        return true;
-+    }
-+
-+    /* For 64-bit implementations, deal with bit L accordingly. */
-     if (a->l) {
--        REQUIRE_64BIT(ctx);
-         gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-     } else {
-         gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-@@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
- 
- static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
- {
-+    if ((ctx->insns_flags & PPC_64B) == 0) {
-+        /*
-+         * For 32-bit implementations, The Programming Environments Manual says
-+         * that "the L field must be cleared, otherwise the instruction form is
-+         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
-+         * forms (e.g., section "Instruction Formats" of the 405 and 440
-+         * manuals, "Integer Compare Instructions" of the 601 manual), with the
-+         * notable exception of the e500 and e500mc, where L=1 was reported to
-+         * cause an exception.
-+         */
-+        if (a->l) {
-+            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-+                /*
-+                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
-+                 * generate an illegal instruction exception.
-+                 */
-+                return false;
-+            } else {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
-+                        s ? "I" : "LI", ctx->cia);
-+            }
-+        }
-+        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-+        return true;
-+    }
-+
-+    /* For 64-bit implementations, deal with bit L accordingly. */
-     if (a->l) {
--        REQUIRE_64BIT(ctx);
-         gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-     } else {
-         gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
 -- 
-2.25.1
+2.31.1
 
 
