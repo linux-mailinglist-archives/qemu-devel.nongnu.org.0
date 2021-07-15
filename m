@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693A23C977F
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:32:20 +0200 (CEST)
-Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5127C3C9787
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:34:07 +0200 (CEST)
+Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3t2p-0001bn-G8
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:32:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
+	id 1m3t4Y-0005T3-Dg
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swc-0005E1-1J
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38244)
+ id 1m3swe-0005LY-0t
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:56 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swa-0000O3-Cx
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:53 -0400
+ id 1m3swc-0000P2-Ed
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:55 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m3swX-0007s2-Ot
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:49 +0000
+ id 1m3swZ-0007vX-Cs
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B6AC72E817B
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5B4BE2E817C
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Jul 2021 04:17:25 -0000
-From: Launchpad Bug Tracker <1925109@bugs.launchpad.net>
+Date: Thu, 15 Jul 2021 04:17:26 -0000
+From: Launchpad Bug Tracker <1924987@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: storage
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hjiayz163 janitor th-huth
-X-Launchpad-Bug-Reporter: hjiayz (hjiayz163)
+X-Launchpad-Bug-Commenters: janitor th-huth tigg
+X-Launchpad-Bug-Reporter: Ricky Tigg (tigg)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161888628706.6044.6118190110754714311.malonedeb@soybean.canonical.com>
-Message-Id: <162632264560.31721.17030178866499166289.malone@loganberry.canonical.com>
-Subject: [Bug 1925109] Re: usbredirparser: bulk transfer length exceeds limits
+References: <161882313513.2580.5040892945774329423.malonedeb@gac.canonical.com>
+Message-Id: <162632264685.31721.1961343964698619995.malone@loganberry.canonical.com>
+Subject: [Bug 1924987] Re: Storage | Two decimal digits precision
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: 95b8a7f06b390c64b5197f81042713c48ae51679
+X-Launchpad-Hash: ca63b19e3d91788054e97c3249eefdcc423267c8
 Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1925109 <1925109@bugs.launchpad.net>
+Reply-To: Bug 1924987 <1924987@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,40 +83,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1925109
+https://bugs.launchpad.net/bugs/1924987
 
 Title:
-  usbredirparser: bulk transfer length exceeds limits
+  Storage | Two decimal digits precision
 
 Status in QEMU:
   Expired
 
 Bug description:
-  2021-04-20T01:26:36.662244Z qemu-system-x86_64: usbredirparser: bulk tran=
-sfer length exceeds limits 131072 > 65536
-  2021-04-20T01:26:36.662276Z qemu-system-x86_64: usbredirparser: error usb=
-redirparser_send_* call invalid params, please report!!
-  2021-04-20T01:26:57.670412Z qemu-system-x86_64: usbredirparser: bulk tran=
-sfer length exceeds limits 131072 > 65536
-  2021-04-20T01:26:57.670445Z qemu-system-x86_64: usbredirparser: error usb=
-redirparser_send_* call invalid params, please report!!
-  2021-04-20T01:37:01.920613Z qemu-system-x86_64: usbredirparser: bulk tran=
-sfer length exceeds limits 131072 > 65536
-  2021-04-20T01:37:01.920624Z qemu-system-x86_64: usbredirparser: error usb=
-redirparser_send_* call invalid params, please report!!
-  host:
-  Linux version 5.11.15-arch1-2 (linux@archlinux) (gcc (GCC) 10.2.0, GNU ld=
- (GNU Binutils) 2.36.1) #1 SMP PREEMPT Sat, 17 Apr 2021 00:22:30 +0000
-  guest:
-  win10 20H2
-  usb device:
-  Bus 002 Device 007: ID 0781:55ab SanDisk Corp.  SanDisk 3.2Gen1
-  size 250G
+  Tested on: Fedora 34; Component: qemu-img-5.2.0-5.fc34.1.x86_64
 
-  https://gitlab.freedesktop.org/spice/usbredir/-/blob/master/usbredirparse=
-r/usbredirparser.c#L32
+  Hello. A two decimal digits precision is most appropriated on systems
+  whose storage capacities have to be saved. That is one of the reason
+  why such precision is supported in the context of creation of virtual
+  machines in several Unix/Linux virtualization platforms; virt-manager
+  is one of them. That last exhibits virtual disks size values with such
+  precision =E2=80=93 128.00 GiB =E2=80=93 nevertheless it lacks yet a ment=
+ion
+  illustrating physical disks size values.
+
+  Storage values exhibited in qemu-img and virt-manager are already
+  according to a clear format; thus, values are not attached to their
+  measure units (#value# #units#).
+
+  $ qemu-img info ~/.local/share/libvirt/images/fedora_default.img | sed -n=
+ '2,4p'
+  file format: qcow2
+  virtual size: 128 GiB (137438953472 bytes)
+  disk size: 147 MiB
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1925109/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1924987/+subscriptions
 
 
