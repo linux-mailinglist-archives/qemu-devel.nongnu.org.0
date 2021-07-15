@@ -2,124 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB863CA059
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 16:14:05 +0200 (CEST)
-Received: from localhost ([::1]:42350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047423CA0B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 16:28:59 +0200 (CEST)
+Received: from localhost ([::1]:53732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m427n-0006KL-VN
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 10:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51632)
+	id 1m42MD-0007qE-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 10:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
- id 1m426g-0005W1-D2
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:12:54 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:39734)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1m42LG-0007AL-NK
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:27:58 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:42384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
- id 1m426d-0003Ez-Lh
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:12:54 -0400
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20210715141243epoutp037ea1bc17a1a117400135ddf6eae3b62e~R-FCiWUht2849328493epoutp03y
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 14:12:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20210715141243epoutp037ea1bc17a1a117400135ddf6eae3b62e~R-FCiWUht2849328493epoutp03y
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1626358363;
- bh=XRxxNPW3snq6lSjfDihfRLnwfAj4Rk5H0/CABadrDuA=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=eSzL9wT98LBhSFTTeEovcv5ixe69GWH3rhtjNyPFUbA9cbEjeht+uZAm752bgu+Qk
- /Hxle+UZjKUIOJV5xwFcw/WjKrkTeX4gyABNVI91GJEkR2PCX48a246LGgeO1yMaWR
- 2wJyA+P9q2c94cSRrr2gRJDQuS2ItlVwsQshlVtk=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTP id
- 20210715141242epcas5p1c601763dd9b7318ef19be3ae671c6c55~R-FBgDcJ82306123061epcas5p1B;
- Thu, 15 Jul 2021 14:12:42 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.40.208]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4GQbtJ0SYJz4x9Ps; Thu, 15 Jul
- 2021 14:12:40 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 73.56.11627.75240F06; Thu, 15 Jul 2021 23:12:39 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
- epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
- 20210715123747epcas5p4a0e74e02a33e2cbadc4fe67010a9efcc~R9yJtbWLQ1375413754epcas5p4A;
- Thu, 15 Jul 2021 12:37:47 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
- 20210715123747epsmtrp2d4d9778076b331627de49365b20e219d~R9yJsXzrN1874518745epsmtrp2H;
- Thu, 15 Jul 2021 12:37:47 +0000 (GMT)
-X-AuditID: b6c32a4b-ab7ff70000022d6b-39-60f04257c8c9
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 5A.5A.08289.B1C20F06; Thu, 15 Jul 2021 21:37:47 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20210715123745epsmtip1bd8f5d0da44c4847981b420de10ee53c~R9yHdP3Io0656306563epsmtip12;
- Thu, 15 Jul 2021 12:37:45 +0000 (GMT)
-Date: Thu, 15 Jul 2021 18:06:40 +0530
-From: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [RFC PATCH 1/2] hw/nvme: add mi device
-Message-ID: <20210715123640.GB8970@test-zns>
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1m42LC-0004UE-Ae
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:27:58 -0400
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16FEIHEr027044; Thu, 15 Jul 2021 07:27:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=lA+AQXkATrN5PUsTm2O2XJb/cXJbqst8IZOZ54Vw1E8=;
+ b=UQDetVb1C5QAMZBRMFC3I+ccWuRAURMSwfAK8hPu9w9Vv8MR4/0wmPj/0Co2LTbtbfYP
+ SWYCYH7BXfsT+KTDBN2LwKembwUoUVU9EUZf3CUJ1nC1Opz9eNkELOUA9i/E/D6fARnW
+ j66uedFhuayOXUM2GVacgJN3geJ0nRTaCpoCp6NfotNmSN3r4T8tP6s5/4LGP5zK+lJ3
+ 81DWGdVgwn+oB2EVuUOhZP4KG8dagMLtuGmX3p1e8727f5pBuFvabQwqPY069rIoq8ke
+ 6IH3N6QgwAwfLQfo0a8sQqy2jUzpm1m2Qp02PNSB9wX5jr/SIn0R784OEbv7YM7LVYg9 3Q== 
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+ by mx0b-002c1b01.pphosted.com with ESMTP id 39tn47g6w8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jul 2021 07:27:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ln5XSFug+irgRpH+JQJj4qiVE5sOGG4r46IE8wDz3/Dh0K/24qSxKrsYdB6KPVfxK5S2q6gH5PN1/08q0xtVtVtTxmfqr8lhTMOUvlm7PeXj3O9YB1ntHD0BIcBj7RtGjtFFyh9I5nr9qcDBntB0uS+Wyn2qgHD+XtCJQdqzQMz5962cP34gPqr6gMmhDEYqU7eeDh8C/v1lpWbTfyyOxRJVaH36RejDTD4L4OkLtKUkWG1GOOnnpfPkwbBLbuFkNgqmCho3C7GbrDPdH239eGOyO/q1ooNA361ehQLZ8V4F5+dHkoiUq5iNB8Be7OlEDW/HTf/qhsdDcD+lDHQt3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lA+AQXkATrN5PUsTm2O2XJb/cXJbqst8IZOZ54Vw1E8=;
+ b=fuM/8aboZ3OX02gj6CxwdxTM4OZ5ZMwyzLtf35uIO+b/qrT6vr9ShSaFgesG3fYgneKPYRgkGbge1hkuM6aGOMLgNJLRLqEfGMdnyrY0KC4ok+Vfu5Nr7dXG1uIQvjJh+JkGFcMVChYZnMbIyR15yvE1lSbUGttWn/T8IRNmx8yxAWgPFIOBSrWDs6gLVbMtRB5dCRFZxIFV1v4gsKC5KzEw7xfewtqzIjbYoWp2yNPAkkUPGP5M6zNsJ34htOZzUQGF3xEhZMRTW3jAI9O97UTyvSdRlWIBKmDnCvwZWT3xkBGBQBXFffVpG2tkUECrOis3u0fNlO8CbmtkjyeKJw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CH0PR02MB7898.namprd02.prod.outlook.com (2603:10b6:610:113::5)
+ by CH0PR02MB7914.namprd02.prod.outlook.com (2603:10b6:610:113::24)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Thu, 15 Jul
+ 2021 14:27:49 +0000
+Received: from CH0PR02MB7898.namprd02.prod.outlook.com
+ ([fe80::3167:f3a5:5f8c:284b]) by CH0PR02MB7898.namprd02.prod.outlook.com
+ ([fe80::3167:f3a5:5f8c:284b%9]) with mapi id 15.20.4308.027; Thu, 15 Jul 2021
+ 14:27:49 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: RE: Question on memory commit during MR finalize()
+Thread-Topic: Question on memory commit during MR finalize()
+Thread-Index: AQHWF1blDKoce5BcwE+aLVbWV0XOZKiCivmAgAAd6oCAAKsXAIAAEMEAgsN1h+A=
+Date: Thu, 15 Jul 2021 14:27:48 +0000
+Message-ID: <CH0PR02MB78989C2F77880AA5355037748B129@CH0PR02MB7898.namprd02.prod.outlook.com>
+References: <20200420210049.GA420399@xz-x1>
+ <fe73a74b-2324-68a5-a37f-530a6bb03ebc@redhat.com>
+ <20200420233115.GB420399@xz-x1>
+ <5ed295a3-9e4a-0dca-adc6-5361dc78a83c@redhat.com>
+ <20200421104334.GC420399@xz-x1>
+In-Reply-To: <20200421104334.GC420399@xz-x1>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 01c53a70-9846-4b66-ea4e-08d9479cb8d4
+x-ms-traffictypediagnostic: CH0PR02MB7914:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH0PR02MB7914C497519ECCA11147F5C38B129@CH0PR02MB7914.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:983;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: VCaIRjXtXFbe8PPsAIZfvYUtD+BARLNVp2JpHRfRTxcDOX3w9E8MfXpjnl11UlTz8Ylxvkj5EGrqHnLuslka70YBFzrU5SiY0tipE6E6sQ0uKXlvTuWYf+pjCxLwlJpSNmKoI8d+PIDN6hygAYfFEQaJ6KZ1w0DnQYpVzlcw0O+/d9TQNHQceSqlSOuDvBv+CrOsJylIvvF6I0+vkBT80SrKLIlgVYIJIPLyJVVHHm5vectC4XhQwYRywF3VrjTzC8t7Nz1VOb54uJhAyVywPKyssTjiyascknPdY0/eouBvdHdIWcaoEtN+amSCW+G0//6LsTi3WE0QHnNXfYHdds7xuRIbBvJkbflHXU5B+ACNkiFx60cU2CzhYs3E9yb3k4OYOxasaf+eUXblvicJyj1bpD+TX1hbtbnvMBRVCaz9tlCWQT2ZYSsFHENRX8Mpr1A+EYUbWOUyvJXaS5XWrtceX/E1lyCd0BnF5uOYMfO9UBcyMsxG67upkK3Qoie2zDnE36bMQenutzn2WXuwPASGpOsXQAs6PGaYzIDT6WGoYOuv5KQsgEy/y65jq1vaJT9c2ZXe9T4VwfIzHWSn/MX2Kr7fsm2C0bVz5sEHzwyMTe8HgIR9iizvjTDvVZSINUdmaHgYzmd8GbM1hH3B7OobYUbV5s+HrzPQKLaclX8/t4zvQ7R0DZkCw2KeE0MOh91bWPDGdFl827vWr+0HrDGG0KtzYDE2fw3zQ+j/gWQreK0icfcOL1FDi99xh74G1T3BpWPNg2xw6J6uqbV8N92Eg/tNTeHwItkFQFkS2a3HqG9RX5sjUpQLSQlLzXK572QQz2NYxBPmWLDBhxICKw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR02MB7898.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(396003)(136003)(376002)(39860400002)(366004)(26005)(64756008)(66446008)(53546011)(5660300002)(2906002)(8936002)(966005)(478600001)(66946007)(33656002)(6506007)(76116006)(66476007)(66556008)(86362001)(186003)(55016002)(54906003)(83380400001)(7696005)(71200400001)(8676002)(44832011)(52536014)(316002)(4326008)(38100700002)(110136005)(9686003)(122000001)(38070700004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WDMrTytUWlZ0TDZZVklSM09wVE9KNFd4bFh0c2h3b3Z4OTc4Sk0zUnp1SGRY?=
+ =?utf-8?B?a1F2emlwUmhEZC8zYW80YUxtT3l4TzZHL2JQTE15eTJlRHZ6azM4REYzeU5z?=
+ =?utf-8?B?dW53MHd2MnBFR2ppdzJnbEJiTDF5Wm1CeXBIa3lrMjNEMWJZR1pZRmJEemlD?=
+ =?utf-8?B?c1lwbWxYMWtyQmtUUnNhWDNDMVdIclZMcGUwVzliKzBNcU9rY1pQVzQxYnRh?=
+ =?utf-8?B?ci90V05RRGx4SkFQZFIzQmlvV3RNSElUUHovWUl2SHVKQWZrT2RmQ1MzdHdC?=
+ =?utf-8?B?WFpNVTJYQTR3TkJlQ290eFYxaENwRVZDYUpPSXJ5WWdBRW1XU2NWQUU2ZUZi?=
+ =?utf-8?B?M3F3RmR6QlgvWVlVWE9ZMnVxSW1uSzltRkU3eUo2QmFvRHBZZmtHNmFlbmxR?=
+ =?utf-8?B?SjVpMFI4dDk2bVZtemxkbVhwQldhN0JmbEZGdGgwRVdHd3pJSHZzUUtKRDZX?=
+ =?utf-8?B?ZWUyNDNwQzQwWjZpK0ZhQUNyVjRlNUprRTJZY2hLcmhWQ0pEUC9wZUZUVlJS?=
+ =?utf-8?B?RVN3cXhIK1R2L25INkZDL3Q3STBRZGIyS1N4cUN6dTk5VW9HT1VpWTJqakZF?=
+ =?utf-8?B?cjJabVJCMWgvM2NiQmhDWURtZVR5bVhyY1lLL1lDQWlNaS95a1hDVjg5Vzlq?=
+ =?utf-8?B?UmNQRERZWE9Ib3BSZE9WYklOc0lMTVl5TlBCSWJwNmozdUtXSHJsMGdsWHJV?=
+ =?utf-8?B?YnRYUGt1bXowZVNNdXlod0hjU0c5c3IxTm9xajY0dlFPU0xTaGtOOENZdWdq?=
+ =?utf-8?B?eG0vUWtlajVYL1Fja21KcVMzcEl6bEV0a1BWU296eFp2L1lZSWxOUDRENGtJ?=
+ =?utf-8?B?NG5JbGd0cjQvb3hwM1BDRU1VZzFmbFNLVVhZYnZXTmdyUXB4TzFCSy9SUkor?=
+ =?utf-8?B?MlNCRkFtbVFjT2MxazkwS2VRcTYrQjB0QmZOelA5MHg0T1hhK0xlWUxicTJC?=
+ =?utf-8?B?UWJFVDVNck9WQlFGK244R2liTHJMZmYrRzJBelVxdlk3ZFlSTmg0aTRVRW14?=
+ =?utf-8?B?cHI2LzQ0NjlLTUFtMTFnVTVNTTYxV2J3OE5oakMvL0FwMmFzQUcvc3QyTDZL?=
+ =?utf-8?B?VzRUUkxmK002NmlqYWRUWmFUL1JwQVdWb1QyRk1mZThGMjIvUHljQ2cwbXJJ?=
+ =?utf-8?B?OURoRWo5dHRFQnFyWHpCdmxEaFQ5ZjZHRTJZcXdRMzBReW12WG9HekYvdE5B?=
+ =?utf-8?B?Q1FWNFQvd2NlL0VFWU4rdzkyMFZ2K1pZcFVRS3hOamJsbnRRVWZSU0lYcDAy?=
+ =?utf-8?B?NlFUVmgyWEVBeXNPQkVGOW84MFA5MWRxY2FHZkN5YkQyaEFVais4NGE5WnZD?=
+ =?utf-8?B?TzZwNmlsZC9XYmlSYURtaW9aQUI0TnZ6N250ZHcxbTdoVjRhVDkrRmpYYkls?=
+ =?utf-8?B?T0pWSVF1TzJBWnhUZzFaTUJPZkZZY0Y1bFFFNCtjMUNLV1RPWEZxM3BxMnFT?=
+ =?utf-8?B?VytaaVVGeENYYXZqbVpRL1FTV1kvOHZybXc5OGUrSnhlbnhYa1JPdEpWRjJo?=
+ =?utf-8?B?TWZxVGdoQnpPdHFQZjhQYjg5WnMxOGdxSXpUbm01TjcyRDdSUkx1dmc4ZVNY?=
+ =?utf-8?B?cVRHT0pqNlNYa2tIZW9FU3JzYmhyamJxZUZ5SDRKWlhUeGIyMXhFYy9CY283?=
+ =?utf-8?B?aHhDcE40alhxUVZXWHVYVC9KSnNVQm5taFk2cElOa1l2cVJPcW1QUGV6anEz?=
+ =?utf-8?B?OVYrV0w4bnVlU3Z4Q2hQTUg1WVJtT3RybTNpaEgwVEdoYnFNNlN1eXJ0emxv?=
+ =?utf-8?Q?VR5/JNuSY/g9wuklKQ=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPJsWRmVeSWpSXmKPExsWy7bCmhm6404cEg+/9FhZvvz5gs7iy/zyj
- xf6D31gtHt/5zG6xdL6+xcnGPawWkw5dY7RYcjHVYv6yp+wWa14oW8y7pWxxZcoiZotZ79rZ
- LI737mCxeD3pP6vFzeanbA4CHj/OtbN5nNtxnt1j06pONo/NS+o9nlzbzOTxft9VNo++LasY
- A9ijcmwyUhNTUosUUvOS81My89JtlbyD453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgC5X
- UihLzCkFCgUkFhcr6dvZFOWXlqQqZOQXl9gqpRak5BQYGhXoFSfmFpfmpesl5+daGRoYGJkC
- VSbkZNz/2cFa8EGuovHTc+YGxj2SXYwcHBICJhIXfyl3MXJxCAnsZpT4dPAGaxcjJ5DziVFi
- 9xcRiMRnRonPr5eygCRAGj4/W8gOkdjFKLFu1y1WCOcZo8TRG6+YQKpYBFQlHv7Zxgaygk3A
- SOJ7qy2IKSKgKXGjWxCknFngKpPEqxPtjCDlwgLGEnP7F7OD2LwCOhIdmyayQNiCEidnPmEB
- 6eUUMJe4tlMRJCwqoCxxYNtxJpA5EgJnOCQmtTxkhzjOReLM1k5WCFtY4tXxLVBxKYnP7/ay
- QTQ0M0rs+3KFBcKZwCgxZf47Jogqe4mLe/6C2cwCmRKLLm1nhIjLSkw9tQ4qzifR+/sJVD2v
- xI55MLaqxOMLB9kgbGmJ2Ss/QcU9JHq3voOG0BpGiZ7jHewTGOVnIfluFpJ9ELaVROeHJtZZ
- QF8zA81a/o8DwtSUWL9LfwEj6ypGydSC4tz01GLTAuO81HLkCN/ECE7ZWt47GB89+KB3iJGJ
- g/EQowQHs5II71KjtwlCvCmJlVWpRfnxRaU5qcWHGE2BkTWRWUo0OR+YNfJK4g1NjczMDCwN
- TI0tzAyVxHmXsh9KEBJITyxJzU5NLUgtgulj4uCUamBaJSP8aGnghPObn/vYazN8WyL199c6
- UwZL9qx3OZpxNkqubqaPy4Me70rjsFi4bV1uReixSftD/LZrbN7xIuDWEVnnSusCpvUuyZUx
- bL4XKjfZ3nl+yPf+m963GX2HNrCJ3f++Ub1976IZjH+3H7iSKXpfof5W5/73N/2rtUq35mwO
- P6/0/91B9tM3Fik6W/N2lr5hOL0472fKytjTDmclNxVcEv2qfYNzb6Dmt/vRmbvZ5yh9uM0u
- zJuzTGzt2ja28j/f2fZ3/mc/Xnzj3bTHHf//7Tt7X1F8yoraBtO5zWHfgk4GSgV+vMUmfzz6
- fGysSeyMD16qmddf1bEfco5cPcfpeeW8A6ckLRa0m1/dqcRSnJFoqMVcVJwIAOqbtpxiBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplkeLIzCtJLcpLzFFi42LZdlhJTlda50OCQUubqsXbrw/YLK7sP89o
- sf/gN1aLx3c+s1ssna9vcbJxD6vFpEPXGC2WXEy1mL/sKbvFmhfKFvNuKVtcmbKI2WLWu3Y2
- i+O9O1gsXk/6z2pxs/kpm4OAx49z7Wwe53acZ/fYtKqTzWPzknqPJ9c2M3m833eVzaNvyyrG
- APYoLpuU1JzMstQifbsEroyW7m9sBfNlKhZ0ejQwtop3MXJySAiYSHx+tpC9i5GLQ0hgB6NE
- 1+yb7BAJaYl9D6+zQNjCEiv/PQeLCwk8YZR4+zsExGYRUJV4+GcbWxcjBwebgJHE91ZbEFNE
- QFPiRrcgyEhmgetMEo1vfrGBlAsLGEvM7V8MNoZXQEeiY9NEFoi96xgl9vd8ZYVICEqcnPkE
- bC+zgJnEvM0PmUGGMgPds/wfB4jJKWAucW2nIkiFqICyxIFtx5kmMArOQtI8C0nzLITmBYzM
- qxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS9ZLzczcxgmNMS2sH455VH/QOMTJxMB5ilOBgVhLh
- XWr0NkGINyWxsiq1KD++qDQntfgQozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGpisB
- 25MdnucXpZ/x/ffMdO7J6S3/tvifWXPGQfj9/prd2tlx3ovMF4cXL/bf985tyWz9Q3bXNokX
- ca+a47R+xopZM5NeWlzzenDM9ZZ1t3xKg53puzwW67pJN34qFOw784+9rPDT84g//I3+6oay
- DMvur3nFsHsV35J8MYcfa2VVLn/L+MVcbPp+0XEbrZ0ykZXNf3+fK90i3+1qPPF4y/3u7Bn/
- kjXznmwUnrAvcM19B83e53bT5766EDzn+6waQ4GDJ1/LOGayr1W9MEFopv0kpdlXcjccWN/b
- vvf2+WCmDZFb/1jLPd1z4372sykzNp/YNdfUvORliaZL4u02dYdKJ6/r6fLz78r+nXHrlWOK
- EktxRqKhFnNRcSIAQGfBOSADAAA=
-X-CMS-MailID: 20210715123747epcas5p4a0e74e02a33e2cbadc4fe67010a9efcc
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26
-References: <CGME20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26@epcas5p1.samsung.com>
- <20210709135545.GA11148@test-zns> <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
-Received-SPF: pass client-ip=203.254.224.33;
- envelope-from=p.kalghatgi@samsung.com; helo=mailout3.samsung.com
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7898.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01c53a70-9846-4b66-ea4e-08d9479cb8d4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2021 14:27:48.9793 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aodqKHeEJpHEzONAlrlEIk+j4JGIX990SdCTTUGPEWSdbxzD7Fqkx3O0gZlkGaYiwBtX/ReQH2XoOZ/P6nwqvBS6a16D2W9ej6mxTS+7Tt8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR02MB7914
+X-Proofpoint-GUID: ha-8HR85Dw4RKM-3W7bMEYApp3VC75kz
+X-Proofpoint-ORIG-GUID: ha-8HR85Dw4RKM-3W7bMEYApp3VC75kz
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-15_10:2021-07-14,
+ 2021-07-15 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.155.12;
+ envelope-from=thanos.makatos@nutanix.com; helo=mx0b-002c1b01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,94 +159,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, jg123.choi@samsung.com,
- qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
- qemu-devel@nongnu.org, linux-nvme@lists.infradead.org, mreitz@redhat.com,
- its@irrelevant.dk, u.kishore@samsung.com, kbusch@kernel.org,
- javier.gonz@samsung.com, prakash.v@samsung.com, mohit.kap@samsung.com
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ John Levon <john.levon@nutanix.com>, Markus Armbruster <armbru@redhat.com>,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
-
-On Mon, Jul 12, 2021 at 12:03:27PM +0100, Stefan Hajnoczi wrote:
->On Fri, Jul 09, 2021 at 07:25:45PM +0530, Padmakar Kalghatgi wrote:
->> The enclosed patch contains the implementation of certain
->> commands of nvme-mi specification.The MI commands are useful
->> to manage/configure/monitor the device.Eventhough the MI commands
->> can be sent via the inband NVMe-MI send/recieve commands, the idea here is
->> to emulate the sideband interface for MI.
->>
->> Since the nvme-mi specification deals in communicating
->> to the nvme subsystem via. a sideband interface, in this
->> qemu implementation, virtual-vsock is used for making the
->> sideband communication, the guest VM needs to make the
->> connection to the specific cid of the vsock of the qemu host.
->>
->> One needs to specify the following command in the launch to
->> specify the nvme-mi device, cid and to setup the vsock:
->> -device nvme-mi,bus=<nvme bus number>
->> -device vhost-vsock-pci, guest-cid=<vsock cid>
->>
->> The following commands are tested with nvme-cli by hooking
->> to the cid of the vsock as shown above and use the socket
->> send/recieve commands to issue the commands and get the response.
->>
->> we are planning to push the changes for nvme-cli as well to test the
->> MI functionality.
->
->Is the purpose of this feature (-device nvme-mi) testing MI with QEMU's
->NVMe implementation?
->
->My understanding is that instead of inventing an out-of-band interface
->in the form of a new paravirtualized device, you decided to use vsock to
->send MI commands from the guest to QEMU?
->
->> As the connection can be established by the guest VM at any point,
->> we have created a thread which is looking for a connection request.
->> Please suggest if there is a native/better way to handle this.
->
->QEMU has an event-driven architecture and uses threads sparingly. When
->it uses threads it uses qemu_create_thread() instead of
->pthread_create(), but I suggest using qemu_set_fd_handler() or a
->coroutine with QIOChannel to integrate into the QEMU event loop instead.
->
->I didn't see any thread synchronization, so I'm not sure if accessing
->NVMe state from the MI thread is safe. Changing the code to use QEMU's
->event loop can solve that problem since there's no separate thread.
->
-vsock mimcs the sideband communication hence we used it. 
-However we are working the smbus/i2c implementation for nvme-mi in 
-qemu/nvme-cli, we will send the patch in few days. to communicate with 
-nvme-mi over smbus/i2c, nvme-mi device needs to inherit from the i2c class 
-which has callbacks for sending and recieving messages, this approach 
-would get rid of the threads.
-
->> This module makes use of the NvmeCtrl structure of the nvme module,
->> to fetch relevant information of the nvme device which are used in
->> some of the mi commands. Eventhough certain commands might require
->> modification to the nvme module, currently we have currently refrained
->> from making changes to the nvme module.
->
->Why did you decide to implement -device nvme-mi as a device on
->TYPE_NVME_BUS? If the NVMe spec somehow requires this then I'm surprised
->that there's no NVMe bus interface (callbacks). It seems like this could
->just as easily be a property of an NVMe controller -device
->nvme,mi=on|off or -device nvme-subsys,mi=on|off? I'm probably just not
->familiar enough with MI and NVMe architecture...
->
->Stefan
-since nvme communication happens over pcie and nvme-mi happens over
-smbus/i2c nvme-mi cannot be a property of nvme rather it should be a separate
-device which will be on the smbus/i2c.
-
-
-
-------hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_
-Content-Type: text/plain; charset="utf-8"
-
-
-------hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_--
+SGkgUGV0ZXIsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUWVtdS1k
+ZXZlbCA8cWVtdS1kZXZlbC0NCj4gYm91bmNlcyt0aGFub3MubWFrYXRvcz1udXRhbml4LmNvbUBu
+b25nbnUub3JnPiBPbiBCZWhhbGYgT2YgUGV0ZXINCj4gWHUNCj4gU2VudDogMjEgQXByaWwgMjAy
+MCAxMTo0NA0KPiBUbzogUGFvbG8gQm9uemluaSA8cGJvbnppbmlAcmVkaGF0LmNvbT4NCj4gQ2M6
+IE1hcmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNvbT47IFFFTVUgRGV2ZWwgTWFpbGlu
+ZyBMaXN0DQo+IDxxZW11LWRldmVsQG5vbmdudS5vcmc+DQo+IFN1YmplY3Q6IFJlOiBRdWVzdGlv
+biBvbiBtZW1vcnkgY29tbWl0IGR1cmluZyBNUiBmaW5hbGl6ZSgpDQo+IA0KPiBPbiBUdWUsIEFw
+ciAyMSwgMjAyMCBhdCAxMTo0MzozNkFNICswMjAwLCBQYW9sbyBCb256aW5pIHdyb3RlOg0KPiA+
+IE9uIDIxLzA0LzIwIDAxOjMxLCBQZXRlciBYdSB3cm90ZToNCj4gPiA+Pg0KPiA+ID4+IEhvd2V2
+ZXIsIGluc3RlYWQgb2YgbWVtb3J5X3JlZ2lvbl90cmFuc2FjdGlvbl9jb21taXQsDQo+ID4gPj4g
+bWVtb3J5X3JlZ2lvbl9maW5hbGl6ZSBwcm9iYWJseSBzaG91bGQgZG8gc29tZXRoaW5nIGxpa2UN
+Cj4gPiA+Pg0KPiA+ID4+ICAgICAtLW1lbW9yeV9yZWdpb25fdHJhbnNhY3Rpb25fZGVwdGg7DQo+
+ID4gPj4gICAgIGFzc2VydCAobWVtb3J5X3JlZ2lvbl90cmFuc2FjdGlvbl9kZXB0aCB8fA0KPiA+
+ID4+IAkgICAgKCFtZW1vcnlfcmVnaW9uX3VwZGF0ZV9wZW5kaW5nICYmDQo+ID4gPj4gICAgICAg
+ICAgICAgICFpb2V2ZW50ZmRfdXBkYXRlX3BlbmRpbmcpKTsNCj4gPiA+IEFoIEkgc2VlOyB0aGlz
+IG1ha2VzIHNlbnNlLg0KPiA+ID4NCj4gPiA+IEFuZCBmaW5hbGx5IEkgZm91bmQgdGhlIHByb2Js
+ZW0sIHdoaWNoIGlzIGluZGVlZCB0aGUgYnVnIGluIG15IG93bg0KPiA+ID4gdHJlZSAtIEkgZm9y
+Z290IHRvIHJlbW92ZSB0aGUgcHJldmlvdXMgY2hhbmdlcyB0byBmbHVzaCB0aGUgZGlydHkNCj4g
+PiA+IHJpbmcgZHVyaW5nIG1lbSByZW1vdmFsIChiYXNpY2FsbHkgdGhhdCdzIHJ1bl9vbl9jcHUo
+KSBjYWxsZWQgZHVyaW5nDQo+ID4gPiBhIG1lbW9yeSBjb21taXQsIHRoYXQgd2lsbCB3cm9uZ2x5
+IHJlbGVhc2UgdGhlIEJRTCB3aXRob3V0IGJlaW5nDQo+IG5vdGljZWQpLg0KPiA+ID4NCj4gPiA+
+IEJlc2lkZXMgYWJvdmUgYXNzZXJ0LCBJJ20gdGhpbmtpbmcgbWF5YmUgd2UgY2FuIGFsc28gYXNz
+ZXJ0IG9uDQo+IHNvbWV0aGluZyBsaWtlOg0KPiA+ID4NCj4gPiA+ICAgIShtZW1vcnlfcmVnaW9u
+X3RyYW5zYWN0aW9uX2RlcHRoIHx8DQo+IG1lbW9yeV9yZWdpb25fdXBkYXRlX3BlbmRpbmcgfHwN
+Cj4gPiA+ICAgICBpb2V2ZW50ZmRfdXBkYXRlX3BlbmRpbmcpDQo+ID4gPg0KPiA+ID4gV2hlbiBy
+ZWxlYXNpbmcgQlFMICh1bmxvY2ssIG9yIHFlbXVfY29uZF93YWl0KCkgb24gQlFMLCB3aGljaCBz
+aG91bGQNCj4gPiA+IGNvdmVyIHJ1bl9vbl9jcHUoKSksIHNvIHRoYXQgd2UgY2FuIGlkZW50aWZ5
+IG1pc3VzZSBvZiBCUUwgZWFzaWVyIGxpa2UNCj4gdGhpcy4NCj4gPg0KPiA+IEFzc2VydGluZyBp
+bnZhcmlhbnRzIGFyb3VuZCBsb2NrIHJlbGVhc2UgYXJlIGFuIGludGVyZXN0aW5nIGNvbmNlcHQs
+DQo+ID4gYnV0IEknbSBub3Qgc3VyZSB3aGVyZSB0byBpbnNlcnQgdGhlbSBleGFjdGx5LiAgQnV0
+IGl0IHdvdWxkIGJlIGdyZWF0DQo+ID4gaWYgeW91IHdvdWxkIGxpa2UgdG8gaW50cm9kdWNlIGFu
+IGFzc2VydF9lbXB0eV9tZW1vcnlfdHJhbnNhY3Rpb24oKQ0KPiA+IGZ1bmN0aW9uIHdpdGggdGhl
+IGFzc2VydGlvbiBJIHF1b3RlZCBhYm92ZS4NCj4gDQo+IExldCBtZSBnaXZlIGl0IGEgc2hvdCBs
+YXRlciB0b2RheS4gOikNCg0KV2UncmUgaGl0dGluZyB0aGlzIGlzc3VlIHVzaW5nIGEgUUVNVSBi
+cmFuY2ggd2hlcmUgSkogaXMgdXNpbmcgdmZpby11c2VyIGFzIHRoZSB0cmFuc3BvcnQgZm9yIG11
+bHRpcHJvY2Vzcy1xZW11IChodHRwczovL2dpdGh1Yi5jb20vb3JhY2xlL3FlbXUvaXNzdWVzLzkp
+LiBXZSBjYW4gcmVwcm9kdWNlIGl0IGZhaXJseSByZWxpYWJseSBieSBtaWdyYXRpbmcgYSB2aXJ0
+dWFsIFNQREsgTlZNZSBjb250cm9sbGVyICh0aGUgTlZNZi92ZmlvLXVzZXIgdGFyZ2V0IHdpdGgg
+ZXhwZXJpbWVudGFsIG1pZ3JhdGlvbiBzdXBwb3J0LCBodHRwczovL3Jldmlldy5zcGRrLmlvL2dl
+cnJpdC9jL3NwZGsvc3Bkay8rLzc2MTcvMTQpLiBJIGNhbiBwcm92aWRlIGRldGFpbGVkIHJlcHJv
+IGluc3RydWN0aW9ucyBidXQgZmlyc3QgSSB3YW50IHRvIG1ha2Ugc3VyZSB3ZSdyZSBub3QgbWlz
+c2luZyBhbnkgcGF0Y2hlcy4NCg==
 
