@@ -2,74 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929A73C9888
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:51:31 +0200 (CEST)
-Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299B73C9898
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:56:26 +0200 (CEST)
+Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3uHS-0003tF-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48308)
+	id 1m3uMD-00073c-6V
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:56:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1m3uFg-0001fZ-6z
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:40 -0400
-Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:37500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1m3uFe-0004Ni-L0
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:39 -0400
-Received: by mail-lj1-x231.google.com with SMTP id h19so7003053ljl.4
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 22:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A/PvA1DB0W5wp+a8Jesrkmf512SBcdKf2TLwujd0mHs=;
- b=EQxYapb1uUstI3d8aTGl3fY9z0le160jeIBGmL2nJsbgqr8ux2VlwMfhBbvyrU8pQo
- bNR8hbUCicTntkRekvIJrfI1oiY8jMQY6LG2RqZZ8rH4Qk+K1mfaRAubuliuOGn32wYq
- 2ULQBmdyU0Zc8yZGWfUCbNYWnEUB1DckK5blR+j56gTolJ6G15pHDB3xLyijxHdOSvIJ
- teEKXgBkGGVXZiuFZKv90lxPVqjmPUSJf52lERWJOC5tqrLXA7MNI6VM+rFKlxR5PKOA
- 1/PvL9UtKxnKFn96ge3mQdQ136cbmM6nqN26LgtTtrvmyw056OBZ+Hsy9h3uVUYLcwHB
- J7pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A/PvA1DB0W5wp+a8Jesrkmf512SBcdKf2TLwujd0mHs=;
- b=pZmui1qiZQHtktDOUfbqTUh5jk5FEP7dy+H2ErvIGEneglx+vlphB+V5XF2FfJASn3
- EKhdGlYKB5RFAGjLImx6YAriNc6NfcT+u4IMLktBbp+Q7HOPtAMnnzVThs1sTUEGMqOA
- y2Ojm/D1SVAU/i3MEb7rsvnUKJeGpK1VLd2hx3mWZaXbdzDfDN2fs2hk9GiXLTeWWgBp
- CjWY+0Xu7ffSTghjMexKbHP9uK8xKa2LXd/dFCVMunjS0TDBNpX20elqnGhinWiRNGqI
- HGcodftXlpjdVfzY2TQCEQiv7z/stHFyDPS5ZkJyy8zT7heWWYpPx5vnNGUVjyExkGpN
- hIow==
-X-Gm-Message-State: AOAM532zPtFjBCVpZOiiAAYQAwP2w7gzl/jpae6Nug05NTgVe6dcLhIK
- iFqEQEswXxVDPim7Tx53Wi2rRMHK4XzBTiS/1Rk=
-X-Google-Smtp-Source: ABdhPJyu6X9WsZWORN2UOxa5XsxOWtYz/s7oZ1sB/2kxB204aN6CUmy6sAFqeT/NuDU/UphlBBt0ssJTs6NraAsRDJU=
-X-Received: by 2002:a2e:3515:: with SMTP id z21mr2142470ljz.250.1626328175946; 
- Wed, 14 Jul 2021 22:49:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m3uL2-0006FW-Bz
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:55:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m3uL0-0000Xo-0R
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:55:11 -0400
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16F5XYWN088105; Thu, 15 Jul 2021 01:54:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Fi9hQjQUcA9Hyz7d7/Ubs0EUDvS2qcumowwBVxCMS6o=;
+ b=byT7k4zODNuXgKXLNocgLKqAWDLiQJrym6m53CGCgZX459ZxMDRCzgL+LVd7b2yfEli/
+ r+CSVNLRT+vF0G2PMRMq1MVECIBVJuz6ujqWAKjF8NvsgZJlrsKZvPe+RDkUDvNCngp5
+ N4NyYnD7BcwbBZOucZoRlNz8Nd/B3YpPSih6AQiP50k/d3UVxSYENu+B4p5KbfufzhIB
+ 25N4JHDg6NRCmw8Ti6FRLbak03em0S0pz/0aZ278Vosm4DJQgrbopNklQDPLe57l6zs7
+ mydwrP/Fv8etufGu05QGWrn5HXQcW2n4/mCpfqKuGviwel6A8tfeMHKUR5BwDb9BDAc6 Eg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39ssjy9u7k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jul 2021 01:54:54 -0400
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16F5rhHq002689;
+ Thu, 15 Jul 2021 01:54:54 -0400
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39ssjy9u6w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jul 2021 01:54:53 -0400
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16F5n495015801;
+ Thu, 15 Jul 2021 05:54:51 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06fra.de.ibm.com with ESMTP id 39q2th93qf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 15 Jul 2021 05:54:51 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16F5sn7j34079072
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 15 Jul 2021 05:54:49 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DDDB1A4053;
+ Thu, 15 Jul 2021 05:54:48 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 90AD7A4040;
+ Thu, 15 Jul 2021 05:54:44 +0000 (GMT)
+Received: from [9.160.50.212] (unknown [9.160.50.212])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 15 Jul 2021 05:54:44 +0000 (GMT)
+Subject: Re: [RFC PATCH 5/6] i386/sev: add support to encrypt BIOS when
+ SEV-SNP is enabled
+To: Brijesh Singh <brijesh.singh@amd.com>, Connor Kuehl <ckuehl@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-6-brijesh.singh@amd.com>
+ <3976829d-770e-b9fd-ffa8-2c2f79f3c503@redhat.com>
+ <866c2a6b-8693-a943-fb06-45adf2cdcb92@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <cfa95bf4-9d20-8d43-e6e0-6e5b9752d27a@linux.ibm.com>
+Date: Thu, 15 Jul 2021 08:54:42 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
- <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
- <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
- <d95d40428ec07ee07e7c583a383d5f324f89686a.camel@redhat.com>
- <YOxYM+8qCIyV+rTJ@google.com>
- <CA+-xGqOSd0yhU4fEcobf3tW0mLb0TmLGycTwXNVUteyvvnXjdw@mail.gmail.com>
- <YO8jPvScgCmtj0JP@google.com>
-In-Reply-To: <YO8jPvScgCmtj0JP@google.com>
-From: harry harry <hiharryharryharry@gmail.com>
-Date: Thu, 15 Jul 2021 00:49:34 -0500
-Message-ID: <CA+-xGqOkH-hU1guGx=t-qtjsRdO92oX+8HhcO1eXnCigMc+NPw@mail.gmail.com>
-Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
- shadow page table in Linux QEMU/KVM
-To: Sean Christopherson <seanjc@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::231;
- envelope-from=hiharryharryharry@gmail.com; helo=mail-lj1-x231.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <866c2a6b-8693-a943-fb06-45adf2cdcb92@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IAfuLmj2Ukorpr1e2ZZKc-sEVJSo7q1O
+X-Proofpoint-ORIG-GUID: c4F22pNZyhf2ATb2VkDUy-zczwePk0-d
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-15_02:2021-07-14,
+ 2021-07-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107150040
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,26 +118,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sean,
 
-> No, each vCPU has its own MMU instance, where an "MMU instance" is (mostly) a KVM
-> construct.  Per-vCPU MMU instances are necessary because each vCPU has its own
-> relevant state, e.g. CR0, CR4, EFER, etc..., that affects the MMU instance in
-> some way.  E.g. the MMU instance is used to walk guest page tables when
-> translating GVA->GPA for emulation, so per-vCPU MMUs are necessary even when
-> using TDP.
->
-> However, shadow/TDP PTEs are shared between compatible MMU instances.  E.g. in
-> the common case where all vCPUs in a VM use identical settings, there will
-> effectively be a single set of TDP page tables shared by all vCPUs.
 
-What do you mean by "MMU instance"? Do you mean VMCS? MMU is hardware.
-Could you please share me the code of the MMU instance in KVM? Thanks!
+On 14/07/2021 21:52, Brijesh Singh wrote:
+> 
+> 
+> On 7/14/21 12:08 PM, Connor Kuehl wrote:
+>> On 7/9/21 3:55 PM, Brijesh Singh wrote:
+>>> The KVM_SEV_SNP_LAUNCH_UPDATE command is used for encrypting the bios
+>>> image used for booting the SEV-SNP guest.
+>>>
+>>> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+>>> ---
+>>>   target/i386/sev.c        | 33 ++++++++++++++++++++++++++++++++-
+>>>   target/i386/trace-events |  1 +
+>>>   2 files changed, 33 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/target/i386/sev.c b/target/i386/sev.c
+>>> index 259408a8f1..41dcb084d1 100644
+>>> --- a/target/i386/sev.c
+>>> +++ b/target/i386/sev.c
+>>> @@ -883,6 +883,30 @@ out:
+>>>       return ret;
+>>>   }
+>>>   +static int
+>>> +sev_snp_launch_update(SevGuestState *sev, uint8_t *addr, uint64_t
+>>> len, int type)
+>>> +{
+>>> +    int ret, fw_error;
+>>> +    struct kvm_sev_snp_launch_update update = {};
+>>> +
+>>> +    if (!addr || !len) {
+>>> +        return 1;
+>>
+>> Should this be a -1? It looks like the caller checks if this function
+>> returns < 0, but doesn't check for res == 1.
+> 
+> Ah, it should be -1.
+> 
+>>
+>> Alternatively, invoking error_report might provide more useful
+>> information that the preconditions to this function were violated.
+>>
+> 
+> Sure, I will add error_report.
+
+Maybe even simpler:
+
+  assert(addr);
+  assert(len > 0);
+
+The assertion failure will show the developer what is wrong. This should
+not happen for the end-user (unless I'm missing something).
+
+-Dov
 
