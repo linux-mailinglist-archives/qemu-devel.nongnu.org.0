@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8128B3C9BEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 11:35:07 +0200 (CEST)
-Received: from localhost ([::1]:46276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3D13C9C38
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 11:54:48 +0200 (CEST)
+Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3xlq-0001Rl-JH
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 05:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
+	id 1m3y4t-000506-3n
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 05:54:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3xky-00006T-M2
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:34:12 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36771)
+ id 1m3y3v-0003zS-Vt
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:53:47 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3xkw-0008Mk-TN
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:34:12 -0400
-Received: by mail-ej1-x632.google.com with SMTP id nd37so8234924ejc.3
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 02:34:10 -0700 (PDT)
+ id 1m3y3t-0004n3-7d
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:53:47 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ a23-20020a05600c2257b0290236ec98bebaso768935wmm.1
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 02:53:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=GwdYkwxtlb49QYIrtr4aoBCAxXFzDhnoj/5JBlRwwp4=;
- b=L66s4Nlai68F9rcyn7xoKne2oKq3h5t9x0+bExHzZPUoJcNG4iZGwDd5OqTLFtOBdZ
- o9m+6elHaulB7+yEEnK644Wz4YSxZ/4LMDwajCSLH9hPGYpB6Huvt/+5Iurpdwt6jFZu
- XzhrBkxm12dPFQ7ZrdJoNvUBaolE9OLVzJCl/YWmsBrscmyP56eYqJIN4tflTWwK7qcH
- GyGNvzSv7DAd09SqTK/aL5Y0eHwSvIgi8lBh4Wdeqiy5KUMw75J/JpLhcDwWm2ZhhMFC
- snp1vCP9Kcm/s+1qFmZf2GqZOv50Ufh/3223QKpMCijMwmpVBjykpYQpmk/N6mnsV800
- /qow==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wFJf/yglS6TdA51aTCmXDBY4DJy7bf3bOZXxC/X4XSA=;
+ b=Xi7jdqnfiGroyI4BSGwtYHdcOoG2gw82po7hnnsoTdT+YBACSZ7mBH4Z3QV0Yngx2i
+ 0pRoqqFiQGHsoBarG/HbddhfEw6h8+R7JIsMtpi6++vEQGGWP3kBQrtqjLtydvVjDdxz
+ dVFY6xteFk09UmfyV8RfMIyaPj8TvyQzwfPCqcQxNNm7LVKNvMiTKMV8AmeYhspR+UKG
+ bn2jaZ1b4+QNbW6hXAeLEdehNjYpbogcd5oKdB8VblR4e4k/V/DvHbyMkiFpeBuaI312
+ IH9V2349/g8T+B6ZMlZ1sXbGfiLJ46ic2/ahEBGjiMVarDsVZ2CbNg9zZCn/GN0i2W0x
+ VPXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=GwdYkwxtlb49QYIrtr4aoBCAxXFzDhnoj/5JBlRwwp4=;
- b=i1gRmVjU4ZiVQ9fPcuPAfMF5qIrIZ9+1DuJ0UKCxVOggwl3gFI7USIfDvSjicjDti1
- qA0W6oj/NpmTwjhidInqKZbG2GMjsSkvTAIExs8Cdq1TS8T7CpYpJ2jA+4Q7Lbb7943N
- 25nLxumIO66xHcF1XNTOfg/GFpJJ0bOz/8CSEmNv/5vlUQ8ZfGPLk2FyUbsGE12i/nCl
- KRPkyP3RkCETXSfYOXH7Y0yzbfREfrN27GS4tQJMcyLxLXYTqGl8Djx6yWQgLorjIAHv
- SsWFUDW4wbnxlyRqHj6AJMRRlwPgX+WVDN2gkni7Ea4RtrADWCmdnElBGukYoDNojeHb
- j3/A==
-X-Gm-Message-State: AOAM530WN7K00yIHw33IFBIHiI29fr4RDHZkK7g+ydJq+5g/ySLKu5Ud
- 3POtFWssuvhPHdAvoRFX5qKgT6H/6fkTf14VKwhUej9JBPsIkXla
-X-Google-Smtp-Source: ABdhPJwpW6ATknTaQz1y90ykUIsTYVOJYYz4YlmSWLFSCQ85pDlFAL7Q5TkXOweuB7tem821VsNwlezganbpWYt4WWE=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr4435008ejy.407.1626341648875; 
- Thu, 15 Jul 2021 02:34:08 -0700 (PDT)
-MIME-Version: 1.0
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wFJf/yglS6TdA51aTCmXDBY4DJy7bf3bOZXxC/X4XSA=;
+ b=bqwu3pOB+4qduItoqCeWGEPm1D62ZncRNar9EQXQQe023Vhp42kYhXXSHKJg6nll9c
+ XW4gMxNxyMbGJMmj0rmU8aXn0IHLCitajMj3Y7pEoEUeOC22V2CHxri1fYbYgWWe/udr
+ 0u1KGeotjFEyo+4/1j2Vlz2MaTizTcOHW3Vh49F2mj2ofRwnG+tZdVzmuAvU5/5jbytB
+ rUnySwl61y88qxTb+vEEftlBDzqVo9Ngkm0zTXxtDGmlHVRhWMPXEg01ZU86ht4mr7jN
+ ry8/PziYa1dk5O+fuHon6rDAfwyhsN6PD1uyke+/53Rqlo8T99AG5tu6P0FsbPDPVWOV
+ vShQ==
+X-Gm-Message-State: AOAM532s+8xc/SWP4Swz14fJRI0riGwyukMKXKsDCvWduuSkbx8NGlOh
+ 9ni4hJQS05v7llkXlOn4c2QMYmWDipdXrlyQ
+X-Google-Smtp-Source: ABdhPJzxrd4lem4/ouZzbhie8fxu9c6fF1mBOMbMhk0iCQgya52WGrrIu3nJrRw0j3ndfJbHNOkh8g==
+X-Received: by 2002:a1c:9807:: with SMTP id a7mr3505859wme.129.1626342823412; 
+ Thu, 15 Jul 2021 02:53:43 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id b20sm5106241wmj.7.2021.07.15.02.53.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jul 2021 02:53:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 15 Jul 2021 10:33:28 +0100
-Message-ID: <CAFEAcA85CpJ6x3P=XG6VnR9NGaQFhEDN_u4UbWP9Zfia7rXYoA@mail.gmail.com>
-Subject: inline expressions for decodetree !function syntax
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Remove duplicate 'plus1' function from Neon and
+ SVE decode
+Date: Thu, 15 Jul 2021 10:53:41 +0100
+Message-Id: <20210715095341.701-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -74,37 +83,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have found myself wondering whether it would be a good idea for
-decodetree to support some minimal syntax for defining constant-modifying
-functions inline in the decode file, so that instead of writing
+The Neon and SVE decoders use private 'plus1' functions to implement
+"add one" for the !function decoder syntax.  We have a generic
+"plus_1" function in translate.h, so use that instead.
 
-   %imm4_16_p1 16:4 !function=plus_1
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/neon-ls.decode     | 4 ++--
+ target/arm/neon-shared.decode | 2 +-
+ target/arm/sve.decode         | 2 +-
+ target/arm/translate-neon.c   | 5 -----
+ target/arm/translate-sve.c    | 5 -----
+ 5 files changed, 4 insertions(+), 14 deletions(-)
 
-and then having to define a "plus_1" function somewhere in a .c file,
-you could write something like
+diff --git a/target/arm/neon-ls.decode b/target/arm/neon-ls.decode
+index 0a2a0e15db5..c5f364cbc00 100644
+--- a/target/arm/neon-ls.decode
++++ b/target/arm/neon-ls.decode
+@@ -41,8 +41,8 @@ VLD_all_lanes  1111 0100 1 . 1 0 rn:4 .... 11 n:2 size:2 t:1 a:1 rm:4 \
+                vd=%vd_dp
+ 
+ # Neon load/store single structure to one lane
+-%imm1_5_p1 5:1 !function=plus1
+-%imm1_6_p1 6:1 !function=plus1
++%imm1_5_p1 5:1 !function=plus_1
++%imm1_6_p1 6:1 !function=plus_1
+ 
+ VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 00 n:2 reg_idx:3 align:1 rm:4 \
+                vd=%vd_dp size=0 stride=1
+diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
+index df80e6ebf66..8e6bd0b61f0 100644
+--- a/target/arm/neon-shared.decode
++++ b/target/arm/neon-shared.decode
+@@ -38,7 +38,7 @@
+ # which is 0 for fp16 and 1 for fp32 into a MO_* constant.
+ # (Note that this is the reverse of the sense of the 1-bit size
+ # field in the 3same_fp Neon insns.)
+-%vcadd_size    20:1 !function=plus1
++%vcadd_size    20:1 !function=plus_1
+ 
+ VCMLA          1111 110 rot:2 . 1 . .... .... 1000 . q:1 . 0 .... \
+                vm=%vm_dp vn=%vn_dp vd=%vd_dp size=%vcadd_size
+diff --git a/target/arm/sve.decode b/target/arm/sve.decode
+index a62c169f1a8..c60b9f0fec5 100644
+--- a/target/arm/sve.decode
++++ b/target/arm/sve.decode
+@@ -22,7 +22,7 @@
+ ###########################################################################
+ # Named fields.  These are primarily for disjoint fields.
+ 
+-%imm4_16_p1     16:4 !function=plus1
++%imm4_16_p1     16:4 !function=plus_1
+ %imm6_22_5      22:1 5:5
+ %imm7_22_16     22:2 16:5
+ %imm8_16_10     16:5 10:3
+diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
+index a45616cb631..c53ab20fa48 100644
+--- a/target/arm/translate-neon.c
++++ b/target/arm/translate-neon.c
+@@ -28,11 +28,6 @@
+ #include "translate.h"
+ #include "translate-a32.h"
+ 
+-static inline int plus1(DisasContext *s, int x)
+-{
+-    return x + 1;
+-}
+-
+ static inline int neon_3same_fp_size(DisasContext *s, int x)
+ {
+     /* Convert 0==fp32, 1==fp16 into a MO_* value */
+diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
+index 35d838aa068..bc91a641711 100644
+--- a/target/arm/translate-sve.c
++++ b/target/arm/translate-sve.c
+@@ -70,11 +70,6 @@ static int tszimm_shl(DisasContext *s, int x)
+     return x - (8 << tszimm_esz(s, x));
+ }
+ 
+-static inline int plus1(DisasContext *s, int x)
+-{
+-    return x + 1;
+-}
+-
+ /* The SH bit is in bit 8.  Extract the low 8 and shift.  */
+ static inline int expand_imm_sh8s(DisasContext *s, int x)
+ {
+-- 
+2.20.1
 
-   %imm4_16_p1 16:4 !function="x + 1"
-
-and decodetree would just wrap the quoted string in
- "static inline int fnname(DisasContext *s, int x) {return %s;}"
-(autogenerating a unique function name for it).
-
-Obviously the error messages if you put some complete rubbish inside the
-quoted string could be a bit opaque, but a full-on expression parser seems
-like overkill. The existing mechanism would be retained for more
-complicated functions, but this sort of shorthand seems like it is more
-readable than the current situation where we are gradually accumulating
-various "plus_1", "times_2", "negate", etc functions and trying to come
-up with function names that remind us of the trivial expressions they
-are wrapping. (target/arm actually has three separate implementations of
-the "add 1" function right now :-))
-
-What do you think?
-
-thanks
--- PMM
 
