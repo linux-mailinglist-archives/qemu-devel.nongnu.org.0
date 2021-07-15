@@ -2,48 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5855F3C9AF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 11:03:31 +0200 (CEST)
-Received: from localhost ([::1]:60526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F1AA3C9AFB
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 11:07:51 +0200 (CEST)
+Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3xHG-0007i4-5S
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 05:03:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51170)
+	id 1m3xLS-00012S-75
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 05:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1m3xGK-00071w-Js
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:02:32 -0400
-Received: from mga06.intel.com ([134.134.136.31]:10810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
- id 1m3xGH-0003D6-2C
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:02:31 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10045"; a="271621113"
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="271621113"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2021 02:02:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,240,1620716400"; d="scan'208";a="495357489"
-Received: from devel-wwang.sh.intel.com ([10.239.48.132])
- by FMSMGA003.fm.intel.com with ESMTP; 15 Jul 2021 02:02:12 -0700
-From: Wei Wang <wei.w.wang@intel.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] migration: clear the memory region dirty bitmap when
- skipping free pages
-Date: Thu, 15 Jul 2021 03:53:26 -0400
-Message-Id: <20210715075326.421977-1-wei.w.wang@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m3xKX-0000Nk-KN
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:06:53 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m3xKV-0006Cy-Er
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:06:53 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r11so6749611wro.9
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 02:06:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=FMPjL/CTJOeJtsWVWs0sx7oXut4ClnqC/VTgDaAEHME=;
+ b=ePxAbxPW2Hg/WKGjdpMgGKzsN668vOK5Ib+xWxAd6BVCzOfU5M0CJA4n4W4GX8iPH5
+ IdcWf8ycOjOWL2fS1PGj8CRnlrw27io2RZTyMj8GIOoHA8wsQdBjnGLrebySh6R/OT0b
+ ij2BByOro2sZiBIGAckVn6DFSYgmC67CVvGGKx29E4R33N1NI/ZHKg+m6PzlAKs7QRYl
+ ZCDvaO9T9KUoerkgaL+wWD/vAiB0202xLkz8oaB5WOwe0IuugisZ4TC6EmSx4bCyxSRt
+ FftNEEz2FXjGSRkvilj25YpkppPzGCnUfl+cJc8OIXU4Bhb7HIjakk3DdWC0Qr67A3QM
+ 6vDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=FMPjL/CTJOeJtsWVWs0sx7oXut4ClnqC/VTgDaAEHME=;
+ b=Ujse9UdIew/3ZAwMcsoEZzp2cML7Z6FDsMjnUdqhqFrnYSpbauhcu3mDM45VvqD2Na
+ CdZ7QzR1FlLsL+ThUuBMuVaL48DpyaGf8Vzkst3CKSvIivFn4oB9u33raGbNrL7yW/4x
+ 1RtnuSu7DJVDRE26b3rneVAXCUA1aHkMeanqICtshO4JME8r3QoEaUYXXEvf4I8FY9x2
+ bmU303rVNwnSwfkwG2Iw5O0q/fbMhM+0op57K9Y64a6UmTGcwlRtbd+1f5bN6KPZ51jR
+ kNtX1BAbQkKTTJNupE/eJ5l5u0yN68g9qcI3t+ALywc0Sn1mHSdUDWW2A/dQFDmpj30o
+ hR5Q==
+X-Gm-Message-State: AOAM5321GiDvNJz1XrYWsMG6pZlZPIj46/mtk22Nw6fgYzv09B9+hDCX
+ Q//sIq9l7VPlza4I+Pzjm55bqw==
+X-Google-Smtp-Source: ABdhPJzjoeKGvUzhnXqycBHxwnqm2INmDfRowkVA6tEaijEHQbl6cKsRekuqs7cIivhnvhuxzrVq3Q==
+X-Received: by 2002:a05:6000:1248:: with SMTP id
+ j8mr4176828wrx.391.1626340009854; 
+ Thu, 15 Jul 2021 02:06:49 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s13sm5536788wrm.13.2021.07.15.02.06.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 15 Jul 2021 02:06:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 21D721FF7E;
+ Thu, 15 Jul 2021 10:06:48 +0100 (BST)
+References: <20210714182056.25888-1-alex.bennee@linaro.org>
+ <20210714182056.25888-11-alex.bennee@linaro.org>
+ <YO/MTt7DJ8C1GMKQ@apples.localdomain>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v2 10/21] contrib/gitdm: add domain-map/group-map
+ mappings for Samsung
+Date: Thu, 15 Jul 2021 10:06:11 +0100
+In-reply-to: <YO/MTt7DJ8C1GMKQ@apples.localdomain>
+Message-ID: <871r80ues7.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=wei.w.wang@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,130 +90,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, david@redhat.com, dgilbert@redhat.com, peterx@redhat.com,
- quintela@redhat.com
+Cc: Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When skipping free pages to send, their corresponding dirty bits in the
-memory region dirty bitmap need to be cleared. Otherwise the skipped
-pages will be sent in the next round after the migration thread syncs
-dirty bits from the memory region dirty bitmap.
 
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Reported-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Wei Wang <wei.w.wang@intel.com>
----
- migration/ram.c | 72 ++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 54 insertions(+), 18 deletions(-)
+Klaus Jensen <its@irrelevant.dk> writes:
 
-v1->v2 changelog:
-- move migration_clear_memory_region_dirty_bitmap under bitmap_mutex as
-  we lack confidence to have it outside the lock for now.
-- clean the unnecessary subproject commit.
+> [[PGP Signed Part:Undecided]]
+> On Jul 14 19:20, Alex Benn=C3=A9e wrote:
+>> Minwoo's work from their personal address are treated as personal
+>> contributions.
+>>=20
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Acked-by: Klaus Jensen <k.jensen@samsung.com>
+>> Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+>> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+>> Message-Id: <220210714093719.21429-11-alex.bennee@linaro.org>
+>> ---
+>>  contrib/gitdm/domain-map            | 1 +
+>>  contrib/gitdm/group-map-individuals | 1 +
+>>  contrib/gitdm/group-map-samsung     | 5 +++++
+>>  gitdm.config                        | 1 +
+>>  4 files changed, 8 insertions(+)
+>>  create mode 100644 contrib/gitdm/group-map-samsung
+>>=20
+>> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+>> index efbbb15643..beeb24341e 100644
+>> --- a/contrib/gitdm/domain-map
+>> +++ b/contrib/gitdm/domain-map
+>> @@ -26,6 +26,7 @@ proxmox.com     Proxmox
+>>  quicinc.com     Qualcomm Innovation Center
+>>  redhat.com      Red Hat
+>>  rt-rk.com       RT-RK
+>> +samsung.com     Samsung
+>>  siemens.com     Siemens
+>>  sifive.com      SiFive
+>>  suse.com        SUSE
+>> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-m=
+ap-individuals
+>> index 36bbb77c39..4ac2f98823 100644
+>> --- a/contrib/gitdm/group-map-individuals
+>> +++ b/contrib/gitdm/group-map-individuals
+>> @@ -29,3 +29,4 @@ mrolnik@gmail.com
+>>  huth@tuxfamily.org
+>>  jhogan@kernel.org
+>>  atar4qemu@gmail.com
+>> +minwoo.im.dev@gmail.com
+>> diff --git a/contrib/gitdm/group-map-samsung b/contrib/gitdm/group-map-s=
+amsung
+>> new file mode 100644
+>> index 0000000000..e38c7eeeac
+>> --- /dev/null
+>> +++ b/contrib/gitdm/group-map-samsung
+>> @@ -0,0 +1,5 @@
+>> +#
+>> +# Some Samsung contributors submit via another domain
+>> +#
+>> +
+>> +minwoo.im.dev@gmail.com
+>
+> I'm not sure how this groupmap works, but was it intentional that you
+> left Minwoo in the Samsung group map?
 
-diff --git a/migration/ram.c b/migration/ram.c
-index b5fc454b2f..69e06b55ec 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -789,6 +789,51 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-     return find_next_bit(bitmap, size, start);
- }
- 
-+static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
-+                                                       RAMBlock *rb,
-+                                                       unsigned long page)
-+{
-+    uint8_t shift;
-+    hwaddr size, start;
-+
-+    if (!rb->clear_bmap || !clear_bmap_test_and_clear(rb, page)) {
-+        return;
-+    }
-+
-+    shift = rb->clear_bmap_shift;
-+    /*
-+     * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
-+     * can make things easier sometimes since then start address
-+     * of the small chunk will always be 64 pages aligned so the
-+     * bitmap will always be aligned to unsigned long. We should
-+     * even be able to remove this restriction but I'm simply
-+     * keeping it.
-+     */
-+    assert(shift >= 6);
-+
-+    size = 1ULL << (TARGET_PAGE_BITS + shift);
-+    start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
-+    trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
-+    memory_region_clear_dirty_bitmap(rb->mr, start, size);
-+}
-+
-+static void
-+migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
-+                                                 RAMBlock *rb,
-+                                                 unsigned long start,
-+                                                 unsigned long npages)
-+{
-+    unsigned long page_to_clear, i, nchunks;
-+    unsigned long chunk_pages = 1UL << rb->clear_bmap_shift;
-+
-+    nchunks = (start + npages) / chunk_pages - start / chunk_pages + 1;
-+
-+    for (i = 0; i < nchunks; i++) {
-+        page_to_clear = start + i * chunk_pages;
-+        migration_clear_memory_region_dirty_bitmap(rs, rb, page_to_clear);
-+    }
-+}
-+
- static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-                                                 RAMBlock *rb,
-                                                 unsigned long page)
-@@ -803,26 +848,9 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-      * the page in the chunk we clear the remote dirty bitmap for all.
-      * Clearing it earlier won't be a problem, but too late will.
-      */
--    if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
--        uint8_t shift = rb->clear_bmap_shift;
--        hwaddr size = 1ULL << (TARGET_PAGE_BITS + shift);
--        hwaddr start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
--
--        /*
--         * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
--         * can make things easier sometimes since then start address
--         * of the small chunk will always be 64 pages aligned so the
--         * bitmap will always be aligned to unsigned long.  We should
--         * even be able to remove this restriction but I'm simply
--         * keeping it.
--         */
--        assert(shift >= 6);
--        trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
--        memory_region_clear_dirty_bitmap(rb->mr, start, size);
--    }
-+    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
- 
-     ret = test_and_clear_bit(page, rb->bmap);
--
-     if (ret) {
-         rs->migration_dirty_pages--;
-     }
-@@ -2741,6 +2769,14 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
-         npages = used_len >> TARGET_PAGE_BITS;
- 
-         qemu_mutex_lock(&ram_state->bitmap_mutex);
-+        /*
-+         * The skipped free pages are equavelent to be sent from clear_bmap's
-+         * perspective, so clear the bits from the memory region bitmap which
-+         * are initially set. Otherwise those skipped pages will be sent in
-+         * the next round after syncing from the memory region bitmap.
-+         */
-+        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
-+                                                         start, npages);
-         ram_state->migration_dirty_pages -=
-                       bitmap_count_one_with_offset(block->bmap, start, npages);
-         bitmap_clear(block->bmap, start, npages);
--- 
-2.25.1
+Doh - no - I evidently forgot to remove the samsung one at the same time
+as adding him to individual. Will fix.
 
+>
+>> diff --git a/gitdm.config b/gitdm.config
+>> index a3542d2fc7..e7a744146e 100644
+>> --- a/gitdm.config
+>> +++ b/gitdm.config
+>> @@ -36,6 +36,7 @@ GroupMap contrib/gitdm/group-map-codeweavers CodeWeave=
+rs
+>>  GroupMap contrib/gitdm/group-map-ibm IBM
+>>  GroupMap contrib/gitdm/group-map-janustech Janus Technologies
+>>  GroupMap contrib/gitdm/group-map-redhat Red Hat +GroupMap
+>>  contrib/gitdm/group-map-samsung Samsung GroupMap
+>>  contrib/gitdm/group-map-wavecomp Wave Computing
+>>=20=20
+>
+> [[End of PGP Signed Part]]
+
+
+--=20
+Alex Benn=C3=A9e
 
