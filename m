@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641DE3C9944
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 08:58:21 +0200 (CEST)
-Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C1E3C994A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:00:05 +0200 (CEST)
+Received: from localhost ([::1]:53598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3vK8-0004Cm-0t
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 02:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59362)
+	id 1m3vLo-0006LO-Ew
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:00:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m3vJI-0003PW-Pb
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 02:57:30 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:35554)
+ id 1m3vK3-0004f8-59; Thu, 15 Jul 2021 02:58:15 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:33413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m3vJE-0003RQ-Pu
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 02:57:28 -0400
-Received: by mail-il1-x136.google.com with SMTP id a11so4097457ilf.2
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 23:57:22 -0700 (PDT)
+ id 1m3vK1-00047F-Od; Thu, 15 Jul 2021 02:58:14 -0400
+Received: by mail-il1-x131.google.com with SMTP id z1so4131794ils.0;
+ Wed, 14 Jul 2021 23:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nTehcWciicTIpg7kpFTdIa67eCIM5FUbxcT8SYCq6uY=;
- b=lbslSzj7Hlnpi+67Uyg9k6MEshYTFA2JSM8IVi7v5rJIEFJABWnK9Dtyg9WIF53lsV
- bKpfI4HGT69Vu1OT9/JROR68ktB2gj2z/JCIBjilo5Rqn3oNd/irHZNUEl3IAI/F+B4W
- hl1EhsJzOEZUoVXp9xkl9QQhI9zYWLgznO9WXK2jdKWIaZozQtub+9g7W6XakCaBGfBx
- gdn3oyuHXLKD2HBeomN24v99NOC5xY3POLysoLCppgmz6b+QAQ8IlzM5fDNYIFeXMIvq
- Pj2zI3li7aF0+AXH6pBePjLp+FHjIYQ+v9Txs0fWBiPMhMIHfG9JW2xD5TWVEEpIZXrz
- 4n/A==
+ :cc; bh=3eoFtijaYrWwKtf7NTtMCkMOQW9Z50/BQzxQut73gyU=;
+ b=HlhLOI5SbpuDtpHXt3Mk5KIUN9e2t6j4bIVqe666s8o0fQ6p1fSo82rlWAX1Dq3osG
+ CAhUQUQwwR1YBOwkXp9JYYAUjXo+QwiXGlelwspQ9m6wHvAlZA7js9nXgqVzxqm4lXno
+ vbKndFq+7e9QiIZP2WIDX49yQDrpSfvfeGXlCpgbA2DRD9VboPFB6Hkg8FQaSXSFCaJU
+ CPuKpNcEfC9bPeR30ye4KlPk0JyxNrrDhTKDrzjgDdiDR0nXp1WX/nvHm55zOygnpHF5
+ g0o/NteUz5W+6wE3ekhu6lUhSVfvmr+awq7WZQo6DR13AQuAWeQeDBdWE2D6h2/lF+dZ
+ YeeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=nTehcWciicTIpg7kpFTdIa67eCIM5FUbxcT8SYCq6uY=;
- b=nKq94iKCI10x7OfTNgbkjR50l3tjPSgZJYurX7hHlogiLyhh4gnepQhY231JVx3551
- bvy94AhTK9eW8DRl8nWDVSYl7wih7DpBlTI0F4SayIR93Fe7RZt7BRkKkDz//ze9CMJV
- Cvr4hOJQURt9trWvhuc+HT2d02x0LvOSeIZaPJNbSKtVgHT9Boq/5fvGuraiHTLTYzBA
- jIQSVDZHE9P9UrWaQYiEWZ8jCvu3X4TzI++pqStqnZc1uGje30xWfpRYn3jYxsJUIgaB
- DKGZr5QRmzHKj5Kw/xMsZCONzI3xGLb4hSksbuEO5BGYJ6eTUgSyk8gzWY80Hi1IC/yy
- 37BA==
-X-Gm-Message-State: AOAM533Mkhcf0t4T9vyo7Ohhdca/fGW5Q1trvForgKQoRehL2P9Fv//s
- L8QevwA32+yE4jUHI4aU1vjRo0cp3IMLYzOGYDw=
-X-Google-Smtp-Source: ABdhPJzjSFGWwfUGtjFAu7bPmY/6sTPtlj/XHej4EBcREQQqZ/xkBNy7NbtYp7Y7L9q9Tmb+nx2PT3FtELgC3q01Mso=
-X-Received: by 2002:a05:6e02:1d8d:: with SMTP id
- h13mr1666439ila.40.1626332241199; 
- Wed, 14 Jul 2021 23:57:21 -0700 (PDT)
+ bh=3eoFtijaYrWwKtf7NTtMCkMOQW9Z50/BQzxQut73gyU=;
+ b=PP5O+viCwehsmwyGwu+GCTMNjFCKM6ZOeORDhQz3yFCAuVnncT+zXcn3zZylE9Bgjh
+ yQFnQgptwZF/GHK/kwOSVZKYlEShbN4NWYrFNKoYtaKwe5QjjWlPTr9IgfubGZ2yLBAc
+ WQ5ESo4ZPfmGCdREnEZ/KS6+4uhR2086ooqj3A3JjM2ZOUWs27l9MYxmgaRqmBn7Lz15
+ wV++A0ZT0WBtRkkXXJ8ZOWPy/SvNmK4N8alUhhk9zYIGB6FQKzVkZvBwHJMXeFy74eIC
+ mszzzTvZlCImy2kKwxR3HS3m9456SOKEtYCwHvBqRD+QgUWRqMB9vr9kfJm6CszKZRoM
+ PY5w==
+X-Gm-Message-State: AOAM5314iueOLU3mwRKfZGd8MQbeZ+BYee6jLiEDIlXyVo4Sc8ZmgsVp
+ Ue5a30bZ8KCLEF9yRZin69EPchPtcNcUsQHBVq0=
+X-Google-Smtp-Source: ABdhPJwjI7Q6Xf8qCtrSOTRdg7dzpkM+snv6Tv+36v48vzt76O+pp5Alq4a9JaybjWTLUaXhmYIoLbvt+kXy1XzziNs=
+X-Received: by 2002:a92:8707:: with SMTP id m7mr1672686ild.177.1626332292321; 
+ Wed, 14 Jul 2021 23:58:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210712225348.213819-1-alistair.francis@wdc.com>
- <CAFEAcA-3Y=tmAsNNp9-8j6nbL0M-_GkFKDvU6RpHHkZ6CW8XzA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-3Y=tmAsNNp9-8j6nbL0M-_GkFKDvU6RpHHkZ6CW8XzA@mail.gmail.com>
+References: <da5acadd07eabd5a6e9fc8870fecb435173b8f47.1626247332.git.alistair.francis@wdc.com>
+ <CAFEAcA_naB0ysANAZYhEEVG4XgN0He4zj7UTwUrKHY4SxJ76UA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_naB0ysANAZYhEEVG4XgN0He4zj7UTwUrKHY4SxJ76UA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 15 Jul 2021 16:56:55 +1000
-Message-ID: <CAKmqyKNVMV5fWkpEqaXfa5yx05yOtv8ebjQFi7Z8=ALwgZnT-A@mail.gmail.com>
-Subject: Re: [PULL 00/11] riscv-to-apply queue
+Date: Thu, 15 Jul 2021 16:57:46 +1000
+Message-ID: <CAKmqyKMaM9kjJ9mxta-u0DR057oFCu4_sV2MOy8K=NNmJdtKsQ@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] hw/riscv/boot: Check the error of fdt_pack()
 To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -79,62 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 14, 2021 at 4:01 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Wed, Jul 14, 2021 at 6:46 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Mon, 12 Jul 2021 at 23:53, Alistair Francis <alistair.francis@wdc.com> wrote:
+> On Wed, 14 Jul 2021 at 08:22, Alistair Francis <alistair.francis@wdc.com> wrote:
 > >
-> > The following changes since commit 57e28d34c0cb04abf7683ac6a12c87ede447c320:
+> > Coverity reports that we don't check the error result of fdt_pack(), so
+> > let's save the result and assert that it is 0.
 > >
-> >   Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210708' into staging (2021-07-12 19:15:11 +0100)
+> > Fixes: Coverity CID 1458136
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/riscv/boot.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
 > >
-> > are available in the Git repository at:
+> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> > index 0d38bb7426..25406a3f67 100644
+> > --- a/hw/riscv/boot.c
+> > +++ b/hw/riscv/boot.c
+> > @@ -182,7 +182,7 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+> >  {
+> >      uint32_t temp, fdt_addr;
+> >      hwaddr dram_end = dram_base + mem_size;
+> > -    int fdtsize = fdt_totalsize(fdt);
+> > +    int ret, fdtsize = fdt_totalsize(fdt);
 > >
-> >   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210712
+> >      if (fdtsize <= 0) {
+> >          error_report("invalid device-tree");
+> > @@ -198,7 +198,8 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+> >      temp = MIN(dram_end, 3072 * MiB);
+> >      fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
 > >
-> > for you to fetch changes up to d6b87906f09f72a837dc68c33bfc3d913ef74b7d:
-> >
-> >   hw/riscv: opentitan: Add the flash alias (2021-07-13 08:47:52 +1000)
-> >
-> > ----------------------------------------------------------------
-> > Fourth RISC-V PR for 6.1 release
-> >
-> >  - Code cleanups
-> >  - Documentation improvements
-> >  - Hypervisor extension improvements with hideleg and hedeleg
-> >  - sifive_u fixes
-> >  - OpenTitan register layout updates
+> > -    fdt_pack(fdt);
+> > +    ret = fdt_pack(fdt);
+> > +    g_assert(ret == 0);
+> >      /* copy in the device tree */
+> >      qemu_fdt_dumpdtb(fdt, fdtsize);
 >
-> Hi; this fails to compile on some hosts:
->
-> ../../target/riscv/csr.c:437:48: error: initializer element is not constant
->  static const target_ulong vs_delegable_excps = delegable_excps &
->                                                 ^~~~~~~~~~~~~~~
->
->
-> That happens on s390x, x86-64, aarch32, NetBSD. I think this is
-> "gcc older than gcc 8 is stricter about what it allows as a
-> constant expression". If I understand the GCC bugzilla issue I
-> ran into via a bit of googling, the C spec is quite limiting in
-> what it considers to be a "constant expression", and in particular
-> "some other variable with the 'const' attribute" isn't one.
-> The spec does allow compilers the impdef leeway to allow a wider
-> range of things to be constant expressions, and gcc 8 is cleverer
-> here than gcc 7 was.
->
-> If delegable_excps was a #define rather than a 'const' variable
-> it would be OK here, I think.
+> Are we in the same situation as spapr.c where we believe the call
+> will only fail if the fdt was corrupt somehow? If so, it would be
+> nice to also have the comment from spapr.c:
+>         /* Should only fail if we've built a corrupted tree */
 
-Sorry about that, sending a new version.
+Yes, we are the same. I added the comment.
 
 Alistair
 
 >
 > thanks
 > -- PMM
->
 
