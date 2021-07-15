@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FF583C9996
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:24:05 +0200 (CEST)
-Received: from localhost ([::1]:52620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D03D3C9991
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:22:54 +0200 (CEST)
+Received: from localhost ([::1]:50328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3vj2-0002WG-Dd
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34106)
+	id 1m3vht-0000yp-4F
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:22:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vc7-0005cg-PF
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:55 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27213)
+ id 1m3vc6-0005Yp-RE
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:54 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vc4-0003aa-PU
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:55 -0400
+ id 1m3vc5-0003VO-0Z
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1626333413; x=1657869413;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9A8QWqswZ6UOntZKeMVseSxt7D5c/I+oM3IrzN5UJzI=;
- b=d5IQbpWnaM+hCdZ180hi6dn1I12LKCpjV/wuXi5N26OWv4dIzIH31zrr
- sjwnY+3Dir9urep02gbig1Df8N+YGkuEPmbAfXwc9FmMPSm95i/1cFNJ9
- D1cdckNszohl8ztnbmGntEYyhEEARiS4HzwrDHXZT2zJPwnjlJzfaO4Ge
- obnGOOQ7UhkCj0b4RIiEEuZDCZ/eI5FTcUJFP0yMG4mEc/9hhuGZRz8/K
- edrk/PMRU3OWDeBJvS6OU50BiM2u21LAv39hhlO09+QNx2qekO6rXAL/B
- 3eUPR5GB+/tg1VZeL1RuZ+2YPZEPZJa6Dzz3UGrS0l/iZ5w0Kaz5pC7DB g==;
-IronPort-SDR: MG5VGHKOtLvZ2aDFSzibwdiTmj7zP6SxGSdYZkmQZxZMKL1vETdW+IBWJW4+4dBr+diuC9QxWw
- EhrqiYI8qhcHVldIA67Kxkg14ujsSBnonYAizNJl8rqrCsqCGTgj0AEzAp9lyjewLB3o5Mgsoa
- UW65nlbDuVrrKSZv8Fhky73sHrZq26IM/XHNfh8tzfvAkbwEd4s77yqCeGBMZYrh7jZF+wjagv
- RzKzlta/0SQeBgDJkAJgrmKLUETOGbQSK/qk8LSDkpqSLdM5UUU23Ps6q8eBsIVzgzX7cgoq7U
- cDE=
-X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212306"
+ bh=5qe5NSgZWinSdjj7ZsUlkyN3Gf/d5eMq2C8L+vF+ROQ=;
+ b=Tmr5u7QXi+oR4+2GP/wQXoafvwsRKcYbhk7ysdhwSLT7xwTJDAeq5DG1
+ 9sAsAW2t1KOVmyB/YvLD9tKdcv6gnlJjUeqVi26hTxRGqCEPz4jZYAi8i
+ MdyX8jG9z+WH2MAUGB/pIlbStdf8U44dCjkht4mmbmAdBCWnm9CCiIe1j
+ gNPXA9jIwgA3rj647EgAbDmldCyEbH+9ISMYD8fdI8h2sC9sHvya430zJ
+ Oekt6J1IIxF1MAZkqKoXmtsDxSF6VvrsRrUFLOxwD6PoVN1ll0Y+yjYxD
+ orEbI819npR+RKepT26Gat5x428bdPHPOVIlVUxm4HRayETmMk+HXD2ED w==;
+IronPort-SDR: 9cDK564MFCrlJaM3GiloRZLd1ufZBxzSgotk8lOHd2862ltUHdd4SIU3YjN8q/wc45lqXXch4a
+ 3Gzejnn27LxuGj2IyiVnxU8L2RyUw4OdpraKvMDK2zOI0tjSgw583UfFCBekbUKiLAdRejqoXW
+ IsknMpP3DLtQXt+6trjLI/sqtdQlwzFi0FY9ZFAFo6iIAgUcwjykCyY4onplYQGbKcxshXLd3I
+ +Vb13WjPdMpJOG9mJECvFL2I2ooW12LC3+YqSDhccC80Zw5oNEYVpp9a5Q8KNRDf4c3lzi01yR
+ Lk8=
+X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212307"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 15:16:43 +0800
-IronPort-SDR: ex2f50PZHDuCZ+BU4fGZ94Q1Y0UtiBJAUaNBp1T3x/i44CHd9bB1lGQxUJ0GEsFJACSuKyR48l
- Tigja2gEpcYT2ufUtoxyy5mpNLOEf0uf1SoYtpZQOjQuLezoKdAr96ktyeTKtCFKPgkhBbCPBp
- 6t7DKYbRc2arGkohYzZLyAvWtkRDWaCOyNAOmspyIDIl8QUY3dTURL2YG8EBDlWh4zf3y5FK6X
- 71EF8tCf6okqB6dP6im1n7UTE1PEEk1SsYBXPl2wArfmyu/TI5Pxyplvk0c0iFwCq2ehiEyG86
- 6r1vdR6LjkgLuTrlmsVxQQUk
+IronPort-SDR: 4NXIlqmHpMaX4Nw7GPgNmYy00FaYnnyLVa97xvnDW23XhSvvHwf8QhrvBBnNzAWMz8IXWqROky
+ EB/QZpqKeFxLYGXui3G6GuiMHakSzqOq4wI+rn8uNbXw76OjXNF/vevbTBeK/ugd2Ks7Ywr4Y8
+ CTitMwAmO2aZ2lyRARBb/dpXg37SKFCi7BTxcuxKoWA/ZWU+1S1McWuJNtaXJgirFnwaMip0oN
+ wKxoC3AXPF4o/QlKsQTCwJU38R9V1iILZ/a2qL8fzQWlHZAvic2I8SL7uZ7/Ex4UASr7R1CcNL
+ 3naJSDiIc6o1Ja5dPTAsjlP8
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Jul 2021 23:54:45 -0700
-IronPort-SDR: mt1R6uIb/DQqmSg4XdDLZV60mFZuYv6RWfS/4JAHtMSlxGbFssdftvZsBdj44o4fvsJHRZ4SpK
- VdF25D09wmq0/ju4rd+1qWrql3p7yOg1QQQGz0QR3bb7EaqvSVczuElJbhO81wuTbtPcFMXFJ3
- oR/gjQFKUUIvk3TbUZc5jTkItdrrXvwVFP2g7CXMy/BnOK41wyKiMnf1etPrdQRDOLF+oR4h6d
- LcQzvytnZkeNwrSnbwx4D9pDAh95mUnTw/JPek4HvBwB/O+3t01c9mrfdwk63+hSj/yJrfYhjb
- QGE=
+IronPort-SDR: vQ7H992MqEdg9dpnF9g+D+9klWOjcfkzRSf/TvDgSzCprdAIaoJrPnU9m6n+ZmTDy5q73XH/W/
+ M4r3zO+kFuzJJoc9mrbsrbGv6Wce4qTfTz+1qIPv9HCvaRoGkIKAQ1sd9YhiDIQeQoVKOO4M6f
+ cGD5SVJt1Zw2dfMSCL6xjmy8XavEKrlyUwxxc8FIouMRhkkLSkytQeo4+mWRKNok+OYjLSdf/J
+ KdqlXw3IxRE/l/duWSF08wC6+7QDuRHUnxuOTq0szsyWQkA9QwWlIaxz8IS2g3I/FW4mBa8uPY
+ sD0=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.248])
@@ -62,10 +62,10 @@ Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 07/12] hw/riscv: sifive_u: Correct the CLINT timebase
- frequency
-Date: Thu, 15 Jul 2021 00:16:35 -0700
-Message-Id: <20210715071640.232070-8-alistair.francis@wdc.com>
+Subject: [PULL v2 08/12] hw/riscv: sifive_u: Make sure firmware info is 8-byte
+ aligned
+Date: Thu, 15 Jul 2021 00:16:36 -0700
+Message-Id: <20210715071640.232070-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715071640.232070-1-alistair.francis@wdc.com>
 References: <20210715071640.232070-1-alistair.francis@wdc.com>
@@ -93,56 +93,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Bin Meng <bmeng.cn@gmail.com>
 
-At present the CLINT timebase frequency is set to 10MHz on sifive_u,
-but on the real hardware the timebase frequency is 1Mhz.
+Currently the firmware dynamic info (fw_dyn) is put right after
+the reset vector, which is not 8-byte aligned on RV64. OpenSBI
+fw_dynamic uses ld to read contents from 'struct fw_dynamic_info',
+which expects fw_dyn to be on the 8-byte boundary, otherwise the
+misaligned load exception may happen. Fortunately this does not
+cause any issue on QEMU, as QEMU does support misaligned load.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+RV32 does not have any issue as it is 4-byte aligned already.
+Change to make sure it is 8-byte aligned which works for both
+RV32 and RV64.
+
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210706102616.1922469-1-bmeng.cn@gmail.com
+Message-id: 20210708143319.10441-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/riscv/sifive_u.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 273c86418c..e75ca38783 100644
+index e75ca38783..87bbd10b21 100644
 --- a/hw/riscv/sifive_u.c
 +++ b/hw/riscv/sifive_u.c
-@@ -62,6 +62,9 @@
+@@ -602,10 +602,10 @@ static void sifive_u_machine_init(MachineState *machine)
+     }
  
- #include <libfdt.h>
- 
-+/* CLINT timebase frequency */
-+#define CLINT_TIMEBASE_FREQ 1000000
-+
- static const MemMapEntry sifive_u_memmap[] = {
-     [SIFIVE_U_DEV_DEBUG] =    {        0x0,      0x100 },
-     [SIFIVE_U_DEV_MROM] =     {     0x1000,     0xf000 },
-@@ -165,7 +168,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
- 
-     qemu_fdt_add_subnode(fdt, "/cpus");
-     qemu_fdt_setprop_cell(fdt, "/cpus", "timebase-frequency",
--        SIFIVE_CLINT_TIMEBASE_FREQ);
-+        CLINT_TIMEBASE_FREQ);
-     qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-     qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
- 
-@@ -847,7 +850,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     sifive_clint_create(memmap[SIFIVE_U_DEV_CLINT].base,
-         memmap[SIFIVE_U_DEV_CLINT].size, 0, ms->smp.cpus,
-         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
--        SIFIVE_CLINT_TIMEBASE_FREQ, false);
-+        CLINT_TIMEBASE_FREQ, false);
- 
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->prci), errp)) {
-         return;
+     /* reset vector */
+-    uint32_t reset_vec[11] = {
++    uint32_t reset_vec[12] = {
+         s->msel,                       /* MSEL pin state */
+         0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
+-        0x02828613,                    /*     addi   a2, t0, %pcrel_lo(1b) */
++        0x02c28613,                    /*     addi   a2, t0, %pcrel_lo(1b) */
+         0xf1402573,                    /*     csrr   a0, mhartid  */
+         0,
+         0,
+@@ -613,6 +613,7 @@ static void sifive_u_machine_init(MachineState *machine)
+         start_addr,                    /* start: .dword */
+         start_addr_hi32,
+         fdt_load_addr,                 /* fdt_laddr: .dword */
++        0x00000000,
+         0x00000000,
+                                        /* fw_dyn: */
+     };
 -- 
 2.31.1
 
