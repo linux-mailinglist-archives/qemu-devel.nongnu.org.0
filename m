@@ -2,110 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299B73C9898
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:56:26 +0200 (CEST)
-Received: from localhost ([::1]:36998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1143C98B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 08:12:28 +0200 (CEST)
+Received: from localhost ([::1]:50046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3uMD-00073c-6V
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
+	id 1m3ubj-000871-44
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 02:12:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m3uL2-0006FW-Bz
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:55:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1700)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3uaS-0007PI-6y
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 02:11:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m3uL0-0000Xo-0R
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:55:11 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16F5XYWN088105; Thu, 15 Jul 2021 01:54:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Fi9hQjQUcA9Hyz7d7/Ubs0EUDvS2qcumowwBVxCMS6o=;
- b=byT7k4zODNuXgKXLNocgLKqAWDLiQJrym6m53CGCgZX459ZxMDRCzgL+LVd7b2yfEli/
- r+CSVNLRT+vF0G2PMRMq1MVECIBVJuz6ujqWAKjF8NvsgZJlrsKZvPe+RDkUDvNCngp5
- N4NyYnD7BcwbBZOucZoRlNz8Nd/B3YpPSih6AQiP50k/d3UVxSYENu+B4p5KbfufzhIB
- 25N4JHDg6NRCmw8Ti6FRLbak03em0S0pz/0aZ278Vosm4DJQgrbopNklQDPLe57l6zs7
- mydwrP/Fv8etufGu05QGWrn5HXQcW2n4/mCpfqKuGviwel6A8tfeMHKUR5BwDb9BDAc6 Eg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39ssjy9u7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Jul 2021 01:54:54 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16F5rhHq002689;
- Thu, 15 Jul 2021 01:54:54 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39ssjy9u6w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Jul 2021 01:54:53 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16F5n495015801;
- Thu, 15 Jul 2021 05:54:51 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 39q2th93qf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Jul 2021 05:54:51 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16F5sn7j34079072
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 15 Jul 2021 05:54:49 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DDDB1A4053;
- Thu, 15 Jul 2021 05:54:48 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 90AD7A4040;
- Thu, 15 Jul 2021 05:54:44 +0000 (GMT)
-Received: from [9.160.50.212] (unknown [9.160.50.212])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 15 Jul 2021 05:54:44 +0000 (GMT)
-Subject: Re: [RFC PATCH 5/6] i386/sev: add support to encrypt BIOS when
- SEV-SNP is enabled
-To: Brijesh Singh <brijesh.singh@amd.com>, Connor Kuehl <ckuehl@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-6-brijesh.singh@amd.com>
- <3976829d-770e-b9fd-ffa8-2c2f79f3c503@redhat.com>
- <866c2a6b-8693-a943-fb06-45adf2cdcb92@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <cfa95bf4-9d20-8d43-e6e0-6e5b9752d27a@linux.ibm.com>
-Date: Thu, 15 Jul 2021 08:54:42 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3uaL-0006Vx-KI
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 02:11:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626329459;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XToVkY4mKnxfmsFVxdNU9x8RCbeSXBFzMYoDDiYZ2us=;
+ b=PsYbub9eVvWtD9Bk/jOK91nwfU3YBapTvp4+HUvMiiqGFKGL+2MfFOJzr7v5FCYRZVfk1y
+ b3l0kk2YR7oj2IVvUMqfp7k3RoahsCFmOLsinzygcxcGMOwkpJWEspiKYuZbScJWh3qxU3
+ d8KKlZd1g1UsOW1AhBfUyBdGUAPnTKc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-Db5N7AScOdaqS-cDIdWb8Q-1; Thu, 15 Jul 2021 02:10:57 -0400
+X-MC-Unique: Db5N7AScOdaqS-cDIdWb8Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB57A10C1ADC;
+ Thu, 15 Jul 2021 06:10:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
+ [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 39FDB60583;
+ Thu, 15 Jul 2021 06:10:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C59F9113865F; Thu, 15 Jul 2021 08:10:54 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 02/21] docs: collect the disparate device emulation
+ docs into one section
+References: <20210714182056.25888-1-alex.bennee@linaro.org>
+ <20210714182056.25888-3-alex.bennee@linaro.org>
+Date: Thu, 15 Jul 2021 08:10:54 +0200
+In-Reply-To: <20210714182056.25888-3-alex.bennee@linaro.org> ("Alex
+ =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Wed, 14 Jul 2021 19:20:37 +0100")
+Message-ID: <8735sgds41.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <866c2a6b-8693-a943-fb06-45adf2cdcb92@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: IAfuLmj2Ukorpr1e2ZZKc-sEVJSo7q1O
-X-Proofpoint-ORIG-GUID: c4F22pNZyhf2ATb2VkDUy-zczwePk0-d
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-15_02:2021-07-14,
- 2021-07-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 clxscore=1015
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107150040
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,70 +84,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
- James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc: QOM maintainers for additional eyes.
 
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-On 14/07/2021 21:52, Brijesh Singh wrote:
-> 
-> 
-> On 7/14/21 12:08 PM, Connor Kuehl wrote:
->> On 7/9/21 3:55 PM, Brijesh Singh wrote:
->>> The KVM_SEV_SNP_LAUNCH_UPDATE command is used for encrypting the bios
->>> image used for booting the SEV-SNP guest.
->>>
->>> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
->>> ---
->>>   target/i386/sev.c        | 33 ++++++++++++++++++++++++++++++++-
->>>   target/i386/trace-events |  1 +
->>>   2 files changed, 33 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/target/i386/sev.c b/target/i386/sev.c
->>> index 259408a8f1..41dcb084d1 100644
->>> --- a/target/i386/sev.c
->>> +++ b/target/i386/sev.c
->>> @@ -883,6 +883,30 @@ out:
->>>       return ret;
->>>   }
->>>   +static int
->>> +sev_snp_launch_update(SevGuestState *sev, uint8_t *addr, uint64_t
->>> len, int type)
->>> +{
->>> +    int ret, fw_error;
->>> +    struct kvm_sev_snp_launch_update update = {};
->>> +
->>> +    if (!addr || !len) {
->>> +        return 1;
->>
->> Should this be a -1? It looks like the caller checks if this function
->> returns < 0, but doesn't check for res == 1.
-> 
-> Ah, it should be -1.
-> 
->>
->> Alternatively, invoking error_report might provide more useful
->> information that the preconditions to this function were violated.
->>
-> 
-> Sure, I will add error_report.
+> While we are at it add a brief preamble that explains some of the
+> common concepts in QEMU's device emulation which will hopefully lead
+> to less confusing about our dizzying command line options.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Message-Id: <20210714093638.21077-3-alex.bennee@linaro.org>
+> ---
+>  docs/system/device-emulation.rst          | 78 +++++++++++++++++++++++
+>  docs/system/{ =3D> devices}/ivshmem.rst     |  0
+>  docs/system/{ =3D> devices}/net.rst         |  0
+>  docs/system/{ =3D> devices}/nvme.rst        |  0
+>  docs/system/{ =3D> devices}/usb.rst         |  0
+>  docs/system/{ =3D> devices}/virtio-pmem.rst |  0
+>  docs/system/index.rst                     |  6 +-
+>  7 files changed, 79 insertions(+), 5 deletions(-)
+>  create mode 100644 docs/system/device-emulation.rst
+>  rename docs/system/{ =3D> devices}/ivshmem.rst (100%)
+>  rename docs/system/{ =3D> devices}/net.rst (100%)
+>  rename docs/system/{ =3D> devices}/nvme.rst (100%)
+>  rename docs/system/{ =3D> devices}/usb.rst (100%)
+>  rename docs/system/{ =3D> devices}/virtio-pmem.rst (100%)
+>
+> diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulat=
+ion.rst
+> new file mode 100644
+> index 0000000000..3156eeac2d
+> --- /dev/null
+> +++ b/docs/system/device-emulation.rst
+> @@ -0,0 +1,78 @@
+> +.. _device-emulation:
+> +
+> +Device Emulation
+> +----------------
+> +
+> +QEMU supports the emulation of a large number of devices from
+> +peripherals such network cards and USB devices to integrated systems
+> +on a chip (SoCs). Configuration of these is often a source of
+> +confusion so it helps to have an understanding of some of the terms
+> +used to describes devices within QEMU.
+> +
+> +Common Terms
+> +~~~~~~~~~~~~
+> +
+> +Device Front End
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A device front end is how a device is presented to the guest. The type
+> +of device presented should match the hardware that the guest operating
+> +system is expecting to see. All devices can be specified with the
+> +``--device`` command line option. Running QEMU with the command line
+> +options ``--device help`` will list all devices it is aware of. Using
+> +the command line ``--device foo,help`` will list the additional
+> +configuration options available for that device.
+> +
+> +A front end is often paired with a back end, which describes how the
+> +host's resources are used in the emulation.
+> +
+> +Device Buses
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +All devices exist on a BUS. Depending on the machine model you choose
 
-Maybe even simpler:
+This isn't true anymore; there are bus-less devices.  To show the
+user-pluggable ones, try
 
-  assert(addr);
-  assert(len > 0);
+    $ qemu-system-FOO -device help | grep -v '", bus'
 
-The assertion failure will show the developer what is wrong. This should
-not happen for the end-user (unless I'm missing something).
+> +(``-M foo``) a number of buses will have been automatically created.
+> +In most cases the BUS a device is attached to can be inferred, for
+> +example PCI devices are generally automatically allocated to the next
+> +free slot of the PCI bus. However in complicated configurations you
 
--Dov
+"The PCI bus" tacitly assumes there's just one.
+
+We actually pick the first bus (in qtree pre-order) that can take
+another device.  Best not to rely on the search order; if you care which
+bus to plug into, specify it with bus=3DID.
+
+"Next free slot" is about the device address on the bus.  Should we
+explain the concept "device address on a bus"?
+
+> +can explicitly specify what bus a device is attached to and its
+> +address. Some devices, for example a PCI SCSI host controller, will
+> +add an additional bus to the system that other devices can be attached
+
+A device can add more than one bus.
+
+> +to.
+> +
+> +Device Back End
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The back end describes how the data from the emulated device will be
+> +processed by QEMU. The configuration of the back end is usually
+> +specific to the class of device being emulated. For example serial
+> +devices will be backed by a ``--chardev`` which can redirect the data
+> +to a file or socket or some other system. Storage devices are handled
+> +by ``--blockdev`` which will specify how blocks are handled, for
+> +example being stored in a qcow2 file or accessing a raw host disk
+> +partition. Back ends can sometimes be stacked to implement features
+> +like snapshots.
+> +
+> +While the choice of back end is generally transparent to the guest
+
+Comma, I think.
+
+> +there are cases where features will not be reported to the guest if
+> +the back end is unable to support it.
+> +
+> +Device Pass Through
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Device pass through is where the device is actually given access to
+> +the underlying hardware. This can be as simple as exposing a single
+> +USB device on the host system to the guest or dedicating a video card
+> +in a PCI slot to the exclusive use of the guest.
+
+Thanks for writing this up!
+
+> +
+> +
+> +Emulated Devices
+> +~~~~~~~~~~~~~~~~
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   devices/ivshmem.rst
+> +   devices/net.rst
+> +   devices/nvme.rst
+> +   devices/usb.rst
+> +   devices/virtio-pmem.rst
+> diff --git a/docs/system/ivshmem.rst b/docs/system/devices/ivshmem.rst
+> similarity index 100%
+> rename from docs/system/ivshmem.rst
+> rename to docs/system/devices/ivshmem.rst
+> diff --git a/docs/system/net.rst b/docs/system/devices/net.rst
+> similarity index 100%
+> rename from docs/system/net.rst
+> rename to docs/system/devices/net.rst
+> diff --git a/docs/system/nvme.rst b/docs/system/devices/nvme.rst
+> similarity index 100%
+> rename from docs/system/nvme.rst
+> rename to docs/system/devices/nvme.rst
+> diff --git a/docs/system/usb.rst b/docs/system/devices/usb.rst
+> similarity index 100%
+> rename from docs/system/usb.rst
+> rename to docs/system/devices/usb.rst
+> diff --git a/docs/system/virtio-pmem.rst b/docs/system/devices/virtio-pme=
+m.rst
+> similarity index 100%
+> rename from docs/system/virtio-pmem.rst
+> rename to docs/system/devices/virtio-pmem.rst
+> diff --git a/docs/system/index.rst b/docs/system/index.rst
+> index 6092eb2d91..641d243ba4 100644
+> --- a/docs/system/index.rst
+> +++ b/docs/system/index.rst
+> @@ -16,15 +16,12 @@ Contents:
+> =20
+>     quickstart
+>     invocation
+> +   device-emulation
+>     keys
+>     mux-chardev
+>     monitor
+>     images
+> -   net
+>     virtio-net-failover
+> -   usb
+> -   nvme
+> -   ivshmem
+>     linuxboot
+>     generic-loader
+>     guest-loader
+> @@ -35,7 +32,6 @@ Contents:
+>     gdb
+>     managed-startup
+>     cpu-hotplug
+> -   virtio-pmem
+>     pr-manager
+>     targets
+>     security
+
 
