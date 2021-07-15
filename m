@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DE33C978C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:35:32 +0200 (CEST)
-Received: from localhost ([::1]:38460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4F53C97BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:50:56 +0200 (CEST)
+Received: from localhost ([::1]:50208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3t5v-0007kS-MY
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36656)
+	id 1m3tKo-0007pQ-L3
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:50:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swq-0006B0-3J
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:26:08 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38394)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m3tJa-00073m-2R; Thu, 15 Jul 2021 00:49:38 -0400
+Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:45859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swn-0000Q0-4w
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:26:07 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m3swa-00082N-1y
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:52 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E775E2E8167
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1m3tJX-0003bV-Ry; Thu, 15 Jul 2021 00:49:37 -0400
+Received: by mail-il1-x12d.google.com with SMTP id b6so3828754iln.12;
+ Wed, 14 Jul 2021 21:49:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zEnTSQZ9xL2sljjpgyxutCwixfXGMkto0/nmeDwiJvk=;
+ b=PiiApamr7ULYtpefdQdu1JIB3mHP7m2AUIL3ywPmcJRJSVuJ4kkOc0NHK8Tc51DPzK
+ I02kNUZgGKQaVY4k/OVrkDnpeR0lSykjUKv8FvG/m2xebupBots0hDu//jofOGaXjnBq
+ fFjyhlamKyXLcEPF+YX677q1dwARIH2KHBtjg1tQ2P2Z7vP60M3KiKUkW+PZXapzNN4J
+ EL+spPp/Y7+rgLszyK8sfj9O3MFHo4C7Oxo0Di/QHqtb+9lZrn5o+jxhQjUtTGpVgBQo
+ gbkQCArFOeg5dd3iUdKvBAl/PlDBVlIbfybxncQHg/g+TsEauLKYsjO1IWEU/Kd6wXSe
+ OhAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zEnTSQZ9xL2sljjpgyxutCwixfXGMkto0/nmeDwiJvk=;
+ b=STzqrknJfS0+MuApU/eR0wc5UHKLilPJZTIV++uhfvnzpzc4yzSUfF68BL7HaeIsT0
+ 6VkyAbcazjdYYXnmAVSrlloV9eH/1AjGFUfyc5cTz//FfcvQeZLc0iBGzt/fd6edxma3
+ S+YHmh4pjzO2REAAx90vEvH2/+7lI7Pc3AkiUKpA14PAeDgYMfecHsQNKkqYYWOJBTQM
+ 3BikEU71mHBivaZN8G74T5AVvRv+kxHJLiSuVvOwlMA/hsv/EiNaRuyJJqAUCpbHm+CR
+ ogz7lqDQAxuEcgikjWhI8pMKObTjOfZediBxAVyipgyvxYdQcMe2eqvUYZ8bV7z5hvUZ
+ EImg==
+X-Gm-Message-State: AOAM533jhxGMg+g9Q2hH+1USBrJhM2PMY7Z3pI7KAuxGbxL+xx/HUUoo
+ h/ObuctlDz9wvvEVvR6TwWqtoXOz1t7Rjs3utYE=
+X-Google-Smtp-Source: ABdhPJyvPduaxnHQ6+xrniIn2a7LbG75ZRIOozCn4VC7Uf1Y2TSs6giRaynDaGrJXaE2VqU5WpqN7TSURuhsPERpjF4=
+X-Received: by 2002:a92:c907:: with SMTP id t7mr1223938ilp.267.1626324573918; 
+ Wed, 14 Jul 2021 21:49:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Jul 2021 04:17:27 -0000
-From: Launchpad Bug Tracker <1924914@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: diego-viola janitor th-huth
-X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161875281831.22652.8172907256269796216.malonedeb@wampee.canonical.com>
-Message-Id: <162632264772.31721.1937543893316571045.malone@loganberry.canonical.com>
-Subject: [Bug 1924914] Re: Running sway in a QEMU VM results in a GPU hang of
- the guest (virtio-gpu driver)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: da02a59c2325a20a1433b739b47b5ce97092682e
-Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <20210709042608.883256-9-richard.henderson@linaro.org>
+In-Reply-To: <20210709042608.883256-9-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 15 Jul 2021 14:49:07 +1000
+Message-ID: <CAKmqyKPPHemj+a5qEWQSSknWBfpbm2qsYhQcMu4sx4j5fCNJyQ@mail.gmail.com>
+Subject: Re: [PATCH 08/17] target/riscv: Use gpr_{src,
+ dst} for word shift operations
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,45 +77,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924914 <1924914@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+On Fri, Jul 9, 2021 at 2:35 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> For trans_sllw, we can just use gen_shiftw.  The others use
+> various tricks to reduce the tcg operation count.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924914
+Alistair
 
-Title:
-  Running sway in a QEMU VM results in a GPU hang of the guest (virtio-
-  gpu driver)
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  System is Arch Linux (guest and host OS).
-
-  Problem:
-
-  Basically, when using sway on a guest and running certain applications
-  via Xwayland (on the guest), the GUI will freeze and won't be usable
-  anymore, I can still ssh to the guest and run commands.
-
-  This is the command I use to run my guest:
-
-  qemu-system-x86_64 -enable-kvm -cdrom
-  ~/Downloads/linux/archlinux/archlinux-2021.04.01-x86_64.iso -m 4G -vga
-  virtio -nic user,hostfwd=3Dtcp::10022-:22
-
-  This doesn't happen when I use X with i3-wm.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924914/+subscriptions
-
+> ---
+>  target/riscv/insn_trans/trans_rvi.c.inc | 82 ++++++++++---------------
+>  1 file changed, 31 insertions(+), 51 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index a422dc9ef4..840187a4d6 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -352,24 +352,23 @@ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
+>  static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+> -    TCGv t = tcg_temp_new();
+> -    gen_get_gpr(t, a->rs1);
+> -    tcg_gen_extract_tl(t, t, a->shamt, 32 - a->shamt);
+> -    /* sign-extend for W instructions */
+> -    tcg_gen_ext32s_tl(t, t);
+> -    gen_set_gpr(a->rd, t);
+> -    tcg_temp_free(t);
+> +
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +
+> +    tcg_gen_extract_tl(dest, src1, a->shamt, 32 - a->shamt);
+> +    tcg_gen_ext32s_tl(dest, dest);
+>      return true;
+>  }
+>
+>  static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+> -    TCGv t = tcg_temp_new();
+> -    gen_get_gpr(t, a->rs1);
+> -    tcg_gen_sextract_tl(t, t, a->shamt, 32 - a->shamt);
+> -    gen_set_gpr(a->rd, t);
+> -    tcg_temp_free(t);
+> +
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +
+> +    tcg_gen_sextract_tl(dest, src1, a->shamt, 32 - a->shamt);
+>      return true;
+>  }
+>
+> @@ -388,64 +387,45 @@ static bool trans_subw(DisasContext *ctx, arg_subw *a)
+>  static bool trans_sllw(DisasContext *ctx, arg_sllw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+> -    TCGv source1 = tcg_temp_new();
+> -    TCGv source2 = tcg_temp_new();
+> -
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> -
+> -    tcg_gen_andi_tl(source2, source2, 0x1F);
+> -    tcg_gen_shl_tl(source1, source1, source2);
+> -
+> -    tcg_gen_ext32s_tl(source1, source1);
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> -    return true;
+> +    return gen_shiftw(ctx, a, tcg_gen_shl_tl);
+>  }
+>
+>  static bool trans_srlw(DisasContext *ctx, arg_srlw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+> -    TCGv source1 = tcg_temp_new();
+> -    TCGv source2 = tcg_temp_new();
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = gpr_src(ctx, a->rs2);
+> +    TCGv ext2 = tcg_temp_new();
+>
+> -    /* clear upper 32 */
+> -    tcg_gen_ext32u_tl(source1, source1);
+> -    tcg_gen_andi_tl(source2, source2, 0x1F);
+> -    tcg_gen_shr_tl(source1, source1, source2);
+> +    tcg_gen_andi_tl(ext2, src2, 31);
+> +    tcg_gen_ext32u_tl(dest, src1);
+> +    tcg_gen_shr_tl(dest, dest, ext2);
+> +    tcg_gen_ext32s_tl(dest, dest);
+>
+> -    tcg_gen_ext32s_tl(source1, source1);
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> +    tcg_temp_free(ext2);
+>      return true;
+>  }
+>
+>  static bool trans_sraw(DisasContext *ctx, arg_sraw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+> -    TCGv source1 = tcg_temp_new();
+> -    TCGv source2 = tcg_temp_new();
+>
+> -    gen_get_gpr(source1, a->rs1);
+> -    gen_get_gpr(source2, a->rs2);
+> +    TCGv dest = gpr_dst(ctx, a->rd);
+> +    TCGv src1 = gpr_src(ctx, a->rs1);
+> +    TCGv src2 = gpr_src(ctx, a->rs2);
+> +    TCGv ext2 = tcg_temp_new();
+>
+> +    tcg_gen_andi_tl(ext2, src2, 31);
+>      /*
+> -     * first, trick to get it to act like working on 32 bits (get rid of
+> -     * upper 32, sign extend to fill space)
+> +     * First, trick to get it to act like working on 32 bits
+> +     * (get rid of upper 32, sign extend to fill space)
+>       */
+> -    tcg_gen_ext32s_tl(source1, source1);
+> -    tcg_gen_andi_tl(source2, source2, 0x1F);
+> -    tcg_gen_sar_tl(source1, source1, source2);
+> -
+> -    gen_set_gpr(a->rd, source1);
+> -    tcg_temp_free(source1);
+> -    tcg_temp_free(source2);
+> +    tcg_gen_ext32s_tl(dest, src1);
+> +    tcg_gen_sar_tl(dest, dest, ext2);
+>
+> +    tcg_temp_free(ext2);
+>      return true;
+>  }
+>
+> --
+> 2.25.1
+>
+>
 
