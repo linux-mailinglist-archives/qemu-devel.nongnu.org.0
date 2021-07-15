@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D9EE3C9EB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:34:13 +0200 (CEST)
-Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D36823C9EB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:34:18 +0200 (CEST)
+Received: from localhost ([::1]:34150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m40Z9-0006OY-Sp
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:34:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59436)
+	id 1m40ZF-0006Sf-Uw
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m40XM-0004fE-ML
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m40XH-0004ef-O1
  for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:32:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20765)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m40XD-0002sm-IL
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:32:15 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m40XD-0002sn-Ds
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:32:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1626352330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=x4Kr+0PozhU7rBhZke7yAFvxjZN4F1cxJ4+QPwWQKyI=;
- b=VxOp+aVvBFSzAF/jkpEPRmFKkjrLfqj0nuWA97NbkCBRiIWXosMbx+KStzUmOXgxvF+gY0
- 3BZIg2r6fCpkFlGPg1fq4rMZ+4uIq1OvgR2dTn0oylcDgV9qFfW5WXZN3R6VDqTz7p32Bh
- 9raoD1XC1xFMr0io9aLEAUghFAumQt8=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GKv3LBWGuaWuR7+I5a77cDRTtGYapVOEhyHqdRMMBZg=;
+ b=UiRVJRXLpmExQOcuLrYESIxEaP1H4aLfDvYGNipz1IzNHGqzjyZvW4qe4BaiDo4qAtkr/X
+ wFlkT1oAjnMiVgrf/7R4XW+5yqXt5Y/iz9THzR1M5bs8yaAYOUKwnjJaFiSRBZ0VH0ec5x
+ tK9XdDrma19ufuAhQeeleeDdtz//950=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-tYkJkY4zMI6Lu_86Mlh2ew-1; Thu, 15 Jul 2021 08:32:08 -0400
-X-MC-Unique: tYkJkY4zMI6Lu_86Mlh2ew-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-59-QSIBe15FPpmCeT8TbEllNg-1; Thu, 15 Jul 2021 08:32:08 -0400
+X-MC-Unique: QSIBe15FPpmCeT8TbEllNg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A09F45074B;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A74C0100CCC0;
  Thu, 15 Jul 2021 12:32:07 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
  [10.36.112.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7346F5C225;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7306419C45;
  Thu, 15 Jul 2021 12:32:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 09387113865F; Thu, 15 Jul 2021 14:32:06 +0200 (CEST)
+ id 0B94B113861E; Thu, 15 Jul 2021 14:32:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/1] QAPI patches patches for 2021-07-15
-Date: Thu, 15 Jul 2021 14:32:05 +0200
-Message-Id: <20210715123206.212379-1-armbru@redhat.com>
+Subject: [PULL 1/1] qapi: Fix crash on missing enum member name
+Date: Thu, 15 Jul 2021 14:32:06 +0200
+Message-Id: <20210715123206.212379-2-armbru@redhat.com>
+In-Reply-To: <20210715123206.212379-1-armbru@redhat.com>
+References: <20210715123206.212379-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -76,29 +79,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: John Snow <jsnow@redhat.com>, peter.maydell@linaro.org,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a9649a719a44894b81f38dc1c5c1888ee684acef:
+New test case enum-dict-no-name.json crashes:
 
-  Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull-request' into staging (2021-07-14 18:09:09 +0100)
+    $ python3 scripts/qapi-gen.py tests/qapi-schema/enum-dict-no-name.json
+    Traceback (most recent call last):
+    [...]
+      File "/work/armbru/qemu/scripts/qapi/expr.py", line 458, in check_enum
+	member_name = member['name']
+    KeyError: 'name'
 
-are available in the Git repository at:
+Root cause: we try to retrieve member 'name' before we check for
+missing members.  With that fixed, we get the expected error "'data'
+member misses key 'name'".
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-07-15
-
-for you to fetch changes up to a0c7b99bf75d85b616fa219a7d866fc72970f327:
-
-  qapi: Fix crash on missing enum member name (2021-07-15 12:56:41 +0200)
-
-----------------------------------------------------------------
-QAPI patches patches for 2021-07-15
-
-----------------------------------------------------------------
-Markus Armbruster (1):
-      qapi: Fix crash on missing enum member name
-
+Fixes: 0825f62c842f2c07c5471391c6d7fd3f4fe83732
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20210616072121.626431-1-armbru@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+---
  scripts/qapi/expr.py                     | 2 +-
  tests/qapi-schema/enum-dict-no-name.err  | 2 ++
  tests/qapi-schema/enum-dict-no-name.json | 2 ++
@@ -108,6 +112,39 @@ Markus Armbruster (1):
  create mode 100644 tests/qapi-schema/enum-dict-no-name.json
  create mode 100644 tests/qapi-schema/enum-dict-no-name.out
 
+diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+index 496f7e0333..cf98923fa6 100644
+--- a/scripts/qapi/expr.py
++++ b/scripts/qapi/expr.py
+@@ -455,8 +455,8 @@ def check_enum(expr: _JSONObject, info: QAPISourceInfo) -> None:
+                   for m in members]
+     for member in members:
+         source = "'data' member"
+-        member_name = member['name']
+         check_keys(member, info, source, ['name'], ['if'])
++        member_name = member['name']
+         check_name_is_str(member_name, info, source)
+         source = "%s '%s'" % (source, member_name)
+         # Enum members may start with a digit
+diff --git a/tests/qapi-schema/enum-dict-no-name.err b/tests/qapi-schema/enum-dict-no-name.err
+new file mode 100644
+index 0000000000..3ce0c16987
+--- /dev/null
++++ b/tests/qapi-schema/enum-dict-no-name.err
+@@ -0,0 +1,2 @@
++enum-dict-no-name.json: In enum 'Enum':
++enum-dict-no-name.json:2: 'data' member misses key 'name'
+diff --git a/tests/qapi-schema/enum-dict-no-name.json b/tests/qapi-schema/enum-dict-no-name.json
+new file mode 100644
+index 0000000000..5952a8662e
+--- /dev/null
++++ b/tests/qapi-schema/enum-dict-no-name.json
+@@ -0,0 +1,2 @@
++# enum member lacking a name
++{ 'enum': 'Enum', 'data': [ {} ] }
+diff --git a/tests/qapi-schema/enum-dict-no-name.out b/tests/qapi-schema/enum-dict-no-name.out
+new file mode 100644
+index 0000000000..e69de29bb2
 -- 
 2.31.1
 
