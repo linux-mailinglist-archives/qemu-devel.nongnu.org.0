@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D3D13C9C38
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 11:54:48 +0200 (CEST)
-Received: from localhost ([::1]:50034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9E33C9C4D
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 12:01:16 +0200 (CEST)
+Received: from localhost ([::1]:53330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3y4t-000506-3n
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 05:54:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33176)
+	id 1m3yB9-0007Q3-0F
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 06:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3y3v-0003zS-Vt
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:53:47 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:42554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m3y3t-0004n3-7d
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:53:47 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- a23-20020a05600c2257b0290236ec98bebaso768935wmm.1
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 02:53:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wFJf/yglS6TdA51aTCmXDBY4DJy7bf3bOZXxC/X4XSA=;
- b=Xi7jdqnfiGroyI4BSGwtYHdcOoG2gw82po7hnnsoTdT+YBACSZ7mBH4Z3QV0Yngx2i
- 0pRoqqFiQGHsoBarG/HbddhfEw6h8+R7JIsMtpi6++vEQGGWP3kBQrtqjLtydvVjDdxz
- dVFY6xteFk09UmfyV8RfMIyaPj8TvyQzwfPCqcQxNNm7LVKNvMiTKMV8AmeYhspR+UKG
- bn2jaZ1b4+QNbW6hXAeLEdehNjYpbogcd5oKdB8VblR4e4k/V/DvHbyMkiFpeBuaI312
- IH9V2349/g8T+B6ZMlZ1sXbGfiLJ46ic2/ahEBGjiMVarDsVZ2CbNg9zZCn/GN0i2W0x
- VPXg==
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m3y9O-00067b-KN
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:59:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43167)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m3y9L-0000Kt-Ew
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 05:59:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626343160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GoP7TJWd7rcEFC7d4j69MM97b1JGnR/Q8LTdpP2oQfw=;
+ b=eZvfZAva4po7+7pm/vNsN73FSnZz/a7h7248G1wqsQiJnIKkQTNCoWMrkqhsqOpQ0yb0Hn
+ IAOTzGOhzLNByxlZaUW2XVTvBM7sU7G9lrjst8Eho9WdPVZhuufX7J9tfQqKuDrffJl95T
+ I/QM16iZKmXU2BLiUfZXxSQnv9GQ/ZI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-cvBiTx0DObeoc5am9uDhlQ-1; Thu, 15 Jul 2021 05:59:19 -0400
+X-MC-Unique: cvBiTx0DObeoc5am9uDhlQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ y15-20020a5d614f0000b029013cd60e9baaso3069152wrt.7
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 02:59:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=wFJf/yglS6TdA51aTCmXDBY4DJy7bf3bOZXxC/X4XSA=;
- b=bqwu3pOB+4qduItoqCeWGEPm1D62ZncRNar9EQXQQe023Vhp42kYhXXSHKJg6nll9c
- XW4gMxNxyMbGJMmj0rmU8aXn0IHLCitajMj3Y7pEoEUeOC22V2CHxri1fYbYgWWe/udr
- 0u1KGeotjFEyo+4/1j2Vlz2MaTizTcOHW3Vh49F2mj2ofRwnG+tZdVzmuAvU5/5jbytB
- rUnySwl61y88qxTb+vEEftlBDzqVo9Ngkm0zTXxtDGmlHVRhWMPXEg01ZU86ht4mr7jN
- ry8/PziYa1dk5O+fuHon6rDAfwyhsN6PD1uyke+/53Rqlo8T99AG5tu6P0FsbPDPVWOV
- vShQ==
-X-Gm-Message-State: AOAM532s+8xc/SWP4Swz14fJRI0riGwyukMKXKsDCvWduuSkbx8NGlOh
- 9ni4hJQS05v7llkXlOn4c2QMYmWDipdXrlyQ
-X-Google-Smtp-Source: ABdhPJzxrd4lem4/ouZzbhie8fxu9c6fF1mBOMbMhk0iCQgya52WGrrIu3nJrRw0j3ndfJbHNOkh8g==
-X-Received: by 2002:a1c:9807:: with SMTP id a7mr3505859wme.129.1626342823412; 
- Thu, 15 Jul 2021 02:53:43 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b20sm5106241wmj.7.2021.07.15.02.53.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 02:53:43 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Remove duplicate 'plus1' function from Neon and
- SVE decode
-Date: Thu, 15 Jul 2021 10:53:41 +0100
-Message-Id: <20210715095341.701-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=GoP7TJWd7rcEFC7d4j69MM97b1JGnR/Q8LTdpP2oQfw=;
+ b=mHlmdQt6j6Yl9NUGdV/vPTxci0FYTmEuAT19VWvi9c+39DjvzyLEMRzjN2TAkd8lbk
+ InYB4zmE4Hf5eAqGZOBQUSAEiuAsBc5S1XZkm9NYgWIw88ociF3E44pH5kiWvFMKArQh
+ i/LKidVxQ8MNSfn1VTBaN5aYoojEDzDc2ehNwkuiVbTz2W/62tDGS/6CjICyQkf4TaIi
+ u06N4Kx+pDfxnX2XGtfEhr7W0OvPDOMfyLCgYOlO1j2v32CJYDHD8ZFuhKCtf8rFjPs+
+ V1DNs3H93SnGW6Ddt37f0/CYWq+N017Zqu2UX6kjzmWW1Mbm4RtoW9Otpc7qdMVGbxza
+ QTXw==
+X-Gm-Message-State: AOAM532l8Wn2q8tTGVTKuAP4vID8RLPHDzh+ov3GdFXiCXuErIkbyfEF
+ 8/yIT5GP4bc+/rDJK0su40T0DfZvG6gVJFysh0dKv43MtmXhePpgFenPhtS1qOyJouto08M53y2
+ F0kNgb2V9ms7/OqRiMHh4HuylYxHyFKQe1n0Zh71LBPJ44XB/mSUgWu7bxBjnJDZ8
+X-Received: by 2002:a1c:9d46:: with SMTP id g67mr9698427wme.188.1626343158060; 
+ Thu, 15 Jul 2021 02:59:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz2LiRoiz2JIzbGnDQf0AqzwvW0w+Bt3elU0/TI37N3eZ/nq13WAjb9O1QjaAZgpkrrCJpQKA==
+X-Received: by 2002:a1c:9d46:: with SMTP id g67mr9698405wme.188.1626343157812; 
+ Thu, 15 Jul 2021 02:59:17 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ f7sm5805677wru.11.2021.07.15.02.59.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jul 2021 02:59:17 -0700 (PDT)
+From: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v5 2/6] blkdebug: move post-resume handling to
+ resume_req_by_tag
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210614082931.24925-1-eesposit@redhat.com>
+ <20210614082931.24925-3-eesposit@redhat.com>
+Message-ID: <8e8af35c-cae4-65f4-f8eb-0b4b938cc2d2@redhat.com>
+Date: Thu, 15 Jul 2021 11:59:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210614082931.24925-3-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,96 +100,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Neon and SVE decoders use private 'plus1' functions to implement
-"add one" for the !function decoder syntax.  We have a generic
-"plus_1" function in translate.h, so use that instead.
+On 14.06.21 10:29, Emanuele Giuseppe Esposito wrote:
+> We want to move qemu_coroutine_yield() after the loop on rules,
+> because QLIST_FOREACH_SAFE is wrong if the rule list is modified
+> while the coroutine has yielded.  Therefore move the suspended
+> request to the heap and clean it up from the remove side.
+> All that is left is for blkdebug_debug_event to handle the
+> yielding.
+>
+> Co-developed-by: Paolo Bonzini<pbonzini@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito<eesposit@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+> ---
+>   block/blkdebug.c | 31 ++++++++++++++++++-------------
+>   1 file changed, 18 insertions(+), 13 deletions(-)
+>
+> diff --git a/block/blkdebug.c b/block/blkdebug.c
+> index 5ccbfcab42..e8fdf7b056 100644
+> --- a/block/blkdebug.c
+> +++ b/block/blkdebug.c
+> @@ -775,25 +775,20 @@ static void blkdebug_close(BlockDriverState *bs)
+>   static void suspend_request(BlockDriverState *bs, BlkdebugRule *rule)
+>   {
+>       BDRVBlkdebugState *s = bs->opaque;
+> -    BlkdebugSuspendedReq r;
+> +    BlkdebugSuspendedReq *r;
+>   
+> -    r = (BlkdebugSuspendedReq) {
+> -        .co         = qemu_coroutine_self(),
+> -        .tag        = g_strdup(rule->options.suspend.tag),
+> -    };
+> +    r = g_new(BlkdebugSuspendedReq, 1);
+> +
+> +    r->co         = qemu_coroutine_self();
+> +    r->tag        = g_strdup(rule->options.suspend.tag);
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/neon-ls.decode     | 4 ++--
- target/arm/neon-shared.decode | 2 +-
- target/arm/sve.decode         | 2 +-
- target/arm/translate-neon.c   | 5 -----
- target/arm/translate-sve.c    | 5 -----
- 5 files changed, 4 insertions(+), 14 deletions(-)
+Not wrong, but just as a note: I personally would have done the 
+initialization like
 
-diff --git a/target/arm/neon-ls.decode b/target/arm/neon-ls.decode
-index 0a2a0e15db5..c5f364cbc00 100644
---- a/target/arm/neon-ls.decode
-+++ b/target/arm/neon-ls.decode
-@@ -41,8 +41,8 @@ VLD_all_lanes  1111 0100 1 . 1 0 rn:4 .... 11 n:2 size:2 t:1 a:1 rm:4 \
-                vd=%vd_dp
- 
- # Neon load/store single structure to one lane
--%imm1_5_p1 5:1 !function=plus1
--%imm1_6_p1 6:1 !function=plus1
-+%imm1_5_p1 5:1 !function=plus_1
-+%imm1_6_p1 6:1 !function=plus_1
- 
- VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 00 n:2 reg_idx:3 align:1 rm:4 \
-                vd=%vd_dp size=0 stride=1
-diff --git a/target/arm/neon-shared.decode b/target/arm/neon-shared.decode
-index df80e6ebf66..8e6bd0b61f0 100644
---- a/target/arm/neon-shared.decode
-+++ b/target/arm/neon-shared.decode
-@@ -38,7 +38,7 @@
- # which is 0 for fp16 and 1 for fp32 into a MO_* constant.
- # (Note that this is the reverse of the sense of the 1-bit size
- # field in the 3same_fp Neon insns.)
--%vcadd_size    20:1 !function=plus1
-+%vcadd_size    20:1 !function=plus_1
- 
- VCMLA          1111 110 rot:2 . 1 . .... .... 1000 . q:1 . 0 .... \
-                vm=%vm_dp vn=%vn_dp vd=%vd_dp size=%vcadd_size
-diff --git a/target/arm/sve.decode b/target/arm/sve.decode
-index a62c169f1a8..c60b9f0fec5 100644
---- a/target/arm/sve.decode
-+++ b/target/arm/sve.decode
-@@ -22,7 +22,7 @@
- ###########################################################################
- # Named fields.  These are primarily for disjoint fields.
- 
--%imm4_16_p1     16:4 !function=plus1
-+%imm4_16_p1     16:4 !function=plus_1
- %imm6_22_5      22:1 5:5
- %imm7_22_16     22:2 16:5
- %imm8_16_10     16:5 10:3
-diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
-index a45616cb631..c53ab20fa48 100644
---- a/target/arm/translate-neon.c
-+++ b/target/arm/translate-neon.c
-@@ -28,11 +28,6 @@
- #include "translate.h"
- #include "translate-a32.h"
- 
--static inline int plus1(DisasContext *s, int x)
--{
--    return x + 1;
--}
--
- static inline int neon_3same_fp_size(DisasContext *s, int x)
- {
-     /* Convert 0==fp32, 1==fp16 into a MO_* value */
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 35d838aa068..bc91a641711 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -70,11 +70,6 @@ static int tszimm_shl(DisasContext *s, int x)
-     return x - (8 << tszimm_esz(s, x));
- }
- 
--static inline int plus1(DisasContext *s, int x)
--{
--    return x + 1;
--}
--
- /* The SH bit is in bit 8.  Extract the low 8 and shift.  */
- static inline int expand_imm_sh8s(DisasContext *s, int x)
- {
--- 
-2.20.1
+*r = (BlkdebugSuspendedReq) {
+     .co = ...,
+     .tag = ...,
+};
+
+The advantage is that this sets all fields that aren’t mentioned to zero 
+(kind of important, because you don’t use g_new0(), and so now I have to 
+manually verify that there are no other fields that would need to be 
+initialized (which there aren’t)), and in this special case the diff 
+stat also would have been smaller. (But that’s a rare coincidence.)
+
+There are no other fields besides the list entry object (which is fully 
+overwritten by QLIST_INSERT_HEAD()), though, so this patch is correct 
+and I’m happy with it as-is.
+
+Max
 
 
