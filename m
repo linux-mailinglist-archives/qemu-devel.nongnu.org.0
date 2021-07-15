@@ -2,132 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AC93CA008
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:49:35 +0200 (CEST)
-Received: from localhost ([::1]:35102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB863CA059
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 16:14:05 +0200 (CEST)
+Received: from localhost ([::1]:42350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m41k5-0008UB-MK
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
+	id 1m427n-0006KL-VN
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 10:14:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m41ip-0007gv-E3; Thu, 15 Jul 2021 09:48:15 -0400
-Received: from mail-eopbgr130129.outbound.protection.outlook.com
- ([40.107.13.129]:48263 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
+ id 1m426g-0005W1-D2
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:12:54 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:39734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m41in-0007ZN-0M; Thu, 15 Jul 2021 09:48:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KnIVPj5QATcJmfeUEkaUOj0DOK/6ssJTMOo4SQxc95tKYnpjpF9efqKu6jlVT4XCtkBWtugt/7udHCNh4XHqM7v7xBhRl6v+lPmcv/ICNelgil3mU/5eGJ64vhdKdcAXiBR+Ni+2q0OsdWxBq/Qdb03QsmdEKMBQh2EPYKQCXnrQv+w7aOqcOeMSoLcJa8r2hRzAUR2cjpfs6B9lUHeDftkVvLerwcshMR1u8oeCDImOY7NAIibSTUjD4Yn2KizK3ctgvEfUL0pueq1Y2Jepuic3NbJ0dWaSKlNDby1Vq+2ZRGBe9RMi59/N2G/iKQ3mEApWhkWOkXTCC+uAREG84w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fVzS12UxKDIeuCV0G/WCeRAIDd04IpS5aHZh0ondaZg=;
- b=B2twcfuwKv5Jyg/0WKMXy61xZZ+l0e/73yJMVsxrrA+YNxujd++nwo3JQYFa5Gd49uGp6V+MXeAXlljJy8J+6N8heMHjvmPfu6L45WW2GO3j9DF1g2YNipZ6/HCcmpdo4n+9jqXPt+hAJCup7JKDCFcCWQDKyw9o/mOMtpBMGDQDDrrEprdr6zKzbxSIA2vHHk2hM8nk1w7UJ1+CBP3BerrxrokbTXmiHbx0Dz3Vn2iL9SjuR3nsrp7gJIq+GDPmD6xXd5E7GTRFFk5Jpa+xY7IBbg5sMD6tYF5tBiFAgVOQ+oDkwhISl8SFUPHwET2LyxfBDMSyPIof40ZiDb52iA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fVzS12UxKDIeuCV0G/WCeRAIDd04IpS5aHZh0ondaZg=;
- b=FlN10YSg851Ik6CGZ4GgV1UN+bf2qJP0BDX61MqQQyPgWFYgXE5VFix3RXDbHVtqLxT2lpTiIG+glNKXExhrGSQMxdSfppFFBJ80VN1qKDp5rFHI1W0+Wr8NeVJMfzlCA4WwYg4Tt4BnAhgm5HYAPp2FLdMDhAp4LDbj66g4xWI=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5384.eurprd08.prod.outlook.com (2603:10a6:20b:10c::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.22; Thu, 15 Jul
- 2021 13:48:08 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4308.027; Thu, 15 Jul 2021
- 13:48:08 +0000
-Subject: Re: [PATCH v5 5/5] replication: Remove workaround
-To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
-Cc: qemu-block <qemu-block@nongnu.org>, Wen Congyang
- <wencongyang2@huawei.com>, Xie Changlong <xiechanglong.d@gmail.com>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
-References: <cover.1626090553.git.lukasstraub2@web.de>
- <bba4e56bd198578c6e52c2e07edbc6c706200205.1626090553.git.lukasstraub2@web.de>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <f8ac87c2-b1ea-4dd3-989c-21a46c142bc2@virtuozzo.com>
-Date: Thu, 15 Jul 2021 16:48:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <bba4e56bd198578c6e52c2e07edbc6c706200205.1626090553.git.lukasstraub2@web.de>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR2P264CA0012.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::24)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
+ id 1m426d-0003Ez-Lh
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 10:12:54 -0400
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20210715141243epoutp037ea1bc17a1a117400135ddf6eae3b62e~R-FCiWUht2849328493epoutp03y
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 14:12:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20210715141243epoutp037ea1bc17a1a117400135ddf6eae3b62e~R-FCiWUht2849328493epoutp03y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1626358363;
+ bh=XRxxNPW3snq6lSjfDihfRLnwfAj4Rk5H0/CABadrDuA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=eSzL9wT98LBhSFTTeEovcv5ixe69GWH3rhtjNyPFUbA9cbEjeht+uZAm752bgu+Qk
+ /Hxle+UZjKUIOJV5xwFcw/WjKrkTeX4gyABNVI91GJEkR2PCX48a246LGgeO1yMaWR
+ 2wJyA+P9q2c94cSRrr2gRJDQuS2ItlVwsQshlVtk=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210715141242epcas5p1c601763dd9b7318ef19be3ae671c6c55~R-FBgDcJ82306123061epcas5p1B;
+ Thu, 15 Jul 2021 14:12:42 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.40.208]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4GQbtJ0SYJz4x9Ps; Thu, 15 Jul
+ 2021 14:12:40 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 73.56.11627.75240F06; Thu, 15 Jul 2021 23:12:39 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+ epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+ 20210715123747epcas5p4a0e74e02a33e2cbadc4fe67010a9efcc~R9yJtbWLQ1375413754epcas5p4A;
+ Thu, 15 Jul 2021 12:37:47 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210715123747epsmtrp2d4d9778076b331627de49365b20e219d~R9yJsXzrN1874518745epsmtrp2H;
+ Thu, 15 Jul 2021 12:37:47 +0000 (GMT)
+X-AuditID: b6c32a4b-ab7ff70000022d6b-39-60f04257c8c9
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 5A.5A.08289.B1C20F06; Thu, 15 Jul 2021 21:37:47 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20210715123745epsmtip1bd8f5d0da44c4847981b420de10ee53c~R9yHdP3Io0656306563epsmtip12;
+ Thu, 15 Jul 2021 12:37:45 +0000 (GMT)
+Date: Thu, 15 Jul 2021 18:06:40 +0530
+From: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC PATCH 1/2] hw/nvme: add mi device
+Message-ID: <20210715123640.GB8970@test-zns>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.193) by
- PR2P264CA0012.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 13:48:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9d5118db-5705-438d-0fca-08d947972db4
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5384:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5384453D8D13051B44D7A9D8C1129@AM7PR08MB5384.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:140;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wtiFfVEMLkmQp8PFuYNU6dtc8XgasOv3fpeBrqmyv3BNtRW33vWIGgncv/RaZVOkV34HstgVqpV8SFetASYNQJppyjFcKxJ3U9TvcuLszx9IL08HxYue2QPMvO+h75UhRHl7mp7HtFSywR0zB/qC3i2GZm/z11hPifs1tWp4NRgnJpqWQzRDaDv7+3Ln0NInMj9CqzjxK+GpeAgcMAidOweCXx+KqIIqDvoviKT2tEKgr4IbqwxB8JD4S36yYbPqUcWanTaYop/5s9wQUnkACWQRgtAwoGcS1ppCF+TUz9Jh5isCc4L+oXMrkVAFzHobnJsg34v2i36URTKX2DW8Mb0NNRvD1zN3DjXb2UuPuHC/fFoYKmOOsSDDgpncTClMLBvb8HYxuZm1u1i/mkZaETys+XUsQYSoKSw6UUHkdD5I/S+GeJW2qbfMabweWstYzPDCeIeyj0cp46CnP1dY/npXAIdpwAoVLJ0NiLHuwzpNxXWQO2i0e5c6Xe9LNxwZfeYx49OspbkpJElnVae+f8aewzUs93/fdFERf64ZABXatBeb41OCgceCbvYwEkhc1VYQkxhvfF9R94tb1OHcd79wfT9/1HJWY/ag4vJjdwHNQOr+H4MCK061W+CIMI3X3qrrJJEnSEDyciV4OWg6d0HmZZ4Jsjz25i872G8xfYkFLiT0BCbLK+edzLTS8IVX5PEsclhelmdstA7QveNJ+JeNWEjPUr0VUhAeVahDNgjnhI+oOs1ti3zlTaWcejF2q76BiMDiScnzmNkh/lOKOA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(346002)(39830400003)(136003)(26005)(66476007)(16576012)(31686004)(2616005)(36756003)(2906002)(110136005)(54906003)(83380400001)(4326008)(478600001)(31696002)(316002)(956004)(66946007)(8676002)(5660300002)(86362001)(38350700002)(38100700002)(6486002)(66556008)(8936002)(186003)(52116002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?Windows-1252?Q?bM7wocQ5HNw11d+Cm8bjd6ZaLUYxhdz3VkZaGnLvNrzd3naZ3E2NWFeM?=
- =?Windows-1252?Q?NR28XFIx2oz4vmeReqk8+hWwIxwuV1OcEwbzj6SLHIMFmVuEXui4OTDF?=
- =?Windows-1252?Q?kFaaWQnV5h9SZFFNqrD53YtSjC9UYiC+odVt9gMMdIDFS8VuQRmahpId?=
- =?Windows-1252?Q?tzhCtqWrgrc8LEnxkq4hNyM/9YexwfwaY/FSwj7KwkQPXmYcwJaUkr4D?=
- =?Windows-1252?Q?nRBQ8hvGPeBARw/E9a+QOpyAmE2pUewYPeZj02PkRLP1NcHM4+cy7UpJ?=
- =?Windows-1252?Q?m2tHEmFzuj81jqxzsdjXdVt7M+PGz7931RfL/yQggEceWdUzeu+Eqbev?=
- =?Windows-1252?Q?FQNhSRzc0wa43pVrVtJpVrrb/BTvfczE0DDTUJgX+l26bDwifb893vBD?=
- =?Windows-1252?Q?Q4IykEGY2OrMulKVSjJ5EQemRjN/35OEi78IzEWJ7NzuaUbyyj6YmGtT?=
- =?Windows-1252?Q?5UtA+kf/Ff5WCCSXzxZsrWXWZz3w+lMbubKb6JkUIRijnf6GalIjG2Oh?=
- =?Windows-1252?Q?lLcRolqAn+vFQE8sM28YP9F1DZYHJgewGSiCS/8MthYWcEYRt44wUbZ7?=
- =?Windows-1252?Q?oehG4fooi5bfHYX4CY0Ten+q3BCoVAkMcuLqzQyLLrusrPlVaLVzKu92?=
- =?Windows-1252?Q?CLlbTbRGJBTMuw2y/iSNFVv5ZfOof1AR06GVmvphWezfyKpbNUo6kjhU?=
- =?Windows-1252?Q?+H/DgjwYN0o2Ir3PE63v+x06LvBOKFfLomSPKCShs2gGkR+VWaZJO5/l?=
- =?Windows-1252?Q?ORRLWcZHny5fjqk8UN5W20a3ywGj50RAIaZnqCwLShh4ag/b19X+WlIS?=
- =?Windows-1252?Q?Ki8FNA6N7+QepD1EdXBASj+bmbetyFb5jCIFzfb+esRew0Gfbw7+Ik0E?=
- =?Windows-1252?Q?W1mHyoZc/9DQKO/iSn7aCr43aXNe/2tiPqyKxRmzU70ZyFe1BvcjoDmR?=
- =?Windows-1252?Q?tSI8h/nK9uY9ToxuCncKffyj/EMSzOfwznnvSruhXfRiz3SFXC9jQSQi?=
- =?Windows-1252?Q?1DN9LdfmGXqkZFoeP9IxQq2zU/Vaf3SAz9miDEw1OCal+A4xAKgId0mh?=
- =?Windows-1252?Q?yI/ahwAlBaXtrUgacOhu5bfdP+Dd4XPBnxcDTJEhcaZTIU/sNDtet7sp?=
- =?Windows-1252?Q?XOGy+cBqCwiv22vBU3CDtQgKKPEQFiQlL+4jqPKy8R4lIEchjXItMLPc?=
- =?Windows-1252?Q?s4ON/o913U9tbprHLVo1keFfeq6cZOQcCmLRO911GjejSoKV7HmX7rMd?=
- =?Windows-1252?Q?jUgdZVdCMwzyMVwG5ucV4IZF/1hIHnssN8Zi+IOCoy3VYrKKYImZcSFh?=
- =?Windows-1252?Q?7E+heyJdqwYKLEVrdmiQGSn8X7DjsQRnqjsTwEaInLNXhFKhPGckKahH?=
- =?Windows-1252?Q?JJoxvtRQwd+JgFvzicWQ1n+5VgmLmWfecgb5o+ceXacKZOYRyQurfmJn?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9d5118db-5705-438d-0fca-08d947972db4
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 13:48:08.3737 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: seXNCk0WYi054lxX0mKN1IovgURqU+PRVP+yRtIYyh4HuIc4DJE1xgYFMYc9slIlVRoR26I1BKIOVSnL1dZvGqC+DLDjxzpbhElkTOHJGks=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5384
-Received-SPF: pass client-ip=40.107.13.129;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPJsWRmVeSWpSXmKPExsWy7bCmhm6404cEg+/9FhZvvz5gs7iy/zyj
+ xf6D31gtHt/5zG6xdL6+xcnGPawWkw5dY7RYcjHVYv6yp+wWa14oW8y7pWxxZcoiZotZ79rZ
+ LI737mCxeD3pP6vFzeanbA4CHj/OtbN5nNtxnt1j06pONo/NS+o9nlzbzOTxft9VNo++LasY
+ A9ijcmwyUhNTUosUUvOS81My89JtlbyD453jTc0MDHUNLS3MlRTyEnNTbZVcfAJ03TJzgC5X
+ UihLzCkFCgUkFhcr6dvZFOWXlqQqZOQXl9gqpRak5BQYGhXoFSfmFpfmpesl5+daGRoYGJkC
+ VSbkZNz/2cFa8EGuovHTc+YGxj2SXYwcHBICJhIXfyl3MXJxCAnsZpT4dPAGaxcjJ5DziVFi
+ 9xcRiMRnRonPr5eygCRAGj4/W8gOkdjFKLFu1y1WCOcZo8TRG6+YQKpYBFQlHv7Zxgaygk3A
+ SOJ7qy2IKSKgKXGjWxCknFngKpPEqxPtjCDlwgLGEnP7F7OD2LwCOhIdmyayQNiCEidnPmEB
+ 6eUUMJe4tlMRJCwqoCxxYNtxJpA5EgJnOCQmtTxkhzjOReLM1k5WCFtY4tXxLVBxKYnP7/ay
+ QTQ0M0rs+3KFBcKZwCgxZf47Jogqe4mLe/6C2cwCmRKLLm1nhIjLSkw9tQ4qzifR+/sJVD2v
+ xI55MLaqxOMLB9kgbGmJ2Ss/QcU9JHq3voOG0BpGiZ7jHewTGOVnIfluFpJ9ELaVROeHJtZZ
+ QF8zA81a/o8DwtSUWL9LfwEj6ypGydSC4tz01GLTAuO81HLkCN/ECE7ZWt47GB89+KB3iJGJ
+ g/EQowQHs5II71KjtwlCvCmJlVWpRfnxRaU5qcWHGE2BkTWRWUo0OR+YNfJK4g1NjczMDCwN
+ TI0tzAyVxHmXsh9KEBJITyxJzU5NLUgtgulj4uCUamBaJSP8aGnghPObn/vYazN8WyL199c6
+ UwZL9qx3OZpxNkqubqaPy4Me70rjsFi4bV1uReixSftD/LZrbN7xIuDWEVnnSusCpvUuyZUx
+ bL4XKjfZ3nl+yPf+m963GX2HNrCJ3f++Ub1976IZjH+3H7iSKXpfof5W5/73N/2rtUq35mwO
+ P6/0/91B9tM3Fik6W/N2lr5hOL0472fKytjTDmclNxVcEv2qfYNzb6Dmt/vRmbvZ5yh9uM0u
+ zJuzTGzt2ja28j/f2fZ3/mc/Xnzj3bTHHf//7Tt7X1F8yoraBtO5zWHfgk4GSgV+vMUmfzz6
+ fGysSeyMD16qmddf1bEfco5cPcfpeeW8A6ckLRa0m1/dqcRSnJFoqMVcVJwIAOqbtpxiBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuplkeLIzCtJLcpLzFFi42LZdlhJTlda50OCQUubqsXbrw/YLK7sP89o
+ sf/gN1aLx3c+s1ssna9vcbJxD6vFpEPXGC2WXEy1mL/sKbvFmhfKFvNuKVtcmbKI2WLWu3Y2
+ i+O9O1gsXk/6z2pxs/kpm4OAx49z7Wwe53acZ/fYtKqTzWPzknqPJ9c2M3m833eVzaNvyyrG
+ APYoLpuU1JzMstQifbsEroyW7m9sBfNlKhZ0ejQwtop3MXJySAiYSHx+tpC9i5GLQ0hgB6NE
+ 1+yb7BAJaYl9D6+zQNjCEiv/PQeLCwk8YZR4+zsExGYRUJV4+GcbWxcjBwebgJHE91ZbEFNE
+ QFPiRrcgyEhmgetMEo1vfrGBlAsLGEvM7V8MNoZXQEeiY9NEFoi96xgl9vd8ZYVICEqcnPkE
+ bC+zgJnEvM0PmUGGMgPds/wfB4jJKWAucW2nIkiFqICyxIFtx5kmMArOQtI8C0nzLITmBYzM
+ qxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS9ZLzczcxgmNMS2sH455VH/QOMTJxMB5ilOBgVhLh
+ XWr0NkGINyWxsiq1KD++qDQntfgQozQHi5I474Wuk/FCAumJJanZqakFqUUwWSYOTqkGpisB
+ 25MdnucXpZ/x/ffMdO7J6S3/tvifWXPGQfj9/prd2tlx3ovMF4cXL/bf985tyWz9Q3bXNokX
+ ca+a47R+xopZM5NeWlzzenDM9ZZ1t3xKg53puzwW67pJN34qFOw784+9rPDT84g//I3+6oay
+ DMvur3nFsHsV35J8MYcfa2VVLn/L+MVcbPp+0XEbrZ0ykZXNf3+fK90i3+1qPPF4y/3u7Bn/
+ kjXznmwUnrAvcM19B83e53bT5766EDzn+6waQ4GDJ1/LOGayr1W9MEFopv0kpdlXcjccWN/b
+ vvf2+WCmDZFb/1jLPd1z4372sykzNp/YNdfUvORliaZL4u02dYdKJ6/r6fLz78r+nXHrlWOK
+ EktxRqKhFnNRcSIAQGfBOSADAAA=
+X-CMS-MailID: 20210715123747epcas5p4a0e74e02a33e2cbadc4fe67010a9efcc
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26
+References: <CGME20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26@epcas5p1.samsung.com>
+ <20210709135545.GA11148@test-zns> <YOwhf59Xb/9IkZ9K@stefanha-x1.localdomain>
+Received-SPF: pass client-ip=203.254.224.33;
+ envelope-from=p.kalghatgi@samsung.com; helo=mailout3.samsung.com
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -140,77 +132,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: fam@euphon.net, kwolf@redhat.com, jg123.choi@samsung.com,
+ qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
+ qemu-devel@nongnu.org, linux-nvme@lists.infradead.org, mreitz@redhat.com,
+ its@irrelevant.dk, u.kishore@samsung.com, kbusch@kernel.org,
+ javier.gonz@samsung.com, prakash.v@samsung.com, mohit.kap@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.07.2021 14:54, Lukas Straub wrote:
-> Remove the workaround introduced in commit
-> 6ecbc6c52672db5c13805735ca02784879ce8285
-> "replication: Avoid blk_make_empty() on read-only child".
-> 
-> It is not needed anymore since s->hidden_disk is guaranteed to be
-> writable when secondary_do_checkpoint() runs. Because replication_start(),
-> _do_checkpoint() and _stop() are only called by COLO migration code
-> and COLO-migration activates all disks via bdrv_invalidate_cache_all()
-> before it calls these functions.
+------hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-In replication_child_perm()
-we have
+On Mon, Jul 12, 2021 at 12:03:27PM +0100, Stefan Hajnoczi wrote:
+>On Fri, Jul 09, 2021 at 07:25:45PM +0530, Padmakar Kalghatgi wrote:
+>> The enclosed patch contains the implementation of certain
+>> commands of nvme-mi specification.The MI commands are useful
+>> to manage/configure/monitor the device.Eventhough the MI commands
+>> can be sent via the inband NVMe-MI send/recieve commands, the idea here is
+>> to emulate the sideband interface for MI.
+>>
+>> Since the nvme-mi specification deals in communicating
+>> to the nvme subsystem via. a sideband interface, in this
+>> qemu implementation, virtual-vsock is used for making the
+>> sideband communication, the guest VM needs to make the
+>> connection to the specific cid of the vsock of the qemu host.
+>>
+>> One needs to specify the following command in the launch to
+>> specify the nvme-mi device, cid and to setup the vsock:
+>> -device nvme-mi,bus=<nvme bus number>
+>> -device vhost-vsock-pci, guest-cid=<vsock cid>
+>>
+>> The following commands are tested with nvme-cli by hooking
+>> to the cid of the vsock as shown above and use the socket
+>> send/recieve commands to issue the commands and get the response.
+>>
+>> we are planning to push the changes for nvme-cli as well to test the
+>> MI functionality.
+>
+>Is the purpose of this feature (-device nvme-mi) testing MI with QEMU's
+>NVMe implementation?
+>
+>My understanding is that instead of inventing an out-of-band interface
+>in the form of a new paravirtualized device, you decided to use vsock to
+>send MI commands from the guest to QEMU?
+>
+>> As the connection can be established by the guest VM at any point,
+>> we have created a thread which is looking for a connection request.
+>> Please suggest if there is a native/better way to handle this.
+>
+>QEMU has an event-driven architecture and uses threads sparingly. When
+>it uses threads it uses qemu_create_thread() instead of
+>pthread_create(), but I suggest using qemu_set_fd_handler() or a
+>coroutine with QIOChannel to integrate into the QEMU event loop instead.
+>
+>I didn't see any thread synchronization, so I'm not sure if accessing
+>NVMe state from the MI thread is safe. Changing the code to use QEMU's
+>event loop can solve that problem since there's no separate thread.
+>
+vsock mimcs the sideband communication hence we used it. 
+However we are working the smbus/i2c implementation for nvme-mi in 
+qemu/nvme-cli, we will send the patch in few days. to communicate with 
+nvme-mi over smbus/i2c, nvme-mi device needs to inherit from the i2c class 
+which has callbacks for sending and recieving messages, this approach 
+would get rid of the threads.
 
-  if ((bs->open_flags & (BDRV_O_INACTIVE | BDRV_O_RDWR)) == BDRV_O_RDWR) {
-      *nperm |= BLK_PERM_WRITE;
-  }
-
-That's probably possible
-
-1. configure a block graph like described in replicatio doc, but all disks opened read-only. so we don't have WRITE permission
-
-2. start replication
-
-3. crash on trying to make disk empty in do_checkpoint with no WRITE permission
-
-Still, I think if it possible, we'll crash on first bdrv_make_empty of active disk, and that's preexisting.
-
-So:
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
-> 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> ---
->   block/replication.c | 12 +-----------
->   1 file changed, 1 insertion(+), 11 deletions(-)
-> 
-> diff --git a/block/replication.c b/block/replication.c
-> index 772bb63374..1e9dc4d309 100644
-> --- a/block/replication.c
-> +++ b/block/replication.c
-> @@ -356,17 +356,7 @@ static void secondary_do_checkpoint(BlockDriverState *bs, Error **errp)
->           return;
->       }
-> 
-> -    BlockBackend *blk = blk_new(qemu_get_current_aio_context(),
-> -                                BLK_PERM_WRITE, BLK_PERM_ALL);
-> -    blk_insert_bs(blk, s->hidden_disk->bs, &local_err);
-> -    if (local_err) {
-> -        error_propagate(errp, local_err);
-> -        blk_unref(blk);
-> -        return;
-> -    }
-> -
-> -    ret = blk_make_empty(blk, errp);
-> -    blk_unref(blk);
-> +    ret = bdrv_make_empty(s->hidden_disk, errp);
->       if (ret < 0) {
->           return;
->       }
-> --
-> 2.20.1
-> 
+>> This module makes use of the NvmeCtrl structure of the nvme module,
+>> to fetch relevant information of the nvme device which are used in
+>> some of the mi commands. Eventhough certain commands might require
+>> modification to the nvme module, currently we have currently refrained
+>> from making changes to the nvme module.
+>
+>Why did you decide to implement -device nvme-mi as a device on
+>TYPE_NVME_BUS? If the NVMe spec somehow requires this then I'm surprised
+>that there's no NVMe bus interface (callbacks). It seems like this could
+>just as easily be a property of an NVMe controller -device
+>nvme,mi=on|off or -device nvme-subsys,mi=on|off? I'm probably just not
+>familiar enough with MI and NVMe architecture...
+>
+>Stefan
+since nvme communication happens over pcie and nvme-mi happens over
+smbus/i2c nvme-mi cannot be a property of nvme rather it should be a separate
+device which will be on the smbus/i2c.
 
 
 
--- 
-Best regards,
-Vladimir
+------hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_
+Content-Type: text/plain; charset="utf-8"
+
+
+------hb-dvdiRZtWrjeusMudXEerT0TTrvs-OGX_88iZ4NSx451yS=_122f68_--
 
