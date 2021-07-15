@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602FC3C9984
+	by mail.lfdr.de (Postfix) with ESMTPS id 5901D3C9983
 	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:18:40 +0200 (CEST)
-Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:37390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3vdn-0007Wv-7q
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
+	id 1m3vdm-0007VB-Rj
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vc0-0005N9-QM
+ id 1m3vc0-0005N8-QH
  for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:48 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27200)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vbx-0003UP-UU
+ id 1m3vby-0003VO-2N
  for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:16:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1626333406; x=1657869406;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=CSXjQ2sCVzI8P7qtlOMGWl6Td3Wpm1u3woWkmb+g3XY=;
- b=P8l9qUIQo/jIOHtuOfh5MqpGGoI8XSQmEQ+DGbSpImyi85uTG6gbNXq8
- Jvb9buFygp+bjJUDsZKGQQW0y+Z6H3RtJSPaU14p6BI08gnzHZsKi/Gd2
- tyqbiGlaucmQ43bssIxeVr5ay9GlUFfp30gRAqI1+KDY/6EJvHEBHqf0x
- NoaJey/M5wjmbHU+6mYgbkAQmB9w/HAuIiGabMRS2Vis7232iDVNkD8L5
- 1ohRpPWmRSQFsX/2rH12pZtRQ1aMpGMlP0qAXgUxuUcj2aUilfAv8qjYV
- O6UnAUyfcD8u+qqZGjX9AXkp4ExDnFjTD8HOyFsyO8izGAcwh2u1F4tiG g==;
-IronPort-SDR: yrGMbpr1O9XNONNT6oWw78CVI/A8ke6pIfbjKcuSujk9ZYrL1xns4ylT47ECJyAjGa1FyDHAiI
- ZoLxrG0RPvBdnJ7ckyTWQDwkXbOg/sFSuNo5iJVSttzTUYMZkwgvNnts295egu2iHsbFjYlJ55
- RWAVpJD5DBa8cTuBqbpJZUn62c8W70HibEvQt/CpLdKGxJ93g7XWQMNnU5cQJggudia0Z/tzw/
- f00aVPMQOg2Emu7li/TzxMJVWmSneD/Xqs1bdjoSiJ1LQfA8P8KfNu/B+uH0EC2CBqXB9ixIbH
- ji8=
-X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212298"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7l28ZzBUUbFHFa9PqsazIA76P+TXl8IpMYJZ1WWuX5w=;
+ b=Caa88XWx+QKKmqMZadVGKPNcXrIjiWxv6tD25G4Wh64PzjzO4f0rbwhD
+ Q8eElQR//h1r6UmvM/rncyqoi03wvSzyvOhSS/b26qrn9JJsGG9GVdtSX
+ 34AKAfb8zADPIehck4FXSDtdMeWu72/NC4+lbxBNnnI2RvfchGViZjnCf
+ 2IcZO8S75cxd7hgIfnIjI1eTt2B7xR5nGZ1k4pW0VUP5QCaVULZR8H7kY
+ SFsdOukH/Bnu7Hf+8CarxVzP/DrK/liqPhjQIDMD54SrGyVWzhXhrW3VB
+ rKGQtpaPVWLOlN0511Z5hRkZV1jnWmHkaILFJ1xUD0AtVEvMHA8uDW3as g==;
+IronPort-SDR: Tz0L8ZCdnhDPyoqNPP3Qfz3XVhB7Q1MJ0JY+Iu487Ocj2GuftT8nmGFW33Kn5tI27K42CzZgt0
+ Qcgq/WwNwK1u1D+xSJrufNdOHnyoLz8ON0ko2qKqlVmgq9MWfPfXKeRH89kIoWpa3cW5ul0zdO
+ SLmr6zvtSe98rMmD9SRUdiAitupGZeRxzr95k7gmLNOuQhyCJQ9fct+yWu9NWfrLtw7ImwPRmB
+ ZI5t0mrvTakhwoc++vtgRjwCBzrNWAq6CuIxLQlkbwquZmwulE+NCbccwuCB87WXij9LKTn28S
+ H0M=
+X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212299"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 15:16:42 +0800
-IronPort-SDR: +u2Ic8hwhhWi1n3zSlLKlZ+qAn/tcN6pt4154+5EJu5bsVsGBTqN4AyxWFiTERGQ0wDy6oDVTG
- 4l6rKT3TubXOXubM90v+MD9KTRAe8Ny7heZfyhbZ/YfuEcmk3l43WybtZkRUY0HJMnz8GWMwo6
- v6k2vcPA8F3r86LOh5040IfnOx34rAJ0fD5ya11cDRHuwrqE5rVm1bKewBlJ3rAIBnVtWqa2gK
- 8TqowYWuzryob0/nfCG6uCAyZAdrnzvUnAcrHBDvtqVCzyRqmu1va6F5CHhcf0O5P0X2KBpcsK
- onx1K8AKlTX+xIBvI9FhQm9S
+IronPort-SDR: FSzGi9VmfruzfUFx2mHlLuc4vHdefdWzftm4YDxAt54/AIRk6QhH5qnpR4o4iwzEeWJm4lES/P
+ ea0AmCFdHlyyNePLNeeMSpQU3LawnFgecPxhXONXRYPe97rN4NaAQqT3N3b+GKALVWotH/4e8w
+ 3dDkL400sLCtoax5n341P+7GGPRL4e+EjJ5Ttka2nvXf0Nlo9M3uk8beXHAAE176IBGu7ogyAq
+ geKEYntGilDOIpaT2ETJEJrW6dhJ5lphq7Ijn6cAppf/IvLcILHbqkd3QDvhqqj/xy94PQw1Sj
+ HNB6wWpzpVn/8NYra7cgs2Cu
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Jul 2021 23:54:44 -0700
-IronPort-SDR: FJd6Ud4vdcwiCAMVEYXu//fVOuF2Fa+6E5l3V9fPInFXoJSaDZkGBJpcUQCSiH+wzYbgJzI1Hg
- Dn16KtAtaoJQHlJwX2Ex88htL1DojwzNQ9mNTtldwa2ErEek3VnIWKF/zju9lifUxKDaLTvIO1
- fhcR5LRZvvdMlD3/OyONW4h4R0KgpzT3/Uohnua6csXWKMrywlSfkdkaATl/fsnJV1eORIk6MG
- DeUIBp1GQEuevo+OFS8nnybXZeEw95aK5tAhZfUnenDxnDGO1t7fuJA2phYp6K9bwTNTh5bF7F
- exg=
+IronPort-SDR: axDC9i6kqxqeSynKmQTi8uOoo59n+kWUQ16Wp+NQSXxnZGVBoo3yr5npGYa+RpoZsR7CrLCsvu
+ muljrFE5Je4GhH6/TW5Q7ydX8bmUl2dM0JqxjU7LW7t93BuHgM1aXmxkwc5MNTE+8yIDByMD+Y
+ vohkQ6hdp67jf1Iwm+WEVk455YcRnYl4WqcIMD0a+1PLgttbad82u9+lYnbZ87DM8/Tpzrbd23
+ jXnreePdTqY2Y/M5o/ZnDXa0xLCVi8WhivHeIWw5+Ges1Nss1XmH01Qzwev/ijQgcE3lQbardV
+ d7w=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.248])
@@ -62,10 +62,12 @@ Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 00/12] riscv-to-apply queue
-Date: Thu, 15 Jul 2021 00:16:28 -0700
-Message-Id: <20210715071640.232070-1-alistair.francis@wdc.com>
+Subject: [PULL v2 01/12] target/riscv: pmp: Fix some typos
+Date: Thu, 15 Jul 2021 00:16:29 -0700
+Message-Id: <20210715071640.232070-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210715071640.232070-1-alistair.francis@wdc.com>
+References: <20210715071640.232070-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -91,62 +93,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a9649a719a44894b81f38dc1c5c1888ee684acef:
+From: Bin Meng <bmeng.cn@gmail.com>
 
-  Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull-request' into staging (2021-07-14 18:09:09 +0100)
+%s/CSP/CSR
+%s/thie/the
 
-are available in the Git repository at:
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210627115716.3552-1-bmeng.cn@gmail.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/pmp.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210715
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 82ed020b10..54abf42583 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -456,7 +456,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+ }
+ 
+ /*
+- * Handle a write to a pmpcfg CSP
++ * Handle a write to a pmpcfg CSR
+  */
+ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+     target_ulong val)
+@@ -483,7 +483,7 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
+ 
+ 
+ /*
+- * Handle a read from a pmpcfg CSP
++ * Handle a read from a pmpcfg CSR
+  */
+ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+ {
+@@ -502,7 +502,7 @@ target_ulong pmpcfg_csr_read(CPURISCVState *env, uint32_t reg_index)
+ 
+ 
+ /*
+- * Handle a write to a pmpaddr CSP
++ * Handle a write to a pmpaddr CSR
+  */
+ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+     target_ulong val)
+@@ -540,7 +540,7 @@ void pmpaddr_csr_write(CPURISCVState *env, uint32_t addr_index,
+ 
+ 
+ /*
+- * Handle a read from a pmpaddr CSP
++ * Handle a read from a pmpaddr CSR
+  */
+ target_ulong pmpaddr_csr_read(CPURISCVState *env, uint32_t addr_index)
+ {
+@@ -593,7 +593,7 @@ target_ulong mseccfg_csr_read(CPURISCVState *env)
+ 
+ /*
+  * Calculate the TLB size if the start address or the end address of
+- * PMP entry is presented in thie TLB page.
++ * PMP entry is presented in the TLB page.
+  */
+ static target_ulong pmp_get_tlb_size(CPURISCVState *env, int pmp_index,
+                                      target_ulong tlb_sa, target_ulong tlb_ea)
+-- 
+2.31.1
 
-for you to fetch changes up to b3d8aa20692b1baed299790f4a65d6b0cfb1a0bc:
-
-  hw/riscv/boot: Check the error of fdt_pack() (2021-07-15 09:35:46 +1000)
-
-----------------------------------------------------------------
-Fourth RISC-V PR for 6.1 release
-
- - Code cleanups
- - Documentation improvements
- - Hypervisor extension improvements with hideleg and hedeleg
- - sifive_u fixes
- - OpenTitan register layout updates
- - Fix coverity issue
-
-----------------------------------------------------------------
-Alistair Francis (4):
-      char: ibex_uart: Update the register layout
-      hw/riscv: opentitan: Add the unimplement rv_core_ibex_peri
-      hw/riscv: opentitan: Add the flash alias
-      hw/riscv/boot: Check the error of fdt_pack()
-
-Bin Meng (7):
-      target/riscv: pmp: Fix some typos
-      target/riscv: csr: Remove redundant check in fp csr read/write routines
-      docs/system: riscv: Fix CLINT name in the sifive_u doc
-      docs/system: riscv: Add documentation for virt machine
-      docs/system: riscv: Update Microchip Icicle Kit for direct kernel boot
-      hw/riscv: sifive_u: Correct the CLINT timebase frequency
-      hw/riscv: sifive_u: Make sure firmware info is 8-byte aligned
-
-Jose Martins (1):
-      target/riscv: hardwire bits in hideleg and hedeleg
-
- docs/system/riscv/microchip-icicle-kit.rst |  54 +++++++++--
- docs/system/riscv/sifive_u.rst             |   2 +-
- docs/system/riscv/virt.rst                 | 138 +++++++++++++++++++++++++++++
- docs/system/target-riscv.rst               |   1 +
- include/hw/riscv/opentitan.h               |   3 +
- hw/char/ibex_uart.c                        |  19 ++--
- hw/riscv/boot.c                            |   6 +-
- hw/riscv/opentitan.c                       |   9 ++
- hw/riscv/sifive_u.c                        |  12 ++-
- target/riscv/csr.c                         |  78 +++++++---------
- target/riscv/pmp.c                         |  10 +--
- 11 files changed, 257 insertions(+), 75 deletions(-)
- create mode 100644 docs/system/riscv/virt.rst
 
