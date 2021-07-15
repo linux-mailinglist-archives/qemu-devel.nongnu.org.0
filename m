@@ -2,86 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE713C9895
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:53:51 +0200 (CEST)
-Received: from localhost ([::1]:33978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E1EC3C9887
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:50:27 +0200 (CEST)
+Received: from localhost ([::1]:58208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3uJh-0004q5-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
+	id 1m3uGQ-0002Ae-9K
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:50:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1m3uFE-00017o-1h
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:12 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:58123)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3uFT-0001LO-I2
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1m3uFA-0003xH-2U
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:11 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 83AA75C01E8;
- Thu, 15 Jul 2021 01:49:06 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 15 Jul 2021 01:49:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=z3zZTrJFwyk7K17nx1gqctuWMcC
- u9GuGK7QJae8ghhg=; b=P1OaqSgjcYiPaDM3kUuqGdpt+MgGBixsZgHhVA/3Zo7
- P5sdm6iVnOHfDylRi9+maGwC7WXE/nPXpP8rfbyBculFtrotVGph2olMsh9VBgGs
- Lew90l4WMr2IafHd48or7eoFM9xgLVE0gdvlv4a4ew9y+cpcBIbk8wQew1fL1/vF
- QoyR/hsoNuC24c+4oNlCgPLXzopmvGAUyC82PN/P/ysNhZQpOSOjqTVTMlbE/foS
- fWU8ixQ72PSb3iamcM6GBUGo+3vyXQTamPr2Ce3qtd5cdbcc60g7Mk8RQO67+j33
- ecLkPmwpImqj2hGRGXt8ltF9VERo20iFTBa7peccqGA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=z3zZTr
- JFwyk7K17nx1gqctuWMcCu9GuGK7QJae8ghhg=; b=wOlTgNdn9bnNfKFgeDR7mI
- HCvofq8223N/W8kH3R7bVXuhzSKz9X6yBRugEhSwJlWIvoMCmjXktONvPTLoiJtq
- pr5zCsjB7S3Gos85H06O5kVz8aA7ZLVfx6VJhQxK6h+HSHlFUhBnAoaKZhLIgasZ
- SgWHVIYmCJGavb59VsoZ284wv9Cf4aEOdb9AKkVe/LSXcCamfJhhbarGfv+DyyC1
- GRdR344DubYpvLph0O5Y3ji41c/I5U9wuQGupY3OgVljizqYBDNbcPhtou/9JA5y
- ChMXo1wBstZmxhjkVBGJZBNZxOapqcC7fZU8TqOe/Kvfhrq8tF774/VP4AkwE57A
- ==
-X-ME-Sender: <xms:UczvYPPvgxiN3w90J4Altu5SO-pGvBuXQlF7tTWHirjzTRyC8yZU7g>
- <xme:UczvYJ-Yuy_rFRbnqiN2mvKnKYnx794eTLzy1qBILVsojqZjEG6VP4uNrjago7G5S
- z5VSbO9tFEz939BB5I>
-X-ME-Received: <xmr:UczvYOQt82k4sIfo64JgnFD8iXJtbQ6O5t1QAsQZDww7mKelp8iyKeJKjhwitYrvyzlxxcqr_nRwCvAGIxyI5AHvJZD3iVGoX2fTWmf0V_0AObRBSg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelgdduvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:UczvYDvO2OKovS33rZbqIgHcYWkjSzY1qs26X_3x4D8iKHuNbXLQpA>
- <xmx:UczvYHeVQOS3ERAuxPLcq9zYh8czZnHLfL-TWd4tZZQ-E_rj0bvETg>
- <xmx:UczvYP0pY7JuahGNRa3AS8aZcl6RyVIGnzA8TY4s1QTO1tNKmyPEHQ>
- <xmx:UszvYO53t57M2lNltBkVXkDV6CytHfPlQsuslHMuzc5K3W9NDUJU_Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Jul 2021 01:49:04 -0400 (EDT)
-Date: Thu, 15 Jul 2021 07:49:02 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v2 10/21] contrib/gitdm: add domain-map/group-map
- mappings for Samsung
-Message-ID: <YO/MTt7DJ8C1GMKQ@apples.localdomain>
-References: <20210714182056.25888-1-alex.bennee@linaro.org>
- <20210714182056.25888-11-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m3uFP-0004CG-Bg
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626328161;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ipA76JNxdxLDlSTCMwPxBIkeLK7x4efnQus0oNxIGW0=;
+ b=KCZvx566I8ILL8J0N4xL/1cPmco9XNkkBfV6mKz7jCJPVYBT/5sQkfpHjAgvQqqyCF38Sz
+ gAbLlinfICmzdCJsZvpBLVs9753XaDJ6OcGRjr1uydppNhDZX7oanz+Ht00nJkRpKsxxD5
+ m1lwHZsH5VzTALD7MfOahqpRyno5R/o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-178-y2nLD1pHMMycJJkp57J-zA-1; Thu, 15 Jul 2021 01:49:20 -0400
+X-MC-Unique: y2nLD1pHMMycJJkp57J-zA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 080C880431B;
+ Thu, 15 Jul 2021 05:49:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
+ [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 02E9E5C232;
+ Thu, 15 Jul 2021 05:49:15 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8D8B1113865F; Thu, 15 Jul 2021 07:49:13 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
+References: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
+ <bb8d222a-be8a-02b7-3ddc-de443290e29d@redhat.com>
+ <36bcf543-0b56-7e2f-26e7-648ca3cf58dd@linux.ibm.com>
+ <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com>
+ <87a6mpez2b.fsf@dusky.pond.sub.org>
+ <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com>
+Date: Thu, 15 Jul 2021 07:49:13 +0200
+In-Reply-To: <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Wed, 14 Jul 2021 22:16:03
+ +0200")
+Message-ID: <87a6modt46.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EWUbHS4yEyGIhPrU"
-Content-Disposition: inline
-In-Reply-To: <20210714182056.25888-11-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.699,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,99 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
---EWUbHS4yEyGIhPrU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On 7/14/21 4:43 PM, Markus Armbruster wrote:
+>> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+>>=20
+>>> +Markus
 
-On Jul 14 19:20, Alex Benn=C3=A9e wrote:
-> Minwoo's work from their personal address are treated as personal
-> contributions.
->=20
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Acked-by: Klaus Jensen <k.jensen@samsung.com>
-> Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
-> Message-Id: <220210714093719.21429-11-alex.bennee@linaro.org>
-> ---
->  contrib/gitdm/domain-map            | 1 +
->  contrib/gitdm/group-map-individuals | 1 +
->  contrib/gitdm/group-map-samsung     | 5 +++++
->  gitdm.config                        | 1 +
->  4 files changed, 8 insertions(+)
->  create mode 100644 contrib/gitdm/group-map-samsung
->=20
-> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-> index efbbb15643..beeb24341e 100644
-> --- a/contrib/gitdm/domain-map
-> +++ b/contrib/gitdm/domain-map
-> @@ -26,6 +26,7 @@ proxmox.com     Proxmox
->  quicinc.com     Qualcomm Innovation Center
->  redhat.com      Red Hat
->  rt-rk.com       RT-RK
-> +samsung.com     Samsung
->  siemens.com     Siemens
->  sifive.com      SiFive
->  suse.com        SUSE
-> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-ma=
-p-individuals
-> index 36bbb77c39..4ac2f98823 100644
-> --- a/contrib/gitdm/group-map-individuals
-> +++ b/contrib/gitdm/group-map-individuals
-> @@ -29,3 +29,4 @@ mrolnik@gmail.com
->  huth@tuxfamily.org
->  jhogan@kernel.org
->  atar4qemu@gmail.com
-> +minwoo.im.dev@gmail.com
-> diff --git a/contrib/gitdm/group-map-samsung b/contrib/gitdm/group-map-sa=
-msung
-> new file mode 100644
-> index 0000000000..e38c7eeeac
-> --- /dev/null
-> +++ b/contrib/gitdm/group-map-samsung
-> @@ -0,0 +1,5 @@
-> +#
-> +# Some Samsung contributors submit via another domain
-> +#
-> +
-> +minwoo.im.dev@gmail.com
+[...]
 
-I'm not sure how this groupmap works, but was it intentional that you
-left Minwoo in the Samsung group map?
+>>> IMO the "right" solution is to check via QMP if TMP is supported
+>>> or not. This is now doable since commit caff255a546 ("tpm: Return
+>>> QMP error when TPM is disabled in build").
+>>>
+>>> Long term we'd like to decouple the tests/ build from the various
+>>> QEMU configurations, and build the tests once.
+>>=20
+>> This argument applies only to macros from target-specific headers like
+>> $TARGET-config-target.h, not to macros from config-host.h.  #ifdef
+>> CONFIG_TPM should be fine, shouldn't it?
+>
+> Some definitions depend on the host (OS, libraries installed, ...),
+> others depend on the --enable/--disable ./configure options.
+>
+> IMO it would be nice if we could get qtests independent of the latter.
 
-> diff --git a/gitdm.config b/gitdm.config
-> index a3542d2fc7..e7a744146e 100644
-> --- a/gitdm.config
-> +++ b/gitdm.config
-> @@ -36,6 +36,7 @@ GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
->  GroupMap contrib/gitdm/group-map-ibm IBM
->  GroupMap contrib/gitdm/group-map-janustech Janus Technologies
->  GroupMap contrib/gitdm/group-map-redhat Red Hat +GroupMap
->  contrib/gitdm/group-map-samsung Samsung GroupMap
->  contrib/gitdm/group-map-wavecomp Wave Computing
-> =20
+Why?
 
---EWUbHS4yEyGIhPrU
-Content-Type: application/pgp-signature; name="signature.asc"
+> I suppose config-host.h holds both kinds.
 
------BEGIN PGP SIGNATURE-----
+Yes.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDvzEwACgkQTeGvMW1P
-DemMzQf8CJjJT93oII80N25gPhGU2qZuyE/UbmWMXAA/ApAz1R9saVtzfhiZ9qPE
-Tr3FwkC/NG7QKMLZhejDR8136P1UNalTvN8O2AYxLGPldyhs7obMUwHc76VYCkPM
-Eo5KF32l20YQdUvTIiViME5I4nQT7E6qo11u0OoqB4A+ayHU2CVaSBi/GD+6xz+D
-35bhlPXdVXNW52JoSHsOHq4xCuZmRyXf2X+aTSO6AJhfi+0vCnfmXzv8rRbHGpIl
-8pHbmB73Va2kqpRH/8Ee/gw26wp8NtM/AEGiUbQrW27WrMEeS+WDS4ZXOwW8v+KA
-W0HZA9z73NC3iqkKSsBl85ptBJCtWg==
-=tFsy
------END PGP SIGNATURE-----
-
---EWUbHS4yEyGIhPrU--
 
