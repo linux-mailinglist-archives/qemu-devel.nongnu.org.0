@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631863CAE56
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 23:02:11 +0200 (CEST)
-Received: from localhost ([::1]:35348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9793CAE7A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 23:23:10 +0200 (CEST)
+Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m48Uk-00074O-FB
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 17:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39392)
+	id 1m48p2-000442-NT
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 17:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m48Sr-00062Q-J2
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 17:00:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43917)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m48nP-0003Nu-Pn
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 17:21:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m48Sq-00029B-3D
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 17:00:13 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m48nN-0008Ey-0Z
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 17:21:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626382811;
+ s=mimecast20190719; t=1626384083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KSeofyEBmF0cfz0hrM+3u9hPftpHAXrhS6g58V8P8W0=;
- b=ibv8c3huolh+GXAiZZ19CmvtWM9Mp7qRm3uc+AGr2pr+vxJ0GmcKN1qCq6G6MBvNMeElSd
- NoZpXsh/7VnF5Er+/S/ornoT/l2sFC0El6NAqBxasGizg4J2S+Q2CmF5+Bx4ziFig4z2vS
- 59EJZSwhNSZXsccutEIrnZ7TuNeTRVc=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-bi59zs9gNculMreBXta44A-1; Thu, 15 Jul 2021 17:00:10 -0400
-X-MC-Unique: bi59zs9gNculMreBXta44A-1
-Received: by mail-qk1-f198.google.com with SMTP id
- y5-20020a37af050000b02903a9c3f8b89fso4792265qke.2
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 14:00:10 -0700 (PDT)
+ bh=X4Va0Mi3YZYlFmB2D2NwhDU+92XCCfpPBxMI+mObbfw=;
+ b=XVMZdNfSy7HIwZt89xGGbg0fYfotkLUHXqG0ZnKUt1AJ6utW8meqXwkZm2qf+nc1I7HRDO
+ wgooH1gr4/BZIVJfMLMHhJrTUwGmWiour0SnTvuVfMaUhzYbI/DcImQV//GyMjzKiGzy9k
+ d/ZY8poR8UafSLC/syImLBGXCmf89OU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-J4u92RJBNAmUO_IJ7prcUA-1; Thu, 15 Jul 2021 17:21:21 -0400
+X-MC-Unique: J4u92RJBNAmUO_IJ7prcUA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ eg53-20020a05640228b5b02903ad3cc35040so2427585edb.11
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 14:21:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=KSeofyEBmF0cfz0hrM+3u9hPftpHAXrhS6g58V8P8W0=;
- b=pU1KAolxfwPNJmFq2BsSKBG9kkNg9ZLZd5ELlIsBZ2kBjNP7Ues4h3JsLENZqc7qAm
- 8praH3Rw0P1/ECqP6kOiPymV5MliKnFbFTMToK5GaoR4LtlXCTU6j6UU5/elA9hTClsD
- VzpTW2MNB2lFeGk7tYSp6NgUVQdxPSaZku+n3hD+/ZSV3zNwcRfoF1K2M/sHY4F5gJuL
- iCbsrKud8E3R5lPddZm4a8CePcdlN/JrRRc1Nu3h77kQOMS0/9vcprdqT+GkkPJ6EvMM
- G0jsGYdDFZ5QBHS5ETzPdKl/5B/A5Mp9YGT9ZK3zf1tDi67PX+qY07mzW/VfhxCAl1tl
- aJ8g==
-X-Gm-Message-State: AOAM5308pROHo1YGP/he9q41CS76hxJo4JTSONz6rpZRncvCh3XeBO/U
- h2c5wdOFaxi4/Uvh+BTHUsYJ0ZFQdC9KEOl6ryalfnpTzt2zRp5XDcHIgKmTumHdUmTWzTZOkr9
- TmXN+rn7xXW72Euo=
-X-Received: by 2002:ad4:4ae5:: with SMTP id cp5mr6334458qvb.38.1626382810010; 
- Thu, 15 Jul 2021 14:00:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw+cEM5a+M4mVtgu4MFZXPyVIOEFRS4mN/6LjyN1vdEerPExJ+AIQdtgJxv5QMOsSYrJ9Jkfg==
-X-Received: by 2002:ad4:4ae5:: with SMTP id cp5mr6334435qvb.38.1626382809815; 
- Thu, 15 Jul 2021 14:00:09 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id y10sm2462777qta.35.2021.07.15.14.00.08
+ :mime-version:content-disposition:in-reply-to;
+ bh=X4Va0Mi3YZYlFmB2D2NwhDU+92XCCfpPBxMI+mObbfw=;
+ b=azrt+nxbEaxqdDxAoWmZydjU7ByZkeCdKv3YhCa8ISjfoO6Y+P/j5l8GnzpubTH9OF
+ JiT2++llRbgfNDMJMhm/RCHoqvdI9mALMDG9r1TnGSU5p0d1NN2ZtmwChFAegk06FaCy
+ mlzqhMnFwYjL7XiLShYaBoIrPSKDUgbXkgJlD6KV/UzSX/H8aazZycMor1WLvw5qGYg+
+ BGc2pqQjIhDtnEjEaw/FGHiV5A1wXjqy1d84LVJwA/kFRdzrmTgRXBMUolo3WKqHysnI
+ UgPB3JmqzJFaCryiz5clpXafGChRVvqOg0+h8eUlL787qU0dxJuXZxZOG9ENuXR39NEf
+ jNRQ==
+X-Gm-Message-State: AOAM531oSTEnGomr6jlq6PFM27jNxEd0vS9xSVXzuDcnhJALh7Qsmonp
+ jMv14rCxsAhap+WL0hLwjuNIxgvFCC5G0bx6Ozf7Eesvl2BNIWqAO3UXoLhoipZLvB21n22l8PY
+ Nibkn6Ce25d1hwbk=
+X-Received: by 2002:a05:6402:14d4:: with SMTP id
+ f20mr9919325edx.316.1626384080721; 
+ Thu, 15 Jul 2021 14:21:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyhXlzbXmrTJFzDuQX+eYp8IaAsk5HZnS+D1gvrm8b9PssGZiVLhrYJgDZBv9WWZYW+rfI/8A==
+X-Received: by 2002:a05:6402:14d4:: with SMTP id
+ f20mr9919305edx.316.1626384080526; 
+ Thu, 15 Jul 2021 14:21:20 -0700 (PDT)
+Received: from redhat.com ([2.55.29.175])
+ by smtp.gmail.com with ESMTPSA id n16sm2219855ejc.121.2021.07.15.14.21.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 15 Jul 2021 14:00:09 -0700 (PDT)
-Date: Thu, 15 Jul 2021 17:00:07 -0400
-From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v3 0/3] support dirtyrate measurement with dirty bitmap
-Message-ID: <YPCh12e+L3ORKZKb@t490s>
-References: <cover.1626354884.git.huangy81@chinatelecom.cn>
+ Thu, 15 Jul 2021 14:21:19 -0700 (PDT)
+Date: Thu, 15 Jul 2021 17:21:16 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/23] pc,pci,virtio: lots of new features
+Message-ID: <20210715172049-mutt-send-email-mst@kernel.org>
+References: <20210713220946.212562-1-mst@redhat.com>
+ <CAFEAcA_ykJOv0s_44VKWFa3ti9pVD_u_3_G1MpAFdLRZ9oPH5w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cover.1626354884.git.huangy81@chinatelecom.cn>
+In-Reply-To: <CAFEAcA_ykJOv0s_44VKWFa3ti9pVD_u_3_G1MpAFdLRZ9oPH5w@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -95,32 +94,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 15, 2021 at 11:51:30PM +0800, huangy81@chinatelecom.cn wrote:
-> Hyman Huang(黄勇) (3):
->   KVM: introduce kvm_get_manual_dirty_log_protect
->   memory: introduce DirtyRateDirtyPages and util function
->   migration/dirtyrate: implement dirty-bitmap dirtyrate calculation
+On Wed, Jul 14, 2021 at 09:31:21PM +0100, Peter Maydell wrote:
+> On Tue, 13 Jul 2021 at 23:10, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > The following changes since commit 708f50199b59476ec4b45ebcdf171550086d6292:
+> >
+> >   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-07-09-v2' into staging (2021-07-13 14:32:20 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >
+> > for you to fetch changes up to cf171f90d5e41730ad3e0ce23f1990f34b7e63ef:
+> >
+> >   vhost-vsock: SOCK_SEQPACKET feature bit support (2021-07-13 16:59:12 -0400)
+> >
+> > ----------------------------------------------------------------
+> > pc,pci,virtio: lots of new features
+> >
+> > Lots of last minute stuff.
+> >
+> > vhost-user-rng.
+> > vhost-user-i2c.
+> > vhost-vsock SOCK_SEQPACKET support.
+> > IOMMU bypass.
+> > ACPI based pci hotplug.
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > 
->  accel/kvm/kvm-all.c     |   6 +++
->  hmp-commands.hx         |   9 ++--
->  include/exec/ram_addr.h |  19 ++++++++
->  include/sysemu/kvm.h    |   1 +
->  migration/dirtyrate.c   | 118 ++++++++++++++++++++++++++++++++++++++++++++----
->  migration/trace-events  |   1 +
->  qapi/migration.json     |   6 ++-
->  7 files changed, 145 insertions(+), 15 deletions(-)
+> This seems to produce a new meson warning:
+> 
+> Configuring 50-qemu-gpu.json using configuration
+> Configuring 50-qemu-virtiofsd.json using configuration
+> Configuring 50-qemu-rng.json using configuration
+> ../../tools/vhost-user-rng/meson.build:7: WARNING: The variable(s)
+> 'libexecdir' in the input file
+> 'tools/vhost-user-rng/50-qemu-rng.json.in' are not present in the
+> given configuration data.
+> Configuring 50-edk2-i386-secure.json using configuration
+> Configuring 50-edk2-x86_64-secure.json using configuration
+> Configuring 60-edk2-aarch64.json using configuration
+> 
+> (the build then seems to go on to complete OK).
+> 
+> -- PMM
 
-Yeah this diff looks much nicer. :)
 
-I still have a few last comments here and there, please see each patch.  Thanks.
-
--- 
-Peter Xu
+I sent an email about a fix. Do you prefer PULLv2 then?
 
 
