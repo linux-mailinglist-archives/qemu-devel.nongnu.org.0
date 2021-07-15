@@ -2,124 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE203C9EF2
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:50:19 +0200 (CEST)
-Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124743C9EFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:55:41 +0200 (CEST)
+Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m40oj-0005ce-SC
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
+	id 1m40tw-0007i3-16
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m40nk-0004pN-Fb; Thu, 15 Jul 2021 08:49:16 -0400
-Received: from mail-eopbgr60108.outbound.protection.outlook.com
- ([40.107.6.108]:59553 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m40sy-0006u4-Ju
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:54:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m40nh-0002ly-JP; Thu, 15 Jul 2021 08:49:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Xd4dZnbOgHpNLI8x+FXVfQX8NBYIS95SkosPfHLdxSnCLs7ZR+CE8Htu1mLs87SZAfSvVWZYz/ICouuDwfgsz5dwh+YXnkGGXL2mIDgygLiE7sn+2p4hLg14r/Mj3fT7tqs3R+i2PNC3s8BUDXDDgWxD2Pp4Azx2b6ao8PfiEY02o8XMZew0GSoTRhgRPiSAvjAEX01Rh3G3W1UmmJ5QPyMgSUggvZXxW/UHECe6iRQL1pTnAR95xXzmZVEIddWgrbZ2fcx7FZmcO5XkUYVLFK0PQbLk4wWQt+teJ8xuiJtp5rjKdCTlenpT8pFDp/WiMQr2uQDXbCjnABnucqAwEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YsA4JMesW+XPZjwroWu/j3FxswxBIrHd1KFPsMs5v0s=;
- b=Gg4grVFcrEGfunS8dq/zkOM3bDfTXz3/E267GsdG6PgUwqAHxsgmmAPz8SKonKGKkWyqxBBs0MUdIqVSerQe7wAtyi0bHwkzHDaXi+/FfPMZQa61Nb5Jn2OzaeKEWzg8eXAA6IcJQD8IlA2p46dUDnhswUaj0pNbDj5ESUk8Fsxl6fXRihoeUyuaI22xJpaa0n8w08IxinY4CcZego2bAy5Q2XryOrvaVK56KoCex4PyO0r/YeTtbNR+S1IWggHsaPsz35YbKrHy1rStWajVGsYvaxgbLrd4ejBhRV5SjSKe5d3BEUn3BtJhJ+xxJyLPyI9FR0UDV267z5MSuBrRvg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YsA4JMesW+XPZjwroWu/j3FxswxBIrHd1KFPsMs5v0s=;
- b=kINCiqOvDM9a6Vuy4l2yyf8Q0nL9ABPRZHFgTc3HFanebpfPIwD4H4BosP5oeUnRtiTZuXoEdgbXZzzzHJHdsXR1arvyxBIO/ogUjtGR5XDCJUIKLpPL75fKx9rNwNV7c3c00bk5NmGFOW62wERTbHHy81oHKzaO1C8Nx6wxTL4=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1907.eurprd08.prod.outlook.com (2603:10a6:203:4a::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.26; Thu, 15 Jul
- 2021 12:49:08 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4308.027; Thu, 15 Jul 2021
- 12:49:08 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
- programmingkidx@gmail.com, vsementsov@virtuozzo.com
-Subject: [PATCH] block/vvfat: fix: drop backing
-Date: Thu, 15 Jul 2021 15:48:53 +0300
-Message-Id: <20210715124853.13335-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HE1PR0401CA0118.eurprd04.prod.outlook.com
- (2603:10a6:7:54::47) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m40sv-0005YJ-54
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:54:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626353674;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=l6rOiGjKtU1WMOln+e0ovilJmZii59hbb8kB09mOgb0=;
+ b=F630lM1d1FGqp+BBl/qw2chtKudnhOoZdygk3eAeXPuaC9YuG7LRMJK782sTuHvPU9YBRa
+ VlSH927fudh6NvcPfSr6hydsfWfVBYxsx5qhNFG2+s6i3e7Pl/0OsLrT2sU/YSocTEpsGz
+ JeUMgHiJmHzdQPq3b6i5oiLJaVnLbuY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-E0uWxL0eMVe2CU7sGhTRUQ-1; Thu, 15 Jul 2021 08:54:33 -0400
+X-MC-Unique: E0uWxL0eMVe2CU7sGhTRUQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ j6-20020adff5460000b029013c7749ad05so3322409wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 05:54:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=l6rOiGjKtU1WMOln+e0ovilJmZii59hbb8kB09mOgb0=;
+ b=AfQyeU1AgyLtnxvMqcVAqLyWzoHqpcGpwJnlBMtJrVVHIT330Z7ZeGpx/6F1vawS6R
+ sSlLOWZBn65NoX14tBmgnd3BP3AaCJDYu3t0oKqo6bvYNchM2MMIgJk81hKs4of7fju3
+ 2cj9/zAMwq2C+UaUsKiLE6OnFCvs++8RCXZMAAbl3RrZhzRVN5PCJlmlyvYcS7H49Tk3
+ usoVAXStmPH69DTM6viMlbJWZp6849HbmmQUItEXKC7DEW3evPSgIsmQU1qFnBMCb/Gq
+ QPTskcnlCZ12598hszGXUyBA3ldyWvC8tRNL1EjHR5fBA+FqvCA974Jx4f0rYrkMkYav
+ Gkrg==
+X-Gm-Message-State: AOAM530bIOewH0PYugb5TYbvTvOhsnEW0PXG5WayMDqTIbFNu3Zd6Nct
+ P4KDYC2Pnbk55Mdefya6zxotWjdocq41UcWbcEvgsvDEKkAMptD6+yQ2SoviRbPUJg9k71PP+zr
+ t8sHjM7g+TCYUL3SFoobMWVwkZ5gJbplupIl2Hfh31bB8IuwC/CK4Ix+6McUQuc0G
+X-Received: by 2002:a1c:2782:: with SMTP id
+ n124mr10587586wmn.114.1626353672478; 
+ Thu, 15 Jul 2021 05:54:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyLMbIxaXLgSKnenFuC7qZmEhC6o9yflXWth6ORLyaFYvDOYJw8hsICiWAdb+3ytU60HhnnUQ==
+X-Received: by 2002:a1c:2782:: with SMTP id
+ n124mr10587554wmn.114.1626353672150; 
+ Thu, 15 Jul 2021 05:54:32 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ l24sm8109626wmi.30.2021.07.15.05.54.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jul 2021 05:54:31 -0700 (PDT)
+Subject: Re: [PATCH v8 08/16] qemu-iotests: add gdbserver option to script
+ tests too
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20210705065711.127119-1-eesposit@redhat.com>
+ <20210705065711.127119-9-eesposit@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <647d146b-96dc-48f0-054b-97fc6fb181a4@redhat.com>
+Date: Thu, 15 Jul 2021 14:54:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.193) by
- HE1PR0401CA0118.eurprd04.prod.outlook.com (2603:10a6:7:54::47) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 12:49:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a2e2b217-6e73-4325-1b9c-08d9478eeffe
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1907:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB190713668A309CC21C1B3B93C1129@AM5PR0801MB1907.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:79;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kdTrQxqU10G+X5FP7bIQ7GJzITMVq3eBPOKvNYEHnB01GCxATfzbrdS1mtgxPeWfdoEi9ATXMM85fAyToiDm/5YMZYXhQaMoqTe9Z1uaRotb35iv0pmbf4ZCXe5o04iHfuWEodRgl2KV/Vljy0uD3jYcHgeKGm0b5LMVOZncXGdWl470yr14a2f0JtKZsoKOSjMiYTkz030xR1WBjxNfLyS2W6DViIhiYRtg+N+Wq0jQay1uACTaWL5mDY/vY5A3QfPzSyDQbBZ1iQxkxygqzI+wkxiAqD2g/qTdlmX3ujnXL4uEijRCJxUCFx/OJvQIjcTvZyN5FFooDDACREeAOgN9Bq7l164/hbWASQ1axPZ6B4anlG13AqNwK2nuja/BCyxmjVYAUENwetRyxq+UzirDejEUfmoqiYgMd87gb6b+QC4T/MkSM/5odXxfUvpsuIwHqdXVZInxydxJ25DNOfmUaLQURqW8ZPEF5DIHw18twYKR8+blePYcpfzhjk8N+LZTx0uUqybS2EXmcKIxAd4BcXmGFox9CB86N32oplvBVNKCrRbPTBk0DLildhwwUiY7NoCFVw4HZbxExPPTH123+ebaxw9EWlUQGyoJmRebhXvYWOBF4o6A5153GZRshIc22c0qd1IGCOuIF8etqkAErJR5AMABXLWxE2mwE0bd+KXIutUr1inPfyK3BACboBv4ZapRPhAU9OY6ATw0nA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39830400003)(396003)(366004)(136003)(376002)(66946007)(107886003)(6916009)(38350700002)(6512007)(2616005)(6506007)(38100700002)(2906002)(66476007)(956004)(66556008)(1076003)(26005)(6666004)(86362001)(186003)(52116002)(6486002)(36756003)(4326008)(478600001)(8936002)(316002)(83380400001)(8676002)(5660300002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?OIvBmY19v0a+DFC+AECHox6A9+193+IbIV5kHClTDXA0l8ICu2Dwp9AcYom1?=
- =?us-ascii?Q?UEdLQZunFR8B9dBLrW0CeEdMky3HA3wcYmaABMLdxQKJ60kEnSyxjAhbiOJY?=
- =?us-ascii?Q?eKL2pI6D4hz09rAqE22Hknle9+P1L40Pueuh/Aq4EjN7N0ryLP3Jt1f93y10?=
- =?us-ascii?Q?HmmfaxzS7n6Q5DoyfvG20P9tAK+DyG3MU156cdczNomAuftyWrxq+QA0d9zc?=
- =?us-ascii?Q?fvZp5M5qEx700HFLT2uVjWvvzCv6AVSkWFykqFaembg/CQdnDCQ6ESIqb+jB?=
- =?us-ascii?Q?+s/VSd9DBM5O3ohg+BnYLdWA9d3MmViUhWu9ExOwePTEYlaK50wTEPHHLeoL?=
- =?us-ascii?Q?0VIDoBaji27njHKJMXviQAIrTj4wOIWTBJ5Zz2GrFhlVD1xKYqmVAyBHu0vJ?=
- =?us-ascii?Q?rR0LaFDH1yVtHEyNnxb/ZOCDwRh6Hzg1xlvrp8gmBS5hVVLVS6UH48dxWYto?=
- =?us-ascii?Q?Q0BwpdV8MdK9UNLo+8fLuikkBWyLFeVvNYyqwwJRLb86VADfQGmwW4S1JC4W?=
- =?us-ascii?Q?+mNO5LW7LXIbQLWblPbLoPabCaUuUgZ/h7Lch37kJf6ZiV3XYQ1Lz35DuF1L?=
- =?us-ascii?Q?ZTdF0J/00dwCBaraUDMhR2ZO47brXGJeXccuFVTIe+aX1lHlWJ0KgZdzbyNK?=
- =?us-ascii?Q?PVQ51aoQEw4odTirSUF38SnIJMknVtVm02Qfcrm4f0c1/UL5OqiM9LuMXzot?=
- =?us-ascii?Q?1nAE+x9mc3EXROX84MdJwNifT4Q2Ez+QkcZjQK31lU5DDoAcWpfD58vRLA4n?=
- =?us-ascii?Q?G3KNdlz3n3nZepgXW0AKR3nQAYReGWQIBLkSMSxo+bFx4D6z/0ywnUvpB8pK?=
- =?us-ascii?Q?joge0w+PtKcghyqu7hR9svYBx84VXJL9MschiJ10IEKrvpqWnzhOOzNXAn77?=
- =?us-ascii?Q?C/dr4NYaMIuRFTHn8Usj3WpIGPMubhheTUslnD00n4v6VOMG3mi2EGbGQ3hs?=
- =?us-ascii?Q?rvA3zkY9KYHdlOMdIr08d7AYCUaccX9rRTFe8HJHJ/MucQUfb0AMCLLeYp0s?=
- =?us-ascii?Q?rFK8EvPZUC6pW3rvxOQ0NIGrGqhQ7YedX7kJTX9GZkgrmt7lnwidPxrgefVG?=
- =?us-ascii?Q?G0FIFyIqeeTD2Bk1A9ht+f3f+fDTHOXAcLVZnLgQXZlEy3JKnPBfZb5kIO9T?=
- =?us-ascii?Q?CD/Yorp8m5j71VXdw+3PIcf9wUQP9lBENstnYP4NlsYxOG2Wruc7XtlMBHzD?=
- =?us-ascii?Q?rGe1YsgJI5RZrWu+Y+jmVsE3NNwBfzUIjJfg9lJ/Cit6u2nRyZ2RaUeLnyaX?=
- =?us-ascii?Q?EIcyNaPHX5GJu4GGgSJ+GU2f090sDKnadItl4zBSueaxlx7SHEy3J7fSlJhd?=
- =?us-ascii?Q?lnGpEDo5HIpfJDhNVcZ0w3jC?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2e2b217-6e73-4325-1b9c-08d9478eeffe
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 12:49:08.8415 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SqK0elHArcEzByfRbGuZKzCcBuy5Hz1BagRp7PPuYbw4uwDa3p0z9ceRnvnJn77OeGcOfIdx3VAvfvG5G0aX/1P6EKqhHZsRfSb3hG87Ch4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1907
-Received-SPF: pass client-ip=40.107.6.108;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210705065711.127119-9-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,104 +102,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most probably this fake backing child doesn't work anyway (see notes
-about it in a8a4d15c1c34d).
+On 05.07.21 08:57, Emanuele Giuseppe Esposito wrote:
+> Remove read timer in test script when GDB_OPTIONS are set,
+> so that the bash tests won't timeout while running gdb.
+>
+> The only limitation here is that running a script with gdbserver
+> will make the test output mismatch with the expected
+> results, making the test fail.
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   tests/qemu-iotests/common.qemu | 7 ++++++-
+>   tests/qemu-iotests/common.rc   | 8 +++++++-
+>   2 files changed, 13 insertions(+), 2 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+> index 0fc52d20d7..cbca757b49 100644
+> --- a/tests/qemu-iotests/common.qemu
+> +++ b/tests/qemu-iotests/common.qemu
+> @@ -85,7 +85,12 @@ _timed_wait_for()
+>       timeout=yes
+>   
+>       QEMU_STATUS[$h]=0
+> -    while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
+> +    read_timeout="-t ${QEMU_COMM_TIMEOUT}"
+> +    if [ ! -z ${GDB_OPTIONS} ]; then
 
-Still, since 25f78d9e2de528473d52 drivers are required to set
-.supports_backing if they want to call bdrv_set_backing_hd, so now
-vvfat just doesn't work because of this check.
+Shouldn’t we quote "${GDB_OPTIONS}" so that `test` won’t interpret it as 
+its own parameters (if something in there starts with `--`, which I 
+don’t think is the intended usage for $GDB_OPTIONS, but, well...)?
 
-Let's finally drop this fake backing file.
+(Also, `! -z` is the same as `-n`, but I suppose choosing between the 
+two can be a matter of style.)
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
+> +        read_timeout=
+> +    fi
+> +
+> +    while IFS= read ${read_timeout} resp <&${QEMU_OUT[$h]}
+>       do
+>           if [ -n "$capture_events" ]; then
+>               capture=0
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+> index cbbf6d7c7f..a1ef2b5c2f 100644
+> --- a/tests/qemu-iotests/common.rc
+> +++ b/tests/qemu-iotests/common.rc
+> @@ -166,8 +166,14 @@ _qemu_wrapper()
+>           if [ -n "${QEMU_NEED_PID}" ]; then
+>               echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid"
+>           fi
+> +
+> +        GDB=""
+> +        if [ ! -z ${GDB_OPTIONS} ]; then
 
-Honestly, I don't know, which scenarios may break after this patch.
-So, that's just my idea that it's more correct to drop this thing than
-set .supports_backing in vvfat driver.
+Here, too.  (Sorry for not noticing in v3 already...)
 
- block/vvfat.c | 43 ++++---------------------------------------
- 1 file changed, 4 insertions(+), 39 deletions(-)
+Max
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index ae9d387da7..34bf1e3a86 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -3098,26 +3098,6 @@ static int coroutine_fn vvfat_co_block_status(BlockDriverState *bs,
-     return BDRV_BLOCK_DATA;
- }
- 
--static int coroutine_fn
--write_target_commit(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
--                    QEMUIOVector *qiov, int flags)
--{
--    int ret;
--
--    BDRVVVFATState* s = *((BDRVVVFATState**) bs->opaque);
--    qemu_co_mutex_lock(&s->lock);
--    ret = try_commit(s);
--    qemu_co_mutex_unlock(&s->lock);
--
--    return ret;
--}
--
--static BlockDriver vvfat_write_target = {
--    .format_name        = "vvfat_write_target",
--    .instance_size      = sizeof(void*),
--    .bdrv_co_pwritev    = write_target_commit,
--};
--
- static void vvfat_qcow_options(BdrvChildRole role, bool parent_is_format,
-                                int *child_flags, QDict *child_options,
-                                int parent_flags, QDict *parent_options)
-@@ -3133,7 +3113,6 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
- {
-     BDRVVVFATState *s = bs->opaque;
-     BlockDriver *bdrv_qcow = NULL;
--    BlockDriverState *backing;
-     QemuOpts *opts = NULL;
-     int ret;
-     int size = sector2cluster(s, s->sector_count);
-@@ -3184,13 +3163,6 @@ static int enable_write_target(BlockDriverState *bs, Error **errp)
-     unlink(s->qcow_filename);
- #endif
- 
--    backing = bdrv_new_open_driver(&vvfat_write_target, NULL, BDRV_O_ALLOW_RDWR,
--                                   &error_abort);
--    *(void**) backing->opaque = s;
--
--    bdrv_set_backing_hd(s->bs, backing, &error_abort);
--    bdrv_unref(backing);
--
-     return 0;
- 
- err:
-@@ -3205,17 +3177,10 @@ static void vvfat_child_perm(BlockDriverState *bs, BdrvChild *c,
-                              uint64_t perm, uint64_t shared,
-                              uint64_t *nperm, uint64_t *nshared)
- {
--    if (role & BDRV_CHILD_DATA) {
--        /* This is a private node, nobody should try to attach to it */
--        *nperm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
--        *nshared = BLK_PERM_WRITE_UNCHANGED;
--    } else {
--        assert(role & BDRV_CHILD_COW);
--        /* The backing file is there so 'commit' can use it. vvfat doesn't
--         * access it in any way. */
--        *nperm = 0;
--        *nshared = BLK_PERM_ALL;
--    }
-+    assert(role & BDRV_CHILD_DATA);
-+    /* This is a private node, nobody should try to attach to it */
-+    *nperm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
-+    *nshared = BLK_PERM_WRITE_UNCHANGED;
- }
- 
- static void vvfat_close(BlockDriverState *bs)
--- 
-2.29.2
+> +            GDB="gdbserver ${GDB_OPTIONS}"
+> +        fi
+> +
+>           VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" \
+> -            "$QEMU_PROG" $QEMU_OPTIONS "$@"
+> +            $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@"
+>       )
+>       RETVAL=$?
+>       _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
 
 
