@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124743C9EFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:55:41 +0200 (CEST)
-Received: from localhost ([::1]:46078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AA03C9F61
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:21:46 +0200 (CEST)
+Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m40tw-0007i3-16
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:55:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
+	id 1m41JB-0003ts-3i
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:21:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m40sy-0006u4-Ju
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:54:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m40sv-0005YJ-54
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:54:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626353674;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l6rOiGjKtU1WMOln+e0ovilJmZii59hbb8kB09mOgb0=;
- b=F630lM1d1FGqp+BBl/qw2chtKudnhOoZdygk3eAeXPuaC9YuG7LRMJK782sTuHvPU9YBRa
- VlSH927fudh6NvcPfSr6hydsfWfVBYxsx5qhNFG2+s6i3e7Pl/0OsLrT2sU/YSocTEpsGz
- JeUMgHiJmHzdQPq3b6i5oiLJaVnLbuY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-E0uWxL0eMVe2CU7sGhTRUQ-1; Thu, 15 Jul 2021 08:54:33 -0400
-X-MC-Unique: E0uWxL0eMVe2CU7sGhTRUQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j6-20020adff5460000b029013c7749ad05so3322409wrp.8
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 05:54:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <like.xu.linux@gmail.com>)
+ id 1m3ymc-0001Et-9E
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 06:39:58 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <like.xu.linux@gmail.com>)
+ id 1m3yma-0002KE-Mg
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 06:39:57 -0400
+Received: by mail-pg1-x532.google.com with SMTP id y4so5707242pgl.10
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 03:39:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1rsa/Sc8Rl//xbiORFj+KjXsMrXTtZFWkAbleB9LyOM=;
+ b=QZ0t15fhgX2AIiPbVTzjb3ROJP5Gi7ZYX/HPjhooo4pekuVpJRFmB55O/yMPavcoDI
+ PiabT2Gc91TQe4FUTJ1qj2i3jNidFD5dXCCQsNDJoq1lDGynx8oSQJd+eEVyOPBEzYXL
+ aQuoSkRXOElDvCgkZA9QzdcGayFF6WyQiBDRdMv26bFsLmJy5mQenLGPQG0BlJX6VXhR
+ /0r6wcIXcrAnmVkbBXulLuaZ2pSopu3so0kpJULJ2652KDofcfvEOLwTDkWuhfg8b5aI
+ dsV8rLWMZosHRYKK74ku3PAGVIt5PZR+lLAi+zLQeM1+YIMj9lQIPnvLYB77im1VyHF+
+ otlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=l6rOiGjKtU1WMOln+e0ovilJmZii59hbb8kB09mOgb0=;
- b=AfQyeU1AgyLtnxvMqcVAqLyWzoHqpcGpwJnlBMtJrVVHIT330Z7ZeGpx/6F1vawS6R
- sSlLOWZBn65NoX14tBmgnd3BP3AaCJDYu3t0oKqo6bvYNchM2MMIgJk81hKs4of7fju3
- 2cj9/zAMwq2C+UaUsKiLE6OnFCvs++8RCXZMAAbl3RrZhzRVN5PCJlmlyvYcS7H49Tk3
- usoVAXStmPH69DTM6viMlbJWZp6849HbmmQUItEXKC7DEW3evPSgIsmQU1qFnBMCb/Gq
- QPTskcnlCZ12598hszGXUyBA3ldyWvC8tRNL1EjHR5fBA+FqvCA974Jx4f0rYrkMkYav
- Gkrg==
-X-Gm-Message-State: AOAM530bIOewH0PYugb5TYbvTvOhsnEW0PXG5WayMDqTIbFNu3Zd6Nct
- P4KDYC2Pnbk55Mdefya6zxotWjdocq41UcWbcEvgsvDEKkAMptD6+yQ2SoviRbPUJg9k71PP+zr
- t8sHjM7g+TCYUL3SFoobMWVwkZ5gJbplupIl2Hfh31bB8IuwC/CK4Ix+6McUQuc0G
-X-Received: by 2002:a1c:2782:: with SMTP id
- n124mr10587586wmn.114.1626353672478; 
- Thu, 15 Jul 2021 05:54:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLMbIxaXLgSKnenFuC7qZmEhC6o9yflXWth6ORLyaFYvDOYJw8hsICiWAdb+3ytU60HhnnUQ==
-X-Received: by 2002:a1c:2782:: with SMTP id
- n124mr10587554wmn.114.1626353672150; 
- Thu, 15 Jul 2021 05:54:32 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- l24sm8109626wmi.30.2021.07.15.05.54.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jul 2021 05:54:31 -0700 (PDT)
-Subject: Re: [PATCH v8 08/16] qemu-iotests: add gdbserver option to script
- tests too
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20210705065711.127119-1-eesposit@redhat.com>
- <20210705065711.127119-9-eesposit@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <647d146b-96dc-48f0-054b-97fc6fb181a4@redhat.com>
-Date: Thu, 15 Jul 2021 14:54:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=1rsa/Sc8Rl//xbiORFj+KjXsMrXTtZFWkAbleB9LyOM=;
+ b=bQXuq7zaLMGuG7UzwhWQxIqldAPCIVYPfwBezioHSdygp5oSIRqJ5snM/kIzpUpVnZ
+ dWbxfCNJYK1VndOTH+Ljtt/MHRtGxbmdZeZVaWC8y+nb3M8Z0V/qqkv6ugvxMK6UVMps
+ o02o7P9ngK8mG7MtAVT7NLrscBoJlQ06SMVg2JV8zV3tYxcDCk83ZYg48t+Z6VaTPkKt
+ BdVu5W0O9Gn1aKvTcC5ipLnWAdqQUlA9qE3cxlU4e6QppbkMzwdElwIWU2XuSg4RhJHU
+ P1GI8lhcA29CR2P2lV7Sh7+fVFRXMGZRqyq647r38uvBBxEKhX25OUOxrUQcbRw4H+7J
+ 4A0g==
+X-Gm-Message-State: AOAM531r8bGK/7SBBDAv9kZgKLpCI2trkZQWV0V8mnMbjSEfMLnWUztV
+ g5Kkv7vumFDOsvNzOqMlvMo=
+X-Google-Smtp-Source: ABdhPJxd3BPPSR/9X91SMlDMlliFMLHhQgRPOjwX/K01MYcK7gsgS3Ca05UODxQyOIcHZSTKJxwe8A==
+X-Received: by 2002:a63:ff4f:: with SMTP id s15mr3949949pgk.193.1626345594682; 
+ Thu, 15 Jul 2021 03:39:54 -0700 (PDT)
+Received: from localhost.localdomain ([103.7.29.32])
+ by smtp.gmail.com with ESMTPSA id lt15sm8820982pjb.1.2021.07.15.03.39.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 15 Jul 2021 03:39:54 -0700 (PDT)
+From: Like Xu <like.xu.linux@gmail.com>
+X-Google-Original-From: Like Xu <likexu@tencent.com>
+To: Eduardo Habkost <ehabkost@redhat.com>,
+	Joerg Roedel <joro@8bytes.org>
+Subject: [PATCH] target/i386/cpu: Use the KVM reported value for the number of
+ ASIDs
+Date: Thu, 15 Jul 2021 18:39:45 +0800
+Message-Id: <20210715103945.95004-1-likexu@tencent.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <20210705065711.127119-9-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=like.xu.linux@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 15 Jul 2021 09:18:44 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -102,78 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.07.21 08:57, Emanuele Giuseppe Esposito wrote:
-> Remove read timer in test script when GDB_OPTIONS are set,
-> so that the bash tests won't timeout while running gdb.
->
-> The only limitation here is that running a script with gdbserver
-> will make the test output mismatch with the expected
-> results, making the test fail.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   tests/qemu-iotests/common.qemu | 7 ++++++-
->   tests/qemu-iotests/common.rc   | 8 +++++++-
->   2 files changed, 13 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
-> index 0fc52d20d7..cbca757b49 100644
-> --- a/tests/qemu-iotests/common.qemu
-> +++ b/tests/qemu-iotests/common.qemu
-> @@ -85,7 +85,12 @@ _timed_wait_for()
->       timeout=yes
->   
->       QEMU_STATUS[$h]=0
-> -    while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
-> +    read_timeout="-t ${QEMU_COMM_TIMEOUT}"
-> +    if [ ! -z ${GDB_OPTIONS} ]; then
+From: Like Xu <likexu@tencent.com>
 
-Shouldn’t we quote "${GDB_OPTIONS}" so that `test` won’t interpret it as 
-its own parameters (if something in there starts with `--`, which I 
-don’t think is the intended usage for $GDB_OPTIONS, but, well...)?
+If KVM is enabled, use the supported number of address space identifiers
+(ASIDs) by the CPUID Fn8000_000A_EBX instead of hard-coding it to 0x10.
 
-(Also, `! -z` is the same as `-n`, but I suppose choosing between the 
-two can be a matter of style.)
+Signed-off-by: Like Xu <likexu@tencent.com>
+---
+ target/i386/cpu.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-> +        read_timeout=
-> +    fi
-> +
-> +    while IFS= read ${read_timeout} resp <&${QEMU_OUT[$h]}
->       do
->           if [ -n "$capture_events" ]; then
->               capture=0
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-> index cbbf6d7c7f..a1ef2b5c2f 100644
-> --- a/tests/qemu-iotests/common.rc
-> +++ b/tests/qemu-iotests/common.rc
-> @@ -166,8 +166,14 @@ _qemu_wrapper()
->           if [ -n "${QEMU_NEED_PID}" ]; then
->               echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid"
->           fi
-> +
-> +        GDB=""
-> +        if [ ! -z ${GDB_OPTIONS} ]; then
-
-Here, too.  (Sorry for not noticing in v3 already...)
-
-Max
-
-> +            GDB="gdbserver ${GDB_OPTIONS}"
-> +        fi
-> +
->           VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" \
-> -            "$QEMU_PROG" $QEMU_OPTIONS "$@"
-> +            $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@"
->       )
->       RETVAL=$?
->       _qemu_proc_valgrind_log "${VALGRIND_LOGFILE}" $RETVAL
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 48b55ebd0a..959c4425a4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5523,7 +5523,13 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+     case 0x8000000A:
+         if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
+             *eax = 0x00000001; /* SVM Revision */
+-            *ebx = 0x00000010; /* nr of ASIDs */
++            /* nr of ASIDs */
++            if (kvm_enabled()) {
++                *ebx = kvm_arch_get_supported_cpuid(cs->kvm_state,
++                                                    0x8000000A, 0, R_EBX);
++            } else {
++                *ebx = 0x00000010;
++            }
+             *ecx = 0;
+             *edx = env->features[FEAT_SVM]; /* optional features */
+         } else {
+-- 
+2.32.0
 
 
