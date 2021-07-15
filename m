@@ -2,44 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC5F3CA1B4
+	by mail.lfdr.de (Postfix) with ESMTPS id D64D03CA1B3
 	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 17:53:43 +0200 (CEST)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m43gE-0004gC-Qy
+	id 1m43gE-0004gV-Mb
 	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 11:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42906)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1m43ei-0002kB-8u
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 11:52:08 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:35915
+ id 1m43eg-0002ho-AY
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 11:52:06 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:35921
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1m43eg-0002V1-4m
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 11:52:08 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1m43ed-0002YX-Vr
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 11:52:05 -0400
 HMM_SOURCE_IP: 172.18.0.48:41252.1306426439
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-171.223.97.37?logid-5ad577dca6294f93a78c774e52779d08
  (unknown [172.18.0.48])
- by chinatelecom.cn (HERMES) with SMTP id 626D0280098;
- Thu, 15 Jul 2021 23:51:46 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id B40BC2800C3;
+ Thu, 15 Jul 2021 23:51:54 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.48])
- by app0024 with ESMTP id 5ad577dca6294f93a78c774e52779d08 for
- qemu-devel@nongnu.org; Thu Jul 15 23:51:50 2021
-X-Transaction-ID: 5ad577dca6294f93a78c774e52779d08
+ by app0024 with ESMTP id 92fcea882ba14cf2a1eefca3dbc1ef6d for
+ qemu-devel@nongnu.org; Thu Jul 15 23:51:55 2021
+X-Transaction-ID: 92fcea882ba14cf2a1eefca3dbc1ef6d
 X-filter-score: 
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.48
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/3] support dirtyrate measurement with dirty bitmap 
-Date: Thu, 15 Jul 2021 23:51:30 +0800
-Message-Id: <cover.1626354884.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v3 1/3] KVM: introduce kvm_get_manual_dirty_log_protect
+Date: Thu, 15 Jul 2021 23:51:31 +0800
+Message-Id: <f1069f4c5e962c2961049706d1c97838894dc2dd.1626364220.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1626354884.git.huangy81@chinatelecom.cn>
+References: <cover.1626354884.git.huangy81@chinatelecom.cn>
+In-Reply-To: <cover.1626364220.git.huangy81@chinatelecom.cn>
+References: <cover.1626364220.git.huangy81@chinatelecom.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -71,105 +75,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-v3:
-- do not touch cpu_physical_memory_sync_dirty_bitmap
+introduce kvm_get_manual_dirty_log_protect for measureing
+dirtyrate via dirty bitmap. calculation of dirtyrate need
+to sync dirty log and depends on the features of dirty log.
 
-- rename global var DirtyRateIncreasedPages to DirtyRateDirtyPages 
-  
-- stat dirty pages in cpu_physical_memory_set_dirty_lebitmap, which
-  is on the execution path of memory_global_dirty_log_sync and can
-  be used for dirty rate measuring.
+Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+---
+ accel/kvm/kvm-all.c  | 6 ++++++
+ include/sysemu/kvm.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-the v3 implemention runs well, we could get accurate dirtyrate
-as v1 and simplify the implementation heavyly. it do not touch
-the any ram_list.dirty_memory[*], so do has no conflict with migraion
-at all. 
-if migration is running at the same time with dirtyrate measuring,
-measuring may reset protection of pages after
-memory_global_dirty_log_sync before migration iteration, but it has
-no side affect because kvm_log_clear_one_slot can guarantee that
-same dirty_bmap in a slot shouldn't be cleared twice.
-
-v2:
-- drop the DIRTY_MEMORY_DIRTY_RATE dirty bits
-
-- reuse the DIRTY_MEMORY_MIGRATION dirty bits to stat the dirty
-  pages.
-
-- introduce global var DirtyRateIncreasedPages to stat the
-  increased dirty pages
-
-- simplify the logic of calculation. skip the 1'round of
-  log sync unconditionally
-
-changes of this version are based on Peter's advice,
-like the version 1, it is posted for the sake of RFC.
-ideally, this patshset may be merged after the commit:
-"migration/dirtyrate: implement dirty-ring dirtyrate calculation"
-
-v1:
-the dirtyrate measurement implemented by page-sampling originally, it
-is not accurate in some scenarios, so we have introduced dirty-ring
-based dirtyrate measurement(maybe it will be merged soon), it fix the
-accuracy of page-sampling, and more importantly, it is at the
-granualrity of vcpu.
-
-dirty-ring method can be used when dirty-ring enable, as supplementary,
-we introduce dirty-bitmap method to calculating dirtyrate when dirty log
-enable, so that we can also get the accurate dirtyrate if needed in the
-absence of dirty-ring.
-
-three things has done to implement the measurement:
-- introduce a fresh new dirty bits named DIRTY_MEMORY_DIRTY_RATE, which
-  is used to store dirty bitmap after fetching it from kvm. why we do
-  not reuse the existing DIRTY_MEMORY_MIGRATION dirty bits is we do not
-  want to interfere with migration of and let implementation clear, this 
-  is also the reason why dirty_memory be split.
-
-  DIRTY_MEMORY_DIRTY_RATE dirty bits will be filled when
-  memory_global_dirty_log_sync executed if GLOBAL_DIRTY_DIRTY_RATE bit
-  be set in the global_dirty_tracking flag.
-
-- introduce kvm_get_manual_dirty_log_protect function so that we can
-  probe the protect caps of kvm when calculating.
-
-- implement dirtyrate measurement with dirty bitmap with following step:
-  1. start the dirty log. 
-
-  2. probe the protect cap, if KVM_DIRTY_LOG_INITIALLY_SET enable, skip
-     skip the 1'R and do the reset page protection manually, since kvm
-     file bitmap with 1 bits if this cap is enabled. 
-
-  3. clear the DIRTY_MEMORY_DIRTY_RATE dirty bits, prepare to store 
-     the dirty bitmap.
-
-  4. start memory_global_dirty_log_sync and fetch dirty bitmap from kvm
-
-  5. reap the DIRTY_MEMORY_DIRTY_RATE dirty bits and do the calculation.
-
-this patchset rebases on the commit 
-"migration/dirtyrate: implement dirty-ring dirtyrate calculation",
-since the above feature has not been merged, so we post this patch
-for the sake of RFC. ideally, this patshset may be merged after it.
-
-Please, review, thanks !
-
-Best Regards !
-
-Hyman Huang(黄勇) (3):
-  KVM: introduce kvm_get_manual_dirty_log_protect
-  memory: introduce DirtyRateDirtyPages and util function
-  migration/dirtyrate: implement dirty-bitmap dirtyrate calculation
-
- accel/kvm/kvm-all.c     |   6 +++
- hmp-commands.hx         |   9 ++--
- include/exec/ram_addr.h |  19 ++++++++
- include/sysemu/kvm.h    |   1 +
- migration/dirtyrate.c   | 118 ++++++++++++++++++++++++++++++++++++++++++++----
- migration/trace-events  |   1 +
- qapi/migration.json     |   6 ++-
- 7 files changed, 145 insertions(+), 15 deletions(-)
-
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index e0e88a2..f7d9ae0 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -245,6 +245,12 @@ int kvm_get_max_memslots(void)
+     return s->nr_slots;
+ }
+ 
++uint64_t kvm_get_manual_dirty_log_protect(void)
++{
++    KVMState *s = KVM_STATE(current_accel());
++    return s->manual_dirty_log_protect;
++}
++
+ /* Called with KVMMemoryListener.slots_lock held */
+ static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
+ {
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index 7b22aeb..b668d49 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -533,6 +533,7 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source);
+ int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
+ struct ppc_radix_page_info *kvm_get_radix_page_info(void);
+ int kvm_get_max_memslots(void);
++uint64_t kvm_get_manual_dirty_log_protect(void);
+ 
+ /* Notify resamplefd for EOI of specific interrupts. */
+ void kvm_resample_fd_notify(int gsi);
 -- 
 1.8.3.1
 
