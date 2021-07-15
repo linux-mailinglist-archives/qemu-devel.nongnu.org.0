@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564BA3C9774
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:29:55 +0200 (CEST)
-Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F7C3C9772
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:29:52 +0200 (CEST)
+Received: from localhost ([::1]:49744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3t0U-0004yl-An
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:29:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36514)
+	id 1m3t0R-0004kF-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:29:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swW-0004tX-5v
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37786)
+ id 1m3swX-0004wM-2o
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swS-0000GV-2T
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:47 -0400
+ id 1m3swV-0000IQ-Bz
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:48 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m3swQ-0007WC-DK
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:42 +0000
+ id 1m3swS-0007Us-S5
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 63CC42E8136
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D32D72E8169
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Jul 2021 04:17:21 -0000
-From: Launchpad Bug Tracker <1926596@bugs.launchpad.net>
+Date: Thu, 15 Jul 2021 04:17:22 -0000
+From: Launchpad Bug Tracker <1926231@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gaenshgosavi janitor th-huth
-X-Launchpad-Bug-Reporter: Ganesh Gosavi (gaenshgosavi)
+X-Launchpad-Bug-Commenters: janitor mslade th-huth
+X-Launchpad-Bug-Reporter: Michael Slade (mslade)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161969321576.9662.8100892144951224535.malonedeb@gac.canonical.com>
-Message-Id: <162632264126.31721.13899177994148509942.malone@loganberry.canonical.com>
-Subject: [Bug 1926596] Re: qemu-monitor-event command gets stuck randomly
+References: <161948395808.4012.2859419220100718976.malonedeb@gac.canonical.com>
+Message-Id: <162632264261.31721.14813883401889263556.malone@loganberry.canonical.com>
+Subject: [Bug 1926231] Re: SCSI passthrough of SATA cdrom -> errors &
+ performance issues
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: af122221018d20337ed89093889310e513ab58c6
+X-Launchpad-Hash: cabbbe80c5f3cec1f575f446d75156338f1c3dad
 Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926596 <1926596@bugs.launchpad.net>
+Reply-To: Bug 1926231 <1926231@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -82,55 +83,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926596
+https://bugs.launchpad.net/bugs/1926231
 
 Title:
-  qemu-monitor-event command gets stuck randomly
+  SCSI passthrough of SATA cdrom -> errors & performance issues
 
 Status in QEMU:
   Expired
 
 Bug description:
-  We are using kvm virtualization on our servers, We use "qemu-monitor-comm=
-and"(drive-backup) to take qcow2 backups and to monitor them we use "qemu-m=
-onitor-event" command=20
-  For eg:-
-  /usr/bin/virsh qemu-monitor-event VPSNAME --event "BLOCK_JOB_COMPLETED\|B=
-LOCK_JOB_ERROR" --regex
+  qemu 5.0, compiled from git
 
-  the above command stucks randomly (backup completes but still it is
-  waiting) and because of which other vms backup are stucked until we
-  kill that process.
+  I am passing through a SATA cdrom via SCSI passthrough, with this
+  libvirt XML:
 
-  Can you suggest how can we debug this further to find the actual
-  issue.
+      <hostdev mode=3D'subsystem' type=3D'scsi' managed=3D'no' sgio=3D'unfi=
+ltered' rawio=3D'yes'>
+        <source>
+          <adapter name=3D'scsi_host3'/>
+          <address bus=3D'0' target=3D'0' unit=3D'0'/>
+        </source>
+        <alias name=3D'hostdev0'/>
+        <address type=3D'drive' controller=3D'0' bus=3D'0' target=3D'0' uni=
+t=3D'0'/>
+      </hostdev>
 
- =20
-  /usr/bin/virsh version
+  It seems to mostly work, I have written discs with it, except I am
+  getting errors that cause reads to take about 5x as long as they
+  should, under certain circumstances.  It appears to be based on the
+  guest's read block size.
 
-  Compiled against library: libvirt 4.5.0
-  Using library: libvirt 4.5.0
-  Using API: QEMU 4.5.0
-  Running hypervisor: QEMU 2.0.0
+  I found that if on the guest I run, say `dd if=3D$some_large_file
+  bs=3D262144|pv > /dev/null`, `iostat` and `pv` disagree about how much
+  is being read by a factor of about 2.  Also many kernel messages like
+  this happen on the guest:
 
-  cat /etc/os-release
-  NAME=3D"CentOS Linux"
-  VERSION=3D"7 (Core)"
-  ID=3D"centos"
-  ID_LIKE=3D"rhel fedora"
-  VERSION_ID=3D"7"
-  PRETTY_NAME=3D"CentOS Linux 7 (Core)"
-  ANSI_COLOR=3D"0;31"
-  CPE_NAME=3D"cpe:/o:centos:centos:7"
-  HOME_URL=3D"https://www.centos.org/"
-  BUG_REPORT_URL=3D"https://bugs.centos.org/"
+  [  190.919684] sr 0:0:0:0: [sr0] tag#160 FAILED Result: hostbyte=3DDID_OK=
+ driverbyte=3DDRIVER_SENSE cmd_age=3D0s
+  [  190.919687] sr 0:0:0:0: [sr0] tag#160 Sense Key : Aborted Command [cur=
+rent]=20
+  [  190.919689] sr 0:0:0:0: [sr0] tag#160 Add. Sense: I/O process terminat=
+ed
+  [  190.919691] sr 0:0:0:0: [sr0] tag#160 CDB: Read(10) 28 00 00 18 a5 5a =
+00 00 80 00
+  [  190.919694] blk_update_request: I/O error, dev sr0, sector 6460776 op =
+0x0:(READ) flags 0x80700 phys_seg 5 prio class 0
 
-  CENTOS_MANTISBT_PROJECT=3D"CentOS-7"
-  CENTOS_MANTISBT_PROJECT_VERSION=3D"7"
-  REDHAT_SUPPORT_PRODUCT=3D"centos"
-  REDHAT_SUPPORT_PRODUCT_VERSION=3D"7"
+  If I change to bs=3D131072 the errors stop and performance is normal.
+
+  (262144 happens to be the block size ultimately used by md5sum, which
+  is how I got here)
+
+  I also ran strace on the qemu process while it was happening, and
+  noticed SG_IO calls like this:
+
+  21748 10:06:29.330910 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x95\x5a\x00\=
+x00\x80\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D262144, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  21751 10:06:29.330976 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x94\xda\x00\=
+x00\x02\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D4096, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  21749 10:06:29.331586 ioctl(22, SG_IO, {interface_id=3D'S', dxfer_directi=
+on=3DSG_DXFER_FROM_DEV, cmd_len=3D10, cmdp=3D"\x28\x00\x00\x12\x94\xdc\x00\=
+x00\x02\x00", mx_sb_len=3D252, iovec_count=3D0, dxfer_len=3D4096, timeout=
+=3D4294967295, flags=3DSG_FLAG_DIRECT_IO <unfinished ...>
+  [etc]
+
+  I suspect qemu is the culprit because I have tried a 4.19 guest kernel
+  as well as a 5.9 one, with the same result.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926596/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926231/+subscriptions
 
 
