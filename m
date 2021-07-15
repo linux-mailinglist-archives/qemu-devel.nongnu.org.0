@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA60B3C975C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:27:18 +0200 (CEST)
-Received: from localhost ([::1]:41414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564BA3C9774
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 06:29:55 +0200 (CEST)
+Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3sxx-0007b5-W4
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:27:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36494)
+	id 1m3t0U-0004yl-An
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 00:29:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swV-0004r9-Fv
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37848)
+ id 1m3swW-0004tX-5v
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:37786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m3swT-0000Hs-MP
+ id 1m3swS-0000GV-2T
  for qemu-devel@nongnu.org; Thu, 15 Jul 2021 00:25:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m3swR-0007Wf-RG
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:43 +0000
+ id 1m3swQ-0007WC-DK
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CC7062E8058
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 63CC42E8136
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 04:25:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Thu, 15 Jul 2021 04:17:21 -0000
-From: Launchpad Bug Tracker <1926497@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1926596@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: m68k q800
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cat-7 janitor jrmuizel laurent-vivier th-huth
-X-Launchpad-Bug-Reporter: Jeff (jrmuizel)
+X-Launchpad-Bug-Commenters: gaenshgosavi janitor th-huth
+X-Launchpad-Bug-Reporter: Ganesh Gosavi (gaenshgosavi)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161963801251.13717.437360863998468941.malonedeb@wampee.canonical.com>
-Message-Id: <162632264192.31721.756924680230252508.malone@loganberry.canonical.com>
-Subject: [Bug 1926497] Re: dp83932 stops working after a short while
+References: <161969321576.9662.8100892144951224535.malonedeb@gac.canonical.com>
+Message-Id: <162632264126.31721.13899177994148509942.malone@loganberry.canonical.com>
+Subject: [Bug 1926596] Re: qemu-monitor-event command gets stuck randomly
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: ed6cdafb334853bae1100b9273c0b2d285297821
+X-Launchpad-Hash: af122221018d20337ed89093889310e513ab58c6
 Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926497 <1926497@bugs.launchpad.net>
+Reply-To: Bug 1926596 <1926596@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,45 +82,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926497
+https://bugs.launchpad.net/bugs/1926596
 
 Title:
-  dp83932 stops working after a short while
+  qemu-monitor-event command gets stuck randomly
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Following the instructions here
-  https://wiki.qemu.org/Documentation/Platforms/m68k I was able to
-  successfully install debian. However, running apt-get update stalls
-  after the first 1-2MB.
+  We are using kvm virtualization on our servers, We use "qemu-monitor-comm=
+and"(drive-backup) to take qcow2 backups and to monitor them we use "qemu-m=
+onitor-event" command=20
+  For eg:-
+  /usr/bin/virsh qemu-monitor-event VPSNAME --event "BLOCK_JOB_COMPLETED\|B=
+LOCK_JOB_ERROR" --regex
 
-  root@debian:~# apt-get update
-  Get:1 http://ftp.ports.debian.org/debian-ports sid InRelease [55.3 kB]
-  Ign:1 http://ftp.ports.debian.org/debian-ports sid InRelease
-  Get:2 http://ftp.ports.debian.org/debian-ports sid/main all Packages [8,7=
-35 kB]
-  18% [2 Packages 2,155 kB/8,735 kB 25%]
+  the above command stucks randomly (backup completes but still it is
+  waiting) and because of which other vms backup are stucked until we
+  kill that process.
 
-  After running apt-get update. I don't seem to be able to send any
-  packets anymore. ping host lookups fail and a subsequent apt-get
-  update makes no progress.
+  Can you suggest how can we debug this further to find the actual
+  issue.
 
-  I'm launching qemu with:
+ =20
+  /usr/bin/virsh version
 
-    qemu-system-m68k -boot c \
-   -M q800 -serial none -serial mon:stdio -m 1000M \
-   -net nic,model=3Ddp83932 -net user \
-   -append "root=3D/dev/sda2 rw console=3DttyS0 console=3Dtty" \
-   -kernel vmlinux-4.16.0-1-m68k \
-   -initrd initrd.img-4.16.0-1-m68k \
-   -drive file=3Dm68k-deb10.qcow2,format=3Dqcow2 \
-   -nographic
+  Compiled against library: libvirt 4.5.0
+  Using library: libvirt 4.5.0
+  Using API: QEMU 4.5.0
+  Running hypervisor: QEMU 2.0.0
 
-  I see this with qemu v6.0.0-rc5
+  cat /etc/os-release
+  NAME=3D"CentOS Linux"
+  VERSION=3D"7 (Core)"
+  ID=3D"centos"
+  ID_LIKE=3D"rhel fedora"
+  VERSION_ID=3D"7"
+  PRETTY_NAME=3D"CentOS Linux 7 (Core)"
+  ANSI_COLOR=3D"0;31"
+  CPE_NAME=3D"cpe:/o:centos:centos:7"
+  HOME_URL=3D"https://www.centos.org/"
+  BUG_REPORT_URL=3D"https://bugs.centos.org/"
+
+  CENTOS_MANTISBT_PROJECT=3D"CentOS-7"
+  CENTOS_MANTISBT_PROJECT_VERSION=3D"7"
+  REDHAT_SUPPORT_PRODUCT=3D"centos"
+  REDHAT_SUPPORT_PRODUCT_VERSION=3D"7"
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926497/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926596/+subscriptions
 
 
