@@ -2,146 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF3D3C9F6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:25:50 +0200 (CEST)
-Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6833C9F84
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:31:54 +0200 (CEST)
+Received: from localhost ([::1]:51040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m41N7-0005xd-AP
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:25:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
+	id 1m41Sz-00081G-Ky
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:31:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m41Ls-0005J8-PH
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 09:24:32 -0400
-Received: from mail-bn8nam08on2046.outbound.protection.outlook.com
- ([40.107.100.46]:4417 helo=NAM04-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m41R7-00077N-Nu
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 09:29:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brijesh.singh@amd.com>)
- id 1m41Lp-0003g2-SJ
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 09:24:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WxdmHRalmfFE8mAV2xyh473RLAj0HpOUe5HJDSTAGwzdrYep2ehhXnne2gldRDQGpNSrEEC0eZTuANLPn1pRvdj4pt2VK48qxJWQmjFteIteJCNZ5EvQX5YGlmclnd7o1Qt5d1y8Mt/itvHjNFYabQUNavNiJy2UYT7WEdH2lI71EGMjcZT+fY4Fj3uRXYjJ+u+KDcExjkK2I48rASiaYvNEjRNUggMpZDoontVCyI60+bCxMTlRclh7/zHmeOp6ayHfdi5EB3KG6jkRWKwi2K5lWMfyIvl4yamPxvXJiyUndBCTvAjv4vzgdzPFtFbNLZRcItno/F/rXuA0Wzb1pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3P3UqQeYDL/6sGQ1nFrX0zZnu+ibUQ6G2NoFBftzMos=;
- b=kxHo29UNh0ifDcg39xZzktaM0q4JTuKkJVcYOzGksmDdDUaO4RO2jzTsL4Hbacw4A3B2QX6AcSqv1z+Ew9m4pAfRnslPQpBqiTw2/oeEzADDxEmo9js1meLedqzSAyM/qx+XGEy9T1WlP0ofU2O9M/DE7TjNiau5XCOp9wpddytfTA7LzMDo6/s/60CoM8hK5rdkybQmoV9bsJ+TugtqCEmx4gD4WvlV35J5/0MIraUuaFTDxnXdVyvjfW9xdTq+Vf7WhkCwuH91kGhqmGooSmO6aBUGDb4l/pN/iyi6boOtiL37TUX4cymKXe68Ulji/1NN5M1kcsGJqirlvvNTfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3P3UqQeYDL/6sGQ1nFrX0zZnu+ibUQ6G2NoFBftzMos=;
- b=sQEHjDeTY8SOLsVy+VNfwHZs3sv6l6F5C5k9MWv07WtHhLPvK7llXvh05zB5+Zgu0h9vZhfGVWl4KiKjfOXFW0HYtxXC3qKTUQ9yn/ldsDWhWkgangoVQA4/vaLa/hic63jaxwpllgRogakp/YzXNH3hMS1ZT7Gw4AHlElcMOpU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com (2603:10b6:805:6f::22)
- by SA0PR12MB4384.namprd12.prod.outlook.com (2603:10b6:806:9f::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Thu, 15 Jul
- 2021 13:24:27 +0000
-Received: from SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa]) by SN6PR12MB2718.namprd12.prod.outlook.com
- ([fe80::a8a9:2aac:4fd1:88fa%3]) with mapi id 15.20.4331.024; Thu, 15 Jul 2021
- 13:24:27 +0000
-Cc: brijesh.singh@amd.com, Connor Kuehl <ckuehl@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, James Bottomley
- <jejb@linux.ibm.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- kvm@vger.kernel.org, Michael Roth <michael.roth@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [RFC PATCH 3/6] i386/sev: initialize SNP context
-To: Dov Murik <dovmurik@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-4-brijesh.singh@amd.com>
- <34b8bda5-9b4d-c1e0-0009-1a407a48dd4a@linux.ibm.com>
-From: Brijesh Singh <brijesh.singh@amd.com>
-Message-ID: <4de32b0f-d4f7-33a8-3678-dca68cc8bfca@amd.com>
-Date: Thu, 15 Jul 2021 08:24:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <34b8bda5-9b4d-c1e0-0009-1a407a48dd4a@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SA9PR11CA0018.namprd11.prod.outlook.com
- (2603:10b6:806:6e::23) To SN6PR12MB2718.namprd12.prod.outlook.com
- (2603:10b6:805:6f::22)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m41R2-0006q8-UY
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 09:29:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626355791;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G8lt4Ise1CBwTsz8E9hekxE6ViGLu/5KOKdOo/6nFIs=;
+ b=Cb0d3hu5kL/q/tEDb79x5yO223lHIePKbf+nyKeqGEQpaxloauKBhTeRBMLrzXt0e0i0BQ
+ XShngFRCjzr2Vy6LoY2nFymHFo9G+vab/bp6sOoAmAohXjUOb116gIHwn+svIBSxnvO2x7
+ N/fyh9uk1Gds3OjKnJubZcio6ujHeno=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-GtBR6qwwMAmq6xJDvsuqKQ-1; Thu, 15 Jul 2021 09:29:47 -0400
+X-MC-Unique: GtBR6qwwMAmq6xJDvsuqKQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99976804140;
+ Thu, 15 Jul 2021 13:29:45 +0000 (UTC)
+Received: from localhost (ovpn-114-184.ams2.redhat.com [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21D335D6B1;
+ Thu, 15 Jul 2021 13:29:44 +0000 (UTC)
+Date: Thu, 15 Jul 2021 14:29:44 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [RFC PATCH 0/6] job: replace AioContext lock with job_mutex
+Message-ID: <YPA4SBzoS+BdmueJ@stefanha-x1.localdomain>
+References: <20210707165813.55361-1-eesposit@redhat.com>
+ <YObVSuBjCEwSMvu7@stefanha-x1.localdomain>
+ <6dadca95-632a-61fa-4a91-c2df25e19b52@redhat.com>
+ <YOb31YOF8Q3t9RoK@stefanha-x1.localdomain>
+ <629fb077-9d0a-7c33-0b2e-d055c0493005@redhat.com>
+ <YO2QvuBqbw58fuo/@stefanha-x1.localdomain>
+ <37a92342-37a1-151b-7fbd-31604a792938@virtuozzo.com>
+ <YO3BjpNHumrPUab1@stefanha-x1.localdomain>
+ <a19c12ab-6055-5ebd-6afd-1cee7ff20e13@virtuozzo.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.31.95] (165.204.77.1) by
- SA9PR11CA0018.namprd11.prod.outlook.com (2603:10b6:806:6e::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Thu, 15 Jul 2021 13:24:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b5ceab62-e49a-4a4c-02b1-08d94793de73
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4384:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4384C150BD304069D789C01BE5129@SA0PR12MB4384.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2XupCGoLamyncWVvYmRGOOP/cxCAp5VRilCOlsAPaC1A7Gzp+t5Tiu1pz7Td+QVNCwB3CGSk9cEJZCuSJvcKJCgfDs7ZG9VHimjBzOZZ66VPr+ETS/BNOwqXceTJuuOczvoadgf7OuPTcq+vpP5S2Mz4rG2YGyVOEO5HmdhgRgzf3SPwtsr42Oc+uYHaUETdgms2MNXhuk+1x8whthb25HFUUbBEJjEpH3Ne0ypetzt/qWjJaE8J0YqOB4uAbG3k3aLjMRGKy6KjlPvJ2xoZD6pDsbIfclTz5+zSqo0NiO0ii+Wp4wEoZmWUdystPS8WKzQsfz0t2tAoOgAQ2yDwpwbiOJrufx8F/AXcVDYvoE7R4bXY6/rXQGJSuFVG40gc7BXeDGZmLF5KwNjF0UsCuZxJVHwkwYv4rh4ml1dFUVItGa2ghjm3uwPWnRecwAw086B+j4H/qukuDFrk2PuPEG3gVL1v2o70fsETiGjyvopELlhhPvC9GtdRxLiPnavcNFzYBir4g7QBhHSHeQqJhnwz8xCOIdtozz+Viv/YSorzTyIntdEAeP1NCIQVU7dipZW8U2fe3DodNeARQ75vhsrKFALI8IjReN6fB0wdjifPW1k/Pb0q0UjzqAluHs5M4N3KDUCRbURPio3xNvsbp9cc8Ea0QWZAfT5iewBJtNtyuH/ZF448/WAXMA9DaihMjaFFpZKCKrDMcPEXFgBHLH0D+a48Te0J0oY8pPMjsI3JbEKGHYVzyJ5l9IMtgYhf8BNJP+1IZ+7+giHjGquzSg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2718.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(136003)(366004)(376002)(396003)(44832011)(4744005)(7416002)(66946007)(316002)(6486002)(26005)(53546011)(8676002)(66476007)(36756003)(31686004)(66556008)(52116002)(5660300002)(186003)(956004)(38350700002)(38100700002)(2616005)(2906002)(478600001)(8936002)(86362001)(54906003)(4326008)(16576012)(31696002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ek83eXg0QWdTNWp1bmdPam02ZmtCM1pjT3ZranZET2NZY1FPTXBYeHJwNDlZ?=
- =?utf-8?B?SmwyK1JEVnFWdmNna05SMkp6R0tpMU9ydnZvei9ZVXdVNFhIQ2dINWVhWUE1?=
- =?utf-8?B?bXVTWDJTcGY4azRkbHpoZ0xKVWZVWU1YdUNuOU8vcGJwcktOd3VkRVF1cWZE?=
- =?utf-8?B?dGpWSFlKSWxLdHVvejkwSFF3ZTBNZEwzaW5GVFVEMGd3SEhhTnRPNi9BOEJB?=
- =?utf-8?B?aXVrMmpFNW5HUTAwTDNyUzNOb0c4Z3B0b0pJMm9DV3Q1dlZsUml0cFFHb3lF?=
- =?utf-8?B?dWEvMlJTVEthanVNZmxMK3g4alNHc2lyR2dIdDd5Zkp3YXFIWDM0OHMyMVo4?=
- =?utf-8?B?ek5nYnlYUjBqVHd6anRSdkdzMURaZXg1ekIveTlreVVLYWdIZ3RQTC9QaUt0?=
- =?utf-8?B?L0I5YjAyUERTb1l3VnhFdzM0aDVKd1VtaWpiZWREd2QvODBRckpZSnExNFRD?=
- =?utf-8?B?TmNsNDZDK3NyR2lac3Z0bEpJZEJHdDRBRXZlOVdmUlJ2Q3R5bHVPdDdYZ2Ey?=
- =?utf-8?B?MEd5TG1UMUJIU04xVlMwZlUvTkhycktqd0JPSHhEQXZXdk9RZWM0anZldEpE?=
- =?utf-8?B?SGNDOFJzRmc3eTJXZHFEWDMxUVZwNEJKbFdIbHV2QTBHWFZubzJ0RVQxMWtV?=
- =?utf-8?B?UHFFWVYrU1ErQmppZjQ3ZlRXQllsRFRBUkd4Wk1LcVZzbWhVci84NUQ3MS9m?=
- =?utf-8?B?QXN0aHhYaVV0SnNLVzZ5bi9HTHdNVXdObGd0azNjTG5Uc010TTFiczhzWGZG?=
- =?utf-8?B?bS92Z21HUCtSRU42UVVJTTBDdnl6T0M3bWRIVmRSNnhFMUJxNDhZRVhjZ0Ri?=
- =?utf-8?B?NEoyNEE4dm9MRG9zWUY4d1UvS0FXMmtydFh2bGdXQTNuNlVHMHdNY1VYOEh1?=
- =?utf-8?B?SmNzYU5qejJsMnpwYkcyeFZ0bndQcDhleTVUM0tvYWg3UFVqYkQ3U0JwSVZj?=
- =?utf-8?B?b3A3b2lWeEE0aDBxMUVrY3cySmV6Wkd5V2VEQmNYblNmejZNNXQ0bkV3ckxu?=
- =?utf-8?B?ZEpTWElsOXpzblpCMzZJOGxxZ0dZNTNMTjQwQ2hiamFnY3FBL014RDlJSGNR?=
- =?utf-8?B?RmI0WDY3bUZtaEE2eFJ3MERBRjZjMWJDNW9uV2JENjZVYlYyTktHQ21HbnZZ?=
- =?utf-8?B?cUZOSHpVM3Y4L2l0UU1nT1MvRnQ3U1dmeS9GSm85UEY1S1ZXbVdQOGF5Ym5z?=
- =?utf-8?B?YUVjU0tPdVF1MEg5ckplaGk5VUMvQ2I0U1dvZnByWGdCU0pxcHN6RHY0dXBG?=
- =?utf-8?B?eVpNU21qQ053ejFoQUtRalZkQjBuOFJtUzkxQURjblJPeGNwckk1TGJGbEQ0?=
- =?utf-8?B?WUptY0VOd0RsRlYzbXVWeDM4RmdsaWtUbHNwY3ozL09tMkNTa0RENUMxOHNh?=
- =?utf-8?B?WlJmd3d1VnhPU2Z4bnlFRVY3dTFnaEpQRjNxaEY1RHptL0F2R0UwckVETlVk?=
- =?utf-8?B?QmRDdHJPY1lleXNjUHEzSlR3ZFhkcjdSWVdOWmREZFBxL3ZmTTdHYVptdUJw?=
- =?utf-8?B?dzZHaVh3UnMwUGRaYXBCUTlrQVlIeDZiY2M1SVpEcndoWlJMdFRzQndSVlIz?=
- =?utf-8?B?cWZJcnFHYUxyUEw1Yk9GVHh2MXViS0pRcXZOUEJ1S1p2SElRSHlHc0JDRjdj?=
- =?utf-8?B?czVXdkNuTXI1aStwRXd1QWZIcE51OU9pQUkyN1hxcTNLdENWODAvMFo1ZDRu?=
- =?utf-8?B?YlAxaTVjc0dSZDBORlZybzdsYTI2bjB4a2RIa1JpV09RaWdyZkloRW13NGpu?=
- =?utf-8?Q?mHb3eIytfzAKJENS9EtGFvX+qLRFn6cbE3IE2aw?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b5ceab62-e49a-4a4c-02b1-08d94793de73
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2718.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2021 13:24:26.9448 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UlLhO1nK3bdcVHVP3LZjhwMLttexO3yMWmoiycWoAqNswpV2nrh3YlFhSVtTxWaZC3i1k7uTIqnSKSF9gQX/Fw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4384
-Received-SPF: softfail client-ip=40.107.100.46;
- envelope-from=brijesh.singh@amd.com;
- helo=NAM04-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a19c12ab-6055-5ebd-6afd-1cee7ff20e13@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="h9E3XSSqGqfp8+HT"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -154,32 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--h9E3XSSqGqfp8+HT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Jul 15, 2021 at 03:35:37PM +0300, Vladimir Sementsov-Ogievskiy wrot=
+e:
+> 13.07.2021 19:38, Stefan Hajnoczi wrote:
+> > On Tue, Jul 13, 2021 at 06:18:39PM +0300, Vladimir Sementsov-Ogievskiy =
+wrote:
+> > > 13.07.2021 16:10, Stefan Hajnoczi wrote:
+> > > > On Mon, Jul 12, 2021 at 10:41:46AM +0200, Emanuele Giuseppe Esposit=
+o wrote:
+> > > > >=20
+> > > > >=20
+> > > > > On 08/07/2021 15:04, Stefan Hajnoczi wrote:
+> > > > > > On Thu, Jul 08, 2021 at 01:32:12PM +0200, Paolo Bonzini wrote:
+> > > > > > > On 08/07/21 12:36, Stefan Hajnoczi wrote:
+> > > > > > > > > What is very clear from this patch is that it
+> > > > > > > > > is strictly related to the brdv_* and lower level calls, =
+because
+> > > > > > > > > they also internally check or even use the aiocontext loc=
+k.
+> > > > > > > > > Therefore, in order to make it work, I temporarly added s=
+ome
+> > > > > > > > > aiocontext_acquire/release pair around the function that
+> > > > > > > > > still assert for them or assume they are hold and tempora=
+rly
+> > > > > > > > > unlock (unlock() - lock()).
+> > > > > > > >=20
+> > > > > > > > Sounds like the issue is that this patch series assumes Aio=
+Context locks
+> > > > > > > > are no longer required for calling the blk_*()/bdrv_*() API=
+s? That is
+> > > > > > > > not the case yet, so you had to then add those aio_context_=
+lock() calls
+> > > > > > > > back in elsewhere. This approach introduces unnecessary ris=
+k. I think we
+> > > > > > > > should wait until blk_*()/bdrv_*() no longer requires the c=
+aller to hold
+> > > > > > > > the AioContext lock before applying this series.
+> > > > > > >=20
+> > > > > > > In general I'm in favor of pushing the lock further down into=
+ smaller and
+> > > > > > > smaller critical sections; it's a good approach to make furth=
+er audits
+> > > > > > > easier until it's "obvious" that the lock is unnecessary.  I =
+haven't yet
+> > > > > > > reviewed Emanuele's patches to see if this is what he's doing=
+ where he's
+> > > > > > > adding the acquire/release calls, but that's my understanding=
+ of both his
+> > > > > > > cover letter and your reply.
+> > > > > >=20
+> > > > > > The problem is the unnecessary risk. We know what the goal is f=
+or
+> > > > > > blk_*()/bdrv_*() but it's not quite there yet. Does making chan=
+ges in
+> > > > > > block jobs help solve the final issues with blk_*()/bdrv_*()?
+> > > > >=20
+> > > > > Correct me if I am wrong, but it seems to me that the bdrv_*()/bl=
+k_*()
+> > > > > operation mostly take care of building, modifying and walking the=
+ bds graph.
+> > > > > So since graph nodes can have multiple AioContext, it makes sense=
+ that we
+> > > > > have a lock when modifying the graph, right?
+> > > > >=20
+> > > > > If so, we can simply try to replace the AioContext lock with a gr=
+aph lock,
+> > > > > or something like that. But I am not sure of this.
+> > > >=20
+> > > > Block graph manipulation (all_bdrv_states and friends) requires the=
+ BQL.
+> > > > It has always been this way.
+> > > >=20
+> > > > This raises the question: if block graph manipulation is already un=
+der
+> > > > the BQL and BlockDriver callbacks don't need the AioContext anymore=
+, why
+> > >=20
+> > > I don't believe that block drivers are thread-safe now. They have som=
+e mutexes.. But who make an audit of thread-safety?
+> >=20
+> > Emanuele :)
+> >=20
+> > FWIW I took a look at the stream, mirror, and backup jobs today and
+> > couldn't find anything that's unsafe after this series. I was expecting
+> > to find issues but I think Emanuele and Paolo have taken care of them.
+>=20
+>=20
+> Hmm, do you mean that all jobs are thread-safe?
+>=20
+> Looking at the mirror, what protects s->ops_in_flight for example? It's a=
+ccessed from job coroutines and from mirror_top filter write operation.
 
-On 7/15/21 4:32 AM, Dov Murik wrote:
-> 
-> Just making sure I understand:
-> 
-> * sev_enabled() returns true for SEV or newer (SEV or SEV-ES or
->    SEV-SNP).
-> * sev_es_enabled() returns true for SEV-ES or newer (SEV-ES or SEV-SNP).
-> * sev_snp_enabled() returns true for SEV-SNP or newer (currently only
->    SEV-SNP).
-> 
-> Is that indeed the intention?
-> 
+You're right. I missed the bdrv_mirror_top BlockDriver:
 
-Yes. The SEV-SNP support requires the SEV and SEV-ES to be enabled. See 
-the text from the APM vol2 section 15.36.
+.pwrite_zeroes -> bdrv_mirror_top_pwrite_zeroes -> active_write_prepare -> =
+QTAILQ_INSERT_TAIL(&s->ops_in_flight, op, next)
 
-	The SEV-SNP features enable additional protection for encrypted
-	VMs designed to achieve stronger isolation from the hypervisor.
-	SEV-SNP is used with the SEV and SEV-ES features described in
-	Section 15.34 and Section 15.35 respectively and requires the
-	enablement and use of these features.
+This is not thread-safe. A CoMutex is needed here to protect
+MirrorBSDOpaque fields.
 
-thanks
+Stefan
+
+--h9E3XSSqGqfp8+HT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmDwOEgACgkQnKSrs4Gr
+c8jEvAf6A7fAWgT/Qb6R2S4qE8y2640v46WBRbRK/eTKYGT0m/fM2RrZS/3njxxI
+/2WMiymubMXHvBfdPLWfhSS2o4FuPUtVQ6aSaLGSC3ggoBHtMV/eZ1h5qBeN8KAR
+C6Qha+fhMwUAfDK27wuLBdcJLTDVfF11ncAlnlmOvT9OIm5qq3VbvwEFy/CXDXAD
+thZ8/5hqU1qwPGDcoi+yF57TawogmZGwfzfnZzU9BM9HtyCcJchI2JrJaqJEcgGh
+48kN5rNx7JPVrXPwg6HT4pXN5/8FRfxlJYKiADk9o9xboa9FKjRf/eOn2t163sDH
+Rruz26N8Qa9rkgdiRNaSzSg5EQba0w==
+=nRWm
+-----END PGP SIGNATURE-----
+
+--h9E3XSSqGqfp8+HT--
+
 
