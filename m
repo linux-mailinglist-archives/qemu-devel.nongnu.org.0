@@ -2,106 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36F9D3C9A6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 10:20:39 +0200 (CEST)
-Received: from localhost ([::1]:53012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F403C9A7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 10:23:35 +0200 (CEST)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3wbm-0004nQ-Ab
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 04:20:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44208)
+	id 1m3wec-00081d-Ru
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 04:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1m3waW-0002HT-3V; Thu, 15 Jul 2021 04:19:20 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:36152
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1m3waT-0005b0-7v; Thu, 15 Jul 2021 04:19:19 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16F849p5033909; Thu, 15 Jul 2021 04:19:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=xVcvJ8+mghb2azxkEPprLn3GcZy648tvPJa/mJYMOG4=;
- b=ewf4Mv+HpISMGXiJAcH5mDLjS88KPj3iLDneYyXCj7Km6kAkAuEia/PwnSQ62HTy5VYy
- TaRrUZVgKM5HBIEIqhjLn3pk2CmP0IOrSUfykK6mrUEBSjOb09qRi8vGl6AvlYYsQjKd
- MlmEgATceIoXwsJyujFRp1jS5ZV5Q6m39hoTK79iG0/r4ElSk6ylXupNkWyKV5hKH7b5
- DhQybMcxU8gK9LiZO+o46Mc0uaWHlILTjH1sjXlLXpaJtqPkVCTvKeYFv03iv3AcfbfR
- DDqjU9b3EHdrtMIZDqhT1LPLacZkpYpfnIe0obqFiQW9z+zqSHZQdLwmCvwXl423zvlv 1w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39sugum3fw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Jul 2021 04:19:15 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16F85S1Q040080;
- Thu, 15 Jul 2021 04:19:14 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39sugum3fa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Jul 2021 04:19:14 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16F8Hf7U029852;
- Thu, 15 Jul 2021 08:19:13 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma02fra.de.ibm.com with ESMTP id 39s3p78jd2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 15 Jul 2021 08:19:12 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16F8J9Xc31195598
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 15 Jul 2021 08:19:09 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9ED2FAE056;
- Thu, 15 Jul 2021 08:19:09 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 17DBDAE05D;
- Thu, 15 Jul 2021 08:19:09 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.77.125])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 15 Jul 2021 08:19:09 +0000 (GMT)
-Subject: Re: [PATCH v1 2/9] s390x: toplogy: adding drawers and books to smp
- parsing
-To: Markus Armbruster <armbru@redhat.com>
-References: <1626281596-31061-1-git-send-email-pmorel@linux.ibm.com>
- <1626281596-31061-3-git-send-email-pmorel@linux.ibm.com>
- <87y2a8cda7.fsf@dusky.pond.sub.org>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <0801e122-0e9c-e266-42e8-d5cddb16c237@linux.ibm.com>
-Date: Thu, 15 Jul 2021 10:19:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m3wcW-0000Eh-L0; Thu, 15 Jul 2021 04:21:24 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:43813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1m3wcV-0007LI-0u; Thu, 15 Jul 2021 04:21:24 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id g5so7704142ybu.10;
+ Thu, 15 Jul 2021 01:21:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=irOfS5g1oiWeLizuYzrN0am65BmhQtmvPc78xsBYYRw=;
+ b=ri/2ye2vxnzxVaKj+bcEevPd4CiAAQ1zuedqNKtW6ke95CZp2/W2lGXOuWKTHySiVj
+ OsGOZ82cf1Soay7hBncoUDLEMVzJm87kFpNJ8lvaKbYQv2R7UVhc1TiudjwBAXG20NY7
+ PzxzXuJkeX5pu1nVLXNks741BojUfhZe7K6SjgBldqIk6qM2d87aYw9spCJRD8ku5ki4
+ qcPabyEMNVdA7b1P0sMbFAe8LQhInrvxJDa/+i61hcqvqxtU+8Ya4ZAZ0dTNLu+z3eTT
+ +SkOnY14cPFBKNlZHULlsdKhsrg0z3CtpMons+AxCzrSEqgrmB3HZ6kFWHw9wsYOjk7N
+ KJ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=irOfS5g1oiWeLizuYzrN0am65BmhQtmvPc78xsBYYRw=;
+ b=fETCFA+bjK3GRYXwezkmhS2nrqZRHxNKB1jKZQVhzbo3VI+hxaXRwrj9EzXprG3AVa
+ G/EGsdIqstiXCe48g5pOpaMeb5avlXeLCb6/fKX+W99rfgWJNIpntgKkms4T00im1LLv
+ xFL2JPX5ozUkVspa4svBGyOGIZkEtFbLPLNFcWyrBVrU48TuW0psdrgiQ3zUViGFfQ4c
+ 9AruvppJ2mt76fD/FSyeOWE6yL/1oq5zUjjORmPFQaE5I5kY2R7/7ICptXp6BtUMlUMM
+ 1Oe6uRdEMAWRAmWhr+iVjSmtUfD/9RgSMfOjuMWP/qU886AL6Sy4zt/+fs339wwV4KMV
+ yRPQ==
+X-Gm-Message-State: AOAM5329477DX2OXbd9ohw1Us3Be1tl87RYHKhhIhVt9+Mhd3U3NpN/g
+ UupAkqUOWAFFH9IBhzkrCnV14x86VmrCfPEQxSs=
+X-Google-Smtp-Source: ABdhPJywF9PNWb7DsScYjZ9KjlW/a0TzTW55PH3nlGF7ytBPWxfmXxgrRxU9TkOPF9OX+LsdKJB0MhTAUYxBiuUZJys=
+X-Received: by 2002:a25:dcd:: with SMTP id 196mr3901488ybn.306.1626337280617; 
+ Thu, 15 Jul 2021 01:21:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87y2a8cda7.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 49rAa8zjl8Uo9_9c0elqKRbM6O8dewkx
-X-Proofpoint-ORIG-GUID: G389yHmghvJ8WiQJ0jprs4uvDQWx4lEb
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-15_02:2021-07-14,
- 2021-07-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- impostorscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 lowpriorityscore=0
- spamscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107150060
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
+In-Reply-To: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 15 Jul 2021 16:21:09 +0800
+Message-ID: <CAEUhbmXpu890C_s1yXUC1+kP-OuiKzNZ5WXVcbGJsNFCuV0r7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] target/riscv: Expose interrupt pending bits as
+ GPIO lines
+To: Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,81 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, ehabkost@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, pbonzini@redhat.com,
- eblake@redhat.com
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jul 14, 2021 at 3:24 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> Expose the 12 interrupt pending bits in MIP as GPIO lines.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> ---
+>  target/riscv/cpu.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>
 
-
-On 7/15/21 8:16 AM, Markus Armbruster wrote:
-> Pierre Morel <pmorel@linux.ibm.com> writes:
-> 
->> Drawers and Books are levels 4 and 3 of the S390 CPU
->> topology.
->> We allow the user to define these levels and we will
->> store the values inside the S390CcwMachineState.
-> 
-> Double-checking: are these members specific to S390?
-
-Yes AFAIK
-
-> 
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
-> 
-> [...]
-> 
->> diff --git a/qapi/machine.json b/qapi/machine.json
->> index c3210ee1fb..98aff804c6 100644
->> --- a/qapi/machine.json
->> +++ b/qapi/machine.json
->> @@ -883,6 +883,8 @@
->     ##
->     # @CpuInstanceProperties:
->     #
->     # List of properties to be used for hotplugging a CPU instance,
->     # it should be passed by management with device_add command when
->     # a CPU is being hotplugged.
->     #
->     # @node-id: NUMA node ID the CPU belongs to
->     # @socket-id: socket number within node/board the CPU belongs to
-> 
-> Missing: documentation for your new members.
-
-Oh yes, right forgot these, thanks.
-
-> 
->     # @die-id: die number within node/board the CPU belongs to (Since 4.1)
->     # @core-id: core number within die the CPU belongs to
->     # @thread-id: thread number within core the CPU belongs to
->     #
->     # Note: currently there are 5 properties that could be present
->     #       but management should be prepared to pass through other
->     #       properties with device_add command to allow for future
->     #       interface extension. This also requires the filed names to be kept in
->     #       sync with the properties passed to -device/device_add.
->     #
->     # Since: 2.7
->     ##
->     { 'struct': 'CpuInstanceProperties',
->>     'data': { '*node-id': 'int',
->>               '*socket-id': 'int',
->>               '*die-id': 'int',
->> +            '*drawer-id': 'int',
->> +            '*book-id': 'int',
->>               '*core-id': 'int',
->>               '*thread-id': 'int'
->>     }
-> 
-> [...]
-> 
-> 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
