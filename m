@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21493C9F32
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:14:17 +0200 (CEST)
-Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9E73C9F49
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:16:51 +0200 (CEST)
+Received: from localhost ([::1]:35266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m41Bw-0002uO-O2
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:14:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39312)
+	id 1m41EQ-0004io-52
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:16:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m41AH-0001jd-Ml; Thu, 15 Jul 2021 09:12:33 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:43080)
+ id 1m41CK-0003rb-Gu; Thu, 15 Jul 2021 09:14:40 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:43109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m41AE-00065F-AO; Thu, 15 Jul 2021 09:12:33 -0400
+ id 1m41CG-00074f-UM; Thu, 15 Jul 2021 09:14:39 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D588D746353;
- Thu, 15 Jul 2021 15:12:24 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 684DE746353;
+ Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A871674632F; Thu, 15 Jul 2021 15:12:24 +0200 (CEST)
+ id 3CFCB74632F; Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A71E87462FD;
- Thu, 15 Jul 2021 15:12:24 +0200 (CEST)
-Date: Thu, 15 Jul 2021 15:12:24 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3B7967462FD;
+ Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
+Date: Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Matheus Ferst <matheus.ferst@eldorado.org.br>
 Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
  for ppc32
 In-Reply-To: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
-Message-ID: <947f1dda-46fe-c736-5038-3fcb2df34fa8@eik.bme.hu>
+Message-ID: <1ff77be7-2ecb-1f6d-974c-60e6f54fb163@eik.bme.hu>
 References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
@@ -82,22 +82,19 @@ On Thu, 15 Jul 2021, matheus.ferst@eldorado.org.br wrote:
 > invoked or yield boundedly undefined results."
 >
 > Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
+
+By the way, instead of putting this in the commit message usually a 
+Reported-by tag is used instead to note who reported the problem but I 
+don't mind either way, just seems unusual to have it in commit message.
+
+Regards,
+BALATON Zoltan
+
 > broke AROS boot on sam460ex. This patch address this regression by only
 > logging a guest error, except for CPUs known to raise an exception for
 > this case (e500 and e500mc).
 >
 > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-
-This fixed AROS on sam460ex and also found a similar problem with pegasos2 
-firmware version 1.2 (using G4 CPU) that this patch fixes as well 
-(assuming that firmware runs on real hardware the G4 also seems to behave 
-like this, ignoring invalid bits). Thank you.
-
-Regards,
-BALATON Zoltan
-
 > ---
 > target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
 > 1 file changed, 56 insertions(+), 2 deletions(-)
