@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BBC23C999D
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:26:57 +0200 (CEST)
-Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AF23C999A
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 09:26:13 +0200 (CEST)
+Received: from localhost ([::1]:59562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3vlo-0001Cj-Fo
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34162)
+	id 1m3vl6-0007Bi-8k
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 03:26:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vcI-00060K-TF
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:07 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27205)
+ id 1m3vcK-00061M-8N
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:08 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:27213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=8230c157d=alistair.francis@wdc.com>)
- id 1m3vcH-0003VO-4M
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:06 -0400
+ id 1m3vcI-0003aa-45
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 03:17:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1626333425; x=1657869425;
+ t=1626333426; x=1657869426;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cGua8vSKOZZ/PPn1kCw33FiPKJInMTSE/ByicFl93Ro=;
- b=UShcAoXJuC8G84qlg15CPywwsVLQZ4YNJa13/gnw7qwz6AVXCZiIW6fn
- /EV4mRF4L4byQudmX/FknRSCdSRL73wS5c3OkxH86iHeJ2U/NX6doYctK
- pGJV+2jpT7TI6+xA2k+udR5gUSta9Z7efUKJmpNUIZ0gdpxBAu2W8Vdw1
- uHVTvcmrcjBZOAv3+uBXAI/Nrq+xSCx42cId9JARhR4qCFZ3xisKhcJQj
- 89Yh87VjnjfCzCIyqkk3/b05BnFJ0yPKYLrrlLeXHsjMjLDFi2x0HuTqm
- Ma+Rdpt3dc7opG9yR0HKMWUxcpMZDrjIg59dPbwj6wp2yzsXm0sLwCb6g Q==;
-IronPort-SDR: aK8uldllOPvq1YmKiQCPJuEGQtpkgzkc9lLcgynE5qtkarlXQ9ip+VwEn8bZxFqvUB5xV5N5HA
- QhlcqVXqCXqDlta0a4eyI6AVbRYEwhZTwDTIYUkiGrgtWBgI4Jp1MQ/T9kHzJfYXvz6kegooQg
- DKrMBcHGUoWF8DVhK3du91M3C4MeEbdgCFwH4GXuNRhb71c1ca8eo0o+LjIVruYXxdtXzdt6nR
- FwFpVHI8BQQauZHI500y64vcLxb+75pOR6I4RqmKOeA5gDoZkSL8WOCdgx7VejeOTSr0TsHeqJ
- F/4=
-X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212309"
+ bh=z/ClrNoVNTB6Ni1MIH2PRYQ8QXs+hHuddAsSsBZMUC8=;
+ b=VZKhMe/LebdQLxWx7XyNMt7lXDJBADIWMeO/EKElBdHPWEeGhlEGE7ma
+ KS82+UO2wt9pzkaQuFeKURhHla5En6e33/96uxu0WRZG3IyU7xeh2HVX6
+ JndLLDhXAtokK0//quiK8czqbWws4G93Oe5jzDd/qWzgax8kq1jmuBhK9
+ jDfhwVm75nACqt5Chvk9dplS/GRGc7zaC/w3RU6xWucaNryVx2FlK6rWi
+ nUsaUJ+48ENawzVp0YGYHEvQ2wofEE1zoddEIjwG/9jDf0SzLGcJYea1M
+ Ec9NTOo8JNM2/jVKZT58YICNkoVNlXdYmzO35wGJA6a9PKmjMmZmpu+Yk A==;
+IronPort-SDR: j/1IhWNL7x5PLKIlmEXvJrbxF1LvtkTq0RQisSmDjdi5mErB3HoFHtivlCKh9I1YsCSSh76mdN
+ JhGv3rWkwZj7+mUO2B9nEK0bKUXtUeNCfcRMfc5b5K46aYDZij6D/vJ7xr1XnEcMtER90jr5+A
+ I9LrRQrkI6t8kTA8gZLxR4Y2rHfH7wvfJV/WXkFUvj9qLEFxjAKMUdAMwH+KTeH8OjZHt7ns6+
+ +ebsDv9uaGIMyAgO6KaosqDLOfBvt0rP1BMA2X9UZE6rOd3cS9rQ/930sxj49c/Ne/R6D1i4Pb
+ uiY=
+X-IronPort-AV: E=Sophos;i="5.84,240,1620662400"; d="scan'208";a="175212310"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 15 Jul 2021 15:16:43 +0800
-IronPort-SDR: AFbuI/Mh9+aSo2f5vvuvXVnkjrQpjweuU3144nky8xCOtsPB4Ml6jD+ECswoaWMVf8877Jj2rp
- Dq9axwUBaZgwtNwVB/HmMGyn5NGANNRg36aUXXX02cyFlkKx500eQBalh6HoEKQLMu9sd2DvVL
- kLWOwYXNP1FcpfQoTi/9hQXz974VRPVhnODaKw4NhVAPp3rPe/PFZYy8AJnf1fbpvx1dyOCmW2
- 440J5c5tenxMihWNR7UxymE6tg9TIliKsHq1bZedmyPh0y02bucxmyUacSPc/m2Y4UUYEOL5V0
- K6nSAC1VwIWzGbvaxPwTVn7l
+IronPort-SDR: iyXw9OEgwdS+ZB4x6ltQA6eBK0idLDoN1GbsxogxB1MYRYG0KgoFU8z2CT3+tWIa/KDFaLF+4w
+ 4Qscx4lOi0ji6gR1ci7fZCuatHjPAjVlIn86BNG1sssikSj1poVzikofaWjMeOtLwlRGjYPkIW
+ S2o+SIgiBW5SWJDpsJLMimVuB0+NS9y6oOftAkuXudnDLJgCEEt57cNG1xkosFdlw7JVBoFJnG
+ ypAO74BnWkqD2Y63ZBUW2p13ThlZ2WK9bkH4A6u/0Mu+d/tj3HMTe7jY9AjfyibntKmjc0hLZR
+ 3NNC3oSq4typPerwh7l0p8at
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  14 Jul 2021 23:54:45 -0700
-IronPort-SDR: fY7OVQ/+njX9P+Z6iDLpAfxbQgAia+FBl6LJyzCnkXqbnIXf3Pz6WRU0sMV3f1hZu9vTUy1hTG
- Lc67mTm+knO+iUCi8TspXUfEi2PDM1qqpcyUktLqR9fTEeXiB2o6jaDqZas2UjjazGJb+i4fqC
- 4cTGAEdvWWdkaPxtEyP7jigQOhOEPmn6SgcOXOXVcOvOaEzfmuSCjVEBDDxRZ7Up/WAW+sAH42
- r+R1scFghe+9gTu+qltSu4+5RBIUwESY2FsPJFy+LwhzoPOh5QVy8WLe8TQ6E/ERlx27dHy21S
- IrI=
+IronPort-SDR: ySomnvEeJZ4ZjTyLSzIIvMFdZing+h0DOLNFDlus0Q06GpLHiAxAzv7eSNeh/JLkY3AsmT3pVO
+ +VKkwjdIBrd/t5GKxO5sEYRIfR2ogoAfkEB0NYOgkES4eBGq6Hmdnbe8VXAMquQOpL5BJriEbf
+ SFIItMJYcG37F7M+6QNgh/OfI+HckbybPY5TULN6WXz41qSgkmgtZeEubejuuJGp04gTKssl+n
+ W3ClvMRNxn8AVszR5WFzg60WhyU+DDQJrRc5Kew7xR7Xqf/upu83ojv6L7U15I9AWieT6wR+Sq
+ 2O4=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
  risc6-mainframe.int.fusionio.com) ([10.196.157.248])
- by uls-op-cesaip02.wdc.com with ESMTP; 15 Jul 2021 00:16:43 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 15 Jul 2021 00:16:44 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 10/12] hw/riscv: opentitan: Add the unimplement
- rv_core_ibex_peri
-Date: Thu, 15 Jul 2021 00:16:38 -0700
-Message-Id: <20210715071640.232070-11-alistair.francis@wdc.com>
+Subject: [PULL v2 11/12] hw/riscv: opentitan: Add the flash alias
+Date: Thu, 15 Jul 2021 00:16:39 -0700
+Message-Id: <20210715071640.232070-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210715071640.232070-1-alistair.francis@wdc.com>
 References: <20210715071640.232070-1-alistair.francis@wdc.com>
@@ -97,47 +96,63 @@ Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+OpenTitan has an alias of flash avaliable which is called virtual flash.
+Add support for that in the QEMU model.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: ed707782e84118e1b06a32fd79b70fecfb54ff82.1625801868.git.alistair.francis@wdc.com
+Message-id: c9cfbd2dd840fd0076877b8ea4d6dcfce60db5e9.1625801868.git.alistair.francis@wdc.com
 ---
- include/hw/riscv/opentitan.h | 1 +
- hw/riscv/opentitan.c         | 3 +++
- 2 files changed, 4 insertions(+)
+ include/hw/riscv/opentitan.h | 2 ++
+ hw/riscv/opentitan.c         | 6 ++++++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 86cceef698..a488f5e8ec 100644
+index a488f5e8ec..9f93bebdac 100644
 --- a/include/hw/riscv/opentitan.h
 +++ b/include/hw/riscv/opentitan.h
-@@ -81,6 +81,7 @@ enum {
-     IBEX_DEV_ALERT_HANDLER,
-     IBEX_DEV_NMI_GEN,
-     IBEX_DEV_OTBN,
-+    IBEX_DEV_PERI,
+@@ -40,6 +40,7 @@ struct LowRISCIbexSoCState {
+ 
+     MemoryRegion flash_mem;
+     MemoryRegion rom;
++    MemoryRegion flash_alias;
  };
  
- enum {
+ typedef struct OpenTitanState {
+@@ -54,6 +55,7 @@ enum {
+     IBEX_DEV_ROM,
+     IBEX_DEV_RAM,
+     IBEX_DEV_FLASH,
++    IBEX_DEV_FLASH_VIRTUAL,
+     IBEX_DEV_UART,
+     IBEX_DEV_GPIO,
+     IBEX_DEV_SPI,
 diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-index c5a7e3bacb..933c211b11 100644
+index 933c211b11..36a41c8b5b 100644
 --- a/hw/riscv/opentitan.c
 +++ b/hw/riscv/opentitan.c
-@@ -58,6 +58,7 @@ static const MemMapEntry ibex_memmap[] = {
-     [IBEX_DEV_ALERT_HANDLER] =  {  0x411b0000,  0x1000  },
+@@ -59,6 +59,7 @@ static const MemMapEntry ibex_memmap[] = {
      [IBEX_DEV_NMI_GEN] =        {  0x411c0000,  0x1000  },
      [IBEX_DEV_OTBN] =           {  0x411d0000,  0x10000 },
-+    [IBEX_DEV_PERI] =           {  0x411f0000,  0x10000 },
+     [IBEX_DEV_PERI] =           {  0x411f0000,  0x10000 },
++    [IBEX_DEV_FLASH_VIRTUAL] =  {  0x80000000,  0x80000 },
  };
  
  static void opentitan_board_init(MachineState *machine)
-@@ -217,6 +218,8 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
-         memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
-     create_unimplemented_device("riscv.lowrisc.ibex.otbn",
-         memmap[IBEX_DEV_OTBN].base, memmap[IBEX_DEV_OTBN].size);
-+    create_unimplemented_device("riscv.lowrisc.ibex.peri",
-+        memmap[IBEX_DEV_PERI].base, memmap[IBEX_DEV_PERI].size);
- }
+@@ -134,8 +135,13 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+     /* Flash memory */
+     memory_region_init_rom(&s->flash_mem, OBJECT(dev_soc), "riscv.lowrisc.ibex.flash",
+                            memmap[IBEX_DEV_FLASH].size, &error_fatal);
++    memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
++                             "riscv.lowrisc.ibex.flash_virtual", &s->flash_mem, 0,
++                             memmap[IBEX_DEV_FLASH_VIRTUAL].size);
+     memory_region_add_subregion(sys_mem, memmap[IBEX_DEV_FLASH].base,
+                                 &s->flash_mem);
++    memory_region_add_subregion(sys_mem, memmap[IBEX_DEV_FLASH_VIRTUAL].base,
++                                &s->flash_alias);
  
- static void lowrisc_ibex_soc_class_init(ObjectClass *oc, void *data)
+     /* PLIC */
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->plic), errp)) {
 -- 
 2.31.1
 
