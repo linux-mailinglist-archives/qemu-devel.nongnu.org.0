@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD1D3CA21B
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 18:17:07 +0200 (CEST)
-Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1E73CA228
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 18:19:39 +0200 (CEST)
+Received: from localhost ([::1]:45696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m442s-0006Vn-0k
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 12:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
+	id 1m445K-0000GF-4H
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 12:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4419-0005XV-FL
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 12:15:19 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41619)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m443b-0007P8-AD
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 12:17:51 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4416-0001a4-DQ
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 12:15:19 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id p22so5900952pfh.8
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 09:15:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m443Z-0003L7-Nt
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 12:17:51 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id gb6so10231815ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 09:17:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SPwtlGI5qoEXvXGdhfVcsvqgdXqh3H6e2job1n4NMqE=;
- b=rKQRCSltJcMJ7OZbC6h7RUj0kL0fVXWsw2kvO5Xjl86QE1vdqqzq6ub+fO81vJilAC
- FIJxsLIhXkaN8aPtZ+ebhX24RnDLqBGnhqvVaJRDajIGSc1sEDcrUEVauCNPY/i/4tRT
- XanQzzUXRgo9fl3prKLlhdl3Ct8TXeYp0T1w5+nvPeUF2qxc6iaiyvRO9/3DpQARs8mO
- s4DUFzwMzrfzyFx2eX+9iSbRoNBunp38USUKnUP6PD3ujPBZxofWoiy7BgbsojNXJWty
- Wx+VivYyz7LLRT4CpNkOJlLYyP7SEBZPAN82sLhgU8Y1aDRS4949Re1C4iahJjFoLQvO
- DI5A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+DVF9iDQUP8zMyD1U3L0WcixIgIXqzHxhu59IFwXeVg=;
+ b=NlwbRWFVQJVgMjkRNI2uxaaQEeetlFBTSA4Fv0XoO774w2lG482EGJpxB/gXKJCGJG
+ 4uf44ANiOC0VpaKvm6decvCvQPNEnncAphi0QZeghAx7r1zkDbI3YTi8XX5ynivBsvng
+ ynrYXBRvQ6R5i0XQjIzRFvingnFnBkxb2c4BnJNNZNy1B4ih4GFfpaf/mRPL1N4473LH
+ oMCAZ4OsSvx1sy2qQF31VaTqn+RLxCK2XMAkTYf8mn8PwKO7O2wocQ5lhSg0Gw0H/qet
+ XznZ4twEcSei56OkHD4dEgEc7DhReQtudpTLoCRWt0vIo7pAfMvfHEDVjsFdxa2xtfeE
+ XU7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SPwtlGI5qoEXvXGdhfVcsvqgdXqh3H6e2job1n4NMqE=;
- b=jxoNU180zsBRpLjPtRUMzDv4OYG9elDbq07RaqOELVyt04e5CTa86F9HCBTNJOdO1N
- knXBQKyH37hURbs9AJwDLTSOjvCLf7pYLgcBNAfHjn6p/C+6L4P78wUp2qA9u35khghy
- qEPxjjoQRPKNHhhJfJy9v+XkFDacThp7H6B9LKxLAmNAPxyLW7tOY+gJ6otvDXzzy28c
- xCVGKK9GI6V53taaa2D+F+FNKRKiPFjS96AweaR5RliRkDiK+x7nPLSiGEaLrqLnbQaT
- Cm8sgNj9VgXN6dQtWA9X1u5L0QSOC4exX6pODtTw51FWHMw+p4ro7Q3jDUOC1laeZjN2
- 44SA==
-X-Gm-Message-State: AOAM532O4pCOaqyFQa+M3wo9bLUTHDyQV0S1J3i9s9UG93grEpkeUYy2
- WGiwBrdjEzYJG37Eml93qsjgWg==
-X-Google-Smtp-Source: ABdhPJyyRf2ZtTv+6fclonfpexJi1syigGwksUEaGbFEa0ufD2z75kESs87WF2J3jxRWzxaGPsddqw==
-X-Received: by 2002:a63:e316:: with SMTP id f22mr5381536pgh.100.1626365712442; 
- Thu, 15 Jul 2021 09:15:12 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id b19sm5946096pjh.29.2021.07.15.09.15.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 15 Jul 2021 09:15:11 -0700 (PDT)
-Subject: Re: [PATCH 00/17] target/riscv: Use tcg_constant_*
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
-References: <20210709042608.883256-1-richard.henderson@linaro.org>
- <2a5cfe45-3fdf-9a2f-c0f3-682d30d521a3@c-sky.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org>
-Date: Thu, 15 Jul 2021 09:15:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+DVF9iDQUP8zMyD1U3L0WcixIgIXqzHxhu59IFwXeVg=;
+ b=fvgeAuNJ74SUFZk+naw/49xMIOYUocSqnwxeP1ieGlTqOoYAPCuZy43qbhNYam+7NU
+ zYAP/l6P34mEEfYfy5LT+uGcwgeKkoW8EvVWl6ddsJ1RNlj0KY1IhRO74v0tBYa/tKq/
+ 9ovhFaLwI5z1PUBlRDFrIMgBxjD3PCPeyKi2wUvD+3W6rp1xyUVFSaRpHljti9UumqvC
+ RQwOJxFPq2YzruscNNARNZ7AzJZk48ml0ba2ipJcMxg7ttw/l5MQLLT+PvYTY4iX3XUh
+ mJlVvQt4Ra2sW4D5J10EXUCjpSwJxOfdc6LWjAUJdvX5ercI9BYP+IvEiPTEQN/bWgxq
+ 0/tg==
+X-Gm-Message-State: AOAM530z9JuRWAAdzstE4UpIKuvWdNTeE3EPMXVmWDPevRZkoEasvzMo
+ CG/rZJOlEh8MJceITKWRbkAfT5KymrPGKCl9fu5KmQ==
+X-Google-Smtp-Source: ABdhPJz1XnDYq6l3UJmVQ9sLGs9rIWjozX+B6Y/SlQPgd8itK9nWiimPd+cabHKx6eue5LjxHIqSculOXUlKr4xDTdA=
+X-Received: by 2002:a17:906:a2d7:: with SMTP id
+ by23mr6321359ejb.382.1626365866811; 
+ Thu, 15 Jul 2021 09:17:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <2a5cfe45-3fdf-9a2f-c0f3-682d30d521a3@c-sky.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+References: <CAK7rcp_5vmoL1xFr6rVUzbyb2LyxyndOrxKMsyvgkqq_EX=hOg@mail.gmail.com>
+In-Reply-To: <CAK7rcp_5vmoL1xFr6rVUzbyb2LyxyndOrxKMsyvgkqq_EX=hOg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 15 Jul 2021 17:17:06 +0100
+Message-ID: <CAFEAcA_jBPwqHCyCAq6yJPfHtwV-h2xdNARX=GTe6gn1Cao97Q@mail.gmail.com>
+Subject: Re: QEMU System and User targets
+To: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,27 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/15/21 4:21 AM, LIU Zhiwei wrote:
-> Also on a side note, could you give me some advice for the following question?
-> 
-> I have been supporting  running 32bit application on qemu-riscv64. After this patch set,
-> it is hard to define a  method,  such as gpr_dst_s or gpr_dst_u, to extend the destination
-> register. I can only extend the destination register(ext32s or ext32u) in each instruction
-> with scattered code.
-> 
-> Can we just omit the extension of the destination register?
+On Thu, 15 Jul 2021 at 16:59, Kenneth Adam Miller
+<kennethadammiller@gmail.com> wrote:
+>
+> If I am right, the softmmu/system build target for each architecture subsumes the source of the user target.
 
-It's hard to give advice on code that I haven't seen.
+I'm not sure what you mean by "subsumes" here. Some code in
+QEMU is compiled into both the system and usermode emulators
+(eg most of the CPU emulation code). Some is system mode only
+(eg the device models). Some is usermode only (eg the emulation
+of various system calls).
 
-In general I would think that the destination register need not be extended for 32-bit 
-mode, unless the architecture says otherwise.  (What does the architecture say about the 
-contents of the registers when transitioning from a 32-bit mode user program to a 64-bit 
-mode kernel?)
+> What I was wondering is, if the user layer of qemu is used by the
+> user target, and by user layer I mean the using contents of linux-user,
+> then how does the system target receive the user programs instead
+> of the qemu user emulation layer even within a guest that is an
+> entire OS?
 
+qemu-i386 and qemu-system-i386 are different executables.
+They're built differently, and what happens when a usermode
+program running inside a Linux guest inside qemu-system-i386
+executes a syscall instruction is completely different from
+what happens when a program running on qemu-i386 executes that
+instruction. Specifically, there are different versions of the
+x86_cpu_do_interrupt() function: the one for system emulation does
+"update the guest CPU state in the way that the real CPU does when
+an int 0x80 is executed", and the one for usermode emulation does
+"raise a fake exception that will cause execution to return from
+the call to cpu_exec() in linux-user/i386/cpu_loop.c:cpu_loop()
+so it can emulate a syscall".
 
-r~
+thanks
+-- PMM
 
