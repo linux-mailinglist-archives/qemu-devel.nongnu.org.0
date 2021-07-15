@@ -2,53 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4477E3C9DD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 13:37:30 +0200 (CEST)
-Received: from localhost ([::1]:40932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F4543C9E86
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:22:49 +0200 (CEST)
+Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3zgG-0003ZY-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 07:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49434)
+	id 1m40O7-0001q8-VD
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:22:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1m3zdD-0002T8-1h; Thu, 15 Jul 2021 07:34:19 -0400
-Received: from out28-49.mail.aliyun.com ([115.124.28.49]:35044)
+ (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
+ id 1m40NG-00010Z-TY
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:21:54 -0400
+Received: from mailout4.samsung.com ([203.254.224.34]:46863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
- id 1m3zdA-0006X2-2u; Thu, 15 Jul 2021 07:34:18 -0400
-X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07436284|-1; CH=green;
- DM=|CONTINUE|false|; DS=CONTINUE|ham_alarm|0.002014-0.00119973-0.996786;
- FP=17741766544139683762|1|1|2|0|-1|-1|-1; HT=ay29a033018047213;
- MF=zhiwei_liu@c-sky.com; NM=1; PH=DS; RN=6; RT=6; SR=0;
- TI=SMTPD_---.Ki2jrPY_1626348847; 
-Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
- fp:SMTPD_---.Ki2jrPY_1626348847)
- by smtp.aliyun-inc.com(10.147.43.95); Thu, 15 Jul 2021 19:34:07 +0800
-Subject: Re: [PATCH v2 2/5] hw/intc: sifive_clint: Use RISC-V CPU GPIO lines
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <5ebc64a6885af5cc3812beb71621cb7615556a1e.1626247467.git.alistair.francis@wdc.com>
- <f1335c317c3930706a9220271a012804ec6b0e04.1626247467.git.alistair.francis@wdc.com>
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
-Message-ID: <b196e0ee-efdd-dcf1-0298-60b7e0886148@c-sky.com>
-Date: Thu, 15 Jul 2021 19:32:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
+ id 1m40ND-0005gg-0H
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:21:54 -0400
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+ by mailout4.samsung.com (KnoxPortal) with ESMTP id
+ 20210715122139epoutp0486d7a948c633b1f69353083fa6ccea7a~R9kEVHNg60520005200epoutp04E
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 12:21:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
+ 20210715122139epoutp0486d7a948c633b1f69353083fa6ccea7a~R9kEVHNg60520005200epoutp04E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1626351699;
+ bh=YE84KnwuU+6+M/ndi7XOsgIDkjw0eyMyvHqpQPR2cxs=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=BiFEJEbXNm3rCDXxnR7lUsn05pfNxZfDl3aEFlIMpfnTefOE4ip0dPWAvsqNFzSnh
+ yBzf9yrfFNXXA907zqIzgDePd04w0oyvJuci6CXmSuYqVVD53cp8bgLGW2G7ILZkD4
+ WLEc7xKY65q+mHoqqS6ZfNnMHOGD+MzrkjJZVPW8=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210715122138epcas5p2825fd7ec75444a7e2043c8ab6033fedb~R9kDLCVtE1986219862epcas5p29;
+ Thu, 15 Jul 2021 12:21:38 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.40.194]) by
+ epsnrtp3.localdomain (Postfix) with ESMTP id 4GQYQ81nm2z4x9Pt; Thu, 15 Jul
+ 2021 12:21:36 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+ epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 68.88.09595.05820F06; Thu, 15 Jul 2021 21:21:36 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+ 20210715120305epcas5p33e93af93ad8f089addabe8406bd1a43d~R9T26NiMm2412824128epcas5p30;
+ Thu, 15 Jul 2021 12:03:05 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210715120305epsmtrp163970adc5eb4b40996ad1f22984ad1dd~R9T24Ijsx0969609696epsmtrp1p;
+ Thu, 15 Jul 2021 12:03:05 +0000 (GMT)
+X-AuditID: b6c32a4a-ed5ff7000000257b-f7-60f028502354
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ B2.E8.08289.9F320F06; Thu, 15 Jul 2021 21:03:05 +0900 (KST)
+Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
+ (KnoxPortal) with ESMTPA id
+ 20210715120303epsmtip1e61b184275706f1f10b7f629ebbc5fe7~R9T0sTmNz2460924609epsmtip1k;
+ Thu, 15 Jul 2021 12:03:03 +0000 (GMT)
+Date: Thu, 15 Jul 2021 17:31:58 +0530
+From: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [RFC PATCH 1/2] hw/nvme: add mi device
+Message-ID: <20210715120158.GA8970@test-zns>
 MIME-Version: 1.0
-In-Reply-To: <f1335c317c3930706a9220271a012804ec6b0e04.1626247467.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: none client-ip=115.124.28.49; envelope-from=zhiwei_liu@c-sky.com;
- helo=out28-49.mail.aliyun.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210709155842.GA291156@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIJsWRmVeSWpSXmKPExsWy7bCmlm6AxocEgwePOSzefn3AZnFl/3lG
+ i/0Hv7FaPL7zmd1i6Xx9i5ONe1gtJh26xmix5GKqxZTG2+wWa14oW8y7pWxxZcoiZotZ79rZ
+ LI737mCxeD3pP6vFzeanbA4CHj/OtbN5nNtxnt1j06pONo8TO1+weDy5tpnJ4/2+q2wefVtW
+ MQawR+XYZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gCd
+ rqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpMDQq0CtOzC0uzUvXS87PtTI0MDAy
+ BapMyMn4uHcJc0Eve8X7H8fYGhhb2LoYOTgkBEwkZq6z7GLk4hAS2M0ocezHFCYI5xOjxP6F
+ O9ggnM+MEt0PjjDCdNz55A8R38UIZJ+BKnrGKLHm+S+WLkZODhYBVYmVbfPYQRrYBIwkvrfa
+ goRFBJQl7s6fyQpiMwtcY5L49CMGxBYWMJaY27+YHcTmFdCR2Dl/PwuELShxcuYTMJtTwEni
+ dAfI1ZwcokBzDmw7DnaphMAJDolbN08zgyQkBFwkvu//yQJhC0u8Or6FHcKWknjZ38YO0dDM
+ KLHvyxUWCGcCo8SU+e+YIKrsJS7u+csEcV6GxOHfD6GmykpMPbUOKs4n0fv7CVQ9r8SOeTC2
+ qsTjCwfZIGxpidkrP0HFPSR6t75jhQTRTkaJ5bO/sk5glJ+F5L1ZSPZB2FYSnR+aWGcBQ48Z
+ aNbyfxwQpqbE+l36CxhZVzFKphYU56anFpsWGOWlliPH+CZGcNrW8trB+PDBB71DjEwcjIcY
+ JTiYlUR4lxq9TRDiTUmsrEotyo8vKs1JLT7EaAqMrYnMUqLJ+cDMkVcSb2hqZGZmYGlgamxh
+ ZqgkzruU/VCCkEB6YklqdmpqQWoRTB8TB6dUA9PWc02n5P9Oudd58nmy7pEvH7edf1D1mXMG
+ e9yiYsPG03fZI+onpQrnT0g55rvk5July9xeVPUVn9rZkBn/zENlV5XckpfKoveyZux6FOOW
+ c/jx6k8WZ3TO5gmpcL+Xjo0P7Er5Ht71VUIifW7vB52J8w03nknlOaz2cmXmWff/q43ENrs8
+ fPQhWGLXTusd55oLLrLw5F89E9DFrej/vcH6Ubz8ZxE3xlsMJr9bb7lYr7DIlVoa18f/Kvec
+ b7u6jtABoSUvN+cKvDI/V+F5a6Hus30fGROWT7/qol2f0qjAsma3lFVQ5IbNLNdVqx/MPd+g
+ svH+w007/ugePvr710eni6Kzyg8kin99sjNs2SxLJZbijERDLeai4kQAAD0rzmQEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIIsWRmVeSWpSXmKPExsWy7bCSnO5P5Q8JBkt/Gli8/fqAzeLK/vOM
+ FvsPfmO1eHznM7vF0vn6Ficb97BaTDp0jdFiycVUiymNt9kt1rxQtph3S9niypRFzBaz3rWz
+ WRzv3cFi8XrSf1aLm81P2RwEPH6ca2fzOLfjPLvHplWdbB4ndr5g8XhybTOTx/t9V9k8+ras
+ Ygxgj+KySUnNySxLLdK3S+DK+Dejg6VgP0vFxVUrWBsYLzB3MXJwSAiYSNz55N/FyMUhJLCD
+ UWLxiwagOCdQXFpi38PrLBC2sMTKf8/ZIYqeMEp0dTxiA0mwCKhKrGybxw4yiE3ASOJ7qy1I
+ WERAWeLu/JmsIPXMAjeYJBYduww2VFjAWGJu/2J2EJtXQEdi5/z9LBBDdzJK9D68D5UQlDg5
+ 8wnYZmYBM4l5mx+CXcoMdNHyfxwgYU4BJ4nTHS1gN4gCLTuw7TjTBEbBWUi6ZyHpnoXQvYCR
+ eRWjZGpBcW56brFhgVFearlecWJucWleul5yfu4mRnCsaWntYNyz6oPeIUYmDsZDjBIczEoi
+ vEuN3iYI8aYkVlalFuXHF5XmpBYfYpTmYFES573QdTJeSCA9sSQ1OzW1ILUIJsvEwSnVwORc
+ FdKtnb8raKfoieeXfky5cHTR0ZxcKeeknwkPG11Msha5zH/E+ejUljYDm5jV7+b25nuf2bJh
+ 7SJzneBr1xg/rX8cNjdWq/yqYnU3G89biyPnpjr7+Yrf+LTZfKnFu5PRKz1TXNO215l0fTRP
+ Vi+M6T0l9VbHt/TBPXUtPv0mgU18Auoc2bWpWw4GxxzyZGutqtl53Z5fhO1uPl9Rhxm3ctPU
+ zeceXDtTnT/J94W8ovgie/UwAfm9zxbM/5lfvUJzdlfTg4m67YtzvFxsThw10wzMr9697Vpg
+ OZdt1BZh/fQaoUslV4pnO4SEi74NrWjYuDY9+5Tr78MBjxY3Rr7Lcpj9u2d+cIjy+spMJZbi
+ jERDLeai4kQAqGUVbCQDAAA=
+X-CMS-MailID: 20210715120305epcas5p33e93af93ad8f089addabe8406bd1a43d
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+ boundary="----lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26
+References: <CGME20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26@epcas5p1.samsung.com>
+ <20210709135545.GA11148@test-zns>
+ <20210709155842.GA291156@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=203.254.224.34;
+ envelope-from=p.kalghatgi@samsung.com; helo=mailout4.samsung.com
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,196 +133,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: fam@euphon.net, kwolf@redhat.com, jg123.choi@samsung.com,
+ qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
+ qemu-devel@nongnu.org, linux-nvme@lists.infrared.org, mreitz@redhat.com,
+ u.kishore@samsung.com, stefanha@redhat.com, its@irrelevant.dk,
+ javier.gonz@samsung.com, prakash.v@samsung.com, mohit.kap@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+------lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_
+Content-Type: text/plain; charset="utf-8"; format="flowed"
+Content-Disposition: inline
 
-On 2021/7/14 下午3:24, Alistair Francis wrote:
-> Instead of using riscv_cpu_update_mip() let's instead use the new RISC-V
-> CPU GPIO lines to set the timer and soft MIP bits.
+On Fri, Jul 09, 2021 at 08:58:42AM -0700, Keith Busch wrote:
+>On Fri, Jul 09, 2021 at 07:25:45PM +0530, Padmakar Kalghatgi wrote:
+>> The following commands are tested with nvme-cli by hooking
+>> to the cid of the vsock as shown above and use the socket
+>> send/recieve commands to issue the commands and get the response.
 >
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->   include/hw/intc/sifive_clint.h |  2 +
->   hw/intc/sifive_clint.c         | 68 ++++++++++++++++++++++++----------
->   2 files changed, 50 insertions(+), 20 deletions(-)
+>Why sockets? Shouldn't mi targets use smbus for that?
 >
-> diff --git a/include/hw/intc/sifive_clint.h b/include/hw/intc/sifive_clint.h
-> index a30be0f3d6..921b1561dd 100644
-> --- a/include/hw/intc/sifive_clint.h
-> +++ b/include/hw/intc/sifive_clint.h
-> @@ -40,6 +40,8 @@ typedef struct SiFiveCLINTState {
->       uint32_t time_base;
->       uint32_t aperture_size;
->       uint32_t timebase_freq;
-> +    qemu_irq *timer_irqs;
-> +    qemu_irq *soft_irqs;
->   } SiFiveCLINTState;
->   
->   DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
-> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
-> index 0f41e5ea1c..8a460fdf00 100644
-> --- a/hw/intc/sifive_clint.c
-> +++ b/hw/intc/sifive_clint.c
-> @@ -28,6 +28,12 @@
->   #include "hw/qdev-properties.h"
->   #include "hw/intc/sifive_clint.h"
->   #include "qemu/timer.h"
-> +#include "hw/irq.h"
-> +
-> +typedef struct sifive_clint_callback {
-> +    SiFiveCLINTState *s;
-> +    int num;
-> +} sifive_clint_callback;
->   
->   static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
->   {
-> @@ -39,7 +45,9 @@ static uint64_t cpu_riscv_read_rtc(uint32_t timebase_freq)
->    * Called when timecmp is written to update the QEMU timer or immediately
->    * trigger timer interrupt if mtimecmp <= current timer value.
->    */
-> -static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
-> +static void sifive_clint_write_timecmp(SiFiveCLINTState *s, RISCVCPU *cpu,
-> +                                       int hartid,
-> +                                       uint64_t value,
->                                          uint32_t timebase_freq)
->   {
->       uint64_t next;
-> @@ -51,12 +59,12 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
->       if (cpu->env.timecmp <= rtc_r) {
->           /* if we're setting an MTIMECMP value in the "past",
->              immediately raise the timer interrupt */
-> -        riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> +        qemu_irq_raise(s->timer_irqs[hartid - s->hartid_base]);
->           return;
->       }
->   
->       /* otherwise, set up the future timer interrupt */
-> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
-> +    qemu_irq_lower(s->timer_irqs[hartid - s->hartid_base]);
->       diff = cpu->env.timecmp - rtc_r;
->       /* back to ns (note args switched in muldiv64) */
->       next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> @@ -70,8 +78,9 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
->    */
->   static void sifive_clint_timer_cb(void *opaque)
->   {
-> -    RISCVCPU *cpu = opaque;
-> -    riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(1));
-> +    sifive_clint_callback *state = opaque;
-> +
-> +    qemu_irq_raise(state->s->timer_irqs[state->num]);
->   }
->   
->   /* CPU wants to read rtc or timecmp register */
-> @@ -137,7 +146,7 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
->           if (!env) {
->               error_report("clint: invalid timecmp hartid: %zu", hartid);
->           } else if ((addr & 0x3) == 0) {
-> -            riscv_cpu_update_mip(RISCV_CPU(cpu), MIP_MSIP, BOOL_TO_MASK(value));
-> +            qemu_set_irq(clint->soft_irqs[hartid - clint->hartid_base], value);
->           } else {
->               error_report("clint: invalid sip write: %08x", (uint32_t)addr);
->           }
-> @@ -153,13 +162,13 @@ static void sifive_clint_write(void *opaque, hwaddr addr, uint64_t value,
->           } else if ((addr & 0x7) == 0) {
->               /* timecmp_lo */
->               uint64_t timecmp_hi = env->timecmp >> 32;
-> -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
-> +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
->                   timecmp_hi << 32 | (value & 0xFFFFFFFF), clint->timebase_freq);
->               return;
->           } else if ((addr & 0x7) == 4) {
->               /* timecmp_hi */
->               uint64_t timecmp_lo = env->timecmp;
-> -            sifive_clint_write_timecmp(RISCV_CPU(cpu),
-> +            sifive_clint_write_timecmp(clint, RISCV_CPU(cpu), hartid,
->                   value << 32 | (timecmp_lo & 0xFFFFFFFF), clint->timebase_freq);
->           } else {
->               error_report("clint: invalid timecmp write: %08x", (uint32_t)addr);
-> @@ -205,6 +214,12 @@ static void sifive_clint_realize(DeviceState *dev, Error **errp)
->       memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_clint_ops, s,
->                             TYPE_SIFIVE_CLINT, s->aperture_size);
->       sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
-> +
-> +    s->timer_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
-> +    qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
-> +
-> +    s->soft_irqs = g_malloc(sizeof(qemu_irq) * s->num_harts);
-> +    qdev_init_gpio_out(dev, s->soft_irqs, s->num_harts);
->   }
->   
->   static void sifive_clint_class_init(ObjectClass *klass, void *data)
-> @@ -228,7 +243,6 @@ static void sifive_clint_register_types(void)
->   
->   type_init(sifive_clint_register_types)
->   
-> -
->   /*
->    * Create CLINT device.
->    */
-> @@ -238,29 +252,43 @@ DeviceState *sifive_clint_create(hwaddr addr, hwaddr size,
->       bool provide_rdtime)
->   {
->       int i;
-> +
-> +    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
-> +    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
-> +    qdev_prop_set_uint32(dev, "num-harts", num_harts);
-> +    qdev_prop_set_uint32(dev, "sip-base", sip_base);
-> +    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
-> +    qdev_prop_set_uint32(dev, "time-base", time_base);
-> +    qdev_prop_set_uint32(dev, "aperture-size", size);
-> +    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
-> +
->       for (i = 0; i < num_harts; i++) {
->           CPUState *cpu = qemu_get_cpu(hartid_base + i);
-> +        RISCVCPU *rvcpu = RISCV_CPU(cpu);
->           CPURISCVState *env = cpu ? cpu->env_ptr : NULL;
-> +        sifive_clint_callback *cb = g_malloc0(sizeof(sifive_clint_callback));
-> +
->           if (!env) {
-> +            g_free(cb);
->               continue;
->           }
->           if (provide_rdtime) {
->               riscv_cpu_set_rdtime_fn(env, cpu_riscv_read_rtc, timebase_freq);
->           }
-> +
-> +        cb->s = SIFIVE_CLINT(dev);
-> +        cb->num = i;
->           env->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-> -                                  &sifive_clint_timer_cb, cpu);
-> +                                  &sifive_clint_timer_cb, cb);
->           env->timecmp = 0;
-> +
-> +        qdev_connect_gpio_out_named(dev, NULL, i,
-> +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_TIMER));
+vsock mimcs the sideband communication, hence we used it.
+However, we are working on the smbus/i2c implementation 
+for nvme-mi in qemu/nvme-cli, we will send the patch in few days.
 
-Just qdev_connect_gpio_out is enough.
 
-> +        qdev_connect_gpio_out_named(dev, NULL, num_harts + i,
-> +                           qdev_get_gpio_in(DEVICE(rvcpu), IRQ_M_SOFT));
->       }
+------lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_
+Content-Type: text/plain; charset="utf-8"
 
-Same here. Otherwise,
 
-Reviewed-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-
->   
-> -    DeviceState *dev = qdev_new(TYPE_SIFIVE_CLINT);
-> -    qdev_prop_set_uint32(dev, "hartid-base", hartid_base);
-> -    qdev_prop_set_uint32(dev, "num-harts", num_harts);
-> -    qdev_prop_set_uint32(dev, "sip-base", sip_base);
-> -    qdev_prop_set_uint32(dev, "timecmp-base", timecmp_base);
-> -    qdev_prop_set_uint32(dev, "time-base", time_base);
-> -    qdev_prop_set_uint32(dev, "aperture-size", size);
-> -    qdev_prop_set_uint32(dev, "timebase-freq", timebase_freq);
-> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, addr);
->       return dev;
->   }
+------lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_--
 
