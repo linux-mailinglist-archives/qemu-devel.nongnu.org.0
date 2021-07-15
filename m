@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736B23C9818
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:10:45 +0200 (CEST)
-Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE713C9895
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 07:53:51 +0200 (CEST)
+Received: from localhost ([::1]:33978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3te0-0000Rf-IL
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:10:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41892)
+	id 1m3uJh-0004q5-Uy
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 01:53:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m3tcY-00085H-G6; Thu, 15 Jul 2021 01:09:15 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:35726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1m3tcW-0003DT-Ju; Thu, 15 Jul 2021 01:09:13 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id d9so4989451ioo.2;
- Wed, 14 Jul 2021 22:09:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OWAXONnNX8s8BQVLZeMMayfMjQ0HyUkVjVy51UJhlJc=;
- b=BWFcv64Hew+mzWSQ0fBGcjiJKxTQ1HIEkcnYstPpJ5WU8PD2AWaMRLIRJXRTNk6SqW
- oyPZrmvbzhVZlBTQ1GM0RyIQOmj/ZniqZbOMUJG+aZi+JTsxKK+gWVh1RkRgGmo+caOe
- CpYHeM23p5ASEzZnzqdbbz71gJk/zy+GP1d4VnzxmTDNC7TktYc7M0c9Img81XS7iouj
- XzNDpvurUIFfh1pZfFQwooId2j20lISqjTzIqVvRt9b6YDQUuzfXaVQBlabwQ7xBJC+N
- bEQ4nK9zPoUqx6QB7X1OJvuz9Vk95+vYcqvefWkUaT4FXay8BdtO2hDKyXec5Q82LNwC
- PJPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OWAXONnNX8s8BQVLZeMMayfMjQ0HyUkVjVy51UJhlJc=;
- b=sUSpN0+usqkTJGgyscDAxm70jUrBSbcEXcw9M6JaEZvOmsL2tuFVoFsOIiEpmhdNSZ
- 9xAfARdfgeZyV6BZXJHnqkc4BHSV+fgYhMfZG1N8P/87zRUZkBgjhSp47RoNjxAY8FpE
- yqkCdRizinok+2WkGTC38CCQ2zz6I4hPt212zC2JkI2CbpbBOFJMcCwqlk7F1j/RUX7M
- n2Olg9MQIGJT2Vel2/UdbNfAVCgdzrk/UzUBT4Y63RkqXvY1VKLM6EBnRoddZqUipwwx
- e2s85KIEfZ2kZFQfpwhG71xNmfPYvpp6m1qBObpTgrHAwwqIeBc2QnOYIojLstq/QIZp
- Y4UA==
-X-Gm-Message-State: AOAM5319OL2LkSrvYAqFCu+nnnANxS8fSP0T6HNjuM3jWdKGtBnG6Pwf
- C6Z6ldoOWXWNxCHkcuWubOKjYoUmp1gGQN6fPOM=
-X-Google-Smtp-Source: ABdhPJzVTZVxv9rDX1bcni9oq33xwSAywdBfWtsY6qcSfSOOii+R4gK2MvBV8L3D25OkylqXiYxUxoAb7T54gUEEhoE=
-X-Received: by 2002:a5e:9703:: with SMTP id w3mr1658253ioj.118.1626325750985; 
- Wed, 14 Jul 2021 22:09:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1m3uFE-00017o-1h
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:12 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:58123)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1m3uFA-0003xH-2U
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 01:49:11 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 83AA75C01E8;
+ Thu, 15 Jul 2021 01:49:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute2.internal (MEProxy); Thu, 15 Jul 2021 01:49:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=z3zZTrJFwyk7K17nx1gqctuWMcC
+ u9GuGK7QJae8ghhg=; b=P1OaqSgjcYiPaDM3kUuqGdpt+MgGBixsZgHhVA/3Zo7
+ P5sdm6iVnOHfDylRi9+maGwC7WXE/nPXpP8rfbyBculFtrotVGph2olMsh9VBgGs
+ Lew90l4WMr2IafHd48or7eoFM9xgLVE0gdvlv4a4ew9y+cpcBIbk8wQew1fL1/vF
+ QoyR/hsoNuC24c+4oNlCgPLXzopmvGAUyC82PN/P/ysNhZQpOSOjqTVTMlbE/foS
+ fWU8ixQ72PSb3iamcM6GBUGo+3vyXQTamPr2Ce3qtd5cdbcc60g7Mk8RQO67+j33
+ ecLkPmwpImqj2hGRGXt8ltF9VERo20iFTBa7peccqGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=z3zZTr
+ JFwyk7K17nx1gqctuWMcCu9GuGK7QJae8ghhg=; b=wOlTgNdn9bnNfKFgeDR7mI
+ HCvofq8223N/W8kH3R7bVXuhzSKz9X6yBRugEhSwJlWIvoMCmjXktONvPTLoiJtq
+ pr5zCsjB7S3Gos85H06O5kVz8aA7ZLVfx6VJhQxK6h+HSHlFUhBnAoaKZhLIgasZ
+ SgWHVIYmCJGavb59VsoZ284wv9Cf4aEOdb9AKkVe/LSXcCamfJhhbarGfv+DyyC1
+ GRdR344DubYpvLph0O5Y3ji41c/I5U9wuQGupY3OgVljizqYBDNbcPhtou/9JA5y
+ ChMXo1wBstZmxhjkVBGJZBNZxOapqcC7fZU8TqOe/Kvfhrq8tF774/VP4AkwE57A
+ ==
+X-ME-Sender: <xms:UczvYPPvgxiN3w90J4Altu5SO-pGvBuXQlF7tTWHirjzTRyC8yZU7g>
+ <xme:UczvYJ-Yuy_rFRbnqiN2mvKnKYnx794eTLzy1qBILVsojqZjEG6VP4uNrjago7G5S
+ z5VSbO9tFEz939BB5I>
+X-ME-Received: <xmr:UczvYOQt82k4sIfo64JgnFD8iXJtbQ6O5t1QAsQZDww7mKelp8iyKeJKjhwitYrvyzlxxcqr_nRwCvAGIxyI5AHvJZD3iVGoX2fTWmf0V_0AObRBSg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:UczvYDvO2OKovS33rZbqIgHcYWkjSzY1qs26X_3x4D8iKHuNbXLQpA>
+ <xmx:UczvYHeVQOS3ERAuxPLcq9zYh8czZnHLfL-TWd4tZZQ-E_rj0bvETg>
+ <xmx:UczvYP0pY7JuahGNRa3AS8aZcl6RyVIGnzA8TY4s1QTO1tNKmyPEHQ>
+ <xmx:UszvYO53t57M2lNltBkVXkDV6CytHfPlQsuslHMuzc5K3W9NDUJU_Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Jul 2021 01:49:04 -0400 (EDT)
+Date: Thu, 15 Jul 2021 07:49:02 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 10/21] contrib/gitdm: add domain-map/group-map
+ mappings for Samsung
+Message-ID: <YO/MTt7DJ8C1GMKQ@apples.localdomain>
+References: <20210714182056.25888-1-alex.bennee@linaro.org>
+ <20210714182056.25888-11-alex.bennee@linaro.org>
 MIME-Version: 1.0
-References: <20210709042608.883256-1-richard.henderson@linaro.org>
- <20210709042608.883256-18-richard.henderson@linaro.org>
-In-Reply-To: <20210709042608.883256-18-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 15 Jul 2021 15:08:42 +1000
-Message-ID: <CAKmqyKOVVVKCmeZKjOjp3x4OLKhqgbZX0rpfUH_hKj7Uu0Xe7g@mail.gmail.com>
-Subject: Re: [PATCH 17/17] target/riscv: Remove gen_get_gpr
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="EWUbHS4yEyGIhPrU"
+Content-Disposition: inline
+In-Reply-To: <20210714182056.25888-11-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,65 +94,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 9, 2021 at 2:48 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This function is now unused.
-> The corresponding gen_set_gpr function is still in use.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--EWUbHS4yEyGIhPrU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
-
+On Jul 14 19:20, Alex Benn=C3=A9e wrote:
+> Minwoo's work from their personal address are treated as personal
+> contributions.
+>=20
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Acked-by: Klaus Jensen <k.jensen@samsung.com>
+> Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> Cc: Minwoo Im <minwoo.im.dev@gmail.com>
+> Message-Id: <220210714093719.21429-11-alex.bennee@linaro.org>
 > ---
->  target/riscv/translate.c | 17 +++++------------
->  1 file changed, 5 insertions(+), 12 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 8ff75a5798..a6c850e9d3 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -195,15 +195,6 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
->  /* Wrapper for getting reg values - need to check of reg is zero since
->   * cpu_gpr[0] is not actually allocated
->   */
-> -static inline void gen_get_gpr(TCGv t, int reg_num)
-> -{
-> -    if (reg_num == 0) {
-> -        tcg_gen_movi_tl(t, 0);
-> -    } else {
-> -        tcg_gen_mov_tl(t, cpu_gpr[reg_num]);
-> -    }
-> -}
-> -
->  static TCGv gpr_src(DisasContext *ctx, int reg_num)
->  {
->      if (reg_num == 0) {
-> @@ -1046,9 +1037,11 @@ void riscv_translate_init(void)
->  {
->      int i;
->
-> -    /* cpu_gpr[0] is a placeholder for the zero register. Do not use it. */
-> -    /* Use the gen_set_gpr and gen_get_gpr helper functions when accessing */
-> -    /* registers, unless you specifically block reads/writes to reg 0 */
-> +    /*
-> +     * cpu_gpr[0] is a placeholder for the zero register. Do not use it.
-> +     * Use the gpr_src and gpr_dst helper functions when accessing regs,
-> +     * unless you specifically block reads/writes to reg 0.
-> +     */
->      cpu_gpr[0] = NULL;
->
->      for (i = 1; i < 32; i++) {
-> --
-> 2.25.1
->
->
+>  contrib/gitdm/domain-map            | 1 +
+>  contrib/gitdm/group-map-individuals | 1 +
+>  contrib/gitdm/group-map-samsung     | 5 +++++
+>  gitdm.config                        | 1 +
+>  4 files changed, 8 insertions(+)
+>  create mode 100644 contrib/gitdm/group-map-samsung
+>=20
+> diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
+> index efbbb15643..beeb24341e 100644
+> --- a/contrib/gitdm/domain-map
+> +++ b/contrib/gitdm/domain-map
+> @@ -26,6 +26,7 @@ proxmox.com     Proxmox
+>  quicinc.com     Qualcomm Innovation Center
+>  redhat.com      Red Hat
+>  rt-rk.com       RT-RK
+> +samsung.com     Samsung
+>  siemens.com     Siemens
+>  sifive.com      SiFive
+>  suse.com        SUSE
+> diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-ma=
+p-individuals
+> index 36bbb77c39..4ac2f98823 100644
+> --- a/contrib/gitdm/group-map-individuals
+> +++ b/contrib/gitdm/group-map-individuals
+> @@ -29,3 +29,4 @@ mrolnik@gmail.com
+>  huth@tuxfamily.org
+>  jhogan@kernel.org
+>  atar4qemu@gmail.com
+> +minwoo.im.dev@gmail.com
+> diff --git a/contrib/gitdm/group-map-samsung b/contrib/gitdm/group-map-sa=
+msung
+> new file mode 100644
+> index 0000000000..e38c7eeeac
+> --- /dev/null
+> +++ b/contrib/gitdm/group-map-samsung
+> @@ -0,0 +1,5 @@
+> +#
+> +# Some Samsung contributors submit via another domain
+> +#
+> +
+> +minwoo.im.dev@gmail.com
+
+I'm not sure how this groupmap works, but was it intentional that you
+left Minwoo in the Samsung group map?
+
+> diff --git a/gitdm.config b/gitdm.config
+> index a3542d2fc7..e7a744146e 100644
+> --- a/gitdm.config
+> +++ b/gitdm.config
+> @@ -36,6 +36,7 @@ GroupMap contrib/gitdm/group-map-codeweavers CodeWeavers
+>  GroupMap contrib/gitdm/group-map-ibm IBM
+>  GroupMap contrib/gitdm/group-map-janustech Janus Technologies
+>  GroupMap contrib/gitdm/group-map-redhat Red Hat +GroupMap
+>  contrib/gitdm/group-map-samsung Samsung GroupMap
+>  contrib/gitdm/group-map-wavecomp Wave Computing
+> =20
+
+--EWUbHS4yEyGIhPrU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmDvzEwACgkQTeGvMW1P
+DemMzQf8CJjJT93oII80N25gPhGU2qZuyE/UbmWMXAA/ApAz1R9saVtzfhiZ9qPE
+Tr3FwkC/NG7QKMLZhejDR8136P1UNalTvN8O2AYxLGPldyhs7obMUwHc76VYCkPM
+Eo5KF32l20YQdUvTIiViME5I4nQT7E6qo11u0OoqB4A+ayHU2CVaSBi/GD+6xz+D
+35bhlPXdVXNW52JoSHsOHq4xCuZmRyXf2X+aTSO6AJhfi+0vCnfmXzv8rRbHGpIl
+8pHbmB73Va2kqpRH/8Ee/gw26wp8NtM/AEGiUbQrW27WrMEeS+WDS4ZXOwW8v+KA
+W0HZA9z73NC3iqkKSsBl85ptBJCtWg==
+=tFsy
+-----END PGP SIGNATURE-----
+
+--EWUbHS4yEyGIhPrU--
 
