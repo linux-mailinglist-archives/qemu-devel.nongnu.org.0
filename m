@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D18333C9565
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 03:02:31 +0200 (CEST)
-Received: from localhost ([::1]:59350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2C93C95A7
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 03:35:36 +0200 (CEST)
+Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m3pll-0003hk-MM
-	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 21:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41260)
+	id 1m3qHn-0001D1-EP
+	for lists+qemu-devel@lfdr.de; Wed, 14 Jul 2021 21:35:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3pjI-0002ti-1t
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 20:59:56 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:34680)
+ id 1m3qGw-0000La-DK
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 21:34:42 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:33536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m3pjG-0002ww-Cp
- for qemu-devel@nongnu.org; Wed, 14 Jul 2021 20:59:55 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- g6-20020a17090adac6b029015d1a9a6f1aso4569293pjx.1
- for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 17:59:53 -0700 (PDT)
+ id 1m3qGu-000120-GO
+ for qemu-devel@nongnu.org; Wed, 14 Jul 2021 21:34:42 -0400
+Received: by mail-pf1-x434.google.com with SMTP id m83so3659786pfd.0
+ for <qemu-devel@nongnu.org>; Wed, 14 Jul 2021 18:34:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ndABTHBkUQmwNULC/CKmulGxTKzWFYJuy4Z1422sPPs=;
- b=aoRRo6KxCb57l+2LLTx4snHRMZ63+vx6GqzFcfW5Z/OAXby7L6a/dZ6XyjkgMZgjdp
- VxN3GJomZmc2hHoTKWW4z7MgC6AIycE/7BYudFPJqAqroIDa67o6bzJ+eCGm6ybyJs8k
- BKEgJnBoqdaHFKudZHJtideiDPjMvBk/+pas+sfKu6fNaDYEHrnpSx+lZuytHE+cvgMU
- 0C/zytkkjzHjqa3PE8/weQB0ezdP8LxWMcldkZdO2pnS1WOI6HcTgF3EMv3bGl0S21fr
- uWTIAeCRZV0SlTEBBSC3H852KbdZwPX0faUJHunVI7Fm0TkcqGhOAQYcEdJss1/9K0kQ
- LbhQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=ut1jTfE4OFqm/Gf5IKrUbK6hewQf/kqpytKlUm1g2j8=;
+ b=JIOYnFn9Yc6Y31f8nCIibRBER/geBG5vGC9CGZ693DHvUZe4WAI29+xyM/MoBoNwHa
+ VVpUhz132sB93X/v8U0o2lKC+1BoE/+0BuHLIyBisLq6Fa6JshS640EkqY1nJ3TY+0JX
+ 4afIV89PASA1obYxzeRfIN+Jg2pJ+CYX8LQ6wee0iPDURc1KQoNT+VWA32np8UlrrlXw
+ mNCFCyxzHvCSL+hQlDBeZ94eXR9uXFxI8/610uHPrgAL3/aJxgPKuwGULUD/CFA3kL2+
+ +dGn+1pjhsMlm0icljqvj6x5tKtGhZt/Snp1nHhv/8sC8IGs3MP/WE4lnOVLKjV53IGC
+ Nx6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ndABTHBkUQmwNULC/CKmulGxTKzWFYJuy4Z1422sPPs=;
- b=CwJJrJIHJbBw4Ap19FRv0VkNkg4uw/pljuTKEUJVq+hgl+prpn3hDTSgFJkncOMvmE
- sHTHbyRIet/aWnOItrHY6DBIXSJnU6cpioI2/2jtk77VmrQlO3INWq01YfRg82R1awJA
- vzDEiyQW8rDtYCgkORtJF9KSgMtihxfXTlntpUz8BaaZvawmJem4sgrym6ozGV/Eb+26
- 1N2+A4ZH4DQDOeLHC4f2kKdKMnZ4XDZQwQrBmi6DpMAuMBcrxruq0Daw9zgMt4YKCLXF
- 5pu2sqZ/q0XcMIQ0aabiDXLfpZBpDE5b0QBKRfQtO5QSgusvaoJ5/wMqS6Z7P0FmzL/h
- Sseg==
-X-Gm-Message-State: AOAM533B3iY5q75pZsjUuuyVTV1AQ5jRTV34zxRcNthpXwE1Xu2d/bt3
- wG82tHNEJYkY0i9CM+iWmIQ83w==
-X-Google-Smtp-Source: ABdhPJwLef1c43a1cFYpWGcfFT4FEU8TrEsO2HguZpo1LzOaNWxLt89IQmtKYNEActL+lAAEULR/xA==
-X-Received: by 2002:a17:90a:642:: with SMTP id
- q2mr6349504pje.205.1626310792482; 
- Wed, 14 Jul 2021 17:59:52 -0700 (PDT)
+ bh=ut1jTfE4OFqm/Gf5IKrUbK6hewQf/kqpytKlUm1g2j8=;
+ b=EsB/QOeWibjrso98U51YsWwODzO8KfDhUZRC19XLqwRQ8BCqZzZ2jelGH1vcGSnPqb
+ MY6ACLmja+iMmXnhJnn+L6VRO29X3kqLe/dKROouE66CmdyK2QR4BPIb8syU6VR8PESF
+ zzOhOpWHL1/ZvfxvSRdqfNJ9DRyBM2QXvUtaIMxzqQ/jk/QEhssm9TaGyHaIbqqakmsQ
+ nlLdUmR6Xq5b/EeRSs5fXcTiWqhQSGJkZs+Bk8WD3l1UQLtJ0OPLY0n/ffY/4POKTaHQ
+ wS+q0G5+8qTZg1eLkMNB287RkJpwTlp+b9LDrTWgoMwBAakH3IuOfSwQ3vzelyVmDlFT
+ lECA==
+X-Gm-Message-State: AOAM531tIn390CbApT+WGMZrOKsjqkLcU+9KYrg3U69PxVgYNAM4WEjC
+ amMdSCBheIjv+Pt8AK7m+9PBALyaN6Pikw==
+X-Google-Smtp-Source: ABdhPJweXEDwz4tF8VTId+OzZTH8uoV20n37NWnusNIZAmNX6G44FH9iLi7yAzI8deTlbhyUyg7IhQ==
+X-Received: by 2002:a63:1960:: with SMTP id 32mr1149745pgz.86.1626312878832;
+ Wed, 14 Jul 2021 18:34:38 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id l11sm3324283pjw.45.2021.07.14.17.59.51
+ by smtp.gmail.com with ESMTPSA id b17sm2147164pfm.54.2021.07.14.18.34.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 14 Jul 2021 17:59:52 -0700 (PDT)
-Subject: Re: [PATCH v2 1/2] Hexagon (target/hexagon) remove
- put_user_*/get_user_*
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1626303309-7946-1-git-send-email-tsimpson@quicinc.com>
- <1626303309-7946-2-git-send-email-tsimpson@quicinc.com>
+ Wed, 14 Jul 2021 18:34:38 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 02/34] target/arm: Print MVE VPR in CPU dumps
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210713133726.26842-1-peter.maydell@linaro.org>
+ <20210713133726.26842-3-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f321397d-4066-73da-2f9d-44bfd06e6e17@linaro.org>
-Date: Wed, 14 Jul 2021 17:59:49 -0700
+Message-ID: <17e60d79-773e-0c46-5069-165fff17a15c@linaro.org>
+Date: Wed, 14 Jul 2021 18:34:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1626303309-7946-2-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20210713133726.26842-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,26 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/21 3:55 PM, Taylor Simpson wrote:
-> +    target_ulong pc = env->gpr[HEX_REG_PC];
-> +    uint8_t width = env->mem_log_stores[slot_num].width;
-> +    target_ulong va = env->mem_log_stores[slot_num].va;
-> +
-> +    switch (width) {
->       case 1:
-> -        put_user_u8(env->mem_log_stores[slot_num].data32,
-> -                    env->mem_log_stores[slot_num].va);
-> +        cpu_stb_data_ra(env, va, env->mem_log_stores[slot_num].data32, pc);
+On 7/13/21 6:36 AM, Peter Maydell wrote:
+> Include the MVE VPR register value in the CPU dumps produced by
+> arm_cpu_dump_state() if we are printing FPU information. This
+> makes it easier to interpret debug logs when predication is
+> active.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/cpu.c | 3 +++
+>   1 file changed, 3 insertions(+)
 
-No, you need to pass the host return address, not the guest.
-This should be
-
-     uintptr_t ra = GETPC();
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
