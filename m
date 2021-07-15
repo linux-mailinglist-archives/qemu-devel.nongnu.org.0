@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A4E3CA1D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 18:05:06 +0200 (CEST)
-Received: from localhost ([::1]:37250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD1D3CA21B
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 18:17:07 +0200 (CEST)
+Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m43rE-0000tH-Me
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 12:05:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45008)
+	id 1m442s-0006Vn-0k
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 12:17:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1m43or-0006Vs-H7; Thu, 15 Jul 2021 12:02:37 -0400
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:40840)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4419-0005XV-FL
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 12:15:19 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1m43op-000106-FJ; Thu, 15 Jul 2021 12:02:37 -0400
-Received: by mail-qt1-x82e.google.com with SMTP id k3so4868330qtq.7;
- Thu, 15 Jul 2021 09:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=+V+2i5Mqa+E96CsqUO2dK3AS+cf6gZ5+GOdPIb1HVBA=;
- b=UfhlqfgtXhKAzBh3/Muew1c0SzGSCTjhBhqwMoNyovDnkA/+B+CGShWRQSG29gC7kh
- YKHDeX1lmmYIEb6pvzs+xPKVRwm6QzF4AurZbzY1MIthYQ4p21ZgLFCk+PpvICHb0z9D
- uPUb3nmF9JiBjQAB0beuGT8DKqFKhlcXLfFnV4EjOKLlEEFIj6yD91zYQ6ltV0DoLWaq
- ucLiDKmiqGTln0My0ic01TyWmlWe2Xr62D2RvdipEMPsAapIiAIz47OQUCZ42icyPpwP
- l0ZF1i2DHMp/LrcE2I/fSJBO7Xs7dvN1L5aleQCWJKolKeURUTJoWYCGDFqUleVK9+u3
- VvLw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4416-0001a4-DQ
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 12:15:19 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id p22so5900952pfh.8
+ for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 09:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SPwtlGI5qoEXvXGdhfVcsvqgdXqh3H6e2job1n4NMqE=;
+ b=rKQRCSltJcMJ7OZbC6h7RUj0kL0fVXWsw2kvO5Xjl86QE1vdqqzq6ub+fO81vJilAC
+ FIJxsLIhXkaN8aPtZ+ebhX24RnDLqBGnhqvVaJRDajIGSc1sEDcrUEVauCNPY/i/4tRT
+ XanQzzUXRgo9fl3prKLlhdl3Ct8TXeYp0T1w5+nvPeUF2qxc6iaiyvRO9/3DpQARs8mO
+ s4DUFzwMzrfzyFx2eX+9iSbRoNBunp38USUKnUP6PD3ujPBZxofWoiy7BgbsojNXJWty
+ Wx+VivYyz7LLRT4CpNkOJlLYyP7SEBZPAN82sLhgU8Y1aDRS4949Re1C4iahJjFoLQvO
+ DI5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=+V+2i5Mqa+E96CsqUO2dK3AS+cf6gZ5+GOdPIb1HVBA=;
- b=rIY9Uo6lPccFvV6TC4velkH+NiZcY5oNihIvrimyExua2qoeGaTR+NjGmWJZ/tr/Ow
- RLLigWBYOcGWM+O/KiQf/lOGXe4MtdGKFSneLm+JvPw6xQDA3+JUQUPwhk/R+ngIeeBz
- Rw5zRZszlRKD4HwKVyXnVt4kKYxC3plycbPlgPWeEudhsaxYlDXKUAXnD4xqKKasKohN
- edPahrG17zmnjeFNUx8vc1LuIOdFflcGo8Z7mHqHjc5SE6vfQq5hhtxZeSzkWlnVWOOz
- 8OQVeMlpw9ZGbHbo4mbm0kO2U1mtGLm9LcMLCZKJSz1jphlp5rE+8EJp3Xo7MsVckGPQ
- 19og==
-X-Gm-Message-State: AOAM530dYJL43BYG2SZTHVHCU9TYWzvEoN1Xd/97V2npIJ3yJTzP5hr1
- cPGzF4QOVcEMvaK45ECeJfI=
-X-Google-Smtp-Source: ABdhPJwl45dO5t7fLW975CQSLYO+pwYS7vI3H/rVvtivujzJzDVz7zr94kb79w/c5u7LbtOAODAC0w==
-X-Received: by 2002:a05:622a:144:: with SMTP id
- v4mr4669145qtw.220.1626364953733; 
- Thu, 15 Jul 2021 09:02:33 -0700 (PDT)
-Received: from [192.168.0.6] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id e12sm2087025qtx.73.2021.07.15.09.02.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 15 Jul 2021 09:02:33 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH] block/vvfat: fix: drop backing
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <20210715124853.13335-1-vsementsov@virtuozzo.com>
-Date: Thu, 15 Jul 2021 12:02:32 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <962842EB-5653-4633-8DEE-E8526F55C50B@gmail.com>
-References: <20210715124853.13335-1-vsementsov@virtuozzo.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x82e.google.com
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SPwtlGI5qoEXvXGdhfVcsvqgdXqh3H6e2job1n4NMqE=;
+ b=jxoNU180zsBRpLjPtRUMzDv4OYG9elDbq07RaqOELVyt04e5CTa86F9HCBTNJOdO1N
+ knXBQKyH37hURbs9AJwDLTSOjvCLf7pYLgcBNAfHjn6p/C+6L4P78wUp2qA9u35khghy
+ qEPxjjoQRPKNHhhJfJy9v+XkFDacThp7H6B9LKxLAmNAPxyLW7tOY+gJ6otvDXzzy28c
+ xCVGKK9GI6V53taaa2D+F+FNKRKiPFjS96AweaR5RliRkDiK+x7nPLSiGEaLrqLnbQaT
+ Cm8sgNj9VgXN6dQtWA9X1u5L0QSOC4exX6pODtTw51FWHMw+p4ro7Q3jDUOC1laeZjN2
+ 44SA==
+X-Gm-Message-State: AOAM532O4pCOaqyFQa+M3wo9bLUTHDyQV0S1J3i9s9UG93grEpkeUYy2
+ WGiwBrdjEzYJG37Eml93qsjgWg==
+X-Google-Smtp-Source: ABdhPJyyRf2ZtTv+6fclonfpexJi1syigGwksUEaGbFEa0ufD2z75kESs87WF2J3jxRWzxaGPsddqw==
+X-Received: by 2002:a63:e316:: with SMTP id f22mr5381536pgh.100.1626365712442; 
+ Thu, 15 Jul 2021 09:15:12 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id b19sm5946096pjh.29.2021.07.15.09.15.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 15 Jul 2021 09:15:11 -0700 (PDT)
+Subject: Re: [PATCH 00/17] target/riscv: Use tcg_constant_*
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <2a5cfe45-3fdf-9a2f-c0f3-682d30d521a3@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org>
+Date: Thu, 15 Jul 2021 09:15:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <2a5cfe45-3fdf-9a2f-c0f3-682d30d521a3@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,124 +87,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, QEMU devel list <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, mreitz@redhat.com
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/15/21 4:21 AM, LIU Zhiwei wrote:
+> Also on a side note, could you give me some advice for the following question?
+> 
+> I have been supporting  running 32bit application on qemu-riscv64. After this patch set,
+> it is hard to define a  method,  such as gpr_dst_s or gpr_dst_u, to extend the destination
+> register. I can only extend the destination register(ext32s or ext32u) in each instruction
+> with scattered code.
+> 
+> Can we just omit the extension of the destination register?
+
+It's hard to give advice on code that I haven't seen.
+
+In general I would think that the destination register need not be extended for 32-bit 
+mode, unless the architecture says otherwise.  (What does the architecture say about the 
+contents of the registers when transitioning from a 32-bit mode user program to a 64-bit 
+mode kernel?)
 
 
-> On Jul 15, 2021, at 8:48 AM, Vladimir Sementsov-Ogievskiy =
-<vsementsov@virtuozzo.com> wrote:
->=20
-> Most probably this fake backing child doesn't work anyway (see notes
-> about it in a8a4d15c1c34d).
->=20
-> Still, since 25f78d9e2de528473d52 drivers are required to set
-> .supports_backing if they want to call bdrv_set_backing_hd, so now
-> vvfat just doesn't work because of this check.
->=20
-> Let's finally drop this fake backing file.
->=20
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->=20
-> Honestly, I don't know, which scenarios may break after this patch.
-> So, that's just my idea that it's more correct to drop this thing than
-> set .supports_backing in vvfat driver.
->=20
-> block/vvfat.c | 43 ++++---------------------------------------
-> 1 file changed, 4 insertions(+), 39 deletions(-)
->=20
-> diff --git a/block/vvfat.c b/block/vvfat.c
-> index ae9d387da7..34bf1e3a86 100644
-> --- a/block/vvfat.c
-> +++ b/block/vvfat.c
-> @@ -3098,26 +3098,6 @@ static int coroutine_fn =
-vvfat_co_block_status(BlockDriverState *bs,
->     return BDRV_BLOCK_DATA;
-> }
->=20
-> -static int coroutine_fn
-> -write_target_commit(BlockDriverState *bs, uint64_t offset, uint64_t =
-bytes,
-> -                    QEMUIOVector *qiov, int flags)
-> -{
-> -    int ret;
-> -
-> -    BDRVVVFATState* s =3D *((BDRVVVFATState**) bs->opaque);
-> -    qemu_co_mutex_lock(&s->lock);
-> -    ret =3D try_commit(s);
-> -    qemu_co_mutex_unlock(&s->lock);
-> -
-> -    return ret;
-> -}
-> -
-> -static BlockDriver vvfat_write_target =3D {
-> -    .format_name        =3D "vvfat_write_target",
-> -    .instance_size      =3D sizeof(void*),
-> -    .bdrv_co_pwritev    =3D write_target_commit,
-> -};
-> -
-> static void vvfat_qcow_options(BdrvChildRole role, bool =
-parent_is_format,
->                                int *child_flags, QDict *child_options,
->                                int parent_flags, QDict =
-*parent_options)
-> @@ -3133,7 +3113,6 @@ static int enable_write_target(BlockDriverState =
-*bs, Error **errp)
-> {
->     BDRVVVFATState *s =3D bs->opaque;
->     BlockDriver *bdrv_qcow =3D NULL;
-> -    BlockDriverState *backing;
->     QemuOpts *opts =3D NULL;
->     int ret;
->     int size =3D sector2cluster(s, s->sector_count);
-> @@ -3184,13 +3163,6 @@ static int enable_write_target(BlockDriverState =
-*bs, Error **errp)
->     unlink(s->qcow_filename);
-> #endif
->=20
-> -    backing =3D bdrv_new_open_driver(&vvfat_write_target, NULL, =
-BDRV_O_ALLOW_RDWR,
-> -                                   &error_abort);
-> -    *(void**) backing->opaque =3D s;
-> -
-> -    bdrv_set_backing_hd(s->bs, backing, &error_abort);
-> -    bdrv_unref(backing);
-> -
->     return 0;
->=20
-> err:
-> @@ -3205,17 +3177,10 @@ static void vvfat_child_perm(BlockDriverState =
-*bs, BdrvChild *c,
->                              uint64_t perm, uint64_t shared,
->                              uint64_t *nperm, uint64_t *nshared)
-> {
-> -    if (role & BDRV_CHILD_DATA) {
-> -        /* This is a private node, nobody should try to attach to it =
-*/
-> -        *nperm =3D BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
-> -        *nshared =3D BLK_PERM_WRITE_UNCHANGED;
-> -    } else {
-> -        assert(role & BDRV_CHILD_COW);
-> -        /* The backing file is there so 'commit' can use it. vvfat =
-doesn't
-> -         * access it in any way. */
-> -        *nperm =3D 0;
-> -        *nshared =3D BLK_PERM_ALL;
-> -    }
-> +    assert(role & BDRV_CHILD_DATA);
-> +    /* This is a private node, nobody should try to attach to it */
-> +    *nperm =3D BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
-> +    *nshared =3D BLK_PERM_WRITE_UNCHANGED;
-> }
->=20
-> static void vvfat_close(BlockDriverState *bs)
-> --=20
-> 2.29.2
->=20
-
-Tested-by: John Arbuckle <programmingkidx@gmail.com>
-
+r~
 
