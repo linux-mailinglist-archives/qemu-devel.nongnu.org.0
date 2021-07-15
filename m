@@ -2,46 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9E73C9F49
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:16:51 +0200 (CEST)
-Received: from localhost ([::1]:35266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E963C9F56
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 15:18:04 +0200 (CEST)
+Received: from localhost ([::1]:37652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m41EQ-0004io-52
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:16:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39706)
+	id 1m41Fb-0006nf-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 09:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m41CK-0003rb-Gu; Thu, 15 Jul 2021 09:14:40 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:43109)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m41EE-0005L4-Ln
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 09:16:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1m41CG-00074f-UM; Thu, 15 Jul 2021 09:14:39 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 684DE746353;
- Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3CFCB74632F; Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3B7967462FD;
- Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
-Date: Thu, 15 Jul 2021 15:14:34 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
- for ppc32
-In-Reply-To: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
-Message-ID: <1ff77be7-2ecb-1f6d-974c-60e6f54fb163@eik.bme.hu>
-References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m41E9-00083A-Op
+ for qemu-devel@nongnu.org; Thu, 15 Jul 2021 09:16:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626354992;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rSkls7pQuZZhp+u3ZbDN6TUCCsrvzEeiVzXTGv2mdNU=;
+ b=iNtzpqq+FN6p3r+PBoaR9E9ADeov06Ec8+9XZNlNhTvuB0foX+cXAVzpZE+7NwvWr89k/E
+ 4MgpuglQTwEStM2ojXREPwNTxpxC186NdCDfwiUthyPbalyXlYAbfIMn5jimICQ4keF3ed
+ TskI5sPkcqjVp3d2yDcK7GTLsIETj8w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-501-rLn8U9ZhMRKj9gEylokAmA-1; Thu, 15 Jul 2021 09:16:28 -0400
+X-MC-Unique: rLn8U9ZhMRKj9gEylokAmA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A30E101F7AE;
+ Thu, 15 Jul 2021 13:16:27 +0000 (UTC)
+Received: from p50.localhost.localdomain.some.host.somewhere.org
+ (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1AD885DA61;
+ Thu, 15 Jul 2021 13:16:19 +0000 (UTC)
+References: <CA+bd_6+2zk0N=s-D2OG4FUZ-HirJ+8HkMUktF=Jqyf9_HhyH1w@mail.gmail.com>
+ <287d8097-f865-6f89-6062-567a7994987c@redhat.com>
+User-agent: mu4e 1.4.15; emacs 27.2
+From: Cleber Rosa <crosa@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: tests/acceptance/multiprocess.py test failure
+In-reply-to: <287d8097-f865-6f89-6062-567a7994987c@redhat.com>
+Date: Thu, 15 Jul 2021 09:16:18 -0400
+Message-ID: <87wnpr4t0d.fsf@p50.localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,127 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ David Hildenbrand <dhildenb@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 15 Jul 2021, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->
-> In commit 8f0a4b6a9, we started to require L=0 for ppc32 to match what
-> The Programming Environments Manual say:
->
-> "For 32-bit implementations, the L field must be cleared, otherwise
-> the instruction form is invalid."
->
-> Further digging, however, shown that older CPUs have different behavior
-> concerning invalid forms. E.g.: 440 and 405 manuals say that:
->
-> "Unless otherwise noted, the PPC440 will execute all invalid instruction
-> forms without causing an Illegal Instruction exception".
->
-> While the PowerISA has an arguably more restrictive:
->
-> "In general, any attempt to execute an invalid form of an instruction
-> will either cause the system illegal instruction error handler to be
-> invoked or yield boundedly undefined results."
->
-> Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
 
-By the way, instead of putting this in the commit message usually a 
-Reported-by tag is used instead to note who reported the problem but I 
-don't mind either way, just seems unusual to have it in commit message.
+David Hildenbrand writes:
 
-Regards,
-BALATON Zoltan
+>
+> Hi,
+>
+> maybe
+>
+> https://lkml.kernel.org/r/20210709052800.63588-1-yang.zhong@intel.com
+>
+> resolves your issue. If not, pleas let me know and I'll try
+> reproducing (will have to install avocado).
 
-> broke AROS boot on sam460ex. This patch address this regression by only
-> logging a guest error, except for CPUs known to raise an exception for
-> this case (e500 and e500mc).
->
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
-> 1 file changed, 56 insertions(+), 2 deletions(-)
->
-> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-> index f4fcfadbfc..1c35b60eb4 100644
-> --- a/target/ppc/translate/fixedpoint-impl.c.inc
-> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
->
-> static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
-> {
-> +    if ((ctx->insns_flags & PPC_64B) == 0) {
-> +        /*
-> +         * For 32-bit implementations, The Programming Environments Manual says
-> +         * that "the L field must be cleared, otherwise the instruction form is
-> +         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
-> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
-> +         * manuals, "Integer Compare Instructions" of the 601 manual), with the
-> +         * notable exception of the e500 and e500mc, where L=1 was reported to
-> +         * cause an exception.
-> +         */
-> +        if (a->l) {
-> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-> +                /*
-> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
-> +                 * generate an illegal instruction exception.
-> +                 */
-> +                return false;
-> +            } else {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
-> +                        s ? "" : "L", ctx->cia);
-> +            }
-> +        }
-> +        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-> +        return true;
-> +    }
-> +
-> +    /* For 64-bit implementations, deal with bit L accordingly. */
->     if (a->l) {
-> -        REQUIRE_64BIT(ctx);
->         gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
->     } else {
->         gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-> @@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
->
-> static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
-> {
-> +    if ((ctx->insns_flags & PPC_64B) == 0) {
-> +        /*
-> +         * For 32-bit implementations, The Programming Environments Manual says
-> +         * that "the L field must be cleared, otherwise the instruction form is
-> +         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
-> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
-> +         * manuals, "Integer Compare Instructions" of the 601 manual), with the
-> +         * notable exception of the e500 and e500mc, where L=1 was reported to
-> +         * cause an exception.
-> +         */
-> +        if (a->l) {
-> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-> +                /*
-> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
-> +                 * generate an illegal instruction exception.
-> +                 */
-> +                return false;
-> +            } else {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
-> +                        s ? "I" : "LI", ctx->cia);
-> +            }
-> +        }
-> +        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-> +        return true;
-> +    }
-> +
-> +    /* For 64-bit implementations, deal with bit L accordingly. */
->     if (a->l) {
-> -        REQUIRE_64BIT(ctx);
->         gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
->     } else {
->         gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
->
+Hi David,
+
+Yes, that fixes it.  Sorry for missing that patch on the ml.
+
+Maintainers (Elena, Jagannathan, John),
+
+Are you planning a PR with this patch?
+
+Thanks,
+
+-- 
+Cleber Rosa
+[ Sr Software Engineer - Virtualization Team - Red Hat ]
+[ Avocado Test Framework - avocado-framework.github.io ]
+[  7ABB 96EB 8B46 B94D 5E0F  E9BB 657E 8D33 A5F2 09F3  ]
+
 
