@@ -2,125 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4543C9E86
-	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:22:49 +0200 (CEST)
-Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E8B3C9EB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 15 Jul 2021 14:34:33 +0200 (CEST)
+Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m40O7-0001q8-VD
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:22:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57442)
+	id 1m40ZU-0005y6-Ur
+	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 08:34:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
- id 1m40NG-00010Z-TY
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:21:54 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:46863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <p.kalghatgi@samsung.com>)
- id 1m40ND-0005gg-0H
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 08:21:54 -0400
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
- by mailout4.samsung.com (KnoxPortal) with ESMTP id
- 20210715122139epoutp0486d7a948c633b1f69353083fa6ccea7a~R9kEVHNg60520005200epoutp04E
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 12:21:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com
- 20210715122139epoutp0486d7a948c633b1f69353083fa6ccea7a~R9kEVHNg60520005200epoutp04E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1626351699;
- bh=YE84KnwuU+6+M/ndi7XOsgIDkjw0eyMyvHqpQPR2cxs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=BiFEJEbXNm3rCDXxnR7lUsn05pfNxZfDl3aEFlIMpfnTefOE4ip0dPWAvsqNFzSnh
- yBzf9yrfFNXXA907zqIzgDePd04w0oyvJuci6CXmSuYqVVD53cp8bgLGW2G7ILZkD4
- WLEc7xKY65q+mHoqqS6ZfNnMHOGD+MzrkjJZVPW8=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20210715122138epcas5p2825fd7ec75444a7e2043c8ab6033fedb~R9kDLCVtE1986219862epcas5p29;
- Thu, 15 Jul 2021 12:21:38 +0000 (GMT)
-Received: from epsmges5p2new.samsung.com (unknown [182.195.40.194]) by
- epsnrtp3.localdomain (Postfix) with ESMTP id 4GQYQ81nm2z4x9Pt; Thu, 15 Jul
- 2021 12:21:36 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
- epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
- 68.88.09595.05820F06; Thu, 15 Jul 2021 21:21:36 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
- 20210715120305epcas5p33e93af93ad8f089addabe8406bd1a43d~R9T26NiMm2412824128epcas5p30;
- Thu, 15 Jul 2021 12:03:05 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210715120305epsmtrp163970adc5eb4b40996ad1f22984ad1dd~R9T24Ijsx0969609696epsmtrp1p;
- Thu, 15 Jul 2021 12:03:05 +0000 (GMT)
-X-AuditID: b6c32a4a-ed5ff7000000257b-f7-60f028502354
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- B2.E8.08289.9F320F06; Thu, 15 Jul 2021 21:03:05 +0900 (KST)
-Received: from test-zns (unknown [107.110.206.5]) by epsmtip1.samsung.com
- (KnoxPortal) with ESMTPA id
- 20210715120303epsmtip1e61b184275706f1f10b7f629ebbc5fe7~R9T0sTmNz2460924609epsmtip1k;
- Thu, 15 Jul 2021 12:03:03 +0000 (GMT)
-Date: Thu, 15 Jul 2021 17:31:58 +0530
-From: Padmakar Kalghatgi <p.kalghatgi@samsung.com>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC PATCH 1/2] hw/nvme: add mi device
-Message-ID: <20210715120158.GA8970@test-zns>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1m40W6-00041J-6h; Thu, 15 Jul 2021 08:31:02 -0400
+Received: from [201.28.113.2] (port=30836 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1m40W3-0002FK-Lh; Thu, 15 Jul 2021 08:31:01 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 15 Jul 2021 09:29:53 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 18D2A80141F;
+ Thu, 15 Jul 2021 09:29:53 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli for
+ ppc32
+Date: Thu, 15 Jul 2021 09:29:50 -0300
+Message-Id: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210709155842.GA291156@dhcp-10-100-145-180.wdc.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrIJsWRmVeSWpSXmKPExsWy7bCmlm6AxocEgwePOSzefn3AZnFl/3lG
- i/0Hv7FaPL7zmd1i6Xx9i5ONe1gtJh26xmix5GKqxZTG2+wWa14oW8y7pWxxZcoiZotZ79rZ
- LI737mCxeD3pP6vFzeanbA4CHj/OtbN5nNtxnt1j06pONo8TO1+weDy5tpnJ4/2+q2wefVtW
- MQawR+XYZKQmpqQWKaTmJeenZOal2yp5B8c7x5uaGRjqGlpamCsp5CXmptoqufgE6Lpl5gCd
- rqRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUotSMkpMDQq0CtOzC0uzUvXS87PtTI0MDAy
- BapMyMn4uHcJc0Eve8X7H8fYGhhb2LoYOTgkBEwkZq6z7GLk4hAS2M0ocezHFCYI5xOjxP6F
- O9ggnM+MEt0PjjDCdNz55A8R38UIZJ+BKnrGKLHm+S+WLkZODhYBVYmVbfPYQRrYBIwkvrfa
- goRFBJQl7s6fyQpiMwtcY5L49CMGxBYWMJaY27+YHcTmFdCR2Dl/PwuELShxcuYTMJtTwEni
- dAfI1ZwcokBzDmw7DnaphMAJDolbN08zgyQkBFwkvu//yQJhC0u8Or6FHcKWknjZ38YO0dDM
- KLHvyxUWCGcCo8SU+e+YIKrsJS7u+csEcV6GxOHfD6GmykpMPbUOKs4n0fv7CVQ9r8SOeTC2
- qsTjCwfZIGxpidkrP0HFPSR6t75jhQTRTkaJ5bO/sk5glJ+F5L1ZSPZB2FYSnR+aWGcBQ48Z
- aNbyfxwQpqbE+l36CxhZVzFKphYU56anFpsWGOWlliPH+CZGcNrW8trB+PDBB71DjEwcjIcY
- JTiYlUR4lxq9TRDiTUmsrEotyo8vKs1JLT7EaAqMrYnMUqLJ+cDMkVcSb2hqZGZmYGlgamxh
- ZqgkzruU/VCCkEB6YklqdmpqQWoRTB8TB6dUA9PWc02n5P9Oudd58nmy7pEvH7edf1D1mXMG
- e9yiYsPG03fZI+onpQrnT0g55rvk5July9xeVPUVn9rZkBn/zENlV5XckpfKoveyZux6FOOW
- c/jx6k8WZ3TO5gmpcL+Xjo0P7Er5Ht71VUIifW7vB52J8w03nknlOaz2cmXmWff/q43ENrs8
- fPQhWGLXTusd55oLLrLw5F89E9DFrej/vcH6Ubz8ZxE3xlsMJr9bb7lYr7DIlVoa18f/Kvec
- b7u6jtABoSUvN+cKvDI/V+F5a6Hus30fGROWT7/qol2f0qjAsma3lFVQ5IbNLNdVqx/MPd+g
- svH+w007/ugePvr710eni6Kzyg8kin99sjNs2SxLJZbijERDLeai4kQAAD0rzmQEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIIsWRmVeSWpSXmKPExsWy7bCSnO5P5Q8JBkt/Gli8/fqAzeLK/vOM
- FvsPfmO1eHznM7vF0vn6Ficb97BaTDp0jdFiycVUiymNt9kt1rxQtph3S9niypRFzBaz3rWz
- WRzv3cFi8XrSf1aLm81P2RwEPH6ca2fzOLfjPLvHplWdbB4ndr5g8XhybTOTx/t9V9k8+ras
- Ygxgj+KySUnNySxLLdK3S+DK+Dejg6VgP0vFxVUrWBsYLzB3MXJwSAiYSNz55N/FyMUhJLCD
- UWLxiwagOCdQXFpi38PrLBC2sMTKf8/ZIYqeMEp0dTxiA0mwCKhKrGybxw4yiE3ASOJ7qy1I
- WERAWeLu/JmsIPXMAjeYJBYduww2VFjAWGJu/2J2EJtXQEdi5/z9LBBDdzJK9D68D5UQlDg5
- 8wnYZmYBM4l5mx+CXcoMdNHyfxwgYU4BJ4nTHS1gN4gCLTuw7TjTBEbBWUi6ZyHpnoXQvYCR
- eRWjZGpBcW56brFhgVFearlecWJucWleul5yfu4mRnCsaWntYNyz6oPeIUYmDsZDjBIczEoi
- vEuN3iYI8aYkVlalFuXHF5XmpBYfYpTmYFES573QdTJeSCA9sSQ1OzW1ILUIJsvEwSnVwORc
- FdKtnb8raKfoieeXfky5cHTR0ZxcKeeknwkPG11Msha5zH/E+ejUljYDm5jV7+b25nuf2bJh
- 7SJzneBr1xg/rX8cNjdWq/yqYnU3G89biyPnpjr7+Yrf+LTZfKnFu5PRKz1TXNO215l0fTRP
- Vi+M6T0l9VbHt/TBPXUtPv0mgU18Auoc2bWpWw4GxxzyZGutqtl53Z5fhO1uPl9Rhxm3ctPU
- zeceXDtTnT/J94W8ovgie/UwAfm9zxbM/5lfvUJzdlfTg4m67YtzvFxsThw10wzMr9697Vpg
- OZdt1BZh/fQaoUslV4pnO4SEi74NrWjYuDY9+5Tr78MBjxY3Rr7Lcpj9u2d+cIjy+spMJZbi
- jERDLeai4kQAqGUVbCQDAAA=
-X-CMS-MailID: 20210715120305epcas5p33e93af93ad8f089addabe8406bd1a43d
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
- boundary="----lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26
-References: <CGME20210709135651epcas5p1c544dec5377413bfa4b2eeab6ee43f26@epcas5p1.samsung.com>
- <20210709135545.GA11148@test-zns>
- <20210709155842.GA291156@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=203.254.224.34;
- envelope-from=p.kalghatgi@samsung.com; helo=mailout4.samsung.com
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 15 Jul 2021 12:29:53.0435 (UTC)
+ FILETIME=[1CF016B0:01D77975]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,34 +55,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, jg123.choi@samsung.com,
- qemu-block@nongnu.org, k.jensen@samsung.com, d.palani@samsung.com,
- qemu-devel@nongnu.org, linux-nvme@lists.infrared.org, mreitz@redhat.com,
- u.kishore@samsung.com, stefanha@redhat.com, its@irrelevant.dk,
- javier.gonz@samsung.com, prakash.v@samsung.com, mohit.kap@samsung.com
+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>, richard.henderson@linaro.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-------lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Disposition: inline
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-On Fri, Jul 09, 2021 at 08:58:42AM -0700, Keith Busch wrote:
->On Fri, Jul 09, 2021 at 07:25:45PM +0530, Padmakar Kalghatgi wrote:
->> The following commands are tested with nvme-cli by hooking
->> to the cid of the vsock as shown above and use the socket
->> send/recieve commands to issue the commands and get the response.
->
->Why sockets? Shouldn't mi targets use smbus for that?
->
-vsock mimcs the sideband communication, hence we used it.
-However, we are working on the smbus/i2c implementation 
-for nvme-mi in qemu/nvme-cli, we will send the patch in few days.
+In commit 8f0a4b6a9, we started to require L=0 for ppc32 to match what
+The Programming Environments Manual say:
 
+"For 32-bit implementations, the L field must be cleared, otherwise
+the instruction form is invalid."
 
-------lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_
-Content-Type: text/plain; charset="utf-8"
+Further digging, however, shown that older CPUs have different behavior
+concerning invalid forms. E.g.: 440 and 405 manuals say that:
 
+"Unless otherwise noted, the PPC440 will execute all invalid instruction
+forms without causing an Illegal Instruction exception".
 
-------lELRu-2e2yn0sCX.oThSrAc35GykH4i.I2Qb2Vr4qO5Up.VP=_90d5b_--
+While the PowerISA has an arguably more restrictive:
+
+"In general, any attempt to execute an invalid form of an instruction
+will either cause the system illegal instruction error handler to be
+invoked or yield boundedly undefined results."
+
+Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
+broke AROS boot on sam460ex. This patch address this regression by only
+logging a guest error, except for CPUs known to raise an exception for
+this case (e500 and e500mc).
+
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
+ 1 file changed, 56 insertions(+), 2 deletions(-)
+
+diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+index f4fcfadbfc..1c35b60eb4 100644
+--- a/target/ppc/translate/fixedpoint-impl.c.inc
++++ b/target/ppc/translate/fixedpoint-impl.c.inc
+@@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
+ 
+ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
+ {
++    if ((ctx->insns_flags & PPC_64B) == 0) {
++        /*
++         * For 32-bit implementations, The Programming Environments Manual says
++         * that "the L field must be cleared, otherwise the instruction form is
++         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
++         * forms (e.g., section "Instruction Formats" of the 405 and 440
++         * manuals, "Integer Compare Instructions" of the 601 manual), with the
++         * notable exception of the e500 and e500mc, where L=1 was reported to
++         * cause an exception.
++         */
++        if (a->l) {
++            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
++                /*
++                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
++                 * generate an illegal instruction exception.
++                 */
++                return false;
++            } else {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
++                        s ? "" : "L", ctx->cia);
++            }
++        }
++        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
++        return true;
++    }
++
++    /* For 64-bit implementations, deal with bit L accordingly. */
+     if (a->l) {
+-        REQUIRE_64BIT(ctx);
+         gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+     } else {
+         gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+@@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
+ 
+ static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
+ {
++    if ((ctx->insns_flags & PPC_64B) == 0) {
++        /*
++         * For 32-bit implementations, The Programming Environments Manual says
++         * that "the L field must be cleared, otherwise the instruction form is
++         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
++         * forms (e.g., section "Instruction Formats" of the 405 and 440
++         * manuals, "Integer Compare Instructions" of the 601 manual), with the
++         * notable exception of the e500 and e500mc, where L=1 was reported to
++         * cause an exception.
++         */
++        if (a->l) {
++            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
++                /*
++                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
++                 * generate an illegal instruction exception.
++                 */
++                return false;
++            } else {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
++                        s ? "I" : "LI", ctx->cia);
++            }
++        }
++        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
++        return true;
++    }
++
++    /* For 64-bit implementations, deal with bit L accordingly. */
+     if (a->l) {
+-        REQUIRE_64BIT(ctx);
+         gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
+     } else {
+         gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
+-- 
+2.25.1
+
 
