@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF3F13CB3BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:05:12 +0200 (CEST)
-Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 109BD3CB3BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:06:31 +0200 (CEST)
+Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4IqL-0006wq-CR
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55754)
+	id 1m4Ire-0001Mo-2p
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4IoR-00067q-O0
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:03:11 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:35537)
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1m4IpN-00076U-E3
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:09 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:47030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4IoQ-0004f0-7u
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:03:11 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id ca14so11856304edb.2
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:03:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z9yDIgzc67IdkLejpBPUKlO7pz/cr4vavvFnIF//sms=;
- b=doDSXqy8ZFpmO/YSxm1qm9wzMyNtxkM8bUa8WpuppQ93PILLDdxRzyYi+C3vWBSOPV
- xZyKQCxsnjcqgFO6P7NTkb4ulk4AlQO3Gq4L/iaF8JVSEnWC7TAo1uRdKqcvz7GuEcti
- 3T/0n7Z/wIB9Eiv0e3FePrkYi8bxuUI7GaB4gma/r0C3zya/opqAxu383WRSZTDE96dW
- GMPWbzv5LEqZFdJp92VucXDerj6uDGGB71oEEfXwsh6mkCX+cdkL2aYYpYmEHAgCG0WD
- Gmn7IzPBkamDgOs1MhkYOJnhmhZjM69w/YfHKh39hTNncJQ2u9B7SIBlnouI6IDMCvGn
- aQ4w==
+ (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
+ id 1m4IpL-0005Go-Km
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:09 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d12so10979325wre.13
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nU45jMNyuf8/ZCCvoanDW2KLc19UpaqvYAJZ/NIec4o=;
+ b=IBzGH34dDlT+M8kr8hhR6GA7qAZHbn9suByfFAfKAQgxDhd811+8GqVSnOJkLKh844
+ GwOd4LaXwnGympuOvKzmTte9CGhPrKu4fHGGzAkKLOl0NfNEbx+7TNdAVtfotZDRrN4W
+ fX3uhdT15xynSdqOvffCnDRkcF8TIC5rDEzujZ+vUMot9xa6dwaUhmQ30+DMVWF0LK1A
+ EPop0gSGyXFjJk93I3J7dsZLmftMudzEwblbvoku//MgrOADhDf6B4l87uii2PbN5eAO
+ YU0HQl8p5GrzujXgY41z1ZONmojLuHHjdQKUVrHqA3WZFycaTsauxukOlgSM0RA9E4ph
+ tqVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z9yDIgzc67IdkLejpBPUKlO7pz/cr4vavvFnIF//sms=;
- b=TM8Xm9gLIbo6gPqWS6EKPhTvUjEfzmTfNRAbJDpdlOJoLggvtEySws+FII1V8Q7jYl
- 3jFgIDNbPhPXUKcJ2L4LsCnspcSiARQXtQGZA5yk1FMWjqdXoATpJZr91IOQ1rhd4/zu
- 5LBZVhtwULIcRIx7PDBcbczvxJy4+yDfIZsKL3qabklpsqGdzDwGxH54kMB9tYhwIU3G
- gR9XDc29oZxO6f5dIXnLGlXgTrXiwyP7CYUVAuLu7VFOBSdumG7T0Lrq6NfGuNvUxXY2
- InNbkztWjBkZQLvev3M2TvfqIECw2nMYewWZlXRiJ/+cCz0lK6zE+RVHh1tIgwbGPTlC
- FqOg==
-X-Gm-Message-State: AOAM531Ka8pbg0nhU6Du7USMp/22In4TDdwWkL2+Oy6wol2eVyX+r3Ym
- QUaKPx3W9m0EPfkgzEO96Axy3ri65hwT9kWeXghBcA==
-X-Google-Smtp-Source: ABdhPJznUxiUN4oPVVoqqEPbyRORvYgkPFYJP1eZMcduTMgvpx5z+t79hiWPOIri6GVca5q7mLC+jOOHRv7N/Y0dEus=
-X-Received: by 2002:aa7:d809:: with SMTP id v9mr13086652edq.146.1626422588142; 
- Fri, 16 Jul 2021 01:03:08 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nU45jMNyuf8/ZCCvoanDW2KLc19UpaqvYAJZ/NIec4o=;
+ b=L6/2RDwltgfNFvvb3dhjHl9xJUoN1IMepWDq2YyVrY7LiZnioQI1k+AuW2nVllvFNl
+ j7/l9t5sFwBNwlmmVlyyUz89kRDAudzDvhaifaUN4hXaSpbz8OSOSzT09KlVj5FC2r3H
+ N9bPWC/cB5MjyE3meDvDF0+ZaSv2Qy/1TqiANZrj5653ccrJq1uYt1Euefr4GwgQIEok
+ TkS0wGtFeDKASueoo/aHxbxMMD097UHzlvzpqYvPIgTKV441Pc4NtYeWWIJ7HniYXls6
+ wLj8j9OxTybF5vqqGTyNnzU/wVycEGQVo+zdxFif1CPtrFVkB8k9/cHdt1KguT5QtGti
+ 7oaw==
+X-Gm-Message-State: AOAM530WeXitfseJRLuJYRn+B9E62tUfy8cY9nYibS9xqaAsb0625X18
+ DgTDO/1e3t7jaaYUMa6fSYWhJLANUWRoLA==
+X-Google-Smtp-Source: ABdhPJwn7TqcyUmjf0Sp/Dr+BCqVgf1FU6yR3its7W+2qGjaUbUr8u6XV3hPKB0rH/HlpBsq0/Xl5A==
+X-Received: by 2002:adf:c448:: with SMTP id a8mr10643888wrg.103.1626422645559; 
+ Fri, 16 Jul 2021 01:04:05 -0700 (PDT)
+Received: from localhost.localdomain ([41.34.125.69])
+ by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jul 2021 01:04:04 -0700 (PDT)
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] new plugin argument passing scheme
+Date: Fri, 16 Jul 2021 10:03:36 +0200
+Message-Id: <20210716080345.136784-1-ma.mandourr@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <162629838902.830787.15967554940825048991.stgit@omen>
-In-Reply-To: <162629838902.830787.15967554940825048991.stgit@omen>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 16 Jul 2021 09:02:27 +0100
-Message-ID: <CAFEAcA9f=jq0woei2qczay6kcEekdFH6coXoykL54cJ=N1b9WA@mail.gmail.com>
-Subject: Re: [PULL v2 0/3] VFIO update 2021-07-14 (for v6.1)
-To: Alex Williamson <alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,46 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Cai Huoqing <caihuoqing@baidu.com>,
- teawater <teawaterz@linux.alibaba.com>, Pankaj Gupta <pankaj.gupta@ionos.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Jul 2021 at 22:36, Alex Williamson
-<alex.williamson@redhat.com> wrote:
->
-> The following changes since commit a9649a719a44894b81f38dc1c5c1888ee684acef:
->
->   Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull-request' into staging (2021-07-14 18:09:09 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20210714.0
->
-> for you to fetch changes up to 1bd9f1b14d1e9c1498bb03faf4e2bb945cf6542d:
->
->   vfio/pci: Add pba_offset PCI quirk for BAIDU KUNLUN AI processor (2021-07-14 13:47:17 -0600)
->
-> ----------------------------------------------------------------
-> VFIO update 2021-07-14
->
->  * Coverity fix to discard listener (David Hildenbrand)
->
->  * MSI-X PBA quirk for BAIDU VFs, additional helper use cases (Cai Huoqing)
->
+Hello,
 
+This series removes passing arguments to plugins through "arg=" since
+it's redundant and reduces readability especially when the argument
+itself is composed of a name and a value.
 
-Applied, thanks.
+Also, passing arguments through "arg=" still works but is marked as
+deprecated and will produce a deprecation warning.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-for any user-visible changes.
+Right now, the code for parsing the argument before passing it to the
+plugin is unfortunately not so clean but that's mainly because "arg=" is
+still supported.
 
--- PMM
+At first, considering boolean parameters, those were not special to
+plugins and QEMU did not complain about passing them in the form
+"arg=bool_arg" even though that's considered a short-form boolean, which
+is deprecated. As "arg" is removed, a deprecation warning is issued.
+
+This is mitigated by making plugins aware of boolean arguments and
+parses them through a newly exposed API, namely the `qapi_bool_parse`
+function through a plugin API function. Now plugins expect boolean
+parameters to be passed in the form that other parts of QEMU expect,
+i.e. "bool_arg=[on|true|yes|off|false|no]".
+
+Since we're still supporting "arg=arg_name", there are some assumptions
+that I made that I think are suitable:
+
+    1. "arg=arg_name" will be passed to the plugin as "arg_name=on".
+    2. "arg=on" and "arg" will not be assumed to be the old way of
+        passing args. Instead, it will assume that the argument name is
+        "arg" and it's a boolean parameter. (will be passed to plugin
+        as "arg=on")
+
+The docs are updated accordingly and a deprecation notice is put in the
+deprecated.rst file.
+
+Mahmoud Mandour (9):
+  plugins: allow plugin arguments to be passed directly
+  plugins/api: added a boolean parsing plugin api
+  plugins/hotpages: introduce sortby arg and parsed bool args correctly
+  plugins/hotblocks: Added correct boolean argument parsing
+  plugins/lockstep: make socket path not positional & parse bool arg
+  plugins/hwprofile: adapt to the new plugin arguments scheme
+  plugins/howvec: Adapting to the new argument passing scheme.
+  docs/tcg-plugins: new passing parameters scheme for cache docs
+  docs/deprecated: deprecate passing plugin args through `arg=`
+
+ contrib/plugins/hotblocks.c | 14 +++++++++++--
+ contrib/plugins/hotpages.c  | 30 ++++++++++++++++++----------
+ contrib/plugins/howvec.c    | 24 +++++++++++++++--------
+ contrib/plugins/hwprofile.c | 39 +++++++++++++++++++++++++------------
+ contrib/plugins/lockstep.c  | 31 ++++++++++++++++++++---------
+ docs/devel/tcg-plugins.rst  | 38 ++++++++++++++++++------------------
+ docs/system/deprecated.rst  |  6 ++++++
+ include/qemu/qemu-plugin.h  | 13 +++++++++++++
+ linux-user/main.c           |  2 +-
+ plugins/api.c               |  5 +++++
+ plugins/loader.c            | 24 +++++++++++++++++++----
+ qemu-options.hx             |  9 ++++-----
+ 12 files changed, 165 insertions(+), 70 deletions(-)
+
+-- 
+2.25.1
+
 
