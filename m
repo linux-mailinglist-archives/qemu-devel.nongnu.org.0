@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38443CB3CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:09:12 +0200 (CEST)
-Received: from localhost ([::1]:52300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75A13CB3BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:07:18 +0200 (CEST)
+Received: from localhost ([::1]:47326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4IuG-0006zR-0Q
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56026)
+	id 1m4IsO-0003hR-OG
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:07:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpQ-0007DF-Gw
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:12 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37465)
+ id 1m4IpR-0007Gq-Ns
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:13 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpP-0005Ja-2A
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:12 -0400
-Received: by mail-wr1-x433.google.com with SMTP id i94so11027459wri.4
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:10 -0700 (PDT)
+ id 1m4IpQ-0005Kv-7r
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:13 -0400
+Received: by mail-wr1-x433.google.com with SMTP id k4so11000427wrc.8
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iHWdTeXytxUpcVqwmVfY5I5RkS0svkvZBXW0tynmbow=;
- b=SfAhQUAM+LvWkf1MSIcch3KC34oBgSNa9P0sl4gSNdZfYX/UziH99n+1tA5/gRuu1P
- PD3UgQqVwkJJ5LkK1UrotGrQE7Xi6166yTHMP3XJOdmVjve0Xx/y6nRKd78znD/d+PQs
- pl7SwQjwl5l8eaWM1iqwugvHlaHW4s7WQrAC0Z9uWONrpMN76TJ/dtG19m13m8EqcTwj
- 0XWcfPOPtRcjr65KHNjq5wNGYdQbYNdlWOG+Ei2yuOfX9xq/f9qIVg/EBOCyp6+q3eNV
- vHGQMhLoAbeL65ZdNggmKmPnfEhz+sGotUFnT7w8z502RvKUmdBzNtNXVHwlZ3/NSrua
- g8kg==
+ bh=qWN2HIRs01eKm6dhCHQnthOBil+q+4JpNVw/kRffS9E=;
+ b=Ik/je3Kbpm5MBKnh9ysuRUlQYcKW81ukCUUPzizt+Z1UCkc+AZbaG8yQbVf0MF8uSZ
+ x9tsZ5X7qSQZgDMZXE9dfShIlb8f+aMpeQ5IXM8pyy2aGIcz46RSbjPs3VeFhIpyDbcn
+ +G4C4xbe3pnD5S7C7RZJ4/fxBZhKV4/at8aCQBLdyAUOz/e6VKnOob5LuC8J8x/IbuWC
+ l/MHY83Po9skgTJcjBZNkpjdoq8jrjzyPuEhD78Fe7s6M1ZHTwjHZrfTLvIsrChAtQtK
+ LR1uJ3NHfRnfy/9xE97zcl8vHvRxKSBJN9h99KIMeJ9Qv10NbMYZigdv/H3hAdyhOW0r
+ w/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iHWdTeXytxUpcVqwmVfY5I5RkS0svkvZBXW0tynmbow=;
- b=UWUiMlIVuwGGgIHY/gUZt7g1P5zkEW6rf90kMaWG0ZmDy0ce6L5fTnaNNetxnyw3mO
- aZabR9P/m+q1dVwepEvNN4Y/5YueqJKTYCxA3UpnAjSaLbr92ncGAgr0GN0KR7KT1Tle
- rDhq/lBWZ24dKIo06y6yMAvw7Rocj4UYtWpOYvYwPx5gHrsvLq95FzqKEg/2i2LDmo8v
- /bf6CAzKGC7Bwzl6tPPU38I3vK9f1MENvZMNWOr2aZaQU6NXBvtc4/z1x8uCW9xJ/YRX
- 0sVYEihInc5KM8mdVeLIGyn2HSjA+Jk2L/PEM4RNETGlob0fCkwSPgtAu46Nl+HAcvkG
- pHkw==
-X-Gm-Message-State: AOAM531vBvUefE5yVfOHk8fkJgFQve9zbl0SMQ/0JFqMwIwQgafMtfNM
- Sy5Sinu/5oNEZWTz8m3VI3L2rxlS+CuZrA==
-X-Google-Smtp-Source: ABdhPJwZwiMZywH9aHoTgEhbdJOCJ/VexFLfpPz9Y2AUuzz2D3I+dBryPbmeF1TCD4cSQPGd2g8nxw==
-X-Received: by 2002:adf:d0d0:: with SMTP id z16mr10889736wrh.29.1626422649495; 
- Fri, 16 Jul 2021 01:04:09 -0700 (PDT)
+ bh=qWN2HIRs01eKm6dhCHQnthOBil+q+4JpNVw/kRffS9E=;
+ b=DuPESpxOVowt5ky+KAEDfCIw7WmTnS0K3zQ98Fqpuuka37pf7oiC5Tg7jmvUNtgDZS
+ n1Xsv+dZt8GWnIHdFzJmaC4PlkSq7ZIckTxk1EbsOOC2Y6PcfHMgqx/p4RD+E3EfDgBA
+ NtPpeqpVYthZS/NozPRvG5LpsblzTsJx7e0KsPHsErXstuNvStF2NcYIOucxJlUy0YDO
+ v8YBguVJyKFZ/aEVYzHtA5sk/7bra2Rb472Q2tSBkSFiajlLW9gCcvCR9rWuJZ8SkmWf
+ W2OFTXeQtbbZqJKePdXNdbY31X6a8LMZybn1pu0LUvDJYe4lGDtF+foIN2JSsOYXcphn
+ ZdLQ==
+X-Gm-Message-State: AOAM530L0cVsqGDwDdyuzGUz0mRCpl0Pdsn3xSYfbR1BbrISFzKIKFch
+ wFReRnxD+jDLnKjgfu0KAE9GBU6zT6/axg==
+X-Google-Smtp-Source: ABdhPJyGG7kYeXiI8mfx6rRsOSwiHGbfGimqAVoyqdTbi6ek59K7fHPih3AH2/PyPG/bOja2FZU1EQ==
+X-Received: by 2002:a5d:6c6d:: with SMTP id r13mr10656450wrz.227.1626422650795; 
+ Fri, 16 Jul 2021 01:04:10 -0700 (PDT)
 Received: from localhost.localdomain ([41.34.125.69])
- by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.08
+ by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 01:04:09 -0700 (PDT)
+ Fri, 16 Jul 2021 01:04:10 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/9] plugins/hotpages: introduce sortby arg and parsed bool
- args correctly
-Date: Fri, 16 Jul 2021 10:03:39 +0200
-Message-Id: <20210716080345.136784-4-ma.mandourr@gmail.com>
+Subject: [PATCH 4/9] plugins/hotblocks: Added correct boolean argument parsing
+Date: Fri, 16 Jul 2021 10:03:40 +0200
+Message-Id: <20210716080345.136784-5-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210716080345.136784-1-ma.mandourr@gmail.com>
 References: <20210716080345.136784-1-ma.mandourr@gmail.com>
@@ -88,58 +87,36 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since plugin arguments now expect boolean arguments, a plugin argument
-name "sortby" now expects a value of "read", "write", or "address".
-
-"io" arg is now expected to be passed as a full-form boolean parameter,
-i.e. "io=on|true|yes|off|false|no"
-
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/hotpages.c | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ contrib/plugins/hotblocks.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/contrib/plugins/hotpages.c b/contrib/plugins/hotpages.c
-index bf53267532..0d12910af6 100644
---- a/contrib/plugins/hotpages.c
-+++ b/contrib/plugins/hotpages.c
-@@ -169,16 +169,26 @@ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
- 
-     for (i = 0; i < argc; i++) {
-         char *opt = argv[i];
--        if (g_strcmp0(opt, "reads") == 0) {
--            sort_by = SORT_R;
--        } else if (g_strcmp0(opt, "writes") == 0) {
--            sort_by = SORT_W;
--        } else if (g_strcmp0(opt, "address") == 0) {
--            sort_by = SORT_A;
--        } else if (g_strcmp0(opt, "io") == 0) {
--            track_io = true;
--        } else if (g_str_has_prefix(opt, "pagesize=")) {
--            page_size = g_ascii_strtoull(opt + 9, NULL, 10);
-+        g_autofree char **tokens = g_strsplit(opt, "=", -1);
-+
-+        if (g_strcmp0(tokens[0], "sortby") == 0) {
-+            if (g_strcmp0(tokens[1], "reads") == 0) {
-+                sort_by = SORT_R;
-+            } else if (g_strcmp0(tokens[1], "writes") == 0) {
-+                sort_by = SORT_W;
-+            } else if (g_strcmp0(tokens[1], "address") == 0) {
-+                sort_by = SORT_A;
-+            } else {
-+                fprintf(stderr, "invalid value to sortby: %s\n", tokens[1]);
-+                return -1;
-+            }
-+        } else if (g_strcmp0(tokens[0], "io") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &track_io)) {
+diff --git a/contrib/plugins/hotblocks.c b/contrib/plugins/hotblocks.c
+index 4b08340143..062200a7a4 100644
+--- a/contrib/plugins/hotblocks.c
++++ b/contrib/plugins/hotblocks.c
+@@ -133,8 +133,18 @@ QEMU_PLUGIN_EXPORT
+ int qemu_plugin_install(qemu_plugin_id_t id, const qemu_info_t *info,
+                         int argc, char **argv)
+ {
+-    if (argc && strcmp(argv[0], "inline") == 0) {
+-        do_inline = true;
++    for (int i = 0; i < argc; i++) {
++        char *opt = argv[i];
++        g_autofree char **tokens = g_strsplit(opt, "=", 2);
++        if (g_strcmp0(tokens[0], "inline") == 0) {
++            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_inline)) {
 +                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
 +                return -1;
 +            }
-+        } else if (g_strcmp0(tokens[0], "pagesize") == 0) {
-+            page_size = g_ascii_strtoull(tokens[1], NULL, 10);
-         } else {
-             fprintf(stderr, "option parsing failed: %s\n", opt);
-             return -1;
++        } else {
++            fprintf(stderr, "option parsing failed: %s\n", opt);
++            return -1;
++        }
+     }
+ 
+     plugin_init();
 -- 
 2.25.1
 
