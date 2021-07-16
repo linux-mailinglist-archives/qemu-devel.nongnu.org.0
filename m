@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3E93CBA4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 18:07:23 +0200 (CEST)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 777913CBA60
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 18:09:42 +0200 (CEST)
+Received: from localhost ([::1]:57886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4QN0-0006Ry-6Y
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 12:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
+	id 1m4QPF-00013J-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 12:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4QKz-0005BO-SW
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:05:19 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:35430)
+ id 1m4QOH-0008UW-Ez
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:08:41 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:56291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4QKy-0004VT-91
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:05:17 -0400
-Received: by mail-pl1-x635.google.com with SMTP id n11so5537408plc.2
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 09:05:15 -0700 (PDT)
+ id 1m4QOF-00076g-U4
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:08:41 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id l11so6688977pji.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 09:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9Pa89aIDL0oxeBM6jvSp8jOl06M3oZmQ9c0sd5XH6nQ=;
- b=WB7wg1ARWGyzNB2cdIH3vlqWY0Gi3J/BKbg1jq+eHOJ1eB1pP2GvwW1PHx+qHy1jw7
- wUHp70vRVeeCswUcSwPHUvrOTaF+/umS8tNbfbj9k5TzLE4qwXnsvKIGDlLVvoLUTb8m
- snRAX6u5LK+GHPIRz/sCqoPA0lYjlR399NM7mYKWO5oGAU83HaQZKe858PGX/XxBiRDg
- L2EA7fpbko1JSDxOtlCNvaH11R0gGCidlIJPV8YIT1nIv1RkdHMAHBX4AlOlW2c3rJk3
- w2PZdROSV2bFjhfNnFr39E5RxT43Ic+hg6ZhlLkTL9EN1UOJGGZOf51xtyycf8K8o/CW
- NB7A==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=gAQH7IyArg7qtsUOHGjWRNau0e9aSU/joZS31bSGxi0=;
+ b=CbNhqqnrNXTAb15Ydlc0ozrwVEjj43wSJEgg0l9O8TfaCX8NWhuHH0cn611t7X2ft2
+ JsavVMf9TnmzvK9ZBLI5EDIPPFUm3linERNphiT470agmv24GqZnRJ+/cwjaTuxmshV/
+ gHPIBh1WJXDc6V7Sa20Ao0AG6jqHyG31mQdZtHlBiE41sA4TxMPKBmHMUMQqBIN0fHMN
+ 8VkOaJvrW7gnDQy2K+amJsBzA+CQS5PJ4zuEk0MCeIhI5nAppag2wfBYg0U4OXbVf0U2
+ lUTifsdWosk36kkwK04QxIvrVjex0XZCoRM4zLY5Hk8bH6IFddxntGnKhGeAcU8PtAck
+ qWCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9Pa89aIDL0oxeBM6jvSp8jOl06M3oZmQ9c0sd5XH6nQ=;
- b=D639bZl7sONr0CHACDZe4ouaIjNOxeFuY1kuqsq1Bf7iKbquwHjWqn8cJ37wjC+tYU
- XyHkPxrQl4L2aMWbzna3Trv2Gu56Nj9tCtcUpiv8a7B4TFh8I5o4SDyqDA6082dXou4l
- h+PtPTjWrYC9K1Rq8Gzd4bXZMfOYsg7MrbHTg4uUZ8ryfAGm8XRXV0Luq65hKf/hnqK1
- Y1ojQ5ZDzAvJWQFUI9P+HAUBzkW28niCLVe65zEw6oPCwMIsvaYCe09UGKsbLrkgxmh9
- FURJ+rhDQW3qW7FyX9BXVpFPZOsFbpDYSPo0du+IvGKDS5ECZ8/fhwPZ4MYSoCL2CXTd
- Uh/Q==
-X-Gm-Message-State: AOAM530Lhi05hgijDPN+V6xa6NHt5HnQU3TKJvdql46A/YpdqaFp5Liw
- 8I/vWLrcNpI/MdQRh5aOJt00Ng==
-X-Google-Smtp-Source: ABdhPJxxI8u78ji8l+c8paUre/hklciZ4yNJf7TLg6NL/JSrfMegzKfx+MSYXFGCAYtrheos4fAdNQ==
-X-Received: by 2002:a17:90b:46cc:: with SMTP id
- jx12mr2597110pjb.26.1626451514779; 
- Fri, 16 Jul 2021 09:05:14 -0700 (PDT)
+ bh=gAQH7IyArg7qtsUOHGjWRNau0e9aSU/joZS31bSGxi0=;
+ b=ifGWL+egtCskEmfANkEZdPF9hNzwAlHh62p1h0xI70RIKc/Y2SKivJUJmvJyEirfSE
+ gYrbyHqhdR6Jtr6j2xk+3sxlo5GHWXlDaargkd3BCdaEyrPg/uiGQGgvtwNNQEO1ewEC
+ Jy2nmJHyqeMLwWhU/I+67zMhxh1SAZu+u80y0Zy7pQ3oZ3Fmkg29s5bcTZhceIBmHPnw
+ jI0T0ZjQjViiZypvXf12WHL3ML0a2aq8yf86Fz8orEuqcqRziqBRJ4ZoJ+vxUrd7BQ7M
+ TaFWuA4Uwi7tdq0h5yjh39neCCs1oXGi4pEIhlBLT9oy+0Q4AUtBQAWEUHSPAKuS31ej
+ CASw==
+X-Gm-Message-State: AOAM531gVZwp31egT8bEGgivf83S8C/5r9Rmkxs/e43X6u9U3W10xDmU
+ 5z0Mz2MpRwHMe4v0VXKv6/vOEABgk7Z+LA==
+X-Google-Smtp-Source: ABdhPJxvYJYj+s1izDhhnvd2Fr2erhsOfJms3u6GVSf07n9PsrSgmHseNRWHl5PfqOeIAu56CyIoqQ==
+X-Received: by 2002:a17:903:4049:b029:12b:2429:382b with SMTP id
+ n9-20020a1709034049b029012b2429382bmr8385710pla.47.1626451718371; 
+ Fri, 16 Jul 2021 09:08:38 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id o25sm11956663pgd.21.2021.07.16.09.05.13
+ by smtp.gmail.com with ESMTPSA id 22sm10431947pfo.80.2021.07.16.09.08.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 09:05:14 -0700 (PDT)
-Subject: Re: [PATCH v3 1/2] Hexagon (target/hexagon) remove
- put_user_*/get_user_*
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1626384156-6248-1-git-send-email-tsimpson@quicinc.com>
- <1626384156-6248-2-git-send-email-tsimpson@quicinc.com>
+ Fri, 16 Jul 2021 09:08:38 -0700 (PDT)
+Subject: Re: [PATCH v2 04/21] configure: remove needless if leg
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210714182056.25888-1-alex.bennee@linaro.org>
+ <20210714182056.25888-5-alex.bennee@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <feb8ca44-7bc8-2230-e4c0-69125a2ba7c0@linaro.org>
-Date: Fri, 16 Jul 2021 09:05:12 -0700
+Message-ID: <a6e7d662-50d7-75b7-1b05-f25e1f48384e@linaro.org>
+Date: Fri, 16 Jul 2021 09:08:36 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1626384156-6248-2-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20210714182056.25888-5-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,19 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, philmd@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/15/21 2:22 PM, Taylor Simpson wrote:
-> Replace put_user_* with cpu_st*_data_ra
-> Replace get_user_* with cpu_ld*_data_ra
+On 7/14/21 11:20 AM, Alex Bennée wrote:
+> It was pointed out in review of the previous patch that the if leg
+> isn't needed as the for loop will not enter on an empty $device_archs.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
+> Fixes: d1d5e9eefd ("configure: allow the selection of alternate config in the build")
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Message-Id:<20210714093638.21077-5-alex.bennee@linaro.org>
 > ---
->   target/hexagon/op_helper.c | 39 ++++++++++++++++++---------------------
->   1 file changed, 18 insertions(+), 21 deletions(-)
+>   configure | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
