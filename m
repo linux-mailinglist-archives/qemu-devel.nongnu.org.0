@@ -2,91 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E285F3CB636
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 12:40:49 +0200 (CEST)
-Received: from localhost ([::1]:42340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0043CB628
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 12:37:26 +0200 (CEST)
+Received: from localhost ([::1]:33330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4LGz-0000hI-09
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 06:40:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53682)
+	id 1m4LDh-00036O-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 06:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4LFF-00077Q-VF
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:39:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4LFC-0008Fm-5Z
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:39:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626431936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xqs9QyIhrYWjFnboDYB1WXOlMG/bShF2XQ8e2fMtkAk=;
- b=c/4+0s3LPNiEjY+GqgPy66gnpke2fdBiSwNso5Nmvv/S1c2voCtwUOOnmuDEKVd4KYk6Vd
- EhnUR+xFWHtYcVGpq3p9678CCUpqgmovmcEJ6gbmXo9i0OBbGEb2X1WtWKtrKgiJpZm+ok
- PHB2Ie40LIJFMN7DHEzkDd3FV+8eMRk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-KALcRTFEP8CY3hXl5LoOow-1; Fri, 16 Jul 2021 06:38:55 -0400
-X-MC-Unique: KALcRTFEP8CY3hXl5LoOow-1
-Received: by mail-wr1-f71.google.com with SMTP id
- z6-20020a5d4c860000b029013a10564614so4664096wrs.15
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 03:38:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Xqs9QyIhrYWjFnboDYB1WXOlMG/bShF2XQ8e2fMtkAk=;
- b=PFLa+ZdkJjDbsTm9yfpOepUfFg2iqRMNVIMFfkfAInuwEMrulqrRiOIqGlPgaO72kX
- oCOykPlkEdNTY6KS5VENePk2QDXd4Ank1+9LUaGiiLlE7l9xepJ8sTKxUF7s55LWAp5t
- GJWYnxhj/gg27TjjJEMnpY0OTfcXscs9nijCxC4kJvjzPl6xEeD/fnNI8bk4hF2hs+lJ
- Edf7WS3PIJpXUYMHb3tVZkNfPObWeNVZrep826EZeSurPISBhYe7m1kdWSVTvGxs1Mux
- weCfKV6G/jhsa4mTTxhXk7nZwgJ6h1lSNA8g3Ybm6MTrpY8Rzu+OkDKrvVRTXpdrI+7Z
- c7qA==
-X-Gm-Message-State: AOAM533iMCq9p7d17EJlYo1tCZ6x4B1V9EJvy11u+ESLkyL0xMt3xeZA
- HqZeNGVm+XrNHi0s0xGebPTuYjXj+KBA4z1oO54aX7F6C6njR9aEusscdD5tenczbeLnD9ByJV8
- NY7EeMgBFbHx3Ano=
-X-Received: by 2002:a7b:cc15:: with SMTP id f21mr15933458wmh.5.1626431934583; 
- Fri, 16 Jul 2021 03:38:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyoyj3H/Rbu1FpVFJnUSkxvyfq6Z6kVE0JAG+9YpRhxyKz11w1LRbhoXYehGllt2pdUdOtC4w==
-X-Received: by 2002:a7b:cc15:: with SMTP id f21mr15933440wmh.5.1626431934411; 
- Fri, 16 Jul 2021 03:38:54 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- s17sm9648337wrv.2.2021.07.16.03.38.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 03:38:54 -0700 (PDT)
-Subject: Re: [PATCH 03/14] iotest 303: explicit compression type
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
- <20210705091549.178335-4-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <a4a46854-a568-af07-1045-aa42a5ebc54a@redhat.com>
-Date: Fri, 16 Jul 2021 12:38:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1m4LBG-0000z6-W0
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:34:55 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:49294
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1m4LBE-0005bH-7a
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:34:54 -0400
+HMM_SOURCE_IP: 172.18.0.218:46224.948966485
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.39?logid-e44c2bdca1064d2f86a6250957101844
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 49AE42800A9;
+ Fri, 16 Jul 2021 18:34:42 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id e44c2bdca1064d2f86a6250957101844 for
+ qemu-devel@nongnu.org; Fri Jul 16 18:34:43 2021
+X-Transaction-ID: e44c2bdca1064d2f86a6250957101844
+X-filter-score: 
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/2] support dirtyrate measurement with dirty bitmap
+Date: Fri, 16 Jul 2021 18:39:49 +0800
+Message-Id: <cover.1626431731.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <20210705091549.178335-4-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.219;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,21 +62,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
-> The test prints qcow2 header fields which depends on chosen compression
-> type. So, let's be explicit in what compression type we want and
-> independent of IMGOPTS. Test both existing compression types.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/303     | 25 ++++++++++++++++---------
->   tests/qemu-iotests/303.out | 30 +++++++++++++++++++++++++++++-
->   2 files changed, 45 insertions(+), 10 deletions(-)
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+v5:
+- let recording dirty pages after memory_global_dirty_log_sync
+  make dirtyrate result more accurate
+
+v4:
+- drop the first commit:
+  "KVM: introduce kvm_get_manual_dirty_log_protect"
+
+- clear dirty log unconditionally so that the first commit
+  can be dropped.
+
+- rename global var DirtyRateDirtyPages to total_dirty_pages
+
+- stat the dirty pages along with the existing loop in
+  cpu_physical_memory_set_dirty_lebitmap
+
+- stat the increased dirty pages like the way of dirty-ring
+
+- add BQL when fetch dirty log and clear dirty log
+
+- do not clear dirty log after measuring.
+
+v4 implementation clear log unconditionally so that the
+kvm_get_manual_dirty_log_protect can be dropped and so do the
+first commit.
+
+other main modification is add the BQL when fetch and clear
+dirty log.
+
+last modification is do not clear dirty log after measuring.
+if dirty tracking be stopped after measuring, clear dirty
+log make no sense.if dirty tracking is running after mesauring,
+clear dirty log can be handled by the caller who is interested in it.
+
+v3:
+- do not touch cpu_physical_memory_sync_dirty_bitmap
+
+- rename global var DirtyRateIncreasedPages to DirtyRateDirtyPages
+
+- stat dirty pages in cpu_physical_memory_set_dirty_lebitmap, which
+  is on the execution path of memory_global_dirty_log_sync and can
+  be used for dirty rate measuring.
+
+the v3 implemention runs well, we could get accurate dirtyrate
+as v1 and simplify the implementation heavyly. it do not touch
+the any ram_list.dirty_memory[*], so do has no conflict with migraion
+at all.
+if migration is running at the same time with dirtyrate measuring,
+measuring may reset protection of pages after
+memory_global_dirty_log_sync before migration iteration, but it has
+no side affect because kvm_log_clear_one_slot can guarantee that
+same dirty_bmap in a slot shouldn't be cleared twice.
+
+v2:
+- drop the DIRTY_MEMORY_DIRTY_RATE dirty bits
+
+- reuse the DIRTY_MEMORY_MIGRATION dirty bits to stat the dirty
+  pages.
+
+- introduce global var DirtyRateIncreasedPages to stat the
+  increased dirty pages
+
+- simplify the logic of calculation. skip the 1'round of
+  log sync unconditionally
+
+changes of this version are based on Peter's advice,
+like the version 1, it is posted for the sake of RFC.
+ideally, this patshset may be merged after the commit:
+"migration/dirtyrate: implement dirty-ring dirtyrate calculation"
+
+v1:
+the dirtyrate measurement implemented by page-sampling originally, it
+is not accurate in some scenarios, so we have introduced dirty-ring
+based dirtyrate measurement(maybe it will be merged soon), it fix the
+accuracy of page-sampling, and more importantly, it is at the
+granualrity of vcpu.
+
+dirty-ring method can be used when dirty-ring enable, as supplementary,
+we introduce dirty-bitmap method to calculating dirtyrate when dirty log
+enable, so that we can also get the accurate dirtyrate if needed in the
+absence of dirty-ring.
+
+three things has done to implement the measurement:
+- introduce a fresh new dirty bits named DIRTY_MEMORY_DIRTY_RATE, which
+  is used to store dirty bitmap after fetching it from kvm. why we do
+  not reuse the existing DIRTY_MEMORY_MIGRATION dirty bits is we do not
+  want to interfere with migration of and let implementation clear, this
+  is also the reason why dirty_memory be split.
+
+  DIRTY_MEMORY_DIRTY_RATE dirty bits will be filled when
+  memory_global_dirty_log_sync executed if GLOBAL_DIRTY_DIRTY_RATE bit
+  be set in the global_dirty_tracking flag.
+
+- introduce kvm_get_manual_dirty_log_protect function so that we can
+  probe the protect caps of kvm when calculating.
+
+- implement dirtyrate measurement with dirty bitmap with following step:
+  1. start the dirty log.
+
+  2. probe the protect cap, if KVM_DIRTY_LOG_INITIALLY_SET enable, skip
+     skip the 1'R and do the reset page protection manually, since kvm
+     file bitmap with 1 bits if this cap is enabled.
+
+  3. clear the DIRTY_MEMORY_DIRTY_RATE dirty bits, prepare to store
+     the dirty bitmap.
+
+  4. start memory_global_dirty_log_sync and fetch dirty bitmap from kvm
+
+  5. reap the DIRTY_MEMORY_DIRTY_RATE dirty bits and do the calculation.
+
+this patchset rebases on the commit
+"migration/dirtyrate: implement dirty-ring dirtyrate calculation",
+since the above feature has not been merged, so we post this patch
+for the sake of RFC. ideally, this patshset may be merged after it.
+
+Please, review, thanks !
+
+Best Regards !
+
+Hyman Huang(黄勇) (2):
+  memory: introduce total_dirty_pages to stat dirty pages
+  migration/dirtyrate: implement dirty-bitmap dirtyrate calculation
+
+ hmp-commands.hx         |   9 ++--
+ include/exec/ram_addr.h |   4 ++
+ migration/dirtyrate.c   | 122 ++++++++++++++++++++++++++++++++++++++++++++----
+ qapi/migration.json     |   6 ++-
+ 4 files changed, 126 insertions(+), 15 deletions(-)
+
+-- 
+1.8.3.1
 
 
