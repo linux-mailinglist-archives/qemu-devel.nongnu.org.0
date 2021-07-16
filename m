@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 221603CB9AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 17:23:26 +0200 (CEST)
-Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28B593CB9AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 17:22:56 +0200 (CEST)
+Received: from localhost ([::1]:40464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4PgT-0008TI-7F
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 11:23:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60780)
+	id 1m4Pfz-0006kK-78
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 11:22:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYp-00014M-Jb
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58509)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYq-00015b-5R
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYn-00046g-Al
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:30 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYo-000485-I9
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626448528;
+ s=mimecast20190719; t=1626448530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=umcXGg1ajUcx6yGPrHNc9sdCDLC76+6T/qWiwvzG+eo=;
- b=X5lH541dmgDJ+yyKPcg0nVly+Kr9wGIOvvYoJO2Bj7Ytd8EY8aECrTgBmrL5/8kf3qcyVr
- oWM6G7Vt5tGQdaoEm1CKG8+ssC5y8DDHubYIPM4WyPxUJyDRyBHWdVNI6cPsH033Xok6Ro
- 0v38Nj10QUoTccT06bW3rjSOPAthsyc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-cXcCLAaSN06-8H2e0S4MeA-1; Fri, 16 Jul 2021 11:15:26 -0400
-X-MC-Unique: cXcCLAaSN06-8H2e0S4MeA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- y15-20020a5d614f0000b029013cd60e9baaso4939715wrt.7
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 08:15:26 -0700 (PDT)
+ bh=x7ZuFpyOa5DAu/c2wYuyH48s1IkBMXPNPbP+hmJeKHY=;
+ b=JPkxbaw1IKCCZNkKMRSRaf0arCL7RkjABdFxBv2EbwRP0emRf1kudOJMFQth6ooooDuLEf
+ yImyN5w+WMf8ZKhGBtzlJJnDMjdnTDIFsmbqvP6WD8IE+Ph7N20qgNJXL5dxOTxH3j3oU+
+ vrlGJdow/E7bthHb6u9aro6Ql32uUuE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-MpdlAX5RM2qbp6gj501uJw-1; Fri, 16 Jul 2021 11:15:28 -0400
+X-MC-Unique: MpdlAX5RM2qbp6gj501uJw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ k8-20020a05600c1c88b02901b7134fb829so1303744wms.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 08:15:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=umcXGg1ajUcx6yGPrHNc9sdCDLC76+6T/qWiwvzG+eo=;
- b=FxIKctRa8SNq+yYb5f6BxywU5Z0BZWv54ASCiO4ykW6HndgLqwNk2+ehDxaEpr32H4
- bqk6uKsOa4u0HuPUOdui6AWVRf0y0o4a2UBf2opVYR1WbqvhqdfH9q7mocoM660tYntd
- 81gGHY6mVg8q837B7Tp3ajLpNIT781mcopN24wvJGlsY9VNNTng65uEOfc3G4SqPxAV/
- UqvsSiqbY1jQLOTzoUmWR4pjJXm6SPuw4sPHj83Wht+y83kl6vGEldPqHRrVJtW0h880
- KNXDqUt79Ah4nxrKikmiOc9H5HmZdySeHN2HnHhW/9pMBuJWjvVTP6bk4xlPYZ+w7N92
- 5cOA==
-X-Gm-Message-State: AOAM532WKxzJaxIOGPi7BsMMv48GNlFPpuGAwZtxIdZiWQ4plKXfeDqr
- 3VtStQ7yU4XuGZtcwq2JnvijNtIyut23jNyYl2aA80p7cYFNTQ3RB11++r+MSiFXe4t+YWnN3WP
- B04ltXlvKzgLrofXkOrGGJN28MvQ91eLwnHJL0EMDeN2lmEOYYjdKE1U0MQfw
-X-Received: by 2002:a05:600c:4e8f:: with SMTP id
- f15mr11391395wmq.174.1626448525074; 
- Fri, 16 Jul 2021 08:15:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwS95IQCfIxAx04E0C5296m5STU8EYCPd09dJfjBsgVEai7bCrZBkwwsolbB4/QTtrbFNAq9w==
-X-Received: by 2002:a05:600c:4e8f:: with SMTP id
- f15mr11391351wmq.174.1626448524833; 
- Fri, 16 Jul 2021 08:15:24 -0700 (PDT)
+ bh=x7ZuFpyOa5DAu/c2wYuyH48s1IkBMXPNPbP+hmJeKHY=;
+ b=q4q08hTkbAcHohH2TTqTq6INJ3mjj9cqjG/WrUSmTLPZLuHhM00VMHragZ8C53GvTw
+ HVDBXs0kuHJahjlJstNmX6n7/H9n6LCbN1E6B4KYxwWFCCfBdaBXZ06xUNuIlY7qluyx
+ Pn8e55666RcPG434MoCHHAubttKGn8tgHpP/1STg5kmA+sFAiaIQIT7TYo6373m6keiD
+ HPv1NkSc3Q2HfA3BfpOnG7/5PhnUWoHWV7qdMNPxJezs5SCuptUcFj5r0KEJ8Y+Iz7kO
+ hmotHak7RK1mrsdXh9q3PhIatlB4DnYstKMBh6bRAAfk3Gkqd+pestf/fxPhiiIBvZWh
+ BoRA==
+X-Gm-Message-State: AOAM531xP+oPpgosBSAZXmcd9CH7ZKZfoxYCBrx6TZb+PhLiHuYf165W
+ GRtevpFBjRov6PxrUnGxiy/ikpd9vwXs/uPJYt912nE6XL+yklntiXpX4sLXYDRry2+8UOVjLjI
+ v/i+Ky1kPFl9WR0uAFMQwxMnP7NG8VbkNbEMoI01GxSSMcd6M4Yd4gX3d1SNw
+X-Received: by 2002:adf:cf07:: with SMTP id o7mr12927931wrj.216.1626448527226; 
+ Fri, 16 Jul 2021 08:15:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzojQ1LWq/fooruqcVvE/wmaOfDiMpi0kgKlvczK5lesIaIrZSXvygBUS8+3QtZC61cLlg/cw==
+X-Received: by 2002:adf:cf07:: with SMTP id o7mr12927909wrj.216.1626448527050; 
+ Fri, 16 Jul 2021 08:15:27 -0700 (PDT)
 Received: from redhat.com ([2a10:8004:6ff2:0:a1b1:b3d8:4c4e:4825])
- by smtp.gmail.com with ESMTPSA id o11sm11228033wmc.2.2021.07.16.08.15.22
+ by smtp.gmail.com with ESMTPSA id y16sm10477648wrw.42.2021.07.16.08.15.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 08:15:24 -0700 (PDT)
-Date: Fri, 16 Jul 2021 11:15:22 -0400
+ Fri, 16 Jul 2021 08:15:26 -0700 (PDT)
+Date: Fri, 16 Jul 2021 11:15:25 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 09/19] docs: Add '-device intel-iommu' entry
-Message-ID: <20210716151416.155127-10-mst@redhat.com>
+Subject: [PULL v3 10/19] hw/pci/pci_host: Allow PCI host to bypass iommu
+Message-ID: <20210716151416.155127-11-mst@redhat.com>
 References: <20210716151416.155127-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210716151416.155127-1-mst@redhat.com>
@@ -95,87 +93,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Yi Liu <yi.l.liu@intel.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Jing Zhao <jinzhao@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Lei Yang <leiyang@redhat.com>, Chao Yang <chayang@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xingang Wang <wangxingang5@huawei.com>, Eric Auger <eric.auger@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+From: Xingang Wang <wangxingang5@huawei.com>
 
-The parameters of intel-iommu device are non-trivial to understand.  Add an
-entry for it so that people can reference to it when using.
+Add a new bypass_iommu property for PCI host and use it to check
+whether devices attached to the PCI root bus will bypass iommu.
+In pci_device_iommu_address_space(), check the property and
+avoid getting iommu address space for devices bypass iommu.
 
-There're actually a few more options there, but I hide them explicitly because
-they shouldn't be used by normal QEMU users.
-
-Cc: Chao Yang <chayang@redhat.com>
-Cc: Lei Yang <leiyang@redhat.com>
-Cc: Jing Zhao <jinzhao@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Yi Liu <yi.l.liu@intel.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20210707154114.197580-1-peterx@redhat.com>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Message-Id: <1625748919-52456-2-git-send-email-wangxingang5@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- qemu-options.hx | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ include/hw/pci/pci.h      |  1 +
+ include/hw/pci/pci_host.h |  1 +
+ hw/pci/pci.c              | 18 +++++++++++++++++-
+ hw/pci/pci_host.c         |  1 +
+ 4 files changed, 20 insertions(+), 1 deletion(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 214c477dcc..0c9ddc0274 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -939,6 +939,39 @@ SRST
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 6be4e0c460..f4d51b672b 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -480,6 +480,7 @@ void pci_for_each_bus(PCIBus *bus,
  
- ``-device pci-ipmi-bt,bmc=id``
-     Like the KCS interface, but defines a BT interface on the PCI bus.
-+
-+``-device intel-iommu[,option=...]``
-+    This is only supported by ``-machine q35``, which will enable Intel VT-d
-+    emulation within the guest.  It supports below options:
-+
-+    ``intremap=on|off`` (default: auto)
-+        This enables interrupt remapping feature.  It's required to enable
-+        complete x2apic.  Currently it only supports kvm kernel-irqchip modes
-+        ``off`` or ``split``, while full kernel-irqchip is not yet supported.
-+        The default value is "auto", which will be decided by the mode of
-+        kernel-irqchip.
-+
-+    ``caching-mode=on|off`` (default: off)
-+        This enables caching mode for the VT-d emulated device.  When
-+        caching-mode is enabled, each guest DMA buffer mapping will generate an
-+        IOTLB invalidation from the guest IOMMU driver to the vIOMMU device in
-+        a synchronous way.  It is required for ``-device vfio-pci`` to work
-+        with the VT-d device, because host assigned devices requires to setup
-+        the DMA mapping on the host before guest DMA starts.
-+
-+    ``device-iotlb=on|off`` (default: off)
-+        This enables device-iotlb capability for the emulated VT-d device.  So
-+        far virtio/vhost should be the only real user for this parameter,
-+        paired with ats=on configured for the device.
-+
-+    ``aw-bits=39|48`` (default: 39)
-+        This decides the address width of IOVA address space.  The address
-+        space has 39 bits width for 3-level IOMMU page tables, and 48 bits for
-+        4-level IOMMU page tables.
-+
-+    Please also refer to the wiki page for general scenarios of VT-d
-+    emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
-+
- ERST
+ PCIBus *pci_device_root_bus(const PCIDevice *d);
+ const char *pci_root_bus_path(PCIDevice *dev);
++bool pci_bus_bypass_iommu(PCIBus *bus);
+ PCIDevice *pci_find_device(PCIBus *bus, int bus_num, uint8_t devfn);
+ int pci_qdev_find_device(const char *id, PCIDevice **pdev);
+ void pci_bus_get_w64_range(PCIBus *bus, Range *range);
+diff --git a/include/hw/pci/pci_host.h b/include/hw/pci/pci_host.h
+index 52e038c019..c6f4eb4585 100644
+--- a/include/hw/pci/pci_host.h
++++ b/include/hw/pci/pci_host.h
+@@ -43,6 +43,7 @@ struct PCIHostState {
+     uint32_t config_reg;
+     bool mig_enabled;
+     PCIBus *bus;
++    bool bypass_iommu;
  
- DEF("name", HAS_ARG, QEMU_OPTION_name,
+     QLIST_ENTRY(PCIHostState) next;
+ };
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 377084f1a8..27d588e268 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -416,6 +416,22 @@ const char *pci_root_bus_path(PCIDevice *dev)
+     return rootbus->qbus.name;
+ }
+ 
++bool pci_bus_bypass_iommu(PCIBus *bus)
++{
++    PCIBus *rootbus = bus;
++    PCIHostState *host_bridge;
++
++    if (!pci_bus_is_root(bus)) {
++        rootbus = pci_device_root_bus(bus->parent_dev);
++    }
++
++    host_bridge = PCI_HOST_BRIDGE(rootbus->qbus.parent);
++
++    assert(host_bridge->bus == rootbus);
++
++    return host_bridge->bypass_iommu;
++}
++
+ static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
+                               MemoryRegion *address_space_mem,
+                               MemoryRegion *address_space_io,
+@@ -2718,7 +2734,7 @@ AddressSpace *pci_device_iommu_address_space(PCIDevice *dev)
+ 
+         iommu_bus = parent_bus;
+     }
+-    if (iommu_bus && iommu_bus->iommu_fn) {
++    if (!pci_bus_bypass_iommu(bus) && iommu_bus && iommu_bus->iommu_fn) {
+         return iommu_bus->iommu_fn(bus, iommu_bus->iommu_opaque, devfn);
+     }
+     return &address_space_memory;
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index 8ca5fadcbd..cf02f0d6a5 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -222,6 +222,7 @@ const VMStateDescription vmstate_pcihost = {
+ static Property pci_host_properties_common[] = {
+     DEFINE_PROP_BOOL("x-config-reg-migration-enabled", PCIHostState,
+                      mig_enabled, true),
++    DEFINE_PROP_BOOL("bypass-iommu", PCIHostState, bypass_iommu, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 MST
 
