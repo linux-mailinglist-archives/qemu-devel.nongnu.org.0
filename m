@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3715C3CB3DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:12:54 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8672C3CB3CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:09:51 +0200 (CEST)
+Received: from localhost ([::1]:55860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Ixp-0008G6-8G
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56082)
+	id 1m4Ius-0000we-J6
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:09:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpW-0007VU-7Z
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:18 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34503)
+ id 1m4IpX-0007XW-8O
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:19 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpU-0005Ni-Fa
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:17 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso6544736wmc.1
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:16 -0700 (PDT)
+ id 1m4IpV-0005OR-MF
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:19 -0400
+Received: by mail-wr1-x436.google.com with SMTP id g16so11034010wrw.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QYlZr4m7peS7MfzAJi+qX2Ml7ux6aBoPT20UJbED7TM=;
- b=Q8u/VzysVLumGelup2D3K6a5x+WbXLAn6FFXL5g/gHegRJx9y09RlZ6RMYitho8dU5
- ree/g51QL8oPoi543noBrnl67yvkQ7fwYJ65O+uH2gDgBQlm2WFqAdHMCUpAUfGERiIq
- +BFmrXmgoGi2/ctpF+SHx5EAFHTW3gcVp3APZdmWNHOAoKnSJQhAyWAwqXZylVYabK6D
- TQb75m6Tv62Vm+HQOpgHMx1v95e5hGmSlzBta7fAzwAu5/ZmoWqQFoZBjVcWukDBY/LT
- 4PEn/HmFp4ZfRlkuHqxpQMu6/c2ypuIMeLxNi7bspc0XkertkvK7QGq7AWZ5UwWhHUX9
- tX2Q==
+ bh=rMLAuiSXBB39vnc7yIBeUjpUzjmirkB4ItWpH9noXsY=;
+ b=cCOY0mC9ra/7SsDfebj/D08+Dy+nRckKIgX15ZlUSbpFiKB/d1Z6yWsMoCIIzuqlyZ
+ k8pXv+voPpi1DKUhyKq9tCDg6t0miyGvLd6TVLhNkpmWOqF9Y3ikDogbr5C8mi/PliVF
+ BiAttu61Mm0NHISJG+WjEjGnmaa7GKw9IGEkma946YwgdIDmWzbHR1FN1kXOQfPLxezp
+ yHzdzvYe8/yOHLi/URx29MCRNkiRupR40/xATOns4KJAc8ei5J/FlAwqMAByGEOcISTJ
+ Kp+kI+jdShwPzVvFkXxLjr0U+4rk/PvaND8UZm/fVOZQYrIiJX1deQNuYePc6fBwgwoQ
+ ChEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QYlZr4m7peS7MfzAJi+qX2Ml7ux6aBoPT20UJbED7TM=;
- b=dkwKcQqGbqbKPHfV/aXcp+8cGgu/XcHqiFkAA4FiQCr1ilcccJovS3agGkSbNZ3ANT
- bPvlDM+oAb/J1sIeG6f8fCy36n0b8Ppe/qkQZL/Z7lxAayzxXkZjGndDqcqfqt3xD3e1
- nhV8zeNjYsSqftjUguZoRnGXeWOmMOdM4xFd1uOivraRoYOvTSQMEoJI3aB8tVjTF6Mt
- hvUv0X1gfHoGi/mhjAva0pE/8P+yJt7P+7oV8Uunhc3kQQmiL//HOXjrkC5CdGeCr5bu
- mixLkJQqiVHtV5XtVlbjMAkoW8b2LJK0aStgAIqEC9OAr05asLbza0gMD6r6MY4iiajN
- +//w==
-X-Gm-Message-State: AOAM530lHoaFZCvmUAu+4qJnbpOwx5GwQO1xK0LgMSI+mWpqnm0e9FTt
- tMJvvR0lCZtyRGPVgxqZWsNCdfa5QE/RoA==
-X-Google-Smtp-Source: ABdhPJy6JUW9e7rxhg+13mM03Evb/Zo8n9ZHqpfSzhItTmefGN64WcdVODUGjnetTUHCTXnZ2XEWqQ==
-X-Received: by 2002:a05:600c:649:: with SMTP id
- p9mr15269274wmm.151.1626422654877; 
- Fri, 16 Jul 2021 01:04:14 -0700 (PDT)
+ bh=rMLAuiSXBB39vnc7yIBeUjpUzjmirkB4ItWpH9noXsY=;
+ b=ecZzm4YUzfJpliEGj8uOs3FnYh0YCLR7eNl1NjbvJkadJfaKviv8ReBBRYW7hImVPk
+ 4nC4/vsLIvT4bGq2WR6y+XQyI33hD1Li7O+F2omPd2ASyYWAB4PZ8dOxDWfZW3mivRvm
+ Tf28w5GCTQLkLOUORq333yo/+448UBe3nUcDNb0Bk/3RjPvYxIyHojEevwZGSvg8suV5
+ QDbMDKiqVG4DxZ5SgqDywkJERwxiFp78faOX9QEYyNu7gCy8aaX6uCfYefrZDZ5krYZy
+ OeKFouX3plrg+c5PRx2QM85B4YuUojZjYQqef9wBdBxMsLeDy7ZeQu0w2nWDiut1F9dJ
+ 3j8Q==
+X-Gm-Message-State: AOAM533m0URwSyZeF0TkWBqlptVRBn5oAnz22+qdzRNiNUM/0rgjh6A5
+ zJngT/c8KvUYPpjvZhBXeN5WOdMDxS2g6A==
+X-Google-Smtp-Source: ABdhPJwxDcg8RW/1y8vMiobR8g1IMK2baLwzBxludvNyY48aR1tEE3ISYpTi7DJ0H4gqknastCGUTw==
+X-Received: by 2002:adf:ee0a:: with SMTP id y10mr10716594wrn.209.1626422656059; 
+ Fri, 16 Jul 2021 01:04:16 -0700 (PDT)
 Received: from localhost.localdomain ([41.34.125.69])
- by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.13
+ by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 01:04:14 -0700 (PDT)
+ Fri, 16 Jul 2021 01:04:15 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/9] plugins/howvec: Adapting to the new argument passing
- scheme.
-Date: Fri, 16 Jul 2021 10:03:43 +0200
-Message-Id: <20210716080345.136784-8-ma.mandourr@gmail.com>
+Subject: [PATCH 8/9] docs/tcg-plugins: new passing parameters scheme for cache
+ docs
+Date: Fri, 16 Jul 2021 10:03:44 +0200
+Message-Id: <20210716080345.136784-9-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210716080345.136784-1-ma.mandourr@gmail.com>
 References: <20210716080345.136784-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,90 +88,59 @@ Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correctly parsing plugin argument since they now must be provided as
-full-form boolean parameters, e.g.:
-    -plugin ./contrib/plugins/libhowvec.so,verbose=on,inline=on
-
-Also, introduced the argument "count" that accepts one opt to count
-individually at a time.
-
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- contrib/plugins/howvec.c   | 24 ++++++++++++++++--------
- docs/devel/tcg-plugins.rst | 10 +++++-----
- 2 files changed, 21 insertions(+), 13 deletions(-)
+ docs/devel/tcg-plugins.rst | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/contrib/plugins/howvec.c b/contrib/plugins/howvec.c
-index 600f7facc1..847baef214 100644
---- a/contrib/plugins/howvec.c
-+++ b/contrib/plugins/howvec.c
-@@ -333,19 +333,27 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
- 
-     for (i = 0; i < argc; i++) {
-         char *p = argv[i];
--        if (strcmp(p, "inline") == 0) {
--            do_inline = true;
--        } else if (strcmp(p, "verbose") == 0) {
--            verbose = true;
--        } else {
-+        g_autofree char **tokens = g_strsplit(p, "=", -1);
-+        if (g_strcmp0(tokens[0], "inline") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_inline)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", p);
-+                return -1;
-+            }
-+        } else if (g_strcmp0(tokens[0], "verbose") == 0) {
-+            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &verbose)) {
-+                fprintf(stderr, "boolean argument parsing failed: %s\n", p);
-+                return -1;
-+            }
-+        } else if (g_strcmp0(tokens[0], "count") == 0) {
-+            char *value = tokens[1];
-             int j;
-             CountType type = COUNT_INDIVIDUAL;
--            if (*p == '!') {
-+            if (*value == '!') {
-                 type = COUNT_NONE;
--                p++;
-+                value++;
-             }
-             for (j = 0; j < class_table_sz; j++) {
--                if (strcmp(p, class_table[j].opt) == 0) {
-+                if (strcmp(value, class_table[j].opt) == 0) {
-                     class_table[j].what = type;
-                     break;
-                 }
 diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 753f56ac42..4ab9dc4bb1 100644
+index 4ab9dc4bb1..be1256d50c 100644
 --- a/docs/devel/tcg-plugins.rst
 +++ b/docs/devel/tcg-plugins.rst
-@@ -79,7 +79,7 @@ Once built a program can be run with multiple plugins loaded each with
- their own arguments::
+@@ -349,34 +349,34 @@ will report the following::
  
-   $QEMU $OTHER_QEMU_ARGS \
--      -plugin tests/plugin/libhowvec.so,arg=inline,arg=hint \
-+      -plugin tests/plugin/libhowvec.so,inline=on,count=hint \
-       -plugin tests/plugin/libhotblocks.so
+ The plugin has a number of arguments, all of them are optional:
  
- Arguments are plugin specific and can be used to modify their
-@@ -196,13 +196,13 @@ Similar to hotblocks but this time tracks memory accesses::
+-  * arg="limit=N"
++  * limit=N
  
- This is an instruction classifier so can be used to count different
- types of instructions. It has a number of options to refine which get
--counted. You can give an argument for a class of instructions to break
--it down fully, so for example to see all the system registers
--accesses::
-+counted. You can give a value to the `count` argument for a class of
-+instructions to break it down fully, so for example to see all the system
-+registers accesses::
+   Print top N icache and dcache thrashing instructions along with their
+   address, number of misses, and its disassembly. (default: 32)
  
-   ./aarch64-softmmu/qemu-system-aarch64 $(QEMU_ARGS) \
-     -append "root=/dev/sda2 systemd.unit=benchmark.service" \
--    -smp 4 -plugin ./contrib/plugins/libhowvec.so,arg=sreg -d plugin
-+    -smp 4 -plugin ./contrib/plugins/libhowvec.so,count=sreg -d plugin
+-  * arg="icachesize=N"
+-  * arg="iblksize=B"
+-  * arg="iassoc=A"
++  * icachesize=N
++  * iblksize=B
++  * iassoc=A
  
- which will lead to a sorted list after the class breakdown::
+   Instruction cache configuration arguments. They specify the cache size, block
+   size, and associativity of the instruction cache, respectively.
+   (default: N = 16384, B = 64, A = 8)
  
+-  * arg="dcachesize=N"
+-  * arg="dblksize=B"
+-  * arg="dassoc=A"
++  * dcachesize=N
++  * dblksize=B
++  * dassoc=A
+ 
+   Data cache configuration arguments. They specify the cache size, block size,
+   and associativity of the data cache, respectively.
+   (default: N = 16384, B = 64, A = 8)
+ 
+-  * arg="evict=POLICY"
++  * evict=POLICY
+ 
+   Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
+   :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
+   both instruction and data caches. (default: POLICY = :code:`lru`)
+ 
+-  * arg="cores=N"
++  * cores=N
+ 
+   Sets the number of cores for which we maintain separate icache and dcache.
+   (default: for linux-user, N = 1, for full system emulation: N = cores
 -- 
 2.25.1
 
