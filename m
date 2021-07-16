@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33953CB77A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:46:10 +0200 (CEST)
-Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 221F23CB781
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:49:09 +0200 (CEST)
+Received: from localhost ([::1]:33976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4NEH-0006IG-ER
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
+	id 1m4NHA-0007y8-5d
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:49:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4ND5-0005Mc-Lc
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:44:55 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:25154)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4NG9-0007Il-MA
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:48:05 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:48063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4ND4-0000Bc-AP
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:44:55 -0400
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4NG7-0001pd-Ht
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:48:05 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-0k6LpLLuNkS9nE2Sh6hdgQ-1; Fri, 16 Jul 2021 08:44:47 -0400
-X-MC-Unique: 0k6LpLLuNkS9nE2Sh6hdgQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-124-SsBEuo6fNDelgazjL7qS-g-1; Fri, 16 Jul 2021 08:48:01 -0400
+X-MC-Unique: SsBEuo6fNDelgazjL7qS-g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF40F1B18BC0;
- Fri, 16 Jul 2021 12:44:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6ADC1804140;
+ Fri, 16 Jul 2021 12:48:00 +0000 (UTC)
 Received: from bahia.lan (ovpn-112-127.ams2.redhat.com [10.36.112.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 417835C1A1;
- Fri, 16 Jul 2021 12:44:41 +0000 (UTC)
-Date: Fri, 16 Jul 2021 14:44:39 +0200
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF6915D6AB;
+ Fri, 16 Jul 2021 12:47:58 +0000 (UTC)
+Date: Fri, 16 Jul 2021 14:47:57 +0200
 From: Greg Kurz <groug@kaod.org>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v5 3/7] spapr_drc.c: do not error_report() when
- drc->dev->id == NULL
-Message-ID: <20210716144439.0ac277ac@bahia.lan>
-In-Reply-To: <20210712194339.813152-4-danielhb413@gmail.com>
+Subject: Re: [PATCH v5 4/7] qapi/qdev.json: fix DEVICE_DELETED parameters doc
+Message-ID: <20210716144757.6c53cec3@bahia.lan>
+In-Reply-To: <20210712194339.813152-5-danielhb413@gmail.com>
 References: <20210712194339.813152-1-danielhb413@gmail.com>
- <20210712194339.813152-4-danielhb413@gmail.com>
+ <20210712194339.813152-5-danielhb413@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
 Content-Type: text/plain; charset=WINDOWS-1252
@@ -69,43 +68,42 @@ Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Jul 2021 16:43:35 -0300
+On Mon, 12 Jul 2021 16:43:36 -0300
 Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> The error_report() call in drc_unisolate_logical() is not considering
-> that drc->dev->id can be NULL, and the underlying functions error_report(=
-)
-> calls to do its job (vprintf(), g_strdup_printf() ...) has undefined
-> behavior when trying to handle "%s" with NULL arguments.
+> Clarify that @device is optional and that 'path' is the device
+> path from QOM.
 >=20
-> Besides, there is no utility into reporting that an unknown device was
-> rejected by the guest.
+> This change follows Markus' suggestion verbatim, provided in full
+> context here:
 >=20
+> https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg01891.html
+>=20
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  hw/ppc/spapr_drc.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  qapi/qdev.json | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index a2f2634601..a4d9496f76 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -167,8 +167,11 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
->              }
-> =20
->              drc->unplug_requested =3D false;
-> -            error_report("Device hotunplug rejected by the guest "
-> -                         "for device %s", drc->dev->id);
-> +
-> +            if (drc->dev->id) {
-> +                error_report("Device hotunplug rejected by the guest "
-> +                             "for device %s", drc->dev->id);
-> +            }
-> =20
->              /*
->               * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
+> diff --git a/qapi/qdev.json b/qapi/qdev.json
+> index b83178220b..d1d3681a50 100644
+> --- a/qapi/qdev.json
+> +++ b/qapi/qdev.json
+> @@ -108,9 +108,9 @@
+>  # At this point, it's safe to reuse the specified device ID. Device remo=
+val can
+>  # be initiated by the guest or by HMP/QMP commands.
+>  #
+> -# @device: device name
+> +# @device: the device's ID if it has one
+>  #
+> -# @path: device path
+> +# @path: the device's path within the object model
+>  #
+>  # Since: 1.5
+>  #
 
 
