@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9533CB978
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 17:10:41 +0200 (CEST)
-Received: from localhost ([::1]:43308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 732173CB97C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 17:14:40 +0200 (CEST)
+Received: from localhost ([::1]:46122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4PU8-00069J-C8
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 11:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59704)
+	id 1m4PXz-0008Dh-HL
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 11:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PTE-0005Ug-47
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:09:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44943)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PWi-0007XW-K3
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:13:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PTA-00008m-DU
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:09:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PWg-0002cP-EK
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:13:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626448178;
+ s=mimecast20190719; t=1626448397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iu0KOHj+7naskYSaGn4sdJRO/QFbUfgY5P60NUOokIY=;
- b=U9VH6lpt87hEvtGRZutnkAZbv+tWgiLI7zyPJxbfETt8fmJj/Z0YpxnwXRupJMZt5dNhNQ
- LavqI1wSKNdw8VRpkEct4G3ChozUiwsip4nCTxhqFSl9BAtVT20d4ucmUr4k7y9kQmfjUk
- aP94mczlq7f9sTKtjL4YwL28u+PihSE=
+ bh=vRnndFo0lscgsz4dC1Xrr3UqKD9lkf/tbCQe8Aoonzc=;
+ b=cpdsgsGgz4YqUTPSKbOy3il2eM5ndZj73NN3nutR0hA/0PxYjSdG17ez7a1H+nbj9sOPUU
+ VO8vDEIoJUAgZUGCsNOjWmBI7WNnOAccQ5Re5yXYwSRpXNbAAm2GkTNPr9yH+c1Xy2NEYX
+ mbF6I6gcJtcZgCD91ue3jKnAYgf89Ts=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-440-p-QiaPkUNOKJN69eJ7NTJg-1; Fri, 16 Jul 2021 11:09:37 -0400
-X-MC-Unique: p-QiaPkUNOKJN69eJ7NTJg-1
+ us-mta-359-tddYldCfPx22MT2hROnJWQ-1; Fri, 16 Jul 2021 11:13:16 -0400
+X-MC-Unique: tddYldCfPx22MT2hROnJWQ-1
 Received: by mail-wm1-f70.google.com with SMTP id
- j141-20020a1c23930000b0290212502cb19aso3286014wmj.0
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 08:09:37 -0700 (PDT)
+ k8-20020a05600c1c88b02901b7134fb829so1303191wms.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 08:13:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=iu0KOHj+7naskYSaGn4sdJRO/QFbUfgY5P60NUOokIY=;
- b=Y5bV2SPz0/N3IlMg1wX4gqjNUTkO0Usy1K2VW9df/kMaerZlSZ9EAycTy0LpaTkj28
- mUyV1CU/PjDg3OoNOc44jGOM4dkppUu3vSqSp3bFH1NAeB97pLJad+9cOh7kKdIDkWuA
- BN2ayRSd/Ffo5NPpQMNNNy6AKSsX2XVkjOhVEHbgNZP8Mlyb+9pEiqm/CZ1X+nV3NV6l
- HCAAeN0+X/QoexqLgsMKSWolAimxp7MJ8yLPOerE1qBXZMqecpwWnHNAvFU1YJ53nBkq
- GZJ5f46UeQp6dc3OvlFXLlQnbdEgDEK9eXc74uBsVBBBhT02km2bcX2lXbrlv7OPTX0d
- sdXQ==
-X-Gm-Message-State: AOAM530fi0XwYt9jeBNY+pN/Tk4UCvprdguGHrMeaCQXY/sodFUuH819
- icvN8f8ggelmDL6W3z1FAen2Q+E2XOtorHLYCsc81LHRg0yQBE1kOzHjlg+qzHuYb+lYEBku/Bh
- gyG88KfHwG962uCY=
-X-Received: by 2002:a7b:c150:: with SMTP id z16mr17010782wmi.104.1626448176028; 
- Fri, 16 Jul 2021 08:09:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzoYjdhMbcnIx16UUoqxZCNbAyHV0Bt/gORwgRxgQqNjJyPK3Hswlf2/NGgg9R8L1/rBOH3bA==
-X-Received: by 2002:a7b:c150:: with SMTP id z16mr17010752wmi.104.1626448175722; 
- Fri, 16 Jul 2021 08:09:35 -0700 (PDT)
+ bh=vRnndFo0lscgsz4dC1Xrr3UqKD9lkf/tbCQe8Aoonzc=;
+ b=B7k3VAVWll45ZUZbfLwHZEKq7rLNJBqzwGMPiSeOKyWsLXJK4bNpA8SuAx4iDZTcvX
+ WvonxpEwIUjgCnzGB/khds/OSmsTqOkirjUcy7llljNunmz8ew0TiBwr64E1OG8UUyzs
+ OxKg9aNhKBHDYfbjYpVidbV1+ORSahhpiLz+gcB9STShVcDwcmjOzZ1yuiRs1viQ1yW6
+ IwaXKQk5HfnWrP3BTF5BaH9pun0hJf8hJ9nHs+fkHESkN+lHbyDVZmJrJXNYFsn3t1G1
+ lTBxI9l8lYa79sYanH30cySEdAf+NMZLc2rePEXrTSvmGWLHm1K+p67ayhp8gLQopISW
+ +Nmg==
+X-Gm-Message-State: AOAM532Cc5zIzbtGL54e+YP2XSkx9X9MF3rJzpatp/BrNoQKsmLojBn+
+ RE7MCSA6DONrEhHPNlAAvhx3GZCzJMiuMI3NDWVIWKA7ZXJEvTx1nO9Z/0wnqU/filfImouNJsJ
+ Hy8AZQ2I1egC0FU8=
+X-Received: by 2002:adf:c409:: with SMTP id v9mr13239509wrf.102.1626448395152; 
+ Fri, 16 Jul 2021 08:13:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOWJLwfdkvAmj0ynT4vou39rpkLypY+AUjC69FYpXB2wFx0XcNzfkoKLUnTYVOvwWliY6K0g==
+X-Received: by 2002:adf:c409:: with SMTP id v9mr13239484wrf.102.1626448394947; 
+ Fri, 16 Jul 2021 08:13:14 -0700 (PDT)
 Received: from redhat.com ([2a10:8004:6ff2:0:a1b1:b3d8:4c4e:4825])
- by smtp.gmail.com with ESMTPSA id n5sm9990453wri.31.2021.07.16.08.09.34
+ by smtp.gmail.com with ESMTPSA id m4sm10347005wrs.14.2021.07.16.08.13.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 08:09:35 -0700 (PDT)
-Date: Fri, 16 Jul 2021 11:09:32 -0400
+ Fri, 16 Jul 2021 08:13:14 -0700 (PDT)
+Date: Fri, 16 Jul 2021 11:13:12 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
 Subject: Re: [PULL 00/23] pc,pci,virtio: lots of new features
-Message-ID: <20210716103152-mutt-send-email-mst@kernel.org>
+Message-ID: <20210716111218-mutt-send-email-mst@kernel.org>
 References: <20210713220946.212562-1-mst@redhat.com>
  <CAFEAcA_ykJOv0s_44VKWFa3ti9pVD_u_3_G1MpAFdLRZ9oPH5w@mail.gmail.com>
  <20210715172049-mutt-send-email-mst@kernel.org>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -179,10 +179,8 @@ On Fri, Jul 16, 2021 at 03:12:53PM +0100, Peter Maydell wrote:
 > thanks
 > -- PMM
 
-Clearly some meson/config related issues.
-I don't understand why it links fine on my box yet, but that
-is a puzzle for another day. I've dropped vhost-user-rng for now.
-We'll work to include it in the next release.
+OK for_upstream3 is now without vhost-user-rng - we found too many
+issues for the last minute pull.
 
 -- 
 MST
