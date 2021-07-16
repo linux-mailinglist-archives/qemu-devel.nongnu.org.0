@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4543CB40D
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:22:55 +0200 (CEST)
-Received: from localhost ([::1]:45418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2218C3CB41B
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:27:09 +0200 (CEST)
+Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4J7W-0004sH-Rd
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:22:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
+	id 1m4JBc-0006qt-6X
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m4J6C-0003pO-GR
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:21:32 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:45784)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m4J6A-0000HA-TT
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:21:32 -0400
-Received: by mail-ed1-x535.google.com with SMTP id x17so11814906edd.12
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xgA5EHclXuOzjUXtAGq7RLggparS5ZovwqO3ShcneQQ=;
- b=o/5PO9ihHo1y0zFPmGwvbt8o9lnfp2+Nkc6YVUPxHa19o5SeDJr+cBdagRgEZB2cZE
- GC3+8TmuxNHbyxD3tntHyBhsK1HLzL9HtCRJjrBwBlTnpj3gmscEheJlBeUJwaSUP8f3
- jriTUr/7xWOmL4zVP3w6zZPxSe0batXlAcorzqnzxcyCQHW+meuWu4PL6YMeVIgWRrtj
- Xl165b/rfk8S18p2kZGuCVVC4BHY1Qbm5x3YvzkyJLpijkGwbRyUbnmoKcrZ6EDcwyUU
- aFBq7d5TEGMin7Re0+2yWtJWOolZpMji/tkTxkJSnQbsbv8Rz1Gv1mI8HOxgefoKyh2A
- 9n9Q==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m4JAn-00064o-Ac
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:26:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m4JAj-0003U8-7f
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:26:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626423971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UXUBzon4txDeOHkVm/5EakXHw6MQ74zVE8BA345AO9c=;
+ b=QFYqTHLaL51Afw95Gf6y+rmO48yopahW6ve5kwZqA7zFrwswsPsFNW+xygLzXmiKV9zkKk
+ zv7xsa71DbEYlEfJqdDym7rb42z1j8bLPdAEUUOhcrcYXE9UiqJvDAxW5zjTC9fms/e0oH
+ SJgRlM36djD0ShE8XXYvAqAFFMbmENk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-41-Wz-V2c68O8u5SILvxfa6pA-1; Fri, 16 Jul 2021 04:26:09 -0400
+X-MC-Unique: Wz-V2c68O8u5SILvxfa6pA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ p4-20020a5d63840000b0290126f2836a61so4561958wru.6
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:26:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xgA5EHclXuOzjUXtAGq7RLggparS5ZovwqO3ShcneQQ=;
- b=PsG4wgb8i+Pnc7GY+D97v28Z/nOnCuYsqQE5OFtGVqSc+eQzGxN+dh6rZHSZEqHdCe
- 4a9UBsUKadUOMihVAvCGPP2zrYrIx7s+ySTqM/00CoxXUpvVz+GVN6+f20AIxLctcAuo
- dEa7o4wucHuSt4WnEmg5AcK4pdqJQRd0TqadSjQTiH+SLEpBBEB68Q547c5wuFuNnNfk
- T0wwbH9Jvj5kQiSHTGOmWuxcbc+Ni4P/vtm4e8KwzMgWap6n5Xvce3YDhfZgDpMoUdKs
- /I410Ea5ce2SgAPd49+gDaiL/DBc5gB7vYpgfQ0Q9fq+GuQApzxaZGG/mUSAxS1Og+rL
- royw==
-X-Gm-Message-State: AOAM530JtL0sEBa3rKfhdB+U/WvbTKv7VsY1Y844wKqnWRUpo8ZnydgV
- nDqLPsIvQtg4qnA/DVduTSwHLsST3JmRFDyatV8=
-X-Google-Smtp-Source: ABdhPJziR+4AKz0nI1+AiWe4LFdZ531MmJ7c/dNKcHdg0kvYS4wRBoM4sveTNkgm3hbMo6nZLC3m4QrS7zMVTDhBKwI=
-X-Received: by 2002:aa7:c458:: with SMTP id n24mr13363913edr.30.1626423689546; 
- Fri, 16 Jul 2021 01:21:29 -0700 (PDT)
+ h=x-gm-message-state:to:cc:references:from:organization:subject
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=UXUBzon4txDeOHkVm/5EakXHw6MQ74zVE8BA345AO9c=;
+ b=KhphA47Jeaw2HdfJpCYb6kg3XXLP4T4kmyGqeZdm260riEPS//u4GEZi7n8OQHgfU9
+ NjTK5N3a/7VRI+gAhgVpHIKzXvfaIzacLgMnRBXfcIevLK1CG0toKy71MwRR/5xYEJon
+ JeOYk48WYA3XxYv2LFAQc0xKMdoNRjp9907Fboo4bybQH9feZmkMJdMtt7p/TXH6QrF4
+ RfNiW6skvF5rlh+37+TaCakM0execqwU3biwggNQeqkvOCF7NGLYxNovcfqUAQj7D4XF
+ 8SJDR4qSbZMXAFE6S9/AbMDoi51HSmoctXUgUGCHxjUanJsG0763TU1A8gf+uO9PBBhN
+ rxRg==
+X-Gm-Message-State: AOAM530dgxCCOyasTh9CQ6Op0fBm3XgKEbvup/7l8xuM4llzqqg/V6QK
+ z/AiemdA+ZBV3oXrlfuLxJPVE4okTcacv7yMml2tjS6t5ikpBR8dQlPXc+3mw1zS4bzuvE1cUja
+ k6gKS8KMufE3ClCw=
+X-Received: by 2002:a5d:6489:: with SMTP id o9mr10517309wri.397.1626423968579; 
+ Fri, 16 Jul 2021 01:26:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwrieAotN5O5ieWsrR8WOn7ei9t0+9G57OlQFvRISmqDP1/F0hhJBzLSpC1Y9b9+7NKYuCPRg==
+X-Received: by 2002:a5d:6489:: with SMTP id o9mr10517288wri.397.1626423968376; 
+ Fri, 16 Jul 2021 01:26:08 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c621f.dip0.t-ipconnect.de. [91.12.98.31])
+ by smtp.gmail.com with ESMTPSA id
+ n5sm9003659wri.31.2021.07.16.01.26.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jul 2021 01:26:07 -0700 (PDT)
+To: "Wang, Wei W" <wei.w.wang@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20210715075326.421977-1-wei.w.wang@intel.com>
+ <2581d2a2-de9d-7937-4d71-25a33cfbce3e@redhat.com>
+ <83c6af0d803b436aab62d1495375ae3c@intel.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Subject: Re: [PATCH v2] migration: clear the memory region dirty bitmap when
+ skipping free pages
+Message-ID: <3c3a44c8-c819-5946-e1f6-a0d69215e2fe@redhat.com>
+Date: Fri, 16 Jul 2021 10:26:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210714055735.86050-1-akihiko.odaki@gmail.com>
-In-Reply-To: <20210714055735.86050-1-akihiko.odaki@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 16 Jul 2021 12:21:17 +0400
-Message-ID: <CAJ+F1CKo0D0wKKfKQZHTRfF2GvFk5cfCHtmC1HSXAQh23_Us0A@mail.gmail.com>
-Subject: Re: [PATCH] ui/spice: Use HAVE_SPICE_GL for OpenGL checks
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000045102605c73946af"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <83c6af0d803b436aab62d1495375ae3c@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,148 +103,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "mst@redhat.com" <mst@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000045102605c73946af
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+>>> +    /*
+>>> +     * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
+>>> +     * can make things easier sometimes since then start address
+>>> +     * of the small chunk will always be 64 pages aligned so the
+>>> +     * bitmap will always be aligned to unsigned long. We should
+>>> +     * even be able to remove this restriction but I'm simply
+>>> +     * keeping it.
+>>> +     */
+>>> +    assert(shift >= 6);
+>>> +
+>>> +    size = 1ULL << (TARGET_PAGE_BITS + shift);
+>>> +    start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
+>>
+>> these as well as.
+> 
+> Is there any coding style requirement for this?
 
-On Wed, Jul 14, 2021 at 9:58 AM Akihiko Odaki <akihiko.odaki@gmail.com>
-wrote:
+Don't think so. It simply results in less LOC and less occurrences of 
+variables.
 
-> Some code in ui/spice used CONFIG_OPENGL for OpenGL conditionals, but
-> SPICE also depends on CONFIG_GBM and SPICE server whose version is
-> 0.13.1 or later for OpenGL. Always use HAVE_SPICE_GL, which defines the
-> precise condition.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
->
+> My thought was that those operations could mostly be avoided if they don't pass the
+> above if condition (e.g. just once per 1GB chunk).
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Usually the compiler will reshuffle as possible to optimize. But in this 
+case, due to clear_bmap_test_and_clear(), it might not be able to move 
+the computations behind that call. So the final code might actually differ.
+
+Not that we really care about this micro-optimization, though.
+
+> 
+>>
+>>> +    trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
+>>> +    memory_region_clear_dirty_bitmap(rb->mr, start, size); }
+>>> +
+>>> +static void
+>>> +migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
+>>> +                                                 RAMBlock *rb,
+>>> +                                                 unsigned long
+>> start,
+>>> +                                                 unsigned long
+>>> +npages) {
+>>> +    unsigned long page_to_clear, i, nchunks;
+>>> +    unsigned long chunk_pages = 1UL << rb->clear_bmap_shift;
+>>> +
+>>> +    nchunks = (start + npages) / chunk_pages - start / chunk_pages +
+>>> + 1;
+>>
+>> Wouldn't you have to align the start and the end range up/down to properly
+>> calculate the number of chunks?
+> 
+> No, divide will round it to the integer (beginning of the chunk to clear).
 
 
+nchunks = (start + npages) / chunk_pages - start / chunk_pages + 1;
 
-> ---
->  ui/spice-app.c  | 3 ++-
->  ui/spice-core.c | 2 +-
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/ui/spice-app.c b/ui/spice-app.c
-> index 641f4a9d53e..7e71e18da9a 100644
-> --- a/ui/spice-app.c
-> +++ b/ui/spice-app.c
-> @@ -27,6 +27,7 @@
->  #include <gio/gio.h>
->
->  #include "ui/console.h"
-> +#include "ui/spice-display.h"
->  #include "qemu/config-file.h"
->  #include "qemu/option.h"
->  #include "qemu/cutils.h"
-> @@ -175,7 +176,7 @@ static void
-> spice_app_display_early_init(DisplayOptions *opts)
->      qemu_opt_set(qopts, "addr", sock_path, &error_abort);
->      qemu_opt_set(qopts, "image-compression", "off", &error_abort);
->      qemu_opt_set(qopts, "streaming-video", "off", &error_abort);
-> -#ifdef CONFIG_OPENGL
-> +#ifdef HAVE_SPICE_GL
->      qemu_opt_set(qopts, "gl", opts->has_gl ? "on" : "off", &error_abort)=
-;
->      display_opengl =3D opts->has_gl;
->  #endif
-> diff --git a/ui/spice-core.c b/ui/spice-core.c
-> index 86d43783aca..0371055e6c1 100644
-> --- a/ui/spice-core.c
-> +++ b/ui/spice-core.c
-> @@ -1039,6 +1039,6 @@ static void spice_register_config(void)
->  opts_init(spice_register_config);
->  module_opts("spice");
->
-> -#ifdef CONFIG_OPENGL
-> +#ifdef HAVE_SPICE_GL
->  module_dep("ui-opengl");
->  #endif
-> --
-> 2.30.1 (Apple Git-130)
->
->
->
+For simplicity:
 
---=20
-Marc-Andr=C3=A9 Lureau
+nchunks = (addr + size) / chunk_size - addr / chunk_size + 1;
 
---00000000000045102605c73946af
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+addr=1GB
+size=3GB
+chunk_size=2GB
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 9:58 AM Akihi=
-ko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com">akihiko.odaki@gmail=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">Some code in ui/spice used CONFIG_OPENGL for OpenGL conditionals, but<b=
-r>
-SPICE also depends on CONFIG_GBM and SPICE server whose version is<br>
-0.13.1 or later for OpenGL. Always use HAVE_SPICE_GL, which defines the<br>
-precise condition.<br>
-<br>
-Signed-off-by: Akihiko Odaki &lt;<a href=3D"mailto:akihiko.odaki@gmail.com"=
- target=3D"_blank">akihiko.odaki@gmail.com</a>&gt;<br></blockquote><div><br=
-></div><div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:=
-marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div>=
- <br></div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0ui/spice-app.c=C2=A0 | 3 ++-<br>
-=C2=A0ui/spice-core.c | 2 +-<br>
-=C2=A02 files changed, 3 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/ui/spice-app.c b/ui/spice-app.c<br>
-index 641f4a9d53e..7e71e18da9a 100644<br>
---- a/ui/spice-app.c<br>
-+++ b/ui/spice-app.c<br>
-@@ -27,6 +27,7 @@<br>
-=C2=A0#include &lt;gio/gio.h&gt;<br>
-<br>
-=C2=A0#include &quot;ui/console.h&quot;<br>
-+#include &quot;ui/spice-display.h&quot;<br>
-=C2=A0#include &quot;qemu/config-file.h&quot;<br>
-=C2=A0#include &quot;qemu/option.h&quot;<br>
-=C2=A0#include &quot;qemu/cutils.h&quot;<br>
-@@ -175,7 +176,7 @@ static void spice_app_display_early_init(DisplayOptions=
- *opts)<br>
-=C2=A0 =C2=A0 =C2=A0qemu_opt_set(qopts, &quot;addr&quot;, sock_path, &amp;e=
-rror_abort);<br>
-=C2=A0 =C2=A0 =C2=A0qemu_opt_set(qopts, &quot;image-compression&quot;, &quo=
-t;off&quot;, &amp;error_abort);<br>
-=C2=A0 =C2=A0 =C2=A0qemu_opt_set(qopts, &quot;streaming-video&quot;, &quot;=
-off&quot;, &amp;error_abort);<br>
--#ifdef CONFIG_OPENGL<br>
-+#ifdef HAVE_SPICE_GL<br>
-=C2=A0 =C2=A0 =C2=A0qemu_opt_set(qopts, &quot;gl&quot;, opts-&gt;has_gl ? &=
-quot;on&quot; : &quot;off&quot;, &amp;error_abort);<br>
-=C2=A0 =C2=A0 =C2=A0display_opengl =3D opts-&gt;has_gl;<br>
-=C2=A0#endif<br>
-diff --git a/ui/spice-core.c b/ui/spice-core.c<br>
-index 86d43783aca..0371055e6c1 100644<br>
---- a/ui/spice-core.c<br>
-+++ b/ui/spice-core.c<br>
-@@ -1039,6 +1039,6 @@ static void spice_register_config(void)<br>
-=C2=A0opts_init(spice_register_config);<br>
-=C2=A0module_opts(&quot;spice&quot;);<br>
-<br>
--#ifdef CONFIG_OPENGL<br>
-+#ifdef HAVE_SPICE_GL<br>
-=C2=A0module_dep(&quot;ui-opengl&quot;);<br>
-=C2=A0#endif<br>
--- <br>
-2.30.1 (Apple Git-130)<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+So for that range [1GB, 3GB), we'd have to clear [0GB,2GB), [2GB,4GB)
 
---00000000000045102605c73946af--
+Range:    [      ]
+Chunks: [ - ][ - ][ - ][ - ] ...
+         ^0   ^2   ^4   ^6
+
+nchunks = (1 + 3) / 2 - 1 / 2 + 1
+	= 4 / 2 - 0 + 1
+	= 2 + 1
+	= 3
+
+Which is wrong.
+
+While my variant will give you
+
+aligned_start = 0GB
+aligned_end = 4GB
+
+And consequently clear [0GB,2GB) and [2GB,4GB).
+
+
+Am I making a stupid mistake and should rather get another cup of coffee? :)
+
+
+> 
+>>
+>> The following might be better and a little easier to grasp:
+>>
+>> unsigned long chunk_pages = 1ULL << rb->clear_bmap_shift; unsigned long
+>> aligned_start = QEMU_ALIGN_DOWN(start, chunk_pages); unsigned long
+>> aligned_end = QEMU_ALIGN_UP(start + npages, chunk_pages)
+>>
+>> /*
+>>    * Clear the clar_bmap of all covered chunks. It's sufficient to call it for
+>>    * one page within a chunk.
+>>    */
+>> for (start = aligned_start, start != aligned_end, start += chunk_pages) {
+> 
+> What if "aligned_end == start + npages"?
+> i.e the above start + npages is aligned by itself without QEMU_ALIGN_UP().
+> For example, chunk size is 1GB, and start+npages=2GB, which is right at the beginning of [2GB,3GB) chunk.
+> Then aligned_end is also 2GB, but we need to clear the [2GB, 3GB) chunk, right?
+
+Again, let's work with sizes instead of PFNs:
+
+addr=1GB
+size=1GB
+chunk_size=1GB
+
+Range:       [   ]
+Chunks: [ - ][ - ][ - ][ - ] ...
+         ^0   ^1   ^2   ^3
+
+aligned_start = 1GB
+aligned_end = 2GB
+
+As you say, we'd clear the [1GB,2GB) chunk, but not the [2GB,3GB) chunk. 
+But that's correct, as our range to hint is actually [start, 
+start+npages) == [1GB,2GB).
+
+> 
+> Best,
+> Wei
+> 
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
