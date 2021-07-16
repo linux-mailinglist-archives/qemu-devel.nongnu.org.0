@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629A33CB4C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:55:35 +0200 (CEST)
-Received: from localhost ([::1]:60184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22983CB50C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 11:08:57 +0200 (CEST)
+Received: from localhost ([::1]:38148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Jd8-0008P2-FP
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:55:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36094)
+	id 1m4Jq4-0004qL-CH
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 05:08:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m4Jbw-0006wr-Mp
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:54:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58688)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1m4JoS-000480-QO
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 05:07:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53211)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m4Jbu-0005Ed-H9
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:54:20 -0400
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1m4JoP-0005qm-6D
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 05:07:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626425656;
+ s=mimecast20190719; t=1626426431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=49+MvtLeifsws6r5PnY0dDhfttudSDi5W4PYWVeIb0o=;
- b=Dj+JxqjZF0fMueovdznQXH+VD0ifgKXrHRr89RV/rYHsN5By03Ac+RRQBQM4q5RxHp6i8i
- e6AE2W6AQyN5syt1HPO0TmOgNs1hdmf3y+9jccS+Ew0Oww9z3ZgX/9YTqU44T2azkJAhDE
- M6F5Xq/cdcyDYE4CU5kV0WC8c6mG9u4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-7ZdmYBlpOKWpJB4gKcpeww-1; Fri, 16 Jul 2021 04:54:15 -0400
-X-MC-Unique: 7ZdmYBlpOKWpJB4gKcpeww-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C88F804143;
- Fri, 16 Jul 2021 08:54:14 +0000 (UTC)
-Received: from localhost (ovpn-112-169.ams2.redhat.com [10.36.112.169])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A40F5D9C6;
- Fri, 16 Jul 2021 08:54:10 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Subject: Re: [PATCH v1 1/9] s390x: smp: s390x dedicated smp parsing
-In-Reply-To: <1626281596-31061-2-git-send-email-pmorel@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <1626281596-31061-1-git-send-email-pmorel@linux.ibm.com>
- <1626281596-31061-2-git-send-email-pmorel@linux.ibm.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 16 Jul 2021 10:54:08 +0200
-Message-ID: <871r7yd4gf.fsf@redhat.com>
+ bh=8efeVFyZdlNBLrGCgMRLF1YfAz+xaqWIbhcMsGEkt7E=;
+ b=gsSp1Z083f6y4rL5Msmn9u9c1/ww+/Zzvc5QEleeAxA7Eg8ILgOdSb5eqKFy3QjTOrio1y
+ ApTTmJoxBiWxmpUHouVpwVMkzxDhQYkZYQRjzejegjOv1E4g44cn+Kw7vK+r0pIP2smGJs
+ ya+veDMmv5kumcnTCmwId0a2yjXk1q4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-Ur-GNfDmMBS0C7fp-dyWyg-1; Fri, 16 Jul 2021 05:07:09 -0400
+X-MC-Unique: Ur-GNfDmMBS0C7fp-dyWyg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ nc15-20020a1709071c0fb029052883e9de3eso3340452ejc.19
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 02:07:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=8efeVFyZdlNBLrGCgMRLF1YfAz+xaqWIbhcMsGEkt7E=;
+ b=e2EU4WLNWBLSTWL6AL/b876lKI1Ymyyr7+TNJ1csRQv0BeECDJ1nmmDMy2taJHz3nP
+ z/wTsjexQZ6iDkrMG5dT0Rt/QZLWIZdi6+PxzeNHN5KoN+V4KjH/ogeBIMa/nIhuevzD
+ WZQvhSnGkvyHHsxPPm58zgZ+rtLkzH+34wGoSNPUMLyiL97zc0kiVqR8Z78iJjbhtR2Q
+ koPH3x4gsNVLvkm94lsFtW49q7mYxOdXVc7Guz/HmdOr2QGehCIfHhgRZhfxVQMPUq3r
+ pVCsWE1Rq1gUXMpJZvuO0tHLace2yTikLs6UmR5JaiqC6RNVvwDLURYJclgclsvaOrzh
+ B3ZQ==
+X-Gm-Message-State: AOAM532PUmgWKrpjyMc3voFNgpLpYFOndPDbWwRUfWpEo0xvQTXDbI4V
+ TPANR8YXnT5q5Hgr87sMHdnOgbkbPnyiWdZv84wvkqRYDwUS7MSpluqn7f1DKAsYqGE0Oac7SjV
+ BfqcAGU2y+k8Q3qY=
+X-Received: by 2002:a17:906:fc6:: with SMTP id
+ c6mr10595307ejk.65.1626426428742; 
+ Fri, 16 Jul 2021 02:07:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGogOZixuFoShn9FSPdi0P8CvjTCPptdWEx0iq0Redq8XXB+R55o/2MXJV/XcG/kpOY93ArQ==
+X-Received: by 2002:a17:906:fc6:: with SMTP id
+ c6mr10595286ejk.65.1626426428536; 
+ Fri, 16 Jul 2021 02:07:08 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id f15sm2662703ejc.61.2021.07.16.02.07.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jul 2021 02:07:08 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Eduardo Habkost
+ <ehabkost@redhat.com>
+Subject: Re: [PULL 04/11] i386: expand Hyper-V features during CPU feature
+ expansion time
+In-Reply-To: <CAFEAcA-nif_Z0guHx4q4NUg=FEyhUz8kkAvfZ58916yp6TXT7Q@mail.gmail.com>
+References: <20210713160957.3269017-1-ehabkost@redhat.com>
+ <20210713160957.3269017-5-ehabkost@redhat.com>
+ <CAFEAcA-nif_Z0guHx4q4NUg=FEyhUz8kkAvfZ58916yp6TXT7Q@mail.gmail.com>
+Date: Fri, 16 Jul 2021 11:07:06 +0200
+Message-ID: <878s261vb9.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,75 +98,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, ehabkost@redhat.com, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, pbonzini@redhat.com,
- eblake@redhat.com
+Cc: kvm-devel <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 14 2021, Pierre Morel <pmorel@linux.ibm.com> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> We need a s390x dedicated SMP parsing to handle s390x specificities.
+> On Tue, 13 Jul 2021 at 17:19, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>>
+>> From: Vitaly Kuznetsov <vkuznets@redhat.com>
+>>
+>> To make Hyper-V features appear in e.g. QMP query-cpu-model-expansion we
+>> need to expand and set the corresponding CPUID leaves early. Modify
+>> x86_cpu_get_supported_feature_word() to call newly intoduced Hyper-V
+>> specific kvm_hv_get_supported_cpuid() instead of
+>> kvm_arch_get_supported_cpuid(). We can't use kvm_arch_get_supported_cpuid()
+>> as Hyper-V specific CPUID leaves intersect with KVM's.
+>>
+>> Note, early expansion will only happen when KVM supports system wide
+>> KVM_GET_SUPPORTED_HV_CPUID ioctl (KVM_CAP_SYS_HYPERV_CPUID).
+>>
+>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> Message-Id: <20210608120817.1325125-6-vkuznets@redhat.com>
+>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
-> In this patch we only handle threads, cores and sockets for
-> s390x:
-> - do not support threads, we always have 1 single thread per core
-> - the sockets are filled one after the other with the cores
+> Hi; Coverity reports an issue in this code (CID 1458243):
 >
-> Both these handlings are different from the standard smp_parse
-> functionement and reflect the CPU topology in the simple case
-> where all CPU belong to the same book.
+>> -static bool hyperv_expand_features(CPUState *cs, Error **errp)
+>> +bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
+>>  {
+>> -    X86CPU *cpu = X86_CPU(cs);
+>> +    CPUState *cs = CPU(cpu);
+>>
+>>      if (!hyperv_enabled(cpu))
+>>          return true;
+>>
+>> +    /*
+>> +     * When kvm_hyperv_expand_features is called at CPU feature expansion
+>> +     * time per-CPU kvm_state is not available yet so we can only proceed
+>> +     * when KVM_CAP_SYS_HYPERV_CPUID is supported.
+>> +     */
+>> +    if (!cs->kvm_state &&
+>> +        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
+>> +        return true;
 >
-> Topology levels above sockets, i.e. books, drawers, are not
-> considered at this stage and will be introduced in a later patch.
+> Here we check whether cs->kvm_state is NULL, but even if it is
+> NULL we can still continue execution further through the function.
 >
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  hw/s390x/s390-virtio-ccw.c | 42 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
+> Later in the function we call hv_cpuid_get_host(), which in turn
+> can call get_supported_hv_cpuid_legacy(), which can dereference
+> cs->kvm_state without checking it.
+
+get_supported_hv_cpuid_legacy() is only called when KVM_CAP_HYPERV_CPUID
+is not supported and this is not possible with
+KVM_CAP_SYS_HYPERV_CPUID. Coverity, of course, can't know that.
+
 >
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index e4b18aef49..899d3a4137 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -582,6 +582,47 @@ static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
->      return newsz;
->  }
->  
-> +/*
-> + * In S390CCW machine we do not support threads for now,
-> + * only sockets and cores.
-> + */
-> +static void s390_smp_parse(MachineState *ms, QemuOpts *opts)
+> So either the check on cs->kvm_state above is unnecessary, or we
+> need to handle it being NULL in some way other than falling through.
 
-It seems you based this on an older version of the code? The current
-signature of this function since 1e63fe685804 ("machine: pass QAPI
-struct to mc->smp_parse") is
+It seems an assert(cs) before calling get_supported_hv_cpuid_legacy()
+(with a proper comment) should do the job.
 
-void (*smp_parse)(MachineState *ms, SMPConfiguration *config, Error **errp);
+>
+> Side note: this change isn't in line with our coding style, which
+> requires braces around the body of the if().
 
-That affects your parsing, and also lets you get rid of the ugly exit(1)
-statements.
+My bad, will fix.
 
-> +{
-> +    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 1);
-> +    unsigned sockets = qemu_opt_get_number(opts, "sockets", 1);
-> +    unsigned cores   = qemu_opt_get_number(opts, "cores", 1);
-> +
-> +    if (opts) {
-> +        if (cpus == 0 || sockets == 0 || cores == 0) {
-
-This behaviour looks different from what we do for other targets: if you
-specify the value as 0, a value is calculated from the other values;
-here, you error out. It's probably not a good idea to differ.
-
-> +            error_report("cpu topology: "
-> +                         "sockets (%u), cores (%u) or number of CPU(%u) "
-> +                         "can not be zero", sockets, cores, cpus);
-> +            exit(1);
-> +        }
-> +    }
-> +
+-- 
+Vitaly
 
 
