@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8672C3CB3CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:09:51 +0200 (CEST)
-Received: from localhost ([::1]:55860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4AF3CB3CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:09:53 +0200 (CEST)
+Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Ius-0000we-J6
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
+	id 1m4Iuu-0000zT-4B
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:09:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpX-0007XW-8O
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:19 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38885)
+ id 1m4IpY-0007Yl-1w
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:20 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpV-0005OR-MF
+ id 1m4IpW-0005P8-M5
  for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:19 -0400
-Received: by mail-wr1-x436.google.com with SMTP id g16so11034010wrw.5
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:17 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ g8-20020a1c9d080000b02901f13dd1672aso6573576wme.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rMLAuiSXBB39vnc7yIBeUjpUzjmirkB4ItWpH9noXsY=;
- b=cCOY0mC9ra/7SsDfebj/D08+Dy+nRckKIgX15ZlUSbpFiKB/d1Z6yWsMoCIIzuqlyZ
- k8pXv+voPpi1DKUhyKq9tCDg6t0miyGvLd6TVLhNkpmWOqF9Y3ikDogbr5C8mi/PliVF
- BiAttu61Mm0NHISJG+WjEjGnmaa7GKw9IGEkma946YwgdIDmWzbHR1FN1kXOQfPLxezp
- yHzdzvYe8/yOHLi/URx29MCRNkiRupR40/xATOns4KJAc8ei5J/FlAwqMAByGEOcISTJ
- Kp+kI+jdShwPzVvFkXxLjr0U+4rk/PvaND8UZm/fVOZQYrIiJX1deQNuYePc6fBwgwoQ
- ChEQ==
+ bh=TQ4eoAhFvF5WLmzSkOUBXUWpS6dwt1gpkEIzciIqlv0=;
+ b=GzO6Z+mKwv8Q7n0/GPrPVD4J3L0YK8PFvSs/gsjnlEDRAP9yVjJXdaJlzQfsvgkSVM
+ v7dukz2J6Z903xn4df79U5JLnzZdkNjot5zR20VlmfbMEZzVgvGJfEPyU8A1bm14BFQx
+ dmu93HTBy2W73lbEFJfkMHMS98IGGNXpKW1xdv2QXW7p2+dOPmBwDYCeHf91Tf2iZCin
+ HLREGWID/sroEL6Df+9bOwwb4dnEE3vbtuAWdEMfEQ31zjwPsCTHFC1eHyJTlZZx6pR2
+ 3uXGdLEaWciHDJmBBQDnMUCb2vWKBQ3IIeQw7IX+mVppxFz4E6k6ZLdu0cKPJC+69YJQ
+ 0SkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rMLAuiSXBB39vnc7yIBeUjpUzjmirkB4ItWpH9noXsY=;
- b=ecZzm4YUzfJpliEGj8uOs3FnYh0YCLR7eNl1NjbvJkadJfaKviv8ReBBRYW7hImVPk
- 4nC4/vsLIvT4bGq2WR6y+XQyI33hD1Li7O+F2omPd2ASyYWAB4PZ8dOxDWfZW3mivRvm
- Tf28w5GCTQLkLOUORq333yo/+448UBe3nUcDNb0Bk/3RjPvYxIyHojEevwZGSvg8suV5
- QDbMDKiqVG4DxZ5SgqDywkJERwxiFp78faOX9QEYyNu7gCy8aaX6uCfYefrZDZ5krYZy
- OeKFouX3plrg+c5PRx2QM85B4YuUojZjYQqef9wBdBxMsLeDy7ZeQu0w2nWDiut1F9dJ
- 3j8Q==
-X-Gm-Message-State: AOAM533m0URwSyZeF0TkWBqlptVRBn5oAnz22+qdzRNiNUM/0rgjh6A5
- zJngT/c8KvUYPpjvZhBXeN5WOdMDxS2g6A==
-X-Google-Smtp-Source: ABdhPJwxDcg8RW/1y8vMiobR8g1IMK2baLwzBxludvNyY48aR1tEE3ISYpTi7DJ0H4gqknastCGUTw==
-X-Received: by 2002:adf:ee0a:: with SMTP id y10mr10716594wrn.209.1626422656059; 
- Fri, 16 Jul 2021 01:04:16 -0700 (PDT)
+ bh=TQ4eoAhFvF5WLmzSkOUBXUWpS6dwt1gpkEIzciIqlv0=;
+ b=CYPTbMPAgkI71ZGVGep/7hPrrtfUau0dkmg2+0mi0yXdwm9iDCtXbggi2iyR9NkVV4
+ J5iFUmT0hJMs1o9yZN91zha7J9hmcbIiFgR+dRaChyfy4hEam6TpJqWlwMvTTGUroNT9
+ Oq+ELPSjJvI6/Pg1gFsQYyCUYYFpkg0iqcYlz8aNorp41PvH+WJQrfqhcZgdCJM872tj
+ af09bbXDLr8yvfs9Tt/9Khc/WnmrtREp0A3XgILKySsw5tILJOBWDc3DLjLAIE6LsZ5d
+ kh6KcaGaIDOM7X5Hase5Y99XYlbNPonuWpVXXnJ7mfNtoRN56QX+M2jyLkuakDT1EyGA
+ Etzw==
+X-Gm-Message-State: AOAM530AP6shw3Fyp37Wef+HQGpPldJ6kWjj15KJiW7CLHlbtNsNVeEK
+ TXCcdqiDKZkmUeAwiHwoCrIiszYwuvfhtw==
+X-Google-Smtp-Source: ABdhPJyTrjanosCqlPGlKoaAoeimkuvDariCCUwT1rqFiyr763n90S3Cy7AwFzVmmwJLBk1iEKfG4g==
+X-Received: by 2002:a05:600c:220c:: with SMTP id
+ z12mr9128986wml.116.1626422657285; 
+ Fri, 16 Jul 2021 01:04:17 -0700 (PDT)
 Received: from localhost.localdomain ([41.34.125.69])
- by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.15
+ by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 01:04:15 -0700 (PDT)
+ Fri, 16 Jul 2021 01:04:16 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] docs/tcg-plugins: new passing parameters scheme for cache
- docs
-Date: Fri, 16 Jul 2021 10:03:44 +0200
-Message-Id: <20210716080345.136784-9-ma.mandourr@gmail.com>
+Subject: [PATCH 9/9] docs/deprecated: deprecate passing plugin args through
+ `arg=`
+Date: Fri, 16 Jul 2021 10:03:45 +0200
+Message-Id: <20210716080345.136784-10-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210716080345.136784-1-ma.mandourr@gmail.com>
 References: <20210716080345.136784-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,64 +85,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- docs/devel/tcg-plugins.rst | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ docs/system/deprecated.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 4ab9dc4bb1..be1256d50c 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -349,34 +349,34 @@ will report the following::
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index e2e0090878..aaf0ee5777 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -126,6 +126,12 @@ other options have been processed.  This will either have no effect (if
+ if they were not given.  The property is therefore useless and should not be
+ specified.
  
- The plugin has a number of arguments, all of them are optional:
++Plugin argument passing through ``arg=<string>`` (since 6.1)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Passing arguments through ``arg=`` is redundant is makes the command-line less
++readable, especially when the argument itself consist of a name and a value,
++e.g. ``arg="arg_name=arg_value"``. Therefore, the usage of ``arg`` is redundant.
  
--  * arg="limit=N"
-+  * limit=N
- 
-   Print top N icache and dcache thrashing instructions along with their
-   address, number of misses, and its disassembly. (default: 32)
- 
--  * arg="icachesize=N"
--  * arg="iblksize=B"
--  * arg="iassoc=A"
-+  * icachesize=N
-+  * iblksize=B
-+  * iassoc=A
- 
-   Instruction cache configuration arguments. They specify the cache size, block
-   size, and associativity of the instruction cache, respectively.
-   (default: N = 16384, B = 64, A = 8)
- 
--  * arg="dcachesize=N"
--  * arg="dblksize=B"
--  * arg="dassoc=A"
-+  * dcachesize=N
-+  * dblksize=B
-+  * dassoc=A
- 
-   Data cache configuration arguments. They specify the cache size, block size,
-   and associativity of the data cache, respectively.
-   (default: N = 16384, B = 64, A = 8)
- 
--  * arg="evict=POLICY"
-+  * evict=POLICY
- 
-   Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
-   :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
-   both instruction and data caches. (default: POLICY = :code:`lru`)
- 
--  * arg="cores=N"
-+  * cores=N
- 
-   Sets the number of cores for which we maintain separate icache and dcache.
-   (default: for linux-user, N = 1, for full system emulation: N = cores
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
 -- 
 2.25.1
 
