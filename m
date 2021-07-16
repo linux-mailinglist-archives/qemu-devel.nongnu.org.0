@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63C93CBAB9
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 18:46:43 +0200 (CEST)
-Received: from localhost ([::1]:60584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A1D3CBABC
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 18:49:51 +0200 (CEST)
+Received: from localhost ([::1]:34644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Qz4-00070l-B7
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 12:46:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
+	id 1m4R26-0000DS-7T
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 12:49:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4Qwz-0004du-NP
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:44:33 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:43532)
+ id 1m4R1C-0007sv-Uq
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:48:54 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:43552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4Qwy-0006SQ-8Y
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:44:33 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id b12so5574588plh.10
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 09:44:31 -0700 (PDT)
+ id 1m4R1A-00015K-Vk
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 12:48:54 -0400
+Received: by mail-pl1-x633.google.com with SMTP id b12so5580848plh.10
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 09:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=RcV4rLuNkbviju7dg+ADGg3WyxdJ+JoU/srtBet1GI8=;
- b=U0eH0+yioLtK66J4lumaZ5Qhrq4lQT+BWFxzCU5K+kiyDTk9Q5l5c6cPKgLGfmGcu6
- gFDjUAk9i4RxrW/nqxB93mwp8hODVK9+POoWjAx+J6jHZW5OsWiXHF42aqz2+T8BdTc+
- o0XSIiofDSNY7G+Jsg28/0gh74Kykd5pnYibF5fvCHOiZ1ejcjfJqZWag7ym1XD051dZ
- WWD+6kaLeoQZQVEUAzyDPizxEKR8nhiYbYIBRsINMWBN24cEWXVwOSR1j5Fkyehe2nd9
- GW7QaDV7di5a57QfvyV4Or+uPo3XPyqEOx26e0L4QaDftjGUxyvaOZFGTnJGLQumBnn2
- iSwA==
+ bh=dRFQz5gAi/aA80nNbVcSDOE9q3Ebd/7xPuH+q8KFD3k=;
+ b=dDZR46WbT2k8l06IF0iGQPpYSZXAy2NHvqUbY7FGa44+Ijdry+9T9iQVlaD08d48qG
+ OW1kJBQl0vHLSdppnH9dcKst8a4Dkg3K5L8YQM4J/vEkWJCpD0QiFMWH87fvoMiS0XAF
+ Nq01FBRqxbJZxBFJe1TmG7cjOvo2trGC/SNzzMqxijrhfNHbKHCdci02PpYHumqzJCYd
+ O74w/lsnMbtJztyaWJwcOmGh9NLj0ku8xflCRA2X+FA/E1y/pxpdChtQatb4033AKOYY
+ KdtpQNsbrnqucnJtqxOP/Bf13ZekJv0zzsEwGXrS8fWdP4LtuhxoGYmSey91x6fZDI7c
+ 3K8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=RcV4rLuNkbviju7dg+ADGg3WyxdJ+JoU/srtBet1GI8=;
- b=JPYpotvk/tKB3k4JpCmf4mCM3BwJ18uRne/ndHb7r33N3NRNRau+qDgiFXerGYCPEZ
- 0I/T/AHSTephtfVFTl7xtFYNb3pHVLOox6bEXZXitAO3KEFryftcqzt62HrvGRYwEYUV
- xCii+KFxo3lTBuU3Xm9xbq1wz5nG9ZUj1KMTlYqd0EdeqpNTannbuD3hGionhBtac76V
- 0mR5cUdf5voDCasovOS7TcThFLEHMzoLN3305N7r0lbIHPcWREx8IujwKPVCNuVbCWOy
- xIyuNhHOHs3QKLRPauCQgj9s/sH6mrPgrc2UbzL5Oo6jt96jHYWZ1rKreTxR7fgcCL7L
- 36tQ==
-X-Gm-Message-State: AOAM531Su0vdJUHF6nPhjJwZNQaAz5iTtkAQcajwMrX8YTU+6HmqCWL7
- ejtxEaMBQhkikAZwcr+Xqc8vBHax0QQ9tQ==
-X-Google-Smtp-Source: ABdhPJzRJiwsOKyaIpv2ytc2gtn4tlo4KaL8gv4a6+F60sJ9MT8BpscdY/OZLXFF2CPvqdS6HNjuIw==
-X-Received: by 2002:a17:90a:88f:: with SMTP id
- v15mr15753540pjc.150.1626453870651; 
- Fri, 16 Jul 2021 09:44:30 -0700 (PDT)
+ bh=dRFQz5gAi/aA80nNbVcSDOE9q3Ebd/7xPuH+q8KFD3k=;
+ b=q/oLdiwMj7kQo67w/ocI3astIMXvzDvg705mNKC+5M+Bd9lAPTIylrzWdc7gJ5TGUg
+ taH17vyJjkYsZrrYU8nFms5r82e0wBadBgj/P2LQITp9Gjeklb6RsbGE9dQmTUVMi9Qt
+ KWTLhhPZSsY/YheR1XrqFHFFdmbHhc3me/VuhG/baqXxo9KG9ujKgxQrfJS2ctt/sOW0
+ Xaqg1SIlhxG0tp5v/+aqbcX8jWJ9AlmSdTt1RjBAKRatoRE1GB3IxtBrMM6w/9MxHl60
+ N/nv/Kpv9M5Sq+sgjewHeE3+7KSyazpdmKXkXgHvNQDUuZM4rGRj4qUfDx1jqUwfIUcF
+ dUgQ==
+X-Gm-Message-State: AOAM533NkjsdEd0mOOBP/rzzbdONZo40SfugzYZ7wuqSkn1DdE/u19J9
+ kshEMndclqbBSYfseJ36Puy0I8NZ2R6H3w==
+X-Google-Smtp-Source: ABdhPJyUxQmH62TUGMkJ4ox7rqFwTwBzpZpY8f1ur3O+1tliaGPBSxHnBelCHQk9SImbPFOsm/aAFQ==
+X-Received: by 2002:a17:902:fe87:b029:12a:ef40:57a2 with SMTP id
+ x7-20020a170902fe87b029012aef4057a2mr8396971plm.81.1626454131486; 
+ Fri, 16 Jul 2021 09:48:51 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id z6sm12203969pjn.12.2021.07.16.09.44.30
+ by smtp.gmail.com with ESMTPSA id x10sm10888638pfr.150.2021.07.16.09.48.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 09:44:30 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 08/34] target/arm: Fix VPT advance when ECI is
- non-zero
+ Fri, 16 Jul 2021 09:48:51 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 09/34] target/arm: Factor out mve_eci_mask()
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
- <20210713133726.26842-9-peter.maydell@linaro.org>
+ <20210713133726.26842-10-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <02981d66-72d6-c233-1a51-94743ac29fa1@linaro.org>
-Date: Fri, 16 Jul 2021 09:44:28 -0700
+Message-ID: <c05e1d38-f356-a842-871b-38db054d4671@linaro.org>
+Date: Fri, 16 Jul 2021 09:48:49 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713133726.26842-9-peter.maydell@linaro.org>
+In-Reply-To: <20210713133726.26842-10-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,19 +93,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/13/21 6:37 AM, Peter Maydell wrote:
-> We were not paying attention to the ECI state when advancing the VPT
-> state.  Architecturally, VPT state advance happens for every beat
-> (see the pseudocode VPTAdvance()), so on every beat the 4 bits of
-> VPR.P0 corresponding to the current beat are inverted if required,
-> and at the end of beats 1 and 3 the VPR MASK fields are updated.
-> This means that if the ECI state says we should not be executing all
-> 4 beats then we need to skip some of the updating of the VPR that we
-> currently do in mve_advance_vpt().
+> In some situations we need a mask telling us which parts of the
+> vector correspond to beats that are not being executed because of
+> ECI, separately from the combined "which bytes are predicated away"
+> mask.  Factor this mask calculation out of mve_element_mask() into
+> its own function.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/mve_helper.c | 29 +++++++++++++++++++++++------
->   1 file changed, 23 insertions(+), 6 deletions(-)
+>   target/arm/mve_helper.c | 58 ++++++++++++++++++++++++-----------------
+>   1 file changed, 34 insertions(+), 24 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
