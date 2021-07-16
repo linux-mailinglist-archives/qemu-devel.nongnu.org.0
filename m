@@ -2,106 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C98233CB69F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 13:15:01 +0200 (CEST)
-Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA373CB697
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 13:12:46 +0200 (CEST)
+Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Lo4-0006Kg-Rv
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 07:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59796)
+	id 1m4Llt-0003Og-RG
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 07:12:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1m4Llk-0004Eb-R1; Fri, 16 Jul 2021 07:12:36 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7048
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1m4Llj-0006Wb-8G; Fri, 16 Jul 2021 07:12:36 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16GB47Uj156970; Fri, 16 Jul 2021 07:12:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TQBM6Mty+Yd/bz6Zyutfp5oXHRFiqPPFyZGkWV/2E3Y=;
- b=s/fKXdhUw0lyZxUQTW7z+KID8nxQVu6Gfi1dztk5YLz6Qid50rdnUuH/ixONkU2VyAyQ
- mVZITzBaXqesMle1FIMtz0SOWUmgZvm7Yk89XsbS+6JQ66jEzX5H0xkC6OROmQVu/oM7
- nEGuQwmipHv0fbhcvvThPWqkC3PmttO7ynuXFSP3f+kjAAGcHWXVBQijWjn1Mg1C7eLT
- tapamaahKF6qeQXHIi+bEgQcHWIS0D/3Iz+IrclsozuuPqI2OSNNwGT5RXH2ffB5PUre
- GOB+Nhqnbc3OV/j7O4bTcFlMvnhIfVYQdRJxbJfgNzlAACnJldDIZPTZMdkj74Xc6KY9 dQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39tw2rskn1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 07:12:33 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16GB487g157163;
- Fri, 16 Jul 2021 07:12:33 -0400
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39tw2rskmg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 07:12:33 -0400
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16GB9BHt023259;
- Fri, 16 Jul 2021 11:12:31 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06fra.de.ibm.com with ESMTP id 39q2th9egx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 11:12:31 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 16GBAGNj24772948
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Jul 2021 11:10:16 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0EC184C07A;
- Fri, 16 Jul 2021 11:12:28 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 711304C07E;
- Fri, 16 Jul 2021 11:12:27 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.164.173])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 16 Jul 2021 11:12:27 +0000 (GMT)
-Subject: Re: [PATCH v1 7/9] s390x: SCLP: reporting the maximum nested topology
- entries
-To: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org
-References: <1626281596-31061-1-git-send-email-pmorel@linux.ibm.com>
- <1626281596-31061-8-git-send-email-pmorel@linux.ibm.com>
- <87sg0ebogo.fsf@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <1ca7872b-7f0c-4c32-fc63-954b8c0cb12b@linux.ibm.com>
-Date: Fri, 16 Jul 2021 13:12:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1m4LiB-0006mD-V3
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:08:55 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:37234
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1m4Li9-0003yL-CS
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:08:55 -0400
+HMM_SOURCE_IP: 172.18.0.48:53240.814476691
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.38?logid-1296ba80555d44f48fdbc417a7cadc3f
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 5A56928008F;
+ Fri, 16 Jul 2021 19:08:39 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id 1296ba80555d44f48fdbc417a7cadc3f for
+ qemu-devel@nongnu.org; Fri Jul 16 19:08:48 2021
+X-Transaction-ID: 1296ba80555d44f48fdbc417a7cadc3f
+X-filter-score: 
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 0/2] support dirtyrate measurement with dirty bitmap 
+Date: Fri, 16 Jul 2021 19:13:45 +0800
+Message-Id: <cover.1626433753.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <87sg0ebogo.fsf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: Ch3j5aUCd6zz39oKgC8JkjOBAjlzCKbG
-X-Proofpoint-ORIG-GUID: PHykrrhy2nwYSxHbHcLy-zbXmugWeNXM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-16_04:2021-07-16,
- 2021-07-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- mlxscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2107160067
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,43 +62,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, ehabkost@redhat.com, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, pbonzini@redhat.com,
- eblake@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
+v6:
+- pre-check if dirty tracking for dirtyrate is running
+  before stating the dirty pages
 
-On 7/16/21 11:24 AM, Cornelia Huck wrote:
-> On Wed, Jul 14 2021, Pierre Morel <pmorel@linux.ibm.com> wrote:
-> 
->> The maximum nested topology entries is used by the guest to know
->> how many nested topology are available on the machine.
->>
->> As we now implemented drawers and books above sockets and core
->> we can set the maximum nested topology reported by SCLP to 4.
-> 
-> Does that work with tcg as well? (Have not yet really looked at the
-> patches above.)
+v5:
+- let recording dirty pages after memory_global_dirty_log_sync
+  make dirtyrate result more accurate
 
-I must make more tests on this.
+v4:
+- drop the first commit:
+  "KVM: introduce kvm_get_manual_dirty_log_protect"
 
-regards,
-Pierre
+- clear dirty log unconditionally so that the first commit
+  can be dropped.
 
-> 
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/sclp.c         | 1 +
->>   include/hw/s390x/sclp.h | 4 +++-
->>   target/s390x/kvm/kvm.c  | 1 -
->>   3 files changed, 4 insertions(+), 2 deletions(-)
-> 
+- rename global var DirtyRateDirtyPages to total_dirty_pages
+
+- stat the dirty pages along with the existing loop in
+  cpu_physical_memory_set_dirty_lebitmap
+
+- stat the increased dirty pages like the way of dirty-ring
+
+- add BQL when fetch dirty log and clear dirty log
+
+- do not clear dirty log after measuring.
+
+v4 implementation clear log unconditionally so that the
+kvm_get_manual_dirty_log_protect can be dropped and so do the
+first commit.
+
+other main modification is add the BQL when fetch and clear
+dirty log.
+
+last modification is do not clear dirty log after measuring.
+if dirty tracking be stopped after measuring, clear dirty
+log make no sense.if dirty tracking is running after mesauring,
+clear dirty log can be handled by the caller who is interested in it.
+
+v3:
+- do not touch cpu_physical_memory_sync_dirty_bitmap
+
+- rename global var DirtyRateIncreasedPages to DirtyRateDirtyPages
+
+- stat dirty pages in cpu_physical_memory_set_dirty_lebitmap, which
+  is on the execution path of memory_global_dirty_log_sync and can
+  be used for dirty rate measuring.
+
+the v3 implemention runs well, we could get accurate dirtyrate
+as v1 and simplify the implementation heavyly. it do not touch
+the any ram_list.dirty_memory[*], so do has no conflict with migraion
+at all.
+if migration is running at the same time with dirtyrate measuring,
+measuring may reset protection of pages after
+memory_global_dirty_log_sync before migration iteration, but it has
+no side affect because kvm_log_clear_one_slot can guarantee that
+same dirty_bmap in a slot shouldn't be cleared twice.
+
+v2:
+- drop the DIRTY_MEMORY_DIRTY_RATE dirty bits
+
+- reuse the DIRTY_MEMORY_MIGRATION dirty bits to stat the dirty
+  pages.
+
+- introduce global var DirtyRateIncreasedPages to stat the
+  increased dirty pages
+
+- simplify the logic of calculation. skip the 1'round of
+  log sync unconditionally
+
+changes of this version are based on Peter's advice,
+like the version 1, it is posted for the sake of RFC.
+ideally, this patshset may be merged after the commit:
+"migration/dirtyrate: implement dirty-ring dirtyrate calculation"
+
+v1:
+the dirtyrate measurement implemented by page-sampling originally, it
+is not accurate in some scenarios, so we have introduced dirty-ring
+based dirtyrate measurement(maybe it will be merged soon), it fix the
+accuracy of page-sampling, and more importantly, it is at the
+granualrity of vcpu.
+
+dirty-ring method can be used when dirty-ring enable, as supplementary,
+we introduce dirty-bitmap method to calculating dirtyrate when dirty log
+enable, so that we can also get the accurate dirtyrate if needed in the
+absence of dirty-ring.
+
+three things has done to implement the measurement:
+- introduce a fresh new dirty bits named DIRTY_MEMORY_DIRTY_RATE, which
+  is used to store dirty bitmap after fetching it from kvm. why we do
+  not reuse the existing DIRTY_MEMORY_MIGRATION dirty bits is we do not
+  want to interfere with migration of and let implementation clear, this
+  is also the reason why dirty_memory be split.
+
+  DIRTY_MEMORY_DIRTY_RATE dirty bits will be filled when
+  memory_global_dirty_log_sync executed if GLOBAL_DIRTY_DIRTY_RATE bit
+  be set in the global_dirty_tracking flag.
+
+- introduce kvm_get_manual_dirty_log_protect function so that we can
+  probe the protect caps of kvm when calculating.
+
+- implement dirtyrate measurement with dirty bitmap with following step:
+  1. start the dirty log.
+
+  2. probe the protect cap, if KVM_DIRTY_LOG_INITIALLY_SET enable, skip
+     skip the 1'R and do the reset page protection manually, since kvm
+     file bitmap with 1 bits if this cap is enabled.
+
+  3. clear the DIRTY_MEMORY_DIRTY_RATE dirty bits, prepare to store
+     the dirty bitmap.
+
+  4. start memory_global_dirty_log_sync and fetch dirty bitmap from kvm
+
+  5. reap the DIRTY_MEMORY_DIRTY_RATE dirty bits and do the calculation.
+
+this patchset rebases on the commit
+"migration/dirtyrate: implement dirty-ring dirtyrate calculation",
+since the above feature has not been merged, so we post this patch
+for the sake of RFC. ideally, this patshset may be merged after it.
+
+Please, review, thanks !
+
+Best Regards !
+
+Hyman Huang(黄勇) (2):
+  memory: introduce total_dirty_pages to stat dirty pages
+  migration/dirtyrate: implement dirty-bitmap dirtyrate calculation
+
+ hmp-commands.hx         |   9 ++--
+ include/exec/ram_addr.h |   9 ++++
+ migration/dirtyrate.c   | 122 ++++++++++++++++++++++++++++++++++++++++++++----
+ qapi/migration.json     |   6 ++-
+ 4 files changed, 131 insertions(+), 15 deletions(-)
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+1.8.3.1
+
 
