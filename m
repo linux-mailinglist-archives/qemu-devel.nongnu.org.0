@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 109BD3CB3BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:06:31 +0200 (CEST)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A6C83CB3BC
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:06:32 +0200 (CEST)
+Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Ire-0001Mo-2p
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55960)
+	id 1m4Irf-0001P0-7h
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:06:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpN-00076U-E3
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:09 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:47030)
+ id 1m4IpO-00078M-Ft
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:10 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpL-0005Go-Km
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:09 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d12so10979325wre.13
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:06 -0700 (PDT)
+ id 1m4IpM-0005IA-KQ
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:10 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ l17-20020a05600c1d11b029021f84fcaf75so7627194wms.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nU45jMNyuf8/ZCCvoanDW2KLc19UpaqvYAJZ/NIec4o=;
- b=IBzGH34dDlT+M8kr8hhR6GA7qAZHbn9suByfFAfKAQgxDhd811+8GqVSnOJkLKh844
- GwOd4LaXwnGympuOvKzmTte9CGhPrKu4fHGGzAkKLOl0NfNEbx+7TNdAVtfotZDRrN4W
- fX3uhdT15xynSdqOvffCnDRkcF8TIC5rDEzujZ+vUMot9xa6dwaUhmQ30+DMVWF0LK1A
- EPop0gSGyXFjJk93I3J7dsZLmftMudzEwblbvoku//MgrOADhDf6B4l87uii2PbN5eAO
- YU0HQl8p5GrzujXgY41z1ZONmojLuHHjdQKUVrHqA3WZFycaTsauxukOlgSM0RA9E4ph
- tqVg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/ZfUY8t6QSU0kfRmcUlho99+o9wSl9O3sA2ot3i6FlQ=;
+ b=Aae4PyAsdbABL7pcXNVqHYnwexdU3XdXGPQCEinbnt43qczlj6eRHr8R58VtpJ39pn
+ diLJc4WHN1m404ch/9Uej/qe6AJUgKa4ELbFC53VMRB/VPsl4suHdnMTSh7H8wuakaoh
+ uGZ/VWojO5UsIDRQc5dCMsWciKzt0gX+kBp/t0Nu7RefDP9EmOuEPbJ6q7cFzxY+NrpU
+ cu+MWilhmB7WAipwdAUpocOw3+5lFrGuIfgcH2fG4q57xCScUoH4pno8R0R+kbE467GF
+ f4cAFluIiOV88JMdUmDtenEYXd9m+V0pfV1ydEbt1s82gKJsQhETdZd0+lGi8GUOpEtP
+ Inyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nU45jMNyuf8/ZCCvoanDW2KLc19UpaqvYAJZ/NIec4o=;
- b=L6/2RDwltgfNFvvb3dhjHl9xJUoN1IMepWDq2YyVrY7LiZnioQI1k+AuW2nVllvFNl
- j7/l9t5sFwBNwlmmVlyyUz89kRDAudzDvhaifaUN4hXaSpbz8OSOSzT09KlVj5FC2r3H
- N9bPWC/cB5MjyE3meDvDF0+ZaSv2Qy/1TqiANZrj5653ccrJq1uYt1Euefr4GwgQIEok
- TkS0wGtFeDKASueoo/aHxbxMMD097UHzlvzpqYvPIgTKV441Pc4NtYeWWIJ7HniYXls6
- wLj8j9OxTybF5vqqGTyNnzU/wVycEGQVo+zdxFif1CPtrFVkB8k9/cHdt1KguT5QtGti
- 7oaw==
-X-Gm-Message-State: AOAM530WeXitfseJRLuJYRn+B9E62tUfy8cY9nYibS9xqaAsb0625X18
- DgTDO/1e3t7jaaYUMa6fSYWhJLANUWRoLA==
-X-Google-Smtp-Source: ABdhPJwn7TqcyUmjf0Sp/Dr+BCqVgf1FU6yR3its7W+2qGjaUbUr8u6XV3hPKB0rH/HlpBsq0/Xl5A==
-X-Received: by 2002:adf:c448:: with SMTP id a8mr10643888wrg.103.1626422645559; 
- Fri, 16 Jul 2021 01:04:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/ZfUY8t6QSU0kfRmcUlho99+o9wSl9O3sA2ot3i6FlQ=;
+ b=ei+JIu7rUoOR5DJ41b3tB8X7d8Pme0gxR7OpvUWUkihAhws0nB/G9PEvwDfhxZ+6x1
+ YY/59NBXNf0v5UxVpIppaQNcdYot148UEWYVv/LfAJSMV18eh/ir7lqW0Zx1b2WdvTS6
+ 2RDuznvhfMxyarHDrp7VNh2yHBuPJoRCgL+UiNuMv54nMPPusE8mMt2Y7vc3oMyzU/w6
+ n8eQCew0jnPAunMvBE4GuhP+3bslHSI6xfnKWP1m25JnKMMQHB1Mzl/Zc6rIiSA3XGGq
+ e8dQAFrOXw69sKxy8mk6lIylubwK0RgPDN56NnJICpzB55dTz50YtdKDg7LZRvdGEL4P
+ 5zVA==
+X-Gm-Message-State: AOAM5311m1ilq96b2TzpJ/+k/cirQloSCOggdyADdjnoeEeFcB50IxXt
+ fIHsg6WWOtZosFAPdnWveTgQ2qU0gQ5Oqw==
+X-Google-Smtp-Source: ABdhPJzz3NNVhMoDuky/yBC274InUneCQ9umR696QYH7ILpOe6JLKn/pqG3m7Yppgk+z+EuvBngAww==
+X-Received: by 2002:a05:600c:190a:: with SMTP id
+ j10mr14788634wmq.109.1626422647059; 
+ Fri, 16 Jul 2021 01:04:07 -0700 (PDT)
 Received: from localhost.localdomain ([41.34.125.69])
- by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.04
+ by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 01:04:04 -0700 (PDT)
+ Fri, 16 Jul 2021 01:04:06 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/9] new plugin argument passing scheme
-Date: Fri, 16 Jul 2021 10:03:36 +0200
-Message-Id: <20210716080345.136784-1-ma.mandourr@gmail.com>
+Subject: [PATCH 1/9] plugins: allow plugin arguments to be passed directly
+Date: Fri, 16 Jul 2021 10:03:37 +0200
+Message-Id: <20210716080345.136784-2-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210716080345.136784-1-ma.mandourr@gmail.com>
+References: <20210716080345.136784-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,71 +84,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Passing arguments to plugins had to be done through "arg=<argname>".
+This is redundant and introduces confusion especially when the argument
+has a name and value (e.g. `-plugin plugin_name,arg="argname=argvalue"`).
 
-This series removes passing arguments to plugins through "arg=" since
-it's redundant and reduces readability especially when the argument
-itself is composed of a name and a value.
+This allows passing plugin arguments directly e.g:
 
-Also, passing arguments through "arg=" still works but is marked as
-deprecated and will produce a deprecation warning.
+    `-plugin plugin_name,argname=argvalue`
 
-Right now, the code for parsing the argument before passing it to the
-plugin is unfortunately not so clean but that's mainly because "arg=" is
-still supported.
+For now, passing arguments through "arg=" is still supports but outputs
+a deprecation warning.
 
-At first, considering boolean parameters, those were not special to
-plugins and QEMU did not complain about passing them in the form
-"arg=bool_arg" even though that's considered a short-form boolean, which
-is deprecated. As "arg" is removed, a deprecation warning is issued.
+Also, this commit makes boolean arguments passed to plugins in the
+`argname=on|off` form instead of the deprecated short-boolean form.
 
-This is mitigated by making plugins aware of boolean arguments and
-parses them through a newly exposed API, namely the `qapi_bool_parse`
-function through a plugin API function. Now plugins expect boolean
-parameters to be passed in the form that other parts of QEMU expect,
-i.e. "bool_arg=[on|true|yes|off|false|no]".
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+---
+ linux-user/main.c |  2 +-
+ plugins/loader.c  | 24 ++++++++++++++++++++----
+ qemu-options.hx   |  9 ++++-----
+ 3 files changed, 25 insertions(+), 10 deletions(-)
 
-Since we're still supporting "arg=arg_name", there are some assumptions
-that I made that I think are suitable:
-
-    1. "arg=arg_name" will be passed to the plugin as "arg_name=on".
-    2. "arg=on" and "arg" will not be assumed to be the old way of
-        passing args. Instead, it will assume that the argument name is
-        "arg" and it's a boolean parameter. (will be passed to plugin
-        as "arg=on")
-
-The docs are updated accordingly and a deprecation notice is put in the
-deprecated.rst file.
-
-Mahmoud Mandour (9):
-  plugins: allow plugin arguments to be passed directly
-  plugins/api: added a boolean parsing plugin api
-  plugins/hotpages: introduce sortby arg and parsed bool args correctly
-  plugins/hotblocks: Added correct boolean argument parsing
-  plugins/lockstep: make socket path not positional & parse bool arg
-  plugins/hwprofile: adapt to the new plugin arguments scheme
-  plugins/howvec: Adapting to the new argument passing scheme.
-  docs/tcg-plugins: new passing parameters scheme for cache docs
-  docs/deprecated: deprecate passing plugin args through `arg=`
-
- contrib/plugins/hotblocks.c | 14 +++++++++++--
- contrib/plugins/hotpages.c  | 30 ++++++++++++++++++----------
- contrib/plugins/howvec.c    | 24 +++++++++++++++--------
- contrib/plugins/hwprofile.c | 39 +++++++++++++++++++++++++------------
- contrib/plugins/lockstep.c  | 31 ++++++++++++++++++++---------
- docs/devel/tcg-plugins.rst  | 38 ++++++++++++++++++------------------
- docs/system/deprecated.rst  |  6 ++++++
- include/qemu/qemu-plugin.h  | 13 +++++++++++++
- linux-user/main.c           |  2 +-
- plugins/api.c               |  5 +++++
- plugins/loader.c            | 24 +++++++++++++++++++----
- qemu-options.hx             |  9 ++++-----
- 12 files changed, 165 insertions(+), 70 deletions(-)
-
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 4dfc47ad3b..d47f78132c 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -462,7 +462,7 @@ static const struct qemu_argument arg_table[] = {
+      "",           "[[enable=]<pattern>][,events=<file>][,file=<file>]"},
+ #ifdef CONFIG_PLUGIN
+     {"plugin",     "QEMU_PLUGIN",      true,  handle_arg_plugin,
+-     "",           "[file=]<file>[,arg=<string>]"},
++     "",           "[file=]<file>[,<argname>=<argvalue>]"},
+ #endif
+     {"version",    "QEMU_VERSION",     false, handle_arg_version,
+      "",           "display version information and exit"},
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 05df40398d..a4ec281692 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -94,6 +94,8 @@ static int plugin_add(void *opaque, const char *name, const char *value,
+ {
+     struct qemu_plugin_parse_arg *arg = opaque;
+     struct qemu_plugin_desc *p;
++    bool is_on;
++    char *fullarg;
+ 
+     if (strcmp(name, "file") == 0) {
+         if (strcmp(value, "") == 0) {
+@@ -107,18 +109,32 @@ static int plugin_add(void *opaque, const char *name, const char *value,
+             QTAILQ_INSERT_TAIL(arg->head, p, entry);
+         }
+         arg->curr = p;
+-    } else if (strcmp(name, "arg") == 0) {
++    } else {
+         if (arg->curr == NULL) {
+             error_setg(errp, "missing earlier '-plugin file=' option");
+             return 1;
+         }
++
++        if (g_strcmp0(name, "arg") == 0 &&
++                !qapi_bool_parse(name, value, &is_on, NULL)) {
++            if (strchr(value, '=') == NULL) {
++                /* Will treat arg="argname" as "argname=on" */
++                fullarg = g_strdup_printf("%s=%s", value, "on");
++            } else {
++                fullarg = g_strdup_printf("%s", value);
++            }
++            warn_report("using 'arg=%s' is deprecated", value);
++            error_printf("Please use '%s' directly\n", fullarg);
++        } else {
++            fullarg = g_strdup_printf("%s=%s", name, value);
++        }
++
+         p = arg->curr;
+         p->argc++;
+         p->argv = g_realloc_n(p->argv, p->argc, sizeof(char *));
+-        p->argv[p->argc - 1] = g_strdup(value);
+-    } else {
+-        error_setg(errp, "-plugin: unexpected parameter '%s'; ignored", name);
++        p->argv[p->argc - 1] = fullarg;
+     }
++
+     return 0;
+ }
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 14258784b3..36b6cb9a2f 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4459,19 +4459,18 @@ SRST
+ 
+ ERST
+ DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
+-    "-plugin [file=]<file>[,arg=<string>]\n"
++    "-plugin [file=]<file>[,<argname>=<argvalue>]\n"
+     "                load a plugin\n",
+     QEMU_ARCH_ALL)
+ SRST
+-``-plugin file=file[,arg=string]``
++``-plugin file=file[,argname=argvalue]``
+     Load a plugin.
+ 
+     ``file=file``
+         Load the given plugin from a shared library file.
+ 
+-    ``arg=string``
+-        Argument string passed to the plugin. (Can be given multiple
+-        times.)
++    ``argname=argvalue``
++        Argument passed to the plugin. (Can be given multiple times.)
+ ERST
+ 
+ HXCOMM Internal use
 -- 
 2.25.1
 
