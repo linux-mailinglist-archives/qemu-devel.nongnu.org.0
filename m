@@ -2,67 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FA33CBD8A
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 22:11:48 +0200 (CEST)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 483583CBD7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 22:07:50 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4UBX-0008TY-JF
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 16:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
+	id 1m4U7g-0006mX-Mx
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 16:07:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m4UAZ-0007oK-7p
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 16:10:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54476)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1m4U6a-0005Ys-T1
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 16:06:40 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m4UAW-000424-D7
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 16:10:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m4UAT-0002Gx-BP
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 20:10:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4C67B2E802B
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 20:10:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1m4U6Y-0001Ur-Qq
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 16:06:40 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ o17-20020a9d76510000b02903eabfc221a9so11169975otl.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 13:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7P5VX10EkMU/JI73pcEJJYufI/jsYWRS3LUBHd4nymU=;
+ b=DL8yOx90XQnpJRZ1o2dbOfdaMHlXUTNgE3dbVj3WQH4jAVja1sikpRkY+lRhIWkzLu
+ gndhZGK1yvnpjBysf+wYoozAcmRrMv8mYtW5A/dODGgR80qRDQu4D7qIfbyRBkROZwIh
+ Hm02W+JwGF1LnU5WUsUEX/Wnv67C9sxqsCmW73KUFA4hH+j5pQ4iBGQoK6h0QkqK6iJ8
+ NdH+aLpMt9/uq1wzxof/oqm4SpQIKDrvAx78EuUPmP2NFx+r/CACvAB/ms6XX+kkzmJd
+ FL/LTC2x7PDhanbm+D6hSSedHR2cd4vW5w+bUj9KKYzAsJ/pixES1Ugs+7xx3kKjDktm
+ a0iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7P5VX10EkMU/JI73pcEJJYufI/jsYWRS3LUBHd4nymU=;
+ b=WWPv2IhS6R10JpYCVoRqoFUY3lQNqs0+tsPKesVLQ2t6OZnIJ6gfERBNI4ygY4MKyk
+ /njwgQLZYEX10yJGRQpmNjzUuyTcbnN6gGEivWb3WzMZ4PJQBAUGwtCfa5gsSYAApJ4l
+ RY5AL28aevZbqDApWcusYp0HVabEMxRlVZ89FORnIadpgFhoMTJBhwHQeaWBZLW7Sjmm
+ 3gm//P1HaRlmaCxUFsxFWsT5YSiXSj6VTBNDLq0Kf/lIlyPa4Ghjd3A/rXWDok0m4Ppj
+ KELwtsX5jb0BG2vuzLCkJmgcfa7SyMcKyPH5v4WP0HbNwRpjxMQQLDPMoNR9d0QxQPSr
+ jX+A==
+X-Gm-Message-State: AOAM5317tLeqJa8hD90gME7zE2wzTmK0OxGiHi3UcpBa1rUaT2n2PBAt
+ rYoF65MzlIPdz0dWNfP2kZpGWx9nms3YlqpTDKE=
+X-Google-Smtp-Source: ABdhPJzWPueOhaEN7wTCztlvRItClZaTeU6Kb/A+sdp1v5kdEfOjTnjYsnbTbLGv/YmBTa2FNClC4f6LK5E+JkxawV8=
+X-Received: by 2002:a9d:3e06:: with SMTP id a6mr9443463otd.50.1626465997330;
+ Fri, 16 Jul 2021 13:06:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Jul 2021 20:00:55 -0000
-From: Thomas Huth <1889621@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd pmaydell th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159611622900.2711.11274153830927420832.malonedeb@gac.canonical.com>
-Message-Id: <162646565547.11581.13312285259448779774.malone@gac.canonical.com>
-Subject: [Bug 1889621] Re: ARM Highbank Crashes Realted to GIC
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: 7e6698d6dabe73d9789961dd08f270cbaf8d7b07
-Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CAK7rcp_5vmoL1xFr6rVUzbyb2LyxyndOrxKMsyvgkqq_EX=hOg@mail.gmail.com>
+ <CAFEAcA_jBPwqHCyCAq6yJPfHtwV-h2xdNARX=GTe6gn1Cao97Q@mail.gmail.com>
+ <CAK7rcp99ZiRw1zVMAGAO6t=yaDuZyNPwToRd1x34JzEvNHtj2w@mail.gmail.com>
+ <CAFEAcA8dcouHz=UnDyksZ17fsGom4r=ciHu7oX-f3gDjnCX54Q@mail.gmail.com>
+ <CAK7rcp_S5Z5M3bDum3f_ppequ47PaYHs0Gp=LST5jnF_VsCkuA@mail.gmail.com>
+ <CAK7rcp9uNpQcFepqMugg6qv2LWMY5O=TPBDp7uKAUs0whjmrbQ@mail.gmail.com>
+ <CAFEAcA8rGR9=f9Nt+Z0FeFR_m77OvC4SrmJ91+fU5NjR4ATcKg@mail.gmail.com>
+ <CAK7rcp-dc7d=4M6STfuWV9=pFTmO_0ST1Cd=7mLBmnxLsp-+NQ@mail.gmail.com>
+ <CAFEAcA-riRg8A1mosMHjnD=tKAA_PMe2VGcinBO=YViDqJc7qQ@mail.gmail.com>
+ <CAK7rcp952ROfhNk124p0KiwdTifz+J2ibtE_qGuKRnc+wHzC0Q@mail.gmail.com>
+In-Reply-To: <CAK7rcp952ROfhNk124p0KiwdTifz+J2ibtE_qGuKRnc+wHzC0Q@mail.gmail.com>
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Fri, 16 Jul 2021 15:06:25 -0500
+Message-ID: <CAK7rcp8BowAWjbfkK8SAUB+WTqXxroXuzsac7BtmPLJRUJkD2A@mail.gmail.com>
+Subject: Re: QEMU System and User targets
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000029b6505c743206e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-ot1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,188 +86,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1889621 <1889621@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, thanks, then let's close this (and open new tickets on gitlab if it
-happens again)
+--000000000000029b6505c743206e
+Content-Type: text/plain; charset="UTF-8"
 
-** Changed in: qemu
-       Status: Incomplete =3D> Fix Released
+After checking around, I don't see any <target>_user_ss in any target
+directory. And I only see *_user_ss in the linux-user subdirectory. Were
+you talking about that meson.build in linux-user?
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1889621
+On Fri, Jul 16, 2021 at 1:20 PM Kenneth Adam Miller <
+kennethadammiller@gmail.com> wrote:
 
-Title:
-  ARM Highbank Crashes Realted to GIC
+> Right, that's what I was thinking, that I shouldn't be building that for
+> the system target. That's why I started out with the question that I did,
+> because I was thinking that it probably hard codes it to user emulation.
+> Currently though, understanding qemu internals is not so clear to me as I'm
+> just becoming familiar with the code base.
+>
+> On Fri, Jul 16, 2021 at 1:05 PM Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+>
+>> On Fri, 16 Jul 2021 at 18:50, Kenneth Adam Miller
+>> <kennethadammiller@gmail.com> wrote:
+>> > There's a lot of files and I don't want to muddy up the discussion with
+>> too many details.
+>>
+>> If you don't provide details, you get vague answers. Your choice :-)
+>>
+>> > And for sure, this is not a problem with the upstream qemu. I'm working
+>> on adding a target, and this is just what I'm experiencing. As for my
+>> target, it has includes that correspond to finds within sub-directories of
+>> qemu components, and I just mean that the include directives are only the
+>> file name (no path prefix), but such file can be found only in folders
+>> other than the include directory. One example is qemu.h; it is in
+>> linux-user. You can get the compilation to find exactly just that file, but
+>> it includes other files, and it isn't reasonable to edit anything outside
+>> of my own architecture implementation. I'm wondering if perhaps anything
+>> that makes an include to linux-user would need to be moved into the user
+>> target source set, because currently it is in the shared.
+>>
+>> The broad-strokes answer is "your code in target/whatever should generally
+>> not be including files that are neither in include/ nor in
+>> target/whatever".
+>> If you find yourself doing that you've probably structured something wrong
+>> (otherwise other targets would also have run into this).
+>>
+>> For linux-user/qemu.h in particular, the top level meson.build does
+>> add linux-user/ to the include path, but only for when it is building
+>> files for the linux-user targets. (It makes no sense to include that
+>> header
+>> file into code built for system emulation.)
+>>
+>> Of the 4 targets that #include "qemu.h" in target/whatever code, 3 of them
+>> (m68k, nios2, arm) do it only for their semihosting .c file, and there
+>> the #include "qemu.h" is inside an #ifdef CONFIG_USER_ONLY. (Semihosting
+>> is a bit of an odd thing which works differently for usermode and
+>> system emulation mode, which is why it needs this linux-user header.)
+>> The 4th is hexagon, and that is a bug in the hexagon code which is only
+>> going unnoticed because hexagon currently supports only the linux-user
+>> target and not system emulation.
+>>
+>> thanks
+>> -- PMM
+>>
+>
 
-Status in QEMU:
-  Fix Released
+--000000000000029b6505c743206e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Bug description:
-  Hello,
-  Here are some QTest reproducers for crashes on ARM Highbank that all seem=
- to be related to the gic device.
+<div dir=3D"ltr">After checking around, I don&#39;t see any &lt;target&gt;_=
+user_ss in any target directory. And I only see *_user_ss in the linux-user=
+ subdirectory. Were you talking about that meson.build in linux-user?</div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri=
+, Jul 16, 2021 at 1:20 PM Kenneth Adam Miller &lt;<a href=3D"mailto:kenneth=
+adammiller@gmail.com">kennethadammiller@gmail.com</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Right, th=
+at&#39;s what I was thinking, that I shouldn&#39;t be building that for the=
+ system target. That&#39;s why I started out with the question that I did, =
+because I was thinking that it probably hard codes it to user emulation. Cu=
+rrently though, understanding qemu internals is not so clear to me as I&#39=
+;m just becoming familiar with the code base.</div><br><div class=3D"gmail_=
+quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 16, 2021 at 1:05 P=
+M Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_=
+blank">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Fri, 16 Jul 2021 at 18:50, Kenneth Adam=
+ Miller<br>
+&lt;<a href=3D"mailto:kennethadammiller@gmail.com" target=3D"_blank">kennet=
+hadammiller@gmail.com</a>&gt; wrote:<br>
+&gt; There&#39;s a lot of files and I don&#39;t want to muddy up the discus=
+sion with too many details.<br>
+<br>
+If you don&#39;t provide details, you get vague answers. Your choice :-)<br=
+>
+<br>
+&gt; And for sure, this is not a problem with the upstream qemu. I&#39;m wo=
+rking on adding a target, and this is just what I&#39;m experiencing. As fo=
+r my target, it has includes that correspond to finds within sub-directorie=
+s of qemu components, and I just mean that the include directives are only =
+the file name (no path prefix), but such file can be found only in folders =
+other than the include directory. One example is qemu.h; it is in linux-use=
+r. You can get the compilation to find exactly just that file, but it inclu=
+des other files, and it isn&#39;t reasonable to edit anything outside of my=
+ own architecture implementation. I&#39;m wondering if perhaps anything tha=
+t makes an include to linux-user would need to be moved into the user targe=
+t source set, because currently it is in the shared.<br>
+<br>
+The broad-strokes answer is &quot;your code in target/whatever should gener=
+ally<br>
+not be including files that are neither in include/ nor in target/whatever&=
+quot;.<br>
+If you find yourself doing that you&#39;ve probably structured something wr=
+ong<br>
+(otherwise other targets would also have run into this).<br>
+<br>
+For linux-user/qemu.h in particular, the top level meson.build does<br>
+add linux-user/ to the include path, but only for when it is building<br>
+files for the linux-user targets. (It makes no sense to include that header=
+<br>
+file into code built for system emulation.)<br>
+<br>
+Of the 4 targets that #include &quot;qemu.h&quot; in target/whatever code, =
+3 of them<br>
+(m68k, nios2, arm) do it only for their semihosting .c file, and there<br>
+the #include &quot;qemu.h&quot; is inside an #ifdef CONFIG_USER_ONLY. (Semi=
+hosting<br>
+is a bit of an odd thing which works differently for usermode and<br>
+system emulation mode, which is why it needs this linux-user header.)<br>
+The 4th is hexagon, and that is a bug in the hexagon code which is only<br>
+going unnoticed because hexagon currently supports only the linux-user<br>
+target and not system emulation.<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div>
+</blockquote></div>
 
-  Reproducer 1:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writel 0xfff11f00 0x8405f559
-  writel 0xfff117fd 0x5c057bd8
-  EOF
-
-  =3D=3D10595=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x62b00=
-0013e01 (pc 0x55b6ab85cc91 bp 0x7fff60bd4d70 sp 0x7fff60bd4ce0 T0)
-  =3D=3D10595=3D=3DThe signal is caused by a READ memory access.
-      #0 0x55b6ab85cc91 in gic_get_current_cpu /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:60:12
-      #1 0x55b6ab85e1bd in gic_dist_writeb /home/alxndr/Development/qemu/ge=
-neral-fuzz/hw/intc/arm_gic.c:1182:11
-      #2 0x55b6ab855a97 in gic_dist_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/hw/intc/arm_gic.c:1514:9
-      #3 0x55b6aa1650d4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
-      #4 0x55b6aa163ac6 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #5 0x55b6aa161f35 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1473:13
-      #6 0x55b6a9313949 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #7 0x55b6a92fca11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #8 0x55b6a92fc54e in address_space_write /home/alxndr/Development/qem=
-u/general-fuzz/exec.c:3308:18
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  Reproducer 2:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writeq 0xfff11f00 0x613a650f0fda6555
-  EOF
-
-  =3D=3D1375=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address =
-0x608000001c80 at pc 0x5618928c486e bp 0x7ffe22c4ee10 sp 0x7ffe22c4ee08
-  READ of size 8 at 0x608000001c80 thread T0
-      #0 0x5618928c486d in address_space_translate_iommu /home/alxndr/Devel=
-opment/qemu/general-fuzz/exec.c:451:23
-      #1 0x561892850acc in flatview_do_translate /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:524:16
-      #2 0x5618928514ad in flatview_translate /home/alxndr/Development/qemu=
-/general-fuzz/exec.c:584:15
-      #3 0x5618928b1e14 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3199:14
-      #4 0x56189289aa11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #5 0x56189289a54e in address_space_write /home/alxndr/Development/qem=
-u/general-fuzz/exec.c:3308:18
-      #6 0x5618937a5e13 in qtest_process_command /home/alxndr/Development/q=
-emu/general-fuzz/softmmu/qtest.c:452:13
-      #7 0x56189379d89f in qtest_process_inbuf /home/alxndr/Development/qem=
-u/general-fuzz/softmmu/qtest.c:710:9
-      #8 0x56189379c680 in qtest_read /home/alxndr/Development/qemu/general=
--fuzz/softmmu/qtest.c:722:5
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  Reproducer 3:
-  cat << EOF | ./arm-softmmu/qemu-system-arm -machine highbank \
-  -nographic -monitor none -serial none -qtest stdio
-  writeq 0xfff11000 0x700000b
-  writeq 0xfff11f00 0x4f4f4fff54a7afaf
-  writel 0xfff10100 0x600001ff
-  EOF
-
-  =3D=3D23743=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on address=
- 0x62b000006a92 at pc 0x55d690d980e1 bp 0x7ffe606082d0 sp 0x7ffe606082c8
-  READ of size 1 at 0x62b000006a92 thread T0
-      #0 0x55d690d980e0 in gic_get_best_irq /home/alxndr/Development/qemu/g=
-eneral-fuzz/hw/intc/arm_gic.c:94:13
-      #1 0x55d690d9485b in gic_update_internal /home/alxndr/Development/qem=
-u/general-fuzz/hw/intc/arm_gic.c:185:13
-      #2 0x55d690d90376 in gic_update /home/alxndr/Development/qemu/general=
--fuzz/hw/intc/arm_gic.c:226:5
-      #3 0x55d690dc0879 in gic_cpu_write /home/alxndr/Development/qemu/gene=
-ral-fuzz/hw/intc/arm_gic.c:1758:9
-      #4 0x55d690da41c0 in gic_thiscpu_write /home/alxndr/Development/qemu/=
-general-fuzz/hw/intc/arm_gic.c:1777:12
-      #5 0x55d68f6b30d4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/general-fuzz/softmmu/memory.c:503:12
-      #6 0x55d68f6b1ac6 in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/general-fuzz/softmmu/memory.c:544:18
-      #7 0x55d68f6aff35 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/general-fuzz/softmmu/memory.c:1473:13
-      #8 0x55d68e861949 in flatview_write_continue /home/alxndr/Development=
-/qemu/general-fuzz/exec.c:3176:23
-      #9 0x55d68e84aa11 in flatview_write /home/alxndr/Development/qemu/gen=
-eral-fuzz/exec.c:3216:14
-      #10 0x55d68e84a54e in address_space_write /home/alxndr/Development/qe=
-mu/general-fuzz/exec.c:3308:18
-      #11 0x55d68f755537 in qtest_process_command /home/alxndr/Development/=
-qemu/general-fuzz/softmmu/qtest.c:447:13
-      #12 0x55d68f74d89f in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/general-fuzz/softmmu/qtest.c:710:9
-      #13 0x55d68f74c680 in qtest_read /home/alxndr/Development/qemu/genera=
-l-fuzz/softmmu/qtest.c:722:5
-      #14 0x55d692dddc36 in qemu_chr_be_write_impl /home/alxndr/Development=
-/qemu/general-fuzz/chardev/char.c:188:9
-      #15 0x55d692dddd79 in qemu_chr_be_write /home/alxndr/Development/qemu=
-/general-fuzz/chardev/char.c:200:9
-      #16 0x55d692df105e in fd_chr_read /home/alxndr/Development/qemu/gener=
-al-fuzz/chardev/char-fd.c:68:9
-      #17 0x55d692f395df in qio_channel_fd_source_dispatch /home/alxndr/Dev=
-elopment/qemu/general-fuzz/io/channel-watch.c:84:12
-      #18 0x7f69a1b50897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e897)
-      #19 0x55d6932f5c83 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/general-fuzz/util/main-loop.c:217:9
-      #20 0x55d6932f35b6 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/general-fuzz/util/main-loop.c:240:5
-      #21 0x55d6932f2f97 in main_loop_wait /home/alxndr/Development/qemu/ge=
-neral-fuzz/util/main-loop.c:516:11
-      #22 0x55d68f76c62d in qemu_main_loop /home/alxndr/Development/qemu/ge=
-neral-fuzz/softmmu/vl.c:1676:9
-      #23 0x55d692f6f20c in main /home/alxndr/Development/qemu/general-fuzz=
-/softmmu/main.c:49:5
-      #24 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #25 0x55d68e753459 in _start (/home/alxndr/Development/qemu/general-f=
-uzz/build/arm-softmmu/qemu-system-arm+0x3254459)
-
-  0x62b000006a92 is located 2 bytes to the right of 26768-byte region [0x62=
-b000000200,0x62b000006a90)
-  allocated by thread T0 here:
-      #0 0x55d68e7cbe4d in malloc (/home/alxndr/Development/qemu/general-fu=
-zz/build/arm-softmmu/qemu-system-arm+0x32cce4d)
-      #1 0x7f69a1b56500 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x54500)
-      #2 0x55d69254f231 in object_new /home/alxndr/Development/qemu/general=
--fuzz/qom/object.c:708:12
-      #3 0x55d69034bf01 in qdev_new /home/alxndr/Development/qemu/general-f=
-uzz/hw/core/qdev.c:136:12
-      #4 0x55d68f2b7aa4 in calxeda_init /home/alxndr/Development/qemu/gener=
-al-fuzz/hw/arm/highbank.c:319:15
-      #5 0x55d68f2b6466 in highbank_init /home/alxndr/Development/qemu/gene=
-ral-fuzz/hw/arm/highbank.c:411:5
-      #6 0x55d6903d43f1 in machine_run_board_init /home/alxndr/Development/=
-qemu/general-fuzz/hw/core/machine.c:1134:5
-      #7 0x55d68f77e0ee in qemu_init /home/alxndr/Development/qemu/general-=
-fuzz/softmmu/vl.c:4356:5
-      #8 0x55d692f6f207 in main /home/alxndr/Development/qemu/general-fuzz/=
-softmmu/main.c:48:5
-      #9 0x7f69a06d6e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.30=
-/csu/../csu/libc-start.c:308:16
-
- =20
-  Let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1889621/+subscriptions
-
+--000000000000029b6505c743206e--
 
