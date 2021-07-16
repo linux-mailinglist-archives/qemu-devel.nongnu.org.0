@@ -2,108 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3D33CB6BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 13:29:51 +0200 (CEST)
-Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27F13CB6C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 13:34:19 +0200 (CEST)
+Received: from localhost ([::1]:36752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4M2Q-0001NE-EM
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 07:29:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34180)
+	id 1m4M6k-0006cr-Ko
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 07:34:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1m4M1S-0000ht-4V
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:28:50 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35318
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m4M52-0004VV-JL; Fri, 16 Jul 2021 07:32:32 -0400
+Received: from mail-eopbgr140119.outbound.protection.outlook.com
+ ([40.107.14.119]:42382 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1m4M1P-0000R0-Ol
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:28:49 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16GB45WN156862; Fri, 16 Jul 2021 07:28:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=liTeCBXbVX5FjOjqvO9qeOG6JGWsnoqHYZah7NWnwbw=;
- b=mmD2uTmtVhDH8Hvsy1VoO9gXO0MtBwVCiGf9J8VdlniD1qkwj2WOypXP9z5ZGACpRhVy
- RZWVN78S2MN8tmJccyRAG1Q+00dMlFhPvzWq+sCiyoTJkT1L/COSxOockFn+50BE29Qj
- myJ5bjj0MD2JURx+3rCwYe1gQTu/Y6QhViZ1m4QNhzm0srdDaqXkP5bsKJxZrvw2ZJhO
- f4hA1ih3hEkEdVpWIfE/3h6WSo4z4zXuGGucsAQsNjNQt/NIQsUxcfTVDKLcVU7iStrQ
- vdmXkQTyiRvdkydGie62vfZZ3K8mbXRTNjFK/ajitIR4qtTaYZ+KBtuWKzYmeictHbpD ZA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39tw2rsyrp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 07:28:31 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16GB4HqD158098;
- Fri, 16 Jul 2021 07:28:30 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39tw2rsypt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 07:28:30 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16GBSRrK029531;
- Fri, 16 Jul 2021 11:28:27 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 39s3p78v36-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 11:28:27 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 16GBQAFC16056710
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Jul 2021 11:26:10 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B66C9A404D;
- Fri, 16 Jul 2021 11:28:24 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3B97FA405F;
- Fri, 16 Jul 2021 11:28:24 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.145.170.60])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 16 Jul 2021 11:28:24 +0000 (GMT)
-Subject: Re: [PULL 32/40] tcg/plugins: enable by default for most TCG builds
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20210712122653.11354-1-alex.bennee@linaro.org>
- <20210712122653.11354-33-alex.bennee@linaro.org>
- <530cf27c-13cb-906e-6b86-90c23d0c3656@de.ibm.com>
-Message-ID: <a3f05bc9-808d-0572-3e17-df9cf9418b4e@de.ibm.com>
-Date: Fri, 16 Jul 2021 13:28:23 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m4M50-00032Q-4j; Fri, 16 Jul 2021 07:32:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rpy3PQfthse3a7+CJg/bHxpxuU7q4E5tYiTXntilTfrEl9g1XNg+TxjOj53E41S/wooYLi9uAoSAIw8vqKEmuqdHX+cX8249kro6RlzGWuKbGsUgq3pWoRo3Obz4u6ysDn5cJJrfikvQJ6XPyJI3jBkWmrsh9Zgrx2oT1vnNkVYNmKwvQCTOgaA530zEqagiDH4JOBg5t3ankXO2J1fArTDBx+4/e1S6zGBsYOX3hMCQAtDqzsYLBgot6esv1n3rt2m+rRZR/5ObAEGblZiVRIMI3X4QFQbHQjzMt7z6WurenHkeQXJPwE7R40Jt0wT4dHobK8IIjyCfG/NuTD82dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iaa5i/wufQOVqZY1oXzON1CSqLE5FgeChbAIfS4M86I=;
+ b=R9UQXSj8cLhDY/7OvSjdphNQN4FUm/Sncvy2pF5CzEgkyeMEQEAMVSSptSwrRvVrDZavv/V3zTAcW7uD7S8uaGa4GnymryJKg80a2imVZqaukpQX1GAe4eOJATiXixnWsDD//46GDlATJLGU5A3h+C4xfXK+Nv02Aty75nAHRZgkMt+2KbyM/Q8YRnRbIuLH68IKqer6Fzn8U+Zn3vB+fmq1fQWq/u+LAEzpd06R/Sp2miuY+IBaJWgoCxyeqh1bJnueZeWjpSxaDctgOeb7oMdq8IdSrdhAy84t5N6NwN3ERL9+3g187VYkdbPQ0zRldMayI/JgIt+/CVmkCsC3dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Iaa5i/wufQOVqZY1oXzON1CSqLE5FgeChbAIfS4M86I=;
+ b=sG4GgndE+0zR7PtGD6vH+7dGwSp5Ng+yYZ1XVn05n3NczE52SgeEjqkzuigDQnC3eKPhv47apwOmYQlnWznP9fSxQxjRxsst8tSPEao3WAGSdE5iPdWp5Qbfaug+i843TU4T0vX7amk4/6o25uePhGiol6dJ0IQFkI4kt72HHXs=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6168.eurprd08.prod.outlook.com (2603:10a6:20b:294::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Fri, 16 Jul
+ 2021 11:32:25 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4331.026; Fri, 16 Jul 2021
+ 11:32:25 +0000
+Subject: Re: [PATCH 05/14] iotests.py: filter compression type out
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, den@openvz.org, jsnow@redhat.com
+References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
+ <20210705091549.178335-6-vsementsov@virtuozzo.com>
+ <9ffe4dc6-f7c1-a788-84f8-03a763df2729@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <9cbedf8d-27a1-6a90-b030-98f3a19a3c05@virtuozzo.com>
+Date: Fri, 16 Jul 2021 14:32:23 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <530cf27c-13cb-906e-6b86-90c23d0c3656@de.ibm.com>
+In-Reply-To: <9ffe4dc6-f7c1-a788-84f8-03a763df2729@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: OWWqjJQDAcsbMkalhsdcaRGDCrco0xEL
-X-Proofpoint-ORIG-GUID: X77eN452N8N4kuqAg7OqodzmkgM5OGOk
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-16_04:2021-07-16,
- 2021-07-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- adultscore=0 spamscore=0 bulkscore=0 clxscore=1015 malwarescore=0
- mlxscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- suspectscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104190000 definitions=main-2107160067
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-ClientProxiedBy: AM4PR05CA0028.eurprd05.prod.outlook.com (2603:10a6:205::41)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.193) by
+ AM4PR05CA0028.eurprd05.prod.outlook.com (2603:10a6:205::41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.21 via Frontend Transport; Fri, 16 Jul 2021 11:32:24 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7ceea397-91f4-493e-d074-08d9484d628e
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6168:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB61689749C5BC02CBE8A9682FC1119@AS8PR08MB6168.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: S1xIWkZQDHhwrk8EFCxHyCEqehwzwz4vPeWmA8FbHpQF/EgOSf8Wl3iRdrIgFPbgoRie7XbEoVHjFRWKavyG4CGhIaPrctdYjH0Ut+CaCHmeCLuB1daV/tRPQqC+kg+t07mEluncDzm4RitENQf9SYUxEGsAGHCUJ2o8zKk+D6QQ3ClNvYIRxS3SjGGbZhu8Zl+wBRcnHi6r8rOhMat+6GwHHWHilHbkpTzwEWDOiGaYpGsrdoNSdameC9KHkm4eTnGwwDybyWJh3eLUZ20G3RWiKIEgB/uDltGEHcAZn3BPQuXw+tJkIlOlQribCwf1zQovxBc7sUzmJE15Hc5a1nQqGinINEvZu9YKmUujXV6CVQJxtR4DFTCDT6kn2XKoZJDf4FD9BNu0PRFxUNxt3XvDWILamweSeniD9iEvoLCLZPJYCT1HwO4+5b+lSq1Bph7cDR95G9ZhiZF6s6uDrrs+y95m73EnoOWFPK4ki+vrOOnGjbbwnhCDwIAxH2HPZCJ+i0VxKNAypjEbH9tB2OxUlt33aGnlrdjeAcaTeLF3In/0UGPIE54WCVgz7rOFkWdkW+/t2lwB3kXJvBynaNgs3ncglN6mp1+iOm6+lRBDua3J/AgC/y8HPvRqMigRvxF5F7rQUGR8riRHRG+/wMZk9z/1dhk0gsTuua1wnJKD6daAVVm/55nyA8mPmr9b6QVKlCATh8Fo6J6rIsxQpB8BxBc2OfbGpTk/YfPGcyZaqVs8kbeTU9dLyMRX9v+WHWJC2z72N/aPBwX2vNjLxA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39840400004)(366004)(346002)(376002)(396003)(186003)(478600001)(52116002)(2906002)(8676002)(38350700002)(38100700002)(31696002)(8936002)(316002)(4326008)(86362001)(66476007)(66556008)(2616005)(31686004)(16576012)(6486002)(53546011)(956004)(5660300002)(26005)(83380400001)(36756003)(66946007)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTg3Mzc0dTZNd3U0dmRnL1ljUUNEL1U2YVJhOUJ3aWFKbFYxQTRySjl3czVD?=
+ =?utf-8?B?LzRYNkVzVFFXWkFldEEzVTBXVHlBVXZNcHZrNE5QUUprSjY3ekRZdy9FOFVy?=
+ =?utf-8?B?aFNpa1lodXdPdlpRb3FWVTRyRWJrSEs5Wldqdkt3L0JjdUY4QmtrWExqTjkw?=
+ =?utf-8?B?cjhzOTZQQ1NTYkpmN1FwSjlTTExNaFFNdk4yVWd2UUQ2SG9YVU1WTzZwYUkr?=
+ =?utf-8?B?bmVZNUpOYjVtVWRTa29FNHpCWHRQOUYzelJMQnVxU0xVNUtXYkJhekp5TjBP?=
+ =?utf-8?B?dlZuZURVQ0cvYis3SnRpcGViTmlMOGFVWEdIT2cxMkp4Q1lVb2JvT0tvZExY?=
+ =?utf-8?B?TFh5Q2wvMEVCdW1VbWx6WUNKWXo1K0VqYmFTbC9RdWZZM0ZGL2xzSXUzekxI?=
+ =?utf-8?B?NW00eDF3d0hMTHZnSGN4ZmQ4QzJqczZsSTBCbmNhQVpRQTd5UlZEcWpXaGw3?=
+ =?utf-8?B?cFFOVWZqVUVlSlBDc3crZEUyakh2UWlNbk4xZi9pOXJuYmU4S2M5Ni9mTE9r?=
+ =?utf-8?B?ejdEdm85YjRxdnZyR0syRXBnM2E1SHBtVVdRZEJ2bW1uVHkydjV2ZU15dXBl?=
+ =?utf-8?B?U0ZzbzcvaEpZd2g4WHU0dEpteFZvVWFjNy9Tb1dLbXBkbnlQWkhSZjI1RVBC?=
+ =?utf-8?B?Y1p1V1JZYlhoaEs2ajMzRGJSRHozbFVDaFJBcjUvWlRqd3ZrVFA2cnZ0anVr?=
+ =?utf-8?B?cllPN0VVKy9Ib2RoZFdPbzNNK3dtVmlKbEExa2I4WXFuTDlGNkVycWhEWGtZ?=
+ =?utf-8?B?N0c5NndtSDRNVDhiZXliSWxKWVllR0tmTVNFS2s3WWY5V2xIRmdpT3lIbnhX?=
+ =?utf-8?B?TUhaS2dpV1A2MzNIZ3dxUC9TN0hscnhkZlhkU2RpVHoxSS9mWENTRFEvZGI4?=
+ =?utf-8?B?RytXckV5cWROaTRPQ01FektIc2ZsNW00WWxVaTAwSjBEYytlZnArNUUzTzIw?=
+ =?utf-8?B?a1JIYit5cjFUUXdLdWJtc3grUmZjYnN1VUFsdzFpMU1WNW16VExaNFlySEVF?=
+ =?utf-8?B?T0RUTXdjRW84ZGtQTHc1ZEFaYUlLK3VCWGh0NGtNem9objh6RDJKYkRwUnJp?=
+ =?utf-8?B?MGZZcEF5UExaYVZtb3JSMnVqdW11RXJOWHZna3RhWnI0em5GMmhpMEhmd3I4?=
+ =?utf-8?B?eGhKNXdiRE1FdjhQS0VTblg5czdDYjZGd1NyUzNtbFVvalJZNXEzVjM4TldZ?=
+ =?utf-8?B?c1dzWHp4QkRrek96SER5UTFtMGJiRU5QVHpCUzVhcTVvaUxIUUZ4cmMzQzNB?=
+ =?utf-8?B?VWErYkRSeEZrSllSNkcrbFRYTEJJTDNYVTBSYzA5aG1UeGRMK1BJaURDMitQ?=
+ =?utf-8?B?clYzb0h6MjdJV2d5YTJHQVd3VVZhRUpscXIxMWNuNkdMV25uYzhtUi9MakZm?=
+ =?utf-8?B?Yis2eG5QSlpvMGZ2Wm5XTm9BMnlrN1Z6OGhndmx3TWE3d2lFeDZmR0lsQTlH?=
+ =?utf-8?B?cDBsaGpkeWJHbzZEelduY0kzQXVpVUFWVEJ6cTRxWGZmZFRIL25jOVJkQ0tJ?=
+ =?utf-8?B?Vzc3TlY5Wis5MzZycHBRb21lOUhkZVlTM2x4cnpTYmFZRGtMbVJMaEhNRytV?=
+ =?utf-8?B?ak5hNzE0b2dEUy9TQkVhSkcySlR2dFMvazkrOVhEaktZNGdYQ0xieTlXVjlV?=
+ =?utf-8?B?UVpqYmZwdytVZ1M2QnNiSFV4UmV2K1lQcVJJWk9YRlVKRmtrUVBHZ25PS1Ry?=
+ =?utf-8?B?WmZmaXM4VWFIUFpjbHlpQWdpV0NxYy8veU1FZVB3MXlmb0MzNkFONmhNWTQy?=
+ =?utf-8?Q?SqP8uyKPksU1m7MSfnYZU/yuvdQGd2WP8d3M460?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ceea397-91f4-493e-d074-08d9484d628e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 11:32:25.3999 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6Gqypohp8SYoLCyUb0EcwhZefZqikTyozyXA49YiykOi4g294X9B+a5206jccjTI1d+HPqBFWpNngyRj23wSU6HjnkNstppqy2bvczQsj6E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6168
+Received-SPF: pass client-ip=40.107.14.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,132 +146,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 16.07.21 08:54, Christian Borntraeger wrote:
-> 
-> On 12.07.21 14:26, Alex Bennée wrote:
->> Aside from a minor bloat to file size the ability to have TCG plugins
->> has no real impact on performance unless a plugin is actively loaded.
->> Even then the libempty.so plugin shows only a minor degradation in
->> performance caused by the extra book keeping the TCG has to do to keep
->> track of instructions. As it's a useful feature lets just enable it by
->> default and reduce our testing matrix a little.
+16.07.2021 14:15, Max Reitz wrote:
+> On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
+>> We want iotests pass with both the default zlib compression and with
+>> IMGOPTS='compression_type=zstd'.
 >>
->> We need to move our linker testing earlier so we can be sure we can
->> enable the loader module required. As we have ruled out static &
->> plugins in an earlier patch we can also reduce the indent a little.
+>> Actually the only test that is interested in real compression type in
+>> test output is 287 (test for qcow2 compression type) and it's in bash.
+>> So for now we can safely filter out compression type in all qcow2
+>> tests.
 >>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Message-Id: <20210709143005.1554-33-alex.bennee@linaro.org>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> ---
+>>   tests/qemu-iotests/206.out    | 10 +++---
+>>   tests/qemu-iotests/242.out    | 10 +++---
+>>   tests/qemu-iotests/255.out    |  8 ++---
+>>   tests/qemu-iotests/274.out    | 68 +++++++++++++++++------------------
+>>   tests/qemu-iotests/280.out    |  2 +-
+>>   tests/qemu-iotests/iotests.py | 13 ++++++-
+>>   6 files changed, 61 insertions(+), 50 deletions(-)
 > 
+> Looks OK, though I wonder if it weren’t better to have a filter that only prints some options and explicitly filters out everything else.
+
+That means larger work and larger audit of what actually each test wants to see in the output..
+
+  (Well, actually, I’d prefer not to have the “Formatting…” line in the reference output at all, because I don’t see the point, but I suppose that can be considered a different problem.)
+
+Hmm. I like the idea of dropping this line, I don't remember any bug that this line helped to catch, but we have to update it every time we add some new option. I can make a separate patch in v2 to just filter it out everywhere.
+
 > 
-> I cant reproduce it manually but in our build regression this fails with
+> [...]
+> 
+>> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+>> index 80f0cb4f42..6a8cc1bad7 100644
+>> --- a/tests/qemu-iotests/iotests.py
+>> +++ b/tests/qemu-iotests/iotests.py
+>> @@ -224,9 +224,18 @@ def qemu_img_verbose(*args):
+>>                            % (-exitcode, ' '.join(qemu_img_args + list(args))))
+>>       return exitcode
+>> +def filter_img_create(text: str) -> str:
+>> +    return re.sub('(compression_type=)(zlib|zstd)', r'\1COMPRESSION_TYPE',
+>> +                  text)
+>> +
+>>   def qemu_img_pipe(*args: str) -> str:
+>>       '''Run qemu-img and return its output'''
+>> -    return qemu_img_pipe_and_status(*args)[0]
+>> +    output =  qemu_img_pipe_and_status(*args)[0]
+> 
+> There’s a superfluous space after '='.
+> 
+>> +
+>> +    if args[0] == 'create':
+>> +        return filter_img_create(output)
+>> +
+>> +    return output
+> 
+> Wouldn’t it make more sense to have this filter be in qemu_img_pipe_and_status()?
+> 
 
-I can now reproduce when adding
-  --extra-ldflags="-Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now"
-to the configure script (on "20.04.2 LTS)
+Hmm probably someone want to not filter information out, then qemu_img_pipe_and_status() will be a way to get unfiltered output..
+
+But I tend to agree, as in 02 I do generic logic in qemu_img_pipe_and_status(), so until we have a good reason, it's better to keep all generic logic in one place. OK, will move it to qemu_img_pipe_and_status()
+
+> 
+>>   def qemu_img_log(*args):
+>>       result = qemu_img_pipe(*args)
+>> @@ -479,6 +488,8 @@ def filter_img_info(output, filename):
+>>                         'uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+>>                         line)
+>>           line = re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
+>> +        line = re.sub('(compression type: )(zlib|zstd)', r'\1COMPRESSION_TYPE',
+>> +                      line)
+>>           lines.append(line)
+>>       return '\n'.join(lines)
+> 
 
 
-----snip---
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 capstone slirp roms/SLOF
-[1/1472] Linking target tests/plugin/libempty.so
-FAILED: tests/plugin/libempty.so
-cc  -o tests/plugin/libempty.so tests/plugin/libempty.so.p/empty.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,--start-group -Wl,-soname,libempty.so -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now -O2 -g -fPIE -DPIE -fstack-protector-strong -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -Wl,--end-group
-/usr/bin/ld: /usr/lib/gcc/s390x-linux-gnu/9/../../../s390x-linux-gnu/Scrt1.o: in function `_start':
-(.text+0x34): undefined reference to `main'
-/usr/bin/ld: tests/plugin/libempty.so.p/empty.c.o: in function `qemu_plugin_install':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/empty.c:30: undefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
-collect2: error: ld returned 1 exit status
-[2/1472] Linking target tests/plugin/libsyscall.so
-FAILED: tests/plugin/libsyscall.so
-cc  -o tests/plugin/libsyscall.so tests/plugin/libsyscall.so.p/syscall.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,--start-group -Wl,-soname,libsyscall.so -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now -O2 -g -fPIE -DPIE -fstack-protector-strong -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -Wl,--end-group
-/usr/bin/ld: /usr/lib/gcc/s390x-linux-gnu/9/../../../s390x-linux-gnu/Scrt1.o: in function `_start':
-(.text+0x34): undefined reference to `main'
-/usr/bin/ld: tests/plugin/libsyscall.so.p/syscall.c.o: in function `print_entry':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:88: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libsyscall.so.p/syscall.c.o: in function `plugin_exit':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:109: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libsyscall.so.p/syscall.c.o: in function `vcpu_syscall_ret':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:76: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libsyscall.so.p/syscall.c.o: in function `vcpu_syscall':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:55: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libsyscall.so.p/syscall.c.o: in function `qemu_plugin_install':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:133: undefined reference to `qemu_plugin_register_vcpu_syscall_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:134: undefined reference to `qemu_plugin_register_vcpu_syscall_ret_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/syscall.c:135: undefined reference to `qemu_plugin_register_atexit_cb'
-collect2: error: ld returned 1 exit status
-[3/1472] Linking target tests/plugin/libinsn.so
-FAILED: tests/plugin/libinsn.so
-cc  -o tests/plugin/libinsn.so tests/plugin/libinsn.so.p/insn.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,--start-group -Wl,-soname,libinsn.so -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now -O2 -g -fPIE -DPIE -fstack-protector-strong -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -Wl,--end-group
-/usr/bin/ld: /usr/lib/gcc/s390x-linux-gnu/9/../../../s390x-linux-gnu/Scrt1.o: in function `_start':
-(.text+0x34): undefined reference to `main'
-/usr/bin/ld: tests/plugin/libinsn.so.p/insn.c.o: in function `plugin_exit':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:58: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libinsn.so.p/insn.c.o: in function `vcpu_insn_exec_before':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:29: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libinsn.so.p/insn.c.o: in function `vcpu_tb_trans':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:37: undefined reference to `qemu_plugin_tb_n_insns'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:41: undefined reference to `qemu_plugin_tb_get_insn'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:44: undefined reference to `qemu_plugin_register_vcpu_insn_exec_inline'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:47: undefined reference to `qemu_plugin_insn_vaddr'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:48: undefined reference to `qemu_plugin_register_vcpu_insn_exec_cb'
-/usr/bin/ld: tests/plugin/libinsn.so.p/insn.c.o: in function `qemu_plugin_install':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:69: undefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/insn.c:70: undefined reference to `qemu_plugin_register_atexit_cb'
-collect2: error: ld returned 1 exit status
-[4/1472] Linking target tests/plugin/libmem.so
-FAILED: tests/plugin/libmem.so
-cc  -o tests/plugin/libmem.so tests/plugin/libmem.so.p/mem.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,--start-group -Wl,-soname,libmem.so -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now -O2 -g -fPIE -DPIE -fstack-protector-strong -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -Wl,--end-group
-/usr/bin/ld: /usr/lib/gcc/s390x-linux-gnu/9/../../../s390x-linux-gnu/Scrt1.o: in function `_start':
-(.text+0x34): undefined reference to `main'
-/usr/bin/ld: tests/plugin/libmem.so.p/mem.c.o: in function `plugin_exit':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:39: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:39: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libmem.so.p/mem.c.o: in function `vcpu_tb_trans':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:60: undefined reference to `qemu_plugin_tb_n_insns'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:64: undefined reference to `qemu_plugin_tb_get_insn'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:72: undefined reference to `qemu_plugin_register_vcpu_mem_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:67: undefined reference to `qemu_plugin_register_vcpu_mem_inline'
-/usr/bin/ld: tests/plugin/libmem.so.p/mem.c.o: in function `vcpu_mem':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:47: undefined reference to `qemu_plugin_get_hwaddr'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:48: undefined reference to `qemu_plugin_hwaddr_is_io'
-/usr/bin/ld: tests/plugin/libmem.so.p/mem.c.o: in function `qemu_plugin_install':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:109: undefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/mem.c:110: undefined reference to `qemu_plugin_register_atexit_cb'
-collect2: error: ld returned 1 exit status
-[5/1472] Linking target tests/plugin/libbb.so
-FAILED: tests/plugin/libbb.so
-cc  -o tests/plugin/libbb.so tests/plugin/libbb.so.p/bb.c.o -Wl,--as-needed -Wl,--allow-shlib-undefined -shared -fPIC -Wl,--start-group -Wl,-soname,libbb.so -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now -O2 -g -fPIE -DPIE -fstack-protector-strong -Wl,--export-dynamic -pthread -lgmodule-2.0 -lglib-2.0 -Wl,--end-group
-/usr/bin/ld: /usr/lib/gcc/s390x-linux-gnu/9/../../../s390x-linux-gnu/Scrt1.o: in function `_start':
-(.text+0x34): undefined reference to `main'
-/usr/bin/ld: tests/plugin/libbb.so.p/bb.c.o: in function `plugin_exit':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:55: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:55: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libbb.so.p/bb.c.o: in function `vcpu_tb_trans':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:84: undefined reference to `qemu_plugin_tb_n_insns'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:87: undefined reference to `qemu_plugin_register_vcpu_tb_exec_inline'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:89: undefined reference to `qemu_plugin_register_vcpu_tb_exec_inline'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:93: undefined reference to `qemu_plugin_register_vcpu_tb_exec_cb'
-/usr/bin/ld: tests/plugin/libbb.so.p/bb.c.o: in function `vcpu_idle':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:66: undefined reference to `qemu_plugin_outs'
-/usr/bin/ld: tests/plugin/libbb.so.p/bb.c.o: in function `qemu_plugin_install':
-/home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:134: undefined reference to `qemu_plugin_register_vcpu_tb_trans_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:135: undefined reference to `qemu_plugin_register_atexit_cb'
-/usr/bin/ld: /home/cborntra/REPOS/qemu/build/../tests/plugin/bb.c:131: undefined reference to `qemu_plugin_register_vcpu_idle_cb'
-collect2: error: ld returned 1 exit status
-[6/1472] Generating qemu-version.h with a meson_exe.py custom command
-ninja: build stopped: subcommand failed.
+-- 
+Best regards,
+Vladimir
 
