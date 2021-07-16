@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCC253CB9A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 17:21:39 +0200 (CEST)
-Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F773CB9C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 17:25:13 +0200 (CEST)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Pek-000356-RA
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 11:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60798)
+	id 1m4PiC-0005nL-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 11:25:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYs-00015h-7k
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20041)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYw-0001Ai-A3
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYq-0004D7-Pd
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4PYt-0004H8-Sp
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 11:15:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626448532;
+ s=mimecast20190719; t=1626448535;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZFXStzDbpHZ3x7owVBtjJeqaH/pfDgxn4UIZ7oQ1Es0=;
- b=E93cBCTihyuhuwlsuTlRdOaezc/Bx3kBDXlg+hSrUyXgZ6Z0xEfQ2aE0BoZzy0+mWNhAOA
- xY3pWxyNmNjBHOX6llFU2/n/mcdpvdqMJjESta4PMB/NdyheoVLEsqY8yIalfpX6r9QK8P
- XvN+F9e0PtNP9fqFPLJB01iTkwClB5E=
+ bh=wGJK3zOQMsPUthycRa07iCj/XcAJGJjnk+sZAHLKKJI=;
+ b=F1PqzIti39oITNiBXredNaJY4/xbifcQD6yZbX6zIZavTyQil1nB7yuVljUd3TxqjuLWoa
+ vTWCG2X7wHmwZjf4I1lX4hkuU++5hED2OnjsVCx38eqEe7G5O3hRh7Bv/lgUAzS6dfCuyn
+ f1aeCdOQASMHPELQB7ckUCvBBUJf2UM=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-9Zd5n1K_M1GnhEW5-w7yzw-1; Fri, 16 Jul 2021 11:15:31 -0400
-X-MC-Unique: 9Zd5n1K_M1GnhEW5-w7yzw-1
+ us-mta-464-152UynXuNv2Ijy9AYCOcyg-1; Fri, 16 Jul 2021 11:15:33 -0400
+X-MC-Unique: 152UynXuNv2Ijy9AYCOcyg-1
 Received: by mail-wr1-f69.google.com with SMTP id
- p4-20020a5d63840000b0290126f2836a61so4986393wru.6
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 08:15:30 -0700 (PDT)
+ r18-20020adfce920000b029013bbfb19640so4916566wrn.17
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 08:15:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ZFXStzDbpHZ3x7owVBtjJeqaH/pfDgxn4UIZ7oQ1Es0=;
- b=uI1JyXp7fxN6mmdfxOmt3I7ZYkzYY0fcl3b6s/IjFbLG08qGzcwqzs+ogUzz1L1YbK
- +Ll3+NHpsbW0iyM9wvnCNmQBwnQL3myipAF09/5KNB/MMwU9A1PQPb1OllmhHESGbBLy
- voUsomI3Nyfi6FcQ4fv3BsQWun7aLAwkjXgfnc/PFnlVBwpZx4b5/lEn3xFb2hxtv8ad
- C8Z0g4ObuVPNYd4cKHVyctDFeReLNpCbZ0QZ5uFZiekaImTV6SF5NYmbnQTikpr2aPxw
- cl3f6XyA+n/nEC5lA9LAN4tZbVtZyZiPuZG4ep8zLlIjEyrS+9svAHY7lsKjJ3ctxm7q
- SBSg==
-X-Gm-Message-State: AOAM531OaDR9E6dgHb7Q4XhbMFIfEIpn9arMPFvaFBucDS90TTy2f4Jt
- 9Jw6I4AgdMa+eXIGokuZ7jDzayhqXjbvyfKz3aSlciv08rA/5cjfhHpP2+gs/BuCdlEHDDZWRnw
- Nq5v1l488dQIb7TjR7z0CvqDWZZft9ZWkEsE2SrTRnXXMD1QcCg2ZYGSEQc2u
-X-Received: by 2002:a7b:c111:: with SMTP id w17mr17120540wmi.163.1626448529607; 
- Fri, 16 Jul 2021 08:15:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtVBp2xhJAB1jI1FEIXmlOgGEiEtXx5XWgC+xJC48nI0UiFMYhsICPOjcv0otLfd1dkYoK1w==
-X-Received: by 2002:a7b:c111:: with SMTP id w17mr17120519wmi.163.1626448529414; 
- Fri, 16 Jul 2021 08:15:29 -0700 (PDT)
+ bh=wGJK3zOQMsPUthycRa07iCj/XcAJGJjnk+sZAHLKKJI=;
+ b=GiuTysMvrUCci4vMWKEiIrCK6wDoFmUrhD2eJ4fjEM5RgCEMPw052oBcVPP/H+gxuK
+ X5KcY7eXFhP3pogqrjLvg+kybzDJzqHrOUubb0BQLtG2/BwfPnLprP9KGD4yJSyC60w0
+ d4HaHal3ziVEZ0GDBsir1kCXMk/gt6H67yDErh9JV3Qd+PaBTOJBdi+N7GB0LiXk9GfX
+ L3tfkO5BgJ1BZpUCEq/o9fQfPidL7FeBfgsYDCNTBpqc2C/7KN1Xrmx/gRaym0azZQHx
+ 6/zKSLFPMBvh9fpOSBbiIDySBFjToQeJYIEWVDagrxr1fI3ST/IGv5zDn28hmt4Genrs
+ +OTw==
+X-Gm-Message-State: AOAM531eBaY44j8L5nqA2Jy8x3ZUbD9dF/aX8mv97eBMrUDUQ7si4mFa
+ iB6Tdwwtf3FxCQYKZA6rvlGFVEGgGRMZR+uJdUIDu1gTIQdkT3CbufFkshjnq9kFGLFxHR7P0c/
+ 1k5KnNrlSTW7I3UevpGDUs19UpFdHqGo7OGn6/f2pq9DLFmDYgfY/ZPqdzfdk
+X-Received: by 2002:a5d:6e07:: with SMTP id h7mr3828705wrz.233.1626448532157; 
+ Fri, 16 Jul 2021 08:15:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxLWsiHhGRFWoBsSfob4GPgvl63z36HSPZieeSC5h1pJh/RX3PP0r5VQNPoFBL+LNgSofbPDA==
+X-Received: by 2002:a5d:6e07:: with SMTP id h7mr3828677wrz.233.1626448531888; 
+ Fri, 16 Jul 2021 08:15:31 -0700 (PDT)
 Received: from redhat.com ([2a10:8004:6ff2:0:a1b1:b3d8:4c4e:4825])
- by smtp.gmail.com with ESMTPSA id r18sm10570005wrt.96.2021.07.16.08.15.28
+ by smtp.gmail.com with ESMTPSA id l16sm12460724wmj.47.2021.07.16.08.15.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 08:15:28 -0700 (PDT)
-Date: Fri, 16 Jul 2021 11:15:27 -0400
+ Fri, 16 Jul 2021 08:15:31 -0700 (PDT)
+Date: Fri, 16 Jul 2021 11:15:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 11/19] hw/pxb: Add a bypass iommu property
-Message-ID: <20210716151416.155127-12-mst@redhat.com>
+Subject: [PULL v3 12/19] hw/arm/virt: Add default_bus_bypass_iommu machine
+ option
+Message-ID: <20210716151416.155127-13-mst@redhat.com>
 References: <20210716151416.155127-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210716151416.155127-1-mst@redhat.com>
@@ -80,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,54 +94,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xingang Wang <wangxingang5@huawei.com>, Eric Auger <eric.auger@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Xingang Wang <wangxingang5@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-Add a bypass_iommu property for pci_expander_bridge, the property
-is used to indicate whether pxb root bus will bypass iommu. By
-default the bypass_iommu is disabled, and it can be enabled with:
-qemu -device pxb-pcie,bus_nr=0x10,addr=0x1,bypass_iommu=true
+Add a default_bus_bypass_iommu machine option to enable/disable
+bypass_iommu for default root bus. The option is disabled by
+default and can be enabled with:
+$QEMU -machine virt,iommu=smmuv3,default_bus_bypass_iommu=true
 
 Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Message-Id: <1625748919-52456-3-git-send-email-wangxingang5@huawei.com>
+Message-Id: <1625748919-52456-4-git-send-email-wangxingang5@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 3 +++
- 1 file changed, 3 insertions(+)
+ include/hw/arm/virt.h |  1 +
+ hw/arm/virt.c         | 26 ++++++++++++++++++++++++++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index aedded1064..7112dc3062 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -57,6 +57,7 @@ struct PXBDev {
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index 921416f918..9661c46699 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -147,6 +147,7 @@ struct VirtMachineState {
+     OnOffAuto acpi;
+     VirtGICType gic_version;
+     VirtIOMMUType iommu;
++    bool default_bus_bypass_iommu;
+     VirtMSIControllerType msi_controller;
+     uint16_t virtio_iommu_bdf;
+     struct arm_boot_info bootinfo;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 93ab9d21ea..81eda46b0b 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -1367,6 +1367,7 @@ static void create_pcie(VirtMachineState *vms)
+     }
  
-     uint8_t bus_nr;
-     uint16_t numa_node;
-+    bool bypass_iommu;
- };
+     pci = PCI_HOST_BRIDGE(dev);
++    pci->bypass_iommu = vms->default_bus_bypass_iommu;
+     vms->bus = pci->bus;
+     if (vms->bus) {
+         for (i = 0; i < nb_nics; i++) {
+@@ -2322,6 +2323,21 @@ static void virt_set_iommu(Object *obj, const char *value, Error **errp)
+     }
+ }
  
- static PXBDev *convert_to_pxb(PCIDevice *dev)
-@@ -255,6 +256,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-     bus->map_irq = pxb_map_irq_fn;
++static bool virt_get_default_bus_bypass_iommu(Object *obj, Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    return vms->default_bus_bypass_iommu;
++}
++
++static void virt_set_default_bus_bypass_iommu(Object *obj, bool value,
++                                              Error **errp)
++{
++    VirtMachineState *vms = VIRT_MACHINE(obj);
++
++    vms->default_bus_bypass_iommu = value;
++}
++
+ static CpuInstanceProperties
+ virt_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+ {
+@@ -2661,6 +2677,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+                                           "Set the IOMMU type. "
+                                           "Valid values are none and smmuv3");
  
-     PCI_HOST_BRIDGE(ds)->bus = bus;
-+    PCI_HOST_BRIDGE(ds)->bypass_iommu = pxb->bypass_iommu;
++    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
++                                   virt_get_default_bus_bypass_iommu,
++                                   virt_set_default_bus_bypass_iommu);
++    object_class_property_set_description(oc, "default_bus_bypass_iommu",
++                                          "Set on/off to enable/disable "
++                                          "bypass_iommu for default root bus");
++
+     object_class_property_add_bool(oc, "ras", virt_get_ras,
+                                    virt_set_ras);
+     object_class_property_set_description(oc, "ras",
+@@ -2728,6 +2751,9 @@ static void virt_instance_init(Object *obj)
+     /* Default disallows iommu instantiation */
+     vms->iommu = VIRT_IOMMU_NONE;
  
-     pxb_register_bus(dev, bus, &local_err);
-     if (local_err) {
-@@ -301,6 +303,7 @@ static Property pxb_dev_properties[] = {
-     /* Note: 0 is not a legal PXB bus number. */
-     DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-     DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-+    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
++    /* The default root bus is attached to iommu by default */
++    vms->default_bus_bypass_iommu = false;
++
+     /* Default disallows RAS instantiation */
+     vms->ras = false;
  
 -- 
 MST
