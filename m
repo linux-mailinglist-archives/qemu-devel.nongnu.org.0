@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89343CB79C
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:58:00 +0200 (CEST)
-Received: from localhost ([::1]:40022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6942B3CB7B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:07:04 +0200 (CEST)
+Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4NPj-0004zM-N5
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
+	id 1m4NYU-0008GB-Qu
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:07:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NOr-0003qE-L6
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:57:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37538)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NVt-0006Yf-Ue
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:04:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NOq-0006XR-8I
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:57:05 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NVq-00026u-Pe
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:04:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626440223;
+ s=mimecast20190719; t=1626440657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=us+JnBBF+CQ1NXosyepwUbMMjVKX5Lo/O+KYWDgR9Bw=;
- b=McWop+1Mx11yqP1knZV1d4zP0VKwHCDR+8yw+njop6Iwy3vt1Fx2RwnFPzCj5yWJZH1j7b
- KYWLTwZwj7KDIK0M1VndbC8M+q/JbPMNLcF+3LPmzUJVmvtowACCSDRGz7RbbZChjlqBlF
- eorN5ri2gow38v7hUFbMISSq46qY6GI=
+ bh=9AVhWWgsbpRXKroojsdY2/pR63ITGUqYXlJUfXWm/TE=;
+ b=Ailil3JseyIWh7YRP6x8V/oRSxxh/D6kY1K/z8lzJOethL5YGqqcLPDofg0Nt0D49cqv8w
+ PwsQRXSUXdByFm3RovSuSzi677EN1elKc5UMq4ME84xXpxiZBsIfFQYGHDFaYNJaw2JYvR
+ t+iCzXrI2Nc6PxcXXvkdmdgiWMtZAyU=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-UxA5A3U2OJmYrjSXKk_pTg-1; Fri, 16 Jul 2021 08:57:02 -0400
-X-MC-Unique: UxA5A3U2OJmYrjSXKk_pTg-1
+ us-mta-8-UeZhihBQMI60moAbaKWDIA-1; Fri, 16 Jul 2021 09:04:16 -0400
+X-MC-Unique: UeZhihBQMI60moAbaKWDIA-1
 Received: by mail-wr1-f71.google.com with SMTP id
- m4-20020adffa040000b02901404c442853so4803303wrr.12
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 05:57:02 -0700 (PDT)
+ r18-20020adfce920000b029013bbfb19640so4772810wrn.17
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 06:04:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-transfer-encoding
  :content-language;
- bh=us+JnBBF+CQ1NXosyepwUbMMjVKX5Lo/O+KYWDgR9Bw=;
- b=YWqtn3bOPXJxPWF+94DmVOXKgDeuKJtYyhHmMRi5V670GYcbI55u6It/1+9c3kTlm6
- UnHaUXpYh+EuzqrH6O+EPxRPHmXSZ7mVtaBPoyg3xCEXczrCamDomdpIwI0nOOT6nqSi
- vLGGqErxuafnqMnSYofMf4SkMecHJrDCD+I38qIGq/UP46rI9qiozvUwpEzWhnJKup51
- Yp1PyCl1kGbSgPhzJ2uafdQwKdEd5JtAK0m1yvLRzQxCivNUstHjyBr4wm4dXlq3vWnu
- mEr7Ijwf6kD/AUIBddfr0gOxUHDQrloG/blM0/XF+T104FW9DVxf1Avy4y7KrU+rdj3h
- MV+Q==
-X-Gm-Message-State: AOAM530ZRCV9HWCMi6iVl8mpRGNZpqMeSjsPVaYUZyBWPiBRPe4frS2x
- U/nUSBI9sCASFspDTd/XIcuW2MQUUoicJWjPqtkeFMzjTxRTV7/K0HEhZmzsj97Tyfyu1XPBI3D
- rdT96eWNdjjvd8Do=
-X-Received: by 2002:a1c:9851:: with SMTP id a78mr16377579wme.33.1626440221249; 
- Fri, 16 Jul 2021 05:57:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx7B7aF4r+eLEgdo+HgOkPf3IddsodJF4x7eIyhWkpG6sMrgtFQjIFmeoKqtlL73SWACLtuRQ==
-X-Received: by 2002:a1c:9851:: with SMTP id a78mr16377488wme.33.1626440220029; 
- Fri, 16 Jul 2021 05:57:00 -0700 (PDT)
+ bh=9AVhWWgsbpRXKroojsdY2/pR63ITGUqYXlJUfXWm/TE=;
+ b=skEQNDjOOyNzCrM/CeS856csPsQaZusVrqO6uSDH+O3rTsfrkX/pyRuSANFWtWnVo8
+ k3+9ddbsHv4rMvOjAZAAbK9QXaYoF+g8bKka790bExnBEcHDkWKLR5HtaIM+AS7rfFlB
+ SASeshhy/Z8Fblm8AxPvxv8Bn/oRhJ2PtuLRdo36PM7XgLRtP6P3ichsQrfTWiOB4GWr
+ gk1NDbXNfQrm0SyPKnqIgIlhJx2OP0yMqiwZUBq+CkVz/KkICYbDIgOUvqCDlbgCykTS
+ ZzXHgI5dgPJKXqSCrB9T7+al4labpIwR8pD2dTXVcD4xdhDb30Vt194KVmRyR58Oqsnc
+ +6Rw==
+X-Gm-Message-State: AOAM532hmr17fQKgCDv57gKsPZ03/HFpb3pv2ldkQ+glFA42j45Fd5FM
+ 6gx26cv1pgX4I4DWIOuyqs7blRTyIgld/ebBsng7eYZ003TKIVsJn+FFvMS0jr5m26USAw3PcuC
+ qHBAPSokHdqiUS0U=
+X-Received: by 2002:a1c:7c08:: with SMTP id x8mr10634599wmc.2.1626440655555;
+ Fri, 16 Jul 2021 06:04:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwSlpfYs//x7oU/hMFIennMpboVyGYstmrzc0Ws2x52ay6Ue9O0gjgElbgJP8zuOJstGf1rlQ==
+X-Received: by 2002:a1c:7c08:: with SMTP id x8mr10634557wmc.2.1626440655208;
+ Fri, 16 Jul 2021 06:04:15 -0700 (PDT)
 Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
  by smtp.gmail.com with ESMTPSA id
- m7sm9984857wms.0.2021.07.16.05.56.59
+ o28sm10909494wra.71.2021.07.16.06.04.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 05:56:59 -0700 (PDT)
-Subject: Re: [PATCH 09/14] iotests/common.rc: introduce _qcow2_dump_header
- helper
+ Fri, 16 Jul 2021 06:04:14 -0700 (PDT)
+Subject: Re: [PATCH 10/14] iotests: massive use _qcow2_dump_header
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
- <20210705091549.178335-10-vsementsov@virtuozzo.com>
+ <20210705091549.178335-11-vsementsov@virtuozzo.com>
 From: Max Reitz <mreitz@redhat.com>
-Message-ID: <81a041b8-fae6-a716-0738-185255070e1f@redhat.com>
-Date: Fri, 16 Jul 2021 14:56:58 +0200
+Message-ID: <331dad50-976a-5fcd-e99a-5945135b0f7e@redhat.com>
+Date: Fri, 16 Jul 2021 15:04:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210705091549.178335-10-vsementsov@virtuozzo.com>
+In-Reply-To: <20210705091549.178335-11-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -106,14 +105,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
-> We'll use it in tests instead of explicit qcow2.py. Then we are going
-> to add some filtering in _qcow2_dump_header.
+> We are going to add filtering in _qcow2_dump_header and want all tests
+> use it.
+>
+> The patch is generated by commands:
+>    cd tests/qemu-iotests
+>    sed -ie 's/$PYTHON qcow2.py "$TEST_IMG" dump-header\($\| \)/_qcow2_dump_header\1/' ??? tests/*
+>
+> (the difficulty is to avoid converting dump-header-exts)
 >
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   tests/qemu-iotests/common.rc | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>   tests/qemu-iotests/031 |  6 +++---
+>   tests/qemu-iotests/036 |  6 +++---
+>   tests/qemu-iotests/039 | 20 ++++++++++----------
+>   tests/qemu-iotests/060 | 20 ++++++++++----------
+>   tests/qemu-iotests/061 | 36 ++++++++++++++++++------------------
+>   tests/qemu-iotests/137 |  2 +-
+>   tests/qemu-iotests/287 |  8 ++++----
+>   7 files changed, 49 insertions(+), 49 deletions(-)
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+I think I’d have merged patch 13 into this one, but if you want to keep 
+it separate (so that this remains a purely auto-generated patch), then I 
+think it should at least come right after this one.
+
+Max
 
 
