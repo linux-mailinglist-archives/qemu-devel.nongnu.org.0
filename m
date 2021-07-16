@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7685B3CB7CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:18:30 +0200 (CEST)
-Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585F13CB7CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:19:52 +0200 (CEST)
+Received: from localhost ([::1]:58762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4NjZ-00085A-IG
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:18:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
+	id 1m4Nkt-0002CF-EK
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:19:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4Nhu-0007Lh-Vb
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:16:47 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4Nht-0000HV-DE
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:16:46 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso7035997wmc.1
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 06:16:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=n/4+0dx3GjYyQsiRuZVURXEBLEA5RhL+HHg8Pdo00dA=;
- b=FXFc4BMwb6hIWyR8JiiQ/+F6bzqWeRV9+OvK5O49FnygyoRi/kONSjl4i472yKX0E9
- wGkcgwwOayTIbosSACioocmtOJfIevFxssJI9gOIPZKPLQfXehNYQedp/MXjLnLJ2Ima
- cqOCeZuZ0L+dS/m8f+3KRW+AMFExUL2iX2HAH59ZY+w1WlfcRMLeBXC/ZsAur7Vbn9Xb
- a9sUR8VYwdeARM5/86iqPwouhKbKadJ4LheNPHKeGdld46sDNDPHZg5/wilIm4yafpC3
- JmxrYnfrhziZ6F5jbtqiirGJvPnS6WJCjpCg0yH3e1QpALOw/Ee2nGPXNi/9rXH2cS/h
- E3NQ==
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4Nj9-000069-Bn
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:18:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4Nj6-0000rZ-IM
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:18:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626441479;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=C8rEacpTyRDJ0zo05Vqw73Qvjt14B+zVpE4pfuR+MeE=;
+ b=X7Q1QknTKkkba0VSqDrIytSlGS5DBEGOIN/ft4llgmqJJk42JCzOulFs/1KbK2IEDwjqeS
+ i7SgSN0Hqy3eewfuMEEPhkET5tHfZXh7fKeSOeKDMv9ZrHfXTVqltdJ+787j1Ev47ELd0p
+ jOJxuGrhM70Y0QYSbYOWtG/HmtERbEM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-511-5zuTPq2WNNeX3JTaBFp4VQ-1; Fri, 16 Jul 2021 09:17:55 -0400
+X-MC-Unique: 5zuTPq2WNNeX3JTaBFp4VQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ i12-20020adffc0c0000b0290140ab4d8389so4845320wrr.10
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 06:17:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=n/4+0dx3GjYyQsiRuZVURXEBLEA5RhL+HHg8Pdo00dA=;
- b=Ub40ZLUxrzXrMNC7U71LhRM6uAwghbhmZH+8CeCi3yUjDmNcRi9JJu1DUDFrBjeQQ1
- rPafvS81o/4m4b5SV7WfCdUU2qgWQzYW2aXeG6EVRZEsvi0QW/7QPSUaB4B1vJCuaElb
- 21m5dSr+02xv+elRh9653hmDM03yHs8B7DpLt3oHUi5YUawqsWTyRsonEoQjsYQOCI3X
- Qju7UGib2fvWCloBKSAVIiaobCi9au8naipbe8tJMSq0zYfZBKiz7VA00NcoQpjQZtPC
- DJHbwVeZ/UA/FDahz887qQlaQakA80GVu84V8JMI/ylpNy4ugZqncaUZrI73iMq0NI87
- iCUA==
-X-Gm-Message-State: AOAM530zgvv4situZKTMR2uTwtEqg1bHWutRlfoyrKDYqT/G3SX4GqIv
- BOlnWUW9yX/QpYQcGN1daCyMDA==
-X-Google-Smtp-Source: ABdhPJxaQBzbKL5rLJXk7lpd+qVRh+PIVK10xUmb1rG/bgHa7Gt7Cy9GH061YqKQ1NNKp954UNTosA==
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr10748848wml.67.1626441402749; 
- Fri, 16 Jul 2021 06:16:42 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r9sm7449538wmq.25.2021.07.16.06.16.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 06:16:41 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D352A1FF7E;
- Fri, 16 Jul 2021 14:16:40 +0100 (BST)
-References: <20210712122653.11354-1-alex.bennee@linaro.org>
- <20210712122653.11354-33-alex.bennee@linaro.org>
- <530cf27c-13cb-906e-6b86-90c23d0c3656@de.ibm.com>
- <a3f05bc9-808d-0572-3e17-df9cf9418b4e@de.ibm.com>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [PULL 32/40] tcg/plugins: enable by default for most TCG builds
-Date: Fri, 16 Jul 2021 14:16:01 +0100
-In-reply-to: <a3f05bc9-808d-0572-3e17-df9cf9418b4e@de.ibm.com>
-Message-ID: <87sg0etn47.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=C8rEacpTyRDJ0zo05Vqw73Qvjt14B+zVpE4pfuR+MeE=;
+ b=d0LL70kIbtBEFPIVN1n1pf2VD5+q6iBURct5mPDrN+eZGSrKM+O7xy2q+7P3EFcY+R
+ XQreN8hmNQkdFXivxFb5sqwvhTDeo08u4DJA/EJJDlKBj6kv5UAdbtOzghFktDGqbo7b
+ KRpsA1lSyg2rZDRNcc6sMMzKh0l5CUyBp/YqYKdSBpV2CbmnYYUtYmi/zop20j/EmoVl
+ Ocf+EJBi+4XKXqayDNFZsQuwao05IF4IrhYs33GIDib/IvptyFNLNkVqDvu8nuZOWP34
+ pPdflm3QOzPh6bLVQyF5AF5Cy7FH0QjgxVLxqi/bb9b6ovFjcN9Gvo+eJ7vREKh/gWWn
+ TzNQ==
+X-Gm-Message-State: AOAM5327bBE0ko8WVWAirFQoRS6ef2f8QRRKb8i1cZaav9Ji+KE1/Gkr
+ rfZ11YorHAUUKoPWO5ydCurHq8BNuVea+nXK/kKHmEi8L2iRYg8O0KdveOtn8BW7QRD8yo/ENxO
+ TOG/kKCdBctZ+9EA=
+X-Received: by 2002:a1c:48a:: with SMTP id 132mr16602631wme.157.1626441474718; 
+ Fri, 16 Jul 2021 06:17:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMm3nzwfiwE0dvUf7hPZyUIfV/lTKPtM79mCbBl1OGFHNHjd+NGUDAz2iIywbSuX78RQJI1w==
+X-Received: by 2002:a1c:48a:: with SMTP id 132mr16602602wme.157.1626441474505; 
+ Fri, 16 Jul 2021 06:17:54 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ v15sm8460419wmj.11.2021.07.16.06.17.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jul 2021 06:17:54 -0700 (PDT)
+Subject: Re: [PATCH 11/14] iotests: bash tests: filter compression type
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
+ <20210705091549.178335-12-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <9646362b-c01f-3ed8-b5c4-4fdefd9786eb@redhat.com>
+Date: Fri, 16 Jul 2021 15:17:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210705091549.178335-12-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,45 +100,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Christian Borntraeger <borntraeger@de.ibm.com> writes:
-
-> On 16.07.21 08:54, Christian Borntraeger wrote:
->> On 12.07.21 14:26, Alex Benn=C3=A9e wrote:
->>> Aside from a minor bloat to file size the ability to have TCG plugins
->>> has no real impact on performance unless a plugin is actively loaded.
->>> Even then the libempty.so plugin shows only a minor degradation in
->>> performance caused by the extra book keeping the TCG has to do to keep
->>> track of instructions. As it's a useful feature lets just enable it by
->>> default and reduce our testing matrix a little.
->>>
->>> We need to move our linker testing earlier so we can be sure we can
->>> enable the loader module required. As we have ruled out static &
->>> plugins in an earlier patch we can also reduce the indent a little.
->>>
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>> Reviewed-by: Thomas Huth <thuth@redhat.com>
->>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>> Cc: Paolo Bonzini <pbonzini@redhat.com>
->>> Message-Id: <20210709143005.1554-33-alex.bennee@linaro.org>
->> I cant reproduce it manually but in our build regression this fails
->> with
+On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
+> We want iotests pass with both the default zlib compression and with
+> IMGOPTS='compression_type=zstd'.
 >
-> I can now reproduce when adding
->  --extra-ldflags=3D"-Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now"
-> to the configure script (on "20.04.2 LTS)
+> Actually the only test that is interested in real compression type in
+> test output is 287 (test for qcow2 compression type), so implement
+> specific option for it.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/060.out       |  2 +-
+>   tests/qemu-iotests/061.out       | 12 ++++++------
+>   tests/qemu-iotests/082.out       | 14 +++++++-------
+>   tests/qemu-iotests/198.out       |  4 ++--
+>   tests/qemu-iotests/287           |  8 ++++----
+>   tests/qemu-iotests/common.filter |  7 +++++++
+>   tests/qemu-iotests/common.rc     | 14 +++++++++++++-
+>   7 files changed, 40 insertions(+), 21 deletions(-)
 
-Whats your full configure line? And this is on the s390x-cloud machine?
+[...]
 
---=20
-Alex Benn=C3=A9e
+> diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
+> index 268b749e2f..78efe3e4dd 100644
+> --- a/tests/qemu-iotests/common.filter
+> +++ b/tests/qemu-iotests/common.filter
+> @@ -247,6 +247,7 @@ _filter_img_info()
+>           -e "/block_state_zero: \\(on\\|off\\)/d" \
+>           -e "/log_size: [0-9]\\+/d" \
+>           -e "s/iters: [0-9]\\+/iters: 1024/" \
+> +        -e 's/\(compression type: \)\(zlib\|zstd\)/\1COMPRESSION_TYPE/' \
+>           -e "s/uuid: [-a-f0-9]\\+/uuid: 00000000-0000-0000-0000-000000000000/" | \
+>       while IFS='' read -r line; do
+>           if [[ $format_specific == 1 ]]; then
+> @@ -332,5 +333,11 @@ for fname in fnames:
+>   sys.stdout.write(result)'
+>   }
+>   
+> +_filter_qcow2_compression_type_bit()
+> +{
+> +    $SED -e 's/\(incompatible_features\s\+\)\[3\(, \)\?/\1[/' \
+> +         -e 's/\(incompatible_features.*\), 3\]/\1]/'
+
+What about “incompatble_features   [2, 3, 4]”?
+
+I’d like to propose adding some form of filtering parameter to qcow2.py 
+which allows filtering a specific bit from the qcow2_format.Flags64 
+representation, but that seems rather difficult, actually...
+
+> +}
+> +
+>   # make sure this script returns success
+>   true
+> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
+> index ee4b9d795e..813b51ee03 100644
+> --- a/tests/qemu-iotests/common.rc
+> +++ b/tests/qemu-iotests/common.rc
+> @@ -697,6 +697,7 @@ _img_info()
+>               -e "s#$TEST_DIR#TEST_DIR#g" \
+>               -e "s#$SOCK_DIR/fuse-#TEST_DIR/#g" \
+>               -e "s#$IMGFMT#IMGFMT#g" \
+> +            -e 's/\(compression type: \)\(zlib\|zstd\)/\1COMPRESSION_TYPE/' \
+>               -e "/^disk size:/ D" \
+>               -e "/actual-size/ D" | \
+>           while IFS='' read -r line; do
+> @@ -996,12 +997,23 @@ _require_one_device_of()
+>   
+>   _qcow2_dump_header()
+>   {
+> +    if [[ "$1" == "--no-filter-compression" ]]; then
+> +        local filter_compression=0
+> +        shift
+> +    else
+> +        local filter_compression=1
+> +    fi
+> +
+>       img="$1"
+>       if [ -z "$img" ]; then
+>           img="$TEST_IMG"
+>       fi
+>   
+> -    $PYTHON qcow2.py "$img" dump-header
+> +    if [[ $filter_compression == 0 ]]; then
+> +        $PYTHON qcow2.py "$img" dump-header
+> +    else
+> +        $PYTHON qcow2.py "$img" dump-header | _filter_qcow2_compression_type_bit
+> +    fi
+>   }
+>   
+>   # make sure this script returns success
+
+Could have been done more extensibly for the future (i.e. a loop over 
+the parameters, and a variable to invoke all applicable filters), but, 
+well.  Not much reason to think about a future that we’re not sure will 
+ever happen.
+
+Max
+
 
