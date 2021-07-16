@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 822923CBF14
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 00:12:57 +0200 (CEST)
-Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0783CBF23
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 00:16:55 +0200 (CEST)
+Received: from localhost ([::1]:32832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4W4m-00075R-KL
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 18:12:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
+	id 1m4W8c-0000dP-Ag
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 18:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4W3v-0006Qk-Up
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:12:03 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:36611)
+ id 1m4W7O-00089m-OO
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:15:38 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:46733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4W3u-00036H-Fg
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:12:03 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id a6so4019069pgw.3
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 15:12:02 -0700 (PDT)
+ id 1m4W7M-0005fv-Ui
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:15:38 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ b5-20020a17090a9905b029016fc06f6c5bso7873400pjp.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 15:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=PD8IrFoZrZmvdewEGQ0F+Yxb3KALmLAdR1dQaVcJeY8=;
- b=J4j/1uKYGgTjwLAzTGrEFv2k9rpanFI29LfA+fOpa4SpTZS+80vhKMIgnCGs5CmBaK
- uQg8YOxNnKKo0VESKwOzDuNjHlhvjqrLYIOicBq33WmfnKm7/wSUH6z6xKAqt73IwVFc
- JAsPZn8nE6FFnjOx0WBipiWGAFcfYzBBMgXzahyCy2XQaGizgQrjmCMXfbsBjmoSp2yv
- mdCRL42Qdkdtyf05hSvdI94jbzGSpGx8S6RoYSrQzDA+JBuUTRvpnCCQRB8ds9koWpdv
- 00uqpHDJOjhnHnRtpKWdDXlUrHBYNdnjO22nkZflQPWfm4/N5HX5e60WcTh1GCUoIQu8
- wsqw==
+ bh=/F5CXRKSk7tqgHt1BAeQibP8uc+zwU1CNx0qlvCnlPs=;
+ b=nOUHo5cb9BG17PlMAM6URqrMLGVpaJ6fCmpiwQThmoHNCq60W5TNjZxVQew/QT85UP
+ AT+K93OhXtn0U6QDK4Wja/LaVQ0cx/kOR80oHeJ2lUO6mcZdCeVQyCWH2ALLi6A8mEW+
+ 1YNvb1OEbr/YSyVrGgZ8grIzFxNcTJMGGvSp6PoUvdVrvvnJJxbViMpKryG/9SRbLTlG
+ 2R5lI4EysISDFs2uygbhDR6khgjnJplg5Y1LYEil0aN3giLj5tK9SjZSXfGDcP9RpHPJ
+ 3rvTY2O919JKFnSssC6rolfsiiNV57pjviriKzg1RwEH2HupZ+0mevrm6wVD95+Mfp0d
+ BFcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PD8IrFoZrZmvdewEGQ0F+Yxb3KALmLAdR1dQaVcJeY8=;
- b=SwAUxuWnmEKgbL5Ki6kQKunn1n1WBUciiDym5IfbOuzIZPQXWQXPpQ0olZjl70fHrp
- U83n4g9h8o0LeP963RZ5h5PS/Re76aZZf2d4WEwECGhxigDiv9PNEM2hKI4zs+O7P+NG
- YX+Ga0x7eAoizbxXpLnslnrLg6Y4Lp2pXEdaWYeY6Hvc1Uxk6DAvKodUyB6Bc2UNqVIm
- 6DaTrIFs8qpSkQut7gwoLamlZrj8QhAgSnQhvnTWbcPwLIjqCQPfGYWvQlD5gAQXLqFz
- E7A43Z4sOricTHoS3fjDucnGCQWKoPfS4qL/ArxcDpfecBdEcp+A06bkYn5x6vkc4LeP
- yaxg==
-X-Gm-Message-State: AOAM533CA3y0TPOKNnTzSO1c53PxuHLMD6RRmehiSEfjcVRCwrPJwYlt
- Y56dSoqab0T/FWe6t21nz9VDV5lJZqWjHw==
-X-Google-Smtp-Source: ABdhPJyriZ1TBOKxQyF14vbXPH94AIBeJs659UmaAz70zBMHNZgMzlJ6c+pIrDRNBHqitu5v07O75Q==
-X-Received: by 2002:aa7:9ec3:0:b029:32b:4eb5:4bad with SMTP id
- r3-20020aa79ec30000b029032b4eb54badmr12434919pfq.6.1626473520920; 
- Fri, 16 Jul 2021 15:12:00 -0700 (PDT)
+ bh=/F5CXRKSk7tqgHt1BAeQibP8uc+zwU1CNx0qlvCnlPs=;
+ b=TzpeI+jHnaInzEixAXoB3rG74oONrK0BImuOl1kqpxBQNr7uMwgmxJfKM7CEAm1tP1
+ AFg2JIId7fYzI33Xp912QJC1VcUAsFLabuVuqSQjTlZMNV0kuHrAz+KdvjfCMbi1CY9G
+ Y8BVdF8k/Gm32nGYvM2SfYoC3zg44EYZf2gpH8JXzjcHrB6CxUEWJ7afLwn9sBtyR7Yk
+ AaqevUsFpM+orJm/vxZyCm0PvohH676CJxnKqvJVwQSba12dIQL1i/4ctk8k04rfXZmi
+ Jmn20oUcoP5gGlIVdIAQ09axiQoz/uUW+hlEYNrbymwz58tKh4jw+55zvLuKII3SfPmN
+ uigw==
+X-Gm-Message-State: AOAM532H4wrO9TIgjmB0dvu8aevYRuJCmwoVpJFVVAtDWmEbf/NnwT8W
+ X4sPXFjJKhXQr3XwzgtklkejjRKBig8Rtg==
+X-Google-Smtp-Source: ABdhPJyO/3hKELQh9rtjYNwRTz+CavNCEYg/gS5hgXMZBE8qFyUyICNLPEv0fV1SJO+nQpRmPJRNew==
+X-Received: by 2002:a17:90a:6be1:: with SMTP id
+ w88mr11891892pjj.121.1626473735365; 
+ Fri, 16 Jul 2021 15:15:35 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id i25sm11168559pfo.20.2021.07.16.15.12.00
+ by smtp.gmail.com with ESMTPSA id d29sm11611024pfq.193.2021.07.16.15.15.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 15:12:00 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 17/34] target/arm: Implement MVE VMLAS
+ Fri, 16 Jul 2021 15:15:34 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 18/34] target/arm: Implement MVE shift-by-scalar
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
- <20210713133726.26842-18-peter.maydell@linaro.org>
+ <20210713133726.26842-19-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e3f557f7-c65d-428e-a0b5-68d1ffc01df4@linaro.org>
-Date: Fri, 16 Jul 2021 15:11:58 -0700
+Message-ID: <cec87fea-ca09-c681-4465-241d4e973098@linaro.org>
+Date: Fri, 16 Jul 2021 15:15:33 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713133726.26842-18-peter.maydell@linaro.org>
+In-Reply-To: <20210713133726.26842-19-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,35 +94,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/13/21 6:37 AM, Peter Maydell wrote:
-> Implement the MVE VMLAS insn, which multiplies a vector by a vector
-> and adds a scalar.
+> Implement the MVE instructions which perform shifts by a scalar.
+> These are VSHL T2, VRSHL T2, VQSHL T1 and VQRSHL T2.  They take the
+> shift amount in a general purpose register and shift every element in
+> the vector by that amount.
+> 
+> Mostly we can reuse the helper functions for shift-by-immediate; we
+> do need two new helpers for VQRSHL.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/helper-mve.h    |  8 ++++++++
->   target/arm/mve.decode      |  3 +++
->   target/arm/mve_helper.c    | 31 +++++++++++++++++++++++++++++++
->   target/arm/translate-mve.c |  2 ++
->   4 files changed, 44 insertions(+)
-...
+>   target/arm/helper-mve.h    |  8 +++++++
+>   target/arm/mve.decode      | 23 ++++++++++++++++---
+>   target/arm/mve_helper.c    |  2 ++
+>   target/arm/translate-mve.c | 46 ++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 76 insertions(+), 3 deletions(-)
 
-> +/* Vector by vector plus scalar */
-> +#define DO_VMLAS(D, N, M) ((N) * (D) + (M))
-> +
-> +DO_2OP_ACC_SCALAR_S(vmlass, DO_VMLAS)
-> +DO_2OP_ACC_SCALAR_U(vmlasu, DO_VMLAS)
-
-This is confusing.  The ARM says
-
-# Operations that do not perform
-# widening are always unsigned (encoded with U=1),
-
-This instruction does not perform widening, but it then codes on to enumerate the 
-signed/unsigned encodings.
-
-I suppose you're matching what's written, so
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
