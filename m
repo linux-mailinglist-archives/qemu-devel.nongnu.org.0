@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6C83CB3BC
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:06:32 +0200 (CEST)
-Received: from localhost ([::1]:43946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2EE3CB3BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:07:17 +0200 (CEST)
+Received: from localhost ([::1]:47290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4Irf-0001P0-7h
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:06:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
+	id 1m4IsO-0003fn-HC
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpO-00078M-Ft
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:10 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36587)
+ id 1m4IpP-0007AE-EX
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:11 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1m4IpM-0005IA-KQ
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:10 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- l17-20020a05600c1d11b029021f84fcaf75so7627194wms.1
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:08 -0700 (PDT)
+ id 1m4IpN-0005Ip-PY
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:04:11 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ g8-20020a1c9d080000b02901f13dd1672aso6573347wme.0
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:04:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/ZfUY8t6QSU0kfRmcUlho99+o9wSl9O3sA2ot3i6FlQ=;
- b=Aae4PyAsdbABL7pcXNVqHYnwexdU3XdXGPQCEinbnt43qczlj6eRHr8R58VtpJ39pn
- diLJc4WHN1m404ch/9Uej/qe6AJUgKa4ELbFC53VMRB/VPsl4suHdnMTSh7H8wuakaoh
- uGZ/VWojO5UsIDRQc5dCMsWciKzt0gX+kBp/t0Nu7RefDP9EmOuEPbJ6q7cFzxY+NrpU
- cu+MWilhmB7WAipwdAUpocOw3+5lFrGuIfgcH2fG4q57xCScUoH4pno8R0R+kbE467GF
- f4cAFluIiOV88JMdUmDtenEYXd9m+V0pfV1ydEbt1s82gKJsQhETdZd0+lGi8GUOpEtP
- Inyw==
+ bh=JANcPX6qN4kluZ0AAfHgg+gmdeQLyrKh5r/cIUARSqU=;
+ b=gUN5RibiyBj867rmFyWRnVv07wyqoflURxMuDP7mYGs0EiIblD2cV3vD7tuSJFInve
+ HYmoWZbp8uAJo+UnslWo8lGn7FoLmNUdOxn4NxHYSI2DvvfZ/CNF5DmacAzcp/M6aZqS
+ wlLhoJeMEEj27nZ6AEvwQaYAu58/bJdpqqOiHbTJ+5tSqeTImBpaLs0uf0rdQLOq+TTT
+ SvEaYXM95fthDVw5K31y5OjXmnjVCyjbFcvEVY/stqAiA1QcraKu/FHEyGnzZFUFcHsv
+ 8GsvDgYh5HnOTakz+b65MKrqwHVzu0zB3ZXWJykECM57SOgkVF/9wUOHaA5cUEc7CGiC
+ Y6bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/ZfUY8t6QSU0kfRmcUlho99+o9wSl9O3sA2ot3i6FlQ=;
- b=ei+JIu7rUoOR5DJ41b3tB8X7d8Pme0gxR7OpvUWUkihAhws0nB/G9PEvwDfhxZ+6x1
- YY/59NBXNf0v5UxVpIppaQNcdYot148UEWYVv/LfAJSMV18eh/ir7lqW0Zx1b2WdvTS6
- 2RDuznvhfMxyarHDrp7VNh2yHBuPJoRCgL+UiNuMv54nMPPusE8mMt2Y7vc3oMyzU/w6
- n8eQCew0jnPAunMvBE4GuhP+3bslHSI6xfnKWP1m25JnKMMQHB1Mzl/Zc6rIiSA3XGGq
- e8dQAFrOXw69sKxy8mk6lIylubwK0RgPDN56NnJICpzB55dTz50YtdKDg7LZRvdGEL4P
- 5zVA==
-X-Gm-Message-State: AOAM5311m1ilq96b2TzpJ/+k/cirQloSCOggdyADdjnoeEeFcB50IxXt
- fIHsg6WWOtZosFAPdnWveTgQ2qU0gQ5Oqw==
-X-Google-Smtp-Source: ABdhPJzz3NNVhMoDuky/yBC274InUneCQ9umR696QYH7ILpOe6JLKn/pqG3m7Yppgk+z+EuvBngAww==
-X-Received: by 2002:a05:600c:190a:: with SMTP id
- j10mr14788634wmq.109.1626422647059; 
- Fri, 16 Jul 2021 01:04:07 -0700 (PDT)
+ bh=JANcPX6qN4kluZ0AAfHgg+gmdeQLyrKh5r/cIUARSqU=;
+ b=c2W366Z1DPcx89L2D4pDN+Q7l5C1Qju46Q/rV0IytQMEjdi7IBx7stzyoDxG1oATeB
+ HxQX1KoynfpWZZAWt9yX4+4Brzip7GhnvGbuekZRDMXE1DIo3lGoFfpO/lD4FKncPIUn
+ 7JBAjk24MMeGYOiSvlD3ucLZC13enVmCVdxSQkTIFf/V9N7iHU8KsNei2e/oP5YCppVv
+ savafkoUf8Bcijdvsx8W+Pm1flbtEZxnJJ1rElIRcevnaJ4MqJQijLCIrvU6W6wBHBvp
+ lwh9kcTsX602eg8sxDZZr/G5+fNxUX3mxIRzoR8HkD1A6g0GOHaGOjJ6GdIjlrGk0Nsf
+ GO1g==
+X-Gm-Message-State: AOAM532ZzzdfmNRaqRNap36NfWB9GgPcdePu4ElyVbC29LtfGjLafvIK
+ SkqRZO6oJfu1sg/j1iolm+4hhHtSYndozg==
+X-Google-Smtp-Source: ABdhPJxQ+VwpBzMkOHHBkG/dOfLfoPGz1DyOTwDz6/DyI7fZpevIIXUr/kZYNZfle04kPvx5Xt69xw==
+X-Received: by 2002:a1c:f203:: with SMTP id s3mr14657064wmc.138.1626422648302; 
+ Fri, 16 Jul 2021 01:04:08 -0700 (PDT)
 Received: from localhost.localdomain ([41.34.125.69])
- by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.05
+ by smtp.gmail.com with ESMTPSA id p12sm6558046wma.19.2021.07.16.01.04.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 01:04:06 -0700 (PDT)
+ Fri, 16 Jul 2021 01:04:07 -0700 (PDT)
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/9] plugins: allow plugin arguments to be passed directly
-Date: Fri, 16 Jul 2021 10:03:37 +0200
-Message-Id: <20210716080345.136784-2-ma.mandourr@gmail.com>
+Subject: [PATCH 2/9] plugins/api: added a boolean parsing plugin api
+Date: Fri, 16 Jul 2021 10:03:38 +0200
+Message-Id: <20210716080345.136784-3-ma.mandourr@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210716080345.136784-1-ma.mandourr@gmail.com>
 References: <20210716080345.136784-1-ma.mandourr@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=ma.mandourr@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,123 +84,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mahmoud Mandour <ma.mandourr@gmail.com>, cota@braap.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Passing arguments to plugins had to be done through "arg=<argname>".
-This is redundant and introduces confusion especially when the argument
-has a name and value (e.g. `-plugin plugin_name,arg="argname=argvalue"`).
-
-This allows passing plugin arguments directly e.g:
-
-    `-plugin plugin_name,argname=argvalue`
-
-For now, passing arguments through "arg=" is still supports but outputs
-a deprecation warning.
-
-Also, this commit makes boolean arguments passed to plugins in the
-`argname=on|off` form instead of the deprecated short-boolean form.
+This call will help boolean argument parsing since arguments are now
+passed to plugins as a name and value.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 ---
- linux-user/main.c |  2 +-
- plugins/loader.c  | 24 ++++++++++++++++++++----
- qemu-options.hx   |  9 ++++-----
- 3 files changed, 25 insertions(+), 10 deletions(-)
+ include/qemu/qemu-plugin.h | 13 +++++++++++++
+ plugins/api.c              |  5 +++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 4dfc47ad3b..d47f78132c 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -462,7 +462,7 @@ static const struct qemu_argument arg_table[] = {
-      "",           "[[enable=]<pattern>][,events=<file>][,file=<file>]"},
- #ifdef CONFIG_PLUGIN
-     {"plugin",     "QEMU_PLUGIN",      true,  handle_arg_plugin,
--     "",           "[file=]<file>[,arg=<string>]"},
-+     "",           "[file=]<file>[,<argname>=<argvalue>]"},
- #endif
-     {"version",    "QEMU_VERSION",     false, handle_arg_version,
-      "",           "display version information and exit"},
-diff --git a/plugins/loader.c b/plugins/loader.c
-index 05df40398d..a4ec281692 100644
---- a/plugins/loader.c
-+++ b/plugins/loader.c
-@@ -94,6 +94,8 @@ static int plugin_add(void *opaque, const char *name, const char *value,
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index dc3496f36c..7d0b23c659 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -564,4 +564,17 @@ int qemu_plugin_n_max_vcpus(void);
+  */
+ void qemu_plugin_outs(const char *string);
+ 
++/**
++ * qemu_plugin_bool_parse() - parses a boolean argument in the form of
++ * "<argname>=[on|yes|true|off|no|false]"
++ *
++ * @name: argument name, the part before the equals sign
++ * @val: argument value, what's after the equals sign
++ * @ret: output return value
++ *
++ * returns true if the combination @name=@val parses correctly to a boolean
++ * argument, and false otherwise
++ */
++bool qemu_plugin_bool_parse(const char *name, const char *val, bool *ret);
++
+ #endif /* QEMU_PLUGIN_API_H */
+diff --git a/plugins/api.c b/plugins/api.c
+index 332e2c60e2..43e239f377 100644
+--- a/plugins/api.c
++++ b/plugins/api.c
+@@ -383,3 +383,8 @@ void qemu_plugin_outs(const char *string)
  {
-     struct qemu_plugin_parse_arg *arg = opaque;
-     struct qemu_plugin_desc *p;
-+    bool is_on;
-+    char *fullarg;
- 
-     if (strcmp(name, "file") == 0) {
-         if (strcmp(value, "") == 0) {
-@@ -107,18 +109,32 @@ static int plugin_add(void *opaque, const char *name, const char *value,
-             QTAILQ_INSERT_TAIL(arg->head, p, entry);
-         }
-         arg->curr = p;
--    } else if (strcmp(name, "arg") == 0) {
-+    } else {
-         if (arg->curr == NULL) {
-             error_setg(errp, "missing earlier '-plugin file=' option");
-             return 1;
-         }
-+
-+        if (g_strcmp0(name, "arg") == 0 &&
-+                !qapi_bool_parse(name, value, &is_on, NULL)) {
-+            if (strchr(value, '=') == NULL) {
-+                /* Will treat arg="argname" as "argname=on" */
-+                fullarg = g_strdup_printf("%s=%s", value, "on");
-+            } else {
-+                fullarg = g_strdup_printf("%s", value);
-+            }
-+            warn_report("using 'arg=%s' is deprecated", value);
-+            error_printf("Please use '%s' directly\n", fullarg);
-+        } else {
-+            fullarg = g_strdup_printf("%s=%s", name, value);
-+        }
-+
-         p = arg->curr;
-         p->argc++;
-         p->argv = g_realloc_n(p->argv, p->argc, sizeof(char *));
--        p->argv[p->argc - 1] = g_strdup(value);
--    } else {
--        error_setg(errp, "-plugin: unexpected parameter '%s'; ignored", name);
-+        p->argv[p->argc - 1] = fullarg;
-     }
-+
-     return 0;
+     qemu_log_mask(CPU_LOG_PLUGIN, "%s", string);
  }
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 14258784b3..36b6cb9a2f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4459,19 +4459,18 @@ SRST
- 
- ERST
- DEF("plugin", HAS_ARG, QEMU_OPTION_plugin,
--    "-plugin [file=]<file>[,arg=<string>]\n"
-+    "-plugin [file=]<file>[,<argname>=<argvalue>]\n"
-     "                load a plugin\n",
-     QEMU_ARCH_ALL)
- SRST
--``-plugin file=file[,arg=string]``
-+``-plugin file=file[,argname=argvalue]``
-     Load a plugin.
- 
-     ``file=file``
-         Load the given plugin from a shared library file.
- 
--    ``arg=string``
--        Argument string passed to the plugin. (Can be given multiple
--        times.)
-+    ``argname=argvalue``
-+        Argument passed to the plugin. (Can be given multiple times.)
- ERST
- 
- HXCOMM Internal use
++
++bool qemu_plugin_bool_parse(const char *name, const char *value, bool *ret)
++{
++    return qapi_bool_parse(name, value, ret, NULL);
++}
 -- 
 2.25.1
 
