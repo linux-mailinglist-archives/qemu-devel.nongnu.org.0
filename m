@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27DCA3CB717
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:02:19 +0200 (CEST)
-Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5693CB719
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:04:01 +0200 (CEST)
+Received: from localhost ([::1]:36034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4MXq-0006Wh-5J
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:02:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39560)
+	id 1m4MZU-0001bn-PK
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1m4MUg-0003Uh-8u
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:59:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1m4MUe-0004nC-K4
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:59:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626436739;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=X/2O2nM8sYnISYgcoRzcUuA9ligJytk/finaDU7HL0I=;
- b=AokPVWGc+Ye0mRsxfkW84Pl94BPSljv6BJrS8HCHBhIfpQ7WntlxCpVXWfRDkDYXQp+9mE
- P3urq287O15ykPxEoHGG0N01gUD6HNj/zPCdRH9HLKbVHpbwYAT3B6SgmASqRhiuaovWjE
- NFf4tP5qTWzbeWusSdc9AjNyzSFXXxY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-V5cZCUmQN2myD1sAaA-ToA-1; Fri, 16 Jul 2021 07:58:58 -0400
-X-MC-Unique: V5cZCUmQN2myD1sAaA-ToA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1EF61018722;
- Fri, 16 Jul 2021 11:58:57 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.195.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C47BD69CB4;
- Fri, 16 Jul 2021 11:58:55 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org,
-	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH 2/2] i386: Fix coding style in kvm_hyperv_expand_features()
-Date: Fri, 16 Jul 2021 13:58:52 +0200
-Message-Id: <20210716115852.418293-2-vkuznets@redhat.com>
-In-Reply-To: <20210716115852.418293-1-vkuznets@redhat.com>
-References: <20210716115852.418293-1-vkuznets@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4MXN-0007OJ-Ml
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:01:49 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:38481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4MXL-0006py-Rw
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:01:49 -0400
+Received: by mail-ej1-x636.google.com with SMTP id gb6so14781623ejc.5
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 05:01:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lvF0xExXGrStXVQNKeWBDAjh/sfZVkhgCnDYAaEJrZU=;
+ b=P9AuzyDGz2PNi3rK+PW2McEaXA47dGefKszK1tXdBE5p0eFEjcV4eBNDbKHr8TBt6Z
+ OFkOOlDf5iMfi8G7UvyIEO5RJ4sq9f8zY35YhnZZ0/VO5VzA191C2shW2KjCzRxhomeZ
+ Ac32GAu2BoM9PNYiAxuunzMCigZFH6VsNyfSKPwsL1SE602ZQbGzlBnOX3mOFKxVQscw
+ f6SVK3cwnvos5ALKOWlKtjaZutP8cABvn3mhGRzqtCg1IknohvzAIty3OVFARmvUamW/
+ DOpBVQBbQgbz/Zf26pQXWeGOJllwEnSbEiMAQoA5MT+behncKouG/CbGJ32Ioq6rwUqT
+ x6lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lvF0xExXGrStXVQNKeWBDAjh/sfZVkhgCnDYAaEJrZU=;
+ b=hT0luuqDhDiusgASgVmhTsMnbH3WNJO7+2a7FS12XQOrqIRlMppyn3aN8v2TuDkyUn
+ f64Ovpvm2Z6NquJ7XdoYdEyH6vuKUIkbaaAYJmtz6e43Wzi6z7rjQdehA2ivTyUuIwGF
+ fwZXu3yWY+XHmH33l4SoYGwmi4kW/iOa934HHkIOSIGvIegBHbikRh83acxlcOCGiCsM
+ Qfqnh3HaXDHWEG2VR5ejjSxtDK2SQrxfTqc/zEiBpTWywA0rnUq4RbLuCvsFhQ3s2DBl
+ PGskY5WWHHwRydTETRnLWHULBoHDsX6remqGInaSKG3BiEQrCDzfc6MvTnLh4HTYmIc9
+ 9N0A==
+X-Gm-Message-State: AOAM531KxgLTf68aKY++nfxHKawRhQ33d5+aBiVq088x+H5MnVVSLDD6
+ i3eKodDMxQMmlh59vWRqpzWgY9fENgGBH3oBOMgpkA==
+X-Google-Smtp-Source: ABdhPJyJD41b5MeQRVzcbyFtHdRpcGcmabs0xJcPlJUbna1SJGBzQra+39wuq8YpnuR2UEIf5MBRpGxl9Vz137GwzzM=
+X-Received: by 2002:a17:906:16cd:: with SMTP id
+ t13mr11574441ejd.250.1626436905557; 
+ Fri, 16 Jul 2021 05:01:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210715123206.212379-1-armbru@redhat.com>
+In-Reply-To: <20210715123206.212379-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Jul 2021 13:01:05 +0100
+Message-ID: <CAFEAcA-WMius9SUf0gLSviM0QKOLQSy26ZMgRR-n60gH2qELtA@mail.gmail.com>
+Subject: Re: [PULL 0/1] QAPI patches patches for 2021-07-15
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,47 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU coding style requires braces around bodies of ifs.
+On Thu, 15 Jul 2021 at 13:32, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit a9649a719a44894b81f38dc1c5c1888ee684acef:
+>
+>   Merge remote-tracking branch 'remotes/cleber-gitlab/tags/python-next-pull-request' into staging (2021-07-14 18:09:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-07-15
+>
+> for you to fetch changes up to a0c7b99bf75d85b616fa219a7d866fc72970f327:
+>
+>   qapi: Fix crash on missing enum member name (2021-07-15 12:56:41 +0200)
+>
+> ----------------------------------------------------------------
+> QAPI patches patches for 2021-07-15
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- target/i386/kvm/kvm.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index e69abe48e3f8..28ca682b1089 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1219,8 +1219,9 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
-     Error *local_err = NULL;
-     int feat;
- 
--    if (!hyperv_enabled(cpu))
-+    if (!hyperv_enabled(cpu)) {
-         return true;
-+    }
- 
-     /*
-      * When kvm_hyperv_expand_features is called at CPU feature expansion
-@@ -1228,8 +1229,9 @@ bool kvm_hyperv_expand_features(X86CPU *cpu, Error **errp)
-      * when KVM_CAP_SYS_HYPERV_CPUID is supported.
-      */
-     if (!cs->kvm_state &&
--        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID))
-+        !kvm_check_extension(kvm_state, KVM_CAP_SYS_HYPERV_CPUID)) {
-         return true;
-+    }
- 
-     if (cpu->hyperv_passthrough) {
-         cpu->hyperv_vendor_id[0] =
--- 
-2.31.1
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
+for any user-visible changes.
+
+-- PMM
 
