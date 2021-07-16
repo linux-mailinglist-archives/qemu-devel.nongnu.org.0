@@ -2,137 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27F13CB6C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 13:34:19 +0200 (CEST)
-Received: from localhost ([::1]:36752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44FE23CB6DA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 13:42:55 +0200 (CEST)
+Received: from localhost ([::1]:41760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4M6k-0006cr-Ko
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 07:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35008)
+	id 1m4MF3-000228-Qk
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 07:42:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m4M52-0004VV-JL; Fri, 16 Jul 2021 07:32:32 -0400
-Received: from mail-eopbgr140119.outbound.protection.outlook.com
- ([40.107.14.119]:42382 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4MBl-0008H3-5C
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:39:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m4M50-00032Q-4j; Fri, 16 Jul 2021 07:32:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rpy3PQfthse3a7+CJg/bHxpxuU7q4E5tYiTXntilTfrEl9g1XNg+TxjOj53E41S/wooYLi9uAoSAIw8vqKEmuqdHX+cX8249kro6RlzGWuKbGsUgq3pWoRo3Obz4u6ysDn5cJJrfikvQJ6XPyJI3jBkWmrsh9Zgrx2oT1vnNkVYNmKwvQCTOgaA530zEqagiDH4JOBg5t3ankXO2J1fArTDBx+4/e1S6zGBsYOX3hMCQAtDqzsYLBgot6esv1n3rt2m+rRZR/5ObAEGblZiVRIMI3X4QFQbHQjzMt7z6WurenHkeQXJPwE7R40Jt0wT4dHobK8IIjyCfG/NuTD82dQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iaa5i/wufQOVqZY1oXzON1CSqLE5FgeChbAIfS4M86I=;
- b=R9UQXSj8cLhDY/7OvSjdphNQN4FUm/Sncvy2pF5CzEgkyeMEQEAMVSSptSwrRvVrDZavv/V3zTAcW7uD7S8uaGa4GnymryJKg80a2imVZqaukpQX1GAe4eOJATiXixnWsDD//46GDlATJLGU5A3h+C4xfXK+Nv02Aty75nAHRZgkMt+2KbyM/Q8YRnRbIuLH68IKqer6Fzn8U+Zn3vB+fmq1fQWq/u+LAEzpd06R/Sp2miuY+IBaJWgoCxyeqh1bJnueZeWjpSxaDctgOeb7oMdq8IdSrdhAy84t5N6NwN3ERL9+3g187VYkdbPQ0zRldMayI/JgIt+/CVmkCsC3dw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iaa5i/wufQOVqZY1oXzON1CSqLE5FgeChbAIfS4M86I=;
- b=sG4GgndE+0zR7PtGD6vH+7dGwSp5Ng+yYZ1XVn05n3NczE52SgeEjqkzuigDQnC3eKPhv47apwOmYQlnWznP9fSxQxjRxsst8tSPEao3WAGSdE5iPdWp5Qbfaug+i843TU4T0vX7amk4/6o25uePhGiol6dJ0IQFkI4kt72HHXs=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6168.eurprd08.prod.outlook.com (2603:10a6:20b:294::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Fri, 16 Jul
- 2021 11:32:25 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4331.026; Fri, 16 Jul 2021
- 11:32:25 +0000
-Subject: Re: [PATCH 05/14] iotests.py: filter compression type out
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, den@openvz.org, jsnow@redhat.com
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4MBb-0007h7-0I
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 07:39:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626435557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xMH5jJf3PFaptG0S2ERje+FA38gTuEvzdAJCsfBD94g=;
+ b=KEfESeDdAokJKNRgEJcvW+u+vlRaJUdDFwDbEMAHMcp4IFhfsVLTV1EIx9koUZPQEG9++2
+ KPXTQsk9e3xfEky2OmljFg16cAulaHAOed/F1DNQ3UzvMFdqudqSY0IOgb8VJIrSuGqTbD
+ F6H864TpdyyXt9YFqfOOSeMwbexxCOk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-174--pQWUwmyOV-ip5f0I4JnwA-1; Fri, 16 Jul 2021 07:39:15 -0400
+X-MC-Unique: -pQWUwmyOV-ip5f0I4JnwA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ a4-20020adffb840000b02901304c660e75so4659384wrr.19
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 04:39:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=xMH5jJf3PFaptG0S2ERje+FA38gTuEvzdAJCsfBD94g=;
+ b=l5kuiLRWslMQII3/Kms/7lEfvYcDKwbpb3iDwEJ4AAVOCIJDH0SvuKpNZfN4tJgnUx
+ CY0WDkeAcFRKLwND0UAzrfWSfVc0A7KpolT4LHymK5YiBH+b1LeaEpH56CwRPuZtxv4P
+ nRgn1dtC6sIE8zZnvUGe7rqWUN2b1OdWtdSZQAPVyJJikbGzQOnpBGFypsMS4y7egF0K
+ 8nd0KhzSof8B5PtuD97Jv2lwz33LVLSf8nwl6T415X0sBx1ZHplkKY0S/r45CTESSB7f
+ 1dt6SB8guMexwhg7qbo6+cESSt+bjCAEY2s4Cg5SCpatOPv4EddSztVh1oJGEPx4SMiq
+ S2Xw==
+X-Gm-Message-State: AOAM533YfGz7cQa0Pdy0uWzcGxQTNfAT9YEfIm29gFRmshMjgMeRVQVW
+ 17iJa8XZ2tuCmd92ecsmOIYKEigGVu/EwQHowhVwfYlWRDWiBDTWKr9zHl3SZl9t9b42nKyViXt
+ QhdpfYUC1KGSnjpA=
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr15332711wmh.89.1626435554793; 
+ Fri, 16 Jul 2021 04:39:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVw8HGOVrjJ77DqcTCvAGNCa/3+4wHmu+NyKIo7oxlQv/C6Y1ssAioe2uFxX9yS7ys0zV4Wg==
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr15332681wmh.89.1626435554527; 
+ Fri, 16 Jul 2021 04:39:14 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ q81sm10301088wme.18.2021.07.16.04.39.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jul 2021 04:39:14 -0700 (PDT)
+Subject: Re: [PATCH 06/14] iotest 302: use img_info_log() helper
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
 References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
- <20210705091549.178335-6-vsementsov@virtuozzo.com>
- <9ffe4dc6-f7c1-a788-84f8-03a763df2729@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <9cbedf8d-27a1-6a90-b030-98f3a19a3c05@virtuozzo.com>
-Date: Fri, 16 Jul 2021 14:32:23 +0300
+ <20210705091549.178335-7-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <76a17051-b5c4-e262-98c3-046273fa4440@redhat.com>
+Date: Fri, 16 Jul 2021 13:39:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
-In-Reply-To: <9ffe4dc6-f7c1-a788-84f8-03a763df2729@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM4PR05CA0028.eurprd05.prod.outlook.com (2603:10a6:205::41)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.193) by
- AM4PR05CA0028.eurprd05.prod.outlook.com (2603:10a6:205::41) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Fri, 16 Jul 2021 11:32:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7ceea397-91f4-493e-d074-08d9484d628e
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6168:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB61689749C5BC02CBE8A9682FC1119@AS8PR08MB6168.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: S1xIWkZQDHhwrk8EFCxHyCEqehwzwz4vPeWmA8FbHpQF/EgOSf8Wl3iRdrIgFPbgoRie7XbEoVHjFRWKavyG4CGhIaPrctdYjH0Ut+CaCHmeCLuB1daV/tRPQqC+kg+t07mEluncDzm4RitENQf9SYUxEGsAGHCUJ2o8zKk+D6QQ3ClNvYIRxS3SjGGbZhu8Zl+wBRcnHi6r8rOhMat+6GwHHWHilHbkpTzwEWDOiGaYpGsrdoNSdameC9KHkm4eTnGwwDybyWJh3eLUZ20G3RWiKIEgB/uDltGEHcAZn3BPQuXw+tJkIlOlQribCwf1zQovxBc7sUzmJE15Hc5a1nQqGinINEvZu9YKmUujXV6CVQJxtR4DFTCDT6kn2XKoZJDf4FD9BNu0PRFxUNxt3XvDWILamweSeniD9iEvoLCLZPJYCT1HwO4+5b+lSq1Bph7cDR95G9ZhiZF6s6uDrrs+y95m73EnoOWFPK4ki+vrOOnGjbbwnhCDwIAxH2HPZCJ+i0VxKNAypjEbH9tB2OxUlt33aGnlrdjeAcaTeLF3In/0UGPIE54WCVgz7rOFkWdkW+/t2lwB3kXJvBynaNgs3ncglN6mp1+iOm6+lRBDua3J/AgC/y8HPvRqMigRvxF5F7rQUGR8riRHRG+/wMZk9z/1dhk0gsTuua1wnJKD6daAVVm/55nyA8mPmr9b6QVKlCATh8Fo6J6rIsxQpB8BxBc2OfbGpTk/YfPGcyZaqVs8kbeTU9dLyMRX9v+WHWJC2z72N/aPBwX2vNjLxA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39840400004)(366004)(346002)(376002)(396003)(186003)(478600001)(52116002)(2906002)(8676002)(38350700002)(38100700002)(31696002)(8936002)(316002)(4326008)(86362001)(66476007)(66556008)(2616005)(31686004)(16576012)(6486002)(53546011)(956004)(5660300002)(26005)(83380400001)(36756003)(66946007)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UTg3Mzc0dTZNd3U0dmRnL1ljUUNEL1U2YVJhOUJ3aWFKbFYxQTRySjl3czVD?=
- =?utf-8?B?LzRYNkVzVFFXWkFldEEzVTBXVHlBVXZNcHZrNE5QUUprSjY3ekRZdy9FOFVy?=
- =?utf-8?B?aFNpa1lodXdPdlpRb3FWVTRyRWJrSEs5Wldqdkt3L0JjdUY4QmtrWExqTjkw?=
- =?utf-8?B?cjhzOTZQQ1NTYkpmN1FwSjlTTExNaFFNdk4yVWd2UUQ2SG9YVU1WTzZwYUkr?=
- =?utf-8?B?bmVZNUpOYjVtVWRTa29FNHpCWHRQOUYzelJMQnVxU0xVNUtXYkJhekp5TjBP?=
- =?utf-8?B?dlZuZURVQ0cvYis3SnRpcGViTmlMOGFVWEdIT2cxMkp4Q1lVb2JvT0tvZExY?=
- =?utf-8?B?TFh5Q2wvMEVCdW1VbWx6WUNKWXo1K0VqYmFTbC9RdWZZM0ZGL2xzSXUzekxI?=
- =?utf-8?B?NW00eDF3d0hMTHZnSGN4ZmQ4QzJqczZsSTBCbmNhQVpRQTd5UlZEcWpXaGw3?=
- =?utf-8?B?cFFOVWZqVUVlSlBDc3crZEUyakh2UWlNbk4xZi9pOXJuYmU4S2M5Ni9mTE9r?=
- =?utf-8?B?ejdEdm85YjRxdnZyR0syRXBnM2E1SHBtVVdRZEJ2bW1uVHkydjV2ZU15dXBl?=
- =?utf-8?B?U0ZzbzcvaEpZd2g4WHU0dEpteFZvVWFjNy9Tb1dLbXBkbnlQWkhSZjI1RVBC?=
- =?utf-8?B?Y1p1V1JZYlhoaEs2ajMzRGJSRHozbFVDaFJBcjUvWlRqd3ZrVFA2cnZ0anVr?=
- =?utf-8?B?cllPN0VVKy9Ib2RoZFdPbzNNK3dtVmlKbEExa2I4WXFuTDlGNkVycWhEWGtZ?=
- =?utf-8?B?N0c5NndtSDRNVDhiZXliSWxKWVllR0tmTVNFS2s3WWY5V2xIRmdpT3lIbnhX?=
- =?utf-8?B?TUhaS2dpV1A2MzNIZ3dxUC9TN0hscnhkZlhkU2RpVHoxSS9mWENTRFEvZGI4?=
- =?utf-8?B?RytXckV5cWROaTRPQ01FektIc2ZsNW00WWxVaTAwSjBEYytlZnArNUUzTzIw?=
- =?utf-8?B?a1JIYit5cjFUUXdLdWJtc3grUmZjYnN1VUFsdzFpMU1WNW16VExaNFlySEVF?=
- =?utf-8?B?T0RUTXdjRW84ZGtQTHc1ZEFaYUlLK3VCWGh0NGtNem9objh6RDJKYkRwUnJp?=
- =?utf-8?B?MGZZcEF5UExaYVZtb3JSMnVqdW11RXJOWHZna3RhWnI0em5GMmhpMEhmd3I4?=
- =?utf-8?B?eGhKNXdiRE1FdjhQS0VTblg5czdDYjZGd1NyUzNtbFVvalJZNXEzVjM4TldZ?=
- =?utf-8?B?c1dzWHp4QkRrek96SER5UTFtMGJiRU5QVHpCUzVhcTVvaUxIUUZ4cmMzQzNB?=
- =?utf-8?B?VWErYkRSeEZrSllSNkcrbFRYTEJJTDNYVTBSYzA5aG1UeGRMK1BJaURDMitQ?=
- =?utf-8?B?clYzb0h6MjdJV2d5YTJHQVd3VVZhRUpscXIxMWNuNkdMV25uYzhtUi9MakZm?=
- =?utf-8?B?Yis2eG5QSlpvMGZ2Wm5XTm9BMnlrN1Z6OGhndmx3TWE3d2lFeDZmR0lsQTlH?=
- =?utf-8?B?cDBsaGpkeWJHbzZEelduY0kzQXVpVUFWVEJ6cTRxWGZmZFRIL25jOVJkQ0tJ?=
- =?utf-8?B?Vzc3TlY5Wis5MzZycHBRb21lOUhkZVlTM2x4cnpTYmFZRGtMbVJMaEhNRytV?=
- =?utf-8?B?ak5hNzE0b2dEUy9TQkVhSkcySlR2dFMvazkrOVhEaktZNGdYQ0xieTlXVjlV?=
- =?utf-8?B?UVpqYmZwdytVZ1M2QnNiSFV4UmV2K1lQcVJJWk9YRlVKRmtrUVBHZ25PS1Ry?=
- =?utf-8?B?WmZmaXM4VWFIUFpjbHlpQWdpV0NxYy8veU1FZVB3MXlmb0MzNkFONmhNWTQy?=
- =?utf-8?Q?SqP8uyKPksU1m7MSfnYZU/yuvdQGd2WP8d3M460?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ceea397-91f4-493e-d074-08d9484d628e
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2021 11:32:25.3999 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6Gqypohp8SYoLCyUb0EcwhZefZqikTyozyXA49YiykOi4g294X9B+a5206jccjTI1d+HPqBFWpNngyRj23wSU6HjnkNstppqy2bvczQsj6E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6168
-Received-SPF: pass client-ip=40.107.14.119;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210705091549.178335-7-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -146,86 +100,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-16.07.2021 14:15, Max Reitz wrote:
-> On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
->> We want iotests pass with both the default zlib compression and with
->> IMGOPTS='compression_type=zstd'.
->>
->> Actually the only test that is interested in real compression type in
->> test output is 287 (test for qcow2 compression type) and it's in bash.
->> So for now we can safely filter out compression type in all qcow2
->> tests.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/206.out    | 10 +++---
->>   tests/qemu-iotests/242.out    | 10 +++---
->>   tests/qemu-iotests/255.out    |  8 ++---
->>   tests/qemu-iotests/274.out    | 68 +++++++++++++++++------------------
->>   tests/qemu-iotests/280.out    |  2 +-
->>   tests/qemu-iotests/iotests.py | 13 ++++++-
->>   6 files changed, 61 insertions(+), 50 deletions(-)
-> 
-> Looks OK, though I wonder if it weren’t better to have a filter that only prints some options and explicitly filters out everything else.
+On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
+> Instead of qemu_img_log("info", ..) use generic helper img_info_log().
+>
+> img_info_log() has smarter logic. For example it use filter_img_info()
+> to filter output, which in turns filter a compression type. So it will
+> help us in future when we implement a possibility to use zstd
+> compression by default (with help of some runtime config file or maybe
+> build option). For now to test you should recompile qemu with a small
+> patch:
+>
+>      --- a/block/qcow2.c
+>      +++ b/block/qcow2.c
+>      @@ -3540,6 +3540,11 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+>               }
+>           }
+>
+>      +    if (!qcow2_opts->has_compression_type && version >= 3) {
+>      +        qcow2_opts->has_compression_type = true;
+>      +        qcow2_opts->compression_type = QCOW2_COMPRESSION_TYPE_ZSTD;
+>      +    }
+>      +
+>           if (qcow2_opts->has_compression_type &&
+>               qcow2_opts->compression_type != QCOW2_COMPRESSION_TYPE_ZLIB) {
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/302     | 3 ++-
+>   tests/qemu-iotests/302.out | 7 +++----
+>   2 files changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/302 b/tests/qemu-iotests/302
+> index 5695af4914..2180dbc896 100755
+> --- a/tests/qemu-iotests/302
+> +++ b/tests/qemu-iotests/302
+> @@ -34,6 +34,7 @@ from iotests import (
+>       qemu_img_measure,
+>       qemu_io,
+>       qemu_nbd_popen,
+> +    img_info_log,
+>   )
+>   
+>   iotests.script_initialize(supported_fmts=["qcow2"])
+> @@ -99,7 +100,7 @@ with tarfile.open(tar_file, "w") as tar:
+>               nbd_uri)
+>   
+>           iotests.log("=== Converted image info ===")
+> -        qemu_img_log("info", nbd_uri)
+> +        img_info_log(nbd_uri)
 
-That means larger work and larger audit of what actually each test wants to see in the output..
+There’s another `qemu_img_log("info", nbd_uri)` call above this place.  
+We can’t use `img_info_log()` there, because in that case, the image is 
+not in qcow2 format (which is the test’s image format), but 
+`img_info_log()` enforces “-f {imgfmt}”.  It would have been nice to 
+have a comment on that somewhere, though.
 
-  (Well, actually, I’d prefer not to have the “Formatting…” line in the reference output at all, because I don’t see the point, but I suppose that can be considered a different problem.)
+But, well.
 
-Hmm. I like the idea of dropping this line, I don't remember any bug that this line helped to catch, but we have to update it every time we add some new option. I can make a separate patch in v2 to just filter it out everywhere.
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-> 
-> [...]
-> 
->> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
->> index 80f0cb4f42..6a8cc1bad7 100644
->> --- a/tests/qemu-iotests/iotests.py
->> +++ b/tests/qemu-iotests/iotests.py
->> @@ -224,9 +224,18 @@ def qemu_img_verbose(*args):
->>                            % (-exitcode, ' '.join(qemu_img_args + list(args))))
->>       return exitcode
->> +def filter_img_create(text: str) -> str:
->> +    return re.sub('(compression_type=)(zlib|zstd)', r'\1COMPRESSION_TYPE',
->> +                  text)
->> +
->>   def qemu_img_pipe(*args: str) -> str:
->>       '''Run qemu-img and return its output'''
->> -    return qemu_img_pipe_and_status(*args)[0]
->> +    output =  qemu_img_pipe_and_status(*args)[0]
-> 
-> There’s a superfluous space after '='.
-> 
->> +
->> +    if args[0] == 'create':
->> +        return filter_img_create(output)
->> +
->> +    return output
-> 
-> Wouldn’t it make more sense to have this filter be in qemu_img_pipe_and_status()?
-> 
+(And speaking in principle, I don’t think I like the broad 
+img_info_log() very much anyway, because I feel like tests should rather 
+only have the actually relevant bits in their reference outputs…)
 
-Hmm probably someone want to not filter information out, then qemu_img_pipe_and_status() will be a way to get unfiltered output..
+>   
+>           iotests.log("=== Converted image check ===")
+>           qemu_img_log("check", nbd_uri)
+> diff --git a/tests/qemu-iotests/302.out b/tests/qemu-iotests/302.out
+> index e2f6077e83..3e7c281b91 100644
+> --- a/tests/qemu-iotests/302.out
+> +++ b/tests/qemu-iotests/302.out
+> @@ -6,14 +6,13 @@ virtual size: 448 KiB (458752 bytes)
+>   disk size: unavailable
+>   
+>   === Converted image info ===
+> -image: nbd+unix:///exp?socket=SOCK_DIR/PID-nbd-sock
+> -file format: qcow2
+> +image: TEST_IMG
+> +file format: IMGFMT
+>   virtual size: 1 GiB (1073741824 bytes)
+> -disk size: unavailable
+>   cluster_size: 65536
+>   Format specific information:
+>       compat: 1.1
+> -    compression type: zlib
+> +    compression type: COMPRESSION_TYPE
+>       lazy refcounts: false
+>       refcount bits: 16
+>       corrupt: false
 
-But I tend to agree, as in 02 I do generic logic in qemu_img_pipe_and_status(), so until we have a good reason, it's better to keep all generic logic in one place. OK, will move it to qemu_img_pipe_and_status()
-
-> 
->>   def qemu_img_log(*args):
->>       result = qemu_img_pipe(*args)
->> @@ -479,6 +488,8 @@ def filter_img_info(output, filename):
->>                         'uuid: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
->>                         line)
->>           line = re.sub('cid: [0-9]+', 'cid: XXXXXXXXXX', line)
->> +        line = re.sub('(compression type: )(zlib|zstd)', r'\1COMPRESSION_TYPE',
->> +                      line)
->>           lines.append(line)
->>       return '\n'.join(lines)
-> 
-
-
--- 
-Best regards,
-Vladimir
 
