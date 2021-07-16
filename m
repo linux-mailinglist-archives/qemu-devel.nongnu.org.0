@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B8F3CB118
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 05:21:29 +0200 (CEST)
-Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE4C3CB19C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 06:27:05 +0200 (CEST)
+Received: from localhost ([::1]:43304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4EPk-0005Fv-Gl
-	for lists+qemu-devel@lfdr.de; Thu, 15 Jul 2021 23:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54422)
+	id 1m4FRH-00089G-L9
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 00:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1m4EOU-0004Tx-Ip
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 23:20:06 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:36823)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m4FQ6-0007SM-71
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 00:25:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hiharryharryharry@gmail.com>)
- id 1m4EOS-0003Ew-Rp
- for qemu-devel@nongnu.org; Thu, 15 Jul 2021 23:20:06 -0400
-Received: by mail-lf1-x133.google.com with SMTP id y42so13637862lfa.3
- for <qemu-devel@nongnu.org>; Thu, 15 Jul 2021 20:20:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1YJZ1CWMmebpSmtQddMMIIyxPUmJh3e5O5JeZSNpVGs=;
- b=nxKomr+4b8nUr5nZA7o0Un2l3lcqOxbFjPG9P8ddAeJpxbPxqCIK43r3pTnzv2WoUM
- DK52SNtlDCj+0MGDyWA9LkQXWJGwDn4p5L02XE6rJNDEpSRBbn/4WZfQGPWIcoQCeDsx
- JBPcRwHKiZa1PRrV9YE9ECOq7o2eBqmkPfMPd9Ma/AZzKa4EMqCVMBdmFEECQ0nwqMxn
- OInSDMsAasv51sOB23FHYqowemSr/t/4JeEU7QW+lQ4ijvWz+hHlM2H/qce2oz/v42fA
- JV5rnRwzyNSIekiHaomTSkv9WU23rbYSl1RV6mP66ZfIWiKlAkGlb2RH9k7WXdDAr+2o
- POyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1YJZ1CWMmebpSmtQddMMIIyxPUmJh3e5O5JeZSNpVGs=;
- b=GTZJz8HH4eFiVXYylmErPSTzKhF3ofk7I/DUKeH7nRtMccNeDrW6J3kxtSIYycY96J
- XqTTokwnmi+XCd6e2q0lMphBSwUAunNMuUxuMkNFYo6wLSOzYTSivEWysrZzzi9iPYJI
- iUSNuuY3c4B0Xz3inmGDO+tvuGeCriBjYbhnl7R+dgJuPLfCCOT37rSWmrtusFUFT4NI
- LjfOObSkRxZ19OMSuk7idds1ykMKtqI2coj0bcoBzRpAfBsEj8rHnN/vYQ6aE9iv5y/o
- 74/d4codO4Cgv5YtefxeEpXe047820raS5+KcDDIWaiYz+rl3DM2Mg/jvGuyOCzoBHQQ
- bXSA==
-X-Gm-Message-State: AOAM533CPAxeKBASzMM5tmv76hKXVBhWo29P2yu82WfJGWjGDGnXe/s3
- FVPnGmBkcf6m8XsfVey5LofxyQB/Ff5dQZO3yrM=
-X-Google-Smtp-Source: ABdhPJyVq5th++qXg53cvve/xs6hma3tAScm8LW1cQsaL++a+pZcGEmQN+gylMMwVZhPapBUf9LoENsGX/SAV+/xXSg=
-X-Received: by 2002:ac2:50c3:: with SMTP id h3mr6102308lfm.126.1626405603089; 
- Thu, 15 Jul 2021 20:20:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m4FQ4-0007RZ-0E
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 00:25:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m4FPy-00018K-PA
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 04:25:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BD0892E8085
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 04:25:42 +0000 (UTC)
 MIME-Version: 1.0
-References: <CA+-xGqNUX4dpzFV7coJSoJnPz6cE5gdPy1kzRKsQtGD371hyEg@mail.gmail.com>
- <d79db3d7c443f392f5a8b3cf631e5607b72b6208.camel@redhat.com>
- <CA+-xGqOdu1rjhkG0FhxfzF1N1Uiq+z0b3MBJ=sjuVStHP5TBKg@mail.gmail.com>
- <d95d40428ec07ee07e7c583a383d5f324f89686a.camel@redhat.com>
- <YOxYM+8qCIyV+rTJ@google.com>
- <CA+-xGqOSd0yhU4fEcobf3tW0mLb0TmLGycTwXNVUteyvvnXjdw@mail.gmail.com>
- <YO8jPvScgCmtj0JP@google.com>
- <CA+-xGqOkH-hU1guGx=t-qtjsRdO92oX+8HhcO1eXnCigMc+NPw@mail.gmail.com>
- <YPC1lgV5dZC0CyG0@google.com>
-In-Reply-To: <YPC1lgV5dZC0CyG0@google.com>
-From: harry harry <hiharryharryharry@gmail.com>
-Date: Thu, 15 Jul 2021 22:20:04 -0500
-Message-ID: <CA+-xGqN75O37cr9uh++dyPj57tKcYm0fD=+-GBErki8nGNcemQ@mail.gmail.com>
-Subject: Re: About two-dimensional page translation (e.g., Intel EPT) and
- shadow page table in Linux QEMU/KVM
-To: Sean Christopherson <seanjc@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=hiharryharryharry@gmail.com; helo=mail-lf1-x133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 16 Jul 2021 04:17:16 -0000
+From: Launchpad Bug Tracker <1926996@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee janitor paleozogt th-huth
+X-Launchpad-Bug-Reporter: Aaron Simmons (paleozogt)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <162006855194.4732.10860890446320255541.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162640903617.27986.4445864556834325122.malone@loganberry.canonical.com>
+Subject: [Bug 1926996] Re: qemu-user clone syscall fails
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
+X-Launchpad-Hash: fc348c3de662a40843fea90955352c479c778076
+Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,29 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm@vger.kernel.org, qemu-devel@nongnu.org,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- Maxim Levitsky <mlevitsk@redhat.com>, mathieu.tarral@protonmail.com,
- stefanha@redhat.com, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1926996 <1926996@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Sean,
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Thanks for the explanations. Please see my comments below. Thanks!
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
->  When TDP (EPT) is used, the
-> hardware MMU has two parts: the TDP PTEs that are controlled by KVM, and the IA32
-> PTEs that are controlled by the guest.  And there's still a KVM MMU for the guest;
-> the KVM MMU in that case knows how to connfigure the TDP PTEs in hardware _and_
-> walk the guest IA32 PTEs, e.g. to handle memory accesses during emulation.
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926996
 
-Sorry, I could not understand why the emulated MMU is still needed
-when TDP (e.g., Intel EPT) is used?
-In particular, in what situations, we need the emulated MMU to
-configure the TDP PTEs in hardware and walk the guest IA32 PTEs?
-Why do we need the emulated MMU in these situations?
+Title:
+  qemu-user clone syscall fails
 
-Best,
-Harry
+Status in QEMU:
+  Expired
+
+Bug description:
+  qemu-user fails to emulate clone()
+  (https://linux.die.net/man/2/clone).  The architecture doesn't seem to
+  matter, tho I've mostly been testing aarch64.
+
+  Attached is clone_test.c that demonstrates the problem.  Running it nativ=
+ely looks like this:
+  $ bin/x86_64/clone_test
+  The variable was 9
+  clone returned 4177: 0 Success
+  The variable is now 42
+
+  However, running it via qemu looks like:
+  $ qemu-aarch64-static --version
+  qemu-aarch64 version 5.2.0 (v5.2.0)
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+
+  $ qemu-aarch64-static bin/aarch64/clone_test
+  The variable was 9
+  clone returned -1: 22 Invalid argument
+  The variable is now 9
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926996/+subscriptions
+
 
