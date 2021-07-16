@@ -2,106 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B141E3CB65E
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 12:48:26 +0200 (CEST)
-Received: from localhost ([::1]:48152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5252B3CB664
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 12:50:46 +0200 (CEST)
+Received: from localhost ([::1]:50416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4LOL-0005b6-PP
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 06:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55256)
+	id 1m4LQb-0007AC-BP
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 06:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1m4LNP-00043N-DQ; Fri, 16 Jul 2021 06:47:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11718
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m4LPQ-0006O6-Qp
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:49:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1m4LNN-0005XB-DG; Fri, 16 Jul 2021 06:47:27 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16GAaLXV103290; Fri, 16 Jul 2021 06:47:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=VL0PrKJSmiJvu99n38r3y2OZLl7I6JE5zASvoS/9Md8=;
- b=gA9y2wGwfmkQI07vpYUlHk0FJG5nUKvIf1Do1uDw1LDYPvI7eqJT4U1urGhD8j83WMGL
- 3vWIpMBtoXjLP/dA2N+tiScwYWRF39sKmIY2Jl9Wv2tpXpJUxvq2WMSfw0JaYSZtJ5WJ
- kxb8bGjoF5A8CXjs142G4TsKOqgCC/E5Vl5W+9Ul9gNTE4g03wdRfdFbSQ3y/TGkS0Rv
- Z68ig1P+7FGF+WHZ2NN6HTKLazpdZyYNtexuuktKDE+Acw6nOKv8VP+EJ+4Gw0g5HO9n
- hy6S5xVyp0qF8ekhIwPsgXnTmPSkoesjP5VQE6gnLHYgyZCo2OkFQBgCXrbPaFrl6Rtq DA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39tx6vptw8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 06:47:21 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16GAauUS105156;
- Fri, 16 Jul 2021 06:47:20 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39tx6vptvd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 06:47:20 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16GAgUlt026576;
- Fri, 16 Jul 2021 10:47:19 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 39s3p78uv4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 16 Jul 2021 10:47:18 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 16GAj1ow32964998
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 16 Jul 2021 10:45:01 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 994184C076;
- Fri, 16 Jul 2021 10:47:15 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0445D4C06D;
- Fri, 16 Jul 2021 10:47:15 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.164.173])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 16 Jul 2021 10:47:14 +0000 (GMT)
-Subject: Re: [PATCH v1 1/9] s390x: smp: s390x dedicated smp parsing
-To: Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m4LPO-0006sC-N5
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:49:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626432570;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yGX7fwEXDvKVQAA/yP+7bpZvvaoex1L9wip9+nmmWcA=;
+ b=ii3BV/LiMaLKugtzqyraM3tAopwyCb4GA8s1Z4Fiz8q9kX2NaqufRUyghdcrBedCAIEc8M
+ I5KaRpzFCJXfTQQoZn8+iLRsXbFGdYv8LgBfU7SDvYGlobroTSRjQhB3wLsqAa2Y4RH4aD
+ 2uihtxVC6JHIqBHw9z9GcLMXF6Dvm/Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-KBLQuKKSMVmJHbvNFMiMWQ-1; Fri, 16 Jul 2021 06:49:20 -0400
+X-MC-Unique: KBLQuKKSMVmJHbvNFMiMWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D5A31922965;
+ Fri, 16 Jul 2021 10:49:19 +0000 (UTC)
+Received: from redhat.com (ovpn-115-37.ams2.redhat.com [10.36.115.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0615619C45;
+ Fri, 16 Jul 2021 10:49:12 +0000 (UTC)
+Date: Fri, 16 Jul 2021 11:49:09 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v1 2/9] s390x: toplogy: adding drawers and books to smp
+ parsing
+Message-ID: <YPFkJUgbE9ku0tI7@redhat.com>
 References: <1626281596-31061-1-git-send-email-pmorel@linux.ibm.com>
- <1626281596-31061-2-git-send-email-pmorel@linux.ibm.com>
- <871r7yd4gf.fsf@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <fb7beb44-4a25-8ebf-2bd9-be7e4ca15a1a@linux.ibm.com>
-Date: Fri, 16 Jul 2021 12:47:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <1626281596-31061-3-git-send-email-pmorel@linux.ibm.com>
+ <87y2a8cda7.fsf@dusky.pond.sub.org>
+ <0801e122-0e9c-e266-42e8-d5cddb16c237@linux.ibm.com>
+ <87bl73df9y.fsf@dusky.pond.sub.org> <87y2a6bp5f.fsf@redhat.com>
+ <YPFO/NPdyHjf1Cyu@redhat.com> <87pmvibkri.fsf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <871r7yd4gf.fsf@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: GAwoDqNq6GtDUas1eMjmq67D2cwFFO3D
-X-Proofpoint-ORIG-GUID: bnpc6avinf7KXciZAIYZY8dr5oVDSrfJ
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-16_04:2021-07-16,
- 2021-07-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- adultscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 lowpriorityscore=0
- suspectscore=0 spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107160063
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87pmvibkri.fsf@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,88 +87,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, ehabkost@redhat.com, david@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, pbonzini@redhat.com,
- eblake@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: thuth@redhat.com, ehabkost@redhat.com, Pierre Morel <pmorel@linux.ibm.com>,
+ david@redhat.com, richard.henderson@linaro.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jul 16, 2021 at 12:44:49PM +0200, Cornelia Huck wrote:
+> On Fri, Jul 16 2021, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> 
+> > On Fri, Jul 16, 2021 at 11:10:04AM +0200, Cornelia Huck wrote:
+> >> On Thu, Jul 15 2021, Markus Armbruster <armbru@redhat.com> wrote:
+> >> 
+> >> > Pierre Morel <pmorel@linux.ibm.com> writes:
+> >> >
+> >> >> On 7/15/21 8:16 AM, Markus Armbruster wrote:
+> >> >>> Pierre Morel <pmorel@linux.ibm.com> writes:
+> >> >>> 
+> >> >>>> Drawers and Books are levels 4 and 3 of the S390 CPU
+> >> >>>> topology.
+> >> >>>> We allow the user to define these levels and we will
+> >> >>>> store the values inside the S390CcwMachineState.
+> >> >>> 
+> >> >>> Double-checking: are these members specific to S390?
+> >> >>
+> >> >> Yes AFAIK
+> >> >
+> >> > Makes me wonder whether they should be conditional on TARGET_S390X.
+> >> >
+> >> > What happens when you specify them for another target?  Silently
+> >> > ignored, or error?
+> >> 
+> >> I'm wondering whether we should include them in the base machine state
+> >> and treat them as we treat 'dies' (i.e. the standard parser errors out
+> >> if they are set, and only the s390x parser supports them.)
+> >
+> > To repeat what i just wrote in my reply to patch 1, I think we ought to
+> > think  about a different approach to handling the usage constraints,
+> > which doesn't require full re-implementation of the smp_parse method
+> > each time.  There should be a way for each target to report topology
+> > constraints, such the the single smp_parse method can do the right
+> > thing, especially wrt error reporting for unsupported values.
+> 
+> That would mean that all possible fields would need to go into common
+> code, right?
 
+Yes, that is an implication of what i'm suggesting.
 
-On 7/16/21 10:54 AM, Cornelia Huck wrote:
-> On Wed, Jul 14 2021, Pierre Morel <pmorel@linux.ibm.com> wrote:
-> 
->> We need a s390x dedicated SMP parsing to handle s390x specificities.
->>
->> In this patch we only handle threads, cores and sockets for
->> s390x:
->> - do not support threads, we always have 1 single thread per core
->> - the sockets are filled one after the other with the cores
->>
->> Both these handlings are different from the standard smp_parse
->> functionement and reflect the CPU topology in the simple case
->> where all CPU belong to the same book.
->>
->> Topology levels above sockets, i.e. books, drawers, are not
->> considered at this stage and will be introduced in a later patch.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   hw/s390x/s390-virtio-ccw.c | 42 ++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 42 insertions(+)
->>
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index e4b18aef49..899d3a4137 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -582,6 +582,47 @@ static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
->>       return newsz;
->>   }
->>   
->> +/*
->> + * In S390CCW machine we do not support threads for now,
->> + * only sockets and cores.
->> + */
->> +static void s390_smp_parse(MachineState *ms, QemuOpts *opts)
-> 
-> It seems you based this on an older version of the code? The current
-> signature of this function since 1e63fe685804 ("machine: pass QAPI
-> struct to mc->smp_parse") is
-> 
-> void (*smp_parse)(MachineState *ms, SMPConfiguration *config, Error **errp);
-> 
-> That affects your parsing, and also lets you get rid of the ugly exit(1)
-> statements.
+> I'm wondering whether there are more architecture/cpu specific values
+> lurking in the corner, it would get unwieldy if we need to go beyond the
+> existing fields and drawers/books.
 
-hum, yes, thanks
+Is the book/drawer thing architecture specific, or is it machine
+type / CPU specific. ie do /all/ the s390x machine types / CPUS
+QEMU support the book/drawer concept, or only a subset.
 
-> 
->> +{
->> +    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 1);
->> +    unsigned sockets = qemu_opt_get_number(opts, "sockets", 1);
->> +    unsigned cores   = qemu_opt_get_number(opts, "cores", 1);
->> +
->> +    if (opts) {
->> +        if (cpus == 0 || sockets == 0 || cores == 0) {
-> 
-> This behaviour looks different from what we do for other targets: if you
-> specify the value as 0, a value is calculated from the other values;
-> here, you error out. It's probably not a good idea to differ.
+If only a subset, then restricting it per target on QAPI doesn't
+fully solve the root problem, and we instead are better focusing
+on accurate runtime error reporting.
 
-right, thanks
-
-> 
->> +            error_report("cpu topology: "
->> +                         "sockets (%u), cores (%u) or number of CPU(%u) "
->> +                         "can not be zero", sockets, cores, cpus);
->> +            exit(1);
->> +        }
->> +    }
->> +
-> 
-
+Regards,
+Daniel
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
