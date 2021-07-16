@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244393CB7C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:16:23 +0200 (CEST)
-Received: from localhost ([::1]:53420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7685B3CB7CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:18:30 +0200 (CEST)
+Received: from localhost ([::1]:55598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4NhW-0006a6-1e
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:16:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
+	id 1m4NjZ-00085A-IG
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:18:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4Ng4-0005fh-41
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:14:52 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:23837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4Ng2-0007eU-Ln
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:14:51 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-3jeD0wsFMgaB1M5NeUlgMQ-1; Fri, 16 Jul 2021 09:14:46 -0400
-X-MC-Unique: 3jeD0wsFMgaB1M5NeUlgMQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5028283DD09;
- Fri, 16 Jul 2021 13:14:45 +0000 (UTC)
-Received: from bahia.lan (ovpn-112-127.ams2.redhat.com [10.36.112.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A476B26FB9;
- Fri, 16 Jul 2021 13:14:33 +0000 (UTC)
-Date: Fri, 16 Jul 2021 15:14:32 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v5 7/7] memory_hotplug.c: send DEVICE_UNPLUG_ERROR in
- acpi_memory_hotplug_write()
-Message-ID: <20210716151432.2e40138c@bahia.lan>
-In-Reply-To: <20210712194339.813152-8-danielhb413@gmail.com>
-References: <20210712194339.813152-1-danielhb413@gmail.com>
- <20210712194339.813152-8-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m4Nhu-0007Lh-Vb
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:16:47 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:34440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m4Nht-0000HV-DE
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:16:46 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ u5-20020a7bc0450000b02901480e40338bso7035997wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 06:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=n/4+0dx3GjYyQsiRuZVURXEBLEA5RhL+HHg8Pdo00dA=;
+ b=FXFc4BMwb6hIWyR8JiiQ/+F6bzqWeRV9+OvK5O49FnygyoRi/kONSjl4i472yKX0E9
+ wGkcgwwOayTIbosSACioocmtOJfIevFxssJI9gOIPZKPLQfXehNYQedp/MXjLnLJ2Ima
+ cqOCeZuZ0L+dS/m8f+3KRW+AMFExUL2iX2HAH59ZY+w1WlfcRMLeBXC/ZsAur7Vbn9Xb
+ a9sUR8VYwdeARM5/86iqPwouhKbKadJ4LheNPHKeGdld46sDNDPHZg5/wilIm4yafpC3
+ JmxrYnfrhziZ6F5jbtqiirGJvPnS6WJCjpCg0yH3e1QpALOw/Ee2nGPXNi/9rXH2cS/h
+ E3NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=n/4+0dx3GjYyQsiRuZVURXEBLEA5RhL+HHg8Pdo00dA=;
+ b=Ub40ZLUxrzXrMNC7U71LhRM6uAwghbhmZH+8CeCi3yUjDmNcRi9JJu1DUDFrBjeQQ1
+ rPafvS81o/4m4b5SV7WfCdUU2qgWQzYW2aXeG6EVRZEsvi0QW/7QPSUaB4B1vJCuaElb
+ 21m5dSr+02xv+elRh9653hmDM03yHs8B7DpLt3oHUi5YUawqsWTyRsonEoQjsYQOCI3X
+ Qju7UGib2fvWCloBKSAVIiaobCi9au8naipbe8tJMSq0zYfZBKiz7VA00NcoQpjQZtPC
+ DJHbwVeZ/UA/FDahz887qQlaQakA80GVu84V8JMI/ylpNy4ugZqncaUZrI73iMq0NI87
+ iCUA==
+X-Gm-Message-State: AOAM530zgvv4situZKTMR2uTwtEqg1bHWutRlfoyrKDYqT/G3SX4GqIv
+ BOlnWUW9yX/QpYQcGN1daCyMDA==
+X-Google-Smtp-Source: ABdhPJxaQBzbKL5rLJXk7lpd+qVRh+PIVK10xUmb1rG/bgHa7Gt7Cy9GH061YqKQ1NNKp954UNTosA==
+X-Received: by 2002:a05:600c:214a:: with SMTP id
+ v10mr10748848wml.67.1626441402749; 
+ Fri, 16 Jul 2021 06:16:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r9sm7449538wmq.25.2021.07.16.06.16.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 16 Jul 2021 06:16:41 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D352A1FF7E;
+ Fri, 16 Jul 2021 14:16:40 +0100 (BST)
+References: <20210712122653.11354-1-alex.bennee@linaro.org>
+ <20210712122653.11354-33-alex.bennee@linaro.org>
+ <530cf27c-13cb-906e-6b86-90c23d0c3656@de.ibm.com>
+ <a3f05bc9-808d-0572-3e17-df9cf9418b4e@de.ibm.com>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PULL 32/40] tcg/plugins: enable by default for most TCG builds
+Date: Fri, 16 Jul 2021 14:16:01 +0100
+In-reply-to: <a3f05bc9-808d-0572-3e17-df9cf9418b4e@de.ibm.com>
+Message-ID: <87sg0etn47.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,63 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, armbru@redhat.com,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, eblake@redhat.com,
- david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <willianr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Jul 2021 16:43:39 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> MEM_UNPLUG_ERROR is deprecated since the introduction of
-> DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
-> MEM_UNPLUG_ERROR is pending.
->=20
-> CC: Michael S. Tsirkin <mst@redhat.com>
-> CC: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+Christian Borntraeger <borntraeger@de.ibm.com> writes:
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+> On 16.07.21 08:54, Christian Borntraeger wrote:
+>> On 12.07.21 14:26, Alex Benn=C3=A9e wrote:
+>>> Aside from a minor bloat to file size the ability to have TCG plugins
+>>> has no real impact on performance unless a plugin is actively loaded.
+>>> Even then the libempty.so plugin shows only a minor degradation in
+>>> performance caused by the extra book keeping the TCG has to do to keep
+>>> track of instructions. As it's a useful feature lets just enable it by
+>>> default and reduce our testing matrix a little.
+>>>
+>>> We need to move our linker testing earlier so we can be sure we can
+>>> enable the loader module required. As we have ruled out static &
+>>> plugins in an earlier patch we can also reduce the indent a little.
+>>>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>>> Message-Id: <20210709143005.1554-33-alex.bennee@linaro.org>
+>> I cant reproduce it manually but in our build regression this fails
+>> with
+>
+> I can now reproduce when adding
+>  --extra-ldflags=3D"-Wl,--build-id -pie -Wl,-z,relro -Wl,-z,now"
+> to the configure script (on "20.04.2 LTS)
 
->  hw/acpi/memory_hotplug.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->=20
-> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-> index e37acb0367..a0772fe083 100644
-> --- a/hw/acpi/memory_hotplug.c
-> +++ b/hw/acpi/memory_hotplug.c
-> @@ -8,6 +8,7 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-events-acpi.h"
->  #include "qapi/qapi-events-machine.h"
-> +#include "qapi/qapi-events-qdev.h"
-> =20
->  #define MEMORY_SLOTS_NUMBER          "MDNR"
->  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
-> @@ -181,10 +182,19 @@ static void acpi_memory_hotplug_write(void *opaque,=
- hwaddr addr, uint64_t data,
-> =20
->                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
-> =20
-> +                /*
-> +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
-> +                 * while the deprecation of MEM_UNPLUG_ERROR is
-> +                 * pending.
-> +                 */
->                  if (dev->id) {
->                      qapi_event_send_mem_unplug_error(dev->id, error_pret=
-ty);
->                  }
-> =20
-> +                qapi_event_send_device_unplug_error(!!dev->id, dev->id,
-> +                                                    dev->canonical_path,
-> +                                                    true, error_pretty);
-> +
->                  error_free(local_err);
->                  break;
->              }
+Whats your full configure line? And this is on the s390x-cloud machine?
 
+--=20
+Alex Benn=C3=A9e
 
