@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0933CBF04
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 00:09:55 +0200 (CEST)
-Received: from localhost ([::1]:56092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 822923CBF14
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 00:12:57 +0200 (CEST)
+Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4W1r-0005VH-0J
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 18:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49914)
+	id 1m4W4m-00075R-KL
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 18:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1m4W0f-0004WQ-V5
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:08:41 -0400
-Received: from mga09.intel.com ([134.134.136.24]:27573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
- id 1m4W0d-0000nP-8Z
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:08:41 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10047"; a="210787238"
-X-IronPort-AV: E=Sophos;i="5.84,246,1620716400"; d="scan'208";a="210787238"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jul 2021 15:08:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,246,1620716400"; d="scan'208";a="460889412"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
- by orsmga008.jf.intel.com with ESMTP; 16 Jul 2021 15:08:36 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.4; Fri, 16 Jul 2021 15:08:35 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.10; Fri, 16 Jul 2021 15:08:34 -0700
-Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
- ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.010;
- Fri, 16 Jul 2021 15:08:34 -0700
-From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: "Kim, Dongwon" <dongwon.kim@intel.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH 1/3] ui/gtk-egl: un-tab and re-tab should destroy egl
- surface and context
-Thread-Topic: [PATCH 1/3] ui/gtk-egl: un-tab and re-tab should destroy egl
- surface and context
-Thread-Index: AQHXb6KybM1tJ9RIOUaOAY/EAPLq2KtGPu3A
-Date: Fri, 16 Jul 2021 22:08:34 +0000
-Message-ID: <eef764448c1b45be95fdb3ea214ce048@intel.com>
-References: <20210703002809.26753-1-dongwon.kim@intel.com>
-In-Reply-To: <20210703002809.26753-1-dongwon.kim@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.100]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4W3v-0006Qk-Up
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:12:03 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:36611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4W3u-00036H-Fg
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 18:12:03 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id a6so4019069pgw.3
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 15:12:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=PD8IrFoZrZmvdewEGQ0F+Yxb3KALmLAdR1dQaVcJeY8=;
+ b=J4j/1uKYGgTjwLAzTGrEFv2k9rpanFI29LfA+fOpa4SpTZS+80vhKMIgnCGs5CmBaK
+ uQg8YOxNnKKo0VESKwOzDuNjHlhvjqrLYIOicBq33WmfnKm7/wSUH6z6xKAqt73IwVFc
+ JAsPZn8nE6FFnjOx0WBipiWGAFcfYzBBMgXzahyCy2XQaGizgQrjmCMXfbsBjmoSp2yv
+ mdCRL42Qdkdtyf05hSvdI94jbzGSpGx8S6RoYSrQzDA+JBuUTRvpnCCQRB8ds9koWpdv
+ 00uqpHDJOjhnHnRtpKWdDXlUrHBYNdnjO22nkZflQPWfm4/N5HX5e60WcTh1GCUoIQu8
+ wsqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PD8IrFoZrZmvdewEGQ0F+Yxb3KALmLAdR1dQaVcJeY8=;
+ b=SwAUxuWnmEKgbL5Ki6kQKunn1n1WBUciiDym5IfbOuzIZPQXWQXPpQ0olZjl70fHrp
+ U83n4g9h8o0LeP963RZ5h5PS/Re76aZZf2d4WEwECGhxigDiv9PNEM2hKI4zs+O7P+NG
+ YX+Ga0x7eAoizbxXpLnslnrLg6Y4Lp2pXEdaWYeY6Hvc1Uxk6DAvKodUyB6Bc2UNqVIm
+ 6DaTrIFs8qpSkQut7gwoLamlZrj8QhAgSnQhvnTWbcPwLIjqCQPfGYWvQlD5gAQXLqFz
+ E7A43Z4sOricTHoS3fjDucnGCQWKoPfS4qL/ArxcDpfecBdEcp+A06bkYn5x6vkc4LeP
+ yaxg==
+X-Gm-Message-State: AOAM533CA3y0TPOKNnTzSO1c53PxuHLMD6RRmehiSEfjcVRCwrPJwYlt
+ Y56dSoqab0T/FWe6t21nz9VDV5lJZqWjHw==
+X-Google-Smtp-Source: ABdhPJyriZ1TBOKxQyF14vbXPH94AIBeJs659UmaAz70zBMHNZgMzlJ6c+pIrDRNBHqitu5v07O75Q==
+X-Received: by 2002:aa7:9ec3:0:b029:32b:4eb5:4bad with SMTP id
+ r3-20020aa79ec30000b029032b4eb54badmr12434919pfq.6.1626473520920; 
+ Fri, 16 Jul 2021 15:12:00 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id i25sm11168559pfo.20.2021.07.16.15.12.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jul 2021 15:12:00 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 17/34] target/arm: Implement MVE VMLAS
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210713133726.26842-1-peter.maydell@linaro.org>
+ <20210713133726.26842-18-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e3f557f7-c65d-428e-a0b5-68d1ffc01df4@linaro.org>
+Date: Fri, 16 Jul 2021 15:11:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.24;
- envelope-from=vivek.kasireddy@intel.com; helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210713133726.26842-18-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,75 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Romli, Khairul Anuar" <khairul.anuar.romli@intel.com>, "Kim,
- Dongwon" <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-
-
-> -----Original Message-----
-> From: Qemu-devel <qemu-devel-bounces+vivek.kasireddy=3Dintel.com@nongnu.o=
-rg> On
-> Behalf Of Dongwon Kim
-> Sent: Friday, July 02, 2021 5:28 PM
-> To: qemu-devel@nongnu.org
-> Cc: Romli, Khairul Anuar <khairul.anuar.romli@intel.com>; Kim, Dongwon
-> <dongwon.kim@intel.com>
-> Subject: [PATCH 1/3] ui/gtk-egl: un-tab and re-tab should destroy egl sur=
-face and context
->=20
-> An old esurface should be destroyed and set to be NULL when doing
-> un-tab and re-tab so that a new esurface an context can be created
-> for the window widget that those will be bound to.
->=20
-> Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
+On 7/13/21 6:37 AM, Peter Maydell wrote:
+> Implement the MVE VMLAS insn, which multiplies a vector by a vector
+> and adds a scalar.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  ui/gtk.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->=20
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 98046f577b..bfb95f3b4b 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -1232,6 +1232,14 @@ static gboolean gd_tab_window_close(GtkWidget *wid=
-get,
-> GdkEvent *event,
->                                      vc->tab_item, vc->label);
->      gtk_widget_destroy(vc->window);
->      vc->window =3D NULL;
-> +    if (vc->gfx.esurface) {
-> +        eglDestroySurface(qemu_egl_display, vc->gfx.esurface);
-> +        vc->gfx.esurface =3D NULL;
-> +    }
-> +    if (vc->gfx.ectx) {
-> +        eglDestroyContext(qemu_egl_display, vc->gfx.ectx);
-> +        vc->gfx.ectx =3D NULL;
-> +    }
->      return TRUE;
->  }
->=20
-> @@ -1261,6 +1269,14 @@ static void gd_menu_untabify(GtkMenuItem *item, vo=
-id
-> *opaque)
->      if (!vc->window) {
->          gtk_widget_set_sensitive(vc->menu_item, false);
->          vc->window =3D gtk_window_new(GTK_WINDOW_TOPLEVEL);
-> +        if (vc->gfx.esurface) {
-> +            eglDestroySurface(qemu_egl_display, vc->gfx.esurface);
-> +            vc->gfx.esurface =3D NULL;
-> +        }
-> +        if (vc->gfx.esurface) {
-> +            eglDestroyContext(qemu_egl_display, vc->gfx.ectx);
-> +            vc->gfx.ectx =3D NULL;
-> +        }
->          gd_widget_reparent(s->notebook, vc->window, vc->tab_item);
->=20
->          g_signal_connect(vc->window, "delete-event",
-> --
-> 2.17.1
->=20
+>   target/arm/helper-mve.h    |  8 ++++++++
+>   target/arm/mve.decode      |  3 +++
+>   target/arm/mve_helper.c    | 31 +++++++++++++++++++++++++++++++
+>   target/arm/translate-mve.c |  2 ++
+>   4 files changed, 44 insertions(+)
+...
 
+> +/* Vector by vector plus scalar */
+> +#define DO_VMLAS(D, N, M) ((N) * (D) + (M))
+> +
+> +DO_2OP_ACC_SCALAR_S(vmlass, DO_VMLAS)
+> +DO_2OP_ACC_SCALAR_U(vmlasu, DO_VMLAS)
+
+This is confusing.  The ARM says
+
+# Operations that do not perform
+# widening are always unsigned (encoded with U=1),
+
+This instruction does not perform widening, but it then codes on to enumerate the 
+signed/unsigned encodings.
+
+I suppose you're matching what's written, so
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
