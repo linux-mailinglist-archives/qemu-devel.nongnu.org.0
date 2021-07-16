@@ -2,92 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6942B3CB7B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:07:04 +0200 (CEST)
-Received: from localhost ([::1]:44126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4F43CB7B4
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 15:07:28 +0200 (CEST)
+Received: from localhost ([::1]:45686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4NYU-0008GB-Qu
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:07:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59534)
+	id 1m4NYt-0000vC-UE
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 09:07:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NVt-0006Yf-Ue
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:04:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32120)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4NWW-0007En-5Z
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:05:00 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:40122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NVq-00026u-Pe
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:04:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626440657;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9AVhWWgsbpRXKroojsdY2/pR63ITGUqYXlJUfXWm/TE=;
- b=Ailil3JseyIWh7YRP6x8V/oRSxxh/D6kY1K/z8lzJOethL5YGqqcLPDofg0Nt0D49cqv8w
- PwsQRXSUXdByFm3RovSuSzi677EN1elKc5UMq4ME84xXpxiZBsIfFQYGHDFaYNJaw2JYvR
- t+iCzXrI2Nc6PxcXXvkdmdgiWMtZAyU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-UeZhihBQMI60moAbaKWDIA-1; Fri, 16 Jul 2021 09:04:16 -0400
-X-MC-Unique: UeZhihBQMI60moAbaKWDIA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r18-20020adfce920000b029013bbfb19640so4772810wrn.17
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 06:04:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=9AVhWWgsbpRXKroojsdY2/pR63ITGUqYXlJUfXWm/TE=;
- b=skEQNDjOOyNzCrM/CeS856csPsQaZusVrqO6uSDH+O3rTsfrkX/pyRuSANFWtWnVo8
- k3+9ddbsHv4rMvOjAZAAbK9QXaYoF+g8bKka790bExnBEcHDkWKLR5HtaIM+AS7rfFlB
- SASeshhy/Z8Fblm8AxPvxv8Bn/oRhJ2PtuLRdo36PM7XgLRtP6P3ichsQrfTWiOB4GWr
- gk1NDbXNfQrm0SyPKnqIgIlhJx2OP0yMqiwZUBq+CkVz/KkICYbDIgOUvqCDlbgCykTS
- ZzXHgI5dgPJKXqSCrB9T7+al4labpIwR8pD2dTXVcD4xdhDb30Vt194KVmRyR58Oqsnc
- +6Rw==
-X-Gm-Message-State: AOAM532hmr17fQKgCDv57gKsPZ03/HFpb3pv2ldkQ+glFA42j45Fd5FM
- 6gx26cv1pgX4I4DWIOuyqs7blRTyIgld/ebBsng7eYZ003TKIVsJn+FFvMS0jr5m26USAw3PcuC
- qHBAPSokHdqiUS0U=
-X-Received: by 2002:a1c:7c08:: with SMTP id x8mr10634599wmc.2.1626440655555;
- Fri, 16 Jul 2021 06:04:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSlpfYs//x7oU/hMFIennMpboVyGYstmrzc0Ws2x52ay6Ue9O0gjgElbgJP8zuOJstGf1rlQ==
-X-Received: by 2002:a1c:7c08:: with SMTP id x8mr10634557wmc.2.1626440655208;
- Fri, 16 Jul 2021 06:04:15 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- o28sm10909494wra.71.2021.07.16.06.04.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 06:04:14 -0700 (PDT)
-Subject: Re: [PATCH 10/14] iotests: massive use _qcow2_dump_header
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
- <20210705091549.178335-11-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <331dad50-976a-5fcd-e99a-5945135b0f7e@redhat.com>
-Date: Fri, 16 Jul 2021 15:04:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4NWU-0002SH-BH
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 09:04:59 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147-xFp51-ESOwmh07vUS8o-mg-1; Fri, 16 Jul 2021 09:04:55 -0400
+X-MC-Unique: xFp51-ESOwmh07vUS8o-mg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3869B1084F53;
+ Fri, 16 Jul 2021 13:04:54 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-127.ams2.redhat.com [10.36.112.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B629460C05;
+ Fri, 16 Jul 2021 13:04:52 +0000 (UTC)
+Date: Fri, 16 Jul 2021 15:04:51 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v5 5/7] qapi/qdev.json: add DEVICE_UNPLUG_ERROR QAPI event
+Message-ID: <20210716150451.0bc4f2d5@bahia.lan>
+In-Reply-To: <20210712194339.813152-6-danielhb413@gmail.com>
+References: <20210712194339.813152-1-danielhb413@gmail.com>
+ <20210712194339.813152-6-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210705091549.178335-11-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,37 +63,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ eblake@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to add filtering in _qcow2_dump_header and want all tests
-> use it.
->
-> The patch is generated by commands:
->    cd tests/qemu-iotests
->    sed -ie 's/$PYTHON qcow2.py "$TEST_IMG" dump-header\($\| \)/_qcow2_dump_header\1/' ??? tests/*
->
-> (the difficulty is to avoid converting dump-header-exts)
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Mon, 12 Jul 2021 16:43:37 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+
+> At this moment we only provide one event to report a hotunplug error,
+> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
+> machine is now able to report unplug errors for other device types, such
+> as CPUs.
+>=20
+> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
+> create a generic DEVICE_UNPLUG_ERROR event that can be used by all
+> unplug errors in the future. This event has a similar API as the
+> existing DEVICE_DELETED event, with an extra optional 'msg' parameter
+> that can be used to explain the reason for the error.
+>=20
+> With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated=
+.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   tests/qemu-iotests/031 |  6 +++---
->   tests/qemu-iotests/036 |  6 +++---
->   tests/qemu-iotests/039 | 20 ++++++++++----------
->   tests/qemu-iotests/060 | 20 ++++++++++----------
->   tests/qemu-iotests/061 | 36 ++++++++++++++++++------------------
->   tests/qemu-iotests/137 |  2 +-
->   tests/qemu-iotests/287 |  8 ++++----
->   7 files changed, 49 insertions(+), 49 deletions(-)
+>  docs/system/deprecated.rst | 10 ++++++++++
+>  qapi/machine.json          |  6 +++++-
+>  qapi/qdev.json             | 30 +++++++++++++++++++++++++++++-
+>  stubs/qdev.c               |  7 +++++++
+>  4 files changed, 51 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 6d438f1c8d..c0c3431ada 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, =
+which is deprecated
+>  (the ISA has never been upstreamed to a compiler toolchain). Therefore
+>  this CPU is also deprecated.
+> =20
+> +
+> +QEMU API (QAPI) events
+> +----------------------
+> +
+> +``MEM_UNPLUG_ERROR`` (since 6.2)
+> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Use the more generic event ``DEVICE_UNPLUG_ERROR`` instead.
+> +
+> +
+>  System emulator machines
+>  ------------------------
+> =20
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index c3210ee1fb..a595c753d2 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1271,6 +1271,9 @@
+>  #
+>  # @msg: Informative message
+>  #
+> +# Features:
+> +# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_ERROR instea=
+d.
+> +#
+>  # Since: 2.4
+>  #
+>  # Example:
+> @@ -1283,7 +1286,8 @@
+>  #
+>  ##
+>  { 'event': 'MEM_UNPLUG_ERROR',
+> -  'data': { 'device': 'str', 'msg': 'str' } }
+> +  'data': { 'device': 'str', 'msg': 'str' },
+> +  'features': ['deprecated'] }
+> =20
+>  ##
+>  # @SMPConfiguration:
+> diff --git a/qapi/qdev.json b/qapi/qdev.json
+> index d1d3681a50..52c36c7b9c 100644
+> --- a/qapi/qdev.json
+> +++ b/qapi/qdev.json
+> @@ -84,7 +84,9 @@
+>  #        This command merely requests that the guest begin the hot remov=
+al
+>  #        process.  Completion of the device removal process is signaled =
+with a
+>  #        DEVICE_DELETED event. Guest reset will automatically complete r=
+emoval
+> -#        for all devices.
+> +#        for all devices.  If an error in the hot removal process is det=
+ected,
+> +#        the device will not be removed and a DEVICE_UNPLUG_ERROR event =
+is
+> +#        sent.  Some errors cannot be detected.
+>  #
+>  # Since: 0.14
+>  #
+> @@ -124,3 +126,29 @@
+>  ##
+>  { 'event': 'DEVICE_DELETED',
+>    'data': { '*device': 'str', 'path': 'str' } }
+> +
+> +##
+> +# @DEVICE_UNPLUG_ERROR:
+> +#
+> +# Emitted when a device hot unplug error occurs.
+> +#
+> +# @device: the device's ID if it has one
+> +#
+> +# @path: the device's path within the object model
+> +#
+> +# @msg: optional informative message
+> +#
+> +# Since: 6.2
+> +#
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Good, we're in 6.1 soft freeze indeed :)
 
-I think I’d have merged patch 13 into this one, but if you want to keep 
-it separate (so that this remains a purely auto-generated patch), then I 
-think it should at least come right after this one.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Max
+> +# Example:
+> +#
+> +# <- { "event": "DEVICE_UNPLUG_ERROR"
+> +#      "data": { "device": "core1",
+> +#                "msg": "Device hotunplug rejected by the guest for devi=
+ce core1",
+> +#                "path": "/machine/peripheral/core1" },
+> +#      },
+> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
+> +#
+> +##
+> +{ 'event': 'DEVICE_UNPLUG_ERROR',
+> +  'data': { '*device': 'str', 'path': 'str' , '*msg': 'str' } }
+> diff --git a/stubs/qdev.c b/stubs/qdev.c
+> index 92e6143134..ffa8f7b59e 100644
+> --- a/stubs/qdev.c
+> +++ b/stubs/qdev.c
+> @@ -21,3 +21,10 @@ void qapi_event_send_device_deleted(bool has_device,
+>  {
+>      /* Nothing to do. */
+>  }
+> +
+> +void qapi_event_send_device_unplug_error(bool has_device, const char *de=
+vice,
+> +                                         const char *path,
+> +                                         bool has_msg, const char *msg)
+> +{
+> +    /* Nothing to do. */
+> +}
 
 
