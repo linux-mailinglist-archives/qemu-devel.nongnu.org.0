@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308683CBE0F
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 22:52:52 +0200 (CEST)
-Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7E33CBE29
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 23:05:33 +0200 (CEST)
+Received: from localhost ([::1]:58494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4UpG-0005bK-On
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 16:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
+	id 1m4V1Y-0000S7-9f
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 17:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1m4UoC-0004dP-Pb
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 16:51:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1m4Uo8-0007LS-3j
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 16:51:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626468698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Z/+DqYXKg7rgSnXWfWgFb8itnKEENxcSWDpIl8yWWU=;
- b=YBjXwSI+8o2J4L/jQ1WGKswxKMpDAQDlESbCZutXHvEymVLzQimiq5DTo8WimBcQ3B/bzE
- 7zo98IhUMQH7HLZi6IZX6CVNApbxTGfVigxEFrgCQcmls+dgiLLhq298G7bxhK/A/6ROGg
- XGh6LTOJgl+5lEeHXCN5H4e6jRp3IPY=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-VdiX4OPkNOK_9T5iZS2m_Q-1; Fri, 16 Jul 2021 16:51:36 -0400
-X-MC-Unique: VdiX4OPkNOK_9T5iZS2m_Q-1
-Received: by mail-oi1-f197.google.com with SMTP id
- n84-20020acaef570000b029022053bcedd7so7062458oih.17
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 13:51:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4V0K-0007yF-Il
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 17:04:16 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36797)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4V0H-0007Bb-Lv
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 17:04:16 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ d9-20020a17090ae289b0290172f971883bso9596183pjz.1
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 14:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=KQkMC8R4wVC6NLmErpjT59dZcGQ2i93cORHIitGMKWs=;
+ b=a5pa8i/UULFBsyWdjQ7/MWOIdYsgAgtbFVseSGkbP+paysO0991jnKO/0yFzUcbO7U
+ Qylh44xe+4XxUIBGm1FyqX+E/IstVorZPpruY2859nW5NB3maSTNu2ahRfoVv0r33oNd
+ YHxKTf7lnO3lzHNRmHYguPh3os4Tz3EebgdWGU6EksOXCoiiz1dg8/cEWKhwaqLW89i5
+ eB6kmMI8cEUiR08zR92m4dp8NVyDEH+xxSpjBmkMQlmnPWuWQtNvCTLLU7Q5HmYxu3QZ
+ buB4oQoBGle/ZIcAKzfkNJTmPVIKicphkenpevfdH+IkAst8ZZrPRk90rnqPvGAWifUK
+ LMtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9Z/+DqYXKg7rgSnXWfWgFb8itnKEENxcSWDpIl8yWWU=;
- b=KzLOJ2cWGYlEoKhv46S/av8Nyd5UaiNoL3EcpkLja9GsgwHILsr5LYm0jOfzDN3hRn
- jOhhcfEC5zyE505ML9o8R1+9C3yPIdPKSB9MEhVdsfhbciSeLtZIl8j6KQJYbi/mDm4b
- ZaQ5Hwad7TEEq/Yy4uBylWIJoAVVGYQ+1F5/NRSYJY0uaEC3/BL/VL0bWNcE8x/rIZyN
- op4Io2W67S0uALEy3cJNgiyoSeV0ag04tZnWJ1EhWBVoevygScwctXoF/b8bKw6OeCKq
- zpXMUJyo1zFSHPZngXJF5MeUlPqHchNx3FgB014aFGVsdi73ig+7ORtAPPzFpcNzX3UV
- WL5g==
-X-Gm-Message-State: AOAM533EwWIWbcnU8h63LY9/iFXa0Qbh1uBdbkts07jcviG54bEysYMk
- R2WZ95KnnCtjbjBZGJqnv5Hj6xRpDB8dFp2dJXg61suyK6877xPyU4Y6s4QcmCGAOV5Ow+Y1mXn
- BMbWOqV9F4FWSpY8=
-X-Received: by 2002:a9d:638d:: with SMTP id w13mr9459997otk.224.1626468695809; 
- Fri, 16 Jul 2021 13:51:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxtbp1sB+9vJUoXyTRM2fYl7C78MgbpIWqFalm1eDovCnXrpQmdq5u7wsPha6bUAntHe81dkw==
-X-Received: by 2002:a9d:638d:: with SMTP id w13mr9459978otk.224.1626468695608; 
- Fri, 16 Jul 2021 13:51:35 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id y28sm2141885oti.80.2021.07.16.13.51.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 13:51:35 -0700 (PDT)
-Date: Fri, 16 Jul 2021 14:51:33 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Steve Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V5 17/25] vfio-pci: cpr part 2
-Message-ID: <20210716145133.4aa3f341.alex.williamson@redhat.com>
-In-Reply-To: <1625678434-240960-18-git-send-email-steven.sistare@oracle.com>
-References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
- <1625678434-240960-18-git-send-email-steven.sistare@oracle.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KQkMC8R4wVC6NLmErpjT59dZcGQ2i93cORHIitGMKWs=;
+ b=ZimrzLZFgB8/vR/jM1rKTzfxASCGB5wGi6wmHkUgONUk2IFQJDSNCfEYt89pPjoAT0
+ Qz5ZsUGIPO1xLq+N0DO7Ez6KdHuscr55uWFQY5kdgok+t6to0RCZHhM/ypiyCnGkPCIe
+ QnmdZlaTIH2mYnMC4Hm9oC6tfuOjXlvXTfKNURoF7dUoXky/15vlwKyYVHBdRIjkC1p9
+ Nhn64uXpagfXWgMMacnyU8bBsMOeEJWq68iqRzVC99XOmrCW23NIBuuSzefHg2QA5Wb/
+ fo5AYq0L2LNV64EagKgNDD4F3xNcY7sTtGEj6G5RiEesrIvGewHLIYaUlyRrS+JnvrDu
+ ISlg==
+X-Gm-Message-State: AOAM533ILHMGOTSdNAhL+i9FgL2HAPvUAivKGgLL2T34695V3sEuI9q5
+ Wncv67DYziJTTJX9Jz1RTfzkp7QU0mRwBQ==
+X-Google-Smtp-Source: ABdhPJy85EJ5xyI2A1IRhXxSXNzO/pDIaU4oPVQvqrCShic01BfQAjmtD9cPFb53g+cjW4Diqepqrg==
+X-Received: by 2002:a17:902:dace:b029:12b:5e9b:c517 with SMTP id
+ q14-20020a170902daceb029012b5e9bc517mr5743893plx.37.1626469451974; 
+ Fri, 16 Jul 2021 14:04:11 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id y6sm9036793pjr.48.2021.07.16.14.04.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jul 2021 14:04:11 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 13/34] target/arm: Factor out gen_vpst()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210713133726.26842-1-peter.maydell@linaro.org>
+ <20210713133726.26842-14-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ce35158d-e7bf-3b3e-978b-8ee277151de6@linaro.org>
+Date: Fri, 16 Jul 2021 14:04:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210713133726.26842-14-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,58 +90,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  7 Jul 2021 10:20:26 -0700
-Steve Sistare <steven.sistare@oracle.com> wrote:
-
-> Finish cpr for vfio-pci by preserving eventfd's and vector state.
+On 7/13/21 6:37 AM, Peter Maydell wrote:
+> Factor out the "generate code to update VPR.MASK01/MASK23" part of
+> trans_VPST(); we are going to want to reuse it for the VPT insns.
 > 
-> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  hw/vfio/pci.c | 118 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 116 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 0f5c542..07bd360 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-...
-> @@ -3295,14 +3329,91 @@ static void vfio_merge_config(VFIOPCIDevice
-*vdev)
->      g_free(phys_config);
->  }
->  
-> +static int vfio_pci_pre_save(void *opaque)
-> +{
-> +    VFIOPCIDevice *vdev = opaque;
-> +    PCIDevice *pdev = &vdev->pdev;
-> +    int i;
-> +
-> +    if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
-> +        error_report("%s: cpr does not support vfio-pci INTX",
-> +                     vdev->vbasedev.name);
-> +    }
+>   target/arm/translate-mve.c | 31 +++++++++++++++++--------------
+>   1 file changed, 17 insertions(+), 14 deletions(-)
 
-You're not only not supporting INTx, but devices that support INTx, so
-this only works on VFs.  Why?  Is this just out of scope or is there
-something fundamentally difficult about it?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This makes me suspect there's a gap in INTx routing setup if it's more
-than just another eventfd to store and setup.  If we hot-add a device
-using INTx after cpr restart, are we going to find problems?  Thanks,
-
-Alex
-
+r~
 
