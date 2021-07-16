@@ -2,93 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB2363CB772
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:40:16 +0200 (CEST)
-Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33953CB77A
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:46:10 +0200 (CEST)
+Received: from localhost ([::1]:59988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4N8Z-0002gY-Ur
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:40:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
+	id 1m4NEH-0006IG-ER
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:46:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4N6t-0001nD-LD
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:38:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52933)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4ND5-0005Mc-Lc
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:44:55 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:25154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4N6p-00058T-WE
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:38:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626439107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XGgfQ8isg6+3mSJaiCAcWwVEB+Y7JGHrAd2/c+Ebm/k=;
- b=BSA+nezU1sRacMGKsXzWWEb/RInFDeBiGInnk229icDGDp2+GiELxm3D7MmaK3Jv/ZQlNa
- bp3swAuEFl2RqRMOpooXnwlLAtyUwHgNsrCbKZhBMhJCAt9Zdmz+HO8xA2NRkhKCFYMX+F
- 0axxgPL0gufXvEQSnwFeOQnIN4YZF1k=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-132-F099G9rMPiOEBjlVWvgvDA-1; Fri, 16 Jul 2021 08:38:23 -0400
-X-MC-Unique: F099G9rMPiOEBjlVWvgvDA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- 5-20020a0560001565b029013fe432d176so4759354wrz.23
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 05:38:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=XGgfQ8isg6+3mSJaiCAcWwVEB+Y7JGHrAd2/c+Ebm/k=;
- b=dKJEh7Cx2UVZP1UoqOMdyJvRO+KRwg4y1CQhiBjSrCs4WiictYMSEwF2KDPGlVgGGY
- 1iJqzqCP0i/l5Iw4JVQbXRrTVtE2b048wEBuQNsS+WNk9Wqegz281+V2Flf9bHmUU9P3
- hwxilGZ2m+RVvCyoiFmriertxVvtVYjQ4Mq9lyV+4ENAwZxzflSVUp3JBlLNL9v7eavG
- BwYZkBLT9/5Lq81nAtAWtex96v0KsW8w40Go1ZsZwYdIdavonBZrXCsw2MeBP7/QrSDW
- UvMGuNIDWYnWSuwQR6tUtiXKWv4JkfwumDPEOpp/ObUlwHigC+gOLp8BOFdqm8wXxuMf
- O8HA==
-X-Gm-Message-State: AOAM531Ayli8vDsCR3hBmqRcxroNAsyKg/hKFGoPp9ljtvRDgMgcsK3A
- 6yY9fNLkbEX6fIzpqEW09XAVTUF1GXx4GXHNWwCTnNT3lj6ymcQpM6LHsINAvrYtSVk3IGjrqDb
- 2pykmLB/MnWhSvqQ=
-X-Received: by 2002:a1c:493:: with SMTP id 141mr10578075wme.172.1626439102366; 
- Fri, 16 Jul 2021 05:38:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz517E//3vPYORFKzporf8wz0FxvC8TPi5jeK06NhGnX/BkyjwWy7nE2sjXY9tJ0sT2UZV4qg==
-X-Received: by 2002:a1c:493:: with SMTP id 141mr10578055wme.172.1626439102139; 
- Fri, 16 Jul 2021 05:38:22 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- b9sm12378213wrh.81.2021.07.16.05.38.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 05:38:21 -0700 (PDT)
-Subject: Re: [PATCH 08/14] iotests/common.rc: _make_test_img(): smarter
- compressiont_type handling
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
- <20210705091549.178335-9-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <d983ae4a-dce5-35d3-1c63-7285651eae56@redhat.com>
-Date: Fri, 16 Jul 2021 14:38:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1m4ND4-0000Bc-AP
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:44:55 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-0k6LpLLuNkS9nE2Sh6hdgQ-1; Fri, 16 Jul 2021 08:44:47 -0400
+X-MC-Unique: 0k6LpLLuNkS9nE2Sh6hdgQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF40F1B18BC0;
+ Fri, 16 Jul 2021 12:44:46 +0000 (UTC)
+Received: from bahia.lan (ovpn-112-127.ams2.redhat.com [10.36.112.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 417835C1A1;
+ Fri, 16 Jul 2021 12:44:41 +0000 (UTC)
+Date: Fri, 16 Jul 2021 14:44:39 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v5 3/7] spapr_drc.c: do not error_report() when
+ drc->dev->id == NULL
+Message-ID: <20210716144439.0ac277ac@bahia.lan>
+In-Reply-To: <20210712194339.813152-4-danielhb413@gmail.com>
+References: <20210712194339.813152-1-danielhb413@gmail.com>
+ <20210712194339.813152-4-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210705091549.178335-9-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,95 +64,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ eblake@redhat.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subject: s/compressiont_type/compression_type/
+On Mon, 12 Jul 2021 16:43:35 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
-> Like it is done in iotests.py in qemu_img_create_prepare_args(), let's
-> not follow compression_type=zstd of IMGOPTS if test creates image in
-> old format.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> The error_report() call in drc_unisolate_logical() is not considering
+> that drc->dev->id can be NULL, and the underlying functions error_report(=
+)
+> calls to do its job (vprintf(), g_strdup_printf() ...) has undefined
+> behavior when trying to handle "%s" with NULL arguments.
+>=20
+> Besides, there is no utility into reporting that an unknown device was
+> rejected by the guest.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   tests/qemu-iotests/common.rc | 8 ++++++++
->   1 file changed, 8 insertions(+)
->
-> diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-> index cbbf6d7c7f..4cae5b2d70 100644
-> --- a/tests/qemu-iotests/common.rc
-> +++ b/tests/qemu-iotests/common.rc
-> @@ -438,6 +438,14 @@ _make_test_img()
->               backing_file=$param
->               continue
->           elif $opts_param; then
-> +            if [[ "$param" == *"compat=0"* ]]; then
 
-Like in patch 2, probably should be 0.10, and account for “v2”.
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-> +                # If user specified zstd compression type in IMGOPTS, this will
-> +                # just not work. So, let's imply forcing zlib compression when
-> +                # test creates image in old version of the format.
-> +                # Similarly works qemu_img_create_prepare_args() in iotests.py
-> +                optstr=$(echo "$optstr" | $SED -e 's/compression_type=\w\+//')
-
-What about the surrounding comma, if compression_type is just one option 
-among others?  Do we need something like
-
-$SED -e 's/,compression_type=\w\+//' -e 's/compression_type=\w\+,\?//'
-
-?
-
-> +                optstr=$(_optstr_add "$optstr" "compression_type=zlib")
-
-As the comment says, this is for compression_type in $IMGOPTS and then 
-compat=0.10 in the parameters.  It won’t work if you have e.g. 
-“_make_test_img -o compat=0.10,compression_type=zstd”, because then this 
-generates the optstr 
-“$IMGOPTS,compression_type=zlib,compat=0.10,compression_type=zstd”. Not 
-sure if we want to care about this case, but, well...
-
-Then there’s the case where I have compat=0.10 in $IMGOPTS, and the test 
-wants to use compression_type=zstd.  I think it’s correct not to replace 
-compression_type=zstd then, because the test should be skipped for 
-compat=0.10 in $IMGOPTS.  But that’s not what happens in the iotest.py 
-version (qemu_img_create_prepare_args()), so I wonder whether the latter 
-should be made to match this behavior here, if in any way possible.
-
-Now that I think about it more, I begin to wonder more...
-
-So this code doesn’t explicitly handle compression_type only in 
-$IMGOPTS.  If you have
-
-_make_test_img -o compression_type=zstd,compat=0.10
-
-It’ll still keep the compression_type=zstd.  However, for
-
-_make_test_img -o compression_type=zstd -o compat=0.10
-
-It’ll replace it by zlib.
-
-So perhaps we should explicitly scan for compression_type only in 
-$IMGOPTS and then drop it from the optstr if compat=0.10 is in the 
-_make_test_img's -o options.
-
-But thinking further, this is not how $IMGOPTS work.  So far they aren’t 
-advisory, they are mandatory.  If a test cannot work with something in 
-$IMGOPTS, it has to be skipped.  Like, when you have compat=0.10 in 
-$IMGOPTS, I don’t want to run tests that use v3 features and have them 
-just create v3 images for those tests.
-
-So my impression is that you’re giving compression_type special 
-treatment here, and I don’t know why exactly.  Tests that create v2 
-images should just have compression_type be an unsupported_imgopt.
-
-Max
-
-> +            fi
->               optstr=$(_optstr_add "$optstr" "$param")
->               opts_param=false
->               continue
+>  hw/ppc/spapr_drc.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index a2f2634601..a4d9496f76 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -167,8 +167,11 @@ static uint32_t drc_unisolate_logical(SpaprDrc *drc)
+>              }
+> =20
+>              drc->unplug_requested =3D false;
+> -            error_report("Device hotunplug rejected by the guest "
+> -                         "for device %s", drc->dev->id);
+> +
+> +            if (drc->dev->id) {
+> +                error_report("Device hotunplug rejected by the guest "
+> +                             "for device %s", drc->dev->id);
+> +            }
+> =20
+>              /*
+>               * TODO: send a QAPI DEVICE_UNPLUG_ERROR event when
 
 
