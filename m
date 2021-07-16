@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2218C3CB41B
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:27:09 +0200 (CEST)
-Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD96A3CB462
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 10:33:57 +0200 (CEST)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4JBc-0006qt-6X
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:27:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
+	id 1m4JIC-0000eJ-QH
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 04:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m4JAn-00064o-Ac
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:26:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45467)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m4JAj-0003U8-7f
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:26:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626423971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UXUBzon4txDeOHkVm/5EakXHw6MQ74zVE8BA345AO9c=;
- b=QFYqTHLaL51Afw95Gf6y+rmO48yopahW6ve5kwZqA7zFrwswsPsFNW+xygLzXmiKV9zkKk
- zv7xsa71DbEYlEfJqdDym7rb42z1j8bLPdAEUUOhcrcYXE9UiqJvDAxW5zjTC9fms/e0oH
- SJgRlM36djD0ShE8XXYvAqAFFMbmENk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-Wz-V2c68O8u5SILvxfa6pA-1; Fri, 16 Jul 2021 04:26:09 -0400
-X-MC-Unique: Wz-V2c68O8u5SILvxfa6pA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- p4-20020a5d63840000b0290126f2836a61so4561958wru.6
- for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:26:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4JHJ-00082D-Ac
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:33:02 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:44609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4JHF-0007va-RU
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 04:33:01 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id l1so11843062edr.11
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 01:32:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=BaN6Pg4jjCRiD6xfsS8Dp/x6pwe7CI/AwxlmE99e77Q=;
+ b=Pf8zSlwHL1hWY2cy5rA8H0Gv/ZiDhfRRmM/wsCCythm2yVfvs0Zpi95X6yNWIyuaP0
+ LCMtknpKsJZmPYhAIWHsmVYVM+O6s8dfdxvF09STw2ERfWSjRntd2cB45YR8jY6UB/gy
+ 236BlZlwwYsdxicEtNAeRe5Dcd4Kp9og0996isJICvF5slkM4KNB4OyqGWZAzFGXROsH
+ PXqu7bfo38bPDPQI/8ggATAdIfNAej9Ogya7kPf5xEpfOyu4NpxpyEGfX6gL/AplV64I
+ G7JLbenCBEY6JuSQt260pNaFuz0Vg1rTWVnaUTT8hI5enTE1jtGxLP3xpHZXO/2VCC7Q
+ o4gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=UXUBzon4txDeOHkVm/5EakXHw6MQ74zVE8BA345AO9c=;
- b=KhphA47Jeaw2HdfJpCYb6kg3XXLP4T4kmyGqeZdm260riEPS//u4GEZi7n8OQHgfU9
- NjTK5N3a/7VRI+gAhgVpHIKzXvfaIzacLgMnRBXfcIevLK1CG0toKy71MwRR/5xYEJon
- JeOYk48WYA3XxYv2LFAQc0xKMdoNRjp9907Fboo4bybQH9feZmkMJdMtt7p/TXH6QrF4
- RfNiW6skvF5rlh+37+TaCakM0execqwU3biwggNQeqkvOCF7NGLYxNovcfqUAQj7D4XF
- 8SJDR4qSbZMXAFE6S9/AbMDoi51HSmoctXUgUGCHxjUanJsG0763TU1A8gf+uO9PBBhN
- rxRg==
-X-Gm-Message-State: AOAM530dgxCCOyasTh9CQ6Op0fBm3XgKEbvup/7l8xuM4llzqqg/V6QK
- z/AiemdA+ZBV3oXrlfuLxJPVE4okTcacv7yMml2tjS6t5ikpBR8dQlPXc+3mw1zS4bzuvE1cUja
- k6gKS8KMufE3ClCw=
-X-Received: by 2002:a5d:6489:: with SMTP id o9mr10517309wri.397.1626423968579; 
- Fri, 16 Jul 2021 01:26:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwrieAotN5O5ieWsrR8WOn7ei9t0+9G57OlQFvRISmqDP1/F0hhJBzLSpC1Y9b9+7NKYuCPRg==
-X-Received: by 2002:a5d:6489:: with SMTP id o9mr10517288wri.397.1626423968376; 
- Fri, 16 Jul 2021 01:26:08 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c621f.dip0.t-ipconnect.de. [91.12.98.31])
- by smtp.gmail.com with ESMTPSA id
- n5sm9003659wri.31.2021.07.16.01.26.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 16 Jul 2021 01:26:07 -0700 (PDT)
-To: "Wang, Wei W" <wei.w.wang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20210715075326.421977-1-wei.w.wang@intel.com>
- <2581d2a2-de9d-7937-4d71-25a33cfbce3e@redhat.com>
- <83c6af0d803b436aab62d1495375ae3c@intel.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v2] migration: clear the memory region dirty bitmap when
- skipping free pages
-Message-ID: <3c3a44c8-c819-5946-e1f6-a0d69215e2fe@redhat.com>
-Date: Fri, 16 Jul 2021 10:26:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=BaN6Pg4jjCRiD6xfsS8Dp/x6pwe7CI/AwxlmE99e77Q=;
+ b=ViOIefvYb8xWEZQ1Sc/jXnzRaLfoI0xZMftioUER4EO5eYA9PJNqtKO/wMk23rkwIz
+ KHTGi+GtYDH2dUDiMPfnrkQax2OWF4CVKUpB6Mpna3F6haqI6e0kmVWkkdu312HBjMVn
+ gf/6IIy7hNcWqdveBTWbbdfFUX8ytzaoUntIXwmxWtRNfHSrhtmgv+jLwVNFHn67hvEG
+ 7v0/OENPwu7U4fchBEuYJ60fmDPC//XkQZP11M5ViCdTaQ5lNPbN4gPzXcWIGQr6W68x
+ OLdV6P4Nuiz19nHysHlVwL1EoCc2o/zsvNXl5QxFcEscK/bhXdBCceTqIk9UHuLtMAZA
+ 05dg==
+X-Gm-Message-State: AOAM530QtZ9pCyya+hvAdd8sRCvZsF6IRIow3BftHkDpxB2xg5/rRWco
+ cqtgAzExm7bbxhkcpmaJexHKUiy8V90aUDZCjUSV1A==
+X-Google-Smtp-Source: ABdhPJzaH6u+NiexdkMeKc1qtg+uzIV4WYLWdcr3dfDwhnFxZ2l6ISJKZA5MIOn+nZSfL5UXZh05Mqj4tsQbhvpXNp4=
+X-Received: by 2002:aa7:d809:: with SMTP id v9mr13242739edq.146.1626424375856; 
+ Fri, 16 Jul 2021 01:32:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <83c6af0d803b436aab62d1495375ae3c@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <SY4PR01MB6798FDE7B97E478254D6B955F6139@SY4PR01MB6798.ausprd01.prod.outlook.com>
+In-Reply-To: <SY4PR01MB6798FDE7B97E478254D6B955F6139@SY4PR01MB6798.ausprd01.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 16 Jul 2021 09:32:15 +0100
+Message-ID: <CAFEAcA97bUkyHL+=LuToYgG-HWgppfbBc=BqO=BdboSWfF=Kcg@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc/arm_gicv3: Fix GICv3 redistributor security
+ checking
+To: Tianrui Wei <tianrui-wei@outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,145 +79,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "peterx@redhat.com" <peterx@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: Sergey Fedorov <sergey.fedorov@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Shlomo Pongratz <shlomo.pongratz@huawei.com>,
+ Jonathan Balkind <jbalkind@ucsb.edu>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Shannon Zhao <shannon.zhao@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> +    /*
->>> +     * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
->>> +     * can make things easier sometimes since then start address
->>> +     * of the small chunk will always be 64 pages aligned so the
->>> +     * bitmap will always be aligned to unsigned long. We should
->>> +     * even be able to remove this restriction but I'm simply
->>> +     * keeping it.
->>> +     */
->>> +    assert(shift >= 6);
->>> +
->>> +    size = 1ULL << (TARGET_PAGE_BITS + shift);
->>> +    start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
->>
->> these as well as.
-> 
-> Is there any coding style requirement for this?
+On Wed, 14 Jul 2021 at 20:46, Tianrui Wei <tianrui-wei@outlook.com> wrote:
+>
+> For redistributor to send sgi, we must test NSACR bits in secure mode.
+> However, current implementation inverts the security check, wrongly
+> skipping this it when the CPU is in secure state, and only carrying out
+> the check when the CPU is not secure or security is not implemented.
+> This patch corrects this problem by correcting the inversion of CPU
+> secure state checking. It has been tested to work with Linux version 5.11
+> in both aarch64 and arm version of qemu.
+>
+> According to =E2=80=9CArm Generic Interrupt Controller Architecture
+> Specification GIC architecture version 3 and version 4,=E2=80=9D p. 930, =
+2008.
+> Chapter 12, page 530, when there is only one security state implemented,
+> GICD.CTLR.DS is always 0, thus checking NSACR in non-secure state. When
+> cpu is in secure state, ns =3D 0, thus the NSACR check is never performed=
+.
+>
+> Signed-off-by: Tianrui Wei <tianrui-wei@outlook.com>
+> Signed-off-by: Jonathan Balkind <jbalkind@ucsb.edu>
+> Tested-by: Tianrui Wei <tianrui-wei@outlook.com>
+> ---
+>  hw/intc/arm_gicv3_redist.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+> index 53da703ed8..84cfcfd18f 100644
+> --- a/hw/intc/arm_gicv3_redist.c
+> +++ b/hw/intc/arm_gicv3_redist.c
+> @@ -564,7 +564,7 @@ void gicv3_redist_send_sgi(GICv3CPUState *cs, int grp=
+, int irq, bool ns)
+>          return;
+>      }
+>
+> -    if (ns && !(cs->gic->gicd_ctlr & GICD_CTLR_DS)) {
+> +    if (!ns && !(cs->gic->gicd_ctlr & GICD_CTLR_DS)) {
+>          /* If security is enabled we must test the NSACR bits */
+>          int nsaccess =3D gicr_ns_access(cs, irq);
 
-Don't think so. It simply results in less LOC and less occurrences of 
-variables.
+So, before this change:
+ * if the access to ICC_SGI[01]R_EL1 attempting to kick off this SGI
+   is done in Secure state, we allow it
+ * if the GIC has security disabled (GICD_CTLR.DS is 1), we allow it
+ * if the access is from NonSecure and the GIC does not have security
+   disabled, we check the NSACR bits to see if we should allow it
 
-> My thought was that those operations could mostly be avoided if they don't pass the
-> above if condition (e.g. just once per 1GB chunk).
+With this change, we check the NSACR bits for accesses from Secure
+state, and we don't check them for accesses from NonSecure.
+This doesn't seem to me to match what the spec requires: in version
+IHI0069G of the GICv3 spec, section 12.1.10, the tables show that
+only accesses from NonSecure are subject to NSACR checks. (This makes
+intuitive sense: the GICR_NSACR is the NonSecure Access Control
+Register and it is controls NonSecure accesses, not Secure accesses.)
 
-Usually the compiler will reshuffle as possible to optimize. But in this 
-case, due to clear_bmap_test_and_clear(), it might not be able to move 
-the computations behind that call. So the final code might actually differ.
+What bug are you trying to fix with this patch ?
 
-Not that we really care about this micro-optimization, though.
-
-> 
->>
->>> +    trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
->>> +    memory_region_clear_dirty_bitmap(rb->mr, start, size); }
->>> +
->>> +static void
->>> +migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
->>> +                                                 RAMBlock *rb,
->>> +                                                 unsigned long
->> start,
->>> +                                                 unsigned long
->>> +npages) {
->>> +    unsigned long page_to_clear, i, nchunks;
->>> +    unsigned long chunk_pages = 1UL << rb->clear_bmap_shift;
->>> +
->>> +    nchunks = (start + npages) / chunk_pages - start / chunk_pages +
->>> + 1;
->>
->> Wouldn't you have to align the start and the end range up/down to properly
->> calculate the number of chunks?
-> 
-> No, divide will round it to the integer (beginning of the chunk to clear).
-
-
-nchunks = (start + npages) / chunk_pages - start / chunk_pages + 1;
-
-For simplicity:
-
-nchunks = (addr + size) / chunk_size - addr / chunk_size + 1;
-
-addr=1GB
-size=3GB
-chunk_size=2GB
-
-So for that range [1GB, 3GB), we'd have to clear [0GB,2GB), [2GB,4GB)
-
-Range:    [      ]
-Chunks: [ - ][ - ][ - ][ - ] ...
-         ^0   ^2   ^4   ^6
-
-nchunks = (1 + 3) / 2 - 1 / 2 + 1
-	= 4 / 2 - 0 + 1
-	= 2 + 1
-	= 3
-
-Which is wrong.
-
-While my variant will give you
-
-aligned_start = 0GB
-aligned_end = 4GB
-
-And consequently clear [0GB,2GB) and [2GB,4GB).
-
-
-Am I making a stupid mistake and should rather get another cup of coffee? :)
-
-
-> 
->>
->> The following might be better and a little easier to grasp:
->>
->> unsigned long chunk_pages = 1ULL << rb->clear_bmap_shift; unsigned long
->> aligned_start = QEMU_ALIGN_DOWN(start, chunk_pages); unsigned long
->> aligned_end = QEMU_ALIGN_UP(start + npages, chunk_pages)
->>
->> /*
->>    * Clear the clar_bmap of all covered chunks. It's sufficient to call it for
->>    * one page within a chunk.
->>    */
->> for (start = aligned_start, start != aligned_end, start += chunk_pages) {
-> 
-> What if "aligned_end == start + npages"?
-> i.e the above start + npages is aligned by itself without QEMU_ALIGN_UP().
-> For example, chunk size is 1GB, and start+npages=2GB, which is right at the beginning of [2GB,3GB) chunk.
-> Then aligned_end is also 2GB, but we need to clear the [2GB, 3GB) chunk, right?
-
-Again, let's work with sizes instead of PFNs:
-
-addr=1GB
-size=1GB
-chunk_size=1GB
-
-Range:       [   ]
-Chunks: [ - ][ - ][ - ][ - ] ...
-         ^0   ^1   ^2   ^3
-
-aligned_start = 1GB
-aligned_end = 2GB
-
-As you say, we'd clear the [1GB,2GB) chunk, but not the [2GB,3GB) chunk. 
-But that's correct, as our range to hint is actually [start, 
-start+npages) == [1GB,2GB).
-
-> 
-> Best,
-> Wei
-> 
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+thanks
+-- PMM
 
