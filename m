@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FEC3CB798
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:56:58 +0200 (CEST)
-Received: from localhost ([::1]:37480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89343CB79C
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 14:58:00 +0200 (CEST)
+Received: from localhost ([::1]:40022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4NOj-00038G-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:56:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57170)
+	id 1m4NPj-0004zM-N5
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 08:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1m4NNv-0002Ph-L3
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:56:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45545)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NOr-0003qE-L6
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:57:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1m4NNs-0005wX-L4
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:56:06 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1m4NOq-0006XR-8I
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 08:57:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626440163;
+ s=mimecast20190719; t=1626440223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vikCRM7FQsmjuBGWo5/Bs3Vld2gjPRWypPBNpxVYkds=;
- b=B79xJtq9aZxQWEd6uIs3TtI6MxOx/rXlUnTLavy9c5uADgA2dtC9hMqu1XZXKMjg4iDKq7
- gtiIw/v1D65gQpUhp9AokxAO8Gvdl3pv1I7voT45aYZtdZl2NG+AKXf+Gvl3JQGU0Jmp7g
- ArdweRtYPPvBX/EBPBxdvRk7QAfwZoI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-Cczj8D09NG6b-t16YPz-Hw-1; Fri, 16 Jul 2021 08:55:36 -0400
-X-MC-Unique: Cczj8D09NG6b-t16YPz-Hw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCDF19200C0;
- Fri, 16 Jul 2021 12:55:35 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.195.55])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2859B60C05;
- Fri, 16 Jul 2021 12:55:29 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org,
-	Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH] qtest/hyperv: Introduce a simple hyper-v test
-Date: Fri, 16 Jul 2021 14:55:28 +0200
-Message-Id: <20210716125528.447915-1-vkuznets@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=us+JnBBF+CQ1NXosyepwUbMMjVKX5Lo/O+KYWDgR9Bw=;
+ b=McWop+1Mx11yqP1knZV1d4zP0VKwHCDR+8yw+njop6Iwy3vt1Fx2RwnFPzCj5yWJZH1j7b
+ KYWLTwZwj7KDIK0M1VndbC8M+q/JbPMNLcF+3LPmzUJVmvtowACCSDRGz7RbbZChjlqBlF
+ eorN5ri2gow38v7hUFbMISSq46qY6GI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-UxA5A3U2OJmYrjSXKk_pTg-1; Fri, 16 Jul 2021 08:57:02 -0400
+X-MC-Unique: UxA5A3U2OJmYrjSXKk_pTg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ m4-20020adffa040000b02901404c442853so4803303wrr.12
+ for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 05:57:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=us+JnBBF+CQ1NXosyepwUbMMjVKX5Lo/O+KYWDgR9Bw=;
+ b=YWqtn3bOPXJxPWF+94DmVOXKgDeuKJtYyhHmMRi5V670GYcbI55u6It/1+9c3kTlm6
+ UnHaUXpYh+EuzqrH6O+EPxRPHmXSZ7mVtaBPoyg3xCEXczrCamDomdpIwI0nOOT6nqSi
+ vLGGqErxuafnqMnSYofMf4SkMecHJrDCD+I38qIGq/UP46rI9qiozvUwpEzWhnJKup51
+ Yp1PyCl1kGbSgPhzJ2uafdQwKdEd5JtAK0m1yvLRzQxCivNUstHjyBr4wm4dXlq3vWnu
+ mEr7Ijwf6kD/AUIBddfr0gOxUHDQrloG/blM0/XF+T104FW9DVxf1Avy4y7KrU+rdj3h
+ MV+Q==
+X-Gm-Message-State: AOAM530ZRCV9HWCMi6iVl8mpRGNZpqMeSjsPVaYUZyBWPiBRPe4frS2x
+ U/nUSBI9sCASFspDTd/XIcuW2MQUUoicJWjPqtkeFMzjTxRTV7/K0HEhZmzsj97Tyfyu1XPBI3D
+ rdT96eWNdjjvd8Do=
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr16377579wme.33.1626440221249; 
+ Fri, 16 Jul 2021 05:57:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7B7aF4r+eLEgdo+HgOkPf3IddsodJF4x7eIyhWkpG6sMrgtFQjIFmeoKqtlL73SWACLtuRQ==
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr16377488wme.33.1626440220029; 
+ Fri, 16 Jul 2021 05:57:00 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ m7sm9984857wms.0.2021.07.16.05.56.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 16 Jul 2021 05:56:59 -0700 (PDT)
+Subject: Re: [PATCH 09/14] iotests/common.rc: introduce _qcow2_dump_header
+ helper
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210705091549.178335-1-vsementsov@virtuozzo.com>
+ <20210705091549.178335-10-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <81a041b8-fae6-a716-0738-185255070e1f@redhat.com>
+Date: Fri, 16 Jul 2021 14:56:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210705091549.178335-10-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,288 +101,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the beginning, just test 'hv-passthrough' and a couple of custom
-Hyper-V  enlightenments configurations through QMP. Later, it would
-be great to complement this by checking CPUID values from within the
-guest.
+On 05.07.21 11:15, Vladimir Sementsov-Ogievskiy wrote:
+> We'll use it in tests instead of explicit qcow2.py. Then we are going
+> to add some filtering in _qcow2_dump_header.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/common.rc | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
-- Changes since "[PATCH v8 0/9] i386: KVM: expand Hyper-V features early":
- make the test SKIP correctly when KVM is not present.
----
- MAINTAINERS               |   1 +
- tests/qtest/hyperv-test.c | 228 ++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build   |   3 +-
- 3 files changed, 231 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/hyperv-test.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 148153d74f5b..c1afd744edca 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1576,6 +1576,7 @@ F: hw/isa/apm.c
- F: include/hw/isa/apm.h
- F: tests/unit/test-x86-cpuid.c
- F: tests/qtest/test-x86-cpuid-compat.c
-+F: tests/qtest/hyperv-test.c
- 
- PC Chipset
- M: Michael S. Tsirkin <mst@redhat.com>
-diff --git a/tests/qtest/hyperv-test.c b/tests/qtest/hyperv-test.c
-new file mode 100644
-index 000000000000..2155e5d90970
---- /dev/null
-+++ b/tests/qtest/hyperv-test.c
-@@ -0,0 +1,228 @@
-+/*
-+ * Hyper-V emulation CPU feature test cases
-+ *
-+ * Copyright (c) 2021 Red Hat Inc.
-+ * Authors:
-+ *  Vitaly Kuznetsov <vkuznets@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include <linux/kvm.h>
-+#include <sys/ioctl.h>
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qjson.h"
-+
-+#define MACHINE_KVM "-machine pc-q35-5.2 -accel kvm "
-+#define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-+                    "  'arguments': { 'type': 'full', "
-+#define QUERY_TAIL  "}}"
-+
-+static bool kvm_enabled(QTestState *qts)
-+{
-+    QDict *resp, *qdict;
-+    bool enabled;
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+    qdict = qdict_get_qdict(resp, "return");
-+    g_assert(qdict_haskey(qdict, "enabled"));
-+    enabled = qdict_get_bool(qdict, "enabled");
-+    qobject_unref(resp);
-+
-+    return enabled;
-+}
-+
-+static bool kvm_has_cap(int cap)
-+{
-+    int fd = open("/dev/kvm", O_RDWR);
-+    int ret;
-+
-+    if (fd < 0) {
-+        return false;
-+    }
-+
-+    ret = ioctl(fd, KVM_CHECK_EXTENSION, cap);
-+
-+    close(fd);
-+
-+    return ret > 0;
-+}
-+
-+static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
-+{
-+    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-+                          QUERY_TAIL, cpu_type);
-+}
-+
-+static bool resp_has_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+
-+    if (!qdict_haskey(resp, "return")) {
-+        return false;
-+    }
-+    qdict = qdict_get_qdict(resp, "return");
-+
-+    if (!qdict_haskey(qdict, "model")) {
-+        return false;
-+    }
-+    qdict = qdict_get_qdict(qdict, "model");
-+
-+    return qdict_haskey(qdict, "props");
-+}
-+
-+static QDict *resp_get_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+
-+    qdict = qdict_get_qdict(resp, "return");
-+    qdict = qdict_get_qdict(qdict, "model");
-+    qdict = qdict_get_qdict(qdict, "props");
-+
-+    return qdict;
-+}
-+
-+static bool resp_get_feature(QDict *resp, const char *feature)
-+{
-+    QDict *props;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+    props = resp_get_props(resp);
-+    g_assert(qdict_get(props, feature));
-+    return qdict_get_bool(props, feature);
-+}
-+
-+#define assert_has_feature(qts, cpu_type, feature)                     \
-+({                                                                     \
-+    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    g_assert(qdict_get(resp_get_props(_resp), feature));               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define resp_assert_feature(resp, feature, expected_value)             \
-+({                                                                     \
-+    QDict *_props;                                                     \
-+                                                                       \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    _props = resp_get_props(_resp);                                    \
-+    g_assert(qdict_get(_props, feature));                              \
-+    g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
-+})
-+
-+#define assert_feature(qts, cpu_type, feature, expected_value)         \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query_no_props(qts, cpu_type);                          \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature(_resp, feature, expected_value);               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define assert_has_feature_enabled(qts, cpu_type, feature)             \
-+    assert_feature(qts, cpu_type, feature, true)
-+
-+#define assert_has_feature_disabled(qts, cpu_type, feature)            \
-+    assert_feature(qts, cpu_type, feature, false)
-+
-+static void test_assert_hyperv_all_but_evmcs(QTestState *qts)
-+{
-+    assert_has_feature_enabled(qts, "host", "hv-relaxed");
-+    assert_has_feature_enabled(qts, "host", "hv-vapic");
-+    assert_has_feature_enabled(qts, "host", "hv-vpindex");
-+    assert_has_feature_enabled(qts, "host", "hv-runtime");
-+    assert_has_feature_enabled(qts, "host", "hv-crash");
-+    assert_has_feature_enabled(qts, "host", "hv-time");
-+    assert_has_feature_enabled(qts, "host", "hv-synic");
-+    assert_has_feature_enabled(qts, "host", "hv-stimer");
-+    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
-+    assert_has_feature_enabled(qts, "host", "hv-ipi");
-+    assert_has_feature_enabled(qts, "host", "hv-reset");
-+    assert_has_feature_enabled(qts, "host", "hv-frequencies");
-+    assert_has_feature_enabled(qts, "host", "hv-reenlightenment");
-+    assert_has_feature_enabled(qts, "host", "hv-stimer-direct");
-+}
-+
-+static void test_query_cpu_hv_all_but_evmcs(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-relaxed,hv-vapic,hv-vpindex,"
-+                     "hv-runtime,hv-crash,hv-time,hv-synic,hv-stimer,"
-+                     "hv-tlbflush,hv-ipi,hv-reset,hv-frequencies,"
-+                     "hv-reenlightenment,hv-stimer-direct");
-+
-+    test_assert_hyperv_all_but_evmcs(qts);
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_custom(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-vpindex");
-+
-+    assert_has_feature_enabled(qts, "host", "hv-vpindex");
-+    assert_has_feature_disabled(qts, "host", "hv-synic");
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_passthrough(const void *data)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-passthrough");
-+    if (!kvm_enabled(qts)) {
-+        qtest_quit(qts);
-+        return;
-+    }
-+
-+    test_assert_hyperv_all_but_evmcs(qts);
-+
-+    resp = do_query_no_props(qts, "host");
-+    if (resp_get_feature(resp, "vmx")) {
-+        assert_has_feature_enabled(qts, "host", "hv-evmcs");
-+    } else {
-+        assert_has_feature_disabled(qts, "host", "hv-evmcs");
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (!kvm_has_cap(KVM_CAP_HYPERV_CPUID)) {
-+        g_test_message("Skipping test: KVM not available or too old");
-+        return g_test_run();
-+    }
-+
-+    qtest_add_data_func("/hyperv/hv-all-but-evmcs",
-+                        NULL, test_query_cpu_hv_all_but_evmcs);
-+    qtest_add_data_func("/hyperv/hv-custom",
-+                        NULL, test_query_cpu_hv_custom);
-+    if (kvm_has_cap(KVM_CAP_SYS_HYPERV_CPUID)) {
-+        qtest_add_data_func("/hyperv/hv-passthrough",
-+                            NULL, test_query_cpu_hv_passthrough);
-+    }
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index e22a0792c587..b35e52fabd84 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -85,7 +85,8 @@ qtests_i386 = \
-    'vmgenid-test',
-    'migration-test',
-    'test-x86-cpuid-compat',
--   'numa-test']
-+   'numa-test',
-+   'hyperv-test']
- 
- dbus_daemon = find_program('dbus-daemon', required: false)
- if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
--- 
-2.31.1
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
