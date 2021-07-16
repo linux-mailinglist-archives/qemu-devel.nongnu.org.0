@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4213CB627
-	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 12:37:23 +0200 (CEST)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 888023CB629
+	for <lists+qemu-devel@lfdr.de>; Fri, 16 Jul 2021 12:37:28 +0200 (CEST)
+Received: from localhost ([::1]:33380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4LDd-00032o-J7
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 06:37:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
+	id 1m4LDj-00038S-J3
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 06:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1m4LBG-0000yz-NQ
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:34:54 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:49297
+ id 1m4LBI-0000zF-8f
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:34:56 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.219]:49308
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1m4LBE-0005bJ-9Z
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:34:54 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1m4LBG-0005f3-2c
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 06:34:56 -0400
 HMM_SOURCE_IP: 172.18.0.218:46224.948966485
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-202.80.192.39?logid-e44c2bdca1064d2f86a6250957101844
  (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id D01DD280099;
- Fri, 16 Jul 2021 18:34:47 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id D37642800AD;
+ Fri, 16 Jul 2021 18:34:52 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id f1159b11139e4a53bca51116847aaff4 for
- qemu-devel@nongnu.org; Fri Jul 16 18:34:47 2021
-X-Transaction-ID: f1159b11139e4a53bca51116847aaff4
+ by app0025 with ESMTP id 48ad892b5bf946a6b24fa2d76f42bb4c for
+ qemu-devel@nongnu.org; Fri Jul 16 18:34:52 2021
+X-Transaction-ID: 48ad892b5bf946a6b24fa2d76f42bb4c
 X-filter-score: 
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
 From: huangy81@chinatelecom.cn
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 1/2] memory: introduce total_dirty_pages to stat dirty pages
-Date: Fri, 16 Jul 2021 18:39:50 +0800
-Message-Id: <4b859c39e6a7debdef530078d4dca8e1582a918e.1626431731.git.huangy81@chinatelecom.cn>
+Subject: [PATCH v5 2/2] migration/dirtyrate: implement dirty-bitmap dirtyrate
+ calculation
+Date: Fri, 16 Jul 2021 18:39:51 +0800
+Message-Id: <55d461708863ff5b3ad90ec07b3ed1de03acb560.1626431731.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1626431731.git.huangy81@chinatelecom.cn>
 References: <cover.1626431731.git.huangy81@chinatelecom.cn>
@@ -75,62 +76,237 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-introduce global var total_dirty_pages to stat dirty pages
-along with memory_global_dirty_log_sync.
+introduce dirty-bitmap mode as the third method of calc-dirty-rate.
+implement dirty-bitmap dirtyrate calculation, which can be used
+to measuring dirtyrate in the absence of dirty-ring.
+
+introduce "dirty_bitmap:-b" option in hmp calc_dirty_rate to
+indicate dirty bitmap method should be used for calculation.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- include/exec/ram_addr.h | 4 ++++
- migration/dirtyrate.c   | 7 +++++++
- 2 files changed, 11 insertions(+)
+ hmp-commands.hx       |   9 ++--
+ migration/dirtyrate.c | 115 ++++++++++++++++++++++++++++++++++++++++++++++----
+ qapi/migration.json   |   6 ++-
+ 3 files changed, 115 insertions(+), 15 deletions(-)
 
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 45c9132..e98d665 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -26,6 +26,8 @@
- #include "exec/ramlist.h"
- #include "exec/ramblock.h"
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index f7fc9d7..605973c 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1738,9 +1738,10 @@ ERST
  
-+extern uint64_t total_dirty_pages;
-+
- /**
-  * clear_bmap_size: calculate clear bitmap size
-  *
-@@ -366,6 +368,7 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
-             for (k = 0; k < nr; k++) {
-                 if (bitmap[k]) {
-                     unsigned long temp = leul_to_cpu(bitmap[k]);
-+                    total_dirty_pages += ctpopl(temp);
- 
-                     qatomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
- 
-@@ -403,6 +406,7 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
-         for (i = 0; i < len; i++) {
-             if (bitmap[i] != 0) {
-                 c = leul_to_cpu(bitmap[i]);
-+                total_dirty_pages += ctpopl(c);
-                 do {
-                     j = ctzl(c);
-                     c &= ~(1ul << j);
+     {
+         .name       = "calc_dirty_rate",
+-        .args_type  = "dirty_ring:-r,second:l,sample_pages_per_GB:l?",
+-        .params     = "[-r] second [sample_pages_per_GB]",
+-        .help       = "start a round of guest dirty rate measurement (using -d to"
+-                      "\n\t\t\t specify dirty ring as the method of calculation)",
++        .args_type  = "dirty_ring:-r,dirty_bitmap:-b,second:l,sample_pages_per_GB:l?",
++        .params     = "[-r] [-b] second [sample_pages_per_GB]",
++        .help       = "start a round of guest dirty rate measurement (using -r to"
++                      "\n\t\t\t specify dirty ring as the method of calculation and"
++                      "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
+         .cmd        = hmp_calc_dirty_rate,
+     },
 diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index f92c4b4..17b3d2c 100644
+index 17b3d2c..f9e4c03 100644
 --- a/migration/dirtyrate.c
 +++ b/migration/dirtyrate.c
-@@ -28,6 +28,13 @@
- #include "sysemu/runstate.h"
- #include "exec/memory.h"
- 
-+/*
-+ * total_dirty_pages is procted by BQL and is used
-+ * to stat dirty pages during the period of two
-+ * memory_global_dirty_log_sync
-+ */
-+uint64_t total_dirty_pages;
+@@ -15,6 +15,7 @@
+ #include "qapi/error.h"
+ #include "cpu.h"
+ #include "exec/ramblock.h"
++#include "exec/ram_addr.h"
+ #include "qemu/rcu_queue.h"
+ #include "qemu/main-loop.h"
+ #include "qapi/qapi-commands-migration.h"
+@@ -118,6 +119,10 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
+             }
+             info->vcpu_dirty_rate = head;
+         }
 +
- typedef struct DirtyPageRecord {
-     uint64_t start_pages;
-     uint64_t end_pages;
++        if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) {
++            info->sample_pages = 0;
++        }
+     }
+ 
+     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
+@@ -416,6 +421,13 @@ static void dirtyrate_global_dirty_log_stop(void)
+     qemu_mutex_unlock_iothread();
+ }
+ 
++static void dirtyrate_global_dirty_log_sync(void)
++{
++    qemu_mutex_lock_iothread();
++    memory_global_dirty_log_sync();
++    qemu_mutex_unlock_iothread();
++}
++
+ static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
+ {
+     uint64_t memory_size_MB;
+@@ -429,6 +441,75 @@ static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
+     return memory_size_MB / time_s;
+ }
+ 
++static inline void record_dirtypages_bitmap(DirtyPageRecord *dirty_pages,
++                                            bool start)
++{
++    if (start) {
++        dirty_pages->start_pages = total_dirty_pages;
++    } else {
++        dirty_pages->end_pages = total_dirty_pages;
++    }
++}
++
++static void do_calculate_dirtyrate_bitmap(DirtyPageRecord dirty_pages)
++{
++    DirtyStat.dirty_rate = do_calculate_dirtyrate_vcpu(dirty_pages);
++}
++
++static inline void dirtyrate_manual_reset_protect(void)
++{
++    RAMBlock *block = NULL;
++
++    qemu_mutex_lock_iothread();
++    WITH_RCU_READ_LOCK_GUARD() {
++        RAMBLOCK_FOREACH_MIGRATABLE(block) {
++            memory_region_clear_dirty_bitmap(block->mr, 0,
++                                             block->used_length);
++        }
++    }
++    qemu_mutex_unlock_iothread();
++}
++
++static void calculate_dirtyrate_dirty_bitmap(struct DirtyRateConfig config)
++{
++    int64_t msec = 0;
++    int64_t start_time;
++    DirtyPageRecord dirty_pages;
++
++    dirtyrate_global_dirty_log_start();
++
++    /*
++     * 1'round of log sync may return all 1 bits with
++     * KVM_DIRTY_LOG_INITIALLY_SET enable
++     * skip it unconditionally and start dirty tracking
++     * from 2'round of log sync
++     */
++    dirtyrate_global_dirty_log_sync();
++
++    /*
++     * reset page protect manually and unconditionally.
++     * this make sure kvm dirty log be cleared if
++     * KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE cap is enabled.
++     */
++    dirtyrate_manual_reset_protect();
++
++    record_dirtypages_bitmap(&dirty_pages, true);
++
++    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    DirtyStat.start_time = start_time / 1000;
++
++    msec = config.sample_period_seconds * 1000;
++    msec = set_sample_page_period(msec, start_time);
++    DirtyStat.calc_time = msec / 1000;
++
++    /* fetch dirty bitmap from kvm and stop dirty tracking */
++    dirtyrate_global_dirty_log_stop();
++
++    record_dirtypages_bitmap(&dirty_pages, false);
++
++    do_calculate_dirtyrate_bitmap(dirty_pages);
++}
++
+ static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
+ {
+     CPUState *cpu;
+@@ -514,7 +595,9 @@ out:
+ 
+ static void calculate_dirtyrate(struct DirtyRateConfig config)
+ {
+-    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
++    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) {
++        calculate_dirtyrate_dirty_bitmap(config);
++    } else if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
+         calculate_dirtyrate_dirty_ring(config);
+     } else {
+         calculate_dirtyrate_sample_vm(config);
+@@ -597,12 +680,15 @@ void qmp_calc_dirty_rate(int64_t calc_time,
+ 
+     /*
+      * dirty ring mode only works when kvm dirty ring is enabled.
++     * on the contrary, dirty bitmap mode is not.
+      */
+-    if ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
+-        !kvm_dirty_ring_enabled()) {
+-        error_setg(errp, "dirty ring is disabled, use sample-pages method "
+-                         "or remeasure later.");
+-        return;
++    if (((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
++        !kvm_dirty_ring_enabled()) ||
++        ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) &&
++         kvm_dirty_ring_enabled())) {
++        error_setg(errp, "mode %s is not enabled, use other method instead.",
++                         DirtyRateMeasureMode_str(mode));
++         return;
+     }
+ 
+     /*
+@@ -678,9 +764,8 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
+     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
+     bool has_sample_pages = (sample_pages != -1);
+     bool dirty_ring = qdict_get_try_bool(qdict, "dirty_ring", false);
+-    DirtyRateMeasureMode mode =
+-        (dirty_ring ? DIRTY_RATE_MEASURE_MODE_DIRTY_RING :
+-         DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING);
++    bool dirty_bitmap = qdict_get_try_bool(qdict, "dirty_bitmap", false);
++    DirtyRateMeasureMode mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
+     Error *err = NULL;
+ 
+     if (!sec) {
+@@ -688,6 +773,18 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
+         return;
+     }
+ 
++    if (dirty_ring && dirty_bitmap) {
++        monitor_printf(mon, "Either dirty ring or dirty bitmap "
++                       "can be specified!\n");
++        return;
++    }
++
++    if (dirty_bitmap) {
++        mode = DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP;
++    } else if (dirty_ring) {
++        mode = DIRTY_RATE_MEASURE_MODE_DIRTY_RING;
++    }
++
+     qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, true,
+                         mode, &err);
+     if (err) {
+diff --git a/qapi/migration.json b/qapi/migration.json
+index de35528..0b00976 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1747,13 +1747,15 @@
+ #
+ # @page-sampling: calculate dirtyrate by sampling pages.
+ #
+-# @dirty-ring: calculate dirtyrate by via dirty ring.
++# @dirty-ring: calculate dirtyrate by dirty ring.
++#
++# @dirty-bitmap: calculate dirtyrate by dirty bitmap.
+ #
+ # Since: 6.1
+ #
+ ##
+ { 'enum': 'DirtyRateMeasureMode',
+-  'data': ['page-sampling', 'dirty-ring'] }
++  'data': ['page-sampling', 'dirty-ring', 'dirty-bitmap'] }
+ 
+ ##
+ # @DirtyRateInfo:
 -- 
 1.8.3.1
 
