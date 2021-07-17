@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1E73CC6C2
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:26:08 +0200 (CEST)
-Received: from localhost ([::1]:40058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D130C3CC6C4
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:26:56 +0200 (CEST)
+Received: from localhost ([::1]:43692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4th9-0002dv-MF
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:26:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59970)
+	id 1m4thv-00055v-TW
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tcS-0001mD-8P
+ id 1m4tcS-0001mT-Cx
  for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:21:16 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:42536)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tcP-0000jQ-BH
+ id 1m4tcQ-0000kl-2d
  for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:21:16 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- a23-20020a05600c2257b0290236ec98bebaso5635668wmm.1
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:21:12 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id
+ o30-20020a05600c511eb029022e0571d1a0so8062856wms.5
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:21:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NyzpfK1WCrk/eJzlVhQMae9mDkY1H1hE1WXMP7wH75I=;
- b=Eh86BrTun3iECHMeGUPOSZ45ZEd74fk5MyFYBtgMUaXS3iCH/TsF672XrJjHi1+WYG
- C3tajFgRDTKgnYeNZ2vAWjtXOLSnbIhKZTB2MbgViXBXNhd5ST3SFZgB0ov3kzN5qAi2
- 50vaqaHPQQDT1IvTyclGzueGSlJxyKRdog+Ji0R+HMgCZLyrKkNfQFaqVMJueFLdYEfe
- lLFpSr5oUS/WMJ+iQ2YuJa/XCrhNRzslxby7ZJ8S4X5gNdRSPrqX6Jv1Z67jrMFC5i8Z
- GYAZMZ8DSU2p8JYZBIrcuGf8hOsvEgMI2kj+ewlSpmte8nmpw2RNFvFSS7rQ4u0WPUzu
- zX7g==
+ bh=/MAEIGkxboaQ7/sKH4/N7ZsnrjiQlrtgLB/5WpkDnOs=;
+ b=cqY1oFqGRGwvHn34Quim+J2Q1f6p6XxaH0Xh7IRjLZfYsvM1K2tWplrNPIF9aeo/oV
+ Ugoy7oJJQR9LMY4brG6wrHf+S5vqJWKfbkSNF7kTKP69zhEpJ44PZAamVegGkFui+w9Z
+ BcIWiwsOuHMg+4FooKKvscqk9wW5Aa4oiCzOAaB844nWnhqVzCCa+w+WVhMndMC3qycZ
+ 9eblLz+Of+KkTy8ULSTkor+AKr1ZDsrP3KjLHIOTfjTR8rgYgl4Kk8Kx1VHMcQ+RbZ1F
+ jx5PrNSiD91DILFjl6LLjhVQ2fbx6rCTFSFnDL9l0abDIR0ZSzKGu4q8DgnVYoMRFstj
+ kOhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NyzpfK1WCrk/eJzlVhQMae9mDkY1H1hE1WXMP7wH75I=;
- b=ewhtJOavMXWvzB95kdSiHcRict7DhvjjFgi2oYoQyQ1XJsyuQMr/4NshvnIR5z9t2L
- kuAyar/mc/WZFmFe/Nf/0GDdyOz11C6M9NoCSZhRAzfk5AV1tggcntJZ9xj/QMQut13S
- qjRAifZ3oIOLmzOEb2kcVxNdQms+qd40dUgaF8Het8racC7/iAVK4FuBH54N6imuE5bo
- hBDo0/ZuiCCS6+QTqUUB3zL4Ne75hFRkUZPON86fDgC60Ml7PNhdrB4flG6LW2/rvVOP
- BPFDmlXD4x9lijgouwFvBwX9GXI73PxEAVuhQ+XYJ/lDmUg5UNonEB9SEPtRYjq164Rp
- /9jQ==
-X-Gm-Message-State: AOAM533tQ4zob2qR7B2fH4wCyxcfxR9v7FJ2Nl7H/gZxoZigQODqjxm4
- VqFMfHmM7I36AEJiNcIq+3k1U/8pH7CU/w==
-X-Google-Smtp-Source: ABdhPJyi4h27mGSWsJrXFPWQibUUS0x7kNrzTMTHOmIEUmY0JRjLEO7Mz+AXowpRVZ5E8I1end7Mlg==
-X-Received: by 2002:a1c:c90f:: with SMTP id f15mr24453800wmb.142.1626564072055; 
+ bh=/MAEIGkxboaQ7/sKH4/N7ZsnrjiQlrtgLB/5WpkDnOs=;
+ b=YWiJ9Hq0DhPJ8o2ZScFkIarWIIpuznQdk+NRR52yFBot8RuVuyVNV+vp5gZqfJlD/l
+ ReYiI8zRHR6eJE46gS2powpDD/K0BhKsAsRJD1UYlvchSPVe9puAuQNWtfXT7A+l1Gt1
+ YcvBKgFNQ6Izbp+DKuLx7Ke8jIpGaVixSu8wYjZVhPSN1m/5V36fWW7blBtOquOBf4ei
+ FpOdCiQlT2pPHuJjdHRg1q8QNQBlpVJ5fF8PMuoNZx07Sn2B9lW38N8v+RvekT9QzJru
+ B3c0bk3SBx3uOBtvLV+8aMheV0xVNV/2zxKESATX6s5QNwoC2QxNLdAXS3m0ngof89j0
+ +Pxg==
+X-Gm-Message-State: AOAM5308hOemiWF0buKbupYr7Xa/F1Y48HE4L0iC4PJtb06Fg2Ls+794
+ MyzknImanX2zl5wFFmyzLYt8UOfVLBekKQ==
+X-Google-Smtp-Source: ABdhPJwVZFu7N6AxjUoRuVJARUUu0uYDAN1pCizZ7U8j3dn1TyHYr09Eoz38qU/sLFm/GYqQVQkbJQ==
+X-Received: by 2002:a7b:cb91:: with SMTP id m17mr23836061wmi.159.1626564072785; 
  Sat, 17 Jul 2021 16:21:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o15sm7082517wmh.40.2021.07.17.16.21.11
+ by smtp.gmail.com with ESMTPSA id o15sm7082517wmh.40.2021.07.17.16.21.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 16:21:11 -0700 (PDT)
+ Sat, 17 Jul 2021 16:21:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 08/10] linux-user: Don't include gdbstub.h in qemu.h
-Date: Sun, 18 Jul 2021 00:21:01 +0100
-Message-Id: <20210717232103.18047-9-peter.maydell@linaro.org>
+Subject: [PATCH for-6.2 09/10] linux-user: Drop unneeded includes from qemu.h
+Date: Sun, 18 Jul 2021 00:21:02 +0100
+Message-Id: <20210717232103.18047-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210717232103.18047-1-peter.maydell@linaro.org>
 References: <20210717232103.18047-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,146 +87,71 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the linux-user qemu.h pulls in gdbstub.h. There's no real reason
-why it should do this; include it directly from the C files which require
-it, and drop the include line in qemu.h.
+Trim down the #includes in qemu.h where we can, either by
+dropping unneeded headers or by moving them to user-internals.h.
 
-(Note that several of the C files previously relying on this indirect
-include were going out of their way to only include gdbstub.h conditionally
-on not CONFIG_USER_ONLY!)
+This includes deleting a couple of #includes that appear at
+weird points midway through the header file.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/qemu.h             | 1 -
- gdbstub.c                     | 2 +-
- linux-user/exit.c             | 1 +
- linux-user/main.c             | 1 +
- linux-user/signal.c           | 2 ++
- semihosting/arm-compat-semi.c | 2 +-
- target/m68k/m68k-semi.c       | 2 +-
- target/nios2/nios2-semi.c     | 2 +-
- 8 files changed, 8 insertions(+), 5 deletions(-)
+ linux-user/qemu.h           | 4 ----
+ linux-user/user-internals.h | 2 ++
+ thunk.c                     | 1 +
+ 3 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 92290a55c0d..fda90fc28d6 100644
+index fda90fc28d6..5c713fa8ab2 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -11,7 +11,6 @@
+@@ -2,7 +2,6 @@
+ #define QEMU_H
  
- #include "syscall_defs.h"
- #include "target_syscall.h"
--#include "exec/gdbstub.h"
+ #include "cpu.h"
+-#include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
  
- /*
-  * This is the size of the host kernel's sigset_t, needed where we make
-diff --git a/gdbstub.c b/gdbstub.c
-index 52bde5bdc97..480745152b8 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -31,13 +31,13 @@
- #include "qemu/cutils.h"
- #include "qemu/module.h"
- #include "trace/trace-root.h"
-+#include "exec/gdbstub.h"
- #ifdef CONFIG_USER_ONLY
- #include "qemu.h"
- #else
- #include "monitor/monitor.h"
- #include "chardev/char.h"
- #include "chardev/char-fe.h"
--#include "exec/gdbstub.h"
- #include "hw/cpu/cluster.h"
- #include "hw/boards.h"
- #endif
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 371a0803ece..9f78be5feda 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
+ #undef DEBUG_REMAP
+@@ -163,8 +162,6 @@ typedef struct TaskState {
+     struct target_sigaltstack sigaltstack_used;
+ } __attribute__((aligned(16))) TaskState;
+ 
+-#include "qemu/log.h"
+-
+ abi_long do_brk(abi_ulong new_brk);
+ 
+ /* user access */
+@@ -349,5 +346,4 @@ void *lock_user_string(abi_ulong guest_addr);
+ #define unlock_user_struct(host_ptr, guest_addr, copy)		\
+     unlock_user(host_ptr, guest_addr, (copy) ? sizeof(*host_ptr) : 0)
+ 
+-#include <pthread.h>
+ #endif /* QEMU_H */
+diff --git a/linux-user/user-internals.h b/linux-user/user-internals.h
+index 1729a8b62e1..661612a088b 100644
+--- a/linux-user/user-internals.h
++++ b/linux-user/user-internals.h
+@@ -20,6 +20,8 @@
+ 
+ #include "hostdep.h"
+ #include "exec/user/thunk.h"
++#include "exec/exec-all.h"
++#include "qemu/log.h"
+ 
+ extern char *exec_path;
+ void init_task_state(TaskState *ts);
+diff --git a/thunk.c b/thunk.c
+index fc5be1a502e..dac4bf11c65 100644
+--- a/thunk.c
++++ b/thunk.c
 @@ -17,6 +17,7 @@
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
   */
  #include "qemu/osdep.h"
-+#include "exec/gdbstub.h"
- #include "qemu.h"
- #include "user-internals.h"
- #ifdef CONFIG_GPROF
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 21fe674de3d..8157a208efc 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -40,6 +40,7 @@
- #include "qemu/module.h"
- #include "qemu/plugin.h"
- #include "exec/exec-all.h"
-+#include "exec/gdbstub.h"
- #include "tcg/tcg.h"
- #include "qemu/timer.h"
- #include "qemu/envlist.h"
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 7c14f17fb2c..ca2f585b082 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -18,6 +18,8 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu/bitops.h"
-+#include "exec/gdbstub.h"
-+
- #include <sys/ucontext.h>
- #include <sys/resource.h>
++#include "qemu/log.h"
  
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 1c29146dcfa..01badea99c8 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -37,12 +37,12 @@
- #include "semihosting/console.h"
- #include "semihosting/common-semi.h"
- #include "qemu/timer.h"
-+#include "exec/gdbstub.h"
- #ifdef CONFIG_USER_ONLY
  #include "qemu.h"
- 
- #define COMMON_SEMI_HEAP_SIZE (128 * 1024 * 1024)
- #else
--#include "exec/gdbstub.h"
- #include "qemu/cutils.h"
- #ifdef TARGET_ARM
- #include "hw/arm/boot.h"
-diff --git a/target/m68k/m68k-semi.c b/target/m68k/m68k-semi.c
-index d919245e4f8..44ec7e4612c 100644
---- a/target/m68k/m68k-semi.c
-+++ b/target/m68k/m68k-semi.c
-@@ -20,11 +20,11 @@
- #include "qemu/osdep.h"
- 
- #include "cpu.h"
-+#include "exec/gdbstub.h"
- #if defined(CONFIG_USER_ONLY)
- #include "qemu.h"
- #define SEMIHOSTING_HEAP_SIZE (128 * 1024 * 1024)
- #else
--#include "exec/gdbstub.h"
- #include "exec/softmmu-semi.h"
- #include "hw/boards.h"
- #endif
-diff --git a/target/nios2/nios2-semi.c b/target/nios2/nios2-semi.c
-index e508b2fafce..fe5598bae4d 100644
---- a/target/nios2/nios2-semi.c
-+++ b/target/nios2/nios2-semi.c
-@@ -24,11 +24,11 @@
- #include "qemu/osdep.h"
- 
- #include "cpu.h"
-+#include "exec/gdbstub.h"
- #if defined(CONFIG_USER_ONLY)
- #include "qemu.h"
- #else
- #include "qemu-common.h"
--#include "exec/gdbstub.h"
- #include "exec/softmmu-semi.h"
- #endif
- #include "qemu/log.h"
+ #include "exec/user/thunk.h"
 -- 
 2.20.1
 
