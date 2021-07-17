@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D7553CC6C7
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:27:26 +0200 (CEST)
-Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0173CC6C9
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:28:47 +0200 (CEST)
+Received: from localhost ([::1]:50874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4tiP-0006t3-9z
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59982)
+	id 1m4tji-0001O1-NI
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tcT-0001nk-A7
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:21:18 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38576)
+ id 1m4tgw-0003VF-6B
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:25:54 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:36444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tcR-0000lP-Vv
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:21:17 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- b14-20020a1c1b0e0000b02901fc3a62af78so10398550wmb.3
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:21:14 -0700 (PDT)
+ id 1m4tgu-0003ch-K6
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:25:53 -0400
+Received: by mail-ed1-x533.google.com with SMTP id h2so17990428edt.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=za/qVhXBTOOMGm/fSlxijFTtDoalddnYqbJh5v7Hspk=;
- b=Q42/H4TyUcJUNT0kaDMf7YVooSdRHqt4rXQWTihq3ACMul+OxFsdBmPp4zSqDJ9rip
- JBReggu7dWw1kNjq3vJEJWyYbx4fRD31MfcNLbMRPxHyCa1cyBCIsWqD9//75OUCyP7i
- M1LE/722B+uBHbXPvQi5OElM64rRiXduaSFgzLPam4xk+3O768Gs7VuRkqPrvYS+yYzH
- KkCZAHrXsCCdA8C53egYWaNo+qvcf5w74OYs8UU99XoY7wGBzt3rccDQk6JnGZIZ1Y/L
- ygqOfGwPc24mIp21SohDW595qC+AlRxvIa7autIjWaPChwGIqvRFB6/Clqt4tn1DDUyQ
- mTVA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ya7DX6pDr5FKgjbZ7spaCu1K6JbLW1jJWtdYYgQ17Ps=;
+ b=MidZwg1nDF1wz10j8K6KZteOSTtKgswg3TB0LVXENnkWye1K+YD+f0cyRZxNiMLGGg
+ zGF2S1o0yyJDA7xZqcA2K5yiE00j2HwDXUotAQBB1P8GjNghHroFboSB6Nq1RieZYeV9
+ lj96i2hSAgG6fmRr7zh0YdazxX2NhCV/dzSBPmRmbP/7ExlnEDvjfz3DFB4yJErtbHPn
+ YBAo0VDeA1TasCCbHLc4yB5xcOZFEvJvxQcyeiSQ3ZeXonT5i9VBb00pz0wF26SrIL/S
+ JqbR2Cb3uNwiKmPDsOC2dyNgHNzNsJ853jMsm8tEfzANHDjla7DPbz4Yb3b1FlavEl9B
+ HCVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=za/qVhXBTOOMGm/fSlxijFTtDoalddnYqbJh5v7Hspk=;
- b=Fm73RE+vQHQPzj6y8GaSXP3zj/3yc5GGo6AqnG648cYKx57xPK/oJkgBYXOflY2kEc
- +6s34jiNcnmIo+TZgwlyCgXYpUTf4R4SdmXMQVMGK9YKSBhQNUzpNZYslOLk3OVUispE
- 8OwmtowTzqWO/9/68fpVzA/IG16rx+NXoIguq4wfUizOV3kJxQM5XDIoRi4qEjF8eZRt
- 8bwPvVmSMJQbuUT/4LGGp0GQnGYVobSv+GwGC4Se7moWiP12TPGB7peNbidFCy7I1UMW
- 8vEOkP1ekkwXEKkX6XkX6niZdnWzA268hxX8Ag8EARqf60UGaArgsEU/Da+iL3v5SjB3
- V4vg==
-X-Gm-Message-State: AOAM533+LjnmblIqS9DHJ071sJ96wFFBRNLShd7MKypzyStb0+MJFIxc
- Vh0qndG55pIloZbS/VQ5zeJQAE+rXdhlEA==
-X-Google-Smtp-Source: ABdhPJx1vvw5PkaIzh6DsU1bfxE90gz/bYm3v5HDoFgWsxjklr2EAAZJnQKv+DYJlueqDlEDcC5NQg==
-X-Received: by 2002:a7b:cbd5:: with SMTP id n21mr24661176wmi.2.1626564073400; 
- Sat, 17 Jul 2021 16:21:13 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id o15sm7082517wmh.40.2021.07.17.16.21.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 16:21:13 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2 10/10] linux-user: Move DEBUG_REMAP undef to uaccess.c
-Date: Sun, 18 Jul 2021 00:21:03 +0100
-Message-Id: <20210717232103.18047-11-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210717232103.18047-1-peter.maydell@linaro.org>
-References: <20210717232103.18047-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ya7DX6pDr5FKgjbZ7spaCu1K6JbLW1jJWtdYYgQ17Ps=;
+ b=UT+LW+bdRDo5+lHA08/1Q4yPz1oSo5fGcU+hai6KanRihiRTKg+gWAIOTYGOQcbBHS
+ hQL2s+UCIa+ajYCZnvwYDUO2Mmabwt3zUUqSuPNxKum3M4uJf/WSjZ21PlWe8iDkgK1+
+ U8Qc6Xh4URty2lJFDgGIJeFV+r17StjSEFO9O8NjOvl2aIL3CYZehcJzjbGTzlucxeg/
+ /NoHtUYhRm1fyhKThPxJahJ59hMRdgnOmX1fzu8gZAncfBdCP8mtrrKURJ4gdkvgMuoH
+ UmFngLRu5UHxlVl1R2s/gq0q5nXOI6nCIQ3gf/vKfSdjIWxfDUDHiDp3mB+HnKd+g+R3
+ aZIA==
+X-Gm-Message-State: AOAM531sn/XzcfoJVD3hH/UijYdvr/k5+Mr4tttygKTphLthriSLvJ8A
+ gSu2eyOdilgxbby/p3/aIMUhKyq1TGSF43jvhr1nIM/fdZc=
+X-Google-Smtp-Source: ABdhPJxWurw8OOnH1dLesz/mKYwzRAruHohVFu6HvNpjTiOXzDvZa4m1/9yYzIRZEx37pUdfP+EzAwA1JEFUoEPBr0g=
+X-Received: by 2002:aa7:c857:: with SMTP id g23mr24446777edt.100.1626564351214; 
+ Sat, 17 Jul 2021 16:25:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+References: <20210717232103.18047-1-peter.maydell@linaro.org>
+ <20210717232103.18047-11-peter.maydell@linaro.org>
+In-Reply-To: <20210717232103.18047-11-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 18 Jul 2021 00:25:11 +0100
+Message-ID: <CAFEAcA8CVgnUiZgM=AOjzJ1Sk-D3pamAoWwkAcchZU5x0HfHOw@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 10/10] linux-user: Move DEBUG_REMAP undef to
+ uaccess.c
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,45 +82,23 @@ Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 687ca797893ca1e853, the code that looks at the debug
-define DEBUG_REMAP is all in uaccess.c; move the #undef line to
-there from qemu.h (thus reducing significantly the amount of code
-that gets recompiled if you need to turn the debug on).
+On Sun, 18 Jul 2021 at 00:21, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Since commit 687ca797893ca1e853, the code that looks at the debug
+> define DEBUG_REMAP is all in uaccess.c; move the #undef line to
+> there from qemu.h (thus reducing significantly the amount of code
+> that gets recompiled if you need to turn the debug on).
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  linux-user/qemu.h    | 3 ---
+>  linux-user/uaccess.c | 2 ++
+>  2 files changed, 2 insertions(+), 3 deletions(-)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- linux-user/qemu.h    | 3 ---
- linux-user/uaccess.c | 2 ++
- 2 files changed, 2 insertions(+), 3 deletions(-)
+A minute after sending it out, I realized this patch is wrong:
+there is still a use of DEBUG_REMAP in qemu.h. So this one should be
+dropped.
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 5c713fa8ab2..acc215b1a48 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -3,9 +3,6 @@
- 
- #include "cpu.h"
- #include "exec/cpu_ldst.h"
--
--#undef DEBUG_REMAP
--
- #include "exec/user/abitypes.h"
- 
- #include "syscall_defs.h"
-diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-index 425cbf677f7..56fb4358d4f 100644
---- a/linux-user/uaccess.c
-+++ b/linux-user/uaccess.c
-@@ -5,6 +5,8 @@
- #include "qemu.h"
- #include "user-internals.h"
- 
-+#undef DEBUG_REMAP
-+
- void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy)
- {
-     void *host_addr;
--- 
-2.20.1
-
+thanks
+-- PMM
 
