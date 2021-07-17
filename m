@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A7A3CC519
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 20:01:51 +0200 (CEST)
-Received: from localhost ([::1]:53310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91CD33CC583
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 20:26:41 +0200 (CEST)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4odK-000598-Hz
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 14:01:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57466)
+	id 1m4p1M-0001Aa-34
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 14:26:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4oaz-0003Pp-34
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 13:59:26 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4oax-00052e-3v
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 13:59:24 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id v20so20405624eji.10
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 10:59:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2OvrUz2BuNGgeYhK2kRwzeL1p09l46eJhPIZD6gRVdk=;
- b=tq0w7zK7F7Yxf9YeZkuS8oV++HBTTbci3YLqsYgMGLMvs+ISonwB9pV4mTaiTSt23a
- Hixr4We8u7tAhaSiFevgjvCgVVcsc0mgUYrSuN24KF3ajbeCFqrGrcYaZjuTFb6LZxDT
- +TFTcKYEVHJ1wrV14OpnEwW/f8a+9XBpXZa+5y3LZ9qRUwRYZTmZ6xyYtsr4pUTFWn7F
- g7IUGfFqcv7wBZtrY+GWJYwf0e/8j/3cr/19HIS+Htl3gwHOOYwHv3al8kr1yNWTMUBu
- RrncQ7JynnTZ924HdWDrndW1I98d/dXjFDwiqEKO0tn6nRXfQBj8mtEmMWPMuHuwHMn7
- SDaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2OvrUz2BuNGgeYhK2kRwzeL1p09l46eJhPIZD6gRVdk=;
- b=biqAWdsBbRwJTaRLJvzVFhHwbuwdlCXxkcx3xZkS5DeiM1tKo9jRf3ovfke4tdvOYp
- 3rlmjxL0SwA2Fdotp+yWgAQWBqsly9jnlbnlqi/4cJ+IQoqnKrsE57Uj0EoCBGmf5b4T
- o53IXkCby5WVS2Lb2S8EGb0n0zTCgL42mBVt0PidRVfkCyv7Ku1iU61fEgGC5uLwRNNk
- x6pIwfmoiAjnvO7ksHKh1z5nazYnc+xoMmGuS8u/SuxvQduLgL17CyLtER0z3Ojoot4s
- 5Jq2hJtV3oS59h/AJWrYdeTvZnhH7uSL3R+hUuYP5v0EudGgIPqgUYirlq00yC9ZAZDn
- 7kMw==
-X-Gm-Message-State: AOAM530L/X0tlj1j+itEiZMEKT1x7klDVxqLZmCwXjUAvcWZ+dkgCaix
- PhuMyuDuKK5AVr/kzGDtEc2Z82k8w+lfn6MdoJ+Tsg==
-X-Google-Smtp-Source: ABdhPJzhPCJFvo0ZgUE0sgKHh1KwhIg+UinspkXOe09fx+Z9iDOSGL7/m8IwukLUR6A2WdupVjJ6jvZ50eGDjCau6ZA=
-X-Received: by 2002:a17:906:16cd:: with SMTP id
- t13mr18932582ejd.250.1626544760730; 
- Sat, 17 Jul 2021 10:59:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <intermediadc@hotmail.com>)
+ id 1m4p0I-0000KD-F9; Sat, 17 Jul 2021 14:25:34 -0400
+Received: from mail-oln040092068025.outbound.protection.outlook.com
+ ([40.92.68.25]:50329 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <intermediadc@hotmail.com>)
+ id 1m4p0G-0005SQ-9u; Sat, 17 Jul 2021 14:25:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pk4DKbr6CyLNcKiTD+M2DLYZXHD/WCLR7aqZ67Z0FKzGtrsvpE3aTbZISJKlu2G8zRm7DK/9nlBZa5o/bNcG5j4EdmcOxyawpvpWKdz3bmUN3w2RPxQ1GGuwMV5RKMY2BvOic11fIq41oSTt1GHSKvGqZR84NwPAf0M6HeZANnuDIOQNfgldS+fbGs6p9fBEXtvx6RUJTu1OwUea0n7k1fB4iE+zAdZIz+RNLsqP0odKO3/rx9uYoXi2KT/2YEhUKAOXO2/SY/EgkXeV0p028b4zTHqe2vjVfWR56hCqCa+fQ+v6cF03jxcaNSC6bs3dqpvMtKmhgw9YzuYZe0UwkQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w0qKu9XrhNHuWoL73v9gnTMmbDnTVgjgr2uR9wBlDpk=;
+ b=AmAQjvoenPPsimRXgc1C9SvRHeXEWldjXmVF2B310+87qkxSThUWJ1A3u5cf55j6x9kVFoUij6FvHU+k4B7E8AYAnsFRg+oEWjk8VBCfNKKOPZh45q4Li3OrrefxDLfaseg3P2bevVOAobuvZqV7sMY/JZrvj6bH5ZagSNRb2TexYOVN/rqqeUfprAhQPFPsbI+EO1T9Sefgu6l9qi+hoOrzT2l575NSDni6oQypjv/ayRdWkypftCTNy788ppZBHWdjXHZ/oxmTSNAE/ChWB1WeML3UoMeNGk7442v/ZQ/Yc2+CgHNHFyfFnDmOZ81oY8xgnpX5JhZaTuUTl5pDLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w0qKu9XrhNHuWoL73v9gnTMmbDnTVgjgr2uR9wBlDpk=;
+ b=TB6TQkGRANxKSYejNgc/iZOLyU1akAEh1sIgetC2GSTky3m4zOTVjpoRUm8R+lzpJ230DB84c3g0f3giH3XCSurYuahnMacOgVkxQmRf75vOIaYaXvmApbYqhIQHr160OHMJ0nO8kwArIuWI5uQYim3sogfGnynnDh5c4eyVIDGY4NYUr6yAIgG8HKqKESZZwRYrl2R95PendG0yjGA+YdICVlpn744w2WdpUrjDOat0tNYtUFKNL3EW/fv+N0b0ldWsO5OGBZGN7kf1ZegTdFqv5sszYcWbug4a0yS8rSzZeIz6x6fVlh6Gofpa1hewHt6DAFHdqaUMDLIQ+JHQWg==
+Received: from AM7PR03MB6579.eurprd03.prod.outlook.com (2603:10a6:20b:1c3::22)
+ by AM6PR03MB3926.eurprd03.prod.outlook.com (2603:10a6:20b:1c::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Sat, 17 Jul
+ 2021 18:25:27 +0000
+Received: from AM7PR03MB6579.eurprd03.prod.outlook.com
+ ([fe80::edf6:af70:24e4:4e37]) by AM7PR03MB6579.eurprd03.prod.outlook.com
+ ([fe80::edf6:af70:24e4:4e37%4]) with mapi id 15.20.4331.029; Sat, 17 Jul 2021
+ 18:25:27 +0000
+From: luigi burdo <intermediadc@hotmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>, "groug@kaod.org" <groug@kaod.org>
+Subject: R: [PULL 0/3] ppc-for-6.1 queue 20210713
+Thread-Topic: [PULL 0/3] ppc-for-6.1 queue 20210713
+Thread-Index: AQHXd4vsuqOtcHULYEO3zuYAiDlsqqtHPJMq
+Date: Sat, 17 Jul 2021 18:25:27 +0000
+Message-ID: <AM7PR03MB65797B7495CACEE7AA4C70A0C8109@AM7PR03MB6579.eurprd03.prod.outlook.com>
+References: <20210713020736.28960-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210713020736.28960-1-david@gibson.dropbear.id.au>
+Accept-Language: it-IT, en-US
+Content-Language: it-IT
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [JPH9EnDizDdnIi2zF5KjL/VbJwPc6rIND3zjesCn2y+guwk5BoDYRx5daYFskzN1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: bd812f22-35e8-41af-f57c-08d949504077
+x-ms-traffictypediagnostic: AM6PR03MB3926:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: fn6sSwKsJ2oYQOnUh7uYfLc3ph4NBLeE33rd2XC36xBJ+UJ8QfiwOZeS+S5E+ghTm0NxwegFW1noP7C/MDwMMSdSNpLjP7kXVQFxBeLEkmznc++BS5HmbhSt5aed+LghZfJ9ffyAA8HL0RKpWQHp2P7vjzrULVxODoaCpHCmgGub8Q0XJjEFQPiBhe5to9AdgUSciPmsCsD376ttn9qrnWDFqetYZZdu8jqjFn8RyVtQAU5kf7N1rH0sHl9rT37iQSQ5JZgYHJQA5x+HSYlKKg3ue481d3ydTD907XcUJsIDERtfExqkY958qNG7EO2eL70MmKSnjK0GMuXz2kXB8K6ZoqnevAU6ZPA1vuv8xDpY5eSvEEDCfxkHzAodhdzH+CdpFdsxTuWJdcDYZwwRYyqRsGOi8pPLCWcRqEN89EJdftqg7qVZcTKDcZupnM6MPz5KNWv4M+F3fn2u8dIprRjUa1NHOS0Wls3LyYSCXvM=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: YQhCfKiM5C40oB6f0aycdJlrUUcrG77YX0n37AIkmTM+VY17f7RzPSEYCjd2pq4l/VLYkNMWEdH194estSRO3+xRuxj5ZXGo1jiYeveGA51wiSsmY9LUVOyIHf3QgHjh9NbLmFcJ/6KMSDJz23i5zwpGVrRFCRACfsLqpM1DF6YSaCopZDry8NO9XMJ5R0CQlL2HJQdJgaFYL+ce15qtPA==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM7PR03MB65797B7495CACEE7AA4C70A0C8109AM7PR03MB6579eurp_"
 MIME-Version: 1.0
-References: <20210712154004.1410832-1-richard.henderson@linaro.org>
- <20210712154004.1410832-11-richard.henderson@linaro.org>
-In-Reply-To: <20210712154004.1410832-11-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 17 Jul 2021 18:58:40 +0100
-Message-ID: <CAFEAcA_HdOyPdbrQ+EeGYAP88-0L_RQEbB10-7KmMqpUASzYbA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/10] accel/tcg: Encode breakpoint info into tb->cflags
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-OriginatorOrg: sct-15-20-3174-20-msonline-outlook-e50d8.templateTenant
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR03MB6579.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd812f22-35e8-41af-f57c-08d949504077
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2021 18:25:27.7161 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR03MB3926
+Received-SPF: pass client-ip=40.92.68.25;
+ envelope-from=intermediadc@hotmail.com;
+ helo=EUR02-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,73 +100,274 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 12 Jul 2021 at 16:49, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Having this data in cflags means that hashing takes care
-> of selecting a TB with or without exceptions built in.
-> Which means that we no longer need to flush all TBs.
->
-> This does require that we single-step while we're within a page
-> that contains a breakpoint, so it's not yet ideal, but should be
-> an improvement over some corner-case slowdowns.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/404
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/exec/exec-all.h   |  7 ++++
->  accel/tcg/cpu-exec.c      | 68 ++++++++++++++++++++++++++++++-
->  accel/tcg/translate-all.c |  4 --
->  accel/tcg/translator.c    | 85 +++++++++++++++++++++------------------
->  cpu.c                     | 24 -----------
->  5 files changed, 119 insertions(+), 69 deletions(-)
->
-> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 6873cce8df..7ab2578f71 100644
-> --- a/include/exec/exec-all.h
-> +++ b/include/exec/exec-all.h
-> @@ -502,9 +502,16 @@ struct TranslationBlock {
->  #define CF_USE_ICOUNT    0x00020000
->  #define CF_INVALID       0x00040000 /* TB is stale. Set with @jmp_lock held */
->  #define CF_PARALLEL      0x00080000 /* Generate code for a parallel context */
-> +#define CF_BP_MASK       0x00300000 /* See below */
-> +#define CF_BP_SHIFT      20
->  #define CF_CLUSTER_MASK  0xff000000 /* Top 8 bits are cluster ID */
->  #define CF_CLUSTER_SHIFT 24
->
-> +#define CF_BP_NONE       (0 << CF_BP_SHIFT) /* TB does not interact with BPs */
-> +#define CF_BP_SSTEP      (1 << CF_BP_SHIFT) /* gdbstub single-step in effect */
-> +#define CF_BP_GDB        (2 << CF_BP_SHIFT) /* gdbstub breakpoint at tb->pc */
-> +#define CF_BP_CPU        (3 << CF_BP_SHIFT) /* arch breakpoint at tb->pc */
-> +
->      /* Per-vCPU dynamic tracing state used to generate this TB */
->      uint32_t trace_vcpu_dstate;
->
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index 4d043a11aa..179a425ece 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -222,6 +222,65 @@ static inline void log_cpu_exec(target_ulong pc, CPUState *cpu,
->      }
->  }
->
-> +static uint32_t cflags_for_breakpoints(CPUState *cpu, target_ulong pc,
-> +                                       uint32_t cflags)
-> +{
-> +    uint32_t bflags = 0;
-> +
-> +    if (unlikely(cpu->singlestep_enabled)) {
-> +        bflags = CF_BP_SSTEP;
-> +    } else {
+--_000_AM7PR03MB65797B7495CACEE7AA4C70A0C8109AM7PR03MB6579eurp_
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 
-Won't this ignore breakpoints when singlestepping ?
+Hi
+i small report
+im try to build last relesase on a PowerMac G5 quad on debian sid PPC64 but=
+ ld exit with an error:
 
--- PMM
+
+gigi@debian:~/src/tags/ppc-for-6.1-20210713/build$ ninja
+[3864/9215] Compiling C object libqemu-mipsel-softmmu.fa.p/target_mips_tcg_=
+msa_helper.c.o
+FAILED: libqemu-mipsel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o
+cc -Ilibqemu-mipsel-softmmu.fa.p -I. -I.. -Itarget/mips -I../target/mips -I=
+../capstone/include/capstone -Iqapi -Itrace -Iui -Iui/shader -I/usr/include=
+/pixman-1 -I/usr/include/glib-2.0 -I/usr/lib/powerpc64-linux-gnu/glib-2.0/i=
+nclude -fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -std=3D=
+gnu11 -O2 -g -isystem /home/gigi/src/tags/ppc-for-6.1-20210713/linux-header=
+s -isystem linux-headers -iquote . -iquote /home/gigi/src/tags/ppc-for-6.1-=
+20210713 -iquote /home/gigi/src/tags/ppc-for-6.1-20210713/include -iquote /=
+home/gigi/src/tags/ppc-for-6.1-20210713/disas/libvixl -iquote /home/gigi/sr=
+c/tags/ppc-for-6.1-20210713/tcg/ppc -pthread -U_FORTIFY_SOURCE -D_FORTIFY_S=
+OURCE=3D2 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -=
+Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prot=
+otypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declaration -Wo=
+ld-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-sel=
+f -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpan=
+sion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs -Wno-s=
+hift-negative-value -Wno-psabi -fstack-protector-strong -fPIE -isystem../li=
+nux-headers -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D"mipsel-s=
+oftmmu-config-target.h"' '-DCONFIG_DEVICES=3D"mipsel-softmmu-config-devices=
+.h"' -MD -MQ libqemu-mipsel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o -MF=
+ libqemu-mipsel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o.d -o libqemu-mi=
+psel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o -c ../target/mips/tcg/msa_=
+helper.c
+during RTL pass: sched1
+../target/mips/tcg/msa_helper.c: In function =91helper_msa_fmin_df=92:
+../target/mips/tcg/msa_helper.c:7536:1: internal compiler error: Errore di =
+segmentazione
+ 7536 | }
+      | ^
+0x3fffa7b8e1c3 generic_start_main
+../csu/libc-start.c:308
+0x3fffa7b8e3d3 __libc_start_main
+../sysdeps/unix/sysv/linux/powerpc/libc-start.c:98
+Please submit a full bug report,
+with preprocessed source if appropriate.
+Please include the complete backtrace with any bug report.
+See <file:///usr/share/doc/gcc-10/README.Bugs> for instructions.
+[3869/9215] Compiling C object libqemu-mipsel-softmmu.fa.p/target_mips_tcg_=
+translate.c.o
+ninja: build stopped: subcommand failed.
+
+Ciao
+Luigi
+________________________________
+Da: Qemu-ppc <qemu-ppc-bounces+intermediadc=3Dhotmail.com@nongnu.org> per c=
+onto di David Gibson <david@gibson.dropbear.id.au>
+Inviato: marted=EC 13 luglio 2021 04:07
+A: peter.maydell@linaro.org <peter.maydell@linaro.org>; groug@kaod.org <gro=
+ug@kaod.org>
+Cc: qemu-ppc@nongnu.org <qemu-ppc@nongnu.org>; qemu-devel@nongnu.org <qemu-=
+devel@nongnu.org>; David Gibson <david@gibson.dropbear.id.au>
+Oggetto: [PULL 0/3] ppc-for-6.1 queue 20210713
+
+The following changes since commit 57e28d34c0cb04abf7683ac6a12c87ede447c320=
+:
+
+  Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210708' =
+into staging (2021-07-12 19:15:11 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.1-20210713
+
+for you to fetch changes up to c785a40179b10ce2d7a4afdb04f63c98d53a1756:
+
+  mv64361: Remove extra break from a switch case (2021-07-13 10:12:17 +1000=
+)
+
+----------------------------------------------------------------
+ppc patch queue 2021-07-13
+
+I thought I'd sent the last PR before the 6.1 soft freeze, but
+unfortunately I need one more.  This last minute one puts in a SLOF
+update, along with a couple of bugfixes.
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      pseries: Update SLOF firmware image
+
+BALATON Zoltan (2):
+      ppc/pegasos2: Allow setprop in VOF
+      mv64361: Remove extra break from a switch case
+
+ hw/pci-host/mv64361.c |   1 -
+ hw/ppc/pegasos2.c     |  10 ++++++++++
+ pc-bios/README        |   2 +-
+ pc-bios/slof.bin      | Bin 968888 -> 991744 bytes
+ roms/SLOF             |   2 +-
+ 5 files changed, 12 insertions(+), 3 deletions(-)
+
+
+--_000_AM7PR03MB65797B7495CACEE7AA4C70A0C8109AM7PR03MB6579eurp_
+Content-Type: text/html; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
+252">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+Hi&nbsp;</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+i small report&nbsp;</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+im try to build last relesase on a PowerMac G5 quad on debian sid PPC64 but=
+ ld exit with an error:</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+gigi@debian:~/src/tags/ppc-for-6.1-20210713/build$ ninja
+<div>[3864/9215] Compiling C object libqemu-mipsel-softmmu.fa.p/target_mips=
+_tcg_msa_helper.c.o</div>
+<div>FAILED: libqemu-mipsel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o </d=
+iv>
+<div>cc -Ilibqemu-mipsel-softmmu.fa.p -I. -I.. -Itarget/mips -I../target/mi=
+ps -I../capstone/include/capstone -Iqapi -Itrace -Iui -Iui/shader -I/usr/in=
+clude/pixman-1 -I/usr/include/glib-2.0 -I/usr/lib/powerpc64-linux-gnu/glib-=
+2.0/include -fdiagnostics-color=3Dauto
+ -pipe -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g -isystem /home/gigi/=
+src/tags/ppc-for-6.1-20210713/linux-headers -isystem linux-headers -iquote =
+. -iquote /home/gigi/src/tags/ppc-for-6.1-20210713 -iquote /home/gigi/src/t=
+ags/ppc-for-6.1-20210713/include -iquote
+ /home/gigi/src/tags/ppc-for-6.1-20210713/disas/libvixl -iquote /home/gigi/=
+src/tags/ppc-for-6.1-20210713/tcg/ppc -pthread -U_FORTIFY_SOURCE -D_FORTIFY=
+_SOURCE=3D2 -m64 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE=
+ -Wstrict-prototypes -Wredundant-decls
+ -Wundef -Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-com=
+mon -fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits -W=
+format-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempty-body =
+-Wnested-externs -Wendif-labels
+ -Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-include-dir=
+s -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE -isys=
+tem../linux-headers -isystemlinux-headers -DNEED_CPU_H '-DCONFIG_TARGET=3D&=
+quot;mipsel-softmmu-config-target.h&quot;' '-DCONFIG_DEVICES=3D&quot;mipsel=
+-softmmu-config-devices.h&quot;'
+ -MD -MQ libqemu-mipsel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o -MF lib=
+qemu-mipsel-softmmu.fa.p/target_mips_tcg_msa_helper.c.o.d -o libqemu-mipsel=
+-softmmu.fa.p/target_mips_tcg_msa_helper.c.o -c ../target/mips/tcg/msa_help=
+er.c</div>
+<div>during RTL pass: sched1</div>
+<div>../target/mips/tcg/msa_helper.c: In function =91helper_msa_fmin_df=92:=
+</div>
+<div>../target/mips/tcg/msa_helper.c:7536:1: internal compiler error: Error=
+e di segmentazione</div>
+<div>&nbsp;7536 | }</div>
+<div>&nbsp; &nbsp; &nbsp; | ^</div>
+<div>0x3fffa7b8e1c3 generic_start_main</div>
+<div>../csu/libc-start.c:308</div>
+<div>0x3fffa7b8e3d3 __libc_start_main</div>
+<div>../sysdeps/unix/sysv/linux/powerpc/libc-start.c:98</div>
+<div>Please submit a full bug report,</div>
+<div>with preprocessed source if appropriate.</div>
+<div>Please include the complete backtrace with any bug report.</div>
+<div>See &lt;file:///usr/share/doc/gcc-10/README.Bugs&gt; for instructions.=
+</div>
+<div>[3869/9215] Compiling C object libqemu-mipsel-softmmu.fa.p/target_mips=
+_tcg_translate.c.o</div>
+<span>ninja: build stopped: subcommand failed.</span><br>
+</div>
+<div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+Ciao&nbsp;</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif; font-size:12pt; col=
+or:rgb(0,0,0)">
+Luigi&nbsp;</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size:11pt"><b>Da:</b> Qemu-ppc &lt;qemu-ppc-b=
+ounces+intermediadc=3Dhotmail.com@nongnu.org&gt; per conto di David Gibson =
+&lt;david@gibson.dropbear.id.au&gt;<br>
+<b>Inviato:</b> marted=EC 13 luglio 2021 04:07<br>
+<b>A:</b> peter.maydell@linaro.org &lt;peter.maydell@linaro.org&gt;; groug@=
+kaod.org &lt;groug@kaod.org&gt;<br>
+<b>Cc:</b> qemu-ppc@nongnu.org &lt;qemu-ppc@nongnu.org&gt;; qemu-devel@nong=
+nu.org &lt;qemu-devel@nongnu.org&gt;; David Gibson &lt;david@gibson.dropbea=
+r.id.au&gt;<br>
+<b>Oggetto:</b> [PULL 0/3] ppc-for-6.1 queue 20210713</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">The following changes since commit 57e28d34c0cb04a=
+bf7683ac6a12c87ede447c320:<br>
+<br>
+&nbsp; Merge remote-tracking branch 'remotes/cohuck-gitlab/tags/s390x-20210=
+708' into staging (2021-07-12 19:15:11 +0100)<br>
+<br>
+are available in the Git repository at:<br>
+<br>
+&nbsp; <a href=3D"https://gitlab.com/dgibson/qemu.git">https://gitlab.com/d=
+gibson/qemu.git</a> tags/ppc-for-6.1-20210713<br>
+<br>
+for you to fetch changes up to c785a40179b10ce2d7a4afdb04f63c98d53a1756:<br=
+>
+<br>
+&nbsp; mv64361: Remove extra break from a switch case (2021-07-13 10:12:17 =
++1000)<br>
+<br>
+----------------------------------------------------------------<br>
+ppc patch queue 2021-07-13<br>
+<br>
+I thought I'd sent the last PR before the 6.1 soft freeze, but<br>
+unfortunately I need one more.&nbsp; This last minute one puts in a SLOF<br=
+>
+update, along with a couple of bugfixes.<br>
+<br>
+----------------------------------------------------------------<br>
+Alexey Kardashevskiy (1):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pseries: Update SLOF firmware image<br>
+<br>
+BALATON Zoltan (2):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ppc/pegasos2: Allow setprop in VOF<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; mv64361: Remove extra break from a switch ca=
+se<br>
+<br>
+&nbsp;hw/pci-host/mv64361.c |&nbsp;&nbsp; 1 -<br>
+&nbsp;hw/ppc/pegasos2.c&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 10 ++++++++++<br>
+&nbsp;pc-bios/README&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp=
+; 2 +-<br>
+&nbsp;pc-bios/slof.bin&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Bin 968888 -&gt; 991=
+744 bytes<br>
+&nbsp;roms/SLOF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; |&nbsp;&nbsp; 2 +-<br>
+&nbsp;5 files changed, 12 insertions(+), 3 deletions(-)<br>
+<br>
+</div>
+</span></font></div>
+</div>
+</body>
+</html>
+
+--_000_AM7PR03MB65797B7495CACEE7AA4C70A0C8109AM7PR03MB6579eurp_--
 
