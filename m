@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63233CC6D8
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:36:58 +0200 (CEST)
-Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D263CC6E1
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:42:28 +0200 (CEST)
+Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4trd-0008Ep-TV
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60876)
+	id 1m4twx-0001YI-Rf
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:42:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tqU-0006mL-NH
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:35:46 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42779)
+ id 1m4tvk-0000tu-Nv
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:41:13 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tqT-0001kF-3s
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:35:46 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id k27so17969602edk.9
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:35:44 -0700 (PDT)
+ id 1m4tvi-0005E4-00
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:41:12 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id v1so17962054edt.6
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X69a2uodKUA3KTHfpK0rMAE6rYTBxXmofVrMjsX9UfI=;
- b=NiKunTeTXQYTRzsikMcoM6IOGUuPUOqIQNo93hpsOnuv5zGcrDym+hc1mjZXd83g+p
- /p2+jnISCddkPPivYu+fu0b45msmnPi+qoAtTGGTrsWnuMg0s/YerZfZejTKm1hIu/Mi
- myFqiZmh6apE3UEO+2KXQc/lzcKlhyv9I5MKYaK6xHZBXvk8YPINVWT1pPjQ49LwGZbh
- HF8lFKV0YEqjfkEpGJk2/LklwG+mcJV8Sw4/6u2KN2FIqxSiN5gfvFkB/dHdoMgoJtd/
- 35lzc5GGPTTPjYFyob6/l1BModa5Sx0Bo+enrAtYPU7plBXdz3tf05K8Uvj7y8q/UOfI
- vBuw==
+ :cc; bh=tkxZEiO4zHfvSDxpnJEJDTnoAakXfqUVGyeJ0x1RR5I=;
+ b=GnLriCfFo7woIL5Y1LJtZxMMV5yU9URbXnB20AU1xTLw+/qhb53UpcNBR9PkmnTHwl
+ YutWm7J6gN0nc05IiEyfN0EtXbzVOfQmOgSbsRIplEYpScdA5c2mgINmwjp+bqliPbl+
+ aLsMa+RY3DKx1vrzrttZqYwiqJ/mZo4D3LOVEToDutO43pirSqRQP/9o7B3qiMweg1UY
+ uf00myGhBZI3ovFYI78KRd/JSqFo3SWdQI+UD38IgO0GoudNGcIjWKahPF+pLzXEN8cD
+ W/DwMdBchsL5m4hECN5CSDmahCgxHstLM+Q+Dp+A6kITFpa5jif2gxB3AJmP3hV2ttKd
+ jb6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=X69a2uodKUA3KTHfpK0rMAE6rYTBxXmofVrMjsX9UfI=;
- b=pcG8W96h8dihVIf8GMBFI/Q9GwEH4WS7weVsq7wU+HIY9lhBxsJg8OPtcRCRthiawm
- L2rLoM7fLld3fTIvEKlGgWl3UJp85xvnuRcV+EZ6ccAsFnAoHdKHJEFhOi8kRwUxC9Ry
- pfz7j7LvOtBYkrlenqJvDFLzJ7Agm37/EE43nN9Aj+eEwd8m/VORUh2m0LaoNrdsK84M
- y7xAjEIVsP7xv7Sg8GjEn8i4GqIEr1ofySbdBKLfNl6aUpCNzV0OxQQ3EHFuqMz9sb/u
- Tc646xbgxhIvZad9UdOxm1nTZtBTNs3EKmF5OL8G3sFL0MjOCI5bsbnbllDP1eQliX3l
- YdRA==
-X-Gm-Message-State: AOAM530kdyhPNIiRgpC6O6T4DeINtFAuBW+XMwfDdq1CbwqVhulZfwXX
- iYXk/ZjLWLdWXYdeZ+au7yC3hw2J1JKivNxG1eFxWNXrhaw=
-X-Google-Smtp-Source: ABdhPJzlhGeHNe/fQn90y0Ld/CqhsHBZLUKW8IPbd3Id4eCNtPz1a82m9L8dpirx2muyn1yYQis88lYWKQ+eaVes3/w=
-X-Received: by 2002:a05:6402:697:: with SMTP id
- f23mr24294531edy.44.1626564943722; 
- Sat, 17 Jul 2021 16:35:43 -0700 (PDT)
+ bh=tkxZEiO4zHfvSDxpnJEJDTnoAakXfqUVGyeJ0x1RR5I=;
+ b=gDbvjbw8Wf6YeafI4f+JR81+XWAc/iyz4OCLphG4Pe/P0q+fIwvLZWnlzFeTCEhimc
+ b8OLJKnxttYQrjifDfiZXNi7r9HyRZhpXAimsHBR5xeEbBFJib2DvyudMTwJCyNkFQ3+
+ rSkha2Rr0eFhbR7nPOrK8UJNmt4ESJhX3c2jaVghqpwsWIPSrEFW5yYnj3YZlPmvpv90
+ UFHH/kb05RLf0A4heC3MwPS0ZPOJC2P1tNi1NbB+FlBCYYBNtMpf70qNrzWYUgTQmPTm
+ zMRy0T5tEneuErcnRdM5yUO9sGP/+RHVkydiPHSOdkz8SkidWSzrDt2NHStCdFXdh/QT
+ SE7A==
+X-Gm-Message-State: AOAM5311kXGrhDj+gQ0aQX+BHXjY178bPFB9puCTZN+qdt5duZYPed44
+ dUoRaP/oQYop/6oYOblqSWWZ+zyEAs8jxF7OywO4+ZUuqc0=
+X-Google-Smtp-Source: ABdhPJzvnf7/094rrHNPjT4KIj3/BFkk4lh10aFJK63lx5gX+TtLek1dRAXIXvHY4KnKCKJ3ieNQ4529oONKc3bH7As=
+X-Received: by 2002:aa7:d809:: with SMTP id v9mr25021309edq.146.1626565268233; 
+ Sat, 17 Jul 2021 16:41:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210717221851.2124573-1-richard.henderson@linaro.org>
- <20210717221851.2124573-11-richard.henderson@linaro.org>
-In-Reply-To: <20210717221851.2124573-11-richard.henderson@linaro.org>
+References: <20210717232103.18047-1-peter.maydell@linaro.org>
+ <20210717232103.18047-6-peter.maydell@linaro.org>
+In-Reply-To: <20210717232103.18047-6-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 18 Jul 2021 00:35:03 +0100
-Message-ID: <CAFEAcA8C=8kAdsYeKqVwH=qeaWy3yoh+YgKm2Qi+SGcV7XWMtA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/13] target/riscv: Reduce riscv_tr_breakpoint_check
- pc advance to 2
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Sun, 18 Jul 2021 00:40:28 +0100
+Message-ID: <CAFEAcA95smPcwMVrrofHpuo0Krh0Ry6fgJBOVs1eg83hczz6Kg@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 05/10] linux-user: Split mmap prototypes into
+ user-mmap.h
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
  envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
@@ -79,45 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Jul 2021 at 23:18, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sun, 18 Jul 2021 at 00:21, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> The actual number of bytes advanced need not be 100% exact,
-> but we should not cross a page when the insn would not.
+> Split out the mmap prototypes into a new header user-mmap.h
+> which we only include where required.
 >
-> If rvc is enabled, the minimum insn size is 2.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  target/riscv/translate.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  linux-user/qemu.h          | 20 --------------------
+>  linux-user/user-mmap.h     | 34 ++++++++++++++++++++++++++++++++++
+>  linux-user/elfload.c       |  1 +
+>  linux-user/flatload.c      |  1 +
+>  linux-user/i386/cpu_loop.c |  1 +
+>  linux-user/main.c          |  1 +
+>  linux-user/mmap.c          |  1 +
+>  linux-user/syscall.c       |  1 +
+>  8 files changed, 40 insertions(+), 20 deletions(-)
+>  create mode 100644 linux-user/user-mmap.h
 >
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index deda0c8a44..5527f37ada 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -973,7 +973,7 @@ static bool riscv_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
->         [tb->pc, tb->pc + tb->size) in order to for it to be
->         properly cleared -- thus we increment the PC here so that
->         the logic setting tb->size below does the right thing.  */
-> -    ctx->base.pc_next += 4;
-> +    ctx->base.pc_next += 2;
->      return true;
->  }
+> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> index 9e700d3af18..0cb79990579 100644
+> --- a/linux-user/qemu.h
+> +++ b/linux-user/qemu.h
+> @@ -201,12 +201,6 @@ extern IOCTLEntry ioctl_entries[];
+>   */
+>  int info_is_fdpic(struct image_info *info);
+>
+> -uint32_t get_elf_eflags(int fd);
+> -int load_elf_binary(struct linux_binprm *bprm, struct image_info *info);
+> -int load_flt_binary(struct linux_binprm *bprm, struct image_info *info);
+> -
+> -abi_long memcpy_to_target(abi_ulong dest, const void *src,
+> -                          unsigned long len);
+>  void target_set_brk(abi_ulong new_brk);
+>  abi_long do_brk(abi_ulong new_brk);
+>  void syscall_init(void);
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Oops, this hunk should be in the previous patch (where these
+were moved to loader.h).
 
-(What goes wrong if we just say "always use a TB size of 1 regardless
-of target arch" rather than having the arch return the worst case
-minimum insn length?)
+> --- /dev/null
+> +++ b/linux-user/user-mmap.h
+> @@ -0,0 +1,34 @@
+> +/*
+> + * loader.h: prototypes for linux-user guest binary loader
 
-thanks
+...and this should say "user-mmap.h:".
+
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License
+> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+
 -- PMM
 
