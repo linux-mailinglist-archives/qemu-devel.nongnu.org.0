@@ -2,85 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89163CC643
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 22:33:30 +0200 (CEST)
-Received: from localhost ([::1]:37722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94943CC65E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 22:42:59 +0200 (CEST)
+Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4r05-0000iH-85
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 16:33:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
+	id 1m4r9G-00066Q-DZ
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 16:42:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4qzJ-0008TG-3j
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:32:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m4qzF-0006N6-Ut
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:32:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626553955;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ka3dyUDiw15N3k9H7abNPaNF4GYJm5hz/FG022DTn5A=;
- b=IoKhu01tj2swf6fYRzXYCKpQncgXUotHREQ902Smb8zpWwXZBJzjUMxFbxysraGSPj4Xyq
- bTHnaudlvh1NQP4kDXSuH1XdAQH4R4LgLOUd3PHwegz5i6RAMAOa1weG56pIcxgJMO5+aH
- i41w8TC3M2dmcu9V3ZobLenypwS4SAA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-q5N7a-VhPMyXDxdKGwtMkA-1; Sat, 17 Jul 2021 16:32:34 -0400
-X-MC-Unique: q5N7a-VhPMyXDxdKGwtMkA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- x16-20020aa7d6d00000b02903a2e0d2acb7so6736607edr.16
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 13:32:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4r7C-00046Q-2T
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:40:50 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4r7A-0003HJ-H8
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:40:49 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id p36so12424623pfw.11
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 13:40:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=du3BHy4GoaFfRDa0a75MYpYXgtvWS6Nz4XuInx7R+aM=;
+ b=TnbJkoR8WW4g4SUHhS+Wbsq9jJBmMmuflDngs5fEEsRZx0JTaRFs9wpdR3RVn1FLTW
+ LzK6OSIjxkkZyT43NDbX0cEcZGZuTGhpJdk7/WTZFZ8GoD46JG9vnOSx7E9ULYYeMxf2
+ aRMah5uG+bui+wZaE5UPGbJambODj2tASvYn3Fy1vpSaHlhSQkXjKEa3KQ93KnAP/Kft
+ Q4tJeW63OR83VQlEvPzOywG1OkNc+IWICqJeJRiDCKgN1WCh1f5b+MmWrzkRXiDFQiWZ
+ b1uQv+9DNA/8AttkKTIgBLmBhQID3Z0eZp9DWo5+B1CSd1zdXkW15mov0b2yMPqrL2MA
+ WH4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ka3dyUDiw15N3k9H7abNPaNF4GYJm5hz/FG022DTn5A=;
- b=O0vxIH6beRaGkA4eJHXa4zCi9hgdzAYL84Oc1yAUYSXg/D72AeSEWTMKtVopx5Fr5C
- 2F1xGgoPeaL5f3xxvnGcrrPQtElw/OONUBD6Lgf3DE4F/4mzdBc/JjayZgoApgZPfd9u
- cr7VQ+Mv6ppajMOZQ9z/bQK9za2RambSGSOZm+Yd2GASuBqaBralNoJAclvGS0AxItnB
- DvuNnC1oLTgkqTHt3cWRmDBRawEeOMYnGdm17t1hR+8NYgmsUPws+dy/S6x8hdM00h6p
- iNMicLTcGMp1kRN08T2bns52mxuWNikMceWwQZyA5xXzHT3mBj+vQguRI/YpRx0VC5C9
- 1rgw==
-X-Gm-Message-State: AOAM531MA/eqEu7R2tJqf2Yj63HgWrk2HiwpdLgM6pA6Z5AB7BtMIAly
- LUnMJsZDFIOKsL+xE72SD354OjJB6rmekBneydsnz+uXNLgLVL0ldbEgXetacvS/Rv1iLXXIxBc
- rHuG46BlR0TSAd48=
-X-Received: by 2002:a05:6402:1a3c:: with SMTP id
- be28mr23704785edb.15.1626553953301; 
- Sat, 17 Jul 2021 13:32:33 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx9N8Bi3VDxXwlP4V+clO/r5cGQqnlu8S9Fm8E9y/0CD4OVarLdjDAfbkrDQ8oOhKvIzvvFDA==
-X-Received: by 2002:a05:6402:1a3c:: with SMTP id
- be28mr23704755edb.15.1626553953014; 
- Sat, 17 Jul 2021 13:32:33 -0700 (PDT)
-Received: from redhat.com ([2.55.29.175])
- by smtp.gmail.com with ESMTPSA id g8sm5590481eds.25.2021.07.17.13.32.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 13:32:31 -0700 (PDT)
-Date: Sat, 17 Jul 2021 16:32:28 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: Re: [PATCH v3 0/4] virtio: Add vhost-user based RNG
-Message-ID: <20210717163118-mutt-send-email-mst@kernel.org>
-References: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=du3BHy4GoaFfRDa0a75MYpYXgtvWS6Nz4XuInx7R+aM=;
+ b=QYuUNz9Y1I3vFLzYDlwy3LG7Ap+RJ3dzI9uIK8tObNtbdvigNLrFjhskHfWvcbu+ok
+ sZVa3f9Dbxv9djsdKJ7GloeWGOOFpa8IX5iB4uK2d+UKUfn6Rw1Jx5dqvy4y1nhMi3dH
+ b7XZOyK0kl4ObgEy0YZVxvOLzp04GpklfrYfMsP4BntlstAAF2Ci77T/LveDcUB0LAgC
+ FW5f8p/wCOyuZJ2aZCTiTlNWZsQgngwwABA05k6WmpU83Z6ADE3PW2inWegINp1WgNdh
+ pQnI9sVVQGaJ3I2/SD5mcAxMEi5Gc25CtJlc6+nVCA4nWUd0pTBvDuVHwxRLX515BKF2
+ /QXA==
+X-Gm-Message-State: AOAM532xIU0Kmkm71xZVU3rRJmANb+nnwmCB2ybfZ8f5UlInNdnsLSbQ
+ 7OFN4rc78ZEq0VdEYtqiAIaJq8Dpw8Zsbw==
+X-Google-Smtp-Source: ABdhPJwwvJusTKzxBk3eT9blzfEKujypISOonXoL3AuCH19uDX+UAqa3hf5kZmX8T91+/Yq5xf4N4A==
+X-Received: by 2002:a63:5244:: with SMTP id s4mr9404132pgl.267.1626554447031; 
+ Sat, 17 Jul 2021 13:40:47 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id n56sm13586216pfv.65.2021.07.17.13.40.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Jul 2021 13:40:46 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 17/34] target/arm: Implement MVE VMLAS
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210713133726.26842-1-peter.maydell@linaro.org>
+ <20210713133726.26842-18-peter.maydell@linaro.org>
+ <e3f557f7-c65d-428e-a0b5-68d1ffc01df4@linaro.org>
+ <CAFEAcA-o=rC1Zm6JyFECZ_uXndbRurrZdYVWTn9aq=dHXsWJSw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <6e31e5da-b4c8-4555-7a70-7d9b4a6e55b1@linaro.org>
+Date: Sat, 17 Jul 2021 13:40:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210710005929.1702431-1-mathieu.poirier@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-o=rC1Zm6JyFECZ_uXndbRurrZdYVWTn9aq=dHXsWJSw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,60 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 09, 2021 at 06:59:25PM -0600, Mathieu Poirier wrote:
-> This sets adds a vhost-user based random number generator (RNG),
-> similar to what has been done for i2c and virtiofsd, with the
-> implementation following the patterns already set forth in those.
+On 7/17/21 3:06 AM, Peter Maydell wrote:
+> On Fri, 16 Jul 2021 at 23:12, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 7/13/21 6:37 AM, Peter Maydell wrote:
+>>> Implement the MVE VMLAS insn, which multiplies a vector by a vector
+>>> and adds a scalar.
+>>>
+>>> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+>>> ---
+>>>    target/arm/helper-mve.h    |  8 ++++++++
+>>>    target/arm/mve.decode      |  3 +++
+>>>    target/arm/mve_helper.c    | 31 +++++++++++++++++++++++++++++++
+>>>    target/arm/translate-mve.c |  2 ++
+>>>    4 files changed, 44 insertions(+)
+>> ...
+>>
+>>> +/* Vector by vector plus scalar */
+>>> +#define DO_VMLAS(D, N, M) ((N) * (D) + (M))
+>>> +
+>>> +DO_2OP_ACC_SCALAR_S(vmlass, DO_VMLAS)
+>>> +DO_2OP_ACC_SCALAR_U(vmlasu, DO_VMLAS)
+>>
+>> This is confusing.  The ARM says
+>>
+>> # Operations that do not perform
+>> # widening are always unsigned (encoded with U=1),
 > 
-> Applies cleanly to git://git.qemu.org/qemu.git master(05de778b5b8a).
+> I have noticed that that text often appears for insns where it doesn't
+> really apply. I mostly ignore the text in favour of looking at
+> the pseudocode for working out what is supposed to be done.
 
-There were several meson-related issues related to this patchset,
-so I dropped it from the pull request for now.
-Please work to resolve, and re-submit, preferably after the release.
+Yes, but in this case there's nothing about the pseudocode that suggests that sign matters 
+at all.  Neither the multiply nor the addition are widening.  So is there really a signed 
+VMLAS instruction?
 
 
-
-> Thanks,
-> Mathieu
-> 
-> Mathieu Poirier (4):
->   vhost-user-rng: Add vhost-user-rng implementation
->   vhost-user-rng-pci: Add vhost-user-rng-pci implementation
->   vhost-user-rng: backend: Add RNG vhost-user daemon implementation
->   docs: Add documentation for vhost based RNG implementation
-> 
-> ----
-> New for V3:
-> - Rebased to latest master branch.
-> - Fixed documentation warning.
-> - Updated call to vhost_dev_init() to match new signature.
-> - Dropped MAINTAINERS patch since it was already applied. 
-> 
->  docs/tools/index.rst                     |   1 +
->  docs/tools/vhost-user-rng.rst            |  74 +++++
->  hw/virtio/Kconfig                        |   5 +
->  hw/virtio/meson.build                    |   2 +
->  hw/virtio/vhost-user-rng-pci.c           |  79 +++++
->  hw/virtio/vhost-user-rng.c               | 294 +++++++++++++++++
->  include/hw/virtio/vhost-user-rng.h       |  33 ++
->  tools/meson.build                        |   8 +
->  tools/vhost-user-rng/50-qemu-rng.json.in |   5 +
->  tools/vhost-user-rng/main.c              | 403 +++++++++++++++++++++++
->  tools/vhost-user-rng/meson.build         |  10 +
->  11 files changed, 914 insertions(+)
->  create mode 100644 docs/tools/vhost-user-rng.rst
->  create mode 100644 hw/virtio/vhost-user-rng-pci.c
->  create mode 100644 hw/virtio/vhost-user-rng.c
->  create mode 100644 include/hw/virtio/vhost-user-rng.h
->  create mode 100644 tools/vhost-user-rng/50-qemu-rng.json.in
->  create mode 100644 tools/vhost-user-rng/main.c
->  create mode 100644 tools/vhost-user-rng/meson.build
-> 
-> -- 
-> 2.25.1
+r~
 
 
