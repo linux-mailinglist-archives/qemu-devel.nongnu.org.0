@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07993CC2B3
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 12:59:30 +0200 (CEST)
-Received: from localhost ([::1]:41884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D362B3CC392
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 15:32:48 +0200 (CEST)
+Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4i2b-0004sN-EJ
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 06:59:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41004)
+	id 1m4kQx-00052l-5n
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 09:32:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4i1a-000438-Ar
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 06:58:26 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38497)
+ id 1m4kPR-0003me-Pa
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 09:31:13 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4i1Y-0005jV-MO
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 06:58:25 -0400
-Received: by mail-wr1-x436.google.com with SMTP id g16so15077376wrw.5
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 03:58:22 -0700 (PDT)
+ id 1m4kPQ-00052G-49
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 09:31:13 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id w13so7458764wmc.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 06:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=bsPOLzggftSkWNLi3rMdG52Pcf1gwQbp6I8ahH++Oik=;
- b=LjJHg3g44jFDBzEJH5M99ile0sRUtcUgH7CLK1qWgquTN49CMGS7er14cfVOpBkkGO
- 12C/XIiSEQp9xjfx/YYBWxCIlo9Kl4baT4ZdVP7q38L7bPtPD4g6q/oL4M7etgEHej7t
- XSr3oWSxyC+NYpj9FYCRlRugCEXAwg3uJ8re/S5eXbZsvY9mbhDrlxseHx1anWu7K16M
- NLLP1z1pA2YZFVDZLXfiVF1OQtamtmqPtleshhx8CzEB4oMIO/N0uitY41hBs9QYLnLC
- KWiRvscND3W0Pyri5023tgb8M3ODt8+dRWVLdxyfT0ZIvgpqMkca7Yn7YeNp1WxR4Gmc
- Yryw==
+ bh=q6S4PXb0KVuemwy7dqhOLXA7aV9yWSQDA8LFm2NyzwI=;
+ b=ZvTJUqsXH484C8YTLsnazUl1ENnc8yY2cB+GQ2VdnShE6sUbgNuNiEVmgNMFfFp8cl
+ /kRGiUl9MOA8m1h7CkKlT1bzqJvnOVFv7sX7QSqnfl8ITPgCKu9qdqCJ48NWbNVUYluU
+ k8kbw1/Nt04qtR9ZTpS8nF47COsM0L3PTLZnXvi7W3Ibfd4jxy2Ai21/6s+ssfvB9r5J
+ BPC1Zi1t9pcjZAzEZQSOC01vreQVcXKHiPsG3LtzNrWpHqv9Naay7hzkxS7R0VJzEopo
+ +Do1K6Q/xlh2nqNtJfXo0eNFNoFyJt444OV2cHN1zoWzI8Ldr6fac5xPMLPhwGGsXQ/5
+ 2vcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=bsPOLzggftSkWNLi3rMdG52Pcf1gwQbp6I8ahH++Oik=;
- b=bOPfUkfbLI2ukY+KQn0uhJvOq+qG9oejgUcxA97ij6cb0+GMdjsckoVHycBn6tutA3
- D3XS6CORU5hEukreSskwI+0vR/22TcLk+eSz2wSBOkW8XL8Y9mgBZVoJdv7q/Lwnxf50
- MMcZEcZFDQI9OFzrAaVwvTff/SzjpFHTRnkvpSNdrqq2wWhPu2oqM3n31U174ff0a8Lw
- hUdDD7JzggOWqYICyBNw4JuzZiMY1h1v5tXDgF3bmfdext4ZZw8lMlse9RvqD7w7C0JC
- Lh5/oS9hDkT5cEXjhnpUMAudCuy77ruSiL/LBQvh+wbHI2KQnZ+aXY7avs51LP+CEZ3j
- lAHg==
-X-Gm-Message-State: AOAM532hkRA64a8pY5wT6SmmCPl6CxVAlEG6y8RgTvNjduCts+D+jves
- 0NfERY9ClCwm64JinjYdYiPPnQ==
-X-Google-Smtp-Source: ABdhPJyM5h2tziZ393P61Yin+Ref10EHisdCla1Nz1N9xppIulm+dHll5v7V0HJbgTXN93fzHN8kqw==
-X-Received: by 2002:a5d:5403:: with SMTP id g3mr17763024wrv.403.1626519501768; 
- Sat, 17 Jul 2021 03:58:21 -0700 (PDT)
+ bh=q6S4PXb0KVuemwy7dqhOLXA7aV9yWSQDA8LFm2NyzwI=;
+ b=i4PbwNTUgF0bk+0HjD77IRrFXmCQn1WLXp2ajGiSntWDYF3+WwGzqEiRxD8V0bFSoZ
+ YjqHZnYpzBv4bvSWOrVnmSSz0aqYPMIl7KrGaXmXvuEq0YTATLtwdXPUjj1Fcws1/its
+ MbXkO/tfbrNLlGlvolO7rxB5sU9fIidygl5V4T7AIE04kvipsU1HgXHxL4S2zNTSrDFu
+ WSEP2fUq7k37yOdOMEpr6pVkyGs3AQ6HoNhKD4uhxLBbJ6KqLHBV+YQgZCJr5VRhJnnV
+ Iaf7x/ePIYYPEfbuP2Ngtgeus8FCJF7dHwrzMCTRrnlsX7eeWbiVui5PPFHfzR4OmyFi
+ Xfrw==
+X-Gm-Message-State: AOAM532O+t3sNjORyiaswvE2dNnVv40jXEbIiSwwuIcwjsdidM0cEbys
+ vbtd5ZN56dRu4JdEriy6ePa9nA==
+X-Google-Smtp-Source: ABdhPJwcmMVw9RUk4AOu3yn6+guqrAOU1doIzyJCsRxad0VCaXRRrsi6yOtDg2C92kE8VHauDkg8kA==
+X-Received: by 2002:a1c:7402:: with SMTP id p2mr22160975wmc.88.1626528664706; 
+ Sat, 17 Jul 2021 06:31:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm9497346wms.21.2021.07.17.03.58.19
+ by smtp.gmail.com with ESMTPSA id b15sm153025wru.97.2021.07.17.06.31.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 03:58:19 -0700 (PDT)
+ Sat, 17 Jul 2021 06:31:00 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F37E01FF7E;
- Sat, 17 Jul 2021 11:58:18 +0100 (BST)
-References: <20210717103017.20491-1-peter.maydell@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 509071FF7E;
+ Sat, 17 Jul 2021 14:30:59 +0100 (BST)
+References: <20210717100920.240793-1-ma.mandourr@gmail.com>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] target/hexagon: Drop include of qemu.h
-Date: Sat, 17 Jul 2021 11:58:05 +0100
-In-reply-to: <20210717103017.20491-1-peter.maydell@linaro.org>
-Message-ID: <87r1fx2omt.fsf@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 00/13] new plugin argument passing scheme
+Date: Sat, 17 Jul 2021 14:29:03 +0100
+In-reply-to: <20210717100920.240793-1-ma.mandourr@gmail.com>
+Message-ID: <87o8b12hkc.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,27 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: cota@braap.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-> The qemu.h file is a CONFIG_USER_ONLY header; it doesn't appear on
-> the include path for softmmu builds.  Currently we include it
-> unconditionally in target/hexagon/op_helper.c.  We used to need it
-> for the put_user_*() and get_user_*() functions, but now that we have
-> removed the uses of those from op_helper.c, the only reason it's
-> still there is that we're implicitly relying on it pulling in some
-> other headers.
+> Hello,
 >
-> Explicitly include the headers we need for other functions, and drop
-> the include of qemu.h.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> This series removes passing arguments to plugins through "arg=3D" since
+> it's redundant and reduces readability especially when the argument
+> itself is composed of a name and a value.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+When you re-roll a series it's useful to add a version tag. You can use
+--subject-prefix in your git format-patch command to do this.
+
+I'll have a look at this on Monday.
+
+>
+> Also, passing arguments through "arg=3D" still works but is marked as
+> deprecated and will produce a deprecation warning.
+>
+> Right now, the code for parsing the argument before passing it to the
+> plugin is unfortunately not so clean but that's mainly because "arg=3D" is
+> still supported.
+>
+> At first, considering boolean parameters, those were not special to
+> plugins and QEMU did not complain about passing them in the form
+> "arg=3Dbool_arg" even though that's considered a short-form boolean, which
+> is deprecated. As "arg" is removed, a deprecation warning is issued.
+>
+> This is mitigated by making plugins aware of boolean arguments and
+> parses them through a newly exposed API, namely the `qapi_bool_parse`
+> function through a plugin API function. Now plugins expect boolean
+> parameters to be passed in the form that other parts of QEMU expect,
+> i.e. "bool_arg=3D[on|true|yes|off|false|no]".
+>
+> Since we're still supporting "arg=3Darg_name", there are some assumptions
+> that I made that I think are suitable:
+>
+>     1. "arg=3Darg_name" will be passed to the plugin as "arg_name=3Don".
+>     2. "arg=3Don" and "arg" will not be assumed to be the old way of
+>         passing args. Instead, it will assume that the argument name is
+>         "arg" and it's a boolean parameter. (will be passed to plugin
+>         as "arg=3Don")
+>
+> The docs are updated accordingly and a deprecation notice is put in the
+> deprecated.rst file.
+>
+> v1 -> v2:
+>     1. Added patches that handle test plugins as well
+>     2. Handled unsupported arguements in howvec
+>
+> Based-on: <20210714172151.8494-1-ma.mandourr@gmail.com>
+>
+> However, the dependency is so light and it should only be in the patch
+>
+>     docs/tcg-plugins: new passing parameters scheme for cache docs
+>
+> where it depends on
+>
+>     docs/devel/tcg-plugins: added cores arg to cache plugin
+>
+> in the aforementioned series (conflict lies in the argument "cores=3DN" o=
+nly.)
+>
+> Mahmoud Mandour (13):
+>   plugins: allow plugin arguments to be passed directly
+>   plugins/api: added a boolean parsing plugin api
+>   plugins/hotpages: introduce sortby arg and parsed bool args correctly
+>   plugins/hotblocks: Added correct boolean argument parsing
+>   plugins/lockstep: make socket path not positional & parse bool arg
+>   plugins/hwprofile: adapt to the new plugin arguments scheme
+>   plugins/howvec: Adapting to the new argument passing scheme.
+>   docs/tcg-plugins: new passing parameters scheme for cache docs
+>   tests/plugins/bb: adapt to the new arg passing scheme
+>   tests/plugins/insn: made arg inline not positional and parse it as
+>     bool
+>   tests/plugins/mem: introduce "track" arg and make args not positional
+>   tests/plugins/syscalls: adhere to new arg-passing scheme
+>   docs/deprecated: deprecate passing plugin args through `arg=3D`
+>
+>  contrib/plugins/hotblocks.c | 14 +++++++++--
+>  contrib/plugins/hotpages.c  | 30 +++++++++++++++--------
+>  contrib/plugins/howvec.c    | 27 ++++++++++++++-------
+>  contrib/plugins/hwprofile.c | 39 ++++++++++++++++++++----------
+>  contrib/plugins/lockstep.c  | 31 +++++++++++++++++-------
+>  docs/devel/tcg-plugins.rst  | 38 +++++++++++++++---------------
+>  docs/system/deprecated.rst  |  6 +++++
+>  include/qemu/qemu-plugin.h  | 13 ++++++++++
+>  linux-user/main.c           |  2 +-
+>  plugins/api.c               |  5 ++++
+>  plugins/loader.c            | 24 +++++++++++++++----
+>  qemu-options.hx             |  9 ++++---
+>  tests/plugin/bb.c           | 15 ++++++++----
+>  tests/plugin/insn.c         | 14 +++++++++--
+>  tests/plugin/mem.c          | 47 +++++++++++++++++++++++--------------
+>  tests/plugin/syscall.c      | 23 ++++++++++++------
+>  16 files changed, 236 insertions(+), 101 deletions(-)
+
 
 --=20
 Alex Benn=C3=A9e
