@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E4403CC5ED
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 21:42:40 +0200 (CEST)
-Received: from localhost ([::1]:51998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E7E3CC5F2
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 21:51:05 +0200 (CEST)
+Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4qCt-00056o-1T
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 15:42:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39832)
+	id 1m4qL2-0007QF-Pr
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 15:51:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4qBw-0004Ql-VF
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:41:40 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44999)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m4qJQ-0006hE-Jc
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:49:24 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:46899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4qBv-0005sZ-9e
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:41:40 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id p36so12306304pfw.11
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 12:41:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m4qJP-0002bL-4U
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:49:24 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ o30-20020a05600c511eb029022e0571d1a0so7878565wms.5
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 12:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JAVUc9AcMoShl9Kdg7rPk0fsVQ3JsCL/Z70gGqlSy1g=;
- b=OdO25rtZn14xZa9Rp58lQl9/pfC6P661iIP8KsBpi+h/RVSG8HAw2j9bBU8SRluHp5
- KXqBDoy/pIqm7A0CTQg2A0kwtYPyzxmd5/0zIJWrcOcXVvEjwN26ZXt03QXww9nfLvl9
- 2QR1ZX1cnMwdMK3HTkvvNowkghI7grX76CcYZqcT8LKiWwTYEijaac+qCnIzArDCahaj
- 5atxDG1CdCyZ9qeRZ4qA8U1o5OmczSbHrNqTqBZpoFIxszlN8DZQxgzKDnvfyDFXOva1
- jYxkNVMHF47IdD06E6uMqETDYzSVfnfBWwSez34yof5Qv8GXl1BguesUSCltVNziQSOx
- uKqw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=guWHz8tPlHg8Byx6kpCK6t83koXYgTVRnjbC7FqfSj4=;
+ b=pFRmdTAAca01pd67LQ5K87gQM2nDMoT+8MYW95wMXwBiW1JGGrUxCcm3uFdJnBfhiw
+ ey6nxg5bUQS8QfrH/G5wJzCY6DFkmIpo5BP4A/cXe/2vaNPa94NG16n9mpr0Sqzbbt+o
+ JA/BEWg1mu+a30NanUUMB8ducsLf0LMmCIi7gGcgoxuiEP/OnvoXyDyllKZPFsUk8ZCW
+ 0yocX4Ma4QY/SAS87JSPnr8NDYp6hJk2vefvJRZwopF3j4/QASWRDjirSKZu5JQrq4DW
+ 0fgHP9dskF8RyrTD670ApdvbgUrMwOP6aZEKAOAWs6JAoE/SnR35xYtYqQDEAit+cYB6
+ Mh+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JAVUc9AcMoShl9Kdg7rPk0fsVQ3JsCL/Z70gGqlSy1g=;
- b=AkY/ogXfhcluTDSf1BMx4z2I0BfBK2It3IuxK5zqPsRCG9sYjlcZ/YfzQaNPnuXP7C
- tTSvZhko7NvsgpVGal24LOWPnNidVETcuGb5aO+DJCJYcyxQ0h1ZVOaGvXvZHjt/1l+x
- Lpi7vVyLGpBpxbbXC1NMuO3TfA3RCKW3OAVjhY4mQsTS+P+Il0eaLZ+2ZhoOWdwTYRaE
- WTZRJ2iULbYbCZxOGj7H48wP+bHiPeOxpyYKkkuyOESKV7oplr7e7NbZXI+RkhbYSvHc
- 3PHwyk9or8mcHTZkBNaEf+H6ImWB4gTm/JuLeu9b+Bjs9RrjrJrSFuClqdz5G9PR/WRe
- xnbQ==
-X-Gm-Message-State: AOAM533BnR1ujuUtJLxZTeFYzbca32lqztK6ph7uUGWu4fifUlA+UiPx
- pJsg/7Cn4vNZF1rQ1AMTBlfQbQ==
-X-Google-Smtp-Source: ABdhPJxuo5xg5I8Kgb4lxRt9rcdIw1I3qi2a9nJIjf2t2Cu2M2/aIJZyXJmqs2cNRnaeT53N0XCrdQ==
-X-Received: by 2002:a63:494d:: with SMTP id y13mr16795075pgk.248.1626550897401; 
- Sat, 17 Jul 2021 12:41:37 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id f3sm11749329pjt.19.2021.07.17.12.41.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jul 2021 12:41:37 -0700 (PDT)
-Subject: Re: [PATCH v2 08/10] accel/tcg: Adjust interface of
- TranslatorOps.breakpoint_check
-To: Peter Maydell <peter.maydell@linaro.org>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=guWHz8tPlHg8Byx6kpCK6t83koXYgTVRnjbC7FqfSj4=;
+ b=NyZdE+hTGiBJN7DDg56THaI0QhM7NHhZwiEbrYvANLT58ACYQVIkkSO3o+1JTAjqFv
+ hNytKhd/XEvlIdt670rZEiceIIauSC019Asvf/ZA9e/bxTti1bE8cspweDgQ3vUyM3KA
+ /YD6e8k7ii9GhqK07KbCtnmWbjdzNtWPfdPZ/DglL4eWhIjL7ZXzDPQXULXdwgVqK+6k
+ VWkUqWfiZq2Sw5L+MrYDw6ZOlCALcMLTp0r8RfSou4mda9KEeno2yU764a4X6lq1cyNK
+ 5gNNYELyB89uCWey6svNsRhYS2ni3etN10RxZG/Fq0s9k3yhrquco/gHLR0+1dAwK7n3
+ aWMw==
+X-Gm-Message-State: AOAM532zaT38YyuyDmkhstSMeVYy040AKnUC+b3gC6EBrGLmJF4P9Ux1
+ EjjqzlD8bUAwppNm+AQCcapNwg==
+X-Google-Smtp-Source: ABdhPJzFS/Ke3Cu4a8R+jWzJphE3yTrwgrbAmrRM4knyDoUXcvqkMbpfU9iNcMxEoYndnLQkjZ7P6g==
+X-Received: by 2002:a1c:f613:: with SMTP id w19mr24475849wmc.136.1626551361025; 
+ Sat, 17 Jul 2021 12:49:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e11sm18092312wrt.0.2021.07.17.12.49.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Jul 2021 12:49:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8F95B1FF7E;
+ Sat, 17 Jul 2021 20:49:19 +0100 (BST)
 References: <20210712154004.1410832-1-richard.henderson@linaro.org>
- <20210712154004.1410832-9-richard.henderson@linaro.org>
- <CAFEAcA-nOTG5tPjFKAhSG9VsQFWSjUzd_=yAKt=L8MSK_dacJQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2af8e175-00ac-15fe-c4ac-3d66edd98a67@linaro.org>
-Date: Sat, 17 Jul 2021 12:41:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210712154004.1410832-5-richard.henderson@linaro.org>
+ <87czrg3kkh.fsf@linaro.org>
+ <4e0422d3-5606-c560-dfb9-7a621f12600d@linaro.org>
+User-agent: mu4e 1.5.13; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 04/10] accel/tcg: Drop CF_NO_GOTO_PTR from -d nochain
+Date: Sat, 17 Jul 2021 20:48:25 +0100
+In-reply-to: <4e0422d3-5606-c560-dfb9-7a621f12600d@linaro.org>
+Message-ID: <871r7w3em8.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-nOTG5tPjFKAhSG9VsQFWSjUzd_=yAKt=L8MSK_dacJQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,119 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/17/21 10:52 AM, Peter Maydell wrote:
-> On Mon, 12 Jul 2021 at 16:48, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> We don't need the whole CPUBreakpoint structure in the check,
->> only the flags.  Return the instruction length to consolidate
->> the adjustment of db->pc_next.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> 
->> diff --git a/target/avr/translate.c b/target/avr/translate.c
->> index 8237a03c23..73ff467926 100644
->> --- a/target/avr/translate.c
->> +++ b/target/avr/translate.c
->> @@ -2944,13 +2944,13 @@ static void avr_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
->>       tcg_gen_insn_start(ctx->npc);
->>   }
->>
->> -static bool avr_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->> -                                    const CPUBreakpoint *bp)
->> +static int avr_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->> +                                   int bp_flags)
->>   {
->>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
->>
->>       gen_breakpoint(ctx);
->> -    return true;
->> +    return 2; /* minimum instruction length */
-> 
-> Here we weren't advancing pc_next at all, and now we do.
-> 
->> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
->> index 47c967acbf..c7b9d813c2 100644
->> --- a/target/mips/tcg/translate.c
->> +++ b/target/mips/tcg/translate.c
->> @@ -16190,22 +16190,16 @@ static void mips_tr_insn_start(DisasContextBase *dcbase, CPUState *cs)
->>                          ctx->btarget);
->>   }
->>
->> -static bool mips_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->> -                                     const CPUBreakpoint *bp)
->> +static int mips_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->> +                                    int bp_flags)
->>   {
->>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
->>
->>       save_cpu_state(ctx, 1);
->>       ctx->base.is_jmp = DISAS_NORETURN;
->>       gen_helper_raise_exception_debug(cpu_env);
->> -    /*
->> -     * The address covered by the breakpoint must be included in
->> -     * [tb->pc, tb->pc + tb->size) in order to for it to be
->> -     * properly cleared -- thus we increment the PC here so that
->> -     * the logic setting tb->size below does the right thing.
->> -     */
->> -    ctx->base.pc_next += 4;
->> -    return true;
->> +
->> +    return 2; /* minimum instruction length */
->>   }
-> 
-> Here we were advancing by 4 and now advance by 2.
-> 
->> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
->> index deda0c8a44..8a6bc58572 100644
->> --- a/target/riscv/translate.c
->> +++ b/target/riscv/translate.c
->> @@ -961,20 +961,15 @@ static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
->>       tcg_gen_insn_start(ctx->base.pc_next);
->>   }
->>
->> -static bool riscv_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
->> -                                      const CPUBreakpoint *bp)
->> +static int riscv_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
->> +                                     int bp_flags)
->>   {
->>       DisasContext *ctx = container_of(dcbase, DisasContext, base);
->>
->>       tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next);
->>       ctx->base.is_jmp = DISAS_NORETURN;
->>       gen_exception_debug();
->> -    /* The address covered by the breakpoint must be included in
->> -       [tb->pc, tb->pc + tb->size) in order to for it to be
->> -       properly cleared -- thus we increment the PC here so that
->> -       the logic setting tb->size below does the right thing.  */
->> -    ctx->base.pc_next += 4;
->> -    return true;
->> +    return 2; /* minimum instruction length */
->>   }
-> 
-> Ditto.
-> 
-> If these are intentional changes (are they bugfixes?) they should be in a
-> separate patch.
 
-Yes, they are bug fixes.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-r~
+> On 7/17/21 10:39 AM, Alex Benn=C3=A9e wrote:
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>=20
+>>> The purpose of suppressing goto_ptr from -d nochain had been
+>>> to return to the main loop so that -d cpu would be recognized.
+>> Hmm is it though? I've always treated it as ensuring we always come
+>> out
+>> into the main loop (which is helpful for debugging).
+>
+> What's helpful for debugging wrt the main loop beyond logging?
 
-> 
-> Otherwise
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> thanks
-> -- PMM
-> 
+Usually if I rr a bug I reverse continue to the top of the loop for my
+re-run. I guess we can put breakpoints elsewhere it's just another place
+to remember.
 
+>
+>
+> r~
+>
+>>=20
+>>> But we now include -d cpu logging in helper_lookup_tb_ptr so
+>>> there is no need to exclude goto_ptr.
+>>>
+>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>> ---
+>>>   accel/tcg/cpu-exec.c | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+>>> index d3232d5764..70ea3c7d68 100644
+>>> --- a/accel/tcg/cpu-exec.c
+>>> +++ b/accel/tcg/cpu-exec.c
+>>> @@ -150,7 +150,7 @@ uint32_t curr_cflags(CPUState *cpu)
+>>>       uint32_t cflags =3D cpu->tcg_cflags;
+>>>         if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
+>>> -        cflags |=3D CF_NO_GOTO_TB | CF_NO_GOTO_PTR;
+>>> +        cflags |=3D CF_NO_GOTO_TB;
+>>>       }
+>>>         return cflags;
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
