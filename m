@@ -2,82 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CB73CC299
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 12:19:44 +0200 (CEST)
-Received: from localhost ([::1]:58704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301133CC2A9
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 12:31:16 +0200 (CEST)
+Received: from localhost ([::1]:38280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4hQ7-0002QU-Qy
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 06:19:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36218)
+	id 1m4hbH-0000Ur-2K
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 06:31:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m4hLE-0002Xr-BH
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 06:14:40 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51736)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4haR-0008G4-A4
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 06:30:23 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:35532)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m4hLC-0001qy-SW
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 06:14:40 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id n4so7285602wms.1
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 03:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PMpZM0mfWsORUxHfVVLggl4qWNGqD4HRrnMMAiFJHvU=;
- b=gr8rtmvJkAuTKXvU5/ViDQDHy4AyYsH2yh9wJv28h19g3FSF8f6FPQCWGxHe7Wx0GH
- Bz0TLT3GMlTsRzfxTP8ifO4mAi1b8g+VXazNxolqjLvR1Jgz5LBgU7BWn2iuUaHK3hnN
- HJIeab8JzpdzoOz3CiL5ShvF3KT0hJMq0Lo6Dzv3dbUg8FMl+5AK14cyMSqroL3LIvV3
- pO4Geysfh7bP8OcWMY0lP/aZvr0Kvr3sO9J4W/TJfWlahefOV4s74Ddr6L2noJ1J0Fjf
- HRp24/GiRq7vI7zdp7/D+Pter2QS2wViVF/gisxjbYSVZrBDlZV93VFCt1XI6/8D5W0I
- nxBQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4haP-0003ng-RU
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 06:30:23 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id m2so15061391wrq.2
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 03:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mj0B9KuVpKwlQZxV5tIKGVLxu/uZ6YBPm72FAg3oYVs=;
+ b=Vis3MCnCtDbo/C5PVz42T5ewu+PxqoD8dntMy7xzS9TwWFl7FPMHsGqu1k0Oihkoa2
+ yE7xBikWEQAfiGEre2j/HPysuuKoNBTLWb0btjHv904xPcn6AhExgKPwimUV++lpKA1W
+ e8rHB4h1AXO+Lap12MV5/WJjFxCoFooPS/SJmGn+PljVoiC4y4JRgLg5oqOokrxlmcWn
+ Fx8xS95Zp4s7b5A+BxnlDq3x8l7k4DOH+D02SXvKZMEVvOJpnnJQWLZxwL/kp7vr4DOE
+ Dyp3lTutlljVXXlBRktMO8jaVZl0HDlliq5FP2gAOHj4ai2ZnlsobFPstFibHQ2exDBz
+ c6Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=PMpZM0mfWsORUxHfVVLggl4qWNGqD4HRrnMMAiFJHvU=;
- b=oVERD/oPoh3HR9uocFELMvB3jfaNvgKYsvuXTIcirAWteN+g+vBTLmFce39PUZZOoz
- t10k9AylijbZf4cagNYZfKY+tjDS0zy9Ld7+Llb2pEE0AxMU1bmn0KS3Iz2pmlmDl1Ie
- r3Ge55hD+ZvOriMKKsTPh1fUtycjktuRePtznVRc7mYRnmbqtgXZ3Oqe426VfIY/cI/I
- BJ/zHPUePxev5MJl+3QUmMcZ459arCwEWWwjKioWkiNb0wC6uYX9/naT8g+4J5TNa8Pv
- /ksn790/MhniOk/Jp/EnLJnBpLsykKvzf4lMknALKsjy7sQDd7T2HAjqmMoQTeNZe2Mr
- HUWQ==
-X-Gm-Message-State: AOAM531Vwg00GZu4EilG1OGv+E5rhT55s/lZBi96u+hZPI1HH0Hfsz2l
- wBwOhRS6KQZ0swzvIDGUfX8=
-X-Google-Smtp-Source: ABdhPJyiHmM+pUwcPXRX/tq5Z0km9jcHnJSTd4ALrkBZLitpsb5o0knki7Qe46GddggjKJZ6yRXEfg==
-X-Received: by 2002:a05:600c:2319:: with SMTP id
- 25mr21528448wmo.91.1626516877453; 
- Sat, 17 Jul 2021 03:14:37 -0700 (PDT)
-Received: from [192.168.1.31] (abordeaux-654-1-74-136.w109-214.abo.wanadoo.fr.
- [109.214.221.136])
- by smtp.gmail.com with ESMTPSA id a9sm13002248wrv.37.2021.07.17.03.14.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jul 2021 03:14:36 -0700 (PDT)
-Subject: Re: [PATCH v2 10/11] trace: Fold mem-internal.h into mem.h
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210717014121.1784956-1-richard.henderson@linaro.org>
- <20210717014121.1784956-11-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <55a7d206-b9a9-f1a4-bf29-6a1754625651@amsat.org>
-Date: Sat, 17 Jul 2021 12:14:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=mj0B9KuVpKwlQZxV5tIKGVLxu/uZ6YBPm72FAg3oYVs=;
+ b=VIW6JD6EWm1Tf1FD4/FD1900XKhk6zVBeXUYJkUkByj7S4FmvG4I0R9ck9wlgSTl3E
+ e6Ba3rtHL0DcvYq2TQ+FG7aioCwA4yhwIgwyGQsfas8ncae7ojgNh2pOh2jZ1Zi1Sg+x
+ RdLJRJwVWsTg1S20zS9Mux8UnZBc4O/ntJgkTZI3WGwHzacJc/X2H+GeREJpRQfdJUwr
+ nOSMhlWAB36LHNEshP6T1NHHyY84YFpDi8YF1UWdv7MV4o4H2nYgmY7SnAhG0ztF7/1H
+ Osf7G3Rvax2szLn+bkGt9aHZ5LPh6MQsz246lwefPSa1ejEVhCpGintQ6U9sM6cOaEf8
+ 72RQ==
+X-Gm-Message-State: AOAM532sC2uVjfgOk5lZ/aQ4gWXII+DUvteY0UCKSEtMUcEF4vlfn8NB
+ fPkD9pSTB/GR8lzJldh3b3pkYF9RsUmC43Hp
+X-Google-Smtp-Source: ABdhPJxCKFPuvjaaIXOnQVoO1OH/S4dYOxaqDHvpHk6PjX2kXOBe4VjG1GBbiMxpXnmHvbPJ79V7ow==
+X-Received: by 2002:a5d:5606:: with SMTP id l6mr17927588wrv.190.1626517819607; 
+ Sat, 17 Jul 2021 03:30:19 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id v11sm12645304wrs.4.2021.07.17.03.30.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Jul 2021 03:30:19 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/hexagon: Drop include of qemu.h
+Date: Sat, 17 Jul 2021 11:30:17 +0100
+Message-Id: <20210717103017.20491-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210717014121.1784956-11-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,20 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, crobinso@redhat.com, pbonzini@redhat.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/17/21 3:41 AM, Richard Henderson wrote:
-> Since the last thing that mem.h does is include mem-internal.h,
-> the symbols are not actually private.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  trace/mem-internal.h | 50 --------------------------------------------
->  trace/mem.h          | 50 ++++++++++++++++++++++++++++++++++----------
->  2 files changed, 39 insertions(+), 61 deletions(-)
->  delete mode 100644 trace/mem-internal.h
+The qemu.h file is a CONFIG_USER_ONLY header; it doesn't appear on
+the include path for softmmu builds.  Currently we include it
+unconditionally in target/hexagon/op_helper.c.  We used to need it
+for the put_user_*() and get_user_*() functions, but now that we have
+removed the uses of those from op_helper.c, the only reason it's
+still there is that we're implicitly relying on it pulling in some
+other headers.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Explicitly include the headers we need for other functions, and drop
+the include of qemu.h.
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Based-on: 1626384156-6248-1-git-send-email-tsimpson@quicinc.com
+("[PATCH v3 0/2] SIGSEGV fixes")
+
+I noticed this because it's the only place in the tree where we
+include qemu.h that isn't either (a) a linux-user specific file
+or (b) wrapping the #include line in an ifdef CONFIG_USER_ONLY.
+
+ target/hexagon/op_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
+index a959dba56ee..61d5cde939a 100644
+--- a/target/hexagon/op_helper.c
++++ b/target/hexagon/op_helper.c
+@@ -16,7 +16,8 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu.h"
++#include "qemu/log.h"
++#include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/helper-proto.h"
+ #include "fpu/softfloat.h"
+-- 
+2.20.1
+
 
