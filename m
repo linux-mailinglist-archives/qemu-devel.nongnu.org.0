@@ -2,75 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E7E3CC5F2
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 21:51:05 +0200 (CEST)
-Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE3A3CC5F5
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 21:53:39 +0200 (CEST)
+Received: from localhost ([::1]:56984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4qL2-0007QF-Pr
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 15:51:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40438)
+	id 1m4qNW-0000Ye-3u
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 15:53:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4qJQ-0006hE-Jc
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:49:24 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:46899)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4qMZ-0008Jb-3l
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:52:39 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:40581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4qJP-0002bL-4U
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:49:24 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- o30-20020a05600c511eb029022e0571d1a0so7878565wms.5
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 12:49:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4qMX-0004mu-NN
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 15:52:38 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id dp20so18791700ejc.7
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 12:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=guWHz8tPlHg8Byx6kpCK6t83koXYgTVRnjbC7FqfSj4=;
- b=pFRmdTAAca01pd67LQ5K87gQM2nDMoT+8MYW95wMXwBiW1JGGrUxCcm3uFdJnBfhiw
- ey6nxg5bUQS8QfrH/G5wJzCY6DFkmIpo5BP4A/cXe/2vaNPa94NG16n9mpr0Sqzbbt+o
- JA/BEWg1mu+a30NanUUMB8ducsLf0LMmCIi7gGcgoxuiEP/OnvoXyDyllKZPFsUk8ZCW
- 0yocX4Ma4QY/SAS87JSPnr8NDYp6hJk2vefvJRZwopF3j4/QASWRDjirSKZu5JQrq4DW
- 0fgHP9dskF8RyrTD670ApdvbgUrMwOP6aZEKAOAWs6JAoE/SnR35xYtYqQDEAit+cYB6
- Mh+g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rzWiVEtoXDNRM0F14TgkBXAaVrhxjOHBkVa34LBS7gg=;
+ b=hnFJNayO+nbqvE7Xts10e0nF0T3vYu5tGXYk9E7XUqWHADjtGbCe1LmPfuuL21rF1b
+ epzvnsjHB087jM8r1uDdCJeL3FB9uxP4PoTL/lnv0K9+odCVQYgbPEz0+nlomYGtAyrm
+ 0xxEAhA7JAE3Cb85kucULwyHzdOYp4igsrH6dn0IPAhV471tYTzIzxNz2ZHl0Eyvx29y
+ T/Snl3EmdlzukGL6IWyGXitQYo6yRNkNG4acDpjyTpAD7LM4DLie4sFF7+gd0IjvBP+F
+ CbDytpkXe5MzOljkO/7tzAtegeHaDbko0gC8vjY4xoCMQUKEzx4uihn/xugPuESc0x2h
+ Et3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=guWHz8tPlHg8Byx6kpCK6t83koXYgTVRnjbC7FqfSj4=;
- b=NyZdE+hTGiBJN7DDg56THaI0QhM7NHhZwiEbrYvANLT58ACYQVIkkSO3o+1JTAjqFv
- hNytKhd/XEvlIdt670rZEiceIIauSC019Asvf/ZA9e/bxTti1bE8cspweDgQ3vUyM3KA
- /YD6e8k7ii9GhqK07KbCtnmWbjdzNtWPfdPZ/DglL4eWhIjL7ZXzDPQXULXdwgVqK+6k
- VWkUqWfiZq2Sw5L+MrYDw6ZOlCALcMLTp0r8RfSou4mda9KEeno2yU764a4X6lq1cyNK
- 5gNNYELyB89uCWey6svNsRhYS2ni3etN10RxZG/Fq0s9k3yhrquco/gHLR0+1dAwK7n3
- aWMw==
-X-Gm-Message-State: AOAM532zaT38YyuyDmkhstSMeVYy040AKnUC+b3gC6EBrGLmJF4P9Ux1
- EjjqzlD8bUAwppNm+AQCcapNwg==
-X-Google-Smtp-Source: ABdhPJzFS/Ke3Cu4a8R+jWzJphE3yTrwgrbAmrRM4knyDoUXcvqkMbpfU9iNcMxEoYndnLQkjZ7P6g==
-X-Received: by 2002:a1c:f613:: with SMTP id w19mr24475849wmc.136.1626551361025; 
- Sat, 17 Jul 2021 12:49:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e11sm18092312wrt.0.2021.07.17.12.49.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 12:49:20 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F95B1FF7E;
- Sat, 17 Jul 2021 20:49:19 +0100 (BST)
-References: <20210712154004.1410832-1-richard.henderson@linaro.org>
- <20210712154004.1410832-5-richard.henderson@linaro.org>
- <87czrg3kkh.fsf@linaro.org>
- <4e0422d3-5606-c560-dfb9-7a621f12600d@linaro.org>
-User-agent: mu4e 1.5.13; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 04/10] accel/tcg: Drop CF_NO_GOTO_PTR from -d nochain
-Date: Sat, 17 Jul 2021 20:48:25 +0100
-In-reply-to: <4e0422d3-5606-c560-dfb9-7a621f12600d@linaro.org>
-Message-ID: <871r7w3em8.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rzWiVEtoXDNRM0F14TgkBXAaVrhxjOHBkVa34LBS7gg=;
+ b=b8W0ROPlEtZAJ2FM2ZXOBj7OAaf7koaTelGswpx46b1uYaGPq4FD2kjBIeUukedg7k
+ v9YPVVMtYZVpYWjiZbL1WqCUlqkCZjC2ciQ5a1C2d27qAuhFCBlvYeNr7k+IpzmT1Q66
+ 24Hj5fju89hl+BhPvZX0FqS0WRJPBcvMNgWZmPqRSA2QRSGPLz8fz1mgkF8kVFPmVgD5
+ DCb1xRNllhH51pgI+CKM36pNHQwjmPJgR2yYuG6Iam3lSeKIHyvVt2sBFEZMeKwUEmV2
+ XMNWtEjMyTVlNMUEFzYbuXN9i63IhNUFGmg4zfo5U9cZyGEQuH19yakRy7i6GFCTW65i
+ N8AQ==
+X-Gm-Message-State: AOAM532/WDHb71+szgXD4H+RH36/DX5ApiqK8ZJBwVifmnKKyj0cApLQ
+ fcvpE8TxQcWaKH3T0Uk0qo21l1iME1T9q/Ca8MyjNg==
+X-Google-Smtp-Source: ABdhPJwwA9E7OR7Th1sZ4c0GTxmAft8MsYqqPuXRs3g9gsd1dWuz+Rq317ZYWM0tsjvHIfk8srNDO0jzuW6pPMLB2M8=
+X-Received: by 2002:a17:906:16cd:: with SMTP id
+ t13mr19336363ejd.250.1626551556221; 
+ Sat, 17 Jul 2021 12:52:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210712154004.1410832-1-richard.henderson@linaro.org>
+ <20210712154004.1410832-6-richard.henderson@linaro.org>
+ <87a6mk3kbz.fsf@linaro.org>
+ <e94c9ae0-5f50-8979-36f8-d409e3631b16@linaro.org>
+In-Reply-To: <e94c9ae0-5f50-8979-36f8-d409e3631b16@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 17 Jul 2021 20:51:55 +0100
+Message-ID: <CAFEAcA_F=vzKi5FoWhGYKMzTrpGCaR7rM+Qbz_8pDa9RAD+4Yg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/10] accel/tcg: Handle -singlestep in curr_cflags
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,55 +82,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> On 7/17/21 10:39 AM, Alex Benn=C3=A9e wrote:
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>=20
->>> The purpose of suppressing goto_ptr from -d nochain had been
->>> to return to the main loop so that -d cpu would be recognized.
->> Hmm is it though? I've always treated it as ensuring we always come
->> out
->> into the main loop (which is helpful for debugging).
+On Sat, 17 Jul 2021 at 19:43, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> What's helpful for debugging wrt the main loop beyond logging?
-
-Usually if I rr a bug I reverse continue to the top of the loop for my
-re-run. I guess we can put breakpoints elsewhere it's just another place
-to remember.
-
+> On 7/17/21 10:42 AM, Alex Benn=C3=A9e wrote:
+> > Hmm we are testing a magic global here and looking at
+> > cpu->singlestep_enabled lower down. We have a transient singlestep whic=
+h
+> > is turned on an off via cpu->singlestep_enabled and a global as a debug
+> > option. Can we rationalise it further?
 >
+> Not sure what you're asking.
 >
-> r~
->
->>=20
->>> But we now include -d cpu logging in helper_lookup_tb_ptr so
->>> there is no need to exclude goto_ptr.
->>>
->>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>>   accel/tcg/cpu-exec.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
->>> index d3232d5764..70ea3c7d68 100644
->>> --- a/accel/tcg/cpu-exec.c
->>> +++ b/accel/tcg/cpu-exec.c
->>> @@ -150,7 +150,7 @@ uint32_t curr_cflags(CPUState *cpu)
->>>       uint32_t cflags =3D cpu->tcg_cflags;
->>>         if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
->>> -        cflags |=3D CF_NO_GOTO_TB | CF_NO_GOTO_PTR;
->>> +        cflags |=3D CF_NO_GOTO_TB;
->>>       }
->>>         return cflags;
->>=20
+> cpu->singlestep_enabled raises a debug exception after one insn, whereas =
+singlestep merely
+> exits the tb after one insn.
 
+We really should rename 'singlestep' to 'one_insn_per_tb' or something,
+because it's continually confusing...
 
---=20
-Alex Benn=C3=A9e
+-- PMM
 
