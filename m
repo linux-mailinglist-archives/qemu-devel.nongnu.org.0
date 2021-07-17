@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BCD3CC3E0
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 16:47:35 +0200 (CEST)
-Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A37B03CC43E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 17:42:36 +0200 (CEST)
+Received: from localhost ([::1]:39004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4lbK-00071S-Dm
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 10:47:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37704)
+	id 1m4mSZ-0000Cf-9i
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 11:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m4lZS-0004xg-QD
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 10:45:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:56420)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4mRc-0007rB-EA
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 11:41:36 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:44826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m4lZQ-0002Yd-6A
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 10:45:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m4lZM-0000Sc-VF
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 14:45:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BF70C2E8047
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 14:45:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m4mRa-0006iI-RW
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 11:41:36 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id o8so6949692plg.11
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 08:41:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ULVRfsxn9kNZ1MznUMGZUkQ7HGRS2VJ4gYEawkH3Rto=;
+ b=X7Qp8Skzjch3KzlEN5HG1a4mLQxt4tvr48q+I6xitObqeK9XuIMAPwbrX8KX7Had3p
+ 7332VOTOSJ4NDdFtDLV1cRc2kzx/ulK1+/IC5YJogCyLJzUcm/4aB8ZIx1TI/L7JHWss
+ myxXCXSetVmnyAOkI/33zsC+fFoyIOUvn5QILHaSiLBOBOxZCbkCeVq9FSk9kd0rYJOu
+ yMYXGANbCd5fzb/NbusCfrHsjFVj6Nq/TLswqjbOE6J7FND63+AGSqEkcrWZCkIHfXA0
+ RSUFW3LjDp2bmdO69D02WAuPsk2ewEV9m969fI159jIEQTrq9KeKevRe6t9/WJG0X5jc
+ 1ptg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ULVRfsxn9kNZ1MznUMGZUkQ7HGRS2VJ4gYEawkH3Rto=;
+ b=ei4NUJIWpvJbyFU9/7QAPHjWLTrnzmSrfteBCPT4rAcTtMUhD4j6sLt/2KGi5Ry/tV
+ 1c3FDcWNkfK4pBSz8uwW3QgrSjDk/uw5jAmsSfBVxMAtGKVu1fA/cpDJn5Ms/3o3bcz+
+ klL2LLCKUVMS41zWEoaadu24HgsBZID9z2eNsB1DKGfYt19/woOx+mZzATZZvDYGAFYo
+ S/etxRT0A0o9OZXeuEENamDsXuqSMrKyEj8a2xgT5dMVOut5IG3ivx9krhwtmmwd1/k4
+ ZOzMEhJIQAxanSVDKC02voksbz19tpnth6M22CT/IMfmxExDo9Pvf0lh5MzDLad+r/2B
+ L5nA==
+X-Gm-Message-State: AOAM530CK2gFumRl+tKYjetLZ6PvuaYka22Td/xRTvUCMFokisq5tTqp
+ vesxAwhfVEWawEViO/9G96PJ4w==
+X-Google-Smtp-Source: ABdhPJwF4F9FkqYiJB0lSEFYglDumcq9XyeAmoTW0uPNLnj/dW39p4FjvML9zFauRxXvplKvVvGXpw==
+X-Received: by 2002:a17:902:c94e:b029:12b:45b8:a7f7 with SMTP id
+ i14-20020a170902c94eb029012b45b8a7f7mr12022470pla.78.1626536492802; 
+ Sat, 17 Jul 2021 08:41:32 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id f11sm15859765pga.61.2021.07.17.08.41.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 17 Jul 2021 08:41:32 -0700 (PDT)
+Subject: Re: [PATCH 00/17] target/riscv: Use tcg_constant_*
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <2a5cfe45-3fdf-9a2f-c0f3-682d30d521a3@c-sky.com>
+ <0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org>
+ <2933aae8-75f5-d912-4e0b-a38cb72b8f0e@c-sky.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <945a6b34-4594-3abb-c4b8-0ad7fb187a24@linaro.org>
+Date: Sat, 17 Jul 2021 08:41:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 17 Jul 2021 14:37:09 -0000
-From: Thomas Huth <1924738@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h izorkin janitor th-huth
-X-Launchpad-Bug-Reporter: Izorkin (izorkin)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161856700090.8743.17887923677613364195.malonedeb@gac.canonical.com>
-Message-Id: <162653262978.30902.10594487997884653586.malone@wampee.canonical.com>
-Subject: [Bug 1924738] Re: Failed to restore domain - error load load
- virtio-balloon:virtio
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: 2b5e1fb84b045acb8cd888ee3da5add42960f668
-Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <2933aae8-75f5-d912-4e0b-a38cb72b8f0e@c-sky.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,67 +90,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924738 <1924738@bugs.launchpad.net>
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ticket has been re-opened here :
-https://gitlab.com/qemu-project/qemu/-/issues/485
+On 7/16/21 8:59 PM, LIU Zhiwei wrote:
+> If we want to strictly obey the spec, we should
+> 1) Ignore MSB 32bits for source register, and sign-extend the destination register.
+> 2) Always use 32bit operation(TCG 32bit OP).
+> 
+> I want to still use TCG 64bit OP and just extend the source to 64bit by ext32s or ext32u.
+> 
+> Is is OK?
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #485
-   https://gitlab.com/qemu-project/qemu/-/issues/485
+Yes, that sounds right.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924738
 
-Title:
-  Failed to restore domain - error load load virtio-balloon:virtio
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  I noticed a domain restore error on my virtual machines.
-  I can't reproduce the error on a test virtual machine.
-
-  sudo virsh save linux2020 /var/lib/libvirt/qemu/save/linux2020.save
-  Domain 'linux2020' saved to /var/lib/libvirt/qemu/save/linux2020.save
-
-  sudo virsh restore /var/lib/libvirt/qemu/save/linux2020.save
-  error: Failed to restore domain from /var/lib/libvirt/qemu/save/linux2020=
-.save
-  error: =D0=B2=D0=BD=D1=83=D1=82=D1=80=D0=B5=D0=BD=D0=BD=D1=8F=D1=8F =D0=
-=BE=D1=88=D0=B8=D0=B1=D0=BA=D0=B0: QEMU =D0=BD=D0=B5=D0=BE=D0=B6=D0=B8=D0=
-=B4=D0=B0=D0=BD=D0=BD=D0=BE =D0=B7=D0=B0=D0=B2=D0=B5=D1=80=D1=88=D0=B8=D0=
-=BB =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D1=83 =D0=BC=D0=BE=D0=BD=D0=B8=D1=82=D0=
-=BE=D1=80=D0=B0: qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=
-=3D52,server,nowait: warning: short-form boolean option 'server' deprecated
-  Please use server=3Don instead
-  qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=3D52,server,nowa=
-it: warning: short-form boolean option 'nowait' deprecated
-  Please use wait=3Doff instead
-  qemu-system-x86_64: -spice port=3D5900,addr=3D0.0.0.0,disable-ticketing,i=
-mage-compression=3Doff,seamless-migration=3Don: warning: short-form boolean=
- option 'disable-ticketing' deprecated
-  Please use disable-ticketing=3Don instead
-  2021-04-16T09:47:15.037700Z qemu-system-x86_64: VQ 0 size 0x80 < last_ava=
-il_idx 0x0 - used_idx 0xcccc
-  2021-04-16T09:47:15.037737Z qemu-system-x86_64: Failed to load virtio-bal=
-loon:virtio
-  2021-04-16T09:47:15.037744Z qemu-system-x86_64: error while loading state=
- for instance 0x0 of device '0000:00:02.0/virtio-balloon'
-  2021-04-16T09:47:15.037849Z qemu-system-x86_64: load of migration failed:=
- Operation not permitted
-
-  If in the machine configuration replace
-  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.1">hvm</type>
-  to
-  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.0">hvm</type>
-  the virtual machine is recovering normally
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924738/+subscriptions
+r~
 
 
