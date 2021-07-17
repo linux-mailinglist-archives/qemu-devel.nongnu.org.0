@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C800F3CC660
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 22:47:29 +0200 (CEST)
-Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B463CC662
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 22:52:03 +0200 (CEST)
+Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4rDc-0001wR-MR
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 16:47:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45842)
+	id 1m4rI3-00043H-2R
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 16:52:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4rCg-0000xg-PJ
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:46:30 -0400
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:37679)
+ id 1m4rGu-00036q-Pc
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:50:52 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:41502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4rCf-00078T-8f
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:46:30 -0400
+ id 1m4rGt-0001aF-7p
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 16:50:52 -0400
 Received: by mail-pj1-x1035.google.com with SMTP id
- o3-20020a17090a6783b0290173ce472b8aso11477384pjj.2
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 13:46:28 -0700 (PDT)
+ jx7-20020a17090b46c7b02901757deaf2c8so9476788pjb.0
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 13:50:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=Ts5KKB9S+JUJhRxBPmx0LpjkBZ16A2xn/7gldoNiXDw=;
- b=TtZAbmUdKBqXXPeMC46qUJmydyas+3ZafDER5EWEtylKVVPu/rP6S9I8f92wmOmVk1
- vKeEHjAV21aW4L06hbhk8ba/U05fqjS9QnbExzlvunkY4+E/D6ruz97PhvVRk36kfmBK
- BPWlosVLawF7VgKg4AIOFWxT7iWxnTNRcs1SW6oLhXmogJwLHr8OTCrqtORQZ8Vb9LbQ
- d55CE33JPkhVMyhRp0lJrqxrr60aEeNtHjAXIsP6YkG3wiJuvEhgi+41YjiV9HmSLkX8
- iZtVE+MlYOcPgyhV/BkylQiWBQ0zuWCrdRGg//+UUXveYKpPpm/ZDBPIfhA6vWa/Udf+
- ++eg==
+ bh=lrqWd3oSURLVeTHkukXUjh2mk8NfVzvS6HiZojwEMA8=;
+ b=wetGUf33VHAw6y/p6P6iB9P8M+2BaZkKYSsiA3dVWm7qJE9/hCqo7FBwzOz2w28yKY
+ al0/k9UGQxdpL7dK+xXHANwuRWzgoLrYOBv0HOlHG7/YxCBQWCinDNozJ2zY510bSB94
+ XQeJ591Ym4z+aNd8npm2tCr6Jb/G3wQiH4TEcE5taApVT/GIdstW82Q45j2HfPbbLD2u
+ pYESYNIulWvWMI8NiuKvzQFzFLZYaR5F061lJyREXK3WY2uau8/zv7cWlV//axyAfMWo
+ NnzUUupf/lX8wIoeaBaFJ+MWTeZQm5PC6pNgi8+LxihWmqcOXnU5s6DqZD3csPOaCLoK
+ 2YFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ts5KKB9S+JUJhRxBPmx0LpjkBZ16A2xn/7gldoNiXDw=;
- b=KgEkmf29Tqyltb4vg2LBOtBD2S8UoA0Ifywblx3OP1ervUQrdBVMfOs3r1dT21+/UB
- jS3r41uMHd/+t72/pTmyMe0UbauE6ZO+WN/NqkYmVdlXjp2RVl8h7nAb1uYK6LZr/VCh
- DeAZMjA/byO7O41yWIZV7G60IgZEDBoO9c/Mr9yBQCl5nhl4rQ9m4f/9SV6kGwg+Il4r
- Tr03IjlWItKp35DK6gjHxC+WdJLwUXYnqw1jjw6MBFdwW3Qd2JhhRzu9A52T8t6uMZ8y
- PsRQcmvpjzwEKza87TNtJ18App1SD/VNlrvjklzAxYoVdh1clsnUPG76sCf2OdUsZftN
- vgxQ==
-X-Gm-Message-State: AOAM530/fWuw0ineOz+rsxRTIkx0gyv7MPhkFfiO6Fa/Cw4mYNOEQAko
- COf43J3h3ZSvuKeiOGf/wJzHfePWQsfO/w==
-X-Google-Smtp-Source: ABdhPJwjImBtFmqg4J+avKyrI28Yx/+O1D9A1eu0J+2hCUGAqCZnU6H+gOmAC/mLcHNrtyJmlj+XHg==
-X-Received: by 2002:a17:90a:a390:: with SMTP id
- x16mr4505067pjp.148.1626554787788; 
- Sat, 17 Jul 2021 13:46:27 -0700 (PDT)
+ bh=lrqWd3oSURLVeTHkukXUjh2mk8NfVzvS6HiZojwEMA8=;
+ b=hS9poFq5lf5uW4aGNjNLA8/vtHsZyUrj0IrRma0973zSi4Y5qkwr2Fsv1psvJCggnC
+ PIPg5K9uwwoBAmzTM2T/+3CZ1gDZSXDO+9sNW6+w80MJZmlY+DnbOhNyR9egoK4RvI70
+ gpOXt7tRK953V6wqIloTmnG+F1aPrfFuvpBbnlpgP7cwGf2zpodaC1Lw/tnNAGK049HY
+ pUaFR58+vzXoNUIjJzDXd/9vsnWmqyXBvWU0OtP7hQMyRX210Q+6/xP1Hon7ta3bIQLn
+ onYh78Z71R3WDQn/tUSQN9JYMujg03mERn6CkCazcnNjbP2MUwUQ4SLZxp1EjbT+C/xD
+ npCQ==
+X-Gm-Message-State: AOAM530vyhYPf+8DiwBx4jNFPhXUsdRZmkX9KAgaafyKafUExNslIu7L
+ uDSL8AxcI+qgvMb5WKt6/z4CJQ+lthyBUw==
+X-Google-Smtp-Source: ABdhPJyJT6QC4RnTib+gSp7k3Z0iuDx/11WXFXlpPrAeYsgLPCrnPYP1hldLm0LvUlFYYvS+98mslQ==
+X-Received: by 2002:a17:902:b60e:b029:129:4665:1106 with SMTP id
+ b14-20020a170902b60eb029012946651106mr12939815pls.25.1626555049406; 
+ Sat, 17 Jul 2021 13:50:49 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id w14sm17159787pgo.75.2021.07.17.13.46.27
+ by smtp.gmail.com with ESMTPSA id q17sm16946646pgd.39.2021.07.17.13.50.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 17 Jul 2021 13:46:27 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 20/34] target/arm: Implement MVE integer min/max
- across vector
+ Sat, 17 Jul 2021 13:50:49 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 21/34] target/arm: Implement MVE VABAV
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210713133726.26842-1-peter.maydell@linaro.org>
- <20210713133726.26842-21-peter.maydell@linaro.org>
+ <20210713133726.26842-22-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b38a6e37-084b-57c1-dc91-867e9308629b@linaro.org>
-Date: Sat, 17 Jul 2021 13:46:26 -0700
+Message-ID: <619cc6fe-c865-2070-e52f-285882b8ed2e@linaro.org>
+Date: Sat, 17 Jul 2021 13:50:47 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713133726.26842-21-peter.maydell@linaro.org>
+In-Reply-To: <20210713133726.26842-22-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -95,20 +94,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/13/21 6:37 AM, Peter Maydell wrote:
-> +/* Max and min of absolute values */
-> +static int64_t do_maxa(int64_t n, int64_t m)
-> +{
-> +    if (n < 0) {
-> +        n = -n;
-> +    }
-> +    if (m < 0) {
-> +        m = -m;
-> +    }
-> +    return MAX(n, m);
-> +}
+> +#define DO_VABAV(OP, ESIZE, TYPE)                               \
+> +    uint32_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vn, \
+> +                                    void *vm, uint32_t ra)      \
+> +    {                                                           \
+> +        uint16_t mask = mve_element_mask(env);                  \
+> +        unsigned e;                                             \
+> +        TYPE *m = vm, *n = vn;                                  \
+> +        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {      \
+> +            if (mask & 1) {                                     \
+> +                int64_t n0 = n[H##ESIZE(e)];                    \
+> +                int64_t m0 = m[H##ESIZE(e)];                    \
+> +                uint32_t r = n0 >= m0 ? (n0 - m0) : (m0 - n0);  \
 
-This doesn't look quite right.  The n operand is extracted unsigned, and only the m 
-operand is subjected to ABS.
+Any particular reason you're not using TYPE for n0 and m0?
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
