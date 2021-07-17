@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D6633CC096
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 03:42:48 +0200 (CEST)
-Received: from localhost ([::1]:43034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0823CC095
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 03:42:47 +0200 (CEST)
+Received: from localhost ([::1]:43054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4ZLr-0003JP-0r
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 21:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43756)
+	id 1m4ZLq-0003K3-Ec
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 21:42:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4ZKY-0000pG-SY
+ id 1m4ZKY-0000pF-Pv
  for qemu-devel@nongnu.org; Fri, 16 Jul 2021 21:41:26 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46011)
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:34735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4ZKX-0000vo-7x
+ id 1m4ZKX-0000wZ-At
  for qemu-devel@nongnu.org; Fri, 16 Jul 2021 21:41:26 -0400
-Received: by mail-pf1-x431.google.com with SMTP id q10so10329102pfj.12
+Received: by mail-pg1-x532.google.com with SMTP id 62so11745904pgf.1
  for <qemu-devel@nongnu.org>; Fri, 16 Jul 2021 18:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RBPJifU9GtWbjqUjju7TjXsVo8JptnGEdyri+DE68Ho=;
- b=cgw7S3OeN36khEmadBwAUQvCwAx5WBZmkm11UGgUVjpxAC0r7Y+wT7fMfTXzh+zHVb
- MYCzrqreVst2faIY5lAwwMOQKvJNLne00Kio7sFYGeFDYwCcQW1efU+riCE/aAsBEjZV
- LeVXNueYTuPbgdkt73hZZJZG8fq4Prj+1n5g9SpQIzuW83Ztc4y7HTH+cSaUHglbsYYR
- 7MXfxwpBU/4b8Kc1XE1qX6IpHoYbI5D2HyW/1OSvnbc1kBqyMr8zLrPqv+vzjz2TMzrS
- LHKoolzuUjeuAkThrOUWxVzKhFQ5ChTbQjjmgpYIgr0KVZJRQi4WUwsFc7WITTsQn0Rx
- Fimg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=hkNtyJzCYzqtjt8V71dL+rrY3uqGt0BkEX6PS4grnDc=;
+ b=XGNLwTtPuQKhQjnLFPgi5T5c+4h19z61fglsJUzuHYQkXJ/v/IPsbDnsHUHrsWjsIW
+ Sv69omc+ht0eowkh8ez0WAbZcmfps2zyuCI9q1YftymMnA2S5+sZpchjSGtedKCnylwh
+ cnELDrOiqfnUSqYBPy8KG33smClUdjpAUoHLttU2Hp733klBhLOZDA/B2ZNdHVppH7lK
+ rxPKRixdwESaNBI947O2nXqNaRrHrEqUm0ftAz34aaGBIb5tFwR80nFaNCCMECck7otH
+ JCXPaOdTbpmnc5ZYQtrieVLJLkW6KvunUgP/6PqjQt1gGBiLXHVGET9TskQplWHCT27G
+ c7Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RBPJifU9GtWbjqUjju7TjXsVo8JptnGEdyri+DE68Ho=;
- b=GOUiRSS/2ucpNvIWAFYcYZPRaWuVqgx9LlGLpJV/Nj3/nRv1o6fBOc42uYy2v1UW0n
- IJRblecaOdRiIym3U78Wd84Wn+Is7rCOpcyOKmFsIagSDC95S7Zvx8kn/Y06y2jAvZJi
- EYRkr0rqL/pYtw11rcYSjvjQWhqEo6i7rvG9j5seMFhWdizKlT0fPD8DeYBV4UtshDGI
- FcfX1QrfhDtvhjMY08pX6cy4naVyScKYXEt8YC5GQWF+WZo/ekxHVD8Afv1avgbj4dOD
- obb+xRtQ6qgMwDumf2sZkYFxgMQvWvjTVydBizBQ6Cm46FynpC7RGQ2c+a2Mk/CZLZjy
- PZzA==
-X-Gm-Message-State: AOAM531UHH0rK6Njj43NW6LD6XgmqsAoT753HAxUACPQ67zIU86zA+2F
- JWh92gIGQEgZrb55NIn2zDkV7UpeyaGkcg==
-X-Google-Smtp-Source: ABdhPJwwiiCBlzS+6G3VTcNoaEn8ovQJnK4f8n/XLQkmzEuCr17H7mve/4HvEWa/dXO7IMCxasADPQ==
-X-Received: by 2002:aa7:96dc:0:b029:32e:1b8f:2a3d with SMTP id
- h28-20020aa796dc0000b029032e1b8f2a3dmr13382694pfq.43.1626486083273; 
- Fri, 16 Jul 2021 18:41:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=hkNtyJzCYzqtjt8V71dL+rrY3uqGt0BkEX6PS4grnDc=;
+ b=F5TPn1XOhGGfYkvW9RlBEqIwGpdxGSZ0dYqbWNdUo9WpB1nXUGq7urPRKnCchusgme
+ KG/A0zQwQKfwBKhKj+MPF8AlGqfpyEx57zhRRGCfaAB4HN1sZz7HAoe6nYx/FNqyNxU2
+ d3MGlFoFQj5CBJlpxEFAuL4yE1I8cwB7QNnyN5BRDEYYVvcnOYB1Lnx808+ozfWQEO+N
+ D27BlbngAJ5CZ+wpjiKqYQv6dxjt+8l7VSuri0Es/i3HK/aiAdu+v5j24aSlB9xczPl+
+ lR33/Xm/liuqxmJmnt1BqKhWJpi8oym7xNrF9XnXSKen/W5NDss/yXBDAWunMcpeCe0A
+ CgjA==
+X-Gm-Message-State: AOAM532e4c7ObuQ+iLbi1TdKTj8NJzBEZc3O/Jifw+zuALWwu5HuxpQp
+ us8cct5dmuq1+tvSFhYoErOZANbWBUIXqQ==
+X-Google-Smtp-Source: ABdhPJw6pwD4m7ipH5KiBQKXWv8xULHE3t+HjfxRiLfTZSHRVI485m/LEh1DHKqStTl3iBYAJsJZZw==
+X-Received: by 2002:a63:1656:: with SMTP id 22mr12760416pgw.163.1626486084041; 
+ Fri, 16 Jul 2021 18:41:24 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id q18sm12812738pgj.8.2021.07.16.18.41.22
+ by smtp.gmail.com with ESMTPSA id q18sm12812738pgj.8.2021.07.16.18.41.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 16 Jul 2021 18:41:22 -0700 (PDT)
+ Fri, 16 Jul 2021 18:41:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/11] Atomic cleanup + clang-12 build fix
-Date: Fri, 16 Jul 2021 18:41:10 -0700
-Message-Id: <20210717014121.1784956-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/11] qemu/atomic: Use macros for CONFIG_ATOMIC64
+Date: Fri, 16 Jul 2021 18:41:11 -0700
+Message-Id: <20210717014121.1784956-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210717014121.1784956-1-richard.henderson@linaro.org>
+References: <20210717014121.1784956-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,61 +85,51 @@ Cc: peter.maydell@linaro.org, pbonzini@redhat.com, crobinso@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is intended to fix building with clang-12 on i386.
+Clang warnings about questionable atomic usage get localized
+to the inline function in atomic.h.  By using a macro, we get
+the full traceback to the original use that caused the warning.
 
-Version 2 bears little relation to version 1, in that I no longer
-turn off the warning, which merely hid the problem until link time
-failed to find libatomic symbols.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/atomic.h | 25 +++++--------------------
+ 1 file changed, 5 insertions(+), 20 deletions(-)
 
-In the process, I found bugs wrt handling of guest memory in target/
-with respect to atomics, fixed by unifying the api between softmmu
-and user-only and removing some ifdefs under target/.
-
-Unification of the api allowed some further cleanups.
-
-I think that patches 1-6 fix all of the bugs, and that 7-11 are only
-cleanup and could be left to next cycle.
-
-
-r~
-
-
-Richard Henderson (11):
-  qemu/atomic: Use macros for CONFIG_ATOMIC64
-  qemu/atomic: Simplify typeof_strip_qual
-  qemu/atomic: Remove pre-C11 atomic fallbacks
-  qemu/atomic: Add aligned_{int64,uint64}_t types
-  tcg: Rename helper_atomic_*_mmu and provide for user-only
-  accel/tcg: Standardize atomic helpers on softmmu api
-  accel/tcg: Fold EXTRA_ARGS into atomic_template.h
-  accel/tcg: Remove ATOMIC_MMU_DECLS
-  accel/tcg: Expand ATOMIC_MMU_LOOKUP_*
-  trace: Fold mem-internal.h into mem.h
-  accel/tcg: Push trace info building into atomic_common.c.inc
-
- configure                     |   7 -
- accel/tcg/atomic_template.h   | 141 ++++++++---------
- accel/tcg/tcg-runtime.h       |  46 ------
- include/qemu/atomic.h         | 284 ++++------------------------------
- include/qemu/stats64.h        |   2 +-
- include/tcg/tcg.h             |  78 +++++-----
- softmmu/timers-state.h        |   2 +-
- trace/mem-internal.h          |  50 ------
- trace/mem.h                   |  50 ++++--
- accel/tcg/cputlb.c            |  49 +-----
- accel/tcg/user-exec.c         |  41 ++---
- linux-user/hppa/cpu_loop.c    |   2 +-
- target/arm/helper-a64.c       |   8 +-
- target/i386/tcg/mem_helper.c  |  15 +-
- target/m68k/op_helper.c       |  19 +--
- target/ppc/mem_helper.c       |  16 +-
- target/s390x/tcg/mem_helper.c |  19 +--
- tcg/tcg-op.c                  |  47 +-----
- util/qsp.c                    |   4 +-
- accel/tcg/atomic_common.c.inc | 107 +++++++++++--
- 20 files changed, 324 insertions(+), 663 deletions(-)
- delete mode 100644 trace/mem-internal.h
-
+diff --git a/include/qemu/atomic.h b/include/qemu/atomic.h
+index 3ccf84fd46..99d6030095 100644
+--- a/include/qemu/atomic.h
++++ b/include/qemu/atomic.h
+@@ -457,26 +457,11 @@
+ 
+ /* Abstractions to access atomically (i.e. "once") i64/u64 variables */
+ #ifdef CONFIG_ATOMIC64
+-static inline int64_t qatomic_read_i64(const int64_t *ptr)
+-{
+-    /* use __nocheck because sizeof(void *) might be < sizeof(u64) */
+-    return qatomic_read__nocheck(ptr);
+-}
+-
+-static inline uint64_t qatomic_read_u64(const uint64_t *ptr)
+-{
+-    return qatomic_read__nocheck(ptr);
+-}
+-
+-static inline void qatomic_set_i64(int64_t *ptr, int64_t val)
+-{
+-    qatomic_set__nocheck(ptr, val);
+-}
+-
+-static inline void qatomic_set_u64(uint64_t *ptr, uint64_t val)
+-{
+-    qatomic_set__nocheck(ptr, val);
+-}
++/* Use __nocheck because sizeof(void *) might be < sizeof(u64) */
++#define qatomic_read_i64  qatomic_read__nocheck
++#define qatomic_read_u64  qatomic_read__nocheck
++#define qatomic_set_i64   qatomic_set__nocheck
++#define qatomic_set_u64   qatomic_set__nocheck
+ 
+ static inline void qatomic64_init(void)
+ {
 -- 
 2.25.1
 
