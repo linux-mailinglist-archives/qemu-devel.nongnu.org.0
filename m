@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724E83CC6D7
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:36:25 +0200 (CEST)
-Received: from localhost ([::1]:58930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63233CC6D8
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:36:58 +0200 (CEST)
+Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4tr6-0006v8-DZ
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60828)
+	id 1m4trd-0008Ep-TV
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:36:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tpP-0004cI-9t
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:34:39 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:42683)
+ id 1m4tqU-0006mL-NH
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:35:46 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m4tpN-00012J-SE
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:34:39 -0400
-Received: by mail-ej1-x635.google.com with SMTP id hd33so21241735ejc.9
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:34:37 -0700 (PDT)
+ id 1m4tqT-0001kF-3s
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:35:46 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id k27so17969602edk.9
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YoYCO3dhMVBUip+An6H/5w/6LGA0I9NnHUXASn91iEU=;
- b=cwhmIboUWt5JU3YW+YO+tAp91etXcmY9tGzdHYRMv/FUWCrAK3PXKqSU9Hi8YLZKsD
- vyPdMjiT0wyV+k7xJK/ZZ3UcpDiI7q5Ejg+ePjF4iNSHi7nbYGPmjA+jktTVGP2ktn++
- /dkkkz2ocJS/GzSrmotnGMR53nHmovvtPrASKPQNSIcvDkp5qDMEBfmX4ralP4aKIsk3
- 7BDfy7sEsO1xxHHvr2EPkmLTXi8GviuRVWrG0tt5CfuQBDwQRjQifdHOB5cCS/1racAH
- J98ZgrWzCil7ASxkadG0oZBnd6sh3LdUMSIHX1wtHhHWW/9kebSXf7ClyaX0xF0rl5wm
- Qtog==
+ :cc; bh=X69a2uodKUA3KTHfpK0rMAE6rYTBxXmofVrMjsX9UfI=;
+ b=NiKunTeTXQYTRzsikMcoM6IOGUuPUOqIQNo93hpsOnuv5zGcrDym+hc1mjZXd83g+p
+ /p2+jnISCddkPPivYu+fu0b45msmnPi+qoAtTGGTrsWnuMg0s/YerZfZejTKm1hIu/Mi
+ myFqiZmh6apE3UEO+2KXQc/lzcKlhyv9I5MKYaK6xHZBXvk8YPINVWT1pPjQ49LwGZbh
+ HF8lFKV0YEqjfkEpGJk2/LklwG+mcJV8Sw4/6u2KN2FIqxSiN5gfvFkB/dHdoMgoJtd/
+ 35lzc5GGPTTPjYFyob6/l1BModa5Sx0Bo+enrAtYPU7plBXdz3tf05K8Uvj7y8q/UOfI
+ vBuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=YoYCO3dhMVBUip+An6H/5w/6LGA0I9NnHUXASn91iEU=;
- b=Xaoze2Ib5GUBbzsoqlzd6R+HW9mMLjUc+Ayr+tOhJCKw7Cu3VJI7S3r9un3ztZ2s40
- ZkqRDcm0Jf6k+Wsx62C0kxrENavEhi2Gn+vmbWhKxgWV3yIH0TBUeiVpwfGYtNLECeSE
- tCBeRVGLiiyMe0u9qectOAZ4UzFOfOfQMRnZNTsCdkjXcwxN6191ENvKCPGDowy6XScG
- wVZdLvI7tubccvErGX5nMjY/CEo3mWv7QbYAFjIzcWf+fs11+mq1c5t0qoYDK5uOXGtq
- RnYN8PitRE23ASjgl1s6L1CrcJTc2OvqIKJKxcjT4Y3JZBTwf/Who9agIjB+ChDsTf6x
- JPcA==
-X-Gm-Message-State: AOAM533c9JsS6KkPYWYEDWq6kCPeNVhSwrHMprE9uDbbgojurAlMggZw
- yB+6pgxo1KZkrP6rOUJPqrzbjiz6feASjh6SiTmMhw==
-X-Google-Smtp-Source: ABdhPJwsJHb+78SIJm2k49QHTeDWiQTVk4PLM2YupjTgm1E2O7rI4vHja5NpcZOP52uykSewfln90H2abSdcinsaNrs=
-X-Received: by 2002:a17:907:3e02:: with SMTP id
- hp2mr19472218ejc.4.1626564876452; 
- Sat, 17 Jul 2021 16:34:36 -0700 (PDT)
+ bh=X69a2uodKUA3KTHfpK0rMAE6rYTBxXmofVrMjsX9UfI=;
+ b=pcG8W96h8dihVIf8GMBFI/Q9GwEH4WS7weVsq7wU+HIY9lhBxsJg8OPtcRCRthiawm
+ L2rLoM7fLld3fTIvEKlGgWl3UJp85xvnuRcV+EZ6ccAsFnAoHdKHJEFhOi8kRwUxC9Ry
+ pfz7j7LvOtBYkrlenqJvDFLzJ7Agm37/EE43nN9Aj+eEwd8m/VORUh2m0LaoNrdsK84M
+ y7xAjEIVsP7xv7Sg8GjEn8i4GqIEr1ofySbdBKLfNl6aUpCNzV0OxQQ3EHFuqMz9sb/u
+ Tc646xbgxhIvZad9UdOxm1nTZtBTNs3EKmF5OL8G3sFL0MjOCI5bsbnbllDP1eQliX3l
+ YdRA==
+X-Gm-Message-State: AOAM530kdyhPNIiRgpC6O6T4DeINtFAuBW+XMwfDdq1CbwqVhulZfwXX
+ iYXk/ZjLWLdWXYdeZ+au7yC3hw2J1JKivNxG1eFxWNXrhaw=
+X-Google-Smtp-Source: ABdhPJzlhGeHNe/fQn90y0Ld/CqhsHBZLUKW8IPbd3Id4eCNtPz1a82m9L8dpirx2muyn1yYQis88lYWKQ+eaVes3/w=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr24294531edy.44.1626564943722; 
+ Sat, 17 Jul 2021 16:35:43 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210717221851.2124573-1-richard.henderson@linaro.org>
- <20210717221851.2124573-10-richard.henderson@linaro.org>
-In-Reply-To: <20210717221851.2124573-10-richard.henderson@linaro.org>
+ <20210717221851.2124573-11-richard.henderson@linaro.org>
+In-Reply-To: <20210717221851.2124573-11-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 18 Jul 2021 00:33:56 +0100
-Message-ID: <CAFEAcA8V0aeLuX=UB0mUqmp5wgx+Vwn3E3rTd3EhK9DHk0_R7Q@mail.gmail.com>
-Subject: Re: [PATCH v3 09/13] target/mips: Reduce mips_tr_breakpoint_check pc
- advance to 2
+Date: Sun, 18 Jul 2021 00:35:03 +0100
+Message-ID: <CAFEAcA8C=8kAdsYeKqVwH=qeaWy3yoh+YgKm2Qi+SGcV7XWMtA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/13] target/riscv: Reduce riscv_tr_breakpoint_check
+ pc advance to 2
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,28 +92,31 @@ On Sat, 17 Jul 2021 at 23:18, Richard Henderson
 > The actual number of bytes advanced need not be 100% exact,
 > but we should not cross a page when the insn would not.
 >
-> If mips16 or mips32e are enabled, the minimum insn size is 2.
+> If rvc is enabled, the minimum insn size is 2.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/mips/tcg/translate.c | 2 +-
+>  target/riscv/translate.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-> index fd980ea966..ef00fbd2ac 100644
-> --- a/target/mips/tcg/translate.c
-> +++ b/target/mips/tcg/translate.c
-> @@ -16192,7 +16192,7 @@ static bool mips_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->       * properly cleared -- thus we increment the PC here so that
->       * the logic setting tb->size below does the right thing.
->       */
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index deda0c8a44..5527f37ada 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -973,7 +973,7 @@ static bool riscv_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
+>         [tb->pc, tb->pc + tb->size) in order to for it to be
+>         properly cleared -- thus we increment the PC here so that
+>         the logic setting tb->size below does the right thing.  */
 > -    ctx->base.pc_next += 4;
 > +    ctx->base.pc_next += 2;
 >      return true;
 >  }
->
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+(What goes wrong if we just say "always use a TB size of 1 regardless
+of target arch" rather than having the arch return the worst case
+minimum insn length?)
 
 thanks
 -- PMM
