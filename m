@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24C383CC6A3
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 00:26:25 +0200 (CEST)
-Received: from localhost ([::1]:56662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4343CC69A
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 00:21:20 +0200 (CEST)
+Received: from localhost ([::1]:36616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4slM-0006XI-7G
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 18:26:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55056)
+	id 1m4sgR-0001J2-KS
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 18:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4seC-0006u1-Jv
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 18:19:00 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:37590)
+ id 1m4seD-0006wK-C0
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 18:19:01 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:35616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m4seB-0001zY-0E
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 18:19:00 -0400
-Received: by mail-pg1-x532.google.com with SMTP id t9so14558429pgn.4
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 15:18:57 -0700 (PDT)
+ id 1m4seB-0001zo-A7
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 18:19:01 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id d12so12638619pfj.2
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 15:18:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8YnkwL2N7MCyAYblTwdwFeZAAt2ZW8w1UlaHPMDWJNk=;
- b=SAUvc8JL8Xrg4kgvWXQGioO8ay6EbZW7CdIBHNtFtZ7AvOelmyFOih9Q6FeAPth5GI
- LSV7hiIOd3agDeV9KvcYn9B3Eb+0M3RGXEZG7EWNOAWZYMk7g5j1KD3EWa8/hXI759L1
- 9PhWqUKsRuMVtbv1SriQQkyKoMw+DwpRj4qtL7R4y5FntCqcNgPd/CmhfgcxbEGT8+mc
- yxe0nLtXJNfNHWNp8alPSzK5rQr/S9YzIzjh/rhO0/+W8zSMteHLlWMii+ZY0QtDbyER
- Slll1DQMOs1EzBWZIZBk5uZy1r7jG5q+xZGJdo/O/G5qfzZ/WeFI1aKQ4cSAl7Axj+Yj
- YmxQ==
+ bh=fTNV1A4k/Xn3P/CnpnqSKcH5ZtAfJBxZRFThgdFD0A8=;
+ b=DzGiB+r/WNwOMJv/IuKXoyM6VMjcllUZ57GVuLBmLPmXkVNmSMWPfKJ9A9EQ/6C6hb
+ 2FCiBZt6pnH7iJ0h5s17+5+hYFtmpVBbq0gbqLbqZ14K8+lKEM97yKy/SsGo7GCQmR0F
+ vdZ579REA1TnimAIXTtN7CEgOv3ZZ1sXctDNQxIHnPaByb20JVcro+aPgnG0I7eOJljl
+ Ua7MxDRXO/kDzoZJNMHcMZYRC7ShwrEgxoLLYP/nGLLJWihUeesEtaNkx0iObCrwWKlL
+ kraSpI8wM5a8dRXMG1QUdxdWgaTgGUUv4MMbdnzZ4bZVYXb5UCBW23jEhUHc/gUhxfAl
+ d/UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8YnkwL2N7MCyAYblTwdwFeZAAt2ZW8w1UlaHPMDWJNk=;
- b=h4D29AnBZLoHorRZYogjWDKvfLShsIut+mgmQQ16cTp6ytpNGhEAI+HQqtXHnhNeYj
- kClNrEq1se1kFkxH3hXecufQguWznTou+HduSXhj0dtfNNzko62TSiyuA+5CxrRROmhI
- YHq9eykB7ZB6IkZJ2zg6EnSSVaH91tpEvKPveNyCXCPlz9Tg0R+Lh4kSA7iCc5rdebNF
- KZeHckTp8b24l64pTDGaYl1MDncPKT5c7pXrvNBjjl9Ee6WEctPTcUiCdtLvr82ttBts
- EcJVmd6USZZQeft1i8oMlA6HKNIY2EMe0hcRHQfAHeMMmFZlEVfb+El86fWter84ii9m
- s+nQ==
-X-Gm-Message-State: AOAM530strhOv6k7UOudAb94QF3vlV+YkqNqVLiPMoE4fFmj8u8ScUzf
- j+uWSIhEHT+tgRlanmfjV892YFqspHmHAw==
-X-Google-Smtp-Source: ABdhPJybgaEacpz1hOSZBzGQWssMlu437mspfhUzDwHsuOD3Vk+Bqie0rNAgU9Dpluhg/blnoMCjxA==
-X-Received: by 2002:a65:6191:: with SMTP id c17mr16991607pgv.153.1626560336548; 
- Sat, 17 Jul 2021 15:18:56 -0700 (PDT)
+ bh=fTNV1A4k/Xn3P/CnpnqSKcH5ZtAfJBxZRFThgdFD0A8=;
+ b=t2zLrgG/MFLvq6Qc0GbftnoD2L3r4sQLusS8S0npUaL8ltAXJt30Rbj1TGZHIV4d8g
+ 5Yv+wthtkHSq/zd9y7vHShjH2QuTZkG97oZtvNv+UusxPn/wnBzcipWTv7BU05fSLgON
+ VRWnjZGWyw6X/zKOXGRaV0mIZct399u4zrYIjnkpAS2fa63qK9tD9fyWldbyVy6FsuT9
+ ZOwHjmjp1QFc7uisJk0d/PawnAvkaIp9ud0a5x6eakuJqMgRfkYKrRmCH8vviyhjjCi2
+ EGMluvV6ttNh06giqySuGSjiwpfQpVjJf9ROiL4cPg/Z1szKvevf+/a6T0PEPchL/9Yg
+ JoGA==
+X-Gm-Message-State: AOAM533IJXTAWYHxcMG2TgWbWY0S4do+WD+eG2ZuxKSzm2yJ65b7tIut
+ dNz5z+fYaHPvz6ag793d5dmSuen3LbVVyg==
+X-Google-Smtp-Source: ABdhPJzK2TgjjeuOAzIB0NS6ysjiDpDvVgl4R6iTGv18aetkwDKYHNnCXkf469+Sk+ga9Bx8M/rHgQ==
+X-Received: by 2002:a62:1bc7:0:b029:328:cbf5:b6b0 with SMTP id
+ b190-20020a621bc70000b0290328cbf5b6b0mr17254824pfb.81.1626560337219; 
+ Sat, 17 Jul 2021 15:18:57 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id n14sm2405091pjv.34.2021.07.17.15.18.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 17 Jul 2021 15:18:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/13] accel/tcg: Use CF_NO_GOTO_{TB,
- PTR} in cpu_exec_step_atomic
-Date: Sat, 17 Jul 2021 15:18:44 -0700
-Message-Id: <20210717221851.2124573-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/13] accel/tcg: Move cflags lookup into tb_find
+Date: Sat, 17 Jul 2021 15:18:45 -0700
+Message-Id: <20210717221851.2124573-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210717221851.2124573-1-richard.henderson@linaro.org>
 References: <20210717221851.2124573-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,46 +88,74 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Request that the one TB returns immediately, so that
-we release the exclusive lock as soon as possible.
+We will shortly require the guest pc for computing cflags,
+so move the choice just after cpu_get_tb_cpu_state.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ accel/tcg/cpu-exec.c | 34 +++++++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 2206c463f5..5bb099174f 100644
+index 5bb099174f..4d043a11aa 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -330,8 +330,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
+@@ -502,15 +502,29 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
+ 
+ static inline TranslationBlock *tb_find(CPUState *cpu,
+                                         TranslationBlock *last_tb,
+-                                        int tb_exit, uint32_t cflags)
++                                        int tb_exit)
+ {
      CPUArchState *env = (CPUArchState *)cpu->env_ptr;
      TranslationBlock *tb;
      target_ulong cs_base, pc;
 -    uint32_t flags;
--    uint32_t cflags = (curr_cflags(cpu) & ~CF_PARALLEL) | 1;
 +    uint32_t flags, cflags;
-     int tb_exit;
  
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-@@ -341,8 +340,14 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         cpu->running = true;
+     cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
  
-         cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
--        tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
- 
++    /*
++     * When requested, use an exact setting for cflags for the next
++     * execution.  This is used for icount, precise smc, and stop-
++     * after-access watchpoints.  Since this request should never
++     * have CF_INVALID set, -1 is a convenient invalid value that
++     * does not require tcg headers for cpu_common_reset.
++     */
++    cflags = cpu->cflags_next_tb;
++    if (cflags == -1) {
 +        cflags = curr_cflags(cpu);
-+        /* Execute in a serial context. */
-+        cflags &= ~CF_PARALLEL;
-+        /* After 1 insn, return and release the exclusive lock. */
-+        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR | 1;
++    } else {
++        cpu->cflags_next_tb = -1;
++    }
 +
-+        tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
-         if (tb == NULL) {
-             mmap_lock();
-             tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+     tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+     if (tb == NULL) {
+         mmap_lock();
+@@ -868,21 +882,7 @@ int cpu_exec(CPUState *cpu)
+         int tb_exit = 0;
+ 
+         while (!cpu_handle_interrupt(cpu, &last_tb)) {
+-            uint32_t cflags = cpu->cflags_next_tb;
+-            TranslationBlock *tb;
+-
+-            /* When requested, use an exact setting for cflags for the next
+-               execution.  This is used for icount, precise smc, and stop-
+-               after-access watchpoints.  Since this request should never
+-               have CF_INVALID set, -1 is a convenient invalid value that
+-               does not require tcg headers for cpu_common_reset.  */
+-            if (cflags == -1) {
+-                cflags = curr_cflags(cpu);
+-            } else {
+-                cpu->cflags_next_tb = -1;
+-            }
+-
+-            tb = tb_find(cpu, last_tb, tb_exit, cflags);
++            TranslationBlock *tb = tb_find(cpu, last_tb, tb_exit);
+             cpu_loop_exec_tb(cpu, tb, &last_tb, &tb_exit);
+             /* Try to align the host and virtual clocks
+                if the guest is in advance */
 -- 
 2.25.1
 
