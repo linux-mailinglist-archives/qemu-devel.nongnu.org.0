@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D883CC11B
+	by mail.lfdr.de (Postfix) with ESMTPS id A19FB3CC11C
 	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 06:27:30 +0200 (CEST)
-Received: from localhost ([::1]:40152 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4bvF-0000ML-5q
+	id 1m4bvF-0000NR-Ea
 	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 00:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58248)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m4bts-0007Ti-IB
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 00:26:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50834)
+ id 1m4btu-0007Tr-36
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 00:26:06 -0400
+Received: from indium.canonical.com ([91.189.90.7]:51154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m4btq-0001qd-8n
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 00:26:04 -0400
+ id 1m4bts-0001xL-Mt
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 00:26:05 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m4bth-0003Ik-TJ
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 04:25:54 +0000
+ id 1m4btn-0003Ie-Gl
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 04:25:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D06032E8225
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 04:25:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 77C382E826F
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 04:25:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Sat, 17 Jul 2021 04:17:28 -0000
-From: Launchpad Bug Tracker <1924738@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1886306@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgilbert-h izorkin janitor th-huth
-X-Launchpad-Bug-Reporter: Izorkin (izorkin)
+X-Launchpad-Bug-Commenters: janitor philmd th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd=29?=
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <161856700090.8743.17887923677613364195.malonedeb@gac.canonical.com>
-Message-Id: <162649544892.15253.2953292018260278406.malone@loganberry.canonical.com>
-Subject: [Bug 1924738] Re: Failed to restore domain - error load load
- virtio-balloon:virtio
+References: <159394034007.15406.6510283150709649853.malonedeb@soybean.canonical.com>
+Message-Id: <162649544820.15253.12562878104880218493.malone@loganberry.canonical.com>
+Subject: [Bug 1886306] Re: qemu running slow when the window is in background
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: 8e937c0c3b8ca982fb401f1a2e28f24147450f94
+X-Launchpad-Hash: 86fa3f3285f3132f0f6eb5159f837e70981534e8
 Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1924738 <1924738@bugs.launchpad.net>
+Reply-To: Bug 1886306 <1886306@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,54 +82,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1924738
+https://bugs.launchpad.net/bugs/1886306
 
 Title:
-  Failed to restore domain - error load load virtio-balloon:virtio
+  qemu running slow when the window is in background
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I noticed a domain restore error on my virtual machines.
-  I can't reproduce the error on a test virtual machine.
+  Reported by <jedinix> on IRC:
 
-  sudo virsh save linux2020 /var/lib/libvirt/qemu/save/linux2020.save
-  Domain 'linux2020' saved to /var/lib/libvirt/qemu/save/linux2020.save
+  QEMU almost freezes when running with `GDK_BACKEND=3Dx11` set and the
+  parameter `gl=3Don` added to the `-display` option.
 
-  sudo virsh restore /var/lib/libvirt/qemu/save/linux2020.save
-  error: Failed to restore domain from /var/lib/libvirt/qemu/save/linux2020=
-.save
-  error: =D0=B2=D0=BD=D1=83=D1=82=D1=80=D0=B5=D0=BD=D0=BD=D1=8F=D1=8F =D0=
-=BE=D1=88=D0=B8=D0=B1=D0=BA=D0=B0: QEMU =D0=BD=D0=B5=D0=BE=D0=B6=D0=B8=D0=
-=B4=D0=B0=D0=BD=D0=BD=D0=BE =D0=B7=D0=B0=D0=B2=D0=B5=D1=80=D1=88=D0=B8=D0=
-=BB =D1=80=D0=B0=D0=B1=D0=BE=D1=82=D1=83 =D0=BC=D0=BE=D0=BD=D0=B8=D1=82=D0=
-=BE=D1=80=D0=B0: qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=
-=3D52,server,nowait: warning: short-form boolean option 'server' deprecated
-  Please use server=3Don instead
-  qemu-system-x86_64: -chardev socket,id=3Dcharchannel0,fd=3D52,server,nowa=
-it: warning: short-form boolean option 'nowait' deprecated
-  Please use wait=3Doff instead
-  qemu-system-x86_64: -spice port=3D5900,addr=3D0.0.0.0,disable-ticketing,i=
-mage-compression=3Doff,seamless-migration=3Don: warning: short-form boolean=
- option 'disable-ticketing' deprecated
-  Please use disable-ticketing=3Don instead
-  2021-04-16T09:47:15.037700Z qemu-system-x86_64: VQ 0 size 0x80 < last_ava=
-il_idx 0x0 - used_idx 0xcccc
-  2021-04-16T09:47:15.037737Z qemu-system-x86_64: Failed to load virtio-bal=
-loon:virtio
-  2021-04-16T09:47:15.037744Z qemu-system-x86_64: error while loading state=
- for instance 0x0 of device '0000:00:02.0/virtio-balloon'
-  2021-04-16T09:47:15.037849Z qemu-system-x86_64: load of migration failed:=
- Operation not permitted
+  GDK_BACKEND=3Dx11 qemu-system-x86_64 -nodefaults -no-user-config
+  -enable-kvm -machine q35 -cpu host -m 4G -display gtk,gl=3Don -vga std
+  -usb -device usb-kbd -drive
+  file=3D/tmp/Win10.qcow2,media=3Ddisk,format=3Dqcow2 -drive
+  file=3D~/Downloads/Win10_2004_EnglishInternational_x64.iso,media=3Dcdrom
 
-  If in the machine configuration replace
-  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.1">hvm</type>
-  to
-  <type arch=3D"x86_64" machine=3D"pc-i440fx-5.0">hvm</type>
-  the virtual machine is recovering normally
+  Leaving out `GDK_BACKEND=3Dx11` or `gl=3Don` fixes the issue.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1924738/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1886306/+subscriptions
 
 
