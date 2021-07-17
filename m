@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB7A33CC036
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 02:35:21 +0200 (CEST)
-Received: from localhost ([::1]:36626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BF03CC04E
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 02:43:30 +0200 (CEST)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4YIa-0007bG-Se
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 20:35:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37566)
+	id 1m4YQT-0001Iw-TU
+	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 20:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m4YGl-0004nK-HP
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 20:33:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41036)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m4YGn-0004pV-HF
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 20:33:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m4YGi-0006Kl-2U
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 20:33:26 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m4YGl-0006Mh-BL
+ for qemu-devel@nongnu.org; Fri, 16 Jul 2021 20:33:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626482003;
+ s=mimecast20190719; t=1626482006;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2gfZ41/qfm7/3FCHRRgI1yDIKKipLMDfCUiNwMv0NS4=;
- b=bvxxQneKbnyW/RxGwcWuHFLlwzKtjonX3VIVd/Q2IyADh7BNJIRMp62Vsl7GlKnmNwnYkh
- Ck2S7O4cj7gL60QUiy4YKlCi6/J9mghb59RJD9eOyTg7sVKmeH0s/6gNmDfw9/34Li4xyT
- TEjQElJZl+U9yu1rhTnzTi7r6vPRyDQ=
+ bh=A09p7kuncoLj1Z1LlBbLjDQQ9vfFXgGY5n5BnRrRThY=;
+ b=h5QHGfOgv+DPfNJN4X9ZQsBPFrtX8HUbnPYhFJS955ksX6s8h0SBATJkSBuKilIa0yIkd+
+ iVkHAMOyii1DfeK8tDbLYMDJkTVu41n55UPwZ+ZkKlKje2Z9upHzD6qUBJANfe0HTcrK9z
+ JDyQmbDEK5wG1RRlhs3m+lA3Rn9ByUQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-LIm2CFx-P7CBCZ970wiPOw-1; Fri, 16 Jul 2021 20:33:21 -0400
-X-MC-Unique: LIm2CFx-P7CBCZ970wiPOw-1
+ us-mta-388-2iogNMevPMGPyqoBbbNqKQ-1; Fri, 16 Jul 2021 20:33:23 -0400
+X-MC-Unique: 2iogNMevPMGPyqoBbbNqKQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC86D100B3AC;
- Sat, 17 Jul 2021 00:33:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29BE1801B0C;
+ Sat, 17 Jul 2021 00:33:22 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-183.rdu2.redhat.com [10.10.119.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51B5E5C1A1;
- Sat, 17 Jul 2021 00:33:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F8455C1A1;
+ Sat, 17 Jul 2021 00:33:20 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/24] python/aqmp: add AsyncProtocol.accept() method
-Date: Fri, 16 Jul 2021 20:32:38 -0400
-Message-Id: <20210717003253.457418-10-jsnow@redhat.com>
+Subject: [PATCH v2 10/24] python/aqmp: add configurable read buffer limit
+Date: Fri, 16 Jul 2021 20:32:39 -0400
+Message-Id: <20210717003253.457418-11-jsnow@redhat.com>
 In-Reply-To: <20210717003253.457418-1-jsnow@redhat.com>
 References: <20210717003253.457418-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,158 +85,66 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a little messier than connect, because it wasn't designed to accept
-*precisely one* connection. Such is life.
+QMP can transmit some pretty big messages, and the default limit of 64KB
+isn't sufficient. Make sure that we can configure it.
 
+Reported-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/aqmp/protocol.py | 89 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 85 insertions(+), 4 deletions(-)
+ python/qemu/aqmp/protocol.py | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
-index f9295546cda..99b9614ba94 100644
+index 99b9614ba94..86002a52654 100644
 --- a/python/qemu/aqmp/protocol.py
 +++ b/python/qemu/aqmp/protocol.py
-@@ -245,6 +245,24 @@ async def runstate_changed(self) -> Runstate:
-         await self._runstate_event.wait()
-         return self.runstate
+@@ -188,6 +188,9 @@ class AsyncProtocol(Generic[T]):
+     #: Logger object for debugging messages from this connection.
+     logger = logging.getLogger(__name__)
  
-+    @upper_half
-+    @require(Runstate.IDLE)
-+    async def accept(self, address: Union[str, Tuple[str, int]],
-+                     ssl: Optional[SSLContext] = None) -> None:
-+        """
-+        Accept a connection and begin processing message queues.
++    # Maximum allowable size of read buffer
++    _limit = (64 * 1024)
 +
-+        If this call fails, `runstate` is guaranteed to be set back to `IDLE`.
-+
-+        :param address:
-+            Address to listen to; UNIX socket path or TCP address/port.
-+        :param ssl: SSL context to use, if any.
-+
-+        :raise StateError: When the `Runstate` is not `IDLE`.
-+        :raise ConnectError: If a connection could not be accepted.
-+        """
-+        await self._new_session(address, ssl, accept=True)
-+
-     @upper_half
-     @require(Runstate.IDLE)
-     async def connect(self, address: Union[str, Tuple[str, int]],
-@@ -309,7 +327,8 @@ def _set_state(self, state: Runstate) -> None:
-     @upper_half
-     async def _new_session(self,
-                            address: Union[str, Tuple[str, int]],
--                           ssl: Optional[SSLContext] = None) -> None:
-+                           ssl: Optional[SSLContext] = None,
-+                           accept: bool = False) -> None:
-         """
-         Establish a new connection and initialize the session.
+     # -------------------------
+     # Section: Public interface
+     # -------------------------
+@@ -453,6 +456,7 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
+                 port=address[1],
+                 ssl=ssl,
+                 backlog=1,
++                limit=self._limit,
+             )
+         else:
+             coro = asyncio.start_unix_server(
+@@ -460,6 +464,7 @@ async def _client_connected_cb(reader: asyncio.StreamReader,
+                 path=address,
+                 ssl=ssl,
+                 backlog=1,
++                limit=self._limit,
+             )
  
-@@ -318,9 +337,10 @@ async def _new_session(self,
-         to be set back to `IDLE`.
+         server = await coro     # Starts listening
+@@ -483,9 +488,18 @@ async def _do_connect(self, address: Union[str, Tuple[str, int]],
+         self.logger.debug("Connecting to %s ...", address)
  
-         :param address:
--            Address to connect to;
-+            Address to connect to/listen on;
-             UNIX socket path or TCP address/port.
-         :param ssl: SSL context to use, if any.
-+        :param accept: Accept a connection instead of connecting when `True`.
- 
-         :raise ConnectError:
-             When a connection or session cannot be established.
-@@ -334,7 +354,7 @@ async def _new_session(self,
- 
-         try:
-             phase = "connection"
--            await self._establish_connection(address, ssl)
-+            await self._establish_connection(address, ssl, accept)
- 
-             phase = "session"
-             await self._establish_session()
-@@ -368,6 +388,7 @@ async def _establish_connection(
-             self,
-             address: Union[str, Tuple[str, int]],
-             ssl: Optional[SSLContext] = None,
-+            accept: bool = False
-     ) -> None:
-         """
-         Establish a new connection.
-@@ -376,6 +397,7 @@ async def _establish_connection(
-             Address to connect to/listen on;
-             UNIX socket path or TCP address/port.
-         :param ssl: SSL context to use, if any.
-+        :param accept: Accept a connection instead of connecting when `True`.
-         """
-         assert self.runstate == Runstate.IDLE
-         self._set_state(Runstate.CONNECTING)
-@@ -385,7 +407,66 @@ async def _establish_connection(
-         # otherwise yield.
-         await asyncio.sleep(0)
- 
--        await self._do_connect(address, ssl)
-+        if accept:
-+            await self._do_accept(address, ssl)
-+        else:
-+            await self._do_connect(address, ssl)
-+
-+    @upper_half
-+    async def _do_accept(self, address: Union[str, Tuple[str, int]],
-+                         ssl: Optional[SSLContext] = None) -> None:
-+        """
-+        Acting as the transport server, accept a single connection.
-+
-+        :param address:
-+            Address to listen on; UNIX socket path or TCP address/port.
-+        :param ssl: SSL context to use, if any.
-+
-+        :raise OSError: For stream-related errors.
-+        """
-+        self.logger.debug("Awaiting connection on %s ...", address)
-+        connected = asyncio.Event()
-+        server: Optional[asyncio.AbstractServer] = None
-+
-+        async def _client_connected_cb(reader: asyncio.StreamReader,
-+                                       writer: asyncio.StreamWriter) -> None:
-+            """Used to accept a single incoming connection, see below."""
-+            nonlocal server
-+            nonlocal connected
-+
-+            # A connection has been accepted; stop listening for new ones.
-+            assert server is not None
-+            server.close()
-+            await server.wait_closed()
-+            server = None
-+
-+            # Register this client as being connected
-+            self._reader, self._writer = (reader, writer)
-+
-+            # Signal back: We've accepted a client!
-+            connected.set()
-+
-+        if isinstance(address, tuple):
-+            coro = asyncio.start_server(
-+                _client_connected_cb,
-+                host=address[0],
-+                port=address[1],
+         if isinstance(address, tuple):
+-            connect = asyncio.open_connection(address[0], address[1], ssl=ssl)
++            connect = asyncio.open_connection(
++                address[0],
++                address[1],
 +                ssl=ssl,
-+                backlog=1,
++                limit=self._limit,
 +            )
-+        else:
-+            coro = asyncio.start_unix_server(
-+                _client_connected_cb,
+         else:
+-            connect = asyncio.open_unix_connection(path=address, ssl=ssl)
++            connect = asyncio.open_unix_connection(
 +                path=address,
 +                ssl=ssl,
-+                backlog=1,
++                limit=self._limit,
 +            )
-+
-+        server = await coro     # Starts listening
-+        await connected.wait()  # Waits for the callback to fire (and finish)
-+        assert server is None
-+
-+        self.logger.debug("Connection accepted.")
+         self._reader, self._writer = await connect
  
-     @upper_half
-     async def _do_connect(self, address: Union[str, Tuple[str, int]],
+         self.logger.debug("Connected.")
 -- 
 2.31.1
 
