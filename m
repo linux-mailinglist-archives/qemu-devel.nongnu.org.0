@@ -2,130 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2A63CC6B6
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:09:29 +0200 (CEST)
-Received: from localhost ([::1]:52220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC273CC6BB
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 01:23:02 +0200 (CEST)
+Received: from localhost ([::1]:57796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4tR2-0007oK-LK
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
+	id 1m4te9-00049W-JJ
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 19:23:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1m4tQF-0007AE-Nw
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:08:39 -0400
-Received: from esa.hc3962-90.iphmx.com ([216.71.142.165]:62029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1m4tQD-0000rQ-Fh
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:08:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qccesdkim1;
- t=1626563317; x=1627168117;
- h=from:to:subject:date:message-id:references:in-reply-to:
- content-transfer-encoding:mime-version;
- bh=r0PGscWkmcCOfqDAQsfOPP39WT/gXwtNTH7y/dWZsR8=;
- b=172JKUyBnSeWqzTO/iNw7VxAEbPRjfp3oUpchssLGadV5JF1gD4nPPTP
- JseW2+zAFdY5phamdcHD3uFmCEYqZvFNnZ/bxMOBpTiA0Kk5/IjM2D8tw
- Iv/zQUUBBf0vuDawBGM64f/Wb7AbdnwKfPSNrEQYwEc20eQUcj8fQ1lr0 s=;
-Received: from mail-co1nam11lp2177.outbound.protection.outlook.com (HELO
- NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.177])
- by ob1.hc3962-90.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jul 2021 23:08:34 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FiZK3KffCQuAzu715mSz79u0SNm1LxN+TZ9rbcZG/IgHHGGpeIUuNdBJ0r+slI58cuv12dUyaZDMYT8ysRXKxDA830a+azYc4YgUm9+M755gpJ+17TJf2GdLSUz0cmqYqW9CP9KufmajStnb42TxkLhvcUqr1ooGb3ZnZ/hZUv1hWo7j1Jl9AqhQlgUfEb8pMj4MNKPoTNfAfr5DlkidQhsE5uVdvXxPMF4mrUHcjp84ellif1bVzS6vhmt7DXDkBTelD8aTmeMRSsm702NfCgFMP2dnN+RJj2dXs1PPcN2XOX4efPJA8ifP89gKwT+W1m2T93V+upGcuNEVv45zWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aRrJqLrpu5NaIYNWlCeciBzryRoFaUaLVn/a2qvREv8=;
- b=RcE9xtAnmRPUW89R+3IVcVL78yxAUMmOpliatYcj3oL8JcdzU1I1zQh5bm9dfeUu0ABX4rTiNLNU1uG5g7DawWzC37dW0m0u0kWLOrzAyRmGukL06GfsiYHD4iKVGDyKd+k3GG0A347cDFewwjWfEP3a8Pu67ws5tHVs3LGCl/fKqZL0WxxuaavuL/CcQ3PR/IaZcFxB22TRiwosLjloUVmzts1VTX4axYUWjMDo1veZCH8D3oavfhsJcLnoXTA6901uQWCazUK2sSDnGpg2+PYmFNNbjz0ouM3RmlZ6OhlbydZpHBZkYfzfvLC6RMPrzojMCjAXO7llY+2lJHR10Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
- by BYAPR02MB4118.namprd02.prod.outlook.com (2603:10b6:a02:fb::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4308.23; Sat, 17 Jul
- 2021 23:08:31 +0000
-Received: from BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::9533:5f34:8b3e:ed]) by BYAPR02MB4886.namprd02.prod.outlook.com
- ([fe80::9533:5f34:8b3e:ed%6]) with mapi id 15.20.4331.030; Sat, 17 Jul 2021
- 23:08:31 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH] target/hexagon: Drop include of qemu.h
-Thread-Topic: [PATCH] target/hexagon: Drop include of qemu.h
-Thread-Index: AQHXevbDDUXkvvhLJUSAGF/TC8SDmKtHwCCg
-Date: Sat, 17 Jul 2021 23:08:31 +0000
-Message-ID: <BYAPR02MB4886221507FE6BAE8D8E991BDE109@BYAPR02MB4886.namprd02.prod.outlook.com>
-References: <20210717103017.20491-1-peter.maydell@linaro.org>
-In-Reply-To: <20210717103017.20491-1-peter.maydell@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=quicinc.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 51dd961c-8479-42ce-9f14-08d94977cb99
-x-ms-traffictypediagnostic: BYAPR02MB4118:
-x-microsoft-antispam-prvs: <BYAPR02MB41186D629ABC29A0F6868EDDDE109@BYAPR02MB4118.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: PPMZpvdvb1IJHi0gYtcLJBed67Rt7AO4fDQfmOpJDftULUpYQXg6XBMkxSs4zPeUxOF7AYefTQezdtMdILSAzLIAILbOkr6MLAI+ukeiv98YgIVV8K67qMR4tSoe3k9Ku72CARdvNWgzejSS4Aog5VnPdZ/jh+1TOh1MvKLedbnYLYWPmxrpS4k4cSOUzzojsFqRxxFpEXdtU8b7EWZBAHekr+ix+XyJ9ITeo+JkaniwfXERDblvUqKfSKScQCQobu5ImMbnOyrXLySs6HbCqVGC+ElkMJlrFH7gPmTcWHRXzChRVRkWfb2YqFvqzCmFpLkf9UhmnFDYhkj83AZH2lCv+l4YRytc6HYMcd0j9Fni0C9anMl/uSQ/GUkRCU74zRGVPInVpMVILjrVg1N1zrpfSOHJyQvkrx35n7yDAvDE2Zb4G5Ytm/KzpCOjhFX8ny2jcVnHhj6utw6qNdkmp9BSvvAXZGDWfUjnNAYYLQuKsYbY/YXUQ2Ayh2HEkipV3SnKQvPupZCl0oxW+UPyNAqrhoUXxKZRMqdjrysf+d86OCjdg63N6IfmABzI04UkcfhLnI07vAE42zwckIeFoTHXUuKYo/Fq3YtiSBQ9Je0kbXSn9/m0s9pN3q6Eynv8gWktnADbJdgBioGowj860A1OSjkG4NVGm3BcxEvnwY7pLLOqftRPiBXTwPWybjJLBEttLkJT7PVxYcgREbYNGA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(39850400004)(376002)(136003)(396003)(38100700002)(76116006)(66476007)(64756008)(71200400001)(122000001)(2906002)(66946007)(478600001)(66446008)(66556008)(83380400001)(55016002)(6506007)(33656002)(52536014)(8936002)(86362001)(9686003)(4744005)(7696005)(316002)(5660300002)(110136005)(186003)(53546011)(26005)(8676002)(38070700004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?xQM4wjBaYoLhPenu8wRJH9jvWVJo8eugS9f4WX0jt10TAHLgnwUxY29H2HxR?=
- =?us-ascii?Q?ocDmqUA6guhFRCjcKLHd8sIWCJD/Fd+pz4gykFQG0pO9ofJ1AgKV4jZg9cw9?=
- =?us-ascii?Q?9j6rRpyE7UoylwR8v5pc3Ims6Dg81d4cDAxK4C+4g2eMIibrUNONX5MmKsTO?=
- =?us-ascii?Q?LDySIHD9zyvZPKwnRAuhE0QvPuCwft3sodODnhnpi+1Mlurc2RRgzlcdkwGn?=
- =?us-ascii?Q?y+7T2HXOcSwRpWGky6b7WjZQYI3enrwLcfhYXvR7HW8YteF/IykLU46c9gT3?=
- =?us-ascii?Q?fZKikKixEzS8p7Jboe8rlDQLAldIKxEHy/zmlwYdygnWhKSu9jlSKg6FIRWo?=
- =?us-ascii?Q?QGiJ+3yUoWRoyn51+MFihCQFIqKuEN5DOBdv42XR6qNg9RlHtcFCfObAxIJ8?=
- =?us-ascii?Q?+Wehaue9XM3bpZN6QkhpxGxKpU0A/AFuwf5Ggd6z/UvWZSXKh2NCh5gQ7qfe?=
- =?us-ascii?Q?eDSb8XvHTxyKSL0DkA4DPLdA7w9SyDtyCTIvqlq9YsBLv0DoSevkiDREhLBm?=
- =?us-ascii?Q?kkPxubPXqaNELxmfxdnlNR8QmQvobtQuHV3vyboxvPdrNrNNUT0Vt5nxId1w?=
- =?us-ascii?Q?dM0ZzlF0EFwVEPWoJkcUUUL2eSwTO+dCGZBy3N0Cy3nwH+n0Lxu/ZXPY4P1U?=
- =?us-ascii?Q?sJhzyKbyIaQu2nZy1EbDge9DzNqs7+JTpHGvaqSbw91vgtn4O8JBE3QsKZKa?=
- =?us-ascii?Q?kNkkdYqPWyBy0pjjuoye5XMjm5QlVJBBa6WUvWFLnHUth+NMXvzLBzlWuQos?=
- =?us-ascii?Q?wOHCHfiAsYFADNIDpvFv6rLo3YYv82n81yqDgMlBiQyt9Ljs9JLyMUmsO/q+?=
- =?us-ascii?Q?zcA/TcoVOLIqifazpjef1tg34LN+CQcj33UPTZgKpmyK11MBjBiW33KY1ndl?=
- =?us-ascii?Q?pva1+0rT4vMkzasKTZQD1UX5bwIDShtmAeuQtJFNC5rkOIinMIRVEaunau6C?=
- =?us-ascii?Q?ZWr2Bjcs6JIi3YAoqHxD4n3n4sp+tjf0JdrYz6uPy6k9HFlEvmxloABjTIuD?=
- =?us-ascii?Q?glMXBjPkW0XZC3drybBpfyNWwBZDxrDN6WqPGsJmt3IM5f7uHJ+V7fd51x4U?=
- =?us-ascii?Q?pzj3JRu3vxacB7ewG6EXKjP7HT6XHfJR5o6UTe/WCwFHCsbH5ci0it1ydSuw?=
- =?us-ascii?Q?YmAwgJf/vwP5LXnSgVsw/tBh91lmdRfDM2Ho4gWOUYuMPbQ1GVv1OGo+2kvB?=
- =?us-ascii?Q?t4foTrycWvJZuozRe22OMN2zpNU0+kwcqGe0tiQnSNbeI8VXtCBlyH3FP/U2?=
- =?us-ascii?Q?WLonhVu1lFghJ1DsE8HYP++J99CumD9tUDuD1RDvL5Urz6OBc6HvsoSHVjfU?=
- =?us-ascii?Q?SZZ5R/ypRzX+CVmZX+mSXKHo?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4tcL-0001cF-4Z
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:21:09 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53237)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m4tcJ-0000g0-Cl
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 19:21:08 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id g12so7979491wme.2
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 16:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/9fGtdcqn5q5Zsy7soeX7Mski6gANvfjtmkKqUG0V6s=;
+ b=UUCNrXt8aZQ0bQ4Tfp8gTHaAIyyPBpJNd7RJKipYcTIkLUtX/OR8tT+RtsYgra4j38
+ wkPFc/NSmUh4Ipanvfk4glMGpSgJfRpgvzYzQwCLphDFVzvludlQDe8vCQEwiRHO0slh
+ M2/3Hye1IFn5C+kr4wat1oNLG4cWzGymERLvzRbgxo/rX+9rTFniQ4VQ+use9zHwKfec
+ EvOyDKTYAGSc13WkGjslOGH1/QUPSCWlzj34s1zdmHKFoAaBiStDx9BzVjtJxN9nDMk7
+ uKPC3mK/lJY80f6GeTXXAH3/WkUcBlS/qZ2VGiGNJdbfAoq6CA2FnHKnlEXAaF0b4CrM
+ yOYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/9fGtdcqn5q5Zsy7soeX7Mski6gANvfjtmkKqUG0V6s=;
+ b=InDX0Rwl9c5dPJNqQI4kETdUuxqvSBQTlksRJY3RPaULKEUPkG+xs0itjesLIOyepr
+ Fc1gczmEzq1KvGJYjVCPH7PwlYG4bZuXJW6m1P4pXX6ySt0UEWGIZWrEYhVhbfyGjzS3
+ 8AvOWpH7aL3XjTbJnIEDr7IfgDtouW+JwahSvc6OXmEsX+r5ba9bDHyhboQMhaCwQHhq
+ QDnJKKRXSNfLUcgDROTlT5rFbPWrZdA6ipMjVjaHo5Tf+Hx3HMhDSUjYZhFtsTEdTukk
+ cYo8+/5KI/jEIxYo7PApx96hM/LhzOdEZqOQZVH5Tsc3FzBxXlC7YCl+LCNopa+ra8C8
+ lgVw==
+X-Gm-Message-State: AOAM533z0MFSVhMXyUT5dyddvY9yMO8newaFfCii0iEzW5HCSMLzbUOv
+ VpJD1iCwObWEXhS/XjmUW3E5I65JRlccRw==
+X-Google-Smtp-Source: ABdhPJwmvtf4ZLdRsns3iS12ZdCCF3KL9sPcYsY0Foh0sMPHRiDeFSSD0yqtdtXJ5fwiCIPjjFAzTg==
+X-Received: by 2002:a1c:988a:: with SMTP id
+ a132mr24173192wme.175.1626564065485; 
+ Sat, 17 Jul 2021 16:21:05 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id o15sm7082517wmh.40.2021.07.17.16.21.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 17 Jul 2021 16:21:05 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.2 00/10] linux-user: split internals out of qemu.h
+Date: Sun, 18 Jul 2021 00:20:53 +0100
+Message-Id: <20210717232103.18047-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4886.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51dd961c-8479-42ce-9f14-08d94977cb99
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jul 2021 23:08:31.3975 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mGx6VR9/rVGLJsI6atYUsnYnM7vOtJljT4Ah66baXrZkyFiQP5X2Z3I0wSBXI1NvfbaJ3NWuyhK+mp3HN41paw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4118
-Received-SPF: pass client-ip=216.71.142.165; envelope-from=tsimpson@quicinc.com;
- helo=esa.hc3962-90.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -139,41 +81,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+linux-user/qemu.h is an awkward header, for two reasons:
+ (1) its name suggests it's a rather common generic header,
+     but it's actually specific to the usermode emulators
+ (2) it is a mix of:
+   * lots of things internal to the implementation of linux-user
+   * functions that a few files outside linux-user want
+     (mostly the user-access functions like lock_user,
+     get/put_user_*, etc, and also the TaskStruct definition)
 
+This patchset tries to clean it up a bit by at least splitting
+most of the "just internal to linux-user" parts out of qemu.h
+and putting them in a handful of different .h files that are
+then included by the linux-user files that need them.
 
-> -----Original Message-----
-> From: Peter Maydell <peter.maydell@linaro.org>
-> Sent: Saturday, July 17, 2021 4:30 AM
-> To: qemu-devel@nongnu.org
-> Cc: Taylor Simpson <tsimpson@quicinc.com>
-> Subject: [PATCH] target/hexagon: Drop include of qemu.h
->=20
-> The qemu.h file is a CONFIG_USER_ONLY header; it doesn't appear on the
-> include path for softmmu builds.  Currently we include it unconditionally=
- in
-> target/hexagon/op_helper.c.  We used to need it for the put_user_*() and
-> get_user_*() functions, but now that we have removed the uses of those
-> from op_helper.c, the only reason it's still there is that we're implicit=
-ly relying
-> on it pulling in some other headers.
->=20
-> Explicitly include the headers we need for other functions, and drop the
-> include of qemu.h.
->=20
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Based-on: 1626384156-6248-1-git-send-email-tsimpson@quicinc.com
-> ("[PATCH v3 0/2] SIGSEGV fixes")
+I think the ideal would probably be to eventually junk
+qemu.h entirely and have a few separate headers specifically
+for the bits that non-linux-user code needs (eg a 'user-access.h'
+for the get/put_user stuff), perhaps located somewhere that
+means we don't need to put linux-user/ on the include path.
+But that's awkward as it needs interaction with bsd-user too.
+So this much cleanup seemed like a reasonable start...
 
+Based-on: 20210717103017.20491-1-peter.maydell@linaro.org
+("target/hexagon: Drop include of qemu.h")
 
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+thanks
+-- PMM
 
-Thanks Peter,
-I'll add this to the series and send you a pull request.
+Peter Maydell (10):
+  linux-user: Fix coding style nits in qemu.h
+  linux-user: Split strace prototypes into strace.h
+  linux-user: Split signal-related prototypes into sighandling.h
+  linux-user: Split loader-related prototypes into loader.h
+  linux-user: Split mmap prototypes into user-mmap.h
+  linux-user: Split safe-syscall macro into its own header
+  linux-user: Split linux-user internals out of qemu.h
+  linux-user: Don't include gdbstub.h in qemu.h
+  linux-user: Drop unneeded includes from qemu.h
+  linux-user: Move DEBUG_REMAP undef to uaccess.c
 
+ linux-user/loader.h              |  59 +++++
+ linux-user/qemu.h                | 432 ++-----------------------------
+ linux-user/safe-syscall.h        | 154 +++++++++++
+ linux-user/sighandling.h         |  56 ++++
+ linux-user/strace.h              |  38 +++
+ linux-user/user-internals.h      | 186 +++++++++++++
+ linux-user/user-mmap.h           |  34 +++
+ gdbstub.c                        |   2 +-
+ linux-user/aarch64/cpu_loop.c    |   2 +
+ linux-user/aarch64/signal.c      |   2 +
+ linux-user/alpha/cpu_loop.c      |   2 +
+ linux-user/alpha/signal.c        |   2 +
+ linux-user/arm/cpu_loop.c        |   2 +
+ linux-user/arm/signal.c          |   2 +
+ linux-user/cris/cpu_loop.c       |   2 +
+ linux-user/cris/signal.c         |   2 +
+ linux-user/elfload.c             |   3 +
+ linux-user/exit.c                |   2 +
+ linux-user/fd-trans.c            |   2 +
+ linux-user/flatload.c            |   3 +
+ linux-user/hexagon/cpu_loop.c    |   2 +
+ linux-user/hexagon/signal.c      |   2 +
+ linux-user/hppa/cpu_loop.c       |   2 +
+ linux-user/hppa/signal.c         |   2 +
+ linux-user/i386/cpu_loop.c       |   3 +
+ linux-user/i386/signal.c         |   2 +
+ linux-user/linuxload.c           |   2 +
+ linux-user/m68k/cpu_loop.c       |   2 +
+ linux-user/m68k/signal.c         |   2 +
+ linux-user/main.c                |   5 +
+ linux-user/microblaze/cpu_loop.c |   2 +
+ linux-user/microblaze/signal.c   |   2 +
+ linux-user/mips/cpu_loop.c       |   2 +
+ linux-user/mips/signal.c         |   2 +
+ linux-user/mmap.c                |   2 +
+ linux-user/nios2/cpu_loop.c      |   2 +
+ linux-user/nios2/signal.c        |   2 +
+ linux-user/openrisc/cpu_loop.c   |   2 +
+ linux-user/openrisc/signal.c     |   2 +
+ linux-user/ppc/cpu_loop.c        |   2 +
+ linux-user/ppc/signal.c          |   2 +
+ linux-user/riscv/cpu_loop.c      |   2 +
+ linux-user/riscv/signal.c        |   2 +
+ linux-user/s390x/cpu_loop.c      |   2 +
+ linux-user/s390x/signal.c        |   2 +
+ linux-user/semihost.c            |   1 +
+ linux-user/sh4/cpu_loop.c        |   2 +
+ linux-user/sh4/signal.c          |   2 +
+ linux-user/signal.c              |   6 +
+ linux-user/sparc/cpu_loop.c      |   2 +
+ linux-user/sparc/signal.c        |   2 +
+ linux-user/strace.c              |   3 +
+ linux-user/syscall.c             |   6 +
+ linux-user/uaccess.c             |   3 +
+ linux-user/uname.c               |   1 +
+ linux-user/vm86.c                |   1 +
+ linux-user/xtensa/cpu_loop.c     |   2 +
+ linux-user/xtensa/signal.c       |   2 +
+ semihosting/arm-compat-semi.c    |   2 +-
+ target/m68k/m68k-semi.c          |   2 +-
+ target/nios2/nios2-semi.c        |   2 +-
+ thunk.c                          |   1 +
+ 62 files changed, 661 insertions(+), 420 deletions(-)
+ create mode 100644 linux-user/loader.h
+ create mode 100644 linux-user/safe-syscall.h
+ create mode 100644 linux-user/sighandling.h
+ create mode 100644 linux-user/strace.h
+ create mode 100644 linux-user/user-internals.h
+ create mode 100644 linux-user/user-mmap.h
 
-Taylor
+-- 
+2.20.1
+
 
