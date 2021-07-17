@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73473CC4E8
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 19:35:22 +0200 (CEST)
-Received: from localhost ([::1]:43596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7FAD3CC4EB
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 19:35:57 +0200 (CEST)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4oDh-0003w7-Vu
-	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 13:35:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55196)
+	id 1m4oEG-00058y-Rw
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 13:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4oCV-0002z6-4l
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 13:34:07 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36546)
+ id 1m4oD2-0003lj-7G
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 13:34:40 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m4oCT-0005Di-Oy
- for qemu-devel@nongnu.org; Sat, 17 Jul 2021 13:34:06 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- l17-20020a05600c1d11b029021f84fcaf75so10105073wms.1
- for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 10:34:05 -0700 (PDT)
+ id 1m4oD0-0005Xx-Sl
+ for qemu-devel@nongnu.org; Sat, 17 Jul 2021 13:34:39 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ b14-20020a1c1b0e0000b02901fc3a62af78so10089923wmb.3
+ for <qemu-devel@nongnu.org>; Sat, 17 Jul 2021 10:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=PUFtdTSMkKCIMGo6J38ywrH5YtOHP6vsrJVMeK7ocos=;
- b=OERZrnntk8idAtSwl1m/Mpjw78T/kQmKfZ6XTUeStceFdGpp24BuGJLokk1cpL5+PW
- cBg1Zgl1azkmwfQHu7snMhX1JfOPgiyI/9RB729xFrMaJRkTNBcu0YsEuoJONWGxHya9
- gPoY3dgGMS83Fx+u4CuhfFapoizdL1ppq9/bukQwj8b+1Ip9whpGYARB+c/6//B6U8nk
- a6+5ept4lAkzQ+gv+fmU5E6ZJ7wrd+zOT7G1lrtZnLvsRmxcMuBteYOuyEwqNXAqz3kb
- 2+HLTs+cRUOc+erNlXvV/uG98vtkq2CuSY37Ep7Cxz+OP0MwbEXY1Kqq2NCWEK3egO46
- m3VQ==
+ bh=ON5u6wWJeAhN58HtyHVKX8zG7rGHSfvHVW6yQkIgJTk=;
+ b=T4sa96iadzicSaDJJRdjCRDvF+P7Sed83Spn2psWDHsLcnoOp/dMscLB7U2yVcZ6Bu
+ A6WwRSPuAuRWBJvdvrTR39aeQQlk9DJaTi4/bPaFPatBi4ZdOq02oHC1cT1zJgj2zAT+
+ y8NjHDrIgHZglU1uX8OnLyK3uq3bU/w5uPUZkm1iD188kqMftoXux+zVGmk3Tp/0VhKa
+ EvqFA+i22PEOGqC0gzGY2gM2S0P+YyEBYKTBaAes+BbvfGEZSayvyMJINi2UaH/3D/gp
+ v4T95Ct4GFJOFMv4jeGKKL6bcvDpGX9uC/InaIIOjZjDh8bLEYoN2DaIay3nwZgPtzM3
+ Fkvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PUFtdTSMkKCIMGo6J38ywrH5YtOHP6vsrJVMeK7ocos=;
- b=jomtnrJciZTGqBt4gcsQmGGO5lYvzHbJLC7cPWrsvEOsCtWMqSRuFo+kNLBKRZSXgk
- zXmUwSsPv82s4I4+2mtiAou/lnjpMgTDfVlgWmfhDHRog7OU8v7Poi19C4UD81O8Wc/K
- gD9dF0Z2S4+uaF3y+KWr3/B3nSVT4cL0CAVZgaGyC9KjbjCUGrEf8PSNrOAWiACWhq6l
- nX+P4aMutAbMVFpV7HghMvrJI8mXMSkPHySBe6ZxNasquxU+cB3VjkbkVBDeENW9CH8P
- Yh6euR4alb0R4IG1+dnZiPi6asm7J9z6oexFdpynOpn8mq4OSzWVRpH3pevY/TusSk6v
- QKVg==
-X-Gm-Message-State: AOAM530fHbefhwzY1l8oVTbegrsynS3+caaOOkdSRbI0shARM1CO0hi4
- yjniM8az+JBU5DbXi82lbuBvupFLSXmh8A==
-X-Google-Smtp-Source: ABdhPJwJp+Oi1ufFx5YqDACu9jd5Ld68FyL8QOz7X+rb8wCnOtZIu0wIxnmbMgEvOnp9YFvUSPsx8Q==
-X-Received: by 2002:a05:600c:4f12:: with SMTP id
- l18mr9801314wmq.22.1626543244255; 
- Sat, 17 Jul 2021 10:34:04 -0700 (PDT)
+ bh=ON5u6wWJeAhN58HtyHVKX8zG7rGHSfvHVW6yQkIgJTk=;
+ b=hI5vV8zIKxlhMJblhgkbsiUWuT/uG9nmqmeThuoPo36y5yekqi1wQRM4CmlGFAYB1b
+ Af9IumHQxx0rVTMlNXCf9qGuE0IQfMlnIZtXXuFu0nXw/Pcs//nZ8tvc2WEgNMNQJ/PE
+ smXVwDL8E1Wsc/j3MeTjSwjRXOB6jc5qqWN1Twl1M1Vz7P5NiSll5a3wAJ82GL47dOwq
+ RJXXCURenr3waJfQd/wZjr1AHOfbAVpHLo4quva4s+5kRxlPv/2o0tptTylUtfCkX4Wh
+ MK1wrthBNyaoXmGea4paoLBQZr3xlYgcfZPMMiVVi66rDxg1cQnowkY1gzxcamNjJIIz
+ ERVw==
+X-Gm-Message-State: AOAM5309dLUFXaJbuYp7p7/UW+DQxN9nsNcxXJS8Q58/Woj6LhBUj9/O
+ 8S7EVRDCo10zJSOVE61akEDnHQ==
+X-Google-Smtp-Source: ABdhPJyAxRoaiV6Pe5RP+pi+kfI0H8lUeTdNUxx+ZZt/lEXvamZDcr9D0VrcTiQ1wtNYMqmyp8F4rA==
+X-Received: by 2002:a05:600c:3b98:: with SMTP id
+ n24mr23388908wms.182.1626543277606; 
+ Sat, 17 Jul 2021 10:34:37 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e3sm14386401wra.15.2021.07.17.10.34.01
+ by smtp.gmail.com with ESMTPSA id j16sm13760494wrw.62.2021.07.17.10.34.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 17 Jul 2021 10:34:01 -0700 (PDT)
+ Sat, 17 Jul 2021 10:34:36 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 65E8A1FF7E;
- Sat, 17 Jul 2021 18:34:00 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 55C091FF7E;
+ Sat, 17 Jul 2021 18:34:35 +0100 (BST)
 References: <20210712154004.1410832-1-richard.henderson@linaro.org>
- <20210712154004.1410832-2-richard.henderson@linaro.org>
+ <20210712154004.1410832-3-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.13; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 01/10] accel/tcg: Reduce CF_COUNT_MASK to match
- TCG_MAX_INSNS
-Date: Sat, 17 Jul 2021 18:33:56 +0100
-In-reply-to: <20210712154004.1410832-2-richard.henderson@linaro.org>
-Message-ID: <87lf643kvr.fsf@linaro.org>
+Subject: Re: [PATCH v2 02/10] accel/tcg: Move curr_cflags into cpu-exec.c
+Date: Sat, 17 Jul 2021 18:34:31 +0100
+In-reply-to: <20210712154004.1410832-3-richard.henderson@linaro.org>
+Message-ID: <87im183kus.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,8 +96,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> The space reserved for CF_COUNT_MASK was overly large.
-> Reduce to free up cflags bits and eliminate an extra test.
+> We will shortly have more than a simple member read here,
+> with stuff not necessarily exposed to exec/exec-all.h.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
