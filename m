@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ECA63CC0CE
-	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 04:59:12 +0200 (CEST)
-Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3413CC0E7
+	for <lists+qemu-devel@lfdr.de>; Sat, 17 Jul 2021 06:02:07 +0200 (CEST)
+Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m4aXm-0002ad-VY
-	for lists+qemu-devel@lfdr.de; Fri, 16 Jul 2021 22:59:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50950)
+	id 1m4bWg-0004gD-8e
+	for lists+qemu-devel@lfdr.de; Sat, 17 Jul 2021 00:02:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1m4aWp-0001wN-TO
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 22:58:11 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.223]:42777
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1m4aWn-0004Ik-8r
- for qemu-devel@nongnu.org; Fri, 16 Jul 2021 22:58:11 -0400
-HMM_SOURCE_IP: 172.18.0.218:58976.756743716
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-171.223.97.37?logid-7db4d6e1224b4b73a368c1467e182a32
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id C4B3B2800A6;
- Sat, 17 Jul 2021 10:57:53 +0800 (CST)
-X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 7db4d6e1224b4b73a368c1467e182a32 for
- zhengchuan@huawei.com; Sat Jul 17 10:57:54 2021
-X-Transaction-ID: 7db4d6e1224b4b73a368c1467e182a32
-X-filter-score: 
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-Subject: Re: [PATCH v6 2/2] migration/dirtyrate: implement dirty-bitmap
- dirtyrate calculation
-To: Peter Xu <peterx@redhat.com>
-References: <cover.1626433753.git.huangy81@chinatelecom.cn>
- <156478c0b13ea74783925bc6fc730452260c81dd.1626433753.git.huangy81@chinatelecom.cn>
- <YPHfxRAbsIhOFyKl@t490s>
-From: Hyman <huangy81@chinatelecom.cn>
-Message-ID: <7e12280a-db24-d947-fdb5-83b83f3ac814@chinatelecom.cn>
-Date: Sat, 17 Jul 2021 10:57:50 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1m4bVI-0003oG-BH; Sat, 17 Jul 2021 00:00:40 -0400
+Received: from out28-194.mail.aliyun.com ([115.124.28.194]:60945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1m4bVF-0005g3-IY; Sat, 17 Jul 2021 00:00:40 -0400
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.08183336|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.0171672-0.00057658-0.982256;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047205; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=4; RT=4; SR=0; TI=SMTPD_---.KjcJI-C_1626494424; 
+Received: from 10.0.2.15(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.KjcJI-C_1626494424)
+ by smtp.aliyun-inc.com(10.147.41.158);
+ Sat, 17 Jul 2021 12:00:24 +0800
+Subject: Re: [PATCH 00/17] target/riscv: Use tcg_constant_*
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210709042608.883256-1-richard.henderson@linaro.org>
+ <2a5cfe45-3fdf-9a2f-c0f3-682d30d521a3@c-sky.com>
+ <0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <2933aae8-75f5-d912-4e0b-a38cb72b8f0e@c-sky.com>
+Date: Sat, 17 Jul 2021 11:59:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YPHfxRAbsIhOFyKl@t490s>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.223;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+In-Reply-To: <0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org>
+Content-Type: multipart/alternative;
+ boundary="------------50F8AAAF4326B28DC8DF2219"
+Content-Language: en-US
+Received-SPF: none client-ip=115.124.28.194; envelope-from=zhiwei_liu@c-sky.com;
+ helo=out28-194.mail.aliyun.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,94 +62,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is a multi-part message in MIME format.
+--------------50F8AAAF4326B28DC8DF2219
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-在 2021/7/17 3:36, Peter Xu 写道:
-> On Fri, Jul 16, 2021 at 07:13:47PM +0800, huangy81@chinatelecom.cn wrote:
->> +static void calculate_dirtyrate_dirty_bitmap(struct DirtyRateConfig config)
->> +{
->> +    int64_t msec = 0;
->> +    int64_t start_time;
->> +    DirtyPageRecord dirty_pages;
-> 
-> [1]
-> 
->> +
->> +    dirtyrate_global_dirty_log_start();
->> +
->> +    /*
->> +     * 1'round of log sync may return all 1 bits with
->> +     * KVM_DIRTY_LOG_INITIALLY_SET enable
->> +     * skip it unconditionally and start dirty tracking
->> +     * from 2'round of log sync
->> +     */
->> +    dirtyrate_global_dirty_log_sync();
->> +
->> +    /*
->> +     * reset page protect manually and unconditionally.
->> +     * this make sure kvm dirty log be cleared if
->> +     * KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE cap is enabled.
->> +     */
->> +    dirtyrate_manual_reset_protect();
->> +
-> 
-> [2]
-> 
->> +    record_dirtypages_bitmap(&dirty_pages, true);
-> 
-> [3]
-> 
->> +
->> +    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
->> +    DirtyStat.start_time = start_time / 1000;
->> +
->> +    msec = config.sample_period_seconds * 1000;
->> +    msec = set_sample_page_period(msec, start_time);
->> +    DirtyStat.calc_time = msec / 1000;
->> +
->> +    /* fetch dirty bitmap from kvm and stop dirty tracking */
-> 
-> I don't think it really fetched anything..  So I think we need:
-> 
->         dirtyrate_global_dirty_log_sync();
-> 
-> It seems to be there in older versions but not in the latest two versions.
-yes, latest version dropped this because dirtyrate_global_dirty_log_stop 
-below already do the sync before stop dirty log, which is recommended in 
-patchset of "support dirtyrate at the granualrity of vcpu" and make 
-dirtyrate more accurate. the older version do not consider this. :)
-> 
-> Please still remember to smoke the patches before posting, because without the
-> log sync we'll read nothing.
-> 
->> +    dirtyrate_global_dirty_log_stop();
->> +
->> +    record_dirtypages_bitmap(&dirty_pages, false);
-> 
-> [4]
-> 
-> I think it's easier we take bql at [1]/[3] and release at [2]/[4], rather than
-> taking it for every function.  Then we can move the bql operations out of
-> dirtyrate_global_dirty_log_stop() in this patch.
-yeah, take bql at [1] and release at [2] is reasonable.
-but if we try to take bql at [3], it will sleep for calculation time in 
-set_sample_page_period which is configured by user, which may be a heavy 
-overhead.
-how about we take bql at [1] and release at [2], ingore bql at [3]/[4] 
-and let it be the same as older versoin. since we only copy 
-total_dirty_pages to local var in "get_dirtyrate" thread and maybe we 
-don't need bql.
-> 
-> Thanks,
-> 
->> +
->> +    do_calculate_dirtyrate_bitmap(dirty_pages);
->> +}
-> 
+On 2021/7/16 上午12:15, Richard Henderson wrote:
+> On 7/15/21 4:21 AM, LIU Zhiwei wrote:
+>> Also on a side note, could you give me some advice for the following 
+>> question?
+>>
+>> I have been supporting  running 32bit application on qemu-riscv64. 
+>> After this patch set,
+>> it is hard to define a  method,  such as gpr_dst_s or gpr_dst_u, to 
+>> extend the destination
+>> register. I can only extend the destination register(ext32s or 
+>> ext32u) in each instruction
+>> with scattered code.
+>>
+>> Can we just omit the extension of the destination register?
+>
+> It's hard to give advice on code that I haven't seen.
+>
+> In general I would think that the destination register need not be 
+> extended for 32-bit mode, unless the architecture says otherwise. 
+> (What does the architecture say about the contents of the registers 
+> when transitioning from a 32-bit mode user program to a 64-bit mode 
+> kernel?)
+>
+As privileged specification says,
+
+"Whenever XLEN in any mode is set to a value less than the widest supported XLEN, all operations
+must ignore source operand register bits above the configured XLEN, and must sign-extend results
+to fill the entire widest supported XLEN in the destination register. Similarly, pc bits above XLEN
+are ignored, and when the pc is written, it is sign-extended to fill the widest supported XLEN."
+
+If we want to strictly obey the spec, we should
+1) Ignore MSB 32bits for source register, and sign-extend the 
+destination register.
+2) Always use 32bit operation(TCG 32bit OP).
+
+I want to still use TCG 64bit OP and just extend the source to 64bit by 
+ext32s or ext32u.
+
+Is is OK?
+
+Thanks,
+Zhiwei
+>
+> r~
+
+--------------50F8AAAF4326B28DC8DF2219
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2021/7/16 上午12:15, Richard Henderson
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org">On
+      7/15/21 4:21 AM, LIU Zhiwei wrote:
+      <br>
+      <blockquote type="cite">Also on a side note, could you give me
+        some advice for the following question?
+        <br>
+        <br>
+        I have been supporting  running 32bit application on
+        qemu-riscv64. After this patch set,
+        <br>
+        it is hard to define a  method,  such as gpr_dst_s or gpr_dst_u,
+        to extend the destination
+        <br>
+        register. I can only extend the destination register(ext32s or
+        ext32u) in each instruction
+        <br>
+        with scattered code.
+        <br>
+        <br>
+        Can we just omit the extension of the destination register?
+        <br>
+      </blockquote>
+      <br>
+      It's hard to give advice on code that I haven't seen.
+      <br>
+      <br>
+      In general I would think that the destination register need not be
+      extended for 32-bit mode, unless the architecture says otherwise. 
+      (What does the architecture say about the contents of the
+      registers when transitioning from a 32-bit mode user program to a
+      64-bit mode kernel?)
+      <br>
+      <br>
+    </blockquote>
+    <p>As privileged specification says,</p>
+    <pre>"Whenever XLEN in any mode is set to a value less than the widest supported XLEN, all operations
+must ignore source operand register bits above the configured XLEN, and must sign-extend results
+to fill the entire widest supported XLEN in the destination register. Similarly, pc bits above XLEN
+are ignored, and when the pc is written, it is sign-extended to fill the widest supported XLEN."
+</pre>
+    If we want to strictly obey the spec, we should <br>
+    1) Ignore MSB 32bits for source register, and sign-extend the
+    destination register.<br>
+    2) Always use 32bit operation(TCG 32bit OP).<br>
+    <br>
+    I want to still use TCG 64bit OP and just extend the source to 64bit
+    by ext32s or ext32u.<br>
+    <br>
+    Is is OK?<br>
+    <br>
+    Thanks,<br>
+    Zhiwei<br>
+    <blockquote type="cite"
+      cite="mid:0b70aaf7-b337-3b73-cdbf-c5693a826204@linaro.org">
+      <br>
+      r~
+      <br>
+    </blockquote>
+  </body>
+</html>
+
+--------------50F8AAAF4326B28DC8DF2219--
 
