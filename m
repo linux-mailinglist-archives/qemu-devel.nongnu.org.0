@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D493CC9AD
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 16:50:50 +0200 (CEST)
-Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A79A63CC9B0
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 16:53:14 +0200 (CEST)
+Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5881-0007dv-O4
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 10:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58404)
+	id 1m58AL-0004I2-MM
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 10:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1m5860-00053b-NJ; Sun, 18 Jul 2021 10:48:44 -0400
-Received: from mout.web.de ([212.227.15.4]:47927)
+ id 1m5864-0005BP-5C; Sun, 18 Jul 2021 10:48:48 -0400
+Received: from mout.web.de ([212.227.15.3]:55767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1m585y-0006al-Sk; Sun, 18 Jul 2021 10:48:44 -0400
+ id 1m5862-0006da-99; Sun, 18 Jul 2021 10:48:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1626619707;
- bh=mo37842ZcCneXuNNELXoRfP7tT44+hgbDC62XN80mMU=;
+ s=dbaedf251592; t=1626619711;
+ bh=RcT51x0uGvx/VXymThtSy6KzgjNEbcTDd+d3Y151Mok=;
  h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=XUwo9oggSiAMsYxP8asLkP6hZGYza4LIRz+qfDr61XO4nqtDEFjIaHiLbvb5/LMyU
- i7cOr/K7CRi9gPA/7u9WDjTosDA8J20A7rK/PW8I0RCPtjwa7rIp1+cUfKnNi0C/ne
- mwvZRBF9vB+FYH+Ruh12USakZsqGbGsD45YjtiWw=
+ b=rMV0RUsYCuvZv/V4by3epUl0DS0jtshrg0aXxKGWhbja9HGdjRCCdbIZvgwTjIiaW
+ 043t4odiAvqI7QcMUAPdz2gY252a88xGqSH0xSenZxuil+YIiXawRXc3pvAmy5zM0G
+ FFmkV5f+QRj5HP8yNedu94YnlvBc0ruuqxl3wNQw=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([89.247.255.49]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MPKB7-1lkXlW0FPJ-00PIqG; Sun, 18
- Jul 2021 16:48:27 +0200
-Date: Sun, 18 Jul 2021 16:48:24 +0200
+Received: from gecko.fritz.box ([89.247.255.49]) by smtp.web.de (mrweb001
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0LaTtv-1lP91c2AN5-00mKW9; Sun, 18
+ Jul 2021 16:48:31 +0200
+Date: Sun, 18 Jul 2021 16:48:29 +0200
 From: Lukas Straub <lukasstraub2@web.de>
 To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v6 1/4] replication: Remove s->active_disk
-Message-ID: <2534f867ea9be5b666dfce19744b7d4e2b96c976.1626619393.git.lukasstraub2@web.de>
+Subject: [PATCH v6 2/4] replication: Reduce usage of s->hidden_disk and
+ s->secondary_disk
+Message-ID: <1eb9dc179267207d9c7eccaeb30761758e32e9ab.1626619393.git.lukasstraub2@web.de>
 In-Reply-To: <cover.1626619393.git.lukasstraub2@web.de>
 References: <cover.1626619393.git.lukasstraub2@web.de>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xnNNE2LNqNxdnLlyife6AHu";
+Content-Type: multipart/signed; boundary="Sig_/.eBmBUJdEd8e_Js_lsPu_.e";
  protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:Whbm+Lof7bDsksclQHIInhM+nScSx2lpC6nl3JmEnWMbi28QxZd
- mD4kYCIKr0Cv9JTP2Cch8knH0NMDO9GyDkRlILlnUIPNzNp7f3ElFwDL32e8PyydOfv01Qh
- mkrkv+TgKfGVo04uJl2N7JNDmyeoYRec1TTlbQDVHCY1ZrsQgTrTu33nQAa9/6FvYFL5DaR
- fnlOKY1IfN1ljo52cPRRQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:cDLnOfe6/g8=:E+Ug47lBxiUMdji9+C2kk1
- Ddp2u/GvxNKRvDKoKFNvHkQr+HzlHcNkvSZaECALc/QTo4Brz1AFzNvf1NOUrogzpGN4hFvTJ
- 04zKH/kUlz8U7GIITjESGLQuP9krmmE9RcyMmHxl5okl104mLbW4b7Fur1M8Lr6BKPPObEDwC
- 7NfJkC6asOrM0CWiCHInBMcfWUq1fBMBFJzmRofwDFU67rhvy0oAqPMp+XHPR5UxWZpIHg4HI
- e7E0mUd6gv/Q5fd1yZzP2P8OxLjbBrSXpNUAPYvodQQ1XXL7tBGnfNMRdF7FB2hxQEq6Mw2BN
- ZNeO7U/0Ti5kUJGXNMUeJD6iwFgVp1ztfpcA+0ltF2XuPYSf+fqVlLkUZ7bTVaJLDPtHL5XKx
- nPttV5NkGuCmwllwk3r418Yjr2VzLFtDhRR0RGC6r3YO4TIMqBaZ8x/Se7fY3YLgobadj7XTZ
- b6wFDgWAsMTiLHRccRmZgWe1zHObKcoCyTPmlYQapABXJsiJW5b+dSdN/ak+vy9sa2J4tcb7D
- d3Ar3Tu0JCuXVMfUiy6JSwrRKpdGjaZ0iyKTAy7OMOa2aSDzZsSbfYjIGjxiu2IED5RUMP0+M
- NQSg2IBd+PK62wEASVdbx85Gn15KsVBqGxJXbIK8pXQjeoj1R6vJRkKzJz+FN9rVl0qE7Z7xp
- CVIJNQg88spx9BSvvb54G7Qvf88/SrJj6HCNR7DXfRF0sy55Vh+sAOVVJ0PbY6j2suEtf495W
- G5zD5VtpVClHnuU+CBPD+n4ILZl0nXo4DID3Px+nKateyYhZlltk2StcGAUlUK+7dDNkkIgpc
- /QlJMBSTuAbyKwEoIgcDDdp2OGCEcfE8dvx2GVlVXJjdWMHP8z4nnSx/3vjJm8y3G/gaYnmTw
- k7+RlSxHRXSzbPUug0ZLy+pbC+gqWDorajxpiMyyEksXIkkDACtXqhp7hUGEXHJ7AoSRmqRHl
- rVK3b2+KHmZgU/BVu4zUfeBNsSW6FYSArtZAxqi1WD7Zr8Qrvvs7DcD3EAAdQ/SvlXg87WiU1
- cYf5PlNZMYy7/h9uLcOFnotPfiUcySlyBEdObKoO35e1VKPWgOaVF0doXQAmH4ccKbOB/Xlc3
- cNl/1bzjQ3XwLsNtKpuD/M2PVciX1bKU8NE
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
+X-Provags-ID: V03:K1:ZbTro+QLBFe86VqB8VcX1ZNfSVZgFvoEvwiEeU8d4TIPGu+DiM8
+ JbRLPhv+7xi2kecP/klKp3BF+d9loAyFaQOnsZYUIFNs5CWRtxSp7LikCNO057dCqCROykJ
+ hBsTqPXq2/t0aTm+I/n3FgADGYlOQuW/djA5aKhcHDVVpk/hPLhohcYUH6N8O9Ccoz8fqFJ
+ Ttetmks4kJxDxAyQhRv8Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qN293fo1s2g=:niBsgR8yaGaPR7sbIEj+m5
+ gDlUCkYLvPG2JSBsRi8umC8h5mQtLKUjxPCI02xmXO/MFhecrfzkcvNNmP7XaclLdx4zISKSP
+ SK6B1L/EncwoAO22Va3hxaOEHXDxzeV2sexCrtL1FKU3E4Yjpr3/2JTPVs+l1X76xNs3OWv92
+ jCquDPwvAl0Dp3GovKHaEwF6sT+nXB7vQ3BcKtFm5P+DxawdUfK5b5+ao1vIFGInXeYYdrQ3h
+ SM8L7TXj/UPGXXuUwC6yfbBT1lrvVa9AhukdtH8Ld+i1Scc/AnyCaVpMc1nwaM+Sr2pwS16UK
+ EeOhC27hBOYzJWFV2lLPSCZIivcvmS9JMVYhaqhOSEvayR2C119wY3OoU5dchQOcXpZlvZ8s6
+ 0m1DXA/+oqv7Y/9QJuEhgiL/joIgYCLNzxbynbGYSFCk37GMb4BRo+rmHIXcxWHdfUUfEei8i
+ 5I+7LOiN9Pk8VEE8rvn0gABT0pFAWSjai5FnJpC2S7Mu8S7p/HmCghvukzUGGHuY9KYIX/M3F
+ zl/ysrXjC7CYAUidWRoFtdINZernBPRnudKABA/cLRMvglyvcnphMRKmjQddJgSfj56fD/a1g
+ es98Uij3vkNnxBuDZuRFSu40dEU4gM2dzuGNgXd84cXpM0JINYkdZT2HAXmhAHQAUfgX1+uET
+ k9a0I2EZpKmHoWOGzDNyODQawAbb0/6YEF4Ug3XilbqWqj+ExkdfhNJU58I/5o08zZH+clC7v
+ tjNYVUcvCzC5ypuyK43UseA4/uOIxNP5o9009J1YGDkXecKxkPv3zYrfDT20Lla3ZrcSZ4v1G
+ n6f+CqDnV+UZN9VnHQBOcJdYYYwILw8HVDgbvt1YGirPNP/Fa8H/EhMTfBwONb/podWUwjEeE
+ YTx+hw8g0zlGXQC8yf2OHFQpB8VwhuNrGxdNML/zlB7QfVSTYhTgADlR4s6DBu9QXmW30VfdX
+ yUOZE4ycXFQi2phHrHtwpZR1QU1jxvVXHv1JG6OK5WOo6OOt81eKw+ULR/WXLowDXo3t8rI0g
+ qTyFho6ST55VfucSDVYj6hGS47QTFtxf3M/TEGHKBKzBcbMdu23gT2pGSR3N/1LHtxrySiXEW
+ 805GWn9DccuCpBY5gpHacHKFfacepUM0F7j
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
  helo=mout.web.de
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,187 +89,182 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/xnNNE2LNqNxdnLlyife6AHu
+--Sig_/.eBmBUJdEd8e_Js_lsPu_.e
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-s->active_disk is bs->file. Remove it and use local variables instead.
+In preparation for the next patch, initialize s->hidden_disk and
+s->secondary_disk later and replace access to them with local variables
+in the places where they aren't initialized yet.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/replication.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ block/replication.c | 45 ++++++++++++++++++++++++++++-----------------
+ 1 file changed, 28 insertions(+), 17 deletions(-)
 
 diff --git a/block/replication.c b/block/replication.c
-index 774e15df16..9ad2dfdc69 100644
+index 9ad2dfdc69..25bbdf5d4b 100644
 --- a/block/replication.c
 +++ b/block/replication.c
-@@ -35,7 +35,6 @@ typedef enum {
- typedef struct BDRVReplicationState {
-     ReplicationMode mode;
-     ReplicationStage stage;
--    BdrvChild *active_disk;
-     BlockJob *commit_job;
-     BdrvChild *hidden_disk;
-     BdrvChild *secondary_disk;
-@@ -307,8 +306,10 @@ out:
-     return ret;
+@@ -366,27 +366,35 @@ static void reopen_backing_file(BlockDriverState *bs,=
+ bool writable,
+                                 Error **errp)
+ {
+     BDRVReplicationState *s =3D bs->opaque;
++    BdrvChild *hidden_disk, *secondary_disk;
+     BlockReopenQueue *reopen_queue =3D NULL;
+
++    /*
++     * s->hidden_disk and s->secondary_disk may not be set yet, as they wi=
+ll
++     * only be set after the children are writable.
++     */
++    hidden_disk =3D bs->file->bs->backing;
++    secondary_disk =3D hidden_disk->bs->backing;
++
+     if (writable) {
+-        s->orig_hidden_read_only =3D bdrv_is_read_only(s->hidden_disk->bs);
+-        s->orig_secondary_read_only =3D bdrv_is_read_only(s->secondary_dis=
+k->bs);
++        s->orig_hidden_read_only =3D bdrv_is_read_only(hidden_disk->bs);
++        s->orig_secondary_read_only =3D bdrv_is_read_only(secondary_disk->=
+bs);
+     }
+
+-    bdrv_subtree_drained_begin(s->hidden_disk->bs);
+-    bdrv_subtree_drained_begin(s->secondary_disk->bs);
++    bdrv_subtree_drained_begin(hidden_disk->bs);
++    bdrv_subtree_drained_begin(secondary_disk->bs);
+
+     if (s->orig_hidden_read_only) {
+         QDict *opts =3D qdict_new();
+         qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
+-        reopen_queue =3D bdrv_reopen_queue(reopen_queue, s->hidden_disk->b=
+s,
++        reopen_queue =3D bdrv_reopen_queue(reopen_queue, hidden_disk->bs,
+                                          opts, true);
+     }
+
+     if (s->orig_secondary_read_only) {
+         QDict *opts =3D qdict_new();
+         qdict_put_bool(opts, BDRV_OPT_READ_ONLY, !writable);
+-        reopen_queue =3D bdrv_reopen_queue(reopen_queue, s->secondary_disk=
+->bs,
++        reopen_queue =3D bdrv_reopen_queue(reopen_queue, secondary_disk->b=
+s,
+                                          opts, true);
+     }
+
+@@ -401,8 +409,8 @@ static void reopen_backing_file(BlockDriverState *bs, b=
+ool writable,
+         }
+     }
+
+-    bdrv_subtree_drained_end(s->hidden_disk->bs);
+-    bdrv_subtree_drained_end(s->secondary_disk->bs);
++    bdrv_subtree_drained_end(hidden_disk->bs);
++    bdrv_subtree_drained_end(secondary_disk->bs);
  }
 
--static void secondary_do_checkpoint(BDRVReplicationState *s, Error **errp)
-+static void secondary_do_checkpoint(BlockDriverState *bs, Error **errp)
- {
-+    BDRVReplicationState *s =3D bs->opaque;
-+    BdrvChild *active_disk =3D bs->file;
-     Error *local_err =3D NULL;
-     int ret;
-
-@@ -323,13 +324,13 @@ static void secondary_do_checkpoint(BDRVReplicationSt=
-ate *s, Error **errp)
-         return;
-     }
-
--    if (!s->active_disk->bs->drv) {
-+    if (!active_disk->bs->drv) {
-         error_setg(errp, "Active disk %s is ejected",
--                   s->active_disk->bs->node_name);
-+                   active_disk->bs->node_name);
-         return;
-     }
-
--    ret =3D bdrv_make_empty(s->active_disk, errp);
-+    ret =3D bdrv_make_empty(active_disk, errp);
-     if (ret < 0) {
-         return;
-     }
-@@ -458,6 +459,7 @@ static void replication_start(ReplicationState *rs, Rep=
+ static void backup_job_cleanup(BlockDriverState *bs)
+@@ -459,7 +467,7 @@ static void replication_start(ReplicationState *rs, Rep=
 licationMode mode,
      BlockDriverState *bs =3D rs->opaque;
      BDRVReplicationState *s;
      BlockDriverState *top_bs;
-+    BdrvChild *active_disk;
+-    BdrvChild *active_disk;
++    BdrvChild *active_disk, *hidden_disk, *secondary_disk;
      int64_t active_length, hidden_length, disk_length;
      AioContext *aio_context;
      Error *local_err =3D NULL;
-@@ -495,15 +497,14 @@ static void replication_start(ReplicationState *rs, R=
+@@ -504,15 +512,15 @@ static void replication_start(ReplicationState *rs, R=
 eplicationMode mode,
-     case REPLICATION_MODE_PRIMARY:
-         break;
-     case REPLICATION_MODE_SECONDARY:
--        s->active_disk =3D bs->file;
--        if (!s->active_disk || !s->active_disk->bs ||
--                                    !s->active_disk->bs->backing) {
-+        active_disk =3D bs->file;
-+        if (!active_disk || !active_disk->bs || !active_disk->bs->backing)=
- {
-             error_setg(errp, "Active disk doesn't have backing file");
+             return;
+         }
+
+-        s->hidden_disk =3D active_disk->bs->backing;
+-        if (!s->hidden_disk->bs || !s->hidden_disk->bs->backing) {
++        hidden_disk =3D active_disk->bs->backing;
++        if (!hidden_disk->bs || !hidden_disk->bs->backing) {
+             error_setg(errp, "Hidden disk doesn't have backing file");
              aio_context_release(aio_context);
              return;
          }
 
--        s->hidden_disk =3D s->active_disk->bs->backing;
-+        s->hidden_disk =3D active_disk->bs->backing;
-         if (!s->hidden_disk->bs || !s->hidden_disk->bs->backing) {
-             error_setg(errp, "Hidden disk doesn't have backing file");
+-        s->secondary_disk =3D s->hidden_disk->bs->backing;
+-        if (!s->secondary_disk->bs || !bdrv_has_blk(s->secondary_disk->bs)=
+) {
++        secondary_disk =3D hidden_disk->bs->backing;
++        if (!secondary_disk->bs || !bdrv_has_blk(secondary_disk->bs)) {
+             error_setg(errp, "The secondary disk doesn't have block backen=
+d");
              aio_context_release(aio_context);
-@@ -518,7 +519,7 @@ static void replication_start(ReplicationState *rs, Rep=
+             return;
+@@ -520,8 +528,8 @@ static void replication_start(ReplicationState *rs, Rep=
 licationMode mode,
-         }
 
          /* verify the length */
--        active_length =3D bdrv_getlength(s->active_disk->bs);
-+        active_length =3D bdrv_getlength(active_disk->bs);
-         hidden_length =3D bdrv_getlength(s->hidden_disk->bs);
-         disk_length =3D bdrv_getlength(s->secondary_disk->bs);
+         active_length =3D bdrv_getlength(active_disk->bs);
+-        hidden_length =3D bdrv_getlength(s->hidden_disk->bs);
+-        disk_length =3D bdrv_getlength(s->secondary_disk->bs);
++        hidden_length =3D bdrv_getlength(hidden_disk->bs);
++        disk_length =3D bdrv_getlength(secondary_disk->bs);
          if (active_length < 0 || hidden_length < 0 || disk_length < 0 ||
-@@ -530,9 +531,9 @@ static void replication_start(ReplicationState *rs, Rep=
-licationMode mode,
+             active_length !=3D hidden_length || hidden_length !=3D disk_le=
+ngth) {
+             error_setg(errp, "Active disk, hidden disk, secondary disk's l=
+ength"
+@@ -531,10 +539,10 @@ static void replication_start(ReplicationState *rs, R=
+eplicationMode mode,
          }
 
          /* Must be true, or the bdrv_getlength() calls would have failed */
--        assert(s->active_disk->bs->drv && s->hidden_disk->bs->drv);
-+        assert(active_disk->bs->drv && s->hidden_disk->bs->drv);
+-        assert(active_disk->bs->drv && s->hidden_disk->bs->drv);
++        assert(active_disk->bs->drv && hidden_disk->bs->drv);
 
--        if (!s->active_disk->bs->drv->bdrv_make_empty ||
-+        if (!active_disk->bs->drv->bdrv_make_empty ||
-             !s->hidden_disk->bs->drv->bdrv_make_empty) {
+         if (!active_disk->bs->drv->bdrv_make_empty ||
+-            !s->hidden_disk->bs->drv->bdrv_make_empty) {
++            !hidden_disk->bs->drv->bdrv_make_empty) {
              error_setg(errp,
                         "Active disk or hidden disk doesn't support make_em=
 pty");
-@@ -586,7 +587,7 @@ static void replication_start(ReplicationState *rs, Rep=
+             aio_context_release(aio_context);
+@@ -549,6 +557,9 @@ static void replication_start(ReplicationState *rs, Rep=
 licationMode mode,
-     s->stage =3D BLOCK_REPLICATION_RUNNING;
-
-     if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
--        secondary_do_checkpoint(s, errp);
-+        secondary_do_checkpoint(bs, errp);
-     }
-
-     s->error =3D 0;
-@@ -615,7 +616,7 @@ static void replication_do_checkpoint(ReplicationState =
-*rs, Error **errp)
-     }
-
-     if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
--        secondary_do_checkpoint(s, errp);
-+        secondary_do_checkpoint(bs, errp);
-     }
-     aio_context_release(aio_context);
- }
-@@ -652,7 +653,6 @@ static void replication_done(void *opaque, int ret)
-     if (ret =3D=3D 0) {
-         s->stage =3D BLOCK_REPLICATION_DONE;
-
--        s->active_disk =3D NULL;
-         s->secondary_disk =3D NULL;
-         s->hidden_disk =3D NULL;
-         s->error =3D 0;
-@@ -705,7 +705,7 @@ static void replication_stop(ReplicationState *rs, bool=
- failover, Error **errp)
+             return;
          }
 
-         if (!failover) {
--            secondary_do_checkpoint(s, errp);
-+            secondary_do_checkpoint(bs, errp);
-             s->stage =3D BLOCK_REPLICATION_DONE;
-             aio_context_release(aio_context);
-             return;
-@@ -713,7 +713,7 @@ static void replication_stop(ReplicationState *rs, bool=
- failover, Error **errp)
-
-         s->stage =3D BLOCK_REPLICATION_FAILOVER;
-         s->commit_job =3D commit_active_start(
--                            NULL, s->active_disk->bs, s->secondary_disk->b=
-s,
-+                            NULL, bs->file->bs, s->secondary_disk->bs,
-                             JOB_INTERNAL, 0, BLOCKDEV_ON_ERROR_REPORT,
-                             NULL, replication_done, bs, true, errp);
-         break;
++        s->hidden_disk =3D hidden_disk;
++        s->secondary_disk =3D secondary_disk;
++
+         /* start backup job now */
+         error_setg(&s->blocker,
+                    "Block device is in use by internal backup job");
 --
 2.20.1
 
 
---Sig_/xnNNE2LNqNxdnLlyife6AHu
+--Sig_/.eBmBUJdEd8e_Js_lsPu_.e
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmD0PzgACgkQNasLKJxd
-sliZ1Q//WJCZMZ3DnZshz0rArD3DytmAmGoazBQAzAn138SLc2UnT8CXHIfK/dDp
-ReXIgMBqOYOT5Tk92fSV0jpS9fkFZHgPW6HeeTczKdqcyfK2foQ9y8wTubwmAzvU
-2Y96vV94R7qBky1M0n8Z7ewoJoche0+4t2Qxs2iOdumMd6rIXHwmwojR/5pzofZg
-cLo1Ba5vE4mgbMyrFbX1adYwixd3rB2IPflIClfroF4mX0UEJtJadKUnX0Wm+njs
-sYLyrwN8aeKGfTt6oaWtPFMvDpzymGObTorwbWue0VxCzGkhQ/UjJ1bwp8fdnQlz
-Dpmu2TWMuzetrT2q5Tiyh+NknsoJ0QXtdUG5tYQygCm7B2qS/XiG2yC44DFQicPD
-R42XjVZD2pqD/bL0MU/HOpzWqfYB9jpa3AfH4pLfHnQ2cNn+xX2FRbzE2Cpz6BwJ
-Z0wgu5BzSadGF/DlhMY7t1Y3TsFkKtaL6NkM+M7dIx3W1wm1FaCTprGweComMPwF
-oml+TXgAhooh4c0gQIIRZLTgf/oF8Sf1silvxklylQXCyWb8AXA8WRrDxphjBnmJ
-SLjsAL8vwmwSTF4VB4kXexv+yY4CU5ITQ9m9kqrvUh56aO7w2AfKKV0MAc9yi1cw
-BJ4n8NicrN+7WppwEpgH6p4J6zn7B5OFXiEoalXMO/mfndfQjLY=
-=DEKz
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmD0Pz0ACgkQNasLKJxd
+slgTJQ/8CkCMDzzeT6AGpK1oZ6MvOLEI5m5H5v/IzCXN9ucJTMVUVs9jOCKy9iSb
+A0/Yjhd/V35d4XJEMnlEo5KKxt1ZKU7acWdEZ2voxQaKqEHiAYWFMzPqa1EyvMAs
+gKINpdDavGWdarHbc3duu6ftFPrlhbVdLZtTWS146cz8BJ/KyMJ0074dfe7eyjif
+ej4sdpAC1mTCR3uohQ8NSOqe6hVVt3zWi3ikD4d3u1e6YoNv/YeIApyJBlbaWpHm
+BBOQ45e5r04uNOl/dDCWtIu0Yr3VFufInuWx6qH36U+WEaWv8tGzZCXXrSpqmEem
+rZ8sBFTXC5Zzz+p7XkJyZBXZsZVlg8glF1+LK1FaiL2h7vyMyU9f+o6n+J0qaLCS
+PHI5tji9rE3Ui2pLqUf21yW1Nm86EFBd9B3sPpaqyphKnwWcSZxjuh9zlNLyle9j
+3LqzwWsKllLtAk63hyIE7tFO1mvekmvmQEkJ5CzfE+aZ3PQKXW17AfuMNV0ZUqmx
+0+z6t0+LNHfC4RqQY17mkGEAB038KiLc9BvEVOXMhO5gcZHgVfOqv3tLW64VuvdV
+MX4t8jICb/G2QblEHoWXu45oBALbb8sMjp+jOPZVjmOQSOaTtQk033T06JD1p5FU
+aqjiHxYXAIsP8Z28FKG+qMCqiQY2euv4MttjDD/quwxJVvVPov4=
+=tG7G
 -----END PGP SIGNATURE-----
 
---Sig_/xnNNE2LNqNxdnLlyife6AHu--
+--Sig_/.eBmBUJdEd8e_Js_lsPu_.e--
 
