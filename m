@@ -2,84 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397C33CCA4D
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 20:52:20 +0200 (CEST)
-Received: from localhost ([::1]:32994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BE43CCAA3
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 22:40:35 +0200 (CEST)
+Received: from localhost ([::1]:32836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Bti-0007yo-OS
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 14:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52252)
+	id 1m5DaT-0007GQ-JM
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 16:40:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5BsG-0006oz-10
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 14:50:48 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:37774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5BsD-0007lQ-HO
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 14:50:47 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id y3so3931053plp.4
- for <qemu-devel@nongnu.org>; Sun, 18 Jul 2021 11:50:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z7uKUK4Cv1XRqPuGFcM56cuKUic8QxQDaP2fXU35ojY=;
- b=Yji5Yf4gMS78wToNpA7BvKN9St80G+ad/dz3onm8DFDfySmUL8VKCB8Y7Tnm47hpeS
- lC8BzFpnpOdLHc79Jgg16albfUbbJxDJh6OP3u4Xld/p2gClKirlAtqIzx0MCVY8yDcn
- ELvjpTZZK33zuft/xdDfixiQwchd/w84LQPfnJNpsDAcxP6WNe8qaWYnpPvs/bOcuIHR
- d6DH4kYvgBKU0OKqtDxlsPbr69aTHNOLDTy2kNxDjN0p3odZbrEUmu1f+09K6FBCIrA1
- p0/JtrOun4Hi5DkFqY+dh5QIsC7imsjp+orSdG8/gfEuHiQKsBoTJ2BENDme+g5/ivNv
- jsrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Z7uKUK4Cv1XRqPuGFcM56cuKUic8QxQDaP2fXU35ojY=;
- b=n5TbF88IXEm+jsi5zAhAjWYtQZ5bOA44DAffEfFigxt9jMQSOFalV0R1dWil50Fawd
- GcDvEwrBIlNrCO2KjyJiTRf7DkB2E2cV82BjudqqjkZbMTJP6h3PGdj/YpDEVNRJIyQm
- MxN0SBXTUbMiDtApcsxhl6FiiA/Z8vKWJdPYNKAttqc29IAuDjAZHgzcPIfNgNNIY814
- J7WCa1YkZtT/AD7hwmLfGGmGfN7CfW06yufSmfhNRpzs4umppCJEkc/VgwQ4qMju7aUx
- OC7NwEi/dw2nfUeEIsnjDt0gCpboXR+0NTr5gVJk3/rHNLOCzhZUn79DtQS3YkJqKTC9
- kQVA==
-X-Gm-Message-State: AOAM532CTu2UgwmDIQxh+/Q77uGcaKp6AeAbAM0QKV8Zau1tXtBx4Cr2
- DTr9wyXYycC9BBT/7UThMvA//A==
-X-Google-Smtp-Source: ABdhPJyMM0sYWsp20ksds5zgo/3+4uie7tDYcQlJxMBKZd4pcN01tdVkOvP2CENvL5K+qPbQs4iVuw==
-X-Received: by 2002:a17:90a:3807:: with SMTP id
- w7mr20308601pjb.115.1626634243773; 
- Sun, 18 Jul 2021 11:50:43 -0700 (PDT)
-Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
- [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id w5sm17302142pfq.130.2021.07.18.11.50.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Jul 2021 11:50:43 -0700 (PDT)
-Subject: Re: [PATCH v3 10/13] target/riscv: Reduce riscv_tr_breakpoint_check
- pc advance to 2
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210717221851.2124573-1-richard.henderson@linaro.org>
- <20210717221851.2124573-11-richard.henderson@linaro.org>
- <CAFEAcA8C=8kAdsYeKqVwH=qeaWy3yoh+YgKm2Qi+SGcV7XWMtA@mail.gmail.com>
- <4d959bff-8c6b-e01b-a23b-6e17c062f85a@linaro.org>
- <CAFEAcA_EUx8T0bCLb4a-N7QSUqR00WZrtt=nrdMNQMnKRUin1Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <38d31fa4-e2ae-8af2-54bd-74d12a7b9470@linaro.org>
-Date: Sun, 18 Jul 2021 08:50:40 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m5DZP-0006RM-Dj; Sun, 18 Jul 2021 16:39:27 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:56327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m5DZM-0004Q7-Ay; Sun, 18 Jul 2021 16:39:26 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 1041374570C;
+ Sun, 18 Jul 2021 22:39:17 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8CEBF74570B; Sun, 18 Jul 2021 22:39:16 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8A68E7456B7;
+ Sun, 18 Jul 2021 22:39:16 +0200 (CEST)
+Date: Sun, 18 Jul 2021 22:39:16 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Corey Minyard <cminyard@mvista.com>
+Subject: Re: [PATCH 2/2] i2c/smbus_eeprom: Add feature bit to SPD data
+In-Reply-To: <20210718180329.GM3431@minyard.net>
+Message-ID: <bc5ad55d-7bef-c7a9-fbea-9828e998f56b@eik.bme.hu>
+References: <cover.1626367844.git.balaton@eik.bme.hu>
+ <19d42ade295d5297aa624a9eb757b8df18cf64d6.1626367844.git.balaton@eik.bme.hu>
+ <20210718180329.GM3431@minyard.net>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_EUx8T0bCLb4a-N7QSUqR00WZrtt=nrdMNQMnKRUin1Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.07,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,44 +56,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/18/21 8:16 AM, Peter Maydell wrote:
-> On Sun, 18 Jul 2021 at 19:02, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On Sun, 18 Jul 2021, Corey Minyard wrote:
+> On Thu, Jul 15, 2021 at 06:50:44PM +0200, BALATON Zoltan wrote:
+>> Add the differential clock input feature bit to the generated SPD
+>> data. Most guests don't seem to care but pegasos2 firmware version 1.2
+>> checks for this bit and stops with unsupported module type error if
+>> it's not present. Since this feature is likely present on real memory
+>> modules add it in the general code rather than patching the generated
+>> SPD data in pegasos2 board only.
 >>
->> On 7/17/21 1:35 PM, Peter Maydell wrote:
->>> (What goes wrong if we just say "always use a TB size of 1 regardless
->>> of target arch" rather than having the arch return the worst case
->>> minimum insn length?)
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>
+> I checked this all out and it looks correct to me.  I can take it in my
+> tree, if necessary.  Feature freeze is in two days, so probably not for
+> 6.1, though it could be pushed into there if its needed in 6.1.
+>
+> Or:
+>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
+
+Thanks. As this fixes pegasos2 ROM 1.2 that some users may find instead of 
+the 1.1 version I consider this a bugfix not a feature and would like to 
+get merged for 6.1 if possible (hopefully can be in David's tree with the 
+other patch that's also a bugfix) because that way it won't happen that 
+some users will get problems if they find the wrong ROM. With this patch 
+both versions available on line work so there should be no problem for 
+anyone. Other firmware ROMs don't seem to care so they're unlikely to 
+break and the only machines using it now are pegasos2, sam460ex and 
+fuloong2e and only when using firmware ROM so this does not need to wait 
+until 6.2 I think as 6.1 is the first version pegasos2 is available and 
+it would be nice to get it working well in the first version.
+
+Regards,
+BALATON Zoltan
+
+> if someone else wants to take it.  This particular code really doesn't
+> belong in eeprom.c, I don't think, but I'm not sure where else to put
+> it.  And I can look in the SPD tables as well as anyone :).
+>
+> corey
+>
+>> ---
+>> I've tested it with the firmware of pegasos2, sam460ex, fuloong2e and
+>> g3beige (latter is not upstream yet) that are the only ones using this
+>> function currently. Probably this could go in via PPC tree with my
+>> other pegasos2 fix if respective maitainers ack this patch.
 >>
->> Hmm, possibly nothing.  Perhaps I should try that and see what happens...
-> 
-> Some of the comments in these patches suggest it might trigger
-> the warning in the disassembler about length mismatches; possibly
-> also you might get duff (truncated) disassembly output? I suspect
-> that's probably the extent of the problem.
-
-We should be able to work around this by looking at tb->icount.
-
-After patch 13, when breakpoints are always at the beginning of the TB, we'll always have 
-tb->icount == 0.
-
-Thinking about this further, with the breakpoint at the head of the TB, there's really no 
-point in emitting code for breakpoints at all.  Once we've recognized that there is a 
-breakpoint at the current PC, we should just raise the exception.
-
-IIRC only i386 and arm have arch-specific conditional breakpoints.  And, given that all 
-cpu state is in sync when looking for bp's, we could probably make do with a callback 
-instead of any code generation.
-
-Let me see what I can do...
-
-
-r~
+>>  hw/i2c/smbus_eeprom.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/i2c/smbus_eeprom.c b/hw/i2c/smbus_eeprom.c
+>> index 4d2bf99207..12c5741f38 100644
+>> --- a/hw/i2c/smbus_eeprom.c
+>> +++ b/hw/i2c/smbus_eeprom.c
+>> @@ -276,7 +276,7 @@ uint8_t *spd_data_generate(enum sdram_type type, ram_addr_t ram_size)
+>>      spd[18] = 12;   /* ~CAS latencies supported */
+>>      spd[19] = (type == DDR2 ? 0 : 1); /* reserved / ~CS latencies supported */
+>>      spd[20] = 2;    /* DIMM type / ~WE latencies */
+>> -                    /* module features */
+>> +    spd[21] = (type < DDR2 ? 0x20 : 0); /* module features */
+>>                      /* memory chip features */
+>>      spd[23] = 0x12; /* clock cycle time @ medium CAS latency */
+>>                      /* data access time */
+>> --
+>> 2.21.4
+>>
+>
+>
 
