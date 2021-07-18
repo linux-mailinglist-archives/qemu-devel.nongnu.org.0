@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F603CC819
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 09:48:05 +0200 (CEST)
-Received: from localhost ([::1]:48824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B9963CC81B
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 09:50:00 +0200 (CEST)
+Received: from localhost ([::1]:52216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m51Wu-0004Y8-LI
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 03:48:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40148)
+	id 1m51Yl-00077i-Gc
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 03:49:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m51Vi-0003AP-Rs
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 03:46:50 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m51Vg-00025J-Jg
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 03:46:50 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id l7so17461808wrv.7
- for <qemu-devel@nongnu.org>; Sun, 18 Jul 2021 00:46:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=R55CtsVL++IldeVlM5HZ0BfM2z7yYwjRTK7tFydDgMM=;
- b=NRcGtH0sBqPvjOAtNuUKuRA7R/ohkGkgZxKWs19vP+23SfaBVq6sSAdm1Fo+XpjX/S
- yO24HhbLAdAfWolTvGBal47fvmHAnIUDF2GuM8hj6h0Y0nenzZ43MnmkyIchazNnMNma
- wajIHpUGFLRTLPqk+Z6pOrHX1v1sjXkUF6VxrbO55QtgEHUY7kaR513n6YLfe6s7Rzg3
- ZHnXZyW1i+d7BHSec+H6ZT1CHQX1BVmtVxdUBYrJYjKWyk0+UKMdcyDupM05J58VyUDe
- o3IGKKfopngABYlqJZNLZb98Gpx3HkRKrb+4TxASVL2a8azFw9pxHjpVo+lU2zgQMM/o
- PMdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=R55CtsVL++IldeVlM5HZ0BfM2z7yYwjRTK7tFydDgMM=;
- b=XcrW6+z4vbrgIiS6yPoCMrvOcwI7HjzRdP+8MVnLvCiHO+u5YCnq5+pJhuG8oMMkYu
- 5e68DtT+XFoqY0N0uS3RoRCDZpR4T2yXJj/mFxPjgfcxFa2P5IiWHIjil+sxmzmOUwOR
- L+PEKQwNOIq02yvMijwqO4LNOy5QfDywPnVMjzkHqXhKNwiuQ66bh9UwkVYrTFXKcCy2
- w42NSDbf/BVajA1g6QwLYWBLSQyz+z3gfS0TDOcykCUtj5rSmmXojvYlyiwN0o2lLkKp
- 4Rc7m9bwPKMBAFVAzUUnAghWKXm+5Pp+RQaCH7DRtICv8PmYo02iz0xBzNBFmiSyflTi
- d4yQ==
-X-Gm-Message-State: AOAM532cwm/J3gr9m6XySuceFKMfZmTKPMpf1QOcLJwK9ZITL/GjCG1/
- HI4Nt79A4o9e4JE4w6HVry8=
-X-Google-Smtp-Source: ABdhPJx31Z0drVavMCeHR/oVesSOLvAVOtt76NgrzQBq2vXWWkPJNQFllis3HQZdVwbyJy2ESMKnNA==
-X-Received: by 2002:a5d:47a3:: with SMTP id 3mr22862714wrb.172.1626594407176; 
- Sun, 18 Jul 2021 00:46:47 -0700 (PDT)
-Received: from [192.168.1.31] (abordeaux-654-1-74-136.w109-214.abo.wanadoo.fr.
- [109.214.221.136])
- by smtp.gmail.com with ESMTPSA id z16sm16630793wrl.8.2021.07.18.00.46.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 18 Jul 2021 00:46:46 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 03/10] linux-user: Split signal-related prototypes
- into sighandling.h
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210717232103.18047-1-peter.maydell@linaro.org>
- <20210717232103.18047-4-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <2e43d49d-f135-3475-afa4-2ce8de7b63ff@amsat.org>
-Date: Sun, 18 Jul 2021 09:46:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1m51X2-0005FV-7v
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 03:48:12 -0400
+Received: from mailout01.t-online.de ([194.25.134.80]:46454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1m51X0-0002sL-CK
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 03:48:12 -0400
+Received: from fwd20.aul.t-online.de (fwd20.aul.t-online.de [172.20.26.140])
+ by mailout01.t-online.de (Postfix) with SMTP id AFA2C9232;
+ Sun, 18 Jul 2021 09:48:05 +0200 (CEST)
+Received: from linpower.localnet
+ (ExTfWsZlYh4ra4GQ7C2DAlw-PN-6q3H6FwVNsfruPgFoOL-WfYigMD1jLLRKYdcgq6@[79.208.26.7])
+ by fwd20.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1m51Wo-2Qhts80; Sun, 18 Jul 2021 09:47:58 +0200
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id EF7DD20044E; Sun, 18 Jul 2021 09:47:57 +0200 (CEST)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH for 6.1 1/2] ui/gtk: add a keyboard fifo to the VTE consoles
+Date: Sun, 18 Jul 2021 09:47:56 +0200
+Message-Id: <20210718074757.22489-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <9e436e5c-ed11-69ec-3cb9-a19cbf96cb08@t-online.de>
+References: <9e436e5c-ed11-69ec-3cb9-a19cbf96cb08@t-online.de>
 MIME-Version: 1.0
-In-Reply-To: <20210717232103.18047-4-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-ID: ExTfWsZlYh4ra4GQ7C2DAlw-PN-6q3H6FwVNsfruPgFoOL-WfYigMD1jLLRKYdcgq6
+X-TOI-EXPURGATEID: 150726::1626594478-00000BA7-DB7DAB97/0/0 CLEAN NORMAL
+X-TOI-MSGID: d67671f5-8a6d-4bfd-ba99-5b44e8ea1799
+Received-SPF: none client-ip=194.25.134.80;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout01.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,63 +63,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Zack Marvel <zpmarvel@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/18/21 1:20 AM, Peter Maydell wrote:
-> Split the signal related prototypes into a new header file
-> sighandling.h, and include it in those places that require it.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  linux-user/qemu.h                | 36 --------------------
->  linux-user/sighandling.h         | 56 ++++++++++++++++++++++++++++++++
->  linux-user/aarch64/cpu_loop.c    |  1 +
->  linux-user/aarch64/signal.c      |  1 +
->  linux-user/alpha/cpu_loop.c      |  1 +
->  linux-user/alpha/signal.c        |  1 +
->  linux-user/arm/cpu_loop.c        |  1 +
->  linux-user/arm/signal.c          |  1 +
->  linux-user/cris/cpu_loop.c       |  1 +
->  linux-user/cris/signal.c         |  1 +
->  linux-user/fd-trans.c            |  1 +
->  linux-user/hexagon/cpu_loop.c    |  1 +
->  linux-user/hexagon/signal.c      |  1 +
->  linux-user/hppa/cpu_loop.c       |  1 +
->  linux-user/hppa/signal.c         |  1 +
->  linux-user/i386/cpu_loop.c       |  1 +
->  linux-user/i386/signal.c         |  1 +
->  linux-user/m68k/cpu_loop.c       |  1 +
->  linux-user/m68k/signal.c         |  1 +
->  linux-user/main.c                |  1 +
->  linux-user/microblaze/cpu_loop.c |  1 +
->  linux-user/microblaze/signal.c   |  1 +
->  linux-user/mips/cpu_loop.c       |  1 +
->  linux-user/mips/signal.c         |  1 +
->  linux-user/nios2/cpu_loop.c      |  1 +
->  linux-user/nios2/signal.c        |  1 +
->  linux-user/openrisc/cpu_loop.c   |  1 +
->  linux-user/openrisc/signal.c     |  1 +
->  linux-user/ppc/cpu_loop.c        |  1 +
->  linux-user/ppc/signal.c          |  1 +
->  linux-user/riscv/cpu_loop.c      |  1 +
->  linux-user/riscv/signal.c        |  1 +
->  linux-user/s390x/cpu_loop.c      |  1 +
->  linux-user/s390x/signal.c        |  1 +
->  linux-user/sh4/cpu_loop.c        |  1 +
->  linux-user/sh4/signal.c          |  1 +
->  linux-user/signal.c              |  1 +
->  linux-user/sparc/cpu_loop.c      |  1 +
->  linux-user/sparc/signal.c        |  1 +
->  linux-user/syscall.c             |  1 +
->  linux-user/xtensa/cpu_loop.c     |  1 +
->  linux-user/xtensa/signal.c       |  1 +
->  42 files changed, 96 insertions(+), 36 deletions(-)
->  create mode 100644 linux-user/sighandling.h
+Since commit 8eb13bbbac ("ui/gtk: vte: fix sending multiple
+characeters") it's very easy to lock up QEMU with the gtk ui.
+If you configure a guest with a serial device and the guest
+doesn't listen on this device, QEMU will lock up after
+entering two characters in the serial console.
 
-The difference between "signal-common.h" and "sighandling.h"
-is not clear. Could they be merged? Anyway:
+To fix this problem copy the function kbd_send_chars() and
+related code from ui/console.c to ui/gtk.c. kbd_send_chars()
+doesn't lock up because it uses a timer instead of a busy loop
+for the write retries.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixes: 8eb13bbbac ("ui/gtk: vte: fix sending multiple characeters")
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ include/ui/gtk.h |  5 +++++
+ ui/gtk.c         | 53 ++++++++++++++++++++++++++++++++++++++++--------
+ 2 files changed, 50 insertions(+), 8 deletions(-)
+
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 9516670ebc..4714218376 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -25,6 +25,9 @@
+ #include "ui/egl-helpers.h"
+ #include "ui/egl-context.h"
+ #endif
++#ifdef CONFIG_VTE
++#include "qemu/fifo8.h"
++#endif
+ 
+ #define MAX_VCS 10
+ 
+@@ -62,6 +65,8 @@ typedef struct VirtualVteConsole {
+     GtkWidget *scrollbar;
+     GtkWidget *terminal;
+     Chardev *chr;
++    QEMUTimer *kbd_timer;
++    Fifo8 out_fifo;
+     bool echo;
+ } VirtualVteConsole;
+ #endif
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 376b4d528d..b95b077b65 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -48,6 +48,7 @@
+ #include <locale.h>
+ #if defined(CONFIG_VTE)
+ #include <vte/vte.h>
++#include "chardev/char-fe.h"
+ #endif
+ #include <math.h>
+ 
+@@ -1710,10 +1711,46 @@ static const TypeInfo char_gd_vc_type_info = {
+     .class_init = char_gd_vc_class_init,
+ };
+ 
++static void gd_vc_send_chars(VirtualConsole *vc)
++{
++    uint32_t len, avail;
++    const uint8_t *buf;
++
++    len = qemu_chr_be_can_write(vc->vte.chr);
++    avail = fifo8_num_used(&vc->vte.out_fifo);
++    if (len > avail) {
++        len = avail;
++    }
++    while (len > 0) {
++        uint32_t size;
++
++        buf = fifo8_pop_buf(&vc->vte.out_fifo, len, &size);
++        qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
++        len -= size;
++        avail -= size;
++    }
++    /*
++     * characters are pending: we send them a bit later (XXX:
++     * horrible, should change char device API)
++     */
++    if (avail > 0) {
++        timer_mod(vc->vte.kbd_timer,
++                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1);
++    }
++}
++
++static void gd_vc_timer_send_chars(void *opaque)
++{
++    VirtualConsole *vc = opaque;
++
++    gd_vc_send_chars(vc);
++}
++
+ static gboolean gd_vc_in(VteTerminal *terminal, gchar *text, guint size,
+                          gpointer user_data)
+ {
+     VirtualConsole *vc = user_data;
++    CharBackend *be = vc->vte.chr->be;
+ 
+     if (vc->vte.echo) {
+         VteTerminal *term = VTE_TERMINAL(vc->vte.terminal);
+@@ -1733,16 +1770,13 @@ static gboolean gd_vc_in(VteTerminal *terminal, gchar *text, guint size,
+         }
+     }
+ 
+-    int remaining = size;
+-    uint8_t* p = (uint8_t *)text;
+-    while (remaining > 0) {
+-        int can_write = qemu_chr_be_can_write(vc->vte.chr);
+-        int written = MIN(remaining, can_write);
+-        qemu_chr_be_write(vc->vte.chr, p, written);
++    if (be && be->chr_read) {
++        uint32_t free = fifo8_num_free(&vc->vte.out_fifo);
+ 
+-        remaining -= written;
+-        p += written;
++        fifo8_push_all(&vc->vte.out_fifo, (uint8_t *)text, MIN(free, size));
++        gd_vc_send_chars(vc);
+     }
++
+     return TRUE;
+ }
+ 
+@@ -1759,6 +1793,9 @@ static GSList *gd_vc_vte_init(GtkDisplayState *s, VirtualConsole *vc,
+     vc->s = s;
+     vc->vte.echo = vcd->echo;
+     vc->vte.chr = chr;
++    fifo8_create(&vc->vte.out_fifo, 16);
++    vc->vte.kbd_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
++                                     gd_vc_timer_send_chars, vc);
+     vcd->console = vc;
+ 
+     snprintf(buffer, sizeof(buffer), "vc%d", idx);
+-- 
+2.26.2
+
 
