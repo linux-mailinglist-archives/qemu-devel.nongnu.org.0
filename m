@@ -2,30 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D98863CC966
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 15:53:55 +0200 (CEST)
-Received: from localhost ([::1]:45118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF2393CC96E
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 15:59:21 +0200 (CEST)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m57Ew-0006QB-7w
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 09:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51440)
+	id 1m57KC-0001CJ-Pp
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 09:59:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1m578W-0004Cj-Mx
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 09:47:16 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:65366
+ id 1m578X-0004D2-MA
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 09:47:17 -0400
+Received: from 13thmonkey.org ([80.100.255.32]:65364
  helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1m578U-0007eV-Tj
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 09:47:16 -0400
+ (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1m578V-0007fx-IA
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 09:47:17 -0400
 Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
- id 6DBDD2FF07A7; Sun, 18 Jul 2021 15:47:11 +0200 (CEST)
+ id 6EE012FF0934; Sun, 18 Jul 2021 15:47:11 +0200 (CEST)
 From: Reinoud Zandijk <reinoud@NetBSD.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/2] Update NVMM support to recent changes
-Date: Sun, 18 Jul 2021 15:46:48 +0200
-Message-Id: <20210718134650.1191-1-reinoud@NetBSD.org>
+Subject: [PATCH v1 1/2] Only check CONFIG_NVMM when NEED_CPU_H is defined
+Date: Sun, 18 Jul 2021 15:46:49 +0200
+Message-Id: <20210718134650.1191-2-reinoud@NetBSD.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210718134650.1191-1-reinoud@NetBSD.org>
+References: <20210718134650.1191-1-reinoud@NetBSD.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=80.100.255.32;
@@ -52,20 +54,35 @@ Cc: Reinoud Zandijk <Reinoud@NetBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset fixes small NVMM accelerator compilation issues due to
-changes made in the rest of Qemu since its import.
+Userland targers will otherwise use a poisoned CONFIG_NVMM
 
 Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
 ---
+ include/sysemu/nvmm.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Reinoud Zandijk (2):
-  Only check CONFIG_NVMM when NEED_CPU_H is defined
-  Fix nvmm_ram_block_added() function arguments
-
- include/sysemu/nvmm.h       | 7 ++++---
- target/i386/nvmm/nvmm-all.c | 5 +++--
- 2 files changed, 7 insertions(+), 5 deletions(-)
-
+diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
+index 6d216599b0..833670fccb 100644
+--- a/include/sysemu/nvmm.h
++++ b/include/sysemu/nvmm.h
+@@ -10,8 +10,7 @@
+ #ifndef QEMU_NVMM_H
+ #define QEMU_NVMM_H
+ 
+-#include "config-host.h"
+-#include "qemu-common.h"
++#ifdef NEED_CPU_H
+ 
+ #ifdef CONFIG_NVMM
+ 
+@@ -23,4 +22,6 @@ int nvmm_enabled(void);
+ 
+ #endif /* CONFIG_NVMM */
+ 
+-#endif /* CONFIG_NVMM */
++#endif /* NEED_CPU_H */
++
++#endif /* QEMU_NVMM_H */
 -- 
 2.31.1
 
