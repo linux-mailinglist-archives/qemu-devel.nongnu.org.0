@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11ED43CC92C
-	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 14:51:35 +0200 (CEST)
-Received: from localhost ([::1]:38520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609DB3CC927
+	for <lists+qemu-devel@lfdr.de>; Sun, 18 Jul 2021 14:49:14 +0200 (CEST)
+Received: from localhost ([::1]:58322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m56Gb-0003i3-TU
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 08:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44454)
+	id 1m56EK-0006ae-TV
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 08:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m56Bf-0003jG-Q0
+ id 1m56Bf-0003jP-Sh
  for qemu-devel@nongnu.org; Sun, 18 Jul 2021 08:46:29 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37443)
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m56Bd-0003Tp-Uf
+ id 1m56Be-0003Tv-4R
  for qemu-devel@nongnu.org; Sun, 18 Jul 2021 08:46:27 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id i94so18052345wri.4
- for <qemu-devel@nongnu.org>; Sun, 18 Jul 2021 05:46:24 -0700 (PDT)
+Received: by mail-wm1-x335.google.com with SMTP id l6so8642733wmq.0
+ for <qemu-devel@nongnu.org>; Sun, 18 Jul 2021 05:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Symy1fN50fAho6N4MiMVGVDbWSf3xyGe4XY3+Hhf9GU=;
- b=s9O1OxGUURIE+vcHoXyE9cKey0/UAGbkCFfQiW8h1+ZH9sqDwzIiwqeuoRyA/Gfit1
- EZq4HsEw8uZSg4h+5soZhkKH3Iwzdqf0A40bxY1OvUpC+fiUpo0KckLthQxV8TJkTpcv
- G93z/5EarfPgP5HpOoj4OfpYyK9vjI1Sefbukh04oNwtA585pr4jcXW0uS5SuzrLkIaj
- e8BUFWQ7iQLiWt3fNivQwABjLFeL0eJep2QnmJrxTdKdneH7V9/wMEYaOE3fhUH0MMr5
- IQrUXZE3biCHmGr3Xi3OT+YAL5dPdOJ+Jlp25gmdo151Fw3A69z4n+A5TQTQTwBoxFmn
- MTyw==
+ bh=1/rEFzTbO1F+5OVHYpvfNFoRTFLdO5DzWh3hJKyAxNo=;
+ b=MAGsy2eeMCruLVI+JEhPSn4yf5Q3ztxpg1GH91rwD9K/rfFb2wJMBonCSyriNcKO17
+ /6W5fyx2g+AR9HznnNfQUCuAubQMEGC4KDsdKf86myZ/L/aczrMidx9zq861GvAfN1Gj
+ 6JXM33eqDlU8MvQ0PfP2Bx2ESrP1SUVW1jFZLaSSXGPhorgTBG0y0x6YNLwFgu1QcWJP
+ hysrNWDL3G+9ho7+HnWyiaFyJX6uUCNm7CCpEczYHKbhBY7Pf4gHvVcEQG5hwVdckRVL
+ xJ5RImkIefab87aDvQLbVEE+0SZQub+adfdCUXnZRUuw+5ERQ+VhQeQc+Pn7NMSVR56e
+ J32g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Symy1fN50fAho6N4MiMVGVDbWSf3xyGe4XY3+Hhf9GU=;
- b=ZvOpCogCVMH9eSfRPZ/idCtm/r3O2YLX7DRDrouofkkucO2u6HL5yNhfHzNrFPLuhZ
- L2wYkT6TocSYFkgrZOGmdTB6PtqfS/a6V+0Y5Y/ZCTweEI89xtk0SjE9yCVt26ut0HD4
- MaoKFPWu3aZFQSsvxm4aZcz7fTQkIRzhceEL05CSLI+4qywujsKU7vUOM/f4ihCYXMfg
- fblEuTC/h7aN+9zkFeEpXh7rI8Y4nE76kiNz870IqY5+wusvE5z1RoLNRHzJA7I5cSiT
- cumOZ5CUTGoLdOd2IuaccmGU9VseEA+lorA0Wrw66U+5L4wjvr9JqtbCcZpXz7hSj4as
- m6EQ==
-X-Gm-Message-State: AOAM531OuLY1byb9o3mX7cJYM9atLxnb2jEvkBc0FITWNW7lUlY/qcQg
- rC8yslRwlB0RbIcaisYjVz3VDrXqPzaqLg==
-X-Google-Smtp-Source: ABdhPJxblzG1h6Ch9ObvJ/pk+00qQ37/ml4x6VuIA4f0Cbv2HjxhpLDJZVrEcT1rijInAVFAgXZ9wA==
-X-Received: by 2002:adf:ed07:: with SMTP id a7mr25264840wro.70.1626612383713; 
- Sun, 18 Jul 2021 05:46:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1/rEFzTbO1F+5OVHYpvfNFoRTFLdO5DzWh3hJKyAxNo=;
+ b=TtyvEjeOXI1cJvt3AFpK3r/dZx7vPFS09HduGVstuyTTNvKI7tbf3p2nXjH3NMiEhk
+ SpApfzKwH9GdxBIb123q2TRB0ZMYSPLXtA9ALLnhNAojuWDx1/ULgDibzKA6Ea1LPiel
+ Zb8XK4JbAZxa/5aX2As0QmLuFH8TlRAqZL5AuXUfsFcckvnsBQwDnWQiZ+8oludU3FnQ
+ mOtkQddjKIukTLcaPeGuWoIQHvdQ/1xH5JvvbQbKhvSiAKxO+BTkpOI6p/WGwqKcFEkz
+ jTjbDBZQq/JaYGr++OScjn7+bU+dfrYcDgfraF9vMr5toGdyh5aJHhxt6lq87SYB+37p
+ jfJA==
+X-Gm-Message-State: AOAM531XCK88iOJnDkJrK2VDEiOBPvG+swXXwAD4uJw88Bsru6l5Jfqm
+ T7d04KelXozc1IoVXTSk+Gj8Qg9lsJZ2Cw==
+X-Google-Smtp-Source: ABdhPJxPcjh6DU8u/skBKk77vX+yzraWbvAJePwAdNQ7ofJiUTyBdnRAmI5jgRvedO1E7+FCaWuEFA==
+X-Received: by 2002:a7b:c318:: with SMTP id k24mr21644434wmj.144.1626612384340; 
+ Sun, 18 Jul 2021 05:46:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l23sm4053391wme.22.2021.07.18.05.46.22
+ by smtp.gmail.com with ESMTPSA id l23sm4053391wme.22.2021.07.18.05.46.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 18 Jul 2021 05:46:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/12] target-arm queue
-Date: Sun, 18 Jul 2021 13:46:09 +0100
-Message-Id: <20210718124621.13395-1-peter.maydell@linaro.org>
+Subject: [PULL 01/12] target/arm: Fix offsets for TTBCR
+Date: Sun, 18 Jul 2021 13:46:10 +0100
+Message-Id: <20210718124621.13395-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210718124621.13395-1-peter.maydell@linaro.org>
+References: <20210718124621.13395-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,83 +86,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Last few changes before rc0: a few bug fixes, but mostly
-docs stuff.
+From: Richard Henderson <richard.henderson@linaro.org>
 
--- PMM
+The functions vmsa_ttbcr_write and vmsa_ttbcr_raw_write expect
+the offset to be for the complete TCR structure, not the offset
+to the low 32-bits of a uint64_t.  Using offsetoflow32 in this
+case breaks big-endian hosts.
 
-The following changes since commit a97fca4ceb9d9b10aa8b582e817a5ee6c42ffbaf:
+For TTBCR2, we do want the high 32-bits of a uint64_t.
+Use cp15.tcr_el[*].raw_tcr as the offsetofhigh32 argument to
+clarify this.
 
-  Merge remote-tracking branch 'remotes/mst/tags/for_upstream3' into staging (2021-07-16 16:34:42 +0100)
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/187
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210709230621.938821-2-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/helper.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-are available in the Git repository at:
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 910ace42741..0c07ca98376 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -4106,8 +4106,9 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
+       .access = PL1_RW, .accessfn = access_tvm_trvm,
+       .type = ARM_CP_ALIAS, .writefn = vmsa_ttbcr_write,
+       .raw_writefn = vmsa_ttbcr_raw_write,
+-      .bank_fieldoffsets = { offsetoflow32(CPUARMState, cp15.tcr_el[3]),
+-                             offsetoflow32(CPUARMState, cp15.tcr_el[1])} },
++      /* No offsetoflow32 -- pass the entire TCR to writefn/raw_writefn. */
++      .bank_fieldoffsets = { offsetof(CPUARMState, cp15.tcr_el[3]),
++                             offsetof(CPUARMState, cp15.tcr_el[1])} },
+     REGINFO_SENTINEL
+ };
+ 
+@@ -4118,8 +4119,10 @@ static const ARMCPRegInfo ttbcr2_reginfo = {
+     .name = "TTBCR2", .cp = 15, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 3,
+     .access = PL1_RW, .accessfn = access_tvm_trvm,
+     .type = ARM_CP_ALIAS,
+-    .bank_fieldoffsets = { offsetofhigh32(CPUARMState, cp15.tcr_el[3]),
+-                           offsetofhigh32(CPUARMState, cp15.tcr_el[1]) },
++    .bank_fieldoffsets = {
++        offsetofhigh32(CPUARMState, cp15.tcr_el[3].raw_tcr),
++        offsetofhigh32(CPUARMState, cp15.tcr_el[1].raw_tcr),
++    },
+ };
+ 
+ static void omap_ticonfig_write(CPUARMState *env, const ARMCPRegInfo *ri,
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210718
-
-for you to fetch changes up to 8fe612a183dec4c63afdc57537079bc742d024ca:
-
-  target/arm: Remove duplicate 'plus1' function from Neon and SVE decode (2021-07-18 10:59:47 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * Remove duplicate 'plus1' function from Neon and SVE decode
- * Fix offsets for TTBCR for big-endian hosts
- * docs: fix copyright date
- * docs: add license/version info to HTML footers
- * docs: add an About section
- * docs: document some more arm boards
-
-----------------------------------------------------------------
-Peter Maydell (11):
-      docs: Fix documentation Copyright date
-      docs: Stop calling the top level subsections of our manual 'manuals'
-      docs: Remove "Contents:" lines from top-level subsections
-      docs: Move deprecation, build and license info out of system/
-      docs: Add some actual About text to about/index.rst
-      docs: Add license note to the HTML page footer
-      docs: Add QEMU version information to HTML footer
-      docs: Add skeletal documentation of cubieboard
-      docs: Add skeletal documentation of the emcraft-sf2
-      docs: Add skeletal documentation of highbank and midway
-      target/arm: Remove duplicate 'plus1' function from Neon and SVE decode
-
-Richard Henderson (1):
-      target/arm: Fix offsets for TTBCR
-
- docs/_templates/footer.html                 | 14 ++++++++++++++
- docs/{system => about}/build-platforms.rst  |  0
- docs/{system => about}/deprecated.rst       |  0
- docs/about/index.rst                        | 27 +++++++++++++++++++++++++++
- docs/{system => about}/license.rst          |  0
- docs/{system => about}/removed-features.rst |  0
- docs/conf.py                                |  2 +-
- docs/devel/index.rst                        |  7 +------
- docs/index.rst                              |  1 +
- docs/interop/index.rst                      |  9 ++-------
- docs/meson.build                            |  3 ++-
- docs/specs/index.rst                        |  7 ++-----
- docs/system/arm/cubieboard.rst              | 16 ++++++++++++++++
- docs/system/arm/emcraft-sf2.rst             | 15 +++++++++++++++
- docs/system/arm/highbank.rst                | 19 +++++++++++++++++++
- docs/system/index.rst                       | 11 +----------
- docs/system/target-arm.rst                  |  3 +++
- docs/tools/index.rst                        |  7 ++-----
- docs/user/index.rst                         |  7 +------
- target/arm/neon-ls.decode                   |  4 ++--
- target/arm/neon-shared.decode               |  2 +-
- target/arm/sve.decode                       |  2 +-
- target/arm/helper.c                         | 11 +++++++----
- target/arm/translate-neon.c                 |  5 -----
- target/arm/translate-sve.c                  |  5 -----
- MAINTAINERS                                 |  4 ++++
- 26 files changed, 122 insertions(+), 59 deletions(-)
- create mode 100644 docs/_templates/footer.html
- rename docs/{system => about}/build-platforms.rst (100%)
- rename docs/{system => about}/deprecated.rst (100%)
- create mode 100644 docs/about/index.rst
- rename docs/{system => about}/license.rst (100%)
- rename docs/{system => about}/removed-features.rst (100%)
- create mode 100644 docs/system/arm/cubieboard.rst
- create mode 100644 docs/system/arm/emcraft-sf2.rst
- create mode 100644 docs/system/arm/highbank.rst
 
