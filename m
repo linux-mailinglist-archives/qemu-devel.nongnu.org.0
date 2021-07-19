@@ -2,90 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600A33CD19C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 12:12:16 +0200 (CEST)
-Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1B53CD1CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 12:22:24 +0200 (CEST)
+Received: from localhost ([::1]:33312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5QFy-0003IT-5L
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 06:12:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40802)
+	id 1m5QPm-0003j4-T7
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 06:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1m5QE3-0001oh-Gy
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:10:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46302)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m5QOm-0001w7-Cg; Mon, 19 Jul 2021 06:21:20 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:48919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1m5QDx-0003jT-90
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:10:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626689408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ix8W3EUtgdR5oIgOXT1LXC9TnMTp9gpGM9x+B23Aqb4=;
- b=TSh+5RGUHOeffdI03ADYp4VqNVmtcvbzEZGrqYd15CPQ2pyT5MQhRJldQg3c89iN/VaBdo
- a3HR3yzJ+fbzINS4Aw9xXjQXz4grA7vOfGRWp9Qk2vSlOYucf0vEoo+3+Ly56ROohidh+z
- z9y9zSWE/tXaePrc+aG5AjNMuwUIXMc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-VejuyBs9NpWU67lJnYXCKA-1; Mon, 19 Jul 2021 06:10:05 -0400
-X-MC-Unique: VejuyBs9NpWU67lJnYXCKA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v25-20020a1cf7190000b0290197a4be97b7so5238522wmh.9
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 03:10:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ix8W3EUtgdR5oIgOXT1LXC9TnMTp9gpGM9x+B23Aqb4=;
- b=iWib7fZyV6BuAJhhVIN8mjvQSY0t2VB+FvH70jgtVp4wPJ3muZxdCt/lbKtgOOfgKI
- tuAEdbpStNFHps1Ocg2xgwWTQVXyusnMLeuS3T/IeutcW239r6Twcm6GxsGzRsntRovL
- tJ9101eoXk6aU5fE2hGTVWGhX6HhNTn2VL0dhwX2LNjQXIYVAt11iC1bI/7cVhUpIEr1
- rKE2492kK73S5+ZH8GWLO8EEivku1+yrDt8yPqeok7yrtR+7rDsEZfTbMDVMJ7eyLiG7
- CM/xTXD1OV3TBNKS90StA/8HQt+ul/5Is04H7ikoSh0HNrq1gAzvkfZsvw/jl8V1vAXt
- t6BA==
-X-Gm-Message-State: AOAM531+VHzt2bo4W4Zaf/N4difLk0U6P+3esYzT+pqcfjndUDa7Wd+S
- 83Jet0gIUwckCrOUawAjEM56ag0BuuQixWuAOvSgmQJ5A9zzLoqjrzE93tUucHeCdvihBoB8HG6
- evMjMH4RUmR1etvU=
-X-Received: by 2002:a05:600c:4846:: with SMTP id
- j6mr17538014wmo.4.1626689404014; 
- Mon, 19 Jul 2021 03:10:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy2BrRqa3auyoBHZSvwVOyOFgVd3ePCwIksPRQOO4KWmEEjoVjue/vq6DXDZTNSVNPQ7kpXHw==
-X-Received: by 2002:a05:600c:4846:: with SMTP id
- j6mr17537972wmo.4.1626689403663; 
- Mon, 19 Jul 2021 03:10:03 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id q72sm12414570wme.14.2021.07.19.03.10.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 03:10:03 -0700 (PDT)
-Date: Mon, 19 Jul 2021 12:10:00 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 2/3] iothread: add aio-max-batch parameter
-Message-ID: <20210719101000.27xtuwc6st3sy54u@steredhat>
-References: <20210707150019.201442-1-sgarzare@redhat.com>
- <20210707150019.201442-3-sgarzare@redhat.com>
- <YO2oY/OObOC9Io1e@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1m5QOi-00039g-Ui; Mon, 19 Jul 2021 06:21:19 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B151474632F;
+ Mon, 19 Jul 2021 12:21:11 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 55AF57462BD; Mon, 19 Jul 2021 12:21:11 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 53E647457E5;
+ Mon, 19 Jul 2021 12:21:11 +0200 (CEST)
+Date: Mon, 19 Jul 2021 12:21:11 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
+ for ppc32
+In-Reply-To: <YPTmoCh2z2VXzc7O@yekko>
+Message-ID: <4b66ae32-375-1be1-f485-e4d86f2c5a2f@eik.bme.hu>
+References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+ <YPTmoCh2z2VXzc7O@yekko>
 MIME-Version: 1.0
-In-Reply-To: <YO2oY/OObOC9Io1e@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.466,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,60 +56,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
+ matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 13, 2021 at 03:51:15PM +0100, Stefan Hajnoczi wrote:
->On Wed, Jul 07, 2021 at 05:00:18PM +0200, Stefano Garzarella wrote:
->> diff --git a/qapi/misc.json b/qapi/misc.json
->> index 156f98203e..f64bb69f74 100644
->> --- a/qapi/misc.json
->> +++ b/qapi/misc.json
->> @@ -86,6 +86,9 @@
->>  # @poll-shrink: how many ns will be removed from polling time, 0 means that
->>  #               it's not configured (since 2.9)
->>  #
->> +# @aio-max-batch: maximum number of requests in a bacth for the AIO engine,
->
->s/bacth/batch/
->
->> +#                 0 means that the engine will use its default (since 6.1)
->> +#
->>  # Since: 2.0
->>  ##
->>  { 'struct': 'IOThreadInfo',
->> @@ -93,7 +96,8 @@
->>             'thread-id': 'int',
->>             'poll-max-ns': 'int',
->>             'poll-grow': 'int',
->> -           'poll-shrink': 'int' } }
->> +           'poll-shrink': 'int',
->> +           'aio-max-batch': 'int' } }
+On Mon, 19 Jul 2021, David Gibson wrote:
+> On Thu, Jul 15, 2021 at 09:29:50AM -0300, matheus.ferst@eldorado.org.br wrote:
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 >>
->>  ##
->>  # @query-iothreads:
->> diff --git a/qapi/qom.json b/qapi/qom.json
->> index 652be317b8..23fd586614 100644
->> --- a/qapi/qom.json
->> +++ b/qapi/qom.json
->> @@ -516,12 +516,17 @@
->>  #               algorithm detects it is spending too long polling without
->>  #               encountering events. 0 selects a default behaviour (default: 0)
->>  #
->> +# @aio-max-batch: maximum number of requests in a bacth for the AIO engine,
+>> In commit 8f0a4b6a9, we started to require L=0 for ppc32 to match what
+>> The Programming Environments Manual say:
+>>
+>> "For 32-bit implementations, the L field must be cleared, otherwise
+>> the instruction form is invalid."
+>>
+>> Further digging, however, shown that older CPUs have different behavior
+>> concerning invalid forms. E.g.: 440 and 405 manuals say that:
+>>
+>> "Unless otherwise noted, the PPC440 will execute all invalid instruction
+>> forms without causing an Illegal Instruction exception".
+>>
+>> While the PowerISA has an arguably more restrictive:
+>>
+>> "In general, any attempt to execute an invalid form of an instruction
+>> will either cause the system illegal instruction error handler to be
+>> invoked or yield boundedly undefined results."
 >
->s/bacth/batch/
+> That's actually less restrictive.  "boundedly undefined" lets the
+> implementation do nearly anything that won't mess up a hypervisor.
+> Both ignoring the illegal bits and issuing an invalid instruction
+> exception are definitely permissible within the meaning of "boundedly
+> undefined".
+>
+>> Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
+>> broke AROS boot on sam460ex. This patch address this regression by only
+>> logging a guest error, except for CPUs known to raise an exception for
+>> this case (e500 and e500mc).
+>
+> So.. as a rule of thumb, I'd prefer to have qemu give explicit
+> failures (e.g. program check traps) where there's implementation
+> specific or architecture undefined behaviour.  On the other hand,
+> having a real guest that relies on the specific behaviour of real
+> implementations is a compelling reason to break that rule of thumb.
 
-Fixed in v2 also in include/block/aio.h :-)
+One still should get log messages about it with -d guest_errors so that 
+can be used for identifying problems with guest code that otherwise runs 
+fine on real CPU.
 
-Thanks,
-Stefano
+> Given it's a behavioural change, I'm disinclined to squeeze this in
+> for qemu-6.1, but I'll consider it for 6.2.  Richard, any thoughts?
 
+Well, it's a regression from 6.0 and delaying it to 6.2 means we would 
+have a release with a known issue that prevents a guest from running which 
+could be fixed by this patch so I argue this is a bug fix that should be 
+in 6.1. The behaviour change was the patch this one fixes (8f0a4b6a9, 
+mentioned in commit message but could also be a Fixes: tag).
+
+Regards,
+BALATON Zoltan
+
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>>  target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
+>>  1 file changed, 56 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
+>> index f4fcfadbfc..1c35b60eb4 100644
+>> --- a/target/ppc/translate/fixedpoint-impl.c.inc
+>> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
+>> @@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
+>>
+>>  static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
+>>  {
+>> +    if ((ctx->insns_flags & PPC_64B) == 0) {
+>> +        /*
+>> +         * For 32-bit implementations, The Programming Environments Manual says
+>> +         * that "the L field must be cleared, otherwise the instruction form is
+>> +         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
+>> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
+>> +         * manuals, "Integer Compare Instructions" of the 601 manual), with the
+>> +         * notable exception of the e500 and e500mc, where L=1 was reported to
+>> +         * cause an exception.
+>> +         */
+>> +        if (a->l) {
+>> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
+>> +                /*
+>> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
+>> +                 * generate an illegal instruction exception.
+>> +                 */
+>> +                return false;
+>> +            } else {
+>> +                qemu_log_mask(LOG_GUEST_ERROR,
+>> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
+>> +                        s ? "" : "L", ctx->cia);
+>> +            }
+>> +        }
+>> +        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+>> +        return true;
+>> +    }
+>> +
+>> +    /* For 64-bit implementations, deal with bit L accordingly. */
+>>      if (a->l) {
+>> -        REQUIRE_64BIT(ctx);
+>>          gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+>>      } else {
+>>          gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+>> @@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
+>>
+>>  static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
+>>  {
+>> +    if ((ctx->insns_flags & PPC_64B) == 0) {
+>> +        /*
+>> +         * For 32-bit implementations, The Programming Environments Manual says
+>> +         * that "the L field must be cleared, otherwise the instruction form is
+>> +         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
+>> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
+>> +         * manuals, "Integer Compare Instructions" of the 601 manual), with the
+>> +         * notable exception of the e500 and e500mc, where L=1 was reported to
+>> +         * cause an exception.
+>> +         */
+>> +        if (a->l) {
+>> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
+>> +                /*
+>> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
+>> +                 * generate an illegal instruction exception.
+>> +                 */
+>> +                return false;
+>> +            } else {
+>> +                qemu_log_mask(LOG_GUEST_ERROR,
+>> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
+>> +                        s ? "I" : "LI", ctx->cia);
+>> +            }
+>> +        }
+>> +        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
+>> +        return true;
+>> +    }
+>> +
+>> +    /* For 64-bit implementations, deal with bit L accordingly. */
+>>      if (a->l) {
+>> -        REQUIRE_64BIT(ctx);
+>>          gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
+>>      } else {
+>>          gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
+>
+>
 
