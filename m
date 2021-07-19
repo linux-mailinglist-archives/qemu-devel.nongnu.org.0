@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFA03CD63C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 15:58:39 +0200 (CEST)
-Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBDA3CD634
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 15:57:47 +0200 (CEST)
+Received: from localhost ([::1]:37428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Tn4-0000ou-JX
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 09:58:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53068)
+	id 1m5TmE-0006w6-SE
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 09:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5Tlz-0007LQ-Jz
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:57:31 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5Tlx-00051b-TD
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:57:31 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id r11so22145551wro.9
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 06:57:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=c/XSV+OsMSo4sw4ZoppIUrwtdycOv9HBEpcBZdT/Qz4=;
- b=YRdm24jNDWLVnScFeE+Xgb3IedwpptqYApU25Uzm/BwnvEbPhXorQi9cg2WaZ0w4D2
- Wj8G7rjO8TJ3WBFdrWLu0AsHO8fvo6GlzTRpjXUjvd25pjFfiDJuKIyeqH03RzxWjxrL
- RdaW1Vd2QwVZIh0l+ehehtlz5lLpXThbj3QIa8rImCc3HG7WQWugGEAlZ3SMJvx72yp0
- I/Dy5ma0NBVW1SzbCofSSzgixnUpYQAvvWgVO0G41r9v9nCxlM/N+MSYre7yynlDUznO
- ZVLMWVDSJ6v5zy1P8CvRN7hSU1YEzzNfGgYtG9BcnZOm0RF1B/jRbV/D+mfj9LhiQc5d
- 0qeA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5Tl2-0005yp-Aj
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:56:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24004)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5Tl0-0004MX-Qt
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:56:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626702990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cbn1Dld67dwbtp5Sn7Z5HbPQzeXYrlvBAMMX0E62R5I=;
+ b=IdmjExQ/jxPDEftsHLoNWuPW9sphJ5MDWfiageNABF8aSrMyyCzfDOuSMGpliKvt68G6aK
+ YcYbZ6RcpXTnec96EpgGQ2TfsAr6nPW+qR+M6Rxz7hapuB7KCD+7NRmEvSKiH81PoXccUZ
+ lVZQm3i6BfuvsZGS9tGn7IlMPhR7/bI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-311-KJJPel6ZMYu0d7k_9vvkEA-1; Mon, 19 Jul 2021 09:56:28 -0400
+X-MC-Unique: KJJPel6ZMYu0d7k_9vvkEA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ x16-20020aa7d6d00000b02903a2e0d2acb7so9263688edr.16
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 06:56:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=c/XSV+OsMSo4sw4ZoppIUrwtdycOv9HBEpcBZdT/Qz4=;
- b=ihJbD4diZPUQV3AcjrRNImPrdXcq2TR7lNzwzEPM8tCFVv6D15Hzrsn5A1OGVnWfIn
- sZXMqVGT118Z/xHPWu4aJQooBgtFWeFUaddWNDVElQTIcj4vIuOz6nRnVEKh8jwDE8YK
- aTrT14tr34p+kemBhJgMBeJKwuv9jYcuTbj6aVX4WJw+JsHiH7mR8IG2oSNaHsmdMzua
- 4GnbuGHe1+dA0NBosu5JEsWbvccGvHYn7OCojHa/ERI/OTiyqwRICPyeAQ7Z8iAkQEPq
- Brbz+NEunJpuICBcIRq55pv2h7tBp0WF89S6NTpSRH6lynl3cAcwVajSJF0U/ZEPAulf
- bBXQ==
-X-Gm-Message-State: AOAM533+7EOaqPtfFjwMkcWV4CdU2JpSCkx9cv0FEoydEeceZKm3XLPV
- 2k0MzLVXWZPcIk3rQyowVsHH/w==
-X-Google-Smtp-Source: ABdhPJz3uZ5CJp+KnICMC/IeSfCWlWNogP2itnSXscRR/hzm7082m3ofTYNdpOhMj2c5CP/YWoYqMQ==
-X-Received: by 2002:a5d:6dd1:: with SMTP id d17mr30155378wrz.344.1626703048153; 
- Mon, 19 Jul 2021 06:57:28 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r4sm20686388wre.84.2021.07.19.06.57.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 06:57:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 535D31FF7E;
- Mon, 19 Jul 2021 14:57:25 +0100 (BST)
-References: <20210719123732.24457-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH] tcg/plugins: implement a qemu_plugin_user_exit helper
-Date: Mon, 19 Jul 2021 14:56:08 +0100
-In-reply-to: <20210719123732.24457-1-alex.bennee@linaro.org>
-Message-ID: <87im16pfsq.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cbn1Dld67dwbtp5Sn7Z5HbPQzeXYrlvBAMMX0E62R5I=;
+ b=V3oMAUHBrLSVP9tKfCOL6V5Q5pAfJnMfMfCTsrl2o2w0myEMdeJMSt2795GFfxHun1
+ SfnBpto7JfGRRVkrXBLaL4kRckSTvp14LU2A5RNe/bqp5SU27dm7hn+Q8tN1uyDWUipC
+ rIejihSXEuwGdTP9SAzrpYrU8zJRkcjKYUTLQDjB/OJjdrrEhdVoTiQWUOkKFnbRcjHr
+ OeWbjokkZyk5rsPyRyH07N+v1xfk6X85cYywKFISntqLtZn3fT5VztX0VHsnDyGH1tIt
+ CqlZA13OR2r6CFisqrauDXsRj4VfLpQTSkq7oAI5ReECL4nB5SJ0rUVqp6OsGmKIbBxv
+ cKzA==
+X-Gm-Message-State: AOAM530h4UP7WoIVb0F2iWfqMohUaffBe0xVLivfEeh39DE83Gh+bDpy
+ MUfk27+K8Nxdfz5Yaeja3hkJ3NDoV4SuIT/eZps+MspuOW4hkVjsNx0ozJ9WGPRoc1GiXNBfSUD
+ tKV3eb0hKPkJXmLr7BUbOXODyy4W+8lM=
+X-Received: by 2002:a05:6402:1b06:: with SMTP id
+ by6mr33977038edb.95.1626702987756; 
+ Mon, 19 Jul 2021 06:56:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9mhFrQqX5g4Bi3+vZYvWY33IwKRiRR7LjCDfAPhuQ2gGdTxzuwdzz4J6zGtNUIYV00VUia+j+x2R/mj3ex0U=
+X-Received: by 2002:a05:6402:1b06:: with SMTP id
+ by6mr33977019edb.95.1626702987576; 
+ Mon, 19 Jul 2021 06:56:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
+ <bb8d222a-be8a-02b7-3ddc-de443290e29d@redhat.com>
+ <36bcf543-0b56-7e2f-26e7-648ca3cf58dd@linux.ibm.com>
+ <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com>
+ <87a6mpez2b.fsf@dusky.pond.sub.org>
+ <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com>
+ <87a6modt46.fsf@dusky.pond.sub.org>
+ <20210719153837.46fdef08@redhat.com> <871r7ummz8.fsf@dusky.pond.sub.org>
+In-Reply-To: <871r7ummz8.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 19 Jul 2021 15:56:16 +0200
+Message-ID: <CAP+75-UZRjqWJKN3ningHrcmR=P3fx+mhG5SEzQ5u5V5SnXdjA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
+To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,98 +97,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, minyihh@uci.edu, robhenry@microsoft.com,
- Laurent Vivier <laurent@vivier.eu>, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Alexandre Iooss <erdnaxe@crans.org>, kuhn.chenqun@huawei.com,
- ma.mandourr@gmail.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jul 19, 2021 at 3:50 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
+> Igor Mammedov <imammedo@redhat.com> writes:
+> > On Thu, 15 Jul 2021 07:49:13 +0200
+> > Markus Armbruster <armbru@redhat.com> wrote:
+> >> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-
-> In user-mode emulation there is a small race between preexit_cleanup
-> and exit_group() which means we may end up calling instrumented
-> instructions before the kernel reaps child threads. To solve this we
-> implement a new helper which ensures the callbacks are flushed along
-> with any translations before we let the host do it's a thing.
+> >> >>> IMO the "right" solution is to check via QMP if TMP is supported
+> >> >>> or not. This is now doable since commit caff255a546 ("tpm: Return
+> >> >>> QMP error when TPM is disabled in build").
+> >> >>>
+> >> >>> Long term we'd like to decouple the tests/ build from the various
+> >> >>> QEMU configurations, and build the tests once.
+> >> >>
+> >> >> This argument applies only to macros from target-specific headers l=
+ike
+> >> >> $TARGET-config-target.h, not to macros from config-host.h.  #ifdef
+> >> >> CONFIG_TPM should be fine, shouldn't it?
+> >> >
+> >> > Some definitions depend on the host (OS, libraries installed, ...),
+> >> > others depend on the --enable/--disable ./configure options.
+> >> >
+> >> > IMO it would be nice if we could get qtests independent of the latte=
+r.
+> >>
+> >> Why?
+> >
+> > In another mail-thread Philippe mentioned that there is desire
+> > to use qtest out of tree to test other QEMU binaries.
+> >
+> > However, just probing for features at runtime aren't going
+> > to help with the goal as tests are tailored for the latest
+> > CLI/QMP/ABI. To make it work we would have practically
+> > introduce versioned tests.
+> >
+> > So I wonder why one external acceptance-tests suite is not
+> > sufficient, that we would want to hijack relatively simple
+> > internal qtest at expense of increased resources needed to
+> > run/write unit tests.
 >
-> While we are at it make the documentation of
-> qemu_plugin_register_atexit_cb clearer as to what the user can expect.
->
-<snip>
->=20=20
-> +/*
-> + * Handle exit from linux-user. Unlike the normal atexit() mechanism
-> + * we need to handle the clean-up manually as it's possible threads
-> + * are still running. We need to remove all callbacks from code
-> + * generation, flush the current translations and then we can safely
-> + * trigger the exit callbacks.
-> + */
-> +
-> +void qemu_plugin_user_exit(void)
-> +{
-> +    enum qemu_plugin_event ev;
-> +
-> +    QEMU_LOCK_GUARD(&plugin.lock);
-> +
-> +    start_exclusive();
-> +
-> +    /* un-register all callbacks except the final AT_EXIT one */
-> +    for (ev =3D 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
-> +        if (ev !=3D QEMU_PLUGIN_EV_ATEXIT) {
-> +            struct qemu_plugin_ctx *ctx;
-> +            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
-> +                plugin_unregister_cb__locked(ctx, ev);
-> +            }
-> +        }
-> +    }
-> +
-> +    tb_flush(current_cpu);
+> Yes.  qtest was not designed for use with anything but HEAD, and I doubt
+> we can make it fit such uses at reasonable expense.
 
-We also need to disable memory helpers during the exclusive period as
-that is another route into a callback:
+One HEAD but multiple configurations...
 
---8<---------------cut here---------------start------------->8---
-modified   plugins/core.c
-@@ -498,6 +499,7 @@ void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
- void qemu_plugin_user_exit(void)
- {
-     enum qemu_plugin_event ev;
-+    CPUState *cpu;
-=20
-     QEMU_LOCK_GUARD(&plugin.lock);
-=20
-@@ -514,6 +516,11 @@ void qemu_plugin_user_exit(void)
-     }
-=20
-     tb_flush(current_cpu);
-+
-+    CPU_FOREACH(cpu) {
-+        qemu_plugin_disable_mem_helpers(cpu);
-+    }
-+
-     end_exclusive();
-=20
-     /* now it's safe to handle the exit case */
---8<---------------cut here---------------end--------------->8---
+If you want to simplify human time, can we simply run qtests once per
+arch/OS but with all features enabled? Otherwise skip qtests?
 
-
-
-> +    end_exclusive();
-> +
-> +    /* now it's safe to handle the exit case */
-> +    qemu_plugin_atexit_cb();
-> +}
-> +
->  /*
->   * Call this function after longjmp'ing to the main loop. It's possible =
-that the
->   * last instruction of a TB might have used helpers, and therefore the
-
-
---=20
-Alex Benn=C3=A9e
 
