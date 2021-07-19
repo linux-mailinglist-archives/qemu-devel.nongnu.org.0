@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1743CE50B
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:37:56 +0200 (CEST)
-Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD38A3CE5B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:43:27 +0200 (CEST)
+Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5WHD-0007W0-2P
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1m5WMY-0005ZG-93
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m5WGF-0006Po-Kt
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:36:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54854)
+ id 1m5WLM-0004kw-Db
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:42:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1m5WGD-0003Qd-8Z
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:36:54 -0400
+ id 1m5WLK-00072T-5e
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:42:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626712612;
+ s=mimecast20190719; t=1626712928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kLmp/KI0ixsGKZAaIswptx+HYl+8rG0Fa0IkAbWKWaU=;
- b=dEnGbdEI9le5c2KJetiZFf9r0WVfL7y8Fv6QBEgXrtmQ6nbX00MOcbyhQNP6O/A7ZzXod7
- 9bBp8dcM+/tDLEdVmVKKgRKAEvsyYPQ6OTIHIEK8sxPC4Fwdzu4whgjH8Ooa38tSKWe3lq
- Bkg00yqbef0a2xM2fh2ZV2ZAWQDupRQ=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-LfBEuc89PAmAQmFuJPlehQ-1; Mon, 19 Jul 2021 12:36:50 -0400
-X-MC-Unique: LfBEuc89PAmAQmFuJPlehQ-1
-Received: by mail-il1-f199.google.com with SMTP id
- w8-20020a056e021c88b02902095727d18dso11018014ill.17
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 09:36:50 -0700 (PDT)
+ bh=oUaGcCOqtausW+bLFucJSEBo0WuZmix2Y1zBuMFklKU=;
+ b=SED2xEAXez7fxDregbXbFtwChqaMMc18sjbyZCL77mFzp9BZ4DAqpr45v8EK4zjvnflmx1
+ iFRn8pafZrLnlpHWluwlWpxVd8c4hsF2WsX0ucymGLhQL+CEV9dtavCq8l9Z4UsuALv8Iy
+ DUBmgkjNeCfvlE96ZGR/pQzhTS0Ayno=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-d960ozKfOwC215QK34Tfkg-1; Mon, 19 Jul 2021 12:42:07 -0400
+X-MC-Unique: d960ozKfOwC215QK34Tfkg-1
+Received: by mail-io1-f72.google.com with SMTP id
+ k2-20020a5d8b020000b029050b6f9cfe31so13061663ion.11
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 09:42:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=kLmp/KI0ixsGKZAaIswptx+HYl+8rG0Fa0IkAbWKWaU=;
- b=YgyIsx4huu05l63ClweFqjUFMXeenSnpGF8GdyillHRpFu1BDpTS3Lh1V1F//s73pq
- pFPB2wnN+vvn2OhtlVN09Ss+pXY3ElfXxvnfo+HVa2ZVnnAtyNkTgUuSYDD6h9OZ0oml
- VhqWPJbl66iHXcnsxnjgrhL0auSzE7lFjkZmjuXDsL7F3qms6t4ildSwoNswpaEi3tfi
- 4QjrIg6baujz+uR8YmcA4HvQ+1pMu+rfWqYI9UmwcorBaWZ3BY5lPpOBZ/2mSajMIE+k
- 9Em5s41yM7yI+EnAJ0TwqS/FtqTcBSBhdWDWN2fa9r5zsCZS9sZpWlerRoMamERDbVas
- xo7g==
-X-Gm-Message-State: AOAM531YWy3R4ONOC5myWDxGOcKg2wjFRxbCv4/JLqvKG+9slRBRUotI
- Dl6RRkm4UYIRTRKQS9YXupu40S2+1mSNAnoLPvcg/3tsheFnb6/t2eVxSdH42QlS/VfbwcH2iLv
- oFIwscVEG8ct9cqI=
-X-Received: by 2002:a6b:6209:: with SMTP id f9mr20012342iog.147.1626712610354; 
- Mon, 19 Jul 2021 09:36:50 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0dGbvrsvINIZzj0WCjGvXSIbxLsOg+/RSHeMMF+/opN82yaE1ES36nC6vGdH9anHiUdaZJA==
-X-Received: by 2002:a6b:6209:: with SMTP id f9mr20012326iog.147.1626712610118; 
- Mon, 19 Jul 2021 09:36:50 -0700 (PDT)
+ bh=oUaGcCOqtausW+bLFucJSEBo0WuZmix2Y1zBuMFklKU=;
+ b=aQ+57usqXY4D+nz52jWVz8QrWMUjxH3OC/mxZWZ0IrXmfJ1m3wD/otbjr4iB9qtFhb
+ CoIcPX3Kk/hGroc7A7kSzSBNh7klXsZiSblfbAkT47V39j05/XYuKxyXv65b55v06ZOd
+ 4Us4JspPu1W7LbX5zCZS2ydDUOdr14Tqm0uzzMkI4heDvb/H+/FacLZy5M+XzX/hxxlt
+ rTVAo+4ASu4nS01qTBiJKcXeDiRSft+dDOqkXGlpmkV773whe8/Mv+CLG2SYXv3DSK/C
+ 2jN//jdFF2XmgFCMk12KXJvgUt7IFISwoCaPJ8sE+a1wHOi9Q3Ue1T+RHdjUK4xA2+oi
+ OcVA==
+X-Gm-Message-State: AOAM532yQPvifdRbgF3BD5jl7qLc6ho7NVGLtv20aLqUZ65pUWZJnZ86
+ ZgUZUJziHBBzE63++cYbkG5UmdUA03qjNayNZrREHpfLWVq95Xmf55wjhwaUsgC47+M8K6j2lsx
+ wvhVM5cpF0Hztupc=
+X-Received: by 2002:a05:6638:6a6:: with SMTP id
+ d6mr22299432jad.118.1626712926680; 
+ Mon, 19 Jul 2021 09:42:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyHvGIiu4MvtZW8aPAoDvN1nXfl7scTIa5DmOixoPEcfqlkfNGtHgJz/A12/Y3sBFhwmQf8zw==
+X-Received: by 2002:a05:6638:6a6:: with SMTP id
+ d6mr22299405jad.118.1626712926465; 
+ Mon, 19 Jul 2021 09:42:06 -0700 (PDT)
 Received: from gator ([140.82.166.162])
- by smtp.gmail.com with ESMTPSA id x2sm3639158iob.45.2021.07.19.09.36.49
+ by smtp.gmail.com with ESMTPSA id x1sm10530426ioa.54.2021.07.19.09.42.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 09:36:49 -0700 (PDT)
-Date: Mon, 19 Jul 2021 18:36:47 +0200
+ Mon, 19 Jul 2021 09:42:06 -0700 (PDT)
+Date: Mon, 19 Jul 2021 18:42:03 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH for-6.2 v2 03/11] machine: Uniformly use maxcpus to
- calculate the omitted parameters
-Message-ID: <20210719163647.or6tvr3rmgirctj4@gator>
+Subject: Re: [PATCH for-6.2 v2 04/11] machine: Use the computed parameters to
+ calculate omitted cpus
+Message-ID: <20210719164203.r3f4qdbw3y3ieghb@gator>
 References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-4-wangyanan55@huawei.com>
+ <20210719032043.25416-5-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210719032043.25416-4-wangyanan55@huawei.com>
+In-Reply-To: <20210719032043.25416-5-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,99 +108,80 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19, 2021 at 11:20:35AM +0800, Yanan Wang wrote:
-> We are currently using maxcpus to calculate the omitted sockets
-> but using cpus to calculate the omitted cores/threads. This makes
-> cmdlines like:
->   -smp cpus=8,maxcpus=16
->   -smp cpus=8,cores=4,maxcpus=16
->   -smp cpus=8,threads=2,maxcpus=16
-> work fine but the ones like:
->   -smp cpus=8,sockets=2,maxcpus=16
->   -smp cpus=8,sockets=2,cores=4,maxcpus=16
->   -smp cpus=8,sockets=2,threads=2,maxcpus=16
-> break the invalid cpu topology check.
-> 
-> Since we require for the valid config that the sum of "sockets * cores
-> * dies * threads" should equal to the maxcpus, we should uniformly use
-> maxcpus to calculate their omitted values.
-> 
-> Also the if-branch of "cpus == 0 || sockets == 0" was splited into two
-> branches of "cpus == 0" and "sockets == 0" so that we can clearly read
-> that we are parsing -smp cmdlines with a preference of cpus over sockets
-> over cores over threads.
+On Mon, Jul 19, 2021 at 11:20:36AM +0800, Yanan Wang wrote:
+> Currently we directly calculate the omitted cpus based on the already
+> provided parameters. This makes some cmdlines like:
+>   -smp maxcpus=16
+>   -smp sockets=2,maxcpus=16
+>   -smp sockets=2,dies=2,maxcpus=16
+>   -smp sockets=2,cores=4,maxcpus=16
+> not work. We should probably use the computed paramters to calculate
+> cpus when maxcpus is provided while cpus is omitted, which will make
+> above configs start to work.
 > 
 > Note: change in this patch won't affect any existing working cmdlines
-> but improves consistency and allow more incomplete configs to be valid.
-
-We also remove rounding of cores and threads when the math doesn't come
-out right, which could possible start reporting a bad config as invalid
-which worked before. Or were you able to prove that that can't happen with
-your testing?
-
+> but allows more incomplete configs to be valid.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/core/machine.c | 30 +++++++++++++++---------------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+>  hw/core/machine.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
 > 
 > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index ed6712e964..c9f15b15a5 100644
+> index c9f15b15a5..668f0a1553 100644
 > --- a/hw/core/machine.c
 > +++ b/hw/core/machine.c
-> @@ -768,24 +768,26 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+> @@ -767,26 +767,27 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>          return;
 >      }
 >  
->      /* compute missing values, prefer sockets over cores over threads */
-> -    if (cpus == 0 || sockets == 0) {
-> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +
-> +    if (cpus == 0) {
-> +        sockets = sockets > 0 ? sockets : 1;
+> -    /* compute missing values, prefer sockets over cores over threads */
+>      maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>  
+> -    if (cpus == 0) {
+> -        sockets = sockets > 0 ? sockets : 1;
+> -        cores = cores > 0 ? cores : 1;
+> -        threads = threads > 0 ? threads : 1;
+> -        cpus = sockets * dies * cores * threads;
+> -        maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -    } else if (sockets == 0) {
+> +    /* compute missing values, prefer sockets over cores over threads */
+> +    if (sockets == 0) {
 >          cores = cores > 0 ? cores : 1;
 >          threads = threads > 0 ? threads : 1;
-> -        if (cpus == 0) {
-> -            sockets = sockets > 0 ? sockets : 1;
-> -            cpus = sockets * dies * cores * threads;
-> -        } else {
-> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (dies * cores * threads);
-> -        }
-> +        cpus = sockets * dies * cores * threads;
-> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> +    } else if (sockets == 0) {
-> +        cores = cores > 0 ? cores : 1;
-> +        threads = threads > 0 ? threads : 1;
-> +        sockets = maxcpus / (dies * cores * threads);
+>          sockets = maxcpus / (dies * cores * threads);
+> +        sockets = sockets > 0 ? sockets : 1;
 >      } else if (cores == 0) {
 >          threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * dies * threads);
-> -        cores = cores > 0 ? cores : 1;
-> +        cores = maxcpus / (sockets * dies * threads);
+>          cores = maxcpus / (sockets * dies * threads);
+> +        cores = cores > 0 ? cores : 1;
 >      } else if (threads == 0) {
-> -        threads = cpus / (sockets * dies * cores);
-> -        threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * dies * cores * threads < cpus) {
-> +        threads = maxcpus / (sockets * dies * cores);
-> +    }
+>          threads = maxcpus / (sockets * dies * cores);
+> +        threads = threads > 0 ? threads : 1;
+>      }
+
+I didn't think we wanted this rounding which this patch adds back into
+cores and threads and now also sockets.
+
+>  
+> +    /* use the computed parameters to calculate the omitted cpus */
+> +    cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
+> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+
+It doesn't really matter, but I think I'd rather write this like
+
+ maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * cores * threads;
+ cpus = cpus > 0 ? cpus : maxcpus;
+
 > +
-> +    if (sockets * dies * cores * threads < cpus) {
+>      if (sockets * dies * cores * threads < cpus) {
 >          g_autofree char *dies_msg = g_strdup_printf(
 >              mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->          error_setg(errp, "cpu topology: "
-> @@ -795,8 +797,6 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->          return;
->      }
->  
-> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -
->      if (maxcpus < cpus) {
->          error_setg(errp, "maxcpus must be equal to or greater than smp");
->          return;
 > -- 
 > 2.19.1
->
+> 
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Thanks,
+drew
 
 
