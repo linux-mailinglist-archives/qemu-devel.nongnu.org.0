@@ -2,117 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCAEA3CEE02
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:03:34 +0200 (CEST)
-Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93E343CEE07
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:14:48 +0200 (CEST)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5aQH-0003Tg-Fe
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:03:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57052)
+	id 1m5ab8-00075H-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:14:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1m5aP8-0002lf-3Y
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:02:22 -0400
-Received: from mail-bn8nam11on20628.outbound.protection.outlook.com
- ([2a01:111:f400:7eae::628]:20257
- helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m5aaL-0006Fr-6F
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:13:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1m5aP4-000446-HK
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:02:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aBwUoaUNWe9xIOR1jWsaMqD1z7SWw/61Dm/4JE/XP1CWWh+l3gHhkBWspMwIOd1NPPwATapFRbJOGWvluafTj3yIDh88XXBAjU57SatvJmwlRLfom3GHsL4eg41heui2L7ZnH1GRsFa24mmKW0yueqPcgWJbSeMM32Fph7EwYwNV7zAv1Sl9A9j/ko438+iyWmpyYCObfhp3pFFX5CSwM2PjA8SqxrRmU/Hhj3iw9I4ompsbPnF7V11e+Xut+GwiQgmgI+mCzPMY8av2w5aJyRBbUSPcyiX1An2uaha8F4bjoyPYxO6vvzGJIZOQ9e+xkvxiaM9pUwIEqmkvm4EPdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1nH0TTiT34jJlhnfzyoPc0N1bn/ic6TUexZwXie+1io=;
- b=GQrBYEiX5LT5QRPHPzRLDd/sLog6ucC9O+JlbJ2N0HIwrPG7K9mbRwXzu6quPokLAztcul/Mvua078Dgk+tfer/EI74/ImGD3yUwYEh/eVKHAM4yctVO2dkZnOs9rTYDNBqsEAFCxWVM8nDBqFEoOdHEfOW9oFcSjqgKFVJI2rftTrdjln6DAl/HRkZQDnw+tw9N0JiBHGfSPKowlXKFLyb8FE/FFmpd/JBZBG8y93mm3HVtLyVP4bU+eeAiv7UQeRxncqp8GcAPNuUne6ksnzAQRjLDCu6X1gvg1OpsmcpM+8/c1KUjpfZ9xPP42im7D8lURCjRMccj+9jYGHJTHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1nH0TTiT34jJlhnfzyoPc0N1bn/ic6TUexZwXie+1io=;
- b=INP8OtYUtfViPtNWjm3FW2giMSSEKdvbLDtQNDxJyNQigq9EoVXpyix73oyM/8Vr7l9Q2HNAhZxl3sJxt4/nnjdW7jeNFKZs5TAr57gR0FYW+zxXl1ED+4Rkt2qzksdY+R0hxMVQHYwWJ7bfPyXR5LP6Ayzqhj+Hn36hs+MIhtc=
-Received: from SN4PR0501CA0021.namprd05.prod.outlook.com
- (2603:10b6:803:40::34) by BY5PR02MB6739.namprd02.prod.outlook.com
- (2603:10b6:a03:208::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Mon, 19 Jul
- 2021 20:57:14 +0000
-Received: from SN1NAM02FT0029.eop-nam02.prod.protection.outlook.com
- (2603:10b6:803:40:cafe::fa) by SN4PR0501CA0021.outlook.office365.com
- (2603:10b6:803:40::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4352.9 via Frontend
- Transport; Mon, 19 Jul 2021 20:57:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0029.mail.protection.outlook.com (10.97.4.175) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 20:57:13 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 13:57:13 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.2 via Frontend Transport; Mon, 19 Jul 2021 13:57:13 -0700
-Received: from [172.19.2.32] (port=56680 helo=xsjkomlodi50.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <joe.komlodi@xilinx.com>)
- id 1m5aK9-0000iY-2P; Mon, 19 Jul 2021 13:57:13 -0700
-From: Joe Komlodi <joe.komlodi@xilinx.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH 1/1] hw/arm/smmuv3: Check 31st bit to see if CD is valid
-Date: Mon, 19 Jul 2021 13:57:12 -0700
-Message-ID: <1626728232-134665-2-git-send-email-joe.komlodi@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1626728232-134665-1-git-send-email-joe.komlodi@xilinx.com>
-References: <1626728232-134665-1-git-send-email-joe.komlodi@xilinx.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1m5aaH-0003IB-Rl
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:13:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626729232;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MQ1jw/CBZ8fhCsw/DwAbmILGiV/EzFgc4A46h5Q5+L4=;
+ b=X9TgMk0UzE6tJh1VOM2zRU0XAq30KuSnkb4aRED9o/nxw5FgaeFNOWy1Goe7t9E1VKUpWJ
+ UpEwfKcb4+RwyWF2r4DslrQzgfaIqLBRGYHt7ss7rGW+Xb5k8GsVfFrrEUW8uYCEqgQY/p
+ RLof1/ooxr/wibc6GhSOsEdvgnnS1pc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-CDpKw7TnNMeLxfIm0gFFZQ-1; Mon, 19 Jul 2021 17:13:51 -0400
+X-MC-Unique: CDpKw7TnNMeLxfIm0gFFZQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ p20-20020a1709064994b02903cd421d7803so5930886eju.22
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 14:13:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MQ1jw/CBZ8fhCsw/DwAbmILGiV/EzFgc4A46h5Q5+L4=;
+ b=B7bUrEH0/RgYSJV+O5prMVZgii+tAVOX2ACua7HFhAYJ0CZcD7MmB/WxZcNoCT7D6R
+ cZv5Mx/9HfJULs2ttreZlFioWs8jqcl849Ynui5in0A3XkgeNUosGt6XE+p81Boet96w
+ OPcJ6AoRRSfuedrsG+K0AwSTKuRIea876HhHk9a9cxOTiBefbXvWPJgtvdoreAWK0qy4
+ +FzWvR/Y0z0LSuC7rjYIh6miZSJij32WzJmtvhWN6t+18IJjLMbl8hZOWmkn0hm3BJzq
+ BmNsDvYC76Q6nSK+kV3PervwZ+Z3A9YZCo/+560oSZ6fAkWNNQR1PK70wBd5FEwNcnaz
+ TmLw==
+X-Gm-Message-State: AOAM530pNsLxPruANOkr3Mr+WhujToa2CyUifTbzuAdUKpSri8X5SlkA
+ +xoSDXXPZf2xlt/S92rSl6dvoZYeHDjBtu+rrQ18Q7hSst+ud+yEHXhu0z5rBy6UjzJZz/wKzWf
+ s8pL/xUhNUXpabHk=
+X-Received: by 2002:a50:baa4:: with SMTP id x33mr17479247ede.259.1626729230025; 
+ Mon, 19 Jul 2021 14:13:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz6/y1b8sqsn+ogMHsfx0uFuOrtIEUvdFR7pYmNPv4YFLb2pz41Y7own2BgpNNF9aJZ5T0nJA==
+X-Received: by 2002:a50:baa4:: with SMTP id x33mr17479224ede.259.1626729229734; 
+ Mon, 19 Jul 2021 14:13:49 -0700 (PDT)
+Received: from redhat.com ([2.55.139.106])
+ by smtp.gmail.com with ESMTPSA id bm1sm6384980ejb.38.2021.07.19.14.13.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 14:13:48 -0700 (PDT)
+Date: Mon, 19 Jul 2021 17:13:44 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH for-6.2 v6 7/7] memory_hotplug.c: send
+ DEVICE_UNPLUG_ERROR in acpi_memory_hotplug_write()
+Message-ID: <20210719171324-mutt-send-email-mst@kernel.org>
+References: <20210719200827.1507276-1-danielhb413@gmail.com>
+ <20210719200827.1507276-8-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1d7c5494-0b53-46bb-0033-08d94af7c8c2
-X-MS-TrafficTypeDiagnostic: BY5PR02MB6739:
-X-Microsoft-Antispam-PRVS: <BY5PR02MB67395149CFF7405437CBC435D0E19@BY5PR02MB6739.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: DeykptgW/3hEuZbZFNBxAP+saZ88LlCAGU+labFF89qPrdGaouUj59DhTBaRdIYX38yxPrUCqGnZTIEyvwHe0UyCrv2jxJi0XuJN16kfhFRlpQ0CUs4SzBOytTKwe2H0Kt7yKlvWu7L5fjy4zO3l9tnwl/hIL9GUbOI7VwuiAYmoiMzFAiIN2ankpKDibmMNzTPpzaN85NBtlnVjYpDWjtuV2ZI93BcR4aORfzwGSiwDUzZCrDbP+w8xYlFrWqhKg0YyCFwUfcbnqoY/kPEEa/UF/6BBtEE/Z9gi8pXS8SCcrra/DwyVOlqIZAUCKEwJ6oxbRzuUZxr1q5A+7qpqZ1bIJ1/W0nu2XKOcudfaDEZ0cimyEy+V60lU9AJwTh2kR6u5Bx3/HkRBD5O8hP9i+lqUxS/wxnnp54nYHX20Aif5716ig3xX6OUuOEZhLdQLk1HT3LPthIk9XICs60cz/HCjWhw09x/pjMoluLJMoyJVV4EVcu7QZ1ENL69/eSw1hVc3Do74PX3j33RO57hvoARMb13R5LardhlRRwwQi2W94p7TXIoBcHCJ3mJZX1hj8KHj1xf1QSRO9uiVWrRw2YHo+H1d0wBMSSzYFud6XmwY7AowjNn8+CTmrfWVGuw+AH2voGh3VQmUFDubFC9AQj9cJJ5mPAbDg5sL0mG5XEio+qa7AYWudpHOICc9LTBgv53QLQN64RZuHLGGKuBPUDJIlZwawQZVjM8oY9hBgMY=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(396003)(376002)(346002)(39860400002)(136003)(46966006)(36840700001)(5660300002)(36906005)(7636003)(2906002)(36756003)(8676002)(316002)(44832011)(186003)(336012)(8936002)(86362001)(356005)(82740400003)(7696005)(36860700001)(82310400003)(4326008)(83380400001)(47076005)(2616005)(9786002)(70206006)(26005)(6916009)(70586007)(426003)(478600001)(4744005)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 20:57:13.4380 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d7c5494-0b53-46bb-0033-08d94af7c8c2
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0029.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6739
-Received-SPF: pass client-ip=2a01:111:f400:7eae::628;
- envelope-from=komlodi@xilinx.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210719200827.1507276-8-danielhb413@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,31 +93,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eric.auger@redhat.com
+Cc: qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bit to see if a CD is valid is the last bit of the first word of the CD.
+On Mon, Jul 19, 2021 at 05:08:27PM -0300, Daniel Henrique Barboza wrote:
+> MEM_UNPLUG_ERROR is deprecated since the introduction of
+> DEVICE_UNPLUG_ERROR. Keep emitting both while the deprecation of
+> MEM_UNPLUG_ERROR is pending.
+> 
+> CC: Michael S. Tsirkin <mst@redhat.com>
+> CC: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
----
- hw/arm/smmuv3-internal.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index 3dac576..d1885ae 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
-@@ -570,7 +570,7 @@ static inline int pa_range(STE *ste)
- 
- /* CD fields */
- 
--#define CD_VALID(x)   extract32((x)->word[0], 30, 1)
-+#define CD_VALID(x)   extract32((x)->word[0], 31, 1)
- #define CD_ASID(x)    extract32((x)->word[1], 16, 16)
- #define CD_TTB(x, sel)                                      \
-     ({                                                      \
--- 
-2.7.4
+Pls merge with rest of series.
+
+> ---
+>  hw/acpi/memory_hotplug.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> index e37acb0367..a0772fe083 100644
+> --- a/hw/acpi/memory_hotplug.c
+> +++ b/hw/acpi/memory_hotplug.c
+> @@ -8,6 +8,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-events-acpi.h"
+>  #include "qapi/qapi-events-machine.h"
+> +#include "qapi/qapi-events-qdev.h"
+>  
+>  #define MEMORY_SLOTS_NUMBER          "MDNR"
+>  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
+> @@ -181,10 +182,19 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
+>  
+>                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+>  
+> +                /*
+> +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_ERROR
+> +                 * while the deprecation of MEM_UNPLUG_ERROR is
+> +                 * pending.
+> +                 */
+>                  if (dev->id) {
+>                      qapi_event_send_mem_unplug_error(dev->id, error_pretty);
+>                  }
+>  
+> +                qapi_event_send_device_unplug_error(!!dev->id, dev->id,
+> +                                                    dev->canonical_path,
+> +                                                    true, error_pretty);
+> +
+>                  error_free(local_err);
+>                  break;
+>              }
+> -- 
+> 2.31.1
 
 
