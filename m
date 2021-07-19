@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 385573CCC98
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 05:24:06 +0200 (CEST)
-Received: from localhost ([::1]:52248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D793CCC95
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 05:22:29 +0200 (CEST)
+Received: from localhost ([::1]:43768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Jsz-0005zM-7U
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 23:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42180)
+	id 1m5JrQ-0000P5-6o
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 23:22:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m5Jq5-00068v-0t
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:05 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2160)
+ id 1m5Jq3-00067m-W0
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:04 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m5Jq0-0005wq-23
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:04 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GSn8B0Q6tz7tBl;
- Mon, 19 Jul 2021 11:17:14 +0800 (CST)
+ id 1m5Jq1-0005xk-BP
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:03 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GSn8C1X1Hz7wFP;
+ Mon, 19 Jul 2021 11:17:15 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 11:20:51 +0800
+ 15.1.2176.2; Mon, 19 Jul 2021 11:20:52 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 11:20:50 +0800
+ 15.1.2176.2; Mon, 19 Jul 2021 11:20:51 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.2 v2 03/11] machine: Uniformly use maxcpus to calculate
- the omitted parameters
-Date: Mon, 19 Jul 2021 11:20:35 +0800
-Message-ID: <20210719032043.25416-4-wangyanan55@huawei.com>
+Subject: [PATCH for-6.2 v2 04/11] machine: Use the computed parameters to
+ calculate omitted cpus
+Date: Mon, 19 Jul 2021 11:20:36 +0800
+Message-ID: <20210719032043.25416-5-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210719032043.25416-1-wangyanan55@huawei.com>
 References: <20210719032043.25416-1-wangyanan55@huawei.com>
@@ -78,88 +78,64 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are currently using maxcpus to calculate the omitted sockets
-but using cpus to calculate the omitted cores/threads. This makes
-cmdlines like:
-  -smp cpus=8,maxcpus=16
-  -smp cpus=8,cores=4,maxcpus=16
-  -smp cpus=8,threads=2,maxcpus=16
-work fine but the ones like:
-  -smp cpus=8,sockets=2,maxcpus=16
-  -smp cpus=8,sockets=2,cores=4,maxcpus=16
-  -smp cpus=8,sockets=2,threads=2,maxcpus=16
-break the invalid cpu topology check.
-
-Since we require for the valid config that the sum of "sockets * cores
-* dies * threads" should equal to the maxcpus, we should uniformly use
-maxcpus to calculate their omitted values.
-
-Also the if-branch of "cpus == 0 || sockets == 0" was splited into two
-branches of "cpus == 0" and "sockets == 0" so that we can clearly read
-that we are parsing -smp cmdlines with a preference of cpus over sockets
-over cores over threads.
+Currently we directly calculate the omitted cpus based on the already
+provided parameters. This makes some cmdlines like:
+  -smp maxcpus=16
+  -smp sockets=2,maxcpus=16
+  -smp sockets=2,dies=2,maxcpus=16
+  -smp sockets=2,cores=4,maxcpus=16
+not work. We should probably use the computed paramters to calculate
+cpus when maxcpus is provided while cpus is omitted, which will make
+above configs start to work.
 
 Note: change in this patch won't affect any existing working cmdlines
-but improves consistency and allow more incomplete configs to be valid.
+but allows more incomplete configs to be valid.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/core/machine.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ hw/core/machine.c | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index ed6712e964..c9f15b15a5 100644
+index c9f15b15a5..668f0a1553 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -768,24 +768,26 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+@@ -767,26 +767,27 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+         return;
      }
  
-     /* compute missing values, prefer sockets over cores over threads */
--    if (cpus == 0 || sockets == 0) {
-+    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-+
-+    if (cpus == 0) {
-+        sockets = sockets > 0 ? sockets : 1;
+-    /* compute missing values, prefer sockets over cores over threads */
+     maxcpus = maxcpus > 0 ? maxcpus : cpus;
+ 
+-    if (cpus == 0) {
+-        sockets = sockets > 0 ? sockets : 1;
+-        cores = cores > 0 ? cores : 1;
+-        threads = threads > 0 ? threads : 1;
+-        cpus = sockets * dies * cores * threads;
+-        maxcpus = maxcpus > 0 ? maxcpus : cpus;
+-    } else if (sockets == 0) {
++    /* compute missing values, prefer sockets over cores over threads */
++    if (sockets == 0) {
          cores = cores > 0 ? cores : 1;
          threads = threads > 0 ? threads : 1;
--        if (cpus == 0) {
--            sockets = sockets > 0 ? sockets : 1;
--            cpus = sockets * dies * cores * threads;
--        } else {
--            maxcpus = maxcpus > 0 ? maxcpus : cpus;
--            sockets = maxcpus / (dies * cores * threads);
--        }
-+        cpus = sockets * dies * cores * threads;
-+        maxcpus = maxcpus > 0 ? maxcpus : cpus;
-+    } else if (sockets == 0) {
-+        cores = cores > 0 ? cores : 1;
-+        threads = threads > 0 ? threads : 1;
-+        sockets = maxcpus / (dies * cores * threads);
+         sockets = maxcpus / (dies * cores * threads);
++        sockets = sockets > 0 ? sockets : 1;
      } else if (cores == 0) {
          threads = threads > 0 ? threads : 1;
--        cores = cpus / (sockets * dies * threads);
--        cores = cores > 0 ? cores : 1;
-+        cores = maxcpus / (sockets * dies * threads);
+         cores = maxcpus / (sockets * dies * threads);
++        cores = cores > 0 ? cores : 1;
      } else if (threads == 0) {
--        threads = cpus / (sockets * dies * cores);
--        threads = threads > 0 ? threads : 1;
--    } else if (sockets * dies * cores * threads < cpus) {
-+        threads = maxcpus / (sockets * dies * cores);
-+    }
-+
-+    if (sockets * dies * cores * threads < cpus) {
-         g_autofree char *dies_msg = g_strdup_printf(
-             mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-         error_setg(errp, "cpu topology: "
-@@ -795,8 +797,6 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-         return;
+         threads = maxcpus / (sockets * dies * cores);
++        threads = threads > 0 ? threads : 1;
      }
  
--    maxcpus = maxcpus > 0 ? maxcpus : cpus;
--
-     if (maxcpus < cpus) {
-         error_setg(errp, "maxcpus must be equal to or greater than smp");
-         return;
++    /* use the computed parameters to calculate the omitted cpus */
++    cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
++    maxcpus = maxcpus > 0 ? maxcpus : cpus;
++
+     if (sockets * dies * cores * threads < cpus) {
+         g_autofree char *dies_msg = g_strdup_printf(
+             mc->smp_dies_supported ? " * dies (%u)" : "", dies);
 -- 
 2.19.1
 
