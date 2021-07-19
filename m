@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4BD3CEE17
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:25:51 +0200 (CEST)
-Received: from localhost ([::1]:55622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D66983CEE1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:27:31 +0200 (CEST)
+Received: from localhost ([::1]:34494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5alq-0000At-F6
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:25:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60674)
+	id 1m5anS-00050L-TW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5aj8-0004VZ-B4
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:23:02 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:38508)
+ id 1m5ajC-0004kR-89
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:23:06 -0400
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:39564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5aj6-0000uz-FK
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:23:02 -0400
-Received: by mail-pf1-x429.google.com with SMTP id i14so5738074pfd.5
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 14:23:00 -0700 (PDT)
+ id 1m5ajA-0000yH-Iy
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:23:05 -0400
+Received: by mail-pg1-x535.google.com with SMTP id o4so15918026pgs.6
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 14:23:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1SYl6z4JM6oqxGI/nixKvmomGJ8etB/EcKsdFgvob4o=;
- b=RZbswz7PF6dQ3OhUhhzVrGsR1pnMNOZ0ZSXwA1SV2b0IyqQ/aYsoCIihK53QgS/qDJ
- eOqPawMxfX40uXum3QSlGuG9BO4+v/kMrXL7JhCGvX7Az2d0TwH6DQIiRAY0QVhmZBuz
- 0F+DdR7NM5rm/aqYcHnvsvYjVzD9RKGGpneVVGLGU5QFbwIzhhQz8WHRkiXu52OATvE2
- HhkO3ZxlAyCSgMMQc2UIQ51fN4PnS6BvFQpMu+LSnmtuCTr3zy6xc1TtnGhx1d+TWcKp
- iY+76vitr1qp/6Yrtt+vbGWAVGYRDSbpMK9qXzniX32PgMGqJ9kEM3VuqNKrA7CMW2Oj
- 3aYQ==
+ bh=PNGGuAbGOXbZh1djyRYowe+1Bkitpoo3mG0dYZQDf8E=;
+ b=B5W/Szyufhxasv3mMpCsxf2tkU8IT80c0ljF5ByNfGKDEGUimqY3bhaggkyG6wl2pG
+ 86ldck98u6eKw2gUiBVZL/wgsjcLpO5Z34lWRKqs0NSnpVXYaZ39+TOyYY+kwnXAKexr
+ kV1CN8D8xgTEir2PiaCExNWMXD/sshObMetv9tW7KTWLGAiR1t1fwIQGHQ2WXBrU9sZS
+ xLr2bPZHXTASY1e5oN8mjr/GDnulJhmIqDgv6MDO4PxIIz4qY07aO89YEODKRbpxAZYX
+ P399gB+/jKx6Cioc42sfpCw0yLm6z4hIyK4VYByNLZeHQMpatbdvLfQV8WRaA8UD0SXn
+ +FhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1SYl6z4JM6oqxGI/nixKvmomGJ8etB/EcKsdFgvob4o=;
- b=Vost8+mYnlA/7If1VGdWj3XP2eRsvUTVpO0n+B5c0dpIWnMnLXQvSXaClzzeBd1o+L
- D5bGxq9cOxpuVZmDpohoQlPzwKbV/BR06G2tQHGElwu708wdorF4OGrjCZBtEWDb9Oui
- i8BpqFHxMKdAHUSElcpbrzq3Ig6QcPX9HmyXOTKUyyLVL+6WSoaUZcrVrUE+bvG9dq/y
- cuwWxdAXYFMSgoaonDHzO7A1+omtqTOG1E5LE7a2QxdNVBH5XoW6ZBAXUh2b39k04x9c
- jU5LfBCG9A2OV6XAHfus+zmheltNIg/Yigkp5KjJ3+5Q8q9FlKMZ6/haPJyp6S0Vc2JK
- E+Rw==
-X-Gm-Message-State: AOAM532N568f8XLAWAu0UXkUFAfJQ5QwQiGyUmCU8jGO2Oi8N6JpTH8L
- g7sGJBNUaRteGdFJ8VlLeI4JeKNidXB54Q==
-X-Google-Smtp-Source: ABdhPJxYZl7qcQO3zFE3xwKVxt3g96x8Hfh57cFaEJ4CqAVpMp65hlmpA2DlQw1mVBRRXQ++/EiZ1Q==
-X-Received: by 2002:a05:6a00:10cd:b029:30a:ea3a:4acf with SMTP id
- d13-20020a056a0010cdb029030aea3a4acfmr28748825pfu.51.1626729779234; 
- Mon, 19 Jul 2021 14:22:59 -0700 (PDT)
+ bh=PNGGuAbGOXbZh1djyRYowe+1Bkitpoo3mG0dYZQDf8E=;
+ b=Cut4ZyUZlb2Zwd2IMX1KA/ZX5EtWzKEXawsX8tDZfBicj+wfdKQRzQF2mtXRRVbt5y
+ IoEBBUHrzhNFbIDzSTh7Hd8EhNrt7FnBvfZdOurA7gKKtRxkyis7UdjUkzoNoJOp38zh
+ HlXqvqmRHVIqWrB0X3eU9qPhWQaQ3zNopMpMmELuvZJRtqyk780/3OZZdII6ia2A0lkH
+ x5RnGnVXRkdrTcJWV3EvBpNWNr/nq4mzopHZrLYvOXk2eXAW0dADklJhi+qux63RDWFZ
+ gqQYSMasIP3nfdU0aCk7BJcYZ8eW2Pz9NftmhG7q1RsgpmxeTEXXSiRhWDt+vxwqanqk
+ b+7w==
+X-Gm-Message-State: AOAM533LQFBtFDQJK4SANVlWoa+UG1pPhAIHRq1+u9/U6b2Fn6qXA+Ne
+ /Uzy/+e+utTQl0KtrA+1VW1zXsH5Q/TQvw==
+X-Google-Smtp-Source: ABdhPJyzcWhrdArtbT10Dcee23xfrp3lX9ikorORoSa9x430IiRmlf1/kx2beQ3TnMJomHK2jRKzow==
+X-Received: by 2002:a63:ef57:: with SMTP id c23mr27072051pgk.60.1626729783233; 
+ Mon, 19 Jul 2021 14:23:03 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id e4sm25008434pgi.94.2021.07.19.14.22.58
+ by smtp.gmail.com with ESMTPSA id e4sm25008434pgi.94.2021.07.19.14.23.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 14:22:59 -0700 (PDT)
+ Mon, 19 Jul 2021 14:23:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 v4 11/15] target/i386: Implement debug_check_breakpoint
-Date: Mon, 19 Jul 2021 11:22:35 -1000
-Message-Id: <20210719212239.428740-12-richard.henderson@linaro.org>
+Subject: [PATCH for-6.1 v4 14/15] accel/tcg: Hoist tb_cflags to a local in
+ translator_loop
+Date: Mon, 19 Jul 2021 11:22:38 -1000
+Message-Id: <20210719212239.428740-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210719212239.428740-1-richard.henderson@linaro.org>
 References: <20210719212239.428740-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,42 +90,53 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Return false for RF set, as we do in i386_tr_breakpoint_check.
+The access internal to tb_cflags() is atomic.
+Avoid re-reading it as such for the multiple uses.
 
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/tcg-cpu.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ accel/tcg/translator.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index e96ec9bbcc..238e3a9395 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -54,6 +54,17 @@ static void x86_cpu_synchronize_from_tb(CPUState *cs,
-     cpu->env.eip = tb->pc - tb->cs_base;
- }
+diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
+index 4f3728c278..b45337f3ba 100644
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -50,6 +50,7 @@ bool translator_use_goto_tb(DisasContextBase *db, target_ulong dest)
+ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+                      CPUState *cpu, TranslationBlock *tb, int max_insns)
+ {
++    uint32_t cflags = tb_cflags(tb);
+     bool plugin_enabled;
  
-+#ifndef CONFIG_USER_ONLY
-+static bool x86_debug_check_breakpoint(CPUState *cs)
-+{
-+    X86CPU *cpu = X86_CPU(cs);
-+    CPUX86State *env = &cpu->env;
-+
-+    /* RF disables all architectural breakpoints. */
-+    return !(env->eflags & RF_MASK);
-+}
-+#endif
-+
- #include "hw/core/tcg-cpu-ops.h"
+     /* Initialize DisasContext */
+@@ -72,8 +73,7 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     ops->tb_start(db, cpu);
+     tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
  
- static const struct TCGCPUOps x86_tcg_ops = {
-@@ -66,6 +77,7 @@ static const struct TCGCPUOps x86_tcg_ops = {
-     .tlb_fill = x86_cpu_tlb_fill,
- #ifndef CONFIG_USER_ONLY
-     .debug_excp_handler = breakpoint_handler,
-+    .debug_check_breakpoint = x86_debug_check_breakpoint,
- #endif /* !CONFIG_USER_ONLY */
- };
+-    plugin_enabled = plugin_gen_tb_start(cpu, tb,
+-                                         tb_cflags(db->tb) & CF_MEMI_ONLY);
++    plugin_enabled = plugin_gen_tb_start(cpu, tb, cflags & CF_MEMI_ONLY);
+ 
+     while (true) {
+         db->num_insns++;
+@@ -88,14 +88,13 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+            update db->pc_next and db->is_jmp to indicate what should be
+            done next -- either exiting this loop or locate the start of
+            the next instruction.  */
+-        if (db->num_insns == db->max_insns
+-            && (tb_cflags(db->tb) & CF_LAST_IO)) {
++        if (db->num_insns == db->max_insns && (cflags & CF_LAST_IO)) {
+             /* Accept I/O on the last instruction.  */
+             gen_io_start();
+             ops->translate_insn(db, cpu);
+         } else {
+             /* we should only see CF_MEMI_ONLY for io_recompile */
+-            tcg_debug_assert(!(tb_cflags(db->tb) & CF_MEMI_ONLY));
++            tcg_debug_assert(!(cflags & CF_MEMI_ONLY));
+             ops->translate_insn(db, cpu);
+         }
  
 -- 
 2.25.1
