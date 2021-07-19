@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CD33CEE8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:49:57 +0200 (CEST)
-Received: from localhost ([::1]:45166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082213CEE8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:51:31 +0200 (CEST)
+Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5b9A-0007ER-6V
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36148)
+	id 1m5bAg-0001Ue-4S
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5b7n-0005tv-FD
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:48:31 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:41691)
+ id 1m5b7q-0005wC-2u
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:48:34 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5b7m-0000af-0y
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:48:31 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- p15-20020a05600c358fb0290245467f26a4so863501wmq.0
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 14:48:29 -0700 (PDT)
+ id 1m5b7o-0000bg-EY
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:48:33 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ g8-20020a1c9d080000b02901f13dd1672aso680396wme.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 14:48:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kbT9YM2qnDiYu1MefImT/Te/Zn63TyXdYA+A8VSke9c=;
- b=e45EDuv7LHcBwuItGp13W3+NsyQoMiiBsFbc3unLlEyaWgcEtOjhz0QYRhOr8ifNQd
- HFcg0K2XDB4cXb1UQ9TSs+X8pLl1ko3huw7es67TKEAreg8a4un0riySwhuxm0+Jz4hP
- kS85UEAblXFuuc8VCHUqp7M3FUWiP3h4GbhkTCsJqk/Q8x2yZqZp8JnZwOSKeIQUe0cC
- V2309BaGbS00WKq7bXwGSBdjoODyVXe5vwzPrvhwzCN2begtZ82YT417Jnw5bgmrD51+
- 2DOA95UNN2QET2iNCUCT5VqCuH17Nss7ILxz4ICN7EC1S7mfPvcMKGOVC+4nMuYj8CKH
- W+Iw==
+ bh=UBpUNb+L8NMOfcLq0OwesI4pAHCDtHwuC35PJMpv0y8=;
+ b=tdClvLvEte4+A3f/7IkJZQZLO86+xGvyxNSkSyPap5pLwb4VmmEWeJuuOTBOtpCuq/
+ wYLCWuuqjIUJr2Mw/rtyTC6wODfUXjppaOZUDonppzBr5U0CZry1MIeKlfJwIPaz/4D6
+ hmZUsz57LM7V7Z5zevUS+yQfWIetTg/CidurkXi9wH+QUikQCfR8fMnkAUqFi2inXjOe
+ 5Y3cPK0euNh1ZoV78tQNK1pyhl0mWgFwgYJ2FjU9nnRIhC2rlN8IgrUkVDcbcvWGBttI
+ butuWARGcr81WYGULoXKSz2PaVWFEwnwtpSnCmMdj3kIyMIT622pXpbiRfa2lRyX9H1z
+ 22gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kbT9YM2qnDiYu1MefImT/Te/Zn63TyXdYA+A8VSke9c=;
- b=f8H8U5o0hhzAYxjNzwl/vrw3IIteVVxUliv8AEdtej0GfEzcFqo2aeWTxqjD7W9tKW
- 45C9PLYn/1PP3aqKiQtykeDcYT5VWX8EvVFvrk3EUbeIu88HkVsfi/8XloGHvWMHYTkw
- 8aoF8bJem7+tDKux2ItW7Kq3TZ7RoP1KsNwJtuLQsI9pyhtMfx+6nGtzqvF63Sk0zIRq
- LD4tcKy9sUvaV1ut7ptw6vHlKB41umdB5lBLRwNuN6FtwQHbvKB2/uRcnLcaYqm6VY1P
- k4M2AMmCceo5cCyLXjTYqIBixRL25ZPqq1NSZv1wnQZiJies3drN8dLEny4IYklsCbiY
- dUmg==
-X-Gm-Message-State: AOAM530OMuQWRHs5I7YBwpwAA5jExTIgAYtdFo3lVLqkITuX7UUVNdB6
- oFjrRC2NAlwBR1DiAMFj1mZomw==
-X-Google-Smtp-Source: ABdhPJypctmh/5eoos7B6bZt1x+6RtFILbqHtwCEAogZSaL+6olhrneZCMNfd3GwHqr0rM9OUxaoCA==
-X-Received: by 2002:a1c:7410:: with SMTP id p16mr23302240wmc.6.1626731308449; 
- Mon, 19 Jul 2021 14:48:28 -0700 (PDT)
+ bh=UBpUNb+L8NMOfcLq0OwesI4pAHCDtHwuC35PJMpv0y8=;
+ b=uTF/xFG8NNbjFT/IdCLgYjwpQRscPfRCjOG7wP4XwMeIWsM4pE/DYn9TIA6AYpjbpY
+ q86Txzl3rFPG5bMrXX66YjbK/KlQfRmvnNYEit/y3oQS0i4tmz9aydvRgwnGuU7gigDh
+ pY64avtYC9PHiHY+MWj6ZgkBkxXZxTWhfvwHLr9zKdwQZ4KBRh/GHQK63vNmF/hzoDEC
+ QzziFwWS3ckN//hkCVggzDh4ciZ0zUEm4+Srl9LASxzhapplzmo0qDbR8stSUpxCD1Ak
+ B+p7VrHThfVGyFJ/n1lHtxKfK2AvESU0Kyw0GkMGk+npwpTdJxO098Ci+nP1wX4/dclc
+ hZGQ==
+X-Gm-Message-State: AOAM530/Iq+BKN4qGvsF/QLRsxs8qebTtfZcD9rPdaLf/ubUQ+Epj0I8
+ 7gEHPLGEyDBDx3K3wsMt3ipYCw==
+X-Google-Smtp-Source: ABdhPJxLBKHJ1tpp1JeyVZjYwDuba791K3hbRbWqm2j5y8LGQBLX6jq+A0XvBEhf16l07wJT4c9rpg==
+X-Received: by 2002:a05:600c:4f12:: with SMTP id
+ l18mr20708469wmq.22.1626731310855; 
+ Mon, 19 Jul 2021 14:48:30 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a8sm21701703wrt.61.2021.07.19.14.48.26
+ by smtp.gmail.com with ESMTPSA id o19sm9148638wmr.18.2021.07.19.14.48.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 19 Jul 2021 14:48:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B645A1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id CDB0D1FF8C;
  Mon, 19 Jul 2021 22:48:25 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 1/2] hw/tricore: fix inclusion of tricore_testboard
-Date: Mon, 19 Jul 2021 22:48:24 +0100
-Message-Id: <20210719214825.2264-2-alex.bennee@linaro.org>
+Subject: [PATCH v2 2/2] gitlab: enable a very minimal build with the tricore
+ container
+Date: Mon, 19 Jul 2021 22:48:25 +0100
+Message-Id: <20210719214825.2264-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210719214825.2264-1-alex.bennee@linaro.org>
 References: <20210719214825.2264-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,57 +89,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We inadvertently added a symbol clash causing the build not to include
-the testboard needed for check-tcg.
+We do the same thing as hexagon and do a two stage build that provides
+the minimal dependencies to build qemu-tricore-system and its
+check-tcg tests.
 
-Fixes: f4063f9c31 ("meson: Introduce target-specific Kconfig")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- configs/devices/tricore-softmmu/default.mak | 1 +
- hw/tricore/Kconfig                          | 3 +--
- hw/tricore/meson.build                      | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ .gitlab-ci.d/buildtest.yml                    | 11 +++++
+ .../dockerfiles/debian-tricore-cross.docker   | 40 ++++++++++++++++---
+ 2 files changed, 46 insertions(+), 5 deletions(-)
 
-diff --git a/configs/devices/tricore-softmmu/default.mak b/configs/devices/tricore-softmmu/default.mak
-index 5cc91cebce..724cb85de7 100644
---- a/configs/devices/tricore-softmmu/default.mak
-+++ b/configs/devices/tricore-softmmu/default.mak
-@@ -1 +1,2 @@
-+CONFIG_TRITEST=y
- CONFIG_TRIBOARD=y
-diff --git a/hw/tricore/Kconfig b/hw/tricore/Kconfig
-index 506e6183c1..a1b2438d99 100644
---- a/hw/tricore/Kconfig
-+++ b/hw/tricore/Kconfig
-@@ -1,9 +1,8 @@
--config TRICORE
-+config TRITEST
-     bool
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 89df51517c..5198b79deb 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -354,6 +354,17 @@ build-some-softmmu:
+     TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
+     MAKE_CHECK_ARGS: check-tcg
  
- config TRIBOARD
-     bool
--    select TRICORE
-     select TC27X_SOC
++# We build tricore in a very minimal tricore only container
++build-tricore-softmmu:
++  extends: .native_build_job_template
++  needs:
++    job: tricore-debian-cross-container
++  variables:
++    IMAGE: debian-tricore-cross
++    CONFIGURE_ARGS: --disable-tools --enable-debug
++    TARGETS: tricore-softmmu
++    MAKE_CHECK_ARGS: check-tcg
++
+ clang-system:
+   extends: .native_build_job_template
+   needs:
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index 985925134c..4ea9112289 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -15,9 +15,39 @@ RUN git clone --single-branch \
+         https://github.com/bkoppelmann/tricore-binutils.git \
+         /usr/src/binutils && \
+     cd /usr/src/binutils && chmod +x missing && \
+-    CFLAGS=-w ./configure --prefix=/usr --disable-nls --target=tricore && \
+-    make && make install && \
+-    rm -rf /usr/src/binutils
++    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
++    make && make install
  
- config TC27X_SOC
-diff --git a/hw/tricore/meson.build b/hw/tricore/meson.build
-index 47e36bb077..692a4708ba 100644
---- a/hw/tricore/meson.build
-+++ b/hw/tricore/meson.build
-@@ -1,6 +1,6 @@
- tricore_ss = ss.source_set()
--tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testboard.c'))
--tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testdevice.c'))
-+tricore_ss.add(when: 'CONFIG_TRITEST', if_true: files('tricore_testboard.c'))
-+tricore_ss.add(when: 'CONFIG_TRITEST', if_true: files('tricore_testdevice.c'))
- tricore_ss.add(when: 'CONFIG_TRIBOARD', if_true: files('triboard.c'))
- tricore_ss.add(when: 'CONFIG_TC27X_SOC', if_true: files('tc27x_soc.c'))
- 
+-# This image isn't designed for building QEMU but building tests
+-ENV QEMU_CONFIGURE_OPTS --disable-system --disable-user
++FROM debian:buster-slim
++# Duplicate deb line as deb-src
++RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
++# Install very minimal QEMU build deps for use in CI
++# $ lcitool variables debian-10 qemu+minimal
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
++    DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
++       bzip2 \
++       ca-certificates \
++       ccache \
++       g++ \
++       gcc \
++       git \
++       libcapstone-dev \
++       libfdt-dev \
++       libglib2.0-dev \
++       libpixman-1-dev \
++       libtest-harness-perl \
++       locales \
++       make \
++       ninja-build \
++       perl-base \
++       pkgconf \
++       python3-pip \
++       python3-setuptools \
++       python3-wheel
++COPY --from=0 /usr/local /usr/local
++ENV PATH $PATH:/usr/local/bin/
++
++# This image can only build a very minimal QEMU as well as the tests
++ENV DEF_TARGET_LIST tricore-softmmu
++ENV QEMU_CONFIGURE_OPTS --disable-user --disable-tools
 -- 
 2.32.0.264.g75ae10bc75
 
