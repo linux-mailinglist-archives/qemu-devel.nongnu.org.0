@@ -2,78 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A563CD322
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:09:21 +0200 (CEST)
-Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B25C3CD3DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:29:30 +0200 (CEST)
+Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5R9E-0005le-84
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:09:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
+	id 1m5RSj-0006Gz-BW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:29:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
- id 1m5R7v-0003xG-Ii
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:07:59 -0400
-Received: from mout.gmx.net ([212.227.17.22]:36919)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1m5RQW-0003lL-Bk
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:27:13 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
- id 1m5R7s-00021H-RQ
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:07:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1626692872;
- bh=WWjtMZqDXpNvRuQdR9XGghTlFlNXm4S/LQ6MiHUlP5I=;
- h=X-UI-Sender-Class:Subject:From:To:Cc:References:Date:In-Reply-To;
- b=bU6GZQXPf+Xo81/ZTpbLVmtCETVZIdR5U8UAFJSYohKP/roVL0yma63PXHQl2dQaM
- dBIABqb4q9OoZBfajp8rQRCDmiqWdsbtRJWIFPAbfDWZrpjZQX9P8I2L5WzjXhNrjy
- NJ36TbuWskFtb33q7T94FyJRQbneNZFrj8FfUhyU=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.188.43] ([88.130.62.78]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvLB-1ldckE2uEn-00Ru1s; Mon, 19
- Jul 2021 13:07:51 +0200
-Subject: Re: [PATCH for 6.1] ui/gtk: Fix relative mouse with multiple monitors
-From: =?UTF-8?Q?Dennis_W=c3=b6lfing?= <denniswoelfing@gmx.de>
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1m5RQT-0005mB-0a
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:27:12 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035167"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035167"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2021 04:27:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813473"
+Received: from icx-2s.bj.intel.com ([10.240.192.119])
+ by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:00 -0700
+From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-References: <20210629132410.286813-1-denniswoelfing@gmx.de>
- <e8a8fece-0d18-d055-e637-fe988db854c5@gmx.de>
-Message-ID: <23551a0c-03f5-aeb9-da64-04a3f51efb03@gmx.de>
-Date: Mon, 19 Jul 2021 13:07:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Subject: [PATCH v4 00/33] Qemu SGX virtualization
+Date: Mon, 19 Jul 2021 19:21:03 +0800
+Message-Id: <20210719112136.57018-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 MIME-Version: 1.0
-In-Reply-To: <e8a8fece-0d18-d055-e637-fe988db854c5@gmx.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: base64
-X-Provags-ID: V03:K1:Hy64faRZgi5yoNvTK7GvxprVo4L6EVGF6GzniLUj9r7qGbH736M
- E/MFqZth2K2KrOj1FWKkvrR1Gx7awl6VUfYCHO49u05Qs2iax+GT5RArxS9V/KHI6vE2UZ/
- s46y3FCdtpauQjGKxjuQ1qk6o9tQtBIzt16Vrn2Hc7dZ/P3csVmiGZQkRlyNsc3YQ66LRB6
- /j3CE96IfDbKDH7g3a9AA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jgzy1GL3iY8=:T1IXqKBg8VMzQbPLaM9erX
- AR5uEZ61tKVpnIDQThbVX1Rry1ClOowvD5fL5HCuFyjEO/R6PZG8hfv1HcwsZHf6x2yukJXnp
- kYUYRBYHvWcLpoTZ2PtvC+AWv1soXZtk5qSLCF3tAVa2P+dnt5PuaNkWhK8FfFy0uDeu7t1DZ
- L1K7cnysO/WmA3VLy++vYxvW64yJLvRYwAKQmJYK9Rw1H6yvl112vXMXr1kg8q2LZzWMcd00G
- oRs7EmSxCLGtRAcP+xHmoqqe3igJM4KaQ36DQ56rHVOqIMfcg8nU8pyWbyfiWkK3gh+ephy+Q
- hiCzGRTf3FCb/xsBQF1yF/NgGlDZthcjQHDmo7qOAAFuui0AsgZn3/llzvziSTNrBDe/7/Z/x
- 64cXu5/TcXT4+MPET3D4RWOzeDXYWa73vZi3rT7vvLEfCZIY/InZkl22Zf0JvWq2LY23AVMHX
- f/W8LH4xUHKD6pmZbfelxvDy5LXRTA3W+SHOvoeeDenUxfAiNLalezLly4xRXlX8AjumiyiNx
- yDAv0EPLcij5ggOovw8n4HkpnxR839o7N/m7g9xdTxWShl4blV6HvUp4DRVmGRRZB9dY/49F3
- QIAgvA6O17GMiOZE2abPeMZ2uB2ISoX00VD8/lRBFAuF0Jxf7t+A7raGqcNW2xnytdwvhxai3
- 4uSPWePb+PzdtcotU9GV3RK4/WY5fXFoo3LozFqiF11biTys0jB3iIwz0esmFvxetmaN5Rk1p
- 6bX740B5WKs0oskQKvDYdOuUEYqah9vrF+8ItgncUhrugXAYrwDvaWPBkWJhiuT/W092SUkNU
- zRBsNJpvlYhbq38i/7alQ0hvnRWuAD8Qt5ESBcErkF9ms/CcclyX9KJ9aNUu6gorLgsRC95eG
- n6Hd1TlnnIHNAAuugT4JrhplTeE3zJTr3rXh5PwO2f9KVxXXX9eepUaZorIo226H9bjPnDrv9
- EQXPkG5OAkguJrv8UsivPuXOYIkFI3WgKTt4nKFHIjcaKYB71AWGPLE2s3Rp2knaBEy73eXwM
- RmivKUR5qE8a0c2Cvc7/QyVKuf5c3GEMuYvpxSJWyyIrInbFHZNT4NMxcYedpmq8ESigbVVx6
- tnz2v3oH8WNLA8TLtH6AZchiBgdTRLDvM2GunZYUudZwHnf/fScSZ4QGhwTMczy1owUKi11XB
- fFDMY=
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=denniswoelfing@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.07, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=yang.zhong@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,66 +56,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
+ jarkko@kernel.org, pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGluZyAyDQpJJ2QgbGlrZSB0byBnZXQgdGhpcyBidWdmaXggaW50byA2LjEuDQoNCk9uIDA3LjA3
-LjIxIDEzOjAyLCBEZW5uaXMgV8O2bGZpbmcgd3JvdGU6DQo+IFBpbmcNCj4gaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvcWVtdS1kZXZlbC8yMDIxMDYyOTEzMjQxMC4yODY4MTMtMS1kZW5uaXN3b2Vs
-ZmluZ0BnbXguZGUgDQo+IA0KPiANCj4gT24gMjkuMDYuMjEgMTU6MjQsIERlbm5pcyBXw7ZsZmlu
-ZyB3cm90ZToNCj4+IFRvIGhhbmRsZSByZWxhdGl2ZSBtb3VzZSBpbnB1dCB0aGUgZXZlbnQgaGFu
-ZGxlciBuZWVkcyB0byBtb3ZlIHRoZSBtb3VzZQ0KPj4gYXdheSBmcm9tIHRoZSBzY3JlZW4gZWRn
-ZXMuIEZhaWxpbmcgdG8gZG8gc28gcmVzdWx0cyBpbiB0aGUgbW91c2UNCj4+IGdldHRpbmcgc3R1
-Y2sgYXQgaW52aXNpYmxlIHdhbGxzLiBIb3dldmVyIHRoZSBjdXJyZW50IGltcGxlbWVudGF0aW9u
-IGZvcg0KPj4gdGhpcyBpcyBicm9rZW4gb24gaG9zdHMgd2l0aCBtdWx0aXBsZSBtb25pdG9ycy4N
-Cj4+DQo+PiBXaXRoIG11bHRpcGxlIG1vbml0b3JzIHRoZSBtb3VzZSBjYW4gYmUgbG9jYXRlZCBv
-dXRzaWRlIG9mIHRoZSBjdXJyZW50DQo+PiBtb25pdG9yIHdoaWNoIGlzIG5vdCBoYW5kbGVkIGJ5
-IHRoZSBjdXJyZW50IGNvZGUuIEFsc28gdGhlIG1vbml0b3INCj4+IGl0c2VsZiBtaWdodCBiZSBs
-b2NhdGVkIGF0IGNvb3JkaW5hdGVzIGRpZmZlcmVudCBmcm9tICgwLCAwKS4NCj4+DQo+PiBTaWdu
-ZWQtb2ZmLWJ5OiBEZW5uaXMgV8O2bGZpbmcgPGRlbm5pc3dvZWxmaW5nQGdteC5kZT4NCj4+IC0t
-LQ0KPj4gwqAgdWkvZ3RrLmMgfCAyMSArKysrKysrKystLS0tLS0tLS0tLS0NCj4+IMKgIDEgZmls
-ZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYg
-LS1naXQgYS91aS9ndGsuYyBiL3VpL2d0ay5jDQo+PiBpbmRleCA5ODA0NmY1NzdiLi41MjU4NTMy
-YjE5IDEwMDY0NA0KPj4gLS0tIGEvdWkvZ3RrLmMNCj4+ICsrKyBiL3VpL2d0ay5jDQo+PiBAQCAt
-ODY1LDMzICs4NjUsMzAgQEAgc3RhdGljIGdib29sZWFuIGdkX21vdGlvbl9ldmVudChHdGtXaWRn
-ZXQgDQo+PiAqd2lkZ2V0LCBHZGtFdmVudE1vdGlvbiAqbW90aW9uLA0KPj4gwqDCoMKgwqDCoMKg
-wqDCoMKgIEdka1dpbmRvdyAqd2luID0gZ3RrX3dpZGdldF9nZXRfd2luZG93KHdpZGdldCk7DQo+
-PiDCoMKgwqDCoMKgwqDCoMKgwqAgR2RrTW9uaXRvciAqbW9uaXRvciA9IGdka19kaXNwbGF5X2dl
-dF9tb25pdG9yX2F0X3dpbmRvdyhkcHksIA0KPj4gd2luKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDC
-oCBHZGtSZWN0YW5nbGUgZ2VvbWV0cnk7DQo+PiAtwqDCoMKgwqDCoMKgwqAgaW50IHNjcmVlbl93
-aWR0aCwgc2NyZWVuX2hlaWdodDsNCj4+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IHggPSAo
-aW50KW1vdGlvbi0+eF9yb290Ow0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGludCB5ID0gKGludClt
-b3Rpb24tPnlfcm9vdDsNCj4+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ2RrX21vbml0b3JfZ2V0
-X2dlb21ldHJ5KG1vbml0b3IsICZnZW9tZXRyeSk7DQo+PiAtwqDCoMKgwqDCoMKgwqAgc2NyZWVu
-X3dpZHRoID0gZ2VvbWV0cnkud2lkdGg7DQo+PiAtwqDCoMKgwqDCoMKgwqAgc2NyZWVuX2hlaWdo
-dCA9IGdlb21ldHJ5LmhlaWdodDsNCj4+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgLyogSW4gcmVs
-YXRpdmUgbW9kZSBjaGVjayB0byBzZWUgaWYgY2xpZW50IHBvaW50ZXIgaGl0DQo+PiAtwqDCoMKg
-wqDCoMKgwqDCoCAqIG9uZSBvZiB0aGUgc2NyZWVuIGVkZ2VzLCBhbmQgaWYgc28gbW92ZSBpdCBi
-YWNrIGJ5DQo+PiArwqDCoMKgwqDCoMKgwqDCoCAqIG9uZSBvZiB0aGUgbW9uaXRvciBlZGdlcywg
-YW5kIGlmIHNvIG1vdmUgaXQgYmFjayBieQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiAyMDAg
-cGl4ZWxzLiBUaGlzIGlzIGltcG9ydGFudCBiZWNhdXNlIHRoZSBwb2ludGVyDQo+PiDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCAqIGluIHRoZSBzZXJ2ZXIgZG9lc24ndCBjb3JyZXNwb25kIDEtZm9yLTEs
-IGFuZCBzbw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBtYXkgc3RpbGwgYmUgb25seSBoYWxm
-IHdheSBhY3Jvc3MgdGhlIHNjcmVlbi4gV2l0aG91dA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-KiB0aGlzIHdhcnAsIHRoZSBzZXJ2ZXIgcG9pbnRlciB3b3VsZCB0aHVzIGFwcGVhciB0byBoaXQN
-Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgICogYW4gaW52aXNpYmxlIHdhbGwgKi8NCj4+IC3CoMKg
-wqDCoMKgwqDCoCBpZiAoeCA9PSAwKSB7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB4ICs9
-IDIwMDsNCj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoeCA8PSBnZW9tZXRyeS54KSB7DQo+PiArwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB4ID0gZ2VvbWV0cnkueCArIDIwMDsNCj4+IMKgwqDCoMKgwqDC
-oMKgwqDCoCB9DQo+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKHkgPT0gMCkgew0KPj4gLcKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgeSArPSAyMDA7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHkgPD0gZ2Vv
-bWV0cnkueSkgew0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgeSA9IGdlb21ldHJ5LnkgKyAy
-MDA7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gLcKgwqDCoMKgwqDCoMKgIGlmICh4ID09
-IChzY3JlZW5fd2lkdGggLSAxKSkgew0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgeCAtPSAy
-MDA7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHggLSBnZW9tZXRyeS54ID49IChnZW9tZXRyeS53
-aWR0aCAtIDEpKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB4ID0gZ2VvbWV0cnkueCAr
-IChnZW9tZXRyeS53aWR0aCAtIDEpIC0gMjAwOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+
-IC3CoMKgwqDCoMKgwqDCoCBpZiAoeSA9PSAoc2NyZWVuX2hlaWdodCAtIDEpKSB7DQo+PiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCB5IC09IDIwMDsNCj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoeSAt
-IGdlb21ldHJ5LnkgPj0gKGdlb21ldHJ5LmhlaWdodCAtIDEpKSB7DQo+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoCB5ID0gZ2VvbWV0cnkueSArIChnZW9tZXRyeS5oZWlnaHQgLSAxKSAtIDIwMDsN
-Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9DQo+Pg0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmICh4
-ICE9IChpbnQpbW90aW9uLT54X3Jvb3QgfHwgeSAhPSAoaW50KW1vdGlvbi0+eV9yb290KSB7DQo+
-PiAtLSANCj4+IDIuMzIuMA0KPj4NCg==
+Since Sean Christopherson has left Intel and i am responsible for Qemu SGX
+upstream work. His @intel.com address will be bouncing and his new email(
+seanjc@google.com) is also in CC lists.
+
+This series is Qemu SGX virtualization implementation rebased on latest
+Qemu release. The numa support for SGX will be sent in another patchset
+once this basic SGX patchset are merged.
+
+You can find Qemu repo here:
+
+    https://github.com/intel/qemu-sgx.git upstream
+
+If you want to try SGX, you can directly install the linux release(at least 5.13.0-rc1+)
+since kvm SGX has been merged into linux release.
+
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+
+To simplify, you'd better install linux on host and guest, which can support
+SGX on host and guest kernel. And to me, use below reference command to boot
+SGX guest:
+
+    #qemu-system-x86_64 \
+        ...... \
+        -cpu host,+sgx-provisionkey \
+        -object memory-backend-epc,id=mem1,size=64M,prealloc=on \
+        -object memory-backend-epc,id=mem2,size=28M \
+        -M sgx-epc.0.memdev=mem1,sgx-epc.1.memdev=mem2
+
+Overview
+========
+
+Intel Software Guard eXtensions (SGX) is a set of instructions and mechanisms
+for memory accesses in order to provide security accesses for sensitive
+applications and data. SGX allows an application to use it's pariticular
+address space as an *enclave*, which is a protected area provides confidentiality
+and integrity even in the presence of privileged malware. Accesses to the
+enclave memory area from any software not resident in the enclave are prevented,
+including those from privileged software.
+
+SGX virtaulization
+==================
+
+The KVM SGX creates one new misc device, sgx_vepc, and Qemu will open '/dev/sgx_vepc'
+device node to mmap() host EPC memory to guest. The Qemu also adds 'sgx-epc' device
+to expose EPC sections to guest through CPUID and ACPI table.  The Qemu SGX also
+supports multiple virtual EPC sections to guest, we just put them together physically
+contiguous for the sake of simplicity. The kernel SGX NUMA has been merged into Linux
+tip tree, we will support this function in the next phase.
+
+Although the current host SGX subsystem can not support SGX2 feature, the KVM/Qemu
+implementation still expose this feature to guest. Guest SGX2 support doesn't have
+interaction with host kernel SGX driver, the SGX guest can normally use those new
+instructions.
+
+As for SGX virtualization detailed infomation, please reference docs/intel-sgx.txt
+docuement(patch 33).
+
+Changelog:
+=========
+
+(Changelog here is for global changes, please see each patch's changelog for changes
+made to specific patch.)
+
+v3-->v4:
+   - Rebased the sgx patches into latest Qemu release.
+   - Moved sgx compound property setter/getter from MachineState to X86MachineState(Paolo).
+   - Re-defined struct SgxEPC, removed 'id' property and added struct SgxEPCList for
+     sgx-epc.0.{memdev}(Paolo).
+   - Removed g_malloc0(), and changed the 'SGXEPCState *sgx_epc' to 'SGXEPCState sgx_epc'
+     in struct PCMachineState(Paolo).
+   - Changed the SGX compound property cmdline from sgx-epc.{memdev}.0 to
+     sgx-epc.0.{memdev}(Paolo).
+   - Removed the signature from the 'git format-patch' command(Jarkko).
+
+v2-->v3:
+   - Rebased the sgx patches into latest Qemu release.
+   - Implemented the compound property for SGX, ref patch5, the command from '-sgx-epc'
+     to '-M'(Paolo).
+   - Moved the sgx common code from sgx-epc.c to sgx.c. The sgx-epc.c is
+     only responsible for virtual epc device.
+   - Removed the previous patch13(linux-headers: Add placeholder for KVM_CAP_SGX_ATTRIBUTE)
+     because ehabkost@redhat.com updated Linux headers to 5.13-rc4 with commit 278f064e452.
+   - Updated the patch1 because ram_flags were changed by David Hildenbra.
+   - Added one patch24, which avoid reset operation caused by bios reset.
+   - Added one patch25, which make prealloc property consistent with Qemu cmdline during VM
+     reset.
+
+v1-->v2:
+   - Rebased the sgx patches into latest Qemu release.
+   - Unified the "share" and "protected" arguments with ram_flags in the
+     memory_region_init_ram_from_fd()(Paolo).
+   - Added the new MemoryBackendEpcProperties and related documents(Eric Blake).
+   - Changed the KVM_CAP_SGX_ATTRIBUTE from 195 to 196(Kai).
+   - Changed the version and some grammar issues(Eric Blake).
+
+Sean Christopherson (21):
+  memory: Add RAM_PROTECTED flag to skip IOMMU mappings
+  hostmem: Add hostmem-epc as a backend for SGX EPC
+  i386: Add 'sgx-epc' device to expose EPC sections to guest
+  vl: Add sgx compound properties to expose SGX EPC sections to guest
+  i386: Add primary SGX CPUID and MSR defines
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EAX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_0_EBX
+  i386: Add SGX CPUID leaf FEAT_SGX_12_1_EAX
+  i386: Add get/set/migrate support for SGX_LEPUBKEYHASH MSRs
+  i386: Add feature control MSR dependency when SGX is enabled
+  i386: Update SGX CPUID info according to hardware/KVM/user input
+  i386: kvm: Add support for exposing PROVISIONKEY to guest
+  i386: Propagate SGX CPUID sub-leafs to KVM
+  Adjust min CPUID level to 0x12 when SGX is enabled
+  hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg accordingly
+  hw/i386/pc: Account for SGX EPC sections when calculating device
+    memory
+  i386/pc: Add e820 entry for SGX EPC section(s)
+  i386: acpi: Add SGX EPC entry to ACPI tables
+  q35: Add support for SGX EPC
+  i440fx: Add support for SGX EPC
+  doc: Add the SGX doc
+
+Yang Zhong (12):
+  qom: Add memory-backend-epc ObjectOptions support
+  hostmem-epc: Add the reset interface for EPC backend reset
+  sgx-epc: Add the reset interface for sgx-epc virt device
+  sgx-epc: Avoid bios reset during sgx epc initialization
+  hostmem-epc: Make prealloc consistent with qemu cmdline during reset
+  qmp: Add query-sgx command
+  hmp: Add 'info sgx' command
+  i386: Add sgx_get_info() interface
+  bitops: Support 32 and 64 bit mask macro
+  qmp: Add the qmp_query_sgx_capabilities()
+  Kconfig: Add CONFIG_SGX support
+  sgx-epc: Add the fill_device_info() callback support
+
+ backends/hostmem-epc.c                   | 118 ++++++++++
+ backends/meson.build                     |   1 +
+ configs/devices/i386-softmmu/default.mak |   1 +
+ docs/intel-sgx.txt                       | 167 ++++++++++++++
+ hmp-commands-info.hx                     |  15 ++
+ hw/i386/Kconfig                          |   5 +
+ hw/i386/acpi-build.c                     |  22 ++
+ hw/i386/fw_cfg.c                         |  10 +-
+ hw/i386/meson.build                      |   2 +
+ hw/i386/pc.c                             |  15 +-
+ hw/i386/pc_piix.c                        |   4 +
+ hw/i386/pc_q35.c                         |   3 +
+ hw/i386/sgx-epc.c                        | 265 +++++++++++++++++++++++
+ hw/i386/sgx-stub.c                       |  13 ++
+ hw/i386/sgx.c                            | 170 +++++++++++++++
+ hw/i386/x86.c                            |  29 +++
+ hw/vfio/common.c                         |   1 +
+ include/exec/memory.h                    |  15 +-
+ include/hw/i386/pc.h                     |  10 +
+ include/hw/i386/sgx-epc.h                |  68 ++++++
+ include/hw/i386/x86.h                    |   1 +
+ include/monitor/hmp.h                    |   1 +
+ include/qemu/bitops.h                    |   7 +
+ monitor/hmp-cmds.c                       |  32 +++
+ monitor/qmp-cmds.c                       |  19 ++
+ qapi/machine.json                        |  52 ++++-
+ qapi/misc.json                           |  61 ++++++
+ qapi/qom.json                            |  19 ++
+ qemu-options.hx                          |  10 +-
+ softmmu/memory.c                         |   5 +
+ softmmu/physmem.c                        |   3 +-
+ stubs/meson.build                        |   1 +
+ stubs/sgx-stub.c                         |  12 +
+ target/i386/cpu.c                        | 168 +++++++++++++-
+ target/i386/cpu.h                        |  16 ++
+ target/i386/kvm/kvm.c                    |  75 +++++++
+ target/i386/kvm/kvm_i386.h               |   2 +
+ target/i386/machine.c                    |  20 ++
+ tests/qtest/qmp-cmd-test.c               |   2 +
+ 39 files changed, 1430 insertions(+), 10 deletions(-)
+ create mode 100644 backends/hostmem-epc.c
+ create mode 100644 docs/intel-sgx.txt
+ create mode 100644 hw/i386/sgx-epc.c
+ create mode 100644 hw/i386/sgx-stub.c
+ create mode 100644 hw/i386/sgx.c
+ create mode 100644 include/hw/i386/sgx-epc.h
+ create mode 100644 stubs/sgx-stub.c
+
 
