@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E895A3CEEFF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 00:18:25 +0200 (CEST)
-Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EC933CEF00
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 00:20:36 +0200 (CEST)
+Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5bai-0003FZ-PJ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 18:18:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
+	id 1m5bcp-0004iw-5q
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 18:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m5bZW-0002Ze-8X
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:17:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m5bZS-0002gs-S9
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:17:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626733025;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zWqCyqrzEbc6tbgw+zyC18w0Z4/y3Qp8MVtaeTP7KJI=;
- b=beKzYFNiDckRI+xcr53CABwRegvfcleExJX+eDk0hdB5ud8LZMnDJSDrDQ90yb14sgoOpw
- SGjegUVi9fWOoKVLE2XF7mUXf40oIQ1DFq/bWV296XTkTPMjRU9vsbYoP3uJXFAdt8H8Jr
- LrAFnvlCMjbbn9jxu5gO6ixOV+z1Aeo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-KobQIZLzOYy_gxNoB0GeDw-1; Mon, 19 Jul 2021 18:17:00 -0400
-X-MC-Unique: KobQIZLzOYy_gxNoB0GeDw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49E30362F8
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 22:16:59 +0000 (UTC)
-Received: from redhat.com (ovpn-112-31.ams2.redhat.com [10.36.112.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4182827199;
- Mon, 19 Jul 2021 22:16:54 +0000 (UTC)
-Date: Mon, 19 Jul 2021 23:16:51 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] tests/qtest/migration-test.c: use 127.0.0.1 instead of 0
-Message-ID: <YPX500dSOPjDObmt@redhat.com>
-References: <20210719185217.122105-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1m5bbS-000433-L6
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:19:10 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:41880)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1m5bbQ-0003un-W3
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:19:10 -0400
+Received: by mail-oi1-x233.google.com with SMTP id t143so22437562oie.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 15:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=SZLfdO48UV3Cv3KvezCUfONOFVOr+gSoOraNW4xAHyo=;
+ b=cmrw4mQcfHL52yF3C+97h3uGe4mqU/rF+L5zqxBYgWLi3DLeWsvwOWjfxKdHroQa8z
+ /TMKD2fkTvKl/bR9qXtrCsbcJlVR7ULIuagC8QxSDvsv0JIyyjnJzh4KsTrKfmH3uQf9
+ aJpNNIIZXyq0QDB/OvcNEwAm1yugSuF6WNCRN3uqWoaTq2jgsyK2Dolxi4WpdYwxA7gM
+ HJw7w/E8/0QspjvXEXZANMvw/uHR7G55zDsQvrmNEOyvp9RpbYXkPLBxS4lyfwgvO5tz
+ 7AQzKj7UAEptAo0+87g2fymJ3hIYvWiDWH3oonayeW9TS34sPno4Tdl1JatfCUWoo5K/
+ vNdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=SZLfdO48UV3Cv3KvezCUfONOFVOr+gSoOraNW4xAHyo=;
+ b=IU1KlFXUO6TVjwd24R1dxzNgHlV42OV8PPKPsOIy8wu+owJ6+Wq41KyyRhUqZ2Qeib
+ o9JOSrFD7fe12dIrndChzBwZ5/ib2Dijd9we1LEhBHiu+vFKGIER8LvNpP8jeAGFeFB1
+ EVY8bqUzlsW5TJvf+2jpgV/wf5PEoZe7xTHsF9IHw29K+yj9AdNlkiabaqKNrK+Ax4EN
+ 7fhR3M1ll+F0JX1ASb78qvb8DulGPxrUMKKWg8uRLJDhX/zrjcAZ42tg5xqwY2sCqp9j
+ d0F9W4ih83f7DZa6HqqqzuZwMHu34szV8HXQvApvGIa64vopwnSJAxv4+VKoAVvcVePc
+ 1aoA==
+X-Gm-Message-State: AOAM5326Qaakt5znZMDiX5bvsq9+PBLek/krNAfYrvdwxxta583Ogp31
+ gVb5SWSlgHWU0WZPQNP2EjmF47Yi78UB9kWEBvvyczgzifw=
+X-Google-Smtp-Source: ABdhPJxyZXielNPHsTsXKGUIW9NHtlHyQDYZbfuBjOQj4SLrwRQgxXTTqjniWv29BT42RgBhEzTU1gPeQ1RRsaXhsgU=
+X-Received: by 2002:aca:d805:: with SMTP id p5mr19113069oig.60.1626733146966; 
+ Mon, 19 Jul 2021 15:19:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210719185217.122105-1-dgilbert@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Mon, 19 Jul 2021 18:18:53 -0400
+Message-ID: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
+Subject: Error in accel/tcg?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000005e905b05c781534a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-oi1-x233.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +73,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19, 2021 at 07:52:17PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> OpenBSD doesn't like :0 as an address, switch to using 127.0.0.1
-> in baddest; it's really testing the :0 port number that isn't allowed
-> on anything.
-> 
-> (The test doesn't currently run anyway because of the userfault
-> problem that Peter noticed, but this gets us closer to being able to
-> reenable it)
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  tests/qtest/migration-test.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+--0000000000005e905b05c781534a
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Hello,
 
+I get the following error:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+<long cmd here> -c ../accel/tcg/cputlb.c
+../qemu/accel/tcg/cputlb.c: In function 'tlb_flush_page_by_mmuidx':
+../qemu/accel/tcg/cputlb.c:602:23: error: comparison is always true due to
+limited range of data type [-Werror=type-limits]
+    } else if (idxmap < TARGET_PAGE_SIZE) {
 
+I don't know why that suddenly shows up. The variable idxmap is a uint16_t
+and I haven't changed that at all. Also, the TARGET_PAGE_SIZE is indicated
+set by cscope/global tags in a specific header, and there's no reason to
+believe that the value it takes happens to be larger than a uint16_t, so I
+suppose that the static tags are lacking where the compiler evaluation
+would indicate correctly.
+
+In other parts of the code, I think somehow the meson build system is
+triggering errors for warnings, so things like uninitialized variables that
+have their address passed so that a called function can edit them are
+making. But I didn't specifically turn on any of these warnings to error
+settings. So my other thought is, perhaps because a version of gcc has some
+implicit initialization for variables declared without initialization. I
+checked that and resolved those. But I've been stumped for a while on the
+idxmap problem.
+
+--0000000000005e905b05c781534a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<br><br>I get the following error:<br><br>&lt;long c=
+md here&gt; -c ../accel/tcg/cputlb.c<div>../qemu/accel/tcg/cputlb.c: In fun=
+ction &#39;tlb_flush_page_by_mmuidx&#39;:<br>../qemu/accel/tcg/cputlb.c:602=
+:23: error: comparison is always true due to limited range of data type [-W=
+error=3Dtype-limits]</div><div>=C2=A0 =C2=A0 } else if (idxmap &lt; TARGET_=
+PAGE_SIZE) {<br><br>I don&#39;t know why that suddenly shows up. The variab=
+le idxmap is a uint16_t and I haven&#39;t changed that at all. Also, the TA=
+RGET_PAGE_SIZE is indicated set by cscope/global tags in a specific header,=
+ and there&#39;s no reason to believe that the value it takes happens to be=
+ larger than a uint16_t, so I suppose that the static tags are lacking wher=
+e the compiler evaluation would indicate correctly.=C2=A0<br><br>In other p=
+arts of the code, I think somehow the meson build system is triggering erro=
+rs for warnings, so things like uninitialized variables that have their add=
+ress passed so that a called function can edit them are making. But I didn&=
+#39;t specifically turn on any of these warnings to error settings. So my o=
+ther thought is, perhaps because a version of gcc has some implicit initial=
+ization for variables declared without initialization. I checked that and r=
+esolved those. But I&#39;ve been stumped for a while on the idxmap problem.=
+</div></div>
+
+--0000000000005e905b05c781534a--
 
