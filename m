@@ -2,104 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA023CD43C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:58:22 +0200 (CEST)
-Received: from localhost ([::1]:56178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9997F3CD445
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:02:25 +0200 (CEST)
+Received: from localhost ([::1]:34406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Rug-00086A-20
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:58:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56370)
+	id 1m5Rya-0004L5-KL
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m5RZ1-0005vR-6Z
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:35:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4262)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5RoC-00032E-2Q
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:51:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m5RYz-0002sC-JT
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:35:58 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16JBZf7n031116; Mon, 19 Jul 2021 07:35:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=zkxwCRqlJCStSrqFy2KfmPwNYzFYes6pCW6qan7Nht8=;
- b=Vz7nEhbvmF7dRJLDVAVxFSKEZ2bpv/ehi9EtCzyIU8G+YEauaUZ0dPiIeKmPVkm4Kkft
- oDDxA6LYrNffvR/wPIvxKM7mydfHjiIvTgwfyh/K3Kkax6SV4W3wClDwoInKb4vXEG+Y
- CYx7SUyEPrOjD3Eb7LelsOq3PGetVsnOPHSizFtwwYwPEsxJIgfkNLfNb8mxPWopVykn
- ylNe361Zh9kxIZAzNDpi8gjLIft7RPIdEMAhFNdhfrCieRl/xspFhMHZjrGgYn+HwBau
- 1EP/K9IaDEKFU+sGF1IyjGxdLktvy+3V+Fz1f3gWvPP9gc2d4SjBIzV7ru7OiZ8bhs3y YA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39w7yksn1m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 07:35:50 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16JBZnL4031875;
- Mon, 19 Jul 2021 07:35:49 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39w7yksmqx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 07:35:49 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16JBStUW032161;
- Mon, 19 Jul 2021 11:35:27 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
- [9.57.198.23]) by ppma04wdc.us.ibm.com with ESMTP id 39upua404s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 11:35:27 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16JBZQH234406868
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Jul 2021 11:35:26 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9897E124080;
- Mon, 19 Jul 2021 11:35:26 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF762124085;
- Mon, 19 Jul 2021 11:35:23 +0000 (GMT)
-Received: from [9.65.195.237] (unknown [9.65.195.237])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 19 Jul 2021 11:35:23 +0000 (GMT)
-Subject: Re: [RFC PATCH 1/6] linux-header: add the SNP specific command
-To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-2-brijesh.singh@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <cb98088a-a347-d921-0f1d-d271d740c649@linux.ibm.com>
-Date: Mon, 19 Jul 2021 14:35:22 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5Ro9-00054n-07
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:51:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626695495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LCxRdUBdymFC/pREilYPyNuy1CTSiCq1U9PpBh67Igk=;
+ b=Nypj+3jSN56hr64TL/3k2rThB4Vzw/1B4z8+ED/JvaHedqSeQtAT+6hEJ20XF7h+nofTrM
+ w1r7R7Y3J8/CK/h1Pl5+zVmNWtTmv+a8VdiO/w5dkSFWp5a+lGBNJFy5kZJ4cH7iKpizMo
+ c0WAL16DCahYfO21T+Cw5dX3n16505I=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-2XdW7WARN_6kM-fTqgxnXg-1; Mon, 19 Jul 2021 07:51:33 -0400
+X-MC-Unique: 2XdW7WARN_6kM-fTqgxnXg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ d8-20020adf9c880000b0290141a87409b5so7862253wre.16
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 04:51:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LCxRdUBdymFC/pREilYPyNuy1CTSiCq1U9PpBh67Igk=;
+ b=Eezw7BN8cuQx11lmZy45CMMp7ZaMx01A7AzOwY1YrJN0pxQLee6DzKJM/VijoopdQF
+ QW0m1+HRUL9VrRETkyOg6MIK1E8ZUCOo15RuTXKg1SVq7CjFZiGd70azxOG60jmEwZE6
+ 7xtkiXVsasSL1A0WrVTb5mpUVg3jRB2PSdPXo3j0uV/PPS4NWcIZBLqnjgZyEkQjdQZL
+ 63XZU4ULLTBrbhVW73LYQQZHKbZxnx4Ha0s6c19+Sh6KSeJqj7ivbKVXXcdttWtp1YWr
+ 8XHl1JB6mPfxsmAi1mhEBxSBG6vGvnP8msax7BWW5txe08rE9hRK0ve0kV2isY1fDqtN
+ /cTQ==
+X-Gm-Message-State: AOAM5317P0Bttf0bdzzj/s5GGnaAPoLZ+UwJJ653HFU9dpXawy6YR1CB
+ slMc+aHrxsbnSrLXZ+L3vuTb6Q3716CFycG6b2xv46kim9L9zN58mhWbwazuSVfyG9JxO8Bbyn/
+ Vqd1AeW30LNF6viU=
+X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr29092259wrq.241.1626695492547; 
+ Mon, 19 Jul 2021 04:51:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxzpHHYnoMkoU/Lv7DJn2MK4V40WtbHtBrbsRtRcacMEojr0QBcXwcIGvkLTLo9YmEiUfAvUw==
+X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr29092238wrq.241.1626695492383; 
+ Mon, 19 Jul 2021 04:51:32 -0700 (PDT)
+Received: from [192.168.1.33] (abordeaux-654-1-74-136.w109-214.abo.wanadoo.fr.
+ [109.214.221.136])
+ by smtp.gmail.com with ESMTPSA id o18sm19894861wrx.21.2021.07.19.04.51.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jul 2021 04:51:31 -0700 (PDT)
+Subject: Re: [PATCH 2/2] qom: use correct field name when getting/setting
+ alias properties
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210719104033.185109-1-pbonzini@redhat.com>
+ <20210719104033.185109-3-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9f7807ea-8c09-01cf-6ae4-c55263eb1da2@redhat.com>
+Date: Mon, 19 Jul 2021 13:51:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210709215550.32496-2-brijesh.singh@amd.com>
+In-Reply-To: <20210719104033.185109-3-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 6L3N1rfCnGKkxc3gRfZwqJiyBth-lb6d
-X-Proofpoint-ORIG-GUID: usHTDc4mIz38WHl1Ou2wypMNZjB5nlJw
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-19_05:2021-07-16,
- 2021-07-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 malwarescore=0 impostorscore=0 mlxscore=0 phishscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107190065
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,35 +100,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: imammedo@redhat.com, alex.williamson@redhat.com, eblake@redhat.com,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Brijesh,
-
-On 10/07/2021 0:55, Brijesh Singh wrote:
-> Sync the kvm.h with the kernel to include the SNP specific commands.
+On 7/19/21 12:40 PM, Paolo Bonzini wrote:
+> Alias targets have a different name than the alias property itself
+> (e.g. a machine's pflash0 might be an alias of a property named 'drive').
+> When the target's getter or setter invokes the visitor, it will use
+> a different name than what the caller expects, and the visitor will
+> not be able to find it (or will consume erroneously).
 > 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> The solution is for alias getters and setters to wrap the incoming
+> visitor, and forward the sole field that the target is expecting while
+> renaming it appropriately.
+> 
+> This bug has been there forever, but it was exposed after -M parsing
+> switched from QemuOptions and StringInputVisitor to keyval and
+> QObjectInputVisitor.  Before, the visitor ignored the name. Now, it
+> checks "drive" against what was passed on the command line and finds
+> that no such property exists.
+> 
+> Fixes: #484
+
+Per https://www.mail-archive.com/qemu-devel@nongnu.org/msg821579.html:
+
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/484
+
+> Reported-by: Alex Williamson <alex.williamson@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  linux-headers/linux/kvm.h | 47 +++++++++++++++++++++++++++++++++++++++
-
-
-What about psp-sev.h ? I see that kernel patch "[PATCH Part2 RFC v4
-11/40] crypto:ccp: Define the SEV-SNP commands" adds some new PSP return
-codes.
-
-The QEMU user-friendly string list sev_fw_errlist (in sev.c) should be
-updated accordingly.
-
--Dov
+>  qom/object.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 
 
