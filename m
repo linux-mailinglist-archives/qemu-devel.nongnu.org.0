@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8DB3CEB68
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 21:44:55 +0200 (CEST)
-Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCFF93CEB74
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 21:52:05 +0200 (CEST)
+Received: from localhost ([::1]:46082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5ZC9-0003Gf-QL
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 15:44:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44488)
+	id 1m5ZJ6-0006bN-Tz
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 15:52:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m5ZBP-0002b3-GC
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:44:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m5ZBM-0002YW-Q9
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:44:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626723842;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gkgzAdedUhQN9WzE8qHnlpIvKqswbMXzc5zEfe6Na+Y=;
- b=YHU1lgvz8LgjcbN4hvsADxzbE+q/aNqkkrvRrIhNjr4S4b3WCqHzxC3fTqF+ZDSQsrVg9U
- PTqZ1I58mimtnh1JjvDFkGGAbmGa5vuttHPQF0sfynZTIOYInfcXNp9Wi9ZUk/azyNCfOr
- g0ljzkWvQfKHbV0YHH4+hicU1WIlXx0=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-YKvY0FTeMS2IkgqctXkn9w-1; Mon, 19 Jul 2021 15:44:01 -0400
-X-MC-Unique: YKvY0FTeMS2IkgqctXkn9w-1
-Received: by mail-qt1-f200.google.com with SMTP id
- b6-20020a05622a0206b029025eb726dd9bso7829720qtx.8
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 12:44:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5ZHF-0004UI-6X
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:50:09 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39870)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5ZHC-0006dF-QK
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:50:08 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso161537wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 12:50:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yTWBsWgu7X1cy2vSYGJXNuPBqG/t0meYaEzPhN5Sxsc=;
+ b=U4FAs5PXie7/iu204AsCkMEu05a3WfQf/1RX5QG9ep6ZsF1PzAVB3i1l/Hh6KYC11z
+ MPwvjblDm1HZzs7D9xQaITva6xRpcK4P/53s+IszYiy2SxOxN7sRSo1UieMJOMFQCzUe
+ yVZIg9TtcUJ2qJ6a5a/uXvWo4/PROjyisehgQCeD4sk8T+QOqfr3NuBX97WZXr/DMO6U
+ tMYg6MTO4yPzN35APcDQl5swOfgSAboT8UKo4PnhP2J//XjeXVFQG6C5Y8uPY5/JluzJ
+ A76x8lWnRDCOGe8TABUKof/VNuBS5lwfK8Qf4ZXm8I24NaENfEL8ZmMmCozQvDUiEYgr
+ xLZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=gkgzAdedUhQN9WzE8qHnlpIvKqswbMXzc5zEfe6Na+Y=;
- b=a7KCvZRx6ApJNQ7X+sb7BdlysiT4+0p0gtHXEUYgCsvWBFt8VrgVAhxA7Wz9fx8Neu
- XOJuzt4odbXXoxnDGMA7tuzoj7s0x9TbdwfXGN15u3hA/ny1oUwmE9Q1z/sD+wKUpOSc
- gSgFpXAYCDP4GHyU+NNU+lfiYH/gEQylBVoOR116+x44MG+8V5K5bb7gZespknHj8DYd
- TXK1QS1Pg90kFt3Ig0PhdjyH7jZOPoLjgW3HrFrylj6sA7PZ0zb9wW5aeIuJLSaAkz12
- uknXbDORfDx9HLJIWj6Ord+DbTTgsoE7YrJwyZnPNYMzYr1cdSTMRf/O9XlyrCiW5Kl0
- EEuA==
-X-Gm-Message-State: AOAM530wMXBLR+qlvBKZ4kSM5iiYp15gln1DSR6hdXrghMg4xKMri7aO
- NJkb8LwtWl1mqkIQ8g5wZsFpWhciJpGb0J+b6S6e71LY9M4dAPSepKG7NkqigdE7q6YuiZ0LPY1
- ExnB0xDsQH9/bzIY=
-X-Received: by 2002:ad4:4a31:: with SMTP id n17mr26564943qvz.2.1626723841445; 
- Mon, 19 Jul 2021 12:44:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxglHpDGfQxxa4OacC+YOCoJLXKbIoQxdx1x9r60HQyAAuz6pTpvLo07WJp3mAz53qpzAz3ug==
-X-Received: by 2002:ad4:4a31:: with SMTP id n17mr26564925qvz.2.1626723841217; 
- Mon, 19 Jul 2021 12:44:01 -0700 (PDT)
-Received: from t490s
- (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
- by smtp.gmail.com with ESMTPSA id d25sm6849842qtq.55.2021.07.19.12.44.00
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=yTWBsWgu7X1cy2vSYGJXNuPBqG/t0meYaEzPhN5Sxsc=;
+ b=ZiN1SXVNuRWqeDC/qchwmp0IjqhzCPkaabffMV7tOK5RPkebEoG+susWfG0/SHbGY3
+ /G2bHK0PMaRcBWaopK9XcgazFe61lbG8OSd0FJdbBsPRFHk47nSTxCJ4pRSObOwfLvkj
+ zFbmpF4Z9m5nyD1abcjnXXtsywj6gaXpAQEkwji0N4fcRu4QcYMG0Wc8/2CdledzW3gY
+ nHNIZSYE2ysIEwtwWPJ8qdf62vPVpNcYM38KVAYpEO+aHahetX/GanE+yLjhssd+A6i9
+ +3v9bgALe2jRVCcCIhKxqDg6rR4kmB5MbzaLSv0lXeeoxjnyviffEVSDtWLmfyNiGWYo
+ NW0A==
+X-Gm-Message-State: AOAM531+DCBk7balOmNrtpwIoOYIA4QUYxPH3wJ/QpzrNWTMmCH079r+
+ /7KehT1g9diZycaEZaz2u4ri2w==
+X-Google-Smtp-Source: ABdhPJx0rSwcn6teIlSKLBCC1/M1st7VyD0KpU1vidWcezSPclbDUd/9F5PKYiob6WT9Q2Q640PybA==
+X-Received: by 2002:a7b:c452:: with SMTP id l18mr33407601wmi.164.1626724205269; 
+ Mon, 19 Jul 2021 12:50:05 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d15sm21471955wri.39.2021.07.19.12.50.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 12:44:00 -0700 (PDT)
-Date: Mon, 19 Jul 2021 15:43:59 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH] tests/qtest/migration-test.c: use 127.0.0.1 instead of 0
-Message-ID: <YPXV/1H8L4RSQ6y7@t490s>
-References: <20210719185217.122105-1-dgilbert@redhat.com>
+ Mon, 19 Jul 2021 12:50:03 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 05FC71FF7E;
+ Mon, 19 Jul 2021 20:50:03 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 6.1 v1 0/2] tricore fixes
+Date: Mon, 19 Jul 2021 20:50:00 +0100
+Message-Id: <20210719195002.6753-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 MIME-Version: 1.0
-In-Reply-To: <20210719185217.122105-1-dgilbert@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,27 +85,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
- quintela@redhat.com
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19, 2021 at 07:52:17PM +0100, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> 
-> OpenBSD doesn't like :0 as an address, switch to using 127.0.0.1
-> in baddest; it's really testing the :0 port number that isn't allowed
-> on anything.
-> 
-> (The test doesn't currently run anyway because of the userfault
-> problem that Peter noticed, but this gets us closer to being able to
-> reenable it)
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Hi,
 
-Acked-by: Peter Xu <peterx@redhat.com>
+This fixes check-tcg for tricore and adds a test to the gitlab matrix
+so we don't miss it breaking again.
+
+Please review:
+
+ - gitlab: enable a very minimal build with the tricore container
+ - hw/tricore: fix inclusion of tricore_testboard
+
+
+Alex Bennée (2):
+  hw/tricore: fix inclusion of tricore_testboard
+  gitlab: enable a very minimal build with the tricore container
+
+ configs/devices/tricore-softmmu/default.mak   |  1 +
+ .gitlab-ci.d/buildtest.yml                    | 11 +++++
+ hw/tricore/Kconfig                            |  3 +-
+ hw/tricore/meson.build                        |  4 +-
+ .../dockerfiles/debian-tricore-cross.docker   | 48 +++++++++++++++++--
+ 5 files changed, 58 insertions(+), 9 deletions(-)
 
 -- 
-Peter Xu
+2.32.0.264.g75ae10bc75
 
 
