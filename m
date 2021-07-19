@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED7B3CD4DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:39:14 +0200 (CEST)
-Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FE233CD4EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:40:20 +0200 (CEST)
+Received: from localhost ([::1]:52920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5SYB-0004P7-R5
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:39:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39544)
+	id 1m5SZH-0005sB-9h
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5SX3-0003VT-Vl
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:02 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37687)
+ id 1m5SXx-0004ct-IC
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:57 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37695)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5SX0-0002AB-Hb
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:01 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id i94so21849885wri.4
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:37:57 -0700 (PDT)
+ id 1m5SXv-0002kv-Ji
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:57 -0400
+Received: by mail-wr1-x429.google.com with SMTP id i94so21853601wri.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:38:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uOBurYU3dZYuBTdEszW6SZ8KAYNMDevrTmRKjgxGp1s=;
- b=xfu2KSWhL9SpzZgW2qvCMd6OaS5HN2/MzMeZlbw5N3uijPmXRNYwejt99JIzOXiUhM
- A4VTV9bIsbTlwozZM77jSs9M70kavBI1k8vgJfiWTwqMoaH839KERpsy8tPR8PdSX+0t
- 28zYw7YVXfgPX7+Ikwh8sLve40iRYKvoG86mhxDw199MooOvmH3QAo5TJmBDpYovYJyM
- 7HEh0m1fzhiRkJO5s2COcjz4xQnB381VRqce6U8/P1txopiSQdJuGPLCtEoKdgRaZHmc
- ve01YaU3P+t0kTnSiqF7Be5fXleq3IJFZdxrMpOLYEIBDnkdScPjDfrNZulBc8eNWXI8
- 9I2g==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ArxRg9O/H0Ur0tT6Ee6HWr0R2zhrxnm5DbEFs3RMRKU=;
+ b=rxVbo3Lwl6xaryQrMJGM0ObbLMmgAPHNaLRr6l31aQOCsITy1RkrcYEv9DsF6KJvDp
+ 5e6pRLCDMUpmueVYRMJfFX+RH8kz0rNV0wuD6ZAu1HQ1/k2ZwOqFZmtEdwDdFbSR2NgV
+ aRc4hcmJbhOtc25CQA7p8iwcfgvOB0rQ4HviuPLFxgmqsp+nNNrJvXQn7FQhBcO85/In
+ QLF5f9Z0bv2zi86cu1AW8Fxjj2O76JY2Eb20r8P4lUEibIytAX/WCeDClfjcX0honXae
+ sQu4JxkindQVxY+WmMVoTzNaa6z/QNHobZkI4yKwTR25wYvacJAwBHyFW4Jyr0Xr6YlX
+ Q9gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uOBurYU3dZYuBTdEszW6SZ8KAYNMDevrTmRKjgxGp1s=;
- b=L7hhq9aP7MD1xV2RTqLA9sEMf1TyQFXRqPCe48ltwtysJ9LIlOUf/4yBDxckpaWYEi
- HCjvftkiE1KXCE007t8NgbEajEk+J9ai5mFeK/Y+lGLpC9qTJCai4KqctDQ5tdV4ZV0W
- etHI0MxjKw1iqFm73M0vxflT5jxwsfq4g/5lSTKXZ6kTYNNL8u6ovkn8ryy6bmmZLQwM
- ZCqBjjsX9irefg3GHNhJ7nF52PiToGhpJhKbZwD5c3Ye0j3edcw/Wfe0exJdnAxIFN4U
- 59E+o/k/4Mrh2GqJNRkzEKFUeUwUoN8lqboZCkW8aINhHoXVeH3B3mARkCFj3DgkHbYG
- Cfiw==
-X-Gm-Message-State: AOAM532NDodl93989+aXTD+x4YjRG+RwplBJ/TXdHISdfr0dSTpJKnbS
- YN94jFSOgY/qlj2zxGgWfdebcA==
-X-Google-Smtp-Source: ABdhPJwekCoqUA6VSkLqp5cluxmsRGSOp1PSnh4HLfeqgtPWwfTOTQ7WAImxUGNiveOIIvSbbRh3vg==
-X-Received: by 2002:a5d:5142:: with SMTP id u2mr28697016wrt.314.1626698276572; 
- Mon, 19 Jul 2021 05:37:56 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=ArxRg9O/H0Ur0tT6Ee6HWr0R2zhrxnm5DbEFs3RMRKU=;
+ b=bAbb4tuokqpBUtssUamAfAIlEfNef1mmbG+96sw2yE3uw4C8eyjGQ2YlBJsW/6FfbI
+ DlpFHg4/adVJY6W+vzIQ72IjFEklK9FX92ZN/W5lx3T36SWLQkJ9ydBBZ4P3CdpxtWFn
+ R0HuOp5N/a+WbL3J4r9t/rgAyVYHN3LcQySErPp1eZoRmRfGctxP6+nlu8hXK28T80ag
+ uW0oW1fidpm1dsLps3Aon+kcXG3dEShTLhcTJ1i5eCOSg/lMjNsMUC7zL4l+LttOKB9l
+ K64b2qOSmptD6Aq9biNOv5INyUspLVlcQoSFAjvNDlEFmiWmeXqjEBKxgP7bT99Uu/0u
+ pZJQ==
+X-Gm-Message-State: AOAM531a+gdPFFTj3Lip4+64KbPxnx7RJ5Z3xuLVxDVcUF0PXKoQp1cp
+ GOrNcVOsCjItNmDNdG+Z/LE73Q==
+X-Google-Smtp-Source: ABdhPJyg5tLWFQojmdaf8mgBo37XiTfHzPwWCpk8C8yfvP1AiJEl7aXJMKYh0QaWbirPE7a1qXgSUA==
+X-Received: by 2002:a5d:4e08:: with SMTP id p8mr29283311wrt.425.1626698334147; 
+ Mon, 19 Jul 2021 05:38:54 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q19sm19236564wmq.38.2021.07.19.05.37.55
+ by smtp.gmail.com with ESMTPSA id z16sm21017048wrl.8.2021.07.19.05.38.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 05:37:55 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 73B921FF7E;
- Mon, 19 Jul 2021 13:37:54 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] tcg/plugins: implement a qemu_plugin_user_exit helper
-Date: Mon, 19 Jul 2021 13:37:32 +0100
-Message-Id: <20210719123732.24457-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
+ Mon, 19 Jul 2021 05:38:53 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7DC1F1FF7E;
+ Mon, 19 Jul 2021 13:38:52 +0100 (BST)
+References: <20210714172151.8494-1-ma.mandourr@gmail.com>
+ <20210714172151.8494-7-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 6/6] plugins/cache: Fixed "function decl. is not a
+ prototype" warnings
+Date: Mon, 19 Jul 2021 13:38:46 +0100
+In-reply-to: <20210714172151.8494-7-ma.mandourr@gmail.com>
+Message-ID: <87r1fupjfn.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,174 +88,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, minyihh@uci.edu, robhenry@microsoft.com,
- Laurent Vivier <laurent@vivier.eu>, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Alexandre Iooss <erdnaxe@crans.org>, kuhn.chenqun@huawei.com,
- ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: cota@braap.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In user-mode emulation there is a small race between preexit_cleanup
-and exit_group() which means we may end up calling instrumented
-instructions before the kernel reaps child threads. To solve this we
-implement a new helper which ensures the callbacks are flushed along
-with any translations before we let the host do it's a thing.
 
-While we are at it make the documentation of
-qemu_plugin_register_atexit_cb clearer as to what the user can expect.
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- include/qemu/plugin.h      | 12 ++++++++++++
- include/qemu/qemu-plugin.h | 13 +++++++++++++
- bsd-user/syscall.c         |  6 +++---
- linux-user/exit.c          |  2 +-
- plugins/core.c             | 33 +++++++++++++++++++++++++++++++++
- 5 files changed, 62 insertions(+), 4 deletions(-)
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-index 0fefbc6084..9a8438f683 100644
---- a/include/qemu/plugin.h
-+++ b/include/qemu/plugin.h
-@@ -190,6 +190,16 @@ void qemu_plugin_add_dyn_cb_arr(GArray *arr);
- 
- void qemu_plugin_disable_mem_helpers(CPUState *cpu);
- 
-+/**
-+ * qemu_plugin_user_exit(): clean-up callbacks before calling exit callbacks
-+ *
-+ * This is a user-mode only helper that ensure we have fully cleared
-+ * callbacks from all threads before calling the exit callbacks. This
-+ * is so the plugins themselves don't have to jump through hoops to
-+ * guard against race conditions.
-+ */
-+void qemu_plugin_user_exit(void);
-+
- #else /* !CONFIG_PLUGIN */
- 
- static inline void qemu_plugin_add_opts(void)
-@@ -250,6 +260,8 @@ void qemu_plugin_add_dyn_cb_arr(GArray *arr)
- static inline void qemu_plugin_disable_mem_helpers(CPUState *cpu)
- { }
- 
-+static inline void qemu_plugin_user_exit(void)
-+{ }
- #endif /* !CONFIG_PLUGIN */
- 
- #endif /* QEMU_PLUGIN_H */
-diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
-index dc3496f36c..e6e815abc5 100644
---- a/include/qemu/qemu-plugin.h
-+++ b/include/qemu/qemu-plugin.h
-@@ -549,6 +549,19 @@ void qemu_plugin_vcpu_for_each(qemu_plugin_id_t id,
- void qemu_plugin_register_flush_cb(qemu_plugin_id_t id,
-                                    qemu_plugin_simple_cb_t cb);
- 
-+/**
-+ * qemu_plugin_register_atexit_cb() - register exit callback
-+ * @id: plugin ID
-+ * @cb: callback
-+ * @userdata: user data for callback
-+ *
-+ * The @cb function is called once execution has finished. Plugins
-+ * should be able to free all their resources at this point much like
-+ * after a reset/uninstall callback is called.
-+ *
-+ * In user-mode it is possible a few un-instrumented instructions from
-+ * child threads may run before the host kernel reaps the threads.
-+ */
- void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
-                                     qemu_plugin_udata_cb_t cb, void *userdata);
- 
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index 7d986e9700..3f44311396 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -335,7 +335,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
-         _mcleanup();
- #endif
-         gdb_exit(arg1);
--        qemu_plugin_atexit_cb();
-+        qemu_plugin_user_exit();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-         ret = 0; /* avoid warning */
-@@ -437,7 +437,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
-         _mcleanup();
- #endif
-         gdb_exit(arg1);
--        qemu_plugin_atexit_cb();
-+        qemu_plugin_user_exit();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-         ret = 0; /* avoid warning */
-@@ -516,7 +516,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
-         _mcleanup();
- #endif
-         gdb_exit(arg1);
--        qemu_plugin_atexit_cb();
-+        qemu_plugin_user_exit();
-         /* XXX: should free thread stack and CPU env */
-         _exit(arg1);
-         ret = 0; /* avoid warning */
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 70b344048c..527e29cbc1 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -35,5 +35,5 @@ void preexit_cleanup(CPUArchState *env, int code)
-         __gcov_dump();
- #endif
-         gdb_exit(code);
--        qemu_plugin_atexit_cb();
-+        qemu_plugin_user_exit();
- }
-diff --git a/plugins/core.c b/plugins/core.c
-index e1bcdb570d..c573b81a96 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -487,6 +487,39 @@ void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
-     plugin_register_cb_udata(id, QEMU_PLUGIN_EV_ATEXIT, cb, udata);
- }
- 
-+/*
-+ * Handle exit from linux-user. Unlike the normal atexit() mechanism
-+ * we need to handle the clean-up manually as it's possible threads
-+ * are still running. We need to remove all callbacks from code
-+ * generation, flush the current translations and then we can safely
-+ * trigger the exit callbacks.
-+ */
-+
-+void qemu_plugin_user_exit(void)
-+{
-+    enum qemu_plugin_event ev;
-+
-+    QEMU_LOCK_GUARD(&plugin.lock);
-+
-+    start_exclusive();
-+
-+    /* un-register all callbacks except the final AT_EXIT one */
-+    for (ev = 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
-+        if (ev != QEMU_PLUGIN_EV_ATEXIT) {
-+            struct qemu_plugin_ctx *ctx;
-+            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
-+                plugin_unregister_cb__locked(ctx, ev);
-+            }
-+        }
-+    }
-+
-+    tb_flush(current_cpu);
-+    end_exclusive();
-+
-+    /* now it's safe to handle the exit case */
-+    qemu_plugin_atexit_cb();
-+}
-+
- /*
-  * Call this function after longjmp'ing to the main loop. It's possible that the
-  * last instruction of a TB might have used helpers, and therefore the
--- 
-2.32.0.264.g75ae10bc75
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
