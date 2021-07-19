@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BFFE3CE50E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:38:20 +0200 (CEST)
-Received: from localhost ([::1]:59358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1743CE50B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:37:56 +0200 (CEST)
+Received: from localhost ([::1]:58516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5WHb-00083w-FR
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
+	id 1m5WHD-0007W0-2P
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m5WGR-0006gN-3M
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:37:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43826)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m5WGF-0006Po-Kt
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:36:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m5WGP-0003YA-87
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:37:06 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m5WGD-0003Qd-8Z
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:36:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626712624;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=C2L+qXF4Sq5a6dbUBQBRddMQRuvjxDRfBl3bLhJCf+w=;
- b=HBYuKscJ7Vwvg54QsgRblJONKfpAxoEcBe3LChc8Ob5LcXADYQ1gOUFe3e/DFqrcLKlvkc
- T7y4uA1GB5jhU18KOz58h8OjQPbm3sJHglrUYHqEzyV7czysXL0ifYzbpyhtFakZuKxzmu
- SOaYHZpdhQ/zaaersMOml/Xcbgul8Zc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-kBjdzdRGNaO4MWjfvrv1GA-1; Mon, 19 Jul 2021 12:36:56 -0400
-X-MC-Unique: kBjdzdRGNaO4MWjfvrv1GA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1828E111C950;
- Mon, 19 Jul 2021 16:36:47 +0000 (UTC)
-Received: from redhat.com (ovpn-112-193.ams2.redhat.com [10.36.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BF8A15C1C5;
- Mon, 19 Jul 2021 16:36:42 +0000 (UTC)
-Date: Mon, 19 Jul 2021 17:36:39 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-Subject: Re: [PATCH for-6.2 v2 02/11] machine: Make smp_parse generic enough
- for all arches
-Message-ID: <YPWqF2vygPDtNA/1@redhat.com>
+ s=mimecast20190719; t=1626712612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kLmp/KI0ixsGKZAaIswptx+HYl+8rG0Fa0IkAbWKWaU=;
+ b=dEnGbdEI9le5c2KJetiZFf9r0WVfL7y8Fv6QBEgXrtmQ6nbX00MOcbyhQNP6O/A7ZzXod7
+ 9bBp8dcM+/tDLEdVmVKKgRKAEvsyYPQ6OTIHIEK8sxPC4Fwdzu4whgjH8Ooa38tSKWe3lq
+ Bkg00yqbef0a2xM2fh2ZV2ZAWQDupRQ=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-255-LfBEuc89PAmAQmFuJPlehQ-1; Mon, 19 Jul 2021 12:36:50 -0400
+X-MC-Unique: LfBEuc89PAmAQmFuJPlehQ-1
+Received: by mail-il1-f199.google.com with SMTP id
+ w8-20020a056e021c88b02902095727d18dso11018014ill.17
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 09:36:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kLmp/KI0ixsGKZAaIswptx+HYl+8rG0Fa0IkAbWKWaU=;
+ b=YgyIsx4huu05l63ClweFqjUFMXeenSnpGF8GdyillHRpFu1BDpTS3Lh1V1F//s73pq
+ pFPB2wnN+vvn2OhtlVN09Ss+pXY3ElfXxvnfo+HVa2ZVnnAtyNkTgUuSYDD6h9OZ0oml
+ VhqWPJbl66iHXcnsxnjgrhL0auSzE7lFjkZmjuXDsL7F3qms6t4ildSwoNswpaEi3tfi
+ 4QjrIg6baujz+uR8YmcA4HvQ+1pMu+rfWqYI9UmwcorBaWZ3BY5lPpOBZ/2mSajMIE+k
+ 9Em5s41yM7yI+EnAJ0TwqS/FtqTcBSBhdWDWN2fa9r5zsCZS9sZpWlerRoMamERDbVas
+ xo7g==
+X-Gm-Message-State: AOAM531YWy3R4ONOC5myWDxGOcKg2wjFRxbCv4/JLqvKG+9slRBRUotI
+ Dl6RRkm4UYIRTRKQS9YXupu40S2+1mSNAnoLPvcg/3tsheFnb6/t2eVxSdH42QlS/VfbwcH2iLv
+ oFIwscVEG8ct9cqI=
+X-Received: by 2002:a6b:6209:: with SMTP id f9mr20012342iog.147.1626712610354; 
+ Mon, 19 Jul 2021 09:36:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0dGbvrsvINIZzj0WCjGvXSIbxLsOg+/RSHeMMF+/opN82yaE1ES36nC6vGdH9anHiUdaZJA==
+X-Received: by 2002:a6b:6209:: with SMTP id f9mr20012326iog.147.1626712610118; 
+ Mon, 19 Jul 2021 09:36:50 -0700 (PDT)
+Received: from gator ([140.82.166.162])
+ by smtp.gmail.com with ESMTPSA id x2sm3639158iob.45.2021.07.19.09.36.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 09:36:49 -0700 (PDT)
+Date: Mon, 19 Jul 2021 18:36:47 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH for-6.2 v2 03/11] machine: Uniformly use maxcpus to
+ calculate the omitted parameters
+Message-ID: <20210719163647.or6tvr3rmgirctj4@gator>
 References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-3-wangyanan55@huawei.com>
- <20210719162846.dcltg22pbdpnyjcl@gator>
+ <20210719032043.25416-4-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210719162846.dcltg22pbdpnyjcl@gator>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210719032043.25416-4-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -81,83 +95,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
  wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
  qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Yanan Wang <wangyanan55@huawei.com>, yuzenghui@huawei.com,
- Igor Mammedov <imammedo@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
+ yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19, 2021 at 06:28:46PM +0200, Andrew Jones wrote:
-> On Mon, Jul 19, 2021 at 11:20:34AM +0800, Yanan Wang wrote:
-> > Currently the only difference between smp_parse and pc_smp_parse
-> > is the support of multi-dies and the related error reporting code.
-> > With an arch compat variable "bool smp_dies_supported", we can
-> > easily make smp_parse generic enough for all arches and the PC
-> > specific one can be removed.
-> > 
-> > Making smp_parse() generic enough can reduce code duplication and
-> > ease the code maintenance, and also allows extending the topology
-> > with more arch specific members (e.g., clusters) in the future.
-> > 
-> > No functional change intended.
-> > 
-> > Suggested-by: Andrew Jones <drjones@redhat.com>
-> > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> > ---
-> >  hw/core/machine.c   | 28 ++++++++++-------
-> >  hw/i386/pc.c        | 76 +--------------------------------------------
-> >  include/hw/boards.h |  1 +
-> >  3 files changed, 19 insertions(+), 86 deletions(-)
-> > 
-> > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index d73daa10f4..ed6712e964 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -743,6 +743,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
-> >  
-> >  static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> >  {
-> > +    MachineClass *mc = MACHINE_GET_CLASS(ms);
-> >      unsigned cpus    = config->has_cpus ? config->cpus : 0;
-> >      unsigned sockets = config->has_sockets ? config->sockets : 0;
-> >      unsigned dies    = config->has_dies ? config->dies : 1;
-> > @@ -761,7 +762,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> >          return;
-> >      }
-> >  
-> > -    if (dies > 1) {
-> > +    if (!mc->smp_dies_supported && dies > 1) {
+On Mon, Jul 19, 2021 at 11:20:35AM +0800, Yanan Wang wrote:
+> We are currently using maxcpus to calculate the omitted sockets
+> but using cpus to calculate the omitted cores/threads. This makes
+> cmdlines like:
+>   -smp cpus=8,maxcpus=16
+>   -smp cpus=8,cores=4,maxcpus=16
+>   -smp cpus=8,threads=2,maxcpus=16
+> work fine but the ones like:
+>   -smp cpus=8,sockets=2,maxcpus=16
+>   -smp cpus=8,sockets=2,cores=4,maxcpus=16
+>   -smp cpus=8,sockets=2,threads=2,maxcpus=16
+> break the invalid cpu topology check.
 > 
-> Won't this allow a user on an arch with !mc->smp_dies_supported to specify
-> dies=1?
-
-Conceptually that is fine. Before the introduction of CPU sockets
-with 2+ dies, you can credibly say that all sockets had 1 die, so
-it is nreasonable for users to say -smp ....,dies=1,....
-
-libvirt will unconditionally set dies=1 for all QEMU targets if
-the user didn't specify an explicit dies value
-
->          To not allow that, can we do
+> Since we require for the valid config that the sum of "sockets * cores
+> * dies * threads" should equal to the maxcpus, we should uniformly use
+> maxcpus to calculate their omitted values.
 > 
->    if (!mc->smp_dies_supported && config->has_dies)
+> Also the if-branch of "cpus == 0 || sockets == 0" was splited into two
+> branches of "cpus == 0" and "sockets == 0" so that we can clearly read
+> that we are parsing -smp cmdlines with a preference of cpus over sockets
+> over cores over threads.
 > 
-> instead?
+> Note: change in this patch won't affect any existing working cmdlines
+> but improves consistency and allow more incomplete configs to be valid.
 
-I don't see that this is benefitting apps/users.
+We also remove rounding of cores and threads when the math doesn't come
+out right, which could possible start reporting a bad config as invalid
+which worked before. Or were you able to prove that that can't happen with
+your testing?
 
+> 
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/core/machine.c | 30 +++++++++++++++---------------
+>  1 file changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index ed6712e964..c9f15b15a5 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -768,24 +768,26 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>      }
+>  
+>      /* compute missing values, prefer sockets over cores over threads */
+> -    if (cpus == 0 || sockets == 0) {
+> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +
+> +    if (cpus == 0) {
+> +        sockets = sockets > 0 ? sockets : 1;
+>          cores = cores > 0 ? cores : 1;
+>          threads = threads > 0 ? threads : 1;
+> -        if (cpus == 0) {
+> -            sockets = sockets > 0 ? sockets : 1;
+> -            cpus = sockets * dies * cores * threads;
+> -        } else {
+> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -            sockets = maxcpus / (dies * cores * threads);
+> -        }
+> +        cpus = sockets * dies * cores * threads;
+> +        maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +    } else if (sockets == 0) {
+> +        cores = cores > 0 ? cores : 1;
+> +        threads = threads > 0 ? threads : 1;
+> +        sockets = maxcpus / (dies * cores * threads);
+>      } else if (cores == 0) {
+>          threads = threads > 0 ? threads : 1;
+> -        cores = cpus / (sockets * dies * threads);
+> -        cores = cores > 0 ? cores : 1;
+> +        cores = maxcpus / (sockets * dies * threads);
+>      } else if (threads == 0) {
+> -        threads = cpus / (sockets * dies * cores);
+> -        threads = threads > 0 ? threads : 1;
+> -    } else if (sockets * dies * cores * threads < cpus) {
+> +        threads = maxcpus / (sockets * dies * cores);
+> +    }
+> +
+> +    if (sockets * dies * cores * threads < cpus) {
+>          g_autofree char *dies_msg = g_strdup_printf(
+>              mc->smp_dies_supported ? " * dies (%u)" : "", dies);
+>          error_setg(errp, "cpu topology: "
+> @@ -795,8 +797,6 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>          return;
+>      }
+>  
+> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> -
+>      if (maxcpus < cpus) {
+>          error_setg(errp, "maxcpus must be equal to or greater than smp");
+>          return;
+> -- 
+> 2.19.1
+>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
