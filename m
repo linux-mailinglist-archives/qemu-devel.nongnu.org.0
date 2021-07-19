@@ -2,182 +2,151 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A899C3CE8F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 19:46:52 +0200 (CEST)
-Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456D03CEAD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 20:03:31 +0200 (CEST)
+Received: from localhost ([::1]:41020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5XLv-0007Ri-8C
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 13:46:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49728)
+	id 1m5Xc1-0000XI-Mi
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 14:03:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m5XJX-00061G-9b
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 13:44:23 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:28604)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1m5Xar-0008I3-RL
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 14:02:17 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:51010)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1m5XJV-0006cq-8k
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 13:44:22 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16JHgWkM024171; Mon, 19 Jul 2021 17:44:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=qHmC8PP31zD2q24b5exiv+TaCWe4pFxK7KXHyFXEndg=;
- b=bcTcHKzTg9EkE+9VcOkUBLxLEXMNsixKUa9UOdNouDlmv+dkRDBrGAx4a9sSgxPanDFs
- j9+ShgghQo3u5EabFQ0KAE1oX4Jh6Qi09Qh28QZStYdFQHUfU9P5Vlr9VVvWC3rBJGEr
- rb5vI5T2xeMmiOQI0dfell5Am0QxAqK7T9n8A8KDYIW1w9CerzXob+hdH17jUrcNyAGQ
- RayYtUHs6O5lo57iWVOu6BNC/yeU1TIH1WgbAA5raBo+bQFLUA0gqk+zGcy7JujdySPu
- dvvhVLh6wh+33h3WMvg0hXkWjrnbsyAGPWWIzqUbGg5qptYOyXzLZl2qyUyr4wEefzZG tw== 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=qHmC8PP31zD2q24b5exiv+TaCWe4pFxK7KXHyFXEndg=;
- b=fLY8zaR2+Mp/X+C4KWxbnaiSJYyMiPwqoi0NOBJ3pmWHqpntizybj2z6Cn9n2tckO2Xl
- n6s0ulKW6WeKMmXc5krj5V7MOVJJM1/Z9Bz7lB7GQDvO7ayN6gr4Fr4FeaXHci76U0Ft
- lCp3K6P2hss77hlVUT/t7GS49WR3JNZa1VWqObU5lgQWKf/Dr9/ETgLCFwkGb0OjL0gK
- vW8rRX3/ZSHvt+T67RCQ5kCY3UnK/C3ur+ACkuHAc5Zx6msyLGUZX4nidfSyUG9m6vsj
- Ftt427qRM2LM16j64V54PhSpqYQmAI6pyZOSMM/cvxS9mHW83ELiB1H4nsazpTEVbEuG Vw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 39w8p0rs4q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Jul 2021 17:44:16 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 16JHeFxZ174242;
- Mon, 19 Jul 2021 17:44:15 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
- by userp3020.oracle.com with ESMTP id 39v8yt3ehn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Jul 2021 17:44:14 +0000
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1m5Xan-0002AH-SH
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 14:02:17 -0400
+Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16JHm3iT006462; Mon, 19 Jul 2021 11:02:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=proofpoint20171006;
+ bh=+z4rzC5C7HW5eVIch2LKLvN0GegOpeB18QzIcJmRcgQ=;
+ b=bo4b1jXZfbqXbnVaN3/FWa7pCL7qBEQGMFosZ218d9Gy+oOOjJXfiOJILkly3w307yLA
+ 7GJaMiJbU9i2r9AsKGBtzaPXtbwHJ5xdqExkRoDTcrAc9rpweMq3f4cKatTLNkSkdUwG
+ Qq/t68WzlvvaXRgfvlUQiWln4t+MgxEwxDiOQxF+ld3B1gmJfCwdxuwnjnlX6iYsx6/j
+ zwF4fZGvD7+6n8TOWxVH4qcMdB1iLiB2b5Wq4wlj1c5scrKEBw5j3VVBmeLvNTsEfY+W
+ FslYUEZXrMNtzyqC6psTr4kd4wJRX57trm2AX0owQIhUArCu+UnnIqC4YhWM2HLNZaVB 9Q== 
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02lp2041.outbound.protection.outlook.com [104.47.57.41])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 39w4jh97bw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Jul 2021 11:02:10 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A9FImfpLHQ/iL10kSUQnuUd/kRpxPZTxZgM9LF+wXDqhGQ9nR2nLtpWl1aFKy4liabD2hRB+r9ExAajIKJxwf3f3VczgCiwV0Kx4UJE+NKlwCNIT3WmTFepj7mqoFfYkWRvV/TX455VEOGrdCWos1MOLrviNEM0D8rq/1buw/L20JiCWgvh7T3JR9e7ChGXcvfhaLDKS5cUSxkHmvcqOj4qy09yS6YV8g2AnYSc0LGXqs9riDYSPTiizipTF1eG149cbniVD2H/pSxGgbYhoxStJSImE2chfcmQ4lyWObxR4j2BW9iIIlcdCFqfnS2rekeUK5loHs8i75mfSuSeK2g==
+ b=TS1ZDBEVtprAydLI/eOtbaWad1LONi/LAB24E73JMvvLY5VnLhOBvmSX3EtU+jQFLuLzUdaGu/ZKN35mZndcRjtmCzd1mJ7tnNu5OeuGKI17Gxr4TsW0il9NERRytC9iGBJhURDNNnMJNZ9nmI59/pfsTshZ/S5ax5HSc/FbkSapa4s0k9X0AEOphJRtv5PHR4bDaHqgOqGGEgwkOMyKs/1UT2DOo7R9ofwriYNx26+UcDDoW/yp21tWFYate8kosS5SPmEFchDOwbyLX7tKd/PvA+QRyogEyZa9sR5Edz9XLQCOfV6kPlxXFE36new7LaFLwcPINPA2yVPbwo7S/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qHmC8PP31zD2q24b5exiv+TaCWe4pFxK7KXHyFXEndg=;
- b=nDdds6gaQDvJAkKa2VEoIMepJw+nWH5vkoX0PPr3+ZSe24FoJMeIAi85flm3kUxLCcYtY7Pj/WFtCaJu144Ju4fqBcoAspTvx7Beu2/l9574d5dya/DDfCi0yQsQaBanxh0psTp8nY/ZG8cNhwcv+2RlY3F0K5hsnoosewmECcdv1dd8fb6aMkSecYbtz5DegWNGfQKDxXq1MjfzTDOeLc4RZ6Bj/wow6pl+dDt1hFVE3FkVLoV9Z2vRdOFHBYhA0AbrVM7tUSeHtUAPPxhXqzUB4yeS4CP0WQED7qHwjTVQU5KQit6zPXDelE6FPKTGxaQ+MROA3vl5cQy3xdXP6A==
+ bh=+z4rzC5C7HW5eVIch2LKLvN0GegOpeB18QzIcJmRcgQ=;
+ b=L5pzdBZ7k97XG6PIqQs4XpUvMxqminyw+JUcN2RNFLQPw9hMhhOVumzBIpolCXG07ZyhicfCo1pMxApPn9b2xj47y/A5XO3iWvoCmwgeTN6lKVijXPRS7lxz/9VzID9c8DKScpBjd2jx0Q8EcfvUK1qrornR1ivMf9K+pXyKRfjwWvTgmgC7tqbyAqZSdWUZGT7HpE5QiFjRp8P1hidoLVGzWsokWo8dZW90+f5Qhm8kLsnmA8IiZIgzF/4ShNvf01UlO7jeE5cs6t3vf8sCtE6DZ9TeI8HPhQS/ipONlTLk99DjZQwqa5XfSM0RId4qbi+AeK/yDUx3hOO6zXqcqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qHmC8PP31zD2q24b5exiv+TaCWe4pFxK7KXHyFXEndg=;
- b=YX7xQUbB5/Jgqf55nc8KYNwMFopaHrOAXM80+rH872lXFBq+ZXZUwTyi4WYGZZyn2WeNFbkVqJxSc14THPyKFPBAR7XXgmxNwpE8gVpQyRQg3l/KJJmQ22CSDeme4CHAZringB4RM0we0SjHhqb5Yq7RDwuik3dlt3TenBFLSQY=
-Authentication-Results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=oracle.com;
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BYAPR10MB3655.namprd10.prod.outlook.com (2603:10b6:a03:127::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.25; Mon, 19 Jul
- 2021 17:44:12 +0000
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::a00d:eb40:2bf6:8812]) by BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::a00d:eb40:2bf6:8812%7]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
- 17:44:12 +0000
-Subject: Re: [PATCH V5 17/25] vfio-pci: cpr part 2
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <1625678434-240960-1-git-send-email-steven.sistare@oracle.com>
- <1625678434-240960-18-git-send-email-steven.sistare@oracle.com>
- <20210716145133.4aa3f341.alex.williamson@redhat.com>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <be26577b-8df6-a8b5-fe06-ea33552aa472@oracle.com>
-Date: Mon, 19 Jul 2021 13:44:08 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-In-Reply-To: <20210716145133.4aa3f341.alex.williamson@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR04CA0018.namprd04.prod.outlook.com
- (2603:10b6:a03:40::31) To BYAPR10MB3240.namprd10.prod.outlook.com
- (2603:10b6:a03:155::17)
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CH0PR02MB7898.namprd02.prod.outlook.com (2603:10b6:610:113::5)
+ by CH2PR02MB6455.namprd02.prod.outlook.com (2603:10b6:610:1::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.30; Mon, 19 Jul
+ 2021 18:02:09 +0000
+Received: from CH0PR02MB7898.namprd02.prod.outlook.com
+ ([fe80::3167:f3a5:5f8c:284b]) by CH0PR02MB7898.namprd02.prod.outlook.com
+ ([fe80::3167:f3a5:5f8c:284b%9]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
+ 18:02:08 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: Question on memory commit during MR finalize()
+Thread-Topic: Question on memory commit during MR finalize()
+Thread-Index: AQHWF1blDKoce5BcwE+aLVbWV0XOZKiCivmAgAAd6oCAAKsXAIAAEMEAgsN1h+CAAEdvgIABHU1QgAAtSoCABLlmgIAAGMwAgAAi0xQ=
+Date: Mon, 19 Jul 2021 18:02:08 +0000
+Message-ID: <CH0PR02MB789857DE73B0A9B1FC29593E8BE19@CH0PR02MB7898.namprd02.prod.outlook.com>
+References: <20200420210049.GA420399@xz-x1>
+ <fe73a74b-2324-68a5-a37f-530a6bb03ebc@redhat.com>
+ <20200420233115.GB420399@xz-x1>
+ <5ed295a3-9e4a-0dca-adc6-5361dc78a83c@redhat.com>
+ <20200421104334.GC420399@xz-x1>
+ <CH0PR02MB78989C2F77880AA5355037748B129@CH0PR02MB7898.namprd02.prod.outlook.com>
+ <YPB/8f0pv7mDR310@t490s>
+ <CH0PR02MB7898ACD1C68149CE11314EB08B119@CH0PR02MB7898.namprd02.prod.outlook.com>
+ <YPGVQ0ONUc/qPSNz@t490s>
+ <CH0PR02MB7898BB81DCB85237D38E07638BE19@CH0PR02MB7898.namprd02.prod.outlook.com>,
+ <YPWglNqZFegBRZjM@t490s>
+In-Reply-To: <YPWglNqZFegBRZjM@t490s>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f2452856-1148-4e61-1377-08d94adf5371
+x-ms-traffictypediagnostic: CH2PR02MB6455:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH2PR02MB6455B89F6904DA08DB7BE2A88BE19@CH2PR02MB6455.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:249;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AcvRvIGwWLau7cqfu/Amh2wdfDC7/e4qw+u8ac2d7A6tdRKZujraJ+mPqA0WREhXfQ+I0tV32jTrCB4+GYX6cSQwwBwl6IFuOQ3xMEl4D1oIAYiSMSsoDdsblGcgsq6XRZ0mUA81lTqbp9hO/pYIvtUdEW6h7uKJpiMvlTSDKMKGpPRZx0sU1gP/Tr/LlIH7N/I9u6gX6tW8/uDtmpDJjsZQetpQannAT4lFgPg82rqc0PC1Gd7oaR3B9V3SBGWwqPdWaKcGAsjZWFcPz4+Tl5durIxjZxP95YRUWJeD5mtYWJq76bq5ZvvQgBrL6uqFMZJRuZPoho7TC0GMQbxWV11W/TD8m9dAxbn2R1vx/GfWezYbcd1KEJgcWxQadVzBt5GOwJDlfg53MUhJxHD04p9KR9pDGCbwckaytbi4NxGJK4CSUy3MCj80nPcaiQoQvghojf6PN1c4Qt/TMG5g/wUndYxQ3RMoHQ6+XzbwsY3JCSu4oVSBKSq9NzR8tmbuRa5TwGdGPpqOKu+svVKPHPKMhfNEw7oEUIuCf9WHhp0EpAttwABiRga1Ubz6UZcMXsWpV1v61MPmfsKGtojspQ1+Gb+Q1VqP6DUKl6DlYZ9diwfZ2ZOErlMa+Acp1oBAcVAup1YeH0WW3OFx8jF9CKHuS6aM4x3iqMQ+KwZQPM0fRW8/Y+yM932aPIIBqMLfNHYwtUS8+p+MJT0Hpkd2Jlimg5L6BEplUribcJRmlNWAu0HxaKSExEtd8SFLNQ4l+RwbHSQxM17Anc045LWHPDEnCAmgCLhly9SyNofRs7U7TJNfZEyme4HNT3XUGTa63qtcxErOomntNjw0ZlPDpWKBdof0GCh503W87vsY2MQ=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR02MB7898.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(396003)(346002)(366004)(136003)(376002)(6916009)(66946007)(91956017)(76116006)(54906003)(966005)(166002)(18265965003)(86362001)(8936002)(66446008)(64756008)(66556008)(66476007)(83380400001)(2906002)(71200400001)(33656002)(6506007)(55016002)(38100700002)(122000001)(186003)(7696005)(478600001)(52536014)(9686003)(316002)(53546011)(44832011)(5660300002)(26005)(8676002)(4326008)(38070700004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?4eh8K73vtOP8QlAIiZkH5LWpJfQF/bIB0o4N1xojznPrlMtygJ8796J99xcp?=
+ =?us-ascii?Q?EpzG9KlntnWEvxyrRRt6BF2OgKRYrIOHCWIZhrINaTj94ttw1hoX+NJGfaAG?=
+ =?us-ascii?Q?UupMcVs9iPVWujvrpu/O84bQAeWJ9N0ZMtJMHMkpF7JKr9tPBNFfa6oUpgnY?=
+ =?us-ascii?Q?Xx5foFH0/fm6A1mVwdjt5riKEMZ/+shkf59T/2v4y+LFcOEBHQS1F51puSla?=
+ =?us-ascii?Q?fG5WQirdkUS9U6QYsZQhJ6KPGGBMVQDZplnSDgdXi5fku6iOb9J/SmzKxhfO?=
+ =?us-ascii?Q?yCD+jytQ8g+5eq9s4YMP1Gfv0nl0+axi+ErGzoRmLP2nMOC1BlHhEUvfIR/f?=
+ =?us-ascii?Q?KG0Ayx7po5lTeSEBQbhtpp2kFEAcaHggi8uMJ6R+hp2/1oDUWVKXfcvv1AuT?=
+ =?us-ascii?Q?dUsDm34Jw53ef1BTIqF4pf3RYRhES3eAjqEMAm6TnwbpP9BuSPOgV57UIuZz?=
+ =?us-ascii?Q?Nbf1JLNSPBrNXdyvMs07yabD3ZBZvJCjuj9aDHBFKF7eBp3R3PEGfnj0R903?=
+ =?us-ascii?Q?CZCxkRszDli1YNaDDcvPWA0CbX/F4UHaty6gduT/mFyRFmDOBARjNdkcrHEJ?=
+ =?us-ascii?Q?S0f4jVh3laj3HTjyZjsEM4fxJjIWTZaq8Ey6aBz568gwl95uCAWUG+I1fHCE?=
+ =?us-ascii?Q?hHt5guX7b+8M7TvYR/WXYOfULqYmsRk5EQhVH70806JJBOugx/LKfrJU/z2W?=
+ =?us-ascii?Q?6Hr5zXBn2S6PYiPevxQAgCIGdmSXFUm8BxcCfl+5vkp8b647nNueFK2mq/BM?=
+ =?us-ascii?Q?ivSGXp/cVqe/He6aj/mX9fhw1edVsSqygiN/kWjVgHJLAcC1kV/OX47wMHfP?=
+ =?us-ascii?Q?ZYrijNYKLASKIHLDgLbyKt7HNd9hVUfgmmwExUmPfbQfdbw82aI98DjtZ7WT?=
+ =?us-ascii?Q?5wTnJ1BJhNtSeLuQKX5PfRXA6Z7dw1d1N3OyNVHzfDHeGZ1pZqQFCccjUHd9?=
+ =?us-ascii?Q?WZQ9W8wZNpflGCt5KbUAWDCvgnhwX57E6HumKIpn5dml7tFGPsEjtk28J3a+?=
+ =?us-ascii?Q?LCdzOhaYWwiZlLuMKT/72/DXDQW5vHxyqVqHcK/jHk67jbpLIdtjdz5v8pso?=
+ =?us-ascii?Q?hyLqjY4E+CEw+qWeAw4zB+o9MMZcX6xbFuB801ZZ9dMwcW0NFm3Qa/TlOdiJ?=
+ =?us-ascii?Q?LEiRn7W/4MHXQOI8C0vPxJCO2zms5hcdYV6xVNQMTUKTF/0/OaQT8Y6rH9Jo?=
+ =?us-ascii?Q?fwExlKzvc18VN20sUaYkv+dVEU4d03EADSsgaukNiZEGmgRmPeCU2xqfNBKy?=
+ =?us-ascii?Q?zj/dG8f2iumDgSq+yDpIF/n+9hNxWNjLjVgIOjBjaVlkaRyNuOW8OWgiRppj?=
+ =?us-ascii?Q?z9RsMr4hFC1KH+nC99i7Jci/?=
+Content-Type: multipart/alternative;
+ boundary="_000_CH0PR02MB789857DE73B0A9B1FC29593E8BE19CH0PR02MB7898namp_"
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.92] (24.62.106.7) by
- BYAPR04CA0018.namprd04.prod.outlook.com (2603:10b6:a03:40::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 17:44:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 272c1ac3-38d3-4f30-8cba-08d94adcd1a3
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3655:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3655F2DD65B2E77C22C74A57F9E19@BYAPR10MB3655.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g+DQsmxnEZ7vnPIyIoFDlIuX1ADJYSVtpYzN12qC8Cuy5s2/67mB6eg7yV3EuraJa+SRBUXXURl6hqmN8CcwnxdX2yOaPhyM4fdSp//yUSlHMdKf3FY9SUAFF7HLix/xtPONcJ9EvtbHivs3Nvofbr7TB6SJK1ca6RsD+9qk+v0sSLlBo++R8a/9kFZH9ZOj3RE2tBNCBNrzpzo0/+gzFWBxFN7EyrNZ0OJzSRzMXx/bCk2YMtI70ocg7/+ljzQqESbnENpRGgDL/aUoUQBbyKXybP8dbUcW9wXvSG3HwncKnt7A6r1CUwd6sn6+L/O5Zq7uk/zQU1uNjY0MkuhmCn5E5nw0u/uQoNe9VNaluMXLh5WKdYra4CPbLVuWpjlA3FIf3tXDQFwz2g4p94XAsZ/9lH06NqpO03lLaJCLqrYh0AQ60ZDfFYakdHGKbx7UK3OPQyryy4QNzLRfLArxQC+cP4XWd4DRfa6LwD9rIOoyuPimBYS022q1oWiXsAYfDv9gA62lRugOqmCZobjkJPgrhs5vVj5TZGRaoKu7QlNPvxLmgUc9Hm0AJ26HTjr7/06DpfHwZSUNuYn2ohQyFj9JkSbEPrcD2dDssK+6lwOt289DAqCHQa9apW1C8e1Rz5riepjLIPK/sBzbE+ZBSQ7L6SNmGUUD+zFqnX555EiKv3HnrI577LhrskSh2Gu+SezxhCb3dlobK2kSZBVRdTqoInfyrlj4eueGnKNILP0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(39860400002)(136003)(366004)(346002)(376002)(54906003)(16576012)(316002)(2906002)(66946007)(66556008)(26005)(83380400001)(7416002)(107886003)(66476007)(186003)(8936002)(956004)(36756003)(36916002)(31686004)(6916009)(4326008)(53546011)(6486002)(38100700002)(31696002)(478600001)(44832011)(86362001)(5660300002)(8676002)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZXFPODBxYkRPa1VzU1d4YjUwdDVINzZ2UU1YUUQwb1U4anJYRTNNSDlnZThz?=
- =?utf-8?B?QkUzWWZkWk9RaUlTVlJNb3A3dkxWZ2pvUzYvSnMwekhsQ0Urd0xLWnRLZGhz?=
- =?utf-8?B?TXhyUlIwWmJFeEhWaE9IUFlQMTgyWnBKRnpXVkJBL1U0TERNRkErZG5MS3hw?=
- =?utf-8?B?MzVuaDlpM1drTVVtbFBJRmU4SzhzZndNQkllakRZZnR2WUsycTIvK0tjSC9r?=
- =?utf-8?B?SnBCVkxvUVVhSisvZ1dBUGw0NUZUQ3F4V1BYaVNlYkI2TmVQaUlxRTU5NFpK?=
- =?utf-8?B?djMzMXorN0lNZEFKcmpDVzliWnhOZ2tnaHRqU3hRTERKeVBzLzFFZDcyUkRn?=
- =?utf-8?B?T3FoaU9WSERJOTRNRG9FQWU0U3IyYTFRdGF3a2t3UWdObjY0NGlOUm1PUitu?=
- =?utf-8?B?dk10T0NiUy9vS3AwVzgyRFlmWTYyTG13a1dENzRrb3NrRzMyZmZFeXQvQXBG?=
- =?utf-8?B?SkJGVDZRT2hpOENJSkQ0aHZCVCtla2wzQVlmUGpiSjJ6NWhOTHdpRksrQnBa?=
- =?utf-8?B?Q1ZXVWZJOGtnQ0I3WHRVNHRLR0dackFXbzYzdVBTZFpnUDF1UnpsWFJ6dnMw?=
- =?utf-8?B?OWkxckxCdXVyaWhmRE9keU9zM1JWTjloT3o4UUZkN3Q2TjljT0IzanBTdTZo?=
- =?utf-8?B?ZFV4VjdoTGRSNUpHakVXWk9xSytrdUQ2dWtXSXp5LzlsNjdobFRhTkZybnpj?=
- =?utf-8?B?bGtmMnBkRXhQMGFZaE5wNURUdzhwd1J2WGxyMDRCV2VMUFp1ZDVNVm4rREdh?=
- =?utf-8?B?dnpNSmJDeTEwRnFhVHpBYUlNb0JHMUQ4QkdVZmhQYmRzTEhYdW0wMmE0dGd2?=
- =?utf-8?B?NkFic2tSSkpUekZsYS9UR0hNUU5zWWx5dzFpcnpVa2Z6MTM4aGJtdTJJa0xm?=
- =?utf-8?B?cmYzUmZQenRTNDNZaldScWUrYXZoTGVydWp2SCsvb3pXRk43VVYwQ0djWXZU?=
- =?utf-8?B?aUZnRnViSnVzUGMyWU1MbXluc3A5WXRJc1pxaVQ0TXBmVE0rTHVPUGVjbTF3?=
- =?utf-8?B?Uyt1aVVpa1ZvUHJzVG1mUW5wck43eS94UlAxZnVacGYxODl4Ykd0Z3FoTjlT?=
- =?utf-8?B?SnErR0k0NERXdmxKVGdDQU9lR0tKQk9kLzdaSkpkQ3BpT2Y3cmRSaVM2Wnhs?=
- =?utf-8?B?LzN1VHBadU1KT25RSlZZN0ZDNnFMaGhZRDRJUTJTSStPNmNKdFB6YjlLKzAv?=
- =?utf-8?B?WmpMV0trYVBUTXpaUU1iOTk3R0xEVlYvdVZ0QXhXeWdqN0hqTTJPWTRGdmxw?=
- =?utf-8?B?YmNoa05VdTJpYzA2dEdCSG4ybWpqK0c3RzJKRG9RQ1UxVFF0NFN6NTd6L0Yr?=
- =?utf-8?B?QjllV09pVGk3ci9UOUkwZ0JzZUFkYno4WUt4b2pnQ3lBR0VEb1RRYXdhSXhW?=
- =?utf-8?B?UmR3bnJMWjlnNWk1ci9WRTBKeVRuN0FONW9WWjFXZTk4dm9DTnRUcGZYMXQ0?=
- =?utf-8?B?WXIwVU4wR3Q3d1JBc3FpYTViYkxtRmVCVnBMU2UrcHJoR2M2VzYyTy9paTdl?=
- =?utf-8?B?SFRnU2Y0OVFpUHVqdXdDNS9HUkVKb25DN2hOK21adXhHQUtjSGQ5VEdvbkRB?=
- =?utf-8?B?eVZteWtEeDRTRkx3K29wR0lXSjNwaWVOc1FZR241bGp0YXRIZWU4NVdaaEMr?=
- =?utf-8?B?b2Y1QVlDajFkdUtpLzhXNE1CeFVxYTVRVE0wdTlLTDcxUzRJUkwzcU5McFp5?=
- =?utf-8?B?NkR1cDFWWlJqZGZaTG9ZYUJGRTR4M1RMK1hnRnNrNzFSK3N6ODFMeG5pbzk3?=
- =?utf-8?Q?Ry5WCpYKR88ZmUPMhCR/n0l1XfAzw7LkOnh7HNj?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 272c1ac3-38d3-4f30-8cba-08d94adcd1a3
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
+X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 17:44:12.2041 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pZeVhx48uGJxn6dcIaVtfyZ1SND/QDem4exnb8X8PD8KeG/f47kP5ToP92ZG+BUgTK9Pkqw6Ha5+g/xu8yiwcJr+7DTwFN3ZbnrPuju3w+k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3655
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=10050
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxscore=0 malwarescore=0
- adultscore=0 phishscore=0 suspectscore=0 mlxlogscore=999 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104190000
- definitions=main-2107190102
-X-Proofpoint-GUID: OyxsfSLDOOCqsEmxpJqwxDsT7q9OweYL
-X-Proofpoint-ORIG-GUID: OyxsfSLDOOCqsEmxpJqwxDsT7q9OweYL
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L3=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7898.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2452856-1148-4e61-1377-08d94adf5371
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2021 18:02:08.6353 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2+M5AfA9n63+k4qbE+X/xnVzXo4Sqex0k7544R7u0YqhHN+A1muJkyV2DzP6cnNDRzFH0hjqbgagWJEEf7+D99UQnVXyDGCOmUCMx+5GPZc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6455
+X-Proofpoint-ORIG-GUID: qoyRsxT6cpINHVld4fPQvDgCmMpfIrJX
+X-Proofpoint-GUID: qoyRsxT6cpINHVld4fPQvDgCmMpfIrJX
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-19_09:2021-07-19,
+ 2021-07-19 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=thanos.makatos@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) DKIMWL_WL_HIGH=-1.469, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -190,67 +159,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Levon <john.levon@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/16/2021 4:51 PM, Alex Williamson wrote:
-> On Wed,  7 Jul 2021 10:20:26 -0700
-> Steve Sistare <steven.sistare@oracle.com> wrote:
-> 
->> Finish cpr for vfio-pci by preserving eventfd's and vector state.
->>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> ---
->>  hw/vfio/pci.c | 118 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->>  1 file changed, 116 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index 0f5c542..07bd360 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
-> ...
->> @@ -3295,14 +3329,91 @@ static void vfio_merge_config(VFIOPCIDevice
-> *vdev)
->>      g_free(phys_config);
->>  }
->>  
->> +static int vfio_pci_pre_save(void *opaque)
->> +{
->> +    VFIOPCIDevice *vdev = opaque;
->> +    PCIDevice *pdev = &vdev->pdev;
->> +    int i;
->> +
->> +    if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
->> +        error_report("%s: cpr does not support vfio-pci INTX",
->> +                     vdev->vbasedev.name);
->> +    }
-> 
-> You're not only not supporting INTx, but devices that support INTx, so
-> this only works on VFs.  Why?  Is this just out of scope or is there
-> something fundamentally difficult about it?
-> 
-> This makes me suspect there's a gap in INTx routing setup if it's more
-> than just another eventfd to store and setup.  If we hot-add a device
-> using INTx after cpr restart, are we going to find problems?  Thanks,
+--_000_CH0PR02MB789857DE73B0A9B1FC29593E8BE19CH0PR02MB7898namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-It could be supported, but requires more code (several event fd's plus other state in VFIOINTx
-to save and restore) for a case that does not seem very useful (a directly assigned device that
-only supports INTx ?). 
+Omg I don't know how I missed that, of course I'll ignore SIGUSR1 and retes=
+t!
 
-Hot add of such a device after cpr restart is allowed and works.  The next cpr restart operation
-would fail with an error message without harming the guest.  However, I should add a check
-to prevent the device from being added if only-cpr-capable is specified, in device_set_realized,
-like check_only_migratable.
+________________________________
+From: Peter Xu <peterx@redhat.com>
+Sent: Monday, 19 July 2021, 16:58
+To: Thanos Makatos
+Cc: Paolo Bonzini; Markus Armbruster; QEMU Devel Mailing List; John Levon; =
+John G Johnson
+Subject: Re: Question on memory commit during MR finalize()
 
-- Steve
+Hi, Thanos,
+
+On Mon, Jul 19, 2021 at 02:38:52PM +0000, Thanos Makatos wrote:
+> I can trivially trigger an assertion with a build where I merged the rece=
+nt vfio-user patches (https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A=
+__patchew.org_QEMU_cover.1626675354.git.elena.ufimtseva-40oracle.com_&d=3DD=
+wIBaQ&c=3Ds883GpUCOChKOHiocYtGcg&r=3DXTpYsh5Ps2zJvtw6ogtti46atk736SI4vgsJiU=
+KIyDE&m=3DLvALaULnrxZWlgXFcaxGAl95UIwq3a6LI8OnG_5r4XY&s=3DmoFPVchYp27xozQcv=
+vxG4nb4nC2QmMnqQ1Wmt4Z3dNE&e=3D ) to master and then merging the result int=
+o your xzpeter/memory-sanity branch, I've pushed the branch here: https://u=
+rldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.com_tmakatos_qemu_tree=
+_memory-2Dsanity&d=3DDwIBaQ&c=3Ds883GpUCOChKOHiocYtGcg&r=3DXTpYsh5Ps2zJvtw6=
+ogtti46atk736SI4vgsJiUKIyDE&m=3DLvALaULnrxZWlgXFcaxGAl95UIwq3a6LI8OnG_5r4XY=
+&s=3DveyjdkkFkGSYNDZOuksB-kbHmdQaw9RYxyZp8Qo7nW4&e=3D . I explain the repro=
+ steps below in case you want to take a look:
+>
+> Build as follows:
+>
+> ./configure --prefix=3D/opt/qemu-xzpeter --target-list=3Dx86_64-softmmu -=
+-enable-kvm  --enable-debug --enable-multiprocess && make -j `nproc` && mak=
+e install
+>
+> Then build and run the GPIO sample from libvfio-user (https://urldefense.=
+proofpoint.com/v2/url?u=3Dhttps-3A__github.com_nutanix_libvfio-2Duser&d=3DD=
+wIBaQ&c=3Ds883GpUCOChKOHiocYtGcg&r=3DXTpYsh5Ps2zJvtw6ogtti46atk736SI4vgsJiU=
+KIyDE&m=3DLvALaULnrxZWlgXFcaxGAl95UIwq3a6LI8OnG_5r4XY&s=3DHYP5NmDMGuS13pdyV=
+83x3HzyhGbE-oP1T8NLtu0d1U8&e=3D ):
+>
+> libvfio-user/build/dbg/samples/gpio-pci-idio-16 -v /var/run/vfio-user.soc=
+k
+>
+> And then run QEMU as follows:
+>
+> gdb --args /opt/qemu-xzpeter/bin/qemu-system-x86_64 -cpu host -enable-kvm=
+ -smp 4 -m 2G -object memory-backend-file,id=3Dmem0,size=3D2G,mem-path=3D/d=
+ev/hugepages,share=3Don,prealloc=3Dyes -numa node,memdev=3Dmem0 -kernel bio=
+nic-server-cloudimg-amd64-vmlinuz-generic -initrd bionic-server-cloudimg-am=
+d64-initrd-generic -append 'console=3DttyS0 root=3D/dev/sda1 single' -hda b=
+ionic-server-cloudimg-amd64-0.raw -nic user,model=3Dvirtio-net-pci -machine=
+ pc-q35-3.1 -device vfio-user-pci,socket=3D/var/run/vfio-user.sock -nograph=
+ic
+>
+> I immediately get the following stack trace:
+>
+> Thread 5 "qemu-system-x86" received signal SIGUSR1, User defined signal 1=
+.
+
+This is SIGUSR1.  QEMU uses it for general vcpu ipis.
+
+> [Switching to Thread 0x7fffe6e82700 (LWP 151973)]
+> __lll_lock_wait () at ../sysdeps/unix/sysv/linux/x86_64/lowlevellock.S:10=
+3
+> 103     ../sysdeps/unix/sysv/linux/x86_64/lowlevellock.S: No such file or=
+ directory.
+> (gdb) bt
+> #0  0x00007ffff655d29c in __lll_lock_wait () at ../sysdeps/unix/sysv/linu=
+x/x86_64/lowlevellock.S:103
+> #1  0x00007ffff6558642 in __pthread_mutex_cond_lock (mutex=3Dmutex@entry=
+=3D0x5555568bb280 <qemu_global_mutex>) at ../nptl/pthread_mutex_lock.c:80
+> #2  0x00007ffff6559ef8 in __pthread_cond_wait_common (abstime=3D0x0, mute=
+x=3D0x5555568bb280 <qemu_global_mutex>, cond=3D0x555556cecc30) at pthread_c=
+ond_wait.c:645
+> #3  0x00007ffff6559ef8 in __pthread_cond_wait (cond=3D0x555556cecc30, mut=
+ex=3D0x5555568bb280 <qemu_global_mutex>) at pthread_cond_wait.c:655
+> #4  0x000055555604f717 in qemu_cond_wait_impl (cond=3D0x555556cecc30, mut=
+ex=3D0x5555568bb280 <qemu_global_mutex>, file=3D0x5555561ca869 "../softmmu/=
+cpus.c", line=3D514) at ../util/qemu-thread-posix.c:194
+> #5  0x0000555555d28a4a in qemu_cond_wait_iothread (cond=3D0x555556cecc30)=
+ at ../softmmu/cpus.c:514
+> #6  0x0000555555d28781 in qemu_wait_io_event (cpu=3D0x555556ce02c0) at ..=
+/softmmu/cpus.c:425
+> #7  0x0000555555e5da75 in kvm_vcpu_thread_fn (arg=3D0x555556ce02c0) at ..=
+/accel/kvm/kvm-accel-ops.c:54
+> #8  0x000055555604feed in qemu_thread_start (args=3D0x555556cecc70) at ..=
+/util/qemu-thread-posix.c:541
+> #9  0x00007ffff6553fa3 in start_thread (arg=3D<optimized out>) at pthread=
+_create.c:486
+> #10 0x00007ffff64824cf in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+Would you please add below to your ~/.gdbinit script?
+
+  handle SIGUSR1 nostop noprint
+
+Or just run without gdb and wait it to crash with SIGABRT.
+
+Thanks,
+
+--
+Peter Xu
+
+
+
+--_000_CH0PR02MB789857DE73B0A9B1FC29593E8BE19CH0PR02MB7898namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+</head>
+<body>
+<div id=3D"id-545096c6-f533-4922-8fcd-59a4c6c06649" class=3D"ms-outlook-mob=
+ile-reference-message" dir=3D"auto">
+<div style=3D"font-family: sans-serif; font-size: 12pt; color: rgb(0, 0, 0)=
+;" dir=3D"auto">
+Omg I don't know how I missed that, of course I'll ignore SIGUSR1 and retes=
+t!</div>
+<div style=3D"font-family: sans-serif; font-size: 12pt; color: rgb(0, 0, 0)=
+;" dir=3D"auto">
+<br>
+</div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg"><strong>From:</strong> Peter Xu &lt;peterx@redhat=
+.com&gt;<br>
+<strong>Sent:</strong> Monday, 19 July 2021, 16:58<br>
+<strong>To:</strong> Thanos Makatos<br>
+<strong>Cc:</strong> Paolo Bonzini; Markus Armbruster; QEMU Devel Mailing L=
+ist; John Levon; John G Johnson<br>
+<strong>Subject:</strong> Re: Question on memory commit during MR finalize(=
+)<br>
+</div>
+<br>
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+<!-- converted from text --><style><!-- .EmailQuote { margin-left: 1pt; pad=
+ding-left: 4pt; border-left: #800000 2px solid; } --></style><font size=3D"=
+2"><span style=3D"font-size:11pt;">
+<div class=3D"PlainText">Hi, Thanos,<br>
+<br>
+On Mon, Jul 19, 2021 at 02:38:52PM +0000, Thanos Makatos wrote:<br>
+&gt; I can trivially trigger an assertion with a build where I merged the r=
+ecent vfio-user patches (<a href=3D""></a>https://urldefense.proofpoint.com=
+/v2/url?u=3Dhttps-3A__patchew.org_QEMU_cover.1626675354.git.elena.ufimtseva=
+-40oracle.com_&amp;d=3DDwIBaQ&amp;c=3Ds883GpUCOChKOHiocYtGcg&amp;r=3DXTpYsh=
+5Ps2zJvtw6ogtti46atk736SI4vgsJiUKIyDE&amp;m=3DLvALaULnrxZWlgXFcaxGAl95UIwq3=
+a6LI8OnG_5r4XY&amp;s=3DmoFPVchYp27xozQcvvxG4nb4nC2QmMnqQ1Wmt4Z3dNE&amp;e=3D
+ ) to master and then merging the result into your xzpeter/memory-sanity br=
+anch, I've pushed the branch here:
+<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.co=
+m_tmakatos_qemu_tree_memory-2Dsanity&amp;d=3DDwIBaQ&amp;c=3Ds883GpUCOChKOHi=
+ocYtGcg&amp;r=3DXTpYsh5Ps2zJvtw6ogtti46atk736SI4vgsJiUKIyDE&amp;m=3DLvALaUL=
+nrxZWlgXFcaxGAl95UIwq3a6LI8OnG_5r4XY&amp;s=3DveyjdkkFkGSYNDZOuksB-kbHmdQaw9=
+RYxyZp8Qo7nW4&amp;e=3D">
+https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.com_tmakatos_=
+qemu_tree_memory-2Dsanity&amp;d=3DDwIBaQ&amp;c=3Ds883GpUCOChKOHiocYtGcg&amp=
+;r=3DXTpYsh5Ps2zJvtw6ogtti46atk736SI4vgsJiUKIyDE&amp;m=3DLvALaULnrxZWlgXFca=
+xGAl95UIwq3a6LI8OnG_5r4XY&amp;s=3DveyjdkkFkGSYNDZOuksB-kbHmdQaw9RYxyZp8Qo7n=
+W4&amp;e=3D</a>
+ . I explain the repro steps below in case you want to take a look:<br>
+&gt; <br>
+&gt; Build as follows:<br>
+&gt; <br>
+&gt; ./configure --prefix=3D/opt/qemu-xzpeter --target-list=3Dx86_64-softmm=
+u --enable-kvm&nbsp; --enable-debug --enable-multiprocess &amp;&amp; make -=
+j `nproc` &amp;&amp; make install<br>
+&gt; <br>
+&gt; Then build and run the GPIO sample from libvfio-user (<a href=3D""></a=
+>https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__github.com_nutanix_=
+libvfio-2Duser&amp;d=3DDwIBaQ&amp;c=3Ds883GpUCOChKOHiocYtGcg&amp;r=3DXTpYsh=
+5Ps2zJvtw6ogtti46atk736SI4vgsJiUKIyDE&amp;m=3DLvALaULnrxZWlgXFcaxGAl95UIwq3=
+a6LI8OnG_5r4XY&amp;s=3DHYP5NmDMGuS13pdyV83x3HzyhGbE-oP1T8NLtu0d1U8&amp;e=3D
+ ):<br>
+&gt; <br>
+&gt; libvfio-user/build/dbg/samples/gpio-pci-idio-16 -v /var/run/vfio-user.=
+sock<br>
+&gt; <br>
+&gt; And then run QEMU as follows:<br>
+&gt; <br>
+&gt; gdb --args /opt/qemu-xzpeter/bin/qemu-system-x86_64 -cpu host -enable-=
+kvm -smp 4 -m 2G -object memory-backend-file,id=3Dmem0,size=3D2G,mem-path=
+=3D/dev/hugepages,share=3Don,prealloc=3Dyes -numa node,memdev=3Dmem0 -kerne=
+l bionic-server-cloudimg-amd64-vmlinuz-generic -initrd
+ bionic-server-cloudimg-amd64-initrd-generic -append 'console=3DttyS0 root=
+=3D/dev/sda1 single' -hda bionic-server-cloudimg-amd64-0.raw -nic user,mode=
+l=3Dvirtio-net-pci -machine pc-q35-3.1 -device vfio-user-pci,socket=3D/var/=
+run/vfio-user.sock -nographic<br>
+&gt; <br>
+&gt; I immediately get the following stack trace:<br>
+&gt; <br>
+&gt; Thread 5 &quot;qemu-system-x86&quot; received signal SIGUSR1, User def=
+ined signal 1.<br>
+<br>
+This is SIGUSR1.&nbsp; QEMU uses it for general vcpu ipis.<br>
+<br>
+&gt; [Switching to Thread 0x7fffe6e82700 (LWP 151973)]<br>
+&gt; __lll_lock_wait () at ../sysdeps/unix/sysv/linux/x86_64/lowlevellock.S=
+:103<br>
+&gt; 103&nbsp;&nbsp;&nbsp;&nbsp; ../sysdeps/unix/sysv/linux/x86_64/lowlevel=
+lock.S: No such file or directory.<br>
+&gt; (gdb) bt<br>
+&gt; #0&nbsp; 0x00007ffff655d29c in __lll_lock_wait () at ../sysdeps/unix/s=
+ysv/linux/x86_64/lowlevellock.S:103<br>
+&gt; #1&nbsp; 0x00007ffff6558642 in __pthread_mutex_cond_lock (mutex=3Dmute=
+x@entry=3D0x5555568bb280 &lt;qemu_global_mutex&gt;) at ../nptl/pthread_mute=
+x_lock.c:80<br>
+&gt; #2&nbsp; 0x00007ffff6559ef8 in __pthread_cond_wait_common (abstime=3D0=
+x0, mutex=3D0x5555568bb280 &lt;qemu_global_mutex&gt;, cond=3D0x555556cecc30=
+) at pthread_cond_wait.c:645<br>
+&gt; #3&nbsp; 0x00007ffff6559ef8 in __pthread_cond_wait (cond=3D0x555556cec=
+c30, mutex=3D0x5555568bb280 &lt;qemu_global_mutex&gt;) at pthread_cond_wait=
+.c:655<br>
+&gt; #4&nbsp; 0x000055555604f717 in qemu_cond_wait_impl (cond=3D0x555556cec=
+c30, mutex=3D0x5555568bb280 &lt;qemu_global_mutex&gt;, file=3D0x5555561ca86=
+9 &quot;../softmmu/cpus.c&quot;, line=3D514) at ../util/qemu-thread-posix.c=
+:194<br>
+&gt; #5&nbsp; 0x0000555555d28a4a in qemu_cond_wait_iothread (cond=3D0x55555=
+6cecc30) at ../softmmu/cpus.c:514<br>
+&gt; #6&nbsp; 0x0000555555d28781 in qemu_wait_io_event (cpu=3D0x555556ce02c=
+0) at ../softmmu/cpus.c:425<br>
+&gt; #7&nbsp; 0x0000555555e5da75 in kvm_vcpu_thread_fn (arg=3D0x555556ce02c=
+0) at ../accel/kvm/kvm-accel-ops.c:54<br>
+&gt; #8&nbsp; 0x000055555604feed in qemu_thread_start (args=3D0x555556cecc7=
+0) at ../util/qemu-thread-posix.c:541<br>
+&gt; #9&nbsp; 0x00007ffff6553fa3 in start_thread (arg=3D&lt;optimized out&g=
+t;) at pthread_create.c:486<br>
+&gt; #10 0x00007ffff64824cf in clone () at ../sysdeps/unix/sysv/linux/x86_6=
+4/clone.S:95<br>
+<br>
+Would you please add below to your ~/.gdbinit script?<br>
+<br>
+&nbsp; handle SIGUSR1 nostop noprint<br>
+<br>
+Or just run without gdb and wait it to crash with SIGABRT.<br>
+<br>
+Thanks,<br>
+<br>
+-- <br>
+Peter Xu<br>
+<br>
+</div>
+</span></font><br>
+</div>
+</body>
+</html>
+
+--_000_CH0PR02MB789857DE73B0A9B1FC29593E8BE19CH0PR02MB7898namp_--
 
