@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB873CEE89
+	by mail.lfdr.de (Postfix) with ESMTPS id D5B043CEE8A
 	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:45:55 +0200 (CEST)
-Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5b5G-00025p-7R
+	id 1m5b5G-00029U-Qu
 	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:45:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35100)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m5b3H-0000mb-LV
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:43:51 -0400
-Received: from mga12.intel.com ([192.55.52.136]:65076)
+ id 1m5b3I-0000mj-0Z
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:43:52 -0400
+Received: from mga12.intel.com ([192.55.52.136]:65077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m5b3F-0005qj-Bb
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:43:50 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="190722725"
-X-IronPort-AV: E=Sophos;i="5.84,253,1620716400"; d="scan'208";a="190722725"
+ id 1m5b3G-0005rh-Dy
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:43:51 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="190722727"
+X-IronPort-AV: E=Sophos;i="5.84,253,1620716400"; d="scan'208";a="190722727"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 14:43:45 -0700
+ 19 Jul 2021 14:43:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,253,1620716400"; d="scan'208";a="657044416"
+X-IronPort-AV: E=Sophos;i="5.84,253,1620716400"; d="scan'208";a="657044422"
 Received: from dw-tiger-lake-client-platform.fm.intel.com ([10.105.205.215])
- by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 14:43:45 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 14:43:47 -0700
 From: Dongwon Kim <dongwon.kim@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] ui/gtk: detach_all option for making all VCs detached
- upon starting
-Date: Mon, 19 Jul 2021 14:41:56 -0700
-Message-Id: <20210719214157.5863-1-dongwon.kim@intel.com>
+Subject: [PATCH 2/2] ui/gtk: specify detached window's size and location
+Date: Mon, 19 Jul 2021 14:41:57 -0700
+Message-Id: <20210719214157.5863-2-dongwon.kim@intel.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210719214157.5863-1-dongwon.kim@intel.com>
+References: <20210719214157.5863-1-dongwon.kim@intel.com>
 Received-SPF: pass client-ip=192.55.52.136; envelope-from=dongwon.kim@intel.com;
  helo=mga12.intel.com
 X-Spam_score_int: -41
@@ -54,68 +55,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>,
- Dongwon Kim <dongwon.kim@intel.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With "detach-all=on" for display, all VCs are detached from the beginning.
-This is useful when there are multiple displays assigned to a guest OS.
+Specify location and size of detached window based on top level window's
+location and size info when detachment happens.
 
 Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
 ---
- qapi/ui.json | 4 +++-
- ui/gtk.c     | 7 +++++++
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ ui/gtk.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 1052ca9c38..ff14bb2f46 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1141,6 +1141,7 @@
- # @show-cursor:   Force showing the mouse cursor (default: off).
- #                 (since: 5.0)
- # @gl:            Enable OpenGL support (default: off).
-+# @detach-all:    Detatch all VirtualConsoles from beginning (default: off).
- #
- # Since: 2.12
- #
-@@ -1150,7 +1151,8 @@
-                 '*full-screen'   : 'bool',
-                 '*window-close'  : 'bool',
-                 '*show-cursor'   : 'bool',
--                '*gl'            : 'DisplayGLMode' },
-+                '*gl'            : 'DisplayGLMode',
-+                '*detach-all'    : 'bool' },
-   'discriminator' : 'type',
-   'data'    : { 'gtk'            : 'DisplayGTK',
-                 'curses'         : 'DisplayCurses',
 diff --git a/ui/gtk.c b/ui/gtk.c
-index ce885d2ca3..a07e5a049e 100644
+index a07e5a049e..9b4e85624a 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -2211,6 +2211,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-     GdkDisplay *window_display;
-     GtkIconTheme *theme;
-     char *dir;
+@@ -1274,6 +1274,8 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
+ {
+     GtkDisplayState *s = opaque;
+     VirtualConsole *vc = gd_vc_find_current(s);
++    gint x, y, w, h;
 +    int i;
  
-     if (!gtkinit) {
-         fprintf(stderr, "gtk initialization failed\n");
-@@ -2290,6 +2291,12 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
-     }
-     gd_clipboard_init(s);
+     if (vc->type == GD_VC_GFX &&
+         qemu_console_is_graphic(vc->gfx.dcl.con)) {
+@@ -1284,6 +1286,18 @@ static void gd_menu_untabify(GtkMenuItem *item, void *opaque)
+         gtk_widget_set_sensitive(vc->menu_item, false);
+         vc->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+         gd_widget_reparent(s->notebook, vc->window, vc->tab_item);
++        gtk_window_get_position(GTK_WINDOW(s->window), &x, &y);
++        gtk_window_get_size(GTK_WINDOW(s->window), &w, &h);
 +
-+    if (opts->detach_all) {
-+        for (i = 0; i < s->nb_vcs - 1; i++) {
-+            gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
++        for (i = 0; i < s->nb_vcs; i++) {
++            if (vc == &s->vc[i]) {
++                break;
++            }
 +        }
-+    }
- }
++
++        gtk_window_move(GTK_WINDOW(vc->window),
++                        x + w * (i % (s->nb_vcs/2) + 1), y + h * (i / (s->nb_vcs/2)));
++        gtk_window_resize(GTK_WINDOW(vc->window), w, h);
  
- static void early_gtk_display_init(DisplayOptions *opts)
+         g_signal_connect(vc->window, "delete-event",
+                          G_CALLBACK(gd_tab_window_close), vc);
 -- 
 2.17.1
 
