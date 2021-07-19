@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522783CECAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 22:22:17 +0200 (CEST)
-Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B7B3CEC34
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 22:11:09 +0200 (CEST)
+Received: from localhost ([::1]:53856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5ZmK-0005a0-7c
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 16:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48950)
+	id 1m5ZbY-0006Iw-PW
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 16:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m5ZYQ-0001KE-DP; Mon, 19 Jul 2021 16:07:54 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m5ZYO-0001b1-31; Mon, 19 Jul 2021 16:07:54 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5A14F58165F;
- Mon, 19 Jul 2021 16:07:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 19 Jul 2021 16:07:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=TNGFfPxV/uVnm
- /11Ubrs41ncxjcbv+/8dLrA3uToMHw=; b=igtAcyeBoezeA7hDs9GuSCcDP8sMR
- 5rtI7YzwFwqaL9rfwyj6bwQUTh0zAsP27lZBeINPpdAHaj8qoky2LPsAU0BwSEqm
- XIaBnSoPeb1GX2ryfee1x4dQVh4dYk8MYPDyVnyR0m/f2zaCyzSHqqVWYu7UqId6
- xtsZKgIT5zW2/JiMuIkYwpCZZY31FahRUBOrxGnvhf7/yLCBiWheZhQYtKZH2v1E
- QkTWbH/ovjJxceeLJsIw0hR4A55fQe9QHNZ+k+8ruzbNBtsfx/AgvUeBw9lw/S/C
- +yxgGyuwemtzrhntdjQ55O/xfMJsEVsbQKqzIU2pWUBBvnOg8SzmrrXVw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=TNGFfPxV/uVnm/11Ubrs41ncxjcbv+/8dLrA3uToMHw=; b=BMzeUSo8
- NY1xJSdFxNrQqe8bltb9TKNKa8WJiqA0K2mCJuXC6LGUiaS+Ph5hhNTS0CwEh1Ud
- wCUDPITEqCK5CRTslFTg0wAEkm8BwSfuB5vlOGGG+xEjo1ZLGenaqbWvM78sSMiW
- sssRjIdv1LWbkuzUora/Evxx/XI0D61k1E1a3eES3+HdL2Ym9aZxAuznX2DkbknW
- 6B1zCKZDWieTXiUYuwYazXEbCYRgd82DsXqbeEBWakSkDkGfHkM5VkFBUXsiAXBT
- VwWRkSZmOgUs0demhtFMfeer+nVxVTtjSzqQjJAxJWmPlqF5ADr8vdsRIihRczH7
- 0jZQYJpYmgWXeQ==
-X-ME-Sender: <xms:l9v1YIOXa7QGaNxjOVIWjfGlD9Ne8qdwMJmfduoYjfr5WVnlKWkHaw>
- <xme:l9v1YO9QqQqLxZXFfTdmj6rJrQ3T1kkbIvjy_onHfdE6Jbj_Hg3mVl7hxj6OQKeIB
- fmoblVo0n6tSZOE5Pg>
-X-ME-Received: <xmr:l9v1YPSHgn7GvLJfMGktf2v-vIgjOyF57ABGFZXVc73yLnpAtsFdccVmNu6sB-YW-PLryuQABu31UyV-6agPFWc5oC8-jrR0lFI3GiMy_Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedtgddugeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:l9v1YAuHjFVCZUf97KdwektowzU4F5rkEXLh47-6hu6oYA1ORWOJfQ>
- <xmx:l9v1YAcmkfLdONQTmlHKnL4urEtg5nMr7lYgYFiPSiPwW-Tn0dcqKQ>
- <xmx:l9v1YE0XUlFxwTuGgf0aZPosfVxSneFKOcTpM06ZqfIugkqa3o6FRg>
- <xmx:l9v1YP_wl3gPAhok-kaYKRpIAM_rUITzaIs2UeRBJ5FIqZX_bZchhw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jul 2021 16:07:49 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] tests/qtest/nvme-test: add mmio read test
-Date: Mon, 19 Jul 2021 22:07:33 +0200
-Message-Id: <20210719200733.28502-6-its@irrelevant.dk>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210719200733.28502-1-its@irrelevant.dk>
-References: <20210719200733.28502-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m5ZYO-0001Hc-Tb
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 16:07:53 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:37730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1m5ZYJ-0001YY-Gu
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 16:07:52 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id y3so5843771plp.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 13:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=DEpLiJK/MzJfYWHQWGA2HJVbKXbkr6Ogxfet6ch06iI=;
+ b=oAfvxuRSH8KraiHk+9L+YTgoNMi560g8UqIQ/eu0XnTF9VQKN7P2osr47YmsSuashC
+ GAjvYe1okjF4VLduwmAEthj2R6mXCHaLzVqs4CzfVcYWh0Nr2s1sUvIwDePpXVpTtnv+
+ iUhg5z7PDQAXbIykxE5tr0EWK3U8vfIifnBxAs7HZB2eTtZOzx7PkoqhQFhpiAlcaYTH
+ 2MQPVYhl60megaOp+NuUDuDfnek/1+EzatiFRzEoAiZ5vUtzA8CWA8AVFCs1uFUTPSww
+ 9n8yDmIQ1emay3u3dFBFJ+nAExfI7fp/a51yfG6+6Ip6nhckJ4VRzHcGd7GdvWma/sUa
+ axDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DEpLiJK/MzJfYWHQWGA2HJVbKXbkr6Ogxfet6ch06iI=;
+ b=nWoPxeg/ZaVmkJU5pyCB+yDD0ZTq7B/pP1Duej6WUR+cOe7iv5y8rOrKgDInFl+THH
+ 0uO0IgH2xzQVPcMd9YZQg+oyVjKmGnpUb/4VsJSOUuCbXJop1jgBSu+/k/+OMkvjeezx
+ wgUkLcHpOvSB0Vd3ZlBF+sj+bSVH2izBXGhpxlOd1GeAD3ABGE2QmSyNMdW3SDuR2tqr
+ 3jSymjNAi+/Bz+R+aKJ6b6tKs62gX6mi6sA+KL4UQKX65NhEoDNKwLTNFROpoYXcv7A6
+ uPfCixHUO/7QheWwqBcYAvD2OZKxDlYMDxyGd6iCj3Dj2T3OA+CjMTG+rHp7gYLnGEGv
+ Tu1w==
+X-Gm-Message-State: AOAM530iujhIbCpn0VR1JEHOB5/CruPjO/ScqroI9AQRH6LK50y68Nx7
+ +2yvqzHTx3O1LZqWuWw8UhC9UQ==
+X-Google-Smtp-Source: ABdhPJzqMNo4LCcaZoKvXemTFXkO8D1Dne4r1xZIbiTKhr945GiniQNRF75hAb21SItPKiA3mceE5g==
+X-Received: by 2002:a17:90b:1645:: with SMTP id
+ il5mr25666718pjb.113.1626725265619; 
+ Mon, 19 Jul 2021 13:07:45 -0700 (PDT)
+Received: from [192.168.3.43] (204-210-126-223.res.spectrum.com.
+ [204.210.126.223])
+ by smtp.gmail.com with ESMTPSA id t10sm23041210pgv.52.2021.07.19.13.07.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 19 Jul 2021 13:07:45 -0700 (PDT)
+Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
+ for ppc32
+To: David Gibson <david@gibson.dropbear.id.au>, matheus.ferst@eldorado.org.br
+References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+ <YPTmoCh2z2VXzc7O@yekko>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <edea2a69-7e5d-6544-d560-295c05e74b32@linaro.org>
+Date: Mon, 19 Jul 2021 10:07:42 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YPTmoCh2z2VXzc7O@yekko>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,72 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 7/18/21 4:42 PM, David Gibson wrote:
+> Given it's a behavioural change, I'm disinclined to squeeze this in
+> for qemu-6.1, but I'll consider it for 6.2.  Richard, any thoughts?
 
-Add a regression test for mmio read on big-endian hosts.
+The behavioral change happened in 6.1, and this is (partially) reverting that change. 
+With this patch, the new behaviour reverts to (1) raising an exception for e500* and (2) 
+otherwise, logging a guest error.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
----
- tests/qtest/nvme-test.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+It should go in, IMO.
 
-diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
-index 47e757d7e2af..f8bafb5d70fb 100644
---- a/tests/qtest/nvme-test.c
-+++ b/tests/qtest/nvme-test.c
-@@ -67,6 +67,30 @@ static void nvmetest_oob_cmb_test(void *obj, void *data, QGuestAllocator *alloc)
-     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=, 0x44332211);
- }
- 
-+static void nvmetest_reg_read_test(void *obj, void *data, QGuestAllocator *alloc)
-+{
-+    QNvme *nvme = obj;
-+    QPCIDevice *pdev = &nvme->dev;
-+    QPCIBar bar;
-+    uint32_t cap_lo, cap_hi;
-+    uint64_t cap;
-+
-+    qpci_device_enable(pdev);
-+    bar = qpci_iomap(pdev, 0, NULL);
-+
-+    cap_lo = qpci_io_readl(pdev, bar, 0x0);
-+    g_assert_cmpint(NVME_CAP_MQES(cap_lo), ==, 0x7ff);
-+
-+    cap_hi = qpci_io_readl(pdev, bar, 0x4);
-+    g_assert_cmpint(NVME_CAP_MPSMAX((uint64_t)cap_hi << 32), ==, 0x4);
-+
-+    cap = qpci_io_readq(pdev, bar, 0x0);
-+    g_assert_cmpint(NVME_CAP_MQES(cap), ==, 0x7ff);
-+    g_assert_cmpint(NVME_CAP_MPSMAX(cap), ==, 0x4);
-+
-+    qpci_iounmap(pdev, bar);
-+}
-+
- static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator *alloc)
- {
-     QNvme *nvme = obj;
-@@ -142,6 +166,8 @@ static void nvme_register_nodes(void)
-                  &(QOSGraphTestOptions) {
-         .edge.extra_device_opts = "pmrdev=pmr0"
-     });
-+
-+    qos_add_test("reg-read", "nvme", nvmetest_reg_read_test, NULL);
- }
- 
- libqos_init(nvme_register_nodes);
--- 
-2.32.0
 
+r~
 
