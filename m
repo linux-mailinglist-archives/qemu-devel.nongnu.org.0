@@ -2,108 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBCD3CD672
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 16:18:49 +0200 (CEST)
-Received: from localhost ([::1]:52264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC803CD67D
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 16:23:10 +0200 (CEST)
+Received: from localhost ([::1]:59672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5U6a-0000rQ-7T
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 10:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56936)
+	id 1m5UAm-0005rv-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 10:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1m5U4u-00086d-6V; Mon, 19 Jul 2021 10:17:04 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43518)
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m5U9e-0004aD-KF
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 10:21:58 -0400
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:60754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1m5U4s-0001LF-AR; Mon, 19 Jul 2021 10:17:03 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16JE4Rx4019531; Mon, 19 Jul 2021 10:16:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2ylFIzc8b+7/qtgisjW05gdQugMt1EE9hA7moAoMP+w=;
- b=LI9R1dWDh9tub1v8v8JgRf0rxaqRNqZ/b3N4LWJhuRfF6Pn3L0SjsQaDRopcAYCVoVnr
- q8ZC8iLl9R4uCrkkE7VL51c9l/UD8eQckhn6TbXMDrLjfum3qrtAstYrHODWg8HxO7r8
- zSMHZ4ctXLV5aqrgjNTC+PR8oxkyNBT/h0rDy1VHgkChckfcPJ2AaTew3WR45wiuY+Kj
- 741UbuBBGUD3Gp11GMPgzg9GnthxqGn4Ygrf7ORnFXNXo43gjGYjBLJhiGG7F2TVd2MD
- P1DYu7a/7aOYzinmEW/CS08w+8jAn1t0jFUXQ1MCoEObP8hAytrgGpP89pEt4zFElBxi KA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39wadbhtxv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 10:16:58 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16JE4XTF020314;
- Mon, 19 Jul 2021 10:16:57 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39wadbhtwu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 10:16:57 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16JE4fjU013632;
- Mon, 19 Jul 2021 14:16:56 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 39upua91am-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 14:16:56 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16JEGtLb37814728
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Jul 2021 14:16:55 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF23E7805C;
- Mon, 19 Jul 2021 14:16:54 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 518FB7805E;
- Mon, 19 Jul 2021 14:16:54 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.15.25])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 19 Jul 2021 14:16:54 +0000 (GMT)
-Subject: Re: [PATCH v2 0/2] s390x: improve subchannel error handling (vfio)
-To: Cornelia Huck <cohuck@redhat.com>, Eric Farman <farman@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>
-References: <20210705163952.736020-1-cohuck@redhat.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <e2032c05-ec0b-d653-959f-dcc045da2036@linux.ibm.com>
-Date: Mon, 19 Jul 2021 10:16:53 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <den-plotnikov@yandex-team.ru>)
+ id 1m5U9a-0004NF-Gm
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 10:21:56 -0400
+Received: from sas1-6b1512233ef6.qloud-c.yandex.net
+ (sas1-6b1512233ef6.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c14:44af:0:640:6b15:1223])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 5000A2E1A2B;
+ Mon, 19 Jul 2021 17:21:48 +0300 (MSK)
+Received: from sas2-d40aa8807eff.qloud-c.yandex.net
+ (sas2-d40aa8807eff.qloud-c.yandex.net [2a02:6b8:c08:b921:0:640:d40a:a880])
+ by sas1-6b1512233ef6.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ A1WDdPEkef-Llxek9CK; Mon, 19 Jul 2021 17:21:48 +0300
+Precedence: bulk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1626704508; bh=P02aVe6/4gOo/XbDUJ0JUkLWJgawEj/GcrL1z67v9Ss=;
+ h=Message-Id:Date:Subject:To:From:Cc;
+ b=auQCS6EKx9XiA4t18ZhL0SJqtkU1SCzsyvojZNfdguV6tNlwNeor/oOA+gHCpKVyn
+ tK3Oo1f8jZIz7YGMGc89KdzvNZA3PgvFUVnmpHr5mm1R0+9QEOJrJ5BlD+dboAKbSa
+ NKlreCh40YrAon9TlGg6tyXCn3lQ4LWSOkH/rurQ=
+Authentication-Results: sas1-6b1512233ef6.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
+ [2a02:6b8:b081:6::1:15])
+ by sas2-d40aa8807eff.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ rpmHbCJvn4-Ll2aZBcY; Mon, 19 Jul 2021 17:21:47 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+From: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] vhost: make SET_VRING_ADDR, SET_FEATURES send replies
+Date: Mon, 19 Jul 2021 17:21:38 +0300
+Message-Id: <20210719142138.24543-1-den-plotnikov@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210705163952.736020-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: R92CrzcowBg44o5-gUGWUwdGV6Dda99k
-X-Proofpoint-ORIG-GUID: -2UXgqEt2t8qk87WENEaANCDYaLjnKGL
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-19_05:2021-07-19,
- 2021-07-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- lowpriorityscore=0 spamscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
- suspectscore=0 impostorscore=0 clxscore=1015 phishscore=0 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107190082
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=den-plotnikov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -112,43 +71,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, mkawano@linux.ibm.com,
- Jared Rossi <jrossi@linux.ibm.com>
+Cc: yc-core@yandex-team.ru, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/21 12:39 PM, Cornelia Huck wrote:
-> This is a followup on the first version (which I had sent out in May,
-> and which kind of fell through the cracks.) While the first patch
-> is mostly unchanged, I added a second patch to address some possible
-> problems with the generated unit exceptions; non-vfio subchannels
-> are not affected by this.
-> 
-> As before, this works on the good path, and I have not managed to
-> actually get my system to exercise the error path :(
+On vhost-user-blk migration, qemu normally sends a number of commands
+to enable logging if VHOST_USER_PROTOCOL_F_LOG_SHMFD is negotiated.
+Qemu sends VHOST_USER_SET_FEATURES to enable buffers logging and
+VHOST_USER_SET_VRING_ADDR per each started ring to enable "used ring"
+data logging.
+The issue is that qemu doesn't wait for reply from the vhost daemon
+for these commands which may result in races between qemu expectation
+of logging starting and actual login starting in vhost daemon.
 
-Sorry for the silence, was out of office for a bit and Eric is 
-unavailable -- Anyway the code LGTM and matches what I see in the POPs, 
-I'd be willing to ACK but I'd feel better if we could exercise the error 
-paths before merging.
+The race can appear as follows: on migration setup, qemu enables dirty page
+logging by sending VHOST_USER_SET_FEATURES. The command doesn't arrive to a
+vhost-user-blk daemon immediately and the daemon needs some time to turn the
+logging on internally. If qemu doesn't wait for reply, after sending the
+command, qemu may start migrate memory pages to a destination. At this time,
+the logging may not be actually turned on in the daemon but some guest pages,
+which the daemon is about to write to, may have already been transferred
+without logging to the destination. Since the logging wasn't turned on,
+those pages won't be transferred again as dirty. So we may end up with
+corrupted data on the destination.
+The same scenario is applicable for "used ring" data logging, which is
+turned on with VHOST_USER_SET_VRING_ADDR command.
 
-@Jared/@Mike, you've both had eyes on this area of code recently, would 
-one of you be willing to take a crack at a tested-by (non-zero CCs on 
-HSCH/CSCH + also drive the sch_gen_unit_exception path)?
+To resolve this issue, this patch makes qemu wait for the commands result
+explicilty if VHOST_USER_PROTOCOL_F_REPLY_ACK is negotiated and
+logging is enabled.
 
-> 
-> v1->v2:
-> - add comments regarding -ENODEV/-EACCES handling
-> - add second patch
-> 
-> Cornelia Huck (2):
->    vfio-ccw: forward halt/clear errors
->    css: fix actl handling for unit exceptions
-> 
->   hw/s390x/css.c         | 38 ++++++++++++++++++++++++++++++++++----
->   hw/vfio/ccw.c          |  4 ++--
->   include/hw/s390x/css.h |  3 ++-
->   3 files changed, 38 insertions(+), 7 deletions(-)
-> 
+Signed-off-by: Denis Plotnikov <den-plotnikov@yandex-team.ru>
+---
+v1 -> v2:
+  * send reply only when logging is enabled [mst]
+
+v0 -> v1:
+  * send reply for SET_VRING_ADDR, SET_FEATURES only [mst]
+  
+ hw/virtio/vhost-user.c | 37 ++++++++++++++++++++++++++++++++++---
+ 1 file changed, 34 insertions(+), 3 deletions(-)
+
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index ee57abe04526..133588b3961e 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1095,6 +1095,11 @@ static int vhost_user_set_mem_table(struct vhost_dev *dev,
+     return 0;
+ }
+ 
++static bool log_enabled(uint64_t features)
++{
++    return !!(features & (0x1ULL << VHOST_F_LOG_ALL));
++}
++
+ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+                                      struct vhost_vring_addr *addr)
+ {
+@@ -1105,10 +1110,21 @@ static int vhost_user_set_vring_addr(struct vhost_dev *dev,
+         .hdr.size = sizeof(msg.payload.addr),
+     };
+ 
++    bool reply_supported = virtio_has_feature(dev->protocol_features,
++                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
++
++    if (reply_supported && log_enabled(msg.hdr.flags)) {
++        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++    }
++
+     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+         return -1;
+     }
+ 
++    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
++        return process_message_reply(dev, &msg);
++    }
++
+     return 0;
+ }
+ 
+@@ -1288,7 +1304,8 @@ static int vhost_user_set_vring_call(struct vhost_dev *dev,
+     return vhost_set_vring_file(dev, VHOST_USER_SET_VRING_CALL, file);
+ }
+ 
+-static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
++static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64,
++                              bool need_reply)
+ {
+     VhostUserMsg msg = {
+         .hdr.request = request,
+@@ -1297,23 +1314,37 @@ static int vhost_user_set_u64(struct vhost_dev *dev, int request, uint64_t u64)
+         .hdr.size = sizeof(msg.payload.u64),
+     };
+ 
++    if (need_reply) {
++        bool reply_supported = virtio_has_feature(dev->protocol_features,
++                                          VHOST_USER_PROTOCOL_F_REPLY_ACK);
++        if (reply_supported) {
++            msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++        }
++    }
++
+     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
+         return -1;
+     }
+ 
++    if (msg.hdr.flags & VHOST_USER_NEED_REPLY_MASK) {
++        return process_message_reply(dev, &msg);
++    }
++
+     return 0;
+ }
+ 
+ static int vhost_user_set_features(struct vhost_dev *dev,
+                                    uint64_t features)
+ {
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features);
++    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
++                              log_enabled(features));
+ }
+ 
+ static int vhost_user_set_protocol_features(struct vhost_dev *dev,
+                                             uint64_t features)
+ {
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features);
++    return vhost_user_set_u64(dev, VHOST_USER_SET_PROTOCOL_FEATURES, features,
++                              false);
+ }
+ 
+ static int vhost_user_get_u64(struct vhost_dev *dev, int request, uint64_t *u64)
+-- 
+2.25.1
 
 
