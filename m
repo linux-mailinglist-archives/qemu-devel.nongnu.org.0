@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502A73CEF90
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 01:07:41 +0200 (CEST)
-Received: from localhost ([::1]:41504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A013CEF91
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 01:07:51 +0200 (CEST)
+Received: from localhost ([::1]:42124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5cMO-0004VW-Dy
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 19:07:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45466)
+	id 1m5cMY-0004ug-Op
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 19:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5cKx-00037s-3Q; Mon, 19 Jul 2021 19:06:11 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45051)
+ id 1m5cKx-000384-J1
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 19:06:11 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5cKv-0000uv-Fq; Mon, 19 Jul 2021 19:06:10 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- f10-20020a05600c4e8ab029023e8d74d693so916885wmq.3; 
- Mon, 19 Jul 2021 16:06:07 -0700 (PDT)
+ id 1m5cKv-0000vC-K3
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 19:06:11 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d12so23886535wre.13
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 16:06:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1K1aT2xzeWWXq/tRXX2ZkYyvB7rrQYwbV3XokZvlDyA=;
- b=rT7yKx2fJ+Z4C4tPqM5aFGVRNqX9rPHZ7vGPV8aeBXEMtuHltfP4ZF1Byz2+Q6v+CH
- 2SOEHcVQ9Xp7QovzSt+ktvwWS36qOn/i3ranhrS814RX7lm2sYBUhDbtKc7cDbX+dLLV
- 38Nq+Po83ViaffQuNkDgSmssyTDdZo7kWpEtKfuNV4eR0pxbc8XNofz5sOSaxbvP6e1Z
- vowtveZ6lwALNraiQYgJC5EIe2Z4wJCUhPnsgpzI0BICK75fQXdbVqloezw9T2G7ss4w
- gYSh54gABFXOvN23ZOZ27R0IjJv4SDtZm9UiFhmpJgSgN/Plu+FaiT+jyUW2Z3D5iidz
- oOew==
+ bh=g7Om/tQSk4a/M4aXnq5nF/KThq1IojjQD7LIos3LeuI=;
+ b=AFde4/cdIQlkvz4vvnu79xNbVDwG0RCuSgyxDEWb6A0QiPNsECO3iYkdn1JnDyUJ7E
+ Yo/xvHepiawHOeUnpb+3+c7J9UHp17GwcUDTAD7Eq5c/dbf49xMAqMr42fk5Nftb3+7B
+ jiL+Pnp2EPOWloceJnjxEurVQJUeJFEz+lg2rmFUFuwKtrXPTuWx8E0bM3FRX2gEHD6S
+ JdKGTzMtVx29ivlaN1mHZIZaNlW+Hgdl8B6yX7uN7ExgYwVsv/QOKlc8836kgEx6XHPS
+ R2nPw0IPsLKLluT8vjXwixB/9fxWymeZcWGujqQpbKwqaZyG6ana5qKe1/MgbCBVlnxg
+ RDcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1K1aT2xzeWWXq/tRXX2ZkYyvB7rrQYwbV3XokZvlDyA=;
- b=ZZn4qUfUVnnqVKPFPX7rR3a8UsfMchLi3dAYB32NOE+QlO6ibJFc0AL4xc3b6joeIC
- iW1NER7imrkiKMJoaNvFxbOsj0nvk33A/EI7A7Kd3upVC/YHQF4mQKB0Cc35HjVfjvxP
- 0n5Sw8DHipraKHDcdDEF8us+XWmAJT5pNe2lG1eJzBR1uyiL3OdnILoTX7/IxZCltcb9
- UyunajZztGmnM0Uxe08rwi311btd6oyZR1THxiDhb1ennEeW7z+84hLHzfgMuwOeUI6E
- Gp/LlSBNeDIv1DGA0Bho+gxgTrZqD426VrH4Sjel1UsZ8AtgFUZdrGXJYFappk6Ou45k
- pkWw==
-X-Gm-Message-State: AOAM530ISOYqnEPnNFiuXfPwgzLezeBB8dr2pvUxm9s7yxn/9ihk5f+p
- W7eGYLh0jdwsxy5mdDYJA8OMg0Nlf/3gAA==
-X-Google-Smtp-Source: ABdhPJy2G2N3VJfgwCPX5OTXknbgXhOT3EQrviEfJaancDr8QmNYxGLYVNchp2SnZvQX9icWkR5qiQ==
-X-Received: by 2002:a1c:7515:: with SMTP id o21mr34997975wmc.65.1626735966089; 
- Mon, 19 Jul 2021 16:06:06 -0700 (PDT)
+ bh=g7Om/tQSk4a/M4aXnq5nF/KThq1IojjQD7LIos3LeuI=;
+ b=T2EqIy5WXz5FPuq6zyErtJukpwAqVONJ1u7jx7M41XGre1atF+x208d2I0TK3q5bzO
+ geCKlYnUChS1rLrQ7xhXd7voG5EsLZnnUXN4HNGi628E4z31DK7ADAdGaHzd+RCrpjMZ
+ CM5tv0hycA2k2coq9b+Cqoy9UQAsGmE0uKlMMfntkPl5ObFWgroOegorjrUaZlcupNC8
+ vMjQ7gkDGNPXpla/RpVA8wVq7K7W+W/bbBhqOb9xd//zK/DvJhJQeKg2Q6U2uv8dtpwv
+ ItXczO9TQJUduEH0rYsoSC0tsPKvuEbha9gO/4GleA/cyOczOhOZmoLBY6KmB426D9MG
+ EwMA==
+X-Gm-Message-State: AOAM532BGbptsoS/1gTUaKiaCz5COh9IpnEYYVLV59XC+gD/xREzh69y
+ Ox8Kuc1GTLAwRSYoDT75JBA=
+X-Google-Smtp-Source: ABdhPJxSEoPJYug4RtrcLmWnA+HOlPC9AsmcAGB40kXxOdcFvHepiBCTUc7A6vNdHv+UoUrWtoJ7yw==
+X-Received: by 2002:adf:e488:: with SMTP id i8mr32527887wrm.285.1626735968336; 
+ Mon, 19 Jul 2021 16:06:08 -0700 (PDT)
 Received: from [192.168.43.238] (126.red-95-127-153.staticip.rima-tde.net.
  [95.127.153.126])
- by smtp.gmail.com with ESMTPSA id a7sm11242695wru.67.2021.07.19.16.06.04
+ by smtp.gmail.com with ESMTPSA id y19sm774945wma.21.2021.07.19.16.06.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Jul 2021 16:06:05 -0700 (PDT)
-Subject: Re: [PATCH v2 2/3] hw: aspeed_gpio: Simplify 1.8V defines
-To: Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-References: <20210713065854.134634-1-joel@jms.id.au>
- <20210713065854.134634-3-joel@jms.id.au>
+ Mon, 19 Jul 2021 16:06:07 -0700 (PDT)
+Subject: Re: [PATCH v3 02/13] accel/tcg: Move curr_cflags into cpu-exec.c
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210717221851.2124573-1-richard.henderson@linaro.org>
+ <20210717221851.2124573-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <81459728-4b5e-70a4-70de-2c626cce3e22@amsat.org>
-Date: Tue, 20 Jul 2021 00:05:35 +0200
+Message-ID: <fbf85b07-4c54-b807-f620-e26bed49f952@amsat.org>
+Date: Tue, 20 Jul 2021 00:06:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210713065854.134634-3-joel@jms.id.au>
+In-Reply-To: <20210717221851.2124573-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,22 +89,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, peter.maydell@linaro.org,
+ mark.cave-ayland@ilande.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 8:58 AM, Joel Stanley wrote:
-> There's no need to define the registers relative to the 0x800 offset
-> where the controller is mapped, as the device is instantiated as it's
-> own model at the correct memory address.
+On 7/18/21 12:18 AM, Richard Henderson wrote:
+> We will shortly have more than a simple member read here,
+> with stuff not necessarily exposed to exec/exec-all.h.
 > 
-> Simplify the defines and remove the offset to save future confusion.
-> 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/gpio/aspeed_gpio.c | 73 +++++++++++++++++++++----------------------
->  1 file changed, 36 insertions(+), 37 deletions(-)
+>  include/exec/exec-all.h | 5 +----
+>  accel/tcg/cpu-exec.c    | 5 +++++
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
