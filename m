@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB0DB3CEB55
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 21:27:51 +0200 (CEST)
-Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F8DB3CEB68
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 21:44:55 +0200 (CEST)
+Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Yve-0007MK-TL
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 15:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40506)
+	id 1m5ZC9-0003Gf-QL
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 15:44:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1m5Yur-0006dF-EO
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:27:01 -0400
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:42702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1m5Yup-00081b-AX
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:27:01 -0400
-Received: by mail-qt1-x82d.google.com with SMTP id w26so13764090qto.9
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 12:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NyPSdJTccPoREQSDXB4QOb3MXZO/y0QqD2aNn4xkYxk=;
- b=Xy//DkIdXu3PTJ196A76DKT5u5zW3H/0O56tT5uE2kPrQ4+ov6U4cEpffhmJftS1Il
- 95Z8vHufRFnUhleLzWJ6VfyqFBa15+nsAj0sv7BPPgo9EbY2+CUCmLQ3v2gwBtSrNNW4
- XO67NzXYCCIwgLmXLKCxLiGWrkT5IcmOfD6sSQckaFB21ap6+3yvBrySfykdz6QtPHZI
- GyYjTahnMDwvcNsz6PSayABvXlGKeju88x86hoK5zA6dDyA1P+QKxOKvaWpXj0CTUiKt
- vOeAG8QX5GJCHPzjgIjwrGMWfqQAqrW0Yz/TB8mUiR6/9EYLobBwqbw9nvZaXkQ/aTGT
- FW6g==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m5ZBP-0002b3-GC
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:44:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45602)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1m5ZBM-0002YW-Q9
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:44:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626723842;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=gkgzAdedUhQN9WzE8qHnlpIvKqswbMXzc5zEfe6Na+Y=;
+ b=YHU1lgvz8LgjcbN4hvsADxzbE+q/aNqkkrvRrIhNjr4S4b3WCqHzxC3fTqF+ZDSQsrVg9U
+ PTqZ1I58mimtnh1JjvDFkGGAbmGa5vuttHPQF0sfynZTIOYInfcXNp9Wi9ZUk/azyNCfOr
+ g0ljzkWvQfKHbV0YHH4+hicU1WIlXx0=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-YKvY0FTeMS2IkgqctXkn9w-1; Mon, 19 Jul 2021 15:44:01 -0400
+X-MC-Unique: YKvY0FTeMS2IkgqctXkn9w-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ b6-20020a05622a0206b029025eb726dd9bso7829720qtx.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 12:44:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NyPSdJTccPoREQSDXB4QOb3MXZO/y0QqD2aNn4xkYxk=;
- b=US9AgkJFj1uYyY6MIs9UXW1kB2HFof8nTdGeehjxGE1RorpMC55KNI0+9UWRBd+zPA
- iHM6Uixb0IKKxX1ty3At1c7jCnDe/fTfHHAVL1HJTovCPPitoCQzA3t6dlifNbvhrZbD
- p+3muFw4NJ3GRqxzAXaYRxet6oIvPm/DTTHLmPLvFu67HCEQf4Sg7Cj/wN+cysKB+vuR
- aKTviNry5IUeD5MBm6hTr+9CJ+5Yp7bF+meZEYe7oKNjfpSM0iDb46C2YF1zhiW5LLH+
- oHVXSx64+f+GBUZvINh2v9lUyAnLp8xaPXi6oyCfv+GfubWWDwUsHX0a0YwlhhAsxM9S
- LY7g==
-X-Gm-Message-State: AOAM531CUwnIWBXBIF5GdwWMD1aooWVJhvKTN/eLLtBAyTm7iCFGK9ki
- uR9GNb1E5U6YwBPsbCK0smzjQ708IxkUwrqx9UFKWA==
-X-Google-Smtp-Source: ABdhPJyUXg+qIE35qreYgWYDxYQlsGioTGWRu+EpbRQG2yBsKX2o0jnBx1OZTmpPDnCo6diiNnpvISJ5G2o9BjQaj1g=
-X-Received: by 2002:ac8:7d44:: with SMTP id h4mr6209817qtb.101.1626722817910; 
- Mon, 19 Jul 2021 12:26:57 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gkgzAdedUhQN9WzE8qHnlpIvKqswbMXzc5zEfe6Na+Y=;
+ b=a7KCvZRx6ApJNQ7X+sb7BdlysiT4+0p0gtHXEUYgCsvWBFt8VrgVAhxA7Wz9fx8Neu
+ XOJuzt4odbXXoxnDGMA7tuzoj7s0x9TbdwfXGN15u3hA/ny1oUwmE9Q1z/sD+wKUpOSc
+ gSgFpXAYCDP4GHyU+NNU+lfiYH/gEQylBVoOR116+x44MG+8V5K5bb7gZespknHj8DYd
+ TXK1QS1Pg90kFt3Ig0PhdjyH7jZOPoLjgW3HrFrylj6sA7PZ0zb9wW5aeIuJLSaAkz12
+ uknXbDORfDx9HLJIWj6Ord+DbTTgsoE7YrJwyZnPNYMzYr1cdSTMRf/O9XlyrCiW5Kl0
+ EEuA==
+X-Gm-Message-State: AOAM530wMXBLR+qlvBKZ4kSM5iiYp15gln1DSR6hdXrghMg4xKMri7aO
+ NJkb8LwtWl1mqkIQ8g5wZsFpWhciJpGb0J+b6S6e71LY9M4dAPSepKG7NkqigdE7q6YuiZ0LPY1
+ ExnB0xDsQH9/bzIY=
+X-Received: by 2002:ad4:4a31:: with SMTP id n17mr26564943qvz.2.1626723841445; 
+ Mon, 19 Jul 2021 12:44:01 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxglHpDGfQxxa4OacC+YOCoJLXKbIoQxdx1x9r60HQyAAuz6pTpvLo07WJp3mAz53qpzAz3ug==
+X-Received: by 2002:ad4:4a31:: with SMTP id n17mr26564925qvz.2.1626723841217; 
+ Mon, 19 Jul 2021 12:44:01 -0700 (PDT)
+Received: from t490s
+ (bras-base-toroon474qw-grc-65-184-144-111-238.dsl.bell.ca. [184.144.111.238])
+ by smtp.gmail.com with ESMTPSA id d25sm6849842qtq.55.2021.07.19.12.44.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 12:44:00 -0700 (PDT)
+Date: Mon, 19 Jul 2021 15:43:59 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Subject: Re: [PATCH] tests/qtest/migration-test.c: use 127.0.0.1 instead of 0
+Message-ID: <YPXV/1H8L4RSQ6y7@t490s>
+References: <20210719185217.122105-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-References: <20210719123732.24457-1-alex.bennee@linaro.org>
- <87im16pfsq.fsf@linaro.org>
- <CANCZdfpsEdupxRPxKt42ki1B0Kckmgu=+m8pXRRFS2J+qDJrTQ@mail.gmail.com>
- <87eebunm6u.fsf@linaro.org>
-In-Reply-To: <87eebunm6u.fsf@linaro.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 19 Jul 2021 13:26:45 -0600
-Message-ID: <CANCZdfpxn7Y8PX5ixqOruQ-kSx4BJzDd9zjSLpxEThv_K-APSQ@mail.gmail.com>
-Subject: Re: [RFC PATCH] tcg/plugins: implement a qemu_plugin_user_exit helper
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000b5c13105c77eebac"
-Received-SPF: none client-ip=2607:f8b0:4864:20::82d;
- envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210719185217.122105-1-dgilbert@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,234 +92,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: minyihh@uci.edu, Kyle Evans <kevans@freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, robhenry@microsoft.com,
- Laurent Vivier <laurent@vivier.eu>, mahmoudabdalghany@outlook.com,
- aaron@os.amperecomputing.com, cota@braap.org,
- Alexandre Iooss <erdnaxe@crans.org>, Chen Qun <kuhn.chenqun@huawei.com>,
- ma.mandourr@gmail.com
+Cc: thuth@redhat.com, berrange@redhat.com, qemu-devel@nongnu.org,
+ quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b5c13105c77eebac
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jul 19, 2021 at 07:52:17PM +0100, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> OpenBSD doesn't like :0 as an address, switch to using 127.0.0.1
+> in baddest; it's really testing the :0 port number that isn't allowed
+> on anything.
+> 
+> (The test doesn't currently run anyway because of the userfault
+> problem that Peter noticed, but this gets us closer to being able to
+> reenable it)
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-On Mon, Jul 19, 2021, 1:22 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+Acked-by: Peter Xu <peterx@redhat.com>
 
->
-> Warner Losh <imp@bsdimp.com> writes:
->
-> > On Mon, Jul 19, 2021, 7:57 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> wrote:
-> >
-> >  Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
-> >
-> >  > In user-mode emulation there is a small race between preexit_cleanup
-> >  > and exit_group() which means we may end up calling instrumented
-> >  > instructions before the kernel reaps child threads. To solve this we
-> >  > implement a new helper which ensures the callbacks are flushed along
-> >  > with any translations before we let the host do it's a thing.
-> >  >
-> >  > While we are at it make the documentation of
-> >  > qemu_plugin_register_atexit_cb clearer as to what the user can expec=
-t.
-> >  >
-> >  <snip>
-> >  >
-> >  > +/*
-> >  > + * Handle exit from linux-user. Unlike the normal atexit() mechanis=
-m
-> >  > + * we need to handle the clean-up manually as it's possible threads
-> >  > + * are still running. We need to remove all callbacks from code
-> >  > + * generation, flush the current translations and then we can safel=
-y
-> >  > + * trigger the exit callbacks.
-> >  > + */
-> >  > +
-> >  > +void qemu_plugin_user_exit(void)
-> >  > +{
-> >  > +    enum qemu_plugin_event ev;
-> >  > +
-> >  > +    QEMU_LOCK_GUARD(&plugin.lock);
-> >  > +
-> >  > +    start_exclusive();
-> >  > +
-> >  > +    /* un-register all callbacks except the final AT_EXIT one */
-> >  > +    for (ev =3D 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
-> >  > +        if (ev !=3D QEMU_PLUGIN_EV_ATEXIT) {
-> >  > +            struct qemu_plugin_ctx *ctx;
-> >  > +            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
-> >  > +                plugin_unregister_cb__locked(ctx, ev);
-> >  > +            }
-> >  > +        }
-> >  > +    }
-> >  > +
-> >  > +    tb_flush(current_cpu);
-> >
-> >  We also need to disable memory helpers during the exclusive period as
-> >  that is another route into a callback:
-> >  --8<---------------cut here---------------start------------->8---
-> >  modified   plugins/core.c
-> >  @@ -498,6 +499,7 @@ void
-> qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
-> >   void qemu_plugin_user_exit(void)
-> >   {
-> >       enum qemu_plugin_event ev;
-> >  +    CPUState *cpu;
-> >
-> >       QEMU_LOCK_GUARD(&plugin.lock);
-> >
-> >  @@ -514,6 +516,11 @@ void qemu_plugin_user_exit(void)
-> >       }
-> >
-> >       tb_flush(current_cpu);
-> >  +
-> >  +    CPU_FOREACH(cpu) {
-> >  +        qemu_plugin_disable_mem_helpers(cpu);
-> >  +    }
-> >  +
-> >       end_exclusive();
-> >
-> >       /* now it's safe to handle the exit case */
-> >  --8<---------------cut here---------------end--------------->8---
-> >
-> > I think both of these are find from a bsd-user point of view.
->
-> Acked-by: or Reviewed-by:?
->
+-- 
+Peter Xu
 
-Sorry I wasn't clear.
-
-Acked-by: Warner Losh <imp@bsdimp.com>
-
-
-
-> --
-> Alex Benn=C3=A9e
->
-
---000000000000b5c13105c77eebac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Jul 19, 2021, 1:22 PM Alex Benn=C3=A9e &lt;<a =
-href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><br>
-Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_blank" rel=3D"=
-noreferrer">imp@bsdimp.com</a>&gt; writes:<br>
-<br>
-&gt; On Mon, Jul 19, 2021, 7:57 AM Alex Benn=C3=A9e &lt;<a href=3D"mailto:a=
-lex.bennee@linaro.org" target=3D"_blank" rel=3D"noreferrer">alex.bennee@lin=
-aro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt;=C2=A0 Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org" t=
-arget=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt; writes:<=
-br>
-&gt;<br>
-&gt;=C2=A0 &gt; In user-mode emulation there is a small race between preexi=
-t_cleanup<br>
-&gt;=C2=A0 &gt; and exit_group() which means we may end up calling instrume=
-nted<br>
-&gt;=C2=A0 &gt; instructions before the kernel reaps child threads. To solv=
-e this we<br>
-&gt;=C2=A0 &gt; implement a new helper which ensures the callbacks are flus=
-hed along<br>
-&gt;=C2=A0 &gt; with any translations before we let the host do it&#39;s a =
-thing.<br>
-&gt;=C2=A0 &gt;<br>
-&gt;=C2=A0 &gt; While we are at it make the documentation of<br>
-&gt;=C2=A0 &gt; qemu_plugin_register_atexit_cb clearer as to what the user =
-can expect.<br>
-&gt;=C2=A0 &gt;<br>
-&gt;=C2=A0 &lt;snip&gt;<br>
-&gt;=C2=A0 &gt;=C2=A0 <br>
-&gt;=C2=A0 &gt; +/*<br>
-&gt;=C2=A0 &gt; + * Handle exit from linux-user. Unlike the normal atexit()=
- mechanism<br>
-&gt;=C2=A0 &gt; + * we need to handle the clean-up manually as it&#39;s pos=
-sible threads<br>
-&gt;=C2=A0 &gt; + * are still running. We need to remove all callbacks from=
- code<br>
-&gt;=C2=A0 &gt; + * generation, flush the current translations and then we =
-can safely<br>
-&gt;=C2=A0 &gt; + * trigger the exit callbacks.<br>
-&gt;=C2=A0 &gt; + */<br>
-&gt;=C2=A0 &gt; +<br>
-&gt;=C2=A0 &gt; +void qemu_plugin_user_exit(void)<br>
-&gt;=C2=A0 &gt; +{<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 enum qemu_plugin_event ev;<br>
-&gt;=C2=A0 &gt; +<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 QEMU_LOCK_GUARD(&amp;plugin.lock);<br>
-&gt;=C2=A0 &gt; +<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 start_exclusive();<br>
-&gt;=C2=A0 &gt; +<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 /* un-register all callbacks except the fina=
-l AT_EXIT one */<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 for (ev =3D 0; ev &lt; QEMU_PLUGIN_EV_MAX; e=
-v++) {<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ev !=3D QEMU_PLUGIN_EV_ATE=
-XIT) {<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 struct qemu_plug=
-in_ctx *ctx;<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QTAILQ_FOREACH(c=
-tx, &amp;plugin.ctxs, entry) {<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pl=
-ugin_unregister_cb__locked(ctx, ev);<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 &gt; +<br>
-&gt;=C2=A0 &gt; +=C2=A0 =C2=A0 tb_flush(current_cpu);<br>
-&gt;<br>
-&gt;=C2=A0 We also need to disable memory helpers during the exclusive peri=
-od as<br>
-&gt;=C2=A0 that is another route into a callback:<br>
-&gt;=C2=A0 --8&lt;---------------cut here---------------start-------------&=
-gt;8---<br>
-&gt;=C2=A0 modified=C2=A0 =C2=A0plugins/core.c<br>
-&gt;=C2=A0 @@ -498,6 +499,7 @@ void qemu_plugin_register_atexit_cb(qemu_plu=
-gin_id_t id,<br>
-&gt;=C2=A0 =C2=A0void qemu_plugin_user_exit(void)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0enum qemu_plugin_event ev;<br>
-&gt;=C2=A0 +=C2=A0 =C2=A0 CPUState *cpu;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QEMU_LOCK_GUARD(&amp;plugin.lock);<br>
-&gt;<br>
-&gt;=C2=A0 @@ -514,6 +516,11 @@ void qemu_plugin_user_exit(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0tb_flush(current_cpu);<br>
-&gt;=C2=A0 +<br>
-&gt;=C2=A0 +=C2=A0 =C2=A0 CPU_FOREACH(cpu) {<br>
-&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_plugin_disable_mem_helpers(cpu=
-);<br>
-&gt;=C2=A0 +=C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0end_exclusive();<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* now it&#39;s safe to handle the exit case=
- */<br>
-&gt;=C2=A0 --8&lt;---------------cut here---------------end---------------&=
-gt;8---<br>
-&gt;<br>
-&gt; I think both of these are find from a bsd-user point of view.<br>
-<br>
-Acked-by: or Reviewed-by:?<br></blockquote></div></div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Sorry I wasn&#39;t clear.</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">Acked-by: Warner Losh &lt;<a href=3D"mailto:imp=
-@bsdimp.com">imp@bsdimp.com</a>&gt;</div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-</blockquote></div></div></div>
-
---000000000000b5c13105c77eebac--
 
