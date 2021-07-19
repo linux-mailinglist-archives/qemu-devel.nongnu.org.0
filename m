@@ -2,61 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880483CE663
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:58:45 +0200 (CEST)
-Received: from localhost ([::1]:60650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D2E3CE6C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 19:02:27 +0200 (CEST)
+Received: from localhost ([::1]:35466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5WbM-0003xh-KB
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:58:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38282)
+	id 1m5Wew-00068S-O9
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 13:02:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m5WaV-0003HA-3J
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:57:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26334)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m5Wcw-0004rU-08
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 13:00:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58150)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m5WaT-0000k8-Bb
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:57:50 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m5Wcs-0002Lg-Nx
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 13:00:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626713868;
+ s=mimecast20190719; t=1626714018;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=2q//Pc7sOmWXWMYvWVkVlOC24Y93ghVMoCrEE8xz7Qg=;
- b=CXfZvKPh9Kr3D9XiM8Y0gj+lvFJtg9g9ge6+IIfC1haBo1swEheI7x2axflbLnqJIJwAPG
- xG394ESxNyzNKBo+Nnse7w16kSjzEiTUi8UUOUMRjaIljVsBufsobn+LDO4dPYx47VPPgE
- B6ivwr0dpeNXzFfXHcp4TKU/3mPb5LQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-_WXcAP6aP3WE0m1TK73vDg-1; Mon, 19 Jul 2021 12:57:45 -0400
-X-MC-Unique: _WXcAP6aP3WE0m1TK73vDg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBA2F10151E1;
- Mon, 19 Jul 2021 16:57:43 +0000 (UTC)
-Received: from localhost (ovpn-112-158.ams2.redhat.com [10.36.112.158])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 118665D6A1;
- Mon, 19 Jul 2021 16:57:39 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH for-6.2 v2 00/11] machine: smp parsing fixes and
- improvement
-In-Reply-To: <20210719032043.25416-1-wangyanan55@huawei.com>
-Organization: Red Hat GmbH
+ bh=IRP+JUDCE8+xInO1K/CwfsFl2Glt120UarEzsoI0s+s=;
+ b=dthbIgvi4lfDyxnwByV0aW66xZjdRr5JfW0SDSnTaTschCklKRhsJUaWOVSnTunIF0Wvor
+ 7EsIU8rcXrIn8IYJ7Mu9OpyxEjbbvQWo9CaSj/gGBs0QfUzw14mAMD32hvImIOJgwhuRSF
+ CVjc4wbnzrMdHePGw0MtinaTrGbzmxY=
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com
+ [209.85.166.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-7SQcLXHpMuOb8bjlQOmtoA-1; Mon, 19 Jul 2021 13:00:16 -0400
+X-MC-Unique: 7SQcLXHpMuOb8bjlQOmtoA-1
+Received: by mail-io1-f71.google.com with SMTP id
+ p7-20020a6b63070000b029050017e563a6so13082252iog.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 10:00:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IRP+JUDCE8+xInO1K/CwfsFl2Glt120UarEzsoI0s+s=;
+ b=L+LPN0EttFOC9B5g7IpA8nSYQjTeOP/FXQ6n7b2DEqiueBXfKAwVyZ5GJCYl28LlBU
+ t56zkh6I9ZAMk7ugpA/CwnhYDVl11YVrxzA24eaGP62wMSmBlFGB9IkLNxIyfjtiots1
+ JoPfSNuW6LqNxZa1zvg5Asau1sqK9af23Moqm9sEchzM5j/HEExLxBNWdeCU8HjcbDac
+ 2uH5CERfDvsBaqmGPOPVJ0qKTaQMr1WAKqDINkLipwOmpOjU2jqi7yCDcEoaNU35PrzX
+ FMTCATtfv6B37ToPCEms5Fts3kCCA7dX9tCgjH+pMlcbaSX4ik72Zpl+mXov5GeekO09
+ Kz2g==
+X-Gm-Message-State: AOAM5323ds4v34FF6PUeA2I9dUP7QqtFrVCv2s/iWG7iRZBk+o5JI/1E
+ liovslqIGWsMKFwfRbcoiPNgIm5FrYwK5yQMJFFCnywBXEIbjd4crG6URqdvF9Tr16CDvVU5z0C
+ e64z+Xe7DZmItsUg=
+X-Received: by 2002:a92:cb52:: with SMTP id f18mr17810595ilq.97.1626714016360; 
+ Mon, 19 Jul 2021 10:00:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcOPOIvxYxHdiYjfn3P7VE/6KfH1iQ7uYnYaCsyWXfgKmwYwNDJ+mOf7voQ2ClZLbIO+JCBQ==
+X-Received: by 2002:a92:cb52:: with SMTP id f18mr17810570ilq.97.1626714016211; 
+ Mon, 19 Jul 2021 10:00:16 -0700 (PDT)
+Received: from gator ([140.82.166.162])
+ by smtp.gmail.com with ESMTPSA id c4sm9958860ilq.70.2021.07.19.10.00.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 10:00:15 -0700 (PDT)
+Date: Mon, 19 Jul 2021 19:00:13 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH for-6.2 v2 06/11] hw: Add compat machines for 6.2
+Message-ID: <20210719170013.jtnu6seyoz65g3yi@gator>
 References: <20210719032043.25416-1-wangyanan55@huawei.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Mon, 19 Jul 2021 18:57:38 +0200
-Message-ID: <875yx69r7h.fsf@redhat.com>
+ <20210719032043.25416-7-wangyanan55@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210719032043.25416-7-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -77,102 +94,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
- Yanan Wang <wangyanan55@huawei.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
+ yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
-
-> Hi,
->
-> This is v2 of the series [1] that I have posted to introduce some smp parsing
-> fixes and improvement, much more work has been processed compared to RFC v1.
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg00259.html
->
-> The purpose of this series is to improve/fix the parsing logic. Explicitly
-> specifying a CPU topology parameter as zero is not allowed any more, and
-> maxcpus is now uniformly used to calculate the omitted parameters. It's also
-> suggested that we should start to prefer cores over sockets over threads on
-> the newer machine types, which will make the computed virtual topology more
-> reflective of the real hardware.
->
-> In order to reduce code duplication and ease the code maintenance, smp_parse
-> in now converted into a parser generic enough for all arches, so that the PC
-> specific one can be removed. It's also convenient to introduce more topology
-> members (e.g. cluster) to the generic parser in the future.
-
-Cc:ing Pierre, as he also had been looking at the smp parsing code (for
-s390x) recently.
-
-Also, please keep me on cc: for patches that touch s390x.
-
->
-> Finally, a QEMU unit test for the parsing of given SMP configuration is added.
-> Since all the parsing logic is in generic function smp_parse(), this test
-> passes diffenent SMP configurations to the function and compare the parsing
-> result with what is expected. In the test, all possible collections of the
-> topology parameters and the corressponding expected results are listed,
-> including the valid and invalid ones. The preference of sockets over cores
-> and the preference of cores over sockets, and the support of multi-dies are
-> also taken into consideration.
->
+On Mon, Jul 19, 2021 at 11:20:38AM +0800, Yanan Wang wrote:
+> Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
+> 
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
+>  hw/arm/virt.c              |  9 ++++++++-
+>  hw/core/machine.c          |  3 +++
+>  hw/i386/pc.c               |  3 +++
+>  hw/i386/pc_piix.c          | 14 +++++++++++++-
+>  hw/i386/pc_q35.c           | 13 ++++++++++++-
+>  hw/ppc/spapr.c             | 15 +++++++++++++--
+>  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>  include/hw/boards.h        |  3 +++
+>  include/hw/i386/pc.h       |  3 +++
+>  9 files changed, 71 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 81eda46b0b..01165f7f53 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2788,10 +2788,17 @@ static void machvirt_machine_init(void)
+>  }
+>  type_init(machvirt_machine_init);
+>  
+> +static void virt_machine_6_2_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
+> +
+>  static void virt_machine_6_1_options(MachineClass *mc)
+>  {
+> +    virt_machine_6_2_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>  }
+> -DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
+> +DEFINE_VIRT_MACHINE(6, 1)
+>  
+>  static void virt_machine_6_0_options(MachineClass *mc)
+>  {
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 8b4d07d3fc..63439c4a6d 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -37,6 +37,9 @@
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-pci.h"
+>  
+> +GlobalProperty hw_compat_6_1[] = {};
+> +const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
+> +
+>  GlobalProperty hw_compat_6_0[] = {
+>      { "gpex-pcihost", "allow-unmapped-accesses", "false" },
+>      { "i8042", "extended-state", "false"},
+
+
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index b6161cee88..2832f0f8aa 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -354,6 +354,9 @@ struct MachineState {
+>      } \
+>      type_init(machine_initfn##_register_types)
+>  
+> +extern GlobalProperty hw_compat_6_1[];
+> +extern const size_t hw_compat_6_1_len;
+> +
+>  extern GlobalProperty hw_compat_6_0[];
+>  extern const size_t hw_compat_6_0_len;
 >
-> Changelogs:
->
-> v1->v2:
-> - disallow "anything=0" in the smp configuration (Andrew)
-> - make function smp_parse() a generic helper for all arches
-> - improve the error reporting in the parser
-> - start to prefer cores over sockets since 6.2 (Daniel)
-> - add a unit test for the smp parsing (Daniel)
->
-> ---
->
-> Yanan Wang (11):
->   machine: Disallow specifying topology parameters as zero
->   machine: Make smp_parse generic enough for all arches
->   machine: Uniformly use maxcpus to calculate the omitted parameters
->   machine: Use the computed parameters to calculate omitted cpus
->   machine: Improve the error reporting of smp parsing
->   hw: Add compat machines for 6.2
->   machine: Prefer cores over sockets in smp parsing since 6.2
->   machine: Use ms instead of global current_machine in sanity-check
->   machine: Tweak the order of topology members in struct CpuTopology
->   machine: Split out the smp parsing code
->   tests/unit: Add a unit test for smp parsing
->
->  MAINTAINERS                 |    2 +
->  hw/arm/virt.c               |   10 +-
->  hw/core/machine-smp.c       |  124 ++++
->  hw/core/machine.c           |   68 +--
->  hw/core/meson.build         |    1 +
->  hw/i386/pc.c                |   66 +--
->  hw/i386/pc_piix.c           |   15 +-
->  hw/i386/pc_q35.c            |   14 +-
->  hw/ppc/spapr.c              |   16 +-
->  hw/s390x/s390-virtio-ccw.c  |   15 +-
->  include/hw/boards.h         |   13 +-
->  include/hw/i386/pc.h        |    3 +
->  qapi/machine.json           |    6 +-
->  qemu-options.hx             |    4 +-
->  tests/unit/meson.build      |    1 +
->  tests/unit/test-smp-parse.c | 1117 +++++++++++++++++++++++++++++++++++
->  16 files changed, 1338 insertions(+), 137 deletions(-)
->  create mode 100644 hw/core/machine-smp.c
->  create mode 100644 tests/unit/test-smp-parse.c
->
-> -- 
-> 2.19.1
+
+Arm and general parts look good to me
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
