@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC1E33CD42E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:53:00 +0200 (CEST)
-Received: from localhost ([::1]:38898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3745C3CD402
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:40:20 +0200 (CEST)
+Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5RpT-0004wO-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55206)
+	id 1m5RdD-0001Cx-8X
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:40:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m5RRa-00060X-Hd
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:18 -0400
-Received: from mga09.intel.com ([134.134.136.24]:16187)
+ id 1m5RRe-00062a-Ot
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:22 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m5RRY-00065D-Qu
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:18 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035281"
-X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035281"
+ id 1m5RRb-000613-I7
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:22 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035288"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035288"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 04:27:45 -0700
+ 19 Jul 2021 04:27:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813691"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813699"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:43 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:45 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 21/33] i440fx: Add support for SGX EPC
-Date: Mon, 19 Jul 2021 19:21:24 +0800
-Message-Id: <20210719112136.57018-22-yang.zhong@intel.com>
+Subject: [PATCH v4 22/33] hostmem-epc: Add the reset interface for EPC backend
+ reset
+Date: Mon, 19 Jul 2021 19:21:25 +0800
+Message-Id: <20210719112136.57018-23-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210719112136.57018-1-yang.zhong@intel.com>
 References: <20210719112136.57018-1-yang.zhong@intel.com>
@@ -63,29 +64,61 @@ Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+Add the sgx_memory_backend_reset() interface to handle EPC backend
+reset when VM is reset. This reset function will destroy previous
+backend memory region and re-mmap the EPC section for guest.
 
-Enable SGX EPC virtualization, which is currently only support by KVM.
-
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/pc_piix.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ backends/hostmem-epc.c | 16 ++++++++++++++++
+ include/hw/i386/pc.h   |  2 ++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 30b8bd6ea9..c0a7552b88 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -154,6 +154,10 @@ static void pc_init1(MachineState *machine,
-         }
-     }
+diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
+index b512a68cb0..3bd1535d82 100644
+--- a/backends/hostmem-epc.c
++++ b/backends/hostmem-epc.c
+@@ -16,6 +16,7 @@
+ #include "qom/object_interfaces.h"
+ #include "qapi/error.h"
+ #include "sysemu/hostmem.h"
++#include "hw/i386/pc.h"
  
-+    if (x86ms->sgx_epc_list) {
-+        pc_machine_init_sgx_epc(pcms);
+ #define TYPE_MEMORY_BACKEND_EPC "memory-backend-epc"
+ 
+@@ -55,6 +56,21 @@ sgx_epc_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     g_free(name);
+ }
+ 
++void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
++                              Error **errp)
++{
++    MemoryRegion *mr = &backend->mr;
++
++    mr->enabled = false;
++
++    /* destroy the old memory region if it exist */
++    if (fd > 0 && mr->destructor) {
++        mr->destructor(mr);
 +    }
 +
-     x86_cpus_init(x86ms, pcmc->default_cpu_version);
++    sgx_epc_backend_memory_alloc(backend, errp);
++}
++
+ static void sgx_epc_backend_instance_init(Object *obj)
+ {
+     HostMemoryBackend *m = MEMORY_BACKEND(obj);
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 2fd6e6193b..c725dfef5b 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -204,6 +204,8 @@ extern const size_t pc_compat_6_0_len;
  
-     if (pcmc->kvmclock_enabled) {
+ /* sgx-epc.c */
+ void pc_machine_init_sgx_epc(PCMachineState *pcms);
++void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
++                              Error **errp);
+ 
+ extern GlobalProperty pc_compat_5_2[];
+ extern const size_t pc_compat_5_2_len;
 
