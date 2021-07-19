@@ -2,81 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082213CEE8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 23:51:31 +0200 (CEST)
-Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9893CEEF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 00:04:56 +0200 (CEST)
+Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5bAg-0001Ue-4S
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 17:51:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36174)
+	id 1m5bNf-0006XK-2W
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 18:04:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5b7q-0005wC-2u
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:48:34 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:33297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5b7o-0000bg-EY
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 17:48:33 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- g8-20020a1c9d080000b02901f13dd1672aso680396wme.0
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 14:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=UBpUNb+L8NMOfcLq0OwesI4pAHCDtHwuC35PJMpv0y8=;
- b=tdClvLvEte4+A3f/7IkJZQZLO86+xGvyxNSkSyPap5pLwb4VmmEWeJuuOTBOtpCuq/
- wYLCWuuqjIUJr2Mw/rtyTC6wODfUXjppaOZUDonppzBr5U0CZry1MIeKlfJwIPaz/4D6
- hmZUsz57LM7V7Z5zevUS+yQfWIetTg/CidurkXi9wH+QUikQCfR8fMnkAUqFi2inXjOe
- 5Y3cPK0euNh1ZoV78tQNK1pyhl0mWgFwgYJ2FjU9nnRIhC2rlN8IgrUkVDcbcvWGBttI
- butuWARGcr81WYGULoXKSz2PaVWFEwnwtpSnCmMdj3kIyMIT622pXpbiRfa2lRyX9H1z
- 22gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UBpUNb+L8NMOfcLq0OwesI4pAHCDtHwuC35PJMpv0y8=;
- b=uTF/xFG8NNbjFT/IdCLgYjwpQRscPfRCjOG7wP4XwMeIWsM4pE/DYn9TIA6AYpjbpY
- q86Txzl3rFPG5bMrXX66YjbK/KlQfRmvnNYEit/y3oQS0i4tmz9aydvRgwnGuU7gigDh
- pY64avtYC9PHiHY+MWj6ZgkBkxXZxTWhfvwHLr9zKdwQZ4KBRh/GHQK63vNmF/hzoDEC
- QzziFwWS3ckN//hkCVggzDh4ciZ0zUEm4+Srl9LASxzhapplzmo0qDbR8stSUpxCD1Ak
- B+p7VrHThfVGyFJ/n1lHtxKfK2AvESU0Kyw0GkMGk+npwpTdJxO098Ci+nP1wX4/dclc
- hZGQ==
-X-Gm-Message-State: AOAM530/Iq+BKN4qGvsF/QLRsxs8qebTtfZcD9rPdaLf/ubUQ+Epj0I8
- 7gEHPLGEyDBDx3K3wsMt3ipYCw==
-X-Google-Smtp-Source: ABdhPJxLBKHJ1tpp1JeyVZjYwDuba791K3hbRbWqm2j5y8LGQBLX6jq+A0XvBEhf16l07wJT4c9rpg==
-X-Received: by 2002:a05:600c:4f12:: with SMTP id
- l18mr20708469wmq.22.1626731310855; 
- Mon, 19 Jul 2021 14:48:30 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o19sm9148638wmr.18.2021.07.19.14.48.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 14:48:26 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CDB0D1FF8C;
- Mon, 19 Jul 2021 22:48:25 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] gitlab: enable a very minimal build with the tricore
- container
-Date: Mon, 19 Jul 2021 22:48:25 +0100
-Message-Id: <20210719214825.2264-3-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
-In-Reply-To: <20210719214825.2264-1-alex.bennee@linaro.org>
-References: <20210719214825.2264-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1m5bLh-0004D5-1Z
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:02:53 -0400
+Received: from mail-dm6nam11on2060.outbound.protection.outlook.com
+ ([40.107.223.60]:18727 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
+ id 1m5bLe-0001Y0-JW
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:02:52 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UTc6lRUYvJhByPQYZAazT57aQpriCarqNn7/guq/Ge6y9KojTce+kmvoOwWrzyVGBtbParFDHqt3j9WYp6tsbLP4KhBZED7VOWAhwIb1uO4Do64m2q1UHh7zY2qJ0QBqr9EcRIY730faaVjdnQsm93NjgRrFzGmVVb+BV6ROHpCxQwROwV1oe9JbxDaXLAhkLJdaNL6fRFlfuJhkBtyAo+jEwGkyy6k3wuMFeiVExR65uA/6nWG+ol5d6lQeeDSHpdZMIb4vXmije6VqpV23eAWfccPzd0ZpHobYxd0E3q41pqG6INpL3NhwoLaQU0+PFPeO0mDti49E2s1FfPTI0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nZf9CLPTzKWhBDB92i0beHCV2Aq2Wu8fQsnyljxdPrM=;
+ b=cB13r2MCl2vWqOTlJm44owlYuMpN+MjnzcYoKdfFiCP8pNmhsfVjYDv6t0rR5AfKqWF74/sKiqvSS/QI++rs3uhCafQ4oPP5fZDQAVVnFsiwPSTUKkUN2WKFono7DYNrX/lUFebUa0N2h7/bsP7+ggHOOGHf8ya+ui8WyS7xJIPclt1WmrWPUpoL6cKBMWWHCVrAAMSnjH9HEAJV2ks/IYlDQ7H/hEQi08gR4Bdqms34G1X2aQneuUwiLAY4knL9fJ4pAt7+0qRcM+GtWNda0N2915iuAbr81jbs1gP6k5o2dPPBL4rwlgj+4MnmQV1eCykJdtyv/fSvNZYfSOrNwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nZf9CLPTzKWhBDB92i0beHCV2Aq2Wu8fQsnyljxdPrM=;
+ b=rAf50RSPXwN5DRiIDprzeygW9hxJ19PROgq0H6ts1p3/H/Yf5t9ky0CtZq5LR7oRbEz1LUbIhY2Dt2ngvda0t1TqZS1AP/qd9kxH1rdXU+EDK8nTqgI5Vd6pAuEfbY3PYllK1UPoKBA7Ik/IEm+4cS0JVlYl2zfn/Rjxq4f1YkI=
+Received: from DS7PR03CA0252.namprd03.prod.outlook.com (2603:10b6:5:3b3::17)
+ by PH0PR02MB7271.namprd02.prod.outlook.com (2603:10b6:510:1c::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.29; Mon, 19 Jul
+ 2021 22:02:46 +0000
+Received: from DM3NAM02FT036.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:5:3b3:cafe::aa) by DS7PR03CA0252.outlook.office365.com
+ (2603:10b6:5:3b3::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
+ Transport; Mon, 19 Jul 2021 22:02:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=pass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ DM3NAM02FT036.mail.protection.outlook.com (10.13.5.20) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4331.21 via Frontend Transport; Mon, 19 Jul 2021 22:02:46 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Mon, 19 Jul 2021 15:02:45 -0700
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.2176.2 via Frontend Transport; Mon, 19 Jul 2021 15:02:45 -0700
+Received: from [172.19.2.32] (port=56696 helo=xsjkomlodi50.xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <joe.komlodi@xilinx.com>)
+ id 1m5bLZ-0003YW-Tw; Mon, 19 Jul 2021 15:02:45 -0700
+From: Joe Komlodi <joe.komlodi@xilinx.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2 0/2] Add more 64-bit utilities
+Date: Mon, 19 Jul 2021 15:02:43 -0700
+Message-ID: <1626732165-137461-1-git-send-email-joe.komlodi@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 40587ada-7c2d-473e-3dd9-08d94b00f10b
+X-MS-TrafficTypeDiagnostic: PH0PR02MB7271:
+X-Microsoft-Antispam-PRVS: <PH0PR02MB7271A93F3B39436B82AFBB0CD0E19@PH0PR02MB7271.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: AaSWxw2s2PFBSXAJ2T0MGPd4NSDjo1/cQB6GdhtYGvBFXgBbJrbT3wx7iiU2TFHHr9IaPkX9/qeuXZk+7UIzRBoh/fplmf+mMMe+Dq1wKN/xl+W+QXaIUJBefAd9JrVs+qpebfN+uH2jeIegKciRwwnFr00hQXThE91JFiZEVAwXb77zHjYfbNRfIL01K0+L6bkmhEMpXDaSYr3wHloaBZhbpuMyjSN8buQ+ywZJAvtCwnNpacngnlH7deCj8WkBoyfB/P5Tqrq3wvd7vQAavvZKMaD1Bv2ADoTwMT0P8CHwF069gcrZhYnsj6gmr6xn1X3NbXqPAV1Z3XP8AYetlwEsdydSpGRk9dEqRHKqJJr6JbynijVy1RXkkIUCZVgIYeRsL2WK4qRMi1OTS34BqqFlml8I+4iw3WCe0ZdJEbN9wwXqSgdgUqjhRps/2J4DVlQrkXpWKyQR+8DdzDYlGkeJAeWZG7uLiAWPGvuDFTqd/Jsqal3C4Bif3Jx6v0JUNT+uiM76h7p1sdD+HupYj5hqwNMHzWyKWlFfjkd9CSeotiJ3+GVgyboEdG26ar8SumacPdVn7YBVesGq51RUbA7W8aoorTJ80KwUTMj3Hfo1qK0eB9QTgdy1/ryXlUCObvAMMdLvpCWfI6DCZPbnnNtOI5gI1GysHzRYARaybnC3pzGC/2GOnYor7uW+T5dEAShqxANDhJi1VDYO7e1jXjdf5tQC+HV/NGm9cO4i5fs=
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(136003)(346002)(396003)(46966006)(36840700001)(86362001)(36906005)(4326008)(316002)(336012)(5660300002)(82310400003)(4744005)(8676002)(44832011)(6916009)(186003)(26005)(36756003)(54906003)(83380400001)(2906002)(47076005)(8936002)(70586007)(36860700001)(2616005)(70206006)(426003)(7696005)(356005)(9786002)(7636003)(82740400003)(478600001)(102446001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2021 22:02:46.4845 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40587ada-7c2d-473e-3dd9-08d94b00f10b
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT036.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7271
+Received-SPF: pass client-ip=40.107.223.60; envelope-from=komlodi@xilinx.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,95 +121,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: alistair@alistair23.me, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do the same thing as hexagon and do a two stage build that provides
-the minimal dependencies to build qemu-tricore-system and its
-check-tcg tests.
+Changelog:
+v1 -> v2
+ - 2/2: Use uint64_t for 64-bit value
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.d/buildtest.yml                    | 11 +++++
- .../dockerfiles/debian-tricore-cross.docker   | 40 ++++++++++++++++---
- 2 files changed, 46 insertions(+), 5 deletions(-)
+Hi all,
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 89df51517c..5198b79deb 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -354,6 +354,17 @@ build-some-softmmu:
-     TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
-     MAKE_CHECK_ARGS: check-tcg
- 
-+# We build tricore in a very minimal tricore only container
-+build-tricore-softmmu:
-+  extends: .native_build_job_template
-+  needs:
-+    job: tricore-debian-cross-container
-+  variables:
-+    IMAGE: debian-tricore-cross
-+    CONFIGURE_ARGS: --disable-tools --enable-debug
-+    TARGETS: tricore-softmmu
-+    MAKE_CHECK_ARGS: check-tcg
-+
- clang-system:
-   extends: .native_build_job_template
-   needs:
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 985925134c..4ea9112289 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -15,9 +15,39 @@ RUN git clone --single-branch \
-         https://github.com/bkoppelmann/tricore-binutils.git \
-         /usr/src/binutils && \
-     cd /usr/src/binutils && chmod +x missing && \
--    CFLAGS=-w ./configure --prefix=/usr --disable-nls --target=tricore && \
--    make && make install && \
--    rm -rf /usr/src/binutils
-+    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
-+    make && make install
- 
--# This image isn't designed for building QEMU but building tests
--ENV QEMU_CONFIGURE_OPTS --disable-system --disable-user
-+FROM debian:buster-slim
-+# Duplicate deb line as deb-src
-+RUN cat /etc/apt/sources.list | sed "s/^deb\ /deb-src /" >> /etc/apt/sources.list
-+# Install very minimal QEMU build deps for use in CI
-+# $ lcitool variables debian-10 qemu+minimal
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-+       bzip2 \
-+       ca-certificates \
-+       ccache \
-+       g++ \
-+       gcc \
-+       git \
-+       libcapstone-dev \
-+       libfdt-dev \
-+       libglib2.0-dev \
-+       libpixman-1-dev \
-+       libtest-harness-perl \
-+       locales \
-+       make \
-+       ninja-build \
-+       perl-base \
-+       pkgconf \
-+       python3-pip \
-+       python3-setuptools \
-+       python3-wheel
-+COPY --from=0 /usr/local /usr/local
-+ENV PATH $PATH:/usr/local/bin/
-+
-+# This image can only build a very minimal QEMU as well as the tests
-+ENV DEF_TARGET_LIST tricore-softmmu
-+ENV QEMU_CONFIGURE_OPTS --disable-user --disable-tools
+This adds more utilities for 64-bit registers.
+As part of it, it also fixes FIELD_DP64 to work with bit fields wider than
+32-bits.
+
+Thanks!
+Joe
+
+Joe Komlodi (2):
+  hw/core/register: Add more 64-bit utilities
+  hw/registerfields: Use 64-bit bitfield for FIELD_DP64
+
+ hw/core/register.c          | 12 ++++++++++++
+ include/hw/register.h       |  8 ++++++++
+ include/hw/registerfields.h | 10 +++++++++-
+ 3 files changed, 29 insertions(+), 1 deletion(-)
+
 -- 
-2.32.0.264.g75ae10bc75
+2.7.4
 
 
