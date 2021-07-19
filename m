@@ -2,104 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0E23CD4DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:36:32 +0200 (CEST)
-Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED7B3CD4DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:39:14 +0200 (CEST)
+Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5SVa-00025T-VY
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:36:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38816)
+	id 1m5SYB-0004P7-R5
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:39:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m5SUD-00019s-Fu
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:35:05 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1m5SUB-00006u-Fo
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:35:05 -0400
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16JCXkaJ119961; Mon, 19 Jul 2021 08:34:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2wMrOmOaMfVeFVX7tNb5AIsXI9mO7cENkLTsH3g4nNE=;
- b=PsE7PE+B6AVN4YkQYybLkXpNnK/T2zYj/pZLzMdefyOxY3TklaXLwV6RVQs3aSvn76M5
- 75tUCUSg9pfTZEMhlxXeeATHLKtWyOotsMYnBNqQu2xE9SG10k4wpldTdFkEoGKJ9Cck
- /o220vZnKSfsLb/Szo4HQ1FO7UT7ZRZA8mMRDbSuoDbEb3fUcvxcEs4CdOxysvXd9oAV
- 8R3U6tS6Bzvpe56NmbZlHS1+8pmQSui9XEBb+DcWYWcr/YZzEW5OXO5iqEAsakkRdOvd
- EAsR7HSuSEb9DdI0HdHJKcdOYej/prWQx7bixC/Oig4B9SPEKnGxcNItbB9+m4Dzv6i9 JQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39w7ykugej-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 08:34:55 -0400
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16JCXll3119999;
- Mon, 19 Jul 2021 08:34:54 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 39w7ykugdx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 08:34:54 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16JCSs1a031965;
- Mon, 19 Jul 2021 12:34:53 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 39vuk3x47p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 12:34:53 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16JCYqi936372798
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 19 Jul 2021 12:34:52 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A395812405A;
- Mon, 19 Jul 2021 12:34:52 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E9197124054;
- Mon, 19 Jul 2021 12:34:48 +0000 (GMT)
-Received: from [9.65.195.237] (unknown [9.65.195.237])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Mon, 19 Jul 2021 12:34:48 +0000 (GMT)
-Subject: Re: [RFC PATCH 4/6] i386/sev: add the SNP launch start context
-To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
-References: <20210709215550.32496-1-brijesh.singh@amd.com>
- <20210709215550.32496-5-brijesh.singh@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <d38d99dd-0248-bc96-cb4d-82ec8cc782f2@linux.ibm.com>
-Date: Mon, 19 Jul 2021 15:34:47 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5SX3-0003VT-Vl
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:02 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5SX0-0002AB-Hb
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:01 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id i94so21849885wri.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uOBurYU3dZYuBTdEszW6SZ8KAYNMDevrTmRKjgxGp1s=;
+ b=xfu2KSWhL9SpzZgW2qvCMd6OaS5HN2/MzMeZlbw5N3uijPmXRNYwejt99JIzOXiUhM
+ A4VTV9bIsbTlwozZM77jSs9M70kavBI1k8vgJfiWTwqMoaH839KERpsy8tPR8PdSX+0t
+ 28zYw7YVXfgPX7+Ikwh8sLve40iRYKvoG86mhxDw199MooOvmH3QAo5TJmBDpYovYJyM
+ 7HEh0m1fzhiRkJO5s2COcjz4xQnB381VRqce6U8/P1txopiSQdJuGPLCtEoKdgRaZHmc
+ ve01YaU3P+t0kTnSiqF7Be5fXleq3IJFZdxrMpOLYEIBDnkdScPjDfrNZulBc8eNWXI8
+ 9I2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uOBurYU3dZYuBTdEszW6SZ8KAYNMDevrTmRKjgxGp1s=;
+ b=L7hhq9aP7MD1xV2RTqLA9sEMf1TyQFXRqPCe48ltwtysJ9LIlOUf/4yBDxckpaWYEi
+ HCjvftkiE1KXCE007t8NgbEajEk+J9ai5mFeK/Y+lGLpC9qTJCai4KqctDQ5tdV4ZV0W
+ etHI0MxjKw1iqFm73M0vxflT5jxwsfq4g/5lSTKXZ6kTYNNL8u6ovkn8ryy6bmmZLQwM
+ ZCqBjjsX9irefg3GHNhJ7nF52PiToGhpJhKbZwD5c3Ye0j3edcw/Wfe0exJdnAxIFN4U
+ 59E+o/k/4Mrh2GqJNRkzEKFUeUwUoN8lqboZCkW8aINhHoXVeH3B3mARkCFj3DgkHbYG
+ Cfiw==
+X-Gm-Message-State: AOAM532NDodl93989+aXTD+x4YjRG+RwplBJ/TXdHISdfr0dSTpJKnbS
+ YN94jFSOgY/qlj2zxGgWfdebcA==
+X-Google-Smtp-Source: ABdhPJwekCoqUA6VSkLqp5cluxmsRGSOp1PSnh4HLfeqgtPWwfTOTQ7WAImxUGNiveOIIvSbbRh3vg==
+X-Received: by 2002:a5d:5142:: with SMTP id u2mr28697016wrt.314.1626698276572; 
+ Mon, 19 Jul 2021 05:37:56 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q19sm19236564wmq.38.2021.07.19.05.37.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 05:37:55 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 73B921FF7E;
+ Mon, 19 Jul 2021 13:37:54 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] tcg/plugins: implement a qemu_plugin_user_exit helper
+Date: Mon, 19 Jul 2021 13:37:32 +0100
+Message-Id: <20210719123732.24457-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 MIME-Version: 1.0
-In-Reply-To: <20210709215550.32496-5-brijesh.singh@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mzMUnhXLv0GHVr23VtPdoX38i_7122-u
-X-Proofpoint-ORIG-GUID: wwY5Lok3vEV7-sSpUstUjp4CpIrosZSa
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-19_05:2021-07-19,
- 2021-07-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 malwarescore=0 impostorscore=0 mlxscore=0 phishscore=0
- adultscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107190072
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,98 +84,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kyle Evans <kevans@freebsd.org>, minyihh@uci.edu, robhenry@microsoft.com,
+ Laurent Vivier <laurent@vivier.eu>, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Alexandre Iooss <erdnaxe@crans.org>, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Brijesh,
+In user-mode emulation there is a small race between preexit_cleanup
+and exit_group() which means we may end up calling instrumented
+instructions before the kernel reaps child threads. To solve this we
+implement a new helper which ensures the callbacks are flushed along
+with any translations before we let the host do it's a thing.
 
-On 10/07/2021 0:55, Brijesh Singh wrote:
-> The SNP_LAUNCH_START is called first to create a cryptographic launch
-> context within the firmware.
-> 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> ---
->  target/i386/sev.c        | 30 +++++++++++++++++++++++++++++-
->  target/i386/trace-events |  1 +
->  2 files changed, 30 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 84ae244af0..259408a8f1 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -812,6 +812,29 @@ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
->      return 0;
->  }
->  
-> +static int
-> +sev_snp_launch_start(SevGuestState *sev)
-> +{
-> +    int ret = 1;
-> +    int fw_error, rc;
-> +    struct kvm_sev_snp_launch_start *start = &sev->snp_config.start;
-> +
-> +    trace_kvm_sev_snp_launch_start(start->policy);
-> +
-> +    rc = sev_ioctl(sev->sev_fd, KVM_SEV_SNP_LAUNCH_START, start, &fw_error);
-> +    if (rc < 0) {
-> +        error_report("%s: SNP_LAUNCH_START ret=%d fw_error=%d '%s'",
-> +                __func__, ret, fw_error, fw_error_to_str(fw_error));
+While we are at it make the documentation of
+qemu_plugin_register_atexit_cb clearer as to what the user can expect.
 
-Did you mean to report the value of ret or rc?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ include/qemu/plugin.h      | 12 ++++++++++++
+ include/qemu/qemu-plugin.h | 13 +++++++++++++
+ bsd-user/syscall.c         |  6 +++---
+ linux-user/exit.c          |  2 +-
+ plugins/core.c             | 33 +++++++++++++++++++++++++++++++++
+ 5 files changed, 62 insertions(+), 4 deletions(-)
 
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 0fefbc6084..9a8438f683 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -190,6 +190,16 @@ void qemu_plugin_add_dyn_cb_arr(GArray *arr);
+ 
+ void qemu_plugin_disable_mem_helpers(CPUState *cpu);
+ 
++/**
++ * qemu_plugin_user_exit(): clean-up callbacks before calling exit callbacks
++ *
++ * This is a user-mode only helper that ensure we have fully cleared
++ * callbacks from all threads before calling the exit callbacks. This
++ * is so the plugins themselves don't have to jump through hoops to
++ * guard against race conditions.
++ */
++void qemu_plugin_user_exit(void);
++
+ #else /* !CONFIG_PLUGIN */
+ 
+ static inline void qemu_plugin_add_opts(void)
+@@ -250,6 +260,8 @@ void qemu_plugin_add_dyn_cb_arr(GArray *arr)
+ static inline void qemu_plugin_disable_mem_helpers(CPUState *cpu)
+ { }
+ 
++static inline void qemu_plugin_user_exit(void)
++{ }
+ #endif /* !CONFIG_PLUGIN */
+ 
+ #endif /* QEMU_PLUGIN_H */
+diff --git a/include/qemu/qemu-plugin.h b/include/qemu/qemu-plugin.h
+index dc3496f36c..e6e815abc5 100644
+--- a/include/qemu/qemu-plugin.h
++++ b/include/qemu/qemu-plugin.h
+@@ -549,6 +549,19 @@ void qemu_plugin_vcpu_for_each(qemu_plugin_id_t id,
+ void qemu_plugin_register_flush_cb(qemu_plugin_id_t id,
+                                    qemu_plugin_simple_cb_t cb);
+ 
++/**
++ * qemu_plugin_register_atexit_cb() - register exit callback
++ * @id: plugin ID
++ * @cb: callback
++ * @userdata: user data for callback
++ *
++ * The @cb function is called once execution has finished. Plugins
++ * should be able to free all their resources at this point much like
++ * after a reset/uninstall callback is called.
++ *
++ * In user-mode it is possible a few un-instrumented instructions from
++ * child threads may run before the host kernel reaps the threads.
++ */
+ void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
+                                     qemu_plugin_udata_cb_t cb, void *userdata);
+ 
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+index 7d986e9700..3f44311396 100644
+--- a/bsd-user/syscall.c
++++ b/bsd-user/syscall.c
+@@ -335,7 +335,7 @@ abi_long do_freebsd_syscall(void *cpu_env, int num, abi_long arg1,
+         _mcleanup();
+ #endif
+         gdb_exit(arg1);
+-        qemu_plugin_atexit_cb();
++        qemu_plugin_user_exit();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+         ret = 0; /* avoid warning */
+@@ -437,7 +437,7 @@ abi_long do_netbsd_syscall(void *cpu_env, int num, abi_long arg1,
+         _mcleanup();
+ #endif
+         gdb_exit(arg1);
+-        qemu_plugin_atexit_cb();
++        qemu_plugin_user_exit();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+         ret = 0; /* avoid warning */
+@@ -516,7 +516,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+         _mcleanup();
+ #endif
+         gdb_exit(arg1);
+-        qemu_plugin_atexit_cb();
++        qemu_plugin_user_exit();
+         /* XXX: should free thread stack and CPU env */
+         _exit(arg1);
+         ret = 0; /* avoid warning */
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index 70b344048c..527e29cbc1 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -35,5 +35,5 @@ void preexit_cleanup(CPUArchState *env, int code)
+         __gcov_dump();
+ #endif
+         gdb_exit(code);
+-        qemu_plugin_atexit_cb();
++        qemu_plugin_user_exit();
+ }
+diff --git a/plugins/core.c b/plugins/core.c
+index e1bcdb570d..c573b81a96 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -487,6 +487,39 @@ void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
+     plugin_register_cb_udata(id, QEMU_PLUGIN_EV_ATEXIT, cb, udata);
+ }
+ 
++/*
++ * Handle exit from linux-user. Unlike the normal atexit() mechanism
++ * we need to handle the clean-up manually as it's possible threads
++ * are still running. We need to remove all callbacks from code
++ * generation, flush the current translations and then we can safely
++ * trigger the exit callbacks.
++ */
++
++void qemu_plugin_user_exit(void)
++{
++    enum qemu_plugin_event ev;
++
++    QEMU_LOCK_GUARD(&plugin.lock);
++
++    start_exclusive();
++
++    /* un-register all callbacks except the final AT_EXIT one */
++    for (ev = 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
++        if (ev != QEMU_PLUGIN_EV_ATEXIT) {
++            struct qemu_plugin_ctx *ctx;
++            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
++                plugin_unregister_cb__locked(ctx, ev);
++            }
++        }
++    }
++
++    tb_flush(current_cpu);
++    end_exclusive();
++
++    /* now it's safe to handle the exit case */
++    qemu_plugin_atexit_cb();
++}
++
+ /*
+  * Call this function after longjmp'ing to the main loop. It's possible that the
+  * last instruction of a TB might have used helpers, and therefore the
+-- 
+2.32.0.264.g75ae10bc75
 
-> +        goto out;
-
-Suggestion:
-
-Remove the `ret` variable.
-Here: simply `return 1`.
-At the end: remove the `out:` label; simply `return 0`.
-
-
-> +    }
-> +
-> +    sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
-> +    ret = 0;
-> +
-> +out:
-> +    return ret;
-> +}
-> +
->  static int
->  sev_launch_start(SevGuestState *sev)
->  {
-> @@ -1105,7 +1128,12 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->          goto err;
->      }
->  
-> -    ret = sev_launch_start(sev);
-> +    if (sev_snp_enabled()) {
-> +        ret = sev_snp_launch_start(sev);
-> +    } else {
-> +        ret = sev_launch_start(sev);
-> +    }
-> +
->      if (ret) {
->          error_setg(errp, "%s: failed to create encryption context", __func__);
->          goto err;
-> diff --git a/target/i386/trace-events b/target/i386/trace-events
-> index 2cd8726eeb..18cc14b956 100644
-> --- a/target/i386/trace-events
-> +++ b/target/i386/trace-events
-> @@ -11,3 +11,4 @@ kvm_sev_launch_measurement(const char *value) "data %s"
->  kvm_sev_launch_finish(void) ""
->  kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
->  kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
-> +kvm_sev_snp_launch_start(uint64_t policy) "policy 0x%" PRIx64
-> 
 
