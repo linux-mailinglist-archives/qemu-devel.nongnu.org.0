@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BE43CF14E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 03:26:54 +0200 (CEST)
-Received: from localhost ([::1]:51920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B466A3CF154
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 03:28:22 +0200 (CEST)
+Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5eX7-0006j0-DJ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 21:26:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
+	id 1m5eYX-0001zR-Mx
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 21:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m5ePv-0000vy-Pz; Mon, 19 Jul 2021 21:19:27 -0400
-Received: from ozlabs.org ([203.11.71.1]:60693)
+ id 1m5ePv-0000wq-Uz; Mon, 19 Jul 2021 21:19:27 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59899 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m5ePt-000477-0y; Mon, 19 Jul 2021 21:19:27 -0400
+ id 1m5ePt-000474-1b; Mon, 19 Jul 2021 21:19:27 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GTLTh4ygcz9sWX; Tue, 20 Jul 2021 11:19:20 +1000 (AEST)
+ id 4GTLTh5gyFz9sSs; Tue, 20 Jul 2021 11:19:20 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1626743960;
- bh=mGkEUsAOyOLw9uCd7uU0L8Tlr4YZiTDcdyWt6nHN/gU=;
+ bh=2UpqO/LyrDCp5KrvG2O5mfZicv+JfMy4Z9lihjaSv88=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EbhgBVYC4tekh7wJi23pBYwPIdi95PlJ8cMESVpy7oE/UaZY5ySo3EpaczwN0+Zeb
- LDS1+0cRVplz0eHfJi8ZzOR6vXu+ZYgHQczxSvR4l07tRyIsKBShzfcCT4VHmPEFxZ
- 1jiolUz1UvtAZf2NR1v6p+RF3l8NWhlxc6e+X570=
-Date: Mon, 19 Jul 2021 22:07:10 +1000
+ b=W4zfLonwjhLs+nYfBW7v4K+gbugKHod8AZDoWK5ujC1iwZVbJsbfpOkDZHRhUWN8l
+ RCg2AqE85LFB4+8E5df8lc1KcpVfedV16LTwy5M1SbkGvzBjtYjWH22uU6IAfkad8Q
+ bUhPNGOP8kz7+HuOyq9vq3db+RKcsMa8FVa7V0iI=
+Date: Mon, 19 Jul 2021 22:09:44 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Subject: Re: [PATCH qemu] ppc/vof: Fix Coverity issues
-Message-ID: <YPVq7sFeM9sCzQ0W@yekko>
-References: <20210713134638.1803316-1-aik@ozlabs.ru> <YPT4DoeG1rNhrOE8@yekko>
- <8e0e013e-4043-7424-8b93-f3f144601b8c@ozlabs.ru>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
+ for ppc32
+Message-ID: <YPVriLeXtw3EICzu@yekko>
+References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+ <YPTmoCh2z2VXzc7O@yekko>
+ <4b66ae32-375-1be1-f485-e4d86f2c5a2f@eik.bme.hu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="BSj5lTXcR6FG6qLA"
+ protocol="application/pgp-signature"; boundary="g5k43VLWIMtuwz/y"
 Content-Disposition: inline
-In-Reply-To: <8e0e013e-4043-7424-8b93-f3f144601b8c@ozlabs.ru>
+In-Reply-To: <4b66ae32-375-1be1-f485-e4d86f2c5a2f@eik.bme.hu>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -6
@@ -59,77 +61,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, richard.henderson@linaro.org,
+ matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---BSj5lTXcR6FG6qLA
+--g5k43VLWIMtuwz/y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 19, 2021 at 06:25:53PM +1000, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 7/19/21 13:57, David Gibson wrote:
-> > On Tue, Jul 13, 2021 at 11:46:38PM +1000, Alexey Kardashevskiy wrote:
-> > > This fixes NEGATIVE_RETURNS, OVERRUN issues reported by the Coverity.
+On Mon, Jul 19, 2021 at 12:21:11PM +0200, BALATON Zoltan wrote:
+> On Mon, 19 Jul 2021, David Gibson wrote:
+> > On Thu, Jul 15, 2021 at 09:29:50AM -0300, matheus.ferst@eldorado.org.br=
+ wrote:
+> > > From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > > >=20
-> > > This adds a comment about the return parameters number in the VOF hca=
-ll.
-> > > The reason for such counting is to keep the numbers look the same in
-> > > vof_client_handle() and the Linux (an OF client).
+> > > In commit 8f0a4b6a9, we started to require L=3D0 for ppc32 to match w=
+hat
+> > > The Programming Environments Manual say:
 > > >=20
-> > > Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> > > ---
+> > > "For 32-bit implementations, the L field must be cleared, otherwise
+> > > the instruction form is invalid."
 > > >=20
-> > > Will this make COverity happy? What is the canonical way of fixing th=
-ese
-> > > uint32_t vs. int? Thanks,
+> > > Further digging, however, shown that older CPUs have different behavi=
+or
+> > > concerning invalid forms. E.g.: 440 and 405 manuals say that:
+> > >=20
+> > > "Unless otherwise noted, the PPC440 will execute all invalid instruct=
+ion
+> > > forms without causing an Illegal Instruction exception".
+> > >=20
+> > > While the PowerISA has an arguably more restrictive:
+> > >=20
+> > > "In general, any attempt to execute an invalid form of an instruction
+> > > will either cause the system illegal instruction error handler to be
+> > > invoked or yield boundedly undefined results."
 > >=20
-> > It might make Coverity happy, but I think it's an ugly approach.
+> > That's actually less restrictive.  "boundedly undefined" lets the
+> > implementation do nearly anything that won't mess up a hypervisor.
+> > Both ignoring the illegal bits and issuing an invalid instruction
+> > exception are definitely permissible within the meaning of "boundedly
+> > undefined".
 > >=20
-> > >=20
-> > > ---
-> > >   hw/ppc/vof.c | 12 ++++++++----
-> > >   1 file changed, 8 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/vof.c b/hw/ppc/vof.c
-> > > index 81f65962156c..872f671babbe 100644
-> > > --- a/hw/ppc/vof.c
-> > > +++ b/hw/ppc/vof.c
-> > > @@ -517,7 +517,7 @@ static uint32_t vof_instance_to_package(Vof *vof,=
- uint32_t ihandle)
-> > >   static uint32_t vof_package_to_path(const void *fdt, uint32_t phand=
-le,
-> > >                                       uint32_t buf, uint32_t len)
-> > >   {
-> > > -    uint32_t ret =3D -1;
-> > > +    int ret =3D -1;
+> > > Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
+> > > broke AROS boot on sam460ex. This patch address this regression by on=
+ly
+> > > logging a guest error, except for CPUs known to raise an exception for
+> > > this case (e500 and e500mc).
 > >=20
-> > I don't think you want to try to use the same variable for the value
-> > from phandle_to_path() and the return value from this function -
-> > they're different types, with different encodings.  The inner value
-> > should remain int (that's the libfdt convention).
-> >=20
-> > The outer one is explicltly unsigned.  You're not really looking for
-> > negative error values, but specifically for -1U =3D=3D ~0U as the single
-> > error value.  So re-introduce your PROM_ERROR valued, defined as ~0U,
-> > so that it's clearly unsigned, and use that and unsigned logic for all
-> > manipulation of the outer value.
+> > So.. as a rule of thumb, I'd prefer to have qemu give explicit
+> > failures (e.g. program check traps) where there's implementation
+> > specific or architecture undefined behaviour.  On the other hand,
+> > having a real guest that relies on the specific behaviour of real
+> > implementations is a compelling reason to break that rule of thumb.
 >=20
+> One still should get log messages about it with -d guest_errors so that c=
+an
+> be used for identifying problems with guest code that otherwise runs fine=
+ on
+> real CPU.
 >=20
-> Fair enough. One question. Linux defines it as
+> > Given it's a behavioural change, I'm disinclined to squeeze this in
+> > for qemu-6.1, but I'll consider it for 6.2.  Richard, any thoughts?
 >=20
-> #define PROM_ERROR (-1u)
->=20
-> Do you still vote for "~0U"?
+> Well, it's a regression from 6.0 and delaying it to 6.2 means we would ha=
+ve
 
-I don't really mind.  I think (-1U) might cause some more Coverity
-confusion that ~0U, based on experience with Coverity scans of dtc &
-libfdt.
+Ah, well that changes everything.  The commit message should
+definitely mention that it's a regression.
+
+> a release with a known issue that prevents a guest from running which cou=
+ld
+> be fixed by this patch so I argue this is a bug fix that should be in 6.1.
+> The behaviour change was the patch this one fixes (8f0a4b6a9, mentioned in
+> commit message but could also be a Fixes: tag).
+>=20
+> Regards,
+> BALATON Zoltan
+>=20
+> > > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> > > ---
+> > >  target/ppc/translate/fixedpoint-impl.c.inc | 58 ++++++++++++++++++++=
++-
+> > >  1 file changed, 56 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/=
+translate/fixedpoint-impl.c.inc
+> > > index f4fcfadbfc..1c35b60eb4 100644
+> > > --- a/target/ppc/translate/fixedpoint-impl.c.inc
+> > > +++ b/target/ppc/translate/fixedpoint-impl.c.inc
+> > > @@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
+> > >=20
+> > >  static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
+> > >  {
+> > > +    if ((ctx->insns_flags & PPC_64B) =3D=3D 0) {
+> > > +        /*
+> > > +         * For 32-bit implementations, The Programming Environments =
+Manual says
+> > > +         * that "the L field must be cleared, otherwise the instruct=
+ion form is
+> > > +         * invalid." It seems, however, that most 32-bit CPUs ignore=
+ invalid
+> > > +         * forms (e.g., section "Instruction Formats" of the 405 and=
+ 440
+> > > +         * manuals, "Integer Compare Instructions" of the 601 manual=
+), with the
+> > > +         * notable exception of the e500 and e500mc, where L=3D1 was=
+ reported to
+> > > +         * cause an exception.
+> > > +         */
+> > > +        if (a->l) {
+> > > +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
+> > > +                /*
+> > > +                 * For 32-bit Book E v2.06 implementations (i.e. e50=
+0/e500mc),
+> > > +                 * generate an illegal instruction exception.
+> > > +                 */
+> > > +                return false;
+> > > +            } else {
+> > > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > > +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx =
+", L =3D 1\n",
+> > > +                        s ? "" : "L", ctx->cia);
+> > > +            }
+> > > +        }
+> > > +        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+> > > +        return true;
+> > > +    }
+> > > +
+> > > +    /* For 64-bit implementations, deal with bit L accordingly. */
+> > >      if (a->l) {
+> > > -        REQUIRE_64BIT(ctx);
+> > >          gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+> > >      } else {
+> > >          gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
+> > > @@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bf=
+l *a, bool s)
+> > >=20
+> > >  static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
+> > >  {
+> > > +    if ((ctx->insns_flags & PPC_64B) =3D=3D 0) {
+> > > +        /*
+> > > +         * For 32-bit implementations, The Programming Environments =
+Manual says
+> > > +         * that "the L field must be cleared, otherwise the instruct=
+ion form is
+> > > +         * invalid." It seems, however, that most 32-bit CPUs ignore=
+ invalid
+> > > +         * forms (e.g., section "Instruction Formats" of the 405 and=
+ 440
+> > > +         * manuals, "Integer Compare Instructions" of the 601 manual=
+), with the
+> > > +         * notable exception of the e500 and e500mc, where L=3D1 was=
+ reported to
+> > > +         * cause an exception.
+> > > +         */
+> > > +        if (a->l) {
+> > > +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
+> > > +                /*
+> > > +                 * For 32-bit Book E v2.06 implementations (i.e. e50=
+0/e500mc),
+> > > +                 * generate an illegal instruction exception.
+> > > +                 */
+> > > +                return false;
+> > > +            } else {
+> > > +                qemu_log_mask(LOG_GUEST_ERROR,
+> > > +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx =
+", L =3D 1\n",
+> > > +                        s ? "I" : "LI", ctx->cia);
+> > > +            }
+> > > +        }
+> > > +        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->=
+bf);
+> > > +        return true;
+> > > +    }
+> > > +
+> > > +    /* For 64-bit implementations, deal with bit L accordingly. */
+> > >      if (a->l) {
+> > > -        REQUIRE_64BIT(ctx);
+> > >          gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf=
+);
+> > >      } else {
+> > >          gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->=
+bf);
+> >=20
+> >=20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -137,25 +256,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---BSj5lTXcR6FG6qLA
+--g5k43VLWIMtuwz/y
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD1auwACgkQbDjKyiDZ
-s5KQWA//d4weSnTnARH4e4CFGG4MzKM6N/Gh+l9N/NPd+9Lcr5tC3K4CWsoCAz8J
-AgIoPXRsEvjW26MF8nVv+07qQ7DyYpVGa10/cdVvNGcXVeTeqKINR0jTpYYgEDnr
-gTalCbcc3QMNjCUrM0FiSsSc9hZLhbmLKHDXFHdiMourcZ+qyJq/gLLrdust6MLZ
-vI0OgnPxhX47z09MlL3Jj8Bi8G8+hcxpka+WLuQSpKp+2efidyEg/bYS02q2CXty
-UVaTI4dKEb6ibF1fk+cbhfLBH4hDbYJfF9DDwD/8XCP4BnGM+4szPpoWgWT+dh38
-Kh48ivvYdMueBqD8CKbbEE8rA+8s1S0o+j1YoBH1W4z1osFE933KZ+0EcjK1LZVA
-Qkr8nS8GIqA+OqoA3tb7j+dBzj4p+nVw5x7YJFdCY/Sy6a0nevcpnLhyrwQFK2gS
-CpbmzIzRQOUKVOWf09WqpH/wvLEyicX4znCr4mOxMij+l0is5H5XsRAYVw0ilTUi
-0Hw3xEoVikw0jzh9rzbZ0S9FodqmFnvLhcklpbualhjAlaCfrswPKdAJZGVMsIbO
-40iADwQZj4s5UYtighUczDcd/s5cL5hhbTxhbci07AhobeHeRSZwWdVDqh4RcXc9
-XGikqrP+PTZOUyLq+EuiG4OzX+lNHL3S7Fbe0lieUcgr6VVfMSU=
-=CHFw
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD1a4gACgkQbDjKyiDZ
+s5KrSA//YdnYNtJyByu2gi4Cc1Vx9DbQbvj1Aqw5zx3AQk7M8CLqwbhOSJEybYZ9
+MTa4bR1R+stGH1hdwXz8YsM9rwxWER1FJ1ngahvP4+YClaQxfhQTtRqQxPZ+ODX1
+pHIrWJLvH3G2OVwYByYKmHl3BSRP+MhQ8JqQcxj2U0dLEdrzFhRrYxgKuNQvS2BY
+gHle/C4rJpK/tbKUFrd96yv1jZ61NpcivXxUilsiwfKWJEFAhZven7rEZaad/3Z7
+egqi8uMTCBmdpU2m/YoZ2zB7RO8L0Td3Ma28hFExd59ITWUrqUNOF7W4RQG0+1nB
+o7x0cPHFiJ4nDLIykotGhmngjYODx7nZJp6H3hfTm5Qqi80RBSwwi+q6pljLoiT1
+L3N08d8y/FjV+uJ9EVpGC+QXEROWHr4io8GB3D3Y9TU6gzRSFxZRMvc8/02z8M7D
+zGsS4d0tJjiZQGu5Pd8shoEPyxWYG+GwAbfhBD+Lx/YMD0sSANA0Iz59fPetoPBI
+lPPeY5q4HoMpdIZvArd0FddwAv58+CmTF9ll0fpq12zEt0lqnpv23DZpel88L1om
+9O3hdeeQ0AkUXxaRdTAnoUqdtr/KURDrhqwWb6lXe/TQH1+01jFNAiirJNTMTHWz
+r6q4zxtNQtEaEGpHp4de3V4Qpf2iwrBMep0liCMXEEpIfRYvdV8=
+=e81j
 -----END PGP SIGNATURE-----
 
---BSj5lTXcR6FG6qLA--
+--g5k43VLWIMtuwz/y--
 
