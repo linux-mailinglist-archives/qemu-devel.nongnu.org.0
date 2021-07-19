@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2E93CD070
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:18:27 +0200 (CEST)
-Received: from localhost ([::1]:41942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BC123CD084
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:21:31 +0200 (CEST)
+Received: from localhost ([::1]:44552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5PPu-00015w-4y
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:18:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60372)
+	id 1m5PSs-00033R-AC
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5PNV-0006gl-2B
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:15:57 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:40555)
+ id 1m5PRa-00022g-RC
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:20:10 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5PNT-0000ZF-IM
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:15:56 -0400
-Received: by mail-ej1-x631.google.com with SMTP id dp20so25592188ejc.7
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 02:15:55 -0700 (PDT)
+ id 1m5PRZ-0003Gc-4v
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:20:10 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id hr1so27575696ejc.1
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 02:20:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wikUbnu9wR1NygqIEPfR8sYeeT4D/PRA0H0pNSKX204=;
- b=xz7v9mtAufcV1jaCvtf3N3KpsTRLH5xOUGIrPQiaULTiISQjjJtrrsEB+GScV11aKS
- wKPWn8HrojxTgddmz0Ph7wN3Xd/5glthSULt5J2MxSTRQj7Uur8Qih1yQ0zlMt4RamT1
- YFbrJiDS66WHtrVVA6nlabCtha1lXaKhnNaoyLKxP2EE2G8QbvukZ3tr+6JSbyLo5YHM
- AQcFK618aF7YKRM30T5T7V0tbif/peA6jkZHwSFCu3EqNZVdah+ppwqMNIChsYcIdQWd
- 51Jrm/R7MsuiFHqCKfFGsBJ0g0+4e9PFGkTtG9u8TlPpzh2aJUcUNY0xs1qtP/2fT1Oy
- ZBxA==
+ :cc; bh=xNQ7GKPxwzM9Viq9vo56Q5+3Xu4ku0yeIttuGSlXgOY=;
+ b=b2UBLUZLz84+07yuch7XNNxyYlXos/iHCp6Dw3PuEY2gs8OhjxotabAoHpC0F1J+A/
+ u3QP3XqONmR/kQt6xwa7RtdlY7Kpgfj4JLFeDI/qOHyg/+Sg9Y9h5OjKHRE0ds7xdwLG
+ YLLJjyFPIhDNEYdtHfxWQJyF1mnblk6LgLhMcPh9RfNhHmGu4mqO3QEgcjSs6A5FpPLl
+ J6+s91YNNouUc6JuDpqpdx+pANU3mpdUZxsT0gbirjOF6rqLSgCBjpS1L2wb6ReiHbe1
+ JPdjQ4rvAW/WC7AluLNDl9Z8sJczOlqEm8oUt35sdHU4i9tfRAap7L1eDYMAt3lsouTy
+ lVIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=wikUbnu9wR1NygqIEPfR8sYeeT4D/PRA0H0pNSKX204=;
- b=Ege+CPh0Sg66cbJjdlFmyeY8VYia1XRdyX1Ib027k0ma7hA8mozGsONKEShBUuSkX7
- JO+JrsBCtKZ7Z07HTJdl/qTpY22eU/Qfx6CbHFwoX3ziFFlgD4fqidt5WKrZ0dq2v3Dn
- 8ExZGV+Bbdz5lW+FaJMMp2cQ2TF9KRPvw+3YFORFHN4DBMZLEXvCjKTtbVFlMZs54oph
- +ZBZDSkFaMFWcPbWC84/Szb9m/MuBpK2lKiuXilYBj3d6vYLmP1fFRJVtvZsRwC9LR6K
- 5qVjAqzBSoguSwZ+1W4LoWzcGWIX2zTBUwED5IjcPyae+7hT/gYMBTxgfnOQD8NMyfdy
- 8cNw==
-X-Gm-Message-State: AOAM530j7nZ4+bcJ6PR57HOxB8n5sg2y7e4m82asPTa5eou8PMEMod1F
- G7B3+K7X8pWCHz1eCdH4t/xO8dCj99o+TUYsk3XnXA==
-X-Google-Smtp-Source: ABdhPJyeq1tv1ypvAj2AWh+9D3mZ00PCOL9JGBAI7JS9ppDDm9Wa+Ep5RP01FbiVs0+lLu5OTyHaphtE9cshRQEfrpI=
-X-Received: by 2002:a17:907:a05c:: with SMTP id
- gz28mr26659728ejc.56.1626686154083; 
- Mon, 19 Jul 2021 02:15:54 -0700 (PDT)
+ bh=xNQ7GKPxwzM9Viq9vo56Q5+3Xu4ku0yeIttuGSlXgOY=;
+ b=m7DXN6jg/Rtg6LPiSZCbKzHVWHwfdyneC4Qf8dDbg+ZOnFL3K6XgODifYPMP9Dym6d
+ fjXdM8O1hn2Kzb8GFkgwQyogp+1WB8KpqqQwo6747eIgOZWn+/CFBnfA+Wl5aK+mLb2B
+ qyenWpj7uKj3RQtUsMNVTvNeqgPgBC6dbAVkcRGf0BO+/+JN1E22IWp2jAkUytz28zbG
+ ait/BW/rNKbxzKJVhHzBSo/ahF0gjTngIh4DA+t42J9RyUaLLypmCF6YAWc3P2Szqdc4
+ lNDniJ3+CSDoYbG01ymyPZkJd1+9k222zEMzCmGwRzebjJJtaiuc/2Ax49ii0Or+SpJn
+ Zgtg==
+X-Gm-Message-State: AOAM531kWmC42KMr4Jhv0z0ycsu7d6Kt/WmLlOrFAglDttHTLdYGLZ/N
+ 6NHoG/Q1KObIEQrJ9u/SCMBoMoKFxclTMvR2hqBNuQ==
+X-Google-Smtp-Source: ABdhPJzZNaosrwzuxz9ZszxSkE9FTVBwUs4VZtxVmANbDoT9xrJ1z1jMgZJ2N3qaohT5bSW8XFnp9EFdZx1fAiLa/x8=
+X-Received: by 2002:a17:906:16cd:: with SMTP id
+ t13mr26764765ejd.250.1626686407112; 
+ Mon, 19 Jul 2021 02:20:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210714060125.994882-1-its@irrelevant.dk>
- <20210714060125.994882-4-its@irrelevant.dk>
-In-Reply-To: <20210714060125.994882-4-its@irrelevant.dk>
+References: <20210719090051.3824672-1-chen.zhang@intel.com>
+In-Reply-To: <20210719090051.3824672-1-chen.zhang@intel.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Jul 2021 10:15:13 +0100
-Message-ID: <CAFEAcA9Hqr-piQGs4yObva3Wvr=F63OweWqqGjZBDHTkypTybg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] hw/nvme: fix out-of-bounds reads
-To: Klaus Jensen <its@irrelevant.dk>
+Date: Mon, 19 Jul 2021 10:19:26 +0100
+Message-ID: <CAFEAcA8Z6Nm6DABFOyv1pVEK=CbXdnhpYp6jE7i8ztw5mi+8gw@mail.gmail.com>
+Subject: Re: [PULL V3 for 6.2 0/6] COLO-Proxy patches for 2021-06-25
+To: Zhang Chen <chen.zhang@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,33 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 14 Jul 2021 at 07:01, Klaus Jensen <its@irrelevant.dk> wrote:
+On Mon, 19 Jul 2021 at 10:10, Zhang Chen <chen.zhang@intel.com> wrote:
 >
-> From: Klaus Jensen <k.jensen@samsung.com>
+> Hi Jason,
 >
-> Peter noticed that mmio access may read into the NvmeParams member in
-> the NvmeCtrl struct.
->
-> Fix the bounds check.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/nvme/ctrl.c | 27 +++++++++++++++------------
->  1 file changed, 15 insertions(+), 12 deletions(-)
+> Please help to queue COLO-proxy patches to net branch.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Chen; for this kind of pull request that isn't intended
+to go directly into master, could I ask you to follow the notes
+in https://wiki.qemu.org/Contribute/SubmitAPullRequest
+for not-for-master pullrequests, please?
+
+# Pull requests not for master should say "not for master" and have
+# "PULL SUBSYSTEM whatever" in the subject tag. If your pull request
+# is targeting a stable branch or some submaintainer tree, please
+# include the string "not for master" in the cover letter email, and
+# make sure the subject tag is "PULL SUBSYSTEM s390/block/whatever"
+# rather than just "PULL". This allows it to be automatically filtered
+# out of the set of pull requests that should be applied to master.
+
+It's not a big deal, but if you put the right tags in your email
+then my filtering will automatically ignore it for me :-)
 
 thanks
 -- PMM
