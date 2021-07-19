@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C9E3CCC9E
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 05:25:40 +0200 (CEST)
-Received: from localhost ([::1]:59738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1F73CCC9B
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 05:24:35 +0200 (CEST)
+Received: from localhost ([::1]:55316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5JuV-0002Tk-GD
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 23:25:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42242)
+	id 1m5JtS-0007zb-Mj
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 23:24:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m5JqN-0007MM-TR
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:23 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2435)
+ id 1m5Jq5-0006Ag-PL
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:05 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1m5JqL-0006L5-RK
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:23 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GSn923jLwzZqm5;
- Mon, 19 Jul 2021 11:17:58 +0800 (CST)
+ id 1m5Jq1-00060B-0w
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:21:05 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GSn7930RRz7vcG;
+ Mon, 19 Jul 2021 11:16:21 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 11:20:53 +0800
+ 15.1.2176.2; Mon, 19 Jul 2021 11:20:55 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 19 Jul 2021 11:20:52 +0800
+ 15.1.2176.2; Mon, 19 Jul 2021 11:20:54 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH for-6.2 v2 05/11] machine: Improve the error reporting of smp
- parsing
-Date: Mon, 19 Jul 2021 11:20:37 +0800
-Message-ID: <20210719032043.25416-6-wangyanan55@huawei.com>
+Subject: [PATCH for-6.2 v2 06/11] hw: Add compat machines for 6.2
+Date: Mon, 19 Jul 2021 11:20:38 +0800
+Message-ID: <20210719032043.25416-7-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210719032043.25416-1-wangyanan55@huawei.com>
 References: <20210719032043.25416-1-wangyanan55@huawei.com>
@@ -45,12 +44,12 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,64 +77,228 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We totally have two requirements for a valid SMP configuration:
-the sum of "sockets * dies * cores * threads" must represent all
-the possible cpus, i.e., max_cpus, and must include the initial
-present cpus, i.e., smp_cpus.
-
-We only need to ensure "sockets * dies * cores * threads == maxcpus"
-at first and then ensure "sockets * dies * cores * threads >= cpus".
-With a reasonable order of the sanity-check, we can simplify the
-error reporting code.
+Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/core/machine.c | 25 ++++++++++---------------
- 1 file changed, 10 insertions(+), 15 deletions(-)
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ 9 files changed, 71 insertions(+), 6 deletions(-)
 
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 81eda46b0b..01165f7f53 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2788,10 +2788,17 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+ 
++static void virt_machine_6_2_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
++
+ static void virt_machine_6_1_options(MachineClass *mc)
+ {
++    virt_machine_6_2_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
++DEFINE_VIRT_MACHINE(6, 1)
+ 
+ static void virt_machine_6_0_options(MachineClass *mc)
+ {
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 668f0a1553..8b4d07d3fc 100644
+index 8b4d07d3fc..63439c4a6d 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -788,21 +788,6 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     cpus = cpus > 0 ? cpus : sockets * dies * cores * threads;
-     maxcpus = maxcpus > 0 ? maxcpus : cpus;
+@@ -37,6 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
  
--    if (sockets * dies * cores * threads < cpus) {
--        g_autofree char *dies_msg = g_strdup_printf(
--            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
--        error_setg(errp, "cpu topology: "
--                   "sockets (%u)%s * cores (%u) * threads (%u) < "
--                   "smp_cpus (%u)",
--                   sockets, dies_msg, cores, threads, cpus);
--        return;
--    }
--
--    if (maxcpus < cpus) {
--        error_setg(errp, "maxcpus must be equal to or greater than smp");
--        return;
--    }
--
-     if (sockets * dies * cores * threads != maxcpus) {
-         g_autofree char *dies_msg = g_strdup_printf(
-             mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-@@ -814,6 +799,16 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-         return;
-     }
- 
-+    if (sockets * dies * cores * threads < cpus) {
-+        g_autofree char *dies_msg = g_strdup_printf(
-+            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
-+        error_setg(errp, "Invalid CPU topology: "
-+                   "sockets (%u)%s * cores (%u) * threads (%u) < "
-+                   "smp_cpus (%u)",
-+                   sockets, dies_msg, cores, threads, cpus);
-+        return;
-+    }
++GlobalProperty hw_compat_6_1[] = {};
++const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
 +
-     ms->smp.cpus = cpus;
-     ms->smp.sockets = sockets;
-     ms->smp.dies = dies;
+ GlobalProperty hw_compat_6_0[] = {
+     { "gpex-pcihost", "allow-unmapped-accesses", "false" },
+     { "i8042", "extended-state", "false"},
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index d94ef582b5..c6768c6ce7 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -94,6 +94,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
++GlobalProperty pc_compat_6_1[] = {};
++const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
++
+ GlobalProperty pc_compat_6_0[] = {
+     { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
+     { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 30b8bd6ea9..fd5c2277f2 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -413,7 +413,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+ }
+ 
+-static void pc_i440fx_6_1_machine_options(MachineClass *m)
++static void pc_i440fx_6_2_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+@@ -422,6 +422,18 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
++                      pc_i440fx_6_2_machine_options);
++
++static void pc_i440fx_6_1_machine_options(MachineClass *m)
++{
++    pc_i440fx_6_2_machine_options(m);
++    m->alias = NULL;
++    m->is_default = false;
++    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
++    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
++}
++
+ DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
+                       pc_i440fx_6_1_machine_options);
+ 
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 04b4a4788d..b45903b15e 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -355,7 +355,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_6_1_machine_options(MachineClass *m)
++static void pc_q35_6_2_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+@@ -363,6 +363,17 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
++                   pc_q35_6_2_machine_options);
++
++static void pc_q35_6_1_machine_options(MachineClass *m)
++{
++    pc_q35_6_2_machine_options(m);
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
++    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
++}
++
+ DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+                    pc_q35_6_1_machine_options);
+ 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 81699d4f8b..d39fd4e644 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4685,15 +4685,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+ 
++/*
++ * pseries-6.2
++ */
++static void spapr_machine_6_2_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
++
+ /*
+  * pseries-6.1
+  */
+ static void spapr_machine_6_1_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_6_2_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+ 
+-DEFINE_SPAPR_MACHINE(6_1, "6.1", true);
++DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
+ 
+ /*
+  * pseries-6.0
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e4b18aef49..4d25278cf2 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -791,14 +791,26 @@ bool css_migration_enabled(void)
+     }                                                                         \
+     type_init(ccw_machine_register_##suffix)
+ 
++static void ccw_machine_6_2_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_6_2_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(6_2, "6.2", true);
++
+ static void ccw_machine_6_1_instance_options(MachineState *machine)
+ {
++    ccw_machine_6_2_instance_options(machine);
+ }
+ 
+ static void ccw_machine_6_1_class_options(MachineClass *mc)
+ {
++    ccw_machine_6_2_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+ }
+-DEFINE_CCW_MACHINE(6_1, "6.1", true);
++DEFINE_CCW_MACHINE(6_1, "6.1", false);
+ 
+ static void ccw_machine_6_0_instance_options(MachineState *machine)
+ {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index b6161cee88..2832f0f8aa 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -354,6 +354,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
++extern GlobalProperty hw_compat_6_1[];
++extern const size_t hw_compat_6_1_len;
++
+ extern GlobalProperty hw_compat_6_0[];
+ extern const size_t hw_compat_6_0_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 88dffe7517..97b4ab79b5 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -196,6 +196,9 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
+ 
++extern GlobalProperty pc_compat_6_1[];
++extern const size_t pc_compat_6_1_len;
++
+ extern GlobalProperty pc_compat_6_0[];
+ extern const size_t pc_compat_6_0_len;
+ 
 -- 
 2.19.1
 
