@@ -2,65 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 005EB3CEB46
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 21:17:37 +0200 (CEST)
-Received: from localhost ([::1]:58102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362C03CEB4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 21:23:11 +0200 (CEST)
+Received: from localhost ([::1]:34356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Ylk-0001eU-GV
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 15:17:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39188)
+	id 1m5Yr7-0004vg-Tr
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 15:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5Ykh-0000zA-5l
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:16:31 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35598)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5YqN-0004GN-B6
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:22:23 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5Ykf-00017q-9B
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:16:30 -0400
-Received: by mail-ed1-x533.google.com with SMTP id ca14so25504391edb.2
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 12:16:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5YqL-00053D-JF
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 15:22:22 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d2so23414041wrn.0
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 12:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=uJ5yzfpd9Bl52WNmwv/MVSz+tTtH+4mg+snx1pxwAok=;
- b=TRikOAdV0f3501KTVeNAkgLuuYybENxsAnSxc9lwtCgUYrtVa8qK/hmaIIrhkbcGrK
- OI0iNILvIORHkopP37MmMFDhLXilCSOjGT+TPizlxbvSSNz9fN/ImdqrBU7/hZRPk3DQ
- izLnmCjS3k6X5wnW62/M/knh59CxceN+7mJB0Q9zwfoHWtf0w37EwfCEl8i7g1KCDx3e
- STjR6aiFfN8E8nHtUOh1gYs0tsgksQg12XYuZ843ySGVrg1EzHF02oL5rL/DqEr6qXxn
- NQCVDXvWes700BWCj0pfb0vrj0FvfXPVIiTNw/Y+c8N7Ko6ufmxRxaB5Sq4jZIGVQkyM
- MHjA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Z5KLa+M3s4UZHJEKU5SppoLDOa597CAWD1GzSKUNxkA=;
+ b=B/pSiXr9nhG/thrds04xE0vhMRUH/7ydibZs7fwgL3OnXK0SmLP4DTl8VBVc0eWCi8
+ uPzKa4/ZqHDomELPva32dt54mX3ABw9PcHcXnquPP90urIVa/i4RqJ1Tv/b+WBv9uE8L
+ hTz2Dp4xH+gT0a6/ja3RXK9Jxm880LF8e/BP9CcLOkQoKlJDQWBjRcwJ+MtPS8dWJkeq
+ U7OcbPpEEmtSeSW8iP5UbXT+ax448XNKN6+GqSV1BcDpTcI27Obvex2lbtNOmN7k8AUU
+ c+FUyVysaQVmX8Z9iwelLLvLUEyCdYDOcPAlcEvQwpu34U9eBsQG1x540WW8q9sNTOrL
+ 1S+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=uJ5yzfpd9Bl52WNmwv/MVSz+tTtH+4mg+snx1pxwAok=;
- b=EMRVW7judsVojp08lG0CspCXkENkxiOUkL9px9JKiTIzkESR5SduidiM3TCLhdRWls
- 2iz/hnaaSFlOyGTuL+dUYobwagJ6CGdEDNQB6gefDx4lkOBABLmysoRdIYpKxgDmunyc
- FU4sRr+E6HfgqujMKOmClXIvuE8LOc47lPXnsi66FBt4sY0nsW9dCz4+FepGQ4BIJuhy
- jur8SqbGHEWZN7dh2g2V6GtC5GIxGUcy36pUYIlls+sPyZvwvoEb18qHPLQmnxxyUJ1E
- 94EwtqCdpNjNirwz9/sBXaPr7FUHrsDloqaF3A45W0OhS1kPaL2NIaJOKFF69678cNB7
- Ikxw==
-X-Gm-Message-State: AOAM530nG07G11YycU2mMo3iG/89ZX0dlY0+VIZ5x+NfEEQzySa7bsnm
- V3h9bIFIDRYe7GDxo/LyMN0I9LNVnZ3bhPeA7jvy6w==
-X-Google-Smtp-Source: ABdhPJyiLs+edTA4smwD9PlwIntYL4RupxIQrXkUH4ng4Izk4E9Rcu5q0TlvcH9S0+anf4nTszrRTWGiv9hFYvQ1tG0=
-X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr35709412eds.204.1626722187159; 
- Mon, 19 Jul 2021 12:16:27 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Z5KLa+M3s4UZHJEKU5SppoLDOa597CAWD1GzSKUNxkA=;
+ b=Yzn9u6P4wRq9r0qEgy6iKPDJeTvhFXWpcrt9XlxVpqTs2aH6uxtrW5tf8PBWus/0Pj
+ 3jKcr3X8BhRRLT+LKKpF68W1eHwPJLLfZni/cZ5FTBKyz/h3tja2iZksmMvyGZXQrdvO
+ Vk94YWgm10IPN6U38aqqzDsOk1J98tdC6wKZTN5DHBsaiv4/rAjG+x5xhH4z8tWcHYLp
+ H9sp1m8h1lPUGC3ClCcjQ4P0VZnHG02xjxMm36sw2BsYmcFYYcqgyRyVp4HvSLdaj6iJ
+ pDMj6wpWDEEzXRl9B60LdjjAbhCzhIEgD3M03qKHiVwBJE1HLfvC0muiXHtO678gMckP
+ BODQ==
+X-Gm-Message-State: AOAM532rRQ/o3NhGBsw5VEkwPuVDY3qE/Ffa0gxoSMGSexK10RvcmHT/
+ SKeMZWOxU+iogDroeLCCxPz+Kg==
+X-Google-Smtp-Source: ABdhPJzKljYyfln+qK6sNFyPbH1K+ZJigJsO9Gjt5Ye6E2S1Fj489/idIZYCkuctR/DH28oWUhBQYQ==
+X-Received: by 2002:a5d:4b0f:: with SMTP id v15mr12788513wrq.377.1626722539765; 
+ Mon, 19 Jul 2021 12:22:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d8sm22032324wrv.20.2021.07.19.12.22.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 12:22:18 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1DD211FF7E;
+ Mon, 19 Jul 2021 20:22:18 +0100 (BST)
+References: <20210719123732.24457-1-alex.bennee@linaro.org>
+ <87im16pfsq.fsf@linaro.org>
+ <CANCZdfpsEdupxRPxKt42ki1B0Kckmgu=+m8pXRRFS2J+qDJrTQ@mail.gmail.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Warner Losh <imp@bsdimp.com>
+Subject: Re: [RFC PATCH] tcg/plugins: implement a qemu_plugin_user_exit helper
+Date: Mon, 19 Jul 2021 20:21:55 +0100
+In-reply-to: <CANCZdfpsEdupxRPxKt42ki1B0Kckmgu=+m8pXRRFS2J+qDJrTQ@mail.gmail.com>
+Message-ID: <87eebunm6u.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210708151748.408754-1-pbonzini@redhat.com>
- <20210708151748.408754-45-pbonzini@redhat.com>
- <CAFEAcA9=6pqDQb4fpa91F5L6FfiBb505+f=ZMv6b=sekkT8UEw@mail.gmail.com>
-In-Reply-To: <CAFEAcA9=6pqDQb4fpa91F5L6FfiBb505+f=ZMv6b=sekkT8UEw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Jul 2021 20:15:46 +0100
-Message-ID: <CAFEAcA_72ySeSGD88hCcOJgA7EwLObMFPPkzQZnsXV6FqPFZRQ@mail.gmail.com>
-Subject: Re: [PULL 44/48] meson: Introduce target-specific Kconfig
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,101 +88,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: minyihh@uci.edu, Kyle Evans <kevans@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, robhenry@microsoft.com,
+ Laurent Vivier <laurent@vivier.eu>, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Alexandre Iooss <erdnaxe@crans.org>, Chen Qun <kuhn.chenqun@huawei.com>,
+ ma.mandourr@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Jul 2021 at 23:59, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
+
+Warner Losh <imp@bsdimp.com> writes:
+
+> On Mon, Jul 19, 2021, 7:57 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> On Thu, 8 Jul 2021 at 16:49, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> >
-> > Add a target-specific Kconfig. We need the definitions in Kconfig so
-> > the minikconf tool can verify they exits. However CONFIG_FOO is only
-> > enabled for target foo via the meson.build rules.
-> >
-> > Two architecture have a particularity, ARM and MIPS. As their
-> > translators have been split you can potentially build a plain 32 bit
-> > build along with a 64-bit version including the 32-bit subset.
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > Message-Id: <20210131111316.232778-6-f4bug@amsat.org>
-> > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> > Reviewed-by: Thomas Huth <thuth@redhat.com>
-> > Message-Id: <20210707131744.26027-2-alex.bennee@linaro.org>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>  Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 >
-> Hi; this change (commit f4063f9c319e392 in master) seems to have
-> resulted in qemu-system-tricore no longer building the
-> 'tricore_testboard'. Before this commit:
+>  > In user-mode emulation there is a small race between preexit_cleanup
+>  > and exit_group() which means we may end up calling instrumented
+>  > instructions before the kernel reaps child threads. To solve this we
+>  > implement a new helper which ensures the callbacks are flushed along
+>  > with any translations before we let the host do it's a thing.
+>  >
+>  > While we are at it make the documentation of
+>  > qemu_plugin_register_atexit_cb clearer as to what the user can expect.
+>  >
+>  <snip>
+>  >=20=20
+>  > +/*
+>  > + * Handle exit from linux-user. Unlike the normal atexit() mechanism
+>  > + * we need to handle the clean-up manually as it's possible threads
+>  > + * are still running. We need to remove all callbacks from code
+>  > + * generation, flush the current translations and then we can safely
+>  > + * trigger the exit callbacks.
+>  > + */
+>  > +
+>  > +void qemu_plugin_user_exit(void)
+>  > +{
+>  > +    enum qemu_plugin_event ev;
+>  > +
+>  > +    QEMU_LOCK_GUARD(&plugin.lock);
+>  > +
+>  > +    start_exclusive();
+>  > +
+>  > +    /* un-register all callbacks except the final AT_EXIT one */
+>  > +    for (ev =3D 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
+>  > +        if (ev !=3D QEMU_PLUGIN_EV_ATEXIT) {
+>  > +            struct qemu_plugin_ctx *ctx;
+>  > +            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
+>  > +                plugin_unregister_cb__locked(ctx, ev);
+>  > +            }
+>  > +        }
+>  > +    }
+>  > +
+>  > +    tb_flush(current_cpu);
 >
-> $ ./build/tricore/qemu-system-tricore -M help
-> Supported machines are:
-> KIT_AURIX_TC277_TRB  Infineon AURIX TriBoard TC277 (D-Step)
-> none                 empty machine
-> tricore_testboard    a minimal TriCore board
+>  We also need to disable memory helpers during the exclusive period as
+>  that is another route into a callback:
+>  --8<---------------cut here---------------start------------->8---
+>  modified   plugins/core.c
+>  @@ -498,6 +499,7 @@ void qemu_plugin_register_atexit_cb(qemu_plugin_id_t=
+ id,
+>   void qemu_plugin_user_exit(void)
+>   {
+>       enum qemu_plugin_event ev;
+>  +    CPUState *cpu;
 >
-> After this commit, 'tricore_testboard' no longer appears in the list.
-> The hw/tricore/meson.build uses "when: 'CONFIG_TRICORE'" to
-> compile the source files for the board, so presumably that
-> CONFIG switch is no longer being defined ?
+>       QEMU_LOCK_GUARD(&plugin.lock);
+>
+>  @@ -514,6 +516,11 @@ void qemu_plugin_user_exit(void)
+>       }
+>
+>       tb_flush(current_cpu);
+>  +
+>  +    CPU_FOREACH(cpu) {
+>  +        qemu_plugin_disable_mem_helpers(cpu);
+>  +    }
+>  +
+>       end_exclusive();
+>
+>       /* now it's safe to handle the exit case */
+>  --8<---------------cut here---------------end--------------->8---
+>
+> I think both of these are find from a bsd-user point of view.
 
-This seems to be caused because when "CONFIG_FOO=3Dy" is passed on
-the minikconf commandline it doesn't appear in the output (though
-it is not ignored entirely, because other config options that
-FOO selects do appear in the output). For example from my
-meson-logs/meson-log.txt:
+Acked-by: or Reviewed-by:?
 
-Configuring arm-softmmu-config-devices.mak with command
-Running command: /usr/bin/python3
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/scripts/minikconf.py
---defconfig arm-softmmu-config-devices.mak
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/x86/meson-private/arm-soft=
-mmu-config-devices.mak.d
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/configs/devices/arm-softmmu/defa=
-ult.mak
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/Kconfig CONFIG_TPM=3Dy
-CONFIG_SPICE=3Dy CONFIG_IVSHMEM=3Dy CONFIG_OPENGL=3Dy CONFIG_X11=3Dy
-CONFIG_VHOST_USER=3Dy CONFIG_VHOST_VDPA=3Dy CONFIG_VHOST_KERNEL=3Dy
-CONFIG_VIRTFS=3Dy CONFIG_LINUX=3Dy CONFIG_MULTIPROCESS_ALLOWED=3Dy
-CONFIG_TCG=3Dy CONFIG_ARM=3Dy
---- stdout ---
-CONFIG_A15MPCORE=3Dy
-CONFIG_A9MPCORE=3Dy
-[etc]
-
-CONFIG_ARM doesn't apper in the stdout, and so it's not
-possible to use it to select something in meson. None
-of the other CONFIG_* passed on the commandline appear
-in stdout either.
-
-If you look at the aarch64 version:
-Running command: /usr/bin/python3
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/scripts/minikconf.py
---defconfig aarch64-softmmu-config-devices.mak
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/build/x86/meson-private/aarch64-=
-softmmu-config-devices.mak.d
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/configs/devices/aarch64-softmmu/=
-default.mak
-/mnt/nvmedisk/linaro/qemu-from-laptop/qemu/Kconfig CONFIG_TPM=3Dy
-CONFIG_SPICE=3Dy CONFIG_IVSHMEM=3Dy CONFIG_OPENGL=3Dy CONFIG_X11=3Dy
-CONFIG_VHOST_USER=3Dy CONFIG_VHOST_VDPA=3Dy CONFIG_VHOST_KERNEL=3Dy
-CONFIG_VIRTFS=3Dy CONFIG_LINUX=3Dy CONFIG_MULTIPROCESS_ALLOWED=3Dy
-CONFIG_TCG=3Dy CONFIG_AARCH64=3Dy
-
-CONFIG_AARCH64 doesn't appear in the output, but CONFIG_ARM
-does (because AARCH64 selects it).
-
-The only board that gets hit by this is tricore, because as
-it happens we don't try to gate anything else on CONFIG_$ARCH.
-(Which raises the question of what these CONFIG flags are for
-in the first place...)
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
