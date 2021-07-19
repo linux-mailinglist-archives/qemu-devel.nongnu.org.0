@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF9C3CD0FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:36:14 +0200 (CEST)
-Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A4F3CD129
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:49:49 +0200 (CEST)
+Received: from localhost ([::1]:36644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Ph7-0004nv-4M
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:36:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
+	id 1m5PuH-0001Zl-10
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:49:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5Pg4-0003eF-PF
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:35:08 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45946)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5Pt8-0000fw-Om
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:48:38 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5Pg3-00053e-At
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:35:08 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t5so21148515wrw.12
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 02:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ukpnUg7nBL/qulzgYr8D1xarKn+XGQBrbsZ2iPxGUwY=;
- b=dUbTGmh2FgKGrl1AsAqPVzp6IdW9ca6bIMejNvVecYIFe6rnzKVhQoTuolupEc3DTw
- BId96TJOkrCR1mi00ko62F0XVz/K0I47pURYkT4OjG04cHIOklMMVmX5ku+ZvgsY4nGB
- xc6mhvEaXkZDSlfl/OTwuy+Eg24E9dfVTXS0HRzeB2wXwQjzYnXVC0cCNV+W1GHVkRIj
- qXb4qrsGGSSES5kNOFK9H1gAxG2741kfyyXGv3h4VGzvCA8Bn8aPYrRnfVklDpqlqRJx
- uvOJeAFWdxv23R/kTEPIuf4o5Kxu3bwQ46fnJbz24wkkhPYhQQgXfnor6bhox0hmp2gU
- PQcQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5Pt6-0005k4-TX
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:48:38 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso12417094wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 02:48:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=N28Dy6wpJ/edwPx+7NckFwbXEeGsjej1Dv5Lga8PRuU=;
+ b=B6xepJRLAr7/e+3Beb1K1PY2azBiG4tcKWWVObVZP5N3yFC2riFTt4TkQj+8maUDF6
+ /VAAJLNM/D9Lz5hycuVdYGohUR1iSmELJTE2kUD7rzTY09mciulokH734LyS1dK8XYa5
+ InOuiEPxBNOmFZIrSHEQRoQMDP+a2o8Hr5mXEL0+DE3M3lCdo/zmRaV08PL3gtfSQZEM
+ YoixfZnvqsMCLadcEqCQhF2XdlyNnlGKH823LqAaZng5VcgOyXQgFHwRvCCVApQSJWJQ
+ d3vKhnNQdqfswOhcWqKzUeKMADuTyWQeciuF8N36DuEYeEVPa6pioFIwRQg5D3SFx2Ef
+ FLmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ukpnUg7nBL/qulzgYr8D1xarKn+XGQBrbsZ2iPxGUwY=;
- b=HWZDBoCKl/tsiN0e8ox/GT4B220UivM/Au5FzPtmKsKPVxftcZh8t6k7AuWcz40rZI
- Pb6/xiPcoZjZ81SdvIa0YR+KlN2xw7a7OpL8Zhcg2fv2Zapjlqj/gAierFed3tf7D2rD
- ZLJprkHhFaDvS5jiGDfZRY7/Z6MqPPtBvUOVFkY0vCa4zsuRziLfGfNjCA07ZaKVv9ME
- yOx4Zku5k9TW8GZ7lk4WqwAU/APHN7qn5PsuzBrcxQ1CtJO4seSU9a3iqn9mHz2lpDEh
- tmH/FraJRwSZ10i5ZeZV6cnLDm75xho2zzOKHCgKsdsBj5iU1uNd8Cgi27IcbJxqYr1q
- 4qSQ==
-X-Gm-Message-State: AOAM531OTTLIkhynLUnzCsUTSIrEUozyR35rkKRgEMieoBKWPBF/SmN2
- m13SCOLOW/XCX4t78dzsJWI=
-X-Google-Smtp-Source: ABdhPJwzhKHCi8Jmxvy3NbNlv7uKZ5RTVy2R0SM8sCKD9SGMIO5YbfJU1BQi/RUGd5sqfTYaaJx3bg==
-X-Received: by 2002:a5d:6846:: with SMTP id o6mr28729500wrw.326.1626687305940; 
- Mon, 19 Jul 2021 02:35:05 -0700 (PDT)
-Received: from [192.168.1.33] (abordeaux-654-1-74-136.w109-214.abo.wanadoo.fr.
- [109.214.221.136])
- by smtp.gmail.com with ESMTPSA id f26sm16009323wmc.29.2021.07.19.02.35.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 19 Jul 2021 02:35:05 -0700 (PDT)
-Subject: Re: [PATCH v3 08/13] target/avr: Advance pc in avr_tr_breakpoint_check
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210717221851.2124573-1-richard.henderson@linaro.org>
- <20210717221851.2124573-9-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <29cbd5d8-ea19-4707-a209-461c66f54341@amsat.org>
-Date: Mon, 19 Jul 2021 11:35:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=N28Dy6wpJ/edwPx+7NckFwbXEeGsjej1Dv5Lga8PRuU=;
+ b=n+dfForGQ377g2LFWaPW6fDhsWHQ0EzgS4+RkAH/fUGw1k2K0jct19tbqVnvp1A3hT
+ lNWADf4yH1v4xD+cZUR6L+pHBgwwYE3uSxGtBcPWEMyuTu+UmBT6tBQqRCL505GuNRyT
+ nDOb9mkh878AaxBfq0emG6tDmRFVkV3dpMVtHcri6KKjoccqKfPgt9sggM2/f+rlQklj
+ errp52ktPUCr1k7+0QzQViLyWsyUuXzWPfcHV04aphpKUIegbKtGH1de9gQQnSbnjN6w
+ PiUsVw9vpha4wUiXRJInzvf3sblC5PwRZzyfkFGPzzIKbfJShAjMWW9ddjPmYVmpgWw7
+ ag6g==
+X-Gm-Message-State: AOAM532KNtmKkeI5/Uxr2VIJSO8vcta/ywZe/0t+9pLj3M7kGo4NeajD
+ VTrFwz1lmI0gZVEUNxkgGhm+Kw==
+X-Google-Smtp-Source: ABdhPJyWkdIduIAerYt3odnxG66P7BWNolcVdsDYYUNWBh7ZTcwxp0C12cKWJ80EnETC0MVw+rq/tQ==
+X-Received: by 2002:a05:600c:2159:: with SMTP id
+ v25mr30832954wml.72.1626688115301; 
+ Mon, 19 Jul 2021 02:48:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a10sm19239136wrm.12.2021.07.19.02.48.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 02:48:34 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8C2491FF7E;
+ Mon, 19 Jul 2021 10:48:33 +0100 (BST)
+References: <20210714172151.8494-1-ma.mandourr@gmail.com>
+ <20210714172151.8494-4-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 3/6] plugins/cache: Fixed a use-after-free bug with
+ multithreaded usermode
+Date: Mon, 19 Jul 2021 10:45:26 +0100
+In-reply-to: <20210714172151.8494-4-ma.mandourr@gmail.com>
+Message-ID: <87zguiprbi.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210717221851.2124573-9-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.07,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,34 +90,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, peter.maydell@linaro.org,
- mark.cave-ayland@ilande.co.uk
+Cc: cota@braap.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/18/21 12:18 AM, Richard Henderson wrote:
-> Since 0b00b0c1e05b, tb->size must not be zero.
-> Advance pc so that the breakpoint covers the insn at the bp.
-> 
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/489
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Since callbacks may be interleaved because of multithreaded execution,
+> we should not make assumptions about `plugin_exit` either. The problem
+> with `plugin_exit` is that it frees shared data structures (caches and
+> `miss_ht` hash table). It should not be assumed that callbacks will not
+> be called after it and hence use already-freed data structures.
+
+What was your test case for this because I wonder if it would be worth
+coming up with one for check-tcg? From what I remember the race is
+in between preexit_cleanup and the eventual _exit/exit_group which nixes
+all other child threads. Maybe we should be triggering a more graceful
+unload here?
+
+> This is mitigated in this commit by synchronizing the call to
+> `plugin_exit` through locking to ensure execlusive access to data
+> structures, and NULL-ifying those data structures so that subsequent
+> callbacks can check whether the data strucutres are freed, and if so,
+> immediately exit.
+>
+> It's okay to immediately exit and don't account for those callbacks
+> since they won't be accounted for anyway since `plugin_exit` is already
+> called once and reported the statistics.
+>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 > ---
->  target/avr/translate.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/target/avr/translate.c b/target/avr/translate.c
-> index 8237a03c23..d768063d65 100644
-> --- a/target/avr/translate.c
-> +++ b/target/avr/translate.c
-> @@ -2950,6 +2950,7 @@ static bool avr_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cs,
->      DisasContext *ctx = container_of(dcbase, DisasContext, base);
->  
->      gen_breakpoint(ctx);
-> +    ctx->base.pc_next += 2; /* advance by minimum insn len so tb->size != 0 */
->      return true;
+>  contrib/plugins/cache.c | 31 ++++++++++++++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
+>
+> diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+> index 695fb969dc..a452aba01c 100644
+> --- a/contrib/plugins/cache.c
+> +++ b/contrib/plugins/cache.c
+> @@ -363,6 +363,11 @@ static void vcpu_mem_access(unsigned int vcpu_index,=
+ qemu_plugin_meminfo_t info,
+>      effective_addr =3D hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : v=
+addr;
+>=20=20
+>      g_mutex_lock(&mtx);
+> +    if (dcache =3D=3D NULL) {
+> +        g_mutex_unlock(&mtx);
+> +        return;
+> +    }
+> +
+>      if (!access_cache(dcache, effective_addr)) {
+>          insn =3D (InsnData *) userdata;
+>          insn->dmisses++;
+> @@ -380,6 +385,11 @@ static void vcpu_insn_exec(unsigned int vcpu_index, =
+void *userdata)
+>      g_mutex_lock(&mtx);
+>      insn_addr =3D ((InsnData *) userdata)->addr;
+>=20=20
+> +    if (icache =3D=3D NULL) {
+> +        g_mutex_unlock(&mtx);
+> +        return;
+> +    }
+> +
+>      if (!access_cache(icache, insn_addr)) {
+>          insn =3D (InsnData *) userdata;
+>          insn->imisses++;
+> @@ -406,12 +416,24 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, stru=
+ct qemu_plugin_tb *tb)
+>              effective_addr =3D (uint64_t) qemu_plugin_insn_vaddr(insn);
+>          }
+>=20=20
+> +        g_mutex_lock(&mtx);
+> +
+> +        /*
+> +         * is the plugin_exit callback called? If so, any further callba=
+ck
+> +         * registration is useless as it won't get accounted for after c=
+alling
+> +         * plugin_exit once already, and also will use miss_ht after it'=
+s freed
+> +         */
+> +        if (miss_ht =3D=3D NULL) {
+> +            g_mutex_unlock(&mtx);
+> +            return;
+> +        }
+> +
+>          /*
+>           * Instructions might get translated multiple times, we do not c=
+reate
+>           * new entries for those instructions. Instead, we fetch the same
+>           * entry from the hash table and register it for the callback ag=
+ain.
+>           */
+> -        g_mutex_lock(&mtx);
+> +
+>          data =3D g_hash_table_lookup(miss_ht, GUINT_TO_POINTER(effective=
+_addr));
+>          if (data =3D=3D NULL) {
+>              data =3D g_new0(InsnData, 1);
+> @@ -527,13 +549,20 @@ static void log_top_insns()
+>=20=20
+>  static void plugin_exit(qemu_plugin_id_t id, void *p)
+>  {
+> +    g_mutex_lock(&mtx);
+>      log_stats();
+>      log_top_insns();
+>=20=20
+>      cache_free(dcache);
+> +    dcache =3D NULL;
+> +
+>      cache_free(icache);
+> +    icache =3D NULL;
+>=20=20
+>      g_hash_table_destroy(miss_ht);
+> +    miss_ht =3D NULL;
+> +
+> +    g_mutex_unlock(&mtx);
 >  }
->  
-> 
+>=20=20
+>  static void policy_init()
+
+
+--=20
+Alex Benn=C3=A9e
 
