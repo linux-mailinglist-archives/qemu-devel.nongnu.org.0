@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EAAD3CD21C
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 12:42:57 +0200 (CEST)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD03A3CD220
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 12:43:27 +0200 (CEST)
+Received: from localhost ([::1]:59786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Qjg-0003zQ-3n
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 06:42:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46172)
+	id 1m5QkA-0005YR-QN
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 06:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m5QhY-0001sf-1Z
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:40:47 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:41798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1m5QhU-0008Io-01
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:40:43 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id go30so27884950ejc.8
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 03:40:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=V/oJpMIKrYVUqk0aWU4T27HfIQvaI2un/rxaetk/LuE=;
- b=ZViHejM7e3cUaVkywaFqRLSKNVoipF+kOrhN7X+do6yoKMbN9VUJwrqyCCrksAiZ1D
- 9rSRuG3lz0zQAykjYLKfu0s2u/lerkBahkOyOcPnnAjtarK7WlDUy+v/jMqRYDpCVFS9
- ps2P59qeCkN9ppLrEdgun2JaYRAEmzvmUMzqC6GgyjDer3McFBfOTQvwD95XYmqM5dfG
- q0zzruSzf6UBMw3m49Lcqc/+9P8gei1egzy/a1z5eT8/Nh6hy8RbFbagSdp2AW1L4kks
- IvnGkHZ1KlKqfC2wj7Wh6BLf/kYjOHECaeiSPjBv9WQD73g3MroLBizcYqyhplKPsmJ8
- oy5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=V/oJpMIKrYVUqk0aWU4T27HfIQvaI2un/rxaetk/LuE=;
- b=lwnICVC6rXibP5hziwCyR4LVcngUYBOab1HXc6PMoT7EvW93fIr1PsqUTL+zfYhEGG
- vjsv1QpJUZTMtgITFhhakXBk4bH2CuVO4WdYeA/09nKAEmkT0vbrNqAGXPreHSwW8f9D
- vmeoF9EGXSyYUC7tyjRttj/avpVXggdga5f9SuRvB+/GOeDO+pUqqBBmEx4PMyTj6kwh
- M+70vPjcijT03J3vsni6UiO3+tmrk+etvFaX6zWAiUYfU8ixvv1HFgaih6W+cMH6uyaF
- QH3ipMafR/wmD2w7TskTP4vsOjJpVGYSGmKBy2kK2Zjl7agrr2HB9MJTU1k5OAk+XhIs
- TMFg==
-X-Gm-Message-State: AOAM533KmN59tGlChOkFgKM9/uB9v3HX4Kod19PWYQ+YxJsV9jg2vSjA
- NUAmoXtRVjbVr4U5FkZ/nSiSazaMSSnf7w==
-X-Google-Smtp-Source: ABdhPJweGHfmKvkdkCLxqWYr89b4XvjiHFWRTXhCEGYjr1WRCLxS6itUjH6KVoUtGeN7LWoxXneXQA==
-X-Received: by 2002:a17:906:2752:: with SMTP id
- a18mr27629671ejd.458.1626691237197; 
- Mon, 19 Jul 2021 03:40:37 -0700 (PDT)
-Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id j22sm5872015ejt.11.2021.07.19.03.40.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 03:40:36 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] qom: use correct field name when getting/setting alias
- properties
-Date: Mon, 19 Jul 2021 12:40:33 +0200
-Message-Id: <20210719104033.185109-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210719104033.185109-1-pbonzini@redhat.com>
-References: <20210719104033.185109-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5Qi4-0002XG-LP
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:41:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5Qi2-0000Lg-QP
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:41:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626691274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uf+2KExhMx8stdhlldJJFx0aoMN0F1ioCD/fjdYVNO0=;
+ b=irZcyRZFj0k71zgbevicDrEn+XZ3S7nu8smByIPeLCMeuRr5NPAqCcfMphmVfBcGmWKf9r
+ Ip6jOdZzMf+ScM56nI70jLYgO7IWljPetoBpP9FCWHxscw+UG8cSS7c2w1XEFsid1iKDqJ
+ i1J0467lBvUTv5FfMI/GEm+ksP+rwmQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-rNJD4JALNkOfukNMnk44jA-1; Mon, 19 Jul 2021 06:41:12 -0400
+X-MC-Unique: rNJD4JALNkOfukNMnk44jA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C25A1100C612;
+ Mon, 19 Jul 2021 10:41:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-11.ams2.redhat.com
+ [10.36.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 59715272A3;
+ Mon, 19 Jul 2021 10:41:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8B01F11326B9; Mon, 19 Jul 2021 12:41:09 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: spapr_events: Sure we may ignore migrate_add_blocker() failure?
+References: <87tukvaejt.fsf@dusky.pond.sub.org> <YPTj6ml6LoMJkypI@yekko>
+ <87lf62ydow.fsf@dusky.pond.sub.org> <YPUn2quWrztTqyML@yekko>
+Date: Mon, 19 Jul 2021 12:41:09 +0200
+In-Reply-To: <YPUn2quWrztTqyML@yekko> (David Gibson's message of "Mon, 19 Jul
+ 2021 17:20:58 +1000")
+Message-ID: <875yx6oabe.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.466,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,70 +80,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, alex.williamson@redhat.com, eblake@redhat.com,
- armbru@redhat.com
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alias targets have a different name than the alias property itself
-(e.g. a machine's pflash0 might be an alias of a property named 'drive').
-When the target's getter or setter invokes the visitor, it will use
-a different name than what the caller expects, and the visitor will
-not be able to find it (or will consume erroneously).
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-The solution is for alias getters and setters to wrap the incoming
-visitor, and forward the sole field that the target is expecting while
-renaming it appropriately.
+> On Mon, Jul 19, 2021 at 09:18:07AM +0200, Markus Armbruster wrote:
+>> David Gibson <david@gibson.dropbear.id.au> writes:
+>> 
+>> > On Thu, Jul 15, 2021 at 03:32:06PM +0200, Markus Armbruster wrote:
+>> >> Commit 2500fb423a "migration: Include migration support for machine
+>> >> check handling" adds this:
+>> >> 
+>> >>     ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_err);
+>> >>     if (ret == -EBUSY) {
+>> >>         /*
+>> >>          * We don't want to abort so we let the migration to continue.
+>> >>          * In a rare case, the machine check handler will run on the target.
+>> >>          * Though this is not preferable, it is better than aborting
+>> >>          * the migration or killing the VM.
+>> >>          */
+>> >>         warn_report("Received a fwnmi while migration was in progress");
+>> >>     }
+>> >> 
+>> >> migrate_add_blocker() can fail in two ways:
+>> >> 
+>> >> 1. -EBUSY: migration is already in progress
+>> >> 
+>> >>    Ignoring this one is clearly intentional.  The comment explains why.
+>> >>    I'm taking it at face value (I'm a spapr ignoramus).
+>> >
+>> > Right.  The argument isn't really about papr particularly, except
+>> > insofar as understanding what fwnmi is.  fwnmi (FirmWare assisted NMI)
+>> > is a reporting mechanism for certain low-level hardware failures
+>> > (think memory ECC or cpu level faults, IIRC).  If we migrate between
+>> > detecting and reporting the error, then the particulars we report will
+>> > be mostly meaningless since they relate to hardware we're no longer
+>> > running on.  Hence the migration blocker.
+>> >
+>> > However, migrating away from a (non-fatal) fwnmi error is a pretty
+>> > reasonable response, so we don't want to actually fail a migration if
+>> > its already in progress.
+>> >
+>> >>    Aside: I doubt
+>> >>    the warning is going to help users.
+>> >
+>> > You're probably right, but it's not very clear how to do better.  It
+>> > might possibly help someone in tech support explain why the reported
+>> > fwnmi doesn't seem to match the hardware the guest is (now) running
+>> > on.
+>> 
+>> Perhaps pointing to the actual problem could help: the FWNMI's
+>> information is mostly meaningless.
+>
+> Sorry, I don't follow what you're suggesting.
 
-This bug has been there forever, but it was exposed after -M parsing
-switched from QemuOptions and StringInputVisitor to keyval and
-QObjectInputVisitor.  Before, the visitor ignored the name. Now, it
-checks "drive" against what was passed on the command line and finds
-that no such property exists.
+We warn
 
-Fixes: #484
-Reported-by: Alex Williamson <alex.williamson@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- qom/object.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+    warning: Received a fwnmi while migration was in progress
 
-diff --git a/qom/object.c b/qom/object.c
-index 6a01d56546..e86cb05b84 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -20,6 +20,7 @@
- #include "qapi/string-input-visitor.h"
- #include "qapi/string-output-visitor.h"
- #include "qapi/qobject-input-visitor.h"
-+#include "qapi/forward-visitor.h"
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qmp/qjson.h"
-@@ -2683,16 +2684,20 @@ static void property_get_alias(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-     AliasProperty *prop = opaque;
-+    Visitor *alias_v = visitor_forward_field(v, prop->target_name, name);
- 
--    object_property_get(prop->target_obj, prop->target_name, v, errp);
-+    object_property_get(prop->target_obj, prop->target_name, alias_v, errp);
-+    visit_free(alias_v);
- }
- 
- static void property_set_alias(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-     AliasProperty *prop = opaque;
-+    Visitor *alias_v = visitor_forward_field(v, prop->target_name, name);
- 
--    object_property_set(prop->target_obj, prop->target_name, v, errp);
-+    object_property_set(prop->target_obj, prop->target_name, alias_v, errp);
-+    visit_free(alias_v);
- }
- 
- static Object *property_resolve_alias(Object *obj, void *opaque,
--- 
-2.31.1
+when we fail to block migration because it's already in progress.
+But what does this mean?  Perhaps warn like this:
+
+    warning: FWNMI while migration is in progress
+    The guest's report for this may be less than useful.
+
+My phrasing may well be off, but I hope you get the idea.
+
+Note that we keep quiet when we fail to block migration due to
+-only-migrate.  I agree with that.  The failure makes a difference only
+when migration gets triggered in a narrow time window, which should be
+quite rare.  Would be nice to warn when migration does get triggered in
+that time window, though.  Not sure it's worth the trouble, in
+particular if we'd have to create infrastructure first.
+
+>
+>> 
+>> >> 2. -EACCES: we're running with -only-migratable
+>> >> 
+>> >>    Why may we ignore -only-migratable here?
+>> >
+>> > Short answer: because I didn't think about that case.  Long answer:
+>> > I think we probably shoud ignore it anyway.  As above, receiving a
+>> > fwnmi doesn't really prevent migration, it just means that if you're
+>> > unlucky it can report stale information.  Since migrating away from a
+>> > possibly-dubious host would be a reasonable response to a non-fatal
+>> > fwnmi, I don't think we want to simply prohibit fwnmi entirely with
+>> > -only-migratable.
+>> 
+>> I think the comment text and placement could be improved to make clear
+>> ignoring this failure is intentional, too.  How do you like the
+>> following?
+>
+> That's fair..
+>
+>> 
+>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+>> index a8f2cc6bdc..54d8e856d3 100644
+>> --- a/hw/ppc/spapr_events.c
+>> +++ b/hw/ppc/spapr_events.c
+>> @@ -911,16 +911,14 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>>          }
+>>      }
+>>  
+>> +    /*
+>> +     * Try to block migration while FWNMI is being handled, so the
+>> +     * machine check handler runs where the information passed to it
+>> +     * actually makes sense.  This won't actually block migration,
+>> +     * only delay it slightly.  If the attempt fails, carry on.
+>> +     */
+>>      ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, NULL);
+>>      if (ret == -EBUSY) {
+>> -        /*
+>> -         * We don't want to abort so we let the migration to continue.
+>> -         * In a rare case, the machine check handler will run on the target.
+>> -         * Though this is not preferable, it is better than aborting
+>> -         * the migration or killing the VM. It is okay to call
+>> -         * migrate_del_blocker on a blocker that was not added (which the
+>> -         * nmi-interlock handler would do when it's called after this).
+>> -         */
+>>          warn_report("Received a fwnmi while migration was in progress");
+>>      }
+>
+> LGTM.
+
+Thanks, I'll post this.
 
 
