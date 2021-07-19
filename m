@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3A03CD426
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:51:18 +0200 (CEST)
-Received: from localhost ([::1]:60906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC1E33CD42E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:53:00 +0200 (CEST)
+Received: from localhost ([::1]:38898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Rnp-0000q4-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:51:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
+	id 1m5RpT-0004wO-Ne
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m5RRS-0005Um-Ci
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:10 -0400
-Received: from mga09.intel.com ([134.134.136.24]:16178)
+ id 1m5RRa-00060X-Hd
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:18 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16187)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m5RRQ-000611-FU
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:10 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035278"
-X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035278"
+ id 1m5RRY-00065D-Qu
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:18 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035281"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035281"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 04:27:43 -0700
+ 19 Jul 2021 04:27:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813685"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813691"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:41 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:43 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/33] q35: Add support for SGX EPC
-Date: Mon, 19 Jul 2021 19:21:23 +0800
-Message-Id: <20210719112136.57018-21-yang.zhong@intel.com>
+Subject: [PATCH v4 21/33] i440fx: Add support for SGX EPC
+Date: Mon, 19 Jul 2021 19:21:24 +0800
+Message-Id: <20210719112136.57018-22-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210719112136.57018-1-yang.zhong@intel.com>
 References: <20210719112136.57018-1-yang.zhong@intel.com>
@@ -70,21 +70,22 @@ Enable SGX EPC virtualization, which is currently only support by KVM.
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 ---
- hw/i386/pc_q35.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/i386/pc_piix.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 04b4a4788d..799c4fc61c 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -178,6 +178,9 @@ static void pc_q35_init(MachineState *machine)
-         x86ms->below_4g_mem_size = machine->ram_size;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 30b8bd6ea9..c0a7552b88 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -154,6 +154,10 @@ static void pc_init1(MachineState *machine,
+         }
      }
  
 +    if (x86ms->sgx_epc_list) {
 +        pc_machine_init_sgx_epc(pcms);
 +    }
++
      x86_cpus_init(x86ms, pcmc->default_cpu_version);
  
-     kvmclock_create(pcmc->kvmclock_create_always);
+     if (pcmc->kvmclock_enabled) {
 
