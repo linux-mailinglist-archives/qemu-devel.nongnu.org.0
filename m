@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244A43CD03A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:12:36 +0200 (CEST)
-Received: from localhost ([::1]:57932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 113E43CD003
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:06:28 +0200 (CEST)
+Received: from localhost ([::1]:44852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5PKF-0001AC-7m
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:12:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59522)
+	id 1m5PEJ-0000bw-4J
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1m5PGl-00021B-AD
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:08:59 -0400
-Received: from mga05.intel.com ([192.55.52.43]:20947)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m5PCo-0008FH-2O
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:04:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1m5PGj-0004RY-9o
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:08:59 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="296581757"
-X-IronPort-AV: E=Sophos;i="5.84,251,1620716400"; d="scan'208";a="296581757"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 02:08:56 -0700
-X-IronPort-AV: E=Sophos;i="5.84,251,1620716400"; d="scan'208";a="499842199"
-Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 02:08:53 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PULL V3 for 6.2 6/6] net/net.c: Add handler for passthrough filter
- command
-Date: Mon, 19 Jul 2021 17:00:51 +0800
-Message-Id: <20210719090051.3824672-7-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210719090051.3824672-1-chen.zhang@intel.com>
-References: <20210719090051.3824672-1-chen.zhang@intel.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m5PCk-0001iM-Tp
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:04:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626685489;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=flLZxojVyde9myhMfGv7cjWOpp3nOeYY02pcHhlKLT8=;
+ b=FhkNak074HCopH366peCq9P/ctuADUYgstl2N9jSKNcg/oBXMPPmoFJx/6ADk4pRBy26sz
+ lmKhAWdHgZnmdS+amBPSUAakaHwteuZgWrObqe+BAA3s3DDT4e0ueLAbKcEE3oGwsCIfNB
+ pmIxcnQKhqX8J7b33pw4da9MINh2mKg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-384-a3yqwFH5OT-sTdLKTH9xtA-1; Mon, 19 Jul 2021 05:04:47 -0400
+X-MC-Unique: a3yqwFH5OT-sTdLKTH9xtA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 840FB100C611;
+ Mon, 19 Jul 2021 09:04:46 +0000 (UTC)
+Received: from redhat.com (ovpn-112-193.ams2.redhat.com [10.36.112.193])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A29D240AC;
+ Mon, 19 Jul 2021 09:04:37 +0000 (UTC)
+Date: Mon, 19 Jul 2021 10:04:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] gitlab-ci: Remove the second superfluous macos task
+Message-ID: <YPVAInhYVnDvOf+c@redhat.com>
+References: <20210719073051.1559348-1-thuth@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210719073051.1559348-1-thuth@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
- helo=mga05.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.466,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,246 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>,
- Zhang Chen <chen.zhang@intel.com>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the connection protocol,src port,dst port,src ip,dst ip as the key
-to passthrough certain network traffic in object with network packet
-processing function.
+On Mon, Jul 19, 2021 at 09:30:51AM +0200, Thomas Huth wrote:
+> While there might have been bigger differnces between the -base and
+> the -xcode images in the beginning, they almost vanished in the
+> current builds, e.g. when comparing the output of the "configure"
+> step after cleaning up the differences due to temporary path names,
+> I only get:
+> 
+> $ diff -u /tmp/base.txt /tmp/xcode.txt
+> --- /tmp/base.txt	2021-07-16 09:16:24.211427940 +0200
+> +++ /tmp/xcode.txt	2021-07-16 09:16:43.029684274 +0200
+> @@ -19,14 +19,14 @@
+>  Build type: native build
+>  Project name: qemu
+>  Project version: 6.0.50
+> -C compiler for the host machine: cc (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.29)")
+> +C compiler for the host machine: cc (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.28)")
+>  C linker for the host machine: cc ld64 609.8
+>  Host machine cpu family: x86_64
+>  Host machine cpu: x86_64
+>  Program sh found: YES (/bin/sh)
+>  Program python3 found: YES (/usr/local/opt/python@3.9/bin/python3.9)
+>  Program bzip2 found: YES (/usr/bin/bzip2)
+> -C++ compiler for the host machine: c++ (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.29)")
+> +C++ compiler for the host machine: c++ (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.28)")
+>  C++ linker for the host machine: c++ ld64 609.8
+>  Objective-C compiler for the host machine: clang (clang 12.0.0)
+>  Objective-C linker for the host machine: clang ld64 609.8
+> 
+> Since we're not using Xcode itself at all, it seems like it does not
+> make much sense anymore to waste compute cycles with two images here.
+> Thus let's delete the -xcode job now.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.d/cirrus.yml | 15 ---------------
+>  1 file changed, 15 deletions(-)
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/net.c | 199 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 197 insertions(+), 2 deletions(-)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/net/net.c b/net/net.c
-index 00f2be7a58..9ede98d166 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -55,6 +55,8 @@
- #include "net/colo-compare.h"
- #include "net/filter.h"
- #include "qapi/string-output-visitor.h"
-+#include "net/colo-compare.h"
-+#include "qom/object_interfaces.h"
- 
- /* Net bridge is currently not supported for W32. */
- #if !defined(_WIN32)
-@@ -1195,14 +1197,207 @@ void qmp_netdev_del(const char *id, Error **errp)
-     }
- }
- 
-+static int check_addr(InetSocketAddressBase *addr)
-+{
-+    if (!addr || (addr->host && !qemu_isdigit(addr->host[0]))) {
-+        return -1;
-+    }
-+
-+    if (atoi(addr->port) > 65536 || atoi(addr->port) < 0) {
-+        return -1;
-+    }
-+
-+    return 0;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static CompareState *passthrough_filter_check(IPFlowSpec *spec, Error **errp)
-+{
-+    Object *container;
-+    Object *obj;
-+    CompareState *s;
-+
-+    if (!spec->object_name) {
-+        error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "object-name",
-+                   "Need input object name");
-+        return NULL;
-+    }
-+
-+    container = object_get_objects_root();
-+    obj = object_resolve_path_component(container, spec->object_name);
-+    if (!obj) {
-+        error_setg(errp, "object '%s' not found", spec->object_name);
-+        return NULL;
-+    }
-+
-+    s = COLO_COMPARE(obj);
-+
-+    if (!getprotobyname(spec->protocol)) {
-+        error_setg(errp, "Passthrough filter get wrong protocol");
-+        return NULL;
-+    }
-+
-+    if (spec->source) {
-+        if (check_addr(spec->source)) {
-+            error_setg(errp, "Passthrough filter get wrong source");
-+            return NULL;
-+        }
-+    }
-+
-+    if (spec->destination) {
-+        if (check_addr(spec->destination)) {
-+            error_setg(errp, "Passthrough filter get wrong destination");
-+            return NULL;
-+        }
-+    }
-+
-+    return s;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static COLOPassthroughEntry *passthrough_filter_find(CompareState *s,
-+                                                     COLOPassthroughEntry *ent)
-+{
-+    COLOPassthroughEntry *next = NULL, *origin = NULL;
-+
-+    if (!QLIST_EMPTY(&s->passthroughlist)) {
-+        QLIST_FOREACH_SAFE(origin, &s->passthroughlist, node, next) {
-+            if ((ent->l4_protocol.p_proto == origin->l4_protocol.p_proto) &&
-+                (ent->src_port == origin->src_port) &&
-+                (ent->dst_port == origin->dst_port) &&
-+                (ent->src_ip.s_addr == origin->src_ip.s_addr) &&
-+                (ent->dst_ip.s_addr == origin->dst_ip.s_addr)) {
-+                return origin;
-+            }
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+/* The initial version only supports colo-compare */
-+static void passthrough_filter_add(CompareState *s,
-+                                   IPFlowSpec *spec,
-+                                   Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    if (spec->protocol) {
-+        memcpy(&pass->l4_protocol, getprotobyname(spec->protocol),
-+               sizeof(struct protoent));
-+    }
-+
-+    if (spec->source) {
-+        if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+            pass->src_ip.s_addr = 0;
-+        }
-+
-+        pass->src_port = atoi(spec->source->port);
-+    }
-+
-+    if (spec->destination) {
-+        if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+            pass->dst_ip.s_addr = 0;
-+        }
-+
-+        pass->dst_port = atoi(spec->destination->port);
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+    if (passthrough_filter_find(s, pass)) {
-+        error_setg(errp, "The pass through connection already exists");
-+        g_free(pass);
-+        qemu_mutex_unlock(&s->passthroughlist_mutex);
-+        return;
-+    }
-+
-+    QLIST_INSERT_HEAD(&s->passthroughlist, pass, node);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+/* The initial version only supports colo-compare */
-+static void passthrough_filter_del(CompareState *s,
-+                                   IPFlowSpec *spec,
-+                                   Error **errp)
-+{
-+    COLOPassthroughEntry *pass = NULL, *result = NULL;
-+
-+    pass = g_new0(COLOPassthroughEntry, 1);
-+
-+    if (spec->protocol) {
-+        memcpy(&pass->l4_protocol, getprotobyname(spec->protocol),
-+               sizeof(struct protoent));
-+    }
-+
-+    if (spec->source) {
-+        if (!inet_aton(spec->source->host, &pass->src_ip)) {
-+            pass->src_ip.s_addr = 0;
-+        }
-+
-+        pass->src_port = atoi(spec->source->port);
-+    }
-+
-+    if (spec->destination) {
-+        if (!inet_aton(spec->destination->host, &pass->dst_ip)) {
-+            pass->dst_ip.s_addr = 0;
-+        }
-+
-+        pass->dst_port = atoi(spec->destination->port);
-+    }
-+
-+    qemu_mutex_lock(&s->passthroughlist_mutex);
-+
-+    result = passthrough_filter_find(s, pass);
-+    if (result) {
-+        QLIST_REMOVE(result, node);
-+        g_free(result);
-+    } else {
-+        error_setg(errp, "Can't find the IP flow Spec");
-+    }
-+
-+    g_free(pass);
-+    g_free(spec);
-+    qemu_mutex_unlock(&s->passthroughlist_mutex);
-+}
-+
-+/* The initial version only supports colo-compare */
- void qmp_passthrough_filter_add(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement setup passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = passthrough_filter_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    passthrough_filter_add(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
-+/* The initial version only supports colo-compare */
- void qmp_passthrough_filter_del(IPFlowSpec *spec, Error **errp)
- {
--    /* TODO implement delete passthrough rule */
-+    CompareState *s;
-+    Error *err = NULL;
-+
-+    s = passthrough_filter_check(spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    passthrough_filter_del(s, spec, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
- }
- 
- static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
+
+We can always add it back easily later if it becomes relevant again in
+a future release/update.
+
+
+Regards,
+Daniel
 -- 
-2.25.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
