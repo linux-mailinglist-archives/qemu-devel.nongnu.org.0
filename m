@@ -2,144 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 023403CEDDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 22:44:42 +0200 (CEST)
-Received: from localhost ([::1]:50118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F243CEDE4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 22:49:23 +0200 (CEST)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5a81-00012b-2B
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 16:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
+	id 1m5aCY-0002cs-MI
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 16:49:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john.levon@nutanix.com>)
- id 1m5ZoH-0002Qo-A2
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 16:24:17 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:41152)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m5ZqZ-0004wC-HC; Mon, 19 Jul 2021 16:26:39 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:34123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john.levon@nutanix.com>)
- id 1m5ZoF-0003ov-8v
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 16:24:16 -0400
-Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16JKChkX009824; Mon, 19 Jul 2021 13:24:12 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=np+86js3+A3IgH1Qtn4mz0HMLTuZ0qg7OMcJ69m+2Os=;
- b=DzWQP1zcUVb/aUI+G8BsC5cK+StT5FLbzkHfq4snaBWRkBPv/5gexwiynzA4GDJCZUtp
- yK6sFkie0Cmsz60hdKgA6IC9BEeShnnfnq5VfmH8yZeXeGlgSSJjt17ECWrMK4cW2RgD
- I/eB5aTZMGMR22EEQDamhb+nIO4cTUU0FehyddRklCQSMICHxpMtinnCthITx/F47fwQ
- DAuBVv2fmIcmfeaZULV5X0IUIXcT+edyLdOMf4z0S2WZQDElg19FMn+xAKxEf7tsYa/w
- AriYNRFC8yc4yTwqj1C4WM+MCN2bdKWCIfNxUb6km8ubCHNlB2C9EkTJXouuof+7kffg eA== 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2171.outbound.protection.outlook.com [104.47.59.171])
- by mx0b-002c1b01.pphosted.com with ESMTP id 39w6ues6aj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 19 Jul 2021 13:24:11 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=G19MNJeIcxpP0OkwVjtteXsPTm3wbCvLa1M2Bd7h/kSkG6PmvOxC0uJYbgeb04bqpMg3P6Smgv5cBlIG4aIV4lQLoIR5NzJ3NFO5cDdQbEPLqMbyTtPuhmquiLlncQReB1nkEL6Ki22DymTNdFZXXCBEg6w57sxKeigDGkR8PvnuMxneIY0oD+Li10s9dXoXyGu+f565mnYCB0N7qJwsnY7r1Uj8LjEY4DZawzy6HpAP3Its9y49l1OusVggvxgIQqmJU9bY12DWxeqWag43Bwf7KRUYG1cR0eLYSbzpqi/bInz125luvwdELn5oGC8N9mWclXGFffPHwl2ER4q6Lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=np+86js3+A3IgH1Qtn4mz0HMLTuZ0qg7OMcJ69m+2Os=;
- b=MepjCqtbwNqwvgXYKsCer1f6ySvFMK+umwSqIbZ5Je8548xo2QFfCEzX96JL1ZcR7pHsN4X/Dla9dMzNuC6IFc64xVAyngwIvYKB2eOIx9sX8Usl5SrEGfZNjzbXSYkeb88sc2GDsyjvF0L0d7Ovi/HFNDAlNVH4scS1TjqSz2EJZGiMGrGcz3e7koZspJQsTMKzjE2U738RvTrpySNk2Nzod7dmH+5HbaUO78/LwLifNyhvdW/4S15UT2+GRxadKeJL0dxN3O35ZpBzlsqL0j4hhos0MzoJ+/XrCrWqoPd99GSSalPU0sKx71SZqAyH57B3f/WIqnWFO1zF3e9cRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL0PR02MB4580.namprd02.prod.outlook.com (2603:10b6:208:40::27)
- by BL0PR02MB5380.namprd02.prod.outlook.com (2603:10b6:208:36::27)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.24; Mon, 19 Jul
- 2021 20:24:10 +0000
-Received: from BL0PR02MB4580.namprd02.prod.outlook.com
- ([fe80::6903:7fea:be33:66cc]) by BL0PR02MB4580.namprd02.prod.outlook.com
- ([fe80::6903:7fea:be33:66cc%3]) with mapi id 15.20.4331.033; Mon, 19 Jul 2021
- 20:24:10 +0000
-From: John Levon <john.levon@nutanix.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH RFC server 01/11] vfio-user: build library
-Thread-Topic: [PATCH RFC server 01/11] vfio-user: build library
-Thread-Index: AQHXfNjN3zFKUMpA3kSJq81CK0nbJ6tKvl2A
-Date: Mon, 19 Jul 2021 20:24:10 +0000
-Message-ID: <20210719202409.GB1443636@movementarian.org>
-References: <cover.1626675354.git.elena.ufimtseva@oracle.com>
- <cover.1626722742.git.jag.raman@oracle.com>
- <5002d6a67cb6c429b2e3d21e106b468176e82a1f.1626722742.git.jag.raman@oracle.com>
-In-Reply-To: <5002d6a67cb6c429b2e3d21e106b468176e82a1f.1626722742.git.jag.raman@oracle.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=nutanix.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 931d61c3-1489-4d08-566e-08d94af32aa3
-x-ms-traffictypediagnostic: BL0PR02MB5380:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL0PR02MB53804D697904A89A79F1062297E19@BL0PR02MB5380.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6rloH3jKagHDhk48PvkSxdBHc8FU3UaBTOjgstzMklPLv8Y02pmYKBVi7NSPdyB5N0n3KqBO+reViMW9DwxzmW74hvQ7hp07lKkcACF80JfWkRmcss+oXpvIFYM6Q6SvNh53d/yiZt+5oSFizYKJiYkZGuNx1K2ECBOvA9zcuTDo1iBrU7VwrTuv/CeTquxZRoXTfcpYAneJWmhZ9NrFrLjYt4vW2YWcooRJo/2VLkZWT1SPpOKaPpoughUpxJ9Indm4KTDdWl5GQbybU7LpWQafCb/ALQyoJ3xJ6mSJSCB1fWtMzApNy7u+oDms67/TLw6FbVvhtjFqx3S8NOTjdF4zBotpUI/d0mKYBDkU/1ry7ZuX8zQeJCUBOztZXuP0HGewZiEAv77UIU54PUZskXGh+CnMXqyeTKPVwZVbRor8cQNgDA0nn7Kb2LG3Oyn/W1aJVvx8ksTUO8kG64Ho+bxkTaAcb9moTLK8Am5ndAFnV5X6rxYYQjwrRk5v+dLFKTndn9BUuPYnelm/vZCheFP8JGDDN+lPNygP5JIK3RYe8c9B7KtFsGMBfwARPjLz7R5Z0pm+E3wfn4Su1vs5wbtabI/KGWmuy08T2mAFTMxXrN8tJLXpQOwa/nSEi1+DJMf01fFcygWSCQn7ckJ3CmR2KlJQlHioWJxBJ5F7SdCscSUee6v00QgjcguRx7Kjo/kfIBzCot+HQ9/uysFhBA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR02MB4580.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(376002)(366004)(346002)(136003)(396003)(6512007)(1076003)(186003)(4326008)(107886003)(33656002)(9686003)(6486002)(478600001)(8936002)(316002)(54906003)(26005)(36756003)(8676002)(6506007)(91956017)(2906002)(5660300002)(38100700002)(122000001)(76116006)(71200400001)(66946007)(64756008)(66446008)(66476007)(66556008)(6916009)(86362001)(44832011)(38070700004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?fjK6G5gsHrgycz7sQ1DBW+9kdflL5jm8A7UF9Tf0y7mZmP74/Ge6xAMOK4Hd?=
- =?us-ascii?Q?iTVIADM/6n1PnyfZwKt2x/NXPbIQC6huvXLTiRT7KQNSoB+KWNgZaXm77jx1?=
- =?us-ascii?Q?e9/Y+L52qCh2PGXEaydYOzJydG4Gtgvgf5P7mjWT2ubpa6GvW5q3rZo3CKV1?=
- =?us-ascii?Q?o/fXX/nT0nc4R8IMdsHp1NTiFK9ZK1/x/pEr+YanhLxphvzDeULu8o2v2bos?=
- =?us-ascii?Q?gVHzT8n0/iPlzwvHcew3QdEZlSw12khd0Jmqlf9KaKmPTj8979xy3HnjSMlp?=
- =?us-ascii?Q?4/2p477I3Ui+ohi8aqhl2bokfTCs4zIE7nITicpT4HuNnQfie+WpDSAXMiHT?=
- =?us-ascii?Q?MjYe3tSElds33/iZtVyQEd82fEkunf3LgbKx9t2EgWmhAPcb9HEAg3PC9iRB?=
- =?us-ascii?Q?Vv86JC/RSKqYbajDvD/JkK+r62hERCMxO4ibaJ/kTOuqAxBwLc7De7QgdMhM?=
- =?us-ascii?Q?ykrC6e2xDlGZRM3MEJydYAGhNIY33A8fOWRdhPmc5x7cAklg1zf5qU1lHUmk?=
- =?us-ascii?Q?fqMOFCEqkK2KhNAs4goch4EDQRuqjsemOh95pQaE3ETUohLA1wfOWjCLR6Zc?=
- =?us-ascii?Q?2LI6YQWQUNK5jY7ZYcVG3NSTxwQ5o0Is/CEQW9kTlMyC/IQ8TSq4mynnEarS?=
- =?us-ascii?Q?PMj9AFWowHeRQ4LABQYCJW4frruD1EPeHlenLjbYO1i1z+JpckXuPpdimE27?=
- =?us-ascii?Q?fCi+OzsN66Io+KuzwEAFsAhU85e0BnLJjTBWWG0a0PA80jeKplRb5E6Iq+WK?=
- =?us-ascii?Q?lSkF3VUQ4T+VcQmoshyR7ey7B0byHnTkCb70jafslH6BUzC4Ww4i84hR9j1G?=
- =?us-ascii?Q?mAsXgp8F4TEm7K7781Mu3+LeHCFA+WcdnyZG+Vl9XforJf7PE/RqNPk9HcfD?=
- =?us-ascii?Q?FKhpR9siqPjC+xw+LC5/HK5/+gl20m/qDXIVgzzYqwAhca4EpM/td3tDsX6b?=
- =?us-ascii?Q?TAMLxVVKXzNuzJocV+wyncq9513DtMzhWYkXB357UDIHeolYwKYg3ZVPrvqf?=
- =?us-ascii?Q?v5G2BGY+pGNtcm06KVFunRdtAWVcHTiBNKwO2Ohg0GAxm/1sIKL5wSOAdN4P?=
- =?us-ascii?Q?Spx7kC71yh+GmkyfxNKQhgSUFg1oBBGBpQH1cTm76ugo8aZw2N5Y9ojXY23K?=
- =?us-ascii?Q?ggF78J5HHJWx8xtNIAmX+qCoqjcsBLhejvZZObTNK2363co/92qITKVUioeb?=
- =?us-ascii?Q?JkczR7MqsZvmJqX+WeG8S2xSBGeH90XKOoAnKZkhshBgStDsfy+xZqnhV6bs?=
- =?us-ascii?Q?kHgM8zfYwzugg1XWNuId4bWVOczlgO+ubiWIuvFIBlgiHGGDXIZBt+akCU02?=
- =?us-ascii?Q?ZphPB8IJt63N6SYCdLJCoRRR?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <A72583EEB685134AA2F73F7919DD14E4@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m5ZqX-0005Tp-1j; Mon, 19 Jul 2021 16:26:39 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id DFA7458163E;
+ Mon, 19 Jul 2021 16:26:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 19 Jul 2021 16:26:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=Dm2uU+oRPpg2n7496539neURpDa
+ ODOOEZ40hExspzgg=; b=h9KMTLnO0SaglK0DkSP2eEoJgNEpOxZmp289aHWa+WY
+ GgToKTUGJfmH4eJ/e9k1MNxSpn2zzNvZO96a0j2x+42WvCefldgy2NRPl++RTT/9
+ OFubqbxSVsLrSGv+jiwg9ky3O9rAzYp6QfblzICL1V1uQoL4QFV/7Hr21IL7EH4g
+ s8TuiK8ayFOD2y1ZhxRCJAQgIG2z1j/HpqkPsHQ6QhjRK9ZeOCcI+BTMoccPLarH
+ +y2szm3+58tR7FIP+f2N68fvxlhK4ACR8bEJq0TsZRBCFZwU1dHtdbmjkIHX0hZE
+ ohQR6waSaLbfSVXV7vV3XhCqGw3fSNsqrU5luCTSL2w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Dm2uU+
+ oRPpg2n7496539neURpDaODOOEZ40hExspzgg=; b=CIJeKXYT26gVKMrYhaRWi9
+ inCFU8TsL2LkdZW/5vNe0k+VCXiYdNDidJ8j2xwq8Tk135F6huIo1w4Ec0l9m0rk
+ SmjPFJcVUms/UvdQKcPBK6f7yfDLAoBajenolfjrxE+h0JQdG0hxVq9cSbxACwgY
+ dld7S3G/D5LI9gXccbHP12ZkQ0ZbqtYOD+Fc2mH+cmOi2mfywcWnXcHrOqQH7oBy
+ cJYRsI2qVpnpCq7rlPh9FNcV0qvS0Wa4LhES4cXJYblwgcdawOTT2csBmvLAJSlm
+ cEozGizsp6ryKQfRc7HLpgdkI8OuI2albAQTmCTmhTRdz+/xBbAiVEa32o2il4oQ
+ ==
+X-ME-Sender: <xms:-9_1YITsMjeOS1A2GRJW9DeRiIqfPRwtrM52HTnMRQ_LIw2PM4ooig>
+ <xme:-9_1YFxo0wqVKN5snIls9oKeCFFKGmEfyJ3N7DJb0mNfPspWKTcBTN9Z3JZnA1IgK
+ -PKWeuAbqKM3U0KDaQ>
+X-ME-Received: <xmr:-9_1YF1v9n9UE79U75V2iGu5ak8zG0_8K-9o38sWmSqOB8deHP1pqbHAjNkM0qFTQyn2sIw4YIfJTxzTaI-QDmBypzBT0JvITJkkce7RvB6iZAdpug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedtgddugeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:-9_1YMBkmnjZYDbcnWxu0UDoHKMsU5uVuTxqLSoJNjgpfy_bviQE7Q>
+ <xmx:-9_1YBgqha1dphTgpFDGym4Kh_Ou-iaR-GVVGxhWWzJNdNEDsSAYew>
+ <xmx:-9_1YIoYi6TmDEFXnWk5LGA1VIGId0YyUcxAJsK2UB4LMcbmZTC4HQ>
+ <xmx:-9_1YETgatEqRT2okBGeb2mq-j0jbRnNajG3t2TJccGBv4PXDzesxQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jul 2021 16:26:33 -0400 (EDT)
+Date: Mon, 19 Jul 2021 22:26:31 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 4/5] hw/nvme: fix mmio read
+Message-ID: <YPXf93sWvU9549Y2@apples.localdomain>
+References: <20210719200733.28502-1-its@irrelevant.dk>
+ <20210719200733.28502-5-its@irrelevant.dk>
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR02MB4580.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 931d61c3-1489-4d08-566e-08d94af32aa3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2021 20:24:10.0912 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XdTv2j+vD0q/idX3nUCt2xhOC5XJ9UwDaPBmfSyQrcstYlETfrh2uhmsaozoevhzWIoPl2/UYSn/S+RWTOzV5g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB5380
-X-Proofpoint-ORIG-GUID: LRQeS3WrNKdkfi5QyOKfT3RCNtLfS9oW
-X-Proofpoint-GUID: LRQeS3WrNKdkfi5QyOKfT3RCNtLfS9oW
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-19_10:2021-07-19,
- 2021-07-19 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=john.levon@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BBiaORtz6HKKkGx8"
+Content-Disposition: inline
+In-Reply-To: <20210719200733.28502-5-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -152,69 +93,438 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "elena.ufimtseva@oracle.com" <elena.ufimtseva@oracle.com>,
- "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Kevin Wolf <kwolf@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19, 2021 at 04:00:03PM -0400, Jagannathan Raman wrote:
 
-> add the libvfio-user library as a submodule. build it as part of QEMU
+--BBiaORtz6HKKkGx8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Jul 19 22:07, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
 >=20
-> diff --git a/meson.build b/meson.build
-> index 6e4d2d8..f2f9f86 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1894,6 +1894,41 @@ if get_option('cfi') and slirp_opt =3D=3D 'system'
->           + ' Please configure with --enable-slirp=3Dgit')
->  endif
+> The new PMR test unearthed a long-standing issue with MMIO reads on
+> big-endian hosts.
+>=20
+> Fix this by unconditionally storing all controller registers in little
+> endian.
+>=20
+> Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/nvme/ctrl.c | 290 +++++++++++++++++++++++++++----------------------
+>  1 file changed, 162 insertions(+), 128 deletions(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 0449cc4dee9b..76721e31c6b1 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -439,10 +439,12 @@ static uint8_t nvme_sq_empty(NvmeSQueue *sq)
 > =20
-> +vfiouser =3D not_found
-> +if have_system and multiprocess_allowed
-> +  have_internal =3D fs.exists(meson.current_source_dir() / 'libvfio-user=
-/Makefile')
+>  static void nvme_irq_check(NvmeCtrl *n)
+>  {
+> +    uint32_t intms =3D ldl_le_p(&n->bar.intms);
 > +
-> +  if not have_internal
-> +    error('libvfio-user source not found - please pull git submodule')
-> +  endif
+>      if (msix_enabled(&(n->parent_obj))) {
+>          return;
+>      }
+> -    if (~n->bar.intms & n->irq_status) {
+> +    if (~intms & n->irq_status) {
+>          pci_irq_assert(&n->parent_obj);
+>      } else {
+>          pci_irq_deassert(&n->parent_obj);
+> @@ -1289,7 +1291,7 @@ static void nvme_post_cqes(void *opaque)
+>          if (ret) {
+>              trace_pci_nvme_err_addr_write(addr);
+>              trace_pci_nvme_err_cfs();
+> -            n->bar.csts =3D NVME_CSTS_FAILED;
+> +            stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+>              break;
+>          }
+>          QTAILQ_REMOVE(&cq->req_list, req, entry);
+> @@ -4022,7 +4024,7 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeReq=
+uest *req)
+>          trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
+>          return NVME_INVALID_QID | NVME_DNR;
+>      }
+> -    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
+> +    if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))=
+) {
+>          trace_pci_nvme_err_invalid_create_sq_size(qsize);
+>          return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+>      }
+> @@ -4208,7 +4210,7 @@ static uint16_t nvme_cmd_effects(NvmeCtrl *n, uint8=
+_t csi, uint32_t buf_len,
+>          return NVME_INVALID_FIELD | NVME_DNR;
+>      }
+> =20
+> -    switch (NVME_CC_CSS(n->bar.cc)) {
+> +    switch (NVME_CC_CSS(ldl_le_p(&n->bar.cc))) {
+>      case NVME_CC_CSS_NVM:
+>          src_iocs =3D nvme_cse_iocs_nvm;
+>          /* fall through */
+> @@ -4370,7 +4372,7 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeReq=
+uest *req)
+>          trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
+>          return NVME_INVALID_QID | NVME_DNR;
+>      }
+> -    if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
+> +    if (unlikely(!qsize || qsize > NVME_CAP_MQES(ldq_le_p(&n->bar.cap)))=
+) {
+>          trace_pci_nvme_err_invalid_create_cq_size(qsize);
+>          return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+>      }
+> @@ -5163,17 +5165,19 @@ static void nvme_update_dmrsl(NvmeCtrl *n)
+> =20
+>  static void nvme_select_iocs_ns(NvmeCtrl *n, NvmeNamespace *ns)
+>  {
+> +    uint32_t cc =3D ldl_le_p(&n->bar.cc);
 > +
-> +  vfiouser_files =3D [
-> +    'libvfio-user/lib/dma.c',
-> +    'libvfio-user/lib/irq.c',
-> +    'libvfio-user/lib/libvfio-user.c',
-> +    'libvfio-user/lib/migration.c',
-> +    'libvfio-user/lib/pci.c',
-> +    'libvfio-user/lib/pci_caps.c',
-> +    'libvfio-user/lib/tran_sock.c',
-> +  ]
+>      ns->iocs =3D nvme_cse_iocs_none;
+>      switch (ns->csi) {
+>      case NVME_CSI_NVM:
+> -        if (NVME_CC_CSS(n->bar.cc) !=3D NVME_CC_CSS_ADMIN_ONLY) {
+> +        if (NVME_CC_CSS(cc) !=3D NVME_CC_CSS_ADMIN_ONLY) {
+>              ns->iocs =3D nvme_cse_iocs_nvm;
+>          }
+>          break;
+>      case NVME_CSI_ZONED:
+> -        if (NVME_CC_CSS(n->bar.cc) =3D=3D NVME_CC_CSS_CSI) {
+> +        if (NVME_CC_CSS(cc) =3D=3D NVME_CC_CSS_CSI) {
+>              ns->iocs =3D nvme_cse_iocs_zoned;
+> -        } else if (NVME_CC_CSS(n->bar.cc) =3D=3D NVME_CC_CSS_NVM) {
+> +        } else if (NVME_CC_CSS(cc) =3D=3D NVME_CC_CSS_NVM) {
+>              ns->iocs =3D nvme_cse_iocs_nvm;
+>          }
+>          break;
+> @@ -5510,7 +5514,7 @@ static void nvme_process_sq(void *opaque)
+>          if (nvme_addr_read(n, addr, (void *)&cmd, sizeof(cmd))) {
+>              trace_pci_nvme_err_addr_read(addr);
+>              trace_pci_nvme_err_cfs();
+> -            n->bar.csts =3D NVME_CSTS_FAILED;
+> +            stl_le_p(&n->bar.csts, NVME_CSTS_FAILED);
+>              break;
+>          }
+>          nvme_inc_sq_head(sq);
+> @@ -5565,8 +5569,6 @@ static void nvme_ctrl_reset(NvmeCtrl *n)
+>      n->aer_queued =3D 0;
+>      n->outstanding_aers =3D 0;
+>      n->qs_created =3D false;
+> -
+> -    n->bar.cc =3D 0;
+>  }
+> =20
+>  static void nvme_ctrl_shutdown(NvmeCtrl *n)
+> @@ -5605,7 +5607,12 @@ static void nvme_select_iocs(NvmeCtrl *n)
+> =20
+>  static int nvme_start_ctrl(NvmeCtrl *n)
+>  {
+> -    uint32_t page_bits =3D NVME_CC_MPS(n->bar.cc) + 12;
+> +    uint64_t cap =3D ldq_le_p(&n->bar.cap);
+> +    uint32_t cc =3D ldl_le_p(&n->bar.cc);
+> +    uint32_t aqa =3D ldl_le_p(&n->bar.aqa);
+> +    uint64_t asq =3D ldq_le_p(&n->bar.asq);
+> +    uint64_t acq =3D ldq_le_p(&n->bar.acq);
+> +    uint32_t page_bits =3D NVME_CC_MPS(cc) + 12;
+>      uint32_t page_size =3D 1 << page_bits;
+> =20
+>      if (unlikely(n->cq[0])) {
+> @@ -5616,73 +5623,72 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+>          trace_pci_nvme_err_startfail_sq();
+>          return -1;
+>      }
+> -    if (unlikely(!n->bar.asq)) {
+> +    if (unlikely(!asq)) {
+>          trace_pci_nvme_err_startfail_nbarasq();
+>          return -1;
+>      }
+> -    if (unlikely(!n->bar.acq)) {
+> +    if (unlikely(!acq)) {
+>          trace_pci_nvme_err_startfail_nbaracq();
+>          return -1;
+>      }
+> -    if (unlikely(n->bar.asq & (page_size - 1))) {
+> -        trace_pci_nvme_err_startfail_asq_misaligned(n->bar.asq);
+> +    if (unlikely(asq & (page_size - 1))) {
+> +        trace_pci_nvme_err_startfail_asq_misaligned(asq);
+>          return -1;
+>      }
+> -    if (unlikely(n->bar.acq & (page_size - 1))) {
+> -        trace_pci_nvme_err_startfail_acq_misaligned(n->bar.acq);
+> +    if (unlikely(acq & (page_size - 1))) {
+> +        trace_pci_nvme_err_startfail_acq_misaligned(acq);
+>          return -1;
+>      }
+> -    if (unlikely(!(NVME_CAP_CSS(n->bar.cap) & (1 << NVME_CC_CSS(n->bar.c=
+c))))) {
+> -        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(n->bar.cc));
+> +    if (unlikely(!(NVME_CAP_CSS(cap) & (1 << NVME_CC_CSS(cc))))) {
+> +        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(cc));
+>          return -1;
+>      }
+> -    if (unlikely(NVME_CC_MPS(n->bar.cc) <
+> -                 NVME_CAP_MPSMIN(n->bar.cap))) {
+> +    if (unlikely(NVME_CC_MPS(cc) < NVME_CAP_MPSMIN(cap))) {
+>          trace_pci_nvme_err_startfail_page_too_small(
+> -                    NVME_CC_MPS(n->bar.cc),
+> -                    NVME_CAP_MPSMIN(n->bar.cap));
+> +                    NVME_CC_MPS(cc),
+> +                    NVME_CAP_MPSMIN(cap));
+>          return -1;
+>      }
+> -    if (unlikely(NVME_CC_MPS(n->bar.cc) >
+> -                 NVME_CAP_MPSMAX(n->bar.cap))) {
+> +    if (unlikely(NVME_CC_MPS(cc) >
+> +                 NVME_CAP_MPSMAX(cap))) {
+>          trace_pci_nvme_err_startfail_page_too_large(
+> -                    NVME_CC_MPS(n->bar.cc),
+> -                    NVME_CAP_MPSMAX(n->bar.cap));
+> +                    NVME_CC_MPS(cc),
+> +                    NVME_CAP_MPSMAX(cap));
+>          return -1;
+>      }
+> -    if (unlikely(NVME_CC_IOCQES(n->bar.cc) <
+> +    if (unlikely(NVME_CC_IOCQES(cc) <
+>                   NVME_CTRL_CQES_MIN(n->id_ctrl.cqes))) {
+>          trace_pci_nvme_err_startfail_cqent_too_small(
+> -                    NVME_CC_IOCQES(n->bar.cc),
+> -                    NVME_CTRL_CQES_MIN(n->bar.cap));
+> +                    NVME_CC_IOCQES(cc),
+> +                    NVME_CTRL_CQES_MIN(cap));
+>          return -1;
+>      }
+> -    if (unlikely(NVME_CC_IOCQES(n->bar.cc) >
+> +    if (unlikely(NVME_CC_IOCQES(cc) >
+>                   NVME_CTRL_CQES_MAX(n->id_ctrl.cqes))) {
+>          trace_pci_nvme_err_startfail_cqent_too_large(
+> -                    NVME_CC_IOCQES(n->bar.cc),
+> -                    NVME_CTRL_CQES_MAX(n->bar.cap));
+> +                    NVME_CC_IOCQES(cc),
+> +                    NVME_CTRL_CQES_MAX(cap));
+>          return -1;
+>      }
+> -    if (unlikely(NVME_CC_IOSQES(n->bar.cc) <
+> +    if (unlikely(NVME_CC_IOSQES(cc) <
+>                   NVME_CTRL_SQES_MIN(n->id_ctrl.sqes))) {
+>          trace_pci_nvme_err_startfail_sqent_too_small(
+> -                    NVME_CC_IOSQES(n->bar.cc),
+> -                    NVME_CTRL_SQES_MIN(n->bar.cap));
+> +                    NVME_CC_IOSQES(cc),
+> +                    NVME_CTRL_SQES_MIN(cap));
+>          return -1;
+>      }
+> -    if (unlikely(NVME_CC_IOSQES(n->bar.cc) >
+> +    if (unlikely(NVME_CC_IOSQES(cc) >
+>                   NVME_CTRL_SQES_MAX(n->id_ctrl.sqes))) {
+>          trace_pci_nvme_err_startfail_sqent_too_large(
+> -                    NVME_CC_IOSQES(n->bar.cc),
+> -                    NVME_CTRL_SQES_MAX(n->bar.cap));
+> +                    NVME_CC_IOSQES(cc),
+> +                    NVME_CTRL_SQES_MAX(cap));
+>          return -1;
+>      }
+> -    if (unlikely(!NVME_AQA_ASQS(n->bar.aqa))) {
+> +    if (unlikely(!NVME_AQA_ASQS(aqa))) {
+>          trace_pci_nvme_err_startfail_asqent_sz_zero();
+>          return -1;
+>      }
+> -    if (unlikely(!NVME_AQA_ACQS(n->bar.aqa))) {
+> +    if (unlikely(!NVME_AQA_ACQS(aqa))) {
+>          trace_pci_nvme_err_startfail_acqent_sz_zero();
+>          return -1;
+>      }
+> @@ -5690,12 +5696,10 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+>      n->page_bits =3D page_bits;
+>      n->page_size =3D page_size;
+>      n->max_prp_ents =3D n->page_size / sizeof(uint64_t);
+> -    n->cqe_size =3D 1 << NVME_CC_IOCQES(n->bar.cc);
+> -    n->sqe_size =3D 1 << NVME_CC_IOSQES(n->bar.cc);
+> -    nvme_init_cq(&n->admin_cq, n, n->bar.acq, 0, 0,
+> -                 NVME_AQA_ACQS(n->bar.aqa) + 1, 1);
+> -    nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
+> -                 NVME_AQA_ASQS(n->bar.aqa) + 1);
+> +    n->cqe_size =3D 1 << NVME_CC_IOCQES(cc);
+> +    n->sqe_size =3D 1 << NVME_CC_IOSQES(cc);
+> +    nvme_init_cq(&n->admin_cq, n, acq, 0, 0, NVME_AQA_ACQS(aqa) + 1, 1);
+> +    nvme_init_sq(&n->admin_sq, n, asq, 0, 0, NVME_AQA_ASQS(aqa) + 1);
+> =20
+>      nvme_set_timestamp(n, 0ULL);
+> =20
+> @@ -5708,22 +5712,33 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+> =20
+>  static void nvme_cmb_enable_regs(NvmeCtrl *n)
+>  {
+> -    NVME_CMBLOC_SET_CDPCILS(n->bar.cmbloc, 1);
+> -    NVME_CMBLOC_SET_CDPMLS(n->bar.cmbloc, 1);
+> -    NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
+> +    uint32_t cmbloc =3D ldl_le_p(&n->bar.cmbloc);
+> +    uint32_t cmbsz =3D ldl_le_p(&n->bar.cmbsz);
+> =20
+> -    NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
+> -    NVME_CMBSZ_SET_CQS(n->bar.cmbsz, 0);
+> -    NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
+> -    NVME_CMBSZ_SET_RDS(n->bar.cmbsz, 1);
+> -    NVME_CMBSZ_SET_WDS(n->bar.cmbsz, 1);
+> -    NVME_CMBSZ_SET_SZU(n->bar.cmbsz, 2); /* MBs */
+> -    NVME_CMBSZ_SET_SZ(n->bar.cmbsz, n->params.cmb_size_mb);
+> +    NVME_CMBLOC_SET_CDPCILS(cmbloc, 1);
+> +    NVME_CMBLOC_SET_CDPMLS(cmbloc, 1);
+> +    NVME_CMBLOC_SET_BIR(cmbloc, NVME_CMB_BIR);
+> +    stl_le_p(&n->bar.cmbloc, cmbloc);
 > +
-> +  vfiouser_inc =3D include_directories('libvfio-user/include', 'libvfio-=
-user/lib')
+> +    NVME_CMBSZ_SET_SQS(cmbsz, 1);
+> +    NVME_CMBSZ_SET_CQS(cmbsz, 0);
+> +    NVME_CMBSZ_SET_LISTS(cmbsz, 1);
+> +    NVME_CMBSZ_SET_RDS(cmbsz, 1);
+> +    NVME_CMBSZ_SET_WDS(cmbsz, 1);
+> +    NVME_CMBSZ_SET_SZU(cmbsz, 2); /* MBs */
+> +    NVME_CMBSZ_SET_SZ(cmbsz, n->params.cmb_size_mb);
+> +    stl_le_p(&n->bar.cmbsz, cmbsz);
+>  }
+> =20
+>  static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+>                             unsigned size)
+>  {
+> +    uint64_t cap =3D ldq_le_p(&n->bar.cap);
+> +    uint32_t cc =3D ldl_le_p(&n->bar.cc);
+> +    uint32_t intms =3D ldl_le_p(&n->bar.intms);
+> +    uint32_t csts =3D ldl_le_p(&n->bar.csts);
+> +    uint32_t pmrsts =3D ldl_le_p(&n->bar.pmrsts);
 > +
-> +  json_c =3D dependency('json-c', required: false)
-> +  if not json_c.found()
-> +    json_c =3D dependency('libjson-c')
-> +  endif
+>      if (unlikely(offset & (sizeof(uint32_t) - 1))) {
+>          NVME_GUEST_ERR(pci_nvme_ub_mmiowr_misaligned32,
+>                         "MMIO write not 32-bit aligned,"
+> @@ -5747,9 +5762,10 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr off=
+set, uint64_t data,
+>                             " when MSI-X is enabled");
+>              /* should be ignored, fall through for now */
+>          }
+> -        n->bar.intms |=3D data & 0xffffffff;
+> +        intms |=3D data;
+> +        stl_le_p(&n->bar.intms, intms);
+>          n->bar.intmc =3D n->bar.intms;
+> -        trace_pci_nvme_mmio_intm_set(data & 0xffffffff, n->bar.intmc);
+> +        trace_pci_nvme_mmio_intm_set(data & 0xffffffff, intms);
+>          nvme_irq_check(n);
+>          break;
+>      case NVME_REG_INTMC:
+> @@ -5759,44 +5775,55 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr of=
+fset, uint64_t data,
+>                             " when MSI-X is enabled");
+>              /* should be ignored, fall through for now */
+>          }
+> -        n->bar.intms &=3D ~(data & 0xffffffff);
+> +        intms &=3D ~data;
+> +        stl_le_p(&n->bar.intms, intms);
+>          n->bar.intmc =3D n->bar.intms;
+> -        trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, n->bar.intmc);
+> +        trace_pci_nvme_mmio_intm_clr(data & 0xffffffff, intms);
+>          nvme_irq_check(n);
+>          break;
+>      case NVME_REG_CC:
+>          trace_pci_nvme_mmio_cfg(data & 0xffffffff);
 > +
-> +  libvfiouser =3D static_library('vfiouser',
-> +                               build_by_default: false,
-> +                               sources: vfiouser_files,
-> +                               dependencies: json_c,
-> +                               include_directories: vfiouser_inc)
+>          /* Windows first sends data, then sends enable bit */
+> -        if (!NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc) &&
+> -            !NVME_CC_SHN(data) && !NVME_CC_SHN(n->bar.cc))
+> +        if (!NVME_CC_EN(data) && !NVME_CC_EN(cc) &&
+> +            !NVME_CC_SHN(data) && !NVME_CC_SHN(cc))
+>          {
+> -            n->bar.cc =3D data;
+> +            cc =3D data;
+>          }
+> =20
+> -        if (NVME_CC_EN(data) && !NVME_CC_EN(n->bar.cc)) {
+> -            n->bar.cc =3D data;
+> +        if (NVME_CC_EN(data) && !NVME_CC_EN(cc)) {
+> +            cc =3D data;
 > +
-> +  vfiouser =3D declare_dependency(link_with: libvfiouser,
-> +                                include_directories: vfiouser_inc)
-> +endif
+> +            /* flush CC since nvme_start_ctrl() needs the value */
+> +            stl_le_p(&n->bar.cc, cc);
+>              if (unlikely(nvme_start_ctrl(n))) {
+>                  trace_pci_nvme_err_startfail();
+> -                n->bar.csts =3D NVME_CSTS_FAILED;
+> +                csts =3D NVME_CSTS_FAILED;
+>              } else {
+>                  trace_pci_nvme_mmio_start_success();
+> -                n->bar.csts =3D NVME_CSTS_READY;
+> +                csts =3D NVME_CSTS_READY;
+>              }
+> -        } else if (!NVME_CC_EN(data) && NVME_CC_EN(n->bar.cc)) {
+> +        } else if (!NVME_CC_EN(data) && NVME_CC_EN(cc)) {
+>              trace_pci_nvme_mmio_stopped();
+>              nvme_ctrl_reset(n);
+> -            n->bar.csts &=3D ~NVME_CSTS_READY;
+> +            cc =3D 0;
+> +            csts &=3D ~NVME_CSTS_READY;
+>          }
+> -        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(n->bar.cc))) {
+> +
+> +        if (NVME_CC_SHN(data) && !(NVME_CC_SHN(cc))) {
+>              trace_pci_nvme_mmio_shutdown_set();
+>              nvme_ctrl_shutdown(n);
+> -            n->bar.cc =3D data;
+> -            n->bar.csts |=3D NVME_CSTS_SHST_COMPLETE;
+> -        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(n->bar.cc)) {
+> +            cc =3D data;
+> +            csts |=3D NVME_CSTS_SHST_COMPLETE;
+> +        } else if (!NVME_CC_SHN(data) && NVME_CC_SHN(cc)) {
+>              trace_pci_nvme_mmio_shutdown_cleared();
+> -            n->bar.csts &=3D ~NVME_CSTS_SHST_COMPLETE;
+> -            n->bar.cc =3D data;
+> +            csts &=3D ~NVME_CSTS_SHST_COMPLETE;
+> +            cc =3D data;
+>          }
+> +
+> +        stl_le_p(&n->bar.cc, cc);
+> +        stl_le_p(&n->bar.csts, csts);
+> +
+>          break;
+>      case NVME_REG_CSTS:
+>          if (data & (1 << 4)) {
+> @@ -5818,26 +5845,24 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr of=
+fset, uint64_t data,
+>          }
+>          break;
+>      case NVME_REG_AQA:
+> -        n->bar.aqa =3D data & 0xffffffff;
+> +        stl_le_p(&n->bar.aqa, data);
+>          trace_pci_nvme_mmio_aqattr(data & 0xffffffff);
+>          break;
+>      case NVME_REG_ASQ:
+> -        n->bar.asq =3D size =3D=3D 8 ? data :
+> -            (n->bar.asq & ~0xffffffffULL) | (data & 0xffffffff);
+> +        stn_le_p(&n->bar.asq, data, size);
 
-Why this way, rather than recursing into the submodule? Seems a bit fragile=
- to
-encode details of the library here.
+Argh. I hurried a change here and it bit me.
 
-regards
-john=
+I'll let my CI run to the end and I'll send a v5...
+
+--BBiaORtz6HKKkGx8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmD13/MACgkQTeGvMW1P
+DenJ8wgAvtraLwfBip8wdSVMoE3WoYLVG1floxvX/XtBcGkVQy389Ir/t60YwzB0
+MdkhJAHlUPkryelyCSF6Xaf/8sqrPNHeZf4TcYNkF3iKwSCT6ZJL+tASy8vqaCO1
+ApXTkriZZlpm4g2aD6EAWJ0MGKpX8FCICSfzWhCq/QnZ6FnZ1zH+KgdAd/rw6ECk
+YVfuqoVmrXdKaMgfDLEBeG4raySEhTecNnKYwOCvRMUQmmlxi3UwNCE1tt9/AQVY
+7MlxYcE6pZdzEqxlrqXq9mvteaj2VSGey5TirxaT8G9zTg6IAvmKDi505VMh5KXn
+420owKfOmaHkdoR8J7Gd9pNeuVD/sw==
+=Y6eC
+-----END PGP SIGNATURE-----
+
+--BBiaORtz6HKKkGx8--
 
