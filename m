@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14AA3CCE7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 09:29:29 +0200 (CEST)
-Received: from localhost ([::1]:35012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2053C3CCE7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 09:29:35 +0200 (CEST)
+Received: from localhost ([::1]:35472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5NiS-0000ow-PF
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 03:29:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42126)
+	id 1m5NiY-00017L-5b
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 03:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m5NgF-0007nR-JX
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:27:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47721)
+ id 1m5Nge-0007rk-OP
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:27:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m5NgE-0000wp-0c
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:27:11 -0400
+ id 1m5Ngb-0001HY-2d
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:27:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626679628;
+ s=mimecast20190719; t=1626679652;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bZuIgA7tnHwG1bTTH5YnW5Iuq367TjXIJ0tQK+nHzvk=;
- b=dn+oaqbTvwXXWKz83C92PRq+XWdxh7MtpfFXaxfuM1hKO3OrvU5p+4W5zF3Luw7vPfxalp
- e398HCT5meMiMI9zPx4H1VxSo1lpuJKqWbeWwFG3OMpfJlJxw2FnNy5Fw3YxDUcqopXAww
- vEddLM8zyx9IqSOBdn2sam3xPHxh00M=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mx8jYSAcWVRFFAJpXewPtch97JOy/w7Yy8S8zCtuwMA=;
+ b=UsPQA0WozIsu0ilm5nPRWlaQaty/0+9jpWYkPbu05HvrrDDa9vLSVSHxoGZxTfSym1/zUP
+ WcABP4iuaiZuVdnqgDrdFWJ/VwnVrWJXCFxAuvsC+nHOLaRcbyVkUpHewzEXRd/rIiaOB0
+ yqeLa8caRf8Lkm072bAcyuRLYiakOOY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-2P7FyNW_NWm6zNRnfIT4bg-1; Mon, 19 Jul 2021 03:27:06 -0400
-X-MC-Unique: 2P7FyNW_NWm6zNRnfIT4bg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-520-16n6C60DN5C1_fWQa2d4Xg-1; Mon, 19 Jul 2021 03:27:30 -0400
+X-MC-Unique: 16n6C60DN5C1_fWQa2d4Xg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1AD7100C610
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 07:27:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27B02100C610
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 07:27:30 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A39425D6BA;
- Mon, 19 Jul 2021 07:26:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4B290620DE;
+ Mon, 19 Jul 2021 07:27:21 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/12] Clipboard fixes (for 6.1?)
-Date: Mon, 19 Jul 2021 11:26:42 +0400
-Message-Id: <20210719072654.845901-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 02/12] ui/vdagent: remove copy-pasta comment
+Date: Mon, 19 Jul 2021 11:26:44 +0400
+Message-Id: <20210719072654.845901-3-marcandre.lureau@redhat.com>
+In-Reply-To: <20210719072654.845901-1-marcandre.lureau@redhat.com>
+References: <20210719072654.845901-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -81,40 +84,27 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-Here is a few fixes I have collected while working on clipboard-related cod=
-e.=0D
-=0D
-There are some obvious code improvements/fixes, and better handling of rele=
-ase &=0D
-unregister to avoid dangling pointers and improve user experience.=0D
-=0D
-Marc-Andr=C3=A9 Lureau (12):=0D
-  ui/vdagent: fix leak on error path=0D
-  ui/vdagent: remove copy-pasta comment=0D
-  ui/gtk-clipboard: use existing macros=0D
-  ui/gtk-clipboard: fix clipboard enum typo=0D
-  ui/clipboard: add helper to retrieve current clipboard=0D
-  ui/clipboard: release owned grabs on unregister=0D
-  ui/vdagent: unregister clipboard peer on finalize=0D
-  ui/vdagent: split clipboard recv message handling=0D
-  ui/vdagent: use qemu_clipboard_info helper=0D
-  ui/gtk-clipboard: use qemu_clipboard_info helper=0D
-  ui/vdagent: send release when no clipboard owner=0D
-  ui/gtk-clipboard: emit release clipboard events=0D
-=0D
- include/ui/clipboard.h |  11 +++=0D
- include/ui/gtk.h       |   1 -=0D
- ui/clipboard.c         |  24 +++++=0D
- ui/gtk-clipboard.c     |  30 +++----=0D
- ui/vdagent.c           | 200 +++++++++++++++++++++++++----------------=0D
- 5 files changed, 173 insertions(+), 93 deletions(-)=0D
-=0D
---=20=0D
-2.32.0.93.g670b81a890=0D
-=0D
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ ui/vdagent.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index f6ef8d1993..5ae5734c81 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -516,7 +516,7 @@ static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
+         qemu_clipboard_set_data(&vd->cbpeer, vd->cbinfo[s], type,
+                                 size, data, true);
+         break;
+-    case VD_AGENT_CLIPBOARD_RELEASE: /* data */
++    case VD_AGENT_CLIPBOARD_RELEASE:
+         if (vd->cbinfo[s] &&
+             vd->cbinfo[s]->owner == &vd->cbpeer) {
+             /* set empty clipboard info */
+-- 
+2.32.0.93.g670b81a890
 
 
