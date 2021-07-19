@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F013CD087
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:21:59 +0200 (CEST)
-Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C95403CD092
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 11:22:59 +0200 (CEST)
+Received: from localhost ([::1]:48450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5PTK-0003tv-6w
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:21:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32786)
+	id 1m5PUI-0005f6-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 05:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m5PS7-0002Vk-Jb
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:20:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1m5PS5-0003fw-Ou
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:20:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626686439;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hocKKUSRkaLwaq4b2vraKQAGDwUmQq390uN7XuOZ+Rk=;
- b=BXMUWc2g6H7wyluUYGMuSQFUYTZ2Nrtt3YoJ3eLJpgPFwuf29CVXZiGxXHNy2FBInej3ce
- mPl9vCNuJn4MbTQajWIhi4NEkYi94isS0pJwl/VPBQ69s0RNEwXgq+6C7YTM4/SDhvGxAq
- dXFZMB5LoA7o1RUYnK5IGEvxWaXe1lY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-539-PwwUKTNbNquCZ_CC8GQDSA-1; Mon, 19 Jul 2021 05:20:35 -0400
-X-MC-Unique: PwwUKTNbNquCZ_CC8GQDSA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4625802C80;
- Mon, 19 Jul 2021 09:20:33 +0000 (UTC)
-Received: from redhat.com (ovpn-112-193.ams2.redhat.com [10.36.112.193])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBE91100EB3E;
- Mon, 19 Jul 2021 09:20:28 +0000 (UTC)
-Date: Mon, 19 Jul 2021 10:20:25 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for 6.1 1/2] ui/gtk: add a keyboard fifo to the VTE
- consoles
-Message-ID: <YPVD2RUFEizWsKq8@redhat.com>
-References: <9e436e5c-ed11-69ec-3cb9-a19cbf96cb08@t-online.de>
- <20210718074757.22489-1-vr_qemu@t-online.de>
- <CAFEAcA9hzbs71s4aeLgwGsepwU9DgZrxcY16hr4EX9tDeeJv3Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5PSs-00046t-O2
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:21:30 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:39725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5PSr-0004Fp-83
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 05:21:30 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ l18-20020a1ced120000b029014c1adff1edso12361766wmh.4
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 02:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=rPG9vUHku0q/DKAQ8g3l/YQnukDZiHoOPxveT/2eAJE=;
+ b=MnT+fx9l0TbaBCcIyltoWMh8kwSREPseOiGfu7AMhB5OKNNh9jiVNwdxjQSmQO540u
+ toov54iedyD+LBHA3pVpePmmc3eSv6RVu89NCz2AXaOyZwlk+X1PLa5r2w3O8PbD8OUz
+ Ee0/1Cz32UySImR+emaZStlBgs0X9ajdSFZrlQDRUYo029CZtNBiADIDetYZSYQ9HaCk
+ e2nFDjCkhI7tCKhYf6tKFB4Ui/rsI0isoztN7ppLx0yY3tDaYXNtwuAbsc8lQ5OlY87+
+ 7EaCa+Sgox6Jw4Wu5p7N5RF/V41o1yW8xBdVfzeV1pCVcHsz6PJF5i37UpHX0WNJBpId
+ nNPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=rPG9vUHku0q/DKAQ8g3l/YQnukDZiHoOPxveT/2eAJE=;
+ b=XgY5gFVsLcYlaOQLhSJ+fXiFMFdn5nDheqhMRfCkfSp4DL5Z/aNXABV6rqmgLoc8rZ
+ q2Eis2FLlDWol/PwLFAnHK1bJvOZAFcFKXBuGk9+3H1bphWdJV/YtGpL4o5vP7bKOJ9S
+ ck8OpCiTSKKk8SR5QZ+LTqQMaXeD96hrTPRjlGeopWOi8Xyh1LLHT9eSqLmnavprl4tV
+ wxo1Wk3xdEOtDtkiwbIQicz1rkMazC6o+Fq/rChPzPwsG4h6IAmOWD5qTAVBbRGvmT+w
+ uu5NB4DLui2OGXQqnkATwrdLvtjHVzdZywxtSlc/y98Aij9+CJJvLf1MAV7WgXiIj/Hv
+ tBKw==
+X-Gm-Message-State: AOAM532sHejcmCPGdewbWb59MyuTgGrAQ6I6QLAmXLh2dLkndQK3MSYr
+ XnnKG4dW0gZAuMOL2MeEddCIJQ==
+X-Google-Smtp-Source: ABdhPJzQKcLiXXA6NjlL/w7dg61kg9JdhpN7ifNKh9zwVJyhJYUfA7HwC0vr7JwVoPBiOIaNQUD/Pg==
+X-Received: by 2002:a7b:cd90:: with SMTP id y16mr25209962wmj.87.1626686487603; 
+ Mon, 19 Jul 2021 02:21:27 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j12sm19964472wrq.83.2021.07.19.02.21.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 02:21:26 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C62161FF7E;
+ Mon, 19 Jul 2021 10:21:25 +0100 (BST)
+References: <20210714172151.8494-1-ma.mandourr@gmail.com>
+ <20210714172151.8494-2-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 1/6] plugins/cache: Fixed a bug with destroying FIFO
+ metadata
+Date: Mon, 19 Jul 2021 10:21:21 +0100
+In-reply-to: <20210714172151.8494-2-ma.mandourr@gmail.com>
+Message-ID: <875yx6r756.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9hzbs71s4aeLgwGsepwU9DgZrxcY16hr4EX9tDeeJv3Q@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.466,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,47 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Zack Marvel <zpmarvel@gmail.com>,
- Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: cota@braap.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 18, 2021 at 02:00:03PM +0100, Peter Maydell wrote:
-> On Sun, 18 Jul 2021 at 08:50, Volker Rümelin <vr_qemu@t-online.de> wrote:
-> >
-> > Since commit 8eb13bbbac ("ui/gtk: vte: fix sending multiple
-> > characeters") it's very easy to lock up QEMU with the gtk ui.
-> > If you configure a guest with a serial device and the guest
-> > doesn't listen on this device, QEMU will lock up after
-> > entering two characters in the serial console.
-> >
-> > To fix this problem copy the function kbd_send_chars() and
-> > related code from ui/console.c to ui/gtk.c. kbd_send_chars()
-> > doesn't lock up because it uses a timer instead of a busy loop
-> > for the write retries.
-> >
-> > Fixes: 8eb13bbbac ("ui/gtk: vte: fix sending multiple characeters")
-> > Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> > ---
-> >  include/ui/gtk.h |  5 +++++
-> >  ui/gtk.c         | 53 ++++++++++++++++++++++++++++++++++++++++--------
-> >  2 files changed, 50 insertions(+), 8 deletions(-)
-> 
-> This feels like maybe it's the kind of thing that should be handled
-> more generically rather than in one particular UI frontend ?
 
-IIUC none of the other frontends directly talk to the chardevs for the
-serial ports. Instead they communicate via the text console interfaces.
-So GTK is a bit special already here.
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+
+> This manifests itself when associativity degree is greater than the
+> number of sets and FIFO is used, otherwise it's also a memory leak
+> whenever FIFO was used.
+>
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  contrib/plugins/cache.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+> index bf0d2f6097..4a71602639 100644
+> --- a/contrib/plugins/cache.c
+> +++ b/contrib/plugins/cache.c
+> @@ -200,7 +200,7 @@ static void fifo_destroy(Cache *cache)
+>  {
+>      int i;
+>=20=20
+> -    for (i =3D 0; i < cache->assoc; i++) {
+> +    for (i =3D 0; i < cache->num_sets; i++) {
+>          g_queue_free(cache->sets[i].fifo_queue);
+>      }
+>  }
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
