@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C248C3CD34A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:11:00 +0200 (CEST)
-Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A563CD322
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:09:21 +0200 (CEST)
+Received: from localhost ([::1]:53584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5RAp-0007zO-RG
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:10:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51482)
+	id 1m5R9E-0005le-84
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:09:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5R8l-00069M-0P
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:08:51 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5R8j-0002S4-6d
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:08:50 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- u5-20020a7bc0450000b02901480e40338bso10107878wmc.1
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 04:08:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Zqsm0f4GR/N7yaD8Wwcfrv0xc5ydq8efiR1y6JcQRDk=;
- b=GS369kjKlR5h9mCLyi7mQkQYZrnY0kfUSdb3pK+eVgi33SBsPPOQwbVwIq3ay/RxdB
- mhIWN3L0Iuxcd/HtqDNWXE/9TOP8UfoLmFWesLtlH5tzCbKGrBQA9gdms41Ag7H8ZB6E
- wVfQFR4Mm0wf3HmAVHk5cpPt6G1whex6vb315p8X34OFZyhoccXvkRQ2js2Y+rgvnQ0D
- UvHF/bu28wHThmbqUAjMRLud82U1B/VOuxXT4SwbAXVhZexN6f2nOybarKYUBeWy2zMG
- M2b8Gq8FaqMP3U23oUhPBnpAsmtQ63XHfGEBzJHJ21geK4qYsu/btZijpGSV77KRpqEK
- bL9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Zqsm0f4GR/N7yaD8Wwcfrv0xc5ydq8efiR1y6JcQRDk=;
- b=T7rJkmvh73Yw29AIxzHRH0bj1wKNofH9xUCkRWtjvpx145x/amszIi02ApbIrXXedW
- BHPlVSNV5F126xNA1TUmA2wUCvmQULrU76I34AJ6fgSdbLMlc2Lw3ROIxsWN4O0Hkwzw
- v2qrQBenruAj+tXX5q44bhUTsd4yoOfUUZ0JGGD/vA0A38v/9vkXpaubg5Lwy3BmhrRF
- I+PIWVhQi7qj6FdbGF0nW4C2ZziPiMFYuHFgIeSMMS1+g+KvFU9GqYjstE3RYo4qgTaG
- OQOM4s5hM/IKDBN/pvuJdJ1/XvIRf6yoQL9VPSK6wZ9xZXGqQyoF+sAhhk7IavqJOYYH
- u5YQ==
-X-Gm-Message-State: AOAM531l0P68ZmHssooOj/L7NK4HwC/BlhBlqumsCnmAX6cUIcjsHcUU
- 5jZRFdESMriRSkyvE9hmSgZefA==
-X-Google-Smtp-Source: ABdhPJxckF0xjayTr7+e3EpMk+OyzLWSQ6uR0LxuwrP7rXBDW+e0RdBhc5VAE3PxuCIva6KTDVVFQQ==
-X-Received: by 2002:a7b:c181:: with SMTP id y1mr31949208wmi.106.1626692927651; 
- Mon, 19 Jul 2021 04:08:47 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o7sm23118366wrv.72.2021.07.19.04.08.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 04:08:46 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 524DD1FF7E;
- Mon, 19 Jul 2021 12:08:46 +0100 (BST)
-References: <20210714172151.8494-1-ma.mandourr@gmail.com>
- <20210714172151.8494-4-ma.mandourr@gmail.com> <87zguiprbi.fsf@linaro.org>
- <CAD-LL6hk+xWhCwLb0mK0W4ZWP29BKmfnTVJwLe7zA0-g7=ji-w@mail.gmail.com>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 3/6] plugins/cache: Fixed a use-after-free bug with
- multithreaded usermode
-Date: Mon, 19 Jul 2021 12:06:09 +0100
-In-reply-to: <CAD-LL6hk+xWhCwLb0mK0W4ZWP29BKmfnTVJwLe7zA0-g7=ji-w@mail.gmail.com>
-Message-ID: <87tukqpnlt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
+ id 1m5R7v-0003xG-Ii
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:07:59 -0400
+Received: from mout.gmx.net ([212.227.17.22]:36919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <denniswoelfing@gmx.de>)
+ id 1m5R7s-00021H-RQ
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:07:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1626692872;
+ bh=WWjtMZqDXpNvRuQdR9XGghTlFlNXm4S/LQ6MiHUlP5I=;
+ h=X-UI-Sender-Class:Subject:From:To:Cc:References:Date:In-Reply-To;
+ b=bU6GZQXPf+Xo81/ZTpbLVmtCETVZIdR5U8UAFJSYohKP/roVL0yma63PXHQl2dQaM
+ dBIABqb4q9OoZBfajp8rQRCDmiqWdsbtRJWIFPAbfDWZrpjZQX9P8I2L5WzjXhNrjy
+ NJ36TbuWskFtb33q7T94FyJRQbneNZFrj8FfUhyU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.188.43] ([88.130.62.78]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvLB-1ldckE2uEn-00Ru1s; Mon, 19
+ Jul 2021 13:07:51 +0200
+Subject: Re: [PATCH for 6.1] ui/gtk: Fix relative mouse with multiple monitors
+From: =?UTF-8?Q?Dennis_W=c3=b6lfing?= <denniswoelfing@gmx.de>
+To: qemu-devel@nongnu.org
+References: <20210629132410.286813-1-denniswoelfing@gmx.de>
+ <e8a8fece-0d18-d055-e637-fe988db854c5@gmx.de>
+Message-ID: <23551a0c-03f5-aeb9-da64-04a3f51efb03@gmx.de>
+Date: Mon, 19 Jul 2021 13:07:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e8a8fece-0d18-d055-e637-fe988db854c5@gmx.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:Hy64faRZgi5yoNvTK7GvxprVo4L6EVGF6GzniLUj9r7qGbH736M
+ E/MFqZth2K2KrOj1FWKkvrR1Gx7awl6VUfYCHO49u05Qs2iax+GT5RArxS9V/KHI6vE2UZ/
+ s46y3FCdtpauQjGKxjuQ1qk6o9tQtBIzt16Vrn2Hc7dZ/P3csVmiGZQkRlyNsc3YQ66LRB6
+ /j3CE96IfDbKDH7g3a9AA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jgzy1GL3iY8=:T1IXqKBg8VMzQbPLaM9erX
+ AR5uEZ61tKVpnIDQThbVX1Rry1ClOowvD5fL5HCuFyjEO/R6PZG8hfv1HcwsZHf6x2yukJXnp
+ kYUYRBYHvWcLpoTZ2PtvC+AWv1soXZtk5qSLCF3tAVa2P+dnt5PuaNkWhK8FfFy0uDeu7t1DZ
+ L1K7cnysO/WmA3VLy++vYxvW64yJLvRYwAKQmJYK9Rw1H6yvl112vXMXr1kg8q2LZzWMcd00G
+ oRs7EmSxCLGtRAcP+xHmoqqe3igJM4KaQ36DQ56rHVOqIMfcg8nU8pyWbyfiWkK3gh+ephy+Q
+ hiCzGRTf3FCb/xsBQF1yF/NgGlDZthcjQHDmo7qOAAFuui0AsgZn3/llzvziSTNrBDe/7/Z/x
+ 64cXu5/TcXT4+MPET3D4RWOzeDXYWa73vZi3rT7vvLEfCZIY/InZkl22Zf0JvWq2LY23AVMHX
+ f/W8LH4xUHKD6pmZbfelxvDy5LXRTA3W+SHOvoeeDenUxfAiNLalezLly4xRXlX8AjumiyiNx
+ yDAv0EPLcij5ggOovw8n4HkpnxR839o7N/m7g9xdTxWShl4blV6HvUp4DRVmGRRZB9dY/49F3
+ QIAgvA6O17GMiOZE2abPeMZ2uB2ISoX00VD8/lRBFAuF0Jxf7t+A7raGqcNW2xnytdwvhxai3
+ 4uSPWePb+PzdtcotU9GV3RK4/WY5fXFoo3LozFqiF11biTys0jB3iIwz0esmFvxetmaN5Rk1p
+ 6bX740B5WKs0oskQKvDYdOuUEYqah9vrF+8ItgncUhrugXAYrwDvaWPBkWJhiuT/W092SUkNU
+ zRBsNJpvlYhbq38i/7alQ0hvnRWuAD8Qt5ESBcErkF9ms/CcclyX9KJ9aNUu6gorLgsRC95eG
+ n6Hd1TlnnIHNAAuugT4JrhplTeE3zJTr3rXh5PwO2f9KVxXXX9eepUaZorIo226H9bjPnDrv9
+ EQXPkG5OAkguJrv8UsivPuXOYIkFI3WgKTt4nKFHIjcaKYB71AWGPLE2s3Rp2knaBEy73eXwM
+ RmivKUR5qE8a0c2Cvc7/QyVKuf5c3GEMuYvpxSJWyyIrInbFHZNT4NMxcYedpmq8ESigbVVx6
+ tnz2v3oH8WNLA8TLtH6AZchiBgdTRLDvM2GunZYUudZwHnf/fScSZ4QGhwTMczy1owUKi11XB
+ fFDMY=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=denniswoelfing@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.07, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,168 +86,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Emilio G.
- Cota" <cota@braap.org>, "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
-
-> On Mon, Jul 19, 2021 at 11:48 AM Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->
->  Mahmoud Mandour <ma.mandourr@gmail.com> writes:
->
->  > Since callbacks may be interleaved because of multithreaded execution,
->  > we should not make assumptions about `plugin_exit` either. The problem
->  > with `plugin_exit` is that it frees shared data structures (caches and
->  > `miss_ht` hash table). It should not be assumed that callbacks will not
->  > be called after it and hence use already-freed data structures.
->
->  What was your test case for this because I wonder if it would be worth
->  coming up with one for check-tcg?=20
->
-> I think just any ad-hoc multithreaded execution will evoke the race prett=
-y much=20
-> consistently.
-
-I haven't managed to trigger it with testthread but of course my
-libcache is trying to to defend against it.
-
->=20=20
->  From what I remember the race is
->  in between preexit_cleanup and the eventual _exit/exit_group which nixes
->  all other child threads. Maybe we should be triggering a more graceful
->  unload here?
->
-> I think so. This remedies the bug for this particular plugin and I think =
-there
-> would be a better solution of course. However, I just can't ever get plug=
-in_exit
-> callback to be called more than once so I think that's probably not the p=
-roblem?
->
-> The problem is that we *use* the data in translation/mem_access/exec call=
-backs
-> after a plugin_exit call is already called (this can be easily verified b=
-y having a=20
-> boolean set to true once plugin_exit is called and then g_assert this boo=
-lean is=20
-> false in the callbacks)
-
-We have mechanisms for safely unloading plugins during running so I
-think we should be able to do something cleanly here. I'll cook up an
-RFC.
-
->
->  > This is mitigated in this commit by synchronizing the call to
->  > `plugin_exit` through locking to ensure execlusive access to data
->  > structures, and NULL-ifying those data structures so that subsequent
->  > callbacks can check whether the data strucutres are freed, and if so,
->  > immediately exit.
->  >
->  > It's okay to immediately exit and don't account for those callbacks
->  > since they won't be accounted for anyway since `plugin_exit` is already
->  > called once and reported the statistics.
->  >
->  > Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
->  > ---
->  >  contrib/plugins/cache.c | 31 ++++++++++++++++++++++++++++++-
->  >  1 file changed, 30 insertions(+), 1 deletion(-)
->  >
->  > diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
->  > index 695fb969dc..a452aba01c 100644
->  > --- a/contrib/plugins/cache.c
->  > +++ b/contrib/plugins/cache.c
->  > @@ -363,6 +363,11 @@ static void vcpu_mem_access(unsigned int vcpu_ind=
-ex, qemu_plugin_meminfo_t info,
->  >      effective_addr =3D hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) =
-: vaddr;
->  >=20=20
->  >      g_mutex_lock(&mtx);
->  > +    if (dcache =3D=3D NULL) {
->  > +        g_mutex_unlock(&mtx);
->  > +        return;
->  > +    }
->  > +
->  >      if (!access_cache(dcache, effective_addr)) {
->  >          insn =3D (InsnData *) userdata;
->  >          insn->dmisses++;
->  > @@ -380,6 +385,11 @@ static void vcpu_insn_exec(unsigned int vcpu_inde=
-x, void *userdata)
->  >      g_mutex_lock(&mtx);
->  >      insn_addr =3D ((InsnData *) userdata)->addr;
->  >=20=20
->  > +    if (icache =3D=3D NULL) {
->  > +        g_mutex_unlock(&mtx);
->  > +        return;
->  > +    }
->  > +
->  >      if (!access_cache(icache, insn_addr)) {
->  >          insn =3D (InsnData *) userdata;
->  >          insn->imisses++;
->  > @@ -406,12 +416,24 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, s=
-truct qemu_plugin_tb *tb)
->  >              effective_addr =3D (uint64_t) qemu_plugin_insn_vaddr(insn=
-);
->  >          }
->  >=20=20
->  > +        g_mutex_lock(&mtx);
->  > +
->  > +        /*
->  > +         * is the plugin_exit callback called? If so, any further cal=
-lback
->  > +         * registration is useless as it won't get accounted for afte=
-r calling
->  > +         * plugin_exit once already, and also will use miss_ht after =
-it's freed
->  > +         */
->  > +        if (miss_ht =3D=3D NULL) {
->  > +            g_mutex_unlock(&mtx);
->  > +            return;
->  > +        }
->  > +
->  >          /*
->  >           * Instructions might get translated multiple times, we do no=
-t create
->  >           * new entries for those instructions. Instead, we fetch the =
-same
->  >           * entry from the hash table and register it for the callback=
- again.
->  >           */
->  > -        g_mutex_lock(&mtx);
->  > +
->  >          data =3D g_hash_table_lookup(miss_ht, GUINT_TO_POINTER(effect=
-ive_addr));
->  >          if (data =3D=3D NULL) {
->  >              data =3D g_new0(InsnData, 1);
->  > @@ -527,13 +549,20 @@ static void log_top_insns()
->  >=20=20
->  >  static void plugin_exit(qemu_plugin_id_t id, void *p)
->  >  {
->  > +    g_mutex_lock(&mtx);
->  >      log_stats();
->  >      log_top_insns();
->  >=20=20
->  >      cache_free(dcache);
->  > +    dcache =3D NULL;
->  > +
->  >      cache_free(icache);
->  > +    icache =3D NULL;
->  >=20=20
->  >      g_hash_table_destroy(miss_ht);
->  > +    miss_ht =3D NULL;
->  > +
->  > +    g_mutex_unlock(&mtx);
->  >  }
->  >=20=20
->  >  static void policy_init()
->
->  --=20
->  Alex Benn=C3=A9e
-
-
---=20
-Alex Benn=C3=A9e
+UGluZyAyDQpJJ2QgbGlrZSB0byBnZXQgdGhpcyBidWdmaXggaW50byA2LjEuDQoNCk9uIDA3LjA3
+LjIxIDEzOjAyLCBEZW5uaXMgV8O2bGZpbmcgd3JvdGU6DQo+IFBpbmcNCj4gaHR0cHM6Ly9sb3Jl
+Lmtlcm5lbC5vcmcvcWVtdS1kZXZlbC8yMDIxMDYyOTEzMjQxMC4yODY4MTMtMS1kZW5uaXN3b2Vs
+ZmluZ0BnbXguZGUgDQo+IA0KPiANCj4gT24gMjkuMDYuMjEgMTU6MjQsIERlbm5pcyBXw7ZsZmlu
+ZyB3cm90ZToNCj4+IFRvIGhhbmRsZSByZWxhdGl2ZSBtb3VzZSBpbnB1dCB0aGUgZXZlbnQgaGFu
+ZGxlciBuZWVkcyB0byBtb3ZlIHRoZSBtb3VzZQ0KPj4gYXdheSBmcm9tIHRoZSBzY3JlZW4gZWRn
+ZXMuIEZhaWxpbmcgdG8gZG8gc28gcmVzdWx0cyBpbiB0aGUgbW91c2UNCj4+IGdldHRpbmcgc3R1
+Y2sgYXQgaW52aXNpYmxlIHdhbGxzLiBIb3dldmVyIHRoZSBjdXJyZW50IGltcGxlbWVudGF0aW9u
+IGZvcg0KPj4gdGhpcyBpcyBicm9rZW4gb24gaG9zdHMgd2l0aCBtdWx0aXBsZSBtb25pdG9ycy4N
+Cj4+DQo+PiBXaXRoIG11bHRpcGxlIG1vbml0b3JzIHRoZSBtb3VzZSBjYW4gYmUgbG9jYXRlZCBv
+dXRzaWRlIG9mIHRoZSBjdXJyZW50DQo+PiBtb25pdG9yIHdoaWNoIGlzIG5vdCBoYW5kbGVkIGJ5
+IHRoZSBjdXJyZW50IGNvZGUuIEFsc28gdGhlIG1vbml0b3INCj4+IGl0c2VsZiBtaWdodCBiZSBs
+b2NhdGVkIGF0IGNvb3JkaW5hdGVzIGRpZmZlcmVudCBmcm9tICgwLCAwKS4NCj4+DQo+PiBTaWdu
+ZWQtb2ZmLWJ5OiBEZW5uaXMgV8O2bGZpbmcgPGRlbm5pc3dvZWxmaW5nQGdteC5kZT4NCj4+IC0t
+LQ0KPj4gwqAgdWkvZ3RrLmMgfCAyMSArKysrKysrKystLS0tLS0tLS0tLS0NCj4+IMKgIDEgZmls
+ZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKyksIDEyIGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYg
+LS1naXQgYS91aS9ndGsuYyBiL3VpL2d0ay5jDQo+PiBpbmRleCA5ODA0NmY1NzdiLi41MjU4NTMy
+YjE5IDEwMDY0NA0KPj4gLS0tIGEvdWkvZ3RrLmMNCj4+ICsrKyBiL3VpL2d0ay5jDQo+PiBAQCAt
+ODY1LDMzICs4NjUsMzAgQEAgc3RhdGljIGdib29sZWFuIGdkX21vdGlvbl9ldmVudChHdGtXaWRn
+ZXQgDQo+PiAqd2lkZ2V0LCBHZGtFdmVudE1vdGlvbiAqbW90aW9uLA0KPj4gwqDCoMKgwqDCoMKg
+wqDCoMKgIEdka1dpbmRvdyAqd2luID0gZ3RrX3dpZGdldF9nZXRfd2luZG93KHdpZGdldCk7DQo+
+PiDCoMKgwqDCoMKgwqDCoMKgwqAgR2RrTW9uaXRvciAqbW9uaXRvciA9IGdka19kaXNwbGF5X2dl
+dF9tb25pdG9yX2F0X3dpbmRvdyhkcHksIA0KPj4gd2luKTsNCj4+IMKgwqDCoMKgwqDCoMKgwqDC
+oCBHZGtSZWN0YW5nbGUgZ2VvbWV0cnk7DQo+PiAtwqDCoMKgwqDCoMKgwqAgaW50IHNjcmVlbl93
+aWR0aCwgc2NyZWVuX2hlaWdodDsNCj4+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgaW50IHggPSAo
+aW50KW1vdGlvbi0+eF9yb290Ow0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGludCB5ID0gKGludClt
+b3Rpb24tPnlfcm9vdDsNCj4+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZ2RrX21vbml0b3JfZ2V0
+X2dlb21ldHJ5KG1vbml0b3IsICZnZW9tZXRyeSk7DQo+PiAtwqDCoMKgwqDCoMKgwqAgc2NyZWVu
+X3dpZHRoID0gZ2VvbWV0cnkud2lkdGg7DQo+PiAtwqDCoMKgwqDCoMKgwqAgc2NyZWVuX2hlaWdo
+dCA9IGdlb21ldHJ5LmhlaWdodDsNCj4+DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgLyogSW4gcmVs
+YXRpdmUgbW9kZSBjaGVjayB0byBzZWUgaWYgY2xpZW50IHBvaW50ZXIgaGl0DQo+PiAtwqDCoMKg
+wqDCoMKgwqDCoCAqIG9uZSBvZiB0aGUgc2NyZWVuIGVkZ2VzLCBhbmQgaWYgc28gbW92ZSBpdCBi
+YWNrIGJ5DQo+PiArwqDCoMKgwqDCoMKgwqDCoCAqIG9uZSBvZiB0aGUgbW9uaXRvciBlZGdlcywg
+YW5kIGlmIHNvIG1vdmUgaXQgYmFjayBieQ0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiAyMDAg
+cGl4ZWxzLiBUaGlzIGlzIGltcG9ydGFudCBiZWNhdXNlIHRoZSBwb2ludGVyDQo+PiDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAqIGluIHRoZSBzZXJ2ZXIgZG9lc24ndCBjb3JyZXNwb25kIDEtZm9yLTEs
+IGFuZCBzbw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgKiBtYXkgc3RpbGwgYmUgb25seSBoYWxm
+IHdheSBhY3Jvc3MgdGhlIHNjcmVlbi4gV2l0aG91dA0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+KiB0aGlzIHdhcnAsIHRoZSBzZXJ2ZXIgcG9pbnRlciB3b3VsZCB0aHVzIGFwcGVhciB0byBoaXQN
+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgICogYW4gaW52aXNpYmxlIHdhbGwgKi8NCj4+IC3CoMKg
+wqDCoMKgwqDCoCBpZiAoeCA9PSAwKSB7DQo+PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB4ICs9
+IDIwMDsNCj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoeCA8PSBnZW9tZXRyeS54KSB7DQo+PiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB4ID0gZ2VvbWV0cnkueCArIDIwMDsNCj4+IMKgwqDCoMKgwqDC
+oMKgwqDCoCB9DQo+PiAtwqDCoMKgwqDCoMKgwqAgaWYgKHkgPT0gMCkgew0KPj4gLcKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgeSArPSAyMDA7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHkgPD0gZ2Vv
+bWV0cnkueSkgew0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgeSA9IGdlb21ldHJ5LnkgKyAy
+MDA7DQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgfQ0KPj4gLcKgwqDCoMKgwqDCoMKgIGlmICh4ID09
+IChzY3JlZW5fd2lkdGggLSAxKSkgew0KPj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgeCAtPSAy
+MDA7DQo+PiArwqDCoMKgwqDCoMKgwqAgaWYgKHggLSBnZW9tZXRyeS54ID49IChnZW9tZXRyeS53
+aWR0aCAtIDEpKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB4ID0gZ2VvbWV0cnkueCAr
+IChnZW9tZXRyeS53aWR0aCAtIDEpIC0gMjAwOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4+
+IC3CoMKgwqDCoMKgwqDCoCBpZiAoeSA9PSAoc2NyZWVuX2hlaWdodCAtIDEpKSB7DQo+PiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB5IC09IDIwMDsNCj4+ICvCoMKgwqDCoMKgwqDCoCBpZiAoeSAt
+IGdlb21ldHJ5LnkgPj0gKGdlb21ldHJ5LmhlaWdodCAtIDEpKSB7DQo+PiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB5ID0gZ2VvbWV0cnkueSArIChnZW9tZXRyeS5oZWlnaHQgLSAxKSAtIDIwMDsN
+Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoCB9DQo+Pg0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgIGlmICh4
+ICE9IChpbnQpbW90aW9uLT54X3Jvb3QgfHwgeSAhPSAoaW50KW1vdGlvbi0+eV9yb290KSB7DQo+
+PiAtLSANCj4+IDIuMzIuMA0KPj4NCg==
 
