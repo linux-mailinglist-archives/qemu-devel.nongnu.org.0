@@ -2,51 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CC73CCCE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 06:11:08 +0200 (CEST)
-Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF06B3CCD4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 07:19:27 +0200 (CEST)
+Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5KcV-0007hD-Hb
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 00:11:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48098)
+	id 1m5Lgc-00015x-A3
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 01:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m5KYy-0006nL-IO; Mon, 19 Jul 2021 00:07:28 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39991 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1m5Lft-0000RB-Gx
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 01:18:41 -0400
+Received: from mga17.intel.com ([192.55.52.151]:52041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m5KYw-0002ak-IN; Mon, 19 Jul 2021 00:07:28 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GSpG25sYyz9sRf; Mon, 19 Jul 2021 14:07:22 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1626667642;
- bh=lXZlLoOtboIySfWpMyobrjhaCVf4jQkXbJrgaNkNv3g=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=CDFQiXfdrzZmCog1wshz0pgZQ5eWo9IQpsRnQdkvJjwEL1lP/hmk1AjaKsEhfVmO/
- DrlCIafhUS75vq1K6yFo9amSNdhdle9LsuSHOLk2jdaYlekdw1Bd4t+L5KcLTEj5xZ
- Ea1/mocKYFsfnIs/j+IAqGWqEoEwm50xPHG0m4JY=
-Date: Mon, 19 Jul 2021 14:07:18 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v5 5/7] qapi/qdev.json: add DEVICE_UNPLUG_ERROR QAPI event
-Message-ID: <YPT6dpR/32HOT5zc@yekko>
-References: <20210712194339.813152-1-danielhb413@gmail.com>
- <20210712194339.813152-6-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1m5Lfo-0002eL-JU
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 01:18:40 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="191276442"
+X-IronPort-AV: E=Sophos;i="5.84,251,1620716400"; d="scan'208";a="191276442"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2021 22:18:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,251,1620716400"; d="scan'208";a="430634377"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+ by fmsmga007.fm.intel.com with ESMTP; 18 Jul 2021 22:18:32 -0700
+Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.4; Sun, 18 Jul 2021 22:18:31 -0700
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Mon, 19 Jul 2021 13:18:29 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2242.010;
+ Mon, 19 Jul 2021 13:18:29 +0800
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: David Hildenbrand <david@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v2] migration: clear the memory region dirty bitmap when
+ skipping free pages
+Thread-Topic: [PATCH v2] migration: clear the memory region dirty bitmap when
+ skipping free pages
+Thread-Index: AQHXeVg234WlDbVm9EifMBsRhgtzM6tDPsMAgAHa+5D//6XngIAExOhw
+Date: Mon, 19 Jul 2021 05:18:29 +0000
+Message-ID: <bcf1c9a8817e41669b0c95a194a160fd@intel.com>
+References: <20210715075326.421977-1-wei.w.wang@intel.com>
+ <2581d2a2-de9d-7937-4d71-25a33cfbce3e@redhat.com>
+ <83c6af0d803b436aab62d1495375ae3c@intel.com>
+ <3c3a44c8-c819-5946-e1f6-a0d69215e2fe@redhat.com>
+In-Reply-To: <3c3a44c8-c819-5946-e1f6-a0d69215e2fe@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="U5dMvTQCo/d7yHix"
-Content-Disposition: inline
-In-Reply-To: <20210712194339.813152-6-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.151; envelope-from=wei.w.wang@intel.com;
+ helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,186 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- eblake@redhat.com, groug@kaod.org
+Cc: "mst@redhat.com" <mst@redhat.com>,
+ "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "peterx@redhat.com" <peterx@redhat.com>,
+ "quintela@redhat.com" <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---U5dMvTQCo/d7yHix
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jul 12, 2021 at 04:43:37PM -0300, Daniel Henrique Barboza wrote:
-> At this moment we only provide one event to report a hotunplug error,
-> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
-> machine is now able to report unplug errors for other device types, such
-> as CPUs.
->=20
-> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
-> create a generic DEVICE_UNPLUG_ERROR event that can be used by all
-> unplug errors in the future. This event has a similar API as the
-> existing DEVICE_DELETED event, with an extra optional 'msg' parameter
-> that can be used to explain the reason for the error.
->=20
-> With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-This no longer applies clean for me - looks like deprecated.rst has
-been moved.
-
-At this point I'm willing to queue this tentatively for 6.2, but I'll
-need a rebased respin (and fold in Greg's acks, please).
-
-> ---
->  docs/system/deprecated.rst | 10 ++++++++++
->  qapi/machine.json          |  6 +++++-
->  qapi/qdev.json             | 30 +++++++++++++++++++++++++++++-
->  stubs/qdev.c               |  7 +++++++
->  4 files changed, 51 insertions(+), 2 deletions(-)
->=20
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 6d438f1c8d..c0c3431ada 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, =
-which is deprecated
->  (the ISA has never been upstreamed to a compiler toolchain). Therefore
->  this CPU is also deprecated.
-> =20
-> +
-> +QEMU API (QAPI) events
-> +----------------------
-> +
-> +``MEM_UNPLUG_ERROR`` (since 6.2)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Use the more generic event ``DEVICE_UNPLUG_ERROR`` instead.
-> +
-> +
->  System emulator machines
->  ------------------------
-> =20
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index c3210ee1fb..a595c753d2 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1271,6 +1271,9 @@
->  #
->  # @msg: Informative message
->  #
-> +# Features:
-> +# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_ERROR instea=
-d.
-> +#
->  # Since: 2.4
->  #
->  # Example:
-> @@ -1283,7 +1286,8 @@
->  #
->  ##
->  { 'event': 'MEM_UNPLUG_ERROR',
-> -  'data': { 'device': 'str', 'msg': 'str' } }
-> +  'data': { 'device': 'str', 'msg': 'str' },
-> +  'features': ['deprecated'] }
-> =20
->  ##
->  # @SMPConfiguration:
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index d1d3681a50..52c36c7b9c 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -84,7 +84,9 @@
->  #        This command merely requests that the guest begin the hot remov=
-al
->  #        process.  Completion of the device removal process is signaled =
-with a
->  #        DEVICE_DELETED event. Guest reset will automatically complete r=
-emoval
-> -#        for all devices.
-> +#        for all devices.  If an error in the hot removal process is det=
-ected,
-> +#        the device will not be removed and a DEVICE_UNPLUG_ERROR event =
-is
-> +#        sent.  Some errors cannot be detected.
->  #
->  # Since: 0.14
->  #
-> @@ -124,3 +126,29 @@
->  ##
->  { 'event': 'DEVICE_DELETED',
->    'data': { '*device': 'str', 'path': 'str' } }
-> +
-> +##
-> +# @DEVICE_UNPLUG_ERROR:
-> +#
-> +# Emitted when a device hot unplug error occurs.
-> +#
-> +# @device: the device's ID if it has one
-> +#
-> +# @path: the device's path within the object model
-> +#
-> +# @msg: optional informative message
-> +#
-> +# Since: 6.2
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "DEVICE_UNPLUG_ERROR"
-> +#      "data": { "device": "core1",
-> +#                "msg": "Device hotunplug rejected by the guest for devi=
-ce core1",
-> +#                "path": "/machine/peripheral/core1" },
-> +#      },
-> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
-> +#
-> +##
-> +{ 'event': 'DEVICE_UNPLUG_ERROR',
-> +  'data': { '*device': 'str', 'path': 'str' , '*msg': 'str' } }
-> diff --git a/stubs/qdev.c b/stubs/qdev.c
-> index 92e6143134..ffa8f7b59e 100644
-> --- a/stubs/qdev.c
-> +++ b/stubs/qdev.c
-> @@ -21,3 +21,10 @@ void qapi_event_send_device_deleted(bool has_device,
->  {
->      /* Nothing to do. */
->  }
-> +
-> +void qapi_event_send_device_unplug_error(bool has_device, const char *de=
-vice,
-> +                                         const char *path,
-> +                                         bool has_msg, const char *msg)
-> +{
-> +    /* Nothing to do. */
-> +}
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---U5dMvTQCo/d7yHix
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD0+nQACgkQbDjKyiDZ
-s5IdtxAAsrKIfhO5r0hfWPYFm4EPfW8vaXedWMsa1WyvT7ypn7OAsCLeGCCSXl5+
-c2QpB6BJu8c9mOVow8qg5eE2sE/vgo09WOvenZSyfwjSDvJSBGKjIAApBVKC0WJR
-R7DTB94J51M42TXeNv18JTrDJO3fWlR/vgvMIdNilLCsVi8vFc7n3ATDGzqi7hTT
-sXQLt5L153gRz4o9pOy9wJmUi3yvLJpX0OXCl4kfGXgvxXReCroF30lAtYt7Dl3d
-N8Bf3vr6Fy50q4Pckd42/lpZ/fP7Xj7Oi3OdTQrtBsiNeDTYSYuYVmuEWAPDf4E5
-Y0xt46i2TjdAMn0fKUoKR+pX9hs2P6TXiHSrv0ACY/DpnyPRp6+R6bWDsRahk/Fh
-DXcgRXBzB3uHHJ85bXDXJnwm1Un5I4KS73fu/LO7h6USeqsgMYu915jMFjxLPIGF
-H/mhR211+44p99SqBUAtawMlG5QF0De+Db5Lr9eFlYoIgSv0c8p3tDRWgVNSEqzs
-eDDWvaF5WIJSRqsZOHP1gdELwQcWT1BKuMFBBSpd7e2jAUxhp8QcYSwhIJajD0HG
-0WM6fvf/QaeKR8ziwHPj9uB78tuNUSI/rbkFUhEZCg7V21KDcD0Oq51+LroT13pO
-pJSkurxTdZQOUuxGrLYohPUnSrzxbzwym10anPWSJ1enzgA0J/0=
-=sRMu
------END PGP SIGNATURE-----
-
---U5dMvTQCo/d7yHix--
+T24gRnJpZGF5LCBKdWx5IDE2LCAyMDIxIDQ6MjYgUE0sIERhdmlkIEhpbGRlbmJyYW5kIHdyb3Rl
+Og0KPiA+Pj4gKyAgICAvKg0KPiA+Pj4gKyAgICAgKiBDTEVBUl9CSVRNQVBfU0hJRlRfTUlOIHNo
+b3VsZCBhbHdheXMgZ3VhcmFudGVlIHRoaXMuLi4gdGhpcw0KPiA+Pj4gKyAgICAgKiBjYW4gbWFr
+ZSB0aGluZ3MgZWFzaWVyIHNvbWV0aW1lcyBzaW5jZSB0aGVuIHN0YXJ0IGFkZHJlc3MNCj4gPj4+
+ICsgICAgICogb2YgdGhlIHNtYWxsIGNodW5rIHdpbGwgYWx3YXlzIGJlIDY0IHBhZ2VzIGFsaWdu
+ZWQgc28gdGhlDQo+ID4+PiArICAgICAqIGJpdG1hcCB3aWxsIGFsd2F5cyBiZSBhbGlnbmVkIHRv
+IHVuc2lnbmVkIGxvbmcuIFdlIHNob3VsZA0KPiA+Pj4gKyAgICAgKiBldmVuIGJlIGFibGUgdG8g
+cmVtb3ZlIHRoaXMgcmVzdHJpY3Rpb24gYnV0IEknbSBzaW1wbHkNCj4gPj4+ICsgICAgICoga2Vl
+cGluZyBpdC4NCj4gPj4+ICsgICAgICovDQo+ID4+PiArICAgIGFzc2VydChzaGlmdCA+PSA2KTsN
+Cj4gPj4+ICsNCj4gPj4+ICsgICAgc2l6ZSA9IDFVTEwgPDwgKFRBUkdFVF9QQUdFX0JJVFMgKyBz
+aGlmdCk7DQo+ID4+PiArICAgIHN0YXJ0ID0gKCgocmFtX2FkZHJfdClwYWdlKSA8PCBUQVJHRVRf
+UEFHRV9CSVRTKSAmICgtc2l6ZSk7DQo+ID4+DQo+ID4+IHRoZXNlIGFzIHdlbGwgYXMuDQo+ID4N
+Cj4gPiBJcyB0aGVyZSBhbnkgY29kaW5nIHN0eWxlIHJlcXVpcmVtZW50IGZvciB0aGlzPw0KPiAN
+Cj4gRG9uJ3QgdGhpbmsgc28uIEl0IHNpbXBseSByZXN1bHRzIGluIGxlc3MgTE9DIGFuZCBsZXNz
+IG9jY3VycmVuY2VzIG9mIHZhcmlhYmxlcy4NCj4gDQo+ID4gTXkgdGhvdWdodCB3YXMgdGhhdCB0
+aG9zZSBvcGVyYXRpb25zIGNvdWxkIG1vc3RseSBiZSBhdm9pZGVkIGlmIHRoZXkNCj4gPiBkb24n
+dCBwYXNzIHRoZSBhYm92ZSBpZiBjb25kaXRpb24gKGUuZy4ganVzdCBvbmNlIHBlciAxR0IgY2h1
+bmspLg0KPiANCj4gVXN1YWxseSB0aGUgY29tcGlsZXIgd2lsbCByZXNodWZmbGUgYXMgcG9zc2li
+bGUgdG8gb3B0aW1pemUuIEJ1dCBpbiB0aGlzIGNhc2UsIGR1ZQ0KPiB0byBjbGVhcl9ibWFwX3Rl
+c3RfYW5kX2NsZWFyKCksIGl0IG1pZ2h0IG5vdCBiZSBhYmxlIHRvIG1vdmUgdGhlDQo+IGNvbXB1
+dGF0aW9ucyBiZWhpbmQgdGhhdCBjYWxsLiBTbyB0aGUgZmluYWwgY29kZSBtaWdodCBhY3R1YWxs
+eSBkaWZmZXIuDQo+IA0KPiBOb3QgdGhhdCB3ZSByZWFsbHkgY2FyZSBhYm91dCB0aGlzIG1pY3Jv
+LW9wdGltaXphdGlvbiwgdGhvdWdoLg0KDQpPSywgbG9va3MgdGhhdCdzIGp1c3QgYSBwZXJzb25h
+bCBmYXZvci4gSSdtIGluY2xpbmVkIHRvIGtlZXBpbmcgdGhlIG1pY3JvLW9wdGltaXphdGlvbi4N
+Cg0KPiANCj4gPg0KPiA+Pg0KPiA+Pj4gKyAgICB0cmFjZV9taWdyYXRpb25fYml0bWFwX2NsZWFy
+X2RpcnR5KHJiLT5pZHN0ciwgc3RhcnQsIHNpemUsIHBhZ2UpOw0KPiA+Pj4gKyAgICBtZW1vcnlf
+cmVnaW9uX2NsZWFyX2RpcnR5X2JpdG1hcChyYi0+bXIsIHN0YXJ0LCBzaXplKTsgfQ0KPiA+Pj4g
+Kw0KPiA+Pj4gK3N0YXRpYyB2b2lkDQo+ID4+PiArbWlncmF0aW9uX2NsZWFyX21lbW9yeV9yZWdp
+b25fZGlydHlfYml0bWFwX3JhbmdlKFJBTVN0YXRlICpycywNCj4gPj4+ICsgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUkFNQmxvY2sNCj4gKnJiLA0KPiA+
+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNp
+Z25lZA0KPiBsb25nDQo+ID4+IHN0YXJ0LA0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZA0KPiBsb25nDQo+ID4+PiArbnBhZ2Vz
+KSB7DQo+ID4+PiArICAgIHVuc2lnbmVkIGxvbmcgcGFnZV90b19jbGVhciwgaSwgbmNodW5rczsN
+Cj4gPj4+ICsgICAgdW5zaWduZWQgbG9uZyBjaHVua19wYWdlcyA9IDFVTCA8PCByYi0+Y2xlYXJf
+Ym1hcF9zaGlmdDsNCj4gPj4+ICsNCj4gPj4+ICsgICAgbmNodW5rcyA9IChzdGFydCArIG5wYWdl
+cykgLyBjaHVua19wYWdlcyAtIHN0YXJ0IC8gY2h1bmtfcGFnZXMNCj4gPj4+ICsgKyAxOw0KPiA+
+Pg0KPiA+PiBXb3VsZG4ndCB5b3UgaGF2ZSB0byBhbGlnbiB0aGUgc3RhcnQgYW5kIHRoZSBlbmQg
+cmFuZ2UgdXAvZG93biB0bw0KPiA+PiBwcm9wZXJseSBjYWxjdWxhdGUgdGhlIG51bWJlciBvZiBj
+aHVua3M/DQo+ID4NCj4gPiBObywgZGl2aWRlIHdpbGwgcm91bmQgaXQgdG8gdGhlIGludGVnZXIg
+KGJlZ2lubmluZyBvZiB0aGUgY2h1bmsgdG8gY2xlYXIpLg0KPiANCj4gDQo+IG5jaHVua3MgPSAo
+c3RhcnQgKyBucGFnZXMpIC8gY2h1bmtfcGFnZXMgLSBzdGFydCAvIGNodW5rX3BhZ2VzICsgMTsN
+Cg0KSSBoYWQgYSBtaXN0YWtlIG9uIHRoZSByaWdodCBib3VuZGFyeSwgaXQgc2hvdWxkIGJlIFtz
+dGFydCwgc3RhcnQgKyBucGFnZXMpLCBpbnN0ZWFkIG9mIFtzdGFydCwgc3RhcnQgKyBucGFnZXNd
+Lg0KaS5lLiBuY2h1bmtzID0gKHN0YXJ0ICsgbnBhZ2VzIC0gMSkgLyBjaHVua19wYWdlcyAtIHN0
+YXJ0IC8gY2h1bmtfcGFnZXMgKyAxDQoNCkJ1dCBJIGNhbiB0YWtlIHlvdXIgYXBwcm9hY2ggaGVy
+ZSwgdGhhbmtzLg0KDQpCZXN0LA0KV2VpDQoNCg==
 
