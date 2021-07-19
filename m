@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBDA3CD634
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 15:57:47 +0200 (CEST)
-Received: from localhost ([::1]:37428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEADB3CD639
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 15:58:16 +0200 (CEST)
+Received: from localhost ([::1]:38826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5TmE-0006w6-SE
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 09:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52886)
+	id 1m5Tmi-0007qD-09
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 09:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5Tl2-0005yp-Aj
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:56:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24004)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m5Tlc-0006Lm-8M
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:57:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5Tl0-0004MX-Qt
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:56:32 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m5TlZ-0004mR-6D
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:57:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626702990;
+ s=mimecast20190719; t=1626703024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cbn1Dld67dwbtp5Sn7Z5HbPQzeXYrlvBAMMX0E62R5I=;
- b=IdmjExQ/jxPDEftsHLoNWuPW9sphJ5MDWfiageNABF8aSrMyyCzfDOuSMGpliKvt68G6aK
- YcYbZ6RcpXTnec96EpgGQ2TfsAr6nPW+qR+M6Rxz7hapuB7KCD+7NRmEvSKiH81PoXccUZ
- lVZQm3i6BfuvsZGS9tGn7IlMPhR7/bI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-KJJPel6ZMYu0d7k_9vvkEA-1; Mon, 19 Jul 2021 09:56:28 -0400
-X-MC-Unique: KJJPel6ZMYu0d7k_9vvkEA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- x16-20020aa7d6d00000b02903a2e0d2acb7so9263688edr.16
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 06:56:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=cbn1Dld67dwbtp5Sn7Z5HbPQzeXYrlvBAMMX0E62R5I=;
- b=V3oMAUHBrLSVP9tKfCOL6V5Q5pAfJnMfMfCTsrl2o2w0myEMdeJMSt2795GFfxHun1
- SfnBpto7JfGRRVkrXBLaL4kRckSTvp14LU2A5RNe/bqp5SU27dm7hn+Q8tN1uyDWUipC
- rIejihSXEuwGdTP9SAzrpYrU8zJRkcjKYUTLQDjB/OJjdrrEhdVoTiQWUOkKFnbRcjHr
- OeWbjokkZyk5rsPyRyH07N+v1xfk6X85cYywKFISntqLtZn3fT5VztX0VHsnDyGH1tIt
- CqlZA13OR2r6CFisqrauDXsRj4VfLpQTSkq7oAI5ReECL4nB5SJ0rUVqp6OsGmKIbBxv
- cKzA==
-X-Gm-Message-State: AOAM530h4UP7WoIVb0F2iWfqMohUaffBe0xVLivfEeh39DE83Gh+bDpy
- MUfk27+K8Nxdfz5Yaeja3hkJ3NDoV4SuIT/eZps+MspuOW4hkVjsNx0ozJ9WGPRoc1GiXNBfSUD
- tKV3eb0hKPkJXmLr7BUbOXODyy4W+8lM=
-X-Received: by 2002:a05:6402:1b06:: with SMTP id
- by6mr33977038edb.95.1626702987756; 
- Mon, 19 Jul 2021 06:56:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy9mhFrQqX5g4Bi3+vZYvWY33IwKRiRR7LjCDfAPhuQ2gGdTxzuwdzz4J6zGtNUIYV00VUia+j+x2R/mj3ex0U=
-X-Received: by 2002:a05:6402:1b06:: with SMTP id
- by6mr33977019edb.95.1626702987576; 
- Mon, 19 Jul 2021 06:56:27 -0700 (PDT)
+ bh=F0OFxMbOBCeICyfPyTWdG6wj8q1zcVzzQ3B4N///DzM=;
+ b=de7j3ZZ8wZaq9pNj0d7BZR8KCZbOp0TneP2/YL5FVW9ia8yTSlWJ8ww37LcuUV31lpjD7a
+ qryVzNQZIKNGPybKuSyb9VIGdVvsjBbF6Wpjocnkw8xnqg9pYblX3KEFhm5CegkdWfjzwz
+ FYUx745yTzmHC5h3MeiTv28UzeTpgQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-447-V9MPqBdtObqEQNcNP8ILRg-1; Mon, 19 Jul 2021 09:57:02 -0400
+X-MC-Unique: V9MPqBdtObqEQNcNP8ILRg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A31C11018721;
+ Mon, 19 Jul 2021 13:57:01 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BF96019C44;
+ Mon, 19 Jul 2021 13:56:56 +0000 (UTC)
+Date: Mon, 19 Jul 2021 15:56:55 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v8 9/9] qtest/hyperv: Introduce a simple hyper-v test
+Message-ID: <20210719155655.0a1ebe3d@redhat.com>
+In-Reply-To: <875yxa1mqx.fsf@vitty.brq.redhat.com>
+References: <20210608120817.1325125-1-vkuznets@redhat.com>
+ <20210608120817.1325125-10-vkuznets@redhat.com>
+ <20210708210222.arl4zzquuw75ptwp@habkost.net>
+ <20210709102242.2a7cd7f7@redhat.com>
+ <875yxa1mqx.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-References: <20210712150949.165725-1-stefanb@linux.vnet.ibm.com>
- <bb8d222a-be8a-02b7-3ddc-de443290e29d@redhat.com>
- <36bcf543-0b56-7e2f-26e7-648ca3cf58dd@linux.ibm.com>
- <dd9e11e5-c39f-296b-e74a-4c66c8531500@redhat.com>
- <87a6mpez2b.fsf@dusky.pond.sub.org>
- <97703096-ad9d-f676-ffcb-46ad4bf340c2@redhat.com>
- <87a6modt46.fsf@dusky.pond.sub.org>
- <20210719153837.46fdef08@redhat.com> <871r7ummz8.fsf@dusky.pond.sub.org>
-In-Reply-To: <871r7ummz8.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Mon, 19 Jul 2021 15:56:16 +0200
-Message-ID: <CAP+75-UZRjqWJKN3ningHrcmR=P3fx+mhG5SEzQ5u5V5SnXdjA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] tests: Add test cases for TPM 1.2 ACPI tables
-To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -97,60 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19, 2021 at 3:50 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+On Fri, 16 Jul 2021 14:12:06 +0200
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+
 > Igor Mammedov <imammedo@redhat.com> writes:
-> > On Thu, 15 Jul 2021 07:49:13 +0200
-> > Markus Armbruster <armbru@redhat.com> wrote:
-> >> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> >> >>> IMO the "right" solution is to check via QMP if TMP is supported
-> >> >>> or not. This is now doable since commit caff255a546 ("tpm: Return
-> >> >>> QMP error when TPM is disabled in build").
-> >> >>>
-> >> >>> Long term we'd like to decouple the tests/ build from the various
-> >> >>> QEMU configurations, and build the tests once.
-> >> >>
-> >> >> This argument applies only to macros from target-specific headers l=
-ike
-> >> >> $TARGET-config-target.h, not to macros from config-host.h.  #ifdef
-> >> >> CONFIG_TPM should be fine, shouldn't it?
-> >> >
-> >> > Some definitions depend on the host (OS, libraries installed, ...),
-> >> > others depend on the --enable/--disable ./configure options.
-> >> >
-> >> > IMO it would be nice if we could get qtests independent of the latte=
-r.
-> >>
-> >> Why?
+> 
+> > On Thu, 8 Jul 2021 17:02:22 -0400
+> > Eduardo Habkost <ehabkost@redhat.com> wrote:
+> >  
+> >> On Tue, Jun 08, 2021 at 02:08:17PM +0200, Vitaly Kuznetsov wrote:  
+> >> > For the beginning, just test 'hv-passthrough' and a couple of custom
+> >> > Hyper-V  enlightenments configurations through QMP. Later, it would
+> >> > be great to complement this by checking CPUID values from within the
+> >> > guest.
+> >> > 
+> >> > Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>    
+> >> [...]  
+> >> > +static bool kvm_has_sys_hyperv_cpuid(void)
+> >> > +{
+> >> > +    int fd = open("/dev/kvm", O_RDWR);
+> >> > +    int ret;
+> >> > +
+> >> > +    g_assert(fd > 0);    
+> >>   
+> 
+> g_assert() was an overkill, just 'return false' would do.
+> 
+> >> This crashes when /dev/kvm doesn't exist.  See:
+> >> https://gitlab.com/ehabkost/qemu/-/jobs/1404084459  
 > >
-> > In another mail-thread Philippe mentioned that there is desire
-> > to use qtest out of tree to test other QEMU binaries.
+> > maybe reuse qtest_has_accel()
+> >  https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06864.html
 > >
-> > However, just probing for features at runtime aren't going
-> > to help with the goal as tests are tailored for the latest
-> > CLI/QMP/ABI. To make it work we would have practically
-> > introduce versioned tests.
-> >
-> > So I wonder why one external acceptance-tests suite is not
-> > sufficient, that we would want to hijack relatively simple
-> > internal qtest at expense of increased resources needed to
-> > run/write unit tests.
->
-> Yes.  qtest was not designed for use with anything but HEAD, and I doubt
-> we can make it fit such uses at reasonable expense.
+> > instead of op encoding it.  
+> 
+> The purpose of this function is to check if KVM_CAP_SYS_HYPERV_CPUID is
+> supported by KVM. It is certainly unsupported when KVM is not present
+> :-) but an ioctl() is needed when it is.
+> 
+> We already have a similar check in tests/qtest/migration-test.c where we
+> test for KVM_CAP_DIRTY_LOG_RING, maybe we can create a library function
+> but we don't seem to have any KVM-specific stuff in qtest at this moment
 
-One HEAD but multiple configurations...
+qtest_has_accel() is a such library function
+in the same series see https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg06878.html
+which replaces custom kvm probing in tests/qtest/migration-test.c
 
-If you want to simplify human time, can we simply run qtests once per
-arch/OS but with all features enabled? Otherwise skip qtests?
+> ...
+> 
+> >> I'm removing it from the queue.  
+> 
+> I'll fix g_assert() and send as a separate patch if it's fine.
+> 
 
 
