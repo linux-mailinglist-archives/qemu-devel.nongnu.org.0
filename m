@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F28D3CD87D
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 17:04:15 +0200 (CEST)
-Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89F123CD968
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 17:12:03 +0200 (CEST)
+Received: from localhost ([::1]:58844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5UoY-0005bf-Eq
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 11:04:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39808)
+	id 1m5Uw6-000336-Ke
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 11:12:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m5UnO-0004Cl-0c
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:03:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m5UnK-0007Dn-Ae
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:03:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626706976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UFx1E7nXYYCQAb+mQdy62DsbJpHW1VslhDxU0UgRfLo=;
- b=XhqoodCiCKTmrqq3WKGkKXDqUDX+c25Vm3c7HNS1mnrRl6K7M81HSsF/fv6n/E4bG0Ky1y
- hdaa29fwLUJrEYTd8gDvWJr1hik68uYa0Brlf9abGPYFqv9jRYt2m9Pk1Z4WlbWRyvrbER
- X+ZB/ptZLG6nuCLkyrQfKyHm69oDFqk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-qZEkwMbiOyWYnNM7U1gYzw-1; Mon, 19 Jul 2021 11:02:55 -0400
-X-MC-Unique: qZEkwMbiOyWYnNM7U1gYzw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1F7AD56AB5;
- Mon, 19 Jul 2021 15:02:54 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2FD7B60861;
- Mon, 19 Jul 2021 15:02:45 +0000 (UTC)
-Date: Mon, 19 Jul 2021 17:02:44 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v5 02/10] ACPI ERST: specification for ERST support
-Message-ID: <20210719170244.7402e008@redhat.com>
-In-Reply-To: <CO1PR10MB453117598D1ED99EB0A7AA3B97019@CO1PR10MB4531.namprd10.prod.outlook.com>
-References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
- <1625080041-29010-3-git-send-email-eric.devolder@oracle.com>
- <CO1PR10MB453117598D1ED99EB0A7AA3B97019@CO1PR10MB4531.namprd10.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m5Uv3-0001iv-6K
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:10:58 -0400
+Received: from indium.canonical.com ([91.189.90.7]:59488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1m5Uv0-000464-Mj
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:10:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
+ id 1m5Uuv-0003BL-Pu
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 15:10:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C23042E8139
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 15:10:49 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Jul 2021 15:03:09 -0000
+From: Thomas Huth <1926111@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=th.huth@posteo.de; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161940714680.11021.12941917748278413607.malonedeb@soybean.canonical.com>
+Message-Id: <162670698943.18792.18402598011894824328.malone@chaenomeles.canonical.com>
+Subject: [Bug 1926111] Re: Assertion `tx_queue_idx <= s->txq_num' failed in
+ vmxnet3_io_bar0_write
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
+X-Launchpad-Hash: cf9e23cb4f3098a9d80978a919f766689baa2968
+Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,276 +72,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ehabkost@redhat.com" <ehabkost@redhat.com>,
- "mst@redhat.com" <mst@redhat.com>, Konrad Wilk <konrad.wilk@oracle.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- Boris Ostrovsky <boris.ostrovsky@oracle.com>, Eric Blake <eblake@redhat.com>,
- "rth@twiddle.net" <rth@twiddle.net>
+Reply-To: Bug 1926111 <1926111@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 30 Jun 2021 19:26:39 +0000
-Eric DeVolder <eric.devolder@oracle.com> wrote:
+Fix has been included here:
+https://gitlab.com/qemu-project/qemu/-/commit/6a932c4ed8748b08c58c
 
-> Oops, at the end of the 4th paragraph, I meant to state that "Linux does not support the NVRAM mode."
-> rather than "non-NVRAM mode", which contradicts everything I stated prior.
-> Eric.
-> ________________________________
-> From: Eric DeVolder <eric.devolder@oracle.com>
-> Sent: Wednesday, June 30, 2021 2:07 PM
-> To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-> Cc: mst@redhat.com <mst@redhat.com>; imammedo@redhat.com <imammedo@redhat.com>; marcel.apfelbaum@gmail.com <marcel.apfelbaum@gmail.com>; pbonzini@redhat.com <pbonzini@redhat.com>; rth@twiddle.net <rth@twiddle.net>; ehabkost@redhat.com <ehabkost@redhat.com>; Konrad Wilk <konrad.wilk@oracle.com>; Boris Ostrovsky <boris.ostrovsky@oracle.com>
-> Subject: [PATCH v5 02/10] ACPI ERST: specification for ERST support
-> 
-> Information on the implementation of the ACPI ERST support.
-> 
-> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> ---
->  docs/specs/acpi_erst.txt | 152 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 152 insertions(+)
->  create mode 100644 docs/specs/acpi_erst.txt
-> 
-> diff --git a/docs/specs/acpi_erst.txt b/docs/specs/acpi_erst.txt
-> new file mode 100644
-> index 0000000..79f8eb9
-> --- /dev/null
-> +++ b/docs/specs/acpi_erst.txt
-> @@ -0,0 +1,152 @@
-> +ACPI ERST DEVICE
-> +================
-> +
-> +The ACPI ERST device is utilized to support the ACPI Error Record
-> +Serialization Table, ERST, functionality. The functionality is
-> +designed for storing error records in persistent storage for
-> +future reference/debugging.
-> +
-> +The ACPI specification[1], in Chapter "ACPI Platform Error Interfaces
-> +(APEI)", and specifically subsection "Error Serialization", outlines
-> +a method for storing error records into persistent storage.
-> +
-> +The format of error records is described in the UEFI specification[2],
-> +in Appendix N "Common Platform Error Record".
-> +
-> +While the ACPI specification allows for an NVRAM "mode" (see
-> +GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES) where non-volatile RAM is
-> +directly exposed for direct access by the OS/guest, this implements
-> +the non-NVRAM "mode". This non-NVRAM "mode" is what is implemented
-> +by most BIOS (since flash memory requires programming operations
-> +in order to update its contents). Furthermore, as of the time of this
-> +writing, Linux does not support the non-NVRAM "mode".
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-shouldn't it be s/non-NVRAM/NVRAM/ ?
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1926111
 
-> +
-> +
-> +Background/Motivation
-> +---------------------
-> +Linux uses the persistent storage filesystem, pstore, to record
-> +information (eg. dmesg tail) upon panics and shutdowns.  Pstore is
-> +independent of, and runs before, kdump.  In certain scenarios (ie.
-> +hosts/guests with root filesystems on NFS/iSCSI where networking
-> +software and/or hardware fails), pstore may contain the only
-> +information available for post-mortem debugging.
+Title:
+  Assertion `tx_queue_idx <=3D s->txq_num' failed in vmxnet3_io_bar0_write
 
-well,
-it's not the only way, one can use existing pvpanic device to notify
-mgmt layer about crash and mgmt layer can take appropriate measures
-to for post-mortem debugging, including dumping guest state,
-which is superior to anything pstore can offer as VM is still exists
-and mgmt layer can inspect VMs crashed state directly or dump
-necessary parts of it.
+Status in QEMU:
+  Fix Committed
 
-So ERST shouldn't be portrayed as the only way here but rather
-as limited alternative to pvpanic in regards to post-mortem debugging
-(it's the only way only on bare-metal).
+Bug description:
+  =3D=3D=3D Stacktrace =3D=3D=3D
 
-It would be better to describe here other use-cases you've mentioned
-in earlier reviews, that justify adding alternative to pvpanic.
+  qemu-fuzz-i386: ../hw/net/vmxnet3.c:1096: void vmxnet3_io_bar0_write(void=
+ *, hwaddr, uint64_t, unsigned int): Assertion `tx_queue_idx <=3D s->txq_nu=
+m' failed.
+  =3D=3D602353=3D=3D ERROR: libFuzzer: deadly signal
+  #5 0x7fe4b93a7ce0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
+  #6 0x7fe4b9391536 in abort stdlib/abort.c:79:7
+  #7 0x7fe4b939140e in __assert_fail_base assert/assert.c:92:3
+  #8 0x7fe4b93a0661 in __assert_fail assert/assert.c:101:3
+  #9 0x563e6cf5ebb5 in vmxnet3_io_bar0_write  hw/net/vmxnet3.c:1096:9
+  #10 0x563e6eefdb00 in memory_region_write_accessor  softmmu/memory.c:491:5
+  #11 0x563e6eefcfdd in access_with_adjusted_size  softmmu/memory.c:552:18
+  #12 0x563e6eefac90 in memory_region_dispatch_write  softmmu/memory.c:1502=
+:16
+  #13 0x563e6e834e16 in flatview_write_continue  softmmu/physmem.c:2746:23
+  #14 0x563e6e81cd38 in flatview_write  softmmu/physmem.c:2786:14
+  #15 0x563e6e81c868 in address_space_write  softmmu/physmem.c:2878:18
 
-> +Two common storage backends for the pstore filesystem are ACPI ERST
-> +and UEFI. Most BIOS implement ACPI ERST.  UEFI is not utilized in
-> +all guests. With QEMU supporting ACPI ERST, it becomes a viable
-> +pstore storage backend for virtual machines (as it is now for
-> +bare metal machines).
-> +
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ./qemu-system-i386  -display none -machine accel=3Dqtest, -m=
+ \
+  512M -machine q35 -nodefaults -device vmxnet3,netdev=3Dnet0 -netdev \
+  user,id=3Dnet0 -qtest stdio
+  outl 0xcf8 0x80000810
+  outl 0xcfc 0xe0000000
+  outl 0xcf8 0x80000814
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  outl 0xcf8 0x80000815
+  outl 0xcfc 0xffff00b5
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  write 0xff00b020 0x4 0x0000feca
+  write 0xe0000630 0x1 0x00
+  EOF
 
-> +Enabling support for ACPI ERST facilitates a consistent method to
-> +capture kernel panic information in a wide range of guests: from
-> +resource-constrained microvms to very large guests, and in
-> +particular, in direct-boot environments (which would lack UEFI
-> +run-time services).
-this hunk probably not necessary
+ =20
+  =3D=3D=3D Testcase =3D=3D=3D
 
-> +
-> +Note that Microsoft Windows also utilizes the ACPI ERST for certain
-> +crash information, if available.
-a pointer to a relevant source would be helpful here.
+  /*
+   * Autogenerated Fuzzer Test Case
+   *
+   * This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+   * See the COPYING file in the top-level directory.
+   */
 
-> +Invocation
-s/^^/Configuration|Usage/
+  #include "qemu/osdep.h"
 
-> +----------
-> +
-> +To utilize ACPI ERST, a memory-backend-file object and acpi-erst
-s/utilize/use/
+  #include "libqos/libqtest.h"
 
-> +device must be created, for example:
-s/must/can/
+  static void test_fuzz(void) {
+      QTestState *s =3D qtest_init(" -display none , -m 512M -machine q35 -=
+nodefaults "
+                                 "-device vmxnet3,netdev=3Dnet0 -netdev use=
+r,id=3Dnet0");
+      qtest_outl(s, 0xcf8, 0x80000810);
+      qtest_outl(s, 0xcfc, 0xe0000000);
+      qtest_outl(s, 0xcf8, 0x80000814);
+      qtest_outl(s, 0xcf8, 0x80000804);
+      qtest_outw(s, 0xcfc, 0x7);
+      qtest_outl(s, 0xcf8, 0x80000815);
+      qtest_outl(s, 0xcfc, 0xffff00b5);
+      qtest_bufwrite(s, 0x0, "\xe1", 0x1);
+      qtest_bufwrite(s, 0x1, "\xfe", 0x1);
+      qtest_bufwrite(s, 0x2, "\xbe", 0x1);
+      qtest_bufwrite(s, 0x3, "\xba", 0x1);
+      qtest_bufwrite(s, 0xff00b020, "\x00\x00\xfe\xca", 0x4);
+      qtest_bufwrite(s, 0xe0000630, "\x00", 0x1);
+      qtest_quit(s);
+  }
+  int main(int argc, char **argv) {
+      const char *arch =3D qtest_get_arch();
 
-> +
-> + qemu ...
-> + -object memory-backend-file,id=erstnvram,mem-path=acpi-erst.backing,
-> +  size=0x10000,share=on
-I'd put ^^^ on the same line as -object and use '\' at the end the 
-so example could be easily copy-pasted
+      g_test_init(&argc, &argv, NULL);
 
-> + -device acpi-erst,memdev=erstnvram
-> +
-> +For proper operation, the ACPI ERST device needs a memory-backend-file
-> +object with the following parameters:
-> +
-> + - id: The id of the memory-backend-file object is used to associate
-> +   this memory with the acpi-erst device.
-> + - size: The size of the ACPI ERST backing storage. This parameter is
-> +   required.
-> + - mem-path: The location of the ACPI ERST backing storage file. This
-> +   parameter is also required.
-> + - share: The share=on parameter is required so that updates to the
-> +   ERST back store are written to the file immediately as well. Without
-> +   it, updates the the backing file are unpredictable and may not
-> +   properly persist (eg. if qemu should crash).
+      if (strcmp(arch, "i386") =3D=3D 0) {
+          qtest_add_func("fuzz/test_fuzz", test_fuzz);
+      }
 
-mmap manpage says:
-  MAP_SHARED
-             Updates to the mapping ... are carried through to the underlying file.
-it doesn't guarantee 'written to the file immediately', though.
-So I'd rephrase it to something like that:
+      return g_test_run();
+  }
 
-- share: The share=on parameter is required so that updates to the ERST back store
-         are written back to the file.
+ =20
+  =3D=3D=3D OSS-Fuzz Report =3D=3D=3D
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D33603
+  https://oss-fuzz.com/testcase?key=3D6071483232288768
 
-> +
-> +The ACPI ERST device is a simple PCI device, and requires this one
-> +parameter:
-s/^.*:/and ERST device:/
-
-> +
-> + - memdev: Is the object id of the memory-backend-file.
-> +
-> +
-> +PCI Interface
-> +-------------
-> +
-> +The ERST device is a PCI device with two BARs, one for accessing
-> +the programming registers, and the other for accessing the
-> +record exchange buffer.
-> +
-> +BAR0 contains the programming interface consisting of just two
-> +64-bit registers. The two registers are an ACTION (cmd) and a
-> +VALUE (data). All ERST actions/operations/side effects happen
-s/consisting of... All ERST/consisting of ACTION and VALUE 64-bit registers. All ERST/
-
-> +on the write to the ACTION, by design. Thus any data needed
-s/Thus//
-
-> +by the action must be placed into VALUE prior to writing
-> +ACTION. Reading the VALUE simply returns the register contents,
-> +which can be updated by a previous ACTION.
-
-> This behavior is
-> +encoded in the ACPI ERST table generated by QEMU.
-it's too vague, Either drop sentence or add a reference to relevant place in spec.
-
-
-> +
-> +BAR1 contains the record exchange buffer, and the size of this
-> +buffer sets the maximum record size. This record exchange
-> +buffer size is 8KiB.
-s/^^^/
-BAR1 contains the 8KiB record exchange buffer, which is the implemented maximum record size limit.
-
-
-> +Backing File
-
-s/^^^/Backing Storage Format/
-
-> +------------
-
-
-> +
-> +The ACPI ERST persistent storage is contained within a single backing
-> +file. The size and location of the backing file is specified upon
-> +QEMU startup of the ACPI ERST device.
-
-I'd drop above paragraph and describe file format here,
-ultimately used backend doesn't have to be a file. For
-example if user doesn't need it persist over QEMU restarts,
-ram backend could be used, guest will still be able to see
-it's own crash log after guest is reboot, or it could be
-memfd backend passed to QEMU by mgmt layer.
-
-
-> +Records are stored in the backing file in a simple fashion.
-s/backing file/backend storage/
-ditto for other occurrences
-
-> +The backing file is essentially divided into fixed size
-> +"slots", ERST_RECORD_SIZE in length, with each "slot"
-> +storing a single record.
-
-> No attempt at optimizing storage
-> +through compression, compaction, etc is attempted.
-s/^^^//
-
-> +NOTE that any change to this value will make any pre-
-> +existing backing files, not of the same ERST_RECORD_SIZE,
-> +unusable to the guest.
-when that can happen, can we detect it and error out?
-
-
-> +Below is an example layout of the backing store file.
-> +The size of the file is a multiple of ERST_RECORD_SIZE,
-> +and contains N number of "slots" to store records. The
-> +example below shows two records (in CPER format) in the
-> +backing file, while the remaining slots are empty/
-> +available.
-> +
-> + Slot   Record
-> +        +--------------------------------------------+
-> +    0   | empty/available                            |
-> +        +--------------------------------------------+
-> +    1   | CPER                                       |
-> +        +--------------------------------------------+
-> +    2   | CPER                                       |
-> +        +--------------------------------------------+
-> +  ...   |                                            |
-> +        +--------------------------------------------+
-> +    N   | empty/available                            |
-> +        +--------------------------------------------+
-> +        <-------------- ERST_RECORD_SIZE ------------>
-
-
-> +Not all slots need to be occupied, and they need not be
-> +occupied in a contiguous fashion. The ability to clear/erase
-> +specific records allows for the formation of unoccupied
-> +slots.
-I'd drop this as not necessary
-
-
-> +
-> +
-> +References
-> +----------
-> +
-> +[1] "Advanced Configuration and Power Interface Specification",
-> +    version 4.0, June 2009.
-> +
-> +[2] "Unified Extensible Firmware Interface Specification",
-> +    version 2.1, October 2008.
-> +
-> --
-> 1.8.3.1
-> 
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1926111/+subscriptions
 
 
