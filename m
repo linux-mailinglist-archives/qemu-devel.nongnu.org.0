@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F28A3CEB31
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 20:54:35 +0200 (CEST)
-Received: from localhost ([::1]:43852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 187D03CEB33
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 20:58:12 +0200 (CEST)
+Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5YPS-0007km-1E
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 14:54:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
+	id 1m5YSx-0002K6-4X
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 14:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m5YNU-0006MM-MC
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 14:52:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1m5YNS-0002CT-SS
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 14:52:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626720749;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=BeIeu+jyRLhKOJEaKI7l2NToPaxPVIwGu6y9IRBbh00=;
- b=K20WUEUwlkyM+mOxsKiUfipz46Dqh+CDHnBcENVeEiPJnVtfBfORuJrGoHJHSlDyE+jleI
- pVEgADt76VzLX28GFb1XSwhg0ONByhfnIqNF0W3ByoMMOUuEsd4xZ8apso4eJjBO2SrZV3
- tRc7sBMBIPLwJv0h7HnNYHUysiQjzkI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-OV7fZ7FwOwa0R_zafmzcfw-1; Mon, 19 Jul 2021 14:52:28 -0400
-X-MC-Unique: OV7fZ7FwOwa0R_zafmzcfw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70C3C10C1ADC
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 18:52:27 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-182.ams2.redhat.com
- [10.36.114.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C077660BD9;
- Mon, 19 Jul 2021 18:52:22 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, thuth@redhat.com, peterx@redhat.com,
- berrange@redhat.com, quintela@redhat.com
-Subject: [PATCH] tests/qtest/migration-test.c: use 127.0.0.1 instead of 0
-Date: Mon, 19 Jul 2021 19:52:17 +0100
-Message-Id: <20210719185217.122105-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5YRn-0001eI-GT
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 14:56:59 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5YRl-00058O-Oo
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 14:56:59 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id go30so30426675ejc.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 11:56:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9Kn1rqbNYIuqXI9T8tz4U5Lt0I5DpOP1ThmMukHwGYc=;
+ b=xTep5LUpHMXYNJqPxeAbMgjiX9LBhpKzYk3fb5WO3fy7SF9dbVfQrc5Q8cv51bxIK8
+ ivPdsTZ5qxmM9nAJ71f+WxebByLzS8c6VKN4g51Am1WY8QilWHt6B/EbMogxDFuXu/KG
+ XNo3sBtQFsauOJNcOi0cDfr08968xhiB7sx7wrtMLWRO5cYaS4BGpcKjq1NS6hBkVsoI
+ p5OAOYx9lyjIAcFX8RoJXJ4P8/1Zbv5QecxUYApGvzXyfjYH0CI7cwHBGF1irbH7rMg2
+ /7csTZKrToYhRAQglr1fSx9gh730RqjuXyZMwiPDSDRXvq0zJqzVZbKOi0/ofzDEugit
+ +QaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9Kn1rqbNYIuqXI9T8tz4U5Lt0I5DpOP1ThmMukHwGYc=;
+ b=fA+ipvdsFG6h1di8GtLm/CtGNegCid9wYCQ4JxZJsCbjw7vzXkpJY+jnl8OShsJkdM
+ eiO3OTHdOMaHXFp5bFzFegjbY0lVYG4w1+FnbqGZMotuA0DPHECX5BStB3WLZjOQ0BMW
+ qF26LQSUWXENmgtGy9GFZFJIFOXEj+254Tp7uZdJ0fLlbh71JsdOsckr8RXNC7+GIPce
+ DQ9MHFlPyPw78ZfpRE1usW/2bWZWHzHeGvl7ucQzsdMCObzv7RUYTMddHk9EuafYRqRI
+ s4Bpuw99aNwxVohrPmCmMxlQ2PrqN+1ASbOeP6yGob03aBRwpNzsNTXhLzgjTHtYBlYr
+ MpkA==
+X-Gm-Message-State: AOAM532SC025wkLZD2ByYreH5Ou5vqbs18PEIAFRQdYQdcfQGOD7AbVH
+ REF8WlFda568xyliGZz7Ee/usZlE4mOvhhTPxQ2cDUbzZRVLsw==
+X-Google-Smtp-Source: ABdhPJyh39xQhKibdYc26JjuZfWPLZTmDYiHCBkuUjm5P0z/6zIDfB8+Lt0SiERZyRMxzmNjWappud5g6FqS0Agga5o=
+X-Received: by 2002:a17:906:a2d7:: with SMTP id
+ by23mr28176218ejb.382.1626721015991; 
+ Mon, 19 Jul 2021 11:56:55 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAFEAcA_byx5rCR7Y+yJrZ=K8oifdYEAza041W4yyA+wJkDpn6w@mail.gmail.com>
+In-Reply-To: <CAFEAcA_byx5rCR7Y+yJrZ=K8oifdYEAza041W4yyA+wJkDpn6w@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Jul 2021 19:56:15 +0100
+Message-ID: <CAFEAcA-VYiFo4aiuOSnenObaLt5Y87dUdO1=amUm+j=2-EnSag@mail.gmail.com>
+Subject: Re: random crash in migration-test, i386 guest, x86-64 host:
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,42 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Mon, 19 Jul 2021 at 13:43, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Random crash in migration-tests:
+>
+> MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+> QTEST_QEMU_IMG=./qemu-img G_TEST_DBUS_DAEMON=/mnt/nvmedisk/linaro/qem
+> u-for-merges/tests/dbus-vmstate-daemon.sh
+> QTEST_QEMU_BINARY=./qemu-system-i386
+> QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qemu-
+> storage-daemon tests/qtest/migration-test --tap -k
+> PASS 1 qtest-i386/migration-test /i386/migration/bad_dest
+> PASS 2 qtest-i386/migration-test /i386/migration/fd_proto
+> PASS 3 qtest-i386/migration-test /i386/migration/validate_uuid
+> PASS 4 qtest-i386/migration-test /i386/migration/validate_uuid_error
+> PASS 5 qtest-i386/migration-test /i386/migration/validate_uuid_src_not_set
+> PASS 6 qtest-i386/migration-test /i386/migration/validate_uuid_dst_not_set
+> PASS 7 qtest-i386/migration-test /i386/migration/auto_converge
+> PASS 8 qtest-i386/migration-test /i386/migration/postcopy/unix
+> Broken pipe
+> ../../tests/qtest/libqtest.c:166: kill_qemu() detected QEMU death from
+> signal 6 (Aborted) (core dumped)
+> ERROR qtest-i386/migration-test - too few tests run (expected 15, got 8)
+> Makefile.mtest:280: recipe for target 'run-test-33' failed
+> make: *** [run-test-33] Error 1
 
-OpenBSD doesn't like :0 as an address, switch to using 127.0.0.1
-in baddest; it's really testing the :0 port number that isn't allowed
-on anything.
+And again, different guest architecture, still x86-64 host:
 
-(The test doesn't currently run anyway because of the userfault
-problem that Peter noticed, but this gets us closer to being able to
-reenable it)
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_IMG=./qemu-img G_TEST_DBUS_DAEMON=/mnt/nvmedisk/linaro/qem
+u-for-merges/tests/dbus-vmstate-daemon.sh
+QTEST_QEMU_BINARY=./qemu-system-aarch64
+QTEST_QEMU_STORAGE_DAEMON_BINARY=./storage-daemon/qe
+mu-storage-daemon tests/qtest/migration-test --tap -k
+PASS 1 qtest-aarch64/migration-test /aarch64/migration/bad_dest
+PASS 2 qtest-aarch64/migration-test /aarch64/migration/fd_proto
+PASS 3 qtest-aarch64/migration-test /aarch64/migration/validate_uuid
+PASS 4 qtest-aarch64/migration-test /aarch64/migration/validate_uuid_error
+PASS 5 qtest-aarch64/migration-test /aarch64/migration/validate_uuid_src_not_set
+PASS 6 qtest-aarch64/migration-test /aarch64/migration/validate_uuid_dst_not_set
+PASS 7 qtest-aarch64/migration-test /aarch64/migration/auto_converge
+PASS 8 qtest-aarch64/migration-test /aarch64/migration/postcopy/unix
+Broken pipe
+../../tests/qtest/libqtest.c:166: kill_qemu() detected QEMU death from
+signal 6 (Aborted) (core dumped)
+ERROR qtest-aarch64/migration-test - too few tests run (expected 15, got 8)
+Makefile.mtest:264: recipe for target 'run-test-31' failed
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tests/qtest/migration-test.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 328d6dbe97..1e8b7784ef 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -787,10 +787,10 @@ static void test_baddest(void)
- 
-     args->hide_stderr = true;
- 
--    if (test_migrate_start(&from, &to, "tcp:0:0", args)) {
-+    if (test_migrate_start(&from, &to, "tcp:127.0.0.1:0", args)) {
-         return;
-     }
--    migrate_qmp(from, "tcp:0:0", "{}");
-+    migrate_qmp(from, "tcp:127.0.0.1:0", "{}");
-     wait_for_migration_fail(from, false);
-     test_migrate_end(from, to, false);
- }
--- 
-2.31.1
-
+-- PMM
 
