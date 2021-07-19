@@ -2,70 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C6823CD1F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 12:34:54 +0200 (CEST)
-Received: from localhost ([::1]:50722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F82E3CD1FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 12:37:07 +0200 (CEST)
+Received: from localhost ([::1]:53212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Qbt-0007Vw-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 06:34:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44352)
+	id 1m5Qe2-0000t6-AU
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 06:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5QYM-0004Kz-KG
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:31:14 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:36540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5QYK-000218-Um
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:31:14 -0400
-Received: by mail-ej1-x635.google.com with SMTP id nd37so27858672ejc.3
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 03:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zvh479EqRvwDdfRuKls8u+B1aH64zJ3cJoMVr7x2GlM=;
- b=QE3eEUmKCootzIHwRd9sWg9qyq6OPCTCFgNlpmWTZpyUFXbXgVtXmQz42J+FcufHVW
- DT7gwUMr1AlTSDMYDhJcQUFke9SECF0WnM6Qgm98+/cigZPNR0bAPOFuxqNaMQYTIVeA
- 6EX8z4cCt5427SQYT8pFJvNQk3Z+RfzLQmhGLSpATg+oCa00Kzq9riajoP++Zbx8ATmO
- 1JmhBS432hUiMpN8yc5OcagNysW8G4BKzbt8GST3tjMrwaEggNWCrUp4GJt3P9pdXooo
- xvgcCYuNc8sNWlaDTMJJ66mZ7HBfk+/Q0qno5+0/BpMJd7LKzrjZRV8+PSG22U7o+Ati
- bHsQ==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1m5Qd1-0008Vl-Te
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:36:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1m5Qd0-0005Me-GE
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 06:36:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626690961;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=z/jrKZrYhvMiDr4mN3e4IxDgonq/AKSyT+pSLiarQUg=;
+ b=iVaWqTrXiKpLlK0DBYjOz4eQlgjnTlYhGNa0Etl+RBY6WY4nWm3qPOUGio+qLU0KGSKHpz
+ Wzry58w5dea/mJE22F/DdTUV0URZgsldl0kddsH+S2w+8Wp7OAe6DttIfq++V0qIPBhMup
+ bGBzT0vJz165aXzV2ae+e+VA5U7a1aw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67-YOe_JSF_P-O0fX1dDda42g-1; Mon, 19 Jul 2021 06:35:58 -0400
+X-MC-Unique: YOe_JSF_P-O0fX1dDda42g-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ h11-20020adffa8b0000b029013a357d7bdcso8592599wrr.18
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 03:35:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zvh479EqRvwDdfRuKls8u+B1aH64zJ3cJoMVr7x2GlM=;
- b=POaG7OuSitX0Xm127hQGuko0MuHG+rRJfLV4pfzyOPkpJG/x7w/0BiVqAh0liMcPxF
- +nhIHwWDbzzExOtLvtdCM4ZzDzdY4MyFxxhsOKzSeGbibDCu+a295yb8ezn9WJAhnN+G
- MPGhrujd0TJxE3DDRseJmO08SJ5ePbgA1rlc0m1Nqm1Xxoal3yL/yKRECYw5ELJcgxIC
- UwNDBZeOr6XtHiTdzhxHIQPna+k5uxjIMFWgmQkLdM+Gyi6P2/iCWNcJfJFqkyCzyqJC
- N2wXyVpxO+1nHMzJJdjBIO8CGsNcJ0UHjkmxk/GNAGVPIbWIncNJjw9qo8ktSJEvkfae
- ll8w==
-X-Gm-Message-State: AOAM5313cMnzgW7QA8Tag4ndj5V6yOe6RFCli7LyrsIpmayBsLsTIqsm
- C/S/9xi0nJvNMJhCfoaIyZ87ZPka0M6OyZAT1UoKtA==
-X-Google-Smtp-Source: ABdhPJyodEnjciUd09AMk6QT+AbtFseNbPcp4bGXXOjQcwj7kHIihwE4nEDI2gBYkyt6x2sSh7OZhycTkaHW42IaK9Q=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr26000464ejy.407.1626690671286; 
- Mon, 19 Jul 2021 03:31:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=z/jrKZrYhvMiDr4mN3e4IxDgonq/AKSyT+pSLiarQUg=;
+ b=fP1ZPHAX8r2Q7MYSU6/fUTOQx9D/nzwpcLqsPWEE5/W2kKS/5179drtHX0wnISpCHx
+ jnNp9V9Xk8o/a6eEoUzFwNTlNlwxovgz0QmxCrcGzDUV0qVQmNm80pZkGz7GmP5+KTZz
+ Dcc9ezTo/RfW3aObb3+yF125S98/rnkj0Tq/8ywlhcQxxoVJElX+E/c/cAoSNKnLpYqB
+ 7PfrIZg5U7+UzWTjL6/HRPLgOsfrmz0ONSkZBUVIpNmQNpUkYISywL/aLgeIfrxpVc+B
+ 3hvrzubMZu5TAbaE1k5PF4GR0VzyftN6rVaKNRMaPC8COfWma5YDRwErmJ9QIeu/uiSY
+ l9cA==
+X-Gm-Message-State: AOAM533FkndRhFWnUwNspJAu7TjNbPjl4m9vyum6xGalUsgiNmr2/zb0
+ BprsHGBQlO2EgpJXcBrvs9oZZklPMm7543xPOtJDKuTtbmKp4iq/7du4rFO9x+fD817X+C1ezJK
+ dqvTLnBnf0Pym8h8=
+X-Received: by 2002:a5d:504d:: with SMTP id h13mr28771714wrt.46.1626690956801; 
+ Mon, 19 Jul 2021 03:35:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz9zlxu9beSVsEiR3V6hfxCldo3CB9MTaygu8oN41wAZdgfDBOMwHHGayAgIr85v74II7hKjA==
+X-Received: by 2002:a5d:504d:: with SMTP id h13mr28771694wrt.46.1626690956564; 
+ Mon, 19 Jul 2021 03:35:56 -0700 (PDT)
+Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
+ [79.18.148.79])
+ by smtp.gmail.com with ESMTPSA id z16sm20632495wrl.8.2021.07.19.03.35.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 03:35:56 -0700 (PDT)
+Date: Mon, 19 Jul 2021 12:35:53 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 3/3] linux-aio: limit the batch size using
+ `aio-max-batch` parameter
+Message-ID: <20210719103553.2732gqgnvc4nuzlh@steredhat>
+References: <20210707150019.201442-1-sgarzare@redhat.com>
+ <20210707150019.201442-4-sgarzare@redhat.com>
+ <YO2p/Ns7SsV6LE1x@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20210717221851.2124573-1-richard.henderson@linaro.org>
- <20210717221851.2124573-14-richard.henderson@linaro.org>
-In-Reply-To: <20210717221851.2124573-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Jul 2021 11:30:30 +0100
-Message-ID: <CAFEAcA-6-N0AC3ptqNRN2WYw0MjpFjBk0Avywk6+RWHR4HUFtA@mail.gmail.com>
-Subject: Re: [PATCH v3 13/13] accel/tcg: Encode breakpoint info into tb->cflags
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YO2p/Ns7SsV6LE1x@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.466,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,29 +97,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Jul 2021 at 23:19, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, Jul 13, 2021 at 03:58:04PM +0100, Stefan Hajnoczi wrote:
+>On Wed, Jul 07, 2021 at 05:00:19PM +0200, Stefano Garzarella wrote:
+>> @@ -371,7 +375,7 @@ static int laio_do_submit(int fd, struct qemu_laiocb *laiocb, off_t offset,
+>>      s->io_q.in_queue++;
+>>      if (!s->io_q.blocked &&
+>>          (!s->io_q.plugged ||
+>> -         s->io_q.in_flight + s->io_q.in_queue >= MAX_EVENTS)) {
+>> +         s->io_q.in_queue >= max_batch)) {
 >
-> Having this data in cflags means that hashing takes care
-> of selecting a TB with or without exceptions built in.
-> Which means that we no longer need to flush all TBs.
->
-> This does require that we single-step while we're within a page
-> that contains a breakpoint, so it's not yet ideal, but should be
-> an improvement over some corner-case slowdowns.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/404
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>Is it safe to drop the MAX_EVENTS case?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I think it is safe since in ioq_submit() we have this check while 
+dequeueing:
 
-thanks
--- PMM
+         QSIMPLEQ_FOREACH(aiocb, &s->io_q.pending, next) {
+             iocbs[len++] = &aiocb->iocb;
+             if (s->io_q.in_flight + len >= MAX_EVENTS) {
+                 break;
+             }
+         }
+
+But in term of performance, I think is better what you're suggesting, 
+because if we have fewer slots available than `max_batch`, here we were 
+delaying the call to io_submit().
+
+>
+>Perhaps the following can be used:
+>
+>  int64_t max_batch = s->aio_context->aio_max_batch ?: DEFAULT_MAX_BATCH;
+>  max_batch = MIN_NON_ZERO(MAX_EVENTS - s->io_q.in_flight + s->io_q.in_queue, max_batch);
+>
+
+Since we will compare `in_queue` with `max_batch`, should we remove it 
+from this expression?
+
+I mean:
+
+   int64_t max_batch = s->aio_context->aio_max_batch ?: DEFAULT_MAX_BATCH;
+   max_batch = MIN_NON_ZERO(MAX_EVENTS - s->io_q.in_flight, max_batch);
+
+then as it is in this patch:
+
+   s->io_q.in_queue++;
+   if (!s->io_q.blocked &&
+       (!s->io_q.plugged ||
+        s->io_q.in_queue >= max_batch)) {
+       ioq_submit(s);
+   }
+
+>Here we'll only need to check against max_batch but it takes into
+>account MAX_EVENT and in_flight.
+
+Thanks,
+Stefano
+
 
