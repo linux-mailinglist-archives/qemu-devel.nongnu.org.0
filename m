@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE233CD4EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:40:20 +0200 (CEST)
-Received: from localhost ([::1]:52920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D71873CD4F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:41:50 +0200 (CEST)
+Received: from localhost ([::1]:55088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5SZH-0005sB-9h
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
+	id 1m5Saj-0007Q5-Vj
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5SXx-0004ct-IC
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:57 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37695)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5SZC-0006PH-Eq
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:40:15 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5SXv-0002kv-Ji
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:38:57 -0400
-Received: by mail-wr1-x429.google.com with SMTP id i94so21853601wri.4
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:38:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5SZA-0003ZJ-Gn
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:40:14 -0400
+Received: by mail-ej1-x631.google.com with SMTP id oz7so24618073ejc.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:40:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ArxRg9O/H0Ur0tT6Ee6HWr0R2zhrxnm5DbEFs3RMRKU=;
- b=rxVbo3Lwl6xaryQrMJGM0ObbLMmgAPHNaLRr6l31aQOCsITy1RkrcYEv9DsF6KJvDp
- 5e6pRLCDMUpmueVYRMJfFX+RH8kz0rNV0wuD6ZAu1HQ1/k2ZwOqFZmtEdwDdFbSR2NgV
- aRc4hcmJbhOtc25CQA7p8iwcfgvOB0rQ4HviuPLFxgmqsp+nNNrJvXQn7FQhBcO85/In
- QLF5f9Z0bv2zi86cu1AW8Fxjj2O76JY2Eb20r8P4lUEibIytAX/WCeDClfjcX0honXae
- sQu4JxkindQVxY+WmMVoTzNaa6z/QNHobZkI4yKwTR25wYvacJAwBHyFW4Jyr0Xr6YlX
- Q9gA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2NDRc20ExGVEqn2aNwTWmLcC8dwsxyeBThAA5RF51wM=;
+ b=huo6rf7AXZQYou9vVnKMWYuPFYoUWuZJfufmMGm1315vVzhuDgNEJRnzr8327eAn9v
+ HwB+EQoXh0kFK54FZFZUeR+8JaSX5kGdqBzDiRxp84XBjWkRPohorRL8xrNpwJrMf5Ef
+ srxLsmulujqUK1/DS3lXmtSXh6NUXMmJsGwVi/Q0Ko8iO4hv4dcXdX3TyQfoArbJmOdE
+ yFDtk+NJ7hdVt5eC8AA6mrRHXohFcLliDH9DprpjaaiQPe+Fi9pOQW5OxFxVYj8UKBLD
+ FUhPjLEywbs28sQxFPQWrp2vNlfP2l64HQCMgk1bJtG7DFg70inT7eLiZOzYhjCoVC8R
+ f0MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ArxRg9O/H0Ur0tT6Ee6HWr0R2zhrxnm5DbEFs3RMRKU=;
- b=bAbb4tuokqpBUtssUamAfAIlEfNef1mmbG+96sw2yE3uw4C8eyjGQ2YlBJsW/6FfbI
- DlpFHg4/adVJY6W+vzIQ72IjFEklK9FX92ZN/W5lx3T36SWLQkJ9ydBBZ4P3CdpxtWFn
- R0HuOp5N/a+WbL3J4r9t/rgAyVYHN3LcQySErPp1eZoRmRfGctxP6+nlu8hXK28T80ag
- uW0oW1fidpm1dsLps3Aon+kcXG3dEShTLhcTJ1i5eCOSg/lMjNsMUC7zL4l+LttOKB9l
- K64b2qOSmptD6Aq9biNOv5INyUspLVlcQoSFAjvNDlEFmiWmeXqjEBKxgP7bT99Uu/0u
- pZJQ==
-X-Gm-Message-State: AOAM531a+gdPFFTj3Lip4+64KbPxnx7RJ5Z3xuLVxDVcUF0PXKoQp1cp
- GOrNcVOsCjItNmDNdG+Z/LE73Q==
-X-Google-Smtp-Source: ABdhPJyg5tLWFQojmdaf8mgBo37XiTfHzPwWCpk8C8yfvP1AiJEl7aXJMKYh0QaWbirPE7a1qXgSUA==
-X-Received: by 2002:a5d:4e08:: with SMTP id p8mr29283311wrt.425.1626698334147; 
- Mon, 19 Jul 2021 05:38:54 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z16sm21017048wrl.8.2021.07.19.05.38.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 05:38:53 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7DC1F1FF7E;
- Mon, 19 Jul 2021 13:38:52 +0100 (BST)
-References: <20210714172151.8494-1-ma.mandourr@gmail.com>
- <20210714172151.8494-7-ma.mandourr@gmail.com>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mahmoud Mandour <ma.mandourr@gmail.com>
-Subject: Re: [PATCH 6/6] plugins/cache: Fixed "function decl. is not a
- prototype" warnings
-Date: Mon, 19 Jul 2021 13:38:46 +0100
-In-reply-to: <20210714172151.8494-7-ma.mandourr@gmail.com>
-Message-ID: <87r1fupjfn.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2NDRc20ExGVEqn2aNwTWmLcC8dwsxyeBThAA5RF51wM=;
+ b=dQDpeGEG+BYcBjZzXqJPfK/KF7VwLQBTTLlMnt7zV4lxBN8iyUHld6PuFgcTtmQZvN
+ CI74f/j4WO5nyNEZnH9aHSaw3UNLFAi/NPDC90/bBdjUP9Ybm4ZEVxwN4m4QO6B8zR4O
+ mB8E7VWSmV0Qg3sRw9zINqDYQE2mF6ANAsJZxr9Ll+nFsADxVT9JwHYaxv+QLCmXhkpv
+ z7dq9zrrA+DKptn8e4DREVg70io+ZqpHktvolVJuj6/C0+0ZD7uiY3v4sxBcyzoJikNN
+ xD1sk+t5XBxQIQ8qk4l/TWvl3GDDcznZEtQdtK0m3KwuxIrWlfgpe1fN6bfwCdmnGQ5G
+ l6BQ==
+X-Gm-Message-State: AOAM530CnfWyoTB+K/3MayMbLtG8oRMrUI5Vjykqkxxk1yKY81lU11bB
+ daYNAfIKhT9etpOVAZ5D2WlidbAsQ8/lYMmk2wnOhw==
+X-Google-Smtp-Source: ABdhPJyt08Q0GkeCEeAgfSt+/RDHffy/SdV7uPy2vbvRExXrsYiebP2e5HNqPi+vdqG19PZt51OsS/vuWRfm33JsTcg=
+X-Received: by 2002:a17:906:f9c5:: with SMTP id
+ lj5mr27266610ejb.482.1626698410986; 
+ Mon, 19 Jul 2021 05:40:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210717192419.2066778-1-richard.henderson@linaro.org>
+ <20210717192419.2066778-4-richard.henderson@linaro.org>
+In-Reply-To: <20210717192419.2066778-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 19 Jul 2021 13:39:30 +0100
+Message-ID: <CAFEAcA_hqt7R68nmuvaoAKAOqX6OA75dnymoYQ8h1chQjqC2hg@mail.gmail.com>
+Subject: Re: [PATCH v3 03/10] qemu/atomic: Add aligned_{int64,uint64}_t types
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,17 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cota@braap.org, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, 17 Jul 2021 at 20:24, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Use it to avoid some clang-12 -Watomic-alignment errors,
+> forcing some structures to be aligned and as a pointer when
+> we have ensured that the address is aligned.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/tcg/atomic_template.h |  4 ++--
+>  include/qemu/atomic.h       | 14 +++++++++++++-
+>  include/qemu/stats64.h      |  2 +-
+>  softmmu/timers-state.h      |  2 +-
+>  linux-user/hppa/cpu_loop.c  |  2 +-
+>  util/qsp.c                  |  4 ++--
+>  6 files changed, 20 insertions(+), 8 deletions(-)
 
-Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+> diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+> index 3aaaf3337c..82d8183821 100644
+> --- a/linux-user/hppa/cpu_loop.c
+> +++ b/linux-user/hppa/cpu_loop.c
+> @@ -82,7 +82,7 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
+>                  o64 =3D *(uint64_t *)g2h(cs, old);
+>                  n64 =3D *(uint64_t *)g2h(cs, new);
+>  #ifdef CONFIG_ATOMIC64
+> -                r64 =3D qatomic_cmpxchg__nocheck((uint64_t *)g2h(cs, add=
+r),
+> +                r64 =3D qatomic_cmpxchg__nocheck((aligned_uint64_t *)g2h=
+(cs, addr),
+>                                                 o64, n64);
 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+This cast is OK, but it took me a while to verify that:
+ * we check that 'addr' is 8-aligned further up in this function
+ * we check that guest_base is at least page-aligned in
+   probe_guest_base(), and there's no way to avoid that function
+   getting called if you specify a guest-base value on the command line
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Is it worth asserting that the value we get back from g2h() really
+is 8-aligned before casting ?
 
---=20
-Alex Benn=C3=A9e
+Anyway,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
