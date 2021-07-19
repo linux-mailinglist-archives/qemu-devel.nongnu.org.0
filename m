@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC933CEF00
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 00:20:36 +0200 (CEST)
-Received: from localhost ([::1]:36152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4785E3CEF60
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 00:51:56 +0200 (CEST)
+Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5bcp-0004iw-5q
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 18:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40468)
+	id 1m5c78-000318-Pw
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 18:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1m5bbS-000433-L6
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:19:10 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:41880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1m5bbQ-0003un-W3
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 18:19:10 -0400
-Received: by mail-oi1-x233.google.com with SMTP id t143so22437562oie.8
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 15:19:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=SZLfdO48UV3Cv3KvezCUfONOFVOr+gSoOraNW4xAHyo=;
- b=cmrw4mQcfHL52yF3C+97h3uGe4mqU/rF+L5zqxBYgWLi3DLeWsvwOWjfxKdHroQa8z
- /TMKD2fkTvKl/bR9qXtrCsbcJlVR7ULIuagC8QxSDvsv0JIyyjnJzh4KsTrKfmH3uQf9
- aJpNNIIZXyq0QDB/OvcNEwAm1yugSuF6WNCRN3uqWoaTq2jgsyK2Dolxi4WpdYwxA7gM
- HJw7w/E8/0QspjvXEXZANMvw/uHR7G55zDsQvrmNEOyvp9RpbYXkPLBxS4lyfwgvO5tz
- 7AQzKj7UAEptAo0+87g2fymJ3hIYvWiDWH3oonayeW9TS34sPno4Tdl1JatfCUWoo5K/
- vNdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=SZLfdO48UV3Cv3KvezCUfONOFVOr+gSoOraNW4xAHyo=;
- b=IU1KlFXUO6TVjwd24R1dxzNgHlV42OV8PPKPsOIy8wu+owJ6+Wq41KyyRhUqZ2Qeib
- o9JOSrFD7fe12dIrndChzBwZ5/ib2Dijd9we1LEhBHiu+vFKGIER8LvNpP8jeAGFeFB1
- EVY8bqUzlsW5TJvf+2jpgV/wf5PEoZe7xTHsF9IHw29K+yj9AdNlkiabaqKNrK+Ax4EN
- 7fhR3M1ll+F0JX1ASb78qvb8DulGPxrUMKKWg8uRLJDhX/zrjcAZ42tg5xqwY2sCqp9j
- d0F9W4ih83f7DZa6HqqqzuZwMHu34szV8HXQvApvGIa64vopwnSJAxv4+VKoAVvcVePc
- 1aoA==
-X-Gm-Message-State: AOAM5326Qaakt5znZMDiX5bvsq9+PBLek/krNAfYrvdwxxta583Ogp31
- gVb5SWSlgHWU0WZPQNP2EjmF47Yi78UB9kWEBvvyczgzifw=
-X-Google-Smtp-Source: ABdhPJxyZXielNPHsTsXKGUIW9NHtlHyQDYZbfuBjOQj4SLrwRQgxXTTqjniWv29BT42RgBhEzTU1gPeQ1RRsaXhsgU=
-X-Received: by 2002:aca:d805:: with SMTP id p5mr19113069oig.60.1626733146966; 
- Mon, 19 Jul 2021 15:19:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m5c2L-0000Ie-VQ; Mon, 19 Jul 2021 18:46:57 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:43211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1m5c2K-0005K4-2i; Mon, 19 Jul 2021 18:46:57 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 50BA4580A64;
+ Mon, 19 Jul 2021 18:46:54 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Mon, 19 Jul 2021 18:46:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm3; bh=XTUs60lT3stFI+YkMgVa6AzY8p
+ PlKe9aVeGM98bNywM=; b=W8dcLrHKvO9AQLPXTkHcmZkcJNEZTIt1L8MGsFBKB5
+ Od8+OW9LspgrLaheTjmR/DjXqRbRDsHtBEvbCiZ4inpgjc66NS3N5Qpo7x8KK9WF
+ zFHS4QIKN4xRSZazklfwvPKV6nFBrv1VFgmWnDpftObfYdOn4pgrOiZtrYC97rDY
+ 0FWaV39zWKMKbHFbZQ+yHkIK87o1dfUpVUifp02ER4BtbitX3ZcMjV1PYPx4mZ8B
+ 1gj9id6n1Nl+91srJtlwvpY2qusPlofkFog0gmtVksJfsgH+7sc6wulqzAkbq9OR
+ 86v+RtGphjWBPFFWinqLdF+b0U/5war5zGDBAnjUnxNw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=XTUs60
+ lT3stFI+YkMgVa6AzY8pPlKe9aVeGM98bNywM=; b=h5C0hrpTNUZqmBhsy5wSuw
+ ewqAIfpBBLzG1xPk0QepuaQLjAnAZlfsvLJS9ZtquaXGTKtl7E6B99GDq8coNOHP
+ AiDjXC0vDEe3YaiWJm5P6dUwI0Pzn2ZzW/R2l34SLngT8jYDeQEJ4Xliwp6g79Qz
+ 3HJC1+K8CQ8jPrA3f5hcCA7o++pN4tDPMJjKmcniZZe1KPTIA1L+OdjFWrI++wR+
+ cWhe02ifctPMfYa9zq/FXEn/cD6zcxRXSZnos9uOMuxcgYTl+0w/Wb9aMNiQhmZ0
+ Y8Jcde1jYM8CpfB54LNwLrL6AkbmFjRwJ1kIw6s253MBgR+TFuyJmNfumueGg/NA
+ ==
+X-ME-Sender: <xms:3AD2YF6M0M54PEvDPlq2t10hdehLzwWiqq8Yyp54GC28TjjuwmjDbg>
+ <xme:3AD2YC5Uhp-XgJ9oAlKGe3_uP7XHedUxS_9U9cOcSeGsw2WR-oAhK3oDojYlarpmS
+ flG0vpmeXtWzp0PQpk>
+X-ME-Received: <xmr:3AD2YMeDmxEPQcd0PhcdcFJ_yct-F9HxPXFFByIKCB2JeYA8A6gMNi3i0UeuXzKvorbrR-CMuZfEcDFhtMptgzJvSKPHG8TODk5PLZPJ7A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedugddtkecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofggtgfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpeefudehfedugffhuddttefffeeluedttdetgfduleduuddugfeuhfelueeuuefggfen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhsse
+ hirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:3AD2YOJR84mqEpf-TzOMaSJN-C3uJ9X33YIPpXAzS8Ct1prBvAc-GQ>
+ <xmx:3AD2YJKtxgzxGDD4I9RR6hPOpi_CPrQoiC69yHslvFCr_R9222z3RQ>
+ <xmx:3AD2YHyvBxD8XbauDz_iF1p2Rt3v-VtjXHb-fk9V7M3mOvvAIrGOeA>
+ <xmx:3gD2YAYSpLjZO_OrowHzhIuAK5WfKDyafELR6HX-j0wNtn_Rs_P6dA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 19 Jul 2021 18:46:50 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/5] hw/nvme: fix mmio read
+Date: Tue, 20 Jul 2021 00:46:42 +0200
+Message-Id: <20210719224647.68559-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-From: Kenneth Adam Miller <kennethadammiller@gmail.com>
-Date: Mon, 19 Jul 2021 18:18:53 -0400
-Message-ID: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
-Subject: Error in accel/tcg?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000005e905b05c781534a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=kennethadammiller@gmail.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,61 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005e905b05c781534a
-Content-Type: text/plain; charset="UTF-8"
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Hello,
-
-I get the following error:
-
-<long cmd here> -c ../accel/tcg/cputlb.c
-../qemu/accel/tcg/cputlb.c: In function 'tlb_flush_page_by_mmuidx':
-../qemu/accel/tcg/cputlb.c:602:23: error: comparison is always true due to
-limited range of data type [-Werror=type-limits]
-    } else if (idxmap < TARGET_PAGE_SIZE) {
-
-I don't know why that suddenly shows up. The variable idxmap is a uint16_t
-and I haven't changed that at all. Also, the TARGET_PAGE_SIZE is indicated
-set by cscope/global tags in a specific header, and there's no reason to
-believe that the value it takes happens to be larger than a uint16_t, so I
-suppose that the static tags are lacking where the compiler evaluation
-would indicate correctly.
-
-In other parts of the code, I think somehow the meson build system is
-triggering errors for warnings, so things like uninitialized variables that
-have their address passed so that a called function can edit them are
-making. But I didn't specifically turn on any of these warnings to error
-settings. So my other thought is, perhaps because a version of gcc has some
-implicit initialization for variables declared without initialization. I
-checked that and resolved those. But I've been stumped for a while on the
-idxmap problem.
-
---0000000000005e905b05c781534a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<br><br>I get the following error:<br><br>&lt;long c=
-md here&gt; -c ../accel/tcg/cputlb.c<div>../qemu/accel/tcg/cputlb.c: In fun=
-ction &#39;tlb_flush_page_by_mmuidx&#39;:<br>../qemu/accel/tcg/cputlb.c:602=
-:23: error: comparison is always true due to limited range of data type [-W=
-error=3Dtype-limits]</div><div>=C2=A0 =C2=A0 } else if (idxmap &lt; TARGET_=
-PAGE_SIZE) {<br><br>I don&#39;t know why that suddenly shows up. The variab=
-le idxmap is a uint16_t and I haven&#39;t changed that at all. Also, the TA=
-RGET_PAGE_SIZE is indicated set by cscope/global tags in a specific header,=
- and there&#39;s no reason to believe that the value it takes happens to be=
- larger than a uint16_t, so I suppose that the static tags are lacking wher=
-e the compiler evaluation would indicate correctly.=C2=A0<br><br>In other p=
-arts of the code, I think somehow the meson build system is triggering erro=
-rs for warnings, so things like uninitialized variables that have their add=
-ress passed so that a called function can edit them are making. But I didn&=
-#39;t specifically turn on any of these warnings to error settings. So my o=
-ther thought is, perhaps because a version of gcc has some implicit initial=
-ization for variables declared without initialization. I checked that and r=
-esolved those. But I&#39;ve been stumped for a while on the idxmap problem.=
-</div></div>
-
---0000000000005e905b05c781534a--
+Fix mmio read issues on big-endian hosts. The core issue is that values=0D
+in the BAR is not stored in little endian as required.=0D
+=0D
+Fix that and add a regression test for this. This required a bit of=0D
+cleanup, so it blew up into a series.=0D
+=0D
+v5:=0D
+  * "hw/nvme: fix mmio read"=0D
+    - Hurried the changes a bit. Fixed.=0D
+=0D
+v4:=0D
+  * "hw/nvme: split pmrmsc register into upper and lower"=0D
+    - Fix missing left-shift (Peter)=0D
+=0D
+  * "hw/nvme: fix mmio read"=0D
+    - Remove unnecessary masking (Peter)=0D
+    - Keep existing behaviour and do not zero the register fields doing=0D
+      initialization (Peter)=0D
+=0D
+v3:=0D
+=0D
+  * "hw/nvme: use symbolic names for registers"=0D
+    Use offsetof(NvmeBar, reg) instead of explicit offsets (Philippe)=0D
+=0D
+  * "hw/nvme: fix mmio read"=0D
+    Use the st/ld API instead of cpu_to_X (Philippe)=0D
+=0D
+Klaus Jensen (5):=0D
+  hw/nvme: split pmrmsc register into upper and lower=0D
+  hw/nvme: use symbolic names for registers=0D
+  hw/nvme: fix out-of-bounds reads=0D
+  hw/nvme: fix mmio read=0D
+  tests/qtest/nvme-test: add mmio read test=0D
+=0D
+ include/block/nvme.h    |  60 +++++--=0D
+ hw/nvme/ctrl.c          | 352 ++++++++++++++++++++++------------------=0D
+ tests/qtest/nvme-test.c |  26 +++=0D
+ 3 files changed, 265 insertions(+), 173 deletions(-)=0D
+=0D
+-- =0D
+2.32.0=0D
+=0D
 
