@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8CB3CED8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 22:29:57 +0200 (CEST)
-Received: from localhost ([::1]:34904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522783CECAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 22:22:17 +0200 (CEST)
+Received: from localhost ([::1]:48708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Ztk-00072y-2N
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 16:29:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
+	id 1m5ZmK-0005a0-7c
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 16:22:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m5ZYP-0001Hd-5B; Mon, 19 Jul 2021 16:07:53 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:43331)
+ id 1m5ZYQ-0001KE-DP; Mon, 19 Jul 2021 16:07:54 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:37925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m5ZYJ-0001Z0-QT; Mon, 19 Jul 2021 16:07:52 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id E92B158165C;
- Mon, 19 Jul 2021 16:07:46 -0400 (EDT)
+ id 1m5ZYO-0001b1-31; Mon, 19 Jul 2021 16:07:54 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5A14F58165F;
+ Mon, 19 Jul 2021 16:07:51 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 19 Jul 2021 16:07:46 -0400
+ by compute2.internal (MEProxy); Mon, 19 Jul 2021 16:07:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=OhZ6ofxlqPTA+
- L1nvLlyBND0iE654oumdgMX/5x9EdY=; b=ggwt4VKpP6f729RXUtru8k3y0bIRj
- r3vYcJGK0G1GJbeD52Ag+hqzcVfJLp61g9XqFOsIPpURLGQ1jypZ+/KVENZVZK28
- m2Q1LMRABvfW8/06qEy98lNKwAGJDwWR1wwzOyQJRxjSPrk6H4uhwJNp9H4wCsgc
- 3YPa4mroBM+LEEQGalTBw9/Jhc+b8tnFcv5C++GrwhK8b7kgciXJM8NgDpJXWJVv
- R26gE3cmVr+EDlS5g4qkmISz9lqsYxsDkF+QkKtwVJ+W+420kwd/+J55qxY/iTFY
- Fm4M9Rsqoe8LEYRY8gDLuKXKgqy9jjADSlFPUl8OHlsFsTDJkWW/3m/dA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=TNGFfPxV/uVnm
+ /11Ubrs41ncxjcbv+/8dLrA3uToMHw=; b=igtAcyeBoezeA7hDs9GuSCcDP8sMR
+ 5rtI7YzwFwqaL9rfwyj6bwQUTh0zAsP27lZBeINPpdAHaj8qoky2LPsAU0BwSEqm
+ XIaBnSoPeb1GX2ryfee1x4dQVh4dYk8MYPDyVnyR0m/f2zaCyzSHqqVWYu7UqId6
+ xtsZKgIT5zW2/JiMuIkYwpCZZY31FahRUBOrxGnvhf7/yLCBiWheZhQYtKZH2v1E
+ QkTWbH/ovjJxceeLJsIw0hR4A55fQe9QHNZ+k+8ruzbNBtsfx/AgvUeBw9lw/S/C
+ +yxgGyuwemtzrhntdjQ55O/xfMJsEVsbQKqzIU2pWUBBvnOg8SzmrrXVw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=OhZ6ofxlqPTA+L1nvLlyBND0iE654oumdgMX/5x9EdY=; b=nXMI8FOm
- l9fPnTiArF4vW8BNM9d+hxIT+qI3Nn4uISElzBiTeUZlkat4WClgeE3+io9YKCQQ
- f3fwEk39P6aKU/7tBcs/X8ZRN4qunpUZnwSD2XSAY767eyxjcNRTipgMPhifjpe/
- Psww8EGdqIPURvl9t0+H2XhLvoFG24ghdIY+oYWE52vvaAeph5ilysGtA/GKS5VL
- 59A6ZqbKRysqtWTI20T5s34cKpxF+rrJIoBWNxS7CchA3nqCScNtPk9nrsBpogGk
- qHWpHvUkue76U4IfEPwUB3RJ9a1r+QJo0MZQR4z8H/YZ2K6cAzE20Gzg0DVKcQxP
- 8afALX37t/31MA==
-X-ME-Sender: <xms:ktv1YIaCT_0F_17iMoBJOulMqLq1GcxhxXx7Mb3O3mVB9BG1KxaLbg>
- <xme:ktv1YDYTnRnvImgYPSyg9RCfNWeJIzvRd1mIesPI4fsF7m5Ny-Z9JI7gMmpMIS-kG
- WT65gzhHc1mmGL-vPA>
-X-ME-Received: <xmr:ktv1YC8KTIgU-2UDiR3M5IwKmDlQqMKfh-hQ8_dGYxIZlFO_QVOpeE2N5SCikU4DSbE5pxIaXBgbiw-HMG_NSKkuJA7Qw1edams7DablpQ>
+ fm3; bh=TNGFfPxV/uVnm/11Ubrs41ncxjcbv+/8dLrA3uToMHw=; b=BMzeUSo8
+ NY1xJSdFxNrQqe8bltb9TKNKa8WJiqA0K2mCJuXC6LGUiaS+Ph5hhNTS0CwEh1Ud
+ wCUDPITEqCK5CRTslFTg0wAEkm8BwSfuB5vlOGGG+xEjo1ZLGenaqbWvM78sSMiW
+ sssRjIdv1LWbkuzUora/Evxx/XI0D61k1E1a3eES3+HdL2Ym9aZxAuznX2DkbknW
+ 6B1zCKZDWieTXiUYuwYazXEbCYRgd82DsXqbeEBWakSkDkGfHkM5VkFBUXsiAXBT
+ VwWRkSZmOgUs0demhtFMfeer+nVxVTtjSzqQjJAxJWmPlqF5ADr8vdsRIihRczH7
+ 0jZQYJpYmgWXeQ==
+X-ME-Sender: <xms:l9v1YIOXa7QGaNxjOVIWjfGlD9Ne8qdwMJmfduoYjfr5WVnlKWkHaw>
+ <xme:l9v1YO9QqQqLxZXFfTdmj6rJrQ3T1kkbIvjy_onHfdE6Jbj_Hg3mVl7hxj6OQKeIB
+ fmoblVo0n6tSZOE5Pg>
+X-ME-Received: <xmr:l9v1YPSHgn7GvLJfMGktf2v-vIgjOyF57ABGFZXVc73yLnpAtsFdccVmNu6sB-YW-PLryuQABu31UyV-6agPFWc5oC8-jrR0lFI3GiMy_Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedtgddugeefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -54,17 +54,17 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfedtgddugeefucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
  hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:ktv1YCr8vcN9EOIn7yt9L4AeBOmL5f89fZkSRIqENSbjlGBgAeS4pg>
- <xmx:ktv1YDrebSdaxXbtzyG5fxzrO0uj0RaVH50fGPLL0L0KxKrSOxwPFQ>
- <xmx:ktv1YARXzimQS4qjXtDotdzu5zTtJa5ETScd1iwKC2aq4Dkm34Kd1w>
- <xmx:ktv1YM5a2aBqT8m2BjavcorULNldWHCSgAPsoyz68Ksxj3Z2TWctmw>
+X-ME-Proxy: <xmx:l9v1YAuHjFVCZUf97KdwektowzU4F5rkEXLh47-6hu6oYA1ORWOJfQ>
+ <xmx:l9v1YAcmkfLdONQTmlHKnL4urEtg5nMr7lYgYFiPSiPwW-Tn0dcqKQ>
+ <xmx:l9v1YE0XUlFxwTuGgf0aZPosfVxSneFKOcTpM06ZqfIugkqa3o6FRg>
+ <xmx:l9v1YP_wl3gPAhok-kaYKRpIAM_rUITzaIs2UeRBJ5FIqZX_bZchhw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jul 2021 16:07:44 -0400 (EDT)
+ 19 Jul 2021 16:07:49 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/5] hw/nvme: fix out-of-bounds reads
-Date: Mon, 19 Jul 2021 22:07:31 +0200
-Message-Id: <20210719200733.28502-4-its@irrelevant.dk>
+Subject: [PATCH v4 5/5] tests/qtest/nvme-test: add mmio read test
+Date: Mon, 19 Jul 2021 22:07:33 +0200
+Message-Id: <20210719200733.28502-6-its@irrelevant.dk>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210719200733.28502-1-its@irrelevant.dk>
 References: <20210719200733.28502-1-its@irrelevant.dk>
@@ -104,62 +104,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Peter noticed that mmio access may read into the NvmeParams member in
-the NvmeCtrl struct.
+Add a regression test for mmio read on big-endian hosts.
 
-Fix the bounds check.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 ---
- hw/nvme/ctrl.c | 27 +++++++++++++++------------
- 1 file changed, 15 insertions(+), 12 deletions(-)
+ tests/qtest/nvme-test.c | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 8c305315f41c..0449cc4dee9b 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -5968,23 +5968,26 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
-         /* should RAZ, fall through for now */
-     }
- 
--    if (addr < sizeof(n->bar)) {
--        /*
--         * When PMRWBM bit 1 is set then read from
--         * from PMRSTS should ensure prior writes
--         * made it to persistent media
--         */
--        if (addr == NVME_REG_PMRSTS &&
--            (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
--            memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
--        }
--        memcpy(&val, ptr + addr, size);
--    } else {
-+    if (addr > sizeof(n->bar) - size) {
-         NVME_GUEST_ERR(pci_nvme_ub_mmiord_invalid_ofs,
-                        "MMIO read beyond last register,"
-                        " offset=0x%"PRIx64", returning 0", addr);
-+
-+        return 0;
-     }
- 
-+    /*
-+     * When PMRWBM bit 1 is set then read from
-+     * from PMRSTS should ensure prior writes
-+     * made it to persistent media
-+     */
-+    if (addr == NVME_REG_PMRSTS &&
-+        (NVME_PMRCAP_PMRWBM(n->bar.pmrcap) & 0x02)) {
-+        memory_region_msync(&n->pmr.dev->mr, 0, n->pmr.dev->size);
-+    }
-+
-+    memcpy(&val, ptr + addr, size);
-+
-     return val;
+diff --git a/tests/qtest/nvme-test.c b/tests/qtest/nvme-test.c
+index 47e757d7e2af..f8bafb5d70fb 100644
+--- a/tests/qtest/nvme-test.c
++++ b/tests/qtest/nvme-test.c
+@@ -67,6 +67,30 @@ static void nvmetest_oob_cmb_test(void *obj, void *data, QGuestAllocator *alloc)
+     g_assert_cmpint(qpci_io_readl(pdev, bar, cmb_bar_size - 1), !=, 0x44332211);
  }
  
++static void nvmetest_reg_read_test(void *obj, void *data, QGuestAllocator *alloc)
++{
++    QNvme *nvme = obj;
++    QPCIDevice *pdev = &nvme->dev;
++    QPCIBar bar;
++    uint32_t cap_lo, cap_hi;
++    uint64_t cap;
++
++    qpci_device_enable(pdev);
++    bar = qpci_iomap(pdev, 0, NULL);
++
++    cap_lo = qpci_io_readl(pdev, bar, 0x0);
++    g_assert_cmpint(NVME_CAP_MQES(cap_lo), ==, 0x7ff);
++
++    cap_hi = qpci_io_readl(pdev, bar, 0x4);
++    g_assert_cmpint(NVME_CAP_MPSMAX((uint64_t)cap_hi << 32), ==, 0x4);
++
++    cap = qpci_io_readq(pdev, bar, 0x0);
++    g_assert_cmpint(NVME_CAP_MQES(cap), ==, 0x7ff);
++    g_assert_cmpint(NVME_CAP_MPSMAX(cap), ==, 0x4);
++
++    qpci_iounmap(pdev, bar);
++}
++
+ static void nvmetest_pmr_reg_test(void *obj, void *data, QGuestAllocator *alloc)
+ {
+     QNvme *nvme = obj;
+@@ -142,6 +166,8 @@ static void nvme_register_nodes(void)
+                  &(QOSGraphTestOptions) {
+         .edge.extra_device_opts = "pmrdev=pmr0"
+     });
++
++    qos_add_test("reg-read", "nvme", nvmetest_reg_read_test, NULL);
+ }
+ 
+ libqos_init(nvme_register_nodes);
 -- 
 2.32.0
 
