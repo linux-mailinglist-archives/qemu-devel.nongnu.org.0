@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BD163CCCB3
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 05:46:06 +0200 (CEST)
-Received: from localhost ([::1]:47778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33D53CCCB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 05:48:01 +0200 (CEST)
+Received: from localhost ([::1]:51046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5KEG-0005fa-Ra
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 23:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44196)
+	id 1m5KG8-0007yT-Su
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 23:48:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m5K6N-00017w-Va; Sun, 18 Jul 2021 23:37:55 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40467 helo=ozlabs.org)
+ id 1m5KD9-0005wJ-E9
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:44:55 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45553 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m5K6L-0002wD-Fa; Sun, 18 Jul 2021 23:37:55 -0400
+ id 1m5KD7-0000HB-Ae
+ for qemu-devel@nongnu.org; Sun, 18 Jul 2021 23:44:55 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GSnbv1hPqz9sW8; Mon, 19 Jul 2021 13:37:47 +1000 (AEST)
+ id 4GSnm256x3z9sRR; Mon, 19 Jul 2021 13:44:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1626665867;
- bh=OB6SWCODCwqHr1t6NUWoVnPGgQcdM8upYSYzEWNV/hA=;
+ d=gibson.dropbear.id.au; s=201602; t=1626666290;
+ bh=Are7vYY/R79xzWE/MUf+7xIHb6QD/PjSvwniBFZ8MAo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=EGgswyVVehEI7kk/FLUALYT1b+vC4x4UrF7iCXDI77i5i/6ImRt/We81FZgKVm800
- 9iCX8sPTua+BR4fiAbd1O4sE/BpUSG6t5vtvpLcspfuKsAOFBV7lT84964PiZzxD/4
- PvDBbZLP4SvgGrJf9GGd5Ndlp5LZ7lLAhy/Z0Z90=
-Date: Mon, 19 Jul 2021 12:42:40 +1000
+ b=HVipZirbC7zNYkxm5bY62A5zKQLICP7kwzkG835z1lm6ZajLMUF4uiicFWuN8ZolN
+ wT+CirHmYOuejyzps5KIwfpmjcCXhrNFGSQKBOgT9yqZF1Vbi0iq65lp3dX2P2Xfjv
+ t3g0L7DiNViP+H+laOb+wVZEwo13g5lTkZMrV3BY=
+Date: Mon, 19 Jul 2021 13:38:54 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: matheus.ferst@eldorado.org.br
-Subject: Re: [PATCH] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
- for ppc32
-Message-ID: <YPTmoCh2z2VXzc7O@yekko>
-References: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH for-6.2 v2 06/11] hw: Add compat machines for 6.2
+Message-ID: <YPTzzvL0hTfKgEkT@yekko>
+References: <20210719032043.25416-1-wangyanan55@huawei.com>
+ <20210719032043.25416-7-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mxK7GqjLVT4Y5zbJ"
+ protocol="application/pgp-signature"; boundary="DlU4KoAmEnJS1toN"
 Content-Disposition: inline
-In-Reply-To: <20210715122950.2366428-1-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20210719032043.25416-7-wangyanan55@huawei.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,160 +60,254 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, yuzenghui@huawei.com,
+ Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---mxK7GqjLVT4Y5zbJ
+--DlU4KoAmEnJS1toN
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 15, 2021 at 09:29:50AM -0300, matheus.ferst@eldorado.org.br wro=
-te:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Mon, Jul 19, 2021 at 11:20:38AM +0800, Yanan Wang wrote:
+> Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
 >=20
-> In commit 8f0a4b6a9, we started to require L=3D0 for ppc32 to match what
-> The Programming Environments Manual say:
->=20
-> "For 32-bit implementations, the L field must be cleared, otherwise
-> the instruction form is invalid."
->=20
-> Further digging, however, shown that older CPUs have different behavior
-> concerning invalid forms. E.g.: 440 and 405 manuals say that:
->=20
-> "Unless otherwise noted, the PPC440 will execute all invalid instruction
-> forms without causing an Illegal Instruction exception".
->=20
-> While the PowerISA has an arguably more restrictive:
->=20
-> "In general, any attempt to execute an invalid form of an instruction
-> will either cause the system illegal instruction error handler to be
-> invoked or yield boundedly undefined results."
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 
-That's actually less restrictive.  "boundedly undefined" lets the
-implementation do nearly anything that won't mess up a hypervisor.
-Both ignoring the illegal bits and issuing an invalid instruction
-exception are definitely permissible within the meaning of "boundedly
-undefined".
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-> Finally, BALATON Zoltan (CC'ed) reported that the stricter behavior
-> broke AROS boot on sam460ex. This patch address this regression by only
-> logging a guest error, except for CPUs known to raise an exception for
-> this case (e500 and e500mc).
-
-So.. as a rule of thumb, I'd prefer to have qemu give explicit
-failures (e.g. program check traps) where there's implementation
-specific or architecture undefined behaviour.  On the other hand,
-having a real guest that relies on the specific behaviour of real
-implementations is a compelling reason to break that rule of thumb.
-
-
-Given it's a behavioural change, I'm disinclined to squeeze this in
-for qemu-6.1, but I'll consider it for 6.2.  Richard, any thoughts?
-
->=20
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 > ---
->  target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
->  1 file changed, 56 insertions(+), 2 deletions(-)
+>  hw/arm/virt.c              |  9 ++++++++-
+>  hw/core/machine.c          |  3 +++
+>  hw/i386/pc.c               |  3 +++
+>  hw/i386/pc_piix.c          | 14 +++++++++++++-
+>  hw/i386/pc_q35.c           | 13 ++++++++++++-
+>  hw/ppc/spapr.c             | 15 +++++++++++++--
+>  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>  include/hw/boards.h        |  3 +++
+>  include/hw/i386/pc.h       |  3 +++
+>  9 files changed, 71 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/tran=
-slate/fixedpoint-impl.c.inc
-> index f4fcfadbfc..1c35b60eb4 100644
-> --- a/target/ppc/translate/fixedpoint-impl.c.inc
-> +++ b/target/ppc/translate/fixedpoint-impl.c.inc
-> @@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 81eda46b0b..01165f7f53 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2788,10 +2788,17 @@ static void machvirt_machine_init(void)
+>  }
+>  type_init(machvirt_machine_init);
 > =20
->  static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
->  {
-> +    if ((ctx->insns_flags & PPC_64B) =3D=3D 0) {
-> +        /*
-> +         * For 32-bit implementations, The Programming Environments Manu=
-al says
-> +         * that "the L field must be cleared, otherwise the instruction =
-form is
-> +         * invalid." It seems, however, that most 32-bit CPUs ignore inv=
-alid
-> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
-> +         * manuals, "Integer Compare Instructions" of the 601 manual), w=
-ith the
-> +         * notable exception of the e500 and e500mc, where L=3D1 was rep=
-orted to
-> +         * cause an exception.
-> +         */
-> +        if (a->l) {
-> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-> +                /*
-> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e5=
-00mc),
-> +                 * generate an illegal instruction exception.
-> +                 */
-> +                return false;
-> +            } else {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L=
- =3D 1\n",
-> +                        s ? "" : "L", ctx->cia);
-> +            }
-> +        }
-> +        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-> +        return true;
-> +    }
+> +static void virt_machine_6_2_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
 > +
-> +    /* For 64-bit implementations, deal with bit L accordingly. */
->      if (a->l) {
-> -        REQUIRE_64BIT(ctx);
->          gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
->      } else {
->          gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-> @@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a=
-, bool s)
+>  static void virt_machine_6_1_options(MachineClass *mc)
+>  {
+> +    virt_machine_6_2_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>  }
+> -DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
+> +DEFINE_VIRT_MACHINE(6, 1)
 > =20
->  static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
+>  static void virt_machine_6_0_options(MachineClass *mc)
 >  {
-> +    if ((ctx->insns_flags & PPC_64B) =3D=3D 0) {
-> +        /*
-> +         * For 32-bit implementations, The Programming Environments Manu=
-al says
-> +         * that "the L field must be cleared, otherwise the instruction =
-form is
-> +         * invalid." It seems, however, that most 32-bit CPUs ignore inv=
-alid
-> +         * forms (e.g., section "Instruction Formats" of the 405 and 440
-> +         * manuals, "Integer Compare Instructions" of the 601 manual), w=
-ith the
-> +         * notable exception of the e500 and e500mc, where L=3D1 was rep=
-orted to
-> +         * cause an exception.
-> +         */
-> +        if (a->l) {
-> +            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-> +                /*
-> +                 * For 32-bit Book E v2.06 implementations (i.e. e500/e5=
-00mc),
-> +                 * generate an illegal instruction exception.
-> +                 */
-> +                return false;
-> +            } else {
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L=
- =3D 1\n",
-> +                        s ? "I" : "LI", ctx->cia);
-> +            }
-> +        }
-> +        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-> +        return true;
-> +    }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 8b4d07d3fc..63439c4a6d 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -37,6 +37,9 @@
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-pci.h"
+> =20
+> +GlobalProperty hw_compat_6_1[] =3D {};
+> +const size_t hw_compat_6_1_len =3D G_N_ELEMENTS(hw_compat_6_1);
 > +
-> +    /* For 64-bit implementations, deal with bit L accordingly. */
->      if (a->l) {
-> -        REQUIRE_64BIT(ctx);
->          gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
->      } else {
->          gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
+>  GlobalProperty hw_compat_6_0[] =3D {
+>      { "gpex-pcihost", "allow-unmapped-accesses", "false" },
+>      { "i8042", "extended-state", "false"},
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index d94ef582b5..c6768c6ce7 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -94,6 +94,9 @@
+>  #include "trace.h"
+>  #include CONFIG_DEVICES
+> =20
+> +GlobalProperty pc_compat_6_1[] =3D {};
+> +const size_t pc_compat_6_1_len =3D G_N_ELEMENTS(pc_compat_6_1);
+> +
+>  GlobalProperty pc_compat_6_0[] =3D {
+>      { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
+>      { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 30b8bd6ea9..fd5c2277f2 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -413,7 +413,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+>      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+>  }
+> =20
+> -static void pc_i440fx_6_1_machine_options(MachineClass *m)
+> +static void pc_i440fx_6_2_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+>      pc_i440fx_machine_options(m);
+> @@ -422,6 +422,18 @@ static void pc_i440fx_6_1_machine_options(MachineCla=
+ss *m)
+>      pcmc->default_cpu_version =3D 1;
+>  }
+> =20
+> +DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
+> +                      pc_i440fx_6_2_machine_options);
+> +
+> +static void pc_i440fx_6_1_machine_options(MachineClass *m)
+> +{
+> +    pc_i440fx_6_2_machine_options(m);
+> +    m->alias =3D NULL;
+> +    m->is_default =3D false;
+> +    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+> +    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+> +}
+> +
+>  DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
+>                        pc_i440fx_6_1_machine_options);
+> =20
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 04b4a4788d..b45903b15e 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -355,7 +355,7 @@ static void pc_q35_machine_options(MachineClass *m)
+>      m->max_cpus =3D 288;
+>  }
+> =20
+> -static void pc_q35_6_1_machine_options(MachineClass *m)
+> +static void pc_q35_6_2_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);
+>      pc_q35_machine_options(m);
+> @@ -363,6 +363,17 @@ static void pc_q35_6_1_machine_options(MachineClass =
+*m)
+>      pcmc->default_cpu_version =3D 1;
+>  }
+> =20
+> +DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
+> +                   pc_q35_6_2_machine_options);
+> +
+> +static void pc_q35_6_1_machine_options(MachineClass *m)
+> +{
+> +    pc_q35_6_2_machine_options(m);
+> +    m->alias =3D NULL;
+> +    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+> +    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
+> +}
+> +
+>  DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
+>                     pc_q35_6_1_machine_options);
+> =20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 81699d4f8b..d39fd4e644 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4685,15 +4685,26 @@ static void spapr_machine_latest_class_options(Ma=
+chineClass *mc)
+>      }                                                                \
+>      type_init(spapr_machine_register_##suffix)
+> =20
+> +/*
+> + * pseries-6.2
+> + */
+> +static void spapr_machine_6_2_class_options(MachineClass *mc)
+> +{
+> +    /* Defaults for the latest behaviour inherited from the base class */
+> +}
+> +
+> +DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
+> +
+>  /*
+>   * pseries-6.1
+>   */
+>  static void spapr_machine_6_1_class_options(MachineClass *mc)
+>  {
+> -    /* Defaults for the latest behaviour inherited from the base class */
+> +    spapr_machine_6_2_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>  }
+> =20
+> -DEFINE_SPAPR_MACHINE(6_1, "6.1", true);
+> +DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
+> =20
+>  /*
+>   * pseries-6.0
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index e4b18aef49..4d25278cf2 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -791,14 +791,26 @@ bool css_migration_enabled(void)
+>      }                                                                   =
+      \
+>      type_init(ccw_machine_register_##suffix)
+> =20
+> +static void ccw_machine_6_2_instance_options(MachineState *machine)
+> +{
+> +}
+> +
+> +static void ccw_machine_6_2_class_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_CCW_MACHINE(6_2, "6.2", true);
+> +
+>  static void ccw_machine_6_1_instance_options(MachineState *machine)
+>  {
+> +    ccw_machine_6_2_instance_options(machine);
+>  }
+> =20
+>  static void ccw_machine_6_1_class_options(MachineClass *mc)
+>  {
+> +    ccw_machine_6_2_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
+>  }
+> -DEFINE_CCW_MACHINE(6_1, "6.1", true);
+> +DEFINE_CCW_MACHINE(6_1, "6.1", false);
+> =20
+>  static void ccw_machine_6_0_instance_options(MachineState *machine)
+>  {
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index b6161cee88..2832f0f8aa 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -354,6 +354,9 @@ struct MachineState {
+>      } \
+>      type_init(machine_initfn##_register_types)
+> =20
+> +extern GlobalProperty hw_compat_6_1[];
+> +extern const size_t hw_compat_6_1_len;
+> +
+>  extern GlobalProperty hw_compat_6_0[];
+>  extern const size_t hw_compat_6_0_len;
+> =20
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 88dffe7517..97b4ab79b5 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -196,6 +196,9 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, s=
+ize_t flash_size);
+>  void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>                         const CPUArchIdList *apic_ids, GArray *entry);
+> =20
+> +extern GlobalProperty pc_compat_6_1[];
+> +extern const size_t pc_compat_6_1_len;
+> +
+>  extern GlobalProperty pc_compat_6_0[];
+>  extern const size_t pc_compat_6_0_len;
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -219,25 +315,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---mxK7GqjLVT4Y5zbJ
+--DlU4KoAmEnJS1toN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD05p4ACgkQbDjKyiDZ
-s5KWLBAAglwReSHxN6sknQCP4yylMYRB7P8lvtH8SgTAtf7vStw6xe6sqFD/7U9a
-toHlV6K9Av0+i3di3G0yxRvyq+b021MSQu+hdwGG9yitS3uv93RhKTiGWoc/Yu05
-TCYmc54AER2DE1R+gTmYocO7kEtqk6K49gCwLyvGs0/UTO23zLQfkLLEBlKWhaJe
-iO7BuwxIZv0hnHaTiCfJZyvJXK8r+mdD0Gj/3Yfa8ZI9DUCEnuvQZjl5/kzNbMgf
-EhiIPlc3NeOLyxac3dDtQIDmuxv8lJSQcM5ymXguZXDNDm1mLRcNXvsWsIzl4dxp
-1NUsIWlM3h6rGLDI4FKQ7jHcPnTCXV8cazgEFCfg+LM39louZSq0KddzGJns1tv+
-8t+nCZtmmpkC6Erj0+gwVrjGkoZIc/9J5zgqVazyNASNEIYMbtru0Gi8dpYP6UgB
-UqME44LbVcyYuWkTeQTBbgDSBcEfBqJXx7CaL9+9NjFyEmet0M9X9CwLZZ/tmHzI
-Sptvf26EE6BoKXQPQVSW07r3tDqWklajJQfwICu9Q3nmQoIqwb+VRdsEcDPWkYTX
-Qp8/IGWXYnFF9UibcvicPkojOnn/7JxAO17XOpmydL+Yn1T4bNzO5ztekdcElSbr
-xVdL/RUiENMx4vpMOtWLdkuGlDWvKsMLXH4FEl9nHK3s7tW/G6o=
-=QYJO
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD088wACgkQbDjKyiDZ
+s5LI5A/+NvBNZtzn23lmItFkvcMVHZIO1d0zDpGzLdtjAkzK2DuJVMOsNPvvfdKI
+wuZy5v/4tV9U26MqYieBLkVvm+A5GywlQP7R1DO0G5Slql3fdijBQQ+oph+futMV
+XCHHH/Qsj5UdTyzMb3bc6XPHLeiOpSReEgPWH1OANZuRMINK67yHQrCHggTBfyNl
+Ydy08GH6UUTGw6KuRMXIQy0yBK9pefQniPachV+nXyWDO2LzPNGvJuSn6vlykXgF
+JA4Gkt0tsfWqsutvDWUzxn7r1EPI0lxuT38ACphK1emcC6aCRaoOFxGBK5f6Wbof
+E6XpToC3F++zKAU1Lyj+FDi51WPAnbQG+pA7Ve2i9XUHaJsidmLoqPVqmo/wbpV9
+rlsnKzUkC1+tvc/yAck/bDI8LQspALmS1n3tpUd92IT0LELTBJHEe+AiPjPIIbaR
+b/Y16kMioHkan4qZXP736sAqdzxhJEX+ENfUacYgCxDJhnF5BilpS3yprvaAOQyj
+LD6mKFp1mPeBCZq9UejtOlls3WpjGsR2OaHFmmeYLramHvPtHEKqIcA46rE7XSlp
+XCZ8xFXd404oYmDIikS/rnJRL8aj/yWxbunJBOdorlYOJ+/+92H9M9BLyX0kVNmn
+quAXcMReXlwHodzIoT47JLBZX7Ma5k1fwN0DiL3ZPSGN7/Ja3bM=
+=EOnZ
 -----END PGP SIGNATURE-----
 
---mxK7GqjLVT4Y5zbJ--
+--DlU4KoAmEnJS1toN--
 
