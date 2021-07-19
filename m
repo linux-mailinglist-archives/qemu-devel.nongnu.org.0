@@ -2,62 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3FD3CE0B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:09:13 +0200 (CEST)
-Received: from localhost ([::1]:35690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 735DC3CE222
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 18:13:51 +0200 (CEST)
+Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5VpQ-0007GH-5Q
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55920)
+	id 1m5Vtt-0003gB-VX
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 12:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1m5Vj9-0004jl-9j
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:02:44 -0400
-Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:60165)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m5Vs6-0002Ec-PF
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:11:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1m5Vj6-0005vj-ED
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:02:42 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.22])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 3A5A1288110;
- Mon, 19 Jul 2021 18:02:37 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 19 Jul
- 2021 18:02:36 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002800e77bb-c648-4a6a-8127-6a75136583fd,
- 5C81DEF932CE68F5B4ADF8C6EB3FE0DC56E33E11) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.89.73.13
-Subject: Re: [SPAM] [PATCH v2 3/3] hw: aspeed_gpio: Clarify GPIO controller
- name
-To: Joel Stanley <joel@jms.id.au>
-References: <20210713065854.134634-1-joel@jms.id.au>
- <20210713065854.134634-4-joel@jms.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <51d4bd19-39d7-d211-7cba-8ef74b859a80@kaod.org>
-Date: Mon, 19 Jul 2021 18:02:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1m5Vs3-0003Pm-0K
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 12:11:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626711113;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rfONtBPSi28j5DEHzVYvrm30jA/zf4Xb1AKuou8zgaw=;
+ b=d1Xn9dmVrTYdPWwk2GTOXvTmjBFiAmMmMRuSpp7EWNFLKq1IuVpefADwEN52XBAFwgkBN1
+ qKqspjOd+lsTspexAASmSzf0zQtXNOqnZXphy98cCStdEgFF9LQXnP4HUmfjVFZVXs+IGY
+ HIk71gixkzBTyTlI//fIsqpDUrSKryI=
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
+ [209.85.166.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-51-f493_bvsN7Siv4JrVzTVfA-1; Mon, 19 Jul 2021 12:11:51 -0400
+X-MC-Unique: f493_bvsN7Siv4JrVzTVfA-1
+Received: by mail-il1-f200.google.com with SMTP id
+ e16-20020a056e0204b0b029020c886c9370so10920558ils.10
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 09:11:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=rfONtBPSi28j5DEHzVYvrm30jA/zf4Xb1AKuou8zgaw=;
+ b=N3L/8U6oRAE07svPf66TNcaeEWg55zh5JOAjZ+fw0BG8mQmoJDtC5Yw4nFIY34z9Lm
+ brQ5nl16LVWSH8aBrFFbWtuJvfOUUBt+pKvgFKf0Mh8DgPuqajlMAHLqYLGGS4MrMSsV
+ KxK9A/CEMAD6eeRaxhU/Mmo6q/E8GPFEqf4ygDabBRCJ9lYeMH1L7A8zUs91ARDUinLY
+ UjwHboWFLKnlRxzRWgXpnVd5oLDIw6iwqVvhRgcWDII9rhZh3immQehgZNOflNiggvq2
+ r+k7xxrUaBBwKT9Io6ONssy20VOMEG9EZa/VIklvWErcv+Hzf8cFqfhiLVixnANCxUiv
+ y0zA==
+X-Gm-Message-State: AOAM533dR0/awBwMhEL9raJgUs73tCeV8NsirftAXbje7xQVz87btHSJ
+ s7kX9ps6h9Cb18lUyMq1GXpfc9CY8nbERyFd5pko/Nwz69oBdYEmydjk7fzpXqvrjgZG/Qr7qyV
+ /yR5fe+MVgh+MT1w=
+X-Received: by 2002:a05:6e02:16c7:: with SMTP id
+ 7mr1643495ilx.269.1626711111209; 
+ Mon, 19 Jul 2021 09:11:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxaFe6KzPq1rQL55o2qxn3PVeVNe3YmctzRXkWUlTHQ0BSZKHMCVNzt3ExngM2SpRQW2cy+aw==
+X-Received: by 2002:a05:6e02:16c7:: with SMTP id
+ 7mr1643479ilx.269.1626711110971; 
+ Mon, 19 Jul 2021 09:11:50 -0700 (PDT)
+Received: from gator ([140.82.166.162])
+ by smtp.gmail.com with ESMTPSA id r1sm9410662ilt.37.2021.07.19.09.11.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 09:11:50 -0700 (PDT)
+Date: Mon, 19 Jul 2021 18:11:48 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH for-6.2 v2 01/11] machine: Disallow specifying topology
+ parameters as zero
+Message-ID: <20210719161148.lpkziyzgkuavl7nv@gator>
+References: <20210719032043.25416-1-wangyanan55@huawei.com>
+ <20210719032043.25416-2-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210713065854.134634-4-joel@jms.id.au>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 7df562e3-3049-4b32-9e23-6d79d721080e
-X-Ovh-Tracer-Id: 11681211536934931363
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrfedtgdelgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehjohgvlhesjhhmshdrihgurdgruh
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210719032043.25416-2-wangyanan55@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,114 +97,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Rashmica Gupta <rashmica.g@gmail.com>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ wanghaibin.wang@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
+ yuzenghui@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/13/21 8:58 AM, Joel Stanley wrote:
-> There are two GPIO controllers in the ast2600; one is 3.3V and the other
-> is 1.8V.
+On Mon, Jul 19, 2021 at 11:20:33AM +0800, Yanan Wang wrote:
+> In the SMP configuration, we should either specify a topology
+> parameter with a reasonable value (equal to or greater than 1)
+> or just leave it omitted and QEMU will calculate its value.
 > 
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
+> Configurations which explicitly specify the topology parameters
+> as zero like "sockets=0" are meaningless, so disallow them.
+> 
+> Suggested-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/gpio/aspeed_gpio.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
+>  hw/core/machine.c | 31 +++++++++++++++++++++++--------
+>  hw/i386/pc.c      | 29 +++++++++++++++++++++--------
+>  qapi/machine.json |  4 ++--
+>  3 files changed, 46 insertions(+), 18 deletions(-)
 > 
-> diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
-> index dc721aec5da7..dfa6d6cb40a9 100644
-> --- a/hw/gpio/aspeed_gpio.c
-> +++ b/hw/gpio/aspeed_gpio.c
-> @@ -164,12 +164,12 @@
->  #define GPIO_YZAAAB_DIRECTION      (0x1E4 >> 2)
->  #define GPIO_AC_DATA_VALUE         (0x1E8 >> 2)
->  #define GPIO_AC_DIRECTION          (0x1EC >> 2)
-> -#define GPIO_3_6V_MEM_SIZE         0x1F0
-> -#define GPIO_3_6V_REG_ARRAY_SIZE   (GPIO_3_6V_MEM_SIZE >> 2)
-> +#define GPIO_3_3V_MEM_SIZE         0x1F0
-> +#define GPIO_3_3V_REG_ARRAY_SIZE   (GPIO_3_3V_MEM_SIZE >> 2)
->  
->  /* AST2600 only - 1.8V gpios */
->  /*
-> - * The AST2600 two copies of the GPIO controller: the same 3.6V gpios as the
-> + * The AST2600 two copies of the GPIO controller: the same 3.3V gpios as the
->   * AST2400 (memory offsets 0x0-0x198) and a second controller with 1.8V gpios
->   * (memory offsets 0x800-0x9D4).
->   */
-> @@ -380,7 +380,7 @@ static uint32_t update_value_control_source(GPIOSets *regs, uint32_t old_value,
->      return new_value;
->  }
->  
-> -static const AspeedGPIOReg aspeed_3_6v_gpios[GPIO_3_6V_REG_ARRAY_SIZE] = {
-> +static const AspeedGPIOReg aspeed_3_3v_gpios[GPIO_3_3V_REG_ARRAY_SIZE] = {
->      /* Set ABCD */
->      [GPIO_ABCD_DATA_VALUE] =     { 0, gpio_reg_data_value },
->      [GPIO_ABCD_DIRECTION] =      { 0, gpio_reg_direction },
-> @@ -800,7 +800,7 @@ static const GPIOSetProperties ast2500_set_props[] = {
->      [7] = {0x000000ff,  0x000000ff,  {"AC"} },
->  };
->  
-> -static GPIOSetProperties ast2600_3_6v_set_props[] = {
-> +static GPIOSetProperties ast2600_3_3v_set_props[] = {
->      [0] = {0xffffffff,  0xffffffff,  {"A", "B", "C", "D"} },
->      [1] = {0xffffffff,  0xffffffff,  {"E", "F", "G", "H"} },
->      [2] = {0xffffffff,  0xffffffff,  {"I", "J", "K", "L"} },
-> @@ -927,7 +927,7 @@ static void aspeed_gpio_ast2400_class_init(ObjectClass *klass, void *data)
->      agc->nr_gpio_pins = 216;
->      agc->nr_gpio_sets = 7;
->      agc->gap = 196;
-> -    agc->reg_table = aspeed_3_6v_gpios;
-> +    agc->reg_table = aspeed_3_3v_gpios;
->  }
->  
->  static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
-> @@ -938,17 +938,17 @@ static void aspeed_gpio_2500_class_init(ObjectClass *klass, void *data)
->      agc->nr_gpio_pins = 228;
->      agc->nr_gpio_sets = 8;
->      agc->gap = 220;
-> -    agc->reg_table = aspeed_3_6v_gpios;
-> +    agc->reg_table = aspeed_3_3v_gpios;
->  }
->  
-> -static void aspeed_gpio_ast2600_3_6v_class_init(ObjectClass *klass, void *data)
-> +static void aspeed_gpio_ast2600_3_3v_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 775add0795..d73daa10f4 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -745,11 +745,25 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
 >  {
->      AspeedGPIOClass *agc = ASPEED_GPIO_CLASS(klass);
+>      unsigned cpus    = config->has_cpus ? config->cpus : 0;
+>      unsigned sockets = config->has_sockets ? config->sockets : 0;
+> +    unsigned dies    = config->has_dies ? config->dies : 1;
+>      unsigned cores   = config->has_cores ? config->cores : 0;
+>      unsigned threads = config->has_threads ? config->threads : 0;
+> +    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+> +
+> +    if ((config->has_cpus && config->cpus == 0) ||
+> +        (config->has_sockets && config->sockets == 0) ||
+> +        (config->has_dies && config->dies == 0) ||
+> +        (config->has_cores && config->cores == 0) ||
+> +        (config->has_threads && config->threads == 0) ||
+> +        (config->has_maxcpus && config->maxcpus == 0)) {
+> +        error_setg(errp, "parameters must be equal to or greater than one"
+> +                   "if provided");
+
+Missing a space between 'one' and 'if'. It's better to just put the whole
+string on one line too (ignore the 80 char thing) for error grepping.
+
+> +        return;
+> +    }
 >  
-> -    agc->props = ast2600_3_6v_set_props;
-> +    agc->props = ast2600_3_3v_set_props;
->      agc->nr_gpio_pins = 208;
->      agc->nr_gpio_sets = 7;
-> -    agc->reg_table = aspeed_3_6v_gpios;
-> +    agc->reg_table = aspeed_3_3v_gpios;
+> -    if (config->has_dies && config->dies != 0 && config->dies != 1) {
+> +    if (dies > 1) {
+>          error_setg(errp, "dies not supported by this machine's CPU topology");
+> +        return;
+>      }
+>  
+>      /* compute missing values, prefer sockets over cores over threads */
+> @@ -760,8 +774,8 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>              sockets = sockets > 0 ? sockets : 1;
+>              cpus = cores * threads * sockets;
+>          } else {
+> -            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+> -            sockets = ms->smp.max_cpus / (cores * threads);
+> +            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +            sockets = maxcpus / (cores * threads);
+>          }
+>      } else if (cores == 0) {
+>          threads = threads > 0 ? threads : 1;
+> @@ -778,26 +792,27 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>          return;
+>      }
+>  
+> -    ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>  
+> -    if (ms->smp.max_cpus < cpus) {
+> +    if (maxcpus < cpus) {
+>          error_setg(errp, "maxcpus must be equal to or greater than smp");
+>          return;
+>      }
+>  
+> -    if (sockets * cores * threads != ms->smp.max_cpus) {
+> +    if (sockets * cores * threads != maxcpus) {
+>          error_setg(errp, "Invalid CPU topology: "
+>                     "sockets (%u) * cores (%u) * threads (%u) "
+>                     "!= maxcpus (%u)",
+>                     sockets, cores, threads,
+> -                   ms->smp.max_cpus);
+> +                   maxcpus);
+>          return;
+>      }
+>  
+>      ms->smp.cpus = cpus;
+> +    ms->smp.sockets = sockets;
+>      ms->smp.cores = cores;
+>      ms->smp.threads = threads;
+> -    ms->smp.sockets = sockets;
+> +    ms->smp.max_cpus = maxcpus;
 >  }
 >  
->  static void aspeed_gpio_ast2600_1_8v_class_init(ObjectClass *klass, void *data)
-> @@ -984,10 +984,10 @@ static const TypeInfo aspeed_gpio_ast2500_info = {
->      .instance_init  = aspeed_gpio_init,
->  };
+>  static void machine_get_smp(Object *obj, Visitor *v, const char *name,
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index c2b9d62a35..c6b63c00a5 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -719,6 +719,18 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>      unsigned dies    = config->has_dies ? config->dies : 1;
+>      unsigned cores   = config->has_cores ? config->cores : 0;
+>      unsigned threads = config->has_threads ? config->threads : 0;
+> +    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+> +
+> +    if ((config->has_cpus && config->cpus == 0) ||
+> +        (config->has_sockets && config->sockets == 0) ||
+> +        (config->has_dies && config->dies == 0) ||
+> +        (config->has_cores && config->cores == 0) ||
+> +        (config->has_threads && config->threads == 0) ||
+> +        (config->has_maxcpus && config->maxcpus == 0)) {
+> +        error_setg(errp, "parameters must be equal to or greater than one"
+> +                   "if provided");
+
+Same comment as above.
+
+> +        return;
+> +    }
 >  
-> -static const TypeInfo aspeed_gpio_ast2600_3_6v_info = {
-> +static const TypeInfo aspeed_gpio_ast2600_3_3v_info = {
->      .name           = TYPE_ASPEED_GPIO "-ast2600",
->      .parent         = TYPE_ASPEED_GPIO,
-> -    .class_init     = aspeed_gpio_ast2600_3_6v_class_init,
-> +    .class_init     = aspeed_gpio_ast2600_3_3v_class_init,
->      .instance_init  = aspeed_gpio_init,
->  };
+>      /* compute missing values, prefer sockets over cores over threads */
+>      if (cpus == 0 || sockets == 0) {
+> @@ -728,8 +740,8 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>              sockets = sockets > 0 ? sockets : 1;
+>              cpus = cores * threads * dies * sockets;
+>          } else {
+> -            ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+> -            sockets = ms->smp.max_cpus / (cores * threads * dies);
+> +            maxcpus = maxcpus > 0 ? maxcpus : cpus;
+> +            sockets = maxcpus / (cores * threads * dies);
+>          }
+>      } else if (cores == 0) {
+>          threads = threads > 0 ? threads : 1;
+> @@ -746,27 +758,28 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
+>          return;
+>      }
 >  
-> @@ -1003,7 +1003,7 @@ static void aspeed_gpio_register_types(void)
->      type_register_static(&aspeed_gpio_info);
->      type_register_static(&aspeed_gpio_ast2400_info);
->      type_register_static(&aspeed_gpio_ast2500_info);
-> -    type_register_static(&aspeed_gpio_ast2600_3_6v_info);
-> +    type_register_static(&aspeed_gpio_ast2600_3_3v_info);
->      type_register_static(&aspeed_gpio_ast2600_1_8v_info);
+> -    ms->smp.max_cpus = config->has_maxcpus ? config->maxcpus : cpus;
+> +    maxcpus = maxcpus > 0 ? maxcpus : cpus;
+>  
+> -    if (ms->smp.max_cpus < cpus) {
+> +    if (maxcpus < cpus) {
+>          error_setg(errp, "maxcpus must be equal to or greater than smp");
+>          return;
+>      }
+>  
+> -    if (sockets * dies * cores * threads != ms->smp.max_cpus) {
+> +    if (sockets * dies * cores * threads != maxcpus) {
+>          error_setg(errp, "Invalid CPU topology deprecated: "
+>                     "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
+>                     "!= maxcpus (%u)",
+>                     sockets, dies, cores, threads,
+> -                   ms->smp.max_cpus);
+> +                   maxcpus);
+>          return;
+>      }
+>  
+>      ms->smp.cpus = cpus;
+> -    ms->smp.cores = cores;
+> -    ms->smp.threads = threads;
+>      ms->smp.sockets = sockets;
+>      ms->smp.dies = dies;
+> +    ms->smp.cores = cores;
+> +    ms->smp.threads = threads;
+> +    ms->smp.max_cpus = maxcpus;
 >  }
 >  
+>  static
+> diff --git a/qapi/machine.json b/qapi/machine.json
+> index c3210ee1fb..c11b2e6f73 100644
+> --- a/qapi/machine.json
+> +++ b/qapi/machine.json
+> @@ -1288,8 +1288,8 @@
+>  ##
+>  # @SMPConfiguration:
+>  #
+> -# Schema for CPU topology configuration.  "0" or a missing value lets
+> -# QEMU figure out a suitable value based on the ones that are provided.
+> +# Schema for CPU topology configuration. A missing value lets QEMU
+> +# figure out a suitable value based on the ones that are provided.
+>  #
+>  # @cpus: number of virtual CPUs in the virtual machine
+>  #
+> -- 
+> 2.19.1
 > 
+
+Otherwise
+
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
