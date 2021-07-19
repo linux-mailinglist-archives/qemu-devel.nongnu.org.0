@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290823CCE21
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 08:51:21 +0200 (CEST)
-Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A4B3CCE62
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 09:19:24 +0200 (CEST)
+Received: from localhost ([::1]:55322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5N7X-0004kf-TU
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 02:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36140)
+	id 1m5NYh-0003Fw-1X
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 03:19:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m5N0D-0000S9-QE; Mon, 19 Jul 2021 02:43:45 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:58933)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5NXg-0001up-2s
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:18:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1m5N0B-0006YE-C0; Mon, 19 Jul 2021 02:43:45 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1A601580454;
- Mon, 19 Jul 2021 02:43:40 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 19 Jul 2021 02:43:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=vtlU3Q0W85WzXkxv7TLwX6FYtG1
- V4JZCzRxINboIzXs=; b=e5qsFS1/gndQaSb4ZGsGl8SICrA7oovJyYiaxQuUTb2
- oEOxACDWZOM1VdfXL6MhNAzwgTK2fqHH+vPiTSfjI3J2NkJdxJM2i4Hp+74lvl52
- 7LxeIZ18wMGD4P8YZtGqSac7PvtyI5DBwKfZSu0SGLEzjFvgJCVUTWdp/ujDIOtU
- oIrgRqbBADv48sdAoEXH3eQlDMPuULQdvm74d96mQ7jljSWalSBVz1PLdy/wI1MD
- HDxJZ6OO38eoqcKV9fPbCMjnex9wu1O1xNddQH9oCuBrLc3x9xDLuY5RVLklGihL
- XsPp2MSaxc600T7rNcInfplZ38rHzXc42FuQVncfjiA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vtlU3Q
- 0W85WzXkxv7TLwX6FYtG1V4JZCzRxINboIzXs=; b=LwTWWZYouO8Ddz3CL/49iv
- 9ZSu9TSXmf2HykQPqKvTyX4KI2w8NOMJ+a6ofTY2jlXZqexTohl78851QF/kIFdL
- 9C4wry2Gc6vNHQPZGmPAaRl0nQE2Pr2D+ibF86ELx8n3/VFPrzH/lJ5n8Aoboe22
- FrGz1jedbDXL+ayUbijk0stDqG+J+warubtYQ4SkTT6ZRynSrs76vEJkzMclnvvD
- EdwXqn9RzwWPba6hXhse2ViscI5lbFyJCP08xs0tNcCbteIaGG310qKZ9vy0CYsM
- o0/+oZUhiRxrvuOZqFhDuRgyIei5nCpk4erxIWwg8puF53UBU7QNHZcLRXt2RDkg
- ==
-X-ME-Sender: <xms:Gh_1YMN4rByWxLzkNSvLaghC0hW8mLqmxnJiDHpuCnTW0iTIMPdpIA>
- <xme:Gh_1YC-5qN_3N6ai76x1h5cgMnBDehH2seAHAeQQtZbRKj4yoEfB7rRLIQ6roOr0e
- oSroeghE6gplPPiFI8>
-X-ME-Received: <xmr:Gh_1YDRr60Fxd2LZPG98muFOMz75ctRMc4nJfNn2Z7iIt4vMjI2YbyjgzqBNbTTzFzCVFQ2Mlansi5GUIT5sjk0cNdKa_3Lpi0pryXoSYQDBxVWqwg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdelgddutddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Gh_1YEvJYMSJmwsju1ofOXU4QQJPIPwyt3cOoBEKrd64QLMHS64JYQ>
- <xmx:Gh_1YEfbdmmPqFut-hdMXuc4AYbrOIO3f7fNuU9547P8YeTWjchDjQ>
- <xmx:Gh_1YI3D9-iZESGEvudhZ8OosUygWax7f_j7_Rx24FDs0qZA1RKoHw>
- <xmx:HB_1YD8nHFmMNmmNWXrBniXROA3xE1TV96dtVKE7-UPckpeAGhjjfQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 19 Jul 2021 02:43:35 -0400 (EDT)
-Date: Mon, 19 Jul 2021 08:43:33 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 0/5] hw/nvme: fix mmio read
-Message-ID: <YPUfFQpvpiYT2bKJ@apples.localdomain>
-References: <20210714060125.994882-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5NXc-0001xu-FU
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:18:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626679094;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GxRElLD39QGFjHsiONf17WVX3Uz/OSl2NDfk7zqFiKo=;
+ b=QbqlpqpTIjWVrkq8vK4Ummt8d9VGdBDQ3nXBmzHFSU/1GWxplrkyRvt7qjrc5yJebtOxot
+ fmuvHA8Bzh2Dz4RGc34czvSI/wkOQIJfwePlH4/cZayjwtxOu7WouhuHUY/5zjgUToEtIx
+ IzW1kUhayoQNAuceWuC50W2umejyQNE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-wvLgtXOiPXytN1kypCCUaw-1; Mon, 19 Jul 2021 03:18:10 -0400
+X-MC-Unique: wvLgtXOiPXytN1kypCCUaw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DDC0CC621;
+ Mon, 19 Jul 2021 07:18:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-81.ams2.redhat.com
+ [10.36.112.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCE8B18F0A;
+ Mon, 19 Jul 2021 07:18:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 43239113865F; Mon, 19 Jul 2021 09:18:07 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: spapr_events: Sure we may ignore migrate_add_blocker() failure?
+References: <87tukvaejt.fsf@dusky.pond.sub.org> <YPTj6ml6LoMJkypI@yekko>
+Date: Mon, 19 Jul 2021 09:18:07 +0200
+In-Reply-To: <YPTj6ml6LoMJkypI@yekko> (David Gibson's message of "Mon, 19 Jul
+ 2021 12:31:06 +1000")
+Message-ID: <87lf62ydow.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="+dVZrU6OKboBn6Py"
-Content-Disposition: inline
-In-Reply-To: <20210714060125.994882-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=its@irrelevant.dk;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.466,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,72 +79,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, Laurent Vivier <lvivier@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+David Gibson <david@gibson.dropbear.id.au> writes:
 
---+dVZrU6OKboBn6Py
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Jul 15, 2021 at 03:32:06PM +0200, Markus Armbruster wrote:
+>> Commit 2500fb423a "migration: Include migration support for machine
+>> check handling" adds this:
+>> 
+>>     ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_err);
+>>     if (ret == -EBUSY) {
+>>         /*
+>>          * We don't want to abort so we let the migration to continue.
+>>          * In a rare case, the machine check handler will run on the target.
+>>          * Though this is not preferable, it is better than aborting
+>>          * the migration or killing the VM.
+>>          */
+>>         warn_report("Received a fwnmi while migration was in progress");
+>>     }
+>> 
+>> migrate_add_blocker() can fail in two ways:
+>> 
+>> 1. -EBUSY: migration is already in progress
+>> 
+>>    Ignoring this one is clearly intentional.  The comment explains why.
+>>    I'm taking it at face value (I'm a spapr ignoramus).
+>
+> Right.  The argument isn't really about papr particularly, except
+> insofar as understanding what fwnmi is.  fwnmi (FirmWare assisted NMI)
+> is a reporting mechanism for certain low-level hardware failures
+> (think memory ECC or cpu level faults, IIRC).  If we migrate between
+> detecting and reporting the error, then the particulars we report will
+> be mostly meaningless since they relate to hardware we're no longer
+> running on.  Hence the migration blocker.
+>
+> However, migrating away from a (non-fatal) fwnmi error is a pretty
+> reasonable response, so we don't want to actually fail a migration if
+> its already in progress.
+>
+>>    Aside: I doubt
+>>    the warning is going to help users.
+>
+> You're probably right, but it's not very clear how to do better.  It
+> might possibly help someone in tech support explain why the reported
+> fwnmi doesn't seem to match the hardware the guest is (now) running
+> on.
 
-On Jul 14 08:01, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Fix mmio read issues on big-endian hosts. The core issue is that values
-> in the BAR is not stored in little endian as required.
->=20
-> Fix that and add a regression test for this. This required a bit of
-> cleanup, so it blew up into a series.
->=20
-> v2:
->=20
->   * "hw/nvme: use symbolic names for registers"
->     Use offsetof(NvmeBar, reg) instead of explicit offsets (Philippe)
->=20
->   * "hw/nvme: fix mmio read"
->     Use the st/ld API instead of cpu_to_X (Philippe)
->=20
-> Klaus Jensen (5):
->   hw/nvme: split pmrmsc register into upper and lower
->   hw/nvme: use symbolic names for registers
->   hw/nvme: fix out-of-bounds reads
->   hw/nvme: fix mmio read
->   tests/qtest/nvme-test: add mmio read test
->=20
->  include/block/nvme.h    |  60 +++++--
->  hw/nvme/ctrl.c          | 362 +++++++++++++++++++++++-----------------
->  tests/qtest/nvme-test.c |  26 +++
->  3 files changed, 276 insertions(+), 172 deletions(-)
->=20
+Perhaps pointing to the actual problem could help: the FWNMI's
+information is mostly meaningless.
 
-Oi,
+>> 2. -EACCES: we're running with -only-migratable
+>> 
+>>    Why may we ignore -only-migratable here?
+>
+> Short answer: because I didn't think about that case.  Long answer:
+> I think we probably shoud ignore it anyway.  As above, receiving a
+> fwnmi doesn't really prevent migration, it just means that if you're
+> unlucky it can report stale information.  Since migrating away from a
+> possibly-dubious host would be a reasonable response to a non-fatal
+> fwnmi, I don't think we want to simply prohibit fwnmi entirely with
+> -only-migratable.
 
-A review on patch 3 and 4 would be appreciated so this has a chance of
-reaching Peter for -rc0 :)
+I think the comment text and placement could be improved to make clear
+ignoring this failure is intentional, too.  How do you like the
+following?
 
---+dVZrU6OKboBn6Py
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+index a8f2cc6bdc..54d8e856d3 100644
+--- a/hw/ppc/spapr_events.c
++++ b/hw/ppc/spapr_events.c
+@@ -911,16 +911,14 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+         }
+     }
+ 
++    /*
++     * Try to block migration while FWNMI is being handled, so the
++     * machine check handler runs where the information passed to it
++     * actually makes sense.  This won't actually block migration,
++     * only delay it slightly.  If the attempt fails, carry on.
++     */
+     ret = migrate_add_blocker(spapr->fwnmi_migration_blocker, NULL);
+     if (ret == -EBUSY) {
+-        /*
+-         * We don't want to abort so we let the migration to continue.
+-         * In a rare case, the machine check handler will run on the target.
+-         * Though this is not preferable, it is better than aborting
+-         * the migration or killing the VM. It is okay to call
+-         * migrate_del_blocker on a blocker that was not added (which the
+-         * nmi-interlock handler would do when it's called after this).
+-         */
+         warn_report("Received a fwnmi while migration was in progress");
+     }
+ 
+>> By the way, we leak @local_err on failure.  I'll post a patch, but I'd
+>> like my question answered first.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmD1HxAACgkQTeGvMW1P
-DemV4wf9FaK7ZG8+CHuQSWonhSglBHU29oT5K4f11OXGfyXL2eO4FNA9EgN31zMz
-q2/pJBwvaNlyfkyYgeBbz/j6daSAIG7GKiBMqxdzAEb/mdbtp6fbmGDDAG3fKcZr
-9uLjY2G0GVczn5no1bobBvxdZT+lMrhNafWvSCnVoISniTEbvlTiKF1RLl8pn3Tf
-LjPg4diY0JhvFoBSpmsfUcrb2fMduUZ+W/rdOSS4XhzbOtgF4NNJrR05sEEMP7fT
-T5Y5A7nUWrNAWE816jmE8vdByPH/6D90ADCoJLfzgpxWF0pyJZdA5GUHaUEdd57q
-Uljb54Oe429MQ5Gj1JvAo++ubKWZNg==
-=TMGW
------END PGP SIGNATURE-----
-
---+dVZrU6OKboBn6Py--
 
