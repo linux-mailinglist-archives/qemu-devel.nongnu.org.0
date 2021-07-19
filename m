@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496663CCE87
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 09:32:51 +0200 (CEST)
-Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631563CCE8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 09:34:26 +0200 (CEST)
+Received: from localhost ([::1]:54094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Nli-0008SI-Aa
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 03:32:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42484)
+	id 1m5NnF-0005Dc-ET
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 03:34:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m5NiG-0002Hp-PW
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:29:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53599)
+ id 1m5NiT-0002t2-Rw
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:29:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1m5NiF-0002ej-6g
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:29:16 -0400
+ id 1m5NiS-0002oq-Bk
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 03:29:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626679754;
+ s=mimecast20190719; t=1626679767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bHmi4GFcpQ09u8onnRU4rz8jtX9N+S3HdWepdqiUBWc=;
- b=V4MOGxP7G+xpEZ70jj5mBUtKRX0WBHxWWiPlQpQ1mnR1c5c7yQxyeBSrKgGOwOhP4ZvcKH
- g511/5sNk6R1CeBnSixbB4/gIf1QFNFzkOjbgs1AQ2/JiZFL4rlDRtFiRZqLzpNU12qvKD
- pnhgRBB7kshScWIAbAsUczEsbN/RCKQ=
+ bh=F8+fiOj5htAxTq0Qfeidh0eq3B9OKyUc5EkQ6s2psyQ=;
+ b=BV0mgrePhjn7vqAgk58qkUI7X3DhFm6ZvN0FVYhoP3v8Gc7eSEUFOvkiTNz3Yzq9RLhN60
+ +YDOXZb6v41HQ6dcYLbgMNajTAKuoot4VY1H4pkzuXWD5zLiT5gDNhH/pD12wlec50vRAr
+ W6dOlHgB4FQOcj2BOHrs73p89oe5D1M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-_KVNI_H7NM2ZWa0tUI1diQ-1; Mon, 19 Jul 2021 03:29:12 -0400
-X-MC-Unique: _KVNI_H7NM2ZWa0tUI1diQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-577-p1-6LxExMZKJuoOoB-vXIQ-1; Mon, 19 Jul 2021 03:29:25 -0400
+X-MC-Unique: p1-6LxExMZKJuoOoB-vXIQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F00B9CC622
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 07:29:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07B4D1835AC2
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 07:29:24 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF3F210016F5;
- Mon, 19 Jul 2021 07:29:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80A925C22A;
+ Mon, 19 Jul 2021 07:29:15 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/12] ui/vdagent: send release when no clipboard owner
-Date: Mon, 19 Jul 2021 11:26:53 +0400
-Message-Id: <20210719072654.845901-12-marcandre.lureau@redhat.com>
+Subject: [PATCH 12/12] ui/gtk-clipboard: emit release clipboard events
+Date: Mon, 19 Jul 2021 11:26:54 +0400
+Message-Id: <20210719072654.845901-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20210719072654.845901-1-marcandre.lureau@redhat.com>
 References: <20210719072654.845901-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,51 +88,39 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/vdagent.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ ui/gtk-clipboard.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 65c9663e0d..34e1c332ee 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -345,6 +345,24 @@ static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
-     vdagent_send_msg(vd, msg);
+diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
+index 4e4b3c52bb..16b2e2063e 100644
+--- a/ui/gtk-clipboard.c
++++ b/ui/gtk-clipboard.c
+@@ -144,7 +144,7 @@ static void gd_owner_change(GtkClipboard *clipboard,
+ {
+     GtkDisplayState *gd = data;
+     QemuClipboardSelection s = gd_find_selection(gd, clipboard);
+-    QemuClipboardInfo *info;
++    g_autoptr(QemuClipboardInfo) info = NULL;
+ 
+     if (gd->cbowner[s]) {
+         /* ignore notifications about our own grabs */
+@@ -158,13 +158,13 @@ static void gd_owner_change(GtkClipboard *clipboard,
+         if (gtk_clipboard_wait_is_text_available(clipboard)) {
+             info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
+         }
+-
+-        qemu_clipboard_update(info);
+-        qemu_clipboard_info_unref(info);
+         break;
+     default:
++        info = qemu_clipboard_info_new(NULL, s);
++        gd->cbowner[s] = false;
+         break;
+     }
++    qemu_clipboard_update(info);
  }
  
-+static void vdagent_send_clipboard_release(VDAgentChardev *vd,
-+                                           QemuClipboardInfo *info)
-+{
-+    g_autofree VDAgentMessage *msg = g_malloc0(sizeof(VDAgentMessage) +
-+                                               sizeof(uint32_t));
-+
-+    if (have_selection(vd)) {
-+        uint8_t *s = msg->data;
-+        *s = info->selection;
-+        msg->size += sizeof(uint32_t);
-+    } else if (info->selection != QEMU_CLIPBOARD_SELECTION_CLIPBOARD) {
-+        return;
-+    }
-+
-+    msg->type = VD_AGENT_CLIPBOARD_RELEASE;
-+    vdagent_send_msg(vd, msg);
-+}
-+
- static void vdagent_send_clipboard_data(VDAgentChardev *vd,
-                                         QemuClipboardInfo *info,
-                                         QemuClipboardType type)
-@@ -386,7 +404,11 @@ static void vdagent_clipboard_notify(Notifier *notifier, void *data)
-     if (info != qemu_clipboard_info(s)) {
-         vd->cbpending[s] = 0;
-         if (!self_update) {
--            vdagent_send_clipboard_grab(vd, info);
-+            if (info->owner) {
-+                vdagent_send_clipboard_grab(vd, info);
-+            } else {
-+                vdagent_send_clipboard_release(vd, info);
-+            }
-         }
-         return;
-     }
+ void gd_clipboard_init(GtkDisplayState *gd)
 -- 
 2.32.0.93.g670b81a890
 
