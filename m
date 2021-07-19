@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52723CD401
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:38:25 +0200 (CEST)
-Received: from localhost ([::1]:35156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABAB63CD42F
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 13:53:54 +0200 (CEST)
+Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5RbM-0008Cd-QZ
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
+	id 1m5RqL-0006n3-MV
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 07:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m5RRt-0006nI-1M
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:37 -0400
-Received: from mga09.intel.com ([134.134.136.24]:16180)
+ id 1m5RRu-0006rx-G5
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:38 -0400
+Received: from mga09.intel.com ([134.134.136.24]:16178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1m5RRr-000613-D0
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:36 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035303"
-X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035303"
+ id 1m5RRr-000611-Sd
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 07:28:38 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="211035310"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="211035310"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2021 04:27:54 -0700
+ 19 Jul 2021 04:27:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813719"
+X-IronPort-AV: E=Sophos;i="5.84,252,1620716400"; d="scan'208";a="656813725"
 Received: from icx-2s.bj.intel.com ([10.240.192.119])
- by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:51 -0700
+ by fmsmga006.fm.intel.com with ESMTP; 19 Jul 2021 04:27:53 -0700
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 25/33] hostmem-epc: Make prealloc consistent with qemu
- cmdline during reset
-Date: Mon, 19 Jul 2021 19:21:28 +0800
-Message-Id: <20210719112136.57018-26-yang.zhong@intel.com>
+Subject: [PATCH v4 26/33] qmp: Add query-sgx command
+Date: Mon, 19 Jul 2021 19:21:29 +0800
+Message-Id: <20210719112136.57018-27-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 In-Reply-To: <20210719112136.57018-1-yang.zhong@intel.com>
 References: <20210719112136.57018-1-yang.zhong@intel.com>
@@ -64,41 +63,93 @@ Cc: yang.zhong@intel.com, seanjc@google.com, kai.huang@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If qemu cmdline set the prealloc property for sgx epc and VM do the
-reset the prealloc property will be different with cmdline settings.
-This patch can make sure same prealloc property setting with cmdline.
+This QMP query command can be used by some userspaces to retrieve
+the SGX information when SGX is enabled on Intel platform.
 
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
----
- backends/hostmem-epc.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
-index 3bd1535d82..9836358841 100644
---- a/backends/hostmem-epc.c
-+++ b/backends/hostmem-epc.c
-@@ -60,6 +60,8 @@ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
-                               Error **errp)
- {
-     MemoryRegion *mr = &backend->mr;
-+    void *ptr;
-+    uint64_t sz;
- 
-     mr->enabled = false;
- 
-@@ -69,6 +71,14 @@ void sgx_memory_backend_reset(HostMemoryBackend *backend, int fd,
+v1-->v2:
+   - "Since: 5.1" to "Since: 6.1", and grammar error(Eric Blake).
+---
+ monitor/qmp-cmds.c         |  6 ++++++
+ qapi/misc.json             | 42 ++++++++++++++++++++++++++++++++++++++
+ tests/qtest/qmp-cmd-test.c |  1 +
+ 3 files changed, 49 insertions(+)
+
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index f7d64a6457..d63d59149f 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -351,3 +351,9 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
+         abort();
      }
- 
-     sgx_epc_backend_memory_alloc(backend, errp);
-+
-+    ptr = memory_region_get_ram_ptr(&backend->mr);
-+    sz = memory_region_size(&backend->mr);
-+
-+    if (backend->prealloc) {
-+        os_mem_prealloc(memory_region_get_fd(&backend->mr), ptr, sz,
-+                        backend->prealloc_threads, errp);
-+    }
  }
- 
- static void sgx_epc_backend_instance_init(Object *obj)
++
++SGXInfo *qmp_query_sgx(Error **errp)
++{
++    error_setg(errp, QERR_FEATURE_DISABLED, "query-sgx");
++    return NULL;
++}
+diff --git a/qapi/misc.json b/qapi/misc.json
+index 156f98203e..83b45a1460 100644
+--- a/qapi/misc.json
++++ b/qapi/misc.json
+@@ -519,3 +519,45 @@
+  'data': { '*option': 'str' },
+  'returns': ['CommandLineOptionInfo'],
+  'allow-preconfig': true }
++
++##
++# @SGXInfo:
++#
++# Information about intel Safe Guard eXtension (SGX) support
++#
++# @sgx: true if SGX is supported
++#
++# @sgx1: true if SGX1 is supported
++#
++# @sgx2: true if SGX2 is supported
++#
++# @flc: true if FLC is supported
++#
++# @section-size: The EPC section size for guest
++#
++# Since: 6.1
++##
++{ 'struct': 'SGXInfo',
++  'data': { 'sgx': 'bool',
++            'sgx1': 'bool',
++            'sgx2': 'bool',
++            'flc': 'bool',
++            'section-size': 'uint64'}}
++
++##
++# @query-sgx:
++#
++# Returns information about SGX
++#
++# Returns: @SGXInfo
++#
++# Since: 6.1
++#
++# Example:
++#
++# -> { "execute": "query-sgx" }
++# <- { "return": { "sgx": true, "sgx1" : true, "sgx2" : true,
++#                  "flc": true, "section-size" : 0 } }
++#
++##
++{ 'command': 'query-sgx', 'returns': 'SGXInfo' }
+diff --git a/tests/qtest/qmp-cmd-test.c b/tests/qtest/qmp-cmd-test.c
+index c98b78d033..b75f3364f3 100644
+--- a/tests/qtest/qmp-cmd-test.c
++++ b/tests/qtest/qmp-cmd-test.c
+@@ -100,6 +100,7 @@ static bool query_is_ignored(const char *cmd)
+         /* Success depends on Host or Hypervisor SEV support */
+         "query-sev",
+         "query-sev-capabilities",
++        "query-sgx",
+         NULL
+     };
+     int i;
 
