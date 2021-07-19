@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9516A3CDE1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 17:43:14 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85443CDC99
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 17:34:33 +0200 (CEST)
+Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5VQH-0004l9-Ml
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 11:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50334)
+	id 1m5VHs-0005xb-PH
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 11:34:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m5VOF-0002f1-0n
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:41:07 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38834)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5VFo-0003EK-EJ
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:32:24 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1m5VOA-0007mS-Jj
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:41:06 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m5VO6-0000b1-NF
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 15:40:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AD5F42E8169
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 15:40:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5VFm-0001zy-Ot
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 11:32:24 -0400
+Received: by mail-wr1-x429.google.com with SMTP id g16so22567689wrw.5
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 08:32:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ArxRg9O/H0Ur0tT6Ee6HWr0R2zhrxnm5DbEFs3RMRKU=;
+ b=rFC3bXhZfPGmJJhXW8zMANc2F720kriDydpRjYKDZHwZJm/Jx+oskA80sm6t7uFhjU
+ FrrA2ZSmTZj1k+gpza83PjL0zwBR7/NKwexgHes+Onn0no2nHSdZo1LBVogmTN7POrMI
+ p0RRXCqm4rUak7/JU82Q25QG+VRrkeEcpZYB9yBby6W+rJydDPZ4m5/LtcMBQ6W1e6RZ
+ rYsMCSDnLUVgQWTnHGxbvW7bs3sKWAe4cHj3/LPaEJljPsS64hrkxLQCOAH38Vtjebkl
+ bX1PHWkirD4hB5BtxA1yfacRO1/U7FEOsexLJd8HypDOug4dbI1jVp0CcC/oMtoga42R
+ JQVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=ArxRg9O/H0Ur0tT6Ee6HWr0R2zhrxnm5DbEFs3RMRKU=;
+ b=JJ/WbcOTpDjJ+qE5vmYPuC4HE3nSwmrzFQqFenEMQhAA34cfKn729u7g13t2jJgVbQ
+ eoZ4e1VxEE8wEmBftHWZIgj0c7BxymJd1UDxVkjfw9HcJ2kfmf+bLdxN8vVF9hfXDnud
+ bksCCRbcmb9OiLQYGn0IW93pZ1pfhVLVn6vqBqf2b2M/wKxp89SMGxyWRPvtT+ybv8OQ
+ W9OrIYIvOHy9PeBqgZ3BE07bvD/fdLnMicS0RcHtptrChyiSIWry7fiLIkUyffos2zJh
+ fIntsu/mnj0JMQRIMJu1R2dtqRPblo45QHMoT3nAq0xlxxXrCJ9pH2W6oLt8rXB9WEf7
+ 412A==
+X-Gm-Message-State: AOAM5305VhZMUJf2VQ90uefcb0Hg98KhTEg6QSjy1Q38/7ih36v4aMZU
+ i0c6cMHAvlPyTYWnqH/ymnhYRA==
+X-Google-Smtp-Source: ABdhPJxRy660Rbk0WVByAaPPNwAsERyMvuZ5NFXAPa+cChX5I6jR5ZpYD8Sh1dLjpwzRfvzJ5mlw6Q==
+X-Received: by 2002:a5d:59a1:: with SMTP id p1mr30736601wrr.100.1626708741444; 
+ Mon, 19 Jul 2021 08:32:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i10sm9288920wml.31.2021.07.19.08.32.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 08:32:20 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A54231FF7E;
+ Mon, 19 Jul 2021 16:32:19 +0100 (BST)
+References: <20210717100920.240793-1-ma.mandourr@gmail.com>
+ <20210717100920.240793-13-ma.mandourr@gmail.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mahmoud Mandour <ma.mandourr@gmail.com>
+Subject: Re: [PATCH 12/13] tests/plugins/syscalls: adhere to new arg-passing
+ scheme
+Date: Mon, 19 Jul 2021 16:32:15 +0100
+In-reply-to: <20210717100920.240793-13-ma.mandourr@gmail.com>
+Message-ID: <87mtqinwu4.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Jul 2021 15:31:43 -0000
-From: Thomas Huth <1890157@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159646492473.2215.15136197151554355859.malonedeb@gac.canonical.com>
-Message-Id: <162670870386.7681.15464211792649600445.malone@gac.canonical.com>
-Subject: [Bug 1890157] Re: Assertion failure in net_tx_pkt_reset through
- vmxnet3
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="4fbbc20799edd34b40f59a0c81c360f947903b2a"; Instance="production"
-X-Launchpad-Hash: c5949f2024e7c66879d77a8905e42864e86167b5
-Received-SPF: pass client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,76 +88,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890157 <1890157@bugs.launchpad.net>
+Cc: cota@braap.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed here:
-https://gitlab.com/qemu-project/qemu/-/commit/283f0a05e24a5e5fab783
 
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
+Mahmoud Mandour <ma.mandourr@gmail.com> writes:
+
+> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890157
-
-Title:
-  Assertion failure in net_tx_pkt_reset through vmxnet3
-
-Status in QEMU:
-  Fix Committed
-
-Bug description:
-  Hello,
-  Reproducer:
-
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001014
-  outl 0xcfc 0xe0001000
-  outl 0xcf8 0x80001018
-  outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  outl 0xcf8 0x80001083
-  write 0x0 0x1 0xe1
-  write 0x1 0x1 0xfe
-  write 0x2 0x1 0xbe
-  write 0x3 0x1 0xba
-  writeq 0xe0001020 0xefefff5ecafe0000
-  writeq 0xe0001020 0xffff5e5ccafe0002
-  EOF
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  qemu-system-i386: /home/alxndr/Development/qemu/general-fuzz/hw/net/net_t=
-x_pkt.c:450: void net_tx_pkt_reset(struct NetTxPkt *): Assertion `pkt->raw'=
- failed.
-
-      #9 0x564838761930 in net_tx_pkt_reset /home/alxndr/Development/qemu/g=
-eneral-fuzz/hw/net/net_tx_pkt.c:450:5
-      #10 0x564838881749 in vmxnet3_deactivate_device /home/alxndr/Developm=
-ent/qemu/general-fuzz/hw/net/vmxnet3.c:1159:9
-      #11 0x56483888cf71 in vmxnet3_reset /home/alxndr/Development/qemu/gen=
-eral-fuzz/hw/net/vmxnet3.c:1170:5
-      #12 0x564838882124 in vmxnet3_handle_command /home/alxndr/Development=
-/qemu/general-fuzz/hw/net/vmxnet3.c:1610:9
-      #13 0x56483887f10f in vmxnet3_io_bar1_write /home/alxndr/Development/=
-qemu/general-fuzz/hw/net/vmxnet3.c:1772:9
-      #14 0x56483738f193 in memory_region_write_accessor /home/alxndr/Devel=
-opment/qemu/general-fuzz/softmmu/memory.c:483:5
-      #15 0x56483738e637 in access_with_adjusted_size /home/alxndr/Developm=
-ent/qemu/general-fuzz/softmmu/memory.c:544:18
-      #16 0x56483738c256 in memory_region_dispatch_write /home/alxndr/Devel=
-opment/qemu/general-fuzz/softmmu/memory.c:1466:16
-      #17 0x56483673d4a6 in flatview_write_continue /home/alxndr/Developmen=
-t/qemu/general-fuzz/exec.c:3176:23
-
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890157/+subscriptions
-
+Alex Benn=C3=A9e
 
