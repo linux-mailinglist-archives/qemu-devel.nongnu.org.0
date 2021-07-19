@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC253CD4AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:22:46 +0200 (CEST)
-Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7541B3CD4AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:23:02 +0200 (CEST)
+Received: from localhost ([::1]:33318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5SIH-00085D-9w
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36466)
+	id 1m5SIX-0000MW-Eh
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:23:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5SGA-0006Ap-5s
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:20:34 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:36532)
+ id 1m5SGa-0006dC-IE
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:21:00 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5SG7-0007oy-DA
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:20:33 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id h2so23687942edt.3
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:20:30 -0700 (PDT)
+ id 1m5SGW-0007zd-Sm
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:20:59 -0400
+Received: by mail-ej1-x629.google.com with SMTP id go30so28344794ejc.8
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=w4iFpb2ewXSYAkA44+x0E8n76DCkPL6UDew1d5YywlU=;
- b=BJcrpljcfqegzkXe9xTZOz9bW3tYYR0SWrbe8QNRbhLhgD/+x20gATY2yjozF2bnw1
- SNOuZ1LNYc1rWZkCJwSal7j2vrzIzNy7b86quJxGbqW2ImfinEOdRb2aODI9keusvweO
- BAvr1nE/wEjZLvK92/caqJZ8fhmtU3XhCAW3m2GEzJ5yRn2PtQkC3xYHzKS51GxNp7JR
- EjZcbUr1tuLCmVbWMvX74KiC6GCkecJkjZ74irAKxu0WGW6xZ2jkxdJIFcDRzzk7C2AR
- zxrPGFBPIKYh90Dm38q6Di3S2q6TQH6gnXaiWkNUDj17lN/3RflkuEBgSvPCgysFpkvn
- hRyA==
+ bh=cvN8oX+XTEQJSJbkKADD6k+g585sMEYsQ7TJqBBXfcw=;
+ b=YDwptl/RYwK7lJbrl+8IMUaRKpTrWHSvxSPgs5BSsFBYnkfqGO8UlHUPYX/vEyWJKL
+ Q72vlnrHgopaz7OldbzOEDgJaEYPhdJRk4x2Nk2J/nBnni5CgZdBknbz37Iwvd6YuGcQ
+ Rirp80r59xyUTOSdL5MIjv5maZpkgzMAcmMmr9Mmn7uETwC3VE5Z0Nb976wDRrNwt4Yt
+ 6bXLTopNpuZ18REEzBjzDDb9r2aJHGJ9P92JYBDIunwHRiKljGdB6iWnOS06bjxgs9nK
+ OIsNRdi/+FlNu23vWoklNTabpJDOOn9Au8L6YgaxIjyiaIiY/05s/80ksXsjcPZY4m4T
+ X74w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=w4iFpb2ewXSYAkA44+x0E8n76DCkPL6UDew1d5YywlU=;
- b=aAgwDwp72mueJaFewc8odE7/pIMCz7WyqG13q3Hpf/cRpFjsaodStw0eUF+tdoc3hi
- G9SS/UJmjal/zElWHm/IdhvEF7eU+YNHLurVf8xQMXoTAgjsixzImRHtEtyCJSRsIue1
- BCjKDPXgy04BcxrcB23Qg8hDIA79iwhIXWerIytzP2f6/vgeykwq0R6uzGmxB395ZPt2
- wMjAkfwidC4z0jnsEJYhMB2dsCTzxIzIgudimIDGA6QIkudhc9/NEfwtTD8/iScv1Exf
- rsXHKKqJtBasLDjp3FZu4jOxHD4aUFY/31Oi3z9k+ixlq7FPPr9LU5rM+wzfXrhaHWAK
- P/dQ==
-X-Gm-Message-State: AOAM533M0d+6Qa1ys4bIWV/GHaTQApK6LF6rjHcK4yh8YKIkQE8+X9nq
- PzePDSkeCokLCcymjhN2XPeofX3k0qOC3jVSPS6xgQ==
-X-Google-Smtp-Source: ABdhPJyapwjzmbFVla6EhgPodImQlz2Cdvurjgbzlbz5JibpYRGNUiwjSLVL3tXhTiaJQOO0PZjj4HrLQYPuTmAjlDk=
-X-Received: by 2002:aa7:c6d4:: with SMTP id b20mr33538555eds.204.1626697229593; 
- Mon, 19 Jul 2021 05:20:29 -0700 (PDT)
+ bh=cvN8oX+XTEQJSJbkKADD6k+g585sMEYsQ7TJqBBXfcw=;
+ b=mdL+hsPCABotIN8Xo8zqF56BC4Z9R2e970PALskCxr+3iEYZSNl4/bLhOPFBgxptt2
+ TIenMHHpmQW7PXm2IwedMcojBT36+lC/1yJRT8cpE6QtIaa+N6jeEpZk5coUD3rsNuS7
+ Afl82mp5AFE1h6no+v1jqfa34GPxD1vHuvFsECwSw/mFaYn0qZZpd4874wB8ZmNANsrm
+ 9HwCNyU8f92aTcSwqqrU4kLt0CmwmEfwYHMNeuKWHBdlZIZlKsLvffyLuBcg+av0GQUv
+ TCXjyhO8IxxBWQwziNoCZaZQZtoQbPzLbR2kK0TfLCwfM5dCQuET6+h77O1H74x4zRfZ
+ /wbg==
+X-Gm-Message-State: AOAM531tXol2CigLr8UfrPHiEtxsIc840QS7ZjFqMll+OYXTAzKOLm9g
+ EP+6q5LgeiFsq8Dzom3Buap5igPthQeEFs2o5V8X8Q==
+X-Google-Smtp-Source: ABdhPJx+iNiV98/i59uHVBrvKDEDWV3TJD/yjomXbqWUqrhE2ds9q7FYdYDDDvZS+J8x6HM5tqOITCSpHY2CrgSyIjU=
+X-Received: by 2002:a17:906:16cd:: with SMTP id
+ t13mr27488288ejd.250.1626697255611; 
+ Mon, 19 Jul 2021 05:20:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210717192419.2066778-1-richard.henderson@linaro.org>
- <20210717192419.2066778-7-richard.henderson@linaro.org>
-In-Reply-To: <20210717192419.2066778-7-richard.henderson@linaro.org>
+ <20210717192419.2066778-8-richard.henderson@linaro.org>
+In-Reply-To: <20210717192419.2066778-8-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Jul 2021 13:19:49 +0100
-Message-ID: <CAFEAcA_sTGQQYc+RgShg=h_S0F44x-xtGCxTNqQXHCxMi1ZFkw@mail.gmail.com>
-Subject: Re: [PATCH v3 06/10] accel/tcg: Fold EXTRA_ARGS into atomic_template.h
+Date: Mon, 19 Jul 2021 13:20:15 +0100
+Message-ID: <CAFEAcA8S0HaC5fTfYC4mPwmeFk3URSY5RJUnx0vubS5jSR6q8g@mail.gmail.com>
+Subject: Re: [PATCH v3 07/10] accel/tcg: Remove ATOMIC_MMU_DECLS
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,15 +89,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, 17 Jul 2021 at 20:24, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> All instances of EXTRA_ARGS are now identical.
+> All definitions are now empty.
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  accel/tcg/atomic_template.h | 36 ++++++++++++++++++++----------------
->  accel/tcg/cputlb.c          |  1 -
->  accel/tcg/user-exec.c       |  1 -
->  3 files changed, 20 insertions(+), 18 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
