@@ -2,71 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304FB3CD4BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:28:52 +0200 (CEST)
-Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0E23CD4DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 14:36:32 +0200 (CEST)
+Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5SOB-0006MZ-8n
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37382)
+	id 1m5SVa-00025T-VY
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 08:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5SMI-0004qw-MW
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:26:56 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:39890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5SMG-000312-1a
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:26:53 -0400
-Received: by mail-ed1-x533.google.com with SMTP id v1so23662049edt.6
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 05:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VTD21oAE+JKh1wuCP/64AU3mTrXO3eTB5lC1YXxRNW8=;
- b=swS69y438Og/dMEhzIVrW2cOujtYrIC+7yllsD4lTjxjxAnsKtXMFxPAQZVNAQxYzV
- nIfjEynt9zAqn9JpbjX0+ajvCvZoi8G03RwAPwmLjywr0DUvs3CeXO4d6wk1+KqX4n0C
- iNN2i5awKr+cnD9DXCo8BaaIFcmJ388RE2EQNF+4azuHFjtMBntOZg5CB+l+7xWAfVj9
- pmqp7hBq2622GEoV/s7THqTahPqfQsEm56jcmkVywTwQqycLnarQW5kxQevzlYx4/ech
- uzHrnf3z1qzDY90B5dPmBi61YDtixy6XuMbjNXBBtOfVy6aedyRoTWi2u2119N5kGx17
- u8cw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VTD21oAE+JKh1wuCP/64AU3mTrXO3eTB5lC1YXxRNW8=;
- b=PRCZaRKyv0vjk2dSqTttH+evkM7zUlI3Fa8KG/sUbnyxPkNFBOT9GUsRodoPqinjVx
- aNbbkvNygiK8xSTnk7PC0S547pJmPAc7bTnwSbz+6G+akeNa72UckWJpOISF1hu99uAC
- A5pYjFSUabK8HWhcG1hOmgq50DX6Fv2DtEsw92AuM7RW4lF1UZPWa7JSXsqs/CVsIl9+
- lE/xFRyZTlyBkKw4fTwEBuJTlTf79b4edVK/HHeRcHoCVnM3Kd6epvxNq9DTHdUAuDH/
- Aqsa+kkUDMJF/Dl7Of9KrMQMLbhQs7q7rl7hvf1WwC3zM/vJE22vs158/ceO7MxVi0oF
- 7sCA==
-X-Gm-Message-State: AOAM533/5kagavaCO2GFbsumtSeDfWH7e5d9zGUTjlycLE5Ao4CtVo+y
- 5OOEsbSG1uPXpJS/2LpblxZSnfDDfQnevgUh6EJgAA==
-X-Google-Smtp-Source: ABdhPJyZs0zuNFMfQaMQvBysHohgM0pk+9JgFdt2sqf9co9RcjLZ+WkHNnQ/o87pu9zRfsro8N9QOFgPZ6UoRuBrjHQ=
-X-Received: by 2002:a05:6402:697:: with SMTP id
- f23mr33584146edy.44.1626697610693; 
- Mon, 19 Jul 2021 05:26:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m5SUD-00019s-Fu
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:35:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41016)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1m5SUB-00006u-Fo
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 08:35:05 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16JCXkaJ119961; Mon, 19 Jul 2021 08:34:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=2wMrOmOaMfVeFVX7tNb5AIsXI9mO7cENkLTsH3g4nNE=;
+ b=PsE7PE+B6AVN4YkQYybLkXpNnK/T2zYj/pZLzMdefyOxY3TklaXLwV6RVQs3aSvn76M5
+ 75tUCUSg9pfTZEMhlxXeeATHLKtWyOotsMYnBNqQu2xE9SG10k4wpldTdFkEoGKJ9Cck
+ /o220vZnKSfsLb/Szo4HQ1FO7UT7ZRZA8mMRDbSuoDbEb3fUcvxcEs4CdOxysvXd9oAV
+ 8R3U6tS6Bzvpe56NmbZlHS1+8pmQSui9XEBb+DcWYWcr/YZzEW5OXO5iqEAsakkRdOvd
+ EAsR7HSuSEb9DdI0HdHJKcdOYej/prWQx7bixC/Oig4B9SPEKnGxcNItbB9+m4Dzv6i9 JQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39w7ykugej-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Jul 2021 08:34:55 -0400
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16JCXll3119999;
+ Mon, 19 Jul 2021 08:34:54 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 39w7ykugdx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Jul 2021 08:34:54 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16JCSs1a031965;
+ Mon, 19 Jul 2021 12:34:53 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma02dal.us.ibm.com with ESMTP id 39vuk3x47p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 19 Jul 2021 12:34:53 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 16JCYqi936372798
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 19 Jul 2021 12:34:52 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A395812405A;
+ Mon, 19 Jul 2021 12:34:52 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E9197124054;
+ Mon, 19 Jul 2021 12:34:48 +0000 (GMT)
+Received: from [9.65.195.237] (unknown [9.65.195.237])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 19 Jul 2021 12:34:48 +0000 (GMT)
+Subject: Re: [RFC PATCH 4/6] i386/sev: add the SNP launch start context
+To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-5-brijesh.singh@amd.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <d38d99dd-0248-bc96-cb4d-82ec8cc782f2@linux.ibm.com>
+Date: Mon, 19 Jul 2021 15:34:47 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210717192419.2066778-1-richard.henderson@linaro.org>
- <20210717192419.2066778-10-richard.henderson@linaro.org>
-In-Reply-To: <20210717192419.2066778-10-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 19 Jul 2021 13:26:10 +0100
-Message-ID: <CAFEAcA-6APB+P=E_d0Arsw3rEyY=7+VffPg2ay0fzGmESXEFxA@mail.gmail.com>
-Subject: Re: [PATCH v3 09/10] trace: Fold mem-internal.h into mem.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210709215550.32496-5-brijesh.singh@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: mzMUnhXLv0GHVr23VtPdoX38i_7122-u
+X-Proofpoint-ORIG-GUID: wwY5Lok3vEV7-sSpUstUjp4CpIrosZSa
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-19_05:2021-07-19,
+ 2021-07-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 malwarescore=0 impostorscore=0 mlxscore=0 phishscore=0
+ adultscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104190000 definitions=main-2107190072
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,23 +113,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cole Robinson <crobinso@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 17 Jul 2021 at 20:24, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Since the last thing that mem.h does is include mem-internal.h,
-> the symbols are not actually private.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Hi Brijesh,
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+On 10/07/2021 0:55, Brijesh Singh wrote:
+> The SNP_LAUNCH_START is called first to create a cryptographic launch
+> context within the firmware.
+> 
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+>  target/i386/sev.c        | 30 +++++++++++++++++++++++++++++-
+>  target/i386/trace-events |  1 +
+>  2 files changed, 30 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 84ae244af0..259408a8f1 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -812,6 +812,29 @@ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
+>      return 0;
+>  }
+>  
+> +static int
+> +sev_snp_launch_start(SevGuestState *sev)
+> +{
+> +    int ret = 1;
+> +    int fw_error, rc;
+> +    struct kvm_sev_snp_launch_start *start = &sev->snp_config.start;
+> +
+> +    trace_kvm_sev_snp_launch_start(start->policy);
+> +
+> +    rc = sev_ioctl(sev->sev_fd, KVM_SEV_SNP_LAUNCH_START, start, &fw_error);
+> +    if (rc < 0) {
+> +        error_report("%s: SNP_LAUNCH_START ret=%d fw_error=%d '%s'",
+> +                __func__, ret, fw_error, fw_error_to_str(fw_error));
 
-thanks
--- PMM
+Did you mean to report the value of ret or rc?
+
+
+> +        goto out;
+
+Suggestion:
+
+Remove the `ret` variable.
+Here: simply `return 1`.
+At the end: remove the `out:` label; simply `return 0`.
+
+
+> +    }
+> +
+> +    sev_set_guest_state(sev, SEV_STATE_LAUNCH_UPDATE);
+> +    ret = 0;
+> +
+> +out:
+> +    return ret;
+> +}
+> +
+>  static int
+>  sev_launch_start(SevGuestState *sev)
+>  {
+> @@ -1105,7 +1128,12 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+>          goto err;
+>      }
+>  
+> -    ret = sev_launch_start(sev);
+> +    if (sev_snp_enabled()) {
+> +        ret = sev_snp_launch_start(sev);
+> +    } else {
+> +        ret = sev_launch_start(sev);
+> +    }
+> +
+>      if (ret) {
+>          error_setg(errp, "%s: failed to create encryption context", __func__);
+>          goto err;
+> diff --git a/target/i386/trace-events b/target/i386/trace-events
+> index 2cd8726eeb..18cc14b956 100644
+> --- a/target/i386/trace-events
+> +++ b/target/i386/trace-events
+> @@ -11,3 +11,4 @@ kvm_sev_launch_measurement(const char *value) "data %s"
+>  kvm_sev_launch_finish(void) ""
+>  kvm_sev_launch_secret(uint64_t hpa, uint64_t hva, uint64_t secret, int len) "hpa 0x%" PRIx64 " hva 0x%" PRIx64 " data 0x%" PRIx64 " len %d"
+>  kvm_sev_attestation_report(const char *mnonce, const char *data) "mnonce %s data %s"
+> +kvm_sev_snp_launch_start(uint64_t policy) "policy 0x%" PRIx64
+> 
 
