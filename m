@@ -2,51 +2,144 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231253CCC24
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 04:14:05 +0200 (CEST)
-Received: from localhost ([::1]:60700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2A53CCC3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 04:27:46 +0200 (CEST)
+Received: from localhost ([::1]:36604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5InD-0005UJ-W8
-	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 22:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35264)
+	id 1m5J0T-0000PL-LF
+	for lists+qemu-devel@lfdr.de; Sun, 18 Jul 2021 22:27:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
- id 1m5Ilb-00043t-Ku
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 22:12:23 -0400
-Received: from mga02.intel.com ([134.134.136.20]:9491)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1m5Iz3-000828-FQ; Sun, 18 Jul 2021 22:26:17 -0400
+Received: from mga02.intel.com ([134.134.136.20]:47784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
- id 1m5IlY-00047z-TG
- for qemu-devel@nongnu.org; Sun, 18 Jul 2021 22:12:23 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="198181449"
-X-IronPort-AV: E=Sophos;i="5.84,250,1620716400"; d="scan'208";a="198181449"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1m5Iz0-0004gH-6g; Sun, 18 Jul 2021 22:26:16 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10049"; a="198182428"
+X-IronPort-AV: E=Sophos;i="5.84,250,1620716400"; d="scan'208";a="198182428"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2021 19:12:16 -0700
+ 18 Jul 2021 19:26:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.84,250,1620716400"; d="scan'208";a="499560593"
-Received: from icx-hcc-jingqi.sh.intel.com ([10.239.48.6])
- by FMSMGA003.fm.intel.com with ESMTP; 18 Jul 2021 19:12:14 -0700
-From: Jingqi Liu <jingqi.liu@intel.com>
-To: imammedo@redhat.com, xiaoguangrong.eric@gmail.com, mst@redhat.com,
- marcel.apfelbaum@gmail.com, pbonzini@redhat.com,
- richard.henderson@linaro.org, ehabkost@redhat.com
-Subject: [PATCH v2 1/1] nvdimm: add 'target-node' option
-Date: Mon, 19 Jul 2021 10:01:53 +0800
-Message-Id: <20210719020153.30574-2-jingqi.liu@intel.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <20210719020153.30574-1-jingqi.liu@intel.com>
-References: <20210719020153.30574-1-jingqi.liu@intel.com>
+X-IronPort-AV: E=Sophos;i="5.84,250,1620716400"; d="scan'208";a="563869538"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga004.jf.intel.com with ESMTP; 18 Jul 2021 19:26:10 -0700
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10; Sun, 18 Jul 2021 19:26:09 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.10 via Frontend Transport; Sun, 18 Jul 2021 19:26:09 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.49) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Sun, 18 Jul 2021 19:26:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oFR/locCL8SkDCoFvG/FIXU+MwPnsMtUpz3a+7ticokbE6etpD3zAN+YV32LoUk63m/AT5YCetYQSDWkDE9NcI76JPw4+olVKCuNTh51rwGg4kUet12fc7KDCmke1tpe9k8sZIINaxUQpPnf9l5okQZFsxenAIerbUB5IG7jm4PIAIHEdWMh4EmPC/8VqSZP8D3hNHhKkq6bADnoytZy46bb6GutbL+v4gtLSM1tk5/u0yULg30+gLLcVtAXSQlbvsosFBtscvfAgNftGRs+lDfd2Ac169DJFf15rJhyawu8pSwGHWXm25iBrisIL/TFfcNsRV5hcl0Mi7jlLTpbMA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RgR/QQ0qwy27sEC12UXuyqRDX5XNFWCmcmAmMoDLqI0=;
+ b=btzfYe665tgAT0BFcr/Y8SkGVIjMzGIVFpWHoBzErW+7lG/x5eSqb5swEdPAfg1bGCyQWQ0E7DH8hf311w3IoUwWBg4wrF5RTv7Q3hqAZzlvyJ89Rcs89Bjzi/7Nqi3a35BUabSWVE5dIXsn6yyDyoR/Xc/EPRwoyGQb/fXWVCFW5DcceL58QnC87zh50I7Ozyujp7VJsHGCpLAPvGoO9Bfh26H1frwb9TfJLF42GqX7fT7luhvSLhKGg6zoMGCzDQc2hPGREzlPWlje5QaoFvFgDkDUZ0JeYYMF3413RxObC5yx27gSfMfgY8+4YnbpRKQB4WxjXDiLdRDuVpuWcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RgR/QQ0qwy27sEC12UXuyqRDX5XNFWCmcmAmMoDLqI0=;
+ b=mhHP/RFLwxO/4bP5gv2V3sfg6cpz0MhCjuhcrfepCcpDbLVrS+d0vvyhsdyyGXISRUNz8d38pYAkPFJJy4kdSIDUtemgzmjiMs7e0OCLr3DSzTlC8CN46qzwJWqRxg4wI8FXIqyqdeX79FOqb0Tw5wEYbpFtr6VmkQubqCrVfss=
+Received: from BN0PR11MB5757.namprd11.prod.outlook.com (2603:10b6:408:165::23)
+ by BN6PR1101MB2290.namprd11.prod.outlook.com (2603:10b6:405:4e::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.24; Mon, 19 Jul
+ 2021 02:26:07 +0000
+Received: from BN0PR11MB5757.namprd11.prod.outlook.com
+ ([fe80::d4a2:4607:7235:c6f6]) by BN0PR11MB5757.namprd11.prod.outlook.com
+ ([fe80::d4a2:4607:7235:c6f6%9]) with mapi id 15.20.4331.032; Mon, 19 Jul 2021
+ 02:26:07 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Lukas Straub <lukasstraub2@web.de>, qemu-devel <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v6 1/4] replication: Remove s->active_disk
+Thread-Topic: [PATCH v6 1/4] replication: Remove s->active_disk
+Thread-Index: AQHXe+RXY1IOFAjWM0WS/412Nx48cqtJkguA
+Date: Mon, 19 Jul 2021 02:26:06 +0000
+Message-ID: <BN0PR11MB5757611BE59D5EFA4094EF5E9BE19@BN0PR11MB5757.namprd11.prod.outlook.com>
+References: <cover.1626619393.git.lukasstraub2@web.de>
+ <2534f867ea9be5b666dfce19744b7d4e2b96c976.1626619393.git.lukasstraub2@web.de>
+In-Reply-To: <2534f867ea9be5b666dfce19744b7d4e2b96c976.1626619393.git.lukasstraub2@web.de>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
+authentication-results: web.de; dkim=none (message not signed)
+ header.d=none;web.de; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 683859f9-4296-496c-2ac8-08d94a5c9080
+x-ms-traffictypediagnostic: BN6PR1101MB2290:
+x-microsoft-antispam-prvs: <BN6PR1101MB2290773159E5DA2109B8DDE59BE19@BN6PR1101MB2290.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:252;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: mxnHsP2YrHXlhK5zF1JEfs7QJ8v9fOn655uup8VBvyOqQuj00FhLxVDY6ymKeCIvvlYZds1tGotCZCB/zDQPPh7DvsQxQBU6f9ZsnENlFqz9csBnCmlnzuO300iZMR5ZGzPRnv79Q7ctw63QL4gRT+CFgXZgNGSzWfMjbEDOQNXdcz3ELJWP6DNpylJvH6l5W3OAC0DSsiznrKvuk0fB2CQQWKZqzcN0oWWVNlK+Ks/a63poW7W7uoAdzeoExfFpKoNf199al9q8gzlO3q2AWz319XwLsPt9ATaxrgRrBkv3evt+bn8l4kQcejT62rif/eo1nmwx7X5fj+l3C4EuU5zBFHI2CUk97eY8T00izAGH7kKHMNt+3tzzciNuIOzkC6X8rN8IikrFvuQJnblOsfE+0DkVLQ7ROl/l1L4+WMQqu76tMOfQ3+5CKj6L78db8ogTXSC6k8v0803u381H4QPtZTVbJaYnGVGqa798XaJQhDG33ZmFFtViMdTNMptDLRWyY2tWD1trig04W4JGDRukjGn5nZ34oc9Nyq45pSPnFOqfiIcPd/BBEzz2vZgFApV+omkW525cNMudq0lFWAp7IzNgSAVhDma0PMtYTA8g7G15xnENVG9Q2I0nLDkHyTMeg5Pa1fox9JetxVOCUckUL5jqJtBUmpJY0RieDxqbzEE/PPQ1Z1Wv1f6N6pqb/8HaAxYk2FQLUb9KKYJ7IA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN0PR11MB5757.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(8936002)(4326008)(66446008)(64756008)(66556008)(66476007)(9686003)(66946007)(5660300002)(71200400001)(52536014)(76116006)(478600001)(83380400001)(2906002)(55016002)(54906003)(186003)(316002)(110136005)(122000001)(38100700002)(33656002)(8676002)(26005)(6506007)(53546011)(7696005)(86362001)(38070700004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?TtOfF7O3dM6zgWcMXyvpe8tMIsF0v0W5VZ4r7WOPALXQGPtlD6VojExotpZC?=
+ =?us-ascii?Q?gGYGwtP3MLkrszl9jgCOSl5gmYXY704Ine9T56Y/vdV5Zab5tdhd68pNNNeu?=
+ =?us-ascii?Q?+D1qsrqXonFMMr2rgeV5FQEyiRNfBvJ617Gqy8/IYBYv7gXpH9k9nYBX39Xw?=
+ =?us-ascii?Q?Wd+c1SxmzHxalefkrk4lMb9R7wcQCtyip8EflH0Ws8gUd8gLCixdPOIReR6h?=
+ =?us-ascii?Q?+3tHNjtETg0XL8g15Zp2y+sAjXVoWEvpLLWSaj+F9yzVGCjBiRfnBrdGrOz4?=
+ =?us-ascii?Q?5864EbMVJA1qwF5vqmeFFPkJ7ppdPK/Y5wrPx4xUpy6US8vuxJTdWIyKvgRB?=
+ =?us-ascii?Q?i8v9F0rMBINU6Po9mxGqCTtSaA7B4B1EnmwqLvrJxB/FGbZTg3L9vQW2rDzC?=
+ =?us-ascii?Q?+696hO3aNCU+VYUXR+9HwS7DZiCBOU6XtCu5HHhMvDX8VZVZDDH8Y9qSPnRz?=
+ =?us-ascii?Q?4RlRGPB3as6I18evCjn6+BKsdKAAWR5B370qdIcmjd0lZpjPa39zDZnvXEqN?=
+ =?us-ascii?Q?XcBFQ7r13JNvwWjSu5yy3Qjm24jrFwwW01/ktnqlAbUCBuTKBTYIVgWKSnsP?=
+ =?us-ascii?Q?WTz9R+cVv7r1oPJlNMhNg9Vj604TxIj4N3uZxxFmjZ0/LH3m2MO+nuESTzgT?=
+ =?us-ascii?Q?oX7Xaqnp2pQ1t7NZw1ttshThexVJ+xg0H3+XVnErN+ssU+V2UnKFBHWC6g4f?=
+ =?us-ascii?Q?rJ+yYJT8nbQhFxAdqAckTVh6mGJvk93W/49/U66Rd6Y2dgcdrxp7IxnAT2uR?=
+ =?us-ascii?Q?mD9BBjsU7+8it1GJ6kqjxvhY4YUueTJDx8GRUD7DIJqJx2MPcXCl8N5DbJwE?=
+ =?us-ascii?Q?Z5Ai0fBFNOPW8y6jOOm5N/D2XgdoLGDaqlkNrDY+5SRnTtEicd3xx+RSTdlL?=
+ =?us-ascii?Q?pfQAulYy15ZAun+Q7m2ibm0cDfMonPi3BO/+SWN7AoYTWsLq28MUSvr+yD4D?=
+ =?us-ascii?Q?MB4zB6EHR9cDblVMFw/yQOvfNkTfhMDZM6b7YNj+NKdz3NGcxZ/0RXPaafke?=
+ =?us-ascii?Q?SQ4BY987lEmy7QP1+6nEF1JRhE2qBIAJr/jPEiAW+RS2ARpimWt7tg4MaKyZ?=
+ =?us-ascii?Q?WXSYamxhs3IPcGW/1GEoS3+PmhKPBTn5zvLzaYVTD/2ecg/N65Swd22k/qJO?=
+ =?us-ascii?Q?3p0sU6mtGsq9QvYfsDzoRBSbEaJLMhK9q0fj3QrYfc5wFtgM/BJ+r6Ue2j85?=
+ =?us-ascii?Q?RRSS7QeUnjbxDuAAfTlPuQ8fyIWS2TGyJ4XNJVgcIn7bvy34DDpUWRp1uxnM?=
+ =?us-ascii?Q?9/a+ehDwBt/gioL4bMWCYkrm/XLIL00eoFQKPWrunGb0imR9kLCYvZ/Dn9wf?=
+ =?us-ascii?Q?pX0pUuaMYzFkyxHP2IX8jrR4?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.20; envelope-from=jingqi.liu@intel.com;
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN0PR11MB5757.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 683859f9-4296-496c-2ac8-08d94a5c9080
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2021 02:26:07.0256 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: TXjeLehiVAPs7/bLzTnIxSrQWTwf4QTwzX6VBrkoLX+ji7Aa9ZPFFInnOeju5dV0jFWb1N4ILml2yyJ2a4RygQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1101MB2290
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=chen.zhang@intel.com;
  helo=mga02.intel.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,438 +153,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jingqi Liu <jingqi.liu@intel.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block <qemu-block@nongnu.org>, Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux kernel version 5.1 brings in support for the volatile-use of
-persistent memory as a hotplugged memory region (KMEM DAX).
-When this feature is enabled, persistent memory can be seen as a
-separate memory-only NUMA node(s). This newly-added memory can be
-selected by its unique NUMA node.
 
-Add 'target-node' option for 'nvdimm' device to indicate this NUMA
-node. It can be extended to a new node after all existing NUMA nodes.
 
-The 'node' option of 'pc-dimm' device is to add the DIMM to an
-existing NUMA node. The 'node' should be in the available NUMA nodes.
-For KMEM DAX mode, persistent memory can be in a new separate
-memory-only NUMA node. The new node is created dynamically.
-So users use 'target-node' to control whether persistent memory
-is added to an existing NUMA node or a new NUMA node.
+> -----Original Message-----
+> From: Qemu-devel <qemu-devel-
+> bounces+chen.zhang=3Dintel.com@nongnu.org> On Behalf Of Lukas Straub
+> Sent: Sunday, July 18, 2021 10:48 PM
+> To: qemu-devel <qemu-devel@nongnu.org>
+> Cc: Kevin Wolf <kwolf@redhat.com>; Vladimir Sementsov-Ogievskiy
+> <vsementsov@virtuozzo.com>; qemu-block <qemu-block@nongnu.org>;
+> Wen Congyang <wencongyang2@huawei.com>; Xie Changlong
+> <xiechanglong.d@gmail.com>; Max Reitz <mreitz@redhat.com>
+> Subject: [PATCH v6 1/4] replication: Remove s->active_disk
+>=20
+> s->active_disk is bs->file. Remove it and use local variables instead.
+>=20
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-An example of configuration is as follows.
+Looks good for me.
+Reviewed-by: Zhang Chen <chen.zhang@intel.com>
 
-Using the following QEMU command:
- -object memory-backend-file,id=nvmem1,share=on,mem-path=/dev/dax0.0,size=3G,align=2M
- -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,targe-node=2
-
-To list DAX devices:
- # daxctl list -u
- {
-   "chardev":"dax0.0",
-   "size":"3.00 GiB (3.22 GB)",
-   "target_node":2,
-   "mode":"devdax"
- }
-
-To create a namespace in Device-DAX mode as a standard memory:
- $ ndctl create-namespace --mode=devdax --map=mem
-To reconfigure DAX device from devdax mode to a system-ram mode:
- $ daxctl reconfigure-device dax0.0 --mode=system-ram
-
-There are two existing NUMA nodes in Guest. After these operations,
-persistent memory is configured as a separate Node 2 and
-can be used as a volatile memory. This NUMA node is dynamically
-created according to 'target-node'.
-
-Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
----
- docs/nvdimm.txt         | 93 +++++++++++++++++++++++++++++++++++++++++
- hw/acpi/nvdimm.c        | 18 ++++----
- hw/i386/acpi-build.c    | 12 +++++-
- hw/i386/pc.c            |  4 ++
- hw/mem/nvdimm.c         | 43 ++++++++++++++++++-
- include/hw/mem/nvdimm.h | 17 +++++++-
- util/nvdimm-utils.c     | 22 ++++++++++
- 7 files changed, 198 insertions(+), 11 deletions(-)
-
-diff --git a/docs/nvdimm.txt b/docs/nvdimm.txt
-index 0aae682be3..083d954bb4 100644
---- a/docs/nvdimm.txt
-+++ b/docs/nvdimm.txt
-@@ -107,6 +107,99 @@ Note:
-    may result guest data corruption (e.g. breakage of guest file
-    system).
- 
-+Target node
-+-----------
-+
-+Linux kernel version 5.1 brings in support for the volatile-use of
-+persistent memory as a hotplugged memory region (KMEM DAX).
-+When this feature is enabled, persistent memory can be seen as a
-+separate memory-only NUMA node(s). This newly-added memory can be
-+selected by its unique NUMA node.
-+Add 'target-node' option for nvdimm device to indicate this NUMA node.
-+It can be extended after all existing NUMA nodes.
-+
-+An example of configuration is presented below.
-+
-+Using the following QEMU command:
-+ -object memory-backend-file,id=nvmem1,share=on,mem-path=/dev/dax0.0,size=3G,align=2M
-+ -device nvdimm,id=nvdimm1,memdev=mem1,label-size=128K,targe-node=1
-+
-+The below operations are in Guest.
-+
-+To list available NUMA nodes using numactl:
-+ # numactl -H
-+ available: 1 nodes (0)
-+ node 0 cpus: 0 1 2 3 4 5 6 7
-+ node 0 size: 5933 MB
-+ node 0 free: 5457 MB
-+ node distances:
-+ node   0
-+   0:  10
-+
-+To create a namespace in Device-DAX mode as a standard memory from
-+all the available capacity of NVDIMM:
-+
-+ # ndctl create-namespace --mode=devdax --map=mem
-+ {
-+   "dev":"namespace0.0",
-+   "mode":"devdax",
-+   "map":"mem",
-+   "size":"3.00 GiB (3.22 GB)",
-+   "uuid":"4e4d8293-dd3b-4e43-8ad9-7f3d2a8d1680",
-+   "daxregion":{
-+     "id":0,
-+     "size":"3.00 GiB (3.22 GB)",
-+     "align":2097152,
-+     "devices":[
-+       {
-+         "chardev":"dax0.0",
-+         "size":"3.00 GiB (3.22 GB)",
-+         "target_node":1,
-+         "mode":"devdax"
-+       }
-+     ]
-+   },
-+   "align":2097152
-+ }
-+
-+To list DAX devices:
-+ # daxctl list -u
-+ {
-+   "chardev":"dax0.0",
-+   "size":"3.00 GiB (3.22 GB)",
-+   "target_node":1,
-+   "mode":"devdax"
-+ }
-+
-+To reconfigure DAX device from devdax mode to a system-ram mode:
-+ # daxctl reconfigure-device dax0.0 --mode=system-ram
-+ [
-+   {
-+     "chardev":"dax0.0",
-+     "size":3217031168,
-+     "target_node":1,
-+     "mode":"system-ram",
-+     "movable":false
-+   }
-+ ]
-+
-+After this operation, persistent memory is configured as a separate NUMA node
-+and can be used as a volatile memory.
-+The new NUMA node is Node 1:
-+ # numactl -H
-+ available: 2 nodes (0-1)
-+ node 0 cpus: 0 1 2 3 4 5 6 7
-+ node 0 size: 5933 MB
-+ node 0 free: 5339 MB
-+ node 1 cpus:
-+ node 1 size: 2816 MB
-+ node 1 free: 2815 MB
-+ node distances:
-+ node   0   1
-+   0:  10  20
-+   1:  20  10
-+
-+
- Hotplug
- -------
- 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index e3d5fe1939..ebce0d6e68 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -228,8 +228,8 @@ nvdimm_build_structure_spa(GArray *structures, DeviceState *dev)
-                                              NULL);
-     uint64_t size = object_property_get_uint(OBJECT(dev), PC_DIMM_SIZE_PROP,
-                                              NULL);
--    uint32_t node = object_property_get_uint(OBJECT(dev), PC_DIMM_NODE_PROP,
--                                             NULL);
-+    int target_node = object_property_get_uint(OBJECT(dev), NVDIMM_TARGET_NODE_PROP,
-+                                               NULL);
-     int slot = object_property_get_int(OBJECT(dev), PC_DIMM_SLOT_PROP,
-                                        NULL);
- 
-@@ -251,7 +251,7 @@ nvdimm_build_structure_spa(GArray *structures, DeviceState *dev)
-                                        valid*/);
- 
-     /* NUMA node. */
--    nfit_spa->proximity_domain = cpu_to_le32(node);
-+    nfit_spa->proximity_domain = cpu_to_le32(target_node);
-     /* the region reported as PMEM. */
-     memcpy(nfit_spa->type_guid, nvdimm_nfit_spa_uuid,
-            sizeof(nvdimm_nfit_spa_uuid));
-@@ -1337,8 +1337,9 @@ static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
-     free_aml_allocator();
- }
- 
--void nvdimm_build_srat(GArray *table_data)
-+int nvdimm_build_srat(GArray *table_data)
- {
-+    int max_target_node = nvdimm_check_target_nodes();
-     GSList *device_list = nvdimm_get_device_list();
- 
-     for (; device_list; device_list = device_list->next) {
-@@ -1346,17 +1347,20 @@ void nvdimm_build_srat(GArray *table_data)
-         DeviceState *dev = device_list->data;
-         Object *obj = OBJECT(dev);
-         uint64_t addr, size;
--        int node;
-+        int target_node;
- 
--        node = object_property_get_int(obj, PC_DIMM_NODE_PROP, &error_abort);
-+        target_node = object_property_get_uint(obj, NVDIMM_TARGET_NODE_PROP,
-+                                               &error_abort);
-         addr = object_property_get_uint(obj, PC_DIMM_ADDR_PROP, &error_abort);
-         size = object_property_get_uint(obj, PC_DIMM_SIZE_PROP, &error_abort);
- 
-         numamem = acpi_data_push(table_data, sizeof *numamem);
--        build_srat_memory(numamem, addr, size, node,
-+        build_srat_memory(numamem, addr, size, target_node,
-                           MEM_AFFINITY_ENABLED | MEM_AFFINITY_NON_VOLATILE);
-     }
-     g_slist_free(device_list);
-+
-+   return max_target_node;
- }
- 
- void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 796ffc6f5c..19bf91063f 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1879,6 +1879,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-     AcpiSratMemoryAffinity *numamem;
- 
-     int i;
-+    int max_node = 0;
-     int srat_start, numa_start, slots;
-     uint64_t mem_len, mem_base, next_base;
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-@@ -1974,7 +1975,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-     }
- 
-     if (machine->nvdimms_state->is_enabled) {
--        nvdimm_build_srat(table_data);
-+        max_node = nvdimm_build_srat(table_data);
-     }
- 
-     slots = (table_data->len - numa_start) / sizeof *numamem;
-@@ -1992,9 +1993,16 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-      * providing _PXM method if necessary.
-      */
-     if (hotplugabble_address_space_size) {
-+        if (max_node < 0) {
-+            max_node = pcms->numa_nodes - 1;
-+        } else {
-+            max_node = max_node > pcms->numa_nodes - 1 ?
-+                       max_node : pcms->numa_nodes - 1;
-+        }
-+
-         numamem = acpi_data_push(table_data, sizeof *numamem);
-         build_srat_memory(numamem, machine->device_memory->base,
--                          hotplugabble_address_space_size, pcms->numa_nodes - 1,
-+                          hotplugabble_address_space_size, max_node,
-                           MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
-     }
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index c6d8d0d84d..debf26b31e 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1251,6 +1251,10 @@ static void pc_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
- 
-     pc_dimm_pre_plug(PC_DIMM(dev), MACHINE(hotplug_dev),
-                      pcmc->enforce_aligned_dimm ? NULL : &legacy_align, errp);
-+
-+    if (is_nvdimm) {
-+        nvdimm_pre_plug(NVDIMM(dev), MACHINE(hotplug_dev), errp);
-+    }
- }
- 
- static void pc_memory_plug(HotplugHandler *hotplug_dev,
-diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-index 7397b67156..c864e6717b 100644
---- a/hw/mem/nvdimm.c
-+++ b/hw/mem/nvdimm.c
-@@ -27,11 +27,52 @@
- #include "qemu/pmem.h"
- #include "qapi/error.h"
- #include "qapi/visitor.h"
-+#include "hw/boards.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/qdev-properties.h"
- #include "hw/mem/memory-device.h"
- #include "sysemu/hostmem.h"
- 
-+unsigned long nvdimm_target_nodes[BITS_TO_LONGS(MAX_NODES)];
-+int nvdimm_max_target_node;
-+
-+void nvdimm_pre_plug(NVDIMMDevice *nvdimm, MachineState *machine,
-+                     Error **errp)
-+{
-+    int node;
-+
-+    node = object_property_get_uint(OBJECT(nvdimm), PC_DIMM_NODE_PROP,
-+                                    &error_abort);
-+    if (node && (nvdimm->target_node != -1)) {
-+        error_setg(errp, "Both property '" PC_DIMM_NODE_PROP
-+                   "' and '" NVDIMM_TARGET_NODE_PROP
-+                   "' cannot be set!");
-+        return;
-+    }
-+
-+    if (nvdimm->target_node != -1) {
-+        if (nvdimm->target_node >= MAX_NODES) {
-+            error_setg(errp, "'NVDIMM property " NVDIMM_TARGET_NODE_PROP
-+                       " has value %" PRIu32
-+                       "' which exceeds the max number of numa nodes: %d",
-+                       nvdimm->target_node, MAX_NODES);
-+            return;
-+        }
-+        if (nvdimm->target_node >= machine->numa_state->num_nodes) {
-+            set_bit(nvdimm->target_node, nvdimm_target_nodes);
-+            if (nvdimm->target_node > nvdimm_max_target_node) {
-+                nvdimm_max_target_node = nvdimm->target_node;
-+            }
-+        }
-+    } else {
-+        /*
-+         * If the 'target-node' option is not set,
-+         * the value of 'node' is used as target node.
-+         */
-+        nvdimm->target_node = node;
-+    }
-+}
-+
- static void nvdimm_get_label_size(Object *obj, Visitor *v, const char *name,
-                                   void *opaque, Error **errp)
- {
-@@ -96,7 +137,6 @@ static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
-     g_free(value);
- }
- 
--
- static void nvdimm_init(Object *obj)
- {
-     object_property_add(obj, NVDIMM_LABEL_SIZE_PROP, "int",
-@@ -229,6 +269,7 @@ static void nvdimm_write_label_data(NVDIMMDevice *nvdimm, const void *buf,
- 
- static Property nvdimm_properties[] = {
-     DEFINE_PROP_BOOL(NVDIMM_UNARMED_PROP, NVDIMMDevice, unarmed, false),
-+    DEFINE_PROP_UINT32(NVDIMM_TARGET_NODE_PROP, NVDIMMDevice, target_node, -1),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
-index bcf62f825c..4f490d0c2a 100644
---- a/include/hw/mem/nvdimm.h
-+++ b/include/hw/mem/nvdimm.h
-@@ -51,6 +51,7 @@ OBJECT_DECLARE_TYPE(NVDIMMDevice, NVDIMMClass, NVDIMM)
- #define NVDIMM_LABEL_SIZE_PROP "label-size"
- #define NVDIMM_UUID_PROP       "uuid"
- #define NVDIMM_UNARMED_PROP    "unarmed"
-+#define NVDIMM_TARGET_NODE_PROP "target-node"
- 
- struct NVDIMMDevice {
-     /* private */
-@@ -89,6 +90,14 @@ struct NVDIMMDevice {
-      * The PPC64 - spapr requires each nvdimm device have a uuid.
-      */
-     QemuUUID uuid;
-+
-+    /*
-+     * Support for the volatile-use of persistent memory as normal RAM.
-+     * This newly-added memory can be selected by its unique NUMA node.
-+     * This node can be extended to a new node after all existing NUMA
-+     * nodes.
-+     */
-+    uint32_t target_node;
- };
- 
- struct NVDIMMClass {
-@@ -148,14 +157,20 @@ struct NVDIMMState {
- };
- typedef struct NVDIMMState NVDIMMState;
- 
-+extern unsigned long nvdimm_target_nodes[];
-+extern int nvdimm_max_target_node;
-+
- void nvdimm_init_acpi_state(NVDIMMState *state, MemoryRegion *io,
-                             struct AcpiGenericAddress dsm_io,
-                             FWCfgState *fw_cfg, Object *owner);
--void nvdimm_build_srat(GArray *table_data);
-+int nvdimm_build_srat(GArray *table_data);
- void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
-                        BIOSLinker *linker, NVDIMMState *state,
-                        uint32_t ram_slots, const char *oem_id,
-                        const char *oem_table_id);
- void nvdimm_plug(NVDIMMState *state);
- void nvdimm_acpi_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev);
-+int nvdimm_check_target_nodes(void);
-+void nvdimm_pre_plug(NVDIMMDevice *dimm, MachineState *machine,
-+                     Error **errp);
- #endif
-diff --git a/util/nvdimm-utils.c b/util/nvdimm-utils.c
-index aa3d199f2d..767f1e4787 100644
---- a/util/nvdimm-utils.c
-+++ b/util/nvdimm-utils.c
-@@ -1,5 +1,7 @@
- #include "qemu/osdep.h"
- #include "qemu/nvdimm-utils.h"
-+#include "qapi/error.h"
-+#include "hw/boards.h"
- #include "hw/mem/nvdimm.h"
- 
- static int nvdimm_device_list(Object *obj, void *opaque)
-@@ -28,3 +30,23 @@ GSList *nvdimm_get_device_list(void)
-     object_child_foreach(qdev_get_machine(), nvdimm_device_list, &list);
-     return list;
- }
-+
-+int nvdimm_check_target_nodes(void)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    int nb_numa_nodes = ms->numa_state->num_nodes;
-+    int node;
-+
-+    if (!nvdimm_max_target_node) {
-+        return -1;
-+    }
-+
-+    for (node = nb_numa_nodes; node <= nvdimm_max_target_node; node++) {
-+        if (!test_bit(node, nvdimm_target_nodes)) {
-+            error_report("nvdimm target-node: Node ID missing: %d", node);
-+            exit(1);
-+        }
-+    }
-+
-+    return nvdimm_max_target_node;
-+}
--- 
-2.21.3
+> ---
+>  block/replication.c | 34 +++++++++++++++++-----------------
+>  1 file changed, 17 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/block/replication.c b/block/replication.c index
+> 774e15df16..9ad2dfdc69 100644
+> --- a/block/replication.c
+> +++ b/block/replication.c
+> @@ -35,7 +35,6 @@ typedef enum {
+>  typedef struct BDRVReplicationState {
+>      ReplicationMode mode;
+>      ReplicationStage stage;
+> -    BdrvChild *active_disk;
+>      BlockJob *commit_job;
+>      BdrvChild *hidden_disk;
+>      BdrvChild *secondary_disk;
+> @@ -307,8 +306,10 @@ out:
+>      return ret;
+>  }
+>=20
+> -static void secondary_do_checkpoint(BDRVReplicationState *s, Error **err=
+p)
+> +static void secondary_do_checkpoint(BlockDriverState *bs, Error **errp)
+>  {
+> +    BDRVReplicationState *s =3D bs->opaque;
+> +    BdrvChild *active_disk =3D bs->file;
+>      Error *local_err =3D NULL;
+>      int ret;
+>=20
+> @@ -323,13 +324,13 @@ static void
+> secondary_do_checkpoint(BDRVReplicationState *s, Error **errp)
+>          return;
+>      }
+>=20
+> -    if (!s->active_disk->bs->drv) {
+> +    if (!active_disk->bs->drv) {
+>          error_setg(errp, "Active disk %s is ejected",
+> -                   s->active_disk->bs->node_name);
+> +                   active_disk->bs->node_name);
+>          return;
+>      }
+>=20
+> -    ret =3D bdrv_make_empty(s->active_disk, errp);
+> +    ret =3D bdrv_make_empty(active_disk, errp);
+>      if (ret < 0) {
+>          return;
+>      }
+> @@ -458,6 +459,7 @@ static void replication_start(ReplicationState *rs,
+> ReplicationMode mode,
+>      BlockDriverState *bs =3D rs->opaque;
+>      BDRVReplicationState *s;
+>      BlockDriverState *top_bs;
+> +    BdrvChild *active_disk;
+>      int64_t active_length, hidden_length, disk_length;
+>      AioContext *aio_context;
+>      Error *local_err =3D NULL;
+> @@ -495,15 +497,14 @@ static void replication_start(ReplicationState *rs,
+> ReplicationMode mode,
+>      case REPLICATION_MODE_PRIMARY:
+>          break;
+>      case REPLICATION_MODE_SECONDARY:
+> -        s->active_disk =3D bs->file;
+> -        if (!s->active_disk || !s->active_disk->bs ||
+> -                                    !s->active_disk->bs->backing) {
+> +        active_disk =3D bs->file;
+> +        if (!active_disk || !active_disk->bs ||
+> + !active_disk->bs->backing) {
+>              error_setg(errp, "Active disk doesn't have backing file");
+>              aio_context_release(aio_context);
+>              return;
+>          }
+>=20
+> -        s->hidden_disk =3D s->active_disk->bs->backing;
+> +        s->hidden_disk =3D active_disk->bs->backing;
+>          if (!s->hidden_disk->bs || !s->hidden_disk->bs->backing) {
+>              error_setg(errp, "Hidden disk doesn't have backing file");
+>              aio_context_release(aio_context); @@ -518,7 +519,7 @@ static=
+ void
+> replication_start(ReplicationState *rs, ReplicationMode mode,
+>          }
+>=20
+>          /* verify the length */
+> -        active_length =3D bdrv_getlength(s->active_disk->bs);
+> +        active_length =3D bdrv_getlength(active_disk->bs);
+>          hidden_length =3D bdrv_getlength(s->hidden_disk->bs);
+>          disk_length =3D bdrv_getlength(s->secondary_disk->bs);
+>          if (active_length < 0 || hidden_length < 0 || disk_length < 0 ||=
+ @@ -
+> 530,9 +531,9 @@ static void replication_start(ReplicationState *rs,
+> ReplicationMode mode,
+>          }
+>=20
+>          /* Must be true, or the bdrv_getlength() calls would have failed=
+ */
+> -        assert(s->active_disk->bs->drv && s->hidden_disk->bs->drv);
+> +        assert(active_disk->bs->drv && s->hidden_disk->bs->drv);
+>=20
+> -        if (!s->active_disk->bs->drv->bdrv_make_empty ||
+> +        if (!active_disk->bs->drv->bdrv_make_empty ||
+>              !s->hidden_disk->bs->drv->bdrv_make_empty) {
+>              error_setg(errp,
+>                         "Active disk or hidden disk doesn't support make_=
+empty"); @@ -
+> 586,7 +587,7 @@ static void replication_start(ReplicationState *rs,
+> ReplicationMode mode,
+>      s->stage =3D BLOCK_REPLICATION_RUNNING;
+>=20
+>      if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
+> -        secondary_do_checkpoint(s, errp);
+> +        secondary_do_checkpoint(bs, errp);
+>      }
+>=20
+>      s->error =3D 0;
+> @@ -615,7 +616,7 @@ static void
+> replication_do_checkpoint(ReplicationState *rs, Error **errp)
+>      }
+>=20
+>      if (s->mode =3D=3D REPLICATION_MODE_SECONDARY) {
+> -        secondary_do_checkpoint(s, errp);
+> +        secondary_do_checkpoint(bs, errp);
+>      }
+>      aio_context_release(aio_context);
+>  }
+> @@ -652,7 +653,6 @@ static void replication_done(void *opaque, int ret)
+>      if (ret =3D=3D 0) {
+>          s->stage =3D BLOCK_REPLICATION_DONE;
+>=20
+> -        s->active_disk =3D NULL;
+>          s->secondary_disk =3D NULL;
+>          s->hidden_disk =3D NULL;
+>          s->error =3D 0;
+> @@ -705,7 +705,7 @@ static void replication_stop(ReplicationState *rs, bo=
+ol
+> failover, Error **errp)
+>          }
+>=20
+>          if (!failover) {
+> -            secondary_do_checkpoint(s, errp);
+> +            secondary_do_checkpoint(bs, errp);
+>              s->stage =3D BLOCK_REPLICATION_DONE;
+>              aio_context_release(aio_context);
+>              return;
+> @@ -713,7 +713,7 @@ static void replication_stop(ReplicationState *rs, bo=
+ol
+> failover, Error **errp)
+>=20
+>          s->stage =3D BLOCK_REPLICATION_FAILOVER;
+>          s->commit_job =3D commit_active_start(
+> -                            NULL, s->active_disk->bs, s->secondary_disk-=
+>bs,
+> +                            NULL, bs->file->bs, s->secondary_disk->bs,
+>                              JOB_INTERNAL, 0, BLOCKDEV_ON_ERROR_REPORT,
+>                              NULL, replication_done, bs, true, errp);
+>          break;
+> --
+> 2.20.1
 
 
