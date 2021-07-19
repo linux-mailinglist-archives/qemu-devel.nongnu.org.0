@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AC53CD627
-	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 15:54:09 +0200 (CEST)
-Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFA03CD63C
+	for <lists+qemu-devel@lfdr.de>; Mon, 19 Jul 2021 15:58:39 +0200 (CEST)
+Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5Tij-0004GF-2s
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 09:54:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52362)
+	id 1m5Tn4-0000ou-JX
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 09:58:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1m5Th6-0002ZC-OO
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:52:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49798)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1m5Th4-0001gk-NX
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:52:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626702745;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RfhGiw7K8LtWlN5Oz8f2JVOwrCsFlaCAldgNdaijXEY=;
- b=G0oj27X6f3EWa2A0UUUe5ely0sEh6ox0jqAEan9KxiZ1MIxPCu1BEqsnAbyL4Zi6mPFgyb
- CHiehXswU7ajrVq6sRt2zWhQvjKwpdHygEvyyg5bGbgwh2TmDv4+vTrvvKGmNFcN+hEyI7
- IPSi+fuDSMcTVQThtbzTpy1aBw3vt0Y=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-v_pI6PiBMr2bl140dlyi8g-1; Mon, 19 Jul 2021 09:52:23 -0400
-X-MC-Unique: v_pI6PiBMr2bl140dlyi8g-1
-Received: by mail-pf1-f198.google.com with SMTP id
- k11-20020aa792cb0000b02903305e16bd1dso13667848pfa.2
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 06:52:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5Tlz-0007LQ-Jz
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:57:31 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5Tlx-00051b-TD
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 09:57:31 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id r11so22145551wro.9
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 06:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=c/XSV+OsMSo4sw4ZoppIUrwtdycOv9HBEpcBZdT/Qz4=;
+ b=YRdm24jNDWLVnScFeE+Xgb3IedwpptqYApU25Uzm/BwnvEbPhXorQi9cg2WaZ0w4D2
+ Wj8G7rjO8TJ3WBFdrWLu0AsHO8fvo6GlzTRpjXUjvd25pjFfiDJuKIyeqH03RzxWjxrL
+ RdaW1Vd2QwVZIh0l+ehehtlz5lLpXThbj3QIa8rImCc3HG7WQWugGEAlZ3SMJvx72yp0
+ I/Dy5ma0NBVW1SzbCofSSzgixnUpYQAvvWgVO0G41r9v9nCxlM/N+MSYre7yynlDUznO
+ ZVLMWVDSJ6v5zy1P8CvRN7hSU1YEzzNfGgYtG9BcnZOm0RF1B/jRbV/D+mfj9LhiQc5d
+ 0qeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RfhGiw7K8LtWlN5Oz8f2JVOwrCsFlaCAldgNdaijXEY=;
- b=GL+N+M6FNXneZMw/XPwd5YKIiSf5zCdW/p/9HyPZgjobHgqDbfA2abwki4B6EvE/Ap
- xQeI9VJNI+tCYKxEs2IN9uSCRf1yG2Wrx4IkB9veVUT4S2euygGWgWFRKYStfxPcT1Di
- nL2DQXpmA4V2uZWdBkeUXx6UfjYeqljZ0sYG5Pol4CX8EBIOio8bTF8AOZBvUKfd5l3V
- Uqfq4Pbe+iBjknOQ4YlvjYq5TcrrlM6qEWUawn7TjfnQfUp12DruAFOsbnZ9wk6UmBut
- 5bLK6DjgmcDtRAgfrhQhMPd8CqNx2D6dprIsWF54+yY8NvcbZ7WBkB1yjJtK7kfq8mm0
- 2HyA==
-X-Gm-Message-State: AOAM5316YpsSmUsKEhjo8ymW+3Ey9NQ0UdOuuYwpnKCbRoy65O3W5QS8
- Ij2TqTRAGzqtQe/sMLZKIhE3gscqzdNssRMM+bI2t0Uv9TGtvfdQAtHwv9t0bTV7LiUGZI5Ds2n
- wbkEYSjHTx/TI5AjOJMPnb9X1go8kFP8=
-X-Received: by 2002:a65:564f:: with SMTP id m15mr25567001pgs.346.1626702741788; 
- Mon, 19 Jul 2021 06:52:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwP7n6a+zPjkd1FDVci7oF/r4vI3Z9+kl+tuoqz1D3/vYR0moe+s/fvoSOvWVO40xImG4DxBtr7JVkaOteZHmA=
-X-Received: by 2002:a65:564f:: with SMTP id m15mr25566969pgs.346.1626702741438; 
- Mon, 19 Jul 2021 06:52:21 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=c/XSV+OsMSo4sw4ZoppIUrwtdycOv9HBEpcBZdT/Qz4=;
+ b=ihJbD4diZPUQV3AcjrRNImPrdXcq2TR7lNzwzEPM8tCFVv6D15Hzrsn5A1OGVnWfIn
+ sZXMqVGT118Z/xHPWu4aJQooBgtFWeFUaddWNDVElQTIcj4vIuOz6nRnVEKh8jwDE8YK
+ aTrT14tr34p+kemBhJgMBeJKwuv9jYcuTbj6aVX4WJw+JsHiH7mR8IG2oSNaHsmdMzua
+ 4GnbuGHe1+dA0NBosu5JEsWbvccGvHYn7OCojHa/ERI/OTiyqwRICPyeAQ7Z8iAkQEPq
+ Brbz+NEunJpuICBcIRq55pv2h7tBp0WF89S6NTpSRH6lynl3cAcwVajSJF0U/ZEPAulf
+ bBXQ==
+X-Gm-Message-State: AOAM533+7EOaqPtfFjwMkcWV4CdU2JpSCkx9cv0FEoydEeceZKm3XLPV
+ 2k0MzLVXWZPcIk3rQyowVsHH/w==
+X-Google-Smtp-Source: ABdhPJz3uZ5CJp+KnICMC/IeSfCWlWNogP2itnSXscRR/hzm7082m3ofTYNdpOhMj2c5CP/YWoYqMQ==
+X-Received: by 2002:a5d:6dd1:: with SMTP id d17mr30155378wrz.344.1626703048153; 
+ Mon, 19 Jul 2021 06:57:28 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r4sm20686388wre.84.2021.07.19.06.57.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 06:57:25 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 535D31FF7E;
+ Mon, 19 Jul 2021 14:57:25 +0100 (BST)
+References: <20210719123732.24457-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH] tcg/plugins: implement a qemu_plugin_user_exit helper
+Date: Mon, 19 Jul 2021 14:56:08 +0100
+In-reply-to: <20210719123732.24457-1-alex.bennee@linaro.org>
+Message-ID: <87im16pfsq.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210719130112.932069-1-marcandre.lureau@redhat.com>
- <YPWC6ixkaBKgnpr5@redhat.com>
-In-Reply-To: <YPWC6ixkaBKgnpr5@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Mon, 19 Jul 2021 17:52:10 +0400
-Message-ID: <CAMxuvay=Pa0mf+=EWKzXxOe_3v3cCd1oF0EtXHMFUjB5T_Lgvg@mail.gmail.com>
-Subject: Re: [PATCH] util: fix abstract socket path copy
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000000f1a3505c77a3fa7"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,206 +86,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zxq_yx_007@163.com, qemu-devel <qemu-devel@nongnu.org>, "Armbruster,
- Markus" <armbru@redhat.com>
+Cc: Kyle Evans <kevans@freebsd.org>, minyihh@uci.edu, robhenry@microsoft.com,
+ Laurent Vivier <laurent@vivier.eu>, mahmoudabdalghany@outlook.com,
+ aaron@os.amperecomputing.com, cota@braap.org,
+ Alexandre Iooss <erdnaxe@crans.org>, kuhn.chenqun@huawei.com,
+ ma.mandourr@gmail.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000f1a3505c77a3fa7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 19, 2021 at 5:49 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> On Mon, Jul 19, 2021 at 05:01:12PM +0400, marcandre.lureau@redhat.com
-> wrote:
-> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> >
-> > Commit 776b97d360 "qemu-sockets: add abstract UNIX domain socket
-> > support" neglected to update socket_sockaddr_to_address_unix() and
-> > copied the whole sun_path without taking "salen" into account.
-> >
-> > Later, commit 3b14b4ec49 "sockets: Fix socket_sockaddr_to_address_unix(=
-)
-> > for abstract sockets" handled the abstract UNIX path, by stripping the
-> > leading \0 character and fixing address details, but didn't use salen
-> > either.
-> >
-> > Not taking "salen" into account may result in incorrect "path" being
-> > returned in monitors commands, as we read past the address which is not
-> > necessarily \0-terminated.
+> In user-mode emulation there is a small race between preexit_cleanup
+> and exit_group() which means we may end up calling instrumented
+> instructions before the kernel reaps child threads. To solve this we
+> implement a new helper which ensures the callbacks are flushed along
+> with any translations before we let the host do it's a thing.
 >
-> So IIUC, this is only affecting what is printed in the monitor
-> when querying chardevs, not the actual functional behaviour
-> between clients/servers connecting/listening ?
+> While we are at it make the documentation of
+> qemu_plugin_register_atexit_cb clearer as to what the user can expect.
 >
->
-I think so, both hmp & qmp, and the info_report() in server_accept_sync().
-But I didn't carefully review all the potential users (who else could they
-be?).
+<snip>
+>=20=20
+> +/*
+> + * Handle exit from linux-user. Unlike the normal atexit() mechanism
+> + * we need to handle the clean-up manually as it's possible threads
+> + * are still running. We need to remove all callbacks from code
+> + * generation, flush the current translations and then we can safely
+> + * trigger the exit callbacks.
+> + */
+> +
+> +void qemu_plugin_user_exit(void)
+> +{
+> +    enum qemu_plugin_event ev;
+> +
+> +    QEMU_LOCK_GUARD(&plugin.lock);
+> +
+> +    start_exclusive();
+> +
+> +    /* un-register all callbacks except the final AT_EXIT one */
+> +    for (ev =3D 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
+> +        if (ev !=3D QEMU_PLUGIN_EV_ATEXIT) {
+> +            struct qemu_plugin_ctx *ctx;
+> +            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
+> +                plugin_unregister_cb__locked(ctx, ev);
+> +            }
+> +        }
+> +    }
+> +
+> +    tb_flush(current_cpu);
+
+We also need to disable memory helpers during the exclusive period as
+that is another route into a callback:
+
+--8<---------------cut here---------------start------------->8---
+modified   plugins/core.c
+@@ -498,6 +499,7 @@ void qemu_plugin_register_atexit_cb(qemu_plugin_id_t id,
+ void qemu_plugin_user_exit(void)
+ {
+     enum qemu_plugin_event ev;
++    CPUState *cpu;
+=20
+     QEMU_LOCK_GUARD(&plugin.lock);
+=20
+@@ -514,6 +516,11 @@ void qemu_plugin_user_exit(void)
+     }
+=20
+     tb_flush(current_cpu);
++
++    CPU_FOREACH(cpu) {
++        qemu_plugin_disable_mem_helpers(cpu);
++    }
++
+     end_exclusive();
+=20
+     /* now it's safe to handle the exit case */
+--8<---------------cut here---------------end--------------->8---
 
 
-> >
-> > Fixes: 776b97d3605ed0fc94443048fdf988c7725e38a9
-> > Fixes: 3b14b4ec49a801067da19d6b8469eb1c1911c020
-> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > ---
-> >  util/qemu-sockets.c | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> > index 080a240b74..f2f3676d1f 100644
-> > --- a/util/qemu-sockets.c
-> > +++ b/util/qemu-sockets.c
-> > @@ -1345,13 +1345,16 @@ socket_sockaddr_to_address_unix(struct
-> sockaddr_storage *sa,
-> >      SocketAddress *addr;
-> >      struct sockaddr_un *su =3D (struct sockaddr_un *)sa;
-> >
-> > +    assert(salen >=3D sizeof(su->sun_family) + 1 &&
-> > +           salen <=3D sizeof(struct sockaddr_un));
-> > +
-> >      addr =3D g_new0(SocketAddress, 1);
-> >      addr->type =3D SOCKET_ADDRESS_TYPE_UNIX;
-> >  #ifdef CONFIG_LINUX
-> >      if (!su->sun_path[0]) {
-> >          /* Linux abstract socket */
-> >          addr->u.q_unix.path =3D g_strndup(su->sun_path + 1,
-> > -                                        sizeof(su->sun_path) - 1);
-> > +                                        salen - sizeof(su->sun_family)
-> - 1);
-> >          addr->u.q_unix.has_abstract =3D true;
-> >          addr->u.q_unix.abstract =3D true;
-> >          addr->u.q_unix.has_tight =3D true;
->
-> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->
->
-> Regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
 
---0000000000000f1a3505c77a3fa7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +    end_exclusive();
+> +
+> +    /* now it's safe to handle the exit case */
+> +    qemu_plugin_atexit_cb();
+> +}
+> +
+>  /*
+>   * Call this function after longjmp'ing to the main loop. It's possible =
+that the
+>   * last instruction of a TB might have used helpers, and therefore the
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 19, 2021 at 5:49 PM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Mon, Jul 19, 2021 at 05:01:12PM +0400, <a href=3D"mailto:marcandre=
-.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote=
-:<br>
-&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; <br>
-&gt; Commit 776b97d360 &quot;qemu-sockets: add abstract UNIX domain socket<=
-br>
-&gt; support&quot; neglected to update socket_sockaddr_to_address_unix() an=
-d<br>
-&gt; copied the whole sun_path without taking &quot;salen&quot; into accoun=
-t.<br>
-&gt; <br>
-&gt; Later, commit 3b14b4ec49 &quot;sockets: Fix socket_sockaddr_to_address=
-_unix()<br>
-&gt; for abstract sockets&quot; handled the abstract UNIX path, by strippin=
-g the<br>
-&gt; leading \0 character and fixing address details, but didn&#39;t use sa=
-len<br>
-&gt; either.<br>
-&gt; <br>
-&gt; Not taking &quot;salen&quot; into account may result in incorrect &quo=
-t;path&quot; being<br>
-&gt; returned in monitors commands, as we read past the address which is no=
-t<br>
-&gt; necessarily \0-terminated.<br>
-<br>
-So IIUC, this is only affecting what is printed in the monitor<br>
-when querying chardevs, not the actual functional behaviour<br>
-between clients/servers connecting/listening ?<br>
-<br></blockquote><div><br></div><div>I think so, both hmp &amp; qmp, and th=
-e info_report() in server_accept_sync(). But I didn&#39;t carefully review =
-all the potential users (who else could they be?).<br></div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt; <br>
-&gt; Fixes: 776b97d3605ed0fc94443048fdf988c7725e38a9<br>
-&gt; Fixes: 3b14b4ec49a801067da19d6b8469eb1c1911c020<br>
-&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
-lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 util/qemu-sockets.c | 5 ++++-<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
-&gt; index 080a240b74..f2f3676d1f 100644<br>
-&gt; --- a/util/qemu-sockets.c<br>
-&gt; +++ b/util/qemu-sockets.c<br>
-&gt; @@ -1345,13 +1345,16 @@ socket_sockaddr_to_address_unix(struct sockadd=
-r_storage *sa,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 SocketAddress *addr;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 struct sockaddr_un *su =3D (struct sockaddr_un *)s=
-a;<br>
-&gt;=C2=A0 <br>
-&gt; +=C2=A0 =C2=A0 assert(salen &gt;=3D sizeof(su-&gt;sun_family) + 1 &amp=
-;&amp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0salen &lt;=3D sizeof(struct =
-sockaddr_un));<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 addr =3D g_new0(SocketAddress, 1);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 addr-&gt;type =3D SOCKET_ADDRESS_TYPE_UNIX;<br>
-&gt;=C2=A0 #ifdef CONFIG_LINUX<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 if (!su-&gt;sun_path[0]) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Linux abstract socket */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.path =3D g_strndup=
-(su-&gt;sun_path + 1,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size=
-of(su-&gt;sun_path) - 1);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sale=
-n - sizeof(su-&gt;sun_family) - 1);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.has_abstract =3D t=
-rue;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.abstract =3D true;=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.has_tight =3D true=
-;<br>
-<br>
-Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.=
-com" target=3D"_blank">berrange@redhat.com</a>&gt;<br>
-<br>
-<br>
-Regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
 
---0000000000000f1a3505c77a3fa7--
-
+--=20
+Alex Benn=C3=A9e
 
