@@ -2,53 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8D33D0465
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 00:18:41 +0200 (CEST)
-Received: from localhost ([::1]:50718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5BAB3D049A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 00:26:33 +0200 (CEST)
+Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5y4W-0004xv-OG
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 18:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56942)
+	id 1m5yC8-0000Ak-CV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 18:26:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m5y2y-0002qC-7N
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:17:04 -0400
-Received: from mga12.intel.com ([192.55.52.136]:40527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
- id 1m5y2v-0000tL-SW
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:17:03 -0400
-X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="190920693"
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="190920693"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 15:16:39 -0700
-X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="432711991"
-Received: from dongwonk-mobl.amr.corp.intel.com ([10.254.47.107])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2021 15:16:37 -0700
-Date: Tue, 20 Jul 2021 15:16:35 -0700
-From: Dongwon Kim <dongwon.kim@intel.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/2] ui/gtk: detach_all option for making all VCs
- detached upon starting
-Message-ID: <20210720221635.GA4519@dongwonk-MOBL.amr.corp.intel.com>
-References: <20210719214157.5863-1-dongwon.kim@intel.com>
- <885e977c-f697-dd02-4be1-b5283fdf343d@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m5y9l-0006z8-6m
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:24:05 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m5y9i-0005Te-91
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:24:04 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id i94so59751wri.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 15:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aNJVMk9/wG0SFyaZdj1N3MH7r5/7pFj2WY68JsBgh60=;
+ b=OGpPW/aPuqwED1BbJpq29FM8rB8GAbYV5aGGtKK5uM+k151GXJdc4r3XWx3BSQTgY/
+ yVjm2WXnAsuab7wLjORdVnOvicmfSYhSUJ3JieAs8gGm1AMiXvZJA89BENM/igV4ZtMO
+ r++kcaLDeeH1Vepi3DR8wBd1y9K6sHsavOzkoGWr53Zm2Af2zJSlF/713oym7Sf4sH53
+ iCIaAGphllAX0+k4R9t2KJOAV/Kfl7Cw0Onx81kN5OqW+FSc+d6LDeUqOdYAfujhwUiL
+ wqPIgCnbXsjxT6mrspkdx+mhrhhtYszYKyj+4iBMqQZ8+OpwrBIAWvEohnjbIvtCU34I
+ 5aKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aNJVMk9/wG0SFyaZdj1N3MH7r5/7pFj2WY68JsBgh60=;
+ b=ATU56nnM7dry6aBhhWVp1MZQMeFyAJjt28QWQn1lF0ZgL01CrYolRIfPbA5IToIE1C
+ k9o5Jjx8aDderON51j23MhkgP51/bZjNqoOqZH1cuD5sFQ9jgsw15y3xsM+Ng3wBaeJs
+ uLislKTnVE/+qvNaUS9gYFPVRcjnAtO5jrMK2INLrTLZtVNqj4mg9IOVBr0cr9B3Bt1+
+ K03tD8wDNA/qaHUlupEp36gYThqoT1Y5KYg7YSkq2EFj2VDNH2RUkwb4MCJPXaPmXCTP
+ 8q413Bjtg/Ba7dkYMlm+1YFzVumNq8LEnkGeBZ8nnsjkh5kSfLA+pix+xESyLEarXwB4
+ UtcA==
+X-Gm-Message-State: AOAM530G8aVa2YTmAJ8XHxeAMjofwYP829/BuIqvkVJiqvIPLIw52vT2
+ g+Sd0QhfubEJVNz+HJ3ZJvxnxkFiRRAMaA==
+X-Google-Smtp-Source: ABdhPJwDZZhxtbkgYqKmGQ8jIEOk3XYwvWD906SDrPsQfLwwB+EwcRh7lDqe+QO52LC2LyUab/Jmdg==
+X-Received: by 2002:a5d:4cd0:: with SMTP id c16mr6926307wrt.152.1626819840296; 
+ Tue, 20 Jul 2021 15:24:00 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id 139sm3857217wma.32.2021.07.20.15.23.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Jul 2021 15:23:59 -0700 (PDT)
+Subject: Re: [PATCH for-6.1 v6 11/17] hw/core: Introduce
+ CPUClass.gdb_adjust_breakpoint
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Michael Rolnik <mrolnik@gmail.com>
+References: <20210720195439.626594-1-richard.henderson@linaro.org>
+ <20210720195439.626594-12-richard.henderson@linaro.org>
+ <CAFEAcA93CkPxmWCnSDaaJ01iTZ2KbabFu_cBKp7O9+BDHHmKfw@mail.gmail.com>
+ <6e101005-ce67-3179-b446-c9b963b6bda2@linaro.org>
+ <2a1b3fb7-e701-f2a6-0777-caa90a9e3a51@amsat.org>
+Message-ID: <7f5d1a72-4a50-b9dc-6300-6d3d7698415b@amsat.org>
+Date: Wed, 21 Jul 2021 00:23:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <2a1b3fb7-e701-f2a6-0777-caa90a9e3a51@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <885e977c-f697-dd02-4be1-b5283fdf343d@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=dongwon.kim@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,96 +95,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Khairul Anuar Romli <khairul.anuar.romli@intel.com>, qemu-devel@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 20, 2021 at 03:42:16PM +0200, Thomas Huth wrote:
-> On 19/07/2021 23.41, Dongwon Kim wrote:
-> > With "detach-all=on" for display, all VCs are detached from the beginning.
-> > This is useful when there are multiple displays assigned to a guest OS.
-> 
-> Can you elaborate? (i.e. why is it useful? Do you just want to avoid having
-> multiple things opened at startup? Or is there a different reason?)
-Hi,
+On 7/20/21 11:53 PM, Philippe Mathieu-Daudé wrote:
+> On 7/20/21 11:08 PM, Richard Henderson wrote:
+>> On 7/20/21 10:56 AM, Peter Maydell wrote:
+>>> On Tue, 20 Jul 2021 at 20:54, Richard Henderson
+>>> <richard.henderson@linaro.org> wrote:
+>>>>
+>>>> This will allow a breakpoint hack to move out of AVR's translator.
+>>>>
+>>>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>>>
+>>>> diff --git a/cpu.c b/cpu.c
+>>>> index 83059537d7..91d9e38acb 100644
+>>>> --- a/cpu.c
+>>>> +++ b/cpu.c
+>>>> @@ -267,8 +267,13 @@ static void breakpoint_invalidate(CPUState *cpu,
+>>>> target_ulong pc)
+>>>>   int cpu_breakpoint_insert(CPUState *cpu, vaddr pc, int flags,
+>>>>                             CPUBreakpoint **breakpoint)
+>>>>   {
+>>>> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+>>>>       CPUBreakpoint *bp;
+>>>>
+>>>> +    if (cc->gdb_adjust_breakpoint) {
+>>>> +        pc = cc->gdb_adjust_breakpoint(cpu, pc);
+>>>> +    }
+>>>> +
+>>>>       bp = g_malloc(sizeof(*bp));
+>>>>
+>>>>       bp->pc = pc;
+>>>> @@ -294,8 +299,13 @@ int cpu_breakpoint_insert(CPUState *cpu, vaddr
+>>>> pc, int flags,
+>>>>   /* Remove a specific breakpoint.  */
+>>>>   int cpu_breakpoint_remove(CPUState *cpu, vaddr pc, int flags)
+>>>>   {
+>>>> +    CPUClass *cc = CPU_GET_CLASS(cpu);
+>>>>       CPUBreakpoint *bp;
+>>>>
+>>>> +    if (cc->gdb_adjust_breakpoint) {
+>>>> +        pc = cc->gdb_adjust_breakpoint(cpu, pc);
+>>>> +    }
+>>>> +
+>>>>       QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
+>>>>           if (bp->pc == pc && bp->flags == flags) {
+>>>>               cpu_breakpoint_remove_by_ref(cpu, bp);
+>>>> -- 
+>>>
+>>> So previously for AVR we would have considered the bp at 0x100
+>>> and the one at 0x800100 as distinct (in the sense that the only way
+>>> the gdb remote protocol distinguishes breakpoints is by "what address",
+>>> and these have different addresses). After this change, they won't
+>>> be distinct, because if you set a bp at 0x100 and 0x800100 and then
+>>> try to remove the one at 0x100 we might remove the 0x800100 one,
+>>> because we're storing only the adjusted-address, not the one gdb used.
 
-The original motivation is related to an use-case with a guest with
-multi-displays. In that use case, we wanted to have all guest displays
-placed side by side from beginning. Virtual consoles other than guest
-displays (e.g. virtio-gpu-pci) are not actually needed but I found doing
-"detach-all" is the simplest way.
+Yes. Looks good.
 
-> 
-> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
-> > Signed-off-by: Khairul Anuar Romli <khairul.anuar.romli@intel.com>
-> > ---
-> >   qapi/ui.json | 4 +++-
-> >   ui/gtk.c     | 7 +++++++
-> >   2 files changed, 10 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/qapi/ui.json b/qapi/ui.json
-> > index 1052ca9c38..ff14bb2f46 100644
-> > --- a/qapi/ui.json
-> > +++ b/qapi/ui.json
-> > @@ -1141,6 +1141,7 @@
-> >   # @show-cursor:   Force showing the mouse cursor (default: off).
-> >   #                 (since: 5.0)
-> >   # @gl:            Enable OpenGL support (default: off).
-> > +# @detach-all:    Detatch all VirtualConsoles from beginning (default: off).
-> 
-> Needs a comment � la "(since: 6.2)" at the end (like the one after
-> "show-cursor" some lines earlier.
-> 
-> >   #
-> >   # Since: 2.12
-> >   #
-> > @@ -1150,7 +1151,8 @@
-> >                   '*full-screen'   : 'bool',
-> >                   '*window-close'  : 'bool',
-> >                   '*show-cursor'   : 'bool',
-> > -                '*gl'            : 'DisplayGLMode' },
-> > +                '*gl'            : 'DisplayGLMode',
-> > +                '*detach-all'    : 'bool' },
-> 
-> If this is for GTK only, shouldn't this rather go into DisplayGTK instead?
-> Or will this be also useful for other display types later?
+>>>
+>>> This might not matter in practice...
+>>
+>> I don't think it will matter.
+>>
+>> Currently, if it sets both 0x100 and 0x800100, then we'll record two
+>> breakpoints, and with either we'll raise EXCP_DEBUG when pc == 0x100.
+>>
+>> Afterward, we'll have two CPUBreakpoint structures that both contain
+>> 0x100, and when pc == 0x100 we'll raise EXCP_DEBUG.  If gdb removes the
+>> breakpoint at 0x800100, we'll remove one of the two CPUBreakpoint.  But
+>> we'll still stop at 0x100, as expected.  When it removes the breakpoint
+>> at 0x100, both CPUBreakpoint structures will be gone.
+>>
+>> In principal, gdb could now add a breakpoint at 0x800100 and remove it
+>> with 0x100, where it could not before.  But I don't expect that to
+>> happen.  If we reported any kind of status to gdb re the breakpoint
+>> insertion or removal (e.g. bp not found), then it might matter, but we
+>> don't.
 
-This option might not be that useful for other use cases.. but at the
-same time, I'm pretty sure this will work universally (won't break
-anything..) but for now, I think it's good idea to limit this to GTK.
+IIUC QEMU model is "hardware breakpoint". I don't know how gdb deals
+if user add both soft/hard bp. Neither do I know how many soft/hard
+bp are "annouced" via gdbstub monitor to gdb (Alex?). Amusingly
+gdb-xml/avr-cpu.xml announces itself as a riscv cpu:
 
--DW
+<feature name="org.gnu.gdb.riscv.cpu">
 
-> 
->  Thomas
-> 
-> 
-> >     'discriminator' : 'type',
-> >     'data'    : { 'gtk'            : 'DisplayGTK',
-> >                   'curses'         : 'DisplayCurses',
-> > diff --git a/ui/gtk.c b/ui/gtk.c
-> > index ce885d2ca3..a07e5a049e 100644
-> > --- a/ui/gtk.c
-> > +++ b/ui/gtk.c
-> > @@ -2211,6 +2211,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-> >       GdkDisplay *window_display;
-> >       GtkIconTheme *theme;
-> >       char *dir;
-> > +    int i;
-> >       if (!gtkinit) {
-> >           fprintf(stderr, "gtk initialization failed\n");
-> > @@ -2290,6 +2291,12 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-> >           gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
-> >       }
-> >       gd_clipboard_init(s);
-> > +
-> > +    if (opts->detach_all) {
-> > +        for (i = 0; i < s->nb_vcs - 1; i++) {
-> > +            gtk_menu_item_activate(GTK_MENU_ITEM(s->untabify_item));
-> > +        }
-> > +    }
-> >   }
-> >   static void early_gtk_display_init(DisplayOptions *opts)
-> > 
-> 
+Maybe because there is no official XML declaration for AVR?
+https://sourceware.org/gdb/current/onlinedocs/gdb/Standard-Target-Features.html#Standard-Target-Features
+
+>> Practically, this is working around what I'd call a gdb bug wrt avr. 
+>> Which may even have been fixed -- I haven't looked.
+
+I agree this won't matter much (and this patch makes it cleaner) so:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
