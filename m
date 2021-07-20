@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C153D0402
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 23:44:15 +0200 (CEST)
-Received: from localhost ([::1]:36446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D253F3D040C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 23:46:18 +0200 (CEST)
+Received: from localhost ([::1]:42000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5xXC-0000Ei-Fx
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 17:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50104)
+	id 1m5xZB-00044E-U9
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 17:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5xQs-0006Do-Da
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 17:37:42 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:41765)
+ id 1m5xQt-0006Ic-OV
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 17:37:43 -0400
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:35664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5xQq-0000I3-H2
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 17:37:42 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id s18so23749778pgg.8
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 14:37:40 -0700 (PDT)
+ id 1m5xQr-0000Is-MQ
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 17:37:43 -0400
+Received: by mail-pg1-x532.google.com with SMTP id 70so20387841pgh.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 14:37:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lxWc/RvP2HP3ROUQi7CWrSdIRxEa6wVjFG+/s3ElqKw=;
- b=OIZOG7aOtoO+BenZuLWVyd/+ShaFPMjpUYUG68qHUPzZcbIRZUpeuGNDRDmcQaQq1U
- ZZqAkUXLIrjBrtIxjsGq6mzQZDBN0NGPLIh6WjP28joSj7XTLGiXGskHv28cp/luzsI7
- gV/ocQ2T3zaCO3U55KMX6BACKIlgQGcSAPQFu3kAvf29XVFBomcyUUMQ3gzvz4wGNZRL
- a9ck1alluZk+H6DNpOXqoLxWOZQDpX1P8rVUgmK55SFr8IAKV7DENuUfW2wgp8Pl1Xcc
- v4LY7JK5F2848XQ/YrSfx2m8gIw1tIlPYyH6xZ2t1QAZj1gwqF0H8tIUVnk5wAiwrqdb
- 1lvQ==
+ bh=2lpkYejps8WW7OyPV4Frr6HZRCmemCrR97xZ2v/S9G4=;
+ b=TBe3CXtcdBlEUBC36dErb9F1HuNYwsUewAmfDsy+YgmoFqkeIUlZJYcXyf/SlHNjpJ
+ MFYPNYd6yYT6HaknkfY985lFVNczElcAY+tyikfpB7kOyhIV3MYb7r1K/Fj04R0F35LY
+ pavskahkZySpCaAKnnNvEEGk4OIJXUmLrIQPTdyR9q9z9o4LHW11EQ6bJFMlRDPGH5wY
+ UhJsfmOneGS343JHdeYfABWluZvVCxbjqDnFsvLp7p9qeMVXnZuuOpTwELCBT0938AFA
+ S9vXrJbg3FACCP/PBcy87Dc0t4lmYbjUnXUmYNLDMreScTRwj7LMaJCbYRut8EusYTBe
+ piOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lxWc/RvP2HP3ROUQi7CWrSdIRxEa6wVjFG+/s3ElqKw=;
- b=cYgUgUCwD2p9myXHoW46ft1FKn/r4Zo6C9Sa+r4dxzpWeIhijn2BuvmsZIhFWoZiAW
- KemlBCwZzWxrWjKsv++uLWw7vOiJjOgTYJIZSpSs/OUcQ6qH6oTN9kJEMDpv1a9LswDI
- 8DmYx1WoOEl5E7jodcp1aKvayivCqGXiZbuna8FZjcumvzV+ELMOwYFuSDSAJ9/9TpGh
- hAzzLLm/GUPqrsCV1vdyhk3L6N3qhkJA0n6/vxggSR8yI2QsezI6x0ZalR12lNSVXdV1
- ohzTBGoc/773/oZUfAXawUJBgRrfLlXKcSZY5/Q0EXA36N98gZ8d/n+pmvB+Jae8Atjd
- bqDA==
-X-Gm-Message-State: AOAM533kciwJtyTGnjf+k8uw4pbC85oe+2+LvLezk0Vk1xGbyA/tqKzX
- mHignZpWQw7xAtjhr6WvZwn/v749xaENfw==
-X-Google-Smtp-Source: ABdhPJyH+rS7eFnrLCp/6xBmCY5Lui8lX1Tyeo9gxYVnJtNoXgCRprnsEIGvYy6AMfFWhX8vvkdJFA==
-X-Received: by 2002:a62:ea0f:0:b029:319:8eef:5ff1 with SMTP id
- t15-20020a62ea0f0000b02903198eef5ff1mr33609329pfh.74.1626817059243; 
- Tue, 20 Jul 2021 14:37:39 -0700 (PDT)
+ bh=2lpkYejps8WW7OyPV4Frr6HZRCmemCrR97xZ2v/S9G4=;
+ b=hbGN/Vb/8rjxGqA1wYiVS+L1xez4qwecKm4jlGNORhrgwTb58n4nHwpndLChjjHUGd
+ J732RNH2txKKXpTQKnhpfVW0TDWcAq3D2p1HW596oBMoVDNzW5SbHBN8WBim5J4KyuO5
+ H+0vW7OvQsF7paVmknJmDhX8aK6GYYreXkINKwNNG8x2qintRorqUaaMKJ9hgpeoMp8q
+ NU2PU3BhsNu/huHfnX3hLfGUQZYnF15OrZMdegLg4kpolK3FiAohWTxX9NA+/x49Zkbn
+ a2zKWvG6JEFao/fKGpUsuc57GIr/lyXyUaJpNnUUbzSDs89+eh8X3DI3z3kB8IWrP3rV
+ DEXw==
+X-Gm-Message-State: AOAM533l0ZZGEAKkvhWTRI+sQ0nDBGn/rZPtmxOhqTMj6sZZK9YUWiCa
+ RkDfhtKB+KhYzjBOIVjXiSIiumKXyD5Tyw==
+X-Google-Smtp-Source: ABdhPJyXsEzZGbnNaen1Uxpc26R+pCXGF2Er+YrN2E5b9/ZPz6D+AKjwaTIJmjgFpJbuERtCgIEOuw==
+X-Received: by 2002:a62:ee0f:0:b029:335:a681:34f6 with SMTP id
+ e15-20020a62ee0f0000b0290335a68134f6mr25767415pfi.55.1626817060533; 
+ Tue, 20 Jul 2021 14:37:40 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id r10sm24376813pff.7.2021.07.20.14.37.38
+ by smtp.gmail.com with ESMTPSA id r10sm24376813pff.7.2021.07.20.14.37.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 14:37:39 -0700 (PDT)
+ Tue, 20 Jul 2021 14:37:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/10] trace: Fold mem-internal.h into mem.h
-Date: Tue, 20 Jul 2021 11:37:22 -1000
-Message-Id: <20210720213723.630552-10-richard.henderson@linaro.org>
+Subject: [PATCH v4 10/10] accel/tcg: Push trace info building into
+ atomic_common.c.inc
+Date: Tue, 20 Jul 2021 11:37:23 -1000
+Message-Id: <20210720213723.630552-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210720213723.630552-1-richard.henderson@linaro.org>
 References: <20210720213723.630552-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,162 +86,242 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Cole Robinson <crobinso@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the last thing that mem.h does is include mem-internal.h,
-the symbols are not actually private.
+Use trace_mem_get_info instead of trace_mem_build_info,
+using the TCGMemOpIdx that we already have.  Do this in
+the atomic_trace_*_pre function as common subroutines.
 
 Tested-by: Cole Robinson <crobinso@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- trace/mem-internal.h | 50 --------------------------------------------
- trace/mem.h          | 50 ++++++++++++++++++++++++++++++++++----------
- plugins/core.c       |  2 +-
- 3 files changed, 40 insertions(+), 62 deletions(-)
- delete mode 100644 trace/mem-internal.h
+ accel/tcg/atomic_template.h   | 48 +++++++++--------------------------
+ accel/tcg/atomic_common.c.inc | 37 ++++++++++++++++++---------
+ 2 files changed, 37 insertions(+), 48 deletions(-)
 
-diff --git a/trace/mem-internal.h b/trace/mem-internal.h
-deleted file mode 100644
-index 8b72b678fa..0000000000
---- a/trace/mem-internal.h
-+++ /dev/null
-@@ -1,50 +0,0 @@
--/*
-- * Helper functions for guest memory tracing
-- *
-- * Copyright (C) 2016 Lluís Vilanova <vilanova@ac.upc.edu>
-- *
-- * This work is licensed under the terms of the GNU GPL, version 2 or later.
-- * See the COPYING file in the top-level directory.
-- */
--
--#ifndef TRACE__MEM_INTERNAL_H
--#define TRACE__MEM_INTERNAL_H
--
--#define TRACE_MEM_SZ_SHIFT_MASK 0xf /* size shift mask */
--#define TRACE_MEM_SE (1ULL << 4)    /* sign extended (y/n) */
--#define TRACE_MEM_BE (1ULL << 5)    /* big endian (y/n) */
--#define TRACE_MEM_ST (1ULL << 6)    /* store (y/n) */
--#define TRACE_MEM_MMU_SHIFT 8       /* mmu idx */
--
--static inline uint16_t trace_mem_build_info(
--    int size_shift, bool sign_extend, MemOp endianness,
--    bool store, unsigned int mmu_idx)
--{
--    uint16_t res;
--
--    res = size_shift & TRACE_MEM_SZ_SHIFT_MASK;
--    if (sign_extend) {
--        res |= TRACE_MEM_SE;
--    }
--    if (endianness == MO_BE) {
--        res |= TRACE_MEM_BE;
--    }
--    if (store) {
--        res |= TRACE_MEM_ST;
--    }
--#ifdef CONFIG_SOFTMMU
--    res |= mmu_idx << TRACE_MEM_MMU_SHIFT;
--#endif
--    return res;
--}
--
--static inline uint16_t trace_mem_get_info(MemOp op,
--                                          unsigned int mmu_idx,
--                                          bool store)
--{
--    return trace_mem_build_info(op & MO_SIZE, !!(op & MO_SIGN),
--                                op & MO_BSWAP, store,
--                                mmu_idx);
--}
--
--#endif /* TRACE__MEM_INTERNAL_H */
-diff --git a/trace/mem.h b/trace/mem.h
-index 9644f592b4..2f27e7bdf0 100644
---- a/trace/mem.h
-+++ b/trace/mem.h
-@@ -12,24 +12,52 @@
+diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
+index 6ee0158c5f..d89af4cc1e 100644
+--- a/accel/tcg/atomic_template.h
++++ b/accel/tcg/atomic_template.h
+@@ -77,10 +77,8 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     DATA_TYPE ret;
+-    uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);
  
- #include "tcg/tcg.h"
+-    atomic_trace_rmw_pre(env, addr, info);
+ #if DATA_SIZE == 16
+     ret = atomic16_cmpxchg(haddr, cmpv, newv);
+ #else
+@@ -99,10 +97,8 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_READ, retaddr);
+     DATA_TYPE val;
+-    uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_ld_pre(env, addr, oi);
  
--
--/**
-- * trace_mem_get_info:
-- *
-- * Return a value for the 'info' argument in guest memory access traces.
-- */
--static uint16_t trace_mem_get_info(MemOp op, unsigned int mmu_idx, bool store);
-+#define TRACE_MEM_SZ_SHIFT_MASK 0xf /* size shift mask */
-+#define TRACE_MEM_SE (1ULL << 4)    /* sign extended (y/n) */
-+#define TRACE_MEM_BE (1ULL << 5)    /* big endian (y/n) */
-+#define TRACE_MEM_ST (1ULL << 6)    /* store (y/n) */
-+#define TRACE_MEM_MMU_SHIFT 8       /* mmu idx */
+-    atomic_trace_ld_pre(env, addr, info);
+     val = atomic16_read(haddr);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_ld_post(env, addr, info);
+@@ -114,10 +110,8 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+ {
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_WRITE, retaddr);
+-    uint16_t info = trace_mem_build_info(SHIFT, false, 0, true,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_st_pre(env, addr, oi);
  
- /**
-  * trace_mem_build_info:
-  *
-  * Return a value for the 'info' argument in guest memory access traces.
+-    atomic_trace_st_pre(env, addr, info);
+     atomic16_set(haddr, val);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_st_post(env, addr, info);
+@@ -130,10 +124,8 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     DATA_TYPE ret;
+-    uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);
+ 
+-    atomic_trace_rmw_pre(env, addr, info);
+     ret = qatomic_xchg__nocheck(haddr, val);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_rmw_post(env, addr, info);
+@@ -147,9 +139,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,  \
+                                          PAGE_READ | PAGE_WRITE, retaddr); \
+     DATA_TYPE ret;                                                  \
+-    uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,    \
+-                                         ATOMIC_MMU_IDX);           \
+-    atomic_trace_rmw_pre(env, addr, info);                          \
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);            \
+     ret = qatomic_##X(haddr, val);                                  \
+     ATOMIC_MMU_CLEANUP;                                             \
+     atomic_trace_rmw_post(env, addr, info);                         \
+@@ -182,9 +172,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     XDATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE, \
+                                           PAGE_READ | PAGE_WRITE, retaddr); \
+     XDATA_TYPE cmp, old, new, val = xval;                           \
+-    uint16_t info = trace_mem_build_info(SHIFT, false, 0, false,    \
+-                                         ATOMIC_MMU_IDX);           \
+-    atomic_trace_rmw_pre(env, addr, info);                          \
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);            \
+     smp_mb();                                                       \
+     cmp = qatomic_read__nocheck(haddr);                             \
+     do {                                                            \
+@@ -228,10 +216,8 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     DATA_TYPE ret;
+-    uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, false,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);
+ 
+-    atomic_trace_rmw_pre(env, addr, info);
+ #if DATA_SIZE == 16
+     ret = atomic16_cmpxchg(haddr, BSWAP(cmpv), BSWAP(newv));
+ #else
+@@ -250,10 +236,8 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_READ, retaddr);
+     DATA_TYPE val;
+-    uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, false,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_ld_pre(env, addr, oi);
+ 
+-    atomic_trace_ld_pre(env, addr, info);
+     val = atomic16_read(haddr);
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_ld_post(env, addr, info);
+@@ -265,11 +249,9 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+ {
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_WRITE, retaddr);
+-    uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, true,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_st_pre(env, addr, oi);
+ 
+     val = BSWAP(val);
+-    atomic_trace_st_pre(env, addr, info);
+     val = BSWAP(val);
+     atomic16_set(haddr, val);
+     ATOMIC_MMU_CLEANUP;
+@@ -283,10 +265,8 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+                                          PAGE_READ | PAGE_WRITE, retaddr);
+     ABI_TYPE ret;
+-    uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP, false,
+-                                         ATOMIC_MMU_IDX);
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);
+ 
+-    atomic_trace_rmw_pre(env, addr, info);
+     ret = qatomic_xchg__nocheck(haddr, BSWAP(val));
+     ATOMIC_MMU_CLEANUP;
+     atomic_trace_rmw_post(env, addr, info);
+@@ -300,9 +280,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     DATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE,  \
+                                          PAGE_READ | PAGE_WRITE, retaddr); \
+     DATA_TYPE ret;                                                  \
+-    uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP,    \
+-                                         false, ATOMIC_MMU_IDX);    \
+-    atomic_trace_rmw_pre(env, addr, info);                          \
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);            \
+     ret = qatomic_##X(haddr, BSWAP(val));                           \
+     ATOMIC_MMU_CLEANUP;                                             \
+     atomic_trace_rmw_post(env, addr, info);                         \
+@@ -332,9 +310,7 @@ ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+     XDATA_TYPE *haddr = atomic_mmu_lookup(env, addr, oi, DATA_SIZE, \
+                                           PAGE_READ | PAGE_WRITE, retaddr); \
+     XDATA_TYPE ldo, ldn, old, new, val = xval;                      \
+-    uint16_t info = trace_mem_build_info(SHIFT, false, MO_BSWAP,    \
+-                                         false, ATOMIC_MMU_IDX);    \
+-    atomic_trace_rmw_pre(env, addr, info);                          \
++    uint16_t info = atomic_trace_rmw_pre(env, addr, oi);            \
+     smp_mb();                                                       \
+     ldn = qatomic_read__nocheck(haddr);                             \
+     do {                                                            \
+diff --git a/accel/tcg/atomic_common.c.inc b/accel/tcg/atomic_common.c.inc
+index a668cf0d6f..6c0339f610 100644
+--- a/accel/tcg/atomic_common.c.inc
++++ b/accel/tcg/atomic_common.c.inc
+@@ -13,45 +13,58 @@
+  * See the COPYING file in the top-level directory.
   */
--static uint16_t trace_mem_build_info(int size_shift, bool sign_extend,
--                                     MemOp endianness, bool store,
--                                     unsigned int mmuidx);
-+static inline uint16_t trace_mem_build_info(int size_shift, bool sign_extend,
-+                                            MemOp endianness, bool store,
-+                                            unsigned int mmu_idx)
-+{
-+    uint16_t res;
+ 
+-static inline
+-void atomic_trace_rmw_pre(CPUArchState *env, target_ulong addr, uint16_t info)
++static uint16_t atomic_trace_rmw_pre(CPUArchState *env, target_ulong addr,
++                                     TCGMemOpIdx oi)
+ {
+     CPUState *cpu = env_cpu(env);
++    uint16_t info = trace_mem_get_info(get_memop(oi), get_mmuidx(oi), false);
+ 
+     trace_guest_mem_before_exec(cpu, addr, info);
+     trace_guest_mem_before_exec(cpu, addr, info | TRACE_MEM_ST);
 +
-+    res = size_shift & TRACE_MEM_SZ_SHIFT_MASK;
-+    if (sign_extend) {
-+        res |= TRACE_MEM_SE;
-+    }
-+    if (endianness == MO_BE) {
-+        res |= TRACE_MEM_BE;
-+    }
-+    if (store) {
-+        res |= TRACE_MEM_ST;
-+    }
-+#ifdef CONFIG_SOFTMMU
-+    res |= mmu_idx << TRACE_MEM_MMU_SHIFT;
++    return info;
+ }
+ 
+-static inline void
+-atomic_trace_rmw_post(CPUArchState *env, target_ulong addr, uint16_t info)
++static void atomic_trace_rmw_post(CPUArchState *env, target_ulong addr,
++                                  uint16_t info)
+ {
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, info);
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, info | TRACE_MEM_ST);
+ }
+ 
+-static inline
+-void atomic_trace_ld_pre(CPUArchState *env, target_ulong addr, uint16_t info)
++#if HAVE_ATOMIC128
++static uint16_t atomic_trace_ld_pre(CPUArchState *env, target_ulong addr,
++                                    TCGMemOpIdx oi)
+ {
++    uint16_t info = trace_mem_get_info(get_memop(oi), get_mmuidx(oi), false);
++
+     trace_guest_mem_before_exec(env_cpu(env), addr, info);
++
++    return info;
+ }
+ 
+-static inline
+-void atomic_trace_ld_post(CPUArchState *env, target_ulong addr, uint16_t info)
++static void atomic_trace_ld_post(CPUArchState *env, target_ulong addr,
++                                 uint16_t info)
+ {
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, info);
+ }
+ 
+-static inline
+-void atomic_trace_st_pre(CPUArchState *env, target_ulong addr, uint16_t info)
++static uint16_t atomic_trace_st_pre(CPUArchState *env, target_ulong addr,
++                                    TCGMemOpIdx oi)
+ {
++    uint16_t info = trace_mem_get_info(get_memop(oi), get_mmuidx(oi), true);
++
+     trace_guest_mem_before_exec(env_cpu(env), addr, info);
++
++    return info;
+ }
+ 
+-static inline
+-void atomic_trace_st_post(CPUArchState *env, target_ulong addr, uint16_t info)
++static void atomic_trace_st_post(CPUArchState *env, target_ulong addr,
++                                 uint16_t info)
+ {
+     qemu_plugin_vcpu_mem_cb(env_cpu(env), addr, info);
+ }
 +#endif
-+    return res;
-+}
  
- 
--#include "trace/mem-internal.h"
-+/**
-+ * trace_mem_get_info:
-+ *
-+ * Return a value for the 'info' argument in guest memory access traces.
-+ */
-+static inline uint16_t trace_mem_get_info(MemOp op,
-+                                          unsigned int mmu_idx,
-+                                          bool store)
-+{
-+    return trace_mem_build_info(op & MO_SIZE, !!(op & MO_SIGN),
-+                                op & MO_BSWAP, store,
-+                                mmu_idx);
-+}
- 
- #endif /* TRACE__MEM_H */
-diff --git a/plugins/core.c b/plugins/core.c
-index e1bcdb570d..474db287cb 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -27,7 +27,7 @@
- #include "exec/helper-proto.h"
- #include "tcg/tcg.h"
- #include "tcg/tcg-op.h"
--#include "trace/mem-internal.h" /* mem_info macros */
-+#include "trace/mem.h" /* mem_info macros */
- #include "plugin.h"
- #include "qemu/compiler.h"
- 
+ /*
+  * Atomic helpers callable from TCG.
 -- 
 2.25.1
 
