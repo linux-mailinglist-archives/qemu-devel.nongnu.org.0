@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820C33CF628
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 10:31:34 +0200 (CEST)
-Received: from localhost ([::1]:53834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C3F3CF629
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 10:34:01 +0200 (CEST)
+Received: from localhost ([::1]:56300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5lA5-0000kJ-AN
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 04:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56730)
+	id 1m5lCS-0002SJ-8K
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 04:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1m5l8Z-0008Ob-L9
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 04:29:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47272)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m5lBU-0001ZO-Ku
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 04:33:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1m5l8Y-0007xJ-3f
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 04:29:59 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m5lBS-0001Xw-Oc
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 04:33:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626769796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=47b9Sw5x/Rj6l8lYTWxpfF6uhs9nQkZf8xXSo1tcLVM=;
- b=WJKWoy5pIcWjaQzHiYSAFZQhr8Ka6rbCbQUijAfZ9pD63vOfsiXsX+Y7wxpTUgdJTe7a+U
- x7heT28hy9U1pwMCyIUMcOCPHzljwSlWriFMph38rdJiPwB3RgMK9pbzkRYCX2wkqFJNNM
- 8vr82wuw/nJD+8vd1e/MlqzOCGnc0gY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-czQJXbPrOhSl9AS9XK7iuw-1; Tue, 20 Jul 2021 04:29:55 -0400
-X-MC-Unique: czQJXbPrOhSl9AS9XK7iuw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- de27-20020a1709069bdbb02904dedfc43879so6510460ejc.1
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 01:29:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=47b9Sw5x/Rj6l8lYTWxpfF6uhs9nQkZf8xXSo1tcLVM=;
- b=M4UBsbICXVgS5SZ54oSQPyQHH8kDXeZztb7Bplwp9MHhpT1OHLWlv6lFV/rBPtlFpz
- D69pGYaryTd6yGhX4irXjyT/lRR7Uv1EahFpTnIGDj+YHaDrySB3UF5jS9iQx3GpC1b4
- xCTwM1mBRUmT9NDFCsX7iUpRh8ryLA3IM1L7aVJv2OX7/0uCoYl5X9q/GxEk1Eo6FvQF
- OuoK4MzVNOr43WfhooFs49opzB+zmhuF0ZEiO7Z9ZZlrcd8MtGQUURp8y82FYVh2P3UP
- 4qwnzU4IxuNrJTW4rvr69CVvTjyPjT18DKx4C0GlBxjAK3QJUzMkSEc/CgkJD4vgxqns
- czfg==
-X-Gm-Message-State: AOAM530GFoM0jC0tKD1o8uZOciZkn5B63rRfE71uFAMKpdzp1sTQ20xT
- AK0IE9jYRRIl1gf164Zbe5S31hxC4Uvm/194PHsGV4/pEhgzH4DwND6IVqMaQhhdaXw1+Es17Wp
- UMv7eLrQIgNkg0sE=
-X-Received: by 2002:a50:9503:: with SMTP id u3mr33763158eda.135.1626769794200; 
- Tue, 20 Jul 2021 01:29:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwYm0eY/BX9RL4MeruAf21VxuKeNzXWFMkLI/wCZvKbJAq5o+JS7w2emFJ/JqIDldKDlRvWKQ==
-X-Received: by 2002:a50:9503:: with SMTP id u3mr33763150eda.135.1626769794039; 
- Tue, 20 Jul 2021 01:29:54 -0700 (PDT)
-Received: from steredhat (host-79-18-148-79.retail.telecomitalia.it.
- [79.18.148.79])
- by smtp.gmail.com with ESMTPSA id qp12sm6866844ejb.90.2021.07.20.01.29.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 01:29:53 -0700 (PDT)
-Date: Tue, 20 Jul 2021 10:29:51 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] io_uring: move LuringState typedef to block/aio.h
-Message-ID: <20210720082951.p2oyy33kh2uevjr2@steredhat>
-References: <20210712131030.465621-1-pbonzini@redhat.com>
+ s=mimecast20190719; t=1626769978;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=vNthB/DSgivwulxRM48hoqVRFVr/5yj8dLIK2SOAXFU=;
+ b=JQ6uQP5XlIP+/lV3EM3AaZ+fcKohU3H91zRag6pDhlOn5drctkSMbW2xs8oC1qSSrVI3bR
+ p2mrlpmRJq5kGBuhm6hUjfxRW/WBi3hlXStDPwf2OXPM2WMgBvUD6EQzD4xeU9hmUoP/b+
+ +xOfMjj2yow6aFbriJhgM1uA3nsGaa4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-znW-HjvnP26VaRjtg9znxg-1; Tue, 20 Jul 2021 04:32:53 -0400
+X-MC-Unique: znW-HjvnP26VaRjtg9znxg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7870510168C8;
+ Tue, 20 Jul 2021 08:32:52 +0000 (UTC)
+Received: from redhat.com (ovpn-114-189.ams2.redhat.com [10.36.114.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33DE160BD8;
+ Tue, 20 Jul 2021 08:32:51 +0000 (UTC)
+Date: Tue, 20 Jul 2021 09:32:48 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: Failing iotest 206
+Message-ID: <YPaKMLGBINB+uSXz@redhat.com>
+References: <87d526f8-53bc-c196-6d5c-72b78a49518b@redhat.com>
+ <20210720011151.l66z3q5hfc7urcfv@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210712131030.465621-1-pbonzini@redhat.com>
+In-Reply-To: <20210720011151.l66z3q5hfc7urcfv@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -94,23 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, stefanha@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 12, 2021 at 03:10:30PM +0200, Paolo Bonzini wrote:
->The LuringState typedef is defined twice, in include/block/raw-aio.h and
->block/io_uring.c.  Move it in include/block/aio.h, which is included
->everywhere the typedef is needed, since include/block/aio.h already has
->to define the forward reference to the struct.
->
->Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->---
-> block/io_uring.c        | 4 ++--
-> include/block/aio.h     | 8 ++++----
-> include/block/raw-aio.h | 1 -
-> 3 files changed, 6 insertions(+), 7 deletions(-)
+On Mon, Jul 19, 2021 at 08:12:58PM -0500, Eric Blake wrote:
+> On Mon, Jul 19, 2021 at 10:06:01AM +0200, Thomas Huth wrote:
+> >  Hi,
+> > 
+> > iotest 206 fails for me with:
+> > 
+> 
+> > --- 206.out
+> > +++ 206.out.bad
+> > @@ -99,55 +99,19 @@
+> > 
+> >  {"execute": "blockdev-create", "arguments": {"job-id": "job0", "options":
+> > {"driver": "qcow2", "encrypt": {"cipher-alg": "twofish-128", "cipher-mode":
+> > "ctr", "format": "luks", "hash-alg": "sha1", "iter-time": 10, "ivgen-alg":
+> > "plain64", "ivgen-hash-alg": "md5", "key-secret": "keysec0"}, "file":
+> > {"driver": "file", "filename": "TEST_DIR/PID-t.qcow2"}, "size": 33554432}}}
+> >  {"return": {}}
+> > +Job failed: Unsupported cipher algorithm twofish-128 with ctr mode
+> >  {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+> >  {"return": {}}
+> 
+> > 
+> > Looks like it is missing a check for the availability of the corresponding
+> > crypto stuff? Does anybody got a clue how to fix this?
+> 
+> What system is this on? Which crypto library versions are installed?
+> I suspect this is related to Dan's effort to speed up crypto by
+> favoring gnutls over nettle, where the switch in favored libraries
+> failed to account for whether twofish-128 is supported?
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg03886.html
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Yes, the gnutls provider doesn't support twofish. This doesn't matter
+in real world usage because no one is seriously going to ask for twofish
+instead of AES for luks encryption.
+
+I guess that test suite was simply trying to ask for some non-default
+values though.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
