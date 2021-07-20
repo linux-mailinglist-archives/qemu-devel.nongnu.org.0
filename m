@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 575E03CF9EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:56:30 +0200 (CEST)
-Received: from localhost ([::1]:47508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403343CF9F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:58:43 +0200 (CEST)
+Received: from localhost ([::1]:56172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pIT-0007Wm-Dd
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:56:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
+	id 1m5pKc-0004tq-89
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:58:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGO-0004hf-64
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29068)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGN-0004h9-Fd
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGL-0008HI-5P
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGK-0008HE-Sm
  for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1626785656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eDA6OMzuuNafnaDgrGqqKn+q8ASuHBGX0GdykCIu9Ow=;
- b=aE5IIhwIlbPIKCuj8WHOFM05srFpAtmDfFmiF9X35ycIKlfg0qReynbtFiX05dSd9pgvP3
- 6JxB/y0zJywQ/9I+SiDfw7y9CdYSNDvvzyK+DqBqwaIocV2LLx5jyyvnn8hyI9wx9eTPeP
- o487s0zi1SUW1i1xvaDcHvXOKFeoR3I=
+ bh=ow5EZF0Cxpv+F/l8BY+nsz9ITyykqMN2+eXVzDHHjLw=;
+ b=D46j3QqOWu+j4Xy0gU1369NmjRuInzqU0urgMyCJflVYF7wITJKUHjPZXE5WIzR6tlVQ4j
+ IzxuH49I2RVE58kwLZfPSUuHGxALSDlWlBw8a5tFa5/dAdS0VcvFSeDqhiV+YUi0Ke1/HD
+ l4gB5ICzBcUeqV7ilCEBp+lVLL/To7A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-nAyoMjfFOqOSo8pOPPcX_A-1; Tue, 20 Jul 2021 08:54:15 -0400
-X-MC-Unique: nAyoMjfFOqOSo8pOPPcX_A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-85-WG9Pa-3pO1CTmHroVpTzzg-1; Tue, 20 Jul 2021 08:54:15 -0400
+X-MC-Unique: WG9Pa-3pO1CTmHroVpTzzg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D7B680365C
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 376E08030D2
  for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:54:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
  [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 085CB5D719
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:54:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 083CF5DAA5;
+ Tue, 20 Jul 2021 12:54:14 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0F2D4112D84C; Tue, 20 Jul 2021 14:54:09 +0200 (CEST)
+ id 125D6112D84D; Tue, 20 Jul 2021 14:54:09 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/16] migration: Unify failure check for migrate_add_blocker()
-Date: Tue, 20 Jul 2021 14:54:01 +0200
-Message-Id: <20210720125408.387910-10-armbru@redhat.com>
+Subject: [PATCH 10/16] migration: Handle migration_incoming_setup() errors
+ consistently
+Date: Tue, 20 Jul 2021 14:54:02 +0200
+Message-Id: <20210720125408.387910-11-armbru@redhat.com>
 In-Reply-To: <20210720125408.387910-1-armbru@redhat.com>
 References: <20210720125408.387910-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,133 +80,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most callers check the return value.  Some check whether it set an
-error.  Functionally equivalent, but the former tends to be easier on
-the eyes, so do that everywhere.
+Commit b673eab4e2 "multifd: Make multifd_load_setup() get an Error
+parameter" changed migration_incoming_setup() to take an Error **
+argument, and adjusted the callers accordingly.  It neglected to
+change adjust multifd_load_setup(): it still exit()s on error.  Clean
+that up.
 
-Prior art: commit c6ecec43b2 "qemu-option: Check return value instead
-of @err where convenient".
+The error now gets propagated up two call chains: via
+migration_fd_process_incoming() to rdma_accept_incoming_migration(),
+and via migration_ioc_process_incoming() to
+migration_channel_process_incoming().  Both chain ends report the
+error with error_report_err(), but otherwise ignore it.  Behavioral
+change: we no longer exit() on this error.
 
+This is consistent with how we handle other errors here, e.g. from
+multifd_recv_new_channel() via migration_ioc_process_incoming() to
+migration_channel_process_incoming().  Wether it's consistently right
+or consistently wrong I can't tell.
+
+Also clean up the return value from the unusual 0 on success, 1 on
+error to the more common true on success, false on error.
+
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- backends/tpm/tpm_emulator.c | 3 +--
- hw/display/qxl.c            | 8 ++++----
- hw/virtio/vhost.c           | 2 +-
- target/i386/kvm/kvm.c       | 6 +++---
- target/i386/nvmm/nvmm-all.c | 3 +--
- target/i386/whpx/whpx-all.c | 3 +--
- 6 files changed, 11 insertions(+), 14 deletions(-)
+ migration/migration.c | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index e5f1063ab6..f8095d23d5 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -492,8 +492,7 @@ static int tpm_emulator_block_migration(TPMEmulator *tpm_emu)
-         error_setg(&tpm_emu->migration_blocker,
-                    "Migration disabled: TPM emulator does not support "
-                    "migration");
--        migrate_add_blocker(tpm_emu->migration_blocker, &err);
--        if (err) {
-+        if (migrate_add_blocker(tpm_emu->migration_blocker, &err) < 0) {
-             error_report_err(err);
-             error_free(tpm_emu->migration_blocker);
-             tpm_emu->migration_blocker = NULL;
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 84f99088e0..436399db76 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -680,12 +680,12 @@ static int interface_get_command(QXLInstance *sin, struct QXLCommandExt *ext)
-                     msg < (void *)qxl->vga.vram_ptr ||
-                     msg > ((void *)qxl->vga.vram_ptr + qxl->vga.vram_size))) {
-                 if (!qxl->migration_blocker) {
--                    Error *local_err = NULL;
-+                    Error *err = NULL;
-+
-                     error_setg(&qxl->migration_blocker,
-                                "qxl: guest bug: command not in ram bar");
--                    migrate_add_blocker(qxl->migration_blocker, &local_err);
--                    if (local_err) {
--                        error_report_err(local_err);
-+                    if (migrate_add_blocker(qxl->migration_blocker, &err) < 0) {
-+                        error_report_err(err);
-                     }
-                 }
-             }
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index e8f85a5d2d..dbbc6b6915 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1372,7 +1372,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+diff --git a/migration/migration.c b/migration/migration.c
+index 231dc24414..c1c0a48647 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -609,30 +609,25 @@ fail:
+ }
  
-     if (hdev->migration_blocker != NULL) {
-         r = migrate_add_blocker(hdev->migration_blocker, errp);
--        if (*errp) {
-+        if (r < 0) {
-             error_free(hdev->migration_blocker);
-             goto fail_busyloop;
-         }
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 8e1bb905ca..bb72c233cc 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1421,7 +1421,7 @@ static int hyperv_init_vcpu(X86CPU *cpu)
-                    "'hv-passthrough' CPU flag prevents migration, use explicit"
-                    " set of hv-* flags instead");
-         ret = migrate_add_blocker(hv_passthrough_mig_blocker, &local_err);
--        if (local_err) {
-+        if (ret < 0) {
-             error_report_err(local_err);
-             return ret;
-         }
-@@ -1435,7 +1435,7 @@ static int hyperv_init_vcpu(X86CPU *cpu)
-                    " make sure SMT is disabled and/or that vCPUs are properly"
-                    " pinned)");
-         ret = migrate_add_blocker(hv_no_nonarch_cs_mig_blocker, &local_err);
--        if (local_err) {
-+        if (ret < 0) {
-             error_report_err(local_err);
-             return ret;
-         }
-@@ -1874,7 +1874,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-                        "State blocked by non-migratable CPU device"
-                        " (invtsc flag)");
-             r = migrate_add_blocker(invtsc_mig_blocker, &local_err);
--            if (local_err) {
-+            if (r < 0) {
-                 error_report_err(local_err);
-                 return r;
-             }
-diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-index 7bb0d9e30e..28dee4c5ee 100644
---- a/target/i386/nvmm/nvmm-all.c
-+++ b/target/i386/nvmm/nvmm-all.c
-@@ -926,8 +926,7 @@ nvmm_init_vcpu(CPUState *cpu)
-         error_setg(&nvmm_migration_blocker,
-             "NVMM: Migration not supported");
+ /**
+- * @migration_incoming_setup: Setup incoming migration
+- *
+- * Returns 0 for no error or 1 for error
+- *
++ * migration_incoming_setup: Setup incoming migration
+  * @f: file for main migration channel
+  * @errp: where to put errors
++ *
++ * Returns: %true on success, %false on error.
+  */
+-static int migration_incoming_setup(QEMUFile *f, Error **errp)
++static bool migration_incoming_setup(QEMUFile *f, Error **errp)
+ {
+     MigrationIncomingState *mis = migration_incoming_get_current();
+-    Error *local_err = NULL;
  
--        (void)migrate_add_blocker(nvmm_migration_blocker, &local_error);
--        if (local_error) {
-+        if (migrate_add_blocker(nvmm_migration_blocker, &local_error) < 0) {
-             error_report_err(local_error);
-             error_free(nvmm_migration_blocker);
-             return -EINVAL;
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index cc8c0b984b..3e925b9da7 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -1346,8 +1346,7 @@ int whpx_init_vcpu(CPUState *cpu)
-                "State blocked due to non-migratable CPUID feature support,"
-                "dirty memory tracking support, and XSAVE/XRSTOR support");
+-    if (multifd_load_setup(&local_err) != 0) {
+-        /* We haven't been able to create multifd threads
+-           nothing better to do */
+-        error_report_err(local_err);
+-        exit(EXIT_FAILURE);
++    if (multifd_load_setup(errp) != 0) {
++        return false;
+     }
  
--        (void)migrate_add_blocker(whpx_migration_blocker, &local_error);
--        if (local_error) {
-+        if (migrate_add_blocker(whpx_migration_blocker, &local_error) < 0) {
-             error_report_err(local_error);
-             error_free(whpx_migration_blocker);
-             ret = -EINVAL;
+     if (!mis->from_src_file) {
+         mis->from_src_file = f;
+     }
+     qemu_file_set_blocking(f, false);
+-    return 0;
++    return true;
+ }
+ 
+ void migration_incoming_process(void)
+@@ -675,14 +670,11 @@ static bool postcopy_try_recover(QEMUFile *f)
+ 
+ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+ {
+-    Error *local_err = NULL;
+-
+     if (postcopy_try_recover(f)) {
+         return;
+     }
+ 
+-    if (migration_incoming_setup(f, &local_err)) {
+-        error_propagate(errp, local_err);
++    if (!migration_incoming_setup(f, errp)) {
+         return;
+     }
+     migration_incoming_process();
+@@ -703,8 +695,7 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+             return;
+         }
+ 
+-        if (migration_incoming_setup(f, &local_err)) {
+-            error_propagate(errp, local_err);
++        if (!migration_incoming_setup(f, errp)) {
+             return;
+         }
+ 
 -- 
 2.31.1
 
