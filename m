@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28BEE3CFD13
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:09:54 +0200 (CEST)
-Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2A73CFD2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:13:50 +0200 (CEST)
+Received: from localhost ([::1]:49442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5rNZ-0001mX-7V
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49616)
+	id 1m5rRN-0005wL-6p
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5rMT-00015e-Da
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:08:45 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:34306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5rMQ-0007dx-3p
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:08:44 -0400
-Received: by mail-ed1-x534.google.com with SMTP id ec55so28890808edb.1
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:08:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=13cs9OHchSxSpBR1bFGBjqsUOYFoqUA2Sc2eFN2wmyc=;
- b=dSJxFJTpoGeNclVZdorukZpNYzzuZWkGYAqD9bma/D9zo4qjlH0UFUkZSqYY2aezh0
- V/Y1miDqS1g3jGkz63I+c87Osv2VvQoYdBQzqHskzmzrFhknqjZa3p1qDijDF0wB9DpM
- r8HSKFLFWINVzEuvEaLTmntjSN9dHWKkd+pLfvt1QU5T9t+Fzg8R0oJoaOzyvCqWg622
- jkioAIWnt1yj+7w2f8y+7LZDYCaM5hi3bHHrZPaNPPh3AsWqSIL806O22y78blA0CSY9
- oLPT7RHDsKJLSyrb+nJHJekGWbtndsQMxvEt9NXO897d36K1ApyvvFwHtgdg+koxEK+O
- heHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=13cs9OHchSxSpBR1bFGBjqsUOYFoqUA2Sc2eFN2wmyc=;
- b=mNV4cdGi4cNO8KNY2m/S2BclvhS/e4kNzfDWXAhAdFGMQv0WhDHVsrIJVotjG/a5K6
- EgcHfPECdXswaPNHpN1sJqQtlYft+8MlVBKR7R/z+pqCaUIrthu3r6rvK++e2EakBkRT
- zQQSKxuwRrYRBW1QEjfI0QlHYYc5+g0GzVn6t+Jd+V7HdRbjj6TYxXtdWMSy8vOgQZAc
- /obRSBAJSIfjjxkf41pbCEcnTXJJ5ywOMLaJ3xf6rss2Q5BNO4dUug/Tn7AggfPEPjcf
- VtDQdbCEJ0HGboDdfGvaFYsJN8z95h+sxn8RN83AODbQwI5CLx+bhwHPEh7YOk945LNy
- htNw==
-X-Gm-Message-State: AOAM532gH+YkHl+ELc4xoNtOEoyb8BXtGXtyp6gYQ/HmVijGrI91Ihl1
- 0aFUijjIS+ATQ+2vvifRuR+HqS6I6PmqsZAPQIZtBg==
-X-Google-Smtp-Source: ABdhPJwKKOcraa3qsC7QKbE5d1cUuzFjZjnH5g534M2gEMSHoo+jh2p9JMQs0Qs2de6fCZm7mUNvArwd0JUyafCxhHs=
-X-Received: by 2002:aa7:d809:: with SMTP id v9mr41975682edq.146.1626793720414; 
- Tue, 20 Jul 2021 08:08:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5rOm-0002il-Sd
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:11:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5rOg-0000fE-Qo
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:11:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626793861;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DbHcgeyAx6JNOXczQsZjnjm0ycw5kLyZbuUh1mm4slw=;
+ b=g/wlP+92tqXCKDdNSPaEcDNZBnNjlG0TyzZlRG/tnBlWoDEXZQSTVPkuIYhh1s03lJrg9U
+ mcGMZKQ9endOojWDToSkEU/VoYjnvWl5opyuVPJRSwPz7t6jxUXyaMTMvrs5QEWrYAbuP7
+ xC2jGoEx62tKQPDmIO5FwZCIByr5c3w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-sI0hA0JmPIqsq9e6SdSJHA-1; Tue, 20 Jul 2021 11:10:57 -0400
+X-MC-Unique: sI0hA0JmPIqsq9e6SdSJHA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9DB1100C609;
+ Tue, 20 Jul 2021 15:10:56 +0000 (UTC)
+Received: from merkur.redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9942983BF9;
+ Tue, 20 Jul 2021 15:10:55 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 00/11] Block layer patches
+Date: Tue, 20 Jul 2021 17:10:42 +0200
+Message-Id: <20210720151053.226144-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
- <CAFEAcA-Dmof7gi9MRxjo0FcYN8ZW0NTKi2+SAgO1V8-VMndN-A@mail.gmail.com>
- <CAFEAcA_cYZHr=Kz2JakLpxkdyBWGJUUpJWZyyV_yMq59X7YJGw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_cYZHr=Kz2JakLpxkdyBWGJUUpJWZyyV_yMq59X7YJGw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Jul 2021 16:07:59 +0100
-Message-ID: <CAFEAcA-sq2GfHkpVc8BF-n=KEVwwrtzsbhM9w+_O=GmN+gg5WQ@mail.gmail.com>
-Subject: Re: Error in accel/tcg?
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,43 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Jul 2021 at 16:06, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 20 Jul 2021 at 10:06, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Mon, 19 Jul 2021 at 23:20, Kenneth Adam Miller
-> > <kennethadammiller@gmail.com> wrote:
-> > >
-> > > Hello,
-> > >
-> > > I get the following error:
-> > >
-> > > <long cmd here> -c ../accel/tcg/cputlb.c
-> > > ../qemu/accel/tcg/cputlb.c: In function 'tlb_flush_page_by_mmuidx':
-> > > ../qemu/accel/tcg/cputlb.c:602:23: error: comparison is always true due to limited range of data type [-Werror=type-limits]
-> > >     } else if (idxmap < TARGET_PAGE_SIZE) {
-> > >
-> > > I don't know why that suddenly shows up.
+The following changes since commit 143c2e0432859826c9e8d5b2baa307355f1a5332:
 
-> You'll get this warning, incidentally, if you have a
-> target which sets TARGET_PAGE_BITS to 16 or more.
-> Currently the only target which does that is hexagon, and
-> that is linux-user only, so it doesn't run into this (yet).
->
-> The warning is harmless (apart from preventing compilation with
-> -Werror), but there's no in-theory reason why softmmu shouldn't
-> work with 64K pages, so we should figure out a way to rephrase
-> the cputlb.c code to suppress it.
+  Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2021-07-19' into staging (2021-07-19 19:06:05 +0100)
 
-Assuming you do have something with TARGET_PAGE_BITS 16, if
-you rewrite the conditions to
- "if ((uint32_t)idxmap < TARGET_PAGE_SIZE)" does that make
-the compiler happier ?
+are available in the Git repository at:
 
--- PMM
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to d21471696b07f30cb00453709d055a25c1afde85:
+
+  iotests/307: Test iothread conflict for exports (2021-07-20 16:49:50 +0200)
+
+----------------------------------------------------------------
+Block layer patches
+
+- mirror: Fix active mirror deadlock
+- replication: Fix crashes due to operations on wrong BdrvChild
+- configure: Add option to use driver whitelist even in tools
+- vvfat: Fix crash when opening image read-write
+- export: Fix crash in error path with fixed-iothread=false
+
+----------------------------------------------------------------
+Kevin Wolf (1):
+      block: Add option to use driver whitelist even in tools
+
+Lukas Straub (4):
+      replication: Remove s->active_disk
+      replication: Reduce usage of s->hidden_disk and s->secondary_disk
+      replication: Properly attach children
+      replication: Remove workaround
+
+Max Reitz (2):
+      block/export: Conditionally ignore set-context error
+      iotests/307: Test iothread conflict for exports
+
+Vladimir Sementsov-Ogievskiy (4):
+      block/mirror: set .co for active-write MirrorOp objects
+      iotest 151: add test-case that shows active mirror dead-lock
+      block/mirror: fix active mirror dead-lock in mirror_wait_on_conflicts
+      block/vvfat: fix: drop backing
+
+ configure                  |  14 +++++-
+ block.c                    |   3 ++
+ block/export/export.c      |   5 +-
+ block/mirror.c             |  13 ++++++
+ block/replication.c        | 111 +++++++++++++++++++++++++++------------------
+ block/vvfat.c              |  43 ++----------------
+ meson.build                |   1 +
+ tests/qemu-iotests/151     |  54 +++++++++++++++++++++-
+ tests/qemu-iotests/151.out |   4 +-
+ tests/qemu-iotests/307     |  15 ++++++
+ tests/qemu-iotests/307.out |   8 ++++
+ 11 files changed, 182 insertions(+), 89 deletions(-)
+
 
