@@ -2,106 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E81373CFA82
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:28:19 +0200 (CEST)
-Received: from localhost ([::1]:48528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE3D53CFA93
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:32:46 +0200 (CEST)
+Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pnG-00072a-Vl
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57756)
+	id 1m5prZ-0002tA-Og
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:32:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1m5plL-0004Rn-4K
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:26:19 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61086
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1m5plI-00082q-PU
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:26:18 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16KD4Mdc102854; Tue, 20 Jul 2021 09:26:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=1eBY0tiUYVM0sIbvj7ob32DAyMpLr1p4JnsY6AXIkcw=;
- b=aofL5TP62NM573zY8cp0O1+aq9im0S9JSTjQiqkfYJJx45A8c1fYG8YgjT9/++l/Afi9
- 1QN5jZfPqvwwOtOl/Wj71+hdfsTAsv0oiYWtyyUVn/wIONMQBi1/by6Tgy8aG5lHjp0B
- rDJIJCGhBfMj1fEdQKRZb2Q1zHAifEQtKXdFwNDddo+zWKw9M0ROewl1uxMcxFb3grHD
- B7tWYPEfJk6Fq/+5dexls/c/P2/yI5CZk7QzmAvZgd3ohPNluHlukvEHL7JsSvzf1es3
- NOUQFs/Cxtqhx4ZXN7qNcO8ApEj47F86i6/GvTOiPHcMK6ODr5oWup/IfPv79XQ4JyZG ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39wy0hru93-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Jul 2021 09:26:14 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 16KD4u6X106421;
- Tue, 20 Jul 2021 09:26:14 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 39wy0hru8s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Jul 2021 09:26:14 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 16KDCijA000901;
- Tue, 20 Jul 2021 13:26:13 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma04dal.us.ibm.com with ESMTP id 39upubvbsm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Jul 2021 13:26:13 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 16KDQCXX30343660
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 20 Jul 2021 13:26:12 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C2A4EAC062;
- Tue, 20 Jul 2021 13:26:12 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AA150AC064;
- Tue, 20 Jul 2021 13:26:12 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 20 Jul 2021 13:26:12 +0000 (GMT)
-Subject: Re: [PATCH resend v2 3/5] softmmu/memory_mapping: never merge ranges
- accross memory regions
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210720130304.26323-1-david@redhat.com>
- <20210720130304.26323-4-david@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Message-ID: <612097d1-bced-4a04-b474-e05d2821e519@linux.ibm.com>
-Date: Tue, 20 Jul 2021 09:26:12 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5poy-0001tE-RN
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:30:04 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5pos-0000sc-MN
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:30:04 -0400
+Received: by mail-ej1-x636.google.com with SMTP id oz7so30510819ejc.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 06:29:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ndla8cF+AFHKap0UG7MJ7gDjKXPd0zLq1B76uH8On60=;
+ b=AmEk1cnNymMVWK257wcHVtcaK0c8jxR5FdEOvetxyUTA0CLC1YgVwU3a1p9dQSOCmo
+ MF2gJZNfGjNrD/kvCEa8F9QzUg8m1mm5btL5dH/cQzHSjDW58HxLI68JUo29AXjdZtx+
+ 2yL2fVhm3AQbNPRKVATAKzjHGVMRQercftr5F83NvFLdYG140PPq5HxTHCnJQJZFe+IA
+ yBQwp5LHexi73grYXKl2yo/W+Wp+G61STO5NCjPe/PsYpfBbKJVOMPzsYHrfXpdGvp2P
+ Qf2lqQB94CWt1NbV/M7t3Nj5kxIWjKLeBcI8Zf1dofPDTlACRXyGAPdbQZvylkhg6gys
+ uQbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ndla8cF+AFHKap0UG7MJ7gDjKXPd0zLq1B76uH8On60=;
+ b=BpD69XZYorI/ff/E4V/kMbiw95fx0gCpJEOCxFhhxdFqCY6nfIvIDPmK3/rwpys00f
+ UDi4hzTiW8hpfyrZJkranKdf77j242OgQ4InUBXTwsI2gRGnjwtz0pu7SmiPuJtngqah
+ bwsm5jRs1iHltbrADBB7fzmIsQBzeCDw7Gsb87UF2DGDEEkIKFbA5NlcJsTL0h8F+XqS
+ yJC+sUo3qiaOpqg2tX/nwuDnKiJ3PeXMsfWa0yyY0wsZmd697s69zg3NatCkjSkOc+gd
+ BLh23gO9CTrM4u/RWvwbUYtaImUm3tP/2mghi417oHYsjpa6tqCqGv0Npqnns/USCVSK
+ XyJQ==
+X-Gm-Message-State: AOAM532DpbagL14xV1I4ePZmGtJw7dDzw4ik4tsN7GQyGWM62wF/GHW6
+ HWneDJ0hwja7QvzedMO0YM8dRjPRio+QvbIDD0Ol0w==
+X-Google-Smtp-Source: ABdhPJzsxwJli876g0+YuGEKhWAHacvS6A+RmOCzf9lY8SHC/EEvVWxNURqTLHld/LXx/rd6JFT3plr2TZBYMWi2gjo=
+X-Received: by 2002:a17:907:3e02:: with SMTP id
+ hp2mr32376621ejc.4.1626787796852; 
+ Tue, 20 Jul 2021 06:29:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210720130304.26323-4-david@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 3vUsOH_88gXUKjppb2bp2xovi28Ebhwm
-X-Proofpoint-ORIG-GUID: Wh29gHpUfNJXZ_volTlRveMLmxEcU1bx
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-20_07:2021-07-19,
- 2021-07-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- spamscore=0 bulkscore=0 phishscore=0 impostorscore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104190000 definitions=main-2107200085
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20210720120820.48427-1-arkaisp2021@gmail.com>
+In-Reply-To: <20210720120820.48427-1-arkaisp2021@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Jul 2021 14:29:16 +0100
+Message-ID: <CAFEAcA_VC_gac8zqx7K7Do=fL3uWi-0ZwyPN0AESYHusuoby1A@mail.gmail.com>
+Subject: Re: [PATCH] mips/tlb_helper: Add support for 'info tlb' cmd
+To: Arkadiy <arkaisp2021@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,56 +77,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Pavel Dovgaluk <pavel.dovgaluk@ispras.ru>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 7/20/21 9:03 AM, David Hildenbrand wrote:
-> Let's make sure to not merge when different memory regions are involved.
-> Unlikely, but theoretically possible.
+On Tue, 20 Jul 2021 at 13:10, Arkadiy <arkaisp2021@gmail.com> wrote:
 >
-> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: Claudio Fontana <cfontana@suse.de>
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: "Alex Bennée" <alex.bennee@linaro.org>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Cc: Stefan Berger <stefanb@linux.ibm.com>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   softmmu/memory_mapping.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+> From: NDNF <arkaisp2021@gmail.com>
 >
-> diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-> index d63f896b30..c149bad44a 100644
-> --- a/softmmu/memory_mapping.c
-> +++ b/softmmu/memory_mapping.c
-> @@ -229,7 +229,8 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
->   
->           /* we want continuity in both guest-physical and host-virtual memory */
->           if (predecessor->target_end < target_start ||
-> -            predecessor->host_addr + predecessor_size != host_addr) {
-> +            predecessor->host_addr + predecessor_size != host_addr ||
-> +            predecessor->mr != section->mr) {
->               predecessor = NULL;
->           }
->       }
+> This adds hmp 'info tlb' command support for the mips platform.
+> 1k pages are not supported.
+>
+> Signed-off-by: NDNF <arkaisp2021@gmail.com>
 
+Hi; for QEMU contributions we request that the signed-off-by
+line is your real name, not a pseudonym; we follow basically
+the Linux kernel policy on this:
 
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297
 
+thanks
+-- PMM
 
