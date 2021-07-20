@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF393D05DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:51:26 +0200 (CEST)
-Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9D913D05C8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:44:07 +0200 (CEST)
+Received: from localhost ([::1]:42992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zWH-0001ja-9u
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:51:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
+	id 1m5zPC-0002Ah-Oq
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:44:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFy-0004Lf-UT
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:34 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46612)
+ id 1m5zFr-0003sG-64
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:27 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFu-0001hC-JI
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:34 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d12so150043wre.13
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:30 -0700 (PDT)
+ id 1m5zFp-0001eC-ET
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:26 -0400
+Received: by mail-wr1-x433.google.com with SMTP id r11so166940wro.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fHVsCfAc/Xzw+A5JpiM4mOmvx+0P4K0niA2sGViAgEU=;
- b=jKLvRwVTpv8aB/pXc7sFexJcecY7+jp9ezcBQtnHv+GkxntmlvqUbxkdWZuE6PuYwX
- rp3qYqnQ2dfHUsk9GM8kTcrOgvj2M9R1g386LAYqXUPtFUJy005GAGPvzAtJElwLlwuL
- rO4pie9WfwExHUhOdqxubsnBUTR9COGMI7OloZd8cI9ByGtWxqu0zXeseW93gevLLYrS
- nObNwHubApj+G+HwO6hixfm5Tmr+p0ZkHo7uwBkhtw8bgaQEaEf/lykGCo0ire2J/QHy
- yHClnsFk2IbsgnCzNeHXefiAktLwBbdSougUoujZzERemCFDAa/A/lAiciQzvuaYFDnS
- TOeA==
+ bh=UEtmrIZyFhV/VzGCNsDi0IbUC8HYvsuRADUZGX7OW5Y=;
+ b=DRtyARLSucM3TeYdRzdMTMubqitzE/L6lbHrZs+uuA93xCxfvwjgcvsP/TbE1DN6ci
+ l4e9u2cKv+uajC9oPzJPDUNP/+OySTj7DsikyVHNrEJDv2TT0OZIWh+9VGdanRmQdsrc
+ ApIzEDzk4dNklY8yrIHITKJeee3JiZdRIGL6bZIPEixzHUAB4mYTnWMfxypqaFynnMsA
+ ZtCxoTxm0c4bMtBjXxwFtT2SI87hQt5q5SdivXHFaqJlpXNmI10nU9pZ5RQCB/o5qryo
+ DrEBzgCqW8h11kDcuygJwC1AIwjDIbJskHOxu94knJzdAeYpJH+jO4fwwG1pPQ09Rf51
+ 6Ebw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fHVsCfAc/Xzw+A5JpiM4mOmvx+0P4K0niA2sGViAgEU=;
- b=eSoWfa6YVYbwV0rgoCocYL0AGUOY0FWLnGpF6xH6FH+JV9dbpsIlxzEQBuIVecHToX
- NiZpn9vY0odZJDtNCKxOegTME59cDbY1eaEAA4nwnXFe15q2ZgEP6iK8RqEldyaEJvYl
- i97IHMgdRpEbvk7PlQKAppw13dwSfSh7sqBCP5Q1vbSi2PXyxjjCrPC/owXIxyQgCAzi
- y3wmN8O+/2T+RNnf+h23+qFpSBbihPeYSqFlVfGxflpsNs/5B1BWlb6Ok5ohLyq0icyG
- apLiYmXmDq+EmX3aOvH7WKtXejiU1ckonyZ5yyeA3JhddzuwB7TKnfa5m8t68OLfjm7U
- gjsQ==
-X-Gm-Message-State: AOAM531k84r2zrrCKKYKqRc7iZRjZCLm3UJ9eTwXMCz23H/w02kwhs9a
- 1ivLYWCdoDqm39I2YJ0DDHffcQ==
-X-Google-Smtp-Source: ABdhPJx7kW2+XgqXn+g8sHhxdmaLpuWvdJ1n+wWWzrYhxx2aQd5Ra+fk51RkecuHf71N1dAbeTcJQA==
-X-Received: by 2002:a5d:4748:: with SMTP id o8mr32202639wrs.202.1626824069260; 
- Tue, 20 Jul 2021 16:34:29 -0700 (PDT)
+ bh=UEtmrIZyFhV/VzGCNsDi0IbUC8HYvsuRADUZGX7OW5Y=;
+ b=NI98cwYYTXB/7F1Qku49t6RptdkCq9e9Myv6U24RqZ+q58Xpo7kvt3D742DBO2zuOC
+ W8jsfOmamB4nsnFQMEPm8APKI9/R2Ij7+RK9PWhYQRRc7OZbEUzXv3V0jmzy/FDYkyBo
+ DlDab5QDvZv3PAumBJKLGv42+t67N83rt//ZcquKSkurH/+HhBwOJyqlrrfoPMFL8w9m
+ wA7T41cEX+ZqoEkbF3PAOLbzCzU9sAQGxZ4AsEu4G3zldqwCMbGcSgPLuJ3FcnLE0mOV
+ /OvttvzYKAGOBWHvj1oWHNdQH3bkDSiYP5qp905bIbTOGeE/8jgvDwHdgpWr86ixl3NC
+ Vgew==
+X-Gm-Message-State: AOAM532Bv4v+nFncSzvs7fKZoWYxdXVrRdrUPLqjYb76Gnqy8OQX6dvQ
+ v+hDaCKwzQI0/3/5Y6B+5yPSeg==
+X-Google-Smtp-Source: ABdhPJyzwNdZ7Y1b1yGfbknnub0+FPbnbBJMYGokug1kzolpsqrNTq18RWP7tlobB3Lz4kcacjHCTw==
+X-Received: by 2002:a05:6000:12c2:: with SMTP id
+ l2mr6373647wrx.144.1626824064090; 
+ Tue, 20 Jul 2021 16:34:24 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m15sm21085655wmc.20.2021.07.20.16.34.20
+ by smtp.gmail.com with ESMTPSA id r4sm25523103wre.84.2021.07.20.16.34.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 16:34:26 -0700 (PDT)
+ Tue, 20 Jul 2021 16:34:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1B0B11FF9D;
+ by zen.linaroharston (Postfix) with ESMTP id 318421FF9E;
  Wed, 21 Jul 2021 00:27:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 14/29] contrib/gitdm: add domain-map for Crudebyte
-Date: Wed, 21 Jul 2021 00:26:48 +0100
-Message-Id: <20210720232703.10650-15-alex.bennee@linaro.org>
+Subject: [PATCH  v1 15/29] contrib/gitdm: add domain-map for NVIDIA
+Date: Wed, 21 Jul 2021 00:26:49 +0100
+Message-Id: <20210720232703.10650-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,32 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+Cc: fam@euphon.net, Yishai Hadas <yishaih@nvidia.com>, berrange@redhat.com,
+ f4bug@amsat.org, Kirti Wankhede <kwankhede@nvidia.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <20210714182056.25888-15-alex.bennee@linaro.org>
+Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
+Cc: Yishai Hadas <yishaih@nvidia.com>
+Message-Id: <20210714182056.25888-18-alex.bennee@linaro.org>
 ---
  contrib/gitdm/domain-map | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index 5ac8288716..e42861cd11 100644
+index e42861cd11..2800d9f986 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -9,6 +9,7 @@ baidu.com       Baidu
- bytedance.com   ByteDance
- cmss.chinamobile.com China Mobile
- citrix.com      Citrix
-+crudebyte.com   Crudebyte
- eldorado.org.br Instituto de Pesquisas Eldorado
- fujitsu.com     Fujitsu
- google.com      Google
+@@ -24,6 +24,7 @@ microsoft.com   Microsoft
+ mvista.com      MontaVista
+ nokia.com       Nokia
+ nuviainc.com    NUVIA
++nvidia.com      NVIDIA
+ oracle.com      Oracle
+ proxmox.com     Proxmox
+ quicinc.com     Qualcomm Innovation Center
 -- 
 2.32.0.264.g75ae10bc75
 
