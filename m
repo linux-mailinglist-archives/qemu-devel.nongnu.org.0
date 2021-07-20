@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758773D045A
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 00:15:09 +0200 (CEST)
-Received: from localhost ([::1]:41980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E43F3D0461
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 00:17:14 +0200 (CEST)
+Received: from localhost ([::1]:46504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5y16-0007VW-HN
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 18:15:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56330)
+	id 1m5y37-0002Bu-CB
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 18:17:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1m5y03-000688-Fr
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:14:03 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:47762)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5y0m-0007lM-17
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:14:48 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37768)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>) id 1m5y01-0007FQ-OT
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:14:03 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8FB7E22498;
- Tue, 20 Jul 2021 22:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626819240; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZQ++T/l6J0S5iRZ6AdhfJo3BE0taZTfUI7XZ+fAAYLI=;
- b=LpRu/guafmd9f/tf5DTqBQE7m1tcMYzA6fnWRZegL66zi8tQMIFyee5Qh5eC4UL/R7+zzI
- hNxAPvIwqs1afdzHyDn2qND7BZpOKnufh1EPtbLRdDbbXMkxqdSyvMx24YTwaxvBdr2gIn
- 0hR9hlD5cZhf4n+AehOnIAb8XRMjx1Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626819240;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZQ++T/l6J0S5iRZ6AdhfJo3BE0taZTfUI7XZ+fAAYLI=;
- b=TlZyUGsAPYcKgaSgXDtn/dnfzzsBQ1cmfGHtCWwhPKpQWZUdqYAQnGNwouWDDMTvB1NMlS
- R+lIuZjIczlTOfAg==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 7F9E513BAB;
- Tue, 20 Jul 2021 22:13:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id eOuoEaZK92DjEQAAGKfGzw
- (envelope-from <jziviani@suse.de>); Tue, 20 Jul 2021 22:13:58 +0000
-From: "Jose R. Ziviani" <jziviani@suse.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] modules: Option to build native TCG with --enable-modules
-Date: Tue, 20 Jul 2021 19:13:51 -0300
-Message-Id: <20210720221351.13354-2-jziviani@suse.de>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210720221351.13354-1-jziviani@suse.de>
-References: <20210720221351.13354-1-jziviani@suse.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5y0k-0007l7-AW
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 18:14:47 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id i94so42698wri.4
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 15:14:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=N/Jori2RquZGl3uJ8zYrOfBzZGVjJQzTmfvIle2OWVc=;
+ b=qSd4/1tploigI7uKrNBMde2/t5pWasQSvZrF1NM9Aci8R7raKUMRLUSHzFb/PgsNnM
+ rkj11bkw3flTsb3Ylz5HTpZmIQyBURLw0MYJa682tpRyAGBuhga3X9tsdM2g1TpwdnJB
+ 3sSlXW0WIaSC3nNVdZLmBriNNun1WpwR0bLbIyQNn3VGEd0V1BUEPtQ+fMfyxCUDAnQV
+ qBh4M2iFPpdF7tG8m+AOVKqsjo2pioou/RBPee7zJkhbu/pg74RRaUaZePuYBys6br/Q
+ HB2ao0KYJC9VfFcT1cKWZCI7Hp5tsESnnAtTxyAyqixGtrhJXjJTo9xtBKZM2XIi+BWK
+ HdDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=N/Jori2RquZGl3uJ8zYrOfBzZGVjJQzTmfvIle2OWVc=;
+ b=G/rCnEq8ti4pky1cUDj1APHl4PuarK1iP5vTZUBvdpXlxiiDJdi9earV2J1dfDX/AC
+ cskVBfzvrr5ik4JxA4AXetpMBYuvDhh9/mHFajiL4pRv3wYcMIvycyMRpGD3PYvQWw19
+ NHWfHeBUrQKVQAt189Wqa/DEWDowZTxqCFXwv4EJ97lGjBqUHFCElKi6IC9VX7NtTh+E
+ tvK/UzKx4MtoOIReo+P3dovJhWyXgXODbxxyGK5NgEngGhjfFMzykAdeVLr08NrfCNb+
+ iqgCdKWZavJi8yTrOpof7kjVpy4x1ZBg8ds5fZJJfGtMKel4Z/MAHSF9VYAh0Y7MoQP3
+ Sn7A==
+X-Gm-Message-State: AOAM533Wdkppj0t22zDxuVR3xt/NM6Hx2023Ra0PUfdBBTtIgHz65GIL
+ cNFhFb+AMhzQmMiyJUYCrFd0Bw==
+X-Google-Smtp-Source: ABdhPJxHdIckTWuklCwSHK2vo4hVO3TieVvFAcGcTi7op4A2xSyJocokBDVqo9812MKSQc38Q30VVQ==
+X-Received: by 2002:a5d:6da2:: with SMTP id u2mr37987360wrs.134.1626819284455; 
+ Tue, 20 Jul 2021 15:14:44 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z13sm25597830wro.79.2021.07.20.15.14.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 15:14:43 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B28481FF7E;
+ Tue, 20 Jul 2021 23:14:42 +0100 (BST)
+References: <20210720195735.3934473-1-aaron@os.amperecomputing.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: [PATCH] plugins: Fix physical address calculation for IO regions
+Date: Tue, 20 Jul 2021 23:14:34 +0100
+In-reply-to: <20210720195735.3934473-1-aaron@os.amperecomputing.com>
+Message-ID: <87v954ljjh.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,135 +86,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, "Jose R. Ziviani" <jziviani@suse.de>,
- richard.henderson@linaro.org, kraxel@redhat.com, pbonzini@redhat.com,
- cfontana@suse.de
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, cota@braap.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds an option (--enable-tcg-builtin) to build TCG natively when
---enable-modules argument is passed to the build system. It gives
-the opportunity to have this important accelerator built-in and
-still take advantage of the new modular system.
 
-Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
----
- configure         | 12 ++++++++++--
- meson.build       | 11 ++++++++++-
- meson_options.txt |  2 ++
- 3 files changed, 22 insertions(+), 3 deletions(-)
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-diff --git a/configure b/configure
-index 232c54dcc1..64d7a909ce 100755
---- a/configure
-+++ b/configure
-@@ -345,6 +345,7 @@ tsan="no"
- fortify_source="$default_feature"
- strip_opt="yes"
- tcg_interpreter="false"
-+tcg_builtin="false"
- bigendian="no"
- mingw32="no"
- gcov="no"
-@@ -1120,6 +1121,8 @@ for opt do
-   ;;
-   --enable-tcg) tcg="enabled"
-   ;;
-+  --enable-tcg-builtin) tcg_builtin="true"
-+  ;;
-   --disable-malloc-trim) malloc_trim="disabled"
-   ;;
-   --enable-malloc-trim) malloc_trim="enabled"
-@@ -1817,6 +1820,7 @@ Advanced options (experts only):
-                            Default:trace-<pid>
-   --disable-slirp          disable SLIRP userspace network connectivity
-   --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter, experimental and slow)
-+  --enable-tcg-builtin     force TCG builtin even with --enable-modules
-   --enable-malloc-trim     enable libc malloc_trim() for memory optimization
-   --oss-lib                path to OSS library
-   --cpu=CPU                Build for host CPU [$cpu]
-@@ -2318,7 +2322,11 @@ if test "$solaris" = "yes" ; then
-   fi
- fi
- 
--if test "$tcg" = "enabled"; then
-+if test "$tcg" = "disabled"; then
-+    debug_tcg="no"
-+    tcg_interpreter="false"
-+    tcg_builtin="false"
-+else
-     git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
-     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
- fi
-@@ -5229,7 +5237,7 @@ if test "$skip_meson" = no; then
-         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
-         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
-         $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
--	-Dtcg_interpreter=$tcg_interpreter \
-+        -Dtcg_interpreter=$tcg_interpreter -Dtcg_builtin=$tcg_builtin \
-         $cross_arg \
-         "$PWD" "$source_path"
- 
-diff --git a/meson.build b/meson.build
-index 2f377098d7..2909043aab 100644
---- a/meson.build
-+++ b/meson.build
-@@ -93,9 +93,13 @@ if cpu in ['x86', 'x86_64']
- endif
- 
- modular_tcg = []
-+is_tcg_modular = false
- # Darwin does not support references to thread-local variables in modules
- if targetos != 'darwin'
-   modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
-+  is_tcg_modular = config_host.has_key('CONFIG_MODULES') \
-+                   and get_option('tcg').enabled() \
-+                   and not get_option('tcg_builtin')
- endif
- 
- edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
-@@ -279,6 +283,9 @@ if not get_option('tcg').disabled()
- 
-   accelerators += 'CONFIG_TCG'
-   config_host += { 'CONFIG_TCG': 'y' }
-+  if is_tcg_modular
-+    config_host += { 'CONFIG_TCG_MODULAR': 'y' }
-+  endif
- endif
- 
- if 'CONFIG_KVM' not in accelerators and get_option('kvm').enabled()
-@@ -1567,7 +1574,7 @@ foreach target : target_dirs
-       elif sym == 'CONFIG_XEN' and have_xen_pci_passthrough
-         config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
-       endif
--      if target in modular_tcg
-+      if target in modular_tcg and is_tcg_modular
-         config_target += { 'CONFIG_TCG_MODULAR': 'y' }
-       else
-         config_target += { 'CONFIG_TCG_BUILTIN': 'y' }
-@@ -2976,6 +2983,8 @@ summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
- if config_all.has_key('CONFIG_TCG')
-   if get_option('tcg_interpreter')
-     summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, experimental and slow)'}
-+  elif is_tcg_modular
-+    summary_info += {'TCG backend':   'module (@0@)'.format(cpu)}
-   else
-     summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
-   endif
-diff --git a/meson_options.txt b/meson_options.txt
-index a9a9b8f4c6..c27749b864 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -43,6 +43,8 @@ option('tcg', type: 'feature', value: 'auto',
-        description: 'TCG support')
- option('tcg_interpreter', type: 'boolean', value: false,
-        description: 'TCG with bytecode interpreter (experimental and slow)')
-+option('tcg_builtin', type: 'boolean', value: 'false',
-+       description: 'Force TCG builtin')
- option('cfi', type: 'boolean', value: 'false',
-        description: 'Control-Flow Integrity (CFI)')
- option('cfi_debug', type: 'boolean', value: 'false',
--- 
-2.32.0
+> The address calculation for IO regions introduced by
+>
+> commit 787148bf928a54b5cc86f5b434f9399e9737679c
+> Author: Aaron Lindsay <aaron@os.amperecomputing.com>
+>     plugins: Expose physical addresses instead of device offsets
 
+Queued to for-6.1/fixes-for-rc1, thanks.
+
+>
+> is not always accurate. Use the more correct
+> MemoryRegionSection.offset_within_address_space.
+> ---
+>  plugins/api.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/plugins/api.c b/plugins/api.c
+> index 5c1a413928..ba14e6f2b2 100644
+> --- a/plugins/api.c
+> +++ b/plugins/api.c
+> @@ -319,7 +319,7 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qe=
+mu_plugin_hwaddr *haddr)
+>              return block->offset + offset + block->mr->addr;
+>          } else {
+>              MemoryRegionSection *mrs =3D haddr->v.io.section;
+> -            return haddr->v.io.offset + mrs->mr->addr;
+> +            return mrs->offset_within_address_space + haddr->v.io.offset;
+>          }
+>      }
+>  #endif
+
+
+--=20
+Alex Benn=C3=A9e
 
