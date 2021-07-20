@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA953D0133
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:06:55 +0200 (CEST)
-Received: from localhost ([::1]:41880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B463D012F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:04:47 +0200 (CEST)
+Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5u8s-00026L-Fb
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:06:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34216)
+	id 1m5u6o-0004pf-8d
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:04:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m5u5K-0003Z7-1p
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:03:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59950)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5u55-0002nH-KW
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:02:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1m5u5I-00083P-BH
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:03:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5u52-0007ub-03
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:02:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626804191;
+ s=mimecast20190719; t=1626804175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FkHap5lcMSyPvtxQtE+yo00M0uainMVcsqYckiMFQ+0=;
- b=MsTBOHtBgFmjgZ5wU4HPEHteqwwVdSwVGOzmLrA/OWeF4tT9QajjaW5Apyq/t7mtzRZGq+
- wO+or23ykHmzYhieLveGb9BuscDP5GHreBClXDK0qM6IQAjIRr8MfpaKMdkseSOoAplm7V
- bgQzX+xAM+FvqWfElcrdyjzMImNmlEE=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-dAMAz99rOBWzev_BYQlM_Q-1; Tue, 20 Jul 2021 14:03:08 -0400
-X-MC-Unique: dAMAz99rOBWzev_BYQlM_Q-1
-Received: by mail-vs1-f69.google.com with SMTP id
- l18-20020a67f8120000b0290292c808d508so5158562vso.23
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:03:08 -0700 (PDT)
+ bh=XzxOiDcBkPOJqQOCoTMG+ciAfcJPoyfZbYFz0r0CV0A=;
+ b=M0X6hOYS8octxP1HuQj7RI1OBdaMSEJjH9Mp3hWuRfI1vkOJuMxJFlTW2ZmaIqMRmBif5g
+ kVvKntV8ru+T/EoUBnBu0F5cpxHaYH+iyaA+FHzW5tcgblLN5Rk0wMM/R+u7xWnpgXFm0V
+ EqlUBBe/0ICkUTKU/C27WlI7D2r0kCI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-varYYfH5Pi-xW9fR3lPSeg-1; Tue, 20 Jul 2021 14:02:53 -0400
+X-MC-Unique: varYYfH5Pi-xW9fR3lPSeg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r18-20020adff1120000b029013e2b4ee624so10671525wro.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:02:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=FkHap5lcMSyPvtxQtE+yo00M0uainMVcsqYckiMFQ+0=;
- b=ffAJeaTsLcQ8AkTmmkGTvL2l/V1SBYYJG3Uu1IEVHl57PdXhxMbTuTcb+lgU6QSWeK
- cPMZvRTRmmUW7i1+dy7ulH4T+3PiQxZVMfisf+Wx0qF/wckZx+I9ULhwrVISjnEtO8vd
- nkdRgvsSrH4FiQkkxLqvibb6rrxTH+v0WIlr+V9qyhdqng9xIW0EJ2WqeYBRtSlQyFyU
- 2LSw9x8fgeQ9FoF5JYdZpcjnPErHLq/6OYh3SBc99V/ZDe+Ghcpk4oMWMiQj9U76+JOU
- s9pdCc8l2Ycua5ee7Z6S4loL+1okNCiSA0WPTEGgKuixJJuHcC9cmenPNKtP2wJu1CKX
- FS3g==
-X-Gm-Message-State: AOAM530zSbJCfRGQAERelJB13R8a0F+5nSQsin/Lhf8dDad4OdshdEKl
- Stpn7ryzF3xzmHqGe9a1yzUMY99ghL0yeRT5CIf0gwxfitCHuFOZdNiuSvrJCYhHgt0Sroii0U6
- UMBVJOnobjJQgTLmDgZM6/+y81z3C17k=
-X-Received: by 2002:ab0:36c9:: with SMTP id v9mr12990180uau.5.1626804187742;
- Tue, 20 Jul 2021 11:03:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy89yKbpSqJ5GEqCDpuIhnz5D/IdESYtfqG7cKqmoKjGsju3sicmCMDY1aTEStep41S295swONFsudcbI+9hJ0=
-X-Received: by 2002:ab0:36c9:: with SMTP id v9mr12990153uau.5.1626804187591;
- Tue, 20 Jul 2021 11:03:07 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XzxOiDcBkPOJqQOCoTMG+ciAfcJPoyfZbYFz0r0CV0A=;
+ b=hIE/KxQFdwGMMODTvP3UeUUnUJYoZfh7XrXp8Hoo1bbCo2N1qIaMKkQyNcp7BVWpmY
+ DayEIVK8XGKMiraqyw4pC5riNbN6nhKd1vjn8oIpVMI3ICP/kcTYrf1DAgcuWZ0z53Om
+ 24hwVxMWOtPVBzQt4KH8I0IDOebSIt7H/1R6kNSkdPsW8MOZpQHTV+Of6DywoHZmFmXf
+ 1IgWShtWz5gds+Q8fyA0QKheZIFpJ2Xe5f0ra/nWr0dS30Z/gZ+0h3aW/9Ud/NeeLG89
+ zW0qIGGc56alPZeLZ+oVo/eovaWKD3A/l0zgJazT9OprWDuyOEusjJvX5T6MiNojrPzv
+ XMXA==
+X-Gm-Message-State: AOAM530NOMGjgt6W7+ROFaGu9SnJHOXgli6FEKArUfSnuPIQZTREYZ8Q
+ QRMAUOeEbYszhi8P3u0YfQmZIsJDeCP4RTad3ffHDW+G8eh1c7H02K1pii6zsny/GiZtVBgOlzO
+ FuG7H4Ue9LiXFEIw=
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr37615366wrm.145.1626804172901; 
+ Tue, 20 Jul 2021 11:02:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwUmTAGikjDdL1as5Tpf5Jj0q5ygmzHOWO0RIn4fYklJGeLY7SCAE7O7o1UOE0Kv6m9xjdxaQ==
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr37615337wrm.145.1626804172687; 
+ Tue, 20 Jul 2021 11:02:52 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id o6sm23970861wry.91.2021.07.20.11.02.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 20 Jul 2021 11:02:52 -0700 (PDT)
+Subject: Re: [PATCH 04/16] multi-process: Fix pci_proxy_dev_realize() error
+ handling
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210720125408.387910-1-armbru@redhat.com>
+ <20210720125408.387910-5-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <57b51182-3988-a9cc-10b6-ed2eac10937d@redhat.com>
+Date: Tue, 20 Jul 2021 20:02:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210720164829.3949558-1-philmd@redhat.com>
-In-Reply-To: <20210720164829.3949558-1-philmd@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Tue, 20 Jul 2021 15:02:41 -0300
-Message-ID: <CAKJDGDaeXSBNu7EW8QRfAd3m=v8eqmkwRz_JnGNYsDXk2VXVvw@mail.gmail.com>
-Subject: Re: [PATCH-for-6.1] gitlab-ci: Extract OpenSBI job rules to reusable
- section
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+In-Reply-To: <20210720125408.387910-5-armbru@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,43 +100,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 20, 2021 at 1:48 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> All jobs depending on 'docker-opensbi' job must use at most all
-> the rules that triggers it. The simplest way to ensure that
-> is to always use the same rules. Extract all the rules to a
-> reusable section, and include this section (with the 'extends'
-> keyword) in both 'docker-opensbi' and 'build-opensbi' jobs.
->
-> The problem was introduced in commit c6fc0fc1a71 ("gitlab-ci.yml:
-> Add jobs to build OpenSBI firmware binaries"), but was revealed in
-> commit 91e9c47e50a ("docker: OpenSBI build job depends on OpenSBI
-> container").
->
-> This fix is similar to the one used with the EDK2 firmware job in
-> commit ac0595cf6b3 ("gitlab-ci: Extract EDK2 job rules to reusable
-> section").
->
-> Reported-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 7/20/21 2:53 PM, Markus Armbruster wrote:
+> The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+> pointer to a variable containing NULL.  Passing an argument of the
+> latter kind twice without clearing it in between is wrong: if the
+> first call sets an error, it no longer points to NULL for the second
+> call.
+> 
+> pci_proxy_dev_realize() is wrong that way: it passes @errp to
+> qio_channel_new_fd() without checking for failure.  If it runs into
+> another failure, it trips error_setv()'s assertion.
+> 
+> Fix it to check for failure properly.
+> 
+> Fixes: 9f8112073aad8e485ac012ee18809457ab7f23a6
+> Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Cc: Jagannathan Raman <jag.raman@oracle.com>
+> Cc: John G Johnson <john.g.johnson@oracle.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
-> Latent bug on CI, safe for 6.1.
-> ---
->  .gitlab-ci.d/opensbi.yml | 28 +++++++++++++++++-----------
->  1 file changed, 17 insertions(+), 11 deletions(-)
->
+>  hw/remote/proxy.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
