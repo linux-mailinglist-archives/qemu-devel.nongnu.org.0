@@ -2,79 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2925D3D0218
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:18:20 +0200 (CEST)
-Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 701A63D0249
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:48:59 +0200 (CEST)
+Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5vFz-0000en-7e
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49448)
+	id 1m5vje-0002Rj-7b
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:48:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5vF8-0008Hc-DH
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:17:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52511)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1m5viL-0001bk-Ip
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:47:37 -0400
+Received: from mail-dm6nam12on2062f.outbound.protection.outlook.com
+ ([2a01:111:f400:fe59::62f]:4000
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5vF6-0008BC-1n
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:17:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626808643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gZR+eTRmp6tspEjiKlKWlx9Hc0jqy3DtjO36sSdNhuY=;
- b=AIEj/6Mqk8nplWaJNxopizXI2R157VLPrxOzAgB0/iTQzYBb//35ZZq21wf3bXpzV7wGP4
- aksL/WmUvYTxGvlw7NMTt+ewh3x7Ii+/hkNSyaVMo3XyegiriW5PRrgVUCwXonKr6siUTn
- MK/0ZdpzUpPkt+vQ2w1RFV0x0W4Hj74=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-F8RD1EvbPf2m05xk6Jxa7g-1; Tue, 20 Jul 2021 15:17:20 -0400
-X-MC-Unique: F8RD1EvbPf2m05xk6Jxa7g-1
-Received: by mail-ot1-f69.google.com with SMTP id
- i22-20020a9d65160000b02904d1a21b3fbcso2943347otl.8
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:17:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gZR+eTRmp6tspEjiKlKWlx9Hc0jqy3DtjO36sSdNhuY=;
- b=l60+PENRCjsigvVlvuJl/nJOO/4yWRiUk6MuuB44JDAeN17cFEfK6wFzhrtPH4O/to
- O83KFG34llxeasAiN8gSBhU8PFNzvB5/Q4G9OdI/PswBsRyBgnZ+9xJx/IWcUEUlhNZT
- dT/YpTsYylBocb2BQi0SNfNnNBIGSwQR7SM7LUXIR+xqdrdYp7fJPE3nj0dzdctMJTnj
- LETZ3t0bMj3Ury5VF5PLOFdlmcsoGtlDB+vtIP9/G2/NE+6lVMTdsDRzA6lnTZ5RPW8U
- AyHfGf8bQU2fb66WWxv2yy0P0Rj8mgjCORfUsKZGonlkqOmaIm1r6oSKB+a+flJpvjrS
- C10Q==
-X-Gm-Message-State: AOAM533Nfyjk7r7jlBeDEo3CLl0fXUz0Q2wgANNoYQ4JkB4HfPcZiAOV
- pyRpYke4WrnNBWQ8zXcrX7pfGmh5jgkI1fzw2SmG2Bi8ZNGAjQkZyFfquDgJF40CwQ4Si+87FJM
- YltKNR9KoN9DglXQoWLkWbwCC/Nf8ng4=
-X-Received: by 2002:a9d:2782:: with SMTP id c2mr23698223otb.323.1626808639585; 
- Tue, 20 Jul 2021 12:17:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlu1DiWxrb5nAh0eHhzsY+2ic2+gbqU2i4C1V+FXl3pFKbUPhL1jSj0mKJcOBPB7HrLgIUxmTowNgwxow/Sfw=
-X-Received: by 2002:a9d:2782:: with SMTP id c2mr23698205otb.323.1626808639430; 
- Tue, 20 Jul 2021 12:17:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1m5viI-0003B3-Ff
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:47:37 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XwvMQ4V0KZklGP2EQ3Eky4xN8bdwJa6+OmXpHa7yjDy6sGTV1inr2zukdNLwYO43r0h4cl7at9exr8E5XpUcyysWBQTRKn84xF0+jMCKertkLxkeeFiSCft8f037OR6XF+D4r/UvisFNAgwJyY2QVxoXEcy1jWCwGxkprFcYl12TH9ujDhcK5gpAO1deV1R8CUowyf73SW699sANTsqrd8RF2sX0XQmgu4i0JIaPeNU3akwhFg6bc4VLI0WXB/Jchn7XROwlj5u2Lnfvoa5zQ4xPqfMUgoGulfLodqwcDSVoDqRoivdBmDAu1Ip/iO9KOBFSU1pqSnWBP6LVuViVuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wxQ+D5CbxONi4hIPUlXYl/984y7Io33oqCyobhdciM0=;
+ b=X8ihJWV1Yj8OmJVe9V6vEXhGc+awWfc7Mfrw0AknQsUoerqUhfM9Wx5qz0DhA9bWDMSetZyWdUG7PhU2q99Tv4ULkJuFi3yK8RyFZJyf5bHAJRWsdMYCvG4RLm2g4pS0tjG6BRcbo3Dq8eONxlA1vSTzHiLGQkp5/gw+BtOjXYBOrq9kYuG0L6wjg9SFa4BKfp984hphNbRocSLZCsCU7LpWirQZ9xpTqma591YGOKgMQwTcYzo2VqnILFW8OpCcP69yPtRvZ36z2P4U74Zm6JRxggJt7LaRqt5+19n77FbmEbTvE12EMgdtrhucbQljWXFfyMGirhV7XFnqLIF7Ug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wxQ+D5CbxONi4hIPUlXYl/984y7Io33oqCyobhdciM0=;
+ b=5P8LmKUECAnatdjRLSYcIUwt+LufJWSVp9E/+rWlIUh39TT6H87Xjul+QNHJha8I5aae31oss9+WiF124pn+G3dk4sP0oS19WB5GMkKYoP51pD0WZyuLyqdKvm3nwwvVrIMUdGEy2Vcx/NifGqhEw/bciJpbpybffdNdeCqlQlQ=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
+ by CH2PR12MB4277.namprd12.prod.outlook.com (2603:10b6:610:ae::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.25; Tue, 20 Jul
+ 2021 19:42:29 +0000
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0]) by CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::d19e:b657:5259:24d0%9]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
+ 19:42:29 +0000
+Date: Tue, 20 Jul 2021 14:42:12 -0500
+From: Michael Roth <michael.roth@amd.com>
+To: Markus Armbruster <armbru@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org,
+ Connor Kuehl <ckuehl@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>, kvm@vger.kernel.org,
+ Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [RFC PATCH 2/6] i386/sev: extend sev-guest property to include
+ SEV-SNP
+Message-ID: <20210720194212.vjmsktx2ti3apv2d@amd.com>
+References: <20210709215550.32496-1-brijesh.singh@amd.com>
+ <20210709215550.32496-3-brijesh.singh@amd.com>
+ <87h7gy4990.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87h7gy4990.fsf@dusky.pond.sub.org>
+X-ClientProxiedBy: SA9PR10CA0002.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::7) To CH2PR12MB4133.namprd12.prod.outlook.com
+ (2603:10b6:610:7a::13)
 MIME-Version: 1.0
-References: <20210720173336.1876937-1-jsnow@redhat.com>
-In-Reply-To: <20210720173336.1876937-1-jsnow@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 20 Jul 2021 15:17:08 -0400
-Message-ID: <CAFn=p-apTsVqjE3yKzGHgDfWNr1_yzCzxa0jLDTZwLkXYhU-tw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/17] python/iotests: Run iotest linters during Python
- CI
-To: qemu-devel <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000001236cf05c792e7d6"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (165.204.77.1) by
+ SA9PR10CA0002.namprd10.prod.outlook.com (2603:10b6:806:a7::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 19:42:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 77f043ec-d94d-4324-0c23-08d94bb68256
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4277:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CH2PR12MB4277D39CD43F8D6C480D161F95E29@CH2PR12MB4277.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TUQuG1lW/YHlBy6AO5Ikwa3v6zMRw8DH+Fy6AeEMJh5oxPyE4G9kyIc/kQjAQSRT1x6ZbCD7X9TMNkZoqmiz3FmSQlPEx65hQWiZorHpuexB5BwMuQX5BlNWnv+On/MrV2XZ5EktPju+uNKta8cLcsbopcSCIzLHdr2Z0q4mQDLQvQ97w+AOH6ngQ+2yM2724JkHw3OAdQs39W0BCMzCGd0L9iYCq8bp24PwT3E47eCitHAj07T+NFiQ5+oW33/Qw4E/XO9AIS9YcP0kBI9XPxEg7mQnvYyQ75R2vHi4Vpcx5oQc08iT2ktVGVLgqwBwwlMB1a9hWd2Krsq7OK/UamawLmdr2hIZ4Wo4CvbObfGuHztvB5WS8nGxCuZIdLMDPyVXKnAvOKg7rJA2hHaUnX9f06hOHgjxz8FIho7M4eMWQPG+nzZJKYBJoEnHhcEjJnVG19HE5zGjHQHODgy4IKy8m96lcwL2704Dk3Qnx+waZVtv5lXN/3fjP5/uhzbUZJreP6M/Njl4UaiPJR92LvTQc+c7cawdkgfS0zOTiYh98Ammor0N22DTdWBBohjRBDIncZDI13UQgMzYMtkns1lAyCY+KILpIatebu5T74Ab9UbrVfLs+aaqRJoYMncZWz1GdC6HtrNvvR6Hf3Rsw/o4EyKLZbE6HIp445frUgzpXcgwleF7OsCtrX7UkCM12OyLeWQNYewWbQTJ6I0Qm8OWD1OSr7IKmdHsfR+6enZCzptxir6JeuBgjMOZxgw8yOeCoJhykyw4WFGKOVDqC3/STHTwLxZKsGa8dqBa7WY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(39860400002)(136003)(346002)(366004)(4326008)(6666004)(478600001)(66946007)(36756003)(186003)(7416002)(8676002)(66556008)(8936002)(86362001)(83380400001)(110136005)(54906003)(66476007)(6486002)(5660300002)(956004)(966005)(26005)(2616005)(6496006)(52116002)(2906002)(44832011)(316002)(1076003)(38100700002)(38350700002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jUEiv9GmhDVHyNpIOnZLtfUEqkGcrTbE8wIp4rf4DEOqikAhycroHkSCcJRT?=
+ =?us-ascii?Q?LaUtArgFzA1sksiUQYEuZNQdaLYED5t/GtwCHx3iFtEJLWLL0WbS8ZgjeH9k?=
+ =?us-ascii?Q?Cu6Cd6pZSpRQ+CnH2nDvfIpkP7Cyj8TTnE+d9Zx3opq/l0xz47uxMe7UaqGN?=
+ =?us-ascii?Q?2RuP8sf+F+ls/dOrZNDZX2y089+IfmVly5O/Wlk157hTyIrdrTOdTJeu4FCt?=
+ =?us-ascii?Q?O9iuwcYerDyOsnfvbq0KBuT7tJtjxSKxgQIklF9BbGf+7seorpQEuT+il/bK?=
+ =?us-ascii?Q?11JmlSWq64GyZ/y6h4Jo85AqeCDHdMfiHfmH2tBqCMyGjuZLWtOnn38z1NXH?=
+ =?us-ascii?Q?IPVyNvK1j0sEjRBrG7LLKnvF8ILGNp+Y0whKypgY6G0yxJbFGkuRxmq9NoKQ?=
+ =?us-ascii?Q?iEECrujdkS0t5Q+93KN49W1wUD9viW8ydAD1uecbCtmZO8ubAhd32Sj/wh7N?=
+ =?us-ascii?Q?jvz5PMxMLKhM1oJFBLqfVnz9Iqm1dyn7++MDPtUS++AIxFPs3xEkKrGoAP39?=
+ =?us-ascii?Q?WnhCTLFcvTpX9gvXPxmp8Ne9Q3Qp+BBu1KEroa2KrUglT44meAKcDHPU4YyA?=
+ =?us-ascii?Q?3bhklXsXVF29olRPRq4DScS1IoWTOWD0UAp0mrErSrMGtj3OiqWHR541eTOM?=
+ =?us-ascii?Q?dmmeCqTSuctfQTlb0DHHicqkh8f9vFQKsaslvdlgKKRLExwB7v7kuY6bbPXg?=
+ =?us-ascii?Q?ckubAxxJezrHYiK9SM2nkbf6GHRUTVOjU0SEWpKtgy1GOOCWN+eaKb89TexY?=
+ =?us-ascii?Q?7wPpNJECWtvq6DfQouNbBhUWgYpQ8zkNMkssF45Sq3YXWQgNOZYB9sNBnP4H?=
+ =?us-ascii?Q?cLzPFXS2Erq5dvRT24wgWxNh1Ham/lrrbA7xAUHHA3DjcBQfPAB8JZAElrLG?=
+ =?us-ascii?Q?XuFZ/qI8AdUEyQfgv9EKZi9DQSWLx0vHC3/TfbfSg2FntsBIP4L7Q/LS06Mm?=
+ =?us-ascii?Q?17DtMrjACOP3pMC+7LJlcXL8F4SB3gMCGKiE5dsN+l0TCvAMaNr4bUWSn4/V?=
+ =?us-ascii?Q?MdxZvav/81aBjWlBOsQtAOHTIZW1hWrncgMOoqm/MpcDIgff8fuDL6W7yrl5?=
+ =?us-ascii?Q?PsCbPDLKPSo6l/GZRlE4EJ/3tPhZL+pL+3AEiugO/9U3crHq3QwgLxkN88p7?=
+ =?us-ascii?Q?Tz812Lp03GqoVs+C7eRlC76bHfHWhn1LMea/U3MuGEpk5J47lSCPtWYhe3a6?=
+ =?us-ascii?Q?FjETrkhs0D4bfmAyKbB310gIar8ZRqMfMTwQpN3g8fHyTMQNzk9K2qGn6w6Z?=
+ =?us-ascii?Q?M4KlzZZsZOK+37Kq0SOtEY1suHN+t90W8T1TDhGSnqJOeHAicDX2TRzr/7iE?=
+ =?us-ascii?Q?fsET1AYK9iJn9kpYOpdQpvzg?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77f043ec-d94d-4324-0c23-08d94bb68256
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 19:42:29.5271 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: spqPzsncBBF6pTAdG+OoZUmyLbvcsGHxuU4nO6IVk+YlxaIHQAJGHtBZsrivElIK7G1pSqXWbub0Io7LMeGdXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4277
+Received-SPF: softfail client-ip=2a01:111:f400:fe59::62f;
+ envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,261 +148,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001236cf05c792e7d6
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Jul 13, 2021 at 03:46:19PM +0200, Markus Armbruster wrote:
+> Brijesh Singh <brijesh.singh@amd.com> writes:
+> 
+> > To launch the SEV-SNP guest, a user can specify up to 8 parameters.
+> > Passing all parameters through command line can be difficult. To simplify
+> > the launch parameter passing, introduce a .ini-like config file that can be
+> > used for passing the parameters to the launch flow.
+> >
+> > The contents of the config file will look like this:
+> >
+> > $ cat snp-launch.init
+> >
+> > # SNP launch parameters
+> > [SEV-SNP]
+> > init_flags = 0
+> > policy = 0x1000
+> > id_block = "YWFhYWFhYWFhYWFhYWFhCg=="
+> >
+> >
+> > Add 'snp' property that can be used to indicate that SEV guest launch
+> > should enable the SNP support.
+> >
+> > SEV-SNP guest launch examples:
+> >
+> > 1) launch without additional parameters
+> >
+> >   $(QEMU_CLI) \
+> >     -object sev-guest,id=sev0,snp=on
+> >
+> > 2) launch with optional parameters
+> >   $(QEMU_CLI) \
+> >     -object sev-guest,id=sev0,snp=on,launch-config=<file>
+> >
+> > Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> 
+> I acknowledge doing complex configuration on the command line can be
+> awkward.  But if we added a separate configuration file for every
+> configurable thing where that's the case, we'd have too many already,
+> and we'd constantly grow more.  I don't think this is a viable solution.
+> 
+> In my opinion, much of what we do on the command line should be done in
+> configuration files instead.  Not in several different configuration
+> languages, mind, but using one common language for all our configuration
+> needs.
+> 
+> Some of us argue this language already exists: QMP.  It can't do
+> everything the command line can do, but that's a matter of putting in
+> the work.  However, JSON isn't a good configuration language[1].  To get
+> a decent one, we'd have to to extend JSON[2], or wrap another concrete
+> syntax around QMP's abstract syntax.
+> 
+> But this doesn't help you at all *now*.
+> 
+> I recommend to do exactly what we've done before for complex
+> configuration: define it in the QAPI schema, so we can use both dotted
+> keys and JSON on the command line, and can have QMP, too.  Examples:
+> -blockdev, -display, -compat.
+> 
+> Questions?
 
-I realize that some of this has been covered before:
-https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg04221.html
+Hi Markus, Daniel,
 
-Missed it at the time -- I suppose these patches never went in. I'll rebase
-my series and front-load these patches.
+I'm dealing with similar considerations with some SNP config options
+relating to CPUID enforcement, so I've started looking into this as
+well, but am still a little confused on the best way to proceed.
 
---js
+I see that -blockdev supports both JSON command-line arguments (via
+qobject_input_visitor_new) and dotted keys
+(via qobject_input_vistior_new_keyval).
 
-On Tue, Jul 20, 2021 at 1:33 PM John Snow <jsnow@redhat.com> wrote:
+We could introduce a new config group do the same, maybe something specific
+to ConfidentialGuestSupport objects, e.g.:
 
-> GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-package-iotest
-> CI: https://gitlab.com/jsnow/qemu/-/pipelines/340144191
->
-> Since iotests are such a heavy and prominent user of the Python qemu.qmp
-> and qemu.machine packages, it would be convenient if the Python linting
-> suite also checked this client for any possible regressions introduced
-> by shifting around signatures, types, or interfaces in these packages.
->
-> (We'd eventually find those problems when iotest 297 ran, but with
-> increasing distance between Python development and Block development,
-> the risk of an accidental breakage in this regard increases. I,
-> personally, know to run iotests (and especially 297) after changing
-> Python code, but not everyone in the future might. Plus, I am lazy, and
-> I like only having to push one button.)
->
-> Add the ability for the Python CI to run the iotest linters too, which
-> means that the iotest linters would be checked against:
->
-> - Python 3.6, using a frozen set of linting packages at their oldest
->   supported versions, using 'pipenv'
-> - Python 3.6 through Python 3.10 inclusive, using 'tox' and the latest
->   versions of mypy/pylint that happen to be installed during test
->   time. This CI test is allowed to fail with a warning, and can serve
->   as a bellwether for when new incompatible changes may disrupt the
->   linters. Testing against old and new Python interpreters alike can
->   help surface incompatibility issues we may need to be aware of.)
->
-> Here are example outputs of those CI jobs with this series applied:
->  - "check-python-pipenv": https://gitlab.com/jsnow/qemu/-/jobs/1377735087
->  - "check-python-tox": https://gitlab.com/jsnow/qemu/-/jobs/1377735088
->
-> You can also run these same tests locally from ./python, plus one more:
->
-> - "make check-dev" to test against whatever python you have.
-> - "make check-pipenv", if you have Python 3.6 and pipenv installed.
-> - "make check-tox", if you have Python 3.6 through Python 3.10 installed.
->
-> See the old commit message for more sample output, etc.
->
-> https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg07056.html
->
-> V2:
->  - Added patches 1-5 which do some more delinting.
->  - Added patch 8, which scans subdirs for tests to lint.
->  - Added patch 17, which improves the speed of mypy analysis.
->  - Patch 14 is different because of the new patch 8.
->
-> Unreviewed patches:
->
-> [01] iotests-use-with-statement-for # [SOB] JS
-> [02] iotests-use-subprocess.devnull # [SOB] JS
-> [03] iotests-mirror-top-perms       # [SOB] JS
-> [04] iotests-migrate-bitmaps        # [SOB] JS
-> [05] iotests-migrate-bitmaps-test   # [SOB] JS
-> [07] iotests-297-add-get_files      # [SOB] JS
-> [08] wip-make-the-test-finding      # [SOB] JS
-> [14] iotests-297-split-linters-py   # [SOB] JS
-> [17] iotests-297-check-mypy-files   # [SOB] JS
->
-> --js
->
-> John Snow (17):
->   iotests: use with-statement for open() calls
->   iotests: use subprocess.DEVNULL instead of open("/dev/null")
->   iotests/mirror-top-perms: Adjust import paths
->   iotests/migrate-bitmaps-postcopy-test: declare instance variables
->   iotests/migrate-bitmaps-test: delint
->   iotests/297: modify is_python_file to work from any CWD
->   iotests/297: Add get_files() function
->   iotests/297: Include sub-directories when finding tests to lint
->   iotests/297: Don't rely on distro-specific linter binaries
->   iotests/297: Create main() function
->   iotests/297: Separate environment setup from test execution
->   iotests/297: Add 'directory' argument to run_linters
->   iotests/297: return error code from run_linters()
->   iotests/297: split linters.py off from 297
->   iotests/linters: Add entry point for Python CI linters
->   python: Add iotest linters to test suite
->   iotests/linters: check mypy files all at once
->
->  python/tests/iotests.sh                       |   2 +
->  tests/qemu-iotests/297                        |  80 ++---------
->  tests/qemu-iotests/iotests.py                 |  21 +--
->  tests/qemu-iotests/linters.py                 | 130 ++++++++++++++++++
->  .../tests/migrate-bitmaps-postcopy-test       |   3 +
->  tests/qemu-iotests/tests/migrate-bitmaps-test |  70 +++++-----
->  tests/qemu-iotests/tests/mirror-top-perms     |   7 +-
->  7 files changed, 198 insertions(+), 115 deletions(-)
->  create mode 100755 python/tests/iotests.sh
->  create mode 100755 tests/qemu-iotests/linters.py
->
-> --
-> 2.31.1
->
->
->
+  -confidential-guest-support sev-guest,id=sev0,key_a.subkey_b=...
 
---0000000000001236cf05c792e7d6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+and use the same mechanisms to parse the options, but this seems to
+either involve adding a layer of option translations between command-line
+and the underlying object properties, or, if we keep the 1:1 mapping
+between QAPI-defined keys and object properties, it basically becomes a
+way to pass a different Visitor implementation into object_property_set(),
+in this case one created by object_input_visitor_new_keyval() instead of
+opts_visitor_new().
 
-<div dir=3D"ltr"><div>I realize that some of this has been covered before: =
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg04221.h=
-tml">https://lists.gnu.org/archive/html/qemu-devel/2021-05/msg04221.html</a=
-></div><div><br></div><div>Missed it at the time -- I suppose these patches=
- never went in. I&#39;ll rebase my series and front-load these patches.</di=
-v><div><br></div><div>--js<br></div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 20, 2021 at 1:33 PM John Sn=
-ow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">GitLab: <a href=
-=3D"https://gitlab.com/jsnow/qemu/-/commits/python-package-iotest" rel=3D"n=
-oreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/commits/python=
--package-iotest</a><br>
-CI: <a href=3D"https://gitlab.com/jsnow/qemu/-/pipelines/340144191" rel=3D"=
-noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/pipelines/340=
-144191</a><br>
-<br>
-Since iotests are such a heavy and prominent user of the Python qemu.qmp<br=
->
-and qemu.machine packages, it would be convenient if the Python linting<br>
-suite also checked this client for any possible regressions introduced<br>
-by shifting around signatures, types, or interfaces in these packages.<br>
-<br>
-(We&#39;d eventually find those problems when iotest 297 ran, but with<br>
-increasing distance between Python development and Block development,<br>
-the risk of an accidental breakage in this regard increases. I,<br>
-personally, know to run iotests (and especially 297) after changing<br>
-Python code, but not everyone in the future might. Plus, I am lazy, and<br>
-I like only having to push one button.)<br>
-<br>
-Add the ability for the Python CI to run the iotest linters too, which<br>
-means that the iotest linters would be checked against:<br>
-<br>
-- Python 3.6, using a frozen set of linting packages at their oldest<br>
-=C2=A0 supported versions, using &#39;pipenv&#39;<br>
-- Python 3.6 through Python 3.10 inclusive, using &#39;tox&#39; and the lat=
-est<br>
-=C2=A0 versions of mypy/pylint that happen to be installed during test<br>
-=C2=A0 time. This CI test is allowed to fail with a warning, and can serve<=
-br>
-=C2=A0 as a bellwether for when new incompatible changes may disrupt the<br=
->
-=C2=A0 linters. Testing against old and new Python interpreters alike can<b=
-r>
-=C2=A0 help surface incompatibility issues we may need to be aware of.)<br>
-<br>
-Here are example outputs of those CI jobs with this series applied:<br>
-=C2=A0- &quot;check-python-pipenv&quot;: <a href=3D"https://gitlab.com/jsno=
-w/qemu/-/jobs/1377735087" rel=3D"noreferrer" target=3D"_blank">https://gitl=
-ab.com/jsnow/qemu/-/jobs/1377735087</a><br>
-=C2=A0- &quot;check-python-tox&quot;: <a href=3D"https://gitlab.com/jsnow/q=
-emu/-/jobs/1377735088" rel=3D"noreferrer" target=3D"_blank">https://gitlab.=
-com/jsnow/qemu/-/jobs/1377735088</a><br>
-<br>
-You can also run these same tests locally from ./python, plus one more:<br>
-<br>
-- &quot;make check-dev&quot; to test against whatever python you have.<br>
-- &quot;make check-pipenv&quot;, if you have Python 3.6 and pipenv installe=
-d.<br>
-- &quot;make check-tox&quot;, if you have Python 3.6 through Python 3.10 in=
-stalled.<br>
-<br>
-See the old commit message for more sample output, etc.<br>
-<br>
-<a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-06/msg07056.h=
-tml" rel=3D"noreferrer" target=3D"_blank">https://lists.gnu.org/archive/htm=
-l/qemu-devel/2021-06/msg07056.html</a><br>
-<br>
-V2:<br>
-=C2=A0- Added patches 1-5 which do some more delinting.<br>
-=C2=A0- Added patch 8, which scans subdirs for tests to lint.<br>
-=C2=A0- Added patch 17, which improves the speed of mypy analysis.<br>
-=C2=A0- Patch 14 is different because of the new patch 8.<br>
-<br>
-Unreviewed patches:<br>
-<br>
-[01] iotests-use-with-statement-for # [SOB] JS<br>
-[02] iotests-use-subprocess.devnull # [SOB] JS<br>
-[03] iotests-mirror-top-perms=C2=A0 =C2=A0 =C2=A0 =C2=A0# [SOB] JS<br>
-[04] iotests-migrate-bitmaps=C2=A0 =C2=A0 =C2=A0 =C2=A0 # [SOB] JS<br>
-[05] iotests-migrate-bitmaps-test=C2=A0 =C2=A0# [SOB] JS<br>
-[07] iotests-297-add-get_files=C2=A0 =C2=A0 =C2=A0 # [SOB] JS<br>
-[08] wip-make-the-test-finding=C2=A0 =C2=A0 =C2=A0 # [SOB] JS<br>
-[14] iotests-297-split-linters-py=C2=A0 =C2=A0# [SOB] JS<br>
-[17] iotests-297-check-mypy-files=C2=A0 =C2=A0# [SOB] JS<br>
-<br>
---js<br>
-<br>
-John Snow (17):<br>
-=C2=A0 iotests: use with-statement for open() calls<br>
-=C2=A0 iotests: use subprocess.DEVNULL instead of open(&quot;/dev/null&quot=
-;)<br>
-=C2=A0 iotests/mirror-top-perms: Adjust import paths<br>
-=C2=A0 iotests/migrate-bitmaps-postcopy-test: declare instance variables<br=
->
-=C2=A0 iotests/migrate-bitmaps-test: delint<br>
-=C2=A0 iotests/297: modify is_python_file to work from any CWD<br>
-=C2=A0 iotests/297: Add get_files() function<br>
-=C2=A0 iotests/297: Include sub-directories when finding tests to lint<br>
-=C2=A0 iotests/297: Don&#39;t rely on distro-specific linter binaries<br>
-=C2=A0 iotests/297: Create main() function<br>
-=C2=A0 iotests/297: Separate environment setup from test execution<br>
-=C2=A0 iotests/297: Add &#39;directory&#39; argument to run_linters<br>
-=C2=A0 iotests/297: return error code from run_linters()<br>
-=C2=A0 iotests/297: split linters.py off from 297<br>
-=C2=A0 iotests/linters: Add entry point for Python CI linters<br>
-=C2=A0 python: Add iotest linters to test suite<br>
-=C2=A0 iotests/linters: check mypy files all at once<br>
-<br>
-=C2=A0python/tests/iotests.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
-=C2=A0tests/qemu-iotests/297=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 80 ++---------<br>
-=C2=A0tests/qemu-iotests/iotests.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 21 +--<br>
-=C2=A0tests/qemu-iotests/linters.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 130 ++++++++++++++++++<br>
-=C2=A0.../tests/migrate-bitmaps-postcopy-test=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A03 +<br>
-=C2=A0tests/qemu-iotests/tests/migrate-bitmaps-test |=C2=A0 70 +++++-----<b=
-r>
-=C2=A0tests/qemu-iotests/tests/mirror-top-perms=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-=C2=A07 +-<br>
-=C2=A07 files changed, 198 insertions(+), 115 deletions(-)<br>
-=C2=A0create mode 100755 python/tests/iotests.sh<br>
-=C2=A0create mode 100755 tests/qemu-iotests/linters.py<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div>
+In either case, genericizing it beyond CGS/SEV would basically be
+introducing:
 
---0000000000001236cf05c792e7d6--
+  -object2 sev-guest,id=sev0,key_a.subkey_b=...
 
+Which one seems preferable? Or is the answer neither?
+
+I've also been looking at whether this could all be handled via -object,
+and it seems -object already supports JSON command-line arguments, and that
+switching it from using OptsVisitor to QObjectVisitor for non-JSON case
+would be enough to have it handle dotted keys, but I'm not sure what the
+fall-out would be compatibility-wise.
+
+All lot of that falls under making sure the QObject/keyval parser is
+compatible with existing command-lines parsed via OptsVisitor. One example
+where there still seems to be a difference is lack of support for ranges
+such as "cpus=1-4" in keyval parser. Daniel had a series that addressed
+this:
+
+  https://lists.gnu.org/archive/html/qemu-devel/2016-09/msg08248.html
+
+but it doesn't seem to have made it into the tree, which is why I feel like
+maybe there are complications with this approach I haven't considered?
+
+Thanks!
+
+-Mike
+
+> 
+> 
+> [1] https://www.lucidchart.com/techblog/2018/07/16/why-json-isnt-a-good-configuration-language/
+> 
+> [2] Thanks, but no thanks.  Let's make new and interesting mistakes
+> instead of repeating old and tired ones.
+> 
 
