@@ -2,80 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E8BE3D05E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:54:33 +0200 (CEST)
-Received: from localhost ([::1]:50138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC9B3D0572
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:33:53 +0200 (CEST)
+Received: from localhost ([::1]:42550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zZI-0000Z5-KS
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43874)
+	id 1m5zFI-0008HZ-Ef
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zPV-0004tL-G1
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:44:26 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52103)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zPS-00086s-50
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:44:25 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id n4so311543wms.1
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:44:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=e6HXaeadufTGc/jHjJoB/6ewRfmrNCAr+yGlUDq0TRk=;
- b=McCdR4NeM9p61RbOPhJXh/VlWuePg8fu/owQa0TrF37pEUeYMR0rgvX0b4JrNXVWbR
- 1JWAf2SvbnEV75uraJ0c3SR3q8XYlMCpG3zvKLgCqH3guYwdflPH6g5i65okdQmcXxqt
- lpe8hFj1Zw8IfWOGbV9940igvyekEdm5cR19zxXRMm9Rukmbd5eF3UfIGntmIB4Dt6fO
- p0vdhOkq+yxfej5zVwMhFF3rCUrRzier0rqm8gFJR/SCMA4dFzcEheNoldGH16Wn3Je/
- 3OvGGXLaw6Zg13amyhqFwehCFsvPhwZ7BH4t0u+kY+eY0yM63aW8IbbsnG9HhSv9IsSg
- lm0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=e6HXaeadufTGc/jHjJoB/6ewRfmrNCAr+yGlUDq0TRk=;
- b=tGayK0hLr5MNG+e9DmE7HxL8wqVbjvW+KzcH+4Ycq+BDjDG8+TardZIfHvLZbFQ90z
- U/JhRESfF0BLdFVdb5Ze3JY1DNPkFi7AoIdrBlVTlUoUp/JUTy3F5BpLneqbNni0Z3jp
- 8PH7+zEicJXOLKGERPoP8b1CLJAmud2FKSpJe8qdTUTTj3QGxVC6p8sigXdmOHzBWwBv
- KsjSk8909voSETNCQB+4xP7J9u2Jg4OnSnDRovKMi4LC1Xky01CeqBvAv3/rtrlkJ22E
- FcpahoSoMVrMPTBFf1PHYFs+vvMdbkpU+dRNZyQF5lplh4X/oK7BM3p+dMJTFxDApiz6
- DlTQ==
-X-Gm-Message-State: AOAM530VOdLp3v1Y4w5f5JiD2kYCK6+k26jFi0DHneWoE3mQgjno5gvI
- TY4+kQCgAuUEeGva6DrZkZypRQ==
-X-Google-Smtp-Source: ABdhPJwprxl3kqEHr96srhsLm0BSbgnw0TITR5smlt6ucoLavJGIgIM0L8AmHCUHBSmJxkDpSu0cEw==
-X-Received: by 2002:a05:600c:198a:: with SMTP id
- t10mr989485wmq.32.1626824660574; 
- Tue, 20 Jul 2021 16:44:20 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o14sm3669283wmq.31.2021.07.20.16.44.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 16:44:18 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8F5D41FFB4;
- Wed, 21 Jul 2021 00:27:06 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 29/29] gitlab-ci: Extract OpenSBI job rules to reusable
- section
-Date: Wed, 21 Jul 2021 00:27:03 +0100
-Message-Id: <20210720232703.10650-30-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
-In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
-References: <20210720232703.10650-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1m5zBL-00012O-4F
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:29:47 -0400
+Received: from mga06.intel.com ([134.134.136.31]:48205)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1m5zBI-0007A8-N7
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:29:46 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10051"; a="272458533"
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="272458533"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 16:29:41 -0700
+X-IronPort-AV: E=Sophos;i="5.84,256,1620716400"; d="scan'208";a="500999139"
+Received: from dongwonk-mobl.amr.corp.intel.com ([10.254.47.107])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 16:29:40 -0700
+Date: Tue, 20 Jul 2021 16:29:39 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH 2/2] ui/gtk-egl: blitting partial guest fb to the proper
+ scanout surface
+Message-ID: <20210720232939.GA4599@dongwonk-MOBL.amr.corp.intel.com>
+References: <20210706235255.7575-1-dongwon.kim@intel.com>
+ <20210706235255.7575-2-dongwon.kim@intel.com>
+ <deb85d9e91d349548e0457da45c977b8@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <deb85d9e91d349548e0457da45c977b8@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=134.134.136.31;
+ envelope-from=dongwon.kim@intel.com; helo=mga06.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,93 +61,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Sun, Jul 18, 2021 at 11:35:35PM -0700, Kasireddy, Vivek wrote:
+> Hi DW,
+> 
+> > eb_fb_blit needs more parameters which describe x and y offsets and width
+> > and height of the actual scanout to specify the size and cordination of
+> > partial image to blit in the guest fb in case the guest fb contains multiple
+> > display outputs.
+> > 
+> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> > ---
+> >  hw/display/virtio-gpu-udmabuf.c |  4 ++--
+> >  include/ui/egl-helpers.h        |  2 +-
+> >  ui/egl-headless.c               |  2 +-
+> >  ui/egl-helpers.c                | 10 ++++++----
+> >  ui/gtk-egl.c                    |  7 ++++---
+> >  ui/sdl2-gl.c                    |  2 +-
+> >  6 files changed, 15 insertions(+), 12 deletions(-)
+> > 
+> > diff --git a/hw/display/virtio-gpu-udmabuf.c b/hw/display/virtio-gpu-udmabuf.c
+> [Kasireddy, Vivek] You might not want to mix virtio-gpu and UI changes in the same patch.
+[DW] Yeah, I will split it.
 
-All jobs depending on 'docker-opensbi' job must use at most all
-the rules that triggers it. The simplest way to ensure that
-is to always use the same rules. Extract all the rules to a
-reusable section, and include this section (with the 'extends'
-keyword) in both 'docker-opensbi' and 'build-opensbi' jobs.
+> 
+> > index a64194c6de..3ea6e76371 100644
+> > --- a/hw/display/virtio-gpu-udmabuf.c
+> > +++ b/hw/display/virtio-gpu-udmabuf.c
+> > @@ -186,8 +186,8 @@ static VGPUDMABuf
+> >      dmabuf->buf.stride = fb->stride;
+> >      dmabuf->buf.x = r->x;
+> >      dmabuf->buf.y = r->y;
+> > -    dmabuf->buf.scanout_width;
+> > -    dmabuf->buf.scanout_height;
+> > +    dmabuf->buf.scanout_width = r->width;
+> > +    dmabuf->buf.scanout_height = r->height;
+> >      dmabuf->buf.fourcc = qemu_pixman_to_drm_format(fb->format);
+> >      dmabuf->buf.fd = res->dmabuf_fd;
+> > 
+> > diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
+> > index f1bf8f97fc..e21118501e 100644
+> > --- a/include/ui/egl-helpers.h
+> > +++ b/include/ui/egl-helpers.h
+> > @@ -26,7 +26,7 @@ void egl_fb_setup_default(egl_fb *fb, int width, int height);
+> >  void egl_fb_setup_for_tex(egl_fb *fb, int width, int height,
+> >                            GLuint texture, bool delete);
+> >  void egl_fb_setup_new_tex(egl_fb *fb, int width, int height);
+> > -void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip);
+> > +void egl_fb_blit(egl_fb *dst, egl_fb *src, int x, int y, int w, int h, bool flip);
+> >  void egl_fb_read(DisplaySurface *dst, egl_fb *src);
+> > 
+> >  void egl_texture_blit(QemuGLShader *gls, egl_fb *dst, egl_fb *src, bool flip);
+> > diff --git a/ui/egl-headless.c b/ui/egl-headless.c
+> > index da377a74af..bdf10fec84 100644
+> > --- a/ui/egl-headless.c
+> > +++ b/ui/egl-headless.c
+> > @@ -144,7 +144,7 @@ static void egl_scanout_flush(DisplayChangeListener *dcl,
+> >                            1.0, 1.0);
+> >      } else {
+> >          /* no cursor -> use simple framebuffer blit */
+> > -        egl_fb_blit(&edpy->blit_fb, &edpy->guest_fb, edpy->y_0_top);
+> > +        egl_fb_blit(&edpy->blit_fb, &edpy->guest_fb, x, y, w, h, edpy->y_0_top);
+> >      }
+> > 
+> >      egl_fb_read(edpy->ds, &edpy->blit_fb);
+> > diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
+> > index 6d0cb2b5cb..2af3dcc0a6 100644
+> > --- a/ui/egl-helpers.c
+> > +++ b/ui/egl-helpers.c
+> > @@ -88,16 +88,18 @@ void egl_fb_setup_new_tex(egl_fb *fb, int width, int height)
+> >      egl_fb_setup_for_tex(fb, width, height, texture, true);
+> >  }
+> > 
+> > -void egl_fb_blit(egl_fb *dst, egl_fb *src, bool flip)
+> > +void egl_fb_blit(egl_fb *dst, egl_fb *src, int x, int y, int w, int h, bool flip)
+> [Kasireddy, Vivek] Instead of explicitly passing x, y, w, h to egl_fb_blit, would you be not
+> be able to use the dmabuf member that would be added to egl_fb that would contain x, y, w and h:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg06746.html
 
-The problem was introduced in commit c6fc0fc1a71 ("gitlab-ci.yml:
-Add jobs to build OpenSBI firmware binaries"), but was revealed in
-commit 91e9c47e50a ("docker: OpenSBI build job depends on OpenSBI
-container").
+[DW] sounds like a valid idea but wouldn't it be making this function
+too specific? I think it is reasonable to specify the offset and the
+size of blitted area.. although I agree that having too many parameters
+don't look good.
 
-This fix is similar to the one used with the EDK2 firmware job in
-commit ac0595cf6b3 ("gitlab-ci: Extract EDK2 job rules to reusable
-section").
+> 
+> 
+> >  {
+> >      GLuint y1, y2;
+> > 
+> >      glBindFramebuffer(GL_READ_FRAMEBUFFER, src->framebuffer);
+> >      glBindFramebuffer(GL_DRAW_FRAMEBUFFER, dst->framebuffer);
+> >      glViewport(0, 0, dst->width, dst->height);
+> > -    y1 = flip ? src->height : 0;
+> > -    y2 = flip ? 0 : src->height;
+> > -    glBlitFramebuffer(0, y1, src->width, y2,
+> > +    w = (x + w) > src->width ? src->width - x : w;
+> > +    h = (y + h) > src->height ? src->height - y : h;
+> > +    y1 = flip ? h + y : y;
+> > +    y2 = flip ? y : h + y;
+> > +    glBlitFramebuffer(x, y1, x + w, y2,
+> [Kasireddy, Vivek] While you are at it, could you please create new local variables x1, y1, x2, y2
+> to store the above values and pass them to glBlitFramebuffer to improve the readability of this code? 
+[DW] I will think about making this look more undertandable.
 
-Reported-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210720164829.3949558-1-philmd@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- .gitlab-ci.d/opensbi.yml | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
-
-diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
-index f66cd1d908..d8a0456679 100644
---- a/.gitlab-ci.d/opensbi.yml
-+++ b/.gitlab-ci.d/opensbi.yml
-@@ -1,10 +1,23 @@
--docker-opensbi:
-- stage: containers
-- rules: # Only run this job when the Dockerfile is modified
-+# All jobs needing docker-opensbi must use the same rules it uses.
-+.opensbi_job_rules:
-+ rules: # Only run this job when ...
-  - changes:
-+   # this file is modified
-    - .gitlab-ci.d/opensbi.yml
-+   # or the Dockerfile is modified
-    - .gitlab-ci.d/opensbi/Dockerfile
-    when: always
-+ - changes: # or roms/opensbi/ is modified (submodule updated)
-+   - roms/opensbi/*
-+   when: always
-+ - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
-+   when: always
-+ - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
-+   when: always
-+
-+docker-opensbi:
-+ extends: .opensbi_job_rules
-+ stage: containers
-  image: docker:19.03.1
-  services:
-  - docker:19.03.1-dind
-@@ -24,16 +37,9 @@ docker-opensbi:
-  - docker push $IMAGE_TAG
- 
- build-opensbi:
-+ extends: .opensbi_job_rules
-  stage: build
-  needs: ['docker-opensbi']
-- rules: # Only run this job when ...
-- - changes: # ... roms/opensbi/ is modified (submodule updated)
--   - roms/opensbi/*
--   when: always
-- - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
--   when: always
-- - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
--   when: always
-  artifacts:
-    paths: # 'artifacts.zip' will contains the following files:
-    - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
--- 
-2.32.0.264.g75ae10bc75
-
+> 
+> Thanks,
+> Vivek
+> >                        0, 0, dst->width, dst->height,
+> >                        GL_COLOR_BUFFER_BIT, GL_LINEAR);
+> >  }
+> > diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+> > index 2a2e6d3a17..ceb52b1045 100644
+> > --- a/ui/gtk-egl.c
+> > +++ b/ui/gtk-egl.c
+> > @@ -73,7 +73,7 @@ void gd_egl_draw(VirtualConsole *vc)
+> >      wh = gdk_window_get_height(window);
+> > 
+> >      if (vc->gfx.scanout_mode) {
+> > -        gd_egl_scanout_flush(&vc->gfx.dcl, 0, 0, vc->gfx.w, vc->gfx.h);
+> > +       gd_egl_scanout_flush(&vc->gfx.dcl, vc->gfx.x, vc->gfx.y, vc->gfx.w, vc->gfx.h);
+> > 
+> >          vc->gfx.scale_x = (double)ww / vc->gfx.w;
+> >          vc->gfx.scale_y = (double)wh / vc->gfx.h;
+> > @@ -216,7 +216,8 @@ void gd_egl_scanout_dmabuf(DisplayChangeListener *dcl,
+> > 
+> >      gd_egl_scanout_texture(dcl, dmabuf->texture,
+> >                             false, dmabuf->width, dmabuf->height,
+> > -                           0, 0, dmabuf->width, dmabuf->height);
+> > +                           dmabuf->x, dmabuf->y, dmabuf->scanout_width,
+> > +                           dmabuf->scanout_height);
+> >  #endif
+> >  }
+> > 
+> > @@ -286,7 +287,7 @@ void gd_egl_scanout_flush(DisplayChangeListener *dcl,
+> >                            vc->gfx.cursor_x, vc->gfx.cursor_y,
+> >                            vc->gfx.scale_x, vc->gfx.scale_y);
+> >      } else {
+> > -        egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, !vc->gfx.y0_top);
+> > +        egl_fb_blit(&vc->gfx.win_fb, &vc->gfx.guest_fb, x, y, w, h, !vc->gfx.y0_top);
+> >      }
+> > 
+> >      eglSwapBuffers(qemu_egl_display, vc->gfx.esurface);
+> > diff --git a/ui/sdl2-gl.c b/ui/sdl2-gl.c
+> > index a21d2deed9..67bc8b5f4e 100644
+> > --- a/ui/sdl2-gl.c
+> > +++ b/ui/sdl2-gl.c
+> > @@ -238,7 +238,7 @@ void sdl2_gl_scanout_flush(DisplayChangeListener *dcl,
+> > 
+> >      SDL_GetWindowSize(scon->real_window, &ww, &wh);
+> >      egl_fb_setup_default(&scon->win_fb, ww, wh);
+> > -    egl_fb_blit(&scon->win_fb, &scon->guest_fb, !scon->y0_top);
+> > +    egl_fb_blit(&scon->win_fb, &scon->guest_fb, x, y, w, h, !scon->y0_top);
+> > 
+> >      SDL_GL_SwapWindow(scon->real_window);
+> >      graphic_hw_gl_flushed(dcl->con);
+> > --
+> > 2.17.1
+> > 
+> 
 
