@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E093CF939
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 13:54:51 +0200 (CEST)
-Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B38383CF942
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 13:57:47 +0200 (CEST)
+Received: from localhost ([::1]:35280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5oKo-00075E-Jb
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 07:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
+	id 1m5oNe-0004Zs-MK
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 07:57:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5oBA-0003pz-QW
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:44:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5oB8-0001sH-Mq
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:44:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626781488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y1D4tzMfPLFBjYm6oD33udxi5OrdjG2/KXJy0Pwa+uc=;
- b=EB109zkU9dHh9hqqJG4pTKO3IwZ1KjoFmE9AwAKtc4ts+N2lPdoC1BHmcZfkb+4v6JqDy5
- yXItNHuWN2NGiVkzFJxkAdJoRLIF3Xa2TV3r4jJ/cUNrBC9Xv/xkxIYULgbIXhP1P14Yza
- yOsJcMoFm66nFm7LykdK2dlLQRF1ukY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-Pemk5EVsOGqgS-6UtrU3UQ-1; Tue, 20 Jul 2021 07:44:47 -0400
-X-MC-Unique: Pemk5EVsOGqgS-6UtrU3UQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- k3-20020a5d52430000b0290138092aea94so10221552wrc.20
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:44:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m5oD3-0007ZO-LE
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:46:51 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33467)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m5oD0-0002yc-Ol
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:46:49 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id d2so25725427wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WRB+tcIj5LQ4oGCfncmUcsTJUnOB7qpIaQWQzVLCQjc=;
+ b=PLkMDKoGEGWAoyJfUj5LTKGEcQELItDeW7HV/1QjaEF7DZaVtgOOzGa9UA7YzwSXzq
+ RI32auJpQPYClR+1arloIR1yJg07krnjtq24Ilgp4f5nj5J+3TuojY+5oVoY/RBZw5sL
+ r8SOK13zq/CPTJSA6tspdFvAfBXyGA8ERObBcTRFpGPWTQewX75lwRa8fWmGoSbesrcF
+ W8wpNyxpvnJMpUhBJu1WRkMJmHveDkRK6a4rd1k/nC3NOgb9M1RQ1VNXlj00a+Tkod0o
+ U/02f4kyj+LRkMg3cT+qMCjc5g5/7f39x7hs9nq5cqV91ALYTk7rlOm8dKYL3kvt8Oam
+ CeOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Y1D4tzMfPLFBjYm6oD33udxi5OrdjG2/KXJy0Pwa+uc=;
- b=CQJ77cpDkR7tOmkUL7B8E4qWeH9OSd9bHrrnt4WdGZwYfNu89xdwF+JhdcqE3mfzFV
- XFceb13rl+oXTijDzYTH76NDKUeTbpsLMb8navNAIx8HABZFGteScnLSjKSiZzht2s3M
- rurGuqwepFGilALqYDh7FNE6dVvJ/HmslimCTqfFrIrVi5KXVfVjs0ktFcbwC2W4ejEr
- U40MrIYwniqs2hS0aOKjd0pEoT8qQgldyQE6I+6MLWV0za51xAh34clzykTiAWlbAuXj
- OvfKLATTFxGy51lGtG4wUbgdEWcEe7sRXiyA9EZ8JodJbidZ7cqQPmoUcu5NGbsKz0mF
- HOcw==
-X-Gm-Message-State: AOAM531OOEs6kbCvweO26baFu9R3TZMakkMAvbL72k1zl6ochk55lC5b
- KXCHpcVCBm/I8Q6aHA5Vc362jtqYBODSfYodA5wwvqjvdINKgoN9chKY0TcAIXnPvdX8z57EHIj
- wjBwyS+yG012kr50=
-X-Received: by 2002:adf:da43:: with SMTP id r3mr30787114wrl.307.1626781486632; 
- Tue, 20 Jul 2021 04:44:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEc2gxVoUBY9WcMOjGe0zIzOoNjr6vdFJdQn5Pj1+//Wa7TXWX/yaLxu8pIuthwRQ/r/MU6Q==
-X-Received: by 2002:adf:da43:: with SMTP id r3mr30787105wrl.307.1626781486540; 
- Tue, 20 Jul 2021 04:44:46 -0700 (PDT)
+ bh=WRB+tcIj5LQ4oGCfncmUcsTJUnOB7qpIaQWQzVLCQjc=;
+ b=ZPrj2Ja2R+O+KZK0jciG1b0mTzBzVGhM2BbuOnF5L3liUOlvksJbgUczRxpzscFlna
+ MjP7TpA20kLn+GSMXHwH0ELjyUf+j1xv71Y9Q0skLi3kyR3DMxkyne7Or3Togd3FC7+J
+ 3sKtvPuWxM1jGG9gtiSkmHItiP9dN5OgTNH55gXgDkhP/2uzEMTrD7ktUtMB8sgVmK2j
+ glvhQCaRQ/tCT3UO4kpQkYRp5W4S2p0PJMNMZ/+cpmlyZ2eEwfiQdlvHmKKQUm3+vdjy
+ TrZI9Ml9VeIM7y0goNuss5bUoEFMrTV+5To3B2SQj/ZnqaJWH32OCjPi/hxD/8W1SC+H
+ X5Sw==
+X-Gm-Message-State: AOAM5314O9nxNqtsYlCJt8Cu00/Epa/aGnb8P4n4Y1YWpcwrCc9cFMhn
+ J4DKoqSGCGQhzAQnju4BuWY=
+X-Google-Smtp-Source: ABdhPJwZuUmlHkfg4b93f/nEW7F2bDk/oGX+mKvoPiLAYa6ayrZwa8gsJ7uHOVQIUh+p8bLucKxLDQ==
+X-Received: by 2002:adf:ea4c:: with SMTP id j12mr34759901wrn.138.1626781605412; 
+ Tue, 20 Jul 2021 04:46:45 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id 129sm19871702wmz.26.2021.07.20.04.44.45
+ by smtp.gmail.com with ESMTPSA id e15sm23128635wrp.29.2021.07.20.04.46.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 04:44:46 -0700 (PDT)
-Subject: Re: [PATCH] tests/qtest/migration-test.c: use 127.0.0.1 instead of 0
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
- qemu-devel@nongnu.org, thuth@redhat.com, peterx@redhat.com,
- berrange@redhat.com, quintela@redhat.com
-References: <20210719185217.122105-1-dgilbert@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <582882b2-71ba-4c2c-e4f8-647f2ac13b89@redhat.com>
-Date: Tue, 20 Jul 2021 13:44:45 +0200
+ Tue, 20 Jul 2021 04:46:44 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] hw/registerfields: Use 64-bit bitfield for
+ FIELD_DP64
+To: Joe Komlodi <joe.komlodi@xilinx.com>, qemu-devel@nongnu.org
+References: <1626732165-137461-1-git-send-email-joe.komlodi@xilinx.com>
+ <1626732165-137461-3-git-send-email-joe.komlodi@xilinx.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e87e2d46-be03-0762-8ba7-074219fa5e32@amsat.org>
+Date: Tue, 20 Jul 2021 13:46:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210719185217.122105-1-dgilbert@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <1626732165-137461-3-git-send-email-joe.komlodi@xilinx.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,25 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alistair@alistair23.me, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/21 8:52 PM, Dr. David Alan Gilbert (git) wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 7/20/21 12:02 AM, Joe Komlodi wrote:
+> If we have a field that's wider than 32-bits, we need a data type wide enough to
+> be able to create the bitfield used to deposit the value.
 > 
-> OpenBSD doesn't like :0 as an address, switch to using 127.0.0.1
-> in baddest; it's really testing the :0 port number that isn't allowed
-> on anything.
-> 
-> (The test doesn't currently run anyway because of the userfault
-> problem that Peter noticed, but this gets us closer to being able to
-> reenable it)
-> 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
 > ---
->  tests/qtest/migration-test.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  include/hw/registerfields.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
