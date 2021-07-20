@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309123CF138
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 03:20:07 +0200 (CEST)
-Received: from localhost ([::1]:58198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9B93CF13F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 03:22:10 +0200 (CEST)
+Received: from localhost ([::1]:38494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5eQY-0000VS-7t
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 21:20:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60958)
+	id 1m5eSX-0006FA-7f
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 21:22:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5eOe-0006PM-GF
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 21:18:08 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:43840)
+ id 1m5eOf-0006Pz-HC
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 21:18:09 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:53053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5eOd-0003KD-15
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 21:18:08 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- x13-20020a17090a46cdb0290175cf22899cso1520785pjg.2
- for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 18:18:06 -0700 (PDT)
+ id 1m5eOd-0003Kr-Uj
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 21:18:09 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id bt15so12768583pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 18:18:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bSI7+FYoYzIRMvsyeEg3j2XXfVWM2GYuNosumX6OIpk=;
- b=IorIqQce8w2QvTZ0VE+saSKT0qw5MjLBregE6KjiXPXcgknzF0GN+z5amHHr2DRN+c
- ucKtqfjjtLPYSNSvf67820Dh6P9ZDReEyeaLKivzjepdeBy+YW8y3UND5fDB1x5fxNVu
- Kv4XL9/yj472iE/qfB/1mxyr1pZd/QzHD2jHL1ihG5ScV1DnsQd5fyzjLH97npJD8LbK
- seolqJLucKlGndiXCvq+jAECreRyXaFexkgSWReYt9HTqdOqD4s6JqZB0g/kv2UWj7oQ
- eBWAJeSYomyAOnF4pLbxYt/A4GplHW93Q3cFuTnXHzEeNvZJpyDfs6TnWArdschDjc7r
- Dzdg==
+ bh=f8NOqQ/0TvCdkNluzWUj4pUQUbt/7JktmnpikxlNXDw=;
+ b=ANKr35ZZgq9L7ePZbC78F5MX69Lu4G3cxTc4WoL/46Df2rREz/SkWckkdXrtSU1u97
+ wYeZ5cyidOEotNWNbysXwiBMa6gDrs2imn8tP3gZgO9TE8FQA3H/Q1ACLSlGyIJOtcEY
+ C1XAqcIXOItan/6iJc82gk8R2jaWBAlZXG2lAo7ACltwLOKWbG1XEHolrnwsFd5ETrUk
+ VEdfPH0ypcZwY0LcQBqSk+aWDNXSEVcnN3GlvAfnLGZ5qOVTowopo2nLZaO8UPgO20VW
+ LypF7znDKLZpr5NwQRASdEP7dCm5ZPesO2sFZ7zjRtnNLhoKLRUZtmtUQzfIh/ALI+61
+ uWRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bSI7+FYoYzIRMvsyeEg3j2XXfVWM2GYuNosumX6OIpk=;
- b=uNb3P749VjZfE/JzSJ0kXBph+z87i3KMcMkgtlu6cmJn3CaBH0B4GSN7ijrZ0kZMmE
- lwpcQjubGYfJHVdTRPKUfdp2rbFKjEhcE+aT5oxhi2zOxjcibkRh1Sm8Sj18OuuC9E/h
- SOHW1fsbG7+dqbQXzHd2s3StyHHPcULVb0JBN4wSo+q5VQMcUf5Lse43I1bU+FJtiUEu
- E//3qRpPfZ/fG6/btvAvY1yAhULqidixbrWi9VypCcbOp15Rkr/RqfETHz7h7h921vE8
- jFL682kM4cmZsVDYV/LIYTj9hD0dP3wUSn+b8O2zaR6kF62C98vTd671EUWhWCsYUCNI
- KOVg==
-X-Gm-Message-State: AOAM530RfvwrVzNRnlEE7vmxxy2EO+3c+AQ1zOvm+5imROhJVR1qKhsk
- mxeuDRj7m91dj8Y90HVC5xBtqBCPvAfB1g==
-X-Google-Smtp-Source: ABdhPJxzyHSytu4nOyapG/sF9psfMrxThXpbAJoogCUrkkKjOIWuN9S1AeWDPABzTLqUGqVbGblJDg==
-X-Received: by 2002:a17:90a:8:: with SMTP id 8mr27566137pja.102.1626743885335; 
- Mon, 19 Jul 2021 18:18:05 -0700 (PDT)
+ bh=f8NOqQ/0TvCdkNluzWUj4pUQUbt/7JktmnpikxlNXDw=;
+ b=PQZaj8pOd6cZ4eaXn0Vg/JjgxRq1r4Xe9I3WQJaMhBqnE96ZgQzkQNKao67FNs1B6f
+ GDy8NF3w274KRVZOCz6YZ0BCR91ZejF0upxoQdoPPtHlRFPzoWVFCBr40y43kVazipY5
+ d+wXubfKfWpqggB/NgkgRTrUWZk8dFB187xbry/Eq4QezceMgW7hdrZmO7Dz/zhDf9Ym
+ G7FSryogrEvJGpTYoOhfgDAFJyHvawMubsB5op83621VQa7zFKdbOG/Pj8CGkjQZsU1+
+ AJ0Vfattz6UWWSCEhfPJEIEC4P0jOolmPGkBJWTtrJ9snu2wxgHehhCxdvkpXgBmEhRt
+ e9uA==
+X-Gm-Message-State: AOAM530aWqUimWj2Yp9Rx7CSc0H8IZe4PLj4lhj9m3fZ6LmtFI5mh1XN
+ xEAMYlg7DSQRQ6lYZ+DWuYfFO9+/UIlPnw==
+X-Google-Smtp-Source: ABdhPJxGyNdvEXdYbmGy7RangO2NFqdxjg2a0t0t4pnm0HqB7XIuOIYcZhXmF1tIpxEcSbw/MKVhcw==
+X-Received: by 2002:a17:90a:b78d:: with SMTP id
+ m13mr22013576pjr.60.1626743886715; 
+ Mon, 19 Jul 2021 18:18:06 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id e4sm25378054pgi.94.2021.07.19.18.18.04
+ by smtp.gmail.com with ESMTPSA id e4sm25378054pgi.94.2021.07.19.18.18.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 19 Jul 2021 18:18:05 -0700 (PDT)
+ Mon, 19 Jul 2021 18:18:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 v5 01/15] accel/tcg: Reduce CF_COUNT_MASK to match
- TCG_MAX_INSNS
-Date: Mon, 19 Jul 2021 15:17:46 -1000
-Message-Id: <20210720011800.483966-2-richard.henderson@linaro.org>
+Subject: [PATCH for-6.1 v5 02/15] accel/tcg: Move curr_cflags into cpu-exec.c
+Date: Mon, 19 Jul 2021 15:17:47 -1000
+Message-Id: <20210720011800.483966-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210720011800.483966-1-richard.henderson@linaro.org>
 References: <20210720011800.483966-1-richard.henderson@linaro.org>
@@ -91,51 +90,51 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The space reserved for CF_COUNT_MASK was overly large.
-Reduce to free up cflags bits and eliminate an extra test.
+We will shortly have more than a simple member read here,
+with stuff not necessarily exposed to exec/exec-all.h.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210717221851.2124573-2-richard.henderson@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210717221851.2124573-3-richard.henderson@linaro.org>
 ---
- include/exec/exec-all.h   | 4 +++-
- accel/tcg/translate-all.c | 5 ++---
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ include/exec/exec-all.h | 5 +----
+ accel/tcg/cpu-exec.c    | 5 +++++
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 754f4130c9..dfe82ed19c 100644
+index dfe82ed19c..ae7603ca75 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -492,7 +492,9 @@ struct TranslationBlock {
-     target_ulong cs_base; /* CS base for this block */
-     uint32_t flags; /* flags defining in which context the code was generated */
-     uint32_t cflags;    /* compile flags */
--#define CF_COUNT_MASK  0x00007fff
-+
-+/* Note that TCG_MAX_INSNS is 512; we validate this match elsewhere. */
-+#define CF_COUNT_MASK  0x000001ff
- #define CF_LAST_IO     0x00008000 /* Last insn may be an IO access.  */
- #define CF_MEMI_ONLY   0x00010000 /* Only instrument memory ops */
- #define CF_USE_ICOUNT  0x00020000
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 4df26de858..5cc01d693b 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1428,11 +1428,10 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+@@ -565,10 +565,7 @@ static inline uint32_t tb_cflags(const TranslationBlock *tb)
+ }
  
-     max_insns = cflags & CF_COUNT_MASK;
-     if (max_insns == 0) {
--        max_insns = CF_COUNT_MASK;
--    }
--    if (max_insns > TCG_MAX_INSNS) {
-         max_insns = TCG_MAX_INSNS;
-     }
-+    QEMU_BUILD_BUG_ON(CF_COUNT_MASK + 1 != TCG_MAX_INSNS);
+ /* current cflags for hashing/comparison */
+-static inline uint32_t curr_cflags(CPUState *cpu)
+-{
+-    return cpu->tcg_cflags;
+-}
++uint32_t curr_cflags(CPUState *cpu);
+ 
+ /* TranslationBlock invalidate API */
+ #if defined(CONFIG_USER_ONLY)
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index e22bcb99f7..ef4214d893 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -145,6 +145,11 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
+ }
+ #endif /* CONFIG USER ONLY */
+ 
++uint32_t curr_cflags(CPUState *cpu)
++{
++    return cpu->tcg_cflags;
++}
 +
-     if (cpu->singlestep_enabled || singlestep) {
-         max_insns = 1;
-     }
+ /* Might cause an exception, so have a longjmp destination ready */
+ static inline TranslationBlock *tb_lookup(CPUState *cpu, target_ulong pc,
+                                           target_ulong cs_base,
 -- 
 2.25.1
 
