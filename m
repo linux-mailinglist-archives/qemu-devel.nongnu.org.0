@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248033D01C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:37:19 +0200 (CEST)
-Received: from localhost ([::1]:52408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445B83D01C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:36:32 +0200 (CEST)
+Received: from localhost ([::1]:50514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5ucI-0004Em-7W
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:37:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41884)
+	id 1m5ubX-0002uZ-2S
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1m5uX0-0006ef-Gi
+ id 1m5uX0-0006g3-OV
  for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:31:50 -0400
-Received: from mail-dm3nam07on2046.outbound.protection.outlook.com
- ([40.107.95.46]:18529 helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+Received: from mail-mw2nam10on2086.outbound.protection.outlook.com
+ ([40.107.94.86]:6147 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1m5uWx-0002Eq-Hb
+ id 1m5uWy-0002GF-VP
  for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:31:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QE4wER/yh92hj7QM/NHtTqFRuPF1hdal76ialbTlowO8GhVT858tkB8W95+hiePJGn8G+A6w5W4GrSF5oIg6WHwyxXqNTkOCBWKTAsCswpMs9oONrsRpgsyaFBE3kA3gTNXyYp9kiza7TR3eCDMERGYO3+nEhrRYuN0k9cmNfuog1lIJi6wqLvX4JV9hw4+16Wgnq6XCAGHghIrz4jqygvBCpFXkbkBeoxTqckWTMKTSDxxTU/rJoKtJa483SY8wm9RgDQ031A0BDojKt3c3Q+OWkfSKXeCQYiyrxf8IN5FXDonDU2hnnXi9uT2fR9Ga5JZF/nl+NSx1Q3G/QtsX6Q==
+ b=l1HVNi0TyAcPlD+4Z2P7Z9h+nP2iBOkGmjJFO4SGbxTz9AUD8QbJga+ty2ABzDPEEfC6hEQbn230HxnVCsk2YUaE1ECoVg8klsAFPGSBUiMiQHtb+fN8p0A/kUPoEDP71si9K5stCt583JP1U5TGaVmA5ykPJ0HIdlJemfyynglLodKmOjUDD+J7pMMVqxmm5r5P3yF+GK+0b86SZSH4n16/YX02v40RzHRZemttSU2gDJ93PWaBUot61mmTbfkhiYhOZ/L3RqcLaa9N+YrqlTVwJFc/AHtokgB+Kmoc7Li1f6anal1CoZG3OfM6G/xnWyMDfu+7hOG+C7KaTDf8cA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j7lZd9DS2+PC/FEtMpoTpg85IInSZh4+tkA3sV/hzWU=;
- b=jqN0hytwBbdbxvLMt91MhKnpv16op8XZSAQUu+zPN3G/5O4LOL0fm2LTWIHsITiquTqBYWmqhAN/1qMTL5ktdzcJgNGj2QzA45ustIbkvg61qpN8/f4ZkXYi/cojlCQBypCGo5X1aTfK1DRm0zpoS+QP6C1geAHt61HqqeEpY2wDv2FRvtfe+EQH446ceGXGBZA0AEVjBzL2u40Q4C8q1Xhcvh6+26BOqkmwqcdLZZQ0EpdB5Ma1R1lpnpOAZEUZEWNleL1arG7yLjjpa2IFgoce99Oo31Llisfj+pSW4CBDPSnOxXK8fkMN4+W+Tm9uMI2JCVkv4cij4KtfjQUnew==
+ bh=4nVPnyN2IqJjphHJA/YQM1ahAOOrBy7v68lWgJeUPFw=;
+ b=HMt4nqU/CJdxXxzjgBpaPtmBOgkAEdWm9YQSYbGuxeX3wxFs5Gnz3AzYwnI27AfixbtMehUzhB2VwlYU6QELQtZfMn3pJ/bAfNA7pj5pTYKWkzOfkOgq6+8Ppc0YWFkOUqHAzMLBG/m6bXkgV3J4giO2RuF8h5QmR02XBzIs6epMn8gb6PEIvcpvZZfS04s/rNFcfDWcgDF81X5S6cGJcBWe4UtiSn+PnSe3iAj9YT668+Ho8EWEOQUe4icKGM2frtYWOGMIeJbSjBHIY0l/XrlmRD8ZZjYA9REC24Z53EmsqCpdQkKC1wtDHWKJJdsy7/xCs7gjgmHmqF+z8P/tbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -34,30 +34,30 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j7lZd9DS2+PC/FEtMpoTpg85IInSZh4+tkA3sV/hzWU=;
- b=HK3mVrPMJ63SwqDNfiRL9JGwuosMp26HAgmPer3FJbroiejxi2srdQroBsBzvT5NDIZ7j/g7PMLW0JVyeyxk4aMCiZdlm+YaiAAZDTlSXzsewkXrg1rsi6a8inZOOFNT88YXohhp4AuGZzOzvIDTaQJctY9lbU2Y8NBAuABisxI=
-Received: from SA9PR03CA0005.namprd03.prod.outlook.com (2603:10b6:806:20::10)
- by PH0PR02MB7350.namprd02.prod.outlook.com (2603:10b6:510:1a::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.22; Tue, 20 Jul
- 2021 18:31:45 +0000
-Received: from SN1NAM02FT0017.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:20:cafe::e8) by SA9PR03CA0005.outlook.office365.com
- (2603:10b6:806:20::10) with Microsoft SMTP Server (version=TLS1_2,
+ bh=4nVPnyN2IqJjphHJA/YQM1ahAOOrBy7v68lWgJeUPFw=;
+ b=dMWXFSB8Ng3DMoVQuDFmmhWEZS3k35vw6M4I9MkIxJ18jZUEVyviU15O19Sj40Smeworl3i5OmnjQsljIDLjPQ3zgkGkdr9O9uwLhBar4nRKQvPwH8Pw/3OLUklE035PhPhlWNLvk87MDsSV+KKUDvmRymV4i0Q+7Gwtr++BBpQ=
+Received: from BN6PR17CA0045.namprd17.prod.outlook.com (2603:10b6:405:75::34)
+ by PH0PR02MB7478.namprd02.prod.outlook.com (2603:10b6:510:d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.29; Tue, 20 Jul
+ 2021 18:31:46 +0000
+Received: from BN1NAM02FT032.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:405:75:cafe::42) by BN6PR17CA0045.outlook.office365.com
+ (2603:10b6:405:75::34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21 via Frontend
- Transport; Tue, 20 Jul 2021 18:31:45 +0000
+ Transport; Tue, 20 Jul 2021 18:31:46 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0017.mail.protection.outlook.com (10.97.4.104) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ BN1NAM02FT032.mail.protection.outlook.com (10.13.3.192) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 18:31:44 +0000
+ 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 18:31:46 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.2; Tue, 20 Jul 2021 11:31:43 -0700
 Received: from smtp.xilinx.com (172.19.127.96) by
@@ -66,45 +66,46 @@ Received: from smtp.xilinx.com (172.19.127.96) by
 Received: from [172.19.2.32] (port=57332 helo=xsjkomlodi50.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <joe.komlodi@xilinx.com>)
- id 1m5uWt-000H05-Kc; Tue, 20 Jul 2021 11:31:43 -0700
+ id 1m5uWt-000H05-L5; Tue, 20 Jul 2021 11:31:43 -0700
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 1/2] hw/core/register: Add more 64-bit utilities
-Date: Tue, 20 Jul 2021 11:31:42 -0700
-Message-ID: <1626805903-162860-2-git-send-email-joe.komlodi@xilinx.com>
+Subject: [PATCH v3 2/2] hw/registerfields: Use 64-bit bitfield for FIELD_DP64
+Date: Tue, 20 Jul 2021 11:31:43 -0700
+Message-ID: <1626805903-162860-3-git-send-email-joe.komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1626805903-162860-1-git-send-email-joe.komlodi@xilinx.com>
 References: <1626805903-162860-1-git-send-email-joe.komlodi@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef909781-785d-4b8e-234f-08d94baca096
-X-MS-TrafficTypeDiagnostic: PH0PR02MB7350:
-X-Microsoft-Antispam-PRVS: <PH0PR02MB73505B0EA56A3B09069F7058D0E29@PH0PR02MB7350.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: f3abb731-a814-45f2-f1a8-08d94baca154
+X-MS-TrafficTypeDiagnostic: PH0PR02MB7478:
+X-Microsoft-Antispam-PRVS: <PH0PR02MB74786FBF716B2C7E3C951521D0E29@PH0PR02MB7478.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c4lZwKcNrKLH4xniw8jwbFJ1hjv7yzALySf/QYfUMliZNKbhf4otJRkj3RTzYQzImG4fuTTnJquc5dRG9hdQKC+ZFwfr6reBncPj73Y9IhfG4hld2xlKthmRfiOgxTnMp52IlqrEt0MZc1BVoYJxDlyO2ZMewi6iplHIMpQPMSBg8LZ7hDbxYAmK4KJxJVFWkj/mvRly6uWJtT33LBmOfZckE3FoPZ72nrxztC4PfpO4a9k0NMhsAvVRUTVo3gQoSfvhkdSPhMw/mztJGgUGzOMrZyufayjfw87kuIhkXBQukIhA4pJEe7mIZqDh18gr34go4Za2znYqgCp3r+cw66UmyTPAboK1Aoq0Mb9aBM5Lrgq5CllGFJr421U9Q6ZkZ/+u+eYdmHWI9jBaPob75e/Ap708Hjsj9oP6TK3A9la1NMVJzwyPfugqhFZn45DvcHUyktTs7oniqU1pJZ0JL0N97MdxSew6uq6jQk414WuSHXjUwzXbjosrQ3ySvB1s59Xn/wd1SqpQVGVbBy3rJv0bo5JntEsCo479N37bSE0uca/j1AzgFt/7q7dzhy9GgknbGMM75IyuTti7Nj95AwlZooG5xz+6MaQqqv5TE9R3SbFIxmR/OKP7KmO3JkeK6nFXG09IrZT/1Vw2qvAXe9eWH3eDQKFe8Xm69zi/FWeFyTLE6z7I6W8rqxu7DYS46y/QPCn0K95dk3Pq0aSL48fVptSKe6V3ALwukfLQSmA=
+X-Microsoft-Antispam-Message-Info: F3NiJ53Y20VxEcRjRnPNmM2pGQO0lOeohuLA7ULWUVmJi6OWL8G2J0XrbQmyLKg2kp1jA8WICn7TVm0SE9cj8HYdf1MZ00b80JhF1r4kof024u4Lc/odX+jKWSjx0rnqvSJw3VM7mbB3vqd4/o3MYPEZIr1hcUTnZbscCRDY4+zXK7NRvWi8fol7dYpkn1QorsKuuLRMXW+UFC7Pf/s4gI5lk/S5SUfp+PXOUoFkybrnnpa2inmWtRkJe9qZk052gObH29xcKtJZhIn5LWbCt86r5L033OCT9IvLTZq8VlooV4h6jbnLip9hpwZpBi6L0hwsAAZXAAIQZwgoyRrvovRqGJkRsbFvNOcRUg/9EAn+CwAfhI3ozJTUhMWiHvjIa1F9yrIkNTxF4AGoXlEaiK0hCoxq7X9vQGrveeKDfCHcS/UbvrxsLSr1ZQO7TNdSCkflFG/GxKxwM3KKDvoOt+b3RhUX46tIrPqQxAdhpWvhdzrS4346t9Im4rlyPT1edPZItHKmpwrAtNbypmXYA+iFnp3tJ+bQM0/X5bqWy60PEIY0PLKwM74do1L/QlMd8ckpi2UBp0/g0G7MMSxjOe4EWaZbK7lxC9UvLbLOUoEy2ZXbPlZZ+aALrAqGK8E9LacgMjWP1A7HGWjS4G3LqFWx5qu2l6KU4svFEoB6JqEmLwY1x1/ojyFoKLabJFSjQwD4iDu3ayT2yPeAiG/BFin+zpvZRg2bOBAJu1rgO2Q=
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(7696005)(2616005)(54906003)(47076005)(26005)(86362001)(186003)(2906002)(6916009)(36860700001)(316002)(36906005)(70586007)(70206006)(7636003)(356005)(9786002)(5660300002)(508600001)(8936002)(36756003)(8676002)(83380400001)(4326008)(426003)(82310400003)(44832011)(336012)(102446001);
+ SFS:(4636009)(396003)(376002)(346002)(39840400004)(136003)(36840700001)(46966006)(4326008)(86362001)(83380400001)(36906005)(336012)(36756003)(186003)(2906002)(356005)(5660300002)(26005)(4744005)(47076005)(7636003)(8676002)(36860700001)(7696005)(478600001)(82310400003)(426003)(9786002)(2616005)(44832011)(8936002)(316002)(70586007)(70206006)(6916009)(54906003)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 18:31:44.9468 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef909781-785d-4b8e-234f-08d94baca096
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 18:31:46.1423 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3abb731-a814-45f2-f1a8-08d94baca154
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0017.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN1NAM02FT032.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7350
-Received-SPF: pass client-ip=40.107.95.46; envelope-from=komlodi@xilinx.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR02MB7478
+Received-SPF: pass client-ip=40.107.94.86; envelope-from=komlodi@xilinx.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -128,92 +129,29 @@ Cc: alistair23@gmail.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already have some utilities to handle 64-bit wide registers, so this just
-adds some more for:
-- Initializing 64-bit registers
-- Extracting and depositing to an array of 64-bit registers
+If we have a field that's wider than 32-bits, we need a data type wide enough to
+be able to create the bitfield used to deposit the value.
 
 Signed-off-by: Joe Komlodi <joe.komlodi@xilinx.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/core/register.c          | 12 ++++++++++++
- include/hw/register.h       |  8 ++++++++
- include/hw/registerfields.h |  8 ++++++++
- 3 files changed, 28 insertions(+)
+ include/hw/registerfields.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/core/register.c b/hw/core/register.c
-index d6f8c20..95b0150 100644
---- a/hw/core/register.c
-+++ b/hw/core/register.c
-@@ -300,6 +300,18 @@ RegisterInfoArray *register_init_block32(DeviceState *owner,
-                                data, ops, debug_enabled, memory_size, 32);
- }
- 
-+RegisterInfoArray *register_init_block64(DeviceState *owner,
-+                                         const RegisterAccessInfo *rae,
-+                                         int num, RegisterInfo *ri,
-+                                         uint64_t *data,
-+                                         const MemoryRegionOps *ops,
-+                                         bool debug_enabled,
-+                                         uint64_t memory_size)
-+{
-+    return register_init_block(owner, rae, num, ri, (void *)
-+                               data, ops, debug_enabled, memory_size, 64);
-+}
-+
- void register_finalize_block(RegisterInfoArray *r_array)
- {
-     object_unparent(OBJECT(&r_array->mem));
-diff --git a/include/hw/register.h b/include/hw/register.h
-index b480e38..6a076cf 100644
---- a/include/hw/register.h
-+++ b/include/hw/register.h
-@@ -204,6 +204,14 @@ RegisterInfoArray *register_init_block32(DeviceState *owner,
-                                          bool debug_enabled,
-                                          uint64_t memory_size);
- 
-+RegisterInfoArray *register_init_block64(DeviceState *owner,
-+                                         const RegisterAccessInfo *rae,
-+                                         int num, RegisterInfo *ri,
-+                                         uint64_t *data,
-+                                         const MemoryRegionOps *ops,
-+                                         bool debug_enabled,
-+                                         uint64_t memory_size);
-+
- /**
-  * This function should be called to cleanup the registers that were initialized
-  * when calling register_init_block32(). This function should only be called
 diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
-index 93fa4a8..9a03ac5 100644
+index 9a03ac5..f2a3c9c 100644
 --- a/include/hw/registerfields.h
 +++ b/include/hw/registerfields.h
-@@ -30,6 +30,10 @@
-     enum { A_ ## reg = (addr) };                                          \
-     enum { R_ ## reg = (addr) / 2 };
- 
-+#define REG64(reg, addr)                                                  \
-+    enum { A_ ## reg = (addr) };                                          \
-+    enum { R_ ## reg = (addr) / 8 };
-+
- /* Define SHIFT, LENGTH and MASK constants for a field within a register */
- 
- /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_LENGTH
-@@ -58,6 +62,8 @@
- /* Extract a field from an array of registers */
- #define ARRAY_FIELD_EX32(regs, reg, field)                                \
-     FIELD_EX32((regs)[R_ ## reg], reg, field)
-+#define ARRAY_FIELD_EX64(regs, reg, field)                                \
-+    FIELD_EX64((regs)[R_ ## reg], reg, field)
- 
- /* Deposit a register field.
-  * Assigning values larger then the target field will result in
-@@ -99,5 +105,7 @@
- /* Deposit a field to array of registers.  */
- #define ARRAY_FIELD_DP32(regs, reg, field, val)                           \
-     (regs)[R_ ## reg] = FIELD_DP32((regs)[R_ ## reg], reg, field, val);
-+#define ARRAY_FIELD_DP64(regs, reg, field, val)                           \
-+    (regs)[R_ ## reg] = FIELD_DP64((regs)[R_ ## reg], reg, field, val);
- 
- #endif
+@@ -95,7 +95,7 @@
+     _d; })
+ #define FIELD_DP64(storage, reg, field, val) ({                           \
+     struct {                                                              \
+-        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
++        uint64_t v:R_ ## reg ## _ ## field ## _LENGTH;                \
+     } _v = { .v = val };                                                  \
+     uint64_t _d;                                                          \
+     _d = deposit64((storage), R_ ## reg ## _ ## field ## _SHIFT,          \
 -- 
 2.7.4
 
