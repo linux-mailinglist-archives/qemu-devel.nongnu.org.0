@@ -2,80 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665BB3D020E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:10:24 +0200 (CEST)
-Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136B93D020F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:11:31 +0200 (CEST)
+Received: from localhost ([::1]:48190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5v8J-0003Xj-GH
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:10:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
+	id 1m5v9O-00052l-5d
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5v7E-0002gW-7Z
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:09:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28743)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1m5v8Z-0004Nm-Fo
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:10:39 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:47368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5v7C-0002X0-AJ
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:09:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626808153;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iT6hCEP4EY658ABRdcjCdsamC2BP5/78Uux7mZHdSfg=;
- b=ILlFgaICefBQSzbMZjMMhznixKyiS1cVkir9LDZ6L/z1iFMMYnOFpt/FOlZveBi2Kr7Lee
- v7axQvH4WVbIeE6I8DE9CT4AO8Nhf92S9bP+qMVmXE2vYisQ7YTe1WX46B6qrzW1OjF3xZ
- oP6ck6XejPbEDXdtF1ZxbpwUx5oSxRw=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-Nlv6qmbKMXuGpTh9AFv_CA-1; Tue, 20 Jul 2021 15:09:10 -0400
-X-MC-Unique: Nlv6qmbKMXuGpTh9AFv_CA-1
-Received: by mail-oi1-f198.google.com with SMTP id
- q34-20020a0568082022b029025c5504f461so130589oiw.22
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:09:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iT6hCEP4EY658ABRdcjCdsamC2BP5/78Uux7mZHdSfg=;
- b=GXwXeoKtLc9wrNdHdt8YWM87ZWmSPOBwnmEZheIBPFSWfuGC2LXgJyDHyIoojwdQR8
- hFwEhUCsy/8Zrk6g0QrFO65SQ6sdSXVWA3tcvi3mRdu/nUvxjqCJKoMG1TF1MFWlSQT0
- OWnsYGZvDQ/unh07Vp3P/WxYlxPq85H8VZfrybdaJy32XTYFKDzIKXfxg8/h3Itx/U7c
- Uf45UBKryb3/+1wFtTBbjJzaI5aOuQCURBalBliw1/bvaTJHBfBQKcd09UNyuqWsXcKK
- osFgDmsv5tuGSostdxQyUqvecdr1NvDyQdSLd5sws+rojpJub4VfwvjUHAKNLd7Rl7+3
- tkWw==
-X-Gm-Message-State: AOAM533IMoXdPygfyNk8g8fMZ13l8nafoNuR8K+dKzR5vJqZfxSLnxg+
- tkvvY9uekReHVnJUukzcil27b2xz5Gv1qGrfyc8K/2X0QlWPQH7iVyrg+DWoe+kET402WC2cVeb
- n8JmmdJtkYUFHZU8DzzYbIWeB09e1rUY=
-X-Received: by 2002:a9d:86d:: with SMTP id 100mr23997438oty.45.1626808149717; 
- Tue, 20 Jul 2021 12:09:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw4xHEA8SJ16q54QcyXCE9oZbAQBrkxmVHa6e/mHPlH7b+N38BXLlJrF93+X99GDuWdb0x71ATekYc2GEpFiBA=
-X-Received: by 2002:a9d:86d:: with SMTP id 100mr23997428oty.45.1626808149548; 
- Tue, 20 Jul 2021 12:09:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
+ id 1m5v8W-0003SO-Kd
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:10:39 -0400
+Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 16KJ53Js007708; Tue, 20 Jul 2021 12:10:33 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=sr7eu9u4feGBJy+/kl2yL7KZ32J6U3GFxKvu/Ul8030=;
+ b=j+SkJqd27mauK8BxEbdjqNiA2rTytTaLIW74s6jtteZ6yvcKx7WRyqtn9ZDdovNCmrA7
+ o3ZExzAC+irWCWIZIVZE0J7BgZT6Plor+AN4K3bG2WjDGcLVWTumB6/SweAayfG/BMv6
+ NwyD6f6spMcQV+qElgNnqyjchM1z7Zf6hFvPD2whPyKkic1GGuitmaazbkyll3zzpne+
+ c/SXm5YgqOFGhoJaY32md3eAZc87vqUgnD0fpAPBeNvsLC2cSzWH//WEy0zmdBOaGEb+
+ lnjN7Dp1wN796zuVqvtZKZxbIdodTrs+NjrRDDDKZSj5N4piFZgVmJtwsOGU9LjXcWX6 Cg== 
+Received: from nam02-bn1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07lp2048.outbound.protection.outlook.com [104.47.51.48])
+ by mx0a-002c1b01.pphosted.com with ESMTP id 39w78kbjgk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 20 Jul 2021 12:10:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=afi9Ja10Sy+WlglFjQh5mgBlKnnml1HpwaKsr8fjXP3xKZFsY8rxcnm3HPOh1vi9825fIU67/Vma4bEkP8DdtgwyA5AoaL+X8+pAyHglslg5XwuECCFJSlDqLyPLHbywLZ4UgUqQfz3hCv+ZCEqU4HCK0FYKLg/9FwHAjfCv1udFbq2yBehA7DJRNlt9hB03tFQSOZ6+s9Ez7FaVaLy6dvI8Tip0JdGyIHV96QwsPE5MoLsb8bzSWIkLSw4Poo7ZjMX7Ge+M9tJv8okWOvLkKtiqaa4xXTad4+dgOltutUlrQP4aqv7+gbuigySuiske7tXVopXWQumRwKIvCQwIrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sr7eu9u4feGBJy+/kl2yL7KZ32J6U3GFxKvu/Ul8030=;
+ b=TkiRZhm/okY7wIr+oVtfHcdgPfAX7dlK1nuhOzscfqFxzxWkLpSVHus8Q3uosuT/OCIs9SESN/L1odh6yMLrSoF6rBkiN9MFbK/VVWR61iykWVhglkg3p/wHbGW6CYjHtmeHhvX+EDtfc1PBMN7egZyckXOyOTIctQM4Vkzh4ecdKxTZ8hF8sRjauKEiXHrknNfDVJGf4hWu7r26LIMPnd/LBJKrWkv3qo4eJ7/MDZG0lfDQZgGX3wouj81ePWHdR+UuU5MXbCGDS/F//kfLRcJpBlM90s31C2hPqV7uZ9P1QrpqSB6QJ45PnjoFVt2gokBbWxC75xCLqor8Y80TTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from CH0PR02MB7898.namprd02.prod.outlook.com (2603:10b6:610:113::5)
+ by CH2PR02MB6104.namprd02.prod.outlook.com (2603:10b6:610:d::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.26; Tue, 20 Jul
+ 2021 19:10:31 +0000
+Received: from CH0PR02MB7898.namprd02.prod.outlook.com
+ ([fe80::3167:f3a5:5f8c:284b]) by CH0PR02MB7898.namprd02.prod.outlook.com
+ ([fe80::3167:f3a5:5f8c:284b%9]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
+ 19:10:31 +0000
+From: Thanos Makatos <thanos.makatos@nutanix.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: RE: VFIO/vfio-user: specify NVMe namespace to boot from
+Thread-Topic: VFIO/vfio-user: specify NVMe namespace to boot from
+Thread-Index: Add3IRjipNVw1LSNQ8eSxs0hDldgcAAvmmEAAW6eVwA=
+Date: Tue, 20 Jul 2021 19:10:31 +0000
+Message-ID: <CH0PR02MB7898B28B8D9A1C77336F1E3D8BE29@CH0PR02MB7898.namprd02.prod.outlook.com>
+References: <CH0PR02MB789873144D21EEEB6C501D298B159@CH0PR02MB7898.namprd02.prod.outlook.com>
+ <YO2BxLCOmNgRqIBl@stefanha-x1.localdomain>
+In-Reply-To: <YO2BxLCOmNgRqIBl@stefanha-x1.localdomain>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 64c47e25-026d-4b12-dcb9-08d94bb20b32
+x-ms-traffictypediagnostic: CH2PR02MB6104:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CH2PR02MB61040DCDADAF5F971AACD8728BE29@CH2PR02MB6104.namprd02.prod.outlook.com>
+x-proofpoint-crosstenant: true
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: yiUNdIpHseXR4OKfKs8cV3WmeR5yktymFPSR4j5lZFjbryt/h77gdvEtYRL4ZEXchlGe3y/gKgQbXkUURM4T4/hiMZFTu4i0o6gkSpt89XQUk//atHScHRl+GDLKgMQT5OfM65WZL9Ra1Mb1YPmHGvlgt6/aooGGPPenkpfCKDnnI3ypQh8vC92KnjiAAju5rJv+LrU7EL0HoZJZvO6LI4OaAWRP/uACdC5Q68bRDExCNnRvVavhSCtdFj52kfbx3m4mnyZfiLV0bH1V7+PjW47WrSWUFKzixdv/W6eTPrImOUUpwmkyg0ubQZIssH9FetY7lJdFap5ttzzMnbSNUZUKohKW2jXNeKFpLP4YwWqX2DRUeG7Myw1kYAsMSPKVeasU2rH8KNESvAJbQn5wZ4FJB5J3EsqtrlHHHiB5d6tlEMae6MOyH0Ohv9UsW3AnQ366e0V6OtWNH4IsUx1Gt4SAw3fEhSW6JgWUT1o/CTrTvp4VSm1g2dI5Hz7riDrPu96OD+CEi+RoDjMjMgQNKssp2ksEW4zgCWmd7uGNKR6wtnPPb44SjMy0o91h6MOn4W+3xhWRK1nXNmEPjIVD6AOk9ya8FAw3z+QVJr5SkLDPXMwH6HjPxbHTO3RAagzrn8TWJnDbh+N5p2aDIeXjHAlRJ4Y2opl56s90BScfyYbTgvnI+1wEgit1qDkKTEU61oByBodx+c3gaG4reY+d5KOFi1855Wq757R6LIh1ntCBe5X1S3/RqGR/eRg9LtKTG6pNlOl2/8uqJnmCFqTreqKrPiVzTSP12a+sYA1W5N4Thb4hjMT4op4TFzUgAZ1FOIGxFy1cL0dSkmXdzBabfw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR02MB7898.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(396003)(346002)(376002)(136003)(366004)(8936002)(8676002)(44832011)(66946007)(55016002)(6916009)(2906002)(38100700002)(83380400001)(5660300002)(52536014)(9686003)(122000001)(33656002)(4326008)(71200400001)(186003)(26005)(966005)(316002)(66446008)(64756008)(66556008)(66476007)(478600001)(76116006)(54906003)(86362001)(6506007)(7696005)(38070700004);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?oXhD/9wJJ/TBCwLLa1prtTMWXTWOFLgspdf0DDqr2DQ3AhICCyy7istin6r6?=
+ =?us-ascii?Q?PbjIwAyBaBR96cXf4E0Rnxr0u/SMu4XODbKOMnUAlWKDsgtDpH90Cbcu1UY1?=
+ =?us-ascii?Q?6hh2h+ZhPmZs8Iwl2TXaZChLhXPgrCigAhfgTUIbHghTOGo7LulPEJixAOBB?=
+ =?us-ascii?Q?kxjJZis1WX3+c9mSGdxcD+FPhER3nLsipX1ocIJOvwYaPj4/QPAEsdtXhmKc?=
+ =?us-ascii?Q?FC3oY7lLvZat2mw3GAIvyhcxWJ9p//Vih8w1ywpjZvwxWV+lCcJnlRpLd8KM?=
+ =?us-ascii?Q?8WZE8sbO86bCCmlqPpa6xu5KZHX0qfuoErIIKhNno7ZxZy1v3ZpBXVdhsZG5?=
+ =?us-ascii?Q?gt3lUtvpR6yG36YQ7c2oF+fgSUSn89MfiepeXdIXqmpK8c+6KqikjjGWyLUH?=
+ =?us-ascii?Q?bbs8W1XQqp6vqe9UEm3eJJwbbvcwuFUqwwPMDERuWXoNRBn9//+RN/V2l4Mh?=
+ =?us-ascii?Q?Hub/iqaHXV6Ozbt3wvVsu76GrEBmgK6WS08Xlp9DXyrxLHKHBAhXv2aIsfYk?=
+ =?us-ascii?Q?rcCc7icM44VCt71db76/Y8seabwN//e6/Doe+J4oJqhui0y2AOe07S0C20sg?=
+ =?us-ascii?Q?YUGj+zAm9rtelZkGplunwe2T/LDCU5Tc3bIMM35aP/6haigGfxwKpTOWoWVT?=
+ =?us-ascii?Q?eUP3hN8fJduIgtrCN3XAQi2IcH6M8fik8YG4mRCsLRPCWA6qlJ9JQAhQ8SLt?=
+ =?us-ascii?Q?dWe+tYANmjSlOLJPtStZlVSu25WfSISRTbRs15YVbTWIPnPoCUxnqqhgrtHC?=
+ =?us-ascii?Q?sNYcOHEazbNp9LdgLNxfJ507EoG5/A7MelNdBR1j8xDEaHHD/54Hs2XK/2PN?=
+ =?us-ascii?Q?twhF2rOq/rFX+dJCnhnicFU9FqP3V0GDoFdGT3hjgsl1LFqn7d3kEZhuk+Pu?=
+ =?us-ascii?Q?EpXJ2Juf7yydDc7438rXvCc0qDlAk3oT1EbaQVPxCB2nQ7tyQ+aaKA527Z3a?=
+ =?us-ascii?Q?GJvXrkLGGamvQ0/uWJEuk/stmEkViYnAsnLNrO/CSFukAfe2QJK/v82sudGb?=
+ =?us-ascii?Q?aWk2c1+K2Lrt0199ESCYPy/rg3upPVn/7OEShpwhMKHqWUq2ERksH+nH3/mV?=
+ =?us-ascii?Q?hH23s81kDDWSLYa8RJw9c9XWlmNW2uKDm3hKdW01xmwJ2r8itv5ujwRZeTxc?=
+ =?us-ascii?Q?l36SFX0v3KCGI0O4UbEmvLRXGKXeK+lsTI3ODIgsB+MLMNhyoojuw7G0v7Gw?=
+ =?us-ascii?Q?YwK0paU0lRssuQc5silJGMaCdRdfSJ+Aa1KO38S8NIuOWZkfE6ftMRcreB3e?=
+ =?us-ascii?Q?tOIIp3xYGUZ53n/YiKtLHQFUmddpDpemeqVHCCpZ6XCm2lYOVirbPJ798uG0?=
+ =?us-ascii?Q?XrM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20210713220734.26302-1-niteesh.gs@gmail.com>
- <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
-In-Reply-To: <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 20 Jul 2021 15:08:58 -0400
-Message-ID: <CAFn=p-aP5y=a56BK7X-B4KO8YL+d3O_MX3ekp3NQnGLGs8Dnww@mail.gmail.com>
-Subject: Re: [PATCH v2 0/6] python: AQMP-TUI Prototype
-To: "Niteesh G. S." <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000df307e05c792c9c0"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7898.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64c47e25-026d-4b12-dcb9-08d94bb20b32
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2021 19:10:31.2844 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MPf/DN9ww1qLBYDfgOREn1Wa23GFdW/8xfO0USrYyrsBHFzhS8kGfjvu7736pvxVxoFu+T+WIall2pxIQV8XL5fXOQ2h3qD/14b0wcANE5E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6104
+X-Proofpoint-GUID: LK3TTO6DUKbDvGRNkTcHBspBnbol80JM
+X-Proofpoint-ORIG-GUID: LK3TTO6DUKbDvGRNkTcHBspBnbol80JM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-07-20_13:2021-07-19,
+ 2021-07-20 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68;
+ envelope-from=thanos.makatos@nutanix.com; helo=mx0a-002c1b01.pphosted.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,195 +150,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ "jag.raman@oracle.com" <jag.raman@oracle.com>,
+ John Levon <john.levon@nutanix.com>,
+ "k.jensen@samsung.com" <k.jensen@samsung.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000df307e05c792c9c0
-Content-Type: text/plain; charset="UTF-8"
+> On Mon, Jul 12, 2021 at 01:24:07PM +0000, Thanos Makatos wrote:
+> > We're working on implementing a virtual NVMe controller based on SPDK
+> and a multiprocess-qemu branch that uses the vfio-user. We're facing a
+> problem where the existing API doesn't allow us to tell QEMU from which
+> NVMe namespace we'd like SeaBIOS to boot from.
+> >
+> > How can we solve this problem? Can we add a parameter to the '-boot'
+> option, e.g. '-boot path=3D/devices/pciblah/...@namespace0'? AFAIK VFIO
+> should have the same problem.
+> >
+> > The corresponding SeaBIOS patch can be found in
+> https://mail.coreboot.org/hyperkitty/list/seabios@seabios.org/thread/2Q7
+> NPH7TJNHK6JGPHQL7755HILO23ISN/
+>=20
+> Hi,
+> I have CCed Gerd Hoffmann on a hunch that he may have ideas.
+>=20
+> Yes, I think the path needs to include the Namespace ID similar to how
+> SCSI boot paths include the target/channel/LUN.
 
-On Wed, Jul 14, 2021 at 3:07 PM Niteesh G. S. <niteesh.gs@gmail.com> wrote:
+Just to make sure I've explained the problem correctly, what we need to fix=
+ is not specific to NVMe: we want to be able to boot from any PCI device, s=
+o we'd need something like '-boot /devices/pciblah'. Specifically, for NVMe=
+ we might want to specify the namespace (as we can't necessarily assume tha=
+t the first one must be used), therefore we'd have to add the '/namespace0'=
+ bit. For other kinds of PCI devices, we'd have to append something differe=
+nt.
 
-> Hello all,
->
-> UPDATE:  The pipelines have run and all tests passed #336491916
-> Usually, the pipelines start running as soon as I push my code. But this
-> time they took longer to start and there was no sign of starting. This is
-> my
-> first experience with pipelines so I assumed I messed up something from
-> my side.
->
-> Thanks,
-> Niteesh.
->
-> On Wed, Jul 14, 2021 at 3:37 AM G S Niteesh Babu <niteesh.gs@gmail.com>
-> wrote:
->
->> GitLab:
->> https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/
->> Based-on
->> <https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Based-on>:
->> <20210701041313.1696009-1-jsnow@redhat.com>
->>      [PATCH 00/20] python: introduce Asynchronous QMP package
->>
->> Updates in V2:
->> 1) Moved loop related initialization to 'run' function in 'App' class
->> 2) Added a module logger with support in TUI log messages.
->> 3) Corrected usage of logging.info and logging.debug
->> 4) Added an option in setup.cfg to silent pylint regarding duplicate-code
->> 4) Modified the arguments list to the TUI
->>
->> NOTE: I am not able to get the pipelines running after the v2 changes.
->> I was only able to test the changes locally using *make check*.
->>
->>
-Why not?
+Would such a change be acceptable?
 
+>=20
+> When the SeaBIOS NVMe driver probes the controller is should discover
+> the available Namespaces and set up individual drives for each
+> Namespace. That would be analogous to virtio_scsi_add_lun().
 
-> This patch series introduces AQMP-TUI prototype. This prototype has been
->> helpfull in letting us try out different ideas and giving some insights
->> into things that we had to take care of in the upcoming TUI. It was also
->> helpfull in finding out bugs in the AQMP library.
->>
->> The intent for this patch series is to get comments on the architectural
->> design of the prototype. These comments will lay down the foundation for
->> the upcoming TUI.
->>
->> G S Niteesh Babu (6):
->>   python: disable pylint errors for aqmp-tui
->>   python: Add dependencies for AQMP TUI
->>   python/aqmp-tui: Add AQMP TUI draft
->>   python: add optional pygments dependency
->>   python/aqmp-tui: add syntax highlighting
->>   python: add entry point for aqmp-tui
->>
->>  python/Pipfile.lock          |  20 ++
->>  python/qemu/aqmp/aqmp_tui.py | 342 +++++++++++++++++++++++++++++++++++
->>  python/setup.cfg             |  36 +++-
->>  3 files changed, 397 insertions(+), 1 deletion(-)
->>  create mode 100644 python/qemu/aqmp/aqmp_tui.py
->>
->>
-Thanks Niteesh, a few general comments that don't relate directly to the
-code:
-
-1. It would be nice to be able to highlight/copy-paste things out of the
-history window, I seemingly can't right now.
-
-2. It would be nice if the mouse scroll wheel worked on the history panel.
-
-3. A greeting message like the old qmp-shell might be nice to see. It would
-be good if it explained how to quit the program (esc, ctrl^c) and send
-messages (alt+enter).
-
-4. Some control hints or reminder text in the footer might be nice, for how
-to quit, send a message, etc.
-
-For the next revision, I may ask you to start looking into making sure that
-mypy and pylint pass without exemptions. Do the best you can, and get as
-far as you are able. You can leave the warnings disabled for V3, but I'd
-like you to start taking a look now so that you know where the trouble
-spots are.
-
-Thanks!
---js
-
---000000000000df307e05c792c9c0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 3:07 PM Nitee=
-sh G. S. &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
-iv dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small">Hello all,</=
-div><div style=3D"font-size:small"><br></div><div style=3D"font-size:small"=
->UPDATE:=C2=A0 The pipelines have run and all tests passed #336491916</div>=
-<div style=3D"font-size:small">Usually, the pipelines start running as soon=
- as I push my code. But this</div><div style=3D"font-size:small">time they =
-took longer to start and there was no sign of starting. This is my</div><di=
-v style=3D"font-size:small">first experience=C2=A0with pipelines so I assum=
-ed I messed up something from</div><div style=3D"font-size:small">my side.<=
-/div><div style=3D"font-size:small"><br></div><div style=3D"font-size:small=
-">Thanks,</div><div style=3D"font-size:small">Niteesh.</div></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14,=
- 2021 at 3:37 AM G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.co=
-m" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">GitLab: <a href=3D"https://gitlab.=
-com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Based-on" rel=3D"norefe=
-rrer" target=3D"_blank">https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-t=
-ui-prototype-v1/<br>
-Based-on</a>: &lt;<a href=3D"mailto:20210701041313.1696009-1-jsnow@redhat.c=
-om" target=3D"_blank">20210701041313.1696009-1-jsnow@redhat.com</a>&gt;<br>
-=C2=A0 =C2=A0 =C2=A0[PATCH 00/20] python: introduce Asynchronous QMP packag=
-e<br>
-<br>
-Updates in V2:<br>
-1) Moved loop related initialization to &#39;run&#39; function in &#39;App&=
-#39; class<br>
-2) Added a module logger with support in TUI log messages.<br>
-3) Corrected usage of <a href=3D"http://logging.info" rel=3D"noreferrer" ta=
-rget=3D"_blank">logging.info</a> and logging.debug<br>
-4) Added an option in setup.cfg to silent pylint regarding duplicate-code<b=
-r>
-4) Modified the arguments list to the TUI<br>
-<br>
-NOTE: I am not able to get the pipelines running after the v2 changes.<br>
-I was only able to test the changes locally using *make check*.<br>
-<br></blockquote></div></div></blockquote><div><br></div><div>Why not?<br><=
-/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
-v dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-This patch series introduces AQMP-TUI prototype. This prototype has been<br=
->
-helpfull in letting us try out different ideas and giving some insights<br>
-into things that we had to take care of in the upcoming TUI. It was also<br=
->
-helpfull in finding out bugs in the AQMP library.<br>
-<br>
-The intent for this patch series is to get comments on the architectural<br=
->
-design of the prototype. These comments will lay down the foundation for<br=
->
-the upcoming TUI.<br>
-<br>
-G S Niteesh Babu (6):<br>
-=C2=A0 python: disable pylint errors for aqmp-tui<br>
-=C2=A0 python: Add dependencies for AQMP TUI<br>
-=C2=A0 python/aqmp-tui: Add AQMP TUI draft<br>
-=C2=A0 python: add optional pygments dependency<br>
-=C2=A0 python/aqmp-tui: add syntax highlighting<br>
-=C2=A0 python: add entry point for aqmp-tui<br>
-<br>
-=C2=A0python/Pipfile.lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 ++<b=
-r>
-=C2=A0python/qemu/aqmp/aqmp_tui.py | 342 ++++++++++++++++++++++++++++++++++=
-+<br>
-=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 36 +++-<br>
-=C2=A03 files changed, 397 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
-<br></blockquote></div></div></blockquote><div><br></div><div>Thanks Nitees=
-h, a few general comments that don&#39;t relate directly to the code:</div>=
-<div><br></div><div> 1. It would be nice to be able to highlight/copy-paste=
- things out of the history window, I seemingly can&#39;t right now.<br><br>=
-2. It would be nice if the mouse scroll wheel worked on the history panel.<=
-br><br>3. A greeting message like the old qmp-shell might be nice to see. I=
-t would be good if it explained how to quit the program (esc, ctrl^c) and s=
-end messages (alt+enter).<br><br>4. Some control hints or reminder text in =
-the footer might be nice, for how to quit, send a message, etc.</div><div><=
-br></div><div>For the next revision, I may ask you to start looking into ma=
-king sure that mypy and pylint pass without exemptions. Do the best you can=
-, and get as far as you are able. You can leave the warnings disabled for V=
-3, but I&#39;d like you to start taking a look now so that you know where t=
-he trouble spots are.</div><div><br></div><div>Thanks!</div><div>--js<br></=
-div></div></div>
-
---000000000000df307e05c792c9c0--
+Setting up an individual drive can easily exhaust SeaBIOS's limited memory,=
+ so it's better to either probe the specified namespace or probe the first =
+active one. I've sent a patch here: https://mail.coreboot.org/hyperkitty/li=
+st/seabios@seabios.org/message/TKKUCH5PYZPXZG3NA2F5SALUFUVUYDZG/
 
 
