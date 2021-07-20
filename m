@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746E03D00E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 19:50:14 +0200 (CEST)
-Received: from localhost ([::1]:33062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C391F3D005D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 19:37:49 +0200 (CEST)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5tsj-0001iY-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 13:50:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55768)
+	id 1m5tgi-0006vV-QF
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 13:37:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcz-0005xy-WF
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5td0-0005zz-HF
  for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36841)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcy-0005gW-Ff
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:57 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcx-0005g2-RP
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1626802435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Mgm+XUnejwbrM08kxmWD8re2D+lycmJfyuoxD+Q5gg=;
- b=M36mt2K9AGaJM8hWFS+sfSL4XKxPtxhfmPbM4Vey/GGwQXHPCasA3NjDfc3WfhPsd3B8+H
- xgRYoBnb3VSV88AdTZzTZUqAohQG2Lk7WS4OR5zPrNdw6UnxXqnfQ7ShIF0oaeY5IFohHQ
- 8z0/rdjQNomGCDGUM6kLHHdmgLrzjTw=
+ bh=h2XyFkTh2hNaP5ds8DvNjj36ovlrnTS3MNjp/Wqib5U=;
+ b=XOW6qNoazdxdfDHpKoAhLJ3m7Whsp2MZHlwWr779rQZRj+V4KW9ahvphrbZ4nx49MvduDC
+ C/OkgdxTLldn54XmR4Ea0aY3U7g070ZkBKZ9bXWSecuBz9VwaH0Kve/MbRhSQC+/P0rdSG
+ NVK3lwIYCVeQvsYkC2lHFjFM/qMNSY8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-EXsn7ahWNNy7BiU254rimg-1; Tue, 20 Jul 2021 13:33:52 -0400
-X-MC-Unique: EXsn7ahWNNy7BiU254rimg-1
+ us-mta-146-czMoq7m-P3Gqv3OzN8p8JQ-1; Tue, 20 Jul 2021 13:33:53 -0400
+X-MC-Unique: czMoq7m-P3Gqv3OzN8p8JQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FF17C73A1;
- Tue, 20 Jul 2021 17:33:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD38E8030D7;
+ Tue, 20 Jul 2021 17:33:52 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-193.rdu2.redhat.com [10.10.119.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FA5F69CB4;
- Tue, 20 Jul 2021 17:33:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C071D369A;
+ Tue, 20 Jul 2021 17:33:51 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/17] iotests/297: Create main() function
-Date: Tue, 20 Jul 2021 13:33:29 -0400
-Message-Id: <20210720173336.1876937-11-jsnow@redhat.com>
+Subject: [PATCH v2 11/17] iotests/297: Separate environment setup from test
+ execution
+Date: Tue, 20 Jul 2021 13:33:30 -0400
+Message-Id: <20210720173336.1876937-12-jsnow@redhat.com>
 In-Reply-To: <20210720173336.1876937-1-jsnow@redhat.com>
 References: <20210720173336.1876937-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -84,39 +85,89 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of running "run_linters" directly, create a main() function that
-will be responsible for environment setup, leaving run_linters()
-responsible only for execution of the linters.
-
-(That environment setup will be moved over in forthcoming commits.)
+Move environment setup into main(), leaving pure test execution behind
+in run_linters().
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/297 | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ tests/qemu-iotests/297 | 36 +++++++++++++++++++++---------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index dc4460dd84b..7ef4cdc7615 100755
+index 7ef4cdc7615..961c9170d21 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -128,8 +128,12 @@ def run_linters():
-             print(p.stdout)
+@@ -21,7 +21,7 @@ import re
+ import shutil
+ import subprocess
+ import sys
+-from typing import List
++from typing import List, Mapping, Optional
+ 
+ import iotests
+ 
+@@ -69,24 +69,16 @@ def get_test_files(directory: str = '.') -> List[str]:
+     return files
  
  
--for linter in ('pylint-3', 'mypy'):
--    if shutil.which(linter) is None:
--        iotests.notrun(f'{linter} not found')
-+def main() -> None:
-+    for linter in ('pylint-3', 'mypy'):
-+        if shutil.which(linter) is None:
-+            iotests.notrun(f'{linter} not found')
+-def run_linters():
+-    files = get_test_files()
+-
+-    iotests.logger.debug('Files to be checked:')
+-    iotests.logger.debug(', '.join(sorted(files)))
++def run_linters(
++    files: List[str],
++    env: Optional[Mapping[str, str]] = None,
++) -> None:
  
--iotests.script_main(run_linters)
-+    run_linters()
+     print('=== pylint ===')
+     sys.stdout.flush()
+ 
+     # Todo notes are fine, but fixme's or xxx's should probably just be
+     # fixed (in tests, at least)
+-    env = os.environ.copy()
+-    qemu_module_path = os.path.join(os.path.dirname(__file__),
+-                                    '..', '..', 'python')
+-    try:
+-        env['PYTHONPATH'] += os.pathsep + qemu_module_path
+-    except KeyError:
+-        env['PYTHONPATH'] = qemu_module_path
+     subprocess.run(
+         ('python3', '-m', 'pylint', '--score=n', '--notes=FIXME,XXX', *files),
+         env=env,
+@@ -100,7 +92,6 @@ def run_linters():
+     # will interpret all given files as belonging together (i.e., they
+     # may not both define the same classes, etc.; most notably, they
+     # must not both define the __main__ module).
+-    env['MYPYPATH'] = env['PYTHONPATH']
+     for filename in files:
+         p = subprocess.run(
+             (
+@@ -133,7 +124,22 @@ def main() -> None:
+         if shutil.which(linter) is None:
+             iotests.notrun(f'{linter} not found')
+ 
+-    run_linters()
++    files = get_test_files()
 +
++    iotests.logger.debug('Files to be checked:')
++    iotests.logger.debug(', '.join(sorted(files)))
 +
-+iotests.script_main(main)
++    env = os.environ.copy()
++    qemu_module_path = os.path.join(os.path.dirname(__file__),
++                                    '..', '..', 'python')
++    try:
++        env['PYTHONPATH'] += os.pathsep + qemu_module_path
++    except KeyError:
++        env['PYTHONPATH'] = qemu_module_path
++
++    env['MYPYPATH'] = env['PYTHONPATH']
++
++    run_linters(files, env=env)
+ 
+ 
+ iotests.script_main(main)
 -- 
 2.31.1
 
