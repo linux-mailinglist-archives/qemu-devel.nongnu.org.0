@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A733CF855
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 12:50:44 +0200 (CEST)
-Received: from localhost ([::1]:54586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF87C3CF827
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 12:43:41 +0200 (CEST)
+Received: from localhost ([::1]:51052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5nKl-0005XS-G2
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 06:50:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56448)
+	id 1m5nDw-0002aX-UX
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 06:43:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5nJa-0004rW-48
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 06:49:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5nJY-0003YQ-E8
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 06:49:29 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c15so1896834wrs.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 03:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=eLc4OIXu2bOU8HkLTEW+P6UaV/PN5DR5iKbTzcIQQZA=;
- b=pNgWRH0ARaFccO8t3yp9kHU0nmC7bUilbYTsdNJb9Dpu8Sc9pA6SGS8+GVyCdIoIjo
- vmdwDc/ot/XzXmO/FjS04uBiDPjeEZFHs8Dh98ZfkgbZKxYWuAHlBAj1hgXycvLEBPUK
- G1NTtSoA64jdqHDb2zRl6uZ8wd9d/t+rpMqxEoFhIGsWWwgqsmlkYp+jT9rA1FTdbF0B
- /kQmFV2xrfoibRLqEhKgZ31Y/s58JeqGxTFtXwdEXMGAbgEHxbnHPKJm7lJ5/XyHKayZ
- YL/fvZ+dR6HpNN0zDKao2kgGnKDtW4dQXQpxFjoTNKOxgH7I1iDM71P8dloBNB2FiImB
- ex8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=eLc4OIXu2bOU8HkLTEW+P6UaV/PN5DR5iKbTzcIQQZA=;
- b=My+Y973BmVYDG3QEnYs1023KIyr2vbTahmEmfOhmowvVeopSHWbsC0CgqAaehCuQBG
- k/WCuZg7u/8BNpCxZGVuBKRheb8Ip73sDOoWi8dwzs6Rq5JoM76ZLZxMum81T3NvTMfm
- 5n2WlGE23LsWRKnQblhQN5rAO1lVss3SZC0EzoeLPadxPJw7SQtoX9M33Hz43MKsmlvw
- OOyYwQjp1CEwiK42SmZWAiaC0zGjuT29ADof1ASp9K7RA1AHnwlaXeDVpJPpNN1SPtcH
- c8q8kUH66g1i0cJ0WRJnmAfgjtt2Dagl3ft22YhQ0xJKsgQCfT5QIA8CSaf3yZIB42Cm
- aN5g==
-X-Gm-Message-State: AOAM531Jfz2k8bvNByqj/H9sLnquvEh850SFKMUQmVKni0gLId70WGnW
- EafxulNFGV1mulNoDDPE480EwQ==
-X-Google-Smtp-Source: ABdhPJyv5YlztfuIzit6XYInOZ/tiiMchNo0ar+YRXLanUzq9bhWgIgtJzuuEiMI2edfcpoMf/+71A==
-X-Received: by 2002:a5d:4561:: with SMTP id a1mr34194543wrc.259.1626778166771; 
- Tue, 20 Jul 2021 03:49:26 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z7sm10110656wrt.94.2021.07.20.03.49.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 03:49:25 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 38B821FF7E;
- Tue, 20 Jul 2021 11:49:25 +0100 (BST)
-References: <20210719195002.6753-1-alex.bennee@linaro.org>
- <20210719195002.6753-2-alex.bennee@linaro.org>
- <CAFEAcA8VGYTc2jrdB+ET4xFODDv0SniTjnUAYr+4dgjSZEsmiA@mail.gmail.com>
- <87zguhmi4p.fsf@linaro.org>
- <CAFEAcA_qZEixbcQt_96oqzEzeH5+v4aBqXjYTym7Mj5Xt7VK5A@mail.gmail.com>
-User-agent: mu4e 1.5.14; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v1 1/2] hw/tricore: fix inclusion of tricore_testboard
-Date: Tue, 20 Jul 2021 11:35:11 +0100
-In-reply-to: <CAFEAcA_qZEixbcQt_96oqzEzeH5+v4aBqXjYTym7Mj5Xt7VK5A@mail.gmail.com>
-Message-ID: <87r1ftmf9m.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m5nC3-0001i2-UM
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 06:41:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30980)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1m5nC2-0005sj-Dv
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 06:41:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626777701;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2/B2K9GGTkoQidTk8q2YM3aSYrQvMARCcXbY2BPgJuI=;
+ b=C+tLQTg+VDQzYaNDeUQe9wBGMf9LfObXchQVb7kaFjwR/mcUxTjYNCfwvq8fsEoTmZM1Gh
+ trR3W5WsJ9PkWzjmMfIKZqiyPso4mfr1rd4zYeNgpWHR5Dba6bpuzjF+9D7va6/CEvADcn
+ 3rnq/mCa4j4v3tvJXsp6GQXls3jFhH8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-241-nDDmLbqXOC2FOCTT4cDc2g-1; Tue, 20 Jul 2021 06:41:38 -0400
+X-MC-Unique: nDDmLbqXOC2FOCTT4cDc2g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06B21824F88;
+ Tue, 20 Jul 2021 10:41:37 +0000 (UTC)
+Received: from localhost (ovpn-114-103.ams2.redhat.com [10.36.114.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 099FC5D6A1;
+ Tue, 20 Jul 2021 10:41:35 +0000 (UTC)
+Date: Tue, 20 Jul 2021 11:41:34 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Subject: Re: [PATCH 3/3] linux-aio: limit the batch size using
+ `aio-max-batch` parameter
+Message-ID: <YPaoXutDKwmekoew@stefanha-x1.localdomain>
+References: <20210707150019.201442-1-sgarzare@redhat.com>
+ <20210707150019.201442-4-sgarzare@redhat.com>
+ <YO2p/Ns7SsV6LE1x@stefanha-x1.localdomain>
+ <20210719103553.2732gqgnvc4nuzlh@steredhat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210719103553.2732gqgnvc4nuzlh@steredhat>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="aQzcN05yuyQRzqg8"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,80 +82,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, f4bug@armsat.org,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--aQzcN05yuyQRzqg8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Mon, Jul 19, 2021 at 12:35:53PM +0200, Stefano Garzarella wrote:
+> On Tue, Jul 13, 2021 at 03:58:04PM +0100, Stefan Hajnoczi wrote:
+> > On Wed, Jul 07, 2021 at 05:00:19PM +0200, Stefano Garzarella wrote:
+> > > @@ -371,7 +375,7 @@ static int laio_do_submit(int fd, struct qemu_lai=
+ocb *laiocb, off_t offset,
+> > >      s->io_q.in_queue++;
+> > >      if (!s->io_q.blocked &&
+> > >          (!s->io_q.plugged ||
+> > > -         s->io_q.in_flight + s->io_q.in_queue >=3D MAX_EVENTS)) {
+> > > +         s->io_q.in_queue >=3D max_batch)) {
+> >=20
+> > Is it safe to drop the MAX_EVENTS case?
+>=20
+> I think it is safe since in ioq_submit() we have this check while
+> dequeueing:
+>=20
+>         QSIMPLEQ_FOREACH(aiocb, &s->io_q.pending, next) {
+>             iocbs[len++] =3D &aiocb->iocb;
+>             if (s->io_q.in_flight + len >=3D MAX_EVENTS) {
+>                 break;
+>             }
+>         }
+>=20
+> But in term of performance, I think is better what you're suggesting,
+> because if we have fewer slots available than `max_batch`, here we were
+> delaying the call to io_submit().
+>=20
+> >=20
+> > Perhaps the following can be used:
+> >=20
+> >  int64_t max_batch =3D s->aio_context->aio_max_batch ?: DEFAULT_MAX_BAT=
+CH;
+> >  max_batch =3D MIN_NON_ZERO(MAX_EVENTS - s->io_q.in_flight + s->io_q.in=
+_queue, max_batch);
+> >=20
+>=20
+> Since we will compare `in_queue` with `max_batch`, should we remove it fr=
+om
+> this expression?
+>=20
+> I mean:
+>=20
+>   int64_t max_batch =3D s->aio_context->aio_max_batch ?: DEFAULT_MAX_BATC=
+H;
+>   max_batch =3D MIN_NON_ZERO(MAX_EVENTS - s->io_q.in_flight, max_batch);
+>=20
+> then as it is in this patch:
+>=20
+>   s->io_q.in_queue++;
+>   if (!s->io_q.blocked &&
+>       (!s->io_q.plugged ||
+>        s->io_q.in_queue >=3D max_batch)) {
+>       ioq_submit(s);
+>   }
 
-> On Tue, 20 Jul 2021 at 10:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->>
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > On Mon, 19 Jul 2021 at 20:52, Alex Benn=C3=A9e <alex.bennee@linaro.org=
-> wrote:
->> >>
->> >> We inadvertently added a symbol clash causing the build not to include
->> >> the testboard needed for check-tcg.
->> >>
->> >> Fixes: f4063f9c31 ("meson: Introduce target-specific Kconfig")
->> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> >> ---
->> >>  configs/devices/tricore-softmmu/default.mak | 1 +
->> >>  hw/tricore/Kconfig                          | 3 +--
->> >>  hw/tricore/meson.build                      | 4 ++--
->> >>  3 files changed, 4 insertions(+), 4 deletions(-)
->> >
->> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> > as far as this fix goes (though maybe CONFIG_TRICORE_TESTBOARD would b=
-e better?)
->> >
->> > But I still don't understand and would like to know:
->> > (1) why doesn't CONFIG_TRICORE get set by Kconfig anyway, as
->> > f4063f9c31 claims to be doing?
->>
->> It does (or should) thanks to meson:
->>
->>   'CONFIG_' + config_target['TARGET_ARCH'].to_upper() + '=3Dy'
->
-> Yeah, but it doesn't, as you can see if you look at the meson build
-> log: we do pass CONFIG_TRICORE=3Dy on the minikconf command line,
-> but it doesn't appear in minikconf's output!
->
->> > (2) what are the CONFIG_$ARCH flags for? Apart from this, we
->> > don't seem to be using any of them, as demonstrated by the fact
->> > that nothing else broke :-)
->>
->> They need to be declared in Kconfig otherwise minikconf complains about
->> them not being defined when you pass it in. This is part of minikconf's
->> sanity checking code.
->
-> No, I mean, if nothing anywhere in the build system is conditional
-> on these flags, why do we have them at all ? We know we don't
-> have anything that cares about them, because right now we have
-> a bug where they're never set...
+Good.
 
-Well we have one place at the moment to ensure v7m gets included even if
-you don't include the various M profile boards:
+Stefan
 
-  default y if TCG && (ARM || AARCH64)
+--aQzcN05yuyQRzqg8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-which is because translate.c still currently has a dependency on those
-bits. Without that you'll get a linker failure with the following build:
+-----BEGIN PGP SIGNATURE-----
 
-  '../../configure' '--without-default-features' '--target-list=3Darm-softm=
-mu,aarch64-softmmu' '--with-devices-aarch64=3Dminimal'
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmD2qF4ACgkQnKSrs4Gr
+c8g/7Af/Vrj4d4TUAgzsgFJOWVX/IpeBPlcG80pli94eiPAhwKdbc4v9hwJehYmn
+0ROYAkSbhl6XXd97SJ+PR+tm94n8bT2s3NggqyW8voQuwcLQBT0RnuroNIoB2Cg1
+2nI7ShdPO12I5FUh4X+PqWvuLNRYuFGVQMHlf6O35Zdb/w2RA8Zar5DS6tLpyTMh
+Y+SFtXbXLD4KMQ0O52GaCpiqbITD/+yqJNDCMfd2F8kCLwdKyIbLZvKPnH9cF2d6
+8iVCx1ZvQmIhNQUVc0zL2MMrD5mXvkKOWq7y8/HifwVHvmTiuxoQKDT/IsKZfmYS
+V1RKr/1/Rk2mFM7vdaSfEanhbuhgHQ==
+=jDUQ
+-----END PGP SIGNATURE-----
 
-I thought I'd added that to the build matrix but I can't find it now.=20
+--aQzcN05yuyQRzqg8--
 
->
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
