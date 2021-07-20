@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD17A3CFD4E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:19:30 +0200 (CEST)
-Received: from localhost ([::1]:39420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455B93CFD6D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:23:09 +0200 (CEST)
+Received: from localhost ([::1]:51326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5rWr-0001M8-S0
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50596)
+	id 1m5raO-0000yj-A6
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:23:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1m5rQp-0006TE-HA
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:13:16 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:38805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
- id 1m5rQn-0002Ks-2V
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:13:14 -0400
-Received: by mail-oi1-x229.google.com with SMTP id w194so24857119oie.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zDf1tiGtasW7KyC9jM3mD4Ri5nWsJEP0rBlv0HcltUY=;
- b=TA8Fn8I2v68l5hz4fD5qyXYH++ARzo8O5a3m3wKzzwMOLXoS+JCsrcVN6PC5+7iDXU
- CpnRfx5Y8Ib0pmnQTaRueFEhjPjLK0X4FCpm4iWLDS7dxq/1DHAeHU3ouKGPN5fOsc0d
- pyzNA41i7nlHyitgwfsULXxlnMcuOtdDnnFwRlxPWvCge57gxuDLsq+VeMEjsxjoXUg8
- Jz9nPb2MZRMHDiJjIWd3FU2LZUUHqp+rQG6SYCZM+o/do4RjKBn1a8BQ4uIlr1P66WIT
- /zUjzIWDfhzO3Bj5nkHhBDTz4FaVcyB6fYwihCye50zoG601FTcKTGbEAyk15itG46eS
- /XsA==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5rTq-0005Yu-Qt
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:16:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5rTn-0004Jz-SF
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626794178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cEVzpjOjohYsAg79nKkNQZQNY+Qfw5vSTILhRnW759A=;
+ b=WlaWCgTaGD965wFb5mXiOgzXNA2CqQql4jy3/G7T4+5uDm2NJe7MHKra0nqDLoHTcyMFf5
+ X4skSRisTpQ8byvgT0+/hich2PV7ch4obzgwRndmDuWC7Vzaa3/ePa730a24LBoDMSFQTt
+ nxHD4eHd4OleJoycTM+DpgSaunm0rPk=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-J77AB2nVO2i8f8xKcvvEFA-1; Tue, 20 Jul 2021 11:16:16 -0400
+X-MC-Unique: J77AB2nVO2i8f8xKcvvEFA-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ 61-20020a9d08430000b02904b9e704387aso17922881oty.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:16:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zDf1tiGtasW7KyC9jM3mD4Ri5nWsJEP0rBlv0HcltUY=;
- b=NUbFTzMNWPZ4dAyEOGLB/qybI5PuhGVY5A9bZyDNMQ+vSn9JbgYV3RuHyAd8NC+ua5
- /hU6V791wkmmiWKQqNkwVd8NEUNbUv3QT8za/vN/w7QY1Syr+LhrL+wnm+Q4xG32RSEV
- YYwvvfGYSgzSQjM4KTkG9niDVSCwsTZ8fE/GdLdOQUJ0OX4vPKMtkQ9UZHK5xrglFltl
- ZyHYTRDcEanC2+QCwYnbzUuu3KTGhxP4X0H2ijUFl6Ckdc3y0Jzr8mmC2Ylaj5HQg0a6
- vcGS95bG8VWrCED+HMsyPVHsrQxomaAMN+ujtJDUUhjOZjOJKVIKHACWm65gUXlfmyKP
- C7Dg==
-X-Gm-Message-State: AOAM5314gsIwU2kMPQSQiy+Mcbe7S0wSR1G2eX5h+a5sOFMDpIZ2FKcp
- 5uRg4wggeC+6Lvy4Y0dfLnI6hLou4+yIlLluk+M=
-X-Google-Smtp-Source: ABdhPJwLwyAqJLh37+j4lRSs22ESIS3jqMLEcSjSG1NBRmJduwTRhvnRlV9/gQmy01jao/sDZFcVA/0Gkz2qgBva/Y0=
-X-Received: by 2002:aca:d805:: with SMTP id p5mr21424318oig.60.1626793991791; 
- Tue, 20 Jul 2021 08:13:11 -0700 (PDT)
+ bh=cEVzpjOjohYsAg79nKkNQZQNY+Qfw5vSTILhRnW759A=;
+ b=ZC9fJ+8aOP8V0fYuxqqPCHjyz8cAamJMT52uL0alobPPohPL6d69sGJW6kmNnATFhn
+ y/loZqa4gej1NFhoivfRIzwsDKujXGdiSfoR1BP5O7MXGZrQVSZkE1TqEgJctgN+Y6Xp
+ u1qa8wxemoJTTFI8my/K/si8j6wCN8BEVz1q0XYjSJHXtoqGd/OzKi6PadYLOK4H3OIS
+ TfVk6nklTh1HvJYHnz2y2GIxC2xAAyQh9NObBXXCT+3D9kj0vULTB+rSHhLoQ690WtuI
+ pdGHkGkrqY0pa16YB0DGXiwGPke1Z2YNn+wOxrL5HN+Wn/nEvr8uLCEpd2R1gX8oz8z/
+ ajyw==
+X-Gm-Message-State: AOAM532MY81oX04NGZ/pUFaYch7DkvcZrhVzDtgrgVutdI+gBdaGh03H
+ bnJT6ziZHpNFck8/RG48g5baOf3VyVe6QAQQJP4CigLMNQQFhfTuSWjVs+T+NSumDlBxOtvQ4uy
+ YWVaSRMep/nEVmjPtGdv+SGW+g66wJuo=
+X-Received: by 2002:a4a:1401:: with SMTP id 1mr21114969ood.50.1626794176074;
+ Tue, 20 Jul 2021 08:16:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyTw+eyOWjzoOR2euzvkRLKNYL6s1YEN3Re1kMpX9RNIH3Wa9NaniI8wY1N7vWiFPrhcaj+KrKzS75az64hP44=
+X-Received: by 2002:a4a:1401:: with SMTP id 1mr21114961ood.50.1626794175886;
+ Tue, 20 Jul 2021 08:16:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
- <CAFEAcA-Dmof7gi9MRxjo0FcYN8ZW0NTKi2+SAgO1V8-VMndN-A@mail.gmail.com>
- <CAFEAcA_cYZHr=Kz2JakLpxkdyBWGJUUpJWZyyV_yMq59X7YJGw@mail.gmail.com>
- <CAFEAcA-sq2GfHkpVc8BF-n=KEVwwrtzsbhM9w+_O=GmN+gg5WQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-sq2GfHkpVc8BF-n=KEVwwrtzsbhM9w+_O=GmN+gg5WQ@mail.gmail.com>
-From: Kenneth Adam Miller <kennethadammiller@gmail.com>
-Date: Tue, 20 Jul 2021 11:13:00 -0400
-Message-ID: <CAK7rcp-qm1v-fuNvH8-978SHV=sXOK8DhzMUfmWSEwGQ+utJ4A@mail.gmail.com>
-Subject: Re: Error in accel/tcg?
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000000e93505c78f7eae"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::229;
- envelope-from=kennethadammiller@gmail.com; helo=mail-oi1-x229.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20210625182021.803227-1-jsnow@redhat.com>
+ <20210625182021.803227-3-jsnow@redhat.com>
+ <49db446b-3960-50ea-9693-d3bd5d1701f8@virtuozzo.com>
+In-Reply-To: <49db446b-3960-50ea-9693-d3bd5d1701f8@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 20 Jul 2021 11:16:05 -0400
+Message-ID: <CAFn=p-bTqxsg-pBkpUzdQuCNrfBr11q7ZwO2xeQ8r_b1rGydzQ@mail.gmail.com>
+Subject: Re: [PATCH 02/10] iotests/297: Add get_files() function
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000fa0a9605c78f882b"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,116 +89,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000000e93505c78f7eae
+--000000000000fa0a9605c78f882b
 Content-Type: text/plain; charset="UTF-8"
 
-See of course I thought about editing code outside of my target too, but
-thought against it. And doing it that way may make the compiler happier,
-but then would it be inviting a runtime error?
+On Tue, Jul 6, 2021 at 5:02 AM Vladimir Sementsov-Ogievskiy <
+vsementsov@virtuozzo.com> wrote:
 
-On Tue, Jul 20, 2021 at 11:08 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
-
-> On Tue, 20 Jul 2021 at 16:06, Peter Maydell <peter.maydell@linaro.org>
-> wrote:
+> 25.06.2021 21:20, John Snow wrote:
+> > Split out file discovery into its own method to begin separating out the
+> > "environment setup" and "test execution" phases.
 > >
-> > On Tue, 20 Jul 2021 at 10:06, Peter Maydell <peter.maydell@linaro.org>
-> wrote:
-> > >
-> > > On Mon, 19 Jul 2021 at 23:20, Kenneth Adam Miller
-> > > <kennethadammiller@gmail.com> wrote:
-> > > >
-> > > > Hello,
-> > > >
-> > > > I get the following error:
-> > > >
-> > > > <long cmd here> -c ../accel/tcg/cputlb.c
-> > > > ../qemu/accel/tcg/cputlb.c: In function 'tlb_flush_page_by_mmuidx':
-> > > > ../qemu/accel/tcg/cputlb.c:602:23: error: comparison is always true
-> due to limited range of data type [-Werror=type-limits]
-> > > >     } else if (idxmap < TARGET_PAGE_SIZE) {
-> > > >
-> > > > I don't know why that suddenly shows up.
+> > Signed-off-by: John Snow <jsnow@redhat.com>
 >
-> > You'll get this warning, incidentally, if you have a
-> > target which sets TARGET_PAGE_BITS to 16 or more.
-> > Currently the only target which does that is hexagon, and
-> > that is linux-user only, so it doesn't run into this (yet).
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+> > ---
+> >   tests/qemu-iotests/297 | 11 +++++++++--
+> >   1 file changed, 9 insertions(+), 2 deletions(-)
 > >
-> > The warning is harmless (apart from preventing compilation with
-> > -Werror), but there's no in-theory reason why softmmu shouldn't
-> > work with 64K pages, so we should figure out a way to rephrase
-> > the cputlb.c code to suppress it.
+> > diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+> > index 493dda17fb..0bc1195805 100755
+> > --- a/tests/qemu-iotests/297
+> > +++ b/tests/qemu-iotests/297
+> > @@ -21,6 +21,7 @@ import re
+> >   import shutil
+> >   import subprocess
+> >   import sys
+> > +from typing import List
+> >
+> >   import iotests
+> >
+> > @@ -56,9 +57,15 @@ def is_python_file(filename: str, directory: str =
+> '.') -> bool:
+> >               return False
+> >
+> >
+> > +def get_test_files(directory: str = '.') -> List[str]:
+> > +    return [
+> > +        f for f in (set(os.listdir(directory)) - set(SKIP_FILES))
+> > +        if is_python_file(f, directory)
+> > +    ]
+> > +
+> > +
+> >   def run_linters():
+> > -    files = [filename for filename in (set(os.listdir('.')) -
+> set(SKIP_FILES))
+> > -             if is_python_file(filename)]
+> > +    files = get_test_files()
 >
-> Assuming you do have something with TARGET_PAGE_BITS 16, if
-> you rewrite the conditions to
->  "if ((uint32_t)idxmap < TARGET_PAGE_SIZE)" does that make
-> the compiler happier ?
+> Hmm. It looks like files in tests/qemu-iotests/tests are ignored now..
+> That's bad
 >
-> -- PMM
+>
+Oh, it seems likely we were never checking them -- listdir doesn't recurse
+before *or* after this patch. OK, I can fix that. It'll be in a new patch.
+
+
+> >
+> >       iotests.logger.debug('Files to be checked:')
+> >       iotests.logger.debug(', '.join(sorted(files)))
+> >
+>
+>
+> --
+> Best regards,
+> Vladimir
+>
 >
 
---00000000000000e93505c78f7eae
+--000000000000fa0a9605c78f882b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">See of course I thought about editing code outside of my t=
-arget too, but thought against it. And doing it that way may make the compi=
-ler happier, but then would it be inviting a runtime error?</div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 20, =
-2021 at 11:08 AM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.o=
-rg">peter.maydell@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">On Tue, 20 Jul 2021 at 16:06, Peter Maydell &lt=
-;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydel=
-l@linaro.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Tue, 20 Jul 2021 at 10:06, Peter Maydell &lt;<a href=3D"mailto:pete=
-r.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org</a>&gt; wr=
-ote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Mon, 19 Jul 2021 at 23:20, Kenneth Adam Miller<br>
-&gt; &gt; &lt;<a href=3D"mailto:kennethadammiller@gmail.com" target=3D"_bla=
-nk">kennethadammiller@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Hello,<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I get the following error:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &lt;long cmd here&gt; -c ../accel/tcg/cputlb.c<br>
-&gt; &gt; &gt; ../qemu/accel/tcg/cputlb.c: In function &#39;tlb_flush_page_=
-by_mmuidx&#39;:<br>
-&gt; &gt; &gt; ../qemu/accel/tcg/cputlb.c:602:23: error: comparison is alwa=
-ys true due to limited range of data type [-Werror=3Dtype-limits]<br>
-&gt; &gt; &gt;=C2=A0 =C2=A0 =C2=A0} else if (idxmap &lt; TARGET_PAGE_SIZE) =
-{<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I don&#39;t know why that suddenly shows up.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 6, 2021 at 5:02 AM Vladim=
+ir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsem=
+entsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">25.06.2021 21:20, John Snow wrote:<br>
+&gt; Split out file discovery into its own method to begin separating out t=
+he<br>
+&gt; &quot;environment setup&quot; and &quot;test execution&quot; phases.<b=
+r>
+&gt; <br>
+&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
+t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
 <br>
-&gt; You&#39;ll get this warning, incidentally, if you have a<br>
-&gt; target which sets TARGET_PAGE_BITS to 16 or more.<br>
-&gt; Currently the only target which does that is hexagon, and<br>
-&gt; that is linux-user only, so it doesn&#39;t run into this (yet).<br>
-&gt;<br>
-&gt; The warning is harmless (apart from preventing compilation with<br>
-&gt; -Werror), but there&#39;s no in-theory reason why softmmu shouldn&#39;=
-t<br>
-&gt; work with 64K pages, so we should figure out a way to rephrase<br>
-&gt; the cputlb.c code to suppress it.<br>
+Reviewed-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@=
+virtuozzo.com" target=3D"_blank">vsementsov@virtuozzo.com</a>&gt;<br>
 <br>
-Assuming you do have something with TARGET_PAGE_BITS 16, if<br>
-you rewrite the conditions to<br>
-=C2=A0&quot;if ((uint32_t)idxmap &lt; TARGET_PAGE_SIZE)&quot; does that mak=
-e<br>
-the compiler happier ?<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0tests/qemu-iotests/297 | 11 +++++++++--<br>
+&gt;=C2=A0 =C2=A01 file changed, 9 insertions(+), 2 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297<br>
+&gt; index 493dda17fb..0bc1195805 100755<br>
+&gt; --- a/tests/qemu-iotests/297<br>
+&gt; +++ b/tests/qemu-iotests/297<br>
+&gt; @@ -21,6 +21,7 @@ import re<br>
+&gt;=C2=A0 =C2=A0import shutil<br>
+&gt;=C2=A0 =C2=A0import subprocess<br>
+&gt;=C2=A0 =C2=A0import sys<br>
+&gt; +from typing import List<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0import iotests<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -56,9 +57,15 @@ def is_python_file(filename: str, directory: str =
+=3D &#39;.&#39;) -&gt; bool:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return False<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +def get_test_files(directory: str =3D &#39;.&#39;) -&gt; List[str]:<b=
+r>
+&gt; +=C2=A0 =C2=A0 return [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 f for f in (set(os.listdir(directory)) - =
+set(SKIP_FILES))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if is_python_file(f, directory)<br>
+&gt; +=C2=A0 =C2=A0 ]<br>
+&gt; +<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0def run_linters():<br>
+&gt; -=C2=A0 =C2=A0 files =3D [filename for filename in (set(os.listdir(&#3=
+9;.&#39;)) - set(SKIP_FILES))<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if is_python_file(fil=
+ename)]<br>
+&gt; +=C2=A0 =C2=A0 files =3D get_test_files()<br>
 <br>
--- PMM<br>
-</blockquote></div>
+Hmm. It looks like files in tests/qemu-iotests/tests are ignored now.. That=
+&#39;s bad<br>
+<br></blockquote><div><br></div><div>Oh, it seems likely we were never chec=
+king them -- listdir doesn&#39;t recurse before *or* after this patch. OK, =
+I can fix that. It&#39;ll be in a new patch.<br></div><div></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0iotests.logger.debug(&#39;Files to be checke=
+d:&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0iotests.logger.debug(&#39;, &#39;.join(sorte=
+d(files)))<br>
+&gt; <br>
+<br>
+<br>
+-- <br>
+Best regards,<br>
+Vladimir<br>
+<br>
+</blockquote></div></div>
 
---00000000000000e93505c78f7eae--
+--000000000000fa0a9605c78f882b--
+
 
