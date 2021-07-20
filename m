@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1121C3CFED2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 18:11:18 +0200 (CEST)
-Received: from localhost ([::1]:52428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14033CFF03
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 18:15:03 +0200 (CEST)
+Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5sKy-0001I3-LO
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 12:11:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35602)
+	id 1m5sOc-0004GV-MP
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 12:15:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5sK0-0000dj-Tk
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 12:10:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43991)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5sJu-0007Cd-2j
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 12:10:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626797408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i2h5LCeuwYq7qyTLc1ssmtWirtaDTxDr4YDLnGV4mjs=;
- b=JPyTl/JdCZzxN1her8XYe4MmZVthgR0ETwJMQfky6RlmSVVl/EbgIxbXQ5SejyTOIHIUx1
- cRYBBmUDYSjystNqcDFMU7tXvTH9YhV0uG29Af7X48Wmc3AaYgL+zEQirO4ih8Q4wy26Gf
- B4O1tAtznOWcLCpOUxGCVT2hHML3FLw=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-gTfsdlhBMgGGhP-KNwpgIw-1; Tue, 20 Jul 2021 12:10:06 -0400
-X-MC-Unique: gTfsdlhBMgGGhP-KNwpgIw-1
-Received: by mail-oi1-f198.google.com with SMTP id
- n134-20020acad68c0000b029025a4350857eso15778345oig.8
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 09:10:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5sNa-0003Ky-7s
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 12:13:58 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5sNY-0001NH-Ck
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 12:13:57 -0400
+Received: by mail-wr1-x433.google.com with SMTP id c15so3021084wrs.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 09:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=zLiXpYKOlP6DNQl7D1rOEElALBXRVevv4zUIeaaxB+s=;
+ b=J4IZvabQOgPXy8ymNFmVyBSfB39QuxrhJT8MdsLpGSEL3Sx8t2nrRu6xCuiA3MdH7P
+ KmErvZSgUSlasIZEfJOWPMq0EbmvjbDbR26r/P8Ueg1E3cvKgOtxFA0sCyS/ye+4FNeM
+ vMgIqUebJuofvRdsKW9G9Qv7nmBdr5lPm6Incrsd6P8nBAYOTNV0cVyfKEmaRIArZjWZ
+ KiWLt69KcYepxlc8LRJ3yTh619rovsro/Zt841QYHc7VluvlyMZxqmbnoaLUtPKx212u
+ P9ZiUHc02+wAh3hsyG198xKjFU2y+11xE0FxMmxiFGeVjlcsmWu3K0UZdMFHFbnkNR2S
+ 4WhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i2h5LCeuwYq7qyTLc1ssmtWirtaDTxDr4YDLnGV4mjs=;
- b=UBASnMXVPS3FQtw/Pp1vISaRf9YnDfUa7AdC0VvYdk7SsYHx35xRVgKg3SEJv0xpFl
- cg43BnwYc3JJIxbDGTfrvzfpj1kZlwWkQuVgk13FqeYAD9o55hzqAuDApgoAGfqyBoj4
- iBE/S0WLk+UZ8/vZQP16bBrdUuLiyfZ+EcSSNXmXj3Rc6B56SEdgOB69q9y2yKmnYaF1
- XacGTAlE8htcyFcpSLviL9kq6dbXgk2T0RrNrPpqtxfs03Fld+nfRUToxQLj4j8P0Wn0
- 9rNtsOZWIUeFWLpMo/+/vada2oIame+O5bmSjQK7uIiqWV3cCiCh74I15nHencr2acuU
- z/Rg==
-X-Gm-Message-State: AOAM533zpENGoeJywO0nqeNG3DZkvv+1AdDQefkJUVVNJmxeNqp5xGAX
- ifZu0NYkWw8XToTCmqrThCh8bNNblqO3G0xiqSQmOdVEM0zbZp2MxCrDsxBAAwo/df+pG5E4H53
- EWU23cX1Jrsce5xz6u/XFkRnQ5Nm7org=
-X-Received: by 2002:a9d:20a2:: with SMTP id x31mr21450401ota.263.1626797405315; 
- Tue, 20 Jul 2021 09:10:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzGtHV5QiHo+Mm5NgWk62aznv/yy2Kzws8ZvFfKlRukx+JJhWuS82FyTyGz2p/kEg5la3lhsrnPLBfk2h0AclE=
-X-Received: by 2002:a9d:20a2:: with SMTP id x31mr21450385ota.263.1626797405115; 
- Tue, 20 Jul 2021 09:10:05 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=zLiXpYKOlP6DNQl7D1rOEElALBXRVevv4zUIeaaxB+s=;
+ b=HapHYJPwYhh1kA2GQeLRBp2J92u/0jf4EF/+j1BkJOkYZlo1udNBFQ0CfMOEk8aBpC
+ E6iWhV4UhwUPxtObk2IBQLd/oZn7vwXwkLL8W0Y5TMnZ6QjcYUArNdXEYsjPn2IlfSAx
+ ZdnyDrmAJ0GF1fBBAI7SxKUYGI0ucO5VqxpLjw2Ai55+lYgKTMwM4JOG9k68w0ufxZsO
+ +7ixgKVmxN2UWZDd7HpHWflrrZ2k3e9+3ViA2sNK+vE8VpMJuTcsnMFnClmCc/qgmDaD
+ kA+XpvoC7w8p/fhOSB4Mz+nLNwRoSfvpjPoFvvWVFs6D5tcr93aZGOBa0ArMMcnPb5qa
+ 6LdQ==
+X-Gm-Message-State: AOAM532J0uLIwA3XJpTmQq6fJAoSfVvlUpgdE/us0o7oU6MEKhPMT12F
+ RHFzBImxvOeDVRi0jJ73HBkfWw==
+X-Google-Smtp-Source: ABdhPJxv7qe+lQOb4hB85kfJsqatuYHT2pL/lZpGuW6vC5Q5RTM7r82t1D93XtWN43D47o0mKzEZSw==
+X-Received: by 2002:a05:6000:11cf:: with SMTP id
+ i15mr36567311wrx.212.1626797634274; 
+ Tue, 20 Jul 2021 09:13:54 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q7sm20274515wmq.33.2021.07.20.09.13.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 09:13:53 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4A3941FF7E;
+ Tue, 20 Jul 2021 17:13:52 +0100 (BST)
+References: <20210720011800.483966-1-richard.henderson@linaro.org>
+ <20210720011800.483966-13-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH for-6.1 v5 12/15] accel/tcg: Move breakpoint recognition
+ outside translation
+Date: Tue, 20 Jul 2021 17:12:21 +0100
+In-reply-to: <20210720011800.483966-13-richard.henderson@linaro.org>
+Message-ID: <877dhlm08v.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210712150214.624281-1-armbru@redhat.com>
-In-Reply-To: <20210712150214.624281-1-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 20 Jul 2021 12:09:54 -0400
-Message-ID: <CAFn=p-av0A_fE-38TjhBv8WvHXaVmUG4GZxGY2A9ouFO2bgZKg@mail.gmail.com>
-Subject: Re: [PATCH] docs/devel/qapi-code-gen: Update examples to match
- current code
-To: Markus Armbruster <armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000742a8a05c7904913"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,238 +89,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
+ qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000742a8a05c7904913
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 12, 2021 at 11:02 AM Markus Armbruster <armbru@redhat.com>
-wrote:
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Trigger breakpoints before beginning translation of a TB
+> that would begin with a BP.  Thus we never generate code
+> for the BP at all.
 >
-
-I assume this is about making the examples match the current output
-exactly, so we're doing some updates for spacing and so on.
-
-I'll trust it.
-
-Acked-by: John Snow <jsnow@redhat.com>
-
-
-> ---
->  docs/devel/qapi-code-gen.txt | 23 ++++++++++++++++-------
->  1 file changed, 16 insertions(+), 7 deletions(-)
+> Single-step instructions within a page containing a BP so
+> that we are sure to check each insn for the BP as above.
 >
-> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-> index c1cb6f987d..233022184b 100644
-> --- a/docs/devel/qapi-code-gen.txt
-> +++ b/docs/devel/qapi-code-gen.txt
-> @@ -1496,8 +1496,12 @@ Example:
+> We no longer need to flush any TBs when changing BPs.
 >
->
->      bool visit_type_UserDefOne_members(Visitor *v, UserDefOne *obj, Error
-> **errp);
-> -    bool visit_type_UserDefOne(Visitor *v, const char *name, UserDefOne
-> **obj, Error **errp);
-> -    bool visit_type_UserDefOneList(Visitor *v, const char *name,
-> UserDefOneList **obj, Error **errp);
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/286
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/404
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/489
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+However...
+>=20=20
+> +static bool check_for_breakpoints(CPUState *cpu, target_ulong pc,
+> +                                  uint32_t *cflags)
+> +{
+> +    CPUBreakpoint *bp;
+> +    bool match_page =3D false;
 > +
-> +    bool visit_type_UserDefOne(Visitor *v, const char *name,
-> +                     UserDefOne **obj, Error **errp);
+> +    if (likely(QTAILQ_EMPTY(&cpu->breakpoints))) {
+> +        return false;
+> +    }
 > +
-> +    bool visit_type_UserDefOneList(Visitor *v, const char *name,
-> +                     UserDefOneList **obj, Error **errp);
->
->      bool visit_type_q_obj_my_command_arg_members(Visitor *v,
-> q_obj_my_command_arg *obj, Error **errp);
->
-> @@ -1518,7 +1522,8 @@ Example:
->          return true;
->      }
->
-> -    bool visit_type_UserDefOne(Visitor *v, const char *name, UserDefOne
-> **obj, Error **errp)
-> +    bool visit_type_UserDefOne(Visitor *v, const char *name,
-> +                     UserDefOne **obj, Error **errp)
->      {
->          bool ok = false;
->
-> @@ -1528,6 +1533,7 @@ Example:
->          if (!*obj) {
->              /* incomplete */
->              assert(visit_is_dealloc(v));
-> +            ok = true;
->              goto out_obj;
->          }
->          if (!visit_type_UserDefOne_members(v, *obj, errp)) {
-> @@ -1543,7 +1549,8 @@ Example:
->          return ok;
->      }
->
-> -    bool visit_type_UserDefOneList(Visitor *v, const char *name,
-> UserDefOneList **obj, Error **errp)
-> +    bool visit_type_UserDefOneList(Visitor *v, const char *name,
-> +                     UserDefOneList **obj, Error **errp)
->      {
->          bool ok = false;
->          UserDefOneList *tail;
-> @@ -1628,11 +1635,13 @@ Example:
->      $ cat qapi-generated/example-qapi-commands.c
->  [Uninteresting stuff omitted...]
->
-> -    static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in, QObject
-> **ret_out, Error **errp)
+> +    QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
+> +        /*
+> +         * If we have an exact pc match, trigger the breakpoint.
+> +         * Otherwise, note matches within the page.
+> +         */
+> +        if (pc =3D=3D bp->pc) {
+> +            bool match_bp =3D false;
 > +
-> +    static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in,
-> +                                    QObject **ret_out, Error **errp)
->      {
->          Visitor *v;
->
-> -        v = qobject_output_visitor_new(ret_out);
-> +        v = qobject_output_visitor_new_qmp(ret_out);
->          if (visit_type_UserDefOne(v, "unused", &ret_in, errp)) {
->              visit_complete(v, ret_out);
->          }
-> @@ -1650,7 +1659,7 @@ Example:
->          UserDefOne *retval;
->          q_obj_my_command_arg arg = {0};
->
-> -        v = qobject_input_visitor_new(QOBJECT(args));
-> +        v = qobject_input_visitor_new_qmp(QOBJECT(args));
->          if (!visit_start_struct(v, NULL, NULL, 0, errp)) {
->              goto out;
->          }
-> --
-> 2.31.1
->
->
+> +            if (bp->flags & BP_GDB) {
+> +                match_bp =3D true;
+> +            } else if (bp->flags & BP_CPU) {
+> +#ifdef CONFIG_USER_ONLY
+> +                g_assert_not_reached();
+> +#else
+> +                CPUClass *cc =3D CPU_GET_CLASS(cpu);
+> +                assert(cc->tcg_ops->debug_check_breakpoint);
+> +                match_bp =3D cc->tcg_ops->debug_check_breakpoint(cpu);
+> +#endif
+> +            }
+> +
+> +            if (match_bp) {
+> +                cpu->exception_index =3D EXCP_DEBUG;
+> +                return true;
+> +            }
+> +        } else if (((pc ^ bp->pc) & TARGET_PAGE_MASK) =3D=3D 0) {
+> +            match_page =3D true;
+> +        }
+> +    }
+> +
+> +    /*
+> +     * Within the same page as a breakpoint, single-step,
+> +     * returning to helper_lookup_tb_ptr after each looking
+> +     * for the actual breakpoint.
+> +     *
+> +     * TODO: Perhaps better to record all of the TBs associated
+> +     * with a given virtual page that contains a breakpoint, and
+> +     * then invalidate them when a new overlapping breakpoint is
+> +     * set on the page.  Non-overlapping TBs would not be
+> +     * invalidated, nor would any TB need to be invalidated as
+> +     * breakpoints are removed.
+> +     */
+> +    if (match_page) {
+> +        *cflags =3D (*cflags & ~CF_COUNT_MASK) | CF_NO_GOTO_TB | 1;
+> +    }
+> +    return false;
+> +}
+> +
 
---000000000000742a8a05c7904913
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This seems to have a really negative effect on:
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 12, 2021 at 11:02 AM Mark=
-us Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a=
->&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Sig=
-ned-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" targ=
-et=3D"_blank">armbru@redhat.com</a>&gt;<br></blockquote><div><br></div><div=
->I assume this is about making the examples match the current output exactl=
-y, so we&#39;re doing some updates for spacing and so on.</div><div><br></d=
-iv><div>I&#39;ll trust it.<br></div><br><div>Acked-by: John Snow &lt;<a hre=
-f=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt;<br></div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0docs/devel/qapi-code-gen.txt | 23 ++++++++++++++++-------<br>
-=C2=A01 file changed, 16 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt<br=
->
-index c1cb6f987d..233022184b 100644<br>
---- a/docs/devel/qapi-code-gen.txt<br>
-+++ b/docs/devel/qapi-code-gen.txt<br>
-@@ -1496,8 +1496,12 @@ Example:<br>
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0bool visit_type_UserDefOne_members(Visitor *v, UserDefO=
-ne *obj, Error **errp);<br>
--=C2=A0 =C2=A0 bool visit_type_UserDefOne(Visitor *v, const char *name, Use=
-rDefOne **obj, Error **errp);<br>
--=C2=A0 =C2=A0 bool visit_type_UserDefOneList(Visitor *v, const char *name,=
- UserDefOneList **obj, Error **errp);<br>
-+<br>
-+=C2=A0 =C2=A0 bool visit_type_UserDefOne(Visitor *v, const char *name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0UserDefOne **obj, Error **errp);<br>
-+<br>
-+=C2=A0 =C2=A0 bool visit_type_UserDefOneList(Visitor *v, const char *name,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0UserDefOneList **obj, Error **errp);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0bool visit_type_q_obj_my_command_arg_members(Visitor *v=
-, q_obj_my_command_arg *obj, Error **errp);<br>
-<br>
-@@ -1518,7 +1522,8 @@ Example:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return true;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 bool visit_type_UserDefOne(Visitor *v, const char *name, Use=
-rDefOne **obj, Error **errp)<br>
-+=C2=A0 =C2=A0 bool visit_type_UserDefOne(Visitor *v, const char *name,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0UserDefOne **obj, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool ok =3D false;<br>
-<br>
-@@ -1528,6 +1533,7 @@ Example:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!*obj) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* incomplete */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0assert(visit_is_dealloc(v))=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ok =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out_obj;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!visit_type_UserDefOne_members(v, *ob=
-j, errp)) {<br>
-@@ -1543,7 +1549,8 @@ Example:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ok;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 bool visit_type_UserDefOneList(Visitor *v, const char *name,=
- UserDefOneList **obj, Error **errp)<br>
-+=C2=A0 =C2=A0 bool visit_type_UserDefOneList(Visitor *v, const char *name,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0UserDefOneList **obj, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool ok =3D false;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0UserDefOneList *tail;<br>
-@@ -1628,11 +1635,13 @@ Example:<br>
-=C2=A0 =C2=A0 =C2=A0$ cat qapi-generated/example-qapi-commands.c<br>
-=C2=A0[Uninteresting stuff omitted...]<br>
-<br>
--=C2=A0 =C2=A0 static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in=
-, QObject **ret_out, Error **errp)<br>
-+<br>
-+=C2=A0 =C2=A0 static void qmp_marshal_output_UserDefOne(UserDefOne *ret_in=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 QObject **ret_out, Err=
-or **errp)<br>
-=C2=A0 =C2=A0 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Visitor *v;<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D qobject_output_visitor_new(ret_out);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D qobject_output_visitor_new_qmp(ret_out);=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (visit_type_UserDefOne(v, &quot;unused=
-&quot;, &amp;ret_in, errp)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0visit_complete(v, ret_out);=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-@@ -1650,7 +1659,7 @@ Example:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0UserDefOne *retval;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0q_obj_my_command_arg arg =3D {0};<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D qobject_input_visitor_new(QOBJECT(args))=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 v =3D qobject_input_visitor_new_qmp(QOBJECT(ar=
-gs));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!visit_start_struct(v, NULL, NULL, 0,=
- errp)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
+ ./tests/venv/bin/avocado run tests/acceptance/reverse_debugging.py:Reverse=
+Debugging_AArch64.test_aarch64_virt
 
---000000000000742a8a05c7904913--
+Even bumping the timeout up from 10 to 300 isn't enough to get it
+working. I'm not sure if this is a time or a hang.
 
+--=20
+Alex Benn=C3=A9e
 
