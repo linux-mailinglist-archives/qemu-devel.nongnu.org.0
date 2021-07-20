@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798C73CF953
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:06:15 +0200 (CEST)
-Received: from localhost ([::1]:54592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D98CD3CF94F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:04:45 +0200 (CEST)
+Received: from localhost ([::1]:52084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5oVq-0000xE-FF
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:06:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
+	id 1m5oUO-0007e3-ST
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:04:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5oIv-0003Nm-C5
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:52:53 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38898)
+ id 1m5oKS-00009j-NH
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:54:28 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5oIs-0005vh-Co
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:52:52 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id c15so2093100wrs.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:52:50 -0700 (PDT)
+ id 1m5oKR-0006cF-9D
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:54:28 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ b14-20020a1c1b0e0000b02901fc3a62af78so1319893wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=X+WULViq4KY97L8GzDu4t9eGlwfpb7TRY6HwkoTafbY=;
- b=dqtbc0+fnEzbKkS2f2F0KS7RgaJBs/+DHYmI/LTf0dtASYU4l2mWmkM0Biufc5RRIl
- 6I5sTQZl7DzA/q77vUWu34VRsELIo8NaOsOf90qxO3thyQJrjvc2O7ibcG0+9Ryzlvtr
- ysoMWq3HeKhpntTTuJfnqfeMR1oWbxbIUwep1y9GYKo0mFVuskWwOatLYUEkzMSnfZwM
- VMcNgQEqz6mUWY0m7GRG5gKtZzIxp5iYNcmhyXBaK9xvOVTaXdlYrHvdzV22BxCH4ZHy
- YWvBJ/Io4Cbso7xIcvMX/OyMzAPOUeGdfX7n2ef96cOaH5ElegyTgiipsKoVl1XbCkEJ
- KZXw==
+ bh=MAOffgrFNruHvWxefaPvl0YuHgUJDN/9cl+hYYVD0tE=;
+ b=VYyuqvfl84bZ6AdVbjH6LinKzYqOzyMj1byVC2uSTmJ2E7PNYZN5LyYc3uTgMECY+u
+ 7eBMT9sS14k+tmQPaR4uao00SzgM5SndUeTsikFLEvZgQoZuTtD+2izIthDbzaxwUhIY
+ zSA7xt4b66dfHOfOsKzeFi77msB8/8f2diTiX7ISoon+5kXGbDE48haBm77wYgWMRh22
+ qBbT4Ss8wWiV2yaiesnDSjbwxR+uQ7et2mST/i2Ch8GvPs7t7qFWGNs7XdyWPBFzbocH
+ lhHqxB+CSu2ri2qa2fDlyYWcbmUcfPyJvrJ6CtVx/fG9NkxcaeHlmGbUo4eI+Wof5hsK
+ lELA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=X+WULViq4KY97L8GzDu4t9eGlwfpb7TRY6HwkoTafbY=;
- b=GrSzox8v8spbQHBnatdE8e4ySQgMBuo9fNJe8B6/ETpukQOXRUHT5DcWwrwt7MQC6+
- gLmyRqMjVGcDXFn2O9cWnj74uFJMwjmmCPoOs51PULw5Dc0eN5q4OWWnV9gkij8XDmS9
- eXuG4wPQpSJVgYontnr+Eixj6ST4BVjnpVr5mplF45QW6FCpnVjX8E4auGgMClxuTKUr
- a0pp+yQ/2T8ga68dH0TXnH+WRXPol3trXckNa30m4OZe1hNGIoZTZ1xUueJTcExZ/U6N
- OrLhposufWxzCr0qRsZLqfNZlxdElGpr8nuQDJbrMmXjKDHahfbVUhji20SZpdChTST0
- MqqQ==
-X-Gm-Message-State: AOAM531hcLnP8B9obTQqByz6/XzkxpMEheOnKQzxko3dqerYHg4A4rzi
- yNu8/BWCmk0r2CNeG9dNI1k=
-X-Google-Smtp-Source: ABdhPJyZWty4bdRQpi7LRW2Zdq+N+34vWiBgt7TjTNkvveuSvC93RvxdRD5GV0oNVmo5/Ajw8/fDxA==
-X-Received: by 2002:a5d:6148:: with SMTP id y8mr35275566wrt.20.1626781968989; 
- Tue, 20 Jul 2021 04:52:48 -0700 (PDT)
+ bh=MAOffgrFNruHvWxefaPvl0YuHgUJDN/9cl+hYYVD0tE=;
+ b=J6DQ3N7hMYRrdlMKpR5DymxBBg9DZ3NH4aCaxWModi4STjP+Bubhk0oQdzCRuyjT7q
+ m1mref5HHJMayarmjVj9I0ns+GcCdW+k0YY4/TtTckr8LzXq1zzShwNeke2wYb3rscRb
+ SVCUdcYjIL1YFE4lDkUhykYN2VCYn+CsfHUOITO2OImJZUjtuDqd8BFMkb2O6hxSkoBF
+ rCUZm6/PRkLVSX9+1ZPDBlFOD3uCWnqz+TsYLGr2k6C+9hLsPEJNj4ErR7l9C7FAFXnE
+ wCFfGiC8gvBovujbVMAGQd5ttOvbRUlRRzk0tZ5pV6vTD3QW8Zo2bLeM1p9GQAfIpkL6
+ wx2g==
+X-Gm-Message-State: AOAM530UlWM3jHMukeDtAvLkzSI4MFvKepbDAEgtukTmbSjqH61GD/Fm
+ 28JZvvRGEsiXx99M3JR9c1c=
+X-Google-Smtp-Source: ABdhPJxxhGB4aMP1FtgYTiT1f4kDlQ2dCYTd2xGCUw4LRGU4uVSYjDCiRsaygePch8QtI9P7qHCOGQ==
+X-Received: by 2002:a7b:c7c5:: with SMTP id z5mr36447594wmk.71.1626782065924; 
+ Tue, 20 Jul 2021 04:54:25 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id c10sm19565538wmb.40.2021.07.20.04.52.47
+ by smtp.gmail.com with ESMTPSA id t6sm23797583wru.75.2021.07.20.04.54.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 04:52:48 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 v5 09/15] target/arm: Implement
- debug_check_breakpoint
+ Tue, 20 Jul 2021 04:54:25 -0700 (PDT)
+Subject: Re: [PATCH for-6.1 v5 14/15] accel/tcg: Hoist tb_cflags to a local in
+ translator_loop
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210720011800.483966-1-richard.henderson@linaro.org>
- <20210720011800.483966-10-richard.henderson@linaro.org>
+ <20210720011800.483966-15-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c758ef0e-f0a4-fa3c-1ed2-b14fb0e8f377@amsat.org>
-Date: Tue, 20 Jul 2021 13:52:47 +0200
+Message-ID: <0c59f944-7730-c473-2ec1-1fcfc4a991ac@amsat.org>
+Date: Tue, 20 Jul 2021 13:54:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210720011800.483966-10-richard.henderson@linaro.org>
+In-Reply-To: <20210720011800.483966-15-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,16 +97,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/20/21 3:17 AM, Richard Henderson wrote:
-> Reuse the code at the bottom of helper_check_breakpoints,
-> which is what we currently call from *_tr_breakpoint_check.
+> The access internal to tb_cflags() is atomic.
+> Avoid re-reading it as such for the multiple uses.
 > 
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/internals.h    | 3 +++
->  target/arm/cpu.c          | 1 +
->  target/arm/cpu_tcg.c      | 1 +
->  target/arm/debug_helper.c | 7 +++----
->  4 files changed, 8 insertions(+), 4 deletions(-)
+>  accel/tcg/translator.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
