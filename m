@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367D03D012C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:03:47 +0200 (CEST)
-Received: from localhost ([::1]:59494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCCA3D012D
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:03:56 +0200 (CEST)
+Received: from localhost ([::1]:60166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5u5q-00037u-8n
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:03:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
+	id 1m5u5z-0003Z6-PX
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:03:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5u3D-000811-QV
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:01:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35655)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5u3B-0006gW-Mj
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:01:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626804061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GjgO9h7/1wbMnunvb+/ba+Jd3nF8JxVIGqD6wpiI880=;
- b=VL8yq55keaEWMnTby5MOOWoB2BIvvk4Td/29YHXCWNqmSk/M822q57UgzUSJpJQjdRhhvB
- gXc/MxCF3cC8hI4wLIpxa5G2DtZj1unubf0uTo5hfD8GozvNkgcon9zedUfjPy2JcxT5rO
- 8f/mCyIk6fsr5lnxnWiR+ALhMI0iFjs=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-mt3jZcuXObmo89EJQkf5dQ-1; Tue, 20 Jul 2021 14:00:59 -0400
-X-MC-Unique: mt3jZcuXObmo89EJQkf5dQ-1
-Received: by mail-ot1-f72.google.com with SMTP id
- i11-20020a9d68cb0000b02904d0a18787d4so5036186oto.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:00:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m5u4S-0001hT-9U
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:02:20 -0400
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:34520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m5u4Q-0007Vz-AU
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:02:20 -0400
+Received: by mail-io1-xd2a.google.com with SMTP id g22so25007664iom.1
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lmzfQfJMjjD+gdFOX7Otl3JCUiM/oTfjSkiwPqY+v4w=;
+ b=s6PS+WsE1r+2fkV0iKyNFVsTlX1s23jKPn6bJwMzy+jG5aX9Gss/PzSNLdt5T9aoI0
+ d7yk0YoqxffADas8S5U3ueiFkfZ6oYym6j3ImfotC345yzMnVDnlNsDNnVKX8LZaS7F2
+ qZx4/Yuy6KFE/2Dmx0T5ipvfMKybFSyD/WEJ4G6qPgup5ILM1AoaFp58SX+o6B3PU/Ue
+ PPz4djg6n+cgbIG5ocSrSP5PyvC4oMv8rtds2L5M60RgihuIiZ25OQQNz2XEJEnh1YCL
+ OuJurFt1rvB7Im8TFpc8/Lo8TGiQl7ufMcdMzAPCfY6YOVUzG6Cw5OkYD27CliWio5p9
+ Rp1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GjgO9h7/1wbMnunvb+/ba+Jd3nF8JxVIGqD6wpiI880=;
- b=U7HlVo0n0l+n+laChGjIYheqvTsEudyzj8DWjMmt7ou0QKkLV7idyJpFsqrYOdeEz8
- HYSZqmuq1XH9EUr5euYfll8oCGkuuHL9kQmlx1KGl+S9kUb/dueZQcJtF9kciApc0RTa
- SvxTlceQtykLP7gEwnolX1QIPhUZCrb+jygS7kxF5/esNJj0oTEjlY+5y08P6aOPvPx7
- d6UGJHyBBTw5KVmKcaQxfw1tsE5ZwswDqQt/LnTlZ4LGjFvKkxBspOySrR7c0KKoVZke
- Hxtv7W+iPRRBkN8VMUx5REPjyhZpS1/fSNLZdXwUx5IdPTNPnBcaaGfYl7I+HiSw/Sc/
- 1aQw==
-X-Gm-Message-State: AOAM533SWDj9CRBFgSMM+O6zZi6GMXGquTTQ1Di3eUbVXCkoiczx2kW3
- FWRhO331G29LbSerX26q01RiZjxSfM6Hh6bpOqm2ckvlu7A4jGT+IUcaNxnOLhKGLtFavyMQHbA
- NDkdKxW352FHwSzG63pGTqeHAt69tR20=
-X-Received: by 2002:a4a:8544:: with SMTP id l4mr21647468ooh.5.1626804058482;
- Tue, 20 Jul 2021 11:00:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy1GAtfR2gyezYNY0LuyB5regR8LD9I//EQQFB7yPVeUCJziAallwuZ8rTSMaCAIh6saN+pDscQXx0bSLbcywk=
-X-Received: by 2002:a4a:8544:: with SMTP id l4mr21647452ooh.5.1626804058321;
- Tue, 20 Jul 2021 11:00:58 -0700 (PDT)
+ bh=lmzfQfJMjjD+gdFOX7Otl3JCUiM/oTfjSkiwPqY+v4w=;
+ b=Ees9cDEFDAZqhTyAbSr2VGzYU4tmkFD4LaPynrS7A2kJO3somM5H+quMl5GX6uY3oW
+ SNZZSeKNwtKdMnsuvqrtLyOvrOQG4SAtf6FMIATBVN4U9UP3Y/4n7u5X4X/Rh8u/GjFy
+ XLxAzjArdWMlFwp0SRT2/u1nKANWuiT9/LIVQKYlIchDwClahpQxfOnRSCSwwdfrVoy2
+ 9lhnS3Qu1n1+oqWWKfsUnn5NU3g6RQ54i5ItXHCRIW65YmfGLabraBNwPQ8FBFznGmFu
+ /K4FFChoXx3g+gQC3b11+F/K2nrk2FJ0VAQHD/V0mOFZjPI7oSlD+IVHhG3IA07JIOcA
+ Q7wQ==
+X-Gm-Message-State: AOAM533PBjG8ip9IFEnUcx6cPAPiS7nCQmG+2YvjaQ1WrGrxd0SMMyyp
+ 0IfSvUQzJs50zpkyKSVSPDLOfYQXlQytFnA7CUs=
+X-Google-Smtp-Source: ABdhPJx5B+suYoSAn9li2lhnFiQRsxxOm8TA/Ut46duhTZk0TMoIfHAZiG/dex8ytgmd73hzmgP27kkUDLZLECmvWOY=
+X-Received: by 2002:a6b:1406:: with SMTP id 6mr23998987iou.25.1626804134686;
+ Tue, 20 Jul 2021 11:02:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210702212603.26465-1-niteesh.gs@gmail.com>
- <20210702212603.26465-2-niteesh.gs@gmail.com>
-In-Reply-To: <20210702212603.26465-2-niteesh.gs@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 20 Jul 2021 14:00:47 -0400
-Message-ID: <CAFn=p-b3gOzFtcGCH3amNTyzosMqP2HkYFSiaX04e9yVWhfgBw@mail.gmail.com>
-Subject: Re: [PATCH 1/6] python: disable pylint errors for aqmp-tui
-To: G S Niteesh Babu <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000004070f05c791d65d"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210713220734.26302-1-niteesh.gs@gmail.com>
+ <20210713220734.26302-4-niteesh.gs@gmail.com>
+ <CAFn=p-YCbDEv3E2MucVb1ZqLfzZAObxDSkkSUB7PHBV_-v4eyw@mail.gmail.com>
+In-Reply-To: <CAFn=p-YCbDEv3E2MucVb1ZqLfzZAObxDSkkSUB7PHBV_-v4eyw@mail.gmail.com>
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Tue, 20 Jul 2021 23:31:48 +0530
+Message-ID: <CAN6ztm-80U8cZRE6uoMAyu_k-ynu6ZCPskGtYyivevhogJDhZg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] python/aqmp-tui: Add AQMP TUI draft
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000091342105c791da7d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,100 +78,232 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000004070f05c791d65d
+--00000000000091342105c791da7d
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 2, 2021 at 5:26 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
-
-> Disable missing-docstring and fixme pylint warnings.
-> This is because since the AQMP is just a prototype
-> it is currently not documented properly and lot
-> of todo and fixme's are still in place.
->
-> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
-> ---
->  python/setup.cfg | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/python/setup.cfg b/python/setup.cfg
-> index bce8807702..1a552d672a 100644
-> --- a/python/setup.cfg
-> +++ b/python/setup.cfg
-> @@ -89,6 +89,8 @@ ignore_missing_imports = True
->  # no Warning level messages displayed, use "--disable=all --enable=classes
->  # --disable=W".
->  disable=too-many-function-args,  # mypy handles this with less false
-> positives.
-> +        missing-docstring, # FIXME
-> +        fixme, # FIXME
->
-
-You aren't actually using any FIXME statements in this branch right now
-that I can see, so you don't need that suppression. It could be removed in
-V3.
-
+On Tue, Jul 20, 2021 at 11:27 PM John Snow <jsnow@redhat.com> wrote:
 
 >
->  [pylint.basic]
->  # Good variable names which should always be accepted, separated by a
-> comma.
-> --
-> 2.17.1
+>
+> On Tue, Jul 13, 2021 at 6:07 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+> wrote:
+>
+>> Added a draft of AQMP TUI.
+>>
+>> Implements the follwing basic features:
+>> 1) Command transmission/reception.
+>> 2) Shows events asynchronously.
+>> 3) Shows server status in the bottom status bar.
+>>
+>> Also added necessary pylint, mypy configurations
+>>
+>> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+>> ---
+>>  python/qemu/aqmp/aqmp_tui.py | 332 +++++++++++++++++++++++++++++++++++
+>>  python/setup.cfg             |  21 ++-
+>>  2 files changed, 352 insertions(+), 1 deletion(-)
+>>  create mode 100644 python/qemu/aqmp/aqmp_tui.py
+>>
+>> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+>> new file mode 100644
+>> index 0000000000..f853efc1f5
+>> --- /dev/null
+>> +++ b/python/qemu/aqmp/aqmp_tui.py
+>> @@ -0,0 +1,332 @@
+>> +# Copyright (c) 2021
+>> +#
+>> +# Authors:
+>> +#  Niteesh Babu G S <niteesh.gs@gmail.com>
+>> +#
+>> +# This work is licensed under the terms of the GNU GPL, version 2 or
+>> +# later.  See the COPYING file in the top-level directory.
+>> +
+>> +import argparse
+>> +import asyncio
+>> +import logging
+>> +from logging import Handler
+>> +import signal
+>> +
+>> +import urwid
+>> +import urwid_readline
+>> +
+>> +from .error import MultiException
+>> +from .protocol import ConnectError
+>> +from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError
+>> +from .util import create_task, pretty_traceback
+>> +
+>> +
+>> +UPDATE_MSG = 'UPDATE_MSG'
+>> +
+>> +# Using root logger to enable all loggers under qemu and asyncio
+>> +LOGGER = logging.getLogger()
+>> +
+>> +palette = [
+>> +    (Token.Punctuation, '', '', '', 'h15,bold', 'g7'),
+>> +    (Token.Text, '', '', '', '', 'g7'),
+>> +    (Token.Name.Tag, '', '', '', 'bold,#f88', 'g7'),
+>> +    (Token.Literal.Number.Integer, '', '', '', '#fa0', 'g7'),
+>> +    (Token.Literal.String.Double, '', '', '', '#6f6', 'g7'),
+>> +    (Token.Keyword.Constant, '', '', '', '#6af', 'g7'),
+>> +    ('background', '', 'black', '', '', 'g7'),
+>> +]
+>> +
+>>
+>
+> It looks like this bled forward, this part belongs in the next patch. Can
+> you fix this and re-send?
+>
+> jsnow@scv ~/s/q/python (review)> make check-dev
+> ACTIVATE .dev-venv
+> make[1]: Entering directory '/home/jsnow/src/qemu/python'
+> JOB ID     : f766a463cfc6bd3f0d6286e0653752bb8bc5ea6f
+> JOB LOG    :
+> /home/jsnow/avocado/job-results/job-2021-07-20T13.55-f766a46/job.log
+>  (1/4) tests/flake8.sh: FAIL: Exited with status: '1' (0.36 s)
+>  (2/4) tests/isort.sh: PASS (0.11 s)
+>  (3/4) tests/mypy.sh: FAIL: Exited with status: '1' (0.36 s)
+>  (4/4) tests/pylint.sh: FAIL: Exited with status: '2' (6.62 s)
+> RESULTS    : PASS 1 | ERROR 0 | FAIL 3 | SKIP 0 | WARN 0 | INTERRUPT 0 |
+> CANCEL 0
+> JOB TIME   : 7.80 s
+> Log file "stdout" content for test "1-tests/flake8.sh" (FAIL):
+> qemu/aqmp/aqmp_tui.py:30:6: F821 undefined name 'Token'
+> qemu/aqmp/aqmp_tui.py:31:6: F821 undefined name 'Token'
+> qemu/aqmp/aqmp_tui.py:32:6: F821 undefined name 'Token'
+> qemu/aqmp/aqmp_tui.py:33:6: F821 undefined name 'Token'
+> qemu/aqmp/aqmp_tui.py:34:6: F821 undefined name 'Token'
+> qemu/aqmp/aqmp_tui.py:35:6: F821 undefined name 'Token'
+> qemu/aqmp/aqmp_tui.py:138:21: F821 undefined name 'lexers'
+>
+> While you're at it, you might as well rebase on top of AQMP v2.
+>
+Ah sorry, messed up while rebasing. I'll send a v3 fixing this(and other
+upcoming comments)
+and will also rebase on top of AQMP v2.
+
 >
 >
 
---00000000000004070f05c791d65d
+--00000000000091342105c791da7d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 2, 2021 at 5:26 PM G S Ni=
-teesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Disable missing-docstring and fixme pylint warnings.<br>
-This is because since the AQMP is just a prototype<br>
-it is currently not documented properly and lot<br>
-of todo and fixme&#39;s are still in place.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Tue, Jul 20, 2021 at 11:27 PM John Snow &lt;<a h=
+ref=3D"mailto:jsnow@redhat.com" target=3D"_blank">jsnow@redhat.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=
+=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Jul 13, 2021 at 6:07 PM G S Niteesh B=
+abu &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=3D"_blank">niteesh.g=
+s@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Added a draft of AQMP TUI.<br>
+<br>
+Implements the follwing basic features:<br>
+1) Command transmission/reception.<br>
+2) Shows events asynchronously.<br>
+3) Shows server status in the bottom status bar.<br>
+<br>
+Also added necessary pylint, mypy configurations<br>
 <br>
 Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
  target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0python/setup.cfg | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
+=C2=A0python/qemu/aqmp/aqmp_tui.py | 332 ++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 21 ++-<br>
+=C2=A02 files changed, 352 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
 <br>
-diff --git a/python/setup.cfg b/python/setup.cfg<br>
-index bce8807702..1a552d672a 100644<br>
---- a/python/setup.cfg<br>
-+++ b/python/setup.cfg<br>
-@@ -89,6 +89,8 @@ ignore_missing_imports =3D True<br>
-=C2=A0# no Warning level messages displayed, use &quot;--disable=3Dall --en=
-able=3Dclasses<br>
-=C2=A0# --disable=3DW&quot;.<br>
-=C2=A0disable=3Dtoo-many-function-args,=C2=A0 # mypy handles this with less=
- false positives.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 missing-docstring, # FIXME<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fixme, # FIXME<br></blockquote><div><br></div>=
-<div>You aren&#39;t actually using any FIXME statements in this branch righ=
-t now that I can see, so you don&#39;t need that suppression. It could be r=
-emoved in V3.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-<br>
-=C2=A0[pylint.basic]<br>
-=C2=A0# Good variable names which should always be accepted, separated by a=
- comma.<br>
--- <br>
-2.17.1<br>
-<br>
+diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py<br=
+>
+new file mode 100644<br>
+index 0000000000..f853efc1f5<br>
+--- /dev/null<br>
++++ b/python/qemu/aqmp/aqmp_tui.py<br>
+@@ -0,0 +1,332 @@<br>
++# Copyright (c) 2021<br>
++#<br>
++# Authors:<br>
++#=C2=A0 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gmail.com" targe=
+t=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
++#<br>
++# This work is licensed under the terms of the GNU GPL, version 2 or<br>
++# later.=C2=A0 See the COPYING file in the top-level directory.<br>
++<br>
++import argparse<br>
++import asyncio<br>
++import logging<br>
++from logging import Handler<br>
++import signal<br>
++<br>
++import urwid<br>
++import urwid_readline<br>
++<br>
++from .error import MultiException<br>
++from .protocol import ConnectError<br>
++from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError<br>
++from .util import create_task, pretty_traceback<br>
++<br>
++<br>
++UPDATE_MSG =3D &#39;UPDATE_MSG&#39;<br>
++<br>
++# Using root logger to enable all loggers under qemu and asyncio<br>
++LOGGER =3D logging.getLogger()<br>
++<br>
++palette =3D [<br>
++=C2=A0 =C2=A0 (Token.Punctuation, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39=
+;h15,bold&#39;, &#39;g7&#39;),<br>
++=C2=A0 =C2=A0 (Token.Text, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;,=
+ &#39;g7&#39;),<br>
++=C2=A0 =C2=A0 (Token.Name.Tag, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;bo=
+ld,#f88&#39;, &#39;g7&#39;),<br>
++=C2=A0 =C2=A0 (Token.Literal.Number.Integer, &#39;&#39;, &#39;&#39;, &#39;=
+&#39;, &#39;#fa0&#39;, &#39;g7&#39;),<br>
++=C2=A0 =C2=A0 (Token.Literal.String.Double, &#39;&#39;, &#39;&#39;, &#39;&=
+#39;, &#39;#6f6&#39;, &#39;g7&#39;),<br>
++=C2=A0 =C2=A0 (Token.Keyword.Constant, &#39;&#39;, &#39;&#39;, &#39;&#39;,=
+ &#39;#6af&#39;, &#39;g7&#39;),<br>
++=C2=A0 =C2=A0 (&#39;background&#39;, &#39;&#39;, &#39;black&#39;, &#39;&#3=
+9;, &#39;&#39;, &#39;g7&#39;),<br>
++]<br>
++<br></blockquote><div><br></div><div><div>It looks like this bled forward,=
+ this part belongs in the next patch. Can you fix this and re-send?</div><d=
+iv><br></div><div>jsnow@scv ~/s/q/python (review)&gt; make check-dev<br>ACT=
+IVATE .dev-venv<br>make[1]: Entering directory &#39;/home/jsnow/src/qemu/py=
+thon&#39;<br>JOB ID =C2=A0 =C2=A0 : f766a463cfc6bd3f0d6286e0653752bb8bc5ea6=
+f<br>JOB LOG =C2=A0 =C2=A0: /home/jsnow/avocado/job-results/job-2021-07-20T=
+13.55-f766a46/job.log<br>=C2=A0(1/4) tests/flake8.sh: FAIL: Exited with sta=
+tus: &#39;1&#39; (0.36 s)<br>=C2=A0(2/4) tests/isort.sh: PASS (0.11 s)<br>=
+=C2=A0(3/4) tests/mypy.sh: FAIL: Exited with status: &#39;1&#39; (0.36 s)<b=
+r>=C2=A0(4/4) tests/pylint.sh: FAIL: Exited with status: &#39;2&#39; (6.62 =
+s)<br>RESULTS =C2=A0 =C2=A0: PASS 1 | ERROR 0 | FAIL 3 | SKIP 0 | WARN 0 | =
+INTERRUPT 0 | CANCEL 0<br>JOB TIME =C2=A0 : 7.80 s<br>Log file &quot;stdout=
+&quot; content for test &quot;1-tests/flake8.sh&quot; (FAIL):<br>qemu/aqmp/=
+aqmp_tui.py:30:6: F821 undefined name &#39;Token&#39;<br>qemu/aqmp/aqmp_tui=
+.py:31:6: F821 undefined name &#39;Token&#39;<br>qemu/aqmp/aqmp_tui.py:32:6=
+: F821 undefined name &#39;Token&#39;<br>qemu/aqmp/aqmp_tui.py:33:6: F821 u=
+ndefined name &#39;Token&#39;<br>qemu/aqmp/aqmp_tui.py:34:6: F821 undefined=
+ name &#39;Token&#39;<br>qemu/aqmp/aqmp_tui.py:35:6: F821 undefined name &#=
+39;Token&#39;<br>qemu/aqmp/aqmp_tui.py:138:21: F821 undefined name &#39;lex=
+ers&#39;</div><div><br></div><div>While you&#39;re at it, you might as well=
+ rebase on top of AQMP v2.</div></div></div></div></blockquote><div><span c=
+lass=3D"gmail_default" style=3D"font-size:small">Ah sorry, messed up while =
+rebasing. I&#39;ll send a v3 fixing this(and other upcoming comments)</span=
+></div><div><span class=3D"gmail_default" style=3D"font-size:small">and wil=
+l also rebase on top of=C2=A0</span><span class=3D"gmail_default">AQMP v2. =
+</span>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div d=
+ir=3D"ltr"><div class=3D"gmail_quote"><div>=C2=A0</div></div></div>
 </blockquote></div></div>
 
---00000000000004070f05c791d65d--
-
+--00000000000091342105c791da7d--
 
