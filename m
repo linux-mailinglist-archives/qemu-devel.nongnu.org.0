@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 143773D05CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:47:06 +0200 (CEST)
-Received: from localhost ([::1]:51546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358533D05D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:50:46 +0200 (CEST)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zS4-0007rf-2r
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42536)
+	id 1m5zVd-0000KQ-74
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFv-00049E-LE
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:31 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52073)
+ id 1m5zFu-00043h-6M
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:30 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFt-0001gY-Tj
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:31 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id n4so302905wms.1
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:29 -0700 (PDT)
+ id 1m5zFr-0001fd-Fl
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:29 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id t5so155887wrw.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p8eMrVQMHix+Odc2dF0jkwacRstSKfnaeNgv6a3FIAM=;
- b=qCK+MUd1mKXLXwz41ySS5aGVk9n4O7YI1j3BDUullPmNV042OB6LtyUGC8iCqfcOV0
- XK8au+9GXAFYXxJ5EhGpAhaUlA5ze3NLhEOu4VV4pp9hExvzn7EtpSvaIc3JKO5h9el3
- e+GmBU7fhm8Or6olhDShAR5cYenV6JNM50QhbW05U2mL8Tt+zkOZJ09OWY/cqED7yAwp
- 2IH4gJf0QuKtnJLkWyjKbXNoRc9rPdNWzZ/AB6ieLXCv6IJ0eI3mHHgkdZNNIhZs4Ql7
- F0t7fNU5JMR4o0N3K8pYVo6b3beUTqKTlkYsldM+PnTcuV2wLU1ee02kLDjR6yyY1wf+
- PbSA==
+ bh=+kMBGMCNJi8vwExvrsxeqq8I2lJQnUdceeasIbv5WjI=;
+ b=YlTVyyB+T3S/TTstUbFp4zg0H8cEcjANUAj1YvJyx4EDYjgBdFT3/01V1b1N0EjBFn
+ 2Dy6KiLqlwN1kpBX2h2Ned6ILFOSa63z54UzdmOQnddm1U8rBVRazdhrd7lUkszEz13i
+ h+39yfI9aTBeRTShy5/eq3e1zDQpkDb7uhtwpACQsJDiqh49/I/easHzMGVmwfkVIhI4
+ pwhDuELoUA9uA7l6sx1nDCMKvJp6vfrNQmhRsg9/PsQX/uI3tVPwpr/SvXyK7mhxG6fL
+ BAyxP3ppVOx1Ly8uNNrimzwFhVppV6pWiLhbbC44rc1gt9ZhLkfcsp87lddFMgf6MlIP
+ p4MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p8eMrVQMHix+Odc2dF0jkwacRstSKfnaeNgv6a3FIAM=;
- b=hyFb9+YAvqDY/fgzlh8Rk9B82XSV3pfUpSA8Y51e4S6oqXFBNcfe73TzV6hZEjUESN
- piG34gMQQENIzRg/RgshsHu3NVyuAi3gktGNAN1a/IH8dr524iby6jGu3873096fNVGD
- lkR+ZYxvAAh+kDATeTwW0EdFl2lHjXBD8DLoRFKHnHkxqNQBPZReebnhMaBSFSDdI9YR
- 3GSh7eRNxPu6hdSCdXehjwgkh0KoIPVjXdkJokZb31Rp/k0nVZAAoBOzFcPd+w4z5LxM
- 0JZnz88UbEWte/AqJ04XdN8Ynffhe+e8i9WvSh601bhMzJHOwXS1GCOgBeF/6pby0QGe
- SEQQ==
-X-Gm-Message-State: AOAM530eoFlltSidG2pe05e92Rks5YnD2kKx4ehbL9FzfUCgkbCnyzmi
- M2pwYX+Ez9R9M2XfYzidxck1Ew==
-X-Google-Smtp-Source: ABdhPJwey5b2y+FaQkoqvimAnRsOKPza4gvQCQSeBX9ytNE8uKmJtQDWhV8q4J0HmNciK/De+ioiSg==
-X-Received: by 2002:a05:600c:ac3:: with SMTP id
- c3mr35249809wmr.4.1626824068509; 
- Tue, 20 Jul 2021 16:34:28 -0700 (PDT)
+ bh=+kMBGMCNJi8vwExvrsxeqq8I2lJQnUdceeasIbv5WjI=;
+ b=cXtVbDTaVbetBB5DSjPqXuyWaLaao2AwdMgfviR3ICfuX4zfBNMjwuSmH2I1kGoWZ1
+ /wEsUaH/Q3f2JYd2/JH5+3HrNH/Y9cYg8cFP0VZ4F8axSkijTGOM9pMtvQzL38dTG97d
+ FKtluY4nme0fFvy8ADnedSHTmsCF/8mFIUqXftff/9GRfwVY3QZLpHyS9stbx2PV97FU
+ N7nkEnqzkI6oK02e1orD7uBqFT6tLQbfdl8hPx3KisEdQffpm769/SzXMtYYVVix9q3e
+ 5RNjakQB7Gh+HuB3p2tsRLK1Vc57z79RC8Zbsde91RuTcuCGOafzGVFuNhpnlZj7A2mj
+ ZpmQ==
+X-Gm-Message-State: AOAM531EGmkayjDozt5GcpqyrYp8iPUwDxbmUcCt6MsFSR5OAGUDTT+V
+ 0/mST5iHlqx2tO/tPhOuzRTQtw==
+X-Google-Smtp-Source: ABdhPJxVWI8TS4bEfAYqw8HoqxdDapnLBaEXsGmKJ5hkREkbEfSblhBvNhXW6ggiQ4nvFFzRKWrMdQ==
+X-Received: by 2002:adf:fc85:: with SMTP id g5mr39448047wrr.296.1626824065998; 
+ Tue, 20 Jul 2021 16:34:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q72sm18164624wme.14.2021.07.20.16.34.21
+ by smtp.gmail.com with ESMTPSA id s6sm29684144wrt.45.2021.07.20.16.34.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 16:34:26 -0700 (PDT)
+ Tue, 20 Jul 2021 16:34:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 475F21FFAF;
+ by zen.linaroharston (Postfix) with ESMTP id 606611FFB1;
  Wed, 21 Jul 2021 00:27:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 26/29] tests/tcg/configure.sh: add handling for assembler
- only builds
-Date: Wed, 21 Jul 2021 00:27:00 +0100
-Message-Id: <20210720232703.10650-27-alex.bennee@linaro.org>
+Subject: [PATCH v1 27/29] gitlab: enable a very minimal build with the tricore
+ container
+Date: Wed, 21 Jul 2021 00:27:01 +0100
+Message-Id: <20210720232703.10650-28-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,65 +87,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Up until this point we only handled local compilers or assumed we had
-everything in the container. This falls down when we are building QEMU
-inside the container.
-
-This special handling only affects tricore for now but I put it in a
-case just in case we add any other "special" targets. Setting
-CROSS_CC_GUEST is a bit of a hack just to ensure the test runs as we
-gate on a detected compiler even though the Makefile won't actually
-use it. It also means we display something sane in the configure
-output.
+Rather than base of the shared Debian 10 container which would require
+us to bring in even more dependencies just bring in what is needed for
+building tricore-softmmu in GitLab. We don't even remove the container
+from the DOCKER_PARTIAL_IMAGES lest we cause more confusion.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210720114057.32053-3-alex.bennee@linaro.org>
+Message-Id: <20210720114057.32053-4-alex.bennee@linaro.org>
 ---
- tests/tcg/configure.sh | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ .gitlab-ci.d/buildtest.yml                    | 11 ++++++
+ .../dockerfiles/debian-tricore-cross.docker   | 34 ++++++++++++++++---
+ 2 files changed, 40 insertions(+), 5 deletions(-)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index aa7c24328a..1f985ccfc0 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -72,6 +72,10 @@ fi
- : ${cross_cc_x86_64="x86_64-linux-gnu-gcc"}
- : ${cross_cc_cflags_x86_64="-m64"}
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 89df51517c..48cb45a783 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -354,6 +354,17 @@ build-some-softmmu:
+     TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
+     MAKE_CHECK_ARGS: check-tcg
  
-+# tricore is special as it doesn't have a compiler
-+: ${cross_as_tricore="tricore-as"}
-+: ${cross_ld_tricore="tricore-ld"}
++# We build tricore in a very minimal tricore only container
++build-tricore-softmmu:
++  extends: .native_build_job_template
++  needs:
++    job: tricore-debian-cross-container
++  variables:
++    IMAGE: debian-tricore-cross
++    CONFIGURE_ARGS: --disable-tools --disable-fdt --enable-debug
++    TARGETS: tricore-softmmu
++    MAKE_CHECK_ARGS: check-tcg
 +
- for target in $target_list; do
-   arch=${target%%-*}
+ clang-system:
+   extends: .native_build_job_template
+   needs:
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index 985925134c..d8df2c6117 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -1,23 +1,47 @@
+ #
+ # Docker TriCore cross-compiler target
+ #
+-# This docker target builds on the debian Stretch base image.
++# This docker target builds on the Debian Buster base image but
++# doesn't inherit from the common one to avoid bringing in unneeded
++# dependencies.
+ #
+ # Copyright (c) 2018 Philippe Mathieu-Daudé
+ #
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ #
+-FROM qemu/debian10
++FROM docker.io/library/debian:buster-slim
  
-@@ -247,6 +251,20 @@ for target in $target_list; do
-               fi
-           fi
-       fi
+ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+ 
++RUN apt update && \
++    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
++    DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
++       bzip2 \
++       ca-certificates \
++       ccache \
++       g++ \
++       gcc \
++       git \
++       libglib2.0-dev \
++       libpixman-1-dev \
++       libtest-harness-perl \
++       locales \
++       make \
++       ninja-build \
++       perl-base \
++       pkgconf \
++       python3-pip \
++       python3-setuptools \
++       python3-wheel
 +
-+      # Special handling for assembler only tests
-+      eval "target_as=\"\${cross_as_$arch}\""
-+      eval "target_ld=\"\${cross_ld_$arch}\""
-+      if has $target_as && has $target_ld; then
-+          case $target in
-+              tricore-softmmu)
-+                  echo "CROSS_CC_GUEST=$target_as" >> $config_target_mak
-+                  echo "CROSS_AS_GUEST=$target_as" >> $config_target_mak
-+                  echo "CROSS_LD_GUEST=$target_ld" >> $config_target_mak
-+                  got_cross_cc=yes
-+                  ;;
-+          esac
-+      fi
-   fi
+ RUN git clone --single-branch \
+         https://github.com/bkoppelmann/tricore-binutils.git \
+         /usr/src/binutils && \
+     cd /usr/src/binutils && chmod +x missing && \
+-    CFLAGS=-w ./configure --prefix=/usr --disable-nls --target=tricore && \
++    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
+     make && make install && \
+     rm -rf /usr/src/binutils
  
-   if test $got_cross_cc = yes; then
+-# This image isn't designed for building QEMU but building tests
+-ENV QEMU_CONFIGURE_OPTS --disable-system --disable-user
++# This image can only build a very minimal QEMU as well as the tests
++ENV DEF_TARGET_LIST tricore-softmmu
++ENV QEMU_CONFIGURE_OPTS --disable-user --disable-tools --disable-fdt
 -- 
 2.32.0.264.g75ae10bc75
 
