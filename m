@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CB23D05DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:52:52 +0200 (CEST)
-Received: from localhost ([::1]:43684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1349E3D05DA
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:51:12 +0200 (CEST)
+Received: from localhost ([::1]:39072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zXf-0004gO-UJ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42610)
+	id 1m5zW3-0001bQ-4D
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zG0-0004Ri-9G
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:36 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:50938)
+ id 1m5zFo-0003ht-OF
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:24 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:46914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFy-0001jE-Le
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:36 -0400
-Received: by mail-wm1-x329.google.com with SMTP id l6so323060wmq.0
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:34 -0700 (PDT)
+ id 1m5zFl-0001c6-UB
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:24 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ o30-20020a05600c511eb029022e0571d1a0so470404wms.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ie+/p3TrTh/Nerm8Urh8vvJTzslzpin/JxtRrKzIVBI=;
- b=qUmeyKi2/gAEM2FRnwFeTVVYgOsqCqq30FH60NmD/iwIGf8n0KozaY3YnPORIaUjOt
- UmsRNIRdguEY4LXYDfwxQIzlD3ZCshavfJpH8P5KjkpIO/TL1eBykmBql8/GiswVmF7N
- /oyNxlZyv9pmfz8v+78SS75AGwRm9EPF3QoXJyIZn5nyrVSe/WPr3BaRIF/R0pOBi1yf
- lj5RDCqIyqe7mUqJCk9Un5IHAIDLoedI5+1A+7/Q02ju5HUQFFhkVGLWHukHkjCBjgJG
- TMcsYFLkeTQkahwHAvhcRJkP7NpnVpmLB8M/vxn2w2ADlyisREI6myzes8W0ZBC9skY5
- S1ng==
+ bh=H/v4fEznnL2NUKF3wCgMn0cquOa2XlUKauT8ZtYoGUQ=;
+ b=qjx0j57pSoiAE9zq+E7SpZzMvohIJx1Mb2+ggFwmdvfTMM0mf3mODFFfuz8hTjL7bP
+ ydQohmLU1UMm7NlyGQWcDU3l7tfIdkU87w9R9BlZqIniUaTnPlVI7eR4hwAhdQQPOVS7
+ J6FHYqao82cy6s3AQZm7fNj2vFErURCfb1EEeA175CK1S6Hw17nsKllRaY9+k9x2wkrZ
+ vfvWZnUTPPtGNa+db2FHtHmvI2WH+jVHGgyVEBTzInir5Wg4IJvbv4pV90VU3fNriJUD
+ /uXBkCWUPzsNX/Kasb7RuF7iJwgHB4S4bBuj/JIRPv+gZVtrKdFbHlauIqO7IZU6Pugt
+ 51Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ie+/p3TrTh/Nerm8Urh8vvJTzslzpin/JxtRrKzIVBI=;
- b=kmJ8bckH3aWmwPLQt3n48ecwg/YLkPI0z/RkiJmdxc05A5cdCN98Pb0Q4umbt78/Jq
- 1FzHZacbMZeAtcJTpCJtXqG0t2LxiH4aZD0paqCwOQHlUabPcMgz0oc7ABU5ZecmnJQA
- WJJoIFCA1etkWH97YvO6NeLJz9jQVWqsN554G0RDDEB67QEv+Cv2UM7/TdojxsDLKsyl
- H+3dDq8pa88XXszKpFDuuMuFIJ6wm/YAoHuoUy2k1k5E8KgKqgr0wqw43lCeIa8TjqlJ
- mbiIGiRddoD8IJQrtPponnoczofNAtwCF4HUPcT2GdKSPMgNAbUCdQofH2Qt6OEiWME9
- Lcbg==
-X-Gm-Message-State: AOAM532CkBhgNzCmpWEEwn3DhyHhop4caliuSgZYsD0JYggx9M++divr
- ujL+gGvQdmTeGmire4JwolzAQQ==
-X-Google-Smtp-Source: ABdhPJy+EouzsiuwAG+4KI2ZwoIiyNKHYaLsgvS4zrmmDDWhtlqaAnnTPNTQK1ZeOkocvYgGmSNtqw==
-X-Received: by 2002:a05:600c:4656:: with SMTP id
- n22mr29489656wmo.37.1626824073271; 
- Tue, 20 Jul 2021 16:34:33 -0700 (PDT)
+ bh=H/v4fEznnL2NUKF3wCgMn0cquOa2XlUKauT8ZtYoGUQ=;
+ b=RWzN2N4ZnbooodqpSq2iRPUm6EEBah/dUv23w0QUsLUmzxHS/Y8JKEV/jKU1uxBPKX
+ YKQxA3zcGP+3MwkRj5uABTs6NK9Ijs6tZ1ky0EEGrfgH23NHEuntYXUt+bc3peLX33yg
+ LjrPfGnU/ov2ON/0Ts+B7yMNBxO3VN5lnG9mGZ9hPUDqx9aNYJb67Sn6atX7LH+1jWa4
+ bDfSnTKk0ix9ZVawdgt4Vl7+x8kzcSkMFEZTDNy0M7uaexbldaDBZ6jBlwsBrpLLG1IH
+ /TX4MeR/+lhyYjUW5owMJ7gr3FkBm58PCwPHZZ1zVC4Jm0m4ea3j7SdcRQRuG7U9aQmr
+ DJbw==
+X-Gm-Message-State: AOAM531sdz4YRiM+fFajG9hpsbutd0pDctjCSqoiaqBmr1JFDfqpywcv
+ xK2e6qhkvVOgDrpa3xY8krYDbA==
+X-Google-Smtp-Source: ABdhPJzbmlOI4sWZJOZP85ZcqNYr/Z7YgoEpJvQzMkYH21aS0H1ycmq6ecqqd1A7m5knfqc6PlVNmw==
+X-Received: by 2002:a7b:cb01:: with SMTP id u1mr18065917wmj.44.1626824060313; 
+ Tue, 20 Jul 2021 16:34:20 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p12sm3704822wma.19.2021.07.20.16.34.20
+ by smtp.gmail.com with ESMTPSA id i15sm27009991wro.3.2021.07.20.16.34.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 16:34:26 -0700 (PDT)
+ Tue, 20 Jul 2021 16:34:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 158711FFAE;
+ by zen.linaroharston (Postfix) with ESMTP id 31E6D1FF87;
  Wed, 21 Jul 2021 00:27:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 24/29] plugins: Fix physical address calculation for IO
- regions
-Date: Wed, 21 Jul 2021 00:26:58 +0100
-Message-Id: <20210720232703.10650-25-alex.bennee@linaro.org>
+Subject: [PATCH  v1 25/29] hw/tricore: fix inclusion of tricore_testboard
+Date: Wed, 21 Jul 2021 00:26:59 +0100
+Message-Id: <20210720232703.10650-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,48 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
- Aaron Lindsay <aaron@os.amperecomputing.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aaron Lindsay <aaron@os.amperecomputing.com>
+We inadvertently added a symbol clash causing the build not to include
+the testboard needed for check-tcg.
 
-The address calculation for IO regions introduced by
-
-commit 787148bf928a54b5cc86f5b434f9399e9737679c
-Author: Aaron Lindsay <aaron@os.amperecomputing.com>
-    plugins: Expose physical addresses instead of device offsets
-
-is not always accurate. Use the more correct
-MemoryRegionSection.offset_within_address_space.
-
-Signed-off-by: Aaron Lindsay <aaron@os.amperecomputing.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210720195735.3934473-1-aaron@os.amperecomputing.com>
+Fixes: f4063f9c31 ("meson: Introduce target-specific Kconfig")
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210720114057.32053-2-alex.bennee@linaro.org>
 ---
- plugins/api.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configs/devices/tricore-softmmu/default.mak | 1 +
+ hw/tricore/Kconfig                          | 3 +--
+ hw/tricore/meson.build                      | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/plugins/api.c b/plugins/api.c
-index 78b563c5c5..2d521e6ba8 100644
---- a/plugins/api.c
-+++ b/plugins/api.c
-@@ -319,7 +319,7 @@ uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
-             return block->offset + offset + block->mr->addr;
-         } else {
-             MemoryRegionSection *mrs = haddr->v.io.section;
--            return haddr->v.io.offset + mrs->mr->addr;
-+            return mrs->offset_within_address_space + haddr->v.io.offset;
-         }
-     }
- #endif
+diff --git a/configs/devices/tricore-softmmu/default.mak b/configs/devices/tricore-softmmu/default.mak
+index 5cc91cebce..cb8fc286eb 100644
+--- a/configs/devices/tricore-softmmu/default.mak
++++ b/configs/devices/tricore-softmmu/default.mak
+@@ -1 +1,2 @@
++CONFIG_TRICORE_TESTBOARD=y
+ CONFIG_TRIBOARD=y
+diff --git a/hw/tricore/Kconfig b/hw/tricore/Kconfig
+index 506e6183c1..33c1e852c3 100644
+--- a/hw/tricore/Kconfig
++++ b/hw/tricore/Kconfig
+@@ -1,9 +1,8 @@
+-config TRICORE
++config TRICORE_TESTBOARD
+     bool
+ 
+ config TRIBOARD
+     bool
+-    select TRICORE
+     select TC27X_SOC
+ 
+ config TC27X_SOC
+diff --git a/hw/tricore/meson.build b/hw/tricore/meson.build
+index 47e36bb077..7e3585daf8 100644
+--- a/hw/tricore/meson.build
++++ b/hw/tricore/meson.build
+@@ -1,6 +1,6 @@
+ tricore_ss = ss.source_set()
+-tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testboard.c'))
+-tricore_ss.add(when: 'CONFIG_TRICORE', if_true: files('tricore_testdevice.c'))
++tricore_ss.add(when: 'CONFIG_TRICORE_TESTBOARD', if_true: files('tricore_testboard.c'))
++tricore_ss.add(when: 'CONFIG_TRICORE_TESTBOARD', if_true: files('tricore_testdevice.c'))
+ tricore_ss.add(when: 'CONFIG_TRIBOARD', if_true: files('triboard.c'))
+ tricore_ss.add(when: 'CONFIG_TC27X_SOC', if_true: files('tc27x_soc.c'))
+ 
 -- 
 2.32.0.264.g75ae10bc75
 
