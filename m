@@ -2,84 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DFB3CF949
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:00:56 +0200 (CEST)
-Received: from localhost ([::1]:46058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50F9A3CF959
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:06:40 +0200 (CEST)
+Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5oQh-0003RH-PW
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:00:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37820)
+	id 1m5oWF-0002A0-D9
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:06:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5oIg-000321-FX
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:52:38 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39932)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5o7T-0005O2-6i
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:41:03 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m5oIf-0005oj-6S
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:52:38 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- l18-20020a1ced120000b029014c1adff1edso1312998wmh.4
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:52:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+Y6FON5dtbZQ3YX4cswzMvTqMVBAlfhXSw5U352oLUI=;
- b=fYTL8yY0bT7TEetwM7FN2+duG7KEraLEwkd9KLw8HipiRwnQiISi5TQt421bJAO5l0
- BZqBmoDn/wAcU1JG4MjSN+CJMl/IEZeA8O29pzd4ikwAUkekYgK2jQw0N8toRk14mEOa
- 1PEbUBJhuuOOEA3Q9A7n3hr2tlm2iUuosx77mbkPNqSc/sNtireR91Ht7kiHT6bCgclp
- vLheT7ehzrfm/SBM9QiIK6GoKg2HXbiymlApw1GWG/UmLbuXP2z0O5P2bglgsqlscFub
- Ogf0HIVELbcOwEKRaD/gHYqpYFQ+VRODZQ9ia89xpQRu7zGhTt2sJMkcDU0kiTIzpJ8j
- ZRdA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5o7R-0008DS-DI
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:41:02 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g12so12087150wme.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:41:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0Q5LaEPrsl7nBYBKATWI/nXMQAEGNFKa7UPtM3D08ug=;
+ b=qx47qGVbN4s2/sljzPh61gi0yfntXQtX5803EdUGXKpFvYn7RcIA4OECo182F+dy8d
+ CwLc21YloSOBIpKKU3DI2WXDTpTPPk7bHs7/zo9UgbkoKzoFMlZrN+UgIV3WrY594kAC
+ kiTbS1EmUnNikzT/llPaVJG5oNGqQpDumkbtKKr5bOSKCmIFARvfs5Wq8/B1Qis3O2gu
+ ppv3lhr4yamtzZRIxs2y6FmDH6EtlSnPeqLU1kloIGhITLxfIUciZDnWWtBYhllAQVFh
+ DI6Z1TVct1/yhdKILTt+5yofd+b0ileNdKLrvwx/5GnA+48w5ZmLmyrS9ZCsSnEUKV8g
+ VojQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=+Y6FON5dtbZQ3YX4cswzMvTqMVBAlfhXSw5U352oLUI=;
- b=FSf0G6MlCA9ROqzn0wh7ijtRZbz/lw5ZdzWeZdojKLgkHi7D3Zbdo2UgF0KNl7nyH6
- 8joYJwYOrO2hG89Durrd0CJ5uVDaXbd5ZwnQ0izXZ8Ly9kzn3KUHCqEM3jZL2je19m4R
- c6Q6GIms14pu6jlGNPAKCmHFtMOJVSepttlOoVzsgJGPtzjrKh075AGkAlc1TEaDF6w5
- 1gOnWz9N3d/0Oqapd61vneXkuaGez1poog+Z39oerUA+teHih/15H4EvY9BBucevkQCH
- 3J958usfOHugxxTMj/EmDSrqyHx24lOzvK5qcmgJrsuzef11UJMx7lvU9dQIrRsl02Uk
- S94Q==
-X-Gm-Message-State: AOAM531IOWikVzj5SD6aLn7oM+FF2n9Cp6OOZN3r4H448Je7pK1a+nQA
- QEWRUOpk8TvgYw/b0m4XsAM=
-X-Google-Smtp-Source: ABdhPJy2yUdUEEGYrlUaq+L+5vWe122BE102EiTu2YLYdOllrwjQnFy1QsQGUzSAQO9iSJQ7UQV5Zw==
-X-Received: by 2002:a05:600c:4f91:: with SMTP id
- n17mr36909178wmq.44.1626781955704; 
- Tue, 20 Jul 2021 04:52:35 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id v15sm20204688wmj.11.2021.07.20.04.52.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 04:52:34 -0700 (PDT)
-Subject: Re: [PATCH for-6.1 v5 08/15] hw/core: Introduce
- TCGCPUOps.debug_check_breakpoint
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210720011800.483966-1-richard.henderson@linaro.org>
- <20210720011800.483966-9-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <62d60386-11e0-5cb5-7aec-e8cedbc4ee52@amsat.org>
-Date: Tue, 20 Jul 2021 13:52:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=0Q5LaEPrsl7nBYBKATWI/nXMQAEGNFKa7UPtM3D08ug=;
+ b=VUa/A+ArBNKas8cHS5qTXWmuvP3aDSmVxlMJucS7hSj33irPNtG4Fk+rCnwfM746rS
+ 8P+Oh/KoaZM6jhXvBgcFWL9QaQMnlRFVjdY1a4EdC+B0+qFuHttvICpQCYidsFn9nYze
+ cUot0r/nfeubCaJgIPrDc5Vu2PamE062SvagXMbnFUcwKkIHrocsmQB+vNrlo1eYf1UB
+ oSLIudH2UyQWsWVFavYYmegX8Gku+fZTgs6f++jwDo2ocNeHvprvKQgcPpYzGmwBdFjq
+ CS1TLmIXEoXofz6fTrhIF5HQEanaE6Ql/iZjq07gxdrxtouruWYKCYl6WFCgrFKnA9CA
+ 3nmg==
+X-Gm-Message-State: AOAM532FORA6ahY53U/q2oZkwbUmd8PR5I8FjUvCCAJ6XfXrK3MTT9Zf
+ 7aduI+TtUoE0n65kjF+PSBupZ0aoN7S+wA==
+X-Google-Smtp-Source: ABdhPJzWRf+jHSjHon6JWqkW5wA+oGGk9TZGBbWr6N1BL57WjziltWlk0LrjLMwT6atW4ek/mWHPsg==
+X-Received: by 2002:a05:600c:a4c:: with SMTP id
+ c12mr36621760wmq.38.1626781259603; 
+ Tue, 20 Jul 2021 04:40:59 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d8sm24426383wra.41.2021.07.20.04.40.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 04:40:58 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 647BF1FF7E;
+ Tue, 20 Jul 2021 12:40:57 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for 6.1 v3 0/3] tricore fixes
+Date: Tue, 20 Jul 2021 12:40:54 +0100
+Message-Id: <20210720114057.32053-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 MIME-Version: 1.0
-In-Reply-To: <20210720011800.483966-9-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,21 +85,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, peter.maydell@linaro.org,
- mark.cave-ayland@ilande.co.uk
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/21 3:17 AM, Richard Henderson wrote:
-> New hook to return true when an architectural breakpoint is
-> to be recognized and false when it should be suppressed.
-> 
-> First use must wait until other pieces are in place.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/hw/core/tcg-cpu-ops.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This fixes check-tcg for tricore and adds a test to the gitlab matrix
+so we don't miss it breaking again.
+
+v3
+  - added new patch for configure.sh
+  - changed symbol for board
+
+The following need review:
+
+ - gitlab: enable a very minimal build with the tricore container
+ - tests/tcg/configure.sh: add handling for assembler only builds
+
+
+Alex Bennée (3):
+  hw/tricore: fix inclusion of tricore_testboard
+  tests/tcg/configure.sh: add handling for assembler only builds
+  gitlab: enable a very minimal build with the tricore container
+
+ configs/devices/tricore-softmmu/default.mak   |  1 +
+ .gitlab-ci.d/buildtest.yml                    | 11 ++++++
+ hw/tricore/Kconfig                            |  3 +-
+ hw/tricore/meson.build                        |  4 +--
+ .../dockerfiles/debian-tricore-cross.docker   | 34 ++++++++++++++++---
+ tests/tcg/configure.sh                        | 18 ++++++++++
+ 6 files changed, 62 insertions(+), 9 deletions(-)
+
+-- 
+2.32.0.264.g75ae10bc75
+
 
