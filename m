@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435003CFA06
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:02:44 +0200 (CEST)
-Received: from localhost ([::1]:36320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9502B3CFA21
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:08:49 +0200 (CEST)
+Received: from localhost ([::1]:53108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pOV-00028X-7B
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:02:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51024)
+	id 1m5pUO-0004zL-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:08:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGS-0004t3-Pw
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56097)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGX-0005Bm-5U
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGO-0008If-Jh
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:24 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGQ-0008JK-Lw
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626785660;
+ s=mimecast20190719; t=1626785662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5lcuUhLpFx5x66QANuw8RMIjKw5nsdw9ExuMGaIhc24=;
- b=MIA3R9y8Y72O9wWsMUS/P0HpbeF+HdOm5zoqUmNUTrvS+8XjlIIovGQL2dXLIPPDc72vPC
- ru9anzPe2X5x+CMVIlHLaQe9dKwPTRirNfds/164xai6XeJ7MGWeKUfew/mU9hNPyWFVbL
- ExbNl0A/P6YM/MXElqUuUt03JsUEUr0=
+ bh=gz9LhF2oTT5mao087ujU+bzlIFTt5GBr0gQoxyvJCJA=;
+ b=Xoi32yAyCjNyZXeK2Q7dlt2FrpegywyL4QH1plFVn5bZRjVP6kqMtA1TMzCeYseltRSpTQ
+ 8iJfWJb9WV386Z39huexJ2Tw13UfTJ1WdIXeyN+7G0fem3XWUDm1twJrIns0vpuZzEW53/
+ 5Ntki0dg457i0hn8MYoN3kgjb8pQvDQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-rOLH2m6hNRG-G4MxDYf4ig-1; Tue, 20 Jul 2021 08:54:18 -0400
-X-MC-Unique: rOLH2m6hNRG-G4MxDYf4ig-1
+ us-mta-235-g4NM3T41Pp2iHe0UfvXZTg-1; Tue, 20 Jul 2021 08:54:18 -0400
+X-MC-Unique: g4NM3T41Pp2iHe0UfvXZTg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7A9D101F7A1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9157804308
  for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:54:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
  [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 07F3F60C82;
- Tue, 20 Jul 2021 12:54:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BCCDD60CA1;
+ Tue, 20 Jul 2021 12:54:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 18B39112D850; Tue, 20 Jul 2021 14:54:09 +0200 (CEST)
+ id 1BF04112D851; Tue, 20 Jul 2021 14:54:09 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/16] vhost: Clean up how VhostOpts method vhost_get_config()
- fails
-Date: Tue, 20 Jul 2021 14:54:04 +0200
-Message-Id: <20210720125408.387910-13-armbru@redhat.com>
+Subject: [PATCH 13/16] vhost: Clean up how VhostOpts method
+ vhost_backend_init() fails
+Date: Tue, 20 Jul 2021 14:54:05 +0200
+Message-Id: <20210720125408.387910-14-armbru@redhat.com>
 In-Reply-To: <20210720125408.387910-1-armbru@redhat.com>
 References: <20210720125408.387910-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -84,63 +84,96 @@ Cc: Kevin Wolf <kwolf@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vhost_user_get_config() can fail without setting an error.  Unclean.
-Its caller vhost_dev_get_config() compensates by substituting a
-generic error then.  Goes back to commit 50de51387f "vhost:
-Distinguish errors in vhost_dev_get_config()".
+vhost_user_backend_init() can fail without setting an error.  Unclean.
+Its caller vhost_dev_init() compensates by substituting a generic
+error then.  Goes back to commit 28770ff935 "vhost: Distinguish errors
+in vhost_backend_init()".
 
-Clean up by moving the generic error from vhost_dev_get_config() to
-all the failure paths that neglect to set an error.
+Clean up by moving the generic error from vhost_dev_init() to all the
+failure paths that neglect to set an error.
 
 Cc: Kevin Wolf <kwolf@redhat.com>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- hw/virtio/vhost-user.c |  2 ++
- hw/virtio/vhost.c      | 10 ++--------
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ hw/virtio/vhost-user.c | 6 ++++++
+ hw/virtio/vhost.c      | 4 ----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index 29ea2b4fce..dbbd6fbc25 100644
+index dbbd6fbc25..b4a4998088 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -2139,10 +2139,12 @@ static int vhost_user_get_config(struct vhost_dev *dev, uint8_t *config,
-     msg.payload.config.offset = 0;
-     msg.payload.config.size = config_len;
-     if (vhost_user_write(dev, &msg, NULL, 0) < 0) {
-+        error_setg_errno(errp, -EPROTO, "vhost_get_config failed");
-         return -EPROTO;
+@@ -1876,6 +1876,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+ 
+     err = vhost_user_get_features(dev, &features);
+     if (err < 0) {
++        error_setg_errno(errp, -err, "vhost_backend_init failed");
+         return err;
      }
  
-     if (vhost_user_read(dev, &msg) < 0) {
-+        error_setg_errno(errp, -EPROTO, "vhost_get_config failed");
-         return -EPROTO;
-     }
+@@ -1885,6 +1886,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+         err = vhost_user_get_u64(dev, VHOST_USER_GET_PROTOCOL_FEATURES,
+                                  &protocol_features);
+         if (err < 0) {
++            error_setg_errno(errp, EPROTO, "vhost_backend_init failed");
+             return -EPROTO;
+         }
  
+@@ -1903,6 +1905,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+ 
+         err = vhost_user_set_protocol_features(dev, dev->protocol_features);
+         if (err < 0) {
++            error_setg_errno(errp, EPROTO, "vhost_backend_init failed");
+             return -EPROTO;
+         }
+ 
+@@ -1911,6 +1914,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+             err = vhost_user_get_u64(dev, VHOST_USER_GET_QUEUE_NUM,
+                                      &dev->max_queues);
+             if (err < 0) {
++                error_setg_errno(errp, EPROTO, "vhost_backend_init failed");
+                 return -EPROTO;
+             }
+         } else {
+@@ -1940,6 +1944,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+         } else {
+             err = vhost_user_get_max_memslots(dev, &ram_slots);
+             if (err < 0) {
++                error_setg_errno(errp, EPROTO, "vhost_backend_init failed");
+                 return -EPROTO;
+             }
+ 
+@@ -1966,6 +1971,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque,
+     if (dev->vq_index == 0) {
+         err = vhost_setup_slave_channel(dev);
+         if (err < 0) {
++            error_setg_errno(errp, EPROTO, "vhost_backend_init failed");
+             return -EPROTO;
+         }
+     }
 diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index dbbc6b6915..88f8a397dc 100644
+index 88f8a397dc..3c0b537f89 100644
 --- a/hw/virtio/vhost.c
 +++ b/hw/virtio/vhost.c
-@@ -1564,17 +1564,11 @@ void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits,
- int vhost_dev_get_config(struct vhost_dev *hdev, uint8_t *config,
-                          uint32_t config_len, Error **errp)
+@@ -1289,7 +1289,6 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+                    VhostBackendType backend_type, uint32_t busyloop_timeout,
+                    Error **errp)
  {
 -    ERRP_GUARD();
--    int ret;
--
-     assert(hdev->vhost_ops);
+     uint64_t features;
+     int i, r, n_initialized_vqs = 0;
  
-     if (hdev->vhost_ops->vhost_get_config) {
--        ret = hdev->vhost_ops->vhost_get_config(hdev, config, config_len, errp);
--        if (ret < 0 && !*errp) {
--            error_setg_errno(errp, -ret, "vhost_get_config failed");
+@@ -1301,9 +1300,6 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+ 
+     r = hdev->vhost_ops->vhost_backend_init(hdev, opaque, errp);
+     if (r < 0) {
+-        if (!*errp) {
+-            error_setg_errno(errp, -r, "vhost_backend_init failed");
 -        }
--        return ret;
-+        return hdev->vhost_ops->vhost_get_config(hdev, config, config_len,
-+                                                 errp);
+         goto fail;
      }
  
-     error_setg(errp, "vhost_get_config not implemented");
 -- 
 2.31.1
 
