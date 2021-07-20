@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015773D0580
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:41:11 +0200 (CEST)
-Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9653D05D7
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:49:15 +0200 (CEST)
+Received: from localhost ([::1]:59804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zMM-0004VL-0T
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:41:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41958)
+	id 1m5zUA-0004zo-QN
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCL-0002cK-SQ
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34275)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCY-0003JJ-Rg
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:31:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCK-0007r7-4V
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:49 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCW-0007zo-DU
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:31:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626823847;
+ s=mimecast20190719; t=1626823859;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AmBto+Lo3QUgoLS4SQt7Y9oM5uvGveVmtuvCkmW636k=;
- b=bCYEXvTg+D52fDdN2vO0zmJWOK0stsymkmnnLUNSaig8994sGfOQgmViM1SHb4q8FheoBm
- fH+fq/N1oikBOs43TnaL2T1C35kTniCj2aPSj+pSRw2WfhdKkySZ7zHiiTYtIqym5onYQC
- QGB0fhLICb9Au//SfH0bjNz4sMr0a+U=
+ bh=EjM0mYgA0SWCtN5K8STIkVYuxkcpc/YPCEphsLVjtFI=;
+ b=gKuI9xRyipG3HAn/+WCw/6PSxHx/m7GrdZT3TDJkIxITXKbVHclEGkJKjnrWZ+sI4lJzVh
+ IHFG/GxPCpTCzE2+GLCDpA/W0u0XWjd3elRYEmVx1hl7rL95yxuhx8K8I1BXK+hfV2K8Eb
+ Uxl35SNlM5Yg9B1xpX/U+AcGKO+ws4k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-1iY3Qtr0Oxy53mgNOSS4Zg-1; Tue, 20 Jul 2021 19:30:46 -0400
-X-MC-Unique: 1iY3Qtr0Oxy53mgNOSS4Zg-1
+ us-mta-179-H9IYTxObMbiheb4C5gdOGA-1; Tue, 20 Jul 2021 19:30:58 -0400
+X-MC-Unique: H9IYTxObMbiheb4C5gdOGA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4097362F9;
- Tue, 20 Jul 2021 23:30:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E95CD1084F4B;
+ Tue, 20 Jul 2021 23:30:56 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9497B1002F12;
- Tue, 20 Jul 2021 23:30:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 075E41002F12;
+ Tue, 20 Jul 2021 23:30:44 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 6/7] tests/acceptance/virtio-gpu.py: provide kernel and initrd
- hashes
-Date: Tue, 20 Jul 2021 19:30:17 -0400
-Message-Id: <20210720233018.101541-7-crosa@redhat.com>
+Subject: [PULL 7/7] remote/memory: Replace share parameter with ram_flags
+Date: Tue, 20 Jul 2021 19:30:18 -0400
+Message-Id: <20210720233018.101541-8-crosa@redhat.com>
 In-Reply-To: <20210720233018.101541-1-crosa@redhat.com>
 References: <20210720233018.101541-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -81,66 +80,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  John G Johnson <john.g.johnson@oracle.com>,
  Jagannathan Raman <jag.raman@oracle.com>, Beraldo Leal <bleal@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Yang Zhong <yang.zhong@intel.com>,
+ Pankaj Gupta <pankaj.gupta@ionos.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By providing kernel and initrd hashes, the test guarantees the
-integrity of the images used and avoids the warnings set by
-fetch_asset() when hashes are lacking.
+From: Yang Zhong <yang.zhong@intel.com>
 
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20210714174051.28164-7-crosa@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Fixes: d5015b801340 ("softmmu/memory: Pass ram_flags to
+qemu_ram_alloc_from_fd()")
+
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210709052800.63588-1-yang.zhong@intel.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/virtio-gpu.py | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ hw/remote/memory.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-index 0f84affe82..4acc1e6d5f 100644
---- a/tests/acceptance/virtio-gpu.py
-+++ b/tests/acceptance/virtio-gpu.py
-@@ -40,11 +40,13 @@ class VirtioGPUx86(Test):
-         "/linux/releases/33/Everything/x86_64/os/images"
-         "/pxeboot/vmlinuz"
-     )
-+    KERNEL_HASH = '1433cfe3f2ffaa44de4ecfb57ec25dc2399cdecf'
-     INITRD_URL = (
-         "https://archives.fedoraproject.org/pub/fedora"
-         "/linux/releases/33/Everything/x86_64/os/images"
-         "/pxeboot/initrd.img"
-     )
-+    INITRD_HASH = 'c828d68a027b53e5220536585efe03412332c2d9'
+diff --git a/hw/remote/memory.c b/hw/remote/memory.c
+index 472ed2a272..6e21ab1a45 100644
+--- a/hw/remote/memory.c
++++ b/hw/remote/memory.c
+@@ -46,7 +46,7 @@ void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
+         subregion = g_new(MemoryRegion, 1);
+         memory_region_init_ram_from_fd(subregion, NULL,
+                                        name, sysmem_info->sizes[region],
+-                                       true, msg->fds[region],
++                                       RAM_SHARED, msg->fds[region],
+                                        sysmem_info->offsets[region],
+                                        errp);
  
-     def wait_for_console_pattern(self, success_message, vm=None):
-         wait_for_console_pattern(
-@@ -61,8 +63,8 @@ def test_virtio_vga_virgl(self):
-         # FIXME: should check presence of virtio, virgl etc
-         self.require_accelerator('kvm')
- 
--        kernel_path = self.fetch_asset(self.KERNEL_URL)
--        initrd_path = self.fetch_asset(self.INITRD_URL)
-+        kernel_path = self.fetch_asset(self.KERNEL_URL, self.KERNEL_HASH)
-+        initrd_path = self.fetch_asset(self.INITRD_URL, self.INITRD_HASH)
- 
-         self.vm.set_console()
-         self.vm.add_args("-m", "2G")
-@@ -100,8 +102,8 @@ def test_vhost_user_vga_virgl(self):
-         if not vug:
-             self.cancel("Could not find vhost-user-gpu")
- 
--        kernel_path = self.fetch_asset(self.KERNEL_URL)
--        initrd_path = self.fetch_asset(self.INITRD_URL)
-+        kernel_path = self.fetch_asset(self.KERNEL_URL, self.KERNEL_HASH)
-+        initrd_path = self.fetch_asset(self.INITRD_URL, self.INITRD_HASH)
- 
-         # Create socketpair to connect proxy and remote processes
-         qemu_sock, vug_sock = socket.socketpair(
 -- 
 2.31.1
 
