@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0796C3D05C6
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:43:56 +0200 (CEST)
-Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006643D0575
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:34:22 +0200 (CEST)
+Received: from localhost ([::1]:45060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zP1-0001sC-2j
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:43:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41878)
+	id 1m5zFl-0001Wj-0V
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCA-00021F-J9
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60089)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCB-00026W-Ad
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zC5-0007gL-Gv
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:36 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zC9-0007kM-ML
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626823832;
+ s=mimecast20190719; t=1626823836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IiQuWQ/7m1Mx6LrAJEYyteqeAELSSANkVvTihTrthhU=;
- b=ESL8oEQlECHP7+lgBm52UTdmppKuDYUVl2bm8QdxCQDkfCLcUCQXOvLR4Y2iQMMVcCLk3P
- ulwG6patAlVj6CvWmDvB8WTO5S46pN6MopvjmqNS9hjdkNPMrcyKsiLiWwjKE5YG9wkUVg
- 70mPhDo6eoEkG2ieyE/DTTnJuBhardY=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HgSCGMrqHYJvTXOs7aAICB969SpdhWw9kv7mib75DOA=;
+ b=baqQQZSV78YvwQlDT+myxt8qduTQZDniYV1pjGPIR9e8QmdNEHQlQsUeSIkFOXondHaABY
+ Et3E///YEumGH93iLyfAIuuAsMsRpYdJe6dDYxoFXAkeq2vgi1Uqnq2sxKgNvDhz/kSlDb
+ y3171RzY5GSqR0z4HN7xOZooGdW9iF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-uMmXwL3oM3qEzUGX8RBUgA-1; Tue, 20 Jul 2021 19:30:30 -0400
-X-MC-Unique: uMmXwL3oM3qEzUGX8RBUgA-1
+ us-mta-500-f8bW8FIhM-GcVfEOOnSmJw-1; Tue, 20 Jul 2021 19:30:35 -0400
+X-MC-Unique: f8bW8FIhM-GcVfEOOnSmJw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75841802C80;
- Tue, 20 Jul 2021 23:30:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 461D818358F1;
+ Tue, 20 Jul 2021 23:30:34 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE2471002F12;
- Tue, 20 Jul 2021 23:30:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ACC61002F12;
+ Tue, 20 Jul 2021 23:30:29 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL for 6.1 0/7] Python and Acceptance Tests
-Date: Tue, 20 Jul 2021 19:30:11 -0400
-Message-Id: <20210720233018.101541-1-crosa@redhat.com>
+Subject: [PULL 1/7] tests/acceptance/virtio-gpu.py: use require_accelerator()
+Date: Tue, 20 Jul 2021 19:30:12 -0400
+Message-Id: <20210720233018.101541-2-crosa@redhat.com>
+In-Reply-To: <20210720233018.101541-1-crosa@redhat.com>
+References: <20210720233018.101541-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -78,57 +81,60 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  John G Johnson <john.g.johnson@oracle.com>,
  Jagannathan Raman <jag.raman@oracle.com>, Beraldo Leal <bleal@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit c04b4d9e6b596ead3cf6046a9243fbfee068ef33=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
-ng (2021-07-20 16:59:33 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/cleber.gnu/qemu.git/ tags/python-next-pull-request=0D
-=0D
-for you to fetch changes up to f4a3fda43e389fa26d41ec9cd24f42c5fe20ba9d:=0D
-=0D
-  remote/memory: Replace share parameter with ram_flags (2021-07-20 15:34:2=
-0 -0400)=0D
-=0D
-----------------------------------------------------------------=0D
-Acceptance Tests=0D
-=0D
-- Fix for tests/acceptance/virtio-gpu.py to match the change in device=0D
-  name=0D
-- Fix for failure caught by tests/acceptance/multiprocess.py=0D
-=0D
-PS: While not a maintainer for the subsystem in PATCH 7, I'm including=0D
-it as a one-off to facilitate the landing of the fix as discussed in=0D
-the mailing list.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Cleber Rosa (6):=0D
-  tests/acceptance/virtio-gpu.py: use require_accelerator()=0D
-  tests/acceptance/virtio-gpu.py: combine x86_64 arch tags=0D
-  tests/acceptance/virtio-gpu.py: combine CPU tags=0D
-  tests/acceptance/virtio-gpu.py: combine kernel command line=0D
-  tests/acceptance/virtio-gpu.py: use virtio-vga-gl=0D
-  tests/acceptance/virtio-gpu.py: provide kernel and initrd hashes=0D
-=0D
-Yang Zhong (1):=0D
-  remote/memory: Replace share parameter with ram_flags=0D
-=0D
- hw/remote/memory.c             |  2 +-=0D
- tests/acceptance/virtio-gpu.py | 42 ++++++++++++----------------------=0D
- 2 files changed, 16 insertions(+), 28 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Since efe30d501 there's a shorthand for requiring specific
+accelerators, and canceling the test if it's not available.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+Message-Id: <20210714174051.28164-2-crosa@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ tests/acceptance/virtio-gpu.py | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
+index 589332c1b7..42602a240a 100644
+--- a/tests/acceptance/virtio-gpu.py
++++ b/tests/acceptance/virtio-gpu.py
+@@ -17,10 +17,6 @@
+ import subprocess
+ 
+ 
+-ACCEL_NOT_AVAILABLE_FMT = "%s accelerator does not seem to be available"
+-KVM_NOT_AVAILABLE = ACCEL_NOT_AVAILABLE_FMT % "KVM"
+-
+-
+ def pick_default_vug_bin():
+     relative_path = "./contrib/vhost-user-gpu/vhost-user-gpu"
+     if is_readable_executable_file(relative_path):
+@@ -66,8 +62,7 @@ def test_virtio_vga_virgl(self):
+             self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+         )
+         # FIXME: should check presence of virtio, virgl etc
+-        if not kvm_available(self.arch, self.qemu_bin):
+-            self.cancel(KVM_NOT_AVAILABLE)
++        self.require_accelerator('kvm')
+ 
+         kernel_path = self.fetch_asset(self.KERNEL_URL)
+         initrd_path = self.fetch_asset(self.INITRD_URL)
+@@ -107,8 +102,7 @@ def test_vhost_user_vga_virgl(self):
+             self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
+         )
+         # FIXME: should check presence of vhost-user-gpu, virgl, memfd etc
+-        if not kvm_available(self.arch, self.qemu_bin):
+-            self.cancel(KVM_NOT_AVAILABLE)
++        self.require_accelerator('kvm')
+ 
+         vug = pick_default_vug_bin()
+         if not vug:
+-- 
+2.31.1
 
 
