@@ -2,151 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28E3F3CFBE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 16:19:02 +0200 (CEST)
-Received: from localhost ([::1]:57750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 839A33CFBF6
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 16:24:20 +0200 (CEST)
+Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5qaK-0002jr-Pt
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 10:19:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
+	id 1m5qfT-0005ki-9S
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 10:24:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
- id 1m5qZ0-0001ex-OK
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:17:38 -0400
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:48146)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m5qe2-0004cn-MZ; Tue, 20 Jul 2021 10:22:50 -0400
+Received: from mail-db8eur05on2113.outbound.protection.outlook.com
+ ([40.107.20.113]:25313 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thanos.makatos@nutanix.com>)
- id 1m5qYw-0008Hw-TE
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:17:38 -0400
-Received: from pps.filterd (m0127839.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 16KED4iw009175; Tue, 20 Jul 2021 07:17:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=8ZGLKMarkzmylcoHoBlRu4G/OYWiySaDPJ9Pb/BZUmg=;
- b=RZmapeF/NO4IAMzWdBveBfxOq+cIRe7o6BQtJc2JfFtrcObjnJyqcUxohp/eAOu/mHsT
- lLEa2sZ/DcskGm7+2DD80uEQ/qM5o3KOZpJ7B7/jmfwq9qGdoZsgqSy8Pv7eVTydPa3k
- UsAeoaCHVGR669MOLx1xrYDsplrORBaWFXm0tVAAB/MSYZJUV62axY+r43ulnyX4PMY1
- I3614fHaBcSFYZRLei4+4AjUL03C1sbZsvrZin3I8y49OZQFeqwWQkNiXvX6VgWmIaJz
- xylscyORE7x8wCmada5yQj5+ZkhjcJAGpappYWBK1mnwtTsolGe2pZtzjde+YuzCrpW3 6Q== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2175.outbound.protection.outlook.com [104.47.58.175])
- by mx0a-002c1b01.pphosted.com with ESMTP id 39w7u52tkc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 20 Jul 2021 07:17:31 -0700
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1m5qdz-0002OM-NW; Tue, 20 Jul 2021 10:22:50 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZQ9IoaPKxoyiO1ECov6WZqqlTCuVaJeVvltaFCsQl5THgHlOdSGLiow2BajDFtaMZJjZMvbSmLcpc7tAClkyggoDpT1u2+EW1PkYUpJSRFkWA3Jlod6vUhCUA8kEbq13jUQX9r5yk4hdP9tyr0QrhcdRfCCeVXQYhqza0mPDzvtqp0fP9wJDYl0+X+epoDhCgCaCcrUqsxegHq1WAedcslcz+bz4tuhobrxy/B8COUyA2GrO0mn3vQcppj1gKYm8HsJ1HDvUWoDfV/1MN/JqyiIO0Wd+rFuvVepmrwA5nXrYOqozmSR3SQb+OfyFcXU93vV3mjTOmIDFImNDwm08Fw==
+ b=ZT/F8KHdIhuVzMP+YRyjkfeQIfd1dQBYJmXajkH30rWLem4iLTbtEADnv9lq6lhXpWWnP3gkdp382/jmBvm9x5zqlUAOpAC+ELqWQ5ijsI17e0fol89aH9fNb8J8j2n4M9xjW1Dwa/eGABS5K2fL+3tLgIC7BbVkVn7ja/X7DxfHiMmHRCuuuvPWI6P4fW3eRJ1Iy5t6X+ib3D5A3vdRS+wD+Q2F0EGnqmN2NNLDhSpwV2cZrsentQvyXEKexuLgvjPZxTfpeDFGykTTLDKQ1Vjrmrl04wC3tFU6R5Zpf7bX6ituGY3gJTwqM1WonP1EylUasX5mBM9EWQ/cy8lZxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8ZGLKMarkzmylcoHoBlRu4G/OYWiySaDPJ9Pb/BZUmg=;
- b=QasEWPJfMNmapeRXREjPg+zVeulEc2lao3M6amGrJNXvm/RJuvLLH6JZCjfKoUS4OkLQE52P5N0zvK4LeTPN2WOp40n7qwbLxQXYfMVhPZj97Lue4HTXkVkp5D7tzGrS+yDsYHImwSx1S0eOZmhEAWQMaTHaHUnK2bgw6PIGpSd70g6xxOilMTybc6UU5OkqVUla4X7zo3r6v8VASG65uTwqmranokilgf2eqOEpoNnQ+x6HTbK4Ze8Wecn/B0OS0t3CgKIH0r6W4qLWkoWFg7/BCD17q4Adh1pdq+kbNVnCKIVUadkWhbBHqYURfrQQzenQ5t5tuFAgwZgDDzFCSA==
+ bh=4IB9pE9qqKeO5wKKZ7eQvPB+LpGjJGyv0fMZIoaDEBg=;
+ b=gMrsW8FCS9F08XCIDjqHOQYsSWJaeUFDs3PpOH/fPdpd85ldzJDO7Xma/NUhXwwp5yfnkiaz5XtsS2YgiKg/b0cvxZq/KgyFvqb6tZoi2qCtMvTaLhfDuF1Bu7/lbf9gddE73uY+bSyyff1cG6mCzjlGCRhVAzEWCpHmSUTMIda0qnJJCDlhiG1eW7icQKdDcuomNqNBUXY8kwoCdI14EuioPZdeEXyvUiddRRDDti9XHHXPo+Nwrf8fH42MJ967Pb6iGbBMzcXe9GWIArYJYHwvM3px9f+KxBM/L68jbW8hQSyd5dpoBFRgU5SpN43nWNSvMbYHvaWIU8sF+uItew==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from CH0PR02MB7898.namprd02.prod.outlook.com (2603:10b6:610:113::5)
- by CH2PR02MB6582.namprd02.prod.outlook.com (2603:10b6:610:78::17)
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4IB9pE9qqKeO5wKKZ7eQvPB+LpGjJGyv0fMZIoaDEBg=;
+ b=VcXJwtS7CVKoW4LujgSv/QW+vvwp/N5Rl23Yb50wYzfeFDF0XETDmVhiggdgnbmtfXq5JQ2boFQS4QQh45j3x5bb19CQ9eQrUUeD0eamMwRG9785Yl84UGHPCJNx9gy+fvWS1Az3T5B+Zy7SLyYOGLXXEIPASqGnenpf6NYKqnE=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4072.eurprd08.prod.outlook.com (2603:10a6:20b:a8::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.21; Tue, 20 Jul
- 2021 14:17:29 +0000
-Received: from CH0PR02MB7898.namprd02.prod.outlook.com
- ([fe80::3167:f3a5:5f8c:284b]) by CH0PR02MB7898.namprd02.prod.outlook.com
- ([fe80::3167:f3a5:5f8c:284b%9]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 14:17:29 +0000
-From: Thanos Makatos <thanos.makatos@nutanix.com>
-To: Jagannathan Raman <jag.raman@oracle.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: RE: [PATCH RFC server 05/11] vfio-user: run vfio-user context
-Thread-Topic: [PATCH RFC server 05/11] vfio-user: run vfio-user context
-Thread-Index: AQHXfNjiwIKxnwbPe0S4aoe8a4Ll5atL6NUA
-Date: Tue, 20 Jul 2021 14:17:29 +0000
-Message-ID: <CH0PR02MB7898528462CB5A47FE31F0E48BE29@CH0PR02MB7898.namprd02.prod.outlook.com>
-References: <cover.1626675354.git.elena.ufimtseva@oracle.com>
- <cover.1626722742.git.jag.raman@oracle.com>
- <9ea4e77a39aaff3dfac3e463d3de76b0e4e1844f.1626722742.git.jag.raman@oracle.com>
-In-Reply-To: <9ea4e77a39aaff3dfac3e463d3de76b0e4e1844f.1626722742.git.jag.raman@oracle.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: oracle.com; dkim=none (message not signed)
- header.d=none;oracle.com; dmarc=none action=none header.from=nutanix.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: af3fd447-121f-4f65-5fd9-08d94b891bc1
-x-ms-traffictypediagnostic: CH2PR02MB6582:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR02MB658237D699D33734954C41C78BE29@CH2PR02MB6582.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:619;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: s3JOJancyFDwv4KGErHOlgzIRBNc77vSyRej0n4FyfPYp6Hh/76JxcNtYR5nqmkGZaFmmn6hzwdiGZteXuyltEvNbp9/RqV3Ouaos6eznZhq0LaKFEBxdjlGpm2uDt9IMW0zG3KCjRaCZ8MOozm4QsVGgE4/splZfx0zScSMEbqrtkt/prSFx/Mckp/eqDoWh6t6L4QmN4TcpDU3XuBZaAEED5n7vKk4GfNmqYi9WgJVF0EnoMzd68esJE/BlOa34oD+2D20MYLuDr2/bXXyrDaAtpYSNCWPdfyXX4KFOiV1eNaUZZ3rQh65iyBVeQ6bMDptASBjikysOi64Pa9fkMWrR8HB4/bvEEYST5yHUjs7O5MKrUkiXNSm590Vm17VIOKeD63Cuh78LeF0nzie2Ut1Q5uz3Dr0jkUTCt5rIApXpUxJWHAVZoRfO6Ui3+5z/QTXyB226dkthQf0xXxN7qEHgESYW/s0OemFREqI5vkf3zETzwJMLN904yMPxJwOxA9PxF2vEgZaN+TuZod4Vf9XVg/pJkOWtM8jDY9iyqJpIVPJYL3/a7E0zZERQJhusmdTjtgld/+6s8GQ2GbG8WM2pbKbjxnO4PmaT2N3e8gaetOGeDJabhVhARDpfwDoRwe3iPRG3kPkxwDy3GNA3lx1bx3Y/92SWxyoqfq2O+0WChRrP+0fHAF7DiNFjOK4aTHnaHGhzd9hlCHo+G1UtQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH0PR02MB7898.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(5660300002)(54906003)(86362001)(38100700002)(83380400001)(2906002)(44832011)(4326008)(66446008)(26005)(66476007)(66556008)(66946007)(186003)(33656002)(316002)(107886003)(71200400001)(6506007)(64756008)(76116006)(52536014)(110136005)(7696005)(55016002)(53546011)(8676002)(8936002)(508600001)(9686003)(122000001)(38070700004);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UnlLZ2tBVkZ2dDV6SE9iZ3c3ZUFUQkQ2aVYvU05KWmU5YlJzT00xQUUrN0hW?=
- =?utf-8?B?aEVBallQSE5MZU94Nng3WEtQQnQwNU5yVExvRWErd01OMmQ4cWsrc1ZoSjMw?=
- =?utf-8?B?TXVIL0RERHFjTWxpUFlDUzBQYWIzSEJMNEJNejlwYmpQTmJjTXQ3cU1zYmVO?=
- =?utf-8?B?b1Rhd3B3eTZqVy9qclNaa1ZxSFJDZ2pwZjN4Ym4xMzh5WHNYR3NUajRCWVFx?=
- =?utf-8?B?UktQUmE0SVVyUGpHMzI5MHBGcStiSkMyQ3JmaFBnWGw3akYzaTAxSWFZam9C?=
- =?utf-8?B?QkVLRWZMbStoaDR3bk55RkJpWnQxV1BBOUNuME82VHlsN1lSaFN0c0lGOHE1?=
- =?utf-8?B?T2YvOUp5Zi9CUW5DTHhYd3UxeWRBVVN3MVJZUTVLRG5zbHhJY3BtOWVJRldp?=
- =?utf-8?B?MWZOR0VSWkNjRi9SMzNzOUFDMU5RWHRaS2o3YjFXa3U3eUtRSmkyUDluWmxm?=
- =?utf-8?B?OEorYUE5bHZ5MUdYdVo4QmF6YmpQcGpsb3krY2lnSnZlZ0Zma0NsVVVnODNk?=
- =?utf-8?B?d1cwaVdXVlB0RDZlZVVDeVdPTlNRM2NDZ282R3I5aUFHT0MzWlFNQU80M2RV?=
- =?utf-8?B?V0NiK3VGY051V2s1dytnbE8vakZxQUI2V3lDdXlMdUJtTG01dnZPb201TjV4?=
- =?utf-8?B?QlJuWmU0bFZObnB5YmpnNEVHR0E3blBOTmhlbWliaDUzS1BRZzdPblVPRXRV?=
- =?utf-8?B?cW94SXRCazJsOGpuc3lUN3d5YVZpeGNvUFdZdm9HNE5QbGllaFk1Vk12ZWpp?=
- =?utf-8?B?V2UyVXBUd0MycWIvU2kvaElJdUdMeEJSQUN6VCt6Sm4rVlhuZVZBajF2WkdR?=
- =?utf-8?B?bUxsa1RXa1ZXRVh2OGQ5elJPTHhOTTk1aEFKSUhEYzlONmZnNDh3U3lZRTAv?=
- =?utf-8?B?bFZLeVJhRVZyTGdrU1VCUEhMcExwajdWckJaQkdhemNpck9ad3Q2Y09vREo3?=
- =?utf-8?B?TDh1QmhuL2dsc1RVTWZxd3FEb1hvRHV5UEd6aENoQzVnVUNTWUIxNEJoRnNw?=
- =?utf-8?B?MFZLaFprczQvSVBMVXB0YXlBWk5iSzhNbjdtTThtenNvSUFvWEhwY0hQN2xU?=
- =?utf-8?B?dDNuQjNleWRiY2JIRXF5aVltQk1ZRzRlTTdtd1BDd2U5ZHN3QkNvV2pKZDVJ?=
- =?utf-8?B?NlJsVnVYUEdaTHA3UUtGZzNGazVCRThZdnFsbmhHVFpjcGdCaCsvNEQwYlFv?=
- =?utf-8?B?ZDBwSXNtSGpjbjl5TW1RV2RjSXY4YUpIRUlEQlJYZkJCQUFxNVhrZnFaRC9T?=
- =?utf-8?B?RjRXVXJXcFJHeTY3RUI3bHI4bktHelVyU1YxdW56eC9wQjlxdVhxQmhacG5N?=
- =?utf-8?B?UWRseUhvbzk4MUhNL0FJYjEzTExScm9LSGJCN3ZpcUUrSUVhbTVtZEdvanNO?=
- =?utf-8?B?MTBvYXpwdFlIcDlFYURCME9TVmEya1hYSHN5bnQxWVBNeExMd1ljZGtqdlV5?=
- =?utf-8?B?TXRaVmkxdGkwdGFjZExjUDZkb0N4eG5KQXVkY1JJZThQaU5uS1EzTHhjZ0Fu?=
- =?utf-8?B?QzJTb3hzM0ttMlBtWkdUR1dhU2dHR3piaHVQV1pSMTlOTGNoN2RRMEhFdG1J?=
- =?utf-8?B?ZjhLeU94SERhdXZHYXplWXlRSVlnUnZoNmRKbURzZXZhRFBRWWthbEZTRlp6?=
- =?utf-8?B?eUc4QUx1dndld1V1KzQ2WkUzY0syM1hjeU9wMXZpcURZTDhIelplcDAzOFI4?=
- =?utf-8?B?M2EySGlQZTAzdE13dWpGeXdxQzhPc3BWZitoWUFaY3cwRnY1dEo1blQ2VTE2?=
- =?utf-8?Q?5lCBH7r/oBy98NnePo=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.28; Tue, 20 Jul
+ 2021 14:22:44 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
+ 14:22:44 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
+ eblake@redhat.com, armbru@redhat.com, vsementsov@virtuozzo.com,
+ jsnow@redhat.com, mreitz@redhat.com, kwolf@redhat.com
+Subject: [PATCH] block: drop BLK_PERM_GRAPH_MOD
+Date: Tue, 20 Jul 2021 17:22:29 +0300
+Message-Id: <20210720142229.763742-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HE1PR0901CA0046.eurprd09.prod.outlook.com
+ (2603:10a6:3:45::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (31.173.85.199) by
+ HE1PR0901CA0046.eurprd09.prod.outlook.com (2603:10a6:3:45::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 14:22:43 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3067dc65-c276-4a4c-9e80-08d94b89d73e
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4072:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4072EF3D47FE120A906258A4C1E29@AM6PR08MB4072.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: J66KjzMvGkAPMwRFPHWiZi5pb4VeWZ9hRqnUhrF3SGKd3XfrgD+Z33J1ZCoYzNdQFl9RuslXOBV0JbJ6XYxN0HJ9qEip7nGSc5GIZbbHaMJ96jx53loUQFDNLKUjOUDDCtSNyPTH0RZjVwRBILgyNtRBxrD3396S0Ei5yl4BFkF5HoBWZW+ZBoFKnQ1jLnRYN1xiRH3EFtzoSsbZN0O2M+2K+bljdAmhoO0PKp9C3axreT/Zf0DApfH8wC6XtELgomLnCPW1v7iPgjvpqTG5/gpd/LqRaiEqRGPFOyewvj06aPxe1uRAPQfpC+gcMmpSsGthA44BoQL9GpxvnMwzZeXpWEUNTMpmjRI2//1qowWYeBzfwKu8TMCBtQvf2KicQMv+GHHek3xcHO5GBYqimQQeG4qE/g22FyQXDXhtJOEQocWviTKUmCR1jlsvsm2pwRuhbDcaLd3rnrJAj0rmvvN+NnHhX7YxXPBePFS5QllMG+4/Aj+oWAQb5fgukDkaGXIGkPTsRRtGIYGQyjFVzhKIVKuLJCnvSPIr2eEWHJaUQbkfG9V7O8SiJuIWb9gdZAHk6QFPS4Vf48LzO8YZGjoWjK3u7yT6cIhgYL8SBxTXTO60B7Z3HssNHrb6RKooipJSI6vBg0zUS3xeOLTpoH3GgykfkdMOkR/hdumFomMEeYYB9x/0pHJGYT1Q3h73jFuPkkfK1EG7bGZydm8X6A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(366004)(39830400003)(376002)(346002)(8936002)(8676002)(316002)(5660300002)(52116002)(6506007)(6666004)(26005)(86362001)(186003)(38350700002)(66476007)(2906002)(6486002)(83380400001)(36756003)(6916009)(66556008)(956004)(478600001)(2616005)(38100700002)(4326008)(66946007)(1076003)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v0ITALIFdxJf9tctvYwfIYxT4UnvyWXzLK8Y23HdDg40S7T1sVEyzukLDJg3?=
+ =?us-ascii?Q?6Ck6XbD7GS2HBl3cbshgl4mZUuyf+J7o+HMiN5KE2CfC4VCJV3X2NnAtzeF5?=
+ =?us-ascii?Q?98CJSGSKobrqw+WUSnyl3bSu/qlSbS08TyakjEZ5PImU8FsgjnB0dxA3bbX1?=
+ =?us-ascii?Q?30HHWMV/cH5RGjtIxHes0i/tFFngmZQfboWDsYpAUXhSr6OBtNH+L4YVqeNU?=
+ =?us-ascii?Q?HbG+A1FJOU+xnCxg8kWy0gStudctu0MM+oJeSmSa7KWThKsxyq/KjchyI6X8?=
+ =?us-ascii?Q?GPAH3t2818C+EBQ47gi7RAdDggDGEYaU3u0hXW0JhqJFRsIMWI2xI7KTLpeU?=
+ =?us-ascii?Q?+yYHZZiMqL15pxuxiVrjRGVzrzN7MNLrTcpR/f8cHMDH2hPCph6AmKbXar93?=
+ =?us-ascii?Q?O2i0MEak8UzJdIaBv5gmHTblQamSyW+8agvFHVvM8bAUaPd3Le5Y5CyjDqJ8?=
+ =?us-ascii?Q?LCnzBtcTuteMAFn2NjwaPppW8z64rRQ88tcaNQxegH97Vmno2a6dAAxbhJqS?=
+ =?us-ascii?Q?7I5gQTzLVKas0D0pjIyFNUeie/zKrftgOwwbm1lfOZlx9Cim9cXGCtZG319R?=
+ =?us-ascii?Q?20zHsyMX6TpM+1SLmlSYwbU3+39TrDYEBn5ujizeKdBafnEI0JiFeCZt/8KE?=
+ =?us-ascii?Q?EbnuOoDeYNDrhMgXbiBG6UiLesoMwWLxQ6du7eLbh5OBswkEOP1gUu3YOg/e?=
+ =?us-ascii?Q?Y8EXYy7/Ey3lAzVwutqbfhJA+0wWuQDBYlsR7FGTZMq1z44ewY3F1Bos9Puj?=
+ =?us-ascii?Q?bW0jz4ldOcjg9lfldDnOdT4pHkozMQ3idfVGyhAmThzpLE7ci0rUyyks0T0D?=
+ =?us-ascii?Q?VBkJlzMrxcGjChZ+2J34kYQVV6yHHMoH8padFaoZanl1mf1sNF0/uISj0ITk?=
+ =?us-ascii?Q?VSuIKRDpN+slD+lxuzdw3iOs9Y06opowLAHEDJ37tH9ajsp2lpyfbjzlrx75?=
+ =?us-ascii?Q?UG3/6NGWrZgJwDkwsa6Ir4CikWYJnqI6Y79ATcWDmiA0ijW7xg8puMVPwXfp?=
+ =?us-ascii?Q?6TaDX0WPI8BWOQJECzOwl37BfjH2nx5FXZKQB4ZkuLgGRCL7SAYBwbaqxL/n?=
+ =?us-ascii?Q?jt4tml8pZWLKNL+9qf2iV2IfPRJzfoNAn1a1OvsTOlc7eV/HHNMcnLGMQdTZ?=
+ =?us-ascii?Q?FyfWQVywUxP5nCY9oi1ZUt9iPjLa29/YXjYM2GD5dlqvgomgIdZh2J0DjVKo?=
+ =?us-ascii?Q?KJ31hwtXGC4D0G15Q6A1xijUUWVs4uFYjRo7s4n9PThuRazThPbsQ/dnu6hZ?=
+ =?us-ascii?Q?SkbSo/uteMldA7K/33fxCBh9auCBC2s4gys9bSZVNzfw953bTbhDcTPbY5ag?=
+ =?us-ascii?Q?XdTU0eBSlVIP8T9ZbdA8AK91?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3067dc65-c276-4a4c-9e80-08d94b89d73e
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH0PR02MB7898.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af3fd447-121f-4f65-5fd9-08d94b891bc1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2021 14:17:29.7368 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ilIvfGPn9m3GpJwhZpJOVZL1eS1VYPjHgP+CEnnNlPMNXgyVZrK8RTSY1MeAi977kOmMo4FKsIliWQDsJvYxu6EsO8xxUqHW2BOsRN4mj8Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6582
-X-Proofpoint-GUID: nZaqspSgycHY8Td5yr432SDJL9nykPVO
-X-Proofpoint-ORIG-GUID: nZaqspSgycHY8Td5yr432SDJL9nykPVO
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-07-20_09:2021-07-19,
- 2021-07-20 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=thanos.makatos@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 14:22:44.5793 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9BRh+xfvXwLsnhc1zMuhVIDzuOuUsfNm8fZo+sKOTqcaYvLafJ6rRl3yprdPEbNmkivy0iGHwmVonaxX9nXfxLi//JOJ8S9eGklE202NPtU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4072
+Received-SPF: pass client-ip=40.107.20.113;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -159,81 +135,247 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "elena.ufimtseva@oracle.com" <elena.ufimtseva@oracle.com>,
- "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>, John Levon <john.levon@nutanix.com>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKYWdhbm5hdGhhbiBSYW1hbiA8
-amFnLnJhbWFuQG9yYWNsZS5jb20+DQo+IFNlbnQ6IDE5IEp1bHkgMjAyMSAyMTowMA0KPiBUbzog
-cWVtdS1kZXZlbEBub25nbnUub3JnDQo+IENjOiBzdGVmYW5oYUByZWRoYXQuY29tOyBhbGV4Lndp
-bGxpYW1zb25AcmVkaGF0LmNvbTsNCj4gZWxlbmEudWZpbXRzZXZhQG9yYWNsZS5jb207IEpvaG4g
-TGV2b24gPGpvaG4ubGV2b25AbnV0YW5peC5jb20+Ow0KPiBqb2huLmcuam9obnNvbkBvcmFjbGUu
-Y29tOyBUaGFub3MgTWFrYXRvcw0KPiA8dGhhbm9zLm1ha2F0b3NAbnV0YW5peC5jb20+OyBTd2Fw
-bmlsIEluZ2xlDQo+IDxzd2FwbmlsLmluZ2xlQG51dGFuaXguY29tPjsgamFnLnJhbWFuQG9yYWNs
-ZS5jb20NCj4gU3ViamVjdDogW1BBVENIIFJGQyBzZXJ2ZXIgMDUvMTFdIHZmaW8tdXNlcjogcnVu
-IHZmaW8tdXNlciBjb250ZXh0DQo+IA0KPiBTZXR1cCBhIHNlcGFyYXRlIHRocmVhZCB0byBydW4g
-dGhlIHZmaW8tdXNlciBjb250ZXh0LiBUaGUgdGhyZWFkIGFjdHMgYXMNCj4gdGhlIG1haW4gbG9v
-cCBmb3IgdGhlIGRldmljZS4NCg0KSW4geW91ciAidmZpby11c2VyOiBpbnN0YW50aWF0ZSB2Zmlv
-LXVzZXIgY29udGV4dCIgcGF0Y2ggeW91IGNyZWF0ZSB0aGUgdmZ1IGNvbnRleHQgaW4gYmxvY2tp
-bmctbW9kZSwgc28gdGhlIG9ubHkgd2F5IHRvIHJ1biBkZXZpY2UgZW11bGF0aW9uIGlzIGluIGEg
-c2VwYXJhdGUgdGhyZWFkLg0KV2VyZSB5b3UgZ29pbmcgdG8gY3JlYXRlIGEgc2VwYXJhdGUgdGhy
-ZWFkIGFueXdheT8gWW91IGNhbiBydW4gZGV2aWNlIGVtdWxhdGlvbiBpbiBwb2xsaW5nIG1vZGUg
-dGhlcmVmb3JlIHlvdSBjYW4gYXZvaWQgY3JlYXRpbmcgYSBzZXBhcmF0ZSB0aHJlYWQsIHRodXMg
-c2F2aW5nIHJlc291cmNlcy4gRG8gcGxhbiB0byBkbyB0aGF0IGluIHRoZSBmdXR1cmU/DQoNCj4g
-DQo+IFNpZ25lZC1vZmYtYnk6IEVsZW5hIFVmaW10c2V2YSA8ZWxlbmEudWZpbXRzZXZhQG9yYWNs
-ZS5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEpvaG4gRyBKb2huc29uIDxqb2huLmcuam9obnNvbkBv
-cmFjbGUuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBKYWdhbm5hdGhhbiBSYW1hbiA8amFnLnJhbWFu
-QG9yYWNsZS5jb20+DQo+IC0tLQ0KPiAgaHcvcmVtb3RlL3ZmaW8tdXNlci1vYmouYyB8IDQ0DQo+
-ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ICAxIGZpbGUg
-Y2hhbmdlZCwgNDQgaW5zZXJ0aW9ucygrKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2h3L3JlbW90ZS92
-ZmlvLXVzZXItb2JqLmMgYi9ody9yZW1vdGUvdmZpby11c2VyLW9iai5jDQo+IGluZGV4IGUzNjI3
-MDkuLjZhMmQwZjUgMTAwNjQ0DQo+IC0tLSBhL2h3L3JlbW90ZS92ZmlvLXVzZXItb2JqLmMNCj4g
-KysrIGIvaHcvcmVtb3RlL3ZmaW8tdXNlci1vYmouYw0KPiBAQCAtMzUsNiArMzUsNyBAQA0KPiAg
-I2luY2x1ZGUgInRyYWNlLmgiDQo+ICAjaW5jbHVkZSAic3lzZW11L3J1bnN0YXRlLmgiDQo+ICAj
-aW5jbHVkZSAicWVtdS9ub3RpZnkuaCINCj4gKyNpbmNsdWRlICJxZW11L3RocmVhZC5oIg0KPiAg
-I2luY2x1ZGUgInFhcGkvZXJyb3IuaCINCj4gICNpbmNsdWRlICJzeXNlbXUvc3lzZW11LmgiDQo+
-ICAjaW5jbHVkZSAiaHcvcWRldi1jb3JlLmgiDQo+IEBAIC02Niw2ICs2Nyw4IEBAIHN0cnVjdCBW
-ZnVPYmplY3Qgew0KPiAgICAgIHZmdV9jdHhfdCAqdmZ1X2N0eDsNCj4gDQo+ICAgICAgUENJRGV2
-aWNlICpwY2lfZGV2Ow0KPiArDQo+ICsgICAgUWVtdVRocmVhZCB2ZnVfY3R4X3RocmVhZDsNCj4g
-IH07DQo+IA0KPiAgc3RhdGljIHZvaWQgdmZ1X29iamVjdF9zZXRfc29ja2V0KE9iamVjdCAqb2Jq
-LCBjb25zdCBjaGFyICpzdHIsIEVycm9yICoqZXJycCkNCj4gQEAgLTkwLDYgKzkzLDQ0IEBAIHN0
-YXRpYyB2b2lkIHZmdV9vYmplY3Rfc2V0X2RldmlkKE9iamVjdCAqb2JqLCBjb25zdA0KPiBjaGFy
-ICpzdHIsIEVycm9yICoqZXJycCkNCj4gICAgICB0cmFjZV92ZnVfcHJvcCgiZGV2aWQiLCBzdHIp
-Ow0KPiAgfQ0KPiANCj4gK3N0YXRpYyB2b2lkICp2ZnVfb2JqZWN0X2N0eF9ydW4odm9pZCAqb3Bh
-cXVlKQ0KPiArew0KPiArICAgIFZmdU9iamVjdCAqbyA9IG9wYXF1ZTsNCj4gKyAgICBpbnQgcmV0
-Ow0KPiArDQo+ICsgICAgcmV0ID0gdmZ1X3JlYWxpemVfY3R4KG8tPnZmdV9jdHgpOw0KPiArICAg
-IGlmIChyZXQgPCAwKSB7DQo+ICsgICAgICAgIGVycm9yX3NldGcoJmVycm9yX2Fib3J0LCAidmZ1
-OiBGYWlsZWQgdG8gcmVhbGl6ZSBkZXZpY2UgJXMtICVzIiwNCj4gKyAgICAgICAgICAgICAgICAg
-ICBvLT5kZXZpZCwgc3RyZXJyb3IoZXJybm8pKTsNCj4gKyAgICAgICAgcmV0dXJuIE5VTEw7DQo+
-ICsgICAgfQ0KPiArDQo+ICsgICAgcmV0ID0gdmZ1X2F0dGFjaF9jdHgoby0+dmZ1X2N0eCk7DQo+
-ICsgICAgaWYgKHJldCA8IDApIHsNCj4gKyAgICAgICAgZXJyb3Jfc2V0ZygmZXJyb3JfYWJvcnQs
-DQo+ICsgICAgICAgICAgICAgICAgICAgInZmdTogRmFpbGVkIHRvIGF0dGFjaCBkZXZpY2UgJXMg
-dG8gY29udGV4dCAtICVzIiwNCj4gKyAgICAgICAgICAgICAgICAgICBvLT5kZXZpZCwgc3RyZXJy
-b3IoZXJybm8pKTsNCj4gKyAgICAgICAgcmV0dXJuIE5VTEw7DQo+ICsgICAgfQ0KPiArDQo+ICsg
-ICAgZG8gew0KPiArICAgICAgICByZXQgPSB2ZnVfcnVuX2N0eChvLT52ZnVfY3R4KTsNCj4gKyAg
-ICAgICAgaWYgKHJldCA8IDApIHsNCj4gKyAgICAgICAgICAgIGlmIChlcnJubyA9PSBFSU5UUikg
-ew0KPiArICAgICAgICAgICAgICAgIHJldCA9IDA7DQo+ICsgICAgICAgICAgICB9IGVsc2UgaWYg
-KGVycm5vID09IEVOT1RDT05OKSB7DQo+ICsgICAgICAgICAgICAgICAgb2JqZWN0X3VucGFyZW50
-KE9CSkVDVChvKSk7DQo+ICsgICAgICAgICAgICAgICAgYnJlYWs7DQo+ICsgICAgICAgICAgICB9
-IGVsc2Ugew0KPiArICAgICAgICAgICAgICAgIGVycm9yX3NldGcoJmVycm9yX2Fib3J0LCAidmZ1
-OiBGYWlsZWQgdG8gcnVuIGRldmljZSAlcyAtICVzIiwNCj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIG8tPmRldmlkLCBzdHJlcnJvcihlcnJubykpOw0KPiArICAgICAgICAgICAgfQ0KPiAr
-ICAgICAgICB9DQo+ICsgICAgfSB3aGlsZSAocmV0ID09IDApOw0KPiArDQo+ICsgICAgcmV0dXJu
-IE5VTEw7DQo+ICt9DQo+ICsNCj4gIHN0YXRpYyB2b2lkIHZmdV9vYmplY3RfbWFjaGluZV9kb25l
-KE5vdGlmaWVyICpub3RpZmllciwgdm9pZCAqZGF0YSkNCj4gIHsNCj4gICAgICBWZnVPYmplY3Qg
-Km8gPSBjb250YWluZXJfb2Yobm90aWZpZXIsIFZmdU9iamVjdCwgbWFjaGluZV9kb25lKTsNCj4g
-QEAgLTEyNSw2ICsxNjYsOSBAQCBzdGF0aWMgdm9pZCB2ZnVfb2JqZWN0X21hY2hpbmVfZG9uZShO
-b3RpZmllcg0KPiAqbm90aWZpZXIsIHZvaWQgKmRhdGEpDQo+ICAgICAgICAgICAgICAgICAgICAg
-cGNpX2dldF93b3JkKG8tPnBjaV9kZXYtPmNvbmZpZyArIFBDSV9ERVZJQ0VfSUQpLA0KPiAgICAg
-ICAgICAgICAgICAgICAgIHBjaV9nZXRfd29yZChvLT5wY2lfZGV2LT5jb25maWcgKw0KPiBQQ0lf
-U1VCU1lTVEVNX1ZFTkRPUl9JRCksDQo+ICAgICAgICAgICAgICAgICAgICAgcGNpX2dldF93b3Jk
-KG8tPnBjaV9kZXYtPmNvbmZpZyArIFBDSV9TVUJTWVNURU1fSUQpKTsNCj4gKw0KPiArICAgIHFl
-bXVfdGhyZWFkX2NyZWF0ZSgmby0+dmZ1X2N0eF90aHJlYWQsICJWRlUgY3R4IHJ1bm5lciIsDQo+
-IHZmdV9vYmplY3RfY3R4X3J1biwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgbywgUUVNVV9U
-SFJFQURfSk9JTkFCTEUpOw0KPiAgfQ0KPiANCj4gIHN0YXRpYyB2b2lkIHZmdV9vYmplY3RfaW5p
-dChPYmplY3QgKm9iaikNCj4gLS0NCj4gMS44LjMuMQ0KDQo=
+First, this permission never protected node from being changed, as
+generic child-replacing functions don't check it.
+
+Second, it's a strange thing: it presents a permission of parent node
+to change its child. But generally, children are replaced by different
+mechanisms, like jobs or qmp commands, not by nodes.
+
+Graph-mod permission is hard to understand. All other permissions
+describe operations which done by parent node on it child: read, write,
+resize. Graph modification operations are something completely
+different.
+
+The only place, where BLK_PERM_GRAPH_MOD is used as "perm" (not shared
+perm) is mirror_start_job, for s->target. Still modern code should use
+bdrv_freeze_backing_chain() to protect from graph modification, if we
+don't do it somewhere it may be considered as a bug. So, it's a bit
+risky to drop GRAPH_MOD, and analyzing of possible loss of protection
+is hard. But one day we should do it, let's do it now.
+
+One more bit of information is that locking corresponding byte in
+file-posix doesn't make sense at all.
+
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ qapi/block-core.json          |  7 ++-----
+ include/block/block.h         |  9 +++++----
+ block.c                       |  7 +------
+ block/commit.c                |  1 -
+ block/mirror.c                | 15 +++------------
+ hw/block/block.c              |  3 +--
+ scripts/render_block_graph.py |  1 -
+ tests/qemu-iotests/273.out    |  4 ----
+ 8 files changed, 12 insertions(+), 35 deletions(-)
+
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 675d8265eb..f9d0e4f348 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1825,14 +1825,11 @@
+ #
+ # @resize: This permission is required to change the size of a block node.
+ #
+-# @graph-mod: This permission is required to change the node that this
+-#             BdrvChild points to.
+-#
+ # Since: 4.0
+ ##
+ { 'enum': 'BlockPermission',
+-  'data': [ 'consistent-read', 'write', 'write-unchanged', 'resize',
+-            'graph-mod' ] }
++  'data': [ 'consistent-read', 'write', 'write-unchanged', 'resize' ] }
++
+ ##
+ # @XDbgBlockGraphEdge:
+ #
+diff --git a/include/block/block.h b/include/block/block.h
+index 3477290f9a..b52ba758c7 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -269,12 +269,13 @@ enum {
+     BLK_PERM_RESIZE             = 0x08,
+ 
+     /**
+-     * This permission is required to change the node that this BdrvChild
+-     * points to.
++     * There was a removed now BLK_PERM_GRAPH_MOD, with value of 0x10. QEMU 6.1
++     * and earlier still my lock corresponding byte in block/file-posix locking.
++     * So, implementing some new permission should be very careful to not
++     * interfere with this old unused thing.
+      */
+-    BLK_PERM_GRAPH_MOD          = 0x10,
+ 
+-    BLK_PERM_ALL                = 0x1f,
++    BLK_PERM_ALL                = 0x0f,
+ 
+     DEFAULT_PERM_PASSTHROUGH    = BLK_PERM_CONSISTENT_READ
+                                  | BLK_PERM_WRITE
+diff --git a/block.c b/block.c
+index be083f389e..465c69ac26 100644
+--- a/block.c
++++ b/block.c
+@@ -2397,7 +2397,6 @@ char *bdrv_perm_names(uint64_t perm)
+         { BLK_PERM_WRITE,           "write" },
+         { BLK_PERM_WRITE_UNCHANGED, "write unchanged" },
+         { BLK_PERM_RESIZE,          "resize" },
+-        { BLK_PERM_GRAPH_MOD,       "change children" },
+         { 0, NULL }
+     };
+ 
+@@ -2513,8 +2512,7 @@ static void bdrv_default_perms_for_cow(BlockDriverState *bs, BdrvChild *c,
+         shared = 0;
+     }
+ 
+-    shared |= BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
+-              BLK_PERM_WRITE_UNCHANGED;
++    shared |= BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
+ 
+     if (bs->open_flags & BDRV_O_INACTIVE) {
+         shared |= BLK_PERM_WRITE | BLK_PERM_RESIZE;
+@@ -2632,7 +2630,6 @@ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
+         [BLOCK_PERMISSION_WRITE]            = BLK_PERM_WRITE,
+         [BLOCK_PERMISSION_WRITE_UNCHANGED]  = BLK_PERM_WRITE_UNCHANGED,
+         [BLOCK_PERMISSION_RESIZE]           = BLK_PERM_RESIZE,
+-        [BLOCK_PERMISSION_GRAPH_MOD]        = BLK_PERM_GRAPH_MOD,
+     };
+ 
+     QEMU_BUILD_BUG_ON(ARRAY_SIZE(permissions) != BLOCK_PERMISSION__MAX);
+@@ -5326,8 +5323,6 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
+     update_inherits_from = bdrv_inherits_from_recursive(base, explicit_top);
+ 
+     /* success - we can delete the intermediate states, and link top->base */
+-    /* TODO Check graph modification op blockers (BLK_PERM_GRAPH_MOD) once
+-     * we've figured out how they should work. */
+     if (!backing_file_str) {
+         bdrv_refresh_filename(base);
+         backing_file_str = base->filename;
+diff --git a/block/commit.c b/block/commit.c
+index 42792b4556..837b07e314 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -370,7 +370,6 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+     s->base = blk_new(s->common.job.aio_context,
+                       base_perms,
+                       BLK_PERM_CONSISTENT_READ
+-                      | BLK_PERM_GRAPH_MOD
+                       | BLK_PERM_WRITE_UNCHANGED);
+     ret = blk_insert_bs(s->base, base, errp);
+     if (ret < 0) {
+diff --git a/block/mirror.c b/block/mirror.c
+index 019f6deaa5..fca219a737 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -1135,10 +1135,7 @@ static void mirror_complete(Job *job, Error **errp)
+         replace_aio_context = bdrv_get_aio_context(s->to_replace);
+         aio_context_acquire(replace_aio_context);
+ 
+-        /* TODO Translate this into permission system. Current definition of
+-         * GRAPH_MOD would require to request it for the parents; they might
+-         * not even be BlockDriverStates, however, so a BdrvChild can't address
+-         * them. May need redefinition of GRAPH_MOD. */
++        /* TODO Translate this into child freeze system. */
+         error_setg(&s->replace_blocker,
+                    "block device is in use by block-job-complete");
+         bdrv_op_block_all(s->to_replace, s->replace_blocker);
+@@ -1645,7 +1642,7 @@ static BlockJob *mirror_start_job(
+     s = block_job_create(job_id, driver, NULL, mirror_top_bs,
+                          BLK_PERM_CONSISTENT_READ,
+                          BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
+-                         BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD, speed,
++                         BLK_PERM_WRITE, speed,
+                          creation_flags, cb, opaque, errp);
+     if (!s) {
+         goto fail;
+@@ -1689,9 +1686,7 @@ static BlockJob *mirror_start_job(
+             target_perms |= BLK_PERM_RESIZE;
+         }
+ 
+-        target_shared_perms |= BLK_PERM_CONSISTENT_READ
+-                            |  BLK_PERM_WRITE
+-                            |  BLK_PERM_GRAPH_MOD;
++        target_shared_perms |= BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
+     } else if (bdrv_chain_contains(bs, bdrv_skip_filters(target))) {
+         /*
+          * We may want to allow this in the future, but it would
+@@ -1702,10 +1697,6 @@ static BlockJob *mirror_start_job(
+         goto fail;
+     }
+ 
+-    if (backing_mode != MIRROR_LEAVE_BACKING_CHAIN) {
+-        target_perms |= BLK_PERM_GRAPH_MOD;
+-    }
+-
+     s->target = blk_new(s->common.job.aio_context,
+                         target_perms, target_shared_perms);
+     ret = blk_insert_bs(s->target, target, errp);
+diff --git a/hw/block/block.c b/hw/block/block.c
+index d47ebf005a..25f45df723 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -171,8 +171,7 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+         perm |= BLK_PERM_WRITE;
+     }
+ 
+-    shared_perm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
+-                  BLK_PERM_GRAPH_MOD;
++    shared_perm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
+     if (resizable) {
+         shared_perm |= BLK_PERM_RESIZE;
+     }
+diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
+index da6acf050d..42288a3cfb 100755
+--- a/scripts/render_block_graph.py
++++ b/scripts/render_block_graph.py
+@@ -35,7 +35,6 @@ def perm(arr):
+     s = 'w' if 'write' in arr else '_'
+     s += 'r' if 'consistent-read' in arr else '_'
+     s += 'u' if 'write-unchanged' in arr else '_'
+-    s += 'g' if 'graph-mod' in arr else '_'
+     s += 's' if 'resize' in arr else '_'
+     return s
+ 
+diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
+index 4e840b6730..6a74a8138b 100644
+--- a/tests/qemu-iotests/273.out
++++ b/tests/qemu-iotests/273.out
+@@ -204,7 +204,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
+                 "name": "file",
+                 "parent": 5,
+                 "shared-perm": [
+-                    "graph-mod",
+                     "write-unchanged",
+                     "consistent-read"
+                 ],
+@@ -219,7 +218,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
+                 "name": "backing",
+                 "parent": 5,
+                 "shared-perm": [
+-                    "graph-mod",
+                     "resize",
+                     "write-unchanged",
+                     "write",
+@@ -233,7 +231,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
+                 "name": "file",
+                 "parent": 3,
+                 "shared-perm": [
+-                    "graph-mod",
+                     "write-unchanged",
+                     "consistent-read"
+                 ],
+@@ -246,7 +243,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
+                 "name": "backing",
+                 "parent": 3,
+                 "shared-perm": [
+-                    "graph-mod",
+                     "resize",
+                     "write-unchanged",
+                     "write",
+-- 
+2.29.2
+
 
