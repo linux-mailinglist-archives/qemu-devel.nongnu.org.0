@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A60283CF9ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:56:31 +0200 (CEST)
-Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBE9F3CF9F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 14:58:42 +0200 (CEST)
+Received: from localhost ([::1]:56130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pIU-0007d7-LP
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:56:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50872)
+	id 1m5pKb-0004rs-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 08:58:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGN-0004h7-8y
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34993)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGQ-0004kp-5O
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGK-0008GX-0v
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1m5pGN-0008Hk-3n
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 08:54:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626785654;
+ s=mimecast20190719; t=1626785658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ypcqcc5J//ZIGihgb1dDHeWeRJy0Ogt44IIsDEFb0Kw=;
- b=HCfS5gyXnmwl6V7vWOlwoKiG92RUjFWdIUOKmvlJUhAQMQ1rmf2za9USYvIviACf/y6/od
- csFwxECjkG+mHlgGsfyYK5ebV42o/4BE/EmbHKTFb4SnI9g2r2V9Mue88LZ/kgTVj9i+gd
- Gfes87pO8U/raMltywJPUEip2WLWWGY=
+ bh=MSt/m+s0UORwtA1r2YnMv27vH4CYgJo6nJKJj2HO3Mk=;
+ b=FFTNsCJz7xGqrrOlam3KHRiQREq2HaVl7O7+damWjAN5/kNdp99Fa5GB0fWQXpKk4fYS9y
+ lioAvI3JRBZF8dU1PJrJgSSugpIs+VspQkUEl6Ye5hoITCvtrDGWWMrfCTGkgUCWf88iQL
+ wqllGOa9Z5tYuDhJ4r3gZEsZrFqe9Ao=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-49-7HVTMmvNPUyMh5NRNDLPRA-1; Tue, 20 Jul 2021 08:54:13 -0400
-X-MC-Unique: 7HVTMmvNPUyMh5NRNDLPRA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-111-f9BOkJZGN5umoj_wqrCyMA-1; Tue, 20 Jul 2021 08:54:17 -0400
+X-MC-Unique: f9BOkJZGN5umoj_wqrCyMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 773FC804308
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:54:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A6F410151E2;
+ Tue, 20 Jul 2021 12:54:16 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-114-187.ams2.redhat.com
  [10.36.114.187])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4926F60843;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 49FD45D9FC;
  Tue, 20 Jul 2021 12:54:12 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 05737112D849; Tue, 20 Jul 2021 14:54:09 +0200 (CEST)
+ id 08C11112D84A; Tue, 20 Jul 2021 14:54:09 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/16] i386: Never free migration blocker objects instead of
- sometimes
-Date: Tue, 20 Jul 2021 14:53:58 +0200
-Message-Id: <20210720125408.387910-7-armbru@redhat.com>
+Subject: [PATCH 07/16] vfio: Avoid error_propagate() after
+ migrate_add_blocker()
+Date: Tue, 20 Jul 2021 14:53:59 +0200
+Message-Id: <20210720125408.387910-8-armbru@redhat.com>
 In-Reply-To: <20210720125408.387910-1-armbru@redhat.com>
 References: <20210720125408.387910-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,61 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kirti Wankhede <kwankhede@nvidia.com>,
+ Alex Williamson <alex.williamson@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-invtsc_mig_blocker has static storage duration.  When a CPU with
-certain features is initialized, and invtsc_mig_blocker is still null,
-we add a migration blocker and store it in invtsc_mig_blocker.
+When migrate_add_blocker(blocker, &errp) is followed by
+error_propagate(errp, err), we can often just as well do
+migrate_add_blocker(..., errp).  This is the case in
+vfio_migration_probe().
 
-The object is freed when migrate_add_blocker() fails, leaving
-invtsc_mig_blocker dangling.  It is not freed on later failures.
+Prior art: commit 386f6c07d2 "error: Avoid error_propagate() after
+migrate_add_blocker()".
 
-Same for hv_passthrough_mig_blocker and hv_no_nonarch_cs_mig_blocker.
-
-All failures are actually fatal, so whether we free or not doesn't
-really matter, except as bad examples to be copied / imitated.
-
-Clean this up in a minimal way: never free these blocker objects.
-
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kirti Wankhede <kwankhede@nvidia.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- target/i386/kvm/kvm.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/vfio/migration.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 59ed8327ac..8e1bb905ca 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1423,7 +1423,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
-         ret = migrate_add_blocker(hv_passthrough_mig_blocker, &local_err);
-         if (local_err) {
-             error_report_err(local_err);
--            error_free(hv_passthrough_mig_blocker);
-             return ret;
-         }
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 82f654afb6..ff6b45de6b 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -858,7 +858,6 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+ {
+     VFIOContainer *container = vbasedev->group->container;
+     struct vfio_region_info *info = NULL;
+-    Error *local_err = NULL;
+     int ret = -ENOTSUP;
+ 
+     if (!vbasedev->enable_migration || !container->dirty_pages_supported) {
+@@ -885,9 +884,8 @@ add_blocker:
+                "VFIO device doesn't support migration");
+     g_free(info);
+ 
+-    ret = migrate_add_blocker(vbasedev->migration_blocker, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++    ret = migrate_add_blocker(vbasedev->migration_blocker, errp);
++    if (ret < 0) {
+         error_free(vbasedev->migration_blocker);
+         vbasedev->migration_blocker = NULL;
      }
-@@ -1438,7 +1437,6 @@ static int hyperv_init_vcpu(X86CPU *cpu)
-         ret = migrate_add_blocker(hv_no_nonarch_cs_mig_blocker, &local_err);
-         if (local_err) {
-             error_report_err(local_err);
--            error_free(hv_no_nonarch_cs_mig_blocker);
-             return ret;
-         }
-     }
-@@ -1878,7 +1876,6 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             r = migrate_add_blocker(invtsc_mig_blocker, &local_err);
-             if (local_err) {
-                 error_report_err(local_err);
--                error_free(invtsc_mig_blocker);
-                 return r;
-             }
-         }
 -- 
 2.31.1
 
