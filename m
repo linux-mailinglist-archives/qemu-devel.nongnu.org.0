@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653153D05C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:44:00 +0200 (CEST)
-Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D99AF3D05D3
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:48:47 +0200 (CEST)
+Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zP5-0001yN-BT
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:43:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
+	id 1m5zTi-0003PI-UR
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zG1-0004Uy-2W
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:37 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37728)
+ id 1m5zFq-0003p4-Ar
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:26 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFz-0001lO-Ea
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:36 -0400
-Received: by mail-wr1-x430.google.com with SMTP id i94so186581wri.4
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:35 -0700 (PDT)
+ id 1m5zFo-0001dU-My
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:26 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ y21-20020a7bc1950000b02902161fccabf1so2411774wmi.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gjZgmgZbPTvx09P0zXVcDrhQjzm5+UMh0Me4L3tfy30=;
- b=ReSNqZdytulaGebTLFaXNvJzkzGKnb8IAQj3NssvIxuVr6aqf9zwOvZuZhE5/gnuu2
- +DC5tvCLLw/1G5HTms8pDVIvYl6NJapRH8HfGE0eec4cUMnRllI4IGEE4GzfL2qv2Yn+
- QAnDaUMGouCayfQqVulFMNqeetfOXunaFBihPzf6vu63DTxSqT3B5gnkafz+xfcVwxgN
- X6d1qM8lEuy0mrVSvEryGke/NCCZYjmCSceH7enxQj76p5edDf+tj33dS5lKCUHYfHvk
- Cp/uMv0ZCHjFsO1LUTwbjf+iD9s+pyPIcrvK5rMmQiK1aehePyoXGuhJ4jk2jj38FFZ5
- DbkA==
+ bh=MvUGt6vQHdy9HteqdADh89acTkqe5u1EUBQjCzZP5pk=;
+ b=c6Ttqb811QEdaoqHZajDQa6DibzfdnvvgFLBazQwrGBycP+pyd7WNiyebFenJzIF45
+ 7bw1Y1CBrLGwEOo5jkPCyqW7MOF6UQdvEYqiUqjqBiI9kNfokFXewbxkUFV6i67wuae8
+ TBuMKhKPwlhwtmA541uk4xNyR7N3J5NclrF1OSYGkI/DgAEDhPzjoofOt/4c55XFIcHl
+ zJCDuToXD609M0SbkNbmCHiOGglL+e7IxcVGbG1yT/AKaQmj4oXFt8m/6WZcNocn1JBl
+ A6IYQ7WPRk0SAVkSGyaWAdoENIYwa+zharKCo2J+xtx5Eof3UpdNRTzhzhAKcZkcb+Ai
+ JvXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gjZgmgZbPTvx09P0zXVcDrhQjzm5+UMh0Me4L3tfy30=;
- b=hcWyVcX7JTxZWncMhJiUBPzh2YwMWGQ2N/ibQc5hn1nMNgWB55vRzAtOuQkZ3uSD10
- xo9v7wmfp3ULqEMwcT8ECxNe9EgwetP6d7KqEaIS7ach80i6cSOZC/XWg5y4c4GsoBTO
- bbwWySUQVZ1ubtxpfi3x8ZBSSLL1xVkJGvWiRwblUQdT0pmEHrpq6MHErwcb2wMZwD2k
- vMYYoGqVgjG2vbOjWyCtc9b8L+h64rV/iJoX9SW1IBNItT1EZsPZPQJEC0yDCLq4vDd4
- Ysn4cK2uFAg7+61fOVDI09oEfhYmJY4J2ZRvQ2uEgVYL7CAyHBiHBoT21oz4S4glXyrV
- n0FQ==
-X-Gm-Message-State: AOAM530ylFRRqd5QiCJn+d9ZN6hAws1vONxFow1CDjKUDVLvY796Yijc
- D1dYUsI+C0pW5h5YMK5yFee1LA==
-X-Google-Smtp-Source: ABdhPJzoGlXG3hVLOpN4yj5d5XPo8ENTOQWWB95kALbsxiQKDv9MsVm4MPALEmj4nIkiFHx0ce08Xg==
-X-Received: by 2002:a5d:6189:: with SMTP id j9mr39844435wru.196.1626824074111; 
- Tue, 20 Jul 2021 16:34:34 -0700 (PDT)
+ bh=MvUGt6vQHdy9HteqdADh89acTkqe5u1EUBQjCzZP5pk=;
+ b=djp+QGqNM/00obXVoMJoE5i9M7274S+8T4PzWZb/mez6ClQ//ftV83i4WexY+ZV3b6
+ 5ewbiGKeW7CSR36CgTdSHvPmh8knYSV7UYZyvrIcyFKBNDe1X/70N+Fq3ewfzX/XPTxk
+ LMeyB8na6UWixIaf8FVr8s0S/CqFi5E8xh5Mid9NWNornmzxmuli3Lt4Clx67+DSnb5M
+ b1RtVIFLUSmuyrYxqjr5kdLbPpeYA9mB9wILaSx0FAdGSvcDSzrCrLjIGsAqMd0tWpUE
+ 8+58sAKTGCv9UceTlqPPsAskohlx2cURc/8aXkGK/duQl53U8kcH8VuqJZPJwnYRacAC
+ h4Ew==
+X-Gm-Message-State: AOAM5301IDG6Ii35jSiSqKAf2jIP7j620s6tPAk5Vs+Pj8h6/JgdlpVS
+ VWKxqX/B9q4sQFMpeBl9ba/rlg==
+X-Google-Smtp-Source: ABdhPJx7xUqrPlpKIbNh+iTLGEtG+X2fVlHvGPeLSX0XVJ7FiCp+q+7Dl4SIU+Z+/BHD2VsjicK9aQ==
+X-Received: by 2002:a05:600c:2248:: with SMTP id
+ a8mr891384wmm.141.1626824063136; 
+ Tue, 20 Jul 2021 16:34:23 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d14sm25214245wrs.49.2021.07.20.16.34.24
+ by smtp.gmail.com with ESMTPSA id z16sm26214061wrl.8.2021.07.20.16.34.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 16:34:26 -0700 (PDT)
+ Tue, 20 Jul 2021 16:34:19 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7A8151FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 918A11FFA6;
  Wed, 21 Jul 2021 00:27:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 18/29] contrib/gitdm: add a new interns group-map for
- GSoC/Outreachy work
-Date: Wed, 21 Jul 2021 00:26:52 +0100
-Message-Id: <20210720232703.10650-19-alex.bennee@linaro.org>
+Subject: [PATCH v1 19/29] contrib/gitdm: add more individual contributor
+ entries.
+Date: Wed, 21 Jul 2021 00:26:53 +0100
+Message-Id: <20210720232703.10650-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,62 +90,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?C=C3=A9sar=20Belley?= <cesar.belley@lse.epita.fr>, f4bug@amsat.org,
- Ahmed Karaman <ahmedkhaledkaraman@gmail.com>, stefanha@redhat.com,
- crosa@redhat.com, pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Li Qiang <liq3ea@gmail.com>,
+ f4bug@amsat.org, Chetan Pant <chetan4windows@gmail.com>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It makes sense to put our various interns in a group so we can see the
-overall impact of GSoC and Outreachy on the project.
+Also ensure Li's canonical gmail address is used.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-Cc: Ahmed Karaman <ahmedkhaledkaraman@gmail.com>
-Cc: César Belley <cesar.belley@lse.epita.fr>
-Message-Id: <20210714182056.25888-21-alex.bennee@linaro.org>
+Acked-by: Li Qiang <liq3ea@gmail.com>
+Acked-by: Chetan Pant <chetan4windows@gmail.com>
+Acked-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-Id: <20210714182056.25888-22-alex.bennee@linaro.org>
 ---
- contrib/gitdm/group-map-interns | 13 +++++++++++++
- gitdm.config                    |  3 ++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
- create mode 100644 contrib/gitdm/group-map-interns
+ contrib/gitdm/aliases               | 3 +++
+ contrib/gitdm/group-map-individuals | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/contrib/gitdm/group-map-interns b/contrib/gitdm/group-map-interns
-new file mode 100644
-index 0000000000..fe33a3231e
---- /dev/null
-+++ b/contrib/gitdm/group-map-interns
-@@ -0,0 +1,13 @@
-+#
-+# Group together everyone working as an intern via one of the various
-+# outreach programs.
-+#
-+
-+# GSoC 2020 Virtual FIDO/U2F security key
-+cesar.belley@lse.epita.fr
-+
-+# GSoC 2020 TCG performance
-+ahmedkhaledkaraman@gmail.com
-+
-+# GSoC 2021 TCG plugins
-+ma.mandourr@gmail.com
-diff --git a/gitdm.config b/gitdm.config
-index 5d5e70fe5f..288b100d89 100644
---- a/gitdm.config
-+++ b/gitdm.config
-@@ -40,9 +40,10 @@ GroupMap contrib/gitdm/group-map-redhat Red Hat
- GroupMap contrib/gitdm/group-map-wavecomp Wave Computing
+diff --git a/contrib/gitdm/aliases b/contrib/gitdm/aliases
+index c6ed215e68..4792413ce7 100644
+--- a/contrib/gitdm/aliases
++++ b/contrib/gitdm/aliases
+@@ -31,6 +31,9 @@ pbrook@c046a42c-6fe2-441c-8c8c-71466251a162 paul@codesourcery.com
+ ths@c046a42c-6fe2-441c-8c8c-71466251a162 ths@networkno.de
+ malc@c046a42c-6fe2-441c-8c8c-71466251a162 av1474@comtv.ru
  
- # Also group together our prolific individual contributors
--# and those working under academic auspices
-+# and those working under academic or intern auspices
- GroupMap contrib/gitdm/group-map-individuals (None)
- GroupMap contrib/gitdm/group-map-academics Academics (various)
-+GroupMap contrib/gitdm/group-map-interns GSoC/Outreachy Interns
++# canonical emails
++liq3ea@163.com liq3ea@gmail.com
++
+ # some broken tags
+ yuval.shaia.ml.gmail.com yuval.shaia.ml@gmail.com
  
- # Group together robots and other auto-reporters
- GroupMap contrib/gitdm/group-map-robots Robots (various)
+diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
+index 9b6406e624..f816aa8770 100644
+--- a/contrib/gitdm/group-map-individuals
++++ b/contrib/gitdm/group-map-individuals
+@@ -31,3 +31,6 @@ jhogan@kernel.org
+ atar4qemu@gmail.com
+ minwoo.im.dev@gmail.com
+ bmeng.cn@gmail.com
++liq3ea@gmail.com
++chetan4windows@gmail.com
++akihiko.odaki@gmail.com
 -- 
 2.32.0.264.g75ae10bc75
 
