@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF9E3D0570
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:32:11 +0200 (CEST)
-Received: from localhost ([::1]:35642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078613D05C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:43:09 +0200 (CEST)
+Received: from localhost ([::1]:40436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zDe-0003ir-31
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:32:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
+	id 1m5zOF-0000TT-WD
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:43:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5z95-0003r7-Sw
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:27:27 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43861)
+ id 1m5z97-0003vp-3e
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:27:29 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:47090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5z93-0005lo-MF
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:27:27 -0400
-Received: by mail-wr1-x435.google.com with SMTP id n1so150356wri.10
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:27:25 -0700 (PDT)
+ id 1m5z95-0005ml-9Q
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:27:28 -0400
+Received: by mail-wr1-x433.google.com with SMTP id d12so138870wre.13
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:27:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UHjVRJmVxLsnQUBYHmZSPyExmH02c4lV7ChUZ5IixcE=;
- b=dRLeO0zksQpd7LxjulJlSwttfi1WHEqnj9/HJIM57TyyiqJVojjJdi1YrVgxkl4J7J
- ZZYk2ir2Yv3r15oTYWFexzH6SqKlsMXOOxB6M0lQWffC5NYGECFT0vwvURwJA/cRJkHS
- wIA32CEL4v85xlXE/4zvh3b3HZCiWgPWooMEQSOgJkbilIefkzcWdIX9dXdIAQLKr7Qw
- HxJSooZ55Fmj+2sj3asbkJbIZiR+6soppDSH7+OnnNJ9GJ7m4tBPCNFqo66vpHMoGhK2
- lgJHCjCrRzSGrWk3xUO5ALZDakWj+LjLEuk6UctScNiXrfleSwik2OIViUWiC10tctEM
- 3F5g==
+ bh=St2yjIT/JwM+2i91aMlh517bmBW/G38gWNDyuaQIAVE=;
+ b=I05SKIeeIEhp6QVV855kKGFI7Zca91OMrORKcpYkmoZcqFQc5TPc9akhmnbnLpFACc
+ sA8djXlbd9EFbAuMbNGWO6QG/4j9gM2h57WgSq1Z7a2RHV3IkQQfXNwr+pgKoqaJHEfQ
+ 8JZyFEerGrdLT10im5aVsXi5lKGobifBHQtH6KkCW+dN7dBXw+5fjVz5/qTSrrF2qMaO
+ AcBXc1AWxNyyeQH1zliCKA0yYQMXB4/U++4KuFbfDhjRQTX7yDloIcBCf89WqEVxdqia
+ 2/Q7i/31hHSWr+YZjk+Uc9tnaJp7Mfv4jEjGLI1SbFTtdpGfvMh9LSIw2WWyArSLtbVV
+ mwaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UHjVRJmVxLsnQUBYHmZSPyExmH02c4lV7ChUZ5IixcE=;
- b=HEHH1VFkAGY8dztRtDlfNPGYqGM7nxjwbdvAVXz3cJJEAo7iJh36Hcbfkkue7mSnWx
- riqGX2LHza+tJ/QVgB7f+Hj/qqhruX34xT6aFgIufco+mzVZdeY6WPkYFvlQKi8x1gxa
- hYhNRGdM9lOYKuU671xJKXzkv11WYmWedGW715zWyeBkMtBBJPUj2ygx5KEcEAyvriHd
- M/d2fIInHURaf3LQbWywdExJqyzaAGj3ITqiI4bYvj1yapL9karrTf5F4tfjPXT9Bu+D
- EHhB2FMlW5WZeyGYuMqtj0gc1O//pM0/K07Iwu3eCCCwbXSSeRggsC08p2elYPFUw6n8
- xb1A==
-X-Gm-Message-State: AOAM531eJvjyRrPD7si3YwTMwCA3zLBVtE6DJHWj9SuOlQGht37umMEV
- L8RIUDcSxALMUtKQ6TgKvT3zLg==
-X-Google-Smtp-Source: ABdhPJy5S/BC3liIBkXIfR6T9gco74CDlLWTS8YDj0UBCuCOSlk+3GuFsAZ1KbOwex4x3LCkisZL0Q==
-X-Received: by 2002:a05:6000:1844:: with SMTP id
- c4mr39312156wri.38.1626823644082; 
- Tue, 20 Jul 2021 16:27:24 -0700 (PDT)
+ bh=St2yjIT/JwM+2i91aMlh517bmBW/G38gWNDyuaQIAVE=;
+ b=irF6vI4+/OSxW3v4B7tp+tlcavceiHXWXQ4VyWx9tkinoWorOjeEYUDINBgsJFwvVJ
+ Au6ky8nCWo1XVgoFiYmipVefja+rcHmTqL27rAzIFz4FCwRznW4yNqjCQ+DPXJuvcKpT
+ 4WbAzi052OPhPdZxeKor3NibZC8jxigR6XoDt3d/9sfCSlD90x3W4qFUW9T3aqQQrda8
+ fxWd3ZgGDmMOf5rTt0yJ86qO3w/RZixVy7aLcSGYoFbgBfNSob6A19bIRDhjeF0L+itc
+ 9oAODJWJnWSUVtKhncztE8zt8Hs5p/9/+28nESht9K9zqQTaEdY9qkEenGNJLV/L04CN
+ sX3g==
+X-Gm-Message-State: AOAM530DUw0qhTs5WYjXK/NriHzBnNx0aPVK7Rd89zK4190RbBzAoKPZ
+ +x+sIZdr17fuQJrgtH763W3bHw==
+X-Google-Smtp-Source: ABdhPJxDhqIau79Z9+IoVThlgG7qXHLQe/jAOZPhNdc18XC19cmYdog44fN2AyGkueFGjJByN4dnCg==
+X-Received: by 2002:adf:ec4b:: with SMTP id w11mr39312025wrn.420.1626823645931; 
+ Tue, 20 Jul 2021 16:27:25 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id j12sm25733469wrq.83.2021.07.20.16.27.08
+ by smtp.gmail.com with ESMTPSA id o7sm17592517wrs.52.2021.07.20.16.27.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Jul 2021 16:27:17 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B3D271FF99;
+ by zen.linaroharston (Postfix) with ESMTP id CB0ED1FF9A;
  Wed, 21 Jul 2021 00:27:04 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 10/29] contrib/gitdm: add domain-map/group-map mappings for
- Samsung
-Date: Wed, 21 Jul 2021 00:26:44 +0100
-Message-Id: <20210720232703.10650-11-alex.bennee@linaro.org>
+Subject: [PATCH  v1 11/29] contrib/gitdm: add domain-map for Eldorado
+Date: Wed, 21 Jul 2021 00:26:45 +0100
+Message-Id: <20210720232703.10650-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,52 +86,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, f4bug@amsat.org,
- Minwoo Im <minwoo.im.dev@gmail.com>, stefanha@redhat.com, crosa@redhat.com,
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ Luis Pires <luis.pires@eldorado.org.br>, stefanha@redhat.com, crosa@redhat.com,
  pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+ aurelien@aurel32.net, Bruno Larsen <bruno.larsen@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minwoo's work from their personal address are treated as personal
-contributions.
+Luis acked on IRC:
+
+  #qemu@znc-oftc_2021-07-13.txt:[15:00:02] <lffpires> stsquad: "eldorado.org.br Eldorado" is fine
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Klaus Jensen <k.jensen@samsung.com>
-Cc: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Cc: Minwoo Im <minwoo.im.dev@gmail.com>
-Message-Id: <20210714182056.25888-11-alex.bennee@linaro.org>
-
+Acked-by: Luis Pires <luis.pires@eldorado.org.br>
+Cc: Bruno Larsen (billionai) <bruno.larsen@eldorado.org.br>
+Message-Id: <20210714182056.25888-12-alex.bennee@linaro.org>
 ---
-vPrePr
-  - removed extraneous groupmap
----
- contrib/gitdm/domain-map            | 1 +
- contrib/gitdm/group-map-individuals | 1 +
- 2 files changed, 2 insertions(+)
+ contrib/gitdm/domain-map | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/contrib/gitdm/domain-map b/contrib/gitdm/domain-map
-index efbbb15643..beeb24341e 100644
+index beeb24341e..41875c9e75 100644
 --- a/contrib/gitdm/domain-map
 +++ b/contrib/gitdm/domain-map
-@@ -26,6 +26,7 @@ proxmox.com     Proxmox
- quicinc.com     Qualcomm Innovation Center
- redhat.com      Red Hat
- rt-rk.com       RT-RK
-+samsung.com     Samsung
- siemens.com     Siemens
- sifive.com      SiFive
- suse.com        SUSE
-diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index 36bbb77c39..4ac2f98823 100644
---- a/contrib/gitdm/group-map-individuals
-+++ b/contrib/gitdm/group-map-individuals
-@@ -29,3 +29,4 @@ mrolnik@gmail.com
- huth@tuxfamily.org
- jhogan@kernel.org
- atar4qemu@gmail.com
-+minwoo.im.dev@gmail.com
+@@ -9,6 +9,7 @@ baidu.com       Baidu
+ bytedance.com   ByteDance
+ cmss.chinamobile.com China Mobile
+ citrix.com      Citrix
++eldorado.org.br Instituto de Pesquisas Eldorado
+ fujitsu.com     Fujitsu
+ google.com      Google
+ greensocs.com   GreenSocs
 -- 
 2.32.0.264.g75ae10bc75
 
