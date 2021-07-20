@@ -2,47 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88AF83CFB61
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:57:52 +0200 (CEST)
-Received: from localhost ([::1]:41220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A12FD3CFB5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:56:48 +0200 (CEST)
+Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5qFr-0007A8-Jf
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:57:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
+	id 1m5qEp-0005jV-Nx
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:56:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1m5qDv-0004Yk-GL; Tue, 20 Jul 2021 09:55:51 -0400
-Received: from [201.28.113.2] (port=37350 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1m5qDt-0000XS-HA; Tue, 20 Jul 2021 09:55:51 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 20 Jul 2021 10:55:44 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 822F080141F;
- Tue, 20 Jul 2021 10:55:44 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v2] target/ppc: Ease L=0 requirement on cmp/cmpi/cmpl/cmpli
- for ppc32
-Date: Tue, 20 Jul 2021 10:55:07 -0300
-Message-Id: <20210720135507.2444635-1-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m5qDg-0004Sl-QW
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:55:36 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:40504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1m5qDe-0000Sb-RK
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:55:36 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id l5so24055767iok.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 06:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kjKyJDlfROePf/MyUlrXl87rjF74/0aCUkWp94jEHU8=;
+ b=U1Zp/28bEG7gdj9D81x+/+4TW/e16KAHoyXBOXNDsh59tvXsILPrvqbnp+h3P0MGFj
+ djcVxwRTm1eFpWPccOdAJNUnCaE4t9vpilkZ+zwprF9OC3YLD1kYrxXgDv/f+7//WIC2
+ b6aOC8TLiUNsM40up+/PiFzgUqlaOug56FJsRO2LNvMe28GumKqclQRG0zTGvqwZ64+c
+ fG8IbL+a+EZSN4OuEbVXHO6c2gKeB2AISSm+HGrVXi7g6PsxW1AhqoOLaBUyhRp4LLao
+ Kz5vEJbv2AahMlwOc/dHRgc2E+JSiJZU8QPjNcm4Dxpn3sp4MUX1MrBXtMgBrG2OP5+C
+ mpWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kjKyJDlfROePf/MyUlrXl87rjF74/0aCUkWp94jEHU8=;
+ b=fm60nXNnyRbxEJ/q9nx/2eRW+3H811K8BD9oBn2Ta+hiZR0bCG5la+DZjo8jndb7Cq
+ /fTgSjSsHPOwk27SilUq6UIoDhPEkqObCMgZMlRTmjwMzkI4iObmQY8ZLS6beVAdMoQJ
+ i0RORML/rBWmtHRtamskE4sS57H+NXKBYegi6o3UCBoqfX5QYDnMA9Z9EOZpK/GkS9bS
+ mb6KBV450EwgJOOD4bcAywDeDHbkxl2+IyCEX+YAUngw5gwvYfjDB0P05AyZpMdZLbAa
+ 67L6T4qCKRUXJa4H02P0sBknUqBgtwMYuuz623NzF0hiN2mMGdNdbeJonLzq7I9hbg+U
+ EmQQ==
+X-Gm-Message-State: AOAM5324b6uQABMglqyp9sQsmZb2K7SqLA4J+ijjHsjoVrJaqoXmmZiS
+ uwLOFv7CGvEux9Dp0JK8DX9Mscow3bbFa53h/nw=
+X-Google-Smtp-Source: ABdhPJxEYLupnXLjRXpu7BfDI0LOlf7k0UMmfZxuEqRn9rZqqpwTBJEmW280mpwVNzbk8Fm6bK+wN4qxlVkYmuJ1Y9A=
+X-Received: by 2002:a05:6638:3292:: with SMTP id
+ f18mr27130025jav.120.1626789331860; 
+ Tue, 20 Jul 2021 06:55:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 20 Jul 2021 13:55:44.0857 (UTC)
- FILETIME=[EF7D7490:01D77D6E]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210714112306.67793-1-david@redhat.com>
+In-Reply-To: <20210714112306.67793-1-david@redhat.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Tue, 20 Jul 2021 15:55:20 +0200
+Message-ID: <CAM9Jb+i=CrXxyStxqP-Z=M0gV8wqy=Ok0C6CsfDVS3XBngn9tg@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] util/oslib-posix: Support MADV_POPULATE_WRITE for
+ os_mem_prealloc()
+To: David Hildenbrand <david@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,115 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>, richard.henderson@linaro.org,
- david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Qemu Developers <qemu-devel@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> #1 adds support for MADV_POPULATE_WRITE, #2 cleans up the code to avoid
+> global variables and prepare for concurrency and #3 makes os_mem_prealloc()
+> safe to be called from multiple threads concurrently.
+>
+> Details regarding MADV_POPULATE_WRITE can be found in introducing upstream
+> Linux commit 4ca9b3859dac ("mm/madvise: introduce
+> MADV_POPULATE_(READ|WRITE) to prefault page tables") and in the latest man
+> page patch [1].
+>
+> [1] https://lkml.kernel.org/r/20210712083917.16361-1-david@redhat.com
+>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+>
+> David Hildenbrand (3):
+>   util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
+>   util/oslib-posix: Introduce and use MemsetContext for
+>     touch_all_pages()
+>   util/oslib-posix: Support concurrent os_mem_prealloc() invocation
+>
+>  include/qemu/osdep.h |   7 ++
+>  util/oslib-posix.c   | 167 ++++++++++++++++++++++++++++++-------------
+>  2 files changed, 126 insertions(+), 48 deletions(-)
+>
 
-In commit 8f0a4b6a9b, we started to require L=0 for ppc32 to match what
-The Programming Environments Manual say:
+Nice implementation to avoid wear of memory device for prealloc case
+and to avoid touching of
+all the memory and abrupt exit of VM because of lack of memory. Instead better
+way to populate the page tables with madvise.
 
-"For 32-bit implementations, the L field must be cleared, otherwise
-the instruction form is invalid."
+Plan is to use this infrastructure for virtio-mem, I guess?
 
-The stricter behavior, however, broke AROS boot on sam460ex, which is a
-regression from 6.0. This patch partially reverts the change, raising
-the exception only for CPUs known to require L=0 (e500 and e500mc) and
-logging a guest error for other cases.
+For the patches 1 & 3:
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 
-Both behaviors are acceptable by the PowerISA, which allows "the system
-illegal instruction error handler to be invoked or yield boundedly
-undefined results."
 
-Reported-by: BALATON Zoltan <balaton@eik.bme.hu>
-Fixes: 8f0a4b6a9b ("target/ppc: Move cmp/cmpi/cmpl/cmpli to decodetree")
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/translate/fixedpoint-impl.c.inc | 58 +++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 2 deletions(-)
-
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index f4fcfadbfc..1c35b60eb4 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -145,8 +145,35 @@ TRANS64(PSTD, do_ldst_PLS_D, false, true, MO_Q)
- 
- static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
- {
-+    if ((ctx->insns_flags & PPC_64B) == 0) {
-+        /*
-+         * For 32-bit implementations, The Programming Environments Manual says
-+         * that "the L field must be cleared, otherwise the instruction form is
-+         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
-+         * forms (e.g., section "Instruction Formats" of the 405 and 440
-+         * manuals, "Integer Compare Instructions" of the 601 manual), with the
-+         * notable exception of the e500 and e500mc, where L=1 was reported to
-+         * cause an exception.
-+         */
-+        if (a->l) {
-+            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-+                /*
-+                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
-+                 * generate an illegal instruction exception.
-+                 */
-+                return false;
-+            } else {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
-+                        s ? "" : "L", ctx->cia);
-+            }
-+        }
-+        gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-+        return true;
-+    }
-+
-+    /* For 64-bit implementations, deal with bit L accordingly. */
-     if (a->l) {
--        REQUIRE_64BIT(ctx);
-         gen_op_cmp(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-     } else {
-         gen_op_cmp32(cpu_gpr[a->ra], cpu_gpr[a->rb], s, a->bf);
-@@ -156,8 +183,35 @@ static bool do_cmp_X(DisasContext *ctx, arg_X_bfl *a, bool s)
- 
- static bool do_cmp_D(DisasContext *ctx, arg_D_bf *a, bool s)
- {
-+    if ((ctx->insns_flags & PPC_64B) == 0) {
-+        /*
-+         * For 32-bit implementations, The Programming Environments Manual says
-+         * that "the L field must be cleared, otherwise the instruction form is
-+         * invalid." It seems, however, that most 32-bit CPUs ignore invalid
-+         * forms (e.g., section "Instruction Formats" of the 405 and 440
-+         * manuals, "Integer Compare Instructions" of the 601 manual), with the
-+         * notable exception of the e500 and e500mc, where L=1 was reported to
-+         * cause an exception.
-+         */
-+        if (a->l) {
-+            if ((ctx->insns_flags2 & PPC2_BOOKE206)) {
-+                /*
-+                 * For 32-bit Book E v2.06 implementations (i.e. e500/e500mc),
-+                 * generate an illegal instruction exception.
-+                 */
-+                return false;
-+            } else {
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                        "Invalid form of CMP%s at 0x" TARGET_FMT_lx ", L = 1\n",
-+                        s ? "I" : "LI", ctx->cia);
-+            }
-+        }
-+        gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-+        return true;
-+    }
-+
-+    /* For 64-bit implementations, deal with bit L accordingly. */
-     if (a->l) {
--        REQUIRE_64BIT(ctx);
-         gen_op_cmp(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
-     } else {
-         gen_op_cmp32(cpu_gpr[a->ra], tcg_constant_tl(a->imm), s, a->bf);
--- 
-2.25.1
-
+Thanks,
+Pankaj
 
