@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B623D0579
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:37:02 +0200 (CEST)
-Received: from localhost ([::1]:53648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC473D057A
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:37:09 +0200 (CEST)
+Received: from localhost ([::1]:54200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zIL-0007DD-1S
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41934)
+	id 1m5zIS-0007ZI-7Q
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:37:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCG-0002Kr-Ar
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45651)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCM-0002dx-9w
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCE-0007nm-G7
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:44 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1m5zCK-0007rh-PP
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:30:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626823841;
+ s=mimecast20190719; t=1626823848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UFo10oGc/Y2inL0xVOADUGqT2mydHybHBMN05LzvoVE=;
- b=ZU/ZyBExVhPi2P9o9JBinqu5LJMfZaPqTkWn2wsgGbDHLDtIgBCDXDiGgb4x2BZm8n50mr
- v/SntMt0Ios4vJNJp8YSLe5VAFoXBLhIkqZEalH4yt//MDMEjewqv/gzHCqDgr408/cA3Y
- BXUVGAAhwiW3CLXOCPwhse4/f6vmd5U=
+ bh=DK7m5uU6PKpU4j8jjg0lgU3F12CSoM9/Ptgk2iM06sQ=;
+ b=VYkmI98HLkrZTR/oVLqdNysGeOGEwv2D6IJ0QcCUAB8RzH/k1yv4hQhUN4kpX+32wHOcto
+ 6gLP00Xh9bVjBor2wj2SHRQW7HjrLyUnWur8MVDHtCyAL17ejYGUlnz8g7SvUkB4C/cs+Y
+ ZZQeHc487FONYlXLA5z5aWOnAGo2AiE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-Yy3yaiCNNCWd15CHHZUmVA-1; Tue, 20 Jul 2021 19:30:39 -0400
-X-MC-Unique: Yy3yaiCNNCWd15CHHZUmVA-1
+ us-mta-449-yFLOMEMsMaWpQRAONehNSQ-1; Tue, 20 Jul 2021 19:30:44 -0400
+X-MC-Unique: yFLOMEMsMaWpQRAONehNSQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DFC318358EF;
- Tue, 20 Jul 2021 23:30:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F383802C80;
+ Tue, 20 Jul 2021 23:30:43 +0000 (UTC)
 Received: from p50.localhost.net (ovpn-117-22.rdu2.redhat.com [10.10.117.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 42FAA100EBAF;
- Tue, 20 Jul 2021 23:30:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A461B1036D04;
+ Tue, 20 Jul 2021 23:30:38 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 4/7] tests/acceptance/virtio-gpu.py: combine kernel command line
-Date: Tue, 20 Jul 2021 19:30:15 -0400
-Message-Id: <20210720233018.101541-5-crosa@redhat.com>
+Subject: [PULL 5/7] tests/acceptance/virtio-gpu.py: use virtio-vga-gl
+Date: Tue, 20 Jul 2021 19:30:16 -0400
+Message-Id: <20210720233018.101541-6-crosa@redhat.com>
 In-Reply-To: <20210720233018.101541-1-crosa@redhat.com>
 References: <20210720233018.101541-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -83,73 +83,47 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both tests use the same kernel command line arguments, so there's no
-need to have a common and then an additional set of arguments.
+Since 49afbca3b, the use of an optional virgl renderer is not
+available anymore, and since b36eb8860f, the way to choose a GL based
+rendered is to use the "virtio-vga-gl" device.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20210714174051.28164-5-crosa@redhat.com>
+Message-Id: <20210714174051.28164-6-crosa@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/acceptance/virtio-gpu.py | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ tests/acceptance/virtio-gpu.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-index 20a59fabf3..fbde278705 100644
+index fbde278705..0f84affe82 100644
 --- a/tests/acceptance/virtio-gpu.py
 +++ b/tests/acceptance/virtio-gpu.py
-@@ -34,7 +34,7 @@ class VirtioGPUx86(Test):
-     :avocado: tags=cpu:host
-     """
+@@ -56,7 +56,7 @@ def wait_for_console_pattern(self, success_message, vm=None):
  
--    KERNEL_COMMON_COMMAND_LINE = "printk.time=0 "
-+    KERNEL_COMMAND_LINE = "printk.time=0 console=ttyS0 rdinit=/bin/bash"
-     KERNEL_URL = (
-         "https://archives.fedoraproject.org/pub/fedora"
-         "/linux/releases/33/Everything/x86_64/os/images"
-@@ -58,9 +58,6 @@ def test_virtio_vga_virgl(self):
+     def test_virtio_vga_virgl(self):
          """
-         :avocado: tags=device:virtio-vga
+-        :avocado: tags=device:virtio-vga
++        :avocado: tags=device:virtio-vga-gl
          """
--        kernel_command_line = (
--            self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
--        )
          # FIXME: should check presence of virtio, virgl etc
          self.require_accelerator('kvm')
- 
-@@ -78,7 +75,7 @@ def test_virtio_vga_virgl(self):
-             "-initrd",
-             initrd_path,
-             "-append",
--            kernel_command_line,
-+            self.KERNEL_COMMAND_LINE,
-         )
-         try:
-             self.vm.launch()
-@@ -96,9 +93,6 @@ def test_vhost_user_vga_virgl(self):
-         """
-         :avocado: tags=device:vhost-user-vga
-         """
--        kernel_command_line = (
--            self.KERNEL_COMMON_COMMAND_LINE + "console=ttyS0 rdinit=/bin/bash"
--        )
-         # FIXME: should check presence of vhost-user-gpu, virgl, memfd etc
-         self.require_accelerator('kvm')
- 
-@@ -145,7 +139,7 @@ def test_vhost_user_vga_virgl(self):
-             "-initrd",
-             initrd_path,
-             "-append",
--            kernel_command_line,
-+            self.KERNEL_COMMAND_LINE,
-         )
-         self.vm.launch()
-         self.wait_for_console_pattern("as init process")
+@@ -67,7 +67,7 @@ def test_virtio_vga_virgl(self):
+         self.vm.set_console()
+         self.vm.add_args("-m", "2G")
+         self.vm.add_args("-machine", "pc,accel=kvm")
+-        self.vm.add_args("-device", "virtio-vga,virgl=on")
++        self.vm.add_args("-device", "virtio-vga-gl")
+         self.vm.add_args("-display", "egl-headless")
+         self.vm.add_args(
+             "-kernel",
 -- 
 2.31.1
 
