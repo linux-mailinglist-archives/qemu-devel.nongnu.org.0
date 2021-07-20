@@ -2,58 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC08D3CFD70
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:24:42 +0200 (CEST)
-Received: from localhost ([::1]:58308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547AC3CFD78
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:26:32 +0200 (CEST)
+Received: from localhost ([::1]:34918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5rbt-0005n8-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:24:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
+	id 1m5rdf-0000mv-D5
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:26:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1m5rS5-0001yQ-DI
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:14:33 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:48900
- helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1m5rS2-00037B-Qe
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:14:32 -0400
-HMM_SOURCE_IP: 172.18.0.218:43924.1776767911
-HMM_ATTACHE_NUM: 0000
-HMM_SOURCE_TYPE: SMTP
-Received: from clientip-202.80.192.38?logid-12ef1fc3aabe4fd8a6101b785ef452ca
- (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id C779728010C;
- Tue, 20 Jul 2021 23:14:27 +0800 (CST)
-X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
-Received: from  ([172.18.0.218])
- by app0025 with ESMTP id a01ce6a990264679bfe40a38b2040c27 for
- qemu-devel@nongnu.org; Tue Jul 20 23:14:27 2021
-X-Transaction-ID: a01ce6a990264679bfe40a38b2040c27
-X-filter-score: 
-X-Real-From: huangy81@chinatelecom.cn
-X-Receive-IP: 172.18.0.218
-X-MEDUSA-Status: 0
-From: huangy81@chinatelecom.cn
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 2/2] migration/dirtyrate: implement dirty-bitmap dirtyrate
- calculation
-Date: Tue, 20 Jul 2021 23:19:17 +0800
-Message-Id: <7397a1b19b8b520aaa9612bb410bf2d20daf5147.1626794163.git.huangy81@chinatelecom.cn>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1626794163.git.huangy81@chinatelecom.cn>
-References: <cover.1626794163.git.huangy81@chinatelecom.cn>
-In-Reply-To: <cover.1626794163.git.huangy81@chinatelecom.cn>
-References: <cover.1626794163.git.huangy81@chinatelecom.cn>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5ra0-0002yt-Am
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:22:44 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:36802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5rZw-0008DN-F6
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:22:43 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id h2so28969016edt.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:22:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xLNUbwIVu+tT9ipt6s2WtioYLh04Ekz/iPAlbRs94/E=;
+ b=koMmBHvwXToXKNL26wGNEptwu361QRNa/cQfi+NbK9joHOrYIViVlgJryacs+d9Ndx
+ zkACV9g+N5CcW9+FeOY5ekqSIZjMbL2q3g/tJDw5IByGk8mnxASFsqakJKvCfnCmup7w
+ AxwEVT3zt3FP1ZLEOt3QKxuXLhPBBbpv5/muAmGbcmcpJmhBl5s/IW8OOqJejHyRlqoj
+ LqMjETg4ddYwIZ4RUFta2+ZJJQpWhtHW5ZqsyKYVH9A1PkS7BGTZjHHL6TPn0OH5KzUG
+ 4KHVqX3cU8Gfl6Q41w2KR2UbMt0fP7z1Nz9T18XZ5kCYZgogHpRPBva46E9ZvK/ADNg9
+ 63vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xLNUbwIVu+tT9ipt6s2WtioYLh04Ekz/iPAlbRs94/E=;
+ b=q0CMUNqauniCKD8wTytVxSVMBxV6KSMlX3oDLsJM02Rmo0RBfeVUDeOgntntI8sSqn
+ 0kxPdg4opHP7gduHB0gndWP3ONL/uXSVJJMRluel1xRBCo5dZ7wdftQ4YqFGF/N7JW4Z
+ 3W/VCL8HM1HNCKYVIk87beahSWH8WtdHMw5+HcDRDM7c5ocwrw9l3l6vDw1e3IWSvWtP
+ yPQO197snSks/WCK2vCOUayhizRIa6bT7XGOrsUEqEb3x2oxxkBJyYKii46D+UieHDKc
+ hUKG3ufvyF0p3nxEPNKQ6xl9jg1mYqmtKNXjCJJGHAYgg7nesaTeydEIloKvpBNRrG2Y
+ Si7w==
+X-Gm-Message-State: AOAM533iHRVL2VnfRF3B9bpjh0Qs/10+YX/BUY8Cu7j3tCs9lNin43Sg
+ rRFTYrXxG7XHKsZrV0CLFFubdCdXw0qBxqJmVySz1Q==
+X-Google-Smtp-Source: ABdhPJyZOZAUH7xLB2l7AoyCUJz/0AC06NHX08MZVjrCflBNTkuuvQE99mj9sESxhV7DByaQ9s2adamYrcxLLhUtV8c=
+X-Received: by 2002:a05:6402:697:: with SMTP id
+ f23mr40832666edy.44.1626794558676; 
+ Tue, 20 Jul 2021 08:22:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=42.123.76.228;
- envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+References: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
+ <CAFEAcA-Dmof7gi9MRxjo0FcYN8ZW0NTKi2+SAgO1V8-VMndN-A@mail.gmail.com>
+ <CAFEAcA_cYZHr=Kz2JakLpxkdyBWGJUUpJWZyyV_yMq59X7YJGw@mail.gmail.com>
+ <CAFEAcA-sq2GfHkpVc8BF-n=KEVwwrtzsbhM9w+_O=GmN+gg5WQ@mail.gmail.com>
+ <CAK7rcp-qm1v-fuNvH8-978SHV=sXOK8DhzMUfmWSEwGQ+utJ4A@mail.gmail.com>
+In-Reply-To: <CAK7rcp-qm1v-fuNvH8-978SHV=sXOK8DhzMUfmWSEwGQ+utJ4A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Jul 2021 16:21:57 +0100
+Message-ID: <CAFEAcA_2_JJY=kOqC5H3tS7NmW-Mszu+Z68A0pT+YjUo0KFaBA@mail.gmail.com>
+Subject: Re: Error in accel/tcg?
+To: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,237 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Hyman <huangy81@chinatelecom.cn>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+On Tue, 20 Jul 2021 at 16:13, Kenneth Adam Miller
+<kennethadammiller@gmail.com> wrote:
+> See of course I thought about editing code outside of my target too, but thought against it.
 
-introduce dirty-bitmap mode as the third method of calc-dirty-rate.
-implement dirty-bitmap dirtyrate calculation, which can be used
-to measuring dirtyrate in the absence of dirty-ring.
+Yeah, it's a bit of a hard one to judge. Mostly new target code shouldn't
+need to result in changes to core code, but sometimes if the target is
+doing something nobody else has needed before then the best approach
+is to update the core code to provide the necessary facilities for it.
 
-introduce "dirty_bitmap:-b" option in hmp calc_dirty_rate to
-indicate dirty bitmap method should be used for calculation.
+> And doing it that way may make the compiler happier, but then would it be inviting a runtime error
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
----
- hmp-commands.hx       |   9 ++--
- migration/dirtyrate.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++----
- qapi/migration.json   |   6 ++-
- 3 files changed, 112 insertions(+), 15 deletions(-)
+In this case what the code is testing is "can I fit a value into the low bits
+of a page-aligned address?": if it can, there's a faster codepath it uses,
+and it has a fallback to a slower approach otherwise. If TARGET_PAGE_BITS
+is 16 or more, then it is always true that the value will fit into the
+low bits, and we can always use the fastpath. The compiler is correct that
+the comparison is always true, and that is OK here.
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index f7fc9d7..605973c 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1738,9 +1738,10 @@ ERST
- 
-     {
-         .name       = "calc_dirty_rate",
--        .args_type  = "dirty_ring:-r,second:l,sample_pages_per_GB:l?",
--        .params     = "[-r] second [sample_pages_per_GB]",
--        .help       = "start a round of guest dirty rate measurement (using -d to"
--                      "\n\t\t\t specify dirty ring as the method of calculation)",
-+        .args_type  = "dirty_ring:-r,dirty_bitmap:-b,second:l,sample_pages_per_GB:l?",
-+        .params     = "[-r] [-b] second [sample_pages_per_GB]",
-+        .help       = "start a round of guest dirty rate measurement (using -r to"
-+                      "\n\t\t\t specify dirty ring as the method of calculation and"
-+                      "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
-         .cmd        = hmp_calc_dirty_rate,
-     },
-diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
-index 17b3d2c..d65e744 100644
---- a/migration/dirtyrate.c
-+++ b/migration/dirtyrate.c
-@@ -15,6 +15,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "exec/ramblock.h"
-+#include "exec/ram_addr.h"
- #include "qemu/rcu_queue.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
-@@ -118,6 +119,10 @@ static struct DirtyRateInfo *query_dirty_rate_info(void)
-             }
-             info->vcpu_dirty_rate = head;
-         }
-+
-+        if (dirtyrate_mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) {
-+            info->sample_pages = 0;
-+        }
-     }
- 
-     trace_query_dirty_rate_info(DirtyRateStatus_str(CalculatingState));
-@@ -429,6 +434,79 @@ static int64_t do_calculate_dirtyrate_vcpu(DirtyPageRecord dirty_pages)
-     return memory_size_MB / time_s;
- }
- 
-+static inline void record_dirtypages_bitmap(DirtyPageRecord *dirty_pages,
-+                                            bool start)
-+{
-+    if (start) {
-+        dirty_pages->start_pages = total_dirty_pages;
-+    } else {
-+        dirty_pages->end_pages = total_dirty_pages;
-+    }
-+}
-+
-+static void do_calculate_dirtyrate_bitmap(DirtyPageRecord dirty_pages)
-+{
-+    DirtyStat.dirty_rate = do_calculate_dirtyrate_vcpu(dirty_pages);
-+}
-+
-+static inline void dirtyrate_manual_reset_protect(void)
-+{
-+    RAMBlock *block = NULL;
-+
-+    WITH_RCU_READ_LOCK_GUARD() {
-+        RAMBLOCK_FOREACH_MIGRATABLE(block) {
-+            memory_region_clear_dirty_bitmap(block->mr, 0,
-+                                             block->used_length);
-+        }
-+    }
-+}
-+
-+static void calculate_dirtyrate_dirty_bitmap(struct DirtyRateConfig config)
-+{
-+    int64_t msec = 0;
-+    int64_t start_time;
-+    DirtyPageRecord dirty_pages;
-+
-+    qemu_mutex_lock_iothread();
-+    memory_global_dirty_log_start(GLOBAL_DIRTY_DIRTY_RATE);
-+
-+    /*
-+     * 1'round of log sync may return all 1 bits with
-+     * KVM_DIRTY_LOG_INITIALLY_SET enable
-+     * skip it unconditionally and start dirty tracking
-+     * from 2'round of log sync
-+     */
-+    memory_global_dirty_log_sync();
-+
-+    /*
-+     * reset page protect manually and unconditionally.
-+     * this make sure kvm dirty log be cleared if
-+     * KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE cap is enabled.
-+     */
-+    dirtyrate_manual_reset_protect();
-+    qemu_mutex_unlock_iothread();
-+
-+    record_dirtypages_bitmap(&dirty_pages, true);
-+
-+    start_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+    DirtyStat.start_time = start_time / 1000;
-+
-+    msec = config.sample_period_seconds * 1000;
-+    msec = set_sample_page_period(msec, start_time);
-+    DirtyStat.calc_time = msec / 1000;
-+
-+    /*
-+     * dirtyrate_global_dirty_log_stop do two things.
-+     * 1. fetch dirty bitmap from kvm
-+     * 2. stop dirty tracking
-+     */
-+    dirtyrate_global_dirty_log_stop();
-+
-+    record_dirtypages_bitmap(&dirty_pages, false);
-+
-+    do_calculate_dirtyrate_bitmap(dirty_pages);
-+}
-+
- static void calculate_dirtyrate_dirty_ring(struct DirtyRateConfig config)
- {
-     CPUState *cpu;
-@@ -514,7 +592,9 @@ out:
- 
- static void calculate_dirtyrate(struct DirtyRateConfig config)
- {
--    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-+    if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) {
-+        calculate_dirtyrate_dirty_bitmap(config);
-+    } else if (config.mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
-         calculate_dirtyrate_dirty_ring(config);
-     } else {
-         calculate_dirtyrate_sample_vm(config);
-@@ -597,12 +677,15 @@ void qmp_calc_dirty_rate(int64_t calc_time,
- 
-     /*
-      * dirty ring mode only works when kvm dirty ring is enabled.
-+     * on the contrary, dirty bitmap mode is not.
-      */
--    if ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
--        !kvm_dirty_ring_enabled()) {
--        error_setg(errp, "dirty ring is disabled, use sample-pages method "
--                         "or remeasure later.");
--        return;
-+    if (((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) &&
-+        !kvm_dirty_ring_enabled()) ||
-+        ((mode == DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP) &&
-+         kvm_dirty_ring_enabled())) {
-+        error_setg(errp, "mode %s is not enabled, use other method instead.",
-+                         DirtyRateMeasureMode_str(mode));
-+         return;
-     }
- 
-     /*
-@@ -678,9 +761,8 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-     int64_t sample_pages = qdict_get_try_int(qdict, "sample_pages_per_GB", -1);
-     bool has_sample_pages = (sample_pages != -1);
-     bool dirty_ring = qdict_get_try_bool(qdict, "dirty_ring", false);
--    DirtyRateMeasureMode mode =
--        (dirty_ring ? DIRTY_RATE_MEASURE_MODE_DIRTY_RING :
--         DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING);
-+    bool dirty_bitmap = qdict_get_try_bool(qdict, "dirty_bitmap", false);
-+    DirtyRateMeasureMode mode = DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
-     Error *err = NULL;
- 
-     if (!sec) {
-@@ -688,6 +770,18 @@ void hmp_calc_dirty_rate(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
-+    if (dirty_ring && dirty_bitmap) {
-+        monitor_printf(mon, "Either dirty ring or dirty bitmap "
-+                       "can be specified!\n");
-+        return;
-+    }
-+
-+    if (dirty_bitmap) {
-+        mode = DIRTY_RATE_MEASURE_MODE_DIRTY_BITMAP;
-+    } else if (dirty_ring) {
-+        mode = DIRTY_RATE_MEASURE_MODE_DIRTY_RING;
-+    }
-+
-     qmp_calc_dirty_rate(sec, has_sample_pages, sample_pages, true,
-                         mode, &err);
-     if (err) {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index de35528..0b00976 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1747,13 +1747,15 @@
- #
- # @page-sampling: calculate dirtyrate by sampling pages.
- #
--# @dirty-ring: calculate dirtyrate by via dirty ring.
-+# @dirty-ring: calculate dirtyrate by dirty ring.
-+#
-+# @dirty-bitmap: calculate dirtyrate by dirty bitmap.
- #
- # Since: 6.1
- #
- ##
- { 'enum': 'DirtyRateMeasureMode',
--  'data': ['page-sampling', 'dirty-ring'] }
-+  'data': ['page-sampling', 'dirty-ring', 'dirty-bitmap'] }
- 
- ##
- # @DirtyRateInfo:
--- 
-1.8.3.1
-
+thanks
+-- PMM
 
