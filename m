@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D42503D05CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:46:58 +0200 (CEST)
-Received: from localhost ([::1]:51176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6812F3D05D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:49:19 +0200 (CEST)
+Received: from localhost ([::1]:60104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zRx-0007cc-1C
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:46:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42638)
+	id 1m5zUE-0005Be-Ew
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:49:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zG3-0004d9-5P
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:39 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44874)
+ id 1m5zFx-0004HQ-Vu
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:34 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zG1-0001mg-FD
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:38 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f9so159923wrq.11
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:37 -0700 (PDT)
+ id 1m5zFw-0001hv-Cs
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:33 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ b14-20020a1c1b0e0000b02901fc3a62af78so2405777wmb.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sD6Pm84CmdjI5JpcNTDj7rKfkXWeIjK0Wl9Ca+PDk9k=;
- b=EVHszxLvdmzOJZjw52l2g8KNz9Ef4JhI3K0QmEc0meIdw6+8hCYECkpwxUzU5Kf4J/
- Nxoh/QUMYAnHE/kY9qfqCDTuu3fZ0A/D3xu32qBpM31GJPMpsOH43VMWd/4gmikiOQFz
- n5O+qnscmKnFpmFvjhLW3K06gldz90uSit77jGUqVy/tChAIQAPOAvK+Z+7JWcURyCCk
- NU73TiOLoB4+f0DBN1pmJ11LLOFZumchm8WjlCC+xEBKQA1I8YY7SY0DgsIdh3PqH5Bk
- 0Z2zLkg3hVJt4A6sE2MquRBXuyvrHxLPBdZ+JOmYEeErBJgn4UrfI4TD8VR6phlPkmEy
- OH9A==
+ bh=wGyzsMcwyPdU32aTj0BzS3yJV+u0+Pq22bBiQhu0jRI=;
+ b=dFuRuljkEPQpaWZK9pz+WuGQfxnI+kDOy5VwWvOc5bP+03MBXqVr7ryjWqLmX1xdmu
+ P7gM6sFHlMNi8Oy2lQB3lTTC/koSgbBIYwkU//k8SjsOr/aOIUVyGPpEEhgl9dbQF130
+ CQcnacaD8blhvUUpHfcxQZPgi3/+znIVLfO8n/GGOWZvW7DbKKlwJAx8TsjaHJyiRz/R
+ 6Td7ZpweUPsn40Asz3E1S3eP0P2QAru7WVQwFnGCSg1Zk47YO9pW69lUmaqKQYSS4AGv
+ Kq25xH3xFmUunY6juLcanVwQg4bSTiT8C43fFneruEldH7A+qAiojqMLLUG8V6IVP5aN
+ eLVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sD6Pm84CmdjI5JpcNTDj7rKfkXWeIjK0Wl9Ca+PDk9k=;
- b=QJPR+F/xGDGOeAM9kWtJs8nCP2aKdyZqmZPrMWnRpssmbe0zK6U7T6w5qnv9eLP/lQ
- PdlCDoRny+4eSIZtikoR5P2gpmydzgkY+71I26PG3HoNU8bk2JmQTXtq5CO21/ad/1zJ
- vUzRLZ4C69h/Ktf6fL3rog7tMhCuXM/mHLjbJA++KHGwKJnlAHbOe/VyAHbW6IpRF4V2
- cvSi0efyWaoin3WdOnTKsqYwWt9gZyVE5Pj/dB/7ZEYpZJldnTlXh9JRVzKfMtIdCjny
- cHSVM3SF4GJ9JXmEQ4dEPgJCHptf2vuw9kw/qhwZQe9bRD56ldVVfEk9jE0ZmTtyv3iv
- 4gOw==
-X-Gm-Message-State: AOAM530LTv26e6i+gbHMHmCDVzJJExg2gq2cAlopwKqq3vmIXRAobZ/b
- 5UsTbmKyA7KwHsAEBEh9ecuqCQ==
-X-Google-Smtp-Source: ABdhPJz5LUXL4J7FDvK7M7+eA42G9XH/iR3WNoBiSunI38kwUYtYl2cnaHJ2ma/poiNXdfcEiYY4Bg==
-X-Received: by 2002:a5d:428d:: with SMTP id k13mr39403150wrq.269.1626824076098; 
- Tue, 20 Jul 2021 16:34:36 -0700 (PDT)
+ bh=wGyzsMcwyPdU32aTj0BzS3yJV+u0+Pq22bBiQhu0jRI=;
+ b=VeQ8lNc8v3+LuFVYXHQ0Q4hjnMG9lK0Wup6qLnTOFc4iBoNEjeR4eT5gf6yVXoJ/s1
+ AzosCBDtsOkRr4fIOoNTtOXFzEiCO332lNkVmHVTJSfeNicG7bb4ayEIgItI8kxI8On6
+ NMmArPcnP2YlpXE/cBK6tq7eRpqlanZdT25QT6/KJ6xQrajYafO/0V6pmYZ87rGbF2Ek
+ X8uio7ixi6mp470bOjcrVn84XCnnwEfrWyOjumPJMur3c6YRjvuZRk1kBQuJT0jbhGQ5
+ h4r0DGKHI0tt/TSKaQ92c3iwsOPWNiVMPa0Bh9YyJgKzbBWnmLUVeonrE0iBPSsexIo0
+ YQ6Q==
+X-Gm-Message-State: AOAM533x0lqt0TQf1cv0nIaJAwrX2yEyL4LAoCf3Q6JrMC0VnEc2Xs+M
+ e6/relzMUwjV7OAn6eyXKhROKw==
+X-Google-Smtp-Source: ABdhPJzWcCOJvvX0O7K4YjNOCEA6sRu4yXDsQgN0LuqfdwCJxh752rUNi53kMSUIjrQATL4Omv+aVw==
+X-Received: by 2002:a1c:f003:: with SMTP id a3mr987664wmb.82.1626824071075;
+ Tue, 20 Jul 2021 16:34:31 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y6sm20634050wma.48.2021.07.20.16.34.24
+ by smtp.gmail.com with ESMTPSA id e8sm3354295wrc.6.2021.07.20.16.34.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 20 Jul 2021 16:34:26 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C6D6A1FFAA;
+ by zen.linaroharston (Postfix) with ESMTP id DDC841FFAB;
  Wed, 21 Jul 2021 00:27:05 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 21/29] plugins/cache: Fixed a bug with destroying FIFO
- metadata
-Date: Wed, 21 Jul 2021 00:26:55 +0100
-Message-Id: <20210720232703.10650-22-alex.bennee@linaro.org>
+Subject: [PATCH  v1 22/29] plugins/cache: limited the scope of a mutex lock
+Date: Wed, 21 Jul 2021 00:26:56 +0100
+Message-Id: <20210720232703.10650-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,31 +96,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-This manifests itself when associativity degree is greater than the
-number of sets and FIFO is used, otherwise it's also a memory leak
-whenever FIFO was used.
+It's not necessary to lock the address translation portion of the
+vcpu_mem_access callback.
 
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210714172151.8494-2-ma.mandourr@gmail.com>
+Message-Id: <20210714172151.8494-3-ma.mandourr@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- contrib/plugins/cache.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ contrib/plugins/cache.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
-index bf0d2f6097..4a71602639 100644
+index 4a71602639..695fb969dc 100644
 --- a/contrib/plugins/cache.c
 +++ b/contrib/plugins/cache.c
-@@ -200,7 +200,7 @@ static void fifo_destroy(Cache *cache)
- {
-     int i;
+@@ -355,15 +355,14 @@ static void vcpu_mem_access(unsigned int vcpu_index, qemu_plugin_meminfo_t info,
+     struct qemu_plugin_hwaddr *hwaddr;
+     InsnData *insn;
  
--    for (i = 0; i < cache->assoc; i++) {
-+    for (i = 0; i < cache->num_sets; i++) {
-         g_queue_free(cache->sets[i].fifo_queue);
+-    g_mutex_lock(&mtx);
+     hwaddr = qemu_plugin_get_hwaddr(info, vaddr);
+     if (hwaddr && qemu_plugin_hwaddr_is_io(hwaddr)) {
+-        g_mutex_unlock(&mtx);
+         return;
      }
- }
+ 
+     effective_addr = hwaddr ? qemu_plugin_hwaddr_phys_addr(hwaddr) : vaddr;
+ 
++    g_mutex_lock(&mtx);
+     if (!access_cache(dcache, effective_addr)) {
+         insn = (InsnData *) userdata;
+         insn->dmisses++;
 -- 
 2.32.0.264.g75ae10bc75
 
