@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D19E03CFE2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:50:57 +0200 (CEST)
-Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD793CFE2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:50:59 +0200 (CEST)
+Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5s1I-0007At-Tn
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:50:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57114)
+	id 1m5s1K-0007LD-QP
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:50:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtM-0000XH-LI
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46314)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtQ-0000ip-Fg
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtL-0005Jh-3x
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:44 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtO-0005MQ-Sl
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626795762;
+ s=mimecast20190719; t=1626795766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m2q8B88WKdmDTY0Ntr/x46Vm417E92okf4Gv3DLjALU=;
- b=Yeh3CKMeg+SxRQKfdv0bxxlEpvmJo73cjH4peaY+6RxG24eATEjL5DrVmfg+HRHlgkB1FM
- 6abLqlUNxquf+suSImCDF5benmf53Rj02f56zNyp/kKGH6o5ktQ8b2ASBtoDMm3b35ipTh
- 22kCotVPRWxi2k2++Yv7NmRDJKi+5ss=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-36mK7zUZOC-L_mSKJietmA-1; Tue, 20 Jul 2021 11:42:41 -0400
-X-MC-Unique: 36mK7zUZOC-L_mSKJietmA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- r18-20020adff1120000b029013e2b4ee624so10523828wro.1
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:42:41 -0700 (PDT)
+ bh=+EpP9cqqfCS+Ot9ShPaMqErBIc8w+8RJbLCEIxxcLRw=;
+ b=Vi9XWC71OM0yKxKZOj62x8bPnuTU2Q37zCXiugPwoZ+A9g4QJ+2jWgkBPfmesQpQXMi7ze
+ OUmi4Lml4zD8FxZFB5a7dKoCiIgLg9M7NEue7o8a+oJwgjAXCq+1JNHG+Zy4y8wZCS9z5n
+ 7Yq8I7bVNM7zUzAZoRxp4NuYzrI60kY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-275-gLP6VkbvPim6dZ4ytodkwQ-1; Tue, 20 Jul 2021 11:42:45 -0400
+X-MC-Unique: gLP6VkbvPim6dZ4ytodkwQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k5-20020a7bc3050000b02901e081f69d80so2286392wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:42:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=m2q8B88WKdmDTY0Ntr/x46Vm417E92okf4Gv3DLjALU=;
- b=lzjZTCUaUw65oBlmzM8yXwbYjW8MbHIvZZ78oDRFtqjScBKkYahw+vlpLKhDQ4NQ2E
- py3p7kh+EFW//WQT3CQ5bQh1uya/S0GhQ7u+Oha8sZmL1hEKz74knHDMuXgCzbpwCU4w
- 5xesIQDzn6hJcstQNUDLlsqYAmuHlIWv9dX4We7ni9q914zuVj6pg2AS1LXiZ/Sj0uoh
- qksuitUJzS/aGCIbFrfmI/HMafQgtNbmeZ942NhCL+BRPxg1n08okYI0EH3flBDonHNm
- AAhAqRAqjqEwAYcQO975Qm5PbORgaHO56+Arz4oMVY1Dj1RTqRLRarIVkQMzn6kyane2
- c3ag==
-X-Gm-Message-State: AOAM530W7eybKG8PjWkVJjBd3ydYIJZYavMLjq8upwbP13aqtVjU7v+w
- VpymRnqnjxy/Yk7O1wirsUaCC7ZjVaSO735FSmHY/c0C2vQKLJH32O25pVBrVRH/ASMUl4KNhZB
- ayeFGasBZWE35Vyf2mpFqfmEsfUwQ0rYEH/t1Yi2WhDlapVltUaBjyyjaoDh6CwE2
-X-Received: by 2002:a05:6000:10c3:: with SMTP id
- b3mr36898430wrx.271.1626795759608; 
- Tue, 20 Jul 2021 08:42:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybMDFDLzKmiQKQvhCjuwl/2oCqC2YEn2TmcK4OGT+xZno02pNjz+rlm4JEZvWK2jHWFE+U5Q==
-X-Received: by 2002:a05:6000:10c3:: with SMTP id
- b3mr36898412wrx.271.1626795759408; 
- Tue, 20 Jul 2021 08:42:39 -0700 (PDT)
+ bh=+EpP9cqqfCS+Ot9ShPaMqErBIc8w+8RJbLCEIxxcLRw=;
+ b=Dqjw3gg154zHlVzPgV5GWV1tpX75+jS0305Lc1IMbORSu9/3vgajBO8bpWg/dwFszZ
+ epPri2+dGx5NjWMexfbL8a/3NXJF8cbQ3gWUKipioJ04TiY3UjjvmM6Xd9u1upLznML3
+ 0EnN+2SQqt7VVoTu+Mgj3x5dBXYkr5pIsErNTIg+cV31HSgObpE4svVIXhCQHcxR04ct
+ zVO42nu7NDZmUz9GwCf/0mK7nljvsr/DjaNrwmsWGrj8nW/R5DvjoGeWr98GbczuTZE7
+ J7kkf5V2iOuw3AUXak2AgLclflwiPGc0FJ8sB90NOqg5ilsUBwgze9l/zeVuhUzGFArS
+ dvqQ==
+X-Gm-Message-State: AOAM531MXpCVg/utKRvnnTlUI3nTe0JRApxcbJrAOqSM+FH7sEiHiRqz
+ 3h487OoHCFsNoHea4wpnulpAsECwKqDPLO6gglGO86a4wAzsFG4uhqTHoW5ZejQJWwmYanvihyT
+ lSZBoufO7lxAjx5pd11nZY+U/AJJJ6p5mEk+R2af3gdKUgjmTgXYqkYjPL4mZesr8
+X-Received: by 2002:a7b:ce95:: with SMTP id q21mr38024425wmj.101.1626795763898; 
+ Tue, 20 Jul 2021 08:42:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxEJRPMetME02nR7dUiuZkkK5YBr36WoalP1VIyjg/H5AIYJuHnc/RpddsX4veDYtGiyc66Ow==
+X-Received: by 2002:a7b:ce95:: with SMTP id q21mr38024410wmj.101.1626795763692; 
+ Tue, 20 Jul 2021 08:42:43 -0700 (PDT)
 Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
  by smtp.gmail.com with ESMTPSA id
- d8sm25089772wra.41.2021.07.20.08.42.38
+ o7sm28065464wrv.72.2021.07.20.08.42.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 08:42:39 -0700 (PDT)
+ Tue, 20 Jul 2021 08:42:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/17] hw/pci-host/Kconfig: Add missing dependency MV64361 ->
- I8259
-Date: Tue, 20 Jul 2021 17:41:37 +0200
-Message-Id: <20210720154141.3919817-14-philmd@redhat.com>
+Subject: [PULL 14/17] hw/isa/vt82c686: Add missing Kconfig dependencies (build
+ error)
+Date: Tue, 20 Jul 2021 17:41:38 +0200
+Message-Id: <20210720154141.3919817-15-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210720154141.3919817-1-philmd@redhat.com>
 References: <20210720154141.3919817-1-philmd@redhat.com>
@@ -76,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -98,48 +96,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Looking at the MV64340 model source, there is a dependency on the
-8259 interrupt controller:
+The VT82C686 device model misses various dependencies:
 
-  523     case MV64340_PCI_1_INTERRUPT_ACKNOWLEDGE_VIRTUAL_REG:
-  524         /* FIXME: Should this be sent via the PCI bus somehow? */
-  525         if (s->gpp_int_level && (s->gpp_value & BIT(31))) {
-  526             ret = pic_read_irq(isa_pic);
-  527         }
-  528         break;
+  /usr/bin/ld: libcommon.fa.p/hw_isa_vt82c686.c.o: in function `vt82c686b_realize':
+  hw/isa/vt82c686.c:622: undefined reference to `i8259_init'
+  /usr/bin/ld: hw/isa/vt82c686.c:624: undefined reference to `i8257_dma_init'
+  /usr/bin/ld: hw/isa/vt82c686.c:627: undefined reference to `mc146818_rtc_init'
 
-Add it to Kconfig to avoid the following build failure:
+Add them.
 
-  /usr/bin/ld: libcommon.fa.p/hw_pci-host_mv64361.c.o: in function `mv64361_read':
-  hw/pci-host/mv64361.c:526: undefined reference to `isa_pic'
-  /usr/bin/ld: hw/pci-host/mv64361.c:526: undefined reference to `pic_read_irq'
-
-Fixes: dcdf98a9015 ("hw/pci-host: Add emulation of Marvell MV64361 PPC system controller")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20210515173716.358295-10-philmd@redhat.com>
+Message-Id: <20210515173716.358295-11-philmd@redhat.com>
 ---
- hw/pci-host/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/isa/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 84494400b86..2b5f7d58cc5 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -76,3 +76,4 @@ config SH_PCI
- config MV64361
-     bool
-     select PCI
+diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
+index 96db170eff3..f99df0e20b1 100644
+--- a/hw/isa/Kconfig
++++ b/hw/isa/Kconfig
+@@ -50,6 +50,9 @@ config VT82C686
+     select FDC_ISA
+     select USB_UHCI
+     select APM
++    select I8257
 +    select I8259
++    select MC146818RTC
+ 
+ config SMC37C669
+     bool
 -- 
 2.31.1
 
