@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50D73CFE18
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:46:31 +0200 (CEST)
-Received: from localhost ([::1]:54946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B77813CFDCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:43:52 +0200 (CEST)
+Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5rx0-0006lA-Ln
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:46:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56746)
+	id 1m5ruR-0001eG-NP
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:43:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rsX-0007J8-L1
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:41:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22533)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rsc-0007MS-Fi
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:41:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rsV-0004fd-Il
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:41:53 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rsb-0004jy-1Q
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:41:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626795710;
+ s=mimecast20190719; t=1626795716;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ntka8v41Zy5onalJgxtnwBqwcN06N2wRrhCeomWWnn0=;
- b=PsZq5c0cR0HEv5n9/9IrvDTvTDr5f/48UYJdyx46EJ+z4rw7ZjJESW/pSRJyfNvBjUKZp7
- LT1WKsNRsMrLMcUzWwZTeAtWkUu8DZgb4qxufJO+ocGT5QbUhYzxdr5lsccn5lpoXgdqI0
- B6P0vnXa4u80dJbfMD2az17kWcDbIw0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-u0VZIpUmOGKry18UGpIOMA-1; Tue, 20 Jul 2021 11:41:49 -0400
-X-MC-Unique: u0VZIpUmOGKry18UGpIOMA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r9-20020a5d49890000b02901524df25ad7so780151wrq.8
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:41:49 -0700 (PDT)
+ bh=0Sv/EUp4kMQE+EqA7VY37QPylkfosAwbv1NFxb3Vclk=;
+ b=I40U+ig7Xkzt88dSi46HJoZCJ7sS/dme0sxLqR2wJ3qhBbgocWPFfIjIlIoOo6S830GBlJ
+ cQvFFn6EcA8SWTJrhV1lTzx9dZGhopcbG7kuTYba/dTgEvAq5812XSfBtdLJkVRIMxeX2h
+ SRd7aO6fNacW2vsCOuChYtJs4wuKP4w=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-Enz9flnjMZK7gJvA2kA3-w-1; Tue, 20 Jul 2021 11:41:53 -0400
+X-MC-Unique: Enz9flnjMZK7gJvA2kA3-w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b26-20020a7bc25a0000b0290218757e2783so1378841wmj.7
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:41:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ntka8v41Zy5onalJgxtnwBqwcN06N2wRrhCeomWWnn0=;
- b=NBIWy3n0opEaEvnxtpMBUIRY/2vKhEXsRsIV2QPirWxG6M/azJlzHg8Eq9OXTkDvCb
- lTTcUcKfXFrClY0MI7tJ6WNlG/DT+ZnvUM2y8lM8ylRvijqy1wFBegu3aRr8jRQ9avay
- JVzcCxoL9Mu5VyajIZwRVg/rhVonUdmUKLA0SC4877aE4l6IdS4bL7nr4MWjBXWH1bzR
- J50U1f+k7JQjd4FAzNr79hwQPRUT690ujnvETdxclY2jRcsnaTGqEoWbIjkYDvql1Rv/
- fW7IN/YPLoZSGvsyAmz3MWZ/FKM7pSOJ3hQNqyzrsOOVvw2dwK4ytuDdn3iNB443mWe6
- vY0Q==
-X-Gm-Message-State: AOAM533mSfPYy7d9q3wlN507p5/JssvUP8nO/ViJF2JjqUSJqRkq6eRX
- Ni87pQhAO9JqivHjWe7yiUEnw10QOe2NFm6GxeSbBkOhKzzKVSMhNSMSZjaOb50xIgQBR4tHrq1
- XLKe/6nMwbtX+AfKISwuCywjvTu4nYkeq8U5WS2cu9T1/CjIUzehzB8BjuDoA6v8c
-X-Received: by 2002:a5d:6d88:: with SMTP id l8mr28710648wrs.301.1626795707895; 
- Tue, 20 Jul 2021 08:41:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRxhQEwGYr8mlkFYD/mnHGnX73BF/iJRYr2aEp6qXfuJeoTGbtEAjwiDwIXbvDwXc+uW+AYA==
-X-Received: by 2002:a5d:6d88:: with SMTP id l8mr28710625wrs.301.1626795707564; 
- Tue, 20 Jul 2021 08:41:47 -0700 (PDT)
+ bh=0Sv/EUp4kMQE+EqA7VY37QPylkfosAwbv1NFxb3Vclk=;
+ b=hr1z3pJmgqLAXYfS47mNpU011IdCGjb0zbtpkM3gwxZcW3nWxEJnzoy8BaUIsijq+T
+ qbN8yamXWgCgr9LzapMvHjEbI+ohkQjTXgM4YAVN4pLPRlGX3XF+ZjKx12pQ4DnaBv2G
+ /s97yoCcgw0Z1hsFod1qE+zXgZ+FhPPTfliuifsPk/LSKNp3G7LCo9XqW61bfqZ2LKjc
+ x9IKB0QsB0nKe0l/MyNik9Xao9O2v/bcR48f9tokWnkat9J8wC4vAitmXKID2jSk84zT
+ /gtJA3zf9X/cDAe16887zmJi51rqEEjpCcRIuxzLRYWCJM1sWmxFhne1r4UX5HbIm1g3
+ //5A==
+X-Gm-Message-State: AOAM5334rBV8UW1cLqyZjzLvd3Jrkh31jHJy3yzxTGkam/QrOlSFJt0+
+ oGMMiI1s9qoXIEk2csSVO1C57Ix9VVPKD5bgfKd6hvajCa7HsW9fiJDC/lgOIu3zrSiO20jit/K
+ UJ208JIcOGE71k+0IDUNeDpAfdELGqvLMekY9YVLKqX0vzH0+76kiGoEPYWMbq6bX
+X-Received: by 2002:a1c:9d16:: with SMTP id g22mr32227908wme.152.1626795712009; 
+ Tue, 20 Jul 2021 08:41:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRg9M3zR9NF/Xf/gwykEi5C3SPsvAGcBE2S1SL+S4ctbYqJZHvWSN4SX7o5Q9gNTeYTTwDRA==
+X-Received: by 2002:a1c:9d16:: with SMTP id g22mr32227889wme.152.1626795711855; 
+ Tue, 20 Jul 2021 08:41:51 -0700 (PDT)
 Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
  by smtp.gmail.com with ESMTPSA id
- z6sm11222949wrw.9.2021.07.20.08.41.46
+ p5sm26332572wrd.25.2021.07.20.08.41.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 08:41:47 -0700 (PDT)
+ Tue, 20 Jul 2021 08:41:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/17] hw/mips: Add dependency MIPS_CPS -> MIPS_ITU
-Date: Tue, 20 Jul 2021 17:41:25 +0200
-Message-Id: <20210720154141.3919817-2-philmd@redhat.com>
+Subject: [PULL 02/17] hw/mips: Express dependencies of the Boston machine with
+ Kconfig
+Date: Tue, 20 Jul 2021 17:41:26 +0200
+Message-Id: <20210720154141.3919817-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210720154141.3919817-1-philmd@redhat.com>
 References: <20210720154141.3919817-1-philmd@redhat.com>
@@ -73,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
@@ -94,39 +95,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paul Burton <pburton@wavecomp.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Inter-Thread Communication Unit (ITU, introduced in commit
-34fa7e83e11) is part of the Coherent Processing System (CPS),
-as describe in commit 408294352ad:
+Boston is built around a Xilinx FPGA, which includes a PCIe root port
+and an UART. An Intel EG20T PCH connects the I/O peripherals, but only
+the SATA bus is emulated.
 
-    Make ITU available in the system if CPU supports multithreading
-    and is part of CPS.
-
-Have CPS select ITU in Kconfig to avoid the following build failure:
-
-  /usr/bin/ld: libqemu-mips64el-softmmu.fa.p/hw_mips_cps.c.o: in function `mips_cps_realize':
-  hw/mips/cps.c:104: undefined reference to `mips_itu_get_tag_region'
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Paul Burton <pburton@wavecomp.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190311005618.19007-5-philmd@redhat.com>
+Message-Id: <20190311005618.19007-6-philmd@redhat.com>
 ---
- hw/mips/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ configs/devices/mips64el-softmmu/default.mak | 4 ----
+ hw/mips/Kconfig                              | 5 +++++
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/configs/devices/mips64el-softmmu/default.mak b/configs/devices/mips64el-softmmu/default.mak
+index c511a061bae..c610749ac13 100644
+--- a/configs/devices/mips64el-softmmu/default.mak
++++ b/configs/devices/mips64el-softmmu/default.mak
+@@ -8,8 +8,4 @@ CONFIG_ATI_VGA=y
+ CONFIG_RTL8139_PCI=y
+ CONFIG_JAZZ=y
+ CONFIG_VT82C686=y
+-CONFIG_AHCI=y
+ CONFIG_MIPS_BOSTON=y
+-CONFIG_FITLOADER=y
+-CONFIG_PCI_EXPRESS=y
+-CONFIG_PCI_EXPRESS_XILINX=y
 diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index c245e881a2b..1d4051fcf07 100644
+index 1d4051fcf07..b4c5549ce84 100644
 --- a/hw/mips/Kconfig
 +++ b/hw/mips/Kconfig
-@@ -47,6 +47,7 @@ config LOONGSON3V
- config MIPS_CPS
-     bool
-     select PTIMER
-+    select MIPS_ITU
+@@ -51,6 +51,11 @@ config MIPS_CPS
  
  config MIPS_BOSTON
+     bool
++    select FITLOADER
++    select MIPS_CPS
++    select PCI_EXPRESS_XILINX
++    select AHCI_ICH9
++    select SERIAL
+ 
+ config FW_CFG_MIPS
      bool
 -- 
 2.31.1
