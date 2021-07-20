@@ -2,59 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EC13CF257
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 05:04:38 +0200 (CEST)
-Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55A63CF252
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 05:02:53 +0200 (CEST)
+Received: from localhost ([::1]:33808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5g3h-0005qC-7j
-	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 23:04:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44358)
+	id 1m5g20-0004KL-Do
+	for lists+qemu-devel@lfdr.de; Mon, 19 Jul 2021 23:02:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zxq_yx_007@163.com>)
- id 1m5g2x-0005AE-9h
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 23:03:51 -0400
-Received: from m12-12.163.com ([220.181.12.12]:48624)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <zxq_yx_007@163.com>) id 1m5g2t-0001uB-JK
- for qemu-devel@nongnu.org; Mon, 19 Jul 2021 23:03:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=Kv1Po
- rllcAxkLWspT53O87MBtAJOHhB/5PZJLYhwVSU=; b=Oc/Gix00s3c65bd1mCwgS
- Bj38CEx8RPkXvUD/1FAVwm6ixSiWT+Zt0B+xH1C0a3/NoUmXarN7wjQL4mbUwxgn
- rxpvWJR6iAVOf6fszsdmEuJ1d3rg+Ja9KF/N3X/gV6jNTqWFBmdTtLpPISFGyGPR
- ZLfCHummHwCKKLWhGTRJKI=
-Received: from [10.12.169.24] (unknown [106.38.115.16])
- by smtp8 (Coremail) with SMTP id DMCowACHEihpOfZgyIP8Pg--.53661S2;
- Tue, 20 Jul 2021 10:48:10 +0800 (CST)
-Subject: Re: [PATCH] util: fix abstract socket path copy
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210719130112.932069-1-marcandre.lureau@redhat.com>
-From: zhao xiao qiang <zxq_yx_007@163.com>
-Message-ID: <9c9a6518-dafd-cd58-e74a-a895a71074af@163.com>
-Date: Tue, 20 Jul 2021 10:48:09 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1m5g13-0003dw-ST
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 23:01:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1m5g10-0000Lt-EC
+ for qemu-devel@nongnu.org; Mon, 19 Jul 2021 23:01:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626750108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mw7AqXHhcA3vcmpYIgMorAuF7j0KPEgQFVVUsTw9ouA=;
+ b=abCyh6iqsRwDKKw3UaPk6QFKRQZp8q35wr8EaJ7RsmakRqxPf0pZW6ERwvqEPJtwDT938C
+ v5emF8RjdrNS5Fxhpni+TVp0wqiA2yD7a2dqe1Kp+D0n+c7huecbKtp/H3n/yyaEBsgSJx
+ cwu1oot1GfiNV+OdVZPOyRozkhPUzBw=
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-44gZRbdONSKdrPCckN-F0g-1; Mon, 19 Jul 2021 23:01:46 -0400
+X-MC-Unique: 44gZRbdONSKdrPCckN-F0g-1
+Received: by mail-ot1-f69.google.com with SMTP id
+ p13-20020a9d4e0d0000b02904cdb63ceafcso10305096otf.6
+ for <qemu-devel@nongnu.org>; Mon, 19 Jul 2021 20:01:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=Mw7AqXHhcA3vcmpYIgMorAuF7j0KPEgQFVVUsTw9ouA=;
+ b=bLXZwugcgQZTj/K87pfwLW1YQ00s8oMZLfFte6AfFsowT/T21HYJG2brQUXUpmKFYC
+ 5Meo/12bSEPGmrvNJvXWQuBdj7OwmqNNUHiIFz5unpcZWRCuBm25ZZhLPAbyWWT4f/k7
+ fie730b5c5KJWcIrU5D9XVdHc0dm0oYtxe7iUDL4euxgoUyHlvSfOimaGbYdL0zrWG2q
+ pJdMtaVByvdr6Axul3AKHYlxhZZSChy9pBdyE3y9RNhy8onzIbd1Q9NDip5f8kE9et3j
+ Y/A+8HUpP136gqwmZESJ28u2BrbUWUuggdFQ2gze8tP7BvQbtmbKsQ5+GXyPzKiZ3ZZK
+ N7VA==
+X-Gm-Message-State: AOAM532tnbsw+/2WEPY3Xt5t/gAwnsgzHY+jfWAz61hRhhzZqPGUfqas
+ GnoNP3WqCko2WH/PtR9qLqOk0JvijXXO3QIDJMJWH8OXDI8GjC3xcRQybZ+0vodo42LmKD2oYjZ
+ JdJ4nEe2mYUfQZ/0=
+X-Received: by 2002:a05:6808:2105:: with SMTP id
+ r5mr23883423oiw.57.1626750106059; 
+ Mon, 19 Jul 2021 20:01:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxUl5TK/NKZEW2fP0IshixsTlBo2v1PrigJIgZaSVSi3WcNYCKJr4XfBHEiXGuUzxfCjpRxRw==
+X-Received: by 2002:a05:6808:2105:: with SMTP id
+ r5mr23883407oiw.57.1626750105900; 
+ Mon, 19 Jul 2021 20:01:45 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id m83sm22797oig.25.2021.07.19.20.01.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 19 Jul 2021 20:01:44 -0700 (PDT)
+Date: Mon, 19 Jul 2021 21:01:43 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Subject: Re: [PATCH RFC 12/19] vfio-user: probe remote device's BARs
+Message-ID: <20210719210143.7bc9c3ab.alex.williamson@redhat.com>
+In-Reply-To: <9D721628-1C4A-4710-B2AE-1F4C8E616233@oracle.com>
+References: <cover.1626675354.git.elena.ufimtseva@oracle.com>
+ <e3db340f0300db92604f6c9611897df4d2ab901e.1626675354.git.elena.ufimtseva@oracle.com>
+ <20210719165959.23439f39.alex.williamson@redhat.com>
+ <9D721628-1C4A-4710-B2AE-1F4C8E616233@oracle.com>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210719130112.932069-1-marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DMCowACHEihpOfZgyIP8Pg--.53661S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Kr4ktr1DGr1UXF47WF1Dtrb_yoW8CrW3pr
- W5Ca15AFZ5AFW0grs3Ja17ur4rA3WSkay3W343Ja4FkFZY93WSya48KayUJrnFyryrGrWI
- vFyIgryv9r1qywUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07bUXocUUUUU=
-X-Originating-IP: [106.38.115.16]
-X-CM-SenderInfo: 520ts5t0bqili6rwjhhfrp/1tbiqAHVxlc7VWZsCQAAsA
-Received-SPF: pass client-ip=220.181.12.12; envelope-from=zxq_yx_007@163.com;
- helo=m12-12.163.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,56 +102,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, armbru@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jag Raman <jag.raman@oracle.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John Levon <john.levon@nutanix.com>,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 20 Jul 2021 01:39:21 +0000
+John Johnson <john.g.johnson@oracle.com> wrote:
 
-在 2021/7/19 21:01, marcandre.lureau@redhat.com 写道:
-> Commit 776b97d360 "qemu-sockets: add abstract UNIX domain socket
-> support" neglected to update socket_sockaddr_to_address_unix() and
-> copied the whole sun_path without taking "salen" into account.
+> > On Jul 19, 2021, at 3:59 PM, Alex Williamson <alex.williamson@redhat.com> wrote:
+> > 
+> > On Sun, 18 Jul 2021 23:27:51 -0700
+> > Elena Ufimtseva <elena.ufimtseva@oracle.com> wrote:  
+> >> @@ -3442,6 +3448,22 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+> >>     /* QEMU can also add or extend BARs */
+> >>     memset(vdev->emulated_config_bits + PCI_BASE_ADDRESS_0, 0xff, 6 * 4);
+> >> 
+> >> +    /*
+> >> +     * Local QEMU overrides aren't allowed
+> >> +     * They must be done in the device process
+> >> +     */
+> >> +    if (pdev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION) {
+> >> +        error_setg(errp, "Multi-function must be specified by device process");
+> >> +        goto error;
+> >> +    }
+> >> +    if (pdev->romfile) {
+> >> +        error_setg(errp, "Romfile must be specified by device process");
+> >> +        goto error;
+> >> +    }  
+> > 
+> > For what reason?  PCI functions can operate completely independently,
+> > there could be different servers for different functions, a QEMU user
+> > may wish to apply a different option ROM image than provided by the
+> > server.  This all creates unnecessary incompatibilities.  Thanks,
+> >   
 > 
-> Later, commit 3b14b4ec49 "sockets: Fix socket_sockaddr_to_address_unix()
-> for abstract sockets" handled the abstract UNIX path, by stripping the
-> leading \0 character and fixing address details, but didn't use salen
-> either.
-> 
-> Not taking "salen" into account may result in incorrect "path" being
-> returned in monitors commands, as we read past the address which is not
-> necessarily \0-terminated.
-> 
-> Fixes: 776b97d3605ed0fc94443048fdf988c7725e38a9
-> Fixes: 3b14b4ec49a801067da19d6b8469eb1c1911c020
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  util/qemu-sockets.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 080a240b74..f2f3676d1f 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,13 +1345,16 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->      SocketAddress *addr;
->      struct sockaddr_un *su = (struct sockaddr_un *)sa;
->  
-> +    assert(salen >= sizeof(su->sun_family) + 1 &&
-> +           salen <= sizeof(struct sockaddr_un));
-> +
->      addr = g_new0(SocketAddress, 1);
->      addr->type = SOCKET_ADDRESS_TYPE_UNIX;
->  #ifdef CONFIG_LINUX
->      if (!su->sun_path[0]) {
->          /* Linux abstract socket */
->          addr->u.q_unix.path = g_strndup(su->sun_path + 1,
-> -                                        sizeof(su->sun_path) - 1);
-> +                                        salen - sizeof(su->sun_family) - 1);
->          addr->u.q_unix.has_abstract = true;
->          addr->u.q_unix.abstract = true;
->          addr->u.q_unix.has_tight = true;
+> 	The idea is to have all the device options specified on the remote
+> server, and have the vfio client just be a pass-through device.  I thought
+> having them specified in 2 places would cause more confusion.
 
+IMO, the server has no business making such configuration restrictions.
+It's the client's decision if it wants to create multi-function
+topologies or override the option rom.  Same for whether it wants to
+override or virtualize capabilities.  All of this should just work
+as-is; it's actually additional code required and knowledge through the
+management stack to prevent it.  Thanks,
 
-Reviewed-by: xiaoqiang zhao <zxq_yx_007@163.com>
+Alex
 
 
