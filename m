@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0963F3CFF7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 18:32:25 +0200 (CEST)
-Received: from localhost ([::1]:42144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369F43CFFC0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 18:49:49 +0200 (CEST)
+Received: from localhost ([::1]:54584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5sfP-0005hj-Hn
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 12:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54540)
+	id 1m5swF-0006je-P2
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 12:49:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idsandoe@googlemail.com>)
- id 1m5rih-0003pM-HC
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:31:43 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:51097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idsandoe@googlemail.com>)
- id 1m5rie-00065m-ET
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:31:43 -0400
-Received: by mail-wm1-x331.google.com with SMTP id l6so12551476wmq.0
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=LR6FhGgKZFXI6AbVilsVqj7SIosNkslo1hZegf0cIpE=;
- b=ABqKzFlQWpS7dw8xEt/EITmq1vTTS7AHo7BTi97bJUNNhJnn5+iwAtFo63ZTp4afW4
- LMPV5e9HUkF+TYKXaCpXmANSNIYSqR+V87TWOEY4tmk2j2C5PwXZ6FklTFknDGAc8HEq
- ms/jDXgHiZ0CpsACnsyK+rPu44YltBPoMqtk/qlZkyTpP996W9q9d0DREz4MHq6tCXWR
- RLvq+gsX8IbTyYLgx6BeTA7Puy1kPf9+Fi/7D3se0CLn5KmBlBoGVYFKf3qs26iltqHl
- 2/SsL3wQu2WtjF3yeOmhvy4GqMmmUJX29qYaKz6DFe/lfhPt4c6Yynbwf+BLMxZMqSvv
- Jx1g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5sv9-0005b5-Kw
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 12:48:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5sv6-0007vn-NW
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 12:48:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626799716;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ifKFT5mDN0/2fYNVh88LtazBrq4yCqRHZAlJRSofaMU=;
+ b=doreDywVp2Nw+vHiGPQxlFJ8UuNgJsiDUx6WinoIWoqylGsOqGQ8++PlzETrOWRNA4cxzm
+ Oe+X4a5M+f/etNWzNp6fLdqvqAQR37m3P6QwaqBkuOst2/pjPHhme0fw7O6gqbrPaEP/eK
+ 1+L1lvI/gFWoxtugf2IfHxoB3INHHGk=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-rJ53iaQ2O9i7C5zD_FBqIw-1; Tue, 20 Jul 2021 12:48:32 -0400
+X-MC-Unique: rJ53iaQ2O9i7C5zD_FBqIw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t8-20020a05600001c8b029013e2027cf9aso10441349wrx.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 09:48:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=LR6FhGgKZFXI6AbVilsVqj7SIosNkslo1hZegf0cIpE=;
- b=iqxQZjq6RF6txzUURf7PBZgRZCNttZztsjpgrR6BFkFMR0mPVxyzNs9OQcw4NFAQZN
- PQolFCsXepm9KiYdfrnQExg32uyAJMlmL3tCCYtx2RUm24HtNiqEJKkcyUW5L+ZlUdWn
- wUi+qFYak8QiOnqFthfLopWs6x3hmlOe2/S9qJu/Kp7YkoPce0SpxyO7f9ZSZwaYAXpU
- x+p93/zhMh79ykvo56M8qrqJXmV6TpISlmQ3uGORjf43HB/X62fhqR5gR6/H7AzNhyn6
- LK5b7MZnEAyzcF4eLcosYcARIECtq132UTTgpy52839QanaMkyr40SAvHTPAhOriAw+R
- 0/IQ==
-X-Gm-Message-State: AOAM530OmfFymcubQOLgYDIzf4YGxpRn2u1lqimeIiSJr2QRx++ghHfy
- juacEJpYlvwGfMGoVZGY2Mc=
-X-Google-Smtp-Source: ABdhPJzxmSoq/d2QRo+2rDgQuhbHbPJGnXH6X7ZCS3Leds5JDbL61RGPqdlNQNPOS12S1P2z00s52Q==
-X-Received: by 2002:a05:600c:2104:: with SMTP id
- u4mr32732402wml.45.1626795098268; 
- Tue, 20 Jul 2021 08:31:38 -0700 (PDT)
-Received: from [192.168.1.214] (host81-138-1-83.in-addr.btopenworld.com.
- [81.138.1.83])
- by smtp.googlemail.com with ESMTPSA id b15sm11173471wru.97.2021.07.20.08.31.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 20 Jul 2021 08:31:37 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: Disabling TLS address caching to help QEMU on GNU/Linux
-From: Iain Sandoe <idsandoe@googlemail.com>
-In-Reply-To: <87im15qbp3.fsf@oldenburg.str.redhat.com>
-Date: Tue, 20 Jul 2021 16:31:36 +0100
-Cc: gcc@gcc.gnu.org,
- libc-alpha@sourceware.org,
- qemu-devel@nongnu.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <55F007B1-A82C-44CB-8427-750AE5FD963E@googlemail.com>
-References: <87im15qbp3.fsf@oldenburg.str.redhat.com>
-To: Florian Weimer <fweimer@redhat.com>
-X-Mailer: Apple Mail (2.3445.104.21)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=idsandoe@googlemail.com; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ifKFT5mDN0/2fYNVh88LtazBrq4yCqRHZAlJRSofaMU=;
+ b=ju2jDuCRYdLnf2WSysPnHO2CQafs8ejDQcVEKxtgcIFivtCxvQkst7Y+78bx/mxYhi
+ zEJwKlszlHVdHjmsjFldbnWm2UHfHUVGNcsIPkvAp/qxNBr/Rzt1FUa2dsTbm4SERo1M
+ uLzzzv37Sjs1IEY5JTLkkv2Seu51KlrU4hjnMhDLuQz41Oc+baWF8qgcPkpg5gY3RMXJ
+ hZZ9nkOe23X89o0MZTx3K1L/Y6+LdEmXl2/CSqwTD5s7ZGhqIoU2IGyPqBDpeqHfKOxq
+ PRR2pcNno/vPYHW92dkWY8AOBF66nvGRAGXkFSYZH0oeUQTNNw1TbUNpA8HR4XccsadO
+ KEtQ==
+X-Gm-Message-State: AOAM531S8P4P1VmmIZKyI6EPbNVuIyV8ZLOjNq5jaK2jjVvzwEDC1YD8
+ HJQlWG2IRc4oFXskHfrrFBaXJvoznoWmSrUepnqFTLhnwRxXQnYbJL0yCeKfZQnUkEAf4Gsfjy3
+ L217gHBgRjKZLTCdXdZ3gZpVlC02d4nfioToZDv5yYWR+X6OfWszr0ot2hnn11OT7
+X-Received: by 2002:adf:ec86:: with SMTP id z6mr37001204wrn.320.1626799711548; 
+ Tue, 20 Jul 2021 09:48:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz77g+tE7Hm3caqHqgUN1ZHWYpA/WOMHsnGiji1qOHo8YDg4gZgIbYTZ1rOcu5cQFwHaI/oew==
+X-Received: by 2002:adf:ec86:: with SMTP id z6mr37001179wrn.320.1626799711358; 
+ Tue, 20 Jul 2021 09:48:31 -0700 (PDT)
+Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id
+ z4sm10290174wrv.40.2021.07.20.09.48.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 09:48:31 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-6.1] gitlab-ci: Extract OpenSBI job rules to reusable
+ section
+Date: Tue, 20 Jul 2021 18:48:29 +0200
+Message-Id: <20210720164829.3949558-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 20 Jul 2021 12:31:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,98 +92,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Florian,
+All jobs depending on 'docker-opensbi' job must use at most all
+the rules that triggers it. The simplest way to ensure that
+is to always use the same rules. Extract all the rules to a
+reusable section, and include this section (with the 'extends'
+keyword) in both 'docker-opensbi' and 'build-opensbi' jobs.
 
-This also affects fibres implementations (both C++ and D ones at least =
-from
-discussion with both communities).
+The problem was introduced in commit c6fc0fc1a71 ("gitlab-ci.yml:
+Add jobs to build OpenSBI firmware binaries"), but was revealed in
+commit 91e9c47e50a ("docker: OpenSBI build job depends on OpenSBI
+container").
 
-> On 20 Jul 2021, at 15:52, Florian Weimer via Gcc <gcc@gcc.gnu.org> =
-wrote:
->=20
-> Currently, the GNU/Linux ABI does not really specify whether the =
-thread
-> pointer (the address of the TCB) may change at a function boundary.
->=20
-> Traditionally, GCC assumes that the ABI allows caching addresses of
-> thread-local variables across function calls.  Such caching varies in
-> aggressiveness between targets, probably due to differences in the
-> choice of -mtls-dialect=3Dgnu and -mtls-dialect=3Dgnu2 as the default =
-for
-> the targets.  (Caching with -mtls-dialect=3Dgnu2 appears to be more
-> aggressive.)
->=20
-> In addition to that, glibc defines errno as this:
->=20
-> extern int *__errno_location (void) __attribute__ ((__const__));
-> #define errno (*__errno_location ())
->=20
-> And the const attribute has the side effect of caching the address of
-> errno within the same stack frame.
->=20
-> With stackful coroutines, such address caching is only valid if
-> coroutines are only ever resumed on the same thread on which they were
-> suspended.  (The C++ coroutine implementation is not stackful and is =
-not
-> affected by this at the ABI level.)
+This fix is similar to the one used with the EDK2 firmware job in
+commit ac0595cf6b3 ("gitlab-ci: Extract EDK2 job rules to reusable
+section").
 
-There are C++20 coroutine library writers who want to switch threads in
-symmetric transfers [ I am not entirely convinced about this at present =
-and it
-certainly would be suspect with TLS address caching enabled - since a =
-TLS
-pointer could equally be cached in the coroutine frame ].
+Reported-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+Latent bug on CI, safe for 6.1.
+---
+ .gitlab-ci.d/opensbi.yml | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
-The C++20 coroutine ABI is silent on such matters (it only describes the
-visible part of the coroutine frame and the builtins used by the std =
-library).
-
->  Historically, I think we took the
-> position that cross-thread resumption is undefined.  But the ABIs =
-aren't
-> crystal-clear on this matter.
-
-
-> One important piece of software for GNU is QEMU (not just for =
-GNU/Linux,
-> Hurd development also benefits from virtualization).  QEMU uses =
-stackful
-> coroutines extensively.  There are some hard-to-change code areas =
-where
-> resumption happens across threads unfortunately.  These increasingly
-> cause problems with more inlining, inter-procedural analysis, and a
-> general push towards LTO (which is also needed for some security
-> hardening features).
->=20
-> Should the GNU toolchain offer something to help out the QEMU
-> developers?  Maybe GCC could offer an option to disable the caching =
-for
-> all TLS models.  glibc could detect that mode based on a new
-> preprocessor macro and adjust its __errno_location declaration and
-> similar function declarations.  There will be a performance impact of
-> this, of course, but it would make the QEMU usage well-defined (at the
-> lowest levels).
->=20
-> If this is a programming model that should be supported, then =
-restoring
-> some of the optimizations would be possible, by annotating
-> context-switching functions and TLS-address-dependent functions.  But =
-I
-> think QEMU would immediately benefit from just the simple approach =
-that
-> disables address caching of TLS variables.
-
-IMO the general cases you note above are enough reason to want some
-mechanism to control this,
-thanks
-Iain
-
->=20
-> Thanks,
-> Florian
->=20
+diff --git a/.gitlab-ci.d/opensbi.yml b/.gitlab-ci.d/opensbi.yml
+index f66cd1d9089..d8a0456679e 100644
+--- a/.gitlab-ci.d/opensbi.yml
++++ b/.gitlab-ci.d/opensbi.yml
+@@ -1,10 +1,23 @@
+-docker-opensbi:
+- stage: containers
+- rules: # Only run this job when the Dockerfile is modified
++# All jobs needing docker-opensbi must use the same rules it uses.
++.opensbi_job_rules:
++ rules: # Only run this job when ...
+  - changes:
++   # this file is modified
+    - .gitlab-ci.d/opensbi.yml
++   # or the Dockerfile is modified
+    - .gitlab-ci.d/opensbi/Dockerfile
+    when: always
++ - changes: # or roms/opensbi/ is modified (submodule updated)
++   - roms/opensbi/*
++   when: always
++ - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
++   when: always
++ - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
++   when: always
++
++docker-opensbi:
++ extends: .opensbi_job_rules
++ stage: containers
+  image: docker:19.03.1
+  services:
+  - docker:19.03.1-dind
+@@ -24,16 +37,9 @@ docker-opensbi:
+  - docker push $IMAGE_TAG
+ 
+ build-opensbi:
++ extends: .opensbi_job_rules
+  stage: build
+  needs: ['docker-opensbi']
+- rules: # Only run this job when ...
+- - changes: # ... roms/opensbi/ is modified (submodule updated)
+-   - roms/opensbi/*
+-   when: always
+- - if: '$CI_COMMIT_REF_NAME =~ /^opensbi/' # or the branch/tag starts with 'opensbi'
+-   when: always
+- - if: '$CI_COMMIT_MESSAGE =~ /opensbi/i' # or last commit description contains 'OpenSBI'
+-   when: always
+  artifacts:
+    paths: # 'artifacts.zip' will contains the following files:
+    - pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+-- 
+2.31.1
 
 
