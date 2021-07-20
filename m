@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358533D05D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:50:46 +0200 (CEST)
-Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D8F3D05D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 01:49:15 +0200 (CEST)
+Received: from localhost ([::1]:59690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5zVd-0000KQ-74
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:50:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1m5zUA-0004vI-M2
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 19:49:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFu-00043h-6M
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:30 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45869)
+ id 1m5zPV-0004tQ-VM
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:44:26 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1m5zFr-0001fd-Fl
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:34:29 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id t5so155887wrw.12
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:34:27 -0700 (PDT)
+ id 1m5zPT-00087q-Ut
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 19:44:25 -0400
+Received: by mail-wm1-x332.google.com with SMTP id g12so309963wme.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 16:44:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+kMBGMCNJi8vwExvrsxeqq8I2lJQnUdceeasIbv5WjI=;
- b=YlTVyyB+T3S/TTstUbFp4zg0H8cEcjANUAj1YvJyx4EDYjgBdFT3/01V1b1N0EjBFn
- 2Dy6KiLqlwN1kpBX2h2Ned6ILFOSa63z54UzdmOQnddm1U8rBVRazdhrd7lUkszEz13i
- h+39yfI9aTBeRTShy5/eq3e1zDQpkDb7uhtwpACQsJDiqh49/I/easHzMGVmwfkVIhI4
- pwhDuELoUA9uA7l6sx1nDCMKvJp6vfrNQmhRsg9/PsQX/uI3tVPwpr/SvXyK7mhxG6fL
- BAyxP3ppVOx1Ly8uNNrimzwFhVppV6pWiLhbbC44rc1gt9ZhLkfcsp87lddFMgf6MlIP
- p4MA==
+ bh=k2569d8O27zbpUpRofMVpSjervW0zDNJ4dbEmMRTg/0=;
+ b=YEBrYIy4nDuvmPFqmECtHpB908ZD7FVQQFieh87VLYj3oP16ZiBQY3VulrbqbWPgX+
+ LWQLT6d3CY+ECYiYhdPjrH7Ejj7BJlVKP1Z+8M07A3cuSdfijk7XPGoCLzvSZwibLQcu
+ 7ggNsjpnUnakPXemE7qwmxXY/JnrSjAkBO6wEeWZvgl9er64DwEAZt5ZUqRKfcA4uUC2
+ k5w2J58tE0ISUXrZaEaPDOCfvIr21g6rqJoNKFqu16o6Ubso5y+ZHApyBo/qRex89Un5
+ jrIwm9mddSNAjfWvgPx8aDdNq5ZnDz/Xedr9lGbCsrORFu+c6h6rnDh0X90A+3jYGpPJ
+ w7yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+kMBGMCNJi8vwExvrsxeqq8I2lJQnUdceeasIbv5WjI=;
- b=cXtVbDTaVbetBB5DSjPqXuyWaLaao2AwdMgfviR3ICfuX4zfBNMjwuSmH2I1kGoWZ1
- /wEsUaH/Q3f2JYd2/JH5+3HrNH/Y9cYg8cFP0VZ4F8axSkijTGOM9pMtvQzL38dTG97d
- FKtluY4nme0fFvy8ADnedSHTmsCF/8mFIUqXftff/9GRfwVY3QZLpHyS9stbx2PV97FU
- N7nkEnqzkI6oK02e1orD7uBqFT6tLQbfdl8hPx3KisEdQffpm769/SzXMtYYVVix9q3e
- 5RNjakQB7Gh+HuB3p2tsRLK1Vc57z79RC8Zbsde91RuTcuCGOafzGVFuNhpnlZj7A2mj
- ZpmQ==
-X-Gm-Message-State: AOAM531EGmkayjDozt5GcpqyrYp8iPUwDxbmUcCt6MsFSR5OAGUDTT+V
- 0/mST5iHlqx2tO/tPhOuzRTQtw==
-X-Google-Smtp-Source: ABdhPJxVWI8TS4bEfAYqw8HoqxdDapnLBaEXsGmKJ5hkREkbEfSblhBvNhXW6ggiQ4nvFFzRKWrMdQ==
-X-Received: by 2002:adf:fc85:: with SMTP id g5mr39448047wrr.296.1626824065998; 
- Tue, 20 Jul 2021 16:34:25 -0700 (PDT)
+ bh=k2569d8O27zbpUpRofMVpSjervW0zDNJ4dbEmMRTg/0=;
+ b=kdK37HpFe5MHijiDwmqeue/zGhSAX5WuyUM0LtgPvVRr2Yhn36gmRV51z7UXYF3vG4
+ OySy0JKoIBqz91pzVwd6vzSBQJ6ymt7Q5JyCGv2IUXw71a1++1z9ckY2C4hg5i4ySshk
+ f3QMvivOy21OSYJROpahG37y3M/0u0O/VcGnvMRQwLMDz8a1pCvnkuDmcdVJ8cxVx5RO
+ Q+/0IgIavLD8rXdzWwzFZUZpveKdLtEyhLn0fUf6MtfpnPlWBCwhbNAZ7MEbyWSvPaGd
+ Zco4hNJC5KjUgcDeY66a9NjozNCStQJykUVAys76WeXrzhVC2+UCz8dIIacOt9ofLGm0
+ MGVg==
+X-Gm-Message-State: AOAM533r8Gl0vaHjUuXf0ZP+IIip/p+CkjMqmxHwAMrUvrul9EeSCe4j
+ 5XZBh48+AIF0iLU6J/7WAJx0Jg==
+X-Google-Smtp-Source: ABdhPJw11eI3EnC9IVXVTxHBnOETwEb9EBtr9a+3ge+k3051FUMyM9KqDHJ7xz/FDrc/OAd8A2mtjg==
+X-Received: by 2002:a05:600c:198c:: with SMTP id
+ t12mr25691715wmq.106.1626824662602; 
+ Tue, 20 Jul 2021 16:44:22 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s6sm29684144wrt.45.2021.07.20.16.34.19
+ by smtp.gmail.com with ESMTPSA id f2sm25089506wrq.69.2021.07.20.16.44.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 16:34:19 -0700 (PDT)
+ Tue, 20 Jul 2021 16:44:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 606611FFB1;
+ by zen.linaroharston (Postfix) with ESMTP id 778331FFB3;
  Wed, 21 Jul 2021 00:27:06 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 27/29] gitlab: enable a very minimal build with the tricore
- container
-Date: Wed, 21 Jul 2021 00:27:01 +0100
-Message-Id: <20210720232703.10650-28-alex.bennee@linaro.org>
+Subject: [PATCH v1 28/29] gitlab-ci: Remove the second superfluous macos task
+Date: Wed, 21 Jul 2021 00:27:02 +0100
+Message-Id: <20210720232703.10650-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.32.0.264.g75ae10bc75
 In-Reply-To: <20210720232703.10650-1-alex.bennee@linaro.org>
 References: <20210720232703.10650-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,97 +95,72 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than base of the shared Debian 10 container which would require
-us to bring in even more dependencies just bring in what is needed for
-building tricore-softmmu in GitLab. We don't even remove the container
-from the DOCKER_PARTIAL_IMAGES lest we cause more confusion.
+From: Thomas Huth <thuth@redhat.com>
 
+While there might have been bigger differnces between the -base and
+the -xcode images in the beginning, they almost vanished in the
+current builds, e.g. when comparing the output of the "configure"
+step after cleaning up the differences due to temporary path names,
+I only get:
+
+  $ diff -u /tmp/base.txt /tmp/xcode.txt
+  --- /tmp/base.txt	2021-07-16 09:16:24.211427940 +0200
+  +++ /tmp/xcode.txt	2021-07-16 09:16:43.029684274 +0200
+  @@ -19,14 +19,14 @@
+   Build type: native build
+   Project name: qemu
+   Project version: 6.0.50
+  -C compiler for the host machine: cc (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.29)")
+  +C compiler for the host machine: cc (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.28)")
+   C linker for the host machine: cc ld64 609.8
+   Host machine cpu family: x86_64
+   Host machine cpu: x86_64
+   Program sh found: YES (/bin/sh)
+   Program python3 found: YES (/usr/local/opt/python@3.9/bin/python3.9)
+   Program bzip2 found: YES (/usr/bin/bzip2)
+  -C++ compiler for the host machine: c++ (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.29)")
+  +C++ compiler for the host machine: c++ (clang 12.0.0 "Apple clang version 12.0.0 (clang-1200.0.32.28)")
+   C++ linker for the host machine: c++ ld64 609.8
+   Objective-C compiler for the host machine: clang (clang 12.0.0)
+   Objective-C linker for the host machine: clang ld64 609.8
+
+Since we're not using Xcode itself at all, it seems like it does not
+make much sense anymore to waste compute cycles with two images here.
+Thus let's delete the -xcode job now.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20210719073051.1559348-1-thuth@redhat.com>
+[AJB: fix up commit formatting which trips up b4]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210720114057.32053-4-alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/buildtest.yml                    | 11 ++++++
- .../dockerfiles/debian-tricore-cross.docker   | 34 ++++++++++++++++---
- 2 files changed, 40 insertions(+), 5 deletions(-)
+ .gitlab-ci.d/cirrus.yml | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 89df51517c..48cb45a783 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -354,6 +354,17 @@ build-some-softmmu:
-     TARGETS: xtensa-softmmu arm-softmmu aarch64-softmmu alpha-softmmu
-     MAKE_CHECK_ARGS: check-tcg
- 
-+# We build tricore in a very minimal tricore only container
-+build-tricore-softmmu:
-+  extends: .native_build_job_template
-+  needs:
-+    job: tricore-debian-cross-container
-+  variables:
-+    IMAGE: debian-tricore-cross
-+    CONFIGURE_ARGS: --disable-tools --disable-fdt --enable-debug
-+    TARGETS: tricore-softmmu
-+    MAKE_CHECK_ARGS: check-tcg
-+
- clang-system:
-   extends: .native_build_job_template
-   needs:
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 985925134c..d8df2c6117 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -1,23 +1,47 @@
- #
- # Docker TriCore cross-compiler target
- #
--# This docker target builds on the debian Stretch base image.
-+# This docker target builds on the Debian Buster base image but
-+# doesn't inherit from the common one to avoid bringing in unneeded
-+# dependencies.
- #
- # Copyright (c) 2018 Philippe Mathieu-Daudé
- #
- # SPDX-License-Identifier: GPL-2.0-or-later
- #
--FROM qemu/debian10
-+FROM docker.io/library/debian:buster-slim
- 
- MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
-+RUN apt update && \
-+    DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-+    DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-+       bzip2 \
-+       ca-certificates \
-+       ccache \
-+       g++ \
-+       gcc \
-+       git \
-+       libglib2.0-dev \
-+       libpixman-1-dev \
-+       libtest-harness-perl \
-+       locales \
-+       make \
-+       ninja-build \
-+       perl-base \
-+       pkgconf \
-+       python3-pip \
-+       python3-setuptools \
-+       python3-wheel
-+
- RUN git clone --single-branch \
-         https://github.com/bkoppelmann/tricore-binutils.git \
-         /usr/src/binutils && \
-     cd /usr/src/binutils && chmod +x missing && \
--    CFLAGS=-w ./configure --prefix=/usr --disable-nls --target=tricore && \
-+    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
-     make && make install && \
-     rm -rf /usr/src/binutils
- 
--# This image isn't designed for building QEMU but building tests
--ENV QEMU_CONFIGURE_OPTS --disable-system --disable-user
-+# This image can only build a very minimal QEMU as well as the tests
-+ENV DEF_TARGET_LIST tricore-softmmu
-+ENV QEMU_CONFIGURE_OPTS --disable-user --disable-tools --disable-fdt
+diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+index 60b13ed83f..675db69622 100644
+--- a/.gitlab-ci.d/cirrus.yml
++++ b/.gitlab-ci.d/cirrus.yml
+@@ -85,18 +85,3 @@ x64-macos-11-base-build:
+     PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
+     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
+     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
+-
+-x64-macos-11-xcode-build:
+-  extends: .cirrus_build_job
+-  variables:
+-    NAME: macos-11
+-    CIRRUS_VM_INSTANCE_TYPE: osx_instance
+-    CIRRUS_VM_IMAGE_SELECTOR: image
+-    CIRRUS_VM_IMAGE_NAME: big-sur-xcode
+-    CIRRUS_VM_CPUS: 12
+-    CIRRUS_VM_RAM: 24G
+-    UPDATE_COMMAND: brew update
+-    INSTALL_COMMAND: brew install
+-    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
+-    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
+-    TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
 -- 
 2.32.0.264.g75ae10bc75
 
