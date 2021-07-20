@@ -2,127 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839A33CFBF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 16:24:20 +0200 (CEST)
-Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA743CFBFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 16:25:24 +0200 (CEST)
+Received: from localhost ([::1]:34772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5qfT-0005ki-9S
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 10:24:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40038)
+	id 1m5qgV-0006X9-Vr
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 10:25:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m5qe2-0004cn-MZ; Tue, 20 Jul 2021 10:22:50 -0400
-Received: from mail-db8eur05on2113.outbound.protection.outlook.com
- ([40.107.20.113]:25313 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m5qeW-00058e-Kf
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:23:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1m5qdz-0002OM-NW; Tue, 20 Jul 2021 10:22:50 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZT/F8KHdIhuVzMP+YRyjkfeQIfd1dQBYJmXajkH30rWLem4iLTbtEADnv9lq6lhXpWWnP3gkdp382/jmBvm9x5zqlUAOpAC+ELqWQ5ijsI17e0fol89aH9fNb8J8j2n4M9xjW1Dwa/eGABS5K2fL+3tLgIC7BbVkVn7ja/X7DxfHiMmHRCuuuvPWI6P4fW3eRJ1Iy5t6X+ib3D5A3vdRS+wD+Q2F0EGnqmN2NNLDhSpwV2cZrsentQvyXEKexuLgvjPZxTfpeDFGykTTLDKQ1Vjrmrl04wC3tFU6R5Zpf7bX6ituGY3gJTwqM1WonP1EylUasX5mBM9EWQ/cy8lZxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4IB9pE9qqKeO5wKKZ7eQvPB+LpGjJGyv0fMZIoaDEBg=;
- b=gMrsW8FCS9F08XCIDjqHOQYsSWJaeUFDs3PpOH/fPdpd85ldzJDO7Xma/NUhXwwp5yfnkiaz5XtsS2YgiKg/b0cvxZq/KgyFvqb6tZoi2qCtMvTaLhfDuF1Bu7/lbf9gddE73uY+bSyyff1cG6mCzjlGCRhVAzEWCpHmSUTMIda0qnJJCDlhiG1eW7icQKdDcuomNqNBUXY8kwoCdI14EuioPZdeEXyvUiddRRDDti9XHHXPo+Nwrf8fH42MJ967Pb6iGbBMzcXe9GWIArYJYHwvM3px9f+KxBM/L68jbW8hQSyd5dpoBFRgU5SpN43nWNSvMbYHvaWIU8sF+uItew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4IB9pE9qqKeO5wKKZ7eQvPB+LpGjJGyv0fMZIoaDEBg=;
- b=VcXJwtS7CVKoW4LujgSv/QW+vvwp/N5Rl23Yb50wYzfeFDF0XETDmVhiggdgnbmtfXq5JQ2boFQS4QQh45j3x5bb19CQ9eQrUUeD0eamMwRG9785Yl84UGHPCJNx9gy+fvWS1Az3T5B+Zy7SLyYOGLXXEIPASqGnenpf6NYKqnE=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4072.eurprd08.prod.outlook.com (2603:10a6:20b:a8::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.28; Tue, 20 Jul
- 2021 14:22:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::44b9:68ac:bdc7:e23c%6]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
- 14:22:44 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, crosa@redhat.com, ehabkost@redhat.com,
- eblake@redhat.com, armbru@redhat.com, vsementsov@virtuozzo.com,
- jsnow@redhat.com, mreitz@redhat.com, kwolf@redhat.com
-Subject: [PATCH] block: drop BLK_PERM_GRAPH_MOD
-Date: Tue, 20 Jul 2021 17:22:29 +0300
-Message-Id: <20210720142229.763742-1-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HE1PR0901CA0046.eurprd09.prod.outlook.com
- (2603:10a6:3:45::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1m5qeT-0002cG-8F
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:23:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626790995;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=SFSIUMMw2WLblhUMezLwJHivM7tgn9JZppM04w6PxTM=;
+ b=YcZtRKoA9maW3q5uLUSFE4ti02sz4MVl1QWlVslHEuy96s1g8sFSbqdHg9GHmqcj991qXQ
+ 9wQypj/rsDvyOk9/7OkJbi0v76wFxqHAC9eXD1UZulsqRSi4/LtcnsfJ2JLa2pcxBNJQG+
+ rufASU/wGYmIB7qy5EZcpTRD2TUdWDE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-YATznu3xOO2NL_r45w6bUA-1; Tue, 20 Jul 2021 10:23:11 -0400
+X-MC-Unique: YATznu3xOO2NL_r45w6bUA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A3101084F4B;
+ Tue, 20 Jul 2021 14:23:10 +0000 (UTC)
+Received: from redhat.com (ovpn-113-31.ams2.redhat.com [10.36.113.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A20415C1D1;
+ Tue, 20 Jul 2021 14:23:00 +0000 (UTC)
+Date: Tue, 20 Jul 2021 15:22:58 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v1 3/3] util/oslib-posix: Support concurrent
+ os_mem_prealloc() invocation
+Message-ID: <YPbcQmgAY+GdsIfb@redhat.com>
+References: <20210714112306.67793-1-david@redhat.com>
+ <20210714112306.67793-4-david@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (31.173.85.199) by
- HE1PR0901CA0046.eurprd09.prod.outlook.com (2603:10a6:3:45::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4331.21 via Frontend Transport; Tue, 20 Jul 2021 14:22:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3067dc65-c276-4a4c-9e80-08d94b89d73e
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4072:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4072EF3D47FE120A906258A4C1E29@AM6PR08MB4072.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: J66KjzMvGkAPMwRFPHWiZi5pb4VeWZ9hRqnUhrF3SGKd3XfrgD+Z33J1ZCoYzNdQFl9RuslXOBV0JbJ6XYxN0HJ9qEip7nGSc5GIZbbHaMJ96jx53loUQFDNLKUjOUDDCtSNyPTH0RZjVwRBILgyNtRBxrD3396S0Ei5yl4BFkF5HoBWZW+ZBoFKnQ1jLnRYN1xiRH3EFtzoSsbZN0O2M+2K+bljdAmhoO0PKp9C3axreT/Zf0DApfH8wC6XtELgomLnCPW1v7iPgjvpqTG5/gpd/LqRaiEqRGPFOyewvj06aPxe1uRAPQfpC+gcMmpSsGthA44BoQL9GpxvnMwzZeXpWEUNTMpmjRI2//1qowWYeBzfwKu8TMCBtQvf2KicQMv+GHHek3xcHO5GBYqimQQeG4qE/g22FyQXDXhtJOEQocWviTKUmCR1jlsvsm2pwRuhbDcaLd3rnrJAj0rmvvN+NnHhX7YxXPBePFS5QllMG+4/Aj+oWAQb5fgukDkaGXIGkPTsRRtGIYGQyjFVzhKIVKuLJCnvSPIr2eEWHJaUQbkfG9V7O8SiJuIWb9gdZAHk6QFPS4Vf48LzO8YZGjoWjK3u7yT6cIhgYL8SBxTXTO60B7Z3HssNHrb6RKooipJSI6vBg0zUS3xeOLTpoH3GgykfkdMOkR/hdumFomMEeYYB9x/0pHJGYT1Q3h73jFuPkkfK1EG7bGZydm8X6A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(366004)(39830400003)(376002)(346002)(8936002)(8676002)(316002)(5660300002)(52116002)(6506007)(6666004)(26005)(86362001)(186003)(38350700002)(66476007)(2906002)(6486002)(83380400001)(36756003)(6916009)(66556008)(956004)(478600001)(2616005)(38100700002)(4326008)(66946007)(1076003)(6512007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?v0ITALIFdxJf9tctvYwfIYxT4UnvyWXzLK8Y23HdDg40S7T1sVEyzukLDJg3?=
- =?us-ascii?Q?6Ck6XbD7GS2HBl3cbshgl4mZUuyf+J7o+HMiN5KE2CfC4VCJV3X2NnAtzeF5?=
- =?us-ascii?Q?98CJSGSKobrqw+WUSnyl3bSu/qlSbS08TyakjEZ5PImU8FsgjnB0dxA3bbX1?=
- =?us-ascii?Q?30HHWMV/cH5RGjtIxHes0i/tFFngmZQfboWDsYpAUXhSr6OBtNH+L4YVqeNU?=
- =?us-ascii?Q?HbG+A1FJOU+xnCxg8kWy0gStudctu0MM+oJeSmSa7KWThKsxyq/KjchyI6X8?=
- =?us-ascii?Q?GPAH3t2818C+EBQ47gi7RAdDggDGEYaU3u0hXW0JhqJFRsIMWI2xI7KTLpeU?=
- =?us-ascii?Q?+yYHZZiMqL15pxuxiVrjRGVzrzN7MNLrTcpR/f8cHMDH2hPCph6AmKbXar93?=
- =?us-ascii?Q?O2i0MEak8UzJdIaBv5gmHTblQamSyW+8agvFHVvM8bAUaPd3Le5Y5CyjDqJ8?=
- =?us-ascii?Q?LCnzBtcTuteMAFn2NjwaPppW8z64rRQ88tcaNQxegH97Vmno2a6dAAxbhJqS?=
- =?us-ascii?Q?7I5gQTzLVKas0D0pjIyFNUeie/zKrftgOwwbm1lfOZlx9Cim9cXGCtZG319R?=
- =?us-ascii?Q?20zHsyMX6TpM+1SLmlSYwbU3+39TrDYEBn5ujizeKdBafnEI0JiFeCZt/8KE?=
- =?us-ascii?Q?EbnuOoDeYNDrhMgXbiBG6UiLesoMwWLxQ6du7eLbh5OBswkEOP1gUu3YOg/e?=
- =?us-ascii?Q?Y8EXYy7/Ey3lAzVwutqbfhJA+0wWuQDBYlsR7FGTZMq1z44ewY3F1Bos9Puj?=
- =?us-ascii?Q?bW0jz4ldOcjg9lfldDnOdT4pHkozMQ3idfVGyhAmThzpLE7ci0rUyyks0T0D?=
- =?us-ascii?Q?VBkJlzMrxcGjChZ+2J34kYQVV6yHHMoH8padFaoZanl1mf1sNF0/uISj0ITk?=
- =?us-ascii?Q?VSuIKRDpN+slD+lxuzdw3iOs9Y06opowLAHEDJ37tH9ajsp2lpyfbjzlrx75?=
- =?us-ascii?Q?UG3/6NGWrZgJwDkwsa6Ir4CikWYJnqI6Y79ATcWDmiA0ijW7xg8puMVPwXfp?=
- =?us-ascii?Q?6TaDX0WPI8BWOQJECzOwl37BfjH2nx5FXZKQB4ZkuLgGRCL7SAYBwbaqxL/n?=
- =?us-ascii?Q?jt4tml8pZWLKNL+9qf2iV2IfPRJzfoNAn1a1OvsTOlc7eV/HHNMcnLGMQdTZ?=
- =?us-ascii?Q?FyfWQVywUxP5nCY9oi1ZUt9iPjLa29/YXjYM2GD5dlqvgomgIdZh2J0DjVKo?=
- =?us-ascii?Q?KJ31hwtXGC4D0G15Q6A1xijUUWVs4uFYjRo7s4n9PThuRazThPbsQ/dnu6hZ?=
- =?us-ascii?Q?SkbSo/uteMldA7K/33fxCBh9auCBC2s4gys9bSZVNzfw953bTbhDcTPbY5ag?=
- =?us-ascii?Q?XdTU0eBSlVIP8T9ZbdA8AK91?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3067dc65-c276-4a4c-9e80-08d94b89d73e
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2021 14:22:44.5793 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9BRh+xfvXwLsnhc1zMuhVIDzuOuUsfNm8fZo+sKOTqcaYvLafJ6rRl3yprdPEbNmkivy0iGHwmVonaxX9nXfxLi//JOJ8S9eGklE202NPtU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4072
-Received-SPF: pass client-ip=40.107.20.113;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210714112306.67793-4-david@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -135,247 +80,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First, this permission never protected node from being changed, as
-generic child-replacing functions don't check it.
+On Wed, Jul 14, 2021 at 01:23:06PM +0200, David Hildenbrand wrote:
+> Add a mutext to protect the SIGBUS case, as we cannot mess concurrently
 
-Second, it's a strange thing: it presents a permission of parent node
-to change its child. But generally, children are replaced by different
-mechanisms, like jobs or qmp commands, not by nodes.
+typo  s/mutext/mutex/
 
-Graph-mod permission is hard to understand. All other permissions
-describe operations which done by parent node on it child: read, write,
-resize. Graph modification operations are something completely
-different.
+> with the sigbus handler and we have to manage the global variable
+> sigbus_memset_context. The MADV_POPULATE_WRITE path can run
+> concurrently.
+> 
+> Note that page_mutex and page_cond are shared between concurrent
+> invocations, which shouldn't be a problem.
+> 
+> This is a preparation for future virtio-mem prealloc code, which will call
+> os_mem_prealloc() asynchronously from an iothread when handling guest
+> requests.
 
-The only place, where BLK_PERM_GRAPH_MOD is used as "perm" (not shared
-perm) is mirror_start_job, for s->target. Still modern code should use
-bdrv_freeze_backing_chain() to protect from graph modification, if we
-don't do it somewhere it may be considered as a bug. So, it's a bit
-risky to drop GRAPH_MOD, and analyzing of possible loss of protection
-is hard. But one day we should do it, let's do it now.
+Hmm, I'm wondering how the need to temporarily play with SIGBUS
+at runtime for mem preallocation will interact with the SIGBUS
+handler installed by softmmu/cpus.c.
 
-One more bit of information is that locking corresponding byte in
-file-posix doesn't make sense at all.
+The SIGBUS handler the preallocation code is installed just
+blindly assumes the SIGBUS is related to the preallocation
+work being done. This is a fine assumption during initially
+startup where we're single threaded and not running guest
+CPUs. I'm less clear on whether that's a valid assumption
+at runtime once guest CPUs are running.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- qapi/block-core.json          |  7 ++-----
- include/block/block.h         |  9 +++++----
- block.c                       |  7 +------
- block/commit.c                |  1 -
- block/mirror.c                | 15 +++------------
- hw/block/block.c              |  3 +--
- scripts/render_block_graph.py |  1 -
- tests/qemu-iotests/273.out    |  4 ----
- 8 files changed, 12 insertions(+), 35 deletions(-)
+If the sigbus_handler method in softmmu/cpus.c is doing
+something important for QEMU, then why is it ok for us to
+periodically disable that handler and replace it with
+something else that takes a completely different action ?
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 675d8265eb..f9d0e4f348 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -1825,14 +1825,11 @@
- #
- # @resize: This permission is required to change the size of a block node.
- #
--# @graph-mod: This permission is required to change the node that this
--#             BdrvChild points to.
--#
- # Since: 4.0
- ##
- { 'enum': 'BlockPermission',
--  'data': [ 'consistent-read', 'write', 'write-unchanged', 'resize',
--            'graph-mod' ] }
-+  'data': [ 'consistent-read', 'write', 'write-unchanged', 'resize' ] }
-+
- ##
- # @XDbgBlockGraphEdge:
- #
-diff --git a/include/block/block.h b/include/block/block.h
-index 3477290f9a..b52ba758c7 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -269,12 +269,13 @@ enum {
-     BLK_PERM_RESIZE             = 0x08,
- 
-     /**
--     * This permission is required to change the node that this BdrvChild
--     * points to.
-+     * There was a removed now BLK_PERM_GRAPH_MOD, with value of 0x10. QEMU 6.1
-+     * and earlier still my lock corresponding byte in block/file-posix locking.
-+     * So, implementing some new permission should be very careful to not
-+     * interfere with this old unused thing.
-      */
--    BLK_PERM_GRAPH_MOD          = 0x10,
- 
--    BLK_PERM_ALL                = 0x1f,
-+    BLK_PERM_ALL                = 0x0f,
- 
-     DEFAULT_PERM_PASSTHROUGH    = BLK_PERM_CONSISTENT_READ
-                                  | BLK_PERM_WRITE
-diff --git a/block.c b/block.c
-index be083f389e..465c69ac26 100644
---- a/block.c
-+++ b/block.c
-@@ -2397,7 +2397,6 @@ char *bdrv_perm_names(uint64_t perm)
-         { BLK_PERM_WRITE,           "write" },
-         { BLK_PERM_WRITE_UNCHANGED, "write unchanged" },
-         { BLK_PERM_RESIZE,          "resize" },
--        { BLK_PERM_GRAPH_MOD,       "change children" },
-         { 0, NULL }
-     };
- 
-@@ -2513,8 +2512,7 @@ static void bdrv_default_perms_for_cow(BlockDriverState *bs, BdrvChild *c,
-         shared = 0;
-     }
- 
--    shared |= BLK_PERM_CONSISTENT_READ | BLK_PERM_GRAPH_MOD |
--              BLK_PERM_WRITE_UNCHANGED;
-+    shared |= BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
- 
-     if (bs->open_flags & BDRV_O_INACTIVE) {
-         shared |= BLK_PERM_WRITE | BLK_PERM_RESIZE;
-@@ -2632,7 +2630,6 @@ uint64_t bdrv_qapi_perm_to_blk_perm(BlockPermission qapi_perm)
-         [BLOCK_PERMISSION_WRITE]            = BLK_PERM_WRITE,
-         [BLOCK_PERMISSION_WRITE_UNCHANGED]  = BLK_PERM_WRITE_UNCHANGED,
-         [BLOCK_PERMISSION_RESIZE]           = BLK_PERM_RESIZE,
--        [BLOCK_PERMISSION_GRAPH_MOD]        = BLK_PERM_GRAPH_MOD,
-     };
- 
-     QEMU_BUILD_BUG_ON(ARRAY_SIZE(permissions) != BLOCK_PERMISSION__MAX);
-@@ -5326,8 +5323,6 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
-     update_inherits_from = bdrv_inherits_from_recursive(base, explicit_top);
- 
-     /* success - we can delete the intermediate states, and link top->base */
--    /* TODO Check graph modification op blockers (BLK_PERM_GRAPH_MOD) once
--     * we've figured out how they should work. */
-     if (!backing_file_str) {
-         bdrv_refresh_filename(base);
-         backing_file_str = base->filename;
-diff --git a/block/commit.c b/block/commit.c
-index 42792b4556..837b07e314 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -370,7 +370,6 @@ void commit_start(const char *job_id, BlockDriverState *bs,
-     s->base = blk_new(s->common.job.aio_context,
-                       base_perms,
-                       BLK_PERM_CONSISTENT_READ
--                      | BLK_PERM_GRAPH_MOD
-                       | BLK_PERM_WRITE_UNCHANGED);
-     ret = blk_insert_bs(s->base, base, errp);
-     if (ret < 0) {
-diff --git a/block/mirror.c b/block/mirror.c
-index 019f6deaa5..fca219a737 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -1135,10 +1135,7 @@ static void mirror_complete(Job *job, Error **errp)
-         replace_aio_context = bdrv_get_aio_context(s->to_replace);
-         aio_context_acquire(replace_aio_context);
- 
--        /* TODO Translate this into permission system. Current definition of
--         * GRAPH_MOD would require to request it for the parents; they might
--         * not even be BlockDriverStates, however, so a BdrvChild can't address
--         * them. May need redefinition of GRAPH_MOD. */
-+        /* TODO Translate this into child freeze system. */
-         error_setg(&s->replace_blocker,
-                    "block device is in use by block-job-complete");
-         bdrv_op_block_all(s->to_replace, s->replace_blocker);
-@@ -1645,7 +1642,7 @@ static BlockJob *mirror_start_job(
-     s = block_job_create(job_id, driver, NULL, mirror_top_bs,
-                          BLK_PERM_CONSISTENT_READ,
-                          BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
--                         BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD, speed,
-+                         BLK_PERM_WRITE, speed,
-                          creation_flags, cb, opaque, errp);
-     if (!s) {
-         goto fail;
-@@ -1689,9 +1686,7 @@ static BlockJob *mirror_start_job(
-             target_perms |= BLK_PERM_RESIZE;
-         }
- 
--        target_shared_perms |= BLK_PERM_CONSISTENT_READ
--                            |  BLK_PERM_WRITE
--                            |  BLK_PERM_GRAPH_MOD;
-+        target_shared_perms |= BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE;
-     } else if (bdrv_chain_contains(bs, bdrv_skip_filters(target))) {
-         /*
-          * We may want to allow this in the future, but it would
-@@ -1702,10 +1697,6 @@ static BlockJob *mirror_start_job(
-         goto fail;
-     }
- 
--    if (backing_mode != MIRROR_LEAVE_BACKING_CHAIN) {
--        target_perms |= BLK_PERM_GRAPH_MOD;
--    }
--
-     s->target = blk_new(s->common.job.aio_context,
-                         target_perms, target_shared_perms);
-     ret = blk_insert_bs(s->target, target, errp);
-diff --git a/hw/block/block.c b/hw/block/block.c
-index d47ebf005a..25f45df723 100644
---- a/hw/block/block.c
-+++ b/hw/block/block.c
-@@ -171,8 +171,7 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
-         perm |= BLK_PERM_WRITE;
-     }
- 
--    shared_perm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
--                  BLK_PERM_GRAPH_MOD;
-+    shared_perm = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
-     if (resizable) {
-         shared_perm |= BLK_PERM_RESIZE;
-     }
-diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
-index da6acf050d..42288a3cfb 100755
---- a/scripts/render_block_graph.py
-+++ b/scripts/render_block_graph.py
-@@ -35,7 +35,6 @@ def perm(arr):
-     s = 'w' if 'write' in arr else '_'
-     s += 'r' if 'consistent-read' in arr else '_'
-     s += 'u' if 'write-unchanged' in arr else '_'
--    s += 'g' if 'graph-mod' in arr else '_'
-     s += 's' if 'resize' in arr else '_'
-     return s
- 
-diff --git a/tests/qemu-iotests/273.out b/tests/qemu-iotests/273.out
-index 4e840b6730..6a74a8138b 100644
---- a/tests/qemu-iotests/273.out
-+++ b/tests/qemu-iotests/273.out
-@@ -204,7 +204,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "name": "file",
-                 "parent": 5,
-                 "shared-perm": [
--                    "graph-mod",
-                     "write-unchanged",
-                     "consistent-read"
-                 ],
-@@ -219,7 +218,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "name": "backing",
-                 "parent": 5,
-                 "shared-perm": [
--                    "graph-mod",
-                     "resize",
-                     "write-unchanged",
-                     "write",
-@@ -233,7 +231,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "name": "file",
-                 "parent": 3,
-                 "shared-perm": [
--                    "graph-mod",
-                     "write-unchanged",
-                     "consistent-read"
-                 ],
-@@ -246,7 +243,6 @@ Testing: -blockdev file,node-name=base,filename=TEST_DIR/t.IMGFMT.base -blockdev
-                 "name": "backing",
-                 "parent": 3,
-                 "shared-perm": [
--                    "graph-mod",
-                     "resize",
-                     "write-unchanged",
-                     "write",
+Of course with the madvise impl we're bypassing the SIGBUS
+dance entirely. This is good for people with new kernels,
+but is this SIGBUS stuff safe for older kernels ?
+
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  util/oslib-posix.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index 60d1da2d6c..181f6bbf1a 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -94,6 +94,7 @@ typedef struct MemsetThread MemsetThread;
+>  
+>  /* used by sigbus_handler() */
+>  static MemsetContext *sigbus_memset_context;
+> +static QemuMutex sigbus_mutex;
+>  
+>  static QemuMutex page_mutex;
+>  static QemuCond page_cond;
+> @@ -605,12 +606,17 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
+>  void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+>                       Error **errp)
+>  {
+> +    static gsize initialized;
+>      int ret;
+>      struct sigaction act, oldact;
+>      size_t hpagesize = qemu_fd_getpagesize(fd);
+>      size_t numpages = DIV_ROUND_UP(memory, hpagesize);
+>      bool use_madv_populate_write;
+>  
+> +    if (g_once_init_enter(&initialized)) {
+> +        qemu_mutex_init(&sigbus_mutex);
+> +    }
+> +
+>      /*
+>       * Sense on every invocation, as MADV_POPULATE_WRITE cannot be used for
+>       * some special mappings, such as mapping /dev/mem.
+> @@ -620,6 +626,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+>      }
+>  
+>      if (!use_madv_populate_write) {
+> +        qemu_mutex_lock(&sigbus_mutex);
+>          memset(&act, 0, sizeof(act));
+>          act.sa_handler = &sigbus_handler;
+>          act.sa_flags = 0;
+> @@ -646,6 +653,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+>              perror("os_mem_prealloc: failed to reinstall signal handler");
+>              exit(1);
+>          }
+> +        qemu_mutex_unlock(&sigbus_mutex);
+>      }
+>  }
+
+
+
+>  
+> -- 
+> 2.31.1
+> 
+> 
+
+Regards,
+Daniel
 -- 
-2.29.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
