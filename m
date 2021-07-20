@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85E623CFA63
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:16:42 +0200 (CEST)
-Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8979C3CFA27
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:10:10 +0200 (CEST)
+Received: from localhost ([::1]:56912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pc0-00038D-5D
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52654)
+	id 1m5pVh-0007XA-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:10:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPS-0005c3-0D
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36485)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPf-0005sC-RI
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPQ-0001Gr-9H
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:41 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPe-0001JZ-54
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626786219;
+ s=mimecast20190719; t=1626786233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t0aTiRSVSNPIhihgMceYa2bebLkk5m+Lhw9P1mIHD50=;
- b=WUjN6nwWjosWCA1c0SYf7uWLE0mzSqWzkqXVogluD1fVYnEGxnTD6Q8JBYPneg9u3smTFz
- lyY5O188urlHnhP1TTwJTFbDgcYWd3xEARPJKR5j3g2CtvVLnAEL0cOTfK+hXutRpZnAOw
- W/X5RxGgwsm3pCRoC6PGIcnZy1qPvnc=
+ bh=JdQD+N4Y9uU7e/4s21vkkY2fZYuVqYGiTZftNf9f1hA=;
+ b=RwLNaQxy/R8Tcd8VwmVTVPtWhjsmdzeyOegTO4AH1nDR+ZuBUmg06EhvYZ96/ajCzCGDbE
+ PtHzNVN1Y0L8kjuZJw8UTmq4rrY6ksUVKEuWhAB7h2oJW5EV6Slzmd/fMecxO3KojrTglk
+ 1LkCQ8XZfjszSnsMM8KLKkhkdZsEw0E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-TbIMygRcN92fF2IIdw2Acg-1; Tue, 20 Jul 2021 09:03:38 -0400
-X-MC-Unique: TbIMygRcN92fF2IIdw2Acg-1
+ us-mta-431-GcnuzYpgNjCK-JyLkByCjw-1; Tue, 20 Jul 2021 09:03:52 -0400
+X-MC-Unique: GcnuzYpgNjCK-JyLkByCjw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 546D9195D561;
- Tue, 20 Jul 2021 13:03:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EF08CC621;
+ Tue, 20 Jul 2021 13:03:51 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 34EB869CB4;
- Tue, 20 Jul 2021 13:03:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A8B4218AAB;
+ Tue, 20 Jul 2021 13:03:37 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH resend v2 1/5] tpm: mark correct memory region range dirty
- when clearing RAM
-Date: Tue, 20 Jul 2021 15:03:00 +0200
-Message-Id: <20210720130304.26323-2-david@redhat.com>
+Subject: [PATCH resend v2 2/5] softmmu/memory_mapping: reuse
+ qemu_get_guest_simple_memory_mapping()
+Date: Tue, 20 Jul 2021 15:03:01 +0200
+Message-Id: <20210720130304.26323-3-david@redhat.com>
 In-Reply-To: <20210720130304.26323-1-david@redhat.com>
 References: <20210720130304.26323-1-david@redhat.com>
 MIME-Version: 1.0
@@ -78,7 +78,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
  Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
@@ -90,13 +89,9 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We might not start at the beginning of the memory region. We could also
-calculate via the difference in the host address; however,
-memory_region_set_dirty() also relies on memory_region_get_ram_addr()
-internally, so let's just use that.
+Let's reuse qemu_get_guest_simple_memory_mapping(), which does exactly
+what we want.
 
-Acked-by: Stefan Berger <stefanb@linux.ibm.com>
-Fixes: ffab1be70692 ("tpm: clear RAM when "memory overwrite" requested")
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -109,31 +104,38 @@ Cc: Thomas Huth <thuth@redhat.com>
 Cc: "Alex Bennée" <alex.bennee@linaro.org>
 Cc: Peter Xu <peterx@redhat.com>
 Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/tpm/tpm_ppi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ softmmu/memory_mapping.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
-index 362edcc5c9..261f33431c 100644
---- a/hw/tpm/tpm_ppi.c
-+++ b/hw/tpm/tpm_ppi.c
-@@ -30,11 +30,13 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
-         guest_phys_blocks_init(&guest_phys_blocks);
-         guest_phys_blocks_append(&guest_phys_blocks);
-         QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
-+            ram_addr_t mr_start = memory_region_get_ram_addr(block->mr);
-+
-             trace_tpm_ppi_memset(block->host_addr,
-                                  block->target_end - block->target_start);
-             memset(block->host_addr, 0,
-                    block->target_end - block->target_start);
--            memory_region_set_dirty(block->mr, 0,
-+            memory_region_set_dirty(block->mr, block->target_start - mr_start,
-                                     block->target_end - block->target_start);
-         }
-         guest_phys_blocks_free(&guest_phys_blocks);
+diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
+index e7af276546..d63f896b30 100644
+--- a/softmmu/memory_mapping.c
++++ b/softmmu/memory_mapping.c
+@@ -288,8 +288,6 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
+                                    Error **errp)
+ {
+     CPUState *cpu, *first_paging_enabled_cpu;
+-    GuestPhysBlock *block;
+-    ram_addr_t offset, length;
+ 
+     first_paging_enabled_cpu = find_paging_enabled_cpu(first_cpu);
+     if (first_paging_enabled_cpu) {
+@@ -309,11 +307,7 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
+      * If the guest doesn't use paging, the virtual address is equal to physical
+      * address.
+      */
+-    QTAILQ_FOREACH(block, &guest_phys_blocks->head, next) {
+-        offset = block->target_start;
+-        length = block->target_end - block->target_start;
+-        create_new_memory_mapping(list, offset, offset, length);
+-    }
++    qemu_get_guest_simple_memory_mapping(list, guest_phys_blocks);
+ }
+ 
+ void qemu_get_guest_simple_memory_mapping(MemoryMappingList *list,
 -- 
 2.31.1
 
