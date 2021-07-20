@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E953CF691
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 11:08:34 +0200 (CEST)
-Received: from localhost ([::1]:48728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A6B3CF6A1
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 11:10:42 +0200 (CEST)
+Received: from localhost ([::1]:51144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5ljt-0001Hq-QL
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 05:08:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36624)
+	id 1m5llx-0002xZ-Jx
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 05:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5liz-0000Xl-EQ
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:07:37 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37740)
+ id 1m5lkk-0002I2-4t
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:09:26 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1m5lix-0000Vq-PT
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:07:37 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id hc15so33290788ejc.4
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 02:07:35 -0700 (PDT)
+ id 1m5lki-0001ft-Kc
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:09:25 -0400
+Received: by mail-ej1-x634.google.com with SMTP id hd33so33238109ejc.9
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 02:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NpuidRu5s0S1MybLgnyhLQn2C8rFc/TWE1SGPCbIDOI=;
- b=H+jII8kYyzKORNlKZnWbBD0w3qlVBo+vWBGG8P3Ho82docMriE+j0kWfKXbRDP892k
- BdMNEp4u8RT8QnGhrPyR6jKQfrbQZdyTZgIb/jG8W7igUddoSZTKXffziHrQhwbL9uKP
- 3NQVhKk0dJXvmnH0WgVGmuJDV5rI7AJSrx4zGPWuNFqzhQY8MYAqYsdo7AzgYIqQFgEI
- s1VhrGhUnaFLd72rH+yGrKPdIDlAFdCTESIDcNRFaPwJPj6W9ESe77x1YjlNN4zVKxLr
- JRCsEYUAC5aJ5qTbZOb5KbFOHcIgP9ffwA2n4amFf4JPgisFA/ovw7gk+L+z8UgLfW/1
- 4nmQ==
+ :cc; bh=/9R/R7Hg+FM4d9nvIcDL64gSDX1bAi7JR98EWF3lkpo=;
+ b=JPe2Yah6p+cudbIs5qhi8LAUYNeu4bDOjBi4Nacei0P+5vYlueWzVKNkP8LAGAM6lb
+ a9xx+J//qHwFX2/Tuuiiq9XdFOsYOT6YZXsbtwApQ2l7wvcIzWNHxiYMmoS8HNUCwSRF
+ VRnVIkqmCOPXw97BEJILiO6yIygmy3t22JV/epUke+RNuvN0R91MWmVAmtcBXjI01a9A
+ zyjJvTX4CB1rvAkEwqW56+hCv9TK5Om83lmW824AQH7nx6tadUYJL7+Y7fg5xNh1nSq/
+ hBxISrwyX6NBeQi5bex1p6u4qQAIP7DMDaApDZZHfdu2fcITJ2yDwb10zj+ri+o9a5LX
+ dWng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=NpuidRu5s0S1MybLgnyhLQn2C8rFc/TWE1SGPCbIDOI=;
- b=BMr+zktu+OBXo8JeJN9yTTx1/PcPAcp+gk0077WLSRdLo7caNXg/gha+Ymy3zA6kDq
- HlecX+4mKmLiLsBAkudCKLcMILA9SbvuNEV9b/ixrzlqDCACSJnC1kzZljLUAfcUUhjM
- zY2fOT/7j8NvWiiqhqPAe75qJQVXWSElo0XfwfR4IZ4+f8DnQwkMA7LHRLgV7plWRq8p
- MASbd1l1RAdReogeG6dr6RqWLrwDGd0Nm4AUaqTh4ab/ITltPhxl6EldW9CAvzu8UlGC
- 3+FbX9VUSo58LN7nwu/6HXe47qabp+VSAh5t+ZiZzSeIDakYXQH0gZgamYR1jQYdg+4e
- 5Z5A==
-X-Gm-Message-State: AOAM530EJZSTutLlnEQ3FuQbw84vGs61ZKj2mCdjuNtw58OCSIXy87H0
- gmiKlZPkyED/zG4AQzblkeOFOaCIIQs7cBVNbO7w0A==
-X-Google-Smtp-Source: ABdhPJytb0mlRutzM5xA3epqh2KWPX2q5JXXWgHDMe7SsjpyqaVEC/D599lpg4Bd8NgcZYmUGC+0QDdjcylrhtu7E9Y=
-X-Received: by 2002:a17:907:3e02:: with SMTP id
- hp2mr31312947ejc.4.1626772053408; 
- Tue, 20 Jul 2021 02:07:33 -0700 (PDT)
+ bh=/9R/R7Hg+FM4d9nvIcDL64gSDX1bAi7JR98EWF3lkpo=;
+ b=QR3AON/1pAtIMDn3EOA19xTcBygQ2meframj25kKxqGtlebr0GXu35eWJHh/Dwp8QG
+ oC0k5YycEnOJqsWvvnIXFKn0Z3PcFHnZGtA79AngP24GMosEn+mVzLrZ8mfVltBbUGf3
+ QV4Bfcpy5dn/jjktXC4eSlMGuHFva1v7YHPfAZYJp98X3c+bBreo4BLJ0suxF8jRQBfm
+ jyDz2T64+RJ6VvTnvh9+B3u0S9CJKcLeqOZtDKYKwdNbcvmLbbwDJu5Gdp6Is+o+2ALr
+ u+ozJJfGyH/vozzBL4bZFkH+Qdp2Ln5FWwtpLqYDfP73XkQIZMIy6IU15R9ZaeYDnyBr
+ oYMg==
+X-Gm-Message-State: AOAM532KTartEg/PBM/8XQzWro2esTxTZogmEm9sa5tew4pmaGiLao9O
+ 7XtTjlmcm0DcTHt88pO8tGtC5Aj5Irf6hGtwYncwlg==
+X-Google-Smtp-Source: ABdhPJw+kfLN0pm8KUaPrQciQA8+v52KjxkY3q9FGfSKvDtMoBv1q49nQtbss6iWcFNDpco82S8I+5Wxj4llFaBaeFA=
+X-Received: by 2002:a17:906:a2d7:: with SMTP id
+ by23mr31090662ejb.382.1626772162954; 
+ Tue, 20 Jul 2021 02:09:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
-In-Reply-To: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
+References: <1626413223-32264-1-git-send-email-ishii.shuuichir@fujitsu.com>
+ <CAFEAcA_xMdsLtsyX3aV+JKoLuNiaR3zHmv1NXwVUkWRSAbQuAA@mail.gmail.com>
+ <TYCPR01MB61601256BD8311CE6D2A6767E9E29@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB61601256BD8311CE6D2A6767E9E29@TYCPR01MB6160.jpnprd01.prod.outlook.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 20 Jul 2021 10:06:52 +0100
-Message-ID: <CAFEAcA-Dmof7gi9MRxjo0FcYN8ZW0NTKi2+SAgO1V8-VMndN-A@mail.gmail.com>
-Subject: Re: Error in accel/tcg?
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Tue, 20 Jul 2021 10:08:42 +0100
+Message-ID: <CAFEAcA9vQ+00p3RHouqwQHg-f95gTci=WxN22akx0TSSf6ca1g@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Add support for Fujitsu A64FX processor
+To: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,36 +79,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 19 Jul 2021 at 23:20, Kenneth Adam Miller
-<kennethadammiller@gmail.com> wrote:
+On Tue, 20 Jul 2021 at 08:35, ishii.shuuichir@fujitsu.com
+<ishii.shuuichir@fujitsu.com> wrote:
 >
-> Hello,
+> Hi, peter
+> Thank you for your comment.
 >
-> I get the following error:
+> > Hi; it looks like something with your outgoing email setup still disagrees
+> > with QEMU's mailing list server :-(  As far as I can tell these emails didn't
+> > make it to the list, so only people on the direct-cc list will have
+> > seen them :-(
 >
-> <long cmd here> -c ../accel/tcg/cputlb.c
-> ../qemu/accel/tcg/cputlb.c: In function 'tlb_flush_page_by_mmuidx':
-> ../qemu/accel/tcg/cputlb.c:602:23: error: comparison is always true due to limited range of data type [-Werror=type-limits]
->     } else if (idxmap < TARGET_PAGE_SIZE) {
+> As you said, it seems that I am not listed in the mail server again.
+> When I contacted the server administrator before,
+> the server administrator took care of it so that my e-mail address would not be judged as spam mail,
+> but I am in the process of contacting the server administrator again.
 >
-> I don't know why that suddenly shows up.
+> If the mail server is able to list it correctly,
+> should we resubmit the V1 patch series to list it properly?
+> Or, since there are patches that have already been commented on,
+> should I post them as a V2 patch series that reflects those comments?
 
-So, which target are you building for, which host, and which
-compiler version? (TARGET_PAGE_SIZE gets a value that depends
-on the TARGET_PAGE_BITS setting for the target.)
-
-> In other parts of the code, I think somehow the meson build system
->is triggering errors for warnings
-
-The QEMU build system defaults to warnings-are-errors when
-building from git. You can turn this off by passing
-configure '--disable-werror'. (Note that that's a bad idea if
-you're working on the QEMU source code, because you want to
-be able to see and fix the warnings in the code you're working on.)
+Once you've got the mail issues sorted, if you have a v2 ready to
+go at that point, you might as well just post the v2. Otherwise
+you can repost the v1.
 
 thanks
 -- PMM
