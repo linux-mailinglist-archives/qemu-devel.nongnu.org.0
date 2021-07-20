@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7314C3CFA81
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:27:35 +0200 (CEST)
-Received: from localhost ([::1]:45000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE24A3CFA80
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:26:45 +0200 (CEST)
+Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pmY-0004hR-I3
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:27:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57266)
+	id 1m5plk-0003ZX-PP
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:26:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5pjJ-0000xh-QP
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:24:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47093)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m5pkF-0002CM-QN
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:25:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5pjI-0007En-5U
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:24:13 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1m5pkE-0007YR-2P
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:25:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626787450;
+ s=mimecast20190719; t=1626787509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0ngu5BRha23v0ldCGMrnE/gt7ypKr2/1OHc4ql5Yd2I=;
- b=MC47PoACJt8MtMoyCpIozUGd4PAiLQqNSlArb2Q+J7dBAFf8/UEN6pcQTaAlWcB4C+zsJX
- Envx+498xwqglspJZJ9OgHXlw++EnyxNaX2ycOgJ6BWm9Y3I9tnu8NYHKKuQLdJdvD3AGH
- dcF5UK6dHC4moTnf0R65ghX4NDI//3Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-PosbmyTOOpSTTgnZBJTUCw-1; Tue, 20 Jul 2021 09:24:09 -0400
-X-MC-Unique: PosbmyTOOpSTTgnZBJTUCw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c14-20020a05600c0aceb0290248831d46e4so840611wmr.6
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 06:24:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0ngu5BRha23v0ldCGMrnE/gt7ypKr2/1OHc4ql5Yd2I=;
- b=DGr+bLzOSWyrKpEdlFK6UqtdhUBzPZT7TWjh+gSHxnSwAaMIvXzIiN1Z0M7NIQCuY2
- lEvs9HX6sL8fmndBNgFgmuPrX1m11tdazOgOcFWmkL6VFl9xSiAMxAs5KJI3h5Fd+0C1
- T97Bn+Escfnd/5nsVOQ6ByYFwhC7fa7tXpr0Ljmz6ZBk16QYUdFFWlIWXMTVxZCH8vSg
- uz1n9XR46jOFNffClwgMNJD65xYjCMJIeMqD2EqKTi3hd5p69y8soetyKUd2WTta1XkU
- IOsfgftPLTrgakxzhO+e/b1iDIE4+t6TNApy/J3BqCVTOIemaFW25i//m3liRucdbd0r
- ryvA==
-X-Gm-Message-State: AOAM531YLyRen54R9Cn/qsE4sTlTWyxP3/jbLMcxhgo4fOIdVDedX4Z7
- ieCgT9Z79s9fqttTXStIPRgfXJVhwyYuKe/oY77KAeWRqvKPyTryxHylKbGKQs4dQ2VlnFzeB/G
- 7TrCkJ2TWmDjWqrM=
-X-Received: by 2002:a7b:c76b:: with SMTP id x11mr38445564wmk.79.1626787448507; 
- Tue, 20 Jul 2021 06:24:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzy3njqx+rMiieGCyB6fOVcyegO6mpmLrFXGNUqAD3EUS+5adH/P5FaI9MkS7wpmoosvP9wAA==
-X-Received: by 2002:a7b:c76b:: with SMTP id x11mr38445533wmk.79.1626787448312; 
- Tue, 20 Jul 2021 06:24:08 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id w9sm20085843wmc.19.2021.07.20.06.24.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 06:24:07 -0700 (PDT)
-Subject: Re: [PATCH v2 20/23] hw/acpi: Do not restrict ACPI core routines to
- x86 architecture
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210616204328.2611406-1-philmd@redhat.com>
- <20210616204328.2611406-21-philmd@redhat.com>
- <20210617164026-mutt-send-email-mst@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ac8ce5f8-cce1-3fa9-f7bb-a97526549e49@redhat.com>
-Date: Tue, 20 Jul 2021 15:24:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=AK2dWVvP2d+Ov6ILZt7D1jCEKZE5uO0WdGX9/iXUNdk=;
+ b=HDPjFy299oo23B9AlCc32xstknTdFbTNfXjBse+SpgiPJ1nhl1dQTZPZYzp3dh9B6W5VaZ
+ pOh1mSNtm2/FbAy9hU9qlx4gpbGNiC8HW3vobVfs1KLxm3/V5pt3vpPSBsDbi0TpgVupYx
+ K/UDst9UB9/7vkbP5yxF0i1W34BqOwc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585--Ri2FnBDO02naELbS9Ya7w-1; Tue, 20 Jul 2021 09:25:08 -0400
+X-MC-Unique: -Ri2FnBDO02naELbS9Ya7w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1BA0192297A;
+ Tue, 20 Jul 2021 13:25:06 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EC21660BD8;
+ Tue, 20 Jul 2021 13:25:00 +0000 (UTC)
+Date: Tue, 20 Jul 2021 15:24:59 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v5 10/10] ACPI ERST: step 6 of bios-tables-test.c
+Message-ID: <20210720152459.050b229d@redhat.com>
+In-Reply-To: <1625080041-29010-11-git-send-email-eric.devolder@oracle.com>
+References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
+ <1625080041-29010-11-git-send-email-eric.devolder@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210617164026-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,53 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/17/21 10:40 PM, Michael S. Tsirkin wrote:
-> On Wed, Jun 16, 2021 at 10:43:25PM +0200, Philippe Mathieu-Daudé wrote:
->> ACPI core routines (in core.c) are not really x86-specific.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/acpi/meson.build | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
->> index dd69577212a..c23c67f4283 100644
->> --- a/hw/acpi/meson.build
->> +++ b/hw/acpi/meson.build
->> @@ -3,6 +3,7 @@
->>    'acpi_interface.c',
->>    'aml-build.c',
->>    'bios-linker-loader.c',
->> +  'core.c',
->>    'utils.c',
->>  ))
->>  acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
->> @@ -14,7 +15,7 @@
->>  acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
->>  acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
->>  acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'))
->> -acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('core.c', 'piix4.c', 'pcihp.c'), if_false: files('acpi-stub.c'))
->> +acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
+On Wed, 30 Jun 2021 15:07:21 -0400
+Eric DeVolder <eric.devolder@oracle.com> wrote:
+
+> Following the guidelines in tests/qtest/bios-tables-test.c, this
+> is step 6, the re-generated ACPI tables binary blobs.
+
+looks like test case itself got lost somewhere along the way.
+ 
 > 
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> ---
+>  tests/data/acpi/microvm/ERST                | Bin 0 -> 976 bytes
+>  tests/data/acpi/pc/ERST                     | Bin 0 -> 976 bytes
+>  tests/data/acpi/q35/ERST                    | Bin 0 -> 976 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h |   4 ----
+>  4 files changed, 4 deletions(-)
 > 
-> So is acpi-stub.c still useful then?
-
-Certainly:
-
-softmmu/vl.c:3256:                acpi_table_add(opts, &error_fatal);
-
-Could be eventually merged with aml-build-stub.c...
+> diff --git a/tests/data/acpi/microvm/ERST b/tests/data/acpi/microvm/ERST
+> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..db2adaa8d9b45e295f9976d6bb5a07a813214f52 100644
+> GIT binary patch
+> literal 976
+> zcmaKqTMmLS5Jd+l50TdfOjv?(1qNf{pGN#}aW2XoVQ=kJawAMa;r8^<4tl<ik9Q&x
+> z9fs@aGWNsscIs_KB7$e!_x3{VFxa)yyAdhW<ewtq@KMTR;_(*;o)AYwsc#_I{R=ny
+> z8zx&whJ53fsGoYS{%e8zX-SD^^!|)F8lIhx`_IYG$#;3?dmQ>N$k#r!KbMbUbUyg_
+> zK(;pcerufGzoGM$#7pML|ITms2HKLp#iT7ge?`3d;=pU-HFM;Z{u=Td@?Bo=v9u+>
+> bCEw+h{yXwJ@?BooAHQFxe`xQi@1uMGuJKX<
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
+> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7236018951f9d111d8cacaa93ee07a8dc3294f18 100644
+> GIT binary patch
+> literal 976
+> zcmaKqSq_3Q6h#Y^dE9^rOK=GWV&b1h{BUvZ#VzQD#NN_}<VJW2!{zj}Jj(Gp++KlF
+> z-m^RRr=jicm%cUSDW!0a>)srw9ZqJfYH@yl5T!<U;}M6C67CcCCp`0jI3h}X4Z*CR
+> z@cQFuhiLM(wSRu-xcHA1F8zhXBbq;Aj)oWS$Nk6T$K>0*@ExA}PsmTmxA~y7^f&wF
+> z`=C;Mzb#Jlr!;>?JY$ah@BPi%Ksot29-5N<Er=Hro_R^UWRASiUqyaJzRfE>hSucQ  
+> c<lDT_e?xvlzRfG^WB(fYq22#4zMDpU0r#ed0RR91
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
+> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..7236018951f9d111d8cacaa93ee07a8dc3294f18 100644
+> GIT binary patch
+> literal 976
+> zcmaKqSq_3Q6h#Y^dE9^rOK=GWV&b1h{BUvZ#VzQD#NN_}<VJW2!{zj}Jj(Gp++KlF
+> z-m^RRr=jicm%cUSDW!0a>)srw9ZqJfYH@yl5T!<U;}M6C67CcCCp`0jI3h}X4Z*CR
+> z@cQFuhiLM(wSRu-xcHA1F8zhXBbq;Aj)oWS$Nk6T$K>0*@ExA}PsmTmxA~y7^f&wF
+> z`=C;Mzb#Jlr!;>?JY$ah@BPi%Ksot29-5N<Er=Hro_R^UWRASiUqyaJzRfE>hSucQ  
+> c<lDT_e?xvlzRfG^WB(fYq22#4zMDpU0r#ed0RR91
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index e004c71..dfb8523 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1,5 +1 @@
+>  /* List of comma-separated changed AML files to ignore */
+> -"tests/data/acpi/pc/ERST",
+> -"tests/data/acpi/q35/ERST",
+> -"tests/data/acpi/microvm/ERST",
+> -
 
 
