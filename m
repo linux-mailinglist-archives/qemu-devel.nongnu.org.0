@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B5823CFA3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:13:25 +0200 (CEST)
-Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 592CA3CFA15
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:06:53 +0200 (CEST)
+Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pYp-0004b5-Re
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:13:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
+	id 1m5pSW-0000UY-CR
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPs-00061R-UC
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:04:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40196)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pQ7-0006Av-AW
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:04:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPq-0001KN-Tz
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:04:08 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pQ5-0001Ky-D3
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:04:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626786246;
+ s=mimecast20190719; t=1626786259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z529/eydABA0pqIocAcsEmQFLGljXmJIFgQvuEJplCo=;
- b=NvX+dLHoctGaMexCitUgCnWSYl06uUmlECWTfa/5yaXPzzEgftl48cmr+M53dP0BTBJAeh
- VgUEqJBjjg+Z9NI1yFGGMGi2+2rd6ABpqWN1S19/Gm8AGmnptFMLyFTmbQy8T3AIWWDZ6T
- 12FeBVprVQafpdL4zCerDLMeEA7Ksv0=
+ bh=9+jglctDSTZWV6NDN1qeWHoKnVrNI1JGY5uAC/iQQK8=;
+ b=Am8lILGoYZFCZNg5LV5+oBA020+/8//x8Hx/fEokqD+pfU4WFDqyPU52cnuV0ZJ2aqW9H4
+ yMMmsgKJM4mj3lAFpkFJqgQVQA3DpEHll3Z3DSb2/5arIEFzOUhTeAefwQWoZaZOHFATuN
+ Ajv7X/VU3Hb4dt+OXmuquso//eZQ5E4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-Vth_Rw3hNVKJxUCk-GTnqA-1; Tue, 20 Jul 2021 09:04:02 -0400
-X-MC-Unique: Vth_Rw3hNVKJxUCk-GTnqA-1
+ us-mta-275-XnmhLWeZPgSnDXFpCriZ_A-1; Tue, 20 Jul 2021 09:04:17 -0400
+X-MC-Unique: XnmhLWeZPgSnDXFpCriZ_A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EAE7CC622;
- Tue, 20 Jul 2021 13:04:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00D531084F4B;
+ Tue, 20 Jul 2021 13:04:16 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A237369CB4;
- Tue, 20 Jul 2021 13:03:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D007769CB4;
+ Tue, 20 Jul 2021 13:04:01 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH resend v2 3/5] softmmu/memory_mapping: never merge ranges
- accross memory regions
-Date: Tue, 20 Jul 2021 15:03:02 +0200
-Message-Id: <20210720130304.26323-4-david@redhat.com>
+Subject: [PATCH resend v2 4/5] softmmu/memory_mapping: factor out adding
+ physical memory ranges
+Date: Tue, 20 Jul 2021 15:03:03 +0200
+Message-Id: <20210720130304.26323-5-david@redhat.com>
 In-Reply-To: <20210720130304.26323-1-david@redhat.com>
 References: <20210720130304.26323-1-david@redhat.com>
 MIME-Version: 1.0
@@ -89,8 +89,8 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's make sure to not merge when different memory regions are involved.
-Unlikely, but theoretically possible.
+Let's factor out adding a MemoryRegionSection to the list, to be reused in
+RamDiscardManager context next.
 
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -107,23 +107,70 @@ Cc: Laurent Vivier <lvivier@redhat.com>
 Cc: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- softmmu/memory_mapping.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ softmmu/memory_mapping.c | 41 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 21 deletions(-)
 
 diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-index d63f896b30..c149bad44a 100644
+index c149bad44a..b7e4f3f788 100644
 --- a/softmmu/memory_mapping.c
 +++ b/softmmu/memory_mapping.c
-@@ -229,7 +229,8 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+@@ -193,29 +193,14 @@ typedef struct GuestPhysListener {
+     MemoryListener listener;
+ } GuestPhysListener;
  
-         /* we want continuity in both guest-physical and host-virtual memory */
-         if (predecessor->target_end < target_start ||
--            predecessor->host_addr + predecessor_size != host_addr) {
-+            predecessor->host_addr + predecessor_size != host_addr ||
-+            predecessor->mr != section->mr) {
-             predecessor = NULL;
-         }
-     }
+-static void guest_phys_blocks_region_add(MemoryListener *listener,
++static void guest_phys_block_add_section(GuestPhysListener *g,
+                                          MemoryRegionSection *section)
+ {
+-    GuestPhysListener *g;
+-    uint64_t section_size;
+-    hwaddr target_start, target_end;
+-    uint8_t *host_addr;
+-    GuestPhysBlock *predecessor;
+-
+-    /* we only care about RAM */
+-    if (!memory_region_is_ram(section->mr) ||
+-        memory_region_is_ram_device(section->mr) ||
+-        memory_region_is_nonvolatile(section->mr)) {
+-        return;
+-    }
+-
+-    g            = container_of(listener, GuestPhysListener, listener);
+-    section_size = int128_get64(section->size);
+-    target_start = section->offset_within_address_space;
+-    target_end   = target_start + section_size;
+-    host_addr    = memory_region_get_ram_ptr(section->mr) +
+-                   section->offset_within_region;
+-    predecessor  = NULL;
++    const hwaddr target_start = section->offset_within_address_space;
++    const hwaddr target_end = target_start + int128_get64(section->size);
++    uint8_t *host_addr = memory_region_get_ram_ptr(section->mr) +
++                         section->offset_within_region;
++    GuestPhysBlock *predecessor = NULL;
+ 
+     /* find continuity in guest physical address space */
+     if (!QTAILQ_EMPTY(&g->list->head)) {
+@@ -261,6 +246,20 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
+ #endif
+ }
+ 
++static void guest_phys_blocks_region_add(MemoryListener *listener,
++                                         MemoryRegionSection *section)
++{
++    GuestPhysListener *g = container_of(listener, GuestPhysListener, listener);
++
++    /* we only care about RAM */
++    if (!memory_region_is_ram(section->mr) ||
++        memory_region_is_ram_device(section->mr) ||
++        memory_region_is_nonvolatile(section->mr)) {
++        return;
++    }
++    guest_phys_block_add_section(g, section);
++}
++
+ void guest_phys_blocks_append(GuestPhysBlockList *list)
+ {
+     GuestPhysListener g = { 0 };
 -- 
 2.31.1
 
