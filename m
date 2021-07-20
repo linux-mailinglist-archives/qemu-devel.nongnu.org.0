@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B96BE3CF6FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 11:37:26 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 108983CF72B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 11:48:47 +0200 (CEST)
+Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5mBp-0000kG-7U
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 05:37:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41980)
+	id 1m5mMo-0005W0-3K
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 05:48:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m5mAk-0008NC-Tv
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:36:18 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42872)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5mLj-0004pl-J6
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:47:39 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m5mAj-0003Mv-2v
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:36:18 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id hd33so33343507ejc.9
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 02:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=F41xCOLANRNMJ46lF4MtbnXimqm0zbtoq1H6UrAau5c=;
- b=bDrSL4stty19dM5Uvcf8I/Z862h/ubPDQXfc8yeY2y4qzrWxN3nEfSNeeGjShBwjqk
- DVRvVuh4PmihNdq547YEohq7ZoOoQ1DgdVwagRU+gebnjVZMnarrEASOpckzVQa91y0P
- Bvhqytk5gefGH7xKvTmbW9/TBV577g26T5N7WNfBwgIfMJ79C4zqXnmtVju7FjCb5Fx5
- HVyivRmmF/4YwKrkts8ks7chJ1ay39XkpVy8he1dOfIRWrjM6lirSkLC4ycmHqiRRZ7T
- TMl+opXAMqZbX6ni+Rjf8P/4SLQjeRDJpkUIM+fAXIjF5m+DX0ILD0/Qd4uDPZHOa/SK
- MqDw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1m5mLh-0002h1-Vs
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 05:47:39 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d12so25260148wre.13
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 02:47:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Mr9bDqPpwJ1+s2Fz27WzD4klpYqT4yg4QDM5OSacWLU=;
+ b=ZnVcpXezBq8DVLbwowsiQb1FMngIhwXEv1Aa7n498bQcbHJ3eTwxLs2c27X+beOP/7
+ XS4LdIIM1R42zlCxiSJaA9VwQOiXsHuRa39aWwACMacDgc5amYx60T+yMzEkbP9f1Hze
+ 34BXGWU5pPxnbFQQM7QfxsORBUCY8ElKCtcnTfBZNuvwWCuuC8dDVbNQxXPxVkn+XEct
+ LC/qC4dzeFbupOleuwQa7lWT/jaioW2Yv4g9ToNxkynaIk07B7B7Rv1EYbwdadgRXjSL
+ JyFULkeq0hGFGD0fHvjS56KJwo1wgG3cDCf/zLrD51JWKL0ohmqd753q6Cxevwrbe6RL
+ wRZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=F41xCOLANRNMJ46lF4MtbnXimqm0zbtoq1H6UrAau5c=;
- b=goir4P6uInfkfFxG5+fIPX3jg9ItHhOdQCL+neTpvo5VoiYGO6gGFzSYoSj3GA0L5E
- afDJVWktaWjOQVp++7Oj9ZmSKOrXfTEp68TS+Qq3TEBm0wKveaZV991M27VwcximZK/E
- /dWjlRpPMNMmwiWUXoIS6hag0fikSNNYWE/UvhqTzALVdZEDfK3dVtKc5SOaCvr80KE5
- X1Hl61obDJ26QWpqZEJZ+3FL56mMSJtjJaawtDreui3OJAge1a6gaIuQ844sKWZ5aXKS
- DPV8wIl/hnJTGU8pZBDWWDqzH3ASz2OsGmD1FHDk25ZsQh232hQgQ5lMzpAx1hdyXBAO
- 1g8A==
-X-Gm-Message-State: AOAM532Qr9zxBrBkAkv2KxnHMnVrfZPu9uDFw0qfbGWo2/T4hnYrcM0i
- n3XFWTSl7DhUcZ1/bqp7r0udicSesSOOawLQRhk=
-X-Google-Smtp-Source: ABdhPJww2sRutW6tXT+3bUf6MticPbK07+wEap/ZOXSSOtZ0tkbG9vwcAWmySYpQyh0aV08minqEQULH6nG2majfGOg=
-X-Received: by 2002:a17:906:4fd6:: with SMTP id
- i22mr32046114ejw.92.1626773774456; 
- Tue, 20 Jul 2021 02:36:14 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Mr9bDqPpwJ1+s2Fz27WzD4klpYqT4yg4QDM5OSacWLU=;
+ b=EFP7yh8Yv3+VOxEOG/ssPJqihcal3kYCIrApoEHwxBJIRH21R5ZlA94oex2JkagBjI
+ VUGl/pOFxSgF7SXqTkBKuPH54gre0DpkAc3UhaoTe2ofnz7QctCphqEfNos+REW5C/6j
+ U6eK/P4PEw8nuJceLr9ZF2lL5hKuFkCn73nryLPA325fnfgPQ3ZJ5kiL+EfjOWs818cL
+ 1D56EAnUXINJHDcKGmywfcaAnDXoM06l9rMHw2d4L2SDd9p3LQsxxC7T9ZYS4/mqOo6e
+ fEdK4cpRIjMu+Au4j2L47GP8m3WBCyznOVoH7Dy2g8+MN/3sqWpZf3rvprZBVnFoxeHp
+ G5pA==
+X-Gm-Message-State: AOAM532LEy6X6FXsyMNey0mUkBBr9Izdc1exygjnED6ozQIRhEjt2yi1
+ 09SrS88Y0fbx6zmrfUoRO8lyZg==
+X-Google-Smtp-Source: ABdhPJyYW24cANXBhQ4fQoMDFvlCf1x/X/ZoeZ0DT1i1WxXCCt8Gm+Eb1uFBosWnNiZ7Ot5VwB0iPQ==
+X-Received: by 2002:a5d:6804:: with SMTP id w4mr34264310wru.417.1626774456294; 
+ Tue, 20 Jul 2021 02:47:36 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id q19sm1843507wmq.38.2021.07.20.02.47.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 20 Jul 2021 02:47:35 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E384F1FF7E;
+ Tue, 20 Jul 2021 10:47:34 +0100 (BST)
+References: <20210719195002.6753-1-alex.bennee@linaro.org>
+ <20210719195002.6753-2-alex.bennee@linaro.org>
+ <CAFEAcA8VGYTc2jrdB+ET4xFODDv0SniTjnUAYr+4dgjSZEsmiA@mail.gmail.com>
+User-agent: mu4e 1.5.14; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v1 1/2] hw/tricore: fix inclusion of tricore_testboard
+Date: Tue, 20 Jul 2021 10:46:08 +0100
+In-reply-to: <CAFEAcA8VGYTc2jrdB+ET4xFODDv0SniTjnUAYr+4dgjSZEsmiA@mail.gmail.com>
+Message-ID: <87zguhmi4p.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210714174051.28164-1-crosa@redhat.com>
- <20210714174051.28164-6-crosa@redhat.com>
-In-Reply-To: <20210714174051.28164-6-crosa@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 20 Jul 2021 13:36:01 +0400
-Message-ID: <CAJ+F1C+sMruEZe-3eWYz68s6gQ-n-sxAj7=QJvySFp=uLq7yeQ@mail.gmail.com>
-Subject: Re: [PATCH 5/6] tests/acceptance/virtio-gpu.py: use virtio-vga-gl
-To: Cleber Rosa <crosa@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f4db4005c78ac893"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,129 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, f4bug@armsat.org,
+ QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f4db4005c78ac893
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 14, 2021 at 9:47 PM Cleber Rosa <crosa@redhat.com> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> Since 49afbca3b, the use of an optional virgl renderer is not
-> available anymore, and since b36eb8860f, the way to choose a GL based
-> rendered is to use the "virtio-vga-gl" device.
+> On Mon, 19 Jul 2021 at 20:52, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> We inadvertently added a symbol clash causing the build not to include
+>> the testboard needed for check-tcg.
+>>
+>> Fixes: f4063f9c31 ("meson: Introduce target-specific Kconfig")
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  configs/devices/tricore-softmmu/default.mak | 1 +
+>>  hw/tricore/Kconfig                          | 3 +--
+>>  hw/tricore/meson.build                      | 4 ++--
+>>  3 files changed, 4 insertions(+), 4 deletions(-)
 >
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> as far as this fix goes (though maybe CONFIG_TRICORE_TESTBOARD would be b=
+etter?)
 >
+> But I still don't understand and would like to know:
+> (1) why doesn't CONFIG_TRICORE get set by Kconfig anyway, as
+> f4063f9c31 claims to be doing?
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+It does (or should) thanks to meson:
 
----
->  tests/acceptance/virtio-gpu.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+  'CONFIG_' + config_target['TARGET_ARCH'].to_upper() + '=3Dy'
+
+> (2) what are the CONFIG_$ARCH flags for? Apart from this, we
+> don't seem to be using any of them, as demonstrated by the fact
+> that nothing else broke :-)
+
+They need to be declared in Kconfig otherwise minikconf complains about
+them not being defined when you pass it in. This is part of minikconf's
+sanity checking code.
+
 >
-> diff --git a/tests/acceptance/virtio-gpu.py
-> b/tests/acceptance/virtio-gpu.py
-> index fbde278705..0f84affe82 100644
-> --- a/tests/acceptance/virtio-gpu.py
-> +++ b/tests/acceptance/virtio-gpu.py
-> @@ -56,7 +56,7 @@ def wait_for_console_pattern(self, success_message,
-> vm=3DNone):
->
->      def test_virtio_vga_virgl(self):
->          """
-> -        :avocado: tags=3Ddevice:virtio-vga
-> +        :avocado: tags=3Ddevice:virtio-vga-gl
->          """
->          # FIXME: should check presence of virtio, virgl etc
->          self.require_accelerator('kvm')
-> @@ -67,7 +67,7 @@ def test_virtio_vga_virgl(self):
->          self.vm.set_console()
->          self.vm.add_args("-m", "2G")
->          self.vm.add_args("-machine", "pc,accel=3Dkvm")
-> -        self.vm.add_args("-device", "virtio-vga,virgl=3Don")
-> +        self.vm.add_args("-device", "virtio-vga-gl")
->          self.vm.add_args("-display", "egl-headless")
->          self.vm.add_args(
->              "-kernel",
-> --
-> 2.31.1
->
->
->
+> thanks
+> -- PMM
+
 
 --=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000f4db4005c78ac893
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 9:47 PM Clebe=
-r Rosa &lt;<a href=3D"mailto:crosa@redhat.com">crosa@redhat.com</a>&gt; wro=
-te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Since 49afbc=
-a3b, the use of an optional virgl renderer is not<br>
-available anymore, and since b36eb8860f, the way to choose a GL based<br>
-rendered is to use the &quot;virtio-vga-gl&quot; device.<br>
-<br>
-Signed-off-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@redhat.com" target=
-=3D"_blank">crosa@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Re=
-viewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
-dhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0tests/acceptance/virtio-gpu.py | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.p=
-y<br>
-index fbde278705..0f84affe82 100644<br>
---- a/tests/acceptance/virtio-gpu.py<br>
-+++ b/tests/acceptance/virtio-gpu.py<br>
-@@ -56,7 +56,7 @@ def wait_for_console_pattern(self, success_message, vm=3D=
-None):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def test_virtio_vga_virgl(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:virtio-vga<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Ddevice:virtio-vga-gl<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# FIXME: should check presence of virtio,=
- virgl etc<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.require_accelerator(&#39;kvm&#39;)<b=
-r>
-@@ -67,7 +67,7 @@ def test_virtio_vga_virgl(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.set_console()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.add_args(&quot;-m&quot;, &quot;2G=
-&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.add_args(&quot;-machine&quot;, &q=
-uot;pc,accel=3Dkvm&quot;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&quot;-device&quot;, &quot;vi=
-rtio-vga,virgl=3Don&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&quot;-device&quot;, &quot;vi=
-rtio-vga-gl&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.add_args(&quot;-display&quot;, &q=
-uot;egl-headless&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.vm.add_args(<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;-kernel&quot;,<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000f4db4005c78ac893--
+Alex Benn=C3=A9e
 
