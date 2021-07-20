@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBDB3D020A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:06:20 +0200 (CEST)
-Received: from localhost ([::1]:42574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 665BB3D020E
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:10:24 +0200 (CEST)
+Received: from localhost ([::1]:46042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5v4N-00018P-9a
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:06:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47410)
+	id 1m5v8J-0003Xj-GH
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5v2u-0000N6-Hi
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:04:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47395)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5v7E-0002gW-7Z
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:09:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5v2q-0007yc-7a
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:04:47 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5v7C-0002X0-AJ
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:09:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626807883;
+ s=mimecast20190719; t=1626808153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=25t638OKSIB36tMJpOW0nKR5FPyAKtPmudDXRte+J0E=;
- b=b/EwfdpanZAZWa6DBbKbAV8AJkzCRdd7fAjBAFg8vOkOkFERxTUVRIbwmGjfWOZMO4bM7q
- o3Ac4DDA1nZIpPU2d9yCM9UkYSRY5xpUU1C2ZoIX7bbxnyzPIRwXk/tky/Be4YNZyK/kAR
- knCH7lQUe2l5o4SBrUSBHDDnHxAwD+k=
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
- [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-sStQ3Ef2NqW06tR-nMLJ6A-1; Tue, 20 Jul 2021 15:04:39 -0400
-X-MC-Unique: sStQ3Ef2NqW06tR-nMLJ6A-1
-Received: by mail-oo1-f72.google.com with SMTP id
- k13-20020a4ad10d0000b029025ec20a413eso40755oor.11
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:04:39 -0700 (PDT)
+ bh=iT6hCEP4EY658ABRdcjCdsamC2BP5/78Uux7mZHdSfg=;
+ b=ILlFgaICefBQSzbMZjMMhznixKyiS1cVkir9LDZ6L/z1iFMMYnOFpt/FOlZveBi2Kr7Lee
+ v7axQvH4WVbIeE6I8DE9CT4AO8Nhf92S9bP+qMVmXE2vYisQ7YTe1WX46B6qrzW1OjF3xZ
+ oP6ck6XejPbEDXdtF1ZxbpwUx5oSxRw=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-Nlv6qmbKMXuGpTh9AFv_CA-1; Tue, 20 Jul 2021 15:09:10 -0400
+X-MC-Unique: Nlv6qmbKMXuGpTh9AFv_CA-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ q34-20020a0568082022b029025c5504f461so130589oiw.22
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:09:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=25t638OKSIB36tMJpOW0nKR5FPyAKtPmudDXRte+J0E=;
- b=uegImkOUU7i5iCp7I45AmgeCjifAZrYclx0Z/ga8TQOH9Q/zyJIi26lM48bUR/4RzL
- Epz/Cr/XZDBletzbP+cVDhMQK1ASR77DSwBWCJDwLyFlUexWpGxLXiESuWoXJQezP+JC
- fSqJENkf4/ah0fiNIox8uMwsOrqrn8HSXcF65aAWr2eFg6gv5o72WMqTbIt5ouZJOKtr
- filq3dgken8aOHsvBD2YgW8bqh7MYDrqwZ083Hhz0DzyoZ97MHP4CldnDr4wDTtNsqP1
- bt6pCFlBBVzvQ/JUUeyDWWXI/AnD1ASpcwYgr8MRXJ7rD/aY1n7YF+PN0SsKZm/TIweM
- Ktvg==
-X-Gm-Message-State: AOAM532Zu8Hp67LKcHaspB7YDCkm4OHW10sJWPDzpqbLth9aPuANvpbC
- EEilapPeDkbYg/RmUcEBqlQTx8Q/QlpjhdsChUegQOkozl3olrh2Sj/G/9LpBFhgCj3SJnjEQ/q
- O2LdfTT3H/oa0VxHXfcRb/BooG0HAJtE=
-X-Received: by 2002:a9d:2782:: with SMTP id c2mr23657039otb.323.1626807879066; 
- Tue, 20 Jul 2021 12:04:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwlvj1poZmOPBaF5pFo452GHNM2ThSoxl1q7MLYUQWL9pBe1qZFDqp9l+fw8FvgED/03nRCY8sqpWZg9YQAYqk=
-X-Received: by 2002:a9d:2782:: with SMTP id c2mr23657016otb.323.1626807878822; 
- Tue, 20 Jul 2021 12:04:38 -0700 (PDT)
+ bh=iT6hCEP4EY658ABRdcjCdsamC2BP5/78Uux7mZHdSfg=;
+ b=GXwXeoKtLc9wrNdHdt8YWM87ZWmSPOBwnmEZheIBPFSWfuGC2LXgJyDHyIoojwdQR8
+ hFwEhUCsy/8Zrk6g0QrFO65SQ6sdSXVWA3tcvi3mRdu/nUvxjqCJKoMG1TF1MFWlSQT0
+ OWnsYGZvDQ/unh07Vp3P/WxYlxPq85H8VZfrybdaJy32XTYFKDzIKXfxg8/h3Itx/U7c
+ Uf45UBKryb3/+1wFtTBbjJzaI5aOuQCURBalBliw1/bvaTJHBfBQKcd09UNyuqWsXcKK
+ osFgDmsv5tuGSostdxQyUqvecdr1NvDyQdSLd5sws+rojpJub4VfwvjUHAKNLd7Rl7+3
+ tkWw==
+X-Gm-Message-State: AOAM533IMoXdPygfyNk8g8fMZ13l8nafoNuR8K+dKzR5vJqZfxSLnxg+
+ tkvvY9uekReHVnJUukzcil27b2xz5Gv1qGrfyc8K/2X0QlWPQH7iVyrg+DWoe+kET402WC2cVeb
+ n8JmmdJtkYUFHZU8DzzYbIWeB09e1rUY=
+X-Received: by 2002:a9d:86d:: with SMTP id 100mr23997438oty.45.1626808149717; 
+ Tue, 20 Jul 2021 12:09:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw4xHEA8SJ16q54QcyXCE9oZbAQBrkxmVHa6e/mHPlH7b+N38BXLlJrF93+X99GDuWdb0x71ATekYc2GEpFiBA=
+X-Received: by 2002:a9d:86d:: with SMTP id 100mr23997428oty.45.1626808149548; 
+ Tue, 20 Jul 2021 12:09:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210713220734.26302-1-niteesh.gs@gmail.com>
- <20210713220734.26302-4-niteesh.gs@gmail.com>
-In-Reply-To: <20210713220734.26302-4-niteesh.gs@gmail.com>
+ <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
+In-Reply-To: <CAN6ztm97cJrVZ3=XPr9R8WoepOw81XAGXUO3fHB5nt7L9fWS4w@mail.gmail.com>
 From: John Snow <jsnow@redhat.com>
-Date: Tue, 20 Jul 2021 15:04:28 -0400
-Message-ID: <CAFn=p-Z6DV+Jjk+sNe4L0hgttnF=SKiL3efFD4QH1WkMFJnzbA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] python/aqmp-tui: Add AQMP TUI draft
-To: G S Niteesh Babu <niteesh.gs@gmail.com>
+Date: Tue, 20 Jul 2021 15:08:58 -0400
+Message-ID: <CAFn=p-aP5y=a56BK7X-B4KO8YL+d3O_MX3ekp3NQnGLGs8Dnww@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] python: AQMP-TUI Prototype
+To: "Niteesh G. S." <niteesh.gs@gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000bc3e9505c792b9e7"
+Content-Type: multipart/alternative; boundary="000000000000df307e05c792c9c0"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
@@ -93,1020 +93,190 @@ Cc: Cleber Rosa <crosa@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bc3e9505c792b9e7
+--000000000000df307e05c792c9c0
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jul 13, 2021 at 6:07 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
+On Wed, Jul 14, 2021 at 3:07 PM Niteesh G. S. <niteesh.gs@gmail.com> wrote:
 
-> Added a draft of AQMP TUI.
+> Hello all,
 >
-> Implements the follwing basic features:
-> 1) Command transmission/reception.
-> 2) Shows events asynchronously.
-> 3) Shows server status in the bottom status bar.
+> UPDATE:  The pipelines have run and all tests passed #336491916
+> Usually, the pipelines start running as soon as I push my code. But this
+> time they took longer to start and there was no sign of starting. This is
+> my
+> first experience with pipelines so I assumed I messed up something from
+> my side.
 >
-> Also added necessary pylint, mypy configurations
+> Thanks,
+> Niteesh.
 >
-> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
-> ---
->  python/qemu/aqmp/aqmp_tui.py | 332 +++++++++++++++++++++++++++++++++++
->  python/setup.cfg             |  21 ++-
->  2 files changed, 352 insertions(+), 1 deletion(-)
->  create mode 100644 python/qemu/aqmp/aqmp_tui.py
+> On Wed, Jul 14, 2021 at 3:37 AM G S Niteesh Babu <niteesh.gs@gmail.com>
+> wrote:
 >
-> diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
-> new file mode 100644
-> index 0000000000..f853efc1f5
-> --- /dev/null
-> +++ b/python/qemu/aqmp/aqmp_tui.py
-> @@ -0,0 +1,332 @@
-> +# Copyright (c) 2021
-> +#
-> +# Authors:
-> +#  Niteesh Babu G S <niteesh.gs@gmail.com>
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later.  See the COPYING file in the top-level directory.
-> +
-> +import argparse
-> +import asyncio
-> +import logging
-> +from logging import Handler
-> +import signal
-> +
-> +import urwid
-> +import urwid_readline
-> +
-> +from .error import MultiException
-> +from .protocol import ConnectError
-> +from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError
-> +from .util import create_task, pretty_traceback
-> +
-> +
-> +UPDATE_MSG = 'UPDATE_MSG'
-> +
-> +# Using root logger to enable all loggers under qemu and asyncio
-> +LOGGER = logging.getLogger()
-> +
-> +palette = [
-> +    (Token.Punctuation, '', '', '', 'h15,bold', 'g7'),
-> +    (Token.Text, '', '', '', '', 'g7'),
-> +    (Token.Name.Tag, '', '', '', 'bold,#f88', 'g7'),
-> +    (Token.Literal.Number.Integer, '', '', '', '#fa0', 'g7'),
-> +    (Token.Literal.String.Double, '', '', '', '#6f6', 'g7'),
-> +    (Token.Keyword.Constant, '', '', '', '#6af', 'g7'),
-> +    ('background', '', 'black', '', '', 'g7'),
-> +]
-> +
-> +
-> +class StatusBar(urwid.Text):
-> +    """
-> +    A simple Text widget that currently only shows connection status.
-> +    """
-> +    def __init__(self, text=''):
-> +        super().__init__(text, align='right')
-> +
-> +
-> +class Editor(urwid_readline.ReadlineEdit):
-> +    """
-> +    Support urwid_readline features along with
-> +    history support which lacks in urwid_readline
-> +    """
-> +    def __init__(self, master):
-> +        super().__init__(caption='> ', multiline=True)
-> +        self.master = master
-> +        self.history = []
-> +        self.last_index = -1
-> +        self.show_history = False
-> +
-> +    def keypress(self, size, key):
-> +        # TODO: Add some logic for down key and clean up logic if
-> possible.
-> +        # Returning None means the key has been handled by this widget
-> +        # which otherwise is propogated to the parent widget to be
-> +        # handled
-> +        msg = self.get_edit_text()
-> +        if key == 'up' and not msg:
-> +            # Show the history when 'up arrow' is pressed with no input
-> text.
-> +            # NOTE: The show_history logic is necessary because in
-> 'multiline'
-> +            # mode (which we use) 'up arrow' is used to move between
-> lines.
-> +            self.show_history = True
-> +            last_msg = self.history[self.last_index] if self.history else
-> ''
-> +            self.set_edit_text(last_msg)
-> +            self.edit_pos = len(last_msg)
-> +            self.last_index += 1
-> +        elif key == 'up' and self.show_history:
-> +            if self.last_index < len(self.history):
-> +                self.set_edit_text(self.history[self.last_index])
-> +                self.edit_pos = len(self.history[self.last_index])
-> +                self.last_index += 1
-> +        elif key == 'meta enter':
-> +            # When using multiline, enter inserts a new line into the
-> editor
-> +            # send the input to the server on alt + enter
-> +            self.master.cb_send_to_server(msg)
-> +            self.history.insert(0, msg)
-> +            self.set_edit_text('')
-> +            self.last_index = 0
-> +            self.show_history = False
-> +        else:
-> +            self.show_history = False
-> +            self.last_index = 0
-> +            return super().keypress(size, key)
-> +        return None
-> +
-> +
-> +class EditorWidget(urwid.Filler):
-> +    """
-> +    Wraps CustomEdit
-> +    """
-> +    def __init__(self, master):
-> +        super().__init__(Editor(master), valign='top')
-> +
-> +
-> +class HistoryBox(urwid.ListBox):
-> +    """
-> +    Shows all the QMP message transmitted/received
-> +    """
-> +    def __init__(self, master):
-> +        self.master = master
-> +        self.history = urwid.SimpleFocusListWalker([])
-> +        super().__init__(self.history)
-> +
-> +    def add_to_history(self, history):
-> +        self.history.append(urwid.Text(history))
-> +        if self.history:
-> +            self.history.set_focus(len(self.history) - 1)
-> +
-> +
-> +class HistoryWindow(urwid.Frame):
-> +    """
-> +    Composes the HistoryBox and EditorWidget
-> +    """
-> +    def __init__(self, master):
-> +        self.master = master
-> +        self.editor = EditorWidget(master)
-> +        self.editor_widget = urwid.LineBox(self.editor)
->
-
-It's a little confusing that "editor" is of type EditorWidget but
-"editor_widget" is urwid.LineBox.
+>> GitLab:
+>> https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/
+>> Based-on
+>> <https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Based-on>:
+>> <20210701041313.1696009-1-jsnow@redhat.com>
+>>      [PATCH 00/20] python: introduce Asynchronous QMP package
+>>
+>> Updates in V2:
+>> 1) Moved loop related initialization to 'run' function in 'App' class
+>> 2) Added a module logger with support in TUI log messages.
+>> 3) Corrected usage of logging.info and logging.debug
+>> 4) Added an option in setup.cfg to silent pylint regarding duplicate-code
+>> 4) Modified the arguments list to the TUI
+>>
+>> NOTE: I am not able to get the pipelines running after the v2 changes.
+>> I was only able to test the changes locally using *make check*.
+>>
+>>
+Why not?
 
 
-> +        self.history = HistoryBox(master)
-> +        self.body = urwid.Pile([('weight', 80, self.history),
-> +                                ('weight', 20, self.editor_widget)])
-> +        super().__init__(self.body)
-> +        urwid.connect_signal(self.master, UPDATE_MSG,
-> self.cb_add_to_history)
-> +
-> +    def cb_add_to_history(self, msg, level=None):
-> +        formatted = []
-> +        if level:
-> +            msg = f'[{level}]: {msg}'
-> +            formatted.append(msg)
-> +        else:
-> +            lexer = lexers.JsonLexer()  # pylint: disable=no-member
-> +            for token in lexer.get_tokens(msg):
-> +                formatted.append(token)
-> +        self.history.add_to_history(formatted)
-> +
-> +
-> +class Window(urwid.Frame):
-> +    """
-> +    This is going to be the main window that is going to compose other
-> +    windows. In this stage it is unnecesssary but will be necessary in
-> +    future when we will have multiple windows and want to the switch
-> between
-> +    them and display overlays
-> +    """
-> +    def __init__(self, master):
-> +        self.master = master
-> +        footer = StatusBar()
-> +        body = HistoryWindow(master)
-> +        super().__init__(body, footer=footer)
-> +
-> +
-> +class App(QMP):
-> +    def __init__(self, address):
-> +        urwid.register_signal(type(self), UPDATE_MSG)
-> +        self.window = Window(self)
-> +        self.address = address
-> +        self.aloop = None
-> +        self.loop = None
-> +        super().__init__()
-> +
-> +    def add_to_history(self, msg, level=None):
-> +        urwid.emit_signal(self, UPDATE_MSG, msg, level)
-> +
-> +    def _cb_outbound(self, msg):
-> +        LOGGER.debug('Request: %s', str(msg))
-> +        self.add_to_history('<-- ' + str(msg))
-> +        return msg
-> +
-> +    def _cb_inbound(self, msg):
-> +        LOGGER.debug('Response: %s', str(msg))
-> +        self.add_to_history('--> ' + str(msg))
-> +        return msg
-> +
->
+> This patch series introduces AQMP-TUI prototype. This prototype has been
+>> helpfull in letting us try out different ideas and giving some insights
+>> into things that we had to take care of in the upcoming TUI. It was also
+>> helpfull in finding out bugs in the AQMP library.
+>>
+>> The intent for this patch series is to get comments on the architectural
+>> design of the prototype. These comments will lay down the foundation for
+>> the upcoming TUI.
+>>
+>> G S Niteesh Babu (6):
+>>   python: disable pylint errors for aqmp-tui
+>>   python: Add dependencies for AQMP TUI
+>>   python/aqmp-tui: Add AQMP TUI draft
+>>   python: add optional pygments dependency
+>>   python/aqmp-tui: add syntax highlighting
+>>   python: add entry point for aqmp-tui
+>>
+>>  python/Pipfile.lock          |  20 ++
+>>  python/qemu/aqmp/aqmp_tui.py | 342 +++++++++++++++++++++++++++++++++++
+>>  python/setup.cfg             |  36 +++-
+>>  3 files changed, 397 insertions(+), 1 deletion(-)
+>>  create mode 100644 python/qemu/aqmp/aqmp_tui.py
+>>
+>>
+Thanks Niteesh, a few general comments that don't relate directly to the
+code:
 
-[DEBUG]: Response seems to duplicate the "--> {...}" incoming messages.
+1. It would be nice to be able to highlight/copy-paste things out of the
+history window, I seemingly can't right now.
 
-The debug stuff is nice to have because it gets saved to the logfile, but
-is there some way to omit it from the history view, even when --debug is
-on? I think we simply don't need to see the responses twice. What do you
-think?
+2. It would be nice if the mouse scroll wheel worked on the history panel.
 
+3. A greeting message like the old qmp-shell might be nice to see. It would
+be good if it explained how to quit the program (esc, ctrl^c) and send
+messages (alt+enter).
 
-> +    async def wait_for_events(self):
-> +        async for event in self.events:
-> +            self.handle_event(event)
-> +
-> +    async def _send_to_server(self, msg):
-> +        # TODO: Handle more validation errors (eg: ValueError)
-> +        try:
-> +            await self._raw(bytes(msg, 'utf-8'))
-> +        except ExecuteError:
-> +            LOGGER.info('Error response from server for msg: %s', msg)
-> +        except ExecInterruptedError:
-> +            LOGGER.info('Error server disconnected before reply')
-> +            # FIXME: Handle this better
-> +            # Show the disconnected message in the history window
-> +            urwid.emit_signal(self, UPDATE_MSG,
-> +                              '{"error": "Server disconnected before
-> reply"}')
-> +            self.window.footer.set_text("Server disconnected")
-> +        except Exception as err:
-> +            LOGGER.error('Exception from _send_to_server: %s', str(err))
-> +            raise err
->
+4. Some control hints or reminder text in the footer might be nice, for how
+to quit, send a message, etc.
 
-Type non-JSON or a JSON value that isn't an object will crash the whole
-application.
+For the next revision, I may ask you to start looking into making sure that
+mypy and pylint pass without exemptions. Do the best you can, and get as
+far as you are able. You can leave the warnings disabled for V3, but I'd
+like you to start taking a look now so that you know where the trouble
+spots are.
 
-You need to look out for these:
+Thanks!
+--js
 
-  File "/home/jsnow/src/qemu/python/qemu/aqmp/qmp_protocol.py", line 479,
-in _raw
-    msg = Message(msg)
-  File "/home/jsnow/src/qemu/python/qemu/aqmp/message.py", line 71, in
-__init__
-    self._obj = self._deserialize(self._data)
-  File "/home/jsnow/src/qemu/python/qemu/aqmp/message.py", line 158, in
-_deserialize
-    raise DeserializationError(emsg, data) from err
-qemu.aqmp.message.DeserializationError: Failed to deserialize QMP message.
-  raw bytes were: b'q\n\n'
-
-  File "/home/jsnow/src/qemu/python/qemu/aqmp/qmp_protocol.py", line 479,
-in _raw
-    msg = Message(msg)
-  File "/home/jsnow/src/qemu/python/qemu/aqmp/message.py", line 71, in
-__init__
-    self._obj = self._deserialize(self._data)
-  File "/home/jsnow/src/qemu/python/qemu/aqmp/message.py", line 160, in
-_deserialize
-    raise UnexpectedTypeError(
-qemu.aqmp.message.UnexpectedTypeError: QMP message is not a JSON object.
-  json value was: []
-
-There's also ValueError and TypeError, but I think the way you've written
-the shell here that there's not much of a chance to actually see these --
-they show up when serializing a python object, but you do bytes(msg) which
-means we use the *deserialization* interface to validate user input, so you
-might not actually see the other errors here ...
-
-Still, you theoretically could if somehow
-serialize(deserialize(bytes(msg)))) raised those errors. I don't expect
-that they would, but you may as well treat all of these errors the same:
-the input by the user is garbage and cannot be used. No need to exit or
-crash.
-
-
-> +
-> +    def cb_send_to_server(self, msg):
-> +        create_task(self._send_to_server(msg))
-> +
-> +    def unhandled_input(self, key):
-> +        if key == 'esc':
-> +            self.kill_app()
-> +
-> +    def kill_app(self):
-> +        # TODO: Work on the disconnect logic
-> +        create_task(self._kill_app())
-> +
-> +    async def _kill_app(self):
-> +        # It is ok to call disconnect even in disconnect state
-> +        try:
-> +            await self.disconnect()
-> +            LOGGER.debug('Disconnect finished. Exiting app')
-> +        except MultiException as err:
-> +            LOGGER.info('Multiple exception on disconnect: %s', str(err))
-> +            # Let the app crash after providing a proper stack trace
-> +            raise err
-> +        raise urwid.ExitMainLoop()
->
-
-I got rid of MultiException in v2, thankfully.... !
-
-If the server goes away, aqmp-shell shows the disconnect debug messages
-well enough, but then when hitting 'esc' afterwards, we get an Exception
-printed out to the terminal. Ideally, aqmp-shell should call disconnect()
-as soon as it notices a problem and not only when we call _kill_app.
-
-
-> +
-> +    def handle_event(self, event):
-> +        # FIXME: Consider all states present in qapi/run-state.json
-> +        if event['event'] == 'SHUTDOWN':
-> +            self.window.footer.set_text('Server shutdown')
-> +
-> +    async def connect_server(self):
-> +        try:
-> +            await self.connect(self.address)
-> +            self.window.footer.set_text("Connected to {:s}".format(
-> +                f"{self.address[0]}:{self.address[1]}"
-> +                if isinstance(self.address, tuple)
-> +                else self.address
-> +            ))
-> +        except ConnectError as err:
-> +            LOGGER.debug('Cannot connect to server %s', str(err))
-> +            self.window.footer.set_text('Server shutdown')
-> +
-> +    def run(self, debug=False):
-> +        self.screen.set_terminal_properties(256)
-> +
-> +        self.aloop = asyncio.get_event_loop()
-> +        self.aloop.set_debug(debug)
-> +
-> +        # Gracefully handle SIGTERM and SIGINT signals
-> +        cancel_signals = [signal.SIGTERM, signal.SIGINT]
-> +        for sig in cancel_signals:
-> +            self.aloop.add_signal_handler(sig, self.kill_app)
-> +
-> +        event_loop = urwid.AsyncioEventLoop(loop=self.aloop)
-> +        self.loop = urwid.MainLoop(self.window,
-> +                                   unhandled_input=self.unhandled_input,
-> +                                   handle_mouse=True,
-> +                                   event_loop=event_loop)
-> +
-> +        create_task(self.wait_for_events(), self.aloop)
-> +        create_task(self.connect_server(), self.aloop)
-> +        try:
-> +            self.loop.run()
-> +        except Exception as err:
-> +            LOGGER.error('%s\n%s\n', str(err), pretty_traceback())
-> +            raise err
-> +
-> +
-> +class TUILogHandler(Handler):
-> +    def __init__(self, tui):
-> +        super().__init__()
-> +        self.tui = tui
-> +
-> +    def emit(self, record):
-> +        level = record.levelname
-> +        msg = record.getMessage()
-> +        self.tui.add_to_history(msg, level)
-> +
-> +
-> +def parse_address(address):
-> +    """
-> +    This snippet was taken from qemu.qmp.__init__.
-> +    pylint complaints about duplicate code so it has been
-> +    temprorily disabled. This should be fixed once qmp is
-> +    replaced by aqmp in the future.
-> +    """
-> +    components = address.split(':')
-> +    if len(components) == 2:
-> +        try:
-> +            port = int(components[1])
-> +        except ValueError:
-> +            raise ValueError(f'Bad Port value in {address}') from None
-> +        return (components[0], port)
-> +    return address
-> +
->
-
-You can just import the old QMP package and use the old function directly.
-That will save you the trouble of needing to silence the duplicate code
-checker too.
-
-
-> +
-> +def main():
-> +    parser = argparse.ArgumentParser(description='AQMP TUI')
-> +    parser.add_argument('qmp_server', help='Address of the QMP server'
-> +                        '< UNIX socket path | TCP addr:port >')
-> +    parser.add_argument('--log-file', help='The Log file name')
-> +    parser.add_argument('--log-level', help='Log level
-> <debug|info|error>',
-> +                        default='debug')
-> +    parser.add_argument('--debug', action='store_true',
-> +                        help='Enable debug mode for asyncio loop'
-> +                        'Generates lot of output, makes TUI unusable when'
-> +                        'logs are logged in the TUI itself.'
-> +                        'Use only when logging to a file')
-> +    args = parser.parse_args()
-> +
-> +    try:
-> +        address = parse_address(args.qmp_server)
-> +    except ValueError as err:
-> +        parser.error(err)
-> +
-> +    app = App(address)
-> +
->
-
-Initializing the app can go down below the logging initialization stuff,
-because the init method engages the logging module to set up the loggers,
-but we want to initialize the logging paradigm ourselves before anything
-touches it.
-
-
-> +    if args.log_file:
-> +        LOGGER.addHandler(logging.FileHandler(args.log_file))
-> +    else:
-> +        LOGGER.addHandler(TUILogHandler(app))
-> +
-> +    log_levels = {'debug': logging.DEBUG,
-> +                  'info': logging.INFO,
-> +                  'error': logging.ERROR}
->
-
-There are more log levels than just 'debug', 'info' and 'error' ... There's
-probably a way to avoid having to re-write the mapping yourself. Something
-in the logging module can help here.
-
-
-> +
-> +    if args.log_level not in log_levels:
-> +        parser.error('Invalid log level')
-> +    LOGGER.setLevel(log_levels[args.log_level])
-> +
->
-
-You can initialize the app here instead.
-
-
-> +    app.run(args.debug)
-> +
->
->
- I didn't pass "--debug", but I still got DEBUG messages in the history
-panel.
-
-What I'd like to see is only WARNING messages and above in the application
-unless I pass --debug, and then I want to see additional messages.
-
-
-Looking good otherwise, I think it's shaping up. Thanks!
-
---000000000000bc3e9505c792b9e7
+--000000000000df307e05c792c9c0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 13, 2021 at 6:07 PM G S N=
-iteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Added a draft of AQMP TUI.<br>
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14, 2021 at 3:07 PM Nitee=
+sh G. S. &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><d=
+iv dir=3D"ltr"><div dir=3D"ltr"><div style=3D"font-size:small">Hello all,</=
+div><div style=3D"font-size:small"><br></div><div style=3D"font-size:small"=
+>UPDATE:=C2=A0 The pipelines have run and all tests passed #336491916</div>=
+<div style=3D"font-size:small">Usually, the pipelines start running as soon=
+ as I push my code. But this</div><div style=3D"font-size:small">time they =
+took longer to start and there was no sign of starting. This is my</div><di=
+v style=3D"font-size:small">first experience=C2=A0with pipelines so I assum=
+ed I messed up something from</div><div style=3D"font-size:small">my side.<=
+/div><div style=3D"font-size:small"><br></div><div style=3D"font-size:small=
+">Thanks,</div><div style=3D"font-size:small">Niteesh.</div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 14,=
+ 2021 at 3:37 AM G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.co=
+m" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">GitLab: <a href=3D"https://gitlab.=
+com/niteesh.gs/qemu/-/commits/aqmp-tui-prototype-v1/Based-on" rel=3D"norefe=
+rrer" target=3D"_blank">https://gitlab.com/niteesh.gs/qemu/-/commits/aqmp-t=
+ui-prototype-v1/<br>
+Based-on</a>: &lt;<a href=3D"mailto:20210701041313.1696009-1-jsnow@redhat.c=
+om" target=3D"_blank">20210701041313.1696009-1-jsnow@redhat.com</a>&gt;<br>
+=C2=A0 =C2=A0 =C2=A0[PATCH 00/20] python: introduce Asynchronous QMP packag=
+e<br>
 <br>
-Implements the follwing basic features:<br>
-1) Command transmission/reception.<br>
-2) Shows events asynchronously.<br>
-3) Shows server status in the bottom status bar.<br>
+Updates in V2:<br>
+1) Moved loop related initialization to &#39;run&#39; function in &#39;App&=
+#39; class<br>
+2) Added a module logger with support in TUI log messages.<br>
+3) Corrected usage of <a href=3D"http://logging.info" rel=3D"noreferrer" ta=
+rget=3D"_blank">logging.info</a> and logging.debug<br>
+4) Added an option in setup.cfg to silent pylint regarding duplicate-code<b=
+r>
+4) Modified the arguments list to the TUI<br>
 <br>
-Also added necessary pylint, mypy configurations<br>
+NOTE: I am not able to get the pipelines running after the v2 changes.<br>
+I was only able to test the changes locally using *make check*.<br>
+<br></blockquote></div></div></blockquote><div><br></div><div>Why not?<br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
+v dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">
+This patch series introduces AQMP-TUI prototype. This prototype has been<br=
+>
+helpfull in letting us try out different ideas and giving some insights<br>
+into things that we had to take care of in the upcoming TUI. It was also<br=
+>
+helpfull in finding out bugs in the AQMP library.<br>
 <br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
----<br>
-=C2=A0python/qemu/aqmp/aqmp_tui.py | 332 ++++++++++++++++++++++++++++++++++=
+The intent for this patch series is to get comments on the architectural<br=
+>
+design of the prototype. These comments will lay down the foundation for<br=
+>
+the upcoming TUI.<br>
+<br>
+G S Niteesh Babu (6):<br>
+=C2=A0 python: disable pylint errors for aqmp-tui<br>
+=C2=A0 python: Add dependencies for AQMP TUI<br>
+=C2=A0 python/aqmp-tui: Add AQMP TUI draft<br>
+=C2=A0 python: add optional pygments dependency<br>
+=C2=A0 python/aqmp-tui: add syntax highlighting<br>
+=C2=A0 python: add entry point for aqmp-tui<br>
+<br>
+=C2=A0python/Pipfile.lock=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 ++<b=
+r>
+=C2=A0python/qemu/aqmp/aqmp_tui.py | 342 ++++++++++++++++++++++++++++++++++=
 +<br>
 =C2=A0python/setup.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 21 ++-<br>
-=C2=A02 files changed, 352 insertions(+), 1 deletion(-)<br>
+=A0 36 +++-<br>
+=C2=A03 files changed, 397 insertions(+), 1 deletion(-)<br>
 =C2=A0create mode 100644 python/qemu/aqmp/aqmp_tui.py<br>
-<br>
-diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py<br=
->
-new file mode 100644<br>
-index 0000000000..f853efc1f5<br>
---- /dev/null<br>
-+++ b/python/qemu/aqmp/aqmp_tui.py<br>
-@@ -0,0 +1,332 @@<br>
-+# Copyright (c) 2021<br>
-+#<br>
-+# Authors:<br>
-+#=C2=A0 Niteesh Babu G S &lt;<a href=3D"mailto:niteesh.gs@gmail.com" targe=
-t=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
-+#<br>
-+# This work is licensed under the terms of the GNU GPL, version 2 or<br>
-+# later.=C2=A0 See the COPYING file in the top-level directory.<br>
-+<br>
-+import argparse<br>
-+import asyncio<br>
-+import logging<br>
-+from logging import Handler<br>
-+import signal<br>
-+<br>
-+import urwid<br>
-+import urwid_readline<br>
-+<br>
-+from .error import MultiException<br>
-+from .protocol import ConnectError<br>
-+from .qmp_protocol import QMP, ExecInterruptedError, ExecuteError<br>
-+from .util import create_task, pretty_traceback<br>
-+<br>
-+<br>
-+UPDATE_MSG =3D &#39;UPDATE_MSG&#39;<br>
-+<br>
-+# Using root logger to enable all loggers under qemu and asyncio<br>
-+LOGGER =3D logging.getLogger()<br>
-+<br>
-+palette =3D [<br>
-+=C2=A0 =C2=A0 (Token.Punctuation, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39=
-;h15,bold&#39;, &#39;g7&#39;),<br>
-+=C2=A0 =C2=A0 (Token.Text, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;&#39;,=
- &#39;g7&#39;),<br>
-+=C2=A0 =C2=A0 (Token.Name.Tag, &#39;&#39;, &#39;&#39;, &#39;&#39;, &#39;bo=
-ld,#f88&#39;, &#39;g7&#39;),<br>
-+=C2=A0 =C2=A0 (Token.Literal.Number.Integer, &#39;&#39;, &#39;&#39;, &#39;=
-&#39;, &#39;#fa0&#39;, &#39;g7&#39;),<br>
-+=C2=A0 =C2=A0 (Token.Literal.String.Double, &#39;&#39;, &#39;&#39;, &#39;&=
-#39;, &#39;#6f6&#39;, &#39;g7&#39;),<br>
-+=C2=A0 =C2=A0 (Token.Keyword.Constant, &#39;&#39;, &#39;&#39;, &#39;&#39;,=
- &#39;#6af&#39;, &#39;g7&#39;),<br>
-+=C2=A0 =C2=A0 (&#39;background&#39;, &#39;&#39;, &#39;black&#39;, &#39;&#3=
-9;, &#39;&#39;, &#39;g7&#39;),<br>
-+]<br>
-+<br>
-+<br>
-+class StatusBar(urwid.Text):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 A simple Text widget that currently only shows connection st=
-atus.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, text=3D&#39;&#39;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(text, align=3D&#39;right&#39;=
-)<br>
-+<br>
-+<br>
-+class Editor(urwid_readline.ReadlineEdit):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Support urwid_readline features along with<br>
-+=C2=A0 =C2=A0 history support which lacks in urwid_readline<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(caption=3D&#39;&gt; &#39;, mu=
-ltiline=3DTrue)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D []<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D -1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
-+<br>
-+=C2=A0 =C2=A0 def keypress(self, size, key):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Add some logic for down key and clean =
-up logic if possible.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Returning None means the key has been handle=
-d by this widget<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # which otherwise is propogated to the parent =
-widget to be<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # handled<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D self.get_edit_text()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if key =3D=3D &#39;up&#39; and not msg:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Show the history when &#39;up =
-arrow&#39; is pressed with no input text.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # NOTE: The show_history logic i=
-s necessary because in &#39;multiline&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # mode (which we use) &#39;up ar=
-row&#39; is used to move between lines.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D True<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 last_msg =3D self.history[self.l=
-ast_index] if self.history else &#39;&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text(last_msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.edit_pos =3D len(last_msg)<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index +=3D 1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif key =3D=3D &#39;up&#39; and self.show_his=
-tory:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.last_index &lt; len(self=
-.history):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text=
-(self.history[self.last_index])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.edit_pos =3D =
-len(self.history[self.last_index])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index +=
-=3D 1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif key =3D=3D &#39;meta enter&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # When using multiline, enter in=
-serts a new line into the editor<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # send the input to the server o=
-n alt + enter<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master.cb_send_to_server(ms=
-g)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.insert(0, msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.set_edit_text(&#39;&#39;)<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.show_history =3D False<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.last_index =3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return super().keypress(size, ke=
-y)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return None<br>
-+<br>
-+<br>
-+class EditorWidget(urwid.Filler):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Wraps CustomEdit<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(Editor(master), valign=3D&#39=
-;top&#39;)<br>
-+<br>
-+<br>
-+class HistoryBox(urwid.ListBox):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Shows all the QMP message transmitted/received<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D urwid.SimpleFocusListWalker([=
-])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(self.history)<br>
-+<br>
-+=C2=A0 =C2=A0 def add_to_history(self, history):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.append(urwid.Text(history))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.history:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.set_focus(len(self.=
-history) - 1)<br>
-+<br>
-+<br>
-+class HistoryWindow(urwid.Frame):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 Composes the HistoryBox and EditorWidget<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.editor =3D EditorWidget(master)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.editor_widget =3D urwid.LineBox(self.edit=
-or)<br></blockquote><div><br></div><div>It&#39;s a little confusing that &q=
-uot;editor&quot; is of type EditorWidget but &quot;editor_widget&quot; is u=
-rwid.LineBox.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history =3D HistoryBox(master)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.body =3D urwid.Pile([(&#39;weight&#39;, 8=
-0, self.history),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (&#39;weight&#39;, 20, self.editor_w=
-idget)])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(self.body)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.connect_signal(self.master, UPDATE_MSG, =
-self.cb_add_to_history)<br>
-+<br>
-+=C2=A0 =C2=A0 def cb_add_to_history(self, msg, level=3DNone):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 formatted =3D []<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if level:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D f&#39;[{level}]: {msg}&#=
-39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 formatted.append(msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lexer =3D lexers.JsonLexer()=C2=
-=A0 # pylint: disable=3Dno-member<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for token in lexer.get_tokens(ms=
-g):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 formatted.append(t=
-oken)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.history.add_to_history(formatted)<br>
-+<br>
-+<br>
-+class Window(urwid.Frame):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 This is going to be the main window that is going to compose=
- other<br>
-+=C2=A0 =C2=A0 windows. In this stage it is unnecesssary but will be necess=
-ary in<br>
-+=C2=A0 =C2=A0 future when we will have multiple windows and want to the sw=
-itch between<br>
-+=C2=A0 =C2=A0 them and display overlays<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 def __init__(self, master):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.master =3D master<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 footer =3D StatusBar()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 body =3D HistoryWindow(master)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__(body, footer=3Dfooter)<br>
-+<br>
-+<br>
-+class App(QMP):<br>
-+=C2=A0 =C2=A0 def __init__(self, address):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.register_signal(type(self), UPDATE_MSG)<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window =3D Window(self)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.address =3D address<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.loop =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__()<br>
-+<br>
-+=C2=A0 =C2=A0 def add_to_history(self, msg, level=3DNone):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_MSG, msg, level=
-)<br>
-+<br>
-+=C2=A0 =C2=A0 def _cb_outbound(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Request: %s&#39;, str(msg))<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.add_to_history(&#39;&lt;-- &#39; + str(ms=
-g))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
-+<br>
-+=C2=A0 =C2=A0 def _cb_inbound(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Response: %s&#39;, str(msg))=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.add_to_history(&#39;--&gt; &#39; + str(ms=
-g))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
-+<br></blockquote><div><br></div><div>[DEBUG]: Response seems to duplicate =
-the &quot;--&gt; {...}&quot; incoming messages.</div><div><br></div><div>Th=
-e debug stuff is nice to have because it gets saved to the logfile, but is =
-there some way to omit it from the history view, even when --debug is on? I=
- think we simply don&#39;t need to see the responses twice. What do you thi=
-nk?<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
-+=C2=A0 =C2=A0 async def wait_for_events(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 async for event in self.events:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.handle_event(event)<br>
-+<br>
-+=C2=A0 =C2=A0 async def _send_to_server(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Handle more validation errors (eg: Val=
-ueError)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self._raw(bytes(msg, &#39;=
-utf-8&#39;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ExecuteError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;Error response =
-from server for msg: %s&#39;, msg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ExecInterruptedError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;Error server di=
-sconnected before reply&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: Handle this better<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Show the disconnected message =
-in the history window<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 urwid.emit_signal(self, UPDATE_M=
-SG,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;{&quot;error&quot;: &quot;Server disco=
-nnected before reply&quot;}&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&quo=
-t;Server disconnected&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.error(&#39;Exception from=
- _send_to_server: %s&#39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br></blockquote><div><=
-br></div><div>Type non-JSON or a JSON value that isn&#39;t an object will c=
-rash the whole application.</div><div><br></div><div>You need to look out f=
-or these:</div><div><br></div><div>=C2=A0 File &quot;/home/jsnow/src/qemu/p=
-ython/qemu/aqmp/qmp_protocol.py&quot;, line 479, in _raw<br>=C2=A0 =C2=A0 m=
-sg =3D Message(msg)<br>=C2=A0 File &quot;/home/jsnow/src/qemu/python/qemu/a=
-qmp/message.py&quot;, line 71, in __init__<br>=C2=A0 =C2=A0 self._obj =3D s=
-elf._deserialize(self._data)<br>=C2=A0 File &quot;/home/jsnow/src/qemu/pyth=
-on/qemu/aqmp/message.py&quot;, line 158, in _deserialize<br>=C2=A0 =C2=A0 r=
-aise DeserializationError(emsg, data) from err<br>qemu.aqmp.message.Deseria=
-lizationError: Failed to deserialize QMP message.<br>=C2=A0 raw bytes were:=
- b&#39;q\n\n&#39;</div><div><br></div><div>=C2=A0 File &quot;/home/jsnow/sr=
-c/qemu/python/qemu/aqmp/qmp_protocol.py&quot;, line 479, in _raw<br>=C2=A0 =
-=C2=A0 msg =3D Message(msg)<br>=C2=A0 File &quot;/home/jsnow/src/qemu/pytho=
-n/qemu/aqmp/message.py&quot;, line 71, in __init__<br>=C2=A0 =C2=A0 self._o=
-bj =3D self._deserialize(self._data)<br>=C2=A0 File &quot;/home/jsnow/src/q=
-emu/python/qemu/aqmp/message.py&quot;, line 160, in _deserialize<br>=C2=A0 =
-=C2=A0 raise UnexpectedTypeError(<br>qemu.aqmp.message.UnexpectedTypeError:=
- QMP message is not a JSON object.<br>=C2=A0 json value was: []</div><div><=
-br></div><div>There&#39;s also ValueError and TypeError, but I think the wa=
-y you&#39;ve written the shell here that there&#39;s not much of a chance t=
-o actually see these -- they show up when serializing a python object, but =
-you do bytes(msg) which means we use the *deserialization* interface to val=
-idate user input, so you might not actually see the other errors here ...</=
-div><div><br></div><div>Still, you theoretically could if somehow serialize=
-(deserialize(bytes(msg)))) raised those errors. I don&#39;t expect that the=
-y would, but you may as well treat all of these errors the same: the input =
-by the user is garbage and cannot be used. No need to exit or crash.<br></d=
-iv><div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-+<br>
-+=C2=A0 =C2=A0 def cb_send_to_server(self, msg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self._send_to_server(msg))<br>
-+<br>
-+=C2=A0 =C2=A0 def unhandled_input(self, key):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if key =3D=3D &#39;esc&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.kill_app()<br>
-+<br>
-+=C2=A0 =C2=A0 def kill_app(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # TODO: Work on the disconnect logic<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self._kill_app())<br>
-+<br>
-+=C2=A0 =C2=A0 async def _kill_app(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # It is ok to call disconnect even in disconne=
-ct state<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self.disconnect()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Disconnect fin=
-ished. Exiting app&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except MultiException as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.info(&#39;Multiple except=
-ion on disconnect: %s&#39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Let the app crash after provid=
-ing a proper stack trace<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise urwid.ExitMainLoop()<br></blockquote><di=
-v><br></div><div>I got rid of MultiException in v2, thankfully.... !</div><=
-div><br></div><div>If the server goes away, aqmp-shell shows the disconnect=
- debug messages well enough, but then when hitting &#39;esc&#39; afterwards=
-, we get an Exception printed out to the terminal. Ideally, aqmp-shell shou=
-ld call disconnect() as soon as it notices a problem and not only when we c=
-all _kill_app.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 def handle_event(self, event):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # FIXME: Consider all states present in qapi/r=
-un-state.json<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if event[&#39;event&#39;] =3D=3D &#39;SHUTDOWN=
-&#39;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&#39=
-;Server shutdown&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 async def connect_server(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 await self.connect(self.address)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&quo=
-t;Connected to {:s}&quot;.format(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f&quot;{self.addre=
-ss[0]}:{self.address[1]}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if isinstance(self=
-.address, tuple)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else self.address<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ConnectError as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.debug(&#39;Cannot connect=
- to server %s&#39;, str(err))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.window.footer.set_text(&#39=
-;Server shutdown&#39;)<br>
-+<br>
-+=C2=A0 =C2=A0 def run(self, debug=3DFalse):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.screen.set_terminal_properties(256)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop =3D asyncio.get_event_loop()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop.set_debug(debug)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Gracefully handle SIGTERM and SIGINT signals=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cancel_signals =3D [signal.SIGTERM, signal.SIG=
-INT]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for sig in cancel_signals:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.aloop.add_signal_handler(si=
-g, self.kill_app)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 event_loop =3D urwid.AsyncioEventLoop(loop=3Ds=
-elf.aloop)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.loop =3D urwid.MainLoop(self.window,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unhandled_input=3Dself.=
-unhandled_input,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0handle_mouse=3DTrue,<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0event_loop=3Devent_loop=
-)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self.wait_for_events(), self.aloop=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 create_task(self.connect_server(), self.aloop)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.loop.run()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except Exception as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.error(&#39;%s\n%s\n&#39;,=
- str(err), pretty_traceback())<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise err<br>
-+<br>
-+<br>
-+class TUILogHandler(Handler):<br>
-+=C2=A0 =C2=A0 def __init__(self, tui):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 super().__init__()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.tui =3D tui<br>
-+<br>
-+=C2=A0 =C2=A0 def emit(self, record):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 level =3D record.levelname<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D record.getMessage()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.tui.add_to_history(msg, level)<br>
-+<br>
-+<br>
-+def parse_address(address):<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 This snippet was taken from qemu.qmp.__init__.<br>
-+=C2=A0 =C2=A0 pylint complaints about duplicate code so it has been<br>
-+=C2=A0 =C2=A0 temprorily disabled. This should be fixed once qmp is<br>
-+=C2=A0 =C2=A0 replaced by aqmp in the future.<br>
-+=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-+=C2=A0 =C2=A0 components =3D address.split(&#39;:&#39;)<br>
-+=C2=A0 =C2=A0 if len(components) =3D=3D 2:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 port =3D int(components[1])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 except ValueError:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise ValueError(f&#39;Bad Port =
-value in {address}&#39;) from None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return (components[0], port)<br>
-+=C2=A0 =C2=A0 return address<br>
-+<br></blockquote><div><br></div><div>You can just import the old QMP packa=
-ge and use the old function directly. That will save you the trouble of nee=
-ding to silence the duplicate code checker too.<br></div><div>=C2=A0</div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+def main():<br>
-+=C2=A0 =C2=A0 parser =3D argparse.ArgumentParser(description=3D&#39;AQMP T=
-UI&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;qmp_server&#39;, help=3D&#39;Addres=
-s of the QMP server&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;&lt; UNIX socket path | TCP addr:port &gt;&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;--log-file&#39;, help=3D&#39;The Lo=
-g file name&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;--log-level&#39;, help=3D&#39;Log l=
-evel &lt;debug|info|error&gt;&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 default=3D&#39;debug&#39;)<br>
-+=C2=A0 =C2=A0 parser.add_argument(&#39;--debug&#39;, action=3D&#39;store_t=
-rue&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 help=3D&#39;Enable debug mode for asyncio loop&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;Generates lot of output, makes TUI unusable when&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;logs are logged in the TUI itself.&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &#39;Use only when logging to a file&#39;)<br>
-+=C2=A0 =C2=A0 args =3D parser.parse_args()<br>
-+<br>
-+=C2=A0 =C2=A0 try:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 address =3D parse_address(args.qmp_server)<br>
-+=C2=A0 =C2=A0 except ValueError as err:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(err)<br>
-+<br>
-+=C2=A0 =C2=A0 app =3D App(address)<br>
-+<br></blockquote><div><br></div><div>Initializing the app can go down belo=
-w the logging initialization stuff, because the init method engages the log=
-ging module to set up the loggers, but we want to initialize the logging pa=
-radigm ourselves before anything touches it.<br></div><div>=C2=A0</div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 if args.log_file:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.addHandler(logging.FileHandler(args.log=
-_file))<br>
-+=C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 LOGGER.addHandler(TUILogHandler(app))<br>
-+<br>
-+=C2=A0 =C2=A0 log_levels =3D {&#39;debug&#39;: logging.DEBUG,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;info&#=
-39;: logging.INFO,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;error&=
-#39;: logging.ERROR}<br></blockquote><div><br></div><div>There are more log=
- levels than just &#39;debug&#39;, &#39;info&#39; and &#39;error&#39; ... T=
-here&#39;s probably a way to avoid having to re-write the mapping yourself.=
- Something in the logging module can help here.</div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 if args.log_level not in log_levels:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 parser.error(&#39;Invalid log level&#39;)<br>
-+=C2=A0 =C2=A0 LOGGER.setLevel(log_levels[args.log_level])<br>
-+<br></blockquote><div><br></div><div>You can initialize the app here inste=
-ad.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
-+=C2=A0 =C2=A0 app.run(args.debug)<br>
-+<br>
-<br></blockquote><div><br></div><div>=C2=A0I didn&#39;t pass &quot;--debug&=
-quot;, but I still got DEBUG messages in the history panel.</div><div><br><=
-/div><div>What I&#39;d like to see is only WARNING messages and above in th=
-e application unless I pass --debug, and then I want to see additional mess=
-ages.<br><br><br></div><div>Looking good otherwise, I think it&#39;s shapin=
-g up. Thanks!<br></div></div></div>
+<br></blockquote></div></div></blockquote><div><br></div><div>Thanks Nitees=
+h, a few general comments that don&#39;t relate directly to the code:</div>=
+<div><br></div><div> 1. It would be nice to be able to highlight/copy-paste=
+ things out of the history window, I seemingly can&#39;t right now.<br><br>=
+2. It would be nice if the mouse scroll wheel worked on the history panel.<=
+br><br>3. A greeting message like the old qmp-shell might be nice to see. I=
+t would be good if it explained how to quit the program (esc, ctrl^c) and s=
+end messages (alt+enter).<br><br>4. Some control hints or reminder text in =
+the footer might be nice, for how to quit, send a message, etc.</div><div><=
+br></div><div>For the next revision, I may ask you to start looking into ma=
+king sure that mypy and pylint pass without exemptions. Do the best you can=
+, and get as far as you are able. You can leave the warnings disabled for V=
+3, but I&#39;d like you to start taking a look now so that you know where t=
+he trouble spots are.</div><div><br></div><div>Thanks!</div><div>--js<br></=
+div></div></div>
 
---000000000000bc3e9505c792b9e7--
+--000000000000df307e05c792c9c0--
 
 
