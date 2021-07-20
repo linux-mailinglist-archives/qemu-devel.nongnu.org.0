@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA753D0122
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:01:55 +0200 (CEST)
-Received: from localhost ([::1]:54648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367D03D012C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:03:47 +0200 (CEST)
+Received: from localhost ([::1]:59494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5u42-00087C-EW
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:01:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33046)
+	id 1m5u5q-00037u-8n
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:03:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5u21-0006VY-5n
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:59:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45190)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5u3D-000811-QV
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:01:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5u1z-0005i1-2I
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:59:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5u3B-0006gW-Mj
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:01:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626803986;
+ s=mimecast20190719; t=1626804061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dqhclZ5rTEumFUVvTN8WrFhd5oz0Z9oiLRsQzZe/P04=;
- b=OXJws2meg7MQuB9LbxV8rpCKOR+MuBvMWIGutljsmmPxvTLBjWezSz0MbQYGj19kd/QOlA
- +N2QjD/xf0K/Q5AO411pQg8JsqbYR+SBq08iT7ZHyPHOgWGdmfSYv6DpThSZnjLR9L2Kut
- r9ipUkRpnmajBcFA9+bmr/BOvjKSAXk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-LoRMjGgKNuW8SsDHQT24UQ-1; Tue, 20 Jul 2021 13:59:45 -0400
-X-MC-Unique: LoRMjGgKNuW8SsDHQT24UQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g13-20020a05600c4ecdb0290242a8f4cf9cso27491wmq.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 10:59:45 -0700 (PDT)
+ bh=GjgO9h7/1wbMnunvb+/ba+Jd3nF8JxVIGqD6wpiI880=;
+ b=VL8yq55keaEWMnTby5MOOWoB2BIvvk4Td/29YHXCWNqmSk/M822q57UgzUSJpJQjdRhhvB
+ gXc/MxCF3cC8hI4wLIpxa5G2DtZj1unubf0uTo5hfD8GozvNkgcon9zedUfjPy2JcxT5rO
+ 8f/mCyIk6fsr5lnxnWiR+ALhMI0iFjs=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-mt3jZcuXObmo89EJQkf5dQ-1; Tue, 20 Jul 2021 14:00:59 -0400
+X-MC-Unique: mt3jZcuXObmo89EJQkf5dQ-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ i11-20020a9d68cb0000b02904d0a18787d4so5036186oto.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:00:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dqhclZ5rTEumFUVvTN8WrFhd5oz0Z9oiLRsQzZe/P04=;
- b=R9hOINwnPE3IHuv5LN8JLHIcfa8WQXeiCmM0ianKpLXfs20DZA+M2Bl6Ho50PRzSqF
- 3xaNsOUL7nBY+Il37pWBXhzAp9smcEhTHqv5KEJET87enpPUNNOCo3VvtsKDbQknSiTY
- frr76Xnu4rTcn2ADee+bXKGQNFaVjgMAFQljFiTsmbclmMb5nfEyFGnBgjUdF9cRfc/g
- k1XO9NCRMQVaTAJi/IrmXpbbNVrGGRYCRTxX/DpgksPLBwQIJMm8z/YTVUVkAjrRfp/7
- 1x5MbjFuw9TTTA60Wo54m1ZBnczD8hD79U8w4/HulYaOn3duKmx0YA0FL+RBQrgKvQ6C
- G4nQ==
-X-Gm-Message-State: AOAM532JzJlSuywSCx9ddXFPqLPYcj4NFe5Be2yLVEagUpxcokT6bow1
- lR0G6lhkIx8BgP+bYuIEnW8GIpdClSupdkJt7GvgzM/fXiH/NL9Dm/3rrVciRJjdOiQzjyt/8DP
- AOlHIrg7jXVlZHzQ=
-X-Received: by 2002:a05:600c:a04:: with SMTP id
- z4mr32289536wmp.103.1626803984321; 
- Tue, 20 Jul 2021 10:59:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwhcNLF9MwhAEQmSFFMEzs5AvoeE3jGGtUFlNO81wKVMKCjowOoXy0WjTFe2PdZ5S1vbbUeqw==
-X-Received: by 2002:a05:600c:a04:: with SMTP id
- z4mr32289529wmp.103.1626803984153; 
- Tue, 20 Jul 2021 10:59:44 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id f11sm2926797wmb.14.2021.07.20.10.59.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 10:59:43 -0700 (PDT)
-Subject: Re: [PATCH v2 09/17] iotests/297: Don't rely on distro-specific
- linter binaries
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-References: <20210720173336.1876937-1-jsnow@redhat.com>
- <20210720173336.1876937-10-jsnow@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5c9895d4-c94e-c804-06a3-9dad3b226e91@redhat.com>
-Date: Tue, 20 Jul 2021 19:59:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GjgO9h7/1wbMnunvb+/ba+Jd3nF8JxVIGqD6wpiI880=;
+ b=U7HlVo0n0l+n+laChGjIYheqvTsEudyzj8DWjMmt7ou0QKkLV7idyJpFsqrYOdeEz8
+ HYSZqmuq1XH9EUr5euYfll8oCGkuuHL9kQmlx1KGl+S9kUb/dueZQcJtF9kciApc0RTa
+ SvxTlceQtykLP7gEwnolX1QIPhUZCrb+jygS7kxF5/esNJj0oTEjlY+5y08P6aOPvPx7
+ d6UGJHyBBTw5KVmKcaQxfw1tsE5ZwswDqQt/LnTlZ4LGjFvKkxBspOySrR7c0KKoVZke
+ Hxtv7W+iPRRBkN8VMUx5REPjyhZpS1/fSNLZdXwUx5IdPTNPnBcaaGfYl7I+HiSw/Sc/
+ 1aQw==
+X-Gm-Message-State: AOAM533SWDj9CRBFgSMM+O6zZi6GMXGquTTQ1Di3eUbVXCkoiczx2kW3
+ FWRhO331G29LbSerX26q01RiZjxSfM6Hh6bpOqm2ckvlu7A4jGT+IUcaNxnOLhKGLtFavyMQHbA
+ NDkdKxW352FHwSzG63pGTqeHAt69tR20=
+X-Received: by 2002:a4a:8544:: with SMTP id l4mr21647468ooh.5.1626804058482;
+ Tue, 20 Jul 2021 11:00:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy1GAtfR2gyezYNY0LuyB5regR8LD9I//EQQFB7yPVeUCJziAallwuZ8rTSMaCAIh6saN+pDscQXx0bSLbcywk=
+X-Received: by 2002:a4a:8544:: with SMTP id l4mr21647452ooh.5.1626804058321;
+ Tue, 20 Jul 2021 11:00:58 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210720173336.1876937-10-jsnow@redhat.com>
+References: <20210702212603.26465-1-niteesh.gs@gmail.com>
+ <20210702212603.26465-2-niteesh.gs@gmail.com>
+In-Reply-To: <20210702212603.26465-2-niteesh.gs@gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Tue, 20 Jul 2021 14:00:47 -0400
+Message-ID: <CAFn=p-b3gOzFtcGCH3amNTyzosMqP2HkYFSiaX04e9yVWhfgBw@mail.gmail.com>
+Subject: Re: [PATCH 1/6] python: disable pylint errors for aqmp-tui
+To: G S Niteesh Babu <niteesh.gs@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000004070f05c791d65d"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,29 +88,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/21 7:33 PM, John Snow wrote:
-> 'pylint-3' is another Fedora-ism. Use "python3 -m pylint" or "python3 -m
-> mypy" to access these scripts instead. This style of invocation will
-> prefer the "correct" tool when run in a virtual environment.
-> 
-> Note that we still check for "pylint-3" before the test begins -- this
-> check is now "overly strict", but shouldn't cause anything that was
-> already running correctly to start failing.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/297 | 45 ++++++++++++++++++++++++------------------
->  1 file changed, 26 insertions(+), 19 deletions(-)
+--00000000000004070f05c791d65d
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Fri, Jul 2, 2021 at 5:26 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+wrote:
+
+> Disable missing-docstring and fixme pylint warnings.
+> This is because since the AQMP is just a prototype
+> it is currently not documented properly and lot
+> of todo and fixme's are still in place.
+>
+> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
+> ---
+>  python/setup.cfg | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/python/setup.cfg b/python/setup.cfg
+> index bce8807702..1a552d672a 100644
+> --- a/python/setup.cfg
+> +++ b/python/setup.cfg
+> @@ -89,6 +89,8 @@ ignore_missing_imports = True
+>  # no Warning level messages displayed, use "--disable=all --enable=classes
+>  # --disable=W".
+>  disable=too-many-function-args,  # mypy handles this with less false
+> positives.
+> +        missing-docstring, # FIXME
+> +        fixme, # FIXME
+>
+
+You aren't actually using any FIXME statements in this branch right now
+that I can see, so you don't need that suppression. It could be removed in
+V3.
+
+
+>
+>  [pylint.basic]
+>  # Good variable names which should always be accepted, separated by a
+> comma.
+> --
+> 2.17.1
+>
+>
+
+--00000000000004070f05c791d65d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 2, 2021 at 5:26 PM G S Ni=
+teesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+Disable missing-docstring and fixme pylint warnings.<br>
+This is because since the AQMP is just a prototype<br>
+it is currently not documented properly and lot<br>
+of todo and fixme&#39;s are still in place.<br>
+<br>
+Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
+ target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0python/setup.cfg | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/python/setup.cfg b/python/setup.cfg<br>
+index bce8807702..1a552d672a 100644<br>
+--- a/python/setup.cfg<br>
++++ b/python/setup.cfg<br>
+@@ -89,6 +89,8 @@ ignore_missing_imports =3D True<br>
+=C2=A0# no Warning level messages displayed, use &quot;--disable=3Dall --en=
+able=3Dclasses<br>
+=C2=A0# --disable=3DW&quot;.<br>
+=C2=A0disable=3Dtoo-many-function-args,=C2=A0 # mypy handles this with less=
+ false positives.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 missing-docstring, # FIXME<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fixme, # FIXME<br></blockquote><div><br></div>=
+<div>You aren&#39;t actually using any FIXME statements in this branch righ=
+t now that I can see, so you don&#39;t need that suppression. It could be r=
+emoved in V3.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+<br>
+=C2=A0[pylint.basic]<br>
+=C2=A0# Good variable names which should always be accepted, separated by a=
+ comma.<br>
+-- <br>
+2.17.1<br>
+<br>
+</blockquote></div></div>
+
+--00000000000004070f05c791d65d--
 
 
