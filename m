@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04A573CFA4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:14:26 +0200 (CEST)
-Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85E623CFA63
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:16:42 +0200 (CEST)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pZp-00078n-1H
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:14:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52592)
+	id 1m5pc0-00038D-5D
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPK-0005PJ-IK
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29212)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPS-0005c3-0D
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPI-0001Fl-O9
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:34 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPQ-0001Gr-9H
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626786211;
+ s=mimecast20190719; t=1626786219;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yLH7NdJacv5dlzoAeNEnD2eE8ZEHqQf/gnwDIm3Ygm0=;
- b=OyyCZ4poe/3DRC9S9ag3dIN6LT8bdSjnux4enXDUYNktHT1RiGSjApiUGy4D0XPLti/bVv
- /0ouUFzHxIA185TvMldSGR2kM1JE2ipx/kjV93YCgTkp/jOQmIbnEVgWVxL2gOgYHg7oYS
- rYRaeRZ7iVmDpcJKl2WIkCckZ2+gXsI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t0aTiRSVSNPIhihgMceYa2bebLkk5m+Lhw9P1mIHD50=;
+ b=WUjN6nwWjosWCA1c0SYf7uWLE0mzSqWzkqXVogluD1fVYnEGxnTD6Q8JBYPneg9u3smTFz
+ lyY5O188urlHnhP1TTwJTFbDgcYWd3xEARPJKR5j3g2CtvVLnAEL0cOTfK+hXutRpZnAOw
+ W/X5RxGgwsm3pCRoC6PGIcnZy1qPvnc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-303-PaT3kAo6MN-TrMLUG9v0Sg-1; Tue, 20 Jul 2021 09:03:28 -0400
-X-MC-Unique: PaT3kAo6MN-TrMLUG9v0Sg-1
+ us-mta-373-TbIMygRcN92fF2IIdw2Acg-1; Tue, 20 Jul 2021 09:03:38 -0400
+X-MC-Unique: TbIMygRcN92fF2IIdw2Acg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7C26195D560;
- Tue, 20 Jul 2021 13:03:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 546D9195D561;
+ Tue, 20 Jul 2021 13:03:37 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A78B319CBC;
- Tue, 20 Jul 2021 13:03:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 34EB869CB4;
+ Tue, 20 Jul 2021 13:03:27 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH resend v2 0/5] softmmu/memory_mapping: optimize dump/tpm for
- virtio-mem
-Date: Tue, 20 Jul 2021 15:02:59 +0200
-Message-Id: <20210720130304.26323-1-david@redhat.com>
+Subject: [PATCH resend v2 1/5] tpm: mark correct memory region range dirty
+ when clearing RAM
+Date: Tue, 20 Jul 2021 15:03:00 +0200
+Message-Id: <20210720130304.26323-2-david@redhat.com>
+In-Reply-To: <20210720130304.26323-1-david@redhat.com>
+References: <20210720130304.26323-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -76,55 +79,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Stefan Berger <stefanb@linux.vnet.ibm.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Stefan Berger <stefanb@linux.ibm.com>
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a resend of v2, now that RamDiscardManager is upstream. I retested
-dumping with virtio-mem on shmem and it works as expected now.
+We might not start at the beginning of the memory region. We could also
+calculate via the difference in the host address; however,
+memory_region_set_dirty() also relies on memory_region_get_ram_addr()
+internally, so let's just use that.
 
+Acked-by: Stefan Berger <stefanb@linux.ibm.com>
+Fixes: ffab1be70692 ("tpm: clear RAM when "memory overwrite" requested")
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: "Alex Bennée" <alex.bennee@linaro.org>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
+ hw/tpm/tpm_ppi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Minor fixes and cleanups, followed by an optimization for virtio-mem
-regarding guest dumps and tpm.
-
-virtio-mem logically plugs/unplugs memory within a sparse memory region
-and notifies via the RamDiscardMgr interface when parts become
-plugged (populated) or unplugged (discarded).
-
-Currently, guest_phys_blocks_append() appends the whole (sparse)
-virtio-mem managed region and therefore tpm code might zero the hole
-region and dump code will dump the whole region. Let's only add logically
-plugged (populated) parts of that region, skipping over logically
-unplugged (discarded) parts by reusing the RamDiscardMgr infrastructure
-introduced to handle virtio-mem + VFIO properly.
-
-v1 -> v2:
-- "softmmu/memory_mapping: factor out adding physical memory ranges"
--- Simplify based on RamDiscardManager changes: add using a
-   MemoryRegionSection
-- "softmmu/memory_mapping: optimize for RamDiscardManager sections"
--- Simplify based on RamDiscardManager changes
-
-David Hildenbrand (5):
-  tpm: mark correct memory region range dirty when clearing RAM
-  softmmu/memory_mapping: reuse qemu_get_guest_simple_memory_mapping()
-  softmmu/memory_mapping: never merge ranges accross memory regions
-  softmmu/memory_mapping: factor out adding physical memory ranges
-  softmmu/memory_mapping: optimize for RamDiscardManager sections
-
- hw/tpm/tpm_ppi.c         |  4 ++-
- softmmu/memory_mapping.c | 72 ++++++++++++++++++++++++----------------
- 2 files changed, 46 insertions(+), 30 deletions(-)
-
+diff --git a/hw/tpm/tpm_ppi.c b/hw/tpm/tpm_ppi.c
+index 362edcc5c9..261f33431c 100644
+--- a/hw/tpm/tpm_ppi.c
++++ b/hw/tpm/tpm_ppi.c
+@@ -30,11 +30,13 @@ void tpm_ppi_reset(TPMPPI *tpmppi)
+         guest_phys_blocks_init(&guest_phys_blocks);
+         guest_phys_blocks_append(&guest_phys_blocks);
+         QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
++            ram_addr_t mr_start = memory_region_get_ram_addr(block->mr);
++
+             trace_tpm_ppi_memset(block->host_addr,
+                                  block->target_end - block->target_start);
+             memset(block->host_addr, 0,
+                    block->target_end - block->target_start);
+-            memory_region_set_dirty(block->mr, 0,
++            memory_region_set_dirty(block->mr, block->target_start - mr_start,
+                                     block->target_end - block->target_start);
+         }
+         guest_phys_blocks_free(&guest_phys_blocks);
 -- 
 2.31.1
 
