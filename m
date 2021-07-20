@@ -2,96 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E406A3CFC48
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 16:28:44 +0200 (CEST)
-Received: from localhost ([::1]:43934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536433CFC99
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 16:49:54 +0200 (CEST)
+Received: from localhost ([::1]:45708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5qjk-0004aw-14
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 10:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41412)
+	id 1m5r4D-0000DB-0m
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 10:49:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5qig-0003OE-MG
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:27:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32536)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m5qzm-0007ix-HI
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:45:18 -0400
+Received: from ozlabs.org ([203.11.71.1]:50515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5qif-00051q-29
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:27:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626791256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Es74+UVO8IM2+xpGxdNoQ8bX3XKKTTRhEwu0W0we+FE=;
- b=Aszhp6Ubrmgc/Gbvom/kcDURSJPpyXZp8puoxdXiIb0XbFY4eybzQRXh8OvPbr2SYld+qv
- 7nJowSAYICROPok21Pj3qdipE6KFX1LQF8FTzGwsgd3ttQrd/byS/lyBGAO1t14gh2sZbu
- dWc7wfFqvaO/VZ6snW79L4gzTHPv0I4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-G8iR_nCcOmCkdKZHUtaayQ-1; Tue, 20 Jul 2021 10:27:35 -0400
-X-MC-Unique: G8iR_nCcOmCkdKZHUtaayQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d9-20020adffbc90000b029011a3b249b10so10293528wrs.3
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 07:27:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Es74+UVO8IM2+xpGxdNoQ8bX3XKKTTRhEwu0W0we+FE=;
- b=JtPaCaBiFYfcwlz5S0F0F3vjUzopPHHCJBVv8MeHjVatI4N2KQTz37vy47eATjjto4
- ynAaDegbyTOBMljGal1994QDRFtKao2u1QxqlKI7jUkhykV+yysKlDwO1HkUuXGSmVh8
- iv3IckjW5Yl7bnUDEvLGZRgCPWLCJ93p+veLNQmmCXa8bi/uqKyWEuUEyUJQGoR4XPwh
- EiTlPTDfM2YIiX6aJ1uoj+GrUDUUEVSs8W8+TvJZqoypJ41vxdxjqwZtjHE3rVPiXc0Z
- JqHCpXPXpJY0rrsjGs31ZqbZrxZ3JlkPX1cWREZVgT4dJmZLK3vi2jLnQOjl0ErBn/0n
- TF5g==
-X-Gm-Message-State: AOAM532tXB7cYjDaUCFnU/cUVqfevBbYOS0WlMHGTdnMGVyAk4hhBznh
- Rdn/ChQZQYezfEIHFC60m/69UZGR3VMFZiO0hV2Qy5r7iGLrJNUC/QepvBxBhZbU5EpSjbjONBr
- hSFQUuOZ9QwGwnqM=
-X-Received: by 2002:a1c:23d0:: with SMTP id
- j199mr13271520wmj.176.1626791254076; 
- Tue, 20 Jul 2021 07:27:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxbRtbYwCtDNJxey9ev1uy4aZ6/Yl2md3/LTbWckCs/m4+0fEP3igb1ASzDeTHnp9L2VnVDfQ==
-X-Received: by 2002:a1c:23d0:: with SMTP id
- j199mr13271498wmj.176.1626791253829; 
- Tue, 20 Jul 2021 07:27:33 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
- (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
- [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
- by smtp.gmail.com with ESMTPSA id i10sm11974416wml.31.2021.07.20.07.27.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 07:27:33 -0700 (PDT)
-Subject: Re: [PATCH v1 3/3] util/oslib-posix: Support concurrent
- os_mem_prealloc() invocation
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210714112306.67793-1-david@redhat.com>
- <20210714112306.67793-4-david@redhat.com> <YPbcQmgAY+GdsIfb@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <a8b2e7c8-9c95-ea23-c1f0-f74387647809@redhat.com>
-Date: Tue, 20 Jul 2021 16:27:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1m5qzj-00088f-BZ
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:45:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GThML3tLyz9sWw; Wed, 21 Jul 2021 00:45:02 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1626792302;
+ bh=fcKQJYnRnqv2suOSu6uV5X+dpWP7ofbxtdLwaZjRmn0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jZWsvyVGUjt6l2MTaMORCqDET7CCgunplAw6JlOtZ1s9IPOVjCHAem1C1kIG7QrrT
+ Wb+8SL2wM3W5HcGVes7hE3ueCD+VwpCe2rvcsGzBLU6WNxWjmqrmGFT5TLaEY61Wza
+ K14RDxuYwR/jfJmvE5oGcLG+FXFqN9oauvCkXGlM=
+Date: Tue, 20 Jul 2021 23:12:59 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 02/16] spapr: Plug memory leak when we can't add a
+ migration blocker
+Message-ID: <YPbL22aisygFD4vh@yekko>
+References: <20210720125408.387910-1-armbru@redhat.com>
+ <20210720125408.387910-3-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YPbcQmgAY+GdsIfb@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="x6ekk9CYR/ztf4gJ"
+Content-Disposition: inline
+In-Reply-To: <20210720125408.387910-3-armbru@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,74 +62,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Aravinda Prasad <arawinda.p@gmail.com>,
+ Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.07.21 16:22, Daniel P. Berrangé wrote:
-> On Wed, Jul 14, 2021 at 01:23:06PM +0200, David Hildenbrand wrote:
->> Add a mutext to protect the SIGBUS case, as we cannot mess concurrently
-> 
-> typo  s/mutext/mutex/
-> 
->> with the sigbus handler and we have to manage the global variable
->> sigbus_memset_context. The MADV_POPULATE_WRITE path can run
->> concurrently.
->>
->> Note that page_mutex and page_cond are shared between concurrent
->> invocations, which shouldn't be a problem.
->>
->> This is a preparation for future virtio-mem prealloc code, which will call
->> os_mem_prealloc() asynchronously from an iothread when handling guest
->> requests.
-> 
-> Hmm, I'm wondering how the need to temporarily play with SIGBUS
-> at runtime for mem preallocation will interact with the SIGBUS
-> handler installed by softmmu/cpus.c.
 
-That's exactly why I came up with MADV_POPULATE_WRITE, to avoid having 
-to mess with different kinds of sigbus at the same time. You can only 
-get it wrong.
+--x6ekk9CYR/ztf4gJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> The SIGBUS handler the preallocation code is installed just
-> blindly assumes the SIGBUS is related to the preallocation
-> work being done. This is a fine assumption during initially
-> startup where we're single threaded and not running guest
-> CPUs. I'm less clear on whether that's a valid assumption
-> at runtime once guest CPUs are running.
+On Tue, Jul 20, 2021 at 02:53:54PM +0200, Markus Armbruster wrote:
+> Fixes: 2500fb423adb17995485de0b4d507cf2f09e3a7f
+> Cc: Aravinda Prasad <arawinda.p@gmail.com>
+> Cc: Ganesh Goudar <ganeshgr@linux.ibm.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 
-I assume it's quite broken, for example, already when hotplugging a DIMM 
-and prallocating memory for the memory backend.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-> 
-> If the sigbus_handler method in softmmu/cpus.c is doing
-> something important for QEMU, then why is it ok for us to
-> periodically disable that handler and replace it with
-> something else that takes a completely different action ?
+> ---
+>  hw/ppc/spapr_events.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 0cfc19be19..a8f2cc6bdc 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -872,7 +872,6 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
+red)
+>      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+>      CPUState *cs =3D CPU(cpu);
+>      int ret;
+> -    Error *local_err =3D NULL;
+> =20
+>      if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
+>          /* Non-FWNMI case, deliver it like an architected CPU interrupt.=
+ */
+> @@ -912,7 +911,7 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recove=
+red)
+>          }
+>      }
+> =20
+> -    ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, &local_e=
+rr);
+> +    ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, NULL);
+>      if (ret =3D=3D -EBUSY) {
+>          /*
+>           * We don't want to abort so we let the migration to continue.
 
-I don't think it is ok. I assume it has been broken for a long time, 
-just nobody ever ran into that race.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> 
-> Of course with the madvise impl we're bypassing the SIGBUS
-> dance entirely. This is good for people with new kernels,
-> but is this SIGBUS stuff safe for older kernels ?
+--x6ekk9CYR/ztf4gJ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It remains broken with old kernels I guess. There isn't too much that we 
-can do: disabling prealloc=on once the VM is running breaks existing use 
-cases.
+-----BEGIN PGP SIGNATURE-----
 
-Fortunately, running into that race seems to be rare, at least I never 
-hear reports.
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD2y9gACgkQbDjKyiDZ
+s5LMxxAAl9321EIJ/nQq2zMtY9SB4U0BV2AJOs42izozVdOE7g9KB1rikB+TuxG1
+LXqzNruI5CxUtxYCkmkKj5mZvz/p2tmn4SE/gpp3z81PzIlfycusSWW5Ss+kCqPu
+LSiarWdkzEk2PA+Dwm9k7NOBrZkbZQs2ZK168bN1ys1IEOoSFH6NrgmR10RICVOi
+gUCqq6MYKWx4d7M8bt2p5JshTmAigqXyEpDtYlhLSg/pdyEt03D6dp56nGNeFezv
+p7YQ4fgzLEf6La8YCL0cRQ49/rqWElukRdcLMHXQPeGu+78Y6E58voS8OaxJmFtq
+tN+QbdU5ENDpZEBWh+rbLKyFnGeeKJyTbhFRj7iwhPcmATg60vqXehiOoTq5MV5C
+wkBjOF+Q9rKSXHHOY9Htg3eLmYaBIorrCETDXfw/btSwo5DCNDq+krb10uhkJWPp
+hqDYGfFUf/N/o11jzfRKnwivuoNiFqhz/bcAFsjzFOZ525+3DZBXhH/DMBlpSyto
+voxOG5chpJtN3EaBTS5ybD42yuD6xWnynlpnwRLCKEGZfg2AbAuAqV7WBfQq052/
+s6k+D1IGIpyHKOZwiA96UTKTGhxjaV9SHkahGbgZYnNrEQnHUriVL68c8XREaDOp
+2oEXK91+12aJOM3eyOndv0GXx0LAdLp2zxu47uXEKPnRPZLmBAk=
+=V0Pu
+-----END PGP SIGNATURE-----
 
--- 
-Thanks,
-
-David / dhildenb
-
+--x6ekk9CYR/ztf4gJ--
 
