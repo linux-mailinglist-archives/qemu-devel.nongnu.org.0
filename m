@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8979C3CFA27
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:10:10 +0200 (CEST)
-Received: from localhost ([::1]:56912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B5823CFA3C
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:13:25 +0200 (CEST)
+Received: from localhost ([::1]:36374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5pVh-0007XA-JJ
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:10:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
+	id 1m5pYp-0004b5-Re
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:13:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPf-0005sC-RI
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32782)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPs-00061R-UC
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:04:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPe-0001JZ-54
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:03:55 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5pPq-0001KN-Tz
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:04:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626786233;
+ s=mimecast20190719; t=1626786246;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JdQD+N4Y9uU7e/4s21vkkY2fZYuVqYGiTZftNf9f1hA=;
- b=RwLNaQxy/R8Tcd8VwmVTVPtWhjsmdzeyOegTO4AH1nDR+ZuBUmg06EhvYZ96/ajCzCGDbE
- PtHzNVN1Y0L8kjuZJw8UTmq4rrY6ksUVKEuWhAB7h2oJW5EV6Slzmd/fMecxO3KojrTglk
- 1LkCQ8XZfjszSnsMM8KLKkhkdZsEw0E=
+ bh=Z529/eydABA0pqIocAcsEmQFLGljXmJIFgQvuEJplCo=;
+ b=NvX+dLHoctGaMexCitUgCnWSYl06uUmlECWTfa/5yaXPzzEgftl48cmr+M53dP0BTBJAeh
+ VgUEqJBjjg+Z9NI1yFGGMGi2+2rd6ABpqWN1S19/Gm8AGmnptFMLyFTmbQy8T3AIWWDZ6T
+ 12FeBVprVQafpdL4zCerDLMeEA7Ksv0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-431-GcnuzYpgNjCK-JyLkByCjw-1; Tue, 20 Jul 2021 09:03:52 -0400
-X-MC-Unique: GcnuzYpgNjCK-JyLkByCjw-1
+ us-mta-303-Vth_Rw3hNVKJxUCk-GTnqA-1; Tue, 20 Jul 2021 09:04:02 -0400
+X-MC-Unique: Vth_Rw3hNVKJxUCk-GTnqA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EF08CC621;
- Tue, 20 Jul 2021 13:03:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EAE7CC622;
+ Tue, 20 Jul 2021 13:04:01 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-112.ams2.redhat.com [10.36.114.112])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A8B4218AAB;
- Tue, 20 Jul 2021 13:03:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A237369CB4;
+ Tue, 20 Jul 2021 13:03:51 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH resend v2 2/5] softmmu/memory_mapping: reuse
- qemu_get_guest_simple_memory_mapping()
-Date: Tue, 20 Jul 2021 15:03:01 +0200
-Message-Id: <20210720130304.26323-3-david@redhat.com>
+Subject: [PATCH resend v2 3/5] softmmu/memory_mapping: never merge ranges
+ accross memory regions
+Date: Tue, 20 Jul 2021 15:03:02 +0200
+Message-Id: <20210720130304.26323-4-david@redhat.com>
 In-Reply-To: <20210720130304.26323-1-david@redhat.com>
 References: <20210720130304.26323-1-david@redhat.com>
 MIME-Version: 1.0
@@ -89,8 +89,8 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's reuse qemu_get_guest_simple_memory_mapping(), which does exactly
-what we want.
+Let's make sure to not merge when different memory regions are involved.
+Unlikely, but theoretically possible.
 
 Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
@@ -107,35 +107,23 @@ Cc: Laurent Vivier <lvivier@redhat.com>
 Cc: Stefan Berger <stefanb@linux.ibm.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- softmmu/memory_mapping.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ softmmu/memory_mapping.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-index e7af276546..d63f896b30 100644
+index d63f896b30..c149bad44a 100644
 --- a/softmmu/memory_mapping.c
 +++ b/softmmu/memory_mapping.c
-@@ -288,8 +288,6 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
-                                    Error **errp)
- {
-     CPUState *cpu, *first_paging_enabled_cpu;
--    GuestPhysBlock *block;
--    ram_addr_t offset, length;
+@@ -229,7 +229,8 @@ static void guest_phys_blocks_region_add(MemoryListener *listener,
  
-     first_paging_enabled_cpu = find_paging_enabled_cpu(first_cpu);
-     if (first_paging_enabled_cpu) {
-@@ -309,11 +307,7 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
-      * If the guest doesn't use paging, the virtual address is equal to physical
-      * address.
-      */
--    QTAILQ_FOREACH(block, &guest_phys_blocks->head, next) {
--        offset = block->target_start;
--        length = block->target_end - block->target_start;
--        create_new_memory_mapping(list, offset, offset, length);
--    }
-+    qemu_get_guest_simple_memory_mapping(list, guest_phys_blocks);
- }
- 
- void qemu_get_guest_simple_memory_mapping(MemoryMappingList *list,
+         /* we want continuity in both guest-physical and host-virtual memory */
+         if (predecessor->target_end < target_start ||
+-            predecessor->host_addr + predecessor_size != host_addr) {
++            predecessor->host_addr + predecessor_size != host_addr ||
++            predecessor->mr != section->mr) {
+             predecessor = NULL;
+         }
+     }
 -- 
 2.31.1
 
