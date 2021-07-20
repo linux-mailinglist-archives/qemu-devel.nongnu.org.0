@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7963CF8C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 13:26:16 +0200 (CEST)
-Received: from localhost ([::1]:34090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C22CE3CF8E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 13:34:29 +0200 (CEST)
+Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5nt9-0006DT-4M
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 07:26:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33144)
+	id 1m5o15-0000sd-J4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 07:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5ns3-0005FB-3W
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52142)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5nzg-00005t-Oz
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:33:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5nrz-0008RT-W1
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:25:05 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5nze-0004Ax-PI
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:32:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626780301;
+ s=mimecast20190719; t=1626780776;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NIGmNb/O1ANuIWDglBDjPw549fxXaik6yyKDAD0bx+A=;
- b=LqaFRHOmMg53nCTXGohtyEajj38MbI5U1cVHvMZJGvd+ovdJXANqnVe7UJ6XxPCizYFRpU
- aegMpxKvhcBjk0yZZua2Ud/0dcXhAl/8iYIfM6mhdLoM9nPxNn0ub533ZC7NBcH2rQv7my
- 3zaDJEPkb3VY4yd0m8WBCZp18NSbBR0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-npVko4BxMRiFJ1515XecWA-1; Tue, 20 Jul 2021 07:25:00 -0400
-X-MC-Unique: npVko4BxMRiFJ1515XecWA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- o10-20020a05600002cab02901426384855aso7679678wry.11
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:24:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NIGmNb/O1ANuIWDglBDjPw549fxXaik6yyKDAD0bx+A=;
- b=HARSHVcX/6qYRg2QurP7d5K1YD4MQoB37+w4g6zJ4kCd8OZnaqFtklrlR6o+Fv9DvW
- WIF7/9NkNTrG5D2AQNfkVXxcmSYkIZ8joxM2jb52LDofiWa9w2sWOkgKPiILU1LMr/EF
- 3iZgyfm/2Fjg0rZpgS8fYNdU8qjOd1k+ZcBXejGX+ftyfJEzLXXAPFhRQMsCEC61jdTg
- fUA2+jWd9fsUP2OFfAXSaL3lzn1hqm4MuVmrtaIf3xq052sYpRMQMZ+lkIgIKj+Tinnz
- inleQHDbXWQamKQdgTqdz4w2X87fo9A7pMlnym2MWHElgejL2AkGHIKP2+1fWt6eD/13
- Ki5g==
-X-Gm-Message-State: AOAM531wfRufSkQjybotGhC/aQ/kcgom2m4n2XbdOPU0jl5UyHwsVM5W
- Lf64Il7qPq0mg4DDaedBXbzF3s8zfYUukbHmqv/RbimhJfOXA2YcFpIojCi406QxXZxVzGCvkxQ
- Ldfj+wzyma/8YMmw=
-X-Received: by 2002:a7b:c24a:: with SMTP id b10mr15506392wmj.154.1626780298932; 
- Tue, 20 Jul 2021 04:24:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUqMdH0aXAKeHJBMMPYNTIn9sfd/ZIG917Mk9297qitNMK9hZsnsxg2QU+GP1xoF5zxoC2sg==
-X-Received: by 2002:a7b:c24a:: with SMTP id b10mr15506377wmj.154.1626780298747; 
- Tue, 20 Jul 2021 04:24:58 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id z13sm23963201wro.79.2021.07.20.04.24.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 04:24:58 -0700 (PDT)
-Subject: Re: [PATCH 0/4] Add support for Fujitsu A64FX processor
-To: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>,
- 'Peter Maydell' <peter.maydell@linaro.org>
-References: <1626413223-32264-1-git-send-email-ishii.shuuichir@fujitsu.com>
- <CAFEAcA_xMdsLtsyX3aV+JKoLuNiaR3zHmv1NXwVUkWRSAbQuAA@mail.gmail.com>
- <TYCPR01MB61601256BD8311CE6D2A6767E9E29@TYCPR01MB6160.jpnprd01.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <324188bb-3837-318f-4542-1a1762bc6943@redhat.com>
-Date: Tue, 20 Jul 2021 13:24:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=9jrBhpn/nnzHOHqTRJ0OG6sWhnYBKzVEPo1aQTDHuNA=;
+ b=N4GjwS9N1u8sHi+dFQ2VfguOkaQ3xZg6LPy9qk34RYlIHjY/KLbBukFFBC1B4rzMrbZGKi
+ kZqLZMJlLRvGCpY6gUUeErRf+NRO7VgZuTJ8x+CAPcFQqHwo2rEdUG/8dFGpF7Z2U8eO5i
+ thZyJL1szuLOPwxG1cxNGa6RH+abSL0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-SbXWhBcPPpSvo4tb7Ha39w-1; Tue, 20 Jul 2021 07:32:55 -0400
+X-MC-Unique: SbXWhBcPPpSvo4tb7Ha39w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6197310557DC
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:32:53 +0000 (UTC)
+Received: from redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5892F78ABC;
+ Tue, 20 Jul 2021 11:32:45 +0000 (UTC)
+Date: Tue, 20 Jul 2021 13:32:43 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 0/3] vhost-user: warn when guest RAM is not shared
+Message-ID: <YPa0WyuHUFdpcmJs@redhat.com>
+References: <20210714092946.569516-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <TYCPR01MB61601256BD8311CE6D2A6767E9E29@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+In-Reply-To: <20210714092946.569516-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,57 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ishii,
+Am 14.07.2021 um 11:29 hat Stefan Hajnoczi geschrieben:
+> v3:
+>  * Rebased
+> v2:
+>  * Clarify that object-memory-memfd enables share=on by default [Marc-Andr�]
+>  * Rebased
+> 
+> vhost-user requires -object memory-backend-*,share=on option so that QEMU uses
+> mmap(MAP_SHARED) on guest RAM that is shared with the vhost-user device backend
+> process. This is needed so the QEMU process sees changes made by the vhost-user
+> device backend process, and vice versa.
+> 
+> Today QEMU and the vhost-user device process will start up and then fail with a
+> confusing error message if the user forgot to specify share=on.
+> 
+> This patch series adds a warning letting the user know that share=on is
+> required.
 
-On 7/20/21 9:34 AM, ishii.shuuichir@fujitsu.com wrote:
-> Hi, peter
-> Thank you for your comment.
-> 
->> Hi; it looks like something with your outgoing email setup still disagrees
->> with QEMU's mailing list server :-(  As far as I can tell these emails didn't
->> make it to the list, so only people on the direct-cc list will have
->> seen them :-(
-> 
-> As you said, it seems that I am not listed in the mail server again.
-> When I contacted the server administrator before, 
-> the server administrator took care of it so that my e-mail address would not be judged as spam mail, 
-> but I am in the process of contacting the server administrator again.
+Hmm... This seems to work when I use shared=off for the memory backend,
+even though the error message is easy to miss because more error
+messages follow:
 
-Meanwhile you can send your series via sourcehut: https://sr.ht/
+    $ LANG=C build/qemu-system-x86_64 -object memory-backend-memfd,id=mem,size=1G,share=off -m 1G -M memory-backend=mem -chardev socket,path=/tmp/vhost.sock,id=vhost1 -device vhost-user-blk-pci,chardev=vhost1
+    qemu-system-x86_64: -device vhost-user-blk-pci,chardev=vhost1: warning: Found vhost-user memory region without MAP_SHARED (did you forget -object memory-*,share=on?)
+    qemu-system-x86_64: Unexpected end-of-file before all data were read
+    qemu-system-x86_64: Failed to set msg fds.
+    qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Resource temporarily unavailable (11)
 
-> If the mail server is able to list it correctly,
-> should we resubmit the V1 patch series to list it properly?
-> Or, since there are patches that have already been commented on,
-> should I post them as a V2 patch series that reflects those comments?
-> 
-> Best regards.
-> 
->> -----Original Message-----
->> From: Peter Maydell <peter.maydell@linaro.org>
->> Sent: Monday, July 19, 2021 9:49 PM
->> To: Ishii, Shuuichirou/石井 周一郎 <ishii.shuuichir@fujitsu.com>
->> Cc: Thomas Huth <thuth@redhat.com>; Laurent Vivier <lvivier@redhat.com>;
->> Paolo Bonzini <pbonzini@redhat.com>; qemu-arm <qemu-arm@nongnu.org>;
->> QEMU Developers <qemu-devel@nongnu.org>
->> Subject: Re: [PATCH 0/4] Add support for Fujitsu A64FX processor
->>
->> On Fri, 16 Jul 2021 at 06:27, Shuuichirou Ishii
->> <ishii.shuuichir@fujitsu.com> wrote:
->>>
->>> Hello, everyone.
->>
->> Hi; it looks like something with your outgoing email setup still disagrees
->> with QEMU's mailing list server :-(  As far as I can tell these emails didn't
->> make it to the list, so only people on the direct-cc list will have
->> seen them :-(
->>
->> thanks
->> -- PMM
+However, if I don't create the memory backend at all (which is probably
+the most common error users will make), then the new message isn't
+printed:
+
+    $ LANG=C build/qemu-system-x86_64 -m 1G -chardev socket,path=/tmp/vhost.sock,id=vhost1 -device vhost-user-blk-pci,chardev=vhost1
+    qemu-system-x86_64: Unexpected end-of-file before all data were read
+    qemu-system-x86_64: Failed to set msg fds.
+    qemu-system-x86_64: vhost VQ 0 ring restore failed: -1: Resource temporarily unavailable (11)
+
+Wouldn't we want a warning for the second case, too?
+
+Kevin
 
 
