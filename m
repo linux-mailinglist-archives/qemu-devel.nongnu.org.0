@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263D13CF932
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 13:52:20 +0200 (CEST)
-Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E093CF939
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 13:54:51 +0200 (CEST)
+Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5oIN-0000Bs-6B
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 07:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36336)
+	id 1m5oKo-00075E-Jb
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 07:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5o8Y-0007Vq-KZ
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:42:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49125)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5oBA-0003pz-QW
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:44:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5o8X-0000OO-0L
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:42:10 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5oB8-0001sH-Mq
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 07:44:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626781327;
+ s=mimecast20190719; t=1626781488;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/R4PQNRKpCCBTHJ+917NRYB9uLB3eBEpEQO57rI12uA=;
- b=SdmZQRpVWRCLgw2J9UnSHj2Np/W28n5zPKECnNneCv9HpSeymz5u2RkQE6ARiytsDU6xZP
- m6G50oEHDcFZHnIWe0YPEBZElSgbFURHKJEKc0JayvDsnpV6gwhZdZbb+UxdBWVZXuOzvv
- +HrzWlPB+z1j4EO3bs5L2mgX9WUmUzo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-eAGjEbk5PeOH1fWliEliFg-1; Tue, 20 Jul 2021 07:42:05 -0400
-X-MC-Unique: eAGjEbk5PeOH1fWliEliFg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- r18-20020adff1120000b029013e2b4ee624so10264917wro.1
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:42:05 -0700 (PDT)
+ bh=Y1D4tzMfPLFBjYm6oD33udxi5OrdjG2/KXJy0Pwa+uc=;
+ b=EB109zkU9dHh9hqqJG4pTKO3IwZ1KjoFmE9AwAKtc4ts+N2lPdoC1BHmcZfkb+4v6JqDy5
+ yXItNHuWN2NGiVkzFJxkAdJoRLIF3Xa2TV3r4jJ/cUNrBC9Xv/xkxIYULgbIXhP1P14Yza
+ yOsJcMoFm66nFm7LykdK2dlLQRF1ukY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-455-Pemk5EVsOGqgS-6UtrU3UQ-1; Tue, 20 Jul 2021 07:44:47 -0400
+X-MC-Unique: Pemk5EVsOGqgS-6UtrU3UQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ k3-20020a5d52430000b0290138092aea94so10221552wrc.20
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 04:44:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/R4PQNRKpCCBTHJ+917NRYB9uLB3eBEpEQO57rI12uA=;
- b=XOw4/wr7FCV9Zdxu2PYAwQS0jHkCipx1eeGbaUVtxIX01zUHc+5qqcpOqQcKtbD+bu
- iJhQMS0nuoH9H8Mq7TwlGRytaRfyj1Baejzzg7nnnx2MyFcjxVS1uW8g1tSmcWA6J78A
- TeYS6zqosrShd6qA9BabpMFYhcqRhYpOuZlMFrCAd5PvIhqpSm3lGoRvLvmL/9VID0nW
- 2WmsMfIG0I3jbePSoRNJ6ndmSMV8oZ23cEUXn1wry8lMyU8HlMw3UGv1sMUgC0J5QKme
- 9PCTQ/TDAtaYt20OZWjzFy3YApI5oOynec62BA94Q1MLGGyqIoWaAHnpHIiVEp55ygcJ
- jn4Q==
-X-Gm-Message-State: AOAM533jzU7Vwb6MQ08cm/sMzVo5o5sWpK2nOp1Sra4Jc3xUWnITumdy
- /Dn6Vmq1ObV1K2FRtohzu8ffCyA9hSG83Rf4DPNzno/yDS/t32EBgjfhP13ApGYnI1MZZOhXYUV
- 3cSUgRQqboJ2+SSM=
-X-Received: by 2002:a5d:408d:: with SMTP id o13mr36101481wrp.246.1626781324461; 
- Tue, 20 Jul 2021 04:42:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxciH3+js7LWws2rX7iQjivEllakAwVgaOpM615M3yx62MAFRu6NQONzQN+QnpRwl0msIcpKg==
-X-Received: by 2002:a5d:408d:: with SMTP id o13mr36101468wrp.246.1626781324345; 
- Tue, 20 Jul 2021 04:42:04 -0700 (PDT)
+ bh=Y1D4tzMfPLFBjYm6oD33udxi5OrdjG2/KXJy0Pwa+uc=;
+ b=CQJ77cpDkR7tOmkUL7B8E4qWeH9OSd9bHrrnt4WdGZwYfNu89xdwF+JhdcqE3mfzFV
+ XFceb13rl+oXTijDzYTH76NDKUeTbpsLMb8navNAIx8HABZFGteScnLSjKSiZzht2s3M
+ rurGuqwepFGilALqYDh7FNE6dVvJ/HmslimCTqfFrIrVi5KXVfVjs0ktFcbwC2W4ejEr
+ U40MrIYwniqs2hS0aOKjd0pEoT8qQgldyQE6I+6MLWV0za51xAh34clzykTiAWlbAuXj
+ OvfKLATTFxGy51lGtG4wUbgdEWcEe7sRXiyA9EZ8JodJbidZ7cqQPmoUcu5NGbsKz0mF
+ HOcw==
+X-Gm-Message-State: AOAM531OOEs6kbCvweO26baFu9R3TZMakkMAvbL72k1zl6ochk55lC5b
+ KXCHpcVCBm/I8Q6aHA5Vc362jtqYBODSfYodA5wwvqjvdINKgoN9chKY0TcAIXnPvdX8z57EHIj
+ wjBwyS+yG012kr50=
+X-Received: by 2002:adf:da43:: with SMTP id r3mr30787114wrl.307.1626781486632; 
+ Tue, 20 Jul 2021 04:44:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEc2gxVoUBY9WcMOjGe0zIzOoNjr6vdFJdQn5Pj1+//Wa7TXWX/yaLxu8pIuthwRQ/r/MU6Q==
+X-Received: by 2002:adf:da43:: with SMTP id r3mr30787105wrl.307.1626781486540; 
+ Tue, 20 Jul 2021 04:44:46 -0700 (PDT)
 Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id b15sm10543766wru.97.2021.07.20.04.42.03
+ by smtp.gmail.com with ESMTPSA id 129sm19871702wmz.26.2021.07.20.04.44.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 04:42:04 -0700 (PDT)
-Subject: Re: [RFC] Rust vhost-user-scsi implementation
-To: Gaelan Steele <gbs@canishe.com>, qemu-devel@nongnu.org
-References: <B2112AF6-3E5E-4CF6-8714-C2DE109FD7E6@canishe.com>
+ Tue, 20 Jul 2021 04:44:46 -0700 (PDT)
+Subject: Re: [PATCH] tests/qtest/migration-test.c: use 127.0.0.1 instead of 0
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, thuth@redhat.com, peterx@redhat.com,
+ berrange@redhat.com, quintela@redhat.com
+References: <20210719185217.122105-1-dgilbert@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d486fa07-105b-66d4-3329-c58bed56ff9e@redhat.com>
-Date: Tue, 20 Jul 2021 13:42:03 +0200
+Message-ID: <582882b2-71ba-4c2c-e4f8-647f2ac13b89@redhat.com>
+Date: Tue, 20 Jul 2021 13:44:45 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <B2112AF6-3E5E-4CF6-8714-C2DE109FD7E6@canishe.com>
+In-Reply-To: <20210719185217.122105-1-dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -98,32 +100,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, Sergio Lopez <slp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/21 11:55 AM, Gaelan Steele wrote:
-> Hi all,
+On 7/19/21 8:52 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> I've been working as one of QEMU's Google Summer of Code interns to
-> implement a vhost-user-scsi daemon in Rust. That work's now reached a
-> point where it's usable to attach read-only raw disk images to a VM,
-> and I'd like to get some feedback from the QEMU community, especially
-> anyone with experience with the SCSI protocol.
+> OpenBSD doesn't like :0 as an address, switch to using 127.0.0.1
+> in baddest; it's really testing the :0 port number that isn't allowed
+> on anything.
 > 
-> My code, and some further information, are available at
-> https://github.com/rust-vmm/vhost-device/pull/4 or
-> https://github.com/Gaelan/vhost-device.git#scsi-v1.
+> (The test doesn't currently run anyway because of the userfault
+> problem that Peter noticed, but this gets us closer to being able to
+> reenable it)
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  tests/qtest/migration-test.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-The previous link didn't work for me, I found your work here:
-https://github.com/Gaelan/vhost-device/tree/scsi-v1/src/scsi
-
-> Feedback is
-> welcome either on GitHub or by email. If people here would prefer me
-> to send the code as a patch to this list, I could do that as well.
-> 
-> Thanks!
-> Gaelan Steele
-> 
+Reviewed-by: Philippe Mathieu-Daude <philmd@redhat.com>
 
 
