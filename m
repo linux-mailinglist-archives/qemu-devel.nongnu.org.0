@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2D23CFCD7
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:01:17 +0200 (CEST)
-Received: from localhost ([::1]:36122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0583CFD04
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:08:15 +0200 (CEST)
+Received: from localhost ([::1]:40360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5rFE-0004jf-T4
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:01:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47516)
+	id 1m5rLy-00080i-6Z
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m5rDo-000432-4J
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:59:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1m5rDm-0001RH-Pr
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 10:59:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626793186;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2wpkHPeaLMw8+hz7JO+MG27Xs9zeT9jRVK4SnV8r0zQ=;
- b=CanJQNg7AznAI4umz7s9Y967VOshQILSXC7v02trn91PJyIj3sZusYqHLQZmuMIhmit7pa
- /C52ryA/1ZiJwXwLTfXCpEUoSIK1p/jro3ZE1Im4jD3w8XiXI+sInwpBmfyVIbD5UMLOzJ
- 4GucieKPo9FeNRu8lTS4VcIPQLUplzI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-c6ck8UXNMqem5D5AYJ_b_Q-1; Tue, 20 Jul 2021 10:59:45 -0400
-X-MC-Unique: c6ck8UXNMqem5D5AYJ_b_Q-1
-Received: by mail-wm1-f70.google.com with SMTP id
- g13-20020a05600c4ecdb0290242a8f4cf9cso1344403wmq.5
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 07:59:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5rKf-0006ed-Fp
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:06:53 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5rKc-0006NW-JL
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:06:53 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id nd37so34825728ejc.3
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Gomc3251J6LBaFqeNxOh1UPjCtBwmiWuJiKagOzeVH0=;
+ b=ShBFQCdF75SsY3VaMcTsZUfZiacbhBoBem/sK6STWfpanjVwm5dXyBPOuN7PBSzgAR
+ saL0QLp4SkiwdFhabH9LohLzQoOI1gnCScUv5GPZ174Dws21JzqxcPTc/6zAxNywdbOX
+ fCHYCJ26Yao9t4o51KfmJ29KjAPVJV75WA6hMMbSxMi962RqdDsN2DXClFUx55DL75xb
+ E4yxiTDc6obOkc4idWicgRZZuB86Q/R8aHq6bUzILPUJJmdUzNBvWJ2PdPDru2m6YTUa
+ ZG8F6ckQbalNP7zIfYY4EkAauGSebeLVR/JVv0SmEqeWe1XEYcIqbHMcEOGjune+Q2s4
+ fH4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2wpkHPeaLMw8+hz7JO+MG27Xs9zeT9jRVK4SnV8r0zQ=;
- b=RnA2avcMVWeu+8fLCdDLkdxQb3L40uw25pRS4RMH+rNGf3Nz+2rywxrcnw9vPXacJY
- 4jJT224LmfqzJoLG9+pSngF7Jz7o+RCB8ewjuAr4pUOjb3wYYLrRkmAPrt6Eg4Zi7JA1
- 6AsaViq7P/k5zNAwNrX6J18/OraCJkfMcNGDP7z/X4ju8E6xG50s9J7OheEIbJSyg+vg
- WYOgFh5Lm3DcOUVcZSDV5BDky0oFNtB32Rgovg1t89V9AdW2c0i62IqKoTVvk1AGOyoQ
- r41N5r0xLI5Uc8a5a65zzSQH2bNTuD90oA+LJET9iRGIHmrNF2kZsJp3po44cGvaMAPe
- cKGw==
-X-Gm-Message-State: AOAM530+XTNrncwH5QR3RkAki+xp+nfPeEqKqrgOp3eTPCL6Ftj+ZI35
- j87g65KEUmFXIoyevUWWIuNLrtf4iS4bbtj48MYkUUDp3HDRb7hSllpah9xdfrqOWssDrr1Pvyj
- whUGsdNjy3nIUjiI=
-X-Received: by 2002:a05:600c:22c9:: with SMTP id
- 9mr37842507wmg.25.1626793183954; 
- Tue, 20 Jul 2021 07:59:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpdtu0JWiYyzbk1Z+MNKahoyD/6JALglgJU+axghI7qQjB9opz6GLU+6Ugv9zlE2HqXgNbfA==
-X-Received: by 2002:a05:600c:22c9:: with SMTP id
- 9mr37842486wmg.25.1626793183759; 
- Tue, 20 Jul 2021 07:59:43 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id w3sm23832366wrt.55.2021.07.20.07.59.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 07:59:43 -0700 (PDT)
-Date: Tue, 20 Jul 2021 16:59:42 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v5 06/10] ACPI ERST: build the ACPI ERST table
-Message-ID: <20210720165942.16481c19@redhat.com>
-In-Reply-To: <20210720151640.2d682f57@redhat.com>
-References: <1625080041-29010-1-git-send-email-eric.devolder@oracle.com>
- <1625080041-29010-7-git-send-email-eric.devolder@oracle.com>
- <20210720151640.2d682f57@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Gomc3251J6LBaFqeNxOh1UPjCtBwmiWuJiKagOzeVH0=;
+ b=MABm0l+xZGCgaEwBnMwO4T88zRd1k/TLjQs49g7ET+IYBCVwNKgWq94tSEft6DcILo
+ NE7ExVSvkR+zA2TgvT3aQj2YBkXTFrXhI9F/esvzt/vuqwHHGfWQMcKjxIiP9LB4a3ZZ
+ HtPtD5TVVaTWzfeCZ5OcxZNXBQIRzoR4ymG6EjxuoMoPoXoS2uJRcNGhyPgahZ7fsPQi
+ DfaPM60Rd5zUc55aFgjCW7AbphkCExKJibTu2FodbAAkX42/lxj84Ghlbrv3piPEBurZ
+ ePmVSRIpez/V2c6be1ALiCxmWgJEfoPtlUyFopa2lScLxfMqYR77SXJhEMSmx+Oe2teN
+ GQVw==
+X-Gm-Message-State: AOAM532gIXma87tIx4UwFFe9fwyl24HGD0VU4DuDH3cmentWMmGZv7LA
+ vjSuV0y3Fr5kRUtyIv0CeYZo7Mr30oKdZoFB8KkZdQ==
+X-Google-Smtp-Source: ABdhPJzm3pTz2wKLXids3umWtH6ROVxjmkO8bD0KUEJeMUcLFe6pd5U0nU2CQ5M3bHwYGE8hWzHWgSPo5tgd0P+3tiE=
+X-Received: by 2002:a17:907:a05c:: with SMTP id
+ gz28mr33673481ejc.56.1626793607506; 
+ Tue, 20 Jul 2021 08:06:47 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAK7rcp8VU3DM3CTmM3upO9NxUBum3MLA3pLNk+yiNMuMqwKMDA@mail.gmail.com>
+ <CAFEAcA-Dmof7gi9MRxjo0FcYN8ZW0NTKi2+SAgO1V8-VMndN-A@mail.gmail.com>
+In-Reply-To: <CAFEAcA-Dmof7gi9MRxjo0FcYN8ZW0NTKi2+SAgO1V8-VMndN-A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Jul 2021 16:06:06 +0100
+Message-ID: <CAFEAcA_cYZHr=Kz2JakLpxkdyBWGJUUpJWZyyV_yMq59X7YJGw@mail.gmail.com>
+Subject: Re: Error in accel/tcg?
+To: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,27 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Jul 2021 15:16:40 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Tue, 20 Jul 2021 at 10:06, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Mon, 19 Jul 2021 at 23:20, Kenneth Adam Miller
+> <kennethadammiller@gmail.com> wrote:
+> >
+> > Hello,
+> >
+> > I get the following error:
+> >
+> > <long cmd here> -c ../accel/tcg/cputlb.c
+> > ../qemu/accel/tcg/cputlb.c: In function 'tlb_flush_page_by_mmuidx':
+> > ../qemu/accel/tcg/cputlb.c:602:23: error: comparison is always true due to limited range of data type [-Werror=type-limits]
+> >     } else if (idxmap < TARGET_PAGE_SIZE) {
+> >
+> > I don't know why that suddenly shows up.
+>
+> So, which target are you building for, which host, and which
+> compiler version? (TARGET_PAGE_SIZE gets a value that depends
+> on the TARGET_PAGE_BITS setting for the target.)
 
-> On Wed, 30 Jun 2021 15:07:17 -0400
-> Eric DeVolder <eric.devolder@oracle.com> wrote:
-[...]
-> > +/* ACPI 4.0: 17.4.1 Serialization Action Table */
-> > +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
-> > +    const char *oem_id, const char *oem_table_id)
-> > +{
-> > +    ERSTDeviceState *s = ACPIERST(erst_dev);  
-> 
-> globals are not welcomed in new code,
-> pass erst_dev as argument here (ex: find_vmgenid_dev)
-ignore this, I didn't notice that it's passed as argument.
+You'll get this warning, incidentally, if you have a
+target which sets TARGET_PAGE_BITS to 16 or more.
+Currently the only target which does that is hexagon, and
+that is linux-user only, so it doesn't run into this (yet).
 
+The warning is harmless (apart from preventing compilation with
+-Werror), but there's no in-theory reason why softmmu shouldn't
+work with 64K pages, so we should figure out a way to rephrase
+the cputlb.c code to suppress it.
 
+-- PMM
 
