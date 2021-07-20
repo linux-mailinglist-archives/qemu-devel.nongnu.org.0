@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADEFF3CFB0F
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:46:24 +0200 (CEST)
-Received: from localhost ([::1]:57836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0433CFB3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 15:53:03 +0200 (CEST)
+Received: from localhost ([::1]:35218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5q4l-0007I0-P8
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:46:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60966)
+	id 1m5qBB-0002uy-Tm
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 09:53:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5q3e-0006OO-FY
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:45:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29297)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1m5q3c-0005cG-O5
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:45:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626788711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s+GtEclaWbL5+VIU0xv0SknMWZ3EmtsrHIfX2bhoQdI=;
- b=FQPsQwnj2FOYeC928zdilhVCIkDiD1wekpd3fDrTKqI4+ofZbnvo8DKXrU4CZ5lDg8BmEt
- FCSdJPdPV8Tz3ppNJDulxR1foWM5K8Yzx1j+8exIPy/ZVzclhrW5s5m/r1tUS36WuOoQYE
- 93oYws8ROkUGfLed28oYfilfTNmEN4k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-DJBYztXdNVyxSUzDgxIV-A-1; Tue, 20 Jul 2021 09:45:10 -0400
-X-MC-Unique: DJBYztXdNVyxSUzDgxIV-A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r6-20020a0560000146b0290150e4a5e7e0so2673888wrx.13
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 06:45:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m5qAQ-0002Ga-E0
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:52:14 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1m5qAO-0007pM-P7
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 09:52:14 -0400
+Received: by mail-wr1-x433.google.com with SMTP id c15so2506785wrs.5
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 06:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BFck9jeKDhtSpQhOW6ck/6dI6Uw4LUCk1uN0JU4sxW8=;
+ b=d9bAWSyzNAPxaGbSSsnJ73ZSm+LpPCS6T8kKyiEeDNRqDCrzyTILpCExKKG6mFTlCw
+ US82+0x7lrFNXUoTQtNP8CsTwHEvBST2MZz00ZB90sXVk7cKHusSca1/KmHVU8mC00k6
+ s+W7he220x78lzIfvROwFtybndzS45VVZB4XAyo6Lj7JHekh2WNlzY1+qc3YUM9d6YRw
+ M0kLOZsGriDLWDoIEVoVqXQpC4nOU4CzgnS+uYWWEaQU8kb3STq18g0pCGFJ3Owea3BZ
+ U9yHxcsqEOpXbuA0eqssifyWjyHzD1vQEKWIkHMATf+NzCr8HwIK6FE6zFCfIHpMqWFn
+ r/7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=s+GtEclaWbL5+VIU0xv0SknMWZ3EmtsrHIfX2bhoQdI=;
- b=lEWeAZhufKj947zQCcwZqz/9lWkqvqbQS91TPoIOergtWG1+L+wCHEjVUTuFqitcN5
- U4cKUIN8WuksuykqvJi8MuYK3s+pjfCz9V2Gl5a8RK8nYb3efKlPKm8AoUwo9d7ELLsm
- lldwzl7VATCUlY3e/HVc0q0QIgOv05km/xE6y10G7nqhBMoYI7h6jFJr4AS3Rg5CbCZx
- 5eEEwsqtHdsYoUTa5Kg4JjJL/Pzkc3VVmYwD2yk0rtPEEfGHH1+f9jLJaJU5BG6E1ILn
- VYjPWJcXhkAq99AYQ6EA9BIWlblAB6K3T3vw476qG14/WBlIlmt6CzIejQC8Tu/9fdpU
- iuTA==
-X-Gm-Message-State: AOAM5309qYmOUMy1jb64t6o+eMe0GPtVdFixTvbKmk9tXKn2L4RrktY3
- /UeU93u7d+OJfYgyWODjKaIFNJKVJqmiynsZiVSvUHdUaTDDweBhMEVjzbMaTl/a2ykcd0Nt3lA
- ROrJuPipW+1HOY80=
-X-Received: by 2002:a05:600c:ad6:: with SMTP id
- c22mr37938452wmr.149.1626788709244; 
- Tue, 20 Jul 2021 06:45:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxe5Jhje+E+FQoj7hIY9hxyBmypGOjLITSeVSsJvRudaKWr1jFCyzDNFoI9xtgAEOecDQxDCA==
-X-Received: by 2002:a05:600c:ad6:: with SMTP id
- c22mr37938421wmr.149.1626788708984; 
- Tue, 20 Jul 2021 06:45:08 -0700 (PDT)
-Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
- (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
- [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
- by smtp.gmail.com with ESMTPSA id s17sm24348509wrv.2.2021.07.20.06.45.08
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BFck9jeKDhtSpQhOW6ck/6dI6Uw4LUCk1uN0JU4sxW8=;
+ b=Q387XusLPC8GLWDDCIVUz9dmrdDzi+iR7eOtKMaiytp66t7AlUCo1vN64A2gpqzZ9E
+ QEDlHCYlHTFaSbBoUwnwRYazYOQvK5r4wEHqLlV3OdhY+MLEFRoIUbEe+V+iXGs4846l
+ T2t5pYFTNSEh9xBJI7AcBljiR6wRwsenzxmR8nui1lAB0DzLhuP/eoESEb0qiEpEK4s7
+ BRwyTllx0OkQQvopZwGEth25+8Ykh4cigVd7LAeU7KsPW+xXCCDLFUnup9zRZ0+pykqv
+ UtBOXq/Yo6AcOxWQM+fjCI8EJ6Rb+Z0NtepLp8ZIVPxr078R/ISMyrQ+0JYjz5xOm59j
+ u1uA==
+X-Gm-Message-State: AOAM531gjNF3C5EltvhjHv6aIHSjYfd/nfAeRakL2Ksis2sPpsU0pAe9
+ 0NmbAC+nX0QRT/rHF2lKE8c=
+X-Google-Smtp-Source: ABdhPJwBQ2M76BSw+v5g3GtoK8nf22K6g8w3e+iWqIS6b7lMB61qFAo/5/vbaYbHeiZMSVMw4y+ffA==
+X-Received: by 2002:adf:8b1d:: with SMTP id n29mr36714097wra.291.1626789131415; 
+ Tue, 20 Jul 2021 06:52:11 -0700 (PDT)
+Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.122])
+ by smtp.gmail.com with ESMTPSA id l14sm22649884wrs.22.2021.07.20.06.52.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 20 Jul 2021 06:45:08 -0700 (PDT)
-Subject: Re: [PATCH resend v2 2/5] softmmu/memory_mapping: reuse
- qemu_get_guest_simple_memory_mapping()
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20210720130304.26323-1-david@redhat.com>
- <20210720130304.26323-3-david@redhat.com>
- <d06fe923-2223-df86-ada8-aadf002a39cf@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <3e9f2f66-f706-8f59-e672-1f6935f14756@redhat.com>
-Date: Tue, 20 Jul 2021 15:45:07 +0200
+ Tue, 20 Jul 2021 06:52:10 -0700 (PDT)
+Subject: Re: [PATCH] mips/tlb_helper: Add support for 'info tlb' cmd
+To: Peter Maydell <peter.maydell@linaro.org>, Arkadiy <arkaisp2021@gmail.com>
+References: <20210720120820.48427-1-arkaisp2021@gmail.com>
+ <CAFEAcA_VC_gac8zqx7K7Do=fL3uWi-0ZwyPN0AESYHusuoby1A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <43e52764-bd8e-2a14-bb5a-cb74c462de86@amsat.org>
+Date: Tue, 20 Jul 2021 15:52:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <d06fe923-2223-df86-ada8-aadf002a39cf@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAFEAcA_VC_gac8zqx7K7Do=fL3uWi-0ZwyPN0AESYHusuoby1A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,89 +89,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Pavel Dovgaluk <pavel.dovgaluk@ispras.ru>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.07.21 15:37, Stefan Berger wrote:
-> 
-> On 7/20/21 9:03 AM, David Hildenbrand wrote:
->> Let's reuse qemu_get_guest_simple_memory_mapping(), which does exactly
->> what we want.
+On 7/20/21 3:29 PM, Peter Maydell wrote:
+> On Tue, 20 Jul 2021 at 13:10, Arkadiy <arkaisp2021@gmail.com> wrote:
 >>
->> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Eduardo Habkost <ehabkost@redhat.com>
->> Cc: Alex Williamson <alex.williamson@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Claudio Fontana <cfontana@suse.de>
->> Cc: Thomas Huth <thuth@redhat.com>
->> Cc: "Alex Bennée" <alex.bennee@linaro.org>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Laurent Vivier <lvivier@redhat.com>
->> Cc: Stefan Berger <stefanb@linux.ibm.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>    softmmu/memory_mapping.c | 8 +-------
->>    1 file changed, 1 insertion(+), 7 deletions(-)
+>> From: NDNF <arkaisp2021@gmail.com>
 >>
->> diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
->> index e7af276546..d63f896b30 100644
->> --- a/softmmu/memory_mapping.c
->> +++ b/softmmu/memory_mapping.c
->> @@ -288,8 +288,6 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
->>                                       Error **errp)
->>    {
->>        CPUState *cpu, *first_paging_enabled_cpu;
->> -    GuestPhysBlock *block;
->> -    ram_addr_t offset, length;
->>    
->>        first_paging_enabled_cpu = find_paging_enabled_cpu(first_cpu);
->>        if (first_paging_enabled_cpu) {
->> @@ -309,11 +307,7 @@ void qemu_get_guest_memory_mapping(MemoryMappingList *list,
->>         * If the guest doesn't use paging, the virtual address is equal to physical
->>         * address.
->>         */
->> -    QTAILQ_FOREACH(block, &guest_phys_blocks->head, next) {
->> -        offset = block->target_start;
->> -        length = block->target_end - block->target_start;
->> -        create_new_memory_mapping(list, offset, offset, length);
->> -    }
->> +    qemu_get_guest_simple_memory_mapping(list, guest_phys_blocks);
->>    }
+>> This adds hmp 'info tlb' command support for the mips platform.
+>> 1k pages are not supported.
+>>
+>> Signed-off-by: NDNF <arkaisp2021@gmail.com>
 > 
-> I thought I'd find a 1:1 replacement for the above here:
+> Hi; for QEMU contributions we request that the signed-off-by
+> line is your real name, not a pseudonym; we follow basically
+> the Linux kernel policy on this:
 > 
-> void qemu_get_guest_simple_memory_mapping(MemoryMappingList *list,
->                                      const GuestPhysBlockList
-> *guest_phys_blocks)
-> {
->       GuestPhysBlock *block;
-> 
->       QTAILQ_FOREACH(block, &guest_phys_blocks->head, next) {
->           create_new_memory_mapping(list, block->target_start, 0,
->                                     block->target_end - block->target_start);
->       }
-> }
-> 
-> But this is calling create_new_memory_mapping() with a different 3rd
-> parameter:   0 vs. offset.
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/SubmittingPatches?id=f6f94e2ab1b33f0082ac22d71f66385a60d8157f#n297
 
-Oh, thanks for noticing! Will drop this patch then -- thanks!
-
-
--- 
-Thanks,
-
-David / dhildenb
-
+This is probably an incorrect email setup due to problems with
+UTF-8 encoding and the list. Ivanov Arkasha already contributed
+to QEMU (see commit 56b90e60c40: "target/avr: Fix interrupt execution")
+Previous patches sent from аркадий иванов ("block: increased maximum
+size of vvfat devices") were rejected by the list.
 
