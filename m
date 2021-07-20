@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DCCA3D005C
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 19:37:44 +0200 (CEST)
-Received: from localhost ([::1]:59238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E03D00B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 19:44:19 +0200 (CEST)
+Received: from localhost ([::1]:47522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5tgd-0006Xn-8s
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 13:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55652)
+	id 1m5tn0-0000p3-7L
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 13:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcu-0005eT-MG
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45171)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcw-0005jP-Ct
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44346)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcs-0005cp-NF
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:52 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5tcu-0005dv-GP
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 13:33:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626802430;
+ s=mimecast20190719; t=1626802431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TlW+O/Agw4fmvSQABqWMqPQidkykJu4Fz0dvqJnM6oo=;
- b=G2DosyEyL+O5vQ9WzJSAhPG86C88deDkMi9VLO4WSeqbrxlEm6cZmq8GKiCZCEt7o5dpfZ
- Li4oJcFv3BXMho228Gw7McX1+9+7em3ildNUhx//uqoui5V1qW9SsFkdLpRNTrkoNZSXBi
- WuUGYkRczPGPR3Hzgv+Mo8Y3ij26vJQ=
+ bh=y94/5VMGNyufcv+PB8ODzD4VPZdS8XBLnCFC8whrLW8=;
+ b=Yp178no8YsoTNllQq3ekIH5WJOQSVT9BcLZy5Ej5xeT81vFxAgyt2hhB7EWRPow8SY2eNz
+ J5XpeBRIzHPLoMDW+1Dmrwn3RRt4pbCiySIWqv9Pxz5FypyMoZ07hunlJdSiE2JlO20sRt
+ nUw143DTlq8xAa+4AVeBYDA5eOStACM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-vVm6O2AAOLWweNxB8xZsuw-1; Tue, 20 Jul 2021 13:33:48 -0400
-X-MC-Unique: vVm6O2AAOLWweNxB8xZsuw-1
+ us-mta-427-iEzTu7hYMkiLmSbuSUvI2A-1; Tue, 20 Jul 2021 13:33:50 -0400
+X-MC-Unique: iEzTu7hYMkiLmSbuSUvI2A-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA8571015DA1;
- Tue, 20 Jul 2021 17:33:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2E72803F5B;
+ Tue, 20 Jul 2021 17:33:48 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-193.rdu2.redhat.com [10.10.119.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A23C269CB4;
- Tue, 20 Jul 2021 17:33:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E13AF69CB4;
+ Tue, 20 Jul 2021 17:33:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/17] iotests/297: Add get_files() function
-Date: Tue, 20 Jul 2021 13:33:26 -0400
-Message-Id: <20210720173336.1876937-8-jsnow@redhat.com>
+Subject: [PATCH v2 08/17] iotests/297: Include sub-directories when finding
+ tests to lint
+Date: Tue, 20 Jul 2021 13:33:27 -0400
+Message-Id: <20210720173336.1876937-9-jsnow@redhat.com>
 In-Reply-To: <20210720173336.1876937-1-jsnow@redhat.com>
 References: <20210720173336.1876937-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,44 +85,59 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out file discovery into its own method to begin separating out the
-"environment setup" and "test execution" phases.
+Choosing to interpret the SKIP_FILES list as a list of filenames instead
+of a list of paths, to keep things simple.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- tests/qemu-iotests/297 | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/297 | 27 ++++++++++++++++-----------
+ 1 file changed, 16 insertions(+), 11 deletions(-)
 
 diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 493dda17fb6..0bc11958059 100755
+index 0bc11958059..665ac0aa361 100755
 --- a/tests/qemu-iotests/297
 +++ b/tests/qemu-iotests/297
-@@ -21,6 +21,7 @@ import re
- import shutil
- import subprocess
- import sys
-+from typing import List
- 
- import iotests
- 
-@@ -56,9 +57,15 @@ def is_python_file(filename: str, directory: str = '.') -> bool:
-             return False
+@@ -40,13 +40,8 @@ SKIP_FILES = (
+ )
  
  
-+def get_test_files(directory: str = '.') -> List[str]:
-+    return [
-+        f for f in (set(os.listdir(directory)) - set(SKIP_FILES))
-+        if is_python_file(f, directory)
-+    ]
+-def is_python_file(filename: str, directory: str = '.') -> bool:
+-    filepath = os.path.join(directory, filename)
+-
+-    if not os.path.isfile(filepath):
+-        return False
+-
+-    if filename.endswith('.py'):
++def is_python_file(filepath: str) -> bool:
++    if filepath.endswith('.py'):
+         return True
+ 
+     with open(filepath) as f:
+@@ -58,10 +53,20 @@ def is_python_file(filename: str, directory: str = '.') -> bool:
+ 
+ 
+ def get_test_files(directory: str = '.') -> List[str]:
+-    return [
+-        f for f in (set(os.listdir(directory)) - set(SKIP_FILES))
+-        if is_python_file(f, directory)
+-    ]
++    files = []
 +
++    iotests.logger.debug("get_test_files(%s)", directory)
++    for dirent in os.scandir(directory):
++        if dirent.name in SKIP_FILES:
++            continue
 +
++        relpath = os.path.join(directory, dirent.name)
++        if dirent.is_dir():
++            files.extend(get_test_files(relpath))
++        elif is_python_file(relpath):
++            files.append(relpath)
++
++    return files
+ 
+ 
  def run_linters():
--    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
--             if is_python_file(filename)]
-+    files = get_test_files()
- 
-     iotests.logger.debug('Files to be checked:')
-     iotests.logger.debug(', '.join(sorted(files)))
 -- 
 2.31.1
 
