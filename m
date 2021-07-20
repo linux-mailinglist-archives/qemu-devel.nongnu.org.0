@@ -2,70 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21153CF4EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 08:59:05 +0200 (CEST)
-Received: from localhost ([::1]:47374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 609D13CF565
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 09:36:35 +0200 (CEST)
+Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5jiZ-0004x7-VN
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 02:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41484)
+	id 1m5kIs-0007cl-1s
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 03:36:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m5jhn-0004IU-3z
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 02:58:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49649)
+ (Exim 4.90_1) (envelope-from <ishii.shuuichir@fujitsu.com>)
+ id 1m5kHV-0006aS-TH; Tue, 20 Jul 2021 03:35:10 -0400
+Received: from esa2.fujitsucc.c3s2.iphmx.com ([68.232.152.246]:7840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1m5jhi-000563-MD
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 02:58:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626764288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YiOeBzVbWMdCazkIOJNcBewfNgxrkfMuFgJ6Dw8Xj5U=;
- b=T1xy0BqsmDfVa10iQJ2ZsGqXmaTgHFr5LT0r+Wyr45CfwYLwaU23XzWKJIHrOTeZ1gStFZ
- LbVGDPfDISXqDjbhCRVcwLv0CH6U5R3IrOAIR0LS8SRWFaeUluV7P7NJvKCzuGwV5O/KVI
- mZWj+ThU8HpUfiz/1h1zVE/M4ga94tc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-s-qfEdvwMneOctbZs8ydGg-1; Tue, 20 Jul 2021 02:58:07 -0400
-X-MC-Unique: s-qfEdvwMneOctbZs8ydGg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FA63100CCC2;
- Tue, 20 Jul 2021 06:58:05 +0000 (UTC)
-Received: from localhost (ovpn-112-105.ams2.redhat.com [10.36.112.105])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9985260938;
- Tue, 20 Jul 2021 06:58:00 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH for-6.2 v2 02/11] machine: Make smp_parse generic enough
- for all arches
-In-Reply-To: <20210719032043.25416-3-wangyanan55@huawei.com>
-Organization: Red Hat GmbH
-References: <20210719032043.25416-1-wangyanan55@huawei.com>
- <20210719032043.25416-3-wangyanan55@huawei.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Tue, 20 Jul 2021 08:57:58 +0200
-Message-ID: <87zguh8oax.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <ishii.shuuichir@fujitsu.com>)
+ id 1m5kHT-0004Zr-4b; Tue, 20 Jul 2021 03:35:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
+ t=1626766508; x=1658302508;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=L9ES61FUbsVnL55tKMTAvWH51wy15c69GJw4JMReWLc=;
+ b=sJqltjLg1jAwJ9jXOvg1GJzZXxsBQ41E9zbykwcXLlSMves2obgifQR/
+ 82jzduj19tnw+6hTAFNbNE5c/ZKGOs+IwX2xRQk1xPDODA9aAYfINAdGe
+ dr3kfhLw9We7XD+4mAoxK2UIyMcYulV1GihvhjqWX0u7fCtLrSekdcXeu
+ U8vaNheUg83A71HO3Z5RxDBDGthIdUJkw8BdUqUkgjaOTCB/TQAsrgRFf
+ FiyU3uCTLZ6Kyc8wdu9ghWFI+yzU6zqhjFErE9Tce153CpvoVBcmhuV6o
+ Lt0RhA8NVub7xlfR+2Ad2SdSjbEctUPq3tr/I9BzRYRULI20TMEKeRlye A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10050"; a="43414965"
+X-IronPort-AV: E=Sophos;i="5.84,254,1620658800"; d="scan'208";a="43414965"
+Received: from mail-os2jpn01lp2057.outbound.protection.outlook.com (HELO
+ JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.57])
+ by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jul 2021 16:35:01 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eRdsSiWROD5LVWSBeVLnn/Cpt6akLevT4zwHvQJSrVxykVMLsq8lYUV/LQakSHbAjKsC32wTolIwwlMWKLrONDc4eDgUU878QFvGgbSoO2HqmYLMG/MWJZqTB6dbgqvY1OmS1Jflpv9xYoSq+1jx0TxxNl8v0MYR4f86m7GYyjRgBTcAEwKiXTg+V2J4Gj5N22snOG3KWNIv5ABftfG2YpraSEUgcC32i64TOR6/yvPIF2PQZ1cLvl4S2AsF9G5+asqRm+KyKSc1V+lRoMMh3i1vakP5qMoztjqtTrdYtSrVCG+ML+PUvVoB84d7fw10Uk6Gzkk0zkKJUGkO/2EaBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L9ES61FUbsVnL55tKMTAvWH51wy15c69GJw4JMReWLc=;
+ b=oRjWemUej0LKEb+m3EPxpaxD64ZdI4GMAVyZU2OOP87+fEceSdlAlva4LZAQI5Ycx5Lijj0A4jCB8lCsuR7wRmt7ReS4GDmbgXNl+4C0ikJrA449mUPlwaIYN5huRCJ61fAk/t+S43mepg9NEnRz8J8T2JmIdUY2q4aBdnwlcjXvSkvvnXMfeWHsoHTsa/ktx1AYVZ/kzPIFgX2FFFv68mbecunQ7BGBfQM1NGokxY5Mm/1ho2fLtPnU478MDKgeXX4xdM1i5PmZOI25v4FkAdiAE0m/jgRuxOz1hMMZFWaHGCn8tFbi7rS9jDNLxMFaGWhlOFUfaVAPSTuEAfa8nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L9ES61FUbsVnL55tKMTAvWH51wy15c69GJw4JMReWLc=;
+ b=PIqyO/sOgw5eRtnXTybTDqyTHbDhi9yDMlJU1S6qwXvyQBxi4LrJLiIcrTtmDl6G6QB1DTGSmXXbi3RaIsjFSv0Vc5axWA4SapuqFMROlE4tQxTQvb3BZL9yE7WZBxHbqTeo97APgRRN5lni47CgYounuuDKWJzFfWYxqkreNdE=
+Received: from TYCPR01MB6160.jpnprd01.prod.outlook.com (2603:1096:400:4f::8)
+ by TYBPR01MB5328.jpnprd01.prod.outlook.com (2603:1096:404:801f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4331.23; Tue, 20 Jul
+ 2021 07:34:57 +0000
+Received: from TYCPR01MB6160.jpnprd01.prod.outlook.com
+ ([fe80::154e:70ee:e0c5:f482]) by TYCPR01MB6160.jpnprd01.prod.outlook.com
+ ([fe80::154e:70ee:e0c5:f482%8]) with mapi id 15.20.4331.034; Tue, 20 Jul 2021
+ 07:34:57 +0000
+From: "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
+To: 'Peter Maydell' <peter.maydell@linaro.org>
+Subject: RE: [PATCH 0/4] Add support for Fujitsu A64FX processor
+Thread-Topic: [PATCH 0/4] Add support for Fujitsu A64FX processor
+Thread-Index: AQHXegM6kUAks0xQNk6Z/S3GC/IfSatKRPIAgAE22/A=
+Date: Tue, 20 Jul 2021 07:34:57 +0000
+Message-ID: <TYCPR01MB61601256BD8311CE6D2A6767E9E29@TYCPR01MB6160.jpnprd01.prod.outlook.com>
+References: <1626413223-32264-1-git-send-email-ishii.shuuichir@fujitsu.com>
+ <CAFEAcA_xMdsLtsyX3aV+JKoLuNiaR3zHmv1NXwVUkWRSAbQuAA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_xMdsLtsyX3aV+JKoLuNiaR3zHmv1NXwVUkWRSAbQuAA@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: =?utf-8?B?TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2Uw?=
+ =?utf-8?B?NTBfQWN0aW9uSWQ9YWUxNDkxM2ItMWUyNy00MzY0LTk2MDUtYzc4MzNhNTBl?=
+ =?utf-8?B?ZjEzO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX0NvbnRlbnRCaXRzPTA7TVNJUF9MYWJlbF9hNzI5NWNjMS1kMjc5?=
+ =?utf-8?B?LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfRW5hYmxlZD10cnVlO01TSVBfTGFi?=
+ =?utf-8?B?ZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRmZWNlMDUwX01ldGhv?=
+ =?utf-8?B?ZD1TdGFuZGFyZDtNU0lQX0xhYmVsX2E3Mjk1Y2MxLWQyNzktNDJhYy1hYjRk?=
+ =?utf-8?B?LTNiMGY0ZmVjZTA1MF9OYW1lPUZVSklUU1UtUkVTVFJJQ1RFRO+/ou++gA==?=
+ =?utf-8?B?776LO01TSVBfTGFiZWxfYTcyOTVjYzEtZDI3OS00MmFjLWFiNGQtM2IwZjRm?=
+ =?utf-8?B?ZWNlMDUwX1NldERhdGU9MjAyMS0wNy0yMFQwNzoyMTo1NFo7TVNJUF9MYWJl?=
+ =?utf-8?B?bF9hNzI5NWNjMS1kMjc5LTQyYWMtYWI0ZC0zYjBmNGZlY2UwNTBfU2l0ZUlk?=
+ =?utf-8?Q?=3Da19f121d-81e1-4858-a9d8-736e267fd4c7;?=
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e3beda34-2a5e-41d3-4cfc-08d94b50dfe0
+x-ms-traffictypediagnostic: TYBPR01MB5328:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYBPR01MB5328D516F781E52AD58B3E25E9E29@TYBPR01MB5328.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: o7ElAXtEHEFxju/TmQIXWAJgpKEwSnIvQl/ExUYSpS3LSsP1ZaOApFxn30mPS1m2NSSosJg6DRCnPYoPWHUFUF1CnhUmHxvfNBwKLvqafZL9nggPZCdYWpg0+UO5BqhbiPFqQYpbhCj3OpUkTrpRmxDWc0MVK+fvEzyQLLyHeNY4J8Yk8KNQFa7o8tqFGvxgKbc2Xz3HlmNjjuASjQll1ryPSeGiGm5lhAEy+s+AXSno9kx6r4WZtlhaNqUYV+zMSDK1ne8rPNi5btAZF6BDo1n0HTRzexmykKBL0XwKhPlt+l8CDOkFZG7MVHO0TdRVloyj5gTAb3uqVxS3MC1JTm3IWVjuRtrEL1P/QHALKBPvRNlo7znblsHld6i6XLXwvgr3uNpRNVbTCAuq+2ExRmA9+hFC/+eOPUsp1pi6u1tSmaWhsYJrNiCz7kNE6XnkZkzB0oxqAqPm5cl3po+46ZqiHzLLs1MkIEHaKiR3xbm3uNkWvPuUwiJEGYD18OTOQO3qxf5qayS3x2K2aSCggVWLOM9wesrzeMOFYEMvHrJONgPyuAVc+/A1ALS9+M2WWhZMz0jYrwVglqq3Uv9ANHTyV2nQdStUUiuNe3XuUw4Mz3iHIqiwmCWjSAKtfjKuhh/M77zvWiTbzVVUrVapQETIkgk+e/2TYBIqhs499Om0juDRjsRS7cK0cE6zQCjTFLxZ5wJhKZB6u7im9SprFf8zaacA0jjJpNE2Fdz0xfqfCsu6QSgHnGdANW/yhum8l15BqInTc7NxKjr95yYGt14TicbtQXNvpXLlDyNRzDjei6mJxbUMwlK9qPoTQJ57xAuCuO3cJapcchE18MaVpg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB6160.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(107886003)(316002)(6916009)(86362001)(66476007)(52536014)(64756008)(76116006)(66446008)(66556008)(8936002)(55016002)(478600001)(66946007)(4326008)(8676002)(38100700002)(2906002)(54906003)(85182001)(71200400001)(7696005)(122000001)(966005)(53546011)(6506007)(83380400001)(5660300002)(9686003)(33656002)(26005)(186003)(38070700004);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UDdCbXdFb3p5TmtLZ3F6ZDVQTGdYcDg1WnFERldhU2I2dXh4ckhqSHNCTUp6?=
+ =?utf-8?B?YmpGdnVQaXM2TDYvc1VtNGpWRzRCb2pCTmVhQWxHU3A2aTFQNHJlTzNHZHU1?=
+ =?utf-8?B?YnlJRjVLTU5hNmFyMHVsSHJSVWxCRjBXSWNqNFI1U3JTUGFMOS9YR25rVDFB?=
+ =?utf-8?B?TC9seEZFc1RzcEpJNkRYaUFzK3VWdkR1YjRIWWY4K2VsRlc4QmFQRjFqMG9U?=
+ =?utf-8?B?RjRUZ2VVakdQUTBJWHNjcWoxM2Z6bnI0eTBDT0xMQkhIMEQxWit3dTVBYXJ6?=
+ =?utf-8?B?TGpWQ0VKcDlGcVd6aWE3ZEZWT3JyZWZONS9ya3RxTDZrb21IWnVabks2ck5y?=
+ =?utf-8?B?cjUzeXJ0alpDc2U5ZUhUaUdISkZpS2dRNXdTbnhVVDVDTEJYSUM1b1VKdjVu?=
+ =?utf-8?B?Zjd6clZMQUtTTnByYnR0ZFU0dU9UNG84T0w4QUJMVEZmeW54ZVRIU0V0cVFk?=
+ =?utf-8?B?c04wZ21qVUFMa2U2Z3dERXJnM0REdHI4cVQzR3lCR3o1Z0F4cG1OMGEzLytj?=
+ =?utf-8?B?L2VhZEcxUkJINllEaDZIVm9EU2xvUFNWYVFVN2d6ZXVPMi9ST2t4U0NMaU9R?=
+ =?utf-8?B?ZlBQQnNZU21OeXVqUEZUS0JTZFNNRDhjOXgyL0pSdm01TlRuMDhYZ0hJdDFk?=
+ =?utf-8?B?aHlzS0lmaHVQN3J3MVBmQ3dHekdHN285WUhILzllUndqTlZ4Vjg1ZEYwWHFL?=
+ =?utf-8?B?U3FpbUlVZkZ2QTY0MzA4THk3WjExUXdMOUpBRUc0NEJNdUZtTE1KTzhNM2VV?=
+ =?utf-8?B?Y0F3eVVOWUxSYUJlWHNKdkVSTTVBancyaUFsV3Zna1Q3QUE2cXRsWmc5RTBM?=
+ =?utf-8?B?NGNkcHFZbFA2ZjdsNW1qblUzWUVicFJlalExOEdyUHRwY3ZpaVovdFRQZGNJ?=
+ =?utf-8?B?UUxBbnNrbU95NE1vVmZwMkRzdGhkdmpoaGVnMlYvamZMZElJWVkwa1M1eW9U?=
+ =?utf-8?B?Wko3ekFYbWtBTXBJZzZyWnRvS1R6OFZwQWJxR1NTcmFuTHhLS3ZZa0hycTgr?=
+ =?utf-8?B?SmlvdWMzYm5YMTlHb1dVVDAxcmg5M1ZmZ3FSSGY0QzBtdGpWck5keHhaMmZ3?=
+ =?utf-8?B?NUxtaEI4alY4UlQrS2cvY2RGblZqRjdsb1JZZGZoSk1NZnBkZlJSSFgyZGJG?=
+ =?utf-8?B?WndNZlVkRG54NGlTK2o1SldoQ0tkV09MQ3puWTlXNUJ0Uk93L1MzbFRFeHNz?=
+ =?utf-8?B?SjJvbE5iSmVnbTRyUXFLZVliNG1STnJGR2F2NzZDeDh5MEsrVlMwRFZsTnVt?=
+ =?utf-8?B?ZEhVMjBUbld6ck9LN2Jkek8vcnBPVS95QXB2S1UwNGp6UzNzQmh4cVkyR3h4?=
+ =?utf-8?B?eXZlRFB4a2VWNEczZ09iWkx3ODVPTFAvbWtiU0NXSWNLOHBvd2VJY01adEdo?=
+ =?utf-8?B?VFVlK25NZTljdGJjVUZsY210UXBJRnY2ZklLUi9PdUREVWY5MGFUUlNQRldq?=
+ =?utf-8?B?TldHblJ0dWtXb2hCUWpreExTT2NQaFNkQ0ZsZjVOaE0weXV0Z2RmbGtBNFpY?=
+ =?utf-8?B?aHFPUW5WSXI4VTFlcDRWL0FzbkxPQVAzQ0xkczBCdmpVZzM4Nkl0MnhoYVZp?=
+ =?utf-8?B?Wkg4YVlaZzhnODRXZHc0dkFQRzZTOGhUNWduRGU0Q05qQ3JQMVZvM1prbWxB?=
+ =?utf-8?B?OE4yRGd0dVluVXFVaHJEUk5PNFVwaFUyNVdHR0ZZdDZUc2ZRd0U1U1ZvUkhF?=
+ =?utf-8?B?SmFsaEZIR3ZYdm1IeEt3WXk1NU92bXNFRDFXZVgxZGlFTHJQaldoWGRpYTNi?=
+ =?utf-8?Q?0+MhrmPSziEGpsTyEUxvFopziWLk1m8rU/iR3zd?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB6160.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3beda34-2a5e-41d3-4cfc-08d94b50dfe0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2021 07:34:57.4514 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zZqBZ+8wlqleB9f1xSnGt4nNOoWNBJZ3rQm5fuPyVdjCeTKrDqhUU1H2vWdCmfUe08L2hUnMatMq2tsEvcD58LUO3skGe2O6C48uz9Dr7lY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBPR01MB5328
+Received-SPF: pass client-ip=68.232.152.246;
+ envelope-from=ishii.shuuichir@fujitsu.com; helo=esa2.fujitsucc.c3s2.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.469,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,253 +166,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, IgorMammedov <imammedo@redhat.com>,
- yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
- Yanan Wang <wangyanan55@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
-
-> Currently the only difference between smp_parse and pc_smp_parse
-> is the support of multi-dies and the related error reporting code.
-> With an arch compat variable "bool smp_dies_supported", we can
-> easily make smp_parse generic enough for all arches and the PC
-> specific one can be removed.
->
-> Making smp_parse() generic enough can reduce code duplication and
-> ease the code maintenance, and also allows extending the topology
-> with more arch specific members (e.g., clusters) in the future.
-
-So I guess that should also allow us to include s390x books/drawers?
-
->
-> No functional change intended.
->
-> Suggested-by: Andrew Jones <drjones@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  hw/core/machine.c   | 28 ++++++++++-------
->  hw/i386/pc.c        | 76 +--------------------------------------------
->  include/hw/boards.h |  1 +
->  3 files changed, 19 insertions(+), 86 deletions(-)
->
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index d73daa10f4..ed6712e964 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -743,6 +743,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
->  
->  static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->  {
-> +    MachineClass *mc = MACHINE_GET_CLASS(ms);
->      unsigned cpus    = config->has_cpus ? config->cpus : 0;
->      unsigned sockets = config->has_sockets ? config->sockets : 0;
->      unsigned dies    = config->has_dies ? config->dies : 1;
-> @@ -761,7 +762,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->          return;
->      }
->  
-> -    if (dies > 1) {
-> +    if (!mc->smp_dies_supported && dies > 1) {
->          error_setg(errp, "dies not supported by this machine's CPU topology");
->          return;
->      }
-
-I'm wondering how we should handle parameters that are not supported by
-a certain machine type. E.g. if we add support for books/drawers,
-specifying them is unlikely to make sense on anything but s390x. Would
-we allow to specify books=1 on a non-s390x machine, even though that is
-quite bogus? Or do we want to disallow setting any parameters that are
-not supported by the machine type?
-
-> @@ -772,23 +773,25 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->          threads = threads > 0 ? threads : 1;
->          if (cpus == 0) {
->              sockets = sockets > 0 ? sockets : 1;
-> -            cpus = cores * threads * sockets;
-> +            cpus = sockets * dies * cores * threads;
->          } else {
->              maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (cores * threads);
-> +            sockets = maxcpus / (dies * cores * threads);
->          }
->      } else if (cores == 0) {
->          threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * threads);
-> +        cores = cpus / (sockets * dies * threads);
->          cores = cores > 0 ? cores : 1;
->      } else if (threads == 0) {
-> -        threads = cpus / (cores * sockets);
-> +        threads = cpus / (sockets * dies * cores);
->          threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * cores * threads < cpus) {
-> +    } else if (sockets * dies * cores * threads < cpus) {
-> +        g_autofree char *dies_msg = g_strdup_printf(
-> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->          error_setg(errp, "cpu topology: "
-> -                   "sockets (%u) * cores (%u) * threads (%u) < "
-> +                   "sockets (%u)%s * cores (%u) * threads (%u) < "
->                     "smp_cpus (%u)",
-> -                   sockets, cores, threads, cpus);
-> +                   sockets, dies_msg, cores, threads, cpus);
->          return;
->      }
->  
-> @@ -799,17 +802,20 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
->          return;
->      }
->  
-> -    if (sockets * cores * threads != maxcpus) {
-> +    if (sockets * dies * cores * threads != maxcpus) {
-> +        g_autofree char *dies_msg = g_strdup_printf(
-> +            mc->smp_dies_supported ? " * dies (%u)" : "", dies);
->          error_setg(errp, "Invalid CPU topology: "
-> -                   "sockets (%u) * cores (%u) * threads (%u) "
-> +                   "sockets (%u)%s * cores (%u) * threads (%u) "
->                     "!= maxcpus (%u)",
-> -                   sockets, cores, threads,
-> +                   sockets, dies_msg, cores, threads,
->                     maxcpus);
-
-Similarily here; do we want to mention parameters that are not
-applicable for the machine type? That might be confusing, but a
-conditional error message may get too complex if we add some more
-parameters.
-
->          return;
->      }
->  
->      ms->smp.cpus = cpus;
->      ms->smp.sockets = sockets;
-> +    ms->smp.dies = dies;
->      ms->smp.cores = cores;
->      ms->smp.threads = threads;
->      ms->smp.max_cpus = maxcpus;
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index c6b63c00a5..d94ef582b5 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -708,80 +708,6 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
->      }
->  }
->  
-> -/*
-> - * This function is very similar to smp_parse()
-> - * in hw/core/machine.c but includes CPU die support.
-> - */
-> -static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-> -{
-> -    unsigned cpus    = config->has_cpus ? config->cpus : 0;
-> -    unsigned sockets = config->has_sockets ? config->sockets : 0;
-> -    unsigned dies    = config->has_dies ? config->dies : 1;
-> -    unsigned cores   = config->has_cores ? config->cores : 0;
-> -    unsigned threads = config->has_threads ? config->threads : 0;
-> -    unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
-> -
-> -    if ((config->has_cpus && config->cpus == 0) ||
-> -        (config->has_sockets && config->sockets == 0) ||
-> -        (config->has_dies && config->dies == 0) ||
-> -        (config->has_cores && config->cores == 0) ||
-> -        (config->has_threads && config->threads == 0) ||
-> -        (config->has_maxcpus && config->maxcpus == 0)) {
-> -        error_setg(errp, "parameters must be equal to or greater than one"
-> -                   "if provided");
-> -        return;
-> -    }
-> -
-> -    /* compute missing values, prefer sockets over cores over threads */
-> -    if (cpus == 0 || sockets == 0) {
-> -        cores = cores > 0 ? cores : 1;
-> -        threads = threads > 0 ? threads : 1;
-> -        if (cpus == 0) {
-> -            sockets = sockets > 0 ? sockets : 1;
-> -            cpus = cores * threads * dies * sockets;
-> -        } else {
-> -            maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -            sockets = maxcpus / (cores * threads * dies);
-> -        }
-> -    } else if (cores == 0) {
-> -        threads = threads > 0 ? threads : 1;
-> -        cores = cpus / (sockets * dies * threads);
-> -        cores = cores > 0 ? cores : 1;
-> -    } else if (threads == 0) {
-> -        threads = cpus / (cores * dies * sockets);
-> -        threads = threads > 0 ? threads : 1;
-> -    } else if (sockets * dies * cores * threads < cpus) {
-> -        error_setg(errp, "cpu topology: "
-> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
-> -                   "smp_cpus (%u)",
-> -                   sockets, dies, cores, threads, cpus);
-> -        return;
-> -    }
-> -
-> -    maxcpus = maxcpus > 0 ? maxcpus : cpus;
-> -
-> -    if (maxcpus < cpus) {
-> -        error_setg(errp, "maxcpus must be equal to or greater than smp");
-> -        return;
-> -    }
-> -
-> -    if (sockets * dies * cores * threads != maxcpus) {
-> -        error_setg(errp, "Invalid CPU topology deprecated: "
-> -                   "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-> -                   "!= maxcpus (%u)",
-> -                   sockets, dies, cores, threads,
-> -                   maxcpus);
-> -        return;
-> -    }
-> -
-> -    ms->smp.cpus = cpus;
-> -    ms->smp.sockets = sockets;
-> -    ms->smp.dies = dies;
-> -    ms->smp.cores = cores;
-> -    ms->smp.threads = threads;
-> -    ms->smp.max_cpus = maxcpus;
-> -}
-> -
->  static
->  void pc_machine_done(Notifier *notifier, void *data)
->  {
-> @@ -1735,7 +1661,6 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      mc->auto_enable_numa_with_memdev = true;
->      mc->has_hotpluggable_cpus = true;
->      mc->default_boot_order = "cad";
-> -    mc->smp_parse = pc_smp_parse;
-
-We can probably remove smp_parse, and call the generic parser directly?
-
->      mc->block_default_type = IF_IDE;
->      mc->max_cpus = 255;
->      mc->reset = pc_machine_reset;
-> @@ -1746,6 +1671,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->      hc->unplug = pc_machine_device_unplug_cb;
->      mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
->      mc->nvdimm_supported = true;
-> +    mc->smp_dies_supported = true;
->      mc->default_ram_id = "pc.ram";
->  
->      object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index accd6eff35..b6161cee88 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -246,6 +246,7 @@ struct MachineClass {
->      bool smbus_no_migration_support;
->      bool nvdimm_supported;
->      bool numa_mem_supported;
-> +    bool smp_dies_supported;
->      bool auto_enable_numa;
->      const char *default_ram_id;
->  
-> -- 
-> 2.19.1
-
+SGksIHBldGVyDQpUaGFuayB5b3UgZm9yIHlvdXIgY29tbWVudC4NCg0KPiBIaTsgaXQgbG9va3Mg
+bGlrZSBzb21ldGhpbmcgd2l0aCB5b3VyIG91dGdvaW5nIGVtYWlsIHNldHVwIHN0aWxsIGRpc2Fn
+cmVlcw0KPiB3aXRoIFFFTVUncyBtYWlsaW5nIGxpc3Qgc2VydmVyIDotKCAgQXMgZmFyIGFzIEkg
+Y2FuIHRlbGwgdGhlc2UgZW1haWxzIGRpZG4ndA0KPiBtYWtlIGl0IHRvIHRoZSBsaXN0LCBzbyBv
+bmx5IHBlb3BsZSBvbiB0aGUgZGlyZWN0LWNjIGxpc3Qgd2lsbCBoYXZlDQo+IHNlZW4gdGhlbSA6
+LSgNCg0KQXMgeW91IHNhaWQsIGl0IHNlZW1zIHRoYXQgSSBhbSBub3QgbGlzdGVkIGluIHRoZSBt
+YWlsIHNlcnZlciBhZ2Fpbi4NCldoZW4gSSBjb250YWN0ZWQgdGhlIHNlcnZlciBhZG1pbmlzdHJh
+dG9yIGJlZm9yZSwgDQp0aGUgc2VydmVyIGFkbWluaXN0cmF0b3IgdG9vayBjYXJlIG9mIGl0IHNv
+IHRoYXQgbXkgZS1tYWlsIGFkZHJlc3Mgd291bGQgbm90IGJlIGp1ZGdlZCBhcyBzcGFtIG1haWws
+IA0KYnV0IEkgYW0gaW4gdGhlIHByb2Nlc3Mgb2YgY29udGFjdGluZyB0aGUgc2VydmVyIGFkbWlu
+aXN0cmF0b3IgYWdhaW4uDQoNCklmIHRoZSBtYWlsIHNlcnZlciBpcyBhYmxlIHRvIGxpc3QgaXQg
+Y29ycmVjdGx5LA0Kc2hvdWxkIHdlIHJlc3VibWl0IHRoZSBWMSBwYXRjaCBzZXJpZXMgdG8gbGlz
+dCBpdCBwcm9wZXJseT8NCk9yLCBzaW5jZSB0aGVyZSBhcmUgcGF0Y2hlcyB0aGF0IGhhdmUgYWxy
+ZWFkeSBiZWVuIGNvbW1lbnRlZCBvbiwNCnNob3VsZCBJIHBvc3QgdGhlbSBhcyBhIFYyIHBhdGNo
+IHNlcmllcyB0aGF0IHJlZmxlY3RzIHRob3NlIGNvbW1lbnRzPw0KDQpCZXN0IHJlZ2FyZHMuDQoN
+Cj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgTWF5ZGVsbCA8cGV0
+ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiBTZW50OiBNb25kYXksIEp1bHkgMTksIDIwMjEgOTo0
+OSBQTQ0KPiBUbzogSXNoaWksIFNodXVpY2hpcm91L+efs+S6lSDlkajkuIDpg44gPGlzaGlpLnNo
+dXVpY2hpckBmdWppdHN1LmNvbT4NCj4gQ2M6IFRob21hcyBIdXRoIDx0aHV0aEByZWRoYXQuY29t
+PjsgTGF1cmVudCBWaXZpZXIgPGx2aXZpZXJAcmVkaGF0LmNvbT47DQo+IFBhb2xvIEJvbnppbmkg
+PHBib256aW5pQHJlZGhhdC5jb20+OyBxZW11LWFybSA8cWVtdS1hcm1Abm9uZ251Lm9yZz47DQo+
+IFFFTVUgRGV2ZWxvcGVycyA8cWVtdS1kZXZlbEBub25nbnUub3JnPg0KPiBTdWJqZWN0OiBSZTog
+W1BBVENIIDAvNF0gQWRkIHN1cHBvcnQgZm9yIEZ1aml0c3UgQTY0RlggcHJvY2Vzc29yDQo+IA0K
+PiBPbiBGcmksIDE2IEp1bCAyMDIxIGF0IDA2OjI3LCBTaHV1aWNoaXJvdSBJc2hpaQ0KPiA8aXNo
+aWkuc2h1dWljaGlyQGZ1aml0c3UuY29tPiB3cm90ZToNCj4gPg0KPiA+IEhlbGxvLCBldmVyeW9u
+ZS4NCj4gDQo+IEhpOyBpdCBsb29rcyBsaWtlIHNvbWV0aGluZyB3aXRoIHlvdXIgb3V0Z29pbmcg
+ZW1haWwgc2V0dXAgc3RpbGwgZGlzYWdyZWVzDQo+IHdpdGggUUVNVSdzIG1haWxpbmcgbGlzdCBz
+ZXJ2ZXIgOi0oICBBcyBmYXIgYXMgSSBjYW4gdGVsbCB0aGVzZSBlbWFpbHMgZGlkbid0DQo+IG1h
+a2UgaXQgdG8gdGhlIGxpc3QsIHNvIG9ubHkgcGVvcGxlIG9uIHRoZSBkaXJlY3QtY2MgbGlzdCB3
+aWxsIGhhdmUNCj4gc2VlbiB0aGVtIDotKA0KPiANCj4gPiBUaGVzZSBhcmUgYSBzZXJpZXMgb2Yg
+cGF0Y2hlcyB0byBlbmFibGUgdGhlIEZ1aml0c3UgQTY0RlggcHJvY2Vzc29yWzFdIGluDQo+ICJt
+YWNoaW5lIHZpcnQiLg0KPiA+DQo+ID4gWzFdDQo+ID4NCj4gaHR0cHM6Ly9naXRodWIuY29tL2Z1
+aml0c3UvQTY0RlgvYmxvYi9tYXN0ZXIvZG9jL0E2NEZYX01pY3JvYXJjaGl0ZWN0dXJlXw0KPiBN
+YW51YWxfZW5fMS40LnBkZg0KPiA+DQo+ID4NCj4gPiBUaGUgbW90aXZhdGlvbiBmb3IgY3JlYXRp
+bmcgdGhlc2UgcGF0Y2hlcyB3YXMgcHJldmlvdXNseSBkaXNjdXNzZWQgaW4gdGhlDQo+IGZvbGxv
+d2luZyBSRkMuDQo+ID4NCj4gPg0KPiBodHRwczovL2xvcmUua2VybmVsLm9yZy9xZW11LWRldmVs
+L2E1NjI4M2IzLTNiYjItZDlhMy05YTZlLTgxNzVjYzE3YjM3Ng0KPiBAbGluYXJvLm9yZy8NCj4g
+Pg0KPiA+IFRoaXMgcGF0Y2ggc2VyaWVzIGlzIGEgZml4IHRvIGVuYWJsZSB0aGUgQTY0RlggcHJv
+Y2Vzc29yIGJ5IHNwZWNpZnlpbmcgIi1jcHUNCj4gYTY0ZngiIGluICItTSB2aXJ0Ii4NCj4gPiBJ
+biB0aGUgZnV0dXJlLCB3ZSBwbGFuIHRvIGltcGxlbWVudCB0aGUgaW1wbGVtZW50YXRpb24gZGVm
+aW5lZCByZWdpc3RlciBncm91cCBvZg0KPiB0aGUgSFBDDQo+ID4gKEhpZ2ggUGVyZm9ybWFuY2Ug
+Q29tcHV0aW5nKSBmdW5jdGlvblsyXSB3aGljaCBpcyBpbXBsZW1lbnRlZCBzcGVjaWZpYyB0byB0
+aGUNCj4gQTY0RlggcHJvY2Vzc29yLA0KPiA+IGJ1dCBzaW5jZSB0aGUgQTY0RlgtcmVsYXRlZCBm
+dW5jdGlvbnMgYXJlIG5vdCBpbXBsZW1lbnRlZCBpbiBRRU1VIGF0IHByZXNlbnQsDQo+ID4gd2Ug
+d2lsbCBmaXJzdCBpbXBsZW1lbnQgdGhlIG1pbmltdW0gbmVjZXNzYXJ5IGZ1bmN0aW9ucy4NCj4g
+PiBIb3dldmVyLCBzaW5jZSB0aGUgQTY0RlgtcmVsYXRlZCBmdW5jdGlvbnMgYXJlIGN1cnJlbnRs
+eSBub3QgaW1wbGVtZW50ZWQgaW4NCj4gUUVNVSwNCj4gPiB3ZSB3aWxsIGZpcnN0IGltcGxlbWVu
+dCB0aGUgbWluaW11bSBuZWNlc3NhcnkgZnVuY3Rpb25zLg0KPiA+DQo+ID4gWzJdDQo+ID4NCj4g
+aHR0cHM6Ly9naXRodWIuY29tL2Z1aml0c3UvQTY0RlgvYmxvYi9tYXN0ZXIvZG9jL0E2NEZYX1Nw
+ZWNpZmljYXRpb25fSFBDXw0KPiBFeHRlbnNpb25fdjFfRU4ucGRmDQo+ID4NCj4gPiBTaW5jZSB0
+aGlzIGlzIHRoZSBmaXJzdCB0aW1lIGZvciB1cyB0byBjb250cmlidXRlIHBhdGNoZXMgdG8gcWVt
+dSwNCj4gPiB3ZSBhcmUgc3VyZSB0aGF0IHRoZXJlIHdpbGwgYmUgc29tZSBpbmNvbXBldGVuY2Us
+DQo+ID4gYnV0IGlmIHRoZXJlIGFyZSBhbnkgcHJvYmxlbXMsIHdlIHdvdWxkIGFwcHJlY2lhdGUg
+eW91ciBjb21tZW50cy4NCj4gPg0KPiA+IEJlc3QgcmVnYXJkcw0KPiA+DQo+ID4gU2h1dWljaGly
+b3UgSXNoaWkgKDQpOg0KPiA+ICAgdGFyZ2V0LWFybTogSW50cm9kdWNlIEFSTV9GRUFUVVJFX0E2
+NEZYDQo+ID4gICB0YXJnZXQtYXJtOiBjcHU2NDogQWRkIHN1cHBvcnQgZm9yIEZ1aml0c3UgQTY0
+RlgNCj4gPiAgIHRlc3RzL2FybS1jcHUtZmVhdHVyZXM6IEFkZCBBNjRGWCBwcm9jZXNzb3IgcmVs
+YXRlZCB0ZXN0cw0KPiA+ICAgZG9jcy9zeXN0ZW06IEFkZCBhNjRmeChGdWppdHN1IEE2NEZYIHBy
+b2Nlc3NvcikgdG8gc3VwcG9ydGVkIGd1ZXN0IENQVQ0KPiA+ICAgICB0eXBlDQo+ID4NCj4gPiAg
+ZG9jcy9zeXN0ZW0vYXJtL3ZpcnQucnN0ICAgICAgIHwgIDEgKw0KPiA+ICBody9hcm0vdmlydC5j
+ICAgICAgICAgICAgICAgICAgfCAgMSArDQo+ID4gIHRhcmdldC9hcm0vY3B1LmggICAgICAgICAg
+ICAgICB8ICAxICsNCj4gPiAgdGFyZ2V0L2FybS9jcHU2NC5jICAgICAgICAgICAgIHwgNDkNCj4g
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIHRlc3RzL3F0
+ZXN0L2FybS1jcHUtZmVhdHVyZXMuYyB8ICAzICsrKw0KPiA+ICA1IGZpbGVzIGNoYW5nZWQsIDU1
+IGluc2VydGlvbnMoKykNCj4gDQo+IHRoYW5rcw0KPiAtLSBQTU0NCg==
 
