@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C305D3D02A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 22:27:27 +0200 (CEST)
-Received: from localhost ([::1]:53868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679A13D029B
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 22:23:05 +0200 (CEST)
+Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5wKs-0001yk-8Y
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 16:27:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
+	id 1m5wGe-000812-0m
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 16:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m5wJF-000145-Hl
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 16:25:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46694)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5wEx-0006QI-19
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 16:21:19 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:46044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1m5wJ9-0002TP-FU
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 16:25:45 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.93 #5 (Debian))
- id 1m5wJ2-0006Tq-C8
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 20:25:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 59B882E8058
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 20:25:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1m5wEv-0008JA-7F
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 16:21:18 -0400
+Received: by mail-ej1-x630.google.com with SMTP id dt7so36134759ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 13:21:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=0Jlf5xcRChuS8Zt1dx/r9bGLjka+rINwOIYjw9lFqRg=;
+ b=XA+mjlrswqYBsG4g7R3i4Nn+zEgMFyyWR84T/VaGWsYZzYeEeGrzbmXJXoKblbbjzw
+ LlYxE8JYDa32nCE1JjKnOD5ow9PGjzibQSkBvgb4QKZUlKI067JjR/7S+M4vrcTWFnde
+ R9ZoDzwjcH11dWDfOHDUX2TYUebQAnUi8yNQrT003HxgZPC1t+CuMdulKB8/wzdxEMFa
+ fBhK02hYUmAd+bpmB8HwSe8UawFlrn0YdNIKhwvZqQX/aL/R8tvcPBEq77/x5wEzHDvh
+ g3sWo1oncbfETI7fcWqRVGUqdFgwobB46caA8e7GB/qnuw8j/6v+u6UpjblIl6e4pAC8
+ RSEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=0Jlf5xcRChuS8Zt1dx/r9bGLjka+rINwOIYjw9lFqRg=;
+ b=Lpw9NRu/hTfdjvErh1VAxIEcslKdqPWp+Xl0zAwILCq/Pqb/TWmko+n49IYKhDYwuk
+ LEQTY5lv9GFJ1p1BlwsxavGoT9Cyh5X/2Rl+QhVu60p1FcFGLyADmsocndCSFOvwaVt+
+ y16cLV2tytz2Nt7s7RWdEiJtDVZph6KU23qx7i04IpGrVz7Iq+iSGDdxwhI9pOIZbSDZ
+ Xdrdku9DILsU085CLXtlDXJRoqdr8shCK0o5znSZEx9eZtjim7G/VUPiFezxcKq6zJwi
+ ZJ+ykzruJ3ZM2OHkkVjgOocfebewEv4RUbMnVmzN5syEUvaJTwEWzjFggEQxk8hqXPMr
+ Sayw==
+X-Gm-Message-State: AOAM530ILLG/UJ7QONzCp36/aWduzZk2JjLgRsyfOONq7fOishRtEwL4
+ jS1UTO2DdDd17nvp3VBYnZvP5FMc7qaMWlycR2NBvQ==
+X-Google-Smtp-Source: ABdhPJzhYJNvbPZHfeP2aQLM9w7cZP1ajq7qiL7ZOqQ6+BZzmbfW1uKlNUHOoO7yHFoa5DBYtfv5W2KewiuHrvdzEUE=
+X-Received: by 2002:a17:906:f9c5:: with SMTP id
+ lj5mr34932070ejb.482.1626812474474; 
+ Tue, 20 Jul 2021 13:21:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <CA+bd_6+2zk0N=s-D2OG4FUZ-HirJ+8HkMUktF=Jqyf9_HhyH1w@mail.gmail.com>
+ <287d8097-f865-6f89-6062-567a7994987c@redhat.com>
+ <87wnpr4t0d.fsf@p50.localhost.localdomain>
+ <418D3B29-010B-4B5B-A310-F3E3DA110DA9@oracle.com>
+ <87o8aw3k3p.fsf@p50.localhost.localdomain>
+ <8D9638C2-D992-416E-9A92-58128F1001CB@oracle.com>
+In-Reply-To: <8D9638C2-D992-416E-9A92-58128F1001CB@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 20 Jul 2021 21:20:33 +0100
+Message-ID: <CAFEAcA8jOf8-rojji7_z3-N10AeiynQ7NVv4aaMCZGL3npwpxg@mail.gmail.com>
+Subject: Re: tests/acceptance/multiprocess.py test failure
+To: Jag Raman <jag.raman@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Jul 2021 20:19:28 -0000
-From: Peter Maydell <1936977@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell zciendor
-X-Launchpad-Bug-Reporter: Zcien Dor (zciendor)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <162681142813.6143.7922843178682490590.malonedeb@wampee.canonical.com>
-Message-Id: <162681236846.6607.6921445541840314086.malone@chaenomeles.canonical.com>
-Subject: [Bug 1936977] Re: qemu-arm-static crashes "segmentation fault" when
- running "git clone" 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9c0cb2d219338e530974f0e5d7d00aa1bf8a7de3"; Instance="production"
-X-Launchpad-Hash: 8bbc1156240ca3583e61db32fd9568db195761a8
-Received-SPF: none client-ip=91.189.90.7; envelope-from=noreply@launchpad.net;
- helo=indium.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,40 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1936977 <1936977@bugs.launchpad.net>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Willian Rampazzo <willianr@redhat.com>,
+ David Hildenbrand <dhildenb@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the upstream QEMU bug tracker, not an Ubuntu specific tracker;
-if you'd like Ubuntu to consider a backport of something, please file a
-bug with them.
+On Tue, 20 Jul 2021 at 21:18, Jag Raman <jag.raman@oracle.com> wrote:
+>
+>
+>
+> > On Jul 20, 2021, at 2:39 PM, Cleber Rosa <crosa@redhat.com> wrote:
+> >
+> >
+> > Jag Raman writes:
+> >>
+> >> We presently don=E2=80=99t have permissions to send a PR to
+> >> upstream (Peter Maydell).
+> >>
+> >> Presently, we are requesting someone else who has
+> >> permissions to do PRs on our behalf. We will work
+> >> on getting permissions to send PRs going forward.
 
+> > I'm going to include that patch in an upcoming PR.  Please let me know
+> > if this is not what you intended.
+> >
+> > PS: I'm not sure I follow what your specific permission problem is, if
+> > it's technical or something else.  But, in either case, I'd recommend y=
+ou
+> > sync the MAINTAINERS file entries with your roles/abilities to maintain
+> > those files listed.
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+> I have not registered a GPG keys to submit PR - please see following
+> email for context:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg765788.html
+>
+> I=E2=80=99ll get started on this process as I can help with smaller patch=
+es.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1936977
+This isn't a technical thing particularly -- I just prefer that
+if you're not going to be submitting a lot of patches that they
+go through some other submaintainer who can review and curate
+them as they go past. I do not want us to have a structure
+where we have 500 "submaintainers" all directly submitting PRs to me.
 
-Title:
-   qemu-arm-static crashes "segmentation fault" when running "git clone"
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  This is a reopen of #1869073 for `qemu-user-static/focal-
-  updates,focal-security,now 1:4.2-3ubuntu6.17 amd64`.
-
-  `git clone` reproducably segfaults in `qemu-arm-static` chroot.
-
-  #1869073 mentions this should have been fixed for newer versions of
-  QEMU, but for `focal` there's no newer version available, even in
-  `focal-backports`.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1936977/+subscriptions
-
+thanks
+-- PMM
 
