@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C58C3CFD34
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:15:06 +0200 (CEST)
-Received: from localhost ([::1]:54778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D79E3CFD51
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:21:34 +0200 (CEST)
+Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5rSb-00015J-96
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:15:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50342)
+	id 1m5rYq-0006PB-PV
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5rPZ-0003vx-QP
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:11:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54304)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5rPP-0003mz-0y
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:11:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5rPY-0001Qu-33
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:11:57 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1m5rPM-0001Ho-Q5
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:11:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626793915;
+ s=mimecast20190719; t=1626793904;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M3HROl9BRYOuFMUsoaT/3RcLt0CF31WE+GS2Km1/kiA=;
- b=MLTztOun1qQQfoUlw14hhMW1pyF/jp/0TQC/5eLwB9lmkVXcIoW5hjSUK32AA1EyjVaBae
- wyxQ5iRhlxx2vUAE6cVd0WVwmsUEAyHdfuqg26qULe2+DNGPmx/mKgLOLax0X/yb1p1mE7
- EF4jvwZg+4nETTuo1Jt1yUxf/1HG9cY=
+ bh=pwDnr1scLHKk1yC0voUx5cmuGdkFvDiDPdPL4eE710w=;
+ b=CcvbJ0ehxnukr9C2EVm7HOBTlNZZQlT/7H0CRhEIqitduJM5sQIm8f7LiQaIJdrrQEZYOP
+ u3RXmJfcCJGtTTIRCMVDrp491bIU9nvMmD2UI9Y+qWyJ6atHuM9+cb0AYgYjsHtd5qtwfY
+ l3j8Lx9fiygrSZO0zxnwR9X0vyer740=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-_MvBZVohNuWCXBQgZvl0SQ-1; Tue, 20 Jul 2021 11:11:44 -0400
-X-MC-Unique: _MvBZVohNuWCXBQgZvl0SQ-1
+ us-mta-296-CjutzKoXMZaobgQt_144-w-1; Tue, 20 Jul 2021 11:11:42 -0400
+X-MC-Unique: CjutzKoXMZaobgQt_144-w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A9B47CC626;
- Tue, 20 Jul 2021 15:11:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD345193F561;
+ Tue, 20 Jul 2021 15:11:15 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-81.ams2.redhat.com [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D07F60843;
- Tue, 20 Jul 2021 15:11:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C723960843;
+ Tue, 20 Jul 2021 15:11:14 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/11] block/export: Conditionally ignore set-context error
-Date: Tue, 20 Jul 2021 17:10:52 +0200
-Message-Id: <20210720151053.226144-11-kwolf@redhat.com>
+Subject: [PULL 11/11] iotests/307: Test iothread conflict for exports
+Date: Tue, 20 Jul 2021 17:10:53 +0200
+Message-Id: <20210720151053.226144-12-kwolf@redhat.com>
 In-Reply-To: <20210720151053.226144-1-kwolf@redhat.com>
 References: <20210720151053.226144-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,52 +82,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-When invoking block-export-add with some iothread and
-fixed-iothread=false, and changing the node's iothread fails, the error
-is supposed to be ignored.
+Passing fixed-iothread=true should make iothread conflicts fatal,
+whereas fixed-iothread=false should not.
 
-However, it is still stored in *errp, which is wrong.  If a second error
-occurs, the "*errp must be NULL" assertion in error_setv() fails:
+Combine the second case with an error condition that is checked after
+the iothread is handled, to verify that qemu does not crash if there is
+such an error after changing the iothread failed.
 
-  qemu-system-x86_64: ../util/error.c:59: error_setv: Assertion
-  `*errp == NULL' failed.
-
-So if fixed-iothread=false, we should ignore the error by passing NULL
-to bdrv_try_set_aio_context().
-
-Fixes: f51d23c80af73c95e0ce703ad06a300f1b3d63ef
-       ("block/export: add iothread and fixed-iothread options")
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210624083825.29224-2-mreitz@redhat.com>
+Message-Id: <20210624083825.29224-3-mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Tested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/export/export.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/307     | 15 +++++++++++++++
+ tests/qemu-iotests/307.out |  8 ++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/block/export/export.c b/block/export/export.c
-index fec7d9f738..6d3b9964c8 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -111,6 +111,7 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
-     if (export->has_iothread) {
-         IOThread *iothread;
-         AioContext *new_ctx;
-+        Error **set_context_errp;
+diff --git a/tests/qemu-iotests/307 b/tests/qemu-iotests/307
+index c7685347bc..b429b5aa50 100755
+--- a/tests/qemu-iotests/307
++++ b/tests/qemu-iotests/307
+@@ -41,9 +41,11 @@ with iotests.FilePath('image') as img, \
+     iotests.log('=== Launch VM ===')
  
-         iothread = iothread_by_id(export->iothread);
-         if (!iothread) {
-@@ -120,7 +121,9 @@ BlockExport *blk_exp_add(BlockExportOptions *export, Error **errp)
+     vm.add_object('iothread,id=iothread0')
++    vm.add_object('iothread,id=iothread1')
+     vm.add_blockdev(f'file,filename={img},node-name=file')
+     vm.add_blockdev(f'{iotests.imgfmt},file=file,node-name=fmt')
+     vm.add_blockdev('raw,file=file,node-name=ro,read-only=on')
++    vm.add_blockdev('null-co,node-name=null')
+     vm.add_device(f'id=scsi0,driver=virtio-scsi,iothread=iothread0')
+     vm.launch()
  
-         new_ctx = iothread_get_aio_context(iothread);
+@@ -74,6 +76,19 @@ with iotests.FilePath('image') as img, \
+     vm.qmp_log('query-block-exports')
+     iotests.qemu_nbd_list_log('-k', socket)
  
--        ret = bdrv_try_set_aio_context(bs, new_ctx, errp);
-+        /* Ignore errors with fixed-iothread=false */
-+        set_context_errp = fixed_iothread ? errp : NULL;
-+        ret = bdrv_try_set_aio_context(bs, new_ctx, set_context_errp);
-         if (ret == 0) {
-             aio_context_release(ctx);
-             aio_context_acquire(new_ctx);
++    iotests.log('\n=== Add export with conflicting iothread ===')
++
++    vm.qmp_log('device_add', id='sdb', driver='scsi-hd', drive='null')
++
++    # Should fail because of fixed-iothread
++    vm.qmp_log('block-export-add', id='export1', type='nbd', node_name='null',
++               iothread='iothread1', fixed_iothread=True, writable=True)
++
++    # Should ignore the iothread conflict, but then fail because of the
++    # permission conflict (and not crash)
++    vm.qmp_log('block-export-add', id='export1', type='nbd', node_name='null',
++               iothread='iothread1', fixed_iothread=False, writable=True)
++
+     iotests.log('\n=== Add a writable export ===')
+ 
+     # This fails because share-rw=off
+diff --git a/tests/qemu-iotests/307.out b/tests/qemu-iotests/307.out
+index 4b0c7e155a..ec8d2be0e0 100644
+--- a/tests/qemu-iotests/307.out
++++ b/tests/qemu-iotests/307.out
+@@ -51,6 +51,14 @@ exports available: 1
+    base:allocation
+ 
+ 
++=== Add export with conflicting iothread ===
++{"execute": "device_add", "arguments": {"drive": "null", "driver": "scsi-hd", "id": "sdb"}}
++{"return": {}}
++{"execute": "block-export-add", "arguments": {"fixed-iothread": true, "id": "export1", "iothread": "iothread1", "node-name": "null", "type": "nbd", "writable": true}}
++{"error": {"class": "GenericError", "desc": "Cannot change iothread of active block backend"}}
++{"execute": "block-export-add", "arguments": {"fixed-iothread": false, "id": "export1", "iothread": "iothread1", "node-name": "null", "type": "nbd", "writable": true}}
++{"error": {"class": "GenericError", "desc": "Permission conflict on node 'null': permissions 'write' are both required by an unnamed block device (uses node 'null' as 'root' child) and unshared by block device 'sdb' (uses node 'null' as 'root' child)."}}
++
+ === Add a writable export ===
+ {"execute": "block-export-add", "arguments": {"description": "This is the writable second export", "id": "export1", "name": "export1", "node-name": "fmt", "type": "nbd", "writable": true, "writethrough": true}}
+ {"error": {"class": "GenericError", "desc": "Permission conflict on node 'fmt': permissions 'write' are both required by an unnamed block device (uses node 'fmt' as 'root' child) and unshared by block device 'sda' (uses node 'fmt' as 'root' child)."}}
 -- 
 2.31.1
 
