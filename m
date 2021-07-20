@@ -2,80 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455B93CFD6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:23:09 +0200 (CEST)
-Received: from localhost ([::1]:51326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675B63CFD60
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:22:22 +0200 (CEST)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5raO-0000yj-A6
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:23:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51154)
+	id 1m5rZd-00006y-EQ
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:22:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5rTq-0005Yu-Qt
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:16:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1m5rTn-0004Jz-SF
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:16:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626794178;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cEVzpjOjohYsAg79nKkNQZQNY+Qfw5vSTILhRnW759A=;
- b=WlaWCgTaGD965wFb5mXiOgzXNA2CqQql4jy3/G7T4+5uDm2NJe7MHKra0nqDLoHTcyMFf5
- X4skSRisTpQ8byvgT0+/hich2PV7ch4obzgwRndmDuWC7Vzaa3/ePa730a24LBoDMSFQTt
- nxHD4eHd4OleJoycTM+DpgSaunm0rPk=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-J77AB2nVO2i8f8xKcvvEFA-1; Tue, 20 Jul 2021 11:16:16 -0400
-X-MC-Unique: J77AB2nVO2i8f8xKcvvEFA-1
-Received: by mail-ot1-f71.google.com with SMTP id
- 61-20020a9d08430000b02904b9e704387aso17922881oty.12
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:16:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cEVzpjOjohYsAg79nKkNQZQNY+Qfw5vSTILhRnW759A=;
- b=ZC9fJ+8aOP8V0fYuxqqPCHjyz8cAamJMT52uL0alobPPohPL6d69sGJW6kmNnATFhn
- y/loZqa4gej1NFhoivfRIzwsDKujXGdiSfoR1BP5O7MXGZrQVSZkE1TqEgJctgN+Y6Xp
- u1qa8wxemoJTTFI8my/K/si8j6wCN8BEVz1q0XYjSJHXtoqGd/OzKi6PadYLOK4H3OIS
- TfVk6nklTh1HvJYHnz2y2GIxC2xAAyQh9NObBXXCT+3D9kj0vULTB+rSHhLoQ690WtuI
- pdGHkGkrqY0pa16YB0DGXiwGPke1Z2YNn+wOxrL5HN+Wn/nEvr8uLCEpd2R1gX8oz8z/
- ajyw==
-X-Gm-Message-State: AOAM532MY81oX04NGZ/pUFaYch7DkvcZrhVzDtgrgVutdI+gBdaGh03H
- bnJT6ziZHpNFck8/RG48g5baOf3VyVe6QAQQJP4CigLMNQQFhfTuSWjVs+T+NSumDlBxOtvQ4uy
- YWVaSRMep/nEVmjPtGdv+SGW+g66wJuo=
-X-Received: by 2002:a4a:1401:: with SMTP id 1mr21114969ood.50.1626794176074;
- Tue, 20 Jul 2021 08:16:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyTw+eyOWjzoOR2euzvkRLKNYL6s1YEN3Re1kMpX9RNIH3Wa9NaniI8wY1N7vWiFPrhcaj+KrKzS75az64hP44=
-X-Received: by 2002:a4a:1401:: with SMTP id 1mr21114961ood.50.1626794175886;
- Tue, 20 Jul 2021 08:16:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1m5rS5-0001y0-AU
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:14:33 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.228]:48891
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1m5rS2-000336-3K
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:14:32 -0400
+HMM_SOURCE_IP: 172.18.0.218:43924.1776767911
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-202.80.192.38?logid-12ef1fc3aabe4fd8a6101b785ef452ca
+ (unknown [172.18.0.218])
+ by chinatelecom.cn (HERMES) with SMTP id 9FEF828010B;
+ Tue, 20 Jul 2021 23:14:15 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.218])
+ by app0025 with ESMTP id 12ef1fc3aabe4fd8a6101b785ef452ca for
+ qemu-devel@nongnu.org; Tue Jul 20 23:14:17 2021
+X-Transaction-ID: 12ef1fc3aabe4fd8a6101b785ef452ca
+X-filter-score: 
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.218
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/2] support dirtyrate measurement with dirty bitmap  
+Date: Tue, 20 Jul 2021 23:19:15 +0800
+Message-Id: <cover.1626794163.git.huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210625182021.803227-1-jsnow@redhat.com>
- <20210625182021.803227-3-jsnow@redhat.com>
- <49db446b-3960-50ea-9693-d3bd5d1701f8@virtuozzo.com>
-In-Reply-To: <49db446b-3960-50ea-9693-d3bd5d1701f8@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Date: Tue, 20 Jul 2021 11:16:05 -0400
-Message-ID: <CAFn=p-bTqxsg-pBkpUzdQuCNrfBr11q7ZwO2xeQ8r_b1rGydzQ@mail.gmail.com>
-Subject: Re: [PATCH 02/10] iotests/297: Add get_files() function
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000fa0a9605c78f882b"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=42.123.76.228;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,160 +62,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Hyman <huangy81@chinatelecom.cn>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Chuan Zheng <zhengchuan@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fa0a9605c78f882b
-Content-Type: text/plain; charset="UTF-8"
+From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-On Tue, Jul 6, 2021 at 5:02 AM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+v7:
+- do not take bql every time we need when do dirtyrate measuring.
+  try more things once we take bql so that overhead can be reduced.
 
-> 25.06.2021 21:20, John Snow wrote:
-> > Split out file discovery into its own method to begin separating out the
-> > "environment setup" and "test execution" phases.
-> >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
->
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->
-> > ---
-> >   tests/qemu-iotests/297 | 11 +++++++++--
-> >   1 file changed, 9 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-> > index 493dda17fb..0bc1195805 100755
-> > --- a/tests/qemu-iotests/297
-> > +++ b/tests/qemu-iotests/297
-> > @@ -21,6 +21,7 @@ import re
-> >   import shutil
-> >   import subprocess
-> >   import sys
-> > +from typing import List
-> >
-> >   import iotests
-> >
-> > @@ -56,9 +57,15 @@ def is_python_file(filename: str, directory: str =
-> '.') -> bool:
-> >               return False
-> >
-> >
-> > +def get_test_files(directory: str = '.') -> List[str]:
-> > +    return [
-> > +        f for f in (set(os.listdir(directory)) - set(SKIP_FILES))
-> > +        if is_python_file(f, directory)
-> > +    ]
-> > +
-> > +
-> >   def run_linters():
-> > -    files = [filename for filename in (set(os.listdir('.')) -
-> set(SKIP_FILES))
-> > -             if is_python_file(filename)]
-> > +    files = get_test_files()
->
-> Hmm. It looks like files in tests/qemu-iotests/tests are ignored now..
-> That's bad
->
->
-Oh, it seems likely we were never checking them -- listdir doesn't recurse
-before *or* after this patch. OK, I can fix that. It'll be in a new patch.
+v6:
+- pre-check if dirty tracking for dirtyrate is running
+  before stating the dirty pages
 
+v5:
+- let recording dirty pages after memory_global_dirty_log_sync
+  make dirtyrate result more accurate
 
-> >
-> >       iotests.logger.debug('Files to be checked:')
-> >       iotests.logger.debug(', '.join(sorted(files)))
-> >
->
->
-> --
-> Best regards,
-> Vladimir
->
->
+v4:
+- drop the first commit:
+  "KVM: introduce kvm_get_manual_dirty_log_protect"
 
---000000000000fa0a9605c78f882b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- clear dirty log unconditionally so that the first commit
+  can be dropped.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 6, 2021 at 5:02 AM Vladim=
-ir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsem=
-entsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">25.06.2021 21:20, John Snow wrote:<br>
-&gt; Split out file discovery into its own method to begin separating out t=
-he<br>
-&gt; &quot;environment setup&quot; and &quot;test execution&quot; phases.<b=
-r>
-&gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-<br>
-Reviewed-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@=
-virtuozzo.com" target=3D"_blank">vsementsov@virtuozzo.com</a>&gt;<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0tests/qemu-iotests/297 | 11 +++++++++--<br>
-&gt;=C2=A0 =C2=A01 file changed, 9 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297<br>
-&gt; index 493dda17fb..0bc1195805 100755<br>
-&gt; --- a/tests/qemu-iotests/297<br>
-&gt; +++ b/tests/qemu-iotests/297<br>
-&gt; @@ -21,6 +21,7 @@ import re<br>
-&gt;=C2=A0 =C2=A0import shutil<br>
-&gt;=C2=A0 =C2=A0import subprocess<br>
-&gt;=C2=A0 =C2=A0import sys<br>
-&gt; +from typing import List<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0import iotests<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -56,9 +57,15 @@ def is_python_file(filename: str, directory: str =
-=3D &#39;.&#39;) -&gt; bool:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return False<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +def get_test_files(directory: str =3D &#39;.&#39;) -&gt; List[str]:<b=
-r>
-&gt; +=C2=A0 =C2=A0 return [<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 f for f in (set(os.listdir(directory)) - =
-set(SKIP_FILES))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if is_python_file(f, directory)<br>
-&gt; +=C2=A0 =C2=A0 ]<br>
-&gt; +<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0def run_linters():<br>
-&gt; -=C2=A0 =C2=A0 files =3D [filename for filename in (set(os.listdir(&#3=
-9;.&#39;)) - set(SKIP_FILES))<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if is_python_file(fil=
-ename)]<br>
-&gt; +=C2=A0 =C2=A0 files =3D get_test_files()<br>
-<br>
-Hmm. It looks like files in tests/qemu-iotests/tests are ignored now.. That=
-&#39;s bad<br>
-<br></blockquote><div><br></div><div>Oh, it seems likely we were never chec=
-king them -- listdir doesn&#39;t recurse before *or* after this patch. OK, =
-I can fix that. It&#39;ll be in a new patch.<br></div><div></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0iotests.logger.debug(&#39;Files to be checke=
-d:&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0iotests.logger.debug(&#39;, &#39;.join(sorte=
-d(files)))<br>
-&gt; <br>
-<br>
-<br>
--- <br>
-Best regards,<br>
-Vladimir<br>
-<br>
-</blockquote></div></div>
+- rename global var DirtyRateDirtyPages to total_dirty_pages
 
---000000000000fa0a9605c78f882b--
+- stat the dirty pages along with the existing loop in
+  cpu_physical_memory_set_dirty_lebitmap
+
+- stat the increased dirty pages like the way of dirty-ring
+
+- add BQL when fetch dirty log and clear dirty log
+
+- do not clear dirty log after measuring.
+
+v4 implementation clear log unconditionally so that the
+kvm_get_manual_dirty_log_protect can be dropped and so do the
+first commit.
+
+other main modification is add the BQL when fetch and clear
+dirty log.
+
+last modification is do not clear dirty log after measuring.
+if dirty tracking be stopped after measuring, clear dirty
+log make no sense.if dirty tracking is running after mesauring,
+clear dirty log can be handled by the caller who is interested in it.
+
+v3:
+- do not touch cpu_physical_memory_sync_dirty_bitmap
+
+- rename global var DirtyRateIncreasedPages to DirtyRateDirtyPages
+
+- stat dirty pages in cpu_physical_memory_set_dirty_lebitmap, which
+  is on the execution path of memory_global_dirty_log_sync and can
+  be used for dirty rate measuring.
+
+the v3 implemention runs well, we could get accurate dirtyrate
+as v1 and simplify the implementation heavyly. it do not touch
+the any ram_list.dirty_memory[*], so do has no conflict with migraion
+at all.
+if migration is running at the same time with dirtyrate measuring,
+measuring may reset protection of pages after
+memory_global_dirty_log_sync before migration iteration, but it has
+no side affect because kvm_log_clear_one_slot can guarantee that
+same dirty_bmap in a slot shouldn't be cleared twice.
+
+v2:
+- drop the DIRTY_MEMORY_DIRTY_RATE dirty bits
+
+- reuse the DIRTY_MEMORY_MIGRATION dirty bits to stat the dirty
+  pages.
+
+- introduce global var DirtyRateIncreasedPages to stat the
+  increased dirty pages
+
+- simplify the logic of calculation. skip the 1'round of
+  log sync unconditionally
+
+changes of this version are based on Peter's advice,
+like the version 1, it is posted for the sake of RFC.
+ideally, this patshset may be merged after the commit:
+"migration/dirtyrate: implement dirty-ring dirtyrate calculation"
+
+v1:
+the dirtyrate measurement implemented by page-sampling originally, it
+is not accurate in some scenarios, so we have introduced dirty-ring
+based dirtyrate measurement(maybe it will be merged soon), it fix the
+accuracy of page-sampling, and more importantly, it is at the
+granualrity of vcpu.
+
+dirty-ring method can be used when dirty-ring enable, as supplementary,
+we introduce dirty-bitmap method to calculating dirtyrate when dirty log
+enable, so that we can also get the accurate dirtyrate if needed in the
+absence of dirty-ring.
+
+three things has done to implement the measurement:
+- introduce a fresh new dirty bits named DIRTY_MEMORY_DIRTY_RATE, which
+  is used to store dirty bitmap after fetching it from kvm. why we do
+  not reuse the existing DIRTY_MEMORY_MIGRATION dirty bits is we do not
+  want to interfere with migration of and let implementation clear, this
+  is also the reason why dirty_memory be split.
+
+  DIRTY_MEMORY_DIRTY_RATE dirty bits will be filled when
+  memory_global_dirty_log_sync executed if GLOBAL_DIRTY_DIRTY_RATE bit
+  be set in the global_dirty_tracking flag.
+
+- introduce kvm_get_manual_dirty_log_protect function so that we can
+  probe the protect caps of kvm when calculating.
+
+- implement dirtyrate measurement with dirty bitmap with following step:
+  1. start the dirty log.
+
+  2. probe the protect cap, if KVM_DIRTY_LOG_INITIALLY_SET enable, skip
+     skip the 1'R and do the reset page protection manually, since kvm
+     file bitmap with 1 bits if this cap is enabled.
+
+  3. clear the DIRTY_MEMORY_DIRTY_RATE dirty bits, prepare to store
+     the dirty bitmap.
+
+  4. start memory_global_dirty_log_sync and fetch dirty bitmap from kvm
+
+  5. reap the DIRTY_MEMORY_DIRTY_RATE dirty bits and do the calculation.
+
+this patchset rebases on the commit
+"migration/dirtyrate: implement dirty-ring dirtyrate calculation",
+since the above feature has not been merged, so we post this patch
+for the sake of RFC. ideally, this patshset may be merged after it.
+
+Please, review, thanks !
+
+Best Regards !
+
+Hyman Huang(黄勇) (2):
+  memory: introduce total_dirty_pages to stat dirty pages
+  migration/dirtyrate: implement dirty-bitmap dirtyrate calculation
+
+ hmp-commands.hx         |   9 ++--
+ include/exec/ram_addr.h |   9 ++++
+ migration/dirtyrate.c   | 119 ++++++++++++++++++++++++++++++++++++++++++++----
+ qapi/migration.json     |   6 ++-
+ 4 files changed, 128 insertions(+), 15 deletions(-)
+
+-- 
+1.8.3.1
 
 
