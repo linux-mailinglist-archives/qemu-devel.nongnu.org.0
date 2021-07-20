@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAD793CFE2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:50:59 +0200 (CEST)
-Received: from localhost ([::1]:40016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326973CFE38
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 17:53:11 +0200 (CEST)
+Received: from localhost ([::1]:46920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5s1K-0007LD-QP
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:50:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57142)
+	id 1m5s3S-0003bT-8A
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 11:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtQ-0000ip-Fg
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33522)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtV-0000pb-Pp
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtO-0005MQ-Sl
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1m5rtT-0005PN-VV
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 11:42:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626795766;
+ s=mimecast20190719; t=1626795770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+EpP9cqqfCS+Ot9ShPaMqErBIc8w+8RJbLCEIxxcLRw=;
- b=Vi9XWC71OM0yKxKZOj62x8bPnuTU2Q37zCXiugPwoZ+A9g4QJ+2jWgkBPfmesQpQXMi7ze
- OUmi4Lml4zD8FxZFB5a7dKoCiIgLg9M7NEue7o8a+oJwgjAXCq+1JNHG+Zy4y8wZCS9z5n
- 7Yq8I7bVNM7zUzAZoRxp4NuYzrI60kY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-gLP6VkbvPim6dZ4ytodkwQ-1; Tue, 20 Jul 2021 11:42:45 -0400
-X-MC-Unique: gLP6VkbvPim6dZ4ytodkwQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k5-20020a7bc3050000b02901e081f69d80so2286392wmj.8
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:42:44 -0700 (PDT)
+ bh=ke+K8CUdvIjT9wDwvnpP72CHpJjDbX0XKOULAYpAuTc=;
+ b=L4li5YXWRkSNHfTwSP//FAiElMq9pLK2aGYBJ5c1T4TuX7+I/QzPzpEXTqpxEddldLVJvY
+ iHsY2mjT9Ere/UTZSHf3uzGQwVEO5VaeBcCG3YswO1dBniS1lKl7WL6gtJb1HnZq/G2aSa
+ GIJEqLf1Cf7yQHNJ7tp2W2d0xNQ8FeU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-fWN4nW57PCyG8rhxyhebdg-1; Tue, 20 Jul 2021 11:42:49 -0400
+X-MC-Unique: fWN4nW57PCyG8rhxyhebdg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 1-20020a05600c0201b029022095f349f3so946386wmi.0
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 08:42:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+EpP9cqqfCS+Ot9ShPaMqErBIc8w+8RJbLCEIxxcLRw=;
- b=Dqjw3gg154zHlVzPgV5GWV1tpX75+jS0305Lc1IMbORSu9/3vgajBO8bpWg/dwFszZ
- epPri2+dGx5NjWMexfbL8a/3NXJF8cbQ3gWUKipioJ04TiY3UjjvmM6Xd9u1upLznML3
- 0EnN+2SQqt7VVoTu+Mgj3x5dBXYkr5pIsErNTIg+cV31HSgObpE4svVIXhCQHcxR04ct
- zVO42nu7NDZmUz9GwCf/0mK7nljvsr/DjaNrwmsWGrj8nW/R5DvjoGeWr98GbczuTZE7
- J7kkf5V2iOuw3AUXak2AgLclflwiPGc0FJ8sB90NOqg5ilsUBwgze9l/zeVuhUzGFArS
- dvqQ==
-X-Gm-Message-State: AOAM531MXpCVg/utKRvnnTlUI3nTe0JRApxcbJrAOqSM+FH7sEiHiRqz
- 3h487OoHCFsNoHea4wpnulpAsECwKqDPLO6gglGO86a4wAzsFG4uhqTHoW5ZejQJWwmYanvihyT
- lSZBoufO7lxAjx5pd11nZY+U/AJJJ6p5mEk+R2af3gdKUgjmTgXYqkYjPL4mZesr8
-X-Received: by 2002:a7b:ce95:: with SMTP id q21mr38024425wmj.101.1626795763898; 
- Tue, 20 Jul 2021 08:42:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEJRPMetME02nR7dUiuZkkK5YBr36WoalP1VIyjg/H5AIYJuHnc/RpddsX4veDYtGiyc66Ow==
-X-Received: by 2002:a7b:ce95:: with SMTP id q21mr38024410wmj.101.1626795763692; 
- Tue, 20 Jul 2021 08:42:43 -0700 (PDT)
+ bh=ke+K8CUdvIjT9wDwvnpP72CHpJjDbX0XKOULAYpAuTc=;
+ b=rmOxNJh6oG4+yAVK6nNEFz60CcchikezGwO6+znDlQ8LWl9QvIEZ3+9yRekKT7TjHO
+ Ag2r+35rVTMOyco5IxO1VPYMEVhrFLivQhP60VvUxKhYyuzQJRC1vcMkdUMcOqdKMc7J
+ 2OhdRfC0I/LBTiqkXSiXJNAy3i5ewAkGOh1B3fgQCWcM7GS6rMcdwgOrNSv514C/LSXz
+ GWHd2+DpazzdtMA8GVP5eIn2GtzmBhisEtcusBFGHurOKu31Z9mzaPEp5FyQGkgiSj3i
+ 6uDM7A0bkbEq24PxQy3oLHee/nlfJ8KA9dJnId1kIzNthfm3jdFQtsNkax5/ORk67HJu
+ 2OrA==
+X-Gm-Message-State: AOAM532nIZN1q+6zIX+msE+B3p0Qu9QC/8LFZp5xkk+mU33WalEGFXd9
+ kN0haU+/8e6jneTQx1EqookKt4VK0oPlbb6oebj1u9+Ckwu0k3yqcWV175nesseQc9b1LG4EbTo
+ yV9Z4CP8q5hbb78iiwWhwEIcCtYNKMnzIhLb6uzECh2uVHifH/IijPVJJ2CUWBbqz
+X-Received: by 2002:adf:e5ce:: with SMTP id a14mr35740326wrn.226.1626795768191; 
+ Tue, 20 Jul 2021 08:42:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzFjbDELn9PlVoMETbMcfKgU2MpoocKRAUMvu9ehxkvDcZjGQAk7yjfnceBxktfN5Y4tvyqXg==
+X-Received: by 2002:adf:e5ce:: with SMTP id a14mr35740295wrn.226.1626795767907; 
+ Tue, 20 Jul 2021 08:42:47 -0700 (PDT)
 Received: from x1w.. (122.red-83-42-66.dynamicip.rima-tde.net. [83.42.66.122])
  by smtp.gmail.com with ESMTPSA id
- o7sm28065464wrv.72.2021.07.20.08.42.43
+ o3sm24165228wrm.5.2021.07.20.08.42.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 08:42:43 -0700 (PDT)
+ Tue, 20 Jul 2021 08:42:47 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/17] hw/isa/vt82c686: Add missing Kconfig dependencies (build
+Subject: [PULL 15/17] hw/isa/vt82c686: Add missing Kconfig dependency (runtime
  error)
-Date: Tue, 20 Jul 2021 17:41:38 +0200
-Message-Id: <20210720154141.3919817-15-philmd@redhat.com>
+Date: Tue, 20 Jul 2021 17:41:39 +0200
+Message-Id: <20210720154141.3919817-16-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210720154141.3919817-1-philmd@redhat.com>
 References: <20210720154141.3919817-1-philmd@redhat.com>
@@ -76,11 +76,11 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIMWL_WL_HIGH=-1.474, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -102,37 +102,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The VT82C686 device model misses various dependencies:
+When building the Pegasos2 machine stand-alone we get:
 
-  /usr/bin/ld: libcommon.fa.p/hw_isa_vt82c686.c.o: in function `vt82c686b_realize':
-  hw/isa/vt82c686.c:622: undefined reference to `i8259_init'
-  /usr/bin/ld: hw/isa/vt82c686.c:624: undefined reference to `i8257_dma_init'
-  /usr/bin/ld: hw/isa/vt82c686.c:627: undefined reference to `mc146818_rtc_init'
+  $ qemu-system-ppc -M pegasos2 -bios pegasos2.rom
+  ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
+  Bail out! ERROR:qom/object.c:714:object_new_with_type: assertion failed: (type != NULL)
 
-Add them.
+Looking at the backtrace:
+
+  Thread 1 "qemu-system-ppc" received signal SIGABRT, Aborted.
+  (gdb) bt
+  #0  0x00007ffff53877d5 in raise () at /lib64/libc.so.6
+  #1  0x00007ffff5370895 in abort () at /lib64/libc.so.6
+  #2  0x00007ffff6dc4b6c in g_assertion_message_expr.cold () at /lib64/libglib-2.0.so.0
+  #3  0x00007ffff6e229ff in g_assertion_message_expr () at /lib64/libglib-2.0.so.0
+  #4  0x0000555555a0c8f4 in object_new_with_type (type=0x0) at qom/object.c:714
+  #5  0x0000555555a0c9d5 in object_new (typename=0x555555c7afe4 "isa-pit") at qom/object.c:747
+  #6  0x0000555555a053b8 in qdev_new (name=0x555555c7afe4 "isa-pit") at hw/core/qdev.c:153
+  #7  0x00005555557cdd05 in isa_new (name=0x555555c7afe4 "isa-pit") at hw/isa/isa-bus.c:160
+  #8  0x00005555557cf518 in i8254_pit_init (bus=0x55555603d140, base=64, isa_irq=0, alt_irq=0x0) at include/hw/timer/i8254.h:54
+  #9  0x00005555557d12f9 in vt8231_realize (d=0x5555563d9770, errp=0x7fffffffcc28) at hw/isa/vt82c686.c:704
+  #10 0x00005555557e1340 in pci_qdev_realize (qdev=0x5555563d9770, errp=0x7fffffffcca0) at hw/pci/pci.c:2116
+  #11 0x0000555555a06a84 in device_set_realized (obj=0x5555563d9770, value=true, errp=0x7fffffffcda8) at hw/core/qdev.c:761
+  #12 0x0000555555a0ff9e in property_set_bool (obj=0x5555563d9770, v=0x5555563da090, name=0x555555cd7881 "realized", opaque=0x5555560acf80, errp=0x7fffffffcda8) at qom/object.c:2257
+  #13 0x0000555555a0e098 in object_property_set (obj=0x5555563d9770, name=0x555555cd7881 "realized", v=0x5555563da090, errp=0x555555fc3fa0 <error_fatal>) at qom/object.c:1402
+  #14 0x0000555555a12271 in object_property_set_qobject (obj=0x5555563d9770, name=0x555555cd7881 "realized", value=0x5555563cf0a0, errp=0x555555fc3fa0 <error_fatal>) at qom/qom-qobject.c:28
+  #15 0x0000555555a0e3fb in object_property_set_bool (obj=0x5555563d9770, name=0x555555cd7881 "realized", value=true, errp=0x555555fc3fa0 <error_fatal>) at qom/object.c:1472
+  #16 0x0000555555a05b15 in qdev_realize (dev=0x5555563d9770, bus=0x5555563d32b0, errp=0x555555fc3fa0 <error_fatal>) at hw/core/qdev.c:389
+  #17 0x0000555555a05b42 in qdev_realize_and_unref (dev=0x5555563d9770, bus=0x5555563d32b0, errp=0x555555fc3fa0 <error_fatal>) at hw/core/qdev.c:396
+  #18 0x00005555557e160f in pci_realize_and_unref (dev=0x5555563d9770, bus=0x5555563d32b0, errp=0x555555fc3fa0 <error_fatal>) at hw/pci/pci.c:2181
+  #19 0x00005555557e165b in pci_create_simple_multifunction (bus=0x5555563d32b0, devfn=96, multifunction=true, name=0x555555c9b63b "vt8231-isa") at hw/pci/pci.c:2189
+  #20 0x0000555555867730 in pegasos2_init (machine=0x5555560427a0) at hw/ppc/pegasos2.c:105
+
+The "isa-pit" type (TYPE_I8254) is missing. Add it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210515173716.358295-12-philmd@redhat.com>
 Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20210515173716.358295-11-philmd@redhat.com>
 ---
- hw/isa/Kconfig | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/isa/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/isa/Kconfig b/hw/isa/Kconfig
-index 96db170eff3..f99df0e20b1 100644
+index f99df0e20b1..e4db60ed580 100644
 --- a/hw/isa/Kconfig
 +++ b/hw/isa/Kconfig
-@@ -50,6 +50,9 @@ config VT82C686
+@@ -50,6 +50,7 @@ config VT82C686
      select FDC_ISA
      select USB_UHCI
      select APM
-+    select I8257
-+    select I8259
-+    select MC146818RTC
- 
- config SMC37C669
-     bool
++    select I8254
+     select I8257
+     select I8259
+     select MC146818RTC
 -- 
 2.31.1
 
