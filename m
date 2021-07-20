@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079C43D0270
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 22:00:57 +0200 (CEST)
-Received: from localhost ([::1]:56734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974C33D0267
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 21:58:08 +0200 (CEST)
+Received: from localhost ([::1]:49610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5vvE-0007Vx-0z
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 16:00:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55644)
+	id 1m5vsV-0002Xy-JX
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 15:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5vpK-00079T-8w
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:54:51 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:37691)
+ id 1m5vpL-0007Af-Ue
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:54:53 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:44590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1m5vpH-0007zA-Ru
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:54:50 -0400
-Received: by mail-pl1-x631.google.com with SMTP id y3so7567761plp.4
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:54:47 -0700 (PDT)
+ id 1m5vpK-00080i-I3
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 15:54:51 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id p36so404579pfw.11
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 12:54:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5munM6eZd/uk4n4hD7SHb+ixOouAZHeY9ReXlmZhFgI=;
- b=gDX6ehLRIo3QZFClUPXppf32wbMUb6HT7Mf0RaYLAgrHkUq/p60ghOWZ2WwY3yUIt+
- DO0iBd3ipsxne5JUMpfZORaW0pKKmXVNjJWUFOmrqqKlPkwby7fzTb7xl9F21q51vCQq
- GL2SBw4TQbbq0JrjVLZRMiGH/qfi84iytCyRcMWPegLOLqwQ7l46hMLkOLqrSs6Q1Aa5
- Bqma2g3nW7fERtYjtz3NKpu4Kcl4vwJBdDDZLWGm48iq+GYYqxkS/x/s/pn7CrygkdNj
- eahS0cOIQ0PBAXGEq4/lAPZrY0UiGyLcw42jn0JjHsYg/43dAVDYu1/SGwEsd0JqjJcP
- uvpA==
+ bh=9B/gmUM+QUz3bpCH+D2gMCTlPL+YqDM4DQGjYBG4u2w=;
+ b=Dg6wlJZXVd2Rij+nGrvg34DUpOEIffGb2a6MJAgNAjeITKaAa1QIqutNGV5IfrnA05
+ yKb+ohVo8C29jOFE3dXa5BKRRoFyknH5O91PvCdsgBCpY4qK2gQOGGl6nHLRuQPgPQp9
+ Ye7fzx+0jCnK0+nJ5hDMdrSrviI+CDujJh2kj+anA4l9Z2GwgFOf/n69UzhdWud46oLw
+ gBUdshKO+nKvNsgDYbEei3Ljg/7dAAaXrG5hd6++J9fBiWgVm/NHdLK5hcCkEogonWp9
+ 9BWTMoAm4wyBTt1ALgXOIiCKIlKOKl8I0Ezx+/cxr/8hKS/sTGQAnpwg4xwUaLN4kiL5
+ AhRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5munM6eZd/uk4n4hD7SHb+ixOouAZHeY9ReXlmZhFgI=;
- b=T1T+NJ5WRkDg/PNy9O6IAG4BS5lj4rfV9ZqDUcm2cMsz1xWSG64aDCAshI1R0cdkyQ
- 3EDvRyBli0tFZ7Wm/wa9Ax87QTzgZ2FNCRcT7jmmNper4TGs5ECfAQR+C5LyIaHc1p4o
- bubISeInJb9m1AkUah5sjhjzTQSiEDNizv3UEPVlz2TRhFNWdz/U9rhcd7CqKmiJGAVl
- EdfZeRbEmNzuUuavYcE0x6a7hYS4gelOokSnHRx1Zsng/LY5iADz4nVfEUO/CHsnCQU5
- 2ZihIqiACG/5hiIQYLo0svxzDQ57BD3aPK7xC7arvZdLUkxEQ98jFy9NHBmoLtI+wA7o
- bt9A==
-X-Gm-Message-State: AOAM532JUIO3BDAwLcGIuzAlLBOpY0ef11Z1hgVCYcy1vWInJ1tAPGxS
- 84ytdLnmqDC7+G8TLqhO9HVtmCuQxvQiGg==
-X-Google-Smtp-Source: ABdhPJwlNNZ/eNISC4ms7tMU4vhsbPRtVxA4IAO8YkSehlXsv8kZD5/NqsiyZ6x0L1xlY/JoilJZbg==
-X-Received: by 2002:a17:902:ecce:b029:12b:374:c15f with SMTP id
- a14-20020a170902ecceb029012b0374c15fmr24812552plh.22.1626810886600; 
- Tue, 20 Jul 2021 12:54:46 -0700 (PDT)
+ bh=9B/gmUM+QUz3bpCH+D2gMCTlPL+YqDM4DQGjYBG4u2w=;
+ b=huYlaF7pGaVTLia6dt59lBqYlzHJMTySksOdPhWf8ZMJQJ2Uw7zPGQWifr3o0A9/hs
+ 7KnMjKCHu4MdN4xUrAbsv/ntbT5VaAc3ggH4SYDDrBKLsSdn3njxVKatZhrq81ugmDx3
+ n30fETS9gM/qoa34NmtVs2pTO/ke3bwDTmsWoilmjZ6lXNmmWiLsskTIF4TUFx1GYf2K
+ S9hdQBlc84sBXRoNw+6E2edd6/Xpn+exY45vPHjQDF0GzmGrLzJMFd8L94UOJkCLB9hH
+ HZAiVxXpBmBWwRRo9HykN6GbByRM4nmSVryKO2Kj5KZNKU1o5dmc3f3dT5rvphkZq3vH
+ mEjg==
+X-Gm-Message-State: AOAM531L1PSBy51bA5ePfjXdfZ1uQl+oTbc/UoWz03/4qZsnd8NxoTaa
+ 9RVNpxTmMzYHYCn7/b/DNXT3Nxxpp+OiyA==
+X-Google-Smtp-Source: ABdhPJyrRFLA1DhiNKnIr8eQWtRH8F9fY4ryhsVKv6Y5g7MZBlqGEtuIrPAm6GlQPpMjDV+AQ4jF7g==
+X-Received: by 2002:a63:e947:: with SMTP id q7mr13992826pgj.324.1626810889267; 
+ Tue, 20 Jul 2021 12:54:49 -0700 (PDT)
 Received: from localhost.localdomain (204-210-126-223.res.spectrum.com.
  [204.210.126.223])
- by smtp.gmail.com with ESMTPSA id j25sm15422179pfh.77.2021.07.20.12.54.45
+ by smtp.gmail.com with ESMTPSA id j25sm15422179pfh.77.2021.07.20.12.54.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 20 Jul 2021 12:54:46 -0700 (PDT)
+ Tue, 20 Jul 2021 12:54:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.1 v6 03/17] target/alpha: Drop goto_tb path in
- gen_call_pal
-Date: Tue, 20 Jul 2021 09:54:25 -1000
-Message-Id: <20210720195439.626594-4-richard.henderson@linaro.org>
+Subject: [PATCH for-6.1 v6 05/17] accel/tcg: Drop CF_NO_GOTO_PTR from -d
+ nochain
+Date: Tue, 20 Jul 2021 09:54:27 -1000
+Message-Id: <20210720195439.626594-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210720195439.626594-1-richard.henderson@linaro.org>
 References: <20210720195439.626594-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,45 +89,31 @@ Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are certain of a page crossing here, entering the
-PALcode image, so the call to use_goto_tb that should
-have been here will never succeed.
+The purpose of suppressing goto_ptr from -d nochain had been
+to return to the main loop so that -d cpu would be recognized.
+But we now include -d cpu logging in helper_lookup_tb_ptr so
+there is no need to exclude goto_ptr.
 
-We are shortly going to add an assert to tcg_gen_goto_tb
-that would trigger for this case.
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210717221851.2124573-5-richard.henderson@linaro.org>
 ---
- target/alpha/translate.c | 15 ++-------------
- 1 file changed, 2 insertions(+), 13 deletions(-)
+ accel/tcg/cpu-exec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/alpha/translate.c b/target/alpha/translate.c
-index 103c6326a2..949ba6ffde 100644
---- a/target/alpha/translate.c
-+++ b/target/alpha/translate.c
-@@ -1207,19 +1207,8 @@ static DisasJumpType gen_call_pal(DisasContext *ctx, int palcode)
-                   ? 0x2000 + (palcode - 0x80) * 64
-                   : 0x1000 + palcode * 64);
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index d3232d5764..70ea3c7d68 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -150,7 +150,7 @@ uint32_t curr_cflags(CPUState *cpu)
+     uint32_t cflags = cpu->tcg_cflags;
  
--        /* Since the destination is running in PALmode, we don't really
--           need the page permissions check.  We'll see the existence of
--           the page when we create the TB, and we'll flush all TBs if
--           we change the PAL base register.  */
--        if (!ctx->base.singlestep_enabled) {
--            tcg_gen_goto_tb(0);
--            tcg_gen_movi_i64(cpu_pc, entry);
--            tcg_gen_exit_tb(ctx->base.tb, 0);
--            return DISAS_NORETURN;
--        } else {
--            tcg_gen_movi_i64(cpu_pc, entry);
--            return DISAS_PC_UPDATED;
--        }
-+        tcg_gen_movi_i64(cpu_pc, entry);
-+        return DISAS_PC_UPDATED;
+     if (qemu_loglevel_mask(CPU_LOG_TB_NOCHAIN)) {
+-        cflags |= CF_NO_GOTO_TB | CF_NO_GOTO_PTR;
++        cflags |= CF_NO_GOTO_TB;
      }
- #endif
- }
+ 
+     return cflags;
 -- 
 2.25.1
 
