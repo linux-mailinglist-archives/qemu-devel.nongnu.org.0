@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FA233D01D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:42:43 +0200 (CEST)
-Received: from localhost ([::1]:58596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81AAF3D01F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 20 Jul 2021 20:53:08 +0200 (CEST)
+Received: from localhost ([::1]:33874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m5uhW-00008x-4q
-	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:42:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44282)
+	id 1m5urb-00033K-K4
+	for lists+qemu-devel@lfdr.de; Tue, 20 Jul 2021 14:53:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m5ugk-0007vL-HF
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:41:54 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33702)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m5uql-0002Ni-KO
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:52:15 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:35423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1m5ugh-0000lX-Ne
- for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:41:54 -0400
-Received: by mail-ed1-x534.google.com with SMTP id dj21so29800055edb.0
- for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:41:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
+ id 1m5uqj-0007vw-KY
+ for qemu-devel@nongnu.org; Tue, 20 Jul 2021 14:52:15 -0400
+Received: by mail-il1-x130.google.com with SMTP id a11so220707ilf.2
+ for <qemu-devel@nongnu.org>; Tue, 20 Jul 2021 11:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ItBtFpN+7BOgI79RkdZUbHYlJr6kfccnosRQlGUXJd8=;
- b=KmMPH5TQlgjIKYftoq8E8eq6OD5rHF0oRHXcLudCqNOkLeWCpOrVJfMOcrHhLL4cHi
- UbL2nBaRgbvHfjXHVOyWMosEknIhBbN9Jli2uhddoxdc1MUg0gUs4DSObfTQTap9r2Nf
- M065muIpkQoGZdechvGogf5iuHAEmexIbL4KlUd7+1g4/piUXTGWRO6D8KoXHSb3nxCZ
- 1HzSdOV86U9pSP1+tOmhjBqe26io70f+XV2I84pDgMIK1A7i/i8YPzY5GSHOaKXH670v
- FYOWa6ej6x/8Mz8pzQCDkQ8HapyzZqGRdH9x/bsrPSNhugRk0O0CqsDphHuZWUeuBczf
- 7i/w==
+ :cc; bh=G64mD1hTkwkfg3P2sXBkh48hbmRzangR5KtlP4SQcQg=;
+ b=W7+WAu8OXQVKUFU2gmQaReUCTfdyfk8NOoB25HH+WCwyg5qnonNTf+53JII0oOxq3/
+ xq8i3ro8DnJCzC9B1p8wK3UOIV6Php7FJwHqH1UpR6VxScabeI8B7OfLKq4m7oB2/lgE
+ kYlOPAITAMwLSe+Iu6f6lltQaaBkfiSxna1UkqdbPEcCEnBx5qJy8eZYoajkYMqHwsqK
+ NgR7zmpIPOHX1JcUVHXb+WsAhU6J3remybMWC1LDikmoB1O6W91Ew/ZMdDHr8sy2Kjdf
+ vrVnekrj7+mlX3ZqYVjSB8xJxbRC3FAJ6uSDXgpeE1Qjw7x90Ex5OJ2PDMtD2+NlMoJK
+ ZaVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ItBtFpN+7BOgI79RkdZUbHYlJr6kfccnosRQlGUXJd8=;
- b=sNfcyoksMraz0BQ+s5EJXEAK+qQndq9Rxcga0XWNNakj1WfQVAJo48dvUpR5+L8oNr
- RL2I2oA47scr5H9ZpamvPFElrD/u8/L50vgDeGFkHigwIwhsuMB/skJeIF/rPPMYt+UO
- tq8yUSXeu+gkPBSw1BL0xtP9LuM26vEqtRoAQ+9/TdWOPkEmaF3X3+qBkpTDwt82f/lk
- RxyNDjTYOAA4SKc5B6VAgHbIO1nmmta4KZAql3+9c+WzTsx8DTIWinT79mO3xAuTrquj
- 9DVg1o2fXtYYIzrKT/fN6J88kYBVGoIE/ApwWY0HMHtIpcCZk75SKn91oQ+wZsfSwN5V
- hWlw==
-X-Gm-Message-State: AOAM533nImKiboZT0eM2z09v8MBgkGII8wnLjLiGdPwInf/8J27uORZZ
- xDNJI2LNYXXq516ob5oSb4D87pktD9MtUujdGnE=
-X-Google-Smtp-Source: ABdhPJzMPlERE6pDnobtSvE925qvja3QF/2UuwYlqJFiHMTUgZrY7gfOFZwjGPMStuzworbF2UKHHF7fGcLc4qfZGhQ=
-X-Received: by 2002:a50:fe95:: with SMTP id d21mr42760170edt.257.1626806509722; 
- Tue, 20 Jul 2021 11:41:49 -0700 (PDT)
+ bh=G64mD1hTkwkfg3P2sXBkh48hbmRzangR5KtlP4SQcQg=;
+ b=d55TLPgCkIcaqFmFfCwFt6gBuokEUDn+3AaUm8UsvuuUIVEz3fWe/XJeSCkouqcRnM
+ +Ea8PGdXLmkwXhDXTPLE9fAiVxTswSVZdp1Ibig0nKBuupiEJ7BvdT7+gkS2vyKU/CXh
+ RdIdOksnTNwp658g5w8d12LoWGNAZjvp6BSG5Cg4kR/i5PI0M3tye+plWNozAeV7SVBy
+ TYbuM021a+G/3BVKeUYWckUAJkt7j+znzlS/CCjkx/wGXF7DGBhKgdGyzAZCS3GE5HnP
+ 85i4QHnKpivdTpjVvCy9R3jVlGo9C1NNBRXCc0jQBx8hVQgpMgVH9kTcuvqUtNzeLrlA
+ aO0g==
+X-Gm-Message-State: AOAM532ruCqKTYMpjGNNSy+g7RVIrxjjoeBqdEvWgOccywO/fFIPS2NF
+ Yb7pelluiBE9VrXiaYyakiYHB6Eobe+UaWPYnzk=
+X-Google-Smtp-Source: ABdhPJxL6PbGZWDc28i0VaaVwZpwK252mmjUrPL1fLjfm8sOb7u6zjoDBZNwMC0/nPiRzkhnKA8bBjTK7vk8VHMKFXQ=
+X-Received: by 2002:a92:ac0b:: with SMTP id r11mr21173206ilh.44.1626807132386; 
+ Tue, 20 Jul 2021 11:52:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210720143940.291413-1-denniswoelfing@gmx.de>
-In-Reply-To: <20210720143940.291413-1-denniswoelfing@gmx.de>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 20 Jul 2021 22:41:37 +0400
-Message-ID: <CAJ+F1CJC2j2paiT1saJhJHUQR2i07PvEh2Bvharg_iDFijg8bw@mail.gmail.com>
-Subject: Re: [PATCH for 6.1 v2] ui/gtk: Fix relative mouse with multiple
- monitors
-To: =?UTF-8?Q?Dennis_W=C3=B6lfing?= <denniswoelfing@gmx.de>
-Content-Type: multipart/alternative; boundary="000000000000215fe205c792684c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x534.google.com
+References: <20210717003253.457418-1-jsnow@redhat.com>
+ <20210717003253.457418-12-jsnow@redhat.com>
+In-Reply-To: <20210717003253.457418-12-jsnow@redhat.com>
+From: "Niteesh G. S." <niteesh.gs@gmail.com>
+Date: Wed, 21 Jul 2021 00:21:46 +0530
+Message-ID: <CAN6ztm_mVwuTsF1-7=UrFJWXOKBzcAFBnpumN0Yj90geUByUDw@mail.gmail.com>
+Subject: Re: [PATCH v2 11/24] python/aqmp: add _cb_inbound and _cb_inbound
+ logging hooks
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000003e880605c7928d1d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-il1-x130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,206 +78,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000215fe205c792684c
+--0000000000003e880605c7928d1d
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 20, 2021 at 6:43 PM Dennis W=C3=B6lfing <denniswoelfing@gmx.de>
-wrote:
+I think there's a typo in your commit message subject.
 
-> To handle relative mouse input the event handler needs to move the mouse
-> away from the screen edges. Failing to do so results in the mouse
-> getting stuck at invisible walls. However the current implementation for
-> this is broken on hosts with multiple monitors.
->
-> With multiple monitors the mouse can be located outside of the current
-> monitor which is not handled by the current code. Also the monitor
-> itself might be located at coordinates different from (0, 0).
->
-> Signed-off-by: Dennis W=C3=B6lfing <denniswoelfing@gmx.de>
->
+Thanks,
+Niteesh.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On Sat, Jul 17, 2021 at 6:03 AM John Snow <jsnow@redhat.com> wrote:
 
----
-> Changes in v2:
-> Warp the mouse to the center of the monitor.
+> Add hooks designed to log/filter incoming/outgoing messages. The primary
+> intent for these is to be able to support iotests which may want to log
+> messages with specific filters for reproducible output.
 >
->  ui/gtk.c | 26 +++++++-------------------
->  1 file changed, 7 insertions(+), 19 deletions(-)
+> Another use is for plugging into Urwid frameworks; all messages in/out
+> can be automatically added to a rendering list for the purposes of a
+> qmp-shell like tool.
 >
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 376b4d528d..18542c7633 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -865,37 +865,25 @@ static gboolean gd_motion_event(GtkWidget *widget,
-> GdkEventMotion *motion,
->          GdkWindow *win =3D gtk_widget_get_window(widget);
->          GdkMonitor *monitor =3D gdk_display_get_monitor_at_window(dpy, w=
-in);
->          GdkRectangle geometry;
-> -        int screen_width, screen_height;
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  python/qemu/aqmp/protocol.py | 50 +++++++++++++++++++++++++++++++++---
+>  1 file changed, 46 insertions(+), 4 deletions(-)
 >
->          int x =3D (int)motion->x_root;
->          int y =3D (int)motion->y_root;
+> diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py
+> index 86002a52654..6f83d3e3922 100644
+> --- a/python/qemu/aqmp/protocol.py
+> +++ b/python/qemu/aqmp/protocol.py
+> @@ -176,6 +176,11 @@ class AsyncProtocol(Generic[T]):
+>           can be written after the super() call.
+>       - `_on_message`:
+>           Actions to be performed when a message is received.
+> +     - `_cb_outbound`:
+> +         Logging/Filtering hook for all outbound messages.
+> +     - `_cb_inbound`:
+> +         Logging/Filtering hook for all inbound messages.
+> +         This hook runs *before* `_on_message()`.
 >
->          gdk_monitor_get_geometry(monitor, &geometry);
-> -        screen_width =3D geometry.width;
-> -        screen_height =3D geometry.height;
+>      :param name:
+>          Name used for logging messages, if any. By default, messages
+> @@ -732,6 +737,43 @@ async def _bh_recv_message(self) -> None:
+>      # Section: Message I/O
+>      # --------------------
 >
->          /* In relative mode check to see if client pointer hit
-> -         * one of the screen edges, and if so move it back by
-> -         * 200 pixels. This is important because the pointer
-> +         * one of the monitor edges, and if so move it back to the
-> +         * center of the monitor. This is important because the pointer
->           * in the server doesn't correspond 1-for-1, and so
->           * may still be only half way across the screen. Without
->           * this warp, the server pointer would thus appear to hit
->           * an invisible wall */
-> -        if (x =3D=3D 0) {
-> -            x +=3D 200;
-> -        }
-> -        if (y =3D=3D 0) {
-> -            y +=3D 200;
-> -        }
-> -        if (x =3D=3D (screen_width - 1)) {
-> -            x -=3D 200;
-> -        }
-> -        if (y =3D=3D (screen_height - 1)) {
-> -            y -=3D 200;
-> -        }
-> -
-> -        if (x !=3D (int)motion->x_root || y !=3D (int)motion->y_root) {
-> +        if (x <=3D geometry.x || x - geometry.x >=3D geometry.width - 1 =
-||
-> +            y <=3D geometry.y || y - geometry.y >=3D geometry.height - 1=
-) {
->              GdkDevice *dev =3D gdk_event_get_device((GdkEvent *)motion);
-> +            x =3D geometry.x + geometry.width / 2;
-> +            y =3D geometry.y + geometry.height / 2;
+> +    @upper_half
+> +    @bottom_half
+> +    def _cb_outbound(self, msg: T) -> T:
+> +        """
+> +        Callback: outbound message hook.
 > +
->              gdk_device_warp(dev, screen, x, y);
->              s->last_set =3D FALSE;
->              return FALSE;
+> +        This is intended for subclasses to be able to add arbitrary
+> +        hooks to filter or manipulate outgoing messages. The base
+> +        implementation does nothing but log the message without any
+> +        manipulation of the message.
+> +
+> +        :param msg: raw outbound message
+> +        :return: final outbound message
+> +        """
+> +        self.logger.debug("--> %s", str(msg))
+> +        return msg
+> +
+> +    @upper_half
+> +    @bottom_half
+> +    def _cb_inbound(self, msg: T) -> T:
+> +        """
+> +        Callback: inbound message hook.
+> +
+> +        This is intended for subclasses to be able to add arbitrary
+> +        hooks to filter or manipulate incoming messages. The base
+> +        implementation does nothing but log the message without any
+> +        manipulation of the message.
+> +
+> +        This method does not "handle" incoming messages; it is a filter.
+> +        The actual "endpoint" for incoming messages is `_on_message()`.
+> +
+> +        :param msg: raw inbound message
+> +        :return: processed inbound message
+> +        """
+> +        self.logger.debug("<-- %s", str(msg))
+> +        return msg
+> +
+>      @upper_half
+>      @bottom_half
+>      async def _do_recv(self) -> T:
+> @@ -760,8 +802,8 @@ async def _recv(self) -> T:
+>
+>          :return: A single (filtered, processed) protocol message.
+>          """
+> -        # A forthcoming commit makes this method less trivial.
+> -        return await self._do_recv()
+> +        message = await self._do_recv()
+> +        return self._cb_inbound(message)
+>
+>      @upper_half
+>      @bottom_half
+> @@ -791,7 +833,7 @@ async def _send(self, msg: T) -> None:
+>
+>          :raise OSError: For problems with the underlying stream.
+>          """
+> -        # A forthcoming commit makes this method less trivial.
+> +        msg = self._cb_outbound(msg)
+>          self._do_send(msg)
+>
+>      @bottom_half
+> @@ -806,6 +848,6 @@ async def _on_message(self, msg: T) -> None:
+>              directly cause the loop to halt, so logic may be best-kept
+>              to a minimum if at all possible.
+>
+> -        :param msg: The incoming message
+> +        :param msg: The incoming message, already logged/filtered.
+>          """
+>          # Nothing to do in the abstract case.
 > --
-> 2.32.0
+> 2.31.1
 >
 >
 
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000215fe205c792684c
+--0000000000003e880605c7928d1d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 20, 2021 at 6:43 PM Denni=
-s W=C3=B6lfing &lt;<a href=3D"mailto:denniswoelfing@gmx.de">denniswoelfing@=
-gmx.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">To handle relative mouse input the event handler needs to move the mo=
-use<br>
-away from the screen edges. Failing to do so results in the mouse<br>
-getting stuck at invisible walls. However the current implementation for<br=
->
-this is broken on hosts with multiple monitors.<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">I think there&#39;s a typo in your commit message subject.</d=
+iv><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cl=
+ass=3D"gmail_default" style=3D"font-size:small">Thanks,</div><div class=3D"=
+gmail_default" style=3D"font-size:small">Niteesh.</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jul 17, 2021=
+ at 6:03 AM John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">Add hooks designed to log/filter incoming/outgoing messages. The primary=
 <br>
-With multiple monitors the mouse can be located outside of the current<br>
-monitor which is not handled by the current code. Also the monitor<br>
-itself might be located at coordinates different from (0, 0).<br>
+intent for these is to be able to support iotests which may want to log<br>
+messages with specific filters for reproducible output.<br>
 <br>
-Signed-off-by: Dennis W=C3=B6lfing &lt;<a href=3D"mailto:denniswoelfing@gmx=
-.de" target=3D"_blank">denniswoelfing@gmx.de</a>&gt;<br></blockquote><div><=
-br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
-candre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+Another use is for plugging into Urwid frameworks; all messages in/out<br>
+can be automatically added to a rendering list for the purposes of a<br>
+qmp-shell like tool.<br>
+<br>
+Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" target=3D"=
+_blank">jsnow@redhat.com</a>&gt;<br>
 ---<br>
-Changes in v2:<br>
-Warp the mouse to the center of the monitor.<br>
-<br>
-=C2=A0ui/gtk.c | 26 +++++++-------------------<br>
-=C2=A01 file changed, 7 insertions(+), 19 deletions(-)<br>
-<br>
-diff --git a/ui/gtk.c b/ui/gtk.c<br>
-index 376b4d528d..18542c7633 100644<br>
---- a/ui/gtk.c<br>
-+++ b/ui/gtk.c<br>
-@@ -865,37 +865,25 @@ static gboolean gd_motion_event(GtkWidget *widget, Gd=
-kEventMotion *motion,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GdkWindow *win =3D gtk_widget_get_window(=
-widget);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GdkMonitor *monitor =3D gdk_display_get_m=
-onitor_at_window(dpy, win);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GdkRectangle geometry;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 int screen_width, screen_height;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int x =3D (int)motion-&gt;x_root;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int y =3D (int)motion-&gt;y_root;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gdk_monitor_get_geometry(monitor, &amp;ge=
-ometry);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 screen_width =3D geometry.width;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 screen_height =3D geometry.height;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* In relative mode check to see if clien=
-t pointer hit<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* one of the screen edges, and if so mov=
-e it back by<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* 200 pixels. This is important because =
-the pointer<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* one of the monitor edges, and if so mo=
-ve it back to the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* center of the monitor. This is importa=
-nt because the pointer<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * in the server doesn&#39;t correspond 1=
--for-1, and so<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * may still be only half way across the =
-screen. Without<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * this warp, the server pointer would th=
-us appear to hit<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * an invisible wall */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (x =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x +=3D 200;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (y =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y +=3D 200;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (x =3D=3D (screen_width - 1)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x -=3D 200;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (y =3D=3D (screen_height - 1)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y -=3D 200;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0python/qemu/aqmp/protocol.py | 50 +++++++++++++++++++++++++++++++++--=
 -<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (x !=3D (int)motion-&gt;x_root || y !=3D (i=
-nt)motion-&gt;y_root) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (x &lt;=3D geometry.x || x - geometry.x &gt=
-;=3D geometry.width - 1 ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y &lt;=3D geometry.y || y - geom=
-etry.y &gt;=3D geometry.height - 1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0GdkDevice *dev =3D gdk_even=
-t_get_device((GdkEvent *)motion);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 x =3D geometry.x + geometry.widt=
-h / 2;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 y =3D geometry.y + geometry.heig=
-ht / 2;<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gdk_device_warp(dev, screen=
-, x, y);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;last_set =3D FALSE;<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return FALSE;<br>
---<br>
-2.32.0<br>
+=C2=A01 file changed, 46 insertions(+), 4 deletions(-)<br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+diff --git a/python/qemu/aqmp/protocol.py b/python/qemu/aqmp/protocol.py<br=
+>
+index 86002a52654..6f83d3e3922 100644<br>
+--- a/python/qemu/aqmp/protocol.py<br>
++++ b/python/qemu/aqmp/protocol.py<br>
+@@ -176,6 +176,11 @@ class AsyncProtocol(Generic[T]):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 can be written after the super() call.<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 - `_on_message`:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Actions to be performed when a message i=
+s received.<br>
++=C2=A0 =C2=A0 =C2=A0- `_cb_outbound`:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Logging/Filtering hook for all outbound =
+messages.<br>
++=C2=A0 =C2=A0 =C2=A0- `_cb_inbound`:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Logging/Filtering hook for all inbound m=
+essages.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0This hook runs *before* `_on_message()`.=
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0:param name:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Name used for logging messages, if any. B=
+y default, messages<br>
+@@ -732,6 +737,43 @@ async def _bh_recv_message(self) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0# Section: Message I/O<br>
+=C2=A0 =C2=A0 =C2=A0# --------------------<br>
+<br>
++=C2=A0 =C2=A0 @upper_half<br>
++=C2=A0 =C2=A0 @bottom_half<br>
++=C2=A0 =C2=A0 def _cb_outbound(self, msg: T) -&gt; T:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Callback: outbound message hook.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 This is intended for subclasses to be able to =
+add arbitrary<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 hooks to filter or manipulate outgoing message=
+s. The base<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 implementation does nothing but log the messag=
+e without any<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 manipulation of the message.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :param msg: raw outbound message<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :return: final outbound message<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.logger.debug(&quot;--&gt; %s&quot;, str(m=
+sg))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
++<br>
++=C2=A0 =C2=A0 @upper_half<br>
++=C2=A0 =C2=A0 @bottom_half<br>
++=C2=A0 =C2=A0 def _cb_inbound(self, msg: T) -&gt; T:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 Callback: inbound message hook.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 This is intended for subclasses to be able to =
+add arbitrary<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 hooks to filter or manipulate incoming message=
+s. The base<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 implementation does nothing but log the messag=
+e without any<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 manipulation of the message.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 This method does not &quot;handle&quot; incomi=
+ng messages; it is a filter.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 The actual &quot;endpoint&quot; for incoming m=
+essages is `_on_message()`.<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :param msg: raw inbound message<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :return: processed inbound message<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.logger.debug(&quot;&lt;-- %s&quot;, str(m=
+sg))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return msg<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0@upper_half<br>
+=C2=A0 =C2=A0 =C2=A0@bottom_half<br>
+=C2=A0 =C2=A0 =C2=A0async def _do_recv(self) -&gt; T:<br>
+@@ -760,8 +802,8 @@ async def _recv(self) -&gt; T:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0:return: A single (filtered, processed) p=
+rotocol message.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # A forthcoming commit makes this method less =
+trivial.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return await self._do_recv()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 message =3D await self._do_recv()<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return self._cb_inbound(message)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0@upper_half<br>
+=C2=A0 =C2=A0 =C2=A0@bottom_half<br>
+@@ -791,7 +833,7 @@ async def _send(self, msg: T) -&gt; None:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0:raise OSError: For problems with the und=
+erlying stream.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # A forthcoming commit makes this method less =
+trivial.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D self._cb_outbound(msg)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._do_send(msg)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0@bottom_half<br>
+@@ -806,6 +848,6 @@ async def _on_message(self, msg: T) -&gt; None:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0directly cause the loop to =
+halt, so logic may be best-kept<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0to a minimum if at all poss=
+ible.<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 :param msg: The incoming message<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 :param msg: The incoming message, already logg=
+ed/filtered.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Nothing to do in the abstract case.<br>
+-- <br>
+2.31.1<br>
+<br>
+</blockquote></div></div>
 
---000000000000215fe205c792684c--
+--0000000000003e880605c7928d1d--
 
