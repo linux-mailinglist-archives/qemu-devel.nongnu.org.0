@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B19F3D0BAE
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:04:55 +0200 (CEST)
-Received: from localhost ([::1]:60116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98A023D0BB6
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 12:07:43 +0200 (CEST)
+Received: from localhost ([::1]:40608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m695y-0001kU-CS
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:04:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46860)
+	id 1m698g-0007ht-Jt
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 06:07:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m68zK-0005LO-0w
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:58:02 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:48548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1m68zI-0005Fh-5Q
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:58:01 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 7C1361FE8B;
- Wed, 21 Jul 2021 09:57:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1626861478; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m68zj-0006Jg-Bl
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:58:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1m68zh-0005WI-GJ
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 05:58:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626861504;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SC7tZauk+F34MxAm1wUtHAVbUIPkhPIbS9h6iye+yKc=;
- b=BDlqF5yXgusNfEUkhe5f1cb16s4/LxsvZBc9FgkD6B2pza3NeQU3FxbYhptBgYOX4fAovH
- RkpilHREIcYM2dhZ4VzMZFIJNlx+Gs8BvqqVb3JyCDdkoZqzbbztKE25N7NDWQLx8XPkr8
- bYQGWeEvA6RKwwGMCHpe96gr4izQqCs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1626861478;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SC7tZauk+F34MxAm1wUtHAVbUIPkhPIbS9h6iye+yKc=;
- b=U1zHOL2xXGuT4/W/NxS7RsX9TOXmNM61dxTUbUmQjSjXHOv80WhaSZvYUnKRsRVc20y4ZL
- JfhiOe2aCkhe1xBw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3B82713B39;
- Wed, 21 Jul 2021 09:57:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id km6jDKbv92CjKwAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 21 Jul 2021 09:57:58 +0000
-Subject: Re: [PATCH 2/2] qom: Improve error message in
- module_object_class_by_name()
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Jose R. Ziviani" <jziviani@suse.de>
-References: <20210720223120.21711-1-jziviani@suse.de>
- <20210720223120.21711-3-jziviani@suse.de> <YPfqOOl5DvsAMr+z@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <d8a5574e-3697-30db-e103-229384de098c@suse.de>
-Date: Wed, 21 Jul 2021 11:57:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ bh=JrKH3unpVPwYrYQe2oald75TWuC4xlbfwBoh4+0OBL4=;
+ b=TyRITBqNw/y6RkWxN3Iz5A3Bv+WfWUDlvJT14Dj2o/itvxszrOLHtvBwDuma51T+w1BiaM
+ 7EvcV5AjzfJpyN/PejpibuX0TpZrm+1yletct7tPlMEUslsx9aXXUVo+X0KPSsUc2MYTp1
+ CfDVd+auq0vxG1QtxWB87RV3ULtMNEM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-_Id3mHsRMSySL5bjTe8Ksw-1; Wed, 21 Jul 2021 05:58:20 -0400
+X-MC-Unique: _Id3mHsRMSySL5bjTe8Ksw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h15-20020adffd4f0000b0290137e68ed637so772673wrs.22
+ for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 02:58:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=JrKH3unpVPwYrYQe2oald75TWuC4xlbfwBoh4+0OBL4=;
+ b=egsI4BLz9JXHNu1993X+91Eir7aVnG8zcqBXoGX1/cWUPqXmf7RRHw8Z+mpmuBSUgk
+ zKZI4lewlDrS7s3uWGzIklNkXBohh8MsugqvtnkErKA2YtnYDFSwDTssBmTiczeWf6U6
+ ppDg3vQ2k7qHQw8UKFdW/9kfo0ypnVgp4i5+cf52wtS3pCarvcE6P8M+1Xb1idL+3cTD
+ ZSvJWEnCSVJ1744k43TbqDRDQghjqsEeLA1rJHtn1iG9wyUlRndFsL/bdjhLUvSEKQxs
+ JEGcEc+29NXoaJB8Cma7QdRakIeovN0m/XUcrwiAs9R+Jtr21KnEJBjtoisckolW9D7N
+ 1bRg==
+X-Gm-Message-State: AOAM531uesk4jcS3gflLfonv8lgWHVSrbPGH4MmzCDbJK4uHArUoMVKE
+ ey7Y11vPuhsn4Ox09k1Uw3Q4Fou58tilWqpPukfHs2Br9dqsavNqwfBMdnwMb3kSXIQmI34P/K4
+ dGvFJVk9nsPxhPVI=
+X-Received: by 2002:a7b:c74a:: with SMTP id w10mr3176951wmk.54.1626861499704; 
+ Wed, 21 Jul 2021 02:58:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAOLtiqgsS0udwuqIHEADIk3xWy5Q+0ZROsuQgM1o+wiZCfhY+gNc3um2aaVbED3QQcTPOUQ==
+X-Received: by 2002:a7b:c74a:: with SMTP id w10mr3176944wmk.54.1626861499588; 
+ Wed, 21 Jul 2021 02:58:19 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id e6sm3753242wme.28.2021.07.21.02.58.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 21 Jul 2021 02:58:19 -0700 (PDT)
+Date: Wed, 21 Jul 2021 10:58:17 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 3/5] migration: Introduce migration_ioc_[un]register_yank()
+Message-ID: <YPfvuaKLjeuX+K3A@work-vm>
+References: <20210721012134.792845-1-peterx@redhat.com>
+ <20210721012134.792845-4-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YPfqOOl5DvsAMr+z@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+In-Reply-To: <20210721012134.792845-4-peterx@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,126 +96,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- ehabkost@redhat.com, kraxel@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Lukas Straub <lukasstraub2@web.de>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/21 11:34 AM, Daniel P. Berrangé wrote:
-> On Tue, Jul 20, 2021 at 07:31:20PM -0300, Jose R. Ziviani wrote:
->> module_object_class_by_name() calls module_load_qom_one if the object
->> is provided by a dynamically linked library. Such library might not be
->> available at this moment - for instance, it can be a package not yet
->> installed. Thus, instead of assert error messages, this patch outputs
->> more friendly messages.
->>
->> Current error messages:
->> $ ./qemu-system-x86_64 -machine q35 -accel tcg -kernel /boot/vmlinuz
->> ...
->> ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
->> Bail out! ERROR:../accel/accel-softmmu.c:82:accel_init_ops_interfaces: assertion failed: (ops != NULL)
->> [1]    31964 IOT instruction (core dumped)  ./qemu-system-x86_64 ...
->>
->> New error message:
->> $ ./qemu-system-x86_64 -machine q35 -accel tcg -kernel /boot/vmlinuz
->> accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
->>
->> Or with other modules, when possible:
->> $ ./qemu-system-x86_64 -machine q35 -accel kvm -kernel /boot/vmlinuz -vga qxl                                                                     ✹
->> hw-display-qxl module is missing, install the package or config the library path correctly.
->> qemu-system-x86_64: QXL VGA not available
->>
->> $ make check
->> ...
->> Running test qtest-x86_64/test-filter-mirror
->> Running test qtest-x86_64/endianness-test
->> accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
->> accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
->> accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
->> accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
->> accel-qtest-x86_64 module is missing, install the package or config the library path correctly.
->> accel-tcg-x86_64 module is missing, install the package or config the library path correctly.
->> ...
->>
->> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
->> ---
->>  accel/accel-softmmu.c | 5 ++++-
->>  qom/object.c          | 9 +++++++++
->>  2 files changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/accel/accel-softmmu.c b/accel/accel-softmmu.c
->> index 67276e4f52..52449ac2d0 100644
->> --- a/accel/accel-softmmu.c
->> +++ b/accel/accel-softmmu.c
->> @@ -79,7 +79,10 @@ void accel_init_ops_interfaces(AccelClass *ac)
->>       * all accelerators need to define ops, providing at least a mandatory
->>       * non-NULL create_vcpu_thread operation.
->>       */
->> -    g_assert(ops != NULL);
->> +    if (ops == NULL) {
->> +        exit(1);
->> +    }
->> +
->>      if (ops->ops_init) {
->>          ops->ops_init(ops);
->>      }
->> diff --git a/qom/object.c b/qom/object.c
->> index 6a01d56546..3a170ea9df 100644
->> --- a/qom/object.c
->> +++ b/qom/object.c
->> @@ -10,6 +10,7 @@
->>   * See the COPYING file in the top-level directory.
->>   */
->>  
->> +#include "qemu/module.h"
->>  #include "qemu/osdep.h"
->>  #include "hw/qdev-core.h"
->>  #include "qapi/error.h"
->> @@ -1031,8 +1032,16 @@ ObjectClass *module_object_class_by_name(const char *typename)
->>      oc = object_class_by_name(typename);
->>  #ifdef CONFIG_MODULES
->>      if (!oc) {
->> +        const char *module_name = module_get_name_from_obj(typename);
->>          module_load_qom_one(typename);
->>          oc = object_class_by_name(typename);
->> +        if (!oc && module_name) {
->> +            if (!module_is_loaded(module_name)) {
->> +                fprintf(stderr, "%s module is missing, install the "
->> +                                "package or config the library path "
->> +                                "correctly.\n", module_name);
->> +            }
->> +        }
->>      }
+* Peter Xu (peterx@redhat.com) wrote:
+> There're plenty of places in migration/* that checks against either socket or
+> tls typed ioc for yank operations.  Provide two helpers to hide all these
+> information.
 > 
-> Introducing a call to module_is_loaded is feels like it isn't really
-> addressing the root cause.
-> 
-> The error scenario here exists because module_load_qom_one() can
-> fail to load the requested module. We don't detect that failure
-> because module_load_qom_one() is "void" for some reason. There
-> are several possible causes of failure and missing file on disk
-> is only one of them.
-> 
-> This general error message about "module_name" being missing is
-> misleading when there are dependancies involved. "module_name"
-> may well exist, but something it depends on might be missing.
-> Or the modules might have been built from wrong QEMU and be
-> unable to be dlopened despite existing.
-> 
-> I think we need to fix module_load_qom_one() so that it can
-> actually report failure via an "Error **errp" parameter.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Sounds right to me.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> This will also entail fixing a number of methods it in turn
-> calls.
+> ---
+>  migration/channel.c           | 15 ++-------------
+>  migration/multifd.c           |  8 ++------
+>  migration/qemu-file-channel.c |  8 ++------
+>  migration/yank_functions.c    | 28 ++++++++++++++++++++++++++++
+>  migration/yank_functions.h    |  2 ++
+>  5 files changed, 36 insertions(+), 25 deletions(-)
 > 
+> diff --git a/migration/channel.c b/migration/channel.c
+> index 01275a9162..c4fc000a1a 100644
+> --- a/migration/channel.c
+> +++ b/migration/channel.c
+> @@ -44,13 +44,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+>                               TYPE_QIO_CHANNEL_TLS)) {
+>          migration_tls_channel_process_incoming(s, ioc, &local_err);
+>      } else {
+> -        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> -            object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+> -            yank_register_function(MIGRATION_YANK_INSTANCE,
+> -                                   migration_yank_iochannel,
+> -                                   QIO_CHANNEL(ioc));
+> -        }
+> -
+> +        migration_ioc_register_yank(ioc);
+>          migration_ioc_process_incoming(ioc, &local_err);
+>      }
+>  
+> @@ -94,12 +88,7 @@ void migration_channel_connect(MigrationState *s,
+>          } else {
+>              QEMUFile *f = qemu_fopen_channel_output(ioc);
+>  
+> -            if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> -                object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS)) {
+> -                yank_register_function(MIGRATION_YANK_INSTANCE,
+> -                                       migration_yank_iochannel,
+> -                                       QIO_CHANNEL(ioc));
+> -            }
+> +            migration_ioc_register_yank(ioc);
+>  
+>              qemu_mutex_lock(&s->qemu_file_lock);
+>              s->to_dst_file = f;
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index ab41590e71..377da78f5b 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -987,12 +987,8 @@ int multifd_load_cleanup(Error **errp)
+>      for (i = 0; i < migrate_multifd_channels(); i++) {
+>          MultiFDRecvParams *p = &multifd_recv_state->params[i];
+>  
+> -        if ((object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET) ||
+> -             object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_TLS))
+> -            && OBJECT(p->c)->ref == 1) {
+> -            yank_unregister_function(MIGRATION_YANK_INSTANCE,
+> -                                     migration_yank_iochannel,
+> -                                     QIO_CHANNEL(p->c));
+> +        if (OBJECT(p->c)->ref == 1) {
+> +            migration_ioc_unregister_yank(p->c);
+>          }
+>  
+>          object_unref(OBJECT(p->c));
+> diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+> index fad340ea7a..867a5ed0c3 100644
+> --- a/migration/qemu-file-channel.c
+> +++ b/migration/qemu-file-channel.c
+> @@ -107,12 +107,8 @@ static int channel_close(void *opaque, Error **errp)
+>      int ret;
+>      QIOChannel *ioc = QIO_CHANNEL(opaque);
+>      ret = qio_channel_close(ioc, errp);
+> -    if ((object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> -         object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS))
+> -        && OBJECT(ioc)->ref == 1) {
+> -        yank_unregister_function(MIGRATION_YANK_INSTANCE,
+> -                                 migration_yank_iochannel,
+> -                                 QIO_CHANNEL(ioc));
+> +    if (OBJECT(ioc)->ref == 1) {
+> +        migration_ioc_unregister_yank(ioc);
+>      }
+>      object_unref(OBJECT(ioc));
+>      return ret;
+> diff --git a/migration/yank_functions.c b/migration/yank_functions.c
+> index 96c90e17dc..23697173ae 100644
+> --- a/migration/yank_functions.c
+> +++ b/migration/yank_functions.c
+> @@ -11,6 +11,9 @@
+>  #include "qapi/error.h"
+>  #include "io/channel.h"
+>  #include "yank_functions.h"
+> +#include "qemu/yank.h"
+> +#include "io/channel-socket.h"
+> +#include "io/channel-tls.h"
+>  
+>  void migration_yank_iochannel(void *opaque)
+>  {
+> @@ -18,3 +21,28 @@ void migration_yank_iochannel(void *opaque)
+>  
+>      qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+>  }
+> +
+> +/* Return whether yank is supported on this ioc */
+> +static bool migration_ioc_yank_supported(QIOChannel *ioc)
+> +{
+> +    return object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET) ||
+> +        object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS);
+> +}
+> +
+> +void migration_ioc_register_yank(QIOChannel *ioc)
+> +{
+> +    if (migration_ioc_yank_supported(ioc)) {
+> +        yank_register_function(MIGRATION_YANK_INSTANCE,
+> +                               migration_yank_iochannel,
+> +                               QIO_CHANNEL(ioc));
+> +    }
+> +}
+> +
+> +void migration_ioc_unregister_yank(QIOChannel *ioc)
+> +{
+> +    if (migration_ioc_yank_supported(ioc)) {
+> +        yank_unregister_function(MIGRATION_YANK_INSTANCE,
+> +                                 migration_yank_iochannel,
+> +                                 QIO_CHANNEL(ioc));
+> +    }
+> +}
+> diff --git a/migration/yank_functions.h b/migration/yank_functions.h
+> index 055ea22523..74c7f18c91 100644
+> --- a/migration/yank_functions.h
+> +++ b/migration/yank_functions.h
+> @@ -15,3 +15,5 @@
+>   * @opaque: QIOChannel to shutdown
+>   */
+>  void migration_yank_iochannel(void *opaque);
+> +void migration_ioc_register_yank(QIOChannel *ioc);
+> +void migration_ioc_unregister_yank(QIOChannel *ioc);
+> -- 
+> 2.31.1
 > 
-> Regards,
-> Daniel
-> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Thanks,
-
-Claudio
 
