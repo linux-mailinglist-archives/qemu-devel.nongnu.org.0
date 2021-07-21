@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4BE3D0910
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:41:27 +0200 (CEST)
-Received: from localhost ([::1]:43694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBBB33D0925
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 08:46:41 +0200 (CEST)
+Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m65v4-0003Sa-E4
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:41:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43332)
+	id 1m6608-0008Ey-FR
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 02:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m65nk-0003iy-Az
+ id 1m65nk-0003j3-C8
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:33:52 -0400
-Received: from ozlabs.org ([203.11.71.1]:48055)
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:59781 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1m65ng-0006vu-Ub
+ id 1m65nh-0006vw-A4
  for qemu-devel@nongnu.org; Wed, 21 Jul 2021 02:33:52 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GV5Pv6bVqz9sj5; Wed, 21 Jul 2021 16:33:39 +1000 (AEST)
+ id 4GV5Pv6xvMz9sjD; Wed, 21 Jul 2021 16:33:39 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1626849219;
- bh=NSWGKUd11WajDo9/mYyvbEK8ev+/PnrT7/tv1UJ28O4=;
+ bh=f4/7ePJeqFqaijObxPYrhjoaPyaEHrWbglH7OejUFCg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=O3pVYBCOhZNZwpEB+RQa+Tixd662uDzN1b51Ak6vB8LXXdKwATsvtzaNonKvbEo8P
- LejILSfDZSlw4258Im3kaPFFZK5Wut8bi2vmOLRBklc+D86AOByBTaLEDjVz8QLvzU
- C8NKHtP8lRBtoOgePYRT5Mwysjz5+Gl+sdU4V2Ho=
-Date: Wed, 21 Jul 2021 16:26:29 +1000
+ b=Z6abq1PrSZfmglpDvCAMVY26Ajs6mp5jML+iodcILHFzu/AT9u8o3lgLK0v1hr2Xv
+ shSZ34p11ZIVkAN+SuCH2tiwk/b2yMZ6Bz0HP9lD8yg9nVuUBDXHTQJXv/BnO2JNEI
+ ifIXQr8TT3PHGVugZh9I5cHGrtCqCsWou4/MFlWE=
+Date: Wed, 21 Jul 2021 16:32:28 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: spapr_events: Sure we may ignore migrate_add_blocker() failure?
-Message-ID: <YPe+FefwuwGd23nh@yekko>
+Subject: Re: -only-migrate and the two different uses of migration blockers
+Message-ID: <YPe/fIBuvGgfiyy3@yekko>
 References: <87tukvaejt.fsf@dusky.pond.sub.org> <YPTj6ml6LoMJkypI@yekko>
  <87lf62ydow.fsf@dusky.pond.sub.org> <YPUn2quWrztTqyML@yekko>
  <875yx6oabe.fsf@dusky.pond.sub.org>
+ <87sg0amuuz.fsf_-_@dusky.pond.sub.org> <YPVzURLf5qqwtYsZ@work-vm>
+ <87o8axh7rr.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xs41vh+AoWTedjiQ"
+ protocol="application/pgp-signature"; boundary="/yOfKhnaCViZDb/I"
 Content-Disposition: inline
-In-Reply-To: <875yx6oabe.fsf@dusky.pond.sub.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <87o8axh7rr.fsf@dusky.pond.sub.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,156 +63,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aravinda Prasad <arawinda.p@gmail.com>,
- Ganesh Goudar <ganeshgr@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---xs41vh+AoWTedjiQ
+--/yOfKhnaCViZDb/I
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 19, 2021 at 12:41:09PM +0200, Markus Armbruster wrote:
-> David Gibson <david@gibson.dropbear.id.au> writes:
+On Tue, Jul 20, 2021 at 07:30:16AM +0200, Markus Armbruster wrote:
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 >=20
-> > On Mon, Jul 19, 2021 at 09:18:07AM +0200, Markus Armbruster wrote:
-> >> David Gibson <david@gibson.dropbear.id.au> writes:
+> > * Markus Armbruster (armbru@redhat.com) wrote:
+> >> We appear to use migration blockers in two ways:
 > >>=20
-> >> > On Thu, Jul 15, 2021 at 03:32:06PM +0200, Markus Armbruster wrote:
-> >> >> Commit 2500fb423a "migration: Include migration support for machine
-> >> >> check handling" adds this:
-> >> >>=20
-> >> >>     ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, &lo=
-cal_err);
-> >> >>     if (ret =3D=3D -EBUSY) {
-> >> >>         /*
-> >> >>          * We don't want to abort so we let the migration to contin=
-ue.
-> >> >>          * In a rare case, the machine check handler will run on th=
-e target.
-> >> >>          * Though this is not preferable, it is better than aborting
-> >> >>          * the migration or killing the VM.
-> >> >>          */
-> >> >>         warn_report("Received a fwnmi while migration was in progre=
-ss");
-> >> >>     }
-> >> >>=20
-> >> >> migrate_add_blocker() can fail in two ways:
-> >> >>=20
-> >> >> 1. -EBUSY: migration is already in progress
-> >> >>=20
-> >> >>    Ignoring this one is clearly intentional.  The comment explains =
-why.
-> >> >>    I'm taking it at face value (I'm a spapr ignoramus).
-> >> >
-> >> > Right.  The argument isn't really about papr particularly, except
-> >> > insofar as understanding what fwnmi is.  fwnmi (FirmWare assisted NM=
-I)
-> >> > is a reporting mechanism for certain low-level hardware failures
-> >> > (think memory ECC or cpu level faults, IIRC).  If we migrate between
-> >> > detecting and reporting the error, then the particulars we report wi=
-ll
-> >> > be mostly meaningless since they relate to hardware we're no longer
-> >> > running on.  Hence the migration blocker.
-> >> >
-> >> > However, migrating away from a (non-fatal) fwnmi error is a pretty
-> >> > reasonable response, so we don't want to actually fail a migration if
-> >> > its already in progress.
-> >> >
-> >> >>    Aside: I doubt
-> >> >>    the warning is going to help users.
-> >> >
-> >> > You're probably right, but it's not very clear how to do better.  It
-> >> > might possibly help someone in tech support explain why the reported
-> >> > fwnmi doesn't seem to match the hardware the guest is (now) running
-> >> > on.
+> >> (1) Prevent migration for an indefinite time, typically due to use of
+> >> some feature that isn't compatible with migration.
 > >>=20
-> >> Perhaps pointing to the actual problem could help: the FWNMI's
-> >> information is mostly meaningless.
+> >> (2) Delay migration for a short time.
+> >>=20
+> >> Option -only-migrate is designed for (1).  It interferes with (2).
+> >>=20
+> >> Example for (1): device "x-pci-proxy-dev" doesn't support migration.  =
+It
+> >> adds a migration blocker on realize, and deletes it on unrealize.  With
+> >> -only-migrate, device realize fails.  Works as designed.
+> >>=20
+> >> Example for (2): spapr_mce_req_event() makes an effort to prevent
+> >> migration degrate the reporting of FWNMIs.  It adds a migration blocker
+> >> when it receives one, and deletes it when it's done handling it.  This
+> >> is a best effort; if migration is already in progress by the time FWNMI
+> >> is received, we simply carry on, and that's okay.  However, option
+> >> -only-migrate sabotages the best effort entirely.
 > >
-> > Sorry, I don't follow what you're suggesting.
+> > That's interesting; it's the first time I've heard of anyone using it as
+> > 'best effort'.  I've always regarded blockers as blocking.
 >=20
-> We warn
->=20
->     warning: Received a fwnmi while migration was in progress
->=20
-> when we fail to block migration because it's already in progress.
-> But what does this mean?  Perhaps warn like this:
->=20
->     warning: FWNMI while migration is in progress
->     The guest's report for this may be less than useful.
->=20
-> My phrasing may well be off, but I hope you get the idea.
+> Me too, until I found this one.
 
-I see your point.  It may be some time before this reaches the top of
-priority list, however.
+Right, it may well have been the first usage this way, this fwnmi
+stuff isn't super old.
 
-> Note that we keep quiet when we fail to block migration due to
-> -only-migrate.  I agree with that.  The failure makes a difference only
-> when migration gets triggered in a narrow time window, which should be
-> quite rare.  Would be nice to warn when migration does get triggered in
-> that time window, though.  Not sure it's worth the trouble, in
-> particular if we'd have to create infrastructure first.
+> >> While this isn't exactly terrible, it may be a weakness in our thinking
+> >> and our infrastructure.  I'm bringing it up so the people in charge are
+> >> aware :)
+> >
+> > Thanks.
+> >
+> > It almost feels like they need a way to temporarily hold off
+> > 'completion' of migratio - i.e. the phase where we stop the CPU and
+> > write the device data;  mind you you'd also probably want it to stop
+> > cold-migrates/snapshots?
 >=20
-> >
-> >>=20
-> >> >> 2. -EACCES: we're running with -only-migratable
-> >> >>=20
-> >> >>    Why may we ignore -only-migratable here?
-> >> >
-> >> > Short answer: because I didn't think about that case.  Long answer:
-> >> > I think we probably shoud ignore it anyway.  As above, receiving a
-> >> > fwnmi doesn't really prevent migration, it just means that if you're
-> >> > unlucky it can report stale information.  Since migrating away from a
-> >> > possibly-dubious host would be a reasonable response to a non-fatal
-> >> > fwnmi, I don't think we want to simply prohibit fwnmi entirely with
-> >> > -only-migratable.
-> >>=20
-> >> I think the comment text and placement could be improved to make clear
-> >> ignoring this failure is intentional, too.  How do you like the
-> >> following?
-> >
-> > That's fair..
-> >
-> >>=20
-> >> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> >> index a8f2cc6bdc..54d8e856d3 100644
-> >> --- a/hw/ppc/spapr_events.c
-> >> +++ b/hw/ppc/spapr_events.c
-> >> @@ -911,16 +911,14 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool r=
-ecovered)
-> >>          }
-> >>      }
-> >> =20
-> >> +    /*
-> >> +     * Try to block migration while FWNMI is being handled, so the
-> >> +     * machine check handler runs where the information passed to it
-> >> +     * actually makes sense.  This won't actually block migration,
-> >> +     * only delay it slightly.  If the attempt fails, carry on.
-> >> +     */
-> >>      ret =3D migrate_add_blocker(spapr->fwnmi_migration_blocker, NULL);
-> >>      if (ret =3D=3D -EBUSY) {
-> >> -        /*
-> >> -         * We don't want to abort so we let the migration to continue.
-> >> -         * In a rare case, the machine check handler will run on the =
-target.
-> >> -         * Though this is not preferable, it is better than aborting
-> >> -         * the migration or killing the VM. It is okay to call
-> >> -         * migrate_del_blocker on a blocker that was not added (which=
- the
-> >> -         * nmi-interlock handler would do when it's called after this=
-).
-> >> -         */
-> >>          warn_report("Received a fwnmi while migration was in progress=
-");
-> >>      }
-> >
-> > LGTM.
->=20
-> Thanks, I'll post this.
->=20
+> Yes, a proper way to delay 'completion' for a bit would be clearer, and
+> wouldn't let -only-migrate interfere.
+
+Right.  If that becomes a thing, we should use it here.  Note that
+this one use case probably isn't a very strong argument for it,
+though.  The only problem here is slightly less that optimal error
+reporting in a rare edge case (hardware fault occurs by chance at the
+same time as a migration).
+
+
+=2E... and, also, I half-suspect that the whole fwnmi feature exists
+more to tick IBM RAS check boxes than because anyone will actually use
+it.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -219,25 +138,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---xs41vh+AoWTedjiQ
+--/yOfKhnaCViZDb/I
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD3vhUACgkQbDjKyiDZ
-s5LIEA//TAP5xSfXh35II3Pjs8iP3L5gxz1HVuIgb2Qa7aOOvl48Wl1Hxkn+Bdm7
-d7ZDyK2tLRc6HJl3fVcKbEKEvXy4XOGFxtT2J19koa035RoVMsn3dDH3G4RJ/qvB
-rL+ogmlBiYJ4Yg2ES1r3PuI7/GM04mf2C3oqSeZtCKLhC2WRdn8s2DDj9kQIwsjX
-Drvqz94HqI9K21PlE7OR2xw3f5d9u1UKlqvgOdQ2ggT0d0qYGVtHVUcJTgKxV9Xf
-QHTW8j1dbcyG+RX9CF/aiZ56Cis5M8+MyQ8Fq9n0/fSHYxbzdakyA9bLxySclBEZ
-NSpJte7yyMnTPYJxksZQMhpDOhGz5PZyFgJhWDQhFrD9mSFHk2IUtGMGBS1UOKGm
-FVR3XmjSYUAQn4uVmdOl+51l0csTg5EQHGAZMD77XBkIE4/m/X+rS1XkA5VrUdI5
-P33cKTW8zOj5MopgwOY3sgbl9RuBSY8fVJgwTq3IhpBt3QQ5cJyH2JogNwhJR9qO
-nODsQE+4PrEGFLRYpqAV86JSv8bfkB3xx/dG8e9Jw55QFhRBawN8O0d5VSupaTF/
-g8YeekcscTkB7P2+ruTXD3v76inFAPJhDK53nc+OBh4KwuALnZPVulgP4VE9IvmV
-vZ9v7EjVt+U/GiPg3Wd71tNrc+pShswQ0XtgZUKwYXOnvWdIzCA=
-=rI2A
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmD3v3wACgkQbDjKyiDZ
+s5IbAg/+MGCMK8VbnNOeKBmkiipacghZkZ0XfNPeOESitn6fB4qGY1GtKNsxSJK+
+Ep5gghg8T0W3Mxh4kOGlTwPIlV2fB2Dj4opmy60qDIW7/8lYXpdyO+KmIWxBqnbO
+2INiKCApp4CtgLIvSEeTK8V5dZn61SCOEnRHceyLktCMKm/iJYpcJxIpLPBThYA0
+LBTo2Z4CCTcEMjs5RwAg3tLIS0jiCEPlYEqtnAGjCfICmhhCosvQYFLUUAiIF81a
+ST5conEmB/75UvOodspBl9x+GdIfFqvMPHD5RXl/FEzpO4rM1CKTjD26GHS0u6Au
+l/jw8aXrp3bbaFN9dESwAEZ8zlcqu1Mu3Xk3huZlAl//6rldN3Grpogo8Feh2Ffs
+KSIKgi108ao9ApLlMTNUDuqKs11kwQ8qn0EZCC0OS2+x+xeNwJWvKSMsFwz9wEyO
+JMPwZHQgZBSCJLYjGM9aJj58pdzfyfWpaFUQQ0tarH1/REiSqm61FoNY7GuNEbGj
+6RQbV3Iemw4fXcGjcYvfNmAfjIThGvOHXaUNYFh1oCVLni0ZDv0Ey35lnNgEIeJs
+KH3yLM+Gopfl6DJKUDICXN3C7hCyIqAWE+jO4nD4KiV1l74TFfmNTDUUrBfAQ0A1
+AoWEwlkDbJ3w/KvBvyT6Y1eJrQds6LJ+HekllMyXxPhEvCrY0Ag=
+=El2d
 -----END PGP SIGNATURE-----
 
---xs41vh+AoWTedjiQ--
+--/yOfKhnaCViZDb/I--
 
