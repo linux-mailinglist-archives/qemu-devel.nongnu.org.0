@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2EC3D0EDF
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 14:41:59 +0200 (CEST)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1783D0F68
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 15:23:05 +0200 (CEST)
+Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m6BXx-0005U4-Vn
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 08:41:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49856)
+	id 1m6CBk-00075a-2E
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 09:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6BVy-00041Q-Ef
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 08:39:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m6BVv-0002Z4-69
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 08:39:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1626871189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LomIih3YhU+uKwtiBrULgNJVM4YJhEjcO2ZlT5xY4VY=;
- b=iFZi6C7gnZlT4kyWWbADjlpDzD/bNgfkQuElZIilcJA+It/Hqirx8UdH4mn0foMZjO508K
- YbUSDbQgfF9fOyEfMa6x2RExHV1Lmy90PQF6SQQ8PKGcyaZQBVD5K4wFA4wkeOG7+zMwjY
- Ods1kVJW/CoycjxnjDjcW2N07Le3f6g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-344-nAlX_lJCMOKq8ECTOeKfYQ-1; Wed, 21 Jul 2021 08:39:45 -0400
-X-MC-Unique: nAlX_lJCMOKq8ECTOeKfYQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FBBC801FCE;
- Wed, 21 Jul 2021 12:39:44 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
- [10.36.114.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D0CF260854;
- Wed, 21 Jul 2021 12:39:43 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0EACD18000B2; Wed, 21 Jul 2021 14:39:42 +0200 (CEST)
-Date: Wed, 21 Jul 2021 14:39:42 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH for 6.1 1/2] ui/gtk: add a keyboard fifo to the VTE
- consoles
-Message-ID: <20210721123942.q7omeebgo4o2feyo@sirius.home.kraxel.org>
-References: <9e436e5c-ed11-69ec-3cb9-a19cbf96cb08@t-online.de>
- <20210718074757.22489-1-vr_qemu@t-online.de>
+ (Exim 4.90_1) (envelope-from <sohu0106@126.com>) id 1m66rP-0005jr-4J
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 03:41:43 -0400
+Received: from m1512.mail.126.com ([220.181.15.12]:4927)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <sohu0106@126.com>) id 1m66rI-0004RR-Pe
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 03:41:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=RfR+o
+ BLjIL/9bsMjFERJqoEqO13ojY90JaSXUu1kGZw=; b=kFPvJw6peN+sh+P0UohUq
+ h/dhumDfPPrW23DrU63SZwb1ibhMxNPEHejGca/zhJsMI5fUXby1VVCwyoWvm0sx
+ 6LKV7Kq1vQQTB5TuJsP67dEFrvD2OyFVjllFr7ZGLBJGem0VYmk4vfJzhs7NX7YZ
+ SDet7qY9uzNVAYwEs3xEWg=
+Received: from sohu0106$126.com ( [122.96.40.208] ) by ajax-webmail-wmsvr12
+ (Coremail) ; Wed, 21 Jul 2021 15:09:17 +0800 (CST)
+X-Originating-IP: [122.96.40.208]
+Date: Wed, 21 Jul 2021 15:09:17 +0800 (CST)
+From: sohu0106 <sohu0106@126.com>
+To: jiri@resnulli.us
+Subject: [PATCH RFC]Fix rocker device null-pointer crash.
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20210104(ab8c30b6)
+ Copyright (c) 2002-2021 www.mailtech.cn 126com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=GBK
 MIME-Version: 1.0
-In-Reply-To: <20210718074757.22489-1-vr_qemu@t-online.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.459,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <2244a193.2c29.17ac7e5b4fe.Coremail.sohu0106@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: DMqowABnYMUdyPdg1Ro0AQ--.7248W
+X-CM-SenderInfo: pvrk3iqrqwqiyswou0bp/1tbi5Q-VHlpD7qpG3wACsn
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Received-SPF: pass client-ip=220.181.15.12; envelope-from=sohu0106@126.com;
+ helo=m1512.mail.126.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 21 Jul 2021 09:19:24 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,57 +63,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zack Marvel <zpmarvel@gmail.com>, qemu-devel@nongnu.org
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> +static void gd_vc_send_chars(VirtualConsole *vc)
-> +{
-> +    uint32_t len, avail;
-> +    const uint8_t *buf;
-> +
-> +    len = qemu_chr_be_can_write(vc->vte.chr);
-> +    avail = fifo8_num_used(&vc->vte.out_fifo);
-> +    if (len > avail) {
-> +        len = avail;
-> +    }
-> +    while (len > 0) {
-> +        uint32_t size;
-> +
-> +        buf = fifo8_pop_buf(&vc->vte.out_fifo, len, &size);
-> +        qemu_chr_be_write(vc->vte.chr, (uint8_t *)buf, size);
-> +        len -= size;
-> +        avail -= size;
-> +    }
-> +    /*
-> +     * characters are pending: we send them a bit later (XXX:
-> +     * horrible, should change char device API)
-> +     */
-> +    if (avail > 0) {
-> +        timer_mod(vc->vte.kbd_timer,
-> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) + 1);
-> +    }
-
-There is ChardevClass->chr_accept_input() which gets called when you can
-send more data, so there is no need to use a timer for that.
-
-Typical workflow is to only read data when it can be pushed forward to
-the guest, so when the guest stops reading data qemu stops doing so too,
-effectively forwarding the stalls.  Which works fine for things like tcp
-sockets.  Not so much for user input though.
-
-So, yes, just throw away data is the only option we have here.  Adding a
-reasonable-sized fifo makes sense too to cover bulky input, so you can
-cut+paste a longish URL even if the guest accepts only a few chars at a
-time (16550 fifo is 16 chars IIRC ...).
-
-I would suggest to keep things simple, just throw away what you can't
-store in the fifo, I don't see the point taking different actions
-depending on how long the stalls are lasting (patch 2/2).
-
-take care,
-  Gerd
-
+CgpGcm9tIDUwM2IwOGQzYjhkOGZhYTkzYzNmNWQyYmM5ZWI4YjUyYTc3NzJiODUgTW9uIFNlcCAx
+NyAwMDowMDowMCAyMDAxCkZyb206IHNvaHUwMTA2IDxzb2h1MDEwNkAxMjYuY29tPgpEYXRlOiBX
+ZWQsIDIxIEp1bCAyMDIxIDEwOjA3OjA3ICswODAwClN1YmplY3Q6IFtSRkNdIEZpeCByb2NrZXIg
+ZGV2aWNlIG51bGwgcG9pbnRlciBjcmFzaC4gcWVtdSBjb25maWcgci0+ZnBfcG9ydHMKIHdpdGgg
+Ii1kZXZpY2Ugcm9ja2VyLGxlbi1wb3J0cz0xMCIgd2hlbiBndWVzdCBjb25maWcgcG9ydCBsYXJn
+ZXQgdGhlbgogci0+ZnBfcG9ydHMoMTApIHItPmZwX3BvcnRbcG9ydF0gaXMgbnVsbC1wb2ludGVy
+LHFlbXUgd2lsbCBjcmFzaCBudWxsLXBvaW50ZXIKIFJlcG9ydGVkLWJ5OiBjaGVuemhlIDxjaGVu
+emhlQGh1YXdlaS5jb20+CgpTaWduZWQtb2ZmLWJ5OiBzb2h1MDEwNiA8c29odTAxMDZAMTI2LmNv
+bT4KLS0tCiBody9uZXQvcm9ja2VyL3JvY2tlci5jICAgIHwgMTAgKysrKystLS0tLQogaHcvbmV0
+L3JvY2tlci9yb2NrZXJfZnAuYyB8ICA1ICsrKy0tCiBody9uZXQvcm9ja2VyL3JvY2tlcl9mcC5o
+IHwgIDIgKy0KIDMgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygt
+KQoKZGlmZiAtLWdpdCBhL2h3L25ldC9yb2NrZXIvcm9ja2VyLmMgYi9ody9uZXQvcm9ja2VyL3Jv
+Y2tlci5jCmluZGV4IDMxZjIzNDBmYjkuLjQzMWFmMzk4MmYgMTAwNjQ0Ci0tLSBhL2h3L25ldC9y
+b2NrZXIvcm9ja2VyLmMKKysrIGIvaHcvbmV0L3JvY2tlci9yb2NrZXIuYwpAQCAtMTc0LDcgKzE3
+NCw3IEBAIHN0YXRpYyBpbnQgdHhfY29uc3VtZShSb2NrZXIgKnIsIERlc2NJbmZvICppbmZvKQog
+ICAgIH0KIAogICAgIHBwb3J0ID0gcm9ja2VyX2dldF9wcG9ydF9ieV90eF9yaW5nKHIsIGRlc2Nf
+Z2V0X3JpbmcoaW5mbykpOwotICAgIGlmICghZnBfcG9ydF9mcm9tX3Bwb3J0KHBwb3J0LCAmcG9y
+dCkpIHsKKyAgICBpZiAoIWZwX3BvcnRfZnJvbV9wcG9ydChyLCBwcG9ydCwgJnBvcnQpKSB7CiAg
+ICAgICAgIHJldHVybiAtUk9DS0VSX0VJTlZBTDsKICAgICB9CiAKQEAgLTI4Nyw3ICsyODcsNyBA
+QCBzdGF0aWMgaW50IGNtZF9nZXRfcG9ydF9zZXR0aW5ncyhSb2NrZXIgKnIsCiAgICAgfQogCiAg
+ICAgcHBvcnQgPSByb2NrZXJfdGx2X2dldF9sZTMyKHRsdnNbUk9DS0VSX1RMVl9DTURfUE9SVF9T
+RVRUSU5HU19QUE9SVF0pOwotICAgIGlmICghZnBfcG9ydF9mcm9tX3Bwb3J0KHBwb3J0LCAmcG9y
+dCkpIHsKKyAgICBpZiAoIWZwX3BvcnRfZnJvbV9wcG9ydChyLCBwcG9ydCwgJnBvcnQpKSB7CiAg
+ICAgICAgIHJldHVybiAtUk9DS0VSX0VJTlZBTDsKICAgICB9CiAgICAgZnBfcG9ydCA9IHItPmZw
+X3BvcnRbcG9ydF07CkBAIC0zNTcsNyArMzU3LDcgQEAgc3RhdGljIGludCBjbWRfc2V0X3BvcnRf
+c2V0dGluZ3MoUm9ja2VyICpyLAogICAgIH0KIAogICAgIHBwb3J0ID0gcm9ja2VyX3Rsdl9nZXRf
+bGUzMih0bHZzW1JPQ0tFUl9UTFZfQ01EX1BPUlRfU0VUVElOR1NfUFBPUlRdKTsKLSAgICBpZiAo
+IWZwX3BvcnRfZnJvbV9wcG9ydChwcG9ydCwgJnBvcnQpKSB7CisgICAgaWYgKCFmcF9wb3J0X2Zy
+b21fcHBvcnQociwgcHBvcnQsICZwb3J0KSkgewogICAgICAgICByZXR1cm4gLVJPQ0tFUl9FSU5W
+QUw7CiAgICAgfQogICAgIGZwX3BvcnQgPSByLT5mcF9wb3J0W3BvcnRdOwpAQCAtNTM4LDcgKzUz
+OCw3IEBAIGludCByb2NrZXJfZXZlbnRfbWFjX3ZsYW5fc2VlbihSb2NrZXIgKnIsIHVpbnQzMl90
+IHBwb3J0LCB1aW50OF90ICphZGRyLAogICAgIGludCBwb3M7CiAgICAgaW50IGVycjsKIAotICAg
+IGlmICghZnBfcG9ydF9mcm9tX3Bwb3J0KHBwb3J0LCAmcG9ydCkpIHsKKyAgICBpZiAoIWZwX3Bv
+cnRfZnJvbV9wcG9ydChyLCBwcG9ydCwgJnBvcnQpKSB7CiAgICAgICAgIHJldHVybiAtUk9DS0VS
+X0VJTlZBTDsKICAgICB9CiAgICAgZnBfcG9ydCA9IHItPmZwX3BvcnRbcG9ydF07CkBAIC02OTAs
+NyArNjkwLDcgQEAgaW50IHJvY2tlcl9wb3J0X2VnKFJvY2tlciAqciwgdWludDMyX3QgcHBvcnQs
+CiAgICAgRnBQb3J0ICpmcF9wb3J0OwogICAgIHVpbnQzMl90IHBvcnQ7CiAKLSAgICBpZiAoIWZw
+X3BvcnRfZnJvbV9wcG9ydChwcG9ydCwgJnBvcnQpKSB7CisgICAgaWYgKCFmcF9wb3J0X2Zyb21f
+cHBvcnQociwgcHBvcnQsICZwb3J0KSkgewogICAgICAgICByZXR1cm4gLVJPQ0tFUl9FSU5WQUw7
+CiAgICAgfQogCmRpZmYgLS1naXQgYS9ody9uZXQvcm9ja2VyL3JvY2tlcl9mcC5jIGIvaHcvbmV0
+L3JvY2tlci9yb2NrZXJfZnAuYwppbmRleCBjYmVlZDY1YmQ1Li40NWI1MDIwMTA2IDEwMDY0NAot
+LS0gYS9ody9uZXQvcm9ja2VyL3JvY2tlcl9mcC5jCisrKyBiL2h3L25ldC9yb2NrZXIvcm9ja2Vy
+X2ZwLmMKQEAgLTEwOCw5ICsxMDgsMTAgQEAgaW50IGZwX3BvcnRfc2V0X3NldHRpbmdzKEZwUG9y
+dCAqcG9ydCwgdWludDMyX3Qgc3BlZWQsCiAgICAgcmV0dXJuIFJPQ0tFUl9PSzsKIH0KIAotYm9v
+bCBmcF9wb3J0X2Zyb21fcHBvcnQodWludDMyX3QgcHBvcnQsIHVpbnQzMl90ICpwb3J0KQorYm9v
+bCBmcF9wb3J0X2Zyb21fcHBvcnQoUm9ja2VyICpyLCB1aW50MzJfdCBwcG9ydCwgdWludDMyX3Qg
+KnBvcnQpCiB7Ci0gICAgaWYgKHBwb3J0IDwgMSB8fCBwcG9ydCA+IFJPQ0tFUl9GUF9QT1JUU19N
+QVgpIHsKKyAgICBpZiAocHBvcnQgPCAxIHx8IHBwb3J0ID4gUk9DS0VSX0ZQX1BPUlRTX01BWCB8
+fAorICAgICAgICBwcG9ydCA+PSByb2NrZXJfZnBfcG9ydHMocikpIHsKICAgICAgICAgcmV0dXJu
+IGZhbHNlOwogICAgIH0KICAgICAqcG9ydCA9IHBwb3J0IC0gMTsKZGlmZiAtLWdpdCBhL2h3L25l
+dC9yb2NrZXIvcm9ja2VyX2ZwLmggYi9ody9uZXQvcm9ja2VyL3JvY2tlcl9mcC5oCmluZGV4IDdm
+ZjU3YWFjMDEuLmJkMWMyNTg4ZjYgMTAwNjQ0Ci0tLSBhL2h3L25ldC9yb2NrZXIvcm9ja2VyX2Zw
+LmgKKysrIGIvaHcvbmV0L3JvY2tlci9yb2NrZXJfZnAuaApAQCAtMzcsNyArMzcsNyBAQCBpbnQg
+ZnBfcG9ydF9nZXRfc2V0dGluZ3MoRnBQb3J0ICpwb3J0LCB1aW50MzJfdCAqc3BlZWQsCiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgdWludDhfdCAqZHVwbGV4LCB1aW50OF90ICphdXRvbmVnKTsK
+IGludCBmcF9wb3J0X3NldF9zZXR0aW5ncyhGcFBvcnQgKnBvcnQsIHVpbnQzMl90IHNwZWVkLAog
+ICAgICAgICAgICAgICAgICAgICAgICAgIHVpbnQ4X3QgZHVwbGV4LCB1aW50OF90IGF1dG9uZWcp
+OwotYm9vbCBmcF9wb3J0X2Zyb21fcHBvcnQodWludDMyX3QgcHBvcnQsIHVpbnQzMl90ICpwb3J0
+KTsKK2Jvb2wgZnBfcG9ydF9mcm9tX3Bwb3J0KFJvY2tlciAqciwgdWludDMyX3QgcHBvcnQsIHVp
+bnQzMl90ICpwb3J0KTsKIFdvcmxkICpmcF9wb3J0X2dldF93b3JsZChGcFBvcnQgKnBvcnQpOwog
+dm9pZCBmcF9wb3J0X3NldF93b3JsZChGcFBvcnQgKnBvcnQsIFdvcmxkICp3b3JsZCk7CiBib29s
+IGZwX3BvcnRfY2hlY2tfd29ybGQoRnBQb3J0ICpwb3J0LCBXb3JsZCAqd29ybGQpOwotLSAKMi4y
+NS4xCgoK
 
