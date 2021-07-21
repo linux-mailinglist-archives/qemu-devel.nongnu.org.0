@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0953D0A53
-	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:10:46 +0200 (CEST)
-Received: from localhost ([::1]:55878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C643D0A58
+	for <lists+qemu-devel@lfdr.de>; Wed, 21 Jul 2021 10:18:39 +0200 (CEST)
+Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1m67JV-0006Ql-5c
-	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:10:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56202)
+	id 1m67R8-0000Xm-5I
+	for lists+qemu-devel@lfdr.de; Wed, 21 Jul 2021 04:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m67II-0005g4-Sa
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:09:30 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:43887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1m67IH-0002bU-Az
- for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:09:30 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- q18-20020a1ce9120000b02901f259f3a250so454939wmc.2
- for <qemu-devel@nongnu.org>; Wed, 21 Jul 2021 01:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=554ZGURGUZEAO74KDz8/42sD+kGdY//YxKI9HC52deY=;
- b=SD2iS+oDevdTSMAsKJSVGtSu+lfxyZFhAqJX1aqpvXTrQiJvRR9+wEu4Q9rQUCf4cy
- f1us47DGJN3N9jDq+i6HjqyfSM9ndtZwn2roi3KuV4rQ0n/MhY1VyUNRj9oJ8sF7is74
- cFh/snMeRtVpcuY/a3zzX+UPSpHDVPfKfAkh33NV5u3bNC6cq0/U3Mht/O5RjtyWdpyP
- VxL5052acEmYxN9lbvLX/fZF2JJ0L1MEPud6GtMHDbOE57pwHTJGiN/AmMUQXJMELv1C
- KolleEYP+Yj81YG9vI0vQ1kAFOYxDk/StrFPur/ff8KR7QfPOxas3zWQ44kbXMsHWTkS
- Lxpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=554ZGURGUZEAO74KDz8/42sD+kGdY//YxKI9HC52deY=;
- b=k72QQk38g6kwqUBUyocoxgiH6WKCQ9uHGixlKSQFVq1mbQVmnNmaEVZExGDyB6YS2h
- XaC7tGpgqlu3wSiKtuxJdUQwGhbQJA2rORuZfU0CPrHfIgnNZtUXrDIf96e8UqFO7wkr
- 3OM5pIHGiSJ1eoIODgtMUjkMAp3mfVpXre16xAKrTprb0jbBlv8SMviZU8IOcIMnpx1b
- 1nvvxu/ZwaJOt4oMQYgJXNrYbMKRo0GMT2LmzX8QXdh5oGIEwcTrGZaHEULHi0etj8pB
- dLa03v0nowuTU18BY4UYSAzms1IOgR+Hn6pqAMlEVoRyBr4NroS+VJONUot6pWmgj274
- MAyg==
-X-Gm-Message-State: AOAM533vbxyblqaljNYiGFNj9kpagR3VczamHeB1QlWbQ3MPKSnoy+uQ
- 4qPT+fsMqipwY0mZXoxbfMk=
-X-Google-Smtp-Source: ABdhPJwXVJqRlVNxlPeMYny3N3ePCcrvbWe4VR5e/aMc+Gti2T8oHT5ZBtHFtTTpo9NBP5lGmPkfpA==
-X-Received: by 2002:a1c:7e44:: with SMTP id z65mr2741172wmc.1.1626854967497;
- Wed, 21 Jul 2021 01:09:27 -0700 (PDT)
-Received: from [192.168.1.36] (122.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.122])
- by smtp.gmail.com with ESMTPSA id g3sm26260582wru.95.2021.07.21.01.09.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 21 Jul 2021 01:09:26 -0700 (PDT)
-Subject: Re: [PATCH v1 23/29] plugins/cache: Fixed "function decl. is not a
- prototype" warnings
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210720232703.10650-1-alex.bennee@linaro.org>
- <20210720232703.10650-24-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d370ab03-adb5-9b56-2d20-97600deb4c3e@amsat.org>
-Date: Wed, 21 Jul 2021 10:09:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m67QD-0008IT-18
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:17:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1m67QB-0001Wt-B6
+ for qemu-devel@nongnu.org; Wed, 21 Jul 2021 04:17:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1626855457;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pWGzY7CbFikMvU88XfZPwSpfoxiIoXYd+jku291/AFE=;
+ b=ejPMEpqxdiGEUhE/lLxn47TOVHiZPRthAn1r4pxZ7WrCnAHmW9rLeBOdv/jm8fAk1Sqlyt
+ dxMC1P39IErAMYSz4DCgrxaskzCkqY86YoM1FSRCAOIilMrbObk8f6cORSVCW1C0ECMjuJ
+ WFA6j1kZi63LUdHmIomreIFDsxSiFb4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-uMiTBisyOPmBfLu8QaSvWQ-1; Wed, 21 Jul 2021 04:17:36 -0400
+X-MC-Unique: uMiTBisyOPmBfLu8QaSvWQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0FF88AB9A7;
+ Wed, 21 Jul 2021 08:17:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-106.ams2.redhat.com
+ [10.36.114.106])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0947B5B826;
+ Wed, 21 Jul 2021 08:17:31 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CFB5918000B2; Wed, 21 Jul 2021 10:17:18 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] usb: fix usb-host dependency check
+Date: Wed, 21 Jul 2021 10:17:18 +0200
+Message-Id: <20210721081718.301343-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210720232703.10650-24-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-1.474,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,22 +76,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, Mahmoud Mandour <ma.mandourr@gmail.com>,
- Alexandre Iooss <erdnaxe@crans.org>, aurelien@aurel32.net
+Cc: Programmingkid <programmingkidx@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/21 1:26 AM, Alex Bennée wrote:
-> From: Mahmoud Mandour <ma.mandourr@gmail.com>
-> 
-> Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210714172151.8494-7-ma.mandourr@gmail.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  contrib/plugins/cache.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+Fixes: 627302afb2f8 ("usb: build usb-host as module")
+Reported-by: Programmingkid <programmingkidx@gmail.com>
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+diff --git a/hw/usb/meson.build b/hw/usb/meson.build
+index 3ca61279374d..de853d780dd8 100644
+--- a/hw/usb/meson.build
++++ b/hw/usb/meson.build
+@@ -72,7 +72,7 @@ if usbredir.found()
+ endif
+ 
+ # usb pass-through
+-if config_host.has_key('CONFIG_USB_LIBUSB')
++if libusb.found()
+   usbhost_ss = ss.source_set()
+   usbhost_ss.add(when: ['CONFIG_USB', libusb],
+                  if_true: files('host-libusb.c'))
+-- 
+2.31.1
+
 
